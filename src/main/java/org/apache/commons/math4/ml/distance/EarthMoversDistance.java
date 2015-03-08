@@ -31,6 +31,7 @@ public class EarthMoversDistance implements DistanceMeasure {
     private static final long serialVersionUID = -5406732779747414922L;
 
     /** {@inheritDoc} */
+    @Override
     public double compute(double[] a, double[] b) {
         double lastDistance = 0;
         double totalDistance = 0;

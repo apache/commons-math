@@ -19,9 +19,11 @@ package org.apache.commons.math4.genetics;
 import org.apache.commons.math4.exception.NumberIsTooSmallException;
 
 /**
- * Stops after a fixed number of generations. Each time {@link #isSatisfied(Population)} is invoked, a generation
- * counter is incremented. Once the counter reaches the configured <code>maxGenerations</code> value,
- * {@link #isSatisfied(Population)} returns true.
+ * Stops after a fixed number of generations.
+ * <p>
+ * Each time {@link #isSatisfied(Population)} is invoked, a generation counter
+ * is incremented. Once the counter reaches the configured
+ * {@code maxGenerations} value, {@link #isSatisfied(Population)} returns true.
  *
  * @since 2.0
  */
@@ -52,6 +54,7 @@ public class FixedGenerationCount implements StoppingCondition {
      * @param population ignored (no impact on result)
      * @return <code>true</code> IFF the maximum number of generations has been exceeded
      */
+    @Override
     public boolean isSatisfied(final Population population) {
         if (this.numGenerations < this.maxGenerations) {
             numGenerations++;

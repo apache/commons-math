@@ -66,6 +66,7 @@ public class OrderedCrossover<T> implements CrossoverPolicy {
      *   not an instance of {@link AbstractListChromosome}
      * @throws DimensionMismatchException if the length of the two chromosomes is different
      */
+    @Override
     @SuppressWarnings("unchecked")
     public ChromosomePair crossover(final Chromosome first, final Chromosome second)
         throws DimensionMismatchException, MathIllegalArgumentException {

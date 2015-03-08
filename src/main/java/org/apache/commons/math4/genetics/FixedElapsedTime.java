@@ -23,8 +23,9 @@ import org.apache.commons.math4.exception.NumberIsTooSmallException;
 /**
  * Stops after a fixed amount of time has elapsed.
  * <p>
- * The first time {@link #isSatisfied(Population)} is invoked, the end time of the evolution is determined based on the
- * provided <code>maxTime</code> value. Once the elapsed time reaches the configured <code>maxTime</code> value,
+ * The first time {@link #isSatisfied(Population)} is invoked, the end time of
+ * the evolution is determined based on the provided <code>maxTime</code> value.
+ * Once the elapsed time reaches the configured <code>maxTime</code> value,
  * {@link #isSatisfied(Population)} returns true.
  *
  * @since 3.1
@@ -67,6 +68,7 @@ public class FixedElapsedTime implements StoppingCondition {
      * @param population ignored (no impact on result)
      * @return <code>true</code> IFF the maximum allowed time period has elapsed
      */
+    @Override
     public boolean isSatisfied(final Population population) {
         if (endTime < 0) {
             endTime = System.nanoTime() + maxTimePeriod;

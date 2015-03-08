@@ -17,6 +17,7 @@
 package org.apache.commons.math4.stat.correlation;
 
 import org.apache.commons.math4.TestUtils;
+import org.apache.commons.math4.exception.MathIllegalArgumentException;
 import org.apache.commons.math4.linear.BlockRealMatrix;
 import org.apache.commons.math4.linear.MatrixUtils;
 import org.apache.commons.math4.linear.RealMatrix;
@@ -121,19 +122,21 @@ public class SpearmansRankCorrelationTest extends PearsonsCorrelationTest {
                 new SpearmansCorrelation().computeCorrelationMatrix(data), Double.MIN_VALUE);
     }
 
-    @Test
+    @Test(expected = MathIllegalArgumentException.class)
     public void testMath891Array() {
+        // NaNStrategy.REMOVED is not supported since 4.0
         final double[] xArray = new double[] { Double.NaN, 1.9, 2, 100, 3 };
         final double[] yArray = new double[] { 10, 2, 10, Double.NaN, 4 };
 
         NaturalRanking ranking = new NaturalRanking(NaNStrategy.REMOVED);
         SpearmansCorrelation spearman = new SpearmansCorrelation(ranking);
-        
+
         Assert.assertEquals(0.5, spearman.correlation(xArray, yArray), Double.MIN_VALUE);
     }
 
-    @Test
+    @Test(expected = MathIllegalArgumentException.class)
     public void testMath891Matrix() {
+        // NaNStrategy.REMOVED is not supported since 4.0
         final double[] xArray = new double[] { Double.NaN, 1.9, 2, 100, 3 };
         final double[] yArray = new double[] { 10, 2, 10, Double.NaN, 4 };
 

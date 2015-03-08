@@ -509,6 +509,7 @@ public class BigFraction
      * @return a {@link BigFraction} instance with the resulting values.
      * @throws NullArgumentException if the {@link BigFraction} is {@code null}.
      */
+    @Override
     public BigFraction add(final BigFraction fraction) {
         if (fraction == null) {
             throw new NullArgumentException(LocalizedFormats.FRACTION);
@@ -596,6 +597,7 @@ public class BigFraction
      *         than {@code object}, 0 if they are equal.
      * @see java.lang.Comparable#compareTo(java.lang.Object)
      */
+    @Override
     public int compareTo(final BigFraction object) {
         BigInteger nOd = numerator.multiply(object.denominator);
         BigInteger dOn = denominator.multiply(object.numerator);
@@ -662,6 +664,7 @@ public class BigFraction
      * @throws NullArgumentException if the {@code fraction} is {@code null}.
      * @throws MathArithmeticException if the fraction to divide by is zero
      */
+    @Override
     public BigFraction divide(final BigFraction fraction) {
         if (fraction == null) {
             throw new NullArgumentException(LocalizedFormats.FRACTION);
@@ -883,6 +886,7 @@ public class BigFraction
      *            the {@code int} to multiply by.
      * @return a {@link BigFraction} instance with the resulting values.
      */
+    @Override
     public BigFraction multiply(final int i) {
         return multiply(BigInteger.valueOf(i));
     }
@@ -911,6 +915,7 @@ public class BigFraction
      * @return a {@link BigFraction} instance with the resulting values.
      * @throws NullArgumentException if {@code fraction} is {@code null}.
      */
+    @Override
     public BigFraction multiply(final BigFraction fraction) {
         if (fraction == null) {
             throw new NullArgumentException(LocalizedFormats.FRACTION);
@@ -931,6 +936,7 @@ public class BigFraction
      *
      * @return the negation of this fraction.
      */
+    @Override
     public BigFraction negate() {
         return new BigFraction(numerator.negate(), denominator);
     }
@@ -1026,6 +1032,7 @@ public class BigFraction
      *
      * @return the reciprocal fraction.
      */
+    @Override
     public BigFraction reciprocal() {
         return new BigFraction(denominator, numerator);
     }
@@ -1096,6 +1103,7 @@ public class BigFraction
      * @return a {@link BigFraction} instance with the resulting values
      * @throws NullArgumentException if the {@code fraction} is {@code null}.
      */
+    @Override
     public BigFraction subtract(final BigFraction fraction) {
         if (fraction == null) {
             throw new NullArgumentException(LocalizedFormats.FRACTION);
@@ -1140,6 +1148,7 @@ public class BigFraction
     }
 
     /** {@inheritDoc} */
+    @Override
     public BigFractionField getField() {
         return BigFractionField.getInstance();
     }

@@ -241,6 +241,7 @@ public enum LocalizedFormats implements Localizable {
     NOT_STRICTLY_INCREASING_SEQUENCE("points {3} and {2} are not strictly increasing ({1} >= {0})"), /* keep */
     NOT_SUBTRACTION_COMPATIBLE_MATRICES("{0}x{1} and {2}x{3} matrices are not subtraction compatible"),
     NOT_SUPPORTED_IN_DIMENSION_N("method not supported in dimension {0}"),
+    NOT_SUPPORTED_NAN_STRATEGY("NaN strategy {0} not supported"),
     NOT_SYMMETRIC_MATRIX("not symmetric matrix"),
     NON_SYMMETRIC_MATRIX("non symmetric matrix: the difference between entries at ({0},{1}) and ({1},{0}) is larger than {2}"), /* keep */
     NO_BIN_SELECTED("no bin selected"),

@@ -47,8 +47,6 @@ import org.apache.commons.math4.util.FastMath;
  * this library are license free. Since no such notice appears in the code these
  * functions can safely be ported to Commons-Math.
  * </p>
- *
- *
  */
 public class Beta {
     /** Maximum allowed numerical error. */

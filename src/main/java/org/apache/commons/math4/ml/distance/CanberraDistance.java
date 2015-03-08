@@ -29,6 +29,7 @@ public class CanberraDistance implements DistanceMeasure {
     private static final long serialVersionUID = -6972277381587032228L;
 
     /** {@inheritDoc} */
+    @Override
     public double compute(double[] a, double[] b) {
         double sum = 0;
         for (int i = 0; i < a.length; i++) {

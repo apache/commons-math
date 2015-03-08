@@ -29,6 +29,7 @@ public class ChebyshevDistance implements DistanceMeasure {
     private static final long serialVersionUID = -4694868171115238296L;
 
     /** {@inheritDoc} */
+    @Override
     public double compute(double[] a, double[] b) {
         return MathArrays.distanceInf(a, b);
     }
