@@ -54,6 +54,9 @@ If the output is not quite correct, check for invisible trailing spaces!
     </release>
 
     <release version="3.5" date="2015-01-11" description="">
+      <action dev="psteitz" type="fix" issue="MATH-1203">
+        EmpiricalDistribution getKernel fails for buckets with only multiple instances of the same value.
+      </action>
       <action dev="evanward" type="fix" issue="MATH-1204">
         "UnivariateSolverUtils#bracket(...)" sometimes failed to bracket
         if a reached the lower bound.

@@ -826,7 +826,7 @@ public class EmpiricalDistribution extends AbstractRealDistribution {
      * @return within-bin kernel parameterized by bStats
      */
     protected RealDistribution getKernel(SummaryStatistics bStats) {
-        if (bStats.getN() == 1) {
+        if (bStats.getN() == 1 || bStats.getVariance() == 0) {
             return new ConstantRealDistribution(bStats.getMean());
         } else {
             return new NormalDistribution(randomData.getRandomGenerator(),
