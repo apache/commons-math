@@ -431,6 +431,21 @@ public final class EmpiricalDistributionTest extends RealDistributionAbstractTes
     }
     
     /**
+     * MATH-1203
+     */
+    @Test
+    public void testNoBinVariance() {
+        final double[] data = {0, 0, 1, 1};
+        EmpiricalDistribution dist = new EmpiricalDistribution(2);
+        dist.load(data);
+        dist.reseedRandomGenerator(1000);
+        for (int i = 0; i < 1000; i++) {
+            final double dev = dist.sample();
+            Assert.assertTrue(dev == 0 || dev == 1);
+        }
+    }
+    
+    /**
      * Find the bin that x belongs (relative to {@link #makeDistribution()}).
      */
     private int findBin(double x) {
