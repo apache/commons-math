@@ -446,7 +446,7 @@ public final class EmpiricalDistributionTest extends RealDistributionAbstractTes
         Assert.assertEquals(0.5, dist.cumulativeProbability(0), Double.MIN_VALUE);
         Assert.assertEquals(1.0, dist.cumulativeProbability(1), Double.MIN_VALUE);
         Assert.assertEquals(0.5, dist.cumulativeProbability(0.5), Double.MIN_VALUE);
-        Assert.assertEquals(1.0, dist.cumulativeProbability(0.7), Double.MIN_VALUE);
+        Assert.assertEquals(0.5, dist.cumulativeProbability(0.7), Double.MIN_VALUE);
     }
     
     /**
@@ -486,11 +486,11 @@ public final class EmpiricalDistributionTest extends RealDistributionAbstractTes
             Assert.assertTrue(Arrays.binarySearch(values, dist.sample()) >= 0);
         }
         final double tol = 10E-12;
-        Assert.assertEquals(0.2, dist.cumulativeProbability(1), tol);
+        Assert.assertEquals(0.0, dist.cumulativeProbability(1), tol);
         Assert.assertEquals(0.2, dist.cumulativeProbability(2), tol);
-        Assert.assertEquals(0.8, dist.cumulativeProbability(10), tol);
+        Assert.assertEquals(0.6, dist.cumulativeProbability(10), tol);
         Assert.assertEquals(0.8, dist.cumulativeProbability(12), tol);
-        Assert.assertEquals(1.0, dist.cumulativeProbability(13), tol);
+        Assert.assertEquals(0.8, dist.cumulativeProbability(13), tol);
         Assert.assertEquals(1.0, dist.cumulativeProbability(15), tol);
 
         Assert.assertEquals(2.0, dist.inverseCumulativeProbability(0.1), tol);
