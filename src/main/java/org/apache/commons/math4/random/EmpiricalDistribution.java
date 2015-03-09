@@ -593,7 +593,9 @@ public class EmpiricalDistribution extends AbstractRealDistribution {
      * <li>Compute K(B) = the probability mass of B with respect to the within-bin kernel
      * and K(B-) = the kernel distribution evaluated at the lower endpoint of B</li>
      * <li>Return P(B-) + P(B) * [K(x) - K(B-)] / K(B) where
-     * K(x) is the within-bin kernel distribution function evaluated at x.</li></ol></p>
+     * K(x) is the within-bin kernel distribution function evaluated at x.</li></ol>
+     * If K is a constant distribution, we return P(B-) + P(B) (counting the full
+     * mass of B).</p>
      *
      * @since 3.1
      */
@@ -606,10 +608,13 @@ public class EmpiricalDistribution extends AbstractRealDistribution {
         final int binIndex = findBin(x);
         final double pBminus = pBminus(binIndex);
         final double pB = pB(binIndex);
+        final RealDistribution kernel = k(x);
+        if (kernel instanceof ConstantRealDistribution) {
+            return pBminus + pB;
+        }
         final double[] binBounds = getUpperBounds();
         final double kB = kB(binIndex);
         final double lower = binIndex == 0 ? min : binBounds[binIndex - 1];
-        final RealDistribution kernel = k(x);
         final double withinBinCum =
             (kernel.cumulativeProbability(x) -  kernel.cumulativeProbability(lower)) / kB;
         return pBminus + pB * withinBinCum;
