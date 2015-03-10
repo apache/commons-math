@@ -30,11 +30,13 @@ public class JDKRandomGenerator extends Random implements RandomGenerator {
     private static final long serialVersionUID = -7745277476784028798L;
 
     /** {@inheritDoc} */
+    @Override
     public void setSeed(int seed) {
         setSeed((long) seed);
     }
 
     /** {@inheritDoc} */
+    @Override
     public void setSeed(int[] seed) {
         setSeed(RandomGeneratorFactory.convertToLong(seed));
     }

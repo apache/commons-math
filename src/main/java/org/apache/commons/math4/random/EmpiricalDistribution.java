@@ -356,7 +356,7 @@ public class EmpiricalDistribution extends AbstractRealDistribution {
     private class ArrayDataAdapter extends DataAdapter {
 
         /** Array of input  data values */
-        private double[] inputArray;
+        private final double[] inputArray;
 
         /**
          * Construct an ArrayDataAdapter from a double[] array
@@ -401,7 +401,7 @@ public class EmpiricalDistribution extends AbstractRealDistribution {
         // Set up grid
         min = sampleStats.getMin();
         max = sampleStats.getMax();
-        delta = (max - min)/((double) binCount);
+        delta = (max - min)/(binCount);
 
         // Initialize binStats ArrayList
         if (!binStats.isEmpty()) {
@@ -575,6 +575,7 @@ public class EmpiricalDistribution extends AbstractRealDistribution {
      * and P(B) is the mass of B.</li></ol></p>
      * @since 3.1
      */
+    @Override
     public double density(double x) {
         if (x < min || x > max) {
             return 0d;
@@ -597,6 +598,7 @@ public class EmpiricalDistribution extends AbstractRealDistribution {
      *
      * @since 3.1
      */
+    @Override
     public double cumulativeProbability(double x) {
         if (x < min) {
             return 0d;
@@ -672,6 +674,7 @@ public class EmpiricalDistribution extends AbstractRealDistribution {
      * {@inheritDoc}
      * @since 3.1
      */
+    @Override
     public double getNumericalMean() {
        return sampleStats.getMean();
     }
@@ -680,6 +683,7 @@ public class EmpiricalDistribution extends AbstractRealDistribution {
      * {@inheritDoc}
      * @since 3.1
      */
+    @Override
     public double getNumericalVariance() {
         return sampleStats.getVariance();
     }
@@ -688,6 +692,7 @@ public class EmpiricalDistribution extends AbstractRealDistribution {
      * {@inheritDoc}
      * @since 3.1
      */
+    @Override
     public double getSupportLowerBound() {
        return min;
     }
@@ -696,6 +701,7 @@ public class EmpiricalDistribution extends AbstractRealDistribution {
      * {@inheritDoc}
      * @since 3.1
      */
+    @Override
     public double getSupportUpperBound() {
         return max;
     }
@@ -720,6 +726,7 @@ public class EmpiricalDistribution extends AbstractRealDistribution {
      * {@inheritDoc}
      * @since 3.1
      */
+    @Override
     public boolean isSupportConnected() {
         return true;
     }
@@ -761,7 +768,6 @@ public class EmpiricalDistribution extends AbstractRealDistribution {
      * @return the difference in the within-bin kernel cdf between the
      * upper and lower endpoints of bin i
      */
-    @SuppressWarnings("deprecation")
     private double kB(int i) {
         final double[] binBounds = getUpperBounds();
         final RealDistribution kernel = getKernel(binStats.get(i));

@@ -41,12 +41,15 @@ public abstract class BitsStreamGenerator
     }
 
     /** {@inheritDoc} */
+    @Override
     public abstract void setSeed(int seed);
 
     /** {@inheritDoc} */
+    @Override
     public abstract void setSeed(int[] seed);
 
     /** {@inheritDoc} */
+    @Override
     public abstract void setSeed(long seed);
 
     /** Generate next pseudorandom number.
@@ -61,11 +64,13 @@ public abstract class BitsStreamGenerator
     protected abstract int next(int bits);
 
     /** {@inheritDoc} */
+    @Override
     public boolean nextBoolean() {
         return next(1) != 0;
     }
 
     /** {@inheritDoc} */
+    @Override
     public void nextBytes(byte[] bytes) {
         int i = 0;
         final int iEnd = bytes.length - 3;
@@ -85,6 +90,7 @@ public abstract class BitsStreamGenerator
     }
 
     /** {@inheritDoc} */
+    @Override
     public double nextDouble() {
         final long high = ((long) next(26)) << 26;
         final int  low  = next(26);
@@ -92,11 +98,13 @@ public abstract class BitsStreamGenerator
     }
 
     /** {@inheritDoc} */
+    @Override
     public float nextFloat() {
         return next(23) * 0x1.0p-23f;
     }
 
     /** {@inheritDoc} */
+    @Override
     public double nextGaussian() {
 
         final double random;
@@ -119,6 +127,7 @@ public abstract class BitsStreamGenerator
     }
 
     /** {@inheritDoc} */
+    @Override
     public int nextInt() {
         return next(32);
     }
@@ -138,6 +147,7 @@ public abstract class BitsStreamGenerator
      * is generated. Rejection of this initial segment is necessary to ensure
      * a uniform distribution.</li></ul></p>
      */
+    @Override
     public int nextInt(int n) throws IllegalArgumentException {
         if (n > 0) {
             if ((n & -n) == n) {
@@ -155,9 +165,10 @@ public abstract class BitsStreamGenerator
     }
 
     /** {@inheritDoc} */
+    @Override
     public long nextLong() {
         final long high  = ((long) next(32)) << 32;
-        final long  low  = ((long) next(32)) & 0xffffffffL;
+        final long  low  = (next(32)) & 0xffffffffL;
         return high | low;
     }
 

@@ -254,6 +254,7 @@ public class SobolSequenceGenerator implements RandomVectorGenerator {
     }
 
     /** {@inheritDoc} */
+    @Override
     public double[] nextVector() {
         final double[] v = new double[dimension];
         if (count == 0) {

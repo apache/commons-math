@@ -42,31 +42,37 @@ public class RandomGeneratorFactory {
     public static RandomGenerator createRandomGenerator(final Random rng) {
         return new RandomGenerator() {
             /** {@inheritDoc} */
+            @Override
             public void setSeed(int seed) {
                 rng.setSeed((long) seed);
             }
 
             /** {@inheritDoc} */
+            @Override
             public void setSeed(int[] seed) {
                 rng.setSeed(convertToLong(seed));
             }
 
             /** {@inheritDoc} */
+            @Override
             public void setSeed(long seed) {
                 rng.setSeed(seed);
             }
 
             /** {@inheritDoc} */
+            @Override
             public void nextBytes(byte[] bytes) {
                 rng.nextBytes(bytes);
             }
 
             /** {@inheritDoc} */
+            @Override
             public int nextInt() {
                 return rng.nextInt();
             }
 
             /** {@inheritDoc} */
+            @Override
             public int nextInt(int n) {
                 if (n <= 0) {
                     throw new NotStrictlyPositiveException(n);
@@ -75,26 +81,31 @@ public class RandomGeneratorFactory {
             }
 
             /** {@inheritDoc} */
+            @Override
             public long nextLong() {
                 return rng.nextLong();
             }
 
             /** {@inheritDoc} */
+            @Override
             public boolean nextBoolean() {
                 return rng.nextBoolean();
             }
 
             /** {@inheritDoc} */
+            @Override
             public float nextFloat() {
                 return rng.nextFloat();
             }
 
             /** {@inheritDoc} */
+            @Override
             public double nextDouble() {
                 return rng.nextDouble();
             }
 
             /** {@inheritDoc} */
+            @Override
             public double nextGaussian() {
                 return rng.nextGaussian();
             }

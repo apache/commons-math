@@ -161,6 +161,7 @@ public class CorrelatedRandomVectorGenerator
      * @return a random vector as an array of double. The returned array
      * is created at each call, the caller can do what it wants with it.
      */
+    @Override
     public double[] nextVector() {
 
         // generate uncorrelated vector

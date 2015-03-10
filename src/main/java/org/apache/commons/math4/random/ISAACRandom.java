@@ -22,9 +22,8 @@ import java.io.Serializable;
 import org.apache.commons.math4.util.FastMath;
 
 /**
- * <a href="http://burtleburtle.net/bob/rand/isaacafa.html">
- *  ISAAC: a fast cryptographic pseudo-random number generator</a>
- * <br/>
+ * A fast cryptographic pseudo-random number generator.
+ * <p>
  * ISAAC (Indirection, Shift, Accumulate, Add, and Count) generates 32-bit
  * random numbers.
  * ISAAC has been designed to be cryptographically secure and is inspired
@@ -33,10 +32,12 @@ import org.apache.commons.math4.util.FastMath;
  * are 2<sup>8295</sup> values long on average.
  * The results are uniformly distributed, unbiased, and unpredictable unless
  * you know the seed.
- * <br/>
+ * <p>
  * This code is based (with minor changes and improvements) on the original
  * implementation of the algorithm by Bob Jenkins.
- * <br/>
+ *
+ * @see  <a href="http://burtleburtle.net/bob/rand/isaacafa.html">
+ * ISAAC: a fast cryptographic pseudo-random number generator</a>
  *
  * @since 3.0
  */

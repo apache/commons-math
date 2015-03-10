@@ -45,6 +45,7 @@ public class SynchronizedRandomGenerator implements RandomGenerator {
     /**
      * {@inheritDoc}
      */
+    @Override
     public synchronized void setSeed(int seed) {
         wrapped.setSeed(seed);
     }
@@ -52,6 +53,7 @@ public class SynchronizedRandomGenerator implements RandomGenerator {
     /**
      * {@inheritDoc}
      */
+    @Override
     public synchronized void setSeed(int[] seed) {
         wrapped.setSeed(seed);
     }
@@ -59,6 +61,7 @@ public class SynchronizedRandomGenerator implements RandomGenerator {
     /**
      * {@inheritDoc}
      */
+    @Override
     public synchronized void setSeed(long seed) {
         wrapped.setSeed(seed);
     }
@@ -66,6 +69,7 @@ public class SynchronizedRandomGenerator implements RandomGenerator {
     /**
      * {@inheritDoc}
      */
+    @Override
     public synchronized void nextBytes(byte[] bytes) {
         wrapped.nextBytes(bytes);
     }
@@ -73,6 +77,7 @@ public class SynchronizedRandomGenerator implements RandomGenerator {
     /**
      * {@inheritDoc}
      */
+    @Override
     public synchronized int nextInt() {
         return wrapped.nextInt();
     }
@@ -80,6 +85,7 @@ public class SynchronizedRandomGenerator implements RandomGenerator {
     /**
      * {@inheritDoc}
      */
+    @Override
     public synchronized int nextInt(int n) {
         return wrapped.nextInt(n);
     }
@@ -87,6 +93,7 @@ public class SynchronizedRandomGenerator implements RandomGenerator {
     /**
      * {@inheritDoc}
      */
+    @Override
     public synchronized long nextLong() {
         return wrapped.nextLong();
     }
@@ -94,6 +101,7 @@ public class SynchronizedRandomGenerator implements RandomGenerator {
     /**
      * {@inheritDoc}
      */
+    @Override
     public synchronized boolean nextBoolean() {
         return wrapped.nextBoolean();
     }
@@ -101,6 +109,7 @@ public class SynchronizedRandomGenerator implements RandomGenerator {
     /**
      * {@inheritDoc}
      */
+    @Override
     public synchronized float nextFloat() {
         return wrapped.nextFloat();
     }
@@ -108,6 +117,7 @@ public class SynchronizedRandomGenerator implements RandomGenerator {
     /**
      * {@inheritDoc}
      */
+    @Override
     public synchronized double nextDouble() {
         return wrapped.nextDouble();
     }
@@ -115,6 +125,7 @@ public class SynchronizedRandomGenerator implements RandomGenerator {
     /**
      * {@inheritDoc}
      */
+    @Override
     public synchronized double nextGaussian() {
         return wrapped.nextGaussian();
     }

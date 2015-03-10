@@ -28,7 +28,6 @@ import org.apache.commons.math4.exception.DimensionMismatchException;
  *
  * @since 1.2
  */
-
 public class UncorrelatedRandomVectorGenerator
   implements RandomVectorGenerator {
 
@@ -78,7 +77,8 @@ public class UncorrelatedRandomVectorGenerator
   /** Generate an uncorrelated random vector.
    * @return a random vector as a newly built array of double
    */
-  public double[] nextVector() {
+  @Override
+public double[] nextVector() {
 
     double[] random = new double[mean.length];
     for (int i = 0; i < random.length; ++i) {

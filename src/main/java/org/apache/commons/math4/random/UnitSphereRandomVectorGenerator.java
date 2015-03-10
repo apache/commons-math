@@ -25,7 +25,6 @@ import org.apache.commons.math4.util.FastMath;
  *
  * @since 2.1
  */
-
 public class UnitSphereRandomVectorGenerator
     implements RandomVectorGenerator {
     /**
@@ -57,6 +56,7 @@ public class UnitSphereRandomVectorGenerator
     }
 
     /** {@inheritDoc} */
+    @Override
     public double[] nextVector() {
         final double[] v = new double[dimension];
 

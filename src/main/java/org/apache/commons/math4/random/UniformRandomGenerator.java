@@ -27,9 +27,7 @@ import org.apache.commons.math4.util.FastMath;
  * [-&#x0221A;3, +&#x0221A;3].</p>
  *
  * @since 1.2
- *
  */
-
 public class UniformRandomGenerator implements NormalizedRandomGenerator {
 
     /** Square root of three. */
@@ -50,6 +48,7 @@ public class UniformRandomGenerator implements NormalizedRandomGenerator {
      * and +&sqrt;(3).</p>
      * @return a random scalar with null mean and unit standard deviation
      */
+    @Override
     public double nextNormalizedDouble() {
         return SQRT3 * (2 * generator.nextDouble() - 1.0);
     }

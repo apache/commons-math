@@ -21,9 +21,7 @@ package org.apache.commons.math4.random;
 /** This interface represents a random generator for whole vectors.
  *
  * @since 1.2
- *
  */
-
 public interface RandomVectorGenerator {
 
     /** Generate a random vector.

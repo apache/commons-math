@@ -62,11 +62,13 @@ public abstract class AbstractRandomGenerator implements RandomGenerator {
     }
 
     /** {@inheritDoc} */
+    @Override
     public void setSeed(int seed) {
         setSeed((long) seed);
     }
 
     /** {@inheritDoc} */
+    @Override
     public void setSeed(int[] seed) {
         // the following number is the largest prime that fits in 32 bits (it is 2^32 - 5)
         final long prime = 4294967291l;
@@ -89,6 +91,7 @@ public abstract class AbstractRandomGenerator implements RandomGenerator {
      *
      * @param seed the seed value
      */
+    @Override
     public abstract void setSeed(long seed);
 
     /**
@@ -102,6 +105,7 @@ public abstract class AbstractRandomGenerator implements RandomGenerator {
      * @param bytes the non-null byte array in which to put the
      * random bytes
      */
+    @Override
     public void nextBytes(byte[] bytes) {
         int bytesOut = 0;
         while (bytesOut < bytes.length) {
@@ -132,6 +136,7 @@ public abstract class AbstractRandomGenerator implements RandomGenerator {
      * @return the next pseudorandom, uniformly distributed {@code int}
      *  value from this random number generator's sequence
      */
+    @Override
     public int nextInt() {
         return (int) ((2d * nextDouble() - 1d) * Integer.MAX_VALUE);
     }
@@ -152,6 +157,7 @@ public abstract class AbstractRandomGenerator implements RandomGenerator {
      * value between 0 (inclusive) and n (exclusive).
      * @throws NotStrictlyPositiveException if {@code n <= 0}.
      */
+    @Override
     public int nextInt(int n) {
         if (n <= 0 ) {
             throw new NotStrictlyPositiveException(n);
@@ -174,6 +180,7 @@ public abstract class AbstractRandomGenerator implements RandomGenerator {
      * @return  the next pseudorandom, uniformly distributed {@code long}
      *value from this random number generator's sequence
      */
+    @Override
     public long nextLong() {
         return (long) ((2d * nextDouble() - 1d) * Long.MAX_VALUE);
     }
@@ -192,6 +199,7 @@ public abstract class AbstractRandomGenerator implements RandomGenerator {
      * {@code boolean} value from this random number generator's
      * sequence
      */
+    @Override
     public boolean nextBoolean() {
         return nextDouble() <= 0.5;
     }
@@ -210,6 +218,7 @@ public abstract class AbstractRandomGenerator implements RandomGenerator {
      * value between {@code 0.0} and {@code 1.0} from this
      * random number generator's sequence
      */
+    @Override
     public float nextFloat() {
         return (float) nextDouble();
     }
@@ -226,6 +235,7 @@ public abstract class AbstractRandomGenerator implements RandomGenerator {
      *  {@code double} value between {@code 0.0} and
      *  {@code 1.0} from this random number generator's sequence
      */
+    @Override
     public abstract double nextDouble();
 
     /**
@@ -248,6 +258,7 @@ public abstract class AbstractRandomGenerator implements RandomGenerator {
      * standard deviation {@code 1.0} from this random number
      *  generator's sequence
      */
+    @Override
     public double nextGaussian() {
         if (!Double.isNaN(cachedNormalDeviate)) {
             double dev = cachedNormalDeviate;

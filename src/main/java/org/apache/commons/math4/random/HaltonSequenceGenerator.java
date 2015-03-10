@@ -121,6 +121,7 @@ public class HaltonSequenceGenerator implements RandomVectorGenerator {
     }
 
     /** {@inheritDoc} */
+    @Override
     public double[] nextVector() {
         final double[] v = new double[dimension];
         for (int i = 0; i < dimension; i++) {
