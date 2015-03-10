@@ -54,7 +54,7 @@ If the output is not quite correct, check for invisible trailing spaces!
     </release>
 
     <release version="4.0" date="XXXX-XX-XX" description="">
-      <action dev="tn" type="add" issue="MATH-757">
+      <action dev="tn" type="update" issue="MATH-757">
         Removed broken synchronization support in "ResizableDoubleArray".
       </action>
       <action dev="tn" type="add" issue="MATH-945">
