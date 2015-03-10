@@ -632,6 +632,7 @@ public class Dfp implements RealFieldElement<Dfp> {
      * </p>
      * @return {@link org.apache.commons.math4.Field Field} (really a {@link DfpField}) to which the instance belongs
      */
+    @Override
     public DfpField getField() {
         return field;
     }
@@ -861,6 +862,7 @@ public class Dfp implements RealFieldElement<Dfp> {
      * @return absolute value of instance
      * @since 3.2
      */
+    @Override
     public Dfp abs() {
         Dfp result = newInstance(this);
         result.sign = 1;
@@ -1003,6 +1005,7 @@ public class Dfp implements RealFieldElement<Dfp> {
      *  @return rounded value
      * @since 3.2
      */
+    @Override
     public Dfp rint() {
         return trunc(DfpField.RoundingMode.ROUND_HALF_EVEN);
     }
@@ -1012,6 +1015,7 @@ public class Dfp implements RealFieldElement<Dfp> {
      *  @return rounded value
      * @since 3.2
      */
+    @Override
     public Dfp floor() {
         return trunc(DfpField.RoundingMode.ROUND_FLOOR);
     }
@@ -1021,6 +1025,7 @@ public class Dfp implements RealFieldElement<Dfp> {
      *  @return rounded value
      * @since 3.2
      */
+    @Override
     public Dfp ceil() {
         return trunc(DfpField.RoundingMode.ROUND_CEIL);
     }
@@ -1030,6 +1035,7 @@ public class Dfp implements RealFieldElement<Dfp> {
      * @return this less n &times; d, where n is the integer closest to this/d
      * @since 3.2
      */
+    @Override
     public Dfp remainder(final Dfp d) {
 
         final Dfp result = this.subtract(this.divide(d).rint().multiply(d));
@@ -1255,6 +1261,7 @@ public class Dfp implements RealFieldElement<Dfp> {
      * @param x number to add
      * @return sum of this and x
      */
+    @Override
     public Dfp add(final Dfp x) {
 
         // make sure we don't mix number with different precision
@@ -1403,6 +1410,7 @@ public class Dfp implements RealFieldElement<Dfp> {
     /** Returns a number that is this number with the sign bit reversed.
      * @return the opposite of this
      */
+    @Override
     public Dfp negate() {
         Dfp result = newInstance(this);
         result.sign = (byte) - result.sign;
@@ -1413,6 +1421,7 @@ public class Dfp implements RealFieldElement<Dfp> {
      * @param x number to subtract
      * @return difference of this and a
      */
+    @Override
     public Dfp subtract(final Dfp x) {
         return add(x.negate());
     }
@@ -1500,6 +1509,7 @@ public class Dfp implements RealFieldElement<Dfp> {
      * @param x multiplicand
      * @return product of this and x
      */
+    @Override
     public Dfp multiply(final Dfp x) {
 
         // make sure we don't mix number with different precision
@@ -1606,6 +1616,7 @@ public class Dfp implements RealFieldElement<Dfp> {
      * @param x multiplicand
      * @return product of this and x
      */
+    @Override
     public Dfp multiply(final int x) {
         if (x >= 0 && x < RADIX) {
             return multiplyFast(x);
@@ -1681,6 +1692,7 @@ public class Dfp implements RealFieldElement<Dfp> {
      * @param divisor divisor
      * @return quotient of this by divisor
      */
+    @Override
     public Dfp divide(Dfp divisor) {
         int dividend[]; // current status of the dividend
         int quotient[]; // quotient
@@ -1957,6 +1969,7 @@ public class Dfp implements RealFieldElement<Dfp> {
     }
 
     /** {@inheritDoc} */
+    @Override
     public Dfp reciprocal() {
         return field.getOne().divide(this);
     }
@@ -1965,6 +1978,7 @@ public class Dfp implements RealFieldElement<Dfp> {
      * @return square root of the instance
      * @since 3.2
      */
+    @Override
     public Dfp sqrt() {
 
         // check for unusual cases
@@ -2514,6 +2528,7 @@ public class Dfp implements RealFieldElement<Dfp> {
     /** {@inheritDoc}
      * @since 3.2
      */
+    @Override
     public double getReal() {
         return toDouble();
     }
@@ -2521,6 +2536,7 @@ public class Dfp implements RealFieldElement<Dfp> {
     /** {@inheritDoc}
      * @since 3.2
      */
+    @Override
     public Dfp add(final double a) {
         return add(newInstance(a));
     }
@@ -2528,6 +2544,7 @@ public class Dfp implements RealFieldElement<Dfp> {
     /** {@inheritDoc}
      * @since 3.2
      */
+    @Override
     public Dfp subtract(final double a) {
         return subtract(newInstance(a));
     }
@@ -2535,6 +2552,7 @@ public class Dfp implements RealFieldElement<Dfp> {
     /** {@inheritDoc}
      * @since 3.2
      */
+    @Override
     public Dfp multiply(final double a) {
         return multiply(newInstance(a));
     }
@@ -2542,6 +2560,7 @@ public class Dfp implements RealFieldElement<Dfp> {
     /** {@inheritDoc}
      * @since 3.2
      */
+    @Override
     public Dfp divide(final double a) {
         return divide(newInstance(a));
     }
@@ -2549,6 +2568,7 @@ public class Dfp implements RealFieldElement<Dfp> {
     /** {@inheritDoc}
      * @since 3.2
      */
+    @Override
     public Dfp remainder(final double a) {
         return remainder(newInstance(a));
     }
@@ -2556,6 +2576,7 @@ public class Dfp implements RealFieldElement<Dfp> {
     /** {@inheritDoc}
      * @since 3.2
      */
+    @Override
     public long round() {
         return FastMath.round(toDouble());
     }
@@ -2563,6 +2584,7 @@ public class Dfp implements RealFieldElement<Dfp> {
     /** {@inheritDoc}
      * @since 3.2
      */
+    @Override
     public Dfp signum() {
         if (isNaN() || isZero()) {
             return this;
@@ -2574,6 +2596,7 @@ public class Dfp implements RealFieldElement<Dfp> {
     /** {@inheritDoc}
      * @since 3.2
      */
+    @Override
     public Dfp copySign(final Dfp s) {
         if ((sign >= 0 && s.sign >= 0) || (sign < 0 && s.sign < 0)) { // Sign is currently OK
             return this;
@@ -2584,6 +2607,7 @@ public class Dfp implements RealFieldElement<Dfp> {
     /** {@inheritDoc}
      * @since 3.2
      */
+    @Override
     public Dfp copySign(final double s) {
         long sb = Double.doubleToLongBits(s);
         if ((sign >= 0 && sb >= 0) || (sign < 0 && sb < 0)) { // Sign is currently OK
@@ -2595,6 +2619,7 @@ public class Dfp implements RealFieldElement<Dfp> {
     /** {@inheritDoc}
      * @since 3.2
      */
+    @Override
     public Dfp scalb(final int n) {
         return multiply(DfpMath.pow(getTwo(), n));
     }
@@ -2602,6 +2627,7 @@ public class Dfp implements RealFieldElement<Dfp> {
     /** {@inheritDoc}
      * @since 3.2
      */
+    @Override
     public Dfp hypot(final Dfp y) {
         return multiply(this).add(y.multiply(y)).sqrt();
     }
@@ -2609,6 +2635,7 @@ public class Dfp implements RealFieldElement<Dfp> {
     /** {@inheritDoc}
      * @since 3.2
      */
+    @Override
     public Dfp cbrt() {
         return rootN(3);
     }
@@ -2616,6 +2643,7 @@ public class Dfp implements RealFieldElement<Dfp> {
     /** {@inheritDoc}
      * @since 3.2
      */
+    @Override
     public Dfp rootN(final int n) {
         return (sign >= 0) ?
                DfpMath.pow(this, getOne().divide(n)) :
@@ -2625,6 +2653,7 @@ public class Dfp implements RealFieldElement<Dfp> {
     /** {@inheritDoc}
      * @since 3.2
      */
+    @Override
     public Dfp pow(final double p) {
         return DfpMath.pow(this, newInstance(p));
     }
@@ -2632,6 +2661,7 @@ public class Dfp implements RealFieldElement<Dfp> {
     /** {@inheritDoc}
      * @since 3.2
      */
+    @Override
     public Dfp pow(final int n) {
         return DfpMath.pow(this, n);
     }
@@ -2639,6 +2669,7 @@ public class Dfp implements RealFieldElement<Dfp> {
     /** {@inheritDoc}
      * @since 3.2
      */
+    @Override
     public Dfp pow(final Dfp e) {
         return DfpMath.pow(this, e);
     }
@@ -2646,6 +2677,7 @@ public class Dfp implements RealFieldElement<Dfp> {
     /** {@inheritDoc}
      * @since 3.2
      */
+    @Override
     public Dfp exp() {
         return DfpMath.exp(this);
     }
@@ -2653,6 +2685,7 @@ public class Dfp implements RealFieldElement<Dfp> {
     /** {@inheritDoc}
      * @since 3.2
      */
+    @Override
     public Dfp expm1() {
         return DfpMath.exp(this).subtract(getOne());
     }
@@ -2660,6 +2693,7 @@ public class Dfp implements RealFieldElement<Dfp> {
     /** {@inheritDoc}
      * @since 3.2
      */
+    @Override
     public Dfp log() {
         return DfpMath.log(this);
     }
@@ -2667,32 +2701,23 @@ public class Dfp implements RealFieldElement<Dfp> {
     /** {@inheritDoc}
      * @since 3.2
      */
+    @Override
     public Dfp log1p() {
         return DfpMath.log(this.add(getOne()));
     }
 
-//  TODO: deactivate this implementation (and return type) in 4.0
-    /** Get the exponent of the greatest power of 10 that is less than or equal to abs(this).
-     *  @return integer base 10 logarithm
-     *  @deprecated as of 3.2, replaced by {@link #intLog10()}, in 4.0 the return type
-     *  will be changed to Dfp
+    /** {@inheritDoc}
+     * @since 3.2, return type changed to {@link Dfp} in 4.0
      */
-    @Deprecated
-    public int log10()  {
-        return intLog10();
+    @Override
+    public Dfp log10() {
+        return DfpMath.log(this).divide(DfpMath.log(newInstance(10)));
     }
-
-//    TODO: activate this implementation (and return type) in 4.0
-//    /** {@inheritDoc}
-//     * @since 3.2
-//     */
-//    public Dfp log10() {
-//        return DfpMath.log(this).divide(DfpMath.log(newInstance(10)));
-//    }
 
     /** {@inheritDoc}
      * @since 3.2
      */
+    @Override
     public Dfp cos() {
         return DfpMath.cos(this);
     }
@@ -2700,6 +2725,7 @@ public class Dfp implements RealFieldElement<Dfp> {
     /** {@inheritDoc}
      * @since 3.2
      */
+    @Override
     public Dfp sin() {
         return DfpMath.sin(this);
     }
@@ -2707,6 +2733,7 @@ public class Dfp implements RealFieldElement<Dfp> {
     /** {@inheritDoc}
      * @since 3.2
      */
+    @Override
     public Dfp tan() {
         return DfpMath.tan(this);
     }
@@ -2714,6 +2741,7 @@ public class Dfp implements RealFieldElement<Dfp> {
     /** {@inheritDoc}
      * @since 3.2
      */
+    @Override
     public Dfp acos() {
         return DfpMath.acos(this);
     }
@@ -2721,6 +2749,7 @@ public class Dfp implements RealFieldElement<Dfp> {
     /** {@inheritDoc}
      * @since 3.2
      */
+    @Override
     public Dfp asin() {
         return DfpMath.asin(this);
     }
@@ -2728,6 +2757,7 @@ public class Dfp implements RealFieldElement<Dfp> {
     /** {@inheritDoc}
      * @since 3.2
      */
+    @Override
     public Dfp atan() {
         return DfpMath.atan(this);
     }
@@ -2735,6 +2765,7 @@ public class Dfp implements RealFieldElement<Dfp> {
     /** {@inheritDoc}
      * @since 3.2
      */
+    @Override
     public Dfp atan2(final Dfp x)
         throws DimensionMismatchException {
 
@@ -2760,6 +2791,7 @@ public class Dfp implements RealFieldElement<Dfp> {
     /** {@inheritDoc}
      * @since 3.2
      */
+    @Override
     public Dfp cosh() {
         return DfpMath.exp(this).add(DfpMath.exp(negate())).divide(2);
     }
@@ -2767,6 +2799,7 @@ public class Dfp implements RealFieldElement<Dfp> {
     /** {@inheritDoc}
      * @since 3.2
      */
+    @Override
     public Dfp sinh() {
         return DfpMath.exp(this).subtract(DfpMath.exp(negate())).divide(2);
     }
@@ -2774,6 +2807,7 @@ public class Dfp implements RealFieldElement<Dfp> {
     /** {@inheritDoc}
      * @since 3.2
      */
+    @Override
     public Dfp tanh() {
         final Dfp ePlus  = DfpMath.exp(this);
         final Dfp eMinus = DfpMath.exp(negate());
@@ -2783,6 +2817,7 @@ public class Dfp implements RealFieldElement<Dfp> {
     /** {@inheritDoc}
      * @since 3.2
      */
+    @Override
     public Dfp acosh() {
         return multiply(this).subtract(getOne()).sqrt().add(this).log();
     }
@@ -2790,6 +2825,7 @@ public class Dfp implements RealFieldElement<Dfp> {
     /** {@inheritDoc}
      * @since 3.2
      */
+    @Override
     public Dfp asinh() {
         return multiply(this).add(getOne()).sqrt().add(this).log();
     }
@@ -2797,6 +2833,7 @@ public class Dfp implements RealFieldElement<Dfp> {
     /** {@inheritDoc}
      * @since 3.2
      */
+    @Override
     public Dfp atanh() {
         return getOne().add(this).divide(getOne().subtract(this)).log().divide(2);
     }
@@ -2804,6 +2841,7 @@ public class Dfp implements RealFieldElement<Dfp> {
     /** {@inheritDoc}
      * @since 3.2
      */
+    @Override
     public Dfp linearCombination(final Dfp[] a, final Dfp[] b)
         throws DimensionMismatchException {
         if (a.length != b.length) {
@@ -2819,6 +2857,7 @@ public class Dfp implements RealFieldElement<Dfp> {
     /** {@inheritDoc}
      * @since 3.2
      */
+    @Override
     public Dfp linearCombination(final double[] a, final Dfp[] b)
         throws DimensionMismatchException {
         if (a.length != b.length) {
@@ -2834,6 +2873,7 @@ public class Dfp implements RealFieldElement<Dfp> {
     /** {@inheritDoc}
      * @since 3.2
      */
+    @Override
     public Dfp linearCombination(final Dfp a1, final Dfp b1, final Dfp a2, final Dfp b2) {
         return a1.multiply(b1).add(a2.multiply(b2));
     }
@@ -2841,6 +2881,7 @@ public class Dfp implements RealFieldElement<Dfp> {
     /** {@inheritDoc}
      * @since 3.2
      */
+    @Override
     public Dfp linearCombination(final double a1, final Dfp b1, final double a2, final Dfp b2) {
         return b1.multiply(a1).add(b2.multiply(a2));
     }
@@ -2848,6 +2889,7 @@ public class Dfp implements RealFieldElement<Dfp> {
     /** {@inheritDoc}
      * @since 3.2
      */
+    @Override
     public Dfp linearCombination(final Dfp a1, final Dfp b1,
                                  final Dfp a2, final Dfp b2,
                                  final Dfp a3, final Dfp b3) {
@@ -2857,6 +2899,7 @@ public class Dfp implements RealFieldElement<Dfp> {
     /** {@inheritDoc}
      * @since 3.2
      */
+    @Override
     public Dfp linearCombination(final double a1, final Dfp b1,
                                  final double a2, final Dfp b2,
                                  final double a3, final Dfp b3) {
@@ -2866,6 +2909,7 @@ public class Dfp implements RealFieldElement<Dfp> {
     /** {@inheritDoc}
      * @since 3.2
      */
+    @Override
     public Dfp linearCombination(final Dfp a1, final Dfp b1, final Dfp a2, final Dfp b2,
                                  final Dfp a3, final Dfp b3, final Dfp a4, final Dfp b4) {
         return a1.multiply(b1).add(a2.multiply(b2)).add(a3.multiply(b3)).add(a4.multiply(b4));
@@ -2874,6 +2918,7 @@ public class Dfp implements RealFieldElement<Dfp> {
     /** {@inheritDoc}
      * @since 3.2
      */
+    @Override
     public Dfp linearCombination(final double a1, final Dfp b1, final double a2, final Dfp b2,
                                  final double a3, final Dfp b3, final double a4, final Dfp b4) {
         return b1.multiply(a1).add(b2.multiply(a2)).add(b3.multiply(a3)).add(b4.multiply(a4));

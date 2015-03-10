@@ -146,6 +146,7 @@ public interface RealFieldElement<T> extends FieldElement<T> {
         throws DimensionMismatchException;
 
     /** {@inheritDoc} */
+    @Override
     T reciprocal();
 
     /** Square root.
@@ -204,12 +205,11 @@ public interface RealFieldElement<T> extends FieldElement<T> {
      */
     T log1p();
 
-//    TODO: add this method in 4.0, as it is not possible to do it in 3.2
-//          due to incompatibility of the return type in the Dfp class
-//    /** Base 10 logarithm.
-//     * @return base 10 logarithm of the instance
-//     */
-//    T log10();
+    /** Base 10 logarithm.
+     * @return base 10 logarithm of the instance
+     * @since 4.0
+     */
+    T log10();
 
     /** Cosine operation.
      * @return cos(this)
