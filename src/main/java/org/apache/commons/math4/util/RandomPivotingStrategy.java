@@ -48,6 +48,7 @@ public class RandomPivotingStrategy implements PivotingStrategyInterface, Serial
      * value between first and the last indices of the array slice
      * @throws MathIllegalArgumentException when indices exceeds range
      */
+    @Override
     public int pivotIndex(final double[] work, final int begin, final int end)
         throws MathIllegalArgumentException {
         MathArrays.verifyValues(work, begin, end-begin);

@@ -45,16 +45,19 @@ public class Decimal64Field implements Field<Decimal64> {
     }
 
     /** {@inheritDoc} */
+    @Override
     public Decimal64 getZero() {
         return Decimal64.ZERO;
     }
 
     /** {@inheritDoc} */
+    @Override
     public Decimal64 getOne() {
         return Decimal64.ONE;
     }
 
     /** {@inheritDoc} */
+    @Override
     public Class<? extends FieldElement<Decimal64>> getRuntimeClass() {
         return Decimal64.class;
     }

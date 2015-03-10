@@ -28,7 +28,6 @@ import org.apache.commons.math4.exception.util.LocalizedFormats;
  * provides some simple conversion capabilities to turn any java.lang.Number
  * into a primitive double or to turn a String representation of a Number into
  * a double.
- *
  */
 public class DefaultTransformer implements NumberTransformer, Serializable {
 
@@ -43,6 +42,7 @@ public class DefaultTransformer implements NumberTransformer, Serializable {
      * cannot successfully be transformed
      * @see <a href="http://commons.apache.org/collections/api-release/org/apache/commons/collections/Transformer.html">Commons Collections Transformer</a>
      */
+    @Override
     public double transform(Object o)
         throws NullArgumentException, MathIllegalArgumentException {
 

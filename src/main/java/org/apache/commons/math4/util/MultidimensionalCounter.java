@@ -94,6 +94,7 @@ public class MultidimensionalCounter implements Iterable<Integer> {
         /**
          * {@inheritDoc}
          */
+        @Override
         public boolean hasNext() {
             return count < maxCount;
         }
@@ -104,6 +105,7 @@ public class MultidimensionalCounter implements Iterable<Integer> {
          * @throws NoSuchElementException if {@link #hasNext()} would have
          * returned {@code false}.
          */
+        @Override
         public Integer next() {
             if (!hasNext()) {
                 throw new NoSuchElementException();
@@ -156,6 +158,7 @@ public class MultidimensionalCounter implements Iterable<Integer> {
         /**
          * @throws UnsupportedOperationException
          */
+        @Override
         public void remove() {
             throw new UnsupportedOperationException();
         }
@@ -198,6 +201,7 @@ public class MultidimensionalCounter implements Iterable<Integer> {
      *
      * @return the iterator.
      */
+    @Override
     public Iterator iterator() {
         return new Iterator();
     }

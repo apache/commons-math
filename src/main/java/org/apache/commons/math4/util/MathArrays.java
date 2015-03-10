@@ -727,11 +727,13 @@ public class MathArrays {
         final Comparator<Pair<Double, Integer>> comp
             = dir == MathArrays.OrderDirection.INCREASING ?
             new Comparator<Pair<Double, Integer>>() {
+            @Override
             public int compare(Pair<Double, Integer> o1,
                                Pair<Double, Integer> o2) {
                 return o1.getKey().compareTo(o2.getKey());
             }
         } : new Comparator<Pair<Double,Integer>>() {
+            @Override
             public int compare(Pair<Double, Integer> o1,
                                Pair<Double, Integer> o2) {
                 return o2.getKey().compareTo(o1.getKey());

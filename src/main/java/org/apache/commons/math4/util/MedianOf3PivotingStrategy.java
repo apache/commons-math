@@ -36,6 +36,7 @@ public class MedianOf3PivotingStrategy implements PivotingStrategyInterface, Ser
      * first, middle and the last indices of the array slice
      * @throws MathIllegalArgumentException when indices exceeds range
      */
+    @Override
     public int pivotIndex(final double[] work, final int begin, final int end)
         throws MathIllegalArgumentException {
         MathArrays.verifyValues(work, begin, end-begin);

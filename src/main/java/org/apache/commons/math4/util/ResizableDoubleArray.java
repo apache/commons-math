@@ -437,6 +437,7 @@ public class ResizableDoubleArray implements DoubleArray, Serializable {
      *
      * @param value Value to be added to end of array.
      */
+    @Override
     public synchronized void addElement(double value) {
         if (internalArray.length <= startIndex + numElements) {
             expand();
@@ -450,6 +451,7 @@ public class ResizableDoubleArray implements DoubleArray, Serializable {
      * @param values Values to be added to end of array.
      * @since 2.2
      */
+    @Override
     public synchronized void addElements(double[] values) {
         final double[] tempArray = new double[numElements + values.length + 1];
         System.arraycopy(internalArray, startIndex, tempArray, 0, numElements);
@@ -475,6 +477,7 @@ public class ResizableDoubleArray implements DoubleArray, Serializable {
      * @return the value which has been discarded or "pushed" out of the array
      * by this rolling insert.
      */
+    @Override
     public synchronized double addElementRolling(double value) {
         double discarded = internalArray[startIndex];
 
@@ -578,6 +581,7 @@ public class ResizableDoubleArray implements DoubleArray, Serializable {
     /**
      * Clear the array contents, resetting the number of elements to zero.
      */
+    @Override
     public synchronized void clear() {
         numElements = 0;
         startIndex = 0;
@@ -757,6 +761,7 @@ public class ResizableDoubleArray implements DoubleArray, Serializable {
      * @throws ArrayIndexOutOfBoundsException if <code>index</code> is less than
      * zero or is greater than <code>getNumElements() - 1</code>.
      */
+    @Override
     public synchronized double getElement(int index) {
         if (index >= numElements) {
             throw new ArrayIndexOutOfBoundsException(index);
@@ -774,6 +779,7 @@ public class ResizableDoubleArray implements DoubleArray, Serializable {
      *  array have no effect on this <code>ResizableArray.</code>
      * @return the double array.
      */
+    @Override
     public synchronized double[] getElements() {
         final double[] elementArray = new double[numElements];
         System.arraycopy(internalArray, startIndex, elementArray, 0, numElements);
@@ -851,6 +857,7 @@ public class ResizableDoubleArray implements DoubleArray, Serializable {
      *
      * @return the number of elements.
      */
+    @Override
     public synchronized int getNumElements() {
         return numElements;
     }
@@ -958,6 +965,7 @@ public class ResizableDoubleArray implements DoubleArray, Serializable {
      * @param value value to store at the specified index
      * @throws ArrayIndexOutOfBoundsException if {@code index < 0}.
      */
+    @Override
     public synchronized void setElement(int index, double value) {
         if (index < 0) {
             throw new ArrayIndexOutOfBoundsException(index);

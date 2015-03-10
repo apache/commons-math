@@ -61,7 +61,8 @@ public class Incrementor {
         this(max,
              new MaxCountExceededCallback() {
                  /** {@inheritDoc} */
-                 public void trigger(int max) throws MaxCountExceededException {
+                 @Override
+                public void trigger(int max) throws MaxCountExceededException {
                      throw new MaxCountExceededException(max);
                  }
              });

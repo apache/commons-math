@@ -92,6 +92,7 @@ public class FastSineTransformer implements RealTransformer, Serializable {
      * @throws MathIllegalArgumentException if the length of the data array is
      *   not a power of two, or the first element of the data array is not zero
      */
+    @Override
     public double[] transform(final double[] f, final TransformType type) {
         if (normalization == DstNormalization.ORTHOGONAL_DST_I) {
             final double s = FastMath.sqrt(2.0 / f.length);
@@ -115,6 +116,7 @@ public class FastSineTransformer implements RealTransformer, Serializable {
      *   if the number of sample points is negative
      * @throws MathIllegalArgumentException if the number of sample points is not a power of two
      */
+    @Override
     public double[] transform(final UnivariateFunction f,
         final double min, final double max, final int n,
         final TransformType type) {

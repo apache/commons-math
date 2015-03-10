@@ -30,7 +30,7 @@ import org.apache.commons.math4.FieldElement;
  * @see Complex
  * @since 2.0
  */
-public class ComplexField implements Field<Complex>, Serializable  {
+public class ComplexField implements Field<Complex>, Serializable {
 
     /** Serializable version identifier. */
     private static final long serialVersionUID = -6130362688700788798L;
@@ -48,16 +48,19 @@ public class ComplexField implements Field<Complex>, Serializable  {
     }
 
     /** {@inheritDoc} */
+    @Override
     public Complex getOne() {
         return Complex.ONE;
     }
 
     /** {@inheritDoc} */
+    @Override
     public Complex getZero() {
         return Complex.ZERO;
     }
 
     /** {@inheritDoc} */
+    @Override
     public Class<? extends FieldElement<Complex>> getRuntimeClass() {
         return Complex.class;
     }

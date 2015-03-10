@@ -47,6 +47,7 @@ public class FastHadamardTransformer implements RealTransformer, Serializable {
      * @throws MathIllegalArgumentException if the length of the data array is
      * not a power of two
      */
+    @Override
     public double[] transform(final double[] f, final TransformType type) {
         if (type == TransformType.FORWARD) {
             return fht(f);
@@ -63,6 +64,7 @@ public class FastHadamardTransformer implements RealTransformer, Serializable {
      *   if the number of sample points is negative
      * @throws MathIllegalArgumentException if the number of sample points is not a power of two
      */
+    @Override
     public double[] transform(final UnivariateFunction f,
         final double min, final double max, final int n,
         final TransformType type) {

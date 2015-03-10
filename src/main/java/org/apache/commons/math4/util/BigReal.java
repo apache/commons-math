@@ -228,16 +228,19 @@ public class BigReal implements FieldElement<BigReal>, Comparable<BigReal>, Seri
     }
 
     /** {@inheritDoc} */
+    @Override
     public BigReal add(BigReal a) {
         return new BigReal(d.add(a.d));
     }
 
     /** {@inheritDoc} */
+    @Override
     public BigReal subtract(BigReal a) {
         return new BigReal(d.subtract(a.d));
     }
 
     /** {@inheritDoc} */
+    @Override
     public BigReal negate() {
         return new BigReal(d.negate());
     }
@@ -247,6 +250,7 @@ public class BigReal implements FieldElement<BigReal>, Comparable<BigReal>, Seri
      *
      * @throws MathArithmeticException if {@code a} is zero
      */
+    @Override
     public BigReal divide(BigReal a) throws MathArithmeticException {
         try {
             return new BigReal(d.divide(a.d, scale, roundingMode));
@@ -261,6 +265,7 @@ public class BigReal implements FieldElement<BigReal>, Comparable<BigReal>, Seri
      *
      * @throws MathArithmeticException if {@code this} is zero
      */
+    @Override
     public BigReal reciprocal() throws MathArithmeticException {
         try {
             return new BigReal(BigDecimal.ONE.divide(d, scale, roundingMode));
@@ -271,16 +276,19 @@ public class BigReal implements FieldElement<BigReal>, Comparable<BigReal>, Seri
     }
 
     /** {@inheritDoc} */
+    @Override
     public BigReal multiply(BigReal a) {
         return new BigReal(d.multiply(a.d));
     }
 
     /** {@inheritDoc} */
+    @Override
     public BigReal multiply(final int n) {
         return new BigReal(d.multiply(new BigDecimal(n)));
     }
 
     /** {@inheritDoc} */
+    @Override
     public int compareTo(BigReal a) {
         return d.compareTo(a.d);
     }
@@ -319,6 +327,7 @@ public class BigReal implements FieldElement<BigReal>, Comparable<BigReal>, Seri
     }
 
     /** {@inheritDoc} */
+    @Override
     public Field<BigReal> getField() {
         return BigRealField.getInstance();
     }

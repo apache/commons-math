@@ -398,6 +398,7 @@ public class DfpField implements Field<Dfp> {
     /** Get the constant 0.
      * @return a {@link Dfp} with value 0
      */
+    @Override
     public Dfp getZero() {
         return zero;
     }
@@ -405,11 +406,13 @@ public class DfpField implements Field<Dfp> {
     /** Get the constant 1.
      * @return a {@link Dfp} with value 1
      */
+    @Override
     public Dfp getOne() {
         return one;
     }
 
     /** {@inheritDoc} */
+    @Override
     public Class<? extends FieldElement<Dfp>> getRuntimeClass() {
         return Dfp.class;
     }

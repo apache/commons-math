@@ -37,6 +37,7 @@ public class CentralPivotingStrategy implements PivotingStrategyInterface, Seria
      * the first and the last element indices of the array slice
      * @throws MathIllegalArgumentException when indices exceeds range
      */
+    @Override
     public int pivotIndex(final double[] work, final int begin, final int end)
         throws MathIllegalArgumentException {
         MathArrays.verifyValues(work, begin, end-begin);

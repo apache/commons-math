@@ -79,6 +79,7 @@ public class Decimal64 extends Number
      */
 
     /** {@inheritDoc} */
+    @Override
     public Field<Decimal64> getField() {
         return Decimal64Field.getInstance();
     }
@@ -90,6 +91,7 @@ public class Decimal64 extends Number
      * {@code this.add(a).equals(new Decimal64(this.doubleValue()
      * + a.doubleValue()))}.
      */
+    @Override
     public Decimal64 add(final Decimal64 a) {
         return new Decimal64(this.value + a.value);
     }
@@ -101,6 +103,7 @@ public class Decimal64 extends Number
      * {@code this.subtract(a).equals(new Decimal64(this.doubleValue()
      * - a.doubleValue()))}.
      */
+    @Override
     public Decimal64 subtract(final Decimal64 a) {
         return new Decimal64(this.value - a.value);
     }
@@ -111,6 +114,7 @@ public class Decimal64 extends Number
      * The current implementation strictly enforces
      * {@code this.negate().equals(new Decimal64(-this.doubleValue()))}.
      */
+    @Override
     public Decimal64 negate() {
         return new Decimal64(-this.value);
     }
@@ -122,6 +126,7 @@ public class Decimal64 extends Number
      * {@code this.multiply(a).equals(new Decimal64(this.doubleValue()
      * * a.doubleValue()))}.
      */
+    @Override
     public Decimal64 multiply(final Decimal64 a) {
         return new Decimal64(this.value * a.value);
     }
@@ -132,6 +137,7 @@ public class Decimal64 extends Number
      * The current implementation strictly enforces
      * {@code this.multiply(n).equals(new Decimal64(n * this.doubleValue()))}.
      */
+    @Override
     public Decimal64 multiply(final int n) {
         return new Decimal64(n * this.value);
     }
@@ -144,6 +150,7 @@ public class Decimal64 extends Number
      * / a.doubleValue()))}.
      *
      */
+    @Override
     public Decimal64 divide(final Decimal64 a) {
         return new Decimal64(this.value / a.value);
     }
@@ -155,6 +162,7 @@ public class Decimal64 extends Number
      * {@code this.reciprocal().equals(new Decimal64(1.0
      * / this.doubleValue()))}.
      */
+    @Override
     public Decimal64 reciprocal() {
         return new Decimal64(1.0 / this.value);
     }
@@ -232,6 +240,7 @@ public class Decimal64 extends Number
      *
      * @see Double#compareTo(Double)
      */
+    @Override
     public int compareTo(final Decimal64 o) {
         return Double.compare(this.value, o.value);
     }
@@ -305,6 +314,7 @@ public class Decimal64 extends Number
     /** {@inheritDoc}
      * @since 3.2
      */
+    @Override
     public double getReal() {
         return value;
     }
@@ -312,6 +322,7 @@ public class Decimal64 extends Number
     /** {@inheritDoc}
      * @since 3.2
      */
+    @Override
     public Decimal64 add(final double a) {
         return new Decimal64(value + a);
     }
@@ -319,6 +330,7 @@ public class Decimal64 extends Number
     /** {@inheritDoc}
      * @since 3.2
      */
+    @Override
     public Decimal64 subtract(final double a) {
         return new Decimal64(value - a);
     }
@@ -326,6 +338,7 @@ public class Decimal64 extends Number
     /** {@inheritDoc}
      * @since 3.2
      */
+    @Override
     public Decimal64 multiply(final double a) {
         return new Decimal64(value * a);
     }
@@ -333,6 +346,7 @@ public class Decimal64 extends Number
     /** {@inheritDoc}
      * @since 3.2
      */
+    @Override
     public Decimal64 divide(final double a) {
         return new Decimal64(value / a);
     }
@@ -340,6 +354,7 @@ public class Decimal64 extends Number
     /** {@inheritDoc}
      * @since 3.2
      */
+    @Override
     public Decimal64 remainder(final double a) {
         return new Decimal64(FastMath.IEEEremainder(value, a));
     }
@@ -347,6 +362,7 @@ public class Decimal64 extends Number
     /** {@inheritDoc}
      * @since 3.2
      */
+    @Override
     public Decimal64 remainder(final Decimal64 a) {
         return new Decimal64(FastMath.IEEEremainder(value, a.value));
     }
@@ -354,6 +370,7 @@ public class Decimal64 extends Number
     /** {@inheritDoc}
      * @since 3.2
      */
+    @Override
     public Decimal64 abs() {
         return new Decimal64(FastMath.abs(value));
     }
@@ -361,6 +378,7 @@ public class Decimal64 extends Number
     /** {@inheritDoc}
      * @since 3.2
      */
+    @Override
     public Decimal64 ceil() {
         return new Decimal64(FastMath.ceil(value));
     }
@@ -368,6 +386,7 @@ public class Decimal64 extends Number
     /** {@inheritDoc}
      * @since 3.2
      */
+    @Override
     public Decimal64 floor() {
         return new Decimal64(FastMath.floor(value));
     }
@@ -375,6 +394,7 @@ public class Decimal64 extends Number
     /** {@inheritDoc}
      * @since 3.2
      */
+    @Override
     public Decimal64 rint() {
         return new Decimal64(FastMath.rint(value));
     }
@@ -382,6 +402,7 @@ public class Decimal64 extends Number
     /** {@inheritDoc}
      * @since 3.2
      */
+    @Override
     public long round() {
         return FastMath.round(value);
     }
@@ -389,6 +410,7 @@ public class Decimal64 extends Number
     /** {@inheritDoc}
      * @since 3.2
      */
+    @Override
     public Decimal64 signum() {
         return new Decimal64(FastMath.signum(value));
     }
@@ -396,6 +418,7 @@ public class Decimal64 extends Number
     /** {@inheritDoc}
      * @since 3.2
      */
+    @Override
     public Decimal64 copySign(final Decimal64 sign) {
         return new Decimal64(FastMath.copySign(value, sign.value));
     }
@@ -403,6 +426,7 @@ public class Decimal64 extends Number
     /** {@inheritDoc}
      * @since 3.2
      */
+    @Override
     public Decimal64 copySign(final double sign) {
         return new Decimal64(FastMath.copySign(value, sign));
     }
@@ -410,6 +434,7 @@ public class Decimal64 extends Number
     /** {@inheritDoc}
      * @since 3.2
      */
+    @Override
     public Decimal64 scalb(final int n) {
         return new Decimal64(FastMath.scalb(value, n));
     }
@@ -417,6 +442,7 @@ public class Decimal64 extends Number
     /** {@inheritDoc}
      * @since 3.2
      */
+    @Override
     public Decimal64 hypot(final Decimal64 y) {
         return new Decimal64(FastMath.hypot(value, y.value));
     }
@@ -424,6 +450,7 @@ public class Decimal64 extends Number
     /** {@inheritDoc}
      * @since 3.2
      */
+    @Override
     public Decimal64 sqrt() {
         return new Decimal64(FastMath.sqrt(value));
     }
@@ -431,6 +458,7 @@ public class Decimal64 extends Number
     /** {@inheritDoc}
      * @since 3.2
      */
+    @Override
     public Decimal64 cbrt() {
         return new Decimal64(FastMath.cbrt(value));
     }
@@ -438,6 +466,7 @@ public class Decimal64 extends Number
     /** {@inheritDoc}
      * @since 3.2
      */
+    @Override
     public Decimal64 rootN(final int n) {
         if (value < 0) {
             return new Decimal64(-FastMath.pow(-value, 1.0 / n));
@@ -449,6 +478,7 @@ public class Decimal64 extends Number
     /** {@inheritDoc}
      * @since 3.2
      */
+    @Override
     public Decimal64 pow(final double p) {
         return new Decimal64(FastMath.pow(value, p));
     }
@@ -456,6 +486,7 @@ public class Decimal64 extends Number
     /** {@inheritDoc}
      * @since 3.2
      */
+    @Override
     public Decimal64 pow(final int n) {
         return new Decimal64(FastMath.pow(value, n));
     }
@@ -463,6 +494,7 @@ public class Decimal64 extends Number
     /** {@inheritDoc}
      * @since 3.2
      */
+    @Override
     public Decimal64 pow(final Decimal64 e) {
         return new Decimal64(FastMath.pow(value, e.value));
     }
@@ -470,6 +502,7 @@ public class Decimal64 extends Number
     /** {@inheritDoc}
      * @since 3.2
      */
+    @Override
     public Decimal64 exp() {
         return new Decimal64(FastMath.exp(value));
     }
@@ -477,6 +510,7 @@ public class Decimal64 extends Number
     /** {@inheritDoc}
      * @since 3.2
      */
+    @Override
     public Decimal64 expm1() {
         return new Decimal64(FastMath.expm1(value));
     }
@@ -484,6 +518,7 @@ public class Decimal64 extends Number
     /** {@inheritDoc}
      * @since 3.2
      */
+    @Override
     public Decimal64 log() {
         return new Decimal64(FastMath.log(value));
     }
@@ -491,6 +526,7 @@ public class Decimal64 extends Number
     /** {@inheritDoc}
      * @since 3.2
      */
+    @Override
     public Decimal64 log1p() {
         return new Decimal64(FastMath.log1p(value));
     }
@@ -499,6 +535,7 @@ public class Decimal64 extends Number
      * @return base 10 logarithm of the instance
      * @since 3.2
      */
+    @Override
     public Decimal64 log10() {
         return new Decimal64(FastMath.log10(value));
     }
@@ -506,6 +543,7 @@ public class Decimal64 extends Number
     /** {@inheritDoc}
      * @since 3.2
      */
+    @Override
     public Decimal64 cos() {
         return new Decimal64(FastMath.cos(value));
     }
@@ -513,6 +551,7 @@ public class Decimal64 extends Number
     /** {@inheritDoc}
      * @since 3.2
      */
+    @Override
     public Decimal64 sin() {
         return new Decimal64(FastMath.sin(value));
     }
@@ -520,6 +559,7 @@ public class Decimal64 extends Number
     /** {@inheritDoc}
      * @since 3.2
      */
+    @Override
     public Decimal64 tan() {
         return new Decimal64(FastMath.tan(value));
     }
@@ -527,6 +567,7 @@ public class Decimal64 extends Number
     /** {@inheritDoc}
      * @since 3.2
      */
+    @Override
     public Decimal64 acos() {
         return new Decimal64(FastMath.acos(value));
     }
@@ -534,6 +575,7 @@ public class Decimal64 extends Number
     /** {@inheritDoc}
      * @since 3.2
      */
+    @Override
     public Decimal64 asin() {
         return new Decimal64(FastMath.asin(value));
     }
@@ -541,6 +583,7 @@ public class Decimal64 extends Number
     /** {@inheritDoc}
      * @since 3.2
      */
+    @Override
     public Decimal64 atan() {
         return new Decimal64(FastMath.atan(value));
     }
@@ -548,6 +591,7 @@ public class Decimal64 extends Number
     /** {@inheritDoc}
      * @since 3.2
      */
+    @Override
     public Decimal64 atan2(final Decimal64 x) {
         return new Decimal64(FastMath.atan2(value, x.value));
     }
@@ -555,6 +599,7 @@ public class Decimal64 extends Number
     /** {@inheritDoc}
      * @since 3.2
      */
+    @Override
     public Decimal64 cosh() {
         return new Decimal64(FastMath.cosh(value));
     }
@@ -562,6 +607,7 @@ public class Decimal64 extends Number
     /** {@inheritDoc}
      * @since 3.2
      */
+    @Override
     public Decimal64 sinh() {
         return new Decimal64(FastMath.sinh(value));
     }
@@ -569,6 +615,7 @@ public class Decimal64 extends Number
     /** {@inheritDoc}
      * @since 3.2
      */
+    @Override
     public Decimal64 tanh() {
         return new Decimal64(FastMath.tanh(value));
     }
@@ -576,6 +623,7 @@ public class Decimal64 extends Number
     /** {@inheritDoc}
      * @since 3.2
      */
+    @Override
     public Decimal64 acosh() {
         return new Decimal64(FastMath.acosh(value));
     }
@@ -583,6 +631,7 @@ public class Decimal64 extends Number
     /** {@inheritDoc}
      * @since 3.2
      */
+    @Override
     public Decimal64 asinh() {
         return new Decimal64(FastMath.asinh(value));
     }
@@ -590,6 +639,7 @@ public class Decimal64 extends Number
     /** {@inheritDoc}
      * @since 3.2
      */
+    @Override
     public Decimal64 atanh() {
         return new Decimal64(FastMath.atanh(value));
     }
@@ -597,6 +647,7 @@ public class Decimal64 extends Number
     /** {@inheritDoc}
      * @since 3.2
      */
+    @Override
     public Decimal64 linearCombination(final Decimal64[] a, final Decimal64[] b)
         throws DimensionMismatchException {
         if (a.length != b.length) {
@@ -614,6 +665,7 @@ public class Decimal64 extends Number
     /** {@inheritDoc}
      * @since 3.2
      */
+    @Override
     public Decimal64 linearCombination(final double[] a, final Decimal64[] b)
         throws DimensionMismatchException {
         if (a.length != b.length) {
@@ -629,6 +681,7 @@ public class Decimal64 extends Number
     /** {@inheritDoc}
      * @since 3.2
      */
+    @Override
     public Decimal64 linearCombination(final Decimal64 a1, final Decimal64 b1,
                                        final Decimal64 a2, final Decimal64 b2) {
         return new Decimal64(MathArrays.linearCombination(a1.value, b1.value,
@@ -638,6 +691,7 @@ public class Decimal64 extends Number
     /** {@inheritDoc}
      * @since 3.2
      */
+    @Override
     public Decimal64 linearCombination(final double a1, final Decimal64 b1,
                                        final double a2, final Decimal64 b2) {
         return new Decimal64(MathArrays.linearCombination(a1, b1.value,
@@ -647,6 +701,7 @@ public class Decimal64 extends Number
     /** {@inheritDoc}
      * @since 3.2
      */
+    @Override
     public Decimal64 linearCombination(final Decimal64 a1, final Decimal64 b1,
                                        final Decimal64 a2, final Decimal64 b2,
                                        final Decimal64 a3, final Decimal64 b3) {
@@ -658,6 +713,7 @@ public class Decimal64 extends Number
     /** {@inheritDoc}
      * @since 3.2
      */
+    @Override
     public Decimal64 linearCombination(final double a1, final Decimal64 b1,
                                        final double a2, final Decimal64 b2,
                                        final double a3, final Decimal64 b3) {
@@ -669,6 +725,7 @@ public class Decimal64 extends Number
     /** {@inheritDoc}
      * @since 3.2
      */
+    @Override
     public Decimal64 linearCombination(final Decimal64 a1, final Decimal64 b1,
                                        final Decimal64 a2, final Decimal64 b2,
                                        final Decimal64 a3, final Decimal64 b3,
@@ -682,6 +739,7 @@ public class Decimal64 extends Number
     /** {@inheritDoc}
      * @since 3.2
      */
+    @Override
     public Decimal64 linearCombination(final double a1, final Decimal64 b1,
                                        final double a2, final Decimal64 b2,
                                        final double a3, final Decimal64 b3,

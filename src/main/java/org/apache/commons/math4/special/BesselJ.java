@@ -21,7 +21,6 @@ import org.apache.commons.math4.analysis.UnivariateFunction;
 import org.apache.commons.math4.exception.ConvergenceException;
 import org.apache.commons.math4.exception.MathIllegalArgumentException;
 import org.apache.commons.math4.exception.util.LocalizedFormats;
-import org.apache.commons.math4.special.Gamma;
 import org.apache.commons.math4.util.FastMath;
 import org.apache.commons.math4.util.MathArrays;
 
@@ -139,6 +138,7 @@ public class BesselJ
      * @throws MathIllegalArgumentException if {@code x} is too large relative to {@code order}
      * @throws ConvergenceException if the algorithm fails to converge
      */
+    @Override
     public double value(double x)
         throws MathIllegalArgumentException, ConvergenceException {
         return BesselJ.value(order, x);

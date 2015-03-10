@@ -16,11 +16,11 @@
  */
 package org.apache.commons.math4.util;
 
-import java.util.Iterator;
-import java.util.Comparator;
-import java.util.Arrays;
-import java.util.NoSuchElementException;
 import java.io.Serializable;
+import java.util.Arrays;
+import java.util.Comparator;
+import java.util.Iterator;
+import java.util.NoSuchElementException;
 
 import org.apache.commons.math4.exception.DimensionMismatchException;
 import org.apache.commons.math4.exception.MathInternalError;
@@ -129,6 +129,7 @@ public class Combinations implements Iterable<int[]> {
     }
 
     /** {@inheritDoc} */
+    @Override
     public Iterator<int[]> iterator() {
         if (k == 0 ||
             k == n) {
@@ -224,6 +225,7 @@ public class Combinations implements Iterable<int[]> {
         /**
          * {@inheritDoc}
          */
+        @Override
         public boolean hasNext() {
             return more;
         }
@@ -231,6 +233,7 @@ public class Combinations implements Iterable<int[]> {
         /**
          * {@inheritDoc}
          */
+        @Override
         public int[] next() {
             if (!more) {
                 throw new NoSuchElementException();
@@ -280,6 +283,7 @@ public class Combinations implements Iterable<int[]> {
         /**
          * Not supported.
          */
+        @Override
         public void remove() {
             throw new UnsupportedOperationException();
         }
@@ -302,10 +306,12 @@ public class Combinations implements Iterable<int[]> {
             this.singleton = singleton;
         }
         /** @return True until next is called the first time, then false */
+        @Override
         public boolean hasNext() {
             return more;
         }
         /** @return the singleton in first activation; throws NSEE thereafter */
+        @Override
         public int[] next() {
             if (more) {
                 more = false;
@@ -315,6 +321,7 @@ public class Combinations implements Iterable<int[]> {
             }
         }
         /** Not supported */
+        @Override
         public void remove() {
             throw new UnsupportedOperationException();
         }
@@ -351,6 +358,7 @@ public class Combinations implements Iterable<int[]> {
          * @throws OutOfRangeException if an element of the array is not
          * within the interval [0, {@code n}).
          */
+        @Override
         public int compare(int[] c1,
                            int[] c2) {
             if (c1.length != k) {
