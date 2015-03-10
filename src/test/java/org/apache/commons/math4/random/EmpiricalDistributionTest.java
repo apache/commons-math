@@ -431,7 +431,7 @@ public final class EmpiricalDistributionTest extends RealDistributionAbstractTes
     }
     
     /**
-     * MATH-1203
+     * MATH-1203, MATH-1208
      */
     @Test
     public void testNoBinVariance() {
@@ -443,6 +443,10 @@ public final class EmpiricalDistributionTest extends RealDistributionAbstractTes
             final double dev = dist.sample();
             Assert.assertTrue(dev == 0 || dev == 1);
         }
+        Assert.assertEquals(0.5, dist.cumulativeProbability(0), Double.MIN_VALUE);
+        Assert.assertEquals(1.0, dist.cumulativeProbability(1), Double.MIN_VALUE);
+        Assert.assertEquals(0.5, dist.cumulativeProbability(0.5), Double.MIN_VALUE);
+        Assert.assertEquals(0.5, dist.cumulativeProbability(0.7), Double.MIN_VALUE);
     }
     
     /**

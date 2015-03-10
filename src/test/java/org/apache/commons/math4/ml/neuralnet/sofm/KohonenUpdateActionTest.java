@@ -87,7 +87,7 @@ public class KohonenUpdateActionTest {
 
         Assert.assertEquals(bestBefore, bestAfter);
         // Distance is now zero.
-        Assert.assertEquals(0, dist.compute(bestAfter.getFeatures(), features), 0d);
+        Assert.assertEquals(0, dist.compute(bestAfter.getFeatures(), features), 1e-16);
 
         for (int i = 0; i < netSize; i++) {
             // All distances have decreased.
