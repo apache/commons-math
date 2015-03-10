@@ -77,16 +77,19 @@ public class S1Point implements Point<Sphere1D> {
     }
 
     /** {@inheritDoc} */
+    @Override
     public Space getSpace() {
         return Sphere1D.getInstance();
     }
 
     /** {@inheritDoc} */
+    @Override
     public boolean isNaN() {
         return Double.isNaN(alpha);
     }
 
     /** {@inheritDoc} */
+    @Override
     public double distance(final Point<Sphere1D> point) {
         return distance(this, (S1Point) point);
     }

@@ -30,7 +30,7 @@ import org.apache.commons.math4.geometry.Space;
 public class NodesSet<S extends Space> implements Iterable<BSPTree<S>> {
 
     /** List of sub-hyperplanes. */
-    private List<BSPTree<S>> list;
+    private final List<BSPTree<S>> list;
 
     /** Simple constructor.
      */
@@ -65,6 +65,7 @@ public class NodesSet<S extends Space> implements Iterable<BSPTree<S>> {
     }
 
     /** {@inheritDoc} */
+    @Override
     public Iterator<BSPTree<S>> iterator() {
         return list.iterator();
     }

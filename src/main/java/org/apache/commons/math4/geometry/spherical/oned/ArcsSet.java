@@ -580,6 +580,7 @@ public class ArcsSet extends AbstractRegion<Sphere1D, Sphere1D> implements Itera
      * The iterator does <em>not</em> support the optional {@code remove} operation.
      * </p>
      */
+    @Override
     public Iterator<double[]> iterator() {
         return new SubArcsIterator();
     }
@@ -676,11 +677,13 @@ public class ArcsSet extends AbstractRegion<Sphere1D, Sphere1D> implements Itera
         }
 
         /** {@inheritDoc} */
+        @Override
         public boolean hasNext() {
             return pending != null;
         }
 
         /** {@inheritDoc} */
+        @Override
         public double[] next() {
             if (pending == null) {
                 throw new NoSuchElementException();
@@ -691,6 +694,7 @@ public class ArcsSet extends AbstractRegion<Sphere1D, Sphere1D> implements Itera
         }
 
         /** {@inheritDoc} */
+        @Override
         public void remove() {
             throw new UnsupportedOperationException();
         }

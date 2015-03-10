@@ -54,6 +54,7 @@ class BoundaryProjector<S extends Space, T extends Space> implements BSPTreeVisi
     }
 
     /** {@inheritDoc} */
+    @Override
     public Order visitOrder(final BSPTree<S> node) {
         // we want to visit the tree so that the first encountered
         // leaf is the one closest to the test point
@@ -65,6 +66,7 @@ class BoundaryProjector<S extends Space, T extends Space> implements BSPTreeVisi
     }
 
     /** {@inheritDoc} */
+    @Override
     public void visitInternalNode(final BSPTree<S> node) {
 
         // project the point on the cut sub-hyperplane
@@ -111,6 +113,7 @@ class BoundaryProjector<S extends Space, T extends Space> implements BSPTreeVisi
     }
 
     /** {@inheritDoc} */
+    @Override
     public void visitLeafNode(final BSPTree<S> node) {
         if (leaf == null) {
             // this is the first leaf we visit,

@@ -85,6 +85,7 @@ abstract class AbstractConvexHullGenerator2D implements ConvexHullGenerator2D {
     }
 
     /** {@inheritDoc} */
+    @Override
     public ConvexHull2D generate(final Collection<Vector2D> points)
             throws NullArgumentException, ConvergenceException {
         // check for null points

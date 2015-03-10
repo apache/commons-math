@@ -60,11 +60,13 @@ class EdgesBuilder implements BSPTreeVisitor<Sphere2D> {
     }
 
     /** {@inheritDoc} */
+    @Override
     public Order visitOrder(final BSPTree<Sphere2D> node) {
         return Order.MINUS_SUB_PLUS;
     }
 
     /** {@inheritDoc} */
+    @Override
     public void visitInternalNode(final BSPTree<Sphere2D> node) {
         nodeToEdgesList.put(node, new ArrayList<Edge>());
         @SuppressWarnings("unchecked")
@@ -78,6 +80,7 @@ class EdgesBuilder implements BSPTreeVisitor<Sphere2D> {
     }
 
     /** {@inheritDoc} */
+    @Override
     public void visitLeafNode(final BSPTree<Sphere2D> node) {
     }
 

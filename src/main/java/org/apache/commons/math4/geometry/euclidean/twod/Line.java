@@ -136,6 +136,7 @@ public class Line implements Hyperplane<Euclidean2D>, Embedding<Euclidean2D, Euc
     }
 
     /** {@inheritDoc} */
+    @Override
     public Line copySelf() {
         return new Line(this);
     }
@@ -241,12 +242,14 @@ public class Line implements Hyperplane<Euclidean2D>, Embedding<Euclidean2D, Euc
     }
 
     /** {@inheritDoc} */
+    @Override
     public Vector1D toSubSpace(final Point<Euclidean2D> point) {
         Vector2D p2 = (Vector2D) point;
         return new Vector1D(MathArrays.linearCombination(cos, p2.getX(), sin, p2.getY()));
     }
 
     /** {@inheritDoc} */
+    @Override
     public Vector2D toSpace(final Point<Euclidean1D> point) {
         final double abscissa = ((Vector1D) point).getX();
         return new Vector2D(MathArrays.linearCombination(abscissa, cos, -originOffset, sin),
@@ -270,6 +273,7 @@ public class Line implements Hyperplane<Euclidean2D>, Embedding<Euclidean2D, Euc
     /** {@inheritDoc}
      * @since 3.3
      */
+    @Override
     public Point<Euclidean2D> project(Point<Euclidean2D> point) {
         return toSpace(toSubSpace(point));
     }
@@ -277,11 +281,13 @@ public class Line implements Hyperplane<Euclidean2D>, Embedding<Euclidean2D, Euc
     /** {@inheritDoc}
      * @since 3.3
      */
+    @Override
     public double getTolerance() {
         return tolerance;
     }
 
     /** {@inheritDoc} */
+    @Override
     public SubLine wholeHyperplane() {
         return new SubLine(this, new IntervalsSet(tolerance));
     }
@@ -290,6 +296,7 @@ public class Line implements Hyperplane<Euclidean2D>, Embedding<Euclidean2D, Euc
      * @return a region containing the instance (really a {@link
      * PolygonsSet PolygonsSet} instance)
      */
+    @Override
     public PolygonsSet wholeSpace() {
         return new PolygonsSet(tolerance);
     }
@@ -318,12 +325,14 @@ public class Line implements Hyperplane<Euclidean2D>, Embedding<Euclidean2D, Euc
     }
 
     /** {@inheritDoc} */
+    @Override
     public double getOffset(final Point<Euclidean2D> point) {
         Vector2D p2 = (Vector2D) point;
         return MathArrays.linearCombination(sin, p2.getX(), -cos, p2.getY(), 1.0, originOffset);
     }
 
     /** {@inheritDoc} */
+    @Override
     public boolean sameOrientationAs(final Hyperplane<Euclidean2D> other) {
         final Line otherL = (Line) other;
         return MathArrays.linearCombination(sin, otherL.sin, cos, otherL.cos) >= 0.0;
@@ -439,16 +448,16 @@ public class Line implements Hyperplane<Euclidean2D>, Embedding<Euclidean2D, Euc
     private static class LineTransform implements Transform<Euclidean2D, Euclidean1D> {
 
         // CHECKSTYLE: stop JavadocVariable check
-        private double cXX;
-        private double cXY;
-        private double cX1;
-        private double cYX;
-        private double cYY;
-        private double cY1;
+        private final double cXX;
+        private final double cXY;
+        private final double cX1;
+        private final double cYX;
+        private final double cYY;
+        private final double cY1;
 
-        private double c1Y;
-        private double c1X;
-        private double c11;
+        private final double c1Y;
+        private final double c1X;
+        private final double c11;
         // CHECKSTYLE: resume JavadocVariable check
 
         /** Build an affine line transform from a n {@code AffineTransform}.
@@ -479,6 +488,7 @@ public class Line implements Hyperplane<Euclidean2D>, Embedding<Euclidean2D, Euc
         }
 
         /** {@inheritDoc} */
+        @Override
         public Vector2D apply(final Point<Euclidean2D> point) {
             final Vector2D p2D = (Vector2D) point;
             final double  x   = p2D.getX();
@@ -488,6 +498,7 @@ public class Line implements Hyperplane<Euclidean2D>, Embedding<Euclidean2D, Euc
         }
 
         /** {@inheritDoc} */
+        @Override
         public Line apply(final Hyperplane<Euclidean2D> hyperplane) {
             final Line   line    = (Line) hyperplane;
             final double rOffset = MathArrays.linearCombination(c1X, line.cos, c1Y, line.sin, c11, line.originOffset);
@@ -500,6 +511,7 @@ public class Line implements Hyperplane<Euclidean2D>, Embedding<Euclidean2D, Euc
         }
 
         /** {@inheritDoc} */
+        @Override
         public SubHyperplane<Euclidean1D> apply(final SubHyperplane<Euclidean1D> sub,
                                                 final Hyperplane<Euclidean2D> original,
                                                 final Hyperplane<Euclidean2D> transformed) {

@@ -50,11 +50,13 @@ public class Sphere2D implements Serializable, Space {
     }
 
     /** {@inheritDoc} */
+    @Override
     public int getDimension() {
         return 2;
     }
 
     /** {@inheritDoc} */
+    @Override
     public Sphere1D getSubSpace() {
         return Sphere1D.getInstance();
     }

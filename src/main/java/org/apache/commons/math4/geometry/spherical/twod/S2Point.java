@@ -152,11 +152,13 @@ public class S2Point implements Point<Sphere2D> {
     }
 
     /** {@inheritDoc} */
+    @Override
     public Space getSpace() {
         return Sphere2D.getInstance();
     }
 
     /** {@inheritDoc} */
+    @Override
     public boolean isNaN() {
         return Double.isNaN(theta) || Double.isNaN(phi);
     }
@@ -169,6 +171,7 @@ public class S2Point implements Point<Sphere2D> {
     }
 
     /** {@inheritDoc} */
+    @Override
     public double distance(final Point<Sphere2D> point) {
         return distance(this, (S2Point) point);
     }

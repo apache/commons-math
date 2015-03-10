@@ -1002,11 +1002,13 @@ public class PolygonsSet extends AbstractRegion<Euclidean2D, Euclidean1D> {
         }
 
         /** {@inheritDoc} */
+        @Override
         public Order visitOrder(final BSPTree<Euclidean2D> node) {
             return Order.MINUS_SUB_PLUS;
         }
 
         /** {@inheritDoc} */
+        @Override
         public void visitInternalNode(final BSPTree<Euclidean2D> node) {
             @SuppressWarnings("unchecked")
             final BoundaryAttribute<Euclidean2D> attribute = (BoundaryAttribute<Euclidean2D>) node.getAttribute();
@@ -1020,6 +1022,7 @@ public class PolygonsSet extends AbstractRegion<Euclidean2D, Euclidean1D> {
         }
 
         /** {@inheritDoc} */
+        @Override
         public void visitLeafNode(final BSPTree<Euclidean2D> node) {
         }
 

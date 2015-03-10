@@ -29,11 +29,13 @@ import org.apache.commons.math4.geometry.Space;
 class BoundaryBuilder<S extends Space> implements BSPTreeVisitor<S> {
 
     /** {@inheritDoc} */
+    @Override
     public Order visitOrder(BSPTree<S> node) {
         return Order.PLUS_MINUS_SUB;
     }
 
     /** {@inheritDoc} */
+    @Override
     public void visitInternalNode(BSPTree<S> node) {
 
         SubHyperplane<S> plusOutside = null;
@@ -89,6 +91,7 @@ class BoundaryBuilder<S extends Space> implements BSPTreeVisitor<S> {
     }
 
     /** {@inheritDoc} */
+    @Override
     public void visitLeafNode(BSPTree<S> node) {
     }
 

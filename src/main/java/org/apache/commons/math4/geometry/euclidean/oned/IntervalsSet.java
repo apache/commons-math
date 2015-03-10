@@ -511,6 +511,7 @@ public class IntervalsSet extends AbstractRegion<Euclidean1D, Euclidean1D> imple
      * </p>
      * @since 3.3
      */
+    @Override
     public Iterator<double[]> iterator() {
         return new SubIntervalsIterator();
     }
@@ -599,11 +600,13 @@ public class IntervalsSet extends AbstractRegion<Euclidean1D, Euclidean1D> imple
         }
 
         /** {@inheritDoc} */
+        @Override
         public boolean hasNext() {
             return pending != null;
         }
 
         /** {@inheritDoc} */
+        @Override
         public double[] next() {
             if (pending == null) {
                 throw new NoSuchElementException();
@@ -614,6 +617,7 @@ public class IntervalsSet extends AbstractRegion<Euclidean1D, Euclidean1D> imple
         }
 
         /** {@inheritDoc} */
+        @Override
         public void remove() {
             throw new UnsupportedOperationException();
         }

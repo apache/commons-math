@@ -38,13 +38,13 @@ import org.apache.commons.math4.util.FastMath;
 public class OutlineExtractor {
 
     /** Abscissa axis of the projection plane. */
-    private Vector3D u;
+    private final Vector3D u;
 
     /** Ordinate axis of the projection plane. */
-    private Vector3D v;
+    private final Vector3D v;
 
     /** Normal of the projection plane (viewing direction). */
-    private Vector3D w;
+    private final Vector3D w;
 
     /** Build an extractor for a specific projection plane.
      * @param u abscissa axis of the projection point
@@ -136,11 +136,13 @@ public class OutlineExtractor {
         }
 
         /** {@inheritDoc} */
+        @Override
         public Order visitOrder(final BSPTree<Euclidean3D> node) {
             return Order.MINUS_SUB_PLUS;
         }
 
         /** {@inheritDoc} */
+        @Override
         public void visitInternalNode(final BSPTree<Euclidean3D> node) {
             @SuppressWarnings("unchecked")
             final BoundaryAttribute<Euclidean3D> attribute =
@@ -154,6 +156,7 @@ public class OutlineExtractor {
         }
 
         /** {@inheritDoc} */
+        @Override
         public void visitLeafNode(final BSPTree<Euclidean3D> node) {
         }
 

@@ -51,6 +51,7 @@ public class Sphere1D implements Serializable, Space {
     }
 
     /** {@inheritDoc} */
+    @Override
     public int getDimension() {
         return 1;
     }
@@ -63,6 +64,7 @@ public class Sphere1D implements Serializable, Space {
      * @return nothing
      * @throws NoSubSpaceException in all cases
      */
+    @Override
     public Space getSubSpace() throws NoSubSpaceException {
         throw new NoSubSpaceException();
     }

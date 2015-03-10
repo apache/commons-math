@@ -117,6 +117,7 @@ public class Plane implements Hyperplane<Euclidean3D>, Embedding<Euclidean3D, Eu
      * shared (except for immutable objects).</p>
      * @return a new hyperplane, copy of the instance
      */
+    @Override
     public Plane copySelf() {
         return new Plane(this);
     }
@@ -215,6 +216,7 @@ public class Plane implements Hyperplane<Euclidean3D>, Embedding<Euclidean3D, Eu
     /** {@inheritDoc}
      * @since 3.3
      */
+    @Override
     public Point<Euclidean3D> project(Point<Euclidean3D> point) {
         return toSpace(toSubSpace(point));
     }
@@ -222,6 +224,7 @@ public class Plane implements Hyperplane<Euclidean3D>, Embedding<Euclidean3D, Eu
     /** {@inheritDoc}
      * @since 3.3
      */
+    @Override
     public double getTolerance() {
         return tolerance;
     }
@@ -270,6 +273,7 @@ public class Plane implements Hyperplane<Euclidean3D>, Embedding<Euclidean3D, Eu
      * org.apache.commons.math4.geometry.euclidean.twod.Vector2D Vector2D} instance)
      * @see #toSpace
      */
+    @Override
     public Vector2D toSubSpace(final Point<Euclidean3D> point) {
         final Vector3D p3D = (Vector3D) point;
         return new Vector2D(p3D.dotProduct(u), p3D.dotProduct(v));
@@ -281,6 +285,7 @@ public class Plane implements Hyperplane<Euclidean3D>, Embedding<Euclidean3D, Eu
      * @return 3D space point (really a {@link Vector3D Vector3D} instance)
      * @see #toSubSpace
      */
+    @Override
     public Vector3D toSpace(final Point<Euclidean2D> point) {
         final Vector2D p2D = (Vector2D) point;
         return new Vector3D(p2D.getX(), u, p2D.getY(), v, -originOffset, w);
@@ -422,6 +427,7 @@ public class Plane implements Hyperplane<Euclidean3D>, Embedding<Euclidean3D, Eu
     /** Build a region covering the whole hyperplane.
      * @return a region covering the whole hyperplane
      */
+    @Override
     public SubPlane wholeHyperplane() {
         return new SubPlane(this, new PolygonsSet(tolerance));
     }
@@ -430,6 +436,7 @@ public class Plane implements Hyperplane<Euclidean3D>, Embedding<Euclidean3D, Eu
      * @return a region containing the instance (really a {@link
      * PolyhedronsSet PolyhedronsSet} instance)
      */
+    @Override
     public PolyhedronsSet wholeSpace() {
         return new PolyhedronsSet(tolerance);
     }
@@ -472,6 +479,7 @@ public class Plane implements Hyperplane<Euclidean3D>, Embedding<Euclidean3D, Eu
      * @param point point to check
      * @return offset of the point
      */
+    @Override
     public double getOffset(final Point<Euclidean3D> point) {
         return ((Vector3D) point).dotProduct(w) + originOffset;
     }
@@ -481,6 +489,7 @@ public class Plane implements Hyperplane<Euclidean3D>, Embedding<Euclidean3D, Eu
      * @return true if the instance and the other hyperplane have
      * the same orientation
      */
+    @Override
     public boolean sameOrientationAs(final Hyperplane<Euclidean3D> other) {
         return (((Plane) other).w).dotProduct(w) > 0.0;
     }

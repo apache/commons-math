@@ -34,11 +34,13 @@ class BoundarySizeVisitor<S extends Space> implements BSPTreeVisitor<S> {
     }
 
     /** {@inheritDoc}*/
+    @Override
     public Order visitOrder(final BSPTree<S> node) {
         return Order.MINUS_SUB_PLUS;
     }
 
     /** {@inheritDoc}*/
+    @Override
     public void visitInternalNode(final BSPTree<S> node) {
         @SuppressWarnings("unchecked")
         final BoundaryAttribute<S> attribute =
@@ -52,6 +54,7 @@ class BoundarySizeVisitor<S extends Space> implements BSPTreeVisitor<S> {
     }
 
     /** {@inheritDoc}*/
+    @Override
     public void visitLeafNode(final BSPTree<S> node) {
     }
 

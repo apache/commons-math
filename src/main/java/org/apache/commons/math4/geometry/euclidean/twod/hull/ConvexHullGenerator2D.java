@@ -32,6 +32,7 @@ import org.apache.commons.math4.geometry.hull.ConvexHullGenerator;
 public interface ConvexHullGenerator2D extends ConvexHullGenerator<Euclidean2D, Vector2D> {
 
     /** {@inheritDoc} */
+    @Override
     ConvexHull2D generate(Collection<Vector2D> points) throws NullArgumentException, ConvergenceException;
 
 }

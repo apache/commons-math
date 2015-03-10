@@ -159,6 +159,7 @@ public class Line implements Embedding<Euclidean3D, Euclidean1D> {
     /** {@inheritDoc}
      * @see #getAbscissa(Vector3D)
      */
+    @Override
     public Vector1D toSubSpace(final Point<Euclidean3D> point) {
         return new Vector1D(getAbscissa((Vector3D) point));
     }
@@ -166,6 +167,7 @@ public class Line implements Embedding<Euclidean3D, Euclidean1D> {
     /** {@inheritDoc}
      * @see #pointAt(double)
      */
+    @Override
     public Vector3D toSpace(final Point<Euclidean1D> point) {
         return pointAt(((Vector1D) point).getX());
     }

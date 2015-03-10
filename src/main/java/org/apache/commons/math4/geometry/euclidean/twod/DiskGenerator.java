@@ -29,6 +29,7 @@ import org.apache.commons.math4.util.FastMath;
 public class DiskGenerator implements SupportBallGenerator<Euclidean2D, Vector2D> {
 
     /** {@inheritDoc} */
+    @Override
     public EnclosingBall<Euclidean2D, Vector2D> ballOnSupport(final List<Vector2D> support) {
 
         if (support.size() < 1) {

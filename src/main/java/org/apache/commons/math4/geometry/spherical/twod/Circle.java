@@ -102,6 +102,7 @@ public class Circle implements Hyperplane<Sphere2D>, Embedding<Sphere2D, Sphere1
     }
 
     /** {@inheritDoc} */
+    @Override
     public Circle copySelf() {
         return new Circle(this);
     }
@@ -134,11 +135,13 @@ public class Circle implements Hyperplane<Sphere2D>, Embedding<Sphere2D, Sphere1
     }
 
     /** {@inheritDoc} */
+    @Override
     public Point<Sphere2D> project(Point<Sphere2D> point) {
         return toSpace(toSubSpace(point));
     }
 
     /** {@inheritDoc} */
+    @Override
     public double getTolerance() {
         return tolerance;
     }
@@ -146,6 +149,7 @@ public class Circle implements Hyperplane<Sphere2D>, Embedding<Sphere2D, Sphere1
     /** {@inheritDoc}
      * @see #getPhase(Vector3D)
      */
+    @Override
     public S1Point toSubSpace(final Point<Sphere2D> point) {
         return new S1Point(getPhase(((S2Point) point).getVector()));
     }
@@ -167,6 +171,7 @@ public class Circle implements Hyperplane<Sphere2D>, Embedding<Sphere2D, Sphere1
     /** {@inheritDoc}
      * @see #getPointAt(double)
      */
+    @Override
     public S2Point toSpace(final Point<Sphere1D> point) {
         return new S2Point(getPointAt(((S1Point) point).getAlpha()));
     }
@@ -236,6 +241,7 @@ public class Circle implements Hyperplane<Sphere2D>, Embedding<Sphere2D, Sphere1
     }
 
     /** {@inheritDoc} */
+    @Override
     public SubCircle wholeHyperplane() {
         return new SubCircle(this, new ArcsSet(tolerance));
     }
@@ -244,6 +250,7 @@ public class Circle implements Hyperplane<Sphere2D>, Embedding<Sphere2D, Sphere1
      * @return a region containing the instance (really a {@link
      * SphericalPolygonsSet SphericalPolygonsSet} instance)
      */
+    @Override
     public SphericalPolygonsSet wholeSpace() {
         return new SphericalPolygonsSet(tolerance);
     }
@@ -251,6 +258,7 @@ public class Circle implements Hyperplane<Sphere2D>, Embedding<Sphere2D, Sphere1
     /** {@inheritDoc}
      * @see #getOffset(Vector3D)
      */
+    @Override
     public double getOffset(final Point<Sphere2D> point) {
         return getOffset(((S2Point) point).getVector());
     }
@@ -269,6 +277,7 @@ public class Circle implements Hyperplane<Sphere2D>, Embedding<Sphere2D, Sphere1
     }
 
     /** {@inheritDoc} */
+    @Override
     public boolean sameOrientationAs(final Hyperplane<Sphere2D> other) {
         final Circle otherC = (Circle) other;
         return Vector3D.dotProduct(pole, otherC.pole) >= 0.0;
@@ -300,11 +309,13 @@ public class Circle implements Hyperplane<Sphere2D>, Embedding<Sphere2D, Sphere1
         }
 
         /** {@inheritDoc} */
+        @Override
         public S2Point apply(final Point<Sphere2D> point) {
             return new S2Point(rotation.applyTo(((S2Point) point).getVector()));
         }
 
         /** {@inheritDoc} */
+        @Override
         public Circle apply(final Hyperplane<Sphere2D> hyperplane) {
             final Circle circle = (Circle) hyperplane;
             return new Circle(rotation.applyTo(circle.pole),
@@ -314,6 +325,7 @@ public class Circle implements Hyperplane<Sphere2D>, Embedding<Sphere2D, Sphere1
         }
 
         /** {@inheritDoc} */
+        @Override
         public SubHyperplane<Sphere1D> apply(final SubHyperplane<Sphere1D> sub,
                                              final Hyperplane<Sphere2D> original,
                                              final Hyperplane<Sphere2D> transformed) {

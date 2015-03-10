@@ -27,10 +27,10 @@ import org.apache.commons.math4.geometry.partitioning.Hyperplane;
 public class LimitAngle implements Hyperplane<Sphere1D> {
 
     /** Angle location. */
-    private S1Point location;
+    private final S1Point location;
 
     /** Orientation. */
-    private boolean direct;
+    private final boolean direct;
 
     /** Tolerance below which angles are considered identical. */
     private final double tolerance;
@@ -52,11 +52,13 @@ public class LimitAngle implements Hyperplane<Sphere1D> {
      * the instance.</p>
      * @return the instance itself
      */
+    @Override
     public LimitAngle copySelf() {
         return this;
     }
 
     /** {@inheritDoc} */
+    @Override
     public double getOffset(final Point<Sphere1D> point) {
         final double delta = ((S1Point) point).getAlpha() - location.getAlpha();
         return direct ? delta : -delta;
@@ -90,6 +92,7 @@ public class LimitAngle implements Hyperplane<Sphere1D> {
      * <em>not</em> be used otherwise.</p>
      * @return a dummy sub hyperplane
      */
+    @Override
     public SubLimitAngle wholeHyperplane() {
         return new SubLimitAngle(this, null);
     }
@@ -98,11 +101,13 @@ public class LimitAngle implements Hyperplane<Sphere1D> {
      * @return a region containing the instance (really an {@link
      * ArcsSet IntervalsSet} instance)
      */
+    @Override
     public ArcsSet wholeSpace() {
         return new ArcsSet(tolerance);
     }
 
     /** {@inheritDoc} */
+    @Override
     public boolean sameOrientationAs(final Hyperplane<Sphere1D> other) {
         return !(direct ^ ((LimitAngle) other).direct);
     }
@@ -115,11 +120,13 @@ public class LimitAngle implements Hyperplane<Sphere1D> {
     }
 
     /** {@inheritDoc} */
+    @Override
     public Point<Sphere1D> project(Point<Sphere1D> point) {
         return location;
     }
 
     /** {@inheritDoc} */
+    @Override
     public double getTolerance() {
         return tolerance;
     }

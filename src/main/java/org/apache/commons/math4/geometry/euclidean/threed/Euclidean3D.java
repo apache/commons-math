@@ -44,11 +44,13 @@ public class Euclidean3D implements Serializable, Space {
     }
 
     /** {@inheritDoc} */
+    @Override
     public int getDimension() {
         return 3;
     }
 
     /** {@inheritDoc} */
+    @Override
     public Euclidean2D getSubSpace() {
         return Euclidean2D.getInstance();
     }

@@ -206,6 +206,7 @@ public class RegionFactory<S extends Space> {
     /** BSP tree leaf merger computing union of two regions. */
     private class UnionMerger implements BSPTree.LeafMerger<S> {
         /** {@inheritDoc} */
+        @Override
         public BSPTree<S> merge(final BSPTree<S> leaf, final BSPTree<S> tree,
                                 final BSPTree<S> parentTree,
                                 final boolean isPlusChild, final boolean leafFromInstance) {
@@ -223,6 +224,7 @@ public class RegionFactory<S extends Space> {
     /** BSP tree leaf merger computing intersection of two regions. */
     private class IntersectionMerger implements BSPTree.LeafMerger<S> {
         /** {@inheritDoc} */
+        @Override
         public BSPTree<S> merge(final BSPTree<S> leaf, final BSPTree<S> tree,
                                 final BSPTree<S> parentTree,
                                 final boolean isPlusChild, final boolean leafFromInstance) {
@@ -240,6 +242,7 @@ public class RegionFactory<S extends Space> {
     /** BSP tree leaf merger computing symmetric difference (exclusive or) of two regions. */
     private class XorMerger implements BSPTree.LeafMerger<S> {
         /** {@inheritDoc} */
+        @Override
         public BSPTree<S> merge(final BSPTree<S> leaf, final BSPTree<S> tree,
                                 final BSPTree<S> parentTree, final boolean isPlusChild,
                                 final boolean leafFromInstance) {
@@ -272,6 +275,7 @@ public class RegionFactory<S extends Space> {
         }
 
         /** {@inheritDoc} */
+        @Override
         public BSPTree<S> merge(final BSPTree<S> leaf, final BSPTree<S> tree,
                                 final BSPTree<S> parentTree, final boolean isPlusChild,
                                 final boolean leafFromInstance) {
@@ -290,6 +294,7 @@ public class RegionFactory<S extends Space> {
         }
 
         /** {@inheritDoc} */
+        @Override
         public BSPTree<S> fixNode(final BSPTree<S> node) {
             // get a representative point in the degenerate cell
             final BSPTree<S> cell = node.pruneAroundConvexCell(Boolean.TRUE, Boolean.FALSE, null);
@@ -305,16 +310,19 @@ public class RegionFactory<S extends Space> {
     private class NodesCleaner implements  BSPTreeVisitor<S> {
 
         /** {@inheritDoc} */
+        @Override
         public Order visitOrder(final BSPTree<S> node) {
             return Order.PLUS_SUB_MINUS;
         }
 
         /** {@inheritDoc} */
+        @Override
         public void visitInternalNode(final BSPTree<S> node) {
             node.setAttribute(null);
         }
 
         /** {@inheritDoc} */
+        @Override
         public void visitLeafNode(final BSPTree<S> node) {
         }
 
@@ -334,6 +342,7 @@ public class RegionFactory<S extends Space> {
         }
 
         /** {@inheritDoc} */
+        @Override
         public BSPTree<S> fixNode(final BSPTree<S> node) {
             if (node.getPlus().getAttribute().equals(node.getMinus().getAttribute())) {
                 // no ambiguity

@@ -106,6 +106,7 @@ public class ConvexHull2D implements ConvexHull<Euclidean2D, Vector2D>, Serializ
     }
 
     /** {@inheritDoc} */
+    @Override
     public Vector2D[] getVertices() {
         return vertices.clone();
     }
@@ -157,6 +158,7 @@ public class ConvexHull2D implements ConvexHull<Euclidean2D, Vector2D>, Serializ
     }
 
     /** {@inheritDoc} */
+    @Override
     public Region<Euclidean2D> createRegion() throws InsufficientDataException {
         if (vertices.length < 3) {
             throw new InsufficientDataException();

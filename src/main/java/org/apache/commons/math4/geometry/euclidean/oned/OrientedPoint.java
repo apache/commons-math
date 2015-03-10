@@ -29,7 +29,7 @@ import org.apache.commons.math4.geometry.partitioning.Hyperplane;
 public class OrientedPoint implements Hyperplane<Euclidean1D> {
 
     /** Vector location. */
-    private Vector1D location;
+    private final Vector1D location;
 
     /** Orientation. */
     private boolean direct;
@@ -55,6 +55,7 @@ public class OrientedPoint implements Hyperplane<Euclidean1D> {
      * the instance.</p>
      * @return the instance itself
      */
+    @Override
     public OrientedPoint copySelf() {
         return this;
     }
@@ -68,6 +69,7 @@ public class OrientedPoint implements Hyperplane<Euclidean1D> {
     }
 
     /** {@inheritDoc} */
+    @Override
     public double getOffset(final Point<Euclidean1D> point) {
         final double delta = ((Vector1D) point).getX() - location.getX();
         return direct ? delta : -delta;
@@ -84,6 +86,7 @@ public class OrientedPoint implements Hyperplane<Euclidean1D> {
      * <em>not</em> be used otherwise.</p>
      * @return a dummy sub hyperplane
      */
+    @Override
     public SubOrientedPoint wholeHyperplane() {
         return new SubOrientedPoint(this, null);
     }
@@ -92,11 +95,13 @@ public class OrientedPoint implements Hyperplane<Euclidean1D> {
      * @return a region containing the instance (really an {@link
      * IntervalsSet IntervalsSet} instance)
      */
+    @Override
     public IntervalsSet wholeSpace() {
         return new IntervalsSet(tolerance);
     }
 
     /** {@inheritDoc} */
+    @Override
     public boolean sameOrientationAs(final Hyperplane<Euclidean1D> other) {
         return !(direct ^ ((OrientedPoint) other).direct);
     }
@@ -104,6 +109,7 @@ public class OrientedPoint implements Hyperplane<Euclidean1D> {
     /** {@inheritDoc}
      * @since 3.3
      */
+    @Override
     public Point<Euclidean1D> project(Point<Euclidean1D> point) {
         return location;
     }
@@ -111,6 +117,7 @@ public class OrientedPoint implements Hyperplane<Euclidean1D> {
     /** {@inheritDoc}
      * @since 3.3
      */
+    @Override
     public double getTolerance() {
         return tolerance;
     }

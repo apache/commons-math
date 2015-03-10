@@ -54,16 +54,19 @@ class PropertiesComputer implements BSPTreeVisitor<Sphere2D> {
     }
 
     /** {@inheritDoc} */
+    @Override
     public Order visitOrder(final BSPTree<Sphere2D> node) {
         return Order.MINUS_SUB_PLUS;
     }
 
     /** {@inheritDoc} */
+    @Override
     public void visitInternalNode(final BSPTree<Sphere2D> node) {
         // nothing to do here
     }
 
     /** {@inheritDoc} */
+    @Override
     public void visitLeafNode(final BSPTree<Sphere2D> node) {
         if ((Boolean) node.getAttribute()) {
 

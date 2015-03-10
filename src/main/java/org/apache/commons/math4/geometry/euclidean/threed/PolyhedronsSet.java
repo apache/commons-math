@@ -183,11 +183,13 @@ public class PolyhedronsSet extends AbstractRegion<Euclidean3D, Euclidean2D> {
         }
 
         /** {@inheritDoc} */
+        @Override
         public Order visitOrder(final BSPTree<Euclidean3D> node) {
             return Order.MINUS_SUB_PLUS;
         }
 
         /** {@inheritDoc} */
+        @Override
         public void visitInternalNode(final BSPTree<Euclidean3D> node) {
             @SuppressWarnings("unchecked")
             final BoundaryAttribute<Euclidean3D> attribute =
@@ -201,6 +203,7 @@ public class PolyhedronsSet extends AbstractRegion<Euclidean3D, Euclidean2D> {
         }
 
         /** {@inheritDoc} */
+        @Override
         public void visitLeafNode(final BSPTree<Euclidean3D> node) {
         }
 
@@ -345,10 +348,10 @@ public class PolyhedronsSet extends AbstractRegion<Euclidean3D, Euclidean2D> {
     private static class RotationTransform implements Transform<Euclidean3D, Euclidean2D> {
 
         /** Center point of the rotation. */
-        private Vector3D   center;
+        private final Vector3D   center;
 
         /** Vectorial rotation. */
-        private Rotation   rotation;
+        private final Rotation   rotation;
 
         /** Cached original hyperplane. */
         private Plane cachedOriginal;
@@ -366,17 +369,20 @@ public class PolyhedronsSet extends AbstractRegion<Euclidean3D, Euclidean2D> {
         }
 
         /** {@inheritDoc} */
+        @Override
         public Vector3D apply(final Point<Euclidean3D> point) {
             final Vector3D delta = ((Vector3D) point).subtract(center);
             return new Vector3D(1.0, center, 1.0, rotation.applyTo(delta));
         }
 
         /** {@inheritDoc} */
+        @Override
         public Plane apply(final Hyperplane<Euclidean3D> hyperplane) {
             return ((Plane) hyperplane).rotate(center, rotation);
         }
 
         /** {@inheritDoc} */
+        @Override
         public SubHyperplane<Euclidean2D> apply(final SubHyperplane<Euclidean2D> sub,
                                                 final Hyperplane<Euclidean3D> original,
                                                 final Hyperplane<Euclidean3D> transformed) {
@@ -418,7 +424,7 @@ public class PolyhedronsSet extends AbstractRegion<Euclidean3D, Euclidean2D> {
     private static class TranslationTransform implements Transform<Euclidean3D, Euclidean2D> {
 
         /** Translation vector. */
-        private Vector3D   translation;
+        private final Vector3D   translation;
 
         /** Cached original hyperplane. */
         private Plane cachedOriginal;
@@ -434,16 +440,19 @@ public class PolyhedronsSet extends AbstractRegion<Euclidean3D, Euclidean2D> {
         }
 
         /** {@inheritDoc} */
+        @Override
         public Vector3D apply(final Point<Euclidean3D> point) {
             return new Vector3D(1.0, (Vector3D) point, 1.0, translation);
         }
 
         /** {@inheritDoc} */
+        @Override
         public Plane apply(final Hyperplane<Euclidean3D> hyperplane) {
             return ((Plane) hyperplane).translate(translation);
         }
 
         /** {@inheritDoc} */
+        @Override
         public SubHyperplane<Euclidean2D> apply(final SubHyperplane<Euclidean2D> sub,
                                                 final Hyperplane<Euclidean3D> original,
                                                 final Hyperplane<Euclidean3D> transformed) {

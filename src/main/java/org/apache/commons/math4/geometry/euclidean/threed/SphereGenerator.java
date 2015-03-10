@@ -33,6 +33,7 @@ import org.apache.commons.math4.util.FastMath;
 public class SphereGenerator implements SupportBallGenerator<Euclidean3D, Vector3D> {
 
     /** {@inheritDoc} */
+    @Override
     public EnclosingBall<Euclidean3D, Vector3D> ballOnSupport(final List<Vector3D> support) {
 
         if (support.size() < 1) {

@@ -58,6 +58,7 @@ public class WelzlEncloser<S extends Space, P extends Point<S>> implements Enclo
     }
 
     /** {@inheritDoc} */
+    @Override
     public EnclosingBall<S, P> enclose(final Iterable<P> points) {
 
         if (points == null || !points.iterator().hasNext()) {
