@@ -18,8 +18,8 @@ package org.apache.commons.math4.util;
 
 import org.apache.commons.math4.distribution.IntegerDistribution;
 import org.apache.commons.math4.distribution.UniformIntegerDistribution;
-import org.apache.commons.math4.util.MathArrays;
-import org.apache.commons.math4.util.ResizableDoubleArray;
+import org.apache.commons.math4.exception.NullArgumentException;
+import org.apache.commons.math4.util.ResizableDoubleArray.ExpansionMode;
 import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
@@ -28,7 +28,6 @@ import org.junit.Test;
 
 /**
  * This class contains test cases for the ResizableDoubleArray.
- *
  */
 public class ResizableDoubleArrayTest extends DoubleArrayAbstractTest {
 
@@ -48,7 +47,7 @@ public class ResizableDoubleArrayTest extends DoubleArrayAbstractTest {
     public void testConstructors() {
         float defaultExpansionFactor = 2.0f;
         double defaultContractionCriteria = 2.5;
-        int defaultMode = ResizableDoubleArray.MULTIPLICATIVE_MODE;
+        ExpansionMode defaultMode = ResizableDoubleArray.ExpansionMode.MULTIPLICATIVE;
 
         ResizableDoubleArray testDa = new ResizableDoubleArray(2);
         Assert.assertEquals(0, testDa.getNumElements());
@@ -62,10 +61,10 @@ public class ResizableDoubleArrayTest extends DoubleArrayAbstractTest {
         } catch (IllegalArgumentException ex) {
             // expected
         }
-        
+
         testDa = new ResizableDoubleArray((double[]) null);
         Assert.assertEquals(0, testDa.getNumElements());
-        
+
         double[] initialArray = new double[] { 0, 1, 2 };        
         testDa = new ResizableDoubleArray(initialArray);
         Assert.assertEquals(3, testDa.getNumElements());
@@ -102,19 +101,17 @@ public class ResizableDoubleArrayTest extends DoubleArrayAbstractTest {
             // expected
         }
 
-        testDa = new ResizableDoubleArray(2, 2.0, 3.0,
-                ResizableDoubleArray.ExpansionMode.ADDITIVE);
+        testDa = new ResizableDoubleArray(2, 2.0, 3.0, ResizableDoubleArray.ExpansionMode.ADDITIVE);
         Assert.assertEquals(0, testDa.getNumElements());
         Assert.assertEquals(2, testDa.getCapacity());
         Assert.assertEquals(defaultExpansionFactor, testDa.getExpansionFactor(), 0);
         Assert.assertEquals(3.0f, testDa.getContractionCriterion(), 0);
-        Assert.assertEquals(ResizableDoubleArray.ADDITIVE_MODE,
-                testDa.getExpansionMode());
+        Assert.assertEquals(ResizableDoubleArray.ExpansionMode.ADDITIVE, testDa.getExpansionMode());
 
         try {
-            da = new ResizableDoubleArray(2, 2.0f, 2.5f, -1);
-            Assert.fail("Expecting IllegalArgumentException");
-        } catch (IllegalArgumentException ex) {
+            da = new ResizableDoubleArray(2, 2.0d, 2.5d, null);
+            Assert.fail("Expecting NullArgumentException");
+        } catch (NullArgumentException ex) {
             // expected
         }
 
@@ -127,7 +124,6 @@ public class ResizableDoubleArrayTest extends DoubleArrayAbstractTest {
         Assert.assertEquals(copyDa, testDa);
         Assert.assertEquals(testDa, copyDa);
     }
-
 
     @Test
     public void testSetElementArbitraryExpansion1() {
@@ -441,30 +437,6 @@ public class ResizableDoubleArrayTest extends DoubleArrayAbstractTest {
     }
 
     @Test
-    public void testMutators() {
-        ((ResizableDoubleArray)da).setContractionCriteria(10f);
-        Assert.assertEquals(10f, ((ResizableDoubleArray)da).getContractionCriterion(), 0);
-        ((ResizableDoubleArray)da).setExpansionFactor(8f);
-        Assert.assertEquals(8f, ((ResizableDoubleArray)da).getExpansionFactor(), 0);
-        try {
-            ((ResizableDoubleArray)da).setExpansionFactor(11f);  // greater than contractionCriteria
-            Assert.fail("Expecting IllegalArgumentException");
-        } catch (IllegalArgumentException ex) {
-            // expected
-        }
-        ((ResizableDoubleArray)da).setExpansionMode(
-                ResizableDoubleArray.ADDITIVE_MODE);
-        Assert.assertEquals(ResizableDoubleArray.ADDITIVE_MODE,
-                ((ResizableDoubleArray)da).getExpansionMode());
-        try {
-            ((ResizableDoubleArray)da).setExpansionMode(-1);
-            Assert.fail("Expecting IllegalArgumentException");
-        } catch (IllegalArgumentException ex) {
-            // expected
-        }
-    }
-
-    @Test
     public void testEqualsAndHashCode() throws Exception {
 
         // Wrong type
@@ -529,10 +501,6 @@ public class ResizableDoubleArrayTest extends DoubleArrayAbstractTest {
         fourth.addElement(18);
         verifyInequality(third, fourth);
 
-        // copy
-        ResizableDoubleArray.copy(fourth, fifth);
-        verifyEquality(fourth, fifth);
-
         // Copy constructor
         verifyEquality(fourth, new ResizableDoubleArray(fourth));
 
@@ -567,6 +535,7 @@ public class ResizableDoubleArrayTest extends DoubleArrayAbstractTest {
         }
 
         final MathArrays.Function add = new MathArrays.Function() {
+                @Override
                 public double evaluate(double[] a, int index, int num) {
                     double sum = 0;
                     final int max = index + num;
@@ -575,6 +544,7 @@ public class ResizableDoubleArrayTest extends DoubleArrayAbstractTest {
                     }
                     return sum;
                 }
+                @Override
                 public double evaluate(double[] a) {
                     return evaluate(a, 0, a.length);
                 }
