@@ -168,60 +168,71 @@ public class Vector2D implements Vector<Euclidean2D> {
     }
 
     /** {@inheritDoc} */
+    @Override
     public Space getSpace() {
         return Euclidean2D.getInstance();
     }
 
     /** {@inheritDoc} */
+    @Override
     public Vector2D getZero() {
         return ZERO;
     }
 
     /** {@inheritDoc} */
+    @Override
     public double getNorm1() {
         return FastMath.abs(x) + FastMath.abs(y);
     }
 
     /** {@inheritDoc} */
+    @Override
     public double getNorm() {
         return FastMath.sqrt (x * x + y * y);
     }
 
     /** {@inheritDoc} */
+    @Override
     public double getNormSq() {
         return x * x + y * y;
     }
 
     /** {@inheritDoc} */
+    @Override
     public double getNormInf() {
         return FastMath.max(FastMath.abs(x), FastMath.abs(y));
     }
 
     /** {@inheritDoc} */
+    @Override
     public Vector2D add(Vector<Euclidean2D> v) {
         Vector2D v2 = (Vector2D) v;
         return new Vector2D(x + v2.getX(), y + v2.getY());
     }
 
     /** {@inheritDoc} */
+    @Override
     public Vector2D add(double factor, Vector<Euclidean2D> v) {
         Vector2D v2 = (Vector2D) v;
         return new Vector2D(x + factor * v2.getX(), y + factor * v2.getY());
     }
 
     /** {@inheritDoc} */
+    @Override
     public Vector2D subtract(Vector<Euclidean2D> p) {
         Vector2D p3 = (Vector2D) p;
         return new Vector2D(x - p3.x, y - p3.y);
     }
 
     /** {@inheritDoc} */
+    @Override
     public Vector2D subtract(double factor, Vector<Euclidean2D> v) {
         Vector2D v2 = (Vector2D) v;
         return new Vector2D(x - factor * v2.getX(), y - factor * v2.getY());
     }
 
     /** {@inheritDoc} */
+    @Override
     public Vector2D normalize() throws MathArithmeticException {
         double s = getNorm();
         if (s == 0) {
@@ -265,26 +276,31 @@ public class Vector2D implements Vector<Euclidean2D> {
     }
 
     /** {@inheritDoc} */
+    @Override
     public Vector2D negate() {
         return new Vector2D(-x, -y);
     }
 
     /** {@inheritDoc} */
+    @Override
     public Vector2D scalarMultiply(double a) {
         return new Vector2D(a * x, a * y);
     }
 
     /** {@inheritDoc} */
+    @Override
     public boolean isNaN() {
         return Double.isNaN(x) || Double.isNaN(y);
     }
 
     /** {@inheritDoc} */
+    @Override
     public boolean isInfinite() {
         return !isNaN() && (Double.isInfinite(x) || Double.isInfinite(y));
     }
 
     /** {@inheritDoc} */
+    @Override
     public double distance1(Vector<Euclidean2D> p) {
         Vector2D p3 = (Vector2D) p;
         final double dx = FastMath.abs(p3.x - x);
@@ -292,13 +308,8 @@ public class Vector2D implements Vector<Euclidean2D> {
         return dx + dy;
     }
 
-    /** {@inheritDoc}
-     */
-    public double distance(Vector<Euclidean2D> p) {
-        return distance((Point<Euclidean2D>) p);
-    }
-
     /** {@inheritDoc} */
+    @Override
     public double distance(Point<Euclidean2D> p) {
         Vector2D p3 = (Vector2D) p;
         final double dx = p3.x - x;
@@ -307,6 +318,7 @@ public class Vector2D implements Vector<Euclidean2D> {
     }
 
     /** {@inheritDoc} */
+    @Override
     public double distanceInf(Vector<Euclidean2D> p) {
         Vector2D p3 = (Vector2D) p;
         final double dx = FastMath.abs(p3.x - x);
@@ -315,6 +327,7 @@ public class Vector2D implements Vector<Euclidean2D> {
     }
 
     /** {@inheritDoc} */
+    @Override
     public double distanceSq(Vector<Euclidean2D> p) {
         Vector2D p3 = (Vector2D) p;
         final double dx = p3.x - x;
@@ -323,6 +336,7 @@ public class Vector2D implements Vector<Euclidean2D> {
     }
 
     /** {@inheritDoc} */
+    @Override
     public double dotProduct(final Vector<Euclidean2D> v) {
         final Vector2D v2 = (Vector2D) v;
         return MathArrays.linearCombination(x, v2.x, y, v2.y);
@@ -453,6 +467,7 @@ public class Vector2D implements Vector<Euclidean2D> {
     }
 
     /** {@inheritDoc} */
+    @Override
     public String toString(final NumberFormat format) {
         return new Vector2DFormat(format).format(this);
     }

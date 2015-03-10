@@ -223,33 +223,39 @@ public class Vector3D implements Serializable, Vector<Euclidean3D> {
     }
 
     /** {@inheritDoc} */
+    @Override
     public Space getSpace() {
         return Euclidean3D.getInstance();
     }
 
     /** {@inheritDoc} */
+    @Override
     public Vector3D getZero() {
         return ZERO;
     }
 
     /** {@inheritDoc} */
+    @Override
     public double getNorm1() {
         return FastMath.abs(x) + FastMath.abs(y) + FastMath.abs(z);
     }
 
     /** {@inheritDoc} */
+    @Override
     public double getNorm() {
         // there are no cancellation problems here, so we use the straightforward formula
         return FastMath.sqrt (x * x + y * y + z * z);
     }
 
     /** {@inheritDoc} */
+    @Override
     public double getNormSq() {
         // there are no cancellation problems here, so we use the straightforward formula
         return x * x + y * y + z * z;
     }
 
     /** {@inheritDoc} */
+    @Override
     public double getNormInf() {
         return FastMath.max(FastMath.max(FastMath.abs(x), FastMath.abs(y)), FastMath.abs(z));
     }
@@ -271,28 +277,33 @@ public class Vector3D implements Serializable, Vector<Euclidean3D> {
     }
 
     /** {@inheritDoc} */
+    @Override
     public Vector3D add(final Vector<Euclidean3D> v) {
         final Vector3D v3 = (Vector3D) v;
         return new Vector3D(x + v3.x, y + v3.y, z + v3.z);
     }
 
     /** {@inheritDoc} */
+    @Override
     public Vector3D add(double factor, final Vector<Euclidean3D> v) {
         return new Vector3D(1, this, factor, (Vector3D) v);
     }
 
     /** {@inheritDoc} */
+    @Override
     public Vector3D subtract(final Vector<Euclidean3D> v) {
         final Vector3D v3 = (Vector3D) v;
         return new Vector3D(x - v3.x, y - v3.y, z - v3.z);
     }
 
     /** {@inheritDoc} */
+    @Override
     public Vector3D subtract(final double factor, final Vector<Euclidean3D> v) {
         return new Vector3D(1, this, -factor, (Vector3D) v);
     }
 
     /** {@inheritDoc} */
+    @Override
     public Vector3D normalize() throws MathArithmeticException {
         double s = getNorm();
         if (s == 0) {
@@ -370,21 +381,25 @@ public class Vector3D implements Serializable, Vector<Euclidean3D> {
     }
 
     /** {@inheritDoc} */
+    @Override
     public Vector3D negate() {
         return new Vector3D(-x, -y, -z);
     }
 
     /** {@inheritDoc} */
+    @Override
     public Vector3D scalarMultiply(double a) {
         return new Vector3D(a * x, a * y, a * z);
     }
 
     /** {@inheritDoc} */
+    @Override
     public boolean isNaN() {
         return Double.isNaN(x) || Double.isNaN(y) || Double.isNaN(z);
     }
 
     /** {@inheritDoc} */
+    @Override
     public boolean isInfinite() {
         return !isNaN() && (Double.isInfinite(x) || Double.isInfinite(y) || Double.isInfinite(z));
     }
@@ -449,6 +464,7 @@ public class Vector3D implements Serializable, Vector<Euclidean3D> {
      * </p>
      * @see MathArrays#linearCombination(double, double, double, double, double, double)
      */
+    @Override
     public double dotProduct(final Vector<Euclidean3D> v) {
         final Vector3D v3 = (Vector3D) v;
         return MathArrays.linearCombination(x, v3.x, y, v3.y, z, v3.z);
@@ -466,6 +482,7 @@ public class Vector3D implements Serializable, Vector<Euclidean3D> {
     }
 
     /** {@inheritDoc} */
+    @Override
     public double distance1(Vector<Euclidean3D> v) {
         final Vector3D v3 = (Vector3D) v;
         final double dx = FastMath.abs(v3.x - x);
@@ -475,11 +492,7 @@ public class Vector3D implements Serializable, Vector<Euclidean3D> {
     }
 
     /** {@inheritDoc} */
-    public double distance(Vector<Euclidean3D> v) {
-        return distance((Point<Euclidean3D>) v);
-    }
-
-    /** {@inheritDoc} */
+    @Override
     public double distance(Point<Euclidean3D> v) {
         final Vector3D v3 = (Vector3D) v;
         final double dx = v3.x - x;
@@ -489,6 +502,7 @@ public class Vector3D implements Serializable, Vector<Euclidean3D> {
     }
 
     /** {@inheritDoc} */
+    @Override
     public double distanceInf(Vector<Euclidean3D> v) {
         final Vector3D v3 = (Vector3D) v;
         final double dx = FastMath.abs(v3.x - x);
@@ -498,6 +512,7 @@ public class Vector3D implements Serializable, Vector<Euclidean3D> {
     }
 
     /** {@inheritDoc} */
+    @Override
     public double distanceSq(Vector<Euclidean3D> v) {
         final Vector3D v3 = (Vector3D) v;
         final double dx = v3.x - x;
@@ -581,6 +596,7 @@ public class Vector3D implements Serializable, Vector<Euclidean3D> {
     }
 
     /** {@inheritDoc} */
+    @Override
     public String toString(final NumberFormat format) {
         return new Vector3DFormat(format).format(this);
     }
