@@ -173,6 +173,7 @@ public class PoissonDistribution extends AbstractIntegerDistribution {
     }
 
     /** {@inheritDoc} */
+    @Override
     public double probability(int x) {
         final double logProbability = logProbability(x);
         return logProbability == Double.NEGATIVE_INFINITY ? 0 : FastMath.exp(logProbability);
@@ -195,6 +196,7 @@ public class PoissonDistribution extends AbstractIntegerDistribution {
     }
 
     /** {@inheritDoc} */
+    @Override
     public double cumulativeProbability(int x) {
         if (x < 0) {
             return 0;
@@ -227,6 +229,7 @@ public class PoissonDistribution extends AbstractIntegerDistribution {
      *
      * For mean parameter {@code p}, the mean is {@code p}.
      */
+    @Override
     public double getNumericalMean() {
         return getMean();
     }
@@ -236,6 +239,7 @@ public class PoissonDistribution extends AbstractIntegerDistribution {
      *
      * For mean parameter {@code p}, the variance is {@code p}.
      */
+    @Override
     public double getNumericalVariance() {
         return getMean();
     }
@@ -247,6 +251,7 @@ public class PoissonDistribution extends AbstractIntegerDistribution {
      *
      * @return lower bound of the support (always 0)
      */
+    @Override
     public int getSupportLowerBound() {
         return 0;
     }
@@ -261,6 +266,7 @@ public class PoissonDistribution extends AbstractIntegerDistribution {
      * @return upper bound of the support (always {@code Integer.MAX_VALUE} for
      * positive infinity)
      */
+    @Override
     public int getSupportUpperBound() {
         return Integer.MAX_VALUE;
     }
@@ -272,6 +278,7 @@ public class PoissonDistribution extends AbstractIntegerDistribution {
      *
      * @return {@code true}
      */
+    @Override
     public boolean isSupportConnected() {
         return true;
     }
@@ -283,7 +290,7 @@ public class PoissonDistribution extends AbstractIntegerDistribution {
      * <ul>
      *  <li>For small means, uses simulation of a Poisson process
      *   using Uniform deviates, as described
-     *   <a href="http://irmi.epfl.ch/cmos/Pmmi/interactive/rng7.htm"> here</a>.
+     *   <a href="http://mathaa.epfl.ch/cours/PMMI2001/interactive/rng7.htm"> here</a>.
      *   The Poisson process (and hence value returned) is bounded by 1000 * mean.
      *  </li>
      *  <li>For large means, uses the rejection algorithm described in
