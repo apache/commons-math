@@ -54,6 +54,9 @@ If the output is not quite correct, check for invisible trailing spaces!
     </release>
 
     <release version="3.5" date="2015-01-11" description="">
+      <action dev="tn" type="fix" issue="MATH-1209" due-to="Jonathan Ogilvie">
+        Fixed link to algorithm description in "PoissonDistribution#sample()".
+      </action>    
       <action dev="psteitz" type="fix" issue="MATH-1208">
         EmpiricalDistribution cumulativeProbability can return NaN when evaluated within a constant bin.
       </action>

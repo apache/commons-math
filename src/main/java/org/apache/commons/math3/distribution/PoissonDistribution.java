@@ -283,7 +283,7 @@ public class PoissonDistribution extends AbstractIntegerDistribution {
      * <ul>
      *  <li>For small means, uses simulation of a Poisson process
      *   using Uniform deviates, as described
-     *   <a href="http://irmi.epfl.ch/cmos/Pmmi/interactive/rng7.htm"> here</a>.
+     *   <a href="http://mathaa.epfl.ch/cours/PMMI2001/interactive/rng7.htm"> here</a>.
      *   The Poisson process (and hence value returned) is bounded by 1000 * mean.
      *  </li>
      *  <li>For large means, uses the rejection algorithm described in
