@@ -401,7 +401,7 @@ public class EmpiricalDistribution extends AbstractRealDistribution {
         // Set up grid
         min = sampleStats.getMin();
         max = sampleStats.getMax();
-        delta = (max - min)/(binCount);
+        delta = (max - min)/binCount;
 
         // Initialize binStats ArrayList
         if (!binStats.isEmpty()) {
@@ -713,22 +713,6 @@ public class EmpiricalDistribution extends AbstractRealDistribution {
     @Override
     public double getSupportUpperBound() {
         return max;
-    }
-
-    /**
-     * {@inheritDoc}
-     * @since 3.1
-     */
-    public boolean isSupportLowerBoundInclusive() {
-        return true;
-    }
-
-    /**
-     * {@inheritDoc}
-     * @since 3.1
-     */
-    public boolean isSupportUpperBoundInclusive() {
-        return true;
     }
 
     /**
