@@ -223,6 +223,7 @@ public class GammaDistribution extends AbstractRealDistribution {
     }
 
     /** {@inheritDoc} */
+    @Override
     public double density(double x) {
        /* The present method must return the value of
         *
@@ -322,6 +323,7 @@ public class GammaDistribution extends AbstractRealDistribution {
      *  </li>
      * </ul>
      */
+    @Override
     public double cumulativeProbability(double x) {
         double ret;
 
@@ -346,6 +348,7 @@ public class GammaDistribution extends AbstractRealDistribution {
      * For shape parameter {@code alpha} and scale parameter {@code beta}, the
      * mean is {@code alpha * beta}.
      */
+    @Override
     public double getNumericalMean() {
         return shape * scale;
     }
@@ -358,6 +361,7 @@ public class GammaDistribution extends AbstractRealDistribution {
      *
      * @return {@inheritDoc}
      */
+    @Override
     public double getNumericalVariance() {
         return shape * scale * scale;
     }
@@ -369,6 +373,7 @@ public class GammaDistribution extends AbstractRealDistribution {
      *
      * @return lower bound of the support (always 0)
      */
+    @Override
     public double getSupportLowerBound() {
         return 0;
     }
@@ -381,6 +386,7 @@ public class GammaDistribution extends AbstractRealDistribution {
      *
      * @return upper bound of the support (always Double.POSITIVE_INFINITY)
      */
+    @Override
     public double getSupportUpperBound() {
         return Double.POSITIVE_INFINITY;
     }
@@ -392,6 +398,7 @@ public class GammaDistribution extends AbstractRealDistribution {
      *
      * @return {@code true}
      */
+    @Override
     public boolean isSupportConnected() {
         return true;
     }

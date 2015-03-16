@@ -23,7 +23,7 @@ import org.apache.commons.math4.exception.OutOfRangeException;
  * Interface for distributions on the integers.
  */
 public interface IntegerDistribution {
-    
+
     /**
      * For a random variable {@code X} whose values are distributed according to
      * this distribution, this method returns {@code log(P(X = x))}, where
@@ -39,7 +39,7 @@ public interface IntegerDistribution {
      * @since 4.0
      */
     double logProbability(int x);
-    
+
     /**
      * For a random variable {@code X} whose values are distributed according
      * to this distribution, this method returns {@code P(X = x)}. In other

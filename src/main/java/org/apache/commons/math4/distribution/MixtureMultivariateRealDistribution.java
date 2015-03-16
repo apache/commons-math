@@ -103,6 +103,7 @@ public class MixtureMultivariateRealDistribution<T extends MultivariateRealDistr
     }
 
     /** {@inheritDoc} */
+    @Override
     public double density(final double[] values) {
         double p = 0;
         for (int i = 0; i < weight.length; i++) {

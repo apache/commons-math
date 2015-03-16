@@ -144,6 +144,7 @@ public class TriangularDistribution extends AbstractRealDistribution {
      * <li>{@code 0} otherwise.
      * </ul>
      */
+    @Override
     public double density(double x) {
         if (x < a) {
             return 0;
@@ -177,6 +178,7 @@ public class TriangularDistribution extends AbstractRealDistribution {
      * <li>{@code 1} if {@code x > b}.</li>
      * </ul>
      */
+    @Override
     public double cumulativeProbability(double x)  {
         if (x < a) {
             return 0;
@@ -203,6 +205,7 @@ public class TriangularDistribution extends AbstractRealDistribution {
      * For lower limit {@code a}, upper limit {@code b}, and mode {@code c},
      * the mean is {@code (a + b + c) / 3}.
      */
+    @Override
     public double getNumericalMean() {
         return (a + b + c) / 3;
     }
@@ -213,6 +216,7 @@ public class TriangularDistribution extends AbstractRealDistribution {
      * For lower limit {@code a}, upper limit {@code b}, and mode {@code c},
      * the variance is {@code (a^2 + b^2 + c^2 - a * b - a * c - b * c) / 18}.
      */
+    @Override
     public double getNumericalVariance() {
         return (a * a + b * b + c * c - a * b - a * c - b * c) / 18;
     }
@@ -225,6 +229,7 @@ public class TriangularDistribution extends AbstractRealDistribution {
      *
      * @return lower bound of the support
      */
+    @Override
     public double getSupportLowerBound() {
         return a;
     }
@@ -237,6 +242,7 @@ public class TriangularDistribution extends AbstractRealDistribution {
      *
      * @return upper bound of the support
      */
+    @Override
     public double getSupportUpperBound() {
         return b;
     }
@@ -248,6 +254,7 @@ public class TriangularDistribution extends AbstractRealDistribution {
      *
      * @return {@code true}
      */
+    @Override
     public boolean isSupportConnected() {
         return true;
     }

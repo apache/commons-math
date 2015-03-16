@@ -417,6 +417,7 @@ public class MultivariateNormalMixtureExpectationMaximization {
          * @param other The other row
          * @return int for sorting
          */
+        @Override
         public int compareTo(final DataRow other) {
             return mean.compareTo(other.mean);
         }

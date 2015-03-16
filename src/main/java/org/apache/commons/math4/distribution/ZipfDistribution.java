@@ -112,6 +112,7 @@ public class ZipfDistribution extends AbstractIntegerDistribution {
     }
 
     /** {@inheritDoc} */
+    @Override
     public double probability(final int x) {
         if (x <= 0 || x > numberOfElements) {
             return 0.0;
@@ -131,6 +132,7 @@ public class ZipfDistribution extends AbstractIntegerDistribution {
     }
 
     /** {@inheritDoc} */
+    @Override
     public double cumulativeProbability(final int x) {
         if (x <= 0) {
             return 0.0;
@@ -151,6 +153,7 @@ public class ZipfDistribution extends AbstractIntegerDistribution {
      *  <li>{@code Hs = generalizedHarmonic(N, s)}.</li>
      * </ul>
      */
+    @Override
     public double getNumericalMean() {
         if (!numericalMeanIsCalculated) {
             numericalMean = calculateNumericalMean();
@@ -185,6 +188,7 @@ public class ZipfDistribution extends AbstractIntegerDistribution {
      *  <li>{@code Hs = generalizedHarmonic(N, s)}.</li>
      * </ul>
      */
+    @Override
     public double getNumericalVariance() {
         if (!numericalVarianceIsCalculated) {
             numericalVariance = calculateNumericalVariance();
@@ -233,6 +237,7 @@ public class ZipfDistribution extends AbstractIntegerDistribution {
      *
      * @return lower bound of the support (always 1)
      */
+    @Override
     public int getSupportLowerBound() {
         return 1;
     }
@@ -244,6 +249,7 @@ public class ZipfDistribution extends AbstractIntegerDistribution {
      *
      * @return upper bound of the support
      */
+    @Override
     public int getSupportUpperBound() {
         return getNumberOfElements();
     }
@@ -255,6 +261,7 @@ public class ZipfDistribution extends AbstractIntegerDistribution {
      *
      * @return {@code true}
      */
+    @Override
     public boolean isSupportConnected() {
         return true;
     }

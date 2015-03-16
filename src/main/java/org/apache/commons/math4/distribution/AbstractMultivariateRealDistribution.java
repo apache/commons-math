@@ -43,19 +43,23 @@ public abstract class AbstractMultivariateRealDistribution
     }
 
     /** {@inheritDoc} */
+    @Override
     public void reseedRandomGenerator(long seed) {
         random.setSeed(seed);
     }
 
     /** {@inheritDoc} */
+    @Override
     public int getDimension() {
         return dimension;
     }
 
     /** {@inheritDoc} */
+    @Override
     public abstract double[] sample();
 
     /** {@inheritDoc} */
+    @Override
     public double[][] sample(final int sampleSize) {
         if (sampleSize <= 0) {
             throw new NotStrictlyPositiveException(LocalizedFormats.NUMBER_OF_SAMPLES,

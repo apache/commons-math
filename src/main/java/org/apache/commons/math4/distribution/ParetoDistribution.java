@@ -18,7 +18,6 @@
 package org.apache.commons.math4.distribution;
 
 import org.apache.commons.math4.exception.NotStrictlyPositiveException;
-import org.apache.commons.math4.exception.NumberIsTooLargeException;
 import org.apache.commons.math4.exception.util.LocalizedFormats;
 import org.apache.commons.math4.random.RandomGenerator;
 import org.apache.commons.math4.random.Well19937c;
@@ -180,6 +179,7 @@ public class ParetoDistribution extends AbstractRealDistribution {
      * <li>{@code α * k^α / x^(α + 1)} otherwise.</li>
      * </ul>
      */
+    @Override
     public double density(double x) {
         if (x < scale) {
             return 0;
@@ -208,6 +208,7 @@ public class ParetoDistribution extends AbstractRealDistribution {
      * <li>{@code 1 - (k / x)^α} otherwise.</li>
      * </ul>
      */
+    @Override
     public double cumulativeProbability(double x)  {
         if (x <= scale) {
             return 0;
@@ -230,6 +231,7 @@ public class ParetoDistribution extends AbstractRealDistribution {
      * <li>{@code α * k / (α - 1)} otherwise.</li>
      * </ul>
      */
+    @Override
     public double getNumericalMean() {
         if (shape <= 1) {
             return Double.POSITIVE_INFINITY;
@@ -246,6 +248,7 @@ public class ParetoDistribution extends AbstractRealDistribution {
      * <li>{@code k^2 * α / ((α - 1)^2 * (α - 2))} otherwise.</li>
      * </ul>
      */
+    @Override
     public double getNumericalVariance() {
         if (shape <= 2) {
             return Double.POSITIVE_INFINITY;
@@ -261,6 +264,7 @@ public class ParetoDistribution extends AbstractRealDistribution {
      *
      * @return lower bound of the support
      */
+    @Override
     public double getSupportLowerBound() {
         return scale;
     }
@@ -272,6 +276,7 @@ public class ParetoDistribution extends AbstractRealDistribution {
      *
      * @return upper bound of the support (always {@code Double.POSITIVE_INFINITY})
      */
+    @Override
     public double getSupportUpperBound() {
         return Double.POSITIVE_INFINITY;
     }
@@ -283,6 +288,7 @@ public class ParetoDistribution extends AbstractRealDistribution {
      *
      * @return {@code true}
      */
+    @Override
     public boolean isSupportConnected() {
         return true;
     }

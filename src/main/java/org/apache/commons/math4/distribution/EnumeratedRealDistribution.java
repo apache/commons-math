@@ -125,6 +125,7 @@ public class EnumeratedRealDistribution extends AbstractRealDistribution {
      * @param x the point at which the PMF is evaluated
      * @return the value of the probability mass function at point {@code x}
      */
+    @Override
     public double density(final double x) {
         return probability(x);
     }
@@ -132,6 +133,7 @@ public class EnumeratedRealDistribution extends AbstractRealDistribution {
     /**
      * {@inheritDoc}
      */
+    @Override
     public double cumulativeProbability(final double x) {
         double probability = 0;
 
@@ -176,6 +178,7 @@ public class EnumeratedRealDistribution extends AbstractRealDistribution {
      *
      * @return {@code sum(singletons[i] * probabilities[i])}
      */
+    @Override
     public double getNumericalMean() {
         double mean = 0;
 
@@ -191,6 +194,7 @@ public class EnumeratedRealDistribution extends AbstractRealDistribution {
      *
      * @return {@code sum((singletons[i] - mean) ^ 2 * probabilities[i])}
      */
+    @Override
     public double getNumericalVariance() {
         double mean = 0;
         double meanOfSquares = 0;
@@ -210,6 +214,7 @@ public class EnumeratedRealDistribution extends AbstractRealDistribution {
      *
      * @return the lowest value with non-zero probability.
      */
+    @Override
     public double getSupportLowerBound() {
         double min = Double.POSITIVE_INFINITY;
         for (final Pair<Double, Double> sample : innerDistribution.getPmf()) {
@@ -228,6 +233,7 @@ public class EnumeratedRealDistribution extends AbstractRealDistribution {
      *
      * @return the highest value with non-zero probability.
      */
+    @Override
     public double getSupportUpperBound() {
         double max = Double.NEGATIVE_INFINITY;
         for (final Pair<Double, Double> sample : innerDistribution.getPmf()) {
@@ -246,6 +252,7 @@ public class EnumeratedRealDistribution extends AbstractRealDistribution {
      *
      * @return {@code true}
      */
+    @Override
     public boolean isSupportConnected() {
         return true;
     }

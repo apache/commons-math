@@ -104,6 +104,7 @@ public class BinomialDistribution extends AbstractIntegerDistribution {
     }
 
     /** {@inheritDoc} */
+    @Override
     public double probability(int x) {
         final double logProbability = logProbability(x);
         return logProbability == Double.NEGATIVE_INFINITY ? 0 : FastMath.exp(logProbability);
@@ -127,6 +128,7 @@ public class BinomialDistribution extends AbstractIntegerDistribution {
     }
 
     /** {@inheritDoc} */
+    @Override
     public double cumulativeProbability(int x) {
         double ret;
         if (x < 0) {
@@ -146,6 +148,7 @@ public class BinomialDistribution extends AbstractIntegerDistribution {
      * For {@code n} trials and probability parameter {@code p}, the mean is
      * {@code n * p}.
      */
+    @Override
     public double getNumericalMean() {
         return numberOfTrials * probabilityOfSuccess;
     }
@@ -156,6 +159,7 @@ public class BinomialDistribution extends AbstractIntegerDistribution {
      * For {@code n} trials and probability parameter {@code p}, the variance is
      * {@code n * p * (1 - p)}.
      */
+    @Override
     public double getNumericalVariance() {
         final double p = probabilityOfSuccess;
         return numberOfTrials * p * (1 - p);
@@ -169,6 +173,7 @@ public class BinomialDistribution extends AbstractIntegerDistribution {
      *
      * @return lower bound of the support (0 or the number of trials)
      */
+    @Override
     public int getSupportLowerBound() {
         return probabilityOfSuccess < 1.0 ? 0 : numberOfTrials;
     }
@@ -181,6 +186,7 @@ public class BinomialDistribution extends AbstractIntegerDistribution {
      *
      * @return upper bound of the support (number of trials or 0)
      */
+    @Override
     public int getSupportUpperBound() {
         return probabilityOfSuccess > 0.0 ? numberOfTrials : 0;
     }
@@ -192,6 +198,7 @@ public class BinomialDistribution extends AbstractIntegerDistribution {
      *
      * @return {@code true}
      */
+    @Override
     public boolean isSupportConnected() {
         return true;
     }

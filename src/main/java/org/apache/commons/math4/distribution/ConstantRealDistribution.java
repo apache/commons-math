@@ -43,11 +43,13 @@ public class ConstantRealDistribution extends AbstractRealDistribution {
     }
 
     /** {@inheritDoc} */
+    @Override
     public double density(double x) {
         return x == value ? 1 : 0;
     }
 
     /** {@inheritDoc} */
+    @Override
     public double cumulativeProbability(double x)  {
         return x < value ? 0 : 1;
     }
@@ -64,6 +66,7 @@ public class ConstantRealDistribution extends AbstractRealDistribution {
     /**
      * {@inheritDoc}
      */
+    @Override
     public double getNumericalMean() {
         return value;
     }
@@ -71,6 +74,7 @@ public class ConstantRealDistribution extends AbstractRealDistribution {
     /**
      * {@inheritDoc}
      */
+    @Override
     public double getNumericalVariance() {
         return 0;
     }
@@ -78,6 +82,7 @@ public class ConstantRealDistribution extends AbstractRealDistribution {
     /**
      * {@inheritDoc}
      */
+    @Override
     public double getSupportLowerBound() {
         return value;
     }
@@ -85,6 +90,7 @@ public class ConstantRealDistribution extends AbstractRealDistribution {
     /**
      * {@inheritDoc}
      */
+    @Override
     public double getSupportUpperBound() {
         return value;
     }
@@ -92,6 +98,7 @@ public class ConstantRealDistribution extends AbstractRealDistribution {
     /**
      * {@inheritDoc}
      */
+    @Override
     public boolean isSupportConnected() {
         return true;
     }

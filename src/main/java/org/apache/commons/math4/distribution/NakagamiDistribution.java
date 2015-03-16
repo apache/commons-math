@@ -136,6 +136,7 @@ public class NakagamiDistribution extends AbstractRealDistribution {
     }
 
     /** {@inheritDoc} */
+    @Override
     public double density(double x) {
         if (x <= 0) {
             return 0.0;
@@ -145,32 +146,38 @@ public class NakagamiDistribution extends AbstractRealDistribution {
     }
 
     /** {@inheritDoc} */
+    @Override
     public double cumulativeProbability(double x) {
         return Gamma.regularizedGammaP(mu, mu * x * x / omega);
     }
 
     /** {@inheritDoc} */
+    @Override
     public double getNumericalMean() {
         return Gamma.gamma(mu + 0.5) / Gamma.gamma(mu) * FastMath.sqrt(omega / mu);
     }
 
     /** {@inheritDoc} */
+    @Override
     public double getNumericalVariance() {
         double v = Gamma.gamma(mu + 0.5) / Gamma.gamma(mu);
         return omega * (1 - 1 / mu * v * v);
     }
 
     /** {@inheritDoc} */
+    @Override
     public double getSupportLowerBound() {
         return 0;
     }
 
     /** {@inheritDoc} */
+    @Override
     public double getSupportUpperBound() {
         return Double.POSITIVE_INFINITY;
     }
 
     /** {@inheritDoc} */
+    @Override
     public boolean isSupportConnected() {
         return true;
     }

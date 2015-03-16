@@ -104,6 +104,7 @@ public class GumbelDistribution extends AbstractRealDistribution {
     }
 
     /** {@inheritDoc} */
+    @Override
     public double density(double x) {
         final double z = (x - mu) / beta;
         final double t = FastMath.exp(-z);
@@ -111,6 +112,7 @@ public class GumbelDistribution extends AbstractRealDistribution {
     }
 
     /** {@inheritDoc} */
+    @Override
     public double cumulativeProbability(double x) {
         final double z = (x - mu) / beta;
         return FastMath.exp(-FastMath.exp(-z));
@@ -129,26 +131,31 @@ public class GumbelDistribution extends AbstractRealDistribution {
     }
 
     /** {@inheritDoc} */
+    @Override
     public double getNumericalMean() {
         return mu + EULER * beta;
     }
 
     /** {@inheritDoc} */
+    @Override
     public double getNumericalVariance() {
         return (MathUtils.PI_SQUARED) / 6.0 * (beta * beta);
     }
 
     /** {@inheritDoc} */
+    @Override
     public double getSupportLowerBound() {
         return Double.NEGATIVE_INFINITY;
     }
 
     /** {@inheritDoc} */
+    @Override
     public double getSupportUpperBound() {
         return Double.POSITIVE_INFINITY;
     }
 
     /** {@inheritDoc} */
+    @Override
     public boolean isSupportConnected() {
         return true;
     }

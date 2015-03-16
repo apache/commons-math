@@ -167,6 +167,7 @@ public class NormalDistribution extends AbstractRealDistribution {
     }
 
     /** {@inheritDoc} */
+    @Override
     public double density(double x) {
         return FastMath.exp(logDensity(x));
     }
@@ -186,6 +187,7 @@ public class NormalDistribution extends AbstractRealDistribution {
      * is returned, as in these cases the actual value is within
      * {@code Double.MIN_VALUE} of 0 or 1.
      */
+    @Override
     public double cumulativeProbability(double x)  {
         final double dev = x - mean;
         if (FastMath.abs(dev) > 40 * standardDeviation) {
@@ -231,6 +233,7 @@ public class NormalDistribution extends AbstractRealDistribution {
      *
      * For mean parameter {@code mu}, the mean is {@code mu}.
      */
+    @Override
     public double getNumericalMean() {
         return getMean();
     }
@@ -240,6 +243,7 @@ public class NormalDistribution extends AbstractRealDistribution {
      *
      * For standard deviation parameter {@code s}, the variance is {@code s^2}.
      */
+    @Override
     public double getNumericalVariance() {
         final double s = getStandardDeviation();
         return s * s;
@@ -254,6 +258,7 @@ public class NormalDistribution extends AbstractRealDistribution {
      * @return lower bound of the support (always
      * {@code Double.NEGATIVE_INFINITY})
      */
+    @Override
     public double getSupportLowerBound() {
         return Double.NEGATIVE_INFINITY;
     }
@@ -267,6 +272,7 @@ public class NormalDistribution extends AbstractRealDistribution {
      * @return upper bound of the support (always
      * {@code Double.POSITIVE_INFINITY})
      */
+    @Override
     public double getSupportUpperBound() {
         return Double.POSITIVE_INFINITY;
     }
@@ -278,6 +284,7 @@ public class NormalDistribution extends AbstractRealDistribution {
      *
      * @return {@code true}
      */
+    @Override
     public boolean isSupportConnected() {
         return true;
     }

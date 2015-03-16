@@ -98,6 +98,7 @@ public class LogisticDistribution extends AbstractRealDistribution {
     }
 
     /** {@inheritDoc} */
+    @Override
     public double density(double x) {
         double z = (x - mu) / s;
         double v = FastMath.exp(-z);
@@ -105,6 +106,7 @@ public class LogisticDistribution extends AbstractRealDistribution {
     }
 
     /** {@inheritDoc} */
+    @Override
     public double cumulativeProbability(double x) {
         double z = 1 / s * (x - mu);
         return 1.0 / (1.0 + FastMath.exp(-z));
@@ -123,26 +125,31 @@ public class LogisticDistribution extends AbstractRealDistribution {
     }
 
     /** {@inheritDoc} */
+    @Override
     public double getNumericalMean() {
         return mu;
     }
 
     /** {@inheritDoc} */
+    @Override
     public double getNumericalVariance() {
         return (MathUtils.PI_SQUARED / 3.0) * (1.0 / (s * s));
     }
 
     /** {@inheritDoc} */
+    @Override
     public double getSupportLowerBound() {
         return Double.NEGATIVE_INFINITY;
     }
 
     /** {@inheritDoc} */
+    @Override
     public double getSupportUpperBound() {
         return Double.POSITIVE_INFINITY;
     }
 
     /** {@inheritDoc} */
+    @Override
     public boolean isSupportConnected() {
         return true;
     }

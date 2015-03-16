@@ -154,6 +154,7 @@ public class FDistribution extends AbstractRealDistribution {
      *
      * @since 2.1
      */
+    @Override
     public double density(double x) {
         return FastMath.exp(logDensity(x));
     }
@@ -184,6 +185,7 @@ public class FDistribution extends AbstractRealDistribution {
      *  </li>
      * </ul>
      */
+    @Override
     public double cumulativeProbability(double x)  {
         double ret;
         if (x <= 0) {
@@ -232,6 +234,7 @@ public class FDistribution extends AbstractRealDistribution {
      *  <li>else undefined ({@code Double.NaN}).
      * </ul>
      */
+    @Override
     public double getNumericalMean() {
         final double denominatorDF = getDenominatorDegreesOfFreedom();
 
@@ -255,6 +258,7 @@ public class FDistribution extends AbstractRealDistribution {
      *  <li>else undefined ({@code Double.NaN}).
      * </ul>
      */
+    @Override
     public double getNumericalVariance() {
         if (!numericalVarianceIsCalculated) {
             numericalVariance = calculateNumericalVariance();
@@ -289,6 +293,7 @@ public class FDistribution extends AbstractRealDistribution {
      *
      * @return lower bound of the support (always 0)
      */
+    @Override
     public double getSupportLowerBound() {
         return 0;
     }
@@ -301,6 +306,7 @@ public class FDistribution extends AbstractRealDistribution {
      *
      * @return upper bound of the support (always Double.POSITIVE_INFINITY)
      */
+    @Override
     public double getSupportUpperBound() {
         return Double.POSITIVE_INFINITY;
     }
@@ -312,6 +318,7 @@ public class FDistribution extends AbstractRealDistribution {
      *
      * @return {@code true}
      */
+    @Override
     public boolean isSupportConnected() {
         return true;
     }

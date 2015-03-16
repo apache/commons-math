@@ -110,6 +110,7 @@ public class EnumeratedIntegerDistribution extends AbstractIntegerDistribution {
     /**
      * {@inheritDoc}
      */
+    @Override
     public double probability(final int x) {
         return innerDistribution.probability(x);
     }
@@ -117,6 +118,7 @@ public class EnumeratedIntegerDistribution extends AbstractIntegerDistribution {
     /**
      * {@inheritDoc}
      */
+    @Override
     public double cumulativeProbability(final int x) {
         double probability = 0;
 
@@ -134,6 +136,7 @@ public class EnumeratedIntegerDistribution extends AbstractIntegerDistribution {
      *
      * @return {@code sum(singletons[i] * probabilities[i])}
      */
+    @Override
     public double getNumericalMean() {
         double mean = 0;
 
@@ -149,6 +152,7 @@ public class EnumeratedIntegerDistribution extends AbstractIntegerDistribution {
      *
      * @return {@code sum((singletons[i] - mean) ^ 2 * probabilities[i])}
      */
+    @Override
     public double getNumericalVariance() {
         double mean = 0;
         double meanOfSquares = 0;
@@ -168,6 +172,7 @@ public class EnumeratedIntegerDistribution extends AbstractIntegerDistribution {
      *
      * @return the lowest value with non-zero probability.
      */
+    @Override
     public int getSupportLowerBound() {
         int min = Integer.MAX_VALUE;
         for (final Pair<Integer, Double> sample : innerDistribution.getPmf()) {
@@ -186,6 +191,7 @@ public class EnumeratedIntegerDistribution extends AbstractIntegerDistribution {
      *
      * @return the highest value with non-zero probability.
      */
+    @Override
     public int getSupportUpperBound() {
         int max = Integer.MIN_VALUE;
         for (final Pair<Integer, Double> sample : innerDistribution.getPmf()) {
@@ -204,6 +210,7 @@ public class EnumeratedIntegerDistribution extends AbstractIntegerDistribution {
      *
      * @return {@code true}
      */
+    @Override
     public boolean isSupportConnected() {
         return true;
     }

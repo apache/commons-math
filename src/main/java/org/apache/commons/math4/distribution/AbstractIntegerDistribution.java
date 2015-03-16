@@ -59,6 +59,7 @@ public abstract class AbstractIntegerDistribution implements IntegerDistribution
      *
      * @since 4.0, was previously named cumulativeProbability
      */
+    @Override
     public double probability(int x0, int x1) throws NumberIsTooLargeException {
         if (x1 < x0) {
             throw new NumberIsTooLargeException(LocalizedFormats.LOWER_ENDPOINT_ABOVE_UPPER_ENDPOINT,
@@ -78,6 +79,7 @@ public abstract class AbstractIntegerDistribution implements IntegerDistribution
      *     {@code 0 < p < 1}.</li>
      * </ul>
      */
+    @Override
     public int inverseCumulativeProbability(final double p) throws OutOfRangeException {
         if (p < 0.0 || p > 1.0) {
             throw new OutOfRangeException(p, 0, 1);
@@ -158,6 +160,7 @@ public abstract class AbstractIntegerDistribution implements IntegerDistribution
     }
 
     /** {@inheritDoc} */
+    @Override
     public void reseedRandomGenerator(long seed) {
         random.setSeed(seed);
     }
@@ -169,6 +172,7 @@ public abstract class AbstractIntegerDistribution implements IntegerDistribution
      * <a href="http://en.wikipedia.org/wiki/Inverse_transform_sampling">
      * inversion method</a>.
      */
+    @Override
     public int sample() {
         return inverseCumulativeProbability(random.nextDouble());
     }
@@ -179,6 +183,7 @@ public abstract class AbstractIntegerDistribution implements IntegerDistribution
      * The default implementation generates the sample by calling
      * {@link #sample()} in a loop.
      */
+    @Override
     public int[] sample(int sampleSize) {
         if (sampleSize <= 0) {
             throw new NotStrictlyPositiveException(
@@ -218,6 +223,7 @@ public abstract class AbstractIntegerDistribution implements IntegerDistribution
      * <p>
      * The default implementation simply computes the logarithm of {@code probability(x)}.
      */
+    @Override
     public double logProbability(int x) {
         return FastMath.log(probability(x));
     }

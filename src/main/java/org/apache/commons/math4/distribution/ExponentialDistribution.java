@@ -174,6 +174,7 @@ public class ExponentialDistribution extends AbstractRealDistribution {
     }
 
     /** {@inheritDoc} */
+    @Override
     public double density(double x) {
         final double logDensity = logDensity(x);
         return logDensity == Double.NEGATIVE_INFINITY ? 0 : FastMath.exp(logDensity);
@@ -198,6 +199,7 @@ public class ExponentialDistribution extends AbstractRealDistribution {
      * Exponential Distribution</a>, equation (1).</li>
      * </ul>
      */
+    @Override
     public double cumulativeProbability(double x)  {
         double ret;
         if (x <= 0.0) {
@@ -291,6 +293,7 @@ public class ExponentialDistribution extends AbstractRealDistribution {
      *
      * For mean parameter {@code k}, the mean is {@code k}.
      */
+    @Override
     public double getNumericalMean() {
         return getMean();
     }
@@ -300,6 +303,7 @@ public class ExponentialDistribution extends AbstractRealDistribution {
      *
      * For mean parameter {@code k}, the variance is {@code k^2}.
      */
+    @Override
     public double getNumericalVariance() {
         final double m = getMean();
         return m * m;
@@ -312,6 +316,7 @@ public class ExponentialDistribution extends AbstractRealDistribution {
      *
      * @return lower bound of the support (always 0)
      */
+    @Override
     public double getSupportLowerBound() {
         return 0;
     }
@@ -324,6 +329,7 @@ public class ExponentialDistribution extends AbstractRealDistribution {
      *
      * @return upper bound of the support (always Double.POSITIVE_INFINITY)
      */
+    @Override
     public double getSupportUpperBound() {
         return Double.POSITIVE_INFINITY;
     }
@@ -335,6 +341,7 @@ public class ExponentialDistribution extends AbstractRealDistribution {
      *
      * @return {@code true}
      */
+    @Override
     public boolean isSupportConnected() {
         return true;
     }

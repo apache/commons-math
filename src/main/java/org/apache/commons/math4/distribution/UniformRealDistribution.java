@@ -99,6 +99,7 @@ public class UniformRealDistribution extends AbstractRealDistribution {
     }
 
     /** {@inheritDoc} */
+    @Override
     public double density(double x) {
         if (x < lower || x > upper) {
             return 0.0;
@@ -107,6 +108,7 @@ public class UniformRealDistribution extends AbstractRealDistribution {
     }
 
     /** {@inheritDoc} */
+    @Override
     public double cumulativeProbability(double x)  {
         if (x <= lower) {
             return 0;
@@ -132,6 +134,7 @@ public class UniformRealDistribution extends AbstractRealDistribution {
      * For lower bound {@code lower} and upper bound {@code upper}, the mean is
      * {@code 0.5 * (lower + upper)}.
      */
+    @Override
     public double getNumericalMean() {
         return 0.5 * (lower + upper);
     }
@@ -142,6 +145,7 @@ public class UniformRealDistribution extends AbstractRealDistribution {
      * For lower bound {@code lower} and upper bound {@code upper}, the
      * variance is {@code (upper - lower)^2 / 12}.
      */
+    @Override
     public double getNumericalVariance() {
         double ul = upper - lower;
         return ul * ul / 12;
@@ -155,6 +159,7 @@ public class UniformRealDistribution extends AbstractRealDistribution {
      *
      * @return lower bound of the support
      */
+    @Override
     public double getSupportLowerBound() {
         return lower;
     }
@@ -167,6 +172,7 @@ public class UniformRealDistribution extends AbstractRealDistribution {
      *
      * @return upper bound of the support
      */
+    @Override
     public double getSupportUpperBound() {
         return upper;
     }
@@ -178,6 +184,7 @@ public class UniformRealDistribution extends AbstractRealDistribution {
      *
      * @return {@code true}
      */
+    @Override
     public boolean isSupportConnected() {
         return true;
     }

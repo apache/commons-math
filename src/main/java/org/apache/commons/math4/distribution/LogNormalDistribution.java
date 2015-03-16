@@ -204,6 +204,7 @@ public class LogNormalDistribution extends AbstractRealDistribution {
      * otherwise.</li>
      * </ul>
      */
+    @Override
     public double density(double x) {
         if (x <= 0) {
             return 0;
@@ -243,6 +244,7 @@ public class LogNormalDistribution extends AbstractRealDistribution {
      * <li>{@code 0.5 + 0.5 * erf((ln(x) - m) / (s * sqrt(2))} otherwise.</li>
      * </ul>
      */
+    @Override
     public double cumulativeProbability(double x)  {
         if (x <= 0) {
             return 0;
@@ -284,6 +286,7 @@ public class LogNormalDistribution extends AbstractRealDistribution {
      * For scale {@code m} and shape {@code s}, the mean is
      * {@code exp(m + s^2 / 2)}.
      */
+    @Override
     public double getNumericalMean() {
         double s = shape;
         return FastMath.exp(scale + (s * s / 2));
@@ -295,6 +298,7 @@ public class LogNormalDistribution extends AbstractRealDistribution {
      * For scale {@code m} and shape {@code s}, the variance is
      * {@code (exp(s^2) - 1) * exp(2 * m + s^2)}.
      */
+    @Override
     public double getNumericalVariance() {
         final double s = shape;
         final double ss = s * s;
@@ -308,6 +312,7 @@ public class LogNormalDistribution extends AbstractRealDistribution {
      *
      * @return lower bound of the support (always 0)
      */
+    @Override
     public double getSupportLowerBound() {
         return 0;
     }
@@ -321,6 +326,7 @@ public class LogNormalDistribution extends AbstractRealDistribution {
      * @return upper bound of the support (always
      * {@code Double.POSITIVE_INFINITY})
      */
+    @Override
     public double getSupportUpperBound() {
         return Double.POSITIVE_INFINITY;
     }
@@ -332,6 +338,7 @@ public class LogNormalDistribution extends AbstractRealDistribution {
      *
      * @return {@code true}
      */
+    @Override
     public boolean isSupportConnected() {
         return true;
     }

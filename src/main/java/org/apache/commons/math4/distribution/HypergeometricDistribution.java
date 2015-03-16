@@ -117,6 +117,7 @@ public class HypergeometricDistribution extends AbstractIntegerDistribution {
     }
 
     /** {@inheritDoc} */
+    @Override
     public double cumulativeProbability(int x) {
         double ret;
 
@@ -198,6 +199,7 @@ public class HypergeometricDistribution extends AbstractIntegerDistribution {
     }
 
     /** {@inheritDoc} */
+    @Override
     public double probability(int x) {
         final double logProbability = logProbability(x);
         return logProbability == Double.NEGATIVE_INFINITY ? 0 : FastMath.exp(logProbability);
@@ -277,6 +279,7 @@ public class HypergeometricDistribution extends AbstractIntegerDistribution {
      * For population size {@code N}, number of successes {@code m}, and sample
      * size {@code n}, the mean is {@code n * m / N}.
      */
+    @Override
     public double getNumericalMean() {
         return getSampleSize() * (getNumberOfSuccesses() / (double) getPopulationSize());
     }
@@ -288,6 +291,7 @@ public class HypergeometricDistribution extends AbstractIntegerDistribution {
      * size {@code n}, the variance is
      * {@code [n * m * (N - n) * (N - m)] / [N^2 * (N - 1)]}.
      */
+    @Override
     public double getNumericalVariance() {
         if (!numericalVarianceIsCalculated) {
             numericalVariance = calculateNumericalVariance();
@@ -317,6 +321,7 @@ public class HypergeometricDistribution extends AbstractIntegerDistribution {
      *
      * @return lower bound of the support
      */
+    @Override
     public int getSupportLowerBound() {
         return FastMath.max(0,
                             getSampleSize() + getNumberOfSuccesses() - getPopulationSize());
@@ -330,6 +335,7 @@ public class HypergeometricDistribution extends AbstractIntegerDistribution {
      *
      * @return upper bound of the support
      */
+    @Override
     public int getSupportUpperBound() {
         return FastMath.min(getNumberOfSuccesses(), getSampleSize());
     }
@@ -341,6 +347,7 @@ public class HypergeometricDistribution extends AbstractIntegerDistribution {
      *
      * @return {@code true}
      */
+    @Override
     public boolean isSupportConnected() {
         return true;
     }

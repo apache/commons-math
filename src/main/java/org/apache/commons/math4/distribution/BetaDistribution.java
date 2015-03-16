@@ -148,6 +148,7 @@ public class BetaDistribution extends AbstractRealDistribution {
     }
 
     /** {@inheritDoc} */
+    @Override
     public double density(double x) {
         final double logDensity = logDensity(x);
         return logDensity == Double.NEGATIVE_INFINITY ? 0 : FastMath.exp(logDensity);
@@ -177,6 +178,7 @@ public class BetaDistribution extends AbstractRealDistribution {
     }
 
     /** {@inheritDoc} */
+    @Override
     public double cumulativeProbability(double x)  {
         if (x <= 0) {
             return 0;
@@ -205,6 +207,7 @@ public class BetaDistribution extends AbstractRealDistribution {
      * For first shape parameter {@code alpha} and second shape parameter
      * {@code beta}, the mean is {@code alpha / (alpha + beta)}.
      */
+    @Override
     public double getNumericalMean() {
         final double a = getAlpha();
         return a / (a + getBeta());
@@ -217,6 +220,7 @@ public class BetaDistribution extends AbstractRealDistribution {
      * {@code beta}, the variance is
      * {@code (alpha * beta) / [(alpha + beta)^2 * (alpha + beta + 1)]}.
      */
+    @Override
     public double getNumericalVariance() {
         final double a = getAlpha();
         final double b = getBeta();
@@ -231,6 +235,7 @@ public class BetaDistribution extends AbstractRealDistribution {
      *
      * @return lower bound of the support (always 0)
      */
+    @Override
     public double getSupportLowerBound() {
         return 0;
     }
@@ -242,6 +247,7 @@ public class BetaDistribution extends AbstractRealDistribution {
      *
      * @return upper bound of the support (always 1)
      */
+    @Override
     public double getSupportUpperBound() {
         return 1;
     }
@@ -253,6 +259,7 @@ public class BetaDistribution extends AbstractRealDistribution {
      *
      * @return {@code true}
      */
+    @Override
     public boolean isSupportConnected() {
         return true;
     }

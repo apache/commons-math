@@ -180,6 +180,7 @@ public class MultivariateNormalDistribution
     }
 
     /** {@inheritDoc} */
+    @Override
     public double density(final double[] vals) throws DimensionMismatchException {
         final int dim = getDimension();
         if (vals.length != dim) {

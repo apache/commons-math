@@ -96,11 +96,13 @@ public class LaplaceDistribution extends AbstractRealDistribution {
     }
 
     /** {@inheritDoc} */
+    @Override
     public double density(double x) {
         return FastMath.exp(-FastMath.abs(x - mu) / beta) / (2.0 * beta);
     }
 
     /** {@inheritDoc} */
+    @Override
     public double cumulativeProbability(double x) {
         if (x <= mu) {
             return FastMath.exp((x - mu) / beta) / 2.0;
@@ -123,26 +125,31 @@ public class LaplaceDistribution extends AbstractRealDistribution {
     }
 
     /** {@inheritDoc} */
+    @Override
     public double getNumericalMean() {
         return mu;
     }
 
     /** {@inheritDoc} */
+    @Override
     public double getNumericalVariance() {
         return 2.0 * beta * beta;
     }
 
     /** {@inheritDoc} */
+    @Override
     public double getSupportLowerBound() {
         return Double.NEGATIVE_INFINITY;
     }
 
     /** {@inheritDoc} */
+    @Override
     public double getSupportUpperBound() {
         return Double.POSITIVE_INFINITY;
     }
 
     /** {@inheritDoc} */
+    @Override
     public boolean isSupportConnected() {
         return true;
     }

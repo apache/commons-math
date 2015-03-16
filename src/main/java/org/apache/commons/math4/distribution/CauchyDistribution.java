@@ -132,6 +132,7 @@ public class CauchyDistribution extends AbstractRealDistribution {
     }
 
     /** {@inheritDoc} */
+    @Override
     public double cumulativeProbability(double x) {
         return 0.5 + (FastMath.atan((x - median) / scale) / FastMath.PI);
     }
@@ -155,6 +156,7 @@ public class CauchyDistribution extends AbstractRealDistribution {
     }
 
     /** {@inheritDoc} */
+    @Override
     public double density(double x) {
         final double dev = x - median;
         return (1 / FastMath.PI) * (scale / (dev * dev + scale * scale));
@@ -194,6 +196,7 @@ public class CauchyDistribution extends AbstractRealDistribution {
      *
      * @return mean (always Double.NaN)
      */
+    @Override
     public double getNumericalMean() {
         return Double.NaN;
     }
@@ -205,6 +208,7 @@ public class CauchyDistribution extends AbstractRealDistribution {
      *
      * @return variance (always Double.NaN)
      */
+    @Override
     public double getNumericalVariance() {
         return Double.NaN;
     }
@@ -217,6 +221,7 @@ public class CauchyDistribution extends AbstractRealDistribution {
      *
      * @return lower bound of the support (always Double.NEGATIVE_INFINITY)
      */
+    @Override
     public double getSupportLowerBound() {
         return Double.NEGATIVE_INFINITY;
     }
@@ -229,6 +234,7 @@ public class CauchyDistribution extends AbstractRealDistribution {
      *
      * @return upper bound of the support (always Double.POSITIVE_INFINITY)
      */
+    @Override
     public double getSupportUpperBound() {
         return Double.POSITIVE_INFINITY;
     }
@@ -240,6 +246,7 @@ public class CauchyDistribution extends AbstractRealDistribution {
      *
      * @return {@code true}
      */
+    @Override
     public boolean isSupportConnected() {
         return true;
     }

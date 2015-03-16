@@ -87,6 +87,7 @@ public class LevyDistribution extends AbstractRealDistribution {
     * returned, as in these cases the distribution is not defined.
     * </p>
     */
+    @Override
     public double density(final double x) {
         if (x < mu) {
             return Double.NaN;
@@ -120,6 +121,7 @@ public class LevyDistribution extends AbstractRealDistribution {
      * f(x; u, c) = erfc (&radic; (c / 2 (x - u )))
      * </pre>
      */
+    @Override
     public double cumulativeProbability(final double x) {
         if (x < mu) {
             return Double.NaN;
@@ -152,26 +154,31 @@ public class LevyDistribution extends AbstractRealDistribution {
     }
 
     /** {@inheritDoc} */
+    @Override
     public double getNumericalMean() {
         return Double.POSITIVE_INFINITY;
     }
 
     /** {@inheritDoc} */
+    @Override
     public double getNumericalVariance() {
         return Double.POSITIVE_INFINITY;
     }
 
     /** {@inheritDoc} */
+    @Override
     public double getSupportLowerBound() {
         return mu;
     }
 
     /** {@inheritDoc} */
+    @Override
     public double getSupportUpperBound() {
         return Double.POSITIVE_INFINITY;
     }
 
     /** {@inheritDoc} */
+    @Override
     public boolean isSupportConnected() {
         return true;
     }

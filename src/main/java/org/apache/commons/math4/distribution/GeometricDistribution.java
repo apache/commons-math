@@ -80,6 +80,7 @@ public class GeometricDistribution extends AbstractIntegerDistribution {
     }
 
     /** {@inheritDoc} */
+    @Override
     public double probability(int x) {
         double ret;
         if (x < 0) {
@@ -105,6 +106,7 @@ public class GeometricDistribution extends AbstractIntegerDistribution {
     }
 
     /** {@inheritDoc} */
+    @Override
     public double cumulativeProbability(int x) {
         double ret;
         if (x < 0) {
@@ -121,6 +123,7 @@ public class GeometricDistribution extends AbstractIntegerDistribution {
      *
      * For probability parameter {@code p}, the mean is {@code (1 - p) / p}.
      */
+    @Override
     public double getNumericalMean() {
         final double p = probabilityOfSuccess;
         return (1 - p) / p;
@@ -132,6 +135,7 @@ public class GeometricDistribution extends AbstractIntegerDistribution {
      * For probability parameter {@code p}, the variance is
      * {@code (1 - p) / (p * p)}.
      */
+    @Override
     public double getNumericalVariance() {
         final double p = probabilityOfSuccess;
         return (1 - p) / (p * p);
@@ -144,6 +148,7 @@ public class GeometricDistribution extends AbstractIntegerDistribution {
      *
      * @return lower bound of the support (always 0)
      */
+    @Override
     public int getSupportLowerBound() {
         return 0;
     }
@@ -156,6 +161,7 @@ public class GeometricDistribution extends AbstractIntegerDistribution {
      *
      * @return upper bound of the support (always Integer.MAX_VALUE)
      */
+    @Override
     public int getSupportUpperBound() {
         return Integer.MAX_VALUE;
     }
@@ -167,6 +173,7 @@ public class GeometricDistribution extends AbstractIntegerDistribution {
      *
      * @return {@code true}
      */
+    @Override
     public boolean isSupportConnected() {
         return true;
     }

@@ -48,7 +48,7 @@ implements RealDistribution, Serializable {
     protected final RandomGenerator random;
 
     /** Solver absolute accuracy for inverse cumulative computation */
-    private double solverAbsoluteAccuracy = SOLVER_DEFAULT_ABSOLUTE_ACCURACY;
+    private final double solverAbsoluteAccuracy = SOLVER_DEFAULT_ABSOLUTE_ACCURACY;
 
     /**
      * @param rng Random number generator.
@@ -74,6 +74,7 @@ implements RealDistribution, Serializable {
      *
      * @since 3.1
      */
+    @Override
     public double probability(double x0,
                               double x1) {
         if (x0 > x1) {
@@ -92,6 +93,7 @@ implements RealDistribution, Serializable {
      * <li>{@link #getSupportUpperBound()} for {@code p = 1}.</li>
      * </ul>
      */
+    @Override
     public double inverseCumulativeProbability(final double p) throws OutOfRangeException {
         /*
          * IMPLEMENTATION NOTES
@@ -165,6 +167,7 @@ implements RealDistribution, Serializable {
 
         final UnivariateFunction toSolve = new UnivariateFunction() {
 
+            @Override
             public double value(final double x) {
                 return cumulativeProbability(x) - p;
             }
@@ -209,6 +212,7 @@ implements RealDistribution, Serializable {
     }
 
     /** {@inheritDoc} */
+    @Override
     public void reseedRandomGenerator(long seed) {
         random.setSeed(seed);
     }
@@ -221,6 +225,7 @@ implements RealDistribution, Serializable {
      * inversion method.
      * </a>
      */
+    @Override
     public double sample() {
         return inverseCumulativeProbability(random.nextDouble());
     }
@@ -231,6 +236,7 @@ implements RealDistribution, Serializable {
      * The default implementation generates the sample by calling
      * {@link #sample()} in a loop.
      */
+    @Override
     public double[] sample(int sampleSize) {
         if (sampleSize <= 0) {
             throw new NotStrictlyPositiveException(LocalizedFormats.NUMBER_OF_SAMPLES,
@@ -249,6 +255,7 @@ implements RealDistribution, Serializable {
      * @return zero.
      * @since 3.1
      */
+    @Override
     public double probability(double x) {
         return 0d;
     }
@@ -258,6 +265,7 @@ implements RealDistribution, Serializable {
      * <p>
      * The default implementation simply computes the logarithm of {@code density(x)}.
      */
+    @Override
     public double logDensity(double x) {
         return FastMath.log(density(x));
     }

@@ -110,6 +110,7 @@ public class ChiSquaredDistribution extends AbstractRealDistribution {
     }
 
     /** {@inheritDoc} */
+    @Override
     public double density(double x) {
         return gamma.density(x);
     }
@@ -121,6 +122,7 @@ public class ChiSquaredDistribution extends AbstractRealDistribution {
     }
 
     /** {@inheritDoc} */
+    @Override
     public double cumulativeProbability(double x)  {
         return gamma.cumulativeProbability(x);
     }
@@ -136,6 +138,7 @@ public class ChiSquaredDistribution extends AbstractRealDistribution {
      *
      * For {@code k} degrees of freedom, the mean is {@code k}.
      */
+    @Override
     public double getNumericalMean() {
         return getDegreesOfFreedom();
     }
@@ -145,6 +148,7 @@ public class ChiSquaredDistribution extends AbstractRealDistribution {
      *
      * @return {@code 2 * k}, where {@code k} is the number of degrees of freedom.
      */
+    @Override
     public double getNumericalVariance() {
         return 2 * getDegreesOfFreedom();
     }
@@ -157,6 +161,7 @@ public class ChiSquaredDistribution extends AbstractRealDistribution {
      *
      * @return zero.
      */
+    @Override
     public double getSupportLowerBound() {
         return 0;
     }
@@ -169,6 +174,7 @@ public class ChiSquaredDistribution extends AbstractRealDistribution {
      *
      * @return {@code Double.POSITIVE_INFINITY}.
      */
+    @Override
     public double getSupportUpperBound() {
         return Double.POSITIVE_INFINITY;
     }
@@ -180,6 +186,7 @@ public class ChiSquaredDistribution extends AbstractRealDistribution {
      *
      * @return {@code true}
      */
+    @Override
     public boolean isSupportConnected() {
         return true;
     }
