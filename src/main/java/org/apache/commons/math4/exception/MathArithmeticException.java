@@ -58,6 +58,7 @@ public class MathArithmeticException extends ArithmeticException
     }
 
     /** {@inheritDoc} */
+    @Override
     public ExceptionContext getContext() {
         return context;
     }

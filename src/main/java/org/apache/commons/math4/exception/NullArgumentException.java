@@ -59,11 +59,12 @@ public class NullArgumentException extends NullPointerException
         context = new ExceptionContext(this);
         context.addMessage(pattern, arguments);
     }
-    
+
     /**
      * {@inheritDoc}
      * @since 4.0
      */
+    @Override
     public ExceptionContext getContext() {
         return context;
     }

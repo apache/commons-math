@@ -47,6 +47,7 @@ public class MathRuntimeException extends RuntimeException
     }
 
     /** {@inheritDoc} */
+    @Override
     public ExceptionContext getContext() {
         return context;
     }

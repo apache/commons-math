@@ -379,11 +379,13 @@ public enum LocalizedFormats implements Localizable {
     }
 
     /** {@inheritDoc} */
+    @Override
     public String getSourceString() {
         return sourceFormat;
     }
 
     /** {@inheritDoc} */
+    @Override
     public String getLocalizedString(final Locale locale) {
         try {
             final String path = LocalizedFormats.class.getName().replaceAll("\\.", "/");

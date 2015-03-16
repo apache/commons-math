@@ -39,11 +39,13 @@ public class DummyLocalizable implements Localizable {
     }
 
     /** {@inheritDoc} */
+    @Override
     public String getSourceString() {
         return source;
     }
 
     /** {@inheritDoc} */
+    @Override
     public String getLocalizedString(Locale locale) {
         return source;
     }
