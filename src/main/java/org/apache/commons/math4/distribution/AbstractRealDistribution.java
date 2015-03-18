@@ -36,7 +36,7 @@ import org.apache.commons.math4.util.FastMath;
  */
 public abstract class AbstractRealDistribution
 implements RealDistribution, Serializable {
-    /** Default accuracy. */
+    /** Default absolute accuracy for inverse cumulative computation. */
     public static final double SOLVER_DEFAULT_ABSOLUTE_ACCURACY = 1e-6;
     /** Serializable version identifier */
     private static final long serialVersionUID = -38038050983108802L;
@@ -46,9 +46,6 @@ implements RealDistribution, Serializable {
      * @since 3.1
      */
     protected final RandomGenerator random;
-
-    /** Solver absolute accuracy for inverse cumulative computation */
-    private final double solverAbsoluteAccuracy = SOLVER_DEFAULT_ABSOLUTE_ACCURACY;
 
     /**
      * @param rng Random number generator.
@@ -208,7 +205,7 @@ implements RealDistribution, Serializable {
      * @return the maximum absolute error in inverse cumulative probability estimates
      */
     protected double getSolverAbsoluteAccuracy() {
-        return solverAbsoluteAccuracy;
+        return SOLVER_DEFAULT_ABSOLUTE_ACCURACY;
     }
 
     /** {@inheritDoc} */
