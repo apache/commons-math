@@ -21,6 +21,7 @@ import java.util.Arrays;
 
 import org.apache.commons.math4.exception.DimensionMismatchException;
 import org.apache.commons.math4.util.FastMath;
+import org.apache.commons.math4.exception.util.LocalizedFormats;
 
 
 /**
@@ -335,12 +336,7 @@ public class QRDecomposition {
 
         /** {@inheritDoc} */
         public boolean isNonSingular() {
-            for (double diag : rDiag) {
-                if (FastMath.abs(diag) <= threshold) {
-                    return false;
-                }
-            }
-            return true;
+            return !checkSingular(rDiag, threshold, false);
         }
 
         /** {@inheritDoc} */
@@ -350,9 +346,7 @@ public class QRDecomposition {
             if (b.getDimension() != m) {
                 throw new DimensionMismatchException(b.getDimension(), m);
             }
-            if (!isNonSingular()) {
-                throw new SingularMatrixException();
-            }
+            checkSingular(rDiag, threshold, true);
 
             final double[] x = new double[n];
             final double[] y = b.toArray();
@@ -393,9 +387,7 @@ public class QRDecomposition {
             if (b.getRowDimension() != m) {
                 throw new DimensionMismatchException(b.getRowDimension(), m);
             }
-            if (!isNonSingular()) {
-                throw new SingularMatrixException();
-            }
+            checkSingular(rDiag, threshold, true);
 
             final int columns        = b.getColumnDimension();
             final int blockSize      = BlockRealMatrix.BLOCK_SIZE;
@@ -471,6 +463,38 @@ public class QRDecomposition {
          */
         public RealMatrix getInverse() {
             return solve(MatrixUtils.createRealIdentityMatrix(qrt[0].length));
+        }
+
+        /**
+         * Check singularity.
+         *
+         * @param diag Diagonal elements of the R matrix.
+         * @param min Singularity threshold.
+         * @param raise Whether to raise a {@link SingularMatrixException}
+         * if any element of the diagonal fails the check.
+         * @return {@code true} if any element of the diagonal is smaller
+         * or equal to {@code min}.
+         * @throws SingularMatrixException if the matrix is singular and
+         * {@code raise} is {@code true}.
+         */
+        private static boolean checkSingular(double[] diag,
+                                             double min,
+                                             boolean raise) {
+            final int len = diag.length;
+            for (int i = 0; i < len; i++) {
+                final double d = diag[i];
+                if (FastMath.abs(d) <= min) {
+                    if (raise) {
+                        final SingularMatrixException e = new SingularMatrixException();
+                        e.getContext().addMessage(LocalizedFormats.NUMBER_TOO_SMALL, d, min);
+                        e.getContext().addMessage(LocalizedFormats.INDEX, i);
+                        throw e;
+                    } else {
+                        return true;
+                    }
+                }
+            }
+            return false;
         }
     }
 }
