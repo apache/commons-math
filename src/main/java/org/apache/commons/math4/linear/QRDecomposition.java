@@ -335,11 +335,13 @@ public class QRDecomposition {
         }
 
         /** {@inheritDoc} */
+        @Override
         public boolean isNonSingular() {
             return !checkSingular(rDiag, threshold, false);
         }
 
         /** {@inheritDoc} */
+        @Override
         public RealVector solve(RealVector b) {
             final int n = qrt.length;
             final int m = qrt[0].length;
@@ -381,6 +383,7 @@ public class QRDecomposition {
         }
 
         /** {@inheritDoc} */
+        @Override
         public RealMatrix solve(RealMatrix b) {
             final int n = qrt.length;
             final int m = qrt[0].length;
@@ -461,6 +464,7 @@ public class QRDecomposition {
          * {@inheritDoc}
          * @throws SingularMatrixException if the decomposed matrix is singular.
          */
+        @Override
         public RealMatrix getInverse() {
             return solve(MatrixUtils.createRealIdentityMatrix(qrt[0].length));
         }
