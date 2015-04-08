@@ -707,6 +707,9 @@ public class BSPTree<S extends Space> {
                     plus      = fixed.plus;
                     minus     = fixed.minus;
                     attribute = fixed.attribute;
+                    if (cut == null) {
+                        break;
+                    }
                 }
 
             }
