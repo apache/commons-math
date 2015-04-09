@@ -54,6 +54,9 @@ If the output is not quite correct, check for invisible trailing spaces!
     </release>
 
     <release version="4.0" date="XXXX-XX-XX" description="">
+      <action dev="erans" type="update" issue="MATH-1206">
+        Added new API methods in "LeastSquares.Evaluation" (package "o.a.c.m.fitting.leastsquares").
+      </action>
       <action dev="erans" type="update" issue="MATH-1210">
         "QRDecomposition": include information about the condition that
         triggers a "SingularMatrixException".

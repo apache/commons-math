@@ -86,7 +86,6 @@ public interface LeastSquaresProblem extends OptimizationProblem<LeastSquaresPro
          * way for the caller to specify that the result of this computation should be
          * considered meaningless, and thus trigger an exception.
          *
-         *
          * @param threshold Singularity threshold.
          * @return the covariance matrix.
          * @throws org.apache.commons.math4.linear.SingularMatrixException
@@ -99,7 +98,6 @@ public interface LeastSquaresProblem extends OptimizationProblem<LeastSquaresPro
          * values are the square root of the diagonal coefficients of the covariance
          * matrix, {@code sd(a[i]) ~= sqrt(C[i][i])}, where {@code a[i]} is the optimized
          * value of the {@code i}-th parameter, and {@code C} is the covariance matrix.
-         *
          *
          * @param covarianceSingularityThreshold Singularity threshold (see {@link
          *                                       #getCovariances(double) computeCovariances}).
@@ -128,11 +126,31 @@ public interface LeastSquaresProblem extends OptimizationProblem<LeastSquaresPro
 
         /**
          * Get the cost.
+         * It is the square-root of the {@link #getChiSquare() objective function}.
          *
          * @return the cost.
          * @see #getResiduals()
+         * @see #getChiSquare()
          */
         double getCost();
+
+        /**
+         * Get the sum of the squares of the residuals.
+         *
+         * @return the cost.
+         * @see #getResiduals()
+         * @see #getCost()
+         */
+        double getChiSquare();
+
+        /**
+         * Get the reduced chi-square.
+         *
+         * @param n Number of fitted parameters.
+         * @return the sum of the squares of the residuals divided by the number
+         * of degrees of freedom.
+         */
+        double getReducedChiSquare(int n);
 
         /**
          * Get the weighted residuals. The residual is the difference between the

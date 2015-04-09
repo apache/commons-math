@@ -74,6 +74,14 @@ public class EvaluationRmsCheckerTest {
                 return 0;
             }
 
+            public double getChiSquare() {
+                return 0;
+            }
+
+            public double getReducedChiSquare(int n) {
+                return 0;
+            }
+
             public RealVector getResiduals() {
                 return null;
             }

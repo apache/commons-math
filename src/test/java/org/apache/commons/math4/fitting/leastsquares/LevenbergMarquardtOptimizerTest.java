@@ -233,6 +233,25 @@ public class LevenbergMarquardtOptimizerTest
                                     FastMath.abs(0.1 * expectedCovarMatrix[i][j]));
             }
         }
+
+        // Check various measures of goodness-of-fit.
+        final double chi2 = optimum.getChiSquare();
+        final double cost = optimum.getCost();
+        final double rms = optimum.getRMS();
+        final double reducedChi2 = optimum.getReducedChiSquare(start.length);
+
+        // XXX Values computed by the CM code: It would be better to compare
+        // with the results from another library.
+        final double expectedChi2 = 66.07852350839286;
+        final double expectedReducedChi2 = 1.2014277001525975;
+        final double expectedCost = 8.128869755900439;
+        final double expectedRms = 1.0582887010256337;
+
+        final double tol = 1e14;
+        Assert.assertEquals(expectedChi2, chi2, tol);
+        Assert.assertEquals(expectedReducedChi2, reducedChi2, tol);
+        Assert.assertEquals(expectedCost, cost, tol);
+        Assert.assertEquals(expectedRms, rms, tol);
     }
 
     @Test

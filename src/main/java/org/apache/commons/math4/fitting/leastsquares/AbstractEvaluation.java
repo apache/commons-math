@@ -40,8 +40,8 @@ public abstract class AbstractEvaluation implements Evaluation {
     /**
      * Constructor.
      *
-     * @param observationSize the number of observation. Needed for {@link
-     *                        #getRMS()}.
+     * @param observationSize the number of observations.
+     * Needed for {@link #getRMS()} and {@link #getReducedChiSquare()}.
      */
     AbstractEvaluation(final int observationSize) {
         this.observationSize = observationSize;
@@ -74,14 +74,22 @@ public abstract class AbstractEvaluation implements Evaluation {
 
     /** {@inheritDoc} */
     public double getRMS() {
-        final double cost = this.getCost();
-        return FastMath.sqrt(cost * cost / this.observationSize);
+        return FastMath.sqrt(getReducedChiSquare(1));
     }
 
     /** {@inheritDoc} */
     public double getCost() {
-        final ArrayRealVector r = new ArrayRealVector(this.getResiduals());
-        return FastMath.sqrt(r.dotProduct(r));
+        return FastMath.sqrt(getChiSquare());
     }
 
+    /** {@inheritDoc} */
+    public double getChiSquare() {
+        final ArrayRealVector r = new ArrayRealVector(getResiduals());
+        return r.dotProduct(r);
+    }
+
+    /** {@inheritDoc} */
+    public double getReducedChiSquare(int numberOfFittedParameters) {
+        return getChiSquare() / (observationSize - numberOfFittedParameters + 1);
+    }
 }

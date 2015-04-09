@@ -86,6 +86,16 @@ class OptimumImpl implements Optimum {
     }
 
     /** {@inheritDoc} */
+    public double getChiSquare() {
+        return value.getChiSquare();
+    }
+
+    /** {@inheritDoc} */
+    public double getReducedChiSquare(int n) {
+        return value.getReducedChiSquare(n);
+    }
+
+    /** {@inheritDoc} */
     public RealVector getResiduals() {
         return value.getResiduals();
     }
