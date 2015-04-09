@@ -305,9 +305,9 @@ public class PolyhedronsSet extends AbstractRegion<Euclidean3D, Euclidean2D> {
     /** Get the first sub-hyperplane crossed by a semi-infinite line.
      * @param point start point of the part of the line considered
      * @param line line to consider (contains point)
-     * @return the first sub-hyperplaned crossed by the line after the
+     * @return the first sub-hyperplane crossed by the line after the
      * given point, or null if the line does not intersect any
-     * sub-hyperplaned
+     * sub-hyperplane
      */
     public SubHyperplane<Euclidean3D> firstIntersection(final Vector3D point, final Line line) {
         return recurseFirstIntersection(getTree(true), point, line);
@@ -317,9 +317,9 @@ public class PolyhedronsSet extends AbstractRegion<Euclidean3D, Euclidean2D> {
      * @param node current node
      * @param point start point of the part of the line considered
      * @param line line to consider (contains point)
-     * @return the first sub-hyperplaned crossed by the line after the
+     * @return the first sub-hyperplane crossed by the line after the
      * given point, or null if the line does not intersect any
-     * sub-hyperplaned
+     * sub-hyperplane
      */
     private SubHyperplane<Euclidean3D> recurseFirstIntersection(final BSPTree<Euclidean3D> node,
                                                                 final Vector3D point,
@@ -331,11 +331,11 @@ public class PolyhedronsSet extends AbstractRegion<Euclidean3D, Euclidean2D> {
         }
         final BSPTree<Euclidean3D> minus = node.getMinus();
         final BSPTree<Euclidean3D> plus  = node.getPlus();
-        final Plane               plane = (Plane) cut.getHyperplane();
+        final Plane                plane = (Plane) cut.getHyperplane();
 
         // establish search order
         final double offset = plane.getOffset((Point<Euclidean3D>) point);
-        final boolean in    = FastMath.abs(offset) < 1.0e-10;
+        final boolean in    = FastMath.abs(offset) < getTolerance();
         final BSPTree<Euclidean3D> near;
         final BSPTree<Euclidean3D> far;
         if (offset < 0) {
@@ -363,7 +363,7 @@ public class PolyhedronsSet extends AbstractRegion<Euclidean3D, Euclidean2D> {
         if (!in) {
             // search in the cut hyperplane
             final Vector3D hit3D = plane.intersection(line);
-            if (hit3D != null) {
+            if (hit3D != null && line.getAbscissa(hit3D) > line.getAbscissa(point)) {
                 final SubHyperplane<Euclidean3D> facet = boundaryFacet(hit3D, node);
                 if (facet != null) {
                     return facet;

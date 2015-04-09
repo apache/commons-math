@@ -50,10 +50,10 @@ If the output is not quite correct, check for invisible trailing spaces!
     <title>Commons Math Release Notes</title>
   </properties>
   <body>
-    <release version="TBD" date="TBD" description="TBD">
-    </release>
-
-    <release version="3.5" date="2015-01-11" description="">
+    <release version="3.5" date="TBD" description="TBD">
+      <action dev="luc" type="fix" issue="MATH-1211" due-to="Mike Zimmerman">
+        Fixed wrong selection of line/polyhedron intersection point.
+      </action>    
       <action dev="tn" type="fix" issue="MATH-1209" due-to="Jonathan Ogilvie">
         Fixed link to algorithm description in "PoissonDistribution#sample()".
       </action>    
