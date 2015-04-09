@@ -52,7 +52,7 @@ public class ArrayFieldVector<T extends FieldElement<T>> implements FieldVector<
      * Build a 0-length vector.
      * Zero-length vectors may be used to initialize construction of vectors
      * by data gathering. We start with zero-length and use either the {@link
-     * #ArrayFieldVector(ArrayFieldVector, ArrayFieldVector)} constructor
+     * #ArrayFieldVector(FieldVector, FieldVector)} constructor
      * or one of the {@code append} methods ({@link #add(FieldVector)} or
      * {@link #append(ArrayFieldVector)}) to gather data into this vector.
      *

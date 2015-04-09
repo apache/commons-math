@@ -22,7 +22,7 @@ import org.apache.commons.math4.util.FastMath;
 
 /**
  * Simple implementation of the
- * {@link org.apache.commons.math4.optimization.ConvergenceChecker} interface
+ * {@link org.apache.commons.math4.optim.ConvergenceChecker} interface
  * that uses only objective function values.
  *
  * Convergence is considered to have been reached if either the relative

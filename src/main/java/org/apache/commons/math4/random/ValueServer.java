@@ -347,7 +347,7 @@ public class ValueServer {
     /**
      * Reseeds the random data generator.
      *
-     * @param seed Value with which to reseed the {@link RandomDataImpl}
+     * @param seed Value with which to reseed the {@link RandomDataGenerator}
      * used to generate random data.
      */
     public void reSeed(long seed) {

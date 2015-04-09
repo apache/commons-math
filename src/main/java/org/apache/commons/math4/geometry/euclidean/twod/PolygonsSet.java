@@ -125,7 +125,7 @@ public class PolygonsSet extends AbstractRegion<Euclidean2D, Euclidean1D> {
      * <p>This constructor does not handle polygons with a boundary
      * forming several disconnected paths (such as polygons with holes).</p>
      * <p>For cases where this simple constructor applies, it is expected to
-     * be numerically more robust than the {@link #PolygonsSet(Collection) general
+     * be numerically more robust than the {@link #PolygonsSet(Collection,double) general
      * constructor} using {@link SubHyperplane subhyperplanes}.</p>
      * <p>If the list is empty, the region will represent the whole
      * space.</p>
@@ -186,7 +186,7 @@ public class PolygonsSet extends AbstractRegion<Euclidean2D, Euclidean1D> {
      * <p>This constructor does not handle polygons with a boundary
      * forming several disconnected paths (such as polygons with holes).</p>
      * <p>For cases where this simple constructor applies, it is expected to
-     * be numerically more robust than the {@link #PolygonsSet(Collection) general
+     * be numerically more robust than the {@link #PolygonsSet(Collection,double) general
      * constructor} using {@link SubHyperplane subhyperplanes}.</p>
      * @param hyperplaneThickness tolerance below which points are consider to
      * belong to the hyperplane (which is therefore more a slab)
