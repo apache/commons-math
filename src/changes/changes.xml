@@ -54,6 +54,9 @@ If the output is not quite correct, check for invisible trailing spaces!
       <action dev="luc" type="fix" issue="MATH-1211" due-to="Mike Zimmerman">
         Fixed wrong selection of line/polyhedron intersection point.
       </action>    
+      <action dev="luc" type="fix" issue="MATH-1162">
+        Improved fix for corner cases in BSP-tree merging, when cut sub-hyperplanes vanish.
+      </action>    
       <action dev="tn" type="fix" issue="MATH-1209" due-to="Jonathan Ogilvie">
         Fixed link to algorithm description in "PoissonDistribution#sample()".
       </action>    
