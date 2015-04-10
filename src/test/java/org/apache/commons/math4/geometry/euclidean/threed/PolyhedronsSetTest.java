@@ -17,6 +17,9 @@
 package org.apache.commons.math4.geometry.euclidean.threed;
 
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.io.Reader;
 import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -43,6 +46,8 @@ import org.apache.commons.math4.geometry.partitioning.RegionDumper;
 import org.apache.commons.math4.geometry.partitioning.RegionFactory;
 import org.apache.commons.math4.geometry.partitioning.RegionParser;
 import org.apache.commons.math4.geometry.partitioning.SubHyperplane;
+import org.apache.commons.math4.random.RandomGenerator;
+import org.apache.commons.math4.random.Well1024a;
 import org.apache.commons.math4.util.FastMath;
 import org.junit.Assert;
 import org.junit.Test;
@@ -369,6 +374,38 @@ public class PolyhedronsSetTest {
             Assert.assertEquals(24.0, parsed.getBoundarySize(), 1.0e-10);
             Assert.assertTrue(new RegionFactory<Euclidean3D>().difference(polyset, parsed).isEmpty());
     }
+
+    @Test
+    public void testIssue1211() throws IOException, ParseException {
+
+        PolyhedronsSet polyset = RegionParser.parsePolyhedronsSet(loadTestData("issue-1211.bsp"));
+        RandomGenerator random = new Well1024a(0xb97c9d1ade21e40al);
+        int nrays = 1000;
+        for (int i = 0; i < nrays; i++) {
+            Vector3D origin    = Vector3D.ZERO;
+            Vector3D direction = new Vector3D(2 * random.nextDouble() - 1,
+                                              2 * random.nextDouble() - 1,
+                                              2 * random.nextDouble() - 1).normalize();
+            Line line = new Line(origin, origin.add(direction), polyset.getTolerance());
+            SubHyperplane<Euclidean3D> plane = polyset.firstIntersection(origin, line);
+            if (plane != null) {
+                Vector3D intersectionPoint = ((Plane)plane.getHyperplane()).intersection(line);
+                double dotProduct = direction.dotProduct(intersectionPoint.subtract(origin));
+                Assert.assertTrue(dotProduct > 0);
+            }
+        }
+    }
+
+    private String loadTestData(final String resourceName)
+            throws IOException {
+            InputStream stream = getClass().getResourceAsStream(resourceName);
+            Reader reader = new InputStreamReader(stream, "UTF-8");
+            StringBuilder builder = new StringBuilder();
+            for (int c = reader.read(); c >= 0; c = reader.read()) {
+                builder.append((char) c);
+            }
+            return builder.toString();
+        }
 
     private void checkPoints(Region.Location expected, PolyhedronsSet tree, Vector3D[] points) {
         for (int i = 0; i < points.length; ++i) {
