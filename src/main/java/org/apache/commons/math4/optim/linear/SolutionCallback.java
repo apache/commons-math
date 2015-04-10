@@ -20,8 +20,8 @@ import org.apache.commons.math4.optim.OptimizationData;
 import org.apache.commons.math4.optim.PointValuePair;
 
 /**
- * A constraint for a linear optimization problem indicating whether all
- * variables must be restricted to non-negative values.
+ * A callback object that can be provided to a linear optimizer to keep track
+ * of the best solution found.
  *
  * @since 3.3
  */
