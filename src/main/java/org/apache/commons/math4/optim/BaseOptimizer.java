@@ -238,6 +238,7 @@ public abstract class BaseOptimizer<PAIR> {
          * {@inheritDoc}
          * @throws TooManyEvaluationsException
          */
+        @Override
         public void trigger(int max) {
             throw new TooManyEvaluationsException(max);
         }
@@ -253,6 +254,7 @@ public abstract class BaseOptimizer<PAIR> {
          * {@inheritDoc}
          * @throws TooManyIterationsException
          */
+        @Override
         public void trigger(int max) {
             throw new TooManyIterationsException(max);
         }

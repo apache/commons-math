@@ -248,6 +248,7 @@ public class DerivativeStructure implements RealFieldElement<DerivativeStructure
     /** {@inheritDoc}
      * @since 3.2
      */
+    @Override
     public double getReal() {
         return data[0];
     }
@@ -286,6 +287,7 @@ public class DerivativeStructure implements RealFieldElement<DerivativeStructure
     /** {@inheritDoc}
      * @since 3.2
      */
+    @Override
     public DerivativeStructure add(final double a) {
         final DerivativeStructure ds = new DerivativeStructure(this);
         ds.data[0] += a;
@@ -296,6 +298,7 @@ public class DerivativeStructure implements RealFieldElement<DerivativeStructure
      * @exception DimensionMismatchException if number of free parameters
      * or orders do not match
      */
+    @Override
     public DerivativeStructure add(final DerivativeStructure a)
         throws DimensionMismatchException {
         compiler.checkCompatibility(a.compiler);
@@ -307,6 +310,7 @@ public class DerivativeStructure implements RealFieldElement<DerivativeStructure
     /** {@inheritDoc}
      * @since 3.2
      */
+    @Override
     public DerivativeStructure subtract(final double a) {
         return add(-a);
     }
@@ -315,6 +319,7 @@ public class DerivativeStructure implements RealFieldElement<DerivativeStructure
      * @exception DimensionMismatchException if number of free parameters
      * or orders do not match
      */
+    @Override
     public DerivativeStructure subtract(final DerivativeStructure a)
         throws DimensionMismatchException {
         compiler.checkCompatibility(a.compiler);
@@ -324,6 +329,7 @@ public class DerivativeStructure implements RealFieldElement<DerivativeStructure
     }
 
     /** {@inheritDoc} */
+    @Override
     public DerivativeStructure multiply(final int n) {
         return multiply((double) n);
     }
@@ -331,6 +337,7 @@ public class DerivativeStructure implements RealFieldElement<DerivativeStructure
     /** {@inheritDoc}
      * @since 3.2
      */
+    @Override
     public DerivativeStructure multiply(final double a) {
         final DerivativeStructure ds = new DerivativeStructure(this);
         for (int i = 0; i < ds.data.length; ++i) {
@@ -343,6 +350,7 @@ public class DerivativeStructure implements RealFieldElement<DerivativeStructure
      * @exception DimensionMismatchException if number of free parameters
      * or orders do not match
      */
+    @Override
     public DerivativeStructure multiply(final DerivativeStructure a)
         throws DimensionMismatchException {
         compiler.checkCompatibility(a.compiler);
@@ -354,6 +362,7 @@ public class DerivativeStructure implements RealFieldElement<DerivativeStructure
     /** {@inheritDoc}
      * @since 3.2
      */
+    @Override
     public DerivativeStructure divide(final double a) {
         final DerivativeStructure ds = new DerivativeStructure(this);
         for (int i = 0; i < ds.data.length; ++i) {
@@ -366,6 +375,7 @@ public class DerivativeStructure implements RealFieldElement<DerivativeStructure
      * @exception DimensionMismatchException if number of free parameters
      * or orders do not match
      */
+    @Override
     public DerivativeStructure divide(final DerivativeStructure a)
         throws DimensionMismatchException {
         compiler.checkCompatibility(a.compiler);
@@ -375,6 +385,7 @@ public class DerivativeStructure implements RealFieldElement<DerivativeStructure
     }
 
     /** {@inheritDoc} */
+    @Override
     public DerivativeStructure remainder(final double a) {
         final DerivativeStructure ds = new DerivativeStructure(this);
         ds.data[0] = FastMath.IEEEremainder(ds.data[0], a);
@@ -386,6 +397,7 @@ public class DerivativeStructure implements RealFieldElement<DerivativeStructure
      * or orders do not match
      * @since 3.2
      */
+    @Override
     public DerivativeStructure remainder(final DerivativeStructure a)
         throws DimensionMismatchException {
         compiler.checkCompatibility(a.compiler);
@@ -395,6 +407,7 @@ public class DerivativeStructure implements RealFieldElement<DerivativeStructure
     }
 
     /** {@inheritDoc} */
+    @Override
     public DerivativeStructure negate() {
         final DerivativeStructure ds = new DerivativeStructure(compiler);
         for (int i = 0; i < ds.data.length; ++i) {
@@ -406,6 +419,7 @@ public class DerivativeStructure implements RealFieldElement<DerivativeStructure
     /** {@inheritDoc}
      * @since 3.2
      */
+    @Override
     public DerivativeStructure abs() {
         if (Double.doubleToLongBits(data[0]) < 0) {
             // we use the bits representation to also handle -0.0
@@ -418,6 +432,7 @@ public class DerivativeStructure implements RealFieldElement<DerivativeStructure
     /** {@inheritDoc}
      * @since 3.2
      */
+    @Override
     public DerivativeStructure ceil() {
         return new DerivativeStructure(compiler.getFreeParameters(),
                                        compiler.getOrder(),
@@ -427,6 +442,7 @@ public class DerivativeStructure implements RealFieldElement<DerivativeStructure
     /** {@inheritDoc}
      * @since 3.2
      */
+    @Override
     public DerivativeStructure floor() {
         return new DerivativeStructure(compiler.getFreeParameters(),
                                        compiler.getOrder(),
@@ -436,6 +452,7 @@ public class DerivativeStructure implements RealFieldElement<DerivativeStructure
     /** {@inheritDoc}
      * @since 3.2
      */
+    @Override
     public DerivativeStructure rint() {
         return new DerivativeStructure(compiler.getFreeParameters(),
                                        compiler.getOrder(),
@@ -443,6 +460,7 @@ public class DerivativeStructure implements RealFieldElement<DerivativeStructure
     }
 
     /** {@inheritDoc} */
+    @Override
     public long round() {
         return FastMath.round(data[0]);
     }
@@ -450,6 +468,7 @@ public class DerivativeStructure implements RealFieldElement<DerivativeStructure
     /** {@inheritDoc}
      * @since 3.2
      */
+    @Override
     public DerivativeStructure signum() {
         return new DerivativeStructure(compiler.getFreeParameters(),
                                        compiler.getOrder(),
@@ -459,6 +478,7 @@ public class DerivativeStructure implements RealFieldElement<DerivativeStructure
     /** {@inheritDoc}
      * @since 3.2
      */
+    @Override
     public DerivativeStructure copySign(final DerivativeStructure sign){
         long m = Double.doubleToLongBits(data[0]);
         long s = Double.doubleToLongBits(sign.data[0]);
@@ -471,6 +491,7 @@ public class DerivativeStructure implements RealFieldElement<DerivativeStructure
     /** {@inheritDoc}
      * @since 3.2
      */
+    @Override
     public DerivativeStructure copySign(final double sign) {
         long m = Double.doubleToLongBits(data[0]);
         long s = Double.doubleToLongBits(sign);
@@ -495,6 +516,7 @@ public class DerivativeStructure implements RealFieldElement<DerivativeStructure
     /** {@inheritDoc}
      * @since 3.2
      */
+    @Override
     public DerivativeStructure scalb(final int n) {
         final DerivativeStructure ds = new DerivativeStructure(compiler);
         for (int i = 0; i < ds.data.length; ++i) {
@@ -508,6 +530,7 @@ public class DerivativeStructure implements RealFieldElement<DerivativeStructure
      * or orders do not match
      * @since 3.2
      */
+    @Override
     public DerivativeStructure hypot(final DerivativeStructure y)
         throws DimensionMismatchException {
 
@@ -593,6 +616,7 @@ public class DerivativeStructure implements RealFieldElement<DerivativeStructure
     }
 
     /** {@inheritDoc} */
+    @Override
     public DerivativeStructure reciprocal() {
         final DerivativeStructure result = new DerivativeStructure(compiler);
         compiler.pow(data, 0, -1, result.data, 0);
@@ -602,6 +626,7 @@ public class DerivativeStructure implements RealFieldElement<DerivativeStructure
     /** {@inheritDoc}
      * @since 3.2
      */
+    @Override
     public DerivativeStructure sqrt() {
         return rootN(2);
     }
@@ -609,6 +634,7 @@ public class DerivativeStructure implements RealFieldElement<DerivativeStructure
     /** {@inheritDoc}
      * @since 3.2
      */
+    @Override
     public DerivativeStructure cbrt() {
         return rootN(3);
     }
@@ -616,6 +642,7 @@ public class DerivativeStructure implements RealFieldElement<DerivativeStructure
     /** {@inheritDoc}
      * @since 3.2
      */
+    @Override
     public DerivativeStructure rootN(final int n) {
         final DerivativeStructure result = new DerivativeStructure(compiler);
         compiler.rootN(data, 0, n, result.data, 0);
@@ -623,20 +650,24 @@ public class DerivativeStructure implements RealFieldElement<DerivativeStructure
     }
 
     /** {@inheritDoc} */
+    @Override
     public Field<DerivativeStructure> getField() {
         return new Field<DerivativeStructure>() {
 
             /** {@inheritDoc} */
+            @Override
             public DerivativeStructure getZero() {
                 return new DerivativeStructure(compiler.getFreeParameters(), compiler.getOrder(), 0.0);
             }
 
             /** {@inheritDoc} */
+            @Override
             public DerivativeStructure getOne() {
                 return new DerivativeStructure(compiler.getFreeParameters(), compiler.getOrder(), 1.0);
             }
 
             /** {@inheritDoc} */
+            @Override
             public Class<? extends FieldElement<DerivativeStructure>> getRuntimeClass() {
                 return DerivativeStructure.class;
             }
@@ -659,6 +690,7 @@ public class DerivativeStructure implements RealFieldElement<DerivativeStructure
     /** {@inheritDoc}
      * @since 3.2
      */
+    @Override
     public DerivativeStructure pow(final double p) {
         final DerivativeStructure result = new DerivativeStructure(compiler);
         compiler.pow(data, 0, p, result.data, 0);
@@ -668,6 +700,7 @@ public class DerivativeStructure implements RealFieldElement<DerivativeStructure
     /** {@inheritDoc}
      * @since 3.2
      */
+    @Override
     public DerivativeStructure pow(final int n) {
         final DerivativeStructure result = new DerivativeStructure(compiler);
         compiler.pow(data, 0, n, result.data, 0);
@@ -679,6 +712,7 @@ public class DerivativeStructure implements RealFieldElement<DerivativeStructure
      * or orders do not match
      * @since 3.2
      */
+    @Override
     public DerivativeStructure pow(final DerivativeStructure e)
         throws DimensionMismatchException {
         compiler.checkCompatibility(e.compiler);
@@ -690,6 +724,7 @@ public class DerivativeStructure implements RealFieldElement<DerivativeStructure
     /** {@inheritDoc}
      * @since 3.2
      */
+    @Override
     public DerivativeStructure exp() {
         final DerivativeStructure result = new DerivativeStructure(compiler);
         compiler.exp(data, 0, result.data, 0);
@@ -699,6 +734,7 @@ public class DerivativeStructure implements RealFieldElement<DerivativeStructure
     /** {@inheritDoc}
      * @since 3.2
      */
+    @Override
     public DerivativeStructure expm1() {
         final DerivativeStructure result = new DerivativeStructure(compiler);
         compiler.expm1(data, 0, result.data, 0);
@@ -708,6 +744,7 @@ public class DerivativeStructure implements RealFieldElement<DerivativeStructure
     /** {@inheritDoc}
      * @since 3.2
      */
+    @Override
     public DerivativeStructure log() {
         final DerivativeStructure result = new DerivativeStructure(compiler);
         compiler.log(data, 0, result.data, 0);
@@ -717,6 +754,7 @@ public class DerivativeStructure implements RealFieldElement<DerivativeStructure
     /** {@inheritDoc}
      * @since 3.2
      */
+    @Override
     public DerivativeStructure log1p() {
         final DerivativeStructure result = new DerivativeStructure(compiler);
         compiler.log1p(data, 0, result.data, 0);
@@ -735,6 +773,7 @@ public class DerivativeStructure implements RealFieldElement<DerivativeStructure
     /** {@inheritDoc}
      * @since 3.2
      */
+    @Override
     public DerivativeStructure cos() {
         final DerivativeStructure result = new DerivativeStructure(compiler);
         compiler.cos(data, 0, result.data, 0);
@@ -744,6 +783,7 @@ public class DerivativeStructure implements RealFieldElement<DerivativeStructure
     /** {@inheritDoc}
      * @since 3.2
      */
+    @Override
     public DerivativeStructure sin() {
         final DerivativeStructure result = new DerivativeStructure(compiler);
         compiler.sin(data, 0, result.data, 0);
@@ -753,6 +793,7 @@ public class DerivativeStructure implements RealFieldElement<DerivativeStructure
     /** {@inheritDoc}
      * @since 3.2
      */
+    @Override
     public DerivativeStructure tan() {
         final DerivativeStructure result = new DerivativeStructure(compiler);
         compiler.tan(data, 0, result.data, 0);
@@ -762,6 +803,7 @@ public class DerivativeStructure implements RealFieldElement<DerivativeStructure
     /** {@inheritDoc}
      * @since 3.2
      */
+    @Override
     public DerivativeStructure acos() {
         final DerivativeStructure result = new DerivativeStructure(compiler);
         compiler.acos(data, 0, result.data, 0);
@@ -771,6 +813,7 @@ public class DerivativeStructure implements RealFieldElement<DerivativeStructure
     /** {@inheritDoc}
      * @since 3.2
      */
+    @Override
     public DerivativeStructure asin() {
         final DerivativeStructure result = new DerivativeStructure(compiler);
         compiler.asin(data, 0, result.data, 0);
@@ -780,6 +823,7 @@ public class DerivativeStructure implements RealFieldElement<DerivativeStructure
     /** {@inheritDoc}
      * @since 3.2
      */
+    @Override
     public DerivativeStructure atan() {
         final DerivativeStructure result = new DerivativeStructure(compiler);
         compiler.atan(data, 0, result.data, 0);
@@ -789,6 +833,7 @@ public class DerivativeStructure implements RealFieldElement<DerivativeStructure
     /** {@inheritDoc}
      * @since 3.2
      */
+    @Override
     public DerivativeStructure atan2(final DerivativeStructure x)
         throws DimensionMismatchException {
         compiler.checkCompatibility(x.compiler);
@@ -813,6 +858,7 @@ public class DerivativeStructure implements RealFieldElement<DerivativeStructure
     /** {@inheritDoc}
      * @since 3.2
      */
+    @Override
     public DerivativeStructure cosh() {
         final DerivativeStructure result = new DerivativeStructure(compiler);
         compiler.cosh(data, 0, result.data, 0);
@@ -822,6 +868,7 @@ public class DerivativeStructure implements RealFieldElement<DerivativeStructure
     /** {@inheritDoc}
      * @since 3.2
      */
+    @Override
     public DerivativeStructure sinh() {
         final DerivativeStructure result = new DerivativeStructure(compiler);
         compiler.sinh(data, 0, result.data, 0);
@@ -831,6 +878,7 @@ public class DerivativeStructure implements RealFieldElement<DerivativeStructure
     /** {@inheritDoc}
      * @since 3.2
      */
+    @Override
     public DerivativeStructure tanh() {
         final DerivativeStructure result = new DerivativeStructure(compiler);
         compiler.tanh(data, 0, result.data, 0);
@@ -840,6 +888,7 @@ public class DerivativeStructure implements RealFieldElement<DerivativeStructure
     /** {@inheritDoc}
      * @since 3.2
      */
+    @Override
     public DerivativeStructure acosh() {
         final DerivativeStructure result = new DerivativeStructure(compiler);
         compiler.acosh(data, 0, result.data, 0);
@@ -849,6 +898,7 @@ public class DerivativeStructure implements RealFieldElement<DerivativeStructure
     /** {@inheritDoc}
      * @since 3.2
      */
+    @Override
     public DerivativeStructure asinh() {
         final DerivativeStructure result = new DerivativeStructure(compiler);
         compiler.asinh(data, 0, result.data, 0);
@@ -858,6 +908,7 @@ public class DerivativeStructure implements RealFieldElement<DerivativeStructure
     /** {@inheritDoc}
      * @since 3.2
      */
+    @Override
     public DerivativeStructure atanh() {
         final DerivativeStructure result = new DerivativeStructure(compiler);
         compiler.atanh(data, 0, result.data, 0);
@@ -900,6 +951,7 @@ public class DerivativeStructure implements RealFieldElement<DerivativeStructure
      * or orders do not match
      * @since 3.2
      */
+    @Override
     public DerivativeStructure linearCombination(final DerivativeStructure[] a, final DerivativeStructure[] b)
         throws DimensionMismatchException {
 
@@ -932,6 +984,7 @@ public class DerivativeStructure implements RealFieldElement<DerivativeStructure
      * or orders do not match
      * @since 3.2
      */
+    @Override
     public DerivativeStructure linearCombination(final double[] a, final DerivativeStructure[] b)
         throws DimensionMismatchException {
 
@@ -960,6 +1013,7 @@ public class DerivativeStructure implements RealFieldElement<DerivativeStructure
      * or orders do not match
      * @since 3.2
      */
+    @Override
     public DerivativeStructure linearCombination(final DerivativeStructure a1, final DerivativeStructure b1,
                                                  final DerivativeStructure a2, final DerivativeStructure b2)
         throws DimensionMismatchException {
@@ -983,6 +1037,7 @@ public class DerivativeStructure implements RealFieldElement<DerivativeStructure
      * or orders do not match
      * @since 3.2
      */
+    @Override
     public DerivativeStructure linearCombination(final double a1, final DerivativeStructure b1,
                                                  final double a2, final DerivativeStructure b2)
         throws DimensionMismatchException {
@@ -1006,6 +1061,7 @@ public class DerivativeStructure implements RealFieldElement<DerivativeStructure
      * or orders do not match
      * @since 3.2
      */
+    @Override
     public DerivativeStructure linearCombination(final DerivativeStructure a1, final DerivativeStructure b1,
                                                  final DerivativeStructure a2, final DerivativeStructure b2,
                                                  final DerivativeStructure a3, final DerivativeStructure b3)
@@ -1031,6 +1087,7 @@ public class DerivativeStructure implements RealFieldElement<DerivativeStructure
      * or orders do not match
      * @since 3.2
      */
+    @Override
     public DerivativeStructure linearCombination(final double a1, final DerivativeStructure b1,
                                                  final double a2, final DerivativeStructure b2,
                                                  final double a3, final DerivativeStructure b3)
@@ -1056,6 +1113,7 @@ public class DerivativeStructure implements RealFieldElement<DerivativeStructure
      * or orders do not match
      * @since 3.2
      */
+    @Override
     public DerivativeStructure linearCombination(final DerivativeStructure a1, final DerivativeStructure b1,
                                                  final DerivativeStructure a2, final DerivativeStructure b2,
                                                  final DerivativeStructure a3, final DerivativeStructure b3,
@@ -1083,6 +1141,7 @@ public class DerivativeStructure implements RealFieldElement<DerivativeStructure
      * or orders do not match
      * @since 3.2
      */
+    @Override
     public DerivativeStructure linearCombination(final double a1, final DerivativeStructure b1,
                                                  final double a2, final DerivativeStructure b2,
                                                  final double a3, final DerivativeStructure b3,

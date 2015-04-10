@@ -173,6 +173,7 @@ public class StepNormalizer implements StepHandler {
     }
 
     /** {@inheritDoc} */
+    @Override
     public void init(double t0, double[] y0, double t) {
 
         firstTime       = Double.NaN;

@@ -321,6 +321,7 @@ public class LeastSquaresFactory {
         }
 
         /** {@inheritDoc} */
+        @Override
         public Pair<RealVector, RealMatrix> value(final RealVector point) {
             //TODO get array from RealVector without copying?
             final double[] p = point.toArray();
@@ -331,11 +332,13 @@ public class LeastSquaresFactory {
         }
 
         /** {@inheritDoc} */
+        @Override
         public RealVector computeValue(final double[] params) {
             return new ArrayRealVector(value.value(params), false);
         }
 
         /** {@inheritDoc} */
+        @Override
         public RealMatrix computeJacobian(final double[] params) {
             return new Array2DRowRealMatrix(jacobian.value(params), false);
         }
@@ -400,21 +403,25 @@ public class LeastSquaresFactory {
         }
 
         /** {@inheritDoc} */
+        @Override
         public int getObservationSize() {
             return target.getDimension();
         }
 
         /** {@inheritDoc} */
+        @Override
         public int getParameterSize() {
             return start.getDimension();
         }
 
         /** {@inheritDoc} */
+        @Override
         public RealVector getStart() {
             return start == null ? null : start.copy();
         }
 
         /** {@inheritDoc} */
+        @Override
         public Evaluation evaluate(final RealVector point) {
             // Copy so optimizer can change point without changing our instance.
             final RealVector p = paramValidator == null ?
@@ -465,16 +472,19 @@ public class LeastSquaresFactory {
             }
 
             /** {@inheritDoc} */
+            @Override
             public RealMatrix getJacobian() {
                 return jacobian;
             }
 
             /** {@inheritDoc} */
+            @Override
             public RealVector getPoint() {
                 return point;
             }
 
             /** {@inheritDoc} */
+            @Override
             public RealVector getResiduals() {
                 return residuals;
             }
@@ -509,16 +519,19 @@ public class LeastSquaresFactory {
             }
 
             /** {@inheritDoc} */
+            @Override
             public RealMatrix getJacobian() {
                 return model.computeJacobian(point.toArray());
             }
 
             /** {@inheritDoc} */
+            @Override
             public RealVector getPoint() {
                 return point;
             }
 
             /** {@inheritDoc} */
+            @Override
             public RealVector getResiduals() {
                 return target.subtract(model.computeValue(point.toArray()));
             }

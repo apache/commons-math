@@ -86,6 +86,7 @@ public class FeatureInitializerFactory {
             private double arg = init;
 
             /** {@inheritDoc} */
+            @Override
             public double value() {
                 final double result = f.value(arg);
                 arg += inc;
@@ -106,6 +107,7 @@ public class FeatureInitializerFactory {
                                                final FeatureInitializer orig) {
         return new FeatureInitializer() {
             /** {@inheritDoc} */
+            @Override
             public double value() {
                 return orig.value() + random.sample();
             }

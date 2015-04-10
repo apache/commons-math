@@ -260,6 +260,7 @@ public abstract class AbstractMultipleLinearRegression implements
     /**
      * {@inheritDoc}
      */
+    @Override
     public double[] estimateRegressionParameters() {
         RealVector b = calculateBeta();
         return b.toArray();
@@ -268,6 +269,7 @@ public abstract class AbstractMultipleLinearRegression implements
     /**
      * {@inheritDoc}
      */
+    @Override
     public double[] estimateResiduals() {
         RealVector b = calculateBeta();
         RealVector e = yVector.subtract(xMatrix.operate(b));
@@ -277,6 +279,7 @@ public abstract class AbstractMultipleLinearRegression implements
     /**
      * {@inheritDoc}
      */
+    @Override
     public double[][] estimateRegressionParametersVariance() {
         return calculateBetaVariance().getData();
     }
@@ -284,6 +287,7 @@ public abstract class AbstractMultipleLinearRegression implements
     /**
      * {@inheritDoc}
      */
+    @Override
     public double[] estimateRegressionParametersStandardErrors() {
         double[][] betaVariance = estimateRegressionParametersVariance();
         double sigma = calculateErrorVariance();
@@ -298,6 +302,7 @@ public abstract class AbstractMultipleLinearRegression implements
     /**
      * {@inheritDoc}
      */
+    @Override
     public double estimateRegressandVariance() {
         return calculateYVariance();
     }

@@ -49,11 +49,13 @@ class DenseWeightedEvaluation extends AbstractEvaluation {
     /* apply weights */
 
     /** {@inheritDoc} */
+    @Override
     public RealMatrix getJacobian() {
         return weightSqrt.multiply(this.unweighted.getJacobian());
     }
 
     /** {@inheritDoc} */
+    @Override
     public RealVector getResiduals() {
         return this.weightSqrt.operate(this.unweighted.getResiduals());
     }
@@ -61,6 +63,7 @@ class DenseWeightedEvaluation extends AbstractEvaluation {
     /* delegate */
 
     /** {@inheritDoc} */
+    @Override
     public RealVector getPoint() {
         return unweighted.getPoint();
     }

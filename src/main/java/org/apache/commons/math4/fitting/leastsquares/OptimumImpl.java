@@ -51,56 +51,67 @@ class OptimumImpl implements Optimum {
     /* auto-generated implementations */
 
     /** {@inheritDoc} */
+    @Override
     public int getEvaluations() {
         return evaluations;
     }
 
     /** {@inheritDoc} */
+    @Override
     public int getIterations() {
         return iterations;
     }
 
     /** {@inheritDoc} */
+    @Override
     public RealMatrix getCovariances(double threshold) {
         return value.getCovariances(threshold);
     }
 
     /** {@inheritDoc} */
+    @Override
     public RealVector getSigma(double covarianceSingularityThreshold) {
         return value.getSigma(covarianceSingularityThreshold);
     }
 
     /** {@inheritDoc} */
+    @Override
     public double getRMS() {
         return value.getRMS();
     }
 
     /** {@inheritDoc} */
+    @Override
     public RealMatrix getJacobian() {
         return value.getJacobian();
     }
 
     /** {@inheritDoc} */
+    @Override
     public double getCost() {
         return value.getCost();
     }
 
     /** {@inheritDoc} */
+    @Override
     public double getChiSquare() {
         return value.getChiSquare();
     }
 
     /** {@inheritDoc} */
+    @Override
     public double getReducedChiSquare(int n) {
         return value.getReducedChiSquare(n);
     }
 
     /** {@inheritDoc} */
+    @Override
     public RealVector getResiduals() {
         return value.getResiduals();
     }
 
     /** {@inheritDoc} */
+    @Override
     public RealVector getPoint() {
         return value.getPoint();
     }

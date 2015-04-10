@@ -28,6 +28,7 @@ import org.apache.commons.math4.analysis.differentiation.UnivariateDifferentiabl
  */
 public class Identity implements UnivariateDifferentiableFunction, DifferentiableUnivariateFunction {
     /** {@inheritDoc} */
+    @Override
     public double value(double x) {
         return x;
     }
@@ -35,6 +36,7 @@ public class Identity implements UnivariateDifferentiableFunction, Differentiabl
     /** {@inheritDoc}
      * @deprecated as of 3.1, replaced by {@link #value(DerivativeStructure)}
      */
+    @Override
     @Deprecated
     public DifferentiableUnivariateFunction derivative() {
         return new Constant(1);
@@ -43,6 +45,7 @@ public class Identity implements UnivariateDifferentiableFunction, Differentiabl
     /** {@inheritDoc}
      * @since 3.1
      */
+    @Override
     public DerivativeStructure value(final DerivativeStructure t) {
         return t;
     }

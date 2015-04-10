@@ -112,6 +112,7 @@ public class PiecewiseBicubicSplineInterpolatingFunction
     /**
      * {@inheritDoc}
      */
+    @Override
     public double value(double x,
                         double y)
         throws OutOfRangeException {

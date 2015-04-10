@@ -159,31 +159,37 @@ public abstract class BaseAbstractUnivariateIntegrator implements UnivariateInte
     }
 
     /** {@inheritDoc} */
+    @Override
     public double getRelativeAccuracy() {
         return relativeAccuracy;
     }
 
     /** {@inheritDoc} */
+    @Override
     public double getAbsoluteAccuracy() {
         return absoluteAccuracy;
     }
 
     /** {@inheritDoc} */
+    @Override
     public int getMinimalIterationCount() {
         return minimalIterationCount;
     }
 
     /** {@inheritDoc} */
+    @Override
     public int getMaximalIterationCount() {
         return iterations.getMaximalCount();
     }
 
     /** {@inheritDoc} */
+    @Override
     public int getEvaluations() {
         return evaluations.getCount();
     }
 
     /** {@inheritDoc} */
+    @Override
     public int getIterations() {
         return iterations.getCount();
     }
@@ -251,6 +257,7 @@ public abstract class BaseAbstractUnivariateIntegrator implements UnivariateInte
     }
 
     /** {@inheritDoc} */
+    @Override
     public double integrate(final int maxEval, final UnivariateFunction f,
                             final double lower, final double upper)
         throws TooManyEvaluationsException, MaxCountExceededException,

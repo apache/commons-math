@@ -154,6 +154,7 @@ public class BicubicInterpolatingFunction
     /**
      * {@inheritDoc}
      */
+    @Override
     public double value(double x, double y)
         throws OutOfRangeException {
         final int i = searchIndex(x, xval);
@@ -287,6 +288,7 @@ class BicubicFunction implements BivariateFunction {
     /**
      * {@inheritDoc}
      */
+    @Override
     public double value(double x, double y) {
         if (x < 0 || x > 1) {
             throw new OutOfRangeException(x, 0, 1);

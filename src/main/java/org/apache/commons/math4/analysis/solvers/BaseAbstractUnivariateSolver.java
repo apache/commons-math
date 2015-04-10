@@ -101,10 +101,12 @@ public abstract class BaseAbstractUnivariateSolver<FUNC extends UnivariateFuncti
     }
 
     /** {@inheritDoc} */
+    @Override
     public int getMaxEvaluations() {
         return evaluations.getMaximalCount();
     }
     /** {@inheritDoc} */
+    @Override
     public int getEvaluations() {
         return evaluations.getCount();
     }
@@ -129,18 +131,21 @@ public abstract class BaseAbstractUnivariateSolver<FUNC extends UnivariateFuncti
     /**
      * {@inheritDoc}
      */
+    @Override
     public double getAbsoluteAccuracy() {
         return absoluteAccuracy;
     }
     /**
      * {@inheritDoc}
      */
+    @Override
     public double getRelativeAccuracy() {
         return relativeAccuracy;
     }
     /**
      * {@inheritDoc}
      */
+    @Override
     public double getFunctionValueAccuracy() {
         return functionValueAccuracy;
     }
@@ -189,6 +194,7 @@ public abstract class BaseAbstractUnivariateSolver<FUNC extends UnivariateFuncti
     }
 
     /** {@inheritDoc} */
+    @Override
     public double solve(int maxEval, FUNC f, double min, double max, double startValue)
         throws TooManyEvaluationsException,
                NoBracketingException {
@@ -200,11 +206,13 @@ public abstract class BaseAbstractUnivariateSolver<FUNC extends UnivariateFuncti
     }
 
     /** {@inheritDoc} */
+    @Override
     public double solve(int maxEval, FUNC f, double min, double max) {
         return solve(maxEval, f, min, max, min + 0.5 * (max - min));
     }
 
     /** {@inheritDoc} */
+    @Override
     public double solve(int maxEval, FUNC f, double startValue)
         throws TooManyEvaluationsException,
                NoBracketingException {

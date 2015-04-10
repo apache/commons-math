@@ -31,6 +31,7 @@ import org.apache.commons.math4.util.FastMath;
  */
 public class Expm1 implements UnivariateDifferentiableFunction, DifferentiableUnivariateFunction {
     /** {@inheritDoc} */
+    @Override
     public double value(double x) {
         return FastMath.expm1(x);
     }
@@ -38,6 +39,7 @@ public class Expm1 implements UnivariateDifferentiableFunction, DifferentiableUn
     /** {@inheritDoc}
      * @deprecated as of 3.1, replaced by {@link #value(DerivativeStructure)}
      */
+    @Override
     @Deprecated
     public UnivariateFunction derivative() {
         return FunctionUtils.toDifferentiableUnivariateFunction(this).derivative();
@@ -46,6 +48,7 @@ public class Expm1 implements UnivariateDifferentiableFunction, DifferentiableUn
     /** {@inheritDoc}
      * @since 3.1
      */
+    @Override
     public DerivativeStructure value(final DerivativeStructure t) {
         return t.expm1();
     }

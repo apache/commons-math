@@ -138,6 +138,7 @@ public class Kurtosis extends AbstractStorelessUnivariateStatistic  implements S
     /**
      * {@inheritDoc}
      */
+    @Override
     public long getN() {
         return moment.getN();
     }

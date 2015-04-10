@@ -309,6 +309,7 @@ public class TricubicInterpolatingFunction
      *
      * @throws OutOfRangeException if any of the variables is outside its interpolation range.
      */
+    @Override
     public double value(double x, double y, double z)
         throws OutOfRangeException {
         final int i = searchIndex(x, xval);

@@ -82,6 +82,7 @@ public class Sinc implements UnivariateDifferentiableFunction, DifferentiableUni
     }
 
     /** {@inheritDoc} */
+    @Override
     public double value(final double x) {
         final double scaledX = normalized ? FastMath.PI * x : x;
         if (FastMath.abs(scaledX) <= SHORTCUT) {
@@ -97,6 +98,7 @@ public class Sinc implements UnivariateDifferentiableFunction, DifferentiableUni
     /** {@inheritDoc}
      * @deprecated as of 3.1, replaced by {@link #value(DerivativeStructure)}
      */
+    @Override
     @Deprecated
     public UnivariateFunction derivative() {
         return FunctionUtils.toDifferentiableUnivariateFunction(this).derivative();
@@ -105,6 +107,7 @@ public class Sinc implements UnivariateDifferentiableFunction, DifferentiableUni
     /** {@inheritDoc}
      * @since 3.1
      */
+    @Override
     public DerivativeStructure value(final DerivativeStructure t)
         throws DimensionMismatchException {
 

@@ -287,11 +287,13 @@ public class FieldLUDecomposition<T extends FieldElement<T>> {
         }
 
         /** {@inheritDoc} */
+        @Override
         public boolean isNonSingular() {
             return !singular;
         }
 
         /** {@inheritDoc} */
+        @Override
         public FieldVector<T> solve(FieldVector<T> b) {
             try {
                 return solve((ArrayFieldVector<T>) b);
@@ -377,6 +379,7 @@ public class FieldLUDecomposition<T extends FieldElement<T>> {
         }
 
         /** {@inheritDoc} */
+        @Override
         public FieldMatrix<T> solve(FieldMatrix<T> b) {
             final int m = pivot.length;
             if (b.getRowDimension() != m) {
@@ -431,6 +434,7 @@ public class FieldLUDecomposition<T extends FieldElement<T>> {
         }
 
         /** {@inheritDoc} */
+        @Override
         public FieldMatrix<T> getInverse() {
             final int m = pivot.length;
             final T one = field.getOne();

@@ -100,6 +100,7 @@ public class PolynomialFunctionNewtonForm implements UnivariateDifferentiableFun
      * {@inheritDoc}
      * @since 3.1
      */
+    @Override
     public DerivativeStructure value(final DerivativeStructure t) {
         verifyInputArray(a, c);
 

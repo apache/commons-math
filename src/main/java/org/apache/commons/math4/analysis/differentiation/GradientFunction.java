@@ -38,6 +38,7 @@ public class GradientFunction implements MultivariateVectorFunction {
     }
 
     /** {@inheritDoc} */
+    @Override
     public double[] value(double[] point) {
 
         // set up parameters

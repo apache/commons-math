@@ -29,6 +29,7 @@ import org.apache.commons.math4.util.FastMath;
  */
 public class Sinh implements UnivariateDifferentiableFunction, DifferentiableUnivariateFunction {
     /** {@inheritDoc} */
+    @Override
     public double value(double x) {
         return FastMath.sinh(x);
     }
@@ -36,6 +37,7 @@ public class Sinh implements UnivariateDifferentiableFunction, DifferentiableUni
     /** {@inheritDoc}
      * @deprecated as of 3.1, replaced by {@link #value(DerivativeStructure)}
      */
+    @Override
     @Deprecated
     public DifferentiableUnivariateFunction derivative() {
         return new Cosh();
@@ -44,6 +46,7 @@ public class Sinh implements UnivariateDifferentiableFunction, DifferentiableUni
     /** {@inheritDoc}
      * @since 3.1
      */
+    @Override
     public DerivativeStructure value(final DerivativeStructure t) {
         return t.sinh();
     }

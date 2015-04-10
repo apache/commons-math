@@ -90,6 +90,7 @@ public class Product extends AbstractStorelessUnivariateStatistic implements Ser
     /**
      * {@inheritDoc}
      */
+    @Override
     public long getN() {
         return n;
     }

@@ -133,6 +133,7 @@ class FirstMoment extends AbstractStorelessUnivariateStatistic
     /**
      * {@inheritDoc}
      */
+    @Override
     public long getN() {
         return n;
     }

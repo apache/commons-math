@@ -169,6 +169,7 @@ public class ContinuousOutputModel
   }
 
   /** {@inheritDoc} */
+  @Override
   public void init(double t0, double[] y0, double t) {
     initialTime = Double.NaN;
     finalTime   = Double.NaN;

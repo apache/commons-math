@@ -59,16 +59,19 @@ public abstract class AbstractOptimizationProblem<PAIR>
     }
 
     /** {@inheritDoc} */
+    @Override
     public Incrementor getEvaluationCounter() {
         return new Incrementor(this.maxEvaluations, MAX_EVAL_CALLBACK);
     }
 
     /** {@inheritDoc} */
+    @Override
     public Incrementor getIterationCounter() {
         return new Incrementor(this.maxIterations, MAX_ITER_CALLBACK);
     }
 
     /** {@inheritDoc} */
+    @Override
     public ConvergenceChecker<PAIR> getConvergenceChecker() {
         return checker;
     }
@@ -81,6 +84,7 @@ public abstract class AbstractOptimizationProblem<PAIR>
          *
          * @throws TooManyEvaluationsException
          */
+        @Override
         public void trigger(int max) {
             throw new TooManyEvaluationsException(max);
         }
@@ -94,6 +98,7 @@ public abstract class AbstractOptimizationProblem<PAIR>
          *
          * @throws TooManyIterationsException
          */
+        @Override
         public void trigger(int max) {
             throw new TooManyIterationsException(max);
         }

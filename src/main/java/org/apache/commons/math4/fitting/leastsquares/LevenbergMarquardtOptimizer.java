@@ -293,6 +293,7 @@ public class LevenbergMarquardtOptimizer implements LeastSquaresOptimizer {
     }
 
     /** {@inheritDoc} */
+    @Override
     public Optimum optimize(final LeastSquaresProblem problem) {
         // Pull in relevant data from the problem as locals.
         final int nR = problem.getObservationSize(); // Number of observed data.

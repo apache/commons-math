@@ -30,6 +30,7 @@ import org.apache.commons.math4.analysis.differentiation.UnivariateDifferentiabl
  */
 public class Inverse implements UnivariateDifferentiableFunction, DifferentiableUnivariateFunction {
     /** {@inheritDoc} */
+    @Override
     public double value(double x) {
         return 1 / x;
     }
@@ -37,6 +38,7 @@ public class Inverse implements UnivariateDifferentiableFunction, Differentiable
     /** {@inheritDoc}
      * @deprecated as of 3.1, replaced by {@link #value(DerivativeStructure)}
      */
+    @Override
     @Deprecated
     public UnivariateFunction derivative() {
         return FunctionUtils.toDifferentiableUnivariateFunction(this).derivative();
@@ -45,6 +47,7 @@ public class Inverse implements UnivariateDifferentiableFunction, Differentiable
     /** {@inheritDoc}
      * @since 3.1
      */
+    @Override
     public DerivativeStructure value(final DerivativeStructure t) {
         return t.reciprocal();
     }

@@ -227,6 +227,7 @@ public class PSquarePercentile extends AbstractStorelessUnivariateStatistic
     /**
      * {@inheritDoc}
      */
+    @Override
     public long getN() {
         return countOfObservations;
     }
@@ -491,6 +492,7 @@ public class PSquarePercentile extends AbstractStorelessUnivariateStatistic
         /**
          * {@inheritDoc}
          */
+        @Override
         public double estimate(final int index) {
             if (index < LOW || index > HIGH) {
                 throw new OutOfRangeException(index, LOW, HIGH);

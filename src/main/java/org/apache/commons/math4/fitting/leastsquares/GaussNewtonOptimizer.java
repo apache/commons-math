@@ -204,6 +204,7 @@ public class GaussNewtonOptimizer implements LeastSquaresOptimizer {
     }
 
     /** {@inheritDoc} */
+    @Override
     public Optimum optimize(final LeastSquaresProblem lsp) {
         //create local evaluation and iteration counts
         final Incrementor evaluationCounter = lsp.getEvaluationCounter();

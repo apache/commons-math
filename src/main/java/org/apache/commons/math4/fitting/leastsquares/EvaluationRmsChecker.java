@@ -63,6 +63,7 @@ public class EvaluationRmsChecker implements ConvergenceChecker<Evaluation> {
     }
 
     /** {@inheritDoc} */
+    @Override
     public boolean converged(final int iteration,
                              final Evaluation previous,
                              final Evaluation current) {

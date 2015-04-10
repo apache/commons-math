@@ -104,16 +104,19 @@ public abstract class AbstractStorelessUnivariateStatistic
     /**
      * {@inheritDoc}
      */
+    @Override
     public abstract void clear();
 
     /**
      * {@inheritDoc}
      */
+    @Override
     public abstract double getResult();
 
     /**
      * {@inheritDoc}
      */
+    @Override
     public abstract void increment(final double d);
 
     /**

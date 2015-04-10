@@ -87,6 +87,7 @@ public class EventFilter implements EventHandler {
     }
 
     /**  {@inheritDoc} */
+    @Override
     public void init(double t0, double[] y0, double t) {
 
         // delegate to raw handler
@@ -101,6 +102,7 @@ public class EventFilter implements EventHandler {
     }
 
     /**  {@inheritDoc} */
+    @Override
     public double g(double t, double[] y) {
 
         final double rawG = rawHandler.g(t, y);
@@ -190,12 +192,14 @@ public class EventFilter implements EventHandler {
     }
 
     /**  {@inheritDoc} */
+    @Override
     public Action eventOccurred(double t, double[] y, boolean increasing) {
         // delegate to raw handler, fixing increasing status on the fly
         return rawHandler.eventOccurred(t, y, filter.getTriggeredIncreasing());
     }
 
     /**  {@inheritDoc} */
+    @Override
     public void resetState(double t, double[] y) {
         // delegate to raw handler
         rawHandler.resetState(t, y);

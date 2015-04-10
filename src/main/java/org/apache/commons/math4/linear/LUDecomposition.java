@@ -282,11 +282,13 @@ public class LUDecomposition {
         }
 
         /** {@inheritDoc} */
+        @Override
         public boolean isNonSingular() {
             return !singular;
         }
 
         /** {@inheritDoc} */
+        @Override
         public RealVector solve(RealVector b) {
             final int m = pivot.length;
             if (b.getDimension() != m) {
@@ -324,6 +326,7 @@ public class LUDecomposition {
         }
 
         /** {@inheritDoc} */
+        @Override
         public RealMatrix solve(RealMatrix b) {
 
             final int m = pivot.length;

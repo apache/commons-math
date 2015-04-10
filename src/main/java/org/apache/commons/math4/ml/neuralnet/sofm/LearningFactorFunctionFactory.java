@@ -68,6 +68,7 @@ public class LearningFactorFunctionFactory {
                 = new ExponentialDecayFunction(initValue, valueAtNumCall, numCall);
 
             /** {@inheritDoc} */
+            @Override
             public double value(long n) {
                 return decay.value(n);
             }
@@ -109,6 +110,7 @@ public class LearningFactorFunctionFactory {
                 = new QuasiSigmoidDecayFunction(initValue, slope, numCall);
 
             /** {@inheritDoc} */
+            @Override
             public double value(long n) {
                 return decay.value(n);
             }

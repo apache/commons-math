@@ -759,11 +759,13 @@ public abstract class RealVector {
             private Entry e = new Entry();
 
             /** {@inheritDoc} */
+            @Override
             public boolean hasNext() {
                 return i < dim;
             }
 
             /** {@inheritDoc} */
+            @Override
             public Entry next() {
                 if (i < dim) {
                     e.setIndex(i++);
@@ -778,6 +780,7 @@ public abstract class RealVector {
              *
              * @throws MathUnsupportedOperationException in all circumstances.
              */
+            @Override
             public void remove() throws MathUnsupportedOperationException {
                 throw new MathUnsupportedOperationException();
             }
@@ -1159,11 +1162,13 @@ public abstract class RealVector {
         }
 
         /** {@inheritDoc} */
+        @Override
         public boolean hasNext() {
             return next.getIndex() >= 0;
         }
 
         /** {@inheritDoc} */
+        @Override
         public Entry next() {
             int index = next.getIndex();
             if (index < 0) {
@@ -1179,6 +1184,7 @@ public abstract class RealVector {
          *
          * @throws MathUnsupportedOperationException in all circumstances.
          */
+        @Override
         public void remove() throws MathUnsupportedOperationException {
             throw new MathUnsupportedOperationException();
         }
@@ -1239,11 +1245,13 @@ public abstract class RealVector {
                     private final UnmodifiableEntry e = new UnmodifiableEntry();
 
                     /** {@inheritDoc} */
+                    @Override
                     public boolean hasNext() {
                         return i.hasNext();
                     }
 
                     /** {@inheritDoc} */
+                    @Override
                     public Entry next() {
                         e.setIndex(i.next().getIndex());
                         return e;
@@ -1255,6 +1263,7 @@ public abstract class RealVector {
                      * @throws MathUnsupportedOperationException in all
                      * circumstances.
                      */
+                    @Override
                     public void remove() throws MathUnsupportedOperationException {
                         throw new MathUnsupportedOperationException();
                     }
@@ -1271,11 +1280,13 @@ public abstract class RealVector {
                     private final UnmodifiableEntry e = new UnmodifiableEntry();
 
                     /** {@inheritDoc} */
+                    @Override
                     public boolean hasNext() {
                         return i.hasNext();
                     }
 
                     /** {@inheritDoc} */
+                    @Override
                     public Entry next() {
                         e.setIndex(i.next().getIndex());
                         return e;
@@ -1287,6 +1298,7 @@ public abstract class RealVector {
                      * @throws MathUnsupportedOperationException in all
                      * circumstances.
                      */
+                    @Override
                     public void remove()
                         throws MathUnsupportedOperationException {
                         throw new MathUnsupportedOperationException();

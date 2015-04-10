@@ -347,6 +347,7 @@ public class NonLinearConjugateGradientOptimizer
     /** Default identity preconditioner. */
     public static class IdentityPreconditioner implements Preconditioner {
         /** {@inheritDoc} */
+        @Override
         public double[] precondition(double[] variables, double[] r) {
             return r.clone();
         }

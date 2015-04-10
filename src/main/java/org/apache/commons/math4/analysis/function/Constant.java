@@ -38,6 +38,7 @@ public class Constant implements UnivariateDifferentiableFunction, Differentiabl
     }
 
     /** {@inheritDoc} */
+    @Override
     public double value(double x) {
         return c;
     }
@@ -46,6 +47,7 @@ public class Constant implements UnivariateDifferentiableFunction, Differentiabl
      * @deprecated as of 3.1, replaced by {@link #value(DerivativeStructure)}
      */
     @Deprecated
+    @Override
     public DifferentiableUnivariateFunction derivative() {
         return new Constant(0);
     }
@@ -53,6 +55,7 @@ public class Constant implements UnivariateDifferentiableFunction, Differentiabl
     /** {@inheritDoc}
      * @since 3.1
      */
+    @Override
     public DerivativeStructure value(final DerivativeStructure t) {
         return new DerivativeStructure(t.getFreeParameters(), t.getOrder(), c);
     }

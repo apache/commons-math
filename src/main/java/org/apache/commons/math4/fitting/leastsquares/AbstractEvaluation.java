@@ -48,6 +48,7 @@ public abstract class AbstractEvaluation implements Evaluation {
     }
 
     /** {@inheritDoc} */
+    @Override
     public RealMatrix getCovariances(double threshold) {
         // Set up the Jacobian.
         final RealMatrix j = this.getJacobian();
@@ -62,6 +63,7 @@ public abstract class AbstractEvaluation implements Evaluation {
     }
 
     /** {@inheritDoc} */
+    @Override
     public RealVector getSigma(double covarianceSingularityThreshold) {
         final RealMatrix cov = this.getCovariances(covarianceSingularityThreshold);
         final int nC = cov.getColumnDimension();
@@ -73,22 +75,26 @@ public abstract class AbstractEvaluation implements Evaluation {
     }
 
     /** {@inheritDoc} */
+    @Override
     public double getRMS() {
         return FastMath.sqrt(getReducedChiSquare(1));
     }
 
     /** {@inheritDoc} */
+    @Override
     public double getCost() {
         return FastMath.sqrt(getChiSquare());
     }
 
     /** {@inheritDoc} */
+    @Override
     public double getChiSquare() {
         final ArrayRealVector r = new ArrayRealVector(getResiduals());
         return r.dotProduct(r);
     }
 
     /** {@inheritDoc} */
+    @Override
     public double getReducedChiSquare(int numberOfFittedParameters) {
         return getChiSquare() / (observationSize - numberOfFittedParameters + 1);
     }

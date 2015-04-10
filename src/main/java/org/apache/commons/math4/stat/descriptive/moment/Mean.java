@@ -138,6 +138,7 @@ public class Mean extends AbstractStorelessUnivariateStatistic
     /**
      * {@inheritDoc}
      */
+    @Override
     public long getN() {
         return moment.getN();
     }

@@ -28,16 +28,19 @@ package org.apache.commons.math4.linear;
  */
 public class DefaultRealMatrixChangingVisitor implements RealMatrixChangingVisitor {
     /** {@inheritDoc} */
+    @Override
     public void start(int rows, int columns,
                       int startRow, int endRow, int startColumn, int endColumn) {
     }
 
     /** {@inheritDoc} */
+    @Override
     public double visit(int row, int column, double value) {
         return value;
     }
 
     /** {@inheritDoc} */
+    @Override
     public double end() {
         return 0;
     }

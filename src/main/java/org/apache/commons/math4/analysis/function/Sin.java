@@ -29,6 +29,7 @@ import org.apache.commons.math4.util.FastMath;
  */
 public class Sin implements UnivariateDifferentiableFunction, DifferentiableUnivariateFunction {
     /** {@inheritDoc} */
+    @Override
     public double value(double x) {
         return FastMath.sin(x);
     }
@@ -36,6 +37,7 @@ public class Sin implements UnivariateDifferentiableFunction, DifferentiableUniv
     /** {@inheritDoc}
      * @deprecated as of 3.1, replaced by {@link #value(DerivativeStructure)}
      */
+    @Override
     @Deprecated
     public DifferentiableUnivariateFunction derivative() {
         return new Cos();
@@ -44,6 +46,7 @@ public class Sin implements UnivariateDifferentiableFunction, DifferentiableUniv
     /** {@inheritDoc}
      * @since 3.1
      */
+    @Override
     public DerivativeStructure value(final DerivativeStructure t) {
         return t.sin();
     }

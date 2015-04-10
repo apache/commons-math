@@ -201,11 +201,13 @@ public class MultivariateFunctionMappingAdapter
     /** Local class for no bounds mapping. */
     private static class NoBoundsMapper implements Mapper {
         /** {@inheritDoc} */
+        @Override
         public double unboundedToBounded(final double y) {
             return y;
         }
 
         /** {@inheritDoc} */
+        @Override
         public double boundedToUnbounded(final double x) {
             return x;
         }
@@ -226,11 +228,13 @@ public class MultivariateFunctionMappingAdapter
         }
 
         /** {@inheritDoc} */
+        @Override
         public double unboundedToBounded(final double y) {
             return lower + FastMath.exp(y);
         }
 
         /** {@inheritDoc} */
+        @Override
         public double boundedToUnbounded(final double x) {
             return FastMath.log(x - lower);
         }
@@ -251,11 +255,13 @@ public class MultivariateFunctionMappingAdapter
         }
 
         /** {@inheritDoc} */
+        @Override
         public double unboundedToBounded(final double y) {
             return upper - FastMath.exp(-y);
         }
 
         /** {@inheritDoc} */
+        @Override
         public double boundedToUnbounded(final double x) {
             return -FastMath.log(upper - x);
         }
@@ -281,11 +287,13 @@ public class MultivariateFunctionMappingAdapter
         }
 
         /** {@inheritDoc} */
+        @Override
         public double unboundedToBounded(final double y) {
             return boundingFunction.value(y);
         }
 
         /** {@inheritDoc} */
+        @Override
         public double boundedToUnbounded(final double x) {
             return unboundingFunction.value(x);
         }

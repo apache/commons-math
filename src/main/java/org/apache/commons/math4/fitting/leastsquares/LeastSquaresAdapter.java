@@ -40,37 +40,44 @@ public class LeastSquaresAdapter implements LeastSquaresProblem {
     }
 
     /** {@inheritDoc} */
+    @Override
     public RealVector getStart() {
         return problem.getStart();
     }
 
     /** {@inheritDoc} */
+    @Override
     public int getObservationSize() {
         return problem.getObservationSize();
     }
 
     /** {@inheritDoc} */
+    @Override
     public int getParameterSize() {
         return problem.getParameterSize();
     }
 
     /** {@inheritDoc}
      * @param point*/
+    @Override
     public Evaluation evaluate(final RealVector point) {
         return problem.evaluate(point);
     }
 
     /** {@inheritDoc} */
+    @Override
     public Incrementor getEvaluationCounter() {
         return problem.getEvaluationCounter();
     }
 
     /** {@inheritDoc} */
+    @Override
     public Incrementor getIterationCounter() {
         return problem.getIterationCounter();
     }
 
     /** {@inheritDoc} */
+    @Override
     public ConvergenceChecker<Evaluation> getConvergenceChecker() {
         return problem.getConvergenceChecker();
     }

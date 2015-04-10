@@ -434,6 +434,7 @@ public class EigenDecomposition {
         }
 
         /** {@inheritDoc} */
+        @Override
         public RealMatrix solve(RealMatrix b) {
 
             if (!isNonSingular()) {

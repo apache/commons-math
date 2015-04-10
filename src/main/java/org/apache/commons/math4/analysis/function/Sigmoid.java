@@ -67,12 +67,14 @@ public class Sigmoid implements UnivariateDifferentiableFunction, Differentiable
     /** {@inheritDoc}
      * @deprecated as of 3.1, replaced by {@link #value(DerivativeStructure)}
      */
+    @Override
     @Deprecated
     public UnivariateFunction derivative() {
         return FunctionUtils.toDifferentiableUnivariateFunction(this).derivative();
     }
 
     /** {@inheritDoc} */
+    @Override
     public double value(double x) {
         return value(x, lo, hi);
     }
@@ -164,6 +166,7 @@ public class Sigmoid implements UnivariateDifferentiableFunction, Differentiable
     /** {@inheritDoc}
      * @since 3.1
      */
+    @Override
     public DerivativeStructure value(final DerivativeStructure t)
         throws DimensionMismatchException {
 

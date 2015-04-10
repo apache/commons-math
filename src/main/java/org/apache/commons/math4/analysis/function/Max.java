@@ -27,6 +27,7 @@ import org.apache.commons.math4.util.FastMath;
  */
 public class Max implements BivariateFunction {
     /** {@inheritDoc} */
+    @Override
     public double value(double x, double y) {
         return FastMath.max(x, y);
     }

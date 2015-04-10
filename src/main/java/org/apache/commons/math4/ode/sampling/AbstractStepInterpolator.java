@@ -262,6 +262,7 @@ public abstract class AbstractStepInterpolator
   }
 
   /** {@inheritDoc} */
+  @Override
    public StepInterpolator copy() throws MaxCountExceededException {
 
      // finalize the step before performing copy
@@ -369,17 +370,20 @@ public abstract class AbstractStepInterpolator
   }
 
   /** {@inheritDoc} */
+  @Override
   public double getInterpolatedTime() {
     return interpolatedTime;
   }
 
   /** {@inheritDoc} */
+  @Override
   public void setInterpolatedTime(final double time) {
       interpolatedTime = time;
       dirtyState       = true;
   }
 
   /** {@inheritDoc} */
+  @Override
   public boolean isForward() {
     return forward;
   }
@@ -412,6 +416,7 @@ public abstract class AbstractStepInterpolator
   }
 
   /** {@inheritDoc} */
+  @Override
   public double[] getInterpolatedState() throws MaxCountExceededException {
       evaluateCompleteInterpolatedState();
       primaryMapper.extractEquationData(interpolatedState,
@@ -420,6 +425,7 @@ public abstract class AbstractStepInterpolator
   }
 
   /** {@inheritDoc} */
+  @Override
   public double[] getInterpolatedDerivatives() throws MaxCountExceededException {
       evaluateCompleteInterpolatedState();
       primaryMapper.extractEquationData(interpolatedDerivatives,
@@ -428,6 +434,7 @@ public abstract class AbstractStepInterpolator
   }
 
   /** {@inheritDoc} */
+  @Override
   public double[] getInterpolatedSecondaryState(final int index) throws MaxCountExceededException {
       evaluateCompleteInterpolatedState();
       secondaryMappers[index].extractEquationData(interpolatedState,
@@ -436,6 +443,7 @@ public abstract class AbstractStepInterpolator
   }
 
   /** {@inheritDoc} */
+  @Override
   public double[] getInterpolatedSecondaryDerivatives(final int index) throws MaxCountExceededException {
       evaluateCompleteInterpolatedState();
       secondaryMappers[index].extractEquationData(interpolatedDerivatives,
@@ -500,10 +508,12 @@ public abstract class AbstractStepInterpolator
   }
 
   /** {@inheritDoc} */
+  @Override
   public abstract void writeExternal(ObjectOutput out)
     throws IOException;
 
   /** {@inheritDoc} */
+  @Override
   public abstract void readExternal(ObjectInput in)
     throws IOException, ClassNotFoundException;
 

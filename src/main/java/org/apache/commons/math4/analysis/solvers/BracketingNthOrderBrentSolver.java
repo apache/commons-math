@@ -389,6 +389,7 @@ public class BracketingNthOrderBrentSolver
     }
 
     /** {@inheritDoc} */
+    @Override
     public double solve(int maxEval, UnivariateFunction f, double min,
                         double max, AllowedSolution allowedSolution)
         throws TooManyEvaluationsException,
@@ -399,6 +400,7 @@ public class BracketingNthOrderBrentSolver
     }
 
     /** {@inheritDoc} */
+    @Override
     public double solve(int maxEval, UnivariateFunction f, double min,
                         double max, double startValue,
                         AllowedSolution allowedSolution)

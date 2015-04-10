@@ -130,11 +130,13 @@ public class SparseGradient implements RealFieldElement<SparseGradient>, Seriali
     }
 
     /** {@inheritDoc} */
+    @Override
     public double getReal() {
         return value;
     }
 
     /** {@inheritDoc} */
+    @Override
     public SparseGradient add(final SparseGradient a) {
         final SparseGradient out = new SparseGradient(value + a.value, derivatives);
         for (Map.Entry<Integer, Double> entry : a.derivatives.entrySet()) {
@@ -176,12 +178,14 @@ public class SparseGradient implements RealFieldElement<SparseGradient>, Seriali
     }
 
     /** {@inheritDoc} */
+    @Override
     public SparseGradient add(final double c) {
         final SparseGradient out = new SparseGradient(value + c, derivatives);
         return out;
     }
 
     /** {@inheritDoc} */
+    @Override
     public SparseGradient subtract(final SparseGradient a) {
         final SparseGradient out = new SparseGradient(value - a.value, derivatives);
         for (Map.Entry<Integer, Double> entry : a.derivatives.entrySet()) {
@@ -197,11 +201,13 @@ public class SparseGradient implements RealFieldElement<SparseGradient>, Seriali
     }
 
     /** {@inheritDoc} */
+    @Override
     public SparseGradient subtract(double c) {
         return new SparseGradient(value - c, derivatives);
     }
 
     /** {@inheritDoc} */
+    @Override
     public SparseGradient multiply(final SparseGradient a) {
         final SparseGradient out =
             new SparseGradient(value * a.value, Collections.<Integer, Double> emptyMap());
@@ -252,16 +258,19 @@ public class SparseGradient implements RealFieldElement<SparseGradient>, Seriali
     }
 
     /** {@inheritDoc} */
+    @Override
     public SparseGradient multiply(final double c) {
         return new SparseGradient(value * c, c, derivatives);
     }
 
     /** {@inheritDoc} */
+    @Override
     public SparseGradient multiply(final int n) {
         return new SparseGradient(value * n, n, derivatives);
     }
 
     /** {@inheritDoc} */
+    @Override
     public SparseGradient divide(final SparseGradient a) {
         final SparseGradient out = new SparseGradient(value / a.value, Collections.<Integer, Double> emptyMap());
 
@@ -282,30 +291,36 @@ public class SparseGradient implements RealFieldElement<SparseGradient>, Seriali
     }
 
     /** {@inheritDoc} */
+    @Override
     public SparseGradient divide(final double c) {
         return new SparseGradient(value / c, 1.0 / c, derivatives);
     }
 
     /** {@inheritDoc} */
+    @Override
     public SparseGradient negate() {
         return new SparseGradient(-value, -1.0, derivatives);
     }
 
     /** {@inheritDoc} */
+    @Override
     public Field<SparseGradient> getField() {
         return new Field<SparseGradient>() {
 
             /** {@inheritDoc} */
+            @Override
             public SparseGradient getZero() {
                 return createConstant(0);
             }
 
             /** {@inheritDoc} */
+            @Override
             public SparseGradient getOne() {
                 return createConstant(1);
             }
 
             /** {@inheritDoc} */
+            @Override
             public Class<? extends FieldElement<SparseGradient>> getRuntimeClass() {
                 return SparseGradient.class;
             }
@@ -314,11 +329,13 @@ public class SparseGradient implements RealFieldElement<SparseGradient>, Seriali
     }
 
     /** {@inheritDoc} */
+    @Override
     public SparseGradient remainder(final double a) {
         return new SparseGradient(FastMath.IEEEremainder(value, a), derivatives);
     }
 
     /** {@inheritDoc} */
+    @Override
     public SparseGradient remainder(final SparseGradient a) {
 
         // compute k such that lhs % rhs = lhs - k rhs
@@ -330,6 +347,7 @@ public class SparseGradient implements RealFieldElement<SparseGradient>, Seriali
     }
 
     /** {@inheritDoc} */
+    @Override
     public SparseGradient abs() {
         if (Double.doubleToLongBits(value) < 0) {
             // we use the bits representation to also handle -0.0
@@ -340,31 +358,37 @@ public class SparseGradient implements RealFieldElement<SparseGradient>, Seriali
     }
 
     /** {@inheritDoc} */
+    @Override
     public SparseGradient ceil() {
         return createConstant(FastMath.ceil(value));
     }
 
     /** {@inheritDoc} */
+    @Override
     public SparseGradient floor() {
         return createConstant(FastMath.floor(value));
     }
 
     /** {@inheritDoc} */
+    @Override
     public SparseGradient rint() {
         return createConstant(FastMath.rint(value));
     }
 
     /** {@inheritDoc} */
+    @Override
     public long round() {
         return FastMath.round(value);
     }
 
     /** {@inheritDoc} */
+    @Override
     public SparseGradient signum() {
         return createConstant(FastMath.signum(value));
     }
 
     /** {@inheritDoc} */
+    @Override
     public SparseGradient copySign(final SparseGradient sign) {
         final long m = Double.doubleToLongBits(value);
         final long s = Double.doubleToLongBits(sign.value);
@@ -375,6 +399,7 @@ public class SparseGradient implements RealFieldElement<SparseGradient>, Seriali
     }
 
     /** {@inheritDoc} */
+    @Override
     public SparseGradient copySign(final double sign) {
         final long m = Double.doubleToLongBits(value);
         final long s = Double.doubleToLongBits(sign);
@@ -385,6 +410,7 @@ public class SparseGradient implements RealFieldElement<SparseGradient>, Seriali
     }
 
     /** {@inheritDoc} */
+    @Override
     public SparseGradient scalb(final int n) {
         final SparseGradient out = new SparseGradient(FastMath.scalb(value, n), Collections.<Integer, Double> emptyMap());
         for (Map.Entry<Integer, Double> entry : derivatives.entrySet()) {
@@ -394,6 +420,7 @@ public class SparseGradient implements RealFieldElement<SparseGradient>, Seriali
     }
 
     /** {@inheritDoc} */
+    @Override
     public SparseGradient hypot(final SparseGradient y) {
         if (Double.isInfinite(value) || Double.isInfinite(y.value)) {
             return createConstant(Double.POSITIVE_INFINITY);
@@ -449,23 +476,27 @@ public class SparseGradient implements RealFieldElement<SparseGradient>, Seriali
     }
 
     /** {@inheritDoc} */
+    @Override
     public SparseGradient reciprocal() {
         return new SparseGradient(1.0 / value, -1.0 / (value * value), derivatives);
     }
 
     /** {@inheritDoc} */
+    @Override
     public SparseGradient sqrt() {
         final double sqrt = FastMath.sqrt(value);
         return new SparseGradient(sqrt, 0.5 / sqrt, derivatives);
     }
 
     /** {@inheritDoc} */
+    @Override
     public SparseGradient cbrt() {
         final double cbrt = FastMath.cbrt(value);
         return new SparseGradient(cbrt, 1.0 / (3 * cbrt * cbrt), derivatives);
     }
 
     /** {@inheritDoc} */
+    @Override
     public SparseGradient rootN(final int n) {
         if (n == 2) {
             return sqrt();
@@ -478,11 +509,13 @@ public class SparseGradient implements RealFieldElement<SparseGradient>, Seriali
     }
 
     /** {@inheritDoc} */
+    @Override
     public SparseGradient pow(final double p) {
         return new SparseGradient(FastMath.pow(value,  p), p * FastMath.pow(value,  p - 1), derivatives);
     }
 
     /** {@inheritDoc} */
+    @Override
     public SparseGradient pow(final int n) {
         if (n == 0) {
             return getField().getOne();
@@ -493,6 +526,7 @@ public class SparseGradient implements RealFieldElement<SparseGradient>, Seriali
     }
 
     /** {@inheritDoc} */
+    @Override
     public SparseGradient pow(final SparseGradient e) {
         return log().multiply(e).exp();
     }
@@ -518,17 +552,20 @@ public class SparseGradient implements RealFieldElement<SparseGradient>, Seriali
     }
 
     /** {@inheritDoc} */
+    @Override
     public SparseGradient exp() {
         final double e = FastMath.exp(value);
         return new SparseGradient(e, e, derivatives);
     }
 
     /** {@inheritDoc} */
+    @Override
     public SparseGradient expm1() {
         return new SparseGradient(FastMath.expm1(value), FastMath.exp(value), derivatives);
     }
 
     /** {@inheritDoc} */
+    @Override
     public SparseGradient log() {
         return new SparseGradient(FastMath.log(value), 1.0 / value, derivatives);
     }
@@ -541,42 +578,50 @@ public class SparseGradient implements RealFieldElement<SparseGradient>, Seriali
     }
 
     /** {@inheritDoc} */
+    @Override
     public SparseGradient log1p() {
         return new SparseGradient(FastMath.log1p(value), 1.0 / (1.0 + value), derivatives);
     }
 
     /** {@inheritDoc} */
+    @Override
     public SparseGradient cos() {
         return new SparseGradient(FastMath.cos(value), -FastMath.sin(value), derivatives);
     }
 
     /** {@inheritDoc} */
+    @Override
     public SparseGradient sin() {
         return new SparseGradient(FastMath.sin(value), FastMath.cos(value), derivatives);
     }
 
     /** {@inheritDoc} */
+    @Override
     public SparseGradient tan() {
         final double t = FastMath.tan(value);
         return new SparseGradient(t, 1 + t * t, derivatives);
     }
 
     /** {@inheritDoc} */
+    @Override
     public SparseGradient acos() {
         return new SparseGradient(FastMath.acos(value), -1.0 / FastMath.sqrt(1 - value * value), derivatives);
     }
 
     /** {@inheritDoc} */
+    @Override
     public SparseGradient asin() {
         return new SparseGradient(FastMath.asin(value), 1.0 / FastMath.sqrt(1 - value * value), derivatives);
     }
 
     /** {@inheritDoc} */
+    @Override
     public SparseGradient atan() {
         return new SparseGradient(FastMath.atan(value), 1.0 / (1 + value * value), derivatives);
     }
 
     /** {@inheritDoc} */
+    @Override
     public SparseGradient atan2(final SparseGradient x) {
 
         // compute r = sqrt(x^2+y^2)
@@ -613,32 +658,38 @@ public class SparseGradient implements RealFieldElement<SparseGradient>, Seriali
     }
 
     /** {@inheritDoc} */
+    @Override
     public SparseGradient cosh() {
         return new SparseGradient(FastMath.cosh(value), FastMath.sinh(value), derivatives);
     }
 
     /** {@inheritDoc} */
+    @Override
     public SparseGradient sinh() {
         return new SparseGradient(FastMath.sinh(value), FastMath.cosh(value), derivatives);
     }
 
     /** {@inheritDoc} */
+    @Override
     public SparseGradient tanh() {
         final double t = FastMath.tanh(value);
         return new SparseGradient(t, 1 - t * t, derivatives);
     }
 
     /** {@inheritDoc} */
+    @Override
     public SparseGradient acosh() {
         return new SparseGradient(FastMath.acosh(value), 1.0 / FastMath.sqrt(value * value - 1.0), derivatives);
     }
 
     /** {@inheritDoc} */
+    @Override
     public SparseGradient asinh() {
         return new SparseGradient(FastMath.asinh(value), 1.0 / FastMath.sqrt(value * value + 1.0), derivatives);
     }
 
     /** {@inheritDoc} */
+    @Override
     public SparseGradient atanh() {
         return new SparseGradient(FastMath.atanh(value), 1.0 / (1.0 - value * value), derivatives);
     }
@@ -680,6 +731,7 @@ public class SparseGradient implements RealFieldElement<SparseGradient>, Seriali
     }
 
     /** {@inheritDoc} */
+    @Override
     public SparseGradient linearCombination(final SparseGradient[] a,
                                               final SparseGradient[] b)
         throws DimensionMismatchException {
@@ -706,6 +758,7 @@ public class SparseGradient implements RealFieldElement<SparseGradient>, Seriali
     }
 
     /** {@inheritDoc} */
+    @Override
     public SparseGradient linearCombination(final double[] a, final SparseGradient[] b) {
 
         // compute a simple value, with all partial derivatives
@@ -726,6 +779,7 @@ public class SparseGradient implements RealFieldElement<SparseGradient>, Seriali
     }
 
     /** {@inheritDoc} */
+    @Override
     public SparseGradient linearCombination(final SparseGradient a1, final SparseGradient b1,
                                               final SparseGradient a2, final SparseGradient b2) {
 
@@ -740,6 +794,7 @@ public class SparseGradient implements RealFieldElement<SparseGradient>, Seriali
     }
 
     /** {@inheritDoc} */
+    @Override
     public SparseGradient linearCombination(final double a1, final SparseGradient b1,
                                               final double a2, final SparseGradient b2) {
 
@@ -754,6 +809,7 @@ public class SparseGradient implements RealFieldElement<SparseGradient>, Seriali
     }
 
     /** {@inheritDoc} */
+    @Override
     public SparseGradient linearCombination(final SparseGradient a1, final SparseGradient b1,
                                               final SparseGradient a2, final SparseGradient b2,
                                               final SparseGradient a3, final SparseGradient b3) {
@@ -771,6 +827,7 @@ public class SparseGradient implements RealFieldElement<SparseGradient>, Seriali
     }
 
     /** {@inheritDoc} */
+    @Override
     public SparseGradient linearCombination(final double a1, final SparseGradient b1,
                                               final double a2, final SparseGradient b2,
                                               final double a3, final SparseGradient b3) {
@@ -788,6 +845,7 @@ public class SparseGradient implements RealFieldElement<SparseGradient>, Seriali
     }
 
     /** {@inheritDoc} */
+    @Override
     public SparseGradient linearCombination(final SparseGradient a1, final SparseGradient b1,
                                               final SparseGradient a2, final SparseGradient b2,
                                               final SparseGradient a3, final SparseGradient b3,
@@ -807,6 +865,7 @@ public class SparseGradient implements RealFieldElement<SparseGradient>, Seriali
     }
 
     /** {@inheritDoc} */
+    @Override
     public SparseGradient linearCombination(final double a1, final SparseGradient b1,
                                               final double a2, final SparseGradient b2,
                                               final double a3, final SparseGradient b3,

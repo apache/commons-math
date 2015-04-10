@@ -42,14 +42,17 @@ public class DefaultFieldMatrixPreservingVisitor<T extends FieldElement<T>>
     }
 
     /** {@inheritDoc} */
+    @Override
     public void start(int rows, int columns,
                       int startRow, int endRow, int startColumn, int endColumn) {
     }
 
     /** {@inheritDoc} */
+    @Override
     public void visit(int row, int column, T value) {}
 
     /** {@inheritDoc} */
+    @Override
     public T end() {
         return zero;
     }

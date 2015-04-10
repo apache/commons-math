@@ -32,6 +32,7 @@ public class TricubicInterpolator
     /**
      * {@inheritDoc}
      */
+    @Override
     public TricubicInterpolatingFunction interpolate(final double[] xval,
                                                      final double[] yval,
                                                      final double[] zval,

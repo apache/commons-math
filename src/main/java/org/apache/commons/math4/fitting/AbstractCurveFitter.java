@@ -116,6 +116,7 @@ public abstract class AbstractCurveFitter {
         public MultivariateVectorFunction getModelFunction() {
             return new MultivariateVectorFunction() {
                 /** {@inheritDoc} */
+                @Override
                 public double[] value(double[] p) {
                     final int len = points.length;
                     final double[] values = new double[len];

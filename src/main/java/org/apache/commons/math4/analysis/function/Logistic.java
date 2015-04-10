@@ -81,6 +81,7 @@ public class Logistic implements UnivariateDifferentiableFunction, Differentiabl
     }
 
     /** {@inheritDoc} */
+    @Override
     public double value(double x) {
         return value(m - x, k, b, q, a, oneOverN);
     }
@@ -88,6 +89,7 @@ public class Logistic implements UnivariateDifferentiableFunction, Differentiabl
     /** {@inheritDoc}
      * @deprecated as of 3.1, replaced by {@link #value(DerivativeStructure)}
      */
+    @Override
     @Deprecated
     public UnivariateFunction derivative() {
         return FunctionUtils.toDifferentiableUnivariateFunction(this).derivative();
@@ -221,6 +223,7 @@ public class Logistic implements UnivariateDifferentiableFunction, Differentiabl
     /** {@inheritDoc}
      * @since 3.1
      */
+    @Override
     public DerivativeStructure value(final DerivativeStructure t) {
         return t.negate().add(m).multiply(b).exp().multiply(q).add(1).pow(oneOverN).reciprocal().multiply(k - a).add(a);
     }

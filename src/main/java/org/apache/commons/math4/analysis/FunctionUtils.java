@@ -50,6 +50,7 @@ public class FunctionUtils {
     public static UnivariateFunction compose(final UnivariateFunction ... f) {
         return new UnivariateFunction() {
             /** {@inheritDoc} */
+            @Override
             public double value(double x) {
                 double r = x;
                 for (int i = f.length - 1; i >= 0; i--) {
@@ -74,6 +75,7 @@ public class FunctionUtils {
         return new UnivariateDifferentiableFunction() {
 
             /** {@inheritDoc} */
+            @Override
             public double value(final double t) {
                 double r = t;
                 for (int i = f.length - 1; i >= 0; i--) {
@@ -83,6 +85,7 @@ public class FunctionUtils {
             }
 
             /** {@inheritDoc} */
+            @Override
             public DerivativeStructure value(final DerivativeStructure t) {
                 DerivativeStructure r = t;
                 for (int i = f.length - 1; i >= 0; i--) {
@@ -108,6 +111,7 @@ public class FunctionUtils {
     public static DifferentiableUnivariateFunction compose(final DifferentiableUnivariateFunction ... f) {
         return new DifferentiableUnivariateFunction() {
             /** {@inheritDoc} */
+            @Override
             public double value(double x) {
                 double r = x;
                 for (int i = f.length - 1; i >= 0; i--) {
@@ -117,9 +121,11 @@ public class FunctionUtils {
             }
 
             /** {@inheritDoc} */
+            @Override
             public UnivariateFunction derivative() {
                 return new UnivariateFunction() {
                     /** {@inheritDoc} */
+                    @Override
                     public double value(double x) {
                         double p = 1;
                         double r = x;
@@ -143,6 +149,7 @@ public class FunctionUtils {
     public static UnivariateFunction add(final UnivariateFunction ... f) {
         return new UnivariateFunction() {
             /** {@inheritDoc} */
+            @Override
             public double value(double x) {
                 double r = f[0].value(x);
                 for (int i = 1; i < f.length; i++) {
@@ -164,6 +171,7 @@ public class FunctionUtils {
         return new UnivariateDifferentiableFunction() {
 
             /** {@inheritDoc} */
+            @Override
             public double value(final double t) {
                 double r = f[0].value(t);
                 for (int i = 1; i < f.length; i++) {
@@ -175,6 +183,7 @@ public class FunctionUtils {
             /** {@inheritDoc}
              * @throws DimensionMismatchException if functions are not consistent with each other
              */
+            @Override
             public DerivativeStructure value(final DerivativeStructure t)
                 throws DimensionMismatchException {
                 DerivativeStructure r = f[0].value(t);
@@ -198,6 +207,7 @@ public class FunctionUtils {
     public static DifferentiableUnivariateFunction add(final DifferentiableUnivariateFunction ... f) {
         return new DifferentiableUnivariateFunction() {
             /** {@inheritDoc} */
+            @Override
             public double value(double x) {
                 double r = f[0].value(x);
                 for (int i = 1; i < f.length; i++) {
@@ -207,9 +217,11 @@ public class FunctionUtils {
             }
 
             /** {@inheritDoc} */
+            @Override
             public UnivariateFunction derivative() {
                 return new UnivariateFunction() {
                     /** {@inheritDoc} */
+                    @Override
                     public double value(double x) {
                         double r = f[0].derivative().value(x);
                         for (int i = 1; i < f.length; i++) {
@@ -231,6 +243,7 @@ public class FunctionUtils {
     public static UnivariateFunction multiply(final UnivariateFunction ... f) {
         return new UnivariateFunction() {
             /** {@inheritDoc} */
+            @Override
             public double value(double x) {
                 double r = f[0].value(x);
                 for (int i = 1; i < f.length; i++) {
@@ -252,6 +265,7 @@ public class FunctionUtils {
         return new UnivariateDifferentiableFunction() {
 
             /** {@inheritDoc} */
+            @Override
             public double value(final double t) {
                 double r = f[0].value(t);
                 for (int i = 1; i < f.length; i++) {
@@ -261,6 +275,7 @@ public class FunctionUtils {
             }
 
             /** {@inheritDoc} */
+            @Override
             public DerivativeStructure value(final DerivativeStructure t) {
                 DerivativeStructure r = f[0].value(t);
                 for (int i = 1; i < f.length; i++) {
@@ -283,6 +298,7 @@ public class FunctionUtils {
     public static DifferentiableUnivariateFunction multiply(final DifferentiableUnivariateFunction ... f) {
         return new DifferentiableUnivariateFunction() {
             /** {@inheritDoc} */
+            @Override
             public double value(double x) {
                 double r = f[0].value(x);
                 for (int i = 1; i < f.length; i++) {
@@ -292,9 +308,11 @@ public class FunctionUtils {
             }
 
             /** {@inheritDoc} */
+            @Override
             public UnivariateFunction derivative() {
                 return new UnivariateFunction() {
                     /** {@inheritDoc} */
+                    @Override
                     public double value(double x) {
                         double sum = 0;
                         for (int i = 0; i < f.length; i++) {
@@ -327,6 +345,7 @@ public class FunctionUtils {
                                              final UnivariateFunction g) {
         return new UnivariateFunction() {
             /** {@inheritDoc} */
+            @Override
             public double value(double x) {
                 return combiner.value(f.value(x), g.value(x));
             }
@@ -348,6 +367,7 @@ public class FunctionUtils {
                                                  final double initialValue) {
         return new MultivariateFunction() {
             /** {@inheritDoc} */
+            @Override
             public double value(double[] point) {
                 double result = combiner.value(initialValue, f.value(point[0]));
                 for (int i = 1; i < point.length; i++) {
@@ -383,6 +403,7 @@ public class FunctionUtils {
                                                     final double fixed) {
         return new UnivariateFunction() {
             /** {@inheritDoc} */
+            @Override
             public double value(double x) {
                 return f.value(fixed, x);
             }
@@ -399,6 +420,7 @@ public class FunctionUtils {
                                                     final double fixed) {
         return new UnivariateFunction() {
             /** {@inheritDoc} */
+            @Override
             public double value(double x) {
                 return f.value(x, fixed);
             }
@@ -453,14 +475,17 @@ public class FunctionUtils {
         return new DifferentiableUnivariateFunction() {
 
             /** {@inheritDoc} */
+            @Override
             public double value(final double x) {
                 return f.value(x);
             }
 
             /** {@inheritDoc} */
+            @Override
             public UnivariateFunction derivative() {
                 return new UnivariateFunction() {
                     /** {@inheritDoc} */
+                    @Override
                     public double value(final double x) {
                         return f.value(new DerivativeStructure(1, 1, 0, x)).getPartialDerivative(1);
                     }
@@ -485,6 +510,7 @@ public class FunctionUtils {
         return new UnivariateDifferentiableFunction() {
 
             /** {@inheritDoc} */
+            @Override
             public double value(final double x) {
                 return f.value(x);
             }
@@ -492,6 +518,7 @@ public class FunctionUtils {
             /** {@inheritDoc}
              * @exception NumberIsTooLargeException if derivation order is greater than 1
              */
+            @Override
             public DerivativeStructure value(final DerivativeStructure t)
                 throws NumberIsTooLargeException {
                 switch (t.getOrder()) {
@@ -529,14 +556,17 @@ public class FunctionUtils {
         return new DifferentiableMultivariateFunction() {
 
             /** {@inheritDoc} */
+            @Override
             public double value(final double[] x) {
                 return f.value(x);
             }
 
             /** {@inheritDoc} */
+            @Override
             public MultivariateFunction partialDerivative(final int k) {
                 return new MultivariateFunction() {
                     /** {@inheritDoc} */
+                    @Override
                     public double value(final double[] x) {
 
                         final int n = x.length;
@@ -562,6 +592,7 @@ public class FunctionUtils {
             public MultivariateVectorFunction gradient() {
                 return new MultivariateVectorFunction() {
                     /** {@inheritDoc} */
+                    @Override
                     public double[] value(final double[] x) {
 
                         final int n = x.length;
@@ -608,6 +639,7 @@ public class FunctionUtils {
         return new MultivariateDifferentiableFunction() {
 
             /** {@inheritDoc} */
+            @Override
             public double value(final double[] x) {
                 return f.value(x);
             }
@@ -616,6 +648,7 @@ public class FunctionUtils {
              * @exception NumberIsTooLargeException if derivation order is higher than 1
              * @exception DimensionMismatchException if numbers of free parameters are inconsistent
              */
+            @Override
             public DerivativeStructure value(final DerivativeStructure[] t)
                 throws DimensionMismatchException, NumberIsTooLargeException {
 
@@ -676,6 +709,7 @@ public class FunctionUtils {
         return new DifferentiableMultivariateVectorFunction() {
 
             /** {@inheritDoc} */
+            @Override
             public double[] value(final double[] x) {
                 return f.value(x);
             }
@@ -683,6 +717,7 @@ public class FunctionUtils {
             public MultivariateMatrixFunction jacobian() {
                 return new MultivariateMatrixFunction() {
                     /** {@inheritDoc} */
+                    @Override
                     public double[][] value(final double[] x) {
 
                         final int n = x.length;
@@ -731,6 +766,7 @@ public class FunctionUtils {
         return new MultivariateDifferentiableVectorFunction() {
 
             /** {@inheritDoc} */
+            @Override
             public double[] value(final double[] x) {
                 return f.value(x);
             }
@@ -739,6 +775,7 @@ public class FunctionUtils {
              * @exception NumberIsTooLargeException if derivation order is higher than 1
              * @exception DimensionMismatchException if numbers of free parameters are inconsistent
              */
+            @Override
             public DerivativeStructure[] value(final DerivativeStructure[] t)
                 throws DimensionMismatchException, NumberIsTooLargeException {
 

@@ -189,6 +189,7 @@ public class SparseFieldVector<T extends FieldElement<T>> implements FieldVector
     }
 
     /** {@inheritDoc} */
+    @Override
     public FieldVector<T> append(FieldVector<T> v) {
         if (v instanceof SparseFieldVector<?>) {
             return append((SparseFieldVector<T>) v);
@@ -205,6 +206,7 @@ public class SparseFieldVector<T extends FieldElement<T>> implements FieldVector
     /** {@inheritDoc}
      * @exception NullArgumentException if d is null
      */
+    @Override
     public FieldVector<T> append(T d) throws NullArgumentException {
         MathUtils.checkNotNull(d);
         FieldVector<T> res = new SparseFieldVector<T>(this, 1);
@@ -213,11 +215,13 @@ public class SparseFieldVector<T extends FieldElement<T>> implements FieldVector
      }
 
     /** {@inheritDoc} */
+    @Override
     public FieldVector<T> copy() {
         return new SparseFieldVector<T>(this);
     }
 
     /** {@inheritDoc} */
+    @Override
     public T dotProduct(FieldVector<T> v) throws DimensionMismatchException {
         checkVectorDimensions(v.getDimension());
         T res = field.getZero();
@@ -230,6 +234,7 @@ public class SparseFieldVector<T extends FieldElement<T>> implements FieldVector
     }
 
     /** {@inheritDoc} */
+    @Override
     public FieldVector<T> ebeDivide(FieldVector<T> v)
         throws DimensionMismatchException, MathArithmeticException {
         checkVectorDimensions(v.getDimension());
@@ -243,6 +248,7 @@ public class SparseFieldVector<T extends FieldElement<T>> implements FieldVector
     }
 
     /** {@inheritDoc} */
+    @Override
     public FieldVector<T> ebeMultiply(FieldVector<T> v)
         throws DimensionMismatchException {
         checkVectorDimensions(v.getDimension());
@@ -256,22 +262,26 @@ public class SparseFieldVector<T extends FieldElement<T>> implements FieldVector
     }
 
     /** {@inheritDoc} */
+    @Override
     public int getDimension() {
         return virtualSize;
     }
 
     /** {@inheritDoc} */
+    @Override
     public T getEntry(int index) throws OutOfRangeException {
         checkIndex(index);
         return entries.get(index);
    }
 
     /** {@inheritDoc} */
+    @Override
     public Field<T> getField() {
         return field;
     }
 
     /** {@inheritDoc} */
+    @Override
     public FieldVector<T> getSubVector(int index, int n)
         throws OutOfRangeException, NotPositiveException {
         if (n < 0) {
@@ -293,11 +303,13 @@ public class SparseFieldVector<T extends FieldElement<T>> implements FieldVector
     }
 
     /** {@inheritDoc} */
+    @Override
     public FieldVector<T> mapAdd(T d) throws NullArgumentException {
         return copy().mapAddToSelf(d);
     }
 
     /** {@inheritDoc} */
+    @Override
     public FieldVector<T> mapAddToSelf(T d) throws NullArgumentException {
         for (int i = 0; i < virtualSize; i++) {
             setEntry(i, getEntry(i).add(d));
@@ -306,12 +318,14 @@ public class SparseFieldVector<T extends FieldElement<T>> implements FieldVector
     }
 
     /** {@inheritDoc} */
+    @Override
     public FieldVector<T> mapDivide(T d)
         throws NullArgumentException, MathArithmeticException {
         return copy().mapDivideToSelf(d);
     }
 
     /** {@inheritDoc} */
+    @Override
     public FieldVector<T> mapDivideToSelf(T d)
         throws NullArgumentException, MathArithmeticException {
         OpenIntToFieldHashMap<T>.Iterator iter = entries.iterator();
@@ -323,11 +337,13 @@ public class SparseFieldVector<T extends FieldElement<T>> implements FieldVector
     }
 
     /** {@inheritDoc} */
+    @Override
     public FieldVector<T> mapInv() throws MathArithmeticException {
         return copy().mapInvToSelf();
     }
 
     /** {@inheritDoc} */
+    @Override
     public FieldVector<T> mapInvToSelf() throws MathArithmeticException {
         for (int i = 0; i < virtualSize; i++) {
             setEntry(i, field.getOne().divide(getEntry(i)));
@@ -336,11 +352,13 @@ public class SparseFieldVector<T extends FieldElement<T>> implements FieldVector
     }
 
     /** {@inheritDoc} */
+    @Override
     public FieldVector<T> mapMultiply(T d) throws NullArgumentException {
         return copy().mapMultiplyToSelf(d);
     }
 
     /** {@inheritDoc} */
+    @Override
     public FieldVector<T> mapMultiplyToSelf(T d) throws NullArgumentException {
         OpenIntToFieldHashMap<T>.Iterator iter = entries.iterator();
         while (iter.hasNext()) {
@@ -351,11 +369,13 @@ public class SparseFieldVector<T extends FieldElement<T>> implements FieldVector
     }
 
     /** {@inheritDoc} */
+    @Override
     public FieldVector<T> mapSubtract(T d) throws NullArgumentException {
         return copy().mapSubtractToSelf(d);
     }
 
     /** {@inheritDoc} */
+    @Override
     public FieldVector<T> mapSubtractToSelf(T d) throws NullArgumentException {
         return mapAddToSelf(field.getZero().subtract(d));
     }
@@ -381,6 +401,7 @@ public class SparseFieldVector<T extends FieldElement<T>> implements FieldVector
     }
 
     /** {@inheritDoc} */
+    @Override
     public FieldMatrix<T> outerProduct(FieldVector<T> v) {
         if (v instanceof SparseFieldVector<?>) {
             return outerProduct((SparseFieldVector<T>)v);
@@ -401,6 +422,7 @@ public class SparseFieldVector<T extends FieldElement<T>> implements FieldVector
     }
 
     /** {@inheritDoc} */
+    @Override
     public FieldVector<T> projection(FieldVector<T> v)
         throws DimensionMismatchException, MathArithmeticException {
         checkVectorDimensions(v.getDimension());
@@ -410,6 +432,7 @@ public class SparseFieldVector<T extends FieldElement<T>> implements FieldVector
     /** {@inheritDoc}
      * @exception NullArgumentException if value is null
      */
+    @Override
     public void set(T value) {
         MathUtils.checkNotNull(value);
         for (int i = 0; i < virtualSize; i++) {
@@ -420,6 +443,7 @@ public class SparseFieldVector<T extends FieldElement<T>> implements FieldVector
     /** {@inheritDoc}
      * @exception NullArgumentException if value is null
      */
+    @Override
     public void setEntry(int index, T value) throws NullArgumentException, OutOfRangeException {
         MathUtils.checkNotNull(value);
         checkIndex(index);
@@ -427,6 +451,7 @@ public class SparseFieldVector<T extends FieldElement<T>> implements FieldVector
     }
 
     /** {@inheritDoc} */
+    @Override
     public void setSubVector(int index, FieldVector<T> v)
         throws OutOfRangeException {
         checkIndex(index);
@@ -462,6 +487,7 @@ public class SparseFieldVector<T extends FieldElement<T>> implements FieldVector
     }
 
     /** {@inheritDoc} */
+    @Override
     public FieldVector<T> subtract(FieldVector<T> v)
         throws DimensionMismatchException {
         if (v instanceof SparseFieldVector<?>) {
@@ -482,6 +508,7 @@ public class SparseFieldVector<T extends FieldElement<T>> implements FieldVector
     }
 
     /** {@inheritDoc} */
+    @Override
     public T[] toArray() {
         T[] res = MathArrays.buildArray(field, virtualSize);
         OpenIntToFieldHashMap<T>.Iterator iter = entries.iterator();
@@ -544,6 +571,7 @@ public class SparseFieldVector<T extends FieldElement<T>> implements FieldVector
     }
 
     /** {@inheritDoc} */
+    @Override
     public FieldVector<T> add(FieldVector<T> v) throws DimensionMismatchException {
         if (v instanceof SparseFieldVector<?>) {
             return add((SparseFieldVector<T>) v);

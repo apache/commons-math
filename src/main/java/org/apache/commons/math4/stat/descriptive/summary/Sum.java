@@ -89,6 +89,7 @@ public class Sum extends AbstractStorelessUnivariateStatistic implements Seriali
     /**
      * {@inheritDoc}
      */
+    @Override
     public long getN() {
         return n;
     }

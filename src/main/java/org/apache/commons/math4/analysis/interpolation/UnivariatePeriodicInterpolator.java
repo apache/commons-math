@@ -81,6 +81,7 @@ public class UnivariatePeriodicInterpolator
      * @throws NumberIsTooSmallException if the number of extension points
      * is larger than the size of {@code xval}.
      */
+    @Override
     public UnivariateFunction interpolate(double[] xval,
                                           double[] yval)
         throws NumberIsTooSmallException, NonMonotonicSequenceException {

@@ -63,6 +63,7 @@ public abstract class AbstractConvergenceChecker<PAIR>
     /**
      * {@inheritDoc}
      */
+    @Override
     public abstract boolean converged(int iteration,
                                       PAIR previous,
                                       PAIR current);

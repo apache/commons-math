@@ -97,6 +97,7 @@ public class SumOfLogs extends AbstractStorelessUnivariateStatistic implements S
     /**
      * {@inheritDoc}
      */
+    @Override
     public long getN() {
         return n;
     }

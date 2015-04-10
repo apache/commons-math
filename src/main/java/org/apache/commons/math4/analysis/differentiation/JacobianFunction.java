@@ -40,6 +40,7 @@ public class JacobianFunction implements MultivariateMatrixFunction {
     }
 
     /** {@inheritDoc} */
+    @Override
     public double[][] value(double[] point) {
 
         // set up parameters

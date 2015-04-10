@@ -31,6 +31,7 @@ import org.apache.commons.math4.util.FastMath;
  */
 public class Atanh implements UnivariateDifferentiableFunction, DifferentiableUnivariateFunction {
     /** {@inheritDoc} */
+    @Override
     public double value(double x) {
         return FastMath.atanh(x);
     }
@@ -39,6 +40,7 @@ public class Atanh implements UnivariateDifferentiableFunction, DifferentiableUn
      * @deprecated as of 3.1, replaced by {@link #value(DerivativeStructure)}
      */
     @Deprecated
+    @Override
     public UnivariateFunction derivative() {
         return FunctionUtils.toDifferentiableUnivariateFunction(this).derivative();
     }
@@ -46,6 +48,7 @@ public class Atanh implements UnivariateDifferentiableFunction, DifferentiableUn
     /** {@inheritDoc}
      * @since 3.1
      */
+    @Override
     public DerivativeStructure value(final DerivativeStructure t) {
         return t.atanh();
     }

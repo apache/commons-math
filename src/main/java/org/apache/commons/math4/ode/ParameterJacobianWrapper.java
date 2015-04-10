@@ -63,16 +63,19 @@ class ParameterJacobianWrapper implements ParameterJacobianProvider {
     }
 
     /** {@inheritDoc} */
+    @Override
     public Collection<String> getParametersNames() {
         return pode.getParametersNames();
     }
 
     /** {@inheritDoc} */
+    @Override
     public boolean isSupported(String name) {
         return pode.isSupported(name);
     }
 
     /** {@inheritDoc} */
+    @Override
     public void computeParameterJacobian(double t, double[] y, double[] yDot,
                                          String paramName, double[] dFdP)
         throws DimensionMismatchException, MaxCountExceededException {

@@ -144,6 +144,7 @@ public class PolynomialFunction implements UnivariateDifferentiableFunction, Dif
      * @throws NoDataException if {@code coefficients} is empty.
      * @throws NullArgumentException if {@code coefficients} is {@code null}.
      */
+    @Override
     public DerivativeStructure value(final DerivativeStructure t)
         throws NullArgumentException, NoDataException {
         MathUtils.checkNotNull(coefficients);
@@ -393,6 +394,7 @@ public class PolynomialFunction implements UnivariateDifferentiableFunction, Dif
      */
     public static class Parametric implements ParametricUnivariateFunction {
         /** {@inheritDoc} */
+        @Override
         public double[] gradient(double x, double ... parameters) {
             final double[] gradient = new double[parameters.length];
             double xn = 1.0;
@@ -404,6 +406,7 @@ public class PolynomialFunction implements UnivariateDifferentiableFunction, Dif
         }
 
         /** {@inheritDoc} */
+        @Override
         public double value(final double x, final double ... parameters)
             throws NoDataException {
             return PolynomialFunction.evaluate(parameters, x);

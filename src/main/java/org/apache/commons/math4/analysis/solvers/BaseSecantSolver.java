@@ -103,6 +103,7 @@ public abstract class BaseSecantSolver
     }
 
     /** {@inheritDoc} */
+    @Override
     public double solve(final int maxEval, final UnivariateFunction f,
                         final double min, final double max,
                         final AllowedSolution allowedSolution) {
@@ -110,6 +111,7 @@ public abstract class BaseSecantSolver
     }
 
     /** {@inheritDoc} */
+    @Override
     public double solve(final int maxEval, final UnivariateFunction f,
                         final double min, final double max, final double startValue,
                         final AllowedSolution allowedSolution) {

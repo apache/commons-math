@@ -70,6 +70,7 @@ public class Network
         private static final long serialVersionUID = 20130207L;
 
         /** {@inheritDoc} */
+        @Override
         public int compare(Neuron a,
                            Neuron b) {
             final long aId = a.getIdentifier();
@@ -138,6 +139,7 @@ public class Network
     /**
      * {@inheritDoc}
      */
+    @Override
     public Iterator<Neuron> iterator() {
         return neuronMap.values().iterator();
     }

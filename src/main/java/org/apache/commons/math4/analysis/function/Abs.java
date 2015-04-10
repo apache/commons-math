@@ -27,6 +27,7 @@ import org.apache.commons.math4.util.FastMath;
  */
 public class Abs implements UnivariateFunction {
     /** {@inheritDoc} */
+    @Override
     public double value(double x) {
         return FastMath.abs(x);
     }

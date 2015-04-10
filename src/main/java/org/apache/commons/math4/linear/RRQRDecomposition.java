@@ -219,16 +219,19 @@ public class RRQRDecomposition extends QRDecomposition {
         }
 
         /** {@inheritDoc} */
+        @Override
         public boolean isNonSingular() {
             return upper.isNonSingular();
         }
 
         /** {@inheritDoc} */
+        @Override
         public RealVector solve(RealVector b) {
             return p.operate(upper.solve(b));
         }
 
         /** {@inheritDoc} */
+        @Override
         public RealMatrix solve(RealMatrix b) {
             return p.multiply(upper.solve(b));
         }
@@ -237,6 +240,7 @@ public class RRQRDecomposition extends QRDecomposition {
          * {@inheritDoc}
          * @throws SingularMatrixException if the decomposed matrix is singular.
          */
+        @Override
         public RealMatrix getInverse() {
             return solve(MatrixUtils.createRealIdentityMatrix(p.getRowDimension()));
         }

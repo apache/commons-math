@@ -90,6 +90,7 @@ public class Gaussian implements UnivariateDifferentiableFunction, Differentiabl
     }
 
     /** {@inheritDoc} */
+    @Override
     public double value(double x) {
         return value(x - mean, norm, i2s2);
     }
@@ -97,6 +98,7 @@ public class Gaussian implements UnivariateDifferentiableFunction, Differentiabl
     /** {@inheritDoc}
      * @deprecated as of 3.1, replaced by {@link #value(DerivativeStructure)}
      */
+    @Override
     @Deprecated
     public UnivariateFunction derivative() {
         return FunctionUtils.toDifferentiableUnivariateFunction(this).derivative();
@@ -208,6 +210,7 @@ public class Gaussian implements UnivariateDifferentiableFunction, Differentiabl
     /** {@inheritDoc}
      * @since 3.1
      */
+    @Override
     public DerivativeStructure value(final DerivativeStructure t)
         throws DimensionMismatchException {
 

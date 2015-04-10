@@ -216,12 +216,14 @@ public class CholeskyDecomposition {
         }
 
         /** {@inheritDoc} */
+        @Override
         public boolean isNonSingular() {
             // if we get this far, the matrix was positive definite, hence non-singular
             return true;
         }
 
         /** {@inheritDoc} */
+        @Override
         public RealVector solve(final RealVector b) {
             final int m = lTData.length;
             if (b.getDimension() != m) {
@@ -253,6 +255,7 @@ public class CholeskyDecomposition {
         }
 
         /** {@inheritDoc} */
+        @Override
         public RealMatrix solve(RealMatrix b) {
             final int m = lTData.length;
             if (b.getRowDimension() != m) {

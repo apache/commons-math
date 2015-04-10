@@ -62,6 +62,7 @@ public class Logit implements UnivariateDifferentiableFunction, DifferentiableUn
     }
 
     /** {@inheritDoc} */
+    @Override
     public double value(double x)
         throws OutOfRangeException {
         return value(x, lo, hi);
@@ -70,6 +71,7 @@ public class Logit implements UnivariateDifferentiableFunction, DifferentiableUn
     /** {@inheritDoc}
      * @deprecated as of 3.1, replaced by {@link #value(DerivativeStructure)}
      */
+    @Override
     @Deprecated
     public UnivariateFunction derivative() {
         return FunctionUtils.toDifferentiableUnivariateFunction(this).derivative();
@@ -168,6 +170,7 @@ public class Logit implements UnivariateDifferentiableFunction, DifferentiableUn
      * @since 3.1
      * @exception OutOfRangeException if parameter is outside of function domain
      */
+    @Override
     public DerivativeStructure value(final DerivativeStructure t)
         throws OutOfRangeException {
         final double x = t.getValue();

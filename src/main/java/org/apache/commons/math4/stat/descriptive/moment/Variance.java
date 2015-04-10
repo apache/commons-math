@@ -193,6 +193,7 @@ public class Variance extends AbstractStorelessUnivariateStatistic implements Se
     /**
      * {@inheritDoc}
      */
+    @Override
     public long getN() {
         return moment.getN();
     }

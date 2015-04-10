@@ -30,6 +30,7 @@ import org.apache.commons.math4.util.FastMath;
 public class NormalApproximationInterval implements BinomialConfidenceInterval {
 
     /** {@inheritDoc} */
+    @Override
     public ConfidenceInterval createInterval(int numberOfTrials, int numberOfSuccesses,
                                              double confidenceLevel) {
         IntervalUtils.checkParameters(numberOfTrials, numberOfSuccesses, confidenceLevel);

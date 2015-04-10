@@ -44,6 +44,7 @@ public class BicubicInterpolator
     /**
      * {@inheritDoc}
      */
+    @Override
     public BicubicInterpolatingFunction interpolate(final double[] xval,
                                                     final double[] yval,
                                                     final double[][] fval)

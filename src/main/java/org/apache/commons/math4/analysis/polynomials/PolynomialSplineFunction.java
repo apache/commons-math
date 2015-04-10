@@ -175,6 +175,7 @@ public class PolynomialSplineFunction implements UnivariateDifferentiableFunctio
     /** {@inheritDoc}
      * @since 3.1
      */
+    @Override
     public DerivativeStructure value(final DerivativeStructure t) {
         final double t0 = t.getValue();
         if (t0 < knots[0] || t0 > knots[n]) {

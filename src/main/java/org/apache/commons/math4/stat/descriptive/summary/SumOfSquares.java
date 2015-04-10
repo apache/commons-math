@@ -88,6 +88,7 @@ public class SumOfSquares extends AbstractStorelessUnivariateStatistic implement
     /**
      * {@inheritDoc}
      */
+    @Override
     public long getN() {
         return n;
     }

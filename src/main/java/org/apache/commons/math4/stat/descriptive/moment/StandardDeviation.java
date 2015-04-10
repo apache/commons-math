@@ -117,6 +117,7 @@ public class StandardDeviation extends AbstractStorelessUnivariateStatistic
     /**
      * {@inheritDoc}
      */
+    @Override
     public long getN() {
         return variance.getN();
     }

@@ -116,6 +116,7 @@ public abstract class AbstractUnivariateStatistic
     /**
      * {@inheritDoc}
      */
+    @Override
     public double evaluate(final double[] values) throws MathIllegalArgumentException {
         test(values, 0, 0);
         return evaluate(values, 0, values.length);
@@ -124,12 +125,14 @@ public abstract class AbstractUnivariateStatistic
     /**
      * {@inheritDoc}
      */
+    @Override
     public abstract double evaluate(final double[] values, final int begin, final int length)
     throws MathIllegalArgumentException;
 
     /**
      * {@inheritDoc}
      */
+    @Override
     public abstract UnivariateStatistic copy();
 
     /**

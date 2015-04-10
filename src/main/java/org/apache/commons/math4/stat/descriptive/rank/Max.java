@@ -100,6 +100,7 @@ public class Max extends AbstractStorelessUnivariateStatistic implements Seriali
     /**
      * {@inheritDoc}
      */
+    @Override
     public long getN() {
         return n;
     }

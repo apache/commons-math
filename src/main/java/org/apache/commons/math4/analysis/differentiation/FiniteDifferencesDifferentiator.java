@@ -240,15 +240,18 @@ public class FiniteDifferencesDifferentiator
      * derivation order is larger or equal to the number of points.
      * </p>
      */
+    @Override
     public UnivariateDifferentiableFunction differentiate(final UnivariateFunction function) {
         return new UnivariateDifferentiableFunction() {
 
             /** {@inheritDoc} */
+            @Override
             public double value(final double x) throws MathIllegalArgumentException {
                 return function.value(x);
             }
 
             /** {@inheritDoc} */
+            @Override
             public DerivativeStructure value(final DerivativeStructure t)
                 throws MathIllegalArgumentException {
 
@@ -280,15 +283,18 @@ public class FiniteDifferencesDifferentiator
      * derivation order is larger or equal to the number of points.
      * </p>
      */
+    @Override
     public UnivariateDifferentiableVectorFunction differentiate(final UnivariateVectorFunction function) {
         return new UnivariateDifferentiableVectorFunction() {
 
             /** {@inheritDoc} */
+            @Override
             public double[]value(final double x) throws MathIllegalArgumentException {
                 return function.value(x);
             }
 
             /** {@inheritDoc} */
+            @Override
             public DerivativeStructure[] value(final DerivativeStructure t)
                 throws MathIllegalArgumentException {
 
@@ -331,15 +337,18 @@ public class FiniteDifferencesDifferentiator
      * derivation order is larger or equal to the number of points.
      * </p>
      */
+    @Override
     public UnivariateDifferentiableMatrixFunction differentiate(final UnivariateMatrixFunction function) {
         return new UnivariateDifferentiableMatrixFunction() {
 
             /** {@inheritDoc} */
+            @Override
             public double[][]  value(final double x) throws MathIllegalArgumentException {
                 return function.value(x);
             }
 
             /** {@inheritDoc} */
+            @Override
             public DerivativeStructure[][]  value(final DerivativeStructure t)
                 throws MathIllegalArgumentException {
 

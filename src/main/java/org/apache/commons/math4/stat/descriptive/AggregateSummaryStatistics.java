@@ -134,6 +134,7 @@ public class AggregateSummaryStatistics implements StatisticalSummary,
      *
      * @see StatisticalSummary#getMax()
      */
+    @Override
     public double getMax() {
         synchronized (statistics) {
             return statistics.getMax();
@@ -145,6 +146,7 @@ public class AggregateSummaryStatistics implements StatisticalSummary,
      *
      * @see StatisticalSummary#getMean()
      */
+    @Override
     public double getMean() {
         synchronized (statistics) {
             return statistics.getMean();
@@ -157,6 +159,7 @@ public class AggregateSummaryStatistics implements StatisticalSummary,
      *
      * @see StatisticalSummary#getMin()
      */
+    @Override
     public double getMin() {
         synchronized (statistics) {
             return statistics.getMin();
@@ -168,6 +171,7 @@ public class AggregateSummaryStatistics implements StatisticalSummary,
      *
      * @see StatisticalSummary#getN()
      */
+    @Override
     public long getN() {
         synchronized (statistics) {
             return statistics.getN();
@@ -180,6 +184,7 @@ public class AggregateSummaryStatistics implements StatisticalSummary,
      *
      * @see StatisticalSummary#getStandardDeviation()
      */
+    @Override
     public double getStandardDeviation() {
         synchronized (statistics) {
             return statistics.getStandardDeviation();
@@ -191,6 +196,7 @@ public class AggregateSummaryStatistics implements StatisticalSummary,
      *
      * @see StatisticalSummary#getSum()
      */
+    @Override
     public double getSum() {
         synchronized (statistics) {
             return statistics.getSum();
@@ -203,6 +209,7 @@ public class AggregateSummaryStatistics implements StatisticalSummary,
      *
      * @see StatisticalSummary#getVariance()
      */
+    @Override
     public double getVariance() {
         synchronized (statistics) {
             return statistics.getVariance();

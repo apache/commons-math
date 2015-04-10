@@ -99,26 +99,31 @@ public abstract class AbstractIntegrator implements FirstOrderIntegrator {
     }
 
     /** {@inheritDoc} */
+    @Override
     public String getName() {
         return name;
     }
 
     /** {@inheritDoc} */
+    @Override
     public void addStepHandler(final StepHandler handler) {
         stepHandlers.add(handler);
     }
 
     /** {@inheritDoc} */
+    @Override
     public Collection<StepHandler> getStepHandlers() {
         return Collections.unmodifiableCollection(stepHandlers);
     }
 
     /** {@inheritDoc} */
+    @Override
     public void clearStepHandlers() {
         stepHandlers.clear();
     }
 
     /** {@inheritDoc} */
+    @Override
     public void addEventHandler(final EventHandler handler,
                                 final double maxCheckInterval,
                                 final double convergence,
@@ -129,6 +134,7 @@ public abstract class AbstractIntegrator implements FirstOrderIntegrator {
     }
 
     /** {@inheritDoc} */
+    @Override
     public void addEventHandler(final EventHandler handler,
                                 final double maxCheckInterval,
                                 final double convergence,
@@ -139,6 +145,7 @@ public abstract class AbstractIntegrator implements FirstOrderIntegrator {
     }
 
     /** {@inheritDoc} */
+    @Override
     public Collection<EventHandler> getEventHandlers() {
         final List<EventHandler> list = new ArrayList<EventHandler>(eventsStates.size());
         for (EventState state : eventsStates) {
@@ -148,31 +155,37 @@ public abstract class AbstractIntegrator implements FirstOrderIntegrator {
     }
 
     /** {@inheritDoc} */
+    @Override
     public void clearEventHandlers() {
         eventsStates.clear();
     }
 
     /** {@inheritDoc} */
+    @Override
     public double getCurrentStepStart() {
         return stepStart;
     }
 
     /** {@inheritDoc} */
+    @Override
     public double getCurrentSignedStepsize() {
         return stepSize;
     }
 
     /** {@inheritDoc} */
+    @Override
     public void setMaxEvaluations(int maxEvaluations) {
         evaluations.setMaximalCount((maxEvaluations < 0) ? Integer.MAX_VALUE : maxEvaluations);
     }
 
     /** {@inheritDoc} */
+    @Override
     public int getMaxEvaluations() {
         return evaluations.getMaximalCount();
     }
 
     /** {@inheritDoc} */
+    @Override
     public int getEvaluations() {
         return evaluations.getCount();
     }
@@ -223,6 +236,7 @@ public abstract class AbstractIntegrator implements FirstOrderIntegrator {
     }
 
     /** {@inheritDoc} */
+    @Override
     public double integrate(final FirstOrderDifferentialEquations equations,
                             final double t0, final double[] y0, final double t, final double[] y)
         throws DimensionMismatchException, NumberIsTooSmallException,
@@ -329,6 +343,7 @@ public abstract class AbstractIntegrator implements FirstOrderIntegrator {
             SortedSet<EventState> occurringEvents = new TreeSet<EventState>(new Comparator<EventState>() {
 
                 /** {@inheritDoc} */
+                @Override
                 public int compare(EventState es0, EventState es1) {
                     return orderingSign * Double.compare(es0.getEventTime(), es1.getEventTime());
                 }
