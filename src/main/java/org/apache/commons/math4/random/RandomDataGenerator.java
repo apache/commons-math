@@ -143,7 +143,10 @@ public class RandomDataGenerator implements Serializable {
     }
 
     /**
-     * {@inheritDoc}
+     * Generates a random string of hex characters of length {@code len}.
+     * <p>
+     * The generated string will be random, but not cryptographically secure. To generate
+     * cryptographically secure strings, use {@link #nextSecureHexString(int)}.
      * <p>
      * <strong>Algorithm Description:</strong> hex strings are generated using a
      * 2-step process.
@@ -193,12 +196,38 @@ public class RandomDataGenerator implements Serializable {
         return outBuffer.toString().substring(0, len);
     }
 
-    /** {@inheritDoc} */
+    /** Generates a uniformly distributed random integer between {@code lower}
+     * and {@code upper} (endpoints included).
+     * <p>
+     * The generated integer will be random, but not cryptographically secure.
+     * To generate cryptographically secure integer sequences, use
+     * {@link #nextSecureInt(int, int)}.
+     * </p>
+     *
+     * @param lower lower bound for generated integer
+     * @param upper upper bound for generated integer
+     * @return a random integer greater than or equal to {@code lower}
+     * and less than or equal to {@code upper}
+     * @throws NumberIsTooLargeException if {@code lower >= upper}
+     */
     public int nextInt(final int lower, final int upper) throws NumberIsTooLargeException {
         return new UniformIntegerDistribution(getRandomGenerator(), lower, upper).sample();
     }
 
-    /** {@inheritDoc} */
+    /** Generates a uniformly distributed random long integer between {@code lower}
+     * and {@code upper} (endpoints included).
+     * <p>
+     * The generated long integer will be random, but not cryptographically secure.
+     * To generate cryptographically secure long integer sequences, use
+     * {@link #nextSecureLong(long, long)}.
+     * </p>
+     *
+     * @param lower lower bound for generated long integer
+     * @param upper upper bound for generated long integer
+     * @return a random long integer greater than or equal to {@code lower}
+     * and less than or equal to {@code upper}
+     * @throws NumberIsTooLargeException if {@code lower >= upper}
+     */
     public long nextLong(final long lower, final long upper) throws NumberIsTooLargeException {
         if (lower >= upper) {
             throw new NumberIsTooLargeException(LocalizedFormats.LOWER_BOUND_NOT_BELOW_UPPER_BOUND,
@@ -256,7 +285,12 @@ public class RandomDataGenerator implements Serializable {
     }
 
     /**
-     * {@inheritDoc}
+     * Generates a random string of hex characters from a secure random
+     * sequence.
+     * <p>
+     * If cryptographic security is not required, use
+     * {@link #nextHexString(int)}.
+     * </p>
      * <p>
      * <strong>Algorithm Description:</strong> hex strings are generated in
      * 40-byte segments using a 3-step process.
@@ -270,6 +304,8 @@ public class RandomDataGenerator implements Serializable {
      * Each byte of the binary digest is converted to 2 hex digits.</li>
      * </ol>
      * </p>
+     * @param len the length of the string to be generated
+     * @return a random string of hex characters of length {@code len}
      * @throws NotStrictlyPositiveException if {@code len <= 0}
      */
     public String nextSecureHexString(int len) throws NotStrictlyPositiveException {
@@ -321,12 +357,47 @@ public class RandomDataGenerator implements Serializable {
         return outBuffer.toString().substring(0, len);
     }
 
-    /**  {@inheritDoc} */
+    /**
+     * Generates a uniformly distributed random integer between {@code lower}
+     * and {@code upper} (endpoints included) from a secure random sequence.
+     * <p>
+     * Sequences of integers generated using this method will be
+     * cryptographically secure. If cryptographic security is not required,
+     * {@link #nextInt(int, int)} should be used instead of this method.</p>
+     * <p>
+     * <strong>Definition</strong>:
+     * <a href="http://en.wikipedia.org/wiki/Cryptographically_secure_pseudo-random_number_generator">
+     * Secure Random Sequence</a></p>
+     *
+     * @param lower lower bound for generated integer
+     * @param upper upper bound for generated integer
+     * @return a random integer greater than or equal to {@code lower} and less
+     * than or equal to {@code upper}.
+     * @throws NumberIsTooLargeException if {@code lower >= upper}.
+     */
     public int nextSecureInt(final int lower, final int upper) throws NumberIsTooLargeException {
         return new UniformIntegerDistribution(getSecRan(), lower, upper).sample();
     }
 
-    /** {@inheritDoc} */
+    /**
+     * Generates a uniformly distributed random long integer between
+     * {@code lower} and {@code upper} (endpoints included) from a secure random
+     * sequence.
+     * <p>
+     * Sequences of long values generated using this method will be
+     * cryptographically secure. If cryptographic security is not required,
+     * {@link #nextLong(long, long)} should be used instead of this method.</p>
+     * <p>
+     * <strong>Definition</strong>:
+     * <a href="http://en.wikipedia.org/wiki/Cryptographically_secure_pseudo-random_number_generator">
+     * Secure Random Sequence</a></p>
+     *
+     * @param lower lower bound for generated integer
+     * @param upper upper bound for generated integer
+     * @return a random long integer greater than or equal to {@code lower} and
+     * less than or equal to {@code upper}.
+     * @throws NumberIsTooLargeException if {@code lower >= upper}.
+     */
     public long nextSecureLong(final long lower, final long upper) throws NumberIsTooLargeException {
         if (lower >= upper) {
             throw new NumberIsTooLargeException(LocalizedFormats.LOWER_BOUND_NOT_BELOW_UPPER_BOUND,
@@ -353,7 +424,12 @@ public class RandomDataGenerator implements Serializable {
     }
 
     /**
-     * {@inheritDoc}
+     * Generates a random value from the Poisson distribution with the given
+     * mean.
+     * <p>
+     * <strong>Definition</strong>:
+     * <a href="http://www.itl.nist.gov/div898/handbook/eda/section3/eda366j.htm">
+     * Poisson Distribution</a></p>
      * <p>
      * <strong>Algorithm Description</strong>:
      * <ul><li> For small means, uses simulation of a Poisson process
@@ -364,7 +440,10 @@ public class RandomDataGenerator implements Serializable {
      * <li> For large means, uses the rejection algorithm described in <br/>
      * Devroye, Luc. (1981).<i>The Computer Generation of Poisson Random Variables</i>
      * <strong>Computing</strong> vol. 26 pp. 197-207.</li></ul></p>
-     * @throws NotStrictlyPositiveException if {@code len <= 0}
+     *
+     * @param mean the mean of the Poisson distribution
+     * @return a random value following the specified Poisson distribution
+     * @throws NotStrictlyPositiveException if {@code mean <= 0}.
      */
     public long nextPoisson(double mean) throws NotStrictlyPositiveException {
         return new PoissonDistribution(getRandomGenerator(), mean,
@@ -372,7 +451,19 @@ public class RandomDataGenerator implements Serializable {
                 PoissonDistribution.DEFAULT_MAX_ITERATIONS).sample();
     }
 
-    /** {@inheritDoc} */
+    /**
+     * Generates a random value from the Normal (or Gaussian) distribution with
+     * specified mean and standard deviation.
+     * <p>
+     * <strong>Definition</strong>:
+     * <a href="http://www.itl.nist.gov/div898/handbook/eda/section3/eda3661.htm">
+     * Normal Distribution</a></p>
+     *
+     * @param mu the mean of the distribution
+     * @param sigma the standard deviation of the distribution
+     * @return a random value following the specified Gaussian distribution
+     * @throws NotStrictlyPositiveException if {@code sigma <= 0}.
+     */
     public double nextGaussian(double mu, double sigma) throws NotStrictlyPositiveException {
         if (sigma <= 0) {
             throw new NotStrictlyPositiveException(LocalizedFormats.STANDARD_DEVIATION, sigma);
@@ -381,8 +472,12 @@ public class RandomDataGenerator implements Serializable {
     }
 
     /**
-     * {@inheritDoc}
-     *
+     * Generates a random value from the exponential distribution
+     * with specified mean.
+     * <p>
+     * <strong>Definition</strong>:
+     * <a href="http://www.itl.nist.gov/div898/handbook/eda/section3/eda3667.htm">
+     * Exponential Distribution</a></p>
      * <p>
      * <strong>Algorithm Description</strong>: Uses the Algorithm SA (Ahrens)
      * from p. 876 in:
@@ -390,6 +485,10 @@ public class RandomDataGenerator implements Serializable {
      * sampling from the exponential and normal distributions.
      * Communications of the ACM, 15, 873-882.
      * </p>
+     *
+     * @param mean the mean of the distribution
+     * @return a random value following the specified exponential distribution
+     * @throws NotStrictlyPositiveException if {@code mean <= 0}.
      */
     public double nextExponential(double mean) throws NotStrictlyPositiveException {
         return new ExponentialDistribution(getRandomGenerator(), mean,
@@ -554,26 +653,45 @@ public class RandomDataGenerator implements Serializable {
     }
 
     /**
-     * {@inheritDoc}
-     *
+     * Generates a uniformly distributed random value from the open interval
+     * {@code (lower, upper)} (i.e., endpoints excluded).
+     * <p>
+     * <strong>Definition</strong>:
+     * <a href="http://www.itl.nist.gov/div898/handbook/eda/section3/eda3662.htm">
+     * Uniform Distribution</a> {@code lower} and {@code upper - lower} are the
+     * <a href = "http://www.itl.nist.gov/div898/handbook/eda/section3/eda364.htm">
+     * location and scale parameters</a>, respectively.</p>
      * <p>
      * <strong>Algorithm Description</strong>: scales the output of
      * Random.nextDouble(), but rejects 0 values (i.e., will generate another
      * random double if Random.nextDouble() returns 0). This is necessary to
      * provide a symmetric output interval (both endpoints excluded).
      * </p>
+     *
+     * @param lower the exclusive lower bound of the support
+     * @param upper the exclusive upper bound of the support
+     * @return a uniformly distributed random value between lower and upper
+     * (exclusive)
      * @throws NumberIsTooLargeException if {@code lower >= upper}
      * @throws NotFiniteNumberException if one of the bounds is infinite
      * @throws NotANumberException if one of the bounds is NaN
      */
     public double nextUniform(double lower, double upper)
-        throws NumberIsTooLargeException, NotFiniteNumberException, NotANumberException {
+            throws NumberIsTooLargeException, NotFiniteNumberException, NotANumberException {
         return nextUniform(lower, upper, false);
     }
 
     /**
-     * {@inheritDoc}
-     *
+     * Generates a uniformly distributed random value from the interval
+     * {@code (lower, upper)} or the interval {@code [lower, upper)}. The lower
+     * bound is thus optionally included, while the upper bound is always
+     * excluded.
+     * <p>
+     * <strong>Definition</strong>:
+     * <a href="http://www.itl.nist.gov/div898/handbook/eda/section3/eda3662.htm">
+     * Uniform Distribution</a> {@code lower} and {@code upper - lower} are the
+     * <a href = "http://www.itl.nist.gov/div898/handbook/eda/section3/eda364.htm">
+     * location and scale parameters</a>, respectively.</p>
      * <p>
      * <strong>Algorithm Description</strong>: if the lower bound is excluded,
      * scales the output of Random.nextDouble(), but rejects 0 values (i.e.,
@@ -582,6 +700,14 @@ public class RandomDataGenerator implements Serializable {
      * endpoints excluded).
      * </p>
      *
+     *
+     * @param lower the lower bound of the support
+     * @param upper the exclusive upper bound of the support
+     * @param lowerInclusive {@code true} if the lower bound is inclusive
+     * @return uniformly distributed random value in the {@code (lower, upper)}
+     * interval, if {@code lowerInclusive} is {@code false}, or in the
+     * {@code [lower, upper)} interval, if {@code lowerInclusive} is
+     * {@code true}
      * @throws NumberIsTooLargeException if {@code lower >= upper}
      * @throws NotFiniteNumberException if one of the bounds is infinite
      * @throws NotANumberException if one of the bounds is NaN
@@ -617,12 +743,21 @@ public class RandomDataGenerator implements Serializable {
     }
 
     /**
-     * {@inheritDoc}
-     *
+     * Generates an integer array of length {@code k} whose entries are selected
+     * randomly, without repetition, from the integers {@code 0, ..., n - 1}
+     * (inclusive).
+     * <p>
+     * Generated arrays represent permutations of {@code n} taken {@code k} at a
+     * time.</p>
      * This method calls {@link MathArrays#shuffle(int[],RandomGenerator)
      * MathArrays.shuffle} in order to create a random shuffle of the set
      * of natural numbers {@code { 0, 1, ..., n - 1 }}.
      *
+     *
+     * @param n the domain of the permutation
+     * @param k the size of the permutation
+     * @return a random {@code k}-permutation of {@code n}, as an array of
+     * integers
      * @throws NumberIsTooLargeException if {@code k > n}.
      * @throws NotStrictlyPositiveException if {@code k <= 0}.
      */
@@ -645,10 +780,24 @@ public class RandomDataGenerator implements Serializable {
     }
 
     /**
-     * {@inheritDoc}
-     *
-     * This method calls {@link #nextPermutation(int,int) nextPermutation(c.size(), k)}
+     * Returns an array of {@code k} objects selected randomly from the
+     * Collection {@code c}.
+     * <p>
+     * Sampling from {@code c} is without replacement; but if {@code c} contains
+     * identical objects, the sample may include repeats.  If all elements of
+     * {@code c} are distinct, the resulting object array represents a
+     * <a href="http://rkb.home.cern.ch/rkb/AN16pp/node250.html#SECTION0002500000000000000000">
+     * Simple Random Sample</a> of size {@code k} from the elements of
+     * {@code c}.</p>
+     * <p>This method calls {@link #nextPermutation(int,int) nextPermutation(c.size(), k)}
      * in order to sample the collection.
+     * </p>
+     *
+     * @param c the collection to be sampled
+     * @param k the size of the sample
+     * @return a random sample of {@code k} elements from {@code c}
+     * @throws NumberIsTooLargeException if {@code k > c.size()}.
+     * @throws NotStrictlyPositiveException if {@code k <= 0}.
      */
     public Object[] nextSample(Collection<?> c, int k) throws NumberIsTooLargeException, NotStrictlyPositiveException {
 

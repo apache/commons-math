@@ -54,6 +54,11 @@ If the output is not quite correct, check for invisible trailing spaces!
     </release>
 
     <release version="4.0" date="XXXX-XX-XX" description="">
+      <action dev="luc" type="fix" issue="MATH-1212">
+        Changed javadoc as the RandomDataGenerator class does not implement
+        an interface anymore (the previous interface has been deprecated in
+        3.X and removed in 4.0).
+      </action>
       <action dev="erans" type="update" issue="MATH-1206">
         Added new API methods in "LeastSquaresProblem.Evaluation" (package
         "o.a.c.m.fitting.leastsquares").
