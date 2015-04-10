@@ -51,6 +51,9 @@ If the output is not quite correct, check for invisible trailing spaces!
   </properties>
   <body>
     <release version="3.5" date="TBD" description="TBD">
+      <action dev="luc" type="fix" issue="MATH-1191">
+        Fixed ignored method parameters in QRDecomposition protected methods.
+      </action>    
       <action dev="luc" type="fix" issue="MATH-1211" due-to="Mike Zimmerman">
         Fixed wrong selection of line/polyhedron intersection point.
       </action>    

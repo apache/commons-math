@@ -108,8 +108,8 @@ public class QRDecomposition {
      * @since 3.2
      */
     protected void decompose(double[][] matrix) {
-        for (int minor = 0; minor < FastMath.min(qrt.length, qrt[0].length); minor++) {
-            performHouseholderReflection(minor, qrt);
+        for (int minor = 0; minor < FastMath.min(matrix.length, matrix[0].length); minor++) {
+            performHouseholderReflection(minor, matrix);
         }
     }
 
@@ -120,7 +120,7 @@ public class QRDecomposition {
      */
     protected void performHouseholderReflection(int minor, double[][] matrix) {
 
-        final double[] qrtMinor = qrt[minor];
+        final double[] qrtMinor = matrix[minor];
 
         /*
          * Let x be the first column of the minor, and a^2 = |x|^2.
@@ -161,8 +161,8 @@ public class QRDecomposition {
              * |v|^2 = -2a*(qr[minor][minor]), so
              * alpha = -<x,v>/(a*qr[minor][minor])
              */
-            for (int col = minor+1; col < qrt.length; col++) {
-                final double[] qrtCol = qrt[col];
+            for (int col = minor+1; col < matrix.length; col++) {
+                final double[] qrtCol = matrix[col];
                 double alpha = 0;
                 for (int row = minor; row < qrtCol.length; row++) {
                     alpha -= qrtCol[row] * qrtMinor[row];
