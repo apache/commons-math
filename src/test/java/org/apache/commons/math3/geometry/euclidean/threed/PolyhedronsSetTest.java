@@ -349,7 +349,7 @@ public class PolyhedronsSetTest {
             faces[10]=new int[]{3,6,2}; // back (+y)
             faces[11]=new int[]{6,3,7}; // back (+y)
             //
-            Set<SubHyperplane<Euclidean3D>> pset=new HashSet<>();
+            Set<SubHyperplane<Euclidean3D>> pset=new HashSet<SubHyperplane<Euclidean3D>>();
             for (int f=0; f<faces.length; f++) {
                 int[] vidx=faces[f];
                 Plane p=new Plane(verts[vidx[0]],verts[vidx[1]],verts[vidx[2]],tol);
