@@ -129,6 +129,7 @@ public abstract class AbstractStorelessUnivariateStatistic
      * @throws MathIllegalArgumentException if values is null
      * @see org.apache.commons.math4.stat.descriptive.StorelessUnivariateStatistic#incrementAll(double[])
      */
+    @Override
     public void incrementAll(double[] values) throws MathIllegalArgumentException {
         if (values == null) {
             throw new NullArgumentException(LocalizedFormats.INPUT_ARRAY);
@@ -148,6 +149,7 @@ public abstract class AbstractStorelessUnivariateStatistic
      * @throws MathIllegalArgumentException if values is null
      * @see org.apache.commons.math4.stat.descriptive.StorelessUnivariateStatistic#incrementAll(double[], int, int)
      */
+    @Override
     public void incrementAll(double[] values, int begin, int length) throws MathIllegalArgumentException {
         if (test(values, begin, length)) {
             int k = begin + length;

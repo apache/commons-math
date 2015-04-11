@@ -273,8 +273,9 @@ public class SimpleRegression implements Serializable, UpdatingMultipleLinearReg
      * @throws ModelSpecificationException if the length of {@code x} does not equal
      * the number of independent variables in the model
      */
+    @Override
     public void addObservation(final double[] x,final double y)
-    throws ModelSpecificationException {
+            throws ModelSpecificationException {
         if( x == null || x.length == 0 ){
             throw new ModelSpecificationException(LocalizedFormats.INVALID_REGRESSION_OBSERVATION,x!=null?x.length:0, 1);
         }
@@ -291,6 +292,7 @@ public class SimpleRegression implements Serializable, UpdatingMultipleLinearReg
      * @throws ModelSpecificationException if {@code x} is not rectangular, does not match
      * the length of {@code y} or does not contain sufficient data to estimate the model
      */
+    @Override
     public void addObservations(final double[][] x,final double[] y) throws ModelSpecificationException {
         if ((x == null) || (y == null) || (x.length != y.length)) {
             throw new ModelSpecificationException(
@@ -336,6 +338,7 @@ public class SimpleRegression implements Serializable, UpdatingMultipleLinearReg
     /**
      * Clears all data from the model.
      */
+    @Override
     public void clear() {
         sumX = 0d;
         sumXX = 0d;
@@ -350,6 +353,7 @@ public class SimpleRegression implements Serializable, UpdatingMultipleLinearReg
      *
      * @return n number of observations that have been added.
      */
+    @Override
     public long getN() {
         return n;
     }
@@ -408,6 +412,7 @@ public class SimpleRegression implements Serializable, UpdatingMultipleLinearReg
      * @return true if the regression includes an intercept; false otherwise
      * @see #SimpleRegression(boolean)
      */
+    @Override
     public boolean hasIntercept() {
         return hasIntercept;
     }
@@ -768,6 +773,7 @@ public class SimpleRegression implements Serializable, UpdatingMultipleLinearReg
      * @throws NoDataException if there is not sufficient data in the model to
      * estimate the regression parameters
      */
+    @Override
     public RegressionResults regress() throws ModelSpecificationException, NoDataException {
         if (hasIntercept) {
             if (n < 3) {
@@ -813,6 +819,7 @@ public class SimpleRegression implements Serializable, UpdatingMultipleLinearReg
      * @throws MathIllegalArgumentException if the variablesToInclude array is null or zero length
      * @throws OutOfRangeException if a requested variable is not present in model
      */
+    @Override
     public RegressionResults regress(int[] variablesToInclude) throws MathIllegalArgumentException{
         if( variablesToInclude == null || variablesToInclude.length == 0){
           throw new MathIllegalArgumentException(LocalizedFormats.ARRAY_ZERO_LENGTH_OR_NULL_NOT_ALLOWED);

@@ -188,6 +188,7 @@ public class NaturalRanking implements RankingAlgorithm {
      * @throws NotANumberException if the selected {@link NaNStrategy} is {@code FAILED}
      * and a {@link Double#NaN} is encountered in the input data
      */
+    @Override
     public double[] rank(double[] data) {
 
         // Array recording initial positions of data to be ranked
@@ -449,6 +450,7 @@ public class NaturalRanking implements RankingAlgorithm {
          * @param other the other pair to compare this to
          * @return result of <code>Double.compare(value, other.value)</code>
          */
+        @Override
         public int compareTo(IntDoublePair other) {
             return Double.compare(value, other.value);
         }

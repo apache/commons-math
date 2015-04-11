@@ -314,6 +314,7 @@ public class Variance extends AbstractStorelessUnivariateStatistic implements Se
      * @throws MathIllegalArgumentException if the parameters are not valid
      * @since 2.1
      */
+    @Override
     public double evaluate(final double[] values, final double[] weights,
                            final int begin, final int length) throws MathIllegalArgumentException {
 
@@ -370,6 +371,7 @@ public class Variance extends AbstractStorelessUnivariateStatistic implements Se
      * @throws MathIllegalArgumentException if the parameters are not valid
      * @since 2.1
      */
+    @Override
     public double evaluate(final double[] values, final double[] weights)
     throws MathIllegalArgumentException {
         return evaluate(values, weights, 0, values.length);

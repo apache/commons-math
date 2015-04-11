@@ -20,8 +20,8 @@ import java.io.Serializable;
 import java.text.NumberFormat;
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.Iterator;
 import java.util.Comparator;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
@@ -645,6 +645,7 @@ public class Frequency implements Serializable {
          * @throws ClassCastException when <i>o1</i> is not a {@link Comparable Comparable},
          *         or when <code>((Comparable)o1).compareTo(o2)</code> does
          */
+        @Override
         @SuppressWarnings("unchecked") // cast to (T) may throw ClassCastException, see Javadoc
         public int compare(Comparable<T> o1, Comparable<T> o2) {
             return o1.compareTo((T) o2);

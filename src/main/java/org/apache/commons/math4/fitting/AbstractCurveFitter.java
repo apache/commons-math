@@ -134,6 +134,7 @@ public abstract class AbstractCurveFitter {
          */
         public MultivariateMatrixFunction getModelFunctionJacobian() {
             return new MultivariateMatrixFunction() {
+                @Override
                 public double[][] value(double[] p) {
                     final int len = points.length;
                     final double[][] jacobian = new double[len][];

@@ -41,21 +41,22 @@ import org.apache.commons.math4.util.ResizableDoubleArray;
 
 /**
  * Maintains a dataset of values of a single variable and computes descriptive
- * statistics based on stored data. The {@link #getWindowSize() windowSize}
+ * statistics based on stored data.
+ * <p>
+ * The {@link #getWindowSize() windowSize}
  * property sets a limit on the number of values that can be stored in the
- * dataset.  The default value, INFINITE_WINDOW, puts no limit on the size of
- * the dataset.  This value should be used with caution, as the backing store
+ * dataset. The default value, INFINITE_WINDOW, puts no limit on the size of
+ * the dataset. This value should be used with caution, as the backing store
  * will grow without bound in this case.  For very large datasets,
  * {@link SummaryStatistics}, which does not store the dataset, should be used
  * instead of this class. If <code>windowSize</code> is not INFINITE_WINDOW and
  * more values are added than can be stored in the dataset, new values are
  * added in a "rolling" manner, with new values replacing the "oldest" values
  * in the dataset.
- *
- * <p>Note: this class is not threadsafe.  Use
+ * <p>
+ * Note: this class is not threadsafe.  Use
  * {@link SynchronizedDescriptiveStatistics} if concurrent access from multiple
- * threads is required.</p>
- *
+ * threads is required.
  */
 public class DescriptiveStatistics implements StatisticalSummary, Serializable {
 
@@ -202,6 +203,7 @@ public class DescriptiveStatistics implements StatisticalSummary, Serializable {
      * arithmetic mean </a> of the available values
      * @return The mean or Double.NaN if no values have been added.
      */
+    @Override
     public double getMean() {
         return apply(meanImpl);
     }
@@ -226,6 +228,7 @@ public class DescriptiveStatistics implements StatisticalSummary, Serializable {
      * @return The variance, Double.NaN if no values have been added
      * or 0.0 for a single value set.
      */
+    @Override
     public double getVariance() {
         return apply(varianceImpl);
     }
@@ -246,6 +249,7 @@ public class DescriptiveStatistics implements StatisticalSummary, Serializable {
      * @return The standard deviation, Double.NaN if no values have been added
      * or 0.0 for a single value set.
      */
+    @Override
     public double getStandardDeviation() {
         double stdDev = Double.NaN;
         if (getN() > 0) {
@@ -294,6 +298,7 @@ public class DescriptiveStatistics implements StatisticalSummary, Serializable {
      * Returns the maximum of the available values
      * @return The max or Double.NaN if no values have been added.
      */
+    @Override
     public double getMax() {
         return apply(maxImpl);
     }
@@ -302,6 +307,7 @@ public class DescriptiveStatistics implements StatisticalSummary, Serializable {
     * Returns the minimum of the available values
     * @return The min or Double.NaN if no values have been added.
     */
+    @Override
     public double getMin() {
         return apply(minImpl);
     }
@@ -310,6 +316,7 @@ public class DescriptiveStatistics implements StatisticalSummary, Serializable {
      * Returns the number of available values
      * @return The number of available values
      */
+    @Override
     public long getN() {
         return eDA.getNumElements();
     }
@@ -318,6 +325,7 @@ public class DescriptiveStatistics implements StatisticalSummary, Serializable {
      * Returns the sum of the values that have been added to Univariate.
      * @return The sum or Double.NaN if no values have been added
      */
+    @Override
     public double getSum() {
         return apply(sumImpl);
     }

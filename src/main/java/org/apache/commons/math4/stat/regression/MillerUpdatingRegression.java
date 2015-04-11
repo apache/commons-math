@@ -77,7 +77,7 @@ public class MillerUpdatingRegression implements UpdatingMultipleLinearRegressio
     /** summation of squared Y values */
     private double sumsqy = 0.0;
     /** boolean flag whether a regression constant is added */
-    private boolean hasIntercept;
+    private final boolean hasIntercept;
     /** zero tolerance */
     private final double epsilon;
     /**
@@ -98,7 +98,7 @@ public class MillerUpdatingRegression implements UpdatingMultipleLinearRegressio
      * @throws ModelSpecificationException if {@code numberOfVariables is less than 1}
      */
     public MillerUpdatingRegression(int numberOfVariables, boolean includeConstant, double errorTolerance)
-    throws ModelSpecificationException {
+            throws ModelSpecificationException {
         if (numberOfVariables < 1) {
             throw new ModelSpecificationException(LocalizedFormats.NO_REGRESSORS);
         }
@@ -137,7 +137,7 @@ public class MillerUpdatingRegression implements UpdatingMultipleLinearRegressio
      * @throws ModelSpecificationException if {@code numberOfVariables is less than 1}
      */
     public MillerUpdatingRegression(int numberOfVariables, boolean includeConstant)
-    throws ModelSpecificationException {
+            throws ModelSpecificationException {
         this(numberOfVariables, includeConstant, Precision.EPSILON);
     }
 
@@ -145,6 +145,7 @@ public class MillerUpdatingRegression implements UpdatingMultipleLinearRegressio
      * A getter method which determines whether a constant is included.
      * @return true regression has an intercept, false no intercept
      */
+    @Override
     public boolean hasIntercept() {
         return this.hasIntercept;
     }
@@ -153,6 +154,7 @@ public class MillerUpdatingRegression implements UpdatingMultipleLinearRegressio
      * Gets the number of observations added to the regression model.
      * @return number of observations
      */
+    @Override
     public long getN() {
         return this.nobs;
     }
@@ -164,8 +166,9 @@ public class MillerUpdatingRegression implements UpdatingMultipleLinearRegressio
      * @exception ModelSpecificationException if the length of {@code x} does not equal
      * the number of independent variables in the model
      */
+    @Override
     public void addObservation(final double[] x, final double y)
-    throws ModelSpecificationException {
+            throws ModelSpecificationException {
 
         if ((!this.hasIntercept && x.length != nvars) ||
                (this.hasIntercept && x.length + 1 != nvars)) {
@@ -191,6 +194,7 @@ public class MillerUpdatingRegression implements UpdatingMultipleLinearRegressio
      * @throws ModelSpecificationException if {@code x} is not rectangular, does not match
      * the length of {@code y} or does not contain sufficient data to estimate the model
      */
+    @Override
     public void addObservations(double[][] x, double[] y) throws ModelSpecificationException {
         if ((x == null) || (y == null) || (x.length != y.length)) {
             throw new ModelSpecificationException(
@@ -313,6 +317,7 @@ public class MillerUpdatingRegression implements UpdatingMultipleLinearRegressio
      * As the name suggests,  clear wipes the internals and reorders everything in the
      * canonical order.
      */
+    @Override
     public void clear() {
         Arrays.fill(this.d, 0.0);
         Arrays.fill(this.rhs, 0.0);
@@ -902,6 +907,7 @@ public class MillerUpdatingRegression implements UpdatingMultipleLinearRegressio
      * @exception  ModelSpecificationException - thrown if number of observations is
      * less than the number of variables
      */
+    @Override
     public RegressionResults regress() throws ModelSpecificationException {
         return regress(this.nvars);
     }
@@ -1002,6 +1008,7 @@ public class MillerUpdatingRegression implements UpdatingMultipleLinearRegressio
      * is greater than the regressors in the model or a regressor index in
      * regressor array does not exist
      */
+    @Override
     public RegressionResults regress(int[] variablesToInclude) throws ModelSpecificationException {
         if (variablesToInclude.length > this.nvars) {
             throw new ModelSpecificationException(

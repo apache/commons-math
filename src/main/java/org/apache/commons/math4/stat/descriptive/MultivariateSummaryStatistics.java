@@ -75,34 +75,34 @@ public class MultivariateSummaryStatistics
     private static final long serialVersionUID = 2271900808994826718L;
 
     /** Dimension of the data. */
-    private int k;
+    private final int k;
 
     /** Count of values that have been added */
     private long n = 0;
 
     /** Sum statistic implementation - can be reset by setter. */
-    private StorelessUnivariateStatistic[] sumImpl;
+    private final StorelessUnivariateStatistic[] sumImpl;
 
     /** Sum of squares statistic implementation - can be reset by setter. */
-    private StorelessUnivariateStatistic[] sumSqImpl;
+    private final StorelessUnivariateStatistic[] sumSqImpl;
 
     /** Minimum statistic implementation - can be reset by setter. */
-    private StorelessUnivariateStatistic[] minImpl;
+    private final StorelessUnivariateStatistic[] minImpl;
 
     /** Maximum statistic implementation - can be reset by setter. */
-    private StorelessUnivariateStatistic[] maxImpl;
+    private final StorelessUnivariateStatistic[] maxImpl;
 
     /** Sum of log statistic implementation - can be reset by setter. */
-    private StorelessUnivariateStatistic[] sumLogImpl;
+    private final StorelessUnivariateStatistic[] sumLogImpl;
 
     /** Geometric mean statistic implementation - can be reset by setter. */
-    private StorelessUnivariateStatistic[] geoMeanImpl;
+    private final StorelessUnivariateStatistic[] geoMeanImpl;
 
     /** Mean statistic implementation - can be reset by setter. */
-    private StorelessUnivariateStatistic[] meanImpl;
+    private final StorelessUnivariateStatistic[] meanImpl;
 
     /** Covariance statistic implementation - cannot be reset. */
-    private VectorialCovariance covarianceImpl;
+    private final VectorialCovariance covarianceImpl;
 
     /**
      * Construct a MultivariateSummaryStatistics instance
@@ -164,6 +164,7 @@ public class MultivariateSummaryStatistics
      * Returns the dimension of the data
      * @return The dimension of the data
      */
+    @Override
     public int getDimension() {
         return k;
     }
@@ -172,6 +173,7 @@ public class MultivariateSummaryStatistics
      * Returns the number of available values
      * @return The number of available values
      */
+    @Override
     public long getN() {
         return n;
     }
@@ -196,6 +198,7 @@ public class MultivariateSummaryStatistics
      *
      * @return the array of component sums
      */
+    @Override
     public double[] getSum() {
         return getResults(sumImpl);
     }
@@ -207,6 +210,7 @@ public class MultivariateSummaryStatistics
      *
      * @return the array of component sums of squares
      */
+    @Override
     public double[] getSumSq() {
         return getResults(sumSqImpl);
     }
@@ -218,6 +222,7 @@ public class MultivariateSummaryStatistics
      *
      * @return the array of component log sums
      */
+    @Override
     public double[] getSumLog() {
         return getResults(sumLogImpl);
     }
@@ -229,6 +234,7 @@ public class MultivariateSummaryStatistics
      *
      * @return the array of component means
      */
+    @Override
     public double[] getMean() {
         return getResults(meanImpl);
     }
@@ -240,6 +246,7 @@ public class MultivariateSummaryStatistics
      *
      * @return the array of component standard deviations
      */
+    @Override
     public double[] getStandardDeviation() {
         double[] stdDev = new double[k];
         if (getN() < 1) {
@@ -260,6 +267,7 @@ public class MultivariateSummaryStatistics
      *
      * @return the covariance matrix
      */
+    @Override
     public RealMatrix getCovariance() {
         return covarianceImpl.getResult();
     }
@@ -271,6 +279,7 @@ public class MultivariateSummaryStatistics
      *
      * @return the array of component maxima
      */
+    @Override
     public double[] getMax() {
         return getResults(maxImpl);
     }
@@ -282,6 +291,7 @@ public class MultivariateSummaryStatistics
      *
      * @return the array of component minima
      */
+    @Override
     public double[] getMin() {
         return getResults(minImpl);
     }
@@ -293,6 +303,7 @@ public class MultivariateSummaryStatistics
      *
      * @return the array of component geometric means
      */
+    @Override
     public double[] getGeometricMean() {
         return getResults(geoMeanImpl);
     }

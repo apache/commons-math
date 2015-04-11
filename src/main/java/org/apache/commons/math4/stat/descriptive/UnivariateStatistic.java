@@ -32,6 +32,7 @@ public interface UnivariateStatistic extends MathArrays.Function {
      * @return the value of the statistic applied to the input array
      * @throws MathIllegalArgumentException  if values is null
      */
+    @Override
     double evaluate(double[] values) throws MathIllegalArgumentException;
 
     /**
@@ -44,6 +45,7 @@ public interface UnivariateStatistic extends MathArrays.Function {
      * @return the value of the statistic applied to the included array entries
      * @throws MathIllegalArgumentException if values is null or the indices are invalid
      */
+    @Override
     double evaluate(double[] values, int begin, int length) throws MathIllegalArgumentException;
 
     /**

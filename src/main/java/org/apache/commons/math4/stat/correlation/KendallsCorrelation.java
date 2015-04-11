@@ -16,15 +16,15 @@
  */
 package org.apache.commons.math4.stat.correlation;
 
+import java.util.Arrays;
+import java.util.Comparator;
+
 import org.apache.commons.math4.exception.DimensionMismatchException;
 import org.apache.commons.math4.linear.BlockRealMatrix;
 import org.apache.commons.math4.linear.MatrixUtils;
 import org.apache.commons.math4.linear.RealMatrix;
 import org.apache.commons.math4.util.FastMath;
 import org.apache.commons.math4.util.Pair;
-
-import java.util.Arrays;
-import java.util.Comparator;
 
 /**
  * Implementation of Kendall's Tau-b rank correlation</a>.
@@ -168,6 +168,7 @@ public class KendallsCorrelation {
         }
 
         Arrays.sort(pairs, new Comparator<Pair<Double, Double>>() {
+            @Override
             public int compare(Pair<Double, Double> pair1, Pair<Double, Double> pair2) {
                 int compareFirst = pair1.getFirst().compareTo(pair2.getFirst());
                 return compareFirst != 0 ? compareFirst : pair1.getSecond().compareTo(pair2.getSecond());

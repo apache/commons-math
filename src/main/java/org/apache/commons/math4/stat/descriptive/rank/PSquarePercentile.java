@@ -426,6 +426,7 @@ public class PSquarePercentile extends AbstractStorelessUnivariateStatistic
          * @param inputDataPoint is the data point passed
          * @return computed percentile
          */
+        @Override
         public double processDataPoint(final double inputDataPoint) {
 
             // 1. Find cell and update minima and maxima
@@ -449,6 +450,7 @@ public class PSquarePercentile extends AbstractStorelessUnivariateStatistic
          *
          * @return height of mid point marker
          */
+        @Override
         public double getPercentileValue() {
             return height(3);
         }
@@ -553,6 +555,7 @@ public class PSquarePercentile extends AbstractStorelessUnivariateStatistic
          * @param markerIndex index of marker within (1,6)
          * @return marker height
          */
+        @Override
         public double height(final int markerIndex) {
             if (markerIndex >= markerArray.length || markerIndex <= 0) {
                 throw new OutOfRangeException(markerIndex, 1,

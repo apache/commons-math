@@ -82,6 +82,7 @@ public interface StorelessUnivariateStatistic extends UnivariateStatistic {
      *
      * @return a copy of the statistic
      */
+    @Override
     StorelessUnivariateStatistic copy();
 
 }

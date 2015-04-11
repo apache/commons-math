@@ -226,6 +226,7 @@ public class LeastSquaresFactory {
                                                        final Incrementor counter) {
         return new LeastSquaresAdapter(problem) {
 
+            @Override
             public Evaluation evaluate(final RealVector point) {
                 counter.incrementCount();
                 return super.evaluate(point);
@@ -244,6 +245,7 @@ public class LeastSquaresFactory {
      */
     public static ConvergenceChecker<Evaluation> evaluationChecker(final ConvergenceChecker<PointVectorValuePair> checker) {
         return new ConvergenceChecker<Evaluation>() {
+            @Override
             public boolean converged(final int iteration,
                                      final Evaluation previous,
                                      final Evaluation current) {
