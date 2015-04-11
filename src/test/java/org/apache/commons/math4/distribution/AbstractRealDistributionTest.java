@@ -91,14 +91,6 @@ public class AbstractRealDistributionTest {
                 return false;
             }
 
-            public boolean isSupportLowerBoundInclusive() {
-                return true;
-            }
-
-            public boolean isSupportUpperBoundInclusive() {
-                return true;
-            }
-
             @Override
             public double probability(final double x) {
                 throw new UnsupportedOperationException();
@@ -188,14 +180,6 @@ public class AbstractRealDistributionTest {
 
             public boolean isSupportConnected() {
                 return false;
-            }
-
-            public boolean isSupportLowerBoundInclusive() {
-                return true;
-            }
-
-            public boolean isSupportUpperBoundInclusive() {
-                return true;
             }
 
             @Override
