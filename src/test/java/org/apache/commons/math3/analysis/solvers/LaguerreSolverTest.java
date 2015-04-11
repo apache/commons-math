@@ -19,6 +19,7 @@ package org.apache.commons.math3.analysis.solvers;
 import org.apache.commons.math3.analysis.polynomials.PolynomialFunction;
 import org.apache.commons.math3.exception.NumberIsTooLargeException;
 import org.apache.commons.math3.exception.NoBracketingException;
+import org.apache.commons.math3.exception.TooManyEvaluationsException;
 import org.apache.commons.math3.complex.Complex;
 import org.apache.commons.math3.util.FastMath;
 import org.apache.commons.math3.TestUtils;
@@ -26,7 +27,7 @@ import org.junit.Assert;
 import org.junit.Test;
 
 /**
- * Test case for Laguerre solver.
+ * Test cases for Laguerre solver.
  * <p>
  * Laguerre's method is very efficient in solving polynomials. Test runs
  * show that for a default absolute accuracy of 1E-6, it generally takes
@@ -155,5 +156,45 @@ public final class LaguerreSolverTest {
         } catch (NoBracketingException ex) {
             // expected
         }
+    }
+
+    @Test(expected=org.apache.commons.math3.exception.NoDataException.class)
+    public void testEmptyCoefficients() {
+        double coefficients[] = {};
+        LaguerreSolver solver = new LaguerreSolver();
+        solver.solveComplex(coefficients, 0);
+    }
+
+    @Test(expected=org.apache.commons.math3.exception.NullArgumentException.class)
+    public void testNullCoefficients() {
+        LaguerreSolver solver = new LaguerreSolver();
+        solver.solveComplex(null, 0);
+    }
+
+    @Test
+    public void testTooManyEvaluations() {
+        double coefficients[] = {1, 0, 0, 1}; // x^3 + 1 (cube roots of unity)
+        final double tol = 1e-12;
+        LaguerreSolver solver = new LaguerreSolver(tol);
+
+        // No evaluations limit -> solveAllComplex should get all roots
+        Complex [] expected = {new Complex(0.5, FastMath.sqrt(3) / 2),
+            new Complex(-1, 0), new Complex(0.5, -FastMath.sqrt(3) / 2)};
+        Complex [] roots = solver.solveAllComplex(coefficients, 0);
+
+        for (Complex expectedRoot : expected) {
+            final double tolerance = FastMath.max(solver.getAbsoluteAccuracy(),
+                         FastMath.abs(expectedRoot.abs() * solver.getRelativeAccuracy()));
+            TestUtils.assertContains(roots, expectedRoot, tolerance);
+        }
+
+        // Iterations limit too low -> throw TME
+        try {
+            solver.solveAllComplex(coefficients, 1000, 2);
+            Assert.fail("Expecting TooManyEvaluationsException");
+        } catch (TooManyEvaluationsException ex) {
+            // expected
+        }
+
     }
 }

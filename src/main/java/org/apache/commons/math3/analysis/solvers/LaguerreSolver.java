@@ -181,9 +181,9 @@ public class LaguerreSolver extends AbstractPolynomialSolver {
      *
      * @param coefficients Polynomial coefficients.
      * @param initial Start value.
-     * @return the point at which the function value is zero.
+     * @return the full set of complex roots of the polynomial
      * @throws org.apache.commons.math3.exception.TooManyEvaluationsException
-     * if the maximum number of evaluations is exceeded.
+     * if the maximum number of evaluations is exceeded when solving for one of the roots
      * @throws NullArgumentException if the {@code coefficients} is
      * {@code null}.
      * @throws NoDataException if the {@code coefficients} array is empty.
@@ -194,7 +194,32 @@ public class LaguerreSolver extends AbstractPolynomialSolver {
         throws NullArgumentException,
                NoDataException,
                TooManyEvaluationsException {
-        setup(Integer.MAX_VALUE,
+       return solveAllComplex(coefficients, initial, Integer.MAX_VALUE);
+    }
+
+    /**
+     * Find all complex roots for the polynomial with the given
+     * coefficients, starting from the given initial value.
+     * <br/>
+     * Note: This method is not part of the API of {@link BaseUnivariateSolver}.
+     *
+     * @param coefficients polynomial coefficients
+     * @param initial start value
+     * @param maxEval maximum number of evaluations
+     * @return the full set of complex roots of the polynomial
+     * @throws org.apache.commons.math3.exception.TooManyEvaluationsException
+     * if the maximum number of evaluations is exceeded when solving for one of the roots
+     * @throws NullArgumentException if the {@code coefficients} is
+     * {@code null}
+     * @throws NoDataException if the {@code coefficients} array is empty
+     * @since 3.5
+     */
+    public Complex[] solveAllComplex(double[] coefficients,
+                                     double initial, int maxEval)
+        throws NullArgumentException,
+               NoDataException,
+               TooManyEvaluationsException {
+        setup(maxEval,
               new PolynomialFunction(coefficients),
               Double.NEGATIVE_INFINITY,
               Double.POSITIVE_INFINITY,
@@ -211,7 +236,7 @@ public class LaguerreSolver extends AbstractPolynomialSolver {
      *
      * @param coefficients Polynomial coefficients.
      * @param initial Start value.
-     * @return the point at which the function value is zero.
+     * @return a complex root of the polynomial
      * @throws org.apache.commons.math3.exception.TooManyEvaluationsException
      * if the maximum number of evaluations is exceeded.
      * @throws NullArgumentException if the {@code coefficients} is
@@ -224,7 +249,32 @@ public class LaguerreSolver extends AbstractPolynomialSolver {
         throws NullArgumentException,
                NoDataException,
                TooManyEvaluationsException {
-        setup(Integer.MAX_VALUE,
+       return solveComplex(coefficients, initial, Integer.MAX_VALUE);
+    }
+
+    /**
+     * Find a complex root for the polynomial with the given coefficients,
+     * starting from the given initial value.
+     * <br/>
+     * Note: This method is not part of the API of {@link BaseUnivariateSolver}.
+     *
+     * @param coefficients polynomial coefficients
+     * @param initial start value
+     * @param maxEval maximum number of evaluations
+     * @return a complex root of the polynomial
+     * @throws org.apache.commons.math3.exception.TooManyEvaluationsException
+     * if the maximum number of evaluations is exceeded
+     * @throws NullArgumentException if the {@code coefficients} is
+     * {@code null}
+     * @throws NoDataException if the {@code coefficients} array is empty
+     * @since 3.1
+     */
+    public Complex solveComplex(double[] coefficients,
+                                double initial, int maxEval)
+        throws NullArgumentException,
+               NoDataException,
+               TooManyEvaluationsException {
+        setup(maxEval,
               new PolynomialFunction(coefficients),
               Double.NEGATIVE_INFINITY,
               Double.POSITIVE_INFINITY,
