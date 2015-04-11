@@ -56,7 +56,7 @@ public class CholeskyDecomposition {
      */
     public static final double DEFAULT_ABSOLUTE_POSITIVITY_THRESHOLD = 1.0e-10;
     /** Row-oriented storage for L<sup>T</sup> matrix data. */
-    private double[][] lTData;
+    private final double[][] lTData;
     /** Cached value of L. */
     private RealMatrix cachedL;
     /** Cached value of LT. */
@@ -306,6 +306,7 @@ public class CholeskyDecomposition {
          *
          * @return the inverse matrix.
          */
+        @Override
         public RealMatrix getInverse() {
             return solve(MatrixUtils.createRealIdentityMatrix(lTData.length));
         }

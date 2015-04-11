@@ -28,47 +28,50 @@ import org.apache.commons.math4.util.Precision;
 
 /**
  * Calculates the eigen decomposition of a real matrix.
- * <p>The eigen decomposition of matrix A is a set of two matrices:
+ * <p>
+ * The eigen decomposition of matrix A is a set of two matrices:
  * V and D such that A = V &times; D &times; V<sup>T</sup>.
- * A, V and D are all m &times; m matrices.</p>
- * <p>This class is similar in spirit to the <code>EigenvalueDecomposition</code>
+ * A, V and D are all m &times; m matrices.
+ * <p>
+ * This class is similar in spirit to the {@code EigenvalueDecomposition}
  * class from the <a href="http://math.nist.gov/javanumerics/jama/">JAMA</a>
- * library, with the following changes:</p>
+ * library, with the following changes:
  * <ul>
  *   <li>a {@link #getVT() getVt} method has been added,</li>
- *   <li>two {@link #getRealEigenvalue(int) getRealEigenvalue} and {@link #getImagEigenvalue(int)
- *   getImagEigenvalue} methods to pick up a single eigenvalue have been added,</li>
- *   <li>a {@link #getEigenvector(int) getEigenvector} method to pick up a single
- *   eigenvector has been added,</li>
+ *   <li>two {@link #getRealEigenvalue(int) getRealEigenvalue} and
+ *       {@link #getImagEigenvalue(int) getImagEigenvalue} methods to pick up a
+ *       single eigenvalue have been added,</li>
+ *   <li>a {@link #getEigenvector(int) getEigenvector} method to pick up a
+ *       single eigenvector has been added,</li>
  *   <li>a {@link #getDeterminant() getDeterminant} method has been added.</li>
  *   <li>a {@link #getSolver() getSolver} method has been added.</li>
  * </ul>
  * <p>
  * As of 3.1, this class supports general real matrices (both symmetric and non-symmetric):
+ * <p>
+ * If A is symmetric, then A = V*D*V' where the eigenvalue matrix D is diagonal
+ * and the eigenvector matrix V is orthogonal, i.e.
+ * {@code A = V.multiply(D.multiply(V.transpose()))} and
+ * {@code V.multiply(V.transpose())} equals the identity matrix.
  * </p>
  * <p>
- * If A is symmetric, then A = V*D*V' where the eigenvalue matrix D is diagonal and the eigenvector
- * matrix V is orthogonal, i.e. A = V.multiply(D.multiply(V.transpose())) and
- * V.multiply(V.transpose()) equals the identity matrix.
- * </p>
- * <p>
- * If A is not symmetric, then the eigenvalue matrix D is block diagonal with the real eigenvalues
- * in 1-by-1 blocks and any complex eigenvalues, lambda + i*mu, in 2-by-2 blocks:
+ * If A is not symmetric, then the eigenvalue matrix D is block diagonal with the real
+ * eigenvalues in 1-by-1 blocks and any complex eigenvalues, lambda + i*mu, in 2-by-2
+ * blocks:
  * <pre>
  *    [lambda, mu    ]
  *    [   -mu, lambda]
  * </pre>
- * The columns of V represent the eigenvectors in the sense that A*V = V*D,
+ * The columns of V represent the eigenvectors in the sense that {@code A*V = V*D},
  * i.e. A.multiply(V) equals V.multiply(D).
- * The matrix V may be badly conditioned, or even singular, so the validity of the equation
- * A = V*D*inverse(V) depends upon the condition of V.
- * </p>
+ * The matrix V may be badly conditioned, or even singular, so the validity of the
+ * equation {@code A = V*D*inverse(V)} depends upon the condition of V.
  * <p>
  * This implementation is based on the paper by A. Drubrulle, R.S. Martin and
  * J.H. Wilkinson "The Implicit QL Algorithm" in Wilksinson and Reinsch (1971)
  * Handbook for automatic computation, vol. 2, Linear algebra, Springer-Verlag,
- * New-York
- * </p>
+ * New-York.
+ *
  * @see <a href="http://mathworld.wolfram.com/EigenDecomposition.html">MathWorld</a>
  * @see <a href="http://en.wikipedia.org/wiki/Eigendecomposition_of_a_matrix">Wikipedia</a>
  * @since 2.0 (changed to concrete class in 3.0)
@@ -77,7 +80,7 @@ public class EigenDecomposition {
     /** Internally used epsilon criteria. */
     private static final double EPSILON = 1e-12;
     /** Maximum number of iterations accepted in the implicit QL transformation */
-    private byte maxIter = 30;
+    private final byte maxIter = 30;
     /** Main diagonal of the tridiagonal matrix. */
     private double[] main;
     /** Secondary diagonal of the tridiagonal matrix. */
@@ -376,9 +379,9 @@ public class EigenDecomposition {
     /** Specialized solver. */
     private static class Solver implements DecompositionSolver {
         /** Real part of the realEigenvalues. */
-        private double[] realEigenvalues;
+        private final double[] realEigenvalues;
         /** Imaginary part of the realEigenvalues. */
-        private double[] imagEigenvalues;
+        private final double[] imagEigenvalues;
         /** Eigenvectors. */
         private final ArrayRealVector[] eigenvectors;
 
@@ -410,6 +413,7 @@ public class EigenDecomposition {
          * @throws DimensionMismatchException if the matrices dimensions do not match.
          * @throws SingularMatrixException if the decomposed matrix is singular.
          */
+        @Override
         public RealVector solve(final RealVector b) {
             if (!isNonSingular()) {
                 throw new SingularMatrixException();
@@ -477,6 +481,7 @@ public class EigenDecomposition {
          *
          * @return true if the decomposed matrix is non-singular.
          */
+        @Override
         public boolean isNonSingular() {
             double largestEigenvalueNorm = 0.0;
             // Looping over all values (in case they are not sorted in decreasing
@@ -514,6 +519,7 @@ public class EigenDecomposition {
          * @return the inverse matrix.
          * @throws SingularMatrixException if the decomposed matrix is singular.
          */
+        @Override
         public RealMatrix getInverse() {
             if (!isNonSingular()) {
                 throw new SingularMatrixException();

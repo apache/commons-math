@@ -658,7 +658,7 @@ public class SingularValueDecomposition {
         /** Pseudo-inverse of the initial matrix. */
         private final RealMatrix pseudoInverse;
         /** Singularity indicator. */
-        private boolean nonSingular;
+        private final boolean nonSingular;
 
         /**
          * Build a solver from decomposed matrix.
@@ -699,6 +699,7 @@ public class SingularValueDecomposition {
          * @throws org.apache.commons.math4.exception.DimensionMismatchException
          * if the matrices dimensions do not match.
          */
+        @Override
         public RealVector solve(final RealVector b) {
             return pseudoInverse.operate(b);
         }
@@ -715,6 +716,7 @@ public class SingularValueDecomposition {
          * @throws org.apache.commons.math4.exception.DimensionMismatchException
          * if the matrices dimensions do not match.
          */
+        @Override
         public RealMatrix solve(final RealMatrix b) {
             return pseudoInverse.multiply(b);
         }
@@ -724,6 +726,7 @@ public class SingularValueDecomposition {
          *
          * @return {@code true} if the decomposed matrix is non-singular.
          */
+        @Override
         public boolean isNonSingular() {
             return nonSingular;
         }
@@ -733,6 +736,7 @@ public class SingularValueDecomposition {
          *
          * @return the inverse matrix.
          */
+        @Override
         public RealMatrix getInverse() {
             return pseudoInverse;
         }

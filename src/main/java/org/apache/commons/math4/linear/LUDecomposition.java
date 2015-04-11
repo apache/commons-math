@@ -386,6 +386,7 @@ public class LUDecomposition {
          * @return the inverse matrix.
          * @throws SingularMatrixException if the decomposed matrix is singular.
          */
+        @Override
         public RealMatrix getInverse() {
             return solve(MatrixUtils.createRealIdentityMatrix(pivot.length));
         }
