@@ -92,6 +92,7 @@ public class LinearObjectiveFunction
      * @param point Point at which linear equation must be evaluated.
      * @return the value of the linear equation at the current point.
      */
+    @Override
     public double value(final double[] point) {
         return value(new ArrayRealVector(point, false));
     }

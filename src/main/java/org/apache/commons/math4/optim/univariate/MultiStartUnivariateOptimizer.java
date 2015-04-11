@@ -45,9 +45,9 @@ public class MultiStartUnivariateOptimizer
     /** Number of evaluations already performed for all starts. */
     private int totalEvaluations;
     /** Number of starts to go. */
-    private int starts;
+    private final int starts;
     /** Random generator for multi-start. */
-    private RandomGenerator generator;
+    private final RandomGenerator generator;
     /** Found optima. */
     private UnivariatePointValuePair[] optima;
     /** Optimization data. */
@@ -211,6 +211,7 @@ public class MultiStartUnivariateOptimizer
      */
     private void sortPairs(final GoalType goal) {
         Arrays.sort(optima, new Comparator<UnivariatePointValuePair>() {
+                @Override
                 public int compare(final UnivariatePointValuePair o1,
                                    final UnivariatePointValuePair o2) {
                     if (o1 == null) {

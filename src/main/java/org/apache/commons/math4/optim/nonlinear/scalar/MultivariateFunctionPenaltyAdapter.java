@@ -158,6 +158,7 @@ public class MultivariateFunctionPenaltyAdapter
      * @param point unbounded point
      * @return either underlying function value or penalty function value
      */
+    @Override
     public double value(double[] point) {
 
         for (int i = 0; i < scale.length; ++i) {

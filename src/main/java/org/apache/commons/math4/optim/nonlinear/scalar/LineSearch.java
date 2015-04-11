@@ -112,15 +112,16 @@ public class LineSearch {
                                            final double[] direction) {
         final int n = startPoint.length;
         final UnivariateFunction f = new UnivariateFunction() {
-                public double value(double alpha) {
-                    final double[] x = new double[n];
-                    for (int i = 0; i < n; i++) {
-                        x[i] = startPoint[i] + alpha * direction[i];
-                    }
-                    final double obj = mainOptimizer.computeObjectiveValue(x);
-                    return obj;
+            @Override
+            public double value(double alpha) {
+                final double[] x = new double[n];
+                for (int i = 0; i < n; i++) {
+                    x[i] = startPoint[i] + alpha * direction[i];
                 }
-            };
+                final double obj = mainOptimizer.computeObjectiveValue(x);
+                return obj;
+            }
+        };
 
         final GoalType goal = mainOptimizer.getGoalType();
         bracket.search(f, goal, 0, initialBracketingRange);

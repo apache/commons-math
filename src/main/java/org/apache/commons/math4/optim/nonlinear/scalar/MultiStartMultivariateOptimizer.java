@@ -16,10 +16,10 @@
  */
 package org.apache.commons.math4.optim.nonlinear.scalar;
 
-import java.util.Collections;
-import java.util.List;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Comparator;
+import java.util.List;
 
 import org.apache.commons.math4.exception.NotStrictlyPositiveException;
 import org.apache.commons.math4.exception.NullArgumentException;
@@ -94,6 +94,7 @@ public class MultiStartMultivariateOptimizer
      */
     private Comparator<PointValuePair> getPairComparator() {
         return new Comparator<PointValuePair>() {
+            @Override
             public int compare(final PointValuePair o1,
                                final PointValuePair o2) {
                 if (o1 == null) {

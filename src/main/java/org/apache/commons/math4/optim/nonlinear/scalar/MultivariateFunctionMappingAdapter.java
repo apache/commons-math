@@ -175,6 +175,7 @@ public class MultivariateFunctionMappingAdapter
      * @return underlying function value
      * @see #unboundedToBounded(double[])
      */
+    @Override
     public double value(double[] point) {
         return bounded.value(unboundedToBounded(point));
     }

@@ -17,7 +17,6 @@
 
 package org.apache.commons.math4.optim.nonlinear.scalar.gradient;
 
-import org.apache.commons.math4.analysis.solvers.UnivariateSolver;
 import org.apache.commons.math4.exception.MathInternalError;
 import org.apache.commons.math4.exception.MathUnsupportedOperationException;
 import org.apache.commons.math4.exception.TooManyEvaluationsException;
@@ -78,40 +77,6 @@ public class NonLinearConjugateGradientOptimizer
     }
 
     /**
-     * The initial step is a factor with respect to the search direction
-     * (which itself is roughly related to the gradient of the function).
-     * <br/>
-     * It is used to find an interval that brackets the optimum in line
-     * search.
-     *
-     * @since 3.1
-     * @deprecated As of v3.3, this class is not used anymore.
-     * This setting is replaced by the {@code initialBracketingRange}
-     * argument to the new constructors.
-     */
-    @Deprecated
-    public static class BracketingStep implements OptimizationData {
-        /** Initial step. */
-        private final double initialStep;
-
-        /**
-         * @param step Initial step for the bracket search.
-         */
-        public BracketingStep(double step) {
-            initialStep = step;
-        }
-
-        /**
-         * Gets the initial step.
-         *
-         * @return the initial step.
-         */
-        public double getBracketingStep() {
-            return initialStep;
-        }
-    }
-
-    /**
      * Constructor with default tolerances for the line search (1e-8) and
      * {@link IdentityPreconditioner preconditioner}.
      *
@@ -127,27 +92,6 @@ public class NonLinearConjugateGradientOptimizer
              1e-8,
              1e-8,
              1e-8,
-             new IdentityPreconditioner());
-    }
-
-    /**
-     * Constructor with default {@link IdentityPreconditioner preconditioner}.
-     *
-     * @param updateFormula formula to use for updating the &beta; parameter,
-     * must be one of {@link Formula#FLETCHER_REEVES} or
-     * {@link Formula#POLAK_RIBIERE}.
-     * @param checker Convergence checker.
-     * @param lineSearchSolver Solver to use during line search.
-     * @deprecated as of 3.3. Please use
-     * {@link #NonLinearConjugateGradientOptimizer(Formula,ConvergenceChecker,double,double,double)} instead.
-     */
-    @Deprecated
-    public NonLinearConjugateGradientOptimizer(final Formula updateFormula,
-                                               ConvergenceChecker<PointValuePair> checker,
-                                               final UnivariateSolver lineSearchSolver) {
-        this(updateFormula,
-             checker,
-             lineSearchSolver,
              new IdentityPreconditioner());
     }
 
@@ -178,29 +122,6 @@ public class NonLinearConjugateGradientOptimizer
              absoluteTolerance,
              initialBracketingRange,
              new IdentityPreconditioner());
-    }
-
-    /**
-     * @param updateFormula formula to use for updating the &beta; parameter,
-     * must be one of {@link Formula#FLETCHER_REEVES} or
-     * {@link Formula#POLAK_RIBIERE}.
-     * @param checker Convergence checker.
-     * @param lineSearchSolver Solver to use during line search.
-     * @param preconditioner Preconditioner.
-     * @deprecated as of 3.3. Please use
-     * {@link #NonLinearConjugateGradientOptimizer(Formula,ConvergenceChecker,double,double,double,Preconditioner)} instead.
-     */
-    @Deprecated
-    public NonLinearConjugateGradientOptimizer(final Formula updateFormula,
-                                               ConvergenceChecker<PointValuePair> checker,
-                                               final UnivariateSolver lineSearchSolver,
-                                               final Preconditioner preconditioner) {
-        this(updateFormula,
-             checker,
-             lineSearchSolver.getRelativeAccuracy(),
-             lineSearchSolver.getAbsoluteAccuracy(),
-             lineSearchSolver.getAbsoluteAccuracy(),
-             preconditioner);
     }
 
     /**
