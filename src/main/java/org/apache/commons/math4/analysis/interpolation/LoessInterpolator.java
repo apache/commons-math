@@ -180,6 +180,7 @@ public class LoessInterpolator
      * accomodate the size of the input data (i.e. the bandwidth must be
      * larger than 2/n).
      */
+    @Override
     public final PolynomialSplineFunction interpolate(final double[] xval,
                                                       final double[] yval)
         throws NonMonotonicSequenceException,

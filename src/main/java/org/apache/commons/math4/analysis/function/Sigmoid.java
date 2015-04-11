@@ -19,10 +19,7 @@ package org.apache.commons.math4.analysis.function;
 
 import java.util.Arrays;
 
-import org.apache.commons.math4.analysis.DifferentiableUnivariateFunction;
-import org.apache.commons.math4.analysis.FunctionUtils;
 import org.apache.commons.math4.analysis.ParametricUnivariateFunction;
-import org.apache.commons.math4.analysis.UnivariateFunction;
 import org.apache.commons.math4.analysis.differentiation.DerivativeStructure;
 import org.apache.commons.math4.analysis.differentiation.UnivariateDifferentiableFunction;
 import org.apache.commons.math4.exception.DimensionMismatchException;
@@ -38,7 +35,7 @@ import org.apache.commons.math4.util.FastMath;
  *
  * @since 3.0
  */
-public class Sigmoid implements UnivariateDifferentiableFunction, DifferentiableUnivariateFunction {
+public class Sigmoid implements UnivariateDifferentiableFunction {
     /** Lower asymptote. */
     private final double lo;
     /** Higher asymptote. */
@@ -62,15 +59,6 @@ public class Sigmoid implements UnivariateDifferentiableFunction, Differentiable
                    double hi) {
         this.lo = lo;
         this.hi = hi;
-    }
-
-    /** {@inheritDoc}
-     * @deprecated as of 3.1, replaced by {@link #value(DerivativeStructure)}
-     */
-    @Override
-    @Deprecated
-    public UnivariateFunction derivative() {
-        return FunctionUtils.toDifferentiableUnivariateFunction(this).derivative();
     }
 
     /** {@inheritDoc} */
@@ -99,6 +87,7 @@ public class Sigmoid implements UnivariateDifferentiableFunction, Differentiable
          * @throws DimensionMismatchException if the size of {@code param} is
          * not 2.
          */
+        @Override
         public double value(double x, double ... param)
             throws NullArgumentException,
                    DimensionMismatchException {
@@ -119,6 +108,7 @@ public class Sigmoid implements UnivariateDifferentiableFunction, Differentiable
          * @throws DimensionMismatchException if the size of {@code param} is
          * not 2.
          */
+        @Override
         public double[] gradient(double x, double ... param)
             throws NullArgumentException,
                    DimensionMismatchException {

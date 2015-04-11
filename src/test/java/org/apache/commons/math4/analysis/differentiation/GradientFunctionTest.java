@@ -18,9 +18,6 @@
 package org.apache.commons.math4.analysis.differentiation;
 
 import org.apache.commons.math4.TestUtils;
-import org.apache.commons.math4.analysis.differentiation.DerivativeStructure;
-import org.apache.commons.math4.analysis.differentiation.GradientFunction;
-import org.apache.commons.math4.analysis.differentiation.MultivariateDifferentiableFunction;
 import org.apache.commons.math4.exception.DimensionMismatchException;
 import org.apache.commons.math4.exception.MathIllegalArgumentException;
 import org.apache.commons.math4.util.FastMath;
@@ -59,7 +56,8 @@ public class GradientFunctionTest {
     }
 
     private static class EuclideanDistance implements MultivariateDifferentiableFunction {
-        
+
+        @Override
         public double value(double[] point) {
             double d2 = 0;
             for (double x : point) {
@@ -67,7 +65,8 @@ public class GradientFunctionTest {
             }
             return FastMath.sqrt(d2);
         }
-        
+
+        @Override
         public DerivativeStructure value(DerivativeStructure[] point)
             throws DimensionMismatchException, MathIllegalArgumentException {
             DerivativeStructure d2 = point[0].getField().getZero();

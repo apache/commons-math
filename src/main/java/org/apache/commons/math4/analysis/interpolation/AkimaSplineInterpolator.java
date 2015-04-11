@@ -63,6 +63,7 @@ public class AkimaSplineInterpolator
      * @throws NumberIsTooSmallException if the size of {@code xvals} is smaller
      *         than 5.
      */
+    @Override
     public PolynomialSplineFunction interpolate(double[] xvals,
                                                 double[] yvals)
         throws DimensionMismatchException,

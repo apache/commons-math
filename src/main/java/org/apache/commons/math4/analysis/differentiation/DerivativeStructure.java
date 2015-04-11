@@ -764,6 +764,7 @@ public class DerivativeStructure implements RealFieldElement<DerivativeStructure
     /** Base 10 logarithm.
      * @return base 10 logarithm of the instance
      */
+    @Override
     public DerivativeStructure log10() {
         final DerivativeStructure result = new DerivativeStructure(compiler);
         compiler.log10(data, 0, result.data, 0);

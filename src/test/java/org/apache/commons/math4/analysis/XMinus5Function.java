@@ -25,13 +25,15 @@ import org.apache.commons.math4.analysis.differentiation.UnivariateDifferentiabl
  */
 public class XMinus5Function implements UnivariateDifferentiableFunction {
 
-    /* Evaluate x - 5 fuction.
+    /* Evaluate x - 5 function.
      * @see org.apache.commons.math4.UnivariateFunction#value(double)
      */
+    @Override
     public double value(double x) {
         return x - 5;
     }
 
+    @Override
     public DerivativeStructure value(DerivativeStructure t) {
         return t.subtract(5);
     }

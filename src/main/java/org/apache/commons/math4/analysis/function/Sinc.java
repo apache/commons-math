@@ -17,9 +17,6 @@
 
 package org.apache.commons.math4.analysis.function;
 
-import org.apache.commons.math4.analysis.DifferentiableUnivariateFunction;
-import org.apache.commons.math4.analysis.FunctionUtils;
-import org.apache.commons.math4.analysis.UnivariateFunction;
 import org.apache.commons.math4.analysis.differentiation.DerivativeStructure;
 import org.apache.commons.math4.analysis.differentiation.UnivariateDifferentiableFunction;
 import org.apache.commons.math4.exception.DimensionMismatchException;
@@ -35,7 +32,7 @@ import org.apache.commons.math4.util.FastMath;
  *
  * @since 3.0
  */
-public class Sinc implements UnivariateDifferentiableFunction, DifferentiableUnivariateFunction {
+public class Sinc implements UnivariateDifferentiableFunction {
     /**
      * Value below which the computations are done using Taylor series.
      * <p>
@@ -93,15 +90,6 @@ public class Sinc implements UnivariateDifferentiableFunction, DifferentiableUni
             // use definition expression
             return FastMath.sin(scaledX) / scaledX;
         }
-    }
-
-    /** {@inheritDoc}
-     * @deprecated as of 3.1, replaced by {@link #value(DerivativeStructure)}
-     */
-    @Override
-    @Deprecated
-    public UnivariateFunction derivative() {
-        return FunctionUtils.toDifferentiableUnivariateFunction(this).derivative();
     }
 
     /** {@inheritDoc}

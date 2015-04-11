@@ -22,9 +22,6 @@ import org.apache.commons.math4.analysis.QuinticFunction;
 import org.apache.commons.math4.analysis.UnivariateFunction;
 import org.apache.commons.math4.analysis.function.Gaussian;
 import org.apache.commons.math4.analysis.function.Sin;
-import org.apache.commons.math4.analysis.integration.BaseAbstractUnivariateIntegrator;
-import org.apache.commons.math4.analysis.integration.IterativeLegendreGaussIntegrator;
-import org.apache.commons.math4.analysis.integration.UnivariateIntegrator;
 import org.apache.commons.math4.analysis.polynomials.PolynomialFunction;
 import org.apache.commons.math4.exception.TooManyEvaluationsException;
 import org.apache.commons.math4.util.FastMath;
@@ -128,6 +125,7 @@ public class IterativeLegendreGaussIntegratorTest {
     public void testIssue464() {
         final double value = 0.2;
         UnivariateFunction f = new UnivariateFunction() {
+            @Override
             public double value(double x) {
                 return (x >= 0 && x <= 5) ? value : 0.0;
             }

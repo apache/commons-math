@@ -21,7 +21,6 @@ import java.util.List;
 
 import org.apache.commons.math4.ExtendedFieldElementAbstractTest;
 import org.apache.commons.math4.TestUtils;
-import org.apache.commons.math4.analysis.differentiation.SparseGradient;
 import org.apache.commons.math4.analysis.polynomials.PolynomialFunction;
 import org.apache.commons.math4.random.Well1024a;
 import org.apache.commons.math4.util.FastMath;
@@ -309,7 +308,7 @@ public class SparseGradientTest extends ExtendedFieldElementAbstractTest<SparseG
                     Assert.assertEquals(dfdx, sg.getDerivative(0), FastMath.abs(epsilon * dfdx));
 
                 }
-                
+
             }
         }
     }
@@ -353,7 +352,7 @@ public class SparseGradientTest extends ExtendedFieldElementAbstractTest<SparseG
                         Assert.assertEquals(dfdz, f.getDerivative(2), FastMath.abs(epsilon * dfdz));
                     }
                 }
-            }        
+            }
     }
 
     @Test
@@ -952,7 +951,7 @@ public class SparseGradientTest extends ExtendedFieldElementAbstractTest<SparseG
             for (int i = poly.degree(); i >= 0; --i) {
                 sgY1 = sgY1.multiply(sgX).add(poly.getCoefficients()[i]);
             }
-            SparseGradient sgY2 = sgX.compose(poly.value(x), poly.derivative().value(x));
+            SparseGradient sgY2 = sgX.compose(poly.value(x), poly.polynomialDerivative().value(x));
             SparseGradient zero = sgY1.subtract(sgY2);
             checkF0F1(zero, 0.0, 0.0);
         }

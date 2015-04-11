@@ -22,12 +22,6 @@ import org.apache.commons.math4.analysis.QuinticFunction;
 import org.apache.commons.math4.analysis.UnivariateFunction;
 import org.apache.commons.math4.analysis.UnivariateMatrixFunction;
 import org.apache.commons.math4.analysis.UnivariateVectorFunction;
-import org.apache.commons.math4.analysis.differentiation.DerivativeStructure;
-import org.apache.commons.math4.analysis.differentiation.FiniteDifferencesDifferentiator;
-import org.apache.commons.math4.analysis.differentiation.UnivariateDifferentiableFunction;
-import org.apache.commons.math4.analysis.differentiation.UnivariateDifferentiableMatrixFunction;
-import org.apache.commons.math4.analysis.differentiation.UnivariateDifferentiableVectorFunction;
-import org.apache.commons.math4.analysis.differentiation.UnivariateFunctionDifferentiator;
 import org.apache.commons.math4.analysis.function.Gaussian;
 import org.apache.commons.math4.analysis.function.Sin;
 import org.apache.commons.math4.exception.MathInternalError;
@@ -69,6 +63,7 @@ public class FiniteDifferencesDifferentiatorTest {
                 new FiniteDifferencesDifferentiator(5, 0.01);
         UnivariateDifferentiableFunction f =
                 differentiator.differentiate(new UnivariateFunction() {
+                    @Override
                     public double value(double x) {
                         return 42.0;
                     }
@@ -87,6 +82,7 @@ public class FiniteDifferencesDifferentiatorTest {
                 new FiniteDifferencesDifferentiator(5, 0.01);
         UnivariateDifferentiableFunction f =
                 differentiator.differentiate(new UnivariateFunction() {
+                    @Override
                     public double value(double x) {
                         return 2 - 3 * x;
                     }
@@ -159,7 +155,7 @@ public class FiniteDifferencesDifferentiatorTest {
         // the 1.0e-6 step size is far too small for finite differences in the quintic on this abscissa range for 7 points
         // the errors are huge!
         final double[] expectedBad = new double[] {
-            2.910e-11, 2.087e-5, 147.7, 3.820e7, 6.354e14, 6.548e19, 1.543e27            
+            2.910e-11, 2.087e-5, 147.7, 3.820e7, 6.354e14, 6.548e19, 1.543e27
         };
 
         for (int i = 0; i < maxErrorGood.length; ++i) {
@@ -173,6 +169,7 @@ public class FiniteDifferencesDifferentiatorTest {
     public void testWrongOrder() {
         UnivariateDifferentiableFunction f =
                 new FiniteDifferencesDifferentiator(3, 0.01).differentiate(new UnivariateFunction() {
+                    @Override
                     public double value(double x) {
                         // this exception should not be thrown because wrong order
                         // should be detected before function call
@@ -186,6 +183,7 @@ public class FiniteDifferencesDifferentiatorTest {
     public void testWrongOrderVector() {
         UnivariateDifferentiableVectorFunction f =
                 new FiniteDifferencesDifferentiator(3, 0.01).differentiate(new UnivariateVectorFunction() {
+                    @Override
                     public double[] value(double x) {
                         // this exception should not be thrown because wrong order
                         // should be detected before function call
@@ -199,6 +197,7 @@ public class FiniteDifferencesDifferentiatorTest {
     public void testWrongOrderMatrix() {
         UnivariateDifferentiableMatrixFunction f =
                 new FiniteDifferencesDifferentiator(3, 0.01).differentiate(new UnivariateMatrixFunction() {
+                    @Override
                     public double[][] value(double x) {
                         // this exception should not be thrown because wrong order
                         // should be detected before function call
@@ -218,6 +217,7 @@ public class FiniteDifferencesDifferentiatorTest {
 
         final double slope = 2.5;
         UnivariateFunction f = new UnivariateFunction() {
+            @Override
             public double value(double x) {
                 if (x < 0) {
                     throw new NumberIsTooSmallException(x, 0, true);
@@ -261,11 +261,11 @@ public class FiniteDifferencesDifferentiatorTest {
         // here, we did set the bounds, so evaluations are done within domain
         // using f(0.0), f(0.1), f(0.2)
         Assert.assertEquals(slope, properlyBounded.value(tLow).getPartialDerivative(1), 1.0e-10);
-        
+
         // here, we did set the bounds, so evaluations are done within domain
         // using f(0.8), f(0.9), f(1.0)
         Assert.assertEquals(slope, properlyBounded.value(tHigh).getPartialDerivative(1), 1.0e-10);
-        
+
     }
 
     @Test
@@ -274,6 +274,7 @@ public class FiniteDifferencesDifferentiatorTest {
         UnivariateFunctionDifferentiator differentiator =
                 new FiniteDifferencesDifferentiator(9, 1.0 / 32, 0.0, Double.POSITIVE_INFINITY);
         UnivariateDifferentiableFunction sqrt = differentiator.differentiate(new UnivariateFunction() {
+            @Override
             public double value(double x) {
                 return FastMath.sqrt(x);
             }
@@ -296,11 +297,12 @@ public class FiniteDifferencesDifferentiatorTest {
                 new FiniteDifferencesDifferentiator(7, 0.01);
         UnivariateDifferentiableVectorFunction f =
                 differentiator.differentiate(new UnivariateVectorFunction() {
-            
+
+            @Override
             public double[] value(double x) {
                 return new double[] { FastMath.cos(x), FastMath.sin(x) };
             }
-            
+
         });
 
         for (double x = -10; x < 10; x += 0.1) {
@@ -331,14 +333,15 @@ public class FiniteDifferencesDifferentiatorTest {
                 new FiniteDifferencesDifferentiator(7, 0.01);
         UnivariateDifferentiableMatrixFunction f =
                 differentiator.differentiate(new UnivariateMatrixFunction() {
-            
+
+            @Override
             public double[][] value(double x) {
                 return new double[][] {
                     { FastMath.cos(x),  FastMath.sin(x)  },
                     { FastMath.cosh(x), FastMath.sinh(x) }
                 };
             }
-            
+
         });
 
         for (double x = -1; x < 1; x += 0.02) {

@@ -17,10 +17,9 @@
 package org.apache.commons.math4.analysis.polynomials;
 
 import org.apache.commons.math4.TestUtils;
-import org.apache.commons.math4.analysis.polynomials.PolynomialFunction;
 import org.apache.commons.math4.util.FastMath;
-import org.junit.Test;
 import org.junit.Assert;
+import org.junit.Test;
 
 /**
  * Tests the PolynomialFunction implementation of a UnivariateFunction.
@@ -48,9 +47,9 @@ public final class PolynomialFunctionTest {
         Assert.assertEquals(f.value(456.89), c[0], tolerance);
 
         Assert.assertEquals(f.degree(), 0);
-        Assert.assertEquals(f.derivative().value(0), 0, tolerance);
+        Assert.assertEquals(f.polynomialDerivative().value(0), 0, tolerance);
 
-        Assert.assertEquals(f.polynomialDerivative().derivative().value(0), 0, tolerance);
+        Assert.assertEquals(f.polynomialDerivative().polynomialDerivative().value(0), 0, tolerance);
     }
 
     /**
@@ -79,7 +78,7 @@ public final class PolynomialFunctionTest {
 
         Assert.assertEquals(f.degree(), 1);
 
-        Assert.assertEquals(f.polynomialDerivative().derivative().value(0), 0, tolerance);
+        Assert.assertEquals(f.polynomialDerivative().polynomialDerivative().value(0), 0, tolerance);
     }
 
     /**
@@ -142,15 +141,15 @@ public final class PolynomialFunctionTest {
         PolynomialFunction h = new PolynomialFunction(h_coeff);
 
         // compare f' = g
-        Assert.assertEquals(f.derivative().value(0), g.value(0), tolerance);
-        Assert.assertEquals(f.derivative().value(1), g.value(1), tolerance);
-        Assert.assertEquals(f.derivative().value(100), g.value(100), tolerance);
-        Assert.assertEquals(f.derivative().value(4.1), g.value(4.1), tolerance);
-        Assert.assertEquals(f.derivative().value(-3.25), g.value(-3.25), tolerance);
+        Assert.assertEquals(f.polynomialDerivative().value(0), g.value(0), tolerance);
+        Assert.assertEquals(f.polynomialDerivative().value(1), g.value(1), tolerance);
+        Assert.assertEquals(f.polynomialDerivative().value(100), g.value(100), tolerance);
+        Assert.assertEquals(f.polynomialDerivative().value(4.1), g.value(4.1), tolerance);
+        Assert.assertEquals(f.polynomialDerivative().value(-3.25), g.value(-3.25), tolerance);
 
         // compare g' = h
-        Assert.assertEquals(g.derivative().value(FastMath.PI), h.value(FastMath.PI), tolerance);
-        Assert.assertEquals(g.derivative().value(FastMath.E),  h.value(FastMath.E),  tolerance);
+        Assert.assertEquals(g.polynomialDerivative().value(FastMath.PI), h.value(FastMath.PI), tolerance);
+        Assert.assertEquals(g.polynomialDerivative().value(FastMath.E),  h.value(FastMath.E),  tolerance);
     }
 
     @Test
@@ -241,15 +240,15 @@ public final class PolynomialFunctionTest {
         PolynomialFunction h = new PolynomialFunction(h_coeff);
 
         // compare f' = g
-        Assert.assertEquals(f.derivative().value(0), g.value(0), tolerance);
-        Assert.assertEquals(f.derivative().value(1), g.value(1), tolerance);
-        Assert.assertEquals(f.derivative().value(100), g.value(100), tolerance);
-        Assert.assertEquals(f.derivative().value(4.1), g.value(4.1), tolerance);
-        Assert.assertEquals(f.derivative().value(-3.25), g.value(-3.25), tolerance);
+        Assert.assertEquals(f.polynomialDerivative().value(0), g.value(0), tolerance);
+        Assert.assertEquals(f.polynomialDerivative().value(1), g.value(1), tolerance);
+        Assert.assertEquals(f.polynomialDerivative().value(100), g.value(100), tolerance);
+        Assert.assertEquals(f.polynomialDerivative().value(4.1), g.value(4.1), tolerance);
+        Assert.assertEquals(f.polynomialDerivative().value(-3.25), g.value(-3.25), tolerance);
 
         // compare g' = h
-        Assert.assertEquals(g.derivative().value(FastMath.PI), h.value(FastMath.PI), tolerance);
-        Assert.assertEquals(g.derivative().value(FastMath.E),  h.value(FastMath.E),  tolerance);
+        Assert.assertEquals(g.polynomialDerivative().value(FastMath.PI), h.value(FastMath.PI), tolerance);
+        Assert.assertEquals(g.polynomialDerivative().value(FastMath.E),  h.value(FastMath.E),  tolerance);
     }
 
     public void checkPolynomial(PolynomialFunction p, String reference) {

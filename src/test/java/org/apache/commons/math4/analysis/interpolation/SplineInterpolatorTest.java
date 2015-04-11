@@ -18,8 +18,6 @@ package org.apache.commons.math4.analysis.interpolation;
 
 import org.apache.commons.math4.TestUtils;
 import org.apache.commons.math4.analysis.UnivariateFunction;
-import org.apache.commons.math4.analysis.interpolation.SplineInterpolator;
-import org.apache.commons.math4.analysis.interpolation.UnivariateInterpolator;
 import org.apache.commons.math4.analysis.polynomials.PolynomialFunction;
 import org.apache.commons.math4.analysis.polynomials.PolynomialSplineFunction;
 import org.apache.commons.math4.exception.DimensionMismatchException;
@@ -215,10 +213,10 @@ public class SplineInterpolatorTest {
         for (int i = 1; i < x.length - 2; i++) {
             // evaluate polynomials and derivatives at x[i + 1]
             Assert.assertEquals(polynomials[i].value(x[i +1] - x[i]), polynomials[i + 1].value(0), 0.1);
-            Assert.assertEquals(polynomials[i].derivative().value(x[i +1] - x[i]),
-                                polynomials[i + 1].derivative().value(0), 0.5);
-            Assert.assertEquals(polynomials[i].polynomialDerivative().derivative().value(x[i +1] - x[i]),
-                                polynomials[i + 1].polynomialDerivative().derivative().value(0), 0.5);
+            Assert.assertEquals(polynomials[i].polynomialDerivative().value(x[i +1] - x[i]),
+                                polynomials[i + 1].polynomialDerivative().value(0), 0.5);
+            Assert.assertEquals(polynomials[i].polynomialDerivative().polynomialDerivative().value(x[i +1] - x[i]),
+                                polynomials[i + 1].polynomialDerivative().polynomialDerivative().value(0), 0.5);
         }
     }
 

@@ -158,6 +158,7 @@ public class IterativeLegendreGaussIntegrator
         throws TooManyEvaluationsException {
         // Function to be integrated is stored in the base class.
         final UnivariateFunction f = new UnivariateFunction() {
+                @Override
                 public double value(double x)
                     throws MathIllegalArgumentException, TooManyEvaluationsException {
                     return computeObjectiveValue(x);

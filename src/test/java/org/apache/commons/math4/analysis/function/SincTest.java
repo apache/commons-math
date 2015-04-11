@@ -18,7 +18,6 @@ package org.apache.commons.math4.analysis.function;
 
 import org.apache.commons.math4.analysis.UnivariateFunction;
 import org.apache.commons.math4.analysis.differentiation.DerivativeStructure;
-import org.apache.commons.math4.analysis.function.Sinc;
 import org.apache.commons.math4.dfp.Dfp;
 import org.apache.commons.math4.dfp.DfpField;
 import org.apache.commons.math4.dfp.DfpMath;
@@ -32,6 +31,7 @@ public class SincTest {
    public void testShortcut() {
        final Sinc s = new Sinc();
        final UnivariateFunction f = new UnivariateFunction() {
+           @Override
            public double value(double x) {
                Dfp dfpX = new DfpField(25).newDfp(x);
                return DfpMath.sin(dfpX).divide(dfpX).toDouble();
@@ -106,7 +106,8 @@ public class SincTest {
    public void testDerivativeShortcut() {
        final Sinc sinc = new Sinc();
        final UnivariateFunction f = new UnivariateFunction() {
-               public double value(double x) {
+               @Override
+            public double value(double x) {
                    Dfp dfpX = new DfpField(25).newDfp(x);
                    return DfpMath.cos(dfpX).subtract(DfpMath.sin(dfpX).divide(dfpX)).divide(dfpX).toDouble();
                }

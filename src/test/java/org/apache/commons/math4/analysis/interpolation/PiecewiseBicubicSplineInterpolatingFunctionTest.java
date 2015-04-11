@@ -17,7 +17,6 @@
 package org.apache.commons.math4.analysis.interpolation;
 
 import org.apache.commons.math4.analysis.BivariateFunction;
-import org.apache.commons.math4.analysis.interpolation.PiecewiseBicubicSplineInterpolatingFunction;
 import org.apache.commons.math4.distribution.UniformRealDistribution;
 import org.apache.commons.math4.exception.DimensionMismatchException;
 import org.apache.commons.math4.exception.InsufficientDataException;
@@ -145,6 +144,7 @@ public final class PiecewiseBicubicSplineInterpolatingFunctionTest {
 
         // Function values
         BivariateFunction f = new BivariateFunction() {
+                @Override
                 public double value(double x, double y) {
                     return 2 * x - 3 * y + 5;
                 }
@@ -180,6 +180,7 @@ public final class PiecewiseBicubicSplineInterpolatingFunctionTest {
 
         // Function values
         BivariateFunction f = new BivariateFunction() {
+                @Override
                 public double value(double x, double y) {
                     return 2 * x * x - 3 * y * y + 4 * x * y - 5;
                 }

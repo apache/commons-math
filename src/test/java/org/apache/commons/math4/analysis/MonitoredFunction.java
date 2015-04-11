@@ -16,7 +16,6 @@
  */
 package org.apache.commons.math4.analysis;
 
-import org.apache.commons.math4.analysis.UnivariateFunction;
 
 /**
  * Wrapper class for counting functions calls.
@@ -37,12 +36,13 @@ public class MonitoredFunction implements UnivariateFunction {
         return callsCount;
     }
 
+    @Override
     public double value(double x) {
         ++callsCount;
         return f.value(x);
     }
 
     private int callsCount;
-    private UnivariateFunction f;
+    private final UnivariateFunction f;
 
 }

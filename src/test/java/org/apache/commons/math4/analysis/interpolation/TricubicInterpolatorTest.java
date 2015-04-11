@@ -17,8 +17,6 @@
 package org.apache.commons.math4.analysis.interpolation;
 
 import org.apache.commons.math4.analysis.TrivariateFunction;
-import org.apache.commons.math4.analysis.interpolation.TricubicInterpolatingFunction;
-import org.apache.commons.math4.analysis.interpolation.TricubicInterpolator;
 import org.apache.commons.math4.exception.DimensionMismatchException;
 import org.apache.commons.math4.exception.MathIllegalArgumentException;
 import org.apache.commons.math4.util.FastMath;
@@ -127,6 +125,7 @@ public final class TricubicInterpolatorTest {
 
         // Function values
         TrivariateFunction f = new TrivariateFunction() {
+                @Override
                 public double value(double x, double y, double z) {
                     return 2 * x - 3 * y - 4 * z + 5;
                 }
@@ -186,6 +185,7 @@ public final class TricubicInterpolatorTest {
 
         // Function values
         TrivariateFunction f = new TrivariateFunction() {
+                @Override
                 public double value(double x, double y, double z) {
                     return a * FastMath.cos(omega * z - kx * x - ky * y);
                 }

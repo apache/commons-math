@@ -17,7 +17,6 @@
 package org.apache.commons.math4.analysis.interpolation;
 
 import org.apache.commons.math4.analysis.TrivariateFunction;
-import org.apache.commons.math4.analysis.interpolation.TricubicInterpolatingFunction;
 import org.apache.commons.math4.distribution.UniformRealDistribution;
 import org.apache.commons.math4.exception.DimensionMismatchException;
 import org.apache.commons.math4.exception.MathIllegalArgumentException;
@@ -30,7 +29,6 @@ import org.junit.Test;
 
 /**
  * Test case for the bicubic function.
- * 
  */
 public final class TricubicInterpolatingFunctionTest {
     /**
@@ -47,7 +45,7 @@ public final class TricubicInterpolatingFunctionTest {
         TrivariateFunction tcf = new TricubicInterpolatingFunction(xval, yval, zval,
                                                                    fval, fval, fval, fval,
                                                                    fval, fval, fval, fval);
-        
+
         double[] wxval = new double[] {3, 2, 5, 6.5};
         try {
             tcf = new TricubicInterpolatingFunction(wxval, yval, zval,
@@ -420,30 +418,35 @@ public final class TricubicInterpolatingFunctionTest {
     @Test
     public void testPlane() {
         final TrivariateFunction f = new TrivariateFunction() {
+                @Override
                 public double value(double x, double y, double z) {
                     return 2 * x - 3 * y - 4 * z + 5;
                 }
             };
 
         final TrivariateFunction dfdx = new TrivariateFunction() {
+                @Override
                 public double value(double x, double y, double z) {
                     return 2;
                 }
             };
 
         final TrivariateFunction dfdy = new TrivariateFunction() {
+                @Override
                 public double value(double x, double y, double z) {
                     return -3;
                 }
             };
 
         final TrivariateFunction dfdz = new TrivariateFunction() {
+                @Override
                 public double value(double x, double y, double z) {
                     return -4;
                 }
             };
 
         final TrivariateFunction zero = new TrivariateFunction() {
+                @Override
                 public double value(double x, double y, double z) {
                     return 0;
                 }
@@ -477,48 +480,56 @@ public final class TricubicInterpolatingFunctionTest {
     @Test
     public void testQuadric() {
         final TrivariateFunction f = new TrivariateFunction() {
+                @Override
                 public double value(double x, double y, double z) {
                     return 2 * x * x - 3 * y * y - 4 * z * z + 5 * x * y + 6 * x * z - 2 * y * z + 3;
                 }
             };
 
         final TrivariateFunction dfdx = new TrivariateFunction() {
+                @Override
                 public double value(double x, double y, double z) {
                     return 4 * x + 5 * y + 6 * z;
                 }
             };
 
         final TrivariateFunction dfdy = new TrivariateFunction() {
+                @Override
                 public double value(double x, double y, double z) {
                     return -6 * y + 5 * x - 2 * z;
                 }
             };
 
         final TrivariateFunction dfdz = new TrivariateFunction() {
+                @Override
                 public double value(double x, double y, double z) {
                     return -8 * z + 6 * x - 2 * y;
                 }
             };
 
         final TrivariateFunction d2fdxdy = new TrivariateFunction() {
+                @Override
                 public double value(double x, double y, double z) {
                     return 5;
                 }
             };
 
         final TrivariateFunction d2fdxdz = new TrivariateFunction() {
+                @Override
                 public double value(double x, double y, double z) {
                     return 6;
                 }
             };
 
         final TrivariateFunction d2fdydz = new TrivariateFunction() {
+                @Override
                 public double value(double x, double y, double z) {
                     return -2;
                 }
             };
 
         final TrivariateFunction d3fdxdydz = new TrivariateFunction() {
+                @Override
                 public double value(double x, double y, double z) {
                     return 0;
                 }
@@ -558,54 +569,63 @@ public final class TricubicInterpolatingFunctionTest {
         final double ky = 1;
 
         final TrivariateFunction arg = new TrivariateFunction() {
+                @Override
                 public double value(double x, double y, double z) {
                     return omega * z - kx * x - ky * y;
                 }
             };
 
         final TrivariateFunction f = new TrivariateFunction() {
+                @Override
                 public double value(double x, double y, double z) {
                     return a * FastMath.cos(arg.value(x, y, z));
                 }
             };
 
         final TrivariateFunction dfdx = new TrivariateFunction() {
+                @Override
                 public double value(double x, double y, double z) {
                     return kx * a * FastMath.sin(arg.value(x, y, z));
                 }
             };
 
         final TrivariateFunction dfdy = new TrivariateFunction() {
+                @Override
                 public double value(double x, double y, double z) {
                     return ky * a * FastMath.sin(arg.value(x, y, z));
                 }
             };
 
         final TrivariateFunction dfdz = new TrivariateFunction() {
+                @Override
                 public double value(double x, double y, double z) {
                     return -omega * a * FastMath.sin(arg.value(x, y, z));
                 }
             };
 
         final TrivariateFunction d2fdxdy = new TrivariateFunction() {
+                @Override
                 public double value(double x, double y, double z) {
                     return -ky * kx * a * FastMath.cos(arg.value(x, y, z));
                 }
             };
 
         final TrivariateFunction d2fdxdz = new TrivariateFunction() {
+                @Override
                 public double value(double x, double y, double z) {
                     return omega * kx * a * FastMath.cos(arg.value(x, y, z));
                 }
             };
 
         final TrivariateFunction d2fdydz = new TrivariateFunction() {
+                @Override
                 public double value(double x, double y, double z) {
                     return omega * ky * a * FastMath.cos(arg.value(x, y, z));
                 }
             };
 
         final TrivariateFunction d3fdxdydz = new TrivariateFunction() {
+                @Override
                 public double value(double x, double y, double z) {
                     return omega * ky * kx * a * FastMath.sin(arg.value(x, y, z));
                 }

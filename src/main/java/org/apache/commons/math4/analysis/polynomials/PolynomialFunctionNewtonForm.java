@@ -92,6 +92,7 @@ public class PolynomialFunctionNewtonForm implements UnivariateDifferentiableFun
      * @param z Point at which the function value is to be computed.
      * @return the function value.
      */
+    @Override
     public double value(double z) {
        return evaluate(a, c, z);
     }

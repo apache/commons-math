@@ -16,9 +16,10 @@
  */
 package org.apache.commons.math4.analysis.interpolation;
 
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
+
 import org.apache.commons.math4.analysis.UnivariateFunction;
-import org.apache.commons.math4.analysis.interpolation.AkimaSplineInterpolator;
-import org.apache.commons.math4.analysis.interpolation.UnivariateInterpolator;
 import org.apache.commons.math4.distribution.UniformRealDistribution;
 import org.apache.commons.math4.exception.DimensionMismatchException;
 import org.apache.commons.math4.exception.NonMonotonicSequenceException;
@@ -30,8 +31,6 @@ import org.apache.commons.math4.util.FastMath;
 import org.apache.commons.math4.util.Precision;
 import org.junit.Assert;
 import org.junit.Test;
-
-import static org.junit.Assert.*;
 
 public class AkimaSplineInterpolatorTest
 {
@@ -119,6 +118,7 @@ public class AkimaSplineInterpolatorTest
 
         UnivariateFunction f = new UnivariateFunction()
         {
+            @Override
             public double value( double x )
             {
                 return 2 * x - 5;
@@ -147,6 +147,7 @@ public class AkimaSplineInterpolatorTest
 
         UnivariateFunction f = new UnivariateFunction()
         {
+            @Override
             public double value( double x )
             {
                 return ( 3 * x * x ) - ( 5 * x ) + 7;
@@ -174,6 +175,7 @@ public class AkimaSplineInterpolatorTest
 
         UnivariateFunction f = new UnivariateFunction()
         {
+            @Override
             public double value( double x )
             {
                 return ( 3 * x * x * x ) - ( 0.5 * x * x ) + ( 1 * x ) - 1;

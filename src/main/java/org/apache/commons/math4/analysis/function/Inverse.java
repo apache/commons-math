@@ -17,9 +17,6 @@
 
 package org.apache.commons.math4.analysis.function;
 
-import org.apache.commons.math4.analysis.DifferentiableUnivariateFunction;
-import org.apache.commons.math4.analysis.FunctionUtils;
-import org.apache.commons.math4.analysis.UnivariateFunction;
 import org.apache.commons.math4.analysis.differentiation.DerivativeStructure;
 import org.apache.commons.math4.analysis.differentiation.UnivariateDifferentiableFunction;
 
@@ -28,20 +25,11 @@ import org.apache.commons.math4.analysis.differentiation.UnivariateDifferentiabl
  *
  * @since 3.0
  */
-public class Inverse implements UnivariateDifferentiableFunction, DifferentiableUnivariateFunction {
+public class Inverse implements UnivariateDifferentiableFunction {
     /** {@inheritDoc} */
     @Override
     public double value(double x) {
         return 1 / x;
-    }
-
-    /** {@inheritDoc}
-     * @deprecated as of 3.1, replaced by {@link #value(DerivativeStructure)}
-     */
-    @Override
-    @Deprecated
-    public UnivariateFunction derivative() {
-        return FunctionUtils.toDifferentiableUnivariateFunction(this).derivative();
     }
 
     /** {@inheritDoc}

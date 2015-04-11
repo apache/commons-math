@@ -471,8 +471,8 @@ class TricubicFunction
      * @throws OutOfRangeException if {@code x}, {@code y} or
      * {@code z} are not in the interval {@code [0, 1]}.
      */
-    public double value(double x, double y, double z)
-        throws OutOfRangeException {
+    @Override
+    public double value(double x, double y, double z) throws OutOfRangeException {
         if (x < 0 || x > 1) {
             throw new OutOfRangeException(x, 0, 1);
         }

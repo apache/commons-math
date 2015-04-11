@@ -164,8 +164,8 @@ public class HermiteInterpolator implements UnivariateDifferentiableVectorFuncti
      * @return interpolated value
      * @exception NoDataException if sample is empty
      */
-    public double[] value(double x)
-        throws NoDataException {
+    @Override
+    public double[] value(double x) throws NoDataException {
 
         // safety check
         checkInterpolation();
@@ -196,6 +196,7 @@ public class HermiteInterpolator implements UnivariateDifferentiableVectorFuncti
      * @return interpolated value
      * @exception NoDataException if sample is empty
      */
+    @Override
     public DerivativeStructure[] value(final DerivativeStructure x)
         throws NoDataException {
 

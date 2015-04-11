@@ -19,8 +19,6 @@ package org.apache.commons.math4.analysis.polynomials;
 import java.util.Arrays;
 
 import org.apache.commons.math4.analysis.UnivariateFunction;
-import org.apache.commons.math4.analysis.polynomials.PolynomialFunction;
-import org.apache.commons.math4.analysis.polynomials.PolynomialSplineFunction;
 import org.apache.commons.math4.exception.MathIllegalArgumentException;
 import org.apache.commons.math4.exception.MathIllegalStateException;
 import org.apache.commons.math4.exception.OutOfRangeException;
@@ -94,7 +92,7 @@ public class PolynomialSplineFunctionTest {
     public void testValues() {
         PolynomialSplineFunction spline =
             new PolynomialSplineFunction(knots, polynomials);
-        UnivariateFunction dSpline = spline.derivative();
+        UnivariateFunction dSpline = spline.polynomialSplineDerivative();
 
         /**
          * interior points -- spline value at x should equal p(x - knot)
@@ -153,7 +151,7 @@ public class PolynomialSplineFunctionTest {
         Assert.assertTrue(spline.isValidPoint(x));
         // Ensure that no exception is thrown.
         spline.value(x);
- 
+
         final double xRange = xMax - xMin;
         x = xMin + xRange / 3.4;
         Assert.assertTrue(spline.isValidPoint(x));

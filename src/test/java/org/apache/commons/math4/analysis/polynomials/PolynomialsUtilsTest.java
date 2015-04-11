@@ -18,8 +18,6 @@ package org.apache.commons.math4.analysis.polynomials;
 
 import org.apache.commons.math4.analysis.UnivariateFunction;
 import org.apache.commons.math4.analysis.integration.IterativeLegendreGaussIntegrator;
-import org.apache.commons.math4.analysis.polynomials.PolynomialFunction;
-import org.apache.commons.math4.analysis.polynomials.PolynomialsUtils;
 import org.apache.commons.math4.util.CombinatoricsUtils;
 import org.apache.commons.math4.util.FastMath;
 import org.apache.commons.math4.util.Precision;
@@ -80,6 +78,7 @@ public class PolynomialsUtilsTest {
     @Test
     public void testChebyshevOrthogonality() {
         UnivariateFunction weight = new UnivariateFunction() {
+            @Override
             public double value(double x) {
                 return 1 / FastMath.sqrt(1 - x * x);
             }
@@ -131,6 +130,7 @@ public class PolynomialsUtilsTest {
     @Test
     public void testHermiteOrthogonality() {
         UnivariateFunction weight = new UnivariateFunction() {
+            @Override
             public double value(double x) {
                 return FastMath.exp(-x * x);
             }
@@ -188,6 +188,7 @@ public class PolynomialsUtilsTest {
     @Test
     public void testLaguerreOrthogonality() {
         UnivariateFunction weight = new UnivariateFunction() {
+            @Override
             public double value(double x) {
                 return FastMath.exp(-x);
             }
@@ -239,6 +240,7 @@ public class PolynomialsUtilsTest {
     @Test
     public void testLegendreOrthogonality() {
         UnivariateFunction weight = new UnivariateFunction() {
+            @Override
             public double value(double x) {
                 return 1;
             }
@@ -304,6 +306,7 @@ public class PolynomialsUtilsTest {
                 final int vv = v;
                 final int ww = w;
                 UnivariateFunction weight = new UnivariateFunction() {
+                    @Override
                     public double value(double x) {
                         return FastMath.pow(1 - x, vv) * FastMath.pow(1 + x, ww);
                     }
@@ -331,7 +334,7 @@ public class PolynomialsUtilsTest {
         PolynomialFunction f1xM1
             = new PolynomialFunction(PolynomialsUtils.shift(f1x.getCoefficients(), -1));
         checkPolynomial(f1xM1, "2 - 3 x + 2 x^2");
-        
+
         PolynomialFunction f1x3
             = new PolynomialFunction(PolynomialsUtils.shift(f1x.getCoefficients(), 3));
         checkPolynomial(f1x3, "22 + 13 x + 2 x^2");
@@ -371,6 +374,7 @@ public class PolynomialsUtilsTest {
                                     final double nonZeroThreshold,
                                     final double zeroThreshold) {
         UnivariateFunction f = new UnivariateFunction() {
+            @Override
             public double value(double x) {
                 return weight.value(x) * p1.value(x) * p2.value(x);
             }

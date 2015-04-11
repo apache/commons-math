@@ -573,6 +573,7 @@ public class SparseGradient implements RealFieldElement<SparseGradient>, Seriali
     /** Base 10 logarithm.
      * @return base 10 logarithm of the instance
      */
+    @Override
     public SparseGradient log10() {
         return new SparseGradient(FastMath.log10(value), 1.0 / (FastMath.log(10.0) * value), derivatives);
     }

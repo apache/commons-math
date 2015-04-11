@@ -19,10 +19,7 @@ package org.apache.commons.math4.analysis.function;
 
 import java.util.Arrays;
 
-import org.apache.commons.math4.analysis.DifferentiableUnivariateFunction;
-import org.apache.commons.math4.analysis.FunctionUtils;
 import org.apache.commons.math4.analysis.ParametricUnivariateFunction;
-import org.apache.commons.math4.analysis.UnivariateFunction;
 import org.apache.commons.math4.analysis.differentiation.DerivativeStructure;
 import org.apache.commons.math4.analysis.differentiation.UnivariateDifferentiableFunction;
 import org.apache.commons.math4.exception.DimensionMismatchException;
@@ -37,7 +34,7 @@ import org.apache.commons.math4.util.Precision;
  *
  * @since 3.0
  */
-public class Gaussian implements UnivariateDifferentiableFunction, DifferentiableUnivariateFunction {
+public class Gaussian implements UnivariateDifferentiableFunction {
     /** Mean. */
     private final double mean;
     /** Inverse of the standard deviation. */
@@ -95,15 +92,6 @@ public class Gaussian implements UnivariateDifferentiableFunction, Differentiabl
         return value(x - mean, norm, i2s2);
     }
 
-    /** {@inheritDoc}
-     * @deprecated as of 3.1, replaced by {@link #value(DerivativeStructure)}
-     */
-    @Override
-    @Deprecated
-    public UnivariateFunction derivative() {
-        return FunctionUtils.toDifferentiableUnivariateFunction(this).derivative();
-    }
-
     /**
      * Parametric function where the input array contains the parameters of
      * the Gaussian, ordered as follows:
@@ -125,6 +113,7 @@ public class Gaussian implements UnivariateDifferentiableFunction, Differentiabl
          * not 3.
          * @throws NotStrictlyPositiveException if {@code param[2]} is negative.
          */
+        @Override
         public double value(double x, double ... param)
             throws NullArgumentException,
                    DimensionMismatchException,
@@ -150,6 +139,7 @@ public class Gaussian implements UnivariateDifferentiableFunction, Differentiabl
          * not 3.
          * @throws NotStrictlyPositiveException if {@code param[2]} is negative.
          */
+        @Override
         public double[] gradient(double x, double ... param)
             throws NullArgumentException,
                    DimensionMismatchException,

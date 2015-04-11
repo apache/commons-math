@@ -17,10 +17,7 @@
 
 package org.apache.commons.math4.analysis.function;
 
-import org.apache.commons.math4.analysis.DifferentiableUnivariateFunction;
-import org.apache.commons.math4.analysis.FunctionUtils;
 import org.apache.commons.math4.analysis.ParametricUnivariateFunction;
-import org.apache.commons.math4.analysis.UnivariateFunction;
 import org.apache.commons.math4.analysis.differentiation.DerivativeStructure;
 import org.apache.commons.math4.analysis.differentiation.UnivariateDifferentiableFunction;
 import org.apache.commons.math4.exception.DimensionMismatchException;
@@ -34,7 +31,7 @@ import org.apache.commons.math4.util.FastMath;
  *
  * @since 3.0
  */
-public class Logistic implements UnivariateDifferentiableFunction, DifferentiableUnivariateFunction {
+public class Logistic implements UnivariateDifferentiableFunction {
     /** Lower asymptote. */
     private final double a;
     /** Upper asymptote. */
@@ -86,15 +83,6 @@ public class Logistic implements UnivariateDifferentiableFunction, Differentiabl
         return value(m - x, k, b, q, a, oneOverN);
     }
 
-    /** {@inheritDoc}
-     * @deprecated as of 3.1, replaced by {@link #value(DerivativeStructure)}
-     */
-    @Override
-    @Deprecated
-    public UnivariateFunction derivative() {
-        return FunctionUtils.toDifferentiableUnivariateFunction(this).derivative();
-    }
-
     /**
      * Parametric function where the input array contains the parameters of
      * the {@link Logistic#Logistic(double,double,double,double,double,double)
@@ -121,6 +109,7 @@ public class Logistic implements UnivariateDifferentiableFunction, Differentiabl
          * not 6.
          * @throws NotStrictlyPositiveException if {@code param[5] <= 0}.
          */
+        @Override
         public double value(double x, double ... param)
             throws NullArgumentException,
                    DimensionMismatchException,
@@ -146,6 +135,7 @@ public class Logistic implements UnivariateDifferentiableFunction, Differentiabl
          * not 6.
          * @throws NotStrictlyPositiveException if {@code param[5] <= 0}.
          */
+        @Override
         public double[] gradient(double x, double ... param)
             throws NullArgumentException,
                    DimensionMismatchException,

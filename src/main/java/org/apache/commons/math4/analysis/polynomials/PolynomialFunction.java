@@ -19,9 +19,7 @@ package org.apache.commons.math4.analysis.polynomials;
 import java.io.Serializable;
 import java.util.Arrays;
 
-import org.apache.commons.math4.analysis.DifferentiableUnivariateFunction;
 import org.apache.commons.math4.analysis.ParametricUnivariateFunction;
-import org.apache.commons.math4.analysis.UnivariateFunction;
 import org.apache.commons.math4.analysis.differentiation.DerivativeStructure;
 import org.apache.commons.math4.analysis.differentiation.UnivariateDifferentiableFunction;
 import org.apache.commons.math4.exception.NoDataException;
@@ -37,7 +35,7 @@ import org.apache.commons.math4.util.MathUtils;
  * is used to evaluate the function.</p>
  *
  */
-public class PolynomialFunction implements UnivariateDifferentiableFunction, DifferentiableUnivariateFunction, Serializable {
+public class PolynomialFunction implements UnivariateDifferentiableFunction, Serializable {
     /**
      * Serialization identifier
      */
@@ -87,8 +85,10 @@ public class PolynomialFunction implements UnivariateDifferentiableFunction, Dif
      *
      * @param x Argument for which the function value should be computed.
      * @return the value of the polynomial at the given point.
-     * @see UnivariateFunction#value(double)
+     * @see {@link org.apache.commons.math4.analysis.UnivariateFunction#value(double)
+     * UnivariateFunction#value(double)}
      */
+    @Override
     public double value(double x) {
        return evaluate(coefficients, x);
     }
@@ -279,15 +279,6 @@ public class PolynomialFunction implements UnivariateDifferentiableFunction, Dif
      */
     public PolynomialFunction polynomialDerivative() {
         return new PolynomialFunction(differentiate(coefficients));
-    }
-
-    /**
-     * Returns the derivative as a {@link UnivariateFunction}.
-     *
-     * @return the derivative function.
-     */
-    public UnivariateFunction derivative() {
-        return polynomialDerivative();
     }
 
     /**

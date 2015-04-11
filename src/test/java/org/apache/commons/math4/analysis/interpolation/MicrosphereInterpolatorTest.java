@@ -17,8 +17,6 @@
 package org.apache.commons.math4.analysis.interpolation;
 
 import org.apache.commons.math4.analysis.MultivariateFunction;
-import org.apache.commons.math4.analysis.interpolation.MicrosphereInterpolator;
-import org.apache.commons.math4.analysis.interpolation.MultivariateInterpolator;
 import org.apache.commons.math4.util.FastMath;
 import org.junit.Assert;
 import org.junit.Test;
@@ -36,13 +34,14 @@ public final class MicrosphereInterpolatorTest {
     @Test
     public void testLinearFunction2D() {
         MultivariateFunction f = new MultivariateFunction() {
-                public double value(double[] x) {
-                    if (x.length != 2) {
-                        throw new IllegalArgumentException();
-                    }
-                    return 2 * x[0] - 3 * x[1] + 5;
+            @Override
+            public double value(double[] x) {
+                if (x.length != 2) {
+                    throw new IllegalArgumentException();
                 }
-            };
+                return 2 * x[0] - 3 * x[1] + 5;
+            }
+        };
 
         MultivariateInterpolator interpolator = new MicrosphereInterpolator();
 
@@ -88,6 +87,7 @@ public final class MicrosphereInterpolatorTest {
     @Test
     public void testParaboloid2D() {
         MultivariateFunction f = new MultivariateFunction() {
+                @Override
                 public double value(double[] x) {
                     if (x.length != 2) {
                         throw new IllegalArgumentException();

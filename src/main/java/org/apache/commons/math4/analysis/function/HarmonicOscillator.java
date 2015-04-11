@@ -17,10 +17,7 @@
 
 package org.apache.commons.math4.analysis.function;
 
-import org.apache.commons.math4.analysis.DifferentiableUnivariateFunction;
-import org.apache.commons.math4.analysis.FunctionUtils;
 import org.apache.commons.math4.analysis.ParametricUnivariateFunction;
-import org.apache.commons.math4.analysis.UnivariateFunction;
 import org.apache.commons.math4.analysis.differentiation.DerivativeStructure;
 import org.apache.commons.math4.analysis.differentiation.UnivariateDifferentiableFunction;
 import org.apache.commons.math4.exception.DimensionMismatchException;
@@ -33,7 +30,7 @@ import org.apache.commons.math4.util.FastMath;
  *
  * @since 3.0
  */
-public class HarmonicOscillator implements UnivariateDifferentiableFunction, DifferentiableUnivariateFunction {
+public class HarmonicOscillator implements UnivariateDifferentiableFunction {
     /** Amplitude. */
     private final double amplitude;
     /** Angular frequency. */
@@ -62,15 +59,6 @@ public class HarmonicOscillator implements UnivariateDifferentiableFunction, Dif
         return value(omega * x + phase, amplitude);
     }
 
-    /** {@inheritDoc}
-     * @deprecated as of 3.1, replaced by {@link #value(DerivativeStructure)}
-     */
-    @Override
-    @Deprecated
-    public UnivariateFunction derivative() {
-        return FunctionUtils.toDifferentiableUnivariateFunction(this).derivative();
-    }
-
     /**
      * Parametric function where the input array contains the parameters of
      * the harmonic oscillator function, ordered as follows:
@@ -91,6 +79,7 @@ public class HarmonicOscillator implements UnivariateDifferentiableFunction, Dif
          * @throws DimensionMismatchException if the size of {@code param} is
          * not 3.
          */
+        @Override
         public double value(double x, double ... param)
             throws NullArgumentException,
                    DimensionMismatchException {
@@ -111,6 +100,7 @@ public class HarmonicOscillator implements UnivariateDifferentiableFunction, Dif
          * @throws DimensionMismatchException if the size of {@code param} is
          * not 3.
          */
+        @Override
         public double[] gradient(double x, double ... param)
             throws NullArgumentException,
                    DimensionMismatchException {

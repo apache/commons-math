@@ -17,10 +17,7 @@
 
 package org.apache.commons.math4.analysis.function;
 
-import org.apache.commons.math4.analysis.DifferentiableUnivariateFunction;
-import org.apache.commons.math4.analysis.FunctionUtils;
 import org.apache.commons.math4.analysis.ParametricUnivariateFunction;
-import org.apache.commons.math4.analysis.UnivariateFunction;
 import org.apache.commons.math4.analysis.differentiation.DerivativeStructure;
 import org.apache.commons.math4.analysis.differentiation.UnivariateDifferentiableFunction;
 import org.apache.commons.math4.exception.DimensionMismatchException;
@@ -35,7 +32,7 @@ import org.apache.commons.math4.util.FastMath;
  *
  * @since 3.0
  */
-public class Logit implements UnivariateDifferentiableFunction, DifferentiableUnivariateFunction {
+public class Logit implements UnivariateDifferentiableFunction {
     /** Lower bound. */
     private final double lo;
     /** Higher bound. */
@@ -68,15 +65,6 @@ public class Logit implements UnivariateDifferentiableFunction, DifferentiableUn
         return value(x, lo, hi);
     }
 
-    /** {@inheritDoc}
-     * @deprecated as of 3.1, replaced by {@link #value(DerivativeStructure)}
-     */
-    @Override
-    @Deprecated
-    public UnivariateFunction derivative() {
-        return FunctionUtils.toDifferentiableUnivariateFunction(this).derivative();
-    }
-
     /**
      * Parametric function where the input array contains the parameters of
      * the logit function, ordered as follows:
@@ -96,6 +84,7 @@ public class Logit implements UnivariateDifferentiableFunction, DifferentiableUn
          * @throws DimensionMismatchException if the size of {@code param} is
          * not 2.
          */
+        @Override
         public double value(double x, double ... param)
             throws NullArgumentException,
                    DimensionMismatchException {
@@ -116,6 +105,7 @@ public class Logit implements UnivariateDifferentiableFunction, DifferentiableUn
          * @throws DimensionMismatchException if the size of {@code param} is
          * not 2.
          */
+        @Override
         public double[] gradient(double x, double ... param)
             throws NullArgumentException,
                    DimensionMismatchException {

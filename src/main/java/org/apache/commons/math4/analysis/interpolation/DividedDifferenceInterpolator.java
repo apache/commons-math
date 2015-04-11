@@ -52,6 +52,7 @@ public class DividedDifferenceInterpolator
      * @throws NonMonotonicSequenceException if {@code x} is not sorted in
      * strictly increasing order.
      */
+    @Override
     public PolynomialFunctionNewtonForm interpolate(double x[], double y[])
         throws DimensionMismatchException,
                NumberIsTooSmallException,

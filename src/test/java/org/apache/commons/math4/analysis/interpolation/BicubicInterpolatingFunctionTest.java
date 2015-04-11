@@ -17,7 +17,6 @@
 package org.apache.commons.math4.analysis.interpolation;
 
 import org.apache.commons.math4.analysis.BivariateFunction;
-import org.apache.commons.math4.analysis.interpolation.BicubicInterpolatingFunction;
 import org.apache.commons.math4.distribution.UniformRealDistribution;
 import org.apache.commons.math4.exception.DimensionMismatchException;
 import org.apache.commons.math4.exception.MathIllegalArgumentException;
@@ -28,7 +27,6 @@ import org.apache.commons.math4.util.FastMath;
 import org.apache.commons.math4.util.Precision;
 import org.junit.Assert;
 import org.junit.Test;
-import org.junit.Ignore;
 
 /**
  * Test case for the bicubic function.
@@ -193,21 +191,25 @@ public final class BicubicInterpolatingFunctionTest {
 
         // Function values
         BivariateFunction f = new BivariateFunction() {
+                @Override
                 public double value(double x, double y) {
                     return 2 * x - 3 * y + 5;
                 }
             };
         BivariateFunction dfdx = new BivariateFunction() {
+                @Override
                 public double value(double x, double y) {
                     return 2;
                 }
             };
         BivariateFunction dfdy = new BivariateFunction() {
+                @Override
                 public double value(double x, double y) {
                     return -3;
                 }
             };
         BivariateFunction d2fdxdy = new BivariateFunction() {
+                @Override
                 public double value(double x, double y) {
                     return 0;
                 }
@@ -247,21 +249,25 @@ public final class BicubicInterpolatingFunctionTest {
 
         // Function values
         BivariateFunction f = new BivariateFunction() {
+                @Override
                 public double value(double x, double y) {
                     return 2 * x * x - 3 * y * y + 4 * x * y - 5;
                 }
             };
         BivariateFunction dfdx = new BivariateFunction() {
+                @Override
                 public double value(double x, double y) {
                     return 4 * (x + y);
                 }
             };
         BivariateFunction dfdy = new BivariateFunction() {
+                @Override
                 public double value(double x, double y) {
                     return 4 * x - 6 * y;
                 }
             };
         BivariateFunction d2fdxdy = new BivariateFunction() {
+                @Override
                 public double value(double x, double y) {
                     return 4;
                 }

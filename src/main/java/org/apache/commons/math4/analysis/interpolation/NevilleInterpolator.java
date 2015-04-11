@@ -51,6 +51,7 @@ public class NevilleInterpolator implements UnivariateInterpolator,
      * @throws NonMonotonicSequenceException if two abscissae have the same
      * value.
      */
+    @Override
     public PolynomialFunctionLagrangeForm interpolate(double x[], double y[])
         throws DimensionMismatchException,
                NumberIsTooSmallException,

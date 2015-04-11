@@ -18,8 +18,6 @@ package org.apache.commons.math4.analysis.polynomials;
 
 import java.util.Arrays;
 
-import org.apache.commons.math4.analysis.DifferentiableUnivariateFunction;
-import org.apache.commons.math4.analysis.UnivariateFunction;
 import org.apache.commons.math4.analysis.differentiation.DerivativeStructure;
 import org.apache.commons.math4.analysis.differentiation.UnivariateDifferentiableFunction;
 import org.apache.commons.math4.exception.DimensionMismatchException;
@@ -63,7 +61,7 @@ import org.apache.commons.math4.util.MathArrays;
  * <code>polynomials[j](x - knot[j])</code></li></ol></p>
  *
  */
-public class PolynomialSplineFunction implements UnivariateDifferentiableFunction, DifferentiableUnivariateFunction {
+public class PolynomialSplineFunction implements UnivariateDifferentiableFunction {
     /**
      * Spline segment interval delimiters (knots).
      * Size is n + 1 for n segments.
@@ -132,6 +130,7 @@ public class PolynomialSplineFunction implements UnivariateDifferentiableFunctio
      * spline function (smaller than the smallest knot point or larger than the
      * largest knot point).
      */
+    @Override
     public double value(double v) {
         if (v < knots[0] || v > knots[n]) {
             throw new OutOfRangeException(v, knots[0], knots[n]);
@@ -147,15 +146,6 @@ public class PolynomialSplineFunction implements UnivariateDifferentiableFunctio
             i--;
         }
         return polynomials[i].value(v - knots[i]);
-    }
-
-    /**
-     * Get the derivative of the polynomial spline function.
-     *
-     * @return the derivative function.
-     */
-    public UnivariateFunction derivative() {
-        return polynomialSplineDerivative();
     }
 
     /**

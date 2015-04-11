@@ -62,6 +62,7 @@ public class SplineInterpolator implements UnivariateInterpolator {
      * @throws NumberIsTooSmallException if the size of {@code x} is smaller
      * than 3.
      */
+    @Override
     public PolynomialSplineFunction interpolate(double x[], double y[])
         throws DimensionMismatchException,
                NumberIsTooSmallException,

@@ -16,8 +16,6 @@
  */
 package org.apache.commons.math4.analysis;
 
-import org.apache.commons.math4.analysis.MultivariateFunction;
-import org.apache.commons.math4.analysis.UnivariateFunction;
 import org.apache.commons.math4.analysis.function.Sinc;
 
 /**
@@ -43,6 +41,7 @@ public class SumSincFunction implements MultivariateFunction {
      * @param point Argument.
      * @return the value of this function at point {@code x}.
      */
+    @Override
     public double value(double[] point) {
         double sum = 0;
         for (int i = 0, max = point.length; i < max; i++) {

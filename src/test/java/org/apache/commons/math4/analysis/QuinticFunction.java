@@ -28,10 +28,12 @@ public class QuinticFunction implements UnivariateDifferentiableFunction {
     /* Evaluate quintic.
      * @see org.apache.commons.math4.UnivariateFunction#value(double)
      */
+    @Override
     public double value(double x) {
         return (x-1)*(x-0.5)*x*(x+0.5)*(x+1);
     }
 
+    @Override
     public DerivativeStructure value(DerivativeStructure t) {
         return t.subtract(1).multiply(t.subtract(0.5)).multiply(t).multiply(t.add(0.5)).multiply(t.add(1));
     }

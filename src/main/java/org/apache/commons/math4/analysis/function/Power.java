@@ -17,9 +17,6 @@
 
 package org.apache.commons.math4.analysis.function;
 
-import org.apache.commons.math4.analysis.DifferentiableUnivariateFunction;
-import org.apache.commons.math4.analysis.FunctionUtils;
-import org.apache.commons.math4.analysis.UnivariateFunction;
 import org.apache.commons.math4.analysis.differentiation.DerivativeStructure;
 import org.apache.commons.math4.analysis.differentiation.UnivariateDifferentiableFunction;
 import org.apache.commons.math4.util.FastMath;
@@ -29,7 +26,7 @@ import org.apache.commons.math4.util.FastMath;
  *
  * @since 3.0
  */
-public class Power implements UnivariateDifferentiableFunction, DifferentiableUnivariateFunction {
+public class Power implements UnivariateDifferentiableFunction {
     /** Power. */
     private final double p;
 
@@ -44,15 +41,6 @@ public class Power implements UnivariateDifferentiableFunction, DifferentiableUn
     @Override
     public double value(double x) {
         return FastMath.pow(x, p);
-    }
-
-    /** {@inheritDoc}
-     * @deprecated as of 3.1, replaced by {@link #value(DerivativeStructure)}
-     */
-    @Override
-    @Deprecated
-    public UnivariateFunction derivative() {
-        return FunctionUtils.toDifferentiableUnivariateFunction(this).derivative();
     }
 
     /** {@inheritDoc}

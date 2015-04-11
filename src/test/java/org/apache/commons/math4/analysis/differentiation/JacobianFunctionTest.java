@@ -17,12 +17,9 @@
 
 package org.apache.commons.math4.analysis.differentiation;
 
-import org.junit.Assert;
 import org.apache.commons.math4.TestUtils;
-import org.apache.commons.math4.analysis.differentiation.DerivativeStructure;
-import org.apache.commons.math4.analysis.differentiation.JacobianFunction;
-import org.apache.commons.math4.analysis.differentiation.MultivariateDifferentiableVectorFunction;
 import org.apache.commons.math4.util.FastMath;
+import org.junit.Assert;
 import org.junit.Test;
 
 
@@ -56,7 +53,8 @@ public class JacobianFunctionTest {
         public SphereMapping(final double radius) {
             this.radius = radius;
         }
-        
+
+        @Override
         public double[] value(double[] point) {
             final double cLat = FastMath.cos(point[0]);
             final double sLat = FastMath.sin(point[0]);
@@ -68,7 +66,8 @@ public class JacobianFunctionTest {
                 radius * sLat
             };
         }
-        
+
+        @Override
         public DerivativeStructure[] value(DerivativeStructure[] point) {
             final DerivativeStructure cLat = point[0].cos();
             final DerivativeStructure sLat = point[0].sin();

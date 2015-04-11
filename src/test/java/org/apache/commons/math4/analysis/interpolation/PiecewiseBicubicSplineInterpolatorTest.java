@@ -17,12 +17,9 @@
 package org.apache.commons.math4.analysis.interpolation;
 
 import org.apache.commons.math4.analysis.BivariateFunction;
-import org.apache.commons.math4.analysis.interpolation.BivariateGridInterpolator;
-import org.apache.commons.math4.analysis.interpolation.PiecewiseBicubicSplineInterpolator;
 import org.apache.commons.math4.distribution.UniformRealDistribution;
 import org.apache.commons.math4.exception.DimensionMismatchException;
 import org.apache.commons.math4.exception.InsufficientDataException;
-import org.apache.commons.math4.exception.MathIllegalArgumentException;
 import org.apache.commons.math4.exception.NonMonotonicSequenceException;
 import org.apache.commons.math4.exception.NullArgumentException;
 import org.apache.commons.math4.random.RandomGenerator;
@@ -43,7 +40,6 @@ public final class PiecewiseBicubicSplineInterpolatorTest {
         double[] yval = new double[] { -4, -3, -1, 2.5, 3.5 };
         double[][] zval = new double[xval.length][yval.length];
 
-        @SuppressWarnings( "unused" )
         BivariateGridInterpolator interpolator = new PiecewiseBicubicSplineInterpolator();
 
         try {
@@ -145,6 +141,7 @@ public final class PiecewiseBicubicSplineInterpolatorTest {
 
         // Function values
         BivariateFunction f = new BivariateFunction() {
+                @Override
                 public double value( double x, double y ) {
                     return 2 * x - 3 * y + 5;
                 }
@@ -196,6 +193,7 @@ public final class PiecewiseBicubicSplineInterpolatorTest {
 
         // Function values
         BivariateFunction f = new BivariateFunction() {
+                @Override
                 public double value( double x, double y ) {
                     return 2 * x * x - 3 * y * y + 4 * x * y - 5;
                 }

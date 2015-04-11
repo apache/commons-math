@@ -19,20 +19,20 @@ package org.apache.commons.math4.analysis.function;
 import org.apache.commons.math4.analysis.UnivariateFunction;
 import org.apache.commons.math4.analysis.differentiation.DerivativeStructure;
 import org.apache.commons.math4.analysis.differentiation.UnivariateDifferentiableFunction;
-import org.apache.commons.math4.analysis.function.Sqrt;
 import org.apache.commons.math4.util.FastMath;
-import org.junit.Test;
 import org.junit.Assert;
+import org.junit.Test;
 
 public class SqrtTest {
    @Test
    public void testComparison() {
        final Sqrt s = new Sqrt();
        final UnivariateFunction f = new UnivariateFunction() {
-               public double value(double x) {
-                   return FastMath.sqrt(x);
-               }
-           };
+           @Override
+           public double value(double x) {
+               return FastMath.sqrt(x);
+           }
+       };
 
        for (double x = 1e-30; x < 1e10; x *= 2) {
            final double fX = f.value(x);
@@ -45,7 +45,8 @@ public class SqrtTest {
    public void testDerivativeComparison() {
        final UnivariateDifferentiableFunction sPrime = new Sqrt();
        final UnivariateFunction f = new UnivariateFunction() {
-               public double value(double x) {
+               @Override
+            public double value(double x) {
                    return 1 / (2 * FastMath.sqrt(x));
                }
            };
