@@ -51,6 +51,9 @@ If the output is not quite correct, check for invisible trailing spaces!
   </properties>
   <body>
     <release version="3.5" date="TBD" description="TBD">
+      <action dev="psteitz" type="update" issue="MATH-1213">
+        Added Laguerre complex solve methods taking maxEval parameters.
+      </action>
       <action dev="luc" type="fix" issue="MATH-1191">
         Fixed ignored method parameters in QRDecomposition protected methods.
       </action>    
