@@ -38,6 +38,7 @@ public class AbstractRealDistributionTest {
         distribution = new AbstractRealDistribution(null) {
             private static final long serialVersionUID = 1L;
 
+            @Override
             public double cumulativeProbability(final double x) {
                 if ((x < x0) || (x > x3)) {
                     throw new OutOfRangeException(x, x0, x3);
@@ -52,6 +53,7 @@ public class AbstractRealDistributionTest {
                 return 0.0;
             }
 
+            @Override
             public double density(final double x) {
                 if ((x < x0) || (x > x3)) {
                     throw new OutOfRangeException(x, x0, x3);
@@ -66,10 +68,12 @@ public class AbstractRealDistributionTest {
                 return 0.0;
             }
 
+            @Override
             public double getNumericalMean() {
                 return ((x0 + x1) * p12 + (x2 + x3) * (1.0 - p12)) / 2.0;
             }
 
+            @Override
             public double getNumericalVariance() {
                 final double meanX = getNumericalMean();
                 final double meanX2;
@@ -79,14 +83,17 @@ public class AbstractRealDistributionTest {
                 return meanX2 - meanX * meanX;
             }
 
+            @Override
             public double getSupportLowerBound() {
                 return x0;
             }
 
+            @Override
             public double getSupportUpperBound() {
                 return x3;
             }
 
+            @Override
             public boolean isSupportConnected() {
                 return false;
             }
@@ -115,6 +122,7 @@ public class AbstractRealDistributionTest {
         distribution = new AbstractRealDistribution(null) {
             private static final long serialVersionUID = 1L;
 
+            @Override
             public double cumulativeProbability(final double x) {
                 if ((x < x0) || (x > x4)) {
                     throw new OutOfRangeException(x, x0, x4);
@@ -130,6 +138,7 @@ public class AbstractRealDistributionTest {
                 }
             }
 
+            @Override
             public double density(final double x) {
                 if ((x < x0) || (x > x4)) {
                     throw new OutOfRangeException(x, x0, x4);
@@ -145,6 +154,7 @@ public class AbstractRealDistributionTest {
                 }
             }
 
+            @Override
             public double getNumericalMean() {
                 final UnivariateFunction f = new UnivariateFunction() {
 
@@ -156,6 +166,7 @@ public class AbstractRealDistributionTest {
                 return integrator.integrate(Integer.MAX_VALUE, f, x0, x4);
             }
 
+            @Override
             public double getNumericalVariance() {
                 final double meanX = getNumericalMean();
                 final UnivariateFunction f = new UnivariateFunction() {
@@ -170,14 +181,17 @@ public class AbstractRealDistributionTest {
                 return meanX2 - meanX * meanX;
             }
 
+            @Override
             public double getSupportLowerBound() {
                 return x0;
             }
 
+            @Override
             public double getSupportUpperBound() {
                 return x4;
             }
 
+            @Override
             public boolean isSupportConnected() {
                 return false;
             }
