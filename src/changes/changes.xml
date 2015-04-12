@@ -51,6 +51,10 @@ If the output is not quite correct, check for invisible trailing spaces!
   </properties>
   <body>
     <release version="3.5" date="TBD" description="TBD">
+      <action dev="luc" type="fix" issue="MATH-1195">
+        Moved FastMathTestPerformance out of the main test tree, as is is
+        a benchmark rather than a test.
+      </action>    
       <action dev="luc" type="add">
         Added a way to build polyhedrons sets from a list of vertices and
         facets specified using vertices indices.
