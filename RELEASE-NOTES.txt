@@ -1,25 +1,35 @@
-
-              Apache Commons Math 3.4.1 RELEASE NOTES
-
-The Apache Commons Math team is pleased to announce the release of commons-math3-3.4.1
+The Apache Commons Math team is pleased to announce the commons-math3-3.5 release!
 
 The Apache Commons Math project is a library of lightweight, self-contained mathematics
 and statistics components addressing the most common practical problems not immediately
 available in the Java programming language or commons-lang.
 
-This is a maintenance release: It fixes issue MATH-1188.
-
 Changes in this version include:
 
+New features:
+o Added a way to build polyhedrons sets from a list of vertices and
+        facets specified using vertices indices. 
+o Simplified "FastMath#exp(double)" in order to avoid a potential
+        Java 1.5 JIT bug when calling with negative infinity as argument.  Issue: MATH-1198. 
+o Added method "getQuadraticMean()" to "DescriptiveStatistics"
+        and "SummaryStatistics" which calculates the root mean square.  Issue: MATH-1199. 
 
 Fixed Bugs:
-o MATH-1188:  Fixed non-Java1.5 code in BesselJ. 
+o Moved FastMathTestPerformance out of the main test tree, as is is
+        a benchmark rather than a test.  Issue: MATH-1195. 
+o Fixed ignored method parameters in QRDecomposition protected methods.  Issue: MATH-1191. 
+o Fixed wrong selection of line/polyhedron intersection point.  Issue: MATH-1211. Thanks to Mike Zimmerman. 
+o Improved fix for corner cases in BSP-tree merging, when cut sub-hyperplanes vanish.  Issue: MATH-1162. 
+o Fixed link to algorithm description in "PoissonDistribution#sample()".  Issue: MATH-1209. Thanks to Jonathan Ogilvie. 
+o EmpiricalDistribution cumulativeProbability can return NaN when evaluated within a constant bin.  Issue: MATH-1208. 
+o EmpiricalDistribution getKernel fails for buckets with only multiple instances of the same value.  Issue: MATH-1203. 
+o "UnivariateSolverUtils#bracket(...)" sometimes failed to bracket
+        if a reached the lower bound.  Issue: MATH-1204. 
+
+Changes:
+o Added Laguerre complex solve methods taking maxEval parameters.  Issue: MATH-1213. 
 
 
-
-For complete information on Apache Commons Math, including instructions on how to submit bug reports,
-patches, or suggestions for improvement, see the Apache Commons Math website:
-
-http://commons.apache.org/proper/commons-math/
-
+Have fun!
+-Apache Commons Math team
 

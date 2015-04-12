@@ -22,7 +22,7 @@
   <modelVersion>4.0.0</modelVersion>
   <groupId>org.apache.commons</groupId>
   <artifactId>commons-math3-examples</artifactId>
-  <version>3.5-SNAPSHOT</version>  
+  <version>3.5</version>  
   <name>Commons Math User Guide</name>
   <inceptionYear>2003</inceptionYear>
   <description>Examples</description>
