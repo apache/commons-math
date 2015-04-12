@@ -51,6 +51,10 @@ If the output is not quite correct, check for invisible trailing spaces!
   </properties>
   <body>
     <release version="3.5" date="TBD" description="TBD">
+      <action dev="luc" type="add">
+        Added a way to build polyhedrons sets from a list of vertices and
+        facets specified using vertices indices.
+      </action>    
       <action dev="psteitz" type="update" issue="MATH-1213">
         Added Laguerre complex solve methods taking maxEval parameters.
       </action>

@@ -20,13 +20,17 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.Reader;
+import java.lang.reflect.Field;
 import java.text.ParseException;
 import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.Set;
+import java.util.Arrays;
+import java.util.List;
 
 import org.apache.commons.math3.exception.MathArithmeticException;
 import org.apache.commons.math3.exception.MathIllegalArgumentException;
+import org.apache.commons.math3.exception.util.ExceptionContext;
+import org.apache.commons.math3.exception.util.Localizable;
+import org.apache.commons.math3.exception.util.LocalizedFormats;
 import org.apache.commons.math3.geometry.Vector;
 import org.apache.commons.math3.geometry.euclidean.twod.Euclidean2D;
 import org.apache.commons.math3.geometry.euclidean.twod.PolygonsSet;
@@ -348,18 +352,7 @@ public class PolyhedronsSetTest {
             faces[9]=new int[]{1,4,0};  // front (-y)
             faces[10]=new int[]{3,6,2}; // back (+y)
             faces[11]=new int[]{6,3,7}; // back (+y)
-            //
-            Set<SubHyperplane<Euclidean3D>> pset=new HashSet<SubHyperplane<Euclidean3D>>();
-            for (int f=0; f<faces.length; f++) {
-                int[] vidx=faces[f];
-                Plane p=new Plane(verts[vidx[0]],verts[vidx[1]],verts[vidx[2]],tol);
-                Vector2D p0=p.toSubSpace(verts[vidx[0]]);
-                Vector2D p1=p.toSubSpace(verts[vidx[1]]);
-                Vector2D p2=p.toSubSpace(verts[vidx[2]]);
-                PolygonsSet lset=new PolygonsSet(tol,p0,p1,p2);
-                pset.add(new SubPlane(p,lset));
-            }
-            PolyhedronsSet polyset=new PolyhedronsSet(pset,tol);
+            PolyhedronsSet polyset = new PolyhedronsSet(Arrays.asList(verts), Arrays.asList(faces), tol);
             Assert.assertEquals(8.0, polyset.getSize(), 1.0e-10);
             Assert.assertEquals(24.0, polyset.getBoundarySize(), 1.0e-10);
             String dump = RegionDumper.dump(polyset);
@@ -367,6 +360,76 @@ public class PolyhedronsSetTest {
             Assert.assertEquals(8.0, parsed.getSize(), 1.0e-10);
             Assert.assertEquals(24.0, parsed.getBoundarySize(), 1.0e-10);
             Assert.assertTrue(new RegionFactory<Euclidean3D>().difference(polyset, parsed).isEmpty());
+    }
+
+    @Test
+    public void testConnectedFacets() throws IOException, ParseException {
+        InputStream stream = getClass().getResourceAsStream("pentomino-N.ply");
+        PLYParser   parser = new PLYParser(stream);
+        stream.close();
+        PolyhedronsSet polyhedron = new PolyhedronsSet(parser.getVertices(), parser.getFaces(), 1.0e-10);
+        Assert.assertEquals( 5.0, polyhedron.getSize(), 1.0e-10);
+        Assert.assertEquals(22.0, polyhedron.getBoundarySize(), 1.0e-10);
+    }
+
+    @Test
+    public void testTooClose() throws IOException, ParseException {
+        checkError("pentomino-N-too-close.ply", LocalizedFormats.CLOSE_VERTICES);
+    }
+
+    @Test
+    public void testHole() throws IOException, ParseException {
+        checkError("pentomino-N-hole.ply", LocalizedFormats.EDGE_CONNECTED_TO_ONE_FACET);
+    }
+
+    @Test
+    public void testNonPlanar() throws IOException, ParseException {
+        checkError("pentomino-N-out-of-plane.ply", LocalizedFormats.OUT_OF_PLANE);
+    }
+
+    @Test
+    public void testOrientation() throws IOException, ParseException {
+        checkError("pentomino-N-bad-orientation.ply", LocalizedFormats.FACET_ORIENTATION_MISMATCH);
+    }
+
+    @Test
+    public void testFacet2Vertices() throws IOException, ParseException {
+        checkError(Arrays.asList(Vector3D.ZERO, Vector3D.PLUS_I, Vector3D.PLUS_J, Vector3D.PLUS_K),
+                   Arrays.asList(new int[] { 0, 1, 2 }, new int[] {2, 3}),
+                   LocalizedFormats.WRONG_NUMBER_OF_POINTS);
+    }
+
+    private void checkError(final String resourceName, final LocalizedFormats expected) {
+        try {
+            InputStream stream = getClass().getResourceAsStream(resourceName);
+            PLYParser   parser = new PLYParser(stream);
+            stream.close();
+            checkError(parser.getVertices(), parser.getFaces(), expected);
+        } catch (IOException ioe) {
+            Assert.fail(ioe.getLocalizedMessage());
+        } catch (ParseException pe) {
+            Assert.fail(pe.getLocalizedMessage());
+        }
+    }
+
+    private void checkError(final List<Vector3D> vertices, final List<int[]> facets,
+                            final LocalizedFormats expected) {
+        try {
+            new PolyhedronsSet(vertices, facets, 1.0e-10);
+            Assert.fail("an exception should have been thrown");
+        } catch (MathIllegalArgumentException miae) {
+            try {
+                Field msgPatterns = ExceptionContext.class.getDeclaredField("msgPatterns");
+                msgPatterns.setAccessible(true);
+                @SuppressWarnings("unchecked")
+                List<Localizable> list = (List<Localizable>) msgPatterns.get(miae.getContext());
+                Assert.assertEquals(expected, list.get(0));
+            } catch (NoSuchFieldException nsfe) {
+                Assert.fail(nsfe.getLocalizedMessage());
+            } catch (IllegalAccessException iae) {
+                Assert.fail(iae.getLocalizedMessage());
+            }
+        }
     }
 
     @Test

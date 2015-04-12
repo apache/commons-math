@@ -17,11 +17,18 @@
 package org.apache.commons.math3.geometry.euclidean.threed;
 
 import java.awt.geom.AffineTransform;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collection;
+import java.util.List;
 
+import org.apache.commons.math3.exception.MathIllegalArgumentException;
+import org.apache.commons.math3.exception.NumberIsTooSmallException;
+import org.apache.commons.math3.exception.util.LocalizedFormats;
 import org.apache.commons.math3.geometry.Point;
 import org.apache.commons.math3.geometry.euclidean.oned.Euclidean1D;
 import org.apache.commons.math3.geometry.euclidean.twod.Euclidean2D;
+import org.apache.commons.math3.geometry.euclidean.twod.PolygonsSet;
 import org.apache.commons.math3.geometry.euclidean.twod.SubLine;
 import org.apache.commons.math3.geometry.euclidean.twod.Vector2D;
 import org.apache.commons.math3.geometry.partitioning.AbstractRegion;
@@ -76,7 +83,7 @@ public class PolyhedronsSet extends AbstractRegion<Euclidean3D, Euclidean2D> {
         super(tree, tolerance);
     }
 
-    /** Build a polyhedrons set from a Boundary REPresentation (B-rep).
+    /** Build a polyhedrons set from a Boundary REPresentation (B-rep) specified by sub-hyperplanes.
      * <p>The boundary is provided as a collection of {@link
      * SubHyperplane sub-hyperplanes}. Each sub-hyperplane has the
      * interior part of the region on its minus side and the exterior on
@@ -100,6 +107,29 @@ public class PolyhedronsSet extends AbstractRegion<Euclidean3D, Euclidean2D> {
     public PolyhedronsSet(final Collection<SubHyperplane<Euclidean3D>> boundary,
                           final double tolerance) {
         super(boundary, tolerance);
+    }
+
+    /** Build a polyhedrons set from a Boundary REPresentation (B-rep) specified by connected vertices.
+     * <p>
+     * The boundary is provided as a list of vertices and a list of facets.
+     * Each facet is specified as an integer array containing the arrays vertices
+     * indices in the vertices list. Each facet normal is oriented by right hand
+     * rule to the facet vertices list.
+     * </p>
+     * <p>
+     * Some basic sanity checks are performed but not everything is thoroughly
+     * assessed, so it remains under caller responsibility to ensure the vertices
+     * and facets are consistent and properly define a polyhedrons set.
+     * </p>
+     * @param vertices list of polyhedrons set vertices
+     * @param facets list of facets, as vertices indices in the vertices list
+     * @param tolerance tolerance below which points are considered identical
+     * @exception MathIllegalArgumentException if some basic sanity checks fail
+     * @since 3.5
+     */
+    public PolyhedronsSet(final List<Vector3D> vertices, final List<int[]> facets,
+                          final double tolerance) {
+        super(buildBoundary(vertices, facets, tolerance), tolerance);
     }
 
     /** Build a parallellepipedic box.
@@ -213,6 +243,175 @@ public class PolyhedronsSet extends AbstractRegion<Euclidean3D, Euclidean2D> {
         final Region<Euclidean3D> boundary =
         new RegionFactory<Euclidean3D>().buildConvex(pxMin, pxMax, pyMin, pyMax, pzMin, pzMax);
         return boundary.getTree(false);
+    }
+
+    /** Build boundary from vertices and facets.
+     * @param vertices list of polyhedrons set vertices
+     * @param facets list of facets, as vertices indices in the vertices list
+     * @param tolerance tolerance below which points are considered identical
+     * @return boundary as a list of sub-hyperplanes
+     * @exception MathIllegalArgumentException if some basic sanity checks fail
+     * @since 3.5
+     */
+    private static List<SubHyperplane<Euclidean3D>> buildBoundary(final List<Vector3D> vertices,
+                                                                  final List<int[]> facets,
+                                                                  final double tolerance) {
+
+        // check vertices distances
+        for (int i = 0; i < vertices.size() - 1; ++i) {
+            final Vector3D vi = vertices.get(i);
+            for (int j = i + 1; j < vertices.size(); ++j) {
+                if (Vector3D.distance(vi, vertices.get(j)) <= tolerance) {
+                    throw new MathIllegalArgumentException(LocalizedFormats.CLOSE_VERTICES,
+                                                           vi.getX(), vi.getY(), vi.getZ());
+                }
+            }
+        }
+
+        // find how vertices are referenced by facets
+        final int[][] references = findReferences(vertices, facets);
+
+        // find how vertices are linked together by edges along the facets they belong to
+        final int[][] successors = successors(vertices, facets, references);
+
+        // check edges orientations
+        for (int vA = 0; vA < vertices.size(); ++vA) {
+            for (final int vB : successors[vA]) {
+
+                if (vB >= 0) {
+                    // when facets are properly oriented, if vB is the successor of vA on facet f1,
+                    // then there must be an adjacent facet f2 where vA is the successor of vB
+                    boolean found = false;
+                    for (final int v : successors[vB]) {
+                        found = found || (v == vA);
+                    }
+                    if (!found) {
+                        final Vector3D start = vertices.get(vA);
+                        final Vector3D end   = vertices.get(vB);
+                        throw new MathIllegalArgumentException(LocalizedFormats.EDGE_CONNECTED_TO_ONE_FACET,
+                                                               start.getX(), start.getY(), start.getZ(),
+                                                               end.getX(),   end.getY(),   end.getZ());
+                    }
+                }
+            }
+        }
+
+        final List<SubHyperplane<Euclidean3D>> boundary = new ArrayList<SubHyperplane<Euclidean3D>>();
+
+        for (final int[] facet : facets) {
+
+            // define facet plane from the first 3 points
+            Plane plane = new Plane(vertices.get(facet[0]), vertices.get(facet[1]), vertices.get(facet[2]),
+                                    tolerance);
+
+            // check all points are in the plane
+            final Vector2D[] two2Points = new Vector2D[facet.length];
+            for (int i = 0 ; i < facet.length; ++i) {
+                final Vector3D v = vertices.get(facet[i]);
+                if (!plane.contains(v)) {
+                    throw new MathIllegalArgumentException(LocalizedFormats.OUT_OF_PLANE,
+                                                           v.getX(), v.getY(), v.getZ());
+                }
+                two2Points[i] = plane.toSubSpace(v);
+            }
+
+            // create the polygonal facet
+            boundary.add(new SubPlane(plane, new PolygonsSet(tolerance, two2Points)));
+
+        }
+
+        return boundary;
+
+    }
+
+    /** Find the facets that reference each edges.
+     * @param vertices list of polyhedrons set vertices
+     * @param facets list of facets, as vertices indices in the vertices list
+     * @return references array such that r[v][k] = f for some k if facet f contains vertex v
+     * @exception MathIllegalArgumentException if some facets have fewer than 3 vertices
+     * @since 3.5
+     */
+    private static int[][] findReferences(final List<Vector3D> vertices, final List<int[]> facets) {
+
+        // find the maximum number of facets a vertex belongs to
+        final int[] nbFacets = new int[vertices.size()];
+        int maxFacets  = 0;
+        for (final int[] facet : facets) {
+            if (facet.length < 3) {
+                throw new NumberIsTooSmallException(LocalizedFormats.WRONG_NUMBER_OF_POINTS,
+                                                    3, facet.length, true);
+            }
+            for (final int index : facet) {
+                maxFacets = FastMath.max(maxFacets, ++nbFacets[index]);
+            }
+        }
+
+        // set up the references array
+        final int[][] references = new int[vertices.size()][maxFacets];
+        for (int[] r : references) {
+            Arrays.fill(r, -1);
+        }
+        for (int f = 0; f < facets.size(); ++f) {
+            for (final int v : facets.get(f)) {
+                // vertex v is referenced by facet f
+                int k = 0;
+                while (k < maxFacets && references[v][k] >= 0) {
+                    ++k;
+                }
+                references[v][k] = f;
+            }
+        }
+
+        return references;
+
+    }
+
+    /** Find the successors of all vertices among all facets they belong to.
+     * @param vertices list of polyhedrons set vertices
+     * @param facets list of facets, as vertices indices in the vertices list
+     * @param references facets references array
+     * @return indices of vertices that follow vertex v in some facet (the array
+     * may contain extra entries at the end, set to negative indices)
+     * @exception MathIllegalArgumentException if the same vertex appears more than
+     * once in the successors list (which means one facet orientation is wrong)
+     * @since 3.5
+     */
+    private static int[][] successors(final List<Vector3D> vertices, final List<int[]> facets,
+                                      final int[][] references) {
+
+        // create an array large enough
+        final int[][] successors = new int[vertices.size()][references[0].length];
+        for (final int[] s : successors) {
+            Arrays.fill(s, -1);
+        }
+
+        for (int v = 0; v < vertices.size(); ++v) {
+            for (int k = 0; k < successors[v].length && references[v][k] >= 0; ++k) {
+
+                // look for vertex v
+                final int[] facet = facets.get(references[v][k]);
+                int i = 0;
+                while (i < facet.length && facet[i] != v) {
+                    ++i;
+                }
+
+                // we have found vertex v, we deduce its successor on current facet
+                successors[v][k] = facet[(i + 1) % facet.length];
+                for (int l = 0; l < k; ++l) {
+                    if (successors[v][l] == successors[v][k]) {
+                        final Vector3D start = vertices.get(v);
+                        final Vector3D end   = vertices.get(successors[v][k]);
+                        throw new MathIllegalArgumentException(LocalizedFormats.FACET_ORIENTATION_MISMATCH,
+                                                               start.getX(), start.getY(), start.getZ(),
+                                                               end.getX(),   end.getY(),   end.getZ());
+                    }
+                }
+
+            }
+        }
+
+        return successors;
+
     }
 
     /** {@inheritDoc} */

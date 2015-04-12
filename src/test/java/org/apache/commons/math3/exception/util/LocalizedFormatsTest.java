@@ -29,7 +29,7 @@ public class LocalizedFormatsTest {
 
     @Test
     public void testMessageNumber() {
-        Assert.assertEquals(322, LocalizedFormats.values().length);
+        Assert.assertEquals(326, LocalizedFormats.values().length);
     }
 
     @Test
