@@ -14,22 +14,14 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.apache.commons.math4.util;
+package org.apache.commons.math4.userguide;
 
 import org.apache.commons.math4.PerfTestUtils;
 import org.apache.commons.math4.util.FastMath;
-import org.junit.BeforeClass;
-import org.junit.Test;
-import org.junit.Assert;
 
 /**
- * Performance tests for FastMath.
- * Not enabled by default, as the class does not end in Test.
+ * Performance benchmark for FastMath.
  * 
- * Invoke by running<br/>
- * {@code mvn test -Dtest=FastMathTestPerformance}<br/>
- * or by running<br/>
- * {@code mvn test -Dtest=FastMathTestPerformance -DargLine="-DtestRuns=1234 -server"}<br/>
  */
 public class FastMathTestPerformance {
     private static final int RUNS = Integer.parseInt(System.getProperty("testRuns","10000000"));
@@ -40,16 +32,35 @@ public class FastMathTestPerformance {
     // Detail format
     private static final String FMT_DTL = "%-5s %6d %6.1f %6d %6.4f %6d %6.4f";
 
-    @SuppressWarnings("boxing")
-    @BeforeClass
-    public static void header() {
+    public static void main(String[] args) {
         System.out.println(String.format(FMT_HDR,
-                "Name","StrictMath","FastMath","Math",RUNS,
-                System.getProperty("java.version"),
-                System.getProperty("java.runtime.version","?"),
-                System.getProperty("java.vm.name"),
-                System.getProperty("java.vm.version")
-                ));
+                                         "Name","StrictMath","FastMath","Math",RUNS,
+                                         System.getProperty("java.version"),
+                                         System.getProperty("java.runtime.version","?"),
+                                         System.getProperty("java.vm.name"),
+                                         System.getProperty("java.vm.version")
+                                         ));
+        testAbs();
+        testAcos();
+        testAsin();
+        testAtan();
+        testAtan2();
+        testCbrt();
+        testCos();
+        testCosh();
+        testExp();
+        testExpm1();
+        testHypot();
+        testLog();
+        testLog10();
+        testLog1p();
+        testPow();
+        testSin();
+        testSinh();
+        testSqrt();
+        testTan();
+        testTanh();
+
     }
 
     @SuppressWarnings("boxing")
@@ -63,8 +74,13 @@ public class FastMathTestPerformance {
                 ));
     }
 
-    @Test
-    public void testLog() {
+    private static void assertTrue(boolean condition) {
+        if (!condition) {
+            System.err.println("assertion failed!");
+            System.exit(1);
+        }
+    }
+    private static void testLog() {
         double x = 0;
         long time = System.nanoTime();
         for (int i = 0; i < RUNS; i++) {
@@ -87,11 +103,10 @@ public class FastMathTestPerformance {
         long mathTime = System.nanoTime() - time;
 
         report("log",strictMath,fastTime,mathTime);
-        Assert.assertTrue(!Double.isNaN(x));
+        assertTrue(!Double.isNaN(x));
     }
 
-    @Test
-    public void testLog10() {
+    private static void testLog10() {
         double x = 0;
         long time = System.nanoTime();
         for (int i = 0; i < RUNS; i++) {
@@ -114,11 +129,10 @@ public class FastMathTestPerformance {
         long mathTime = System.nanoTime() - time;
 
         report("log10",strictMath,fastTime,mathTime);
-        Assert.assertTrue(!Double.isNaN(x));
+        assertTrue(!Double.isNaN(x));
     }
 
-    @Test
-    public void testLog1p() {
+    private static void testLog1p() {
         double x = 0;
         long time = System.nanoTime();
         for (int i = 0; i < RUNS; i++) {
@@ -141,11 +155,10 @@ public class FastMathTestPerformance {
         long mathTime = System.nanoTime() - time;
 
         report("log1p",strictMath,fastTime,mathTime);
-        Assert.assertTrue(!Double.isNaN(x));
+        assertTrue(!Double.isNaN(x));
     }
 
-    @Test
-    public void testPow() {
+    private static void testPow() {
         double x = 0;
         long time = System.nanoTime();
         for (int i = 0; i < RUNS; i++) {
@@ -167,11 +180,10 @@ public class FastMathTestPerformance {
         }
         long mathTime = System.nanoTime() - time;
         report("pow",strictTime,fastTime,mathTime);
-        Assert.assertTrue(!Double.isNaN(x));
+        assertTrue(!Double.isNaN(x));
     }
 
-    @Test
-    public void testExp() {
+    private static void testExp() {
         double x = 0;
         long time = System.nanoTime();
         for (int i = 0; i < RUNS; i++) {
@@ -194,11 +206,10 @@ public class FastMathTestPerformance {
         long mathTime = System.nanoTime() - time;
 
         report("exp",strictTime,fastTime,mathTime);
-        Assert.assertTrue(!Double.isNaN(x));
+        assertTrue(!Double.isNaN(x));
     }
 
-    @Test
-    public void testSin() {
+    private static void testSin() {
         double x = 0;
         long time = System.nanoTime();
         for (int i = 0; i < RUNS; i++) {
@@ -221,11 +232,10 @@ public class FastMathTestPerformance {
         long mathTime = System.nanoTime() - time;
 
         report("sin",strictTime,fastTime,mathTime);
-        Assert.assertTrue(!Double.isNaN(x));
+        assertTrue(!Double.isNaN(x));
     }
 
-    @Test
-    public void testAsin() {
+    private static void testAsin() {
         double x = 0;
         long time = System.nanoTime();
         for (int i = 0; i < RUNS; i++) {
@@ -248,11 +258,10 @@ public class FastMathTestPerformance {
         long mathTime = System.nanoTime() - time;
 
         report("asin",strictTime,fastTime,mathTime);
-        Assert.assertTrue(!Double.isNaN(x));
+        assertTrue(!Double.isNaN(x));
     }
 
-    @Test
-    public void testCos() {
+    private static void testCos() {
         double x = 0;
         long time = System.nanoTime();
         for (int i = 0; i < RUNS; i++) {
@@ -275,11 +284,10 @@ public class FastMathTestPerformance {
         long mathTime = System.nanoTime() - time;
 
         report("cos",strictTime,fastTime,mathTime);
-        Assert.assertTrue(!Double.isNaN(x));
+        assertTrue(!Double.isNaN(x));
     }
             
-    @Test
-    public void testAcos() {
+    private static void testAcos() {
         double x = 0;
         long time = System.nanoTime();
         for (int i = 0; i < RUNS; i++) {
@@ -301,11 +309,10 @@ public class FastMathTestPerformance {
         }
         long mathTime = System.nanoTime() - time;
         report("acos",strictTime,fastTime,mathTime);
-        Assert.assertTrue(!Double.isNaN(x));
+        assertTrue(!Double.isNaN(x));
     }
 
-    @Test
-    public void testTan() {
+    private static void testTan() {
         double x = 0;
         long time = System.nanoTime();
         for (int i = 0; i < RUNS; i++) {
@@ -328,11 +335,10 @@ public class FastMathTestPerformance {
         long mathTime = System.nanoTime() - time;
 
         report("tan",strictTime,fastTime,mathTime);
-        Assert.assertTrue(!Double.isNaN(x));
+        assertTrue(!Double.isNaN(x));
     }
 
-    @Test
-    public void testAtan() {
+    private static void testAtan() {
         double x = 0;
         long time = System.nanoTime();
         for (int i = 0; i < RUNS; i++) {
@@ -355,11 +361,10 @@ public class FastMathTestPerformance {
         long mathTime = System.nanoTime() - time;
 
         report("atan",strictTime,fastTime,mathTime);
-        Assert.assertTrue(!Double.isNaN(x));
+        assertTrue(!Double.isNaN(x));
     }
 
-    @Test
-    public void testAtan2() {
+    private static void testAtan2() {
         double x = 0;
         long time = System.nanoTime();
         int max   = (int) FastMath.floor(FastMath.sqrt(RUNS));
@@ -389,11 +394,10 @@ public class FastMathTestPerformance {
         long mathTime = System.nanoTime() - time;
 
         report("atan2",strictTime,fastTime,mathTime);
-        Assert.assertTrue(!Double.isNaN(x));
+        assertTrue(!Double.isNaN(x));
     }
 
-    @Test
-    public void testHypot() {
+    private static void testHypot() {
         double x = 0;
         long time = System.nanoTime();
         int max   = (int) FastMath.floor(FastMath.sqrt(RUNS));
@@ -423,11 +427,10 @@ public class FastMathTestPerformance {
         long mathTime = System.nanoTime() - time;
 
         report("hypot",strictTime,fastTime,mathTime);
-        Assert.assertTrue(!Double.isNaN(x));
+        assertTrue(!Double.isNaN(x));
     }
      
-    @Test
-    public void testCbrt() {
+    private static void testCbrt() {
         double x = 0;
         long time = System.nanoTime();
         for (int i = 0; i < RUNS; i++) {
@@ -450,11 +453,10 @@ public class FastMathTestPerformance {
         long mathTime = System.nanoTime() - time;
 
         report("cbrt",strictTime,fastTime,mathTime);
-        Assert.assertTrue(!Double.isNaN(x));
+        assertTrue(!Double.isNaN(x));
     }
 
-    @Test
-    public void testSqrt() {
+    private static void testSqrt() {
         double x = 0;
         long time = System.nanoTime();
         for (int i = 0; i < RUNS; i++) {
@@ -477,11 +479,10 @@ public class FastMathTestPerformance {
         long mathTime = System.nanoTime() - time;
 
         report("sqrt",strictTime,fastTime,mathTime);
-        Assert.assertTrue(!Double.isNaN(x));
+        assertTrue(!Double.isNaN(x));
     }
 
-    @Test
-    public void testCosh() {
+    private static void testCosh() {
         double x = 0;
         long time = System.nanoTime();
         for (int i = 0; i < RUNS; i++) {
@@ -504,11 +505,10 @@ public class FastMathTestPerformance {
         long mathTime = System.nanoTime() - time;
 
         report("cosh",strictTime,fastTime,mathTime);
-        Assert.assertTrue(!Double.isNaN(x));
+        assertTrue(!Double.isNaN(x));
     }
 
-    @Test
-    public void testSinh() {
+    private static void testSinh() {
         double x = 0;
         long time = System.nanoTime();
         for (int i = 0; i < RUNS; i++) {
@@ -531,11 +531,10 @@ public class FastMathTestPerformance {
         long mathTime = System.nanoTime() - time;
 
         report("sinh",strictTime,fastTime,mathTime);
-        Assert.assertTrue(!Double.isNaN(x));
+        assertTrue(!Double.isNaN(x));
     }
 
-    @Test
-    public void testTanh() {
+    private static void testTanh() {
         double x = 0;
         long time = System.nanoTime();
         for (int i = 0; i < RUNS; i++) {
@@ -558,11 +557,10 @@ public class FastMathTestPerformance {
         long mathTime = System.nanoTime() - time;
 
         report("tanh",strictTime,fastTime,mathTime);
-        Assert.assertTrue(!Double.isNaN(x));
+        assertTrue(!Double.isNaN(x));
     }
      
-    @Test
-    public void testExpm1() {
+    private static void testExpm1() {
         double x = 0;
         long time = System.nanoTime();
         for (int i = 0; i < RUNS; i++) {
@@ -584,11 +582,10 @@ public class FastMathTestPerformance {
         }
         long mathTime = System.nanoTime() - time;
         report("expm1",strictTime,fastTime,mathTime);
-        Assert.assertTrue(!Double.isNaN(x));
+        assertTrue(!Double.isNaN(x));
     }
 
-    @Test
-    public void testAbs() {
+    private static void testAbs() {
         double x = 0;
         long time = System.nanoTime();
         for (int i = 0; i < RUNS; i++) {
@@ -611,12 +608,11 @@ public class FastMathTestPerformance {
         long mathTime = System.nanoTime() - time;
 
         report("abs",strictTime,fastTime,mathTime);
-        Assert.assertTrue(!Double.isNaN(x));
+        assertTrue(!Double.isNaN(x));
     }
 
     @SuppressWarnings("boxing")
-    @Test
-    public void testSimpleBenchmark() {
+    private static void testSimpleBenchmark() {
         final String SM = "StrictMath";
         final String M = "Math";
         final String FM = "FastMath";
