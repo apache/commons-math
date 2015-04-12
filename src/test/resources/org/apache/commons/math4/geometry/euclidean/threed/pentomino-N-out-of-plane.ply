@@ -1,0 +1,40 @@
+ply
+format ascii 1.0
+comment this file represents the 'N' pentomino
+comment it has been created manually
+comment the shape is distorted with edge 7 moved, so associated facets are not planar
+element vertex 16
+property double x
+property double y
+property double z
+element face 12
+property list uchar uint vertex_indices
+end_header
+0.0 0.0 0.0
+1.0 0.0 0.0
+1.0 1.0 0.0
+2.0 1.0 0.0
+2.0 4.0 0.0
+1.0 4.0 0.0
+1.0 2.0 0.0
+0.0 2.0 0.5
+0.0 0.0 1.0
+1.0 0.0 1.0
+1.0 1.0 1.0
+2.0 1.0 1.0
+2.0 4.0 1.0
+1.0 4.0 1.0
+1.0 2.0 1.0
+0.0 2.0 1.0
+5  8  9 10 14 15
+5 10 11 12 13 14
+5  7  6  2  1  0
+5  6  5  4  3  2
+4  0  1  9  8
+4  1  2 10  9
+4  2  3 11 10
+4  3  4 12 11
+4  4  5 13 12
+4  5  6 14 13
+4  6  7 15 14
+4  7  0  8 15

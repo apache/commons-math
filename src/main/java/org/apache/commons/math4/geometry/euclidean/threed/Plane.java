@@ -311,8 +311,8 @@ public class Plane implements Hyperplane<Euclidean3D>, Embedding<Euclidean3D, Eu
      */
     public boolean isSimilarTo(final Plane plane) {
         final double angle = Vector3D.angle(w, plane.w);
-        return ((angle < 1.0e-10) && (FastMath.abs(originOffset - plane.originOffset) < 1.0e-10)) ||
-               ((angle > (FastMath.PI - 1.0e-10)) && (FastMath.abs(originOffset + plane.originOffset) < 1.0e-10));
+        return ((angle < 1.0e-10) && (FastMath.abs(originOffset - plane.originOffset) < tolerance)) ||
+               ((angle > (FastMath.PI - 1.0e-10)) && (FastMath.abs(originOffset + plane.originOffset) < tolerance));
     }
 
     /** Rotate the plane around the specified point.
@@ -375,7 +375,7 @@ public class Plane implements Hyperplane<Euclidean3D>, Embedding<Euclidean3D, Eu
      */
     public Line intersection(final Plane other) {
         final Vector3D direction = Vector3D.crossProduct(w, other.w);
-        if (direction.getNorm() < 1.0e-10) {
+        if (direction.getNorm() < tolerance) {
             return null;
         }
         final Vector3D point = intersection(this, other, new Plane(direction, tolerance));
@@ -446,7 +446,7 @@ public class Plane implements Hyperplane<Euclidean3D>, Embedding<Euclidean3D, Eu
      * @return true if p belongs to the plane
      */
     public boolean contains(final Vector3D p) {
-        return FastMath.abs(getOffset(p)) < 1.0e-10;
+        return FastMath.abs(getOffset(p)) < tolerance;
     }
 
     /** Get the offset (oriented distance) of a parallel plane.
