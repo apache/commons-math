@@ -607,7 +607,7 @@
             <exclude>src/test/resources/org/apache/commons/math4/geometry/euclidean/threed/pentomino-N-hole.ply</exclude>
             <exclude>src/test/resources/org/apache/commons/math4/geometry/euclidean/threed/pentomino-N-out-of-plane.ply</exclude>
             <exclude>src/test/resources/org/apache/commons/math4/geometry/euclidean/threed/pentomino-N-too-close.ply</exclude>
-            <exclude>src/test/resources/org/apache/commons/math4/geometry/euclidean/threed/pentomino-N-.ply</exclude>
+            <exclude>src/test/resources/org/apache/commons/math4/geometry/euclidean/threed/pentomino-N.ply</exclude>
 
             <!-- direction numbers for Sobol generation from Frances Y. Kuo and Stephen Joe,
                  available under a BSD-style license (see LICENSE.txt) -->
