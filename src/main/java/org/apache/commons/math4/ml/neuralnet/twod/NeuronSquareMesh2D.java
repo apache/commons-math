@@ -42,6 +42,8 @@ import org.apache.commons.math4.ml.neuralnet.SquareNeighbourhood;
  * @since 3.3
  */
 public class NeuronSquareMesh2D implements Serializable {
+    /** Serial version ID */
+    private static final long serialVersionUID = 1L;
     /** Underlying network. */
     private final Network network;
     /** Number of rows. */

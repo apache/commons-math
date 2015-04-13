@@ -70,6 +70,7 @@ public enum LocalizedFormats implements Localizable {
     CANNOT_TRANSFORM_TO_DOUBLE("Conversion Exception in Transformation: {0}"),
     CARDAN_ANGLES_SINGULARITY("Cardan angles singularity"),
     CLASS_DOESNT_IMPLEMENT_COMPARABLE("class ({0}) does not implement Comparable"),
+    CLOSE_VERTICES("too close vertices near point ({0}, {1}, {2})"),
     CLOSEST_ORTHOGONAL_MATRIX_HAS_NEGATIVE_DETERMINANT("the closest orthogonal matrix has a negative determinant {0}"),
     COLUMN_INDEX_OUT_OF_RANGE("column index {0} out of allowed range [{1}, {2}]"),
     COLUMN_INDEX("column index ({0})"), /* keep */
@@ -91,6 +92,7 @@ public enum LocalizedFormats implements Localizable {
     DISCRETE_CUMULATIVE_PROBABILITY_RETURNED_NAN("Discrete cumulative probability function returned NaN for argument {0}"),
     DISTRIBUTION_NOT_LOADED("distribution not loaded"),
     DUPLICATED_ABSCISSA_DIVISION_BY_ZERO("duplicated abscissa {0} causes division by zero"),
+    EDGE_CONNECTED_TO_ONE_FACET("edge joining points ({0}, {1}, {2}) and ({3}, {4}, {5}) is connected to one facet only"),
     ELITISM_RATE("elitism rate ({0})"),
     EMPTY_CLUSTER_IN_K_MEANS("empty cluster in k-means"),
     EMPTY_INTERPOLATION_SAMPLE("sample for interpolation is empty"),
@@ -103,6 +105,7 @@ public enum LocalizedFormats implements Localizable {
     EULER_ANGLES_SINGULARITY("Euler angles singularity"),
     EVALUATION("evaluation"), /* keep */
     EXPANSION_FACTOR_SMALLER_THAN_ONE("expansion factor smaller than one ({0})"),
+    FACET_ORIENTATION_MISMATCH("facets orientation mismatch around edge joining points ({0}, {1}, {2}) and ({3}, {4}, {5})"),
     FACTORIAL_NEGATIVE_PARAMETER("must have n >= 0 for n!, got n = {0}"),
     FAILED_BRACKETING("number of iterations={4}, maximum iterations={5}, initial={6}, lower bound={7}, upper bound={8}, final a value={0}, final b value={1}, f(a)={2}, f(b)={3}"),
     FAILED_FRACTION_CONVERSION("Unable to convert {0} to fraction after {1} iterations"),
@@ -284,6 +287,7 @@ public enum LocalizedFormats implements Localizable {
     OUT_OF_BOUND_SIGNIFICANCE_LEVEL("out of bounds significance level {0}, must be between {1} and {2}"),
     SIGNIFICANCE_LEVEL("significance level ({0})"), /* keep */
     OUT_OF_ORDER_ABSCISSA_ARRAY("the abscissae array must be sorted in a strictly increasing order, but the {0}-th element is {1} whereas {2}-th is {3}"),
+    OUT_OF_PLANE("point ({0}, {1}, {2}) is out of plane"),
     OUT_OF_RANGE_ROOT_OF_UNITY_INDEX("out of range root of unity index {0} (must be in [{1};{2}])"),
     OUT_OF_RANGE("out of range"), /* keep */
     OUT_OF_RANGE_SIMPLE("{0} out of [{1}, {2}] range"), /* keep */
