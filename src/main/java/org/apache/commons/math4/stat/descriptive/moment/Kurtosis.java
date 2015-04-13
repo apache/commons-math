@@ -22,6 +22,7 @@ import org.apache.commons.math4.exception.MathIllegalArgumentException;
 import org.apache.commons.math4.exception.NullArgumentException;
 import org.apache.commons.math4.stat.descriptive.AbstractStorelessUnivariateStatistic;
 import org.apache.commons.math4.util.FastMath;
+import org.apache.commons.math4.util.MathArrays;
 import org.apache.commons.math4.util.MathUtils;
 
 
@@ -29,27 +30,26 @@ import org.apache.commons.math4.util.MathUtils;
  * Computes the Kurtosis of the available values.
  * <p>
  * We use the following (unbiased) formula to define kurtosis:</p>
- *  <p>
- *  kurtosis = { [n(n+1) / (n -1)(n - 2)(n-3)] sum[(x_i - mean)^4] / std^4 } - [3(n-1)^2 / (n-2)(n-3)]
- *  </p><p>
- *  where n is the number of values, mean is the {@link Mean} and std is the
+ * <p>
+ * kurtosis = { [n(n+1) / (n -1)(n - 2)(n-3)] sum[(x_i - mean)^4] / std^4 } - [3(n-1)^2 / (n-2)(n-3)]
+ * </p><p>
+ * where n is the number of values, mean is the {@link Mean} and std is the
  * {@link StandardDeviation}</p>
  * <p>
- *  Note that this statistic is undefined for n < 4.  <code>Double.Nan</code>
- *  is returned when there is not sufficient data to compute the statistic.
- *  Note that Double.NaN may also be returned if the input includes NaN
- *  and / or infinite values.</p>
+ * Note that this statistic is undefined for n < 4.  <code>Double.Nan</code>
+ * is returned when there is not sufficient data to compute the statistic.
+ * Note that Double.NaN may also be returned if the input includes NaN
+ * and / or infinite values.</p>
  * <p>
  * <strong>Note that this implementation is not synchronized.</strong> If
  * multiple threads access an instance of this class concurrently, and at least
  * one of the threads invokes the <code>increment()</code> or
  * <code>clear()</code> method, it must be synchronized externally.</p>
- *
  */
 public class Kurtosis extends AbstractStorelessUnivariateStatistic  implements Serializable {
 
     /** Serializable version identifier */
-    private static final long serialVersionUID = 2784465764798260919L;
+    private static final long serialVersionUID = 20150412L;
 
     /**Fourth Moment on which this statistic is based */
     protected FourthMoment moment;
@@ -59,11 +59,11 @@ public class Kurtosis extends AbstractStorelessUnivariateStatistic  implements S
      * <p>
      * Statistics based on (constructed from) external moments cannot
      * be incremented or cleared.</p>
-    */
+     */
     protected boolean incMoment;
 
     /**
-     * Construct a Kurtosis
+     * Construct a Kurtosis.
      */
     public Kurtosis() {
         incMoment = true;
@@ -71,7 +71,7 @@ public class Kurtosis extends AbstractStorelessUnivariateStatistic  implements S
     }
 
     /**
-     * Construct a Kurtosis from an external moment
+     * Construct a Kurtosis from an external moment.
      *
      * @param m4 external Moment
      */
@@ -82,7 +82,7 @@ public class Kurtosis extends AbstractStorelessUnivariateStatistic  implements S
 
     /**
      * Copy constructor, creates a new {@code Kurtosis} identical
-     * to the {@code original}
+     * to the {@code original}.
      *
      * @param original the {@code Kurtosis} instance to copy
      * @throws NullArgumentException if original is null
@@ -161,13 +161,13 @@ public class Kurtosis extends AbstractStorelessUnivariateStatistic  implements S
      * index parameters are not valid
      */
     @Override
-    public double evaluate(final double[] values,final int begin, final int length)
-    throws MathIllegalArgumentException {
+    public double evaluate(final double[] values, final int begin, final int length)
+        throws MathIllegalArgumentException {
+
         // Initialize the kurtosis
         double kurt = Double.NaN;
 
-        if (test(values, begin, length) && length > 3) {
-
+        if (MathArrays.verifyValues(values, begin, length) && length > 3) {
             // Compute the mean and standard deviation
             Variance variance = new Variance();
             variance.incrementAll(values, begin, length);
@@ -219,7 +219,6 @@ public class Kurtosis extends AbstractStorelessUnivariateStatistic  implements S
         throws NullArgumentException {
         MathUtils.checkNotNull(source);
         MathUtils.checkNotNull(dest);
-        dest.setData(source.getDataRef());
         dest.moment = source.moment.copy();
         dest.incMoment = source.incMoment;
     }

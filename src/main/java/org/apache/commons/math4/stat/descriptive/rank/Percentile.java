@@ -90,12 +90,11 @@ import org.apache.commons.math4.util.Precision;
  * multiple threads access an instance of this class concurrently, and at least
  * one of the threads invokes the <code>increment()</code> or
  * <code>clear()</code> method, it must be synchronized externally.</p>
- *
  */
 public class Percentile extends AbstractUnivariateStatistic implements Serializable {
 
     /** Serializable version identifier */
-    private static final long serialVersionUID = -8091216485095130416L;
+    private static final long serialVersionUID = 20150412L;
 
     /** Maximum number of partitioning pivots cached (each level double the number of pivots). */
     private static final int MAX_CACHED_LEVELS = 10;
@@ -112,8 +111,10 @@ public class Percentile extends AbstractUnivariateStatistic implements Serializa
     /** NaN Handling of the input as defined by {@link NaNStrategy} */
     private final NaNStrategy nanStrategy;
 
-    /** Determines what percentile is computed when evaluate() is activated
-     * with no quantile argument */
+    /**
+     * Determines what percentile is computed when evaluate() is activated
+     * with no quantile argument.
+     */
     private double quantile;
 
     /** Cached pivots. */
@@ -263,12 +264,12 @@ public class Percentile extends AbstractUnivariateStatistic implements Serializa
      * @param values input array of values
      * @param p the percentile value to compute
      * @return the percentile value or Double.NaN if the array is empty
-     * @throws MathIllegalArgumentException if <code>values</code> is null
-     *     or p is invalid
+     * @throws MathIllegalArgumentException if <code>values</code> is null or p is invalid
      */
     public double evaluate(final double[] values, final double p)
-    throws MathIllegalArgumentException {
-        test(values, 0, 0);
+        throws MathIllegalArgumentException {
+
+        MathArrays.verifyValues(values, 0, 0);
         return evaluate(values, 0, values.length, p);
     }
 
@@ -297,7 +298,7 @@ public class Percentile extends AbstractUnivariateStatistic implements Serializa
      */
     @Override
     public double evaluate(final double[] values, final int start, final int length)
-    throws MathIllegalArgumentException {
+        throws MathIllegalArgumentException {
         return evaluate(values, start, length, quantile);
     }
 
@@ -335,10 +336,9 @@ public class Percentile extends AbstractUnivariateStatistic implements Serializa
                            final int length, final double p)
         throws MathIllegalArgumentException {
 
-        test(values, begin, length);
+        MathArrays.verifyValues(values, begin, length);
         if (p > 100 || p <= 0) {
-            throw new OutOfRangeException(
-                    LocalizedFormats.OUT_OF_BOUNDS_QUANTILE_VALUE, p, 0, 100);
+            throw new OutOfRangeException(LocalizedFormats.OUT_OF_BOUNDS_QUANTILE_VALUE, p, 0, 100);
         }
         if (length == 0) {
             return Double.NaN;
@@ -401,11 +401,11 @@ public class Percentile extends AbstractUnivariateStatistic implements Serializa
      * @throws MathIllegalArgumentException if values or indices are invalid
      */
     protected double[] getWorkArray(final double[] values, final int begin, final int length) {
-            final double[] work;
-            if (values == getDataRef()) {
-                work = getDataRef();
-            } else {
-                switch (nanStrategy) {
+        final double[] work;
+        if (values == getDataRef()) {
+            work = getDataRef();
+        } else {
+            switch (nanStrategy) {
                 case MAXIMAL:// Replace NaNs with +INFs
                     work = replaceAndSlice(values, begin, length, Double.NaN, Double.POSITIVE_INFINITY);
                     break;
@@ -422,9 +422,9 @@ public class Percentile extends AbstractUnivariateStatistic implements Serializa
                 default: //FIXED
                     work = copyOf(values,begin,length);
                     break;
-                }
             }
-            return work;
+        }
+        return work;
     }
 
     /**
@@ -486,7 +486,7 @@ public class Percentile extends AbstractUnivariateStatistic implements Serializa
         //Check if empty then create a new copy
         if (bits.isEmpty()) {
             temp = copyOf(values, begin, length); // Nothing removed, just copy
-        } else if(bits.cardinality() == length){
+        } else if(bits.cardinality() == length) {
             temp = new double[0];                 // All removed, just empty
         }else {                                   // Some removable, so new
             temp = new double[length - bits.cardinality()];
@@ -630,8 +630,7 @@ public class Percentile extends AbstractUnivariateStatistic implements Serializa
      * @throws NullArgumentException when newKthSelector is null
      */
     public Percentile withKthSelector(final KthSelector newKthSelector) {
-        return new Percentile(quantile, estimationType, nanStrategy,
-                                newKthSelector);
+        return new Percentile(quantile, estimationType, nanStrategy, newKthSelector);
     }
 
     /**
@@ -669,7 +668,6 @@ public class Percentile extends AbstractUnivariateStatistic implements Serializa
      * <a href="http://stat.ethz.ch/R-manual/R-devel/library/stats/html/quantile.html">
      * R-Manual </a></li>
      * </ol>
-     *
      */
     public static enum EstimationType {
         /**
@@ -808,7 +806,7 @@ public class Percentile extends AbstractUnivariateStatistic implements Serializa
          * &amp;maxLimit = (N-0.5)/N
          * \end{align}\)
          */
-        R_5("R-5"){
+        R_5("R-5") {
 
             @Override
             protected double index(final double p, final int length) {
@@ -836,7 +834,7 @@ public class Percentile extends AbstractUnivariateStatistic implements Serializa
          * first element (p&lt;1(N+1)) and last elements (p&gt;N/(N+1))are done.
          * While in default case; these are done with p=0 and p=1 respectively.
          */
-        R_6("R-6"){
+        R_6("R-6") {
 
             @Override
             protected double index(final double p, final int length) {

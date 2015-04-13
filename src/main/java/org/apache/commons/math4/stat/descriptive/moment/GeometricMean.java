@@ -48,19 +48,17 @@ import org.apache.commons.math4.util.MathUtils;
  * multiple threads access an instance of this class concurrently, and at least
  * one of the threads invokes the <code>increment()</code> or
  * <code>clear()</code> method, it must be synchronized externally.</p>
- *
- *
  */
 public class GeometricMean extends AbstractStorelessUnivariateStatistic implements Serializable {
 
     /** Serializable version identifier */
-    private static final long serialVersionUID = -8178734905303459453L;
+    private static final long serialVersionUID = 20150412L;
 
     /** Wrapped SumOfLogs instance */
     private StorelessUnivariateStatistic sumOfLogs;
 
     /**
-     * Create a GeometricMean instance
+     * Create a GeometricMean instance.
      */
     public GeometricMean() {
         sumOfLogs = new SumOfLogs();
@@ -68,7 +66,7 @@ public class GeometricMean extends AbstractStorelessUnivariateStatistic implemen
 
     /**
      * Copy constructor, creates a new {@code GeometricMean} identical
-     * to the {@code original}
+     * to the {@code original}.
      *
      * @param original the {@code GeometricMean} instance to copy
      * @throws NullArgumentException if original is null
@@ -80,7 +78,7 @@ public class GeometricMean extends AbstractStorelessUnivariateStatistic implemen
 
     /**
      * Create a GeometricMean instance using the given SumOfLogs instance
-     * @param sumOfLogs sum of logs instance to use for computation
+     * @param sumOfLogs sum of logs instance to use for computation.
      */
     public GeometricMean(SumOfLogs sumOfLogs) {
         this.sumOfLogs = sumOfLogs;
@@ -142,11 +140,9 @@ public class GeometricMean extends AbstractStorelessUnivariateStatistic implemen
      * index parameters are not valid
      */
     @Override
-    public double evaluate(
-        final double[] values, final int begin, final int length)
-    throws MathIllegalArgumentException {
-        return FastMath.exp(
-            sumOfLogs.evaluate(values, begin, length) / length);
+    public double evaluate(final double[] values, final int begin, final int length)
+        throws MathIllegalArgumentException {
+        return FastMath.exp(sumOfLogs.evaluate(values, begin, length) / length);
     }
 
     /**
@@ -169,13 +165,13 @@ public class GeometricMean extends AbstractStorelessUnivariateStatistic implemen
      *  (i.e if n > 0)
      */
     public void setSumLogImpl(StorelessUnivariateStatistic sumLogImpl)
-    throws MathIllegalStateException {
+        throws MathIllegalStateException {
         checkEmpty();
         this.sumOfLogs = sumLogImpl;
     }
 
     /**
-     * Returns the currently configured sum of logs implementation
+     * Returns the currently configured sum of logs implementation.
      *
      * @return the StorelessUnivariateStatistic implementing the log sum
      */
@@ -195,10 +191,8 @@ public class GeometricMean extends AbstractStorelessUnivariateStatistic implemen
         throws NullArgumentException {
         MathUtils.checkNotNull(source);
         MathUtils.checkNotNull(dest);
-        dest.setData(source.getDataRef());
         dest.sumOfLogs = source.sumOfLogs.copy();
     }
-
 
     /**
      * Throws MathIllegalStateException if n > 0.

@@ -54,6 +54,31 @@ If the output is not quite correct, check for invisible trailing spaces!
     </release>
 
     <release version="4.0" date="XXXX-XX-XX" description="">
+      <action dev="tn" type="remove" issue="MATH-1205">
+        Removed methods "test(...)" from "AbstractUnivariateStatistic".
+        The already existing methods "MathArrays#verifyValues(...)" shall
+        be used instead.
+      </action>    
+      <action dev="tn" type="update" issue="MATH-1205">
+        The abstract class "AbstractStorelessUnivariateStatistic" does not
+        extend anymore from "AbstractUnivariateStatistic".
+      </action>    
+      <action dev="tn" type="update" issue="MATH-1205">
+        Default implementation of
+        "AbstractStorelessUnivariateStatistic#equals(Object)"
+        will only return true if both instances have the same type. Previously
+        different statistics were considered to be equal if their current state
+        happened to be equal.
+      </action>    
+      <action dev="tn" type="update" issue="MATH-1205">
+        Default implementations of "AbstractStorelessUnivariateStatistic#evaluate(...)"
+        do not alter the internal state anymore. Instead a temporary copy of
+        the statistic is created for evaluation purposes.
+      </action>    
+      <action dev="tn" type="fix" issue="MATH-1205">
+        Methods "evaluate(...)" of class "Variance" changed the internal state
+        although it was stated differently in the javadoc.
+      </action>    
       <action dev="luc" type="fix" issue="MATH-1191">
         Fixed ignored method parameters in QRDecomposition protected methods.
       </action>    

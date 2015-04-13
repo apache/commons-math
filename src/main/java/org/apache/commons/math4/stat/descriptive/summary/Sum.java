@@ -21,6 +21,7 @@ import java.io.Serializable;
 import org.apache.commons.math4.exception.MathIllegalArgumentException;
 import org.apache.commons.math4.exception.NullArgumentException;
 import org.apache.commons.math4.stat.descriptive.AbstractStorelessUnivariateStatistic;
+import org.apache.commons.math4.util.MathArrays;
 import org.apache.commons.math4.util.MathUtils;
 
 
@@ -35,12 +36,11 @@ import org.apache.commons.math4.util.MathUtils;
  * multiple threads access an instance of this class concurrently, and at least
  * one of the threads invokes the <code>increment()</code> or
  * <code>clear()</code> method, it must be synchronized externally.</p>
- *
  */
 public class Sum extends AbstractStorelessUnivariateStatistic implements Serializable {
 
     /** Serializable version identifier */
-    private static final long serialVersionUID = -8231831954703408316L;
+    private static final long serialVersionUID = 20150412L;
 
     /** */
     private long n;
@@ -51,7 +51,7 @@ public class Sum extends AbstractStorelessUnivariateStatistic implements Seriali
     private double value;
 
     /**
-     * Create a Sum instance
+     * Create a Sum instance.
      */
     public Sum() {
         n = 0;
@@ -60,7 +60,7 @@ public class Sum extends AbstractStorelessUnivariateStatistic implements Seriali
 
     /**
      * Copy constructor, creates a new {@code Sum} identical
-     * to the {@code original}
+     * to the {@code original}.
      *
      * @param original the {@code Sum} instance to copy
      * @throws NullArgumentException if original is null
@@ -104,9 +104,8 @@ public class Sum extends AbstractStorelessUnivariateStatistic implements Seriali
     }
 
     /**
-     * The sum of the entries in the specified portion of
-     * the input array, or 0 if the designated subarray
-     * is empty.
+     * The sum of the entries in the specified portion of the input array,
+     * or 0 if the designated subarray is empty.
      * <p>
      * Throws <code>MathIllegalArgumentException</code> if the array is null.</p>
      *
@@ -119,9 +118,10 @@ public class Sum extends AbstractStorelessUnivariateStatistic implements Seriali
      */
     @Override
     public double evaluate(final double[] values, final int begin, final int length)
-    throws MathIllegalArgumentException {
+        throws MathIllegalArgumentException {
+
         double sum = Double.NaN;
-        if (test(values, begin, length, true)) {
+        if (MathArrays.verifyValues(values, begin, length, true)) {
             sum = 0.0;
             for (int i = begin; i < begin + length; i++) {
                 sum += values[i];
@@ -158,9 +158,9 @@ public class Sum extends AbstractStorelessUnivariateStatistic implements Seriali
      * @since 2.1
      */
     public double evaluate(final double[] values, final double[] weights,
-        final int begin, final int length) throws MathIllegalArgumentException {
+                           final int begin, final int length) throws MathIllegalArgumentException {
         double sum = Double.NaN;
-        if (test(values, weights, begin, length, true)) {
+        if (MathArrays.verifyValues(values, weights, begin, length, true)) {
             sum = 0.0;
             for (int i = begin; i < begin + length; i++) {
                 sum += values[i] * weights[i];
@@ -191,8 +191,7 @@ public class Sum extends AbstractStorelessUnivariateStatistic implements Seriali
      * @throws MathIllegalArgumentException if the parameters are not valid
      * @since 2.1
      */
-    public double evaluate(final double[] values, final double[] weights)
-    throws MathIllegalArgumentException {
+    public double evaluate(final double[] values, final double[] weights) throws MathIllegalArgumentException {
         return evaluate(values, weights, 0, values.length);
     }
 
@@ -219,7 +218,6 @@ public class Sum extends AbstractStorelessUnivariateStatistic implements Seriali
         throws NullArgumentException {
         MathUtils.checkNotNull(source);
         MathUtils.checkNotNull(dest);
-        dest.setData(source.getDataRef());
         dest.n = source.n;
         dest.value = source.value;
     }

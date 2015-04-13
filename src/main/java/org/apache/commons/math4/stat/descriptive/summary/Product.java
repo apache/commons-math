@@ -23,6 +23,7 @@ import org.apache.commons.math4.exception.NullArgumentException;
 import org.apache.commons.math4.stat.descriptive.AbstractStorelessUnivariateStatistic;
 import org.apache.commons.math4.stat.descriptive.WeightedEvaluation;
 import org.apache.commons.math4.util.FastMath;
+import org.apache.commons.math4.util.MathArrays;
 import org.apache.commons.math4.util.MathUtils;
 
 /**
@@ -36,12 +37,11 @@ import org.apache.commons.math4.util.MathUtils;
  * multiple threads access an instance of this class concurrently, and at least
  * one of the threads invokes the <code>increment()</code> or
  * <code>clear()</code> method, it must be synchronized externally.</p>
- *
  */
 public class Product extends AbstractStorelessUnivariateStatistic implements Serializable, WeightedEvaluation {
 
     /** Serializable version identifier */
-    private static final long serialVersionUID = 2824226005990582538L;
+    private static final long serialVersionUID = 20150412L;
 
     /**The number of values that have been added */
     private long n;
@@ -52,7 +52,7 @@ public class Product extends AbstractStorelessUnivariateStatistic implements Ser
     private double value;
 
     /**
-     * Create a Product instance
+     * Create a Product instance.
      */
     public Product() {
         n = 0;
@@ -61,7 +61,7 @@ public class Product extends AbstractStorelessUnivariateStatistic implements Ser
 
     /**
      * Copy constructor, creates a new {@code Product} identical
-     * to the {@code original}
+     * to the {@code original}.
      *
      * @param original the {@code Product} instance to copy
      * @throws NullArgumentException  if original is null
@@ -120,9 +120,9 @@ public class Product extends AbstractStorelessUnivariateStatistic implements Ser
      */
     @Override
     public double evaluate(final double[] values, final int begin, final int length)
-    throws MathIllegalArgumentException {
+        throws MathIllegalArgumentException {
         double product = Double.NaN;
-        if (test(values, begin, length, true)) {
+        if (MathArrays.verifyValues(values, begin, length, true)) {
             product = 1.0;
             for (int i = begin; i < begin + length; i++) {
                 product *= values[i];
@@ -161,9 +161,9 @@ public class Product extends AbstractStorelessUnivariateStatistic implements Ser
      */
     @Override
     public double evaluate(final double[] values, final double[] weights,
-        final int begin, final int length) throws MathIllegalArgumentException {
+                           final int begin, final int length) throws MathIllegalArgumentException {
         double product = Double.NaN;
-        if (test(values, weights, begin, length, true)) {
+        if (MathArrays.verifyValues(values, weights, begin, length, true)) {
             product = 1.0;
             for (int i = begin; i < begin + length; i++) {
                 product *= FastMath.pow(values[i], weights[i]);
@@ -184,7 +184,8 @@ public class Product extends AbstractStorelessUnivariateStatistic implements Ser
      *     <li>the weights array contains negative values</li>
      * </ul></p>
      *
-     * <p>Uses the formula, <pre>
+     * <p>Uses the formula,
+     * <pre>
      *    weighted product = &prod;values[i]<sup>weights[i]</sup>
      * </pre>
      * that is, the weights are applied as exponents when computing the weighted product.</p>
@@ -196,11 +197,9 @@ public class Product extends AbstractStorelessUnivariateStatistic implements Ser
      * @since 2.1
      */
     @Override
-    public double evaluate(final double[] values, final double[] weights)
-    throws MathIllegalArgumentException {
+    public double evaluate(final double[] values, final double[] weights) throws MathIllegalArgumentException {
         return evaluate(values, weights, 0, values.length);
     }
-
 
     /**
      * {@inheritDoc}
@@ -225,7 +224,6 @@ public class Product extends AbstractStorelessUnivariateStatistic implements Ser
         throws NullArgumentException {
         MathUtils.checkNotNull(source);
         MathUtils.checkNotNull(dest);
-        dest.setData(source.getDataRef());
         dest.n = source.n;
         dest.value = source.value;
     }

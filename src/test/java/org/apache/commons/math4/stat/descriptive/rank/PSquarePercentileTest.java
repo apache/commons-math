@@ -44,7 +44,7 @@ import org.junit.Test;
 
 /**
  * Test cases for the {@link PSquarePercentile} class which naturally extends
- * {@link StorelessUnivariateStatisticAbstractTest}. 
+ * {@link StorelessUnivariateStatisticAbstractTest}.
  */
 public class PSquarePercentileTest extends
         StorelessUnivariateStatisticAbstractTest {
@@ -52,7 +52,7 @@ public class PSquarePercentileTest extends
     protected double percentile5 = 8.2299d;
     protected double percentile95 = 16.72195;// 20.82d; this is approximation
     protected double tolerance = 10E-12;
-    
+
     private final RandomGenerator randomGenerator = new Well19937c(1000);
 
     @Override
@@ -330,7 +330,7 @@ public class PSquarePercentileTest extends
         Assert.assertTrue(Double.isNaN(new PSquarePercentile(100).getResult()));
 
         double[] d = new double[] { 1, 3, 2, 4, 9, 10, 11 };
-        ptile.evaluate(d);
+        ptile.incrementAll(d);
         Assert.assertEquals(ptile, ptile);
         Assert.assertEquals(1d, ptile.getResult(), 1e-02);// this calls min
     }
@@ -343,8 +343,7 @@ public class PSquarePercentileTest extends
         ptile.increment(2);
         ptile.increment(3);
         Assert.assertNotNull(ptile.toString());
-        Assert.assertEquals(expectedValue(), ptile.evaluate(testArray),
-                getTolerance());
+        Assert.assertEquals(expectedValue(), ptile.evaluate(testArray), getTolerance());
         Assert.assertNotNull(ptile.toString());
     }
 

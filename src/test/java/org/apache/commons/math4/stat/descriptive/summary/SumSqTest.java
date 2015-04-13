@@ -25,7 +25,6 @@ import org.junit.Test;
 
 /**
  * Test cases for the {@link SumOfSquares} class.
- *
  */
 public class SumSqTest extends StorelessUnivariateStatisticAbstractTest{
 
@@ -62,11 +61,10 @@ public class SumSqTest extends StorelessUnivariateStatisticAbstractTest{
         sumSq.increment(1);
         Assert.assertTrue(Double.isNaN(sumSq.getResult()));
     }
-    
+
     @Override
-    protected void checkClearValue(StorelessUnivariateStatistic statistic){
+    protected void checkClearValue(StorelessUnivariateStatistic statistic) {
         Assert.assertEquals(0, statistic.getResult(), 0);
     }
-
 
 }

@@ -21,6 +21,7 @@ import java.io.Serializable;
 import org.apache.commons.math4.exception.MathIllegalArgumentException;
 import org.apache.commons.math4.exception.NullArgumentException;
 import org.apache.commons.math4.stat.descriptive.AbstractStorelessUnivariateStatistic;
+import org.apache.commons.math4.util.MathArrays;
 import org.apache.commons.math4.util.MathUtils;
 
 /**
@@ -34,14 +35,13 @@ import org.apache.commons.math4.util.MathUtils;
  * multiple threads access an instance of this class concurrently, and at least
  * one of the threads invokes the <code>increment()</code> or
  * <code>clear()</code> method, it must be synchronized externally.</p>
- *
  */
 public class SumOfSquares extends AbstractStorelessUnivariateStatistic implements Serializable {
 
     /** Serializable version identifier */
-    private static final long serialVersionUID = 1460986908574398008L;
+    private static final long serialVersionUID = 20150412L;
 
-    /** */
+    /** Number of values that have been added */
     private long n;
 
     /**
@@ -50,7 +50,7 @@ public class SumOfSquares extends AbstractStorelessUnivariateStatistic implement
     private double value;
 
     /**
-     * Create a SumOfSquares instance
+     * Create a SumOfSquares instance.
      */
     public SumOfSquares() {
         n = 0;
@@ -59,7 +59,7 @@ public class SumOfSquares extends AbstractStorelessUnivariateStatistic implement
 
     /**
      * Copy constructor, creates a new {@code SumOfSquares} identical
-     * to the {@code original}
+     * to the {@code original}.
      *
      * @param original the {@code SumOfSquares} instance to copy
      * @throws NullArgumentException if original is null
@@ -118,9 +118,10 @@ public class SumOfSquares extends AbstractStorelessUnivariateStatistic implement
      */
     @Override
     public double evaluate(final double[] values,final int begin, final int length)
-    throws MathIllegalArgumentException {
+        throws MathIllegalArgumentException {
+
         double sumSq = Double.NaN;
-        if (test(values, begin, length, true)) {
+        if (MathArrays.verifyValues(values, begin, length, true)) {
             sumSq = 0.0;
             for (int i = begin; i < begin + length; i++) {
                 sumSq += values[i] * values[i];
@@ -152,7 +153,6 @@ public class SumOfSquares extends AbstractStorelessUnivariateStatistic implement
         throws NullArgumentException {
         MathUtils.checkNotNull(source);
         MathUtils.checkNotNull(dest);
-        dest.setData(source.getDataRef());
         dest.n = source.n;
         dest.value = source.value;
     }

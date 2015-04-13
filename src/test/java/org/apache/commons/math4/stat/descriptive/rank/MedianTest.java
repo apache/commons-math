@@ -82,25 +82,20 @@ public class MedianTest extends UnivariateStatisticAbstractTest{
         for (EstimationType e : EstimationType.values()) {
             UnivariateStatistic percentile = getTestMedian(e);
             Assert.assertEquals(1d, percentile.evaluate(singletonArray), 0);
-            Assert.assertEquals(1d, percentile.evaluate(singletonArray, 0, 1),
-                    0);
-            Assert.assertEquals(1d,
-                    new Median().evaluate(singletonArray, 0, 1, 5), 0);
-            Assert.assertEquals(1d,
-                    new Median().evaluate(singletonArray, 0, 1, 100), 0);
-            Assert.assertTrue(Double.isNaN(percentile.evaluate(singletonArray,
-                    0, 0)));
+            Assert.assertEquals(1d, percentile.evaluate(singletonArray, 0, 1), 0);
+            Assert.assertEquals(1d, new Median().evaluate(singletonArray, 0, 1, 5), 0);
+            Assert.assertEquals(1d, new Median().evaluate(singletonArray, 0, 1, 100), 0);
+            Assert.assertTrue(Double.isNaN(percentile.evaluate(singletonArray, 0, 0)));
         }
     }
+
     @Test
     public void testAllTechniquesMedian() {
         double[] d = new double[] { 1, 3, 2, 4 };
         testAssertMappedValues(d, new Object[][] { { LEGACY, 2.5d },
             { R_1, 2d }, { R_2, 2.5d }, { R_3, 2d }, { R_4, 2d }, { R_5, 2.5 },
             { R_6, 2.5 },{ R_7, 2.5 },{ R_8, 2.5 }, { R_9 , 2.5 } },  1.0e-05);
-
     }
-
 
     /**
      * Simple test assertion utility method
@@ -109,8 +104,7 @@ public class MedianTest extends UnivariateStatisticAbstractTest{
      * @param map of expected result against a {@link EstimationType}
      * @param tolerance the tolerance of difference allowed
      */
-    protected void testAssertMappedValues(double[] d, Object[][] map,
-            Double tolerance) {
+    protected void testAssertMappedValues(double[] d, Object[][] map, Double tolerance) {
         for (Object[] o : map) {
             EstimationType e = (EstimationType) o[0];
             double expected = (Double) o[1];

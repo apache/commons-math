@@ -51,12 +51,12 @@ import org.apache.commons.math4.util.MathUtils;
 class ThirdMoment extends SecondMoment implements Serializable {
 
     /** Serializable version identifier */
-    private static final long serialVersionUID = -7818711964045118679L;
+    private static final long serialVersionUID = 20150412L;
 
     /** third moment of values that have been added */
     protected double m3;
 
-     /**
+    /**
      * Square of deviation of most recently added value from previous first
      * moment, normalized by previous sample size.  Retained to prevent
      * repeated computation in higher order moments.  nDevSq = nDev * nDev.
@@ -64,7 +64,7 @@ class ThirdMoment extends SecondMoment implements Serializable {
     protected double nDevSq;
 
     /**
-     * Create a FourthMoment instance
+     * Create a FourthMoment instance.
      */
     public ThirdMoment() {
         super();
@@ -74,10 +74,10 @@ class ThirdMoment extends SecondMoment implements Serializable {
 
     /**
      * Copy constructor, creates a new {@code ThirdMoment} identical
-     * to the {@code original}
+     * to the {@code original}.
      *
      * @param original the {@code ThirdMoment} instance to copy
-     * @throws NullArgumentException if orginal is null
+     * @throws NullArgumentException if original is null
      */
     public ThirdMoment(ThirdMoment original) throws NullArgumentException {
         copy(original, this);

@@ -29,23 +29,21 @@ import org.junit.Test;
 
 /**
  * Test cases for the {@link ListUnivariateImpl} class.
- *
  */
-
 public final class MixedListUnivariateImplTest {
-    private double one = 1;
-    private float two = 2;
-    private int three = 3;
+    private final double one = 1;
+    private final float two = 2;
+    private final int three = 3;
 
-    private double mean = 2;
-    private double sumSq = 18;
-    private double sum = 8;
-    private double var = 0.666666666666666666667;
-    private double std = FastMath.sqrt(var);
-    private double n = 4;
-    private double min = 1;
-    private double max = 3;
-    private double tolerance = 10E-15;
+    private final double mean = 2;
+    private final double sumSq = 18;
+    private final double sum = 8;
+    private final double var = 0.666666666666666666667;
+    private final double std = FastMath.sqrt(var);
+    private final double n = 4;
+    private final double min = 1;
+    private final double max = 3;
+    private final double tolerance = 10E-15;
 
     private TransformerMap transformers = new TransformerMap();
 
@@ -184,6 +182,7 @@ public final class MixedListUnivariateImplTest {
 
     public static final class FooTransformer implements NumberTransformer, Serializable {
         private static final long serialVersionUID = -4252248129291326127L;
+        @Override
         public double transform(Object o) {
             return Double.parseDouble(((Foo) o).heresFoo());
         }
@@ -197,6 +196,7 @@ public final class MixedListUnivariateImplTest {
 
     public static final class BarTransformer implements NumberTransformer, Serializable {
         private static final long serialVersionUID = -1768345377764262043L;
+        @Override
         public double transform(Object o) {
             return Double.parseDouble(((Bar) o).heresBar());
         }

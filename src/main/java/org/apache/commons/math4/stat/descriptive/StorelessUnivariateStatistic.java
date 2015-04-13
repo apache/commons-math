@@ -25,8 +25,11 @@ import org.apache.commons.math4.exception.MathIllegalArgumentException;
  * <p>
  * This interface is designed to be used for calculating statistics that can be
  * computed in one pass through the data without storing the full array of
- * sample values.</p>
- *
+ * sample values.
+ * <p>
+ * Note: unless otherwise stated, the {@link #evaluate(double[])} and
+ * {@link #evaluate(double[], int, int)} methods do <b>NOT</b> alter the internal
+ * state of the respective statistic.
  */
 public interface StorelessUnivariateStatistic extends UnivariateStatistic {
 

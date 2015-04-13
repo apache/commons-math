@@ -226,7 +226,7 @@ public class DescriptiveStatisticsTest {
         checkremoval(dstat, DescriptiveStatistics.INFINITE_WINDOW, 3.5, 2.5, 3.0);
 
     }
-    
+
     @Test
     public void testSummaryConsistency() {
         final DescriptiveStatistics dstats = new DescriptiveStatistics();
@@ -316,13 +316,16 @@ public class DescriptiveStatisticsTest {
      */
     static class deepMean implements UnivariateStatistic {
 
+        @Override
         public double evaluate(double[] values, int begin, int length) {
             return 42;
         }
 
+        @Override
         public double evaluate(double[] values) {
             return 42;
         }
+        @Override
         public UnivariateStatistic copy() {
             return new deepMean();
         }
@@ -332,16 +335,19 @@ public class DescriptiveStatisticsTest {
      * Test percentile implementation - wraps a Percentile
      */
     static class goodPercentile implements UnivariateStatistic {
-        private Percentile percentile = new Percentile();
+        private final Percentile percentile = new Percentile();
         public void setQuantile(double quantile) {
             percentile.setQuantile(quantile);
         }
+        @Override
         public double evaluate(double[] values, int begin, int length) {
             return percentile.evaluate(values, begin, length);
         }
+        @Override
         public double evaluate(double[] values) {
             return percentile.evaluate(values);
         }
+        @Override
         public UnivariateStatistic copy() {
             goodPercentile result = new goodPercentile();
             result.setQuantile(percentile.getQuantile());
@@ -374,13 +380,16 @@ public class DescriptiveStatisticsTest {
      * "Bad" test percentile implementation - no setQuantile
      */
     static class badPercentile implements UnivariateStatistic {
-        private Percentile percentile = new Percentile();
+        private final Percentile percentile = new Percentile();
+        @Override
         public double evaluate(double[] values, int begin, int length) {
             return percentile.evaluate(values, begin, length);
         }
+        @Override
         public double evaluate(double[] values) {
             return percentile.evaluate(values);
         }
+        @Override
         public UnivariateStatistic copy() {
             return new badPercentile();
         }

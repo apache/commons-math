@@ -69,7 +69,7 @@ public class StandardDeviationTest extends StorelessUnivariateStatisticAbstractT
         double[] values = {-1.0d, 3.1d, 4.0d, -2.1d, 22d, 11.7d, 3d, 14d};
         double sigma = populationStandardDeviation(values);
         SecondMoment m = new SecondMoment();
-        m.evaluate(values);  // side effect is to add values
+        m.incrementAll(values);  // side effect is to add values
         StandardDeviation s1 = new StandardDeviation();
         s1.setBiasCorrected(false);
         Assert.assertEquals(sigma, s1.evaluate(values), 1E-14);

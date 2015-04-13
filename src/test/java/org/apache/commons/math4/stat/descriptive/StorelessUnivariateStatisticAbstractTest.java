@@ -76,7 +76,7 @@ public abstract class StorelessUnivariateStatisticAbstractTest
     protected void checkClearValue(StorelessUnivariateStatistic statistic){
         Assert.assertTrue(Double.isNaN(statistic.getResult()));
     }
-    
+
     @Test
     public void testSerialization() {
 
@@ -182,7 +182,6 @@ public abstract class StorelessUnivariateStatisticAbstractTest
     /**
      * Verifies that copied statistics remain equal to originals when
      * incremented the same way.
-     *
      */
     @Test
     public void testCopyConsistency() {
@@ -218,4 +217,24 @@ public abstract class StorelessUnivariateStatisticAbstractTest
             (StorelessUnivariateStatistic) getUnivariateStatistic();
         Assert.assertEquals(s, TestUtils.serializeAndRecover(s));
     }
+
+    /**
+     * Make sure that evaluate(double[]) does not alter the internal state.
+     */
+    @Test
+    public void testEvaluateInternalState() {
+        StorelessUnivariateStatistic stat = (StorelessUnivariateStatistic) getUnivariateStatistic();
+        stat.evaluate(testArray);
+        Assert.assertEquals(0, stat.getN());
+
+        stat.incrementAll(testArray);
+
+        StorelessUnivariateStatistic savedStatistic = stat.copy();
+
+        Assert.assertNotEquals(stat.getResult(), stat.evaluate(testArray, 0, 5), getTolerance());
+
+        Assert.assertEquals(savedStatistic.getResult(), stat.getResult(), 0.0);
+        Assert.assertEquals(savedStatistic.getN(), stat.getN());
+    }
+
 }

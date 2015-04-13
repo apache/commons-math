@@ -47,7 +47,6 @@ public class KurtosisTest extends StorelessUnivariateStatisticAbstractTest{
 
     /**
      * Make sure Double.NaN is returned iff n < 4
-     *
      */
     @Test
     public void testNaN() {

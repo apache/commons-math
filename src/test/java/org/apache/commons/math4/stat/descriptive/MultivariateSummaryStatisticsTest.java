@@ -142,30 +142,39 @@ public class MultivariateSummaryStatisticsTest {
     static class sumMean implements StorelessUnivariateStatistic {
         private double sum = 0;
         private long n = 0;
+        @Override
         public double evaluate(double[] values, int begin, int length) {
             return 0;
         }
+        @Override
         public double evaluate(double[] values) {
             return 0;
         }
+        @Override
         public void clear() {
           sum = 0;
           n = 0;
         }
+        @Override
         public long getN() {
             return n;
         }
+        @Override
         public double getResult() {
             return sum;
         }
+        @Override
         public void increment(double d) {
             sum += d;
             n++;
         }
+        @Override
         public void incrementAll(double[] values, int start, int length) {
         }
+        @Override
         public void incrementAll(double[] values) {
         }
+        @Override
         public StorelessUnivariateStatistic copy() {
             return new sumMean();
         }

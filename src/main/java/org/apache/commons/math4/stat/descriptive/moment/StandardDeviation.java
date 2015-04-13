@@ -38,13 +38,12 @@ import org.apache.commons.math4.util.MathUtils;
  * multiple threads access an instance of this class concurrently, and at least
  * one of the threads invokes the <code>increment()</code> or
  * <code>clear()</code> method, it must be synchronized externally.</p>
- *
  */
 public class StandardDeviation extends AbstractStorelessUnivariateStatistic
     implements Serializable {
 
     /** Serializable version identifier */
-    private static final long serialVersionUID = 5728716329662425188L;
+    private static final long serialVersionUID = 20150412L;
 
     /** Wrapped Variance instance */
     private Variance variance = null;
@@ -68,7 +67,7 @@ public class StandardDeviation extends AbstractStorelessUnivariateStatistic
 
     /**
      * Copy constructor, creates a new {@code StandardDeviation} identical
-     * to the {@code original}
+     * to the {@code original}.
      *
      * @param original the {@code StandardDeviation} instance to copy
      * @throws NullArgumentException if original is null
@@ -78,7 +77,7 @@ public class StandardDeviation extends AbstractStorelessUnivariateStatistic
     }
 
     /**
-     * Contructs a StandardDeviation with the specified value for the
+     * Constructs a StandardDeviation with the specified value for the
      * <code>isBiasCorrected</code> property.  If this property is set to
      * <code>true</code>, the {@link Variance} used in computing results will
      * use the bias-corrected, or "sample" formula.  See {@link Variance} for
@@ -92,7 +91,7 @@ public class StandardDeviation extends AbstractStorelessUnivariateStatistic
     }
 
     /**
-     * Contructs a StandardDeviation with the specified value for the
+     * Constructs a StandardDeviation with the specified value for the
      * <code>isBiasCorrected</code> property and the supplied external moment.
      * If <code>isBiasCorrected</code> is set to <code>true</code>, the
      * {@link Variance} used in computing results will use the bias-corrected,
@@ -177,8 +176,8 @@ public class StandardDeviation extends AbstractStorelessUnivariateStatistic
      */
     @Override
     public double evaluate(final double[] values, final int begin, final int length)
-    throws MathIllegalArgumentException  {
-       return FastMath.sqrt(variance.evaluate(values, begin, length));
+        throws MathIllegalArgumentException  {
+        return FastMath.sqrt(variance.evaluate(values, begin, length));
     }
 
     /**
@@ -206,7 +205,7 @@ public class StandardDeviation extends AbstractStorelessUnivariateStatistic
      *  parameters are not valid
      */
     public double evaluate(final double[] values, final double mean,
-            final int begin, final int length) throws MathIllegalArgumentException  {
+                           final int begin, final int length) throws MathIllegalArgumentException  {
         return FastMath.sqrt(variance.evaluate(values, mean, begin, length));
     }
 
@@ -232,7 +231,7 @@ public class StandardDeviation extends AbstractStorelessUnivariateStatistic
      * @throws MathIllegalArgumentException if the array is null
      */
     public double evaluate(final double[] values, final double mean)
-    throws MathIllegalArgumentException  {
+        throws MathIllegalArgumentException  {
         return FastMath.sqrt(variance.evaluate(values, mean));
     }
 
@@ -261,7 +260,6 @@ public class StandardDeviation extends AbstractStorelessUnivariateStatistic
         return result;
     }
 
-
     /**
      * Copies source to dest.
      * <p>Neither source nor dest can be null.</p>
@@ -270,11 +268,9 @@ public class StandardDeviation extends AbstractStorelessUnivariateStatistic
      * @param dest StandardDeviation to copy to
      * @throws NullArgumentException if either source or dest is null
      */
-    public static void copy(StandardDeviation source, StandardDeviation dest)
-        throws NullArgumentException {
+    public static void copy(StandardDeviation source, StandardDeviation dest) throws NullArgumentException {
         MathUtils.checkNotNull(source);
         MathUtils.checkNotNull(dest);
-        dest.setData(source.getDataRef());
         dest.variance = source.variance.copy();
     }
 

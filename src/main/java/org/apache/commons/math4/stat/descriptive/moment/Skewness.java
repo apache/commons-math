@@ -22,6 +22,7 @@ import org.apache.commons.math4.exception.MathIllegalArgumentException;
 import org.apache.commons.math4.exception.NullArgumentException;
 import org.apache.commons.math4.stat.descriptive.AbstractStorelessUnivariateStatistic;
 import org.apache.commons.math4.util.FastMath;
+import org.apache.commons.math4.util.MathArrays;
 import org.apache.commons.math4.util.MathUtils;
 
 /**
@@ -38,12 +39,11 @@ import org.apache.commons.math4.util.MathUtils;
  * multiple threads access an instance of this class concurrently, and at least
  * one of the threads invokes the <code>increment()</code> or
  * <code>clear()</code> method, it must be synchronized externally. </p>
- *
  */
 public class Skewness extends AbstractStorelessUnivariateStatistic implements Serializable {
 
     /** Serializable version identifier */
-    private static final long serialVersionUID = 7101857578996691352L;
+    private static final long serialVersionUID = 20150412L;
 
     /** Third moment on which this statistic is based */
     protected ThirdMoment moment = null;
@@ -57,7 +57,7 @@ public class Skewness extends AbstractStorelessUnivariateStatistic implements Se
     protected boolean incMoment;
 
     /**
-     * Constructs a Skewness
+     * Constructs a Skewness.
      */
     public Skewness() {
         incMoment = true;
@@ -65,7 +65,7 @@ public class Skewness extends AbstractStorelessUnivariateStatistic implements Se
     }
 
     /**
-     * Constructs a Skewness with an external moment
+     * Constructs a Skewness with an external moment.
      * @param m3 external moment
      */
     public Skewness(final ThirdMoment m3) {
@@ -75,7 +75,7 @@ public class Skewness extends AbstractStorelessUnivariateStatistic implements Se
 
     /**
      * Copy constructor, creates a new {@code Skewness} identical
-     * to the {@code original}
+     * to the {@code original}.
      *
      * @param original the {@code Skewness} instance to copy
      * @throws NullArgumentException if original is null
@@ -139,7 +139,7 @@ public class Skewness extends AbstractStorelessUnivariateStatistic implements Se
     }
 
     /**
-     * Returns the Skewness of the entries in the specifed portion of the
+     * Returns the Skewness of the entries in the specified portion of the
      * input array.
      * <p>
      * See {@link Skewness} for the definition used in the computation.</p>
@@ -149,19 +149,18 @@ public class Skewness extends AbstractStorelessUnivariateStatistic implements Se
      * @param values the input array
      * @param begin the index of the first array element to include
      * @param length the number of elements to include
-     * @return the skewness of the values or Double.NaN if length is less than
-     * 3
+     * @return the skewness of the values or Double.NaN if length is less than 3
      * @throws MathIllegalArgumentException if the array is null or the array index
      *  parameters are not valid
      */
     @Override
-    public double evaluate(final double[] values,final int begin,
-            final int length) throws MathIllegalArgumentException {
+    public double evaluate(final double[] values,final int begin, final int length)
+        throws MathIllegalArgumentException {
 
         // Initialize the skewness
         double skew = Double.NaN;
 
-        if (test(values, begin, length) && length > 2 ){
+        if (MathArrays.verifyValues(values, begin, length) && length > 2 ) {
             Mean mean = new Mean();
             // Get the mean and the standard deviation
             double m = mean.evaluate(values, begin, length);
@@ -217,7 +216,6 @@ public class Skewness extends AbstractStorelessUnivariateStatistic implements Se
         throws NullArgumentException {
         MathUtils.checkNotNull(source);
         MathUtils.checkNotNull(dest);
-        dest.setData(source.getDataRef());
         dest.moment = new ThirdMoment(source.moment.copy());
         dest.incMoment = source.incMoment;
     }

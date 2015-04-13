@@ -46,14 +46,12 @@ import org.apache.commons.math4.util.MathUtils;
  * multiple threads access an instance of this class concurrently, and at least
  * one of the threads invokes the <code>increment()</code> or
  * <code>clear()</code> method, it must be synchronized externally.</p>
- *
  */
 class FirstMoment extends AbstractStorelessUnivariateStatistic
     implements Serializable {
 
     /** Serializable version identifier */
-    private static final long serialVersionUID = 6112755307178490473L;
-
+    private static final long serialVersionUID = 20150412L;
 
     /** Count of values that have been added */
     protected long n;
@@ -161,7 +159,6 @@ class FirstMoment extends AbstractStorelessUnivariateStatistic
         throws NullArgumentException {
         MathUtils.checkNotNull(source);
         MathUtils.checkNotNull(dest);
-        dest.setData(source.getDataRef());
         dest.n = source.n;
         dest.m1 = source.m1;
         dest.dev = source.dev;

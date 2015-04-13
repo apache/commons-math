@@ -54,7 +54,7 @@ public class ProductTest extends StorelessUnivariateStatisticAbstractTest{
         return this.product;
     }
 
-    /**Expected value for  the testArray defined in UnivariateStatisticAbstractTest */
+    /** Expected value for  the testArray defined in UnivariateStatisticAbstractTest */
     public double expectedWeightedValue() {
         return this.weightedProduct;
     }
@@ -78,14 +78,15 @@ public class ProductTest extends StorelessUnivariateStatisticAbstractTest{
     @Test
     public void testWeightedProduct() {
         Product product = new Product();
-        Assert.assertEquals(expectedWeightedValue(), product.evaluate(testArray, testWeightsArray, 0, testArray.length),getTolerance());
-        Assert.assertEquals(expectedValue(), product.evaluate(testArray, unitWeightsArray, 0, testArray.length), getTolerance());
+        Assert.assertEquals(expectedWeightedValue(),
+                            product.evaluate(testArray, testWeightsArray, 0, testArray.length),getTolerance());
+        Assert.assertEquals(expectedValue(),
+                            product.evaluate(testArray, unitWeightsArray, 0, testArray.length), getTolerance());
     }
-    
+
     @Override
     protected void checkClearValue(StorelessUnivariateStatistic statistic){
         Assert.assertEquals(1, statistic.getResult(), 0);
     }
-
 
 }

@@ -21,6 +21,7 @@ import java.io.Serializable;
 import org.apache.commons.math4.exception.MathIllegalArgumentException;
 import org.apache.commons.math4.exception.NullArgumentException;
 import org.apache.commons.math4.stat.descriptive.AbstractStorelessUnivariateStatistic;
+import org.apache.commons.math4.util.MathArrays;
 import org.apache.commons.math4.util.MathUtils;
 
 /**
@@ -37,12 +38,11 @@ import org.apache.commons.math4.util.MathUtils;
  * multiple threads access an instance of this class concurrently, and at least
  * one of the threads invokes the <code>increment()</code> or
  * <code>clear()</code> method, it must be synchronized externally.</p>
- *
  */
 public class Min extends AbstractStorelessUnivariateStatistic implements Serializable {
 
     /** Serializable version identifier */
-    private static final long serialVersionUID = -2941995784909003131L;
+    private static final long serialVersionUID = 20150412L;
 
     /**Number of values that have been added */
     private long n;
@@ -51,7 +51,7 @@ public class Min extends AbstractStorelessUnivariateStatistic implements Seriali
     private double value;
 
     /**
-     * Create a Min instance
+     * Create a Min instance.
      */
     public Min() {
         n = 0;
@@ -60,7 +60,7 @@ public class Min extends AbstractStorelessUnivariateStatistic implements Seriali
 
     /**
      * Copy constructor, creates a new {@code Min} identical
-     * to the {@code original}
+     * to the {@code original}.
      *
      * @param original the {@code Min} instance to copy
      * @throws NullArgumentException if original is null
@@ -129,9 +129,10 @@ public class Min extends AbstractStorelessUnivariateStatistic implements Seriali
      */
     @Override
     public double evaluate(final double[] values,final int begin, final int length)
-    throws MathIllegalArgumentException {
+        throws MathIllegalArgumentException {
+
         double min = Double.NaN;
-        if (test(values, begin, length)) {
+        if (MathArrays.verifyValues(values, begin, length)) {
             min = values[begin];
             for (int i = begin; i < begin + length; i++) {
                 if (!Double.isNaN(values[i])) {
@@ -165,7 +166,6 @@ public class Min extends AbstractStorelessUnivariateStatistic implements Seriali
         throws NullArgumentException {
         MathUtils.checkNotNull(source);
         MathUtils.checkNotNull(dest);
-        dest.setData(source.getDataRef());
         dest.n = source.n;
         dest.value = source.value;
     }

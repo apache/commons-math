@@ -32,12 +32,11 @@ import org.apache.commons.math4.util.KthSelector;
  * multiple threads access an instance of this class concurrently, and at least
  * one of the threads invokes the <code>increment()</code> or
  * <code>clear()</code> method, it must be synchronized externally.</p>
- *
  */
 public class Median extends Percentile implements Serializable {
 
     /** Serializable version identifier */
-    private static final long serialVersionUID = -3961477041290915687L;
+    private static final long serialVersionUID = 20150412L;
 
     /** Fixed quantile. */
     private static final double FIXED_QUANTILE_50 = 50.0;

@@ -22,7 +22,6 @@ import org.apache.commons.math4.util.MathArrays;
 
 /**
  * Base interface implemented by all statistics.
- *
  */
 public interface UnivariateStatistic extends MathArrays.Function {
     /**

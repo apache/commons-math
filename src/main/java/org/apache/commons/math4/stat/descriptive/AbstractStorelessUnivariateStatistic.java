@@ -19,37 +19,34 @@ package org.apache.commons.math4.stat.descriptive;
 import org.apache.commons.math4.exception.MathIllegalArgumentException;
 import org.apache.commons.math4.exception.NullArgumentException;
 import org.apache.commons.math4.exception.util.LocalizedFormats;
+import org.apache.commons.math4.util.MathArrays;
 import org.apache.commons.math4.util.MathUtils;
 import org.apache.commons.math4.util.Precision;
 
 /**
- *
- * Abstract implementation of the {@link StorelessUnivariateStatistic} interface.
+ * Abstract base class for implementations of the
+ * {@link StorelessUnivariateStatistic} interface.
  * <p>
- * Provides default <code>evaluate()</code> and <code>incrementAll(double[])</code>
- * implementations.</p>
+ * Provides default {@code evaluate(double[],...)} and {@code incrementAll(double[])}
+ * implementations.
  * <p>
- * <strong>Note that these implementations are not synchronized.</strong></p>
- *
+ * <strong>Note that these implementations are not synchronized.</strong>
  */
 public abstract class AbstractStorelessUnivariateStatistic
-    extends AbstractUnivariateStatistic
     implements StorelessUnivariateStatistic {
 
     /**
-     * This default implementation calls {@link #clear}, then invokes
-     * {@link #increment} in a loop over the the input array, and then uses
-     * {@link #getResult} to compute the return value.
+     * This default implementation creates a copy of this {@link StorelessUnivariateStatistic}
+     * instance, calls {@link #clear} on it, then calls {@link #incrementAll} with the specified
+     * portion of the input array, and then uses {@link #getResult} to compute the return value.
      * <p>
-     * Note that this implementation changes the internal state of the
-     * statistic.  Its side effects are the same as invoking {@link #clear} and
-     * then {@link #incrementAll(double[])}.</p>
+     * Note that this implementation does not change the internal state of the statistic.
      * <p>
-     * Implementations may override this method with a more efficient and
-     * possibly more accurate implementation that works directly with the
-     * input array.</p>
+     * Implementations may override this method with a more efficient and possibly more
+     * accurate implementation that works directly with the input array.
      * <p>
-     * If the array is null, a MathIllegalArgumentException is thrown.</p>
+     * If the array is null, a MathIllegalArgumentException is thrown.
+     *
      * @param values input array
      * @return the value of the statistic applied to the input array
      * @throws MathIllegalArgumentException if values is null
@@ -64,20 +61,18 @@ public abstract class AbstractStorelessUnivariateStatistic
     }
 
     /**
-     * This default implementation calls {@link #clear}, then invokes
-     * {@link #increment} in a loop over the specified portion of the input
-     * array, and then uses {@link #getResult} to compute the return value.
+     * This default implementation creates a copy of this {@link StorelessUnivariateStatistic}
+     * instance, calls {@link #clear} on it, then calls {@link #incrementAll} with the specified
+     * portion of the input array, and then uses {@link #getResult} to compute the return value.
      * <p>
-     * Note that this implementation changes the internal state of the
-     * statistic.  Its side effects are the same as invoking {@link #clear} and
-     * then {@link #incrementAll(double[], int, int)}.</p>
+     * Note that this implementation does not change the internal state of the statistic.
      * <p>
-     * Implementations may override this method with a more efficient and
-     * possibly more accurate implementation that works directly with the
-     * input array.</p>
+     * Implementations may override this method with a more efficient and possibly more
+     * accurate implementation that works directly with the input array.
      * <p>
      * If the array is null or the index parameters are not valid, an
-     * MathIllegalArgumentException is thrown.</p>
+     * MathIllegalArgumentException is thrown.
+     *
      * @param values the input array
      * @param begin the index of the first element to include
      * @param length the number of elements to include
@@ -86,13 +81,16 @@ public abstract class AbstractStorelessUnivariateStatistic
      * @see org.apache.commons.math4.stat.descriptive.UnivariateStatistic#evaluate(double[], int, int)
      */
     @Override
-    public double evaluate(final double[] values, final int begin,
-            final int length) throws MathIllegalArgumentException {
-        if (test(values, begin, length)) {
-            clear();
-            incrementAll(values, begin, length);
+    public double evaluate(final double[] values, final int begin, final int length)
+        throws MathIllegalArgumentException {
+
+        if (MathArrays.verifyValues(values, begin, length)) {
+            final StorelessUnivariateStatistic stat = copy();
+            stat.clear();
+            stat.incrementAll(values, begin, length);
+            return stat.getResult();
         }
-        return getResult();
+        return Double.NaN;
     }
 
     /**
@@ -123,11 +121,11 @@ public abstract class AbstractStorelessUnivariateStatistic
      * This default implementation just calls {@link #increment} in a loop over
      * the input array.
      * <p>
-     * Throws IllegalArgumentException if the input values array is null.</p>
+     * Throws IllegalArgumentException if the input values array is null.
      *
      * @param values values to add
      * @throws MathIllegalArgumentException if values is null
-     * @see org.apache.commons.math4.stat.descriptive.StorelessUnivariateStatistic#incrementAll(double[])
+     * @see StorelessUnivariateStatistic#incrementAll(double[])
      */
     @Override
     public void incrementAll(double[] values) throws MathIllegalArgumentException {
@@ -141,17 +139,17 @@ public abstract class AbstractStorelessUnivariateStatistic
      * This default implementation just calls {@link #increment} in a loop over
      * the specified portion of the input array.
      * <p>
-     * Throws IllegalArgumentException if the input values array is null.</p>
+     * Throws IllegalArgumentException if the input values array is null.
      *
      * @param values  array holding values to add
      * @param begin   index of the first array element to add
      * @param length  number of array elements to add
      * @throws MathIllegalArgumentException if values is null
-     * @see org.apache.commons.math4.stat.descriptive.StorelessUnivariateStatistic#incrementAll(double[], int, int)
+     * @see StorelessUnivariateStatistic#incrementAll(double[], int, int)
      */
     @Override
     public void incrementAll(double[] values, int begin, int length) throws MathIllegalArgumentException {
-        if (test(values, begin, length)) {
+        if (MathArrays.verifyValues(values, begin, length)) {
             int k = begin + length;
             for (int i = begin; i < k; i++) {
                 increment(values[i]);
@@ -160,9 +158,11 @@ public abstract class AbstractStorelessUnivariateStatistic
     }
 
     /**
-     * Returns true iff <code>object</code> is an
-     * <code>AbstractStorelessUnivariateStatistic</code> returning the same
-     * values as this for <code>getResult()</code> and <code>getN()</code>
+     * Returns true iff <code>object</code> is the same type of
+     * {@link StorelessUnivariateStatistic} (the object's class equals this
+     * instance) returning the same values as this for <code>getResult()</code>
+     * and <code>getN()</code>.
+     *
      * @param object object to test equality against.
      * @return true if object returns the same value as this
      */
@@ -171,22 +171,22 @@ public abstract class AbstractStorelessUnivariateStatistic
         if (object == this ) {
             return true;
         }
-       if (object instanceof AbstractStorelessUnivariateStatistic == false) {
+        if (object == null || object.getClass() != this.getClass()) {
             return false;
         }
-        AbstractStorelessUnivariateStatistic stat = (AbstractStorelessUnivariateStatistic) object;
+        StorelessUnivariateStatistic stat = (StorelessUnivariateStatistic) object;
         return Precision.equalsIncludingNaN(stat.getResult(), this.getResult()) &&
                Precision.equalsIncludingNaN(stat.getN(), this.getN());
     }
 
     /**
-     * Returns hash code based on getResult() and getN()
+     * Returns hash code based on getResult() and getN().
      *
      * @return hash code
      */
     @Override
     public int hashCode() {
-        return 31* (31 + MathUtils.hash(getResult())) + MathUtils.hash(getN());
+        return 31 * (31 + MathUtils.hash(getResult())) + MathUtils.hash(getN());
     }
 
 }

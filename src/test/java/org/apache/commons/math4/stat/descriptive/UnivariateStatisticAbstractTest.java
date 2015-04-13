@@ -96,12 +96,9 @@ public abstract class UnivariateStatisticAbstractTest {
 
     @Test
     public void testEvaluation() {
-        Assert.assertEquals(
-            expectedValue(),
-            getUnivariateStatistic().evaluate(testArray),
-            getTolerance());
+        Assert.assertEquals(expectedValue(), getUnivariateStatistic().evaluate(testArray), getTolerance());
     }
-    
+
     @Test
     public void testEvaluateArraySegment() {
         final UnivariateStatistic stat = getUnivariateStatistic();
@@ -115,7 +112,7 @@ public abstract class UnivariateStatisticAbstractTest {
         System.arraycopy(testArray, testArray.length - 5, arrayEnd, 0, 5);
         Assert.assertEquals(stat.evaluate(arrayEnd), stat.evaluate(testArray, testArray.length - 5, 5), 0);
     }
-    
+
     @Test
     public void testEvaluateArraySegmentWeighted() {
         // See if this statistic computes weighted statistics
@@ -149,10 +146,7 @@ public abstract class UnivariateStatisticAbstractTest {
     public void testCopy() {
         UnivariateStatistic original = getUnivariateStatistic();
         UnivariateStatistic copy = original.copy();
-        Assert.assertEquals(
-                expectedValue(),
-                copy.evaluate(testArray),
-                getTolerance());
+        Assert.assertEquals(expectedValue(), copy.evaluate(testArray), getTolerance());
     }
 
     /**

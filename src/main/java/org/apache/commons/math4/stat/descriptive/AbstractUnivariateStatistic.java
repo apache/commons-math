@@ -24,22 +24,38 @@ import org.apache.commons.math4.exception.util.LocalizedFormats;
 import org.apache.commons.math4.util.MathArrays;
 
 /**
- * Abstract base class for all implementations of the
- * {@link UnivariateStatistic} interface.
+ * Abstract base class for implementations of the {@link UnivariateStatistic} interface.
  * <p>
  * Provides a default implementation of <code>evaluate(double[]),</code>
  * delegating to <code>evaluate(double[], int, int)</code> in the natural way.
- * </p>
- * <p>
- * Also includes a <code>test</code> method that performs generic parameter
- * validation for the <code>evaluate</code> methods.</p>
- *
  */
 public abstract class AbstractUnivariateStatistic
     implements UnivariateStatistic {
 
     /** Stored data. */
     private double[] storedData;
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public double evaluate(final double[] values) throws MathIllegalArgumentException {
+        MathArrays.verifyValues(values, 0, 0);
+        return evaluate(values, 0, values.length);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public abstract double evaluate(final double[] values, final int begin, final int length)
+        throws MathIllegalArgumentException;
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public abstract UnivariateStatistic copy();
 
     /**
      * Set the data array.
@@ -80,7 +96,7 @@ public abstract class AbstractUnivariateStatistic
      * @see #evaluate()
      */
     public void setData(final double[] values, final int begin, final int length)
-    throws MathIllegalArgumentException {
+            throws MathIllegalArgumentException {
         if (values == null) {
             throw new NullArgumentException(LocalizedFormats.INPUT_ARRAY);
         }
@@ -113,154 +129,4 @@ public abstract class AbstractUnivariateStatistic
         return evaluate(storedData);
     }
 
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public double evaluate(final double[] values) throws MathIllegalArgumentException {
-        test(values, 0, 0);
-        return evaluate(values, 0, values.length);
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public abstract double evaluate(final double[] values, final int begin, final int length)
-    throws MathIllegalArgumentException;
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public abstract UnivariateStatistic copy();
-
-    /**
-     * This method is used by <code>evaluate(double[], int, int)</code> methods
-     * to verify that the input parameters designate a subarray of positive length.
-     * <p>
-     * <ul>
-     * <li>returns <code>true</code> iff the parameters designate a subarray of
-     * positive length</li>
-     * <li>throws <code>MathIllegalArgumentException</code> if the array is null or
-     * or the indices are invalid</li>
-     * <li>returns <code>false</li> if the array is non-null, but
-     * <code>length</code> is 0.
-     * </ul></p>
-     *
-     * @param values the input array
-     * @param begin index of the first array element to include
-     * @param length the number of elements to include
-     * @return true if the parameters are valid and designate a subarray of positive length
-     * @throws MathIllegalArgumentException if the indices are invalid or the array is null
-     */
-    protected boolean test(
-        final double[] values,
-        final int begin,
-        final int length) throws MathIllegalArgumentException {
-        return MathArrays.verifyValues(values, begin, length, false);
-    }
-
-    /**
-     * This method is used by <code>evaluate(double[], int, int)</code> methods
-     * to verify that the input parameters designate a subarray of positive length.
-     * <p>
-     * <ul>
-     * <li>returns <code>true</code> iff the parameters designate a subarray of
-     * non-negative length</li>
-     * <li>throws <code>IllegalArgumentException</code> if the array is null or
-     * or the indices are invalid</li>
-     * <li>returns <code>false</li> if the array is non-null, but
-     * <code>length</code> is 0 unless <code>allowEmpty</code> is <code>true</code>
-     * </ul></p>
-     *
-     * @param values the input array
-     * @param begin index of the first array element to include
-     * @param length the number of elements to include
-     * @param allowEmpty if <code>true</code> then zero length arrays are allowed
-     * @return true if the parameters are valid
-     * @throws MathIllegalArgumentException if the indices are invalid or the array is null
-     * @since 3.0
-     */
-    protected boolean test(final double[] values, final int begin,
-            final int length, final boolean allowEmpty) throws MathIllegalArgumentException {
-        return MathArrays.verifyValues(values, begin, length, allowEmpty);
-    }
-
-    /**
-     * This method is used by <code>evaluate(double[], double[], int, int)</code> methods
-     * to verify that the begin and length parameters designate a subarray of positive length
-     * and the weights are all non-negative, non-NaN, finite, and not all zero.
-     * <p>
-     * <ul>
-     * <li>returns <code>true</code> iff the parameters designate a subarray of
-     * positive length and the weights array contains legitimate values.</li>
-     * <li>throws <code>IllegalArgumentException</code> if any of the following are true:
-     * <ul><li>the values array is null</li>
-     *     <li>the weights array is null</li>
-     *     <li>the weights array does not have the same length as the values array</li>
-     *     <li>the weights array contains one or more infinite values</li>
-     *     <li>the weights array contains one or more NaN values</li>
-     *     <li>the weights array contains negative values</li>
-     *     <li>the start and length arguments do not determine a valid array</li></ul>
-     * </li>
-     * <li>returns <code>false</li> if the array is non-null, but
-     * <code>length</code> is 0.
-     * </ul></p>
-     *
-     * @param values the input array
-     * @param weights the weights array
-     * @param begin index of the first array element to include
-     * @param length the number of elements to include
-     * @return true if the parameters are valid and designate a subarray of positive length
-     * @throws MathIllegalArgumentException if the indices are invalid or the array is null
-     * @since 2.1
-     */
-    protected boolean test(
-        final double[] values,
-        final double[] weights,
-        final int begin,
-        final int length) throws MathIllegalArgumentException {
-        return MathArrays.verifyValues(values, weights, begin, length, false);
-    }
-
-    /**
-     * This method is used by <code>evaluate(double[], double[], int, int)</code> methods
-     * to verify that the begin and length parameters designate a subarray of positive length
-     * and the weights are all non-negative, non-NaN, finite, and not all zero.
-     * <p>
-     * <ul>
-     * <li>returns <code>true</code> iff the parameters designate a subarray of
-     * non-negative length and the weights array contains legitimate values.</li>
-     * <li>throws <code>MathIllegalArgumentException</code> if any of the following are true:
-     * <ul><li>the values array is null</li>
-     *     <li>the weights array is null</li>
-     *     <li>the weights array does not have the same length as the values array</li>
-     *     <li>the weights array contains one or more infinite values</li>
-     *     <li>the weights array contains one or more NaN values</li>
-     *     <li>the weights array contains negative values</li>
-     *     <li>the start and length arguments do not determine a valid array</li></ul>
-     * </li>
-     * <li>returns <code>false</li> if the array is non-null, but
-     * <code>length</code> is 0 unless <code>allowEmpty</code> is <code>true</code>.
-     * </ul></p>
-     *
-     * @param values the input array.
-     * @param weights the weights array.
-     * @param begin index of the first array element to include.
-     * @param length the number of elements to include.
-     * @param allowEmpty if {@code true} than allow zero length arrays to pass.
-     * @return {@code true} if the parameters are valid.
-     * @throws NullArgumentException if either of the arrays are null
-     * @throws MathIllegalArgumentException if the array indices are not valid,
-     * the weights array contains NaN, infinite or negative elements, or there
-     * are no positive weights.
-     * @since 3.0
-     */
-    protected boolean test(final double[] values, final double[] weights,
-            final int begin, final int length, final boolean allowEmpty) throws MathIllegalArgumentException {
-
-        return MathArrays.verifyValues(values, weights, begin, length, allowEmpty);
-    }
 }
-

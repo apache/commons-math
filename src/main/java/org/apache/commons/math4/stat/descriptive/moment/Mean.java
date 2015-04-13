@@ -23,11 +23,12 @@ import org.apache.commons.math4.exception.NullArgumentException;
 import org.apache.commons.math4.stat.descriptive.AbstractStorelessUnivariateStatistic;
 import org.apache.commons.math4.stat.descriptive.WeightedEvaluation;
 import org.apache.commons.math4.stat.descriptive.summary.Sum;
+import org.apache.commons.math4.util.MathArrays;
 import org.apache.commons.math4.util.MathUtils;
 
 /**
- * <p>Computes the arithmetic mean of a set of values. Uses the definitional
- * formula:</p>
+ * Computes the arithmetic mean of a set of values. Uses the definitional
+ * formula:
  * <p>
  * mean = sum(x_i) / n
  * </p>
@@ -58,13 +59,12 @@ import org.apache.commons.math4.util.MathUtils;
  * multiple threads access an instance of this class concurrently, and at least
  * one of the threads invokes the <code>increment()</code> or
  * <code>clear()</code> method, it must be synchronized externally.
- *
  */
 public class Mean extends AbstractStorelessUnivariateStatistic
     implements Serializable, WeightedEvaluation {
 
     /** Serializable version identifier */
-    private static final long serialVersionUID = -1296043746617791564L;
+    private static final long serialVersionUID = 20150412L;
 
     /** First moment on which this statistic is based. */
     protected FirstMoment moment;
@@ -95,7 +95,7 @@ public class Mean extends AbstractStorelessUnivariateStatistic
 
     /**
      * Copy constructor, creates a new {@code Mean} identical
-     * to the {@code original}
+     * to the {@code original}.
      *
      * @param original the {@code Mean} instance to copy
      * @throws NullArgumentException if original is null
@@ -160,9 +160,10 @@ public class Mean extends AbstractStorelessUnivariateStatistic
      *  parameters are not valid
      */
     @Override
-    public double evaluate(final double[] values,final int begin, final int length)
-    throws MathIllegalArgumentException {
-        if (test(values, begin, length)) {
+    public double evaluate(final double[] values, final int begin, final int length)
+        throws MathIllegalArgumentException {
+
+        if (MathArrays.verifyValues(values, begin, length)) {
             Sum sum = new Sum();
             double sampleSize = length;
 
@@ -211,7 +212,7 @@ public class Mean extends AbstractStorelessUnivariateStatistic
     @Override
     public double evaluate(final double[] values, final double[] weights,
                            final int begin, final int length) throws MathIllegalArgumentException {
-        if (test(values, weights, begin, length)) {
+        if (MathArrays.verifyValues(values, weights, begin, length)) {
             Sum sum = new Sum();
 
             // Compute initial estimate using definitional formula
@@ -254,7 +255,7 @@ public class Mean extends AbstractStorelessUnivariateStatistic
      */
     @Override
     public double evaluate(final double[] values, final double[] weights)
-    throws MathIllegalArgumentException {
+        throws MathIllegalArgumentException {
         return evaluate(values, weights, 0, values.length);
     }
 
@@ -269,7 +270,6 @@ public class Mean extends AbstractStorelessUnivariateStatistic
         return result;
     }
 
-
     /**
      * Copies source to dest.
      * <p>Neither source nor dest can be null.</p>
@@ -282,7 +282,6 @@ public class Mean extends AbstractStorelessUnivariateStatistic
         throws NullArgumentException {
         MathUtils.checkNotNull(source);
         MathUtils.checkNotNull(dest);
-        dest.setData(source.getDataRef());
         dest.incMoment = source.incMoment;
         dest.moment = source.moment.copy();
     }

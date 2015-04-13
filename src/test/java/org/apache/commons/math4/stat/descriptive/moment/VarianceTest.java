@@ -74,7 +74,7 @@ public class VarianceTest extends StorelessUnivariateStatisticAbstractTest{
     public void testPopulation() {
         double[] values = {-1.0d, 3.1d, 4.0d, -2.1d, 22d, 11.7d, 3d, 14d};
         SecondMoment m = new SecondMoment();
-        m.evaluate(values);  // side effect is to add values
+        m.incrementAll(values);  // side effect is to add values
         Variance v1 = new Variance();
         v1.setBiasCorrected(false);
         Assert.assertEquals(populationVariance(values), v1.evaluate(values), 1E-14);
