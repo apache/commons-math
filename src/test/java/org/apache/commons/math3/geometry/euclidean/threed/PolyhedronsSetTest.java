@@ -394,9 +394,15 @@ public class PolyhedronsSetTest {
 
     @Test
     public void testFacet2Vertices() throws IOException, ParseException {
-        checkError(Arrays.asList(Vector3D.ZERO, Vector3D.PLUS_I, Vector3D.PLUS_J, Vector3D.PLUS_K),
-                   Arrays.asList(new int[] { 0, 1, 2 }, new int[] {2, 3}),
-                   LocalizedFormats.WRONG_NUMBER_OF_POINTS);
+        List<Vector3D> vertices = new ArrayList<Vector3D>();
+        vertices.add(Vector3D.ZERO);
+        vertices.add(Vector3D.PLUS_I);
+        vertices.add(Vector3D.PLUS_J);
+        vertices.add(Vector3D.PLUS_K);
+        List<int[]> facets = new ArrayList<int[]>();
+        facets.add(new int[] { 0, 1, 2 });
+        facets.add(new int[] {2, 3});
+        checkError(vertices, facets, LocalizedFormats.WRONG_NUMBER_OF_POINTS);
     }
 
     private void checkError(final String resourceName, final LocalizedFormats expected) {
