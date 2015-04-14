@@ -41,7 +41,6 @@ import org.apache.commons.math4.stat.descriptive.summary.SumOfSquares;
 /**
  * StatUtils provides static methods for computing statistics based on data
  * stored in double[] arrays.
- *
  */
 public final class StatUtils {
 
@@ -85,25 +84,21 @@ public final class StatUtils {
      * Returns the sum of the values in the input array, or
      * <code>Double.NaN</code> if the array is empty.
      * <p>
-     * Throws <code>IllegalArgumentException</code> if the input array
-     * is null.</p>
+     * Throws <code>IllegalArgumentException</code> if the input array is null.
      *
      * @param values  array of values to sum
-     * @return the sum of the values or <code>Double.NaN</code> if the array
-     * is empty
+     * @return the sum of the values or <code>Double.NaN</code> if the array is empty
      * @throws MathIllegalArgumentException if the array is null
      */
-    public static double sum(final double[] values)
-    throws MathIllegalArgumentException {
+    public static double sum(final double[] values) throws MathIllegalArgumentException {
         return SUM.evaluate(values);
     }
 
     /**
      * Returns the sum of the entries in the specified portion of
-     * the input array, or <code>Double.NaN</code> if the designated subarray
-     * is empty.
+     * the input array, or <code>Double.NaN</code> if the designated subarray is empty.
      * <p>
-     * Throws <code>IllegalArgumentException</code> if the array is null.</p>
+     * Throws <code>IllegalArgumentException</code> if the array is null.
      *
      * @param values the input array
      * @param begin index of the first array element to include
@@ -112,8 +107,8 @@ public final class StatUtils {
      * @throws MathIllegalArgumentException if the array is null or the array index
      *  parameters are not valid
      */
-    public static double sum(final double[] values, final int begin,
-            final int length) throws MathIllegalArgumentException {
+    public static double sum(final double[] values, final int begin, final int length)
+        throws MathIllegalArgumentException {
         return SUM.evaluate(values, begin, length);
     }
 
@@ -121,11 +116,10 @@ public final class StatUtils {
      * Returns the sum of the squares of the entries in the input array, or
      * <code>Double.NaN</code> if the array is empty.
      * <p>
-     * Throws <code>IllegalArgumentException</code> if the array is null.</p>
+     * Throws <code>IllegalArgumentException</code> if the array is null.
      *
      * @param values  input array
-     * @return the sum of the squared values or <code>Double.NaN</code> if the
-     * array is empty
+     * @return the sum of the squared values or <code>Double.NaN</code> if the array is empty
      * @throws MathIllegalArgumentException if the array is null
      */
     public static double sumSq(final double[] values) throws MathIllegalArgumentException {
@@ -137,17 +131,17 @@ public final class StatUtils {
      * the input array, or <code>Double.NaN</code> if the designated subarray
      * is empty.
      * <p>
-     * Throws <code>IllegalArgumentException</code> if the array is null.</p>
+     * Throws <code>IllegalArgumentException</code> if the array is null.
      *
      * @param values the input array
      * @param begin index of the first array element to include
      * @param length the number of elements to include
      * @return the sum of the squares of the values or Double.NaN if length = 0
      * @throws MathIllegalArgumentException if the array is null or the array index
-     * parameters are not valid
+     *  parameters are not valid
      */
-    public static double sumSq(final double[] values, final int begin,
-            final int length) throws MathIllegalArgumentException {
+    public static double sumSq(final double[] values, final int begin, final int length)
+        throws MathIllegalArgumentException {
         return SUM_OF_SQUARES.evaluate(values, begin, length);
     }
 
@@ -155,14 +149,13 @@ public final class StatUtils {
      * Returns the product of the entries in the input array, or
      * <code>Double.NaN</code> if the array is empty.
      * <p>
-     * Throws <code>IllegalArgumentException</code> if the array is null.</p>
+     * Throws <code>IllegalArgumentException</code> if the array is null.
      *
      * @param values the input array
      * @return the product of the values or Double.NaN if the array is empty
      * @throws MathIllegalArgumentException if the array is null
      */
-    public static double product(final double[] values)
-    throws MathIllegalArgumentException {
+    public static double product(final double[] values) throws MathIllegalArgumentException {
         return PRODUCT.evaluate(values);
     }
 
@@ -171,17 +164,17 @@ public final class StatUtils {
      * the input array, or <code>Double.NaN</code> if the designated subarray
      * is empty.
      * <p>
-     * Throws <code>IllegalArgumentException</code> if the array is null.</p>
+     * Throws <code>IllegalArgumentException</code> if the array is null.
      *
      * @param values the input array
      * @param begin index of the first array element to include
      * @param length the number of elements to include
      * @return the product of the values or Double.NaN if length = 0
      * @throws MathIllegalArgumentException if the array is null or the array index
-     * parameters are not valid
+     *  parameters are not valid
      */
-    public static double product(final double[] values, final int begin,
-            final int length) throws MathIllegalArgumentException {
+    public static double product(final double[] values, final int begin, final int length)
+        throws MathIllegalArgumentException {
         return PRODUCT.evaluate(values, begin, length);
     }
 
@@ -189,30 +182,25 @@ public final class StatUtils {
      * Returns the sum of the natural logs of the entries in the input array, or
      * <code>Double.NaN</code> if the array is empty.
      * <p>
-     * Throws <code>IllegalArgumentException</code> if the array is null.</p>
+     * Throws <code>IllegalArgumentException</code> if the array is null.
      * <p>
      * See {@link org.apache.commons.math4.stat.descriptive.summary.SumOfLogs}.
-     * </p>
      *
      * @param values the input array
-     * @return the sum of the natural logs of the values or Double.NaN if
-     * the array is empty
+     * @return the sum of the natural logs of the values or Double.NaN if the array is empty
      * @throws MathIllegalArgumentException if the array is null
      */
-    public static double sumLog(final double[] values)
-    throws MathIllegalArgumentException {
+    public static double sumLog(final double[] values) throws MathIllegalArgumentException {
         return SUM_OF_LOGS.evaluate(values);
     }
 
     /**
      * Returns the sum of the natural logs of the entries in the specified portion of
-     * the input array, or <code>Double.NaN</code> if the designated subarray
-     * is empty.
+     * the input array, or <code>Double.NaN</code> if the designated subarray is empty.
      * <p>
-     * Throws <code>IllegalArgumentException</code> if the array is null.</p>
+     * Throws <code>IllegalArgumentException</code> if the array is null.
      * <p>
      * See {@link org.apache.commons.math4.stat.descriptive.summary.SumOfLogs}.
-     * </p>
      *
      * @param values the input array
      * @param begin index of the first array element to include
@@ -222,8 +210,8 @@ public final class StatUtils {
      * @throws MathIllegalArgumentException if the array is null or the array index
      * parameters are not valid
      */
-    public static double sumLog(final double[] values, final int begin,
-            final int length) throws MathIllegalArgumentException {
+    public static double sumLog(final double[] values, final int begin, final int length)
+        throws MathIllegalArgumentException {
         return SUM_OF_LOGS.evaluate(values, begin, length);
     }
 
@@ -231,17 +219,16 @@ public final class StatUtils {
      * Returns the arithmetic mean of the entries in the input array, or
      * <code>Double.NaN</code> if the array is empty.
      * <p>
-     * Throws <code>IllegalArgumentException</code> if the array is null.</p>
+     * Throws <code>IllegalArgumentException</code> if the array is null.
      * <p>
      * See {@link org.apache.commons.math4.stat.descriptive.moment.Mean} for
-     * details on the computing algorithm.</p>
+     * details on the computing algorithm.
      *
      * @param values the input array
      * @return the mean of the values or Double.NaN if the array is empty
      * @throws MathIllegalArgumentException if the array is null
      */
-    public static double mean(final double[] values)
-    throws MathIllegalArgumentException {
+    public static double mean(final double[] values) throws MathIllegalArgumentException {
         return MEAN.evaluate(values);
     }
 
@@ -250,10 +237,10 @@ public final class StatUtils {
      * the input array, or <code>Double.NaN</code> if the designated subarray
      * is empty.
      * <p>
-     * Throws <code>IllegalArgumentException</code> if the array is null.</p>
+     * Throws <code>IllegalArgumentException</code> if the array is null.
      * <p>
-     * See {@link org.apache.commons.math4.stat.descriptive.moment.Mean} for
-     * details on the computing algorithm.</p>
+     * See {@link org.apache.commons.math4.stat.descriptive.moment.Mean Mean} for
+     * details on the computing algorithm.
      *
      * @param values the input array
      * @param begin index of the first array element to include
@@ -262,8 +249,8 @@ public final class StatUtils {
      * @throws MathIllegalArgumentException if the array is null or the array index
      * parameters are not valid
      */
-    public static double mean(final double[] values, final int begin,
-            final int length) throws MathIllegalArgumentException {
+    public static double mean(final double[] values, final int begin, final int length)
+        throws MathIllegalArgumentException {
         return MEAN.evaluate(values, begin, length);
     }
 
@@ -271,17 +258,16 @@ public final class StatUtils {
      * Returns the geometric mean of the entries in the input array, or
      * <code>Double.NaN</code> if the array is empty.
      * <p>
-     * Throws <code>IllegalArgumentException</code> if the array is null.</p>
+     * Throws <code>IllegalArgumentException</code> if the array is null.
      * <p>
-     * See {@link org.apache.commons.math4.stat.descriptive.moment.GeometricMean}
-     * for details on the computing algorithm.</p>
+     * See {@link org.apache.commons.math4.stat.descriptive.moment.GeometricMean GeometricMean}
+     * for details on the computing algorithm.
      *
      * @param values the input array
      * @return the geometric mean of the values or Double.NaN if the array is empty
      * @throws MathIllegalArgumentException if the array is null
      */
-    public static double geometricMean(final double[] values)
-    throws MathIllegalArgumentException {
+    public static double geometricMean(final double[] values) throws MathIllegalArgumentException {
         return GEOMETRIC_MEAN.evaluate(values);
     }
 
@@ -290,38 +276,37 @@ public final class StatUtils {
      * the input array, or <code>Double.NaN</code> if the designated subarray
      * is empty.
      * <p>
-     * Throws <code>IllegalArgumentException</code> if the array is null.</p>
+     * Throws <code>IllegalArgumentException</code> if the array is null.
      * <p>
-     * See {@link org.apache.commons.math4.stat.descriptive.moment.GeometricMean}
-     * for details on the computing algorithm.</p>
+     * See {@link org.apache.commons.math4.stat.descriptive.moment.GeometricMean GeometricMean}
+     * for details on the computing algorithm.
      *
      * @param values the input array
      * @param begin index of the first array element to include
      * @param length the number of elements to include
      * @return the geometric mean of the values or Double.NaN if length = 0
      * @throws MathIllegalArgumentException if the array is null or the array index
-     * parameters are not valid
+     *  parameters are not valid
      */
-    public static double geometricMean(final double[] values, final int begin,
-            final int length) throws MathIllegalArgumentException {
+    public static double geometricMean(final double[] values, final int begin, final int length)
+        throws MathIllegalArgumentException {
         return GEOMETRIC_MEAN.evaluate(values, begin, length);
     }
-
 
     /**
      * Returns the variance of the entries in the input array, or
      * <code>Double.NaN</code> if the array is empty.
-     *
-     * <p>This method returns the bias-corrected sample variance (using {@code n - 1} in
-     * the denominator).  Use {@link #populationVariance(double[])} for the non-bias-corrected
-     * population variance.</p>
      * <p>
-     * See {@link org.apache.commons.math4.stat.descriptive.moment.Variance} for
-     * details on the computing algorithm.</p>
+     * This method returns the bias-corrected sample variance (using {@code n - 1} in
+     * the denominator). Use {@link #populationVariance(double[])} for the non-bias-corrected
+     * population variance.
      * <p>
-     * Returns 0 for a single-value (i.e. length = 1) sample.</p>
+     * See {@link org.apache.commons.math4.stat.descriptive.moment.Variance Variance} for
+     * details on the computing algorithm.
      * <p>
-     * Throws <code>MathIllegalArgumentException</code> if the array is null.</p>
+     * Returns 0 for a single-value (i.e. length = 1) sample.
+     * <p>
+     * Throws <code>MathIllegalArgumentException</code> if the array is null.
      *
      * @param values the input array
      * @return the variance of the values or Double.NaN if the array is empty
@@ -335,18 +320,18 @@ public final class StatUtils {
      * Returns the variance of the entries in the specified portion of
      * the input array, or <code>Double.NaN</code> if the designated subarray
      * is empty.
-     *
-     * <p>This method returns the bias-corrected sample variance (using {@code n - 1} in
-     * the denominator).  Use {@link #populationVariance(double[], int, int)} for the non-bias-corrected
-     * population variance.</p>
      * <p>
-     * See {@link org.apache.commons.math4.stat.descriptive.moment.Variance} for
-     * details on the computing algorithm.</p>
+     * This method returns the bias-corrected sample variance (using {@code n - 1} in
+     * the denominator). Use {@link #populationVariance(double[], int, int)} for the non-bias-corrected
+     * population variance.
      * <p>
-     * Returns 0 for a single-value (i.e. length = 1) sample.</p>
+     * See {@link org.apache.commons.math4.stat.descriptive.moment.Variance Variance} for
+     * details on the computing algorithm.
+     * <p>
+     * Returns 0 for a single-value (i.e. length = 1) sample.
      * <p>
      * Throws <code>MathIllegalArgumentException</code> if the array is null or the
-     * array index parameters are not valid.</p>
+     * array index parameters are not valid.
      *
      * @param values the input array
      * @param begin index of the first array element to include
@@ -355,8 +340,8 @@ public final class StatUtils {
      * @throws MathIllegalArgumentException if the array is null or the array index
      *  parameters are not valid
      */
-    public static double variance(final double[] values, final int begin,
-            final int length) throws MathIllegalArgumentException {
+    public static double variance(final double[] values, final int begin, final int length)
+        throws MathIllegalArgumentException {
         return VARIANCE.evaluate(values, begin, length);
     }
 
@@ -364,23 +349,23 @@ public final class StatUtils {
      * Returns the variance of the entries in the specified portion of
      * the input array, using the precomputed mean value.  Returns
      * <code>Double.NaN</code> if the designated subarray is empty.
-     *
-     * <p>This method returns the bias-corrected sample variance (using {@code n - 1} in
-     * the denominator).  Use {@link #populationVariance(double[], double, int, int)} for the non-bias-corrected
-     * population variance.</p>
      * <p>
-     * See {@link org.apache.commons.math4.stat.descriptive.moment.Variance} for
-     * details on the computing algorithm.</p>
+     * This method returns the bias-corrected sample variance (using {@code n - 1} in
+     * the denominator). Use {@link #populationVariance(double[], double, int, int)} for
+     * the non-bias-corrected population variance.
+     * <p>
+     * See {@link org.apache.commons.math4.stat.descriptive.moment.Variance Variance} for
+     * details on the computing algorithm.
      * <p>
      * The formula used assumes that the supplied mean value is the arithmetic
      * mean of the sample data, not a known population parameter.  This method
      * is supplied only to save computation when the mean has already been
-     * computed.</p>
+     * computed.
      * <p>
-     * Returns 0 for a single-value (i.e. length = 1) sample.</p>
+     * Returns 0 for a single-value (i.e. length = 1) sample.
      * <p>
      * Throws <code>MathIllegalArgumentException</code> if the array is null or the
-     * array index parameters are not valid.</p>
+     * array index parameters are not valid.
      *
      * @param values the input array
      * @param mean the precomputed mean value
@@ -390,8 +375,8 @@ public final class StatUtils {
      * @throws MathIllegalArgumentException if the array is null or the array index
      *  parameters are not valid
      */
-    public static double variance(final double[] values, final double mean,
-            final int begin, final int length) throws MathIllegalArgumentException {
+    public static double variance(final double[] values, final double mean, final int begin, final int length)
+        throws MathIllegalArgumentException {
         return VARIANCE.evaluate(values, mean, begin, length);
     }
 
@@ -399,30 +384,29 @@ public final class StatUtils {
      * Returns the variance of the entries in the input array, using the
      * precomputed mean value.  Returns <code>Double.NaN</code> if the array
      * is empty.
-     *
-     * <p>This method returns the bias-corrected sample variance (using {@code n - 1} in
-     * the denominator).  Use {@link #populationVariance(double[], double)} for the non-bias-corrected
-     * population variance.</p>
      * <p>
-     * See {@link org.apache.commons.math4.stat.descriptive.moment.Variance} for
-     * details on the computing algorithm.</p>
+     * This method returns the bias-corrected sample variance (using {@code n - 1} in
+     * the denominator).  Use {@link #populationVariance(double[], double)} for the
+     * non-bias-corrected population variance.
+     * <p>
+     * See {@link org.apache.commons.math4.stat.descriptive.moment.Variance Variance} for
+     * details on the computing algorithm.
      * <p>
      * The formula used assumes that the supplied mean value is the arithmetic
      * mean of the sample data, not a known population parameter.  This method
      * is supplied only to save computation when the mean has already been
-     * computed.</p>
+     * computed.
      * <p>
-     * Returns 0 for a single-value (i.e. length = 1) sample.</p>
+     * Returns 0 for a single-value (i.e. length = 1) sample.
      * <p>
-     * Throws <code>MathIllegalArgumentException</code> if the array is null.</p>
+     * Throws <code>MathIllegalArgumentException</code> if the array is null.
      *
      * @param values the input array
      * @param mean the precomputed mean value
      * @return the variance of the values or Double.NaN if the array is empty
      * @throws MathIllegalArgumentException if the array is null
      */
-    public static double variance(final double[] values, final double mean)
-    throws MathIllegalArgumentException {
+    public static double variance(final double[] values, final double mean) throws MathIllegalArgumentException {
         return VARIANCE.evaluate(values, mean);
     }
 
@@ -431,19 +415,18 @@ public final class StatUtils {
      * population variance</a> of the entries in the input array, or
      * <code>Double.NaN</code> if the array is empty.
      * <p>
-     * See {@link org.apache.commons.math4.stat.descriptive.moment.Variance} for
-     * details on the formula and computing algorithm.</p>
+     * See {@link org.apache.commons.math4.stat.descriptive.moment.Variance Variance} for
+     * details on the formula and computing algorithm.
      * <p>
-     * Returns 0 for a single-value (i.e. length = 1) sample.</p>
+     * Returns 0 for a single-value (i.e. length = 1) sample.
      * <p>
-     * Throws <code>MathIllegalArgumentException</code> if the array is null.</p>
+     * Throws <code>MathIllegalArgumentException</code> if the array is null.
      *
      * @param values the input array
      * @return the population variance of the values or Double.NaN if the array is empty
      * @throws MathIllegalArgumentException if the array is null
      */
-    public static double populationVariance(final double[] values)
-    throws MathIllegalArgumentException {
+    public static double populationVariance(final double[] values) throws MathIllegalArgumentException {
         return new Variance(false).evaluate(values);
     }
 
@@ -453,13 +436,13 @@ public final class StatUtils {
      * the input array, or <code>Double.NaN</code> if the designated subarray
      * is empty.
      * <p>
-     * See {@link org.apache.commons.math4.stat.descriptive.moment.Variance} for
-     * details on the computing algorithm.</p>
+     * See {@link org.apache.commons.math4.stat.descriptive.moment.Variance Variance} for
+     * details on the computing algorithm.
      * <p>
-     * Returns 0 for a single-value (i.e. length = 1) sample.</p>
+     * Returns 0 for a single-value (i.e. length = 1) sample.
      * <p>
      * Throws <code>MathIllegalArgumentException</code> if the array is null or the
-     * array index parameters are not valid.</p>
+     * array index parameters are not valid.
      *
      * @param values the input array
      * @param begin index of the first array element to include
@@ -468,8 +451,8 @@ public final class StatUtils {
      * @throws MathIllegalArgumentException if the array is null or the array index
      *  parameters are not valid
      */
-    public static double populationVariance(final double[] values, final int begin,
-            final int length) throws MathIllegalArgumentException {
+    public static double populationVariance(final double[] values, final int begin, final int length)
+        throws MathIllegalArgumentException {
         return new Variance(false).evaluate(values, begin, length);
     }
 
@@ -479,18 +462,18 @@ public final class StatUtils {
      * the input array, using the precomputed mean value.  Returns
      * <code>Double.NaN</code> if the designated subarray is empty.
      * <p>
-     * See {@link org.apache.commons.math4.stat.descriptive.moment.Variance} for
-     * details on the computing algorithm.</p>
+     * See {@link org.apache.commons.math4.stat.descriptive.moment.Variance Variance} for
+     * details on the computing algorithm.
      * <p>
      * The formula used assumes that the supplied mean value is the arithmetic
      * mean of the sample data, not a known population parameter.  This method
      * is supplied only to save computation when the mean has already been
-     * computed.</p>
+     * computed.
      * <p>
-     * Returns 0 for a single-value (i.e. length = 1) sample.</p>
+     * Returns 0 for a single-value (i.e. length = 1) sample.
      * <p>
      * Throws <code>MathIllegalArgumentException</code> if the array is null or the
-     * array index parameters are not valid.</p>
+     * array index parameters are not valid.
      *
      * @param values the input array
      * @param mean the precomputed mean value
@@ -501,27 +484,26 @@ public final class StatUtils {
      *  parameters are not valid
      */
     public static double populationVariance(final double[] values, final double mean,
-            final int begin, final int length) throws MathIllegalArgumentException {
+                                            final int begin, final int length)
+        throws MathIllegalArgumentException {
         return new Variance(false).evaluate(values, mean, begin, length);
     }
 
     /**
      * Returns the <a href="http://en.wikibooks.org/wiki/Statistics/Summary/Variance">
-     * population variance</a> of the entries in the input array, using the
-     * precomputed mean value.  Returns <code>Double.NaN</code> if the array
-     * is empty.
+     * population variance</a> of the entries in the input array, using the precomputed
+     * mean value. Returns <code>Double.NaN</code> if the array is empty.
      * <p>
-     * See {@link org.apache.commons.math4.stat.descriptive.moment.Variance} for
-     * details on the computing algorithm.</p>
+     * See {@link org.apache.commons.math4.stat.descriptive.moment.Variance Variance} for
+     * details on the computing algorithm.
      * <p>
      * The formula used assumes that the supplied mean value is the arithmetic
-     * mean of the sample data, not a known population parameter.  This method
-     * is supplied only to save computation when the mean has already been
-     * computed.</p>
+     * mean of the sample data, not a known population parameter. This method is
+     * supplied only to save computation when the mean has already been computed.
      * <p>
-     * Returns 0 for a single-value (i.e. length = 1) sample.</p>
+     * Returns 0 for a single-value (i.e. length = 1) sample.
      * <p>
-     * Throws <code>MathIllegalArgumentException</code> if the array is null.</p>
+     * Throws <code>MathIllegalArgumentException</code> if the array is null.
      *
      * @param values the input array
      * @param mean the precomputed mean value
@@ -529,7 +511,7 @@ public final class StatUtils {
      * @throws MathIllegalArgumentException if the array is null
      */
     public static double populationVariance(final double[] values, final double mean)
-    throws MathIllegalArgumentException {
+        throws MathIllegalArgumentException {
         return new Variance(false).evaluate(values, mean);
     }
 
@@ -537,14 +519,14 @@ public final class StatUtils {
      * Returns the maximum of the entries in the input array, or
      * <code>Double.NaN</code> if the array is empty.
      * <p>
-     * Throws <code>MathIllegalArgumentException</code> if the array is null.</p>
+     * Throws <code>MathIllegalArgumentException</code> if the array is null.
      * <p>
      * <ul>
      * <li>The result is <code>NaN</code> iff all values are <code>NaN</code>
      * (i.e. <code>NaN</code> values have no impact on the value of the statistic).</li>
      * <li>If any of the values equals <code>Double.POSITIVE_INFINITY</code>,
      * the result is <code>Double.POSITIVE_INFINITY.</code></li>
-     * </ul></p>
+     * </ul>
      *
      * @param values the input array
      * @return the maximum of the values or Double.NaN if the array is empty
@@ -555,44 +537,43 @@ public final class StatUtils {
     }
 
     /**
-     * Returns the maximum of the entries in the specified portion of
-     * the input array, or <code>Double.NaN</code> if the designated subarray
-     * is empty.
+     * Returns the maximum of the entries in the specified portion of the input array,
+     * or <code>Double.NaN</code> if the designated subarray is empty.
      * <p>
      * Throws <code>MathIllegalArgumentException</code> if the array is null or
-     * the array index parameters are not valid.</p>
+     * the array index parameters are not valid.
      * <p>
      * <ul>
      * <li>The result is <code>NaN</code> iff all values are <code>NaN</code>
      * (i.e. <code>NaN</code> values have no impact on the value of the statistic).</li>
      * <li>If any of the values equals <code>Double.POSITIVE_INFINITY</code>,
      * the result is <code>Double.POSITIVE_INFINITY.</code></li>
-     * </ul></p>
+     * </ul>
      *
      * @param values the input array
      * @param begin index of the first array element to include
      * @param length the number of elements to include
      * @return the maximum of the values or Double.NaN if length = 0
      * @throws MathIllegalArgumentException if the array is null or the array index
-     * parameters are not valid
+     *  parameters are not valid
      */
-    public static double max(final double[] values, final int begin,
-            final int length) throws MathIllegalArgumentException {
+    public static double max(final double[] values, final int begin, final int length)
+        throws MathIllegalArgumentException {
         return MAX.evaluate(values, begin, length);
     }
 
-     /**
+    /**
      * Returns the minimum of the entries in the input array, or
      * <code>Double.NaN</code> if the array is empty.
      * <p>
-     * Throws <code>MathIllegalArgumentException</code> if the array is null.</p>
+     * Throws <code>MathIllegalArgumentException</code> if the array is null.
      * <p>
      * <ul>
      * <li>The result is <code>NaN</code> iff all values are <code>NaN</code>
      * (i.e. <code>NaN</code> values have no impact on the value of the statistic).</li>
      * <li>If any of the values equals <code>Double.NEGATIVE_INFINITY</code>,
      * the result is <code>Double.NEGATIVE_INFINITY.</code></li>
-     * </ul> </p>
+     * </ul>
      *
      * @param values the input array
      * @return the minimum of the values or Double.NaN if the array is empty
@@ -602,30 +583,29 @@ public final class StatUtils {
         return MIN.evaluate(values);
     }
 
-     /**
-     * Returns the minimum of the entries in the specified portion of
-     * the input array, or <code>Double.NaN</code> if the designated subarray
-     * is empty.
+    /**
+     * Returns the minimum of the entries in the specified portion of the input array,
+     * or <code>Double.NaN</code> if the designated subarray is empty.
      * <p>
      * Throws <code>MathIllegalArgumentException</code> if the array is null or
-     * the array index parameters are not valid.</p>
+     * the array index parameters are not valid.
      * <p>
      * <ul>
      * <li>The result is <code>NaN</code> iff all values are <code>NaN</code>
      * (i.e. <code>NaN</code> values have no impact on the value of the statistic).</li>
      * <li>If any of the values equals <code>Double.NEGATIVE_INFINITY</code>,
      * the result is <code>Double.NEGATIVE_INFINITY.</code></li>
-     * </ul></p>
+     * </ul>
      *
      * @param values the input array
      * @param begin index of the first array element to include
      * @param length the number of elements to include
      * @return the minimum of the values or Double.NaN if length = 0
      * @throws MathIllegalArgumentException if the array is null or the array index
-     * parameters are not valid
+     *  parameters are not valid
      */
-    public static double min(final double[] values, final int begin,
-            final int length) throws MathIllegalArgumentException {
+    public static double min(final double[] values, final int begin, final int length)
+        throws MathIllegalArgumentException {
         return MIN.evaluate(values, begin, length);
     }
 
@@ -635,29 +615,27 @@ public final class StatUtils {
      * <p>
      * <ul>
      * <li>Returns <code>Double.NaN</code> if <code>values</code> has length
-     * <code>0</code></li></p>
+     *  <code>0</code></li>
      * <li>Returns (for any value of <code>p</code>) <code>values[0]</code>
      *  if <code>values</code> has length <code>1</code></li>
      * <li>Throws <code>IllegalArgumentException</code> if <code>values</code>
-     * is null  or p is not a valid quantile value (p must be greater than 0
-     * and less than or equal to 100)</li>
-     * </ul></p>
+     *  is null  or p is not a valid quantile value (p must be greater than 0
+     *  and less than or equal to 100)</li>
+     * </ul>
      * <p>
-     * See {@link org.apache.commons.math4.stat.descriptive.rank.Percentile} for
-     * a description of the percentile estimation algorithm used.</p>
+     * See {@link org.apache.commons.math4.stat.descriptive.rank.Percentile Percentile}
+     * for a description of the percentile estimation algorithm used.
      *
      * @param values input array of values
      * @param p the percentile value to compute
      * @return the percentile value or Double.NaN if the array is empty
-     * @throws MathIllegalArgumentException if <code>values</code> is null
-     * or p is invalid
+     * @throws MathIllegalArgumentException if <code>values</code> is null or p is invalid
      */
-    public static double percentile(final double[] values, final double p)
-    throws MathIllegalArgumentException {
-            return PERCENTILE.evaluate(values,p);
+    public static double percentile(final double[] values, final double p) throws MathIllegalArgumentException {
+        return PERCENTILE.evaluate(values,p);
     }
 
-     /**
+    /**
      * Returns an estimate of the <code>p</code>th percentile of the values
      * in the <code>values</code> array, starting with the element in (0-based)
      * position <code>begin</code> in the array and including <code>length</code>
@@ -668,24 +646,23 @@ public final class StatUtils {
      * <li>Returns (for any value of <code>p</code>) <code>values[begin]</code>
      *  if <code>length = 1 </code></li>
      * <li>Throws <code>MathIllegalArgumentException</code> if <code>values</code>
-     *  is null , <code>begin</code> or <code>length</code> is invalid, or
-     * <code>p</code> is not a valid quantile value (p must be greater than 0
-     * and less than or equal to 100)</li>
-     * </ul></p>
+     *  is null, <code>begin</code> or <code>length</code> is invalid, or
+     *  <code>p</code> is not a valid quantile value (p must be greater than 0
+     *  and less than or equal to 100)</li>
+     * </ul>
      * <p>
-     * See {@link org.apache.commons.math4.stat.descriptive.rank.Percentile} for
-     * a description of the percentile estimation algorithm used.</p>
+     * See {@link org.apache.commons.math4.stat.descriptive.rank.Percentile Percentile}
+     * for a description of the percentile estimation algorithm used.
      *
      * @param values array of input values
-     * @param p  the percentile to compute
-     * @param begin  the first (0-based) element to include in the computation
-     * @param length  the number of array elements to include
-     * @return  the percentile value
-     * @throws MathIllegalArgumentException if the parameters are not valid or the
-     * input array is null
+     * @param p the percentile to compute
+     * @param begin the first (0-based) element to include in the computation
+     * @param length the number of array elements to include
+     * @return the percentile value
+     * @throws MathIllegalArgumentException if the parameters are not valid or the input array is null
      */
-    public static double percentile(final double[] values, final int begin,
-            final int length, final double p) throws MathIllegalArgumentException {
+    public static double percentile(final double[] values, final int begin, final int length, final double p)
+        throws MathIllegalArgumentException {
         return PERCENTILE.evaluate(values, begin, length, p);
     }
 
@@ -696,12 +673,12 @@ public final class StatUtils {
      * @param sample1  the first array
      * @param sample2  the second array
      * @return sum of paired differences
-     * @throws DimensionMismatchException if the arrays do not have the same
-     * (positive) length.
+     * @throws DimensionMismatchException if the arrays do not have the same (positive) length.
      * @throws NoDataException if the sample arrays are empty.
      */
     public static double sumDifference(final double[] sample1, final double[] sample2)
-    throws DimensionMismatchException, NoDataException {
+        throws DimensionMismatchException, NoDataException {
+
         int n = sample1.length;
         if (n != sample2.length) {
             throw new DimensionMismatchException(n, sample2.length);
@@ -723,12 +700,11 @@ public final class StatUtils {
      * @param sample1  the first array
      * @param sample2  the second array
      * @return mean of paired differences
-     * @throws DimensionMismatchException if the arrays do not have the same
-     * (positive) length.
+     * @throws DimensionMismatchException if the arrays do not have the same (positive) length.
      * @throws NoDataException if the sample arrays are empty.
      */
     public static double meanDifference(final double[] sample1, final double[] sample2)
-    throws DimensionMismatchException, NoDataException{
+        throws DimensionMismatchException, NoDataException {
         return sumDifference(sample1, sample2) / sample1.length;
     }
 
@@ -739,15 +715,14 @@ public final class StatUtils {
      * @param sample1  the first array
      * @param sample2  the second array
      * @param meanDifference   the mean difference between corresponding entries
-     * @see #meanDifference(double[],double[])
      * @return variance of paired differences
-     * @throws DimensionMismatchException if the arrays do not have the same
-     * length.
+     * @throws DimensionMismatchException if the arrays do not have the same length.
      * @throws NumberIsTooSmallException if the arrays length is less than 2.
+     * @see #meanDifference(double[],double[])
      */
-    public static double varianceDifference(final double[] sample1,
-            final double[] sample2, double meanDifference) throws DimensionMismatchException,
-            NumberIsTooSmallException {
+    public static double varianceDifference(final double[] sample1, final double[] sample2, double meanDifference)
+        throws DimensionMismatchException, NumberIsTooSmallException {
+
         double sum1 = 0d;
         double sum2 = 0d;
         double diff = 0d;
@@ -796,17 +771,20 @@ public final class StatUtils {
     }
 
     /**
-     * Returns the sample mode(s).  The mode is the most frequently occurring
-     * value in the sample. If there is a unique value with maximum frequency,
-     * this value is returned as the only element of the output array. Otherwise,
-     * the returned array contains the maximum frequency elements in increasing
-     * order.  For example, if {@code sample} is {0, 12, 5, 6, 0, 13, 5, 17},
+     * Returns the sample mode(s).
+     * <p>
+     * The mode is the most frequently occurring value in the sample.
+     * If there is a unique value with maximum frequency, this value is returned
+     * as the only element of the output array. Otherwise, the returned array
+     * contains the maximum frequency elements in increasing order.
+     * <p>
+     * For example, if {@code sample} is {0, 12, 5, 6, 0, 13, 5, 17},
      * the returned array will have length two, with 0 in the first element and
      * 5 in the second.
-     *
-     * <p>NaN values are ignored when computing the mode - i.e., NaNs will never
+     * <p>
+     * NaN values are ignored when computing the mode - i.e., NaNs will never
      * appear in the output array.  If the sample includes only NaNs or has
-     * length 0, an empty array is returned.</p>
+     * length 0, an empty array is returned.
      *
      * @param sample input data
      * @return array of array of the most frequently occurring element(s) sorted in ascending order.
@@ -821,22 +799,24 @@ public final class StatUtils {
     }
 
     /**
-     * Returns the sample mode(s).  The mode is the most frequently occurring
-     * value in the sample. If there is a unique value with maximum frequency,
-     * this value is returned as the only element of the output array. Otherwise,
-     * the returned array contains the maximum frequency elements in increasing
-     * order.  For example, if {@code sample} is {0, 12, 5, 6, 0, 13, 5, 17},
+     * Returns the sample mode(s).
+     * <p>
+     * The mode is the most frequently occurring value in the sample.
+     * If there is a unique value with maximum frequency, this value is returned
+     * as the only element of the output array. Otherwise, the returned array
+     * contains the maximum frequency elements in increasing order.
+     * <p>
+     * For example, if {@code sample} is {0, 12, 5, 6, 0, 13, 5, 17},
      * the returned array will have length two, with 0 in the first element and
      * 5 in the second.
-     *
-     * <p>NaN values are ignored when computing the mode - i.e., NaNs will never
+     * <p>
+     * NaN values are ignored when computing the mode - i.e., NaNs will never
      * appear in the output array.  If the sample includes only NaNs or has
-     * length 0, an empty array is returned.</p>
+     * length 0, an empty array is returned.
      *
      * @param sample input data
      * @param begin index (0-based) of the first array element to include
      * @param length the number of elements to include
-     *
      * @return array of array of the most frequently occurring element(s) sorted in ascending order.
      * @throws MathIllegalArgumentException if the indices are invalid or the array is null
      * @since 3.3

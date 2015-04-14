@@ -76,9 +76,7 @@ public class DescriptiveStatistics implements StatisticalSummary, Serializable {
     /** hold the window size **/
     private int windowSize = INFINITE_WINDOW;
 
-    /**
-     *  Stored data values
-     */
+    /** Stored data values. */
     private ResizableDoubleArray eDA = new ResizableDoubleArray();
 
     /** Mean statistic implementation - can be reset by setter. */
@@ -112,13 +110,13 @@ public class DescriptiveStatistics implements StatisticalSummary, Serializable {
     private UnivariateStatistic sumImpl = new Sum();
 
     /**
-     * Construct a DescriptiveStatistics instance with an infinite window
+     * Construct a DescriptiveStatistics instance with an infinite window.
      */
     public DescriptiveStatistics() {
     }
 
     /**
-     * Construct a DescriptiveStatistics instance with the specified window
+     * Construct a DescriptiveStatistics instance with the specified window.
      *
      * @param window the window size.
      * @throws MathIllegalArgumentException if window size is less than 1 but
@@ -538,7 +536,7 @@ public class DescriptiveStatistics implements StatisticalSummary, Serializable {
     }
 
     /**
-     * <p>Sets the implementation for the gemoetric mean.</p>
+     * Sets the implementation for the geometric mean.
      *
      * @param geometricMeanImpl the UnivariateStatistic instance to use
      * for computing the geometric mean
@@ -560,7 +558,7 @@ public class DescriptiveStatistics implements StatisticalSummary, Serializable {
     }
 
     /**
-     * <p>Sets the implementation for the kurtosis.</p>
+     * Sets the implementation for the kurtosis.
      *
      * @param kurtosisImpl the UnivariateStatistic instance to use
      * for computing the kurtosis
@@ -581,7 +579,7 @@ public class DescriptiveStatistics implements StatisticalSummary, Serializable {
     }
 
     /**
-     * <p>Sets the implementation for the maximum.</p>
+     * Sets the implementation for the maximum.
      *
      * @param maxImpl the UnivariateStatistic instance to use
      * for computing the maximum
@@ -602,7 +600,7 @@ public class DescriptiveStatistics implements StatisticalSummary, Serializable {
     }
 
     /**
-     * <p>Sets the implementation for the minimum.</p>
+     * Sets the implementation for the minimum.
      *
      * @param minImpl the UnivariateStatistic instance to use
      * for computing the minimum
@@ -664,7 +662,7 @@ public class DescriptiveStatistics implements StatisticalSummary, Serializable {
     }
 
     /**
-     * <p>Sets the implementation for the skewness.</p>
+     * Sets the implementation for the skewness.
      *
      * @param skewnessImpl the UnivariateStatistic instance to use
      * for computing the skewness
@@ -686,7 +684,7 @@ public class DescriptiveStatistics implements StatisticalSummary, Serializable {
     }
 
     /**
-     * <p>Sets the implementation for the variance.</p>
+     * Sets the implementation for the variance.
      *
      * @param varianceImpl the UnivariateStatistic instance to use
      * for computing the variance
@@ -708,7 +706,7 @@ public class DescriptiveStatistics implements StatisticalSummary, Serializable {
     }
 
     /**
-     * <p>Sets the implementation for the sum of squares.</p>
+     * Sets the implementation for the sum of squares.
      *
      * @param sumsqImpl the UnivariateStatistic instance to use
      * for computing the sum of squares
@@ -729,7 +727,7 @@ public class DescriptiveStatistics implements StatisticalSummary, Serializable {
     }
 
     /**
-     * <p>Sets the implementation for the sum.</p>
+     * Sets the implementation for the sum.
      *
      * @param sumImpl the UnivariateStatistic instance to use
      * for computing the sum
