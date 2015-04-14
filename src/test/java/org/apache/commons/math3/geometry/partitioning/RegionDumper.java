@@ -204,13 +204,11 @@ public class RegionDumper {
         protected abstract void formatHyperplane(Hyperplane<S> hyperplane);
 
         /** {@inheritDoc} */
-        @Override
         public Order visitOrder(final BSPTree<S> node) {
             return Order.SUB_MINUS_PLUS;
         }
 
         /** {@inheritDoc} */
-        @Override
         public void visitInternalNode(final BSPTree<S> node) {
             formatter.format("%s %s internal ", prefix, type(node));
             formatHyperplane(node.getCut().getHyperplane());
@@ -219,7 +217,6 @@ public class RegionDumper {
         }
 
         /** {@inheritDoc} */
-        @Override
         public void visitLeafNode(final BSPTree<S> node) {
             formatter.format("%s %s leaf %s%n",
                              prefix, type(node), node.getAttribute());
