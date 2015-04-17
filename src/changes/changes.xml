@@ -79,14 +79,6 @@ If the output is not quite correct, check for invisible trailing spaces!
         Methods "evaluate(...)" of class "Variance" changed the internal state
         although it was stated differently in the javadoc.
       </action>
-      <action dev="luc" type="fix" issue="MATH-1195">
-        Moved FastMathTestPerformance out of the main test tree, as is is
-        a benchmark rather than a test.
-      </action>    
-      <action dev="luc" type="add">
-        Added a way to build polyhedrons sets from a list of vertices and
-        facets specified using vertices indices.
-      </action>    
       <action dev="luc" type="fix" issue="MATH-1191">
         Fixed ignored method parameters in QRDecomposition protected methods.
       </action>    
@@ -103,20 +95,11 @@ If the output is not quite correct, check for invisible trailing spaces!
         "QRDecomposition": include information about the condition that
         triggers a "SingularMatrixException".
       </action>
-      <action dev="tn" type="fix" issue="MATH-1209" due-to="Jonathan Ogilvie">
-        Fixed link to algorithm description in "PoissonDistribution#sample()".
-      </action>
       <action dev="tn" type="update" issue="MATH-757">
         Removed broken synchronization support in "ResizableDoubleArray".
       </action>
       <action dev="tn" type="add" issue="MATH-945">
         Added method "T log10()" to interface "RealFieldElement".
-      </action>
-      <action dev="psteitz" type="fix" issue="MATH-1208">
-         EmpiricalDistribution cumulativeProbability can return NaN when evaluated within a constant bin.
-      </action>
-      <action dev="psteitz" type="fix" issue="MATH-1203">
-        EmpiricalDistribution getKernel fails for buckets with only multiple instances of the same value.
       </action>
       <action dev="tn" type="update" issue="MATH-869">
         "SpearmansCorrelation" will now throw an "MathIllegalArgumentException"
@@ -141,10 +124,6 @@ If the output is not quite correct, check for invisible trailing spaces!
         in a static instance. This reduces the initialization cost when
         creating a new instance.
       </action>
-      <action dev="evanward" type="fix" issue="MATH-1204">
-        "UnivariateSolverUtils#bracket(...)" sometimes failed to bracket
-        if a reached the lower bound.
-      </action>
       <action dev="tn" type="remove" issue="MATH-1050">
         Removed "ArithmeticUtils#pow(int, long)" and "ArithmeticUtils#pow(long, long)".
       </action>
@@ -153,6 +132,67 @@ If the output is not quite correct, check for invisible trailing spaces!
       </action>
       <action dev="tn" type="update" issue="MATH-760" due-to="sebb">
         Field "windowSize" in "DescriptiveStatistics" has been made private.
+      </action>
+    </release>
+
+    <release version="3.5" date="2015-04-17" description="
+This is a minor release: It combines bug fixes and new features.
+ Changes to existing features were made in a backwards-compatible
+ way such as to allow drop-in replacement of the v3.4.1 JAR file.
+  
+Most notable among the new features are:
+ getQuadraticMean method added to DescriptiveStatistics SummaryStatistics
+ which calculates the root mean square, and a way to build polyhedrons sets
+ from list of vertices and the facets they belong too. There have been
+ numerous bug fixes. See below for a full list.
+  
+The minimum version of the Java platform required to compile and use
+ Apache Commons Math is Java 5.
+  
+Users are encouraged to upgrade to this version as this release not
+ only includes bug fixes but also deprecates numerous classes and
+ methods that will be deleted from the next major release (4.0).
+  
+  Caveat:
+  1. The implementation of the BOBYQA optimization algorithm is in alpha
+  state (cf. MATH-621): Many code paths are untested, and we are looking
+  for volunteers to improve the code readability, robustness and performance
+  and to extend the unit tests suite.
+  2. A few methods in the FastMath class are in fact slower that their
+  counterpart in either Math or StrictMath (cf. MATH-740 and MATH-901).
+">
+      <action dev="luc" type="fix" issue="MATH-1195">
+        Moved FastMathTestPerformance out of the main test tree, as is is
+        a benchmark rather than a test.
+      </action>    
+      <action dev="luc" type="add">
+        Added a way to build polyhedrons sets from a list of vertices and
+        facets specified using vertices indices.
+      </action>    
+      <action dev="psteitz" type="update" issue="MATH-1213">
+        Added Laguerre complex solve methods taking maxEval parameters.
+      </action>
+      <action dev="luc" type="fix" issue="MATH-1191">
+        Fixed ignored method parameters in QRDecomposition protected methods.
+      </action>    
+      <action dev="luc" type="fix" issue="MATH-1211" due-to="Mike Zimmerman">
+        Fixed wrong selection of line/polyhedron intersection point.
+      </action>    
+      <action dev="luc" type="fix" issue="MATH-1162">
+        Improved fix for corner cases in BSP-tree merging, when cut sub-hyperplanes vanish.
+      </action>    
+      <action dev="tn" type="fix" issue="MATH-1209" due-to="Jonathan Ogilvie">
+        Fixed link to algorithm description in "PoissonDistribution#sample()".
+      </action>    
+      <action dev="psteitz" type="fix" issue="MATH-1208">
+        EmpiricalDistribution cumulativeProbability can return NaN when evaluated within a constant bin.
+      </action>
+      <action dev="psteitz" type="fix" issue="MATH-1203">
+        EmpiricalDistribution getKernel fails for buckets with only multiple instances of the same value.
+      </action>
+      <action dev="evanward" type="fix" issue="MATH-1204">
+        "UnivariateSolverUtils#bracket(...)" sometimes failed to bracket
+        if a reached the lower bound.
       </action>
       <action dev="sebb" type="add" issue="MATH-1198">
         Simplified "FastMath#exp(double)" in order to avoid a potential
