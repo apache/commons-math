@@ -17,6 +17,7 @@
 package org.apache.commons.math4.stat.correlation;
 
 import org.apache.commons.math4.TestUtils;
+import org.apache.commons.math4.exception.MathIllegalArgumentException;
 import org.apache.commons.math4.exception.NotStrictlyPositiveException;
 import org.apache.commons.math4.linear.Array2DRowRealMatrix;
 import org.apache.commons.math4.linear.RealMatrix;
@@ -183,8 +184,8 @@ public class CovarianceTest {
         double[] two = new double[] {2};
         try {
             new Covariance().covariance(one, two, false);
-            Assert.fail("Expecting IllegalArgumentException");
-        } catch (IllegalArgumentException ex) {
+            Assert.fail("Expecting MathIllegalArgumentException");
+        } catch (MathIllegalArgumentException ex) {
             // Expected
         }
         try {

@@ -16,6 +16,7 @@
  */
 package org.apache.commons.math4.stat.regression;
 
+import org.apache.commons.math4.exception.MathIllegalArgumentException;
 import org.apache.commons.math4.exception.NullArgumentException;
 import org.apache.commons.math4.linear.RealMatrix;
 import org.apache.commons.math4.linear.RealVector;
@@ -65,7 +66,7 @@ public abstract class MultipleLinearRegressionAbstractTest {
             Assert.assertTrue(variance > 0.0);
         }
     }
-    
+
     /**
      * Verifies that newSampleData methods consistently insert unitary columns
      * in design matrix.  Confirms the fix for MATH-411.
@@ -78,12 +79,12 @@ public abstract class MultipleLinearRegressionAbstractTest {
           3, 25, 35, 45,
           4, 27, 37, 47
         };
-        double[] y = new double[] {1, 2, 3, 4}; 
+        double[] y = new double[] {1, 2, 3, 4};
         double[][] x = new double[][] {
           {19, 22, 33},
           {20, 30, 40},
           {25, 35, 45},
-          {27, 37, 47}   
+          {27, 37, 47}
         };
         AbstractMultipleLinearRegression regression = createRegression();
         regression.newSampleData(design, 4, 3);
@@ -93,7 +94,7 @@ public abstract class MultipleLinearRegressionAbstractTest {
         regression.newYSampleData(y);
         Assert.assertEquals(flatX, regression.getX());
         Assert.assertEquals(flatY, regression.getY());
-        
+
         // No intercept
         regression.setNoIntercept(true);
         regression.newSampleData(design, 4, 3);
@@ -104,30 +105,30 @@ public abstract class MultipleLinearRegressionAbstractTest {
         Assert.assertEquals(flatX, regression.getX());
         Assert.assertEquals(flatY, regression.getY());
     }
-    
+
     @Test(expected=NullArgumentException.class)
     public void testNewSampleNullData() {
         double[] data = null;
-        createRegression().newSampleData(data, 2, 3); 
+        createRegression().newSampleData(data, 2, 3);
     }
-    
-    @Test(expected=IllegalArgumentException.class)
+
+    @Test(expected=MathIllegalArgumentException.class)
     public void testNewSampleInvalidData() {
         double[] data = new double[] {1, 2, 3, 4};
         createRegression().newSampleData(data, 2, 3);
     }
-    
-    @Test(expected=IllegalArgumentException.class)
+
+    @Test(expected=MathIllegalArgumentException.class)
     public void testNewSampleInsufficientData() {
         double[] data = new double[] {1, 2, 3, 4};
         createRegression().newSampleData(data, 1, 3);
     }
-    
+
     @Test(expected=NullArgumentException.class)
     public void testXSampleDataNull() {
         createRegression().newXSampleData(null);
     }
-    
+
     @Test(expected=NullArgumentException.class)
     public void testYSampleDataNull() {
         createRegression().newYSampleData(null);

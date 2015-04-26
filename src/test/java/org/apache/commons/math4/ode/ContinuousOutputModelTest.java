@@ -98,11 +98,13 @@ public class ContinuousOutputModelTest {
       // theoretical solution: y[0] = cos(t), y[1] = sin(t)
       FirstOrderDifferentialEquations problem =
           new FirstOrderDifferentialEquations() {
-              public void computeDerivatives(double t, double[] y, double[] dot) {
+              @Override
+            public void computeDerivatives(double t, double[] y, double[] dot) {
                   dot[0] = -y[1];
                   dot[1] =  y[0];
               }
-              public int getDimension() {
+              @Override
+            public int getDimension() {
                   return 2;
               }
           };
@@ -169,7 +171,7 @@ public class ContinuousOutputModelTest {
           ContinuousOutputModel otherCm = new ContinuousOutputModel();
           otherCm.handleStep(buildInterpolator(t0, y0, t1), true);
           cm.append(otherCm);
-      } catch(IllegalArgumentException iae) {
+      } catch(MathIllegalArgumentException iae) {
           return true; // there was an allowable error
       }
       return false; // no allowable error

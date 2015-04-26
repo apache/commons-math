@@ -46,6 +46,20 @@ public class MathRuntimeException extends RuntimeException
         context.addMessage(pattern, args);
     }
 
+    /**
+     * @param cause Root cause.
+     * @param pattern Message pattern explaining the cause of the error.
+     * @param args Arguments.
+     * @since 4.0
+     */
+    public MathRuntimeException(Throwable cause,
+                                Localizable pattern,
+                                Object ... args) {
+        super(cause);
+        context = new ExceptionContext(this);
+        context.addMessage(pattern, args);
+    }
+
     /** {@inheritDoc} */
     @Override
     public ExceptionContext getContext() {

@@ -22,6 +22,7 @@ import org.apache.commons.math4.analysis.interpolation.FieldHermiteInterpolator;
 import org.apache.commons.math4.analysis.polynomials.PolynomialFunction;
 import org.apache.commons.math4.dfp.Dfp;
 import org.apache.commons.math4.dfp.DfpField;
+import org.apache.commons.math4.exception.MathIllegalArgumentException;
 import org.apache.commons.math4.exception.NoDataException;
 import org.apache.commons.math4.fraction.BigFraction;
 import org.apache.commons.math4.util.FastMath;
@@ -265,7 +266,7 @@ public class FieldHermiteInterpolatorTest {
         new FieldHermiteInterpolator<BigFraction>().derivatives(BigFraction.ZERO, 1);
     }
 
-    @Test(expected=IllegalArgumentException.class)
+    @Test(expected=MathIllegalArgumentException.class)
     public void testDuplicatedAbscissa() {
         FieldHermiteInterpolator<BigFraction> interpolator = new FieldHermiteInterpolator<BigFraction>();
         interpolator.addSamplePoint(new BigFraction(1), new BigFraction[] { new BigFraction(0) });

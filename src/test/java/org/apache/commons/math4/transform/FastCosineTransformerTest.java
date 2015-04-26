@@ -22,6 +22,7 @@ import java.util.Collection;
 import org.apache.commons.math4.analysis.UnivariateFunction;
 import org.apache.commons.math4.analysis.function.Sin;
 import org.apache.commons.math4.analysis.function.Sinc;
+import org.apache.commons.math4.exception.MathIllegalArgumentException;
 import org.apache.commons.math4.exception.MathIllegalStateException;
 import org.apache.commons.math4.transform.DctNormalization;
 import org.apache.commons.math4.transform.FastCosineTransformer;
@@ -46,7 +47,7 @@ import org.junit.runners.Parameterized.Parameters;
 public final class FastCosineTransformerTest
     extends RealTransformerAbstractTest {
 
-    private DctNormalization normalization;
+    private final DctNormalization normalization;
 
     private final int[] invalidDataSize;
 
@@ -229,24 +230,22 @@ public final class FastCosineTransformerTest
         try {
             // bad interval
             transformer.transform(f, 1, -1, 65, TransformType.FORWARD);
-            Assert.fail("Expecting IllegalArgumentException - bad interval");
-        } catch (IllegalArgumentException ex) {
+            Assert.fail("Expecting MathIllegalArgumentException - bad interval");
+        } catch (MathIllegalArgumentException ex) {
             // expected
         }
         try {
             // bad samples number
             transformer.transform(f, -1, 1, 1, TransformType.FORWARD);
-            Assert
-                .fail("Expecting IllegalArgumentException - bad samples number");
-        } catch (IllegalArgumentException ex) {
+            Assert.fail("Expecting MathIllegalArgumentException - bad samples number");
+        } catch (MathIllegalArgumentException ex) {
             // expected
         }
         try {
             // bad samples number
             transformer.transform(f, -1, 1, 64, TransformType.FORWARD);
-            Assert
-                .fail("Expecting IllegalArgumentException - bad samples number");
-        } catch (IllegalArgumentException ex) {
+            Assert.fail("Expecting MathIllegalArgumentException - bad samples number");
+        } catch (MathIllegalArgumentException ex) {
             // expected
         }
     }

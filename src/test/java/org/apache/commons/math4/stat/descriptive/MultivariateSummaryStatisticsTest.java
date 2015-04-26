@@ -21,6 +21,7 @@ import java.util.Locale;
 
 import org.apache.commons.math4.TestUtils;
 import org.apache.commons.math4.exception.DimensionMismatchException;
+import org.apache.commons.math4.exception.MathIllegalStateException;
 import org.apache.commons.math4.stat.descriptive.MultivariateSummaryStatistics;
 import org.apache.commons.math4.stat.descriptive.StorelessUnivariateStatistic;
 import org.apache.commons.math4.stat.descriptive.moment.Mean;
@@ -71,11 +72,9 @@ public class MultivariateSummaryStatisticsTest {
         u.addValue(new double[] { 1, 2 });
         u.addValue(new double[] { 3, 4 });
         try {
-            u.setMeanImpl(new StorelessUnivariateStatistic[] {
-                            new sumMean(), new sumMean()
-                          });
-            Assert.fail("Expecting IllegalStateException");
-        } catch (IllegalStateException ex) {
+            u.setMeanImpl(new StorelessUnivariateStatistic[] { new sumMean(), new sumMean() });
+            Assert.fail("Expecting MathIllegalStateException");
+        } catch (MathIllegalStateException ex) {
             // expected
         }
     }

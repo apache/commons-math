@@ -17,6 +17,7 @@
 package org.apache.commons.math4.genetics;
 
 
+import org.apache.commons.math4.exception.MathIllegalArgumentException;
 import org.apache.commons.math4.genetics.BinaryChromosome;
 import org.apache.commons.math4.genetics.Chromosome;
 import org.junit.Assert;
@@ -35,7 +36,7 @@ public class BinaryChromosomeTest {
             try {
                 new DummyBinaryChromosome(repr);
                 Assert.fail("Exception not caught");
-            } catch (IllegalArgumentException e) {
+            } catch (MathIllegalArgumentException e) {
                 // Expected
             }
         }

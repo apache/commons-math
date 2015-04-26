@@ -33,8 +33,7 @@ public class ModelSpecificationException extends MathIllegalArgumentException {
      *
      * @param args arguments.
      */
-    public ModelSpecificationException(Localizable pattern,
-                                        Object ... args) {
+    public ModelSpecificationException(Localizable pattern, Object ... args) {
         super(pattern, args);
     }
 }

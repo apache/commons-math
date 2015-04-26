@@ -18,6 +18,7 @@ package org.apache.commons.math4.util;
 
 import org.apache.commons.math4.distribution.IntegerDistribution;
 import org.apache.commons.math4.distribution.UniformIntegerDistribution;
+import org.apache.commons.math4.exception.MathIllegalArgumentException;
 import org.apache.commons.math4.exception.NullArgumentException;
 import org.apache.commons.math4.util.ResizableDoubleArray.ExpansionMode;
 import org.junit.After;
@@ -57,15 +58,15 @@ public class ResizableDoubleArrayTest extends DoubleArrayAbstractTest {
         Assert.assertEquals(defaultMode, testDa.getExpansionMode());
         try {
             da = new ResizableDoubleArray(-1);
-            Assert.fail("Expecting IllegalArgumentException");
-        } catch (IllegalArgumentException ex) {
+            Assert.fail("Expecting MathIllegalArgumentException");
+        } catch (MathIllegalArgumentException ex) {
             // expected
         }
 
         testDa = new ResizableDoubleArray((double[]) null);
         Assert.assertEquals(0, testDa.getNumElements());
 
-        double[] initialArray = new double[] { 0, 1, 2 };        
+        double[] initialArray = new double[] { 0, 1, 2 };
         testDa = new ResizableDoubleArray(initialArray);
         Assert.assertEquals(3, testDa.getNumElements());
 
@@ -78,8 +79,8 @@ public class ResizableDoubleArrayTest extends DoubleArrayAbstractTest {
 
         try {
             da = new ResizableDoubleArray(2, 0.5);
-            Assert.fail("Expecting IllegalArgumentException");
-        } catch (IllegalArgumentException ex) {
+            Assert.fail("Expecting MathIllegalArgumentException");
+        } catch (MathIllegalArgumentException ex) {
             // expected
         }
 
@@ -96,8 +97,8 @@ public class ResizableDoubleArrayTest extends DoubleArrayAbstractTest {
 
         try {
             da = new ResizableDoubleArray(2, 2.0, 1.5);
-            Assert.fail("Expecting IllegalArgumentException");
-        } catch (IllegalArgumentException ex) {
+            Assert.fail("Expecting MathIllegalArgumentException");
+        } catch (MathIllegalArgumentException ex) {
             // expected
         }
 
@@ -194,24 +195,24 @@ public class ResizableDoubleArrayTest extends DoubleArrayAbstractTest {
                 "16 and an expansion factor of 2.0",
                 1024, ((ResizableDoubleArray) da).getCapacity());
     }
-    
+
     @Test
     public void testAddElements() {
         ResizableDoubleArray testDa = new ResizableDoubleArray();
-        
+
         // MULTIPLICATIVE_MODE
         testDa.addElements(new double[] {4, 5, 6});
         Assert.assertEquals(3, testDa.getNumElements(), 0);
         Assert.assertEquals(4, testDa.getElement(0), 0);
         Assert.assertEquals(5, testDa.getElement(1), 0);
         Assert.assertEquals(6, testDa.getElement(2), 0);
-        
+
         testDa.addElements(new double[] {4, 5, 6});
         Assert.assertEquals(6, testDa.getNumElements());
 
         // ADDITIVE_MODE  (x's are occupied storage locations, 0's are open)
         testDa = new ResizableDoubleArray(2, 2.0, 2.5,
-                                          ResizableDoubleArray.ExpansionMode.ADDITIVE);        
+                                          ResizableDoubleArray.ExpansionMode.ADDITIVE);
         Assert.assertEquals(2, testDa.getCapacity());
         testDa.addElements(new double[] { 1d }); // x,0
         testDa.addElements(new double[] { 2d }); // x,x
@@ -298,7 +299,7 @@ public class ResizableDoubleArrayTest extends DoubleArrayAbstractTest {
         try {
             ((ResizableDoubleArray) da).setNumElements( -3 );
             Assert.fail( "Setting number of elements to negative should've thrown an exception");
-        } catch( IllegalArgumentException iae ) {
+        } catch(MathIllegalArgumentException iae) {
         }
 
         ((ResizableDoubleArray) da).setNumElements(1024);

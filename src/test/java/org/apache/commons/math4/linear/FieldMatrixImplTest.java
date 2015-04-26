@@ -193,9 +193,9 @@ public final class FieldMatrixImplTest {
 
     //Additional Test for Array2DRowFieldMatrix<Fraction>Test.testMultiply
 
-    private Fraction[][] d3 = new Fraction[][] {{new Fraction(1),new Fraction(2),new Fraction(3),new Fraction(4)},{new Fraction(5),new Fraction(6),new Fraction(7),new Fraction(8)}};
-    private Fraction[][] d4 = new Fraction[][] {{new Fraction(1)},{new Fraction(2)},{new Fraction(3)},{new Fraction(4)}};
-    private Fraction[][] d5 = new Fraction[][] {{new Fraction(30)},{new Fraction(70)}};
+    private final Fraction[][] d3 = new Fraction[][] {{new Fraction(1),new Fraction(2),new Fraction(3),new Fraction(4)},{new Fraction(5),new Fraction(6),new Fraction(7),new Fraction(8)}};
+    private final Fraction[][] d4 = new Fraction[][] {{new Fraction(1)},{new Fraction(2)},{new Fraction(3)},{new Fraction(4)}};
+    private final Fraction[][] d5 = new Fraction[][] {{new Fraction(30)},{new Fraction(70)}};
 
     @Test
     public void testMultiply2() {
@@ -245,8 +245,8 @@ public final class FieldMatrixImplTest {
 
         try {
             m.power(-1);
-            Assert.fail("Expecting IllegalArgumentException");
-        } catch (IllegalArgumentException ex) {
+            Assert.fail("Expecting MathIllegalArgumentException");
+        } catch (MathIllegalArgumentException ex) {
             // ignored
         }
     }

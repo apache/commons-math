@@ -49,6 +49,7 @@ import org.apache.commons.math4.analysis.function.Tanh;
 import org.apache.commons.math4.analysis.function.Ulp;
 import org.apache.commons.math4.exception.DimensionMismatchException;
 import org.apache.commons.math4.exception.MathArithmeticException;
+import org.apache.commons.math4.exception.MathUnsupportedOperationException;
 import org.apache.commons.math4.exception.NotPositiveException;
 import org.apache.commons.math4.exception.NumberIsTooSmallException;
 import org.apache.commons.math4.exception.OutOfRangeException;
@@ -1061,12 +1062,12 @@ public abstract class RealVectorAbstractTest {
         }
     }
 
-    @Test(expected=ArithmeticException.class)
+    @Test(expected=MathArithmeticException.class)
     public void testUnitVectorNullVector() {
         doTestUnitVectorNullVector(false);
     }
 
-    @Test(expected=ArithmeticException.class)
+    @Test(expected=MathArithmeticException.class)
     public void testUnitizeNullVector() {
         doTestUnitVectorNullVector(true);
     }
@@ -1082,8 +1083,8 @@ public abstract class RealVectorAbstractTest {
             Assert.assertEquals("", values[i], e.getValue(), 0d);
             try {
                 it.remove();
-                Assert.fail("UnsupportedOperationException should have been thrown");
-            } catch (UnsupportedOperationException exc) {
+                Assert.fail("MathUnsupportedOperationException should have been thrown");
+            } catch (MathUnsupportedOperationException exc) {
                 // Expected behavior
             }
         }
@@ -1395,6 +1396,7 @@ public abstract class RealVectorAbstractTest {
 
             private int expectedIndex;
 
+            @Override
             public void visit(final int actualIndex, final double actualValue) {
                 Assert.assertEquals(expectedIndex, actualIndex);
                 Assert.assertEquals(Integer.toString(actualIndex),
@@ -1402,6 +1404,7 @@ public abstract class RealVectorAbstractTest {
                 ++expectedIndex;
             }
 
+            @Override
             public void start(final int actualSize, final int actualStart,
                               final int actualEnd) {
                 Assert.assertEquals(data.length, actualSize);
@@ -1410,6 +1413,7 @@ public abstract class RealVectorAbstractTest {
                 expectedIndex = 0;
             }
 
+            @Override
             public double end() {
                 return 0.0;
             }
@@ -1424,14 +1428,17 @@ public abstract class RealVectorAbstractTest {
         final RealVectorPreservingVisitor visitor;
         visitor = new RealVectorPreservingVisitor() {
 
+            @Override
             public void visit(int index, double value) {
                 // Do nothing
             }
 
+            @Override
             public void start(int dimension, int start, int end) {
                 // Do nothing
             }
 
+            @Override
             public double end() {
                 return 0.0;
             }
@@ -1482,6 +1489,7 @@ public abstract class RealVectorAbstractTest {
 
             private int expectedIndex;
 
+            @Override
             public void visit(final int actualIndex, final double actualValue) {
                 Assert.assertEquals(expectedIndex, actualIndex);
                 Assert.assertEquals(Integer.toString(actualIndex),
@@ -1489,6 +1497,7 @@ public abstract class RealVectorAbstractTest {
                 ++expectedIndex;
             }
 
+            @Override
             public void start(final int actualSize, final int actualStart,
                               final int actualEnd) {
                 Assert.assertEquals(data.length, actualSize);
@@ -1497,6 +1506,7 @@ public abstract class RealVectorAbstractTest {
                 expectedIndex = expectedStart;
             }
 
+            @Override
             public double end() {
                 return 0.0;
             }
@@ -1515,12 +1525,14 @@ public abstract class RealVectorAbstractTest {
         visitor = new RealVectorPreservingVisitor() {
             private final boolean[] visited = new boolean[data.length];
 
+            @Override
             public void visit(final int actualIndex, final double actualValue) {
                 visited[actualIndex] = true;
                 Assert.assertEquals(Integer.toString(actualIndex),
                                     data[actualIndex], actualValue, 0d);
             }
 
+            @Override
             public void start(final int actualSize, final int actualStart,
                               final int actualEnd) {
                 Assert.assertEquals(data.length, actualSize);
@@ -1529,6 +1541,7 @@ public abstract class RealVectorAbstractTest {
                 Arrays.fill(visited, false);
             }
 
+            @Override
             public double end() {
                 for (int i = 0; i < data.length; i++) {
                     Assert.assertTrue("entry " + i + "has not been visited",
@@ -1547,14 +1560,17 @@ public abstract class RealVectorAbstractTest {
         final RealVectorPreservingVisitor visitor;
         visitor = new RealVectorPreservingVisitor() {
 
+            @Override
             public void visit(int index, double value) {
                 // Do nothing
             }
 
+            @Override
             public void start(int dimension, int start, int end) {
                 // Do nothing
             }
 
+            @Override
             public double end() {
                 return 0.0;
             }
@@ -1604,12 +1620,14 @@ public abstract class RealVectorAbstractTest {
         visitor = new RealVectorPreservingVisitor() {
             private final boolean[] visited = new boolean[data.length];
 
+            @Override
             public void visit(final int actualIndex, final double actualValue) {
                 Assert.assertEquals(Integer.toString(actualIndex),
                                     data[actualIndex], actualValue, 0d);
                 visited[actualIndex] = true;
             }
 
+            @Override
             public void start(final int actualSize, final int actualStart,
                               final int actualEnd) {
                 Assert.assertEquals(data.length, actualSize);
@@ -1618,6 +1636,7 @@ public abstract class RealVectorAbstractTest {
                 Arrays.fill(visited, true);
             }
 
+            @Override
             public double end() {
                 for (int i = expectedStart; i <= expectedEnd; i++) {
                     Assert.assertTrue("entry " + i + "has not been visited",
@@ -1641,6 +1660,7 @@ public abstract class RealVectorAbstractTest {
 
             private int expectedIndex;
 
+            @Override
             public double visit(final int actualIndex, final double actualValue) {
                 Assert.assertEquals(expectedIndex, actualIndex);
                 Assert.assertEquals(Integer.toString(actualIndex),
@@ -1649,6 +1669,7 @@ public abstract class RealVectorAbstractTest {
                 return actualIndex + actualValue;
             }
 
+            @Override
             public void start(final int actualSize, final int actualStart,
                               final int actualEnd) {
                 Assert.assertEquals(data.length, actualSize);
@@ -1657,6 +1678,7 @@ public abstract class RealVectorAbstractTest {
                 expectedIndex = 0;
             }
 
+            @Override
             public double end() {
                 return 0.0;
             }
@@ -1674,14 +1696,17 @@ public abstract class RealVectorAbstractTest {
         final RealVectorChangingVisitor visitor;
         visitor = new RealVectorChangingVisitor() {
 
+            @Override
             public double visit(int index, double value) {
                 return 0.0;
             }
 
+            @Override
             public void start(int dimension, int start, int end) {
                 // Do nothing
             }
 
+            @Override
             public double end() {
                 return 0.0;
             }
@@ -1732,6 +1757,7 @@ public abstract class RealVectorAbstractTest {
 
             private int expectedIndex;
 
+            @Override
             public double visit(final int actualIndex, final double actualValue) {
                 Assert.assertEquals(expectedIndex, actualIndex);
                 Assert.assertEquals(Integer.toString(actualIndex),
@@ -1740,6 +1766,7 @@ public abstract class RealVectorAbstractTest {
                 return actualIndex + actualValue;
             }
 
+            @Override
             public void start(final int actualSize, final int actualStart,
                               final int actualEnd) {
                 Assert.assertEquals(data.length, actualSize);
@@ -1748,6 +1775,7 @@ public abstract class RealVectorAbstractTest {
                 expectedIndex = expectedStart;
             }
 
+            @Override
             public double end() {
                 return 0.0;
             }
@@ -1769,6 +1797,7 @@ public abstract class RealVectorAbstractTest {
         visitor = new RealVectorChangingVisitor() {
             private final boolean[] visited = new boolean[data.length];
 
+            @Override
             public double visit(final int actualIndex, final double actualValue) {
                 visited[actualIndex] = true;
                 Assert.assertEquals(Integer.toString(actualIndex),
@@ -1776,6 +1805,7 @@ public abstract class RealVectorAbstractTest {
                 return actualIndex + actualValue;
             }
 
+            @Override
             public void start(final int actualSize, final int actualStart,
                               final int actualEnd) {
                 Assert.assertEquals(data.length, actualSize);
@@ -1784,6 +1814,7 @@ public abstract class RealVectorAbstractTest {
                 Arrays.fill(visited, false);
             }
 
+            @Override
             public double end() {
                 for (int i = 0; i < data.length; i++) {
                     Assert.assertTrue("entry " + i + "has not been visited",
@@ -1805,14 +1836,17 @@ public abstract class RealVectorAbstractTest {
         final RealVectorChangingVisitor visitor;
         visitor = new RealVectorChangingVisitor() {
 
+            @Override
             public double visit(int index, double value) {
                 return 0.0;
             }
 
+            @Override
             public void start(int dimension, int start, int end) {
                 // Do nothing
             }
 
+            @Override
             public double end() {
                 return 0.0;
             }
@@ -1862,6 +1896,7 @@ public abstract class RealVectorAbstractTest {
         visitor = new RealVectorChangingVisitor() {
             private final boolean[] visited = new boolean[data.length];
 
+            @Override
             public double visit(final int actualIndex, final double actualValue) {
                 Assert.assertEquals(Integer.toString(actualIndex),
                                     data[actualIndex], actualValue, 0d);
@@ -1869,6 +1904,7 @@ public abstract class RealVectorAbstractTest {
                 return actualIndex + actualValue;
             }
 
+            @Override
             public void start(final int actualSize, final int actualStart,
                               final int actualEnd) {
                 Assert.assertEquals(data.length, actualSize);
@@ -1877,6 +1913,7 @@ public abstract class RealVectorAbstractTest {
                 Arrays.fill(visited, true);
             }
 
+            @Override
             public double end() {
                 for (int i = expectedStart; i <= expectedEnd; i++) {
                     Assert.assertTrue("entry " + i + "has not been visited",

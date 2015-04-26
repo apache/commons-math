@@ -95,15 +95,15 @@ public class SpearmansRankCorrelationTest extends PearsonsCorrelationTest {
         double[] two = new double[] {2};
         try {
             new SpearmansCorrelation().correlation(one, two);
-            Assert.fail("Expecting IllegalArgumentException");
-        } catch (IllegalArgumentException ex) {
+            Assert.fail("Expecting MathIllegalArgumentException");
+        } catch (MathIllegalArgumentException ex) {
             // Expected
         }
         RealMatrix matrix = new BlockRealMatrix(new double[][] {{0},{1}});
         try {
             new SpearmansCorrelation(matrix);
-            Assert.fail("Expecting IllegalArgumentException");
-        } catch (IllegalArgumentException ex) {
+            Assert.fail("Expecting MathIllegalArgumentException");
+        } catch (MathIllegalArgumentException ex) {
             // Expected
         }
     }
@@ -149,7 +149,7 @@ public class SpearmansRankCorrelationTest extends PearsonsCorrelationTest {
         // compute correlation
         NaturalRanking ranking = new NaturalRanking(NaNStrategy.REMOVED);
         SpearmansCorrelation spearman = new SpearmansCorrelation(matrix, ranking);
-        
+
         Assert.assertEquals(0.5, spearman.getCorrelationMatrix().getEntry(0, 1), Double.MIN_VALUE);
     }
 

@@ -18,6 +18,7 @@ package org.apache.commons.math4.stat.descriptive;
 
 
 import org.apache.commons.math4.TestUtils;
+import org.apache.commons.math4.exception.MathIllegalStateException;
 import org.apache.commons.math4.stat.descriptive.StatisticalSummary;
 import org.apache.commons.math4.stat.descriptive.SummaryStatistics;
 import org.apache.commons.math4.stat.descriptive.moment.GeometricMean;
@@ -32,20 +33,20 @@ import org.junit.Test;
  */
 public class SummaryStatisticsTest {
 
-    private double one = 1;
-    private float twoF = 2;
-    private long twoL = 2;
-    private int three = 3;
-    private double mean = 2;
-    private double sumSq = 18;
-    private double sum = 8;
-    private double var = 0.666666666666666666667;
-    private double popVar = 0.5;
-    private double std = FastMath.sqrt(var);
-    private double n = 4;
-    private double min = 1;
-    private double max = 3;
-    private double tolerance = 10E-15;
+    private final double one = 1;
+    private final float twoF = 2;
+    private final long twoL = 2;
+    private final int three = 3;
+    private final double mean = 2;
+    private final double sumSq = 18;
+    private final double sum = 8;
+    private final double var = 0.666666666666666666667;
+    private final double popVar = 0.5;
+    private final double std = FastMath.sqrt(var);
+    private final double n = 4;
+    private final double min = 1;
+    private final double max = 3;
+    private final double tolerance = 10E-15;
 
     protected SummaryStatistics createSummaryStatistics() {
         return new SummaryStatistics();
@@ -292,12 +293,12 @@ public class SummaryStatisticsTest {
         u.addValue(3);
         try {
             u.setMeanImpl(new Sum());
-            Assert.fail("Expecting IllegalStateException");
-        } catch (IllegalStateException ex) {
+            Assert.fail("Expecting MathIllegalStateException");
+        } catch (MathIllegalStateException ex) {
             // expected
         }
     }
-    
+
     @Test
     public void testQuadraticMean() {
         final double[] values = { 1.2, 3.4, 5.6, 7.89 };
@@ -315,7 +316,7 @@ public class SummaryStatisticsTest {
 
         Assert.assertEquals(expected, stats.getQuadraticMean(), Math.ulp(expected));
     }
-    
+
     /**
      * JIRA: MATH-691
      */
@@ -327,31 +328,31 @@ public class SummaryStatisticsTest {
         for(double i : scores) {
           stats.addValue(i);
         }
-        Assert.assertEquals((new Variance(false)).evaluate(scores),stats.getVariance(), 0); 
+        Assert.assertEquals((new Variance(false)).evaluate(scores),stats.getVariance(), 0);
     }
-    
+
     @Test
     public void testOverrideMeanWithMathClass() {
         double[] scores = {1, 2, 3, 4};
         SummaryStatistics stats = new SummaryStatistics();
-        stats.setMeanImpl(new Mean()); 
+        stats.setMeanImpl(new Mean());
         for(double i : scores) {
           stats.addValue(i);
         }
-        Assert.assertEquals((new Mean()).evaluate(scores),stats.getMean(), 0); 
+        Assert.assertEquals((new Mean()).evaluate(scores),stats.getMean(), 0);
     }
-    
+
     @Test
     public void testOverrideGeoMeanWithMathClass() {
         double[] scores = {1, 2, 3, 4};
         SummaryStatistics stats = new SummaryStatistics();
-        stats.setGeoMeanImpl(new GeometricMean()); 
+        stats.setGeoMeanImpl(new GeometricMean());
         for(double i : scores) {
           stats.addValue(i);
         }
-        Assert.assertEquals((new GeometricMean()).evaluate(scores),stats.getGeometricMean(), 0); 
+        Assert.assertEquals((new GeometricMean()).evaluate(scores),stats.getGeometricMean(), 0);
     }
-    
+
     @Test
     public void testToString() {
         SummaryStatistics u = createSummaryStatistics();

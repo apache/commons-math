@@ -16,8 +16,6 @@
  */
 package org.apache.commons.math4.exception;
 
-import org.apache.commons.math4.exception.util.ExceptionContext;
-import org.apache.commons.math4.exception.util.ExceptionContextProvider;
 import org.apache.commons.math4.exception.util.Localizable;
 import org.apache.commons.math4.exception.util.LocalizedFormats;
 
@@ -29,19 +27,15 @@ import org.apache.commons.math4.exception.util.LocalizedFormats;
  *
  * @since 3.0
  */
-public class MathArithmeticException extends ArithmeticException
-    implements ExceptionContextProvider {
+public class MathArithmeticException extends MathRuntimeException {
     /** Serializable version Id. */
     private static final long serialVersionUID = -6024911025449780478L;
-    /** Context. */
-    private final ExceptionContext context;
 
     /**
      * Default constructor.
      */
     public MathArithmeticException() {
-        context = new ExceptionContext(this);
-        context.addMessage(LocalizedFormats.ARITHMETIC_EXCEPTION);
+        this(LocalizedFormats.ARITHMETIC_EXCEPTION);
     }
 
     /**
@@ -51,27 +45,8 @@ public class MathArithmeticException extends ArithmeticException
      * the error.
      * @param args Arguments.
      */
-    public MathArithmeticException(Localizable pattern,
-                                   Object ... args) {
-        context = new ExceptionContext(this);
-        context.addMessage(pattern, args);
+    public MathArithmeticException(Localizable pattern, Object ... args) {
+        super(pattern, args);
     }
 
-    /** {@inheritDoc} */
-    @Override
-    public ExceptionContext getContext() {
-        return context;
-    }
-
-    /** {@inheritDoc} */
-    @Override
-    public String getMessage() {
-        return context.getMessage();
-    }
-
-    /** {@inheritDoc} */
-    @Override
-    public String getLocalizedMessage() {
-        return context.getLocalizedMessage();
-    }
 }

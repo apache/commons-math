@@ -17,6 +17,7 @@
 package org.apache.commons.math4.stat.regression;
 
 import org.apache.commons.math4.TestUtils;
+import org.apache.commons.math4.exception.MathIllegalArgumentException;
 import org.apache.commons.math4.linear.RealMatrix;
 import org.apache.commons.math4.stat.correlation.PearsonsCorrelation;
 import org.apache.commons.math4.stat.regression.MillerUpdatingRegression;
@@ -33,9 +34,9 @@ public class MillerUpdatingRegressionTest {
 
     public MillerUpdatingRegressionTest() {
     }
-    /* This is the Greene Airline Cost data. 
+    /* This is the Greene Airline Cost data.
      * The data can be downloaded from http://www.indiana.edu/~statmath/stat/all/panel/airline.csv
-     */ 
+     */
     private final static double[][] airdata = {
         /*"I",*/new double[]{1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6},
         /*"T",*/ new double[]{1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15},
@@ -94,44 +95,44 @@ public class MillerUpdatingRegressionTest {
         MillerUpdatingRegression instance = new MillerUpdatingRegression(3, true);
         try {
             instance.addObservation(new double[]{1.0}, 0.0);
-            Assert.fail("Should throw IllegalArgumentException");
-        } catch (IllegalArgumentException iae) {
+            Assert.fail("Should throw MathIllegalArgumentException");
+        } catch (MathIllegalArgumentException iae) {
         } catch (Exception e) {
-            Assert.fail("Should throw IllegalArgumentException");
+            Assert.fail("Should throw MathIllegalArgumentException");
         }
         try {
             instance.addObservation(new double[]{1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0}, 0.0);
-            Assert.fail("Should throw IllegalArgumentException");
-        } catch (IllegalArgumentException iae) {
+            Assert.fail("Should throw MathIllegalArgumentException");
+        } catch (MathIllegalArgumentException iae) {
         } catch (Exception e) {
-            Assert.fail("Should throw IllegalArgumentException");
+            Assert.fail("Should throw MathIllegalArgumentException");
         }
         try {
             instance.addObservation(new double[]{1.0, 1.0, 1.0}, 0.0);
         } catch (Exception e) {
-            Assert.fail("Should throw IllegalArgumentException");
+            Assert.fail("Should throw MathIllegalArgumentException");
         }
 
         //now we try it without an intercept
         instance = new MillerUpdatingRegression(3, false);
         try {
             instance.addObservation(new double[]{1.0}, 0.0);
-            Assert.fail("Should throw IllegalArgumentException [NOINTERCEPT]");
-        } catch (IllegalArgumentException iae) {
+            Assert.fail("Should throw MathIllegalArgumentException [NOINTERCEPT]");
+        } catch (MathIllegalArgumentException iae) {
         } catch (Exception e) {
-            Assert.fail("Should throw IllegalArgumentException [NOINTERCEPT]");
+            Assert.fail("Should throw MathIllegalArgumentException [NOINTERCEPT]");
         }
         try {
             instance.addObservation(new double[]{1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0}, 0.0);
-            Assert.fail("Should throw IllegalArgumentException [NOINTERCEPT]");
-        } catch (IllegalArgumentException iae) {
+            Assert.fail("Should throw MathIllegalArgumentException [NOINTERCEPT]");
+        } catch (MathIllegalArgumentException iae) {
         } catch (Exception e) {
-            Assert.fail("Should throw IllegalArgumentException [NOINTERCEPT]");
+            Assert.fail("Should throw MathIllegalArgumentException [NOINTERCEPT]");
         }
         try {
             instance.addObservation(new double[]{1.0, 1.0, 1.0}, 0.0);
         } catch (Exception e) {
-            Assert.fail("Should throw IllegalArgumentException [NOINTERCEPT]");
+            Assert.fail("Should throw MathIllegalArgumentException [NOINTERCEPT]");
         }
     }
 
@@ -143,10 +144,10 @@ public class MillerUpdatingRegressionTest {
             double[] y = {1.0};
             instance.addObservations(tst, y);
 
-            Assert.fail("Should throw IllegalArgumentException");
-        } catch (IllegalArgumentException iae) {
+            Assert.fail("Should throw MathIllegalArgumentException");
+        } catch (MathIllegalArgumentException iae) {
         } catch (Exception e) {
-            Assert.fail("Should throw IllegalArgumentException");
+            Assert.fail("Should throw MathIllegalArgumentException");
         }
 
         try {
@@ -154,10 +155,10 @@ public class MillerUpdatingRegressionTest {
             double[] y = {1.0, 4.0, 5.0, 6.0, 7.0, 8.0, 9.0, 10.0};
             instance.addObservations(tst, y);
 
-            Assert.fail("Should throw IllegalArgumentException");
-        } catch (IllegalArgumentException iae) {
+            Assert.fail("Should throw MathIllegalArgumentException");
+        } catch (MathIllegalArgumentException iae) {
         } catch (Exception e) {
-            Assert.fail("Should throw IllegalArgumentException");
+            Assert.fail("Should throw MathIllegalArgumentException");
         }
     }
 
@@ -330,7 +331,7 @@ public class MillerUpdatingRegressionTest {
 //            tmp[6] = tmp[2] * tmp[3]; //^7
 //            tmp[7] = tmp[3] * tmp[3]; //^8
 //            tmp[8] = tmp[4] * tmp[3]; //^9
-//            tmp[9] = tmp[4] * tmp[4]; //^10           
+//            tmp[9] = tmp[4] * tmp[4]; //^10
             tmp[1] = tmp[0] * tmp[0];
             tmp[2] = tmp[0] * tmp[1];
             tmp[3] = tmp[0] * tmp[2];
@@ -681,12 +682,12 @@ public class MillerUpdatingRegressionTest {
                     0.214274163161675,
                     0.226073200069370,
                     455.478499142212}, errors, 1E-6);
-//        
+//
         // Check R-Square statistics against R
         TestUtils.assertEquals(0.995479004577296, result.getRSquared(), 1E-12);
         TestUtils.assertEquals(0.992465007628826, result.getAdjustedRSquared(), 1E-12);
-//        
-//        
+//
+//
 //        // Estimate model without intercept
         model = new MillerUpdatingRegression(6, false);
         off = 0;
@@ -702,13 +703,13 @@ public class MillerUpdatingRegressionTest {
                 new double[]{-52.99357013868291, 0.07107319907358,
                     -0.42346585566399, -0.57256866841929,
                     -0.41420358884978, 48.41786562001326}, 1E-11);
-//        
+//
         // Check standard errors from R
         errors = result.getStdErrorOfEstimates();
         TestUtils.assertEquals(new double[]{129.54486693117232, 0.03016640003786,
                     0.41773654056612, 0.27899087467676, 0.32128496193363,
                     17.68948737819961}, errors, 1E-11);
-//        
+//
 
 //        // Check R-Square statistics against R
         TestUtils.assertEquals(0.9999670130706, result.getRSquared(), 1E-12);
@@ -1048,11 +1049,11 @@ public class MillerUpdatingRegressionTest {
         }
         return;
     }
-    
-    
+
+
     @Test
     public void testSubsetRegression() {
-        
+
         MillerUpdatingRegression instance = new MillerUpdatingRegression(3, true);
         MillerUpdatingRegression redRegression = new MillerUpdatingRegression(2, true);
         double[][] x = new double[airdata[0].length][];
@@ -1063,23 +1064,23 @@ public class MillerUpdatingRegressionTest {
             x[i][0] = FastMath.log(airdata[3][i]);
             x[i][1] = FastMath.log(airdata[4][i]);
             x[i][2] = airdata[5][i];
-            
+
             xReduced[i] = new double[2];
             xReduced[i][0] = FastMath.log(airdata[3][i]);
             xReduced[i][1] = FastMath.log(airdata[4][i]);
-            
+
             y[i] = FastMath.log(airdata[2][i]);
         }
 
         instance.addObservations(x, y);
         redRegression.addObservations(xReduced, y);
-        
+
         RegressionResults resultsInstance = instance.regress( new int[]{0,1,2} );
         RegressionResults resultsReduced = redRegression.regress();
-        
+
         TestUtils.assertEquals(resultsInstance.getParameterEstimates(), resultsReduced.getParameterEstimates(), 1.0e-12);
         TestUtils.assertEquals(resultsInstance.getStdErrorOfEstimates(), resultsReduced.getStdErrorOfEstimates(), 1.0e-12);
     }
-    
-    
+
+
 }

@@ -16,8 +16,6 @@
  */
 package org.apache.commons.math4.exception;
 
-import org.apache.commons.math4.exception.util.ExceptionContext;
-import org.apache.commons.math4.exception.util.ExceptionContextProvider;
 import org.apache.commons.math4.exception.util.Localizable;
 import org.apache.commons.math4.exception.util.LocalizedFormats;
 
@@ -29,12 +27,9 @@ import org.apache.commons.math4.exception.util.LocalizedFormats;
  *
  * @since 2.2
  */
-public class MathUnsupportedOperationException extends UnsupportedOperationException
-    implements ExceptionContextProvider {
+public class MathUnsupportedOperationException extends MathRuntimeException {
     /** Serializable version Id. */
     private static final long serialVersionUID = -6024911025449780478L;
-    /** Context. */
-    private final ExceptionContext context;
 
     /**
      * Default constructor.
@@ -47,27 +42,8 @@ public class MathUnsupportedOperationException extends UnsupportedOperationExcep
      * the error.
      * @param args Arguments.
      */
-    public MathUnsupportedOperationException(Localizable pattern,
-                                             Object ... args) {
-        context = new ExceptionContext(this);
-        context.addMessage(pattern, args);
+    public MathUnsupportedOperationException(Localizable pattern, Object ... args) {
+        super(pattern, args);
     }
 
-    /** {@inheritDoc} */
-    @Override
-    public ExceptionContext getContext() {
-        return context;
-    }
-
-    /** {@inheritDoc} */
-    @Override
-    public String getMessage() {
-        return context.getMessage();
-    }
-
-    /** {@inheritDoc} */
-    @Override
-    public String getLocalizedMessage() {
-        return context.getLocalizedMessage();
-    }
 }

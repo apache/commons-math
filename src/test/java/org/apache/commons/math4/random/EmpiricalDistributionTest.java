@@ -33,6 +33,7 @@ import org.apache.commons.math4.distribution.NormalDistribution;
 import org.apache.commons.math4.distribution.RealDistribution;
 import org.apache.commons.math4.distribution.RealDistributionAbstractTest;
 import org.apache.commons.math4.distribution.UniformRealDistribution;
+import org.apache.commons.math4.exception.MathIllegalStateException;
 import org.apache.commons.math4.exception.NullArgumentException;
 import org.apache.commons.math4.random.EmpiricalDistribution;
 import org.apache.commons.math4.random.RandomGenerator;
@@ -94,13 +95,13 @@ public final class EmpiricalDistributionTest extends RealDistributionAbstractTes
         // Load from a URL
         empiricalDistribution.load(url);
         checkDistribution();
-        
+
         // Load again from a file (also verifies idempotency of load)
         File file = new File(url.toURI());
         empiricalDistribution.load(file);
         checkDistribution();
     }
-    
+
     private void checkDistribution() {
         // testData File has 10000 values, with mean ~ 5.0, std dev ~ 1
         // Make sure that loaded distribution matches this
@@ -156,8 +157,8 @@ public final class EmpiricalDistributionTest extends RealDistributionAbstractTes
         try {
             empiricalDistribution.getNextValue();
             empiricalDistribution2.getNextValue();
-            Assert.fail("Expecting IllegalStateException");
-        } catch (IllegalStateException ex) {
+            Assert.fail("Expecting MathIllegalStateException");
+        } catch (MathIllegalStateException ex) {
             // expected
         }
     }
@@ -236,24 +237,24 @@ public final class EmpiricalDistributionTest extends RealDistributionAbstractTes
         TestUtils.assertEquals(expectedBinUpperBounds, dist.getUpperBounds(), tol);
         TestUtils.assertEquals(expectedGeneratorUpperBounds, dist.getGeneratorUpperBounds(), tol);
     }
-    
+
     @Test
     public void testGeneratorConfig() {
         double[] testData = {0, 1, 2, 3, 4};
         RandomGenerator generator = new RandomAdaptorTest.ConstantGenerator(0.5);
-        
+
         EmpiricalDistribution dist = new EmpiricalDistribution(5, generator);
         dist.load(testData);
         for (int i = 0; i < 5; i++) {
             Assert.assertEquals(2.0, dist.getNextValue(), 0d);
         }
-        
+
         // Verify no NPE with null generator argument
         dist = new EmpiricalDistribution(5, (RandomGenerator) null);
         dist.load(testData);
         dist.getNextValue();
     }
-    
+
     @Test
     public void testReSeed() throws Exception {
         empiricalDistribution.load(url);
@@ -301,9 +302,9 @@ public final class EmpiricalDistributionTest extends RealDistributionAbstractTes
         Assert.assertEquals("mean", 5.069831575018909, stats.getMean(), tolerance);
         Assert.assertEquals("std dev", 1.0173699343977738, stats.getStandardDeviation(), tolerance);
     }
-   
+
     //  Setup for distribution tests
-    
+
     @Override
     public RealDistribution makeDistribution() {
         // Create a uniform distribution on [0, 10,000]
@@ -315,10 +316,10 @@ public final class EmpiricalDistributionTest extends RealDistributionAbstractTes
         dist.load(sourceData);
         return dist;
     }
-    
+
     /** Uniform bin mass = 10/10001 == mass of all but the first bin */
     private final double binMass = 10d / (n + 1);
-    
+
     /** Mass of first bin = 11/10001 */
     private final double firstBinMass = 11d / (n + 1);
 
@@ -327,11 +328,11 @@ public final class EmpiricalDistributionTest extends RealDistributionAbstractTes
        final double[] testPoints = new double[] {9, 10, 15, 1000, 5004, 9999};
        return testPoints;
     }
-    
+
 
     @Override
     public double[] makeCumulativeTestValues() {
-        /* 
+        /*
          * Bins should be [0, 10], (10, 20], ..., (9990, 10000]
          * Kernels should be N(4.5, 3.02765), N(14.5, 3.02765)...
          * Each bin should have mass 10/10000 = .001
@@ -370,12 +371,12 @@ public final class EmpiricalDistributionTest extends RealDistributionAbstractTes
             final RealDistribution kernel = findKernel(lower, upper);
             final double withinBinKernelMass = kernel.probability(lower, upper);
             final double density = kernel.density(testPoints[i]);
-            densityValues[i] = density * (bin == 0 ? firstBinMass : binMass) / withinBinKernelMass;   
+            densityValues[i] = density * (bin == 0 ? firstBinMass : binMass) / withinBinKernelMass;
         }
         return densityValues;
     }
-    
-    /** 
+
+    /**
      * Modify test integration bounds from the default. Because the distribution
      * has discontinuities at bin boundaries, integrals spanning multiple bins
      * will face convergence problems.  Only test within-bin integrals and spans
@@ -389,6 +390,7 @@ public final class EmpiricalDistributionTest extends RealDistributionAbstractTes
         final BaseAbstractUnivariateIntegrator integrator =
             new IterativeLegendreGaussIntegrator(5, 1.0e-12, 1.0e-10);
         final UnivariateFunction d = new UnivariateFunction() {
+            @Override
             public double value(double x) {
                 return distribution.density(x);
             }
@@ -397,15 +399,15 @@ public final class EmpiricalDistributionTest extends RealDistributionAbstractTes
         final double[] upper = {5, 12, 1030, 5010, 10000};
         for (int i = 1; i < 5; i++) {
             Assert.assertEquals(
-                    distribution.probability( 
+                    distribution.probability(
                             lower[i], upper[i]),
                             integrator.integrate(
                                     1000000, // Triangle integrals are very slow to converge
                                     d, lower[i], upper[i]), tol);
         }
     }
-    
-    /** 
+
+    /**
      * MATH-984
      * Verify that sampled values do not go outside of the range of the data.
      */
@@ -429,7 +431,7 @@ public final class EmpiricalDistributionTest extends RealDistributionAbstractTes
             Assert.assertTrue(dev > 0);
         }
     }
-    
+
     /**
      * MATH-1203, MATH-1208
      */
@@ -448,7 +450,7 @@ public final class EmpiricalDistributionTest extends RealDistributionAbstractTes
         Assert.assertEquals(0.5, dist.cumulativeProbability(0.5), Double.MIN_VALUE);
         Assert.assertEquals(0.5, dist.cumulativeProbability(0.7), Double.MIN_VALUE);
     }
-    
+
     /**
      * Find the bin that x belongs (relative to {@link #makeDistribution()}).
      */
@@ -459,7 +461,7 @@ public final class EmpiricalDistributionTest extends RealDistributionAbstractTes
         // If x falls on a bin boundary, it is in the lower bin
         return FastMath.floor(x / 10) == x / 10 ? bin - 1 : bin;
     }
-    
+
     /**
      * Find the within-bin kernel for the bin with lower bound lower
      * and upper bound upper. All bins other than the first contain 10 points
@@ -471,10 +473,10 @@ public final class EmpiricalDistributionTest extends RealDistributionAbstractTes
         if (lower < 1) {
             return new NormalDistribution(5d, 3.3166247903554);
         } else {
-            return new NormalDistribution((upper + lower + 1) / 2d, 3.0276503540974917); 
+            return new NormalDistribution((upper + lower + 1) / 2d, 3.0276503540974917);
         }
     }
-    
+
     @Test
     public void testKernelOverrideConstant() {
         final EmpiricalDistribution dist = new ConstantKernelEmpiricalDistribution(5);
@@ -500,7 +502,7 @@ public final class EmpiricalDistributionTest extends RealDistributionAbstractTes
         Assert.assertEquals(8.0, dist.inverseCumulativeProbability(0.5), tol);
         Assert.assertEquals(8.0, dist.inverseCumulativeProbability(0.6), tol);
     }
-    
+
     @Test
     public void testKernelOverrideUniform() {
         final EmpiricalDistribution dist = new UniformKernelEmpiricalDistribution(5);
@@ -508,14 +510,14 @@ public final class EmpiricalDistributionTest extends RealDistributionAbstractTes
         dist.load(data);
         // Kernels are uniform distributions on [1,3], [4,6], [7,9], [10,12], [13,15]
         final double bounds[] = {3d, 6d, 9d, 12d};
-        final double tol = 10E-12; 
+        final double tol = 10E-12;
         for (int i = 0; i < 20; i++) {
             final double v = dist.sample();
             // Make sure v is not in the excluded range between bins - that is (bounds[i], bounds[i] + 1)
             for (int j = 0; j < bounds.length; j++) {
                 Assert.assertFalse(v > bounds[j] + tol && v < bounds[j] + 1 - tol);
             }
-        }   
+        }
         Assert.assertEquals(0.0, dist.cumulativeProbability(1), tol);
         Assert.assertEquals(0.1, dist.cumulativeProbability(2), tol);
         Assert.assertEquals(0.6, dist.cumulativeProbability(10), tol);
@@ -530,8 +532,8 @@ public final class EmpiricalDistributionTest extends RealDistributionAbstractTes
         Assert.assertEquals(8.0, dist.inverseCumulativeProbability(0.5), tol);
         Assert.assertEquals(9.0, dist.inverseCumulativeProbability(0.6), tol);
     }
-    
-    
+
+
     /**
      * Empirical distribution using a constant smoothing kernel.
      */
@@ -546,7 +548,7 @@ public final class EmpiricalDistributionTest extends RealDistributionAbstractTes
             return new ConstantRealDistribution(bStats.getMean());
         }
     }
-    
+
     /**
      * Empirical distribution using a uniform smoothing kernel.
      */

@@ -16,8 +16,6 @@
  */
 package org.apache.commons.math4.exception;
 
-import org.apache.commons.math4.exception.util.ExceptionContext;
-import org.apache.commons.math4.exception.util.ExceptionContextProvider;
 import org.apache.commons.math4.exception.util.Localizable;
 import org.apache.commons.math4.exception.util.LocalizedFormats;
 
@@ -28,12 +26,9 @@ import org.apache.commons.math4.exception.util.LocalizedFormats;
  *
  * @since 2.2
  */
-public class MathIllegalStateException extends IllegalStateException
-    implements ExceptionContextProvider {
+public class MathIllegalStateException extends MathRuntimeException {
     /** Serializable version Id. */
     private static final long serialVersionUID = -6024911025449780478L;
-    /** Context. */
-    private final ExceptionContext context;
 
     /**
      * Simple constructor.
@@ -41,10 +36,8 @@ public class MathIllegalStateException extends IllegalStateException
      * @param pattern Message pattern explaining the cause of the error.
      * @param args Arguments.
      */
-    public MathIllegalStateException(Localizable pattern,
-                                     Object ... args) {
-        context = new ExceptionContext(this);
-        context.addMessage(pattern, args);
+    public MathIllegalStateException(Localizable pattern, Object ... args) {
+        super(pattern, args);
     }
 
     /**
@@ -57,9 +50,7 @@ public class MathIllegalStateException extends IllegalStateException
     public MathIllegalStateException(Throwable cause,
                                      Localizable pattern,
                                      Object ... args) {
-        super(cause);
-        context = new ExceptionContext(this);
-        context.addMessage(pattern, args);
+        super(cause, pattern, args);
     }
 
     /**
@@ -69,21 +60,4 @@ public class MathIllegalStateException extends IllegalStateException
         this(LocalizedFormats.ILLEGAL_STATE);
     }
 
-    /** {@inheritDoc} */
-    @Override
-    public ExceptionContext getContext() {
-        return context;
-    }
-
-    /** {@inheritDoc} */
-    @Override
-    public String getMessage() {
-        return context.getMessage();
-    }
-
-    /** {@inheritDoc} */
-    @Override
-    public String getLocalizedMessage() {
-        return context.getLocalizedMessage();
-    }
 }

@@ -16,6 +16,7 @@ package org.apache.commons.math4.stat.descriptive;
 import java.util.Locale;
 
 import org.apache.commons.math4.TestUtils;
+import org.apache.commons.math4.exception.MathIllegalArgumentException;
 import org.apache.commons.math4.stat.descriptive.DescriptiveStatistics;
 import org.apache.commons.math4.stat.descriptive.SummaryStatistics;
 import org.apache.commons.math4.stat.descriptive.UnivariateStatistic;
@@ -77,7 +78,7 @@ public class DescriptiveStatisticsTest {
         try {
             stats.setWindowSize(-3);
             Assert.fail("an exception should have been thrown");
-        } catch (IllegalArgumentException iae) {
+        } catch (MathIllegalArgumentException iae) {
             // expected
         }
         Assert.assertEquals(300, stats.getWindowSize());
@@ -197,8 +198,8 @@ public class DescriptiveStatisticsTest {
         // Try to set bad impl
         try {
             stats.setPercentileImpl(new badPercentile());
-            Assert.fail("Expecting IllegalArgumentException");
-        } catch (IllegalArgumentException ex) {
+            Assert.fail("Expecting MathIllegalArgumentException");
+        } catch (MathIllegalArgumentException ex) {
             // expected
         }
     }

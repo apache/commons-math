@@ -21,6 +21,7 @@ import java.util.Arrays;
 import java.util.Comparator;
 import java.util.List;
 
+import org.apache.commons.math4.exception.MathIllegalArgumentException;
 import org.apache.commons.math4.genetics.RandomKey;
 import org.junit.Assert;
 import org.junit.Test;
@@ -28,12 +29,12 @@ import org.junit.Test;
 @SuppressWarnings("boxing")
 public class RandomKeyTest {
 
-    @Test(expected=IllegalArgumentException.class)
+    @Test(expected=MathIllegalArgumentException.class)
     public void testConstructor1() {
         new DummyRandomKey(new Double[] {0.2, 0.3, 1.2});
     }
 
-    @Test(expected=IllegalArgumentException.class)
+    @Test(expected=MathIllegalArgumentException.class)
     public void testConstructor2() {
         new DummyRandomKey(new Double[] {0.2, 0.3, -0.2});
     }
@@ -63,8 +64,8 @@ public class RandomKeyTest {
         Assert.assertEquals("c", decoded.get(3));
         Assert.assertEquals("d", decoded.get(4));
     }
-    
-    @Test(expected=IllegalArgumentException.class)
+
+    @Test(expected=MathIllegalArgumentException.class)
     public void testInvalidRepresentation() {
         new DummyRandomKey(new Double[] {0.1, 0.1, 2d, 0.8, 0.2});
     }
@@ -95,6 +96,7 @@ public class RandomKeyTest {
         List<String> data = Arrays.asList(new String[] {"x", "b", "c", "z", "b"});
 
         List<Double> permutation = RandomKey.comparatorPermutation(data, new Comparator<String>() {
+            @Override
             public int compare(String o1, String o2) {
                 return o1.compareTo(o2);
             }
@@ -110,6 +112,7 @@ public class RandomKeyTest {
         Assert.assertEquals("z", decodedData.get(4));
 
         permutation = RandomKey.comparatorPermutation(data, new Comparator<String>() {
+            @Override
             public int compare(String o1, String o2) {
                 return o2.compareTo(o1);
             }
@@ -145,7 +148,7 @@ public class RandomKeyTest {
                     Arrays.asList(new String[] {"a", "b", "c", "d"})
             );
             Assert.fail("Uncaught exception");
-        } catch (IllegalArgumentException e) {
+        } catch (MathIllegalArgumentException e) {
             // no-op
         }
         try {
@@ -154,7 +157,7 @@ public class RandomKeyTest {
                     Arrays.asList(new String[] {"a", "b", "c", "d", "f"})
             );
             Assert.fail("Uncaught exception");
-        } catch (IllegalArgumentException e) {
+        } catch (MathIllegalArgumentException e) {
             // no-op
         }
     }

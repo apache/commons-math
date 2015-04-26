@@ -22,6 +22,7 @@ import java.math.BigInteger;
 import org.apache.commons.math4.TestUtils;
 import org.apache.commons.math4.exception.ConvergenceException;
 import org.apache.commons.math4.exception.MathArithmeticException;
+import org.apache.commons.math4.exception.MathIllegalArgumentException;
 import org.apache.commons.math4.exception.NullArgumentException;
 import org.apache.commons.math4.exception.ZeroException;
 import org.apache.commons.math4.fraction.BigFraction;
@@ -156,9 +157,9 @@ public class BigFractionTest {
         assertFraction(8, 13, new BigFraction(0.6152, 99));
         assertFraction(510, 829, new BigFraction(0.6152, 999));
         assertFraction(769, 1250, new BigFraction(0.6152, 9999));
-        
+
         // MATH-996
-        assertFraction(1, 2, new BigFraction(0.5000000001, 10));        
+        assertFraction(1, 2, new BigFraction(0.5000000001, 10));
     }
 
     // MATH-1029
@@ -280,8 +281,8 @@ public class BigFractionTest {
         for (double v : new double[] { Double.NaN, Double.NEGATIVE_INFINITY, Double.POSITIVE_INFINITY}) {
             try {
                 new BigFraction(v);
-                Assert.fail("Expecting IllegalArgumentException");
-            } catch (IllegalArgumentException iae) {
+                Assert.fail("Expecting MathIllegalArgumentException");
+            } catch (MathIllegalArgumentException iae) {
                 // expected
             }
         }

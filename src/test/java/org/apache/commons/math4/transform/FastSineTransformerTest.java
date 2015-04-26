@@ -283,22 +283,22 @@ public final class FastSineTransformerTest extends RealTransformerAbstractTest {
         try {
             // bad interval
             transformer.transform(f, 1, -1, 64, TransformType.FORWARD);
-            Assert.fail("Expecting IllegalArgumentException - bad interval");
-        } catch (IllegalArgumentException ex) {
+            Assert.fail("Expecting MathIllegalArgumentException - bad interval");
+        } catch (MathIllegalArgumentException ex) {
             // expected
         }
         try {
             // bad samples number
             transformer.transform(f, -1, 1, 0, TransformType.FORWARD);
-            Assert.fail("Expecting IllegalArgumentException - bad samples number");
-        } catch (IllegalArgumentException ex) {
+            Assert.fail("Expecting MathIllegalArgumentException - bad samples number");
+        } catch (MathIllegalArgumentException ex) {
             // expected
         }
         try {
             // bad samples number
             transformer.transform(f, -1, 1, 100, TransformType.FORWARD);
-            Assert.fail("Expecting IllegalArgumentException - bad samples number");
-        } catch (IllegalArgumentException ex) {
+            Assert.fail("Expecting MathIllegalArgumentException - bad samples number");
+        } catch (MathIllegalArgumentException ex) {
             // expected
         }
     }

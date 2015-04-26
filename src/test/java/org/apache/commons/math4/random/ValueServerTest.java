@@ -38,7 +38,7 @@ import org.junit.runner.RunWith;
 @RunWith(RetryRunner.class)
 public final class ValueServerTest {
 
-    private ValueServer vs = new ValueServer(new Well19937c(100));
+    private final ValueServer vs = new ValueServer(new Well19937c(100));
 
     @Before
     public void setUp() {
@@ -78,12 +78,12 @@ public final class ValueServerTest {
         Assert.assertEquals("std dev", 1.0173699343977738, stats.getStandardDeviation(),
             tolerance);
     }
-    
+
     /**
      * Verify that when provided with fixed seeds, stochastic modes
      * generate fixed sequences.  Verifies the fix for MATH-654.
      */
-    @Test 
+    @Test
     public void testFixedSeed() throws Exception {
         ValueServer valueServer = new ValueServer();
         URL url = getClass().getResource("testData.txt");
@@ -94,7 +94,7 @@ public final class ValueServerTest {
         checkFixedSeed(valueServer, ValueServer.GAUSSIAN_MODE);
         checkFixedSeed(valueServer, ValueServer.UNIFORM_MODE);
     }
-    
+
     /**
      * Do the check for {@link #testFixedSeed()}
      * @param mode ValueServer mode
@@ -110,7 +110,7 @@ public final class ValueServerTest {
         for (int i = 0; i < 100; i++) {
             values[1][i] = valueServer.getNext();
         }
-        Assert.assertTrue(Arrays.equals(values[0], values[1])); 
+        Assert.assertTrue(Arrays.equals(values[0], values[1]));
     }
 
     /**
@@ -121,8 +121,8 @@ public final class ValueServerTest {
     public void testNextDigestFail() throws Exception {
         try {
             vs.getNext();
-            Assert.fail("Expecting IllegalStateException");
-        } catch (IllegalStateException ex) {}
+            Assert.fail("Expecting MathIllegalStateException");
+        } catch (MathIllegalStateException ex) {}
     }
 
     @Test
@@ -203,8 +203,8 @@ public final class ValueServerTest {
         try {
             vs.setMode(1000);
             vs.getNext();
-            Assert.fail("bad mode, expecting IllegalStateException");
-        } catch (IllegalStateException ex) {
+            Assert.fail("bad mode, expecting MathIllegalStateException");
+        } catch (MathIllegalStateException ex) {
             // ignored
         }
     }

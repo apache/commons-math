@@ -219,9 +219,9 @@ public final class Array2DRowRealMatrixTest {
 
     //Additional Test for Array2DRowRealMatrixTest.testMultiply
 
-    private double[][] d3 = new double[][] {{1,2,3,4},{5,6,7,8}};
-    private double[][] d4 = new double[][] {{1},{2},{3},{4}};
-    private double[][] d5 = new double[][] {{30},{70}};
+    private final double[][] d3 = new double[][] {{1,2,3,4},{5,6,7,8}};
+    private final double[][] d4 = new double[][] {{1},{2},{3},{4}};
+    private final double[][] d5 = new double[][] {{30},{70}};
 
     @Test
     public void testMultiply2() {
@@ -279,8 +279,8 @@ public final class Array2DRowRealMatrixTest {
 
         try {
             m.power(-1);
-            Assert.fail("Expecting IllegalArgumentException");
-        } catch (IllegalArgumentException ex) {
+            Assert.fail("Expecting MathIllegalArgumentException");
+        } catch (MathIllegalArgumentException ex) {
             // ignored
         }
     }
@@ -545,7 +545,7 @@ public final class Array2DRowRealMatrixTest {
         checkCopy(m, null,  1, 0, 2, 4, true);
         checkCopy(m, null, new int[] {},    new int[] { 0 }, true);
         checkCopy(m, null, new int[] { 0 }, new int[] { 4 }, true);
-        
+
         // rectangular check
         double[][] copy = new double[][] { { 0, 0, 0 }, { 0, 0 } };
         checkCopy(m, copy, 0, 1, 0, 2, true);

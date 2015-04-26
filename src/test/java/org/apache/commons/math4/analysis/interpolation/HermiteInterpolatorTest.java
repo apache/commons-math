@@ -21,6 +21,7 @@ import java.util.Random;
 import org.apache.commons.math4.analysis.differentiation.DerivativeStructure;
 import org.apache.commons.math4.analysis.interpolation.HermiteInterpolator;
 import org.apache.commons.math4.analysis.polynomials.PolynomialFunction;
+import org.apache.commons.math4.exception.MathIllegalArgumentException;
 import org.apache.commons.math4.exception.NoDataException;
 import org.apache.commons.math4.util.FastMath;
 import org.junit.Assert;
@@ -234,7 +235,7 @@ public class HermiteInterpolatorTest {
         new HermiteInterpolator().value(0.0);
     }
 
-    @Test(expected=IllegalArgumentException.class)
+    @Test(expected=MathIllegalArgumentException.class)
     public void testDuplicatedAbscissa() {
         HermiteInterpolator interpolator = new HermiteInterpolator();
         interpolator.addSamplePoint(1.0, new double[] { 0.0 });

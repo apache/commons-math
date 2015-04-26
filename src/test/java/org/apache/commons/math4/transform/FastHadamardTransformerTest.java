@@ -16,6 +16,7 @@
  */
 package org.apache.commons.math4.transform;
 
+import org.apache.commons.math4.exception.MathIllegalArgumentException;
 import org.apache.commons.math4.transform.FastHadamardTransformer;
 import org.apache.commons.math4.transform.TransformType;
 import org.apache.commons.math4.util.Precision;
@@ -68,7 +69,7 @@ public final class FastHadamardTransformerTest {
         try {
             new FastHadamardTransformer().transform(new double[3], TransformType.FORWARD);
             Assert.fail("an exception should have been thrown");
-        } catch (IllegalArgumentException iae) {
+        } catch (MathIllegalArgumentException iae) {
             // expected
         }
     }

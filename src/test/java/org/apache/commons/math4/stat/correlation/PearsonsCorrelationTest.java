@@ -18,6 +18,7 @@ package org.apache.commons.math4.stat.correlation;
 
 import org.apache.commons.math4.TestUtils;
 import org.apache.commons.math4.distribution.TDistribution;
+import org.apache.commons.math4.exception.MathIllegalArgumentException;
 import org.apache.commons.math4.linear.BlockRealMatrix;
 import org.apache.commons.math4.linear.RealMatrix;
 import org.apache.commons.math4.stat.correlation.Covariance;
@@ -210,15 +211,15 @@ public class PearsonsCorrelationTest {
         double[] two = new double[] {2};
         try {
             new PearsonsCorrelation().correlation(one, two);
-            Assert.fail("Expecting IllegalArgumentException");
-        } catch (IllegalArgumentException ex) {
+            Assert.fail("Expecting MathIllegalArgumentException");
+        } catch (MathIllegalArgumentException ex) {
             // Expected
         }
         RealMatrix matrix = new BlockRealMatrix(new double[][] {{0},{1}});
         try {
             new PearsonsCorrelation(matrix);
-            Assert.fail("Expecting IllegalArgumentException");
-        } catch (IllegalArgumentException ex) {
+            Assert.fail("Expecting MathIllegalArgumentException");
+        } catch (MathIllegalArgumentException ex) {
             // Expected
         }
     }

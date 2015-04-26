@@ -20,6 +20,7 @@ package org.apache.commons.math4.complex;
 import org.apache.commons.math4.TestUtils;
 import org.apache.commons.math4.complex.Complex;
 import org.apache.commons.math4.complex.ComplexUtils;
+import org.apache.commons.math4.exception.MathIllegalArgumentException;
 import org.apache.commons.math4.util.FastMath;
 import org.junit.Test;
 import org.junit.Assert;
@@ -28,16 +29,16 @@ import org.junit.Assert;
  */
 public class ComplexUtilsTest {
 
-    private double inf = Double.POSITIVE_INFINITY;
-    private double negInf = Double.NEGATIVE_INFINITY;
-    private double nan = Double.NaN;
-    private double pi = FastMath.PI;
+    private final double inf = Double.POSITIVE_INFINITY;
+    private final double negInf = Double.NEGATIVE_INFINITY;
+    private final double nan = Double.NaN;
+    private final double pi = FastMath.PI;
 
-    private Complex negInfInf = new Complex(negInf, inf);
-    private Complex infNegInf = new Complex(inf, negInf);
-    private Complex infInf = new Complex(inf, inf);
-    private Complex negInfNegInf = new Complex(negInf, negInf);
-    private Complex infNaN = new Complex(inf, nan);
+    private final Complex negInfInf = new Complex(negInf, inf);
+    private final Complex infNegInf = new Complex(inf, negInf);
+    private final Complex infInf = new Complex(inf, inf);
+    private final Complex negInfNegInf = new Complex(negInf, negInf);
+    private final Complex infNaN = new Complex(inf, nan);
 
     @Test
     public void testPolar2Complex() {
@@ -73,7 +74,7 @@ public class ComplexUtilsTest {
         return Complex.I.multiply(new Complex(theta, 0)).exp().multiply(new Complex(r, 0));
     }
 
-    @Test(expected=IllegalArgumentException.class)
+    @Test(expected=MathIllegalArgumentException.class)
     public void testPolar2ComplexIllegalModulus() {
         ComplexUtils.polar2Complex(-1, 0);
     }
