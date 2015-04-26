@@ -261,7 +261,7 @@ public class KolmogorovSmirnovTestTest {
      * Verify that large sample method is selected for sample product > Integer.MAX_VALUE
      * (integer overflow in sample product)
      */
-    @Test//(timeout=5000)
+    @Test(timeout=5000)
     public void testTwoSampleProductSizeOverflow() {
         final int n = 50000;
         Assert.assertTrue(n * n < 0);
@@ -270,7 +270,6 @@ public class KolmogorovSmirnovTestTest {
         final KolmogorovSmirnovTest test = new KolmogorovSmirnovTest();
         Assert.assertFalse(Double.isNaN(test.kolmogorovSmirnovTest(x, y)));
     }
-
 
     /**
      * Verifies that Monte Carlo simulation gives results close to exact p values. This test is a
