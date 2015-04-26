@@ -26,7 +26,7 @@ import org.junit.Test;
 
 /**
  * Test cases for {@link KolmogorovSmirnovTest}.
- * 
+ *
  * @since 3.3
  */
 public class KolmogorovSmirnovTestTest {
@@ -220,7 +220,7 @@ public class KolmogorovSmirnovTestTest {
             }
         }
     }
-    
+
     @Test
     public void testPelzGoodApproximation() {
         KolmogorovSmirnovTest ksTest = new KolmogorovSmirnovTest();
@@ -236,7 +236,7 @@ public class KolmogorovSmirnovTestTest {
             0.9999999999999877, 0.9999999999999191, 0.9999999999999254, 0.9999999999998178, 0.9999999999917788,
             0.9999999999998556, 0.9999999999992014, 0.9999999999988859, 0.9999999999999325, 0.9999999999821726
         };
-        
+
         final double tol = 10e-15;
         int k = 0;
         for (int i = 0; i < 6; i++) {
@@ -254,8 +254,8 @@ public class KolmogorovSmirnovTestTest {
         Assert.assertEquals(0.0319983962391632, test.kolmogorovSmirnovTest(gaussian, gaussian2), TOLERANCE);
         Assert.assertEquals(0.202352941176471, test.kolmogorovSmirnovStatistic(gaussian, gaussian2), TOLERANCE);
     }
-    
-    /** 
+
+    /**
      * MATH-1181
      * Verify that large sample method is selected for sample product > Integer.MAX_VALUE
      * (integer overflow in sample product)
@@ -269,7 +269,7 @@ public class KolmogorovSmirnovTestTest {
         final KolmogorovSmirnovTest test = new KolmogorovSmirnovTest();
         Assert.assertFalse(Double.isNaN(test.kolmogorovSmirnovTest(x, y)));
     }
-    
+
 
     /**
      * Verifies that Monte Carlo simulation gives results close to exact p values. This test is a
@@ -302,15 +302,78 @@ public class KolmogorovSmirnovTestTest {
         }
     }
 
+    @Test
+    public void testTwoSampleWithManyTies() {
+        // MATH-1197
+        final double[] x = {
+            0.000000, 0.000000, 0.000000, 0.000000, 0.000000, 0.000000,
+            0.000000, 0.000000, 0.000000, 0.000000, 0.000000, 0.000000,
+            0.000000, 0.000000, 0.000000, 0.000000, 0.000000, 0.000000,
+            0.000000, 0.000000, 0.000000, 0.000000, 0.000000, 0.000000,
+            0.000000, 0.000000, 0.000000, 0.000000, 0.000000, 0.000000,
+            0.000000, 0.000000, 0.000000, 0.000000, 0.000000, 0.000000,
+            0.000000, 0.000000, 0.000000, 0.000000, 0.000000, 0.000000,
+            0.000000, 0.000000, 0.000000, 0.000000, 0.000000, 0.000000,
+            0.000000, 0.000000, 0.000000, 0.000000, 0.000000, 0.000000,
+            0.000000, 0.000000, 0.000000, 0.000000, 0.000000, 0.000000,
+            0.000000, 0.000000, 0.000000, 0.000000, 0.000000, 0.000000,
+            0.000000, 0.000000, 0.000000, 0.000000, 0.000000, 0.000000,
+            0.000000, 0.000000, 0.000000, 0.000000, 0.000000, 0.000000,
+            0.000000, 0.000000, 0.000000, 0.000000, 0.000000, 0.000000,
+            0.000000, 0.000000, 0.000000, 0.000000, 0.000000, 0.000000,
+            0.000000, 0.000000, 0.000000, 0.000000, 0.000000, 0.000000,
+            0.000000, 0.000000, 0.000000, 0.000000, 0.000000, 0.000000,
+            0.000000, 0.000000, 0.000000, 0.000000, 0.000000, 0.000000,
+            0.000000, 0.000000, 0.000000, 0.000000, 0.000000, 0.000000,
+            0.000000, 0.000000, 0.000000, 0.000000, 0.000000, 0.000000,
+            0.000000, 0.000000, 0.000000, 0.000000, 0.000000, 0.000000,
+            0.000000, 2.202653, 2.202653, 2.202653, 2.202653, 2.202653,
+            2.202653, 2.202653, 2.202653, 2.202653, 2.202653, 2.202653,
+            2.202653, 2.202653, 2.202653, 2.202653, 2.202653, 2.202653,
+            2.202653, 2.202653, 2.202653, 2.202653, 2.202653, 2.202653,
+            2.202653, 2.202653, 2.202653, 2.202653, 2.202653, 2.202653,
+            2.202653, 2.202653, 2.202653, 2.202653, 2.202653, 2.202653,
+            3.181199, 3.181199, 3.181199, 3.181199, 3.181199, 3.181199,
+            3.723539, 3.723539, 3.723539, 3.723539, 4.383482, 4.383482,
+            4.383482, 4.383482, 5.320671, 5.320671, 5.320671, 5.717284,
+            6.964001, 7.352165, 8.710510, 8.710510, 8.710510, 8.710510,
+            8.710510, 8.710510, 9.539004, 9.539004, 10.720619, 17.726077,
+            17.726077, 17.726077, 17.726077, 22.053875, 23.799144, 27.355308,
+            30.584960, 30.584960, 30.584960, 30.584960, 30.751808
+        };
+
+        final double[] y = {
+            0.000000, 0.000000, 0.000000, 0.000000, 0.000000, 0.000000,
+            0.000000, 0.000000, 0.000000, 0.000000, 0.000000, 0.000000,
+            0.000000, 0.000000, 0.000000, 0.000000, 0.000000, 0.000000,
+            0.000000, 0.000000, 0.000000, 0.000000, 0.000000, 0.000000,
+            0.000000, 0.000000, 0.000000, 0.000000, 0.000000, 0.000000,
+            0.000000, 0.000000, 0.000000, 0.000000, 0.000000, 0.000000,
+            0.000000, 0.000000, 0.000000, 0.000000, 0.000000, 0.000000,
+            0.000000, 0.000000, 0.000000, 0.000000, 0.000000, 0.000000,
+            0.000000, 0.000000, 0.000000, 2.202653, 2.202653, 2.202653,
+            2.202653, 2.202653, 2.202653, 2.202653, 2.202653, 3.061758,
+            3.723539, 5.628420, 5.628420, 5.628420, 5.628420, 5.628420,
+            6.916982, 6.916982, 6.916982, 10.178538, 10.178538, 10.178538,
+            10.178538, 10.178538
+        };
+
+        final KolmogorovSmirnovTest test = new KolmogorovSmirnovTest();
+
+        Assert.assertEquals(0.0640394088, test.kolmogorovSmirnovStatistic(x, y), 1e-6);
+        Assert.assertEquals(0.9792777290, test.kolmogorovSmirnovTest(x, y), 1e-6);
+
+    }
+
     /**
      * Verifies the inequality exactP(criticalValue, n, m, true) < alpha < exactP(criticalValue, n,
      * m, false).
-     * 
+     *
      * Note that the validity of this check depends on the fact that alpha lies strictly between two
      * attained values of the distribution and that criticalValue is one of the attained values. The
      * critical value table (reference below) uses attained values. This test therefore also
      * verifies that criticalValue is attained.
-     * 
+     *
      * @param n first sample size
      * @param m second sample size
      * @param criticalValue critical value
@@ -324,7 +387,7 @@ public class KolmogorovSmirnovTestTest {
 
     /**
      * Verifies that approximateP(criticalValue, n, m) is within epsilon of alpha.
-     * 
+     *
      * @param n first sample size
      * @param m second sample size
      * @param criticalValue critical value (from table)
@@ -335,5 +398,5 @@ public class KolmogorovSmirnovTestTest {
         final KolmogorovSmirnovTest test = new KolmogorovSmirnovTest();
         Assert.assertEquals(alpha, test.approximateP(criticalValue, n, m), epsilon);
     }
-    
+
 }

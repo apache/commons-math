@@ -50,7 +50,11 @@ If the output is not quite correct, check for invisible trailing spaces!
     <title>Commons Math Release Notes</title>
   </properties>
   <body>
-    <release version="TBD" date="TBD" description="TBD">
+    <release version="3.6" date="XXXX-XX-XX" description="">
+      <action dev="tn" type="fix" issue="MATH-1197">
+        Computation of 2-sample Kolmogoriv-Smirnov statistic in case of ties
+        was not correct.
+      </action>    
     </release>
     <release version="3.5" date="2015-04-17" description="
 This is a minor release: It combines bug fixes and new features.
