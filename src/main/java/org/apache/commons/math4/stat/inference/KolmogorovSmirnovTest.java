@@ -298,9 +298,13 @@ public class KolmogorovSmirnovTest {
         double supD = 0d;
         // First walk x points
         for (int i = 0; i < n; i++) {
-            final double cdf_x = (i + 1d) / n;
-            final int yIndex = Arrays.binarySearch(sy, sx[i]);
-            final double cdf_y = yIndex >= 0 ? (yIndex + 1d) / m : (-yIndex - 1d) / m;
+            final double x_i = sx[i];
+            // ties can be safely ignored
+            if (i > 0 && x_i == sx[i-1]) {
+                continue;
+            }
+            final double cdf_x = edf(x_i, sx);
+            final double cdf_y = edf(x_i, sy);
             final double curD = FastMath.abs(cdf_x - cdf_y);
             if (curD > supD) {
                 supD = curD;
@@ -308,15 +312,37 @@ public class KolmogorovSmirnovTest {
         }
         // Now look at y
         for (int i = 0; i < m; i++) {
-            final double cdf_y = (i + 1d) / m;
-            final int xIndex = Arrays.binarySearch(sx, sy[i]);
-            final double cdf_x = xIndex >= 0 ? (xIndex + 1d) / n : (-xIndex - 1d) / n;
+            final double y_i = sy[i];
+            // ties can be safely ignored
+            if (i > 0 && y_i == sy[i-1]) {
+                continue;
+            }
+            final double cdf_x = edf(y_i, sx);
+            final double cdf_y = edf(y_i, sy);
             final double curD = FastMath.abs(cdf_x - cdf_y);
             if (curD > supD) {
                 supD = curD;
             }
         }
         return supD;
+    }
+
+    /**
+     * Computes the empirical distribution function.
+     *
+     * @param x the given x
+     * @param samples the observations
+     * @return the empirical distribution function \(F_n(x)\)
+     */
+    private double edf(final double x, final double[] samples) {
+        final int n = samples.length;
+        int index = Arrays.binarySearch(samples, x);
+        if (index >= 0) {
+            while(index < (n - 1) && samples[index+1] == x) {
+                ++index;
+            }
+        }
+        return index >= 0 ? (index + 1d) / n : (-index - 1d) / n;
     }
 
     /**
@@ -429,7 +455,7 @@ public class KolmogorovSmirnovTest {
             return 1;
         }
         if (exact) {
-            return exactK(d,n);
+            return exactK(d, n);
         }
         if (n <= 140) {
             return roundedK(d, n);
@@ -501,7 +527,6 @@ public class KolmogorovSmirnovTest {
      * @since 3.4
      */
     public double pelzGood(double d, int n) {
-
         // Change the variable since approximation is for the distribution evaluated at d / sqrt(n)
         final double sqrtN = FastMath.sqrt(n);
         final double z = d * sqrtN;
@@ -834,8 +859,13 @@ public class KolmogorovSmirnovTest {
      * @throws TooManyIterationsException if the series does not converge
      */
     public double ksSum(double t, double tolerance, int maxIterations) {
+        if (t == 0.0) {
+            return 1.0;
+        }
+
         // TODO: for small t (say less than 1), the alternative expansion in part 3 of [1]
         // from class javadoc should be used.
+
         final double x = -2 * t * t;
         int sign = -1;
         long i = 1;
@@ -926,7 +956,8 @@ public class KolmogorovSmirnovTest {
     public double approximateP(double d, int n, int m) {
         final double dm = m;
         final double dn = n;
-        return 1 - ksSum(d * FastMath.sqrt((dm * dn) / (dm + dn)), KS_SUM_CAUCHY_CRITERION, MAXIMUM_PARTIAL_SUM_COUNT);
+        return 1 - ksSum(d * FastMath.sqrt((dm * dn) / (dm + dn)),
+                         KS_SUM_CAUCHY_CRITERION, MAXIMUM_PARTIAL_SUM_COUNT);
     }
 
     /**
