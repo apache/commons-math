@@ -43,7 +43,7 @@ import org.apache.commons.math4.util.MathArrays;
  * the responsibility of the caller. For each combination of number of free parameters and
  * derivation order, only one compiler is necessary, and this compiler will be used to
  * perform computations on all arrays provided to it, which can represent hundreds or
- * thousands of different parameters kept together with all theur partial derivatives.
+ * thousands of different parameters kept together with all their partial derivatives.
  * </p>
  * <p>
  * The arrays on which compilers operate contain only the partial derivatives together
@@ -555,7 +555,7 @@ public class DSCompiler {
      * @param order derivation order
      * @param sizes sizes array
      * @param orders derivation orders with respect to each parameter
-     * (the lenght of this array must match the number of parameters)
+     * (the length of this array must match the number of parameters)
      * @return index of the partial derivative
      * @exception NumberIsTooLargeException if sum of derivation orders is larger
      * than the instance limits

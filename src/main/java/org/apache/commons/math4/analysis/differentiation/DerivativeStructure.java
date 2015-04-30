@@ -46,7 +46,7 @@ import org.apache.commons.math4.util.MathUtils;
  * methods by this class (+, -, *, /, %, sin, cos ...).</p>
  * <p>Implementing complex expressions by hand using these classes is
  * a tedious and error-prone task but has the advantage of having no limitation
- * on the derivation order despite no requiring users to compute the derivatives by
+ * on the derivation order despite not requiring users to compute the derivatives by
  * themselves. Implementing complex expression can also be done by developing computation
  * code using standard primitive double values and to use {@link
  * UnivariateFunctionDifferentiator differentiators} to create the {@link
