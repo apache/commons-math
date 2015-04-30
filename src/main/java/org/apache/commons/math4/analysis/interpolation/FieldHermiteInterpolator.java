@@ -87,7 +87,8 @@ public class FieldHermiteInterpolator<T extends FieldElement<T>> {
      * @throws DimensionMismatchException if derivative structures are inconsistent
      * @throws NullArgumentException if x is null
      */
-    public void addSamplePoint(final T x, final T[] ... value)
+    @SafeVarargs
+    public final void addSamplePoint(final T x, final T[] ... value)
         throws ZeroException, MathArithmeticException,
                DimensionMismatchException, NullArgumentException {
 

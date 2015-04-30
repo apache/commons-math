@@ -103,7 +103,6 @@ public class PolyhedronsSetTest {
         Vector3D vertex2 = new Vector3D(2, 2, 4);
         Vector3D vertex3 = new Vector3D(2, 3, 3);
         Vector3D vertex4 = new Vector3D(1, 3, 4);
-        @SuppressWarnings("unchecked")
         PolyhedronsSet tree =
             (PolyhedronsSet) new RegionFactory<Euclidean3D>().buildConvex(
                 new Plane(vertex3, vertex2, vertex1, 1.0e-10),
@@ -138,7 +137,6 @@ public class PolyhedronsSetTest {
         Vector3D vertex2 = new Vector3D(2.0, 2.4, 4.2);
         Vector3D vertex3 = new Vector3D(2.8, 3.3, 3.7);
         Vector3D vertex4 = new Vector3D(1.0, 3.6, 4.5);
-        @SuppressWarnings("unchecked")
         PolyhedronsSet tree =
             (PolyhedronsSet) new RegionFactory<Euclidean3D>().buildConvex(
                 new Plane(vertex3, vertex2, vertex1, 1.0e-10),

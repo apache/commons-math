@@ -51,6 +51,7 @@ public class PerfTestUtils {
      * taken by a single call to the {@code call} method (i.e. the time
      * taken by each timed block divided by {@code repeatChunk}).
      */
+    @SafeVarargs
     public static StatisticalSummary[] time(int repeatChunk,
                                             int repeatStat,
                                             boolean runGC,
@@ -95,6 +96,7 @@ public class PerfTestUtils {
      *  </li>
      * </ul>
      */
+    @SafeVarargs
     public static double[][][] timesAndResults(int repeatChunk,
                                                int repeatStat,
                                                boolean runGC,

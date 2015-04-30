@@ -45,7 +45,8 @@ public class RegionFactory<S extends Space> {
      * @param hyperplanes collection of bounding hyperplanes
      * @return a new convex region, or null if the collection is empty
      */
-    public Region<S> buildConvex(final Hyperplane<S> ... hyperplanes) {
+    @SafeVarargs
+    public final Region<S> buildConvex(final Hyperplane<S> ... hyperplanes) {
         if ((hyperplanes == null) || (hyperplanes.length == 0)) {
             return null;
         }

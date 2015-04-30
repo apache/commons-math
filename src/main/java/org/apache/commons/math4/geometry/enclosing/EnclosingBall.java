@@ -48,6 +48,7 @@ public class EnclosingBall<S extends Space, P extends Point<S>> implements Seria
      * @param radius radius of the ball
      * @param support support points used to define the ball
      */
+    @SafeVarargs
     public EnclosingBall(final P center, final double radius, final P ... support) {
         this.center  = center;
         this.radius  = radius;
