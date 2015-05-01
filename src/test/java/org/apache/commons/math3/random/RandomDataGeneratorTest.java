@@ -83,7 +83,7 @@ public class RandomDataGeneratorTest {
         long y = randomData.nextLong(Long.MIN_VALUE, Long.MAX_VALUE);
         Assert.assertFalse(x == y);
     }
-    
+
     @Test
     public void testNextUniformExtremeValues() {
         double x = randomData.nextUniform(-Double.MAX_VALUE, Double.MAX_VALUE);
@@ -94,7 +94,7 @@ public class RandomDataGeneratorTest {
         Assert.assertFalse(Double.isInfinite(x));
         Assert.assertFalse(Double.isInfinite(y));
     }
-    
+
     @Test
     public void testNextIntIAE() {
         try {
@@ -104,7 +104,7 @@ public class RandomDataGeneratorTest {
             // ignored
         }
     }
-    
+
     @Test
     public void testNextIntNegativeToPositiveRange() {
         for (int i = 0; i < 5; i++) {
@@ -113,7 +113,7 @@ public class RandomDataGeneratorTest {
         }
     }
 
-    @Test 
+    @Test
     public void testNextIntNegativeRange() {
         for (int i = 0; i < 5; i++) {
             checkNextIntUniform(-7, -4);
@@ -122,7 +122,7 @@ public class RandomDataGeneratorTest {
         }
     }
 
-    @Test 
+    @Test
     public void testNextIntPositiveRange() {
         for (int i = 0; i < 5; i++) {
             checkNextIntUniform(0, 3);
@@ -148,7 +148,7 @@ public class RandomDataGeneratorTest {
         for (int i = 0; i < len; i++) {
             expected[i] = 1d / len;
         }
-        
+
         TestUtils.assertChiSquareAccept(expected, observed, 0.001);
     }
 
@@ -169,7 +169,7 @@ public class RandomDataGeneratorTest {
                        (((double) upper) - ((double) lower));
         Assert.assertTrue(ratio > 0.99999);
     }
-    
+
     @Test
     public void testNextLongIAE() {
         try {
@@ -188,7 +188,7 @@ public class RandomDataGeneratorTest {
         }
     }
 
-    @Test 
+    @Test
     public void testNextLongNegativeRange() {
         for (int i = 0; i < 5; i++) {
             checkNextLongUniform(-7, -4);
@@ -197,7 +197,7 @@ public class RandomDataGeneratorTest {
         }
     }
 
-    @Test 
+    @Test
     public void testNextLongPositiveRange() {
         for (int i = 0; i < 5; i++) {
             checkNextLongUniform(0, 3);
@@ -223,7 +223,7 @@ public class RandomDataGeneratorTest {
         for (int i = 0; i < len; i++) {
             expected[i] = 1d / len;
         }
-        
+
         TestUtils.assertChiSquareAccept(expected, observed, 0.01);
     }
 
@@ -244,7 +244,7 @@ public class RandomDataGeneratorTest {
                        (((double) upper) - ((double) lower));
         Assert.assertTrue(ratio > 0.99999);
     }
-    
+
     @Test
     public void testNextSecureLongIAE() {
         try {
@@ -254,7 +254,7 @@ public class RandomDataGeneratorTest {
             // ignored
         }
     }
-    
+
     @Test
     @Retry(3)
     public void testNextSecureLongNegativeToPositiveRange() {
@@ -263,7 +263,7 @@ public class RandomDataGeneratorTest {
             checkNextSecureLongUniform(-3, 6);
         }
     }
-    
+
     @Test
     @Retry(3)
     public void testNextSecureLongNegativeRange() {
@@ -272,7 +272,7 @@ public class RandomDataGeneratorTest {
             checkNextSecureLongUniform(-15, -2);
         }
     }
-    
+
     @Test
     @Retry(3)
     public void testNextSecureLongPositiveRange() {
@@ -281,7 +281,7 @@ public class RandomDataGeneratorTest {
             checkNextSecureLongUniform(2, 12);
         }
     }
-    
+
     private void checkNextSecureLongUniform(int min, int max) {
         final Frequency freq = new Frequency();
         for (int i = 0; i < smallSampleSize; i++) {
@@ -298,7 +298,7 @@ public class RandomDataGeneratorTest {
         for (int i = 0; i < len; i++) {
             expected[i] = 1d / len;
         }
-        
+
         TestUtils.assertChiSquareAccept(expected, observed, 0.0001);
     }
 
@@ -311,7 +311,7 @@ public class RandomDataGeneratorTest {
             // ignored
         }
     }
-    
+
     @Test
     @Retry(3)
     public void testNextSecureIntNegativeToPositiveRange() {
@@ -320,7 +320,7 @@ public class RandomDataGeneratorTest {
             checkNextSecureIntUniform(-3, 6);
         }
     }
-    
+
     @Test
     @Retry(3)
     public void testNextSecureIntNegativeRange() {
@@ -329,8 +329,8 @@ public class RandomDataGeneratorTest {
             checkNextSecureIntUniform(-15, -2);
         }
     }
-    
-    @Test 
+
+    @Test
     @Retry(3)
     public void testNextSecureIntPositiveRange() {
         for (int i = 0; i < 5; i++) {
@@ -338,7 +338,7 @@ public class RandomDataGeneratorTest {
             checkNextSecureIntUniform(2, 12);
         }
     }
-     
+
     private void checkNextSecureIntUniform(int min, int max) {
         final Frequency freq = new Frequency();
         for (int i = 0; i < smallSampleSize; i++) {
@@ -355,11 +355,11 @@ public class RandomDataGeneratorTest {
         for (int i = 0; i < len; i++) {
             expected[i] = 1d / len;
         }
-        
+
         TestUtils.assertChiSquareAccept(expected, observed, 0.0001);
     }
-    
-    
+
+
 
     /**
      * Make sure that empirical distribution of random Poisson(4)'s has P(X <=
@@ -386,7 +386,7 @@ public class RandomDataGeneratorTest {
         } catch (MathIllegalArgumentException ex) {
             // ignored
         }
-        
+
         final double mean = 4.0d;
         final int len = 5;
         PoissonDistribution poissonDistribution = new PoissonDistribution(mean);
@@ -403,7 +403,7 @@ public class RandomDataGeneratorTest {
         for (int i = 0; i < len; i++) {
             expected[i] = poissonDistribution.probability(i + 1) * largeSampleSize;
         }
-        
+
         TestUtils.assertChiSquareAccept(expected, observed, 0.0001);
     }
 
@@ -683,35 +683,35 @@ public class RandomDataGeneratorTest {
             // ignored
         }
     }
-    
+
     @Test
     public void testNextUniformUniformPositiveBounds() {
         for (int i = 0; i < 5; i++) {
             checkNextUniformUniform(0, 10);
         }
     }
-    
+
     @Test
     public void testNextUniformUniformNegativeToPositiveBounds() {
         for (int i = 0; i < 5; i++) {
             checkNextUniformUniform(-3, 5);
         }
     }
-    
+
     @Test
     public void testNextUniformUniformNegaiveBounds() {
         for (int i = 0; i < 5; i++) {
             checkNextUniformUniform(-7, -3);
         }
     }
-    
+
     @Test
     public void testNextUniformUniformMaximalInterval() {
         for (int i = 0; i < 5; i++) {
             checkNextUniformUniform(-Double.MAX_VALUE, Double.MAX_VALUE);
         }
     }
-    
+
     private void checkNextUniformUniform(double min, double max) {
         // Set up bin bounds - min, binBound[0], ..., binBound[binCount-2], max
         final int binCount = 5;
@@ -721,7 +721,7 @@ public class RandomDataGeneratorTest {
         for (int i = 1; i < binCount - 1; i++) {
             binBounds[i] = binBounds[i - 1] + binSize;  // + instead of * to avoid overflow in extreme case
         }
-        
+
         final Frequency freq = new Frequency();
         for (int i = 0; i < smallSampleSize; i++) {
             final double value = randomData.nextUniform(min, max);
@@ -733,7 +733,7 @@ public class RandomDataGeneratorTest {
             }
             freq.addValue(j);
         }
-       
+
         final long[] observed = new long[binCount];
         for (int i = 0; i < binCount; i++) {
             observed[i] = freq.getCount(i);
@@ -742,7 +742,7 @@ public class RandomDataGeneratorTest {
         for (int i = 0; i < binCount; i++) {
             expected[i] = 1d / binCount;
         }
-        
+
         TestUtils.assertChiSquareAccept(expected, observed, 0.01);
     }
 
@@ -951,7 +951,7 @@ public class RandomDataGeneratorTest {
             int[] perm = randomData.nextPermutation(3, 3);
             observed[findPerm(p, perm)]++;
         }
-        
+
         String[] labels = {"{0, 1, 2}", "{ 0, 2, 1 }", "{ 1, 0, 2 }",
                 "{ 1, 2, 0 }", "{ 2, 0, 1 }", "{ 2, 1, 0 }"};
         TestUtils.assertChiSquareAccept(labels, expected, observed, 0.001);
@@ -1007,30 +1007,6 @@ public class RandomDataGeneratorTest {
         }
         Assert.fail("permutation not found");
         return -1;
-    }
-
-    @Test
-    public void testNextInversionDeviate() {
-        // Set the seed for the default random generator
-        RandomGenerator rg = new Well19937c(100);
-        RandomDataGenerator rdg = new RandomDataGenerator(rg);
-        double[] quantiles = new double[10];
-        for (int i = 0; i < 10; i++) {
-            quantiles[i] = rdg.nextUniform(0, 1);
-        }
-        // Reseed again so the inversion generator gets the same sequence
-        rg.setSeed(100);
-        BetaDistribution betaDistribution = new BetaDistribution(rg, 2, 4,
-                                                                 BetaDistribution.DEFAULT_INVERSE_ABSOLUTE_ACCURACY);
-        /*
-         *  Generate a sequence of deviates using inversion - the distribution function
-         *  evaluated at the random value from the distribution should match the uniform
-         *  random value used to generate it, which is stored in the quantiles[] array.
-         */
-        for (int i = 0; i < 10; i++) {
-            double value = betaDistribution.sample();
-            Assert.assertEquals(betaDistribution.cumulativeProbability(value), quantiles[i], 10E-9);
-        }
     }
 
     @Test

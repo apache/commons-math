@@ -23,6 +23,7 @@ import org.apache.commons.math3.random.Well19937c;
 import org.apache.commons.math3.special.Beta;
 import org.apache.commons.math3.special.Gamma;
 import org.apache.commons.math3.util.FastMath;
+import org.apache.commons.math3.util.Precision;
 
 /**
  * Implements the Beta distribution.
@@ -148,6 +149,7 @@ public class BetaDistribution extends AbstractRealDistribution {
     }
 
     /** {@inheritDoc} */
+    @Override
     public double density(double x) {
         final double logDensity = logDensity(x);
         return logDensity == Double.NEGATIVE_INFINITY ? 0 : FastMath.exp(logDensity);
@@ -177,6 +179,7 @@ public class BetaDistribution extends AbstractRealDistribution {
     }
 
     /** {@inheritDoc} */
+    @Override
     public double cumulativeProbability(double x)  {
         if (x <= 0) {
             return 0;
@@ -205,6 +208,7 @@ public class BetaDistribution extends AbstractRealDistribution {
      * For first shape parameter {@code alpha} and second shape parameter
      * {@code beta}, the mean is {@code alpha / (alpha + beta)}.
      */
+    @Override
     public double getNumericalMean() {
         final double a = getAlpha();
         return a / (a + getBeta());
@@ -217,6 +221,7 @@ public class BetaDistribution extends AbstractRealDistribution {
      * {@code beta}, the variance is
      * {@code (alpha * beta) / [(alpha + beta)^2 * (alpha + beta + 1)]}.
      */
+    @Override
     public double getNumericalVariance() {
         final double a = getAlpha();
         final double b = getBeta();
@@ -231,6 +236,7 @@ public class BetaDistribution extends AbstractRealDistribution {
      *
      * @return lower bound of the support (always 0)
      */
+    @Override
     public double getSupportLowerBound() {
         return 0;
     }
@@ -242,16 +248,19 @@ public class BetaDistribution extends AbstractRealDistribution {
      *
      * @return upper bound of the support (always 1)
      */
+    @Override
     public double getSupportUpperBound() {
         return 1;
     }
 
     /** {@inheritDoc} */
+    @Override
     public boolean isSupportLowerBoundInclusive() {
         return false;
     }
 
     /** {@inheritDoc} */
+    @Override
     public boolean isSupportUpperBoundInclusive() {
         return false;
     }
@@ -263,7 +272,132 @@ public class BetaDistribution extends AbstractRealDistribution {
      *
      * @return {@code true}
      */
+    @Override
     public boolean isSupportConnected() {
         return true;
+    }
+
+
+    /** {@inheritDoc}
+    * <p>
+    * Sampling is performed using Cheng algorithms:
+    * </p>
+    * <p>
+    * R. C. H. Cheng, "Generating beta variates with nonintegral shape parameters.".
+    *                 Communications of the ACM, 21, 317â€“322, 1978.
+    * </p>
+    */
+    @Override
+    public double sample() {
+        return ChengBetaSampler.sample(random, alpha, beta);
+    }
+
+    /** Utility class implementing Cheng's algorithms for beta distribution sampling.
+     * <p>
+     * R. C. H. Cheng, "Generating beta variates with nonintegral shape parameters.".
+     *                 Communications of the ACM, 21, 317â€“322, 1978.
+     * </p>
+     * @since 3.6
+     */
+    private static final class ChengBetaSampler {
+
+        /**
+         * Returns one sample using Cheng's sampling algorithm.
+         * @param random random generator to use
+         * @param alpha distribution first shape parameter
+         * @param beta distribution second shape parameter
+         * @return sampled value
+         */
+        static double sample(RandomGenerator random, final double alpha, final double beta) {
+            final double a = FastMath.min(alpha, beta);
+            final double b = FastMath.max(alpha, beta);
+
+            if (a > 1) {
+                return algorithmBB(random, alpha, a, b);
+            } else {
+                return algorithmBC(random, alpha, b, a);
+            }
+        }
+
+        /**
+         * Returns one sample using Cheng's BB algorithm, when both &alpha; and &beta; are greater than 1.
+         */
+        private static double algorithmBB(RandomGenerator random,
+                                          final double a0,
+                                          final double a,
+                                          final double b) {
+            final double alpha = a + b;
+            final double beta = FastMath.sqrt((alpha - 2.) / (2. * a * b - alpha));
+            final double gamma = a + 1. / beta;
+
+            double r, w, t;
+            do {
+                final double u1 = random.nextDouble();
+                final double u2 = random.nextDouble();
+                final double v = beta * (FastMath.log(u1) - FastMath.log1p(-u1));
+                w = a * FastMath.exp(v);
+                final double z = u1 * u1 * u2;
+                r = gamma * v - 1.3862944;
+                final double s = a + r - w;
+                if (s + 2.609438 >= 5 * z) {
+                    break;
+                }
+
+                t = FastMath.log(z);
+                if (s >= t) {
+                    break;
+                }
+            } while (r + alpha * (FastMath.log(alpha) - FastMath.log(b + w)) < t);
+
+            w = FastMath.min(w, Double.MAX_VALUE);
+            return Precision.equals(a, a0) ? w / (b + w) : b / (b + w);
+        }
+
+        /**
+         * Returns one sample using Cheng's BC algorithm, when at least one of &alpha; and &beta; is smaller than 1.
+         */
+        private static double algorithmBC(RandomGenerator random,
+                                          final double a0,
+                                          final double a,
+                                          final double b) {
+            final double alpha = a + b;
+            final double beta = 1. / b;
+            final double delta = 1. + a - b;
+            final double k1 = delta * (0.0138889 + 0.0416667 * b) / (a * beta - 0.777778);
+            final double k2 = 0.25 + (0.5 + 0.25 / delta) * b;
+
+            double w;
+            for (;;) {
+                final double u1 = random.nextDouble();
+                final double u2 = random.nextDouble();
+                final double y = u1 * u2;
+                final double z = u1 * y;
+                if (u1 < 0.5) {
+                    if (0.25 * u2 + z - y >= k1) {
+                        continue;
+                    }
+                } else {
+                    if (z <= 0.25) {
+                        final double v = beta * (FastMath.log(u1) - FastMath.log1p(-u1));
+                        w = a * FastMath.exp(v);
+                        break;
+                    }
+
+                    if (z >= k2) {
+                        continue;
+                    }
+                }
+
+                final double v = beta * (FastMath.log(u1) - FastMath.log1p(-u1));
+                w = a * FastMath.exp(v);
+                if (alpha * (FastMath.log(alpha) - FastMath.log(b + w) + v) - 1.3862944 >= FastMath.log(z)) {
+                    break;
+                }
+            }
+
+            w = FastMath.min(w, Double.MAX_VALUE);
+            return Precision.equals(a, a0) ? w / (b + w) : b / (b + w);
+        }
+
     }
 }
