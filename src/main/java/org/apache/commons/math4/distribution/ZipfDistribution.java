@@ -30,11 +30,13 @@ import org.apache.commons.math4.util.FastMath;
  */
 public class ZipfDistribution extends AbstractIntegerDistribution {
     /** Serializable version identifier. */
-    private static final long serialVersionUID = -140627372283420404L;
+    private static final long serialVersionUID = 20150501L;
     /** Number of elements. */
     private final int numberOfElements;
     /** Exponent parameter of the distribution. */
     private final double exponent;
+    /** Cached values of the nth generalized harmonic. */
+    private final double nthHarmonic;
     /** Cached numerical mean */
     private double numericalMean = Double.NaN;
     /** Whether or not the numerical mean has been calculated */
@@ -93,6 +95,7 @@ public class ZipfDistribution extends AbstractIntegerDistribution {
 
         this.numberOfElements = numberOfElements;
         this.exponent = exponent;
+        this.nthHarmonic = generalizedHarmonic(numberOfElements, exponent);
     }
 
     /**
@@ -120,7 +123,7 @@ public class ZipfDistribution extends AbstractIntegerDistribution {
             return 0.0;
         }
 
-        return (1.0 / FastMath.pow(x, exponent)) / generalizedHarmonic(numberOfElements, exponent);
+        return (1.0 / FastMath.pow(x, exponent)) / nthHarmonic;
     }
 
     /** {@inheritDoc} */
@@ -130,7 +133,7 @@ public class ZipfDistribution extends AbstractIntegerDistribution {
             return Double.NEGATIVE_INFINITY;
         }
 
-        return -FastMath.log(x) * exponent - FastMath.log(generalizedHarmonic(numberOfElements, exponent));
+        return -FastMath.log(x) * exponent - FastMath.log(nthHarmonic);
     }
 
     /** {@inheritDoc} */
@@ -142,7 +145,7 @@ public class ZipfDistribution extends AbstractIntegerDistribution {
             return 1.0;
         }
 
-        return generalizedHarmonic(x, exponent) / generalizedHarmonic(numberOfElements, exponent);
+        return generalizedHarmonic(x, exponent) / nthHarmonic;
     }
 
     /**
@@ -174,7 +177,7 @@ public class ZipfDistribution extends AbstractIntegerDistribution {
         final double s = getExponent();
 
         final double Hs1 = generalizedHarmonic(N, s - 1);
-        final double Hs = generalizedHarmonic(N, s);
+        final double Hs = nthHarmonic;
 
         return Hs1 / Hs;
     }
@@ -210,7 +213,7 @@ public class ZipfDistribution extends AbstractIntegerDistribution {
 
         final double Hs2 = generalizedHarmonic(N, s - 2);
         final double Hs1 = generalizedHarmonic(N, s - 1);
-        final double Hs = generalizedHarmonic(N, s);
+        final double Hs = nthHarmonic;
 
         return (Hs2 / Hs) - ((Hs1 * Hs1) / (Hs * Hs));
     }
