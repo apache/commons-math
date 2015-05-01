@@ -119,9 +119,6 @@ public class Primes {
         if (n < 2) {
             throw new MathIllegalArgumentException(LocalizedFormats.NUMBER_TOO_SMALL, n, 2);
         }
-        // slower than trial div unless we do an awful lot of computation
-        // (then it finally gets JIT-compiled efficiently
-        // List<Integer> out = PollardRho.primeFactors(n);
         return SmallPrimes.trialDivision(n);
 
     }
