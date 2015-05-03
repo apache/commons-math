@@ -18,6 +18,7 @@
 package org.apache.commons.math4.analysis;
 
 import org.apache.commons.math4.analysis.differentiation.DerivativeStructure;
+import org.apache.commons.math4.analysis.differentiation.MultivariateDifferentiableFunction;
 import org.apache.commons.math4.analysis.differentiation.UnivariateDifferentiableFunction;
 import org.apache.commons.math4.analysis.function.Add;
 import org.apache.commons.math4.analysis.function.Constant;
@@ -35,6 +36,7 @@ import org.apache.commons.math4.analysis.function.Pow;
 import org.apache.commons.math4.analysis.function.Power;
 import org.apache.commons.math4.analysis.function.Sin;
 import org.apache.commons.math4.analysis.function.Sinc;
+import org.apache.commons.math4.exception.DimensionMismatchException;
 import org.apache.commons.math4.exception.NotStrictlyPositiveException;
 import org.apache.commons.math4.exception.NumberIsTooLargeException;
 import org.apache.commons.math4.util.FastMath;
@@ -231,6 +233,199 @@ public class FunctionUtilsTest {
             final double x = min + (max - min) / n * i;
             Assert.assertEquals("x = " + x, FastMath.sin(x), actual[i], 0.0);
         }
+    }
+
+    @Test
+    public void testToDifferentiableUnivariate() {
+
+        final UnivariateFunction f0 = new UnivariateFunction() {
+            @Override
+            public double value(final double x) {
+                return x * x;
+            }
+        };
+        final UnivariateFunction f1 = new UnivariateFunction() {
+            @Override
+            public double value(final double x) {
+                return 2 * x;
+            }
+        };
+        final UnivariateFunction f2 = new UnivariateFunction() {
+            @Override
+            public double value(final double x) {
+                return 2;
+            }
+        };
+        final UnivariateDifferentiableFunction f = FunctionUtils.toDifferentiable(f0, f1, f2);
+
+        for (double t = -1.0; t < 1; t += 0.01) {
+            // x = sin(t)
+            DerivativeStructure dsT = new DerivativeStructure(1, 2, 0, t);
+            DerivativeStructure y = f.value(dsT.sin());
+            Assert.assertEquals(FastMath.sin(t) * FastMath.sin(t),               f.value(FastMath.sin(t)),  1.0e-15);
+            Assert.assertEquals(FastMath.sin(t) * FastMath.sin(t),               y.getValue(),              1.0e-15);
+            Assert.assertEquals(2 * FastMath.cos(t) * FastMath.sin(t),           y.getPartialDerivative(1), 1.0e-15);
+            Assert.assertEquals(2 * (1 - 2 * FastMath.sin(t) * FastMath.sin(t)), y.getPartialDerivative(2), 1.0e-15);
+        }
+
+        try {
+            f.value(new DerivativeStructure(1, 3, 0.0));
+            Assert.fail("an exception should have been thrown");
+        } catch (NumberIsTooLargeException e) {
+            Assert.assertEquals(2, e.getMax());
+            Assert.assertEquals(3, e.getArgument());
+        }
+    }
+
+    @Test
+    public void testToDifferentiableMultivariate() {
+
+        final double a = 1.5;
+        final double b = 0.5;
+        final MultivariateFunction f = new MultivariateFunction() {
+            @Override
+            public double value(final double[] point) {
+                return a * point[0] + b * point[1];
+            }
+        };
+        final MultivariateVectorFunction gradient = new MultivariateVectorFunction() {
+            @Override
+            public double[] value(final double[] point) {
+                return new double[] { a, b };
+            }
+        };
+        final MultivariateDifferentiableFunction mdf = FunctionUtils.toDifferentiable(f, gradient);
+
+        for (double t = -1.0; t < 1; t += 0.01) {
+            // x = sin(t), y = cos(t), hence the method really becomes univariate
+            DerivativeStructure dsT = new DerivativeStructure(1, 1, 0, t);
+            DerivativeStructure y = mdf.value(new DerivativeStructure[] { dsT.sin(), dsT.cos() });
+            Assert.assertEquals(a * FastMath.sin(t) + b * FastMath.cos(t), y.getValue(),              1.0e-15);
+            Assert.assertEquals(a * FastMath.cos(t) - b * FastMath.sin(t), y.getPartialDerivative(1), 1.0e-15);
+        }
+
+        for (double u = -1.0; u < 1; u += 0.01) {
+            DerivativeStructure dsU = new DerivativeStructure(2, 1, 0, u);
+            for (double v = -1.0; v < 1; v += 0.01) {
+                DerivativeStructure dsV = new DerivativeStructure(2, 1, 1, v);
+                DerivativeStructure y = mdf.value(new DerivativeStructure[] { dsU, dsV });
+                Assert.assertEquals(a * u + b * v, mdf.value(new double[] { u, v }), 1.0e-15);
+                Assert.assertEquals(a * u + b * v, y.getValue(),                     1.0e-15);
+                Assert.assertEquals(a,             y.getPartialDerivative(1, 0),     1.0e-15);
+                Assert.assertEquals(b,             y.getPartialDerivative(0, 1),     1.0e-15);
+            }
+        }
+
+        try {
+            mdf.value(new DerivativeStructure[] { new DerivativeStructure(1, 3, 0.0), new DerivativeStructure(1, 3, 0.0) });
+            Assert.fail("an exception should have been thrown");
+        } catch (NumberIsTooLargeException e) {
+            Assert.assertEquals(1, e.getMax());
+            Assert.assertEquals(3, e.getArgument());
+        }
+    }
+
+    @Test
+    public void testToDifferentiableMultivariateInconsistentGradient() {
+
+        final double a = 1.5;
+        final double b = 0.5;
+        final MultivariateFunction f = new MultivariateFunction() {
+            @Override
+            public double value(final double[] point) {
+                return a * point[0] + b * point[1];
+            }
+        };
+        final MultivariateVectorFunction gradient = new MultivariateVectorFunction() {
+            @Override
+            public double[] value(final double[] point) {
+                return new double[] { a, b, 0.0 };
+            }
+        };
+        final MultivariateDifferentiableFunction mdf = FunctionUtils.toDifferentiable(f, gradient);
+
+        try {
+            DerivativeStructure dsT = new DerivativeStructure(1, 1, 0, 0.0);
+            mdf.value(new DerivativeStructure[] { dsT.sin(), dsT.cos() });
+            Assert.fail("an exception should have been thrown");
+        } catch (DimensionMismatchException e) {
+            Assert.assertEquals(2, e.getDimension());
+            Assert.assertEquals(3, e.getArgument());
+        }
+    }
+
+    @Test
+    public void testDerivativeUnivariate() {
+
+        final UnivariateDifferentiableFunction f = new UnivariateDifferentiableFunction() {
+            
+            @Override
+            public double value(double x) {
+                return x * x;
+            }
+            
+            @Override
+            public DerivativeStructure value(DerivativeStructure x) {
+                return x.multiply(x);
+            }
+
+        };
+
+        final UnivariateFunction f0 = FunctionUtils.derivative(f, 0);
+        final UnivariateFunction f1 = FunctionUtils.derivative(f, 1);
+        final UnivariateFunction f2 = FunctionUtils.derivative(f, 2);
+
+        for (double t = -1.0; t < 1; t += 0.01) {
+            Assert.assertEquals(t * t, f0.value(t), 1.0e-15);
+            Assert.assertEquals(2 * t, f1.value(t), 1.0e-15);
+            Assert.assertEquals(2,     f2.value(t), 1.0e-15);
+        }
+
+    }
+
+    @Test
+    public void testDerivativeMultivariate() {
+
+        final double a = 1.5;
+        final double b = 0.5;
+        final double c = 0.25;
+        final MultivariateDifferentiableFunction mdf = new MultivariateDifferentiableFunction() {
+            
+            @Override
+            public double value(double[] point) {
+                return a * point[0] * point[0] + b * point[1] * point[1] + c * point[0] * point[1];
+            }
+            
+            @Override
+            public DerivativeStructure value(DerivativeStructure[] point) {
+                DerivativeStructure x  = point[0];
+                DerivativeStructure y  = point[1];
+                DerivativeStructure x2 = x.multiply(x);
+                DerivativeStructure y2 = y.multiply(y);
+                DerivativeStructure xy = x.multiply(y);
+                return x2.multiply(a).add(y2.multiply(b)).add(xy.multiply(c));
+            }
+
+        };
+
+        final MultivariateFunction f       = FunctionUtils.derivative(mdf, new int[] { 0, 0 });
+        final MultivariateFunction dfdx    = FunctionUtils.derivative(mdf, new int[] { 1, 0 });
+        final MultivariateFunction dfdy    = FunctionUtils.derivative(mdf, new int[] { 0, 1 });
+        final MultivariateFunction d2fdx2  = FunctionUtils.derivative(mdf, new int[] { 2, 0 });
+        final MultivariateFunction d2fdy2  = FunctionUtils.derivative(mdf, new int[] { 0, 2 });
+        final MultivariateFunction d2fdxdy = FunctionUtils.derivative(mdf, new int[] { 1, 1 });
+
+        for (double x = -1.0; x < 1; x += 0.01) {
+            for (double y = -1.0; y < 1; y += 0.01) {
+                Assert.assertEquals(a * x * x + b * y * y + c * x * y, f.value(new double[]       { x, y }), 1.0e-15);
+                Assert.assertEquals(2 * a * x + c * y,                 dfdx.value(new double[]    { x, y }), 1.0e-15);
+                Assert.assertEquals(2 * b * y + c * x,                 dfdy.value(new double[]    { x, y }), 1.0e-15);
+                Assert.assertEquals(2 * a,                             d2fdx2.value(new double[]  { x, y }), 1.0e-15);
+                Assert.assertEquals(2 * b,                             d2fdy2.value(new double[]  { x, y }), 1.0e-15);
+                Assert.assertEquals(c,                                 d2fdxdy.value(new double[] { x, y }), 1.0e-15);
+            }
+        }
+
     }
 
 }

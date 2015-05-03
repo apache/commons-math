@@ -18,12 +18,14 @@
 package org.apache.commons.math4.analysis;
 
 import org.apache.commons.math4.analysis.differentiation.DerivativeStructure;
+import org.apache.commons.math4.analysis.differentiation.MultivariateDifferentiableFunction;
 import org.apache.commons.math4.analysis.differentiation.UnivariateDifferentiableFunction;
 import org.apache.commons.math4.analysis.function.Identity;
 import org.apache.commons.math4.exception.DimensionMismatchException;
 import org.apache.commons.math4.exception.NotStrictlyPositiveException;
 import org.apache.commons.math4.exception.NumberIsTooLargeException;
 import org.apache.commons.math4.exception.util.LocalizedFormats;
+import org.apache.commons.math4.util.MathArrays;
 
 /**
  * Utilities for manipulating function objects.
@@ -335,6 +337,208 @@ public class FunctionUtils {
             s[i] = f.value(min + i * h);
         }
         return s;
+    }
+
+    /** Convert regular functions to {@link UnivariateDifferentiableFunction}.
+     * <p>
+     * This method handle the case with one free parameter and several derivatives.
+     * For the case with several free parameters and only first order derivatives,
+     * see {@link #toDifferentiable(MultivariateFunction, MultivariateVectorFunction)}.
+     * There are no direct support for intermediate cases, with several free parameters
+     * and order 2 or more derivatives, as is would be difficult to specify all the
+     * cross derivatives.
+     * </p>
+     * <p>
+     * Note that the derivatives are expected to be computed only with respect to the
+     * raw parameter x of the base function, i.e. they are df/dx, df<sup>2</sup>/dx<sup>2</sup>, ...
+     * Even if the built function is later used in a composition like f(sin(t)), the provided
+     * derivatives should <em>not</em> apply the composition with sine and its derivatives by
+     * themselves. The composition will be done automatically here and the result will properly
+     * contain f(sin(t)), df(sin(t))/dt, df<sup>2</sup>(sin(t))/dt<sup>2</sup> despite the
+     * provided derivatives functions know nothing about the sine function.
+     * </p>
+     * @param f base function f(x)
+     * @param derivatives derivatives of the base function, in increasing differentiation order
+     * @return a differentiable function with value and all specified derivatives
+     * @see #toDifferentiable(MultivariateFunction, MultivariateVectorFunction)
+     * @see #derivative(UnivariateDifferentiableFunction, int)
+     */
+    public static UnivariateDifferentiableFunction toDifferentiable(final UnivariateFunction f,
+                                                                       final UnivariateFunction ... derivatives) {
+
+        return new UnivariateDifferentiableFunction() {
+
+            /** {@inheritDoc} */
+            @Override
+            public double value(final double x) {
+                return f.value(x);
+            }
+
+            /** {@inheritDoc} */
+            @Override
+            public DerivativeStructure value(final DerivativeStructure x) {
+                if (x.getOrder() > derivatives.length) {
+                    throw new NumberIsTooLargeException(x.getOrder(), derivatives.length, true);
+                }
+                final double[] packed = new double[x.getOrder() + 1];
+                packed[0] = f.value(x.getValue());
+                for (int i = 0; i < x.getOrder(); ++i) {
+                    packed[i + 1] = derivatives[i].value(x.getValue());
+                }
+                return x.compose(packed);
+            }
+
+        };
+
+    }
+
+    /** Convert regular functions to {@link MultivariateDifferentiableFunction}.
+     * <p>
+     * This method handle the case with several free parameters and only first order derivatives.
+     * For the case with one free parameter and several derivatives,
+     * see {@link #toDifferentiable(UnivariateFunction, UnivariateFunction...)}.
+     * There are no direct support for intermediate cases, with several free parameters
+     * and order 2 or more derivatives, as is would be difficult to specify all the
+     * cross derivatives.
+     * </p>
+     * <p>
+     * Note that the gradient is expected to be computed only with respect to the
+     * raw parameter x of the base function, i.e. it is df/dx<sub>1</sub>, df/dx<sub>2</sub>, ...
+     * Even if the built function is later used in a composition like f(sin(t), cos(t)), the provided
+     * gradient should <em>not</em> apply the composition with sine or cosine and their derivative by
+     * itself. The composition will be done automatically here and the result will properly
+     * contain f(sin(t), cos(t)), df(sin(t), cos(t))/dt despite the provided derivatives functions
+     * know nothing about the sine or cosine functions.
+     * </p>
+     * @param f base function f(x)
+     * @param gradient gradient of the base function
+     * @return a differentiable function with value and gradient
+     * @see #toDifferentiable(UnivariateFunction, UnivariateFunction...)
+     * @see #derivative(MultivariateDifferentiableFunction, int[])
+     */
+    public static MultivariateDifferentiableFunction toDifferentiable(final MultivariateFunction f,
+                                                                         final MultivariateVectorFunction gradient) {
+
+        return new MultivariateDifferentiableFunction() {
+
+            /** {@inheritDoc} */
+            @Override
+            public double value(final double[] point) {
+                return f.value(point);
+            }
+
+            /** {@inheritDoc} */
+            @Override
+            public DerivativeStructure value(final DerivativeStructure[] point) {
+
+                // set up the input parameters
+                final double[] dPoint = new double[point.length];
+                for (int i = 0; i < point.length; ++i) {
+                    dPoint[i] = point[i].getValue();
+                    if (point[i].getOrder() > 1) {
+                        throw new NumberIsTooLargeException(point[i].getOrder(), 1, true);
+                    }
+                }
+
+                // evaluate regular functions
+                final double    v = f.value(dPoint);
+                final double[] dv = gradient.value(dPoint);
+                if (dv.length != point.length) {
+                    // the gradient function is inconsistent
+                    throw new DimensionMismatchException(dv.length, point.length);
+                }
+
+                // build the combined derivative
+                final int parameters = point[0].getFreeParameters();
+                final double[] partials = new double[point.length];
+                final double[] packed = new double[parameters + 1];
+                packed[0] = v;
+                final int orders[] = new int[parameters];
+                for (int i = 0; i < parameters; ++i) {
+
+                    // we differentiate once with respect to parameter i
+                    orders[i] = 1;
+                    for (int j = 0; j < point.length; ++j) {
+                        partials[j] = point[j].getPartialDerivative(orders);
+                    }
+                    orders[i] = 0;
+
+                    // compose partial derivatives
+                    packed[i + 1] = MathArrays.linearCombination(dv, partials);
+
+                }
+
+                return new DerivativeStructure(parameters, 1, packed);
+
+            }
+
+        };
+
+    }
+
+    /** Convert an {@link UnivariateDifferentiableFunction} to an
+     * {@link UnivariateFunction} computing n<sup>th</sup> order derivative.
+     * <p>
+     * This converter is only a convenience method. Beware computing only one derivative does
+     * not save any computation as the original function will really be called under the hood.
+     * The derivative will be extracted from the full {@link DerivativeStructure} result.
+     * </p>
+     * @param f original function, with value and all its derivatives
+     * @param order of the derivative to extract
+     * @return function computing the derivative at required order
+     * @see #derivative(MultivariateDifferentiableFunction, int[])
+     * @see #toDifferentiable(UnivariateFunction, UnivariateFunction...)
+     */
+    public static UnivariateFunction derivative(final UnivariateDifferentiableFunction f, final int order) {
+        return new UnivariateFunction() {
+
+            /** {@inheritDoc} */
+            @Override
+            public double value(final double x) {
+                final DerivativeStructure dsX = new DerivativeStructure(1, order, 0, x);
+                return f.value(dsX).getPartialDerivative(order);
+            }
+
+        };
+    }
+
+    /** Convert an {@link MultivariateDifferentiableFunction} to an
+     * {@link MultivariateFunction} computing n<sup>th</sup> order derivative.
+     * <p>
+     * This converter is only a convenience method. Beware computing only one derivative does
+     * not save any computation as the original function will really be called under the hood.
+     * The derivative will be extracted from the full {@link DerivativeStructure} result.
+     * </p>
+     * @param f original function, with value and all its derivatives
+     * @param orders of the derivative to extract, for each free parameters
+     * @return function computing the derivative at required order
+     * @see #derivative(UnivariateDifferentiableFunction, int)
+     * @see #toDifferentiable(MultivariateFunction, MultivariateVectorFunction)
+     */
+    public static MultivariateFunction derivative(final MultivariateDifferentiableFunction f, final int[] orders) {
+        return new MultivariateFunction() {
+
+            /** {@inheritDoc} */
+            @Override
+            public double value(final double[] point) {
+
+                // the maximum differentiation order is the sum of all orders
+                int sumOrders = 0;
+                for (final int order : orders) {
+                    sumOrders += order;
+                }
+
+                // set up the input parameters
+                final DerivativeStructure[] dsPoint = new DerivativeStructure[point.length];
+                for (int i = 0; i < point.length; ++i) {
+                    dsPoint[i] = new DerivativeStructure(point.length, sumOrders, i, point[i]);
+                }
+
+                return f.value(dsPoint).getPartialDerivative(orders);
+
+            }
+
+        };
     }
 
 }
