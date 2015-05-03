@@ -60,7 +60,7 @@ import com.xeiam.xchart.StyleManager.LegendPosition;
 import com.xeiam.xchart.XChartPanel;
 
 /**
- * Plots 2D samples drawn from various pseudo / quasi-random generators.
+ * Displays pdf/cdf for real distributions.
  */
 public class RealDistributionComparison {
 
