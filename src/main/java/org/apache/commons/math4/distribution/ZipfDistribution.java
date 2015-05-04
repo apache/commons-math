@@ -307,11 +307,20 @@ public class ZipfDistribution extends AbstractIntegerDistribution {
         /** Cached tail weight of instrumental distribution used for rejection sampling */
         private double instrumentalDistributionTailWeight = Double.NaN;
 
+        /**
+         * Simple constructor.
+         * @param numberOfElements number of elements
+         * @param exponent exponent parameter of the distribution
+         */
         ZipfRejectionSampler(final int numberOfElements, final double exponent) {
             this.numberOfElements = numberOfElements;
             this.exponent = exponent;
         }
 
+        /** Generate a random value sampled from this distribution.
+         * @param random random generator to use
+         * @return random value sampled from this distribution
+         */
         int sample(final RandomGenerator random) {
             if (Double.isNaN(instrumentalDistributionTailWeight)) {
                 instrumentalDistributionTailWeight = integratePowerFunction(-exponent, 1.5, numberOfElements+0.5);
@@ -360,7 +369,7 @@ public class ZipfDistribution extends AbstractIntegerDistribution {
          * A Taylor series expansion is used, if x is close to 0.
          *
          * @param q a value in the range [0,1]
-         * @param
+         * @param x free parameter
          * @return log((1-q)+q*exp(x))/x
          */
         static double helper1(final double q, final double x) {
@@ -377,6 +386,7 @@ public class ZipfDistribution extends AbstractIntegerDistribution {
          * <p>
          * A Taylor series expansion is used, if x is close to 0.
          *
+         * @param x free parameter
          * @return (exp(x)-1)/x if x is non-zero, 1 if x=0
          */
         static double helper2(final double x) {
