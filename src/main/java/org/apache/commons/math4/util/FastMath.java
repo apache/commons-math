@@ -315,6 +315,9 @@ public class FastMath {
     /** Mask used to clear the non-sign part of a long. */
     private static final long MASK_NON_SIGN_LONG = 0x7fffffffffffffffl;
 
+    /** Bits representation of +1.0. */
+    private static final long PLUS_ONE_BITS = 0x3ff0000000000000L;
+
     /** 2^52 - double numbers this large must be integral (no fraction) or NaN or Infinite */
     private static final double TWO_POWER_52 = 4503599627370496.0;
     /** 2^53 - double numbers this large must be even. */
@@ -1468,6 +1471,10 @@ public class FastMath {
             return x;
         }
 
+        if (y != y) { // Y is NaN
+            return y;
+        }
+
         if (x == 0) {
             long bits = Double.doubleToRawLongBits(x);
             if ((bits & 0x8000000000000000L) != 0) {
@@ -1485,18 +1492,13 @@ public class FastMath {
 
             if (y < 0) {
                 return Double.POSITIVE_INFINITY;
-            }
-            if (y > 0) {
+            } else {
                 return 0.0;
             }
 
-            return Double.NaN;
         }
 
         if (x == Double.POSITIVE_INFINITY) {
-            if (y != y) { // y is NaN
-                return y;
-            }
             if (y < 0.0) {
                 return 0.0;
             } else {
@@ -1505,21 +1507,17 @@ public class FastMath {
         }
 
         if (y == Double.POSITIVE_INFINITY) {
-            if (x * x == 1.0) {
-                return Double.NaN;
-            }
-
-            if (x * x > 1.0) {
+            long bitsAbsX = MASK_NON_SIGN_LONG & Double.doubleToRawLongBits(x);
+            if (bitsAbsX > PLUS_ONE_BITS) {
                 return Double.POSITIVE_INFINITY;
-            } else {
+            } else if (bitsAbsX < PLUS_ONE_BITS) {
                 return 0.0;
+            } else {
+                return Double.NaN;
             }
         }
 
         if (x == Double.NEGATIVE_INFINITY) {
-            if (y != y) { // y is NaN
-                return y;
-            }
 
             if (y < 0) {
                 long yi = (long) y;

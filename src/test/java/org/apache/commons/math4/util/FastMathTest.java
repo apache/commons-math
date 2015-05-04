@@ -29,8 +29,6 @@ import org.apache.commons.math4.exception.MathArithmeticException;
 import org.apache.commons.math4.random.MersenneTwister;
 import org.apache.commons.math4.random.RandomGenerator;
 import org.apache.commons.math4.random.Well1024a;
-import org.apache.commons.math4.util.FastMath;
-import org.apache.commons.math4.util.Precision;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Ignore;
@@ -392,6 +390,8 @@ public class FastMathTest {
         Assert.assertEquals("pow(-2.0, 3.0) should be -8.0", -8.0, FastMath.pow(-2.0, 3.0), Precision.EPSILON);
 
         Assert.assertTrue("pow(-2.0, 3.5) should be NaN", Double.isNaN(FastMath.pow(-2.0, 3.5)));
+
+        Assert.assertTrue("pow(-0.0, NaN) should be NaN", Double.isNaN(FastMath.pow(-0.0, Double.NaN)));
 
         // Added tests for a 100% coverage
 
