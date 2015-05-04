@@ -1469,8 +1469,12 @@ public class FastMath {
         }
 
         if (x == 0) {
+            System.out.format(java.util.Locale.US, "in if (x == 0)%nx = %x, %22.19f, y = %x, %22.19f%n",
+                              Double.doubleToRawLongBits(x), x,
+                              Double.doubleToRawLongBits(y), y);
             long bits = Double.doubleToRawLongBits(x);
             if ((bits & 0x8000000000000000L) != 0) {
+                System.out.format(java.util.Locale.US, "in if ((bits & 0x8000000000000000L) != 0)%n");
                 // -zero
                 long yi = (long) y;
 
@@ -1484,6 +1488,7 @@ public class FastMath {
             }
 
             if (y < 0) {
+                System.out.format(java.util.Locale.US, "in if (y < 0)%n");
                 return Double.POSITIVE_INFINITY;
             }
             if (y > 0) {
@@ -1505,13 +1510,26 @@ public class FastMath {
         }
 
         if (y == Double.POSITIVE_INFINITY) {
+            System.out.format(java.util.Locale.US, "in if (y == Double.POSITIVE_INFINITY)%n");
+            System.out.format(java.util.Locale.US, "x = %x, %22.19f, y = %x, %22.19f%n",
+                              Double.doubleToRawLongBits(x), x,
+                              Double.doubleToRawLongBits(y), y);
             if (x * x == 1.0) {
+                System.out.format(java.util.Locale.US, "in if(x * x == 1.0) --> return NaN%n",
+                                  Double.doubleToRawLongBits(x), x,
+                                  Double.doubleToRawLongBits(y), y);
                 return Double.NaN;
             }
 
             if (x * x > 1.0) {
+                System.out.format(java.util.Locale.US, "in if(x * x > 1.0) --> return positive infinity%n",
+                                  Double.doubleToRawLongBits(x), x,
+                                  Double.doubleToRawLongBits(y), y);
                 return Double.POSITIVE_INFINITY;
             } else {
+                System.out.format(java.util.Locale.US, "in else (i.e. not x * x > 1.0) --> return 0.0%n",
+                                  Double.doubleToRawLongBits(x), x,
+                                  Double.doubleToRawLongBits(y), y);
                 return 0.0;
             }
         }

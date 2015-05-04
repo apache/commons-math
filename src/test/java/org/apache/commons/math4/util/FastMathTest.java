@@ -52,6 +52,11 @@ public class FastMathTest {
     }
 
     @Test
+    public void testH10() {
+        Assert.assertEquals(0.0, FastMath.pow(-0.0, Double.POSITIVE_INFINITY), 1.0e-15);
+    }
+
+    @Test
     public void testMinMaxDouble() {
         double[][] pairs = {
             { -50.0, 50.0 },
