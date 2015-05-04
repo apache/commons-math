@@ -312,6 +312,11 @@ public class BetaDistribution extends AbstractRealDistribution {
 
         /**
          * Returns one sample using Cheng's BB algorithm, when both &alpha; and &beta; are greater than 1.
+         * @param random random generator to use
+         * @param a0 distribution first shape parameter (&alpha;)
+         * @param a min(&alpha;, &beta;) where &alpha;, &beta; are the two distribution shape parameters
+         * @param b max(&alpha;, &beta;) where &alpha;, &beta; are the two distribution shape parameters
+         * @return sampled value
          */
         private static double algorithmBB(RandomGenerator random,
                                           final double a0,
@@ -321,7 +326,9 @@ public class BetaDistribution extends AbstractRealDistribution {
             final double beta = FastMath.sqrt((alpha - 2.) / (2. * a * b - alpha));
             final double gamma = a + 1. / beta;
 
-            double r, w, t;
+            double r;
+            double w;
+            double t;
             do {
                 final double u1 = random.nextDouble();
                 final double u2 = random.nextDouble();
@@ -346,6 +353,11 @@ public class BetaDistribution extends AbstractRealDistribution {
 
         /**
          * Returns one sample using Cheng's BC algorithm, when at least one of &alpha; and &beta; is smaller than 1.
+         * @param random random generator to use
+         * @param a0 distribution first shape parameter (&alpha;)
+         * @param a max(&alpha;, &beta;) where &alpha;, &beta; are the two distribution shape parameters
+         * @param b min(&alpha;, &beta;) where &alpha;, &beta; are the two distribution shape parameters
+         * @return sampled value
          */
         private static double algorithmBC(RandomGenerator random,
                                           final double a0,
