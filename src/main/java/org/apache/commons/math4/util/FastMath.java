@@ -1477,6 +1477,7 @@ public class FastMath {
                 System.out.format(java.util.Locale.US, "in if ((bits & 0x8000000000000000L) != 0)%n");
                 // -zero
                 long yi = (long) y;
+                System.out.format(java.util.Locale.US, "yi = %x%n", yi);
 
                 if (y < 0 && y == yi && (yi & 1) == 1) {
                     System.out.format(java.util.Locale.US, "in if (y < 0 && y == yi && (yi & 1) == 1) --> return Double.NEGATIVE_INFINITY%n");
