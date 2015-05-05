@@ -120,6 +120,21 @@ public class FastMathTest {
     }
 
     @Test
+    public void testH10OneHalfPowerPositiveInfinity() {
+        Assert.assertEquals(0.0, FastMath.pow(0.5, Double.POSITIVE_INFINITY), 1.0e-15);
+    }
+
+    @Test
+    public void testH10MinusZeroPowerPositiveInfinity() {
+        Assert.assertEquals(0.0, FastMath.pow(-0.0, Double.POSITIVE_INFINITY), 1.0e-15);
+    }
+
+    @Test
+    public void testH10MinusZeroPowerNaN() {
+        Assert.assertTrue(Double.isNaN(FastMath.pow(-0.0, Double.NaN)));
+    }
+
+    @Test
     public void testMinMaxDouble() {
         double[][] pairs = {
             { -50.0, 50.0 },
