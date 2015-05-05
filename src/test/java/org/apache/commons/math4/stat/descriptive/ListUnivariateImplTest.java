@@ -23,6 +23,7 @@ import org.apache.commons.math4.TestUtils;
 import org.apache.commons.math4.stat.descriptive.DescriptiveStatistics;
 import org.apache.commons.math4.util.FastMath;
 import org.junit.Assert;
+import org.junit.Ignore;
 import org.junit.Test;
 
 /**
@@ -87,6 +88,7 @@ public final class ListUnivariateImplTest {
         Assert.assertTrue( "Variance of n = 1 set should be zero", u.getVariance() == 0);
     }
 
+    @Ignore
     @Test
     public void testSkewAndKurtosis() {
         DescriptiveStatistics u = new DescriptiveStatistics();

@@ -20,6 +20,7 @@ package org.apache.commons.math4.distribution;
 import org.apache.commons.math4.distribution.ParetoDistribution;
 import org.apache.commons.math4.exception.NotStrictlyPositiveException;
 import org.junit.Assert;
+import org.junit.Ignore;
 import org.junit.Test;
 
 /**
@@ -171,6 +172,7 @@ public class ParetoDistributionTest extends RealDistributionAbstractTest {
     /**
      * Check to make sure top-coding of extreme values works correctly.
      */
+    @Ignore
     @Test
     public void testExtremeValues() {
         ParetoDistribution d = new ParetoDistribution(1, 1);

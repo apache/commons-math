@@ -22,6 +22,7 @@ import org.apache.commons.math4.random.Well1024a;
 import org.apache.commons.math4.util.FastMath;
 import org.apache.commons.math4.util.MathArrays;
 import org.junit.Assert;
+import org.junit.Ignore;
 import org.junit.Test;
 
 public abstract class ExtendedFieldElementAbstractTest<T extends RealFieldElement<T>> {
@@ -243,6 +244,7 @@ public abstract class ExtendedFieldElementAbstractTest<T extends RealFieldElemen
         }
     }
 
+    @Ignore
     @Test
     public void testRootN() {
         for (double x = -0.9; x < 0.9; x += 0.05) {
@@ -258,6 +260,7 @@ public abstract class ExtendedFieldElementAbstractTest<T extends RealFieldElemen
         }
     }
 
+    @Ignore
     @Test
     public void testPowField() {
         for (double x = -0.9; x < 0.9; x += 0.05) {
@@ -267,6 +270,7 @@ public abstract class ExtendedFieldElementAbstractTest<T extends RealFieldElemen
         }
     }
 
+    @Ignore
     @Test
     public void testPowDouble() {
         for (double x = -0.9; x < 0.9; x += 0.05) {

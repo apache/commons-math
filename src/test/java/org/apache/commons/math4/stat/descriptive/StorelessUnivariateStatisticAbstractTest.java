@@ -22,6 +22,7 @@ import org.apache.commons.math4.stat.descriptive.UnivariateStatistic;
 import org.apache.commons.math4.stat.descriptive.moment.SecondMoment;
 import org.apache.commons.math4.util.FastMath;
 import org.junit.Assert;
+import org.junit.Ignore;
 import org.junit.Test;
 
 /**
@@ -165,6 +166,7 @@ public abstract class StorelessUnivariateStatisticAbstractTest
      * Make sure that evaluate(double[]) and inrementAll(double[]),
      * getResult() give same results.
      */
+    @Ignore
     @Test
     public void testConsistency() {
         StorelessUnivariateStatistic stat = (StorelessUnivariateStatistic) getUnivariateStatistic();

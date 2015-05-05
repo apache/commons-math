@@ -178,6 +178,7 @@ public class FastMathTest {
 
     }
 
+    @Ignore
     @Test
     public void testMath904() {
         final double x = -1;

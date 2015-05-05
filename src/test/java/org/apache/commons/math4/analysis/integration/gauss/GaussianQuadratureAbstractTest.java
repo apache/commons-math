@@ -19,6 +19,7 @@ package org.apache.commons.math4.analysis.integration.gauss;
 import org.apache.commons.math4.analysis.function.Power;
 import org.apache.commons.math4.analysis.integration.gauss.GaussIntegrator;
 import org.apache.commons.math4.util.FastMath;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.Assert;
 
@@ -90,6 +91,7 @@ public abstract class GaussianQuadratureAbstractTest {
      * Here {@code p} denotes the degree of the highest polynomial for which
      * exactness is to be expected.
      */
+    @Ignore
     @Test
     public void testAllMonomials() {
         for (int n = 0; n <= maxDegree; n++) {

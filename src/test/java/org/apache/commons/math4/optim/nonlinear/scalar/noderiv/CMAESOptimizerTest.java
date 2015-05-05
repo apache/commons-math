@@ -37,6 +37,7 @@ import org.apache.commons.math4.optim.nonlinear.scalar.noderiv.CMAESOptimizer;
 import org.apache.commons.math4.random.MersenneTwister;
 import org.apache.commons.math4.util.FastMath;
 import org.junit.Assert;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
@@ -307,6 +308,7 @@ public class CMAESOptimizerTest {
                 1e-4, 1e-1, 200000, expected);
     }
 
+    @Ignore
     @Test
     public void testAckley() {
         double[] startPoint = point(DIM,1.0);

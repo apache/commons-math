@@ -19,6 +19,7 @@ package org.apache.commons.math4.distribution;
 
 import org.apache.commons.math4.distribution.ChiSquaredDistribution;
 import org.junit.Assert;
+import org.junit.Ignore;
 import org.junit.Test;
 
 /**
@@ -101,6 +102,7 @@ public class ChiSquaredDistributionTest extends RealDistributionAbstractTest {
         Assert.assertEquals(5d, distribution.getDegreesOfFreedom(), Double.MIN_VALUE);
     }
 
+    @Ignore
     @Test
     public void testDensity() {
         double[] x = new double[]{-0.1, 1e-6, 0.5, 1, 2, 5};

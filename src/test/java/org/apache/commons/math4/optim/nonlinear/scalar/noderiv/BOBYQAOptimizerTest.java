@@ -203,6 +203,7 @@ public class BOBYQAOptimizerTest {
                 1e-2, 1.3e-1, 50000, expected);
     }
 
+    @Ignore
     @Test
     public void testAckley() {
         double[] startPoint = point(DIM,0.1);
@@ -214,6 +215,7 @@ public class BOBYQAOptimizerTest {
                 1e-7, 1e-5, 1000, expected);
     }
 
+    @Ignore
     @Test
     public void testRastrigin() {
         double[] startPoint = point(DIM,1.0);

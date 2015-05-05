@@ -31,6 +31,7 @@ import org.apache.commons.math4.util.ArithmeticUtils;
 import org.apache.commons.math4.util.CombinatoricsUtils;
 import org.apache.commons.math4.util.FastMath;
 import org.junit.Assert;
+import org.junit.Ignore;
 import org.junit.Test;
 
 /**
@@ -226,6 +227,7 @@ public class DerivativeStructureTest extends ExtendedFieldElementAbstractTest<De
         }
     }
 
+    @Ignore
     @Test
     public void testPowDoubleDS() {
         for (int maxOrder = 1; maxOrder < 5; ++maxOrder) {
@@ -468,6 +470,7 @@ public class DerivativeStructureTest extends ExtendedFieldElementAbstractTest<De
         }
     }
 
+    @Ignore
     @Test
     public void testRootNSingularity() {
         for (int n = 2; n < 10; ++n) {

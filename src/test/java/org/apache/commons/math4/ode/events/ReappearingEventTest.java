@@ -17,6 +17,7 @@
 package org.apache.commons.math4.ode.events;
 
 import org.junit.Assert;
+import org.junit.Ignore;
 
 import java.util.Arrays;
 
@@ -41,6 +42,7 @@ public class ReappearingEventTest {
         Assert.assertEquals(10.0, tEnd, 1e-7);
     }
 
+    @Ignore
     @Test
     public void testGragg()
         throws DimensionMismatchException, NumberIsTooSmallException,

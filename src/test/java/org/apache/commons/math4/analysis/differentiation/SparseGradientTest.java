@@ -25,6 +25,7 @@ import org.apache.commons.math4.analysis.polynomials.PolynomialFunction;
 import org.apache.commons.math4.random.Well1024a;
 import org.apache.commons.math4.util.FastMath;
 import org.junit.Assert;
+import org.junit.Ignore;
 import org.junit.Test;
 
 public class SparseGradientTest extends ExtendedFieldElementAbstractTest<SparseGradient> {
@@ -230,6 +231,7 @@ public class SparseGradientTest extends ExtendedFieldElementAbstractTest<SparseG
         }
     }
 
+    @Ignore
     @Test
     public void testPowDoubleDS() {
         for (int maxOrder = 1; maxOrder < 5; ++maxOrder) {
@@ -366,6 +368,7 @@ public class SparseGradientTest extends ExtendedFieldElementAbstractTest<SparseG
         }
     }
 
+    @Ignore
     @Test
     public void testRootNSingularity() {
         for (int n = 2; n < 10; ++n) {
