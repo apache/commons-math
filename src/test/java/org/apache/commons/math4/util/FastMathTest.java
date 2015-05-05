@@ -52,13 +52,13 @@ public class FastMathTest {
     @Test
     public void testH10OneHalfPowerPositiveInfinity() {
         final double res = FastMath.pow(0.5, Double.POSITIVE_INFINITY);
-        Assert.assertEquals("0.5^∞ = " + res, 0.0, res, 1.0e-15);
+        Assert.assertEquals("0.5^+inf = " + res, 0.0, res, 1.0e-15);
     }
 
     @Test
     public void testH10MinusZeroPowerPositiveInfinity() {
         final double res = FastMath.pow(-0.0, Double.POSITIVE_INFINITY);
-        Assert.assertEquals("-0.0^∞ = " + res, 0.0, res, 1.0e-15);
+        Assert.assertEquals("-0.0^+inf = " + res, 0.0, res, 1.0e-15);
     }
 
     @Test
