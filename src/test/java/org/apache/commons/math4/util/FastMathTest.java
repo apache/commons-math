@@ -16,10 +16,12 @@
  */
 package org.apache.commons.math4.util;
 
+import java.io.IOException;
 import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
 import java.lang.reflect.Type;
 import java.math.BigInteger;
+import java.util.Arrays;
 
 import org.apache.commons.math4.TestUtils;
 import org.apache.commons.math4.dfp.Dfp;
@@ -47,6 +49,74 @@ public class FastMathTest {
     public void setUp() {
         field = new DfpField(40);
         generator = new MersenneTwister(6176597458463500194l);
+    }
+
+    private static long toLong(final double x) {
+        final long bits         = Double.doubleToRawLongBits(x);
+        final int rawExp        = (int) ((bits & 0x7ff0000000000000L) >> 52);
+        if (rawExp < 1023) {
+            // numbers between -1.0 and +1 excluded (some normal numbers, all sub-normal numbers and signed 0)
+            return 0;
+        } else {
+            final long sign         = bits & 0x8000000000000000L;
+            final long rawMantissa  = bits & 0x000fffffffffffffL;
+            if (rawExp == 2047) {
+
+                // special values
+                if (rawMantissa == 0) {
+                    // infinity
+                    return (sign == 0) ? Long.MAX_VALUE : Long.MIN_VALUE;
+                } else {
+                    // NaN
+                    return 0;
+                }
+
+            } else {
+
+                // normal number
+                final long fullMantissa = rawMantissa | 0x10000000000000L;
+
+                if (rawExp < 1075) {
+                    // normal numbers with negative shift (i.e. with a fractional part to be removed)
+                    final long l = fullMantissa >> (1075 - rawExp);
+                    return (sign == 0) ? l : -l;
+                } else if (rawExp < 1086) {
+                    // normal number with positive shift small enough to fit in a long
+                    final long l = fullMantissa << (rawExp - 1075);
+                    return (sign == 0) ? l : -l;
+                } else {
+                    // normal number exceeding long range
+                    return (sign == 0) ? Long.MAX_VALUE : Long.MIN_VALUE;
+                }
+            }
+        }
+    }
+
+    @Test
+    public void testDoubleToLongConversion() throws IOException {
+        double max = Long.MAX_VALUE;
+        double min = Long.MIN_VALUE;
+        for (double x : Arrays.asList(-3.5, -3.0, -2.5, -2.0, -1.5,
+                                      StrictMath.nextAfter(-1.0, -2.0), -1.0, StrictMath.nextAfter(-1.0, +2.0),
+                                      -0.5, -0.0, +0.0, 0.5,
+                                      StrictMath.nextAfter(+1.0, -2.0), +1.0, StrictMath.nextAfter(+1.0, +2.0),
+                                      1.5, 2.0, 2.5, 3.0, 3.5,
+                                      Double.NEGATIVE_INFINITY, Double.POSITIVE_INFINITY,
+                                      Double.NaN,
+                                      Precision.SAFE_MIN, Precision.EPSILON,
+                                      -Precision.SAFE_MIN, -Precision.EPSILON,
+                                      StrictMath.nextAfter(Precision.SAFE_MIN, Double.NEGATIVE_INFINITY),
+                                      StrictMath.nextAfter(Precision.SAFE_MIN, Double.POSITIVE_INFINITY),
+                                      Precision.SAFE_MIN / 1024,
+                                      Double.MIN_VALUE, Double.MAX_VALUE,
+                                      min,
+                                      StrictMath.nextAfter(min, Double.NEGATIVE_INFINITY),
+                                      StrictMath.nextAfter(min, Double.POSITIVE_INFINITY),
+                                      max,
+                                      StrictMath.nextAfter(max, Double.NEGATIVE_INFINITY),
+                                      StrictMath.nextAfter(max, Double.POSITIVE_INFINITY))) {
+            Assert.assertEquals("x = " + x, (long) x, toLong(x));
+        }
     }
 
     @Test
