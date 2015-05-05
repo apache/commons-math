@@ -1465,7 +1465,7 @@ public class FastMath {
         }
 
         if (x != x) { // X is NaN
-            return 101.0;//return x;
+            return x;
         }
 
         if (x == 0) {
@@ -1512,7 +1512,7 @@ public class FastMath {
             if (x * x > 1.0) {
                 return Double.POSITIVE_INFINITY;
             } else {
-                return 112.0;//return 0.0;
+                return 0.0;
             }
         }
 
@@ -1585,7 +1585,7 @@ public class FastMath {
         /* Compute ln(x) */
         final double lores = log(x, lns);
         if (Double.isInfinite(lores)){ // don't allow this to be converted to NaN
-            return Double.isNaN(lores) ? 202.0 : lores;
+            return lores;
         }
 
         double lna = lns[0];
@@ -1613,7 +1613,7 @@ public class FastMath {
 
         final double result = exp(lna, z, null);
         //result = result + result * z;
-        return Double.isNaN(result) ? 203.0 : result;
+        return result;
     }
 
 
