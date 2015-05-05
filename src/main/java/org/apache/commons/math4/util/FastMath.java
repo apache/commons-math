@@ -392,7 +392,7 @@ public class FastMath {
      * @return hyperbolic cosine of x
      */
     public static double cosh(double x) {
-      if (x != x) {
+      if (Double.isNaN(x)) {
           return x;
       }
 
@@ -462,7 +462,7 @@ public class FastMath {
      */
     public static double sinh(double x) {
       boolean negate = false;
-      if (x != x) {
+      if (Double.isNaN(x)) {
           return x;
       }
 
@@ -588,7 +588,7 @@ public class FastMath {
     public static double tanh(double x) {
       boolean negate = false;
 
-      if (x != x) {
+      if (Double.isNaN(x)) {
           return x;
       }
 
@@ -991,7 +991,7 @@ public class FastMath {
      * @return exp(x) - 1
      */
     private static double expm1(double x, double hiPrecOut[]) {
-        if (x != x || x == 0.0) { // NaN or zero
+        if (Double.isNaN(x) || x == 0.0) { // NaN or zero
             return x;
         }
 
@@ -1155,7 +1155,7 @@ public class FastMath {
         long bits = Double.doubleToRawLongBits(x);
 
         /* Handle special cases of negative input, and NaN */
-        if (((bits & 0x8000000000000000L) != 0 || x != x) && x != 0.0) {
+        if (((bits & 0x8000000000000000L) != 0 || Double.isNaN(x)) && x != 0.0) {
             if (hiPrec != null) {
                 hiPrec[0] = Double.NaN;
             }
@@ -1464,7 +1464,7 @@ public class FastMath {
             return 1.0;
         }
 
-        if (x != x) { // X is NaN
+        if (Double.isNaN(x)) {
             return x;
         }
 
@@ -1494,7 +1494,7 @@ public class FastMath {
         }
 
         if (x == Double.POSITIVE_INFINITY) {
-            if (y != y) { // y is NaN
+            if (Double.isNaN(y)) {
                 return y;
             }
             if (y < 0.0) {
@@ -1517,7 +1517,7 @@ public class FastMath {
         }
 
         if (x == Double.NEGATIVE_INFINITY) {
-            if (y != y) { // y is NaN
+            if (Double.isNaN(y)) {
                 return y;
             }
 
@@ -2600,7 +2600,7 @@ public class FastMath {
      * @return phase angle of point (x,y) between {@code -PI} and {@code PI}
      */
     public static double atan2(double y, double x) {
-        if (x != x || y != y) {
+        if (Double.isNaN(x) || Double.isNaN(y)) {
             return Double.NaN;
         }
 
@@ -2721,7 +2721,7 @@ public class FastMath {
      * @return arc sine of x
      */
     public static double asin(double x) {
-      if (x != x) {
+      if (Double.isNaN(x)) {
           return Double.NaN;
       }
 
@@ -2797,7 +2797,7 @@ public class FastMath {
      * @return arc cosine of x
      */
     public static double acos(double x) {
-      if (x != x) {
+      if (Double.isNaN(x)) {
           return Double.NaN;
       }
 
@@ -3357,7 +3357,7 @@ public class FastMath {
     public static double floor(double x) {
         long y;
 
-        if (x != x) { // NaN
+        if (Double.isNaN(x)) {
             return x;
         }
 
@@ -3384,7 +3384,7 @@ public class FastMath {
     public static double ceil(double x) {
         double y;
 
-        if (x != x) { // NaN
+        if (Double.isNaN(x)) {
             return x;
         }
 
