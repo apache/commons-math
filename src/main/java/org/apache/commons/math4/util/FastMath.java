@@ -1479,22 +1479,26 @@ public class FastMath {
                 long yi = (long) y;
 
                 if (y < 0 && y == yi && (yi & 1) == 1) {
+                    System.out.format(java.util.Locale.US, "in if (y < 0 && y == yi && (yi & 1) == 1) --> return Double.NEGATIVE_INFINITY%n");
                     return Double.NEGATIVE_INFINITY;
                 }
 
                 if (y > 0 && y == yi && (yi & 1) == 1) {
+                    System.out.format(java.util.Locale.US, "in if (y > 0 && y == yi && (yi & 1) == 1) --> return -0.0%n");
                     return -0.0;
                 }
             }
 
             if (y < 0) {
-                System.out.format(java.util.Locale.US, "in if (y < 0)%n");
+                System.out.format(java.util.Locale.US, "in if (y < 0) --> return Double.POSITIVE_INFINITY%n");
                 return Double.POSITIVE_INFINITY;
             }
             if (y > 0) {
+                System.out.format(java.util.Locale.US, "in if (y > 0) --> return 0.0%n");
                 return 0.0;
             }
 
+            System.out.format(java.util.Locale.US, "in neither (y < 0) not (y > 0) --> return Double.NaN%n");
             return Double.NaN;
         }
 
@@ -1510,26 +1514,13 @@ public class FastMath {
         }
 
         if (y == Double.POSITIVE_INFINITY) {
-            System.out.format(java.util.Locale.US, "in if (y == Double.POSITIVE_INFINITY)%n");
-            System.out.format(java.util.Locale.US, "x = %x, %22.19f, y = %x, %22.19f%n",
-                              Double.doubleToRawLongBits(x), x,
-                              Double.doubleToRawLongBits(y), y);
             if (x * x == 1.0) {
-                System.out.format(java.util.Locale.US, "in if(x * x == 1.0) --> return NaN%n",
-                                  Double.doubleToRawLongBits(x), x,
-                                  Double.doubleToRawLongBits(y), y);
                 return Double.NaN;
             }
 
             if (x * x > 1.0) {
-                System.out.format(java.util.Locale.US, "in if(x * x > 1.0) --> return positive infinity%n",
-                                  Double.doubleToRawLongBits(x), x,
-                                  Double.doubleToRawLongBits(y), y);
                 return Double.POSITIVE_INFINITY;
             } else {
-                System.out.format(java.util.Locale.US, "in else (i.e. not x * x > 1.0) --> return 0.0%n",
-                                  Double.doubleToRawLongBits(x), x,
-                                  Double.doubleToRawLongBits(y), y);
                 return 0.0;
             }
         }
