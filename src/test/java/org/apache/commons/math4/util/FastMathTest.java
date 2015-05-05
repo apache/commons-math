@@ -20,6 +20,7 @@ import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
 import java.lang.reflect.Type;
 import java.math.BigInteger;
+import java.util.Locale;
 
 import org.apache.commons.math4.TestUtils;
 import org.apache.commons.math4.dfp.Dfp;
@@ -52,8 +53,29 @@ public class FastMathTest {
     }
 
     @Test
-    public void testH10() {
-        Assert.assertEquals(0.0, FastMath.pow(-0.0, Double.POSITIVE_INFINITY), 1.0e-15);
+    public void testH10Print() {
+        print("0.0",                                          0.0);
+        print("-0.0",                                         -0.0);
+        print("+0.0",                                         +0.0);
+        print("Double.POSITIVE_INFINITY",                     Double.POSITIVE_INFINITY);
+        print("Double.NEGATIVE_INFINITY",                     Double.NEGATIVE_INFINITY);
+        print("Double.longBitsToDouble(0x0L)",                Double.longBitsToDouble(0x0L));
+        print("Double.longBitsToDouble(0x1L)",                Double.longBitsToDouble(0x1L));
+        print("Double.longBitsToDouble(0x8000000000000000L)", Double.longBitsToDouble(0x8000000000000000L));
+        print("Double.longBitsToDouble(0x8000000000000001L)", Double.longBitsToDouble(0x8000000000000001L));
+        print("Precision.SAFE_MIN",                           Precision.SAFE_MIN);
+        print("Precision.EPSILON",                            Precision.EPSILON);
+        print("Double.MIN_VALUE",                             Double.MIN_VALUE);
+        print("Double.MAX_VALUE",                             Double.MAX_VALUE);
+        print("1.0",                                          1.0);
+        print("FastMath.nextUp(1.0)",                         FastMath.nextUp(1.0));
+        print("FastMath.nextDown(1.0)",                       FastMath.nextDown(1.0));
+        print("FastMath.nextUp(1.0) - 1.0",                   FastMath.nextUp(1.0) - 1.0);
+        print("1.0 - FastMath.nextDown(1.0)",                 1.0 - FastMath.nextDown(1.0));
+    }
+
+    private static void print(final String spec, final double x) {
+        System.out.format(Locale.US, "%s 0x%x %23.16e%n",  spec, Double.doubleToRawLongBits(x), x);
     }
 
     @Test
