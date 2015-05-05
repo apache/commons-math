@@ -16,12 +16,10 @@
  */
 package org.apache.commons.math4.util;
 
-import java.io.IOException;
 import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
 import java.lang.reflect.Type;
 import java.math.BigInteger;
-import java.util.Arrays;
 
 import org.apache.commons.math4.TestUtils;
 import org.apache.commons.math4.dfp.Dfp;
@@ -53,17 +51,20 @@ public class FastMathTest {
 
     @Test
     public void testH10OneHalfPowerPositiveInfinity() {
-        Assert.assertEquals(0.0, FastMath.pow(0.5, Double.POSITIVE_INFINITY), 1.0e-15);
+        final double res = FastMath.pow(0.5, Double.POSITIVE_INFINITY);
+        Assert.assertEquals("0.5^∞ = " + res, 0.0, res, 1.0e-15);
     }
 
     @Test
     public void testH10MinusZeroPowerPositiveInfinity() {
-        Assert.assertEquals(0.0, FastMath.pow(-0.0, Double.POSITIVE_INFINITY), 1.0e-15);
+        final double res = FastMath.pow(-0.0, Double.POSITIVE_INFINITY);
+        Assert.assertEquals("-0.0^∞ = " + res, 0.0, res, 1.0e-15);
     }
 
     @Test
     public void testH10MinusZeroPowerNaN() {
-        Assert.assertTrue(Double.isNaN(FastMath.pow(-0.0, Double.NaN)));
+        final double res = FastMath.pow(-0.0, Double.NaN);
+        Assert.assertTrue("-0.0^NaN = " + res, Double.isNaN(res));
     }
 
     @Test

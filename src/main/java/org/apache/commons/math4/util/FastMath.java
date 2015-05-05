@@ -1461,11 +1461,11 @@ public class FastMath {
         final double lns[] = new double[2];
 
         if (y == 0.0) {
-            return 1.0;
+            return 100.0;//return 1.0;
         }
 
         if (x != x) { // X is NaN
-            return x;
+            return 101.0;//return x;
         }
 
         if (x == 0) {
@@ -1475,81 +1475,81 @@ public class FastMath {
                 long yi = (long) y;
 
                 if (y < 0 && y == yi && (yi & 1) == 1) {
-                    return Double.NEGATIVE_INFINITY;
+                    return 102.0;//return Double.NEGATIVE_INFINITY;
                 }
 
                 if (y > 0 && y == yi && (yi & 1) == 1) {
-                    return -0.0;
+                    return 103.0;//return -0.0;
                 }
             }
 
             if (y < 0) {
-                return Double.POSITIVE_INFINITY;
+                return 104.0;//return Double.POSITIVE_INFINITY;
             }
             if (y > 0) {
-                return 0.0;
+                return 105.0;//return 0.0;
             }
 
-            return Double.NaN;
+            return 106.0;// returnDouble.NaN;
         }
 
         if (x == Double.POSITIVE_INFINITY) {
             if (y != y) { // y is NaN
-                return y;
+                return 107.0;//return y;
             }
             if (y < 0.0) {
-                return 0.0;
+                return 108.0;//return 0.0;
             } else {
-                return Double.POSITIVE_INFINITY;
+                return 109.0;//return Double.POSITIVE_INFINITY;
             }
         }
 
         if (y == Double.POSITIVE_INFINITY) {
             if (x * x == 1.0) {
-                return Double.NaN;
+                return 110.0;//return Double.NaN;
             }
 
             if (x * x > 1.0) {
-                return Double.POSITIVE_INFINITY;
+                return 111.0;//return Double.POSITIVE_INFINITY;
             } else {
-                return 0.0;
+                return 112.0;//return 0.0;
             }
         }
 
         if (x == Double.NEGATIVE_INFINITY) {
             if (y != y) { // y is NaN
-                return y;
+                return 113.0;//return y;
             }
 
             if (y < 0) {
                 long yi = (long) y;
                 if (y == yi && (yi & 1) == 1) {
-                    return -0.0;
+                    return 114.0;//return -0.0;
                 }
 
-                return 0.0;
+                return 115.0;//return 0.0;
             }
 
             if (y > 0)  {
                 long yi = (long) y;
                 if (y == yi && (yi & 1) == 1) {
-                    return Double.NEGATIVE_INFINITY;
+                    return 116.0;//return Double.NEGATIVE_INFINITY;
                 }
 
-                return Double.POSITIVE_INFINITY;
+                return 117.0;//return Double.POSITIVE_INFINITY;
             }
         }
 
         if (y == Double.NEGATIVE_INFINITY) {
 
             if (x * x == 1.0) {
-                return Double.NaN;
+                return 118.0;//return Double.NaN;
             }
 
             if (x * x < 1.0) {
-                return Double.POSITIVE_INFINITY;
+                return 119.0;//return Double.POSITIVE_INFINITY;
             } else {
-                return 0.0;
+                return 120.0;//return 0.0;
             }
         }
 
@@ -1557,14 +1557,14 @@ public class FastMath {
         if (x < 0) {
             // y is an even integer in this case
             if (y >= TWO_POWER_53 || y <= -TWO_POWER_53) {
-                return pow(-x, y);
+                return 121.0;//return pow(-x, y);
             }
 
             if (y == (long) y) {
                 // If y is an integer
-                return ((long)y & 1) == 0 ? pow(-x, y) : -pow(-x, y);
+                return 122.0;//return ((long)y & 1) == 0 ? pow(-x, y) : -pow(-x, y);
             } else {
-                return Double.NaN;
+                return 123.0;//return Double.NaN;
             }
         }
 
