@@ -1469,37 +1469,27 @@ public class FastMath {
         }
 
         if (x == 0) {
-            System.out.format(java.util.Locale.US, "in if (x == 0)%nx = %x, %22.19f, y = %x, %22.19f%n",
-                              Double.doubleToRawLongBits(x), x,
-                              Double.doubleToRawLongBits(y), y);
             long bits = Double.doubleToRawLongBits(x);
             if ((bits & 0x8000000000000000L) != 0) {
-                System.out.format(java.util.Locale.US, "in if ((bits & 0x8000000000000000L) != 0)%n");
                 // -zero
                 long yi = (long) y;
-                System.out.format(java.util.Locale.US, "yi = %x%n", yi);
 
                 if (y < 0 && y == yi && (yi & 1) == 1) {
-                    System.out.format(java.util.Locale.US, "in if (y < 0 && y == yi && (yi & 1) == 1) --> return Double.NEGATIVE_INFINITY%n");
                     return Double.NEGATIVE_INFINITY;
                 }
 
                 if (y > 0 && y == yi && (yi & 1) == 1) {
-                    System.out.format(java.util.Locale.US, "in if (y > 0 && y == yi && (yi & 1) == 1) --> return -0.0%n");
                     return -0.0;
                 }
             }
 
             if (y < 0) {
-                System.out.format(java.util.Locale.US, "in if (y < 0) --> return Double.POSITIVE_INFINITY%n");
                 return Double.POSITIVE_INFINITY;
             }
             if (y > 0) {
-                System.out.format(java.util.Locale.US, "in if (y > 0) --> return 0.0%n");
                 return 0.0;
             }
 
-            System.out.format(java.util.Locale.US, "in neither (y < 0) not (y > 0) --> return Double.NaN%n");
             return Double.NaN;
         }
 
