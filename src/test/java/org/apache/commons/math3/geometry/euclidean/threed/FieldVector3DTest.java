@@ -583,7 +583,7 @@ public class FieldVector3DTest {
         DerivativeStructure sNaive = u1.getX().multiply(u2.getX()).add(u1.getY().multiply(u2.getY())).add(u1.getZ().multiply(u2.getZ()));
         DerivativeStructure sAccurate = FieldVector3D.dotProduct(u1, u2);
         Assert.assertEquals(0.0, sNaive.getReal(), 1.0e-30);
-        Assert.assertEquals(-2088690039198397.0 / 1125899906842624.0, sAccurate.getReal(), 1.0e-16);
+        Assert.assertEquals(-2088690039198397.0 / 1125899906842624.0, sAccurate.getReal(), 1.0e-15);
     }
 
     @Test

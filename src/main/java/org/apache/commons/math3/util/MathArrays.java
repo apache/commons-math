@@ -47,8 +47,6 @@ import org.apache.commons.math3.exception.util.LocalizedFormats;
  * @since 3.0
  */
 public class MathArrays {
-    /** Factor used for splitting double numbers: n = 2^27 + 1 (i.e. {@value}). */
-    private static final int SPLIT_FACTOR = 0x8000001;
 
     /**
      * Private constructor.
@@ -862,15 +860,13 @@ public class MathArrays {
         double prodLowSum = 0;
 
         for (int i = 0; i < len; i++) {
-            final double ai = a[i];
-            final double ca = SPLIT_FACTOR * ai;
-            final double aHigh = ca - (ca - ai);
-            final double aLow = ai - aHigh;
+            final double ai    = a[i];
+            final double aHigh = Double.longBitsToDouble(Double.doubleToRawLongBits(ai) & ((-1L) << 27));
+            final double aLow  = ai - aHigh;
 
-            final double bi = b[i];
-            final double cb = SPLIT_FACTOR * bi;
-            final double bHigh = cb - (cb - bi);
-            final double bLow = bi - bHigh;
+            final double bi    = b[i];
+            final double bHigh = Double.longBitsToDouble(Double.doubleToRawLongBits(bi) & ((-1L) << 27));
+            final double bLow  = bi - bHigh;
             prodHigh[i] = ai * bi;
             final double prodLow = aLow * bLow - (((prodHigh[i] -
                                                     aHigh * bHigh) -
@@ -936,7 +932,6 @@ public class MathArrays {
         // the code below is split in many additions/subtractions that may
         // appear redundant. However, they should NOT be simplified, as they
         // use IEEE754 floating point arithmetic rounding properties.
-        // as an example, the expression "ca1 - (ca1 - a1)" is NOT the same as "a1"
         // The variable naming conventions are that xyzHigh contains the most significant
         // bits of xyz and xyzLow contains its least significant bits. So theoretically
         // xyz is the sum xyzHigh + xyzLow, but in many cases below, this sum cannot
@@ -944,24 +939,20 @@ public class MathArrays {
         // to hold it as long as we can, combining the high and low order bits together
         // only at the end, after cancellation may have occurred on high order bits
 
-        // split a1 and b1 as two 26 bits numbers
-        final double ca1        = SPLIT_FACTOR * a1;
-        final double a1High     = ca1 - (ca1 - a1);
+        // split a1 and b1 as one 26 bits number and one 27 bits number
+        final double a1High     = Double.longBitsToDouble(Double.doubleToRawLongBits(a1) & ((-1L) << 27));
         final double a1Low      = a1 - a1High;
-        final double cb1        = SPLIT_FACTOR * b1;
-        final double b1High     = cb1 - (cb1 - b1);
+        final double b1High     = Double.longBitsToDouble(Double.doubleToRawLongBits(b1) & ((-1L) << 27));
         final double b1Low      = b1 - b1High;
 
         // accurate multiplication a1 * b1
         final double prod1High  = a1 * b1;
         final double prod1Low   = a1Low * b1Low - (((prod1High - a1High * b1High) - a1Low * b1High) - a1High * b1Low);
 
-        // split a2 and b2 as two 26 bits numbers
-        final double ca2        = SPLIT_FACTOR * a2;
-        final double a2High     = ca2 - (ca2 - a2);
+        // split a2 and b2 as one 26 bits number and one 27 bits number
+        final double a2High     = Double.longBitsToDouble(Double.doubleToRawLongBits(a2) & ((-1L) << 27));
         final double a2Low      = a2 - a2High;
-        final double cb2        = SPLIT_FACTOR * b2;
-        final double b2High     = cb2 - (cb2 - b2);
+        final double b2High     = Double.longBitsToDouble(Double.doubleToRawLongBits(b2) & ((-1L) << 27));
         final double b2Low      = b2 - b2High;
 
         // accurate multiplication a2 * b2
@@ -1016,7 +1007,6 @@ public class MathArrays {
         // the code below is split in many additions/subtractions that may
         // appear redundant. However, they should NOT be simplified, as they
         // do use IEEE754 floating point arithmetic rounding properties.
-        // as an example, the expression "ca1 - (ca1 - a1)" is NOT the same as "a1"
         // The variables naming conventions are that xyzHigh contains the most significant
         // bits of xyz and xyzLow contains its least significant bits. So theoretically
         // xyz is the sum xyzHigh + xyzLow, but in many cases below, this sum cannot
@@ -1024,36 +1014,30 @@ public class MathArrays {
         // to hold it as long as we can, combining the high and low order bits together
         // only at the end, after cancellation may have occurred on high order bits
 
-        // split a1 and b1 as two 26 bits numbers
-        final double ca1        = SPLIT_FACTOR * a1;
-        final double a1High     = ca1 - (ca1 - a1);
+        // split a1 and b1 as one 26 bits number and one 27 bits number
+        final double a1High     = Double.longBitsToDouble(Double.doubleToRawLongBits(a1) & ((-1L) << 27));
         final double a1Low      = a1 - a1High;
-        final double cb1        = SPLIT_FACTOR * b1;
-        final double b1High     = cb1 - (cb1 - b1);
+        final double b1High     = Double.longBitsToDouble(Double.doubleToRawLongBits(b1) & ((-1L) << 27));
         final double b1Low      = b1 - b1High;
 
         // accurate multiplication a1 * b1
         final double prod1High  = a1 * b1;
         final double prod1Low   = a1Low * b1Low - (((prod1High - a1High * b1High) - a1Low * b1High) - a1High * b1Low);
 
-        // split a2 and b2 as two 26 bits numbers
-        final double ca2        = SPLIT_FACTOR * a2;
-        final double a2High     = ca2 - (ca2 - a2);
+        // split a2 and b2 as one 26 bits number and one 27 bits number
+        final double a2High     = Double.longBitsToDouble(Double.doubleToRawLongBits(a2) & ((-1L) << 27));
         final double a2Low      = a2 - a2High;
-        final double cb2        = SPLIT_FACTOR * b2;
-        final double b2High     = cb2 - (cb2 - b2);
+        final double b2High     = Double.longBitsToDouble(Double.doubleToRawLongBits(b2) & ((-1L) << 27));
         final double b2Low      = b2 - b2High;
 
         // accurate multiplication a2 * b2
         final double prod2High  = a2 * b2;
         final double prod2Low   = a2Low * b2Low - (((prod2High - a2High * b2High) - a2Low * b2High) - a2High * b2Low);
 
-        // split a3 and b3 as two 26 bits numbers
-        final double ca3        = SPLIT_FACTOR * a3;
-        final double a3High     = ca3 - (ca3 - a3);
+        // split a3 and b3 as one 26 bits number and one 27 bits number
+        final double a3High     = Double.longBitsToDouble(Double.doubleToRawLongBits(a3) & ((-1L) << 27));
         final double a3Low      = a3 - a3High;
-        final double cb3        = SPLIT_FACTOR * b3;
-        final double b3High     = cb3 - (cb3 - b3);
+        final double b3High     = Double.longBitsToDouble(Double.doubleToRawLongBits(b3) & ((-1L) << 27));
         final double b3Low      = b3 - b3High;
 
         // accurate multiplication a3 * b3
@@ -1118,7 +1102,6 @@ public class MathArrays {
         // the code below is split in many additions/subtractions that may
         // appear redundant. However, they should NOT be simplified, as they
         // do use IEEE754 floating point arithmetic rounding properties.
-        // as an example, the expression "ca1 - (ca1 - a1)" is NOT the same as "a1"
         // The variables naming conventions are that xyzHigh contains the most significant
         // bits of xyz and xyzLow contains its least significant bits. So theoretically
         // xyz is the sum xyzHigh + xyzLow, but in many cases below, this sum cannot
@@ -1126,48 +1109,40 @@ public class MathArrays {
         // to hold it as long as we can, combining the high and low order bits together
         // only at the end, after cancellation may have occurred on high order bits
 
-        // split a1 and b1 as two 26 bits numbers
-        final double ca1        = SPLIT_FACTOR * a1;
-        final double a1High     = ca1 - (ca1 - a1);
+        // split a1 and b1 as one 26 bits number and one 27 bits number
+        final double a1High     = Double.longBitsToDouble(Double.doubleToRawLongBits(a1) & ((-1L) << 27));
         final double a1Low      = a1 - a1High;
-        final double cb1        = SPLIT_FACTOR * b1;
-        final double b1High     = cb1 - (cb1 - b1);
+        final double b1High     = Double.longBitsToDouble(Double.doubleToRawLongBits(b1) & ((-1L) << 27));
         final double b1Low      = b1 - b1High;
 
         // accurate multiplication a1 * b1
         final double prod1High  = a1 * b1;
         final double prod1Low   = a1Low * b1Low - (((prod1High - a1High * b1High) - a1Low * b1High) - a1High * b1Low);
 
-        // split a2 and b2 as two 26 bits numbers
-        final double ca2        = SPLIT_FACTOR * a2;
-        final double a2High     = ca2 - (ca2 - a2);
+        // split a2 and b2 as one 26 bits number and one 27 bits number
+        final double a2High     = Double.longBitsToDouble(Double.doubleToRawLongBits(a2) & ((-1L) << 27));
         final double a2Low      = a2 - a2High;
-        final double cb2        = SPLIT_FACTOR * b2;
-        final double b2High     = cb2 - (cb2 - b2);
+        final double b2High     = Double.longBitsToDouble(Double.doubleToRawLongBits(b2) & ((-1L) << 27));
         final double b2Low      = b2 - b2High;
 
         // accurate multiplication a2 * b2
         final double prod2High  = a2 * b2;
         final double prod2Low   = a2Low * b2Low - (((prod2High - a2High * b2High) - a2Low * b2High) - a2High * b2Low);
 
-        // split a3 and b3 as two 26 bits numbers
-        final double ca3        = SPLIT_FACTOR * a3;
-        final double a3High     = ca3 - (ca3 - a3);
+        // split a3 and b3 as one 26 bits number and one 27 bits number
+        final double a3High     = Double.longBitsToDouble(Double.doubleToRawLongBits(a3) & ((-1L) << 27));
         final double a3Low      = a3 - a3High;
-        final double cb3        = SPLIT_FACTOR * b3;
-        final double b3High     = cb3 - (cb3 - b3);
+        final double b3High     = Double.longBitsToDouble(Double.doubleToRawLongBits(b3) & ((-1L) << 27));
         final double b3Low      = b3 - b3High;
 
         // accurate multiplication a3 * b3
         final double prod3High  = a3 * b3;
         final double prod3Low   = a3Low * b3Low - (((prod3High - a3High * b3High) - a3Low * b3High) - a3High * b3Low);
 
-        // split a4 and b4 as two 26 bits numbers
-        final double ca4        = SPLIT_FACTOR * a4;
-        final double a4High     = ca4 - (ca4 - a4);
+        // split a4 and b4 as one 26 bits number and one 27 bits number
+        final double a4High     = Double.longBitsToDouble(Double.doubleToRawLongBits(a4) & ((-1L) << 27));
         final double a4Low      = a4 - a4High;
-        final double cb4        = SPLIT_FACTOR * b4;
-        final double b4High     = cb4 - (cb4 - b4);
+        final double b4High     = Double.longBitsToDouble(Double.doubleToRawLongBits(b4) & ((-1L) << 27));
         final double b4Low      = b4 - b4High;
 
         // accurate multiplication a4 * b4

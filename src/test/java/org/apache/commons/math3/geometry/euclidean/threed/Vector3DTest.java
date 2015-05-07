@@ -341,7 +341,7 @@ public class Vector3DTest {
         double sNaive = u1.getX() * u2.getX() + u1.getY() * u2.getY() + u1.getZ() * u2.getZ();
         double sAccurate = u1.dotProduct(u2);
         Assert.assertEquals(0.0, sNaive, 1.0e-30);
-        Assert.assertEquals(-2088690039198397.0 / 1125899906842624.0, sAccurate, 1.0e-16);
+        Assert.assertEquals(-2088690039198397.0 / 1125899906842624.0, sAccurate, 1.0e-15);
     }
 
     @Test

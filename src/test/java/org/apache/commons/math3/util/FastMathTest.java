@@ -381,6 +381,12 @@ public class FastMathTest {
 
         Assert.assertTrue("pow(-0.0, -3.0) should be -Inf", Double.isInfinite(FastMath.pow(-0.0, -3.0)));
 
+        Assert.assertEquals("pow(-0.0, Infinity) should be 0.0", 0.0, FastMath.pow(-0.0, Double.POSITIVE_INFINITY), Precision.EPSILON);
+
+        Assert.assertTrue("pow(-0.0, NaN) should be NaN", Double.isNaN(FastMath.pow(-0.0, Double.NaN)));
+
+        Assert.assertTrue("pow(-0.0, -tiny) should be Infinity", Double.isInfinite(FastMath.pow(-0.0, -Double.MIN_VALUE)));
+
         Assert.assertTrue("pow(-Inf, -3.0) should be -Inf", Double.isInfinite(FastMath.pow(Double.NEGATIVE_INFINITY, 3.0)));
 
         Assert.assertTrue("pow(-0.0, -3.5) should be Inf", Double.isInfinite(FastMath.pow(-0.0, -3.5)));
@@ -390,6 +396,16 @@ public class FastMathTest {
         Assert.assertEquals("pow(-2.0, 3.0) should be -8.0", -8.0, FastMath.pow(-2.0, 3.0), Precision.EPSILON);
 
         Assert.assertTrue("pow(-2.0, 3.5) should be NaN", Double.isNaN(FastMath.pow(-2.0, 3.5)));
+
+        Assert.assertTrue("pow(NaN, -Infinity) should be NaN", Double.isNaN(FastMath.pow(Double.NaN, Double.NEGATIVE_INFINITY)));
+
+        Assert.assertEquals("pow(NaN, 0.0) should be 1.0", 1.0, FastMath.pow(Double.NaN, 0.0), Precision.EPSILON);
+
+        Assert.assertEquals("pow(-Infinity, -Infinity) should be 0.0", 0.0, FastMath.pow(Double.NEGATIVE_INFINITY, Double.NEGATIVE_INFINITY), Precision.EPSILON);
+
+        Assert.assertEquals("pow(-huge, -huge) should be 0.0", 0.0, FastMath.pow(-Double.MAX_VALUE, -Double.MAX_VALUE), Precision.EPSILON);
+
+        Assert.assertTrue("pow(-huge,  huge) should be +Inf", Double.isInfinite(FastMath.pow(-Double.MAX_VALUE, Double.MAX_VALUE)));
 
         // Added tests for a 100% coverage
 
@@ -1183,6 +1199,11 @@ public class FastMathTest {
                                 0.6 * FastMath.ulp(dfpPower.toDouble()));
             dfpPower = dfpPower.multiply(baseDfp);
         }
+    }
+
+    @Test
+    public void testIntPowHuge() {
+        Assert.assertTrue(Double.isInfinite(FastMath.pow(FastMath.scalb(1.0, 500), 4)));
     }
 
     @Test

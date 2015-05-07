@@ -51,6 +51,9 @@ If the output is not quite correct, check for invisible trailing spaces!
   </properties>
   <body>
     <release version="3.6" date="XXXX-XX-XX" description="">
+      <action dev="luc" type="fix" issue="MATH-1223" >
+       Fixed wrong splitting of huge number in extended accuracy algorithms.
+      </action>
       <action dev="tn" type="fix" issue="MATH-1220" due-to="Otmar Ertl">
         Improve performance of "ZipfDistribution#sample()" by using a rejection algorithm.
       </action>

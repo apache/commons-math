@@ -1635,12 +1635,10 @@ public class FastMath {
             d = 1.0 / d;
         }
 
-        // split d as two 26 bits numbers
+        // split d as one 26 bits number and one 27 bits number
         // beware the following expressions must NOT be simplified, they rely on floating point arithmetic properties
-        final int splitFactor = 0x8000001;
-        final double cd       = splitFactor * d;
-        final double d1High   = cd - (cd - d);
-        final double d1Low    = d - d1High;
+        final double d1High = Double.longBitsToDouble(Double.doubleToRawLongBits(d) & ((-1L) << 27));
+        final double d1Low  = d - d1High;
 
         // prepare result
         double resultHigh = 1;
@@ -1657,8 +1655,7 @@ public class FastMath {
                 // accurate multiplication result = result * d^(2p) using Veltkamp TwoProduct algorithm
                 // beware the following expressions must NOT be simplified, they rely on floating point arithmetic properties
                 final double tmpHigh = resultHigh * d2p;
-                final double cRH     = splitFactor * resultHigh;
-                final double rHH     = cRH - (cRH - resultHigh);
+                final double rHH     = Double.longBitsToDouble(Double.doubleToRawLongBits(resultHigh) & ((-1L) << 27));
                 final double rHL     = resultHigh - rHH;
                 final double tmpLow  = rHL * d2pLow - (((tmpHigh - rHH * d2pHigh) - rHL * d2pHigh) - rHH * d2pLow);
                 resultHigh = tmpHigh;
@@ -1668,12 +1665,11 @@ public class FastMath {
             // accurate squaring d^(2(p+1)) = d^(2p) * d^(2p) using Veltkamp TwoProduct algorithm
             // beware the following expressions must NOT be simplified, they rely on floating point arithmetic properties
             final double tmpHigh = d2pHigh * d2p;
-            final double cD2pH   = splitFactor * d2pHigh;
+            final double cD2pH   = Double.longBitsToDouble(Double.doubleToRawLongBits(d2pHigh) & ((-1L) << 27));
             final double d2pHH   = cD2pH - (cD2pH - d2pHigh);
             final double d2pHL   = d2pHigh - d2pHH;
             final double tmpLow  = d2pHL * d2pLow - (((tmpHigh - d2pHH * d2pHigh) - d2pHL * d2pHigh) - d2pHH * d2pLow);
-            final double cTmpH   = splitFactor * tmpHigh;
-            d2pHigh = cTmpH - (cTmpH - tmpHigh);
+            d2pHigh = Double.longBitsToDouble(Double.doubleToRawLongBits(tmpHigh) & ((-1L) << 27));
             d2pLow  = d2pLow * d2p + tmpLow + (tmpHigh - d2pHigh);
             d2p     = d2pHigh + d2pLow;
 
@@ -1681,7 +1677,19 @@ public class FastMath {
 
         }
 
-        return resultHigh + resultLow;
+        final double result = resultHigh + resultLow;
+
+        if (Double.isNaN(result)) {
+            if (Double.isNaN(d)) {
+                return Double.NaN;
+            } else {
+                // some intermediate numbers exceeded capacity,
+                // and the low order bits became NaN (because infinity - infinity = NaN)
+                return (d < 0 && (e & 0x1) == 1) ? Double.NEGATIVE_INFINITY : Double.POSITIVE_INFINITY;
+            }
+        } else {
+            return result;
+        }
 
     }
 
