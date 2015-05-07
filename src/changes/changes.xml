@@ -54,7 +54,10 @@ If the output is not quite correct, check for invisible trailing spaces!
     </release>
 
     <release version="4.0" date="XXXX-XX-XX" description="">
-      <action dev="luc" type="fix" issue="MATH-1223">
+      <action dev="luc" type="fix" issue="MATH-1118" > <!-- backported to 3.6 -->
+        Fixed equals/hashcode contract failure for Dfp.
+      </action>
+      <action dev="luc" type="fix" issue="MATH-1223"> <!-- backported to 3.6 -->
         Fixed wrong splitting of huge number in extended accuracy algorithms.
       </action>
       <action dev="luc" type="fix" issue="MATH-1143">
