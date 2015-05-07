@@ -19,7 +19,7 @@
   <parent>
     <groupId>org.apache.commons</groupId>
     <artifactId>commons-parent</artifactId>
-    <version>34</version>
+    <version>37</version>
   </parent>
   <modelVersion>4.0.0</modelVersion>
   <groupId>org.apache.commons</groupId>
@@ -386,12 +386,12 @@
     <maven.compiler.source>1.5</maven.compiler.source>
     <maven.compiler.target>1.5</maven.compiler.target>
     <math.pmd.version>2.7.1</math.pmd.version>
-    <math.findbugs.version>2.5.1</math.findbugs.version>
-    <math.checkstyle.version>2.9.1</math.checkstyle.version>
+    <math.findbugs.version>3.0.1</math.findbugs.version>
+    <math.checkstyle.version>2.15</math.checkstyle.version>
     <math.clirr.version>2.6.1</math.clirr.version>
 
     <!-- Temporary fix to support Java 8 -->
-    <commons.jacoco.version>0.7.2.201409121644</commons.jacoco.version>
+    <commons.jacoco.version>0.7.4.201502262128</commons.jacoco.version>
     <commons.jacoco.classRatio>0.96</commons.jacoco.classRatio>
     <commons.jacoco.instructionRatio>0.8</commons.jacoco.instructionRatio>
     <commons.jacoco.methodRatio>0.8</commons.jacoco.methodRatio>
@@ -406,7 +406,7 @@
 
     <!-- Temporary fix to replace svn-based build number with git-based build number -->
     <buildnumber.skip>true</buildnumber.skip>
-    <math.jgit.buildnumber.version>1.2.8</math.jgit.buildnumber.version>
+    <math.jgit.buildnumber.version>1.2.10</math.jgit.buildnumber.version>
     <implementation.build>${git.revision}; ${maven.build.timestamp}</implementation.build>
 
   </properties>

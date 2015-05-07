@@ -25,8 +25,6 @@
 
   <module name="TreeWalker">
 
-    <property name="cacheFile" value="target/checkstyle-cachefile"/>
-
     <!-- Operator must be at end of wrapped line -->
     <module name="OperatorWrap">
       <property name="option" value="eol"/>
@@ -45,14 +43,9 @@
     <module name="JavadocMethod">
       <property name="allowUndeclaredRTE" value="true"/>
       <property name="allowThrowsTagsForSubclasses" value="true"/>
+      <property name="validateThrows" value="false"/>
     </module>
 
-   <!-- Allow declaration of detailed exception set -->
-   <module name="RedundantThrows">
-     <property name="allowUnchecked"  value="true"/>
-     <property name="allowSubclasses" value="true"/>
-   </module>
-        
     <!-- Require field javadoc -->
     <module name="JavadocVariable"/>
         
