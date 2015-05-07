@@ -51,6 +51,9 @@ If the output is not quite correct, check for invisible trailing spaces!
   </properties>
   <body>
     <release version="3.6" date="XXXX-XX-XX" description="">
+      <action dev="luc" type="fix" issue="MATH-1218" >
+        Fixed equals/hashcode contract failure for Dfp.
+      </action>
       <action dev="luc" type="fix" issue="MATH-1223" >
        Fixed wrong splitting of huge number in extended accuracy algorithms.
       </action>
