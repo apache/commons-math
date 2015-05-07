@@ -54,6 +54,10 @@ If the output is not quite correct, check for invisible trailing spaces!
     </release>
 
     <release version="4.0" date="XXXX-XX-XX" description="">
+      <action dev="tn" type="fix"> <!-- backported to 3.6 -->
+        Fix potential branching errors in "FastMath#pow(double, double)" when
+        passing special values, i.e. infinity, due to erroneous JIT optimization.
+      </action>
       <action dev="luc" type="fix" issue="MATH-1118" > <!-- backported to 3.6 -->
         Fixed equals/hashcode contract failure for Dfp.
       </action>

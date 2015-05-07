@@ -1462,13 +1462,11 @@ public class FastMath {
 
         if (y == 0.0) {
             return 1.0;
-        }
-
-        if (x != x) { // X is NaN
+        } else if (x != x) { // X is NaN
             return x;
-        }
-
-        if (x == 0) {
+        } else if (y != y) { // y is NaN
+            return y;
+        } else if (x == 0) {
             long bits = Double.doubleToRawLongBits(x);
             if ((bits & 0x8000000000000000L) != 0) {
                 // -zero
@@ -1491,20 +1489,13 @@ public class FastMath {
             }
 
             return Double.NaN;
-        }
-
-        if (x == Double.POSITIVE_INFINITY) {
-            if (y != y) { // y is NaN
-                return y;
-            }
+        } else if (x == Double.POSITIVE_INFINITY) {
             if (y < 0.0) {
                 return 0.0;
             } else {
                 return Double.POSITIVE_INFINITY;
             }
-        }
-
-        if (y == Double.POSITIVE_INFINITY) {
+        } else if (y == Double.POSITIVE_INFINITY) {
             if (x * x == 1.0) {
                 return Double.NaN;
             }
@@ -1514,13 +1505,7 @@ public class FastMath {
             } else {
                 return 0.0;
             }
-        }
-
-        if (x == Double.NEGATIVE_INFINITY) {
-            if (y != y) { // y is NaN
-                return y;
-            }
-
+        } else if (x == Double.NEGATIVE_INFINITY) {
             if (y < 0) {
                 long yi = (long) y;
                 if (y == yi && (yi & 1) == 1) {
@@ -1538,10 +1523,7 @@ public class FastMath {
 
                 return Double.POSITIVE_INFINITY;
             }
-        }
-
-        if (y == Double.NEGATIVE_INFINITY) {
-
+        } else if (y == Double.NEGATIVE_INFINITY) {
             if (x * x == 1.0) {
                 return Double.NaN;
             }
@@ -1551,10 +1533,7 @@ public class FastMath {
             } else {
                 return 0.0;
             }
-        }
-
-        /* Handle special case x<0 */
-        if (x < 0) {
+        } else if (x < 0) { // Handle special case x<0
             // y is an even integer in this case
             if (y >= TWO_POWER_53 || y <= -TWO_POWER_53) {
                 return pow(-x, y);
