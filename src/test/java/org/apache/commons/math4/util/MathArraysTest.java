@@ -712,6 +712,39 @@ public class MathArraysTest {
     }
 
     @Test
+    public void testLinearCombinationHuge() {
+        int scale = 971;
+        final double[] a = new double[] {
+                                         -1321008684645961.0 / 268435456.0,
+                                         -5774608829631843.0 / 268435456.0,
+                                         -7645843051051357.0 / 8589934592.0
+                                     };
+        final double[] b = new double[] {
+                                         -5712344449280879.0 / 2097152.0,
+                                         -4550117129121957.0 / 2097152.0,
+                                          8846951984510141.0 / 131072.0
+                                     };
+
+        double[] scaledA = new double[a.length];
+        double[] scaledB = new double[b.length];
+        for (int i = 0; i < scaledA.length; ++i) {
+            scaledA[i] = FastMath.scalb(a[i], -scale);
+            scaledB[i] = FastMath.scalb(b[i], +scale);
+        }
+        final double abSumInline = MathArrays.linearCombination(scaledA[0], scaledB[0],
+                                                                scaledA[1], scaledB[1],
+                                                                scaledA[2], scaledB[2]);
+        final double abSumArray = MathArrays.linearCombination(scaledA, scaledB);
+
+        Assert.assertEquals(abSumInline, abSumArray, 0);
+        Assert.assertEquals(-1.8551294182586248737720779899, abSumInline, 1.0e-15);
+
+        final double naive = scaledA[0] * scaledB[0] + scaledA[1] * scaledB[1] + scaledA[2] * scaledB[2];
+        Assert.assertTrue(FastMath.abs(naive - abSumInline) > 1.5);
+
+    }
+
+    @Test
     public void testLinearCombinationInfinite() {
         final double[][] a = new double[][] {
             { 1, 2, 3, 4},
