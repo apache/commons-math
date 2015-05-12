@@ -321,9 +321,9 @@ public class FastMathTest {
     @Test
     public void testLogSpecialCases() {
 
-        Assert.assertTrue("Log of zero should be -Inf", Double.isInfinite(FastMath.log(0.0)));
+        Assert.assertEquals("Log of zero should be -Inf", Double.NEGATIVE_INFINITY, FastMath.log(0.0), 1.0);
 
-        Assert.assertTrue("Log of -zero should be -Inf", Double.isInfinite(FastMath.log(-0.0)));
+        Assert.assertEquals("Log of -zero should be -Inf", Double.NEGATIVE_INFINITY, FastMath.log(-0.0), 1.0);
 
         Assert.assertTrue("Log of NaN should be NaN", Double.isNaN(FastMath.log(Double.NaN)));
 
@@ -331,8 +331,9 @@ public class FastMathTest {
 
         Assert.assertEquals("Log of Double.MIN_VALUE should be -744.4400719213812", -744.4400719213812, FastMath.log(Double.MIN_VALUE), Precision.EPSILON);
 
-        Assert.assertTrue("Log of infinity should be infinity", Double.isInfinite(FastMath.log(Double.POSITIVE_INFINITY)));
+        Assert.assertEquals("Log of infinity should be infinity", Double.POSITIVE_INFINITY, FastMath.log(Double.POSITIVE_INFINITY), 1.0);
     }
+
     @Test
     public void testExpSpecialCases() {
 
@@ -343,7 +344,7 @@ public class FastMathTest {
 
         Assert.assertTrue("exp of NaN should be NaN", Double.isNaN(FastMath.exp(Double.NaN)));
 
-        Assert.assertTrue("exp of infinity should be infinity", Double.isInfinite(FastMath.exp(Double.POSITIVE_INFINITY)));
+        Assert.assertEquals("exp of infinity should be infinity", Double.POSITIVE_INFINITY, FastMath.exp(Double.POSITIVE_INFINITY), 1.0);
 
         Assert.assertEquals("exp of -infinity should be 0.0", 0.0, FastMath.exp(Double.NEGATIVE_INFINITY), Precision.EPSILON);
 
@@ -365,9 +366,9 @@ public class FastMathTest {
 
         Assert.assertTrue("pow(NaN, PI) should be NaN", Double.isNaN(FastMath.pow(Double.NaN, Math.PI)));
 
-        Assert.assertTrue("pow(2.0, Infinity) should be Infinity", Double.isInfinite(FastMath.pow(2.0, Double.POSITIVE_INFINITY)));
+        Assert.assertEquals("pow(2.0, Infinity) should be Infinity", Double.POSITIVE_INFINITY, FastMath.pow(2.0, Double.POSITIVE_INFINITY), 1.0);
 
-        Assert.assertTrue("pow(0.5, -Infinity) should be Infinity", Double.isInfinite(FastMath.pow(0.5, Double.NEGATIVE_INFINITY)));
+        Assert.assertEquals("pow(0.5, -Infinity) should be Infinity", Double.POSITIVE_INFINITY, FastMath.pow(0.5, Double.NEGATIVE_INFINITY), 1.0);
 
         Assert.assertEquals("pow(0.5, Infinity) should be 0.0", 0.0, FastMath.pow(0.5, Double.POSITIVE_INFINITY), Precision.EPSILON);
 
@@ -377,23 +378,25 @@ public class FastMathTest {
 
         Assert.assertEquals("pow(Infinity, -0.5) should be 0.0", 0.0, FastMath.pow(Double.POSITIVE_INFINITY, -0.5), Precision.EPSILON);
 
-        Assert.assertTrue("pow(0.0, -0.5) should be Inf", Double.isInfinite(FastMath.pow(0.0, -0.5)));
+        Assert.assertEquals("pow(0.0, -0.5) should be Inf", Double.POSITIVE_INFINITY, FastMath.pow(0.0, -0.5), 1.0);
 
-        Assert.assertTrue("pow(Inf, 0.5) should be Inf", Double.isInfinite(FastMath.pow(Double.POSITIVE_INFINITY, 0.5)));
+        Assert.assertEquals("pow(Inf, 0.5) should be Inf", Double.POSITIVE_INFINITY, FastMath.pow(Double.POSITIVE_INFINITY, 0.5), 1.0);
 
-        Assert.assertTrue("pow(-0.0, -3.0) should be -Inf", Double.isInfinite(FastMath.pow(-0.0, -3.0)));
+        Assert.assertEquals("pow(-0.0, -3.0) should be -Inf", Double.NEGATIVE_INFINITY, FastMath.pow(-0.0, -3.0), 1.0);
 
         Assert.assertEquals("pow(-0.0, Infinity) should be 0.0", 0.0, FastMath.pow(-0.0, Double.POSITIVE_INFINITY), Precision.EPSILON);
 
         Assert.assertTrue("pow(-0.0, NaN) should be NaN", Double.isNaN(FastMath.pow(-0.0, Double.NaN)));
 
-        Assert.assertTrue("pow(-0.0, -tiny) should be Infinity", Double.isInfinite(FastMath.pow(-0.0, -Double.MIN_VALUE)));
+        Assert.assertEquals("pow(-0.0, -tiny) should be Infinity", Double.POSITIVE_INFINITY, FastMath.pow(-0.0, -Double.MIN_VALUE), 1.0);
 
-        Assert.assertTrue("pow(-Inf, -3.0) should be -Inf", Double.isInfinite(FastMath.pow(Double.NEGATIVE_INFINITY, 3.0)));
+        Assert.assertEquals("pow(-0.0, -huge) should be Infinity", Double.POSITIVE_INFINITY, FastMath.pow(-0.0, -Double.MAX_VALUE), 1.0);
 
-        Assert.assertTrue("pow(-0.0, -3.5) should be Inf", Double.isInfinite(FastMath.pow(-0.0, -3.5)));
+        Assert.assertEquals("pow(-Inf, -3.0) should be -Inf", Double.NEGATIVE_INFINITY, FastMath.pow(Double.NEGATIVE_INFINITY, 3.0), 1.0);
 
-        Assert.assertTrue("pow(Inf, 3.5) should be Inf", Double.isInfinite(FastMath.pow(Double.POSITIVE_INFINITY, 3.5)));
+        Assert.assertEquals("pow(-0.0, -3.5) should be Inf", Double.POSITIVE_INFINITY, FastMath.pow(-0.0, -3.5), 1.0);
+
+        Assert.assertEquals("pow(Inf, 3.5) should be Inf", Double.POSITIVE_INFINITY, FastMath.pow(Double.POSITIVE_INFINITY, 3.5), 1.0);
 
         Assert.assertEquals("pow(-2.0, 3.0) should be -8.0", -8.0, FastMath.pow(-2.0, 3.0), Precision.EPSILON);
 
@@ -409,6 +412,16 @@ public class FastMathTest {
 
         Assert.assertTrue("pow(-huge,  huge) should be +Inf", Double.isInfinite(FastMath.pow(-Double.MAX_VALUE, Double.MAX_VALUE)));
 
+        Assert.assertTrue("pow(NaN, -Infinity) should be NaN", Double.isNaN(FastMath.pow(Double.NaN, Double.NEGATIVE_INFINITY)));
+
+        Assert.assertEquals("pow(NaN, 0.0) should be 1.0", 1.0, FastMath.pow(Double.NaN, 0.0), Precision.EPSILON);
+
+        Assert.assertEquals("pow(-Infinity, -Infinity) should be 0.0", 0.0, FastMath.pow(Double.NEGATIVE_INFINITY, Double.NEGATIVE_INFINITY), Precision.EPSILON);
+
+        Assert.assertEquals("pow(-huge, -huge) should be 0.0", 0.0, FastMath.pow(-Double.MAX_VALUE, -Double.MAX_VALUE), Precision.EPSILON);
+
+        Assert.assertEquals("pow(-huge,  huge) should be +Inf", Double.POSITIVE_INFINITY, FastMath.pow(-Double.MAX_VALUE, Double.MAX_VALUE), 1.0);
+
         // Added tests for a 100% coverage
 
         Assert.assertTrue("pow(+Inf, NaN) should be NaN", Double.isNaN(FastMath.pow(Double.POSITIVE_INFINITY, Double.NaN)));
@@ -421,12 +434,23 @@ public class FastMathTest {
 
         Assert.assertEquals("pow(-Inf, -2.0) should be 0.0", 0.0, FastMath.pow(Double.NEGATIVE_INFINITY, -2.0), Precision.EPSILON);
 
-        Assert.assertTrue("pow(-Inf, 1.0) should be -Inf", Double.isInfinite(FastMath.pow(Double.NEGATIVE_INFINITY, 1.0)));
+        Assert.assertEquals("pow(-Inf, 1.0) should be -Inf", Double.NEGATIVE_INFINITY, FastMath.pow(Double.NEGATIVE_INFINITY, 1.0), 1.0);
 
-        Assert.assertTrue("pow(-Inf, 2.0) should be +Inf", Double.isInfinite(FastMath.pow(Double.NEGATIVE_INFINITY, 2.0)));
+        Assert.assertEquals("pow(-Inf, 2.0) should be +Inf", Double.POSITIVE_INFINITY, FastMath.pow(Double.NEGATIVE_INFINITY, 2.0), 1.0);
 
         Assert.assertTrue("pow(1.0, -Inf) should be NaN", Double.isNaN(FastMath.pow(1.0, Double.NEGATIVE_INFINITY)));
 
+    }
+
+    @Test
+    public void testPowLargeIntegralDouble() {
+        double y = FastMath.scalb(1.0, 65);
+        Assert.assertEquals(Double.POSITIVE_INFINITY, FastMath.pow(FastMath.nextUp(1.0), y),    1.0);
+        Assert.assertEquals(1.0,                      FastMath.pow(1.0, y),                     1.0);
+        Assert.assertEquals(0.0,                      FastMath.pow(FastMath.nextDown(1.0), y),  1.0);
+        Assert.assertEquals(0.0,                      FastMath.pow(FastMath.nextUp(-1.0), y),   1.0);
+        Assert.assertEquals(1.0,                      FastMath.pow(-1.0, y),                    1.0);
+        Assert.assertEquals(Double.POSITIVE_INFINITY, FastMath.pow(FastMath.nextDown(-1.0), y), 1.0);
     }
 
     @Test

@@ -315,10 +315,17 @@ public class FastMath {
     /** Mask used to clear the non-sign part of a long. */
     private static final long MASK_NON_SIGN_LONG = 0x7fffffffffffffffl;
 
+    /** Mask used to extract exponent from double bits. */
+    private static final long MASK_DOUBLE_EXPONENT = 0x7ff0000000000000L;
+
+    /** Mask used to extract mantissa from double bits. */
+    private static final long MASK_DOUBLE_MANTISSA = 0x000fffffffffffffL;
+
+    /** Mask used to add implicit high order bit for normalized double. */
+    private static final long IMPLICIT_HIGH_BIT = 0x0010000000000000L;
+
     /** 2^52 - double numbers this large must be integral (no fraction) or NaN or Infinite */
     private static final double TWO_POWER_52 = 4503599627370496.0;
-    /** 2^53 - double numbers this large must be even. */
-    private static final double TWO_POWER_53 = 2 * TWO_POWER_52;
 
     /** Constant: {@value}. */
     private static final double F_1_3 = 1d / 3d;
@@ -1458,143 +1465,140 @@ public class FastMath {
      * @return double
      */
     public static double pow(final double x, final double y) {
-        final double lns[] = new double[2];
 
-        if (y == 0.0) {
+        if (y == 0) {
+            // y = -0 or y = +0
             return 1.0;
-        } else if (Double.isNaN(x)) {
-            return x;
-        } else if (Double.isNaN(y)) {
-            return y;
-        } else if (x == 0) {
-            long bits = Double.doubleToRawLongBits(x);
-            if ((bits & 0x8000000000000000L) != 0) {
-                // -zero
-                long yi = (long) y;
-
-                if (y < 0 && y == yi && (yi & 1) == 1) {
-                    return Double.NEGATIVE_INFINITY;
-                }
-
-                if (y > 0 && y == yi && (yi & 1) == 1) {
-                    return -0.0;
-                }
-            }
-
-            if (y < 0) {
-                return Double.POSITIVE_INFINITY;
-            }
-            if (y > 0) {
-                return 0.0;
-            }
-
-            return Double.NaN;
-        } else if (x == Double.POSITIVE_INFINITY) {
-            if (y < 0.0) {
-                return 0.0;
-            } else {
-                return Double.POSITIVE_INFINITY;
-            }
-        } else if (y == Double.POSITIVE_INFINITY) {
-            if (x * x == 1.0) {
-                return Double.NaN;
-            }
-
-            if (x * x > 1.0) {
-                return Double.POSITIVE_INFINITY;
-            } else {
-                return 0.0;
-            }
-        } else if (x == Double.NEGATIVE_INFINITY) {
-            if (y < 0) {
-                long yi = (long) y;
-                if (y == yi && (yi & 1) == 1) {
-                    return -0.0;
-                }
-
-                return 0.0;
-            }
-
-            if (y > 0)  {
-                long yi = (long) y;
-                if (y == yi && (yi & 1) == 1) {
-                    return Double.NEGATIVE_INFINITY;
-                }
-
-                return Double.POSITIVE_INFINITY;
-            }
-        } else if (y == Double.NEGATIVE_INFINITY) {
-            if (x * x == 1.0) {
-                return Double.NaN;
-            }
-
-            if (x * x < 1.0) {
-                return Double.POSITIVE_INFINITY;
-            } else {
-                return 0.0;
-            }
-        } else if (x < 0) { // Handle special case x<0
-            // y is an even integer in this case
-            if (y >= TWO_POWER_53 || y <= -TWO_POWER_53) {
-                return pow(-x, y);
-            }
-
-            if (y == (long) y) {
-                // If y is an integer
-                return ((long)y & 1) == 0 ? pow(-x, y) : -pow(-x, y);
-            } else {
-                return Double.NaN;
-            }
-        }
-
-        /* Split y into ya and yb such that y = ya+yb */
-        double ya;
-        double yb;
-        if (y < 8e298 && y > -8e298) {
-            double tmp1 = y * HEX_40000000;
-            ya = y + tmp1 - tmp1;
-            yb = y - ya;
         } else {
-            double tmp1 = y * 9.31322574615478515625E-10;
-            double tmp2 = tmp1 * 9.31322574615478515625E-10;
-            ya = (tmp1 + tmp2 - tmp1) * HEX_40000000 * HEX_40000000;
-            yb = y - ya;
+
+            final long yBits        = Double.doubleToRawLongBits(y);
+            final int  yRawExp      = (int) ((yBits & MASK_DOUBLE_EXPONENT) >> 52);
+            final long yRawMantissa = yBits & MASK_DOUBLE_MANTISSA;
+            final long xBits        = Double.doubleToRawLongBits(x);
+            final int  xRawExp      = (int) ((xBits & MASK_DOUBLE_EXPONENT) >> 52);
+            final long xRawMantissa = xBits & MASK_DOUBLE_MANTISSA;
+
+            if (yRawExp > 1085) {
+                // y is either a very large integral value that does not fit in a long or it is a special number
+
+                if ((yRawExp == 2047 && yRawMantissa != 0) ||
+                    (xRawExp == 2047 && xRawMantissa != 0)) {
+                    // NaN
+                    return Double.NaN;
+                } else if (xRawExp == 1023 && xRawMantissa == 0) {
+                    // x = -1.0 or x = +1.0
+                    if (yRawExp == 2047) {
+                        // y is infinite
+                        return Double.NaN;
+                    } else {
+                        // y is a large even integer
+                        return 1.0;
+                    }
+                } else {
+                    // the absolute value of x is either greater or smaller than 1.0
+
+                    // if yRawExp == 2047 and mantissa is 0, y = -infinity or y = +infinity
+                    // if 1085 < yRawExp < 2047, y is simply a large number, however, due to limited
+                    // accuracy, at this magnitude it behaves just like infinity with regards to x
+                    if ((y > 0) ^ (xRawExp < 1023)) {
+                        // either y = +infinity (or large engouh) and abs(x) > 1.0
+                        // or     y = -infinity (or large engouh) and abs(x) < 1.0
+                        return Double.POSITIVE_INFINITY;
+                    } else {
+                        // either y = +infinity (or large engouh) and abs(x) < 1.0
+                        // or     y = -infinity (or large engouh) and abs(x) > 1.0
+                        return +0.0;
+                    }
+                }
+
+            } else {
+                // y is a regular non-zero number
+
+                if (yRawExp >= 1023) {
+                    // y may be an integral value, which should be handled specifically
+                    final long yFullMantissa = IMPLICIT_HIGH_BIT | yRawMantissa;
+                    if (yRawExp < 1075) {
+                        // normal number with negative shift that may have a fractional part
+                        final long integralMask = (-1L) << (1075 - yRawExp);
+                        if ((yFullMantissa & integralMask) == yFullMantissa) {
+                            // all fractional bits are 0, the number is really integral
+                            final long l = yFullMantissa >> (1075 - yRawExp);
+                            return FastMath.pow(x, (y < 0) ? -l : l);
+                        }
+                    } else {
+                        // normal number with positive shift, always an integral value
+                        // we know it fits in a primitive long because yRawExp > 1085 has been handled above
+                        final long l =  yFullMantissa << (yRawExp - 1075);
+                        return FastMath.pow(x, (y < 0) ? -l : l);
+                    }
+                }
+
+                // y is a non-integral value
+
+                if (x == 0) {
+                    // x = -0 or x = +0
+                    // the integer powers have already been handled above
+                    return y < 0 ? Double.POSITIVE_INFINITY : +0.0;
+                } else if (xRawExp == 2047) {
+                    if (xRawMantissa == 0) {
+                        // x = -infinity or x = +infinity
+                        return (y < 0) ? +0.0 : Double.POSITIVE_INFINITY;
+                    } else {
+                        // NaN
+                        return Double.NaN;
+                    }
+                } else if (x < 0) {
+                    // the integer powers have already been handled above
+                    return Double.NaN;
+                } else {
+
+                    // this is the general case, for regular fractional numbers x and y
+
+                    // Split y into ya and yb such that y = ya+yb
+                    final double tmp = y * HEX_40000000;
+                    final double ya = (y + tmp) - tmp;
+                    final double yb = y - ya;
+
+                    /* Compute ln(x) */
+                    final double lns[] = new double[2];
+                    final double lores = log(x, lns);
+                    if (Double.isInfinite(lores)) { // don't allow this to be converted to NaN
+                        return lores;
+                    }
+
+                    double lna = lns[0];
+                    double lnb = lns[1];
+
+                    /* resplit lns */
+                    final double tmp1 = lna * HEX_40000000;
+                    final double tmp2 = (lna + tmp1) - tmp1;
+                    lnb += lna - tmp2;
+                    lna = tmp2;
+
+                    // y*ln(x) = (aa+ab)
+                    final double aa = lna * ya;
+                    final double ab = lna * yb + lnb * ya + lnb * yb;
+
+                    lna = aa+ab;
+                    lnb = -(lna - aa - ab);
+
+                    double z = 1.0 / 120.0;
+                    z = z * lnb + (1.0 / 24.0);
+                    z = z * lnb + (1.0 / 6.0);
+                    z = z * lnb + 0.5;
+                    z = z * lnb + 1.0;
+                    z *= lnb;
+
+                    final double result = exp(lna, z, null);
+                    //result = result + result * z;
+                    return result;
+
+                }
+            }
+
         }
 
-        /* Compute ln(x) */
-        final double lores = log(x, lns);
-        if (Double.isInfinite(lores)){ // don't allow this to be converted to NaN
-            return lores;
-        }
-
-        double lna = lns[0];
-        double lnb = lns[1];
-
-        /* resplit lns */
-        double tmp1 = lna * HEX_40000000;
-        double tmp2 = lna + tmp1 - tmp1;
-        lnb += lna - tmp2;
-        lna = tmp2;
-
-        // y*ln(x) = (aa+ab)
-        final double aa = lna * ya;
-        final double ab = lna * yb + lnb * ya + lnb * yb;
-
-        lna = aa+ab;
-        lnb = -(lna - aa - ab);
-
-        double z = 1.0 / 120.0;
-        z = z * lnb + (1.0 / 24.0);
-        z = z * lnb + (1.0 / 6.0);
-        z = z * lnb + 0.5;
-        z = z * lnb + 1.0;
-        z *= lnb;
-
-        final double result = exp(lna, z, null);
-        //result = result + result * z;
-        return result;
     }
-
 
     /**
      * Raise a double to an int power.
@@ -1605,68 +1609,150 @@ public class FastMath {
      * @since 3.1
      */
     public static double pow(double d, int e) {
+        return pow(d, (long) e);
+    }
 
+
+    /**
+     * Raise a double to a long power.
+     *
+     * @param d Number to raise.
+     * @param e Exponent.
+     * @return d<sup>e</sup>
+     * @since 4.0
+     */
+    public static double pow(double d, long e) {
         if (e == 0) {
             return 1.0;
-        } else if (e < 0) {
-            e = -e;
-            d = 1.0 / d;
-        }
-
-        // split d as one 26 bits number and one 27 bits number
-        // beware the following expressions must NOT be simplified, they rely on floating point arithmetic properties
-        final double d1High = Double.longBitsToDouble(Double.doubleToRawLongBits(d) & ((-1L) << 27));
-        final double d1Low  = d - d1High;
-
-        // prepare result
-        double resultHigh = 1;
-        double resultLow  = 0;
-
-        // d^(2p)
-        double d2p     = d;
-        double d2pHigh = d1High;
-        double d2pLow  = d1Low;
-
-        while (e != 0) {
-
-            if ((e & 0x1) != 0) {
-                // accurate multiplication result = result * d^(2p) using Veltkamp TwoProduct algorithm
-                // beware the following expressions must NOT be simplified, they rely on floating point arithmetic properties
-                final double tmpHigh = resultHigh * d2p;
-                final double rHH     = Double.longBitsToDouble(Double.doubleToRawLongBits(resultHigh) & ((-1L) << 27));
-                final double rHL     = resultHigh - rHH;
-                final double tmpLow  = rHL * d2pLow - (((tmpHigh - rHH * d2pHigh) - rHL * d2pHigh) - rHH * d2pLow);
-                resultHigh = tmpHigh;
-                resultLow  = resultLow * d2p + tmpLow;
-            }
-
-            // accurate squaring d^(2(p+1)) = d^(2p) * d^(2p) using Veltkamp TwoProduct algorithm
-            // beware the following expressions must NOT be simplified, they rely on floating point arithmetic properties
-            final double tmpHigh = d2pHigh * d2p;
-            final double cD2pH   = Double.longBitsToDouble(Double.doubleToRawLongBits(d2pHigh) & ((-1L) << 27));
-            final double d2pHH   = cD2pH - (cD2pH - d2pHigh);
-            final double d2pHL   = d2pHigh - d2pHH;
-            final double tmpLow  = d2pHL * d2pLow - (((tmpHigh - d2pHH * d2pHigh) - d2pHL * d2pHigh) - d2pHH * d2pLow);
-            d2pHigh = Double.longBitsToDouble(Double.doubleToRawLongBits(tmpHigh) & ((-1L) << 27));
-            d2pLow  = d2pLow * d2p + tmpLow + (tmpHigh - d2pHigh);
-            d2p     = d2pHigh + d2pLow;
-
-            e >>= 1;
-
-        }
-
-        final double result = resultHigh + resultLow;
-
-        if (Double.isNaN(result)) {
-            if (Double.isNaN(d)) {
-                return Double.NaN;
-            } else {
-                // some intermediate numbers exceeded capacity,
-                // and the low order bits became NaN (because infinity - infinity = NaN)
-                return (d < 0 && (e & 0x1) == 1) ? Double.NEGATIVE_INFINITY : Double.POSITIVE_INFINITY;
-            }
+        } else if (e > 0) {
+            return new Split(d).pow(e).full;
         } else {
-            return result;
+            return new Split(d).reciprocal().pow(-e).full;
+        }
+    }
+
+    /** Class operator on double numbers split into one 26 bits number and one 27 bits number. */
+    private static class Split {
+
+        /** Split version of NaN. */
+        public static final Split NAN = new Split(Double.NaN, 0);
+
+        /** Split version of positive infinity. */
+        public static final Split POSITIVE_INFINITY = new Split(Double.POSITIVE_INFINITY, 0);
+
+        /** Split version of negative infinity. */
+        public static final Split NEGATIVE_INFINITY = new Split(Double.NEGATIVE_INFINITY, 0);
+
+        /** Full number. */
+        private final double full;
+
+        /** High order bits. */
+        private final double high;
+
+        /** Low order bits. */
+        private final double low;
+
+        /** Simple constructor.
+         * @param x number to split
+         */
+        public Split(final double x) {
+            full = x;
+            high = Double.longBitsToDouble(Double.doubleToRawLongBits(x) & ((-1L) << 27));
+            low  = x - high;
+        }
+
+        /** Simple constructor.
+         * @param high high order bits
+         * @param low low order bits
+         */
+        public Split(final double high, final double low) {
+            this(high + low, high, low);
+        }
+
+        /** Simple constructor.
+         * @param full full number
+         * @param high high order bits
+         * @param low low order bits
+         */
+        public Split(final double full, final double high, final double low) {
+            this.full = full;
+            this.high = high;
+            this.low  = low;
+        }
+
+        /** Multiply the instance by another one.
+         * @param b other instance to multiply by
+         * @return product
+         */
+        public Split multiply(final Split b) {
+            // beware the following expressions must NOT be simplified, they rely on floating point arithmetic properties
+            final Split  mulBasic  = new Split(full * b.full);
+            final double mulError  = low * b.low - (((mulBasic.full - high * b.high) - low * b.high) - high * b.low);
+            return new Split(mulBasic.high, mulBasic.low + mulError);
+        }
+
+        /** Compute the reciprocal of the instance.
+         * @return reciprocal of the instance
+         */
+        public Split reciprocal() {
+
+            final double approximateInv = 1.0 / full;
+            final Split  splitInv       = new Split(approximateInv);
+
+            // if 1.0/d were computed perfectly, remultiplying it by d should give 1.0
+            // we want to estimate the error so we can fix the low order bits of approximateInvLow
+            // beware the following expressions must NOT be simplified, they rely on floating point arithmetic properties
+            final Split product = multiply(splitInv);
+            final double error  = (product.high - 1) + product.low;
+
+            // better accuracy estimate of reciprocal
+            return Double.isNaN(error) ? splitInv : new Split(splitInv.high, splitInv.low - error / full);
+
+        }
+
+        /** Computes this^e.
+         * @param e exponent (beware, here it MUST be > 0)
+         * @return d^e, split in high and low bits
+         * @since 4.0
+         */
+        private Split pow(final long e) {
+
+            // prepare result
+            Split result = new Split(1);
+
+            // d^(2p)
+            Split d2p = new Split(full, high, low);
+
+            for (long p = e; p != 0; p >>= 1) {
+
+                if ((p & 0x1) != 0) {
+                    // accurate multiplication result = result * d^(2p) using Veltkamp TwoProduct algorithm
+                    result = result.multiply(d2p);
+                }
+
+                // accurate squaring d^(2(p+1)) = d^(2p) * d^(2p) using Veltkamp TwoProduct algorithm
+                d2p = d2p.multiply(d2p);
+
+            }
+
+            if (Double.isNaN(result.full)) {
+                if (Double.isNaN(full)) {
+                    return Split.NAN;
+                } else {
+                    // some intermediate numbers exceeded capacity,
+                    // and the low order bits became NaN (because infinity - infinity = NaN)
+                    if (FastMath.abs(full) < 1) {
+                        return new Split(FastMath.copySign(0.0, full), 0.0);
+                    } else if (full < 0 && (e & 0x1) == 1) {
+                        return Split.NEGATIVE_INFINITY;
+                    } else {
+                        return Split.POSITIVE_INFINITY;
+                    }
+                }
+            } else {
+                return result;
+            }
+
         }
 
     }
