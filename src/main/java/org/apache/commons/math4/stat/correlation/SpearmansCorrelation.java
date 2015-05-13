@@ -115,6 +115,7 @@ public class SpearmansCorrelation {
      * Calculate the Spearman Rank Correlation Matrix.
      *
      * @return Spearman Rank Correlation Matrix
+     * @throws NullPointerException if this instance was created with no data
      */
     public RealMatrix getCorrelationMatrix() {
         return rankCorrelation.getCorrelationMatrix();
@@ -129,6 +130,8 @@ public class SpearmansCorrelation {
      * <code>rankTransform(matrix)</code> is the result of applying the
      * configured <code>RankingAlgorithm</code> to each of the columns of
      * <code>matrix.</code>
+     *
+     * <p>Returns null if this instance was created with no data.</p>
      *
      * @return PearsonsCorrelation among ranked column data
      */
