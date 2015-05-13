@@ -83,7 +83,7 @@ public abstract class ListPopulation implements Population {
     /**
      * Sets the list of chromosomes.
      * <p>
-     * Note: this method removed all existing chromosomes in the population and adds all chromosomes
+     * Note: this method removes all existing chromosomes in the population and adds all chromosomes
      * of the specified list to the population.
      *
      * @param chromosomes the list of chromosomes
