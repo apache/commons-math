@@ -54,6 +54,19 @@ If the output is not quite correct, check for invisible trailing spaces!
     </release>
 
     <release version="4.0" date="XXXX-XX-XX" description="">
+      <action dev="luc" type="fix" issue="MATH-1222" due-to="Benedikt Ritter">
+        Use Double.isNaN rather than x != x in FastMath.
+      </action>
+      <action dev="tn" type="fix"> <!-- backported to 3.6 -->
+        Fix potential branching errors in "FastMath#pow(double, double)" when
+        passing special values, i.e. infinity, due to erroneous JIT optimization.
+      </action>
+      <action dev="luc" type="fix" issue="MATH-1118" > <!-- backported to 3.6 -->
+        Fixed equals/hashcode contract failure for Dfp.
+      </action>
+      <action dev="luc" type="fix" issue="MATH-1223"> <!-- backported to 3.6 -->
+        Fixed wrong splitting of huge number in extended accuracy algorithms.
+      </action>
       <action dev="luc" type="fix" issue="MATH-1143">
         Added helper methods to FunctionUtils for univariate and multivariate differentiable functions conversion.
       </action>

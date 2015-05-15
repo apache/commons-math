@@ -41,66 +41,92 @@
         <created>2015-04-17</created>
         <revision>3.5</revision>
       </Version>
+    </release>
+    <release>
       <Version>
         <name>commons-math</name>
         <created>2015-01-11</created>
         <revision>3.4.1</revision>
       </Version>
+    </release>
+    <release>
       <Version>
         <name>commons-math</name>
         <created>2014-12-26</created>
         <revision>3.4</revision>
       </Version>
+    </release>
+    <release>
       <Version>
         <name>commons-math</name>
         <created>2014-05-14</created>
         <revision>3.3</revision>
       </Version>
+    </release>
+    <release>
       <Version>
         <name>commons-math</name>
         <created>2013-04-06</created>
         <revision>3.2</revision>
       </Version>
+    </release>
+    <release>
       <Version>
         <name>commons-math</name>
         <created>2013-01-13</created>
         <revision>3.1.1</revision>
       </Version>
+    </release>
+    <release>
       <Version>
         <name>commons-math</name>
         <created>2012-12-23</created>
         <revision>3.1</revision>
       </Version>
+    </release>
+    <release>
       <Version>
         <name>commons-math</name>
         <created>2012-03-08</created>
         <revision>3.0</revision>
       </Version>
+    </release>
+    <release>
       <Version>
         <name>commons-math</name>
         <created>2011-03-02</created>
         <revision>2.2</revision>
       </Version>
+    </release>
+    <release>
       <Version>
         <name>commons-math</name>
         <created>2010-04-02</created>
         <revision>2.1</revision>
       </Version>
+    </release>
+    <release>
       <Version>
         <name>commons-math</name>
         <created>2009-08-03</created>
         <revision>2.0</revision>
       </Version>
+    </release>
+    <release>
       <Version>
         <name>commons-math</name>
         <created>2008-02-24</created>
         <revision>1.2</revision>
       </Version>
+    </release>
+    <release>
       <Version>
         <name>commons-math</name>
         <created>2005-12-19</created>
         <revision>1.1</revision>
       </Version>
+    </release>
+    <release>
       <Version>
         <name>commons-math</name>
         <created>2004-12-06</created>

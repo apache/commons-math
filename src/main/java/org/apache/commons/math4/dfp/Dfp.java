@@ -924,7 +924,7 @@ public class Dfp implements RealFieldElement<Dfp> {
      */
     @Override
     public int hashCode() {
-        return 17 + (sign << 8) + (nans << 16) + exp + Arrays.hashCode(mant);
+        return 17 + (isZero() ? 0 : (sign << 8)) + (nans << 16) + exp + Arrays.hashCode(mant);
     }
 
     /** Check if instance is not equal to x.
