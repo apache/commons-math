@@ -54,6 +54,9 @@ If the output is not quite correct, check for invisible trailing spaces!
     </release>
 
     <release version="4.0" date="XXXX-XX-XX" description="">
+      <action dev="luc" type="add" >
+        Added a fast implementation of IEEEremainder in FastMath.
+      </action>
       <action dev="luc" type="fix" issue="MATH-1222" due-to="Benedikt Ritter">
         Use Double.isNaN rather than x != x in FastMath.
       </action>

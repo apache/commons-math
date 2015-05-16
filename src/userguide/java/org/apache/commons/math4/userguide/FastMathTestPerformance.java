@@ -28,9 +28,9 @@ public class FastMathTestPerformance {
     private static final double F1 = 1d / RUNS;
 
     // Header format
-    private static final String FMT_HDR = "%-5s %13s %13s %13s Runs=%d Java %s (%s) %s (%s)";
+    private static final String FMT_HDR = "%-13s %13s %13s %13s Runs=%d Java %s (%s) %s (%s)";
     // Detail format
-    private static final String FMT_DTL = "%-5s %6d %6.1f %6d %6.4f %6d %6.4f";
+    private static final String FMT_DTL = "%-13s %6d %6.1f %6d %6.4f %6d %6.4f";
 
     public static void main(String[] args) {
         System.out.println(String.format(FMT_HDR,
@@ -60,6 +60,7 @@ public class FastMathTestPerformance {
         testSqrt();
         testTan();
         testTanh();
+        testIEEEremainder();
 
     }
 
@@ -429,7 +430,40 @@ public class FastMathTestPerformance {
         report("hypot",strictTime,fastTime,mathTime);
         assertTrue(!Double.isNaN(x));
     }
-     
+
+    private static void testIEEEremainder() {
+        double x = 0;
+        long time = System.nanoTime();
+        int max   = (int) FastMath.floor(FastMath.sqrt(RUNS));
+        for (int i = 0; i < max; i++) {
+            for (int j = 0; j < max; j++) {
+                x += StrictMath.IEEEremainder((i - max/2) * (100.0 / max), (j + 1) * (100.0 / max));
+            }
+        }
+        long strictTime = System.nanoTime() - time;
+
+        x = 0;
+        time = System.nanoTime();
+        for (int i = 0; i < max; i++) {
+            for (int j = 0; j < max; j++) {
+                x += FastMath.IEEEremainder((i - max/2) * (100.0 / max), (j + 1) * (100.0 / max));
+            }
+        }
+        long fastTime = System.nanoTime() - time;
+
+        x = 0;
+        time = System.nanoTime();
+        for (int i = 0; i < max; i++) {
+            for (int j = 0; j < max; j++) {
+                x += Math.IEEEremainder((i - max/2) * (100.0 / max), (j + 1) * (100.0 / max));
+            }
+        }
+        long mathTime = System.nanoTime() - time;
+
+        report("IEEEremainder",strictTime,fastTime,mathTime);
+        assertTrue(!Double.isNaN(x));
+    }
+
     private static void testCbrt() {
         double x = 0;
         long time = System.nanoTime();

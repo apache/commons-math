@@ -3628,13 +3628,24 @@ public class FastMath {
      * <li>If the dividend is finite and the divisor is an infinity, the result equals the dividend.</li>
      * <li>If the dividend is a zero and the divisor is finite, the result equals the dividend.</li>
      * </ul>
-     * <p><b>Note:</b> this implementation currently delegates to {@link StrictMath#IEEEremainder}
      * @param dividend the number to be divided
      * @param divisor the number by which to divide
      * @return the remainder, rounded
      */
-    public static double IEEEremainder(double dividend, double divisor) {
-        return StrictMath.IEEEremainder(dividend, divisor); // TODO provide our own implementation
+    public static double IEEEremainder(final double dividend, final double divisor) {
+        if (getExponent(dividend) == 1024 || getExponent(divisor) == 1024 || divisor == 0.0) {
+            // we are in one of the special cases
+            if (Double.isInfinite(divisor) && !Double.isInfinite(dividend)) {
+                return dividend;
+            } else {
+                return Double.NaN;
+            }
+        } else {
+            // we are in the general case
+            final double n         = FastMath.rint(dividend / divisor);
+            final double remainder = Double.isInfinite(n) ? 0.0 : dividend - divisor * n;
+            return (remainder == 0) ? FastMath.copySign(remainder, dividend) : remainder;
+        }
     }
 
     /** Convert a long to interger, detecting overflows
