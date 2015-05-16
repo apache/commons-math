@@ -62,6 +62,13 @@
           problem, integration range, and step size or error control settings.
         </p>
         <p>
+          All integrators support expanding the main ODE with one or more secondary ODE to manage
+          additional state that will be integrated together with the main state. This can be used
+          for example to integrate variational equations and compute not only the main state but also
+          its partial derivatives with respect to either the initial state or some parameters, these
+          derivatives being handled be secondary ODE (see below for an example).
+        </p>
+        <p>
           The user should describe his problem in his own classes which should implement the
           <a href="../apidocs/org/apache/commons/math4/ode/FirstOrderDifferentialEquations.html">FirstOrderDifferentialEquations</a>
           interface. Then he should pass it to the integrator he prefers among all the classes that implement
@@ -159,10 +166,11 @@ integrator.addStepHandler(stepHandler);
         <p>
           Some integrators (the simple ones) use fixed steps that are set at creation time. The more efficient
           integrators use variable steps that are handled internally in order to control the integration error
-          with respect to a specified accuracy (these integrators extend the
+          of the main state with respect to a specified accuracy (these integrators extend the
           <a href="../apidocs/org/apache/commons/math4/ode/AdaptiveStepsizeIntegrator.html">AdaptiveStepsizeIntegrator</a>
-          abstract class). In this case, the step handler which is called after each successful step shows up
-          the variable stepsize. The <a href="../apidocs/org/apache/commons/math4/ode/sampling/StepNormalizer.html">StepNormalizer</a>
+          abstract class). The secondary equations are explicitly ignored for step size control, in order to get reproducible
+          results regardless of the secondary equations being integrated or not. The step handler which is called after each
+          successful step shows up the variable stepsize. The <a href="../apidocs/org/apache/commons/math4/ode/sampling/StepNormalizer.html">StepNormalizer</a>
           class can be used to convert the variable stepsize into a fixed stepsize that can be handled by classes
           implementing the <a href="../apidocs/org/apache/commons/math4/ode/sampling/FixedStepHandler.html">FixedStepHandler</a>
           interface. Adaptive stepsize integrators can automatically compute the initial stepsize by themselves,
@@ -282,61 +290,94 @@ public int eventOccurred(double t, double[] y, boolean increasing) {
       </subsection>
       <subsection name="13.5 Derivatives" href="derivatives">
         <p>
-          If in addition to state y(t) the user needs to compute the sensitivity of the state to
-          the initial state or some parameter of the ODE, he will use the classes and interfaces
-          from the <a
-          href="../apidocs/org/apache/commons/math4/ode/jacobians/package-summary.html">org.apache.commons.ode.jacobians</a>
-          package instead of the top level ode package. These classes compute the jacobians
-          dy(t)/dy<sub>0</sub> and dy(t)/dp where y<sub>0</sub> is the initial state
-          and p is some ODE parameter.
+          If in addition to state y(t) the user needs to compute the sensitivity of the final state with respect to
+          the initial state (dy/dy<sub>0</sub>) or the sensitivity of the final state with respect to some parameters
+          of the ODE (dy/dp<sub>k</sub>), he needs to register the variational equations as a set of secondary equations
+          appended to the main state before the integration starts. Then the integration will propagate the compound
+          state composed of both the main state and its partial derivatives. At the end of the integration, the Jacobian
+          matrices are extracted from the integrated secondary state. The <a
+          href="../apidocs/org/apache/commons/math4/ode/JacobianMatrices.html">JacobianMatrices</a> class can do most of
+          this as long as the local derivatives are provided to it. It will set up the variational equations, register
+          them as secondary equations into the ODE, and it will set up the initial values and retrieve the intermediate
+          and finale values as Jacobian matrices.
         </p>
         <p>
-          The classes and interfaces in this package mimic the behavior of the classes and
-          interfaces of the top level ode package, only adding parameters arrays for the jacobians.
-          The behavior of these classes is to create a compound state vector z containing both
-          the state y(t) and its derivatives dy(t)/dy<sub>0</sub> and dy(t)/dp and
-          to set up an extended problem by adding the equations for the jacobians automatically.
-          These extended state and problems are then provided to a classical underlying integrator
-          chosen by user.
+          If for example the original state dimension is 6 and there are 3 parameters, the compound state will be a 60
+          elements array. The first 6 elements will be the original state, the next 36 elements will represent the 6x6
+          Jacobian matrix of the final state with respect to the initial state, and the remaining 18 elements will
+          represent the 6x3 Jacobian matrix of the final state with respect to the 3 parameters. The <a
+          href="../apidocs/org/apache/commons/math4/ode/JacobianMatrices.html">JacobianMatrices</a> class does the mapping
+          between the 60 elements compound state and the Jacobian matrices and sets up the correcsponding secondary equations.
         </p>
         <p>
-          This behavior imply there will be a top level integrator knowing about state and jacobians
-          and a low level integrator knowing only about compound state (which may be big). If the user
-          wants to deal with the top level only, he will use the specialized step handler and event
-          handler classes registered at top level. He can also register classical step handlers and
-          event handlers, but in this case will see the big compound state. This state is guaranteed
-          to contain the original state in the first elements, followed by the jacobian with respect
-          to initial state (in row order), followed by the jacobian with respect to parameters (in
-          row order). If for example the original state dimension is 6 and there are 3 parameters,
-          the compound state will be a 60 elements array. The first 6 elements will be the original
-          state, the next 36 elements will be the jacobian with respect to initial state, and the
-          remaining 18 will be the jacobian with respect to parameters. Dealing with low level
-          step handlers and event handlers is cumbersome if one really needs the jacobians in these
-          methods, but it also prevents many data being copied back and forth between state and
-          jacobians on one side and compound state on the other side.
+          As the variational equations are considered to be secondary equations here, variable step integrators ignore
+          them for step size control: they rely only on the main state. This feature is a design choice. The rationale is
+          to get exactly the same steps, regardless of the Jacobians being computed or not, hence ensuring reproducible
+          results in both cases.
         </p>
         <p>
-          In order to compute dy(t)/dy<sub>0</sub> and dy(t/dp for any t, the algorithm
-          needs not only the ODE function f such that y'=f(t,y) but also its local jacobians
-          df(t, y, p)/dy and df(t, y, p)/dp.
+          What remains of user responsibility is to provide the local Jacobians df(t, y, p)/dy and df(t, y, p)/dp<sub>k</sub>
+          corresponding the the main ODE y'=f(t, y, p). The main ODE is as usual provided by the user as a class implementing
+          the <a href="../apidocs/org/apache/commons/math4/ode/FirstOrderDifferentialEquations.html">FirstOrderDifferentialEquations</a>
+          interface or a sub-interface.
         </p>
         <p>
-          If the function f is too complex, the user can simply rely on internal differentiation
-          using finite differences to compute these local jacobians. So rather than the <a
+          If the ODE is simple enough that the user can implement df(t, y, p)/dy directly, then instead of providing an
+          implementation of the <a
           href="../apidocs/org/apache/commons/math4/ode/FirstOrderDifferentialEquations.html">FirstOrderDifferentialEquations</a>
-          interface he will implement the <a
-          href="../apidocs/org/apache/commons/math4/ode/jacobians/ParameterizedODE.html">ParameterizedODE</a>
-          interface. Considering again our example where only &#x3c9; is considered a parameter, we get:
+          interface only, the user should rather provide an implementation of the <a
+          href="../apidocs/org/apache/commons/math4/ode/MainStateJacobianProvider.html">MainStateJacobianProvider</a> interface,
+          which extends the previous interface by adding a method to compute df(t, y, p)/dy. The user class is used as a
+          constructor parameter of the <a href="../apidocs/org/apache/commons/math4/ode/JacobianMatrices.html">JacobianMatrices</a>
+          class. If the ODE is too complex or the user simply does not bother implementing df(t, y, p)/dy directly, then
+          the ODE can still be implemented using the simple <a
+          href="../apidocs/org/apache/commons/math4/ode/FirstOrderDifferentialEquations.html">FirstOrderDifferentialEquations</a>
+          interface and given as such to another constructor of the <a
+          href="../apidocs/org/apache/commons/math4/ode/JacobianMatrices.html">JacobianMatrices</a> class, but in this case an array
+          hy must also be provided that will contain the step size to use form each component of the main state vector y, and
+          the Jacobian f(t, y, p)/dy will be computed internally using finite differences. This will of course trigger more evaluations
+          of the ODE at each step and will suffer from finite differences errors, but it is much simpler to implement from a user
+          point of view.
+        </p>
+        <p>
+          The parameters are identified by a name (a simple user defined string), which are also specified at <a
+          href="../apidocs/org/apache/commons/math4/ode/JacobianMatrices.html">JacobianMatrices</a> class construction. If the ODE
+          is simple enough that the user can implement df(t, y, p)/dp<sub>k</sub> directly for some of the parameters p<sub>k</sub>,
+          then he can provide one or more classes implementing the <a
+          href="../apidocs/org/apache/commons/math4/ode/ParameterJacobianProvider.html">ParameterJacobianProvider</a> interface by
+          calling the JacobianMatrices.addParameterJacobianProvide method. The parameters are handled one at a time, but all the calls to
+          ParameterJacobianProvider.computeParameterJacobian will be grouped in one sequence after the call to MainStateJacobianProvider.computeMainStateJacobian
+          This feature can be used when all the derivatives share a lot of costly computation. In this case, the user
+          is advised to compute all the needed derivatives at once during the call to computeMainStateJacobian, including the
+          partial derivatives with respect to the parameters and to store the derivatives temporary. Then when the next calls to
+          computeParameterJacobian will be triggerred, it will be sufficient to return the already computed derivatives. With this
+          architecture, many computation can be saved. This of course implies that the classes implementing both interfaces know
+          each other (they can even be the same class if desired, but it is not required). If the ODE is too complex or the user
+          simply does not bother implementing df(t, y, p)/dp<sub>k</sub> directly for some k, then
+          the JacobianMatrices.setParameterStep method should be called so finite differences are used to compute the derivatives
+          for this parameter. It is possible to have some parameters for which derivatives are provided by a direct implementation
+          while other parameters are computed using finite differences during the same integration.
+        </p>
+        <p>
+          The following example corresponds to a simple case where all derivatives can be computed analytically. The state is
+          a 2D point travelling along a circle. There are three parameters : the two coordinates of the center and the
+          angular velocity.
         </p>
         <source>
-public class BasicCircleODE implements ParameterizedODE {
+public class CircleODE implements MainStateJacobianProvider, ParameterJacobianProvider {
+
+    public static final String CENTER_X = "cx";
+    public static final String CENTER_Y = "cy";
+    public static final String OMEGA    = "omega";
 
     private double[] c;
     private double omega;
+    private double[][] savedDfDp;
 
-    public BasicCircleODE(double[] c, double omega) {
+    public CircleODE(double[] c, double omega) {
         this.c     = c;
         this.omega = omega;
+        this.savedDfDp = new double[2][3];
     }
 
     public int getDimension() {
@@ -344,89 +385,89 @@ public class BasicCircleODE implements ParameterizedODE {
     }
 
     public void computeDerivatives(double t, double[] y, double[] yDot) {
+        // the state is a 2D point, the ODE therefore corresponds to the velocity
         yDot[0] = omega * (c[1] - y[1]);
         yDot[1] = omega * (y[0] - c[0]);
     }
 
-    public int getParametersDimension() {
-        // we are only interested in the omega parameter
-        return 1;
+    public Collection&lt;String&gt; getParametersNames() {
+        return Arrays.asList(CENTER_X, CENTER_Y, OMEGA);
     }
 
-    public void setParameter(int i, double value) {
-        omega = value;
+    public boolean isSupported(String name) {
+        return CENTER_X.equals(name) || CENTER_Y.equals(name) || OMEGA.equals(name);
     }
 
-}
-        </source>
-        <p>
-          This ODE is provided to the specialized integrator with two arrays specifying the
-          step sizes to use for finite differences (one array for derivation with respect to
-          state y, one array for derivation with respect to parameters p):
-        </p>
-        <source>
-double[] hY = new double[] { 0.001, 0.001 };
-double[] hP = new double[] { 1.0e-6 };
-FirstOrderIntegratorWithJacobians integrator = new FirstOrderIntegratorWithJacobians(dp853, ode, hY, hP);
-integrator.integrate(t0, y0, dy0dp, t, y, dydy0, dydp);
-        </source>
-        <p>
-          If the function f is simple, the user can simply provide the local jacobians
-          by himself. So rather than the <a
-          href="../apidocs/org/apache/commons/math4/ode/FirstOrderDifferentialEquations.html">FirstOrderDifferentialEquations</a>
-          interface he will implement the <a
-          href="../apidocs/org/apache/commons/math4/ode/jacobians/ODEWithJacobians.html">ODEWithJacobians</a>
-          interface. Considering again our example where only &#x3c9; is considered a parameter, we get:
-        </p>
-        <source>
-public class EnhancedCircleODE implements ODEWithJacobians {
+    public void computeMainStateJacobian(double t, double[] y, double[] yDot, double[][] dFdY) {
 
-    private double[] c;
-    private double omega;
-
-    public EnhancedCircleODE(double[] c, double omega) {
-        this.c     = c;
-        this.omega = omega;
-    }
-
-    public int getDimension() {
-        return 2;
-    }
-
-    public void computeDerivatives(double t, double[] y, double[] yDot) {
-        yDot[0] = omega * (c[1] - y[1]);
-        yDot[1] = omega * (y[0] - c[0]);
-    }
-
-    public int getParametersDimension() {
-        // we are only interested in the omega parameter
-        return 1;
-    }
-
-    public void computeJacobians(double t, double[] y, double[] yDot, double[][] dFdY, double[][] dFdP) {
-
+        // compute the Jacobian of the main state
         dFdY[0][0] = 0;
         dFdY[0][1] = -omega;
         dFdY[1][0] = omega;
         dFdY[1][1] = 0;
 
-        dFdP[0][0] = 0;
-        dFdP[0][1] = omega;
-        dFdP[0][2] = c[1] - y[1];
-        dFdP[1][0] = -omega;
-        dFdP[1][1] = 0;
-        dFdP[1][2] = y[0] - c[0];
- 
+        // precompute the derivatives with respect to the parameters,
+        // they will be provided back when computeParameterJacobian are called later on
+        savedDfDp[0][0] = 0;
+        savedDfDp[0][1] = omega;
+        savedDfDp[0][2] = c[1] - y[1];
+        savedDfDp[1][0] = -omega;
+        savedDfDp[1][1] = 0;
+        savedDfDp[1][2] = y[0] - c[0];
+
     }
+
+    public void computeParameterJacobian(double t, double[] y, double[] yDot,
+                                         String paramName, double[] dFdP) {
+        // we simply return the derivatives precomputed earlier
+        if (CENTER_X.equals(paramName)) {
+            dFdP[0] = savedDfDp[0][0];
+            dFdP[1] = savedDfDp[1][0];
+        } else if (CENTER_Y.equals(paramName)) {
+            dFdP[0] = savedDfDp[0][1];
+            dFdP[1] = savedDfDp[1][1];
+        } else {
+            dFdP[0] = savedDfDp[0][2];
+            dFdP[1] = savedDfDp[1][2];
+        }
+     }
 
 }
         </source>
         <p>
-          This ODE is provided to the specialized integrator as is:
+          This ODE is integrated as follows:
         </p>
         <source>
-FirstOrderIntegratorWithJacobians integrator = new FirstOrderIntegratorWithJacobians(dp853, ode);
-integrator.integrate(t0, y0, dy0dp, t, y, dydy0, dydp);
+        CircleODE circle = new CircleODE(new double[] {1.0,  1.0 }, 0.1);
+
+        // here, we could select only a subset of the parameters, or use another order
+        JacobianMatrices jm = new JacobianMatrices(circle, CircleODE.CENTER_X, CircleODE.CENTER_Y, CircleODE.OMEGA);
+        jm.addParameterJacobianProvider(circle);
+
+        ExpandableStatefulODE efode = new ExpandableStatefulODE(circle);
+        efode.setTime(0);
+        double[] y = { 1.0, 0.0 };
+        efode.setPrimaryState(y);
+
+        // create the variational equations and append them to the main equations, as secondary equations
+        jm.registerVariationalEquations(efode);
+
+        // integrate the compound state, with both main and additional equations
+        DormandPrince853Integrator integrator = new DormandPrince853Integrator(1.0e-6, 1.0e3, 1.0e-10, 1.0e-12);
+        integrator.setMaxEvaluations(5000);
+        integrator.integrate(efode, 20.0);
+
+        // retrieve the Jacobian of the final state with respect to initial state
+        double[][] dYdY0 = new double[2][2];
+        jm.getCurrentMainSetJacobian(dYdY0);
+
+        // retrieve the Jacobians of the final state with resepct to the various parameters
+        double[]   dYdCx = new double[2];
+        double[]   dYdCy = new double[2];
+        double[]   dYdOm = new double[2];
+        jm.getCurrentParameterJacobian(CircleODE.CENTER_X, dYdCx);
+        jm.getCurrentParameterJacobian(CircleODE.CENTER_Y, dYdCy);
+        jm.getCurrentParameterJacobian(CircleODE.OMEGA,    dYdOm);
         </source>
       </subsection>
      </section>
