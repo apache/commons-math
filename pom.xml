@@ -638,6 +638,7 @@
         <configuration>
           <configLocation>${basedir}/checkstyle.xml</configLocation>
           <enableRulesSummary>false</enableRulesSummary>
+          <includeResources>false</includeResources>
           <headerLocation>${basedir}/license-header.txt</headerLocation>
         </configuration>
         <reportSets>
