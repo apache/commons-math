@@ -27,6 +27,7 @@ import org.apache.commons.math3.ode.ExpandableStatefulODE;
 import org.apache.commons.math3.ode.FirstOrderDifferentialEquations;
 import org.apache.commons.math3.ode.SecondaryEquations;
 import org.apache.commons.math3.ode.nonstiff.DormandPrince853Integrator;
+import org.apache.commons.math3.ode.nonstiff.LutherIntegrator;
 import org.apache.commons.math3.ode.sampling.AbstractStepInterpolator;
 import org.apache.commons.math3.ode.sampling.DummyStepInterpolator;
 import org.junit.Assert;
@@ -41,21 +42,9 @@ public class EventStateTest {
         final double r1  = 90.0;
         final double r2  = 135.0;
         final double gap = r2 - r1;
-        EventHandler closeEventsGenerator = new EventHandler() {
-            public void init(double t0, double[] y0, double t) {
-            }
-            public void resetState(double t, double[] y) {
-            }
-            public double g(double t, double[] y) {
-                return (t - r1) * (r2 - t);
-            }
-            public Action eventOccurred(double t, double[] y, boolean increasing) {
-                return Action.CONTINUE;
-            }
-        };
 
         final double tolerance = 0.1;
-        EventState es = new EventState(closeEventsGenerator, 1.5 * gap,
+        EventState es = new EventState(new CloseEventsGenerator(r1, r2), 1.5 * gap,
                                        tolerance, 100,
                                        new BrentSolver(tolerance));
         es.setExpandable(new ExpandableStatefulODE(new FirstOrderDifferentialEquations() {
@@ -220,6 +209,65 @@ public class EventStateTest {
         }
 
         public void resetState(double t, double[] y) {
+        }
+
+    }
+
+    @Test
+    public void testEventsCloserThanThreshold()
+        throws DimensionMismatchException, NumberIsTooSmallException,
+               MaxCountExceededException, NoBracketingException {
+
+        FirstOrderDifferentialEquations equation = new FirstOrderDifferentialEquations() {
+            
+            public int getDimension() {
+                return 1;
+            }
+            
+            public void computeDerivatives(double t, double[] y, double[] yDot) {
+                yDot[0] = 1.0;
+            }
+        };
+
+        LutherIntegrator integrator = new LutherIntegrator(20.0);
+        CloseEventsGenerator eventsGenerator =
+                        new CloseEventsGenerator(9.0 - 1.0 / 128, 9.0 + 1.0 / 128);
+        integrator.addEventHandler(eventsGenerator, 1.0, 0.02, 1000);
+        double[] y = new double[1];
+        double tEnd = integrator.integrate(equation, 0.0, y, 100.0, y);
+        Assert.assertEquals( 2, eventsGenerator.getCount());
+        Assert.assertEquals( 9.0 + 1.0 / 128, tEnd, 1.0 / 32.0);
+
+    }
+
+    private class CloseEventsGenerator implements EventHandler {
+
+        final double r1;
+        final double r2;
+        int count;
+
+        public CloseEventsGenerator(final double r1, final double r2) {
+            this.r1    = r1;
+            this.r2    = r2;
+            this.count = 0;
+        }
+
+        public void init(double t0, double[] y0, double t) {
+        }
+
+        public void resetState(double t, double[] y) {
+        }
+
+        public double g(double t, double[] y) {
+            return (t - r1) * (r2 - t);
+        }
+
+        public Action eventOccurred(double t, double[] y, boolean increasing) {
+            return ++count < 2 ? Action.CONTINUE : Action.STOP;
+        }
+
+        public int getCount() {
+            return count;
         }
 
     }

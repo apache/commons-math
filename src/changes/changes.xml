@@ -51,7 +51,10 @@ If the output is not quite correct, check for invisible trailing spaces!
   </properties>
   <body>
     <release version="3.6" date="XXXX-XX-XX" description="">
-      <action dev="tn" type="fix"> <!-- backported to 3.6 -->
+      <action dev="luc" type="fix" issue="MATH-1226">
+        Fixed wrong event detection in case of close events pairs.
+      </action>
+      <action dev="tn" type="fix">
         Fix potential branching errors in "FastMath#pow(double, double)" when
         passing special values, i.e. infinity, due to erroneous JIT optimization.
       </action>    
