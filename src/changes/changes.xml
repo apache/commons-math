@@ -54,6 +54,9 @@ If the output is not quite correct, check for invisible trailing spaces!
     </release>
 
     <release version="4.0" date="XXXX-XX-XX" description="">
+      <action dev="luc" type="fix" issue="MATH-1226"> <!-- backported to 3.6 -->
+        Fixed wrong event detection in case of close events pairs.
+      </action>
       <action dev="luc" type="add" >
         Reimplemented pow(double, double) in FastMath, for better accuracy in
         integral power cases and trying to fix erroneous JIT optimization again.
