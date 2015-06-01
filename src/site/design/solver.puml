@@ -24,7 +24,7 @@
   skinparam NoteFontColor         #691616
   skinparam ClassFontSize         11
 
-  package org.apache.commons.math4.differentiation.solvers #ECEBD8
+  package org.apache.commons.math4.differentiation.solvers #ECEBD8 {
 
         enum AllowedSolution {
           ANY_SIDE
@@ -97,6 +97,6 @@ abstract class BaseSecantSolver
 AbstractPolynomialSolver <|-- LaguerreSolver
 
 AbstractUnivariateSolver <|-- BisectionSolver
-  end package
+  }
 
 @enduml
