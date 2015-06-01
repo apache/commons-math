@@ -188,9 +188,9 @@ public class ResizableDoubleArray implements DoubleArray, Serializable {
      * @since 2.2
      */
     public ResizableDoubleArray(double[] initialArray) {
-        this((initialArray == null || initialArray.length == 0 ?
+        this(initialArray == null || initialArray.length == 0 ?
               DEFAULT_INITIAL_CAPACITY :
-              initialArray.length),
+              initialArray.length,
              DEFAULT_EXPANSION_FACTOR,
              DEFAULT_CONTRACTION_DELTA + DEFAULT_EXPANSION_FACTOR,
              DEFAULT_EXPANSION_MODE,
