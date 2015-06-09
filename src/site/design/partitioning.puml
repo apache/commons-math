@@ -24,9 +24,9 @@
   skinparam NoteFontColor         #691616
   skinparam ClassFontSize         11
 
-  package org.apache.commons.math4.geometry #ECEBD8
+  package org.apache.commons.math4.geometry #ECEBD8 {
 
-    package partitioning #DDEBD8
+    package partitioning #DDEBD8 {
 
       abstract "AbstractSubHyperplane<S extends Space, T extends Space>" as AbstractSubHyperplane_S_T_
       note left
@@ -81,7 +81,7 @@
         a region is a part of the space
         it may be empty,
         it may cover the whole space,
-        it may have infinite non-closed boudaries,
+        it may have infinite non-closed boundaries,
         it may be in several disconnected sub-parts,
         it may contain holes
       end note
@@ -112,8 +112,7 @@
       Region_S_ --> Side
       BSPTree_S_ <-- BSPTreeVisitor_S_ : visits
 
-    end package
+    }
 
-  end package
-
+  }
 @enduml

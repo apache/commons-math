@@ -292,9 +292,12 @@ public abstract class AbstractIntegrator implements FirstOrderIntegrator {
      * @param yDot placeholder array where to put the time derivative of the state vector
      * @exception MaxCountExceededException if the number of functions evaluations is exceeded
      * @exception DimensionMismatchException if arrays dimensions do not match equations settings
+     * @exception NullPointerException if the ODE equations have not been set (i.e. if this method
+     * is called outside of a call to {@link #integrate(ExpandableStatefulODE, double)} or {@link
+     * #integrate(FirstOrderDifferentialEquations, double, double[], double, double[])})
      */
     public void computeDerivatives(final double t, final double[] y, final double[] yDot)
-        throws MaxCountExceededException, DimensionMismatchException {
+        throws MaxCountExceededException, DimensionMismatchException, NullPointerException {
         evaluations.incrementCount();
         expandable.computeDerivatives(t, y, yDot);
     }

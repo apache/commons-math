@@ -24,7 +24,7 @@
   skinparam NoteFontColor         #691616
   skinparam ClassFontSize         11
 
-  package org.apache.commons.math4.geometry #ECEBD8
+  package org.apache.commons.math4.geometry #ECEBD8 {
 
     interface Space {
       +int getDimension()
@@ -53,15 +53,15 @@
 
     Space <-- Vector_S_
 
-    package partitioning #DDEBD8
+    package partitioning #DDEBD8 {
       interface "Region<S extends Space>" as Region_S_
       interface "Hyperplane<S extends Space>" as Hyperplane_S_
       interface "SubHyperplane<S extends Space>" as SubHyperplane_S_
-    end package
+    }
 
-    package euclidean #DDEBD8
+    package euclidean #DDEBD8 {
 
-      package twod #DDDBD8
+      package twod #DDDBD8 {
 
         class Euclidean2D
         class Vector2D
@@ -75,10 +75,10 @@
         SubHyperplane_S_ <|.. SubLine
         Region_S_        <|.. PolygonsSet
 
-      end package
+      }
 
-    end package
+    }
 
-  end package
+  }
 
 @enduml

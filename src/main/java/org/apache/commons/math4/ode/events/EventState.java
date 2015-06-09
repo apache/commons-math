@@ -296,7 +296,18 @@ public class EventState {
                             ta = forward ? ta + convergence : ta - convergence;
                             ga = f.value(ta);
                         } while ((g0Positive ^ (ga >= 0)) && (forward ^ (ta >= tb)));
-                        --i;
+
+                        if (forward ^ (ta >= tb)) {
+                            // we were able to skip this spurious root
+                            --i;
+                        } else {
+                            // we can't avoid this root before the end of the step,
+                            // we have to handle it despite it is close to the former one
+                            // maybe we have two very close roots
+                            pendingEventTime = root;
+                            pendingEvent = true;
+                            return true;
+                        }
                     } else if (Double.isNaN(previousEventTime) ||
                                (FastMath.abs(previousEventTime - root) > convergence)) {
                         pendingEventTime = root;

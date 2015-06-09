@@ -24,7 +24,7 @@
   skinparam NoteFontColor         #691616
   skinparam ClassFontSize         11
 
-  package org.apache.commons.math4 #ECEBD8
+  package org.apache.commons.math4 #ECEBD8 {
 
     interface "FieldElement<T>" as FieldElement_T_ {
       T add(T a)
@@ -37,12 +37,12 @@
       Field<T> getField()
     }
 
-    package analysis #DDEBD8
+    package analysis #DDEBD8  {
       interface UnivariateFunction {
         double value(double x)
       }
 
-      package differentiation #DDDBD8
+      package differentiation #DDDBD8 {
 
         class DerivativeStructure {
           -DerivativeStructure(DSCompiler compiler)
@@ -98,8 +98,8 @@
         UnivariateDifferentiable <-- UnivariateDifferentiator : creates
         UnivariateDifferentiable --> DerivativeStructure : uses
 
-      end package
-    end package
-  end package
+      }
+    }
+  }
 
 @enduml

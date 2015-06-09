@@ -179,7 +179,6 @@ public class ResizableDoubleArray implements DoubleArray, Serializable {
      * The input array is copied, not referenced.
      * Other properties take default values:
      * <ul>
-     *  <li>{@code initialCapacity = 16}</li>
      *  <li>{@code expansionMode = MULTIPLICATIVE}</li>
      *  <li>{@code expansionFactor = 2.0}</li>
      *  <li>{@code contractionCriterion = 2.5}</li>
@@ -189,7 +188,9 @@ public class ResizableDoubleArray implements DoubleArray, Serializable {
      * @since 2.2
      */
     public ResizableDoubleArray(double[] initialArray) {
-        this(DEFAULT_INITIAL_CAPACITY,
+        this(initialArray == null || initialArray.length == 0 ?
+              DEFAULT_INITIAL_CAPACITY :
+              initialArray.length,
              DEFAULT_EXPANSION_FACTOR,
              DEFAULT_CONTRACTION_DELTA + DEFAULT_EXPANSION_FACTOR,
              DEFAULT_EXPANSION_MODE,
