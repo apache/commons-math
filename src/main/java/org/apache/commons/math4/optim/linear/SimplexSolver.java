@@ -19,6 +19,7 @@ package org.apache.commons.math4.optim.linear;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.apache.commons.math4.exception.DimensionMismatchException;
 import org.apache.commons.math4.exception.TooManyIterationsException;
 import org.apache.commons.math4.optim.OptimizationData;
 import org.apache.commons.math4.optim.PointValuePair;
@@ -146,6 +147,8 @@ public class SimplexSolver extends LinearOptimizer {
      *
      * @return {@inheritDoc}
      * @throws TooManyIterationsException if the maximal number of iterations is exceeded.
+     * @throws DimensionMismatchException if the dimension of the constraints does not match the
+     *   dimension of the objective function
      */
     @Override
     public PointValuePair optimize(OptimizationData... optData)

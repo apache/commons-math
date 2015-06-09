@@ -28,6 +28,7 @@ import java.util.List;
 import java.util.Set;
 import java.util.TreeSet;
 
+import org.apache.commons.math4.exception.DimensionMismatchException;
 import org.apache.commons.math4.linear.Array2DRowRealMatrix;
 import org.apache.commons.math4.linear.MatrixUtils;
 import org.apache.commons.math4.linear.RealVector;
@@ -112,6 +113,8 @@ class SimplexTableau implements Serializable {
      * or {@link GoalType#MINIMIZE}.
      * @param restrictToNonNegative Whether to restrict the variables to non-negative values.
      * @param epsilon Amount of error to accept when checking for optimality.
+     * @throws DimensionMismatchException if the dimension of the constraints does not match the
+     *   dimension of the objective function
      */
     SimplexTableau(final LinearObjectiveFunction f,
                    final Collection<LinearConstraint> constraints,
@@ -129,13 +132,16 @@ class SimplexTableau implements Serializable {
      * @param restrictToNonNegative whether to restrict the variables to non-negative values
      * @param epsilon amount of error to accept when checking for optimality
      * @param maxUlps amount of error to accept in floating point comparisons
+     * @throws DimensionMismatchException if the dimension of the constraints does not match the
+     *   dimension of the objective function
      */
     SimplexTableau(final LinearObjectiveFunction f,
                    final Collection<LinearConstraint> constraints,
                    final GoalType goalType,
                    final boolean restrictToNonNegative,
                    final double epsilon,
-                   final int maxUlps) {
+                   final int maxUlps) throws DimensionMismatchException {
+        checkDimensions(f, constraints);
         this.f                      = f;
         this.constraints            = normalizeConstraints(constraints);
         this.restrictToNonNegative  = restrictToNonNegative;
@@ -153,6 +159,23 @@ class SimplexTableau implements Serializable {
         initializeColumnLabels();
     }
 
+    /**
+     * Checks that the dimensions of the objective function and the constraints match.
+     * @param f the objective function
+     * @param constraints the set of constraints
+     * @throws DimensionMismatchException if the constraint dimensions do not match with the
+     *   dimension of the objective function
+     */
+    private void checkDimensions(final LinearObjectiveFunction f,
+                                 final Collection<LinearConstraint> constraints) {
+        final int dimension = f.getCoefficients().getDimension();
+        for (final LinearConstraint constraint : constraints) {
+            final int constraintDimension = constraint.getCoefficients().getDimension();
+            if (constraintDimension != dimension) {
+                throw new DimensionMismatchException(constraintDimension, dimension);
+            }
+        }
+    }
     /**
      * Initialize the labels for the columns.
      */

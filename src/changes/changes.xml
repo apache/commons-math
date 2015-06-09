@@ -54,6 +54,11 @@ If the output is not quite correct, check for invisible trailing spaces!
     </release>
 
     <release version="4.0" date="XXXX-XX-XX" description="">
+      <action dev="tn" type="fix" issue="MATH-1230">
+        The "SimplexSolver" will now throw a "DimensionMismatchException"
+        when calling "optimize(...)" with linear constraints whose dimension
+        does not match the dimension of the objective function.
+      </action>
       <action dev="luc" type="add" >
         Reimplemented pow(double, double) in FastMath, for better accuracy in
         integral power cases and trying to fix erroneous JIT optimization again.
@@ -66,10 +71,6 @@ If the output is not quite correct, check for invisible trailing spaces!
       </action>
       <action dev="luc" type="fix" issue="MATH-1222" due-to="Benedikt Ritter">
         Use Double.isNaN rather than x != x in FastMath.
-      </action>
-      <action dev="tn" type="fix"> <!-- backported to 3.6 -->
-        Fix potential branching errors in "FastMath#pow(double, double)" when
-        passing special values, i.e. infinity, due to erroneous JIT optimization.
       </action>
       <action dev="luc" type="fix" issue="MATH-1118" > <!-- backported to 3.6 -->
         Fixed equals/hashcode contract failure for Dfp.
