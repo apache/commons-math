@@ -38,7 +38,7 @@ public class UnknownParameterException extends MathIllegalArgumentException {
      * @param name parameter name.
      */
     public UnknownParameterException(final String name) {
-        super(LocalizedFormats.UNKNOWN_PARAMETER);
+        super(LocalizedFormats.UNKNOWN_PARAMETER, name);
         this.name = name;
     }
 

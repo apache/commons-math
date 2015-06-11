@@ -93,19 +93,32 @@ public class JacobianMatricesTest {
     }
 
     @Test
+    public void testWrongParameterName() {
+        final String name = "an-unknown-parameter";
+        try {
+            ParamBrusselator brusselator = new ParamBrusselator(2.9);
+            brusselator.setParameter(name, 3.0);
+            Assert.fail("an exception should have been thrown");
+        } catch (UnknownParameterException upe) {
+            Assert.assertTrue(upe.getMessage().contains(name));
+            Assert.assertEquals(name, upe.getName());
+        }
+    }
+
+    @Test
     public void testInternalDifferentiation()
-        throws NumberIsTooSmallException, DimensionMismatchException,
-               MaxCountExceededException, NoBracketingException,
-               UnknownParameterException, MismatchedEquations {
+                    throws NumberIsTooSmallException, DimensionMismatchException,
+                    MaxCountExceededException, NoBracketingException,
+                    UnknownParameterException, MismatchedEquations {
         AbstractIntegrator integ =
-            new DormandPrince54Integrator(1.0e-8, 100.0, new double[] { 1.0e-4, 1.0e-4 }, new double[] { 1.0e-4, 1.0e-4 });
+                        new DormandPrince54Integrator(1.0e-8, 100.0, new double[] { 1.0e-4, 1.0e-4 }, new double[] { 1.0e-4, 1.0e-4 });
         double hP = 1.0e-12;
         double hY = 1.0e-12;
         SummaryStatistics residualsP0 = new SummaryStatistics();
         SummaryStatistics residualsP1 = new SummaryStatistics();
         for (double b = 2.88; b < 3.08; b += 0.001) {
-            ParamBrusselator brusselator = new ParamBrusselator(b);
-            brusselator.setParameter(ParamBrusselator.B, b);
+                ParamBrusselator brusselator = new ParamBrusselator(b);
+                brusselator.setParameter(ParamBrusselator.B, b);
             double[] z = { 1.3, b };
             double[][] dZdZ0 = new double[2][2];
             double[]   dZdP  = new double[2];

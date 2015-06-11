@@ -51,6 +51,9 @@ If the output is not quite correct, check for invisible trailing spaces!
   </properties>
   <body>
     <release version="3.6" date="XXXX-XX-XX" description="">
+      <action dev="luc" type="fix" issue="MATH-1232">
+        Fixed error message for unknown parameter name in ODE.
+      </action>
       <action dev="luc" type="fix" issue="MATH-1226">
         Fixed wrong event detection in case of close events pairs.
       </action>
