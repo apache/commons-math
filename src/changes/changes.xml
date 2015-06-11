@@ -54,6 +54,10 @@ If the output is not quite correct, check for invisible trailing spaces!
     </release>
 
     <release version="4.0" date="XXXX-XX-XX" description="">
+      <action dev="erans" type="fix" issue="MATH-1231">
+        Lifted unnecessary restriction on constructor's argument of
+        "MicrosphereInterpolator" (package "o.a.c.m.analysis.interpolation").
+      </action>
       <action dev="luc" type="fix" issue="MATH-1232"> <!-- backported to 3.6 -->
         Fixed error message for unknown parameter name in ODE.
       </action>

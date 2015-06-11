@@ -144,7 +144,7 @@ public class MicrosphereInterpolatingFunction
      */
     public MicrosphereInterpolatingFunction(double[][] xval,
                                             double[] yval,
-                                            int brightnessExponent,
+                                            double brightnessExponent,
                                             int microsphereElements,
                                             UnitSphereRandomVectorGenerator rand)
         throws DimensionMismatchException,

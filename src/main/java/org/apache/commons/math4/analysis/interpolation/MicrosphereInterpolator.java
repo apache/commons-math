@@ -40,7 +40,7 @@ public class MicrosphereInterpolator
     /**
      * Default exponent used the weights calculation.
      */
-    public static final int DEFAULT_BRIGHTNESS_EXPONENT = 2;
+    public static final double DEFAULT_BRIGHTNESS_EXPONENT = 2d;
     /**
      * Number of surface elements of the microsphere.
      */
@@ -49,7 +49,7 @@ public class MicrosphereInterpolator
      * Exponent used in the power law that computes the weights of the
      * sample data.
      */
-    private final int brightnessExponent;
+    private final double brightnessExponent;
 
     /**
      * Create a microsphere interpolator with default settings.
@@ -70,7 +70,7 @@ public class MicrosphereInterpolator
      * @throws NotStrictlyPositiveException if {@code elements <= 0}.
      */
     public MicrosphereInterpolator(final int elements,
-                                   final int exponent)
+                                   final double exponent)
         throws NotPositiveException,
                NotStrictlyPositiveException {
         if (exponent < 0) {

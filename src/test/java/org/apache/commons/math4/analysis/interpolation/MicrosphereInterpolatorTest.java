@@ -96,7 +96,7 @@ public final class MicrosphereInterpolatorTest {
                 }
             };
 
-        MultivariateInterpolator interpolator = new MicrosphereInterpolator();
+        MultivariateInterpolator interpolator = new MicrosphereInterpolator(567, 0.89);
 
         // Interpolating points in [-10, 10][-10, 10] by steps of 2.
         final int n = 121;
