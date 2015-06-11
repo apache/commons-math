@@ -146,6 +146,8 @@ public class SimplexSolver extends LinearOptimizer {
      *
      * @return {@inheritDoc}
      * @throws TooManyIterationsException if the maximal number of iterations is exceeded.
+     * @throws org.apache.commons.math4.exception.DimensionMismatchException if the dimension
+     * of the constraints does not match the dimension of the objective function
      */
     @Override
     public PointValuePair optimize(OptimizationData... optData)
