@@ -17,6 +17,8 @@
 
 package org.apache.commons.math4.stat.inference;
 
+import java.util.Arrays;
+
 import org.apache.commons.math4.distribution.NormalDistribution;
 import org.apache.commons.math4.distribution.UniformRealDistribution;
 import org.apache.commons.math4.random.Well19937c;
@@ -363,6 +365,16 @@ public class KolmogorovSmirnovTestTest {
         Assert.assertEquals(0.0640394088, test.kolmogorovSmirnovStatistic(x, y), 1e-6);
         Assert.assertEquals(0.9792777290, test.kolmogorovSmirnovTest(x, y), 1e-6);
 
+    }
+
+    @Test
+    public void testTwoSamplesAllEqual() {
+        final KolmogorovSmirnovTest test = new KolmogorovSmirnovTest();
+        for (int i = 2; i < 30; ++i) {
+            double[] values = new double[i];
+            Arrays.fill(values, i);
+            Assert.assertEquals(0., test.kolmogorovSmirnovStatistic(values, values), 0.);
+        }
     }
 
     /**
