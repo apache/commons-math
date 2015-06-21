@@ -294,55 +294,27 @@ public class KolmogorovSmirnovTest {
         final int n = sx.length;
         final int m = sy.length;
 
+        int rankX = 0;
+        int rankY = 0;
+
         // Find the max difference between cdf_x and cdf_y
         double supD = 0d;
-        // First walk x points
-        for (int i = 0; i < n; i++) {
-            final double x_i = sx[i];
-            // ties can be safely ignored
-            if (i > 0 && x_i == sx[i-1]) {
-                continue;
+        do {
+            double z = Double.compare(sx[rankX], sy[rankY]) <= 0 ? sx[rankX] : sy[rankY];
+            while(rankX < n && Double.compare(sx[rankX], z) == 0) {
+                rankX += 1;
             }
-            final double cdf_x = edf(x_i, sx);
-            final double cdf_y = edf(x_i, sy);
+            while(rankY < m && Double.compare(sy[rankY], z) == 0) {
+                rankY += 1;
+            }
+            final double cdf_x = rankX / (double) n;
+            final double cdf_y = rankY / (double) m;
             final double curD = FastMath.abs(cdf_x - cdf_y);
             if (curD > supD) {
                 supD = curD;
             }
-        }
-        // Now look at y
-        for (int i = 0; i < m; i++) {
-            final double y_i = sy[i];
-            // ties can be safely ignored
-            if (i > 0 && y_i == sy[i-1]) {
-                continue;
-            }
-            final double cdf_x = edf(y_i, sx);
-            final double cdf_y = edf(y_i, sy);
-            final double curD = FastMath.abs(cdf_x - cdf_y);
-            if (curD > supD) {
-                supD = curD;
-            }
-        }
+        } while(rankX < n && rankY < m);
         return supD;
-    }
-
-    /**
-     * Computes the empirical distribution function.
-     *
-     * @param x the given x
-     * @param samples the observations
-     * @return the empirical distribution function \(F_n(x)\)
-     */
-    private double edf(final double x, final double[] samples) {
-        final int n = samples.length;
-        int index = Arrays.binarySearch(samples, x);
-        if (index >= 0) {
-            while(index < (n - 1) && samples[index+1] == x) {
-                ++index;
-            }
-        }
-        return index >= 0 ? (index + 1d) / n : (-index - 1d) / n;
     }
 
     /**
