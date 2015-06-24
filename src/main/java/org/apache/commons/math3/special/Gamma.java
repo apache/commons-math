@@ -442,6 +442,10 @@ public class Gamma {
      * @since 2.0
      */
     public static double digamma(double x) {
+        if (Double.isNaN(x) || Double.isInfinite(x)) {
+            return x;
+        }
+
         if (x > 0 && x <= S_LIMIT) {
             // use method 5 from Bernardo AS103
             // accurate to O(x)
@@ -472,6 +476,10 @@ public class Gamma {
      * @since 2.0
      */
     public static double trigamma(double x) {
+        if (Double.isNaN(x) || Double.isInfinite(x)) {
+            return x;
+        }
+
         if (x > 0 && x <= S_LIMIT) {
             return 1 / (x * x);
         }
