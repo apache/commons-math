@@ -19,7 +19,6 @@ package org.apache.commons.math4.special;
 import org.apache.commons.math4.TestUtils;
 import org.apache.commons.math4.exception.NumberIsTooLargeException;
 import org.apache.commons.math4.exception.NumberIsTooSmallException;
-import org.apache.commons.math4.special.Gamma;
 import org.apache.commons.math4.util.FastMath;
 import org.junit.Assert;
 import org.junit.Test;
@@ -126,6 +125,13 @@ public class GammaTest {
     }
 
     @Test
+    public void testDigammaNonRealArgs() {
+        Assert.assertTrue(Double.isNaN(Gamma.digamma(Double.NaN)));
+        Assert.assertTrue(Double.isInfinite(Gamma.digamma(Double.POSITIVE_INFINITY)));
+        Assert.assertTrue(Double.isInfinite(Gamma.digamma(Double.NEGATIVE_INFINITY)));
+    }
+
+    @Test
     public void testTrigamma() {
         double eps = 1e-8;
         // computed using webMathematica.  For example, to compute trigamma($i) = Polygamma(1, $i), use
@@ -149,6 +155,13 @@ public class GammaTest {
         for (int i = data.length - 2; i >= 0; i -= 2) {
             Assert.assertEquals(String.format("trigamma %.0f", data[i]), data[i + 1], Gamma.trigamma(data[i]), eps);
         }
+    }
+
+    @Test
+    public void testTrigammaNonRealArgs() {
+        Assert.assertTrue(Double.isNaN(Gamma.trigamma(Double.NaN)));
+        Assert.assertTrue(Double.isInfinite(Gamma.trigamma(Double.POSITIVE_INFINITY)));
+        Assert.assertTrue(Double.isInfinite(Gamma.trigamma(Double.NEGATIVE_INFINITY)));
     }
 
     /**
