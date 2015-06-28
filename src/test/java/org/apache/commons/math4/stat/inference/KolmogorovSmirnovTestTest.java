@@ -305,6 +305,37 @@ public class KolmogorovSmirnovTestTest {
     }
 
     @Test
+    public void testTwoSampleMonteCarloDifferentSampleSizes() {
+        final KolmogorovSmirnovTest test = new KolmogorovSmirnovTest(new Well19937c(1000));
+        final int sampleSize1 = 14;
+        final int sampleSize2 = 7;
+        final double d = 0.3;
+        final boolean strict = false;
+        final double tol = 1e-2;
+        Assert.assertEquals(test.exactP(d, sampleSize1, sampleSize2, strict),
+                            test.monteCarloP(d, sampleSize1, sampleSize2, strict,
+                                             KolmogorovSmirnovTest.MONTE_CARLO_ITERATIONS),
+                            tol);
+    }
+
+    /**
+     * Performance test for monteCarlo method. Disabled by default.
+     */
+    // @Test
+    public void testTwoSampleMonteCarloPerformance() {
+        int numIterations = 100_000;
+        int N = (int)Math.sqrt(KolmogorovSmirnovTest.LARGE_SAMPLE_PRODUCT);
+        final KolmogorovSmirnovTest test = new KolmogorovSmirnovTest(new Well19937c(1000));
+        for (int n = 2; n <= N; ++n) {
+            long startMillis = System.currentTimeMillis();
+            int m = KolmogorovSmirnovTest.LARGE_SAMPLE_PRODUCT/n;
+            Assert.assertEquals(0d, test.monteCarloP(Double.POSITIVE_INFINITY, n, m, true, numIterations), 0d);
+            long endMillis = System.currentTimeMillis();
+            System.out.println("n=" + n + ", m=" + m + ", time=" + (endMillis-startMillis)/1000d + "s");
+        }
+    }
+
+    @Test
     public void testTwoSampleWithManyTies() {
         // MATH-1197
         final double[] x = {
