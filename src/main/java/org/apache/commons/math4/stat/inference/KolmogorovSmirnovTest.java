@@ -832,7 +832,7 @@ public class KolmogorovSmirnovTest {
      */
     public double ksSum(double t, double tolerance, int maxIterations) {
         if (t == 0.0) {
-            return 1.0;
+            return 0.0;
         }
 
         // TODO: for small t (say less than 1), the alternative expansion in part 3 of [1]

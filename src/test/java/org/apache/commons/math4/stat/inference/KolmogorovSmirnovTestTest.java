@@ -400,11 +400,31 @@ public class KolmogorovSmirnovTestTest {
 
     @Test
     public void testTwoSamplesAllEqual() {
+        int iterations = 10_000;
         final KolmogorovSmirnovTest test = new KolmogorovSmirnovTest();
         for (int i = 2; i < 30; ++i) {
+            // testing values with ties
             double[] values = new double[i];
             Arrays.fill(values, i);
+            // testing values without ties
+            double[] ascendingValues = new double[i];
+            for (int j = 0; j < ascendingValues.length; j++) {
+                ascendingValues[j] = j;
+            }
+
             Assert.assertEquals(0., test.kolmogorovSmirnovStatistic(values, values), 0.);
+            Assert.assertEquals(0., test.kolmogorovSmirnovStatistic(ascendingValues, ascendingValues), 0.);
+
+            if (i < 10) {
+                Assert.assertEquals(1.0, test.exactP(0, values.length, values.length, true), 0.);
+                Assert.assertEquals(1.0, test.exactP(0, values.length, values.length, false), 0.);
+            }
+
+            Assert.assertEquals(1.0, test.monteCarloP(0, values.length, values.length, true, iterations), 0.);
+            Assert.assertEquals(1.0, test.monteCarloP(0, values.length, values.length, false, iterations), 0.);
+
+            Assert.assertEquals(1.0, test.approximateP(0, values.length, values.length), 0.);
+            Assert.assertEquals(1.0, test.approximateP(0, values.length, values.length), 0.);
         }
     }
 
