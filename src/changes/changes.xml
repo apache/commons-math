@@ -51,9 +51,14 @@ If the output is not quite correct, check for invisible trailing spaces!
   </properties>
   <body>
     <release version="3.6" date="XXXX-XX-XX" description="">
+      <action dev="tn" type="fix" issue="MATH-1242" due-to="Otmar Ertl">
+        Improved performance to calculate the two-sample Kolmogorov-Smirnov test
+        via monte carlo simulation ("KolmogorovSmirnovTets#monteCarloP(...)").
+      </action>    
       <action dev="tn" type="fix" issue="MATH-1241" due-to="Aleksei Dievskii">
-        A "StackOverflowException" was thrown when passing Double.NaN or infinity to "Gamma#digamma(double)"
-        or "Gamma#trigamma(double)". Now the input value is propagated to the output if it is not a real number.
+        A "StackOverflowException" was thrown when passing Double.NaN or infinity
+        to "Gamma#digamma(double)" or "Gamma#trigamma(double)". Now the input value
+        is propagated to the output if it is not a real number.
       </action>    
       <action dev="tn" type="fix" issue="MATH-1232" due-to="Otmar Ertl">
         Improved performance of calculating the two-sample Kolmogorov-Smirnov

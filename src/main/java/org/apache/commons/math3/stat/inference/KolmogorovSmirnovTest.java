@@ -951,51 +951,46 @@ public class KolmogorovSmirnovTest {
      * @return proportion of randomly generated m-n partitions of m + n that result in \(D_{n,m}\)
      *         greater than (resp. greater than or equal to) {@code d}
      */
-    public double monteCarloP(double d, int n, int m, boolean strict, int iterations) {
-        final int[] nPlusMSet = MathArrays.natural(m + n);
-        final double[] nSet = new double[n];
-        final double[] mSet = new double[m];
+    public double monteCarloP(final double d, final int n, final int m, final boolean strict,
+                              final int iterations) {
+        // ensure that nn is always the max of (n, m) to require fewer random numbers
+        final int nn = FastMath.max(n, m);
+        final int mm = FastMath.min(n, m);
+        final int sum = nn + mm;
+
         int tail = 0;
+        final boolean b[] = new boolean[sum];
         for (int i = 0; i < iterations; i++) {
-            copyPartition(nSet, mSet, nPlusMSet, n, m);
-            final double curD = kolmogorovSmirnovStatistic(nSet, mSet);
-            if (curD > d) {
-                tail++;
-            } else if (curD == d && !strict) {
-                tail++;
+            // Shuffle n true values and m false values using Fisher-Yates shuffle algorithm.
+            // By processing first the n true values followed by the m false values the
+            // shuffle algorithm can be simplified annd requires fewer random numbers.
+            Arrays.fill(b, true);
+            for (int k = nn; k < sum; k++) {
+                int r = rng.nextInt(k);
+                b[(b[r]) ? r : k] = false;
             }
-            MathArrays.shuffle(nPlusMSet, rng);
-            Arrays.sort(nPlusMSet, 0, n);
+
+            int rankN = b[0] ? 1 : 0;
+            int rankM = b[0] ? 0 : 1;
+            boolean previous = b[0];
+            for(int j = 1; j < b.length; ++j) {
+                if (b[j] != previous) {
+                    final double cdf_n = rankN / (double) nn;
+                    final double cdf_m = rankM / (double) mm;
+                    final double curD = FastMath.abs(cdf_n - cdf_m);
+                    if (curD > d || (curD == d && !strict)) {
+                        tail++;
+                        break;
+                    }
+                }
+                previous = b[j];
+                if (b[j]) {
+                    rankN++;
+                } else {
+                    rankM++;
+                }
+            }
         }
         return (double) tail / iterations;
-    }
-
-    /**
-     * Copies the first {@code n} elements of {@code nSetI} into {@code nSet} and its complement
-     * relative to {@code m + n} into {@code mSet}. For example, if {@code m = 3}, {@code n = 3} and
-     * {@code nSetI = [1,4,5,2,3,0]} then after this method returns, we will have
-     * {@code nSet = [1,4,5], mSet = [0,2,3]}.
-     * <p>
-     * <strong>Precondition:</strong> The first {@code n} elements of {@code nSetI} must be sorted
-     * in ascending order.
-     * </p>
-     *
-     * @param nSet array to fill with the first {@code n} elements of {@code nSetI}
-     * @param mSet array to fill with the {@code m} complementary elements of {@code nSet} relative
-     *        to {@code m + n}
-     * @param nSetI array whose first {@code n} elements specify the members of {@code nSet}
-     * @param n number of elements in the first output array
-     * @param m number of elements in the second output array
-     */
-    private void copyPartition(double[] nSet, double[] mSet, int[] nSetI, int n, int m) {
-        int j = 0;
-        int k = 0;
-        for (int i = 0; i < n + m; i++) {
-            if (j < n && nSetI[j] == i) {
-                nSet[j++] = i;
-            } else {
-                mSet[k++] = i;
-            }
-        }
     }
 }
