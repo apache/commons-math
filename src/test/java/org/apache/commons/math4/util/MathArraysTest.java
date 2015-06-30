@@ -176,6 +176,61 @@ public class MathArraysTest {
     }
 
     @Test
+    public void testCosAngle2D() {
+        double expected;
+
+        final double[] v1 = { 1, 0 };
+        expected = 1;
+        Assert.assertEquals(expected, MathArrays.cosAngle(v1, v1), 0d);
+
+        final double[] v2 = { 0, 1 };
+        expected = 0;
+        Assert.assertEquals(expected, MathArrays.cosAngle(v1, v2), 0d);
+
+        final double[] v3 = { 7, 7 };
+        expected = Math.sqrt(2) / 2;
+        Assert.assertEquals(expected, MathArrays.cosAngle(v1, v3), 1e-15);
+        Assert.assertEquals(expected, MathArrays.cosAngle(v3, v2), 1e-15);
+
+        final double[] v4 = { -5, 0 };
+        expected = -1;
+        Assert.assertEquals(expected, MathArrays.cosAngle(v1, v4), 0);
+
+        final double[] v5 = { -100, 100 };
+        expected = 0;
+        Assert.assertEquals(expected, MathArrays.cosAngle(v3, v5), 0);
+    }
+
+    @Test
+    public void testCosAngle3D() {
+        double expected;
+
+        final double[] v1 = { 1, 1, 0 };
+        expected = 1;
+        Assert.assertEquals(expected, MathArrays.cosAngle(v1, v1), 1e-15);
+
+        final double[] v2 = { 1, 1, 1 };
+        expected = Math.sqrt(2) / Math.sqrt(3);
+        Assert.assertEquals(expected, MathArrays.cosAngle(v1, v2), 1e-15);
+    }
+
+    @Test
+    public void testCosAngleExtreme() {
+        double expected;
+
+        final double tiny = 1e-200;
+        final double[] v1 = { tiny, tiny };
+        final double big = 1e200;
+        final double[] v2 = { -big, -big };
+        expected = -1;
+        Assert.assertEquals(expected, MathArrays.cosAngle(v1, v2), 1e-15);
+
+        final double[] v3 = { big, -big };
+        expected = 0;
+        Assert.assertEquals(expected, MathArrays.cosAngle(v1, v3), 1e-15);
+    }
+
+    @Test
     public void testCheckOrder() {
         MathArrays.checkOrder(new double[] {-15, -5.5, -1, 2, 15},
                              MathArrays.OrderDirection.INCREASING, true);
