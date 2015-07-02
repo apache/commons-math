@@ -77,6 +77,22 @@ public class MathArrays {
     }
 
     /**
+     * Creates an array whose contents will be the element-by-element
+     * power of the argument.
+     *
+     * @param arr input array.
+     * @param pow power.
+     * @return an array where newArr[i] = arr[i]^pow.
+     */
+    public static double[] ebePower(double pow, final double[] arr) {
+        double[] newArr = new double[arr.length];
+        for (int i = 0; i < arr.length; i++) {
+            newArr[i] = FastMath.pow(arr[i], pow);
+        }
+        return newArr;
+    }
+
+    /**
      * Create a copy of an array scaled by a value.
      *
      * @param arr Array to scale.
