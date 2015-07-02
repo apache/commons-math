@@ -109,6 +109,81 @@ public class MathArrays {
 
     /**
      * Creates an array whose contents will be the element-by-element
+     * cosine of the arguments.
+     *
+     * @param a input array.
+     * @return a new array {@code r} where {@code r[i] = cos(a[i])}.
+     */
+    public static double[] ebeCosine(double[] a) {
+        double[] result = new double[a.length];
+        for (int i = 0; i < a.length; i++) {
+            result[i] = FastMath.cos(a[i]);
+        }
+        return result;
+    }
+    
+    /**
+     * Creates an array whose contents will be the element-by-element
+     * sine of the arguments.
+     *
+     * @param a input array.
+     * @return a new array {@code r} where {@code r[i] = sin(a[i])}.
+     */
+    public static double[] ebeSine(double[] a) {
+        double[] result = new double[a.length];
+        for (int i = 0; i < a.length; i++) {
+            result[i] = FastMath.sin(a[i]);
+        }
+        return result;
+    }
+    
+    /**
+     * Creates an array whose contents will be the element-by-element
+     * tangent of the arguments.
+     *
+     * @param a input array.
+     * @return a new array {@code r} where {@code r[i] = tan(a[i])}.
+     */
+    public static double[] ebeTangent(double[] a) {
+        double[] result = new double[a.length];
+        for (int i = 0; i < a.length; i++) {
+            result[i] = FastMath.tan(a[i]);
+        }
+        return result;
+    }
+    
+    /**
+     * Creates an array whose contents will be the element-by-element
+     * atan of the arguments.
+     *
+     * @param a input array.
+     * @return a new array {@code r} where {@code r[i] = atan(a[i])}.
+     */
+    public static double[] ebeAtan(double[] a) {
+        double[] result = new double[a.length];
+        for (int i = 0; i < a.length; i++) {
+            result[i] = FastMath.atan(a[i]);
+        }
+        return result;
+    }
+    
+    /**
+     * Creates an array whose contents will be the element-by-element
+     * sqrt of the arguments.
+     *
+     * @param a input array.
+     * @return a new array {@code r} where {@code r[i] = sqrt(a[i])}.
+     */
+    public static double[] ebeSqrt(double[] a) {
+        double[] result = new double[a.length];
+        for (int i = 0; i < a.length; i++) {
+            result[i] = FastMath.sqrt(a[i]);
+        }
+        return result;
+    }
+
+    /**
+     * Creates an array whose contents will be the element-by-element
      * addition of the arguments.
      *
      * @param a First term of the addition.
