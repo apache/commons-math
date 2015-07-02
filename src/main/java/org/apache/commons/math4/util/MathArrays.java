@@ -75,6 +75,13 @@ public class MathArrays {
                         int startIndex,
                         int numElements);
     }
+    
+    public static double[] abs(double[] arr) {
+		double[] newArr = new double[arr.length];
+		for (int i=0; i < arr.length; i++)
+			newArr[i] = FastMath.abs(arr[i]);
+		return newArr;
+	}
 
     /**
      * Create a copy of an array scaled by a value.
