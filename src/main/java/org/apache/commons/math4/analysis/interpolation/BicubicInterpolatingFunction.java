@@ -183,6 +183,38 @@ public class BicubicInterpolatingFunction
             return true;
         }
     }
+    
+    /**
+     * Returns the minimum value of the first coordinate
+     * @return xval[0].
+     */
+    public double getXmin() {
+        return xval[0];
+    }
+    
+    /**
+     * Returns the maximum value of the second coordinate
+     * @return xval[xval.length - 1].
+     */
+    public double getXmax() {
+        return xval[xval.length - 1];
+    }
+    
+    /**
+     * Returns the minimum value of the second coordinate
+     * @return yval[0].
+     */
+    public double getYmin() {
+        return yval[0];
+    }
+    
+    /**
+     * Returns the maximum value of the second coordinate
+     * @return yval[yval.length - 1].
+     */
+    public double getYmax() {
+        return yval[yval.length - 1];
+    }
 
     /**
      * @param c Coordinate.
