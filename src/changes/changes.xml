@@ -54,6 +54,11 @@ If the output is not quite correct, check for invisible trailing spaces!
     </release>
 
     <release version="4.0" date="XXXX-XX-XX" description="">
+      <action dev="luc" type="add" due-to="Lorenzoexe">
+        Add getXmax(), getXmin(), getYmax(), getYmin() to bicubic interpolating function.
+        These can be useful to manage an OutOfRangeException without the need to access
+        the original x and y arrays.
+      </action>
       <action dev="luc" type="add" >
         Added mapping functions to MathArrays. These methods allow to map
         any univariate or bivariate functions to arrays.
