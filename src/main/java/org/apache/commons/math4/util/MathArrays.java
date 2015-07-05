@@ -25,6 +25,8 @@ import java.util.Comparator;
 import java.util.List;
 
 import org.apache.commons.math4.Field;
+import org.apache.commons.math4.analysis.BivariateFunction;
+import org.apache.commons.math4.analysis.UnivariateFunction;
 import org.apache.commons.math4.distribution.UniformIntegerDistribution;
 import org.apache.commons.math4.exception.DimensionMismatchException;
 import org.apache.commons.math4.exception.MathArithmeticException;
@@ -105,6 +107,75 @@ public class MathArrays {
         for (int i = 0; i < arr.length; i++) {
             arr[i] *= val;
         }
+    }
+
+    /**
+     * Creates an array whose contents will be the element-by-element
+     * mapping of the function to argument.
+     *
+     * @param f function to map on elements
+     * @param a array of function parameters.
+     * @return a new array {@code r} where {@code r[i] = f(a[i])}.
+     * @since 4.0
+     */
+    public static double[] map(final UnivariateFunction f, final double[] a) {
+
+        final double[] result = new double[a.length];
+        for (int i = 0; i < result.length; ++i) {
+            result[i] = f.value(a[i]);
+        }
+
+        return result;
+
+    }
+
+    /**
+     * Creates an array whose contents will be the element-by-element
+     * mapping of the function to arguments.
+     *
+     * @param f function to map on elements
+     * @param a array of first parameters of the function.
+     * @param b array of second parameters of the function.
+     * @return a new array {@code r} where {@code r[i] = f(a[i], b[i])}.
+     * @throws DimensionMismatchException if the array lengths differ.
+     * @since 4.0
+     */
+    public static double[] map(final BivariateFunction f,
+                               final double[] a, final double[] b) {
+
+        if (a.length != b.length) {
+            throw new DimensionMismatchException(a.length, b.length);
+        }
+
+        final double[] result = new double[a.length];
+        for (int i = 0; i < result.length; ++i) {
+            result[i] = f.value(a[i], b[i]);
+        }
+
+        return result;
+
+    }
+
+    /**
+     * Creates an array whose contents will be the element-by-element
+     * mapping of the function to arguments.
+     *
+     * @param f function to map on elements
+     * @param a array of first parameters of the function.
+     * @param b fixed value for second function parameter.
+     * @return a new array {@code r} where {@code r[i] = f(a[i])}.
+     * @since 4.0
+     */
+    public static double[] map(final BivariateFunction f,
+                               final double[] a, final double b) {
+
+        final double[] result = new double[a.length];
+        for (int i = 0; i < result.length; ++i) {
+            result[i] = f.value(a[i], b);
+        }
+
+        return result;
+
     }
 
     /**
