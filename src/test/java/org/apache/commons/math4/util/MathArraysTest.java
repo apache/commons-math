@@ -16,6 +16,8 @@ package org.apache.commons.math4.util;
 import java.util.Arrays;
 
 import org.apache.commons.math4.TestUtils;
+import org.apache.commons.math4.analysis.function.Abs;
+import org.apache.commons.math4.analysis.function.Add;
 import org.apache.commons.math4.exception.DimensionMismatchException;
 import org.apache.commons.math4.exception.MathArithmeticException;
 import org.apache.commons.math4.exception.MathIllegalArgumentException;
@@ -74,7 +76,37 @@ public class MathArraysTest {
             Assert.assertEquals(correctScaled[i], test[i], 0);
         }
     }
-    
+
+    @Test
+    public void testMapUnivariate() {
+        final double[] expected = new double[] { 1, 2, 4, 8 };
+        final double[] observed =
+            MathArrays.map(new Abs(), new double[] { 1, -2, -4, 8});
+        TestUtils.assertEquals(expected, observed, 1.0e-15);
+    }
+
+    @Test
+    public void testMapBivariateTwoArrays() {
+        final double[] expected = new double[] { 1, 3, 6, 11 };
+        final double[] observed =
+            MathArrays.map(new Add(),
+                           new double[] { 1, 2, 4, 8}, new double[] { 0, 1, 2, 3});
+        TestUtils.assertEquals(expected, observed, 1.0e-15);
+    }
+
+    @Test
+    public void testMapBivariateOneArray() {
+        final double[] expected = new double[] { 3.5, 4.5, 6.5, 10.5 };
+        final double[] observed =
+            MathArrays.map(new Add(), new double[] { 1, 2, 4, 8}, 2.5);
+        TestUtils.assertEquals(expected, observed, 1.0e-15);
+    }
+
+    @Test(expected=DimensionMismatchException.class)
+    public void testMapBivariatePrecondition() {
+        MathArrays.map(new Add(), new double[3], new double[4]);
+    }
+
     @Test(expected=DimensionMismatchException.class)
     public void testEbeAddPrecondition() {
         MathArrays.ebeAdd(new double[3], new double[4]);
