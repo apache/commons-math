@@ -65,11 +65,6 @@ If the output is not quite correct, check for invisible trailing spaces!
       <action dev="erans" type="add" issue="MATH-1244">
         Method "cosAngle" in "o.a.c.m.util.MathArrays".
       </action>
-      <action dev="luc" type="add" due-to="Lorenzoexe">
-        Add getXmax(), getXmin(), getYmax(), getYmin() to bicubic interpolating function.
-        These can be useful to manage an OutOfRangeException without the need to access
-        the original x and y arrays.
-      </action>
       <action dev="tn" type="fix" issue="MATH-1240"> <!-- backported to 3.6 -->
         "KolmogorovSmirnovTest#ksSum(...)" returned wrong result in case the provided
         t-parameters was zero. This affected the calculation of "approximateP(...)" for

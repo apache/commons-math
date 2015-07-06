@@ -160,12 +160,7 @@ public final class BicubicInterpolatingFunctionTest {
         try {
             bcf.value(x, y);
             Assert.fail("OutOfRangeException expected");
-        } catch (OutOfRangeException expected) {
-            Assert.assertEquals(xMin, bcf.getXmin(), 1.0e-15);
-            Assert.assertEquals(xMax, bcf.getXmax(), 1.0e-15);
-            Assert.assertEquals(yMin, bcf.getYmin(), 1.0e-15);
-            Assert.assertEquals(yMax, bcf.getYmax(), 1.0e-15);
-        }
+        } catch (OutOfRangeException expected) {}
 
         x = xMin;
         y = yMax + small;
@@ -174,12 +169,7 @@ public final class BicubicInterpolatingFunctionTest {
         try {
             bcf.value(x, y);
             Assert.fail("OutOfRangeException expected");
-        } catch (OutOfRangeException expected) {
-            Assert.assertEquals(xMin, bcf.getXmin(), 1.0e-15);
-            Assert.assertEquals(xMax, bcf.getXmax(), 1.0e-15);
-            Assert.assertEquals(yMin, bcf.getYmin(), 1.0e-15);
-            Assert.assertEquals(yMax, bcf.getYmax(), 1.0e-15);
-        }
+        } catch (OutOfRangeException expected) {}
     }
 
     /**
