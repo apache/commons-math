@@ -70,10 +70,6 @@ If the output is not quite correct, check for invisible trailing spaces!
         These can be useful to manage an OutOfRangeException without the need to access
         the original x and y arrays.
       </action>
-      <action dev="luc" type="add" >
-        Added mapping functions to MathArrays. These methods allow to map
-        any univariate or bivariate functions to arrays.
-      </action>
       <action dev="tn" type="fix" issue="MATH-1240"> <!-- backported to 3.6 -->
         "KolmogorovSmirnovTest#ksSum(...)" returned wrong result in case the provided
         t-parameters was zero. This affected the calculation of "approximateP(...)" for
