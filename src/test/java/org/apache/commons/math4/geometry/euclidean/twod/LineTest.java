@@ -28,8 +28,6 @@ import org.apache.commons.math4.util.FastMath;
 import org.junit.Assert;
 import org.junit.Test;
 
-import java.awt.geom.AffineTransform;
-
 public class LineTest {
 
     @Test
@@ -112,14 +110,14 @@ public class LineTest {
 
         Line l1 = new Line(new Vector2D(1.0 ,1.0), new Vector2D(4.0 ,1.0), 1.0e-10);
         Transform<Euclidean2D, Euclidean1D> t1 =
-            Line.getTransform(new AffineTransform(0.0, 0.5, -1.0, 0.0, 1.0, 1.5));
+            Line.getTransform(0.0, 0.5, -1.0, 0.0, 1.0, 1.5);
         Assert.assertEquals(0.5 * FastMath.PI,
                             ((Line) t1.apply(l1)).getAngle(),
                             1.0e-10);
 
         Line l2 = new Line(new Vector2D(0.0, 0.0), new Vector2D(1.0, 1.0), 1.0e-10);
         Transform<Euclidean2D, Euclidean1D> t2 =
-            Line.getTransform(new AffineTransform(0.0, 0.5, -1.0, 0.0, 1.0, 1.5));
+            Line.getTransform(0.0, 0.5, -1.0, 0.0, 1.0, 1.5);
         Assert.assertEquals(FastMath.atan2(1.0, -2.0),
                             ((Line) t2.apply(l2)).getAngle(),
                             1.0e-10);

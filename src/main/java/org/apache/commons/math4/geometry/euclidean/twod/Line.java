@@ -16,8 +16,6 @@
  */
 package org.apache.commons.math4.geometry.euclidean.twod;
 
-import java.awt.geom.AffineTransform;
-
 import org.apache.commons.math4.exception.MathIllegalArgumentException;
 import org.apache.commons.math4.exception.util.LocalizedFormats;
 import org.apache.commons.math4.geometry.Point;
@@ -422,20 +420,27 @@ public class Line implements Hyperplane<Euclidean2D>, Embedding<Euclidean2D, Euc
 
     /** Get a {@link org.apache.commons.math4.geometry.partitioning.Transform
      * Transform} embedding an affine transform.
-     * @param transform affine transform to embed (must be inversible
-     * otherwise the {@link
-     * org.apache.commons.math4.geometry.partitioning.Transform#apply(Hyperplane)
-     * apply(Hyperplane)} method would work only for some lines, and
-     * fail for other ones)
+     * @param cXX transform factor between input abscissa and output abscissa
+     * @param cYX transform factor between input abscissa and output ordinate
+     * @param cXY transform factor between input ordinate and output abscissa
+     * @param cYY transform factor between input ordinate and output ordinate
+     * @param cX1 transform addendum for output abscissa
+     * @param cY1 transform addendum for output ordinate
      * @return a new transform that can be applied to either {@link
      * Vector2D Vector2D}, {@link Line Line} or {@link
      * org.apache.commons.math4.geometry.partitioning.SubHyperplane
      * SubHyperplane} instances
      * @exception MathIllegalArgumentException if the transform is non invertible
+     * @since 4.0
      */
-    public static Transform<Euclidean2D, Euclidean1D> getTransform(final AffineTransform transform)
+    public static Transform<Euclidean2D, Euclidean1D> getTransform(final double cXX,
+                                                                   final double cYX,
+                                                                   final double cXY,
+                                                                   final double cYY,
+                                                                   final double cX1,
+                                                                   final double cY1)
         throws MathIllegalArgumentException {
-        return new LineTransform(transform);
+        return new LineTransform(cXX, cYX, cXY, cYY, cX1, cY1);
     }
 
     /** Class embedding an affine transform.
@@ -448,11 +453,22 @@ public class Line implements Hyperplane<Euclidean2D>, Embedding<Euclidean2D, Euc
     private static class LineTransform implements Transform<Euclidean2D, Euclidean1D> {
 
         // CHECKSTYLE: stop JavadocVariable check
+        /** Transform factor between input abscissa and output abscissa. */
         private final double cXX;
-        private final double cXY;
-        private final double cX1;
+
+        /** Transform factor between input abscissa and output ordinate. */
         private final double cYX;
+
+        /** Transform factor between input ordinate and output abscissa. */
+        private final double cXY;
+
+        /** Transform factor between input ordinate and output ordinate. */
         private final double cYY;
+
+        /** Transform addendum for output abscissa. */
+        private final double cX1;
+
+        /** Transform addendum for output ordinate. */
         private final double cY1;
 
         private final double c1Y;
@@ -461,21 +477,25 @@ public class Line implements Hyperplane<Euclidean2D>, Embedding<Euclidean2D, Euc
         // CHECKSTYLE: resume JavadocVariable check
 
         /** Build an affine line transform from a n {@code AffineTransform}.
-         * @param transform transform to use (must be invertible otherwise
-         * the {@link LineTransform#apply(Hyperplane)} method would work
-         * only for some lines, and fail for other ones)
+         * @param cXX transform factor between input abscissa and output abscissa
+         * @param cYX transform factor between input abscissa and output ordinate
+         * @param cXY transform factor between input ordinate and output abscissa
+         * @param cYY transform factor between input ordinate and output ordinate
+         * @param cX1 transform addendum for output abscissa
+         * @param cY1 transform addendum for output ordinate
          * @exception MathIllegalArgumentException if the transform is non invertible
+         * @since 4.0
          */
-        public LineTransform(final AffineTransform transform) throws MathIllegalArgumentException {
+        public LineTransform(final double cXX, final double cYX, final double cXY,
+                             final double cYY, final double cX1, final double cY1)
+            throws MathIllegalArgumentException {
 
-            final double[] m = new double[6];
-            transform.getMatrix(m);
-            cXX = m[0];
-            cXY = m[2];
-            cX1 = m[4];
-            cYX = m[1];
-            cYY = m[3];
-            cY1 = m[5];
+            this.cXX = cXX;
+            this.cYX = cYX;
+            this.cXY = cXY;
+            this.cYY = cYY;
+            this.cX1 = cX1;
+            this.cY1 = cY1;
 
             c1Y = MathArrays.linearCombination(cXY, cY1, -cYY, cX1);
             c1X = MathArrays.linearCombination(cXX, cY1, -cYX, cX1);

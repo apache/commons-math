@@ -16,7 +16,6 @@
  */
 package org.apache.commons.math4.geometry.euclidean.threed;
 
-import java.awt.geom.AffineTransform;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
@@ -595,13 +594,15 @@ public class PolyhedronsSet extends AbstractRegion<Euclidean3D, Euclidean2D> {
                 final Vector2D tP00   = tPlane.toSubSpace((Point<Euclidean3D>) apply(p00));
                 final Vector2D tP10   = tPlane.toSubSpace((Point<Euclidean3D>) apply(p10));
                 final Vector2D tP01   = tPlane.toSubSpace((Point<Euclidean3D>) apply(p01));
-                final AffineTransform at =
-                    new AffineTransform(tP10.getX() - tP00.getX(), tP10.getY() - tP00.getY(),
-                                        tP01.getX() - tP00.getX(), tP01.getY() - tP00.getY(),
-                                        tP00.getX(), tP00.getY());
 
                 cachedOriginal  = (Plane) original;
-                cachedTransform = org.apache.commons.math4.geometry.euclidean.twod.Line.getTransform(at);
+                cachedTransform =
+                        org.apache.commons.math4.geometry.euclidean.twod.Line.getTransform(tP10.getX() - tP00.getX(),
+                                                                                           tP10.getY() - tP00.getY(),
+                                                                                           tP01.getX() - tP00.getX(),
+                                                                                           tP01.getY() - tP00.getY(),
+                                                                                           tP00.getX(),
+                                                                                           tP00.getY());
 
             }
             return ((SubLine) sub).applyTransform(cachedTransform);
@@ -660,12 +661,12 @@ public class PolyhedronsSet extends AbstractRegion<Euclidean3D, Euclidean2D> {
                 final Plane   oPlane = (Plane) original;
                 final Plane   tPlane = (Plane) transformed;
                 final Vector2D shift  = tPlane.toSubSpace((Point<Euclidean3D>) apply(oPlane.getOrigin()));
-                final AffineTransform at =
-                    AffineTransform.getTranslateInstance(shift.getX(), shift.getY());
 
                 cachedOriginal  = (Plane) original;
                 cachedTransform =
-                        org.apache.commons.math4.geometry.euclidean.twod.Line.getTransform(at);
+                        org.apache.commons.math4.geometry.euclidean.twod.Line.getTransform(1, 0, 0, 1,
+                                                                                           shift.getX(),
+                                                                                           shift.getY());
 
             }
 
