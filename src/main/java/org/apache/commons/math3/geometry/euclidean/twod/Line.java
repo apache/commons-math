@@ -447,10 +447,39 @@ public class Line implements Hyperplane<Euclidean2D>, Embedding<Euclidean2D, Euc
      * org.apache.commons.math3.geometry.partitioning.SubHyperplane
      * SubHyperplane} instances
      * @exception MathIllegalArgumentException if the transform is non invertible
+     * @deprecated as of 3.6, replaced with {@link #getTransform(double, double, double, double, double, double)}
      */
+    @Deprecated
     public static Transform<Euclidean2D, Euclidean1D> getTransform(final AffineTransform transform)
         throws MathIllegalArgumentException {
-        return new LineTransform(transform);
+        final double[] m = new double[6];
+        transform.getMatrix(m);
+        return new LineTransform(m[0], m[1], m[2], m[3], m[4], m[5]);
+    }
+
+    /** Get a {@link org.apache.commons.math3.geometry.partitioning.Transform
+     * Transform} embedding an affine transform.
+     * @param cXX transform factor between input abscissa and output abscissa
+     * @param cYX transform factor between input abscissa and output ordinate
+     * @param cXY transform factor between input ordinate and output abscissa
+     * @param cYY transform factor between input ordinate and output ordinate
+     * @param cX1 transform addendum for output abscissa
+     * @param cY1 transform addendum for output ordinate
+     * @return a new transform that can be applied to either {@link
+     * Vector2D Vector2D}, {@link Line Line} or {@link
+     * org.apache.commons.math3.geometry.partitioning.SubHyperplane
+     * SubHyperplane} instances
+     * @exception MathIllegalArgumentException if the transform is non invertible
+     * @since 3.6
+     */
+    public static Transform<Euclidean2D, Euclidean1D> getTransform(final double cXX,
+                                                                   final double cYX,
+                                                                   final double cXY,
+                                                                   final double cYY,
+                                                                   final double cX1,
+                                                                   final double cY1)
+        throws MathIllegalArgumentException {
+        return new LineTransform(cXX, cYX, cXY, cYY, cX1, cY1);
     }
 
     /** Class embedding an affine transform.
@@ -476,21 +505,25 @@ public class Line implements Hyperplane<Euclidean2D>, Embedding<Euclidean2D, Euc
         // CHECKSTYLE: resume JavadocVariable check
 
         /** Build an affine line transform from a n {@code AffineTransform}.
-         * @param transform transform to use (must be invertible otherwise
-         * the {@link LineTransform#apply(Hyperplane)} method would work
-         * only for some lines, and fail for other ones)
+         * @param cXX transform factor between input abscissa and output abscissa
+         * @param cYX transform factor between input abscissa and output ordinate
+         * @param cXY transform factor between input ordinate and output abscissa
+         * @param cYY transform factor between input ordinate and output ordinate
+         * @param cX1 transform addendum for output abscissa
+         * @param cY1 transform addendum for output ordinate
          * @exception MathIllegalArgumentException if the transform is non invertible
+         * @since 3.6
          */
-        public LineTransform(final AffineTransform transform) throws MathIllegalArgumentException {
+        public LineTransform(final double cXX, final double cYX, final double cXY,
+                             final double cYY, final double cX1, final double cY1)
+            throws MathIllegalArgumentException {
 
-            final double[] m = new double[6];
-            transform.getMatrix(m);
-            cXX = m[0];
-            cXY = m[2];
-            cX1 = m[4];
-            cYX = m[1];
-            cYY = m[3];
-            cY1 = m[5];
+            this.cXX = cXX;
+            this.cYX = cYX;
+            this.cXY = cXY;
+            this.cYY = cYY;
+            this.cX1 = cX1;
+            this.cY1 = cY1;
 
             c1Y = MathArrays.linearCombination(cXY, cY1, -cYY, cX1);
             c1X = MathArrays.linearCombination(cXX, cY1, -cYX, cX1);
