@@ -51,6 +51,11 @@ If the output is not quite correct, check for invisible trailing spaces!
   </properties>
   <body>
     <release version="3.6" date="XXXX-XX-XX" description="">
+      <action dev="psteitz" type="fix" issue="MATH-1245">
+        Fixed error in computing discrete distribution of D statistics for small-sample
+        2-sample Kolmogorov-Smirnov tests. Error was causing incorrect p-values returned 
+        by exactP and monteCarloP methods (used by default for small, mid-size samples).
+      </action>
       <action dev="tn" type="fix" issue="MATH-1240">
         "KolmogorovSmirnovTest#ksSum(...)" returned wrong result in case the provided
         t-parameters was zero. This affected the calculation of "approximateP(...)" for

@@ -323,7 +323,7 @@ public class KolmogorovSmirnovTestTest {
      */
     // @Test
     public void testTwoSampleMonteCarloPerformance() {
-        int numIterations = 100_000;
+        int numIterations = 100000;
         int N = (int)Math.sqrt(KolmogorovSmirnovTest.LARGE_SAMPLE_PRODUCT);
         final KolmogorovSmirnovTest test = new KolmogorovSmirnovTest(new Well19937c(1000));
         for (int n = 2; n <= N; ++n) {
@@ -400,7 +400,7 @@ public class KolmogorovSmirnovTestTest {
 
     @Test
     public void testTwoSamplesAllEqual() {
-        int iterations = 10_000;
+        int iterations = 10000;
         final KolmogorovSmirnovTest test = new KolmogorovSmirnovTest();
         for (int i = 2; i < 30; ++i) {
             // testing values with ties
@@ -426,6 +426,57 @@ public class KolmogorovSmirnovTestTest {
             Assert.assertEquals(1.0, test.approximateP(0, values.length, values.length), 0.);
             Assert.assertEquals(1.0, test.approximateP(0, values.length, values.length), 0.);
         }
+    }
+    
+    /**
+     * JIRA: MATH-1245
+     * 
+     * Verify that D-values are not viewed as distinct when they are mathematically equal
+     * when computing p-statistics for small sample tests. Reference values are from R 3.2.0.
+     */
+    @Test
+    public void testDRounding() {
+        final double tol = 1e-12;
+        final double[] x = {0, 2, 3, 4, 5, 6, 7, 8, 9, 12};
+        final double[] y = {1, 10, 11, 13, 14, 15, 16, 17, 18};
+        final KolmogorovSmirnovTest test = new KolmogorovSmirnovTest();
+        Assert.assertEquals(0.0027495724090154106, test.kolmogorovSmirnovTest(x, y,false), tol);
+        
+        final double[] x1 = {2, 4, 6, 8, 9, 10, 11, 12, 13};
+        final double[] y1 = {0, 1, 3, 5, 7};
+        Assert.assertEquals(0.085914085914085896, test.kolmogorovSmirnovTest(x1, y1, false), tol);
+        
+        final double[] x2 = {4, 6, 7, 8, 9, 10, 11};
+        final double[] y2 = {0, 1, 2, 3, 5};
+        Assert.assertEquals(0.015151515151515027, test.kolmogorovSmirnovTest(x2, y2, false), tol); 
+    }
+    
+    /**
+     * JIRA: MATH-1245
+     * 
+     * Verify that D-values are not viewed as distinct when they are mathematically equal
+     * when computing p-statistics for small sample tests. Reference values are from R 3.2.0.
+     */
+    @Test
+    public void testDRoundingMonteCarlo() {
+        final double tol = 1e-2;
+        final int iterations = 1000000;
+        final KolmogorovSmirnovTest test = new KolmogorovSmirnovTest(new Well19937c(1000));
+        
+        final double[] x = {0, 2, 3, 4, 5, 6, 7, 8, 9, 12};
+        final double[] y = {1, 10, 11, 13, 14, 15, 16, 17, 18};
+        double d = test.kolmogorovSmirnovStatistic(x, y);
+        Assert.assertEquals(0.0027495724090154106, test.monteCarloP(d, x.length, y.length, false, iterations), tol);
+        
+        final double[] x1 = {2, 4, 6, 8, 9, 10, 11, 12, 13};
+        final double[] y1 = {0, 1, 3, 5, 7};
+        d = test.kolmogorovSmirnovStatistic(x1, y1);
+        Assert.assertEquals(0.085914085914085896, test.monteCarloP(d, x1.length, y1.length, false, iterations), tol);
+        
+        final double[] x2 = {4, 6, 7, 8, 9, 10, 11};
+        final double[] y2 = {0, 1, 2, 3, 5};
+        d = test.kolmogorovSmirnovStatistic(x2, y2);
+        Assert.assertEquals(0.015151515151515027, test.monteCarloP(d, x2.length, y2.length, false, iterations), tol);
     }
 
     /**
