@@ -21,6 +21,7 @@ import java.math.BigDecimal;
 import java.util.Arrays;
 import java.util.Iterator;
 
+import org.apache.commons.math4.util.Precision;
 import org.apache.commons.math4.distribution.RealDistribution;
 import org.apache.commons.math4.exception.InsufficientDataException;
 import org.apache.commons.math4.exception.MathArithmeticException;
@@ -884,6 +885,7 @@ public class KolmogorovSmirnovTest {
         long tail = 0;
         final double[] nSet = new double[n];
         final double[] mSet = new double[m];
+        final double tol = 1e-12;  // d-values within tol of one another are considered equal
         while (combinationsIterator.hasNext()) {
             // Generate an n-set
             final int[] nSetI = combinationsIterator.next();
@@ -898,9 +900,8 @@ public class KolmogorovSmirnovTest {
                 }
             }
             final double curD = kolmogorovSmirnovStatistic(nSet, mSet);
-            if (curD > d) {
-                tail++;
-            } else if (curD == d && !strict) {
+            final int order = Precision.compareTo(curD, d, tol);
+            if (order > 0 || (order == 0 && !strict)) {
                 tail++;
             }
         }
@@ -958,6 +959,7 @@ public class KolmogorovSmirnovTest {
         final int nn = FastMath.max(n, m);
         final int mm = FastMath.min(n, m);
         final int sum = nn + mm;
+        final double tol = 1e-12;  // d-values within tol of one another are considered equal
 
         int tail = 0;
         final boolean b[] = new boolean[sum];
@@ -979,7 +981,8 @@ public class KolmogorovSmirnovTest {
                     final double cdf_n = rankN / (double) nn;
                     final double cdf_m = rankM / (double) mm;
                     final double curD = FastMath.abs(cdf_n - cdf_m);
-                    if (curD > d || (curD == d && !strict)) {
+                    final int order = Precision.compareTo(curD, d, tol);
+                    if (order > 0 || (order == 0 && !strict)) {
                         tail++;
                         break;
                     }
