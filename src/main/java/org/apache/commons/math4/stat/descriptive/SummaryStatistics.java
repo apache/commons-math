@@ -359,7 +359,8 @@ public class SummaryStatistics implements StatisticalSummary, Serializable {
      * Returns estimated value for given percentile.
      * @param percentile Percentile
      * @return Estimated Value
-     * @throws IllegalArgumentException if SummaryStatistics was initialized
+     * @throws IllegalArgumentException if SummaryStatistic was initialized without percentiles
+     * or given percentile is not being tracked 
      * Without given percentile
      */
     public double getPercentile(final double percentile) throws IllegalArgumentException {
@@ -405,7 +406,8 @@ public class SummaryStatistics implements StatisticalSummary, Serializable {
     }
 
     /**
-     * Resets all statistics and storage
+     * Resets all statistics and storage.
+     * Each percentile will be reset
      */
     public void clear() {
         this.n = 0;
@@ -416,12 +418,28 @@ public class SummaryStatistics implements StatisticalSummary, Serializable {
         sumsqImpl.clear();
         geoMeanImpl.clear();
         secondMoment.clear();
-        percentileMap.clear();
+        Iterator<Entry<BigDecimal, PSquarePercentile>> i = percentileMap.entrySet().iterator();
+        while (i.hasNext()) {
+            i.next().getValue().clear();
+        }
         if (meanImpl != mean) {
             meanImpl.clear();
         }
         if (varianceImpl != variance) {
             varianceImpl.clear();
+        }
+    }
+
+    /**
+     * Resets all statistics and storage.
+     * Existing percentiles will be replaced
+     * @param newPercentiles New percentiles to track
+     */
+    public void clear(final double[] newPercentiles) {
+        clear();
+        percentileMap.clear();
+        for (Double d : newPercentiles) {
+            percentileMap.put(BigDecimal.valueOf(d), new PSquarePercentile(d));
         }
     }
 
