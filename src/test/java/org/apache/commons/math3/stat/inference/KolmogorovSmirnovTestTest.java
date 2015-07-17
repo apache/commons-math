@@ -21,7 +21,9 @@ import java.util.Arrays;
 
 import org.apache.commons.math3.distribution.NormalDistribution;
 import org.apache.commons.math3.distribution.UniformRealDistribution;
+import org.apache.commons.math3.random.RandomGenerator;
 import org.apache.commons.math3.random.Well19937c;
+import org.apache.commons.math3.util.CombinatoricsUtils;
 import org.apache.commons.math3.util.FastMath;
 import org.junit.Assert;
 import org.junit.Test;
@@ -477,6 +479,56 @@ public class KolmogorovSmirnovTestTest {
         final double[] y2 = {0, 1, 2, 3, 5};
         d = test.kolmogorovSmirnovStatistic(x2, y2);
         Assert.assertEquals(0.015151515151515027, test.monteCarloP(d, x2.length, y2.length, false, iterations), tol);
+    }
+
+    @Test
+    public void testFillBooleanArrayRandomlyWithFixedNumberTrueValues() {
+
+        final int[][] parameters = {{5, 1}, {5, 2}, {5, 3}, {5, 4}, {8, 1}, {8, 2}, {8, 3}, {8, 4}, {8, 5}, {8, 6}, {8, 7}};
+
+        final double alpha = 0.001;
+        final int numIterations = 1000000;
+
+        final RandomGenerator rng = new Well19937c(0);
+
+        for (final int[] parameter : parameters) {
+
+            final int arraySize = parameter[0];
+            final int numberOfTrueValues = parameter[1];
+
+            final boolean[] b = new boolean[arraySize];
+            final long[] counts = new long[1 << arraySize];
+
+            for (int i = 0; i < numIterations; ++i) {
+                KolmogorovSmirnovTest.fillBooleanArrayRandomlyWithFixedNumberTrueValues(b, numberOfTrueValues, rng);
+                int x = 0;
+                for (int j = 0; j < arraySize; ++j) {
+                    x = ((x << 1) | ((b[j])?1:0));
+                }
+                counts[x] += 1;
+            }
+
+            final int numCombinations = (int) CombinatoricsUtils.binomialCoefficient(arraySize, numberOfTrueValues);
+
+            final long[] observed = new long[numCombinations];
+            final double[] expected = new double[numCombinations];
+            Arrays.fill(expected, numIterations / (double) numCombinations);
+
+            int observedIdx = 0;
+
+            for (int i = 0; i < (1 << arraySize); ++i) {
+                if (Integer.bitCount(i) == numberOfTrueValues) {
+                    observed[observedIdx] = counts[i];
+                    observedIdx += 1;
+                }
+                else {
+                    Assert.assertEquals(0, counts[i]);
+                }
+            }
+
+            Assert.assertEquals(numCombinations, observedIdx);
+            Assert.assertFalse(TestUtils.chiSquareTest(expected, observed, alpha));
+        }
     }
 
     /**
