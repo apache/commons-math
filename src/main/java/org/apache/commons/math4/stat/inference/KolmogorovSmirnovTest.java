@@ -934,6 +934,26 @@ public class KolmogorovSmirnovTest {
     }
 
     /**
+     * Fills a boolean array randomly with a fixed number of {@code true} values. 
+     * The method uses a simplified version of the Fisher-Yates shuffle algorithm. 
+     * By processing first the {@code true} values followed by the remaining {@code false} values
+     * less random numbers need to be generated. The method is optimized for the case 
+     * that the number of {@code true} values is larger than or equal to the number of
+     * {@code false} values.
+     *
+     * @param b boolean array
+     * @param numberOfTrueValues number of {@code true} values the boolean array should finally have
+     * @param rng random data generator
+     */
+    static void fillBooleanArrayRandomlyWithFixedNumberTrueValues(final boolean[] b, final int numberOfTrueValues, final RandomGenerator rng) {
+        Arrays.fill(b, true);
+        for (int k = numberOfTrueValues; k < b.length; k++) {
+            final int r = rng.nextInt(k + 1);
+            b[(b[r]) ? r : k] = false;
+        }
+    }
+
+    /**
      * Uses Monte Carlo simulation to approximate \(P(D_{n,m} > d)\) where \(D_{n,m}\) is the
      * 2-sample Kolmogorov-Smirnov statistic. See
      * {@link #kolmogorovSmirnovStatistic(double[], double[])} for the definition of \(D_{n,m}\).
@@ -964,15 +984,7 @@ public class KolmogorovSmirnovTest {
         int tail = 0;
         final boolean b[] = new boolean[sum];
         for (int i = 0; i < iterations; i++) {
-            // Shuffle n true values and m false values using Fisher-Yates shuffle algorithm.
-            // By processing first the n true values followed by the m false values the
-            // shuffle algorithm can be simplified annd requires fewer random numbers.
-            Arrays.fill(b, true);
-            for (int k = nn; k < sum; k++) {
-                int r = rng.nextInt(k);
-                b[(b[r]) ? r : k] = false;
-            }
-
+            fillBooleanArrayRandomlyWithFixedNumberTrueValues(b, nn, rng);
             int rankN = b[0] ? 1 : 0;
             int rankM = b[0] ? 0 : 1;
             boolean previous = b[0];
