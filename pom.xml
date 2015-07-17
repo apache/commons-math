@@ -83,6 +83,11 @@
       <email>rdonkin at apache dot org</email>
     </developer>
     <developer>
+      <name>Otmar Ertl</name>
+      <id>oertl</id>
+      <email>oertl at apache dot org</email>
+    </developer>
+    <developer>
       <name>Luc Maisonobe</name>
       <id>luc</id>
       <email>luc at apache dot org</email>
@@ -205,9 +210,6 @@
     </contributor>
     <contributor>
       <name>Ole Ersoy</name>
-    </contributor>
-    <contributor>
-      <name>Otmar Ertl</name>
     </contributor>
     <contributor>
       <name>Ajo Fod</name>
