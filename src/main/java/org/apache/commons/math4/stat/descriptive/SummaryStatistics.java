@@ -17,6 +17,10 @@
 package org.apache.commons.math4.stat.descriptive;
 
 import java.io.Serializable;
+import java.math.BigDecimal;
+import java.util.Iterator;
+import java.util.Map.Entry;
+import java.util.TreeMap;
 
 import org.apache.commons.math4.exception.MathIllegalStateException;
 import org.apache.commons.math4.exception.NullArgumentException;
@@ -27,6 +31,7 @@ import org.apache.commons.math4.stat.descriptive.moment.SecondMoment;
 import org.apache.commons.math4.stat.descriptive.moment.Variance;
 import org.apache.commons.math4.stat.descriptive.rank.Max;
 import org.apache.commons.math4.stat.descriptive.rank.Min;
+import org.apache.commons.math4.stat.descriptive.rank.PSquarePercentile;
 import org.apache.commons.math4.stat.descriptive.summary.Sum;
 import org.apache.commons.math4.stat.descriptive.summary.SumOfLogs;
 import org.apache.commons.math4.stat.descriptive.summary.SumOfSquares;
@@ -116,10 +121,24 @@ public class SummaryStatistics implements StatisticalSummary, Serializable {
     /** Variance statistic implementation - can be reset by setter. */
     private StorelessUnivariateStatistic varianceImpl = variance;
 
+    /** Contains PSquarePercentiles to track */
+    private TreeMap<BigDecimal, PSquarePercentile> percentileMap = new TreeMap<>();
+
     /**
      * Construct a SummaryStatistics instance
      */
     public SummaryStatistics() {
+    }
+
+    /**
+     * Constructs a SummaryStatistics instances that will
+     * track given percentiles.
+     * @param percentiles double[] percentiles to track
+     */
+    public SummaryStatistics(final double[] percentiles) {
+        for (Double i : percentiles) {
+            percentileMap.put(BigDecimal.valueOf(i), new PSquarePercentile(i));
+        }
     }
 
     /**
@@ -153,6 +172,10 @@ public class SummaryStatistics implements StatisticalSummary, Serializable {
         maxImpl.increment(value);
         sumLogImpl.increment(value);
         secondMoment.increment(value);
+        Iterator<Entry<BigDecimal, PSquarePercentile>> i = percentileMap.entrySet().iterator();
+        while(i.hasNext()) {
+            i.next().getValue().increment(value);
+        }
         // If mean, variance or geomean have been overridden,
         // need to increment these
         if (meanImpl != mean) {
@@ -333,6 +356,20 @@ public class SummaryStatistics implements StatisticalSummary, Serializable {
     }
 
     /**
+     * Returns estimated value for given percentile.
+     * @param percentile Percentile
+     * @return Estimated Value
+     * @throws IllegalArgumentException if SummaryStatistics was initialized
+     * Without given percentile
+     */
+    public double getPercentile(final double percentile) throws IllegalArgumentException {
+        if (!percentileMap.containsKey(BigDecimal.valueOf(percentile))) {
+            throw new IllegalArgumentException();
+        } 
+        return percentileMap.get(BigDecimal.valueOf(percentile)).getResult();
+    }
+
+    /**
      * Generates a text report displaying summary statistics from values that
      * have been added.
      * @return String with line feeds displaying statistics
@@ -357,6 +394,13 @@ public class SummaryStatistics implements StatisticalSummary, Serializable {
         outBuffer.append("standard deviation: ").append(getStandardDeviation())
             .append(endl);
         outBuffer.append("sum of logs: ").append(getSumOfLogs()).append(endl);
+        Iterator<Entry<BigDecimal, PSquarePercentile>> i = percentileMap.entrySet().iterator();
+        while (i.hasNext()) {
+            Entry<BigDecimal, PSquarePercentile> e = i.next();
+            BigDecimal percentile = e.getKey();
+            double value = e.getValue().getResult();
+            outBuffer.append(percentile.toPlainString() + " percentile: ").append(value).append(endl);
+        }
         return outBuffer.toString();
     }
 
@@ -372,6 +416,7 @@ public class SummaryStatistics implements StatisticalSummary, Serializable {
         sumsqImpl.clear();
         geoMeanImpl.clear();
         secondMoment.clear();
+        percentileMap.clear();
         if (meanImpl != mean) {
             meanImpl.clear();
         }
@@ -707,6 +752,7 @@ public class SummaryStatistics implements StatisticalSummary, Serializable {
         dest.sumLogImpl = source.sumLogImpl.copy();
         dest.sumsqImpl = source.sumsqImpl.copy();
         dest.secondMoment = source.secondMoment.copy();
+        dest.percentileMap.putAll(source.percentileMap);
         dest.n = source.n;
 
         // Keep commons-math supplied statistics with embedded moments in synch

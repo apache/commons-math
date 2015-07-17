@@ -371,4 +371,21 @@ public class SummaryStatisticsTest {
             Assert.assertTrue(toString.indexOf(labels[i] + ": " + String.valueOf(values[i])) > 0);
         }
     }
+
+    @Test
+    public void testPercentile() {
+        SummaryStatistics s = new SummaryStatistics(new double[] {25.0, 50.0, 75.0});
+        for(int i = 0; i < 10; i++) {
+            s.addValue((double) i);
+        }
+        Assert.assertEquals(s.getPercentile(25.0), 2.0, 0.01);
+        Assert.assertEquals(s.getPercentile(50.0), 4.0, 0.01);
+        Assert.assertEquals(s.getPercentile(75.0), 6.0, 0.01);
+        try {
+            s.getPercentile(30.0);
+            Assert.fail("Expecting IllegalArgumentException");
+        } catch(IllegalArgumentException ex) {
+            // expected
+        }
+    }
 }
