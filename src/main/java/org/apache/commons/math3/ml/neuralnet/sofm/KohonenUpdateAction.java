@@ -20,13 +20,14 @@ package org.apache.commons.math3.ml.neuralnet.sofm;
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.concurrent.atomic.AtomicLong;
-import org.apache.commons.math3.ml.neuralnet.Network;
+
+import org.apache.commons.math3.analysis.function.Gaussian;
+import org.apache.commons.math3.linear.ArrayRealVector;
+import org.apache.commons.math3.ml.distance.DistanceMeasure;
 import org.apache.commons.math3.ml.neuralnet.MapUtils;
+import org.apache.commons.math3.ml.neuralnet.Network;
 import org.apache.commons.math3.ml.neuralnet.Neuron;
 import org.apache.commons.math3.ml.neuralnet.UpdateAction;
-import org.apache.commons.math3.ml.distance.DistanceMeasure;
-import org.apache.commons.math3.linear.ArrayRealVector;
-import org.apache.commons.math3.analysis.function.Gaussian;
 
 /**
  * Update formula for <a href="http://en.wikipedia.org/wiki/Kohonen">
@@ -91,6 +92,7 @@ public class KohonenUpdateAction implements UpdateAction {
     /**
      * {@inheritDoc}
      */
+    @Override
     public void update(Network net,
                        double[] features) {
         final long numCalls = numberOfCalls.incrementAndGet();
@@ -144,6 +146,26 @@ public class KohonenUpdateAction implements UpdateAction {
     }
 
     /**
+     * Tries to update a neuron.
+     *
+     * @param n Neuron to be updated.
+     * @param features Training data.
+     * @param learningRate Learning factor.
+     * @return {@code true} if the update succeeded, {@code true} if a
+     * concurrent update has been detected.
+     */
+    private boolean attemptNeuronUpdate(Neuron n,
+                                        double[] features,
+                                        double learningRate) {
+        final double[] expect = n.getFeatures();
+        final double[] update = computeFeatures(expect,
+                                                features,
+                                                learningRate);
+
+        return n.compareAndSetFeatures(expect, update);
+    }
+
+    /**
      * Atomically updates the given neuron.
      *
      * @param n Neuron to be updated.
@@ -154,11 +176,7 @@ public class KohonenUpdateAction implements UpdateAction {
                                           double[] features,
                                           double learningRate) {
         while (true) {
-            final double[] expect = n.getFeatures();
-            final double[] update = computeFeatures(expect,
-                                                    features,
-                                                    learningRate);
-            if (n.compareAndSetFeatures(expect, update)) {
+            if (attemptNeuronUpdate(n, features, learningRate)) {
                 break;
             }
         }
@@ -179,11 +197,7 @@ public class KohonenUpdateAction implements UpdateAction {
         while (true) {
             final Neuron best = MapUtils.findBest(features, net, distance);
 
-            final double[] expect = best.getFeatures();
-            final double[] update = computeFeatures(expect,
-                                                    features,
-                                                    learningRate);
-            if (best.compareAndSetFeatures(expect, update)) {
+            if (attemptNeuronUpdate(best, features, learningRate)) {
                 return best;
             }
 
