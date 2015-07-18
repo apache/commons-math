@@ -51,6 +51,13 @@ If the output is not quite correct, check for invisible trailing spaces!
   </properties>
   <body>
     <release version="3.6" date="XXXX-XX-XX" description="">
+      <action dev="erans" type="add" issue="MATH-1250">
+        "Neuron" class (package "o.a.c.m.ml.neuralnet"): added methods that can be used
+        to assess concurrency performance.
+      </action>
+      <action dev="erans" type="fix" issue="MATH-1248" due-to="Chris Popp">
+        Removed unnecessary allocations in "BigFraction" (package "o.a.c.m.fraction").
+      </action>
       <action dev="psteitz" type="fix" issue="MATH-1245">
         Fixed error in computing discrete distribution of D statistics for small-sample
         2-sample Kolmogorov-Smirnov tests. Error was causing incorrect p-values returned 

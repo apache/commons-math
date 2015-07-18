@@ -30,6 +30,7 @@ import java.util.concurrent.Future;
 
 import org.apache.commons.math3.Retry;
 import org.apache.commons.math3.RetryRunner;
+import org.apache.commons.math3.ml.neuralnet.sofm.KohonenTrainingTask;
 import org.apache.commons.math3.util.FastMath;
 import org.junit.Assert;
 import org.junit.Test;
@@ -65,7 +66,12 @@ public class KohonenTrainingTaskTest {
 
         final TravellingSalesmanSolver solver = new TravellingSalesmanSolver(squareOfCities, 2, seed);
         // printSummary("before.travel.seq.dat", solver);
-        solver.createSequentialTask(15000).run();
+        final Runnable task = solver.createSequentialTask(15000);
+        task.run();
+
+        // All update attempts must be successful in the absence of concurrency.
+        Assert.assertEquals(solver.getUpdateRatio(), 1, 0d);
+
         // printSummary("after.travel.seq.dat", solver);
         final City[] result = solver.getCityList();
         Assert.assertEquals(squareOfCities.length,
@@ -96,12 +102,16 @@ public class KohonenTrainingTaskTest {
             new City("i0", 1, 1),
         };
 
-        final TravellingSalesmanSolver solver = new TravellingSalesmanSolver(squareOfCities, 2);
+        // Seed that allows the unit test to always succeed.
+        final long seed = 534712311L;
+
+        final TravellingSalesmanSolver solver = new TravellingSalesmanSolver(squareOfCities, 2, seed);
         // printSummary("before.travel.par.dat", solver);
 
         // Parallel execution.
         final ExecutorService service = Executors.newCachedThreadPool();
-        final Runnable[] tasks = solver.createParallelTasks(3, 5000);
+        final int numProcs = Runtime.getRuntime().availableProcessors();
+        final Runnable[] tasks = solver.createParallelTasks(numProcs, 5000);
         final List<Future<?>> execOutput = new ArrayList<Future<?>>();
         // Run tasks.
         for (Runnable r : tasks) {
@@ -115,6 +125,11 @@ public class KohonenTrainingTaskTest {
         } catch (InterruptedException ignored) {}
         // Terminate all threads.
         service.shutdown();
+
+        if (numProcs > 1) {
+            // We expect that some update attempts will be concurrent.
+            Assert.assertTrue(solver.getUpdateRatio() < 1);
+        }
 
         // printSummary("after.travel.par.dat", solver);
         final City[] result = solver.getCityList();
