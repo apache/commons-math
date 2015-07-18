@@ -140,6 +140,35 @@ public class TravellingSalesmanSolver {
     }
 
     /**
+     * Measures the network's concurrent update performance.
+     *
+     * @return the ratio between the number of succesful network updates
+     * and the number of update attempts.
+     */
+    public double getUpdateRatio() {
+        return computeUpdateRatio(net);
+    }
+
+    /**
+     * Measures the network's concurrent update performance.
+     *
+     * @param net Network to be trained with the SOFM algorithm.
+     * @return the ratio between the number of successful network updates
+     * and the number of update attempts.
+     */
+    private static double computeUpdateRatio(Network net) {
+        long numAttempts = 0;
+        long numSuccesses = 0;
+
+        for (Neuron n : net) {
+            numAttempts += n.getNumberOfAttemptedUpdates();
+            numSuccesses += n.getNumberOfSuccessfulUpdates();
+        }
+
+        return (double) numSuccesses / (double) numAttempts;
+    }
+
+    /**
      * Creates an iterator that will present a series of city's coordinates in
      * a random order.
      *
