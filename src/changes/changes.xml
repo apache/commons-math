@@ -54,6 +54,10 @@ If the output is not quite correct, check for invisible trailing spaces!
     </release>
 
     <release version="4.0" date="XXXX-XX-XX" description="">
+      <action dev="erans" type="fix" issue="MATH-1251"> <!-- backported to 3.6 -->
+        Fixed initial value of "number of calls" counter in class "KohonenUpdateAction"
+        (package "o.a.c.m.ml.neuralnet.sofm").
+      </action>
       <action dev="erans" type="add" issue="MATH-1250"> <!-- backported to 3.6 -->
         "Neuron" class (package "o.a.c.m.ml.neuralnet"): added methods that can be used
         to assess concurrency performance.

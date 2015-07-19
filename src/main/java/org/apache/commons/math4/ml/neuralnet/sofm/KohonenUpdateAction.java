@@ -74,7 +74,7 @@ public class KohonenUpdateAction implements UpdateAction {
     /** Neighbourhood size update function. */
     private final NeighbourhoodSizeFunction neighbourhoodSize;
     /** Number of calls to {@link #update(Network,double[])}. */
-    private final AtomicLong numberOfCalls = new AtomicLong(-1);
+    private final AtomicLong numberOfCalls = new AtomicLong(0);
 
     /**
      * @param distance Distance function.
@@ -95,7 +95,7 @@ public class KohonenUpdateAction implements UpdateAction {
     @Override
     public void update(Network net,
                        double[] features) {
-        final long numCalls = numberOfCalls.incrementAndGet();
+        final long numCalls = numberOfCalls.incrementAndGet() - 1;
         final double currentLearning = learningFactor.value(numCalls);
         final Neuron best = findAndUpdateBestNeuron(net,
                                                     features,
