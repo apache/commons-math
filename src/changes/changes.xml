@@ -62,7 +62,7 @@ If the output is not quite correct, check for invisible trailing spaces!
         "Neuron" class (package "o.a.c.m.ml.neuralnet"): added methods that can be used
         to assess concurrency performance.
       </action>
-      <action dev="erans" type="fix" issue="MATH-1248" due-to="Chris Popp">
+      <action dev="erans" type="fix" issue="MATH-1248" due-to="Chris Popp"> <!-- backported to 3.6 -->
         Removed unnecessary allocations in "BigFraction" (package "o.a.c.m.fraction").
       </action>
       <action dev="psteitz" type="fix" issue="MATH-1245">
