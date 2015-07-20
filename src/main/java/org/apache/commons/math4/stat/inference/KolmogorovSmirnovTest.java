@@ -934,10 +934,10 @@ public class KolmogorovSmirnovTest {
     }
 
     /**
-     * Fills a boolean array randomly with a fixed number of {@code true} values. 
-     * The method uses a simplified version of the Fisher-Yates shuffle algorithm. 
+     * Fills a boolean array randomly with a fixed number of {@code true} values.
+     * The method uses a simplified version of the Fisher-Yates shuffle algorithm.
      * By processing first the {@code true} values followed by the remaining {@code false} values
-     * less random numbers need to be generated. The method is optimized for the case 
+     * less random numbers need to be generated. The method is optimized for the case
      * that the number of {@code true} values is larger than or equal to the number of
      * {@code false} values.
      *
