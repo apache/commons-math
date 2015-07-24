@@ -287,7 +287,7 @@ public class ResizableDoubleArray implements DoubleArray, Serializable {
         numElements = 0;
         startIndex = 0;
 
-        if (data != null && data.length > 1) {
+        if (data != null && data.length > 0) {
             addElements(data);
         }
     }
