@@ -125,6 +125,14 @@ public class ResizableDoubleArrayTest extends DoubleArrayAbstractTest {
         ResizableDoubleArray copyDa = new ResizableDoubleArray(testDa);
         Assert.assertEquals(copyDa, testDa);
         Assert.assertEquals(testDa, copyDa);
+        
+        // JIRA: MATH-1252
+        final double[] values = {1};
+        testDa = new ResizableDoubleArray(values);
+        Assert.assertArrayEquals(values, testDa.getElements(), 0);
+        Assert.assertEquals(1, testDa.getNumElements());
+        Assert.assertEquals(1, testDa.getElement(0), 0);
+        
     }
 
 
