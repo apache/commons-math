@@ -1,0 +1,366 @@
+<?xml version="1.0"?>
+
+<!--
+   Licensed to the Apache Software Foundation (ASF) under one or more
+  contributor license agreements.  See the NOTICE file distributed with
+  this work for additional information regarding copyright ownership.
+  The ASF licenses this file to You under the Apache License, Version 2.0
+  (the "License"); you may not use this file except in compliance with
+  the License.  You may obtain a copy of the License at
+
+       http://www.apache.org/licenses/LICENSE-2.0
+
+   Unless required by applicable law or agreed to in writing, software
+   distributed under the License is distributed on an "AS IS" BASIS,
+   WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+   See the License for the specific language governing permissions and
+   limitations under the License.
+  -->
+
+<?xml-stylesheet type="text/xsl" href="./xdoc.xsl"?>
+<document url="fitting.html">
+
+  <properties>
+    <title>The Commons Math User Guide - Least squares</title>
+  </properties>
+
+  <body>
+    <section name="14 Least squares">
+      <subsection name="14.1 Overview">
+        <p>
+          The least squares package fits a parametric model to a set of observed
+          values by minimizing a cost function with a specific form.
+          The fitting basically consists in finding the values
+          for some parameters p<sub>k</sub> such that a cost function
+          J = sum(w<sub>i</sub>(target<sub>i</sub> - model<sub>i</sub>)<sup>2</sup>) is
+          minimized. The various (target<sub>i</sub> - model<sub>i</sub>(p<sub>k</sub>))
+          terms are called residuals. They represent the deviation between a set of
+          target values target<sub>i</sub> and theoretical values computed from
+          models model<sub>i</sub> depending on free parameters p<sub>k</sub>.
+          The w<sub>i</sub> factors are weights. One classical use case is when the
+          target values are experimental observations or measurements.
+        </p>
+        <p>
+          Two engines devoted to least-squares problems are available. The first one is
+          based on the <a href="../apidocs/org/apache/commons/math3/fitting/leastsquares/GaussNewtonOptimizer.html">
+          Gauss-Newton</a> method. The second one is the <a
+          href="../apidocs/org/apache/commons/math3/fitting/leastsquares/LevenbergMarquardtOptimizer.html">
+          Levenberg-Marquardt</a> method.
+        </p>
+      </subsection>
+
+      <subsection name="14.2 LeastSquaresBuilder and LeastSquaresFactory">
+
+        <p>
+          In order to solve a least-squares fitting problem, the user must provide the following elements:
+          <ul>
+           <li>a mean to evaluate all the components of the model for a given set of parameters:
+               model<sub>i</sub> = f<sub>i</sub>(p<sub>1</sub>, p<sub>2</sub>, ... p<sub>k</sub>),
+               this is code</li>
+           <li>the target (or observed) components: target<sub>i</sub>, this is data</li>
+           <li>the start values for all p<sub>k</sub> parameters: s<sub>k</sub>, this is data</li>
+           <li>optionally a validator for the p<sub>k</sub> parameters, this is code</li>
+           <li>optionally the weight for sample point i: w<sub>i</sub>, this is data and defaults to 1.0 if not provided</li>
+           <li>a maximum number of iterations, this is data</li>
+           <li>a maximum number of evaluations, this is data</li>
+           <li>a convergence criterion, this is code</li>
+          </ul>
+        </p>
+        <p>
+          The elements of the list above can be provided as an implementation of the
+          <a href="../apidocs/org/apache/commons/math3/fitting/leastsquares/LeastSquaresProblem.html">
+          LeastSquaresProblem</a> interface. However, this is cumbersome to do directly, so some helper
+          classes are available. The first helper is a mutable builder:
+          <a href="../apidocs/org/apache/commons/math3/fitting/leastsquares/LeastSquaresBuilder.html">
+          LeastSquaresBuilder</a>. The second helper is an utility factory:
+          <a href="../apidocs/org/apache/commons/math3/fitting/leastsquares/LeastSquaresFactory.html">
+          LeastSquaresFactory</a>.
+        </p>
+        <p>
+          The builder class is better suited when setting the various elements of the least squares
+          problem is done progressively in different places in the user code. In this case, the user
+          would create first an empty builder andconfigure it progressively by calling its methods
+          (<code>start</code>, <code>target</code>, <code>model</code>, ...). Once the configuration
+          is complete, calling the <code>build</code> method would create the least squares problem.
+        </p>
+        <p>
+          The factory utility is better suited when the various elements of the least squares
+          problem are all known at one place and the problem can be built in just one sweep, calling
+          to one of the static <code>LeastSquaresFactory.create</code> method.
+        </p>
+      </subsection>
+
+      <subsection name="14.3 Model Function">
+        <p>
+          The model function is used by the least squares engine to evaluate the model components
+          model<sub>i</sub> given some test parameters p<sub>k</sub>. It is therefore a multivariate
+          function (it depends on the various p<sub>k</sub>) and it is vector-valued (it has several
+          components model<sub>i</sub>). There must be exactly one component model<sub>i</sub> for
+          each target (or observed) component target<sub>i</sub>, otherwise some residuals to be
+          squared and summed could not be computed. In order for the problem to be well defined, the
+          number of parameters p<sub>k</sub> must be less than the number of components model<sub>i</sub>.
+          Failing to ensure this may lead to the engine throwing an exception as the underlying linear
+          algebra operations may encounter singular matrices. It is not unusual to have a large number
+          of components (several thousands) and only a dozen parameters. There are no limitations on these
+          numbers, though.
+        </p>
+        <p>
+          As the least squares engine needs to create Jacobians matrices for the model function, both
+          its value and its derivatives <em>with respect to the p<sub>k</sub> parameters</em> must
+          be available. There are two ways to provide this:
+          <ul>
+            <li>provide one
+            <a href="../apidocs/org/apache/commons/math3/analysis/MultivariateVectorFunction.html">MultivariateVectorFunction</a>
+            instance for computing the components values and one
+            <a href="../apidocs/org/apache/commons/math3/analysis/MultivariateMatrixFunction.html">MultivariateMatrixFunction</a>
+            instance for computing the components derivatives (i.e. the Jacobian matrix) with
+            respect to the parameters,</li>
+            <li>or provide one
+            <a href="../apidocs/org/apache/commons/math3/fitting/leastsquares/MultivariateJacobianFunction.html">MultivariateJacobianFunction</a>
+            instance for computing both the components values and their derivatives simultaneously.</li>
+          </ul>
+          The first alternative is best suited for models which are not computationally intensive
+          as it allows more modularized code with one method for each type of computation. The second
+          alternative is best suited for models which are computationally intensive and evaluating
+          both the values and derivatives in one sweep saves a lot of work.
+        </p>
+        <p>
+          The <code>point</code> parameter of the <code>value</code> methods in the
+          <a href="../apidocs/org/apache/commons/math3/analysis/MultivariateVectorFunction.html">MultivariateVectorFunction</a>,
+          <a href="../apidocs/org/apache/commons/math3/analysis/MultivariateMatrixFunction.html">MultivariateMatrixFunction</a>,
+          or <a href="../apidocs/org/apache/commons/math3/fitting/leastsquares/MultivariateJacobianFunction.html">MultivariateJacobianFunction</a>
+          interfaces will contain the parameters p<sub>k</sub>. The values will be the model components
+          model<sub>i</sub> and the derivatives will be the derivatives of the model components
+          with respect to the parameters dmodel<sub>i</sub>/dp<sub>k</sub>.
+        </p>
+        <p>
+          There are no requirements on how to compute value and derivatives. The
+          <a href="../apidocs/org/apache/commons/math3/analysis/differentiation/DerivativeStructure.html">
+          DerivativeStructure</a> class may be useful to compute analytically derivatives in
+          difficult cases, but this class is not mandated by the API which only expects the derivatives
+          as a Jacobian matrix containing primitive double entries.
+        </p>
+        <p>
+          One non-obvious feature provided by both the builder and the factory is lazy evaluation. This feature
+          allows to defer calls to the model functions until they are really needed by the engine. This
+          can save some calls for engines that evaluate the value and the Jacobians in different loops
+          (this is the case for Levenberg-Marquardt). However, lazy evaluation is possible <em>only</em>
+          if the model functions are themselves separated, i.e. it can be used only with the first
+          alternative above. Setting up the <code>lazyEvaluation</code> flag to <code>true</code> in the builder
+          or factory and setting up the model function as one
+          <a href="../apidocs/org/apache/commons/math3/fitting/leastsquares/MultivariateJacobianFunction.html">MultivariateJacobianFunction</a>
+          instance at the same time will trigger an illegal state exception telling that the model function
+          misses required functionality.
+        </p>
+      </subsection>
+
+      <subsection name="14.4 Parameters Validation">
+       <p>
+         In some cases, the model function requires parameters to lie within a specific domain. For example
+         a parameter may be used in a square root and needs to be positive, or another parameter represents
+         the sine of an angle and should be within -1 and +1, or several parameters may need to remain in
+         the unit circle and the sum of their squares must be smaller than 1. The least square solvers available
+         in Apache Commons Math currently don't allow to set up constraints on the parameters. This is a
+         known missing feature. There are two ways to circumvent this.
+       </p>
+       <p>
+         Both ways are achieved by setting up a
+         <a href="../apidocs/org/apache/commons/math3/fitting/leastsquares/ParameterValidator.html">ParameterValidator</a>
+         instance. The input of the value and jacobian model functions will always be the output of
+         the parameter validator if one exists.
+       </p>
+       <p>
+         One way to constrain parameters is to use a continuous mapping between the parameters that the
+         least squares solver will handle and the real parameters of the mathematical model. Using mapping
+         functions like <code>logit</code> and <code>sigmoid</code>, one can map a finite range to the
+         infinite real line. Using mapping functions based on <code>log</code> and <code>exp</code>, one
+         can map a semi-infinite range to the infinite real line. It is possible to use such a mapping so
+         that the engine will always see unbounded parameters, whereas on the other side of the mapping the
+         mathematical model will always see parameters mapped correctly to the expected range. Care must be
+         taken with derivatives as one must remember that the parameters have been mapped. Care must also
+         be taken with convergence status. This may be tricky.
+       </p>
+       <p>
+         Another way to constrain parameters is to simply truncate the parameters back to the domain when
+         one search point escapes from it and not care about derivatives. This works <em>only</em> if the
+         solution is expected to be inside the domain and not at the boundary, as points out of the domain
+         will only be temporary test points with a cost function higher than the real solution and will soon
+         be dropped by the underlying engine. As a rule of thumb, these conditions are met only when the
+         domain boundaries correspond to unrealistic values that will never be achieved (null distances,
+         negative masses, ...) but they will not be met when the domain boundaries are more operational
+         limits (a maximum weight that can be handled by a device, a minimum temperature that can be
+         sustained by an instrument, ...).
+       </p>
+      </subsection>
+
+      <subsection name="14.5 Tuning">
+        <p>
+          Among the elements to be provided to the least squares problem builder or factory
+          are some tuning parameters for the solver.
+        </p>
+        <p>
+          The maximum number of iterations refers to the engine algorithm main loop, whereas the
+          maximum number of iterations refers to the number of calls to the model method. Some
+          algorithms (like Levenberg-Marquardt) have two embedded loops, with iteration number
+          being incremented at outer loop level, but a new evaluation being done at each inner
+          loop. In this case, the number of evaluations will be greater than the number of iterations.
+          Other algorithms (like Gauss-Newton) have only one level of loops. In this case, the
+          number of evaluations will equal to the number of iterations. In any case, the maximum
+          numbers are really only intended as safeguard to prevent infinite loops, so the exact
+          value of the limit is not important so it is common to select some almost arbitrary number
+          much larger than the expected number of evaluations and use it for both
+          <code>maxIterations</code> and <code>maxEvaluations</code>. As an example, if the least
+          squares solver usually finds a solution in 50 iterations, setting a maximum value to 1000
+          is probably safe and prevents infinite loops. If the least squares solver needs several
+          hundreds of evaluations, it would probably be safer to set the maximum value to 10000 or
+          even 1000000 to avoid failures in slightly more demanding cases. Very fine tuning of
+          these maximum numbers is often worthless, they are only intended as safeguards.
+        </p>
+        <p>
+          Convergence checking is delegated to a dedicated interface from the <code>optim</code>
+          package: <a href="../apidocs/org/apache/commons/math3/optim/ConvergenceChecker.html">
+          ConvergenceChecker</a>, parameterized with either the specific
+          <a href="../apidocs/org/apache/commons/math3/fitting/leastsquares/LeastSquaresProblem.Evaluation.html">Evaluation</a>
+          class used for least squares problems or the general
+          <a href="../apidocs/org/apache/commons/math3/optim/PointVectorValuePair.html">PointVectorValuePair</a>.
+          Each time convergence is checked, both the previous
+          and the current evaluations of the least squares problem are provided, so the checker can
+          compare them and decide whereas convergence has been reached or not. The predefined convergence
+          checker implementations that can be useful for least squares fitting are:
+          <ul>
+            <li><a href="../apidocs/org/apache/commons/math3/fitting/leastsquares/EvaluationRmsChecker.html">EvaluationRmsChecker</a>,
+            which uses only the normalized cost (square-root of the sum of squared of the residuals,
+            divided by the number of measurements),</li>
+            <li><a href="../apidocs/org/apache/commons/math3/optim/SimpleVectorValueChecker.html">SimpleVectorValueChecker</a>,
+            which uses the model components themselves (<em>not</em> the residuals),</li>
+            <li><a href="../apidocs/org/apache/commons/math3/optim/SimplePointChecker.html">SimplePointChecker&lt;PointVectorValuePair&gt;</a>,
+            which uses the parameters.</li>
+          </ul>
+          Of course, users can also provide their own implementation of the
+          <a href="../apidocs/org/apache/commons/math3/optim/ConvergenceChecker.html">ConvergenceChecker</a>
+          interface.
+        </p>
+      </subsection>
+
+      <subsection name="14.6 Optimization Engine">
+        <p>
+          Once the least squares problem has been created, using either the builder or the factory,
+          it is passed to an optimization engine for solving. Two engines devoted to least-squares
+          problems are available. The first one is
+          based on the <a href="../apidocs/org/apache/commons/math3/fitting/leastsquares/GaussNewtonOptimizer.html">
+          Gauss-Newton</a> method. The second one is the <a
+          href="../apidocs/org/apache/commons/math3/fitting/leastsquares/LevenbergMarquardtOptimizer.html">
+          Levenberg-Marquardt</a> method. For both increased readability and in order to leverage
+          possible future changes in the configuration, it is recommended to use the fluent-style API to
+          build and configure the optimizers. This means creating a first temporary version of the optimizer
+          with a default parameterless constructor, and then to set up the various configuration parameters
+          using the available <code>withXxx</code> methods that all return a new optimizer instance. Only the
+          final fully configured instance is used. As an example, setting up a Levenberg-Marquardt with
+          all configuration set to default except the cost relative tolerance and parameter relative tolerance
+          would be done as follows:
+        </p>
+        <source>
+  LeastSquaresOptimizer optimizer = new LevenbergMarquardtOptimizer().
+                                    withCostRelativeTolerance(1.0e-12).
+                                    withParameterRelativeTolerance(1.0e-12);
+        </source>
+
+        <p>
+        As another example, setting up a Gauss-Newton optimizer and forcing the decomposition to SVD (the
+        default is QR decomposition) would be done as follows:
+        </p>
+        <source>
+  LeastSquaresOptimizer optimizer = new GaussNewtonOptimizer().
+                                    withwithDecomposition(GaussNewtonOptimizer.Decomposition.QR);
+        </source>
+
+      </subsection>
+
+      <subsection name="14.7 Solving">
+        <p>
+        Solving the least squares problem is done by calling the <code>optimize</code> method of the
+        optimizer and passing the least squares problem as the single parameter:
+        </p>
+        <source>
+  LeastSquaresOptimizer.Optimum optimum = optimizer.optimize(leastSquaresProblem);
+        </source>
+
+        <p>
+          The <a
+          href="../apidocs/org/apache/commons/math3/fitting/leastsquares/LeastSquaresOptimizer.Optimum.html">
+          LeastSquaresOptimizer.Optimum</a> class is a specialized
+          <a href="../apidocs/org/apache/commons/math3/fitting/leastsquares/LeastSquaresProblem.Evaluation.html">Evaluation</a>
+          with additional methods te retrieve the number of evaluations and number of iterations performed.
+          The most important methods are inherited from the
+          <a href="../apidocs/org/apache/commons/math3/fitting/leastsquares/LeastSquaresProblem.Evaluation.html">Evaluation</a>
+          class and correspond to the point (i.e. the parameters), cost, Jacobian, RMS, covariance ...
+        </p>
+      </subsection>
+
+      <subsection name="14.8 Example">
+        <p>
+          The following simple example shows how to find the center of a circle of known radius to
+          to best fit observed 2D points. It is a simplified version of one of the JUnit test cases.
+          In the complete test case, both the circle center and its radius are fitted, here the
+          radius is fixed.
+        </p>
+        <source>
+  final double radius = 70.0;
+  final Vector2D[] observedPoints = new Vector2D[] {
+      new Vector2D( 30.0,  68.0),
+      new Vector2D( 50.0,  -6.0),
+      new Vector2D(110.0, -20.0),
+      new Vector2D( 35.0,  15.0),
+      new Vector2D( 45.0,  97.0)
+  };
+
+  // the model function components are the distances to current estimated center,
+  // they should be as close as possible to the specified radius
+  MultivariateJacobianFunction distancesToCurrentCenter = new MultivariateJacobianFunction() {
+      public Pair&lt;RealVector, RealMatrix&gt; value(final RealVector point) {
+
+          Vector2D center = new Vector2D(point.getEntry(0), point.getEntry(1));
+
+          RealVector value = new ArrayRealVector(observedPoints.length);
+          RealMatrix jacobian = new Array2DRowRealMatrix(observedPoints.length, 2);
+
+          for (int i = 0; i &lt; observedPoints.length; ++i) {
+              Vector2D o = observedPoints[i];
+              double modelI = Vector2D.distance(o, center);
+              value.setEntry(i, modelI);
+              // derivative with respect to p0 = x center
+              jacobian.setEntry(i, 0, (center.getX() - o.getX()) / modelI);
+              // derivative with respect to p1 = y center
+              jacobian.setEntry(i, 1, (center.getX() - o.getX()) / modelI);
+          }
+
+          return new Pair&lt;RealVector, RealMatrix&gt;(value, jacobian);
+
+      }
+  };
+
+  // the target is to have all points at the specified radius from the center
+  double[] prescribedDistances = new double[observedPoints.length];
+  Arrays.fill(prescribedDistances, radius);
+
+  // least squares problem to solve : modeled radius should be close to target radius
+  LeastSquaresProblem problem = new LeastSquaresBuilder().
+                                start(new double[] { 100.0, 50.0 }).
+                                model(distancesToCurrentCenter).
+                                target(prescribedDistances).
+                                lazyEvaluation(false).
+                                maxEvaluations(1000).
+                                maxIterations(1000).
+                                build();
+  LeastSquaresOptimizer.Optimum optimum = new LevenbergMarquardtOptimizer().optimize(problem);
+  Vector2D fittedCenter = new Vector2D(optimum.getPoint().getEntry(0), optimum.getPoint().getEntry(1));
+  System.out.println("fitted center: " + fittedCenter.getX() + " " + fittedCenter.getY());
+  System.out.println("RMS: "           + optimum.getRMS());
+  System.out.println("evaluations: "   + optimum.getEvaluations());
+  System.out.println("iterations: "    + optimum.getIterations());
+        </source>
+      </subsection>
+
+     </section>
+  </body>
+</document>
