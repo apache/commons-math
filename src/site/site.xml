@@ -67,13 +67,15 @@
       <item name="Distributions"           href="/userguide/distribution.html"/>
       <item name="Fractions"               href="/userguide/fraction.html"/>
       <item name="Transform Methods"       href="/userguide/transform.html"/>
-      <item name="3D Geometry"             href="/userguide/geometry.html"/>
+      <item name="Geometry"                href="/userguide/geometry.html"/>
       <item name="Optimization"            href="/userguide/optimization.html"/>
+      <item name="Curve Fitting"           href="/userguide/fitting.html"/>
+      <item name="Least Squares"           href="/userguide/leastsquares.html"/>
       <item name="Ordinary Differential Equations" href="/userguide/ode.html"/>
       <item name="Genetic Algorithms"      href="/userguide/genetics.html"/>
       <item name="Filters"                 href="/userguide/filter.html"/>
-      <item name="Fitting"                 href="/userguide/fitting.html"/>
       <item name="Machine Learning"        href="/userguide/ml.html"/>
+      <item name="Exceptions"              href="/userguide/exceptions.html"/>
     </menu>
     
     <head>

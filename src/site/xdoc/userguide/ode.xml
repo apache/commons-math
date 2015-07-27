@@ -25,8 +25,8 @@
   </properties>
 
   <body>
-    <section name="13 Ordinary Differential Equations Integration">
-      <subsection name="13.1 Overview" href="overview">
+    <section name="15 Ordinary Differential Equations Integration">
+      <subsection name="15.1 Overview" href="overview">
         <p>
           The ode package provides classes to solve Ordinary Differential Equations problems.
         </p>
@@ -115,7 +115,7 @@ double[] y = new double[] { 0.0, 1.0 }; // initial state
 dp853.integrate(ode, 0.0, y, 16.0, y); // now y contains final state at time t=16.0
         </source>
       </subsection>
-      <subsection name="13.2 Continuous Output" href="continuous">
+      <subsection name="15.2 Continuous Output" href="continuous">
         <p>
           The solution of the integration problem is provided by two means. The first one is aimed towards
           simple use: the state vector at the end of the integration process is copied in the y array of the
@@ -178,7 +178,7 @@ integrator.addStepHandler(stepHandler);
           automatic guess is wrong.
         </p>
       </subsection>
-      <subsection name="13.3 Discrete Events Handling" href="events">
+      <subsection name="15.3 Discrete Events Handling" href="events">
         <p>
           ODE problems are continuous ones. However, sometimes discrete events must be
           taken into account. The most frequent case is the stop condition of the integrator
@@ -256,7 +256,7 @@ public int eventOccurred(double t, double[] y, boolean increasing) {
 }
         </source>
       </subsection>
-      <subsection name="13.4 Available Integrators" href="integrators">
+      <subsection name="15.4 Available Integrators" href="integrators">
         <p>
           The tables below show the various integrators available for non-stiff problems. Note that the
           implementations of Adams-Bashforth and Adams-Moulton are adaptive stepsize, not fixed stepsize
@@ -288,7 +288,7 @@ public int eventOccurred(double t, double[] y, boolean increasing) {
           </table>
         </p>
       </subsection>
-      <subsection name="13.5 Derivatives" href="derivatives">
+      <subsection name="15.5 Derivatives" href="derivatives">
         <p>
           If in addition to state y(t) the user needs to compute the sensitivity of the final state with respect to
           the initial state (dy/dy<sub>0</sub>) or the sensitivity of the final state with respect to some parameters

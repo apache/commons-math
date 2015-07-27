@@ -25,8 +25,8 @@
   </properties>
 
   <body>
-    <section name="17 Curve Fitting">
-      <subsection name="17.1 Overview" href="overview">
+    <section name="13 Curve Fitting">
+      <subsection name="13.1 Overview" href="overview">
         <p>
           The fitting package deals with curve fitting for univariate real functions.
           When a univariate real function y = f(x) does depend on some unknown parameters
@@ -76,7 +76,7 @@
 
       </subsection>
 
-      <subsection name="17.2 Implemented Functions" href="special">
+      <subsection name="13.2 Implemented Functions" href="special">
 
         <p>
           Fitting of specific functions are provided through the following classes:
@@ -128,7 +128,7 @@ final double[] coeff = fitter.fit(obs.toList());
 
       </subsection>
 
-      <subsection name="17.3 General Case" href="general">
+      <subsection name="13.3 General Case" href="general">
         <p>
           The <a href="../apidocs/org/apache/commons/math4/fitting/AbstractCurveFitter.html">
             AbstractCurveFitter</a> class provides the basic functionality for implementing other

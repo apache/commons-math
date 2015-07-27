@@ -128,39 +128,43 @@
                 <li><a href="optimization.html#a12.4_Direct_Methods">12.4 Direct Methods</a></li>
                 <li><a href="optimization.html#a12.5_General_Case">12.5 General Case</a></li>
                 </ul></li>                                 
-        <li><a href="ode.html">13. Ordinary Differential Equations Integration</a>
+        <li><a href="fitting.html">13. Curve Fitting</a>
+          <ul>
+            <li><a href="fitting.html#a13.1_Overview">13.1 Overview</a></li>
+            <li><a href="fitting.html#a13.2_Implemented_Functions">13.2 Implemented Functions</a></li>
+            <li><a href="fitting.html#a13.3_General_Case">13.3 General Case</a></li>
+          </ul>
+        </li>
+        <li><a href="leastsquares.html">14. Least Squares</a>
+          <ul>
+            <li><a href="fitting.html#a14.1_Overview">14.1 Overview</a></li>
+            <li><a href="fitting.html#a14.2_LeastSquaresBuilder_and_LeastSquaresFactory">14.2 LeastSquaresBuilder and LeastSquaresFactory</a></li>
+            <li><a href="fitting.html#a14.3_Model_Function">14.3 Model Function</a></li>
+            <li><a href="fitting.html#a14.4_Parameters_Validation">14.4 Parameters Validation</a></li>
+            <li><a href="fitting.html#a14.5_Tuning">14.5 Tuning</a></li>
+            <li><a href="fitting.html#a14.6_Optimization_Engine">14.6 Optimization Engine</a></li>
+            <li><a href="fitting.html#a14.7_Solving">14.7 Solving</a></li>
+            <li><a href="fitting.html#a14.8_Example">14.8 Example</a></li>
+          </ul>
+        </li>
+        <li><a href="ode.html">15. Ordinary Differential Equations Integration</a>
                 <ul>
-                <li><a href="ode.html#a13.1_Overview">13.1 Overview</a></li>
-                <li><a href="ode.html#a13.2_Continuous_Output">13.2 Continuous Output</a></li>
-                <li><a href="ode.html#a13.3_Discrete_Events_Handling">13.3 Discrete Events Handling</a></li>
-                <li><a href="ode.html#a13.4_Available_Integrators">13.4 Available Integrators</a></li>
-                <li><a href="ode.html#a13.5_Derivatives">13.5 Derivatives</a></li>
+                <li><a href="ode.html#a15.1_Overview">15.1 Overview</a></li>
+                <li><a href="ode.html#a15.2_Continuous_Output">15.2 Continuous Output</a></li>
+                <li><a href="ode.html#a15.3_Discrete_Events_Handling">15.3 Discrete Events Handling</a></li>
+                <li><a href="ode.html#a15.4_Available_Integrators">15.4 Available Integrators</a></li>
+                <li><a href="ode.html#a15.5_Derivatives">15.5 Derivatives</a></li>
                 </ul></li>
-        <li><a href="genetics.html">14. Genetic Algorithms</a>   
+        <li><a href="genetics.html">16. Genetic Algorithms</a>   
                 <ul>
-                <li><a href="genetics.html#a14.1_Overview">14.1 Overview</a></li>
-                <li><a href="genetics.html#a14.2_GA_Framework">14.2 GA Framework</a></li>
-                <li><a href="genetics.html#a14.3_Implementation">14.3 Implementation and Examples</a></li>  
+                <li><a href="genetics.html#a16.1_Overview">16.1 Overview</a></li>
+                <li><a href="genetics.html#a16.2_GA_Framework">16.2 GA Framework</a></li>
+                <li><a href="genetics.html#a16.3_Implementation">16.3 Implementation and Examples</a></li>  
         </ul></li>
-        <li><a href="filter.html">15. Filters</a>
+        <li><a href="filter.html">17. Filters</a>
           <ul>
-            <li><a href="filter.html#a15.1_Overview">15.1 Overview</a></li>
-            <li><a href="filter.html#a15.2_Kalman_Filter">15.2 Kalman Filter</a></li>
-          </ul>
-        </li>
-        <li><a href="exceptions.html">16. Exceptions</a>
-          <ul>
-            <li><a href="exceptions.html#a16.1_Overview">16.1 Overview</a></li>
-            <li><a href="exceptions.html#a16.2_Unchecked_Exceptions">16.2 Unchecked Exceptions</a></li>
-            <li><a href="exceptions.html#a16.3_Hierarchies">16.3 Hierarchies</a></li>
-            <li><a href="exceptions.html#a16.4_Features">16.4 Features</a></li>
-          </ul>
-        </li>
-        <li><a href="fitting.html">17. Curve Fitting</a>
-          <ul>
-            <li><a href="fitting.html#a17.1_Overview">17.1 Overview</a></li>
-            <li><a href="fitting.html#a17.2_General_Case">17.2 General Case</a></li>
-            <li><a href="fitting.html#a17.3_Special_Cases">17.3 Special Cases</a></li>
+            <li><a href="filter.html#a17.1_Overview">17.1 Overview</a></li>
+            <li><a href="filter.html#a17.2_Kalman_Filter">17.2 Kalman Filter</a></li>
           </ul>
         </li>
         <li><a href="ml.html">18. Machine Learning</a>
@@ -170,6 +174,14 @@
             <li><a href="ml.html#implementation">18.3 Implementation</a></li>
           </ul>
         </li>        
+        <li><a href="exceptions.html">19. Exceptions</a>
+          <ul>
+            <li><a href="exceptions.html#a19.1_Overview">19.1 Overview</a></li>
+            <li><a href="exceptions.html#a19.2_Unchecked_Exceptions">19.2 Unchecked Exceptions</a></li>
+            <li><a href="exceptions.html#a19.3_Hierarchies">19.3 Hierarchies</a></li>
+            <li><a href="exceptions.html#a19.4_Features">19.4 Features</a></li>
+          </ul>
+        </li>
         </ul>
       </section>
     

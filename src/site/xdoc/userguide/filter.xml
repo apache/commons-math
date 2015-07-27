@@ -23,13 +23,13 @@
     <title>The Commons Math User Guide - Filters</title>
   </properties>
   <body>
-    <section name="15 Filters">
-      <subsection name="15.1 Overview" href="overview">
+    <section name="17 Filters">
+      <subsection name="17.1 Overview" href="overview">
         <p>
           The filter package currently provides only an implementation of a Kalman filter.
         </p>
       </subsection>
-      <subsection name="15.2 Kalman Filter" href="kalman">
+      <subsection name="17.2 Kalman Filter" href="kalman">
         <p>
           <a href="../apidocs/org/apache/commons/math4/filter/KalmanFilter.html">
           KalmanFilter</a> provides a discrete-time filter to estimate

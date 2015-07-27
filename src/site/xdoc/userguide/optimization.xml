@@ -27,7 +27,12 @@
   <body>
     <section name="12 Optimization">
       <p><em>The contents of this section currently describes deprecated classes.</em>
-        Please refer to the new <a href="../apidocs/org/apache/commons/math4/optim/package-summary.html">API description</a>.
+        Please refer to the new <a href="../apidocs/org/apache/commons/math4/optim/package-summary.html">API
+        description</a>.
+      </p>
+      <p>Least squares optimizers are not in this package anymore, they have been moved
+        in a dedicated least-squares sub-package described in the <a href="./leastsquares.html">least squares</a>
+        section.
       </p>
 
       <subsection name="12.1 Overview" href="overview">

@@ -23,14 +23,14 @@
     <title>The Commons Math User Guide - Genetic Algorithms</title>
   </properties>
   <body>
-    <section name="14 Genetic Algorithms">
-      <subsection name="14.1 Overview" href="overview">
+    <section name="16 Genetic Algorithms">
+      <subsection name="16.1 Overview" href="overview">
         <p>
           The genetics package provides a framework and implementations for 
           genetic algorithms.
         </p>
       </subsection>
-      <subsection name="14.2 GA Framework">
+      <subsection name="16.2 GA Framework">
       <p>
       <a href="../apidocs/org/apache/commons/math4/genetics/GeneticAlgorithm.html">
       GeneticAlgorithm</a> provides an execution framework for Genetic Algorithms (GA).  
@@ -76,7 +76,7 @@
          </ol>  
       </p>
       </subsection>
-      <subsection name="14.3 Implementation">
+      <subsection name="16.3 Implementation">
       <p>
       Here is an example GA execution:
       <source>
