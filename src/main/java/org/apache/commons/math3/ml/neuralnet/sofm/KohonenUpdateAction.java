@@ -107,7 +107,7 @@ public class KohonenUpdateAction implements UpdateAction {
         final Gaussian neighbourhoodDecay
             = new Gaussian(currentLearning,
                            0,
-                           1d / currentNeighbourhood);
+                           currentNeighbourhood);
 
         if (currentNeighbourhood > 0) {
             // Initial set of neurons only contains the winning neuron.

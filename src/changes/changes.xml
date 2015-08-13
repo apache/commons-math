@@ -51,6 +51,9 @@ If the output is not quite correct, check for invisible trailing spaces!
   </properties>
   <body>
     <release version="3.6" date="XXXX-XX-XX" description="">
+      <action dev="erans" type="fix" issue="MATH-1255">
+        Wrong neighbourhood size in class "KohonenUpdateAction" (package "o.a.c.m.ml.neuralnet.sofm").
+      </action>
       <action dev="psteitz" type="fix" issue="MATH-1252" due-to="John Bay">
         ResizableDoubleArray constructor does not work with double array of size 1.
       </action>
