@@ -30,7 +30,7 @@ import org.apache.commons.math4.util.MathArrays;
 /**
  * Utility class for the {@link MicrosphereProjectionInterpolator} algorithm.
  *
- * @since 4.0
+ * @since 3.6
  */
 public class InterpolatingMicrosphere {
     /** Microsphere. */
@@ -236,7 +236,7 @@ public class InterpolatingMicrosphere {
     }
 
     /**
-     * Replace {@code i}-th {@link Facet facet} of the microsphere.
+     * Replace {@code i}-th facet of the microsphere.
      * Method for initializing the microsphere facets.
      *
      * @param normal Facet's normal vector.

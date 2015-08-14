@@ -28,7 +28,7 @@ import org.apache.commons.math4.random.UnitSphereRandomVectorGenerator;
  * <em>William Dudziak</em>'s
  * <a href="http://www.dudziak.com/microsphere.pdf">MS thesis</a>.
  *
- * @since 4.0
+ * @since 3.6
  */
 public class MicrosphereProjectionInterpolator
     implements MultivariateInterpolator {
