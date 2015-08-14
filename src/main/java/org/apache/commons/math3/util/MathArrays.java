@@ -243,6 +243,17 @@ public class MathArrays {
     }
 
     /**
+     * Calculates the cosine of the angle between two vectors.
+     *
+     * @param v1 Cartesian coordinates of the first vector.
+     * @param v2 Cartesian coordinates of the second vector.
+     * @return the cosine of the angle between the vectors.
+     */
+    public static double cosAngle(double[] v1, double[] v2) {
+        return linearCombination(v1, v2) / (safeNorm(v1) * safeNorm(v2));
+    }
+
+    /**
      * Calculates the L<sub>2</sub> (Euclidean) distance between two points.
      *
      * @param p1 the first point

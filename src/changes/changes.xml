@@ -73,6 +73,9 @@ If the output is not quite correct, check for invisible trailing spaces!
         2-sample Kolmogorov-Smirnov tests. Error was causing incorrect p-values returned 
         by exactP and monteCarloP methods (used by default for small, mid-size samples).
       </action>
+      <action dev="erans" type="add" issue="MATH-1244">
+        Method "cosAngle" in "o.a.c.m.util.MathArrays".
+      </action>
       <action dev="tn" type="fix" issue="MATH-1240">
         "KolmogorovSmirnovTest#ksSum(...)" returned wrong result in case the provided
         t-parameters was zero. This affected the calculation of "approximateP(...)" for
