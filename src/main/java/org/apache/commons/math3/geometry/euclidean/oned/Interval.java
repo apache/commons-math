@@ -17,6 +17,8 @@
 package org.apache.commons.math3.geometry.euclidean.oned;
 
 import org.apache.commons.math3.geometry.partitioning.Region.Location;
+import org.apache.commons.math3.exception.NumberIsTooSmallException;
+import org.apache.commons.math3.exception.util.LocalizedFormats;
 
 
 /** This class represents a 1D interval.
@@ -36,6 +38,10 @@ public class Interval {
      * @param upper upper bound of the interval
      */
     public Interval(final double lower, final double upper) {
+        if (upper < lower) {
+            throw new NumberIsTooSmallException(LocalizedFormats.ENDPOINTS_NOT_AN_INTERVAL,
+                                                upper, lower, true);
+        }
         this.lower = lower;
         this.upper = upper;
     }

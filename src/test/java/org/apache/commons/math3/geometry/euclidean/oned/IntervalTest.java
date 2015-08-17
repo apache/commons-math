@@ -19,6 +19,7 @@ package org.apache.commons.math3.geometry.euclidean.oned;
 import org.apache.commons.math3.geometry.partitioning.Region;
 import org.apache.commons.math3.util.FastMath;
 import org.apache.commons.math3.util.Precision;
+import org.apache.commons.math3.exception.NumberIsTooSmallException;
 import org.junit.Assert;
 import org.junit.Test;
 
@@ -71,4 +72,9 @@ public class IntervalTest {
         Assert.assertEquals(1.0, interval.getBarycenter(), Precision.EPSILON);
     }
 
+    // MATH-1256
+    @Test(expected=NumberIsTooSmallException.class)
+    public void testStrictOrdering() {
+        new Interval(0, -1);
+    }
 }
