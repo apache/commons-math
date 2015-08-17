@@ -51,7 +51,7 @@
         </p>
         <p>
           All these regions share common features. Regions can be defined from several non-connected parts.
-          As an example, one PolygonsSet instance in Euclidean 2D (i.e. one the plane) can represent a region composed
+          As an example, one PolygonsSet instance in Euclidean 2D (i.e. the plane) can represent a region composed
           of several separated polygons separate from each other. They also support regions containing holes. As an example
           a SphericalPolygonsSet on the 2-Sphere can represent a land mass on the Earth with an interior sea, where points
           on this sea would not be considered to belong to the land mass. Of course more complex models can also be represented
@@ -59,11 +59,12 @@
           separate islands, some of which having lakes, which may have smaller island ... In the infinite Euclidean spaces,
           regions can have infinite parts. for example in 1D (i.e. along a line), one can define an interval starting at
           abscissa 3 and extending up to infinity. This is also possible in 2D and 3D. For all spaces, regions without any
-          boundaries are also possible so one can define the whole space or the empty region. The classical set operations
-          are available in all cases: union, intersection, symmetric difference (exclusive or), difference, complement.
-          There are also region predicates (point inside/outside/on boundary, emptiness, other region contained). For some
-          regions, they can be constructed directly from a boundary representation (for example vertices in the case of 2D
-          polygons, both on the Euclidean space or on the 2-Sphere). Some geometric properties like size, or boundary size
+          boundaries are also possible so one can define the whole space or the empty region.
+        </p>
+        <p>
+          The classical set operations are available in all cases: union, intersection, symmetric difference (exclusive or),
+          difference, complement. There are also region predicates (point inside/outside/on boundary, emptiness,
+          other region contained). Some geometric properties like size, or boundary size
           can be computed, as well as barycenters on the Euclidean space. Another important feature available for all these
           regions is the projection of a point to the closest region boundary (if there is a boundary). The projection provides
           both the projected point and the signed distance between the point and its projection, with the convention distance
@@ -80,7 +81,7 @@
           Vector2D</a> and <a href="../apidocs/org/apache/commons/math3/geometry/euclidean/threed/Vector3D.html">
           Vector3D</a> provide simple vector types. One important feature is
           that instances of these classes are guaranteed
-          to be immutable, this greatly simplifies modelling dynamical systems
+          to be immutable, this greatly simplifies modeling dynamical systems
           with changing states: once a vector has been computed, a reference to it
           is known to preserve its state as long as the reference itself is preserved.
         </p>
@@ -119,7 +120,7 @@
           can build a rotation from any of these representations, and any of
           these representations can be retrieved from a <code>Rotation</code>
           instance (see the various constructors and getters). In addition, a
-          rotation can also be built implicitely from a set of vectors and their
+          rotation can also be built implicitly from a set of vectors and their
           image.
         </p>
         <p>
@@ -184,7 +185,7 @@
           on the 1-sphere (i.e. the one dimensional circle corresponding to the boundary of
           a two-dimensional disc) and the 2-sphere (i.e. the two dimensional sphere surface
           corresponding to the boundary of a three-dimensional ball). The main classes in
-          this package corresopnd to the region explained above, i.e.
+          this package correspond to the region explained above, i.e.
           <a href="../apidocs/org/apache/commons/math3/geometry/spherical/oned/ArcsSet.html">ArcsSet</a>
           and <a href="../apidocs/org/apache/commons/math3/geometry/spherical/twod/SphericalPolygonsSet.html">SphericalPolygonsSet</a>.
         </p>
@@ -231,6 +232,89 @@
           tree is modified in any way after attributes have been set, some
           internal nodes may become leaf nodes and some leaf nodes may become
           internal nodes.
+        </p>
+      </subsection>
+      <subsection name="11.5 Regions">
+        <p>
+          The regions in all Euclidean and spherical spaces are based on BSP-tree using a <code>Boolean</code>
+          attribute in the leaf cells representing the inside status of the corresponding cell
+          (true for inside cells, false for outside cells). They all need a <code>tolerance</code> setting that
+          is either provided at construction when the region is built from scratch or inherited from the input
+          regions when a region is build by set operations applied to other regions. This setting is used when
+          the region itself will be used later in another set operation or when points are tested against the
+          region to compute inside/outside/on boundary status. This tolerance is the <em>thickness</em>
+          of the hyperplane. Points closer than this value to a boundary hyperplane will be considered
+          <em>on boundary</em>. There are no default values anymore for this setting (there was one when
+          BSP-tree support was introduced, but it created more problems than it solved, so it has been intentionally
+          removed). Setting this tolerance really depends on the expected values for the various coordinates. If for
+          example the region is used to model a geological structure with a scale of a few thousand meters, the expected
+          coordinates order of magnitude will be about 10<sup>3</sup> and the tolerance could be set to 10<sup>-7</sup>
+          (i.e.  0.1 micrometer) or above. If very thin triangles or nearly parallel lines occur, it may be safer to use
+          a larger value like 10<sup>-3</sup> for example. Of course if the BSP-tree is used to model a crystal at
+          atomic level with coordinates of the order of magnitude about 10<sup>-9</sup> the tolerance should be
+          drastically reduced (perhaps down to 10<sup>-20</sup> or so).
+        </p>
+        <p>
+          The recommended way to build regions is to start from basic shapes built from their boundary representation
+          and to use the set operations to combine these basic shapes into more complex shapes. The basic shapes
+          that can be constructed from boundary representations must have a closed boundary and be in one part
+          without holes. Regions in several non-connected parts or with holes must be built by building the parts
+          beforehand and combining them. All regions (<code>IntervalsSet</code>, <code>PolygonsSet</code>,
+          <code>PolyhedronsSet</code>, <code>ArcsSet</code>, <code>SphericalPolygonsSet</code>) provide a dedicated
+          constructor using only the mandatory tolerance distance without any other parameters that always create
+          the region covering the full space. The empty region case, can be built by building first the full space
+          region and applying the <code>RegionFactory.getComplement()</code> method to it to get the corresponding
+          empty region, it can also be built directly for a one-cell BSP-tree as explained below.
+        </p>
+        <p>
+          Another way to build regions is to create directly the underlying BSP-tree. All regions (<code>IntervalsSet</code>,
+          <code>PolygonsSet</code>, <code>PolyhedronsSet</code>, <code>ArcsSet</code>, <code>SphericalPolygonsSet</code>)
+          provide a dedicated constructor that accepts a BSP-tree and a tolerance. This way to build regions should be
+          reserved to dimple cases like the full space, the empty space of regions with only one or two cut hyperplances.
+          It is not recommended in the general case and is considered expert use. The leaf nodes of the BSP-tree
+          <em>must</em> have a <code>Boolean</code> attribute representing the inside status of the corresponding cell
+          (true for inside cells, false for outside cells). In order to avoid building too many small objects, it is
+          recommended to use the predefined constants <code>Boolean.TRUE</code> and <code>Boolean.FALSE</code>. Using
+          this method, one way to build directly an empty region without complementing the full region is as follows
+          (note the tolerance parameter which must be present even for the empty region):
+        </p>
+        <source>
+PolygonsSet empty = new PolygonsSet(new BSPTree&lt;Euclidean2D&gt;(false), tolerance);
+        </source>
+        <p>
+         In the Euclidean 3D case, the <a href="../apidocs/org/apache/commons/math3/geometry/euclidean/threed/PolyhedronsSet.html">PolyhedronsSet</a>
+         class has another specific constructor to build regions from vertices and facets. The signature of this
+         constructor is:
+        </p>
+        <source>
+PolyhedronsSet(List&lt;Vector3D&gt; vertices, List&lt;int[]&gt; facets, double tolerance);
+        </source>
+        <p>
+          The vertices list contains all the vertices of the polyhedrons, the facets list defines the facets,
+          as an indirection in the vertices list. Each facet is a short integer array and each element in a
+          facet array is the index of one vertex in the list. So in our cube example, the vertices list would
+          contain 8 points corresponding to the cube vertices, the facets list would contain 6 facets (the sides
+          of the cube) and each facet would contain 4 integers corresponding to the indices of the 4 vertices
+          defining one side. Of course, each vertex would be referenced once in three different facets.
+        </p>
+        <p>
+          Beware that despite some basic consistency checks are performed in the constructor, not everything
+          is checked, so it remains under caller responsibility to ensure the vertices and facets are consistent
+          and properly define a polyhedrons set. One particular trick is that when defining a facet, the vertices
+          <em>must</em> be provided as walking the polygons boundary in <em>trigonometric</em> order (i.e.
+          counterclockwise) as seen from the *external* side of the facet. The reason for this is that the walking
+          order does define the orientation of the inside and outside parts, so walking the boundary on the wrong
+          order would reverse the facet and the polyhedrons would not be the one you intended to define. Coming
+          back to our cube example, a logical orientation of the facets would define the polyhedrons as the finite
+          volume within the cube to be the inside and the infinite space surrounding the cube as the outside, but
+          reversing all facets would also define a perfectly well behaved polyhedrons which would have the infinite
+          space surrounding the cube as its inside and the finite volume within the cube as its outside!
+        </p>
+        <p>
+          If one wants to further look at how it works, there is a test parser for PLY file formats in the unit tests
+          section of the library and some basic ply files for a simple geometric shape (the N pentomino) in the test
+          resources. This parser uses the constructor defined above as the PLY file format uses vertices and facets
+          to represent 3D shapes.
         </p>
        </subsection>
      </section>
