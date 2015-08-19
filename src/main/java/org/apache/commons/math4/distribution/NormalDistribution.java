@@ -193,7 +193,7 @@ public class NormalDistribution extends AbstractRealDistribution {
         if (FastMath.abs(dev) > 40 * standardDeviation) {
             return dev < 0 ? 0.0d : 1.0d;
         }
-        return 0.5 * (1 + Erf.erf(dev / (standardDeviation * SQRT2)));
+        return 0.5 * Erf.erfc(-dev / (standardDeviation * SQRT2));
     }
 
     /** {@inheritDoc}

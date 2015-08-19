@@ -111,6 +111,17 @@ public class NormalDistributionTest extends RealDistributionAbstractTest {
         verifyInverseCumulativeProbabilities();
     }
 
+    // MATH-1257
+    @Test
+    public void testCumulativeProbability() {
+        final RealDistribution dist = new NormalDistribution(0, 1);
+        double x = -10;
+        double expected = 7.61985e-24;
+        double v = dist.cumulativeProbability(x);
+        double tol = 1e-5;
+        Assert.assertEquals(1, v / expected, 1e-5);
+    }
+
     @Test
     public void testGetMean() {
         NormalDistribution distribution = (NormalDistribution) getDistribution();

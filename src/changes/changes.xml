@@ -54,6 +54,10 @@ If the output is not quite correct, check for invisible trailing spaces!
     </release>
 
     <release version="4.0" date="XXXX-XX-XX" description="">
+      <action dev="erans" type="fix" issue="MATH-1257" due-to="Bill Murphy">
+        Better accuracy in computation of cumulative probability of "NormalDistribution"
+        (package "o.a.c.m.distribution").
+      </action>
       <action dev="erans" type="fix" issue="MATH-1256"> <!-- backported to 3.6 -->
         Boundary check to construct an "Interval" (package "o.a.c.m.geometry.euclidean.oned").
       </action>
