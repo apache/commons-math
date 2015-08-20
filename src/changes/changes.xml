@@ -53,11 +53,14 @@ If the output is not quite correct, check for invisible trailing spaces!
     <release version="TBD" date="TBD" description="TBD">
     </release>
 
-    <release version="4.0" date="XXXX-XX-XX" description=""> <!-- backported to 3.6 -->
+    <release version="4.0" date="XXXX-XX-XX" description="">
+      <action dev="erans" type="fix" issue="MATH-1261" due-to="Osamu Ikeuchi">
+        Avoid overflow in "Fraction" (multiplication or division by an int).
+      </action>
       <action dev="oertl" type="fix" issue="MATH-1258" due-to="Gunel Jahangirova"> <!-- backported to 3.6 -->
         Added check for equal array lengths to distance measure functions.
       </action>
-      <action dev="erans" type="fix" issue="MATH-1257" due-to="Bill Murphy">
+      <action dev="erans" type="fix" issue="MATH-1257" due-to="Bill Murphy"> <!-- backported to 3.6 -->
         Better accuracy in computation of cumulative probability of "NormalDistribution"
         (package "o.a.c.m.distribution").
       </action>

@@ -263,6 +263,17 @@ public class FractionTest {
     }
 
     @Test
+    public void testMath1261() {
+        final Fraction a = new Fraction(Integer.MAX_VALUE, 2);
+        final Fraction b = a.multiply(2);
+        Assert.assertTrue(b.equals(new Fraction(Integer.MAX_VALUE)));
+
+        final Fraction c = new Fraction(2, Integer.MAX_VALUE);
+        final Fraction d = c.divide(2);
+        Assert.assertTrue(d.equals(new Fraction(1, Integer.MAX_VALUE)));
+    }
+
+    @Test
     public void testReciprocal() {
         Fraction f = null;
 
