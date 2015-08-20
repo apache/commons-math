@@ -16,6 +16,7 @@
  */
 package org.apache.commons.math4.ml.distance;
 
+import org.apache.commons.math4.exception.DimensionMismatchException;
 import org.apache.commons.math4.util.MathArrays;
 
 /**
@@ -30,7 +31,8 @@ public class ChebyshevDistance implements DistanceMeasure {
 
     /** {@inheritDoc} */
     @Override
-    public double compute(double[] a, double[] b) {
+    public double compute(double[] a, double[] b)
+    throws DimensionMismatchException {
         return MathArrays.distanceInf(a, b);
     }
 

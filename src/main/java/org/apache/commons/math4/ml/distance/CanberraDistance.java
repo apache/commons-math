@@ -16,7 +16,9 @@
  */
 package org.apache.commons.math4.ml.distance;
 
+import org.apache.commons.math4.exception.DimensionMismatchException;
 import org.apache.commons.math4.util.FastMath;
+import org.apache.commons.math4.util.MathArrays;
 
 /**
  * Calculates the Canberra distance between two points.
@@ -30,7 +32,9 @@ public class CanberraDistance implements DistanceMeasure {
 
     /** {@inheritDoc} */
     @Override
-    public double compute(double[] a, double[] b) {
+    public double compute(double[] a, double[] b)
+    throws DimensionMismatchException {
+        MathArrays.checkEqualLength(a, b);
         double sum = 0;
         for (int i = 0; i < a.length; i++) {
             final double num = FastMath.abs(a[i] - b[i]);

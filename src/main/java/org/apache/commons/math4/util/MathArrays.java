@@ -194,8 +194,11 @@ public class MathArrays {
      * @param p1 the first point
      * @param p2 the second point
      * @return the L<sub>1</sub> distance between the two points
+     * @throws DimensionMismatchException if the array lengths differ.
      */
-    public static double distance1(double[] p1, double[] p2) {
+    public static double distance1(double[] p1, double[] p2)
+    throws DimensionMismatchException {
+        checkEqualLength(p1, p2);
         double sum = 0;
         for (int i = 0; i < p1.length; i++) {
             sum += FastMath.abs(p1[i] - p2[i]);
@@ -209,13 +212,16 @@ public class MathArrays {
      * @param p1 the first point
      * @param p2 the second point
      * @return the L<sub>1</sub> distance between the two points
+     * @throws DimensionMismatchException if the array lengths differ.
      */
-    public static int distance1(int[] p1, int[] p2) {
-      int sum = 0;
-      for (int i = 0; i < p1.length; i++) {
-          sum += FastMath.abs(p1[i] - p2[i]);
-      }
-      return sum;
+    public static int distance1(int[] p1, int[] p2)
+    throws DimensionMismatchException {
+        checkEqualLength(p1, p2);
+        int sum = 0;
+        for (int i = 0; i < p1.length; i++) {
+            sum += FastMath.abs(p1[i] - p2[i]);
+        }
+        return sum;
     }
 
     /**
@@ -224,8 +230,11 @@ public class MathArrays {
      * @param p1 the first point
      * @param p2 the second point
      * @return the L<sub>2</sub> distance between the two points
+     * @throws DimensionMismatchException if the array lengths differ.
      */
-    public static double distance(double[] p1, double[] p2) {
+    public static double distance(double[] p1, double[] p2)
+    throws DimensionMismatchException {
+        checkEqualLength(p1, p2);
         double sum = 0;
         for (int i = 0; i < p1.length; i++) {
             final double dp = p1[i] - p2[i];
@@ -251,8 +260,11 @@ public class MathArrays {
      * @param p1 the first point
      * @param p2 the second point
      * @return the L<sub>2</sub> distance between the two points
+     * @throws DimensionMismatchException if the array lengths differ.
      */
-    public static double distance(int[] p1, int[] p2) {
+    public static double distance(int[] p1, int[] p2)
+    throws DimensionMismatchException {
+      checkEqualLength(p1, p2);
       double sum = 0;
       for (int i = 0; i < p1.length; i++) {
           final double dp = p1[i] - p2[i];
@@ -267,8 +279,11 @@ public class MathArrays {
      * @param p1 the first point
      * @param p2 the second point
      * @return the L<sub>&infin;</sub> distance between the two points
+     * @throws DimensionMismatchException if the array lengths differ.
      */
-    public static double distanceInf(double[] p1, double[] p2) {
+    public static double distanceInf(double[] p1, double[] p2)
+    throws DimensionMismatchException {
+        checkEqualLength(p1, p2);
         double max = 0;
         for (int i = 0; i < p1.length; i++) {
             max = FastMath.max(max, FastMath.abs(p1[i] - p2[i]));
@@ -282,8 +297,11 @@ public class MathArrays {
      * @param p1 the first point
      * @param p2 the second point
      * @return the L<sub>&infin;</sub> distance between the two points
+     * @throws DimensionMismatchException if the array lengths differ.
      */
-    public static int distanceInf(int[] p1, int[] p2) {
+    public static int distanceInf(int[] p1, int[] p2)
+    throws DimensionMismatchException {
+        checkEqualLength(p1, p2);
         int max = 0;
         for (int i = 0; i < p1.length; i++) {
             max = FastMath.max(max, FastMath.abs(p1[i] - p2[i]));
@@ -399,6 +417,42 @@ public class MathArrays {
         checkEqualLength(a, b, true);
     }
 
+
+    /**
+     * Check that both arrays have the same length.
+     *
+     * @param a Array.
+     * @param b Array.
+     * @param abort Whether to throw an exception if the check fails.
+     * @return {@code true} if the arrays have the same length.
+     * @throws DimensionMismatchException if the lengths differ and
+     * {@code abort} is {@code true}.
+     */
+    public static boolean checkEqualLength(int[] a,
+                                           int[] b,
+                                           boolean abort) {
+        if (a.length == b.length) {
+            return true;
+        } else {
+            if (abort) {
+                throw new DimensionMismatchException(a.length, b.length);
+            }
+            return false;
+        }
+    }
+
+    /**
+     * Check that both arrays have the same length.
+     *
+     * @param a Array.
+     * @param b Array.
+     * @throws DimensionMismatchException if the lengths differ.
+     */
+    public static void checkEqualLength(int[] a,
+                                        int[] b) {
+        checkEqualLength(a, b, true);
+    }
+    
     /**
      * Check that the given array is sorted.
      *
@@ -886,10 +940,8 @@ public class MathArrays {
      */
     public static double linearCombination(final double[] a, final double[] b)
         throws DimensionMismatchException {
+        checkEqualLength(a, b);
         final int len = a.length;
-        if (len != b.length) {
-            throw new DimensionMismatchException(len, b.length);
-        }
 
         if (len == 1) {
             // Revert to scalar multiplication.
@@ -1764,9 +1816,6 @@ public class MathArrays {
         }
 
         checkEqualLength(weights, values);
-        if (weights.length != values.length) {
-            throw new DimensionMismatchException(weights.length, values.length);
-        }
 
         boolean containsPositiveWeight = false;
         for (int i = begin; i < begin + length; i++) {
