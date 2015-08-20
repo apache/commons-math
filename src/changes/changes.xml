@@ -51,6 +51,9 @@ If the output is not quite correct, check for invisible trailing spaces!
   </properties>
   <body>
     <release version="3.6" date="XXXX-XX-XX" description="">
+      <action dev="oertl" type="fix" issue="MATH-1258" due-to="Gunel Jahangirova">
+        Added check for equal array lengths to distance measure functions.
+      </action>
       <action dev="erans" type="fix" issue="MATH-1257" due-to="Bill Murphy">
         Better accuracy in computation of cumulative probability of "NormalDistribution"
         (package "o.a.c.m.distribution").
