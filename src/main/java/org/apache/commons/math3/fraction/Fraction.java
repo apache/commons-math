@@ -559,7 +559,7 @@ public class Fraction
      * @return this * i
      */
     public Fraction multiply(final int i) {
-        return new Fraction(numerator * i, denominator);
+        return multiply(new Fraction(i));
     }
 
     /**
@@ -589,7 +589,7 @@ public class Fraction
      * @return this * i
      */
     public Fraction divide(final int i) {
-        return new Fraction(numerator, denominator * i);
+        return divide(new Fraction(i));
     }
 
     /**

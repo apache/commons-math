@@ -51,6 +51,9 @@ If the output is not quite correct, check for invisible trailing spaces!
   </properties>
   <body>
     <release version="3.6" date="XXXX-XX-XX" description="">
+      <action dev="erans" type="fix" issue="MATH-1261" due-to="Osamu Ikeuchi">
+        Avoid overflow in "Fraction" (multiplication or division by an int).
+      </action>
       <action dev="oertl" type="fix" issue="MATH-1258" due-to="Gunel Jahangirova">
         Added check for equal array lengths to distance measure functions.
       </action>
