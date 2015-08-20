@@ -119,9 +119,7 @@ public class MathArrays {
      */
     public static double[] ebeAdd(double[] a, double[] b)
         throws DimensionMismatchException {
-        if (a.length != b.length) {
-            throw new DimensionMismatchException(a.length, b.length);
-        }
+        checkEqualLength(a, b);
 
         final double[] result = a.clone();
         for (int i = 0; i < a.length; i++) {
@@ -141,9 +139,7 @@ public class MathArrays {
      */
     public static double[] ebeSubtract(double[] a, double[] b)
         throws DimensionMismatchException {
-        if (a.length != b.length) {
-            throw new DimensionMismatchException(a.length, b.length);
-        }
+        checkEqualLength(a, b);
 
         final double[] result = a.clone();
         for (int i = 0; i < a.length; i++) {
@@ -163,9 +159,7 @@ public class MathArrays {
      */
     public static double[] ebeMultiply(double[] a, double[] b)
         throws DimensionMismatchException {
-        if (a.length != b.length) {
-            throw new DimensionMismatchException(a.length, b.length);
-        }
+        checkEqualLength(a, b);
 
         final double[] result = a.clone();
         for (int i = 0; i < a.length; i++) {
@@ -185,9 +179,7 @@ public class MathArrays {
      */
     public static double[] ebeDivide(double[] a, double[] b)
         throws DimensionMismatchException {
-        if (a.length != b.length) {
-            throw new DimensionMismatchException(a.length, b.length);
-        }
+        checkEqualLength(a, b);
 
         final double[] result = a.clone();
         for (int i = 0; i < a.length; i++) {
@@ -370,6 +362,41 @@ public class MathArrays {
      */
     public static boolean isMonotonic(double[] val, OrderDirection dir, boolean strict) {
         return checkOrder(val, dir, strict, false);
+    }
+
+    /**
+     * Check that both arrays have the same length.
+     *
+     * @param a Array.
+     * @param b Array.
+     * @param abort Whether to throw an exception if the check fails.
+     * @return {@code true} if the arrays have the same length.
+     * @throws DimensionMismatchException if the lengths differ and
+     * {@code abort} is {@code true}.
+     */
+    public static boolean checkEqualLength(double[] a,
+                                           double[] b,
+                                           boolean abort) {
+        if (a.length == b.length) {
+            return true;
+        } else {
+            if (abort) {
+                throw new DimensionMismatchException(a.length, b.length);
+            }
+            return false;
+        }
+    }
+
+    /**
+     * Check that both arrays have the same length.
+     *
+     * @param a Array.
+     * @param b Array.
+     * @throws DimensionMismatchException if the lengths differ.
+     */
+    public static void checkEqualLength(double[] a,
+                                        double[] b) {
+        checkEqualLength(a, b, true);
     }
 
     /**
@@ -1736,6 +1763,7 @@ public class MathArrays {
             throw new NullArgumentException(LocalizedFormats.INPUT_ARRAY);
         }
 
+        checkEqualLength(weights, values);
         if (weights.length != values.length) {
             throw new DimensionMismatchException(weights.length, values.length);
         }
