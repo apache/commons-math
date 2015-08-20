@@ -479,6 +479,19 @@ public class MathArraysTest {
         }
     }
 
+    @Test(expected=DimensionMismatchException.class)
+    public void testCheckEqualLength1() {
+        MathArrays.checkEqualLength(new double[] {1, 2, 3},
+                                    new double[] {1, 2, 3, 4});
+    }
+
+    @Test
+    public void testCheckEqualLength2() {
+        final double[] a = new double[] {-1, -12, -23, -34};
+        final double[] b = new double[] {56, 67, 78, 89};
+        Assert.assertTrue(MathArrays.checkEqualLength(a, b, false));
+    }
+
     @Test
     public void testSortInPlace() {
         final double[] x1 = {2,   5,  -3, 1,  4};
