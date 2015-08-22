@@ -452,7 +452,7 @@ public class MathArrays {
                                         int[] b) {
         checkEqualLength(a, b, true);
     }
-    
+
     /**
      * Check that the given array is sorted.
      *
@@ -766,22 +766,29 @@ public class MathArrays {
     }
 
     /**
-     * A helper data structure holding a double and an integer value.
+     * Helper data structure holding a (double, integer) pair.
      */
     private static class PairDoubleInteger {
-
+        /** Key */
         private final double key;
+        /** Value */
         private final int value;
 
+        /**
+         * @param key Key.
+         * @param value Value.
+         */
         public PairDoubleInteger(double key, int value) {
             this.key = key;
             this.value = value;
         }
 
+        /** @return the key. */
         public double getKey() {
             return key;
         }
 
+        /** @return the value. */
         public int getValue() {
             return value;
         }
