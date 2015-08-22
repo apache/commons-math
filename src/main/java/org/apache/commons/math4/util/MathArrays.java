@@ -766,6 +766,28 @@ public class MathArrays {
     }
 
     /**
+     * A helper data structure holding a double and an integer value.
+     */
+    private static class PairDoubleInteger {
+
+        private final double key;
+        private final int value;
+
+        public PairDoubleInteger(double key, int value) {
+            this.key = key;
+            this.value = value;
+        }
+
+        public double getKey() {
+            return key;
+        }
+
+        public int getValue() {
+            return value;
+        }
+    }
+
+    /**
      * Sort an array in place and perform the same reordering of entries on
      * other arrays.  This method works the same as the other
      * {@link #sortInPlace(double[], double[][]) sortInPlace} method, but
@@ -807,26 +829,26 @@ public class MathArrays {
         }
 
         // Associate each abscissa "x[i]" with its index "i".
-        final List<Pair<Double, Integer>> list
-            = new ArrayList<Pair<Double, Integer>>(len);
+        final List<PairDoubleInteger> list
+            = new ArrayList<PairDoubleInteger>(len);
         for (int i = 0; i < len; i++) {
-            list.add(new Pair<Double, Integer>(x[i], i));
+            list.add(new PairDoubleInteger(x[i], i));
         }
 
         // Create comparators for increasing and decreasing orders.
-        final Comparator<Pair<Double, Integer>> comp
+        final Comparator<PairDoubleInteger> comp
             = dir == MathArrays.OrderDirection.INCREASING ?
-            new Comparator<Pair<Double, Integer>>() {
+            new Comparator<PairDoubleInteger>() {
             @Override
-            public int compare(Pair<Double, Integer> o1,
-                               Pair<Double, Integer> o2) {
-                return o1.getKey().compareTo(o2.getKey());
+            public int compare(PairDoubleInteger o1,
+                               PairDoubleInteger o2) {
+                return Double.compare(o1.getKey(), o2.getKey());
             }
-        } : new Comparator<Pair<Double,Integer>>() {
+        } : new Comparator<PairDoubleInteger>() {
             @Override
-            public int compare(Pair<Double, Integer> o1,
-                               Pair<Double, Integer> o2) {
-                return o2.getKey().compareTo(o1.getKey());
+            public int compare(PairDoubleInteger o1,
+                               PairDoubleInteger o2) {
+                return Double.compare(o2.getKey(), o1.getKey());
             }
         };
 
@@ -838,7 +860,7 @@ public class MathArrays {
         // Retrieve indices of original locations.
         final int[] indices = new int[len];
         for (int i = 0; i < len; i++) {
-            final Pair<Double, Integer> e = list.get(i);
+            final PairDoubleInteger e = list.get(i);
             x[i] = e.getKey();
             indices[i] = e.getValue();
         }
