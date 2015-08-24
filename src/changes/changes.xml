@@ -137,9 +137,6 @@ If the output is not quite correct, check for invisible trailing spaces!
       <action dev="luc" type="fix" issue="MATH-1223" >
        Fixed wrong splitting of huge number in extended accuracy algorithms.
       </action>
-      <action dev="tn" type="fix" issue="MATH-1220" due-to="Otmar Ertl">
-        Improve performance of "ZipfDistribution#sample()" by using a rejection algorithm.
-      </action>
       <action dev="tn" type="fix" issue="MATH-1153" due-to="Sergei Lebedev">
         Improve performance of "BetaDistribution#sample()" by using Cheng's algorithm.
       </action>
