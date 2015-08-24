@@ -167,9 +167,6 @@ If the output is not quite correct, check for invisible trailing spaces!
       <action dev="tn" type="fix" issue="MATH-1221">
         Improve performance of "ZipfDistribution" by caching the nth generalized harmonic.
       </action>
-      <action dev="tn" type="fix" issue="MATH-1220" due-to="Otmar Ertl"> <!-- backported to 3.6 -->
-        Improve performance of "ZipfDistribution#sample()" by using a rejection algorithm.
-      </action>
       <action dev="tn" type="fix" issue="MATH-1153" due-to="Sergei Lebedev"> <!-- backported to 3.6 -->
         Improve performance of "BetaDistribution#sample()" by using Cheng's algorithm.
       </action>    
