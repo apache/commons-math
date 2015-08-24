@@ -46,7 +46,7 @@ public class ZipfDistribution extends AbstractIntegerDistribution {
     /** Whether or not the numerical variance has been calculated */
     private boolean numericalVarianceIsCalculated = false;
     /** The sampler to be used for the sample() method */
-    private transient ZipfRejectionSampler sampler;
+    private transient ZipfRejectionInversionSampler sampler;
 
     /**
      * Create a new Zipf distribution with the given number of elements and
@@ -271,123 +271,195 @@ public class ZipfDistribution extends AbstractIntegerDistribution {
         return true;
     }
 
-    /**
-     * {@inheritDoc}
-     * <p>
-     * An instrumental distribution g(k) is used to generate random values by
-     * rejection sampling. g(k) is defined as g(1):= 1 and g(k) := I(-s,k-1/2,k+1/2)
-     * for k larger than 1, where s denotes the exponent of the Zipf distribution
-     * and I(r,a,b) is the integral of x^r for x from a to b.
-     * <p>
-     * Since 1^x^s is a convex function, Jensens's inequality gives
-     * I(-s,k-1/2,k+1/2) >= 1/k^s for all positive k and non-negative s.
-     * In order to limit the rejection rate for large exponents s,
-     * the instrumental distribution weight is differently defined for value 1.
-     */
     @Override
     public int sample() {
         if (sampler == null) {
-            sampler = new ZipfRejectionSampler(numberOfElements, exponent);
+            sampler = new ZipfRejectionInversionSampler(numberOfElements, exponent);
         }
         return sampler.sample(random);
     }
 
     /**
-     * Utility class implementing a rejection sampling method for a discrete,
-     * bounded Zipf distribution.
+     * Utility class implementing a rejection inversion sampling method for a discrete,
+     * bounded Zipf distribution that is based on the method described in
+     * <p>
+     * Wolfgang Hörmann and Gerhard Derflinger
+     * "Rejection-inversion to generate variates from monotone discrete distributions."
+     * ACM Transactions on Modeling and Computer Simulation (TOMACS) 6.3 (1996): 169-184.
+     * <p>
+     * The paper describes an algorithm for exponents larger than 1 (Algorithm ZRI).
+     * The original method uses {@code H(x) := (v + x)^(1 - q) / (1 - q)}
+     * as the integral of the hat function. This function is undefined for
+     * q = 1, which is the reason for the limitation of the exponent.
+     * If instead the integral function
+     * {@code H(x) := ((v + x)^(1 - q) - 1) / (1 - q)} is used,
+     * for which a meaningful limit exists for q = 1,
+     * the method works for all positive exponents.
+     * <p>
+     * The following implementation uses v := 0 and generates integral numbers
+     * in the range [1, numberOfElements]. This is different to the original method
+     * where v is defined to be positive and numbers are taken from [0, i_max].
+     * This explains why the implementation looks slightly different.
      *
      * @since 3.6
      */
-    static final class ZipfRejectionSampler {
+    static final class ZipfRejectionInversionSampler {
 
-        /** Number of elements. */
-        private final int numberOfElements;
         /** Exponent parameter of the distribution. */
         private final double exponent;
-        /** Cached tail weight of instrumental distribution used for rejection sampling */
-        private double instrumentalDistributionTailWeight = Double.NaN;
+        /** Number of elements. */
+        private final int numberOfElements;
+        /** Constant equal to {@code hIntegral(1.5) - 1}. */
+        private final double hIntegralX1;
+        /** Constant equal to {@code hIntegral(numberOfElements + 0.5)}. */
+        private final double hIntegralNumberOfElements;
+        /** Constant equal to {@code 2 - hIntegralInverse(hIntegral(2.5) - h(2)}. */
+        private final double s;
 
-        /**
-         * Simple constructor.
-         * @param numberOfElements number of elements
-         * @param exponent exponent parameter of the distribution
-         */
-        ZipfRejectionSampler(final int numberOfElements, final double exponent) {
-            this.numberOfElements = numberOfElements;
+        ZipfRejectionInversionSampler(final int numberOfElements, final double exponent) {
             this.exponent = exponent;
+            this.numberOfElements = numberOfElements;
+            this.hIntegralX1 = hIntegral(1.5) - 1d;
+            this.hIntegralNumberOfElements = hIntegral(numberOfElements + 0.5);
+            this.s = 2d - hIntegralInverse(hIntegral(2.5) - h(2));
         }
 
-        /** Generate a random value sampled from this distribution.
-         * @param random random generator to use
-         * @return random value sampled from this distribution
-         */
         int sample(final RandomGenerator random) {
-            if (Double.isNaN(instrumentalDistributionTailWeight)) {
-                instrumentalDistributionTailWeight = integratePowerFunction(-exponent, 1.5, numberOfElements+0.5);
-            }
-
             while(true) {
-                final double randomValue = random.nextDouble()*(instrumentalDistributionTailWeight + 1.);
-                if (randomValue < instrumentalDistributionTailWeight) {
-                    final double q = randomValue / instrumentalDistributionTailWeight;
-                    final int sample = sampleFromInstrumentalDistributionTail(q);
-                    if (random.nextDouble() < acceptanceRateForTailSample(sample)) {
-                        return sample;
-                    }
+
+                final double u = hIntegralNumberOfElements + random.nextDouble() * (hIntegralX1 - hIntegralNumberOfElements);
+                // u is uniformly distributed in (hIntegralX1, hIntegralNumberOfElements]
+
+                double x = hIntegralInverse(u);
+
+                int k = (int)(x + 0.5);
+
+                // Limit k to the range [1, numberOfElements]
+                // (k could be outside due to numerical inaccuracies)
+                if (k < 1) {
+                    k = 1;
                 }
-                else {
-                    return 1;
+                else if (k > numberOfElements) {
+                    k = numberOfElements;
+                }
+
+                // Here, the distribution of k is given by:
+                //
+                //   P(k = 1) = C * (hIntegral(1.5) - hIntegralX1) = C
+                //   P(k = m) = C * (hIntegral(m + 1/2) - hIntegral(m - 1/2)) for m >= 2
+                //
+                //   where C := 1 / (hIntegralNumberOfElements - hIntegralX1)
+
+                if (k - x <= s || u >= hIntegral(k + 0.5) - h(k)) {
+
+                    // Case k = 1:
+                    //
+                    //   The right inequality is always true, because replacing k by 1 gives
+                    //   u >= hIntegral(1.5) - h(1) = hIntegralX1 and u is taken from
+                    //   (hIntegralX1, hIntegralNumberOfElements].
+                    //
+                    //   Therefore, the acceptance rate for k = 1 is P(accepted | k = 1) = 1
+                    //   and the probability that 1 is returned as random value is
+                    //   P(k = 1 and accepted) = P(accepted | k = 1) * P(k = 1) = C = C / 1^exponent
+                    //
+                    // Case k >= 2:
+                    //
+                    //   The left inequality (k - x <= s) is just a short cut
+                    //   to avoid the more expensive evaluation of the right inequality
+                    //   (u >= hIntegral(k + 0.5) - h(k)) in many cases.
+                    //
+                    //   If the left inequality is true, the right inequality is also true:
+                    //     Theorem 2 in the paper is valid for all positive exponents, because
+                    //     the requirements h'(x) = -exponent/x^(exponent + 1) < 0 and
+                    //     (-1/hInverse'(x))'' = (1+1/exponent) * x^(1/exponent-1) >= 0
+                    //     are both fulfilled.
+                    //     Therefore, f(x) := x - hIntegralInverse(hIntegral(x + 0.5) - h(x))
+                    //     is a non-decreasing function. If k - x <= s holds,
+                    //     k - x <= s + f(k) - f(2) is obviously also true which is equivalent to
+                    //     -x <= -hIntegralInverse(hIntegral(k + 0.5) - h(k)),
+                    //     -hIntegralInverse(u) <= -hIntegralInverse(hIntegral(k + 0.5) - h(k)),
+                    //     and finally u >= hIntegral(k + 0.5) - h(k).
+                    //
+                    //   Hence, the right inequality determines the acceptance rate:
+                    //   P(accepted | k = m) = h(m) / (hIntegrated(m+1/2) - hIntegrated(m-1/2))
+                    //   The probability that m is returned is given by
+                    //   P(k = m and accepted) = P(accepted | k = m) * P(k = m) = C * h(m) = C / m^exponent.
+                    //
+                    // In both cases the probabilities are proportional to the probability mass function
+                    // of the Zipf distribution.
+
+                    return k;
                 }
             }
         }
 
         /**
-         * Returns a sample from the instrumental distribution tail for a given
-         * uniformly distributed random value.
+         * {@code H(x) :=}
+         * <ul>
+         * <li>{@code (x^(1-exponent) - 1)/(1 - exponent)}, if {@code exponent != 1}</li>
+         * <li>{@code log(x)}, if {@code exponent == 1}</li>
+         * </ul>
+         * H(x) is an integral function of h(x),
+         * the derivative of H(x) is h(x).
          *
-         * @param q a uniformly distributed random value taken from [0,1]
-         * @return a sample in the range [2, {@link #numberOfElements}]
+         * @param x free parameter
+         * @return {@code H(x)}
          */
-        int sampleFromInstrumentalDistributionTail(double q) {
-            final double a = 1.5;
-            final double b = numberOfElements + 0.5;
-            final double logBdviA = FastMath.log(b / a);
-
-            final int result  = (int) (a * FastMath.exp(logBdviA * helper1(q, logBdviA * (1. - exponent))) + 0.5);
-            if (result < 2) {
-                return 2;
-            }
-            if (result > numberOfElements) {
-                return numberOfElements;
-            }
-            return result;
+        private double hIntegral(final double x) {
+            final double logX = FastMath.log(x);
+            return helper2((1d-exponent)*logX)*logX;
         }
 
         /**
-         * Helper function that calculates log((1-q)+q*exp(x))/x.
+         * {@code h(x) := 1/x^exponent}
+         *
+         * @param x free parameter
+         * @return h(x)
+         */
+        private double h(final double x) {
+            return FastMath.exp(-exponent * FastMath.log(x));
+        }
+
+        /**
+         * The inverse function of H(x).
+         *
+         * @param x free parameter
+         * @return y for which {@code H(y) = x}
+         */
+        private double hIntegralInverse(final double x) {
+            double t = x*(1d-exponent);
+            if (t < -1d) {
+                // Limit value to the range [-1, +inf).
+                // t could be smaller than -1 in some rare cases due to numerical errors.
+                t = -1;
+            }
+            return FastMath.exp(helper1(t)*x);
+        }
+
+        /**
+         * Helper function that calculates {@code log(1+x)/x}.
          * <p>
          * A Taylor series expansion is used, if x is close to 0.
          *
-         * @param q a value in the range [0,1]
-         * @param x free parameter
-         * @return log((1-q)+q*exp(x))/x
+         * @param x a value larger than or equal to -1
+         * @return {@code log(1+x)/x}
          */
-        static double helper1(final double q, final double x) {
-            if (Math.abs(x) > 1e-8) {
-                return FastMath.log((1.-q)+q*FastMath.exp(x))/x;
+        static double helper1(final double x) {
+            if (FastMath.abs(x)>1e-8) {
+                return FastMath.log1p(x)/x;
             }
             else {
-                return q*(1.+(1./2.)*x*(1.-q)*(1+(1./3.)*x*((1.-2.*q) + (1./4.)*x*(6*q*q*(q-1)+1))));
+                return 1.-x*((1./2.)-x*((1./3.)-x*(1./4.)));
             }
         }
 
         /**
-         * Helper function to calculate (exp(x)-1)/x.
+         * Helper function to calculate {@code (exp(x)-1)/x}.
          * <p>
          * A Taylor series expansion is used, if x is close to 0.
          *
          * @param x free parameter
-         * @return (exp(x)-1)/x if x is non-zero, 1 if x=0
+         * @return {@code (exp(x)-1)/x} if x is non-zero, or 1 if x=0
          */
         static double helper2(final double x) {
             if (FastMath.abs(x)>1e-8) {
@@ -396,36 +468,6 @@ public class ZipfDistribution extends AbstractIntegerDistribution {
             else {
                 return 1.+x*(1./2.)*(1.+x*(1./3.)*(1.+x*(1./4.)));
             }
-        }
-
-        /**
-         * Integrates the power function x^r from x=a to b.
-         *
-         * @param r the exponent
-         * @param a the integral lower bound
-         * @param b the integral upper bound
-         * @return the calculated integral value
-         */
-        static double integratePowerFunction(final double r, final double a, final double b) {
-            final double logA = FastMath.log(a);
-            final double logBdivA = FastMath.log(b/a);
-            return FastMath.exp((1.+r)*logA)*helper2((1.+r)*logBdivA)*logBdivA;
-
-        }
-
-        /**
-         * Calculates the acceptance rate for a sample taken from the tail of the instrumental distribution.
-         * <p>
-         * The acceptance rate is given by the ratio k^(-s)/I(-s,k-0.5, k+0.5)
-         * where I(r,a,b) is the integral of x^r for x from a to b.
-         *
-         * @param k the value which has been sampled using the instrumental distribution
-         * @return the acceptance rate
-         */
-        double acceptanceRateForTailSample(int k) {
-            final double a = FastMath.log1p(1./(2.*k-1.));
-            final double b = FastMath.log1p(2./(2.*k-1.));
-            return FastMath.exp((1.-exponent)*a)/(k*b*helper2((1.-exponent)*b));
         }
     }
 }
