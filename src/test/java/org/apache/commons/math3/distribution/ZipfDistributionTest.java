@@ -17,13 +17,8 @@
 
 package org.apache.commons.math3.distribution;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
-
 import org.apache.commons.math3.TestUtils;
-import org.apache.commons.math3.analysis.UnivariateFunction;
-import org.apache.commons.math3.analysis.integration.SimpsonIntegrator;
-import org.apache.commons.math3.distribution.ZipfDistribution.ZipfRejectionSampler;
+import org.apache.commons.math3.distribution.ZipfDistribution.ZipfRejectionInversionSampler;
 import org.apache.commons.math3.exception.NotStrictlyPositiveException;
 import org.apache.commons.math3.random.AbstractRandomGenerator;
 import org.apache.commons.math3.random.RandomGenerator;
@@ -73,7 +68,7 @@ public class ZipfDistributionTest extends IntegerDistributionAbstractTest {
 
     /**
      * Creates the default probability density test expected values.
-     *  Reference values are from R, version 2.15.3 (VGAM package 0.9-0).
+     * Reference values are from R, version 2.15.3 (VGAM package 0.9-0).
      */
     @Override
     public double[] makeDensityTestValues() {
@@ -129,6 +124,7 @@ public class ZipfDistributionTest extends IntegerDistributionAbstractTest {
         Assert.assertEquals(dist.getNumericalVariance(), 0.24264068711928521, tol);
     }
 
+
     /**
      * Test sampling for various number of points and exponents.
      */
@@ -140,9 +136,9 @@ public class ZipfDistributionTest extends IntegerDistributionAbstractTest {
             2, 3, 4, 5, 6, 7, 8, 9, 10, 15, 20, 25, 30, 35, 40, 45, 50, 60, 70, 80, 90, 100
         };
         double[] exponentValues = {
-            1e-10, 1e-9, 1e-8, 1e-7, 1e-6, 1e-5, 1e-4, 1e-3, 1e-2, 1e-1,
+            1e-10, 1e-9, 1e-8, 1e-7, 1e-6, 1e-5, 1e-4, 1e-3, 1e-2, 1e-1, 2e-1, 5e-1,
             1. - 1e-9, 1.0, 1. + 1e-9, 1.1, 1.2, 1.3, 1.5, 1.6, 1.7, 1.8, 2.0,
-            2.5, 3.0, 4., 5., 6., 7., 8., 9., 10., 20., 30.
+            2.5, 3.0, 4., 5., 6., 7., 8., 9., 10., 20., 30., 100., 150.
         };
 
         for (int numPoints : numPointsValues) {
@@ -172,110 +168,23 @@ public class ZipfDistributionTest extends IntegerDistributionAbstractTest {
     }
 
     @Test
-    public void testSamplerIntegratePowerFunction() {
-        final double tol = 1e-6;
-        final double[] exponents = {
-            -1e-5, -1e-4, -1e-3, -1e-2, -1e-1, -1e0, -1e1
-        };
-        final double[] limits = {
-            0.5, 1., 1.5, 2., 2.5, 3., 3.5, 4., 4.5, 5., 5.5, 6.0, 6.5, 7.0,
-            7.5, 8.0, 8.5, 9.0, 9.5, 10.0
-        };
-
-        for (final double exponent : exponents) {
-            for (int lowerLimitIndex = 0; lowerLimitIndex < limits.length; ++lowerLimitIndex) {
-                final double lowerLimit = limits[lowerLimitIndex];
-                for (int upperLimitIndex = lowerLimitIndex+1; upperLimitIndex < limits.length; ++upperLimitIndex) {
-                    final double upperLimit = limits[upperLimitIndex];
-                    final double result1 = new SimpsonIntegrator().integrate(10000, new UnivariateFunction() {
-                        public double value(double x) {
-                            return Math.pow(x, exponent);
-                        }
-                    }, lowerLimit, upperLimit);
-
-                    final double result2 = ZipfRejectionSampler.integratePowerFunction(exponent, lowerLimit, upperLimit);
-
-                    assertEquals(result1, result2, (result1+result2)*tol);
-
-                }
-            }
-        }
-    }
-
-    @Test
-    public void testSamplerAcceptanceRate() {
-        final double tol = 1e-12;
-        final double[] exponents = {
-            1e-5, 1e-4, 1e-3, 1e-2, 1e-1, 1e0, 2e0, 5e0, 1e1, 1e2, 1e3
-        };
-        final int[] values = {
-            1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14
-        };
-        final int numberOfElements = 1000;
-        for (final double exponent : exponents) {
-            ZipfRejectionSampler sampler = new ZipfRejectionSampler(numberOfElements, exponent);
-            for (final int value : values) {
-                double expected = FastMath.pow(value, -exponent);
-                double result = sampler.acceptanceRateForTailSample(value) *
-                                ZipfRejectionSampler.integratePowerFunction(-exponent, value - 0.5, value + 0.5);
-                TestUtils.assertRelativelyEquals(expected, result, tol);
-                assertTrue(result <=1.); // test Jensen's inequality
-            }
-        }
-    }
-
-    @Test
-    public void testSamplerInverseInstrumentalDistribution() {
-        final double tol = 1e-14;
-        final double[] exponentValues = {
-            1e-5, 1e-4, 1e-3, 1e-2, 1e-1, 1e0, 2E0, 3e0, 4e0, 5e0, 6., 7., 8., 9., 10., 50.
-        };
-        final double[] qValues = {
-            0., 0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9, 1.0
-        };
-        final int[] numberOfElementsValues = {
-            2, 3, 4, 5, 6, 7, 8, 9, 10, 20, 30, 40, 100
-        };
-
-        for (final double exponent : exponentValues) {
-            for (final int numberOfElements : numberOfElementsValues) {
-                final ZipfRejectionSampler sampler = new ZipfRejectionSampler(numberOfElements, exponent);
-                for (final double q : qValues) {
-                    int result = sampler.sampleFromInstrumentalDistributionTail(q);
-                    double total =
-                            ZipfRejectionSampler.integratePowerFunction(-exponent, 1.5, numberOfElements + 0.5);
-                    double lowerBound =
-                            ZipfRejectionSampler.integratePowerFunction(-exponent, 1.5, result - 0.5) / total;
-                    double upperBound =
-                            ZipfRejectionSampler.integratePowerFunction(-exponent, 1.5, result + 0.5) / total;
-                    assertTrue(lowerBound <= q*(1.+tol));
-                    assertTrue(upperBound >= q*(1.-tol));
-                }
-            }
-        }
-    }
-
-    @Test
     public void testSamplerHelper1() {
-        final double tol = 1e-14;
-        final double[] qValues = {
-            0., 1e-12, 1e-11, 1e-10, 1e-9, 9e-9, 1e-8, 1e-7, 1e-6, 1e-5, 1e-4,
-            1e-3, 1e-2, 1e-1, 1e0
+        final double tol = 1e-12;
+        final double[] testValues = {
+            Math.nextUp(-1.), -1e-1, -1e-2, -1e-3, -1e-4, -1e-5, -1e-6, -1e-7, -1e-8,
+            -1e-9, -1e-10, -1e-11, 0., 1e-11, 1e-10, 1e-9, 1e-8, 1e-7, 1e-6,
+            1e-5, 1e-4, 1e-3, 1e-2, 1e-1, 1e0
         };
-        final double[] xValues = {
-            -Double.MAX_VALUE, -1e10, -1e9, -1e8, -1e7, -1e6, -1e5, -1e4, -1e3,
-            -1e2, -1e1, -1e0, -1e-1, -1e-2, -1e-3, -1e-4, -1e-5, -1e-6, -1e-7,
-            -1e-8, -1e-9, -1e-10, -Double.MIN_VALUE, 0.0, Double.MIN_VALUE,
-            1e-10, 1e-9, 1e-8, 1e-7, 1e-6, 1e-5, 1e-4, 1e-3, 1e-2, 1e-1, 1e0,
-            1e1, 1e2, 1e3, 1e4, 1e5, 1e6, 1e7, 1e8, 1e9, 1e10, Double.MAX_VALUE
-        };
-
-        for (final double q : qValues) {
-            for(final double x : xValues) {
-                double calculated = ZipfRejectionSampler.helper1(q, x);
-                TestUtils.assertRelativelyEquals((1.-q)+q*Math.exp(x), FastMath.exp(calculated*x), tol);
-            }
+        for (final double testValue : testValues) {
+            final double expected = FastMath.log1p(testValue);
+            TestUtils.assertRelativelyEquals(expected, ZipfRejectionInversionSampler.helper1(testValue)*testValue, tol);
         }
+    }
+
+
+    @Test
+    public void testSamplerHelper1Minus1() {
+        Assert.assertEquals(Double.POSITIVE_INFINITY, ZipfRejectionInversionSampler.helper1(-1d), 0d);
     }
 
     @Test
@@ -288,7 +197,7 @@ public class ZipfDistributionTest extends IntegerDistributionAbstractTest {
         };
         for (double testValue : testValues) {
             final double expected = FastMath.expm1(testValue);
-            TestUtils.assertRelativelyEquals(expected, ZipfRejectionSampler.helper2(testValue)*testValue, tol);
+            TestUtils.assertRelativelyEquals(expected, ZipfRejectionInversionSampler.helper2(testValue)*testValue, tol);
         }
     }
 

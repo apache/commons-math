@@ -51,6 +51,9 @@ If the output is not quite correct, check for invisible trailing spaces!
   </properties>
   <body>
     <release version="3.6" date="XXXX-XX-XX" description="">
+      <action dev="oertl" type="update" issue="MATH-1220">
+        Faster generation of Zipf distributed random numbers by using rejection-inversion sampling.
+      </action>
       <action dev="oertl" type="update" issue="MATH-990">
         Improved performance of sort-in-place methods by avoiding boxing.
       </action>
