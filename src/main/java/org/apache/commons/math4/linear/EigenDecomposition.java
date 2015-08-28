@@ -80,7 +80,7 @@ public class EigenDecomposition {
     /** Internally used epsilon criteria. */
     private static final double EPSILON = 1e-12;
     /** Maximum number of iterations accepted in the implicit QL transformation */
-    private final byte maxIter = 30;
+    private static final byte MAX_ITER = 30;
     /** Main diagonal of the tridiagonal matrix. */
     private double[] main;
     /** Secondary diagonal of the tridiagonal matrix. */
@@ -608,9 +608,9 @@ public class EigenDecomposition {
                     }
                 }
                 if (m != j) {
-                    if (its == maxIter) {
+                    if (its == MAX_ITER) {
                         throw new MaxCountExceededException(LocalizedFormats.CONVERGENCE_FAILED,
-                                                            maxIter);
+                                                            MAX_ITER);
                     }
                     its++;
                     double q = (realEigenvalues[j + 1] - realEigenvalues[j]) / (2 * e[j]);
