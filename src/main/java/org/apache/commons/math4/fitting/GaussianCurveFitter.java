@@ -261,23 +261,17 @@ public class GaussianCurveFitter extends AbstractCurveFitter {
                     if (p2 == null) {
                         return 1;
                     }
-                    if (p1.getX() < p2.getX()) {
-                        return -1;
+                    int comp = Double.compare(p1.getX(), p2.getX());
+                    if (comp != 0) {
+                        return comp;
                     }
-                    if (p1.getX() > p2.getX()) {
-                        return 1;
+                    comp = Double.compare(p1.getY(), p2.getY());
+                    if (comp != 0) {
+                        return comp;
                     }
-                    if (p1.getY() < p2.getY()) {
-                        return -1;
-                    }
-                    if (p1.getY() > p2.getY()) {
-                        return 1;
-                    }
-                    if (p1.getWeight() < p2.getWeight()) {
-                        return -1;
-                    }
-                    if (p1.getWeight() > p2.getWeight()) {
-                        return 1;
+                    comp = Double.compare(p1.getWeight(), p2.getWeight());
+                    if (comp != 0) {
+                        return comp;
                     }
                     return 0;
                 }
