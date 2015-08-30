@@ -63,6 +63,29 @@ public class NeuronSquareMesh2D implements Serializable {
     private final long[][] identifiers;
 
     /**
+     * Horizontal (along row) direction.
+     */
+    public enum HorizontalDirection {
+        /** Column at the right of the current column. */
+       RIGHT,
+       /** Current column. */
+       CENTER,
+       /** Column at the left of the current column. */
+       LEFT,
+    }
+    /**
+     * Vertical (along column) direction.
+     */
+    public enum VerticalDirection {
+        /** Row above the current row. */
+        UP,
+        /** Current row. */
+        CENTER,
+        /** Row below the current row. */
+        DOWN,
+    }
+
+    /**
      * Constructor with restricted access, solely used for deserialization.
      *
      * @param wrapRowDim Whether to wrap the first dimension (i.e the first
@@ -204,12 +227,16 @@ public class NeuronSquareMesh2D implements Serializable {
 
     /**
      * Retrieves the neuron at location {@code (i, j)} in the map.
+     * The neuron at position {@code (0, 0)} is located at the upper-left
+     * corner of the map.
      *
      * @param i Row index.
      * @param j Column index.
      * @return the neuron at {@code (i, j)}.
      * @throws OutOfRangeException if {@code i} or {@code j} is
      * out of range.
+     *
+     * @see #getNeuron(int,int,HorizontalDirection,VerticalDirection)
      */
     public Neuron getNeuron(int i,
                             int j) {
@@ -224,6 +251,110 @@ public class NeuronSquareMesh2D implements Serializable {
 
         return network.getNeuron(identifiers[i][j]);
     }
+
+    /**
+     * Retrieves the neuron at {@code (location[0], location[1])} in the map.
+     * The neuron at position {@code (0, 0)} is located at the upper-left
+     * corner of the map.
+     *
+     * @param row Row index.
+     * @param col Column index.
+     * @param alongRowDir Direction along the given {@code row} (i.e. an
+     * offset will be added to the given <em>column</em> index.
+     * @param alongColDir Direction along the given {@code col} (i.e. an
+     * offset will be added to the given <em>row</em> index.
+     * @return the neuron at the requested location, or {@code null} if
+     * the location is not on the map.
+     *
+     * @see #getNeuron(int,int)
+     */
+    public Neuron getNeuron(int row,
+                            int col,
+                            HorizontalDirection alongRowDir,
+                            VerticalDirection alongColDir) {
+        final int[] location = getLocation(row, col, alongRowDir, alongColDir);
+
+        return location == null ? null : getNeuron(location[0], location[1]);
+    }
+
+    /**
+     * Computes the location of a neighbouring neuron.
+     * It will return {@code null} if the resulting location is not part
+     * of the map.
+     * Position {@code (0, 0)} is at the upper-left corner of the map.
+     *
+     * @param row Row index.
+     * @param col Column index.
+     * @param alongRowDir Direction along the given {@code row} (i.e. an
+     * offset will be added to the given <em>column</em> index.
+     * @param alongColDir Direction along the given {@code col} (i.e. an
+     * offset will be added to the given <em>row</em> index.
+     * @return an array of length 2 containing the indices of the requested
+     * location, or {@code null} if that location is not part of the map.
+     *
+     * @see #getNeuron(int,int)
+     */
+    private int[] getLocation(int row,
+                              int col,
+                              HorizontalDirection alongRowDir,
+                              VerticalDirection alongColDir) {
+        final int colOffset;
+        switch (alongRowDir) {
+        case LEFT:
+            colOffset = -1;
+            break;
+        case RIGHT:
+            colOffset = 1;
+            break;
+        case CENTER:
+            colOffset = 0;
+            break;
+        default:
+            // Should never happen.
+            throw new MathInternalError();
+        }
+        int colIndex = col + colOffset;
+        if (wrapColumns) {
+            if (colIndex < 0) {
+                colIndex += numberOfColumns;
+            } else {
+                colIndex %= numberOfColumns;
+            }
+        }
+
+        final int rowOffset;
+        switch (alongColDir) {
+        case UP:
+            rowOffset = -1;
+            break;
+        case DOWN:
+            rowOffset = 1;
+            break;
+        case CENTER:
+            rowOffset = 0;
+            break;
+        default:
+            // Should never happen.
+            throw new MathInternalError();
+        }
+        int rowIndex = row + rowOffset;
+        if (wrapRows) {
+            if (rowIndex < 0) {
+                rowIndex += numberOfRows;
+            } else {
+                rowIndex %= numberOfRows;
+            }
+        }
+
+        if (rowIndex < 0 ||
+            rowIndex >= numberOfRows ||
+            colIndex < 0 ||
+            colIndex >= numberOfColumns) {
+            return null;
+        } else {
+            return new int[] { rowIndex, colIndex };
+        }
+     }
 
     /**
      * Creates the neighbour relationships between neurons.
