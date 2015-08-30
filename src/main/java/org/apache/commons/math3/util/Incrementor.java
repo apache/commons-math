@@ -28,7 +28,9 @@ import org.apache.commons.math3.exception.NullArgumentException;
  * select which exception must be thrown.
  *
  * @since 3.0
+ * @deprecated Use {@link IntegerSequence.Incrementor} instead.
  */
+@Deprecated
 public class Incrementor {
     /**
      * Upper limit for the counter.
