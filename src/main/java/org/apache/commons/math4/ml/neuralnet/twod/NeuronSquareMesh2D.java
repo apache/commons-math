@@ -324,7 +324,7 @@ public class NeuronSquareMesh2D implements Serializable {
             }
         }
 
-        int rowOffset = 0;
+        final int rowOffset;
         switch (alongColDir) {
         case UP:
             rowOffset = -1;
