@@ -26,6 +26,7 @@ import java.util.Collection;
 import java.util.HashSet;
 
 import org.apache.commons.math4.exception.NumberIsTooSmallException;
+import org.apache.commons.math4.exception.OutOfRangeException;
 import org.apache.commons.math4.ml.neuralnet.FeatureInitializer;
 import org.apache.commons.math4.ml.neuralnet.FeatureInitializerFactory;
 import org.apache.commons.math4.ml.neuralnet.Network;
@@ -681,5 +682,167 @@ public class NeuronSquareMesh2DTest {
                 Assert.assertTrue(inNeighbours.contains(in.getNetwork().getNeuron(oN.getIdentifier())));
             }
         }
+    }
+
+    /*
+     * Test assumes that the network is
+     *
+     *  0-----1
+     *  |     |
+     *  |     |
+     *  2-----3
+     */
+    @Test
+    public void testGetNeuron() {
+        final FeatureInitializer[] initArray = { init };
+        final NeuronSquareMesh2D net = new NeuronSquareMesh2D(2, false,
+                                                              2, true,
+                                                              SquareNeighbourhood.VON_NEUMANN,
+                                                              initArray);
+        Assert.assertEquals(0, net.getNeuron(0, 0).getIdentifier());
+        Assert.assertEquals(1, net.getNeuron(0, 1).getIdentifier());
+        Assert.assertEquals(2, net.getNeuron(1, 0).getIdentifier());
+        Assert.assertEquals(3, net.getNeuron(1, 1).getIdentifier());
+
+        try {
+            net.getNeuron(2, 0);
+            Assert.fail("exception expected");
+        } catch (OutOfRangeException e) {
+            // Expected.
+        }
+        try {
+            net.getNeuron(0, 2);
+            Assert.fail("exception expected");
+        } catch (OutOfRangeException e) {
+            // Expected.
+        }
+        try {
+            net.getNeuron(-1, 0);
+            Assert.fail("exception expected");
+        } catch (OutOfRangeException e) {
+            // Expected.
+        }
+        try {
+            net.getNeuron(0, -1);
+            Assert.fail("exception expected");
+        } catch (OutOfRangeException e) {
+            // Expected.
+        }
+    }
+
+    /*
+     * Test assumes that the network is
+     *
+     *  0-----1-----2
+     *  |     |     |
+     *  |     |     |
+     *  3-----4-----5
+     *  |     |     |
+     *  |     |     |
+     *  6-----7-----8
+     */
+    @Test
+    public void testGetNeuronAlongDirection() {
+        final FeatureInitializer[] initArray = { init };
+        final NeuronSquareMesh2D net = new NeuronSquareMesh2D(3, false,
+                                                              3, false,
+                                                              SquareNeighbourhood.VON_NEUMANN,
+                                                              initArray);
+        Assert.assertEquals(0, net.getNeuron(1, 1,
+                                             NeuronSquareMesh2D.HorizontalDirection.LEFT,
+                                             NeuronSquareMesh2D.VerticalDirection.UP).getIdentifier());
+        Assert.assertEquals(1, net.getNeuron(1, 1,
+                                             NeuronSquareMesh2D.HorizontalDirection.CENTER,
+                                             NeuronSquareMesh2D.VerticalDirection.UP).getIdentifier());
+        Assert.assertEquals(2, net.getNeuron(1, 1,
+                                             NeuronSquareMesh2D.HorizontalDirection.RIGHT,
+                                             NeuronSquareMesh2D.VerticalDirection.UP).getIdentifier());
+        Assert.assertEquals(3, net.getNeuron(1, 1,
+                                             NeuronSquareMesh2D.HorizontalDirection.LEFT,
+                                             NeuronSquareMesh2D.VerticalDirection.CENTER).getIdentifier());
+        Assert.assertEquals(4, net.getNeuron(1, 1,
+                                             NeuronSquareMesh2D.HorizontalDirection.CENTER,
+                                             NeuronSquareMesh2D.VerticalDirection.CENTER).getIdentifier());
+        Assert.assertEquals(5, net.getNeuron(1, 1,
+                                             NeuronSquareMesh2D.HorizontalDirection.RIGHT,
+                                             NeuronSquareMesh2D.VerticalDirection.CENTER).getIdentifier());
+        Assert.assertEquals(6, net.getNeuron(1, 1,
+                                             NeuronSquareMesh2D.HorizontalDirection.LEFT,
+                                             NeuronSquareMesh2D.VerticalDirection.DOWN).getIdentifier());
+        Assert.assertEquals(7, net.getNeuron(1, 1,
+                                             NeuronSquareMesh2D.HorizontalDirection.CENTER,
+                                             NeuronSquareMesh2D.VerticalDirection.DOWN).getIdentifier());
+        Assert.assertEquals(8, net.getNeuron(1, 1,
+                                             NeuronSquareMesh2D.HorizontalDirection.RIGHT,
+                                             NeuronSquareMesh2D.VerticalDirection.DOWN).getIdentifier());
+
+        // Locations not in map.
+        Assert.assertNull(net.getNeuron(0, 1,
+                                        NeuronSquareMesh2D.HorizontalDirection.CENTER,
+                                        NeuronSquareMesh2D.VerticalDirection.UP));
+        Assert.assertNull(net.getNeuron(1, 0,
+                                        NeuronSquareMesh2D.HorizontalDirection.LEFT,
+                                        NeuronSquareMesh2D.VerticalDirection.CENTER));
+        Assert.assertNull(net.getNeuron(2, 1,
+                                        NeuronSquareMesh2D.HorizontalDirection.CENTER,
+                                        NeuronSquareMesh2D.VerticalDirection.DOWN));
+        Assert.assertNull(net.getNeuron(1, 2,
+                                        NeuronSquareMesh2D.HorizontalDirection.RIGHT,
+                                        NeuronSquareMesh2D.VerticalDirection.CENTER));
+    }
+
+    /*
+     * Test assumes that the network is
+     *
+     *  0-----1-----2
+     *  |     |     |
+     *  |     |     |
+     *  3-----4-----5
+     *  |     |     |
+     *  |     |     |
+     *  6-----7-----8
+     */
+    @Test
+    public void testGetNeuronAlongDirectionWrappedMap() {
+        final FeatureInitializer[] initArray = { init };
+        final NeuronSquareMesh2D net = new NeuronSquareMesh2D(3, true,
+                                                              3, true,
+                                                              SquareNeighbourhood.VON_NEUMANN,
+                                                              initArray);
+        // No wrapping.
+        Assert.assertEquals(3, net.getNeuron(0, 0,
+                                             NeuronSquareMesh2D.HorizontalDirection.CENTER,
+                                             NeuronSquareMesh2D.VerticalDirection.DOWN).getIdentifier());
+        // With wrapping.
+        Assert.assertEquals(2, net.getNeuron(0, 0,
+                                             NeuronSquareMesh2D.HorizontalDirection.LEFT,
+                                             NeuronSquareMesh2D.VerticalDirection.CENTER).getIdentifier());
+        Assert.assertEquals(7, net.getNeuron(0, 0,
+                                             NeuronSquareMesh2D.HorizontalDirection.RIGHT,
+                                             NeuronSquareMesh2D.VerticalDirection.UP).getIdentifier());
+        Assert.assertEquals(8, net.getNeuron(0, 0,
+                                             NeuronSquareMesh2D.HorizontalDirection.LEFT,
+                                             NeuronSquareMesh2D.VerticalDirection.UP).getIdentifier());
+        Assert.assertEquals(6, net.getNeuron(0, 0,
+                                             NeuronSquareMesh2D.HorizontalDirection.CENTER,
+                                             NeuronSquareMesh2D.VerticalDirection.UP).getIdentifier());
+        Assert.assertEquals(5, net.getNeuron(0, 0,
+                                             NeuronSquareMesh2D.HorizontalDirection.LEFT,
+                                             NeuronSquareMesh2D.VerticalDirection.DOWN).getIdentifier());
+
+        // No wrapping.
+        Assert.assertEquals(1, net.getNeuron(1, 2,
+                                             NeuronSquareMesh2D.HorizontalDirection.LEFT,
+                                             NeuronSquareMesh2D.VerticalDirection.UP).getIdentifier());
+        // With wrapping.
+        Assert.assertEquals(0, net.getNeuron(1, 2,
+                                             NeuronSquareMesh2D.HorizontalDirection.RIGHT,
+                                             NeuronSquareMesh2D.VerticalDirection.UP).getIdentifier());
+        Assert.assertEquals(3, net.getNeuron(1, 2,
+                                             NeuronSquareMesh2D.HorizontalDirection.RIGHT,
+                                             NeuronSquareMesh2D.VerticalDirection.CENTER).getIdentifier());
+        Assert.assertEquals(6, net.getNeuron(1, 2,
+                                             NeuronSquareMesh2D.HorizontalDirection.RIGHT,
+                                             NeuronSquareMesh2D.VerticalDirection.DOWN).getIdentifier());
     }
 }

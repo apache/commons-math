@@ -54,6 +54,9 @@ If the output is not quite correct, check for invisible trailing spaces!
     </release>
 
     <release version="4.0" date="XXXX-XX-XX" description="">
+      <action dev="erans" type="add" issue="MATH-1263">
+        Accessor (class "o.a.c.m.ml.neuralnet.twod.NeuronSquareMesh2D").
+      </action>
       <action dev="erans" type="add" issue="MATH-1259">
         New "IntegerSequence" class (in package "o.a.c.m.util") with "Incrementor" inner class.
       </action>
