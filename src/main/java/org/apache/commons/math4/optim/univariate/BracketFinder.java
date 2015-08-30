@@ -22,7 +22,7 @@ import org.apache.commons.math4.exception.NotStrictlyPositiveException;
 import org.apache.commons.math4.exception.TooManyEvaluationsException;
 import org.apache.commons.math4.optim.nonlinear.scalar.GoalType;
 import org.apache.commons.math4.util.FastMath;
-import org.apache.commons.math4.util.Incrementor;
+import org.apache.commons.math4.util.IntegerSequence.Incrementor;
 
 /**
  * Provide an interval that brackets a local optimum of a function.
@@ -43,9 +43,13 @@ public class BracketFinder {
      */
     private final double growLimit;
     /**
-     * Counter for function evaluations.
+     * Number of allowed function evaluations.
      */
-    private final Incrementor evaluations = new Incrementor();
+    private final int maxEvaluations;
+    /**
+     * Number of function evaluations performed in the last search.
+     */
+    private int evaluations;
     /**
      * Lower bound of the bracket.
      */
@@ -96,7 +100,7 @@ public class BracketFinder {
         }
 
         this.growLimit = growLimit;
-        evaluations.setMaximalCount(maxEvaluations);
+        this.maxEvaluations = maxEvaluations;
     }
 
     /**
@@ -113,11 +117,11 @@ public class BracketFinder {
                        GoalType goal,
                        double xA,
                        double xB) {
-        evaluations.resetCount();
+        final FunctionEvaluator eval = new FunctionEvaluator(func);
         final boolean isMinim = goal == GoalType.MINIMIZE;
 
-        double fA = eval(func, xA);
-        double fB = eval(func, xB);
+        double fA = eval.value(xA);
+        double fB = eval.value(xB);
         if (isMinim ?
             fA < fB :
             fA > fB) {
@@ -132,7 +136,7 @@ public class BracketFinder {
         }
 
         double xC = xB + GOLD * (xB - xA);
-        double fC = eval(func, xC);
+        double fC = eval.value(xC);
 
         while (isMinim ? fC < fB : fC > fB) {
             double tmp1 = (xB - xA) * (fB - fC);
@@ -146,7 +150,7 @@ public class BracketFinder {
 
             double fW;
             if ((w - xC) * (xB - w) > 0) {
-                fW = eval(func, w);
+                fW = eval.value(w);
                 if (isMinim ?
                     fW < fC :
                     fW > fC) {
@@ -163,12 +167,12 @@ public class BracketFinder {
                     break;
                 }
                 w = xC + GOLD * (xC - xB);
-                fW = eval(func, w);
+                fW = eval.value(w);
             } else if ((w - wLim) * (wLim - xC) >= 0) {
                 w = wLim;
-                fW = eval(func, w);
+                fW = eval.value(w);
             } else if ((w - wLim) * (xC - w) > 0) {
-                fW = eval(func, w);
+                fW = eval.value(w);
                 if (isMinim ?
                     fW < fC :
                     fW > fC) {
@@ -177,11 +181,11 @@ public class BracketFinder {
                     w = xC + GOLD * (xC - xB);
                     fB = fC;
                     fC =fW;
-                    fW = eval(func, w);
+                    fW = eval.value(w);
                 }
             } else {
                 w = xC + GOLD * (xC - xB);
-                fW = eval(func, w);
+                fW = eval.value(w);
             }
 
             xA = xB;
@@ -214,14 +218,14 @@ public class BracketFinder {
      * @return the number of evalutations.
      */
     public int getMaxEvaluations() {
-        return evaluations.getMaximalCount();
+        return maxEvaluations;
     }
 
     /**
      * @return the number of evalutations.
      */
     public int getEvaluations() {
-        return evaluations.getCount();
+        return evaluations;
     }
 
     /**
@@ -273,18 +277,38 @@ public class BracketFinder {
     }
 
     /**
-     * @param f Function.
-     * @param x Argument.
-     * @return {@code f(x)}
-     * @throws TooManyEvaluationsException if the maximal number of evaluations is
-     * exceeded.
+     * Utility for incrementing a counter at each function evaluation.
      */
-    private double eval(UnivariateFunction f, double x) {
-        try {
-            evaluations.incrementCount();
-        } catch (MaxCountExceededException e) {
-            throw new TooManyEvaluationsException(e.getMax());
+    private class FunctionEvaluator {
+        /** Function. */
+        private final UnivariateFunction func;
+        /** Counter. */
+        private final Incrementor inc;
+
+        /**
+         * @param func Function.
+         */
+        FunctionEvaluator(UnivariateFunction func) {
+            this.func = func;
+            inc = Incrementor.create().withMaximalCount(maxEvaluations);
+            evaluations = 0;
         }
-        return f.value(x);
+
+        /**
+         * @param x Argument.
+         * @return {@code f(x)}
+         * @throws TooManyEvaluationsException if the maximal number of evaluations is
+         * exceeded.
+         */
+        double value(double x) {
+            try {
+                inc.increment();
+                evaluations = inc.getCount();
+            } catch (MaxCountExceededException e) {
+                throw new TooManyEvaluationsException(e.getMax());
+            }
+
+            return func.value(x);
+        }
     }
 }
