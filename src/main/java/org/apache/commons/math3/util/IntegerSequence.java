@@ -125,7 +125,6 @@ public class IntegerSequence {
          * @param start Initial value.
          * @param max Maximal count.
          * @param step Increment.
-         * @param nTimes Number of increments.
          * @param cb Function to be called when the maximal count has been reached.
          * @throws NullArgumentException if {@code cb} is {@code null}.
          */
