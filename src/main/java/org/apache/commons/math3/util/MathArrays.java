@@ -452,7 +452,7 @@ public class MathArrays {
                                         int[] b) {
         checkEqualLength(a, b, true);
     }
-    
+
     /**
      * Check that the given array is sorted.
      *
