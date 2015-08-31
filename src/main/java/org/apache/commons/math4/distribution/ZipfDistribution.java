@@ -316,6 +316,10 @@ public class ZipfDistribution extends AbstractIntegerDistribution {
         /** Constant equal to {@code 2 - hIntegralInverse(hIntegral(2.5) - h(2)}. */
         private final double s;
 
+        /** Simple constructor.
+         * @param numberOfElements number of elements
+         * @param exponent exponent parameter of the distribution
+         */
         ZipfRejectionInversionSampler(final int numberOfElements, final double exponent) {
             this.exponent = exponent;
             this.numberOfElements = numberOfElements;
@@ -324,6 +328,10 @@ public class ZipfDistribution extends AbstractIntegerDistribution {
             this.s = 2d - hIntegralInverse(hIntegral(2.5) - h(2));
         }
 
+        /** Generate one integral number in the range [1, numberOfElements].
+         * @param random random generator to use
+         * @return generated integral number in the range [1, numberOfElements]
+         */
         int sample(final RandomGenerator random) {
             while(true) {
 
