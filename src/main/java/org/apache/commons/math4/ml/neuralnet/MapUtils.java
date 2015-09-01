@@ -123,6 +123,8 @@ public class MapUtils {
      *
      * @see #findBest(double[],Iterable,DistanceMeasure)
      * @see #findBestAndSecondBest(double[],Iterable,DistanceMeasure)
+     *
+     * @since 3.6
      */
     public static Neuron[] sort(double[] features,
                                 Iterable<Neuron> neurons,

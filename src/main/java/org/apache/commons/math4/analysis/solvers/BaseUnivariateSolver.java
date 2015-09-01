@@ -28,13 +28,13 @@ import org.apache.commons.math4.exception.TooManyEvaluationsException;
  * This class is not intended for use outside of the Apache Commons Math
  * library, regular user should rely on more specific interfaces like
  * {@link UnivariateSolver}, {@link PolynomialSolver} or {@link
- * DifferentiableUnivariateSolver}.
+ * UnivariateDifferentiableSolver}.
  * @param <FUNC> Type of function to solve.
  *
  * @since 3.0
  * @see UnivariateSolver
  * @see PolynomialSolver
- * @see DifferentiableUnivariateSolver
+ * @see UnivariateDifferentiableSolver
  */
 public interface BaseUnivariateSolver<FUNC extends UnivariateFunction> {
     /**
