@@ -88,4 +88,22 @@ public class MapUtilsTest {
 
         Assert.assertEquals(3, allBest.size());
     }
+
+    @Test
+    public void testSort() {
+        final Set<Neuron> list = new HashSet<Neuron>();
+
+        for (int i = 0; i < 4; i++) {
+            list.add(new Neuron(i, new double[] { i - 0.5 }));
+        }
+
+        final Neuron[] sorted = MapUtils.sort(new double[] { 3.4 },
+                                              list,
+                                              new EuclideanDistance());
+
+        final long[] expected = new long[] { 3, 2, 1, 0 };
+        for (int i = 0; i < list.size(); i++) {
+            Assert.assertEquals(expected[i], sorted[i].getIdentifier());
+        }
+    }
 }
