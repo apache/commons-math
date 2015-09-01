@@ -33,27 +33,9 @@
  *
  * <p>
  *  Some problems are solved more efficiently by algorithms that, instead of an
- *  objective function, need access to a
- *  {@link org.apache.commons.math4.optim.nonlinear.vector.ModelFunction
- *  <em>model function</em>}: such a model predicts a set of values which the
- *  algorithm tries to match with a set of given
- *  {@link org.apache.commons.math4.optim.nonlinear.vector.Target target values}.
- *  Those algorithms are located in the
- *  {@link org.apache.commons.math4.optim.nonlinear.vector} package.
- *  <br/>
- *  Algorithms that also require the
- *  {@link org.apache.commons.math4.optim.nonlinear.vector.ModelFunctionJacobian
- *  Jacobian matrix of the model} are located in the
- *  {@link org.apache.commons.math4.optim.nonlinear.vector.jacobian} package.
- *  <br/>
- *  The {@link org.apache.commons.math4.optim.nonlinear.vector.jacobian.AbstractLeastSquaresOptimizer
- *  non-linear least-squares optimizers} are a specialization of the the latter,
- *  that minimize the distance (called <em>cost</em> or <em>&chi;<sup>2</sup></em>)
- *  between model and observations.
- *  <br/>
- *  For cases where the Jacobian cannot be provided, a utility class will
- *  {@link org.apache.commons.math4.optim.nonlinear.scalar.LeastSquaresConverter
- *  convert} a (vector) model into a (scalar) objective function.
+ *  objective function, need access to all the observations.
+ *  Such methods are implemented in the {@link org.apache.commons.math4.fitting}
+ *  package.
  * </p>
  *
  * <p>
