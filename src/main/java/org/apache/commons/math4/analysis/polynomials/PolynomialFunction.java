@@ -85,8 +85,8 @@ public class PolynomialFunction implements UnivariateDifferentiableFunction, Ser
      *
      * @param x Argument for which the function value should be computed.
      * @return the value of the polynomial at the given point.
-     * @see {@link org.apache.commons.math4.analysis.UnivariateFunction#value(double)
-     * UnivariateFunction#value(double)}
+     *
+     * @see org.apache.commons.math4.analysis.UnivariateFunction#value(double)
      */
     @Override
     public double value(double x) {
