@@ -54,6 +54,10 @@ If the output is not quite correct, check for invisible trailing spaces!
     </release>
 
     <release version="4.0" date="XXXX-XX-XX" description="">
+      <action dev="erans" type="add" issue="MATH-1264"> <!-- backported to 3.6 -->
+        "MapUtils" (package "o.a.c.m.ml.neuralnet"): Method to sort units according to distance
+        from a given vector.
+      </action>
       <action dev="erans" type="add" issue="MATH-1263"> <!-- backported to 3.6 -->
         Accessor (class "o.a.c.m.ml.neuralnet.twod.NeuronSquareMesh2D").
       </action>
