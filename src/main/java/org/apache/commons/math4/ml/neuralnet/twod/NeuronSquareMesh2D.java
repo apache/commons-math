@@ -19,6 +19,7 @@ package org.apache.commons.math4.ml.neuralnet.twod;
 
 import java.util.List;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.io.Serializable;
 import java.io.ObjectInputStream;
 
