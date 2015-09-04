@@ -41,7 +41,9 @@ import org.apache.commons.math4.ml.neuralnet.SquareNeighbourhood;
  * @see org.apache.commons.math4.ml.neuralnet.sofm
  * @since 3.3
  */
-public class NeuronSquareMesh2D implements Serializable {
+public class NeuronSquareMesh2D
+    implements Iterable<Neuron>,
+               Serializable {
     /** Serial version ID */
     private static final long serialVersionUID = 1L;
     /** Underlying network. */
@@ -193,6 +195,11 @@ public class NeuronSquareMesh2D implements Serializable {
 
         // Add links.
         createLinks();
+    }
+
+    /** {@inheritDoc} */
+    public Iterator<Neuron> iterator() {
+        return network.iterator();
     }
 
     /**
