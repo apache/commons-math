@@ -19,6 +19,7 @@ package org.apache.commons.math3.ml.neuralnet.twod;
 
 import java.util.List;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.io.Serializable;
 import java.io.ObjectInputStream;
 import org.apache.commons.math3.ml.neuralnet.Neuron;
@@ -40,7 +41,9 @@ import org.apache.commons.math3.exception.MathInternalError;
  * @see org.apache.commons.math3.ml.neuralnet.sofm
  * @since 3.3
  */
-public class NeuronSquareMesh2D implements Serializable {
+public class NeuronSquareMesh2D
+    implements Iterable<Neuron>,
+               Serializable {
     /** Serial version ID */
     private static final long serialVersionUID = 1L;
     /** Underlying network. */
@@ -192,6 +195,11 @@ public class NeuronSquareMesh2D implements Serializable {
 
         // Add links.
         createLinks();
+    }
+
+    /** {@inheritDoc} */
+    public Iterator<Neuron> iterator() {
+        return network.iterator();
     }
 
     /**
@@ -354,7 +362,7 @@ public class NeuronSquareMesh2D implements Serializable {
         } else {
             return new int[] { rowIndex, colIndex };
         }
-     }
+    }
 
     /**
      * Creates the neighbour relationships between neurons.

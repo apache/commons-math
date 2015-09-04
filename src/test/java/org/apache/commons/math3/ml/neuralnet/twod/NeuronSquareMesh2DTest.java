@@ -23,6 +23,7 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.util.Collection;
+import java.util.Set;
 import java.util.HashSet;
 
 import org.apache.commons.math3.exception.NumberIsTooSmallException;
@@ -843,5 +844,31 @@ public class NeuronSquareMesh2DTest {
         Assert.assertEquals(6, net.getNeuron(1, 2,
                                              NeuronSquareMesh2D.HorizontalDirection.RIGHT,
                                              NeuronSquareMesh2D.VerticalDirection.DOWN).getIdentifier());
+    }
+
+    @Test
+    public void testIterator() {
+        final FeatureInitializer[] initArray = { init };
+        final NeuronSquareMesh2D map = new NeuronSquareMesh2D(3, true,
+                                                              3, true,
+                                                              SquareNeighbourhood.VON_NEUMANN,
+                                                              initArray);
+        final Set<Neuron> fromMap = new HashSet<Neuron>();
+        for (Neuron n : map) {
+            fromMap.add(n);
+        }
+
+        final Network net = map.getNetwork();
+        final Set<Neuron> fromNet = new HashSet<Neuron>();
+        for (Neuron n : net) {
+            fromNet.add(n);
+        }
+
+        for (Neuron n : fromMap) {
+            Assert.assertTrue(fromNet.contains(n));
+        }
+        for (Neuron n : fromNet) {
+            Assert.assertTrue(fromMap.contains(n));
+        }
     }
 }
