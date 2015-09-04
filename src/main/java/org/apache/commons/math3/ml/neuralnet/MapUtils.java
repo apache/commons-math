@@ -116,7 +116,7 @@ public class MapUtils {
      * @param distance Distance function.
      * @return the neurons, sorted in increasing order of distance in data
      * space.
-     * @throws org.apache.commons.math4.exception.DimensionMismatchException
+     * @throws org.apache.commons.math3.exception.DimensionMismatchException
      * if the size of the input is not compatible with the neurons features
      * size.
      *
