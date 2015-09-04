@@ -23,6 +23,7 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.util.Collection;
+import java.util.Set;
 import java.util.HashSet;
 
 import org.apache.commons.math4.exception.NumberIsTooSmallException;
