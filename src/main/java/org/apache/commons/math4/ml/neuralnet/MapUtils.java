@@ -319,6 +319,7 @@ public class MapUtils {
         }
 
         /** {@inheritDoc} */
+        @Override
         public int compareTo(PairNeuronDouble other) {
             return Double.compare(this.value, other.value);
         }

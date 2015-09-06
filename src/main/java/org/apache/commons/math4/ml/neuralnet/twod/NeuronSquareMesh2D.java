@@ -199,6 +199,7 @@ public class NeuronSquareMesh2D
     }
 
     /** {@inheritDoc} */
+    @Override
     public Iterator<Neuron> iterator() {
         return network.iterator();
     }
