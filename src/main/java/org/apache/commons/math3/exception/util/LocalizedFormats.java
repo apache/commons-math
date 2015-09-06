@@ -182,6 +182,7 @@ public enum LocalizedFormats implements Localizable {
     NUMBER_OF_INTERPOLATION_POINTS("number of interpolation points ({0})"), /* keep */
     NUMBER_OF_TRIALS("number of trials ({0})"),
     NOT_CONVEX("vertices do not form a convex hull in CCW winding"),
+    NOT_CONVEX_HYPERPLANES("hyperplanes do not define a convex region"),
     ROBUSTNESS_ITERATIONS("number of robustness iterations ({0})"),
     START_POSITION("start position ({0})"), /* keep */
     NON_CONVERGENT_CONTINUED_FRACTION("Continued fraction convergents failed to converge (in less than {0} iterations) for value {1}"),

@@ -204,7 +204,10 @@ public interface Region<S extends Space> {
      * Side.MINUS}, {@link Side#BOTH Side.BOTH} or {@link Side#HYPER
      * Side.HYPER} (the latter result can occur only if the tree
      * contains only one cut hyperplane)
+     * @deprecated as of 3.6, this method which was only intended for
+     * internal use is not used anymore
      */
+    @Deprecated
     Side side(final Hyperplane<S> hyperplane);
 
     /** Get the parts of a sub-hyperplane that are contained in the region.

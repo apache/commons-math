@@ -574,11 +574,12 @@ public class BSPTree<S extends Space> {
 
         final Hyperplane<S> cHyperplane = cut.getHyperplane();
         final Hyperplane<S> sHyperplane = sub.getHyperplane();
-        switch (sub.side(cHyperplane)) {
+        final SubHyperplane.SplitSubHyperplane<S> subParts = sub.split(cHyperplane);
+        switch (subParts.getSide()) {
         case PLUS :
         { // the partitioning sub-hyperplane is entirely in the plus sub-tree
             final BSPTree<S> split = plus.split(sub);
-            if (cut.side(sHyperplane) == Side.PLUS) {
+            if (cut.split(sHyperplane).getSide() == Side.PLUS) {
                 split.plus =
                     new BSPTree<S>(cut.copySelf(), split.plus, minus.copySelf(), attribute);
                 split.plus.condense();
@@ -594,7 +595,7 @@ public class BSPTree<S extends Space> {
         case MINUS :
         { // the partitioning sub-hyperplane is entirely in the minus sub-tree
             final BSPTree<S> split = minus.split(sub);
-            if (cut.side(sHyperplane) == Side.PLUS) {
+            if (cut.split(sHyperplane).getSide() == Side.PLUS) {
                 split.plus =
                     new BSPTree<S>(cut.copySelf(), plus.copySelf(), split.plus, attribute);
                 split.plus.condense();
@@ -610,7 +611,6 @@ public class BSPTree<S extends Space> {
         case BOTH :
         {
             final SubHyperplane.SplitSubHyperplane<S> cutParts = cut.split(sHyperplane);
-            final SubHyperplane.SplitSubHyperplane<S> subParts = sub.split(cHyperplane);
             final BSPTree<S> split =
                 new BSPTree<S>(sub, plus.split(subParts.getPlus()), minus.split(subParts.getMinus()),
                                null);

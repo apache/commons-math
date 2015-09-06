@@ -19,7 +19,6 @@ package org.apache.commons.math3.geometry.euclidean.oned;
 import org.apache.commons.math3.geometry.partitioning.AbstractSubHyperplane;
 import org.apache.commons.math3.geometry.partitioning.Hyperplane;
 import org.apache.commons.math3.geometry.partitioning.Region;
-import org.apache.commons.math3.geometry.partitioning.Side;
 
 /** This class represents sub-hyperplane for {@link OrientedPoint}.
  * <p>An hyperplane in 1D is a simple point, its orientation being a
@@ -59,18 +58,15 @@ public class SubOrientedPoint extends AbstractSubHyperplane<Euclidean1D, Euclide
 
     /** {@inheritDoc} */
     @Override
-    public Side side(final Hyperplane<Euclidean1D> hyperplane) {
-        final double global = hyperplane.getOffset(((OrientedPoint) getHyperplane()).getLocation());
-        return (global < -1.0e-10) ? Side.MINUS : ((global > 1.0e-10) ? Side.PLUS : Side.HYPER);
-    }
-
-    /** {@inheritDoc} */
-    @Override
     public SplitSubHyperplane<Euclidean1D> split(final Hyperplane<Euclidean1D> hyperplane) {
         final double global = hyperplane.getOffset(((OrientedPoint) getHyperplane()).getLocation());
-        return (global < -1.0e-10) ?
-                                    new SplitSubHyperplane<Euclidean1D>(null, this) :
-                                        new SplitSubHyperplane<Euclidean1D>(this, null);
+        if (global < -1.0e-10) {
+            return new SplitSubHyperplane<Euclidean1D>(null, this);
+        } else if (global > 1.0e-10) {
+            return new SplitSubHyperplane<Euclidean1D>(this, null);
+        } else {
+            return new SplitSubHyperplane<Euclidean1D>(null, null);
+        }
     }
 
 }

@@ -19,6 +19,7 @@ package org.apache.commons.math3.geometry.euclidean.twod;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.apache.commons.math3.exception.MathIllegalArgumentException;
 import org.apache.commons.math3.geometry.euclidean.oned.Interval;
 import org.apache.commons.math3.geometry.euclidean.oned.IntervalsSet;
 import org.apache.commons.math3.geometry.euclidean.oned.Vector1D;
@@ -1148,10 +1149,17 @@ public class PolygonsSetTest {
             new Line(pD, pA, 1.0 / 16)
         };
         Region<Euclidean2D> degeneratedPolygon = factory.buildConvex(h2);
-        Assert.assertEquals(1.0 / 64.0, degeneratedPolygon.getSize(), 1.0e-10);
-        Assert.assertTrue(Double.isInfinite(new RegionFactory<Euclidean2D>().getComplement(degeneratedPolygon).getSize()));
-        Assert.assertEquals(2 * (1.0 + 1.0 / 64.0), degeneratedPolygon.getBoundarySize(), 1.0e-10);
+        Assert.assertEquals(0.0, degeneratedPolygon.getSize(), 1.0e-10);
+        Assert.assertTrue(degeneratedPolygon.isEmpty());
 
+    }
+
+    @SuppressWarnings("unchecked")
+    @Test(expected=MathIllegalArgumentException.class)
+    public void testInconsistentHyperplanes() {
+        double tolerance = 1.0e-10;
+        new RegionFactory<Euclidean2D>().buildConvex(new Line(new Vector2D(0, 0), new Vector2D(0, 1), tolerance),
+                                                     new Line(new Vector2D(1, 1), new Vector2D(1, 0), tolerance));
     }
 
     @Test

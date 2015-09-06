@@ -175,7 +175,10 @@ public abstract class AbstractSubHyperplane<S extends Space, T extends Space>
     }
 
     /** {@inheritDoc} */
-    public abstract Side side(Hyperplane<S> hyper);
+    @Deprecated
+    public Side side(Hyperplane<S> hyper) {
+        return split(hyper).getSide();
+    }
 
     /** {@inheritDoc} */
     public abstract SplitSubHyperplane<S> split(Hyperplane<S> hyper);

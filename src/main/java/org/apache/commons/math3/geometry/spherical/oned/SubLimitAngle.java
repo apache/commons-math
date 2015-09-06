@@ -19,7 +19,6 @@ package org.apache.commons.math3.geometry.spherical.oned;
 import org.apache.commons.math3.geometry.partitioning.AbstractSubHyperplane;
 import org.apache.commons.math3.geometry.partitioning.Hyperplane;
 import org.apache.commons.math3.geometry.partitioning.Region;
-import org.apache.commons.math3.geometry.partitioning.Side;
 
 /** This class represents sub-hyperplane for {@link LimitAngle}.
  * <p>Instances of this class are guaranteed to be immutable.</p>
@@ -53,13 +52,6 @@ public class SubLimitAngle extends AbstractSubHyperplane<Sphere1D, Sphere1D> {
     protected AbstractSubHyperplane<Sphere1D, Sphere1D> buildNew(final Hyperplane<Sphere1D> hyperplane,
                                                                  final Region<Sphere1D> remainingRegion) {
         return new SubLimitAngle(hyperplane, remainingRegion);
-    }
-
-    /** {@inheritDoc} */
-    @Override
-    public Side side(final Hyperplane<Sphere1D> hyperplane) {
-        final double global = hyperplane.getOffset(((LimitAngle) getHyperplane()).getLocation());
-        return (global < -1.0e-10) ? Side.MINUS : ((global > 1.0e-10) ? Side.PLUS : Side.HYPER);
     }
 
     /** {@inheritDoc} */

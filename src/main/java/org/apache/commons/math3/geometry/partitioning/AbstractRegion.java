@@ -216,7 +216,8 @@ public abstract class AbstractRegion<S extends Space, T extends Space> implement
         final ArrayList<SubHyperplane<S>> minusList = new ArrayList<SubHyperplane<S>>();
         while (iterator.hasNext()) {
             final SubHyperplane<S> other = iterator.next();
-            switch (other.side(inserted)) {
+            final SubHyperplane.SplitSubHyperplane<S> split = other.split(inserted);
+            switch (split.getSide()) {
             case PLUS:
                 plusList.add(other);
                 break;
@@ -224,7 +225,6 @@ public abstract class AbstractRegion<S extends Space, T extends Space> implement
                 minusList.add(other);
                 break;
             case BOTH:
-                final SubHyperplane.SplitSubHyperplane<S> split = other.split(inserted);
                 plusList.add(split.getPlus());
                 minusList.add(split.getMinus());
                 break;
@@ -408,6 +408,7 @@ public abstract class AbstractRegion<S extends Space, T extends Space> implement
     protected abstract void computeGeometricalProperties();
 
     /** {@inheritDoc} */
+    @Deprecated
     public Side side(final Hyperplane<S> hyperplane) {
         final InsideFinder<S> finder = new InsideFinder<S>(this);
         finder.recurseSides(tree, hyperplane.wholeHyperplane());
@@ -434,23 +435,28 @@ public abstract class AbstractRegion<S extends Space, T extends Space> implement
         }
 
         final Hyperplane<S> hyperplane = node.getCut().getHyperplane();
-        switch (sub.side(hyperplane)) {
-        case PLUS :
-            return recurseIntersection(node.getPlus(), sub);
-        case MINUS :
-            return recurseIntersection(node.getMinus(), sub);
-        case BOTH :
-            final SubHyperplane.SplitSubHyperplane<S> split = sub.split(hyperplane);
-            final SubHyperplane<S> plus  = recurseIntersection(node.getPlus(),  split.getPlus());
-            final SubHyperplane<S> minus = recurseIntersection(node.getMinus(), split.getMinus());
-            if (plus == null) {
-                return minus;
-            } else if (minus == null) {
-                return plus;
+        final SubHyperplane.SplitSubHyperplane<S> split = sub.split(hyperplane);
+        if (split.getPlus() != null) {
+            if (split.getMinus() != null) {
+                // both sides
+                final SubHyperplane<S> plus  = recurseIntersection(node.getPlus(),  split.getPlus());
+                final SubHyperplane<S> minus = recurseIntersection(node.getMinus(), split.getMinus());
+                if (plus == null) {
+                    return minus;
+                } else if (minus == null) {
+                    return plus;
+                } else {
+                    return plus.reunite(minus);
+                }
             } else {
-                return plus.reunite(minus);
+                // only on plus side
+                return recurseIntersection(node.getPlus(), sub);
             }
-        default :
+        } else if (split.getMinus() != null) {
+            // only on minus side
+            return recurseIntersection(node.getMinus(), sub);
+        } else {
+            // on hyperplane
             return recurseIntersection(node.getPlus(),
                                        recurseIntersection(node.getMinus(), sub));
         }

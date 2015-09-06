@@ -221,17 +221,23 @@ public class SphericalPolygonsSetTest {
         boolean zVFound = false;
         Vertex first = loops.get(0);
         int count = 0;
+        double sumPoleX = 0;
+        double sumPoleY = 0;
+        double sumPoleZ = 0;
         for (Vertex v = first; count == 0 || v != first; v = v.getOutgoing().getEnd()) {
             ++count;
             Edge e = v.getIncoming();
             Assert.assertTrue(v == e.getStart().getOutgoing().getEnd());
-            xPFound = xPFound || e.getCircle().getPole().distance(Vector3D.MINUS_I) < 1.0e-10;
-            yPFound = yPFound || e.getCircle().getPole().distance(Vector3D.MINUS_J) < 1.0e-10;
-            zPFound = zPFound || e.getCircle().getPole().distance(Vector3D.PLUS_K)  < 1.0e-10;
-            if (Vector3D.PLUS_K.distance(e.getCircle().getPole()) < 1.0e-10) {
-                Assert.assertEquals(1.5 * FastMath.PI, e.getLength(), 1.0e-10);
+            if (e.getCircle().getPole().distance(Vector3D.MINUS_I) < 1.0e-10) {
+                xPFound = true;
+                sumPoleX += e.getLength();
+            } else if (e.getCircle().getPole().distance(Vector3D.MINUS_J) < 1.0e-10) {
+                yPFound = true;
+                sumPoleY += e.getLength();
             } else {
-                Assert.assertEquals(0.5 * FastMath.PI, e.getLength(), 1.0e-10);
+                Assert.assertEquals(0.0, e.getCircle().getPole().distance(Vector3D.PLUS_K), 1.0e-10);
+                zPFound = true;
+                sumPoleZ += e.getLength();
             }
             xVFound = xVFound || v.getLocation().getVector().distance(Vector3D.PLUS_I) < 1.0e-10;
             yVFound = yVFound || v.getLocation().getVector().distance(Vector3D.PLUS_J) < 1.0e-10;
@@ -243,7 +249,9 @@ public class SphericalPolygonsSetTest {
         Assert.assertTrue(xVFound);
         Assert.assertTrue(yVFound);
         Assert.assertTrue(zVFound);
-        Assert.assertEquals(3, count);
+        Assert.assertEquals(0.5 * FastMath.PI, sumPoleX, 1.0e-10);
+        Assert.assertEquals(0.5 * FastMath.PI, sumPoleY, 1.0e-10);
+        Assert.assertEquals(1.5 * FastMath.PI, sumPoleZ, 1.0e-10);
 
         Assert.assertEquals(1.5 * FastMath.PI, threeOctants.getSize(), 1.0e-10);
 

@@ -86,7 +86,8 @@ class Characterization<S extends Space> {
             }
         } else {
             final Hyperplane<S> hyperplane = node.getCut().getHyperplane();
-            switch (sub.side(hyperplane)) {
+            final SubHyperplane.SplitSubHyperplane<S> split = sub.split(hyperplane);
+            switch (split.getSide()) {
             case PLUS:
                 characterize(node.getPlus(),  sub, splitters);
                 break;
@@ -94,7 +95,6 @@ class Characterization<S extends Space> {
                 characterize(node.getMinus(), sub, splitters);
                 break;
             case BOTH:
-                final SubHyperplane.SplitSubHyperplane<S> split = sub.split(hyperplane);
                 splitters.add(node);
                 characterize(node.getPlus(),  split.getPlus(),  splitters);
                 characterize(node.getMinus(), split.getMinus(), splitters);

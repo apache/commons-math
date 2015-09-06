@@ -20,13 +20,12 @@ import org.apache.commons.math3.geometry.Point;
 import org.apache.commons.math3.geometry.euclidean.oned.Euclidean1D;
 import org.apache.commons.math3.geometry.euclidean.oned.Vector1D;
 import org.apache.commons.math3.geometry.euclidean.twod.Euclidean2D;
-import org.apache.commons.math3.geometry.euclidean.twod.Vector2D;
 import org.apache.commons.math3.geometry.euclidean.twod.PolygonsSet;
+import org.apache.commons.math3.geometry.euclidean.twod.Vector2D;
 import org.apache.commons.math3.geometry.partitioning.AbstractSubHyperplane;
 import org.apache.commons.math3.geometry.partitioning.BSPTree;
 import org.apache.commons.math3.geometry.partitioning.Hyperplane;
 import org.apache.commons.math3.geometry.partitioning.Region;
-import org.apache.commons.math3.geometry.partitioning.Side;
 import org.apache.commons.math3.geometry.partitioning.SubHyperplane;
 
 /** This class represents a sub-hyperplane for {@link Plane}.
@@ -50,45 +49,6 @@ public class SubPlane extends AbstractSubHyperplane<Euclidean3D, Euclidean2D> {
         return new SubPlane(hyperplane, remainingRegion);
     }
 
-    /** {@inheritDoc} */
-    @Override
-    public Side side(Hyperplane<Euclidean3D> hyperplane) {
-
-        final Plane otherPlane = (Plane) hyperplane;
-        final Plane thisPlane  = (Plane) getHyperplane();
-        final Line  inter      = otherPlane.intersection(thisPlane);
-        final double tolerance = thisPlane.getTolerance();
-
-        if (inter == null) {
-            // the hyperplanes are parallel,
-            // any point can be used to check their relative position
-            final double global = otherPlane.getOffset(thisPlane);
-            return (global < -1.0e-10) ? Side.MINUS : ((global > 1.0e-10) ? Side.PLUS : Side.HYPER);
-        }
-
-        // create a 2D line in the otherPlane canonical 2D frame such that:
-        //   - the line is the crossing line of the two planes in 3D
-        //   - the line splits the otherPlane in two half planes with an
-        //     orientation consistent with the orientation of the instance
-        //     (i.e. the 3D half space on the plus side (resp. minus side)
-        //      of the instance contains the 2D half plane on the plus side
-        //      (resp. minus side) of the 2D line
-        Vector2D p = thisPlane.toSubSpace((Point<Euclidean3D>) inter.toSpace((Point<Euclidean1D>) Vector1D.ZERO));
-        Vector2D q = thisPlane.toSubSpace((Point<Euclidean3D>) inter.toSpace((Point<Euclidean1D>) Vector1D.ONE));
-        Vector3D crossP = Vector3D.crossProduct(inter.getDirection(), thisPlane.getNormal());
-        if (crossP.dotProduct(otherPlane.getNormal()) < 0) {
-            final Vector2D tmp = p;
-            p           = q;
-            q           = tmp;
-        }
-        final org.apache.commons.math3.geometry.euclidean.twod.Line line2D =
-            new org.apache.commons.math3.geometry.euclidean.twod.Line(p, q, tolerance);
-
-        // check the side on the 2D plane
-        return getRemainingRegion().side(line2D);
-
-    }
-
     /** Split the instance in two parts by an hyperplane.
      * @param hyperplane splitting hyperplane
      * @return an object containing both the part of the instance
@@ -106,9 +66,13 @@ public class SubPlane extends AbstractSubHyperplane<Euclidean3D, Euclidean2D> {
         if (inter == null) {
             // the hyperplanes are parallel
             final double global = otherPlane.getOffset(thisPlane);
-            return (global < -1.0e-10) ?
-                   new SplitSubHyperplane<Euclidean3D>(null, this) :
-                   new SplitSubHyperplane<Euclidean3D>(this, null);
+            if (global < -tolerance) {
+                return new SplitSubHyperplane<Euclidean3D>(null, this);
+            } else if (global > tolerance) {
+                return new SplitSubHyperplane<Euclidean3D>(this, null);
+            } else {
+                return new SplitSubHyperplane<Euclidean3D>(null, null);
+            }
         }
 
         // the hyperplanes do intersect
