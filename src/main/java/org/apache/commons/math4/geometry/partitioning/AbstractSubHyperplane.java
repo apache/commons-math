@@ -180,10 +180,6 @@ public abstract class AbstractSubHyperplane<S extends Space, T extends Space>
 
     /** {@inheritDoc} */
     @Override
-    public abstract Side side(Hyperplane<S> hyper);
-
-    /** {@inheritDoc} */
-    @Override
     public abstract SplitSubHyperplane<S> split(Hyperplane<S> hyper);
 
     /** {@inheritDoc} */

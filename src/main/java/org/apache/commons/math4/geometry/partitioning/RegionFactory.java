@@ -19,10 +19,13 @@ package org.apache.commons.math4.geometry.partitioning;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.apache.commons.math4.exception.MathIllegalArgumentException;
+import org.apache.commons.math4.exception.util.LocalizedFormats;
 import org.apache.commons.math4.geometry.Point;
 import org.apache.commons.math4.geometry.Space;
 import org.apache.commons.math4.geometry.partitioning.BSPTree.VanishingCutHandler;
 import org.apache.commons.math4.geometry.partitioning.Region.Location;
+import org.apache.commons.math4.geometry.partitioning.SubHyperplane.SplitSubHyperplane;
 
 /** This class is a factory for {@link Region}.
 
@@ -63,6 +66,32 @@ public class RegionFactory<S extends Space> {
                 node.getPlus().setAttribute(Boolean.FALSE);
                 node = node.getMinus();
                 node.setAttribute(Boolean.TRUE);
+            } else {
+                // the hyperplane could not be inserted in the current leaf node
+                // either it is completely outside (which means the input hyperplanes
+                // are wrong), or it is parallel to a previous hyperplane
+                SubHyperplane<S> s = hyperplane.wholeHyperplane();
+                for (BSPTree<S> tree = node; tree.getParent() != null && s != null; tree = tree.getParent()) {
+                    final Hyperplane<S>         other = tree.getParent().getCut().getHyperplane();
+                    final SplitSubHyperplane<S> split = s.split(other);
+                    switch (split.getSide()) {
+                        case HYPER :
+                            // the hyperplane is parallel to a previous hyperplane
+                            if (!hyperplane.sameOrientationAs(other)) {
+                                // this hyperplane is opposite to the other one,
+                                // the region is thinner than the tolerance, we consider it empty
+                                return getComplement(hyperplanes[0].wholeSpace());
+                            }
+                            // the hyperplane is an extension of an already known hyperplane, we just ignore it
+                            break;
+                        case PLUS :
+                        // the hyperplane is outside of the current convex zone,
+                        // the input hyperplanes are inconsistent
+                        throw new MathIllegalArgumentException(LocalizedFormats.NOT_CONVEX_HYPERPLANES);
+                        default :
+                            s = split.getMinus();
+                    }
+                }
             }
         }
 

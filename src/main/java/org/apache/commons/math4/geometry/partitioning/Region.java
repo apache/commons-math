@@ -197,16 +197,6 @@ public interface Region<S extends Space> {
      */
     Point<S> getBarycenter();
 
-    /** Compute the relative position of the instance with respect to an
-     * hyperplane.
-     * @param hyperplane reference hyperplane
-     * @return one of {@link Side#PLUS Side.PLUS}, {@link Side#MINUS
-     * Side.MINUS}, {@link Side#BOTH Side.BOTH} or {@link Side#HYPER
-     * Side.HYPER} (the latter result can occur only if the tree
-     * contains only one cut hyperplane)
-     */
-    Side side(final Hyperplane<S> hyperplane);
-
     /** Get the parts of a sub-hyperplane that are contained in the region.
      * <p>The parts of the sub-hyperplane that belong to the boundary are
      * <em>not</em> included in the resulting parts.</p>

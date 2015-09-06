@@ -389,27 +389,27 @@ public class ArcsSetTest {
         ArcsSet set = (ArcsSet) new RegionFactory<Sphere1D>().difference(new ArcsSet(1.0, 6.0, 1.0e-10),
                                                                          new ArcsSet(3.0, 5.0, 1.0e-10));
         for (int k = -2; k < 3; ++k) {
-            Assert.assertEquals(Side.MINUS, set.side(new Arc(0.5 + k * MathUtils.TWO_PI,
-                                                             6.1 + k * MathUtils.TWO_PI,
-                                                             set.getTolerance())));
-            Assert.assertEquals(Side.PLUS,  set.side(new Arc(0.5 + k * MathUtils.TWO_PI,
-                                                             0.8 + k * MathUtils.TWO_PI,
-                                                             set.getTolerance())));
-            Assert.assertEquals(Side.PLUS,  set.side(new Arc(6.2 + k * MathUtils.TWO_PI,
-                                                             6.3 + k * MathUtils.TWO_PI,
-                                                             set.getTolerance())));
-            Assert.assertEquals(Side.PLUS,  set.side(new Arc(3.5 + k * MathUtils.TWO_PI,
-                                                             4.5 + k * MathUtils.TWO_PI,
-                                                             set.getTolerance())));
-            Assert.assertEquals(Side.BOTH,  set.side(new Arc(2.9 + k * MathUtils.TWO_PI,
-                                                             4.5 + k * MathUtils.TWO_PI,
-                                                             set.getTolerance())));
-            Assert.assertEquals(Side.BOTH,  set.side(new Arc(0.5 + k * MathUtils.TWO_PI,
-                                                             1.2 + k * MathUtils.TWO_PI,
-                                                             set.getTolerance())));
-            Assert.assertEquals(Side.BOTH,  set.side(new Arc(0.5 + k * MathUtils.TWO_PI,
-                                                             5.9 + k * MathUtils.TWO_PI,
-                                                             set.getTolerance())));
+            Assert.assertEquals(Side.MINUS, set.split(new Arc(0.5 + k * MathUtils.TWO_PI,
+                                                              6.1 + k * MathUtils.TWO_PI,
+                                                              set.getTolerance())).getSide());
+            Assert.assertEquals(Side.PLUS,  set.split(new Arc(0.5 + k * MathUtils.TWO_PI,
+                                                              0.8 + k * MathUtils.TWO_PI,
+                                                              set.getTolerance())).getSide());
+            Assert.assertEquals(Side.PLUS,  set.split(new Arc(6.2 + k * MathUtils.TWO_PI,
+                                                              6.3 + k * MathUtils.TWO_PI,
+                                                              set.getTolerance())).getSide());
+            Assert.assertEquals(Side.PLUS,  set.split(new Arc(3.5 + k * MathUtils.TWO_PI,
+                                                              4.5 + k * MathUtils.TWO_PI,
+                                                              set.getTolerance())).getSide());
+            Assert.assertEquals(Side.BOTH,  set.split(new Arc(2.9 + k * MathUtils.TWO_PI,
+                                                              4.5 + k * MathUtils.TWO_PI,
+                                                              set.getTolerance())).getSide());
+            Assert.assertEquals(Side.BOTH,  set.split(new Arc(0.5 + k * MathUtils.TWO_PI,
+                                                              1.2 + k * MathUtils.TWO_PI,
+                                                              set.getTolerance())).getSide());
+            Assert.assertEquals(Side.BOTH,  set.split(new Arc(0.5 + k * MathUtils.TWO_PI,
+                                                              5.9 + k * MathUtils.TWO_PI,
+                                                              set.getTolerance())).getSide());
         }
     }
 
@@ -419,10 +419,10 @@ public class ArcsSetTest {
         ArcsSet s35 = new ArcsSet(3.0, 5.0, 1.0e-10);
         ArcsSet s16 = new ArcsSet(1.0, 6.0, 1.0e-10);
 
-        Assert.assertEquals(Side.BOTH,  s16.side(new Arc(3.0, 5.0, 1.0e-10)));
-        Assert.assertEquals(Side.BOTH,  s16.side(new Arc(5.0, 3.0 + MathUtils.TWO_PI, 1.0e-10)));
-        Assert.assertEquals(Side.MINUS, s35.side(new Arc(1.0, 6.0, 1.0e-10)));
-        Assert.assertEquals(Side.PLUS,  s35.side(new Arc(6.0, 1.0 + MathUtils.TWO_PI, 1.0e-10)));
+        Assert.assertEquals(Side.BOTH,  s16.split(new Arc(3.0, 5.0, 1.0e-10)).getSide());
+        Assert.assertEquals(Side.BOTH,  s16.split(new Arc(5.0, 3.0 + MathUtils.TWO_PI, 1.0e-10)).getSide());
+        Assert.assertEquals(Side.MINUS, s35.split(new Arc(1.0, 6.0, 1.0e-10)).getSide());
+        Assert.assertEquals(Side.PLUS,  s35.split(new Arc(6.0, 1.0 + MathUtils.TWO_PI, 1.0e-10)).getSide());
 
     }
 
@@ -431,17 +431,17 @@ public class ArcsSetTest {
         ArcsSet s35 = new ArcsSet(3.0, 5.0, 1.0e-10);
         ArcsSet s46 = new ArcsSet(4.0, 6.0, 1.0e-10);
 
-        Assert.assertEquals(Side.BOTH,  s46.side(new Arc(3.0, 5.0, 1.0e-10)));
-        Assert.assertEquals(Side.BOTH,  s46.side(new Arc(5.0, 3.0 + MathUtils.TWO_PI, 1.0e-10)));
-        Assert.assertEquals(Side.BOTH, s35.side(new Arc(4.0, 6.0, 1.0e-10)));
-        Assert.assertEquals(Side.BOTH,  s35.side(new Arc(6.0, 4.0 + MathUtils.TWO_PI, 1.0e-10)));
+        Assert.assertEquals(Side.BOTH,  s46.split(new Arc(3.0, 5.0, 1.0e-10)).getSide());
+        Assert.assertEquals(Side.BOTH,  s46.split(new Arc(5.0, 3.0 + MathUtils.TWO_PI, 1.0e-10)).getSide());
+        Assert.assertEquals(Side.BOTH, s35.split(new Arc(4.0, 6.0, 1.0e-10)).getSide());
+        Assert.assertEquals(Side.BOTH,  s35.split(new Arc(6.0, 4.0 + MathUtils.TWO_PI, 1.0e-10)).getSide());
     }
 
     @Test
     public void testSideHyper() {
         ArcsSet sub = (ArcsSet) new RegionFactory<Sphere1D>().getComplement(new ArcsSet(1.0e-10));
         Assert.assertTrue(sub.isEmpty());
-        Assert.assertEquals(Side.HYPER,  sub.side(new Arc(2.0, 3.0, 1.0e-10)));
+        Assert.assertEquals(Side.HYPER,  sub.split(new Arc(2.0, 3.0, 1.0e-10)).getSide());
     }
 
     @Test
@@ -581,6 +581,18 @@ public class ArcsSetTest {
         ArcsSet.Split split = set.split(arc);
         Assert.assertEquals(set.getSize(), split.getPlus().getSize(),  epsilon);
         Assert.assertNull(split.getMinus());
+    }
+
+    @Test
+    public void testSideSplitConsistency() {
+        double  epsilon = 1.0e-6;
+        double  a       = 4.725;
+        ArcsSet set     = new ArcsSet(a, a + 0.5, epsilon);
+        Arc     arc     = new Arc(a + 0.5 * epsilon, a + 1, epsilon);
+        ArcsSet.Split split = set.split(arc);
+        Assert.assertNotNull(split.getMinus());
+        Assert.assertNull(split.getPlus());
+        Assert.assertEquals(Side.MINUS, set.split(arc).getSide());
     }
 
 }

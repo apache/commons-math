@@ -69,10 +69,11 @@ class InsideFinder<S extends Space> {
         }
 
         final Hyperplane<S> hyperplane = node.getCut().getHyperplane();
-        switch (sub.side(hyperplane)) {
+        final SubHyperplane.SplitSubHyperplane<S> split = sub.split(hyperplane);
+        switch (split.getSide()) {
         case PLUS :
             // the sub-hyperplane is entirely in the plus sub-tree
-            if (node.getCut().side(sub.getHyperplane()) == Side.PLUS) {
+            if (node.getCut().split(sub.getHyperplane()).getSide() == Side.PLUS) {
                 if (!region.isEmpty(node.getMinus())) {
                     plusFound  = true;
                 }
@@ -87,7 +88,7 @@ class InsideFinder<S extends Space> {
             break;
         case MINUS :
             // the sub-hyperplane is entirely in the minus sub-tree
-            if (node.getCut().side(sub.getHyperplane()) == Side.PLUS) {
+            if (node.getCut().split(sub.getHyperplane()).getSide() == Side.PLUS) {
                 if (!region.isEmpty(node.getPlus())) {
                     plusFound  = true;
                 }
@@ -102,7 +103,6 @@ class InsideFinder<S extends Space> {
             break;
         case BOTH :
             // the sub-hyperplane extends in both sub-trees
-            final SubHyperplane.SplitSubHyperplane<S> split = sub.split(hyperplane);
 
             // explore first the plus sub-tree
             recurseSides(node.getPlus(), split.getPlus());

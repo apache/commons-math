@@ -66,14 +66,6 @@ public interface SubHyperplane<S extends Space> {
      */
     double getSize();
 
-    /** Compute the relative position of the instance with respect
-     * to an hyperplane.
-     * @param hyperplane hyperplane to check instance against
-     * @return one of {@link Side#PLUS}, {@link Side#MINUS}, {@link Side#BOTH},
-     * {@link Side#HYPER}
-     */
-    Side side(Hyperplane<S> hyperplane);
-
     /** Split the instance in two parts by an hyperplane.
      * @param hyperplane splitting hyperplane
      * @return an object containing both the part of the instance
@@ -124,6 +116,28 @@ public interface SubHyperplane<S extends Space> {
          */
         public SubHyperplane<U> getMinus() {
             return minus;
+        }
+
+        /** Get the side of the split sub-hyperplane with respect to its splitter.
+         * @return {@link Side#PLUS} if only {@link #getPlus()} is neither null nor empty,
+         * {@link Side#MINUS} if only {@link #getMinus()} is neither null nor empty,
+         * {@link Side#BOTH} if both {@link #getPlus()} and {@link #getMinus()}
+         * are neither null nor empty or {@link Side#HYPER} if both {@link #getPlus()} and
+         * {@link #getMinus()} are either null or empty
+         * @since 3.6
+         */
+        public Side getSide() {
+            if (plus != null && !plus.isEmpty()) {
+                if (minus != null && !minus.isEmpty()) {
+                    return Side.BOTH;
+                } else {
+                    return Side.PLUS;
+                }
+            } else if (minus != null && !minus.isEmpty()) {
+                return Side.MINUS;
+            } else {
+                return Side.HYPER;
+            }
         }
 
     }

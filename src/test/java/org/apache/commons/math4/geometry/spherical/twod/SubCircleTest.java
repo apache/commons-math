@@ -47,19 +47,19 @@ public class SubCircleTest {
         Circle xzPlane = new Circle(Vector3D.PLUS_J, 1.0e-10);
 
         SubCircle sc1 = create(Vector3D.PLUS_K, Vector3D.PLUS_I, Vector3D.PLUS_J, 1.0e-10, 1.0, 3.0, 5.0, 6.0);
-        Assert.assertEquals(Side.BOTH, sc1.side(xzPlane));
+        Assert.assertEquals(Side.BOTH, sc1.split(xzPlane).getSide());
 
         SubCircle sc2 = create(Vector3D.PLUS_K, Vector3D.PLUS_I, Vector3D.PLUS_J, 1.0e-10, 1.0, 3.0);
-        Assert.assertEquals(Side.MINUS, sc2.side(xzPlane));
+        Assert.assertEquals(Side.MINUS, sc2.split(xzPlane).getSide());
 
         SubCircle sc3 = create(Vector3D.PLUS_K, Vector3D.PLUS_I, Vector3D.PLUS_J, 1.0e-10, 5.0, 6.0);
-        Assert.assertEquals(Side.PLUS, sc3.side(xzPlane));
+        Assert.assertEquals(Side.PLUS, sc3.split(xzPlane).getSide());
 
         SubCircle sc4 = create(Vector3D.PLUS_J, Vector3D.PLUS_K, Vector3D.PLUS_I, 1.0e-10, 5.0, 6.0);
-        Assert.assertEquals(Side.HYPER, sc4.side(xzPlane));
+        Assert.assertEquals(Side.HYPER, sc4.split(xzPlane).getSide());
 
         SubCircle sc5 = create(Vector3D.MINUS_J, Vector3D.PLUS_I, Vector3D.PLUS_K, 1.0e-10, 5.0, 6.0);
-        Assert.assertEquals(Side.HYPER, sc5.side(xzPlane));
+        Assert.assertEquals(Side.HYPER, sc5.split(xzPlane).getSide());
 
     }
 
@@ -97,14 +97,31 @@ public class SubCircleTest {
 
         SubCircle sc4 = create(Vector3D.PLUS_J, Vector3D.PLUS_K, Vector3D.PLUS_I, 1.0e-10, 5.0, 6.0);
         SplitSubHyperplane<Sphere2D> split4 = sc4.split(xzPlane);
-        Assert.assertEquals(Side.HYPER, sc4.side(xzPlane));
+        Assert.assertEquals(Side.HYPER, sc4.split(xzPlane).getSide());
         Assert.assertNull(split4.getPlus());
-        Assert.assertTrue(split4.getMinus() == sc4);
+        Assert.assertNull(split4.getMinus());
 
         SubCircle sc5 = create(Vector3D.MINUS_J, Vector3D.PLUS_I, Vector3D.PLUS_K, 1.0e-10, 5.0, 6.0);
         SplitSubHyperplane<Sphere2D> split5 = sc5.split(xzPlane);
-        Assert.assertTrue(split5.getPlus() == sc5);
+        Assert.assertEquals(Side.HYPER, sc5.split(xzPlane).getSide());
+        Assert.assertNull(split5.getPlus());
         Assert.assertNull(split5.getMinus());
+
+    }
+
+    @Test
+    public void testSideSplitConsistency() {
+
+        double tolerance = 1.0e-6;
+        Circle hyperplane = new Circle(new Vector3D(9.738804529764676E-5, -0.6772824575010357, -0.7357230887208355),
+                                       tolerance);
+        SubCircle sub = new SubCircle(new Circle(new Vector3D(2.1793884139073498E-4, 0.9790647032675541, -0.20354915700704285),
+                                                 tolerance),
+                                      new ArcsSet(4.7121441684170700, 4.7125386635004760, tolerance));
+        SplitSubHyperplane<Sphere2D> split = sub.split(hyperplane);
+        Assert.assertNotNull(split.getMinus());
+        Assert.assertNull(split.getPlus());
+        Assert.assertEquals(Side.MINUS, sub.split(hyperplane).getSide());
 
     }
 

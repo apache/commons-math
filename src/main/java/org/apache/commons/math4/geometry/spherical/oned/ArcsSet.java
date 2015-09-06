@@ -709,40 +709,11 @@ public class ArcsSet extends AbstractRegion<Sphere1D, Sphere1D> implements Itera
      * @param arc arc to check instance against
      * @return one of {@link Side#PLUS}, {@link Side#MINUS}, {@link Side#BOTH}
      * or {@link Side#HYPER}
+     * @deprecated as of 3.6, replaced with {@link #split(Arc)}.{@link Split#getSide()}
      */
+    @Deprecated
     public Side side(final Arc arc) {
-
-        final double reference = FastMath.PI + arc.getInf();
-        final double arcLength = arc.getSup() - arc.getInf();
-
-        boolean inMinus = false;
-        boolean inPlus  = false;
-        for (final double[] a : this) {
-            final double syncedStart = MathUtils.normalizeAngle(a[0], reference) - arc.getInf();
-            final double arcOffset   = a[0] - syncedStart;
-            final double syncedEnd   = a[1] - arcOffset;
-            if (syncedStart <= arcLength - getTolerance() || syncedEnd >= MathUtils.TWO_PI + getTolerance()) {
-                inMinus = true;
-            }
-            if (syncedEnd >= arcLength + getTolerance()) {
-                inPlus = true;
-            }
-        }
-
-        if (inMinus) {
-            if (inPlus) {
-                return Side.BOTH;
-            } else {
-                return Side.MINUS;
-            }
-        } else {
-            if (inPlus) {
-                return Side.PLUS;
-            } else {
-                return Side.HYPER;
-            }
-        }
-
+        return split(arc).getSide();
     }
 
     /** Split the instance in two parts by an arc.
@@ -939,6 +910,28 @@ public class ArcsSet extends AbstractRegion<Sphere1D, Sphere1D> implements Itera
          */
         public ArcsSet getMinus() {
             return minus;
+        }
+
+        /** Get the side of the split arc with respect to its splitter.
+         * @return {@link Side#PLUS} if only {@link #getPlus()} returns non-null,
+         * {@link Side#MINUS} if only {@link #getMinus()} returns non-null,
+         * {@link Side#BOTH} if both {@link #getPlus()} and {@link #getMinus()}
+         * return non-null or {@link Side#HYPER} if both {@link #getPlus()} and
+         * {@link #getMinus()} return null
+         * @since 3.6
+         */
+        public Side getSide() {
+            if (plus != null) {
+                if (minus != null) {
+                    return Side.BOTH;
+                } else {
+                    return Side.PLUS;
+                }
+            } else if (minus != null) {
+                return Side.MINUS;
+            } else {
+                return Side.HYPER;
+            }
         }
 
     }
