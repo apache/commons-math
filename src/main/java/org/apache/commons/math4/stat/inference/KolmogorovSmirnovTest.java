@@ -19,6 +19,7 @@ package org.apache.commons.math4.stat.inference;
 
 import java.math.BigDecimal;
 import java.util.Arrays;
+import java.util.HashSet;
 import java.util.Iterator;
 
 import org.apache.commons.math4.util.Precision;
@@ -220,7 +221,10 @@ public class KolmogorovSmirnovTest {
      * {@value #SMALL_SAMPLE_PRODUCT}), the exact distribution is used to compute the p-value. This
      * is accomplished by enumerating all partitions of the combined sample into two subsamples of
      * the respective sample sizes, computing \(D_{n,m}\) for each partition and returning the
-     * proportion of partitions that give \(D\) values exceeding the observed value.</li>
+     * proportion of partitions that give \(D\) values exceeding the observed value. In the very
+     * small sample case, if there are ties in the data, the actual sample values (including ties)
+     * are used in generating the partitions (which are basically multi-set partitions in this
+     * case).</li>
      * <li>For mid-size samples (product of sample sizes greater than or equal to
      * {@value #SMALL_SAMPLE_PRODUCT} but less than {@value #LARGE_SAMPLE_PRODUCT}), Monte Carlo
      * simulation is used to compute the p-value. The simulation randomly generates partitions and
@@ -243,6 +247,9 @@ public class KolmogorovSmirnovTest {
     public double kolmogorovSmirnovTest(double[] x, double[] y, boolean strict) {
         final long lengthProduct = (long) x.length * y.length;
         if (lengthProduct < SMALL_SAMPLE_PRODUCT) {
+            if (hasTies(x, y)) {
+                return exactP(x, y, strict);
+            }
             return exactP(kolmogorovSmirnovStatistic(x, y), x.length, y.length, strict);
         }
         if (lengthProduct < LARGE_SAMPLE_PRODUCT) {
@@ -909,6 +916,67 @@ public class KolmogorovSmirnovTest {
     }
 
     /**
+     * Computes the exact p value for a two-sample Kolmogorov-Smirnov test with
+     * {@code x} and {@code y} as samples, possibly containing ties. This method
+     * uses the same implementation as {@link #exactP(double, int, int, boolean)}
+     * with the exception that it examines partitions of the combined sample,
+     * preserving ties in the data.  What is returned is the exact probability
+     * that a random partition of the combined dataset into a subset of size
+     * {@code x.length} and another of size {@code y.length} yields a \(D\)
+     * value greater than (resp greater than or equal to) \(D(x,y)\).
+     * <p>
+     * This method should not be used on large samples (a good rule of thumb is
+     * to keep the product of the sample sizes less than
+     * {@link #SMALL_SAMPLE_PRODUCT} when using this method).  If the data do
+     * not contain ties, {@link #exactP(double[], double[], boolean)} should be
+     * used instead of this method.</p>
+     *
+     * @param x first sample
+     * @param y second sample
+     * @param strict whether or not the inequality in the null hypothesis is strict
+     * @return p-value
+     */
+    public double exactP(double[] x, double[] y, boolean strict) {
+        final double d = kolmogorovSmirnovStatistic(x, y);
+        final int n = x.length;
+        final int m = y.length;
+
+        // Concatenate x and y into universe, preserving ties in the data
+        final double[] universe = new double[n + m];
+        System.arraycopy(x, 0, universe, 0, n);
+        System.arraycopy(y, 0, universe, n, m);
+
+        // Iterate over all n, m partitions of the n + m elements in the universe,
+        // Computing D for each one
+        Iterator<int[]> combinationsIterator = CombinatoricsUtils.combinationsIterator(n + m, n);
+        long tail = 0;
+        final double[] nSet = new double[n];
+        final double[] mSet = new double[m];
+        final double tol = 1e-12;  // d-values within tol of one another are considered equal
+        while (combinationsIterator.hasNext()) {
+            // Generate an n-set
+            final int[] nSetI = combinationsIterator.next();
+            // Copy the elements of the universe in the n-set to nSet
+            // and the others to mSet
+            int j = 0;
+            int k = 0;
+            for (int i = 0; i < n + m; i++) {
+                if (j < n && nSetI[j] == i) {
+                    nSet[j++] = universe[i];
+                } else {
+                    mSet[k++] = universe[i];
+                }
+            }
+            final double curD = kolmogorovSmirnovStatistic(nSet, mSet);
+            final int order = Precision.compareTo(curD, d, tol);
+            if (order > 0 || (order == 0 && !strict)) {
+                tail++;
+            }
+        }
+        return (double) tail / (double) CombinatoricsUtils.binomialCoefficient(n + m, n);
+    }
+
+    /**
      * Uses the Kolmogorov-Smirnov distribution to approximate \(P(D_{n,m} > d)\) where \(D_{n,m}\)
      * is the 2-sample Kolmogorov-Smirnov statistic. See
      * {@link #kolmogorovSmirnovStatistic(double[], double[])} for the definition of \(D_{n,m}\).
@@ -1008,5 +1076,28 @@ public class KolmogorovSmirnovTest {
             }
         }
         return (double) tail / iterations;
+    }
+
+    /**
+     * Returns true iff there are ties in the combined sample
+     * formed from x and y.
+     *
+     * @param x first sample
+     * @param y second sample
+     * @return true if x and y together contain ties
+     */
+    private boolean hasTies(double[] x, double[] y) {
+        HashSet<Double> values = new HashSet<Double>();
+            for (int i = 0; i < x.length; i++) {
+                if (!values.add(x[i])) {
+                    return true;
+                }
+            }
+            for (int i = 0; i < y.length; i++) {
+                if (!values.add(y[i])) {
+                    return true;
+                }
+            }
+        return false;
     }
 }

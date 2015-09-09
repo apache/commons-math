@@ -185,6 +185,62 @@ public class KolmogorovSmirnovTestTest {
         Assert.assertEquals(0.5, test.kolmogorovSmirnovStatistic(smallSample1, smallSample2), TOLERANCE);
     }
 
+    /** Small sample no ties, exactP methods should agree */
+    @Test
+    public void testExactPConsistency() {
+        final KolmogorovSmirnovTest test = new KolmogorovSmirnovTest();
+        final double[] x = {
+            1, 7, 9, 13, 19, 21, 22, 23, 24
+        };
+        final double[] y = {
+            3, 4, 12, 16, 20, 27, 28, 32, 44, 54
+        };
+        Assert.assertEquals(test.exactP(x, y, true),
+                            test.exactP(test.kolmogorovSmirnovStatistic(x, y),
+                                        x.length, y.length, true), Double.MIN_VALUE);
+        Assert.assertEquals(test.exactP(x, y, false),
+                            test.exactP(test.kolmogorovSmirnovStatistic(x, y),
+                                        x.length, y.length, false), Double.MIN_VALUE);
+    }
+
+    /**
+     * Extreme case for ties - all values the same.  Strict p-value should be 0,
+     * non-strict should be 1
+     */
+    @Test
+    public void testExactPNoVariance() {
+        final KolmogorovSmirnovTest test = new KolmogorovSmirnovTest();
+        final double[] x = {
+            1, 1, 1, 1, 1, 1
+        };
+        final double[] y = {
+            1, 1, 1, 1
+        };
+        Assert.assertEquals(0, test.exactP(x, y, true), Double.MIN_VALUE);
+        Assert.assertEquals(1, test.exactP(x, y, false), Double.MIN_VALUE);
+        Assert.assertEquals(0, test.kolmogorovSmirnovTest(x, y, true), Double.MIN_VALUE);
+        Assert.assertEquals(1, test.kolmogorovSmirnovTest(x, y, false), Double.MIN_VALUE);
+    }
+
+    /**
+     * Split {0, 0, 0, 1, 1, 1} into 3-sets.  Most extreme is 0's vs 1's.  Non-strict
+     * p-value for this split should be 2 / (6 choose 3); strict should be 0.
+     */
+    @Test
+    public void testExactPSimpleSplit() {
+        final KolmogorovSmirnovTest test = new KolmogorovSmirnovTest();
+        final double[] x = {
+            0, 0, 0
+        };
+        final double[] y = {
+            1, 1, 1
+        };
+        // Above is one way to do this - other way is s/x/y - so 2 in strict test below
+        Assert.assertEquals(0, test.exactP(x, y, true), Double.MIN_VALUE);
+        Assert.assertEquals(2 / (double) CombinatoricsUtils.binomialCoefficient(6, 3),
+                            test.exactP(x, y, false), Double.MIN_VALUE);
+    }
+
     /**
      * Checks exact p-value computations using critical values from Table 9 in V.K Rohatgi, An
      * Introduction to Probability and Mathematical Statistics, Wiley, 1976, ISBN 0-471-73135-8.
@@ -430,10 +486,10 @@ public class KolmogorovSmirnovTestTest {
             Assert.assertEquals(1.0, test.approximateP(0, values.length, values.length), 0.);
         }
     }
-    
+
     /**
      * JIRA: MATH-1245
-     * 
+     *
      * Verify that D-values are not viewed as distinct when they are mathematically equal
      * when computing p-statistics for small sample tests. Reference values are from R 3.2.0.
      */
@@ -444,19 +500,19 @@ public class KolmogorovSmirnovTestTest {
         final double[] y = {1, 10, 11, 13, 14, 15, 16, 17, 18};
         final KolmogorovSmirnovTest test = new KolmogorovSmirnovTest();
         Assert.assertEquals(0.0027495724090154106, test.kolmogorovSmirnovTest(x, y,false), tol);
-        
+
         final double[] x1 = {2, 4, 6, 8, 9, 10, 11, 12, 13};
         final double[] y1 = {0, 1, 3, 5, 7};
         Assert.assertEquals(0.085914085914085896, test.kolmogorovSmirnovTest(x1, y1, false), tol);
-        
+
         final double[] x2 = {4, 6, 7, 8, 9, 10, 11};
         final double[] y2 = {0, 1, 2, 3, 5};
-        Assert.assertEquals(0.015151515151515027, test.kolmogorovSmirnovTest(x2, y2, false), tol); 
+        Assert.assertEquals(0.015151515151515027, test.kolmogorovSmirnovTest(x2, y2, false), tol);
     }
-    
+
     /**
      * JIRA: MATH-1245
-     * 
+     *
      * Verify that D-values are not viewed as distinct when they are mathematically equal
      * when computing p-statistics for small sample tests. Reference values are from R 3.2.0.
      */
@@ -465,17 +521,17 @@ public class KolmogorovSmirnovTestTest {
         final double tol = 1e-2;
         final int iterations = 1000000;
         final KolmogorovSmirnovTest test = new KolmogorovSmirnovTest(new Well19937c(1000));
-        
+
         final double[] x = {0, 2, 3, 4, 5, 6, 7, 8, 9, 12};
         final double[] y = {1, 10, 11, 13, 14, 15, 16, 17, 18};
         double d = test.kolmogorovSmirnovStatistic(x, y);
         Assert.assertEquals(0.0027495724090154106, test.monteCarloP(d, x.length, y.length, false, iterations), tol);
-        
+
         final double[] x1 = {2, 4, 6, 8, 9, 10, 11, 12, 13};
         final double[] y1 = {0, 1, 3, 5, 7};
         d = test.kolmogorovSmirnovStatistic(x1, y1);
         Assert.assertEquals(0.085914085914085896, test.monteCarloP(d, x1.length, y1.length, false, iterations), tol);
-        
+
         final double[] x2 = {4, 6, 7, 8, 9, 10, 11};
         final double[] y2 = {0, 1, 2, 3, 5};
         d = test.kolmogorovSmirnovStatistic(x2, y2);
