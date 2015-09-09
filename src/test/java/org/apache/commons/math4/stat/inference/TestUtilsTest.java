@@ -530,7 +530,7 @@ public class TestUtilsTest {
         Assert.assertEquals(FastMath.sqrt(5734.343), TestUtils.rootLogLikelihoodRatio(1000, 1000, 1000, 100000), 0.001);
         Assert.assertEquals(FastMath.sqrt(5714.932), TestUtils.rootLogLikelihoodRatio(1000, 1000, 1000, 99000), 0.001);
     }
-    
+
     @Test
     public void testKSOneSample() throws Exception {
        final NormalDistribution unitNormal = new NormalDistribution(0d, 1d);
@@ -539,7 +539,7 @@ public class TestUtilsTest {
        Assert.assertEquals(0.3172069207622391, TestUtils.kolmogorovSmirnovTest(unitNormal, sample), tol);
        Assert.assertEquals(0.0932947561266756, TestUtils.kolmogorovSmirnovStatistic(unitNormal, sample), tol);
     }
-    
+
     @Test
     public void testKSTwoSample() throws Exception {
         final double tol = KolmogorovSmirnovTestTest.TOLERANCE;
@@ -554,6 +554,6 @@ public class TestUtilsTest {
         final double d = TestUtils.kolmogorovSmirnovStatistic(smallSample1, smallSample2);
         Assert.assertEquals(0.5, d, tol);
         Assert
-        .assertEquals(0.105577085453247, TestUtils.exactP(d, smallSample1.length,smallSample2.length, false), tol); 
+        .assertEquals(0.105577085453247, TestUtils.exactP(d, smallSample1.length,smallSample2.length, false), tol);
     }
 }
