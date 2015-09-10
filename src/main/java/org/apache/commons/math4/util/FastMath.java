@@ -34,13 +34,13 @@ import org.apache.commons.math4.exception.util.LocalizedFormats;
  * <p>
  * FastMath speed is achieved by relying heavily on optimizing compilers
  * to native code present in many JVMs today and use of large tables.
- * The larger tables are lazily initialised on first use, so that the setup
- * time does not penalise methods that don't need them.
+ * The larger tables are lazily initialized on first use, so that the setup
+ * time does not penalize methods that don't need them.
  * </p>
  * <p>
  * Note that FastMath is
  * extensively used inside Apache Commons Math, so by calling some algorithms,
- * the overhead when the the tables need to be intialised will occur
+ * the overhead when the the tables need to be initialized will occur
  * regardless of the end-user calling FastMath methods directly or not.
  * Performance figures for a specific JVM and hardware can be evaluated by
  * running the FastMathTestPerformance tests in the test directory of the source
