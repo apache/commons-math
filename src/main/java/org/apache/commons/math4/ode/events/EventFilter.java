@@ -21,7 +21,7 @@ import java.util.Arrays;
 
 /** Wrapper used to detect only increasing or decreasing events.
  *
- * <p>General {@link EventHandler events} are defined implicitely
+ * <p>General {@link EventHandler events} are defined implicitly
  * by a {@link EventHandler#g(double, double[]) g function} crossing
  * zero. This function needs to be continuous in the event neighborhood,
  * and its sign must remain consistent between events. This implies that
