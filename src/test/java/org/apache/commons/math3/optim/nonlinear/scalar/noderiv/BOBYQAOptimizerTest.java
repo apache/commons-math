@@ -188,7 +188,7 @@ public class BOBYQAOptimizerTest {
             new PointValuePair(point(DIM/2,0.0),0.0);
         doTest(new DiffPow(), startPoint, boundaries,
                 GoalType.MINIMIZE, 
-                1e-8, 1e-1, 12000, expected);
+                1e-8, 1e-1, 21000, expected);
     }
 
     @Test

@@ -21,7 +21,7 @@ import java.util.Arrays;
 
 /** Wrapper used to detect only increasing or decreasing events.
  *
- * <p>General {@link EventHandler events} are defined implicitely
+ * <p>General {@link EventHandler events} are defined implicitly
  * by a {@link EventHandler#g(double, double[]) g function} crossing
  * zero. This function needs to be continuous in the event neighborhood,
  * and its sign must remain consistent between events. This implies that
@@ -115,12 +115,12 @@ public class EventFilter implements EventHandler {
                 final Transformer previous = transformers[last];
                 final Transformer next     = filter.selectTransformer(previous, rawG, forward);
                 if (next != previous) {
-                    // there is a root somewhere between extremeT end t
-                    // the new transformer, which is valid on both sides of the root,
-                    // so it is valid for t (this is how we have just computed it above),
-                    // but it was already valid before, so we store the switch at extremeT
-                    // for safety, to ensure the previous transformer is not applied too
-                    // close of the root
+                    // there is a root somewhere between extremeT and t.
+                    // the new transformer is valid for t (this is how we have just computed
+                    // it above), but it is in fact valid on both sides of the root, so
+                    // it was already valid before t and even up to previous time. We store
+                    // the switch at extremeT for safety, to ensure the previous transformer
+                    // is not applied too close of the root
                     System.arraycopy(updates,      1, updates,      0, last);
                     System.arraycopy(transformers, 1, transformers, 0, last);
                     updates[last]      = extremeT;
@@ -154,12 +154,12 @@ public class EventFilter implements EventHandler {
                 final Transformer previous = transformers[0];
                 final Transformer next     = filter.selectTransformer(previous, rawG, forward);
                 if (next != previous) {
-                    // there is a root somewhere between extremeT end t
-                    // the new transformer, which is valid on both sides of the root,
-                    // so it is valid for t (this is how we have just computed it above),
-                    // but it was already valid before, so we store the switch at extremeT
-                    // for safety, to ensure the previous transformer is not applied too
-                    // close of the root
+                    // there is a root somewhere between extremeT and t.
+                    // the new transformer is valid for t (this is how we have just computed
+                    // it above), but it is in fact valid on both sides of the root, so
+                    // it was already valid before t and even up to previous time. We store
+                    // the switch at extremeT for safety, to ensure the previous transformer
+                    // is not applied too close of the root
                     System.arraycopy(updates,      0, updates,      1, updates.length - 1);
                     System.arraycopy(transformers, 0, transformers, 1, transformers.length - 1);
                     updates[0]      = extremeT;
