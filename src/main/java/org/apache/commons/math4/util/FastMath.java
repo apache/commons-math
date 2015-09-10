@@ -1619,7 +1619,7 @@ public class FastMath {
      * @param d Number to raise.
      * @param e Exponent.
      * @return d<sup>e</sup>
-     * @since 4.0
+     * @since 3.6
      */
     public static double pow(double d, long e) {
         if (e == 0) {
@@ -1713,7 +1713,7 @@ public class FastMath {
         /** Computes this^e.
          * @param e exponent (beware, here it MUST be > 0; the only exclusion is Long.MIN_VALUE)
          * @return d^e, split in high and low bits
-         * @since 4.0
+         * @since 3.6
          */
         private Split pow(final long e) {
 
