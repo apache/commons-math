@@ -1232,6 +1232,11 @@ public class FastMathTest {
         Assert.assertTrue(Double.isInfinite(FastMath.pow(FastMath.scalb(1.0, 500), 4)));
     }
 
+    @Test(timeout=5000L) // This test must finish in finite time.
+    public void testIntPowLongMinValue() {
+        Assert.assertEquals(1.0, FastMath.pow(1.0, Long.MIN_VALUE), -1.0);
+    }
+
     @Test
     public void testIncrementExactInt() {
         int[] specialValues = new int[] {
