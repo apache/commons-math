@@ -1711,7 +1711,7 @@ public class FastMath {
         }
 
         /** Computes this^e.
-         * @param e exponent (beware, here it MUST be > 0)
+         * @param e exponent (beware, here it MUST be > 0; the only exclusion is Long.MIN_VALUE)
          * @return d^e, split in high and low bits
          * @since 4.0
          */
@@ -1723,7 +1723,7 @@ public class FastMath {
             // d^(2p)
             Split d2p = new Split(full, high, low);
 
-            for (long p = e; p != 0; p >>= 1) {
+            for (long p = e; p != 0; p >>>= 1) {
 
                 if ((p & 0x1) != 0) {
                     // accurate multiplication result = result * d^(2p) using Veltkamp TwoProduct algorithm
