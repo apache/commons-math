@@ -51,6 +51,13 @@ If the output is not quite correct, check for invisible trailing spaces!
   </properties>
   <body>
     <release version="3.6" date="XXXX-XX-XX" description="">
+      <action dev="luc" type="add" >
+        Reimplemented pow(double, double) in FastMath, for better accuracy in
+        integral power cases and trying to fix erroneous JIT optimization again.
+      </action>
+      <action dev="luc" type="add" >
+        Added a pow(double, long) method in FastMath.
+      </action>
       <action dev="luc" type="fix" issue="MATH-1266">
         Fixed split/side inconsistencies in BSP trees.
       </action>
