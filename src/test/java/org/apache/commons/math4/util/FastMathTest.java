@@ -19,7 +19,9 @@ package org.apache.commons.math4.util;
 import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
 import java.lang.reflect.Type;
+import java.math.BigDecimal;
 import java.math.BigInteger;
+import java.math.RoundingMode;
 
 import org.apache.commons.math4.TestUtils;
 import org.apache.commons.math4.dfp.Dfp;
@@ -353,6 +355,7 @@ public class FastMathTest {
 
     @Test
     public void testPowSpecialCases() {
+        final double EXACT = -1.0;
 
         Assert.assertEquals("pow(-1, 0) should be 1.0", 1.0, FastMath.pow(-1.0, 0.0), Precision.EPSILON);
 
@@ -392,7 +395,9 @@ public class FastMathTest {
 
         Assert.assertEquals("pow(-0.0, -huge) should be Infinity", Double.POSITIVE_INFINITY, FastMath.pow(-0.0, -Double.MAX_VALUE), 1.0);
 
-        Assert.assertEquals("pow(-Inf, -3.0) should be -Inf", Double.NEGATIVE_INFINITY, FastMath.pow(Double.NEGATIVE_INFINITY, 3.0), 1.0);
+        Assert.assertEquals("pow(-Inf, 3.0) should be -Inf", Double.NEGATIVE_INFINITY, FastMath.pow(Double.NEGATIVE_INFINITY, 3.0), 1.0);
+
+        Assert.assertEquals("pow(-Inf, -3.0) should be -0.0", -0.0, FastMath.pow(Double.NEGATIVE_INFINITY, -3.0), EXACT);
 
         Assert.assertEquals("pow(-0.0, -3.5) should be Inf", Double.POSITIVE_INFINITY, FastMath.pow(-0.0, -3.5), 1.0);
 
@@ -414,7 +419,7 @@ public class FastMathTest {
 
         Assert.assertTrue("pow(NaN, -Infinity) should be NaN", Double.isNaN(FastMath.pow(Double.NaN, Double.NEGATIVE_INFINITY)));
 
-        Assert.assertEquals("pow(NaN, 0.0) should be 1.0", 1.0, FastMath.pow(Double.NaN, 0.0), Precision.EPSILON);
+        Assert.assertEquals("pow(NaN, -0.0) should be 1.0", 1.0, FastMath.pow(Double.NaN, -0.0), Precision.EPSILON);
 
         Assert.assertEquals("pow(-Infinity, -Infinity) should be 0.0", 0.0, FastMath.pow(Double.NEGATIVE_INFINITY, Double.NEGATIVE_INFINITY), Precision.EPSILON);
 
@@ -430,9 +435,9 @@ public class FastMathTest {
 
         Assert.assertTrue("pow(-Inf, NaN) should be NaN", Double.isNaN(FastMath.pow(Double.NEGATIVE_INFINITY, Double.NaN)));
 
-        Assert.assertEquals("pow(-Inf, -1.0) should be 0.0", 0.0, FastMath.pow(Double.NEGATIVE_INFINITY, -1.0), Precision.EPSILON);
+        Assert.assertEquals("pow(-Inf, -1.0) should be -0.0", -0.0, FastMath.pow(Double.NEGATIVE_INFINITY, -1.0), EXACT);
 
-        Assert.assertEquals("pow(-Inf, -2.0) should be 0.0", 0.0, FastMath.pow(Double.NEGATIVE_INFINITY, -2.0), Precision.EPSILON);
+        Assert.assertEquals("pow(-Inf, -2.0) should be 0.0", 0.0, FastMath.pow(Double.NEGATIVE_INFINITY, -2.0), EXACT);
 
         Assert.assertEquals("pow(-Inf, 1.0) should be -Inf", Double.NEGATIVE_INFINITY, FastMath.pow(Double.NEGATIVE_INFINITY, 1.0), 1.0);
 
@@ -440,6 +445,216 @@ public class FastMathTest {
 
         Assert.assertTrue("pow(1.0, -Inf) should be NaN", Double.isNaN(FastMath.pow(1.0, Double.NEGATIVE_INFINITY)));
 
+        Assert.assertEquals("pow(-0.0, 1.0) should be -0.0", -0.0, FastMath.pow(-0.0, 1.0), EXACT);
+
+        Assert.assertEquals("pow(0.0, 1.0) should be 0.0", 0.0, FastMath.pow(0.0, 1.0), EXACT);
+
+        Assert.assertEquals("pow(0.0, +Inf) should be 0.0", 0.0, FastMath.pow(0.0, Double.POSITIVE_INFINITY), EXACT);
+
+        Assert.assertEquals("pow(-0.0, even) should be 0.0", 0.0, FastMath.pow(-0.0, 6.0), EXACT);
+
+        Assert.assertEquals("pow(-0.0, odd) should be -0.0", -0.0, FastMath.pow(-0.0, 13.0), EXACT);
+
+        Assert.assertEquals("pow(-0.0, -even) should be +Inf", Double.POSITIVE_INFINITY, FastMath.pow(-0.0, -6.0), EXACT);
+
+        Assert.assertEquals("pow(-0.0, -odd) should be -Inf", Double.NEGATIVE_INFINITY, FastMath.pow(-0.0, -13.0), EXACT);
+
+        Assert.assertEquals("pow(-2.0, 4.0) should be 16.0", 16.0, FastMath.pow(-2.0, 4.0), EXACT);
+
+        Assert.assertEquals("pow(-2.0, 4.5) should be NaN", Double.NaN, FastMath.pow(-2.0, 4.5), EXACT);
+
+        Assert.assertEquals("pow(-0.0, -0.0) should be 1.0", 1.0, FastMath.pow(-0.0, -0.0), EXACT);
+
+        Assert.assertEquals("pow(-0.0, 0.0) should be 1.0", 1.0, FastMath.pow(-0.0, 0.0), EXACT);
+
+        Assert.assertEquals("pow(0.0, -0.0) should be 1.0", 1.0, FastMath.pow(0.0, -0.0), EXACT);
+
+        Assert.assertEquals("pow(0.0, 0.0) should be 1.0", 1.0, FastMath.pow(0.0, 0.0), EXACT);
+
+    }
+    
+    @Test(timeout=5000L)
+    public void testPowAllSpecialCases() {
+        final double EXACT = -1.0;
+        final double DOUBLES[] = new double[]{Double.NEGATIVE_INFINITY, -0.0, Double.NaN, 0.0, Double.POSITIVE_INFINITY,
+                                              Long.MIN_VALUE, Integer.MIN_VALUE, Short.MIN_VALUE, Byte.MIN_VALUE,
+                                              -(double)Long.MIN_VALUE, -(double)Integer.MIN_VALUE, -(double)Short.MIN_VALUE, -(double)Byte.MIN_VALUE,
+                                              Byte.MAX_VALUE, Short.MAX_VALUE, Integer.MAX_VALUE, Long.MAX_VALUE,
+                                              -Byte.MAX_VALUE, -Short.MAX_VALUE, -Integer.MAX_VALUE, -Long.MAX_VALUE,
+                                              Float.MAX_VALUE, Double.MAX_VALUE, Double.MIN_VALUE, Float.MIN_VALUE,
+                                              -Float.MAX_VALUE, -Double.MAX_VALUE, -Double.MIN_VALUE, -Float.MIN_VALUE,
+                                              0.5, 0.1, 0.2, 0.8, 1.1, 1.2, 1.5, 1.8, 1.0, 2.0, 3.0, 4.0, 5.0, 6.0, 7.0, 8.0, 9.0, 1.3, 2.2, 2.5, 2.8, 33.0, 33.1, 33.5, 33.8, 10.0, 300.0, 400.0, 500.0,
+                                              -0.5, -0.1, -0.2, -0.8, -1.1, -1.2, -1.5, -1.8, -1.0, -2.0, -3.0, -4.0, -5.0, -6.0, -7.0, -8.0, -9.0, -1.3, -2.2, -2.5, -2.8, -33.0, -33.1, -33.5, -33.8, -10.0, -300.0, -400.0, -500.0};
+        // Special cases from Math.pow javadoc:
+        // If the second argument is positive or negative zero, then the result is 1.0.
+        for (double d : DOUBLES) {
+            Assert.assertEquals(1.0, FastMath.pow(d, 0.0), EXACT);
+        }
+        for (double d : DOUBLES) {
+            Assert.assertEquals(1.0, FastMath.pow(d, -0.0), EXACT);
+        }
+        // If the second argument is 1.0, then the result is the same as the first argument.
+        for (double d : DOUBLES) {
+            Assert.assertEquals(d, FastMath.pow(d, 1.0), EXACT);
+        }
+        // If the second argument is NaN, then the result is NaN.
+        for (double d : DOUBLES) {
+            Assert.assertEquals(Double.NaN, FastMath.pow(d, Double.NaN), EXACT);
+        }
+        // If the first argument is NaN and the second argument is nonzero, then the result is NaN.
+        for (double i : DOUBLES) {
+            if (i != 0.0) {
+                Assert.assertEquals(Double.NaN, FastMath.pow(Double.NaN, i), EXACT);
+            }
+        }
+        // If the absolute value of the first argument is greater than 1 and the second argument is positive infinity, or
+        // the absolute value of the first argument is less than 1 and the second argument is negative infinity, then the result is positive infinity.
+        for (double d : DOUBLES) {
+            if (Math.abs(d) > 1.0) {
+                Assert.assertEquals(Double.POSITIVE_INFINITY, FastMath.pow(d, Double.POSITIVE_INFINITY), EXACT);
+            }
+        }
+        for (double d : DOUBLES) {
+            if (Math.abs(d) < 1.0) {
+                Assert.assertEquals(Double.POSITIVE_INFINITY, FastMath.pow(d, Double.NEGATIVE_INFINITY), EXACT);
+            }
+        }
+        // If the absolute value of the first argument is greater than 1 and the second argument is negative infinity, or
+        // the absolute value of the first argument is less than 1 and the second argument is positive infinity, then the result is positive zero.
+        for (double d : DOUBLES) {
+            if (Math.abs(d) > 1.0) {
+                Assert.assertEquals(0.0, FastMath.pow(d, Double.NEGATIVE_INFINITY), EXACT);
+            }
+        }
+        for (double d : DOUBLES) {
+            if (Math.abs(d) < 1.0) {
+                Assert.assertEquals(0.0, FastMath.pow(d, Double.POSITIVE_INFINITY), EXACT);
+            }
+        }
+        // If the absolute value of the first argument equals 1 and the second argument is infinite, then the result is NaN.
+        Assert.assertEquals(Double.NaN, FastMath.pow(1.0, Double.POSITIVE_INFINITY), EXACT);
+        Assert.assertEquals(Double.NaN, FastMath.pow(1.0, Double.NEGATIVE_INFINITY), EXACT);
+        Assert.assertEquals(Double.NaN, FastMath.pow(-1.0, Double.POSITIVE_INFINITY), EXACT);
+        Assert.assertEquals(Double.NaN, FastMath.pow(-1.0, Double.NEGATIVE_INFINITY), EXACT);
+        // If the first argument is positive zero and the second argument is greater than zero, or
+        // the first argument is positive infinity and the second argument is less than zero, then the result is positive zero.
+        for (double i : DOUBLES) {
+            if (i > 0.0) {
+                Assert.assertEquals(0.0, FastMath.pow(0.0, i), EXACT);
+            }
+        }
+        for (double i : DOUBLES) {
+            if (i < 0.0) {
+                Assert.assertEquals(0.0, FastMath.pow(Double.POSITIVE_INFINITY, i), EXACT);
+            }
+        }
+        // If the first argument is positive zero and the second argument is less than zero, or
+        // the first argument is positive infinity and the second argument is greater than zero, then the result is positive infinity.
+        for (double i : DOUBLES) {
+            if (i < 0.0) {
+                Assert.assertEquals(Double.POSITIVE_INFINITY, FastMath.pow(0.0, i), EXACT);
+            }
+        }
+        for (double i : DOUBLES) {
+            if (i > 0.0) {
+                Assert.assertEquals(Double.POSITIVE_INFINITY, FastMath.pow(Double.POSITIVE_INFINITY, i), EXACT);
+            }
+        }
+        // If the first argument is negative zero and the second argument is greater than zero but not a finite odd integer, or
+        // the first argument is negative infinity and the second argument is less than zero but not a finite odd integer, then the result is positive zero.
+        for (double i : DOUBLES) {
+            if (i > 0.0 && (Double.isInfinite(i) || i % 2.0 == 0.0)) {
+                Assert.assertEquals(0.0, FastMath.pow(-0.0, i), EXACT);
+            }
+        }
+        for (double i : DOUBLES) {
+            if (i < 0.0 && (Double.isInfinite(i) || i % 2.0 == 0.0)) {
+                Assert.assertEquals(0.0, FastMath.pow(Double.NEGATIVE_INFINITY, i), EXACT);
+            }
+        }
+        // If the first argument is negative zero and the second argument is a positive finite odd integer, or
+        // the first argument is negative infinity and the second argument is a negative finite odd integer, then the result is negative zero.
+        for (double i : DOUBLES) {
+            if (i > 0.0 && i % 2.0 == 1.0) {
+                Assert.assertEquals(-0.0, FastMath.pow(-0.0, i), EXACT);
+            }
+        }
+        for (double i : DOUBLES) {
+            if (i < 0.0 && i % 2.0 == -1.0) {
+                Assert.assertEquals(-0.0, FastMath.pow(Double.NEGATIVE_INFINITY, i), EXACT);
+            }
+        }
+        // If the first argument is negative zero and the second argument is less than zero but not a finite odd integer, or
+        // the first argument is negative infinity and the second argument is greater than zero but not a finite odd integer, then the result is positive infinity.
+        for (double i : DOUBLES) {
+            if (i > 0.0 && (Double.isInfinite(i) || i % 2.0 == 0.0)) {
+                Assert.assertEquals(Double.POSITIVE_INFINITY, FastMath.pow(Double.NEGATIVE_INFINITY, i), EXACT);
+            }
+        }
+        for (double i : DOUBLES) {
+            if (i < 0.0 && (Double.isInfinite(i) || i % 2.0 == 0.0)) {
+                Assert.assertEquals(Double.POSITIVE_INFINITY, FastMath.pow(-0.0, i), EXACT);
+            }
+        }
+        // If the first argument is negative zero and the second argument is a negative finite odd integer, or
+        // the first argument is negative infinity and the second argument is a positive finite odd integer, then the result is negative infinity.
+        for (double i : DOUBLES) {
+            if (i > 0.0 && i % 2.0 == 1.0) {
+                Assert.assertEquals(Double.NEGATIVE_INFINITY, FastMath.pow(Double.NEGATIVE_INFINITY, i), EXACT);
+            }
+        }
+        for (double i : DOUBLES) {
+            if (i < 0.0 && i % 2.0 == -1.0) {
+                Assert.assertEquals(Double.NEGATIVE_INFINITY, FastMath.pow(-0.0, i), EXACT);
+            }
+        }
+        for (double d : DOUBLES) {
+            // If the first argument is finite and less than zero
+            if (d < 0.0 && Math.abs(d) <= Double.MAX_VALUE) {
+                for (double i : DOUBLES) {
+                    if (Math.abs(i) <= Double.MAX_VALUE) {
+                        // if the second argument is a finite even integer, the result is equal to the result of raising the absolute value of the first argument to the power of the second argument
+                        if (i % 2.0 == 0.0) Assert.assertEquals(FastMath.pow(-d, i), FastMath.pow(d, i), EXACT);
+                        // if the second argument is a finite odd integer, the result is equal to the negative of the result of raising the absolute value of the first argument to the power of the second argument
+                        else if (Math.abs(i) % 2.0 == 1.0) Assert.assertEquals(-FastMath.pow(-d, i), FastMath.pow(d, i), EXACT);
+                        // if the second argument is finite and not an integer, then the result is NaN.
+                        else Assert.assertEquals(Double.NaN, FastMath.pow(d, i), EXACT);
+                    }
+                }
+            }
+        }
+        // If both arguments are integers, then the result is exactly equal to the mathematical result of raising the first argument to the power
+        // of the second argument if that result can in fact be represented exactly as a double value.
+        final int TOO_BIG_TO_CALCULATE = 18; // This value is empirical: 2^18 > 200.000 resulting bits after raising d to power i.
+        for (double d : DOUBLES) {
+            if (d % 1.0 == 0.0) {
+                boolean dNegative = Double.doubleToRawLongBits( d ) < 0L;
+                for (double i : DOUBLES) {
+                    if (i % 1.0 == 0.0) {
+                        BigInteger bd = BigDecimal.valueOf(d).toBigInteger().abs();
+                        BigInteger bi = BigDecimal.valueOf(i).toBigInteger().abs();
+                        double expected;
+                        if (bd.bitLength() > 1 && bi.bitLength() > 1 && 32 - Integer.numberOfLeadingZeros(bd.bitLength()) + bi.bitLength() > TOO_BIG_TO_CALCULATE) {
+                            // Result would be too big.
+                            expected = i < 0.0 ? 0.0 : Double.POSITIVE_INFINITY;
+                        } else {
+                            BigInteger res = ArithmeticUtils.pow(bd, bi);
+                            if (i >= 0.0) {
+                                expected = res.doubleValue();
+                            } else if (res.signum() == 0) {
+                                expected = Double.POSITIVE_INFINITY;
+                            } else {
+                                expected = BigDecimal.ONE.divide( new BigDecimal( res ), 1024, RoundingMode.HALF_UP ).doubleValue();
+                            }
+                        }
+                        if (dNegative && bi.testBit( 0 )) {
+                            expected = -expected;
+                        }
+                        Assert.assertEquals(d + "^" + i + "=" + expected + ", Math.pow=" + Math.pow(d, i), expected, FastMath.pow(d, i), expected == 0.0 || Double.isInfinite(expected) || Double.isNaN(expected) ? EXACT : 2.0 * Math.ulp(expected));
+                    }
+                }
+            }
+        }
     }
 
     @Test
@@ -1235,6 +1450,170 @@ public class FastMathTest {
     @Test(timeout=5000L) // This test must finish in finite time.
     public void testIntPowLongMinValue() {
         Assert.assertEquals(1.0, FastMath.pow(1.0, Long.MIN_VALUE), -1.0);
+    }
+    
+    @Test(timeout=5000L)
+    public void testIntPowSpecialCases() {
+        final double EXACT = -1.0;
+        final double DOUBLES[] = new double[]{Double.NEGATIVE_INFINITY, -0.0, Double.NaN, 0.0, Double.POSITIVE_INFINITY,
+                                              Long.MIN_VALUE, Integer.MIN_VALUE, Short.MIN_VALUE, Byte.MIN_VALUE,
+                                              -(double)Long.MIN_VALUE, -(double)Integer.MIN_VALUE, -(double)Short.MIN_VALUE, -(double)Byte.MIN_VALUE,
+                                              Byte.MAX_VALUE, Short.MAX_VALUE, Integer.MAX_VALUE, Long.MAX_VALUE,
+                                              -Byte.MAX_VALUE, -Short.MAX_VALUE, -Integer.MAX_VALUE, -Long.MAX_VALUE,
+                                              Float.MAX_VALUE, Double.MAX_VALUE, Double.MIN_VALUE, Float.MIN_VALUE,
+                                              -Float.MAX_VALUE, -Double.MAX_VALUE, -Double.MIN_VALUE, -Float.MIN_VALUE,
+                                              0.5, 0.1, 0.2, 0.8, 1.1, 1.2, 1.5, 1.8, 1.0, 2.0, 3.0, 4.0, 5.0, 6.0, 7.0, 8.0, 9.0, 1.3, 2.2, 2.5, 2.8, 33.0, 33.1, 33.5, 33.8, 10.0, 300.0, 400.0, 500.0,
+                                              -0.5, -0.1, -0.2, -0.8, -1.1, -1.2, -1.5, -1.8, -1.0, -2.0, -3.0, -4.0, -5.0, -6.0, -7.0, -8.0, -9.0, -1.3, -2.2, -2.5, -2.8, -33.0, -33.1, -33.5, -33.8, -10.0, -300.0, -400.0, -500.0};
+        final long INTS[] = new long[]{Long.MAX_VALUE, Long.MAX_VALUE - 1, Long.MIN_VALUE, Long.MIN_VALUE + 1, Long.MIN_VALUE + 2, Integer.MAX_VALUE, Integer.MAX_VALUE - 1, Integer.MIN_VALUE, Integer.MIN_VALUE + 1, Integer.MIN_VALUE + 2, 0, 1, 2, 3, 5, 8, 10, 20, 100, 300, 500, -1, -2, -3, -5, -8, -10, -20, -100, -300, -500};
+        // Special cases from Math.pow javadoc:
+        // If the second argument is positive or negative zero, then the result is 1.0.
+        for (double d : DOUBLES) {
+            Assert.assertEquals(1.0, FastMath.pow(d, 0L), EXACT);
+        }
+        // If the second argument is 1.0, then the result is the same as the first argument.
+        for (double d : DOUBLES) {
+            Assert.assertEquals(d, FastMath.pow(d, 1L), EXACT);
+        }
+        // If the second argument is NaN, then the result is NaN. <- Impossible with int.
+        // If the first argument is NaN and the second argument is nonzero, then the result is NaN.
+        for (long i : INTS) {
+            if (i != 0L) {
+                Assert.assertEquals(Double.NaN, FastMath.pow(Double.NaN, i), EXACT);
+            }
+        }
+        // If the absolute value of the first argument is greater than 1 and the second argument is positive infinity, or
+        // the absolute value of the first argument is less than 1 and the second argument is negative infinity, then the result is positive infinity.
+        for (double d : DOUBLES) {
+            if (Math.abs(d) > 1.0) {
+                Assert.assertEquals(Double.POSITIVE_INFINITY, FastMath.pow(d, Long.MAX_VALUE - 1L), EXACT);
+            }
+        }
+        for (double d : DOUBLES) {
+            if (Math.abs(d) < 1.0) {
+                Assert.assertEquals(Double.POSITIVE_INFINITY, FastMath.pow(d, Long.MIN_VALUE), EXACT);
+            }
+        }
+        // Note: Long.MAX_VALUE isn't actually an infinity, so its parity affects the sign of resulting infinity.
+        for (double d : DOUBLES) {
+            if (Math.abs(d) > 1.0) {
+                Assert.assertTrue(Double.isInfinite(FastMath.pow(d, Long.MAX_VALUE)));
+            }
+        }
+        for (double d : DOUBLES) {
+            if (Math.abs(d) < 1.0) {
+                Assert.assertTrue(Double.isInfinite(FastMath.pow(d, Long.MIN_VALUE + 1L)));
+            }
+        }
+        // If the absolute value of the first argument is greater than 1 and the second argument is negative infinity, or
+        // the absolute value of the first argument is less than 1 and the second argument is positive infinity, then the result is positive zero.
+        for (double d : DOUBLES) {
+            if (Math.abs(d) > 1.0) {
+                Assert.assertEquals(0.0, FastMath.pow(d, Long.MIN_VALUE), EXACT);
+            }
+        }
+        for (double d : DOUBLES) {
+            if (Math.abs(d) < 1.0) {
+                Assert.assertEquals(0.0, FastMath.pow(d, Long.MAX_VALUE - 1L), EXACT);
+            }
+        }
+        // Note: Long.MAX_VALUE isn't actually an infinity, so its parity affects the sign of resulting zero.
+        for (double d : DOUBLES) {
+            if (Math.abs(d) > 1.0) {
+                Assert.assertTrue(FastMath.pow(d, Long.MIN_VALUE + 1L) == 0.0);
+            }
+        }
+        for (double d : DOUBLES) {
+            if (Math.abs(d) < 1.0) {
+                Assert.assertTrue(FastMath.pow(d, Long.MAX_VALUE) == 0.0);
+            }
+        }
+        // If the absolute value of the first argument equals 1 and the second argument is infinite, then the result is NaN. <- Impossible with int.
+        // If the first argument is positive zero and the second argument is greater than zero, or
+        // the first argument is positive infinity and the second argument is less than zero, then the result is positive zero.
+        for (long i : INTS) {
+            if (i > 0L) {
+                Assert.assertEquals(0.0, FastMath.pow(0.0, i), EXACT);
+            }
+        }
+        for (long i : INTS) {
+            if (i < 0L) {
+                Assert.assertEquals(0.0, FastMath.pow(Double.POSITIVE_INFINITY, i), EXACT);
+            }
+        }
+        // If the first argument is positive zero and the second argument is less than zero, or
+        // the first argument is positive infinity and the second argument is greater than zero, then the result is positive infinity.
+        for (long i : INTS) {
+            if (i < 0L) {
+                Assert.assertEquals(Double.POSITIVE_INFINITY, FastMath.pow(0.0, i), EXACT);
+            }
+        }
+        for (long i : INTS) {
+            if (i > 0L) {
+                Assert.assertEquals(Double.POSITIVE_INFINITY, FastMath.pow(Double.POSITIVE_INFINITY, i), EXACT);
+            }
+        }
+        // If the first argument is negative zero and the second argument is greater than zero but not a finite odd integer, or
+        // the first argument is negative infinity and the second argument is less than zero but not a finite odd integer, then the result is positive zero.
+        for (long i : INTS) {
+            if (i > 0L && (i & 1L) == 0L) {
+                Assert.assertEquals(0.0, FastMath.pow(-0.0, i), EXACT);
+            }
+        }
+        for (long i : INTS) {
+            if (i < 0L && (i & 1L) == 0L) {
+                Assert.assertEquals(0.0, FastMath.pow(Double.NEGATIVE_INFINITY, i), EXACT);
+            }
+        }
+        // If the first argument is negative zero and the second argument is a positive finite odd integer, or
+        // the first argument is negative infinity and the second argument is a negative finite odd integer, then the result is negative zero.
+        for (long i : INTS) {
+            if (i > 0L && (i & 1L) == 1L) {
+                Assert.assertEquals(-0.0, FastMath.pow(-0.0, i), EXACT);
+            }
+        }
+        for (long i : INTS) {
+            if (i < 0L && (i & 1L) == 1L) {
+                Assert.assertEquals(-0.0, FastMath.pow(Double.NEGATIVE_INFINITY, i), EXACT);
+            }
+        }
+        // If the first argument is negative zero and the second argument is less than zero but not a finite odd integer, or
+        // the first argument is negative infinity and the second argument is greater than zero but not a finite odd integer, then the result is positive infinity.
+        for (long i : INTS) {
+            if (i > 0L && (i & 1L) == 0L) {
+                Assert.assertEquals(Double.POSITIVE_INFINITY, FastMath.pow(Double.NEGATIVE_INFINITY, i), EXACT);
+            }
+        }
+        for (long i : INTS) {
+            if (i < 0L && (i & 1L) == 0L) {
+                Assert.assertEquals(Double.POSITIVE_INFINITY, FastMath.pow(-0.0, i), EXACT);
+            }
+        }
+        // If the first argument is negative zero and the second argument is a negative finite odd integer, or
+        // the first argument is negative infinity and the second argument is a positive finite odd integer, then the result is negative infinity.
+        for (long i : INTS) {
+            if (i > 0L && (i & 1L) == 1L) {
+                Assert.assertEquals(Double.NEGATIVE_INFINITY, FastMath.pow(Double.NEGATIVE_INFINITY, i), EXACT);
+            }
+        }
+        for (long i : INTS) {
+            if (i < 0L && (i & 1L) == 1L) {
+                Assert.assertEquals(Double.NEGATIVE_INFINITY, FastMath.pow(-0.0, i), EXACT);
+            }
+        }
+        for (double d : DOUBLES) {
+            // If the first argument is finite and less than zero
+            if (d < 0.0 && Math.abs(d) <= Double.MAX_VALUE) {
+                for (long i : INTS) {
+                    // if the second argument is a finite even integer, the result is equal to the result of raising the absolute value of the first argument to the power of the second argument
+                    if ((i & 1L) == 0L) Assert.assertEquals(FastMath.pow(-d, i), FastMath.pow(d, i), EXACT);
+                    // if the second argument is a finite odd integer, the result is equal to the negative of the result of raising the absolute value of the first argument to the power of the second argument
+                    else Assert.assertEquals(-FastMath.pow(-d, i), FastMath.pow(d, i), EXACT);
+                    // if the second argument is finite and not an integer, then the result is NaN. <- Impossible with int.
+                }
+            }
+        }
+        // If both arguments are integers, then the result is exactly equal to the mathematical result of raising the first argument to the power
+        // of the second argument if that result can in fact be represented exactly as a double value. <- Other tests.
     }
 
     @Test
