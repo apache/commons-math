@@ -796,49 +796,9 @@ public class ComplexTest {
     }
 
     @Test
-    public void testJava() {// TODO more debug
-        System.out.println(">>testJava()");
-        // FastMathTest#testExpSpecialCases() checks the following:
-        // Assert.assertEquals("exp of -infinity should be 0.0", 0.0, FastMath.exp(Double.NEGATIVE_INFINITY), Precision.EPSILON);
-        // Let's check how well Math works:
-        System.out.println("Math.exp="+Math.exp(Double.NEGATIVE_INFINITY));
-        String props[] = {
-        "java.version", //    Java Runtime Environment version
-        "java.vendor", // Java Runtime Environment vendor
-        "java.vm.specification.version", //   Java Virtual Machine specification version
-        "java.vm.specification.vendor", //    Java Virtual Machine specification vendor
-        "java.vm.specification.name", //  Java Virtual Machine specification name
-        "java.vm.version", // Java Virtual Machine implementation version
-        "java.vm.vendor", //  Java Virtual Machine implementation vendor
-        "java.vm.name", //    Java Virtual Machine implementation name
-        "java.specification.version", //  Java Runtime Environment specification version
-        "java.specification.vendor", //   Java Runtime Environment specification vendor
-        "java.specification.name", // Java Runtime Environment specification name
-        "java.class.version", //  Java class format version number
-        };
-        for(String t : props) {
-            System.out.println(t + "=" + System.getProperty(t));
-        }    
-        System.out.println("<<testJava()");
-    }
-
-    @Test
     public void testExpInf4() {
-        // TODO: temp debug start
-        System.out.println(">>testExpInf4()");
-        double inf = negInfOne.getReal();
-        System.out.println("inf="+inf);
-        int intVal = (int) -inf;
-        System.out.println("intval="+intVal);
-        System.out.println("neginf<0=" + (inf < 0.0));
-        // TODO: temp debug end
-        System.out.println("expReal="+FastMath.exp(negInfOne.getReal())); // TODO temp debug
-        System.out.println("cosImag="+FastMath.cos(negInfOne.getImaginary())); // TODO temp debug
-        System.out.println("sinImag="+FastMath.sin(negInfOne.getImaginary())); // TODO temp debug
         final Complex exp = negInfOne.exp();
-        System.out.println("result="+exp); // TODO temp debug
         TestUtils.assertSame(Complex.ZERO, exp);
-        System.out.println("<<testExpInf4()"); // TODO debug
     }
 
     @Test
