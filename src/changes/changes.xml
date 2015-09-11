@@ -54,6 +54,9 @@ If the output is not quite correct, check for invisible trailing spaces!
     </release>
 
     <release version="4.0" date="XXXX-XX-XX" description="">
+      <action dev="luc" type="add" issue="MATH-1273" due-to="Qualtagh"> <!-- backported to 3.6 -->
+        Added negative zero support in FastMath.pow.
+      </action>
       <action dev="luc" type="add" issue="MATH-1271" due-to="Qualtagh">
         Added divideUnsigned and remainderUnsigned to ArithmeticUtils.
       </action>
