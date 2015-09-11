@@ -51,6 +51,15 @@ If the output is not quite correct, check for invisible trailing spaces!
   </properties>
   <body>
     <release version="3.6" date="XXXX-XX-XX" description="">
+      <action dev="erans" type="add" issue="MATH-1270">
+        Various SOFM visualizations (in package "o.a.c.m.ml.neuralnet.twod.util"):
+        Unified distance matrix, hit histogram, smoothed data histograms,
+        topographic error.
+      </action>
+      <action dev="erans" type="add" issue="MATH-1268">
+        New interfaces to be implemented by algorithms that visualizes properties
+        of a "NeuronSquareMesh2D" (package "o.a.c.m.ml.neuralnet.twod.util").
+      </action>
       <action dev="luc" type="add" >
         Reimplemented pow(double, double) in FastMath, for better accuracy in
         integral power cases and trying to fix erroneous JIT optimization again.
