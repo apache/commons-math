@@ -1665,7 +1665,7 @@ public class FastMath {
          * @param low low order bits
          */
         public Split(final double high, final double low) {
-            this(high + low, high, low);
+            this(high == 0.0 ? (low == 0.0 && Double.doubleToRawLongBits(high) == Long.MIN_VALUE /* negative zero */ ? -0.0 : low) : high + low, high, low);
         }
 
         /** Simple constructor.
