@@ -696,7 +696,49 @@ System.out.println("d2g/dy2  = " + g.getPartialDerivative(0, 2);</source>
           required by the derivation order (for example one can specify an 8-points scheme to compute first
           derivative only). However, one must be aware that tuning the parameters for finite differences is
           highly problem-dependent. Choosing the wrong step size or the wrong number of sampling points can lead
-          to huge errors. Finite differences are also not well suited to compute high order derivatives.
+          to huge errors. Finite differences are also not well suited to compute high order derivatives. Here is
+          an example on how this implementation can be used:
+        </p>
+       <source>// function to be differentiated
+UnivariateFunction basicF = new UnivariateFunction() {
+                                public double value(double x) {
+                                    return x * FastMath.sin(x);
+                                }
+                            });
+
+// create a differentiator using 5 points and 0.01 step
+FiniteDifferencesDifferentiator differentiator =
+    new FiniteDifferencesDifferentiator(5, 0.01);
+
+// create a new function that computes both the value and the derivatives
+// using DerivativeStructure
+UnivariateDifferentiableFunction completeF = differentiator.differentiate(basicF);
+
+// now we can compute display the value and its derivatives
+// here we decided to display up to second order derivatives,
+// because we feed completeF with order 2 DerivativeStructure instances
+for (double x = -10; x &lt; 10; x += 0.1) {
+    DerivativeStructure xDS = new DerivativeStructure(1, 2, 0, x);
+    DerivativeStructure yDS = f.value(xDS);
+    System.out.format(Locale.US, "%7.3f %7.3f %7.3f%n",
+                      yDS.getValue(),
+                      yDS.getPartialDerivative(1),
+                      yDS.getPartialDerivative(2));
+}</source>
+        <p>
+          Note that using <a
+          href="../apidocs/org/apache/commons/math3/analysis/differentiation/FiniteDifferencesDifferentiator.html">
+          FiniteDifferencesDifferentiator</a>a> in order to have a <a
+          href="../apidocs/org/apache/commons/math3/analysis/differentiation/UnivariateDifferentiableFunction.html">
+          UnivariateDifferentiableFunction</a> that can be provided to a <a href="../apidocs/org/apache/commons/math3/analysis/solvers/NewtonRaphsonSolver.html">Newton-Raphson's</a>
+          solver is a very bad idea. The reason is that finite differences are not really accurate and needs lots
+          of additional calls to the basic underlying function. If user initially have only the basic function
+          available and needs to find its roots, it is <em>much</em> more accurate and <em>much</em> more
+          efficient to use a solver that only requires the function values and not the derivatives. A good choice is
+          to use <a href="../apidocs/org/apache/commons/math3/analysis/solvers/BracketingNthOrderBrentSolver.html">bracketing
+          n<sup>th</sup> order Brent</a> method, which in fact converges faster than <a
+          href="../apidocs/org/apache/commons/math3/analysis/solvers/NewtonRaphsonSolver.html">Newton-Raphson's</a> and
+          can be configured to a highere order (typically 5) than Newton-Raphson which is an order 2 method.
         </p>
         <p>
           Another implementation of the <a
