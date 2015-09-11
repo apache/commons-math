@@ -53,7 +53,7 @@ public class SmoothedDataHistogram implements MapDataVisualization {
         for (int i = 0; i < smoothingBins; i++) {
             sum += smoothingBins - i;
         }
-        
+
         this.membershipNormalization = 1d / sum;
     }
 

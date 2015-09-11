@@ -33,8 +33,8 @@ public class UnifiedDistanceMatrix implements MapVisualization {
     /** Distance. */
     private final DistanceMeasure distance;
 
-    /**
-     * @param boolean individualDistances. If {@code true}, the 8 individual
+    /** Simple constructor.
+     * @param individualDistances If {@code true}, the 8 individual
      * inter-units distances will be {@link #computeImage(NeuronSquareMesh2D)
      * computed}.  They will be stored in additional pixels around each of
      * the original units of the 2D-map.  The value zero will be stored in the

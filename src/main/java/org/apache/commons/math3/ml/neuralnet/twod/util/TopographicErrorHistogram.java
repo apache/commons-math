@@ -64,7 +64,7 @@ public class TopographicErrorHistogram implements MapDataVisualization {
         for (double[] sample : data) {
             final Pair<Neuron, Neuron> p = MapUtils.findBestAndSecondBest(sample, map, distance);
             final Neuron best = p.getFirst();
-            
+
             final LocationFinder.Location loc = finder.getLocation(best);
             final int row = loc.getRow();
             final int col = loc.getColumn();

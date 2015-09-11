@@ -22,7 +22,6 @@ import org.apache.commons.math3.ml.neuralnet.Neuron;
 import org.apache.commons.math3.ml.neuralnet.Network;
 import org.apache.commons.math3.ml.neuralnet.twod.NeuronSquareMesh2D;
 import org.apache.commons.math3.ml.distance.DistanceMeasure;
-import org.apache.commons.math3.util.Pair;
 
 /**
  * Computes the hit histogram.
@@ -36,7 +35,7 @@ public class HitHistogram implements MapDataVisualization {
     private final boolean normalizeCount;
 
     /**
-     * @param relativeCount Whether to compute relative bin counts.
+     * @param normalizeCount Whether to compute relative bin counts.
      * If {@code true}, the data count in each bin will be divided by the total
      * number of samples.
      * @param distance Distance.
@@ -63,7 +62,7 @@ public class HitHistogram implements MapDataVisualization {
 
         for (double[] sample : data) {
             final Neuron best = MapUtils.findBest(sample, map, distance);
-            
+
             final LocationFinder.Location loc = finder.getLocation(best);
             final int row = loc.getRow();
             final int col = loc.getColumn();
