@@ -665,4 +665,134 @@ public final class ArithmeticUtils {
     public static boolean isPowerOfTwo(long n) {
         return (n > 0) && ((n & (n - 1)) == 0);
     }
+    
+    /**
+     * Returns the unsigned remainder from dividing the first argument
+     * by the second where each argument and the result is interpreted
+     * as an unsigned value.
+     * <p>This method doesn't use long datatype unlike it's used in
+     * {@link java.lang.Integer#remainderUnsigned}.
+     * 
+     * @param dividend the value to be divided
+     * @param divisor the value doing the dividing
+     * @return the unsigned remainder of the first argument divided by
+     * the second argument
+     * @see java.lang.Integer#remainderUnsigned
+     */
+    public static int remainderUnsigned(int dividend, int divisor) {
+        if (divisor >= 0) {
+            if (dividend >= 0) {
+                return dividend % divisor;
+            }
+            // The implementation is a Java port of algorithm described in the book
+            // "Hacker's Delight" (section "Unsigned short division from signed division").
+            int q = ((dividend >>> 1) / divisor) << 1;
+            dividend -= q * divisor;
+            if (dividend < 0 || dividend >= divisor) {
+                dividend -= divisor;
+            }
+            return dividend;
+        }
+        return dividend >= 0 || dividend < divisor ? dividend : dividend - divisor;
+    }
+    
+    /**
+     * Returns the unsigned remainder from dividing the first argument
+     * by the second where each argument and the result is interpreted
+     * as an unsigned value.
+     * <p>This method doesn't use BigInteger datatype unlike it's used in
+     * {@link java.lang.Long#remainderUnsigned}.
+     * 
+     * @param dividend the value to be divided
+     * @param divisor the value doing the dividing
+     * @return the unsigned remainder of the first argument divided by
+     * the second argument
+     * @see java.lang.Long#remainderUnsigned
+     */
+    public static long remainderUnsigned(long dividend, long divisor) {
+        if (divisor >= 0L) {
+            if (dividend >= 0L) {
+                return dividend % divisor;
+            }
+            // The implementation is a Java port of algorithm described in the book
+            // "Hacker's Delight" (section "Unsigned short division from signed division").
+            long q = ((dividend >>> 1) / divisor) << 1;
+            dividend -= q * divisor;
+            if (dividend < 0L || dividend >= divisor) {
+                dividend -= divisor;
+            }
+            return dividend;
+        }
+        return dividend >= 0L || dividend < divisor ? dividend : dividend - divisor;
+    }
+    
+    /**
+     * Returns the unsigned quotient of dividing the first argument by
+     * the second where each argument and the result is interpreted as
+     * an unsigned value.
+     * <p>Note that in two's complement arithmetic, the three other
+     * basic arithmetic operations of add, subtract, and multiply are
+     * bit-wise identical if the two operands are regarded as both
+     * being signed or both being unsigned. Therefore separate {@code
+     * addUnsigned}, etc. methods are not provided.
+     * <p>This method doesn't use long datatype unlike it's used in
+     * {@link java.lang.Integer#divideUnsigned}.
+     * 
+     * @param dividend the value to be divided
+     * @param divisor the value doing the dividing
+     * @return the unsigned quotient of the first argument divided by
+     * the second argument
+     * @see java.lang.Integer#divideUnsigned
+     */
+    public static int divideUnsigned(int dividend, int divisor) {
+        if (divisor >= 0) {
+            if (dividend >= 0) {
+                return dividend / divisor;
+            }
+            // The implementation is a Java port of algorithm described in the book
+            // "Hacker's Delight" (section "Unsigned short division from signed division").
+            int q = ((dividend >>> 1) / divisor) << 1;
+            dividend -= q * divisor;
+            if (dividend < 0L || dividend >= divisor) {
+                q++;
+            }
+            return q;
+        }
+        return dividend >= 0 || dividend < divisor ? 0 : 1;
+    }
+    
+    /**
+     * Returns the unsigned quotient of dividing the first argument by
+     * the second where each argument and the result is interpreted as
+     * an unsigned value.
+     * <p>Note that in two's complement arithmetic, the three other
+     * basic arithmetic operations of add, subtract, and multiply are
+     * bit-wise identical if the two operands are regarded as both
+     * being signed or both being unsigned. Therefore separate {@code
+     * addUnsigned}, etc. methods are not provided.
+     * <p>This method doesn't use BigInteger datatype unlike it's used in
+     * {@link java.lang.Long#divideUnsigned}.
+     * 
+     * @param dividend the value to be divided
+     * @param divisor the value doing the dividing
+     * @return the unsigned quotient of the first argument divided by
+     * the second argument
+     * @see java.lang.Long#divideUnsigned
+     */
+    public static long divideUnsigned(long dividend, long divisor) {
+        if (divisor >= 0L) {
+            if (dividend >= 0L) {
+                return dividend / divisor;
+            }
+            // The implementation is a Java port of algorithm described in the book
+            // "Hacker's Delight" (section "Unsigned short division from signed division").
+            long q = ((dividend >>> 1) / divisor) << 1;
+            dividend -= q * divisor;
+            if (dividend < 0L || dividend >= divisor) {
+                q++;
+            }
+            return q;
+        }
+        return dividend >= 0L || dividend < divisor ? 0L : 1L;
+    }
 }
