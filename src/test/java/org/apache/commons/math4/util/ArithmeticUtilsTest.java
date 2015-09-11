@@ -587,4 +587,203 @@ public class ArithmeticUtilsTest {
             // success
         }
     }
+    
+    /**
+     * Testing helper method.
+     * @return an array of int numbers containing corner cases:<ul>
+     * <li>values near the beginning of int range,</li>
+     * <li>values near the end of int range,</li>
+     * <li>values near zero</li>
+     * <li>and some randomly distributed values.</li>
+     * </ul>
+     */
+    private static int[] getIntSpecialCases() {
+        int ints[] = new int[100];
+        int i = 0;
+        ints[i++] = Integer.MAX_VALUE;
+        ints[i++] = Integer.MAX_VALUE - 1;
+        ints[i++] = 100;
+        ints[i++] = 101;
+        ints[i++] = 102;
+        ints[i++] = 300;
+        ints[i++] = 567;
+        for (int j = 0; j < 20; j++) {
+            ints[i++] = j;
+        }
+        for (int j = i - 1; j >= 0; j--) {
+            ints[i++] = ints[j] > 0 ? -ints[j] : Integer.MIN_VALUE;
+        }
+        java.util.Random r = new java.util.Random(System.nanoTime());
+        for (; i < ints.length;) {
+            ints[i++] = r.nextInt();
+        }
+        return ints;
+    }
+    
+    /**
+     * Testing helper method.
+     * @return an array of long numbers containing corner cases:<ul>
+     * <li>values near the beginning of long range,</li>
+     * <li>values near the end of long range,</li>
+     * <li>values near the beginning of int range,</li>
+     * <li>values near the end of int range,</li>
+     * <li>values near zero</li>
+     * <li>and some randomly distributed values.</li>
+     * </ul>
+     */
+    private static long[] getLongSpecialCases() {
+        long longs[] = new long[100];
+        int i = 0;
+        longs[i++] = Long.MAX_VALUE;
+        longs[i++] = Long.MAX_VALUE - 1L;
+        longs[i++] = (long) Integer.MAX_VALUE + 1L;
+        longs[i++] = Integer.MAX_VALUE;
+        longs[i++] = Integer.MAX_VALUE - 1;
+        longs[i++] = 100L;
+        longs[i++] = 101L;
+        longs[i++] = 102L;
+        longs[i++] = 300L;
+        longs[i++] = 567L;
+        for (int j = 0; j < 20; j++) {
+            longs[i++] = j;
+        }
+        for (int j = i - 1; j >= 0; j--) {
+            longs[i++] = longs[j] > 0L ? -longs[j] : Long.MIN_VALUE;
+        }
+        java.util.Random r = new java.util.Random(System.nanoTime());
+        for (; i < longs.length;) {
+            longs[i++] = r.nextLong();
+        }
+        return longs;
+    }
+    
+    private static long toUnsignedLong(int number) {
+        return number < 0 ? 0x100000000L + (long)number : (long)number;
+    }
+    
+    private static int remainderUnsignedExpected(int dividend, int divisor) {
+        return (int)remainderUnsignedExpected(toUnsignedLong(dividend), toUnsignedLong(divisor));
+    }
+    
+    private static int divideUnsignedExpected(int dividend, int divisor) {
+        return (int)divideUnsignedExpected(toUnsignedLong(dividend), toUnsignedLong(divisor));
+    }
+    
+    private static BigInteger toUnsignedBigInteger(long number) {
+        return number < 0L ? BigInteger.ONE.shiftLeft(64).add(BigInteger.valueOf(number)) : BigInteger.valueOf(number);
+    }
+    
+    private static long remainderUnsignedExpected(long dividend, long divisor) {
+        return toUnsignedBigInteger(dividend).remainder(toUnsignedBigInteger(divisor)).longValue();
+    }
+    
+    private static long divideUnsignedExpected(long dividend, long divisor) {
+        return toUnsignedBigInteger(dividend).divide(toUnsignedBigInteger(divisor)).longValue();
+    }
+    
+    @Test(timeout=5000L)
+    public void testRemainderUnsignedInt() {
+        Assert.assertEquals(36, ArithmeticUtils.remainderUnsigned(-2147479015, 63));
+        Assert.assertEquals(6, ArithmeticUtils.remainderUnsigned(-2147479015, 25));
+    }
+    
+    @Test(timeout=5000L)
+    public void testRemainderUnsignedIntSpecialCases() {
+        int ints[] = getIntSpecialCases();
+        for (int dividend : ints) {
+            for (int divisor : ints) {
+                if (divisor == 0) {
+                    try {
+                        ArithmeticUtils.remainderUnsigned(dividend, divisor);
+                        Assert.fail("Should have failed with ArithmeticException: division by zero");
+                    } catch (ArithmeticException e) {
+                        // Success.
+                    }
+                } else {
+                    Assert.assertEquals(remainderUnsignedExpected(dividend, divisor), ArithmeticUtils.remainderUnsigned(dividend, divisor));
+                }
+            }
+        }
+    }
+    
+    @Test(timeout=5000L)
+    public void testRemainderUnsignedLong() {
+        Assert.assertEquals(48L, ArithmeticUtils.remainderUnsigned(-2147479015L, 63L));
+    }
+    
+    @Test//(timeout=5000L)
+    public void testRemainderUnsignedLongSpecialCases() {
+        long longs[] = getLongSpecialCases();
+        for (long dividend : longs) {
+            for (long divisor : longs) {
+                if (divisor == 0L) {
+                    try {
+                        ArithmeticUtils.remainderUnsigned(dividend, divisor);
+                        Assert.fail("Should have failed with ArithmeticException: division by zero");
+                    } catch (ArithmeticException e) {
+                        // Success.
+                    }
+                } else {
+                    Assert.assertEquals(remainderUnsignedExpected(dividend, divisor), ArithmeticUtils.remainderUnsigned(dividend, divisor));
+                }
+            }
+        }
+    }
+    
+    @Test(timeout=5000L)
+    public void testDivideUnsignedInt() {
+        Assert.assertEquals(34087115, ArithmeticUtils.divideUnsigned(-2147479015, 63));
+        Assert.assertEquals(85899531, ArithmeticUtils.divideUnsigned(-2147479015, 25));
+        Assert.assertEquals(2147483646, ArithmeticUtils.divideUnsigned(-3, 2));
+        Assert.assertEquals(330382098, ArithmeticUtils.divideUnsigned(-16, 13));
+        Assert.assertEquals(306783377, ArithmeticUtils.divideUnsigned(-16, 14));
+        Assert.assertEquals(2, ArithmeticUtils.divideUnsigned(-1, 2147483647));
+        Assert.assertEquals(2, ArithmeticUtils.divideUnsigned(-2, 2147483647));
+        Assert.assertEquals(1, ArithmeticUtils.divideUnsigned(-3, 2147483647));
+        Assert.assertEquals(1, ArithmeticUtils.divideUnsigned(-16, 2147483647));
+        Assert.assertEquals(1, ArithmeticUtils.divideUnsigned(-16, 2147483646));
+    }
+    
+    @Test(timeout=5000L)
+    public void testDivideUnsignedIntSpecialCases() {
+        int ints[] = getIntSpecialCases();
+        for (int dividend : ints) {
+            for (int divisor : ints) {
+                if (divisor == 0) {
+                    try {
+                        ArithmeticUtils.divideUnsigned(dividend, divisor);
+                        Assert.fail("Should have failed with ArithmeticException: division by zero");
+                    } catch (ArithmeticException e) {
+                        // Success.
+                    }
+                } else {
+                    Assert.assertEquals(divideUnsignedExpected(dividend, divisor), ArithmeticUtils.divideUnsigned(dividend, divisor));
+                }
+            }
+        }
+    }
+    
+    @Test(timeout=5000L)
+    public void testDivideUnsignedLong() {
+        Assert.assertEquals(292805461453366231L, ArithmeticUtils.divideUnsigned(-2147479015L, 63L));
+    }
+    
+    @Test(timeout=5000L)
+    public void testDivideUnsignedLongSpecialCases() {
+        long longs[] = getLongSpecialCases();
+        for (long dividend : longs) {
+            for (long divisor : longs) {
+                if (divisor == 0L) {
+                    try {
+                        ArithmeticUtils.divideUnsigned(dividend, divisor);
+                        Assert.fail("Should have failed with ArithmeticException: division by zero");
+                    } catch (ArithmeticException e) {
+                        // Success.
+                    }
+                } else {
+                    Assert.assertEquals(divideUnsignedExpected(dividend, divisor), ArithmeticUtils.divideUnsigned(dividend, divisor));
+                }
+            }
+        }
+    }
 }
