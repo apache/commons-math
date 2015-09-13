@@ -670,14 +670,13 @@ public final class ArithmeticUtils {
      * Returns the unsigned remainder from dividing the first argument
      * by the second where each argument and the result is interpreted
      * as an unsigned value.
-     * <p>This method doesn't use long datatype unlike it's used in
-     * {@link java.lang.Integer#remainderUnsigned}.
+     * <p>This method does not use the {@code long} datatype.</p>
      *
      * @param dividend the value to be divided
      * @param divisor the value doing the dividing
      * @return the unsigned remainder of the first argument divided by
-     * the second argument
-     * @see java.lang.Integer#remainderUnsigned
+     * the second argument.
+     *
      * @since 4.0
      */
     public static int remainderUnsigned(int dividend, int divisor) {
@@ -701,14 +700,13 @@ public final class ArithmeticUtils {
      * Returns the unsigned remainder from dividing the first argument
      * by the second where each argument and the result is interpreted
      * as an unsigned value.
-     * <p>This method doesn't use BigInteger datatype unlike it's used in
-     * {@link java.lang.Long#remainderUnsigned}.
+     * <p>This method does not use the {@code BigInteger} datatype.</p>
      *
      * @param dividend the value to be divided
      * @param divisor the value doing the dividing
      * @return the unsigned remainder of the first argument divided by
-     * the second argument
-     * @see java.lang.Long#remainderUnsigned
+     * the second argument.
+     *
      * @since 4.0
      */
     public static long remainderUnsigned(long dividend, long divisor) {
@@ -736,15 +734,14 @@ public final class ArithmeticUtils {
      * basic arithmetic operations of add, subtract, and multiply are
      * bit-wise identical if the two operands are regarded as both
      * being signed or both being unsigned. Therefore separate {@code
-     * addUnsigned}, etc. methods are not provided.
-     * <p>This method doesn't use long datatype unlike it's used in
-     * {@link java.lang.Integer#divideUnsigned}.
+     * addUnsigned}, etc. methods are not provided.</p>
+     * <p>This method does not use the {@code long} datatype.</p>
      *
      * @param dividend the value to be divided
      * @param divisor the value doing the dividing
      * @return the unsigned quotient of the first argument divided by
      * the second argument
-     * @see java.lang.Integer#divideUnsigned
+     *
      * @since 4.0
      */
     public static int divideUnsigned(int dividend, int divisor) {
@@ -772,15 +769,14 @@ public final class ArithmeticUtils {
      * basic arithmetic operations of add, subtract, and multiply are
      * bit-wise identical if the two operands are regarded as both
      * being signed or both being unsigned. Therefore separate {@code
-     * addUnsigned}, etc. methods are not provided.
-     * <p>This method doesn't use BigInteger datatype unlike it's used in
-     * {@link java.lang.Long#divideUnsigned}.
+     * addUnsigned}, etc. methods are not provided.</p>
+     * <p>This method does not use the {@code BigInteger} datatype.</p>
      *
      * @param dividend the value to be divided
      * @param divisor the value doing the dividing
      * @return the unsigned quotient of the first argument divided by
-     * the second argument
-     * @see java.lang.Long#divideUnsigned
+     * the second argument.
+     *
      * @since 4.0
      */
     public static long divideUnsigned(long dividend, long divisor) {
