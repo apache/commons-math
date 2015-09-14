@@ -19,7 +19,6 @@ package org.apache.commons.math4.ml.neuralnet.twod.util;
 
 import org.apache.commons.math4.ml.neuralnet.MapUtils;
 import org.apache.commons.math4.ml.neuralnet.Neuron;
-import org.apache.commons.math4.ml.neuralnet.Network;
 import org.apache.commons.math4.ml.neuralnet.twod.NeuronSquareMesh2D;
 import org.apache.commons.math4.ml.distance.DistanceMeasure;
 
@@ -53,7 +52,6 @@ public class HitHistogram implements MapDataVisualization {
         final int nR = map.getNumberOfRows();
         final int nC = map.getNumberOfColumns();
 
-        final Network net = map.getNetwork();
         final LocationFinder finder = new LocationFinder(map);
 
         // Totla number of samples.
