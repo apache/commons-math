@@ -22,7 +22,6 @@ import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Iterator;
 
-import org.apache.commons.math4.util.Precision;
 import org.apache.commons.math4.distribution.RealDistribution;
 import org.apache.commons.math4.exception.InsufficientDataException;
 import org.apache.commons.math4.exception.MathArithmeticException;
@@ -250,10 +249,10 @@ public class KolmogorovSmirnovTest {
             if (hasTies(x, y)) {
                 return exactP(x, y, strict);
             }
-            return exactP(kolmogorovSmirnovStatistic(x, y), x.length, y.length, strict);
+            return integralExactP(integralKolmogorovSmirnovStatistic(x, y) + ((strict)?1l:0l), x.length, y.length);
         }
         if (lengthProduct < LARGE_SAMPLE_PRODUCT) {
-            return monteCarloP(kolmogorovSmirnovStatistic(x, y), x.length, y.length, strict, MONTE_CARLO_ITERATIONS);
+            return integralMonteCarloP(integralKolmogorovSmirnovStatistic(x, y) + ((strict)?1l:0l), x.length, y.length, MONTE_CARLO_ITERATIONS);
         }
         return approximateP(kolmogorovSmirnovStatistic(x, y), x.length, y.length);
     }
@@ -292,6 +291,25 @@ public class KolmogorovSmirnovTest {
      * @throws NullArgumentException if either {@code x} or {@code y} is null
      */
     public double kolmogorovSmirnovStatistic(double[] x, double[] y) {
+        return integralKolmogorovSmirnovStatistic(x, y)/((double)(x.length * (long)y.length));
+    }
+
+    /**
+     * Computes the two-sample Kolmogorov-Smirnov test statistic, \(D_{n,m}=\sup_x |F_n(x)-F_m(x)|\)
+     * where \(n\) is the length of {@code x}, \(m\) is the length of {@code y}, \(F_n\) is the
+     * empirical distribution that puts mass \(1/n\) at each of the values in {@code x} and \(F_m\)
+     * is the empirical distribution of the {@code y} values. Finally \(n m D_{n,m}\) is returned
+     * as long value.
+     *
+     * @param x first sample
+     * @param y second sample
+     * @return test statistic \(n m D_{n,m}\) used to evaluate the null hypothesis that {@code x} and
+     *         {@code y} represent samples from the same underlying distribution
+     * @throws InsufficientDataException if either {@code x} or {@code y} does not have length at
+     *         least 2
+     * @throws NullArgumentException if either {@code x} or {@code y} is null
+     */
+    private long integralKolmogorovSmirnovStatistic(double[] x, double[] y) {
         checkArray(x);
         checkArray(y);
         // Copy and sort the sample arrays
@@ -304,22 +322,25 @@ public class KolmogorovSmirnovTest {
 
         int rankX = 0;
         int rankY = 0;
+        long curD = 0l;
 
         // Find the max difference between cdf_x and cdf_y
-        double supD = 0d;
+        long supD = 0l;
         do {
             double z = Double.compare(sx[rankX], sy[rankY]) <= 0 ? sx[rankX] : sy[rankY];
             while(rankX < n && Double.compare(sx[rankX], z) == 0) {
                 rankX += 1;
+                curD += m;
             }
             while(rankY < m && Double.compare(sy[rankY], z) == 0) {
                 rankY += 1;
+                curD -= n;
             }
-            final double cdf_x = rankX / (double) n;
-            final double cdf_y = rankY / (double) m;
-            final double curD = FastMath.abs(cdf_x - cdf_y);
             if (curD > supD) {
                 supD = curD;
+            }
+            else if (-curD > supD) {
+                supD = -curD;
             }
         } while(rankX < n && rankY < m);
         return supD;
@@ -864,6 +885,32 @@ public class KolmogorovSmirnovTest {
     }
 
     /**
+     * Given a d-statistic in the range [0, 1] and the two sample sizes n and m,
+     * an integral d-statistic in the range [0, n*m] is calculated, that can be used for
+     * comparison with other integral d-statistics. Depending whether {@code strict} is
+     * {@code true} or not, the returned value divided by (n*m) is greater than
+     * (resp greater than or equal to) the given d value (allowing some tolerance).
+     *
+     * @param d a d-statistic in the range [0, 1]
+     * @param n first sample size
+     * @param m second sample size
+     * @param strict whether the returned value divided by (n*m) is allowed to be equal to d
+     * @return the integral d-statistic in the range [0, n*m]
+     */
+    private static long calculateIntegralD(double d, int n, int m, boolean strict) {
+        final double tol = 1e-12;  // d-values within tol of one another are considered equal
+        long nm = n * (long)m;
+        long upperBound = (long)FastMath.ceil((d - tol) * nm);
+        long lowerBound = (long)FastMath.floor((d + tol) * nm);
+        if (strict && lowerBound == upperBound) {
+            return upperBound + 1l;
+        }
+        else {
+            return upperBound;
+        }
+    }
+
+    /**
      * Computes \(P(D_{n,m} > d)\) if {@code strict} is {@code true}; otherwise \(P(D_{n,m} \ge
      * d)\), where \(D_{n,m}\) is the 2-sample Kolmogorov-Smirnov statistic. See
      * {@link #kolmogorovSmirnovStatistic(double[], double[])} for the definition of \(D_{n,m}\).
@@ -888,11 +935,28 @@ public class KolmogorovSmirnovTest {
      *         greater than (resp. greater than or equal to) {@code d}
      */
     public double exactP(double d, int n, int m, boolean strict) {
+        return integralExactP(calculateIntegralD(d, n, m, strict), n, m);
+    }
+
+    /**
+     * Computes \(P(D_{n,m} >= d/(n*m))\), where \(D_{n,m}\) is the
+     * 2-sample Kolmogorov-Smirnov statistic.
+     * <p>
+     * Here d is the D-statistic represented as long value.
+     * The real D-statistic is obtained by dividing d by n*m.
+     * See also {@link #exactP(double, int, int, boolean)}.
+     *
+     * @param d integral D-statistic
+     * @param n first sample size
+     * @param m second sample size
+     * @return probability that a randomly selected m-n partition of m + n generates \(D_{n,m}\)
+     *         greater than or equal to {@code d/(n*m)}
+     */
+    private double integralExactP(long d, int n, int m) {
         Iterator<int[]> combinationsIterator = CombinatoricsUtils.combinationsIterator(n + m, n);
         long tail = 0;
         final double[] nSet = new double[n];
         final double[] mSet = new double[m];
-        final double tol = 1e-12;  // d-values within tol of one another are considered equal
         while (combinationsIterator.hasNext()) {
             // Generate an n-set
             final int[] nSetI = combinationsIterator.next();
@@ -906,9 +970,8 @@ public class KolmogorovSmirnovTest {
                     mSet[k++] = i;
                 }
             }
-            final double curD = kolmogorovSmirnovStatistic(nSet, mSet);
-            final int order = Precision.compareTo(curD, d, tol);
-            if (order > 0 || (order == 0 && !strict)) {
+            final long curD = integralKolmogorovSmirnovStatistic(nSet, mSet);
+            if (curD >= d) {
                 tail++;
             }
         }
@@ -937,7 +1000,7 @@ public class KolmogorovSmirnovTest {
      * @return p-value
      */
     public double exactP(double[] x, double[] y, boolean strict) {
-        final double d = kolmogorovSmirnovStatistic(x, y);
+        final long d = integralKolmogorovSmirnovStatistic(x, y);
         final int n = x.length;
         final int m = y.length;
 
@@ -952,7 +1015,6 @@ public class KolmogorovSmirnovTest {
         long tail = 0;
         final double[] nSet = new double[n];
         final double[] mSet = new double[m];
-        final double tol = 1e-12;  // d-values within tol of one another are considered equal
         while (combinationsIterator.hasNext()) {
             // Generate an n-set
             final int[] nSetI = combinationsIterator.next();
@@ -967,9 +1029,8 @@ public class KolmogorovSmirnovTest {
                     mSet[k++] = universe[i];
                 }
             }
-            final double curD = kolmogorovSmirnovStatistic(nSet, mSet);
-            final int order = Precision.compareTo(curD, d, tol);
-            if (order > 0 || (order == 0 && !strict)) {
+            final long curD = integralKolmogorovSmirnovStatistic(nSet, mSet);
+            if (curD > d || (curD == d && !strict)) {
                 tail++;
             }
         }
@@ -1042,36 +1103,49 @@ public class KolmogorovSmirnovTest {
      */
     public double monteCarloP(final double d, final int n, final int m, final boolean strict,
                               final int iterations) {
+        return integralMonteCarloP(calculateIntegralD(d, n, m, strict), n, m, iterations);
+    }
+
+    /**
+     * Uses Monte Carlo simulation to approximate \(P(D_{n,m} >= d/(n*m))\) where \(D_{n,m}\) is the
+     * 2-sample Kolmogorov-Smirnov statistic.
+     * <p>
+     * Here d is the D-statistic represented as long value.
+     * The real D-statistic is obtained by dividing d by n*m.
+     * See also {@link #monteCarloP(double, int, int, boolean, int)}.
+     *
+     * @param d integral D-statistic
+     * @param n first sample size
+     * @param m second sample size
+     * @param iterations number of random partitions to generate
+     * @return proportion of randomly generated m-n partitions of m + n that result in \(D_{n,m}\)
+     *         greater than or equal to {@code d/(n*m))}
+     */
+    private double integralMonteCarloP(final long d, final int n, final int m, final int iterations) {
 
         // ensure that nn is always the max of (n, m) to require fewer random numbers
         final int nn = FastMath.max(n, m);
         final int mm = FastMath.min(n, m);
         final int sum = nn + mm;
-        final double tol = 1e-12;  // d-values within tol of one another are considered equal
 
         int tail = 0;
         final boolean b[] = new boolean[sum];
         for (int i = 0; i < iterations; i++) {
             fillBooleanArrayRandomlyWithFixedNumberTrueValues(b, nn, rng);
-            int rankN = b[0] ? 1 : 0;
-            int rankM = b[0] ? 0 : 1;
-            boolean previous = b[0];
-            for(int j = 1; j < b.length; ++j) {
-                if (b[j] != previous) {
-                    final double cdf_n = rankN / (double) nn;
-                    final double cdf_m = rankM / (double) mm;
-                    final double curD = FastMath.abs(cdf_n - cdf_m);
-                    final int order = Precision.compareTo(curD, d, tol);
-                    if (order > 0 || (order == 0 && !strict)) {
+            long curD = 0l;
+            for(int j = 0; j < b.length; ++j) {
+                if (b[j]) {
+                    curD += mm;
+                    if (curD >= d) {
                         tail++;
                         break;
                     }
-                }
-                previous = b[j];
-                if (b[j]) {
-                    rankN++;
                 } else {
-                    rankM++;
+                    curD -= nn;
+                    if (curD <= -d) {
+                        tail++;
+                        break;
+                    }
                 }
             }
         }
