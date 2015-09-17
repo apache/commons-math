@@ -60,7 +60,7 @@ If the output is not quite correct, check for invisible trailing spaces!
       <action dev="erans" type="add" issue="MATH-1270"> <!-- backported to 3.6 -->
         Various SOFM visualizations (in package "o.a.c.m.ml.neuralnet.twod.util"):
         Unified distance matrix, hit histogram, smoothed data histograms,
-        topographic error.
+        topographic error, quantization error.
       </action>
       <action dev="erans" type="add" issue="MATH-1268"> <!-- backported to 3.6 -->
         New interfaces to be implemented by algorithms that visualizes properties
