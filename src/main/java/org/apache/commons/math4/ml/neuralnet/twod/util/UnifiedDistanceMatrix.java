@@ -60,6 +60,7 @@ public class UnifiedDistanceMatrix implements MapVisualization {
     }
 
     /** {@inheritDoc} */
+    @Override
     public double[][] computeImage(NeuronSquareMesh2D map) {
         if (individualDistances) {
             return individualDistances(map);
