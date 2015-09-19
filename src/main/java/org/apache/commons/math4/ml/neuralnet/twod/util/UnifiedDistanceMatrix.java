@@ -33,12 +33,18 @@ public class UnifiedDistanceMatrix implements MapVisualization {
     /** Distance. */
     private final DistanceMeasure distance;
 
-    /** Simple constructor.
+    /**
+     * Simple constructor.
+     *
      * @param individualDistances If {@code true}, the 8 individual
      * inter-units distances will be {@link #computeImage(NeuronSquareMesh2D)
      * computed}.  They will be stored in additional pixels around each of
-     * the original units of the 2D-map.  The value zero will be stored in the
-     * pixel corresponding to the location of a unit of the 2D-map.
+     * the original units of the 2D-map.  The additional pixels that lie
+     * along a "diagonal" are shared by <em>two</em> pairs of units: their
+     * value will be set to the average distance between the units belonging
+     * to each of the pairs.  The value zero will be stored in the pixel
+     * corresponding to the location of a unit of the 2D-map.
+     * <br>
      * If {@code false}, only the average distance between a unit and all its
      * neighbours will be computed (and stored in the pixel corresponding to
      * that unit of the 2D-map).  In that case, the number of neighbours taken
@@ -54,7 +60,6 @@ public class UnifiedDistanceMatrix implements MapVisualization {
     }
 
     /** {@inheritDoc} */
-    @Override
     public double[][] computeImage(NeuronSquareMesh2D map) {
         if (individualDistances) {
             return individualDistances(map);
@@ -80,6 +85,10 @@ public class UnifiedDistanceMatrix implements MapVisualization {
 
         final double[][] uMatrix = new double[numRows * 2 + 1][numCols * 2 + 1];
 
+        // 1.
+        // Fill right and bottom slots of each unit's location with the
+        // distance between the current unit and each of the two neighbours,
+        // respectively.
         for (int i = 0; i < numRows; i++) {
             // Current unit's row index in result image.
             final int iR = 2 * i + 1;
@@ -91,42 +100,6 @@ public class UnifiedDistanceMatrix implements MapVisualization {
                 final double[] current = map.getNeuron(i, j).getFeatures();
                 Neuron neighbour;
 
-                // Top-left neighbour.
-                neighbour = map.getNeuron(i, j,
-                                          NeuronSquareMesh2D.HorizontalDirection.LEFT,
-                                          NeuronSquareMesh2D.VerticalDirection.UP);
-                if (neighbour != null) {
-                    uMatrix[iR - 1][jR - 1] = distance.compute(current,
-                                                               neighbour.getFeatures());
-                }
-
-                // Top-center neighbour.
-                neighbour = map.getNeuron(i, j,
-                                          NeuronSquareMesh2D.HorizontalDirection.CENTER,
-                                          NeuronSquareMesh2D.VerticalDirection.UP);
-                if (neighbour != null) {
-                    uMatrix[iR - 1][jR] = distance.compute(current,
-                                                           neighbour.getFeatures());
-                }
-
-                // Top-right neighbour.
-                neighbour = map.getNeuron(i, j,
-                                          NeuronSquareMesh2D.HorizontalDirection.RIGHT,
-                                          NeuronSquareMesh2D.VerticalDirection.UP);
-                if (neighbour != null) {
-                    uMatrix[iR - 1][jR + 1] = distance.compute(current,
-                                                               neighbour.getFeatures());
-                }
-
-                // Left neighbour.
-                neighbour = map.getNeuron(i, j,
-                                          NeuronSquareMesh2D.HorizontalDirection.LEFT,
-                                          NeuronSquareMesh2D.VerticalDirection.CENTER);
-                if (neighbour != null) {
-                    uMatrix[iR][jR - 1] = distance.compute(current,
-                                                           neighbour.getFeatures());
-                }
-
                 // Right neighbour.
                 neighbour = map.getNeuron(i, j,
                                           NeuronSquareMesh2D.HorizontalDirection.RIGHT,
@@ -134,15 +107,6 @@ public class UnifiedDistanceMatrix implements MapVisualization {
                 if (neighbour != null) {
                     uMatrix[iR][jR + 1] = distance.compute(current,
                                                            neighbour.getFeatures());
-                }
-
-                // Bottom-left neighbour.
-                neighbour = map.getNeuron(i, j,
-                                          NeuronSquareMesh2D.HorizontalDirection.LEFT,
-                                          NeuronSquareMesh2D.VerticalDirection.DOWN);
-                if (neighbour != null) {
-                    uMatrix[iR + 1][jR - 1] = distance.compute(current,
-                                                               neighbour.getFeatures());
                 }
 
                 // Bottom-center neighbour.
@@ -153,16 +117,57 @@ public class UnifiedDistanceMatrix implements MapVisualization {
                     uMatrix[iR + 1][jR] = distance.compute(current,
                                                            neighbour.getFeatures());
                 }
-
-                // Bottom-right neighbour.
-                neighbour = map.getNeuron(i, j,
-                                          NeuronSquareMesh2D.HorizontalDirection.RIGHT,
-                                          NeuronSquareMesh2D.VerticalDirection.DOWN);
-                if (neighbour != null) {
-                    uMatrix[iR + 1][jR + 1] = distance.compute(current,
-                                                               neighbour.getFeatures());
-                }
             }
+        }
+
+        // 2.
+        // Fill the bottom-rigth slot of each unit's location with the average
+        // of the distances between
+        //  * the current unit and its bottom-right neighbour, and
+        //  * the bottom-center neighbour and the right neighbour.
+        for (int i = 0; i < numRows; i++) {
+            // Current unit's row index in result image.
+            final int iR = 2 * i + 1;
+
+            for (int j = 0; j < numCols; j++) {
+                // Current unit's column index in result image.
+                final int jR = 2 * j + 1;
+
+                final Neuron current = map.getNeuron(i, j);
+                final Neuron right = map.getNeuron(i, j,
+                                                   NeuronSquareMesh2D.HorizontalDirection.RIGHT,
+                                                   NeuronSquareMesh2D.VerticalDirection.CENTER);
+                final Neuron bottom = map.getNeuron(i, j,
+                                                    NeuronSquareMesh2D.HorizontalDirection.CENTER,
+                                                    NeuronSquareMesh2D.VerticalDirection.DOWN);
+                final Neuron bottomRight = map.getNeuron(i, j,
+                                                         NeuronSquareMesh2D.HorizontalDirection.RIGHT,
+                                                         NeuronSquareMesh2D.VerticalDirection.DOWN);
+
+                final double current2BottomRight = bottomRight == null ?
+                    0 :
+                    distance.compute(current.getFeatures(),
+                                     bottomRight.getFeatures());
+                final double right2Bottom = (right == null ||
+                                             bottom == null) ?
+                    0 :
+                    distance.compute(right.getFeatures(),
+                                     bottom.getFeatures());
+
+                // Bottom-right slot.
+                uMatrix[iR + 1][jR + 1] = 0.5 * (current2BottomRight + right2Bottom);
+            }
+        }
+
+        // 3. Copy last row into first row.
+        final int lastRow = uMatrix.length - 1;
+        uMatrix[0] = uMatrix[lastRow];
+
+        // 4.
+        // Copy last column into first column.
+        final int lastCol = uMatrix[0].length - 1;
+        for (int r = 0; r < lastRow; r++) {
+            uMatrix[r][0] = uMatrix[r][lastCol];
         }
 
         return uMatrix;
