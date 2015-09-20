@@ -86,6 +86,32 @@ public class NeuronTest {
     }
 
     @Test
+    public void testCopy() {
+        final Neuron n = new Neuron(1, new double[] { 9.87 });
+
+        // Update original.
+        double[] update = new double[] { n.getFeatures()[0] + 2.34 };
+        n.compareAndSetFeatures(n.getFeatures(), update);
+
+        // Create a copy.
+        final Neuron copy = n.copy();
+
+        // Check that original and copy have the same value.
+        Assert.assertTrue(n.getFeatures()[0] == copy.getFeatures()[0]);
+        Assert.assertEquals(n.getNumberOfAttemptedUpdates(),
+                            copy.getNumberOfAttemptedUpdates());
+
+        // Update original.
+        update = new double[] { 1.23 * n.getFeatures()[0] };
+        n.compareAndSetFeatures(n.getFeatures(), update);
+
+        // Check that original and copy differ.
+        Assert.assertFalse(n.getFeatures()[0] == copy.getFeatures()[0]);
+        Assert.assertNotEquals(n.getNumberOfSuccessfulUpdates(),
+                               copy.getNumberOfSuccessfulUpdates());
+    }
+
+    @Test
     public void testSerialize()
         throws IOException,
                ClassNotFoundException {

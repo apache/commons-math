@@ -197,6 +197,54 @@ public class NeuronSquareMesh2D
         createLinks();
     }
 
+    /**
+     * Constructor with restricted access, solely used for making a
+     * {@link #copy() deep copy}.
+     *
+     * @param wrapRowDim Whether to wrap the first dimension (i.e the first
+     * and last neurons will be linked together).
+     * @param wrapColDim Whether to wrap the second dimension (i.e the first
+     * and last neurons will be linked together).
+     * @param neighbourhoodType Neighbourhood type.
+     * @param net Underlying network.
+     * @param idGrid Neuron identifiers.
+     */
+    private NeuronSquareMesh2D(boolean wrapRowDim,
+                               boolean wrapColDim,
+                               SquareNeighbourhood neighbourhoodType,
+                               Network net,
+                               long[][] idGrid) {
+        numberOfRows = idGrid.length;
+        numberOfColumns = idGrid[0].length;
+        wrapRows = wrapRowDim;
+        wrapColumns = wrapColDim;
+        neighbourhood = neighbourhoodType;
+        network = net;
+        identifiers = idGrid;
+    }
+
+    /**
+     * Performs a deep copy of this instance.
+     * Upon return, the copied and original instances will be independent:
+     * Updating one will not affect the other.
+     *
+     * @return a new instance with the same state as this instance.
+     */
+    public synchronized NeuronSquareMesh2D copy() {
+        final long[][] idGrid = new long[numberOfRows][numberOfColumns];
+        for (int r = 0; r < numberOfRows; r++) {
+            for (int c = 0; c < numberOfColumns; c++) {
+                idGrid[r][c] = identifiers[r][c];
+            }
+        }
+
+        return new NeuronSquareMesh2D(wrapRows,
+                                      wrapColumns,
+                                      neighbourhood,
+                                      network.copy(),
+                                      idGrid);
+    }
+
     /** {@inheritDoc} */
     public Iterator<Neuron> iterator() {
         return network.iterator();

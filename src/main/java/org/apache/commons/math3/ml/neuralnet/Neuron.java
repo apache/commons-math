@@ -67,6 +67,22 @@ public class Neuron implements Serializable {
     }
 
     /**
+     * Performs a deep copy of this instance.
+     * Upon return, the copied and original instances will be independent:
+     * Updating one will not affect the other.
+     *
+     * @return a new instance with the same state as this instance.
+     */
+    public synchronized Neuron copy() {
+        final Neuron copy = new Neuron(getIdentifier(),
+                                       getFeatures());
+        copy.numberOfAttemptedUpdates.set(numberOfAttemptedUpdates.get());
+        copy.numberOfSuccessfulUpdates.set(numberOfSuccessfulUpdates.get());
+
+        return copy;
+    }
+
+    /**
      * Gets the neuron's identifier.
      *
      * @return the identifier.
