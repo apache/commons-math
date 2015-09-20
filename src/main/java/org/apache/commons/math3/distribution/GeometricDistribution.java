@@ -165,4 +165,21 @@ public class GeometricDistribution extends AbstractIntegerDistribution {
     public boolean isSupportConnected() {
         return true;
     }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public int inverseCumulativeProbability(double p) throws OutOfRangeException {
+        if (p < 0 || p > 1) {
+            throw new OutOfRangeException(p, 0, 1);
+        }
+        if (p == 1) {
+            return Integer.MAX_VALUE;
+        }
+        if (p == 0) {
+            return 0;
+        }
+        return Math.max(0, (int) Math.ceil((FastMath.log1p(-p)/log1mProbabilityOfSuccess-1)));
+    }
 }
