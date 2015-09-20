@@ -54,6 +54,10 @@ If the output is not quite correct, check for invisible trailing spaces!
     </release>
 
     <release version="4.0" date="XXXX-XX-XX" description="">
+      <action dev="erans" type="add" issue="MATH-1278"> <!-- backported to 3.6 -->
+        Deep copy of "Network" (package "o.a.c.m.ml.neuralnet") to allow evaluation of
+        of intermediate states during training.
+      </action>
       <action dev="oertl" type="update" issue="MATH-1276"> <!-- backported to 3.6 -->
         Improved performance of sampling and inverse cumulative probability calculation
         for geometric distributions.

@@ -132,6 +132,47 @@ public class NetworkTest {
         Assert.assertFalse(isUnspecifiedOrder);
     }
 
+    /*
+     * Test assumes that the network is
+     *
+     *  0-----1
+     *  |     |
+     *  |     |
+     *  2-----3
+     */
+    @Test
+    public void testCopy() {
+        final FeatureInitializer[] initArray = { init };
+        final Network net = new NeuronSquareMesh2D(2, false,
+                                                   2, false,
+                                                   SquareNeighbourhood.VON_NEUMANN,
+                                                   initArray).getNetwork();
+
+        final Network copy = net.copy();
+        
+        final Neuron netNeuron0 = net.getNeuron(0);
+        final Neuron copyNeuron0 = copy.getNeuron(0);
+        final Neuron netNeuron1 = net.getNeuron(1);
+        final Neuron copyNeuron1 = copy.getNeuron(1);
+        Collection<Neuron> netNeighbours;
+        Collection<Neuron> copyNeighbours;
+        
+        // Check that both networks have the same connections.
+        netNeighbours = net.getNeighbours(netNeuron0);
+        copyNeighbours = copy.getNeighbours(copyNeuron0);
+        Assert.assertTrue(netNeighbours.contains(netNeuron1));
+        Assert.assertTrue(copyNeighbours.contains(copyNeuron1));
+
+        // Delete neuron 1 from original.
+        net.deleteNeuron(netNeuron1);
+
+        // Check that the networks now differ.
+        netNeighbours = net.getNeighbours(netNeuron0);
+        copyNeighbours = copy.getNeighbours(copyNeuron0);
+        Assert.assertFalse(netNeighbours.contains(netNeuron1));
+        Assert.assertTrue(copyNeighbours.contains(copyNeuron1));
+    }
+
     @Test
     public void testSerialize()
         throws IOException,
