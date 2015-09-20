@@ -54,6 +54,10 @@ If the output is not quite correct, check for invisible trailing spaces!
     </release>
 
     <release version="4.0" date="XXXX-XX-XX" description="">
+      <action dev="oertl" type="update" issue="MATH-1276"> <!-- backported to 3.6 -->
+        Improved performance of sampling and inverse cumulative probability calculation
+        for geometric distributions.
+      </action>
       <action dev="oertl" type="fix" issue="MATH-1277" due-to="Marc Rosen"> <!-- backported to 3.6 -->
         Fixed incorrect Kendall's tau coefficient calculation due to internal integer overflow.
       </action>
