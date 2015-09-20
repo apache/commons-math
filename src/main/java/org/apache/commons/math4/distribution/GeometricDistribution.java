@@ -35,6 +35,10 @@ public class GeometricDistribution extends AbstractIntegerDistribution {
     private static final long serialVersionUID = 20130507L;
     /** The probability of success. */
     private final double probabilityOfSuccess;
+    /** {@code log(p)} where p is the probability of success. */
+    private final double logProbabilityOfSuccess;
+    /** {@code log(1 - p)} where p is the probability of success. */
+    private final double log1mProbabilityOfSuccess;
 
     /**
      * Create a geometric distribution with the given probability of success.
@@ -68,6 +72,8 @@ public class GeometricDistribution extends AbstractIntegerDistribution {
         }
 
         probabilityOfSuccess = p;
+        logProbabilityOfSuccess = FastMath.log(p);
+        log1mProbabilityOfSuccess = FastMath.log1p(-p);
     }
 
     /**
@@ -85,7 +91,7 @@ public class GeometricDistribution extends AbstractIntegerDistribution {
         if (x < 0) {
             return 0.0;
         } else {
-            return FastMath.pow(1 - probabilityOfSuccess, x) * probabilityOfSuccess;
+            return FastMath.exp(log1mProbabilityOfSuccess * x) * probabilityOfSuccess;
         }
     }
 
@@ -95,7 +101,7 @@ public class GeometricDistribution extends AbstractIntegerDistribution {
         if (x < 0) {
             return Double.NEGATIVE_INFINITY;
         } else {
-            return x * FastMath.log1p(-probabilityOfSuccess) + FastMath.log(probabilityOfSuccess);
+            return x * log1mProbabilityOfSuccess + logProbabilityOfSuccess;
         }
     }
 
@@ -105,7 +111,7 @@ public class GeometricDistribution extends AbstractIntegerDistribution {
         if (x < 0) {
             return 0.0;
         } else {
-            return 1.0 - FastMath.pow(1 - probabilityOfSuccess, x + 1);
+            return -FastMath.expm1(log1mProbabilityOfSuccess * (x + 1));
         }
     }
 
