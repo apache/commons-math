@@ -51,6 +51,9 @@ If the output is not quite correct, check for invisible trailing spaces!
   </properties>
   <body>
     <release version="3.6" date="XXXX-XX-XX" description="">
+      <action dev="oertl" type="fix" issue="MATH-1277" due-to="Marc Rosen">
+        Fixed incorrect Kendall's tau coefficient calculation due to internal integer overflow.
+      </action>
       <action dev="oertl" type="update" issue="MATH-1274">
         Representation of Kolmogorov-Smirnov statistic as integral value.
       </action>
