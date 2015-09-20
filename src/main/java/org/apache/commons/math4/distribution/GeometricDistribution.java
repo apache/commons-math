@@ -82,40 +82,31 @@ public class GeometricDistribution extends AbstractIntegerDistribution {
     /** {@inheritDoc} */
     @Override
     public double probability(int x) {
-        double ret;
         if (x < 0) {
-            ret = 0.0;
+            return 0.0;
         } else {
-            final double p = probabilityOfSuccess;
-            ret = FastMath.pow(1 - p, x) * p;
+            return FastMath.pow(1 - probabilityOfSuccess, x) * probabilityOfSuccess;
         }
-        return ret;
     }
 
     /** {@inheritDoc} */
     @Override
     public double logProbability(int x) {
-        double ret;
         if (x < 0) {
-            ret = Double.NEGATIVE_INFINITY;
+            return Double.NEGATIVE_INFINITY;
         } else {
-            final double p = probabilityOfSuccess;
-            ret = x * FastMath.log1p(-p) + FastMath.log(p);
+            return x * FastMath.log1p(-probabilityOfSuccess) + FastMath.log(probabilityOfSuccess);
         }
-        return ret;
     }
 
     /** {@inheritDoc} */
     @Override
     public double cumulativeProbability(int x) {
-        double ret;
         if (x < 0) {
-            ret = 0.0;
+            return 0.0;
         } else {
-            final double p = probabilityOfSuccess;
-            ret = 1.0 - FastMath.pow(1 - p, x + 1);
+            return 1.0 - FastMath.pow(1 - probabilityOfSuccess, x + 1);
         }
-        return ret;
     }
 
     /**
@@ -125,8 +116,7 @@ public class GeometricDistribution extends AbstractIntegerDistribution {
      */
     @Override
     public double getNumericalMean() {
-        final double p = probabilityOfSuccess;
-        return (1 - p) / p;
+        return (1 - probabilityOfSuccess) / probabilityOfSuccess;
     }
 
     /**
@@ -137,8 +127,7 @@ public class GeometricDistribution extends AbstractIntegerDistribution {
      */
     @Override
     public double getNumericalVariance() {
-        final double p = probabilityOfSuccess;
-        return (1 - p) / (p * p);
+        return (1 - probabilityOfSuccess) / (probabilityOfSuccess * probabilityOfSuccess);
     }
 
     /**
