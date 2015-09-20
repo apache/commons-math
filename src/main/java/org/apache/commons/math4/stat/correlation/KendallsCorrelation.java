@@ -201,7 +201,7 @@ public class KendallsCorrelation {
         tiedXPairs += sum(consecutiveXTies - 1);
         tiedXYPairs += sum(consecutiveXYTies - 1);
 
-        int swaps = 0;
+        long swaps = 0;
         @SuppressWarnings("unchecked")
         Pair<Double, Double>[] pairsDestination = new Pair[n];
         for (int segmentSize = 1; segmentSize < n; segmentSize <<= 1) {

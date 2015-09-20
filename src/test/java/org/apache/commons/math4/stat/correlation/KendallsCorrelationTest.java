@@ -21,6 +21,8 @@ import java.util.Arrays;
 import org.apache.commons.math4.TestUtils;
 import org.apache.commons.math4.linear.BlockRealMatrix;
 import org.apache.commons.math4.linear.RealMatrix;
+import org.apache.commons.math4.random.RandomGenerator;
+import org.apache.commons.math4.random.Well1024a;
 import org.apache.commons.math4.stat.correlation.KendallsCorrelation;
 import org.junit.Assert;
 import org.junit.Before;
@@ -258,5 +260,22 @@ public class KendallsCorrelationTest extends PearsonsCorrelationTest {
         Arrays.fill(xArray, 0, 2500, 1.0);
 
         Assert.assertEquals(1.0, correlation.correlation(xArray, xArray), 1e-6);
+    }
+
+    @Test
+    public void testMath1277() {
+        // example that led to a correlation coefficient outside of [-1, 1]
+        // due to a bug reported in MATH-1277
+        RandomGenerator rng = new Well1024a(0);
+        double[] xArray = new double[120000];
+        double[] yArray = new double[120000];
+        for (int i = 0; i < xArray.length; ++i) {
+            xArray[i] =  rng.nextDouble();
+        }
+        for (int i = 0; i < yArray.length; ++i) {
+            yArray[i] =  rng.nextDouble();
+        }
+        double coefficient = correlation.correlation(xArray, yArray);
+        Assert.assertTrue(1.0 >= coefficient && -1.0 <= coefficient);
     }
 }
