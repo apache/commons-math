@@ -187,6 +187,6 @@ public class GeometricDistribution extends AbstractIntegerDistribution {
         if (p == 0) {
             return 0;
         }
-        return Math.max(0, (int) Math.ceil((FastMath.log1p(-p)/log1mProbabilityOfSuccess-1)));
+        return Math.max(0, (int) Math.ceil(FastMath.log1p(-p)/log1mProbabilityOfSuccess-1));
     }
 }
