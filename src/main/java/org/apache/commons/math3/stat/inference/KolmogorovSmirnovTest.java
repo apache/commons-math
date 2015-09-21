@@ -245,10 +245,10 @@ public class KolmogorovSmirnovTest {
     public double kolmogorovSmirnovTest(double[] x, double[] y, boolean strict) {
         final long lengthProduct = (long) x.length * y.length;
         if (lengthProduct < SMALL_SAMPLE_PRODUCT) {
-            return integralExactP(integralKolmogorovSmirnovStatistic(x, y) + ((strict)?1l:0l), x.length, y.length);
+            return integralExactP(integralKolmogorovSmirnovStatistic(x, y) + (strict?1l:0l), x.length, y.length);
         }
         if (lengthProduct < LARGE_SAMPLE_PRODUCT) {
-            return integralMonteCarloP(integralKolmogorovSmirnovStatistic(x, y) + ((strict)?1l:0l), x.length, y.length, MONTE_CARLO_ITERATIONS);
+            return integralMonteCarloP(integralKolmogorovSmirnovStatistic(x, y) + (strict?1l:0l), x.length, y.length, MONTE_CARLO_ITERATIONS);
         }
         return approximateP(kolmogorovSmirnovStatistic(x, y), x.length, y.length);
     }
