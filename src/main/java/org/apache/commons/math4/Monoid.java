@@ -17,24 +17,30 @@
 package org.apache.commons.math4;
 
 /**
- * Interface representing a <a href="http://mathworld.wolfram.com/Field.html">field</a>.
+ * Interface representing a <a href="http://mathworld.wolfram.com/Monoid.html">monoid</a>.
  * <p>
  * Classes implementing this interface will often be singletons.
  * </p>
- * @param <T> the type of the field elements
- * @see FieldElement
- * @since 2.0
+ * @param <T> the type of the elements
  */
-public interface Field<T> extends Ring<T> {
+public interface Monoid<T> {
 
-    /** Get the multiplicative identity of the field.
+    /** Get the additive identity of the ring.
      * <p>
-     * The multiplicative identity is the element e<sub>1</sub> of the field such that
-     * for all elements a of the field, the equalities a &times; e<sub>1</sub> =
-     * e<sub>1</sub> &times; a = a hold.
+     * The additive identity is the element e<sub>0</sub> of the ring such that
+     * for all elements a of the field, the equalities a + e<sub>0</sub> =
+     * e<sub>0</sub> + a = a hold.
      * </p>
-     * @return multiplicative identity of the field
+     * @return additive identity of the field
      */
-    T getOne();
+    T getZero();
+
+    /**
+     * Returns the runtime class of the FieldElement.
+     *
+     * @return The {@code Class} object that represents the runtime
+     *         class of this object.
+     */
+    Class<? extends MonoidElement<T>> getRuntimeClass(); //should return T, we suppose
 
 }
