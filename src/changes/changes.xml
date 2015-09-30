@@ -54,6 +54,9 @@ If the output is not quite correct, check for invisible trailing spaces!
     </release>
 
     <release version="4.0" date="XXXX-XX-XX" description="">
+      <action dev="erans" type="fix" issue="MATH-1279"> <!-- backported to 3.6 -->
+        Check precondition (class "o.a.c.m.random.EmpiricalDistribution").
+      </action>
       <action dev="erans" type="add" issue="MATH-1278"> <!-- backported to 3.6 -->
         Deep copy of "Network" (package "o.a.c.m.ml.neuralnet") to allow evaluation of
         of intermediate states during training.

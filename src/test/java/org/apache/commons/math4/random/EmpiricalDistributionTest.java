@@ -35,6 +35,7 @@ import org.apache.commons.math4.distribution.RealDistributionAbstractTest;
 import org.apache.commons.math4.distribution.UniformRealDistribution;
 import org.apache.commons.math4.exception.MathIllegalStateException;
 import org.apache.commons.math4.exception.NullArgumentException;
+import org.apache.commons.math4.exception.NotStrictlyPositiveException;
 import org.apache.commons.math4.random.EmpiricalDistribution;
 import org.apache.commons.math4.random.RandomGenerator;
 import org.apache.commons.math4.stat.descriptive.SummaryStatistics;
@@ -83,6 +84,12 @@ public final class EmpiricalDistributionTest extends RealDistributionAbstractTes
             dataArray[i] = data.doubleValue();
             i++;
         }
+    }
+
+    // MATH-1279
+    @Test(expected=NotStrictlyPositiveException.class)
+    public void testPrecondition1() {
+        new EmpiricalDistribution(0);
     }
 
     /**
