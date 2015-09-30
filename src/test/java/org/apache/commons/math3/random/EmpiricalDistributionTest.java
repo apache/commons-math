@@ -34,6 +34,7 @@ import org.apache.commons.math3.distribution.RealDistribution;
 import org.apache.commons.math3.distribution.RealDistributionAbstractTest;
 import org.apache.commons.math3.distribution.UniformRealDistribution;
 import org.apache.commons.math3.exception.NullArgumentException;
+import org.apache.commons.math3.exception.NotStrictlyPositiveException;
 import org.apache.commons.math3.stat.descriptive.SummaryStatistics;
 import org.apache.commons.math3.util.FastMath;
 import org.junit.Assert;
@@ -84,6 +85,12 @@ public final class EmpiricalDistributionTest extends RealDistributionAbstractTes
             dataArray[i] = data.doubleValue();
             i++;
         }
+    }
+
+    // MATH-1279
+    @Test(expected=NotStrictlyPositiveException.class)
+    public void testPrecondition1() {
+        new EmpiricalDistribution(0);
     }
 
     /**

@@ -37,6 +37,7 @@ import org.apache.commons.math3.exception.MathInternalError;
 import org.apache.commons.math3.exception.NullArgumentException;
 import org.apache.commons.math3.exception.OutOfRangeException;
 import org.apache.commons.math3.exception.ZeroException;
+import org.apache.commons.math3.exception.NotStrictlyPositiveException;
 import org.apache.commons.math3.exception.util.LocalizedFormats;
 import org.apache.commons.math3.stat.descriptive.StatisticalSummary;
 import org.apache.commons.math3.stat.descriptive.SummaryStatistics;
@@ -147,7 +148,8 @@ public class EmpiricalDistribution extends AbstractRealDistribution {
     /**
      * Creates a new EmpiricalDistribution with the specified bin count.
      *
-     * @param binCount number of bins
+     * @param binCount number of bins. Must be strictly positive.
+     * @throws NotStrictlyPositiveException if {@code binCount <= 0}.
      */
     public EmpiricalDistribution(int binCount) {
         this(binCount, new RandomDataGenerator());
@@ -157,8 +159,9 @@ public class EmpiricalDistribution extends AbstractRealDistribution {
      * Creates a new EmpiricalDistribution with the specified bin count using the
      * provided {@link RandomGenerator} as the source of random data.
      *
-     * @param binCount number of bins
+     * @param binCount number of bins. Must be strictly positive.
      * @param generator random data generator (may be null, resulting in default JDK generator)
+     * @throws NotStrictlyPositiveException if {@code binCount <= 0}.
      * @since 3.0
      */
     public EmpiricalDistribution(int binCount, RandomGenerator generator) {
@@ -207,12 +210,16 @@ public class EmpiricalDistribution extends AbstractRealDistribution {
      * Private constructor to allow lazy initialisation of the RNG contained
      * in the {@link #randomData} instance variable.
      *
-     * @param binCount number of bins
+     * @param binCount number of bins. Must be strictly positive.
      * @param randomData Random data generator.
+     * @throws NotStrictlyPositiveException if {@code binCount <= 0}.
      */
     private EmpiricalDistribution(int binCount,
                                   RandomDataGenerator randomData) {
         super(randomData.getRandomGenerator());
+        if (binCount <= 0) {
+            throw new NotStrictlyPositiveException(binCount);
+        }
         this.binCount = binCount;
         this.randomData = randomData;
         binStats = new ArrayList<SummaryStatistics>();
