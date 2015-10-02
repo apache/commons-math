@@ -251,7 +251,7 @@ public class EventState {
             for (int i = 0; i < n; ++i) {
 
                 // evaluate handler value at the end of the substep
-                final double tb = t0 + (i + 1) * h;
+                final double tb = (i == n - 1) ? t1 : t0 + (i + 1) * h;
                 interpolator.setInterpolatedTime(tb);
                 final double gb = handler.g(tb, getCompleteState(interpolator));
 
