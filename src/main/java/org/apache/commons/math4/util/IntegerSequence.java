@@ -72,6 +72,12 @@ public class IntegerSequence {
             }
         };
     }
+    
+    public static int size(Iterable<Integer> range) {
+    	int n = 0;
+    	for (Integer i : range) n++;
+    	return n;
+    }
 
     /**
      * Utility that increments a counter until a maximum is reached, at
