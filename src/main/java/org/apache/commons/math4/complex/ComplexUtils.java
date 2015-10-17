@@ -443,7 +443,6 @@ public class ComplexUtils {
         return f;
     }
   
-
 	/**
      * Converts an array of {@code Complex} objects to a {@code double[]} array
      * for the {@code IntegerSequence} range.
@@ -617,7 +616,6 @@ public class ComplexUtils {
         return c;
     }
   
-
 	/**
      * Converts a complex interleaved {@code double[]} array to an array of {@code Complex} objects
      * for the {@code IntegerSequence} range.
@@ -638,7 +636,6 @@ public class ComplexUtils {
         }
         return c;
     }
-
 
 	/**
      * Converts a complex interleaved {@code float[]} array to an array of {@code Complex} objects
@@ -799,7 +796,6 @@ public class ComplexUtils {
         return f;
     }
   
-
 	/**
      * Converts an array of {@code Complex} objects to an interleaved complex {@code double[]} array
      * for the {@code IntegerSequence} range.
@@ -822,7 +818,6 @@ public class ComplexUtils {
         }
         return d;
     }
-
 
     /**
      * Converts an array of {@code Complex} objects to an interleaved complex {@code float[]} array
@@ -888,5 +883,94 @@ public class ComplexUtils {
         }
         return f;
     }
+    
+    /**
+     * Converts a 2D array of {@code Complex} objects
+     * to an interleaved complex {@code double[][]} array. 
+     * Interleaving is in final level of array,
+     * i.e. for double [x][y] y is interleaved. 
+     *
+     * @param c 2D Array of Complex objects.
+     * @return a complex interleaved {@code double[][]} alternating real and imaginary values.
+     *
+     * @since 4.0
+     */
+	static double[][] complex2Interleaved(Complex[][] c) {
+		int width = c.length;
+		int height = c[0].length;
+		double[][] d = new double[width][2*height];
+		for (int n = 0; n < width; n++) {
+			d[n] = ComplexUtils.complex2Interleaved(c[n]);
+		}
+		return d;
+	}
+	
+	/**
+     * Converts a 3D array of {@code Complex} objects
+     * to an interleaved complex {@code double[][][]} array.
+     * Interleaving is in final level of array,
+     * i.e. for double [x][y][z] z is interleaved. 
+     *
+     * @param c 3D Array of Complex objects.
+     * @return a complex interleaved {@code double[][][]} alternating real and imaginary values.
+     *
+     * @since 4.0
+     */
+	static double[][][] complex2Interleaved(Complex[][][] c) {
+		int width = c.length;
+		int height = c[0].length;
+		int depth = c[0].length;
+		double[][][] d = new double[width][height][2*depth];
+		for (int x = 0; x < width; x++) {
+			for (int y = 0; y < height; y++) {
+				d[x][y] = ComplexUtils.complex2Interleaved(c[x][y]);
+			}
+		}
+		return d;
+	}
 
+	/**
+     * Converts a 2D interleaved complex array {@code double[][]} 
+     * to an array of {@code Complex} objects. Interleaving is in final level of array,
+     * i.e. for double [x][y] y is interleaved. 
+     *
+     * @param d 2d complex interleaved {@code double[][]}
+     * @return 2d array of {@code Complex} objects
+     *
+     * @since 4.0
+     */
+	static Complex[][] interleaved2Complex(double[][] d) {
+		int width = d.length;
+		int height = d[0].length;
+		Complex[][] c = new Complex[width][2*height];
+		for (int n = 0; n < width; n++) {
+			c[n] = ComplexUtils.interleaved2Complex(d[n]);
+		}
+		return c;
+	}
+	
+	/**
+     * Converts a 3D interleaved complex array {@code double[][][]} 
+     * to an array of {@code Complex} objects. Interleaving is in final level of array,
+     * i.e. for double [x][y][z] z is interleaved. 
+     *
+     * @param d 3d complex interleaved {@code double[][][]}
+     * @return 3d array of {@code Complex} objects
+     *
+     * @since 4.0
+     */
+	static Complex[][][] interleaved2Complex(double[][][] d) {
+		int width = d.length;
+		int height = d[0].length;
+		int depth = d[0].length;
+		Complex[][][] c = new Complex[width][height][2*depth];
+		for (int x = 0; x < width; x++) {
+			for (int y = 0; y < height; y++) {
+				c[x][y] = ComplexUtils.interleaved2Complex(d[x][y]);
+			}
+		}
+		return c;
+	}
+
+    
 }
