@@ -895,7 +895,7 @@ public class ComplexUtils {
      *
      * @since 4.0
      */
-	static double[][] complex2Interleaved(Complex[][] c) {
+	public static double[][] complex2Interleaved(Complex[][] c) {
 		int width = c.length;
 		int height = c[0].length;
 		double[][] d = new double[width][2*height];
@@ -916,7 +916,7 @@ public class ComplexUtils {
      *
      * @since 4.0
      */
-	static double[][][] complex2Interleaved(Complex[][][] c) {
+	public static double[][][] complex2Interleaved(Complex[][][] c) {
 		int width = c.length;
 		int height = c[0].length;
 		int depth = c[0].length;
@@ -939,7 +939,7 @@ public class ComplexUtils {
      *
      * @since 4.0
      */
-	static Complex[][] interleaved2Complex(double[][] d) {
+	public static Complex[][] interleaved2Complex(double[][] d) {
 		int width = d.length;
 		int height = d[0].length;
 		Complex[][] c = new Complex[width][2*height];
@@ -959,7 +959,7 @@ public class ComplexUtils {
      *
      * @since 4.0
      */
-	static Complex[][][] interleaved2Complex(double[][][] d) {
+	public static Complex[][][] interleaved2Complex(double[][][] d) {
 		int width = d.length;
 		int height = d[0].length;
 		int depth = d[0].length;
