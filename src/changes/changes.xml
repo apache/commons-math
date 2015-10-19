@@ -51,6 +51,9 @@ If the output is not quite correct, check for invisible trailing spaces!
   </properties>
   <body>
     <release version="3.6" date="XXXX-XX-XX" description="">
+      <action dev="tn" type="fix" issue="MATH-1237" due-to="Ken Williams">
+        Fixed javadoc of methods {floorDiv,floorMod} in class "FastMath".
+      </action>
       <action dev="tn" type="add" issue="MATH-837">
         "AggregateSummaryStatistics" can now aggregate any kind of
         "StatisticalSummary".
