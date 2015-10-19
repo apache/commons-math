@@ -51,6 +51,10 @@ If the output is not quite correct, check for invisible trailing spaces!
   </properties>
   <body>
     <release version="3.6" date="XXXX-XX-XX" description="">
+      <action dev="tn" type="add" issue="MATH-837">
+        "AggregateSummaryStatistics" can now aggregate any kind of
+        "StatisticalSummary".
+      </action>
       <action dev="erans" type="fix" issue="MATH-1279">
         Check precondition (class "o.a.c.m.random.EmpiricalDistribution").
       </action>
