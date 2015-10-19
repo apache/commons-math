@@ -3927,7 +3927,7 @@ public class FastMath {
             return a * b;
     }
 
-    /** Finds q such that a = q b + r with 0 <= r < b if b > 0 and b < r <= 0 if b > 0.
+    /** Finds q such that a = q b + r with 0 <= r < b if b > 0 and b < r <= 0 if b < 0.
      * <p>
      * This methods returns the same value as integer division when
      * a and b are same signs, but returns a different value when
@@ -3935,7 +3935,7 @@ public class FastMath {
      * </p>
      * @param a dividend
      * @param b divisor
-     * @return q such that a = q b + r with 0 <= r < b if b > 0 and b < r <= 0 if b > 0
+     * @return q such that a = q b + r with 0 <= r < b if b > 0 and b < r <= 0 if b < 0
      * @exception MathArithmeticException if b == 0
      * @see #floorMod(int, int)
      * @since 3.4
@@ -3957,7 +3957,7 @@ public class FastMath {
 
     }
 
-    /** Finds q such that a = q b + r with 0 <= r < b if b > 0 and b < r <= 0 if b > 0.
+    /** Finds q such that a = q b + r with 0 <= r < b if b > 0 and b < r <= 0 if b < 0.
      * <p>
      * This methods returns the same value as integer division when
      * a and b are same signs, but returns a different value when
@@ -3965,7 +3965,7 @@ public class FastMath {
      * </p>
      * @param a dividend
      * @param b divisor
-     * @return q such that a = q b + r with 0 <= r < b if b > 0 and b < r <= 0 if b > 0
+     * @return q such that a = q b + r with 0 <= r < b if b > 0 and b < r <= 0 if b < 0
      * @exception MathArithmeticException if b == 0
      * @see #floorMod(long, long)
      * @since 3.4
@@ -3987,7 +3987,7 @@ public class FastMath {
 
     }
 
-    /** Finds r such that a = q b + r with 0 <= r < b if b > 0 and b < r <= 0 if b > 0.
+    /** Finds r such that a = q b + r with 0 <= r < b if b > 0 and b < r <= 0 if b < 0.
      * <p>
      * This methods returns the same value as integer modulo when
      * a and b are same signs, but returns a different value when
@@ -3995,7 +3995,7 @@ public class FastMath {
      * </p>
      * @param a dividend
      * @param b divisor
-     * @return r such that a = q b + r with 0 <= r < b if b > 0 and b < r <= 0 if b > 0
+     * @return r such that a = q b + r with 0 <= r < b if b > 0 and b < r <= 0 if b < 0
      * @exception MathArithmeticException if b == 0
      * @see #floorDiv(int, int)
      * @since 3.4
