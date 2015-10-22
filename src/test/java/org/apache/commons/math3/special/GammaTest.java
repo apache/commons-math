@@ -974,6 +974,21 @@ public class GammaTest {
         }
     }
 
+    @Test
+    public void testGammaNegativeDouble() {
+        // check that the gamma function properly switches sign
+        // see: https://en.wikipedia.org/wiki/Gamma_function
+
+        double previousGamma = Gamma.gamma(-18.5);
+        for (double x = -19.5; x > -25; x -= 1.0) {
+            double gamma = Gamma.gamma(x);
+            Assert.assertEquals(  (int) FastMath.signum(previousGamma),
+                                - (int) FastMath.signum(gamma));
+
+            previousGamma = gamma;
+        }
+    }
+
     private void checkRelativeError(String msg, double expected, double actual,
                                     double tolerance) {
 
