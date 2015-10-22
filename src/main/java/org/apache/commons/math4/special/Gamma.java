@@ -695,7 +695,7 @@ public class Gamma {
             }
         } else {
             final double y = absX + LANCZOS_G + 0.5;
-            final double gammaAbs = SQRT_TWO_PI / x *
+            final double gammaAbs = SQRT_TWO_PI / absX *
                                     FastMath.pow(y, absX + 0.5) *
                                     FastMath.exp(-y) * lanczos(absX);
             if (x > 0.0) {
