@@ -26,7 +26,7 @@ import org.apache.commons.math3.util.FastMath;
 /**
  * Implementation of the Zipf distribution.
  *
- * @see <a href="http://mathworld.wolfram.com/ZipfDistribution.html">Zipf distribution (MathWorld)</a>
+ * @see <a href="https://en.wikipedia.org/wiki/Zipf's_law">Zipf's law (Wikipedia)</a>
  */
 public class ZipfDistribution extends AbstractIntegerDistribution {
     /** Serializable version identifier. */

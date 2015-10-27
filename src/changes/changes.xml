@@ -51,6 +51,9 @@ If the output is not quite correct, check for invisible trailing spaces!
   </properties>
   <body>
     <release version="3.6" date="XXXX-XX-XX" description="">
+      <action dev="oertl" type="fix" issue="MATH-1285" due-to="Pim van der Hoorn ">
+        Updated reference in ZipfDistribution's javadoc.
+      </action>
       <action dev="tn" type="fix" issue="MATH-1283" due-to="Jean Noel Delavalade">
         Fixed "Gamma#gamma(double)" for negative values smaller than -20.
       </action>    
