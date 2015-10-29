@@ -73,6 +73,20 @@ public class IntegerSequence {
         };
     }
 
+
+    /**
+     * Compute the size of a range
+     * @param range range to analyze
+     * @return size of the range
+     */
+    public static int size(Iterable<Integer> range) {
+        int n = 0;
+        for (@SuppressWarnings("unused") Integer i : range) {
+            n++;
+        }
+        return n;
+    }
+
     /**
      * Utility that increments a counter until a maximum is reached, at
      * which point, the instance will by default throw a

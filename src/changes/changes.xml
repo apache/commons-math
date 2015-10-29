@@ -54,6 +54,10 @@ If the output is not quite correct, check for invisible trailing spaces!
     </release>
 
     <release version="4.0" date="XXXX-XX-XX" description="">
+      <action dev="luc" type="add" due-to="Eric Barnhill">
+        Added various utility methods for easy conversion between Complex[] data
+        and primitive arrays of complex interleaved data.
+      </action>
       <action dev="oertl" type="fix" issue="MATH-1285" due-to="Pim van der Hoorn "> <!-- backported to 3.6 -->
         Updated reference in ZipfDistribution's javadoc.
       </action>
