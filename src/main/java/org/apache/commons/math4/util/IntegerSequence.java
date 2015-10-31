@@ -42,8 +42,8 @@ public class IntegerSequence {
      * @param end Last value of the range.
      * @return a range.
      */
-    public static Iterable<Integer> range(int start,
-                                          int end) {
+    public static Range range(int start,
+                              int end) {
         return range(start, end, 1);
     }
 
@@ -58,19 +58,63 @@ public class IntegerSequence {
      * @param step Increment.
      * @return a range.
      */
-    public static Iterable<Integer> range(final int start,
-                                          final int max,
-                                          final int step) {
-        return new Iterable<Integer>() {
-            /** {@inheritDoc} */
-            @Override
-            public Iterator<Integer> iterator() {
-                return Incrementor.create()
-                    .withStart(start)
-                    .withMaximalCount(max + (step > 0 ? 1 : -1))
-                    .withIncrement(step);
-            }
-        };
+    public static Range range(final int start,
+                              final int max,
+                              final int step) {
+        return new Range(start, max, step);
+    }
+
+    /**
+     * Generates a sequence of integers.
+     */
+    public static class Range implements Iterable<Integer> {
+        /** Number of integers contained in this range. */
+        private final int size;
+        /** First value. */
+        private final int start;
+        /** Final value. */
+        private final int max;
+        /** Increment. */
+        private final int step;
+
+        /**
+         * Creates a sequence \( a_i, i < 0 <= n \)
+         * where \( a_i = start + i * step \)
+         * and \( n \) is such that \( a_n <= max \) and \( a_{n+1} > max \).
+         *
+         * @param start First value of the range.
+         * @param max Last value of the range that satisfies the above
+         * construction rule.
+         * @param step Increment.
+         */
+        public Range(int start,
+                     int max,
+                     int step) {
+            this.start = start;
+            this.max = max;
+            this.step = step;
+
+            final int s = (max - start) / step + 1;
+            this.size = s < 0 ? 0 : s;
+        }
+
+        /**
+         * Gets the number of elements contained in the range.
+         *
+         * @return the size of the range.
+         */
+        public int size() {
+            return size;
+        }
+
+        /** {@inheritDoc} */
+        @Override
+        public Iterator<Integer> iterator() {
+            return Incrementor.create()
+                .withStart(start)
+                .withMaximalCount(max + (step > 0 ? 1 : -1))
+                .withIncrement(step);
+        }
     }
 
     /**
