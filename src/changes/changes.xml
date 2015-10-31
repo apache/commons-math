@@ -51,6 +51,9 @@ If the output is not quite correct, check for invisible trailing spaces!
   </properties>
   <body>
     <release version="3.6" date="XXXX-XX-XX" description="">
+      <action dev="erans" type="add" issue="MATH-1286">
+        New "Range" inner class of "o.a.c.m.util.IntegerSequence".
+      </action>
       <action dev="oertl" type="fix" issue="MATH-1285" due-to="Pim van der Hoorn ">
         Updated reference in ZipfDistribution's javadoc.
       </action>
