@@ -68,7 +68,7 @@ class ClassicalRungeKuttaStepInterpolator
      * interpolators by cloning an uninitialized model and latter initializing
      * the copy.
      */
-    ClassicalRungeKuttaStepInterpolator() {
+    public ClassicalRungeKuttaStepInterpolator() {
     }
 
     /** Copy constructor.

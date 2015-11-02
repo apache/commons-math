@@ -227,7 +227,7 @@ class DormandPrince853StepInterpolator
    * prototyping design pattern to create the step interpolators by
    * cloning an uninitialized model and latter initializing the copy.
    */
-  DormandPrince853StepInterpolator() {
+  public DormandPrince853StepInterpolator() {
     super();
     yDotKLast = null;
     v         = null;

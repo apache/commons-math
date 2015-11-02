@@ -71,7 +71,7 @@ class ThreeEighthesStepInterpolator
    * to create the step interpolators by cloning an uninitialized model
    * and later initializing the copy.
    */
-  ThreeEighthesStepInterpolator() {
+  public ThreeEighthesStepInterpolator() {
   }
 
   /** Copy constructor.

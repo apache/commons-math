@@ -51,7 +51,7 @@ class LutherStepInterpolator extends RungeKuttaStepInterpolator {
      * to create the step interpolators by cloning an uninitialized model
      * and later initializing the copy.
      */
-    LutherStepInterpolator() {
+    public LutherStepInterpolator() {
     }
 
     /** Copy constructor.

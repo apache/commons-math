@@ -97,7 +97,7 @@ class DormandPrince54StepInterpolator
    * prototyping design pattern to create the step interpolators by
    * cloning an uninitialized model and latter initializing the copy.
    */
-  DormandPrince54StepInterpolator() {
+  public DormandPrince54StepInterpolator() {
     super();
     v1 = null;
     v2 = null;

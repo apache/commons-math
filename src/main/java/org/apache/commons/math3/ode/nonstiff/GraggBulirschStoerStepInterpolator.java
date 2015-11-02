@@ -107,7 +107,7 @@ class GraggBulirschStoerStepInterpolator
    * This constructor should not be used directly, it is only intended
    * for the serialization process.
    */
-  GraggBulirschStoerStepInterpolator() {
+  public GraggBulirschStoerStepInterpolator() {
     y0Dot    = null;
     y1       = null;
     y1Dot    = null;
