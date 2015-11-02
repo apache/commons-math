@@ -187,6 +187,11 @@
     <property name="checkFormat"      value="DeclarationOrder"/>
   </module>
   <module name="SuppressionCommentFilter">
+    <property name="offCommentFormat" value="CHECKSTYLE\: stop RedundantModifier"/>
+    <property name="onCommentFormat"  value="CHECKSTYLE\: resume RedundantModifier"/>
+    <property name="checkFormat"      value="RedundantModifier"/>
+  </module>
+  <module name="SuppressionCommentFilter">
     <property name="offCommentFormat" value="CHECKSTYLE\: stop all"/>
     <property name="onCommentFormat" value="CHECKSTYLE\: resume all"/>
   </module>

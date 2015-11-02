@@ -227,12 +227,15 @@ class DormandPrince853StepInterpolator
    * prototyping design pattern to create the step interpolators by
    * cloning an uninitialized model and latter initializing the copy.
    */
+  // CHECKSTYLE: stop RedundantModifier
+  // the public modifier here is needed for serialization
   public DormandPrince853StepInterpolator() {
     super();
     yDotKLast = null;
     v         = null;
     vectorsInitialized = false;
   }
+  // CHECKSTYLE: resume RedundantModifier
 
   /** Copy constructor.
    * @param interpolator interpolator to copy from. The copy is a deep

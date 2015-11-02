@@ -107,6 +107,8 @@ class GraggBulirschStoerStepInterpolator
    * This constructor should not be used directly, it is only intended
    * for the serialization process.
    */
+    // CHECKSTYLE: stop RedundantModifier
+    // the public modifier here is needed for serialization
   public GraggBulirschStoerStepInterpolator() {
     y0Dot    = null;
     y1       = null;
@@ -114,6 +116,7 @@ class GraggBulirschStoerStepInterpolator
     yMidDots = null;
     resetTables(-1);
   }
+  // CHECKSTYLE: resume RedundantModifier
 
   /** Simple constructor.
    * @param y reference to the integrator array holding the current state
