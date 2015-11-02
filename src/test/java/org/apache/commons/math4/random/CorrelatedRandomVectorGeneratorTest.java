@@ -181,7 +181,7 @@ public class CorrelatedRandomVectorGeneratorTest {
                 new double[cov.length],
                 matrix,
                 small,
-                new GaussianRandomGenerator(new JDKRandomGenerator()));
+                new GaussianRandomGenerator(new Well1024a(0x366a26b94e520f41l)));
     }
 
     private void testSampler(final double[][] covMatrix, int samples, double epsilon) {
