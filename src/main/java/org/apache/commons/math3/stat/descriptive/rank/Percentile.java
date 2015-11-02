@@ -757,8 +757,8 @@ public class Percentile extends AbstractUnivariateStatistic implements Serializa
             @Override
             protected double estimate(final double[] values,
                                       final int[] pivotsHeap, final double pos,
-                                      final int length, final KthSelector kthSelector) {
-                return super.estimate(values, pivotsHeap, FastMath.ceil(pos - 0.5), length, kthSelector);
+                                      final int length, final KthSelector selector) {
+                return super.estimate(values, pivotsHeap, FastMath.ceil(pos - 0.5), length, selector);
             }
 
         },
@@ -789,11 +789,11 @@ public class Percentile extends AbstractUnivariateStatistic implements Serializa
             @Override
             protected double estimate(final double[] values,
                                       final int[] pivotsHeap, final double pos,
-                                      final int length, final KthSelector kthSelector) {
+                                      final int length, final KthSelector selector) {
                 final double low =
-                        super.estimate(values, pivotsHeap, FastMath.ceil(pos - 0.5), length, kthSelector);
+                        super.estimate(values, pivotsHeap, FastMath.ceil(pos - 0.5), length, selector);
                 final double high =
-                        super.estimate(values, pivotsHeap,FastMath.floor(pos + 0.5), length, kthSelector);
+                        super.estimate(values, pivotsHeap,FastMath.floor(pos + 0.5), length, selector);
                 return (low + high) / 2;
             }
 
@@ -994,26 +994,26 @@ public class Percentile extends AbstractUnivariateStatistic implements Serializa
          *            {@link #index(double, int)}
          * @param pivotsHeap an earlier populated cache if exists; will be used
          * @param length size of array considered
-         * @param kthSelector a {@link KthSelector} used for pivoting during search
+         * @param selector a {@link KthSelector} used for pivoting during search
          * @return estimated percentile
          */
         protected double estimate(final double[] work, final int[] pivotsHeap,
                                   final double pos, final int length,
-                                  final KthSelector kthSelector) {
+                                  final KthSelector selector) {
 
             final double fpos = FastMath.floor(pos);
             final int intPos = (int) fpos;
             final double dif = pos - fpos;
 
             if (pos < 1) {
-                return kthSelector.select(work, pivotsHeap, 0);
+                return selector.select(work, pivotsHeap, 0);
             }
             if (pos >= length) {
-                return kthSelector.select(work, pivotsHeap, length - 1);
+                return selector.select(work, pivotsHeap, length - 1);
             }
 
-            final double lower = kthSelector.select(work, pivotsHeap, intPos - 1);
-            final double upper = kthSelector.select(work, pivotsHeap, intPos);
+            final double lower = selector.select(work, pivotsHeap, intPos - 1);
+            final double upper = selector.select(work, pivotsHeap, intPos);
             return lower + dif * (upper - lower);
         }
 
@@ -1027,19 +1027,19 @@ public class Percentile extends AbstractUnivariateStatistic implements Serializa
          * @param work array of numbers to be used for finding the percentile
          * @param pivotsHeap a prior cached heap which can speed up estimation
          * @param p the p<sup>th</sup> quantile to be computed
-         * @param kthSelector a {@link KthSelector} used for pivoting during search
+         * @param selector a {@link KthSelector} used for pivoting during search
          * @return estimated percentile
          * @throws OutOfRangeException if p is out of range
          * @throws NullArgumentException if work array is null
          */
         protected double evaluate(final double[] work, final int[] pivotsHeap, final double p,
-                                  final KthSelector kthSelector) {
+                                  final KthSelector selector) {
             MathUtils.checkNotNull(work);
             if (p > 100 || p <= 0) {
                 throw new OutOfRangeException(LocalizedFormats.OUT_OF_BOUNDS_QUANTILE_VALUE,
                                               p, 0, 100);
             }
-            return estimate(work, pivotsHeap, index(p/100d, work.length), work.length, kthSelector);
+            return estimate(work, pivotsHeap, index(p/100d, work.length), work.length, selector);
         }
 
         /**
@@ -1052,12 +1052,12 @@ public class Percentile extends AbstractUnivariateStatistic implements Serializa
          * @param work array of numbers to be used for finding the percentile
          * @param p the p<sup>th</sup> quantile to be computed
          * @return estimated percentile
-         * @param kthSelector a {@link KthSelector} used for pivoting during search
+         * @param selector a {@link KthSelector} used for pivoting during search
          * @throws OutOfRangeException if length or p is out of range
          * @throws NullArgumentException if work array is null
          */
-        public double evaluate(final double[] work, final double p, final KthSelector kthSelector) {
-            return this.evaluate(work, null, p, kthSelector);
+        public double evaluate(final double[] work, final double p, final KthSelector selector) {
+            return this.evaluate(work, null, p, selector);
         }
 
         /**
