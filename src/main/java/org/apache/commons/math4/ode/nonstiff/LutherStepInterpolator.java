@@ -51,8 +51,11 @@ class LutherStepInterpolator extends RungeKuttaStepInterpolator {
      * to create the step interpolators by cloning an uninitialized model
      * and later initializing the copy.
      */
-    LutherStepInterpolator() {
+    // CHECKSTYLE: stop RedundantModifier
+    // the public modifier here is needed for serialization
+    public LutherStepInterpolator() {
     }
+    // CHECKSTYLE: resume RedundantModifier
 
     /** Copy constructor.
      * @param interpolator interpolator to copy from. The copy is a deep
