@@ -107,7 +107,7 @@ class GraggBulirschStoerStepInterpolator
    * This constructor should not be used directly, it is only intended
    * for the serialization process.
    */
-  public GraggBulirschStoerStepInterpolator() {
+  GraggBulirschStoerStepInterpolator() {
     y0Dot    = null;
     y1       = null;
     y1Dot    = null;
@@ -129,12 +129,12 @@ class GraggBulirschStoerStepInterpolator
    * @param primaryMapper equations mapper for the primary equations set
    * @param secondaryMappers equations mappers for the secondary equations sets
    */
-  public GraggBulirschStoerStepInterpolator(final double[] y, final double[] y0Dot,
-                                            final double[] y1, final double[] y1Dot,
-                                            final double[][] yMidDots,
-                                            final boolean forward,
-                                            final EquationsMapper primaryMapper,
-                                            final EquationsMapper[] secondaryMappers) {
+  GraggBulirschStoerStepInterpolator(final double[] y, final double[] y0Dot,
+                                     final double[] y1, final double[] y1Dot,
+                                     final double[][] yMidDots,
+                                     final boolean forward,
+                                     final EquationsMapper primaryMapper,
+                                     final EquationsMapper[] secondaryMappers) {
 
     super(y, forward, primaryMapper, secondaryMappers);
     this.y0Dot    = y0Dot;
@@ -151,8 +151,7 @@ class GraggBulirschStoerStepInterpolator
    * copy: its arrays are separated from the original arrays of the
    * instance
    */
-  public GraggBulirschStoerStepInterpolator
-    (final GraggBulirschStoerStepInterpolator interpolator) {
+  GraggBulirschStoerStepInterpolator(final GraggBulirschStoerStepInterpolator interpolator) {
 
     super(interpolator);
 

@@ -53,7 +53,7 @@ class Characterization<S extends Space> {
      * @param node current BSP tree node
      * @param sub sub-hyperplane to characterize
      */
-    public Characterization(final BSPTree<S> node, final SubHyperplane<S> sub) {
+    Characterization(final BSPTree<S> node, final SubHyperplane<S> sub) {
         outsideTouching  = null;
         insideTouching   = null;
         outsideSplitters = new NodesSet<S>();

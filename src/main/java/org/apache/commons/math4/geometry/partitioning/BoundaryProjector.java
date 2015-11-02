@@ -46,7 +46,7 @@ class BoundaryProjector<S extends Space, T extends Space> implements BSPTreeVisi
     /** Simple constructor.
      * @param original original point
      */
-    public BoundaryProjector(final Point<S> original) {
+    BoundaryProjector(final Point<S> original) {
         this.original  = original;
         this.projected = null;
         this.leaf      = null;

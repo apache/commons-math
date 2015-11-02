@@ -97,7 +97,7 @@ class DormandPrince54StepInterpolator
    * prototyping design pattern to create the step interpolators by
    * cloning an uninitialized model and latter initializing the copy.
    */
-  public DormandPrince54StepInterpolator() {
+  DormandPrince54StepInterpolator() {
     super();
     v1 = null;
     v2 = null;
@@ -111,7 +111,7 @@ class DormandPrince54StepInterpolator
    * copy: its arrays are separated from the original arrays of the
    * instance
    */
-  public DormandPrince54StepInterpolator(final DormandPrince54StepInterpolator interpolator) {
+  DormandPrince54StepInterpolator(final DormandPrince54StepInterpolator interpolator) {
 
     super(interpolator);
 

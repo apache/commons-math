@@ -299,7 +299,7 @@ public class RegionFactory<S extends Space> {
          * @param region1 region to subtract from
          * @param region2 region to subtract
          */
-        public DifferenceMerger(final Region<S> region1, final Region<S> region2) {
+        DifferenceMerger(final Region<S> region1, final Region<S> region2) {
             this.region1 = region1.copySelf();
             this.region2 = region2.copySelf();
         }
@@ -367,7 +367,7 @@ public class RegionFactory<S extends Space> {
         /** Simple constructor.
          * @param inside inside/outside indicator to use for ambiguous nodes
          */
-        public VanishingToLeaf(final boolean inside) {
+        VanishingToLeaf(final boolean inside) {
             this.inside = inside;
         }
 

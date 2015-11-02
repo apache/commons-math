@@ -269,7 +269,7 @@ public class PolynomialsUtils {
          * @param v first exponent
          * @param w second exponent
          */
-        public JacobiKey(final int v, final int w) {
+        JacobiKey(final int v, final int w) {
             this.v = v;
             this.w = w;
         }

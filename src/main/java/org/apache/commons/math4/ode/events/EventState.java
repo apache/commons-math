@@ -414,7 +414,7 @@ public class EventState {
         /** Simple constructor.
          * @param exception exception to wrap
          */
-        public LocalMaxCountExceededException(final MaxCountExceededException exception) {
+        LocalMaxCountExceededException(final MaxCountExceededException exception) {
             wrapped = exception;
         }
 

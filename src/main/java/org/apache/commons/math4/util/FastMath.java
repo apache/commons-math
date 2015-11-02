@@ -1655,7 +1655,7 @@ public class FastMath {
         /** Simple constructor.
          * @param x number to split
          */
-        public Split(final double x) {
+        Split(final double x) {
             full = x;
             high = Double.longBitsToDouble(Double.doubleToRawLongBits(x) & ((-1L) << 27));
             low  = x - high;
@@ -1665,7 +1665,7 @@ public class FastMath {
          * @param high high order bits
          * @param low low order bits
          */
-        public Split(final double high, final double low) {
+        Split(final double high, final double low) {
             this(high == 0.0 ? (low == 0.0 && Double.doubleToRawLongBits(high) == Long.MIN_VALUE /* negative zero */ ? -0.0 : low) : high + low, high, low);
         }
 
@@ -1674,7 +1674,7 @@ public class FastMath {
          * @param high high order bits
          * @param low low order bits
          */
-        public Split(final double full, final double high, final double low) {
+        Split(final double full, final double high, final double low) {
             this.full = full;
             this.high = high;
             this.low  = low;

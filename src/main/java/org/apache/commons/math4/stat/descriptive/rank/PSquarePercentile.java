@@ -894,7 +894,7 @@ public class PSquarePercentile extends AbstractStorelessUnivariateStatistic
          *
          * @param fixedCapacity the capacity to be fixed for this list
          */
-        public FixedCapacityList(final int fixedCapacity) {
+        FixedCapacityList(final int fixedCapacity) {
             super(fixedCapacity);
             this.capacity = fixedCapacity;
         }

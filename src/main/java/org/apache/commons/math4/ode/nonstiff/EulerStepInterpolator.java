@@ -59,7 +59,7 @@ class EulerStepInterpolator
    * to create the step interpolators by cloning an uninitialized model
    * and later initializing the copy.
    */
-  public EulerStepInterpolator() {
+  EulerStepInterpolator() {
   }
 
   /** Copy constructor.
@@ -67,7 +67,7 @@ class EulerStepInterpolator
    * copy: its arrays are separated from the original arrays of the
    * instance
    */
-  public EulerStepInterpolator(final EulerStepInterpolator interpolator) {
+  EulerStepInterpolator(final EulerStepInterpolator interpolator) {
     super(interpolator);
   }
 

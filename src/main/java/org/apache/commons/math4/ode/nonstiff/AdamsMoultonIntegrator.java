@@ -367,7 +367,7 @@ public class AdamsMoultonIntegrator extends AdamsIntegrator {
          * @param scaled current scaled first derivative
          * @param state state to correct (will be overwritten after visit)
          */
-        public Corrector(final double[] previous, final double[] scaled, final double[] state) {
+        Corrector(final double[] previous, final double[] scaled, final double[] state) {
             this.previous = previous;
             this.scaled   = scaled;
             this.after    = state;

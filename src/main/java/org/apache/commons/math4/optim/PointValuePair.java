@@ -107,7 +107,7 @@ public class PointValuePair extends Pair<double[], Double> implements Serializab
          * @param point Point coordinates.
          * @param value Value of the objective function at the point.
          */
-        public DataTransferObject(final double[] point, final double value) {
+        DataTransferObject(final double[] point, final double value) {
             this.point = point.clone();
             this.value = value;
         }

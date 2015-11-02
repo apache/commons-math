@@ -58,7 +58,7 @@ class TriDiagonalTransformer {
      * @param matrix Symmetrical matrix to transform.
      * @throws NonSquareMatrixException if the matrix is not square.
      */
-    public TriDiagonalTransformer(RealMatrix matrix) {
+    TriDiagonalTransformer(RealMatrix matrix) {
         if (!matrix.isSquare()) {
             throw new NonSquareMatrixException(matrix.getRowDimension(),
                                                matrix.getColumnDimension());

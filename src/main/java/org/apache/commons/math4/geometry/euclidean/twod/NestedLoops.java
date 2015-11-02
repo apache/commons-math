@@ -69,7 +69,7 @@ class NestedLoops {
      * @param tolerance tolerance below which points are considered identical
      * @since 3.3
      */
-    public NestedLoops(final double tolerance) {
+    NestedLoops(final double tolerance) {
         this.surrounded = new ArrayList<NestedLoops>();
         this.tolerance  = tolerance;
     }

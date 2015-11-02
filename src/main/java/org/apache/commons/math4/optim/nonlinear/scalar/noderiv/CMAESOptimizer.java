@@ -912,7 +912,7 @@ public class CMAESOptimizer
          * @param value Function value.
          * @param penalty Out-of-bounds penalty.
         */
-        public ValuePenaltyPair(final double value, final double penalty) {
+        ValuePenaltyPair(final double value, final double penalty) {
             this.value   = value;
             this.penalty = penalty;
         }
@@ -932,7 +932,7 @@ public class CMAESOptimizer
 
         /** Simple constructor.
          */
-        public FitnessFunction() {
+        FitnessFunction() {
             isRepairMode = true;
         }
 

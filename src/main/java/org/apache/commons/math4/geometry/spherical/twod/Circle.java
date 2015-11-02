@@ -304,7 +304,7 @@ public class Circle implements Hyperplane<Sphere2D>, Embedding<Sphere2D, Sphere1
         /** Build a transform from a {@code Rotation}.
          * @param rotation rotation to use
          */
-        public CircleTransform(final Rotation rotation) {
+        CircleTransform(final Rotation rotation) {
             this.rotation = rotation;
         }
 

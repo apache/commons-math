@@ -75,7 +75,7 @@ class GillStepInterpolator
    * to create the step interpolators by cloning an uninitialized model
    * and later initializing the copy.
    */
-  public GillStepInterpolator() {
+  GillStepInterpolator() {
   }
 
   /** Copy constructor.
@@ -83,7 +83,7 @@ class GillStepInterpolator
    * copy: its arrays are separated from the original arrays of the
    * instance
    */
-  public GillStepInterpolator(final GillStepInterpolator interpolator) {
+  GillStepInterpolator(final GillStepInterpolator interpolator) {
     super(interpolator);
   }
 

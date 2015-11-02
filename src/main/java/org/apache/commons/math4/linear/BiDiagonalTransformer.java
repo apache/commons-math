@@ -58,7 +58,7 @@ class BiDiagonalTransformer {
      * Build the transformation to bi-diagonal shape of a matrix.
      * @param matrix the matrix to transform.
      */
-    public BiDiagonalTransformer(RealMatrix matrix) {
+    BiDiagonalTransformer(RealMatrix matrix) {
 
         final int m = matrix.getRowDimension();
         final int n = matrix.getColumnDimension();

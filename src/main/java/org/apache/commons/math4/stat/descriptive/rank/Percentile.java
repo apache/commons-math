@@ -669,7 +669,7 @@ public class Percentile extends AbstractUnivariateStatistic implements Serializa
      * R-Manual </a></li>
      * </ol>
      */
-    public static enum EstimationType {
+    public enum EstimationType {
         /**
          * This is the default type used in the {@link Percentile}.This method
          * has the following formulae for index and estimates<br>
@@ -928,7 +928,7 @@ public class Percentile extends AbstractUnivariateStatistic implements Serializa
          *
          * @param type name of estimation type as per wikipedia
          */
-        private EstimationType(final String type) {
+        EstimationType(final String type) {
             this.name = type;
         }
 

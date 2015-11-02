@@ -61,7 +61,7 @@ class MidpointStepInterpolator
    * to create the step interpolators by cloning an uninitialized model
    * and later initializing the copy.
    */
-  public MidpointStepInterpolator() {
+  MidpointStepInterpolator() {
   }
 
   /** Copy constructor.
@@ -69,7 +69,7 @@ class MidpointStepInterpolator
    * copy: its arrays are separated from the original arrays of the
    * instance
    */
-  public MidpointStepInterpolator(final MidpointStepInterpolator interpolator) {
+  MidpointStepInterpolator(final MidpointStepInterpolator interpolator) {
     super(interpolator);
   }
 

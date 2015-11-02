@@ -37,7 +37,7 @@ public enum Relationship {
      *
      * @param stringValue Display string for the relationship.
      */
-    private Relationship(String stringValue) {
+    Relationship(String stringValue) {
         this.stringValue = stringValue;
     }
 

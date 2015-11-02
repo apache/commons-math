@@ -1237,7 +1237,7 @@ public class DerivativeStructure implements RealFieldElement<DerivativeStructure
          * @param order derivation order
          * @param data partial derivatives
          */
-        public DataTransferObject(final int variables, final int order, final double[] data) {
+        DataTransferObject(final int variables, final int order, final double[] data) {
             this.variables = variables;
             this.order     = order;
             this.data      = data;

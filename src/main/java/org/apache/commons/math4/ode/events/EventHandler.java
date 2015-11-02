@@ -50,7 +50,7 @@ package org.apache.commons.math4.ode.events;
 public interface EventHandler  {
 
     /** Enumerate for actions to be performed when an event occurs. */
-    public enum Action {
+    enum Action {
 
         /** Stop indicator.
          * <p>This value should be used as the return value of the {@link
