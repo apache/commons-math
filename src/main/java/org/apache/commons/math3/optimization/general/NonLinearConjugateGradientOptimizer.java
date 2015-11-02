@@ -284,7 +284,7 @@ public class NonLinearConjugateGradientOptimizer
         /** Simple constructor.
          * @param searchDirection search direction
          */
-        public LineSearchFunction(final double[] searchDirection) {
+        LineSearchFunction(final double[] searchDirection) {
             this.searchDirection = searchDirection;
         }
 

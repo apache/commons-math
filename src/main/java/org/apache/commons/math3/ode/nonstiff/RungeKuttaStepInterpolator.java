@@ -79,7 +79,7 @@ abstract class RungeKuttaStepInterpolator
   * @param interpolator interpolator to copy from.
 
   */
-  public RungeKuttaStepInterpolator(final RungeKuttaStepInterpolator interpolator) {
+  RungeKuttaStepInterpolator(final RungeKuttaStepInterpolator interpolator) {
 
     super(interpolator);
 

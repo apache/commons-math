@@ -44,9 +44,9 @@ class PropertiesComputer implements BSPTreeVisitor<Sphere2D> {
     private final List<Vector3D> convexCellsInsidePoints;
 
     /** Simple constructor.
- * @param tolerance below which points are consider to be identical
+     * @param tolerance below which points are consider to be identical
      */
-    public PropertiesComputer(final double tolerance) {
+    PropertiesComputer(final double tolerance) {
         this.tolerance              = tolerance;
         this.summedArea             = 0;
         this.summedBarycenter       = Vector3D.ZERO;

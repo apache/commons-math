@@ -65,7 +65,7 @@ class FourthMoment extends ThirdMoment implements Serializable{
     /**
      * Create a FourthMoment instance
      */
-    public FourthMoment() {
+    FourthMoment() {
         super();
         m4 = Double.NaN;
     }
@@ -77,7 +77,7 @@ class FourthMoment extends ThirdMoment implements Serializable{
      * @param original the {@code FourthMoment} instance to copy
      * @throws NullArgumentException if original is null
      */
-     public FourthMoment(FourthMoment original) throws NullArgumentException {
+     FourthMoment(FourthMoment original) throws NullArgumentException {
          super();
          copy(original, this);
      }

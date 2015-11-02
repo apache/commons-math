@@ -377,7 +377,7 @@ public class SphericalCoordinates implements Serializable {
          * @param y ordinate
          * @param z height
          */
-        public DataTransferObject(final double x, final double y, final double z) {
+        DataTransferObject(final double x, final double y, final double z) {
             this.x = x;
             this.y = y;
             this.z = z;

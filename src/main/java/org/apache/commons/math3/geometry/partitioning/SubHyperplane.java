@@ -94,7 +94,7 @@ public interface SubHyperplane<S extends Space> {
     /** Class holding the results of the {@link #split split} method.
      * @param <U> Type of the embedding space.
      */
-    public static class SplitSubHyperplane<U extends Space> {
+    class SplitSubHyperplane<U extends Space> {
 
         /** Part of the sub-hyperplane on the plus side of the splitting hyperplane. */
         private final SubHyperplane<U> plus;

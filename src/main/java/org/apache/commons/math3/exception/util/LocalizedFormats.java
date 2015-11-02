@@ -380,7 +380,7 @@ public enum LocalizedFormats implements Localizable {
      * @param sourceFormat source English format to use when no
      * localized version is available
      */
-    private LocalizedFormats(final String sourceFormat) {
+    LocalizedFormats(final String sourceFormat) {
         this.sourceFormat = sourceFormat;
     }
 

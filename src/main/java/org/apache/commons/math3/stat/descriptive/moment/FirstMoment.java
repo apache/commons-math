@@ -77,7 +77,7 @@ class FirstMoment extends AbstractStorelessUnivariateStatistic
     /**
      * Create a FirstMoment instance
      */
-    public FirstMoment() {
+    FirstMoment() {
         n = 0;
         m1 = Double.NaN;
         dev = Double.NaN;
@@ -91,7 +91,7 @@ class FirstMoment extends AbstractStorelessUnivariateStatistic
      * @param original the {@code FirstMoment} instance to copy
      * @throws NullArgumentException if original is null
      */
-     public FirstMoment(FirstMoment original) throws NullArgumentException {
+     FirstMoment(FirstMoment original) throws NullArgumentException {
          super();
          copy(original, this);
      }

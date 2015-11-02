@@ -45,7 +45,7 @@ class HighamHall54StepInterpolator
    * to create the step interpolators by cloning an uninitialized model
    * and later initializing the copy.
    */
-  public HighamHall54StepInterpolator() {
+  HighamHall54StepInterpolator() {
     super();
   }
 
@@ -54,7 +54,7 @@ class HighamHall54StepInterpolator
    * copy: its arrays are separated from the original arrays of the
    * instance
    */
-  public HighamHall54StepInterpolator(final HighamHall54StepInterpolator interpolator) {
+  HighamHall54StepInterpolator(final HighamHall54StepInterpolator interpolator) {
     super(interpolator);
   }
 

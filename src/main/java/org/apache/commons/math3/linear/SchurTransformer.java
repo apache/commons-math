@@ -65,7 +65,7 @@ class SchurTransformer {
      * @param matrix matrix to transform
      * @throws NonSquareMatrixException if the matrix is not square
      */
-    public SchurTransformer(final RealMatrix matrix) {
+    SchurTransformer(final RealMatrix matrix) {
         if (!matrix.isSquare()) {
             throw new NonSquareMatrixException(matrix.getRowDimension(),
                                                matrix.getColumnDimension());

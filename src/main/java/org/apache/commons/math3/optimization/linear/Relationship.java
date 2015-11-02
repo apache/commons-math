@@ -40,7 +40,7 @@ public enum Relationship {
     /** Simple constructor.
      * @param stringValue display string for the relationship
      */
-    private Relationship(String stringValue) {
+    Relationship(String stringValue) {
         this.stringValue = stringValue;
     }
 

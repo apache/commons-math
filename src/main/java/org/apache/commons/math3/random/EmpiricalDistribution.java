@@ -349,7 +349,7 @@ public class EmpiricalDistribution extends AbstractRealDistribution {
          *
          * @param in BufferedReader input stream
          */
-        public StreamDataAdapter(BufferedReader in){
+        StreamDataAdapter(BufferedReader in){
             super();
             inputStream = in;
         }
@@ -398,7 +398,7 @@ public class EmpiricalDistribution extends AbstractRealDistribution {
          * @param in double[] array holding the data
          * @throws NullArgumentException if in is null
          */
-        public ArrayDataAdapter(double[] in) throws NullArgumentException {
+        ArrayDataAdapter(double[] in) throws NullArgumentException {
             super();
             MathUtils.checkNotNull(in);
             inputArray = in;

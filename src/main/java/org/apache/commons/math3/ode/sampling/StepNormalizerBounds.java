@@ -56,7 +56,7 @@ public enum StepNormalizerBounds {
      * @param last Whether the last point should be passed to the
      * underlying fixed step size step handler.
      */
-    private StepNormalizerBounds(final boolean first, final boolean last) {
+    StepNormalizerBounds(final boolean first, final boolean last) {
         this.first = first;
         this.last = last;
     }

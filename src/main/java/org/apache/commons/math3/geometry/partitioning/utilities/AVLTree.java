@@ -201,7 +201,7 @@ public class AVLTree<T extends Comparable<T>> {
     }
 
     /** Enum for tree skew factor. */
-    private static enum Skew {
+    private enum Skew {
         /** Code for left high trees. */
         LEFT_HIGH,
 

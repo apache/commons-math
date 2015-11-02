@@ -50,7 +50,7 @@ public class GaussNewtonOptimizer implements LeastSquaresOptimizer {
 
     /** The decomposition algorithm to use to solve the normal equations. */
     //TODO move to linear package and expand options?
-    public static enum Decomposition {
+    public enum Decomposition {
         /**
          * Solve by forming the normal equations (J<sup>T</sup>Jx=J<sup>T</sup>r) and
          * using the {@link LUDecomposition}.

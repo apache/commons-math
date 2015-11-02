@@ -149,7 +149,7 @@ public class ResizableDoubleArray implements DoubleArray, Serializable {
      * Specification of expansion algorithm.
      * @since 3.1
      */
-    public static enum ExpansionMode {
+    public enum ExpansionMode {
         /** Multiplicative expansion mode. */
         MULTIPLICATIVE,
         /** Additive expansion mode. */

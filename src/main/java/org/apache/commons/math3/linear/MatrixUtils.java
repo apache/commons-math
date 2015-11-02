@@ -625,7 +625,7 @@ public class MatrixUtils {
         /** Converted array. */
         private double[][] data;
         /** Simple constructor. */
-        public FractionMatrixConverter() {
+        FractionMatrixConverter() {
             super(Fraction.ZERO);
         }
 
@@ -670,7 +670,7 @@ public class MatrixUtils {
         /** Converted array. */
         private double[][] data;
         /** Simple constructor. */
-        public BigFractionMatrixConverter() {
+        BigFractionMatrixConverter() {
             super(BigFraction.ZERO);
         }
 

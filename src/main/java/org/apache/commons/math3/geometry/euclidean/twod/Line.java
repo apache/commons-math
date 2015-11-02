@@ -514,8 +514,8 @@ public class Line implements Hyperplane<Euclidean2D>, Embedding<Euclidean2D, Euc
          * @exception MathIllegalArgumentException if the transform is non invertible
          * @since 3.6
          */
-        public LineTransform(final double cXX, final double cYX, final double cXY,
-                             final double cYY, final double cX1, final double cY1)
+        LineTransform(final double cXX, final double cYX, final double cXY,
+                      final double cYY, final double cX1, final double cY1)
             throws MathIllegalArgumentException {
 
             this.cXX = cXX;

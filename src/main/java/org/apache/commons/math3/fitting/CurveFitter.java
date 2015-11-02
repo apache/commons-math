@@ -190,7 +190,7 @@ public class CurveFitter<T extends ParametricUnivariateFunction> {
         /**
          * @param f function to fit.
          */
-        public TheoreticalValuesFunction(final ParametricUnivariateFunction f) {
+        TheoreticalValuesFunction(final ParametricUnivariateFunction f) {
             this.f = f;
         }
 

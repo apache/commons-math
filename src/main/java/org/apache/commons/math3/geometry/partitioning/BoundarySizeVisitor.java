@@ -29,7 +29,7 @@ class BoundarySizeVisitor<S extends Space> implements BSPTreeVisitor<S> {
 
     /** Simple constructor.
      */
-    public BoundarySizeVisitor() {
+    BoundarySizeVisitor() {
         boundarySize = 0;
     }
 

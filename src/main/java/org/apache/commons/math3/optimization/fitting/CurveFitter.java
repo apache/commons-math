@@ -207,7 +207,7 @@ public class CurveFitter<T extends ParametricUnivariateFunction> {
         /** Simple constructor.
          * @param f function to fit.
          */
-        public OldTheoreticalValuesFunction(final ParametricUnivariateFunction f) {
+        OldTheoreticalValuesFunction(final ParametricUnivariateFunction f) {
             this.f = f;
         }
 
@@ -249,7 +249,7 @@ public class CurveFitter<T extends ParametricUnivariateFunction> {
         /** Simple constructor.
          * @param f function to fit.
          */
-        public TheoreticalValuesFunction(final ParametricUnivariateFunction f) {
+        TheoreticalValuesFunction(final ParametricUnivariateFunction f) {
             this.f = f;
         }
 

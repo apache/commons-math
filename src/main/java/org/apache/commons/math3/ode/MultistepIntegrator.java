@@ -355,7 +355,7 @@ public abstract class MultistepIntegrator extends AdaptiveStepsizeIntegrator {
          * @param nSteps number of steps of the multistep method (excluding the one being computed)
          * @param n problem dimension
          */
-        public NordsieckInitializer(final int nSteps, final int n) {
+        NordsieckInitializer(final int nSteps, final int n) {
             this.count = 0;
             this.t     = new double[nSteps];
             this.y     = new double[nSteps][n];
@@ -438,7 +438,7 @@ public abstract class MultistepIntegrator extends AdaptiveStepsizeIntegrator {
         private static final long serialVersionUID = -1914085471038046418L;
 
         /** Simple constructor. */
-        public InitializationCompletedMarkerException() {
+        InitializationCompletedMarkerException() {
             super((Throwable) null);
         }
 

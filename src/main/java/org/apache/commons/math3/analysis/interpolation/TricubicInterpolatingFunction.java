@@ -452,7 +452,7 @@ class TricubicFunction
     /**
      * @param aV List of spline coefficients.
      */
-    public TricubicFunction(double[] aV) {
+    TricubicFunction(double[] aV) {
         for (int i = 0; i < N; i++) {
             for (int j = 0; j < N; j++) {
                 for (int k = 0; k < N; k++) {

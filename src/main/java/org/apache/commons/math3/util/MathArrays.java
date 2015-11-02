@@ -312,7 +312,7 @@ public class MathArrays {
     /**
      * Specification of ordering direction.
      */
-    public static enum OrderDirection {
+    public enum OrderDirection {
         /** Constant for increasing direction. */
         INCREASING,
         /** Constant for decreasing direction. */
@@ -757,7 +757,7 @@ public class MathArrays {
          * @param key Key.
          * @param value Value.
          */
-        public PairDoubleInteger(double key, int value) {
+        PairDoubleInteger(double key, int value) {
             this.key = key;
             this.value = value;
         }
@@ -1555,7 +1555,7 @@ public class MathArrays {
      * Specification for indicating that some operation applies
      * before or after a given index.
      */
-    public static enum Position {
+    public enum Position {
         /** Designates the beginning of the array (near index 0). */
         HEAD,
         /** Designates the end of the array. */

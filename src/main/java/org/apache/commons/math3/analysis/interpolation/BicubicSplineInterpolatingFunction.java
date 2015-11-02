@@ -457,7 +457,7 @@ class BicubicSplineFunction implements BivariateFunction {
      *
      * @param coeff Spline coefficients.
      */
-    public BicubicSplineFunction(double[] coeff) {
+    BicubicSplineFunction(double[] coeff) {
         this(coeff, false);
     }
 
@@ -469,8 +469,7 @@ class BicubicSplineFunction implements BivariateFunction {
      * needed for calling any of the methods that compute the partial derivatives
      * this function.
      */
-    public BicubicSplineFunction(double[] coeff,
-                                 boolean initializeDerivatives) {
+    BicubicSplineFunction(double[] coeff, boolean initializeDerivatives) {
         a = new double[N][N];
         for (int i = 0; i < N; i++) {
             for (int j = 0; j < N; j++) {

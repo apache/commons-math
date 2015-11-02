@@ -203,7 +203,7 @@ public class MultivariateFunctionMappingAdapter implements MultivariateFunction 
 
         /** Simple constructor.
          */
-        public NoBoundsMapper() {
+        NoBoundsMapper() {
         }
 
         /** {@inheritDoc} */
@@ -227,7 +227,7 @@ public class MultivariateFunctionMappingAdapter implements MultivariateFunction 
         /** Simple constructor.
          * @param lower lower bound
          */
-        public LowerBoundMapper(final double lower) {
+        LowerBoundMapper(final double lower) {
             this.lower = lower;
         }
 
@@ -252,7 +252,7 @@ public class MultivariateFunctionMappingAdapter implements MultivariateFunction 
         /** Simple constructor.
          * @param upper upper bound
          */
-        public UpperBoundMapper(final double upper) {
+        UpperBoundMapper(final double upper) {
             this.upper = upper;
         }
 
@@ -281,7 +281,7 @@ public class MultivariateFunctionMappingAdapter implements MultivariateFunction 
          * @param lower lower bound
          * @param upper upper bound
          */
-        public LowerUpperBoundMapper(final double lower, final double upper) {
+        LowerUpperBoundMapper(final double lower, final double upper) {
             boundingFunction   = new Sigmoid(lower, upper);
             unboundingFunction = new Logit(lower, upper);
         }

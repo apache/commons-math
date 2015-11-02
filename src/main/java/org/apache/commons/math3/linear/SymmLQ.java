@@ -380,7 +380,7 @@ public class SymmLQ
          * @param check {@code true} if self-adjointedness of both matrix and
          * preconditioner should be checked
          */
-        public State(final RealLinearOperator a,
+        State(final RealLinearOperator a,
             final RealLinearOperator m,
             final RealVector b,
             final boolean goodb,

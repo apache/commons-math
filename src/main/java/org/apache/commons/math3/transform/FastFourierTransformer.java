@@ -516,8 +516,7 @@ public class FastFourierTransformer implements Serializable {
          * @param multiDimensionalComplexArray array containing the matrix
          * elements
          */
-        public MultiDimensionalComplexMatrix(
-                Object multiDimensionalComplexArray) {
+        MultiDimensionalComplexMatrix(Object multiDimensionalComplexArray) {
 
             this.multiDimensionalComplexArray = multiDimensionalComplexArray;
 

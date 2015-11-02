@@ -1013,7 +1013,7 @@ public class CMAESOptimizer
 
         /** Simple constructor.
          */
-        public FitnessFunction() {
+        FitnessFunction() {
             valueRange = 1;
             isRepairMode = true;
         }

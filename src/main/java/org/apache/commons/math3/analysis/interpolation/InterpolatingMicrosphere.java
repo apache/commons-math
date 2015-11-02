@@ -334,7 +334,7 @@ public class InterpolatingMicrosphere {
          * @param n Normal vector characterizing a surface element
          * of the microsphere. No copy is made.
          */
-        public Facet(double[] n) {
+        Facet(double[] n) {
             normal = n;
         }
 
@@ -361,8 +361,7 @@ public class InterpolatingMicrosphere {
          * @param illumination Illumination.
          * @param sample Data value.
          */
-        public FacetData(double illumination,
-                         double sample) {
+        FacetData(double illumination, double sample) {
             this.illumination = illumination;
             this.sample = sample;
         }

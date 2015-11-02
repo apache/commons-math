@@ -443,7 +443,7 @@ public class PolyhedronsSet extends AbstractRegion<Euclidean3D, Euclidean2D> {
     private class FacetsContributionVisitor implements BSPTreeVisitor<Euclidean3D> {
 
         /** Simple constructor. */
-        public FacetsContributionVisitor() {
+        FacetsContributionVisitor() {
             setSize(0);
             setBarycenter((Point<Euclidean3D>) new Vector3D(0, 0, 0));
         }
@@ -626,7 +626,7 @@ public class PolyhedronsSet extends AbstractRegion<Euclidean3D, Euclidean2D> {
          * @param center center point of the rotation
          * @param rotation vectorial rotation
          */
-        public RotationTransform(final Vector3D center, final Rotation rotation) {
+        RotationTransform(final Vector3D center, final Rotation rotation) {
             this.center   = center;
             this.rotation = rotation;
         }
@@ -697,7 +697,7 @@ public class PolyhedronsSet extends AbstractRegion<Euclidean3D, Euclidean2D> {
         /** Build a translation transform.
          * @param translation translation vector
          */
-        public TranslationTransform(final Vector3D translation) {
+        TranslationTransform(final Vector3D translation) {
             this.translation = translation;
         }
 

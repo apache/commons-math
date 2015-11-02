@@ -301,8 +301,7 @@ public class MapUtils {
          * @param neuron Neuron.
          * @param value Value.
          */
-        public PairNeuronDouble(Neuron neuron,
-                                double value) {
+        PairNeuronDouble(Neuron neuron, double value) {
             this.neuron = neuron;
             this.value = value;
         }

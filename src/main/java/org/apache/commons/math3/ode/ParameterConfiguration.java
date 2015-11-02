@@ -38,7 +38,7 @@ class ParameterConfiguration implements Serializable {
      * @param parameterName parameter name
      * @param hP parameter step
      */
-    public ParameterConfiguration(final String parameterName, final double hP) {
+    ParameterConfiguration(final String parameterName, final double hP) {
         this.parameterName = parameterName;
         this.hP = hP;
     }

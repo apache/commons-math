@@ -70,7 +70,7 @@ public class NonLinearConjugateGradientOptimizer
      *
      * @since 2.0
      */
-    public static enum Formula {
+    public enum Formula {
         /** Fletcher-Reeves formula. */
         FLETCHER_REEVES,
         /** Polak-Ribière formula. */
