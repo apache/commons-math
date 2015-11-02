@@ -536,6 +536,7 @@ public class BSPTree<S extends Space> {
      * specifies how to handle this situation.
      * setting
      * </p>
+     * @param <S> Type of the space.
      * @since 3.4
      */
     public interface VanishingCutHandler<S extends Space> {

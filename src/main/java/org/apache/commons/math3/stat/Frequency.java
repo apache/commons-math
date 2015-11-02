@@ -626,6 +626,7 @@ public class Frequency implements Serializable {
     /**
      * A Comparator that compares comparable objects using the
      * natural order.  Copied from Commons Collections ComparableComparator.
+     * @param <T> the type of the objects compared
      */
     private static class NaturalComparator<T extends Comparable<T>> implements Comparator<Comparable<T>>, Serializable {
 
