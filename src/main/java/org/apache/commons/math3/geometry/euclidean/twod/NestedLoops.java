@@ -18,6 +18,7 @@ package org.apache.commons.math3.geometry.euclidean.twod;
 
 import java.util.ArrayList;
 import java.util.Iterator;
+import java.util.List;
 
 import org.apache.commons.math3.exception.MathIllegalArgumentException;
 import org.apache.commons.math3.exception.util.LocalizedFormats;
@@ -50,7 +51,7 @@ class NestedLoops {
     private Vector2D[] loop;
 
     /** Surrounded loops. */
-    private ArrayList<NestedLoops> surrounded;
+    private List<NestedLoops> surrounded;
 
     /** Polygon enclosing a finite region. */
     private Region<Euclidean2D> polygon;

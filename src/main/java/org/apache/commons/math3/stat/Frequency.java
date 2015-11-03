@@ -25,6 +25,7 @@ import java.util.Comparator;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
+import java.util.SortedMap;
 import java.util.TreeMap;
 
 import org.apache.commons.math3.exception.MathIllegalArgumentException;
@@ -67,7 +68,7 @@ public class Frequency implements Serializable {
     private static final long serialVersionUID = -3845586908418844111L;
 
     /** underlying collection */
-    private final TreeMap<Comparable<?>, Long> freqTable;
+    private final SortedMap<Comparable<?>, Long> freqTable;
 
     /**
      * Default constructor.
