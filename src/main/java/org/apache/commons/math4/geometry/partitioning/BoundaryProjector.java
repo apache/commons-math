@@ -162,7 +162,7 @@ class BoundaryProjector<S extends Space, T extends Space> implements BSPTreeVisi
             if (region != null) {
                 list.add(region);
             }
-        };
+        }
     }
 
     /** Check if a projected point lies on a boundary part.
