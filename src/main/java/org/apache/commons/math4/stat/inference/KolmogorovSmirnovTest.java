@@ -42,9 +42,7 @@ import org.apache.commons.math4.random.Well19937c;
 import org.apache.commons.math4.util.CombinatoricsUtils;
 import org.apache.commons.math4.util.FastMath;
 import org.apache.commons.math4.util.MathArrays;
-
-import static org.apache.commons.math4.util.FastMath.PI;
-import static org.apache.commons.math4.util.MathUtils.PI_SQUARED;
+import org.apache.commons.math4.util.MathUtils;
 
 /**
  * Implementation of the <a href="http://en.wikipedia.org/wiki/Kolmogorov-Smirnov_test">
@@ -543,7 +541,7 @@ public class KolmogorovSmirnovTest {
         double sum = 0;
         double increment = 0;
         double kTerm = 0;
-        double z2Term = PI_SQUARED / (8 * z2);
+        double z2Term = MathUtils.PI_SQUARED / (8 * z2);
         int k = 1;
         for (; k < MAXIMUM_PARTIAL_SUM_COUNT; k++) {
             kTerm = 2 * k - 1;
@@ -568,7 +566,7 @@ public class KolmogorovSmirnovTest {
         for (k = 0; k < MAXIMUM_PARTIAL_SUM_COUNT; k++) {
             kTerm = k + 0.5;
             kTerm2 = kTerm * kTerm;
-            increment = (PI_SQUARED * kTerm2 - z2) * FastMath.exp(-PI_SQUARED * kTerm2 / twoZ2);
+            increment = (MathUtils.PI_SQUARED * kTerm2 - z2) * FastMath.exp(-MathUtils.PI_SQUARED * kTerm2 / twoZ2);
             sum += increment;
             if (FastMath.abs(increment) < PG_SUM_RELATIVE_ERROR * FastMath.abs(sum)) {
                 break;
@@ -577,7 +575,7 @@ public class KolmogorovSmirnovTest {
         if (k == MAXIMUM_PARTIAL_SUM_COUNT) {
             throw new TooManyIterationsException(MAXIMUM_PARTIAL_SUM_COUNT);
         }
-        final double sqrtHalfPi = FastMath.sqrt(PI / 2);
+        final double sqrtHalfPi = FastMath.sqrt(FastMath.PI / 2);
         // Instead of doubling sum, divide by 3 instead of 6
         ret += sum * sqrtHalfPi / (3 * z4 * sqrtN);
 
@@ -586,15 +584,15 @@ public class KolmogorovSmirnovTest {
         final double z4Term = 2 * z4;
         final double z6Term = 6 * z6;
         z2Term = 5 * z2;
-        final double pi4 = PI_SQUARED * PI_SQUARED;
+        final double pi4 = MathUtils.PI_SQUARED * MathUtils.PI_SQUARED;
         sum = 0;
         kTerm = 0;
         kTerm2 = 0;
         for (k = 0; k < MAXIMUM_PARTIAL_SUM_COUNT; k++) {
             kTerm = k + 0.5;
             kTerm2 = kTerm * kTerm;
-            increment =  (z6Term + z4Term + PI_SQUARED * (z4Term - z2Term) * kTerm2 +
-                    pi4 * (1 - twoZ2) * kTerm2 * kTerm2) * FastMath.exp(-PI_SQUARED * kTerm2 / twoZ2);
+            increment =  (z6Term + z4Term + MathUtils.PI_SQUARED * (z4Term - z2Term) * kTerm2 +
+                    pi4 * (1 - twoZ2) * kTerm2 * kTerm2) * FastMath.exp(-MathUtils.PI_SQUARED * kTerm2 / twoZ2);
             sum += increment;
             if (FastMath.abs(increment) < PG_SUM_RELATIVE_ERROR * FastMath.abs(sum)) {
                 break;
@@ -607,7 +605,7 @@ public class KolmogorovSmirnovTest {
         kTerm2 = 0;
         for (k = 1; k < MAXIMUM_PARTIAL_SUM_COUNT; k++) {
             kTerm2 = k * k;
-            increment = PI_SQUARED * kTerm2 * FastMath.exp(-PI_SQUARED * kTerm2 / twoZ2);
+            increment = MathUtils.PI_SQUARED * kTerm2 * FastMath.exp(-MathUtils.PI_SQUARED * kTerm2 / twoZ2);
             sum2 += increment;
             if (FastMath.abs(increment) < PG_SUM_RELATIVE_ERROR * FastMath.abs(sum2)) {
                 break;
@@ -621,7 +619,7 @@ public class KolmogorovSmirnovTest {
 
         // K_3(z) One more time with feeling - two doubly infinite sums, all k powers even.
         // Multiply coefficient denominators by 2, so omit doubling sums.
-        final double pi6 = pi4 * PI_SQUARED;
+        final double pi6 = pi4 * MathUtils.PI_SQUARED;
         sum = 0;
         double kTerm4 = 0;
         double kTerm6 = 0;
@@ -631,8 +629,8 @@ public class KolmogorovSmirnovTest {
             kTerm4 = kTerm2 * kTerm2;
             kTerm6 = kTerm4 * kTerm2;
             increment = (pi6 * kTerm6 * (5 - 30 * z2) + pi4 * kTerm4 * (-60 * z2 + 212 * z4) +
-                    PI_SQUARED * kTerm2 * (135 * z4 - 96 * z6) - 30 * z6 - 90 * z8) *
-                    FastMath.exp(-PI_SQUARED * kTerm2 / twoZ2);
+                            MathUtils.PI_SQUARED * kTerm2 * (135 * z4 - 96 * z6) - 30 * z6 - 90 * z8) *
+                    FastMath.exp(-MathUtils.PI_SQUARED * kTerm2 / twoZ2);
             sum += increment;
             if (FastMath.abs(increment) < PG_SUM_RELATIVE_ERROR * FastMath.abs(sum)) {
                 break;
@@ -645,8 +643,8 @@ public class KolmogorovSmirnovTest {
         for (k = 1; k < MAXIMUM_PARTIAL_SUM_COUNT; k++) {
             kTerm2 = k * k;
             kTerm4 = kTerm2 * kTerm2;
-            increment = (-pi4 * kTerm4 + 3 * PI_SQUARED * kTerm2 * z2) *
-                    FastMath.exp(-PI_SQUARED * kTerm2 / twoZ2);
+            increment = (-pi4 * kTerm4 + 3 * MathUtils.PI_SQUARED * kTerm2 * z2) *
+                    FastMath.exp(-MathUtils.PI_SQUARED * kTerm2 / twoZ2);
             sum2 += increment;
             if (FastMath.abs(increment) < PG_SUM_RELATIVE_ERROR * FastMath.abs(sum2)) {
                 break;
