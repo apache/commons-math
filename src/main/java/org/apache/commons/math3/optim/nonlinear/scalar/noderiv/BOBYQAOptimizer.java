@@ -1,4 +1,3 @@
-// CHECKSTYLE: stop all
 /*
  * Licensed to the Apache Software Foundation (ASF) under one or more
  * contributor license agreements.  See the NOTICE file distributed with
@@ -15,6 +14,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+// CHECKSTYLE: stop all
 package org.apache.commons.math3.optim.nonlinear.scalar.noderiv;
 
 import org.apache.commons.math3.exception.MathIllegalStateException;
@@ -448,7 +448,8 @@ public class BOBYQAOptimizer
         // call of RESCUE that makes a call of CALFUN.
 
         int state = 20;
-        for(;;) switch (state) {
+        for(;;) {
+        switch (state) {
         case 20: {
             printState(20); // XXX
             if (trustRegionCenterInterpolationPointIndex != kbase) {
@@ -833,8 +834,9 @@ public class BOBYQAOptimizer
 
             f = computeObjectiveValue(currentBest.toArray());
 
-            if (!isMinimize)
+            if (!isMinimize) {
                 f = -f;
+            }
             if (ntrits == -1) {
                 fsave = f;
                 state = 720; break;
@@ -1223,7 +1225,7 @@ public class BOBYQAOptimizer
         }
         default: {
             throw new MathIllegalStateException(LocalizedFormats.SIMPLE_MESSAGE, "bobyqb");
-        }}
+        }}}
     } // bobyqb
 
     // ----------------------------------------------------------------------------------------
