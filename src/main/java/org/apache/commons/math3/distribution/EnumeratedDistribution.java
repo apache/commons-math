@@ -213,10 +213,10 @@ public class EnumeratedDistribution<T> implements Serializable {
             index = -index-1;
         }
 
-        if (index >= 0 && index < probabilities.length) {
-            if (randomValue < cumulativeProbabilities[index]) {
-                return singletons.get(index);
-            }
+        if (index >= 0 &&
+            index < probabilities.length &&
+            randomValue < cumulativeProbabilities[index]) {
+            return singletons.get(index);
         }
 
         /* This should never happen, but it ensures we will return a correct
