@@ -194,22 +194,25 @@ public class GaussianFitter extends CurveFitter<Gaussian.Parametric> {
                     if (p2 == null) {
                         return 1;
                     }
-                    if (p1.getX() < p2.getX()) {
+                    final int cmpX = Double.compare(p1.getX(), p2.getX());
+                    if (cmpX < 0) {
                         return -1;
                     }
-                    if (p1.getX() > p2.getX()) {
+                    if (cmpX > 0) {
                         return 1;
                     }
-                    if (p1.getY() < p2.getY()) {
+                    final int cmpY = Double.compare(p1.getY(), p2.getY());
+                    if (cmpY < 0) {
                         return -1;
                     }
-                    if (p1.getY() > p2.getY()) {
+                    if (cmpY > 0) {
                         return 1;
                     }
-                    if (p1.getWeight() < p2.getWeight()) {
+                    final int cmpW = Double.compare(p1.getWeight(), p2.getWeight());
+                    if (cmpW < 0) {
                         return -1;
                     }
-                    if (p1.getWeight() > p2.getWeight()) {
+                    if (cmpW > 0) {
                         return 1;
                     }
                     return 0;
