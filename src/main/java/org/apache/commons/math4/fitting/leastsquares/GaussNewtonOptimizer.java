@@ -234,13 +234,11 @@ public class GaussNewtonOptimizer implements LeastSquaresOptimizer {
             currentPoint = current.getPoint();
 
             // Check convergence.
-            if (previous != null) {
-                if (checker.converged(iterationCounter.getCount(), previous, current)) {
-                    return new OptimumImpl(
-                            current,
-                            evaluationCounter.getCount(),
-                            iterationCounter.getCount());
-                }
+            if (previous != null &&
+                checker.converged(iterationCounter.getCount(), previous, current)) {
+                return new OptimumImpl(current,
+                                       evaluationCounter.getCount(),
+                                       iterationCounter.getCount());
             }
 
             // solve the linearized least squares problem
