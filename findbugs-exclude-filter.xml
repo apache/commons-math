@@ -142,6 +142,14 @@
     <Bug pattern="CNT_ROUGH_CONSTANT_VALUE" />
   </Match>
 
+  <!-- Spurious: Findbugs confused by constant 1.570796251296997 which is a
+       intentionally slightly offset from PI/2 as per Cody Waite arguments reduction -->
+  <Match>
+    <Class name="org.apache.commons.math4.util.FastMath$CodyWaite" />
+    <Method name="&lt;init>" params="double" returns="void" />
+    <Bug pattern="CNT_ROUGH_CONSTANT_VALUE" />
+  </Match>
+
   <!-- the following expositions of internal representation are intentional and documented -->
   <Match>
     <Class name="org.apache.commons.math4.stat.regression.RegressionResults"/>
