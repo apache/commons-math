@@ -471,6 +471,10 @@
         <version>${math.pmd.version}</version>
         <configuration>
           <targetJdk>${maven.compiler.target}</targetJdk>
+          <skipEmptyReport>false</skipEmptyReport>
+          <rulesets>
+            <ruleset>${basedir}/pmd-ruleset.xml</ruleset>
+          </rulesets>
         </configuration>
       </plugin>
       <plugin>
@@ -671,6 +675,10 @@
         <version>${math.pmd.version}</version>
         <configuration>
           <targetJdk>${maven.compiler.target}</targetJdk>
+          <skipEmptyReport>false</skipEmptyReport>
+          <rulesets>
+            <ruleset>${basedir}/pmd-ruleset.xml</ruleset>
+          </rulesets>
         </configuration>
         <reportSets>
           <reportSet>
