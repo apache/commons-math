@@ -112,6 +112,7 @@ public class LineSearch {
                                            final double[] direction) {
         final int n = startPoint.length;
         final UnivariateFunction f = new UnivariateFunction() {
+            /** {@inheritDoc} */
             @Override
             public double value(double alpha) {
                 final double[] x = new double[n];

@@ -75,6 +75,7 @@ public class TournamentSelection implements SelectionPolicy {
         }
         // auxiliary population
         ListPopulation tournamentPopulation = new ListPopulation(this.arity) {
+            /** {@inheritDoc} */
             @Override
             public Population nextGeneration() {
                 // not useful here

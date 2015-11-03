@@ -98,6 +98,7 @@ public abstract class AbstractListChromosome<T> extends Chromosome {
      */
     public abstract AbstractListChromosome<T> newFixedLengthChromosome(final List<T> chromosomeRepresentation);
 
+    /** {@inheritDoc} */
     @Override
     public String toString() {
         return String.format("(f=%s %s)", getFitness(), getRepresentation());

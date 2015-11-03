@@ -825,6 +825,7 @@ public class PSquarePercentile extends AbstractStorelessUnivariateStatistic
             return result;
         }
 
+        /** {@inheritDoc} */
         @Override
         public int hashCode() {
             return Arrays.hashCode(new double[] {markerHeight, intMarkerPosition,

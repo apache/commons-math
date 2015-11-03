@@ -271,6 +271,7 @@ public class ZipfDistribution extends AbstractIntegerDistribution {
         return true;
     }
 
+    /** {@inheritDoc} */
     @Override
     public int sample() {
         if (sampler == null) {

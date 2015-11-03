@@ -72,6 +72,7 @@ import org.apache.commons.math4.util.FastMath;
 public class GaussianCurveFitter extends AbstractCurveFitter {
     /** Parametric function to be fitted. */
     private static final Gaussian.Parametric FUNCTION = new Gaussian.Parametric() {
+            /** {@inheritDoc} */
             @Override
             public double value(double x, double ... p) {
                 double v = Double.POSITIVE_INFINITY;
@@ -83,6 +84,7 @@ public class GaussianCurveFitter extends AbstractCurveFitter {
                 return v;
             }
 
+            /** {@inheritDoc} */
             @Override
             public double[] gradient(double x, double ... p) {
                 double[] v = { Double.POSITIVE_INFINITY,
@@ -249,6 +251,7 @@ public class GaussianCurveFitter extends AbstractCurveFitter {
             final List<WeightedObservedPoint> observations = new ArrayList<WeightedObservedPoint>(unsorted);
 
             final Comparator<WeightedObservedPoint> cmp = new Comparator<WeightedObservedPoint>() {
+                /** {@inheritDoc} */
                 @Override
                 public int compare(WeightedObservedPoint p1,
                                    WeightedObservedPoint p2) {

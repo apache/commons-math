@@ -45,6 +45,7 @@ public class SumOfClusterVariances<T extends Clusterable> extends ClusterEvaluat
         super(measure);
     }
 
+    /** {@inheritDoc} */
     @Override
     public double score(final List<? extends Cluster<T>> clusters) {
         double varianceSum = 0.0;

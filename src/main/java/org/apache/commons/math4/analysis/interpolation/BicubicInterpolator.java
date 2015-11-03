@@ -97,6 +97,7 @@ public class BicubicInterpolator
         // Create the interpolating function.
         return new BicubicInterpolatingFunction(xval, yval, fval,
                                                 dFdX, dFdY, d2FdXdY) {
+            /** {@inheritDoc} */
             @Override
             public boolean isValidPoint(double x, double y) {
                 if (x < xval[1] ||

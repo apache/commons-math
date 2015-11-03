@@ -130,6 +130,7 @@ public class NakagamiDistribution extends AbstractRealDistribution {
         return omega;
     }
 
+    /** {@inheritDoc} */
     @Override
     protected double getSolverAbsoluteAccuracy() {
         return inverseAbsoluteAccuracy;

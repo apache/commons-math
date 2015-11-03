@@ -119,6 +119,7 @@ public class UniformRealDistribution extends AbstractRealDistribution {
         return (x - lower) / (upper - lower);
     }
 
+    /** {@inheritDoc} */
     @Override
     public double inverseCumulativeProbability(final double p)
             throws OutOfRangeException {

@@ -278,6 +278,7 @@ public abstract class RandomKey<T> extends AbstractListChromosome<Double> implem
         return Arrays.asList(res);
     }
 
+    /** {@inheritDoc} */
     @Override
     public String toString() {
         return String.format("(f=%s pi=(%s))", getFitness(), baseSeqPermutation);

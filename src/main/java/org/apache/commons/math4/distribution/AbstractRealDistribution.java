@@ -163,7 +163,7 @@ implements RealDistribution, Serializable {
         }
 
         final UnivariateFunction toSolve = new UnivariateFunction() {
-
+            /** {@inheritDoc} */
             @Override
             public double value(final double x) {
                 return cumulativeProbability(x) - p;

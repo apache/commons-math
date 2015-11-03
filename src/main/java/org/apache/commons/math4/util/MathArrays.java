@@ -846,12 +846,14 @@ public class MathArrays {
         final Comparator<PairDoubleInteger> comp
             = dir == MathArrays.OrderDirection.INCREASING ?
             new Comparator<PairDoubleInteger>() {
+            /** {@inheritDoc} */
             @Override
             public int compare(PairDoubleInteger o1,
                                PairDoubleInteger o2) {
                 return Double.compare(o1.getKey(), o2.getKey());
             }
         } : new Comparator<PairDoubleInteger>() {
+            /** {@inheritDoc} */
             @Override
             public int compare(PairDoubleInteger o1,
                                PairDoubleInteger o2) {

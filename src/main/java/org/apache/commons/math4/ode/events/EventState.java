@@ -236,6 +236,8 @@ public class EventState {
             final double h = dt / n;
 
             final UnivariateFunction f = new UnivariateFunction() {
+                /** {@inheritDoc} */
+                @Override
                 public double value(final double t) throws LocalMaxCountExceededException {
                     try {
                         interpolator.setInterpolatedTime(t);
