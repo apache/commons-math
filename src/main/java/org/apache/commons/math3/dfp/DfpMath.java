@@ -754,11 +754,6 @@ public class DfpMath {
 
         Dfp y;
         if (x.lessThan(pi.divide(4))) {
-            Dfp c[] = new Dfp[2];
-            c[0] = x;
-            c[1] = zero;
-
-            //y = sinInternal(c);
             y = sinInternal(split(x));
         } else {
             final Dfp c[] = new Dfp[2];
