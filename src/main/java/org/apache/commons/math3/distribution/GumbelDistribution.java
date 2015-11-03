@@ -116,6 +116,7 @@ public class GumbelDistribution extends AbstractRealDistribution {
         return FastMath.exp(-FastMath.exp(-z));
     }
 
+    /** {@inheritDoc} */
     @Override
     public double inverseCumulativeProbability(double p) throws OutOfRangeException {
         if (p < 0.0 || p > 1.0) {

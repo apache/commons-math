@@ -97,9 +97,12 @@ public class MultiStartMultivariateVectorOptimizer
      */
     private Comparator<PointVectorValuePair> getPairComparator() {
         return new Comparator<PointVectorValuePair>() {
+            /** Observed value to be matched. */
             private final RealVector target = new ArrayRealVector(optimizer.getTarget(), false);
+            /** Observations weights. */
             private final RealMatrix weight = optimizer.getWeight();
 
+            /** {@inheritDoc} */
             public int compare(final PointVectorValuePair o1,
                                final PointVectorValuePair o2) {
                 if (o1 == null) {

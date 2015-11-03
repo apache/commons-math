@@ -104,6 +104,7 @@ public class PolynomialsUtils {
     public static PolynomialFunction createChebyshevPolynomial(final int degree) {
         return buildPolynomial(degree, CHEBYSHEV_COEFFICIENTS,
                 new RecurrenceCoefficientsGenerator() {
+            /** Fixed recurrence coefficients. */
             private final BigFraction[] coeffs = { BigFraction.ZERO, BigFraction.TWO, BigFraction.ONE };
             /** {@inheritDoc} */
             public BigFraction[] generate(int k) {

@@ -82,6 +82,7 @@ public class GaussianFitter extends CurveFitter<Gaussian.Parametric> {
      */
     public double[] fit(double[] initialGuess) {
         final Gaussian.Parametric f = new Gaussian.Parametric() {
+                /** {@inheritDoc} */
                 @Override
                 public double value(double x, double ... p) {
                     double v = Double.POSITIVE_INFINITY;
@@ -93,6 +94,7 @@ public class GaussianFitter extends CurveFitter<Gaussian.Parametric> {
                     return v;
                 }
 
+                /** {@inheritDoc} */
                 @Override
                 public double[] gradient(double x, double ... p) {
                     double[] v = { Double.POSITIVE_INFINITY,
@@ -184,6 +186,7 @@ public class GaussianFitter extends CurveFitter<Gaussian.Parametric> {
             final WeightedObservedPoint[] observations = unsorted.clone();
             final Comparator<WeightedObservedPoint> cmp
                 = new Comparator<WeightedObservedPoint>() {
+                /** {@inheritDoc} */
                 public int compare(WeightedObservedPoint p1,
                                    WeightedObservedPoint p2) {
                     if (p1 == null && p2 == null) {

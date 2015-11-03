@@ -44,6 +44,7 @@ public enum Relationship {
         this.stringValue = stringValue;
     }
 
+    /** {@inheritDoc} */
     @Override
     public String toString() {
         return stringValue;

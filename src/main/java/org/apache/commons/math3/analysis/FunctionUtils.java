@@ -559,6 +559,7 @@ public class FunctionUtils {
                 };
             }
 
+            /** {@inheritDoc} */
             public MultivariateVectorFunction gradient() {
                 return new MultivariateVectorFunction() {
                     /** {@inheritDoc} */
@@ -680,6 +681,7 @@ public class FunctionUtils {
                 return f.value(x);
             }
 
+            /** {@inheritDoc} */
             public MultivariateMatrixFunction jacobian() {
                 return new MultivariateMatrixFunction() {
                     /** {@inheritDoc} */

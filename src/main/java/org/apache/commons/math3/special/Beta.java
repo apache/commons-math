@@ -197,6 +197,7 @@ public class Beta {
         } else {
             ContinuedFraction fraction = new ContinuedFraction() {
 
+                /** {@inheritDoc} */
                 @Override
                 protected double getB(int n, double x) {
                     double ret;
@@ -213,6 +214,7 @@ public class Beta {
                     return ret;
                 }
 
+                /** {@inheritDoc} */
                 @Override
                 protected double getA(int n, double x) {
                     return 1.0;

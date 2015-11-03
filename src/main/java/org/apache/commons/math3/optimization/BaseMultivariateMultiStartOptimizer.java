@@ -175,6 +175,7 @@ public class BaseMultivariateMultiStartOptimizer<FUNC extends MultivariateFuncti
      */
     private void sortPairs(final GoalType goal) {
         Arrays.sort(optima, new Comparator<PointValuePair>() {
+                /** {@inheritDoc} */
                 public int compare(final PointValuePair o1,
                                    final PointValuePair o2) {
                     if (o1 == null) {

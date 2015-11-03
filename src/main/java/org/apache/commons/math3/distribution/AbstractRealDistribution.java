@@ -196,7 +196,7 @@ implements RealDistribution, Serializable {
         }
 
         final UnivariateFunction toSolve = new UnivariateFunction() {
-
+            /** {@inheritDoc} */
             public double value(final double x) {
                 return cumulativeProbability(x) - p;
             }

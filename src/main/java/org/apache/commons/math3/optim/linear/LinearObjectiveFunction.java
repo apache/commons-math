@@ -105,6 +105,7 @@ public class LinearObjectiveFunction
         return coefficients.dotProduct(point) + constantTerm;
     }
 
+    /** {@inheritDoc} */
     @Override
     public boolean equals(Object other) {
         if (this == other) {
@@ -118,6 +119,7 @@ public class LinearObjectiveFunction
         return false;
     }
 
+    /** {@inheritDoc} */
     @Override
     public int hashCode() {
         return Double.valueOf(constantTerm).hashCode() ^ coefficients.hashCode();

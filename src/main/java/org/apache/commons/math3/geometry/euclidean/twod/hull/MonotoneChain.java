@@ -73,6 +73,7 @@ public class MonotoneChain extends AbstractConvexHullGenerator2D {
         super(includeCollinearPoints, tolerance);
     }
 
+    /** {@inheritDoc} */
     @Override
     public Collection<Vector2D> findHullVertices(final Collection<Vector2D> points) {
 
@@ -80,6 +81,7 @@ public class MonotoneChain extends AbstractConvexHullGenerator2D {
 
         // sort the points in increasing order on the x-axis
         Collections.sort(pointsSortedByXAxis, new Comparator<Vector2D>() {
+            /** {@inheritDoc} */
             public int compare(final Vector2D o1, final Vector2D o2) {
                 final double tolerance = getTolerance();
                 // need to take the tolerance value into account, otherwise collinear points

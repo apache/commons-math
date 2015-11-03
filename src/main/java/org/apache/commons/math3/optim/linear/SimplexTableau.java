@@ -651,6 +651,7 @@ class SimplexTableau implements Serializable {
         return tableau.getData();
     }
 
+    /** {@inheritDoc} */
     @Override
     public boolean equals(Object other) {
 
@@ -673,6 +674,7 @@ class SimplexTableau implements Serializable {
       return false;
     }
 
+    /** {@inheritDoc} */
     @Override
     public int hashCode() {
         return Boolean.valueOf(restrictToNonNegative).hashCode() ^

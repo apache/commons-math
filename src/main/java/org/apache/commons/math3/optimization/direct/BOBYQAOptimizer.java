@@ -59,18 +59,29 @@ public class BOBYQAOptimizer
     public static final double DEFAULT_INITIAL_RADIUS = 10.0;
     /** Default value for {@link #stoppingTrustRegionRadius}: {@value} . */
     public static final double DEFAULT_STOPPING_RADIUS = 1E-8;
-
+    /** Constant 0. */
     private static final double ZERO = 0d;
+    /** Constant 1. */
     private static final double ONE = 1d;
+    /** Constant 2. */
     private static final double TWO = 2d;
+    /** Constant 10. */
     private static final double TEN = 10d;
+    /** Constant 16. */
     private static final double SIXTEEN = 16d;
+    /** Constant 250. */
     private static final double TWO_HUNDRED_FIFTY = 250d;
+    /** Constant -1. */
     private static final double MINUS_ONE = -ONE;
+    /** Constant 1/2. */
     private static final double HALF = ONE / 2;
+    /** Constant 1/4. */
     private static final double ONE_OVER_FOUR = ONE / 4;
+    /** Constant 1/8. */
     private static final double ONE_OVER_EIGHT = ONE / 8;
+    /** Constant 1/10. */
     private static final double ONE_OVER_TEN = ONE / 10;
+    /** Constant 1/1000. */
     private static final double ONE_OVER_A_THOUSAND = ONE / 1000;
 
     /**
@@ -2452,8 +2463,10 @@ public class BOBYQAOptimizer
      * If the path becomes explored, it should just be removed from the code.
      */
     private static class PathIsExploredException extends RuntimeException {
+        /** Serializable UID. */
         private static final long serialVersionUID = 745350979634801853L;
 
+        /** Message string. */
         private static final String PATH_IS_EXPLORED
             = "If this exception is thrown, just remove it from the code";
 

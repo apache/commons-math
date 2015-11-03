@@ -330,6 +330,7 @@ public class PowellOptimizer
         public UnivariatePointValuePair search(final double[] p, final double[] d) {
             final int n = p.length;
             final UnivariateFunction f = new UnivariateFunction() {
+                    /** {@inheritDoc} */
                     public double value(double alpha) {
                         final double[] x = new double[n];
                         for (int i = 0; i < n; i++) {

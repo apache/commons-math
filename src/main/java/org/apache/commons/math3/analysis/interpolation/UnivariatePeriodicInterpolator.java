@@ -115,6 +115,7 @@ public class UnivariatePeriodicInterpolator
 
         final UnivariateFunction f = interpolator.interpolate(x, y);
         return new UnivariateFunction() {
+            /** {@inheritDoc} */
             public double value(final double x) throws MathIllegalArgumentException {
                 return f.value(MathUtils.reduce(x, period, offset));
             }

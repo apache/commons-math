@@ -102,6 +102,7 @@ public class LinearObjectiveFunction implements Serializable {
         return coefficients.dotProduct(point) + constantTerm;
     }
 
+    /** {@inheritDoc} */
     @Override
     public boolean equals(Object other) {
 
@@ -117,6 +118,7 @@ public class LinearObjectiveFunction implements Serializable {
       return false;
     }
 
+    /** {@inheritDoc} */
     @Override
     public int hashCode() {
         return Double.valueOf(constantTerm).hashCode() ^ coefficients.hashCode();

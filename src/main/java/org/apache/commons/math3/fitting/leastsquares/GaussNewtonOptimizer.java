@@ -247,6 +247,7 @@ public class GaussNewtonOptimizer implements LeastSquaresOptimizer {
         }
     }
 
+    /** {@inheritDoc} */
     @Override
     public String toString() {
         return "GaussNewtonOptimizer{" +

@@ -491,18 +491,32 @@ public class Line implements Hyperplane<Euclidean2D>, Embedding<Euclidean2D, Euc
      */
     private static class LineTransform implements Transform<Euclidean2D, Euclidean1D> {
 
-        // CHECKSTYLE: stop JavadocVariable check
+        /** Transform factor between input abscissa and output abscissa. */
         private double cXX;
-        private double cXY;
-        private double cX1;
+
+        /** Transform factor between input abscissa and output ordinate. */
         private double cYX;
+
+        /** Transform factor between input ordinate and output abscissa. */
+        private double cXY;
+
+        /** Transform factor between input ordinate and output ordinate. */
         private double cYY;
+
+        /** Transform addendum for output abscissa. */
+        private double cX1;
+
+        /** Transform addendum for output ordinate. */
         private double cY1;
 
+        /** cXY * cY1 - cYY * cX1. */
         private double c1Y;
+
+        /** cXX * cY1 - cYX * cX1. */
         private double c1X;
+
+        /** cXX * cYY - cYX * cXY. */
         private double c11;
-        // CHECKSTYLE: resume JavadocVariable check
 
         /** Build an affine line transform from a n {@code AffineTransform}.
          * @param cXX transform factor between input abscissa and output abscissa

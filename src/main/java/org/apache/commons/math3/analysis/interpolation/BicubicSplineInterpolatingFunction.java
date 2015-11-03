@@ -497,6 +497,7 @@ class BicubicSplineFunction implements BivariateFunction {
             }
 
             partialDerivativeX = new BivariateFunction() {
+                    /** {@inheritDoc} */
                     public double value(double x, double y)  {
                         final double x2 = x * x;
                         final double[] pX = {0, 1, x, x2};
@@ -509,6 +510,7 @@ class BicubicSplineFunction implements BivariateFunction {
                     }
                 };
             partialDerivativeY = new BivariateFunction() {
+                    /** {@inheritDoc} */
                     public double value(double x, double y)  {
                         final double x2 = x * x;
                         final double x3 = x2 * x;
@@ -521,6 +523,7 @@ class BicubicSplineFunction implements BivariateFunction {
                     }
                 };
             partialDerivativeXX = new BivariateFunction() {
+                    /** {@inheritDoc} */
                     public double value(double x, double y)  {
                         final double[] pX = {0, 0, 1, x};
 
@@ -532,6 +535,7 @@ class BicubicSplineFunction implements BivariateFunction {
                     }
                 };
             partialDerivativeYY = new BivariateFunction() {
+                    /** {@inheritDoc} */
                     public double value(double x, double y)  {
                         final double x2 = x * x;
                         final double x3 = x2 * x;
@@ -543,6 +547,7 @@ class BicubicSplineFunction implements BivariateFunction {
                     }
                 };
             partialDerivativeXY = new BivariateFunction() {
+                    /** {@inheritDoc} */
                     public double value(double x, double y)  {
                         final double x2 = x * x;
                         final double[] pX = {0, 1, x, x2};

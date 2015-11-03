@@ -214,6 +214,7 @@ public class CurveFitter<T extends ParametricUnivariateFunction> {
         /** {@inheritDoc} */
         public MultivariateMatrixFunction jacobian() {
             return new MultivariateMatrixFunction() {
+                /** {@inheritDoc} */
                 public double[][] value(double[] point) {
                     final double[][] jacobian = new double[observations.size()][];
 

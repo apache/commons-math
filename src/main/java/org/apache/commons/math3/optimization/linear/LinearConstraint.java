@@ -185,6 +185,7 @@ public class LinearConstraint implements Serializable {
         return value;
     }
 
+    /** {@inheritDoc} */
     @Override
     public boolean equals(Object other) {
 
@@ -201,6 +202,7 @@ public class LinearConstraint implements Serializable {
       return false;
     }
 
+    /** {@inheritDoc} */
     @Override
     public int hashCode() {
         return relationship.hashCode() ^

@@ -181,6 +181,7 @@ public class BaseMultivariateVectorMultiStartOptimizer<FUNC extends Multivariate
     private void sortPairs(final double[] target,
                            final double[] weights) {
         Arrays.sort(optima, new Comparator<PointVectorValuePair>() {
+                /** {@inheritDoc} */
                 public int compare(final PointVectorValuePair o1,
                                    final PointVectorValuePair o2) {
                     if (o1 == null) {

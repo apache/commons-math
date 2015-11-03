@@ -130,6 +130,7 @@ public class SimplexOptimizer extends MultivariateOptimizer {
         // evaluations counter.
         final MultivariateFunction evalFunc
             = new MultivariateFunction() {
+                /** {@inheritDoc} */
                 public double value(double[] point) {
                     return computeObjectiveValue(point);
                 }
@@ -138,6 +139,7 @@ public class SimplexOptimizer extends MultivariateOptimizer {
         final boolean isMinim = getGoalType() == GoalType.MINIMIZE;
         final Comparator<PointValuePair> comparator
             = new Comparator<PointValuePair>() {
+            /** {@inheritDoc} */
             public int compare(final PointValuePair o1,
                                final PointValuePair o2) {
                 final double v1 = o1.getValue();

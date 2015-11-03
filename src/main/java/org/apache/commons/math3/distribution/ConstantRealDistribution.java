@@ -52,6 +52,7 @@ public class ConstantRealDistribution extends AbstractRealDistribution {
         return x < value ? 0 : 1;
     }
 
+    /** {@inheritDoc} */
     @Override
     public double inverseCumulativeProbability(final double p)
             throws OutOfRangeException {
