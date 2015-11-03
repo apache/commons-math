@@ -135,6 +135,13 @@
     <Bug pattern="DLS_DEAD_LOCAL_STORE" />
   </Match>
 
+  <!-- Spurious: Findbugs confused by FastMath.PI - 1.0e-10 -->
+  <Match>
+    <Class name="org.apache.commons.math4.geometry.euclidean.threed.Plane" />
+    <Method name="isSimilarTo" params="org.apache.commons.math4.geometry.euclidean.threed.Plane" returns="boolean" />
+    <Bug pattern="CNT_ROUGH_CONSTANT_VALUE" />
+  </Match>
+
   <!-- the following expositions of internal representation are intentional and documented -->
   <Match>
     <Class name="org.apache.commons.math4.stat.regression.RegressionResults"/>
