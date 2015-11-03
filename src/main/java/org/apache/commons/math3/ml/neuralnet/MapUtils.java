@@ -17,14 +17,15 @@
 
 package org.apache.commons.math3.ml.neuralnet;
 
-import java.util.HashMap;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
-import java.util.ArrayList;
+
+import org.apache.commons.math3.exception.NoDataException;
 import org.apache.commons.math3.ml.distance.DistanceMeasure;
 import org.apache.commons.math3.ml.neuralnet.twod.NeuronSquareMesh2D;
-import org.apache.commons.math3.exception.NoDataException;
 import org.apache.commons.math3.util.Pair;
 
 /**
@@ -320,5 +321,22 @@ public class MapUtils {
         public int compareTo(PairNeuronDouble other) {
             return Double.compare(this.value, other.value);
         }
+
+        /** {@inheritDoc} */
+        @Override
+        public boolean equals(Object other) {
+            if (!(other instanceof PairNeuronDouble)) {
+                return false;
+            }
+            return Double.doubleToRawLongBits(value) ==
+                   Double.doubleToRawLongBits(((PairNeuronDouble) other).value);
+        }
+
+        /** {@inheritDoc} */
+        @Override
+        public int hashCode() {
+            return Double.valueOf(value).hashCode();
+        }
+
     }
 }
