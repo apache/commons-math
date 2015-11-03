@@ -808,13 +808,15 @@ public class ResizableDoubleArray implements DoubleArray, Serializable {
      */
     @Deprecated
     public int getExpansionMode() {
-        switch (expansionMode) {
-        case MULTIPLICATIVE:
-            return MULTIPLICATIVE_MODE;
-        case ADDITIVE:
-            return ADDITIVE_MODE;
-        default:
-            throw new MathInternalError(); // Should never happen.
+        synchronized (this) {
+            switch (expansionMode) {
+                case MULTIPLICATIVE:
+                    return MULTIPLICATIVE_MODE;
+                case ADDITIVE:
+                    return ADDITIVE_MODE;
+                default:
+                    throw new MathInternalError(); // Should never happen.
+            }
         }
     }
 
@@ -1026,7 +1028,9 @@ public class ResizableDoubleArray implements DoubleArray, Serializable {
      */
     @Deprecated
     public void setExpansionMode(ExpansionMode expansionMode) {
-        this.expansionMode = expansionMode;
+        synchronized(this) {
+            this.expansionMode = expansionMode;
+        }
     }
 
     /**
