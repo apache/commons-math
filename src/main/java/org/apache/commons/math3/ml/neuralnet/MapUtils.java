@@ -20,6 +20,7 @@ package org.apache.commons.math3.ml.neuralnet;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
 
@@ -136,7 +137,13 @@ public class MapUtils {
             list.add(new PairNeuronDouble(n, d));
         }
 
-        Collections.sort(list);
+        Collections.sort(list, new Comparator<PairNeuronDouble>() {
+            /** {@inheritDoc} */
+            @Override
+            public int compare(final PairNeuronDouble pn1, final PairNeuronDouble pn2) {
+                return Double.compare(pn1.getValue(), pn2.getValue());
+            }
+        });
 
         final int len = list.size();
         final Neuron[] sorted = new Neuron[len];
@@ -292,7 +299,7 @@ public class MapUtils {
     /**
      * Helper data structure holding a (Neuron, double) pair.
      */
-    private static class PairNeuronDouble implements Comparable<PairNeuronDouble> {
+    private static class PairNeuronDouble {
         /** Key */
         private final Neuron neuron;
         /** Value */
@@ -317,26 +324,6 @@ public class MapUtils {
             return value;
         }
 
-        /** {@inheritDoc} */
-        public int compareTo(PairNeuronDouble other) {
-            return Double.compare(this.value, other.value);
-        }
-
-        /** {@inheritDoc} */
-        @Override
-        public boolean equals(Object other) {
-            if (!(other instanceof PairNeuronDouble)) {
-                return false;
-            }
-            return Double.doubleToRawLongBits(value) ==
-                   Double.doubleToRawLongBits(((PairNeuronDouble) other).value);
-        }
-
-        /** {@inheritDoc} */
-        @Override
-        public int hashCode() {
-            return Double.valueOf(value).hashCode();
-        }
-
     }
+
 }
