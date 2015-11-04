@@ -323,9 +323,5 @@ public class MapUtils {
             return neuron;
         }
 
-        /** @return the value. */
-        public double getValue() {
-            return value;
-        }
     }
 }
