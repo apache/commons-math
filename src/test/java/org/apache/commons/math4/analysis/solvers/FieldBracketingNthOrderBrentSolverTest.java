@@ -15,14 +15,13 @@
  * limitations under the License.
  */
 
-package org.apache.commons.math4.dfp;
+package org.apache.commons.math4.analysis.solvers;
 
+import org.apache.commons.math4.analysis.FieldUnivariateFunction;
 import org.apache.commons.math4.analysis.solvers.AllowedSolution;
-import org.apache.commons.math4.dfp.BracketingNthOrderBrentSolverDFP;
 import org.apache.commons.math4.dfp.Dfp;
 import org.apache.commons.math4.dfp.DfpField;
 import org.apache.commons.math4.dfp.DfpMath;
-import org.apache.commons.math4.dfp.UnivariateDfpFunction;
 import org.apache.commons.math4.exception.MathInternalError;
 import org.apache.commons.math4.exception.NumberIsTooSmallException;
 import org.junit.Assert;
@@ -30,31 +29,31 @@ import org.junit.Before;
 import org.junit.Test;
 
 /**
- * Test case for {@link BracketingNthOrderBrentSolverDFP bracketing n<sup>th</sup> order Brent} solver.
+ * Test case for {@link FieldBracketingNthOrderBrentSolver bracketing n<sup>th</sup> order Brent} solver.
  *
  */
-public final class BracketingNthOrderBrentSolverDFPTest {
+public final class FieldBracketingNthOrderBrentSolverTest {
 
     @Test(expected=NumberIsTooSmallException.class)
     public void testInsufficientOrder3() {
-        new BracketingNthOrderBrentSolverDFP(relativeAccuracy, absoluteAccuracy,
-                                             functionValueAccuracy, 1);
+        new FieldBracketingNthOrderBrentSolver<Dfp>(relativeAccuracy, absoluteAccuracy,
+                                                    functionValueAccuracy, 1);
     }
 
     @Test
     public void testConstructorOK() {
-        BracketingNthOrderBrentSolverDFP solver =
-                new BracketingNthOrderBrentSolverDFP(relativeAccuracy, absoluteAccuracy,
-                                                     functionValueAccuracy, 2);
+        FieldBracketingNthOrderBrentSolver<Dfp> solver =
+                new FieldBracketingNthOrderBrentSolver<Dfp>(relativeAccuracy, absoluteAccuracy,
+                                                            functionValueAccuracy, 2);
         Assert.assertEquals(2, solver.getMaximalOrder());
     }
 
     @Test
     public void testConvergenceOnFunctionAccuracy() {
-        BracketingNthOrderBrentSolverDFP solver =
-                new BracketingNthOrderBrentSolverDFP(relativeAccuracy, absoluteAccuracy,
-                                                     field.newDfp(1.0e-20), 20);
-        UnivariateDfpFunction f = new UnivariateDfpFunction() {
+        FieldBracketingNthOrderBrentSolver<Dfp> solver =
+                new FieldBracketingNthOrderBrentSolver<Dfp>(relativeAccuracy, absoluteAccuracy,
+                                                            field.newDfp(1.0e-20), 20);
+        FieldUnivariateFunction<Dfp> f = new FieldUnivariateFunction<Dfp>() {
             public Dfp value(Dfp x) {
                 Dfp one     = field.getOne();
                 Dfp oneHalf = one.divide(2);
@@ -86,37 +85,37 @@ public final class BracketingNthOrderBrentSolverDFPTest {
         // intern J. Computer Math Vol 23 pp 265-282
         // available here: http://www.math.nps.navy.mil/~bneta/SeveralNewMethods.PDF
         for (AllowedSolution allowed : AllowedSolution.values()) {
-            check(new UnivariateDfpFunction() {
+            check(new FieldUnivariateFunction<Dfp>() {
                 public Dfp value(Dfp x) {
                     return DfpMath.sin(x).subtract(x.divide(2));
                 }
             }, 200, -2.0, 2.0, allowed);
 
-            check(new UnivariateDfpFunction() {
+            check(new FieldUnivariateFunction<Dfp>() {
                 public Dfp value(Dfp x) {
                     return DfpMath.pow(x, 5).add(x).subtract(field.newDfp(10000));
                 }
             }, 200, -5.0, 10.0, allowed);
 
-            check(new UnivariateDfpFunction() {
+            check(new FieldUnivariateFunction<Dfp>() {
                 public Dfp value(Dfp x) {
                     return x.sqrt().subtract(field.getOne().divide(x)).subtract(field.newDfp(3));
                 }
             }, 200, 0.001, 10.0, allowed);
 
-            check(new UnivariateDfpFunction() {
+            check(new FieldUnivariateFunction<Dfp>() {
                 public Dfp value(Dfp x) {
                     return DfpMath.exp(x).add(x).subtract(field.newDfp(20));
                 }
             }, 200, -5.0, 5.0, allowed);
 
-            check(new UnivariateDfpFunction() {
+            check(new FieldUnivariateFunction<Dfp>() {
                 public Dfp value(Dfp x) {
                     return DfpMath.log(x).add(x.sqrt()).subtract(field.newDfp(5));
                 }
             }, 200, 0.001, 10.0, allowed);
 
-            check(new UnivariateDfpFunction() {
+            check(new FieldUnivariateFunction<Dfp>() {
                 public Dfp value(Dfp x) {
                     return x.subtract(field.getOne()).multiply(x).multiply(x).subtract(field.getOne());
                 }
@@ -125,10 +124,10 @@ public final class BracketingNthOrderBrentSolverDFPTest {
 
     }
 
-    private void check(UnivariateDfpFunction f, int maxEval, double min, double max,
+    private void check(FieldUnivariateFunction<Dfp> f, int maxEval, double min, double max,
                        AllowedSolution allowedSolution) {
-        BracketingNthOrderBrentSolverDFP solver =
-                new BracketingNthOrderBrentSolverDFP(relativeAccuracy, absoluteAccuracy,
+        FieldBracketingNthOrderBrentSolver<Dfp> solver =
+                new FieldBracketingNthOrderBrentSolver<Dfp>(relativeAccuracy, absoluteAccuracy,
                                                      functionValueAccuracy, 20);
         Dfp xResult = solver.solve(maxEval, f, field.newDfp(min), field.newDfp(max),
                                    allowedSolution);

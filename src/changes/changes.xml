@@ -54,6 +54,10 @@ If the output is not quite correct, check for invisible trailing spaces!
     </release>
 
     <release version="4.0" date="XXXX-XX-XX" description="">
+     <action dev="luc" type="add"> <!-- backported to 3.6 -->
+       Added a nth order Brent solver for general real fields, replacing the former
+       solver that was restricted to Dfp fields only.
+     </action>
       <action dev="erans" type="add" issue="MATH-1286"> <!-- backported to 3.6 -->
         New "Range" inner class of "o.a.c.m.util.IntegerSequence".
       </action>
