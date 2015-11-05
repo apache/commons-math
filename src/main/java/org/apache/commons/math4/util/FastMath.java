@@ -938,13 +938,13 @@ public class FastMath {
 
         /* epsilon is the difference in x from the nearest multiple of 2^-10.  It
          * has a value in the range 0 <= epsilon < 2^-10.
-         * Do the subtraction from x as the last step to avoid possible loss of percison.
+         * Do the subtraction from x as the last step to avoid possible loss of precision.
          */
         final double epsilon = x - (intVal + intFrac / 1024.0);
 
         /* Compute z = exp(epsilon) - 1.0 via a minimax polynomial.  z has
        full double precision (52 bits).  Since z < 2^-10, we will have
-       62 bits of precision when combined with the contant 1.  This will be
+       62 bits of precision when combined with the constant 1.  This will be
        used in the last addition below to get proper rounding. */
 
         /* Remez generated polynomial.  Converges on the interval [0, 2^-10], error
