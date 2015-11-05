@@ -968,6 +968,13 @@ public class FastMath {
        much larger than the others.  If there are extra bits specified from the
        pow() function, use them. */
         final double tempC = tempB + tempA;
+
+        // If tempC is positive infinite, the evaluation below could result in NaN,
+        // because z could be negative at the same time.
+        if (tempC == Double.POSITIVE_INFINITY) {
+            return Double.POSITIVE_INFINITY;
+        }
+
         final double result;
         if (extra != 0.0) {
             result = tempC*extra*z + tempC*extra + tempC*z + tempB + tempA;

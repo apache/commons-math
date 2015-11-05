@@ -215,6 +215,15 @@ public class FastMathTest {
         }
         Assert.assertEquals(0, maxErr, 3);
     }
+    
+    @Test
+    public void testMath1269() {
+        final double arg = 709.8125;
+        final double vM = Math.exp(arg);
+        final double vFM = FastMath.exp(arg);
+        Assert.assertTrue("exp(" + arg + ") is " + vFM + " instead of " + vM,
+                          Precision.equalsIncludingNaN(vM, vFM));
+    }
 
     @Test
     public void testHyperbolicInverses() {
