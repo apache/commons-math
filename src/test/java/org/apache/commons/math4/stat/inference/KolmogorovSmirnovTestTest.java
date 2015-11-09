@@ -185,62 +185,6 @@ public class KolmogorovSmirnovTestTest {
         Assert.assertEquals(0.5, test.kolmogorovSmirnovStatistic(smallSample1, smallSample2), TOLERANCE);
     }
 
-    /** Small sample no ties, exactP methods should agree */
-    @Test
-    public void testExactPConsistency() {
-        final KolmogorovSmirnovTest test = new KolmogorovSmirnovTest();
-        final double[] x = {
-            1, 7, 9, 13, 19, 21, 22, 23, 24
-        };
-        final double[] y = {
-            3, 4, 12, 16, 20, 27, 28, 32, 44, 54
-        };
-        Assert.assertEquals(test.exactP(x, y, true),
-                            test.exactP(test.kolmogorovSmirnovStatistic(x, y),
-                                        x.length, y.length, true), Double.MIN_VALUE);
-        Assert.assertEquals(test.exactP(x, y, false),
-                            test.exactP(test.kolmogorovSmirnovStatistic(x, y),
-                                        x.length, y.length, false), Double.MIN_VALUE);
-    }
-
-    /**
-     * Extreme case for ties - all values the same.  Strict p-value should be 0,
-     * non-strict should be 1
-     */
-    @Test
-    public void testExactPNoVariance() {
-        final KolmogorovSmirnovTest test = new KolmogorovSmirnovTest();
-        final double[] x = {
-            1, 1, 1, 1, 1, 1
-        };
-        final double[] y = {
-            1, 1, 1, 1
-        };
-        Assert.assertEquals(0, test.exactP(x, y, true), Double.MIN_VALUE);
-        Assert.assertEquals(1, test.exactP(x, y, false), Double.MIN_VALUE);
-        Assert.assertEquals(0, test.kolmogorovSmirnovTest(x, y, true), Double.MIN_VALUE);
-        Assert.assertEquals(1, test.kolmogorovSmirnovTest(x, y, false), Double.MIN_VALUE);
-    }
-
-    /**
-     * Split {0, 0, 0, 1, 1, 1} into 3-sets.  Most extreme is 0's vs 1's.  Non-strict
-     * p-value for this split should be 2 / (6 choose 3); strict should be 0.
-     */
-    @Test
-    public void testExactPSimpleSplit() {
-        final KolmogorovSmirnovTest test = new KolmogorovSmirnovTest();
-        final double[] x = {
-            0, 0, 0
-        };
-        final double[] y = {
-            1, 1, 1
-        };
-        // Above is one way to do this - other way is s/x/y - so 2 in strict test below
-        Assert.assertEquals(0, test.exactP(x, y, true), Double.MIN_VALUE);
-        Assert.assertEquals(2 / (double) CombinatoricsUtils.binomialCoefficient(6, 3),
-                            test.exactP(x, y, false), Double.MIN_VALUE);
-    }
-
     /**
      * Checks exact p-value computations using critical values from Table 9 in V.K Rohatgi, An
      * Introduction to Probability and Mathematical Statistics, Wiley, 1976, ISBN 0-471-73135-8.
