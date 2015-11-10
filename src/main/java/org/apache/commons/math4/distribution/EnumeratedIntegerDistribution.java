@@ -115,11 +115,9 @@ public class EnumeratedIntegerDistribution extends AbstractIntegerDistribution {
         for (int value : data) {
             Integer count = dataMap.get(value);
             if (count == null) {
-                count = new Integer(1);
-            } else {
-                count = new Integer(count.intValue() + 1);
+                count = 0;
             }
-            dataMap.put(value, count);
+            dataMap.put(value, ++count);
         }
         final int massPoints = dataMap.size();
         final double denom = data.length;
