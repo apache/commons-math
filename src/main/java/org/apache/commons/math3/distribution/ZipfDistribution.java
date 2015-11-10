@@ -25,8 +25,22 @@ import org.apache.commons.math3.util.FastMath;
 
 /**
  * Implementation of the Zipf distribution.
- *
+ * <p>
+ * <strong>Parameters:</strong>
+ * For a random variable {@code X} whose values are distributed according to this
+ * distribution, the probability mass function is given by
+ * <pre>
+ *   P(X = k) = H(N,s) * 1 / k^s    for {@code k = 1,2,...,N}.
+ * </pre>
+ * {@code H(N,s)} is the normalizing constant
+ * which corresponds to the generalized harmonic number of order N of s.
+ * <p>
+ * <ul>
+ * <li>{@code N} is the number of elements</li>
+ * <li>{@code s} is the exponent</li>
+ * </ul>
  * @see <a href="https://en.wikipedia.org/wiki/Zipf's_law">Zipf's law (Wikipedia)</a>
+ * @see <a href="https://en.wikipedia.org/wiki/Harmonic_number#Generalized_harmonic_numbers">Generalized harmonic numbers</a>
  */
 public class ZipfDistribution extends AbstractIntegerDistribution {
     /** Serializable version identifier. */
