@@ -150,7 +150,7 @@ public class EnumeratedIntegerDistribution extends AbstractIntegerDistribution {
      * @param probabilities probabilities
      * @return list of value/probability pairs
      */
-    private  List<Pair<Integer, Double>>  createDistribution(int[] singletons, double[] probabilities) {
+    private static List<Pair<Integer, Double>>  createDistribution(int[] singletons, double[] probabilities) {
         if (singletons.length != probabilities.length) {
             throw new DimensionMismatchException(probabilities.length, singletons.length);
         }
