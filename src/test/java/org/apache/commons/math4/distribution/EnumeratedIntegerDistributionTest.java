@@ -16,6 +16,8 @@
  */
 package org.apache.commons.math4.distribution;
 
+import static org.junit.Assert.assertEquals;
+
 import org.apache.commons.math4.distribution.EnumeratedIntegerDistribution;
 import org.apache.commons.math4.exception.DimensionMismatchException;
 import org.apache.commons.math4.exception.MathArithmeticException;
@@ -168,5 +170,13 @@ public class EnumeratedIntegerDistributionTest {
                 sum / n, 1e-2);
         Assert.assertEquals(testDistribution.getNumericalVariance(),
                 sumOfSquares / n - FastMath.pow(sum / n, 2), 1e-2);
+    }
+    
+    @Test
+    public void testCreateFromIntegers() {
+        final int[] data = new int[] {0, 1, 1, 2, 2, 2};
+        EnumeratedIntegerDistribution distribution = new EnumeratedIntegerDistribution(data);
+        assertEquals(0.5, distribution.probability(2), 0);
+        assertEquals(0.5, distribution.cumulativeProbability(1), 0);
     }
 }
