@@ -256,4 +256,12 @@ public class EnumeratedRealDistributionTest {
         assertEquals(18.0, distribution.inverseCumulativeProbability(0.5625), 0.0);
         assertEquals(28.0, distribution.inverseCumulativeProbability(0.7500), 0.0);
     }
+    
+    @Test
+    public void testCreateFromDoubles() {
+        final double[] data = new double[] {0, 1, 1, 2, 2, 2};
+        EnumeratedRealDistribution distribution = new EnumeratedRealDistribution(data);
+        assertEquals(0.5, distribution.probability(2), 0);
+        assertEquals(0.5, distribution.cumulativeProbability(1), 0);
+    }
 }

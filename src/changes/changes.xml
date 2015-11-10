@@ -51,6 +51,9 @@ If the output is not quite correct, check for invisible trailing spaces!
   </properties>
   <body>
     <release version="3.6" date="XXXX-XX-XX" description="">
+      <action dev="psteitz" type="update" issue="MATH-1287">
+        Added constructors taking sample data as arguments to enumerated real and integer distributions.
+      </action>
       <action dev="oertl" type="fix" issue="MATH-1269">
         Fixed FastMath.exp that potentially returned NaN for non-NaN argument.
       </action>

@@ -168,4 +168,12 @@ public class EnumeratedIntegerDistributionTest {
         Assert.assertEquals(testDistribution.getNumericalVariance(),
                 sumOfSquares / n - FastMath.pow(sum / n, 2), 1e-2);
     }
+    
+    @Test
+    public void testCreateFromIntegers() {
+        final int[] data = new int[] {0, 1, 1, 2, 2, 2};
+        EnumeratedIntegerDistribution distribution = new EnumeratedIntegerDistribution(data);
+        Assert.assertEquals(0.5, distribution.probability(2), 0);
+        Assert.assertEquals(0.5, distribution.cumulativeProbability(1), 0);
+    }
 }
