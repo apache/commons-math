@@ -22,6 +22,7 @@ package org.apache.commons.math3.ode.sampling;
  * and last points. Note that if the last point coincides with a normalized
  * point, then the underlying fixed step size step handler is always called,
  * regardless of these settings.
+ * @see FieldStepNormalizer
  * @see StepNormalizer
  * @see StepNormalizerMode
  * @since 3.0
