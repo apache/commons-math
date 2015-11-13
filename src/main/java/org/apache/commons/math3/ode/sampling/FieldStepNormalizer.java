@@ -92,6 +92,7 @@ import org.apache.commons.math3.util.Precision;
  */
 
 public class FieldStepNormalizer<T extends RealFieldElement<T>> implements FieldStepHandler<T> {
+
     /** Fixed time step. */
     private double h;
 

@@ -17,8 +17,6 @@
 
 package org.apache.commons.math3.ode.sampling;
 
-import java.io.Externalizable;
-
 import org.apache.commons.math3.RealFieldElement;
 import org.apache.commons.math3.ode.FieldODEStateAndDerivative;
 
@@ -38,7 +36,7 @@ import org.apache.commons.math3.ode.FieldODEStateAndDerivative;
  * @since 3.6
  */
 
-public interface FieldStepInterpolator<T extends RealFieldElement<T>> extends Externalizable {
+public interface FieldStepInterpolator<T extends RealFieldElement<T>> {
 
   /**
    * Get the state at previous grid point time.

@@ -17,8 +17,6 @@
 
 package org.apache.commons.math3.ode;
 
-import java.io.Serializable;
-
 import org.apache.commons.math3.RealFieldElement;
 import org.apache.commons.math3.util.MathArrays;
 
@@ -32,10 +30,7 @@ import org.apache.commons.math3.util.MathArrays;
  * @param <T> the type of the field elements
  * @since 3.6
  */
-class FieldEquationsMapper<T extends RealFieldElement<T>> implements Serializable {
-
-    /** Serializable UID. */
-    private static final long serialVersionUID = 20151111L;
+public class FieldEquationsMapper<T extends RealFieldElement<T>> {
 
     /** Index of the first equation element in complete state arrays. */
     private final int firstIndex;

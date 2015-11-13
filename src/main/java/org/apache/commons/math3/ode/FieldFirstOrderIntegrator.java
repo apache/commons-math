@@ -20,7 +20,7 @@ package org.apache.commons.math3.ode;
 import java.util.Collection;
 
 import org.apache.commons.math3.RealFieldElement;
-import org.apache.commons.math3.exception.DimensionMismatchException;
+import org.apache.commons.math3.analysis.solvers.FieldBracketingNthOrderBrentSolver;
 import org.apache.commons.math3.exception.MaxCountExceededException;
 import org.apache.commons.math3.exception.NoBracketingException;
 import org.apache.commons.math3.exception.NumberIsTooSmallException;
@@ -64,10 +64,28 @@ public interface FieldFirstOrderIntegrator<T extends RealFieldElement<T>> {
     Collection<FieldStepHandler<T>> getStepHandlers();
 
     /** Remove all the step handlers that have been added to the integrator.
-     * @see #addStepHandler(StepHandler)
+     * @see #addStepHandler(FieldStepHandler)
      * @see #getStepHandlers()
      */
     void clearStepHandlers();
+
+    /** Add an event handler to the integrator.
+     * <p>
+     * The default solver is a 5<sup>th</sup> order {@link FieldBracketingNthOrderBrentSolver}.
+     * </p>
+     * @param handler event handler
+     * @param maxCheckInterval maximal time interval between switching
+     * function checks (this interval prevents missing sign changes in
+     * case the integration steps becomes very large)
+     * @param convergence convergence threshold in the event time search
+     * @param maxIterationCount upper limit of the iteration count in
+     * the event time search events.
+     * @see #addEventHandler(FieldEventHandler, double, double, int, FieldBracketingNthOrderBrentSolver)
+     * @see #getEventHandlers()
+     * @see #clearEventHandlers()
+     */
+    void addEventHandler(FieldEventHandler<T>  handler, double maxCheckInterval,
+                         double convergence, int maxIterationCount);
 
     /** Add an event handler to the integrator.
      * @param handler event handler
@@ -76,23 +94,25 @@ public interface FieldFirstOrderIntegrator<T extends RealFieldElement<T>> {
      * case the integration steps becomes very large)
      * @param convergence convergence threshold in the event time search
      * @param maxIterationCount upper limit of the iteration count in
-     * the event time search
-     * events.
+     * the event time search events.
+     * @param solver solver to use to locate the event
+     * @see #addEventHandler(FieldEventHandler, double, double, int)
      * @see #getEventHandlers()
      * @see #clearEventHandlers()
      */
     void addEventHandler(FieldEventHandler<T>  handler, double maxCheckInterval,
-                         double convergence, int maxIterationCount);
+                         double convergence, int maxIterationCount,
+                         FieldBracketingNthOrderBrentSolver<T> solver);
 
     /** Get all the event handlers that have been added to the integrator.
      * @return an unmodifiable collection of the added events handlers
-     * @see #addEventHandler(EventHandler, double, double, int)
+     * @see #addEventHandler(FieldEventHandler, double, double, int)
      * @see #clearEventHandlers()
      */
     Collection<FieldEventHandler<T> > getEventHandlers();
 
     /** Remove all the event handlers that have been added to the integrator.
-     * @see #addEventHandler(EventHandler, double, double, int)
+     * @see #addEventHandler(FieldEventHandler, double, double, int)
      * @see #getEventHandlers()
      */
     void clearEventHandlers();
@@ -155,14 +175,12 @@ public interface FieldFirstOrderIntegrator<T extends RealFieldElement<T>> {
      * @return final state, its time will be the same as {@code finalTime} if
      * integration reached its target, but may be different if some {@link
      * org.apache.commons.math3.ode.events.FieldEventHandler} stops it at some point.
-     * @exception DimensionMismatchException if arrays dimension do not match equations settings
      * @exception NumberIsTooSmallException if integration step is too small
      * @exception MaxCountExceededException if the number of functions evaluations is exceeded
      * @exception NoBracketingException if the location of an event cannot be bracketed
      */
-    FieldODEStateAndDerivative<T> integrate (FieldExpandableODE<T> equations,
-                                             FieldODEState<T>initialState, T finalTime)
-        throws DimensionMismatchException, NumberIsTooSmallException,
-        MaxCountExceededException, NoBracketingException;
+    FieldODEStateAndDerivative<T> integrate(FieldExpandableODE<T> equations,
+                                            FieldODEState<T> initialState, T finalTime)
+        throws NumberIsTooSmallException, MaxCountExceededException, NoBracketingException;
 
 }
