@@ -95,11 +95,34 @@ public class FieldODEState<T extends RealFieldElement<T>> {
         return time;
     }
 
+    /** Get main state dimension.
+     * @return main state dimension
+     */
+    public int getStateDimension() {
+        return state.length;
+    }
+
     /** Get main state at time.
      * @return main state at time
      */
     public T[] getState() {
         return state.clone();
+    }
+
+    /** Get the number of secondary states.
+     * @return number of secondary states.
+     */
+    public int getNumberOfSecondaryStates() {
+        return secondaryState.length;
+    }
+
+    /** Get secondary state dimension.
+     * @param index index of the secondary set as returned
+     * by {@link FieldExpandableODE#addSecondaryEquations(FieldSecondaryEquations)}
+     * @return secondary state dimension
+     */
+    public int getSecondaryStateDimension(final int index) {
+        return secondaryState[index].length;
     }
 
     /** Get secondary state at time.

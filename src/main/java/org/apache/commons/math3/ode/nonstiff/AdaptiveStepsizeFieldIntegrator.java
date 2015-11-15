@@ -227,7 +227,7 @@ public abstract class AdaptiveStepsizeFieldIntegrator<T extends RealFieldElement
 
         super.sanityChecks(eqn, t);
 
-        mainSetDimension = eqn.getState().length;
+        mainSetDimension = eqn.getStateDimension();
 
         if (vecAbsoluteTolerance != null && vecAbsoluteTolerance.length != mainSetDimension) {
             throw new DimensionMismatchException(mainSetDimension, vecAbsoluteTolerance.length);
