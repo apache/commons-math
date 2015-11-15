@@ -47,57 +47,54 @@ import org.apache.commons.math3.util.MathArrays;
  */
 
 class EulerFieldStepInterpolator<T extends RealFieldElement<T>>
-  extends RungeKuttaFieldStepInterpolator<T> {
+    extends RungeKuttaFieldStepInterpolator<T> {
 
-  /** Simple constructor.
-   * This constructor builds an instance that is not usable yet, the
-   * {@link
-   * org.apache.commons.math3.ode.sampling.AbstractStepInterpolator#reinitialize}
-   * method should be called before using the instance in order to
-   * initialize the internal arrays. This constructor is used only
-   * in order to delay the initialization in some cases. The {@link
-   * RungeKuttaIntegrator} class uses the prototyping design pattern
-   * to create the step interpolators by cloning an uninitialized model
-   * and later initializing the copy.
-   */
-  EulerFieldStepInterpolator() {
-  }
+    /** Simple constructor.
+     * This constructor builds an instance that is not usable yet, the
+     * {@link
+     * org.apache.commons.math3.ode.sampling.AbstractStepInterpolator#reinitialize}
+     * method should be called before using the instance in order to
+     * initialize the internal arrays. This constructor is used only
+     * in order to delay the initialization in some cases. The {@link
+     * RungeKuttaIntegrator} class uses the prototyping design pattern
+     * to create the step interpolators by cloning an uninitialized model
+     * and later initializing the copy.
+     */
+    EulerFieldStepInterpolator() {
+    }
 
-  /** Copy constructor.
-   * @param interpolator interpolator to copy from. The copy is a deep
-   * copy: its arrays are separated from the original arrays of the
-   * instance
-   */
-  EulerFieldStepInterpolator(final EulerFieldStepInterpolator<T> interpolator) {
-    super(interpolator);
-  }
+    /** Copy constructor.
+     * @param interpolator interpolator to copy from. The copy is a deep
+     * copy: its arrays are separated from the original arrays of the
+     * instance
+     */
+    EulerFieldStepInterpolator(final EulerFieldStepInterpolator<T> interpolator) {
+        super(interpolator);
+    }
 
-  /** {@inheritDoc} */
-  @Override
-  protected EulerFieldStepInterpolator<T> doCopy() {
-    return new EulerFieldStepInterpolator<T>(this);
-  }
+    /** {@inheritDoc} */
+    @Override
+    protected EulerFieldStepInterpolator<T> doCopy() {
+        return new EulerFieldStepInterpolator<T>(this);
+    }
 
+    /** {@inheritDoc} */
+    @Override
+    protected FieldODEStateAndDerivative<T> computeInterpolatedStateAndDerivatives(final FieldEquationsMapper<T> mapper,
+                                                                                   final T time, final T theta,
+                                                                                   final T oneMinusThetaH) {
+        final T[] interpolatedState = MathArrays.buildArray(theta.getField(), previousState.length);
+        if ((previousState != null) && (theta.getReal() <= 0.5)) {
+            for (int i = 0; i < previousState.length; ++i) {
+                interpolatedState[i] = previousState[i].add(theta.multiply(h).multiply(yDotK[0][i]));
+            }
+        } else {
+            for (int i = 0; i < previousState.length; ++i) {
+                interpolatedState[i] = currentState[i].subtract(oneMinusThetaH.multiply(yDotK[0][i]));
+            }
+        }
 
-  /** {@inheritDoc} */
-  @Override
-  protected FieldODEStateAndDerivative<T> computeInterpolatedStateAndDerivatives(final FieldEquationsMapper<T> mapper,
-                                                                                 final T time, final T theta,
-                                                                                 final T oneMinusThetaH) {
-      final T[] interpolatedState = MathArrays.buildArray(theta.getField(), previousState.length);
-      if ((previousState != null) && (theta.getReal() <= 0.5)) {
-          for (int i = 0; i < previousState.length; ++i) {
-              interpolatedState[i] = previousState[i].add(theta.multiply(h).multiply(yDotK[0][i]));
-          }
-      } else {
-          for (int i = 0; i < previousState.length; ++i) {
-              interpolatedState[i] = currentState[i].subtract(oneMinusThetaH.multiply(yDotK[0][i]));
-          }
-      }
-
-      return new FieldODEStateAndDerivative<T>(time,
-                                               interpolatedState,
-                                               yDotK[0]);
-  }
+        return new FieldODEStateAndDerivative<T>(time, interpolatedState, yDotK[0]);
+    }
 
 }

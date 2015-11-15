@@ -51,26 +51,26 @@ import org.apache.commons.math3.RealFieldElement;
 
 public class EulerFieldIntegrator<T extends RealFieldElement<T>> extends RungeKuttaFieldIntegrator<T> {
 
-  /** Time steps Butcher array. */
-  private static final double[] STATIC_C = {
-  };
+    /** Time steps Butcher array. */
+    private static final double[] STATIC_C = {
+    };
 
-  /** Internal weights Butcher array. */
-  private static final double[][] STATIC_A = {
-  };
+    /** Internal weights Butcher array. */
+    private static final double[][] STATIC_A = {
+    };
 
-  /** Propagation weights Butcher array. */
-  private static final double[] STATIC_B = {
-    1.0
-  };
+    /** Propagation weights Butcher array. */
+    private static final double[] STATIC_B = {
+                                              1.0
+    };
 
-  /** Simple constructor.
-   * Build an Euler integrator with the given step.
-   * @param field field to which the time and state vector elements belong
-   * @param step integration step
-   */
-  public EulerFieldIntegrator(final Field<T> field, final T step) {
-    super(field, "Euler", STATIC_C, STATIC_A, STATIC_B, new EulerFieldStepInterpolator<T>(), step);
-  }
+    /** Simple constructor.
+     * Build an Euler integrator with the given step.
+     * @param field field to which the time and state vector elements belong
+     * @param step integration step
+     */
+    public EulerFieldIntegrator(final Field<T> field, final T step) {
+        super(field, "Euler", STATIC_C, STATIC_A, STATIC_B, new EulerFieldStepInterpolator<T>(), step);
+    }
 
 }
