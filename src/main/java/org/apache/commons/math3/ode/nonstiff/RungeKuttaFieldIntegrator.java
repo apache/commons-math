@@ -143,7 +143,7 @@ public abstract class RungeKuttaFieldIntegrator<T extends RealFieldElement<T>>
             interpolator.shift();
 
             // first stage
-            yDotK[0] = stepStart.getDerivative();
+            yDotK[0] = equations.getMapper().mapDerivative(stepStart);
 
             // next stages
             for (int k = 1; k < stages; ++k) {
