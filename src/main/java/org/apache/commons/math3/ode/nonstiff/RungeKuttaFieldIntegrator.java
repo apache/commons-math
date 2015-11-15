@@ -175,7 +175,6 @@ public abstract class RungeKuttaFieldIntegrator<T extends RealFieldElement<T>>
             // discrete events handling
             interpolator.storeState(stateTmp);
             System.arraycopy(yTmp, 0, y, 0, y0.length);
-            System.arraycopy(yDotK[stages - 1], 0, yDotTmp, 0, y0.length);
             stepStart = acceptStep(interpolator, finalTime);
 
             if (!isLastStep) {
