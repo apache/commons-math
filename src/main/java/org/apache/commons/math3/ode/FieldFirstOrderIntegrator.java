@@ -124,9 +124,9 @@ public interface FieldFirstOrderIntegrator<T extends RealFieldElement<T>> {
      * is attempted is needed.</p>
      * <p>The result is undefined if the method is called outside of
      * calls to <code>integrate</code>.</p>
-     * @return current value of the step start time t<sub>i</sub>
+     * @return current value of the state at step start time t<sub>i</sub>
      */
-    T getCurrentStepStart();
+    FieldODEStateAndDerivative<T> getCurrentStepStart();
 
     /** Get the current signed value of the integration stepsize.
      * <p>This method can be called during integration (typically by

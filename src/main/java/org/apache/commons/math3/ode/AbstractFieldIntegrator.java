@@ -57,8 +57,8 @@ public abstract class AbstractFieldIntegrator<T extends RealFieldElement<T>> imp
     /** Step handler. */
     protected Collection<FieldStepHandler<T>> stepHandlers;
 
-    /** Current step start time. */
-    protected T stepStart;
+    /** Current step start. */
+    protected FieldODEStateAndDerivative<T> stepStart;
 
     /** Current stepsize. */
     protected T stepSize;
@@ -100,6 +100,13 @@ public abstract class AbstractFieldIntegrator<T extends RealFieldElement<T>> imp
         eventsStates      = new ArrayList<FieldEventState<T>>();
         statesInitialized = false;
         evaluations       = IntegerSequence.Incrementor.create().withMaximalCount(Integer.MAX_VALUE);
+    }
+
+    /** Get the field to which state vector elements belong.
+     * @return field to which state vector elements belong
+     */
+    public Field<T> getField() {
+        return field;
     }
 
     /** {@inheritDoc} */
@@ -160,7 +167,7 @@ public abstract class AbstractFieldIntegrator<T extends RealFieldElement<T>> imp
     }
 
     /** {@inheritDoc} */
-    public T getCurrentStepStart() {
+    public FieldODEStateAndDerivative<T> getCurrentStepStart() {
         return stepStart;
     }
 
@@ -189,27 +196,34 @@ public abstract class AbstractFieldIntegrator<T extends RealFieldElement<T>> imp
      * @param t0 start value of the independent <i>time</i> variable
      * @param y0 array containing the start value of the state vector
      * @param t target time for the integration
-     * @return derivative of the state at t0 (y0Dot)
+     * @return initial state with derivatives added
      */
-    protected T[] initIntegration(final FieldExpandableODE<T> eqn,
-                                  final T t0, final T[] y0, final T t) {
+    protected FieldODEStateAndDerivative<T> initIntegration(final FieldExpandableODE<T> eqn,
+                                                            final T t0, final T[] y0, final T t) {
 
-        this.equations  = eqn;
-        evaluations     = evaluations.withStart(0);
+        this.equations = eqn;
+        evaluations    = evaluations.withStart(0);
+
+        // initialize ODE
+        eqn.init(t0, y0, t);
+
+        // set up derivatives of initial state
         final T[] y0Dot = computeDerivatives(t0, y0);
         final FieldODEStateAndDerivative<T> state0 = new FieldODEStateAndDerivative<T>(t0, y0, y0Dot);
 
+        // initialize event handlers
         for (final FieldEventState<T> state : eventsStates) {
             state.getEventHandler().init(state0, t);
         }
 
+        // initialize step handlers
         for (FieldStepHandler<T> handler : stepHandlers) {
             handler.init(state0, t);
         }
 
         setStateInitialized(false);
 
-        return y0Dot;
+        return state0;
 
     }
 
