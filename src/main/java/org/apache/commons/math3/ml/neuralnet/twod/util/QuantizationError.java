@@ -26,6 +26,7 @@ import org.apache.commons.math3.ml.distance.DistanceMeasure;
  * Computes the quantization error histogram.
  * Each bin will contain the average of the distances between samples
  * mapped to the corresponding unit and the weight vector of that unit.
+ * @since 3.6
  */
 public class QuantizationError implements MapDataVisualization {
     /** Distance. */

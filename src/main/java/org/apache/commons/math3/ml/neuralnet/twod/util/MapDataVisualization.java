@@ -22,6 +22,7 @@ import org.apache.commons.math3.ml.neuralnet.twod.NeuronSquareMesh2D;
 /**
  * Interface for algorithms that compute some metrics of the projection of
  * data on a 2D-map.
+ * @since 3.6
  */
 public interface MapDataVisualization {
     /**

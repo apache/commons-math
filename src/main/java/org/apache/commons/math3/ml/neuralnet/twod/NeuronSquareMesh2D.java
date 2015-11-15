@@ -67,6 +67,7 @@ public class NeuronSquareMesh2D
 
     /**
      * Horizontal (along row) direction.
+     * @since 3.6
      */
     public enum HorizontalDirection {
         /** Column at the right of the current column. */
@@ -78,6 +79,7 @@ public class NeuronSquareMesh2D
     }
     /**
      * Vertical (along column) direction.
+     * @since 3.6
      */
     public enum VerticalDirection {
         /** Row above the current row. */
@@ -229,6 +231,7 @@ public class NeuronSquareMesh2D
      * Updating one will not affect the other.
      *
      * @return a new instance with the same state as this instance.
+     * @since 3.6
      */
     public synchronized NeuronSquareMesh2D copy() {
         final long[][] idGrid = new long[numberOfRows][numberOfColumns];
@@ -245,7 +248,10 @@ public class NeuronSquareMesh2D
                                       idGrid);
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     *  @since 3.6
+     */
     public Iterator<Neuron> iterator() {
         return network.iterator();
     }

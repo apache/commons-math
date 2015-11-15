@@ -26,6 +26,7 @@ import org.apache.commons.math3.ml.distance.DistanceMeasure;
 /**
  * <a href="http://en.wikipedia.org/wiki/U-Matrix">U-Matrix</a>
  * visualization of high-dimensional data projection.
+ * @since 3.6
  */
 public class UnifiedDistanceMatrix implements MapVisualization {
     /** Whether to show distance between each pair of neighbouring units. */
