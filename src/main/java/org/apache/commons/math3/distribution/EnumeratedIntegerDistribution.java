@@ -107,19 +107,17 @@ public class EnumeratedIntegerDistribution extends AbstractIntegerDistribution {
      *
      * @param rng random number generator used for sampling
      * @param data input dataset
+     * @since 3.6
      */
     public EnumeratedIntegerDistribution(final RandomGenerator rng, final int[] data) {
         super(rng);
         final Map<Integer, Integer> dataMap = new HashMap<Integer, Integer>();
-
         for (int value : data) {
             Integer count = dataMap.get(value);
             if (count == null) {
-                count = new Integer(1);
-            } else {
-                count = new Integer(count.intValue() + 1);
+                count = 0;
             }
-            dataMap.put(value, count);
+            dataMap.put(value, ++count);
         }
         final int massPoints = dataMap.size();
         final double denom = data.length;
@@ -140,6 +138,7 @@ public class EnumeratedIntegerDistribution extends AbstractIntegerDistribution {
      * with values 0, 1 and 2 having probability masses 0.25, 0.5 and 0.25 respectively,
      *
      * @param data input dataset
+     * @since 3.6
      */
     public EnumeratedIntegerDistribution(final int[] data) {
         this(new Well19937c(), data);
@@ -152,7 +151,7 @@ public class EnumeratedIntegerDistribution extends AbstractIntegerDistribution {
      * @param probabilities probabilities
      * @return list of value/probability pairs
      */
-    private  List<Pair<Integer, Double>>  createDistribution(int[] singletons, double[] probabilities) {
+    private static List<Pair<Integer, Double>>  createDistribution(int[] singletons, double[] probabilities) {
         if (singletons.length != probabilities.length) {
             throw new DimensionMismatchException(probabilities.length, singletons.length);
         }
