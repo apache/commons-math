@@ -249,6 +249,7 @@ public class MathArrays {
      * @param v1 Cartesian coordinates of the first vector.
      * @param v2 Cartesian coordinates of the second vector.
      * @return the cosine of the angle between the vectors.
+     * @since 3.6
      */
     public static double cosAngle(double[] v1, double[] v2) {
         return linearCombination(v1, v2) / (safeNorm(v1) * safeNorm(v2));
@@ -391,6 +392,7 @@ public class MathArrays {
      * @return {@code true} if the arrays have the same length.
      * @throws DimensionMismatchException if the lengths differ and
      * {@code abort} is {@code true}.
+     * @since 3.6
      */
     public static boolean checkEqualLength(double[] a,
                                            double[] b,
@@ -411,6 +413,7 @@ public class MathArrays {
      * @param a Array.
      * @param b Array.
      * @throws DimensionMismatchException if the lengths differ.
+     * @since 3.6
      */
     public static void checkEqualLength(double[] a,
                                         double[] b) {
@@ -427,6 +430,7 @@ public class MathArrays {
      * @return {@code true} if the arrays have the same length.
      * @throws DimensionMismatchException if the lengths differ and
      * {@code abort} is {@code true}.
+     * @since 3.6
      */
     public static boolean checkEqualLength(int[] a,
                                            int[] b,
@@ -447,6 +451,7 @@ public class MathArrays {
      * @param a Array.
      * @param b Array.
      * @throws DimensionMismatchException if the lengths differ.
+     * @since 3.6
      */
     public static void checkEqualLength(int[] a,
                                         int[] b) {

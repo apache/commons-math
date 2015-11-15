@@ -28,6 +28,7 @@ import org.apache.commons.math4.util.Pair;
  * Computes the topographic error histogram.
  * Each bin will contain the number of data for which the first and
  * second best matching units are not adjacent in the map.
+ * @since 3.6
  */
 public class TopographicErrorHistogram implements MapDataVisualization {
     /** Distance. */
