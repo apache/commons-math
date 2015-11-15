@@ -47,6 +47,19 @@ public interface FieldSecondaryEquations<T extends RealFieldElement<T>> {
      */
     int getDimension();
 
+    /** Initialize equations at the start of an ODE integration.
+     * <p>
+     * This method is called once at the start of the integration. It
+     * may be used by the equations to initialize some internal data
+     * if needed.
+     * </p>
+     * @param t0 value of the independent <I>time</I> variable at integration start
+     * @param primary0 array containing the value of the primary state vector at integration start
+     * @param secondary0 array containing the value of the secondary state vector at integration start
+     * @param finalTime target time for the integration
+     */
+    void init(T t0, T[] primary0, T[] secondary0, T finalTime);
+
     /** Compute the derivatives related to the secondary state parameters.
      * @param t current value of the independent <I>time</I> variable
      * @param primary array containing the current value of the primary state vector
