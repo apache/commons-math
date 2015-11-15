@@ -69,7 +69,7 @@ import org.apache.commons.math4.RealFieldElement;
  * @since 3.6
  * @see UnivariateFunction
  */
-public interface FieldUnivariateFunction<T extends RealFieldElement<T>> {
+public interface RealFieldUnivariateFunction<T extends RealFieldElement<T>> {
     /**
      * Compute the value of the function.
      *

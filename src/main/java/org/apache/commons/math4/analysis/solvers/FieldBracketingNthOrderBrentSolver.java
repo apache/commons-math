@@ -19,7 +19,7 @@ package org.apache.commons.math4.analysis.solvers;
 
 import org.apache.commons.math4.Field;
 import org.apache.commons.math4.RealFieldElement;
-import org.apache.commons.math4.analysis.FieldUnivariateFunction;
+import org.apache.commons.math4.analysis.RealFieldUnivariateFunction;
 import org.apache.commons.math4.exception.MathInternalError;
 import org.apache.commons.math4.exception.NoBracketingException;
 import org.apache.commons.math4.exception.NullArgumentException;
@@ -162,7 +162,7 @@ public class FieldBracketingNthOrderBrentSolver<T extends RealFieldElement<T>> {
      * @exception NullArgumentException if f is null.
      * @exception NoBracketingException if root cannot be bracketed
      */
-    public T solve(final int maxEval, final FieldUnivariateFunction<T> f,
+    public T solve(final int maxEval, final RealFieldUnivariateFunction<T> f,
                    final T min, final T max, final AllowedSolution allowedSolution)
         throws NullArgumentException, NoBracketingException {
         return solve(maxEval, f, min, max, min.add(max).divide(2), allowedSolution);
@@ -185,7 +185,7 @@ public class FieldBracketingNthOrderBrentSolver<T extends RealFieldElement<T>> {
      * @exception NullArgumentException if f is null.
      * @exception NoBracketingException if root cannot be bracketed
      */
-    public T solve(final int maxEval, final FieldUnivariateFunction<T> f,
+    public T solve(final int maxEval, final RealFieldUnivariateFunction<T> f,
                    final T min, final T max, final T startValue,
                    final AllowedSolution allowedSolution)
         throws NullArgumentException, NoBracketingException {

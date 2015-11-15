@@ -17,7 +17,7 @@
 
 package org.apache.commons.math4.analysis.solvers;
 
-import org.apache.commons.math4.analysis.FieldUnivariateFunction;
+import org.apache.commons.math4.analysis.RealFieldUnivariateFunction;
 import org.apache.commons.math4.analysis.solvers.AllowedSolution;
 import org.apache.commons.math4.dfp.Dfp;
 import org.apache.commons.math4.dfp.DfpField;
@@ -53,7 +53,7 @@ public final class FieldBracketingNthOrderBrentSolverTest {
         FieldBracketingNthOrderBrentSolver<Dfp> solver =
                 new FieldBracketingNthOrderBrentSolver<Dfp>(relativeAccuracy, absoluteAccuracy,
                                                             field.newDfp(1.0e-20), 20);
-        FieldUnivariateFunction<Dfp> f = new FieldUnivariateFunction<Dfp>() {
+        RealFieldUnivariateFunction<Dfp> f = new RealFieldUnivariateFunction<Dfp>() {
             public Dfp value(Dfp x) {
                 Dfp one     = field.getOne();
                 Dfp oneHalf = one.divide(2);
@@ -85,37 +85,37 @@ public final class FieldBracketingNthOrderBrentSolverTest {
         // intern J. Computer Math Vol 23 pp 265-282
         // available here: http://www.math.nps.navy.mil/~bneta/SeveralNewMethods.PDF
         for (AllowedSolution allowed : AllowedSolution.values()) {
-            check(new FieldUnivariateFunction<Dfp>() {
+            check(new RealFieldUnivariateFunction<Dfp>() {
                 public Dfp value(Dfp x) {
                     return DfpMath.sin(x).subtract(x.divide(2));
                 }
             }, 200, -2.0, 2.0, allowed);
 
-            check(new FieldUnivariateFunction<Dfp>() {
+            check(new RealFieldUnivariateFunction<Dfp>() {
                 public Dfp value(Dfp x) {
                     return DfpMath.pow(x, 5).add(x).subtract(field.newDfp(10000));
                 }
             }, 200, -5.0, 10.0, allowed);
 
-            check(new FieldUnivariateFunction<Dfp>() {
+            check(new RealFieldUnivariateFunction<Dfp>() {
                 public Dfp value(Dfp x) {
                     return x.sqrt().subtract(field.getOne().divide(x)).subtract(field.newDfp(3));
                 }
             }, 200, 0.001, 10.0, allowed);
 
-            check(new FieldUnivariateFunction<Dfp>() {
+            check(new RealFieldUnivariateFunction<Dfp>() {
                 public Dfp value(Dfp x) {
                     return DfpMath.exp(x).add(x).subtract(field.newDfp(20));
                 }
             }, 200, -5.0, 5.0, allowed);
 
-            check(new FieldUnivariateFunction<Dfp>() {
+            check(new RealFieldUnivariateFunction<Dfp>() {
                 public Dfp value(Dfp x) {
                     return DfpMath.log(x).add(x.sqrt()).subtract(field.newDfp(5));
                 }
             }, 200, 0.001, 10.0, allowed);
 
-            check(new FieldUnivariateFunction<Dfp>() {
+            check(new RealFieldUnivariateFunction<Dfp>() {
                 public Dfp value(Dfp x) {
                     return x.subtract(field.getOne()).multiply(x).multiply(x).subtract(field.getOne());
                 }
@@ -124,7 +124,7 @@ public final class FieldBracketingNthOrderBrentSolverTest {
 
     }
 
-    private void check(FieldUnivariateFunction<Dfp> f, int maxEval, double min, double max,
+    private void check(RealFieldUnivariateFunction<Dfp> f, int maxEval, double min, double max,
                        AllowedSolution allowedSolution) {
         FieldBracketingNthOrderBrentSolver<Dfp> solver =
                 new FieldBracketingNthOrderBrentSolver<Dfp>(relativeAccuracy, absoluteAccuracy,
