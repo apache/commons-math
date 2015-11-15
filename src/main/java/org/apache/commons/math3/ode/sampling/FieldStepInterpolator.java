@@ -18,6 +18,7 @@
 package org.apache.commons.math3.ode.sampling;
 
 import org.apache.commons.math3.RealFieldElement;
+import org.apache.commons.math3.exception.MaxCountExceededException;
 import org.apache.commons.math3.ode.FieldODEStateAndDerivative;
 
 /** This interface represents an interpolator over the last step
@@ -72,5 +73,15 @@ public interface FieldStepInterpolator<T extends RealFieldElement<T>> {
    * integration
    */
   boolean isForward();
+
+  /** Copy the instance.
+   * <p>The copied instance is guaranteed to be independent from the
+   * original one. Both can be used with different settings for
+   * interpolated time without any side effect.</p>
+   * @return a deep copy of the instance, which can be used independently.
+   * @exception MaxCountExceededException if the number of functions evaluations is exceeded
+   * during step finalization
+   */
+   FieldStepInterpolator<T> copy() throws MaxCountExceededException;
 
 }
