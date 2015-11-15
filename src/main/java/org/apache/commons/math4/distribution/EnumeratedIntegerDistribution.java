@@ -107,11 +107,11 @@ public class EnumeratedIntegerDistribution extends AbstractIntegerDistribution {
      *
      * @param rng random number generator used for sampling
      * @param data input dataset
+     * #since 3.6
      */
     public EnumeratedIntegerDistribution(final RandomGenerator rng, final int[] data) {
         super(rng);
         final Map<Integer, Integer> dataMap = new HashMap<Integer, Integer>();
-
         for (int value : data) {
             Integer count = dataMap.get(value);
             if (count == null) {
@@ -138,6 +138,7 @@ public class EnumeratedIntegerDistribution extends AbstractIntegerDistribution {
      * with values 0, 1 and 2 having probability masses 0.25, 0.5 and 0.25 respectively,
      *
      * @param data input dataset
+     * @since 3.6
      */
     public EnumeratedIntegerDistribution(final int[] data) {
         this(new Well19937c(), data);
