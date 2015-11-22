@@ -532,6 +532,41 @@ public class KolmogorovSmirnovTestTest {
     }
 
     /**
+     * Test an example with ties in the data.  Reference data is R 3.2.0,
+     * ks.boot implemented in Matching (Version 4.8-3.4, Build Date: 2013/10/28)
+     */
+    @Test
+    public void testBootstrapSmallSamplesWithTies() {
+        final double[] x = {0, 2, 4, 6, 8, 8, 10, 15, 22, 30, 33, 36, 38};
+        final double[] y = {9, 17, 20, 33, 40, 51, 60, 60, 72, 90, 101};
+        final KolmogorovSmirnovTest test = new KolmogorovSmirnovTest(new Well19937c(2000));
+        Assert.assertEquals(0.0059, test.bootstrap(x, y, 10000, false), 1E-3);
+    }
+
+    /**
+     * Reference data is R 3.2.0, ks.boot implemented in
+     * Matching (Version 4.8-3.4, Build Date: 2013/10/28)
+     */
+    @Test
+    public void testBootstrapLargeSamples() {
+        final KolmogorovSmirnovTest test = new KolmogorovSmirnovTest(new Well19937c(1000));
+        Assert.assertEquals(0.0237, test.bootstrap(gaussian, gaussian2, 10000), 1E-2);
+    }
+
+    /**
+     * Test an example where D-values are close (subject to rounding).
+     * Reference data is R 3.2.0, ks.boot implemented in
+     * Matching (Version 4.8-3.4, Build Date: 2013/10/28)
+     */
+    @Test
+    public void testBootstrapRounding() {
+        final double[] x = {2,4,6,8,9,10,11,12,13};
+        final double[] y = {0,1,3,5,7};
+        final KolmogorovSmirnovTest test = new KolmogorovSmirnovTest(new Well19937c(1000));
+        Assert.assertEquals(0.06303, test.bootstrap(x, y, 10000, false), 1E-2);
+    }
+
+    /**
      * Verifies the inequality exactP(criticalValue, n, m, true) < alpha < exactP(criticalValue, n,
      * m, false).
      *

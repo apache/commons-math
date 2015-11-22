@@ -21,6 +21,7 @@ import java.math.BigDecimal;
 import java.util.Arrays;
 import java.util.Iterator;
 
+import org.apache.commons.math3.distribution.EnumeratedRealDistribution;
 import org.apache.commons.math3.distribution.RealDistribution;
 import org.apache.commons.math3.exception.InsufficientDataException;
 import org.apache.commons.math3.exception.MathArithmeticException;
@@ -373,6 +374,65 @@ public class KolmogorovSmirnovTest {
             throw new OutOfRangeException(LocalizedFormats.OUT_OF_BOUND_SIGNIFICANCE_LEVEL, alpha, 0, 0.5);
         }
         return kolmogorovSmirnovTest(distribution, data) < alpha;
+    }
+
+    /**
+     * Estimates the <i>p-value</i> of a two-sample
+     * <a href="http://en.wikipedia.org/wiki/Kolmogorov-Smirnov_test"> Kolmogorov-Smirnov test</a>
+     * evaluating the null hypothesis that {@code x} and {@code y} are samples drawn from the same
+     * probability distribution. This method estimates the p-value by repeatedly sampling sets of size
+     * {@code x.length} and {@code y.length} from the empirical distribution of the combined sample.
+     * When {@code strict} is true, this is equivalent to the algorithm implemented in the R function
+     * ks.boot, described in <pre>
+     * Jasjeet S. Sekhon. 2011. `Multivariate and Propensity Score Matching
+     * Software with Automated Balance Optimization: The Matching package for R.`
+     * Journal of Statistical Software, 42(7): 1-52.
+     * </pre>
+     * @param x first sample
+     * @param y second sample
+     * @param iterations number of bootstrap resampling iterations
+     * @param strict whether or not the null hypothesis is expressed as a strict inequality
+     * @return estimated p-value
+     */
+    public double bootstrap(double[] x, double[] y, int iterations, boolean strict) {
+        final int xLength = x.length;
+        final int yLength = y.length;
+        final double[] combined = new double[xLength + yLength];
+        System.arraycopy(x, 0, combined, 0, xLength);
+        System.arraycopy(y, 0, combined, xLength, yLength);
+        final EnumeratedRealDistribution dist = new EnumeratedRealDistribution(combined);
+        final long d = integralKolmogorovSmirnovStatistic(x, y);
+        int greaterCount = 0;
+        int equalCount = 0;
+        double[] curX;
+        double[] curY;
+        long curD;
+        for (int i = 0; i < iterations; i++) {
+            curX = dist.sample(xLength);
+            curY = dist.sample(yLength);
+            curD = integralKolmogorovSmirnovStatistic(curX, curY);
+            if (curD > d) {
+                greaterCount++;
+            } else if (curD == d) {
+                equalCount++;
+            }
+        }
+        return strict ? greaterCount / (double) iterations :
+            (greaterCount + equalCount) / (double) iterations;
+    }
+
+    /**
+     * Computes {@code bootstrap(x, y, iterations, true)}.
+     * This is equivalent to ks.boot(x,y, nboots=iterations) using the R Matching
+     * package function. See #bootstrap(double[], double[], int, boolean).
+     *
+     * @param x first sample
+     * @param y second sample
+     * @param iterations number of bootstrap resampling iterations
+     * @return estimated p-value
+     */
+    public double bootstrap(double[] x, double[] y, int iterations) {
+        return bootstrap(x, y, iterations, true);
     }
 
     /**
