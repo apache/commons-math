@@ -67,22 +67,6 @@ public class TestProblem3
     this(0.1);
   }
 
-  /**
-   * Copy constructor.
-   * @param problem problem to copy
-   */
-  public TestProblem3(TestProblem3 problem) {
-    super(problem);
-    e = problem.e;
-    y = problem.y.clone();
-  }
-
-  /** {@inheritDoc} */
-  @Override
-public TestProblem3 copy() {
-    return new TestProblem3(this);
-  }
-
   @Override
   public void doComputeDerivatives(double t, double[] y, double[] yDot) {
 

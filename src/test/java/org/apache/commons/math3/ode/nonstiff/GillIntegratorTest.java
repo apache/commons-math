@@ -25,10 +25,12 @@ import org.apache.commons.math3.exception.NumberIsTooSmallException;
 import org.apache.commons.math3.ode.FirstOrderDifferentialEquations;
 import org.apache.commons.math3.ode.FirstOrderIntegrator;
 import org.apache.commons.math3.ode.TestProblem1;
+import org.apache.commons.math3.ode.TestProblem2;
 import org.apache.commons.math3.ode.TestProblem3;
+import org.apache.commons.math3.ode.TestProblem4;
 import org.apache.commons.math3.ode.TestProblem5;
+import org.apache.commons.math3.ode.TestProblem6;
 import org.apache.commons.math3.ode.TestProblemAbstract;
-import org.apache.commons.math3.ode.TestProblemFactory;
 import org.apache.commons.math3.ode.TestProblemHandler;
 import org.apache.commons.math3.ode.events.EventHandler;
 import org.apache.commons.math3.ode.sampling.StepHandler;
@@ -55,14 +57,15 @@ public class GillIntegratorTest {
       throws DimensionMismatchException, NumberIsTooSmallException,
              MaxCountExceededException, NoBracketingException {
 
-    TestProblemAbstract[] problems = TestProblemFactory.getProblems();
-    for (int k = 0; k < problems.length; ++k) {
+      for (TestProblemAbstract pb : new TestProblemAbstract[] {
+          new TestProblem1(), new TestProblem2(), new TestProblem3(),
+          new TestProblem4(), new TestProblem5(), new TestProblem6()
+      }) {
 
       double previousValueError = Double.NaN;
       double previousTimeError = Double.NaN;
       for (int i = 5; i < 10; ++i) {
 
-        TestProblemAbstract pb = problems[k].copy();
         double step = (pb.getFinalTime() - pb.getInitialTime()) * FastMath.pow(2.0, -i);
 
         FirstOrderIntegrator integ = new GillIntegrator(step);

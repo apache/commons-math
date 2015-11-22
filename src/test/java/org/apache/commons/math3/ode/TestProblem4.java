@@ -56,22 +56,6 @@ public class TestProblem4
     y = new double[y0.length];
   }
 
-  /**
-   * Copy constructor.
-   * @param problem problem to copy
-   */
-  public TestProblem4(TestProblem4 problem) {
-    super(problem);
-    a = problem.a;
-    y = problem.y.clone();
-  }
-
-  /** {@inheritDoc} */
-  @Override
-public TestProblem4 copy() {
-    return new TestProblem4(this);
-  }
-
   @Override
   public EventHandler[] getEventsHandlers() {
     return new EventHandler[] { new Bounce(), new Stop() };

@@ -58,33 +58,6 @@ public abstract class TestProblemAbstract
   }
 
   /**
-   * Copy constructor.
-   * @param problem problem to copy
-   */
-  protected TestProblemAbstract(TestProblemAbstract problem) {
-    n     = problem.n;
-    calls = problem.calls;
-    t0    = problem.t0;
-    if (problem.y0 == null) {
-      y0 = null;
-    } else {
-      y0 = problem.y0.clone();
-    }
-    if (problem.errorScale == null) {
-      errorScale = null;
-    } else {
-      errorScale = problem.errorScale.clone();
-    }
-    t1 = problem.t1;
-  }
-
-  /**
-   * Copy operation.
-   * @return a copy of the instance
-   */
-  public abstract TestProblemAbstract copy();
-
-  /**
    * Set the initial conditions
    * @param t0 initial time
    * @param y0 initial state vector
