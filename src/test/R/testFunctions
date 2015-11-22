@@ -60,7 +60,7 @@ assertEquals <- function(expected, observed, tol, message) {
         cat("OBSERVED: ",observed,"\n")
         cat("DIFF: ",observed - expected,"\n")
         cat("TOLERANCE: ",tol,"\n")
-    }  
+    }
     return(!failed)
 }
 #------------------------------------------------------------------------------
@@ -73,12 +73,12 @@ displayDashes <- function(n) {
     return(1)
 }
 #------------------------------------------------------------------------------
-# Displays <start>......<end> with enough dots in between to make <n> cols, 
+# Displays <start>......<end> with enough dots in between to make <n> cols,
 # followed by a new line character. Blows up if <start><end> is longer than
 # <n> cols by itself.
 #
 # Expects <start> and <end> to be strings (character vectors).
-# 
+#
 displayPadded <- function(start, end, n) {
     len = sum(nchar(start)) + sum(nchar(end))
     cat(start, rep(".", n - len), end, "\n",sep='')

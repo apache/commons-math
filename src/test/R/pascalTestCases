@@ -46,7 +46,7 @@ verifyDensity <- function(points, expected, size, p, tol) {
         displayPadded(output, SUCCEEDED, WIDTH)
     } else {
         displayPadded(output, FAILED, WIDTH)
-    }       
+    }
 }
 
 # function to verify distribution computations
@@ -63,7 +63,7 @@ verifyDistribution <- function(points, expected, size, p, tol) {
         displayPadded(output, SUCCEEDED, WIDTH)
     } else {
         displayPadded(output, FAILED, WIDTH)
-    }       
+    }
 }
 
 #--------------------------------------------------------------------------
@@ -100,7 +100,7 @@ if (assertEquals(inverseCumValues, rInverseCumValues-1, tol,
     displayPadded(output, SUCCEEDED, 80)
 } else {
     displayPadded(output, FAILED, 80)
-}       
+}
 
 # Degenerate cases
 

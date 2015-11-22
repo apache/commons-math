@@ -40,7 +40,7 @@ verifyDistribution <- function(points, expected, df, tol) {
         displayPadded(output, SUCCEEDED, WIDTH)
     } else {
         displayPadded(output, FAILED, WIDTH)
-    }       
+    }
 }
 
 # function to verify density computations
@@ -56,7 +56,7 @@ verifyDensity <- function(points, expected, df, tol) {
         displayPadded(output, SUCCEEDED, WIDTH)
     } else {
         displayPadded(output, FAILED, WIDTH)
-    }       
+    }
 }
 
 # function to verify quantiles
@@ -72,7 +72,7 @@ verifyQuantiles <- function(points, expected, df, tol) {
         displayPadded(output, SUCCEEDED, WIDTH)
     } else {
         displayPadded(output, FAILED, WIDTH)
-    }    
+    }
 }
 
 #--------------------------------------------------------------------------
@@ -83,7 +83,7 @@ distributionValues <- c(0.001, 0.01, 0.025, 0.05, 0.1, 0.999, 0.990, 0.975, 0.95
 densityValues <- c(0.0115379817652, 0.0415948507811, 0.0665060119842, 0.0919455953114, 0.121472591024,
                  0.000433630076361, 0.00412780610309, 0.00999340341045, 0.0193246438937, 0.0368460089216)
 distributionPoints <- c(0.210212602629, 0.554298076728, 0.831211613487, 1.14547622606, 1.61030798696,
-                20.5150056524, 15.0862724694, 12.8325019940, 11.0704976935, 9.23635689978)              
+                20.5150056524, 15.0862724694, 12.8325019940, 11.0704976935, 9.23635689978)
 verifyQuantiles(distributionValues, distributionPoints, df, tol)
 verifyDistribution(distributionPoints, distributionValues, df, tol)
 verifyDensity(distributionPoints, densityValues, df, tol)

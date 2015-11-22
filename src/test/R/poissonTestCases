@@ -46,7 +46,7 @@ verifyDensity <- function(points, expected, lambda, tol) {
         displayPadded(output, SUCCEEDED, WIDTH)
     } else {
         displayPadded(output, FAILED, WIDTH)
-    }       
+    }
 }
 
 # function to verify distribution computations
@@ -63,14 +63,14 @@ verifyDistribution <- function(points, expected, lambda, tol) {
         displayPadded(output, SUCCEEDED, WIDTH)
     } else {
         displayPadded(output, FAILED, WIDTH)
-    }       
+    }
 }
 
 # function to verify normal approximation
 
 verifyNormalApproximation <- function(expected, lambda, lower, upper, tol) {
     rValue <- pnorm(upper, mean=lambda, sd=sqrt(lambda), lower.tail = TRUE,
-               log.p = FALSE) - 
+               log.p = FALSE) -
                pnorm(lower, mean=lambda, sd=sqrt(lambda), lower.tail = TRUE,
                log.p = FALSE)
     output <- c("Normal approx. test lambda = ", lambda, " upper = ",
@@ -79,7 +79,7 @@ verifyNormalApproximation <- function(expected, lambda, lower, upper, tol) {
         displayPadded(output, SUCCEEDED, WIDTH)
     } else {
         displayPadded(output, FAILED, WIDTH)
-    }       
+    }
 }
 
 cat("Poisson distribution test cases\n")
@@ -112,5 +112,5 @@ displayDashes(WIDTH)
 
 
 
- 
- 
+
+

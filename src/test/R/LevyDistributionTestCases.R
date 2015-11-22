@@ -47,7 +47,7 @@ verifyDistribution <- function(points, expected, m, s, tol) {
         displayPadded(output, SUCCEEDED, WIDTH)
     } else {
         displayPadded(output, FAILED, WIDTH)
-    }       
+    }
 }
 
 # function to verify density computations
@@ -64,7 +64,7 @@ verifyDensity <- function(points, expected, m, s, tol) {
         displayPadded(output, SUCCEEDED, WIDTH)
     } else {
         displayPadded(output, FAILED, WIDTH)
-    }       
+    }
 }
 
 #--------------------------------------------------------------------------

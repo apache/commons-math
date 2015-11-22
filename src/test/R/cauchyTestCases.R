@@ -42,7 +42,7 @@ verifyDistribution <- function(points, expected, median, scale, tol) {
         displayPadded(output, SUCCEEDED, WIDTH)
     } else {
         displayPadded(output, FAILED, WIDTH)
-    }       
+    }
 }
 
 # function to verify density computations
@@ -59,7 +59,7 @@ verifyDensity <- function(points, expected, median, scale, tol) {
         displayPadded(output, SUCCEEDED, WIDTH)
     } else {
         displayPadded(output, FAILED, WIDTH)
-    }       
+    }
 }
 
 # function to verify quantiles
@@ -76,7 +76,7 @@ verifyQuantiles <- function(points, expected, median, scale, tol) {
         displayPadded(output, SUCCEEDED, WIDTH)
     } else {
         displayPadded(output, FAILED, WIDTH)
-    }    
+    }
 }
 
 #--------------------------------------------------------------------------

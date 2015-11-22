@@ -58,19 +58,19 @@ if (assertEquals(4.596e-07, significance, tol, "Significance")) {
     displayPadded(output, SUCCEEDED, WIDTH)
 } else {
     displayPadded(output, FAILED, WIDTH)
-}     
- 
+}
+
 output <- "InfData conf interval test"
 ci<-confint(model)
 # ci[1,1] = lower 2.5% bound for intercept, ci[1,2] = upper 97.5% for intercept
 # ci[2,1] = lower 2.5% bound for slope,     ci[2,2] = upper 97.5% for slope
 halfWidth <- ci[2,2] - slope
-if (assertEquals(0.0270713794287, halfWidth, tol, 
+if (assertEquals(0.0270713794287, halfWidth, tol,
    "Slope conf. interval half-width")) {
     displayPadded(output, SUCCEEDED, WIDTH)
 } else {
     displayPadded(output, FAILED, WIDTH)
-}       
+}
 #------------------------------------------------------------------------------
 # Norris dataset from NIST examples
 
@@ -123,37 +123,37 @@ if (assertEquals(0.261829133982, significance, tol, "Significance")) {
     displayPadded(output, SUCCEEDED, WIDTH)
 } else {
     displayPadded(output, FAILED, WIDTH)
-}  
+}
 
 output <- "InfData2 conf interval test"
 ci<-confint(model)
 # ci[1,1] = lower 2.5% bound for intercept, ci[1,2] = upper 97.5% for intercept
 # ci[2,1] = lower 2.5% bound for slope,     ci[2,2] = upper 97.5% for slope
 halfWidth <- ci[2,2] - slope
-if (assertEquals(2.97802204827, halfWidth, tol, 
+if (assertEquals(2.97802204827, halfWidth, tol,
    "Slope conf. interval half-width")) {
     displayPadded(output, SUCCEEDED, WIDTH)
 } else {
     displayPadded(output, FAILED, WIDTH)
-} 
+}
 #------------------------------------------------------------------------------
 # Correlation example
 
 x <- c(101.0, 100.1, 100.0, 90.6, 86.5, 89.7, 90.6, 82.8, 70.1, 65.4,
        61.3, 62.5, 63.6, 52.6, 59.7, 59.5, 61.3)
 y <- c(99.2, 99.0, 100.0, 111.6, 122.2, 117.6, 121.1, 136.0, 154.2, 153.6,
-       158.5, 140.6, 136.2, 168.0, 154.3, 149.0, 165.5)  
+       158.5, 140.6, 136.2, 168.0, 154.3, 149.0, 165.5)
 
 output <- "Correlation test"
-if (assertEquals(-0.94663767742, cor(x,y, method="pearson"), tol, 
+if (assertEquals(-0.94663767742, cor(x,y, method="pearson"), tol,
    "Correlation coefficient")) {
     displayPadded(output, SUCCEEDED, WIDTH)
 } else {
     displayPadded(output, FAILED, WIDTH)
 }
- 
+
 displayDashes(WIDTH)
 
 
- 
- 
+
+

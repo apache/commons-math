@@ -22,7 +22,7 @@
 # source("<name-of-this-file>")
 #
 # R functions used
-# dhyper(x, m, n, k, log = FALSE) <- density 
+# dhyper(x, m, n, k, log = FALSE) <- density
 # phyper(q, m, n, k, lower.tail = TRUE, log.p = FALSE) <- distribution
 # qhyper(p, m, n, k, lower.tail = TRUE, log.p = FALSE) <- quantiles
 #------------------------------------------------------------------------------
@@ -41,13 +41,13 @@ verifyDensity <- function(points, expected, good, bad, selected, tol, log = FALS
         i <- i + 1
         rDensityValues[i] <- dhyper(point, good, bad, selected, log)
     }
-    output <- c("Density test good = ", good, ", bad = ", bad, 
+    output <- c("Density test good = ", good, ", bad = ", bad,
                 ", selected = ",selected)
     if (assertEquals(expected,rDensityValues,tol,"Density Values")) {
         displayPadded(output, SUCCEEDED, WIDTH)
     } else {
         displayPadded(output, FAILED, WIDTH)
-    }       
+    }
 }
 
 # function to verify distribution computations
@@ -65,7 +65,7 @@ verifyDistribution <- function(points, expected, good, bad, selected, tol) {
         displayPadded(output, SUCCEEDED, WIDTH)
     } else {
         displayPadded(output, FAILED, WIDTH)
-    }       
+    }
 }
 
 #--------------------------------------------------------------------------
@@ -98,7 +98,7 @@ for (point in inverseCumPoints) {
   rInverseCumValues[i] <- qhyper(point, good, bad, selected)
 }
 
-output <- c("Inverse Distribution test good = ", good, ", bad = ", bad, 
+output <- c("Inverse Distribution test good = ", good, ", bad = ", bad,
             ", selected = ", selected)
 # R defines quantiles from the right, need to subtract one
 if (assertEquals(inverseCumValues, rInverseCumValues-1, tol,
@@ -106,7 +106,7 @@ if (assertEquals(inverseCumValues, rInverseCumValues-1, tol,
     displayPadded(output, SUCCEEDED, 80)
 } else {
     displayPadded(output, FAILED, 80)
-}       
+}
 
 # Degenerate cases
 good <- 5

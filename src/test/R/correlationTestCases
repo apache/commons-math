@@ -37,7 +37,7 @@ verifyPearsonsCorrelation <- function(matrix, expectedCorrelation, name) {
         displayPadded(output, SUCCEEDED, WIDTH)
     } else {
         displayPadded(output, FAILED, WIDTH)
-    }  
+    }
 }
 
 # Verify Spearman's correlation
@@ -48,7 +48,7 @@ verifySpearmansCorrelation <- function(matrix, expectedCorrelation, name) {
         displayPadded(output, SUCCEEDED, WIDTH)
     } else {
         displayPadded(output, FAILED, WIDTH)
-    }  
+    }
 }
 
 # Verify Kendall's correlation
@@ -59,7 +59,7 @@ verifyKendallsCorrelation <- function(matrix, expectedCorrelation, name) {
         displayPadded(output, SUCCEEDED, WIDTH)
     } else {
         displayPadded(output, FAILED, WIDTH)
-    }  
+    }
 }
 
 # function to verify p-values
@@ -133,16 +133,16 @@ expectedCorrelation <- matrix(c(
           0.4172451498349454, 0.993952846232926, 1.0000000000000000),
           nrow = 7, ncol = 7, byrow = TRUE)
  verifyPearsonsCorrelation(longley, expectedCorrelation, "longley")
- 
+
  expectedPValues <- c(
           4.38904690369668e-10,
           8.36353208910623e-12, 7.8159700933611e-14,
-          0.0472894097790304, 0.01030636128354301, 0.01316878049026582, 
+          0.0472894097790304, 0.01030636128354301, 0.01316878049026582,
           0.0749178049642416, 0.06971758330341182, 0.0830166169296545, 0.510948586323452,
-          3.693245043123738e-09, 4.327782576751815e-11, 1.167954621905665e-13, 0.00331028281967516, 0.1652293725106684, 
+          3.693245043123738e-09, 4.327782576751815e-11, 1.167954621905665e-13, 0.00331028281967516, 0.1652293725106684,
           3.95834476307755e-10, 1.114663916723657e-13, 1.332267629550188e-15, 0.00466039138541463, 0.1078477071581498, 7.771561172376096e-15)
  verifyPValues(longley, expectedPValues, "longley")
- 
+
 # Spearman's
 expectedCorrelation <- matrix(c(
           1, 0.982352941176471, 0.985294117647059, 0.564705882352941, 0.2264705882352941, 0.976470588235294,
@@ -218,7 +218,7 @@ expectedCorrelation <- matrix(c(
   44.7,46.6,16,29,50.43,
   42.8,27.7,22,29,58.33),
   nrow = 47, ncol = 5, byrow = TRUE)
-  
+
 # Pearson's
   expectedCorrelation <- matrix(c(
           1, 0.3530791836199747, -0.6458827064572875, -0.663788857035069, 0.463684700651794,
