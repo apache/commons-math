@@ -57,7 +57,7 @@ public class TestProblem2
   public void doComputeDerivatives(double t, double[] y, double[] yDot) {
 
     // compute the derivatives
-    for (int i = 0; i < n; ++i)
+    for (int i = 0; i < getDimension(); ++i)
       yDot[i] = t * (t * t - y[i]);
 
   }
@@ -66,7 +66,7 @@ public class TestProblem2
   public double[] computeTheoreticalState(double t) {
     double t2 = t * t;
     double c = t2 + 2 * (FastMath.exp (-0.5 * t2) - 1);
-    for (int i = 0; i < n; ++i) {
+    for (int i = 0; i < getDimension(); ++i) {
       y[i] = c;
     }
     return y;

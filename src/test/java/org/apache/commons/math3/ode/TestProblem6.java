@@ -58,7 +58,7 @@ public class TestProblem6
         double t2 = t  * t;
         double t4 = t2 * t2;
         double t5 = t4 * t;
-        for (int i = 0; i < n; ++i) {
+        for (int i = 0; i < getDimension(); ++i) {
             yDot[i] = 3 * t5 - y[i];
         }
 
@@ -66,7 +66,7 @@ public class TestProblem6
 
     @Override
     public double[] computeTheoreticalState(double t) {
-        for (int i = 0; i < n; ++i) {
+        for (int i = 0; i < getDimension(); ++i) {
             y[i] = ((((3 * t - 15) * t + 60) * t - 180) * t + 360) * t - 360;
         }
         return y;
