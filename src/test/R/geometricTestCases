@@ -22,7 +22,7 @@
 # source("<name-of-this-file>")
 #
 # R functions used
-# dgeom(x, prob, log = FALSE) <- density 
+# dgeom(x, prob, log = FALSE) <- density
 # pgeom(q, prob, lower.tail = TRUE, log.p = FALSE) <- distribution
 # qgeom(p, prob, lower.tail = TRUE, log.p = FALSE) <- quantiles
 #------------------------------------------------------------------------------
@@ -46,7 +46,7 @@ verifyDensity <- function(points, expected, prob, tol, log = FALSE) {
         displayPadded(output, SUCCEEDED, WIDTH)
     } else {
         displayPadded(output, FAILED, WIDTH)
-    }       
+    }
 }
 
 # function to verify distribution computations
@@ -63,7 +63,7 @@ verifyDistribution <- function(points, expected, prob, tol) {
         displayPadded(output, SUCCEEDED, WIDTH)
     } else {
         displayPadded(output, FAILED, WIDTH)
-    }       
+    }
 }
 
 #--------------------------------------------------------------------------
@@ -79,7 +79,7 @@ densityValues <- c(0, 0.4, 0.24, 0.144, 0.0864, 0.05184, 0.031104, 0.0186624, 0.
                    0.000313456656384, 0.0001880739938304, 0.00011284439629824, 6.7706637778944e-05,
                    4.06239826673664e-05, 2.43743896004198e-05, 1.46246337602519e-05, 8.77478025615113e-06,
                    5.26486815369068e-06, 3.15892089221441e-06, 1.89535253532865e-06, 1.13721152119719e-06,
-                   6.82326912718312e-07, 4.09396147630988e-07, 2.45637688578593e-07) 
+                   6.82326912718312e-07, 4.09396147630988e-07, 2.45637688578593e-07)
 logDensityValues <- c(-Inf, -0.916290731874155, -1.42711635564015, -1.93794197940614, -2.44876760317213,
                       -2.95959322693812, -3.47041885070411, -3.9812444744701, -4.49207009823609,
                       -5.00289572200208, -5.51372134576807, -6.02454696953406, -6.53537259330005,
@@ -116,6 +116,6 @@ if (assertEquals(inverseCumValues, rInverseCumValues-1, tol,
     displayPadded(output, SUCCEEDED, 80)
 } else {
     displayPadded(output, FAILED, 80)
-}       
+}
 
 displayDashes(WIDTH)
