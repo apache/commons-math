@@ -18,9 +18,9 @@
 package org.apache.commons.math3.ode.events;
 
 import org.apache.commons.math3.RealFieldElement;
-import org.apache.commons.math3.analysis.FieldUnivariateFunction;
+import org.apache.commons.math3.analysis.RealFieldUnivariateFunction;
 import org.apache.commons.math3.analysis.solvers.AllowedSolution;
-import org.apache.commons.math3.analysis.solvers.FieldBracketingNthOrderBrentSolver;
+import org.apache.commons.math3.analysis.solvers.BracketedRealFieldUnivariateSolver;
 import org.apache.commons.math3.exception.MaxCountExceededException;
 import org.apache.commons.math3.exception.NoBracketingException;
 import org.apache.commons.math3.ode.FieldODEStateAndDerivative;
@@ -84,7 +84,7 @@ public class FieldEventState<T extends RealFieldElement<T>> {
     private Action nextAction;
 
     /** Root-finding algorithm to use to detect state events. */
-    private final FieldBracketingNthOrderBrentSolver<T> solver;
+    private final BracketedRealFieldUnivariateSolver<T> solver;
 
     /** Simple constructor.
      * @param handler event handler
@@ -98,7 +98,7 @@ public class FieldEventState<T extends RealFieldElement<T>> {
      */
     public FieldEventState(final FieldEventHandler<T> handler, final double maxCheckInterval,
                            final T convergence, final int maxIterationCount,
-                           final FieldBracketingNthOrderBrentSolver<T> solver) {
+                           final BracketedRealFieldUnivariateSolver<T> solver) {
         this.handler           = handler;
         this.maxCheckInterval  = maxCheckInterval;
         this.convergence       = convergence.abs();
@@ -202,7 +202,7 @@ public class FieldEventState<T extends RealFieldElement<T>> {
             final int n = FastMath.max(1, (int) FastMath.ceil(FastMath.abs(dt.getReal()) / maxCheckInterval));
             final T   h = dt.divide(n);
 
-            final FieldUnivariateFunction<T> f = new FieldUnivariateFunction<T>() {
+            final RealFieldUnivariateFunction<T> f = new RealFieldUnivariateFunction<T>() {
                 /** {@inheritDoc} */
                 public T value(final T t) throws LocalMaxCountExceededException {
                     try {

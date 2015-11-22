@@ -28,6 +28,7 @@ import java.util.TreeSet;
 
 import org.apache.commons.math3.Field;
 import org.apache.commons.math3.RealFieldElement;
+import org.apache.commons.math3.analysis.solvers.BracketedRealFieldUnivariateSolver;
 import org.apache.commons.math3.analysis.solvers.FieldBracketingNthOrderBrentSolver;
 import org.apache.commons.math3.exception.DimensionMismatchException;
 import org.apache.commons.math3.exception.MaxCountExceededException;
@@ -147,7 +148,7 @@ public abstract class AbstractFieldIntegrator<T extends RealFieldElement<T>> imp
                                 final double maxCheckInterval,
                                 final double convergence,
                                 final int maxIterationCount,
-                                final FieldBracketingNthOrderBrentSolver<T> solver) {
+                                final BracketedRealFieldUnivariateSolver<T> solver) {
         eventsStates.add(new FieldEventState<T>(handler, maxCheckInterval, field.getZero().add(convergence),
                                                 maxIterationCount, solver));
     }
