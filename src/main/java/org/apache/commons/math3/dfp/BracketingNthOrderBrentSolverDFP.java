@@ -17,7 +17,7 @@
 package org.apache.commons.math3.dfp;
 
 
-import org.apache.commons.math3.analysis.FieldUnivariateFunction;
+import org.apache.commons.math3.analysis.RealFieldUnivariateFunction;
 import org.apache.commons.math3.analysis.solvers.AllowedSolution;
 import org.apache.commons.math3.analysis.solvers.FieldBracketingNthOrderBrentSolver;
 import org.apache.commons.math3.exception.NoBracketingException;
@@ -135,7 +135,7 @@ public class BracketingNthOrderBrentSolverDFP extends FieldBracketingNthOrderBre
         MathUtils.checkNotNull(f);
 
         // wrap the function
-        FieldUnivariateFunction<Dfp> fieldF = new FieldUnivariateFunction<Dfp>() {
+        RealFieldUnivariateFunction<Dfp> fieldF = new RealFieldUnivariateFunction<Dfp>() {
 
             /** {@inheritDoc} */
             @Override

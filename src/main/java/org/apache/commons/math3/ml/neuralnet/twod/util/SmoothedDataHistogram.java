@@ -31,6 +31,7 @@ import org.apache.commons.math3.exception.NumberIsTooSmallException;
  *  <br>
  *  by Elias Pampalk, Andreas Rauber and Dieter Merkl.
  * </quote>
+ * @since 3.6
  */
 public class SmoothedDataHistogram implements MapDataVisualization {
     /** Smoothing parameter. */

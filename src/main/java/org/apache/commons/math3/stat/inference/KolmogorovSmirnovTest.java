@@ -974,65 +974,6 @@ public class KolmogorovSmirnovTest {
     }
 
     /**
-     * Computes the exact p value for a two-sample Kolmogorov-Smirnov test with
-     * {@code x} and {@code y} as samples, possibly containing ties. This method
-     * uses the same implementation as {@link #exactP(double, int, int, boolean)}
-     * with the exception that it examines partitions of the combined sample,
-     * preserving ties in the data.  What is returned is the exact probability
-     * that a random partition of the combined dataset into a subset of size
-     * {@code x.length} and another of size {@code y.length} yields a \(D\)
-     * value greater than (resp greater than or equal to) \(D(x,y)\).
-     * <p>
-     * This method should not be used on large samples (a good rule of thumb is
-     * to keep the product of the sample sizes less than
-     * {@link #SMALL_SAMPLE_PRODUCT} when using this method).  If the data do
-     * not contain ties, {@link #exactP(double[], double[], boolean)} should be
-     * used instead of this method.</p>
-     *
-     * @param x first sample
-     * @param y second sample
-     * @param strict whether or not the inequality in the null hypothesis is strict
-     * @return p-value
-     */
-    public double exactP(double[] x, double[] y, boolean strict) {
-        final long d = integralKolmogorovSmirnovStatistic(x, y);
-        final int n = x.length;
-        final int m = y.length;
-
-        // Concatenate x and y into universe, preserving ties in the data
-        final double[] universe = new double[n + m];
-        System.arraycopy(x, 0, universe, 0, n);
-        System.arraycopy(y, 0, universe, n, m);
-
-        // Iterate over all n, m partitions of the n + m elements in the universe,
-        // Computing D for each one
-        Iterator<int[]> combinationsIterator = CombinatoricsUtils.combinationsIterator(n + m, n);
-        long tail = 0;
-        final double[] nSet = new double[n];
-        final double[] mSet = new double[m];
-        while (combinationsIterator.hasNext()) {
-            // Generate an n-set
-            final int[] nSetI = combinationsIterator.next();
-            // Copy the elements of the universe in the n-set to nSet
-            // and the others to mSet
-            int j = 0;
-            int k = 0;
-            for (int i = 0; i < n + m; i++) {
-                if (j < n && nSetI[j] == i) {
-                    nSet[j++] = universe[i];
-                } else {
-                    mSet[k++] = universe[i];
-                }
-            }
-            final long curD = integralKolmogorovSmirnovStatistic(nSet, mSet);
-            if (curD > d || (curD == d && !strict)) {
-                tail++;
-            }
-        }
-        return (double) tail / (double) CombinatoricsUtils.binomialCoefficient(n + m, n);
-    }
-
-    /**
      * Uses the Kolmogorov-Smirnov distribution to approximate \(P(D_{n,m} > d)\) where \(D_{n,m}\)
      * is the 2-sample Kolmogorov-Smirnov statistic. See
      * {@link #kolmogorovSmirnovStatistic(double[], double[])} for the definition of \(D_{n,m}\).

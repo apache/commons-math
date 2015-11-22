@@ -25,6 +25,7 @@ import org.apache.commons.math3.exception.MathIllegalStateException;
 
 /**
  * Helper class to find the grid coordinates of a neuron.
+ * @since 3.6
  */
 public class LocationFinder {
     /** Identifier to location mapping. */

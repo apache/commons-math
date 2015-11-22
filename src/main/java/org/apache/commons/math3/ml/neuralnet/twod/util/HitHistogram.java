@@ -26,6 +26,7 @@ import org.apache.commons.math3.ml.distance.DistanceMeasure;
  * Computes the hit histogram.
  * Each bin will contain the number of data for which the corresponding
  * neuron is the best matching unit.
+ * @since 3.6
  */
 public class HitHistogram implements MapDataVisualization {
     /** Distance. */

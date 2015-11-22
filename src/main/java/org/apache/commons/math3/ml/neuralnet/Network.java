@@ -141,6 +141,7 @@ public class Network
      * Updating one will not affect the other.
      *
      * @return a new instance with the same state as this instance.
+     * @since 3.6
      */
     public synchronized Network copy() {
         final Network copy = new Network(nextId.get(),

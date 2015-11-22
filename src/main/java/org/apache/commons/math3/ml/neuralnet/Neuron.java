@@ -72,6 +72,7 @@ public class Neuron implements Serializable {
      * Updating one will not affect the other.
      *
      * @return a new instance with the same state as this instance.
+     * @since 3.6
      */
     public synchronized Neuron copy() {
         final Neuron copy = new Neuron(getIdentifier(),
@@ -173,6 +174,7 @@ public class Neuron implements Serializable {
      * may be required to ensure consistency.
      *
      * @return the number of update attempts.
+     * @since 3.6
      */
     public long getNumberOfAttemptedUpdates() {
         return numberOfAttemptedUpdates.get();
@@ -187,6 +189,7 @@ public class Neuron implements Serializable {
      * may be required to ensure consistency.
      *
      * @return the number of successful updates.
+     * @since 3.6
      */
     public long getNumberOfSuccessfulUpdates() {
         return numberOfSuccessfulUpdates.get();
