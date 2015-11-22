@@ -54,6 +54,9 @@ If the output is not quite correct, check for invisible trailing spaces!
     </release>
 
     <release version="4.0" date="XXXX-XX-XX" description="">
+      <action dev="psteitz" type="update" issue="MATH-1246">
+        Added bootstrap method to 2-sample KolmogorovSmirnovTest.
+      </action>
       <action dev="psteitz" type="update" issue="MATH-1287"> <!-- backported to 3.6 -->
         Added constructors taking sample data as arguments to enumerated real and integer distributions.
       </action>
