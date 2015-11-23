@@ -21,6 +21,12 @@
 # directory, launch R from this directory and then enter
 # source("<name-of-this-file>")
 #
+# The KolmogorovSmirnov and Pareto distribution tests require the following
+# packages to be installed:
+#
+# https://cran.r-project.org/web/packages/Matching/index.html
+# https://cran.r-project.org/web/packages/VGAM/index.html
+#
 # To redirect output to a file, uncomment the following line, substituting
 # another file path if you like (default behavior is to write the file to the
 # current directory).
@@ -31,6 +37,8 @@
 source("binomialTestCases")
 source("normalTestCases")
 source("poissonTestCases")
+source("paretoTestCases")
+source("logNormalTestCases")
 source("hypergeometricTestCases")
 source("exponentialTestCases")
 source("cauchyTestCases.R")
@@ -45,6 +53,7 @@ source("gumbelTestCases.R")
 source("laplaceTestCases.R")
 source("logisticsTestCases.R")
 source("nakagamiTestCases.R")
+source("zipfTestCases")
 
 # regression
 source("regressionTestCases")
@@ -52,7 +61,8 @@ source("regressionTestCases")
 # inference
 source("chiSquareTestCases")
 source("anovaTestCases")
-source("KolmogorovSmirnovTestCases")
+source("KolmogorovSmirnovTestCases.R")
+source("TTestCases")
 
 # descriptive
 source("descriptiveTestCases")
