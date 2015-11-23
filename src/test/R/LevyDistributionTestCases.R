@@ -31,7 +31,6 @@ tol <- 1E-9
 # Function definitions
 
 source("testFunctions")           # utility test functions
-library(rmutil)
 
 # function to verify distribution computations
 
