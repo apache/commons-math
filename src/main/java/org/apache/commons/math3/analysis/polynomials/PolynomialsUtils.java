@@ -107,6 +107,7 @@ public class PolynomialsUtils {
             /** Fixed recurrence coefficients. */
             private final BigFraction[] coeffs = { BigFraction.ZERO, BigFraction.TWO, BigFraction.ONE };
             /** {@inheritDoc} */
+            @Override
             public BigFraction[] generate(int k) {
                 return coeffs;
             }
@@ -131,6 +132,7 @@ public class PolynomialsUtils {
         return buildPolynomial(degree, HERMITE_COEFFICIENTS,
                 new RecurrenceCoefficientsGenerator() {
             /** {@inheritDoc} */
+            @Override
             public BigFraction[] generate(int k) {
                 return new BigFraction[] {
                         BigFraction.ZERO,
@@ -157,6 +159,7 @@ public class PolynomialsUtils {
         return buildPolynomial(degree, LAGUERRE_COEFFICIENTS,
                 new RecurrenceCoefficientsGenerator() {
             /** {@inheritDoc} */
+            @Override
             public BigFraction[] generate(int k) {
                 final int kP1 = k + 1;
                 return new BigFraction[] {
@@ -184,6 +187,7 @@ public class PolynomialsUtils {
         return buildPolynomial(degree, LEGENDRE_COEFFICIENTS,
                                new RecurrenceCoefficientsGenerator() {
             /** {@inheritDoc} */
+            @Override
             public BigFraction[] generate(int k) {
                 final int kP1 = k + 1;
                 return new BigFraction[] {
@@ -234,6 +238,7 @@ public class PolynomialsUtils {
         return buildPolynomial(degree, JACOBI_COEFFICIENTS.get(key),
                                new RecurrenceCoefficientsGenerator() {
             /** {@inheritDoc} */
+            @Override
             public BigFraction[] generate(int k) {
                 k++;
                 final int kvw      = k + v + w;
@@ -359,9 +364,8 @@ public class PolynomialsUtils {
     private static PolynomialFunction buildPolynomial(final int degree,
                                                       final List<BigFraction> coefficients,
                                                       final RecurrenceCoefficientsGenerator generator) {
-
-        final int maxDegree = (int) FastMath.floor(FastMath.sqrt(2 * coefficients.size())) - 1;
-        synchronized (PolynomialsUtils.class) {
+        synchronized (coefficients) {
+            final int maxDegree = (int) FastMath.floor(FastMath.sqrt(2 * coefficients.size())) - 1;
             if (degree > maxDegree) {
                 computeUpToDegree(degree, maxDegree, generator, coefficients);
             }
