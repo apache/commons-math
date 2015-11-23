@@ -365,8 +365,8 @@ public class PolynomialsUtils {
                                                       final List<BigFraction> coefficients,
                                                       final RecurrenceCoefficientsGenerator generator) {
 
-        final int maxDegree = (int) FastMath.floor(FastMath.sqrt(2 * coefficients.size())) - 1;
-        synchronized (PolynomialsUtils.class) {
+        synchronized (coefficients) {
+            final int maxDegree = (int) FastMath.floor(FastMath.sqrt(2 * coefficients.size())) - 1;
             if (degree > maxDegree) {
                 computeUpToDegree(degree, maxDegree, generator, coefficients);
             }

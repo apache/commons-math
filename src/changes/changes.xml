@@ -54,6 +54,11 @@ If the output is not quite correct, check for invisible trailing spaces!
     </release>
 
     <release version="4.0" date="XXXX-XX-XX" description="">
+      <action dev="tn" type="fix" issue="MATH-1294" due-to="Kamil Włodarczyk"> <!-- backported to 3.6 -->
+        Fixed potential race condition in PolynomialUtils#buildPolynomial in
+        case polynomials are generated from multiple threads. Furthermore, the
+        synchronization is now performed on the coefficient list instead of the class.
+      </action>
       <action dev="psteitz" type="update" issue="MATH-1246">
         Added bootstrap method to 2-sample KolmogorovSmirnovTest.
       </action>
