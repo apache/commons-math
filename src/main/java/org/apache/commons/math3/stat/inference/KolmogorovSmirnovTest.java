@@ -400,7 +400,7 @@ public class KolmogorovSmirnovTest {
         final double[] combined = new double[xLength + yLength];
         System.arraycopy(x, 0, combined, 0, xLength);
         System.arraycopy(y, 0, combined, xLength, yLength);
-        final EnumeratedRealDistribution dist = new EnumeratedRealDistribution(combined);
+        final EnumeratedRealDistribution dist = new EnumeratedRealDistribution(rng, combined);
         final long d = integralKolmogorovSmirnovStatistic(x, y);
         int greaterCount = 0;
         int equalCount = 0;
