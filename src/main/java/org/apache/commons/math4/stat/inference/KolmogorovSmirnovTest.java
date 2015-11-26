@@ -24,8 +24,10 @@ import java.util.Iterator;
 
 import org.apache.commons.math4.distribution.EnumeratedRealDistribution;
 import org.apache.commons.math4.distribution.RealDistribution;
+import org.apache.commons.math4.distribution.UniformRealDistribution;
 import org.apache.commons.math4.exception.InsufficientDataException;
 import org.apache.commons.math4.exception.MathArithmeticException;
+import org.apache.commons.math4.exception.MathInternalError;
 import org.apache.commons.math4.exception.NullArgumentException;
 import org.apache.commons.math4.exception.NumberIsTooLargeException;
 import org.apache.commons.math4.exception.OutOfRangeException;
@@ -38,6 +40,7 @@ import org.apache.commons.math4.linear.Array2DRowFieldMatrix;
 import org.apache.commons.math4.linear.FieldMatrix;
 import org.apache.commons.math4.linear.MatrixUtils;
 import org.apache.commons.math4.linear.RealMatrix;
+import org.apache.commons.math4.random.JDKRandomGenerator;
 import org.apache.commons.math4.random.RandomGenerator;
 import org.apache.commons.math4.random.Well19937c;
 import org.apache.commons.math4.util.CombinatoricsUtils;
@@ -244,11 +247,21 @@ public class KolmogorovSmirnovTest {
      */
     public double kolmogorovSmirnovTest(double[] x, double[] y, boolean strict) {
         final long lengthProduct = (long) x.length * y.length;
+        double[] xa = null;
+        double[] ya = null;
+        if (lengthProduct < LARGE_SAMPLE_PRODUCT && hasTies(x,y)) {
+            xa = MathArrays.copyOf(x);
+            ya = MathArrays.copyOf(y);
+            fixTies(xa, ya);
+        } else {
+            xa = x;
+            ya = y;
+        }
         if (lengthProduct < SMALL_SAMPLE_PRODUCT) {
-            return integralExactP(integralKolmogorovSmirnovStatistic(x, y) + (strict?1l:0l), x.length, y.length);
+            return integralExactP(integralKolmogorovSmirnovStatistic(xa, ya) + (strict?1l:0l), x.length, y.length);
         }
         if (lengthProduct < LARGE_SAMPLE_PRODUCT) {
-            return integralMonteCarloP(integralKolmogorovSmirnovStatistic(x, y) + (strict?1l:0l), x.length, y.length, MONTE_CARLO_ITERATIONS);
+            return integralMonteCarloP(integralKolmogorovSmirnovStatistic(xa, ya) + (strict?1l:0l), x.length, y.length, MONTE_CARLO_ITERATIONS);
         }
         return approximateP(kolmogorovSmirnovStatistic(x, y), x.length, y.length);
     }
@@ -1150,6 +1163,59 @@ public class KolmogorovSmirnovTest {
     }
 
     /**
+     * If there are no ties in the combined dataset formed from x and y, this
+     * method is a no-op.  If there are ties, a uniform random deviate in
+     * (-minDelta / 2, minDelta / 2) - {0} is added to each value in x and y, where
+     * minDelta is the minimum difference between unequal values in the combined
+     * sample.  A fixed seed is used to generate the jitter, so repeated activations
+     * with the same input arrays result in the same values.
+     *
+     * NOTE: if there are ties in the data, this method overwrites the data in
+     * x and y with the jittered values.
+     *
+     * @param x first sample
+     * @param y second sample
+     */
+    private static void fixTies(double[] x, double[] y) {
+       final double[] values = MathArrays.unique(MathArrays.concatenate(x,y));
+       if (values.length == x.length + y.length) {
+           return;  // There are no ties
+       }
+
+       // Find the smallest difference between values, or 1 if all values are the same
+       double minDelta = 1;
+       double prev = values[0];
+       double delta = 1;
+       for (int i = 1; i < values.length; i++) {
+          delta = prev - values[i];
+          if (delta < minDelta) {
+              minDelta = delta;
+          }
+          prev = values[i];
+       }
+       minDelta /= 2;
+
+       // Add jitter using a fixed seed (so same arguments always give same results),
+       // low-initialization-overhead generator
+       final RealDistribution dist =
+               new UniformRealDistribution(new JDKRandomGenerator(100), -minDelta, minDelta);
+
+       // It is theoretically possible that jitter does not break ties, so repeat
+       // until all ties are gone.  Bound the loop and throw MIE if bound is exceeded.
+       int ct = 0;
+       boolean ties = true;
+       do {
+           jitter(x, dist);
+           jitter(y, dist);
+           ties = hasTies(x, y);
+           ct++;
+       } while (ties && ct < 1000);
+       if (ties) {
+           throw new MathInternalError(); // Should never happen
+       }
+    }
+
+    /**
      * Returns true iff there are ties in the combined sample
      * formed from x and y.
      *
@@ -1157,8 +1223,8 @@ public class KolmogorovSmirnovTest {
      * @param y second sample
      * @return true if x and y together contain ties
      */
-    private boolean hasTies(double[] x, double[] y) {
-        HashSet<Double> values = new HashSet<Double>();
+    private static boolean hasTies(double[] x, double[] y) {
+        final HashSet<Double> values = new HashSet<Double>();
             for (int i = 0; i < x.length; i++) {
                 if (!values.add(x[i])) {
                     return true;
@@ -1170,5 +1236,21 @@ public class KolmogorovSmirnovTest {
                 }
             }
         return false;
+    }
+
+    /**
+     * Adds random jitter to {@code data} using deviates sampled from {@code dist}.
+     * <p>
+     * Note that jitter is applied in-place - i.e., the array
+     * values are overwritten with the result of applying jitter.</p>
+     *
+     * @param data input/output data array - entries overwritten by the method
+     * @param dist probability distribution to sample for jitter values
+     * @throws NullPointerException if either of the parameters is null
+     */
+    private static void jitter(double[] data, RealDistribution dist) {
+        for (int i = 0; i < data.length; i++) {
+            data[i] = data[i] + dist.sample();
+        }
     }
 }

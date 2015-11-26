@@ -22,7 +22,9 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.Iterator;
 import java.util.List;
+import java.util.TreeSet;
 
 import org.apache.commons.math4.Field;
 import org.apache.commons.math4.distribution.UniformIntegerDistribution;
@@ -1875,5 +1877,61 @@ public class MathArrays {
         }
 
         return verifyValues(values, begin, length, allowEmpty);
+    }
+
+    /**
+     * Concatenates a sequence of arrays. The return array consists of the
+     * entries of the input arrays concatenated in the order they appear in
+     * the argument list.  Null arrays cause NullPointerExceptions; zero
+     * length arrays are allowed (contributing nothing to the output array).
+     *
+     * @param x list of double[] arrays to concatenate
+     * @return a new array consisting of the entries of the argument arrays
+     * @throws NullPointerException if any of the arrays are null
+     * @since 3.6
+     */
+    public static double[] concatenate(double[] ...x) {
+        int combinedLength = 0;
+        for (double[] a : x) {
+            combinedLength += a.length;
+        }
+        int offset = 0;
+        int curLength = 0;
+        final double[] combined = new double[combinedLength];
+        for (int i = 0; i < x.length; i++) {
+            curLength = x[i].length;
+            System.arraycopy(x[i], 0, combined, offset, curLength);
+            offset += curLength;
+        }
+        return combined;
+    }
+
+    /**
+     * Returns an array consisting of the unique values in {@code data}.
+     * The return array is sorted in descending order.  Empty arrays
+     * are allowed, but null arrays result in NullPointerException.
+     * Infinities are allowed.  NaN values are allowed with maximum
+     * sort order - i.e., if there are NaN values in {@code data},
+     * {@code Double.NaN} will be the first element of the output array,
+     * even if the array also contains {@code Double.POSITIVE_INFINITY}.
+     *
+     * @param data array to scan
+     * @return descending list of values included in the input array
+     * @throws NullPointerException if data is null
+     * @since 3.6
+     */
+    public static double[] unique(double[] data) {
+        TreeSet<Double> values = new TreeSet<Double>();
+        for (int i = 0; i < data.length; i++) {
+            values.add(data[i]);
+        }
+        final int count = values.size();
+        final double[] out = new double[count];
+        Iterator<Double> iterator = values.descendingIterator();
+        int i = 0;
+        while (iterator.hasNext()) {
+            out[i++] = iterator.next();
+        }
+        return out;
     }
 }

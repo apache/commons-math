@@ -60,7 +60,9 @@ If the output is not quite correct, check for invisible trailing spaces!
         synchronization is now performed on the coefficient list instead of the class.
       </action>
       <action dev="psteitz" type="update" issue="MATH-1246">
-        Added bootstrap method to 2-sample KolmogorovSmirnovTest.
+        Modified 2-sample KolmogorovSmirnovTest to handle ties in sample data. By default,
+        ties are broken by adding random jitter to input data. Also added bootstrap method
+        analogous to ks.boot in R Matching package.
       </action>
       <action dev="psteitz" type="update" issue="MATH-1287"> <!-- backported to 3.6 -->
         Added constructors taking sample data as arguments to enumerated real and integer distributions.
