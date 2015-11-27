@@ -151,7 +151,7 @@ public class SphereGeneratorTest {
             Assert.assertEquals(0.0, refCenter.distance(sphere.getCenter()), 4e-7 * refRadius);
             Assert.assertEquals(refRadius, sphere.getRadius(), 1e-7 * refRadius);
         }
-        
+
     }
 
     @Test

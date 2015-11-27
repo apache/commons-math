@@ -67,7 +67,7 @@ public abstract class RandomGeneratorAbstractTest extends RandomDataGeneratorTes
     public void setUp() {
         generator = makeGenerator();
     }
-    
+
     // Omit secureXxx tests, since they do not use the provided generator
     @Override
     public void testNextSecureLongIAE() {}

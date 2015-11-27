@@ -46,28 +46,28 @@ public class NaturalRankingTest {
     public void testDefault() { // Ties averaged, NaNs failed
         NaturalRanking ranking = new NaturalRanking();
         double[] ranks;
-        
+
         try {
             ranks = ranking.rank(exampleData);
             Assert.fail("expected NotANumberException due to NaNStrategy.FAILED");
         } catch (NotANumberException e) {
             // expected
         }
-        
+
         ranks = ranking.rank(tiesFirst);
         double[] correctRanks = new double[] { 1.5, 1.5, 4, 3, 5 };
         TestUtils.assertEquals(correctRanks, ranks, 0d);
         ranks = ranking.rank(tiesLast);
         correctRanks = new double[] { 3.5, 3.5, 2, 1 };
         TestUtils.assertEquals(correctRanks, ranks, 0d);
-        
+
         try {
             ranks = ranking.rank(multipleNaNs);
             Assert.fail("expected NotANumberException due to NaNStrategy.FAILED");
         } catch (NotANumberException e) {
             // expected
         }
-        
+
         ranks = ranking.rank(multipleTies);
         correctRanks = new double[] { 3, 2, 4.5, 4.5, 6.5, 6.5, 1 };
         TestUtils.assertEquals(correctRanks, ranks, 0d);
@@ -209,14 +209,14 @@ public class NaturalRankingTest {
         correctRanks = new double[] { 3, 4, 1.5, 1.5 };
         TestUtils.assertEquals(correctRanks, ranks, 0d);
     }
-    
+
     @Test(expected=NotANumberException.class)
     public void testNaNsFailed() {
         double[] data = { 0, Double.POSITIVE_INFINITY, Double.NaN, Double.NEGATIVE_INFINITY };
         NaturalRanking ranking = new NaturalRanking(NaNStrategy.FAILED);
         ranking.rank(data);
     }
-    
+
     @Test
     public void testNoNaNsFailed() {
         double[] data = { 1, 2, 3, 4 };
@@ -224,5 +224,5 @@ public class NaturalRankingTest {
         double[] ranks = ranking.rank(data);
         TestUtils.assertEquals(data, ranks, 0d);
     }
-    
+
 }

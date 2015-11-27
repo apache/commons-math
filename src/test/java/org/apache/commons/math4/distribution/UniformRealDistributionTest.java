@@ -111,15 +111,15 @@ public class UniformRealDistributionTest extends RealDistributionAbstractTest {
         Assert.assertEquals(dist.getNumericalMean(), 0.375, 0);
         Assert.assertEquals(dist.getNumericalVariance(), 0.2552083333333333, 0);
     }
-    
-    /** 
-     * Check accuracy of analytical inverse CDF. Fails if a solver is used 
-     * with the default accuracy. 
+
+    /**
+     * Check accuracy of analytical inverse CDF. Fails if a solver is used
+     * with the default accuracy.
      */
     @Test
     public void testInverseCumulativeDistribution() {
         UniformRealDistribution dist = new UniformRealDistribution(0, 1e-9);
-        
+
         Assert.assertEquals(2.5e-10, dist.inverseCumulativeProbability(0.25), 0);
     }
 }

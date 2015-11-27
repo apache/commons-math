@@ -467,7 +467,7 @@ public class JacobianMatricesTest {
             }  else {
                 dFdP[0] = cy - y[1];
                 dFdP[1] = y[0] - cx;
-            }           
+            }
         }
 
         public double[] exactY(double t) {

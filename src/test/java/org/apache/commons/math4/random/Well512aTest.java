@@ -22,7 +22,7 @@ import org.junit.Assert;
 import org.junit.Test;
 
 public class Well512aTest extends RandomGeneratorAbstractTest {
-    
+
     @Override
     public RandomGenerator makeGenerator() {
         return new Well512a(101);

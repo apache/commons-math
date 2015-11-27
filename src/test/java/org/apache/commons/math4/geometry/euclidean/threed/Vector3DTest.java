@@ -260,7 +260,7 @@ public class Vector3DTest {
         Assert.assertEquals(0,           Vector3D.PLUS_J.getDelta(), 1.0e-10);
         Assert.assertEquals(0,           Vector3D.PLUS_K.getAlpha(), 1.0e-10);
         Assert.assertEquals(FastMath.PI / 2, Vector3D.PLUS_K.getDelta(), 1.0e-10);
-      
+
         Vector3D u = new Vector3D(-1, 1, -1);
         Assert.assertEquals(3 * FastMath.PI /4, u.getAlpha(), 1.0e-10);
         Assert.assertEquals(-1.0 / FastMath.sqrt(3), FastMath.sin(u.getDelta()), 1.0e-10);
@@ -377,8 +377,8 @@ public class Vector3DTest {
         final Vector3D u2 = new Vector3D( 1796571811118507.0 /  2147483648.0,
                                           7853468008299307.0 /  2147483648.0,
                                           2599586637357461.0 / 17179869184.0);
-        final Vector3D u3 = new Vector3D(12753243807587107.0 / 18446744073709551616.0, 
-                                         -2313766922703915.0 / 18446744073709551616.0, 
+        final Vector3D u3 = new Vector3D(12753243807587107.0 / 18446744073709551616.0,
+                                         -2313766922703915.0 / 18446744073709551616.0,
                                           -227970081415313.0 /   288230376151711744.0);
         Vector3D cNaive = new Vector3D(u1.getY() * u2.getZ() - u1.getZ() * u2.getY(),
                                        u1.getZ() * u2.getX() - u1.getX() * u2.getZ(),

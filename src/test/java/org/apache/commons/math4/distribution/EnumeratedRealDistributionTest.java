@@ -35,7 +35,7 @@ import org.junit.Test;
 
 /**
  * Test class for {@link EnumeratedRealDistribution}.
- * 
+ *
  */
 public class EnumeratedRealDistributionTest {
 
@@ -224,11 +224,11 @@ public class EnumeratedRealDistributionTest {
         //                      14  18 21     28 31 33
         //
         // sum  = 4+5+0+3+1+3 = 16
-        
+
         EnumeratedRealDistribution distribution = new EnumeratedRealDistribution(
                 new double[] { 14.0, 18.0, 21.0, 28.0, 31.0, 33.0 },
                 new double[] { 4.0 / 16.0, 5.0 / 16.0, 0.0 / 16.0, 3.0 / 16.0, 1.0 / 16.0, 3.0 / 16.0 });
-        
+
         assertEquals(14.0, distribution.inverseCumulativeProbability(0.0000), 0.0);
         assertEquals(14.0, distribution.inverseCumulativeProbability(0.2500), 0.0);
         assertEquals(33.0, distribution.inverseCumulativeProbability(1.0000), 0.0);
@@ -240,7 +240,7 @@ public class EnumeratedRealDistributionTest {
         assertEquals(18.0, distribution.inverseCumulativeProbability(0.5625), 0.0);
         assertEquals(28.0, distribution.inverseCumulativeProbability(0.7500), 0.0);
     }
-    
+
     @Test
     public void testCreateFromDoubles() {
         final double[] data = new double[] {0, 1, 1, 2, 2, 2};

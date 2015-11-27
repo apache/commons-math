@@ -376,7 +376,7 @@ public class DerivativeStructureTest extends ExtendedFieldElementAbstractTest<De
                                         FastMath.abs(epsilon * dfdxdydz));
 
                 }
-                
+
             }
         }
     }
@@ -396,17 +396,17 @@ public class DerivativeStructureTest extends ExtendedFieldElementAbstractTest<De
                         double f1 = 1 / (2 * FastMath.sqrt(x * y));
                         Assert.assertEquals(f1, f.getPartialDerivative(1), FastMath.abs(epsilon * f1));
                         if (f.getOrder() > 1) {
-                            double f2 = -f1 / (2 * x); 
+                            double f2 = -f1 / (2 * x);
                             Assert.assertEquals(f2, f.getPartialDerivative(2), FastMath.abs(epsilon * f2));
                             if (f.getOrder() > 2) {
-                                double f3 = (f0 + x / (2 * y * f0)) / (4 * x * x * x); 
+                                double f3 = (f0 + x / (2 * y * f0)) / (4 * x * x * x);
                                 Assert.assertEquals(f3, f.getPartialDerivative(3), FastMath.abs(epsilon * f3));
                             }
                         }
                     }
                 }
             }
-        }        
+        }
     }
 
     @Test
@@ -448,7 +448,7 @@ public class DerivativeStructureTest extends ExtendedFieldElementAbstractTest<De
                         }
                     }
                 }
-            }        
+            }
         }
     }
 
@@ -1103,17 +1103,17 @@ public class DerivativeStructureTest extends ExtendedFieldElementAbstractTest<De
                         double f1 = -x / (2 * y * y * f0);
                         Assert.assertEquals(f1, f.getPartialDerivative(1), FastMath.abs(epsilon * f1));
                         if (f.getOrder() > 1) {
-                            double f2 = (f0 - x / (4 * y * f0)) / (y * y); 
+                            double f2 = (f0 - x / (4 * y * f0)) / (y * y);
                             Assert.assertEquals(f2, f.getPartialDerivative(2), FastMath.abs(epsilon * f2));
                             if (f.getOrder() > 2) {
-                                double f3 = (x / (8 * y * f0) - 2 * f0) / (y * y * y); 
+                                double f3 = (x / (8 * y * f0) - 2 * f0) / (y * y * y);
                                 Assert.assertEquals(f3, f.getPartialDerivative(3), FastMath.abs(epsilon * f3));
                             }
                         }
                     }
                 }
             }
-        }        
+        }
     }
 
     @Test

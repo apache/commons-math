@@ -129,14 +129,14 @@ public class DiagonalMatrixTest {
                     Assert.assertEquals(0d, out[i][j], 0d);
                 }
             }
-        }        
+        }
     }
 
     @Test
     public void testAdd() {
         final double[] data1 = { -1.2, 3.4, 5 };
         final DiagonalMatrix m1 = new DiagonalMatrix(data1);
- 
+
         final double[] data2 = { 10.1, 2.3, 45 };
         final DiagonalMatrix m2 = new DiagonalMatrix(data2);
 
@@ -157,7 +157,7 @@ public class DiagonalMatrixTest {
     public void testSubtract() {
         final double[] data1 = { -1.2, 3.4, 5 };
         final DiagonalMatrix m1 = new DiagonalMatrix(data1);
- 
+
         final double[] data2 = { 10.1, 2.3, 45 };
         final DiagonalMatrix m2 = new DiagonalMatrix(data2);
 

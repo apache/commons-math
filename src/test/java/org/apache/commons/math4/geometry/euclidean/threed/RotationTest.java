@@ -539,7 +539,7 @@ public class RotationTest {
       Assert.assertEquals(1.0, q2, 1.0e-14);
       Assert.assertEquals(0.0, Vector3D.angle(v1, quat.applyTo(u1)), 1.0e-14);
       Assert.assertEquals(0.0, Vector3D.angle(v2, quat.applyTo(u2)), 1.0e-14);
-      
+
   }
 
   private void checkVector(Vector3D v1, Vector3D v2) {

@@ -239,10 +239,10 @@ public abstract class StepNormalizerOutputTestBase
      * @param bounds the step normalizer bounds setting to use
      * @param expected the expected output (normalized time points)
      * @param reverse whether to reverse the integration direction
-     * @throws NoBracketingException 
-     * @throws MaxCountExceededException 
-     * @throws NumberIsTooSmallException 
-     * @throws DimensionMismatchException 
+     * @throws NoBracketingException
+     * @throws MaxCountExceededException
+     * @throws NumberIsTooSmallException
+     * @throws DimensionMismatchException
      */
     private void doTest(StepNormalizerMode mode, StepNormalizerBounds bounds,
                         double[] expected, boolean reverse)

@@ -31,7 +31,7 @@ public class BinomialDistributionTest extends IntegerDistributionAbstractTest {
     public BinomialDistributionTest() {
         setTolerance(1e-12);
     }
-    
+
     // -------------- Implementations for abstract methods
     // -----------------------
 
@@ -47,7 +47,7 @@ public class BinomialDistributionTest extends IntegerDistributionAbstractTest {
         return new int[] { -1, 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11 };
     }
 
-    /** 
+    /**
      * Creates the default probability density test expected values.
      * Reference values are from R, version 2.15.3.
      */

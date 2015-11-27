@@ -614,7 +614,7 @@ public class MinpackTest {
     }
 
     private static class LinearFullRankFunction extends MinpackFunction {
-        
+
         public LinearFullRankFunction(int m, int n, double x0,
                                       double theoreticalStartCost,
                                       double theoreticalMinCost) {
@@ -1386,7 +1386,7 @@ public class MinpackTest {
             }
             return f;
         }
-        
+
         private static final double[] y = {
             0.844, 0.908, 0.932, 0.936, 0.925, 0.908, 0.881, 0.850, 0.818, 0.784, 0.751,
             0.718, 0.685, 0.658, 0.628, 0.603, 0.580, 0.558, 0.538, 0.522, 0.506, 0.490,

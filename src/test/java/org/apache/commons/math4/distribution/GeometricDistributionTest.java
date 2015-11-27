@@ -33,7 +33,7 @@ public class GeometricDistributionTest extends IntegerDistributionAbstractTest {
     public GeometricDistributionTest() {
         setTolerance(1e-12);
     }
-    
+
     // -------------- Implementations for abstract methods --------------------
 
     /** Creates the default discrete distribution instance to use in tests. */

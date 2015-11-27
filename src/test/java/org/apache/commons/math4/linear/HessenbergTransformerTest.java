@@ -167,17 +167,17 @@ public class HessenbergTransformerTest {
     ///////////////////////////////////////////////////////////////////////////
     // Test helpers
     ///////////////////////////////////////////////////////////////////////////
-    
+
     private RealMatrix checkAEqualPHPt(RealMatrix matrix) {
         HessenbergTransformer transformer = new HessenbergTransformer(matrix);
         RealMatrix p  = transformer.getP();
         RealMatrix pT = transformer.getPT();
         RealMatrix h  = transformer.getH();
-        
+
         RealMatrix result = p.multiply(h).multiply(pT);
         double norm = result.subtract(matrix).getNorm();
         Assert.assertEquals(0, norm, 1.0e-10);
-        
+
         for (int i = 0; i < matrix.getRowDimension(); ++i) {
             for (int j = 0; j < matrix.getColumnDimension(); ++j) {
                 if (i > j + 1) {
@@ -185,7 +185,7 @@ public class HessenbergTransformerTest {
                 }
             }
         }
-        
+
         return transformer.getH();
     }
 
@@ -206,7 +206,7 @@ public class HessenbergTransformerTest {
             }
         }
     }
-    
+
     private void checkMatricesValues(double[][] matrix, double[][] pRef, double[][] hRef) {
         HessenbergTransformer transformer =
             new HessenbergTransformer(MatrixUtils.createRealMatrix(matrix));

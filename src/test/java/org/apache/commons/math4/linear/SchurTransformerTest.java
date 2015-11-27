@@ -74,7 +74,7 @@ public class SchurTransformerTest {
     public void testPOrthogonal() {
         checkOrthogonal(new SchurTransformer(MatrixUtils.createRealMatrix(testSquare5)).getP());
         checkOrthogonal(new SchurTransformer(MatrixUtils.createRealMatrix(testSquare3)).getP());
-        checkOrthogonal(new SchurTransformer(MatrixUtils.createRealMatrix(testRandom)).getP());        
+        checkOrthogonal(new SchurTransformer(MatrixUtils.createRealMatrix(testRandom)).getP());
     }
 
     @Test
@@ -159,12 +159,12 @@ public class SchurTransformerTest {
         RealMatrix p  = transformer.getP();
         RealMatrix t  = transformer.getT();
         RealMatrix pT = transformer.getPT();
-        
+
         RealMatrix result = p.multiply(t).multiply(pT);
 
         double norm = result.subtract(matrix).getNorm();
         Assert.assertEquals(0, norm, 1.0e-9);
-        
+
         return t;
     }
 

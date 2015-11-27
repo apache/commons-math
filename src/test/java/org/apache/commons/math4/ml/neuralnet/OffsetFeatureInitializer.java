@@ -37,7 +37,7 @@ public class OffsetFeatureInitializer
      * each call.
      *
      * @param orig Original initializer.
-     */    
+     */
     public OffsetFeatureInitializer(FeatureInitializer orig) {
         this.orig = orig;
     }

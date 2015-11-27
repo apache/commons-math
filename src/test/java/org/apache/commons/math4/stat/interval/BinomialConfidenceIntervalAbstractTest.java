@@ -35,10 +35,10 @@ public abstract class BinomialConfidenceIntervalAbstractTest {
     private final double confidenceLevel = 0.9;
 
     protected abstract BinomialConfidenceInterval createBinomialConfidenceInterval();
-    
+
     /**
      * Returns the confidence interval for the given statistic with the following values:
-     * 
+     *
      * <ul>
      *  <li>trials: 500</li>
      *  <li>successes: 50</li>

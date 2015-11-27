@@ -223,7 +223,7 @@ public class StorelessCovarianceTest {
             }
         }
     }
-    
+
     /**
      * Test equality of covariance. chk: covariance of two
      * samples separately and adds them together. cov: computes
@@ -234,22 +234,22 @@ public class StorelessCovarianceTest {
         int num_sets = 2;
         StorelessBivariateCovariance cov = new StorelessBivariateCovariance();// covariance of the superset
         StorelessBivariateCovariance chk = new StorelessBivariateCovariance();// check covariance made by appending covariance of subsets
-        
+
         ISAACRandom rand = new ISAACRandom(10L);// Seed can be changed
         for (int s = 0; s < num_sets; s++) {// loop through sets of samlpes
             StorelessBivariateCovariance covs = new StorelessBivariateCovariance();
             for (int i = 0; i < 5; i++) { // loop through individual samlpes.
                 double x = rand.nextDouble();
                 double y = rand.nextDouble();
-                covs.increment(x, y);// add sample to the subset 
+                covs.increment(x, y);// add sample to the subset
                 cov.increment(x, y);// add sample to the superset
             }
            chk.append(covs);
         }
-        
+
         TestUtils.assertEquals("covariance subset test", chk.getResult(), cov.getResult(), 10E-7);
     }
-  
+
     protected RealMatrix createRealMatrix(double[] data, int nRows, int nCols) {
         double[][] matrixData = new double[nRows][nCols];
         int ptr = 0;

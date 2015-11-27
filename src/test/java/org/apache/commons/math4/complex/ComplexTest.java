@@ -822,7 +822,7 @@ public class ComplexTest {
         };
         for(String t : props) {
             System.out.println(t + "=" + System.getProperty(t));
-        }    
+        }
         System.out.println("<<testJava()");
     }
 

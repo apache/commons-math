@@ -55,7 +55,7 @@ public class SobolSequenceGeneratorTest {
             Assert.assertEquals(i + 1, generator.getNextIndex());
         }
     }
-    
+
     @Test
     public void testConstructor() {
         try {
@@ -64,7 +64,7 @@ public class SobolSequenceGeneratorTest {
         } catch (OutOfRangeException e) {
             // expected
         }
-        
+
         try {
             new SobolSequenceGenerator(1001);
             Assert.fail("an exception should have been thrown");
@@ -83,7 +83,7 @@ public class SobolSequenceGeneratorTest {
         } catch (OutOfRangeException e) {
             // expected
         }
-        
+
         try {
             new SobolSequenceGenerator(1001);
             Assert.fail("an exception should have been thrown");
@@ -97,7 +97,7 @@ public class SobolSequenceGeneratorTest {
         double[] result = generator.skipTo(5);
         Assert.assertArrayEquals(referenceValues[5], result, 1e-6);
         Assert.assertEquals(6, generator.getNextIndex());
-        
+
         for (int i = 6; i < referenceValues.length; i++) {
             result = generator.nextVector();
             Assert.assertArrayEquals(referenceValues[i], result, 1e-6);

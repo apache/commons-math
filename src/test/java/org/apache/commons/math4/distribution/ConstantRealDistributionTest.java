@@ -60,7 +60,7 @@ public class ConstantRealDistributionTest extends RealDistributionAbstractTest {
     public double[] makeDensityTestValues() {
         return new double[] {0, 0, 1};
     }
-    
+
     /** Override default test, verifying that inverse cum is constant */
     @Override
     @Test
@@ -88,6 +88,6 @@ public class ConstantRealDistributionTest extends RealDistributionAbstractTest {
         for (int i = 0; i < 10; i++) {
             Assert.assertEquals(0, dist.sample(), 0);
         }
-        
+
     }
 }

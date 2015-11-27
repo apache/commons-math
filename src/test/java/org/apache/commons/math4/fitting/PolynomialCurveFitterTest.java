@@ -116,7 +116,7 @@ public class PolynomialCurveFitterTest {
         for (int degree = 0; degree < 10; ++degree) {
             final PolynomialFunction p = buildRandomPolynomial(degree, randomizer);
             final PolynomialCurveFitter fitter = PolynomialCurveFitter.create(degree);
- 
+
             final WeightedObservedPoints obs = new WeightedObservedPoints();
             for (int i = 0; i < 40000; ++i) {
                 final double x = -1.0 + i / 20000.0;

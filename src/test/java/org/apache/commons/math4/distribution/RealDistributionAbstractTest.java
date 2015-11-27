@@ -321,7 +321,7 @@ public abstract class RealDistributionAbstractTest {
             // expected
         }
     }
-    
+
     /**
      * Test sampling
      */
@@ -338,7 +338,7 @@ public abstract class RealDistributionAbstractTest {
         }
         TestUtils.assertChiSquareAccept(expected, counts, 0.001);
     }
-    
+
     /**
      * Verify that density integrals match the distribution.
      * The (filtered, sorted) cumulativeTestPoints array is used to source
@@ -377,7 +377,7 @@ public abstract class RealDistributionAbstractTest {
                                     integrationTestPoints.get(i)), tol);
         }
     }
-    
+
     @Test
     public void testDistributionClone()
         throws IOException,
