@@ -80,7 +80,12 @@ import org.apache.commons.math4.util.MathUtils;
  * <li>When the product of the sample sizes exceeds {@value #LARGE_SAMPLE_PRODUCT}, the asymptotic
  * distribution of \(D_{n,m}\) is used. See {@link #approximateP(double, int, int)} for details on
  * the approximation.</li>
- * </ul>
+ * </ul></p><p>
+ * If the product of the sample sizes is less than {@value #LARGE_SAMPLE_PRODUCT} and the sample
+ * data contains ties, random jitter is added to the sample data to break ties before applying
+ * the algorithm above. Alternatively, the {@link #bootstrap(double[], double[], int, boolean)}
+ * method, modeled after <a href="http://sekhon.berkeley.edu/matching/ks.boot.html">ks.boot</a>
+ * in the R Matching package [3], can be used if ties are known to be present in the data.
  * </p>
  * <p>
  * In the two-sample case, \(D_{n,m}\) has a discrete distribution. This makes the p-value
@@ -107,6 +112,9 @@ import org.apache.commons.math4.util.MathUtils;
  * George Marsaglia, Wai Wan Tsang, and Jingbo Wang</li>
  * <li>[2] <a href="http://www.jstatsoft.org/v39/i11/"> Computing the Two-Sided Kolmogorov-Smirnov
  * Distribution</a> by Richard Simard and Pierre L'Ecuyer</li>
+ * <li>[3] Jasjeet S. Sekhon. 2011. <a href="http://www.jstatsoft.org/article/view/v042i07">
+ * Multivariate and Propensity Score Matching Software with Automated Balance Optimization:
+ * The Matching package for R</a> Journal of Statistical Software, 42(7): 1-52.</li>
  * </ul>
  * <br/>
  * Note that [1] contains an error in computing h, refer to <a
@@ -233,7 +241,15 @@ public class KolmogorovSmirnovTest {
      * <li>When the product of the sample sizes exceeds {@value #LARGE_SAMPLE_PRODUCT}, the
      * asymptotic distribution of \(D_{n,m}\) is used. See {@link #approximateP(double, int, int)}
      * for details on the approximation.</li>
-     * </ul>
+     * </ul><p>
+     * If {@code x.length * y.length} < {@value #LARGE_SAMPLE_PRODUCT} and the combined set of values in
+     * {@code x} and {@code y} contains ties, random jitter is added to {@code x} and {@code y} to
+     * break ties before computing \(D_{n,m}\) and the p-value. The jitter is uniformly distributed
+     * on (-minDelta / 2, minDelta / 2) where minDelta is the smallest pairwise difference between
+     * values in the combined sample.</p>
+     * <p>
+     * If ties are known to be present in the data, {@link #bootstrap(double[], double[], int, boolean)}
+     * may be used as an alternative method for estimating the p-value.</p>
      *
      * @param x first sample dataset
      * @param y second sample dataset
@@ -244,6 +260,7 @@ public class KolmogorovSmirnovTest {
      * @throws InsufficientDataException if either {@code x} or {@code y} does not have length at
      *         least 2
      * @throws NullArgumentException if either {@code x} or {@code y} is null
+     * @see #bootstrap(double[], double[], int, boolean)
      */
     public double kolmogorovSmirnovTest(double[] x, double[] y, boolean strict) {
         final long lengthProduct = (long) x.length * y.length;
@@ -397,9 +414,9 @@ public class KolmogorovSmirnovTest {
      * probability distribution. This method estimates the p-value by repeatedly sampling sets of size
      * {@code x.length} and {@code y.length} from the empirical distribution of the combined sample.
      * When {@code strict} is true, this is equivalent to the algorithm implemented in the R function
-     * ks.boot, described in <pre>
-     * Jasjeet S. Sekhon. 2011. `Multivariate and Propensity Score Matching
-     * Software with Automated Balance Optimization: The Matching package for R.`
+     * {@code ks.boot}, described in <pre>
+     * Jasjeet S. Sekhon. 2011. 'Multivariate and Propensity Score Matching
+     * Software with Automated Balance Optimization: The Matching package for R.'
      * Journal of Statistical Software, 42(7): 1-52.
      * </pre>
      * @param x first sample
@@ -1250,7 +1267,7 @@ public class KolmogorovSmirnovTest {
      */
     private static void jitter(double[] data, RealDistribution dist) {
         for (int i = 0; i < data.length; i++) {
-            data[i] = data[i] + dist.sample();
+            data[i] += dist.sample();
         }
     }
 }
