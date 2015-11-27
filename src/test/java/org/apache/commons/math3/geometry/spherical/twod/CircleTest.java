@@ -93,7 +93,7 @@ public class CircleTest {
         Assert.assertEquals(circle.getPhase(p), circle.getPhase(samePhase), 1.0e-10);
         Assert.assertEquals(0.0, circle.getPhase(circle.getXAxis()), 1.0e-10);
         Assert.assertEquals(0.5 * FastMath.PI, circle.getPhase(circle.getYAxis()), 1.0e-10);
-        
+
     }
 
     @Test
@@ -126,7 +126,7 @@ public class CircleTest {
         Assert.assertEquals(0.0,                circle.getOffset(new S2Point(Vector3D.MINUS_J)), 1.0e-10);
         Assert.assertEquals(-0.5 * FastMath.PI, circle.getOffset(new S2Point(Vector3D.PLUS_K)),  1.0e-10);
         Assert.assertEquals( 0.5 * FastMath.PI, circle.getOffset(new S2Point(Vector3D.MINUS_K)), 1.0e-10);
-        
+
     }
 
     @Test

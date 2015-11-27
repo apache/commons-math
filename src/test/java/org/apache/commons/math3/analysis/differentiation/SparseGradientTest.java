@@ -308,7 +308,7 @@ public class SparseGradientTest extends ExtendedFieldElementAbstractTest<SparseG
                     Assert.assertEquals(dfdx, sg.getDerivative(0), FastMath.abs(epsilon * dfdx));
 
                 }
-                
+
             }
         }
     }
@@ -352,7 +352,7 @@ public class SparseGradientTest extends ExtendedFieldElementAbstractTest<SparseG
                         Assert.assertEquals(dfdz, f.getDerivative(2), FastMath.abs(epsilon * dfdz));
                     }
                 }
-            }        
+            }
     }
 
     @Test

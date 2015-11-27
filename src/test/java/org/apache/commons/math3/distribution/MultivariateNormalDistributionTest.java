@@ -137,7 +137,7 @@ public class MultivariateNormalDistributionTest {
     public void testUnivariateDistribution() {
         final double[] mu = { -1.5 };
         final double[][] sigma = { { 1 } };
- 
+
         final MultivariateNormalDistribution multi = new MultivariateNormalDistribution(mu, sigma);
 
         final NormalDistribution uni = new NormalDistribution(mu[0], sigma[0][0]);

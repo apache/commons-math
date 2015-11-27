@@ -80,7 +80,7 @@ public class ProductTest extends StorelessUnivariateStatisticAbstractTest{
         Assert.assertEquals(expectedWeightedValue(), product.evaluate(testArray, testWeightsArray, 0, testArray.length),getTolerance());
         Assert.assertEquals(expectedValue(), product.evaluate(testArray, unitWeightsArray, 0, testArray.length), getTolerance());
     }
-    
+
     @Override
     protected void checkClearValue(StorelessUnivariateStatistic statistic){
         Assert.assertEquals(1, statistic.getResult(), 0);

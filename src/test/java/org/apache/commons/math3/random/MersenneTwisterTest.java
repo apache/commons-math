@@ -25,10 +25,10 @@ public class MersenneTwisterTest extends RandomGeneratorAbstractTest {
     protected RandomGenerator makeGenerator() {
         return new MersenneTwister(111);
     }
-    
+
     // TODO: Some of the tests moved up to RandomGeneratorAbstractTest tested alternative seeding / constructors
     // Tests exercising these features directly should be added to this class.
-    
+
     @Test
     public void testMakotoNishimura() {
         MersenneTwister mt = new MersenneTwister(new int[] {0x123, 0x234, 0x345, 0x456});

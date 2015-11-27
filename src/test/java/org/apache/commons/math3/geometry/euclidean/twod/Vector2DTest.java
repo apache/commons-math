@@ -27,13 +27,13 @@ public class Vector2DTest {
 
         Vector2D p1 = new Vector2D(1, 1);
         Vector2D p2 = new Vector2D(2, 2);
-        
+
         Vector2D p3 = new Vector2D(3, 3);
         Assert.assertEquals(0.0, p3.crossProduct(p1, p2), epsilon);
-        
+
         Vector2D p4 = new Vector2D(1, 2);
         Assert.assertEquals(1.0, p4.crossProduct(p1, p2), epsilon);
-        
+
         Vector2D p5 = new Vector2D(2, 1);
         Assert.assertEquals(-1.0, p5.crossProduct(p1, p2), epsilon);
     }

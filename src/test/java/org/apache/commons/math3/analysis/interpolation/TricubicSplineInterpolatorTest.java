@@ -26,7 +26,7 @@ import org.junit.Ignore;
 
 /**
  * Test case for the tricubic interpolator.
- * 
+ *
  */
 public final class TricubicSplineInterpolatorTest {
     /**
@@ -40,10 +40,10 @@ public final class TricubicSplineInterpolatorTest {
         double[][][] fval = new double[xval.length][yval.length][zval.length];
 
         TrivariateGridInterpolator interpolator = new TricubicSplineInterpolator();
-        
+
         @SuppressWarnings("unused")
         TrivariateFunction p = interpolator.interpolate(xval, yval, zval, fval);
-        
+
         double[] wxval = new double[] {3, 2, 5, 6.5};
         try {
             p = interpolator.interpolate(wxval, yval, zval, fval);
@@ -121,7 +121,7 @@ public final class TricubicSplineInterpolatorTest {
         TrivariateFunction p = interpolator.interpolate(xval, yval, zval, fval);
         double x, y, z;
         double expected, result;
-        
+
         x = 4;
         y = -3;
         z = 0;
@@ -169,7 +169,7 @@ public final class TricubicSplineInterpolatorTest {
                     return a * FastMath.cos(omega * z - kx * x - ky * y);
                 }
             };
-        
+
         double[][][] fval = new double[xval.length][yval.length][zval.length];
         for (int i = 0; i < xval.length; i++) {
             for (int j = 0; j < yval.length; j++) {
@@ -184,7 +184,7 @@ public final class TricubicSplineInterpolatorTest {
         TrivariateFunction p = interpolator.interpolate(xval, yval, zval, fval);
         double x, y, z;
         double expected, result;
-        
+
         x = 4;
         y = -3;
         z = 0;

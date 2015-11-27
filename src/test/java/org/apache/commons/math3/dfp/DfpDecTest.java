@@ -44,13 +44,13 @@ public class DfpDecTest {
         ninf    = null;
     }
 
-    // Generic test function.  Takes params x and y and tests them for 
+    // Generic test function.  Takes params x and y and tests them for
     // equality.  Then checks the status flags against the flags argument.
     // If the test fail, it prints the desc string
     private void test(Dfp x, Dfp y, int flags, String desc) {
         boolean b = x.equals(y);
 
-        if (!x.equals(y) && !x.unequal(y))  // NaNs involved 
+        if (!x.equals(y) && !x.unequal(y))  // NaNs involved
             b = (x.toString().equals(y.toString()));
 
         if (x.equals(new DfpDec(field, 0)))  // distinguish +/- zero
@@ -553,7 +553,7 @@ public class DfpDecTest {
              new DfpDec(field, "-0"),
              DfpField.FLAG_UNDERFLOW|DfpField.FLAG_INEXACT, "Next After #12");
 
-        test(new DfpDec(field, "1e-131092").nextAfter(ninf), 
+        test(new DfpDec(field, "1e-131092").nextAfter(ninf),
              new DfpDec(field, "0"),
              DfpField.FLAG_UNDERFLOW|DfpField.FLAG_INEXACT, "Next After #13");
 

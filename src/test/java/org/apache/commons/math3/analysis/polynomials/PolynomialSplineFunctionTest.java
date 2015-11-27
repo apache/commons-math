@@ -151,7 +151,7 @@ public class PolynomialSplineFunctionTest {
         Assert.assertTrue(spline.isValidPoint(x));
         // Ensure that no exception is thrown.
         spline.value(x);
- 
+
         final double xRange = xMax - xMin;
         x = xMin + xRange / 3.4;
         Assert.assertTrue(spline.isValidPoint(x));

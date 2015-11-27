@@ -153,7 +153,7 @@ public class FiniteDifferencesDifferentiatorTest {
         // the 1.0e-6 step size is far too small for finite differences in the quintic on this abscissa range for 7 points
         // the errors are huge!
         final double[] expectedBad = new double[] {
-            2.910e-11, 2.087e-5, 147.7, 3.820e7, 6.354e14, 6.548e19, 1.543e27            
+            2.910e-11, 2.087e-5, 147.7, 3.820e7, 6.354e14, 6.548e19, 1.543e27
         };
 
         for (int i = 0; i < maxErrorGood.length; ++i) {
@@ -255,11 +255,11 @@ public class FiniteDifferencesDifferentiatorTest {
         // here, we did set the bounds, so evaluations are done within domain
         // using f(0.0), f(0.1), f(0.2)
         Assert.assertEquals(slope, properlyBounded.value(tLow).getPartialDerivative(1), 1.0e-10);
-        
+
         // here, we did set the bounds, so evaluations are done within domain
         // using f(0.8), f(0.9), f(1.0)
         Assert.assertEquals(slope, properlyBounded.value(tHigh).getPartialDerivative(1), 1.0e-10);
-        
+
     }
 
     @Test
@@ -290,11 +290,11 @@ public class FiniteDifferencesDifferentiatorTest {
                 new FiniteDifferencesDifferentiator(7, 0.01);
         UnivariateDifferentiableVectorFunction f =
                 differentiator.differentiate(new UnivariateVectorFunction() {
-            
+
             public double[] value(double x) {
                 return new double[] { FastMath.cos(x), FastMath.sin(x) };
             }
-            
+
         });
 
         for (double x = -10; x < 10; x += 0.1) {
@@ -325,14 +325,14 @@ public class FiniteDifferencesDifferentiatorTest {
                 new FiniteDifferencesDifferentiator(7, 0.01);
         UnivariateDifferentiableMatrixFunction f =
                 differentiator.differentiate(new UnivariateMatrixFunction() {
-            
+
             public double[][] value(double x) {
                 return new double[][] {
                     { FastMath.cos(x),  FastMath.sin(x)  },
                     { FastMath.cosh(x), FastMath.sinh(x) }
                 };
             }
-            
+
         });
 
         for (double x = -1; x < 1; x += 0.02) {

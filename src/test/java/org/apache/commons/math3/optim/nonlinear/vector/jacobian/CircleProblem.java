@@ -162,7 +162,7 @@ class CircleProblem {
 
         for (int i = 0; i < points.size(); i++) {
             final int index = i * 2;
-            // Partial derivative wrt x-coordinate of center. 
+            // Partial derivative wrt x-coordinate of center.
             jacobian[index][0] = 1;
             jacobian[index + 1][0] = 0;
             // Partial derivative wrt y-coordinate of center.

@@ -34,12 +34,12 @@ import org.junit.Test;
  *
  */
 public class KalmanFilterTest {
-    
+
     @Test(expected=MatrixDimensionMismatchException.class)
     public void testTransitionMeasurementMatrixMismatch() {
-        
+
         // A and H matrix do not match in dimensions
-        
+
         // A = [ 1 ]
         RealMatrix A = new Array2DRowRealMatrix(new double[] { 1d });
         // no control input
@@ -61,9 +61,9 @@ public class KalmanFilterTest {
 
     @Test(expected=MatrixDimensionMismatchException.class)
     public void testTransitionControlMatrixMismatch() {
-        
+
         // A and B matrix do not match in dimensions
-        
+
         // A = [ 1 ]
         RealMatrix A = new Array2DRowRealMatrix(new double[] { 1d });
         // B = [ 1 1 ]
@@ -82,11 +82,11 @@ public class KalmanFilterTest {
         new KalmanFilter(pm, mm);
         Assert.fail("transition and control matrix should not be compatible");
     }
-    
+
     @Test
     public void testConstant() {
         // simulates a simple process with a constant state and no control input
-        
+
         double constantValue = 10d;
         double measurementNoise = 0.1d;
         double processNoise = 1e-5d;
@@ -247,30 +247,30 @@ public class KalmanFilterTest {
      * Represents an idealized Cannonball only taking into account gravity.
      */
     public static class Cannonball {
-        
+
         private final double[] gravity = { 0, -9.81 };
-        
+
         private final double[] velocity;
         private final double[] location;
-        
+
         private double timeslice;
-        
+
         public Cannonball(double timeslice, double angle, double initialVelocity) {
             this.timeslice = timeslice;
-            
+
             final double angleInRadians = FastMath.toRadians(angle);
             this.velocity = new double[] {
                     initialVelocity * FastMath.cos(angleInRadians),
                     initialVelocity * FastMath.sin(angleInRadians)
             };
-            
+
             this.location = new double[] { 0, 0 };
         }
-        
+
         public double getX() {
             return location[0];
         }
-        
+
         public double getY() {
             return location[1];
         }
@@ -278,18 +278,18 @@ public class KalmanFilterTest {
         public double getXVelocity() {
             return velocity[0];
         }
-        
+
         public double getYVelocity() {
             return velocity[1];
         }
-        
+
         public void step() {
             // break gravitational force into a smaller time slice.
             double[] slicedGravity = gravity.clone();
             for ( int i = 0; i < slicedGravity.length; i++ ) {
                 slicedGravity[i] *= timeslice;
             }
-            
+
             // apply the acceleration to velocity.
             double[] slicedVelocity = velocity.clone();
             for ( int i = 0; i < velocity.length; i++ ) {
@@ -321,7 +321,7 @@ public class KalmanFilterTest {
         final double angle = 45;
 
         final Cannonball cannonball = new Cannonball(dt, angle, initialVelocity);
-        
+
         final double speedX = cannonball.getXVelocity();
         final double speedY = cannonball.getYVelocity();
 
@@ -333,7 +333,7 @@ public class KalmanFilterTest {
                 { 1, dt, 0,  0 },
                 { 0,  1, 0,  0 },
                 { 0,  0, 1, dt },
-                { 0,  0, 0,  1 }       
+                { 0,  0, 0,  1 }
         });
 
         // The control vector, which adds acceleration to the kinematic equations.
@@ -359,7 +359,7 @@ public class KalmanFilterTest {
                 { 0, 0, 1, 0 },
                 { 0, 0, 0, 0 }
         });
-        
+
         // our guess of the initial state.
         final RealVector initialState = MatrixUtils.createRealVector(new double[] { 0, speedX, 0, speedY } );
 
@@ -374,7 +374,7 @@ public class KalmanFilterTest {
 
         // we assume no process noise -> zero matrix
         final RealMatrix Q = MatrixUtils.createRealMatrix(4, 4);
-        
+
         // the measurement covariance matrix
         final RealMatrix R = MatrixUtils.createRealMatrix(new double[][] {
                 { var,    0,   0,    0 },
@@ -394,13 +394,13 @@ public class KalmanFilterTest {
             // get the "real" cannonball position
             double x = cannonball.getX();
             double y = cannonball.getY();
-            
+
             // apply measurement noise to current cannonball position
             double nx = x + dist.sample();
             double ny = y + dist.sample();
 
             cannonball.step();
-            
+
             filter.predict(controlVector);
             // correct the filter with our measurements
             filter.correct(new double[] { nx, 0, ny, 0 } );
@@ -411,7 +411,7 @@ public class KalmanFilterTest {
         }
 
         // error covariance of the x/y-position should be already very low (< 3m std dev = 9 variance)
-        
+
         Assert.assertTrue(Precision.compareTo(filter.getErrorCovariance()[0][0],
                                               9, 1e-6) < 0);
 

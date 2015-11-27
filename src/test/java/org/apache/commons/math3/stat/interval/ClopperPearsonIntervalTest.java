@@ -32,7 +32,7 @@ public class ClopperPearsonIntervalTest extends BinomialConfidenceIntervalAbstra
     protected BinomialConfidenceInterval createBinomialConfidenceInterval() {
         return new ClopperPearsonInterval();
     }
-    
+
     @Test
     public void testStandardInterval() {
         ConfidenceInterval confidenceInterval = createStandardTestInterval();

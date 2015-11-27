@@ -42,13 +42,13 @@ public class SimplexSolverTest {
         //      x1,x2,x3,x4 >= 0
 
         LinearObjectiveFunction f = new LinearObjectiveFunction(new double[] { 10, -57, -9, -24}, 0);
-        
+
         ArrayList<LinearConstraint> constraints = new ArrayList<LinearConstraint>();
 
         constraints.add(new LinearConstraint(new double[] {0.5, -5.5, -2.5, 9}, Relationship.LEQ, 0));
         constraints.add(new LinearConstraint(new double[] {0.5, -1.5, -0.5, 1}, Relationship.LEQ, 0));
         constraints.add(new LinearConstraint(new double[] {  1,    0,    0, 0}, Relationship.LEQ, 1));
-        
+
         double epsilon = 1e-6;
         SimplexSolver solver = new SimplexSolver();
         PointValuePair solution = solver.optimize(f, new LinearConstraintSet(constraints),
@@ -63,7 +63,7 @@ public class SimplexSolverTest {
     public void testMath828() {
         LinearObjectiveFunction f = new LinearObjectiveFunction(
                 new double[] { 1.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0}, 0.0);
-        
+
         ArrayList <LinearConstraint>constraints = new ArrayList<LinearConstraint>();
 
         constraints.add(new LinearConstraint(new double[] {0.0, 39.0, 23.0, 96.0, 15.0, 48.0, 9.0, 21.0, 48.0, 36.0, 76.0, 19.0, 88.0, 17.0, 16.0, 36.0,}, Relationship.GEQ, 15.0));
@@ -73,7 +73,7 @@ public class SimplexSolverTest {
         constraints.add(new LinearConstraint(new double[] {25.0, -7.0, -99.0, -78.0, -25.0, -14.0, -16.0, -89.0, -39.0, -56.0, -53.0, -9.0, -18.0, -26.0, -11.0, -61.0,}, Relationship.GEQ, 0.0));
         constraints.add(new LinearConstraint(new double[] {33.0, -95.0, -15.0, -4.0, -33.0, -3.0, -20.0, -96.0, -27.0, -13.0, -80.0, -24.0, -3.0, -13.0, -57.0, -76.0,}, Relationship.GEQ, 0.0));
         constraints.add(new LinearConstraint(new double[] {7.0, -95.0, -39.0, -93.0, -7.0, -94.0, -94.0, -62.0, -76.0, -26.0, -53.0, -57.0, -31.0, -76.0, -53.0, -52.0,}, Relationship.GEQ, 0.0));
-        
+
         double epsilon = 1e-6;
         PointValuePair solution = new SimplexSolver().optimize(DEFAULT_MAX_ITER, f, new LinearConstraintSet(constraints),
                                                                GoalType.MINIMIZE, new NonNegativeConstraint(true));
@@ -85,7 +85,7 @@ public class SimplexSolverTest {
     public void testMath828Cycle() {
         LinearObjectiveFunction f = new LinearObjectiveFunction(
                 new double[] { 1.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0}, 0.0);
-        
+
         ArrayList <LinearConstraint>constraints = new ArrayList<LinearConstraint>();
 
         constraints.add(new LinearConstraint(new double[] {0.0, 16.0, 14.0, 69.0, 1.0, 85.0, 52.0, 43.0, 64.0, 97.0, 14.0, 74.0, 89.0, 28.0, 94.0, 58.0, 13.0, 22.0, 21.0, 17.0, 30.0, 25.0, 1.0, 59.0, 91.0, 78.0, 12.0, 74.0, 56.0, 3.0, 88.0,}, Relationship.GEQ, 91.0));
@@ -95,14 +95,14 @@ public class SimplexSolverTest {
         constraints.add(new LinearConstraint(new double[] {41.0, -96.0, -41.0, -48.0, -70.0, -43.0, -43.0, -43.0, -97.0, -37.0, -85.0, -70.0, -45.0, -67.0, -87.0, -69.0, -94.0, -54.0, -54.0, -92.0, -79.0, -10.0, -35.0, -20.0, -41.0, -41.0, -65.0, -25.0, -12.0, -8.0, -46.0,}, Relationship.GEQ, 0.0));
         constraints.add(new LinearConstraint(new double[] {27.0, -42.0, -65.0, -49.0, -53.0, -42.0, -17.0, -2.0, -61.0, -31.0, -76.0, -47.0, -8.0, -93.0, -86.0, -62.0, -65.0, -63.0, -22.0, -43.0, -27.0, -23.0, -32.0, -74.0, -27.0, -63.0, -47.0, -78.0, -29.0, -95.0, -73.0,}, Relationship.GEQ, 0.0));
         constraints.add(new LinearConstraint(new double[] {15.0, -46.0, -41.0, -83.0, -98.0, -99.0, -21.0, -35.0, -7.0, -14.0, -80.0, -63.0, -18.0, -42.0, -5.0, -34.0, -56.0, -70.0, -16.0, -18.0, -74.0, -61.0, -47.0, -41.0, -15.0, -79.0, -18.0, -47.0, -88.0, -68.0, -55.0,}, Relationship.GEQ, 0.0));
-        
+
         double epsilon = 1e-6;
         PointValuePair solution = new SimplexSolver().optimize(DEFAULT_MAX_ITER, f,
                                                                new LinearConstraintSet(constraints),
                                                                GoalType.MINIMIZE, new NonNegativeConstraint(true),
                                                                PivotSelectionRule.BLAND);
         Assert.assertEquals(1.0d, solution.getValue(), epsilon);
-        Assert.assertTrue(validSolution(solution, constraints, epsilon));        
+        Assert.assertTrue(validSolution(solution, constraints, epsilon));
     }
 
     @Test
@@ -185,7 +185,7 @@ public class SimplexSolverTest {
         SimplexSolver solver = new SimplexSolver();
         PointValuePair solution = solver.optimize(DEFAULT_MAX_ITER, f, new LinearConstraintSet(constraints),
                                                   GoalType.MINIMIZE, new NonNegativeConstraint(false));
-        
+
         Assert.assertTrue(Precision.compareTo(solution.getPoint()[0] * 200.d, 1.d, epsilon) >= 0);
         Assert.assertEquals(0.0050, solution.getValue(), epsilon);
     }
@@ -209,13 +209,13 @@ public class SimplexSolverTest {
         SimplexSolver simplex = new SimplexSolver();
         PointValuePair solution = simplex.optimize(DEFAULT_MAX_ITER, f, new LinearConstraintSet(constraints),
                                                    GoalType.MINIMIZE, new NonNegativeConstraint(false));
-        
+
         Assert.assertTrue(Precision.compareTo(solution.getPoint()[0], -1e-18d, epsilon) >= 0);
-        Assert.assertEquals(1.0d, solution.getPoint()[1], epsilon);        
+        Assert.assertEquals(1.0d, solution.getPoint()[1], epsilon);
         Assert.assertEquals(0.0d, solution.getPoint()[2], epsilon);
         Assert.assertEquals(1.0d, solution.getValue(), epsilon);
     }
-    
+
     @Test
     public void testMath272() {
         LinearObjectiveFunction f = new LinearObjectiveFunction(new double[] { 2, 2, 1 }, 0);
@@ -351,12 +351,12 @@ public class SimplexSolverTest {
     @Test
     public void testMath930() {
         Collection<LinearConstraint> constraints = createMath930Constraints();
-        
+
         double[] objFunctionCoeff = new double[33];
         objFunctionCoeff[3] = 1;
         LinearObjectiveFunction f = new LinearObjectiveFunction(objFunctionCoeff, 0);
         SimplexSolver solver = new SimplexSolver(1e-4, 10, 1e-6);
-        
+
         PointValuePair solution = solver.optimize(new MaxIter(1000), f, new LinearConstraintSet(constraints),
                                                   GoalType.MINIMIZE, new NonNegativeConstraint(true));
         Assert.assertEquals(0.3752298, solution.getValue(), 1e-4);
@@ -751,7 +751,7 @@ public class SimplexSolverTest {
     public void testSolutionCallback() {
         // re-use the problem from testcase for MATH-288
         // it normally requires 5 iterations
-        
+
         LinearObjectiveFunction f = new LinearObjectiveFunction(new double[] { 7, 3, 0, 0 }, 0 );
 
         List<LinearConstraint> constraints = new ArrayList<LinearConstraint>();
@@ -763,7 +763,7 @@ public class SimplexSolverTest {
 
         final SimplexSolver solver = new SimplexSolver();
         final SolutionCallback callback = new SolutionCallback();
-        
+
         Assert.assertNull(callback.getSolution());
         Assert.assertFalse(callback.isSolutionOptimal());
 
@@ -774,7 +774,7 @@ public class SimplexSolverTest {
         } catch (TooManyIterationsException ex) {
             // expected
         }
-        
+
         final PointValuePair solution = callback.getSolution();
         Assert.assertNotNull(solution);
         Assert.assertTrue(validSolution(solution, constraints, 1e-4));
@@ -821,20 +821,20 @@ public class SimplexSolverTest {
             for (int i = 0; i < vals.length; i++) {
                 result += vals[i] * coeffs[i];
             }
-            
+
             switch (c.getRelationship()) {
             case EQ:
                 if (!Precision.equals(result, c.getValue(), epsilon)) {
                     return false;
                 }
                 break;
-                
+
             case GEQ:
                 if (Precision.compareTo(result, c.getValue(), epsilon) < 0) {
                     return false;
                 }
                 break;
-                
+
             case LEQ:
                 if (Precision.compareTo(result, c.getValue(), epsilon) > 0) {
                     return false;
@@ -842,7 +842,7 @@ public class SimplexSolverTest {
                 break;
             }
         }
-        
+
         return true;
     }
 

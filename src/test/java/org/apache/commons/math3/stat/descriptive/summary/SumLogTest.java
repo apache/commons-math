@@ -75,11 +75,11 @@ public class SumLogTest extends StorelessUnivariateStatisticAbstractTest{
         sum.increment(-2d);
         Assert.assertTrue(Double.isNaN(sum.getResult()));
     }
-    
+
     @Override
     protected void checkClearValue(StorelessUnivariateStatistic statistic){
         Assert.assertEquals(0, statistic.getResult(), 0);
     }
-    
+
 
 }

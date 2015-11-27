@@ -29,7 +29,7 @@ import org.junit.Test;
 
 /**
  * Test case for the bicubic function.
- * 
+ *
  */
 public final class TricubicInterpolatingFunctionTest {
     /**
@@ -46,7 +46,7 @@ public final class TricubicInterpolatingFunctionTest {
         TrivariateFunction tcf = new TricubicInterpolatingFunction(xval, yval, zval,
                                                                    fval, fval, fval, fval,
                                                                    fval, fval, fval, fval);
-        
+
         double[] wxval = new double[] {3, 2, 5, 6.5};
         try {
             tcf = new TricubicInterpolatingFunction(wxval, yval, zval,

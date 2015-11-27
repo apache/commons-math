@@ -329,7 +329,7 @@ public class EigenDecompositionTest {
 
         EigenDecomposition ed;
         ed = new EigenDecomposition(symmetric);
-        
+
         RealMatrix d = ed.getD();
         RealMatrix v = ed.getV();
         RealMatrix vT = ed.getVT();
@@ -395,7 +395,7 @@ public class EigenDecompositionTest {
                              { 27.0, 9.0,  3.0, 1.0 },
                              { 64.0, 16.0, 4.0, 1.0 } };
         checkUnsymmetricMatrix(MatrixUtils.createRealMatrix(vData));
-      
+
         RealMatrix randMatrix = MatrixUtils.createRealMatrix(new double[][] {
                 {0,  1,     0,     0},
                 {1,  0,     2.e-7, 0},
@@ -415,7 +415,7 @@ public class EigenDecompositionTest {
         };
         checkUnsymmetricMatrix(MatrixUtils.createRealMatrix(randData2));
     }
-    
+
     @Test
     @Ignore
     public void testRandomUnsymmetricMatrix() {
@@ -434,12 +434,12 @@ public class EigenDecompositionTest {
 
             RealMatrix m = MatrixUtils.createRealMatrix(data);
             checkUnsymmetricMatrix(m);
-        }        
+        }
     }
 
     /**
      * Tests the porting of a bugfix in Jama-1.0.3 (from changelog):
-     * 
+     *
      *  Patched hqr2 method in Jama.EigenvalueDecomposition to avoid infinite loop;
      *  Thanks Frederic Devernay <frederic.devernay@m4x.org>
      */
@@ -452,7 +452,7 @@ public class EigenDecompositionTest {
                 {1,1,0,0,1},
                 {1,0,1,0,1}
         };
-        
+
         RealMatrix m = MatrixUtils.createRealMatrix(data);
         checkUnsymmetricMatrix(m);
     }
@@ -478,7 +478,7 @@ public class EigenDecompositionTest {
             checkUnsymmetricMatrix(m);
         }
     }
-    
+
     @Test
     public void testMath848() {
         double[][] data = {
@@ -501,18 +501,18 @@ public class EigenDecompositionTest {
     private void checkUnsymmetricMatrix(final RealMatrix m) {
         try {
             EigenDecomposition ed = new EigenDecomposition(m);
-        
+
             RealMatrix d = ed.getD();
             RealMatrix v = ed.getV();
             //RealMatrix vT = ed.getVT();
 
             RealMatrix x = m.multiply(v);
             RealMatrix y = v.multiply(d);
-        
+
             double diffNorm = x.subtract(y).getNorm();
             Assert.assertTrue("The norm of (X-Y) is too large: " + diffNorm + ", matrix=" + m.toString(),
                     x.subtract(y).getNorm() < 1000 * Precision.EPSILON * FastMath.max(x.getNorm(), y.getNorm()));
-        
+
             RealMatrix invV = new LUDecomposition(v).getSolver().getInverse();
             double norm = v.multiply(d).multiply(invV).subtract(m).getNorm();
             Assert.assertEquals(0.0, norm, 1.0e-10);

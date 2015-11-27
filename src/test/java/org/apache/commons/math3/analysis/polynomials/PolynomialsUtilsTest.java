@@ -329,7 +329,7 @@ public class PolynomialsUtilsTest {
         PolynomialFunction f1xM1
             = new PolynomialFunction(PolynomialsUtils.shift(f1x.getCoefficients(), -1));
         checkPolynomial(f1xM1, "2 - 3 x + 2 x^2");
-        
+
         PolynomialFunction f1x3
             = new PolynomialFunction(PolynomialsUtils.shift(f1x.getCoefficients(), 3));
         checkPolynomial(f1x3, "22 + 13 x + 2 x^2");

@@ -61,11 +61,11 @@ public class ResizableDoubleArrayTest extends DoubleArrayAbstractTest {
         } catch (IllegalArgumentException ex) {
             // expected
         }
-        
+
         testDa = new ResizableDoubleArray((double[]) null);
         Assert.assertEquals(0, testDa.getNumElements());
-        
-        double[] initialArray = new double[] { 0, 1, 2 };        
+
+        double[] initialArray = new double[] { 0, 1, 2 };
         testDa = new ResizableDoubleArray(initialArray);
         Assert.assertEquals(3, testDa.getNumElements());
 
@@ -125,14 +125,14 @@ public class ResizableDoubleArrayTest extends DoubleArrayAbstractTest {
         ResizableDoubleArray copyDa = new ResizableDoubleArray(testDa);
         Assert.assertEquals(copyDa, testDa);
         Assert.assertEquals(testDa, copyDa);
-        
+
         // JIRA: MATH-1252
         final double[] values = {1};
         testDa = new ResizableDoubleArray(values);
         Assert.assertArrayEquals(values, testDa.getElements(), 0);
         Assert.assertEquals(1, testDa.getNumElements());
         Assert.assertEquals(1, testDa.getElement(0), 0);
-        
+
     }
 
 
@@ -205,24 +205,24 @@ public class ResizableDoubleArrayTest extends DoubleArrayAbstractTest {
                 "16 and an expansion factor of 2.0",
                 1024, ((ResizableDoubleArray) da).getCapacity());
     }
-    
+
     @Test
     public void testAddElements() {
         ResizableDoubleArray testDa = new ResizableDoubleArray();
-        
+
         // MULTIPLICATIVE_MODE
         testDa.addElements(new double[] {4, 5, 6});
         Assert.assertEquals(3, testDa.getNumElements(), 0);
         Assert.assertEquals(4, testDa.getElement(0), 0);
         Assert.assertEquals(5, testDa.getElement(1), 0);
         Assert.assertEquals(6, testDa.getElement(2), 0);
-        
+
         testDa.addElements(new double[] {4, 5, 6});
         Assert.assertEquals(6, testDa.getNumElements());
 
         // ADDITIVE_MODE  (x's are occupied storage locations, 0's are open)
         testDa = new ResizableDoubleArray(2, 2.0, 2.5,
-                                          ResizableDoubleArray.ExpansionMode.ADDITIVE);        
+                                          ResizableDoubleArray.ExpansionMode.ADDITIVE);
         Assert.assertEquals(2, testDa.getCapacity());
         testDa.addElements(new double[] { 1d }); // x,0
         testDa.addElements(new double[] { 2d }); // x,x

@@ -199,7 +199,7 @@ public class GaussianFitterTest {
         GaussianFitter fitter = new GaussianFitter(new LevenbergMarquardtOptimizer());
         fitter.fit();
     }
-    
+
     /**
      * Two points is not enough observed points.
      */
@@ -212,7 +212,7 @@ public class GaussianFitterTest {
             fitter);
         fitter.fit();
     }
-    
+
     /**
      * Poor data: right of peak not symmetric with left of peak.
      */
@@ -225,8 +225,8 @@ public class GaussianFitterTest {
         Assert.assertEquals(233003.2967252038, parameters[0], 1e-4);
         Assert.assertEquals(-10.654887521095983, parameters[1], 1e-4);
         Assert.assertEquals(4.335937353196641, parameters[2], 1e-4);
-    }  
-    
+    }
+
     /**
      * Poor data: long tails.
      */
@@ -240,7 +240,7 @@ public class GaussianFitterTest {
         Assert.assertEquals(-13.29641995105174, parameters[1], 1e-4);
         Assert.assertEquals(1.7297330293549908, parameters[2], 1e-4);
     }
-    
+
     /**
      * Poor data: right of peak is missing.
      */
@@ -253,7 +253,7 @@ public class GaussianFitterTest {
         Assert.assertEquals(285250.66754309234, parameters[0], 1e-4);
         Assert.assertEquals(-13.528375695228455, parameters[1], 1e-4);
         Assert.assertEquals(1.5204344894331614, parameters[2], 1e-4);
-    }    
+    }
 
     /**
      * Basic with smaller dataset.
@@ -274,7 +274,7 @@ public class GaussianFitterTest {
         // The optimizer will try negative sigma values but "GaussianFitter"
         // will catch the raised exceptions and return NaN values instead.
 
-        final double[] data = { 
+        final double[] data = {
             1.1143831578403364E-29,
             4.95281403484594E-28,
             1.1171347211930288E-26,
@@ -342,7 +342,7 @@ public class GaussianFitterTest {
         Assert.assertEquals(0.603770729862231, p[1], 1e-15);
         Assert.assertEquals(1.0786447936766612, p[2], 1e-14);
     }
-    
+
     /**
      * Adds the specified points to specified <code>GaussianFitter</code>
      * instance.

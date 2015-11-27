@@ -22,7 +22,7 @@ import org.junit.Assert;
 import org.junit.Test;
 
 public class CycleCrossoverTest {
-    
+
     @Test
     public void testCrossoverExample() {
         // taken from http://www.rubicite.com/Tutorials/GeneticAlgorithms/CrossoverOperators/CycleCrossoverOperator.aspx
@@ -81,7 +81,7 @@ public class CycleCrossoverTest {
             final Integer[] c2 = ((DummyListChromosome) pair.getSecond()).getRepresentation().toArray(new Integer[p2.length]);
 
             int index = 0;
-            // Determine if it is in the same spot as in the first parent, if 
+            // Determine if it is in the same spot as in the first parent, if
             // not it comes from the second parent.
             for (final Integer j : c1) {
                 if (!p1[index].equals(j)) {

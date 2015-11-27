@@ -24,7 +24,7 @@ import org.junit.Test;
 
 /**
  * Test for {@link ArgUtils}.
- * 
+ *
  */
 public class ArgUtilsTest {
     @Test

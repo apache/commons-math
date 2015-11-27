@@ -35,7 +35,7 @@ public class BesselJTest {
      * near.eight = 8 + seq(-.5,.5,.1)
      * largexs = c(10,30,100,300,1000)
      * xs = unique(sort(c(smallxs, medxs, near.eight,largexs)))
-     *          
+     *
      * for (n in c(0:15, 30, 100)) {
      * for (x in xs) {
      * val = format( besselJ(x,n), digits=20 )
@@ -763,12 +763,12 @@ public class BesselJTest {
             Assert.assertEquals(msg, expected, actual, tol);
         }
     }
-    
+
     @Test(expected=MathIllegalArgumentException.class)
     public void testIAEBadOrder() {
         BesselJ.value(-1, 1);
     }
-    
+
     @Test(expected=MathIllegalArgumentException.class)
     public void testIAEBadArgument() {
         BesselJ.value(1, 100000);

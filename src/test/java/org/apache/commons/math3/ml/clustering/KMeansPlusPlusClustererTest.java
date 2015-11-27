@@ -37,7 +37,7 @@ public class KMeansPlusPlusClustererTest {
     @Before
     public void setUp() {
         random = new JDKRandomGenerator();
-        random.setSeed(1746432956321l);        
+        random.setSeed(1746432956321l);
     }
 
     /**
@@ -152,7 +152,7 @@ public class KMeansPlusPlusClustererTest {
         final int NUM_CLUSTERS = 2;
         final int NUM_ITERATIONS = 0;
         random.setSeed(RANDOM_SEED);
-        
+
         KMeansPlusPlusClusterer<DoublePoint> clusterer =
             new KMeansPlusPlusClusterer<DoublePoint>(NUM_CLUSTERS, NUM_ITERATIONS,
                     new CloseDistance(), random);
@@ -167,15 +167,15 @@ public class KMeansPlusPlusClustererTest {
         }
         Assert.assertTrue(uniquePointIsCenter);
     }
-    
+
     /**
      * 2 variables cannot be clustered into 3 clusters. See issue MATH-436.
      */
     @Test(expected=NumberIsTooSmallException.class)
     public void testPerformClusterAnalysisToManyClusters() {
-        KMeansPlusPlusClusterer<DoublePoint> transformer = 
+        KMeansPlusPlusClusterer<DoublePoint> transformer =
             new KMeansPlusPlusClusterer<DoublePoint>(3, 1, new EuclideanDistance(), random);
-        
+
         DoublePoint[] points = new DoublePoint[] {
             new DoublePoint(new int[] {
                 1959, 325100
@@ -183,7 +183,7 @@ public class KMeansPlusPlusClustererTest {
                 1960, 373200
             })
         };
-        
+
         transformer.cluster(Arrays.asList(points));
 
     }

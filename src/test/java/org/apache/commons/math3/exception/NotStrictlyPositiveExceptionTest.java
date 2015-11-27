@@ -21,7 +21,7 @@ import org.junit.Test;
 
 /**
  * Test for {@link NotStrictlyPositiveException}.
- * 
+ *
  */
 public class NotStrictlyPositiveExceptionTest {
     @Test

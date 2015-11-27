@@ -29,7 +29,7 @@ import org.junit.Ignore;
 
 /**
  * Test case for the bicubic function.
- * 
+ *
  */
 public final class BicubicSplineInterpolatingFunctionTest {
     /**
@@ -44,7 +44,7 @@ public final class BicubicSplineInterpolatingFunctionTest {
         @SuppressWarnings("unused")
         BivariateFunction bcf = new BicubicSplineInterpolatingFunction(xval, yval, zval,
                                                                            zval, zval, zval);
-        
+
         double[] wxval = new double[] {3, 2, 5, 6.5};
         try {
             bcf = new BicubicSplineInterpolatingFunction(wxval, yval, zval, zval, zval, zval);
@@ -239,7 +239,7 @@ public final class BicubicSplineInterpolatingFunctionTest {
                                                                            dZdX, dZdY, dZdXdY);
         double x, y;
         double expected, result;
-        
+
         x = 4;
         y = -3;
         expected = f.value(x, y);
@@ -295,7 +295,7 @@ public final class BicubicSplineInterpolatingFunctionTest {
             };
         Assert.assertEquals("dFdX", derivative.value(x, y),
                             f.partialDerivativeX().value(x, y), tol);
-        
+
         derivative = new BivariateFunction() {
                 public double value(double x, double y) {
                     final double x2 = x * x;
@@ -385,7 +385,7 @@ public final class BicubicSplineInterpolatingFunctionTest {
         BivariateFunction dfdX = new BivariateFunction() {
                 public double value(double x, double y) {
                     final double x2 = x * x;
-                    final double y2 = y * y;                    
+                    final double y2 = y * y;
                     return - 3 - y + 4 * x + 8 * x * y - y2 - 9 * x2;
                 }
             };
@@ -399,7 +399,7 @@ public final class BicubicSplineInterpolatingFunctionTest {
         BivariateFunction dfdY = new BivariateFunction() {
                 public double value(double x, double y) {
                     final double x2 = x * x;
-                    final double y2 = y * y;                    
+                    final double y2 = y * y;
                     return 2 - x - 6 * y + 4 * x2 - 2 * x * y + 3 * y2;
                 }
             };
@@ -432,7 +432,7 @@ public final class BicubicSplineInterpolatingFunctionTest {
             x = val[i];
             for (int j = 0; j < sz; j++) {
                 y = val[j];
-                
+
                 expected = dfdX.value(x, y);
                 result = bcf.partialDerivativeX(x, y);
                 Assert.assertEquals(x + " " + y + " dFdX", expected, result, tol);
@@ -440,7 +440,7 @@ public final class BicubicSplineInterpolatingFunctionTest {
                 expected = dfdY.value(x, y);
                 result = bcf.partialDerivativeY(x, y);
                 Assert.assertEquals(x + " " + y + " dFdY", expected, result, tol);
-                
+
                 expected = d2fdXdY.value(x, y);
                 result = bcf.partialDerivativeXY(x, y);
                 Assert.assertEquals(x + " " + y + " d2FdXdY", expected, result, tol);
@@ -637,7 +637,7 @@ public final class BicubicSplineInterpolatingFunctionTest {
         Assert.assertTrue(bcf.isValidPoint(x, y));
         // Ensure that no exception is thrown.
         bcf.value(x, y);
- 
+
         final double xRange = xMax - xMin;
         final double yRange = yMax - yMin;
         x = xMin + xRange / 3.4;

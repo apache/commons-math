@@ -20,12 +20,12 @@ import org.junit.Assert;
 import org.junit.Test;
 
 public class Well44497aTest extends RandomGeneratorAbstractTest {
-    
+
     @Override
     public RandomGenerator makeGenerator() {
         return new Well44497a(100);
     }
-    
+
     @Test
     public void testReferenceCode() {
         int[] base = {

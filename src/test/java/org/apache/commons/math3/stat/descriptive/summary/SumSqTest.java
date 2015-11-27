@@ -61,7 +61,7 @@ public class SumSqTest extends StorelessUnivariateStatisticAbstractTest{
         sumSq.increment(1);
         Assert.assertTrue(Double.isNaN(sumSq.getResult()));
     }
-    
+
     @Override
     protected void checkClearValue(StorelessUnivariateStatistic statistic){
         Assert.assertEquals(0, statistic.getResult(), 0);

@@ -52,7 +52,7 @@ public class RegionParser {
 
     /** Private constructor for a utility class
      */
-    private RegionParser() {    
+    private RegionParser() {
     }
 
     /** Parse a string representation of an {@link ArcsSet}.

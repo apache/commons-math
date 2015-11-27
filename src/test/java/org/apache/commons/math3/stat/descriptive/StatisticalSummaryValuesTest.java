@@ -64,7 +64,7 @@ public final class StatisticalSummaryValuesTest {
         TestUtils.assertEquals("min",s.getMin(),u.getMin(), 0);
         TestUtils.assertEquals("max",s.getMax(),u.getMax(), 0);
     }
-    
+
     @Test
     public void testToString() {
         StatisticalSummaryValues u  = new StatisticalSummaryValues(4.5, 16, 10, 5, 4, 45);

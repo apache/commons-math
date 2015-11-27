@@ -150,7 +150,7 @@ public class KohonenTrainingTaskTest {
         for (double[] c : solver.getCoordinatesList()) {
             s.append(c[0]).append(" ").append(c[1]).append(" ");
             final City city = solver.getClosestCity(c[0], c[1]);
-            final double[] cityCoord = city.getCoordinates(); 
+            final double[] cityCoord = city.getCoordinates();
             s.append(cityCoord[0]).append(" ").append(cityCoord[1]).append(" ");
             s.append("   # ").append(city.getName()).append("\n");
         }

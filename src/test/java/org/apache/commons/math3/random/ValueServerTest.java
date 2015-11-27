@@ -76,12 +76,12 @@ public final class ValueServerTest {
         Assert.assertEquals("std dev", 1.0173699343977738, stats.getStandardDeviation(),
             tolerance);
     }
-    
+
     /**
      * Verify that when provided with fixed seeds, stochastic modes
      * generate fixed sequences.  Verifies the fix for MATH-654.
      */
-    @Test 
+    @Test
     public void testFixedSeed() throws Exception {
         ValueServer valueServer = new ValueServer();
         URL url = getClass().getResource("testData.txt");
@@ -92,7 +92,7 @@ public final class ValueServerTest {
         checkFixedSeed(valueServer, ValueServer.GAUSSIAN_MODE);
         checkFixedSeed(valueServer, ValueServer.UNIFORM_MODE);
     }
-    
+
     /**
      * Do the check for {@link #testFixedSeed()}
      * @param mode ValueServer mode
@@ -108,7 +108,7 @@ public final class ValueServerTest {
         for (int i = 0; i < 100; i++) {
             values[1][i] = valueServer.getNext();
         }
-        Assert.assertTrue(Arrays.equals(values[0], values[1])); 
+        Assert.assertTrue(Arrays.equals(values[0], values[1]));
     }
 
     /**

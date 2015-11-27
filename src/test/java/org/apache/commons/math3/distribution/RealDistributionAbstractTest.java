@@ -325,7 +325,7 @@ public abstract class RealDistributionAbstractTest {
             // expected
         }
     }
-    
+
     /**
      * Test sampling
      */
@@ -342,7 +342,7 @@ public abstract class RealDistributionAbstractTest {
         }
         TestUtils.assertChiSquareAccept(expected, counts, 0.001);
     }
-    
+
     /**
      * Verify that density integrals match the distribution.
      * The (filtered, sorted) cumulativeTestPoints array is used to source
@@ -381,7 +381,7 @@ public abstract class RealDistributionAbstractTest {
                                     integrationTestPoints.get(i)), tol);
         }
     }
-    
+
     /**
      * Verify that isSupportLowerBoundInclusvie returns true iff the lower bound
      * is finite and density is non-NaN, non-infinite there.
@@ -395,9 +395,9 @@ public abstract class RealDistributionAbstractTest {
                 !Double.isInfinite(lowerBound) && !Double.isNaN(result) &&
                 !Double.isInfinite(result),
                 distribution.isSupportLowerBoundInclusive());
-         
+
     }
-    
+
     /**
      * Verify that isSupportUpperBoundInclusvie returns true iff the upper bound
      * is finite and density is non-NaN, non-infinite there.
@@ -411,7 +411,7 @@ public abstract class RealDistributionAbstractTest {
                 !Double.isInfinite(upperBound) && !Double.isNaN(result) &&
                 !Double.isInfinite(result),
                 distribution.isSupportUpperBoundInclusive());
-         
+
     }
 
     @Test

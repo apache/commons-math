@@ -50,7 +50,7 @@ public class RegionDumper {
 
     /** Private constructor for a utility class
      */
-    private RegionDumper() {    
+    private RegionDumper() {
     }
 
     /** Get a string representation of an {@link ArcsSet}.

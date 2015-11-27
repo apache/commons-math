@@ -56,7 +56,7 @@ public class GradientFunctionTest {
     }
 
     private static class EuclideanDistance implements MultivariateDifferentiableFunction {
-        
+
         public double value(double[] point) {
             double d2 = 0;
             for (double x : point) {
@@ -64,7 +64,7 @@ public class GradientFunctionTest {
             }
             return FastMath.sqrt(d2);
         }
-        
+
         public DerivativeStructure value(DerivativeStructure[] point)
             throws DimensionMismatchException, MathIllegalArgumentException {
             DerivativeStructure d2 = point[0].getField().getZero();

@@ -88,7 +88,7 @@ public class UnivariateMultiStartOptimizerTest {
         g.setSeed(4312000053L);
         UnivariateMultiStartOptimizer<UnivariateFunction> optimizer =
             new UnivariateMultiStartOptimizer<UnivariateFunction>(underlying, 5, g);
- 
+
         try {
             optimizer.optimize(300, f, GoalType.MINIMIZE, -0.3, -0.2);
             Assert.fail();

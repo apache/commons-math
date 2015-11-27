@@ -27,7 +27,7 @@ import org.junit.Test;
 
 /**
  * Test case for the bicubic interpolator.
- * 
+ *
  */
 public final class BicubicSplineInterpolatorTest {
     /**
@@ -40,10 +40,10 @@ public final class BicubicSplineInterpolatorTest {
         double[][] zval = new double[xval.length][yval.length];
 
         BivariateGridInterpolator interpolator = new BicubicSplineInterpolator();
-        
+
         @SuppressWarnings("unused")
         BivariateFunction p = interpolator.interpolate(xval, yval, zval);
-        
+
         double[] wxval = new double[] {3, 2, 5, 6.5};
         try {
             p = interpolator.interpolate(wxval, yval, zval);

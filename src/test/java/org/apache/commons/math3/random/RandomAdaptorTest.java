@@ -58,13 +58,13 @@ public class RandomAdaptorTest {
      *
      */
     public static class ConstantGenerator implements RandomGenerator {
-        
+
         private final double value;
-        
+
         public ConstantGenerator() {
             value = 0;
         }
-        
+
         public ConstantGenerator(double value) {
             this.value = value;
         }
