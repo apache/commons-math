@@ -17,14 +17,18 @@
 
 package org.apache.commons.math3.stat.inference;
 
+import java.lang.reflect.Method;
 import java.util.Arrays;
 
+import org.apache.commons.math3.TestUtils;
 import org.apache.commons.math3.distribution.NormalDistribution;
 import org.apache.commons.math3.distribution.UniformRealDistribution;
 import org.apache.commons.math3.random.RandomGenerator;
 import org.apache.commons.math3.random.Well19937c;
+import org.apache.commons.math3.stat.inference.KolmogorovSmirnovTest;
 import org.apache.commons.math3.util.CombinatoricsUtils;
 import org.apache.commons.math3.util.FastMath;
+import org.apache.commons.math3.util.MathArrays;
 import org.junit.Assert;
 import org.junit.Test;
 
@@ -274,7 +278,6 @@ public class KolmogorovSmirnovTestTest {
         Assert.assertFalse(Double.isNaN(test.kolmogorovSmirnovTest(x, y)));
     }
 
-
     /**
      * Verifies that Monte Carlo simulation gives results close to exact p values. This test is a
      * little long-running (more than two minutes on a fast machine), so is disabled by default.
@@ -429,10 +432,10 @@ public class KolmogorovSmirnovTestTest {
             Assert.assertEquals(1.0, test.approximateP(0, values.length, values.length), 0.);
         }
     }
-    
+
     /**
      * JIRA: MATH-1245
-     * 
+     *
      * Verify that D-values are not viewed as distinct when they are mathematically equal
      * when computing p-statistics for small sample tests. Reference values are from R 3.2.0.
      */
@@ -443,19 +446,19 @@ public class KolmogorovSmirnovTestTest {
         final double[] y = {1, 10, 11, 13, 14, 15, 16, 17, 18};
         final KolmogorovSmirnovTest test = new KolmogorovSmirnovTest();
         Assert.assertEquals(0.0027495724090154106, test.kolmogorovSmirnovTest(x, y,false), tol);
-        
+
         final double[] x1 = {2, 4, 6, 8, 9, 10, 11, 12, 13};
         final double[] y1 = {0, 1, 3, 5, 7};
         Assert.assertEquals(0.085914085914085896, test.kolmogorovSmirnovTest(x1, y1, false), tol);
-        
+
         final double[] x2 = {4, 6, 7, 8, 9, 10, 11};
         final double[] y2 = {0, 1, 2, 3, 5};
-        Assert.assertEquals(0.015151515151515027, test.kolmogorovSmirnovTest(x2, y2, false), tol); 
+        Assert.assertEquals(0.015151515151515027, test.kolmogorovSmirnovTest(x2, y2, false), tol);
     }
-    
+
     /**
      * JIRA: MATH-1245
-     * 
+     *
      * Verify that D-values are not viewed as distinct when they are mathematically equal
      * when computing p-statistics for small sample tests. Reference values are from R 3.2.0.
      */
@@ -464,17 +467,17 @@ public class KolmogorovSmirnovTestTest {
         final double tol = 1e-2;
         final int iterations = 1000000;
         final KolmogorovSmirnovTest test = new KolmogorovSmirnovTest(new Well19937c(1000));
-        
+
         final double[] x = {0, 2, 3, 4, 5, 6, 7, 8, 9, 12};
         final double[] y = {1, 10, 11, 13, 14, 15, 16, 17, 18};
         double d = test.kolmogorovSmirnovStatistic(x, y);
         Assert.assertEquals(0.0027495724090154106, test.monteCarloP(d, x.length, y.length, false, iterations), tol);
-        
+
         final double[] x1 = {2, 4, 6, 8, 9, 10, 11, 12, 13};
         final double[] y1 = {0, 1, 3, 5, 7};
         d = test.kolmogorovSmirnovStatistic(x1, y1);
         Assert.assertEquals(0.085914085914085896, test.monteCarloP(d, x1.length, y1.length, false, iterations), tol);
-        
+
         final double[] x2 = {4, 6, 7, 8, 9, 10, 11};
         final double[] y2 = {0, 1, 2, 3, 5};
         d = test.kolmogorovSmirnovStatistic(x2, y2);
@@ -527,7 +530,7 @@ public class KolmogorovSmirnovTestTest {
             }
 
             Assert.assertEquals(numCombinations, observedIdx);
-            Assert.assertFalse(TestUtils.chiSquareTest(expected, observed, alpha));
+            TestUtils.assertChiSquareAccept(expected, observed, alpha);
         }
     }
 
@@ -566,6 +569,63 @@ public class KolmogorovSmirnovTestTest {
         Assert.assertEquals(0.06303, test.bootstrap(x, y, 10000, false), 1E-2);
     }
 
+    @Test
+    public void testFixTiesNoOp() throws Exception {
+        final double[] x = {0, 1, 2, 3, 4};
+        final double[] y = {5, 6, 7, 8};
+        final double[] origX = MathArrays.copyOf(x);
+        final double[] origY = MathArrays.copyOf(y);
+        fixTies(x,y);
+        Assert.assertArrayEquals(origX, x, 0);
+        Assert.assertArrayEquals(origY, y, 0);
+    }
+
+    /**
+     * Verify that fixTies is deterministic, i.e,
+     * x = x', y = y' => fixTies(x,y) = fixTies(x', y')
+     */
+    @Test
+    public void testFixTiesConsistency() throws Exception {
+        final double[] x = {0, 1, 2, 3, 4, 2};
+        final double[] y = {5, 6, 7, 8, 1, 2};
+        final double[] xP = MathArrays.copyOf(x);
+        final double[] yP = MathArrays.copyOf(y);
+        checkFixTies(x, y);
+        final double[] fixedX = MathArrays.copyOf(x);
+        final double[] fixedY = MathArrays.copyOf(y);
+        checkFixTies(xP, yP);
+        Assert.assertArrayEquals(fixedX, xP, 0);
+        Assert.assertArrayEquals(fixedY,  yP, 0);
+    }
+
+    @Test
+    public void testFixTies() throws Exception {
+        checkFixTies(new double[] {0, 1, 1, 4, 0}, new double[] {0, 5, 0.5, 0.55, 7});
+        checkFixTies(new double[] {1, 1, 1, 1, 1}, new double[] {1, 1});
+        checkFixTies(new double[] {1, 2, 3}, new double[] {1});
+        checkFixTies(new double[] {1, 1, 0, 1, 0}, new double[] {});
+    }
+
+    /**
+     * Checks that fixTies eliminates ties in the data but does not otherwise
+     * perturb the ordering.
+     */
+    private void checkFixTies(double[] x, double[] y) throws Exception {
+        final double[] origCombined = MathArrays.concatenate(x, y);
+        fixTies(x, y);
+        Assert.assertFalse(hasTies(x, y));
+        final double[] combined = MathArrays.concatenate(x, y);
+        for (int i = 0; i < combined.length; i++) {
+            for (int j = 0; j < i; j++) {
+                Assert.assertTrue(combined[i] != combined[j]);
+                if (combined[i] < combined[j])
+                    Assert.assertTrue(origCombined[i] < origCombined[j]
+                                          || origCombined[i] == origCombined[j]);
+            }
+
+        }
+    }
+
     /**
      * Verifies the inequality exactP(criticalValue, n, m, true) < alpha < exactP(criticalValue, n,
      * m, false).
@@ -598,6 +658,26 @@ public class KolmogorovSmirnovTestTest {
     private void checkApproximateTable(int n, int m, double criticalValue, double alpha, double epsilon) {
         final KolmogorovSmirnovTest test = new KolmogorovSmirnovTest();
         Assert.assertEquals(alpha, test.approximateP(criticalValue, n, m), epsilon);
+    }
+
+    /**
+     * Reflection hack to expose private fixTies method for testing.
+     */
+    private static void fixTies(double[] x, double[] y) throws Exception {
+        Method method = KolmogorovSmirnovTest.class.getDeclaredMethod("fixTies",
+                                             double[].class, double[].class);
+        method.setAccessible(true);
+        method.invoke(KolmogorovSmirnovTest.class, x, y);
+    }
+
+    /**
+     * Reflection hack to expose private hasTies method.
+     */
+    private static boolean hasTies(double[] x, double[] y) throws Exception {
+        Method method = KolmogorovSmirnovTest.class.getDeclaredMethod("hasTies",
+                                               double[].class, double[].class);
+        method.setAccessible(true);
+        return (Boolean) method.invoke(KolmogorovSmirnovTest.class, x, y);
     }
 
 }
