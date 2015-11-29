@@ -20,6 +20,7 @@ package org.apache.commons.math3.ode;
 import java.io.Serializable;
 
 import org.apache.commons.math3.RealFieldElement;
+import org.apache.commons.math3.exception.DimensionMismatchException;
 import org.apache.commons.math3.exception.MathIllegalArgumentException;
 import org.apache.commons.math3.exception.util.LocalizedFormats;
 import org.apache.commons.math3.util.MathArrays;
@@ -110,8 +111,15 @@ public class FieldEquationsMapper<T extends RealFieldElement<T>> implements Seri
      * @param t time
      * @param y array to map, including primary and secondary components
      * @return mapped state
+     * @exception DimensionMismatchException if array does not match total dimension
      */
-    public FieldODEState<T> mapState(final T t, final T[] y) {
+    public FieldODEState<T> mapState(final T t, final T[] y)
+        throws DimensionMismatchException {
+
+        if (y.length != getTotalDimension()) {
+            throw new DimensionMismatchException(y.length, getTotalDimension());
+        }
+
         final int n = getNumberOfEquations();
         int index = 0;
         final T[] state = extractEquationData(index, y);
@@ -131,8 +139,19 @@ public class FieldEquationsMapper<T extends RealFieldElement<T>> implements Seri
      * @param y state array to map, including primary and secondary components
      * @param yDot state derivative array to map, including primary and secondary components
      * @return mapped state
+     * @exception DimensionMismatchException if an array does not match total dimension
      */
-    public FieldODEStateAndDerivative<T> mapStateAndDerivative(final T t, final T[] y, final T[] yDot) {
+    public FieldODEStateAndDerivative<T> mapStateAndDerivative(final T t, final T[] y, final T[] yDot)
+        throws DimensionMismatchException {
+
+        if (y.length != getTotalDimension()) {
+            throw new DimensionMismatchException(y.length, getTotalDimension());
+        }
+
+        if (yDot.length != getTotalDimension()) {
+            throw new DimensionMismatchException(yDot.length, getTotalDimension());
+        }
+
         final int n = getNumberOfEquations();
         int index = 0;
         final T[] state      = extractEquationData(index, y);
@@ -157,12 +176,17 @@ public class FieldEquationsMapper<T extends RealFieldElement<T>> implements Seri
      * equation data should be retrieved
      * @return equation data
      * @exception MathIllegalArgumentException if index is out of range
+     * @exception DimensionMismatchException if complete state has not enough elements
      */
     public T[] extractEquationData(final int index, final T[] complete)
-        throws MathIllegalArgumentException {
+        throws MathIllegalArgumentException, DimensionMismatchException {
         checkIndex(index);
         final int begin     = start[index];
-        final int dimension = start[index + 1] - begin;
+        final int end       = start[index + 1];
+        if (complete.length < end) {
+            throw new DimensionMismatchException(complete.length, end);
+        }
+        final int dimension = end - begin;
         final T[] equationData = MathArrays.buildArray(complete[0].getField(), dimension);
         System.arraycopy(complete, begin, equationData, 0, dimension);
         return equationData;
@@ -174,11 +198,20 @@ public class FieldEquationsMapper<T extends RealFieldElement<T>> implements Seri
      * @param equationData equation data to be inserted into the complete array
      * @param complete placeholder where to put equation data (only the
      * part corresponding to the equation will be overwritten)
+     * @exception DimensionMismatchException if either array has not enough elements
      */
-    public void insertEquationData(final int index, T[] equationData, T[] complete) {
+    public void insertEquationData(final int index, T[] equationData, T[] complete)
+        throws DimensionMismatchException {
         checkIndex(index);
         final int begin     = start[index];
-        final int dimension = start[index + 1] - begin;
+        final int end       = start[index + 1];
+        final int dimension = end - begin;
+        if (complete.length < end) {
+            throw new DimensionMismatchException(complete.length, end);
+        }
+        if (equationData.length != dimension) {
+            throw new DimensionMismatchException(equationData.length, dimension);
+        }
         System.arraycopy(equationData, 0, complete, begin, dimension);
     }
 
