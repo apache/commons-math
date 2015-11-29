@@ -59,7 +59,7 @@ If the output is not quite correct, check for invisible trailing spaces!
         case polynomials are generated from multiple threads. Furthermore, the
         synchronization is now performed on the coefficient list instead of the class.
       </action>
-      <action dev="psteitz" type="update" issue="MATH-1246">
+      <action dev="psteitz" type="update" issue="MATH-1246"> <!-- backported to 3.6 -->
         Modified 2-sample KolmogorovSmirnovTest to handle ties in sample data. By default,
         ties are broken by adding random jitter to input data. Also added bootstrap method
         analogous to ks.boot in R Matching package.
