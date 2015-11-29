@@ -46,19 +46,21 @@ abstract class RungeKuttaFieldStepInterpolator<T extends RealFieldElement<T>>
     protected AbstractFieldIntegrator<T> integrator;
 
     /** Simple constructor.
-     * This constructor builds an instance that is not usable yet, the
-     * {@link #reinitialize} method should be called before using the
-     * instance in order to initialize the internal arrays. This
-     * constructor is used only in order to delay the initialization in
-     * some cases. The {@link RungeKuttaIntegrator} and {@link
-     * EmbeddedRungeKuttaIntegrator} classes use the prototyping design
-     * pattern to create the step interpolators by cloning an
-     * uninitialized model and latter initializing the copy.
+     * @param rkIntegrator integrator being used
+     * @param y reference to the integrator array holding the state at
+     * the end of the step
+     * @param yDotArray reference to the integrator array holding all the
+     * intermediate slopes
+     * @param forward integration direction indicator
+     * @param mapper equations mapper for the all equations
      */
-    protected RungeKuttaFieldStepInterpolator() {
-        previousState = null;
-        yDotK         = null;
-        integrator    = null;
+    protected RungeKuttaFieldStepInterpolator(final AbstractFieldIntegrator<T> rkIntegrator,
+                                              final T[] y, final T[][] yDotArray, final boolean forward,
+                                              final FieldEquationsMapper<T> mapper) {
+        super(y, forward, mapper);
+        this.previousState = null;
+        this.yDotK         = yDotArray;
+        this.integrator    = rkIntegrator;
     }
 
     /** Copy constructor.
@@ -101,37 +103,6 @@ abstract class RungeKuttaFieldStepInterpolator<T extends RealFieldElement<T>>
         // the interpolator should have been finalized before
         integrator = null;
 
-    }
-
-    /** Reinitialize the instance
-     * <p>Some Runge-Kutta integrators need fewer functions evaluations
-     * than their counterpart step interpolators. So the interpolator
-     * should perform the last evaluations they need by themselves. The
-     * {@link RungeKuttaFieldIntegrator RungeKuttaFieldIntegrator} and {@link
-     * EmbeddedRungeKuttaFieldIntegrator EmbeddedRungeKuttaFieldIntegrator}
-     * abstract classes call this method in order to let the step
-     * interpolator perform the evaluations it needs. These evaluations
-     * will be performed during the call to <code>doFinalize</code> if
-     * any, i.e. only if the step handler either calls the {@link
-     * AbstractFieldStepInterpolator#finalizeStep finalizeStep} method or the
-     * {@link AbstractFieldStepInterpolator#getInterpolatedState
-     * getInterpolatedState} method (for an interpolator which needs a
-     * finalization) or if it clones the step interpolator.</p>
-     * @param rkIntegrator integrator being used
-     * @param y reference to the integrator array holding the state at
-     * the end of the step
-     * @param yDotArray reference to the integrator array holding all the
-     * intermediate slopes
-     * @param forward integration direction indicator
-     * @param mapper equations mapper for the all equations
-     */
-    public void reinitialize(final AbstractFieldIntegrator<T> rkIntegrator,
-                             final T[] y, final T[][] yDotArray, final boolean forward,
-                             final FieldEquationsMapper<T> mapper) {
-        reinitialize(y, forward, mapper);
-        this.previousState = null;
-        this.yDotK         = yDotArray;
-        this.integrator    = rkIntegrator;
     }
 
     /** {@inheritDoc} */

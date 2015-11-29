@@ -18,6 +18,7 @@
 package org.apache.commons.math3.ode.nonstiff;
 
 import org.apache.commons.math3.RealFieldElement;
+import org.apache.commons.math3.ode.AbstractFieldIntegrator;
 import org.apache.commons.math3.ode.FieldEquationsMapper;
 import org.apache.commons.math3.ode.FieldODEStateAndDerivative;
 import org.apache.commons.math3.util.MathArrays;
@@ -36,18 +37,18 @@ class HighamHall54FieldStepInterpolator<T extends RealFieldElement<T>>
     extends RungeKuttaFieldStepInterpolator<T> {
 
     /** Simple constructor.
-     * This constructor builds an instance that is not usable yet, the
-     * {@link
-     * org.apache.commons.math3.ode.sampling.AbstractStepInterpolator#reinitialize}
-     * method should be called before using the instance in order to
-     * initialize the internal arrays. This constructor is used only
-     * in order to delay the initialization in some cases. The {@link
-     * EmbeddedRungeKuttaIntegrator} uses the prototyping design pattern
-     * to create the step interpolators by cloning an uninitialized model
-     * and later initializing the copy.
-     */
-    HighamHall54FieldStepInterpolator() {
-        super();
+     * @param rkIntegrator integrator being used
+     * @param y reference to the integrator array holding the state at
+     * the end of the step
+     * @param yDotArray reference to the integrator array holding all the
+     * intermediate slopes
+     * @param forward integration direction indicator
+     * @param mapper equations mapper for the all equations
+      */
+    HighamHall54FieldStepInterpolator(final AbstractFieldIntegrator<T> rkIntegrator,
+                                      final T[] y, final T[][] yDotArray, final boolean forward,
+                                      final FieldEquationsMapper<T> mapper) {
+     super(rkIntegrator, y, yDotArray, forward, mapper);
     }
 
     /** Copy constructor.
