@@ -160,7 +160,9 @@ public abstract class AbstractFieldStepInterpolator<T extends RealFieldElement<T
 
         globalCurrentState = state;
         softCurrentState   = globalCurrentState;
-        h                  = globalCurrentState.getTime().subtract(globalPreviousState.getTime());
+        if (globalPreviousState != null) {
+            h = globalCurrentState.getTime().subtract(globalPreviousState.getTime());
+        }
 
         // the step is not finalized anymore
         finalized  = false;
