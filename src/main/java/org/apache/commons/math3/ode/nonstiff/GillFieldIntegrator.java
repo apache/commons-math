@@ -19,7 +19,9 @@ package org.apache.commons.math3.ode.nonstiff;
 
 import org.apache.commons.math3.Field;
 import org.apache.commons.math3.RealFieldElement;
-import org.apache.commons.math3.util.FastMath;
+import org.apache.commons.math3.ode.AbstractFieldIntegrator;
+import org.apache.commons.math3.ode.FieldEquationsMapper;
+import org.apache.commons.math3.util.MathArrays;
 
 
 /**
@@ -50,30 +52,69 @@ import org.apache.commons.math3.util.FastMath;
 public class GillFieldIntegrator<T extends RealFieldElement<T>>
     extends RungeKuttaFieldIntegrator<T> {
 
-    /** Time steps Butcher array. */
-    private static final double[] STATIC_C = {
-                                              1.0 / 2.0, 1.0 / 2.0, 1.0
-    };
-
-    /** Internal weights Butcher array. */
-    private static final double[][] STATIC_A = {
-                                                { 1.0 / 2.0 },
-                                                { (FastMath.sqrt(2.0) - 1.0) / 2.0, (2.0 - FastMath.sqrt(2.0)) / 2.0 },
-                                                { 0.0, -FastMath.sqrt(2.0) / 2.0, (2.0 + FastMath.sqrt(2.0)) / 2.0 }
-    };
-
-    /** Propagation weights Butcher array. */
-    private static final double[] STATIC_B = {
-                                              1.0 / 6.0, (2.0 - FastMath.sqrt(2.0)) / 6.0, (2.0 + FastMath.sqrt(2.0)) / 6.0, 1.0 / 6.0
-    };
-
     /** Simple constructor.
      * Build a fourth-order Gill integrator with the given step.
      * @param field field to which the time and state vector elements belong
      * @param step integration step
      */
     public GillFieldIntegrator(final Field<T> field, final T step) {
-        super(field, "Gill", STATIC_C, STATIC_A, STATIC_B, new GillFieldStepInterpolator<T>(), step);
+        super(field, "Gill", step);
+    }
+
+    /** {@inheritDoc} */
+    @Override
+    protected T[] getC() {
+        final T[] c = MathArrays.buildArray(getField(), 3);
+        c[0] = fraction(1, 2);
+        c[1] = c[0];
+        c[2] = getField().getOne();
+        return c;
+    }
+
+    /** {@inheritDoc} */
+    @Override
+    protected T[][] getA() {
+
+        final T two     = getField().getOne().multiply(2);
+        final T sqrtTwo = two.sqrt();
+
+        final T[][] a = MathArrays.buildArray(getField(), 3, -1);
+        for (int i = 0; i < a.length; ++i) {
+            a[i] = MathArrays.buildArray(getField(), i + 1);
+        }
+        a[0][0] = fraction(1, 2);
+        a[1][0] = sqrtTwo.subtract(1).multiply(0.5);
+        a[1][1] = sqrtTwo.subtract(2).multiply(-0.5);
+        a[2][0] = getField().getZero();
+        a[2][1] = sqrtTwo.multiply(-0.5);
+        a[2][2] = sqrtTwo.add(2).multiply(0.5);
+        return a;
+    }
+
+    /** {@inheritDoc} */
+    @Override
+    protected T[] getB() {
+
+        final T two     = getField().getOne().multiply(2);
+        final T sqrtTwo = two.sqrt();
+
+        final T[] b = MathArrays.buildArray(getField(), 4);
+        b[0] = fraction(1, 6);
+        b[1] = two.subtract(sqrtTwo).divide(6);
+        b[2] = two.add(sqrtTwo).divide(6);
+        b[3] = b[0];
+
+        return b;
+
+    }
+
+    /** {@inheritDoc} */
+    @Override
+    protected GillFieldStepInterpolator<T>
+        createInterpolator(final AbstractFieldIntegrator<T> rkIntegrator, final T[] y,
+                           final T[][] yDotArray, final boolean forward,
+                           final FieldEquationsMapper<T> mapper) {
+        return new GillFieldStepInterpolator<T>(rkIntegrator, y, yDotArray, forward, mapper);
     }
 
 }

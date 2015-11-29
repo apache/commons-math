@@ -19,7 +19,9 @@ package org.apache.commons.math3.ode.nonstiff;
 
 import org.apache.commons.math3.Field;
 import org.apache.commons.math3.RealFieldElement;
-import org.apache.commons.math3.util.FastMath;
+import org.apache.commons.math3.ode.AbstractFieldIntegrator;
+import org.apache.commons.math3.ode.FieldEquationsMapper;
+import org.apache.commons.math3.util.MathArrays;
 
 
 /**
@@ -60,27 +62,7 @@ public class LutherFieldIntegrator<T extends RealFieldElement<T>>
     extends RungeKuttaFieldIntegrator<T> {
 
     /** Square root. */
-    private static final double Q = FastMath.sqrt(21);
-
-    /** Time steps Butcher array. */
-    private static final double[] STATIC_C = {
-        1.0, 1.0 / 2.0, 2.0 / 3.0, (7.0 - Q) / 14.0, (7.0 + Q) / 14.0, 1.0
-    };
-
-    /** Internal weights Butcher array. */
-    private static final double[][] STATIC_A = {
-        {                      1.0        },
-        {                   3.0 /   8.0,                  1.0 /   8.0  },
-        {                   8.0 /   27.0,                 2.0 /   27.0,                  8.0 /   27.0  },
-        { (  -21.0 +   9.0 * Q) /  392.0, ( -56.0 +  8.0 * Q) /  392.0, ( 336.0 -  48.0 * Q) /  392.0, (-63.0 +   3.0 * Q) /  392.0 },
-        { (-1155.0 - 255.0 * Q) / 1960.0, (-280.0 - 40.0 * Q) / 1960.0, (   0.0 - 320.0 * Q) / 1960.0, ( 63.0 + 363.0 * Q) / 1960.0,   (2352.0 + 392.0 * Q) / 1960.0 },
-        { (  330.0 + 105.0 * Q) /  180.0, ( 120.0 +  0.0 * Q) /  180.0, (-200.0 + 280.0 * Q) /  180.0, (126.0 - 189.0 * Q) /  180.0,   (-686.0 - 126.0 * Q) /  180.0,   (490.0 -  70.0 * Q) / 180.0 }
-    };
-
-    /** Propagation weights Butcher array. */
-    private static final double[] STATIC_B = {
-        1.0 / 20.0, 0, 16.0 / 45.0, 0, 49.0 / 180.0, 49.0 / 180.0, 1.0 / 20.0
-    };
+    private final T q;
 
     /** Simple constructor.
      * Build a fourth-order Luther integrator with the given step.
@@ -88,7 +70,78 @@ public class LutherFieldIntegrator<T extends RealFieldElement<T>>
      * @param step integration step
      */
     public LutherFieldIntegrator(final Field<T> field, final T step) {
-        super(field, "Luther", STATIC_C, STATIC_A, STATIC_B, new LutherFieldStepInterpolator<T>(), step);
+        super(field, "Luther", step);
+        q = getField().getOne().multiply(21).sqrt();
+    }
+
+    /** {@inheritDoc} */
+    @Override
+    protected T[] getC() {
+        final T[] c = MathArrays.buildArray(getField(), 6);
+        c[0] = getField().getOne();
+        c[1] = fraction(1, 2);
+        c[2] = fraction(2, 3);
+        c[3] = q.subtract(7).divide(-14);
+        c[4] = q.add(7).divide(14);
+        c[5] = getField().getOne();
+        return c;
+    }
+
+    /** {@inheritDoc} */
+    @Override
+    protected T[][] getA() {
+        final T[][] a = MathArrays.buildArray(getField(), 6, -1);
+        for (int i = 0; i < a.length; ++i) {
+            a[i] = MathArrays.buildArray(getField(), i + 1);
+        }
+        a[0][0] = getField().getOne();
+        a[1][0] = fraction(3,  8);
+        a[1][1] = fraction(1,  8);
+        a[2][0] = fraction(8, 27);
+        a[2][1] = fraction(2, 27);
+        a[2][2] = fraction(8, 27);
+        a[3][0] = q.multiply(  9).subtract( 21).divide( 392);
+        a[3][1] = q.multiply(  8).subtract( 56).divide( 392);
+        a[3][2] = q.multiply( 48).subtract(336).divide(-392);
+        a[3][3] = q.multiply(  3).subtract( 63).divide( 392);
+        a[4][0] = q.multiply(255).add(1155).divide(-1960);
+        a[4][1] = q.multiply( 40).add( 280).divide(-1960);
+        a[4][2] = q.multiply(20)           .divide(-1960);
+        a[4][3] = q.multiply(363).add(  63).divide( 1960);
+        a[4][4] = q.multiply(392).add(2352).divide( 1960);
+        a[5][0] = q.multiply(105).add( 330).divide( 180);
+        a[5][1] = fraction(120, 180);
+        a[5][2] = q.multiply(280).add(-200).divide( 180);
+        a[5][3] = q.multiply(189).add(-126).divide(-180);
+        a[5][4] = q.multiply(126).add( 686).divide(-180);
+        a[5][5] = q.multiply( 70).add(-490).divide(-180);
+        return a;
+    }
+
+    /** {@inheritDoc} */
+    @Override
+    protected T[] getB() {
+
+        final T[] b = MathArrays.buildArray(getField(), 7);
+        b[0] = fraction( 1,  20);
+        b[1] = getField().getZero();
+        b[2] = fraction(16,  45);
+        b[3] = getField().getZero();
+        b[4] = fraction(49, 180);
+        b[5] = b[4];
+        b[6] = b[0];
+
+        return b;
+
+    }
+
+    /** {@inheritDoc} */
+    @Override
+    protected LutherFieldStepInterpolator<T>
+        createInterpolator(final AbstractFieldIntegrator<T> rkIntegrator, final T[] y,
+                           final T[][] yDotArray, final boolean forward,
+                           final FieldEquationsMapper<T> mapper) {
+        return new LutherFieldStepInterpolator<T>(rkIntegrator, y, yDotArray, forward, mapper);
     }
 
 }

@@ -19,6 +19,9 @@ package org.apache.commons.math3.ode.nonstiff;
 
 import org.apache.commons.math3.Field;
 import org.apache.commons.math3.RealFieldElement;
+import org.apache.commons.math3.ode.AbstractFieldIntegrator;
+import org.apache.commons.math3.ode.FieldEquationsMapper;
+import org.apache.commons.math3.util.MathArrays;
 
 /**
  * This class implements the 3/8 fourth order Runge-Kutta
@@ -48,30 +51,59 @@ import org.apache.commons.math3.RealFieldElement;
 public class ThreeEighthesFieldIntegrator<T extends RealFieldElement<T>>
     extends RungeKuttaFieldIntegrator<T> {
 
-    /** Time steps Butcher array. */
-    private static final double[] STATIC_C = {
-                                              1.0 / 3.0, 2.0 / 3.0, 1.0
-    };
-
-    /** Internal weights Butcher array. */
-    private static final double[][] STATIC_A = {
-                                                {  1.0 / 3.0 },
-                                                { -1.0 / 3.0, 1.0 },
-                                                {  1.0, -1.0, 1.0 }
-    };
-
-    /** Propagation weights Butcher array. */
-    private static final double[] STATIC_B = {
-                                              1.0 / 8.0, 3.0 / 8.0, 3.0 / 8.0, 1.0 / 8.0
-    };
-
     /** Simple constructor.
      * Build a 3/8 integrator with the given step.
      * @param field field to which the time and state vector elements belong
      * @param step integration step
      */
     public ThreeEighthesFieldIntegrator(final Field<T> field, final T step) {
-        super(field, "3/8", STATIC_C, STATIC_A, STATIC_B, new ThreeEighthesFieldStepInterpolator<T>(), step);
+        super(field, "3/8", step);
+    }
+
+    /** {@inheritDoc} */
+    @Override
+    protected T[] getC() {
+        final T[] c = MathArrays.buildArray(getField(), 3);
+        c[0] = fraction(1, 3);
+        c[1] = c[0].add(c[0]);
+        c[2] = getField().getOne();
+        return c;
+    }
+
+    /** {@inheritDoc} */
+    @Override
+    protected T[][] getA() {
+        final T[][] a = MathArrays.buildArray(getField(), 3, -1);
+        for (int i = 0; i < a.length; ++i) {
+            a[i] = MathArrays.buildArray(getField(), i + 1);
+        }
+        a[0][0] = fraction(1, 3);
+        a[1][0] = a[0][0].negate();
+        a[1][1] = getField().getOne();
+        a[2][0] = getField().getOne();
+        a[2][1] = getField().getOne().negate();
+        a[2][2] = getField().getOne();
+        return a;
+    }
+
+    /** {@inheritDoc} */
+    @Override
+    protected T[] getB() {
+        final T[] b = MathArrays.buildArray(getField(), 4);
+        b[0] = fraction(1, 8);
+        b[1] = fraction(3, 8);
+        b[2] = b[1];
+        b[3] = b[0];
+        return b;
+    }
+
+    /** {@inheritDoc} */
+    @Override
+    protected ThreeEighthesFieldStepInterpolator<T>
+        createInterpolator(final AbstractFieldIntegrator<T> rkIntegrator, final T[] y,
+                           final T[][] yDotArray, final boolean forward,
+                           final FieldEquationsMapper<T> mapper) {
+        return new ThreeEighthesFieldStepInterpolator<T>(rkIntegrator, y, yDotArray, forward, mapper);
     }
 
 }
