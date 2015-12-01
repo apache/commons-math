@@ -58,8 +58,8 @@ public class EulerIntegratorTest {
              MaxCountExceededException, NoBracketingException {
 
       for (TestProblemAbstract pb : new TestProblemAbstract[] {
-          //new TestProblem1(), new TestProblem2(), new TestProblem3(),
-          new TestProblem4()//, new TestProblem5(), new TestProblem6()
+          new TestProblem1(), new TestProblem2(), new TestProblem3(),
+          new TestProblem4(), new TestProblem5(), new TestProblem6()
       }) {
 
       double previousValueError = Double.NaN;
@@ -94,7 +94,6 @@ public class EulerIntegratorTest {
         }
         previousTimeError = timeError;
 
-        System.exit(1);
       }
 
     }
