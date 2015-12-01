@@ -23,6 +23,7 @@ import org.apache.commons.math3.analysis.solvers.AllowedSolution;
 import org.apache.commons.math3.analysis.solvers.BracketedRealFieldUnivariateSolver;
 import org.apache.commons.math3.exception.MaxCountExceededException;
 import org.apache.commons.math3.exception.NoBracketingException;
+import org.apache.commons.math3.ode.FieldODEState;
 import org.apache.commons.math3.ode.FieldODEStateAndDerivative;
 import org.apache.commons.math3.ode.sampling.FieldStepInterpolator;
 import org.apache.commons.math3.util.FastMath;
@@ -325,22 +326,27 @@ public class FieldEventState<T extends RealFieldElement<T>> {
 
     /** Let the event handler reset the state if it wants.
      * @param state state at the beginning of the next step
-     * @return true if the integrator should reset the derivatives too
+     * @return reset state (may by the same as initial state if only
+     * derivatives should be reset), or null if nothing is reset
      */
-    public boolean reset(final FieldODEStateAndDerivative<T> state) {
+    public FieldODEState<T> reset(final FieldODEStateAndDerivative<T> state) {
 
         if (!(pendingEvent && pendingEventTime.subtract(state.getTime()).abs().subtract(convergence).getReal() <= 0)) {
-            return false;
+            return null;
         }
 
+        final FieldODEState<T> newState;
         if (nextAction == Action.RESET_STATE) {
-            handler.resetState(state);
+            newState = handler.resetState(state);
+        } else if (nextAction == Action.RESET_DERIVATIVES) {
+            newState = state;
+        } else {
+            newState = null;
         }
         pendingEvent      = false;
         pendingEventTime  = null;
 
-        return (nextAction == Action.RESET_STATE) ||
-               (nextAction == Action.RESET_DERIVATIVES);
+        return newState;
 
     }
 
