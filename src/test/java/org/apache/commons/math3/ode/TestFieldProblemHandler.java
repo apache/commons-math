@@ -74,7 +74,7 @@ public class TestFieldProblemHandler<T extends RealFieldElement<T>>
     public void handleStep(FieldStepInterpolator<T> interpolator, boolean isLast) throws MaxCountExceededException {
 
         T start = integrator.getCurrentStepStart().getTime();
-        if (start.subtract(problem.getInitialTime()).divide(integrator.getCurrentSignedStepsize()).abs().getReal() > 0.001) {
+        if (start.subtract(problem.getInitialState().getTime()).divide(integrator.getCurrentSignedStepsize()).abs().getReal() > 0.001) {
             // multistep integrators do not handle the first steps themselves
             // so we have to make sure the integrator we look at has really started its work
             if (expectedStepStart != null) {

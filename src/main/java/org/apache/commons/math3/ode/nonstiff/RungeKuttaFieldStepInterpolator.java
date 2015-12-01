@@ -36,31 +36,23 @@ import org.apache.commons.math3.util.MathArrays;
 abstract class RungeKuttaFieldStepInterpolator<T extends RealFieldElement<T>>
     extends AbstractFieldStepInterpolator<T> {
 
-    /** Previous state. */
-    protected T[] previousState;
-
-    /** Slopes at the intermediate points */
-    protected T[][] yDotK;
-
     /** Reference to the integrator. */
     protected AbstractFieldIntegrator<T> integrator;
 
+    /** Slopes at the intermediate points. */
+    private T[][] yDotK;
+
     /** Simple constructor.
      * @param rkIntegrator integrator being used
-     * @param y reference to the integrator array holding the state at
-     * the end of the step
-     * @param yDotArray reference to the integrator array holding all the
-     * intermediate slopes
      * @param forward integration direction indicator
      * @param mapper equations mapper for the all equations
      */
     protected RungeKuttaFieldStepInterpolator(final AbstractFieldIntegrator<T> rkIntegrator,
-                                              final T[] y, final T[][] yDotArray, final boolean forward,
+                                              final boolean forward,
                                               final FieldEquationsMapper<T> mapper) {
-        super(y, forward, mapper);
-        this.previousState = null;
-        this.yDotK         = yDotArray;
-        this.integrator    = rkIntegrator;
+        super(forward, mapper);
+        this.yDotK      = null;
+        this.integrator = rkIntegrator;
     }
 
     /** Copy constructor.
@@ -84,18 +76,14 @@ abstract class RungeKuttaFieldStepInterpolator<T extends RealFieldElement<T>>
 
         super(interpolator);
 
-        if (interpolator.currentState != null) {
-
-            previousState = interpolator.previousState.clone();
-
+        if (yDotK != null) {
             yDotK = MathArrays.buildArray(interpolator.integrator.getField(),
-                                          interpolator.yDotK.length, interpolator.yDotK[0].length);
-            for (int k = 0; k < interpolator.yDotK.length; ++k) {
-                System.arraycopy(interpolator.yDotK[k], 0, yDotK[k], 0, interpolator.yDotK[k].length);
+                                          interpolator.yDotK.length, -1);
+            for (int k = 0; k < yDotK.length; ++k) {
+                yDotK[k] = interpolator.yDotK[k].clone();
             }
 
         } else {
-            previousState = null;
             yDotK = null;
         }
 
@@ -105,11 +93,56 @@ abstract class RungeKuttaFieldStepInterpolator<T extends RealFieldElement<T>>
 
     }
 
-    /** {@inheritDoc} */
-    @Override
-    public void shift() {
-        previousState = currentState.clone();
-        super.shift();
+    /** Store the slopes at the intermediate points.
+     * @param slopes slopes at the intermediate points
+     */
+    void setSlopes(final T[][] slopes) {
+        this.yDotK = slopes.clone();
+    }
+
+    /** Compute a state by linear combination added to previous state.
+     * @param coefficients coefficients to apply to the method staged derivatives
+     * @return combined state
+     */
+    @SafeVarargs
+    protected final T[] previousStateLinearCombination(final T ... coefficients) {
+        return combine(getPreviousState().getState(),
+                       coefficients);
+    }
+
+    /** Compute a state by linear combination added to current state.
+     * @param coefficients coefficients to apply to the method staged derivatives
+     * @return combined state
+     */
+    @SuppressWarnings("unchecked")
+    protected T[] currentStateLinearCombination(final T ... coefficients) {
+        return combine(getCurrentState().getState(),
+                       coefficients);
+    }
+
+    /** Compute a state derivative by linear combination.
+     * @param coefficients coefficients to apply to the method staged derivatives
+     * @return combined state
+     */
+    @SuppressWarnings("unchecked")
+    protected T[] derivativeLinearCombination(final T ... coefficients) {
+        return combine(MathArrays.buildArray(integrator.getField(), yDotK[0].length),
+                       coefficients);
+    }
+
+    /** Linearly combine arrays.
+     * @param a array to add to
+     * @param coefficients coefficients to apply to the method staged derivatives
+     * @return a itself, as a conveniency for fluent API
+     */
+    @SuppressWarnings("unchecked")
+    private T[] combine(final T[] a, final T ... coefficients) {
+        for (int i = 0; i < a.length; ++i) {
+            for (int k = 0; k < coefficients.length; ++k) {
+                a[i] = a[i].add(coefficients[k].multiply(yDotK[k][i]));
+            }
+        }
+        return a;
     }
 
 }

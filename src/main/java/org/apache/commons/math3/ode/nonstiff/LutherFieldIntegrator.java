@@ -19,7 +19,6 @@ package org.apache.commons.math3.ode.nonstiff;
 
 import org.apache.commons.math3.Field;
 import org.apache.commons.math3.RealFieldElement;
-import org.apache.commons.math3.ode.AbstractFieldIntegrator;
 import org.apache.commons.math3.ode.FieldEquationsMapper;
 import org.apache.commons.math3.util.MathArrays;
 
@@ -138,10 +137,8 @@ public class LutherFieldIntegrator<T extends RealFieldElement<T>>
     /** {@inheritDoc} */
     @Override
     protected LutherFieldStepInterpolator<T>
-        createInterpolator(final AbstractFieldIntegrator<T> rkIntegrator, final T[] y,
-                           final T[][] yDotArray, final boolean forward,
-                           final FieldEquationsMapper<T> mapper) {
-        return new LutherFieldStepInterpolator<T>(rkIntegrator, y, yDotArray, forward, mapper);
+        createInterpolator(final boolean forward, final FieldEquationsMapper<T> mapper) {
+        return new LutherFieldStepInterpolator<T>(this, forward, mapper);
     }
 
 }

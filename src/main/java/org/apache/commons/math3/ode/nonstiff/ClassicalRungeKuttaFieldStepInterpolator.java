@@ -21,7 +21,6 @@ import org.apache.commons.math3.RealFieldElement;
 import org.apache.commons.math3.ode.AbstractFieldIntegrator;
 import org.apache.commons.math3.ode.FieldEquationsMapper;
 import org.apache.commons.math3.ode.FieldODEStateAndDerivative;
-import org.apache.commons.math3.util.MathArrays;
 
 /**
  * This class implements a step interpolator for the classical fourth
@@ -62,17 +61,13 @@ class ClassicalRungeKuttaFieldStepInterpolator<T extends RealFieldElement<T>>
 
     /** Simple constructor.
      * @param rkIntegrator integrator being used
-     * @param y reference to the integrator array holding the state at
-     * the end of the step
-     * @param yDotArray reference to the integrator array holding all the
-     * intermediate slopes
      * @param forward integration direction indicator
      * @param mapper equations mapper for the all equations
      */
     ClassicalRungeKuttaFieldStepInterpolator(final AbstractFieldIntegrator<T> rkIntegrator,
-                                             final T[] y, final T[][] yDotArray, final boolean forward,
+                                             final boolean forward,
                                              final FieldEquationsMapper<T> mapper) {
-        super(rkIntegrator, y, yDotArray, forward, mapper);
+        super(rkIntegrator, forward, mapper);
     }
 
     /** Copy constructor.
@@ -91,6 +86,7 @@ class ClassicalRungeKuttaFieldStepInterpolator<T extends RealFieldElement<T>>
     }
 
     /** {@inheritDoc} */
+    @SuppressWarnings("unchecked")
     @Override
     protected FieldODEStateAndDerivative<T> computeInterpolatedStateAndDerivatives(final FieldEquationsMapper<T> mapper,
                                                                                    final T time, final T theta,
@@ -102,42 +98,28 @@ class ClassicalRungeKuttaFieldStepInterpolator<T extends RealFieldElement<T>>
         final T coeffDot1                 = oneMinusTheta.multiply(oneMinus2Theta);
         final T coeffDot23                = theta.multiply(oneMinusTheta).multiply(2);
         final T coeffDot4                 = theta.multiply(oneMinus2Theta).negate();
-        final T[] interpolatedState       = MathArrays.buildArray(theta.getField(), previousState.length);
-        final T[] interpolatedDerivatives = MathArrays.buildArray(theta.getField(), previousState.length);
+        final T[] interpolatedState;
+        final T[] interpolatedDerivatives;
 
-        if ((previousState != null) && (theta.getReal() <= 0.5)) {
-            final T fourTheta2    = theta.multiply(theta).multiply(4);
-            final T s             = theta.multiply(h).divide(6.0);
-            final T coeff1        = s.multiply(fourTheta2.subtract(theta.multiply(9)).add(6));
-            final T coeff23       = s.multiply(theta.multiply(6).subtract(fourTheta2));
-            final T coeff4        = s.multiply(fourTheta2.subtract(theta.multiply(3)));
-            for (int i = 0; i < interpolatedState.length; ++i) {
-                final T yDot1  = yDotK[0][i];
-                final T yDot23 = yDotK[1][i].add(yDotK[2][i]);
-                final T yDot4  = yDotK[3][i];
-                interpolatedState[i] =
-                        previousState[i].add(coeff1.multiply(yDot1)).add(coeff23.multiply(yDot23)).add(coeff4.multiply(yDot4));
-                interpolatedDerivatives[i] =
-                        coeffDot1.multiply(yDot1).add(coeffDot23.multiply(yDot23)).add(coeffDot4.multiply(yDot4));
-            }
+        if (getGlobalPreviousState() != null && theta.getReal() <= 0.5) {
+            final T fourTheta2      = theta.multiply(theta).multiply(4);
+            final T s               = theta.multiply(h).divide(6.0);
+            final T coeff1          = s.multiply(fourTheta2.subtract(theta.multiply(9)).add(6));
+            final T coeff23         = s.multiply(theta.multiply(6).subtract(fourTheta2));
+            final T coeff4          = s.multiply(fourTheta2.subtract(theta.multiply(3)));
+            interpolatedState       = previousStateLinearCombination(coeff1, coeff23, coeff23, coeff4);
+            interpolatedDerivatives = derivativeLinearCombination(coeffDot1, coeffDot23, coeffDot23, coeffDot4);
         } else {
-            final T fourTheta     = theta.multiply(4);
-            final T s             = oneMinusThetaH.divide(6);
-            final T coeff1        = s.multiply(theta.multiply(fourTheta.negate().add(5)).subtract(1));
-            final T coeff23       = s.multiply(theta.multiply(fourTheta.subtract(2)).subtract(2));
-            final T coeff4        = s.multiply(theta.multiply(fourTheta.negate().subtract(1)).subtract(1));
-            for (int i = 0; i < interpolatedState.length; ++i) {
-                final T yDot1  = yDotK[0][i];
-                final T yDot23 = yDotK[1][i].add(yDotK[2][i]);
-                final T yDot4  = yDotK[3][i];
-                interpolatedState[i] =
-                        currentState[i].add(coeff1.multiply(yDot1)).add(coeff23.multiply(yDot23)).add(coeff4.multiply(yDot4));
-                interpolatedDerivatives[i] =
-                        coeffDot1.multiply(yDot1).add(coeffDot23.multiply(yDot23)).add(coeffDot4.multiply(yDot4));
-            }
+            final T fourTheta       = theta.multiply(4);
+            final T s               = oneMinusThetaH.divide(6);
+            final T coeff1          = s.multiply(theta.multiply(fourTheta.negate().add(5)).subtract(1));
+            final T coeff23         = s.multiply(theta.multiply(fourTheta.subtract(2)).subtract(2));
+            final T coeff4          = s.multiply(theta.multiply(fourTheta.negate().subtract(1)).subtract(1));
+            interpolatedState       = currentStateLinearCombination(coeff1, coeff23, coeff23, coeff4);
+            interpolatedDerivatives = derivativeLinearCombination(coeffDot1, coeffDot23, coeffDot23, coeffDot4);
         }
 
-        return new FieldODEStateAndDerivative<T>(time, interpolatedState, yDotK[0]);
+        return new FieldODEStateAndDerivative<T>(time, interpolatedState, interpolatedDerivatives);
 
     }
 

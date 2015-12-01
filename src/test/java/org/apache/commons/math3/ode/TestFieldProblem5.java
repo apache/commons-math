@@ -35,7 +35,7 @@ public class TestFieldProblem5<T extends RealFieldElement<T>>
      */
     public TestFieldProblem5(Field<T> field) {
         super(field);
-        setFinalConditions(getInitialTime().multiply(2).subtract(getFinalTime()));
+        setFinalConditions(getInitialState().getTime().multiply(2).subtract(getFinalTime()));
     }
 
 }

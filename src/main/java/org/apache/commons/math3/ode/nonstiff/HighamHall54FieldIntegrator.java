@@ -19,7 +19,6 @@ package org.apache.commons.math3.ode.nonstiff;
 
 import org.apache.commons.math3.Field;
 import org.apache.commons.math3.RealFieldElement;
-import org.apache.commons.math3.ode.AbstractFieldIntegrator;
 import org.apache.commons.math3.ode.FieldEquationsMapper;
 import org.apache.commons.math3.util.MathArrays;
 import org.apache.commons.math3.util.MathUtils;
@@ -64,7 +63,7 @@ public class HighamHall54FieldIntegrator<T extends RealFieldElement<T>>
                                        final double minStep, final double maxStep,
                                        final double scalAbsoluteTolerance,
                                        final double scalRelativeTolerance) {
-        super(field, METHOD_NAME, false,
+        super(field, METHOD_NAME, -1,
               minStep, maxStep, scalAbsoluteTolerance, scalRelativeTolerance);
         e = MathArrays.buildArray(field, 7);
         e[0] = fraction(-1,  20);
@@ -92,7 +91,7 @@ public class HighamHall54FieldIntegrator<T extends RealFieldElement<T>>
                                        final double minStep, final double maxStep,
                                        final double[] vecAbsoluteTolerance,
                                        final double[] vecRelativeTolerance) {
-        super(field, METHOD_NAME, false,
+        super(field, METHOD_NAME, -1,
               minStep, maxStep, vecAbsoluteTolerance, vecRelativeTolerance);
         e = MathArrays.buildArray(field, 7);
         e[0] = fraction(-1,  20);
@@ -165,10 +164,8 @@ public class HighamHall54FieldIntegrator<T extends RealFieldElement<T>>
     /** {@inheritDoc} */
     @Override
     protected HighamHall54FieldStepInterpolator<T>
-        createInterpolator(final AbstractFieldIntegrator<T> rkIntegrator, final T[] y,
-                           final T[][] yDotArray, final boolean forward,
-                           final FieldEquationsMapper<T> mapper) {
-        return new HighamHall54FieldStepInterpolator<T>(rkIntegrator, y, yDotArray, forward, mapper);
+        createInterpolator(final boolean forward, final FieldEquationsMapper<T> mapper) {
+        return new HighamHall54FieldStepInterpolator<T>(this, forward, mapper);
     }
 
     /** {@inheritDoc} */

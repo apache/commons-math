@@ -19,7 +19,6 @@ package org.apache.commons.math3.ode.nonstiff;
 
 import org.apache.commons.math3.Field;
 import org.apache.commons.math3.RealFieldElement;
-import org.apache.commons.math3.ode.AbstractFieldIntegrator;
 import org.apache.commons.math3.ode.FieldEquationsMapper;
 import org.apache.commons.math3.util.MathArrays;
 import org.apache.commons.math3.util.MathUtils;
@@ -134,7 +133,7 @@ public class DormandPrince853FieldIntegrator<T extends RealFieldElement<T>>
                                            final double minStep, final double maxStep,
                                            final double scalAbsoluteTolerance,
                                            final double scalRelativeTolerance) {
-        super(field, METHOD_NAME, true,
+        super(field, METHOD_NAME, 12,
               minStep, maxStep, scalAbsoluteTolerance, scalRelativeTolerance);
         e1_01 = fraction(        116092271.0,       8848465920.0);
         e1_06 = fraction(         -1871647.0,          1527680.0);
@@ -170,7 +169,7 @@ public class DormandPrince853FieldIntegrator<T extends RealFieldElement<T>>
                                            final double minStep, final double maxStep,
                                            final double[] vecAbsoluteTolerance,
                                            final double[] vecRelativeTolerance) {
-        super(field, METHOD_NAME, true,
+        super(field, METHOD_NAME, 12,
               minStep, maxStep, vecAbsoluteTolerance, vecRelativeTolerance);
         e1_01 = fraction(        116092271.0,       8848465920.0);
         e1_06 = fraction(         -1871647.0,          1527680.0);
@@ -196,7 +195,7 @@ public class DormandPrince853FieldIntegrator<T extends RealFieldElement<T>>
 
         final T sqrt6 = getField().getOne().multiply(6).sqrt();
 
-        final T[] c = MathArrays.buildArray(getField(), 12);
+        final T[] c = MathArrays.buildArray(getField(), 15);
         c[ 0] = sqrt6.add(-6).divide(-67.5);
         c[ 1] = sqrt6.add(-6).divide(-45.0);
         c[ 2] = sqrt6.add(-6).divide(-30.0);
@@ -209,6 +208,9 @@ public class DormandPrince853FieldIntegrator<T extends RealFieldElement<T>>
         c[ 9] = fraction(6, 7);
         c[10] = getField().getOne();
         c[11] = getField().getOne();
+        c[12] = fraction(1.0, 10.0);
+        c[13] = fraction(1.0, 5.0);
+        c[14] = fraction(7.0, 9.0);
 
         return c;
 
@@ -220,7 +222,7 @@ public class DormandPrince853FieldIntegrator<T extends RealFieldElement<T>>
 
         final T sqrt6 = getField().getOne().multiply(6).sqrt();
 
-        final T[][] a = MathArrays.buildArray(getField(), 12, -1);
+        final T[][] a = MathArrays.buildArray(getField(), 15, -1);
         for (int i = 0; i < a.length; ++i) {
             a[i] = MathArrays.buildArray(getField(), i + 1);
         }
@@ -302,9 +304,8 @@ public class DormandPrince853FieldIntegrator<T extends RealFieldElement<T>>
         a[10][ 9] = fraction(226716250.0, 18341897.0);
         a[10][10] = fraction(1371316744.0, 2131383595.0);
 
-        // this stage should be for interpolation only, but since it is the same
-        // stage as the first evaluation of the next step, we perform it
-        // here at no cost by specifying this is an fsal method
+        // the following stage is both for interpolation and the first stage in next step
+        // (the coefficients are identical to the B array)
         a[11][ 0] = fraction(104257.0, 1920240.0);
         a[11][ 1] = getField().getZero();
         a[11][ 2] = getField().getZero();
@@ -318,6 +319,52 @@ public class DormandPrince853FieldIntegrator<T extends RealFieldElement<T>>
         a[11][10] = fraction(171414593.0, 851261400.0);
         a[11][11] = fraction(137909.0, 3084480.0);
 
+        // the following stages are for interpolation only
+        a[12][ 0] = fraction(      13481885573.0, 240030000000.0)     .subtract(a[11][0]);
+        a[12][ 1] = getField().getZero();
+        a[12][ 2] = getField().getZero();
+        a[12][ 3] = getField().getZero();
+        a[12][ 4] = getField().getZero();
+        a[12][ 5] = getField().getZero()                              .subtract(a[11][5]);
+        a[12][ 6] = fraction(     139418837528.0, 549975234375.0)     .subtract(a[11][6]);
+        a[12][ 7] = fraction(  -11108320068443.0, 45111937500000.0)   .subtract(a[11][7]);
+        a[12][ 8] = fraction(-1769651421925959.0, 14249385146080000.0).subtract(a[11][8]);
+        a[12][ 9] = fraction(         57799439.0, 377055000.0)        .subtract(a[11][9]);
+        a[12][10] = fraction(     793322643029.0, 96734250000000.0)   .subtract(a[11][10]);
+        a[12][11] = fraction(       1458939311.0, 192780000000.0)     .subtract(a[11][11]);
+        a[12][12]  = fraction(            -4149.0, 500000.0);
+
+        a[13][ 0] = fraction(    1595561272731.0, 50120273500000.0)   .subtract(a[11][0]);
+        a[13][ 1] = getField().getZero();
+        a[13][ 2] = getField().getZero();
+        a[13][ 3] = getField().getZero();
+        a[13][ 4] = getField().getZero();
+        a[13][ 5] = fraction(     975183916491.0, 34457688031250.0)   .subtract(a[11][5]);
+        a[13][ 6] = fraction(   38492013932672.0, 718912673015625.0)  .subtract(a[11][6]);
+        a[13][ 7] = fraction(-1114881286517557.0, 20298710767500000.0).subtract(a[11][7]);
+        a[13][ 8] = getField().getZero()                              .subtract(a[11][8]);
+        a[13][ 9] = getField().getZero()                              .subtract(a[11][9]);
+        a[13][10] = fraction(   -2538710946863.0, 23431227861250000.0).subtract(a[11][10]);
+        a[13][11] = fraction(       8824659001.0, 23066716781250.0)   .subtract(a[11][11]);
+        a[13][12] = fraction(     -11518334563.0, 33831184612500.0);
+        a[13][13] = fraction(       1912306948.0, 13532473845.0);
+
+        a[14][ 0] = fraction(     -13613986967.0, 31741908048.0)      .subtract(a[11][0]);
+        a[14][ 1] = getField().getZero();
+        a[14][ 2] = getField().getZero();
+        a[14][ 3] = getField().getZero();
+        a[14][ 4] = getField().getZero();
+        a[14][ 5] = fraction(      -4755612631.0, 1012344804.0)       .subtract(a[11][5]);
+        a[14][ 6] = fraction(   42939257944576.0, 5588559685701.0)    .subtract(a[11][6]);
+        a[14][ 7] = fraction(   77881972900277.0, 19140370552944.0)   .subtract(a[11][7]);
+        a[14][ 8] = fraction(   22719829234375.0, 63689648654052.0)   .subtract(a[11][8]);
+        a[14][ 9] = getField().getZero()                              .subtract(a[11][9]);
+        a[14][10] = getField().getZero()                              .subtract(a[11][10]);
+        a[14][11] = getField().getZero()                              .subtract(a[11][11]);
+        a[14][12] = fraction(      -1199007803.0, 857031517296.0);
+        a[14][13] = fraction(     157882067000.0, 53564469831.0);
+        a[14][14] = fraction(    -290468882375.0, 31741908048.0);
+
         return a;
 
     }
@@ -325,7 +372,7 @@ public class DormandPrince853FieldIntegrator<T extends RealFieldElement<T>>
     /** {@inheritDoc} */
     @Override
     protected T[] getB() {
-        final T[] b = MathArrays.buildArray(getField(), 13);
+        final T[] b = MathArrays.buildArray(getField(), 16);
         b[ 0] = fraction(104257, 1929240);
         b[ 1] = getField().getZero();
         b[ 2] = getField().getZero();
@@ -339,16 +386,17 @@ public class DormandPrince853FieldIntegrator<T extends RealFieldElement<T>>
         b[10] = fraction(      171414593.0,       851261400.0);
         b[11] = fraction(         137909.0,         3084480.0);
         b[12] = getField().getZero();
+        b[13] = getField().getZero();
+        b[14] = getField().getZero();
+        b[15] = getField().getZero();
         return b;
     }
 
     /** {@inheritDoc} */
     @Override
     protected DormandPrince853FieldStepInterpolator<T>
-        createInterpolator(final AbstractFieldIntegrator<T> rkIntegrator, final T[] y,
-                           final T[][] yDotArray, final boolean forward,
-                           final FieldEquationsMapper<T> mapper) {
-        return new DormandPrince853FieldStepInterpolator<T>(rkIntegrator, y, yDotArray, forward, mapper);
+        createInterpolator(final boolean forward, final FieldEquationsMapper<T> mapper) {
+        return new DormandPrince853FieldStepInterpolator<T>(this, forward, mapper);
     }
 
     /** {@inheritDoc} */
