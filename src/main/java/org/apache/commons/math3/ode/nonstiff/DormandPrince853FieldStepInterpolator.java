@@ -17,9 +17,9 @@
 
 package org.apache.commons.math3.ode.nonstiff;
 
+import org.apache.commons.math3.Field;
 import org.apache.commons.math3.RealFieldElement;
 import org.apache.commons.math3.exception.MaxCountExceededException;
-import org.apache.commons.math3.ode.AbstractFieldIntegrator;
 import org.apache.commons.math3.ode.FieldEquationsMapper;
 import org.apache.commons.math3.ode.FieldODEStateAndDerivative;
 import org.apache.commons.math3.util.MathArrays;
@@ -43,24 +43,23 @@ class DormandPrince853FieldStepInterpolator<T extends RealFieldElement<T>>
     private final T[][] d;
 
     /** Simple constructor.
-     * @param rkIntegrator integrator being used
+     * @param field field to which the time and state vector elements belong
      * @param forward integration direction indicator
      * @param mapper equations mapper for the all equations
      */
-    DormandPrince853FieldStepInterpolator(final AbstractFieldIntegrator<T> rkIntegrator,
-                                          final boolean forward,
+    DormandPrince853FieldStepInterpolator(final Field<T> field, final boolean forward,
                                           final FieldEquationsMapper<T> mapper) {
-        super(rkIntegrator, forward, mapper);
+        super(field, forward, mapper);
 
         // interpolation weights
-        d = MathArrays.buildArray(integrator.getField(), 4, 16);
+        d = MathArrays.buildArray(getField(), 4, 16);
 
         // this row is the same as the b array
         d[0][ 0] = fraction(104257, 1929240);
-        d[0][ 1] = integrator.getField().getZero();
-        d[0][ 2] = integrator.getField().getZero();
-        d[0][ 3] = integrator.getField().getZero();
-        d[0][ 4] = integrator.getField().getZero();
+        d[0][ 1] = getField().getZero();
+        d[0][ 2] = getField().getZero();
+        d[0][ 3] = getField().getZero();
+        d[0][ 4] = getField().getZero();
         d[0][ 5] = fraction(        3399327.0,          763840.0);
         d[0][ 6] = fraction(       66578432.0,        35198415.0);
         d[0][ 7] = fraction(    -1674902723.0,       288716400.0);
@@ -68,10 +67,10 @@ class DormandPrince853FieldStepInterpolator<T extends RealFieldElement<T>>
         d[0][ 9] = fraction(        -734375.0,         4826304.0);
         d[0][10] = fraction(      171414593.0,       851261400.0);
         d[0][11] = fraction(         137909.0,         3084480.0);
-        d[0][12] = integrator.getField().getZero();
-        d[0][13] = integrator.getField().getZero();
-        d[0][14] = integrator.getField().getZero();
-        d[0][15] = integrator.getField().getZero();
+        d[0][12] = getField().getZero();
+        d[0][13] = getField().getZero();
+        d[0][14] = getField().getZero();
+        d[0][15] = getField().getZero();
 
         d[1][ 0] = d[0][ 0].negate().add(1);
         d[1][ 1] = d[0][ 1].negate();
@@ -108,10 +107,10 @@ class DormandPrince853FieldStepInterpolator<T extends RealFieldElement<T>>
         d[2][15] = d[0][15].multiply(2); // really 0
 
         d[3][ 0] = fraction(        -17751989329.0, 2106076560.0);
-        d[3][ 1] = integrator.getField().getZero();
-        d[3][ 2] = integrator.getField().getZero();
-        d[3][ 3] = integrator.getField().getZero();
-        d[3][ 4] = integrator.getField().getZero();
+        d[3][ 1] = getField().getZero();
+        d[3][ 2] = getField().getZero();
+        d[3][ 3] = getField().getZero();
+        d[3][ 4] = getField().getZero();
         d[3][ 5] = fraction(          4272954039.0, 7539864640.0);
         d[3][ 6] = fraction(       -118476319744.0, 38604839385.0);
         d[3][ 7] = fraction(        755123450731.0, 316657731600.0);
@@ -125,10 +124,10 @@ class DormandPrince853FieldStepInterpolator<T extends RealFieldElement<T>>
         d[3][15] = fraction(         -1944542619.0, 438351368.0);
 
         d[4][ 0] = fraction(         32941697297.0, 3159114840.0);
-        d[4][ 1] = integrator.getField().getZero();
-        d[4][ 2] = integrator.getField().getZero();
-        d[4][ 3] = integrator.getField().getZero();
-        d[4][ 4] = integrator.getField().getZero();
+        d[4][ 1] = getField().getZero();
+        d[4][ 2] = getField().getZero();
+        d[4][ 3] = getField().getZero();
+        d[4][ 4] = getField().getZero();
         d[4][ 5] = fraction(        456696183123.0, 1884966160.0);
         d[4][ 6] = fraction(      19132610714624.0, 115814518155.0);
         d[4][ 7] = fraction(    -177904688592943.0, 474986597400.0);
@@ -142,10 +141,10 @@ class DormandPrince853FieldStepInterpolator<T extends RealFieldElement<T>>
         d[4][15] = fraction(         15700361463.0, 438351368.0);
 
         d[5][ 0] = fraction(         12627015655.0, 631822968.0);
-        d[5][ 1] = integrator.getField().getZero();
-        d[5][ 2] = integrator.getField().getZero();
-        d[5][ 3] = integrator.getField().getZero();
-        d[5][ 4] = integrator.getField().getZero();
+        d[5][ 1] = getField().getZero();
+        d[5][ 2] = getField().getZero();
+        d[5][ 3] = getField().getZero();
+        d[5][ 4] = getField().getZero();
         d[5][ 5] = fraction(        -72955222965.0, 188496616.0);
         d[5][ 6] = fraction(     -13145744952320.0, 69488710893.0);
         d[5][ 7] = fraction(      30084216194513.0, 56998391688.0);
@@ -159,10 +158,10 @@ class DormandPrince853FieldStepInterpolator<T extends RealFieldElement<T>>
         d[5][15] = fraction(          5256837225.0, 438351368.0);
 
         d[6][ 0] = fraction(          -450944925.0, 17550638.0);
-        d[6][ 1] = integrator.getField().getZero();
-        d[6][ 2] = integrator.getField().getZero();
-        d[6][ 3] = integrator.getField().getZero();
-        d[6][ 4] = integrator.getField().getZero();
+        d[6][ 1] = getField().getZero();
+        d[6][ 2] = getField().getZero();
+        d[6][ 3] = getField().getZero();
+        d[6][ 4] = getField().getZero();
         d[6][ 5] = fraction(        -14532122925.0, 94248308.0);
         d[6][ 6] = fraction(       -595876966400.0, 2573655959.0);
         d[6][ 7] = fraction(        188748653015.0, 527762886.0);
@@ -186,7 +185,7 @@ class DormandPrince853FieldStepInterpolator<T extends RealFieldElement<T>>
 
         super(interpolator);
 
-        d = MathArrays.buildArray(integrator.getField(), 4, -1);
+        d = MathArrays.buildArray(getField(), 4, -1);
         for (int i = 0; i < d.length; ++i) {
             d[i] = interpolator.d[i].clone();
         }
@@ -199,7 +198,7 @@ class DormandPrince853FieldStepInterpolator<T extends RealFieldElement<T>>
      * @return p/q computed in the instance field
      */
     private T fraction(final double p, final double q) {
-        return integrator.getField().getOne().multiply(p).divide(q);
+        return getField().getOne().multiply(p).divide(q);
     }
 
     /** {@inheritDoc} */

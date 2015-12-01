@@ -100,7 +100,7 @@ public class ThreeEighthesFieldIntegrator<T extends RealFieldElement<T>>
     @Override
     protected ThreeEighthesFieldStepInterpolator<T>
         createInterpolator(final boolean forward, final FieldEquationsMapper<T> mapper) {
-        return new ThreeEighthesFieldStepInterpolator<T>(this, forward, mapper);
+        return new ThreeEighthesFieldStepInterpolator<T>(getField(), forward, mapper);
     }
 
 }

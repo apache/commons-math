@@ -86,7 +86,7 @@ public class MidpointFieldIntegrator<T extends RealFieldElement<T>> extends Rung
     @Override
     protected MidpointFieldStepInterpolator<T>
         createInterpolator(final boolean forward, final FieldEquationsMapper<T> mapper) {
-        return new MidpointFieldStepInterpolator<T>(this, forward, mapper);
+        return new MidpointFieldStepInterpolator<T>(getField(), forward, mapper);
     }
 
 }

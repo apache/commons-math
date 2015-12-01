@@ -55,9 +55,6 @@ public abstract class AbstractFieldStepInterpolator<T extends RealFieldElement<T
     /** Soft current state. */
     private FieldODEStateAndDerivative<T> softCurrentState;
 
-    /** indicate if the step has been finalized or not. */
-    private boolean finalized;
-
     /** integration direction. */
     private boolean forward;
 
@@ -75,27 +72,14 @@ public abstract class AbstractFieldStepInterpolator<T extends RealFieldElement<T
         softPreviousState   = null;
         softCurrentState    = null;
         h                   = null;
-        finalized           = false;
         this.forward        = isForward;
         this.mapper         = equationsMapper;
     }
 
     /** Copy constructor.
-
-     * <p>The copied interpolator should have been finalized before the
-     * copy, otherwise the copy will not be able to perform correctly
-     * any derivative computation and will throw a {@link
-     * NullPointerException} later. Since we don't want this constructor
-     * to throw the exceptions finalization may involve and since we
-     * don't want this method to modify the state of the copied
-     * interpolator, finalization is <strong>not</strong> done
-     * automatically, it remains under user control.</p>
-
      * <p>The copy is a deep copy: its arrays are separated from the
      * original arrays of the instance.</p>
-
      * @param interpolator interpolator to copy from.
-
      */
     protected AbstractFieldStepInterpolator(final AbstractFieldStepInterpolator<T> interpolator) {
 
@@ -104,7 +88,6 @@ public abstract class AbstractFieldStepInterpolator<T extends RealFieldElement<T
         softPreviousState   = interpolator.softPreviousState;
         softCurrentState    = interpolator.softCurrentState;
         h                   = interpolator.h;
-        finalized           = interpolator.finalized;
         forward             = interpolator.forward;
         mapper              = interpolator.mapper;
 
@@ -113,20 +96,13 @@ public abstract class AbstractFieldStepInterpolator<T extends RealFieldElement<T
     /** {@inheritDoc} */
     public FieldStepInterpolator<T> copy() throws MaxCountExceededException {
 
-        // finalize the step before performing copy
-        finalizeStep();
-
         // create the new independent instance
         return doCopy();
 
     }
 
-    /** Really copy the finalized instance.
-     * <p>This method is called by {@link #copy()} after the
-     * step has been finalized. It must perform a deep copy
-     * to have an new instance completely independent for the
-     * original instance.
-     * @return a copy of the finalized instance
+    /** Really copy the instance.
+     * @return a copy of the instance
      */
     protected abstract FieldStepInterpolator<T> doCopy();
 
@@ -144,16 +120,11 @@ public abstract class AbstractFieldStepInterpolator<T extends RealFieldElement<T
      * @param state current state
      */
     public void storeState(final FieldODEStateAndDerivative<T> state) {
-
         globalCurrentState = state;
         softCurrentState   = globalCurrentState;
         if (globalPreviousState != null) {
             h = globalCurrentState.getTime().subtract(globalPreviousState.getTime());
         }
-
-        // the step is not finalized anymore
-        finalized  = false;
-
     }
 
     /** Restrict step range to a limited part of the global step.
@@ -239,61 +210,5 @@ public abstract class AbstractFieldStepInterpolator<T extends RealFieldElement<T
     protected abstract FieldODEStateAndDerivative<T> computeInterpolatedStateAndDerivatives(FieldEquationsMapper<T> equationsMapper,
                                                                                             T time, T theta, T oneMinusThetaH)
         throws MaxCountExceededException;
-
-    /**
-     * Finalize the step.
-
-     * <p>Some embedded Runge-Kutta integrators need fewer functions
-     * evaluations than their counterpart step interpolators. These
-     * interpolators should perform the last evaluations they need by
-     * themselves only if they need them. This method triggers these
-     * extra evaluations. It can be called directly by the user step
-     * handler and it is called automatically if {@link
-     * #setInterpolatedTime} is called.</p>
-
-     * <p>Once this method has been called, <strong>no</strong> other
-     * evaluation will be performed on this step. If there is a need to
-     * have some side effects between the step handler and the
-     * differential equations (for example update some data in the
-     * equations once the step has been done), it is advised to call
-     * this method explicitly from the step handler before these side
-     * effects are set up. If the step handler induces no side effect,
-     * then this method can safely be ignored, it will be called
-     * transparently as needed.</p>
-
-     * <p><strong>Warning</strong>: since the step interpolator provided
-     * to the step handler as a parameter of the {@link
-     * StepHandler#handleStep handleStep} is valid only for the duration
-     * of the {@link StepHandler#handleStep handleStep} call, one cannot
-     * simply store a reference and reuse it later. One should first
-     * finalize the instance, then copy this finalized instance into a
-     * new object that can be kept.</p>
-
-     * <p>This method calls the protected <code>doFinalize</code> method
-     * if it has never been called during this step and set a flag
-     * indicating that it has been called once. It is the <code>
-     * doFinalize</code> method which should perform the evaluations.
-     * This wrapping prevents from calling <code>doFinalize</code> several
-     * times and hence evaluating the differential equations too often.
-     * Therefore, subclasses are not allowed not reimplement it, they
-     * should rather reimplement <code>doFinalize</code>.</p>
-
-     * @exception MaxCountExceededException if the number of functions evaluations is exceeded
-
-     */
-    public final void finalizeStep() throws MaxCountExceededException {
-        if (! finalized) {
-            doFinalize();
-            finalized = true;
-        }
-    }
-
-    /**
-     * Really finalize the step.
-     * The default implementation of this method does nothing.
-     * @exception MaxCountExceededException if the number of functions evaluations is exceeded
-     */
-    protected void doFinalize() throws MaxCountExceededException {
-    }
 
 }

@@ -17,8 +17,8 @@
 
 package org.apache.commons.math3.ode.nonstiff;
 
+import org.apache.commons.math3.Field;
 import org.apache.commons.math3.RealFieldElement;
-import org.apache.commons.math3.ode.AbstractFieldIntegrator;
 import org.apache.commons.math3.ode.FieldEquationsMapper;
 import org.apache.commons.math3.ode.FieldODEStateAndDerivative;
 import org.apache.commons.math3.util.FastMath;
@@ -66,14 +66,13 @@ class GillFieldStepInterpolator<T extends RealFieldElement<T>>
     private static final double ONE_PLUS_INV_SQRT_2 = 1 + FastMath.sqrt(0.5);
 
     /** Simple constructor.
-     * @param rkIntegrator integrator being used
+     * @param field field to which the time and state vector elements belong
      * @param forward integration direction indicator
      * @param mapper equations mapper for the all equations
      */
-    GillFieldStepInterpolator(final AbstractFieldIntegrator<T> rkIntegrator,
-                              final boolean forward,
+    GillFieldStepInterpolator(final Field<T> field, final boolean forward,
                               final FieldEquationsMapper<T> mapper) {
-        super(rkIntegrator, forward, mapper);
+        super(field, forward, mapper);
     }
 
     /** Copy constructor.
@@ -99,7 +98,7 @@ class GillFieldStepInterpolator<T extends RealFieldElement<T>>
                                                                                    final T time, final T theta,
                                                                                    final T oneMinusThetaH) {
 
-        final T one        = time.getField().getOne();
+        final T one        = getField().getOne();
         final T twoTheta   = theta.multiply(2);
         final T fourTheta2 = twoTheta.multiply(twoTheta);
         final T coeffDot1  = theta.multiply(twoTheta.subtract(3)).add(1);

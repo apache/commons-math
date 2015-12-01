@@ -17,8 +17,8 @@
 
 package org.apache.commons.math3.ode.nonstiff;
 
+import org.apache.commons.math3.Field;
 import org.apache.commons.math3.RealFieldElement;
-import org.apache.commons.math3.ode.AbstractFieldIntegrator;
 import org.apache.commons.math3.ode.FieldEquationsMapper;
 import org.apache.commons.math3.ode.FieldODEStateAndDerivative;
 
@@ -81,15 +81,14 @@ class LutherFieldStepInterpolator<T extends RealFieldElement<T>>
     private final T d6c;
 
     /** Simple constructor.
-     * @param rkIntegrator integrator being used
+     * @param field field to which the time and state vector elements belong
      * @param forward integration direction indicator
      * @param mapper equations mapper for the all equations
      */
-    LutherFieldStepInterpolator(final AbstractFieldIntegrator<T> rkIntegrator,
-                                final boolean forward,
+    LutherFieldStepInterpolator(final Field<T> field, final boolean forward,
                                 final FieldEquationsMapper<T> mapper) {
-        super(rkIntegrator, forward, mapper);
-        final T q = rkIntegrator.getField().getOne().multiply(21).sqrt();
+        super(field, forward, mapper);
+        final T q = field.getOne().multiply(21).sqrt();
         c5a = q.multiply(  -49).add(  -49);
         c5b = q.multiply(  287).add(  392);
         c5c = q.multiply( -357).add( -637);
@@ -188,7 +187,7 @@ class LutherFieldStepInterpolator<T extends RealFieldElement<T>>
         // At the end, we get the b_i as polynomials in theta.
 
         final T coeffDot1 =  theta.multiply(theta.multiply(theta.multiply(theta.multiply(   21        ).add( -47          )).add(   36         )).add( -54     /   5.0)).add(1);
-        final T coeffDot2 =  theta.getField().getZero();
+        final T coeffDot2 =  getField().getZero();
         final T coeffDot3 =  theta.multiply(theta.multiply(theta.multiply(theta.multiply(  112        ).add(-608    /  3.0)).add(  320   / 3.0 )).add(-208    /  15.0));
         final T coeffDot4 =  theta.multiply(theta.multiply(theta.multiply(theta.multiply( -567  /  5.0).add( 972    /  5.0)).add( -486   / 5.0 )).add( 324    /  25.0));
         final T coeffDot5 =  theta.multiply(theta.multiply(theta.multiply(theta.multiply(c5a.divide(5)).add(c5b.divide(15))).add(c5c.divide(30))).add(c5d.divide(150)));
@@ -201,7 +200,7 @@ class LutherFieldStepInterpolator<T extends RealFieldElement<T>>
 
             final T s         = theta.multiply(theta.multiply(h));
             final T coeff1    = s.multiply(theta.multiply(theta.multiply(theta.multiply(  21    /  5.0).add( -47    /  4.0)).add(   12         )).add( -27    /   5.0)).add(1);
-            final T coeff2    = s.getField().getZero();
+            final T coeff2    = getField().getZero();
             final T coeff3    = s.multiply(theta.multiply(theta.multiply(theta.multiply( 112    /  5.0).add(-152    /  3.0)).add(  320   / 9.0 )).add(-104    /  15.0));
             final T coeff4    = s.multiply(theta.multiply(theta.multiply(theta.multiply(-567    / 25.0).add( 243    /  5.0)).add( -162   / 5.0 )).add( 162    /  25.0));
             final T coeff5    = s.multiply(theta.multiply(theta.multiply(theta.multiply(c5a.divide(25)).add(c5b.divide(60))).add(c5c.divide(90))).add(c5d.divide(300)));
@@ -213,7 +212,7 @@ class LutherFieldStepInterpolator<T extends RealFieldElement<T>>
 
             final T s         = oneMinusThetaH.multiply(theta);
             final T coeff1    = s.multiply(theta.multiply(theta.multiply(theta.multiply( -21   /   5.0).add(   151  /  20.0)).add(  -89   /  20.0)).add(  19 /  20.0)).add( -1 /  20.0);
-            final T coeff2    = s.getField().getZero();
+            final T coeff2    = getField().getZero();
             final T coeff3    = s.multiply(theta.multiply(theta.multiply(theta.multiply(-112   /   5.0).add(   424  /  15.0)).add( -328   /  45.0)).add( -16 /  45.0)).add(-16 /  45.0);
             final T coeff4    = s.multiply(theta.multiply(theta.multiply(theta.multiply( 567   /  25.0).add(  -648  /  25.0)).add(  162   /  25.0)));
             final T coeff5    = s.multiply(theta.multiply(theta.multiply(theta.multiply(d5a.divide(25)).add(d5b.divide(300))).add(d5c.divide(900))).add( -49 / 180.0)).add(-49 / 180.0);
