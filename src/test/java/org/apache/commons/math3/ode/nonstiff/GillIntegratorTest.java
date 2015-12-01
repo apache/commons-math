@@ -208,7 +208,7 @@ public class GillIntegratorTest {
       }
       if (isLast) {
         // even with more than 1000 evaluations per period,
-        // RK4 is not able to integrate such an eccentric
+        // Gill is not able to integrate such an eccentric
         // orbit with a good accuracy
         Assert.assertTrue(maxError > 0.001);
       }
