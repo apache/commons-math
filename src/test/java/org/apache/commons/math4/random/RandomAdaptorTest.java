@@ -71,43 +71,54 @@ public class RandomAdaptorTest {
             this.value = value;
         }
 
+        @Override
         public boolean nextBoolean() {
             return false;
         }
 
+        @Override
         public void nextBytes(byte[] bytes) {
         }
 
+        @Override
         public double nextDouble() {
             return value;
         }
 
+        @Override
         public float nextFloat() {
             return (float) value;
         }
 
+        @Override
         public double nextGaussian() {
             return value;
         }
 
+        @Override
         public int nextInt() {
             return (int) value;
         }
 
+        @Override
         public int nextInt(int n) {
             return (int) value;
         }
 
+        @Override
         public long nextLong() {
             return (int) value;
         }
 
+        @Override
         public void setSeed(int seed) {
         }
 
+        @Override
         public void setSeed(int[] seed) {
         }
 
+        @Override
         public void setSeed(long seed) {
         }
 
