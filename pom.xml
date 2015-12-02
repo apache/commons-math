@@ -422,6 +422,8 @@
     <math.jgit.buildnumber.version>1.2.10</math.jgit.buildnumber.version>
     <implementation.build>${git.revision}; ${maven.build.timestamp}</implementation.build>
 
+    <!-- Override default buildNumber timestamp format, needed for coveralls plugin -->
+    <maven.buildNumber.timestampFormat>{0,date,yyyy-MM-dd HH:mm:ssZ}</maven.buildNumber.timestampFormat>
   </properties>
 
   <build>
@@ -822,9 +824,6 @@
           <value>true</value>
         </property>
       </activation>
-      <properties>
-        <buildnumber.skip>true</buildnumber.skip>
-      </properties>
       <build>
         <plugins>
           <plugin>
