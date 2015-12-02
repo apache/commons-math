@@ -54,6 +54,10 @@ If the output is not quite correct, check for invisible trailing spaces!
     </release>
 
     <release version="4.0" date="XXXX-XX-XX" description="">
+      <action dev="erans" type="fix" issue="MATH-1295" due-to="Luke Lindsay">
+        Increased default value for number of allowed evaluations in
+        "o.a.c.m.optim.univariate.BracketFinder".
+      </action>
       <action dev="tn" type="fix" issue="MATH-1294" due-to="Kamil Włodarczyk"> <!-- backported to 3.6 -->
         Fixed potential race condition in PolynomialUtils#buildPolynomial in
         case polynomials are generated from multiple threads. Furthermore, the
