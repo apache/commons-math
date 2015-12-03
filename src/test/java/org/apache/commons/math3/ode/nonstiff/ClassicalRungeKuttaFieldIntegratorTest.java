@@ -91,4 +91,9 @@ public class ClassicalRungeKuttaFieldIntegratorTest extends AbstractRungeKuttaFi
         doTestUnstableDerivative(Decimal64Field.getInstance(), 1.0e-12);
     }
 
+    @Test
+    public void testDerivativesConsistency() {
+        doTestDerivativesConsistency(Decimal64Field.getInstance(), 1.0e-10);
+    }
+
 }

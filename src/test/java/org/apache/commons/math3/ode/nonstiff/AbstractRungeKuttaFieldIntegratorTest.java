@@ -42,6 +42,7 @@ import org.apache.commons.math3.ode.events.Action;
 import org.apache.commons.math3.ode.events.FieldEventHandler;
 import org.apache.commons.math3.ode.sampling.FieldStepHandler;
 import org.apache.commons.math3.ode.sampling.FieldStepInterpolator;
+import org.apache.commons.math3.ode.sampling.StepInterpolatorTestUtils;
 import org.apache.commons.math3.util.FastMath;
 import org.apache.commons.math3.util.MathArrays;
 import org.junit.Assert;
@@ -505,6 +506,16 @@ public abstract class AbstractRungeKuttaFieldIntegratorTest {
                                                              new FieldODEState<>(field.getZero(), MathArrays.buildArray(field, 1)),
                                                              field.getZero().add(10.0));
       Assert.assertEquals(8.0, result.getState()[0].getReal(), epsilon);
+    }
+
+    @Test
+    public abstract void testDerivativesConsistency();
+
+    protected <T extends RealFieldElement<T>> void doTestDerivativesConsistency(final Field<T> field, double epsilon) {
+        TestFieldProblem3<T> pb = new TestFieldProblem3<T>(field);
+        T step = pb.getFinalTime().subtract(pb.getInitialState().getTime()).multiply(0.001);
+        RungeKuttaFieldIntegrator<T> integ = createIntegrator(field, step);
+        StepInterpolatorTestUtils.checkDerivativesConsistency(integ, pb, 1.0e-10);
     }
 
 }
