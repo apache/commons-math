@@ -60,9 +60,6 @@ import org.apache.commons.math3.util.MathArrays;
 public class LutherFieldIntegrator<T extends RealFieldElement<T>>
     extends RungeKuttaFieldIntegrator<T> {
 
-    /** Square root. */
-    private final T q;
-
     /** Simple constructor.
      * Build a fourth-order Luther integrator with the given step.
      * @param field field to which the time and state vector elements belong
@@ -70,12 +67,12 @@ public class LutherFieldIntegrator<T extends RealFieldElement<T>>
      */
     public LutherFieldIntegrator(final Field<T> field, final T step) {
         super(field, "Luther", step);
-        q = getField().getOne().multiply(21).sqrt();
     }
 
     /** {@inheritDoc} */
     @Override
     protected T[] getC() {
+        final T q = getField().getZero().add(21).sqrt();
         final T[] c = MathArrays.buildArray(getField(), 6);
         c[0] = getField().getOne();
         c[1] = fraction(1, 2);
@@ -89,6 +86,7 @@ public class LutherFieldIntegrator<T extends RealFieldElement<T>>
     /** {@inheritDoc} */
     @Override
     protected T[][] getA() {
+        final T q = getField().getZero().add(21).sqrt();
         final T[][] a = MathArrays.buildArray(getField(), 6, -1);
         for (int i = 0; i < a.length; ++i) {
             a[i] = MathArrays.buildArray(getField(), i + 1);
@@ -98,22 +96,22 @@ public class LutherFieldIntegrator<T extends RealFieldElement<T>>
         a[1][1] = fraction(1,  8);
         a[2][0] = fraction(8, 27);
         a[2][1] = fraction(2, 27);
-        a[2][2] = fraction(8, 27);
-        a[3][0] = q.multiply(  9).subtract( 21).divide( 392);
-        a[3][1] = q.multiply(  8).subtract( 56).divide( 392);
-        a[3][2] = q.multiply( 48).subtract(336).divide(-392);
-        a[3][3] = q.multiply(  3).subtract( 63).divide( 392);
-        a[4][0] = q.multiply(255).add(1155).divide(-1960);
-        a[4][1] = q.multiply( 40).add( 280).divide(-1960);
-        a[4][2] = q.multiply(20)           .divide(-1960);
-        a[4][3] = q.multiply(363).add(  63).divide( 1960);
-        a[4][4] = q.multiply(392).add(2352).divide( 1960);
-        a[5][0] = q.multiply(105).add( 330).divide( 180);
-        a[5][1] = fraction(120, 180);
-        a[5][2] = q.multiply(280).add(-200).divide( 180);
-        a[5][3] = q.multiply(189).add(-126).divide(-180);
-        a[5][4] = q.multiply(126).add( 686).divide(-180);
-        a[5][5] = q.multiply( 70).add(-490).divide(-180);
+        a[2][2] = a[2][0];
+        a[3][0] = q.multiply(   9).add(  -21).divide( 392);
+        a[3][1] = q.multiply(   8).add(  -56).divide( 392);
+        a[3][2] = q.multiply( -48).add(  336).divide( 392);
+        a[3][3] = q.multiply(   3).add(  -63).divide( 392);
+        a[4][0] = q.multiply(-255).add(-1155).divide(1960);
+        a[4][1] = q.multiply( -40).add( -280).divide(1960);
+        a[4][2] = q.multiply(-320)           .divide(1960);
+        a[4][3] = q.multiply( 363).add(   63).divide(1960);
+        a[4][4] = q.multiply( 392).add( 2352).divide(1960);
+        a[5][0] = q.multiply( 105).add(  330).divide( 180);
+        a[5][1] = fraction(2, 3);
+        a[5][2] = q.multiply( 280).add( -200).divide( 180);
+        a[5][3] = q.multiply(-189).add(  126).divide( 180);
+        a[5][4] = q.multiply(-126).add( -686).divide( 180);
+        a[5][5] = q.multiply( -70).add(  490).divide( 180);
         return a;
     }
 

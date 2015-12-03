@@ -93,7 +93,7 @@ public abstract class RungeKuttaFieldIntegrator<T extends RealFieldElement<T>>
      * @return p/q computed in the instance field
      */
     protected T fraction(final int p, final int q) {
-        return getField().getOne().multiply(p).divide(q);
+        return getField().getZero().add(p).divide(q);
     }
 
     /** Get the time steps from Butcher array (without the first zero).
