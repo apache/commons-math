@@ -28,7 +28,7 @@ public class EulerFieldStepInterpolatorTest extends AbstractRungeKuttaFieldStepI
 
     protected <T extends RealFieldElement<T>> RungeKuttaFieldStepInterpolator<T>
     createInterpolator(Field<T> field, boolean forward, FieldEquationsMapper<T> mapper) {
-        return new EulerFieldStepInterpolator<>(field, forward, mapper);
+        return new EulerFieldStepInterpolator<T>(field, forward, mapper);
     }
 
     @Test
