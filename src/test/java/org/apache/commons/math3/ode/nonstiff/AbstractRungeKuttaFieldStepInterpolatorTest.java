@@ -95,37 +95,7 @@ public abstract class AbstractRungeKuttaFieldStepInterpolatorTest {
         RungeKuttaFieldStepInterpolator<T> interpolator = createInterpolator(field, t1 > t0,
                                                                              new FieldExpandableODE<T>(eqn).getMapper());
         // get the Butcher arrays from the field integrator
-        String interpolatorName = interpolator.getClass().getName();
-        String integratorName = interpolatorName.replaceAll("StepInterpolator", "Integrator");
-
-        RungeKuttaFieldIntegrator<T> fieldIntegrator = null;
-        try {
-            @SuppressWarnings("unchecked")
-            Class<RungeKuttaFieldIntegrator<T>> clz = (Class<RungeKuttaFieldIntegrator<T>>) Class.forName(integratorName);
-            try {
-                fieldIntegrator = clz.getConstructor(Field.class, RealFieldElement.class).newInstance(field,
-                                                                                                      field.getOne());
-            } catch (NoSuchMethodException nsme) {
-                try {
-                    fieldIntegrator = clz.getConstructor(Field.class, RealFieldElement.class,
-                                                         RealFieldElement.class, RealFieldElement.class).newInstance(field,
-                                                                                                                     field.getZero().add(0.001),
-                                                                                                                     field.getOne(),
-                                                                                                                     field.getOne(),
-                                                                                                                     field.getOne());
-                } catch (NoSuchMethodException e) {
-                    Assert.fail(e.getLocalizedMessage());
-                }
-            }
-        } catch (InvocationTargetException ite) {
-            Assert.fail(ite.getLocalizedMessage());
-        } catch (IllegalAccessException iae) {
-            Assert.fail(iae.getLocalizedMessage());
-        } catch (InstantiationException ie) {
-            Assert.fail(ie.getLocalizedMessage());
-        } catch (ClassNotFoundException cnfe) {
-            Assert.fail(cnfe.getLocalizedMessage());
-        }
+        RungeKuttaFieldIntegrator<T> fieldIntegrator = createFieldIntegrator(field, interpolator);
         T[][] a = fieldIntegrator.getA();
         T[]   b = fieldIntegrator.getB();
         T[]   c = fieldIntegrator.getC();
@@ -146,8 +116,8 @@ public abstract class AbstractRungeKuttaFieldStepInterpolatorTest {
         for (int k = 0; k < a.length; ++k) {
             for (int i = 0; i < y0.length; ++i) {
                 fieldY[i] = field.getZero().add(y0[i]);
-                for (int s = 0; s < k; ++s) {
-                    fieldY[i] = fieldY[i].add(h.multiply(a[s][i].multiply(fieldYDotK[s][i])));
+                for (int s = 0; s <= k; ++s) {
+                    fieldY[i] = fieldY[i].add(h.multiply(a[k][s].multiply(fieldYDotK[s][i])));
                 }
             }
             fieldYDotK[k + 1] = eqn.computeDerivatives(h.multiply(c[k]).add(t0), fieldY);
@@ -166,6 +136,44 @@ public abstract class AbstractRungeKuttaFieldStepInterpolatorTest {
                                                                   eqn.computeDerivatives(field.getZero().add(t1), fieldY)));
 
         return interpolator;
+
+    }
+
+    private <T extends RealFieldElement<T>> RungeKuttaFieldIntegrator<T>
+    createFieldIntegrator(final Field<T> field, final RungeKuttaFieldStepInterpolator<T> interpolator) {
+        RungeKuttaFieldIntegrator<T> integrator = null;
+        try {
+        String interpolatorName = interpolator.getClass().getName();
+        String integratorName = interpolatorName.replaceAll("StepInterpolator", "Integrator");
+            @SuppressWarnings("unchecked")
+            Class<RungeKuttaFieldIntegrator<T>> clz = (Class<RungeKuttaFieldIntegrator<T>>) Class.forName(integratorName);
+            try {
+                integrator = clz.getConstructor(Field.class, RealFieldElement.class).newInstance(field,
+                                                                                                      field.getOne());
+            } catch (NoSuchMethodException nsme) {
+                try {
+                    integrator = clz.getConstructor(Field.class,
+                                                    RealFieldElement.class,
+                                                    RealFieldElement.class,
+                                                    RealFieldElement.class).
+                                 newInstance(field, field.getZero().add(0.001),
+                                             field.getOne(), field.getOne(), field.getOne());
+                } catch (NoSuchMethodException e) {
+                    Assert.fail(e.getLocalizedMessage());
+                }
+            }
+
+        } catch (InvocationTargetException ite) {
+            Assert.fail(ite.getLocalizedMessage());
+        } catch (IllegalAccessException iae) {
+            Assert.fail(iae.getLocalizedMessage());
+        } catch (InstantiationException ie) {
+            Assert.fail(ie.getLocalizedMessage());
+        } catch (ClassNotFoundException cnfe) {
+            Assert.fail(cnfe.getLocalizedMessage());
+        }
+
+        return integrator;
 
     }
 
