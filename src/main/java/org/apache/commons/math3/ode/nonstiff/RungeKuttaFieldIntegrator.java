@@ -58,7 +58,8 @@ import org.apache.commons.math3.util.MathArrays;
  */
 
 public abstract class RungeKuttaFieldIntegrator<T extends RealFieldElement<T>>
-    extends AbstractFieldIntegrator<T> {
+    extends AbstractFieldIntegrator<T>
+    implements FieldButcherArrayProvider<T> {
 
     /** Time steps from Butcher array (without the first zero). */
     private final T[] c;
@@ -95,21 +96,6 @@ public abstract class RungeKuttaFieldIntegrator<T extends RealFieldElement<T>>
     protected T fraction(final int p, final int q) {
         return getField().getZero().add(p).divide(q);
     }
-
-    /** Get the time steps from Butcher array (without the first zero).
-     * @return time steps from Butcher array (without the first zero
-     */
-    protected abstract T[] getC();
-
-    /** Get the internal weights from Butcher array (without the first empty row).
-     * @return internal weights from Butcher array (without the first empty row)
-     */
-    protected abstract T[][] getA();
-
-    /** Get the external weights for the high order method from Butcher array.
-     * @return external weights for the high order method from Butcher array
-     */
-    protected abstract T[] getB();
 
     /** Create an interpolator.
      * @param forward integration direction indicator

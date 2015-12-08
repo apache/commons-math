@@ -59,7 +59,7 @@ public class MidpointFieldIntegrator<T extends RealFieldElement<T>> extends Rung
 
     /** {@inheritDoc} */
     @Override
-    protected T[] getC() {
+    public T[] getC() {
         final T[] c = MathArrays.buildArray(getField(), 1);
         c[0] = getField().getOne().multiply(0.5);
         return c;
@@ -67,7 +67,7 @@ public class MidpointFieldIntegrator<T extends RealFieldElement<T>> extends Rung
 
     /** {@inheritDoc} */
     @Override
-    protected T[][] getA() {
+    public T[][] getA() {
         final T[][] a = MathArrays.buildArray(getField(), 1, 1);
         a[0][0] = fraction(1, 2);
         return a;
@@ -75,7 +75,7 @@ public class MidpointFieldIntegrator<T extends RealFieldElement<T>> extends Rung
 
     /** {@inheritDoc} */
     @Override
-    protected T[] getB() {
+    public T[] getB() {
         final T[] b = MathArrays.buildArray(getField(), 2);
         b[0] = getField().getZero();
         b[1] = getField().getOne();

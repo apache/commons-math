@@ -68,7 +68,8 @@ import org.apache.commons.math3.util.MathUtils;
  */
 
 public abstract class EmbeddedRungeKuttaFieldIntegrator<T extends RealFieldElement<T>>
-    extends AdaptiveStepsizeFieldIntegrator<T> {
+    extends AdaptiveStepsizeFieldIntegrator<T>
+    implements FieldButcherArrayProvider<T> {
 
     /** Index of the pre-computed derivative for <i>fsal</i> methods. */
     private final int fsal;
@@ -179,21 +180,6 @@ public abstract class EmbeddedRungeKuttaFieldIntegrator<T extends RealFieldEleme
     protected T fraction(final double p, final double q) {
         return getField().getOne().multiply(p).divide(q);
     }
-
-    /** Get the time steps from Butcher array (without the first zero).
-     * @return time steps from Butcher array (without the first zero
-     */
-    protected abstract T[] getC();
-
-    /** Get the internal weights from Butcher array (without the first empty row).
-     * @return internal weights from Butcher array (without the first empty row)
-     */
-    protected abstract T[][] getA();
-
-    /** Get the external weights for the high order method from Butcher array.
-     * @return external weights for the high order method from Butcher array
-     */
-    protected abstract T[] getB();
 
     /** Create an interpolator.
      * @param forward integration direction indicator
