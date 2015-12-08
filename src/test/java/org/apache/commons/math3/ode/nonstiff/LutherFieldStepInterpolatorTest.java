@@ -41,4 +41,9 @@ public class LutherFieldStepInterpolatorTest extends AbstractRungeKuttaFieldStep
         doInterpolationInside(Decimal64Field.getInstance(), 1.1e-7, 9.6e-9);
     }
 
+    @Test
+    public void nonFieldInterpolatorConsistency() {
+        doNonFieldInterpolatorConsistency(Decimal64Field.getInstance(), 8.4e-17, 2.3e-16, 2.1e-14, 1.3e-15);
+    }
+
 }

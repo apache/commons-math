@@ -41,4 +41,9 @@ public class MidpointFieldStepInterpolatorTest extends AbstractRungeKuttaFieldSt
         doInterpolationInside(Decimal64Field.getInstance(), 3.3e-4, 1.1e-5);
     }
 
+    @Test
+    public void nonFieldInterpolatorConsistency() {
+        doNonFieldInterpolatorConsistency(Decimal64Field.getInstance(), 1.0e-50, 1.0e-50, 1.0e-50, 1.0e-50);
+    }
+
 }

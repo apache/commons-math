@@ -41,4 +41,9 @@ public class ClassicalRungKuttaFieldStepInterpolatorTest extends AbstractRungeKu
         doInterpolationInside(Decimal64Field.getInstance(), 2.6e-7, 3.6e-6);
     }
 
+    @Test
+    public void nonFieldInterpolatorConsistency() {
+        doNonFieldInterpolatorConsistency(Decimal64Field.getInstance(), 2.8e-17, 1.2e-16, 2.3e-16, 1.0e-50);
+    }
+
 }
