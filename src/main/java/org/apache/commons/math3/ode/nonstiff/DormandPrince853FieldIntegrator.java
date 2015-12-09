@@ -230,7 +230,7 @@ public class DormandPrince853FieldIntegrator<T extends RealFieldElement<T>>
         a[ 0][ 0] = sqrt6.add(-6).divide(-67.5);
 
         a[ 1][ 0] = sqrt6.add(-6).divide(-180);
-        a[ 1][ 1] = sqrt6.add(-6).divide( -40);
+        a[ 1][ 1] = sqrt6.add(-6).divide( -60);
 
         a[ 2][ 0] = sqrt6.add(-6).divide(-120);
         a[ 2][ 1] = getField().getZero();
@@ -259,7 +259,7 @@ public class DormandPrince853FieldIntegrator<T extends RealFieldElement<T>>
         a[ 6][ 2] = getField().getZero();
         a[ 6][ 3] = sqrt6.multiply( 4784).add(51544).divide(371293);
         a[ 6][ 4] = sqrt6.multiply(-4784).add(51544).divide(371293);
-        a[ 6][ 5] = fraction(-5688, 371283);
+        a[ 6][ 5] = fraction(-5688, 371293);
         a[ 6][ 6] = fraction( 3072, 371293);
 
         a[ 7][ 0] = fraction(58656157643.0, 93983540625.0);
@@ -320,47 +320,47 @@ public class DormandPrince853FieldIntegrator<T extends RealFieldElement<T>>
         a[11][11] = fraction(137909.0, 3084480.0);
 
         // the following stages are for interpolation only
-        a[12][ 0] = fraction(      13481885573.0, 240030000000.0)     .subtract(a[11][0]);
+        a[12][ 0] = fraction(      13481885573.0, 240030000000.0);
         a[12][ 1] = getField().getZero();
         a[12][ 2] = getField().getZero();
         a[12][ 3] = getField().getZero();
         a[12][ 4] = getField().getZero();
-        a[12][ 5] = getField().getZero()                              .subtract(a[11][5]);
-        a[12][ 6] = fraction(     139418837528.0, 549975234375.0)     .subtract(a[11][6]);
-        a[12][ 7] = fraction(  -11108320068443.0, 45111937500000.0)   .subtract(a[11][7]);
-        a[12][ 8] = fraction(-1769651421925959.0, 14249385146080000.0).subtract(a[11][8]);
-        a[12][ 9] = fraction(         57799439.0, 377055000.0)        .subtract(a[11][9]);
-        a[12][10] = fraction(     793322643029.0, 96734250000000.0)   .subtract(a[11][10]);
-        a[12][11] = fraction(       1458939311.0, 192780000000.0)     .subtract(a[11][11]);
+        a[12][ 5] = getField().getZero();
+        a[12][ 6] = fraction(     139418837528.0, 549975234375.0);
+        a[12][ 7] = fraction(  -11108320068443.0, 45111937500000.0);
+        a[12][ 8] = fraction(-1769651421925959.0, 14249385146080000.0);
+        a[12][ 9] = fraction(         57799439.0, 377055000.0);
+        a[12][10] = fraction(     793322643029.0, 96734250000000.0);
+        a[12][11] = fraction(       1458939311.0, 192780000000.0);
         a[12][12]  = fraction(            -4149.0, 500000.0);
 
-        a[13][ 0] = fraction(    1595561272731.0, 50120273500000.0)   .subtract(a[11][0]);
+        a[13][ 0] = fraction(    1595561272731.0, 50120273500000.0);
         a[13][ 1] = getField().getZero();
         a[13][ 2] = getField().getZero();
         a[13][ 3] = getField().getZero();
         a[13][ 4] = getField().getZero();
-        a[13][ 5] = fraction(     975183916491.0, 34457688031250.0)   .subtract(a[11][5]);
-        a[13][ 6] = fraction(   38492013932672.0, 718912673015625.0)  .subtract(a[11][6]);
-        a[13][ 7] = fraction(-1114881286517557.0, 20298710767500000.0).subtract(a[11][7]);
-        a[13][ 8] = getField().getZero()                              .subtract(a[11][8]);
-        a[13][ 9] = getField().getZero()                              .subtract(a[11][9]);
-        a[13][10] = fraction(   -2538710946863.0, 23431227861250000.0).subtract(a[11][10]);
-        a[13][11] = fraction(       8824659001.0, 23066716781250.0)   .subtract(a[11][11]);
+        a[13][ 5] = fraction(     975183916491.0, 34457688031250.0);
+        a[13][ 6] = fraction(   38492013932672.0, 718912673015625.0);
+        a[13][ 7] = fraction(-1114881286517557.0, 20298710767500000.0);
+        a[13][ 8] = getField().getZero();
+        a[13][ 9] = getField().getZero();
+        a[13][10] = fraction(   -2538710946863.0, 23431227861250000.0);
+        a[13][11] = fraction(       8824659001.0, 23066716781250.0);
         a[13][12] = fraction(     -11518334563.0, 33831184612500.0);
         a[13][13] = fraction(       1912306948.0, 13532473845.0);
 
-        a[14][ 0] = fraction(     -13613986967.0, 31741908048.0)      .subtract(a[11][0]);
+        a[14][ 0] = fraction(     -13613986967.0, 31741908048.0);
         a[14][ 1] = getField().getZero();
         a[14][ 2] = getField().getZero();
         a[14][ 3] = getField().getZero();
         a[14][ 4] = getField().getZero();
-        a[14][ 5] = fraction(      -4755612631.0, 1012344804.0)       .subtract(a[11][5]);
-        a[14][ 6] = fraction(   42939257944576.0, 5588559685701.0)    .subtract(a[11][6]);
-        a[14][ 7] = fraction(   77881972900277.0, 19140370552944.0)   .subtract(a[11][7]);
-        a[14][ 8] = fraction(   22719829234375.0, 63689648654052.0)   .subtract(a[11][8]);
-        a[14][ 9] = getField().getZero()                              .subtract(a[11][9]);
-        a[14][10] = getField().getZero()                              .subtract(a[11][10]);
-        a[14][11] = getField().getZero()                              .subtract(a[11][11]);
+        a[14][ 5] = fraction(      -4755612631.0, 1012344804.0);
+        a[14][ 6] = fraction(   42939257944576.0, 5588559685701.0);
+        a[14][ 7] = fraction(   77881972900277.0, 19140370552944.0);
+        a[14][ 8] = fraction(   22719829234375.0, 63689648654052.0);
+        a[14][ 9] = getField().getZero();
+        a[14][10] = getField().getZero();
+        a[14][11] = getField().getZero();
         a[14][12] = fraction(      -1199007803.0, 857031517296.0);
         a[14][13] = fraction(     157882067000.0, 53564469831.0);
         a[14][14] = fraction(    -290468882375.0, 31741908048.0);
@@ -373,7 +373,7 @@ public class DormandPrince853FieldIntegrator<T extends RealFieldElement<T>>
     @Override
     public T[] getB() {
         final T[] b = MathArrays.buildArray(getField(), 16);
-        b[ 0] = fraction(104257, 1929240);
+        b[ 0] = fraction(104257, 1920240);
         b[ 1] = getField().getZero();
         b[ 2] = getField().getZero();
         b[ 3] = getField().getZero();
