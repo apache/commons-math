@@ -151,7 +151,7 @@ public abstract class AbstractEmbeddedRungeKuttaFieldIntegratorTest {
         EmbeddedRungeKuttaFieldIntegrator<T> integrator = createIntegrator(field, 0.0, 1.0, 1.0e-10, 1.0e-10);
 
         try  {
-            integrator.integrate(new FieldExpandableODE<>(equations),
+            integrator.integrate(new FieldExpandableODE<T>(equations),
                                  new FieldODEState<T>(field.getOne().negate(),
                                                       MathArrays.buildArray(field, 1)),
                                  field.getZero());
@@ -161,7 +161,7 @@ public abstract class AbstractEmbeddedRungeKuttaFieldIntegratorTest {
           }
 
           try  {
-              integrator.integrate(new FieldExpandableODE<>(equations),
+              integrator.integrate(new FieldExpandableODE<T>(equations),
                                    new FieldODEState<T>(field.getZero(),
                                                         MathArrays.buildArray(field, 1)),
                                    field.getOne());
@@ -191,7 +191,7 @@ public abstract class AbstractEmbeddedRungeKuttaFieldIntegratorTest {
                                                               vecAbsoluteTolerance, vecRelativeTolerance);
         TestFieldProblemHandler<T> handler = new TestFieldProblemHandler<T>(pb, integ);
         integ.addStepHandler(handler);
-        integ.integrate(new FieldExpandableODE<>(pb), pb.getInitialState(), pb.getFinalTime());
+        integ.integrate(new FieldExpandableODE<T>(pb), pb.getInitialState(), pb.getFinalTime());
         Assert.fail("an exception should have been thrown");
 
     }
@@ -352,7 +352,7 @@ public abstract class AbstractEmbeddedRungeKuttaFieldIntegratorTest {
             EmbeddedRungeKuttaFieldIntegrator<T> integrator = createIntegrator(field, 0,
                                                                                pb.getFinalTime().subtract(pb.getInitialState().getTime()).getReal(),
                                                                                new double[4], new double[4]);
-            integrator.integrate(new FieldExpandableODE<>(pb),
+            integrator.integrate(new FieldExpandableODE<T>(pb),
                                  new FieldODEState<T>(pb.getInitialState().getTime(),
                                                       MathArrays.buildArray(field, 6)),
                                  pb.getFinalTime());
@@ -364,7 +364,7 @@ public abstract class AbstractEmbeddedRungeKuttaFieldIntegratorTest {
                             createIntegrator(field, 0,
                                              pb.getFinalTime().subtract(pb.getInitialState().getTime()).getReal(),
                                              new double[2], new double[4]);
-            integrator.integrate(new FieldExpandableODE<>(pb), pb.getInitialState(), pb.getFinalTime());
+            integrator.integrate(new FieldExpandableODE<T>(pb), pb.getInitialState(), pb.getFinalTime());
             Assert.fail("an exception should have been thrown");
         } catch(DimensionMismatchException ie) {
         }
@@ -373,7 +373,7 @@ public abstract class AbstractEmbeddedRungeKuttaFieldIntegratorTest {
                             createIntegrator(field, 0,
                                              pb.getFinalTime().subtract(pb.getInitialState().getTime()).getReal(),
                                              new double[4], new double[4]);
-            integrator.integrate(new FieldExpandableODE<>(pb), pb.getInitialState(), pb.getInitialState().getTime());
+            integrator.integrate(new FieldExpandableODE<T>(pb), pb.getInitialState(), pb.getInitialState().getTime());
             Assert.fail("an exception should have been thrown");
         } catch(NumberIsTooSmallException ie) {
         }
@@ -401,7 +401,7 @@ public abstract class AbstractEmbeddedRungeKuttaFieldIntegratorTest {
                                                                       scalRelativeTolerance);
         TestFieldProblemHandler<T> handler = new TestFieldProblemHandler<T>(pb, integ);
         integ.addStepHandler(handler);
-        integ.integrate(new FieldExpandableODE<>(pb), pb.getInitialState(), pb.getFinalTime());
+        integ.integrate(new FieldExpandableODE<T>(pb), pb.getInitialState(), pb.getFinalTime());
 
         Assert.assertEquals(0, handler.getLastError().getReal(),         espilonLast);
         Assert.assertEquals(0, handler.getMaximalValueError().getReal(), epsilonMaxValue);
@@ -424,7 +424,7 @@ public abstract class AbstractEmbeddedRungeKuttaFieldIntegratorTest {
         FieldFirstOrderIntegrator<T> integ = createIntegrator(field, minStep, maxStep,
                                                               vecAbsoluteTolerance, vecRelativeTolerance);
         integ.addStepHandler(new KeplerHandler<T>(pb, epsilon));
-        integ.integrate(new FieldExpandableODE<>(pb), pb.getInitialState(), pb.getFinalTime());
+        integ.integrate(new FieldExpandableODE<T>(pb), pb.getInitialState(), pb.getFinalTime());
     }
 
     private static class KeplerHandler<T extends RealFieldElement<T>> implements FieldStepHandler<T> {
