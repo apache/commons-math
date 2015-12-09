@@ -67,9 +67,6 @@ public abstract class AbstractFieldIntegrator<T extends RealFieldElement<T>> imp
     /** Indicator for last step. */
     protected boolean isLastStep;
 
-    /** Indicator that a state or derivative reset was triggered by some event. */
-    protected boolean resetOccurred;
-
     /** Field to which the time and state vector elements belong. */
     private final Field<T> field;
 
@@ -348,7 +345,6 @@ public abstract class AbstractFieldIntegrator<T extends RealFieldElement<T>> imp
                         // invalidate the derivatives, we need to recompute them
                         final T[] y    = equations.getMapper().mapState(newState);
                         final T[] yDot = computeDerivatives(newState.getTime(), y);
-                        resetOccurred = true;
                         return equations.getMapper().mapStateAndDerivative(newState.getTime(), y, yDot);
                     }
                 }
