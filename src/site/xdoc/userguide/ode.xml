@@ -69,11 +69,27 @@
           derivatives being handled be secondary ODE (see below for an example).
         </p>
         <p>
+         Two parallel APIs are available. The first is devoted to solve ode for which the integration free
+         variable t and the state y(t) are primitive double and primitive double array respectively. Starting
+         with version 3.6, a second API is devoted to solve ode for which the integration free
+         variable t and the state y(t) are <code>RealFieldElement</code> and <code>RealFieldElement</code>
+         array respectively. This allow for example users to integrate ode where the computation values
+         are for example <code>DerivativeStructure</code> elements, hence automatically computing
+         partial derivatives with respect to some equations parameters without a need to set up the
+         variational equations. Another example is to use <code>Dfp</code> elements in order to solve
+         ode with extended precision. As of 3.6, the API are slightly different, mainly in the way they
+         handle arrays. Both API will become more similar in 4.0 and future versions as the older
+         primitive double API will be modified to match the newer field API. This cannot be done in
+         3.6 for compatibility reasons.
+        </p>
+        <p>
           The user should describe his problem in his own classes which should implement the
           <a href="../apidocs/org/apache/commons/math3/ode/FirstOrderDifferentialEquations.html">FirstOrderDifferentialEquations</a>
-          interface. Then he should pass it to the integrator he prefers among all the classes that implement
+          interface (or  <a href="../apidocs/org/apache/commons/math3/ode/FieldFirstOrderDifferentialEquations.html">FieldFirstOrderDifferentialEquations</a>
+          interface). Then he should pass it to the integrator he prefers among all the classes that implement
           the <a href="../apidocs/org/apache/commons/math3/ode/FirstOrderIntegrator.html">FirstOrderIntegrator</a>
-          interface. The following example shows how to implement the simple two-dimensional problem:
+          interface (or the <a href="../apidocs/org/apache/commons/math3/ode/FieldFirstOrderIntegrator.html">FieldFirstOrderIntegrator</a>
+          interface). The following example shows how to implement the simple two-dimensional problem using double primitives:
           <ul>
             <li>y'<sub>0</sub>(t) = &#x3c9; &#xD7; (c<sub>1</sub> - y<sub>1</sub>(t))</li>
             <li>y'<sub>1</sub>(t) = &#x3c9; &#xD7; (y<sub>0</sub>(t) - c<sub>0</sub>)</li>

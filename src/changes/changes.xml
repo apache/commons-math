@@ -51,6 +51,13 @@ If the output is not quite correct, check for invisible trailing spaces!
   </properties>
   <body>
     <release version="3.6" date="XXXX-XX-XX" description="">
+      <action dev="luc" type="add" issue="MATH-1288">
+        Added a field-based version of Ordinary Differential Equations framework.
+        This allows integrating ode that refer to RealField elements instead of
+        primitive double, hence opening the way to use DerivativeStructure to
+        compute partial differential without using variational equations, or to solve
+        ode with extended precision using Dfp.
+      </action>
       <action dev="erans" type="fix" issue="MATH-1295" due-to="Luke Lindsay">
         Increased default value for number of allowed evaluations in
         "o.a.c.m.optim.univariate.BracketFinder".
