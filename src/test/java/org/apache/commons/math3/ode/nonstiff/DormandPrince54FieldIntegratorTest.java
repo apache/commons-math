@@ -49,12 +49,12 @@ public class DormandPrince54FieldIntegratorTest extends AbstractEmbeddedRungeKut
 
     @Test
     public void testBackward() {
-        doTestBackward(Decimal64Field.getInstance(), 2.0e-7, 2.0e-7, 1.0e-12, "Dormand-Prince 5(4)");
+        doTestBackward(Decimal64Field.getInstance(), 1.6e-7, 1.6e-7, 1.0e-22, "Dormand-Prince 5(4)");
     }
 
     @Test
     public void testKepler() {
-        doTestKepler(Decimal64Field.getInstance(), 7.0e-10);
+        doTestKepler(Decimal64Field.getInstance(), 3.1e-10);
     }
 
     @Override
@@ -69,15 +69,15 @@ public class DormandPrince54FieldIntegratorTest extends AbstractEmbeddedRungeKut
 
     @Override
     public void testIncreasingTolerance() {
-        // the 0.7 factor is only valid for this test
+        // the 0.5 factor is only valid for this test
         // and has been obtained from trial and error
         // there is no general relation between local and global errors
-        doTestIncreasingTolerance(Decimal64Field.getInstance(), 0.7, 1.0e-12);
+        doTestIncreasingTolerance(Decimal64Field.getInstance(), 0.5, 1.0e-12);
     }
 
     @Override
     public void testEvents() {
-        doTestEvents(Decimal64Field.getInstance(), 5.0e-6, "Dormand-Prince 5(4)");
+        doTestEvents(Decimal64Field.getInstance(), 3.10e-8, "Dormand-Prince 5(4)");
     }
 
     @Override
