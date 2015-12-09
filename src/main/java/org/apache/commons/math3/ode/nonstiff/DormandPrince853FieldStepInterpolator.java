@@ -55,7 +55,7 @@ class DormandPrince853FieldStepInterpolator<T extends RealFieldElement<T>>
         d = MathArrays.buildArray(getField(), 7, 16);
 
         // this row is the same as the b array
-        d[0][ 0] = fraction(104257, 1929240);
+        d[0][ 0] = fraction(104257, 1920240);
         d[0][ 1] = getField().getZero();
         d[0][ 2] = getField().getZero();
         d[0][ 3] = getField().getZero();
@@ -101,10 +101,10 @@ class DormandPrince853FieldStepInterpolator<T extends RealFieldElement<T>>
         d[2][ 9] = d[0][ 9].multiply(2);
         d[2][10] = d[0][10].multiply(2);
         d[2][11] = d[0][11].multiply(2);
-        d[2][12] = d[0][12].multiply(2); // really 0
-        d[2][13] = d[0][13].multiply(2); // really 0
-        d[2][14] = d[0][14].multiply(2); // really 0
-        d[2][15] = d[0][15].multiply(2); // really 0
+        d[2][12] = d[0][12].multiply(2).subtract(1); // really -1
+        d[2][13] = d[0][13].multiply(2);             // really  0
+        d[2][14] = d[0][14].multiply(2);             // really  0
+        d[2][15] = d[0][15].multiply(2);             // really  0
 
         d[3][ 0] = fraction(        -17751989329.0, 2106076560.0);
         d[3][ 1] = getField().getZero();
@@ -215,7 +215,7 @@ class DormandPrince853FieldStepInterpolator<T extends RealFieldElement<T>>
                                                                                    final T oneMinusThetaH)
         throws MaxCountExceededException {
 
-        final T one      = theta.getField().getOne();
+        final T one      = getField().getOne();
         final T eta      = one.subtract(theta);
         final T twoTheta = theta.multiply(2);
         final T theta2   = theta.multiply(theta);
@@ -228,6 +228,7 @@ class DormandPrince853FieldStepInterpolator<T extends RealFieldElement<T>>
         final T[] interpolatedState;
         final T[] interpolatedDerivatives;
 
+
         if (getGlobalPreviousState() != null && theta.getReal() <= 0.5) {
             final T f0 = theta.multiply(h);
             final T f1 = f0.multiply(eta);
@@ -236,18 +237,58 @@ class DormandPrince853FieldStepInterpolator<T extends RealFieldElement<T>>
             final T f4 = f3.multiply(theta);
             final T f5 = f4.multiply(eta);
             final T f6 = f5.multiply(theta);
-            interpolatedState       = previousStateLinearCombination(f0, f1, f2, f3, f4, f5, f6);
-            interpolatedDerivatives = derivativeLinearCombination(one, dot1, dot2, dot3, dot4, dot5, dot6);
+            final T[] p = MathArrays.buildArray(getField(), 16);
+            final T[] q = MathArrays.buildArray(getField(), 16);
+            for (int i = 0; i < p.length; ++i) {
+                p[i] =     f0.multiply(d[0][i]).
+                       add(f1.multiply(d[1][i])).
+                       add(f2.multiply(d[2][i])).
+                       add(f3.multiply(d[3][i])).
+                       add(f4.multiply(d[4][i])).
+                       add(f5.multiply(d[5][i])).
+                       add(f6.multiply(d[6][i]));
+                q[i] =                    d[0][i].
+                        add(dot1.multiply(d[1][i])).
+                        add(dot2.multiply(d[2][i])).
+                        add(dot3.multiply(d[3][i])).
+                        add(dot4.multiply(d[4][i])).
+                        add(dot5.multiply(d[5][i])).
+                        add(dot6.multiply(d[6][i]));
+            }
+            interpolatedState       = previousStateLinearCombination(p[0], p[1], p[ 2], p[ 3], p[ 4], p[ 5], p[ 6], p[ 7],
+                                                                     p[8], p[9], p[10], p[11], p[12], p[13], p[14], p[15]);
+            interpolatedDerivatives = derivativeLinearCombination(q[0], q[1], q[ 2], q[ 3], q[ 4], q[ 5], q[ 6], q[ 7],
+                                                                  q[8], q[9], q[10], q[11], q[12], q[13], q[14], q[15]);
         } else {
-            final T f0 = oneMinusThetaH;
+            final T f0 = oneMinusThetaH.negate();
             final T f1 = f0.multiply(theta).negate();
             final T f2 = f1.multiply(theta);
             final T f3 = f2.multiply(eta);
             final T f4 = f3.multiply(theta);
             final T f5 = f4.multiply(eta);
             final T f6 = f5.multiply(theta);
-            interpolatedState       = currentStateLinearCombination(f0, f1, f2, f3, f4, f5, f6);
-            interpolatedDerivatives = derivativeLinearCombination(one, dot1, dot2, dot3, dot4, dot5, dot6);
+            final T[] p = MathArrays.buildArray(getField(), 16);
+            final T[] q = MathArrays.buildArray(getField(), 16);
+            for (int i = 0; i < p.length; ++i) {
+                p[i] =     f0.multiply(d[0][i]).
+                       add(f1.multiply(d[1][i])).
+                       add(f2.multiply(d[2][i])).
+                       add(f3.multiply(d[3][i])).
+                       add(f4.multiply(d[4][i])).
+                       add(f5.multiply(d[5][i])).
+                       add(f6.multiply(d[6][i]));
+                q[i] =                    d[0][i].
+                        add(dot1.multiply(d[1][i])).
+                        add(dot2.multiply(d[2][i])).
+                        add(dot3.multiply(d[3][i])).
+                        add(dot4.multiply(d[4][i])).
+                        add(dot5.multiply(d[5][i])).
+                        add(dot6.multiply(d[6][i]));
+            }
+            interpolatedState       = currentStateLinearCombination(p[0], p[1], p[ 2], p[ 3], p[ 4], p[ 5], p[ 6], p[ 7],
+                                                                    p[8], p[9], p[10], p[11], p[12], p[13], p[14], p[15]);
+            interpolatedDerivatives = derivativeLinearCombination(q[0], q[1], q[ 2], q[ 3], q[ 4], q[ 5], q[ 6], q[ 7],
+                                                                  q[8], q[9], q[10], q[11], q[12], q[13], q[14], q[15]);
         }
 
         return new FieldODEStateAndDerivative<T>(time, interpolatedState, interpolatedDerivatives);
