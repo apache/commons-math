@@ -269,7 +269,7 @@ public final class StatUtilsTest {
         x = new double[] {ONE, TWO, TWO, THREE};
         TestUtils.assertEquals(0.5, StatUtils.variance(x,2.5, 2, 2), TOLERANCE);
     }
-    
+
     @Test
     public void testPopulationVariance() {
         double[] x = null;
@@ -461,10 +461,10 @@ public final class StatUtilsTest {
         Assert.assertEquals(FastMath.exp(0.5 * StatUtils.sumLog(test, 0, 2)),
                 StatUtils.geometricMean(test, 0, 2), Double.MIN_VALUE);
     }
-    
-    
+
+
     /**
-     * Run the test with the values 50 and 100 and assume standardized values    
+     * Run the test with the values 50 and 100 and assume standardized values
      */
 
     @Test
@@ -485,7 +485,7 @@ public final class StatUtilsTest {
 
     @Test
     public void testNormalize2() {
-        // create an sample with 77 values    
+        // create an sample with 77 values
         int length = 77;
         double sample[] = new double[length];
         for (int i = 0; i < length; i++) {
@@ -499,14 +499,14 @@ public final class StatUtilsTest {
         for (int i = 0; i < length; i++) {
             stats.addValue(standardizedSample[i]);
         }
-        // the calculations do have a limited precision    
+        // the calculations do have a limited precision
         double distance = 1E-10;
         // check the mean an standard deviation
         Assert.assertEquals(0.0, stats.getMean(), distance);
         Assert.assertEquals(1.0, stats.getStandardDeviation(), distance);
 
     }
-    
+
     @Test
     public void testMode() {
         final double[] singleMode = {0, 1, 0, 2, 7, 11, 12};
@@ -542,7 +542,7 @@ public final class StatUtilsTest {
         final double[] nansOnly = {Double.NaN, Double.NaN};
         final double[] modeNansOnly = StatUtils.mode(nansOnly);
         Assert.assertEquals(0, modeNansOnly.length);
-        
+
         final double[] nullArray = null;
         try {
             StatUtils.mode(nullArray);

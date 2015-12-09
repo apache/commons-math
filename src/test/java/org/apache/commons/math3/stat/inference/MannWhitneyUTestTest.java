@@ -37,11 +37,11 @@ public class MannWhitneyUTestTest {
          * x <- c(19, 22, 16, 29, 24)
          * y <- c(20, 11, 17, 12)
          * wilcox.test(x, y, alternative = "two.sided", mu = 0, paired = FALSE, exact = FALSE, correct = FALSE)
-         * W = 17, p-value = 0.08641 
+         * W = 17, p-value = 0.08641
          */
         final double x[] = {19, 22, 16, 29, 24};
         final double y[] = {20, 11, 17, 12};
-        
+
         Assert.assertEquals(17, testStatistic.mannWhitneyU(x, y), 1e-10);
         Assert.assertEquals(0.08641, testStatistic.mannWhitneyUTest(x, y), 1e-5);
     }
@@ -74,14 +74,14 @@ public class MannWhitneyUTestTest {
         } catch (NullArgumentException ex) {
             // expected
         }
-        
+
         try {
             testStatistic.mannWhitneyUTest(null, null);
             Assert.fail("x and y is null (asymptotic), NullArgumentException expected");
         } catch (NullArgumentException ex) {
             // expected
         }
-        
+
         /*
          * x or y is null
          */
@@ -91,7 +91,7 @@ public class MannWhitneyUTestTest {
         } catch (NullArgumentException ex) {
             // expected
         }
-        
+
         try {
             testStatistic.mannWhitneyUTest(new double[] { 1.0 }, null);
             Assert.fail("y is null (exact), NullArgumentException expected");
@@ -99,7 +99,7 @@ public class MannWhitneyUTestTest {
             // expected
         }
     }
-    
+
     @Test
     public void testBigDataSet() {
         double[] d1 = new double[1500];
@@ -111,7 +111,7 @@ public class MannWhitneyUTestTest {
         double result = testStatistic.mannWhitneyUTest(d1, d2);
         Assert.assertTrue(result > 0.1);
     }
-    
+
     @Test
     public void testBigDataSetOverflow() {
         // MATH-1145

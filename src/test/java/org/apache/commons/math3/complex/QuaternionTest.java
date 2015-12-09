@@ -84,7 +84,7 @@ public class QuaternionTest {
     public void testWrongDimension() {
         new Quaternion(new double[] { 1, 2 });
     }
-    
+
     @Test
     public final void testConjugate() {
         final double q0 = 2;

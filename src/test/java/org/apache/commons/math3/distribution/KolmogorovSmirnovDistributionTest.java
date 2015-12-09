@@ -26,18 +26,18 @@ import org.junit.Test;
  */
 @Deprecated
 public class KolmogorovSmirnovDistributionTest {
-    
+
     private static final double TOLERANCE = 10e-10;
 
     @Test
     public void testCumulativeDensityFunction() {
-        
+
         KolmogorovSmirnovDistribution dist;
-        
+
         /* The code below is generated using the R-script located in
          * /src/test/R/KolmogorovSmirnovDistributionTestCases.R
          */
-        
+
         /* R version 2.11.1 (2010-05-31) */
 
 

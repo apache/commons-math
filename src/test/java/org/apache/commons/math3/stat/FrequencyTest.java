@@ -254,7 +254,7 @@ public final class FrequencyTest {
         Assert.assertEquals("Integer 1 cumPct", 0.5, f.getCumPct(1), TOLERANCE);
         Assert.assertEquals("Integer 1 cumPct", 0.5, f.getCumPct(Long.valueOf(1)), TOLERANCE);
         Assert.assertEquals("Integer 1 cumPct", 0.5, f.getCumPct(Integer.valueOf(1)), TOLERANCE);
-        
+
         f.incrementValue(ONE, -2);
         f.incrementValue(THREE, 5);
 
@@ -264,7 +264,7 @@ public final class FrequencyTest {
         Iterator<?> it = f.valuesIterator();
         while (it.hasNext()) {
             Assert.assertTrue(it.next() instanceof Long);
-        }        
+        }
     }
 
     @Test
@@ -275,7 +275,7 @@ public final class FrequencyTest {
         f.addValue(TWO);
         Assert.assertEquals(f, TestUtils.serializeAndRecover(f));
     }
-    
+
     @Test
     public void testGetUniqueCount() {
         Assert.assertEquals(0, f.getUniqueCount());
@@ -286,7 +286,7 @@ public final class FrequencyTest {
         f.addValue(TWO);
         Assert.assertEquals(2, f.getUniqueCount());
     }
-    
+
     @Test
     public void testIncrement() {
         Assert.assertEquals(0, f.getUniqueCount());
@@ -295,10 +295,10 @@ public final class FrequencyTest {
 
         f.incrementValue(ONE_LONG, 4);
         Assert.assertEquals(5, f.getCount(ONE_LONG));
-        
+
         f.incrementValue(ONE_LONG, -5);
         Assert.assertEquals(0, f.getCount(ONE_LONG));
-        
+
         try {
             f.incrementValue(CHAR_A, 1);
             Assert.fail("Expecting IllegalArgumentException");
@@ -308,7 +308,7 @@ public final class FrequencyTest {
 
         f = new Frequency();
         f.incrementValue(CHAR_A, 2);
-        
+
         Assert.assertEquals(2, f.getCount(CHAR_A));
 
         try {
@@ -317,12 +317,12 @@ public final class FrequencyTest {
         } catch (IllegalArgumentException ex) {
             // expected
         }
-        
+
         f.incrementValue(CHAR_A, 3);
         Assert.assertEquals(5, f.getCount(CHAR_A));
 
     }
-    
+
     @Test
     public void testMerge() {
         Assert.assertEquals(0, f.getUniqueCount());
@@ -330,7 +330,7 @@ public final class FrequencyTest {
         f.addValue(TWO_LONG);
         f.addValue(ONE);
         f.addValue(TWO);
-        
+
         Assert.assertEquals(2, f.getUniqueCount());
         Assert.assertEquals(2, f.getCount(ONE));
         Assert.assertEquals(2, f.getCount(TWO));
@@ -345,18 +345,18 @@ public final class FrequencyTest {
         Assert.assertEquals(2, g.getCount(THREE));
 
         f.merge(g);
-        
+
         Assert.assertEquals(3, f.getUniqueCount());
         Assert.assertEquals(3, f.getCount(ONE));
         Assert.assertEquals(2, f.getCount(TWO));
-        Assert.assertEquals(2, f.getCount(THREE));        
+        Assert.assertEquals(2, f.getCount(THREE));
     }
-    
+
     @Test
     public void testMergeCollection() {
         Assert.assertEquals(0, f.getUniqueCount());
         f.addValue(ONE_LONG);
-        
+
         Assert.assertEquals(1, f.getUniqueCount());
         Assert.assertEquals(1, f.getCount(ONE));
         Assert.assertEquals(0, f.getCount(TWO));
@@ -366,18 +366,18 @@ public final class FrequencyTest {
 
         Frequency h = new Frequency();
         h.addValue(THREE_LONG);
-        
+
         List<Frequency> coll = new ArrayList<Frequency>();
         coll.add(g);
         coll.add(h);
         f.merge(coll);
-        
+
         Assert.assertEquals(3, f.getUniqueCount());
         Assert.assertEquals(1, f.getCount(ONE));
         Assert.assertEquals(1, f.getCount(TWO));
-        Assert.assertEquals(1, f.getCount(THREE));        
+        Assert.assertEquals(1, f.getCount(THREE));
     }
-    
+
     @Test
     public void testMode() {
         List<Comparable<?>> mode;

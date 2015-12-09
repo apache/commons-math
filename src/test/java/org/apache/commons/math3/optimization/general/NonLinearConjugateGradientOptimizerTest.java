@@ -194,7 +194,7 @@ public class NonLinearConjugateGradientOptimizerTest {
                                                     new SimpleValueChecker(1e-13, 1e-13),
                                                     new BrentSolver(),
                                                     preconditioner);
-                                                    
+
         PointValuePair optimum =
             optimizer.optimize(100, problem, GoalType.MINIMIZE, new double[] { 0, 0, 0, 0, 0, 0 });
         Assert.assertEquals( 3.0, optimum.getPoint()[0], 1.0e-10);

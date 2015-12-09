@@ -296,7 +296,7 @@ public class SummaryStatisticsTest {
             // expected
         }
     }
-    
+
     @Test
     public void testQuadraticMean() {
         final double[] values = { 1.2, 3.4, 5.6, 7.89 };
@@ -314,7 +314,7 @@ public class SummaryStatisticsTest {
 
         Assert.assertEquals(expected, stats.getQuadraticMean(), Math.ulp(expected));
     }
-    
+
     /**
      * JIRA: MATH-691
      */
@@ -326,31 +326,31 @@ public class SummaryStatisticsTest {
         for(double i : scores) {
           stats.addValue(i);
         }
-        Assert.assertEquals((new Variance(false)).evaluate(scores),stats.getVariance(), 0); 
+        Assert.assertEquals((new Variance(false)).evaluate(scores),stats.getVariance(), 0);
     }
-    
+
     @Test
     public void testOverrideMeanWithMathClass() {
         double[] scores = {1, 2, 3, 4};
         SummaryStatistics stats = new SummaryStatistics();
-        stats.setMeanImpl(new Mean()); 
+        stats.setMeanImpl(new Mean());
         for(double i : scores) {
           stats.addValue(i);
         }
-        Assert.assertEquals((new Mean()).evaluate(scores),stats.getMean(), 0); 
+        Assert.assertEquals((new Mean()).evaluate(scores),stats.getMean(), 0);
     }
-    
+
     @Test
     public void testOverrideGeoMeanWithMathClass() {
         double[] scores = {1, 2, 3, 4};
         SummaryStatistics stats = new SummaryStatistics();
-        stats.setGeoMeanImpl(new GeometricMean()); 
+        stats.setGeoMeanImpl(new GeometricMean());
         for(double i : scores) {
           stats.addValue(i);
         }
-        Assert.assertEquals((new GeometricMean()).evaluate(scores),stats.getGeometricMean(), 0); 
+        Assert.assertEquals((new GeometricMean()).evaluate(scores),stats.getGeometricMean(), 0);
     }
-    
+
     @Test
     public void testToString() {
         SummaryStatistics u = createSummaryStatistics();

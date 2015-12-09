@@ -28,14 +28,14 @@ public class BitsStreamGeneratorTest extends RandomGeneratorAbstractTest {
     public BitsStreamGeneratorTest() {
         super();
     }
-    
+
     @Override
     protected RandomGenerator makeGenerator() {
         RandomGenerator generator = new TestBitStreamGenerator();
         generator.setSeed(1000);
         return generator;
     }
-    
+
     /**
      * Test BitStreamGenerator using a Random as bit source.
      */
@@ -43,7 +43,7 @@ public class BitsStreamGeneratorTest extends RandomGeneratorAbstractTest {
 
         private static final long serialVersionUID = 1L;
         private BitRandom ran = new BitRandom();
-        
+
         @Override
         public void setSeed(int seed) {
            ran.setSeed(seed);
@@ -58,15 +58,15 @@ public class BitsStreamGeneratorTest extends RandomGeneratorAbstractTest {
         @Override
         public void setSeed(long seed) {
             ran.setSeed((int) seed);
-            
+
         }
-        
+
         @Override
         protected int next(int bits) {
             return ran.nextBits(bits);
-        }  
+        }
     }
-    
+
     /**
      * Extend Random to expose next(bits)
      */
@@ -79,5 +79,5 @@ public class BitsStreamGeneratorTest extends RandomGeneratorAbstractTest {
             return next(bits);
         }
     }
-    
+
 }

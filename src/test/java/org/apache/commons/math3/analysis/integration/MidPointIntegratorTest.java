@@ -41,7 +41,7 @@ public final class MidPointIntegratorTest {
     public void testLowAccuracy() {
         UnivariateFunction f = new QuinticFunction();
         UnivariateIntegrator integrator = new MidPointIntegrator(0.01, 1.0e-10, 2, 4);
-        
+
         double min = -10;
         double max =  -9;
         double expected = -3697001.0 / 48.0;
@@ -60,7 +60,7 @@ public final class MidPointIntegratorTest {
     public void testSinFunction() {
         UnivariateFunction f = new Sin();
         UnivariateIntegrator integrator = new MidPointIntegrator();
-        
+
         double min = 0;
         double max = FastMath.PI;
         double expected = 2;

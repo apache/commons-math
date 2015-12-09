@@ -31,7 +31,7 @@ public class SimpleValueCheckerTest {
     public void testIterationCheck() {
         final int max = 10;
         final SimpleValueChecker checker = new SimpleValueChecker(1e-1, 1e-2, max);
-        Assert.assertTrue(checker.converged(max, null, null)); 
+        Assert.assertTrue(checker.converged(max, null, null));
         Assert.assertTrue(checker.converged(max + 1, null, null));
     }
 

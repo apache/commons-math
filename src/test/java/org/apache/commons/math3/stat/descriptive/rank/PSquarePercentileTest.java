@@ -41,7 +41,7 @@ import org.junit.Test;
 
 /**
  * Test cases for the {@link PSquarePercentile} class which naturally extends
- * {@link StorelessUnivariateStatisticAbstractTest}. 
+ * {@link StorelessUnivariateStatisticAbstractTest}.
  */
 public class PSquarePercentileTest extends
         StorelessUnivariateStatisticAbstractTest {
@@ -49,7 +49,7 @@ public class PSquarePercentileTest extends
     protected double percentile5 = 8.2299d;
     protected double percentile95 = 16.72195;// 20.82d; this is approximation
     protected double tolerance = 10E-12;
-    
+
     private final RandomGenerator randomGenerator = new Well19937c(1000);
 
     @Override

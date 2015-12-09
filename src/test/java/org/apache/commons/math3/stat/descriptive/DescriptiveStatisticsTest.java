@@ -224,7 +224,7 @@ public class DescriptiveStatisticsTest {
         checkremoval(dstat, DescriptiveStatistics.INFINITE_WINDOW, 3.5, 2.5, 3.0);
 
     }
-    
+
     @Test
     public void testSummaryConsistency() {
         final DescriptiveStatistics dstats = new DescriptiveStatistics();

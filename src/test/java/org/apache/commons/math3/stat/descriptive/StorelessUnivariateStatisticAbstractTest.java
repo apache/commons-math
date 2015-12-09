@@ -74,7 +74,7 @@ public abstract class StorelessUnivariateStatisticAbstractTest
     protected void checkClearValue(StorelessUnivariateStatistic statistic){
         Assert.assertTrue(Double.isNaN(statistic.getResult()));
     }
-    
+
     @Test
     public void testSerialization() {
 

@@ -254,20 +254,20 @@ public class PolyhedronsSetTest {
     @Test
     public void testIssue780() throws MathArithmeticException {
         float[] coords = {
-            1.000000f, -1.000000f, -1.000000f, 
-            1.000000f, -1.000000f, 1.000000f, 
-            -1.000000f, -1.000000f, 1.000000f, 
-            -1.000000f, -1.000000f, -1.000000f, 
-            1.000000f, 1.000000f, -1f, 
-            0.999999f, 1.000000f, 1.000000f,   // 1.000000f, 1.000000f, 1.000000f, 
-            -1.000000f, 1.000000f, 1.000000f, 
+            1.000000f, -1.000000f, -1.000000f,
+            1.000000f, -1.000000f, 1.000000f,
+            -1.000000f, -1.000000f, 1.000000f,
+            -1.000000f, -1.000000f, -1.000000f,
+            1.000000f, 1.000000f, -1f,
+            0.999999f, 1.000000f, 1.000000f,   // 1.000000f, 1.000000f, 1.000000f,
+            -1.000000f, 1.000000f, 1.000000f,
             -1.000000f, 1.000000f, -1.000000f};
         int[] indices = {
-            0, 1, 2, 0, 2, 3, 
-            4, 7, 6, 4, 6, 5, 
-            0, 4, 5, 0, 5, 1, 
-            1, 5, 6, 1, 6, 2, 
-            2, 6, 7, 2, 7, 3, 
+            0, 1, 2, 0, 2, 3,
+            4, 7, 6, 4, 6, 5,
+            0, 4, 5, 0, 5, 1,
+            1, 5, 6, 1, 6, 2,
+            2, 6, 7, 2, 7, 3,
             4, 0, 3, 4, 3, 7};
         ArrayList<SubHyperplane<Euclidean3D>> subHyperplaneList = new ArrayList<SubHyperplane<Euclidean3D>>();
         for (int idx = 0; idx < indices.length; idx += 3) {
@@ -325,7 +325,7 @@ public class PolyhedronsSetTest {
     @Test
     public void testDumpParse() throws IOException, ParseException {
         double tol=1e-8;
-        
+
             Vector3D[] verts=new Vector3D[8];
             double xmin=-1,xmax=1;
             double ymin=-1,ymax=1;

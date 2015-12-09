@@ -86,7 +86,7 @@ public class HaltonSequenceGeneratorTest {
         } catch (OutOfRangeException e) {
             // expected
         }
-        
+
         try {
             new HaltonSequenceGenerator(41);
             Assert.fail("an exception should have been thrown");
@@ -124,7 +124,7 @@ public class HaltonSequenceGeneratorTest {
         double[] result = generator.skipTo(5);
         Assert.assertArrayEquals(referenceValues[5], result, 1e-3);
         Assert.assertEquals(6, generator.getNextIndex());
-        
+
         for (int i = 6; i < referenceValues.length; i++) {
             result = generator.nextVector();
             Assert.assertArrayEquals(referenceValues[i], result, 1e-3);

@@ -23,7 +23,7 @@ import org.junit.Test;
 
 /**
  * Test for {@link NonMonotonicSequenceException}.
- * 
+ *
  */
 public class NonMonotonicSequenceExceptionTest {
     @Test

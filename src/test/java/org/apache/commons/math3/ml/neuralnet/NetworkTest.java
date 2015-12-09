@@ -144,14 +144,14 @@ public class NetworkTest {
                                                    initArray).getNetwork();
 
         final Network copy = net.copy();
-        
+
         final Neuron netNeuron0 = net.getNeuron(0);
         final Neuron copyNeuron0 = copy.getNeuron(0);
         final Neuron netNeuron1 = net.getNeuron(1);
         final Neuron copyNeuron1 = copy.getNeuron(1);
         Collection<Neuron> netNeighbours;
         Collection<Neuron> copyNeighbours;
-        
+
         // Check that both networks have the same connections.
         netNeighbours = net.getNeighbours(netNeuron0);
         copyNeighbours = copy.getNeighbours(copyNeuron0);

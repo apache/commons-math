@@ -355,7 +355,7 @@ public class HighamHall54IntegratorTest {
     FirstOrderIntegrator integ = new HighamHall54Integrator(minStep, maxStep,
                                                             vecAbsoluteTolerance,
                                                             vecRelativeTolerance);
-    TestProblemHandler handler = new TestProblemHandler(pb, integ); 
+    TestProblemHandler handler = new TestProblemHandler(pb, integ);
     integ.addStepHandler(handler);
     integ.integrate(pb,
                     pb.getInitialTime(), pb.getInitialState(),

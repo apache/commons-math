@@ -38,7 +38,7 @@ public class DummyListChromosome extends AbstractListChromosome<Integer> {
 
     @Override
     protected void checkValidity(final List<Integer> chromosomeRepresentation) throws InvalidRepresentationException {
-        // Not important.            
+        // Not important.
     }
 
     @Override

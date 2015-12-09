@@ -31,7 +31,6 @@ tol <- 1E-9
 # Function definitions
 
 source("testFunctions")           # utility test functions
-library(rmutil)
 
 # function to verify distribution computations
 
@@ -47,7 +46,7 @@ verifyDistribution <- function(points, expected, m, s, tol) {
         displayPadded(output, SUCCEEDED, WIDTH)
     } else {
         displayPadded(output, FAILED, WIDTH)
-    }       
+    }
 }
 
 # function to verify density computations
@@ -64,7 +63,7 @@ verifyDensity <- function(points, expected, m, s, tol) {
         displayPadded(output, SUCCEEDED, WIDTH)
     } else {
         displayPadded(output, FAILED, WIDTH)
-    }       
+    }
 }
 
 #--------------------------------------------------------------------------

@@ -54,7 +54,7 @@ public class JacobianFunctionTest {
         public SphereMapping(final double radius) {
             this.radius = radius;
         }
-        
+
         public double[] value(double[] point) {
             final double cLat = FastMath.cos(point[0]);
             final double sLat = FastMath.sin(point[0]);
@@ -66,7 +66,7 @@ public class JacobianFunctionTest {
                 radius * sLat
             };
         }
-        
+
         public DerivativeStructure[] value(DerivativeStructure[] point) {
             final DerivativeStructure cLat = point[0].cos();
             final DerivativeStructure sLat = point[0].sin();

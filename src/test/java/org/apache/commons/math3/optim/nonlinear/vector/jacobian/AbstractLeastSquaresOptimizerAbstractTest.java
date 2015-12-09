@@ -294,7 +294,7 @@ public abstract class AbstractLeastSquaresOptimizerAbstractTest {
             optimizer.optimize(new MaxEval(100),
                                problem2.getModelFunction(),
                                problem2.getModelFunctionJacobian(),
-                               problem2.getTarget(), 
+                               problem2.getTarget(),
                                new Weight(new double[] { 1, 1, 1, 1 }),
                                new InitialGuess(new double[] { 0, 1, 2, 3 }));
         Assert.assertEquals(0, optimizer.getRMS(), 1e-10);

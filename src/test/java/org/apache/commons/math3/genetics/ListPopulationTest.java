@@ -60,13 +60,13 @@ public class ListPopulationTest {
 
         Assert.assertEquals(c3, population.getFittestChromosome());
     }
-    
+
     @Test
     public void testChromosomes() {
         final ArrayList<Chromosome> chromosomes = new ArrayList<Chromosome> ();
         chromosomes.add(new DummyBinaryChromosome(BinaryChromosome.randomBinaryRepresentation(3)));
         chromosomes.add(new DummyBinaryChromosome(BinaryChromosome.randomBinaryRepresentation(3)));
-        chromosomes.add(new DummyBinaryChromosome(BinaryChromosome.randomBinaryRepresentation(3)));        
+        chromosomes.add(new DummyBinaryChromosome(BinaryChromosome.randomBinaryRepresentation(3)));
 
         final ListPopulation population = new ListPopulation(10) {
             public Population nextGeneration() {
@@ -74,16 +74,16 @@ public class ListPopulationTest {
                 return null;
             }
         };
-        
+
         population.addChromosomes(chromosomes);
 
         Assert.assertEquals(chromosomes, population.getChromosomes());
         Assert.assertEquals(chromosomes.toString(), population.toString());
-        
+
         population.setPopulationLimit(50);
         Assert.assertEquals(50, population.getPopulationLimit());
     }
-    
+
     @Test(expected = NotPositiveException.class)
     public void testSetPopulationLimit() {
         final ListPopulation population = new ListPopulation(10) {
@@ -92,7 +92,7 @@ public class ListPopulationTest {
                 return null;
             }
         };
-        
+
         population.setPopulationLimit(-50);
     }
 
@@ -123,7 +123,7 @@ public class ListPopulationTest {
         final ArrayList<Chromosome> chromosomes = new ArrayList<Chromosome> ();
         chromosomes.add(new DummyBinaryChromosome(BinaryChromosome.randomBinaryRepresentation(3)));
         chromosomes.add(new DummyBinaryChromosome(BinaryChromosome.randomBinaryRepresentation(3)));
-        chromosomes.add(new DummyBinaryChromosome(BinaryChromosome.randomBinaryRepresentation(3)));        
+        chromosomes.add(new DummyBinaryChromosome(BinaryChromosome.randomBinaryRepresentation(3)));
         new ListPopulation(chromosomes, 1) {
             public Population nextGeneration() {
                 // not important
@@ -131,7 +131,7 @@ public class ListPopulationTest {
             }
         };
     }
-    
+
     @Test(expected=NumberIsTooLargeException.class)
     public void testAddTooManyChromosomes() {
         final ArrayList<Chromosome> chromosomes = new ArrayList<Chromosome> ();
@@ -145,10 +145,10 @@ public class ListPopulationTest {
                 return null;
             }
         };
-        
+
         population.addChromosomes(chromosomes);
     }
-    
+
     @Test(expected=NumberIsTooLargeException.class)
     public void testAddTooManyChromosomesSingleCall() {
 
@@ -163,7 +163,7 @@ public class ListPopulationTest {
             population.addChromosome(new DummyBinaryChromosome(BinaryChromosome.randomBinaryRepresentation(3)));
         }
     }
-    
+
     @Test(expected = UnsupportedOperationException.class)
     public void testIterator() {
         final ArrayList<Chromosome> chromosomes = new ArrayList<Chromosome>();
@@ -186,7 +186,7 @@ public class ListPopulationTest {
             iter.remove();
         }
     }
-    
+
     @Test(expected=NumberIsTooSmallException.class)
     public void testSetPopulationLimitTooSmall() {
         final ArrayList<Chromosome> chromosomes = new ArrayList<Chromosome> ();
@@ -203,5 +203,5 @@ public class ListPopulationTest {
 
         population.setPopulationLimit(2);
     }
-    
+
 }

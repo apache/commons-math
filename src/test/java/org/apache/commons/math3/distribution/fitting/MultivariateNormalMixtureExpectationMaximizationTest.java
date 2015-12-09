@@ -180,10 +180,10 @@ public class MultivariateNormalMixtureExpectationMaximizationTest {
                 .getComponents()) {
             Assert.assertEquals(correctWeights[i], component.getFirst(),
                     Math.ulp(1d));
-            
+
             final double[] means = component.getValue().getMeans();
             Assert.assertTrue(Arrays.equals(correctMeans[i], means));
-            
+
             final RealMatrix covMat = component.getValue().getCovariances();
             Assert.assertEquals(correctCovMats[i], covMat);
             i++;
@@ -197,12 +197,12 @@ public class MultivariateNormalMixtureExpectationMaximizationTest {
         final double[][] data = getTestSamples();
         final double correctLogLikelihood = -4.292431006791994;
         final double[] correctWeights = new double[] { 0.2962324189652912, 0.7037675810347089 };
-        
+
         final double[][] correctMeans = new double[][]{
             {-1.4213112715121132, 1.6924690505757753},
             {4.213612224374709, 7.975621325853645}
         };
-        
+
         final RealMatrix[] correctCovMats = new Array2DRowRealMatrix[2];
         correctCovMats[0] = new Array2DRowRealMatrix(new double[][] {
             { 1.739356907285747, -0.5867644251487614 },
@@ -211,7 +211,7 @@ public class MultivariateNormalMixtureExpectationMaximizationTest {
         correctCovMats[1] = new Array2DRowRealMatrix(new double[][] {
             { 4.245384898007161, 2.5797798966382155 },
             { 2.5797798966382155, 3.9200272522448367 } });
-        
+
         final MultivariateNormalDistribution[] correctMVNs = new MultivariateNormalDistribution[2];
         correctMVNs[0] = new MultivariateNormalDistribution(correctMeans[0], correctCovMats[0].getData());
         correctMVNs[1] = new MultivariateNormalDistribution(correctMeans[1], correctCovMats[1].getData());

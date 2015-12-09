@@ -514,7 +514,7 @@ public abstract class AbstractLeastSquaresOptimizerAbstractTest {
                 for (int j = 0; j < factors.getColumnDimension(); ++j) {
                     value[i] = value[i].add(variables[j].multiply(factors.getEntry(i, j)));
                 }
-                
+
             }
             return value;
         }

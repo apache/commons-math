@@ -180,7 +180,7 @@ public class GTestTest {
             // expected
         }
     }
-    
+
     @Test
     public void testUnmatchedArrays() {
         final long[] observed = { 0, 1, 2, 3 };
@@ -199,7 +199,7 @@ public class GTestTest {
             // expected
         }
     }
-    
+
     @Test
     public void testNegativeObservedCounts() {
         final long[] observed = { 0, 1, 2, -3 };
@@ -216,9 +216,9 @@ public class GTestTest {
             Assert.fail("negative observed count, NotPositiveException expected");
         } catch (NotPositiveException ex) {
             // expected
-        } 
+        }
     }
-    
+
     @Test
     public void testZeroExpectedCounts() {
         final long[] observed = { 0, 1, 2, -3 };
@@ -230,7 +230,7 @@ public class GTestTest {
             // expected
         }
     }
-    
+
     @Test
     public void testBadAlpha() {
         final long[] observed = { 0, 1, 2, 3 };
@@ -247,9 +247,9 @@ public class GTestTest {
             Assert.fail("zero expected count, NotStrictlyPositiveException expected");
         } catch (OutOfRangeException ex) {
             // expected
-        }  
+        }
     }
-    
+
     @Test
     public void testScaling() {
       final long[] observed = {9, 11, 10, 8, 12};

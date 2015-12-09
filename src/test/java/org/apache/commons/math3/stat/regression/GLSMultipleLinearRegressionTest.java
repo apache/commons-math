@@ -162,18 +162,18 @@ public class GLSMultipleLinearRegressionTest extends MultipleLinearRegressionAbs
         model.newSampleData(y, x, omega);
         TestUtils.assertEquals(model.calculateYVariance(), 3.5, 0);
     }
-    
+
     /**
      * Verifies that setting X, Y and covariance separately has the same effect as newSample(X,Y,cov).
      */
     @Test
     public void testNewSample2() {
-        double[] y = new double[] {1, 2, 3, 4}; 
+        double[] y = new double[] {1, 2, 3, 4};
         double[][] x = new double[][] {
           {19, 22, 33},
           {20, 30, 40},
           {25, 35, 45},
-          {27, 37, 47}   
+          {27, 37, 47}
         };
         double[][] covariance = MatrixUtils.createRealIdentityMatrix(4).scalarMultiply(2).getData();
         GLSMultipleLinearRegression regression = new GLSMultipleLinearRegression();
@@ -187,13 +187,13 @@ public class GLSMultipleLinearRegressionTest extends MultipleLinearRegressionAbs
         Assert.assertEquals(combinedY, regression.getY());
         Assert.assertEquals(combinedCovInv, regression.getOmegaInverse());
     }
-    
+
     /**
      * Verifies that GLS with identity covariance matrix gives the same results
      * as OLS.
      */
     @Test
-    public void testGLSOLSConsistency() {      
+    public void testGLSOLSConsistency() {
         RealMatrix identityCov = MatrixUtils.createRealIdentityMatrix(16);
         GLSMultipleLinearRegression glsModel = new GLSMultipleLinearRegression();
         OLSMultipleLinearRegression olsModel = new OLSMultipleLinearRegression();
@@ -208,7 +208,7 @@ public class GLSMultipleLinearRegressionTest extends MultipleLinearRegressionAbs
             TestUtils.assertRelativelyEquals(olsBeta[i], glsBeta[i], 10E-7);
         }
     }
-    
+
     /**
      * Generate an error covariance matrix and sample data representing models
      * with this error structure. Then verify that GLS estimated coefficients,
@@ -218,7 +218,7 @@ public class GLSMultipleLinearRegressionTest extends MultipleLinearRegressionAbs
     public void testGLSEfficiency() {
         RandomGenerator rg = new JDKRandomGenerator();
         rg.setSeed(200);  // Seed has been selected to generate non-trivial covariance
-        
+
         // Assume model has 16 observations (will use Longley data).  Start by generating
         // non-constant variances for the 16 error terms.
         final int nObs = 16;
@@ -226,7 +226,7 @@ public class GLSMultipleLinearRegressionTest extends MultipleLinearRegressionAbs
         for (int i = 0; i < nObs; i++) {
             sigma[i] = 10 * rg.nextDouble();
         }
-        
+
         // Now generate 1000 error vectors to use to estimate the covariance matrix
         // Columns are draws on N(0, sigma[col])
         final int numSeeds = 1000;
@@ -236,16 +236,16 @@ public class GLSMultipleLinearRegressionTest extends MultipleLinearRegressionAbs
                 errorSeeds.setEntry(i, j, rg.nextGaussian() * sigma[j]);
             }
         }
-        
+
         // Get covariance matrix for columns
         RealMatrix cov = (new Covariance(errorSeeds)).getCovarianceMatrix();
-          
+
         // Create a CorrelatedRandomVectorGenerator to use to generate correlated errors
         GaussianRandomGenerator rawGenerator = new GaussianRandomGenerator(rg);
         double[] errorMeans = new double[nObs];  // Counting on init to 0 here
         CorrelatedRandomVectorGenerator gen = new CorrelatedRandomVectorGenerator(errorMeans, cov,
          1.0e-12 * cov.getNorm(), rawGenerator);
-        
+
         // Now start generating models.  Use Longley X matrix on LHS
         // and Longley OLS beta vector as "true" beta.  Generate
         // Y values by XB + u where u is a CorrelatedRandomVector generated
@@ -254,44 +254,44 @@ public class GLSMultipleLinearRegressionTest extends MultipleLinearRegressionAbs
         ols.newSampleData(longley, nObs, 6);
         final RealVector b = ols.calculateBeta().copy();
         final RealMatrix x = ols.getX().copy();
-        
+
         // Create a GLS model to reuse
         GLSMultipleLinearRegression gls = new GLSMultipleLinearRegression();
         gls.newSampleData(longley, nObs, 6);
         gls.newCovarianceData(cov.getData());
-        
+
         // Create aggregators for stats measuring model performance
         DescriptiveStatistics olsBetaStats = new DescriptiveStatistics();
         DescriptiveStatistics glsBetaStats = new DescriptiveStatistics();
-        
+
         // Generate Y vectors for 10000 models, estimate GLS and OLS and
         // Verify that OLS estimates are better
         final int nModels = 10000;
         for (int i = 0; i < nModels; i++) {
-            
+
             // Generate y = xb + u with u cov
             RealVector u = MatrixUtils.createRealVector(gen.nextVector());
             double[] y = u.add(x.operate(b)).toArray();
-            
+
             // Estimate OLS parameters
             ols.newYSampleData(y);
             RealVector olsBeta = ols.calculateBeta();
-            
+
             // Estimate GLS parameters
             gls.newYSampleData(y);
             RealVector glsBeta = gls.calculateBeta();
-            
+
             // Record deviations from "true" beta
             double dist = olsBeta.getDistance(b);
             olsBetaStats.addValue(dist * dist);
             dist = glsBeta.getDistance(b);
             glsBetaStats.addValue(dist * dist);
-            
+
         }
-        
+
         // Verify that GLS is on average more efficient, lower variance
         assert(olsBetaStats.getMean() > 1.5 * glsBetaStats.getMean());
-        assert(olsBetaStats.getStandardDeviation() > glsBetaStats.getStandardDeviation());  
+        assert(olsBetaStats.getStandardDeviation() > glsBetaStats.getStandardDeviation());
     }
-    
+
 }

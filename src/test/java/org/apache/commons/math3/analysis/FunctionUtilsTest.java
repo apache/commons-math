@@ -273,11 +273,11 @@ public class FunctionUtilsTest {
     public void testToDifferentiableMultivariateFunction() {
 
         MultivariateDifferentiableFunction hypot = new MultivariateDifferentiableFunction() {
-            
+
             public double value(double[] point) {
                 return FastMath.hypot(point[0], point[1]);
             }
-            
+
             public DerivativeStructure value(DerivativeStructure[] point) {
                 return DerivativeStructure.hypot(point[0], point[1]);
             }
@@ -300,7 +300,7 @@ public class FunctionUtilsTest {
     public void testToMultivariateDifferentiableFunction() {
 
         DifferentiableMultivariateFunction hypot = new DifferentiableMultivariateFunction() {
-            
+
             public double value(double[] point) {
                 return FastMath.hypot(point[0], point[1]);
             }
@@ -321,7 +321,7 @@ public class FunctionUtilsTest {
                     }
                 };
             }
-            
+
         };
 
         MultivariateDifferentiableFunction converted = FunctionUtils.toMultivariateDifferentiableFunction(hypot);

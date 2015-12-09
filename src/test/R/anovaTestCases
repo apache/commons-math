@@ -43,13 +43,13 @@ verifyAnova <- function(frame, expectedP, expectedF, frameName) {
         displayPadded(output, SUCCEEDED, WIDTH)
     } else {
         displayPadded(output, FAILED, WIDTH)
-    }  
+    }
     output <- c("F-value test frame = ", frameName)
     if (assertEquals(expectedF,f,tol,"F value")) {
         displayPadded(output, SUCCEEDED, WIDTH)
     } else {
         displayPadded(output, FAILED, WIDTH)
-    }           
+    }
 }
 
 #--------------------------------------------------------------------------
@@ -63,7 +63,7 @@ class=c(rep("classA", length(classA)),
         rep("classB", length(classB)),
         rep("classC", length(classC))))
 
-verifyAnova(threeClasses,6.959446e-06,  24.67361709460624, "Three classes") 
+verifyAnova(threeClasses,6.959446e-06,  24.67361709460624, "Three classes")
 
 twoClasses = data.frame(val = c(classA, classB),
 class=c(rep("classA", length(classA)), rep("classB", length(classB))))

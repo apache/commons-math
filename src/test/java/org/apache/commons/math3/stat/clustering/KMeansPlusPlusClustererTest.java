@@ -248,16 +248,16 @@ public class KMeansPlusPlusClustererTest {
         }
         Assert.assertTrue(uniquePointIsCenter);
     }
-    
+
     /**
      * 2 variables cannot be clustered into 3 clusters. See issue MATH-436.
      */
     @Test(expected=NumberIsTooSmallException.class)
     public void testPerformClusterAnalysisToManyClusters() {
-        KMeansPlusPlusClusterer<EuclideanIntegerPoint> transformer = 
+        KMeansPlusPlusClusterer<EuclideanIntegerPoint> transformer =
             new KMeansPlusPlusClusterer<EuclideanIntegerPoint>(
                     new Random(1746432956321l));
-        
+
         EuclideanIntegerPoint[] points = new EuclideanIntegerPoint[] {
             new EuclideanIntegerPoint(new int[] {
                 1959, 325100
@@ -265,7 +265,7 @@ public class KMeansPlusPlusClustererTest {
                 1960, 373200
             })
         };
-        
+
         transformer.cluster(Arrays.asList(points), 3, 1);
 
     }

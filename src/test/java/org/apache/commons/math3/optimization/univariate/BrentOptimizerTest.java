@@ -71,7 +71,7 @@ public final class BrentOptimizerTest {
     public void testBoundaries() {
         final double lower = -1.0;
         final double upper = +1.0;
-        UnivariateFunction f = new UnivariateFunction() {            
+        UnivariateFunction f = new UnivariateFunction() {
             public double value(double x) {
                 if (x < lower) {
                     throw new NumberIsTooSmallException(x, lower, true);

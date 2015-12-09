@@ -23,7 +23,7 @@ import org.junit.Test;
 
 /**
  * Test for {@link TooManyEvaluationsException}.
- * 
+ *
  */
 public class TooManyEvaluationsExceptionTest {
     @Test

@@ -25,7 +25,7 @@ import org.junit.Test;
 /**
  * The class <code>StableRandomGeneratorTest</code> contains tests for the class
  * {@link StableRandomGenerator}
- * 
+ *
  */
 public class StableRandomGeneratorTest {
 
@@ -35,7 +35,7 @@ public class StableRandomGeneratorTest {
     /**
      * Run the double nextDouble() method test Due to leptokurtic property the
      * acceptance range is widened.
-     * 
+     *
      * TODO: verify that tolerance this wide is really OK
      */
     @Test

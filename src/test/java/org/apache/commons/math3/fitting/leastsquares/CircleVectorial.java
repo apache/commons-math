@@ -56,7 +56,7 @@ class CircleVectorial {
                 for (int i = 0; i < residuals.length; i++) {
                     residuals[i] = points.get(i).distance(center) - radius;
                 }
-                
+
                 return residuals;
             }
         };

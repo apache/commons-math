@@ -34,7 +34,7 @@ import org.junit.Test;
  *
  */
 public class MathArraysTest {
-    
+
     private double[] testArray = {0, 1, 2, 3, 4, 5};
     private double[] testWeightsArray = {0.3, 0.2, 1.3, 1.1, 1.0, 1.8};
     private double[] testNegativeWeightsArray = {-0.3, 0.2, -1.3, 1.1, 1.0, 1.8};
@@ -46,7 +46,7 @@ public class MathArraysTest {
         final double[] test = new double[] { -2.5, -1, 0, 1, 2.5 };
         final double[] correctTest = MathArrays.copyOf(test);
         final double[] correctScaled = new double[]{5.25, 2.1, 0, -2.1, -5.25};
-        
+
         final double[] scaled = MathArrays.scale(-2.1, test);
 
         // Make sure test has not changed
@@ -59,7 +59,7 @@ public class MathArraysTest {
             Assert.assertEquals(correctScaled[i], scaled[i], 0);
         }
     }
-    
+
     @Test
     public void testScaleInPlace() {
         final double[] test = new double[] { -2.5, -1, 0, 1, 2.5 };
@@ -71,7 +71,7 @@ public class MathArraysTest {
             Assert.assertEquals(correctScaled[i], test[i], 0);
         }
     }
-    
+
     @Test(expected=DimensionMismatchException.class)
     public void testEbeAddPrecondition() {
         MathArrays.ebeAdd(new double[3], new double[4]);
@@ -350,7 +350,7 @@ public class MathArraysTest {
                                                                 new Double(-27.5) },
                 MathArrays.OrderDirection.DECREASING, false));
     }
-    
+
     @Test
     public void testCheckRectangular() {
         final long[][] rect = new long[][] {{0, 1}, {2, 3}};
@@ -370,9 +370,9 @@ public class MathArraysTest {
             Assert.fail("Expecting NullArgumentException");
         } catch (NullArgumentException ex) {
             // Expected
-        } 
+        }
     }
-    
+
     @Test
     public void testCheckPositive() {
         final double[] positive = new double[] {1, 2, 3};
@@ -394,7 +394,7 @@ public class MathArraysTest {
             // Expected
         }
     }
-    
+
     @Test
     public void testCheckNonNegative() {
         final long[] nonNegative = new long[] {0, 1};
@@ -416,7 +416,7 @@ public class MathArraysTest {
             // Expected
         }
     }
-    
+
     @Test
     public void testCheckNonNegative2D() {
         final long[][] nonNegative = new long[][] {{0, 1}, {1, 0}};
@@ -551,7 +551,7 @@ public class MathArraysTest {
         Assert.assertEquals(25,  x2[0], FastMath.ulp(1d));
         Assert.assertEquals(125, x3[0], FastMath.ulp(1d));
     }
-    
+
     @Test
     /** Example in javadoc */
     public void testSortInPlaceExample() {
@@ -566,7 +566,7 @@ public class MathArraysTest {
         Assert.assertTrue(Arrays.equals(sy, y));
         Assert.assertTrue(Arrays.equals(sz, z));
     }
-    
+
     @Test
     public void testSortInPlaceFailures() {
         final double[] nullArray = null;
@@ -1044,7 +1044,7 @@ public class MathArraysTest {
             Assert.fail("expecting MathIllegalArgumentException");
         } catch (MathIllegalArgumentException ex) {}
     }
-    
+
     @Test
     public void testConvolve() {
         /* Test Case (obtained via SciPy)
@@ -1063,10 +1063,10 @@ public class MathArraysTest {
         double[] x2 = { 1, 2, 3 };
         double[] h2 = { 0, 1, 0.5 };
         double[] y2 = { 0, 1, 2.5, 4, 1.5 };
-        
+
         yActual = MathArrays.convolve(x2, h2);
         Assert.assertArrayEquals(y2, yActual, tolerance);
-                
+
         try {
             MathArrays.convolve(new double[]{1, 2}, null);
             Assert.fail("an exception should have been thrown");
@@ -1184,7 +1184,7 @@ public class MathArraysTest {
         final int[] seq = MathArrays.sequence(0, 12345, 6789);
         Assert.assertEquals(0, seq.length);
     }
-    
+
     @Test
     public void testVerifyValuesPositive() {
         for (int j = 0; j < 6; j++) {
@@ -1248,5 +1248,70 @@ public class MathArraysTest {
         } catch (MathIllegalArgumentException ex) {
             // expected
         }
+    }
+
+    @Test
+    public void testConcatenate() {
+        final double[] u = new double[] {0, 1, 2, 3, 4, 5, 6, 7, 8, 9};
+        final double[] x = new double[] {0, 1, 2};
+        final double[] y = new double[] {3, 4, 5, 6, 7, 8};
+        final double[] z = new double[] {9};
+        Assert.assertArrayEquals(u, MathArrays.concatenate(x, y, z), 0);
+    }
+
+    @Test
+    public void testConcatentateSingle() {
+        final double[] x = new double[] {0, 1, 2};
+        Assert.assertArrayEquals(x, MathArrays.concatenate(x), 0);
+    }
+
+    public void testConcatenateEmptyArguments() {
+        final double[] x = new double[] {0, 1, 2};
+        final double[] y = new double[] {3};
+        final double[] z = new double[] {};
+        final double[] u = new double[] {0, 1, 2, 3};
+        Assert.assertArrayEquals(u,  MathArrays.concatenate(x, z, y), 0);
+        Assert.assertArrayEquals(u,  MathArrays.concatenate(x, y, z), 0);
+        Assert.assertArrayEquals(u,  MathArrays.concatenate(z, x, y), 0);
+        Assert.assertEquals(0,  MathArrays.concatenate(z, z, z).length);
+    }
+
+    @Test(expected=NullPointerException.class)
+    public void testConcatenateNullArguments() {
+        final double[] x = new double[] {0, 1, 2};
+        MathArrays.concatenate(x, null);
+    }
+
+    @Test
+    public void testUnique() {
+        final double[] x = {0, 9, 3, 0, 11, 7, 3, 5, -1, -2};
+        final double[] values = {11, 9, 7, 5, 3, 0, -1, -2};
+        Assert.assertArrayEquals(values, MathArrays.unique(x), 0);
+    }
+
+    @Test
+    public void testUniqueInfiniteValues() {
+        final double [] x = {0, Double.NEGATIVE_INFINITY, 3, Double.NEGATIVE_INFINITY,
+            3, Double.POSITIVE_INFINITY, Double.POSITIVE_INFINITY};
+        final double[] u = {Double.POSITIVE_INFINITY, 3, 0, Double.NEGATIVE_INFINITY};
+        Assert.assertArrayEquals(u , MathArrays.unique(x), 0);
+    }
+
+    @Test
+    public void testUniqueNaNValues() {
+        final double[] x = new double[] {10, 2, Double.NaN, Double.NaN, Double.NaN,
+            Double.POSITIVE_INFINITY, Double.POSITIVE_INFINITY, Double.NEGATIVE_INFINITY};
+        final double[] u = MathArrays.unique(x);
+        Assert.assertEquals(5, u.length);
+        Assert.assertTrue(Double.isNaN(u[0]));
+        Assert.assertEquals(Double.POSITIVE_INFINITY, u[1], 0);
+        Assert.assertEquals(10, u[2], 0);
+        Assert.assertEquals(2, u[3], 0);
+        Assert.assertEquals(Double.NEGATIVE_INFINITY, u[4], 0);
+    }
+
+    @Test(expected=NullPointerException.class)
+    public void testUniqueNullArgument() {
+        MathArrays.unique(null);
     }
 }

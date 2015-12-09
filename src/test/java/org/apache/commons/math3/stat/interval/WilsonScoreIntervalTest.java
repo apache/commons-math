@@ -32,7 +32,7 @@ public class WilsonScoreIntervalTest extends BinomialConfidenceIntervalAbstractT
     protected BinomialConfidenceInterval createBinomialConfidenceInterval() {
         return new WilsonScoreInterval();
     }
-    
+
     @Test
     public void testStandardInterval() {
         ConfidenceInterval confidenceInterval = createStandardTestInterval();

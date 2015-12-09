@@ -127,7 +127,7 @@ public class SpearmansRankCorrelationTest extends PearsonsCorrelationTest {
 
         NaturalRanking ranking = new NaturalRanking(NaNStrategy.REMOVED);
         SpearmansCorrelation spearman = new SpearmansCorrelation(ranking);
-        
+
         Assert.assertEquals(0.5, spearman.correlation(xArray, yArray), Double.MIN_VALUE);
     }
 
@@ -145,7 +145,7 @@ public class SpearmansRankCorrelationTest extends PearsonsCorrelationTest {
         // compute correlation
         NaturalRanking ranking = new NaturalRanking(NaNStrategy.REMOVED);
         SpearmansCorrelation spearman = new SpearmansCorrelation(matrix, ranking);
-        
+
         Assert.assertEquals(0.5, spearman.getCorrelationMatrix().getEntry(0, 1), Double.MIN_VALUE);
     }
 

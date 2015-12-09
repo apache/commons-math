@@ -33,13 +33,13 @@ public class OrderedCrossoverTest {
         final Integer[] p2 = new Integer[] { 0, 1, 2, 3, 4, 5, 6, 7, 8, 9 };
         final DummyListChromosome p1c = new DummyListChromosome(p1);
         final DummyListChromosome p2c = new DummyListChromosome(p2);
-        
+
         final CrossoverPolicy cp = new OrderedCrossover<Integer>();
 
         for (int i = 0; i < 20; i++) {
             final Set<Integer> parentSet1 = new HashSet<Integer>(Arrays.asList(p1));
             final Set<Integer> parentSet2 = new HashSet<Integer>(Arrays.asList(p2));
-            
+
             final ChromosomePair pair = cp.crossover(p1c, p2c);
 
             final Integer[] c1 = ((DummyListChromosome) pair.getFirst()).getRepresentation().toArray(new Integer[p1.length]);
@@ -47,7 +47,7 @@ public class OrderedCrossoverTest {
 
             Assert.assertNotSame(p1c, pair.getFirst());
             Assert.assertNotSame(p2c, pair.getSecond());
-            
+
             // make sure that the children have exactly the same elements as their parents
             for (int j = 0; j < c1.length; j++) {
                 Assert.assertTrue(parentSet1.contains(c1[j]));

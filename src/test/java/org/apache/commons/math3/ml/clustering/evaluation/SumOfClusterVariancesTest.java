@@ -54,7 +54,7 @@ public class SumOfClusterVariancesTest {
         };
 
         final List<Cluster<DoublePoint>> clusters = new ArrayList<Cluster<DoublePoint>>();
-        
+
         final Cluster<DoublePoint> cluster1 = new Cluster<DoublePoint>();
         for (DoublePoint p : points1) {
             cluster1.addPoint(p);
@@ -71,7 +71,7 @@ public class SumOfClusterVariancesTest {
 
         assertEquals(6.148148148, evaluator.score(clusters), 1e-6);
     }
-    
+
     @Test
     public void testOrdering() {
         assertTrue(evaluator.isBetterScore(10, 20));

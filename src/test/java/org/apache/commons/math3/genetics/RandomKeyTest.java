@@ -62,7 +62,7 @@ public class RandomKeyTest {
         Assert.assertEquals("c", decoded.get(3));
         Assert.assertEquals("d", decoded.get(4));
     }
-    
+
     @Test(expected=IllegalArgumentException.class)
     public void testInvalidRepresentation() {
         new DummyRandomKey(new Double[] {0.1, 0.1, 2d, 0.8, 0.2});

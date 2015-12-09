@@ -145,7 +145,7 @@ public class CombinationsTest {
      * Verifies that the iterator generates a lexicographically
      * increasing sequence of b(n,k) arrays, each having length k
      * and each array itself increasing.
-     * 
+     *
      * @param c Combinations.
      */
     private void checkLexicographicIterator(Combinations c) {
@@ -177,7 +177,7 @@ public class CombinationsTest {
         Assert.assertEquals(CombinatoricsUtils.binomialCoefficient(n, k),
                             numIterates);
     }
-    
+
     @Test
     public void testCombinationsIteratorFail() {
         try {

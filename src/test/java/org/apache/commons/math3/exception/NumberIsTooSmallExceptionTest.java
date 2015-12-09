@@ -21,7 +21,7 @@ import org.junit.Test;
 
 /**
  * Test for {@link NumberIsTooSmallException}.
- * 
+ *
  */
 public class NumberIsTooSmallExceptionTest {
     @Test

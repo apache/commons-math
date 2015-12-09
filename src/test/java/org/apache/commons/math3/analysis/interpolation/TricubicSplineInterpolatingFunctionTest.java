@@ -25,7 +25,7 @@ import org.junit.Test;
 
 /**
  * Test case for the bicubic function.
- * 
+ *
  */
 public final class TricubicSplineInterpolatingFunctionTest {
     /**
@@ -42,7 +42,7 @@ public final class TricubicSplineInterpolatingFunctionTest {
         TrivariateFunction tcf = new TricubicSplineInterpolatingFunction(xval, yval, zval,
                                                                              fval, fval, fval, fval,
                                                                              fval, fval, fval, fval);
-        
+
         double[] wxval = new double[] {3, 2, 5, 6.5};
         try {
             tcf = new TricubicSplineInterpolatingFunction(wxval, yval, zval,
@@ -383,19 +383,19 @@ public final class TricubicSplineInterpolatingFunctionTest {
         double[] xval = new double[] {3, 4, 5, 6.5};
         double[] yval = new double[] {-4, -3, -1, 2, 2.5};
         double[] zval = new double[] {-12, -8, -5.5, -3, 0, 4};
-        
+
         final double a = 0.2;
         final double omega = 0.5;
         final double kx = 2;
         final double ky = 1;
-        
+
         // Function values
         TrivariateFunction f = new TrivariateFunction() {
                 public double value(double x, double y, double z) {
                     return a * FastMath.cos(omega * z - kx * x - ky * y);
                 }
             };
-        
+
         double[][][] fval = new double[xval.length][yval.length][zval.length];
         for (int i = 0; i < xval.length; i++) {
             for (int j = 0; j < yval.length; j++) {
@@ -404,7 +404,7 @@ public final class TricubicSplineInterpolatingFunctionTest {
                 }
             }
         }
-        
+
         // Partial derivatives with respect to x
         double[][][] dFdX = new double[xval.length][yval.length][zval.length];
         TrivariateFunction dFdX_f = new TrivariateFunction() {
@@ -419,7 +419,7 @@ public final class TricubicSplineInterpolatingFunctionTest {
                 }
             }
         }
-            
+
         // Partial derivatives with respect to y
         double[][][] dFdY = new double[xval.length][yval.length][zval.length];
         TrivariateFunction dFdY_f = new TrivariateFunction() {
@@ -516,7 +516,7 @@ public final class TricubicSplineInterpolatingFunctionTest {
                                                                              d3FdXdYdZ);
         double x, y, z;
         double expected, result;
-        
+
         x = 4;
         y = -3;
         z = 0;

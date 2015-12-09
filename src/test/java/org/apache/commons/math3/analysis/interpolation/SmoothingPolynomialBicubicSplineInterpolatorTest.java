@@ -25,7 +25,7 @@ import org.junit.Test;
 
 /**
  * Test case for the smoothing bicubic interpolator.
- * 
+ *
  */
 public final class SmoothingPolynomialBicubicSplineInterpolatorTest {
     /**
@@ -38,10 +38,10 @@ public final class SmoothingPolynomialBicubicSplineInterpolatorTest {
         double[][] zval = new double[xval.length][yval.length];
 
         BivariateGridInterpolator interpolator = new SmoothingPolynomialBicubicSplineInterpolator(0);
-        
+
         @SuppressWarnings("unused")
         BivariateFunction p = interpolator.interpolate(xval, yval, zval);
-        
+
         double[] wxval = new double[] {3, 2, 5, 6.5};
         try {
             p = interpolator.interpolate(wxval, yval, zval);
@@ -109,7 +109,7 @@ public final class SmoothingPolynomialBicubicSplineInterpolatorTest {
         BivariateFunction p = interpolator.interpolate(xval, yval, zval);
         double x, y;
         double expected, result;
-        
+
         x = 4;
         y = -3;
         expected = f.value(x, y);

@@ -147,19 +147,19 @@ public class DBSCANClustererTest {
                 new EuclideanIntegerPoint(new int[] {14, 8}), // C
                 new EuclideanIntegerPoint(new int[] {7, 15}), // N - Noise, should not be present
                 new EuclideanIntegerPoint(new int[] {17, 8}), // D - single-link connected to C should not be present
-                
+
         };
-        
+
         final DBSCANClusterer<EuclideanIntegerPoint> clusterer = new DBSCANClusterer<EuclideanIntegerPoint>(3, 3);
         List<Cluster<EuclideanIntegerPoint>> clusters = clusterer.cluster(Arrays.asList(points));
-        
+
         Assert.assertEquals(1, clusters.size());
-        
+
         final List<EuclideanIntegerPoint> clusterOne =
                 Arrays.asList(points[0], points[1], points[2], points[3], points[4], points[5], points[6], points[7]);
         Assert.assertTrue(clusters.get(0).getPoints().containsAll(clusterOne));
     }
-    
+
     @Test
     public void testGetEps() {
         final DBSCANClusterer<EuclideanDoublePoint> transformer = new DBSCANClusterer<EuclideanDoublePoint>(2.0, 5);
