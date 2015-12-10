@@ -26,44 +26,7 @@ import org.apache.commons.math4.exception.NullArgumentException;
  * @see Field
  * @since 2.0
  */
-public interface FieldElement<T> {
-
-    /** Compute this + a.
-     * @param a element to add
-     * @return a new element representing this + a
-     * @throws NullArgumentException if {@code addend} is {@code null}.
-     */
-    T add(T a) throws NullArgumentException;
-
-    /** Compute this - a.
-     * @param a element to subtract
-     * @return a new element representing this - a
-     * @throws NullArgumentException if {@code a} is {@code null}.
-     */
-    T subtract(T a) throws NullArgumentException;
-
-    /**
-     * Returns the additive inverse of {@code this} element.
-     * @return the opposite of {@code this}.
-     */
-    T negate();
-
-    /** Compute n &times; this. Multiplication by an integer number is defined
-     * as the following sum
-     * <center>
-     * n &times; this = &sum;<sub>i=1</sub><sup>n</sup> this.
-     * </center>
-     * @param n Number of times {@code this} must be added to itself.
-     * @return A new element representing n &times; this.
-     */
-    T multiply(int n);
-
-    /** Compute this &times; a.
-     * @param a element to multiply
-     * @return a new element representing this &times; a
-     * @throws NullArgumentException if {@code a} is {@code null}.
-     */
-    T multiply(T a) throws NullArgumentException;
+public interface FieldElement<T> extends RingElement<T> {
 
     /** Compute this &divide; a.
      * @param a element to add
@@ -79,9 +42,9 @@ public interface FieldElement<T> {
      * @throws MathArithmeticException if {@code this} is zero
      */
     T reciprocal() throws MathArithmeticException;
-
-    /** Get the {@link Field} to which the instance belongs.
-     * @return {@link Field} to which the instance belongs
+    
+   /** Get the {@link Ring} to which the instance belongs.
+     * @return {@link Ring} to which the instance belongs
      */
-    Field<T> getField();
+    Field<T> getField(); //
 }
