@@ -113,7 +113,7 @@ public class FieldODEState<T extends RealFieldElement<T>> {
      * @return number of secondary states.
      */
     public int getNumberOfSecondaryStates() {
-        return secondaryState.length;
+        return secondaryState == null ? 0 : secondaryState.length;
     }
 
     /** Get secondary state dimension.
