@@ -62,7 +62,7 @@ public class SmoothedDataHistogram implements MapDataVisualization {
      * {@inheritDoc}
      *
      * @throws NumberIsTooSmallException if the size of the {@code map}
-     * is smaller than the number of {@link SmoothedDataHistogram(int,DistanceMeasure)
+     * is smaller than the number of {@link #SmoothedDataHistogram(int,DistanceMeasure)
      * smoothing bins}.
      */
     public double[][] computeImage(NeuronSquareMesh2D map,
