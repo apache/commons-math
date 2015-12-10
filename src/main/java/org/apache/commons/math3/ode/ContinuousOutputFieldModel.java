@@ -38,11 +38,10 @@ import org.apache.commons.math3.util.FastMath;
  * view. It is called iteratively during the integration process and
  * stores a copy of all steps information in a sorted collection for
  * later use. Once the integration process is over, the user can use
- * the {@link #setInterpolatedTime setInterpolatedTime} and {@link
- * #getInterpolatedState getInterpolatedState} to retrieve this
- * information at any time. It is important to wait for the
- * integration to be over before attempting to call {@link
- * #setInterpolatedTime setInterpolatedTime} because some internal
+ * the {@link #getInterpolatedState(RealFieldElement) getInterpolatedState}
+ * method to retrieve this information at any time. It is important to wait
+ * for the integration to be over before attempting to call {@link
+ * #getInterpolatedState(RealFieldElement)} because some internal
  * variables are set only once the last step has been handled.</p>
  *
  * <p>This is useful for example if the main loop of the user

@@ -82,7 +82,7 @@ public interface FieldFirstOrderIntegrator<T extends RealFieldElement<T>> {
      * @param maxIterationCount upper limit of the iteration count in
      * the event time search events.
      * @see #addEventHandler(FieldEventHandler, double, double, int,
-     * org.apache.commons.math3.analysis.solvers.FieldBracketingNthOrderBrentSolver)
+     * org.apache.commons.math3.analysis.solvers.BracketedRealFieldUnivariateSolver)
      * @see #getEventHandlers()
      * @see #clearEventHandlers()
      */

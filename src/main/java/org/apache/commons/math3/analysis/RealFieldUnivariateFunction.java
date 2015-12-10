@@ -22,7 +22,7 @@ import org.apache.commons.math3.RealFieldElement;
  * An interface representing a univariate real function.
  * <br/>
  * When a <em>user-defined</em> function encounters an error during
- * evaluation, the {@link #value(FieldElement) value} method should throw a
+ * evaluation, the {@link #value(RealFieldElement) value} method should throw a
  * <em>user-defined</em> unchecked exception.
  * <br/>
  * The following code excerpt shows the recommended way to do that using

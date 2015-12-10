@@ -40,7 +40,7 @@ public class FieldODEStateAndDerivative<T extends RealFieldElement<T>> extends F
      * <p>Calling this constructor is equivalent to call {@link
      * #FieldODEStateAndDerivative(RealFieldElement, RealFieldElement[], RealFieldElement[],
      * RealFieldElement[][], RealFieldElement[][]) FieldODEStateAndDerivative(time, state,
-     * derivative, null, null).</p>
+     * derivative, null, null)}.</p>
      * @param time time
      * @param state state at time
      * @param derivative derivative of the state at time
