@@ -72,10 +72,11 @@ public class FieldODEStateAndDerivative<T extends RealFieldElement<T>> extends F
     /** Get derivative of the secondary state at time.
      * @param index index of the secondary set as returned
      * by {@link FieldExpandableODE#addSecondaryEquations(FieldSecondaryEquations)}
+     * (beware index 0 corresponds to main state, additional states start at 1)
      * @return derivative of the secondary state at time
      */
     public T[] getSecondaryDerivative(final int index) {
-        return secondaryDerivative[index].clone();
+        return index == 0 ? derivative.clone() : secondaryDerivative[index - 1].clone();
     }
 
 }
