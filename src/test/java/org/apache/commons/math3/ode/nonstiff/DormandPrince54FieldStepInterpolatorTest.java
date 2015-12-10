@@ -21,14 +21,28 @@ package org.apache.commons.math3.ode.nonstiff;
 import org.apache.commons.math3.Field;
 import org.apache.commons.math3.RealFieldElement;
 import org.apache.commons.math3.ode.FieldEquationsMapper;
+import org.apache.commons.math3.ode.FieldODEStateAndDerivative;
 import org.apache.commons.math3.util.Decimal64Field;
 import org.junit.Test;
 
 public class DormandPrince54FieldStepInterpolatorTest extends AbstractRungeKuttaFieldStepInterpolatorTest {
 
     protected <T extends RealFieldElement<T>> RungeKuttaFieldStepInterpolator<T>
-    createInterpolator(Field<T> field, boolean forward, FieldEquationsMapper<T> mapper) {
-        return new DormandPrince54FieldStepInterpolator<T>(field, forward, mapper);
+    createInterpolator(Field<T> field, boolean forward, T[][] yDotK,
+                       FieldODEStateAndDerivative<T> globalPreviousState,
+                       FieldODEStateAndDerivative<T> globalCurrentState,
+                       FieldODEStateAndDerivative<T> softPreviousState,
+                       FieldODEStateAndDerivative<T> softCurrentState,
+                       FieldEquationsMapper<T> mapper) {
+        return new DormandPrince54FieldStepInterpolator<T>(field, forward, yDotK,
+                                                           globalPreviousState, globalCurrentState,
+                                                           softPreviousState, softCurrentState,
+                                                           mapper);
+    }
+
+    protected <T extends RealFieldElement<T>> FieldButcherArrayProvider<T>
+    createButcherArrayProvider(final Field<T> field) {
+        return new DormandPrince54FieldIntegrator<T>(field, 0, 1, 1, 1);
     }
 
     @Test
@@ -43,7 +57,7 @@ public class DormandPrince54FieldStepInterpolatorTest extends AbstractRungeKutta
 
     @Test
     public void nonFieldInterpolatorConsistency() {
-        doNonFieldInterpolatorConsistency(Decimal64Field.getInstance(), 2.8e-17, 2.3e-16, 4.5e-16, 5.6e-17);
+        doNonFieldInterpolatorConsistency(Decimal64Field.getInstance(), 2.8e-17, 2.3e-16, 5.6e-16, 5.6e-17);
     }
 
 }

@@ -21,14 +21,27 @@ package org.apache.commons.math3.ode.nonstiff;
 import org.apache.commons.math3.Field;
 import org.apache.commons.math3.RealFieldElement;
 import org.apache.commons.math3.ode.FieldEquationsMapper;
+import org.apache.commons.math3.ode.FieldODEStateAndDerivative;
 import org.apache.commons.math3.util.Decimal64Field;
 import org.junit.Test;
 
 public class EulerFieldStepInterpolatorTest extends AbstractRungeKuttaFieldStepInterpolatorTest {
 
     protected <T extends RealFieldElement<T>> RungeKuttaFieldStepInterpolator<T>
-    createInterpolator(Field<T> field, boolean forward, FieldEquationsMapper<T> mapper) {
-        return new EulerFieldStepInterpolator<T>(field, forward, mapper);
+    createInterpolator(Field<T> field, boolean forward, T[][] yDotK,
+                       FieldODEStateAndDerivative<T> globalPreviousState,
+                       FieldODEStateAndDerivative<T> globalCurrentState,
+                       FieldODEStateAndDerivative<T> softPreviousState,
+                       FieldODEStateAndDerivative<T> softCurrentState, FieldEquationsMapper<T> mapper) {
+        return new EulerFieldStepInterpolator<T>(field, forward, yDotK,
+                                                 globalPreviousState, globalCurrentState,
+                                                 softPreviousState, softCurrentState,
+                                                 mapper);
+    }
+
+    protected <T extends RealFieldElement<T>> FieldButcherArrayProvider<T>
+    createButcherArrayProvider(final Field<T> field) {
+        return new EulerFieldIntegrator<T>(field, field.getOne());
     }
 
     @Test
@@ -43,7 +56,7 @@ public class EulerFieldStepInterpolatorTest extends AbstractRungeKuttaFieldStepI
 
     @Test
     public void nonFieldInterpolatorConsistency() {
-        doNonFieldInterpolatorConsistency(Decimal64Field.getInstance(), 1.0e-50, 1.0e-50, 1.0e-50, 1.0e-50);
+        doNonFieldInterpolatorConsistency(Decimal64Field.getInstance(), 7.0e-18, 1.0e-50, 1.0e-50, 1.0e-50);
     }
 
 }

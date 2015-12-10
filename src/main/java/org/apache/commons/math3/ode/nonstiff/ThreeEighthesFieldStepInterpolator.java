@@ -64,35 +64,44 @@ class ThreeEighthesFieldStepInterpolator<T extends RealFieldElement<T>>
     /** Simple constructor.
      * @param field field to which the time and state vector elements belong
      * @param forward integration direction indicator
+     * @param yDotK slopes at the intermediate points
+     * @param globalPreviousState start of the global step
+     * @param globalCurrentState end of the global step
+     * @param softPreviousState start of the restricted step
+     * @param softCurrentState end of the restricted step
      * @param mapper equations mapper for the all equations
      */
     ThreeEighthesFieldStepInterpolator(final Field<T> field, final boolean forward,
+                                       final T[][] yDotK,
+                                       final FieldODEStateAndDerivative<T> globalPreviousState,
+                                       final FieldODEStateAndDerivative<T> globalCurrentState,
+                                       final FieldODEStateAndDerivative<T> softPreviousState,
+                                       final FieldODEStateAndDerivative<T> softCurrentState,
                                        final FieldEquationsMapper<T> mapper) {
-        super(field, forward, mapper);
-    }
-
-    /** Copy constructor.
-     * @param interpolator interpolator to copy from. The copy is a deep
-     * copy: its arrays are separated from the original arrays of the
-     * instance
-     */
-    ThreeEighthesFieldStepInterpolator(final ThreeEighthesFieldStepInterpolator<T> interpolator) {
-        super(interpolator);
+        super(field, forward, yDotK,
+              globalPreviousState, globalCurrentState, softPreviousState, softCurrentState,
+              mapper);
     }
 
     /** {@inheritDoc} */
-    @Override
-    protected ThreeEighthesFieldStepInterpolator<T> doCopy() {
-        return new ThreeEighthesFieldStepInterpolator<T>(this);
+    protected ThreeEighthesFieldStepInterpolator<T> create(final Field<T> newField, final boolean newForward, final T[][] newYDotK,
+                                                           final FieldODEStateAndDerivative<T> newGlobalPreviousState,
+                                                           final FieldODEStateAndDerivative<T> newGlobalCurrentState,
+                                                           final FieldODEStateAndDerivative<T> newSoftPreviousState,
+                                                           final FieldODEStateAndDerivative<T> newSoftCurrentState,
+                                                           final FieldEquationsMapper<T> newMapper) {
+        return new ThreeEighthesFieldStepInterpolator<T>(newField, newForward, newYDotK,
+                                                         newGlobalPreviousState, newGlobalCurrentState,
+                                                         newSoftPreviousState, newSoftCurrentState,
+                                                         newMapper);
     }
-
 
     /** {@inheritDoc} */
     @SuppressWarnings("unchecked")
     @Override
     protected FieldODEStateAndDerivative<T> computeInterpolatedStateAndDerivatives(final FieldEquationsMapper<T> mapper,
                                                                                    final T time, final T theta,
-                                                                                   final T oneMinusThetaH) {
+                                                                                   final T thetaH, final T oneMinusThetaH) {
 
         final T coeffDot3  = theta.multiply(0.75);
         final T coeffDot1  = coeffDot3.multiply(theta.multiply(4).subtract(5)).add(1);
@@ -102,7 +111,7 @@ class ThreeEighthesFieldStepInterpolator<T extends RealFieldElement<T>>
         final T[] interpolatedDerivatives;
 
         if (getGlobalPreviousState() != null && theta.getReal() <= 0.5) {
-            final T s          = theta.multiply(h).divide(8);
+            final T s          = thetaH.divide(8);
             final T fourTheta2 = theta.multiply(theta).multiply(4);
             final T coeff1     = s.multiply(fourTheta2.multiply(2).subtract(theta.multiply(15)).add(8));
             final T coeff2     = s.multiply(theta.multiply(5).subtract(fourTheta2)).multiply(3);

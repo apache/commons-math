@@ -21,14 +21,28 @@ package org.apache.commons.math3.ode.nonstiff;
 import org.apache.commons.math3.Field;
 import org.apache.commons.math3.RealFieldElement;
 import org.apache.commons.math3.ode.FieldEquationsMapper;
+import org.apache.commons.math3.ode.FieldODEStateAndDerivative;
 import org.apache.commons.math3.util.Decimal64Field;
 import org.junit.Test;
 
 public class ClassicalRungKuttaFieldStepInterpolatorTest extends AbstractRungeKuttaFieldStepInterpolatorTest {
 
     protected <T extends RealFieldElement<T>> RungeKuttaFieldStepInterpolator<T>
-    createInterpolator(Field<T> field, boolean forward, FieldEquationsMapper<T> mapper) {
-        return new ClassicalRungeKuttaFieldStepInterpolator<T>(field, forward, mapper);
+    createInterpolator(Field<T> field, boolean forward, T[][] yDotK,
+                       FieldODEStateAndDerivative<T> globalPreviousState,
+                       FieldODEStateAndDerivative<T> globalCurrentState,
+                       FieldODEStateAndDerivative<T> softPreviousState,
+                       FieldODEStateAndDerivative<T> softCurrentState,
+                       FieldEquationsMapper<T> mapper) {
+        return new ClassicalRungeKuttaFieldStepInterpolator<T>(field, forward, yDotK,
+                                                               globalPreviousState, globalCurrentState,
+                                                               softPreviousState, softCurrentState,
+                                                               mapper);
+    }
+
+    protected <T extends RealFieldElement<T>> FieldButcherArrayProvider<T>
+    createButcherArrayProvider(final Field<T> field) {
+        return new ClassicalRungeKuttaFieldIntegrator<T>(field, field.getOne());
     }
 
     @Test
@@ -43,7 +57,7 @@ public class ClassicalRungKuttaFieldStepInterpolatorTest extends AbstractRungeKu
 
     @Test
     public void nonFieldInterpolatorConsistency() {
-        doNonFieldInterpolatorConsistency(Decimal64Field.getInstance(), 2.8e-17, 1.2e-16, 2.3e-16, 1.0e-50);
+        doNonFieldInterpolatorConsistency(Decimal64Field.getInstance(), 2.8e-17, 1.2e-16, 3.4e-16, 2.1e-17);
     }
 
 }

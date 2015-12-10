@@ -21,14 +21,28 @@ package org.apache.commons.math3.ode.nonstiff;
 import org.apache.commons.math3.Field;
 import org.apache.commons.math3.RealFieldElement;
 import org.apache.commons.math3.ode.FieldEquationsMapper;
+import org.apache.commons.math3.ode.FieldODEStateAndDerivative;
 import org.apache.commons.math3.util.Decimal64Field;
 import org.junit.Test;
 
 public class HighamHall54FieldStepInterpolatorTest extends AbstractRungeKuttaFieldStepInterpolatorTest {
 
     protected <T extends RealFieldElement<T>> RungeKuttaFieldStepInterpolator<T>
-    createInterpolator(Field<T> field, boolean forward, FieldEquationsMapper<T> mapper) {
-        return new HighamHall54FieldStepInterpolator<T>(field, forward, mapper);
+    createInterpolator(Field<T> field, boolean forward, T[][] yDotK,
+                       FieldODEStateAndDerivative<T> globalPreviousState,
+                       FieldODEStateAndDerivative<T> globalCurrentState,
+                       FieldODEStateAndDerivative<T> softPreviousState,
+                       FieldODEStateAndDerivative<T> softCurrentState,
+                       FieldEquationsMapper<T> mapper) {
+        return new HighamHall54FieldStepInterpolator<T>(field, forward, yDotK,
+                                                        globalPreviousState, globalCurrentState,
+                                                        softPreviousState, softCurrentState,
+                                                        mapper);
+    }
+
+    protected <T extends RealFieldElement<T>> FieldButcherArrayProvider<T>
+    createButcherArrayProvider(final Field<T> field) {
+        return new HighamHall54FieldIntegrator<T>(field, 0, 1, 1, 1);
     }
 
     @Test
@@ -43,7 +57,7 @@ public class HighamHall54FieldStepInterpolatorTest extends AbstractRungeKuttaFie
 
     @Test
     public void nonFieldInterpolatorConsistency() {
-        doNonFieldInterpolatorConsistency(Decimal64Field.getInstance(), 1.4e-17, 1.0e-50, 1.0e-50, 1.0e-50);
+        doNonFieldInterpolatorConsistency(Decimal64Field.getInstance(), 1.3e-16, 1.0e-50, 3.6e-15, 2.1e-16);
     }
 
 }

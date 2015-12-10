@@ -20,6 +20,7 @@ package org.apache.commons.math3.ode.nonstiff;
 import org.apache.commons.math3.Field;
 import org.apache.commons.math3.RealFieldElement;
 import org.apache.commons.math3.ode.FieldEquationsMapper;
+import org.apache.commons.math3.ode.FieldODEStateAndDerivative;
 import org.apache.commons.math3.ode.sampling.AbstractFieldStepInterpolator;
 import org.apache.commons.math3.util.MathArrays;
 
@@ -40,57 +41,63 @@ abstract class RungeKuttaFieldStepInterpolator<T extends RealFieldElement<T>>
     private final Field<T> field;
 
     /** Slopes at the intermediate points. */
-    private T[][] yDotK;
+    private final T[][] yDotK;
 
     /** Simple constructor.
      * @param field field to which the time and state vector elements belong
      * @param forward integration direction indicator
+     * @param yDotK slopes at the intermediate points
+     * @param globalPreviousState start of the global step
+     * @param globalCurrentState end of the global step
+     * @param softPreviousState start of the restricted step
+     * @param softCurrentState end of the restricted step
      * @param mapper equations mapper for the all equations
      */
     protected RungeKuttaFieldStepInterpolator(final Field<T> field, final boolean forward,
+                                              final T[][] yDotK,
+                                              final FieldODEStateAndDerivative<T> globalPreviousState,
+                                              final FieldODEStateAndDerivative<T> globalCurrentState,
+                                              final FieldODEStateAndDerivative<T> softPreviousState,
+                                              final FieldODEStateAndDerivative<T> softCurrentState,
                                               final FieldEquationsMapper<T> mapper) {
-        super(forward, mapper);
+        super(forward, globalPreviousState, globalCurrentState, softPreviousState, softCurrentState, mapper);
         this.field = field;
-        this.yDotK = null;
-    }
-
-    /** Copy constructor.
-     * <p>The copy is a deep copy: its arrays are separated from the
-     * original arrays of the instance.</p>
-
-     * @param interpolator interpolator to copy from.
-
-     */
-    RungeKuttaFieldStepInterpolator(final RungeKuttaFieldStepInterpolator<T> interpolator) {
-
-        super(interpolator);
-        field = interpolator.field;
-
-        if (yDotK != null) {
-            yDotK = MathArrays.buildArray(field, interpolator.yDotK.length, -1);
-            for (int k = 0; k < yDotK.length; ++k) {
-                yDotK[k] = interpolator.yDotK[k].clone();
-            }
-
-        } else {
-            yDotK = null;
+        this.yDotK = MathArrays.buildArray(field, yDotK.length, -1);
+        for (int i = 0; i < yDotK.length; ++i) {
+            this.yDotK[i] = yDotK[i].clone();
         }
-
     }
 
-    /** Get the field to which the time and state vector elements belong.
-     * @return to which the time and state vector elements belong
+    /** {@inheritDoc} */
+    protected RungeKuttaFieldStepInterpolator<T> create(boolean newForward,
+                                                        FieldODEStateAndDerivative<T> newGlobalPreviousState,
+                                                        FieldODEStateAndDerivative<T> newGlobalCurrentState,
+                                                        FieldODEStateAndDerivative<T> newSoftPreviousState,
+                                                        FieldODEStateAndDerivative<T> newSoftCurrentState,
+                                                        FieldEquationsMapper<T> newMapper) {
+        return create(field, newForward, yDotK,
+                      newGlobalPreviousState, newGlobalCurrentState,
+                      newSoftPreviousState, newSoftCurrentState,
+                      newMapper);
+    }
+
+    /** Create a new instance.
+     * @param newField field to which the time and state vector elements belong
+     * @param newForward integration direction indicator
+     * @param newYDotK slopes at the intermediate points
+     * @param newGlobalPreviousState start of the global step
+     * @param newGlobalCurrentState end of the global step
+     * @param newSoftPreviousState start of the restricted step
+     * @param newSoftCurrentState end of the restricted step
+     * @param newMapper equations mapper for the all equations
+     * @return a new instance
      */
-    protected Field<T> getField() {
-        return field;
-    }
-
-    /** Store the slopes at the intermediate points.
-     * @param slopes slopes at the intermediate points
-     */
-    void setSlopes(final T[][] slopes) {
-        this.yDotK = slopes.clone();
-    }
+    protected abstract RungeKuttaFieldStepInterpolator<T> create(Field<T> newField, boolean newForward, T[][] newYDotK,
+                                                                 FieldODEStateAndDerivative<T> newGlobalPreviousState,
+                                                                 FieldODEStateAndDerivative<T> newGlobalCurrentState,
+                                                                 FieldODEStateAndDerivative<T> newSoftPreviousState,
+                                                                 FieldODEStateAndDerivative<T> newSoftCurrentState,
+                                                                 FieldEquationsMapper<T> newMapper);
 
     /** Compute a state by linear combination added to previous state.
      * @param coefficients coefficients to apply to the method staged derivatives
