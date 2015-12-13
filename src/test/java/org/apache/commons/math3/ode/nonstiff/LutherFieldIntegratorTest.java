@@ -25,7 +25,6 @@ import org.apache.commons.math3.exception.MaxCountExceededException;
 import org.apache.commons.math3.exception.NoBracketingException;
 import org.apache.commons.math3.exception.NumberIsTooSmallException;
 import org.apache.commons.math3.util.Decimal64Field;
-import org.junit.Test;
 
 public class LutherFieldIntegratorTest extends AbstractRungeKuttaFieldIntegratorTest {
 
@@ -34,85 +33,90 @@ public class LutherFieldIntegratorTest extends AbstractRungeKuttaFieldIntegrator
         return new LutherFieldIntegrator<T>(field, step);
     }
 
-    @Test
+    @Override
     public void testNonFieldIntegratorConsistency() {
         doTestNonFieldIntegratorConsistency(Decimal64Field.getInstance());
     }
 
-    @Test
+    @Override
     public void testMissedEndEvent()
         throws DimensionMismatchException, NumberIsTooSmallException,
                MaxCountExceededException, NoBracketingException {
         doTestMissedEndEvent(Decimal64Field.getInstance(), 1.0e-15, 1.0e-15);
     }
 
-    @Test
+    @Override
     public void testSanityChecks()
         throws DimensionMismatchException, NumberIsTooSmallException,
                MaxCountExceededException, NoBracketingException {
         doTestSanityChecks(Decimal64Field.getInstance());
     }
 
-    @Test
+    @Override
     public void testDecreasingSteps()
         throws DimensionMismatchException, NumberIsTooSmallException,
                MaxCountExceededException, NoBracketingException {
         doTestDecreasingSteps(Decimal64Field.getInstance(), 1.0, 1.0, 1.0e-10);
     }
 
-    @Test
+    @Override
     public void testSmallStep()
          throws DimensionMismatchException, NumberIsTooSmallException,
                 MaxCountExceededException, NoBracketingException {
         doTestSmallStep(Decimal64Field.getInstance(), 8.7e-17, 3.6e-15, 1.0e-12, "Luther");
     }
 
-    @Test
+    @Override
     public void testBigStep()
         throws DimensionMismatchException, NumberIsTooSmallException,
                MaxCountExceededException, NoBracketingException {
         doTestBigStep(Decimal64Field.getInstance(), 2.7e-5, 1.7e-3, 1.0e-12, "Luther");
     }
 
-    @Test
+    @Override
     public void testBackward()
         throws DimensionMismatchException, NumberIsTooSmallException,
                MaxCountExceededException, NoBracketingException {
         doTestBackward(Decimal64Field.getInstance(), 2.4e-13, 4.3e-13, 1.0e-12, "Luther");
     }
 
-    @Test
+    @Override
     public void testKepler()
         throws DimensionMismatchException, NumberIsTooSmallException,
                MaxCountExceededException, NoBracketingException {
         doTestKepler(Decimal64Field.getInstance(), 2.18e-7, 4.0e-10);
     }
 
-    @Test
+    @Override
     public void testStepSize()
         throws DimensionMismatchException, NumberIsTooSmallException,
                MaxCountExceededException, NoBracketingException {
         doTestStepSize(Decimal64Field.getInstance(), 1.0e-22);
     }
 
-    @Test
+    @Override
     public void testSingleStep() {
         doTestSingleStep(Decimal64Field.getInstance(), 6.0e-12);
     }
 
-    @Test
+    @Override
     public void testTooLargeFirstStep() {
         doTestTooLargeFirstStep(Decimal64Field.getInstance());
     }
 
-    @Test
+    @Override
     public void testUnstableDerivative() {
         doTestUnstableDerivative(Decimal64Field.getInstance(), 4.0e-15);
     }
 
-    @Test
+    @Override
     public void testDerivativesConsistency() {
         doTestDerivativesConsistency(Decimal64Field.getInstance(), 1.0e-20);
+    }
+
+    @Override
+    public void testPartialDerivatives() {
+        doTestPartialDerivatives(4.3e-13, new double[] { 2.2e-12, 5.6e-13, 9.4e-14, 9.4e-14, 5.6e-13 });
     }
 
 }

@@ -21,7 +21,6 @@ package org.apache.commons.math3.ode.nonstiff;
 import org.apache.commons.math3.Field;
 import org.apache.commons.math3.RealFieldElement;
 import org.apache.commons.math3.util.Decimal64Field;
-import org.junit.Test;
 
 public class DormandPrince853FieldIntegratorTest extends AbstractEmbeddedRungeKuttaFieldIntegratorTest {
 
@@ -37,22 +36,22 @@ public class DormandPrince853FieldIntegratorTest extends AbstractEmbeddedRungeKu
         return new DormandPrince853FieldIntegrator<T>(field, minStep, maxStep, vecAbsoluteTolerance, vecRelativeTolerance);
     }
 
-    @Test
+    @Override
     public void testNonFieldIntegratorConsistency() {
         doTestNonFieldIntegratorConsistency(Decimal64Field.getInstance());
     }
 
-    @Test
+    @Override
     public void testSanityChecks() {
         doTestSanityChecks(Decimal64Field.getInstance());
     }
 
-    @Test
+    @Override
     public void testBackward() {
         doTestBackward(Decimal64Field.getInstance(), 8.1e-8, 1.1e-7, 1.0e-12, "Dormand-Prince 8 (5, 3)");
     }
 
-    @Test
+    @Override
     public void testKepler() {
         doTestKepler(Decimal64Field.getInstance(), 4.4e-11);
     }
@@ -88,6 +87,11 @@ public class DormandPrince853FieldIntegratorTest extends AbstractEmbeddedRungeKu
     @Override
     public void testEventsNoConvergence() {
         doTestEventsNoConvergence(Decimal64Field.getInstance());
+    }
+
+    @Override
+    public void testPartialDerivatives() {
+        doTestPartialDerivatives(2.6e-12, new double[] { 1.3e-11, 3.6e-12, 5.2e-13, 3.6e-12, 3.6e-12 });
     }
 
 }
