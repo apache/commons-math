@@ -31,7 +31,7 @@ public interface FieldElement<T> {
     /** Compute this + a.
      * @param a element to add
      * @return a new element representing this + a
-     * @throws NullArgumentException if {@code addend} is {@code null}.
+     * @throws NullArgumentException if {@code a} is {@code null}.
      */
     T add(T a) throws NullArgumentException;
 
