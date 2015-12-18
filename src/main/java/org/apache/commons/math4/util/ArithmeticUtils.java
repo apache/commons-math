@@ -60,7 +60,7 @@ public final class ArithmeticUtils {
      * @param a an addend
      * @param b an addend
      * @return the sum {@code a+b}
-     * @throws MathArithmeticException if the result can not be represented as an long
+     * @throws MathArithmeticException if the result can not be represented as an {@code long}
      * @since 1.2
      */
     public static long addAndCheck(long a, long b) throws MathArithmeticException {
