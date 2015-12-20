@@ -28,6 +28,7 @@ import org.apache.commons.math4.util.FastMath;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
+import org.junit.Ignore;
 
 /**
  * Base class for RandomGenerator tests.
@@ -361,6 +362,31 @@ public abstract class RandomGeneratorAbstractTest extends RandomDataGeneratorTes
 
     }
 
+    // MATH-1300
+    @Test
+    public void testNextBytesChunks() {
+        final int[] chunkSizes = { 4, 8, 12, 16 };
+        final int[] chunks = { 1, 2, 3, 4, 5 };
+        for (int chunkSize : chunkSizes) {
+            for (int numChunks : chunks) {
+                checkNextBytesChunks(chunkSize, numChunks);
+            }
+        }
+    }
+
+    // MATH-1300: Test is ignored because it will fail due to the array
+    // size not being a multiple of 4.
+    @Ignore@Test
+    public void testNextBytesChunksFail() {
+        final int[] chunkSizes = { 5 };
+        final int[] chunks = { 4 };
+        for (int chunkSize : chunkSizes) {
+            for (int numChunks : chunks) {
+                checkNextBytesChunks(chunkSize, numChunks);
+            }
+        }
+    }
+
     @Test
     public void testSeeding() {
         // makeGenerator initializes with fixed seed
@@ -429,4 +455,32 @@ public abstract class RandomGeneratorAbstractTest extends RandomDataGeneratorTes
         Assert.assertTrue(Arrays.equals(values[0], values[1]));
     }
 
+    // MATH-1300
+    private void checkNextBytesChunks(int chunkSize,
+                                      int numChunks) {
+        final RandomGenerator rg = makeGenerator();
+        final long seed = 1234567L;
+
+        final byte[] b1 = new byte[chunkSize * numChunks];
+        final byte[] b2 = new byte[chunkSize];
+
+        // Generate the chunks in a single call.
+        rg.setSeed(seed);
+        rg.nextBytes(b1);
+
+        // Reset.
+        rg.setSeed(seed);
+        // Generate the chunks in consecutive calls.
+        for (int i = 0; i < numChunks; i++) {
+            rg.nextBytes(b2);
+        }
+
+        // Store last 128 bytes chunk of b1 into b3.
+        final byte[] b3 = new byte[chunkSize];
+        System.arraycopy(b1, b1.length - b3.length, b3, 0, b3.length);
+
+        // Sequence of calls must be the same.
+        Assert.assertArrayEquals("chunkSize=" + chunkSize + " numChunks=" + numChunks,
+                                 b2, b3);
+    }
 }

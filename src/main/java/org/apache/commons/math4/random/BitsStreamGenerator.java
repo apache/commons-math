@@ -82,10 +82,12 @@ public abstract class BitsStreamGenerator
             bytes[i + 3] = (byte) ((random >> 24) & 0xff);
             i += 4;
         }
-        int random = next(32);
-        while (i < bytes.length) {
-            bytes[i++] = (byte) (random & 0xff);
-            random >>= 8;
+        if (i < bytes.length) {
+            int random = next(32);
+            while (i < bytes.length) {
+                bytes[i++] = (byte) (random & 0xff);
+                random >>= 8;
+            }
         }
     }
 
