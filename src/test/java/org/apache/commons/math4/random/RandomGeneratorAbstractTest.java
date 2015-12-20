@@ -162,16 +162,6 @@ public abstract class RandomGeneratorAbstractTest extends RandomDataGeneratorTes
         }
     }
 
-    @Test(expected=MathIllegalArgumentException.class)
-    public void testNextIntIAE2() {
-        generator.nextInt(-1);
-    }
-
-    @Test(expected=MathIllegalArgumentException.class)
-    public void testNextIntIAE3() {
-        generator.nextInt(0);
-    }
-
     @Test
     public void testNextLongDirect() {
         long q1 = Long.MAX_VALUE/4;
@@ -283,8 +273,13 @@ public abstract class RandomGeneratorAbstractTest extends RandomDataGeneratorTes
     }
 
     @Test(expected=MathIllegalArgumentException.class)
-    public void testNextIntNeg() {
+    public void testNextIntPrecondition1() {
         generator.nextInt(-1);
+    }
+
+    @Test(expected=MathIllegalArgumentException.class)
+    public void testNextIntPrecondition2() {
+        generator.nextInt(0);
     }
 
     @Test
