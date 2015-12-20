@@ -551,7 +551,7 @@ public class Rotation implements Serializable {
   public double[] getAngles(RotationOrder order)
     throws CardanEulerSingularityException {
 
-    if (order == RotationOrder.XYZ) {
+    if (order == RotationOrder.ZYX) {
 
       // r (Vector3D.plusK) coordinates are :
       //  sin (theta), -cos (theta) sin (phi), cos (theta) cos (phi)
@@ -569,7 +569,7 @@ public class Rotation implements Serializable {
         FastMath.atan2(-(v2.getY()), v2.getX())
       };
 
-    } else if (order == RotationOrder.XZY) {
+    } else if (order == RotationOrder.YZX) {
 
       // r (Vector3D.plusJ) coordinates are :
       // -sin (psi), cos (psi) cos (phi), cos (psi) sin (phi)
@@ -587,7 +587,7 @@ public class Rotation implements Serializable {
         FastMath.atan2(v2.getZ(), v2.getX())
       };
 
-    } else if (order == RotationOrder.YXZ) {
+    } else if (order == RotationOrder.ZXY) {
 
       // r (Vector3D.plusK) coordinates are :
       //  cos (phi) sin (theta), -sin (phi), cos (phi) cos (theta)
@@ -605,7 +605,7 @@ public class Rotation implements Serializable {
         FastMath.atan2(v2.getX(), v2.getY())
       };
 
-    } else if (order == RotationOrder.YZX) {
+    } else if (order == RotationOrder.XZY) {
 
       // r (Vector3D.plusI) coordinates are :
       // cos (psi) cos (theta), sin (psi), -cos (psi) sin (theta)
@@ -623,7 +623,7 @@ public class Rotation implements Serializable {
         FastMath.atan2(-(v2.getZ()), v2.getY())
       };
 
-    } else if (order == RotationOrder.ZXY) {
+    } else if (order == RotationOrder.YXZ) {
 
       // r (Vector3D.plusJ) coordinates are :
       // -cos (phi) sin (psi), cos (phi) cos (psi), sin (phi)
@@ -641,7 +641,7 @@ public class Rotation implements Serializable {
         FastMath.atan2(-(v2.getX()), v2.getZ())
       };
 
-    } else if (order == RotationOrder.ZYX) {
+    } else if (order == RotationOrder.XYZ) {
 
       // r (Vector3D.plusI) coordinates are :
       //  cos (theta) cos (psi), cos (theta) sin (psi), -sin (theta)
