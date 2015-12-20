@@ -325,7 +325,7 @@ public abstract class RandomGeneratorAbstractTest extends RandomDataGeneratorTes
     }
 
     @Test
-    public void testNexBoolean2() {
+    public void testNextBoolean2() {
         int walk = 0;
         final int N = 10000;
         for (int k = 0; k < N; ++k) {
@@ -341,7 +341,7 @@ public abstract class RandomGeneratorAbstractTest extends RandomDataGeneratorTes
     }
 
     @Test
-    public void testNexBytes() {
+    public void testNextBytes() {
         long[] count = new long[256];
         byte[] bytes = new byte[10];
         double[] expected = new double[256];
