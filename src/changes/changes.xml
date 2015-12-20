@@ -54,6 +54,10 @@ If the output is not quite correct, check for invisible trailing spaces!
     </release>
 
     <release version="4.0" date="XXXX-XX-XX" description="">
+      <action dev="erans" type="fix" issue="MATH-1300" due-to="Rostislav Krasny">
+        "AbstractRandomGenerator" and "BitsStreamGenerator": Remove a redundant call
+        to the random data provider.
+      </action>
       <action dev="erans" type="add" issue="MATH-1295" due-to="Aleksei Dievskii">
         "FactorialLog": Cache-based computation of the "log factorial" function (implemented
         as an inner class of "CombinatoricsUtils" in package "o.a.c.m.util").
