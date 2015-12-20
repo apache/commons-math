@@ -18,7 +18,6 @@
 package org.apache.commons.math4.geometry.euclidean.threed;
 
 import java.io.Serializable;
-
 import org.apache.commons.math4.exception.MathArithmeticException;
 import org.apache.commons.math4.exception.MathIllegalArgumentException;
 import org.apache.commons.math4.exception.util.LocalizedFormats;
@@ -378,7 +377,7 @@ public class Rotation implements Serializable {
       Rotation r1 = new Rotation(order.getA1(), alpha1);
       Rotation r2 = new Rotation(order.getA2(), alpha2);
       Rotation r3 = new Rotation(order.getA3(), alpha3);
-      Rotation composed = r1.applyTo(r2.applyTo(r3));
+      Rotation composed = r3.applyTo(r2.applyTo(r1));
       q0 = composed.q0;
       q1 = composed.q1;
       q2 = composed.q2;
