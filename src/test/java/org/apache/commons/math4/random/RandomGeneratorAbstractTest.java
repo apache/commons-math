@@ -162,19 +162,14 @@ public abstract class RandomGeneratorAbstractTest extends RandomDataGeneratorTes
         }
     }
 
-    @Test
+    @Test(expected=MathIllegalArgumentException.class)
     public void testNextIntIAE2() {
-        try {
-            generator.nextInt(-1);
-            Assert.fail("MathIllegalArgumentException expected");
-        } catch (MathIllegalArgumentException ex) {
-            // ignored
-        }
-        try {
-            generator.nextInt(0);
-        } catch (MathIllegalArgumentException ex) {
-            // ignored
-        }
+        generator.nextInt(-1);
+    }
+
+    @Test(expected=MathIllegalArgumentException.class)
+    public void testNextIntIAE3() {
+        generator.nextInt(0);
     }
 
     @Test
