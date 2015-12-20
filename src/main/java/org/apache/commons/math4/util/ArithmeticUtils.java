@@ -24,7 +24,7 @@ import org.apache.commons.math4.exception.util.Localizable;
 import org.apache.commons.math4.exception.util.LocalizedFormats;
 
 /**
- * Arithmetic utility functions complimenting {@link Math}.
+ * Arithmetic utility functions complementing {@link Math}.
  *
  */
 public final class ArithmeticUtils {
