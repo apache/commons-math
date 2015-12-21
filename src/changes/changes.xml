@@ -54,6 +54,11 @@ If the output is not quite correct, check for invisible trailing spaces!
     </release>
 
     <release version="4.0" date="XXXX-XX-XX" description="">
+      <action dev="erans" type="update" issue="MATH-1305" due-to="Rostislav Krasny">
+        "AbstractRandomGenerator" and "BitsStreamGenerator": Slight performance
+        improvement of the "nextBytes" method (particularly when the number of
+        requested bytes is a multiple of 4).
+      </action>
       <action dev="erans" type="fix" issue="MATH-1300" due-to="Rostislav Krasny">
         "AbstractRandomGenerator" and "BitsStreamGenerator": Remove a redundant call
         to the random data provider.

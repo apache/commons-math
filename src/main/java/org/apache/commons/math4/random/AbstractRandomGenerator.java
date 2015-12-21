@@ -107,21 +107,29 @@ public abstract class AbstractRandomGenerator implements RandomGenerator {
      */
     @Override
     public void nextBytes(byte[] bytes) {
-        int i = 0;
-        final int iEnd = bytes.length - 3;
-        while (i < iEnd) {
+        // Multiple 4 part of length (i.e. length with two least significant bits unset).
+        final int max = bytes.length & 0x7ffffffc;
+
+        int index = 0;
+        // Start filling in the byte array, 4 bytes at a time.
+        while (index < max) {
             final int random = nextInt();
-            bytes[i]     = (byte) (random & 0xff);
-            bytes[i + 1] = (byte) ((random >>  8) & 0xff);
-            bytes[i + 2] = (byte) ((random >> 16) & 0xff);
-            bytes[i + 3] = (byte) ((random >> 24) & 0xff);
-            i += 4;
+            bytes[index++] = (byte) random;
+            bytes[index++] = (byte) (random >>> 8);
+            bytes[index++] = (byte) (random >>> 16);
+            bytes[index++] = (byte) (random >>> 24);
         }
-        if (i < bytes.length) {
+
+        // Fill in the remaining bytes.
+        if (index < bytes.length) {
             int random = nextInt();
-            while (i < bytes.length) {
-                bytes[i++] = (byte) (random & 0xff);
-                random >>= 8;
+            while (true) {
+                bytes[index++] = (byte) random;
+                if (index < bytes.length) {
+                    random >>>= 8;
+                } else {
+                    break;
+                }
             }
         }
     }
