@@ -564,9 +564,9 @@ public class Rotation implements Serializable {
         throw new CardanEulerSingularityException(true);
       }
       return new double[] {
-        FastMath.atan2(-(v1.getY()), v1.getZ()),
+        FastMath.atan2(-(v2.getY()), v2.getX()),
         FastMath.asin(v2.getZ()),
-        FastMath.atan2(-(v2.getY()), v2.getX())
+        FastMath.atan2(-(v1.getY()), v1.getZ())
       };
 
     } else if (order == RotationOrder.YZX) {
@@ -582,9 +582,9 @@ public class Rotation implements Serializable {
         throw new CardanEulerSingularityException(true);
       }
       return new double[] {
-        FastMath.atan2(v1.getZ(), v1.getY()),
+        FastMath.atan2(v2.getZ(), v2.getX()),
        -FastMath.asin(v2.getY()),
-        FastMath.atan2(v2.getZ(), v2.getX())
+        FastMath.atan2(v1.getZ(), v1.getY())
       };
 
     } else if (order == RotationOrder.ZXY) {
@@ -600,9 +600,9 @@ public class Rotation implements Serializable {
         throw new CardanEulerSingularityException(true);
       }
       return new double[] {
-        FastMath.atan2(v1.getX(), v1.getZ()),
+        FastMath.atan2(v2.getX(), v2.getY()),
        -FastMath.asin(v2.getZ()),
-        FastMath.atan2(v2.getX(), v2.getY())
+        FastMath.atan2(v1.getX(), v1.getZ())
       };
 
     } else if (order == RotationOrder.XZY) {
@@ -618,9 +618,9 @@ public class Rotation implements Serializable {
         throw new CardanEulerSingularityException(true);
       }
       return new double[] {
-        FastMath.atan2(-(v1.getZ()), v1.getX()),
+        FastMath.atan2(-(v2.getZ()), v2.getY()),
         FastMath.asin(v2.getX()),
-        FastMath.atan2(-(v2.getZ()), v2.getY())
+        FastMath.atan2(-(v1.getZ()), v1.getX())
       };
 
     } else if (order == RotationOrder.YXZ) {
@@ -636,9 +636,9 @@ public class Rotation implements Serializable {
         throw new CardanEulerSingularityException(true);
       }
       return new double[] {
-        FastMath.atan2(-(v1.getX()), v1.getY()),
+        FastMath.atan2(-(v2.getX()), v2.getZ()),
         FastMath.asin(v2.getY()),
-        FastMath.atan2(-(v2.getX()), v2.getZ())
+        FastMath.atan2(-(v1.getX()), v1.getY())
       };
 
     } else if (order == RotationOrder.XYZ) {
@@ -654,9 +654,9 @@ public class Rotation implements Serializable {
         throw new CardanEulerSingularityException(true);
       }
       return new double[] {
-        FastMath.atan2(v1.getY(), v1.getX()),
+        FastMath.atan2(v2.getY(), v2.getZ()),
        -FastMath.asin(v2.getX()),
-        FastMath.atan2(v2.getY(), v2.getZ())
+        FastMath.atan2(v1.getY(), v1.getX())
       };
 
     } else if (order == RotationOrder.XYX) {
@@ -672,9 +672,9 @@ public class Rotation implements Serializable {
         throw new CardanEulerSingularityException(false);
       }
       return new double[] {
-        FastMath.atan2(v1.getY(), -v1.getZ()),
+        FastMath.atan2(v2.getY(), v2.getZ()),
         FastMath.acos(v2.getX()),
-        FastMath.atan2(v2.getY(), v2.getZ())
+        FastMath.atan2(v1.getY(), -v1.getZ())
       };
 
     } else if (order == RotationOrder.XZX) {
@@ -690,9 +690,9 @@ public class Rotation implements Serializable {
         throw new CardanEulerSingularityException(false);
       }
       return new double[] {
-        FastMath.atan2(v1.getZ(), v1.getY()),
+        FastMath.atan2(v2.getZ(), -v2.getY()),
         FastMath.acos(v2.getX()),
-        FastMath.atan2(v2.getZ(), -v2.getY())
+        FastMath.atan2(v1.getZ(), v1.getY())
       };
 
     } else if (order == RotationOrder.YXY) {
@@ -708,9 +708,9 @@ public class Rotation implements Serializable {
         throw new CardanEulerSingularityException(false);
       }
       return new double[] {
-        FastMath.atan2(v1.getX(), v1.getZ()),
+        FastMath.atan2(v2.getX(), -v2.getZ()),
         FastMath.acos(v2.getY()),
-        FastMath.atan2(v2.getX(), -v2.getZ())
+        FastMath.atan2(v1.getX(), v1.getZ())
       };
 
     } else if (order == RotationOrder.YZY) {
@@ -726,9 +726,9 @@ public class Rotation implements Serializable {
         throw new CardanEulerSingularityException(false);
       }
       return new double[] {
-        FastMath.atan2(v1.getZ(), -v1.getX()),
+        FastMath.atan2(v2.getZ(), v2.getX()),
         FastMath.acos(v2.getY()),
-        FastMath.atan2(v2.getZ(), v2.getX())
+        FastMath.atan2(v1.getZ(), -v1.getX())
       };
 
     } else if (order == RotationOrder.ZXZ) {
@@ -744,9 +744,9 @@ public class Rotation implements Serializable {
         throw new CardanEulerSingularityException(false);
       }
       return new double[] {
-        FastMath.atan2(v1.getX(), -v1.getY()),
+        FastMath.atan2(v2.getX(), v2.getY()),
         FastMath.acos(v2.getZ()),
-        FastMath.atan2(v2.getX(), v2.getY())
+        FastMath.atan2(v1.getX(), -v1.getY())
       };
 
     } else { // last possibility is ZYZ
@@ -762,9 +762,9 @@ public class Rotation implements Serializable {
         throw new CardanEulerSingularityException(false);
       }
       return new double[] {
-        FastMath.atan2(v1.getY(), v1.getX()),
+        FastMath.atan2(v2.getY(), -v2.getX()),
         FastMath.acos(v2.getZ()),
-        FastMath.atan2(v2.getY(), -v2.getX())
+        FastMath.atan2(v1.getY(), v1.getX())
       };
 
     }
