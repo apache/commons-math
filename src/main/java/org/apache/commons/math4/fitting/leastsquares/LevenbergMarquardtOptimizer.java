@@ -35,7 +35,7 @@ import org.apache.commons.math4.util.Precision;
  * <p>
  * This implementation <em>should</em> work even for over-determined systems
  * (i.e. systems having more unknowns than equations). Over-determined systems
- * are solved by ignoring the point which have the smallest impact according to
+ * are solved by ignoring the points which have the smallest impact according to
  * their jacobian column norm. Only the rank of the matrix and some loop bounds
  * are changed to implement this.
  * </p>
@@ -175,10 +175,11 @@ public class LevenbergMarquardtOptimizer implements LeastSquaresOptimizer {
 	 *            Positive input variable used in determining the initial step
 	 *            bound. This bound is set to the product of
 	 *            initialStepBoundFactor and the euclidean norm of
-	 *            {@code diag * x} if non-zero, or else to
-	 *            {@code newInitialStepBoundFactor} itself. In most cases factor
-	 *            should lie in the interval {@code (0.1, 100.0)}. {@code 100}
-	 *            is a generally recommended value. of the matrix is reduced.
+	 *            {@code diag * x} if non-zero. Otherwise to the
+	 *            {@code newInitialStepBoundFactor} itself. The interval
+	 *            {@code (0.1, 100.0)} is appropriate for the
+	 *            {@code newInitialStepBoundFactor}, and the default value of
+	 *            {@code 100} is recommended.
 	 * @return a new instance.
 	 */
 	public LevenbergMarquardtOptimizer withInitialStepBoundFactor(double newInitialStepBoundFactor) {
