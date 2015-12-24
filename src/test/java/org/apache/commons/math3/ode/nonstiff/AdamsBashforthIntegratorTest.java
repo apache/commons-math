@@ -18,14 +18,9 @@
 package org.apache.commons.math3.ode.nonstiff;
 
 
-import java.io.File;
-import java.io.IOException;
 import java.io.ObjectInput;
 import java.io.ObjectOutput;
-import java.io.PrintStream;
-import java.util.Locale;
 
-import org.apache.commons.math3.analysis.differentiation.DerivativeStructure;
 import org.apache.commons.math3.exception.DimensionMismatchException;
 import org.apache.commons.math3.exception.MaxCountExceededException;
 import org.apache.commons.math3.exception.NoBracketingException;
@@ -40,7 +35,6 @@ import org.apache.commons.math3.ode.TestProblemAbstract;
 import org.apache.commons.math3.ode.TestProblemHandler;
 import org.apache.commons.math3.ode.sampling.StepHandler;
 import org.apache.commons.math3.ode.sampling.StepInterpolator;
-import org.apache.commons.math3.util.CombinatoricsUtils;
 import org.apache.commons.math3.util.FastMath;
 import org.junit.Assert;
 import org.junit.Test;
@@ -262,70 +256,6 @@ public class AdamsBashforthIntegratorTest {
 
         public StepInterpolator copy() {
             return this;
-        }
-
-    }
-
-    @Test
-    public void testTmp() throws IOException, DimensionMismatchException, NumberIsTooSmallException, MaxCountExceededException, NoBracketingException {
-        final PrintStream out = new PrintStream(new File(new File(System.getProperty("user.home")), "x.dat"));
-        final int n = 4;
-        final AdamsBashforthIntegrator integ = new AdamsBashforthIntegrator(n, 1.0e-12, 1.0e3, 1.0e-10, 1.0e-12);
-        final SinT4 sinT4 = new SinT4();
-        integ.setStarterIntegrator(new PerfectStarter(sinT4, n));
-        final StepHandler handler = new StepHandler() {
-            double previousError = 0;
-            public void init(double t0, double[] y0, double t) {
-            }
-            public void handleStep(StepInterpolator interpolator, boolean isLast) {
-                final double t = interpolator.getCurrentTime();
-                final double h = t - interpolator.getPreviousTime();
-                final double y = interpolator.getInterpolatedState()[0];
-                final double error = sinT4.computeTheoreticalState(t)[0] - y;
-                out.format(Locale.US, "%10.8f %16.9e %10.8f %16.9e",
-                           t, h, y, error - previousError);
-                for (int i = 1; i < n + 1; ++i) {
-                    out.format(Locale.US, " %16.9e", sinT4.scaledDerivative(t, h, i));
-                }
-                out.format(Locale.US, "%n");
-                previousError = error;
-            }
-        };
-        integ.addStepHandler(handler);
-        final ExpandableStatefulODE expandableODE = new ExpandableStatefulODE(sinT4);
-        final double t0 = 0.75;
-        final double h0 = 1.0 / 128;
-        expandableODE.setTime(t0);
-        expandableODE.setPrimaryState(sinT4.computeTheoreticalState(t0));
-        integ.setInitialStepSize(h0);
-        integ.integrate(expandableODE, 0.9);
-        out.close();
-    }
-
-    private static class SinT4 extends TestProblemAbstract {
-
-        @Override
-        public int getDimension() {
-            return 1;
-        }
-
-        @Override
-        public void doComputeDerivatives(double t, double[] y, double[] yDot) {
-            // compute the derivatives
-            double t3 = FastMath.pow(t,  3);
-            yDot[0] = 4 * t3 * FastMath.cos(t3 * t);
-        }
-
-        public double[] computeTheoreticalState(final double t) {
-          return new double[] { FastMath.sin(FastMath.pow(t,  4)) };
-        }
-
-        public DerivativeStructure valueDS(final double t, final int n) {
-            return new DerivativeStructure(1, n, 0, t).pow(4).sin();
-        }
-
-        public double scaledDerivative(final double t, final double h, final int n) {
-            return FastMath.pow(h, n) * valueDS(t, n).getPartialDerivative(n) / CombinatoricsUtils.factorial(n);
         }
 
     }
