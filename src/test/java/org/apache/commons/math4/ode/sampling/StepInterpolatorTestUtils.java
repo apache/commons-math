@@ -32,6 +32,7 @@ public class StepInterpolatorTestUtils {
 
     public static void checkDerivativesConsistency(final FirstOrderIntegrator integrator,
                                                    final TestProblemAbstract problem,
+                                                   final double finiteDifferencesRatio,
                                                    final double threshold)
         throws DimensionMismatchException, NumberIsTooSmallException,
                MaxCountExceededException, NoBracketingException {
@@ -40,8 +41,9 @@ public class StepInterpolatorTestUtils {
             public void handleStep(StepInterpolator interpolator, boolean isLast)
                 throws MaxCountExceededException {
 
-                final double h = 0.001 * (interpolator.getCurrentTime() - interpolator.getPreviousTime());
-                final double t = interpolator.getCurrentTime() - 300 * h;
+                final double dt = interpolator.getCurrentTime() - interpolator.getPreviousTime();
+                final double h  = finiteDifferencesRatio * dt;
+                final double t  = interpolator.getCurrentTime() - 0.3 * dt;
 
                 if (FastMath.abs(h) < 10 * FastMath.ulp(t)) {
                     return;
@@ -72,7 +74,7 @@ public class StepInterpolatorTestUtils {
                                                32 * (yP3h[i] - yM3h[i]) +
                                              -168 * (yP2h[i] - yM2h[i]) +
                                               672 * (yP1h[i] - yM1h[i])) / (840 * h);
-                    Assert.assertEquals(approYDot, yDot[i], threshold);
+                    Assert.assertEquals("" + (approYDot - yDot[i]), approYDot, yDot[i], threshold);
                 }
 
             }

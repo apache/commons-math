@@ -88,35 +88,36 @@ public class TestProblemHandler
         expectedStepStart = start + integrator.getCurrentSignedStepsize();
     }
 
+
     double pT = interpolator.getPreviousTime();
     double cT = interpolator.getCurrentTime();
     double[] errorScale = problem.getErrorScale();
 
     // store the error at the last step
     if (isLast) {
-      double[] interpolatedY = interpolator.getInterpolatedState();
-      double[] theoreticalY  = problem.computeTheoreticalState(cT);
-      for (int i = 0; i < interpolatedY.length; ++i) {
-        double error = FastMath.abs(interpolatedY[i] - theoreticalY[i]);
-        lastError = FastMath.max(error, lastError);
-      }
-      lastTime = cT;
+        double[] interpolatedY = interpolator.getInterpolatedState();
+        double[] theoreticalY  = problem.computeTheoreticalState(cT);
+        for (int i = 0; i < interpolatedY.length; ++i) {
+            double error = FastMath.abs(interpolatedY[i] - theoreticalY[i]);
+            lastError = FastMath.max(error, lastError);
+        }
+        lastTime = cT;
     }
-
     // walk through the step
     for (int k = 0; k <= 20; ++k) {
 
-      double time = pT + (k * (cT - pT)) / 20;
-      interpolator.setInterpolatedTime(time);
-      double[] interpolatedY = interpolator.getInterpolatedState();
-      double[] theoreticalY  = problem.computeTheoreticalState(interpolator.getInterpolatedTime());
+        double time = pT + (k * (cT - pT)) / 20;
+        interpolator.setInterpolatedTime(time);
+        double[] interpolatedY = interpolator.getInterpolatedState();
+        double[] theoreticalY  = problem.computeTheoreticalState(interpolator.getInterpolatedTime());
 
-      // update the errors
-      for (int i = 0; i < interpolatedY.length; ++i) {
-        double error = errorScale[i] * FastMath.abs(interpolatedY[i] - theoreticalY[i]);
-        maxValueError = FastMath.max(error, maxValueError);
-      }
+        // update the errors
+        for (int i = 0; i < interpolatedY.length; ++i) {
+            double error = errorScale[i] * FastMath.abs(interpolatedY[i] - theoreticalY[i]);
+            maxValueError = FastMath.max(error, maxValueError);
+        }
     }
+
   }
 
   /**
@@ -133,6 +134,11 @@ public class TestProblemHandler
    */
   public double getMaximalTimeError() {
     return maxTimeError;
+  }
+
+
+  public int getCalls() {
+      return problem.getCalls();
   }
 
   /**

@@ -54,6 +54,12 @@ If the output is not quite correct, check for invisible trailing spaces!
     </release>
 
     <release version="4.0" date="XXXX-XX-XX" description="">
+      <action dev="luc" type="fix">
+        Fixed stability issues with Adams-Bashforth and Adams-Moulton ODE integrators.
+        The integrators did not estimate the local error properly and were sometimes
+        stuck attempting to reduce indefinitely the step size as they thought the
+        error was too high.
+      </action>
       <action dev="erans" type="fix" issue="MATH-1301">
         "JDKRandomGenerator": Method "nextInt(int)" now throws a "NotStrictlyPositiveException".
       </action>

@@ -68,7 +68,7 @@ import org.apache.commons.math4.linear.RealMatrix;
  * computed from s<sub>1</sub>(n), s<sub>2</sub>(n) ... s<sub>k</sub>(n), the formula being exact
  * for degree k polynomials.
  * <pre>
- * s<sub>1</sub>(n-i) = s<sub>1</sub>(n) + &sum;<sub>j&gt;1</sub> j (-i)<sup>j-1</sup> s<sub>j</sub>(n)
+ * s<sub>1</sub>(n-i) = s<sub>1</sub>(n) + &sum;<sub>j&gt;0</sub> (j+1) (-i)<sup>j</sup> s<sub>j+1</sub>(n)
  * </pre>
  * The previous formula can be used with several values for i to compute the transform between
  * classical representation and Nordsieck vector at step end. The transform between r<sub>n</sub>
@@ -77,7 +77,8 @@ import org.apache.commons.math4.linear.RealMatrix;
  * q<sub>n</sub> = s<sub>1</sub>(n) u + P r<sub>n</sub>
  * </pre>
  * where u is the [ 1 1 ... 1 ]<sup>T</sup> vector and P is the (k-1)&times;(k-1) matrix built
- * with the j (-i)<sup>j-1</sup> terms:
+ * with the (j+1) (-i)<sup>j</sup> terms with i being the row number starting from 1 and j being
+ * the column number starting from 1:
  * <pre>
  *        [  -2   3   -4    5  ... ]
  *        [  -4  12  -32   80  ... ]
@@ -137,27 +138,28 @@ public class AdamsNordsieckTransformer {
     private static final Map<Integer, AdamsNordsieckTransformer> CACHE =
         new HashMap<Integer, AdamsNordsieckTransformer>();
 
-    /** Update matrix for the higher order derivatives h<sup>2</sup>/2y'', h<sup>3</sup>/6 y''' ... */
+    /** Update matrix for the higher order derivatives h<sup>2</sup>/2 y'', h<sup>3</sup>/6 y''' ... */
     private final Array2DRowRealMatrix update;
 
     /** Update coefficients of the higher order derivatives wrt y'. */
     private final double[] c1;
 
     /** Simple constructor.
-     * @param nSteps number of steps of the multistep method
+     * @param n number of steps of the multistep method
      * (excluding the one being computed)
      */
-    private AdamsNordsieckTransformer(final int nSteps) {
+    private AdamsNordsieckTransformer(final int n) {
+
+        final int rows = n - 1;
 
         // compute exact coefficients
-        FieldMatrix<BigFraction> bigP = buildP(nSteps);
+        FieldMatrix<BigFraction> bigP = buildP(rows);
         FieldDecompositionSolver<BigFraction> pSolver =
             new FieldLUDecomposition<BigFraction>(bigP).getSolver();
 
-        BigFraction[] u = new BigFraction[nSteps];
+        BigFraction[] u = new BigFraction[rows];
         Arrays.fill(u, BigFraction.ONE);
-        BigFraction[] bigC1 = pSolver
-            .solve(new ArrayFieldVector<BigFraction>(u, false)).toArray();
+        BigFraction[] bigC1 = pSolver.solve(new ArrayFieldVector<BigFraction>(u, false)).toArray();
 
         // update coefficients are computed by combining transform from
         // Nordsieck to multistep, then shifting rows to represent step advance
@@ -167,15 +169,15 @@ public class AdamsNordsieckTransformer {
             // shift rows
             shiftedP[i] = shiftedP[i - 1];
         }
-        shiftedP[0] = new BigFraction[nSteps];
+        shiftedP[0] = new BigFraction[rows];
         Arrays.fill(shiftedP[0], BigFraction.ZERO);
         FieldMatrix<BigFraction> bigMSupdate =
             pSolver.solve(new Array2DRowFieldMatrix<BigFraction>(shiftedP, false));
 
         // convert coefficients to double
         update         = MatrixUtils.bigFractionMatrixToRealMatrix(bigMSupdate);
-        c1             = new double[nSteps];
-        for (int i = 0; i < nSteps; ++i) {
+        c1             = new double[rows];
+        for (int i = 0; i < rows; ++i) {
             c1[i] = bigC1[i].doubleValue();
         }
 
@@ -201,13 +203,17 @@ public class AdamsNordsieckTransformer {
      * (excluding the one being computed).
      * @return number of steps of the method
      * (excluding the one being computed)
+     * @deprecated as of 3.6, this method is not used anymore
      */
+    @Deprecated
     public int getNSteps() {
         return c1.length;
     }
 
     /** Build the P matrix.
-     * <p>The P matrix general terms are shifted j (-i)<sup>j-1</sup> terms:
+     * <p>The P matrix general terms are shifted (j+1) (-i)<sup>j</sup> terms
+     * with i being the row number starting from 1 and j being the column
+     * number starting from 1:
      * <pre>
      *        [  -2   3   -4    5  ... ]
      *        [  -4  12  -32   80  ... ]
@@ -215,21 +221,20 @@ public class AdamsNordsieckTransformer {
      *        [  -8  48 -256 1280  ... ]
      *        [          ...           ]
      * </pre></p>
-     * @param nSteps number of steps of the multistep method
-     * (excluding the one being computed)
+     * @param rows number of rows of the matrix
      * @return P matrix
      */
-    private FieldMatrix<BigFraction> buildP(final int nSteps) {
+    private FieldMatrix<BigFraction> buildP(final int rows) {
 
-        final BigFraction[][] pData = new BigFraction[nSteps][nSteps];
+        final BigFraction[][] pData = new BigFraction[rows][rows];
 
-        for (int i = 0; i < pData.length; ++i) {
+        for (int i = 1; i <= pData.length; ++i) {
             // build the P matrix elements from Taylor series formulas
-            final BigFraction[] pI = pData[i];
-            final int factor = -(i + 1);
+            final BigFraction[] pI = pData[i - 1];
+            final int factor = -i;
             int aj = factor;
-            for (int j = 0; j < pI.length; ++j) {
-                pI[j] = new BigFraction(aj * (j + 2));
+            for (int j = 1; j <= pI.length; ++j) {
+                pI[j - 1] = new BigFraction(aj * (j + 1));
                 aj *= factor;
             }
         }
@@ -243,20 +248,25 @@ public class AdamsNordsieckTransformer {
      * @param t first steps times
      * @param y first steps states
      * @param yDot first steps derivatives
-     * @return Nordieck vector at first step (h<sup>2</sup>/2 y''<sub>n</sub>,
+     * @return Nordieck vector at start of first step (h<sup>2</sup>/2 y''<sub>n</sub>,
      * h<sup>3</sup>/6 y'''<sub>n</sub> ... h<sup>k</sup>/k! y<sup>(k)</sup><sub>n</sub>)
      */
+
     public Array2DRowRealMatrix initializeHighOrderDerivatives(final double h, final double[] t,
                                                                final double[][] y,
                                                                final double[][] yDot) {
 
         // using Taylor series with di = ti - t0, we get:
-        //  y(ti)  - y(t0)  - di y'(t0) =   di^2 / h^2 s2 + ... +   di^k     / h^k sk + O(h^(k+1))
-        //  y'(ti) - y'(t0)             = 2 di   / h^2 s2 + ... + k di^(k-1) / h^k sk + O(h^k)
-        // we write these relations for i = 1 to i= n-1 as a set of 2(n-1) linear
-        // equations depending on the Nordsieck vector [s2 ... sk]
-        final double[][] a     = new double[2 * (y.length - 1)][c1.length];
-        final double[][] b     = new double[2 * (y.length - 1)][y[0].length];
+        //  y(ti)  - y(t0)  - di y'(t0) =   di^2 / h^2 s2 + ... +   di^k     / h^k sk + O(h^k)
+        //  y'(ti) - y'(t0)             = 2 di   / h^2 s2 + ... + k di^(k-1) / h^k sk + O(h^(k-1))
+        // we write these relations for i = 1 to i= 1+n/2 as a set of n + 2 linear
+        // equations depending on the Nordsieck vector [s2 ... sk rk], so s2 to sk correspond
+        // to the appropriately truncated Taylor expansion, and rk is the Taylor remainder.
+        // The goal is to have s2 to sk as accurate as possible considering the fact the sum is
+        // truncated and we don't want the error terms to be included in s2 ... sk, so we need
+        // to solve also for the remainder
+        final double[][] a     = new double[c1.length + 1][c1.length + 1];
+        final double[][] b     = new double[c1.length + 1][y[0].length];
         final double[]   y0    = y[0];
         final double[]   yDot0 = yDot[0];
         for (int i = 1; i < y.length; ++i) {
@@ -268,31 +278,43 @@ public class AdamsNordsieckTransformer {
             // linear coefficients of equations
             // y(ti) - y(t0) - di y'(t0) and y'(ti) - y'(t0)
             final double[] aI    = a[2 * i - 2];
-            final double[] aDotI = a[2 * i - 1];
+            final double[] aDotI = (2 * i - 1) < a.length ? a[2 * i - 1] : null;
             for (int j = 0; j < aI.length; ++j) {
                 dikM1Ohk *= ratio;
                 aI[j]     = di      * dikM1Ohk;
-                aDotI[j]  = (j + 2) * dikM1Ohk;
+                if (aDotI != null) {
+                    aDotI[j]  = (j + 2) * dikM1Ohk;
+                }
             }
 
             // expected value of the previous equations
             final double[] yI    = y[i];
             final double[] yDotI = yDot[i];
             final double[] bI    = b[2 * i - 2];
-            final double[] bDotI = b[2 * i - 1];
+            final double[] bDotI = (2 * i - 1) < b.length ? b[2 * i - 1] : null;
             for (int j = 0; j < yI.length; ++j) {
                 bI[j]    = yI[j] - y0[j] - di * yDot0[j];
-                bDotI[j] = yDotI[j] - yDot0[j];
+                if (bDotI != null) {
+                    bDotI[j] = yDotI[j] - yDot0[j];
+                }
             }
 
         }
 
-        // solve the rectangular system in the least square sense
-        // to get the best estimate of the Nordsieck vector [s2 ... sk]
-        QRDecomposition decomposition;
-        decomposition = new QRDecomposition(new Array2DRowRealMatrix(a, false));
-        RealMatrix x = decomposition.getSolver().solve(new Array2DRowRealMatrix(b, false));
-        return new Array2DRowRealMatrix(x.getData(), false);
+        // solve the linear system to get the best estimate of the Nordsieck vector [s2 ... sk],
+        // with the additional terms s(k+1) and c grabbing the parts after the truncated Taylor expansion
+        final QRDecomposition decomposition = new QRDecomposition(new Array2DRowRealMatrix(a, false));
+        final RealMatrix x = decomposition.getSolver().solve(new Array2DRowRealMatrix(b, false));
+
+        // extract just the Nordsieck vector [s2 ... sk]
+        final Array2DRowRealMatrix truncatedX = new Array2DRowRealMatrix(x.getRowDimension() - 1, x.getColumnDimension());
+        for (int i = 0; i < truncatedX.getRowDimension(); ++i) {
+            for (int j = 0; j < truncatedX.getColumnDimension(); ++j) {
+                truncatedX.setEntry(i, j, x.getEntry(i, j));
+            }
+        }
+        return truncatedX;
+
     }
 
     /** Update the high order scaled derivatives for Adams integrators (phase 1).
