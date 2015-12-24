@@ -17,6 +17,7 @@
 package org.apache.commons.math4.random;
 
 import java.util.Random;
+import org.apache.commons.math4.exception.NotStrictlyPositiveException;
 
 /**
  * Extension of <code>java.util.Random</code> to implement
@@ -56,5 +57,15 @@ public class JDKRandomGenerator extends Random implements RandomGenerator {
     @Override
     public void setSeed(int[] seed) {
         setSeed(RandomGeneratorFactory.convertToLong(seed));
+    }
+
+    /** {@inheritDoc} */
+    @Override
+    public int nextInt(int n) {
+        try {
+            return super.nextInt(n);
+        } catch (IllegalArgumentException e) {
+            throw new NotStrictlyPositiveException(n);
+        }
     }
 }
