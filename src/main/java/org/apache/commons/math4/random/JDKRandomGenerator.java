@@ -42,7 +42,7 @@ public class JDKRandomGenerator extends Random implements RandomGenerator {
      * @param seed initial seed
      * @since 3.6
      */
-    public JDKRandomGenerator(int seed) {
+    public JDKRandomGenerator(long seed) {
         setSeed(seed);
     }
 
