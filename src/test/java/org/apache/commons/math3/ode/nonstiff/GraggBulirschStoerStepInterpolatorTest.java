@@ -53,7 +53,7 @@ public class GraggBulirschStoerStepInterpolatorTest {
     GraggBulirschStoerIntegrator integ =
       new GraggBulirschStoerIntegrator(minStep, maxStep,
                                        absTolerance, relTolerance);
-    StepInterpolatorTestUtils.checkDerivativesConsistency(integ, pb, 1.0e-8);
+    StepInterpolatorTestUtils.checkDerivativesConsistency(integ, pb, 0.01, 5.9e-10);
   }
 
   @Test

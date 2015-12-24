@@ -45,7 +45,7 @@ public class GillStepInterpolatorTest {
     TestProblem3 pb = new TestProblem3();
     double step = (pb.getFinalTime() - pb.getInitialTime()) * 0.001;
     GillIntegrator integ = new GillIntegrator(step);
-    StepInterpolatorTestUtils.checkDerivativesConsistency(integ, pb, 1.0e-10);
+    StepInterpolatorTestUtils.checkDerivativesConsistency(integ, pb, 0.01, 6.6e-12);
   }
 
   @Test

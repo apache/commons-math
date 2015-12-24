@@ -22,6 +22,7 @@ import org.apache.commons.math3.exception.MaxCountExceededException;
 import org.apache.commons.math3.exception.NoBracketingException;
 import org.apache.commons.math3.exception.NumberIsTooSmallException;
 import org.apache.commons.math3.linear.Array2DRowRealMatrix;
+import org.apache.commons.math3.linear.RealMatrix;
 import org.apache.commons.math3.ode.EquationsMapper;
 import org.apache.commons.math3.ode.ExpandableStatefulODE;
 import org.apache.commons.math3.ode.sampling.NordsieckStepInterpolator;
@@ -90,7 +91,7 @@ import org.apache.commons.math3.util.FastMath;
  * computed from s<sub>1</sub>(n), s<sub>2</sub>(n) ... s<sub>k</sub>(n), the formula being exact
  * for degree k polynomials.
  * <pre>
- * s<sub>1</sub>(n-i) = s<sub>1</sub>(n) + &sum;<sub>j</sub> j (-i)<sup>j-1</sup> s<sub>j</sub>(n)
+ * s<sub>1</sub>(n-i) = s<sub>1</sub>(n) + &sum;<sub>j&gt;0</sub> (j+1) (-i)<sup>j</sup> s<sub>j+1</sub>(n)
  * </pre>
  * The previous formula can be used with several values for i to compute the transform between
  * classical representation and Nordsieck vector. The transform between r<sub>n</sub>
@@ -99,7 +100,8 @@ import org.apache.commons.math3.util.FastMath;
  * q<sub>n</sub> = s<sub>1</sub>(n) u + P r<sub>n</sub>
  * </pre>
  * where u is the [ 1 1 ... 1 ]<sup>T</sup> vector and P is the (k-1)&times;(k-1) matrix built
- * with the j (-i)<sup>j-1</sup> terms:
+ * with the (j+1) (-i)<sup>j</sup> terms with i being the row number starting from 1 and j being
+ * the column number starting from 1:
  * <pre>
  *        [  -2   3   -4    5  ... ]
  *        [  -4  12  -32   80  ... ]
@@ -188,6 +190,48 @@ public class AdamsBashforthIntegrator extends AdamsIntegrator {
               vecAbsoluteTolerance, vecRelativeTolerance);
     }
 
+    /** Estimate error.
+     * <p>
+     * Error is estimated by interpolating back to previous state using
+     * the state Taylor expansion and comparing to real previous state.
+     * </p>
+     * @param previousState state vector at step start
+     * @param predictedState predicted state vector at step end
+     * @param predictedScaled predicted value of the scaled derivatives at step end
+     * @param predictedNordsieck predicted value of the Nordsieck vector at step end
+     * @return estimated normalized local discretization error
+     */
+    private double errorEstimation(final double[] previousState,
+                                   final double[] predictedState,
+                                   final double[] predictedScaled,
+                                   final RealMatrix predictedNordsieck) {
+
+        double error = 0;
+        for (int i = 0; i < mainSetDimension; ++i) {
+            final double yScale = FastMath.abs(predictedState[i]);
+            final double tol = (vecAbsoluteTolerance == null) ?
+                               (scalAbsoluteTolerance + scalRelativeTolerance * yScale) :
+                               (vecAbsoluteTolerance[i] + vecRelativeTolerance[i] * yScale);
+
+            // apply Taylor formula from high order to low order,
+            // for the sake of numerical accuracy
+            double variation = 0;
+            int sign = predictedNordsieck.getRowDimension() % 2 == 0 ? -1 : 1;
+            for (int k = predictedNordsieck.getRowDimension() - 1; k >= 0; --k) {
+                variation += sign * predictedNordsieck.getEntry(k, i);
+                sign       = -sign;
+            }
+            variation -= predictedScaled[i];
+
+            final double ratio  = (predictedState[i] - previousState[i] + variation) / tol;
+            error              += ratio * ratio;
+
+        }
+
+        return FastMath.sqrt(error / mainSetDimension);
+
+    }
+
     /** {@inheritDoc} */
     @Override
     public void integrate(final ExpandableStatefulODE equations, final double t)
@@ -199,8 +243,7 @@ public class AdamsBashforthIntegrator extends AdamsIntegrator {
         final boolean forward = t > equations.getTime();
 
         // initialize working arrays
-        final double[] y0   = equations.getCompleteState();
-        final double[] y    = y0.clone();
+        final double[] y    = equations.getCompleteState();
         final double[] yDot = new double[y.length];
 
         // set up an interpolator sharing the integrator arrays
@@ -209,13 +252,12 @@ public class AdamsBashforthIntegrator extends AdamsIntegrator {
                                   equations.getPrimaryMapper(), equations.getSecondaryMappers());
 
         // set up integration control objects
-        initIntegration(equations.getTime(), y0, t);
+        initIntegration(equations.getTime(), y, t);
 
         // compute the initial Nordsieck vector using the configured starter integrator
         start(equations.getTime(), y, t);
         interpolator.reinitialize(stepStart, stepSize, scaled, nordsieck);
         interpolator.storeTime(stepStart);
-        final int lastRow = nordsieck.getRowDimension() - 1;
 
         // reuse the step that was chosen by the starter integrator
         double hNew = stepSize;
@@ -225,62 +267,57 @@ public class AdamsBashforthIntegrator extends AdamsIntegrator {
         isLastStep = false;
         do {
 
+            interpolator.shift();
+            final double[] predictedY      = new double[y.length];
+            final double[] predictedScaled = new double[y.length];
+            Array2DRowRealMatrix predictedNordsieck = null;
             double error = 10;
             while (error >= 1.0) {
 
-                stepSize = hNew;
-
-                // evaluate error using the last term of the Taylor expansion
-                error = 0;
-                for (int i = 0; i < mainSetDimension; ++i) {
-                    final double yScale = FastMath.abs(y[i]);
-                    final double tol = (vecAbsoluteTolerance == null) ?
-                                       (scalAbsoluteTolerance + scalRelativeTolerance * yScale) :
-                                       (vecAbsoluteTolerance[i] + vecRelativeTolerance[i] * yScale);
-                    final double ratio  = nordsieck.getEntry(lastRow, i) / tol;
-                    error += ratio * ratio;
+                // predict a first estimate of the state at step end
+                final double stepEnd = stepStart + hNew;
+                interpolator.storeTime(stepEnd);
+                final ExpandableStatefulODE expandable = getExpandable();
+                final EquationsMapper primary = expandable.getPrimaryMapper();
+                primary.insertEquationData(interpolator.getInterpolatedState(), predictedY);
+                int index = 0;
+                for (final EquationsMapper secondary : expandable.getSecondaryMappers()) {
+                    secondary.insertEquationData(interpolator.getInterpolatedSecondaryState(index), predictedY);
+                    ++index;
                 }
-                error = FastMath.sqrt(error / mainSetDimension);
+
+                // evaluate the derivative
+                computeDerivatives(stepEnd, predictedY, yDot);
+
+                // predict Nordsieck vector at step end
+                for (int j = 0; j < predictedScaled.length; ++j) {
+                    predictedScaled[j] = hNew * yDot[j];
+                }
+                predictedNordsieck = updateHighOrderDerivativesPhase1(nordsieck);
+                updateHighOrderDerivativesPhase2(scaled, predictedScaled, predictedNordsieck);
+
+                // evaluate error
+                error = errorEstimation(y, predictedY, predictedScaled, predictedNordsieck);
 
                 if (error >= 1.0) {
                     // reject the step and attempt to reduce error by stepsize control
                     final double factor = computeStepGrowShrinkFactor(error);
-                    hNew = filterStep(stepSize * factor, forward, false);
+                    hNew = filterStep(hNew * factor, forward, false);
                     interpolator.rescale(hNew);
 
                 }
             }
 
-            // predict a first estimate of the state at step end
+            stepSize = hNew;
             final double stepEnd = stepStart + stepSize;
-            interpolator.shift();
-            interpolator.setInterpolatedTime(stepEnd);
-            final ExpandableStatefulODE expandable = getExpandable();
-            final EquationsMapper primary = expandable.getPrimaryMapper();
-            primary.insertEquationData(interpolator.getInterpolatedState(), y);
-            int index = 0;
-            for (final EquationsMapper secondary : expandable.getSecondaryMappers()) {
-                secondary.insertEquationData(interpolator.getInterpolatedSecondaryState(index), y);
-                ++index;
-            }
-
-            // evaluate the derivative
-            computeDerivatives(stepEnd, y, yDot);
-
-            // update Nordsieck vector
-            final double[] predictedScaled = new double[y0.length];
-            for (int j = 0; j < y0.length; ++j) {
-                predictedScaled[j] = stepSize * yDot[j];
-            }
-            final Array2DRowRealMatrix nordsieckTmp = updateHighOrderDerivativesPhase1(nordsieck);
-            updateHighOrderDerivativesPhase2(scaled, predictedScaled, nordsieckTmp);
-            interpolator.reinitialize(stepEnd, stepSize, predictedScaled, nordsieckTmp);
+            interpolator.reinitialize(stepEnd, stepSize, predictedScaled, predictedNordsieck);
 
             // discrete events handling
             interpolator.storeTime(stepEnd);
+            System.arraycopy(predictedY, 0, y, 0, y.length);
             stepStart = acceptStep(interpolator, y, yDot, t);
             scaled    = predictedScaled;
-            nordsieck = nordsieckTmp;
+            nordsieck = predictedNordsieck;
             interpolator.reinitialize(stepEnd, stepSize, scaled, nordsieck);
 
             if (!isLastStep) {

@@ -44,7 +44,7 @@ public class NordsieckStepInterpolatorTest {
                MaxCountExceededException, NoBracketingException {
         TestProblem3 pb = new TestProblem3();
         AdamsBashforthIntegrator integ = new AdamsBashforthIntegrator(4, 0.0, 1.0, 1.0e-10, 1.0e-10);
-        StepInterpolatorTestUtils.checkDerivativesConsistency(integ, pb, 5e-9);
+        StepInterpolatorTestUtils.checkDerivativesConsistency(integ, pb, 0.05, 2.8e-9);
     }
 
     @Test
@@ -66,8 +66,8 @@ public class NordsieckStepInterpolatorTest {
             oos.writeObject(handler);
         }
 
-        Assert.assertTrue(bos.size () >  25500);
-        Assert.assertTrue(bos.size () <  26500);
+        Assert.assertTrue(bos.size() > 47000);
+        Assert.assertTrue(bos.size() < 48000);
 
         ByteArrayInputStream  bis = new ByteArrayInputStream(bos.toByteArray());
         ObjectInputStream     ois = new ObjectInputStream(bis);
@@ -79,7 +79,7 @@ public class NordsieckStepInterpolatorTest {
             double r = random.nextDouble();
             double time = r * pb.getInitialTime() + (1.0 - r) * pb.getFinalTime();
             cm.setInterpolatedTime(time);
-            double[] interpolatedY = cm.getInterpolatedState ();
+            double[] interpolatedY = cm.getInterpolatedState();
             double[] theoreticalY  = pb.computeTheoreticalState(time);
             double dx = interpolatedY[0] - theoreticalY[0];
             double dy = interpolatedY[1] - theoreticalY[1];

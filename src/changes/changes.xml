@@ -51,6 +51,12 @@ If the output is not quite correct, check for invisible trailing spaces!
   </properties>
   <body>
     <release version="3.6" date="XXXX-XX-XX" description="">
+      <action dev="luc" type="fix">
+        Fixed stability issues with Adams-Bashforth and Adams-Moulton ODE integrators.
+        The integrators did not estimate the local error properly and were sometimes
+        stuck attempting to reduce indefinitely the step size as they thought the
+        error was too high.
+      </action>
       <action dev="luc" type="add" issue="MATH-1288">
         Added a field-based version of Ordinary Differential Equations framework.
         This allows integrating ode that refer to RealField elements instead of
