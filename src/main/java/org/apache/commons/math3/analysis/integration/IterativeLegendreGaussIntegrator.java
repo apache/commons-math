@@ -142,7 +142,7 @@ public class IterativeLegendreGaussIntegrator
             final double ratio = FastMath.min(4, FastMath.pow(delta / limit, 0.5 / numberOfPoints));
             n = FastMath.max((int) (ratio * n), n + 1);
             oldt = t;
-            incrementCount();;
+            incrementCount();
         }
     }
 
