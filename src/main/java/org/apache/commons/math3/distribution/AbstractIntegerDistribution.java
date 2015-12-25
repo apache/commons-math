@@ -24,7 +24,6 @@ import org.apache.commons.math3.exception.NumberIsTooLargeException;
 import org.apache.commons.math3.exception.OutOfRangeException;
 import org.apache.commons.math3.exception.util.LocalizedFormats;
 import org.apache.commons.math3.random.RandomGenerator;
-import org.apache.commons.math3.random.RandomDataImpl;
 import org.apache.commons.math3.util.FastMath;
 
 /**
@@ -44,7 +43,8 @@ public abstract class AbstractIntegerDistribution implements IntegerDistribution
      * {@link #random} instance variable instead.
      */
     @Deprecated
-    protected final RandomDataImpl randomData = new RandomDataImpl();
+    protected final org.apache.commons.math3.random.RandomDataImpl randomData =
+        new org.apache.commons.math3.random.RandomDataImpl();
 
     /**
      * RNG instance used to generate samples from the distribution.
