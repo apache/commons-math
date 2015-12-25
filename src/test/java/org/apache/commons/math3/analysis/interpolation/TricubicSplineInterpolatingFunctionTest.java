@@ -26,7 +26,9 @@ import org.junit.Test;
 /**
  * Test case for the bicubic function.
  *
+ * @deprecated To be removed in 4.0 (see MATH-1166).
  */
+@Deprecated
 public final class TricubicSplineInterpolatingFunctionTest {
     /**
      * Test preconditions.

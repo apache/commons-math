@@ -24,7 +24,10 @@ import org.junit.Test;
 /**
  * Test case for the "microsphere projection" interpolator.
  *
+ * @deprecated Code will be removed in 4.0.  Use {@link InterpolatingMicrosphere}
+ * and {@link MicrosphereProjectionInterpolator} instead.
  */
+@Deprecated
 public final class MicrosphereInterpolatorTest {
     /**
      * Test of interpolator for a plane.

@@ -26,7 +26,9 @@ import org.junit.Test;
 /**
  * Test case for the smoothing bicubic interpolator.
  *
+ * @deprecated To be removed in 4.0 (see MATH-1166).
  */
+@Deprecated
 public final class SmoothingPolynomialBicubicSplineInterpolatorTest {
     /**
      * Test preconditions.

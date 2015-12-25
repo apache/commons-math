@@ -20,7 +20,9 @@ import org.junit.Test;
 
 /**
  * Test for {@link Incrementor}.
+ * @deprecated as of 3.6, Incrementor is deprecated
  */
+@Deprecated
 public class IncrementorTest {
     @Test
     public void testConstructor1() {

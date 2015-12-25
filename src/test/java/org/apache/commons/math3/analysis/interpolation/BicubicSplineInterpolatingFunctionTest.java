@@ -30,7 +30,10 @@ import org.junit.Ignore;
 /**
  * Test case for the bicubic function.
  *
+ * @deprecated as of 3.4 replaced by
+ * {@link org.apache.commons.math3.analysis.interpolation.PiecewiseBicubicSplineInterpolatingFunction}
  */
+@Deprecated
 public final class BicubicSplineInterpolatingFunctionTest {
     /**
      * Test preconditions.

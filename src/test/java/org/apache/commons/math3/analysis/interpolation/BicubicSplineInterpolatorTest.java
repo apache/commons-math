@@ -28,7 +28,9 @@ import org.junit.Test;
 /**
  * Test case for the bicubic interpolator.
  *
+ * @deprecated as of 3.4 replaced by {@link org.apache.commons.math3.analysis.interpolation.PiecewiseBicubicSplineInterpolator}
  */
+@Deprecated
 public final class BicubicSplineInterpolatorTest {
     /**
      * Test preconditions.

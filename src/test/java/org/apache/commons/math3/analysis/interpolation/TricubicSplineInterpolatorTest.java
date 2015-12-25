@@ -27,7 +27,9 @@ import org.junit.Ignore;
 /**
  * Test case for the tricubic interpolator.
  *
+ * @deprecated To be removed in 4.0 (see MATH-1166).
  */
+@Deprecated
 public final class TricubicSplineInterpolatorTest {
     /**
      * Test preconditions.
