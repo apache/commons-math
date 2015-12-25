@@ -220,10 +220,7 @@ public class IntegerSequenceTest {
     @Test(expected=ZeroException.class)
     public void testIncrementZeroStep() {
         final int step = 0;
-
-        final IntegerSequence.Incrementor inc
-            = IntegerSequence.Incrementor.create()
-            .withIncrement(step);
+        IntegerSequence.Incrementor.create().withIncrement(step);
     }
 
     @Test

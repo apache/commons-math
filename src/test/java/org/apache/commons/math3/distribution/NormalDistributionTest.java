@@ -117,7 +117,6 @@ public class NormalDistributionTest extends RealDistributionAbstractTest {
         double x = -10;
         double expected = 7.61985e-24;
         double v = dist.cumulativeProbability(x);
-        double tol = 1e-5;
         Assert.assertEquals(1, v / expected, 1e-5);
     }
 
