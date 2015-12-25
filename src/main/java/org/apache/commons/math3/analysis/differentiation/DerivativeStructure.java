@@ -18,9 +18,9 @@ package org.apache.commons.math3.analysis.differentiation;
 
 import java.io.Serializable;
 
-import org.apache.commons.math3.RealFieldElement;
 import org.apache.commons.math3.Field;
 import org.apache.commons.math3.FieldElement;
+import org.apache.commons.math3.RealFieldElement;
 import org.apache.commons.math3.exception.DimensionMismatchException;
 import org.apache.commons.math3.exception.MathArithmeticException;
 import org.apache.commons.math3.exception.NumberIsTooLargeException;
@@ -34,7 +34,7 @@ import org.apache.commons.math3.util.MathUtils;
  * numbers described in Dan Kalman's paper <a
  * href="http://www1.american.edu/cas/mathstat/People/kalman/pdffiles/mmgautodiff.pdf">Doubly
  * Recursive Multivariate Automatic Differentiation</a>, Mathematics Magazine, vol. 75,
- * no. 3, June 2002.</p>. Rall's numbers are an extension to the real numbers used
+ * no. 3, June 2002. Rall's numbers are an extension to the real numbers used
  * throughout mathematical expressions; they hold the derivative together with the
  * value of a function. Dan Kalman's derivative structures hold all partial derivatives
  * up to any specified order, with respect to any number of free parameters. Rall's
@@ -554,7 +554,7 @@ public class DerivativeStructure implements RealFieldElement<DerivativeStructure
 
     /**
      * Returns the hypotenuse of a triangle with sides {@code x} and {@code y}
-     * - sqrt(<i>x</i><sup>2</sup>&nbsp;+<i>y</i><sup>2</sup>)<br/>
+     * - sqrt(<i>x</i><sup>2</sup>&nbsp;+<i>y</i><sup>2</sup>)
      * avoiding intermediate overflow or underflow.
      *
      * <ul>

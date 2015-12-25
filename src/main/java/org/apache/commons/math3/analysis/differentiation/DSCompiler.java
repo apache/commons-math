@@ -71,8 +71,7 @@ import org.apache.commons.math3.util.MathArrays;
  * <p>This class is mainly used as the engine for scalar variable {@link DerivativeStructure}.
  * It can also be used directly to hold several variables in arrays for more complex data
  * structures. User can for example store a vector of n variables depending on three x, y
- * and z free parameters in one array as follows:
- * <pre>
+ * and z free parameters in one array as follows:</p> <pre>
  *   // parameter 0 is x, parameter 1 is y, parameter 2 is z
  *   int parameters = 3;
  *   DSCompiler compiler = DSCompiler.getCompiler(parameters, order);
@@ -80,7 +79,7 @@ import org.apache.commons.math3.util.MathArrays;
  *
  *   // pack all elements in a single array
  *   double[] array = new double[n * size];
- *   for (int i = 0; i < n; ++i) {
+ *   for (int i = 0; i &lt; n; ++i) {
  *
  *     // we know value is guaranteed to be the first element
  *     array[i * size] = v[i];
@@ -94,13 +93,12 @@ import org.apache.commons.math3.util.MathArrays;
  *
  *   }
  * </pre>
- * Then in another function, user can perform some operations on all elements stored
- * in the single array, such as a simple product of all variables:
- * <pre>
+ * <p>Then in another function, user can perform some operations on all elements stored
+ * in the single array, such as a simple product of all variables:</p> <pre>
  *   // compute the product of all elements
  *   double[] product = new double[size];
  *   prod[0] = 1.0;
- *   for (int i = 0; i < n; ++i) {
+ *   for (int i = 0; i &lt; n; ++i) {
  *     double[] tmp = product.clone();
  *     compiler.multiply(tmp, 0, array, i * size, product, 0);
  *   }
@@ -120,7 +118,7 @@ import org.apache.commons.math3.util.MathArrays;
  *   double dPdYdY = product[compiler.getPartialDerivativeIndex(0, 2, 0)];
  *   double dPdYdZ = product[compiler.getPartialDerivativeIndex(0, 1, 1)];
  *   double dPdZdZ = product[compiler.getPartialDerivativeIndex(0, 0, 2)];
- * </p>
+ * </pre>
  * @see DerivativeStructure
  * @since 3.1
  */

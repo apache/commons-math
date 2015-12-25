@@ -34,7 +34,7 @@ import org.apache.commons.math3.util.FastMath;
  * UnivariateVectorFunction univariate vector functions} or {@link
  * UnivariateMatrixFunction univariate matrix functions}). These
  * wrapper objects compute derivatives in addition to function
- * value.
+ * values.
  * </p>
  * <p>
  * The wrapper objects work by calling the underlying function on
@@ -62,9 +62,10 @@ import org.apache.commons.math3.util.FastMath;
  *   <li>step size = 1.0e-6, second order derivative error about 148</li>
  *   <li>step size = 1.0e-6, fourth order derivative error about 6.35e+14</li>
  * </ul>
+ * <p>
  * This example shows that the small step size is really bad, even simply
- * for second order derivative!
- * </p>
+ * for second order derivative!</p>
+ *
  * @since 3.1
  */
 public class FiniteDifferencesDifferentiator

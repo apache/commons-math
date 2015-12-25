@@ -20,14 +20,14 @@ import org.apache.commons.math3.RealFieldElement;
 
 /**
  * An interface representing a univariate real function.
- * <br/>
+ * <p>
  * When a <em>user-defined</em> function encounters an error during
  * evaluation, the {@link #value(RealFieldElement) value} method should throw a
- * <em>user-defined</em> unchecked exception.
- * <br/>
+ * <em>user-defined</em> unchecked exception.</p>
+ * <p>
  * The following code excerpt shows the recommended way to do that using
  * a root solver as an example, but the same construct is applicable to
- * ODE integrators or optimizers.
+ * ODE integrators or optimizers.</p>
  *
  * <pre>
  * private static class LocalException extends RuntimeException {
