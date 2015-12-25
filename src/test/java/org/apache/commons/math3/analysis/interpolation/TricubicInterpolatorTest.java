@@ -90,7 +90,6 @@ public final class TricubicInterpolatorTest {
         double[] zval = new double[] {-12, -8, -5.5, -3, 0, 2.5};
         double[][][] fval = new double[xval.length][yval.length][zval.length];
 
-        @SuppressWarnings("unused")
         TricubicInterpolatingFunction tcf = new TricubicInterpolator().interpolate(xval, yval, zval, fval);
 
         // Valid.
