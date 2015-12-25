@@ -18,7 +18,6 @@ package org.apache.commons.math3.analysis.interpolation;
 
 import org.apache.commons.math3.exception.DimensionMismatchException;
 import org.apache.commons.math3.exception.InsufficientDataException;
-import org.apache.commons.math3.exception.MathIllegalArgumentException;
 import org.apache.commons.math3.exception.NonMonotonicSequenceException;
 import org.apache.commons.math3.exception.NullArgumentException;
 import org.apache.commons.math3.analysis.BivariateFunction;
@@ -41,7 +40,6 @@ public final class PiecewiseBicubicSplineInterpolatorTest {
         double[] yval = new double[] { -4, -3, -1, 2.5, 3.5 };
         double[][] zval = new double[xval.length][yval.length];
 
-        @SuppressWarnings( "unused" )
         BivariateGridInterpolator interpolator = new PiecewiseBicubicSplineInterpolator();
 
         try {
