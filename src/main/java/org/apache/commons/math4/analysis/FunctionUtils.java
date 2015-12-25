@@ -40,9 +40,9 @@ public class FunctionUtils {
 
     /**
      * Composes functions.
-     * <br/>
+     * <p>
      * The functions in the argument list are composed sequentially, in the
-     * given order.  For example, compose(f1,f2,f3) acts like f1(f2(f3(x))).
+     * given order.  For example, compose(f1,f2,f3) acts like f1(f2(f3(x))).</p>
      *
      * @param f List of functions.
      * @return the composite function.
@@ -63,9 +63,9 @@ public class FunctionUtils {
 
     /**
      * Composes functions.
-     * <br/>
+     * <p>
      * The functions in the argument list are composed sequentially, in the
-     * given order.  For example, compose(f1,f2,f3) acts like f1(f2(f3(x))).
+     * given order.  For example, compose(f1,f2,f3) acts like f1(f2(f3(x))).</p>
      *
      * @param f List of functions.
      * @return the composite function.
@@ -207,8 +207,8 @@ public class FunctionUtils {
     }
 
     /**
-     * Returns the univariate function <br/>
-     * {@code h(x) = combiner(f(x), g(x))}.
+     * Returns the univariate function
+     * {@code h(x) = combiner(f(x), g(x)).}
      *
      * @param combiner Combiner function.
      * @param f Function.
@@ -271,7 +271,7 @@ public class FunctionUtils {
      * Creates a unary function by fixing the first argument of a binary function.
      *
      * @param f Binary function.
-     * @param fixed Value to which the first argument of {@code f} is set.
+     * @param fixed value to which the first argument of {@code f} is set.
      * @return the unary function h(x) = f(fixed, x)
      */
     public static UnivariateFunction fix1stArgument(final BivariateFunction f,
@@ -288,7 +288,7 @@ public class FunctionUtils {
      * Creates a unary function by fixing the second argument of a binary function.
      *
      * @param f Binary function.
-     * @param fixed Value to which the second argument of {@code f} is set.
+     * @param fixed value to which the second argument of {@code f} is set.
      * @return the unary function h(x) = f(x, fixed)
      */
     public static UnivariateFunction fix2ndArgument(final BivariateFunction f,
@@ -304,10 +304,10 @@ public class FunctionUtils {
 
     /**
      * Samples the specified univariate real function on the specified interval.
-     * <br/>
+     * <p>
      * The interval is divided equally into {@code n} sections and sample points
      * are taken from {@code min} to {@code max - (max - min) / n}; therefore
-     * {@code f} is not sampled at the upper bound {@code max}.
+     * {@code f} is not sampled at the upper bound {@code max}.</p>
      *
      * @param f Function to be sampled
      * @param min Lower bound of the interval (included).

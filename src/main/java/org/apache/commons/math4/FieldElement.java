@@ -66,7 +66,7 @@ public interface FieldElement<T> {
     T multiply(T a) throws NullArgumentException;
 
     /** Compute this &divide; a.
-     * @param a element to add
+     * @param a element to divide by
      * @return a new element representing this &divide; a
      * @throws NullArgumentException if {@code a} is {@code null}.
      * @throws MathArithmeticException if {@code a} is zero

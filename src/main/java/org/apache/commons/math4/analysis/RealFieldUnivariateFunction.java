@@ -20,11 +20,11 @@ import org.apache.commons.math4.RealFieldElement;
 
 /**
  * An interface representing a univariate real function.
- * <br/>
+ * <p>
  * When a <em>user-defined</em> function encounters an error during
- * evaluation, the {@link #value(FieldElement) value} method should throw a
- * <em>user-defined</em> unchecked exception.
- * <br/>
+ * evaluation, the {@link #value(RealFieldElement) value} method should throw a
+ * <em>user-defined</em> unchecked exception.</p>
+ * <p>
  * The following code excerpt shows the recommended way to do that using
  * a root solver as an example, but the same construct is applicable to
  * ODE integrators or optimizers.
@@ -61,9 +61,9 @@ import org.apache.commons.math4.RealFieldElement;
  *     }
  * }
  * </pre>
- *
+ *<p>
  * As shown, the exception is local to the user's code and it is guaranteed
- * that Apache Commons Math will not catch it.
+ * that Apache Commons Math will not catch it.</p>
  *
  * @param <T> the type of the field elements
  * @since 3.6
