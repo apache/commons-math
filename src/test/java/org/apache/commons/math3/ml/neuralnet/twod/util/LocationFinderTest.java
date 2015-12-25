@@ -17,7 +17,6 @@
 
 package org.apache.commons.math3.ml.neuralnet.twod.util;
 
-import org.apache.commons.math3.ml.neuralnet.Neuron;
 import org.apache.commons.math3.ml.neuralnet.Network;
 import org.apache.commons.math3.ml.neuralnet.FeatureInitializer;
 import org.apache.commons.math3.ml.neuralnet.FeatureInitializerFactory;
