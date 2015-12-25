@@ -23,6 +23,14 @@
 -->
 <FindBugsFilter>
 
+  <!-- the following field is unused but cannot be suppressed as it is protected -->
+  <!-- and some user class may require it -->
+  <Match>
+    <Class name="org.apache.commons.math3.analysis.integration.BaseAbstractUnivariateIntegrator" />
+    <Method name="&lt;init>" params="double,double,int,int" returns="void" />
+    <Bug pattern="URF_UNREAD_PUBLIC_OR_PROTECTED_FIELD" />
+  </Match>
+
   <!--  the following equality tests are part of the reference algorithms -->
   <!--  which already know about limited precision of the double numbers -->
   <Match>
