@@ -252,7 +252,7 @@ public abstract class MultistepIntegrator extends AdaptiveStepsizeIntegrator {
             // this is the expected nominal interruption of the start integrator
 
             // count the evaluations used by the starter
-            getEvaluationsCounter().incrementCount(starter.getEvaluations());
+            getCounter().increment(starter.getEvaluations());
 
         }
 

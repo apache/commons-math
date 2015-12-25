@@ -188,6 +188,7 @@ public class AdamsMoultonIntegratorTest {
 
         public void integrate(ExpandableStatefulODE equations, double t) {
             double tStart = equations.getTime() + 0.01 * (t - equations.getTime());
+            getCounter().increment(nbSteps);
             for (int i = 0; i < nbSteps; ++i) {
                 double tK = ((nbSteps - 1 - (i + 1)) * equations.getTime() + (i + 1) * tStart) / (nbSteps - 1);
                 interpolator.setPreviousTime(interpolator.getCurrentTime());
