@@ -74,6 +74,7 @@ public class GammaDistributionTest extends RealDistributionAbstractTest {
     }
 
     //---------------------------- Additional test cases -------------------------
+    @SuppressWarnings("deprecation")
     @Test
     public void testParameterAccessors() {
         GammaDistribution distribution = (GammaDistribution) getDistribution();

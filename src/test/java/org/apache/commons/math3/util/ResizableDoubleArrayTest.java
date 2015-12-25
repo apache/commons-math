@@ -43,6 +43,7 @@ public class ResizableDoubleArrayTest extends DoubleArrayAbstractTest {
         ra = new ResizableDoubleArray();
     }
 
+    @SuppressWarnings("deprecation")
     @Test
     public void testConstructors() {
         float defaultExpansionFactor = 2.0f;
@@ -339,6 +340,7 @@ public class ResizableDoubleArrayTest extends DoubleArrayAbstractTest {
                 iterations + 1 , eDA2.getNumElements() );
     }
 
+    @SuppressWarnings("deprecation")
     @Test
     public void testWithInitialCapacityAndExpansionFactor() {
 
@@ -447,6 +449,7 @@ public class ResizableDoubleArrayTest extends DoubleArrayAbstractTest {
 
     }
 
+    @SuppressWarnings("deprecation")
     @Test
     public void testMutators() {
         ((ResizableDoubleArray)da).setContractionCriteria(10f);

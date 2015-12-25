@@ -171,6 +171,7 @@ public abstract class RealDistributionAbstractTest {
      * Verifies that cumulative probability density calculations match expected values
      * using current test instance data
      */
+    @SuppressWarnings("deprecation")
     protected void verifyCumulativeProbabilities() {
         // verify cumulativeProbability(double)
         for (int i = 0; i < cumulativeTestPoints.length; i++) {
@@ -278,6 +279,7 @@ public abstract class RealDistributionAbstractTest {
     /**
      * Verifies that probability computations are consistent
      */
+    @SuppressWarnings("deprecation")
     @Test
     public void testConsistency() {
         for (int i=1; i < cumulativeTestPoints.length; i++) {
@@ -303,6 +305,7 @@ public abstract class RealDistributionAbstractTest {
     /**
      * Verifies that illegal arguments are correctly handled
      */
+    @SuppressWarnings("deprecation")
     @Test
     public void testIllegalArguments() {
         try {
@@ -351,6 +354,7 @@ public abstract class RealDistributionAbstractTest {
      * interval. Test points outside of the domain of the density function
      * are discarded.
      */
+    @SuppressWarnings("deprecation")
     @Test
     public void testDensityIntegrals() {
         final double tol = 1.0e-9;
@@ -386,6 +390,7 @@ public abstract class RealDistributionAbstractTest {
      * Verify that isSupportLowerBoundInclusvie returns true iff the lower bound
      * is finite and density is non-NaN, non-infinite there.
      */
+    @SuppressWarnings("deprecation")
     @Test
     public void testIsSupportLowerBoundInclusive() {
         final double lowerBound = distribution.getSupportLowerBound();
@@ -402,6 +407,7 @@ public abstract class RealDistributionAbstractTest {
      * Verify that isSupportUpperBoundInclusvie returns true iff the upper bound
      * is finite and density is non-NaN, non-infinite there.
      */
+    @SuppressWarnings("deprecation")
     @Test
     public void testIsSupportUpperBoundInclusive() {
         final double upperBound = distribution.getSupportUpperBound();

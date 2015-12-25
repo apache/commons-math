@@ -358,7 +358,9 @@ public final class EmpiricalDistributionTest extends RealDistributionAbstractTes
             // First bin has mass 11 / 10000, the rest have mass 10 / 10000.
             final double bMinus = bin == 0 ? 0 : (bin - 1) * binMass + firstBinMass;
             final RealDistribution kernel = findKernel(lower, upper);
+            @SuppressWarnings("deprecation")
             final double withinBinKernelMass = kernel.cumulativeProbability(lower, upper);
+            @SuppressWarnings("deprecation")
             final double kernelCum = kernel.cumulativeProbability(lower, testPoints[i]);
             cumValues[i] = bMinus + (bin == 0 ? firstBinMass : binMass) * kernelCum/withinBinKernelMass;
         }
@@ -377,6 +379,7 @@ public final class EmpiricalDistributionTest extends RealDistributionAbstractTes
                 binBounds[bin - 1];
             final double upper = binBounds[bin];
             final RealDistribution kernel = findKernel(lower, upper);
+            @SuppressWarnings("deprecation")
             final double withinBinKernelMass = kernel.cumulativeProbability(lower, upper);
             final double density = kernel.density(testPoints[i]);
             densityValues[i] = density * (bin == 0 ? firstBinMass : binMass) / withinBinKernelMass;
@@ -390,6 +393,7 @@ public final class EmpiricalDistributionTest extends RealDistributionAbstractTes
      * will face convergence problems.  Only test within-bin integrals and spans
      * across no more than 3 bin boundaries.
      */
+    @SuppressWarnings("deprecation")
     @Override
     @Test
     public void testDensityIntegrals() {
@@ -566,8 +570,7 @@ public final class EmpiricalDistributionTest extends RealDistributionAbstractTes
         }
         @Override
         protected RealDistribution getKernel(SummaryStatistics bStats) {
-            return new UniformRealDistribution(randomData.getRandomGenerator(), bStats.getMin(), bStats.getMax(),
-                    UniformRealDistribution.DEFAULT_INVERSE_ABSOLUTE_ACCURACY);
+            return new UniformRealDistribution(randomData.getRandomGenerator(), bStats.getMin(), bStats.getMax());
         }
     }
 }

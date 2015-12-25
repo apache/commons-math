@@ -484,6 +484,7 @@ public final class FastFourierTransformerTest {
      * Additional tests for 2D data.
      */
 
+    @SuppressWarnings("deprecation")
     @Test
     public void test2DData() {
         FastFourierTransformer transformer;
@@ -525,6 +526,7 @@ public final class FastFourierTransformerTest {
         }
     }
 
+    @SuppressWarnings("deprecation")
     @Test
     public void test2DDataUnitary() {
         FastFourierTransformer transformer;
