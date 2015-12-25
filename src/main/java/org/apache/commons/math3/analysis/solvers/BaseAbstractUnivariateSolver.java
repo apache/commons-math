@@ -23,7 +23,7 @@ import org.apache.commons.math3.exception.NoBracketingException;
 import org.apache.commons.math3.exception.TooManyEvaluationsException;
 import org.apache.commons.math3.exception.NumberIsTooLargeException;
 import org.apache.commons.math3.exception.NullArgumentException;
-import org.apache.commons.math3.util.Incrementor;
+import org.apache.commons.math3.util.IntegerSequence;
 import org.apache.commons.math3.util.MathUtils;
 
 /**
@@ -51,7 +51,7 @@ public abstract class BaseAbstractUnivariateSolver<FUNC extends UnivariateFuncti
     /** Relative accuracy. */
     private final double relativeAccuracy;
     /** Evaluations counter. */
-    private final Incrementor evaluations = new Incrementor();
+    private IntegerSequence.Incrementor evaluations;
     /** Lower end of search interval. */
     private double searchMin;
     /** Higher end of search interval. */
@@ -95,9 +95,10 @@ public abstract class BaseAbstractUnivariateSolver<FUNC extends UnivariateFuncti
     protected BaseAbstractUnivariateSolver(final double relativeAccuracy,
                                            final double absoluteAccuracy,
                                            final double functionValueAccuracy) {
-        this.absoluteAccuracy = absoluteAccuracy;
-        this.relativeAccuracy = relativeAccuracy;
+        this.absoluteAccuracy      = absoluteAccuracy;
+        this.relativeAccuracy      = relativeAccuracy;
         this.functionValueAccuracy = functionValueAccuracy;
+        this.evaluations           = IntegerSequence.Incrementor.create();
     }
 
     /** {@inheritDoc} */
@@ -184,8 +185,7 @@ public abstract class BaseAbstractUnivariateSolver<FUNC extends UnivariateFuncti
         searchMax = max;
         searchStart = startValue;
         function = f;
-        evaluations.setMaximalCount(maxEval);
-        evaluations.resetCount();
+        evaluations = evaluations.withMaximalCount(maxEval).withStart(0);
     }
 
     /** {@inheritDoc} */
@@ -310,7 +310,7 @@ public abstract class BaseAbstractUnivariateSolver<FUNC extends UnivariateFuncti
     protected void incrementEvaluationCount()
         throws TooManyEvaluationsException {
         try {
-            evaluations.incrementCount();
+            evaluations.increment();
         } catch (MaxCountExceededException e) {
             throw new TooManyEvaluationsException(e.getMax());
         }

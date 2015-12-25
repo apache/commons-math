@@ -17,7 +17,7 @@
 package org.apache.commons.math3.optim.univariate;
 
 import org.apache.commons.math3.util.FastMath;
-import org.apache.commons.math3.util.Incrementor;
+import org.apache.commons.math3.util.IntegerSequence;
 import org.apache.commons.math3.exception.NotStrictlyPositiveException;
 import org.apache.commons.math3.exception.TooManyEvaluationsException;
 import org.apache.commons.math3.exception.MaxCountExceededException;
@@ -45,7 +45,7 @@ public class BracketFinder {
     /**
      * Counter for function evaluations.
      */
-    private final Incrementor evaluations = new Incrementor();
+    private IntegerSequence.Incrementor evaluations;
     /**
      * Lower bound of the bracket.
      */
@@ -96,7 +96,7 @@ public class BracketFinder {
         }
 
         this.growLimit = growLimit;
-        evaluations.setMaximalCount(maxEvaluations);
+        evaluations = IntegerSequence.Incrementor.create().withMaximalCount(maxEvaluations);
     }
 
     /**
@@ -113,7 +113,7 @@ public class BracketFinder {
                        GoalType goal,
                        double xA,
                        double xB) {
-        evaluations.resetCount();
+        evaluations = evaluations.withStart(0);
         final boolean isMinim = goal == GoalType.MINIMIZE;
 
         double fA = eval(func, xA);
@@ -281,7 +281,7 @@ public class BracketFinder {
      */
     private double eval(UnivariateFunction f, double x) {
         try {
-            evaluations.incrementCount();
+            evaluations.increment();
         } catch (MaxCountExceededException e) {
             throw new TooManyEvaluationsException(e.getMax());
         }

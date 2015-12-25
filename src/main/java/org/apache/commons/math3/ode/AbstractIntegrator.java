@@ -219,24 +219,7 @@ public abstract class AbstractIntegrator implements FirstOrderIntegrator {
      */
     @Deprecated
     protected org.apache.commons.math3.util.Incrementor getEvaluationsCounter() {
-        final org.apache.commons.math3.util.Incrementor incrementor =
-            new org.apache.commons.math3.util.Incrementor() {
-
-            {
-                // set up matching values at initialization
-                super.setMaximalCount(evaluations.getMaximalCount());
-                super.incrementCount(evaluations.getCount());
-            }
-
-            /** {@inheritDoc} */
-            @Override
-            public void incrementCount() {
-                super.incrementCount();
-                evaluations.increment();
-            }
-
-        };
-        return incrementor;
+        return org.apache.commons.math3.util.Incrementor.wrap(evaluations);
     }
 
     /** Get the evaluations counter.

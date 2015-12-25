@@ -220,7 +220,7 @@ public class LegendreGaussIntegrator extends BaseAbstractUnivariateIntegrator {
                              getRelativeAccuracy() * (FastMath.abs(oldt) + FastMath.abs(t)) * 0.5);
 
             // check convergence
-            if ((iterations.getCount() + 1 >= getMinimalIterationCount()) && (delta <= limit)) {
+            if ((getIterations() + 1 >= getMinimalIterationCount()) && (delta <= limit)) {
                 return t;
             }
 
@@ -228,7 +228,7 @@ public class LegendreGaussIntegrator extends BaseAbstractUnivariateIntegrator {
             double ratio = FastMath.min(4, FastMath.pow(delta / limit, 0.5 / abscissas.length));
             n = FastMath.max((int) (ratio * n), n + 1);
             oldt = t;
-            iterations.incrementCount();
+            incrementCount();
 
         }
 

@@ -178,4 +178,61 @@ public class Incrementor {
          */
         void trigger(int maximalCount) throws MaxCountExceededException;
     }
+
+    /** Create an instance that delegates everything to a {@link IntegerSequence.Incrementor}.
+     * <p>
+     * This factory method is intended only as a temporary hack for internal use in
+     * Apache Commons Math 3.X series, when {@code Incrementor} is required in
+     * interface (as a return value or in protected fields). It should <em>not</em>
+     * be used in other cases. The {@link IntegerSequence.Incrementor} class should
+     * be used instead of {@code Incrementor}.
+     * </p>
+     * <p>
+     * All methods are mirrored to the underlying {@link IntegerSequence.Incrementor},
+     * as long as neither {@link #setMaximalCount(int)} nor {@link #resetCount()} are called.
+     * If one of these two methods is called, the created instance becomes independent
+     * of the {@link IntegerSequence.Incrementor} used at creation. The rationale is that
+     * {@link IntegerSequence.Incrementor} cannot change their maximal count and cannot be reset.
+     * </p>
+     * @param incrementor wrapped {@link IntegerSequence.Incrementor}
+     * @return an incrementor wrapping an {@link IntegerSequence.Incrementor}
+     * @since 3.6
+     */
+    public static Incrementor wrap(final IntegerSequence.Incrementor incrementor) {
+        return new Incrementor() {
+
+            /** Underlying incrementor. */
+            private IntegerSequence.Incrementor delegate;
+
+            {
+                // set up matching values at initialization
+                delegate = incrementor;
+                super.setMaximalCount(delegate.getMaximalCount());
+                super.incrementCount(delegate.getCount());
+            }
+
+            /** {@inheritDoc} */
+            @Override
+            public void setMaximalCount(int max) {
+                super.setMaximalCount(max);
+                delegate = delegate.withMaximalCount(max);
+            }
+
+            /** {@inheritDoc} */
+            @Override
+            public void resetCount() {
+                super.resetCount();
+                delegate = delegate.withStart(0);
+            }
+
+            /** {@inheritDoc} */
+            @Override
+            public void incrementCount() {
+                super.incrementCount();
+                delegate.increment();
+            }
+
+        };
+    }
+
 }
