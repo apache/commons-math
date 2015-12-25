@@ -27,7 +27,6 @@ import org.apache.commons.math3.util.FastMath;
 import org.apache.commons.math3.util.Precision;
 import org.junit.Assert;
 import org.junit.Test;
-import org.junit.Ignore;
 
 /**
  * Test case for the bicubic function.

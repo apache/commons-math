@@ -23,9 +23,6 @@ import org.apache.commons.math3.analysis.ParametricUnivariateFunction;
 import org.apache.commons.math3.analysis.polynomials.PolynomialFunction;
 import org.apache.commons.math3.distribution.RealDistribution;
 import org.apache.commons.math3.distribution.UniformRealDistribution;
-import org.apache.commons.math3.exception.ConvergenceException;
-import org.apache.commons.math3.util.FastMath;
-import org.junit.Assert;
 import org.junit.Test;
 
 /**
