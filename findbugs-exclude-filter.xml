@@ -27,7 +27,6 @@
   <!-- and some user class may require it -->
   <Match>
     <Class name="org.apache.commons.math3.analysis.integration.BaseAbstractUnivariateIntegrator" />
-    <Method name="&lt;init>" params="double,double,int,int" returns="void" />
     <Bug pattern="URF_UNREAD_PUBLIC_OR_PROTECTED_FIELD" />
   </Match>
 
