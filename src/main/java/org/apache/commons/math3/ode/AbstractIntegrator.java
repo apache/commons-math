@@ -38,7 +38,7 @@ import org.apache.commons.math3.ode.events.EventState;
 import org.apache.commons.math3.ode.sampling.AbstractStepInterpolator;
 import org.apache.commons.math3.ode.sampling.StepHandler;
 import org.apache.commons.math3.util.FastMath;
-import org.apache.commons.math3.util.Incrementor;
+import org.apache.commons.math3.util.IntegerSequence;
 import org.apache.commons.math3.util.Precision;
 
 /**
@@ -72,7 +72,7 @@ public abstract class AbstractIntegrator implements FirstOrderIntegrator {
     private final String name;
 
     /** Counter for number of evaluations. */
-    private Incrementor evaluations;
+    private IntegerSequence.Incrementor evaluations;
 
     /** Differential equations to integrate. */
     private transient ExpandableStatefulODE expandable;
@@ -87,9 +87,7 @@ public abstract class AbstractIntegrator implements FirstOrderIntegrator {
         stepSize  = Double.NaN;
         eventsStates = new ArrayList<EventState>();
         statesInitialized = false;
-        evaluations = new Incrementor();
-        setMaxEvaluations(-1);
-        evaluations.resetCount();
+        evaluations = IntegerSequence.Incrementor.create().withMaximalCount(Integer.MAX_VALUE);
     }
 
     /** Build an instance with a null name.
@@ -164,7 +162,7 @@ public abstract class AbstractIntegrator implements FirstOrderIntegrator {
 
     /** {@inheritDoc} */
     public void setMaxEvaluations(int maxEvaluations) {
-        evaluations.setMaximalCount((maxEvaluations < 0) ? Integer.MAX_VALUE : maxEvaluations);
+        evaluations = evaluations.withMaximalCount((maxEvaluations < 0) ? Integer.MAX_VALUE : maxEvaluations);
     }
 
     /** {@inheritDoc} */
@@ -184,7 +182,7 @@ public abstract class AbstractIntegrator implements FirstOrderIntegrator {
      */
     protected void initIntegration(final double t0, final double[] y0, final double t) {
 
-        evaluations.resetCount();
+        evaluations = evaluations.withStart(0);
 
         for (final EventState state : eventsStates) {
             state.setExpandable(expandable);
@@ -217,8 +215,35 @@ public abstract class AbstractIntegrator implements FirstOrderIntegrator {
     /** Get the evaluations counter.
      * @return evaluations counter
      * @since 3.2
+     * @deprecated as of 3.6 replaced with {@link #getCounter()}
      */
-    protected Incrementor getEvaluationsCounter() {
+    @Deprecated
+    protected org.apache.commons.math3.util.Incrementor getEvaluationsCounter() {
+        final org.apache.commons.math3.util.Incrementor incrementor =
+            new org.apache.commons.math3.util.Incrementor() {
+
+            {
+                // set up matching values at initialization
+                super.setMaximalCount(evaluations.getMaximalCount());
+                super.incrementCount(evaluations.getCount());
+            }
+
+            /** {@inheritDoc} */
+            @Override
+            public void incrementCount() {
+                super.incrementCount();
+                evaluations.increment();
+            }
+
+        };
+        return incrementor;
+    }
+
+    /** Get the evaluations counter.
+     * @return evaluations counter
+     * @since 3.6
+     */
+    protected IntegerSequence.Incrementor getCounter() {
         return evaluations;
     }
 
@@ -284,7 +309,7 @@ public abstract class AbstractIntegrator implements FirstOrderIntegrator {
      */
     public void computeDerivatives(final double t, final double[] y, final double[] yDot)
         throws MaxCountExceededException, DimensionMismatchException, NullPointerException {
-        evaluations.incrementCount();
+        evaluations.increment();
         expandable.computeDerivatives(t, y, yDot);
     }
 
