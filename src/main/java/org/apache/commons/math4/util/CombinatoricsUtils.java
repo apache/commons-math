@@ -45,6 +45,15 @@ public final class CombinatoricsUtils {
     /** Stirling numbers of the second kind. */
     static final AtomicReference<long[][]> STIRLING_S2 = new AtomicReference<long[][]> (null);
 
+    /**
+     * Default implementation of {@link #factorialLog(int)} method:
+     * <ul>
+     *  <li>No pre-computation</li>
+     *  <li>No cache allocation</li>
+     * </ul>
+     */
+    private static final FactorialLog FACTORIAL_LOG_NO_CACHE = FactorialLog.create();
+
     /** Private constructor (class contains only static methods). */
     private CombinatoricsUtils() {}
 
@@ -309,15 +318,6 @@ public final class CombinatoricsUtils {
     }
 
     /**
-     * Default implementation of {@link #factorialLog(int)} method:
-     * <ul>
-     *  <li>No pre-computation</li>
-     *  <li>No cache allocation</li>
-     * </ul>
-     */
-    private static final FactorialLog FACTORIAL_LOG_NO_CACHE = FactorialLog.create();
-
-    /**
      * Compute the natural logarithm of the factorial of {@code n}.
      *
      * @param n Argument.
@@ -505,6 +505,7 @@ public final class CombinatoricsUtils {
 
         /**
          * Creates an instance with no precomputed values.
+         * @return instance with no precomputed values
          */
         public static FactorialLog create() {
             return new FactorialLog(0, null);
