@@ -146,7 +146,7 @@ public class PolyhedronsSetTest {
         Vector3D barycenter = (Vector3D) tree.getBarycenter();
         Vector3D s = new Vector3D(10.2, 4.3, -6.7);
         Vector3D c = new Vector3D(-0.2, 2.1, -3.2);
-        Rotation r = new Rotation(new Vector3D(6.2, -4.4, 2.1), 0.12);
+        Rotation r = new Rotation(new Vector3D(6.2, -4.4, 2.1), 0.12, RotationConvention.VECTOR_OPERATOR);
 
         tree = tree.rotate(c, r).translate(s);
 
