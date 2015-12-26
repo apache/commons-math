@@ -72,7 +72,7 @@ public final class CombinatoricsUtils {
      * <li> The result is small enough to fit into a {@code long}. The
      * largest value of {@code n} for which all coefficients are
      * {@code  < Long.MAX_VALUE} is 66. If the computed value exceeds
-     * {@code Long.MAX_VALUE} an {@code ArithMeticException} is
+     * {@code Long.MAX_VALUE} a {@code MathArithMeticException} is
      * thrown.</li>
      * </ul></p>
      *
@@ -199,7 +199,7 @@ public final class CombinatoricsUtils {
      * <Strong>Preconditions</strong>:
      * <ul>
      * <li> {@code 0 <= k <= n } (otherwise
-     * {@code IllegalArgumentException} is thrown)</li>
+     * {@code MathIllegalArgumentException} is thrown)</li>
      * </ul></p>
      *
      * @param n the size of the set
@@ -265,12 +265,12 @@ public final class CombinatoricsUtils {
      * <p>
      * <Strong>Preconditions</strong>:
      * <ul>
-     * <li> {@code n >= 0} (otherwise
-     * {@code IllegalArgumentException} is thrown)</li>
+     * <li> {@code n &ge; 0} (otherwise
+     * {@code MathIllegalArgumentException} is thrown)</li>
      * <li> The result is small enough to fit into a {@code long}. The
-     * largest value of {@code n} for which {@code n!} <
+     * largest value of {@code n} for which {@code n!} does not exceed
      * Long.MAX_VALUE} is 20. If the computed value exceeds {@code Long.MAX_VALUE}
-     * an {@code ArithMeticException } is thrown.</li>
+     * an {@code MathArithMeticException } is thrown.</li>
      * </ul>
      * </p>
      *
@@ -298,9 +298,9 @@ public final class CombinatoricsUtils {
      * factorial</a> of {@code n} (the product of the numbers 1 to n), as a
      * {@code double}.
      * The result should be small enough to fit into a {@code double}: The
-     * largest {@code n} for which {@code n! < Double.MAX_VALUE} is 170.
-     * If the computed value exceeds {@code Double.MAX_VALUE},
-     * {@code Double.POSITIVE_INFINITY} is returned.
+     * largest {@code n} for which {@code n!} does not exceed
+     * {@code Double.MAX_VALUE} is 170. If the computed value exceeds
+     * {@code Double.MAX_VALUE}, {@code Double.POSITIVE_INFINITY} is returned.
      *
      * @param n Argument.
      * @return {@code n!}
@@ -321,7 +321,7 @@ public final class CombinatoricsUtils {
      * Compute the natural logarithm of the factorial of {@code n}.
      *
      * @param n Argument.
-     * @return {@code n!}
+     * @return {@code log(n!)}
      * @throws NotPositiveException if {@code n < 0}.
      */
     public static double factorialLog(final int n) throws NotPositiveException {
@@ -422,11 +422,11 @@ public final class CombinatoricsUtils {
      * they are visited in lexicographic order with significance from right to
      * left. For example, combinationsIterator(4, 2) returns an Iterator that
      * will generate the following sequence of arrays on successive calls to
-     * {@code next()}:<br/>
+     * {@code next()}:</p><p>
      * {@code [0, 1], [0, 2], [1, 2], [0, 3], [1, 3], [2, 3]}
-     * </p>
+     * </p><p>
      * If {@code k == 0} an Iterator containing an empty array is returned and
-     * if {@code k == n} an Iterator containing [0, ..., n -1] is returned.
+     * if {@code k == n} an Iterator containing [0, ..., n -1] is returned.</p>
      *
      * @param n Size of the set from which subsets are selected.
      * @param k Size of the subsets to be enumerated.
@@ -515,9 +515,9 @@ public final class CombinatoricsUtils {
          * Creates an instance with the specified cache size.
          *
          * @param cacheSize Number of precomputed values of the function.
-         * @return an new instance where {@code cacheSize} values have been
+         * @return a new instance where {@code cacheSize} values have been
          * precomputed.
-         * @throw NotPositiveException if {@code n < 0}.
+         * @throws NotPositiveException if {@code n < 0}.
          */
         public FactorialLog withCache(final int cacheSize) {
             return new FactorialLog(cacheSize, LOG_FACTORIALS);
