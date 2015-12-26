@@ -89,13 +89,13 @@ public abstract class RealVector {
      * Change an entry at the specified index.
      *
      * @param index Index location of entry to be set.
-     * @param increment Value to add to the vector entry.
+     * @param addend Value to add to the vector entry.
      * @throws OutOfRangeException if the index is not valid.
      * @since 3.0
      */
-    public void addToEntry(int index, double increment)
+    public void addToEntry(int index, double addend)
         throws OutOfRangeException {
-        setEntry(index, getEntry(index) + increment);
+        setEntry(index, getEntry(index) + addend);
     }
 
     /**
