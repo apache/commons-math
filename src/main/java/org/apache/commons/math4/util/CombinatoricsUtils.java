@@ -265,7 +265,7 @@ public final class CombinatoricsUtils {
      * <p>
      * <Strong>Preconditions</strong>:
      * <ul>
-     * <li> {@code n &ge; 0} (otherwise
+     * <li> {@code n >= 0} (otherwise
      * {@code MathIllegalArgumentException} is thrown)</li>
      * <li> The result is small enough to fit into a {@code long}. The
      * largest value of {@code n} for which {@code n!} does not exceed
