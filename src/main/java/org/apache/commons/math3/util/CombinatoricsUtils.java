@@ -57,7 +57,7 @@ public final class CombinatoricsUtils {
      * <p>
      * <Strong>Preconditions</strong>:
      * <ul>
-     * <li> {@code 0 &le; k &le; n } (otherwise
+     * <li> {@code 0 <= k <= n } (otherwise
      * {@code MathIllegalArgumentException} is thrown)</li>
      * <li> The result is small enough to fit into a {@code long}. The
      * largest value of {@code n} for which all coefficients are
@@ -69,8 +69,8 @@ public final class CombinatoricsUtils {
      * @param n the size of the set
      * @param k the size of the subsets to be counted
      * @return {@code n choose k}
-     * @throws NotPositiveException if {@code n &lt; 0}.
-     * @throws NumberIsTooLargeException if {@code k &gt; n}.
+     * @throws NotPositiveException if {@code n < 0}.
+     * @throws NumberIsTooLargeException if {@code k > n}.
      * @throws MathArithmeticException if the result is too large to be
      * represented by a long integer.
      */
@@ -139,10 +139,10 @@ public final class CombinatoricsUtils {
      * <p>
      * <Strong>Preconditions</strong>:
      * <ul>
-     * <li> {@code 0 &le; k &le; n } (otherwise
+     * <li> {@code 0 <= k <= n } (otherwise
      * {@code IllegalArgumentException} is thrown)</li>
      * <li> The result is small enough to fit into a {@code double}. The
-     * largest value of {@code n} for which all coefficients are <
+     * largest value of {@code n} for which all coefficients are less than
      * Double.MAX_VALUE is 1029. If the computed value exceeds Double.MAX_VALUE,
      * Double.POSITIVE_INFINITY is returned</li>
      * </ul></p>
@@ -150,8 +150,8 @@ public final class CombinatoricsUtils {
      * @param n the size of the set
      * @param k the size of the subsets to be counted
      * @return {@code n choose k}
-     * @throws NotPositiveException if {@code n &lt; 0}.
-     * @throws NumberIsTooLargeException if {@code k &gt; n}.
+     * @throws NotPositiveException if {@code n < 0}.
+     * @throws NumberIsTooLargeException if {@code k > n}.
      * @throws MathArithmeticException if the result is too large to be
      * represented by a long integer.
      */
@@ -188,7 +188,7 @@ public final class CombinatoricsUtils {
      * <p>
      * <Strong>Preconditions</strong>:
      * <ul>
-     * <li> {@code 0 &le; k &le; n } (otherwise
+     * <li> {@code 0 <= k <= n } (otherwise
      * {@code MathIllegalArgumentException} is thrown)</li>
      * </ul></p>
      *
@@ -255,7 +255,7 @@ public final class CombinatoricsUtils {
      * <p>
      * <Strong>Preconditions</strong>:
      * <ul>
-     * <li> {@code n &ge; 0} (otherwise
+     * <li> {@code n >= 0} (otherwise
      * {@code MathIllegalArgumentException} is thrown)</li>
      * <li> The result is small enough to fit into a {@code long}. The
      * largest value of {@code n} for which {@code n!} does not exceed
@@ -268,8 +268,8 @@ public final class CombinatoricsUtils {
      * @return {@code n!}
      * @throws MathArithmeticException if the result is too large to be represented
      * by a {@code long}.
-     * @throws NotPositiveException if {@code n &lt; 0}.
-     * @throws MathArithmeticException if {@code n &gt; 20}: The factorial value is too
+     * @throws NotPositiveException if {@code n < 0}.
+     * @throws MathArithmeticException if {@code n > 20}: The factorial value is too
      * large to fit in a {@code long}.
      */
     public static long factorial(final int n) throws NotPositiveException, MathArithmeticException {
@@ -312,7 +312,7 @@ public final class CombinatoricsUtils {
      *
      * @param n Argument.
      * @return {@code n!}
-     * @throws NotPositiveException if {@code n &lt; 0}.
+     * @throws NotPositiveException if {@code n < 0}.
      */
     public static double factorialLog(final int n) throws NotPositiveException {
         if (n < 0) {
@@ -444,8 +444,8 @@ public final class CombinatoricsUtils {
      *
      * @param n Size of the set.
      * @param k Size of the subsets to be counted.
-     * @throws NotPositiveException if {@code n &lt; 0}.
-     * @throws NumberIsTooLargeException if {@code k &gt; n}.
+     * @throws NotPositiveException if {@code n < 0}.
+     * @throws NumberIsTooLargeException if {@code k > n}.
      */
     public static void checkBinomial(final int n,
                                      final int k)
