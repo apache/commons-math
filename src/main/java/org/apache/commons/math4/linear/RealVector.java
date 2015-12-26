@@ -194,7 +194,7 @@ public abstract class RealVector {
     }
 
     /**
-     * Checks that the indices of a subvector are valid.
+     * Check subvector indices.
      *
      * @param start the index of the first entry of the subvector
      * @param end the index of the last entry of the subvector (inclusive)
