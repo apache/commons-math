@@ -153,11 +153,11 @@ public abstract class RealVector {
     public abstract boolean isInfinite();
 
     /**
-     * Check if instance and specified vectors have the same dimension.
+     * Check if {code this} has the same dimension as {@code v}.
      *
      * @param v Vector to compare instance with.
-     * @throws DimensionMismatchException if the vectors do not
-     * have the same dimension.
+     * @throws DimensionMismatchException if the {@code v} does not
+     * have the dimension as {@code this}.
      */
     protected void checkVectorDimensions(RealVector v)
         throws DimensionMismatchException {
