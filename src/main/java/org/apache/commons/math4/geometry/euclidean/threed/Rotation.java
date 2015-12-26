@@ -18,7 +18,6 @@
 package org.apache.commons.math4.geometry.euclidean.threed;
 
 import java.io.Serializable;
-
 import org.apache.commons.math4.exception.MathArithmeticException;
 import org.apache.commons.math4.exception.MathIllegalArgumentException;
 import org.apache.commons.math4.exception.util.LocalizedFormats;
@@ -378,7 +377,7 @@ public class Rotation implements Serializable {
       Rotation r1 = new Rotation(order.getA1(), alpha1);
       Rotation r2 = new Rotation(order.getA2(), alpha2);
       Rotation r3 = new Rotation(order.getA3(), alpha3);
-      Rotation composed = r1.applyTo(r2.applyTo(r3));
+      Rotation composed = r3.applyTo(r2.applyTo(r1));
       q0 = composed.q0;
       q1 = composed.q1;
       q2 = composed.q2;
@@ -552,7 +551,7 @@ public class Rotation implements Serializable {
   public double[] getAngles(RotationOrder order)
     throws CardanEulerSingularityException {
 
-    if (order == RotationOrder.XYZ) {
+    if (order == RotationOrder.ZYX) {
 
       // r (Vector3D.plusK) coordinates are :
       //  sin (theta), -cos (theta) sin (phi), cos (theta) cos (phi)
@@ -565,12 +564,12 @@ public class Rotation implements Serializable {
         throw new CardanEulerSingularityException(true);
       }
       return new double[] {
-        FastMath.atan2(-(v1.getY()), v1.getZ()),
+        FastMath.atan2(-(v2.getY()), v2.getX()),
         FastMath.asin(v2.getZ()),
-        FastMath.atan2(-(v2.getY()), v2.getX())
+        FastMath.atan2(-(v1.getY()), v1.getZ())
       };
 
-    } else if (order == RotationOrder.XZY) {
+    } else if (order == RotationOrder.YZX) {
 
       // r (Vector3D.plusJ) coordinates are :
       // -sin (psi), cos (psi) cos (phi), cos (psi) sin (phi)
@@ -583,12 +582,12 @@ public class Rotation implements Serializable {
         throw new CardanEulerSingularityException(true);
       }
       return new double[] {
-        FastMath.atan2(v1.getZ(), v1.getY()),
+        FastMath.atan2(v2.getZ(), v2.getX()),
        -FastMath.asin(v2.getY()),
-        FastMath.atan2(v2.getZ(), v2.getX())
+        FastMath.atan2(v1.getZ(), v1.getY())
       };
 
-    } else if (order == RotationOrder.YXZ) {
+    } else if (order == RotationOrder.ZXY) {
 
       // r (Vector3D.plusK) coordinates are :
       //  cos (phi) sin (theta), -sin (phi), cos (phi) cos (theta)
@@ -601,12 +600,12 @@ public class Rotation implements Serializable {
         throw new CardanEulerSingularityException(true);
       }
       return new double[] {
-        FastMath.atan2(v1.getX(), v1.getZ()),
+        FastMath.atan2(v2.getX(), v2.getY()),
        -FastMath.asin(v2.getZ()),
-        FastMath.atan2(v2.getX(), v2.getY())
+        FastMath.atan2(v1.getX(), v1.getZ())
       };
 
-    } else if (order == RotationOrder.YZX) {
+    } else if (order == RotationOrder.XZY) {
 
       // r (Vector3D.plusI) coordinates are :
       // cos (psi) cos (theta), sin (psi), -cos (psi) sin (theta)
@@ -619,12 +618,12 @@ public class Rotation implements Serializable {
         throw new CardanEulerSingularityException(true);
       }
       return new double[] {
-        FastMath.atan2(-(v1.getZ()), v1.getX()),
+        FastMath.atan2(-(v2.getZ()), v2.getY()),
         FastMath.asin(v2.getX()),
-        FastMath.atan2(-(v2.getZ()), v2.getY())
+        FastMath.atan2(-(v1.getZ()), v1.getX())
       };
 
-    } else if (order == RotationOrder.ZXY) {
+    } else if (order == RotationOrder.YXZ) {
 
       // r (Vector3D.plusJ) coordinates are :
       // -cos (phi) sin (psi), cos (phi) cos (psi), sin (phi)
@@ -637,12 +636,12 @@ public class Rotation implements Serializable {
         throw new CardanEulerSingularityException(true);
       }
       return new double[] {
-        FastMath.atan2(-(v1.getX()), v1.getY()),
+        FastMath.atan2(-(v2.getX()), v2.getZ()),
         FastMath.asin(v2.getY()),
-        FastMath.atan2(-(v2.getX()), v2.getZ())
+        FastMath.atan2(-(v1.getX()), v1.getY())
       };
 
-    } else if (order == RotationOrder.ZYX) {
+    } else if (order == RotationOrder.XYZ) {
 
       // r (Vector3D.plusI) coordinates are :
       //  cos (theta) cos (psi), cos (theta) sin (psi), -sin (theta)
@@ -655,9 +654,9 @@ public class Rotation implements Serializable {
         throw new CardanEulerSingularityException(true);
       }
       return new double[] {
-        FastMath.atan2(v1.getY(), v1.getX()),
+        FastMath.atan2(v2.getY(), v2.getZ()),
        -FastMath.asin(v2.getX()),
-        FastMath.atan2(v2.getY(), v2.getZ())
+        FastMath.atan2(v1.getY(), v1.getX())
       };
 
     } else if (order == RotationOrder.XYX) {
@@ -673,9 +672,9 @@ public class Rotation implements Serializable {
         throw new CardanEulerSingularityException(false);
       }
       return new double[] {
-        FastMath.atan2(v1.getY(), -v1.getZ()),
+        FastMath.atan2(v2.getY(), v2.getZ()),
         FastMath.acos(v2.getX()),
-        FastMath.atan2(v2.getY(), v2.getZ())
+        FastMath.atan2(v1.getY(), -v1.getZ())
       };
 
     } else if (order == RotationOrder.XZX) {
@@ -691,9 +690,9 @@ public class Rotation implements Serializable {
         throw new CardanEulerSingularityException(false);
       }
       return new double[] {
-        FastMath.atan2(v1.getZ(), v1.getY()),
+        FastMath.atan2(v2.getZ(), -v2.getY()),
         FastMath.acos(v2.getX()),
-        FastMath.atan2(v2.getZ(), -v2.getY())
+        FastMath.atan2(v1.getZ(), v1.getY())
       };
 
     } else if (order == RotationOrder.YXY) {
@@ -709,9 +708,9 @@ public class Rotation implements Serializable {
         throw new CardanEulerSingularityException(false);
       }
       return new double[] {
-        FastMath.atan2(v1.getX(), v1.getZ()),
+        FastMath.atan2(v2.getX(), -v2.getZ()),
         FastMath.acos(v2.getY()),
-        FastMath.atan2(v2.getX(), -v2.getZ())
+        FastMath.atan2(v1.getX(), v1.getZ())
       };
 
     } else if (order == RotationOrder.YZY) {
@@ -727,9 +726,9 @@ public class Rotation implements Serializable {
         throw new CardanEulerSingularityException(false);
       }
       return new double[] {
-        FastMath.atan2(v1.getZ(), -v1.getX()),
+        FastMath.atan2(v2.getZ(), v2.getX()),
         FastMath.acos(v2.getY()),
-        FastMath.atan2(v2.getZ(), v2.getX())
+        FastMath.atan2(v1.getZ(), -v1.getX())
       };
 
     } else if (order == RotationOrder.ZXZ) {
@@ -745,9 +744,9 @@ public class Rotation implements Serializable {
         throw new CardanEulerSingularityException(false);
       }
       return new double[] {
-        FastMath.atan2(v1.getX(), -v1.getY()),
+        FastMath.atan2(v2.getX(), v2.getY()),
         FastMath.acos(v2.getZ()),
-        FastMath.atan2(v2.getX(), v2.getY())
+        FastMath.atan2(v1.getX(), -v1.getY())
       };
 
     } else { // last possibility is ZYZ
@@ -763,9 +762,9 @@ public class Rotation implements Serializable {
         throw new CardanEulerSingularityException(false);
       }
       return new double[] {
-        FastMath.atan2(v1.getY(), v1.getX()),
+        FastMath.atan2(v2.getY(), -v2.getX()),
         FastMath.acos(v2.getZ()),
-        FastMath.atan2(v2.getY(), -v2.getX())
+        FastMath.atan2(v1.getY(), v1.getX())
       };
 
     }

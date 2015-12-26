@@ -31,6 +31,24 @@ import org.junit.Test;
 
 
 public class RotationTest {
+	
+  @Test
+  public void testFromOrderAndAngles() {
+    final double xRotation = 30.0;
+    final double yRotation = 20.0;
+    final double zRotation = 10.0;
+    Vector3D expectedVector = Vector3D.PLUS_I;
+    expectedVector = new Rotation(RotationOrder.ZYX, zRotation, 0, 0).applyTo(expectedVector);
+    expectedVector = new Rotation(RotationOrder.ZYX, 0, yRotation, 0).applyTo(expectedVector);
+    expectedVector = new Rotation(RotationOrder.ZYX, 0, 0, xRotation).applyTo(expectedVector);
+
+    final Vector3D resultVector = new Rotation(RotationOrder.ZYX, zRotation, yRotation, xRotation)
+      .applyTo(Vector3D.PLUS_I);
+
+    Assert.assertEquals(resultVector.getX(), expectedVector.getX(), 1e-12);
+    Assert.assertEquals(resultVector.getY(), expectedVector.getY(), 1e-12);
+    Assert.assertEquals(resultVector.getZ(), expectedVector.getZ(), 1e-12);
+  }
 
   @Test
   public void testIdentity() {
