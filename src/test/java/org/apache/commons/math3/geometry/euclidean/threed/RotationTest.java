@@ -51,7 +51,8 @@ public class RotationTest {
   }
 
   @Test
-  public void testAxisAngle() throws MathIllegalArgumentException {
+  @Deprecated
+  public void testAxisAngleDeprecated() throws MathIllegalArgumentException {
 
     Rotation r = new Rotation(new Vector3D(10, 10, 10), 2 * FastMath.PI / 3);
     checkVector(r.applyTo(Vector3D.PLUS_I), Vector3D.PLUS_J);
@@ -80,13 +81,82 @@ public class RotationTest {
   }
 
   @Test
+  public void testAxisAngleVectorOperator() throws MathIllegalArgumentException {
+
+    Rotation r = new Rotation(new Vector3D(10, 10, 10), 2 * FastMath.PI / 3, RotationConvention.VECTOR_OPERATOR);
+    checkVector(r.applyTo(Vector3D.PLUS_I), Vector3D.PLUS_J);
+    checkVector(r.applyTo(Vector3D.PLUS_J), Vector3D.PLUS_K);
+    checkVector(r.applyTo(Vector3D.PLUS_K), Vector3D.PLUS_I);
+    double s = 1 / FastMath.sqrt(3);
+    checkVector(r.getAxis(RotationConvention.VECTOR_OPERATOR), new Vector3D( s,  s,  s));
+    checkVector(r.getAxis(RotationConvention.FRAME_TRANSFORM), new Vector3D(-s, -s, -s));
+    checkAngle(r.getAngle(), 2 * FastMath.PI / 3);
+
+    try {
+      new Rotation(new Vector3D(0, 0, 0), 2 * FastMath.PI / 3, RotationConvention.VECTOR_OPERATOR);
+      Assert.fail("an exception should have been thrown");
+    } catch (MathIllegalArgumentException e) {
+    }
+
+    r = new Rotation(Vector3D.PLUS_K, 1.5 * FastMath.PI, RotationConvention.VECTOR_OPERATOR);
+    checkVector(r.getAxis(RotationConvention.VECTOR_OPERATOR), new Vector3D(0, 0, -1));
+    checkVector(r.getAxis(RotationConvention.FRAME_TRANSFORM), new Vector3D(0, 0, +1));
+    checkAngle(r.getAngle(), 0.5 * FastMath.PI);
+
+    r = new Rotation(Vector3D.PLUS_J, FastMath.PI, RotationConvention.VECTOR_OPERATOR);
+    checkVector(r.getAxis(RotationConvention.VECTOR_OPERATOR), Vector3D.PLUS_J);
+    checkVector(r.getAxis(RotationConvention.FRAME_TRANSFORM), Vector3D.MINUS_J);
+    checkAngle(r.getAngle(), FastMath.PI);
+
+    checkVector(Rotation.IDENTITY.getAxis(RotationConvention.VECTOR_OPERATOR), Vector3D.PLUS_I);
+    checkVector(Rotation.IDENTITY.getAxis(RotationConvention.FRAME_TRANSFORM), Vector3D.MINUS_I);
+
+  }
+
+  @Test
+  public void testAxisAngleFrameTransform() throws MathIllegalArgumentException {
+
+    Rotation r = new Rotation(new Vector3D(10, 10, 10), 2 * FastMath.PI / 3, RotationConvention.FRAME_TRANSFORM);
+    checkVector(r.applyTo(Vector3D.PLUS_I), Vector3D.PLUS_K);
+    checkVector(r.applyTo(Vector3D.PLUS_J), Vector3D.PLUS_I);
+    checkVector(r.applyTo(Vector3D.PLUS_K), Vector3D.PLUS_J);
+    double s = 1 / FastMath.sqrt(3);
+    checkVector(r.getAxis(RotationConvention.FRAME_TRANSFORM), new Vector3D( s,  s,  s));
+    checkVector(r.getAxis(RotationConvention.VECTOR_OPERATOR), new Vector3D(-s, -s, -s));
+    checkAngle(r.getAngle(), 2 * FastMath.PI / 3);
+
+    try {
+      new Rotation(new Vector3D(0, 0, 0), 2 * FastMath.PI / 3, RotationConvention.FRAME_TRANSFORM);
+      Assert.fail("an exception should have been thrown");
+    } catch (MathIllegalArgumentException e) {
+    }
+
+    r = new Rotation(Vector3D.PLUS_K, 1.5 * FastMath.PI, RotationConvention.FRAME_TRANSFORM);
+    checkVector(r.getAxis(RotationConvention.FRAME_TRANSFORM), new Vector3D(0, 0, -1));
+    checkVector(r.getAxis(RotationConvention.VECTOR_OPERATOR), new Vector3D(0, 0, +1));
+    checkAngle(r.getAngle(), 0.5 * FastMath.PI);
+
+    r = new Rotation(Vector3D.PLUS_J, FastMath.PI, RotationConvention.FRAME_TRANSFORM);
+    checkVector(r.getAxis(RotationConvention.FRAME_TRANSFORM), Vector3D.PLUS_J);
+    checkVector(r.getAxis(RotationConvention.VECTOR_OPERATOR), Vector3D.MINUS_J);
+    checkAngle(r.getAngle(), FastMath.PI);
+
+    checkVector(Rotation.IDENTITY.getAxis(RotationConvention.FRAME_TRANSFORM), Vector3D.MINUS_I);
+    checkVector(Rotation.IDENTITY.getAxis(RotationConvention.VECTOR_OPERATOR), Vector3D.PLUS_I);
+
+  }
+
+  @Test
   public void testRevert() {
     Rotation r = new Rotation(0.001, 0.36, 0.48, 0.8, true);
     Rotation reverted = r.revert();
     checkRotation(r.applyTo(reverted), 1, 0, 0, 0);
     checkRotation(reverted.applyTo(r), 1, 0, 0, 0);
     Assert.assertEquals(r.getAngle(), reverted.getAngle(), 1.0e-12);
-    Assert.assertEquals(-1, Vector3D.dotProduct(r.getAxis(), reverted.getAxis()), 1.0e-12);
+    Assert.assertEquals(-1,
+                        Vector3D.dotProduct(r.getAxis(RotationConvention.VECTOR_OPERATOR),
+                                           reverted.getAxis(RotationConvention.VECTOR_OPERATOR)),
+                        1.0e-12);
   }
 
   @Test
@@ -120,7 +190,7 @@ public class RotationTest {
     checkVector(r.applyTo(Vector3D.PLUS_J), Vector3D.MINUS_I);
 
     r = new Rotation(u1, u2, u1.negate(), u2.negate());
-    Vector3D axis = r.getAxis();
+    Vector3D axis = r.getAxis(RotationConvention.VECTOR_OPERATOR);
     if (Vector3D.dotProduct(axis, Vector3D.PLUS_K) > 0) {
       checkVector(axis, Vector3D.PLUS_K);
     } else {
@@ -295,7 +365,8 @@ public class RotationTest {
   }
 
   @Test
-  public void testAngles()
+  @Deprecated
+  public void testAnglesDeprecated()
     throws CardanEulerSingularityException {
 
     RotationOrder[] CardanOrders = {
@@ -320,7 +391,7 @@ public class RotationTest {
     RotationOrder[] EulerOrders = {
             RotationOrder.XYX, RotationOrder.XZX, RotationOrder.YXY,
             RotationOrder.YZY, RotationOrder.ZXZ, RotationOrder.ZYZ
-          };
+    };
 
     for (int i = 0; i < EulerOrders.length; ++i) {
       for (double alpha1 = 0.1; alpha1 < 6.2; alpha1 += 0.3) {
@@ -340,43 +411,92 @@ public class RotationTest {
   }
 
   @Test
-  public void testSingularities() {
+  public void testAngles()
+      throws CardanEulerSingularityException {
 
-    RotationOrder[] CardanOrders = {
-      RotationOrder.XYZ, RotationOrder.XZY, RotationOrder.YXZ,
-      RotationOrder.YZX, RotationOrder.ZXY, RotationOrder.ZYX
-    };
-
-    double[] singularCardanAngle = { FastMath.PI / 2, -FastMath.PI / 2 };
-    for (int i = 0; i < CardanOrders.length; ++i) {
-      for (int j = 0; j < singularCardanAngle.length; ++j) {
-        Rotation r = new Rotation(CardanOrders[i], 0.1, singularCardanAngle[j], 0.3);
-        try {
-          r.getAngles(CardanOrders[i]);
-          Assert.fail("an exception should have been caught");
-        } catch (CardanEulerSingularityException cese) {
-          // expected behavior
-        }
-      }
-    }
-
-    RotationOrder[] EulerOrders = {
-            RotationOrder.XYX, RotationOrder.XZX, RotationOrder.YXY,
-            RotationOrder.YZY, RotationOrder.ZXZ, RotationOrder.ZYZ
+      for (RotationConvention convention : RotationConvention.values()) {
+          RotationOrder[] CardanOrders = {
+              RotationOrder.XYZ, RotationOrder.XZY, RotationOrder.YXZ,
+              RotationOrder.YZX, RotationOrder.ZXY, RotationOrder.ZYX
           };
 
-    double[] singularEulerAngle = { 0, FastMath.PI };
-    for (int i = 0; i < EulerOrders.length; ++i) {
-      for (int j = 0; j < singularEulerAngle.length; ++j) {
-        Rotation r = new Rotation(EulerOrders[i], 0.1, singularEulerAngle[j], 0.3);
-        try {
-          r.getAngles(EulerOrders[i]);
-          Assert.fail("an exception should have been caught");
-        } catch (CardanEulerSingularityException cese) {
-          // expected behavior
-        }
+          for (int i = 0; i < CardanOrders.length; ++i) {
+              for (double alpha1 = 0.1; alpha1 < 6.2; alpha1 += 0.3) {
+                  for (double alpha2 = -1.55; alpha2 < 1.55; alpha2 += 0.3) {
+                      for (double alpha3 = 0.1; alpha3 < 6.2; alpha3 += 0.3) {
+                          Rotation r = new Rotation(CardanOrders[i], convention, alpha1, alpha2, alpha3);
+                          double[] angles = r.getAngles(CardanOrders[i], convention);
+                          checkAngle(angles[0], alpha1);
+                          checkAngle(angles[1], alpha2);
+                          checkAngle(angles[2], alpha3);
+                      }
+                  }
+              }
+          }
+
+          RotationOrder[] EulerOrders = {
+              RotationOrder.XYX, RotationOrder.XZX, RotationOrder.YXY,
+              RotationOrder.YZY, RotationOrder.ZXZ, RotationOrder.ZYZ
+          };
+
+          for (int i = 0; i < EulerOrders.length; ++i) {
+              for (double alpha1 = 0.1; alpha1 < 6.2; alpha1 += 0.3) {
+                  for (double alpha2 = 0.05; alpha2 < 3.1; alpha2 += 0.3) {
+                      for (double alpha3 = 0.1; alpha3 < 6.2; alpha3 += 0.3) {
+                          Rotation r = new Rotation(EulerOrders[i], convention,
+                                                    alpha1, alpha2, alpha3);
+                          double[] angles = r.getAngles(EulerOrders[i], convention);
+                          checkAngle(angles[0], alpha1);
+                          checkAngle(angles[1], alpha2);
+                          checkAngle(angles[2], alpha3);
+                      }
+                  }
+              }
+          }
       }
-    }
+
+  }
+
+  @Test
+  public void testSingularities() {
+
+      for (RotationConvention convention : RotationConvention.values()) {
+          RotationOrder[] CardanOrders = {
+              RotationOrder.XYZ, RotationOrder.XZY, RotationOrder.YXZ,
+              RotationOrder.YZX, RotationOrder.ZXY, RotationOrder.ZYX
+          };
+
+          double[] singularCardanAngle = { FastMath.PI / 2, -FastMath.PI / 2 };
+          for (int i = 0; i < CardanOrders.length; ++i) {
+              for (int j = 0; j < singularCardanAngle.length; ++j) {
+                  Rotation r = new Rotation(CardanOrders[i], convention, 0.1, singularCardanAngle[j], 0.3);
+                  try {
+                      r.getAngles(CardanOrders[i], convention);
+                      Assert.fail("an exception should have been caught");
+                  } catch (CardanEulerSingularityException cese) {
+                      // expected behavior
+                  }
+              }
+          }
+
+          RotationOrder[] EulerOrders = {
+              RotationOrder.XYX, RotationOrder.XZX, RotationOrder.YXY,
+              RotationOrder.YZY, RotationOrder.ZXZ, RotationOrder.ZYZ
+          };
+
+          double[] singularEulerAngle = { 0, FastMath.PI };
+          for (int i = 0; i < EulerOrders.length; ++i) {
+              for (int j = 0; j < singularEulerAngle.length; ++j) {
+                  Rotation r = new Rotation(EulerOrders[i], convention, 0.1, singularEulerAngle[j], 0.3);
+                  try {
+                      r.getAngles(EulerOrders[i], convention);
+                      Assert.fail("an exception should have been caught");
+                  } catch (CardanEulerSingularityException cese) {
+                      // expected behavior
+                  }
+              }
+          }
+      }
 
 
   }
@@ -384,7 +504,7 @@ public class RotationTest {
   @Test
   public void testQuaternion() throws MathIllegalArgumentException {
 
-    Rotation r1 = new Rotation(new Vector3D(2, -3, 5), 1.7);
+    Rotation r1 = new Rotation(new Vector3D(2, -3, 5), 1.7, RotationConvention.VECTOR_OPERATOR);
     double n = 23.5;
     Rotation r2 = new Rotation(n * r1.getQ0(), n * r1.getQ1(),
                                n * r1.getQ2(), n * r1.getQ3(),
@@ -406,8 +526,8 @@ public class RotationTest {
   @Test
   public void testCompose() throws MathIllegalArgumentException {
 
-    Rotation r1 = new Rotation(new Vector3D(2, -3, 5), 1.7);
-    Rotation r2 = new Rotation(new Vector3D(-1, 3, 2), 0.3);
+    Rotation r1 = new Rotation(new Vector3D(2, -3, 5), 1.7, RotationConvention.VECTOR_OPERATOR);
+    Rotation r2 = new Rotation(new Vector3D(-1, 3, 2), 0.3, RotationConvention.VECTOR_OPERATOR);
     Rotation r3 = r2.applyTo(r1);
 
     for (double x = -0.9; x < 0.9; x += 0.2) {
@@ -424,8 +544,8 @@ public class RotationTest {
   @Test
   public void testComposeInverse() throws MathIllegalArgumentException {
 
-    Rotation r1 = new Rotation(new Vector3D(2, -3, 5), 1.7);
-    Rotation r2 = new Rotation(new Vector3D(-1, 3, 2), 0.3);
+    Rotation r1 = new Rotation(new Vector3D(2, -3, 5), 1.7, RotationConvention.VECTOR_OPERATOR);
+    Rotation r2 = new Rotation(new Vector3D(-1, 3, 2), 0.3, RotationConvention.VECTOR_OPERATOR);
     Rotation r3 = r2.applyInverseTo(r1);
 
     for (double x = -0.9; x < 0.9; x += 0.2) {
@@ -442,7 +562,7 @@ public class RotationTest {
   @Test
   public void testArray() throws MathIllegalArgumentException {
 
-      Rotation r = new Rotation(new Vector3D(2, -3, 5), 1.7);
+      Rotation r = new Rotation(new Vector3D(2, -3, 5), 1.7, RotationConvention.VECTOR_OPERATOR);
 
       for (double x = -0.9; x < 0.9; x += 0.2) {
           for (double y = -0.9; y < 0.9; y += 0.2) {
@@ -467,7 +587,7 @@ public class RotationTest {
   @Test
   public void testApplyInverseTo() throws MathIllegalArgumentException {
 
-    Rotation r = new Rotation(new Vector3D(2, -3, 5), 1.7);
+    Rotation r = new Rotation(new Vector3D(2, -3, 5), 1.7, RotationConvention.VECTOR_OPERATOR);
     for (double lambda = 0; lambda < 6.2; lambda += 0.2) {
       for (double phi = -1.55; phi < 1.55; phi += 0.2) {
           Vector3D u = new Vector3D(FastMath.cos(lambda) * FastMath.cos(phi),
@@ -490,7 +610,7 @@ public class RotationTest {
       }
     }
 
-    r = new Rotation(Vector3D.PLUS_K, FastMath.PI);
+    r = new Rotation(Vector3D.PLUS_K, FastMath.PI, RotationConvention.VECTOR_OPERATOR);
     for (double lambda = 0; lambda < 6.2; lambda += 0.2) {
       for (double phi = -1.55; phi < 1.55; phi += 0.2) {
           Vector3D u = new Vector3D(FastMath.cos(lambda) * FastMath.cos(phi),
@@ -535,6 +655,48 @@ public class RotationTest {
       Assert.assertEquals(0.0, Vector3D.angle(v1, quat.applyTo(u1)), 1.0e-14);
       Assert.assertEquals(0.0, Vector3D.angle(v2, quat.applyTo(u2)), 1.0e-14);
 
+  }
+
+  @Test
+  public void testGithubPullRequest22A() {
+      final RotationOrder order = RotationOrder.ZYX;
+      final double xRotation = FastMath.toDegrees(30);
+      final double yRotation = FastMath.toDegrees(20);
+      final double zRotation = FastMath.toDegrees(10);
+      final Vector3D startingVector = Vector3D.PLUS_I;
+      Vector3D appliedIndividually = startingVector;
+      appliedIndividually = new Rotation(order, RotationConvention.FRAME_TRANSFORM, zRotation, 0, 0).applyTo(appliedIndividually);
+      appliedIndividually = new Rotation(order, RotationConvention.FRAME_TRANSFORM, 0, yRotation, 0).applyTo(appliedIndividually);
+      appliedIndividually = new Rotation(order, RotationConvention.FRAME_TRANSFORM, 0, 0, xRotation).applyTo(appliedIndividually);
+
+      final Vector3D bad = new Rotation(order, RotationConvention.FRAME_TRANSFORM, zRotation, yRotation, xRotation).applyTo(startingVector);
+
+      Assert.assertEquals(bad.getX(), appliedIndividually.getX(), 1e-12);
+      Assert.assertEquals(bad.getY(), appliedIndividually.getY(), 1e-12);
+      Assert.assertEquals(bad.getZ(), appliedIndividually.getZ(), 1e-12);
+  }
+
+  @Test
+  public void testGithubPullRequest22B() {
+      final RotationOrder order = RotationOrder.ZYX;
+      final double xRotation = FastMath.toDegrees(30);
+      final double yRotation = FastMath.toDegrees(20);
+      final double zRotation = FastMath.toDegrees(10);
+      final Vector3D startingVector = Vector3D.PLUS_I;
+      Vector3D appliedIndividually = startingVector;
+      appliedIndividually = new Rotation(order, RotationConvention.FRAME_TRANSFORM, zRotation, 0, 0).applyTo(appliedIndividually);
+      appliedIndividually = new Rotation(order, RotationConvention.FRAME_TRANSFORM, 0, yRotation, 0).applyTo(appliedIndividually);
+      appliedIndividually = new Rotation(order, RotationConvention.FRAME_TRANSFORM, 0, 0, xRotation).applyTo(appliedIndividually);
+
+      final Rotation r1 = new Rotation(order.getA1(), zRotation, RotationConvention.FRAME_TRANSFORM);
+      final Rotation r2 = new Rotation(order.getA2(), yRotation, RotationConvention.FRAME_TRANSFORM);
+      final Rotation r3 = new Rotation(order.getA3(), xRotation, RotationConvention.FRAME_TRANSFORM);
+      final Rotation composite = r3.applyTo(r2.applyTo(r1));
+      final Vector3D good = composite.applyTo(startingVector);
+
+      Assert.assertEquals(good.getX(), appliedIndividually.getX(), 1e-12);
+      Assert.assertEquals(good.getY(), appliedIndividually.getY(), 1e-12);
+      Assert.assertEquals(good.getZ(), appliedIndividually.getZ(), 1e-12);
   }
 
   private void checkVector(Vector3D v1, Vector3D v2) {

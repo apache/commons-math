@@ -170,15 +170,29 @@ public class Rotation implements Serializable {
    * @param axis axis around which to rotate
    * @param angle rotation angle.
    * @exception MathIllegalArgumentException if the axis norm is zero
+   * @deprecated as of 3.6, replaced with {@link #Rotation(Vector3D, double, RotationConvention)}
    */
+  @Deprecated
   public Rotation(Vector3D axis, double angle) throws MathIllegalArgumentException {
+      this(axis, angle, RotationConvention.VECTOR_OPERATOR);
+  }
+
+  /** Build a rotation from an axis and an angle.
+   * @param axis axis around which to rotate
+   * @param angle rotation angle
+   * @param convention convention to use for the semantics of the angle
+   * @exception MathIllegalArgumentException if the axis norm is zero
+   * @since 3.6
+   */
+  public Rotation(final Vector3D axis, final double angle, final RotationConvention convention)
+      throws MathIllegalArgumentException {
 
     double norm = axis.getNorm();
     if (norm == 0) {
       throw new MathIllegalArgumentException(LocalizedFormats.ZERO_NORM_FOR_ROTATION_AXIS);
     }
 
-    double halfAngle = -0.5 * angle;
+    double halfAngle = convention == RotationConvention.VECTOR_OPERATOR ? -0.5 * angle : +0.5 * angle;
     double coeff = FastMath.sin(halfAngle) / norm;
 
     q0 = FastMath.cos (halfAngle);
@@ -250,7 +264,7 @@ public class Rotation implements Serializable {
 
   }
 
-  /** Build the rotation that transforms a pair of vector into another pair.
+  /** Build the rotation that transforms a pair of vectors into another pair.
 
    * <p>Except for possible scale factors, if the instance were applied to
    * the pair (u<sub>1</sub>, u<sub>2</sub>) it will produce the pair
@@ -259,27 +273,27 @@ public class Rotation implements Serializable {
    * <p>If the angular separation between u<sub>1</sub> and u<sub>2</sub> is
    * not the same as the angular separation between v<sub>1</sub> and
    * v<sub>2</sub>, then a corrected v'<sub>2</sub> will be used rather than
-   * v<sub>2</sub>, the corrected vector will be in the (v<sub>1</sub>,
-   * v<sub>2</sub>) plane.</p>
+   * v<sub>2</sub>, the corrected vector will be in the (&pm;v<sub>1</sub>,
+   * +v<sub>2</sub>) half-plane.</p>
 
    * @param u1 first vector of the origin pair
    * @param u2 second vector of the origin pair
    * @param v1 desired image of u1 by the rotation
    * @param v2 desired image of u2 by the rotation
    * @exception MathArithmeticException if the norm of one of the vectors is zero,
-   * or if one of the pair is degenerated (i.e. the vectors of the pair are colinear)
+   * or if one of the pair is degenerated (i.e. the vectors of the pair are collinear)
    */
   public Rotation(Vector3D u1, Vector3D u2, Vector3D v1, Vector3D v2)
       throws MathArithmeticException {
 
       // build orthonormalized base from u1, u2
-      // this fails when vectors are null or colinear, which is forbidden to define a rotation
+      // this fails when vectors are null or collinear, which is forbidden to define a rotation
       final Vector3D u3 = u1.crossProduct(u2).normalize();
       u2 = u3.crossProduct(u1).normalize();
       u1 = u1.normalize();
 
       // build an orthonormalized base from v1, v2
-      // this fails when vectors are null or colinear, which is forbidden to define a rotation
+      // this fails when vectors are null or collinear, which is forbidden to define a rotation
       final Vector3D v3 = v1.crossProduct(v2).normalize();
       v2 = v3.crossProduct(v1).normalize();
       v1 = v1.normalize();
@@ -317,7 +331,7 @@ public class Rotation implements Serializable {
    * applied to the vector u it will produce the vector v. There is an
    * infinite number of such rotations, this constructor choose the
    * one with the smallest associated angle (i.e. the one whose axis
-   * is orthogonal to the (u, v) plane). If u and v are colinear, an
+   * is orthogonal to the (u, v) plane). If u and v are collinear, an
    * arbitrary rotation axis is chosen.</p>
 
    * @param u origin vector
@@ -372,13 +386,44 @@ public class Rotation implements Serializable {
    * @param alpha1 angle of the first elementary rotation
    * @param alpha2 angle of the second elementary rotation
    * @param alpha3 angle of the third elementary rotation
+   * @deprecated as of 3.6, replaced with {@link
+   * #Rotation(RotationOrder, RotationConvention, double, double, double)}
    */
+  @Deprecated
   public Rotation(RotationOrder order,
                   double alpha1, double alpha2, double alpha3) {
-      Rotation r1 = new Rotation(order.getA1(), alpha1);
-      Rotation r2 = new Rotation(order.getA2(), alpha2);
-      Rotation r3 = new Rotation(order.getA3(), alpha3);
-      Rotation composed = r1.applyTo(r2.applyTo(r3));
+      this(order, RotationConvention.VECTOR_OPERATOR, alpha1, alpha2, alpha3);
+  }
+
+  /** Build a rotation from three Cardan or Euler elementary rotations.
+
+   * <p>Cardan rotations are three successive rotations around the
+   * canonical axes X, Y and Z, each axis being used once. There are
+   * 6 such sets of rotations (XYZ, XZY, YXZ, YZX, ZXY and ZYX). Euler
+   * rotations are three successive rotations around the canonical
+   * axes X, Y and Z, the first and last rotations being around the
+   * same axis. There are 6 such sets of rotations (XYX, XZX, YXY,
+   * YZY, ZXZ and ZYZ), the most popular one being ZXZ.</p>
+   * <p>Beware that many people routinely use the term Euler angles even
+   * for what really are Cardan angles (this confusion is especially
+   * widespread in the aerospace business where Roll, Pitch and Yaw angles
+   * are often wrongly tagged as Euler angles).</p>
+
+   * @param order order of rotations to use
+   * @param convention convention to use for the semantics of the angle
+   * @param alpha1 angle of the first elementary rotation
+   * @param alpha2 angle of the second elementary rotation
+   * @param alpha3 angle of the third elementary rotation
+   * @since 3.6
+   */
+  public Rotation(RotationOrder order, RotationConvention convention,
+                  double alpha1, double alpha2, double alpha3) {
+      Rotation r1 = new Rotation(order.getA1(), alpha1, convention);
+      Rotation r2 = new Rotation(order.getA2(), alpha2, convention);
+      Rotation r3 = new Rotation(order.getA3(), alpha3, convention);
+      Rotation composed = convention == RotationConvention.FRAME_TRANSFORM ?
+                          r3.applyTo(r2.applyTo(r1)) :
+                          r1.applyTo(r2.applyTo(r3));
       q0 = composed.q0;
       q1 = composed.q1;
       q2 = composed.q2;
@@ -487,18 +532,38 @@ public class Rotation implements Serializable {
 
   /** Get the normalized axis of the rotation.
    * @return normalized axis of the rotation
-   * @see #Rotation(Vector3D, double)
+   * @see #Rotation(Vector3D, double, RotationConvention)
+   * @deprecated as of 3.6, replaced with {@link #getAxis(RotationConvention)}
    */
+  @Deprecated
   public Vector3D getAxis() {
-    double squaredSine = q1 * q1 + q2 * q2 + q3 * q3;
+    return getAxis(RotationConvention.VECTOR_OPERATOR);
+  }
+
+  /** Get the normalized axis of the rotation.
+   * <p>
+   * Note that as {@link #getAngle()} always returns an angle
+   * between 0 and &pi;, changing the convention changes the
+   * direction of the axis, not the sign of the angle.
+   * </p>
+   * @param convention convention to use for the semantics of the angle
+   * @return normalized axis of the rotation
+   * @see #Rotation(Vector3D, double, RotationConvention)
+   * @since 3.6
+   */
+  public Vector3D getAxis(final RotationConvention convention) {
+    final double squaredSine = q1 * q1 + q2 * q2 + q3 * q3;
     if (squaredSine == 0) {
-      return new Vector3D(1, 0, 0);
-    } else if (q0 < 0) {
-      double inverse = 1 / FastMath.sqrt(squaredSine);
-      return new Vector3D(q1 * inverse, q2 * inverse, q3 * inverse);
+      return convention == RotationConvention.VECTOR_OPERATOR ? Vector3D.PLUS_I : Vector3D.MINUS_I;
+    } else {
+        final double sgn = convention == RotationConvention.VECTOR_OPERATOR ? +1 : -1;
+        if (q0 < 0) {
+            final double inverse = sgn / FastMath.sqrt(squaredSine);
+            return new Vector3D(q1 * inverse, q2 * inverse, q3 * inverse);
+        }
+        final double inverse = -sgn / FastMath.sqrt(squaredSine);
+        return new Vector3D(q1 * inverse, q2 * inverse, q3 * inverse);
     }
-    double inverse = -1 / FastMath.sqrt(squaredSine);
-    return new Vector3D(q1 * inverse, q2 * inverse, q3 * inverse);
   }
 
   /** Get the angle of the rotation.
@@ -548,227 +613,491 @@ public class Rotation implements Serializable {
    * @return an array of three angles, in the order specified by the set
    * @exception CardanEulerSingularityException if the rotation is
    * singular with respect to the angles set specified
+   * @deprecated as of 3.6, replaced with {@link #getAngles(RotationOrder, RotationConvention)}
    */
+  @Deprecated
   public double[] getAngles(RotationOrder order)
-    throws CardanEulerSingularityException {
+      throws CardanEulerSingularityException {
+      return getAngles(order, RotationConvention.VECTOR_OPERATOR);
+  }
 
-    if (order == RotationOrder.XYZ) {
+  /** Get the Cardan or Euler angles corresponding to the instance.
 
-      // r (Vector3D.plusK) coordinates are :
-      //  sin (theta), -cos (theta) sin (phi), cos (theta) cos (phi)
-      // (-r) (Vector3D.plusI) coordinates are :
-      // cos (psi) cos (theta), -sin (psi) cos (theta), sin (theta)
-      // and we can choose to have theta in the interval [-PI/2 ; +PI/2]
-      Vector3D v1 = applyTo(Vector3D.PLUS_K);
-      Vector3D v2 = applyInverseTo(Vector3D.PLUS_I);
-      if  ((v2.getZ() < -0.9999999999) || (v2.getZ() > 0.9999999999)) {
-        throw new CardanEulerSingularityException(true);
+   * <p>The equations show that each rotation can be defined by two
+   * different values of the Cardan or Euler angles set. For example
+   * if Cardan angles are used, the rotation defined by the angles
+   * a<sub>1</sub>, a<sub>2</sub> and a<sub>3</sub> is the same as
+   * the rotation defined by the angles &pi; + a<sub>1</sub>, &pi;
+   * - a<sub>2</sub> and &pi; + a<sub>3</sub>. This method implements
+   * the following arbitrary choices:</p>
+   * <ul>
+   *   <li>for Cardan angles, the chosen set is the one for which the
+   *   second angle is between -&pi;/2 and &pi;/2 (i.e its cosine is
+   *   positive),</li>
+   *   <li>for Euler angles, the chosen set is the one for which the
+   *   second angle is between 0 and &pi; (i.e its sine is positive).</li>
+   * </ul>
+
+   * <p>Cardan and Euler angle have a very disappointing drawback: all
+   * of them have singularities. This means that if the instance is
+   * too close to the singularities corresponding to the given
+   * rotation order, it will be impossible to retrieve the angles. For
+   * Cardan angles, this is often called gimbal lock. There is
+   * <em>nothing</em> to do to prevent this, it is an intrinsic problem
+   * with Cardan and Euler representation (but not a problem with the
+   * rotation itself, which is perfectly well defined). For Cardan
+   * angles, singularities occur when the second angle is close to
+   * -&pi;/2 or +&pi;/2, for Euler angle singularities occur when the
+   * second angle is close to 0 or &pi;, this implies that the identity
+   * rotation is always singular for Euler angles!</p>
+
+   * @param order rotation order to use
+   * @param convention convention to use for the semantics of the angle
+   * @return an array of three angles, in the order specified by the set
+   * @exception CardanEulerSingularityException if the rotation is
+   * singular with respect to the angles set specified
+   * @since 3.6
+   */
+  public double[] getAngles(RotationOrder order, RotationConvention convention)
+      throws CardanEulerSingularityException {
+
+      if (convention == RotationConvention.VECTOR_OPERATOR) {
+          if (order == RotationOrder.XYZ) {
+
+              // r (Vector3D.plusK) coordinates are :
+              //  sin (theta), -cos (theta) sin (phi), cos (theta) cos (phi)
+              // (-r) (Vector3D.plusI) coordinates are :
+              // cos (psi) cos (theta), -sin (psi) cos (theta), sin (theta)
+              // and we can choose to have theta in the interval [-PI/2 ; +PI/2]
+              Vector3D v1 = applyTo(Vector3D.PLUS_K);
+              Vector3D v2 = applyInverseTo(Vector3D.PLUS_I);
+              if  ((v2.getZ() < -0.9999999999) || (v2.getZ() > 0.9999999999)) {
+                  throw new CardanEulerSingularityException(true);
+              }
+              return new double[] {
+                  FastMath.atan2(-(v1.getY()), v1.getZ()),
+                  FastMath.asin(v2.getZ()),
+                  FastMath.atan2(-(v2.getY()), v2.getX())
+              };
+
+          } else if (order == RotationOrder.XZY) {
+
+              // r (Vector3D.plusJ) coordinates are :
+              // -sin (psi), cos (psi) cos (phi), cos (psi) sin (phi)
+              // (-r) (Vector3D.plusI) coordinates are :
+              // cos (theta) cos (psi), -sin (psi), sin (theta) cos (psi)
+              // and we can choose to have psi in the interval [-PI/2 ; +PI/2]
+              Vector3D v1 = applyTo(Vector3D.PLUS_J);
+              Vector3D v2 = applyInverseTo(Vector3D.PLUS_I);
+              if ((v2.getY() < -0.9999999999) || (v2.getY() > 0.9999999999)) {
+                  throw new CardanEulerSingularityException(true);
+              }
+              return new double[] {
+                  FastMath.atan2(v1.getZ(), v1.getY()),
+                 -FastMath.asin(v2.getY()),
+                  FastMath.atan2(v2.getZ(), v2.getX())
+              };
+
+          } else if (order == RotationOrder.YXZ) {
+
+              // r (Vector3D.plusK) coordinates are :
+              //  cos (phi) sin (theta), -sin (phi), cos (phi) cos (theta)
+              // (-r) (Vector3D.plusJ) coordinates are :
+              // sin (psi) cos (phi), cos (psi) cos (phi), -sin (phi)
+              // and we can choose to have phi in the interval [-PI/2 ; +PI/2]
+              Vector3D v1 = applyTo(Vector3D.PLUS_K);
+              Vector3D v2 = applyInverseTo(Vector3D.PLUS_J);
+              if ((v2.getZ() < -0.9999999999) || (v2.getZ() > 0.9999999999)) {
+                  throw new CardanEulerSingularityException(true);
+              }
+              return new double[] {
+                  FastMath.atan2(v1.getX(), v1.getZ()),
+                 -FastMath.asin(v2.getZ()),
+                  FastMath.atan2(v2.getX(), v2.getY())
+              };
+
+          } else if (order == RotationOrder.YZX) {
+
+              // r (Vector3D.plusI) coordinates are :
+              // cos (psi) cos (theta), sin (psi), -cos (psi) sin (theta)
+              // (-r) (Vector3D.plusJ) coordinates are :
+              // sin (psi), cos (phi) cos (psi), -sin (phi) cos (psi)
+              // and we can choose to have psi in the interval [-PI/2 ; +PI/2]
+              Vector3D v1 = applyTo(Vector3D.PLUS_I);
+              Vector3D v2 = applyInverseTo(Vector3D.PLUS_J);
+              if ((v2.getX() < -0.9999999999) || (v2.getX() > 0.9999999999)) {
+                  throw new CardanEulerSingularityException(true);
+              }
+              return new double[] {
+                  FastMath.atan2(-(v1.getZ()), v1.getX()),
+                  FastMath.asin(v2.getX()),
+                  FastMath.atan2(-(v2.getZ()), v2.getY())
+              };
+
+          } else if (order == RotationOrder.ZXY) {
+
+              // r (Vector3D.plusJ) coordinates are :
+              // -cos (phi) sin (psi), cos (phi) cos (psi), sin (phi)
+              // (-r) (Vector3D.plusK) coordinates are :
+              // -sin (theta) cos (phi), sin (phi), cos (theta) cos (phi)
+              // and we can choose to have phi in the interval [-PI/2 ; +PI/2]
+              Vector3D v1 = applyTo(Vector3D.PLUS_J);
+              Vector3D v2 = applyInverseTo(Vector3D.PLUS_K);
+              if ((v2.getY() < -0.9999999999) || (v2.getY() > 0.9999999999)) {
+                  throw new CardanEulerSingularityException(true);
+              }
+              return new double[] {
+                  FastMath.atan2(-(v1.getX()), v1.getY()),
+                  FastMath.asin(v2.getY()),
+                  FastMath.atan2(-(v2.getX()), v2.getZ())
+              };
+
+          } else if (order == RotationOrder.ZYX) {
+
+              // r (Vector3D.plusI) coordinates are :
+              //  cos (theta) cos (psi), cos (theta) sin (psi), -sin (theta)
+              // (-r) (Vector3D.plusK) coordinates are :
+              // -sin (theta), sin (phi) cos (theta), cos (phi) cos (theta)
+              // and we can choose to have theta in the interval [-PI/2 ; +PI/2]
+              Vector3D v1 = applyTo(Vector3D.PLUS_I);
+              Vector3D v2 = applyInverseTo(Vector3D.PLUS_K);
+              if ((v2.getX() < -0.9999999999) || (v2.getX() > 0.9999999999)) {
+                  throw new CardanEulerSingularityException(true);
+              }
+              return new double[] {
+                  FastMath.atan2(v1.getY(), v1.getX()),
+                 -FastMath.asin(v2.getX()),
+                  FastMath.atan2(v2.getY(), v2.getZ())
+              };
+
+          } else if (order == RotationOrder.XYX) {
+
+              // r (Vector3D.plusI) coordinates are :
+              //  cos (theta), sin (phi1) sin (theta), -cos (phi1) sin (theta)
+              // (-r) (Vector3D.plusI) coordinates are :
+              // cos (theta), sin (theta) sin (phi2), sin (theta) cos (phi2)
+              // and we can choose to have theta in the interval [0 ; PI]
+              Vector3D v1 = applyTo(Vector3D.PLUS_I);
+              Vector3D v2 = applyInverseTo(Vector3D.PLUS_I);
+              if ((v2.getX() < -0.9999999999) || (v2.getX() > 0.9999999999)) {
+                  throw new CardanEulerSingularityException(false);
+              }
+              return new double[] {
+                  FastMath.atan2(v1.getY(), -v1.getZ()),
+                  FastMath.acos(v2.getX()),
+                  FastMath.atan2(v2.getY(), v2.getZ())
+              };
+
+          } else if (order == RotationOrder.XZX) {
+
+              // r (Vector3D.plusI) coordinates are :
+              //  cos (psi), cos (phi1) sin (psi), sin (phi1) sin (psi)
+              // (-r) (Vector3D.plusI) coordinates are :
+              // cos (psi), -sin (psi) cos (phi2), sin (psi) sin (phi2)
+              // and we can choose to have psi in the interval [0 ; PI]
+              Vector3D v1 = applyTo(Vector3D.PLUS_I);
+              Vector3D v2 = applyInverseTo(Vector3D.PLUS_I);
+              if ((v2.getX() < -0.9999999999) || (v2.getX() > 0.9999999999)) {
+                  throw new CardanEulerSingularityException(false);
+              }
+              return new double[] {
+                  FastMath.atan2(v1.getZ(), v1.getY()),
+                  FastMath.acos(v2.getX()),
+                  FastMath.atan2(v2.getZ(), -v2.getY())
+              };
+
+          } else if (order == RotationOrder.YXY) {
+
+              // r (Vector3D.plusJ) coordinates are :
+              //  sin (theta1) sin (phi), cos (phi), cos (theta1) sin (phi)
+              // (-r) (Vector3D.plusJ) coordinates are :
+              // sin (phi) sin (theta2), cos (phi), -sin (phi) cos (theta2)
+              // and we can choose to have phi in the interval [0 ; PI]
+              Vector3D v1 = applyTo(Vector3D.PLUS_J);
+              Vector3D v2 = applyInverseTo(Vector3D.PLUS_J);
+              if ((v2.getY() < -0.9999999999) || (v2.getY() > 0.9999999999)) {
+                  throw new CardanEulerSingularityException(false);
+              }
+              return new double[] {
+                  FastMath.atan2(v1.getX(), v1.getZ()),
+                  FastMath.acos(v2.getY()),
+                  FastMath.atan2(v2.getX(), -v2.getZ())
+              };
+
+          } else if (order == RotationOrder.YZY) {
+
+              // r (Vector3D.plusJ) coordinates are :
+              //  -cos (theta1) sin (psi), cos (psi), sin (theta1) sin (psi)
+              // (-r) (Vector3D.plusJ) coordinates are :
+              // sin (psi) cos (theta2), cos (psi), sin (psi) sin (theta2)
+              // and we can choose to have psi in the interval [0 ; PI]
+              Vector3D v1 = applyTo(Vector3D.PLUS_J);
+              Vector3D v2 = applyInverseTo(Vector3D.PLUS_J);
+              if ((v2.getY() < -0.9999999999) || (v2.getY() > 0.9999999999)) {
+                  throw new CardanEulerSingularityException(false);
+              }
+              return new double[] {
+                  FastMath.atan2(v1.getZ(), -v1.getX()),
+                  FastMath.acos(v2.getY()),
+                  FastMath.atan2(v2.getZ(), v2.getX())
+              };
+
+          } else if (order == RotationOrder.ZXZ) {
+
+              // r (Vector3D.plusK) coordinates are :
+              //  sin (psi1) sin (phi), -cos (psi1) sin (phi), cos (phi)
+              // (-r) (Vector3D.plusK) coordinates are :
+              // sin (phi) sin (psi2), sin (phi) cos (psi2), cos (phi)
+              // and we can choose to have phi in the interval [0 ; PI]
+              Vector3D v1 = applyTo(Vector3D.PLUS_K);
+              Vector3D v2 = applyInverseTo(Vector3D.PLUS_K);
+              if ((v2.getZ() < -0.9999999999) || (v2.getZ() > 0.9999999999)) {
+                  throw new CardanEulerSingularityException(false);
+              }
+              return new double[] {
+                  FastMath.atan2(v1.getX(), -v1.getY()),
+                  FastMath.acos(v2.getZ()),
+                  FastMath.atan2(v2.getX(), v2.getY())
+              };
+
+          } else { // last possibility is ZYZ
+
+              // r (Vector3D.plusK) coordinates are :
+              //  cos (psi1) sin (theta), sin (psi1) sin (theta), cos (theta)
+              // (-r) (Vector3D.plusK) coordinates are :
+              // -sin (theta) cos (psi2), sin (theta) sin (psi2), cos (theta)
+              // and we can choose to have theta in the interval [0 ; PI]
+              Vector3D v1 = applyTo(Vector3D.PLUS_K);
+              Vector3D v2 = applyInverseTo(Vector3D.PLUS_K);
+              if ((v2.getZ() < -0.9999999999) || (v2.getZ() > 0.9999999999)) {
+                  throw new CardanEulerSingularityException(false);
+              }
+              return new double[] {
+                  FastMath.atan2(v1.getY(), v1.getX()),
+                  FastMath.acos(v2.getZ()),
+                  FastMath.atan2(v2.getY(), -v2.getX())
+              };
+
+          }
+      } else {
+          if (order == RotationOrder.XYZ) {
+
+              // r (Vector3D.plusI) coordinates are :
+              //  cos (theta) cos (psi), -cos (theta) sin (psi), sin (theta)
+              // (-r) (Vector3D.plusK) coordinates are :
+              // sin (theta), -sin (phi) cos (theta), cos (phi) cos (theta)
+              // and we can choose to have theta in the interval [-PI/2 ; +PI/2]
+              Vector3D v1 = applyTo(Vector3D.PLUS_I);
+              Vector3D v2 = applyInverseTo(Vector3D.PLUS_K);
+              if ((v2.getX() < -0.9999999999) || (v2.getX() > 0.9999999999)) {
+                  throw new CardanEulerSingularityException(true);
+              }
+              return new double[] {
+                  FastMath.atan2(-v2.getY(), v2.getZ()),
+                  FastMath.asin(v2.getX()),
+                  FastMath.atan2(-v1.getY(), v1.getX())
+              };
+
+          } else if (order == RotationOrder.XZY) {
+
+              // r (Vector3D.plusI) coordinates are :
+              // cos (psi) cos (theta), -sin (psi), cos (psi) sin (theta)
+              // (-r) (Vector3D.plusJ) coordinates are :
+              // -sin (psi), cos (phi) cos (psi), sin (phi) cos (psi)
+              // and we can choose to have psi in the interval [-PI/2 ; +PI/2]
+              Vector3D v1 = applyTo(Vector3D.PLUS_I);
+              Vector3D v2 = applyInverseTo(Vector3D.PLUS_J);
+              if ((v2.getX() < -0.9999999999) || (v2.getX() > 0.9999999999)) {
+                  throw new CardanEulerSingularityException(true);
+              }
+              return new double[] {
+                  FastMath.atan2(v2.getZ(), v2.getY()),
+                 -FastMath.asin(v2.getX()),
+                  FastMath.atan2(v1.getZ(), v1.getX())
+              };
+
+          } else if (order == RotationOrder.YXZ) {
+
+              // r (Vector3D.plusJ) coordinates are :
+              // cos (phi) sin (psi), cos (phi) cos (psi), -sin (phi)
+              // (-r) (Vector3D.plusK) coordinates are :
+              // sin (theta) cos (phi), -sin (phi), cos (theta) cos (phi)
+              // and we can choose to have phi in the interval [-PI/2 ; +PI/2]
+              Vector3D v1 = applyTo(Vector3D.PLUS_J);
+              Vector3D v2 = applyInverseTo(Vector3D.PLUS_K);
+              if ((v2.getY() < -0.9999999999) || (v2.getY() > 0.9999999999)) {
+                  throw new CardanEulerSingularityException(true);
+              }
+              return new double[] {
+                  FastMath.atan2(v2.getX(), v2.getZ()),
+                 -FastMath.asin(v2.getY()),
+                  FastMath.atan2(v1.getX(), v1.getY())
+              };
+
+          } else if (order == RotationOrder.YZX) {
+
+              // r (Vector3D.plusJ) coordinates are :
+              // sin (psi), cos (psi) cos (phi), -cos (psi) sin (phi)
+              // (-r) (Vector3D.plusI) coordinates are :
+              // cos (theta) cos (psi), sin (psi), -sin (theta) cos (psi)
+              // and we can choose to have psi in the interval [-PI/2 ; +PI/2]
+              Vector3D v1 = applyTo(Vector3D.PLUS_J);
+              Vector3D v2 = applyInverseTo(Vector3D.PLUS_I);
+              if ((v2.getY() < -0.9999999999) || (v2.getY() > 0.9999999999)) {
+                  throw new CardanEulerSingularityException(true);
+              }
+              return new double[] {
+                  FastMath.atan2(-v2.getZ(), v2.getX()),
+                  FastMath.asin(v2.getY()),
+                  FastMath.atan2(-v1.getZ(), v1.getY())
+              };
+
+          } else if (order == RotationOrder.ZXY) {
+
+              // r (Vector3D.plusK) coordinates are :
+              //  -cos (phi) sin (theta), sin (phi), cos (phi) cos (theta)
+              // (-r) (Vector3D.plusJ) coordinates are :
+              // -sin (psi) cos (phi), cos (psi) cos (phi), sin (phi)
+              // and we can choose to have phi in the interval [-PI/2 ; +PI/2]
+              Vector3D v1 = applyTo(Vector3D.PLUS_K);
+              Vector3D v2 = applyInverseTo(Vector3D.PLUS_J);
+              if ((v2.getZ() < -0.9999999999) || (v2.getZ() > 0.9999999999)) {
+                  throw new CardanEulerSingularityException(true);
+              }
+              return new double[] {
+                  FastMath.atan2(-v2.getX(), v2.getY()),
+                  FastMath.asin(v2.getZ()),
+                  FastMath.atan2(-v1.getX(), v1.getZ())
+              };
+
+          } else if (order == RotationOrder.ZYX) {
+
+              // r (Vector3D.plusK) coordinates are :
+              //  -sin (theta), cos (theta) sin (phi), cos (theta) cos (phi)
+              // (-r) (Vector3D.plusI) coordinates are :
+              // cos (psi) cos (theta), sin (psi) cos (theta), -sin (theta)
+              // and we can choose to have theta in the interval [-PI/2 ; +PI/2]
+              Vector3D v1 = applyTo(Vector3D.PLUS_K);
+              Vector3D v2 = applyInverseTo(Vector3D.PLUS_I);
+              if  ((v2.getZ() < -0.9999999999) || (v2.getZ() > 0.9999999999)) {
+                  throw new CardanEulerSingularityException(true);
+              }
+              return new double[] {
+                  FastMath.atan2(v2.getY(), v2.getX()),
+                 -FastMath.asin(v2.getZ()),
+                  FastMath.atan2(v1.getY(), v1.getZ())
+              };
+
+          } else if (order == RotationOrder.XYX) {
+
+              // r (Vector3D.plusI) coordinates are :
+              //  cos (theta), sin (phi2) sin (theta), cos (phi2) sin (theta)
+              // (-r) (Vector3D.plusI) coordinates are :
+              // cos (theta), sin (theta) sin (phi1), -sin (theta) cos (phi1)
+              // and we can choose to have theta in the interval [0 ; PI]
+              Vector3D v1 = applyTo(Vector3D.PLUS_I);
+              Vector3D v2 = applyInverseTo(Vector3D.PLUS_I);
+              if ((v2.getX() < -0.9999999999) || (v2.getX() > 0.9999999999)) {
+                  throw new CardanEulerSingularityException(false);
+              }
+              return new double[] {
+                  FastMath.atan2(v2.getY(), -v2.getZ()),
+                  FastMath.acos(v2.getX()),
+                  FastMath.atan2(v1.getY(), v1.getZ())
+              };
+
+          } else if (order == RotationOrder.XZX) {
+
+              // r (Vector3D.plusI) coordinates are :
+              //  cos (psi), -cos (phi2) sin (psi), sin (phi2) sin (psi)
+              // (-r) (Vector3D.plusI) coordinates are :
+              // cos (psi), sin (psi) cos (phi1), sin (psi) sin (phi1)
+              // and we can choose to have psi in the interval [0 ; PI]
+              Vector3D v1 = applyTo(Vector3D.PLUS_I);
+              Vector3D v2 = applyInverseTo(Vector3D.PLUS_I);
+              if ((v2.getX() < -0.9999999999) || (v2.getX() > 0.9999999999)) {
+                  throw new CardanEulerSingularityException(false);
+              }
+              return new double[] {
+                  FastMath.atan2(v2.getZ(), v2.getY()),
+                  FastMath.acos(v2.getX()),
+                  FastMath.atan2(v1.getZ(), -v1.getY())
+              };
+
+          } else if (order == RotationOrder.YXY) {
+
+              // r (Vector3D.plusJ) coordinates are :
+              // sin (phi) sin (theta2), cos (phi), -sin (phi) cos (theta2)
+              // (-r) (Vector3D.plusJ) coordinates are :
+              //  sin (theta1) sin (phi), cos (phi), cos (theta1) sin (phi)
+              // and we can choose to have phi in the interval [0 ; PI]
+              Vector3D v1 = applyTo(Vector3D.PLUS_J);
+              Vector3D v2 = applyInverseTo(Vector3D.PLUS_J);
+              if ((v2.getY() < -0.9999999999) || (v2.getY() > 0.9999999999)) {
+                  throw new CardanEulerSingularityException(false);
+              }
+              return new double[] {
+                  FastMath.atan2(v2.getX(), v2.getZ()),
+                  FastMath.acos(v2.getY()),
+                  FastMath.atan2(v1.getX(), -v1.getZ())
+              };
+
+          } else if (order == RotationOrder.YZY) {
+
+              // r (Vector3D.plusJ) coordinates are :
+              // sin (psi) cos (theta2), cos (psi), sin (psi) sin (theta2)
+              // (-r) (Vector3D.plusJ) coordinates are :
+              //  -cos (theta1) sin (psi), cos (psi), sin (theta1) sin (psi)
+              // and we can choose to have psi in the interval [0 ; PI]
+              Vector3D v1 = applyTo(Vector3D.PLUS_J);
+              Vector3D v2 = applyInverseTo(Vector3D.PLUS_J);
+              if ((v2.getY() < -0.9999999999) || (v2.getY() > 0.9999999999)) {
+                  throw new CardanEulerSingularityException(false);
+              }
+              return new double[] {
+                  FastMath.atan2(v2.getZ(), -v2.getX()),
+                  FastMath.acos(v2.getY()),
+                  FastMath.atan2(v1.getZ(), v1.getX())
+              };
+
+          } else if (order == RotationOrder.ZXZ) {
+
+              // r (Vector3D.plusK) coordinates are :
+              // sin (phi) sin (psi2), sin (phi) cos (psi2), cos (phi)
+              // (-r) (Vector3D.plusK) coordinates are :
+              //  sin (psi1) sin (phi), -cos (psi1) sin (phi), cos (phi)
+              // and we can choose to have phi in the interval [0 ; PI]
+              Vector3D v1 = applyTo(Vector3D.PLUS_K);
+              Vector3D v2 = applyInverseTo(Vector3D.PLUS_K);
+              if ((v2.getZ() < -0.9999999999) || (v2.getZ() > 0.9999999999)) {
+                  throw new CardanEulerSingularityException(false);
+              }
+              return new double[] {
+                  FastMath.atan2(v2.getX(), -v2.getY()),
+                  FastMath.acos(v2.getZ()),
+                  FastMath.atan2(v1.getX(), v1.getY())
+              };
+
+          } else { // last possibility is ZYZ
+
+              // r (Vector3D.plusK) coordinates are :
+              // -sin (theta) cos (psi2), sin (theta) sin (psi2), cos (theta)
+              // (-r) (Vector3D.plusK) coordinates are :
+              //  cos (psi1) sin (theta), sin (psi1) sin (theta), cos (theta)
+              // and we can choose to have theta in the interval [0 ; PI]
+              Vector3D v1 = applyTo(Vector3D.PLUS_K);
+              Vector3D v2 = applyInverseTo(Vector3D.PLUS_K);
+              if ((v2.getZ() < -0.9999999999) || (v2.getZ() > 0.9999999999)) {
+                  throw new CardanEulerSingularityException(false);
+              }
+              return new double[] {
+                  FastMath.atan2(v2.getY(), v2.getX()),
+                  FastMath.acos(v2.getZ()),
+                  FastMath.atan2(v1.getY(), -v1.getX())
+              };
+
+          }
       }
-      return new double[] {
-        FastMath.atan2(-(v1.getY()), v1.getZ()),
-        FastMath.asin(v2.getZ()),
-        FastMath.atan2(-(v2.getY()), v2.getX())
-      };
-
-    } else if (order == RotationOrder.XZY) {
-
-      // r (Vector3D.plusJ) coordinates are :
-      // -sin (psi), cos (psi) cos (phi), cos (psi) sin (phi)
-      // (-r) (Vector3D.plusI) coordinates are :
-      // cos (theta) cos (psi), -sin (psi), sin (theta) cos (psi)
-      // and we can choose to have psi in the interval [-PI/2 ; +PI/2]
-      Vector3D v1 = applyTo(Vector3D.PLUS_J);
-      Vector3D v2 = applyInverseTo(Vector3D.PLUS_I);
-      if ((v2.getY() < -0.9999999999) || (v2.getY() > 0.9999999999)) {
-        throw new CardanEulerSingularityException(true);
-      }
-      return new double[] {
-        FastMath.atan2(v1.getZ(), v1.getY()),
-       -FastMath.asin(v2.getY()),
-        FastMath.atan2(v2.getZ(), v2.getX())
-      };
-
-    } else if (order == RotationOrder.YXZ) {
-
-      // r (Vector3D.plusK) coordinates are :
-      //  cos (phi) sin (theta), -sin (phi), cos (phi) cos (theta)
-      // (-r) (Vector3D.plusJ) coordinates are :
-      // sin (psi) cos (phi), cos (psi) cos (phi), -sin (phi)
-      // and we can choose to have phi in the interval [-PI/2 ; +PI/2]
-      Vector3D v1 = applyTo(Vector3D.PLUS_K);
-      Vector3D v2 = applyInverseTo(Vector3D.PLUS_J);
-      if ((v2.getZ() < -0.9999999999) || (v2.getZ() > 0.9999999999)) {
-        throw new CardanEulerSingularityException(true);
-      }
-      return new double[] {
-        FastMath.atan2(v1.getX(), v1.getZ()),
-       -FastMath.asin(v2.getZ()),
-        FastMath.atan2(v2.getX(), v2.getY())
-      };
-
-    } else if (order == RotationOrder.YZX) {
-
-      // r (Vector3D.plusI) coordinates are :
-      // cos (psi) cos (theta), sin (psi), -cos (psi) sin (theta)
-      // (-r) (Vector3D.plusJ) coordinates are :
-      // sin (psi), cos (phi) cos (psi), -sin (phi) cos (psi)
-      // and we can choose to have psi in the interval [-PI/2 ; +PI/2]
-      Vector3D v1 = applyTo(Vector3D.PLUS_I);
-      Vector3D v2 = applyInverseTo(Vector3D.PLUS_J);
-      if ((v2.getX() < -0.9999999999) || (v2.getX() > 0.9999999999)) {
-        throw new CardanEulerSingularityException(true);
-      }
-      return new double[] {
-        FastMath.atan2(-(v1.getZ()), v1.getX()),
-        FastMath.asin(v2.getX()),
-        FastMath.atan2(-(v2.getZ()), v2.getY())
-      };
-
-    } else if (order == RotationOrder.ZXY) {
-
-      // r (Vector3D.plusJ) coordinates are :
-      // -cos (phi) sin (psi), cos (phi) cos (psi), sin (phi)
-      // (-r) (Vector3D.plusK) coordinates are :
-      // -sin (theta) cos (phi), sin (phi), cos (theta) cos (phi)
-      // and we can choose to have phi in the interval [-PI/2 ; +PI/2]
-      Vector3D v1 = applyTo(Vector3D.PLUS_J);
-      Vector3D v2 = applyInverseTo(Vector3D.PLUS_K);
-      if ((v2.getY() < -0.9999999999) || (v2.getY() > 0.9999999999)) {
-        throw new CardanEulerSingularityException(true);
-      }
-      return new double[] {
-        FastMath.atan2(-(v1.getX()), v1.getY()),
-        FastMath.asin(v2.getY()),
-        FastMath.atan2(-(v2.getX()), v2.getZ())
-      };
-
-    } else if (order == RotationOrder.ZYX) {
-
-      // r (Vector3D.plusI) coordinates are :
-      //  cos (theta) cos (psi), cos (theta) sin (psi), -sin (theta)
-      // (-r) (Vector3D.plusK) coordinates are :
-      // -sin (theta), sin (phi) cos (theta), cos (phi) cos (theta)
-      // and we can choose to have theta in the interval [-PI/2 ; +PI/2]
-      Vector3D v1 = applyTo(Vector3D.PLUS_I);
-      Vector3D v2 = applyInverseTo(Vector3D.PLUS_K);
-      if ((v2.getX() < -0.9999999999) || (v2.getX() > 0.9999999999)) {
-        throw new CardanEulerSingularityException(true);
-      }
-      return new double[] {
-        FastMath.atan2(v1.getY(), v1.getX()),
-       -FastMath.asin(v2.getX()),
-        FastMath.atan2(v2.getY(), v2.getZ())
-      };
-
-    } else if (order == RotationOrder.XYX) {
-
-      // r (Vector3D.plusI) coordinates are :
-      //  cos (theta), sin (phi1) sin (theta), -cos (phi1) sin (theta)
-      // (-r) (Vector3D.plusI) coordinates are :
-      // cos (theta), sin (theta) sin (phi2), sin (theta) cos (phi2)
-      // and we can choose to have theta in the interval [0 ; PI]
-      Vector3D v1 = applyTo(Vector3D.PLUS_I);
-      Vector3D v2 = applyInverseTo(Vector3D.PLUS_I);
-      if ((v2.getX() < -0.9999999999) || (v2.getX() > 0.9999999999)) {
-        throw new CardanEulerSingularityException(false);
-      }
-      return new double[] {
-        FastMath.atan2(v1.getY(), -v1.getZ()),
-        FastMath.acos(v2.getX()),
-        FastMath.atan2(v2.getY(), v2.getZ())
-      };
-
-    } else if (order == RotationOrder.XZX) {
-
-      // r (Vector3D.plusI) coordinates are :
-      //  cos (psi), cos (phi1) sin (psi), sin (phi1) sin (psi)
-      // (-r) (Vector3D.plusI) coordinates are :
-      // cos (psi), -sin (psi) cos (phi2), sin (psi) sin (phi2)
-      // and we can choose to have psi in the interval [0 ; PI]
-      Vector3D v1 = applyTo(Vector3D.PLUS_I);
-      Vector3D v2 = applyInverseTo(Vector3D.PLUS_I);
-      if ((v2.getX() < -0.9999999999) || (v2.getX() > 0.9999999999)) {
-        throw new CardanEulerSingularityException(false);
-      }
-      return new double[] {
-        FastMath.atan2(v1.getZ(), v1.getY()),
-        FastMath.acos(v2.getX()),
-        FastMath.atan2(v2.getZ(), -v2.getY())
-      };
-
-    } else if (order == RotationOrder.YXY) {
-
-      // r (Vector3D.plusJ) coordinates are :
-      //  sin (theta1) sin (phi), cos (phi), cos (theta1) sin (phi)
-      // (-r) (Vector3D.plusJ) coordinates are :
-      // sin (phi) sin (theta2), cos (phi), -sin (phi) cos (theta2)
-      // and we can choose to have phi in the interval [0 ; PI]
-      Vector3D v1 = applyTo(Vector3D.PLUS_J);
-      Vector3D v2 = applyInverseTo(Vector3D.PLUS_J);
-      if ((v2.getY() < -0.9999999999) || (v2.getY() > 0.9999999999)) {
-        throw new CardanEulerSingularityException(false);
-      }
-      return new double[] {
-        FastMath.atan2(v1.getX(), v1.getZ()),
-        FastMath.acos(v2.getY()),
-        FastMath.atan2(v2.getX(), -v2.getZ())
-      };
-
-    } else if (order == RotationOrder.YZY) {
-
-      // r (Vector3D.plusJ) coordinates are :
-      //  -cos (theta1) sin (psi), cos (psi), sin (theta1) sin (psi)
-      // (-r) (Vector3D.plusJ) coordinates are :
-      // sin (psi) cos (theta2), cos (psi), sin (psi) sin (theta2)
-      // and we can choose to have psi in the interval [0 ; PI]
-      Vector3D v1 = applyTo(Vector3D.PLUS_J);
-      Vector3D v2 = applyInverseTo(Vector3D.PLUS_J);
-      if ((v2.getY() < -0.9999999999) || (v2.getY() > 0.9999999999)) {
-        throw new CardanEulerSingularityException(false);
-      }
-      return new double[] {
-        FastMath.atan2(v1.getZ(), -v1.getX()),
-        FastMath.acos(v2.getY()),
-        FastMath.atan2(v2.getZ(), v2.getX())
-      };
-
-    } else if (order == RotationOrder.ZXZ) {
-
-      // r (Vector3D.plusK) coordinates are :
-      //  sin (psi1) sin (phi), -cos (psi1) sin (phi), cos (phi)
-      // (-r) (Vector3D.plusK) coordinates are :
-      // sin (phi) sin (psi2), sin (phi) cos (psi2), cos (phi)
-      // and we can choose to have phi in the interval [0 ; PI]
-      Vector3D v1 = applyTo(Vector3D.PLUS_K);
-      Vector3D v2 = applyInverseTo(Vector3D.PLUS_K);
-      if ((v2.getZ() < -0.9999999999) || (v2.getZ() > 0.9999999999)) {
-        throw new CardanEulerSingularityException(false);
-      }
-      return new double[] {
-        FastMath.atan2(v1.getX(), -v1.getY()),
-        FastMath.acos(v2.getZ()),
-        FastMath.atan2(v2.getX(), v2.getY())
-      };
-
-    } else { // last possibility is ZYZ
-
-      // r (Vector3D.plusK) coordinates are :
-      //  cos (psi1) sin (theta), sin (psi1) sin (theta), cos (theta)
-      // (-r) (Vector3D.plusK) coordinates are :
-      // -sin (theta) cos (psi2), sin (theta) sin (psi2), cos (theta)
-      // and we can choose to have theta in the interval [0 ; PI]
-      Vector3D v1 = applyTo(Vector3D.PLUS_K);
-      Vector3D v2 = applyInverseTo(Vector3D.PLUS_K);
-      if ((v2.getZ() < -0.9999999999) || (v2.getZ() > 0.9999999999)) {
-        throw new CardanEulerSingularityException(false);
-      }
-      return new double[] {
-        FastMath.atan2(v1.getY(), v1.getX()),
-        FastMath.acos(v2.getZ()),
-        FastMath.atan2(v2.getY(), -v2.getX())
-      };
-
-    }
 
   }
 

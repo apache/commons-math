@@ -51,6 +51,11 @@ If the output is not quite correct, check for invisible trailing spaces!
   </properties>
   <body>
     <release version="3.6" date="XXXX-XX-XX" description="">
+      <action dev="luc" type="add" issue="MATH-1302,MATH-1303">
+        Added a RotationConvention enumerate to allow specifying the semantics
+        or axis/angle for rotations. This enumerate has two values:
+        VECTOR_OPERATOR and FRAME_TRANSFORM.
+      </action>
       <action dev="luc" type="fix" due-to="Julien Queyrel">
         Fixed stability issues with Adams-Bashforth and Adams-Moulton ODE integrators.
         The integrators did not estimate the local error properly and were sometimes

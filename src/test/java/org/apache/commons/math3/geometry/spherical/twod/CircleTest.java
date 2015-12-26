@@ -17,6 +17,7 @@
 package org.apache.commons.math3.geometry.spherical.twod;
 
 import org.apache.commons.math3.geometry.euclidean.threed.Rotation;
+import org.apache.commons.math3.geometry.euclidean.threed.RotationConvention;
 import org.apache.commons.math3.geometry.euclidean.threed.Vector3D;
 import org.apache.commons.math3.geometry.partitioning.Transform;
 import org.apache.commons.math3.geometry.spherical.oned.Arc;
@@ -159,7 +160,8 @@ public class CircleTest {
         for (int i = 0; i < 100; ++i) {
 
             Rotation r = new Rotation(new Vector3D(sphRandom.nextVector()),
-                                      FastMath.PI * random.nextDouble());
+                                      FastMath.PI * random.nextDouble(),
+                                      RotationConvention.VECTOR_OPERATOR);
             Transform<Sphere2D, Sphere1D> t = Circle.getTransform(r);
 
             S2Point  p = new S2Point(new Vector3D(sphRandom.nextVector()));

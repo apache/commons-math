@@ -74,17 +74,17 @@ public class PlaneTest {
         Plane    p  = new Plane(p1, p2, p3, 1.0e-10);
         Vector3D oldNormal = p.getNormal();
 
-        p = p.rotate(p2, new Rotation(p2.subtract(p1), 1.7));
+        p = p.rotate(p2, new Rotation(p2.subtract(p1), 1.7, RotationConvention.VECTOR_OPERATOR));
         Assert.assertTrue(p.contains(p1));
         Assert.assertTrue(p.contains(p2));
         Assert.assertTrue(! p.contains(p3));
 
-        p = p.rotate(p2, new Rotation(oldNormal, 0.1));
+        p = p.rotate(p2, new Rotation(oldNormal, 0.1, RotationConvention.VECTOR_OPERATOR));
         Assert.assertTrue(! p.contains(p1));
         Assert.assertTrue(p.contains(p2));
         Assert.assertTrue(! p.contains(p3));
 
-        p = p.rotate(p1, new Rotation(oldNormal, 0.1));
+        p = p.rotate(p1, new Rotation(oldNormal, 0.1, RotationConvention.VECTOR_OPERATOR));
         Assert.assertTrue(! p.contains(p1));
         Assert.assertTrue(! p.contains(p2));
         Assert.assertTrue(! p.contains(p3));
