@@ -152,7 +152,7 @@ public class RotationTest {
   }
 
   @Test
-  public void testRevert() {
+  public void testRevertDeprecated() {
     Rotation r = new Rotation(0.001, 0.36, 0.48, 0.8, true);
     Rotation reverted = r.revert();
     checkRotation(r.applyTo(reverted), 1, 0, 0, 0);
@@ -161,6 +161,32 @@ public class RotationTest {
     Assert.assertEquals(-1,
                         Vector3D.dotProduct(r.getAxis(RotationConvention.VECTOR_OPERATOR),
                                            reverted.getAxis(RotationConvention.VECTOR_OPERATOR)),
+                        1.0e-12);
+  }
+
+  @Test
+  public void testRevertVectorOperator() {
+    Rotation r = new Rotation(0.001, 0.36, 0.48, 0.8, true);
+    Rotation reverted = r.revert();
+    checkRotation(r.compose(reverted, RotationConvention.VECTOR_OPERATOR), 1, 0, 0, 0);
+    checkRotation(reverted.compose(r, RotationConvention.VECTOR_OPERATOR), 1, 0, 0, 0);
+    Assert.assertEquals(r.getAngle(), reverted.getAngle(), 1.0e-12);
+    Assert.assertEquals(-1,
+                        Vector3D.dotProduct(r.getAxis(RotationConvention.VECTOR_OPERATOR),
+                                           reverted.getAxis(RotationConvention.VECTOR_OPERATOR)),
+                        1.0e-12);
+  }
+
+  @Test
+  public void testRevertFrameTransform() {
+    Rotation r = new Rotation(0.001, 0.36, 0.48, 0.8, true);
+    Rotation reverted = r.revert();
+    checkRotation(r.compose(reverted, RotationConvention.FRAME_TRANSFORM), 1, 0, 0, 0);
+    checkRotation(reverted.compose(r, RotationConvention.FRAME_TRANSFORM), 1, 0, 0, 0);
+    Assert.assertEquals(r.getAngle(), reverted.getAngle(), 1.0e-12);
+    Assert.assertEquals(-1,
+                        Vector3D.dotProduct(r.getAxis(RotationConvention.FRAME_TRANSFORM),
+                                           reverted.getAxis(RotationConvention.FRAME_TRANSFORM)),
                         1.0e-12);
   }
 
@@ -529,7 +555,7 @@ public class RotationTest {
   }
 
   @Test
-  public void testCompose() throws MathIllegalArgumentException {
+  public void testApplyTo() throws MathIllegalArgumentException {
 
     Rotation r1 = new Rotation(new Vector3D(2, -3, 5), 1.7, RotationConvention.VECTOR_OPERATOR);
     Rotation r2 = new Rotation(new Vector3D(-1, 3, 2), 0.3, RotationConvention.VECTOR_OPERATOR);
@@ -547,7 +573,45 @@ public class RotationTest {
   }
 
   @Test
-  public void testComposeInverse() throws MathIllegalArgumentException {
+  public void testComposeVectorOperator() throws MathIllegalArgumentException {
+
+    Rotation r1 = new Rotation(new Vector3D(2, -3, 5), 1.7, RotationConvention.VECTOR_OPERATOR);
+    Rotation r2 = new Rotation(new Vector3D(-1, 3, 2), 0.3, RotationConvention.VECTOR_OPERATOR);
+    Rotation r3 = r2.compose(r1, RotationConvention.VECTOR_OPERATOR);
+
+    for (double x = -0.9; x < 0.9; x += 0.2) {
+      for (double y = -0.9; y < 0.9; y += 0.2) {
+        for (double z = -0.9; z < 0.9; z += 0.2) {
+          Vector3D u = new Vector3D(x, y, z);
+          checkVector(r2.applyTo(r1.applyTo(u)), r3.applyTo(u));
+        }
+      }
+    }
+
+  }
+
+  @Test
+  public void testComposeFrameTransform() throws MathIllegalArgumentException {
+
+    Rotation r1 = new Rotation(new Vector3D(2, -3, 5), 1.7, RotationConvention.FRAME_TRANSFORM);
+    Rotation r2 = new Rotation(new Vector3D(-1, 3, 2), 0.3, RotationConvention.FRAME_TRANSFORM);
+    Rotation r3 = r2.compose(r1, RotationConvention.FRAME_TRANSFORM);
+    Rotation r4 = r1.compose(r2, RotationConvention.VECTOR_OPERATOR);
+    Assert.assertEquals(0.0, Rotation.distance(r3, r4), 1.0e-15);
+
+    for (double x = -0.9; x < 0.9; x += 0.2) {
+      for (double y = -0.9; y < 0.9; y += 0.2) {
+        for (double z = -0.9; z < 0.9; z += 0.2) {
+          Vector3D u = new Vector3D(x, y, z);
+          checkVector(r1.applyTo(r2.applyTo(u)), r3.applyTo(u));
+        }
+      }
+    }
+
+  }
+
+  @Test
+  public void testApplyInverseToRotation() throws MathIllegalArgumentException {
 
     Rotation r1 = new Rotation(new Vector3D(2, -3, 5), 1.7, RotationConvention.VECTOR_OPERATOR);
     Rotation r2 = new Rotation(new Vector3D(-1, 3, 2), 0.3, RotationConvention.VECTOR_OPERATOR);
@@ -558,6 +622,44 @@ public class RotationTest {
         for (double z = -0.9; z < 0.9; z += 0.2) {
           Vector3D u = new Vector3D(x, y, z);
           checkVector(r2.applyInverseTo(r1.applyTo(u)), r3.applyTo(u));
+        }
+      }
+    }
+
+  }
+
+  @Test
+  public void testComposeInverseVectorOperator() throws MathIllegalArgumentException {
+
+    Rotation r1 = new Rotation(new Vector3D(2, -3, 5), 1.7, RotationConvention.VECTOR_OPERATOR);
+    Rotation r2 = new Rotation(new Vector3D(-1, 3, 2), 0.3, RotationConvention.VECTOR_OPERATOR);
+    Rotation r3 = r2.composeInverse(r1, RotationConvention.VECTOR_OPERATOR);
+
+    for (double x = -0.9; x < 0.9; x += 0.2) {
+      for (double y = -0.9; y < 0.9; y += 0.2) {
+        for (double z = -0.9; z < 0.9; z += 0.2) {
+          Vector3D u = new Vector3D(x, y, z);
+          checkVector(r2.applyInverseTo(r1.applyTo(u)), r3.applyTo(u));
+        }
+      }
+    }
+
+  }
+
+  @Test
+  public void testComposeInverseFrameTransform() throws MathIllegalArgumentException {
+
+    Rotation r1 = new Rotation(new Vector3D(2, -3, 5), 1.7, RotationConvention.FRAME_TRANSFORM);
+    Rotation r2 = new Rotation(new Vector3D(-1, 3, 2), 0.3, RotationConvention.FRAME_TRANSFORM);
+    Rotation r3 = r2.composeInverse(r1, RotationConvention.FRAME_TRANSFORM);
+    Rotation r4 = r1.revert().composeInverse(r2.revert(), RotationConvention.VECTOR_OPERATOR);
+    Assert.assertEquals(0.0, Rotation.distance(r3, r4), 1.0e-15);
+
+    for (double x = -0.9; x < 0.9; x += 0.2) {
+      for (double y = -0.9; y < 0.9; y += 0.2) {
+        for (double z = -0.9; z < 0.9; z += 0.2) {
+          Vector3D u = new Vector3D(x, y, z);
+          checkVector(r1.applyTo(r2.applyInverseTo(u)), r3.applyTo(u));
         }
       }
     }
@@ -696,7 +798,9 @@ public class RotationTest {
       final Rotation r1 = new Rotation(order.getA1(), zRotation, RotationConvention.FRAME_TRANSFORM);
       final Rotation r2 = new Rotation(order.getA2(), yRotation, RotationConvention.FRAME_TRANSFORM);
       final Rotation r3 = new Rotation(order.getA3(), xRotation, RotationConvention.FRAME_TRANSFORM);
-      final Rotation composite = r3.applyTo(r2.applyTo(r1));
+      final Rotation composite = r1.compose(r2.compose(r3,
+                                                       RotationConvention.FRAME_TRANSFORM),
+                                            RotationConvention.FRAME_TRANSFORM);
       final Vector3D good = composite.applyTo(startingVector);
 
       Assert.assertEquals(good.getX(), appliedIndividually.getX(), 1e-12);
