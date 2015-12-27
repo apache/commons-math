@@ -162,6 +162,7 @@ public enum LocalizedFormats implements Localizable {
     LOWER_BOUND_NOT_BELOW_UPPER_BOUND("lower bound ({0}) must be strictly less than upper bound ({1})"), /* keep */
     LOWER_ENDPOINT_ABOVE_UPPER_ENDPOINT("lower endpoint ({0}) must be less than or equal to upper endpoint ({1})"),
     MAP_MODIFIED_WHILE_ITERATING("map has been modified while iterating"),
+    MULTISTEP_STARTER_STOPPED_EARLY("multistep integrator starter stopped early, maybe too large step size"),
     EVALUATIONS("evaluations"), /* keep */
     MAX_COUNT_EXCEEDED("maximal count ({0}) exceeded"), /* keep */
     MAX_ITERATIONS_EXCEEDED("maximal number of iterations ({0}) exceeded"),
