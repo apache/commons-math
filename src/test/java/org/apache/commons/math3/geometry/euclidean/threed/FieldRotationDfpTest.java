@@ -186,6 +186,44 @@ public class FieldRotationDfpTest {
     }
 
     @Test
+    public void testRevertVectorOperator() {
+        double a = 0.001;
+        double b = 0.36;
+        double c = 0.48;
+        double d = 0.8;
+        FieldRotation<Dfp> r = createRotation(a, b, c, d, true);
+        FieldRotation<Dfp> reverted = r.revert();
+        FieldRotation<Dfp> rrT = r.compose(reverted, RotationConvention.VECTOR_OPERATOR);
+        checkRotationDS(rrT, 1, 0, 0, 0);
+        FieldRotation<Dfp> rTr = reverted.compose(r, RotationConvention.VECTOR_OPERATOR);
+        checkRotationDS(rTr, 1, 0, 0, 0);
+        Assert.assertEquals(r.getAngle().getReal(), reverted.getAngle().getReal(), 1.0e-15);
+        Assert.assertEquals(-1,
+                            FieldVector3D.dotProduct(r.getAxis(RotationConvention.VECTOR_OPERATOR),
+                                                     reverted.getAxis(RotationConvention.VECTOR_OPERATOR)).getReal(),
+                            1.0e-15);
+    }
+
+    @Test
+    public void testRevertFrameTransform() {
+        double a = 0.001;
+        double b = 0.36;
+        double c = 0.48;
+        double d = 0.8;
+        FieldRotation<Dfp> r = createRotation(a, b, c, d, true);
+        FieldRotation<Dfp> reverted = r.revert();
+        FieldRotation<Dfp> rrT = r.compose(reverted, RotationConvention.FRAME_TRANSFORM);
+        checkRotationDS(rrT, 1, 0, 0, 0);
+        FieldRotation<Dfp> rTr = reverted.compose(r, RotationConvention.FRAME_TRANSFORM);
+        checkRotationDS(rTr, 1, 0, 0, 0);
+        Assert.assertEquals(r.getAngle().getReal(), reverted.getAngle().getReal(), 1.0e-15);
+        Assert.assertEquals(-1,
+                            FieldVector3D.dotProduct(r.getAxis(RotationConvention.FRAME_TRANSFORM),
+                                                     reverted.getAxis(RotationConvention.FRAME_TRANSFORM)).getReal(),
+                            1.0e-15);
+    }
+
+    @Test
     public void testVectorOnePair() throws MathArithmeticException {
 
         FieldVector3D<Dfp> u = createVector(3, 2, 1);
@@ -578,7 +616,7 @@ public class FieldRotationDfpTest {
     }
 
     @Test
-    public void testCompose() throws MathIllegalArgumentException {
+    public void testApplyToRotation() throws MathIllegalArgumentException {
 
         FieldRotation<Dfp> r1       = new FieldRotation<Dfp>(createVector(2, -3, 5),
                                                              createAngle(1.7),
@@ -606,7 +644,67 @@ public class FieldRotationDfpTest {
     }
 
     @Test
-    public void testComposeInverse() throws MathIllegalArgumentException {
+    public void testComposeVectorOperator() throws MathIllegalArgumentException {
+
+        FieldRotation<Dfp> r1       = new FieldRotation<Dfp>(createVector(2, -3, 5),
+                                                             createAngle(1.7),
+                                                             RotationConvention.VECTOR_OPERATOR);
+        FieldRotation<Dfp> r2       = new FieldRotation<Dfp>(createVector(-1, 3, 2),
+                                                             createAngle(0.3),
+                                                             RotationConvention.VECTOR_OPERATOR);
+        FieldRotation<Dfp> r3       = r2.compose(r1, RotationConvention.VECTOR_OPERATOR);
+        FieldRotation<Dfp> r3Double = r2.compose(new Rotation(r1.getQ0().getReal(),
+                                                      r1.getQ1().getReal(),
+                                                      r1.getQ2().getReal(),
+                                                      r1.getQ3().getReal(),
+                                                      false),
+                                                 RotationConvention.VECTOR_OPERATOR);
+
+        for (double x = -0.9; x < 0.9; x += 0.2) {
+            for (double y = -0.9; y < 0.9; y += 0.2) {
+                for (double z = -0.9; z < 0.9; z += 0.2) {
+                    FieldVector3D<Dfp> u = createVector(x, y, z);
+                    checkVector(r2.applyTo(r1.applyTo(u)), r3.applyTo(u));
+                    checkVector(r2.applyTo(r1.applyTo(u)), r3Double.applyTo(u));
+                }
+            }
+        }
+
+    }
+
+    @Test
+    public void testComposeFrameTransform() throws MathIllegalArgumentException {
+
+        FieldRotation<Dfp> r1       = new FieldRotation<Dfp>(createVector(2, -3, 5),
+                                                             createAngle(1.7),
+                                                             RotationConvention.FRAME_TRANSFORM);
+        FieldRotation<Dfp> r2       = new FieldRotation<Dfp>(createVector(-1, 3, 2),
+                                                             createAngle(0.3),
+                                                             RotationConvention.FRAME_TRANSFORM);
+        FieldRotation<Dfp> r3       = r2.compose(r1, RotationConvention.FRAME_TRANSFORM);
+        FieldRotation<Dfp> r3Double = r2.compose(new Rotation(r1.getQ0().getReal(),
+                                                      r1.getQ1().getReal(),
+                                                      r1.getQ2().getReal(),
+                                                      r1.getQ3().getReal(),
+                                                      false),
+                                                 RotationConvention.FRAME_TRANSFORM);
+        FieldRotation<Dfp> r4 = r1.compose(r2, RotationConvention.VECTOR_OPERATOR);
+        Assert.assertEquals(0.0, FieldRotation.distance(r3, r4).getReal(), 1.0e-15);
+
+        for (double x = -0.9; x < 0.9; x += 0.2) {
+            for (double y = -0.9; y < 0.9; y += 0.2) {
+                for (double z = -0.9; z < 0.9; z += 0.2) {
+                    FieldVector3D<Dfp> u = createVector(x, y, z);
+                    checkVector(r1.applyTo(r2.applyTo(u)), r3.applyTo(u));
+                    checkVector(r1.applyTo(r2.applyTo(u)), r3Double.applyTo(u));
+                }
+            }
+        }
+
+    }
+
+    @Test
+    public void testApplyInverseToRotation() throws MathIllegalArgumentException {
 
         FieldRotation<Dfp> r1 = new FieldRotation<Dfp>(createVector(2, -3, 5),
                                                        createAngle(1.7),
@@ -627,6 +725,66 @@ public class FieldRotationDfpTest {
                     FieldVector3D<Dfp> u = createVector(x, y, z);
                     checkVector(r2.applyInverseTo(r1.applyTo(u)), r3.applyTo(u));
                     checkVector(r2.applyInverseTo(r1.applyTo(u)), r3Double.applyTo(u));
+                }
+            }
+        }
+
+    }
+
+    @Test
+    public void testComposeInverseVectorOperator() throws MathIllegalArgumentException {
+
+        FieldRotation<Dfp> r1 = new FieldRotation<Dfp>(createVector(2, -3, 5),
+                                                       createAngle(1.7),
+                                                       RotationConvention.VECTOR_OPERATOR);
+        FieldRotation<Dfp> r2 = new FieldRotation<Dfp>(createVector(-1, 3, 2),
+                                                       createAngle(0.3),
+                                                       RotationConvention.VECTOR_OPERATOR);
+        FieldRotation<Dfp> r3 = r2.composeInverse(r1, RotationConvention.VECTOR_OPERATOR);
+        FieldRotation<Dfp> r3Double = r2.composeInverse(new Rotation(r1.getQ0().getReal(),
+                                                             r1.getQ1().getReal(),
+                                                             r1.getQ2().getReal(),
+                                                             r1.getQ3().getReal(),
+                                                             false),
+                                                        RotationConvention.VECTOR_OPERATOR);
+
+        for (double x = -0.9; x < 0.9; x += 0.2) {
+            for (double y = -0.9; y < 0.9; y += 0.2) {
+                for (double z = -0.9; z < 0.9; z += 0.2) {
+                    FieldVector3D<Dfp> u = createVector(x, y, z);
+                    checkVector(r2.applyInverseTo(r1.applyTo(u)), r3.applyTo(u));
+                    checkVector(r2.applyInverseTo(r1.applyTo(u)), r3Double.applyTo(u));
+                }
+            }
+        }
+
+    }
+
+    @Test
+    public void testComposeInverseFrameTransform() throws MathIllegalArgumentException {
+
+        FieldRotation<Dfp> r1 = new FieldRotation<Dfp>(createVector(2, -3, 5),
+                                                       createAngle(1.7),
+                                                       RotationConvention.FRAME_TRANSFORM);
+        FieldRotation<Dfp> r2 = new FieldRotation<Dfp>(createVector(-1, 3, 2),
+                                                       createAngle(0.3),
+                                                       RotationConvention.FRAME_TRANSFORM);
+        FieldRotation<Dfp> r3 = r2.composeInverse(r1, RotationConvention.FRAME_TRANSFORM);
+        FieldRotation<Dfp> r3Double = r2.composeInverse(new Rotation(r1.getQ0().getReal(),
+                                                             r1.getQ1().getReal(),
+                                                             r1.getQ2().getReal(),
+                                                             r1.getQ3().getReal(),
+                                                             false),
+                                                        RotationConvention.FRAME_TRANSFORM);
+        FieldRotation<Dfp> r4 = r1.revert().composeInverse(r2.revert(), RotationConvention.VECTOR_OPERATOR);
+        Assert.assertEquals(0.0, FieldRotation.distance(r3, r4).getReal(), 1.0e-15);
+
+        for (double x = -0.9; x < 0.9; x += 0.2) {
+            for (double y = -0.9; y < 0.9; y += 0.2) {
+                for (double z = -0.9; z < 0.9; z += 0.2) {
+                    FieldVector3D<Dfp> u = createVector(x, y, z);
+                    checkVector(r1.applyTo(r2.applyInverseTo(u)), r3.applyTo(u));
+                    checkVector(r1.applyTo(r2.applyInverseTo(u)), r3Double.applyTo(u));
                 }
             }
         }
@@ -689,9 +847,9 @@ public class FieldRotationDfpTest {
                                                            RotationConvention.VECTOR_OPERATOR);
 
             FieldRotation<Dfp> rA = FieldRotation.applyTo(r1, r2);
-            FieldRotation<Dfp> rB = r1Prime.applyTo(r2);
+            FieldRotation<Dfp> rB = r1Prime.compose(r2, RotationConvention.VECTOR_OPERATOR);
             FieldRotation<Dfp> rC = FieldRotation.applyInverseTo(r1, r2);
-            FieldRotation<Dfp> rD = r1Prime.applyInverseTo(r2);
+            FieldRotation<Dfp> rD = r1Prime.composeInverse(r2, RotationConvention.VECTOR_OPERATOR);
 
             for (double x = -0.9; x < 0.9; x += 0.4) {
                 for (double y = -0.9; y < 0.9; y += 0.4) {

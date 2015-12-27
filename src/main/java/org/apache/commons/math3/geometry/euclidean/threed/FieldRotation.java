@@ -363,7 +363,8 @@ public class FieldRotation<T extends RealFieldElement<T>> implements Serializabl
      * widespread in the aerospace business where Roll, Pitch and Yaw angles
      * are often wrongly tagged as Euler angles).</p>
 
-     * @param order order of rotations to use
+     * @param order order of rotations to compose, from left to right
+     * (i.e. we will use {@code r1.compose(r2.compose(r3, convention), convention)})
      * @param convention convention to use for the semantics of the angle
      * @param alpha1 angle of the first elementary rotation
      * @param alpha2 angle of the second elementary rotation
@@ -376,9 +377,7 @@ public class FieldRotation<T extends RealFieldElement<T>> implements Serializabl
         final FieldRotation<T> r1 = new FieldRotation<T>(new FieldVector3D<T>(one, order.getA1()), alpha1, convention);
         final FieldRotation<T> r2 = new FieldRotation<T>(new FieldVector3D<T>(one, order.getA2()), alpha2, convention);
         final FieldRotation<T> r3 = new FieldRotation<T>(new FieldVector3D<T>(one, order.getA3()), alpha3, convention);
-        final FieldRotation<T> composed = convention == RotationConvention.FRAME_TRANSFORM ?
-                                          r3.applyTo(r2.applyTo(r1)) :
-                                          r1.applyTo(r2.applyTo(r3));
+        final FieldRotation<T> composed = r1.compose(r2.compose(r3, convention), convention);
         q0 = composed.q0;
         q1 = composed.q1;
         q2 = composed.q2;
@@ -1271,15 +1270,53 @@ public class FieldRotation<T extends RealFieldElement<T>> implements Serializabl
     }
 
     /** Apply the instance to another rotation.
-     * Applying the instance to a rotation is computing the composition
-     * in an order compliant with the following rule : let u be any
-     * vector and v its image by r (i.e. r.applyTo(u) = v), let w be the image
-     * of v by the instance (i.e. applyTo(v) = w), then w = comp.applyTo(u),
-     * where comp = applyTo(r).
+     * <p>
+     * Calling this method is equivalent to call
+     * {@link #compose(FieldRotation, RotationConvention)
+     * compose(r, RotationConvention.VECTOR_OPERATOR)}.
+     * </p>
      * @param r rotation to apply the rotation to
      * @return a new rotation which is the composition of r by the instance
      */
     public FieldRotation<T> applyTo(final FieldRotation<T> r) {
+        return compose(r, RotationConvention.VECTOR_OPERATOR);
+    }
+
+    /** Compose the instance with another rotation.
+     * <p>
+     * If the semantics of the rotations composition corresponds to a
+     * {@link RotationConvention#VECTOR_OPERATOR vector operator} convention,
+     * applying the instance to a rotation is computing the composition
+     * in an order compliant with the following rule : let {@code u} be any
+     * vector and {@code v} its image by {@code r1} (i.e.
+     * {@code r1.applyTo(u) = v}). Let {@code w} be the image of {@code v} by
+     * rotation {@code r2} (i.e. {@code r2.applyTo(v) = w}). Then
+     * {@code w = comp.applyTo(u)}, where
+     * {@code comp = r2.compose(r1, RotationConvention.VECTOR_OPERATOR)}.
+     * </p>
+     * <p>
+     * If the semantics of the rotations composition corresponds to a
+     * {@link RotationConvention#FRAME_TRANSFORM frame transform} convention,
+     * the application order will be reversed. So keeping the exact same
+     * meaning of all {@code r1}, {@code r2}, {@code u}, {@code v}, {@code w}
+     * and  {@code comp} as above, {@code comp} could also be computed as
+     * {@code comp = r1.compose(r2, RotationConvention.FRAME_TRANSFORM)}.
+     * </p>
+     * @param r rotation to apply the rotation to
+     * @param convention convention to use for the semantics of the angle
+     * @return a new rotation which is the composition of r by the instance
+     */
+    public FieldRotation<T> compose(final FieldRotation<T> r, final RotationConvention convention) {
+        return convention == RotationConvention.VECTOR_OPERATOR ?
+                             composeInternal(r) : r.composeInternal(this);
+    }
+
+    /** Compose the instance with another rotation using vector operator convention.
+     * @param r rotation to apply the rotation to
+     * @return a new rotation which is the composition of r by the instance
+     * using vector operator convention
+     */
+    private FieldRotation<T> composeInternal(final FieldRotation<T> r) {
         return new FieldRotation<T>(r.q0.multiply(q0).subtract(r.q1.multiply(q1).add(r.q2.multiply(q2)).add(r.q3.multiply(q3))),
                                     r.q1.multiply(q0).add(r.q0.multiply(q1)).add(r.q2.multiply(q3).subtract(r.q3.multiply(q2))),
                                     r.q2.multiply(q0).add(r.q0.multiply(q2)).add(r.q3.multiply(q1).subtract(r.q1.multiply(q3))),
@@ -1288,20 +1325,58 @@ public class FieldRotation<T extends RealFieldElement<T>> implements Serializabl
     }
 
     /** Apply the instance to another rotation.
-     * Applying the instance to a rotation is computing the composition
-     * in an order compliant with the following rule : let u be any
-     * vector and v its image by r (i.e. r.applyTo(u) = v), let w be the image
-     * of v by the instance (i.e. applyTo(v) = w), then w = comp.applyTo(u),
-     * where comp = applyTo(r).
+     * <p>
+     * Calling this method is equivalent to call
+     * {@link #compose(Rotation, RotationConvention)
+     * compose(r, RotationConvention.VECTOR_OPERATOR)}.
+     * </p>
      * @param r rotation to apply the rotation to
      * @return a new rotation which is the composition of r by the instance
      */
     public FieldRotation<T> applyTo(final Rotation r) {
+        return compose(r, RotationConvention.VECTOR_OPERATOR);
+    }
+
+    /** Compose the instance with another rotation.
+     * <p>
+     * If the semantics of the rotations composition corresponds to a
+     * {@link RotationConvention#VECTOR_OPERATOR vector operator} convention,
+     * applying the instance to a rotation is computing the composition
+     * in an order compliant with the following rule : let {@code u} be any
+     * vector and {@code v} its image by {@code r1} (i.e.
+     * {@code r1.applyTo(u) = v}). Let {@code w} be the image of {@code v} by
+     * rotation {@code r2} (i.e. {@code r2.applyTo(v) = w}). Then
+     * {@code w = comp.applyTo(u)}, where
+     * {@code comp = r2.compose(r1, RotationConvention.VECTOR_OPERATOR)}.
+     * </p>
+     * <p>
+     * If the semantics of the rotations composition corresponds to a
+     * {@link RotationConvention#FRAME_TRANSFORM frame transform} convention,
+     * the application order will be reversed. So keeping the exact same
+     * meaning of all {@code r1}, {@code r2}, {@code u}, {@code v}, {@code w}
+     * and  {@code comp} as above, {@code comp} could also be computed as
+     * {@code comp = r1.compose(r2, RotationConvention.FRAME_TRANSFORM)}.
+     * </p>
+     * @param r rotation to apply the rotation to
+     * @param convention convention to use for the semantics of the angle
+     * @return a new rotation which is the composition of r by the instance
+     */
+    public FieldRotation<T> compose(final Rotation r, final RotationConvention convention) {
+        return convention == RotationConvention.VECTOR_OPERATOR ?
+                             composeInternal(r) : applyTo(r, this);
+    }
+
+    /** Compose the instance with another rotation using vector operator convention.
+     * @param r rotation to apply the rotation to
+     * @return a new rotation which is the composition of r by the instance
+     * using vector operator convention
+     */
+    private FieldRotation<T> composeInternal(final Rotation r) {
         return new FieldRotation<T>(q0.multiply(r.getQ0()).subtract(q1.multiply(r.getQ1()).add(q2.multiply(r.getQ2())).add(q3.multiply(r.getQ3()))),
-                                    q0.multiply(r.getQ1()).add(q1.multiply(r.getQ0())).add(q3.multiply(r.getQ2()).subtract(q2.multiply(r.getQ3()))),
-                                    q0.multiply(r.getQ2()).add(q2.multiply(r.getQ0())).add(q1.multiply(r.getQ3()).subtract(q3.multiply(r.getQ1()))),
-                                    q0.multiply(r.getQ3()).add(q3.multiply(r.getQ0())).add(q2.multiply(r.getQ1()).subtract(q1.multiply(r.getQ2()))),
-                                    false);
+                        q0.multiply(r.getQ1()).add(q1.multiply(r.getQ0())).add(q3.multiply(r.getQ2()).subtract(q2.multiply(r.getQ3()))),
+                        q0.multiply(r.getQ2()).add(q2.multiply(r.getQ0())).add(q1.multiply(r.getQ3()).subtract(q3.multiply(r.getQ1()))),
+                        q0.multiply(r.getQ3()).add(q3.multiply(r.getQ0())).add(q2.multiply(r.getQ1()).subtract(q1.multiply(r.getQ2()))),
+                        false);
     }
 
     /** Apply a rotation to another rotation.
@@ -1324,17 +1399,57 @@ public class FieldRotation<T extends RealFieldElement<T>> implements Serializabl
     }
 
     /** Apply the inverse of the instance to another rotation.
-     * Applying the inverse of the instance to a rotation is computing
-     * the composition in an order compliant with the following rule :
-     * let u be any vector and v its image by r (i.e. r.applyTo(u) = v),
-     * let w be the inverse image of v by the instance
-     * (i.e. applyInverseTo(v) = w), then w = comp.applyTo(u), where
-     * comp = applyInverseTo(r).
+     * <p>
+     * Calling this method is equivalent to call
+     * {@link #composeInverse(FieldRotation<T>, RotationConvention)
+     * composeInverse(r, RotationConvention.VECTOR_OPERATOR)}.
+     * </p>
      * @param r rotation to apply the rotation to
      * @return a new rotation which is the composition of r by the inverse
      * of the instance
      */
     public FieldRotation<T> applyInverseTo(final FieldRotation<T> r) {
+        return composeInverse(r, RotationConvention.VECTOR_OPERATOR);
+    }
+
+    /** Compose the inverse of the instance with another rotation.
+     * <p>
+     * If the semantics of the rotations composition corresponds to a
+     * {@link RotationConvention#VECTOR_OPERATOR vector operator} convention,
+     * applying the inverse of the instance to a rotation is computing
+     * the composition in an order compliant with the following rule :
+     * let {@code u} be any vector and {@code v} its image by {@code r1}
+     * (i.e. {@code r1.applyTo(u) = v}). Let {@code w} be the inverse image
+     * of {@code v} by {@code r2} (i.e. {@code r2.applyInverseTo(v) = w}).
+     * Then {@code w = comp.applyTo(u)}, where
+     * {@code comp = r2.composeInverse(r1)}.
+     * </p>
+     * <p>
+     * If the semantics of the rotations composition corresponds to a
+     * {@link RotationConvention#FRAME_TRANSFORM frame transform} convention,
+     * the application order will be reversed, which means it is the
+     * <em>innermost</em> rotation that will be reversed. So keeping the exact same
+     * meaning of all {@code r1}, {@code r2}, {@code u}, {@code v}, {@code w}
+     * and  {@code comp} as above, {@code comp} could also be computed as
+     * {@code comp = r1.revert().composeInverse(r2.revert(), RotationConvention.FRAME_TRANSFORM)}.
+     * </p>
+     * @param r rotation to apply the rotation to
+     * @param convention convention to use for the semantics of the angle
+     * @return a new rotation which is the composition of r by the inverse
+     * of the instance
+     */
+    public FieldRotation<T> composeInverse(final FieldRotation<T> r, final RotationConvention convention) {
+        return convention == RotationConvention.VECTOR_OPERATOR ?
+                             composeInverseInternal(r) : r.composeInternal(revert());
+    }
+
+    /** Compose the inverse of the instance with another rotation
+     * using vector operator convention.
+     * @param r rotation to apply the rotation to
+     * @return a new rotation which is the composition of r by the inverse
+     * of the instance using vector operator convention
+     */
+    private FieldRotation<T> composeInverseInternal(FieldRotation<T> r) {
         return new FieldRotation<T>(r.q0.multiply(q0).add(r.q1.multiply(q1).add(r.q2.multiply(q2)).add(r.q3.multiply(q3))).negate(),
                                     r.q0.multiply(q1).add(r.q2.multiply(q3).subtract(r.q3.multiply(q2))).subtract(r.q1.multiply(q0)),
                                     r.q0.multiply(q2).add(r.q3.multiply(q1).subtract(r.q1.multiply(q3))).subtract(r.q2.multiply(q0)),
@@ -1343,17 +1458,57 @@ public class FieldRotation<T extends RealFieldElement<T>> implements Serializabl
     }
 
     /** Apply the inverse of the instance to another rotation.
-     * Applying the inverse of the instance to a rotation is computing
-     * the composition in an order compliant with the following rule :
-     * let u be any vector and v its image by r (i.e. r.applyTo(u) = v),
-     * let w be the inverse image of v by the instance
-     * (i.e. applyInverseTo(v) = w), then w = comp.applyTo(u), where
-     * comp = applyInverseTo(r).
+     * <p>
+     * Calling this method is equivalent to call
+     * {@link #composeInverse(Rotation, RotationConvention)
+     * composeInverse(r, RotationConvention.VECTOR_OPERATOR)}.
+     * </p>
      * @param r rotation to apply the rotation to
      * @return a new rotation which is the composition of r by the inverse
      * of the instance
      */
     public FieldRotation<T> applyInverseTo(final Rotation r) {
+        return composeInverse(r, RotationConvention.VECTOR_OPERATOR);
+    }
+
+    /** Compose the inverse of the instance with another rotation.
+     * <p>
+     * If the semantics of the rotations composition corresponds to a
+     * {@link RotationConvention#VECTOR_OPERATOR vector operator} convention,
+     * applying the inverse of the instance to a rotation is computing
+     * the composition in an order compliant with the following rule :
+     * let {@code u} be any vector and {@code v} its image by {@code r1}
+     * (i.e. {@code r1.applyTo(u) = v}). Let {@code w} be the inverse image
+     * of {@code v} by {@code r2} (i.e. {@code r2.applyInverseTo(v) = w}).
+     * Then {@code w = comp.applyTo(u)}, where
+     * {@code comp = r2.composeInverse(r1)}.
+     * </p>
+     * <p>
+     * If the semantics of the rotations composition corresponds to a
+     * {@link RotationConvention#FRAME_TRANSFORM frame transform} convention,
+     * the application order will be reversed, which means it is the
+     * <em>innermost</em> rotation that will be reversed. So keeping the exact same
+     * meaning of all {@code r1}, {@code r2}, {@code u}, {@code v}, {@code w}
+     * and  {@code comp} as above, {@code comp} could also be computed as
+     * {@code comp = r1.revert().composeInverse(r2.revert(), RotationConvention.FRAME_TRANSFORM)}.
+     * </p>
+     * @param r rotation to apply the rotation to
+     * @param convention convention to use for the semantics of the angle
+     * @return a new rotation which is the composition of r by the inverse
+     * of the instance
+     */
+    public FieldRotation<T> composeInverse(final Rotation r, final RotationConvention convention) {
+        return convention == RotationConvention.VECTOR_OPERATOR ?
+                             composeInverseInternal(r) : applyTo(r, revert());
+    }
+
+    /** Compose the inverse of the instance with another rotation
+     * using vector operator convention.
+     * @param r rotation to apply the rotation to
+     * @return a new rotation which is the composition of r by the inverse
+     * of the instance using vector operator convention
+     */
+    private FieldRotation<T> composeInverseInternal(Rotation r) {
         return new FieldRotation<T>(q0.multiply(r.getQ0()).add(q1.multiply(r.getQ1()).add(q2.multiply(r.getQ2())).add(q3.multiply(r.getQ3()))).negate(),
                                     q1.multiply(r.getQ0()).add(q3.multiply(r.getQ2()).subtract(q2.multiply(r.getQ3()))).subtract(q0.multiply(r.getQ1())),
                                     q2.multiply(r.getQ0()).add(q1.multiply(r.getQ3()).subtract(q3.multiply(r.getQ1()))).subtract(q0.multiply(r.getQ2())),
@@ -1502,7 +1657,7 @@ public class FieldRotation<T extends RealFieldElement<T>> implements Serializabl
      * @return <i>distance</i> between r1 and r2
      */
     public static <T extends RealFieldElement<T>> T distance(final FieldRotation<T> r1, final FieldRotation<T> r2) {
-        return r1.applyInverseTo(r2).getAngle();
+        return r1.composeInverseInternal(r2).getAngle();
     }
 
 }
