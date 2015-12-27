@@ -110,11 +110,9 @@ public class GaussIntegratorFactory {
      * The call to the
      * {@link SymmetricGaussIntegrator#integrate(org.apache.commons.math3.analysis.UnivariateFunction)
      * integrate} method will perform a weighted integration on the interval
-     * {@code [-&inf;, +&inf;]}: the computed value is the improper integral of
-     * <code>
-     *  e<sup>-x<sup>2</sup></sup> f(x)
-     * </code>
-     * where {@code f(x)} is the function passed to the
+     * \([-\infty, +\infty]\): the computed value is the improper integral of
+     * \(e^{-x^2}f(x)\)
+     * where \(f(x)\) is the function passed to the
      * {@link SymmetricGaussIntegrator#integrate(org.apache.commons.math3.analysis.UnivariateFunction)
      * integrate} method.
      *

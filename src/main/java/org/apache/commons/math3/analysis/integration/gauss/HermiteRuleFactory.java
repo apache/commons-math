@@ -23,28 +23,27 @@ import org.apache.commons.math3.util.FastMath;
 /**
  * Factory that creates a
  * <a href="http://en.wikipedia.org/wiki/Gauss-Hermite_quadrature">
- *  Gauss-type quadrature rule using Hermite polynomials</a>
+ * Gauss-type quadrature rule using Hermite polynomials</a>
  * of the first kind.
  * Such a quadrature rule allows the calculation of improper integrals
  * of a function
- * <code>
- *  f(x) e<sup>-x<sup>2</sup></sup>
- * </code>
- * <br/>
+ * <p>
+ *  \(f(x) e^{-x^2}\)
+ * </p><p>
  * Recurrence relation and weights computation follow
  * <a href="http://en.wikipedia.org/wiki/Abramowitz_and_Stegun">
  * Abramowitz and Stegun, 1964</a>.
- * <br/>
- * The coefficients of the standard Hermite polynomials grow very rapidly;
- * in order to avoid overflows, each Hermite polynomial is normalized with
+ * </p><p>
+ * The coefficients of the standard Hermite polynomials grow very rapidly.
+ * In order to avoid overflows, each Hermite polynomial is normalized with
  * respect to the underlying scalar product.
  * The initial interval for the application of the bisection method is
  * based on the roots of the previous Hermite polynomial (interlacing).
- * Upper and lower bounds of these roots are provided by
+ * Upper and lower bounds of these roots are provided by </p>
  * <blockquote>
- *  I. Krasikov,<br>
- *  <em>Nonnegative quadratic forms and bounds on orthogonal polynomials</em>,<br>
- *  Journal of Approximation theory <b>111</b>, 31-49<br>
+ *  I. Krasikov,
+ *  <em>Nonnegative quadratic forms and bounds on orthogonal polynomials</em>,
+ *  Journal of Approximation theory <b>111</b>, 31-49
  * </blockquote>
  *
  * @since 3.3
