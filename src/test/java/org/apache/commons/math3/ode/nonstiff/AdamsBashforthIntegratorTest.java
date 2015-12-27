@@ -22,12 +22,14 @@ import java.io.ObjectInput;
 import java.io.ObjectOutput;
 
 import org.apache.commons.math3.exception.DimensionMismatchException;
+import org.apache.commons.math3.exception.MathIllegalStateException;
 import org.apache.commons.math3.exception.MaxCountExceededException;
 import org.apache.commons.math3.exception.NoBracketingException;
 import org.apache.commons.math3.exception.NumberIsTooSmallException;
 import org.apache.commons.math3.ode.AbstractIntegrator;
 import org.apache.commons.math3.ode.ExpandableStatefulODE;
 import org.apache.commons.math3.ode.FirstOrderIntegrator;
+import org.apache.commons.math3.ode.MultistepIntegrator;
 import org.apache.commons.math3.ode.TestProblem1;
 import org.apache.commons.math3.ode.TestProblem5;
 import org.apache.commons.math3.ode.TestProblem6;
@@ -160,6 +162,29 @@ public class AdamsBashforthIntegratorTest {
                 Assert.assertTrue(handler.getMaximalValueError() < 5.0e-10);
             }
         }
+
+    }
+
+    @Test(expected=MathIllegalStateException.class)
+    public void testStartFailure() {
+        TestProblem1 pb = new TestProblem1();
+        double minStep = 0.0001 * (pb.getFinalTime() - pb.getInitialTime());
+        double maxStep = pb.getFinalTime() - pb.getInitialTime();
+        double scalAbsoluteTolerance = 1.0e-6;
+        double scalRelativeTolerance = 1.0e-7;
+
+        MultistepIntegrator integ =
+                        new AdamsBashforthIntegrator(6, minStep, maxStep,
+                                                     scalAbsoluteTolerance,
+                                                     scalRelativeTolerance);
+        integ.setStarterIntegrator(new DormandPrince853Integrator(0.5 * (pb.getFinalTime() - pb.getInitialTime()),
+                                                                  pb.getFinalTime() - pb.getInitialTime(),
+                                                                  0.1, 0.1));
+        TestProblemHandler handler = new TestProblemHandler(pb, integ);
+        integ.addStepHandler(handler);
+        integ.integrate(pb,
+                        pb.getInitialTime(), pb.getInitialState(),
+                        pb.getFinalTime(), new double[pb.getDimension()]);
 
     }
 

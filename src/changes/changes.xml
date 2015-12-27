@@ -51,6 +51,9 @@ If the output is not quite correct, check for invisible trailing spaces!
   </properties>
   <body>
     <release version="3.6" date="XXXX-XX-XX" description="">
+      <action dev="luc" type="fix" issue="MATH-1297">
+        Detect start failures with multi-step ODE integrators.
+      </action>
       <action dev="luc" type="add" issue="MATH-1302,MATH-1303">
         Added a RotationConvention enumerate to allow specifying the semantics
         or axis/angle for rotations. This enumerate has two values:
