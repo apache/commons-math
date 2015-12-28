@@ -34,10 +34,12 @@ import org.apache.commons.math4.util.FastMath;
  * @see <a href="http://www.iro.umontreal.ca/~panneton/WELLRNG.html">WELL Random number generator</a>
  * @since 2.2
  */
-public abstract class AbstractWell extends BitsStreamGenerator implements Serializable {
+public abstract class AbstractWell
+    extends BaseRandomGenerator
+    implements Serializable {
 
     /** Serializable version identifier. */
-    private static final long serialVersionUID = 20150223L;
+    private static final long serialVersionUID = 20150228L;
 
     /** Current index in the bytes pool. */
     protected int index;
@@ -132,10 +134,6 @@ public abstract class AbstractWell extends BitsStreamGenerator implements Serial
     public void setSeed(final long seed) {
         setSeed(new int[] { (int) (seed >>> 32), (int) (seed & 0xffffffffl) });
     }
-
-    /** {@inheritDoc} */
-    @Override
-    protected abstract int next(final int bits);
 
     /** Calculate the number of 32-bits blocks.
      * @param k number of bits in the pool (not necessarily a multiple of 32)
