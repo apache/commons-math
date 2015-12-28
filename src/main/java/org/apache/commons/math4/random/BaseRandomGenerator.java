@@ -175,8 +175,7 @@ public abstract class BaseRandomGenerator
      * Generates random bytes and places them into a user-supplied array.
      *
      * <p>
-     * The array is filled with bytes extracted from random integers generated
-     * using {@link #nextInt()}.
+     * The array is filled with bytes extracted from random integers.
      * This implies that the number of random bytes generated may be larger than
      * the length of the byte array.
      * </p>
@@ -192,8 +191,7 @@ public abstract class BaseRandomGenerator
      * Generates random bytes and places them into a user-supplied array.
      *
      * <p>
-     * The array is filled with bytes extracted from random integers generated
-     * using {@link #nextInt()}.
+     * The array is filled with bytes extracted from random integers.
      * This implies that the number of random bytes generated may be larger than
      * the length of the byte array.
      * </p>
@@ -224,8 +222,7 @@ public abstract class BaseRandomGenerator
      * Generates random bytes and places them into a user-supplied array.
      *
      * <p>
-     * The array is filled with bytes extracted from random integers generated
-     * using {@link #nextInt()}.
+     * The array is filled with bytes extracted from random integers.
      * This implies that the number of random bytes generated may be larger than
      * the length of the byte array.
      * </p>
