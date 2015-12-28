@@ -22,7 +22,7 @@ import org.apache.commons.math4.random.RandomGenerator;
 import org.junit.Assert;
 import org.junit.Test;
 
-public final class ISAACTest extends RandomGeneratorAbstractTest {
+public final class ISAACTest extends BaseRandomGeneratorTest {
 
     @Override
     protected RandomGenerator makeGenerator() {
