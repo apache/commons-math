@@ -85,7 +85,7 @@ public class ISAACRandom
      * current time and system hash code of the instance as the seed.
      */
     public ISAACRandom() {
-        setSeed(System.currentTimeMillis() + System.identityHashCode(this));
+        setSeedInternal(System.currentTimeMillis() + System.identityHashCode(this));
     }
 
     /**
@@ -94,7 +94,7 @@ public class ISAACRandom
      * @param seed Initial seed.
      */
     public ISAACRandom(long seed) {
-        setSeed(seed);
+        setSeedInternal(seed);
     }
 
     /**
@@ -104,24 +104,51 @@ public class ISAACRandom
      * to the current time.
      */
     public ISAACRandom(int[] seed) {
-        setSeed(seed);
+        setSeedInternal(seed);
     }
 
     /** {@inheritDoc} */
     @Override
     public void setSeed(int seed) {
-        setSeed(new int[]{seed});
-    }
-
-    /** {@inheritDoc} */
-    @Override
-    public void setSeed(long seed) {
-        setSeed(new int[]{(int) (seed >>> 32), (int) (seed & 0xffffffffL)});
+        setSeedInternal(seed);
     }
 
     /** {@inheritDoc} */
     @Override
     public void setSeed(int[] seed) {
+        setSeedInternal(seed);
+    }
+
+    /** {@inheritDoc} */
+    @Override
+    public void setSeed(long seed) {
+        setSeedInternal(seed);
+    }
+
+    /**
+     * Reseeds the RNG.
+     *
+     * @param seed Seed.
+     */
+    private void setSeedInternal(int seed) {
+        setSeed(new int[]{seed});
+    }
+
+    /**
+     * Reseeds the RNG.
+     *
+     * @param seed Seed.
+     */
+    private void setSeedInternal(long seed) {
+        setSeed(new int[]{(int) (seed >>> 32), (int) (seed & 0xffffffffL)});
+    }
+
+    /**
+     * Reseeds the RNG.
+     *
+     * @param seed Seed.
+     */
+    private void setSeedInternal(int[] seed) {
         if (seed == null) {
             setSeed(System.currentTimeMillis() + System.identityHashCode(this));
             return;
