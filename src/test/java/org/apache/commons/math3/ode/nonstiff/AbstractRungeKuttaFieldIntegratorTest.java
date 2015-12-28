@@ -285,7 +285,7 @@ public abstract class AbstractRungeKuttaFieldIntegratorTest {
     public abstract void testSmallStep();
 
     protected <T extends RealFieldElement<T>> void doTestSmallStep(Field<T> field,
-                                                                   final double espilonLast,
+                                                                   final double epsilonLast,
                                                                    final double epsilonMaxValue,
                                                                    final double epsilonMaxTime,
                                                                    final String name)
@@ -300,7 +300,7 @@ public abstract class AbstractRungeKuttaFieldIntegratorTest {
         integ.addStepHandler(handler);
         integ.integrate(new FieldExpandableODE<T>(pb), pb.getInitialState(), pb.getFinalTime());
 
-        Assert.assertEquals(0, handler.getLastError().getReal(),         espilonLast);
+        Assert.assertEquals(0, handler.getLastError().getReal(),         epsilonLast);
         Assert.assertEquals(0, handler.getMaximalValueError().getReal(), epsilonMaxValue);
         Assert.assertEquals(0, handler.getMaximalTimeError().getReal(),  epsilonMaxTime);
         Assert.assertEquals(name, integ.getName());
@@ -337,7 +337,7 @@ public abstract class AbstractRungeKuttaFieldIntegratorTest {
     public abstract void testBackward();
 
     protected <T extends RealFieldElement<T>> void doTestBackward(Field<T> field,
-                                                                  final double espilonLast,
+                                                                  final double epsilonLast,
                                                                   final double epsilonMaxValue,
                                                                   final double epsilonMaxTime,
                                                                   final String name)
@@ -352,7 +352,7 @@ public abstract class AbstractRungeKuttaFieldIntegratorTest {
         integ.addStepHandler(handler);
         integ.integrate(new FieldExpandableODE<T>(pb), pb.getInitialState(), pb.getFinalTime());
 
-        Assert.assertEquals(0, handler.getLastError().getReal(),         espilonLast);
+        Assert.assertEquals(0, handler.getLastError().getReal(),         epsilonLast);
         Assert.assertEquals(0, handler.getMaximalValueError().getReal(), epsilonMaxValue);
         Assert.assertEquals(0, handler.getMaximalTimeError().getReal(),  epsilonMaxTime);
         Assert.assertEquals(name, integ.getName());
