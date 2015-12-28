@@ -31,7 +31,7 @@ import org.apache.commons.math3.ode.FieldODEStateAndDerivative;
  * (this feature is often called dense output).</p>
  *
  * @param <T> the type of the field elements
- * @see org.apache.commons.math3.ode.FieldFirstOrderIntegrator
+ * @see org.apache.commons.math3.ode.FirstOrderFieldIntegrator
  * @see FieldStepHandler
  * @since 3.6
  */

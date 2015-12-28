@@ -30,7 +30,7 @@ import org.apache.commons.math3.util.MathArrays;
  * @param <T> the type of the field elements
  */
 public abstract class TestFieldProblemAbstract<T extends RealFieldElement<T>>
-    implements FieldFirstOrderDifferentialEquations<T> {
+    implements FirstOrderFieldDifferentialEquations<T> {
 
     /** Field to which elements belong. */
     private Field<T> field;

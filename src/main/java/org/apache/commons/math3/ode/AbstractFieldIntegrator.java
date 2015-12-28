@@ -47,7 +47,7 @@ import org.apache.commons.math3.util.IntegerSequence;
  * @param <T> the type of the field elements
  * @since 3.6
  */
-public abstract class AbstractFieldIntegrator<T extends RealFieldElement<T>> implements FieldFirstOrderIntegrator<T> {
+public abstract class AbstractFieldIntegrator<T extends RealFieldElement<T>> implements FirstOrderFieldIntegrator<T> {
 
     /** Default relative accuracy. */
     private static final double DEFAULT_RELATIVE_ACCURACY = 1e-14;

@@ -27,7 +27,7 @@ import org.apache.commons.math3.exception.NumberIsTooSmallException;
 import org.apache.commons.math3.ode.AbstractFieldIntegrator;
 import org.apache.commons.math3.ode.FieldEquationsMapper;
 import org.apache.commons.math3.ode.FieldExpandableODE;
-import org.apache.commons.math3.ode.FieldFirstOrderDifferentialEquations;
+import org.apache.commons.math3.ode.FirstOrderFieldDifferentialEquations;
 import org.apache.commons.math3.ode.FieldODEState;
 import org.apache.commons.math3.ode.FieldODEStateAndDerivative;
 import org.apache.commons.math3.util.MathArrays;
@@ -230,7 +230,7 @@ public abstract class RungeKuttaFieldIntegrator<T extends RealFieldElement<T>>
      * (can be set to a value smaller than {@code t0} for backward integration)
      * @return state vector at {@code t}
      */
-    public T[] singleStep(final FieldFirstOrderDifferentialEquations<T> equations,
+    public T[] singleStep(final FirstOrderFieldDifferentialEquations<T> equations,
                           final T t0, final T[] y0, final T t) {
 
         // create some internal working arrays

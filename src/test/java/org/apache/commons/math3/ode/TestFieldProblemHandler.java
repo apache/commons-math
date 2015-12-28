@@ -45,7 +45,7 @@ public class TestFieldProblemHandler<T extends RealFieldElement<T>>
     private T lastTime;
 
     /** ODE solver used. */
-    private FieldFirstOrderIntegrator<T> integrator;
+    private FirstOrderFieldIntegrator<T> integrator;
 
     /** Expected start for step. */
     private T expectedStepStart;
@@ -55,7 +55,7 @@ public class TestFieldProblemHandler<T extends RealFieldElement<T>>
      * @param problem problem for which steps should be handled
      * @param integrator ODE solver used
      */
-    public TestFieldProblemHandler(TestFieldProblemAbstract<T> problem, FieldFirstOrderIntegrator<T> integrator) {
+    public TestFieldProblemHandler(TestFieldProblemAbstract<T> problem, FirstOrderFieldIntegrator<T> integrator) {
         this.problem      = problem;
         this.integrator   = integrator;
         maxValueError     = problem.getField().getZero();

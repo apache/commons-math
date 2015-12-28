@@ -31,11 +31,11 @@ import org.apache.commons.math3.exception.MaxCountExceededException;
  * </p>
  * <p>
  * This interface allows users to add such equations to a primary set of {@link
- * FieldFirstOrderDifferentialEquations first order differential equations}
+ * FirstOrderFieldDifferentialEquations first order differential equations}
  * thanks to the {@link FieldExpandableODE#addSecondaryEquations(FieldSecondaryEquations)}
  * method.
  * </p>
- * @see FieldFirstOrderDifferentialEquations
+ * @see FirstOrderFieldDifferentialEquations
  * @see FieldExpandableODE
  * @param <T> the type of the field elements
  * @since 3.6

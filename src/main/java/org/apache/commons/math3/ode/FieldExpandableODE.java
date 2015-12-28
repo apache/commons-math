@@ -38,11 +38,11 @@ import org.apache.commons.math3.util.MathArrays;
  * <p>
  * We want the integrator to use <em>only</em> the primary set to estimate the
  * errors and hence the step sizes. It should <em>not</em> use the secondary
- * equations in this computation. The {@link FieldFirstOrderIntegrator integrator} will
+ * equations in this computation. The {@link FirstOrderFieldIntegrator integrator} will
  * be able to know where the primary set ends and so where the secondary sets begin.
  * </p>
  *
- * @see FieldFirstOrderDifferentialEquations
+ * @see FirstOrderFieldDifferentialEquations
  * @see FieldSecondaryEquations
  *
  * @param <T> the type of the field elements
@@ -52,7 +52,7 @@ import org.apache.commons.math3.util.MathArrays;
 public class FieldExpandableODE<T extends RealFieldElement<T>> {
 
     /** Primary differential equation. */
-    private final FieldFirstOrderDifferentialEquations<T> primary;
+    private final FirstOrderFieldDifferentialEquations<T> primary;
 
     /** Components of the expandable ODE. */
     private List<FieldSecondaryEquations<T>> components;
@@ -63,7 +63,7 @@ public class FieldExpandableODE<T extends RealFieldElement<T>> {
     /** Build an expandable set from its primary ODE set.
      * @param primary the primary set of differential equations to be integrated.
      */
-    public FieldExpandableODE(final FieldFirstOrderDifferentialEquations<T> primary) {
+    public FieldExpandableODE(final FirstOrderFieldDifferentialEquations<T> primary) {
         this.primary    = primary;
         this.components = new ArrayList<FieldSecondaryEquations<T>>();
         this.mapper     = new FieldEquationsMapper<T>(null, primary.getDimension());

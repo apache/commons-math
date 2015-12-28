@@ -23,9 +23,9 @@ import org.apache.commons.math3.util.MathArrays;
 
 /** Container for time, main and secondary state vectors.
 
- * @see FieldFirstOrderDifferentialEquations
+ * @see FirstOrderFieldDifferentialEquations
  * @see FieldSecondaryEquations
- * @see FieldFirstOrderIntegrator
+ * @see FirstOrderFieldIntegrator
  * @see FieldODEStateAndDerivative
  * @param <T> the type of the field elements
  * @since 3.6

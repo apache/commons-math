@@ -38,13 +38,13 @@ import org.apache.commons.math3.RealFieldElement;
  * of this interface, the classes that implement it are allowed to
  * handle them as they want.</p>
  *
- * @see FieldFirstOrderIntegrator
+ * @see FirstOrderFieldIntegrator
  *
  * @param <T> the type of the field elements
  * @since 3.6
  */
 
-public interface FieldFirstOrderDifferentialEquations<T extends RealFieldElement<T>> {
+public interface FirstOrderFieldDifferentialEquations<T extends RealFieldElement<T>> {
 
     /** Get the dimension of the problem.
      * @return dimension of the problem

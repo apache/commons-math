@@ -30,7 +30,7 @@ import org.apache.commons.math3.ode.FieldODEStateAndDerivative;
  * retrieve the state vector at intermediate times between the
  * previous and the current grid points (dense output).</p>
  *
- * @see org.apache.commons.math3.ode.FieldFirstOrderIntegrator
+ * @see org.apache.commons.math3.ode.FirstOrderFieldIntegrator
  * @see StepHandler
  *
  * @param <T> the type of the field elements

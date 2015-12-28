@@ -23,7 +23,7 @@ import org.apache.commons.math3.exception.MaxCountExceededException;
 import org.apache.commons.math3.exception.NoBracketingException;
 import org.apache.commons.math3.exception.NumberIsTooSmallException;
 import org.apache.commons.math3.ode.FieldExpandableODE;
-import org.apache.commons.math3.ode.FieldFirstOrderIntegrator;
+import org.apache.commons.math3.ode.FirstOrderFieldIntegrator;
 import org.apache.commons.math3.ode.FieldODEStateAndDerivative;
 import org.apache.commons.math3.ode.FirstOrderIntegrator;
 import org.apache.commons.math3.ode.TestFieldProblemAbstract;
@@ -93,7 +93,7 @@ public class StepInterpolatorTestUtils {
 
     }
 
-    public static <T extends RealFieldElement<T>> void checkDerivativesConsistency(final FieldFirstOrderIntegrator<T> integrator,
+    public static <T extends RealFieldElement<T>> void checkDerivativesConsistency(final FirstOrderFieldIntegrator<T> integrator,
                                                                                    final TestFieldProblemAbstract<T> problem,
                                                                                    final double threshold) {
         integrator.addStepHandler(new FieldStepHandler<T>() {
