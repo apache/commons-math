@@ -37,73 +37,82 @@ import org.apache.commons.math4.util.FastMath;
 public abstract class AbstractWell
     extends BaseRandomGenerator
     implements Serializable {
-
     /** Serializable version identifier. */
     private static final long serialVersionUID = 20150228L;
-
     /** Current index in the bytes pool. */
     protected int index;
-
     /** Bytes pool. */
     protected final int[] v;
 
-    /** Creates a new random number generator.
+    /**
+     * Creates a new random number generator.
+     *
      * <p>The instance is initialized using the current time plus the
      * system identity hash code of this instance as the seed.</p>
-     * @param k number of bits in the pool (not necessarily a multiple of 32)
+     *
+     * @param k number of bits in the pool (not necessarily a multiple of 32).
      */
     protected AbstractWell(final int k) {
         this(k, null);
     }
 
-    /** Creates a new random number generator using a single int seed.
-     * @param k number of bits in the pool (not necessarily a multiple of 32)
-     * @param seed the initial seed (32 bits integer)
+    /**
+     * Creates a new random number generator using a single int seed.
+     *
+     * @param k number of bits in the pool (not necessarily a multiple of 32).
+     * @param seed the initial seed (32 bits integer).
      */
     protected AbstractWell(final int k, final int seed) {
         this(k, new int[] { seed });
     }
 
-    /** Creates a new random number generator using an int array seed.
-     * @param k number of bits in the pool (not necessarily a multiple of 32)
+    /**
+     * Creates a new random number generator using an int array seed.
+     *
+     * @param k number of bits in the pool (not necessarily a multiple of 32).
      * @param seed the initial seed (32 bits integers array), if null
-     * the seed of the generator will be related to the current time
+     * the seed of the generator will be related to the current time.
      */
     protected AbstractWell(final int k, final int[] seed) {
-
         final int r = calculateBlockCount(k);
-        this.v      = new int[r];
-        this.index  = 0;
+        v = new int[r];
+        index = 0;
 
-        // initialize the pool content
+        // Initialize the pool content.
         setSeed(seed);
-
     }
 
-    /** Creates a new random number generator using a single long seed.
-     * @param k number of bits in the pool (not necessarily a multiple of 32)
-     * @param seed the initial seed (64 bits integer)
+    /**
+     * Creates a new random number generator using a single long seed.
+     *
+     * @param k number of bits in the pool (not necessarily a multiple of 32).
+     * @param seed the initial seed (64 bits integer).
      */
     protected AbstractWell(final int k, final long seed) {
         this(k, new int[] { (int) (seed >>> 32), (int) (seed & 0xffffffffl) });
     }
 
-    /** Reinitialize the generator as if just built with the given int seed.
-     * <p>The state of the generator is exactly the same as a new
-     * generator built with the same seed.</p>
-     * @param seed the initial seed (32 bits integer)
+    /**
+     * Reinitialize the generator as if just built with the given int seed.
+     *
+     * <p>The state of the generator is exactly the same as a new generator
+     * built with the same seed.</p>
+     *
+     * @param seed Seed (32 bits integer).
      */
     @Override
     public void setSeed(final int seed) {
         setSeed(new int[] { seed });
     }
 
-    /** Reinitialize the generator as if just built with the given int array seed.
-     * <p>The state of the generator is exactly the same as a new
-     * generator built with the same seed.</p>
-     * @param seed the initial seed (32 bits integers array). If null
-     * the seed of the generator will be the system time plus the system identity
-     * hash code of the instance.
+    /**
+     * Reinitialize the generator as if just built with the given int array seed.
+     *
+     * <p>The state of the generator is exactly the same as a new generator built
+     * with the same seed.</p>
+     *
+     * @param seed Seed (32 bits integers array). If null the seed of the generator
+     * will be the system time plus the system identity hash code of the instance.
      */
     @Override
     public void setSeed(final int[] seed) {
@@ -125,19 +134,24 @@ public abstract class AbstractWell
         clear();  // Clear normal deviate cache
     }
 
-    /** Reinitialize the generator as if just built with the given long seed.
-     * <p>The state of the generator is exactly the same as a new
-     * generator built with the same seed.</p>
-     * @param seed the initial seed (64 bits integer)
+    /**
+     * Reinitialize the generator as if just built with the given long seed.
+     *
+     * <p>The state of the generator is exactly the same as a new generator built
+     * with the same seed.</p>
+     *
+     * @param seed Seed (64 bits integer).
      */
     @Override
     public void setSeed(final long seed) {
         setSeed(new int[] { (int) (seed >>> 32), (int) (seed & 0xffffffffl) });
     }
 
-    /** Calculate the number of 32-bits blocks.
-     * @param k number of bits in the pool (not necessarily a multiple of 32)
-     * @return the number of 32-bits blocks
+    /**
+     * Calculate the number of 32-bits blocks.
+     *
+     * @param k Number of bits in the pool (not necessarily a multiple of 32).
+     * @return the number of 32-bits blocks.
      */
     private static int calculateBlockCount(final int k) {
         // the bits pool contains k bits, k = r w - p where r is the number
@@ -149,8 +163,8 @@ public abstract class AbstractWell
     }
 
     /**
-     * Inner class used to store the indirection index table which is fixed for a given type of WELL class
-     * of pseudo-random number generator.
+     * Inner class used to store the indirection index table which is fixed for a given
+     * type of WELL class of pseudo-random number generator.
      *
      * @since 4.0
      */
