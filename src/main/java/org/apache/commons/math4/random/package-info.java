@@ -17,25 +17,29 @@
 /**
  *
  *      <p>Random number and random data generators.</p>
- *      <p>Commons-math provides a few pseudo random number generators. The top level interface is RandomGenerator.
- *      It is implemented by three classes:
- *      <ul>
- *        <li>{@link org.apache.commons.math4.random.JDKRandomGenerator JDKRandomGenerator}
- *            that extends the JDK provided generator</li>
- *        <li>AbstractRandomGenerator as a helper for users generators</li>
- *        <li>BitStreamGenerator which is an abstract class for several generators and
- *            which in turn is extended by:
+ *      <p>
+ *       Commons Math provides a few pseudo-random number generators.
+ *       The top level interface is {@link RandomGenerator}.
+ *       It is implemented by the following classes:
+ *       <ul>
+ *        <li>
+ *         {@link org.apache.commons.math4.random.JDKRandomGenerator JDKRandomGenerator}
+ *         that delegates to the JDK provided generator
+ *        </li>
+ *        <li>
+ *            BaseRandomGenerator as a base class for concrete generators:
  *            <ul>
- *              <li>{@link org.apache.commons.math4.random.MersenneTwister MersenneTwister}</li>
+ *              <li>{@link org.apache.commons.math4.random.ISAACRandom ISAAC}</li>
  *              <li>{@link org.apache.commons.math4.random.Well512a Well512a}</li>
  *              <li>{@link org.apache.commons.math4.random.Well1024a Well1024a}</li>
  *              <li>{@link org.apache.commons.math4.random.Well19937a Well19937a}</li>
  *              <li>{@link org.apache.commons.math4.random.Well19937c Well19937c}</li>
  *              <li>{@link org.apache.commons.math4.random.Well44497a Well44497a}</li>
  *              <li>{@link org.apache.commons.math4.random.Well44497b Well44497b}</li>
+ *              <li>{@link org.apache.commons.math4.random.MersenneTwister MersenneTwister}</li>
  *            </ul>
- *          </li>
- *        </ul>
+ *        </li>
+ *       </ul>
  *      </p>
  *
  *      <p>
