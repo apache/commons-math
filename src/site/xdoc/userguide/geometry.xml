@@ -187,8 +187,12 @@
           previous notations, we would say we can apply <code>r<sub>1</sub></code> to
           <code>r<sub>2</sub></code> and the result we get is <code>r =
           r<sub>1</sub> o r<sub>2</sub></code>. For this purpose, the class
-          provides the methods: <code>applyTo(Rotation)</code> and
-          <code>applyInverseTo(Rotation)</code>.
+          provides the methods: <code>compose(Rotation, RotationConvention)</code> and
+          <code>composeInverse(Rotation, RotationConvention)</code>. There are also
+          shortcuts <code>applyTo(Rotation)</code> which is equivalent to
+          <code>compose(Rotation, RotationConvention.VECTOR_OPERATOR)</code> and
+          <code>applyInverseTo(Rotation)</code> which is equivalent to
+          <code>composeInverse(Rotation, RotationConvention.VECTOR_OPERATOR)</code>.
         </p>
       </subsection>
       <subsection name="11.3 n-Sphere" href="sphere">

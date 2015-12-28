@@ -20,50 +20,100 @@ import java.util.Random;
 import org.apache.commons.math4.exception.NotStrictlyPositiveException;
 
 /**
- * Extension of <code>java.util.Random</code> to implement
- * {@link RandomGenerator}.
+ * A {@link RandomGenerator} adapter that delegates the random number
+ * generation to the standard {@link java.util.Random} class.
  *
  * @since 1.1
  */
-public class JDKRandomGenerator extends Random implements RandomGenerator {
-
+public class JDKRandomGenerator
+    implements RandomGenerator {
     /** Serializable version identifier. */
-    private static final long serialVersionUID = -7745277476784028798L;
+    private static final long serialVersionUID = 20151227L;
+    /** JDK's RNG. */
+    private final Random delegate;
 
     /**
-     * Create a new JDKRandomGenerator with a default seed.
+     * Creates an instance with an arbitrary seed.
      */
     public JDKRandomGenerator() {
-        super();
+        delegate = new Random();
     }
 
     /**
-     * Create a new JDKRandomGenerator with the given seed.
+     * Creates an instance with the given seed.
      *
-     * @param seed initial seed
+     * @param seed Initial seed.
      * @since 3.6
      */
     public JDKRandomGenerator(long seed) {
-        setSeed(seed);
+        delegate = new Random(seed);
     }
 
     /** {@inheritDoc} */
     @Override
     public void setSeed(int seed) {
-        setSeed((long) seed);
+        delegate.setSeed((long) seed);
+    }
+
+    /** {@inheritDoc} */
+    @Override
+    public void setSeed(long seed) {
+        delegate.setSeed( seed);
     }
 
     /** {@inheritDoc} */
     @Override
     public void setSeed(int[] seed) {
-        setSeed(RandomGeneratorFactory.convertToLong(seed));
+        delegate.setSeed(RandomGeneratorFactory.convertToLong(seed));
+    }
+
+    /** {@inheritDoc} */
+    @Override
+    public void nextBytes(byte[] bytes) {
+        delegate.nextBytes(bytes);
+    }
+
+    /** {@inheritDoc} */
+    @Override
+    public int nextInt() {
+        return delegate.nextInt();
+    }
+
+    /** {@inheritDoc} */
+    @Override
+    public long nextLong() {
+        return delegate.nextLong();
+    }
+
+    /** {@inheritDoc} */
+    @Override
+    public boolean nextBoolean() {
+        return delegate.nextBoolean();
+    }
+
+    /** {@inheritDoc} */
+    @Override
+    public float nextFloat() {
+        return delegate.nextFloat();
+    }
+
+    /** {@inheritDoc} */
+    @Override
+    public double nextDouble() {
+        return delegate.nextDouble();
+    }
+
+    /** {@inheritDoc} */
+    @Override
+    public double nextGaussian() {
+        return delegate.nextGaussian();
     }
 
     /** {@inheritDoc} */
     @Override
     public int nextInt(int n) {
         try {
-            return super.nextInt(n);
+            return delegate.nextInt(n);
         } catch (IllegalArgumentException e) {
             throw new NotStrictlyPositiveException(n);
         }

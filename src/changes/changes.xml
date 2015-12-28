@@ -54,6 +54,9 @@ If the output is not quite correct, check for invisible trailing spaces!
     </release>
 
     <release version="4.0" date="XXXX-XX-XX" description="">
+      <action dev="luc" type="fix" issue="MATH-1297"> <!-- backported to 3.6 -->
+        Detect start failures with multi-step ODE integrators.
+      </action>
       <action dev="luc" type="add" issue="MATH-1302,MATH-1303"> <!-- backported to 3.6 -->
         Added a RotationConvention enumerate to allow specifying the semantics
         or axis/angle for rotations. This enumerate has two values:
@@ -67,6 +70,7 @@ If the output is not quite correct, check for invisible trailing spaces!
       </action>
       <action dev="erans" type="fix" issue="MATH-1301">
         "JDKRandomGenerator": Method "nextInt(int)" now throws a "NotStrictlyPositiveException".
+        The class now delegates to (rather inherits from) "java.util.Random".
       </action>
       <action dev="erans" type="update" issue="MATH-1305" due-to="Rostislav Krasny">
         "AbstractRandomGenerator" and "BitsStreamGenerator": Slight performance

@@ -151,22 +151,11 @@ public class Rotation implements Serializable {
   }
 
   /** Build a rotation from an axis and an angle.
-   * <p>We use the convention that angles are oriented according to
-   * the effect of the rotation on vectors around the axis. That means
-   * that if (i, j, k) is a direct frame and if we first provide +k as
-   * the axis and &pi;/2 as the angle to this constructor, and then
-   * {@link #applyTo(Vector3D) apply} the instance to +i, we will get
-   * +j.</p>
-   * <p>Another way to represent our convention is to say that a rotation
-   * of angle &theta; about the unit vector (x, y, z) is the same as the
-   * rotation build from quaternion components { cos(-&theta;/2),
-   * x * sin(-&theta;/2), y * sin(-&theta;/2), z * sin(-&theta;/2) }.
-   * Note the minus sign on the angle!</p>
-   * <p>On the one hand this convention is consistent with a vectorial
-   * perspective (moving vectors in fixed frames), on the other hand it
-   * is different from conventions with a frame perspective (fixed vectors
-   * viewed from different frames) like the ones used for example in spacecraft
-   * attitude community or in the graphics community.</p>
+   * <p>
+   * Calling this constructor is equivalent to call
+   * {@link #Rotation(Vector3D, double, RotationConvention)
+   * new Rotation(axis, angle, RotationConvention.VECTOR_OPERATOR)}
+   * </p>
    * @param axis axis around which to rotate
    * @param angle rotation angle.
    * @exception MathIllegalArgumentException if the axis norm is zero
@@ -370,17 +359,11 @@ public class Rotation implements Serializable {
 
   /** Build a rotation from three Cardan or Euler elementary rotations.
 
-   * <p>Cardan rotations are three successive rotations around the
-   * canonical axes X, Y and Z, each axis being used once. There are
-   * 6 such sets of rotations (XYZ, XZY, YXZ, YZX, ZXY and ZYX). Euler
-   * rotations are three successive rotations around the canonical
-   * axes X, Y and Z, the first and last rotations being around the
-   * same axis. There are 6 such sets of rotations (XYX, XZX, YXY,
-   * YZY, ZXZ and ZYZ), the most popular one being ZXZ.</p>
-   * <p>Beware that many people routinely use the term Euler angles even
-   * for what really are Cardan angles (this confusion is especially
-   * widespread in the aerospace business where Roll, Pitch and Yaw angles
-   * are often wrongly tagged as Euler angles).</p>
+   * <p>
+   * Calling this constructor is equivalent to call
+   * {@link #Rotation(RotationOrder, RotationConvention, double, double, double)
+   * new Rotation(order, RotationConvention.VECTOR_OPERATOR, alpha1, alpha2, alpha3)}
+   * </p>
 
    * @param order order of rotations to use
    * @param alpha1 angle of the first elementary rotation
@@ -409,7 +392,8 @@ public class Rotation implements Serializable {
    * widespread in the aerospace business where Roll, Pitch and Yaw angles
    * are often wrongly tagged as Euler angles).</p>
 
-   * @param order order of rotations to use
+   * @param order order of rotations to compose, from left to right
+   * (i.e. we will use {@code r1.compose(r2.compose(r3, convention), convention)})
    * @param convention convention to use for the semantics of the angle
    * @param alpha1 angle of the first elementary rotation
    * @param alpha2 angle of the second elementary rotation
@@ -421,9 +405,7 @@ public class Rotation implements Serializable {
       Rotation r1 = new Rotation(order.getA1(), alpha1, convention);
       Rotation r2 = new Rotation(order.getA2(), alpha2, convention);
       Rotation r3 = new Rotation(order.getA3(), alpha3, convention);
-      Rotation composed = convention == RotationConvention.FRAME_TRANSFORM ?
-                          r3.applyTo(r2.applyTo(r1)) :
-                          r1.applyTo(r2.applyTo(r3));
+      Rotation composed = r1.compose(r2.compose(r3, convention), convention);
       q0 = composed.q0;
       q1 = composed.q1;
       q2 = composed.q2;
@@ -531,6 +513,10 @@ public class Rotation implements Serializable {
   }
 
   /** Get the normalized axis of the rotation.
+   * <p>
+   * Calling this method is equivalent to call
+   * {@link #getAxis(RotationConvention) getAxis(RotationConvention.VECTOR_OPERATOR)}
+   * </p>
    * @return normalized axis of the rotation
    * @see #Rotation(Vector3D, double, RotationConvention)
    * @deprecated as of 3.6, replaced with {@link #getAxis(RotationConvention)}
@@ -581,33 +567,11 @@ public class Rotation implements Serializable {
 
   /** Get the Cardan or Euler angles corresponding to the instance.
 
-   * <p>The equations show that each rotation can be defined by two
-   * different values of the Cardan or Euler angles set. For example
-   * if Cardan angles are used, the rotation defined by the angles
-   * a<sub>1</sub>, a<sub>2</sub> and a<sub>3</sub> is the same as
-   * the rotation defined by the angles &pi; + a<sub>1</sub>, &pi;
-   * - a<sub>2</sub> and &pi; + a<sub>3</sub>. This method implements
-   * the following arbitrary choices:</p>
-   * <ul>
-   *   <li>for Cardan angles, the chosen set is the one for which the
-   *   second angle is between -&pi;/2 and &pi;/2 (i.e its cosine is
-   *   positive),</li>
-   *   <li>for Euler angles, the chosen set is the one for which the
-   *   second angle is between 0 and &pi; (i.e its sine is positive).</li>
-   * </ul>
-
-   * <p>Cardan and Euler angle have a very disappointing drawback: all
-   * of them have singularities. This means that if the instance is
-   * too close to the singularities corresponding to the given
-   * rotation order, it will be impossible to retrieve the angles. For
-   * Cardan angles, this is often called gimbal lock. There is
-   * <em>nothing</em> to do to prevent this, it is an intrinsic problem
-   * with Cardan and Euler representation (but not a problem with the
-   * rotation itself, which is perfectly well defined). For Cardan
-   * angles, singularities occur when the second angle is close to
-   * -&pi;/2 or +&pi;/2, for Euler angle singularities occur when the
-   * second angle is close to 0 or &pi;, this implies that the identity
-   * rotation is always singular for Euler angles!</p>
+   * <p>
+   * Calling this method is equivalent to call
+   * {@link #getAngles(RotationOrder, RotationConvention)
+   * getAngles(order, RotationConvention.VECTOR_OPERATOR)}
+   * </p>
 
    * @param order rotation order to use
    * @return an array of three angles, in the order specified by the set
@@ -1217,15 +1181,53 @@ public class Rotation implements Serializable {
   }
 
   /** Apply the instance to another rotation.
-   * Applying the instance to a rotation is computing the composition
-   * in an order compliant with the following rule : let u be any
-   * vector and v its image by r (i.e. r.applyTo(u) = v), let w be the image
-   * of v by the instance (i.e. applyTo(v) = w), then w = comp.applyTo(u),
-   * where comp = applyTo(r).
+   * <p>
+   * Calling this method is equivalent to call
+   * {@link #compose(Rotation, RotationConvention)
+   * compose(r, RotationConvention.VECTOR_OPERATOR)}.
+   * </p>
    * @param r rotation to apply the rotation to
    * @return a new rotation which is the composition of r by the instance
    */
   public Rotation applyTo(Rotation r) {
+    return compose(r, RotationConvention.VECTOR_OPERATOR);
+  }
+
+  /** Compose the instance with another rotation.
+   * <p>
+   * If the semantics of the rotations composition corresponds to a
+   * {@link RotationConvention#VECTOR_OPERATOR vector operator} convention,
+   * applying the instance to a rotation is computing the composition
+   * in an order compliant with the following rule : let {@code u} be any
+   * vector and {@code v} its image by {@code r1} (i.e.
+   * {@code r1.applyTo(u) = v}). Let {@code w} be the image of {@code v} by
+   * rotation {@code r2} (i.e. {@code r2.applyTo(v) = w}). Then
+   * {@code w = comp.applyTo(u)}, where
+   * {@code comp = r2.compose(r1, RotationConvention.VECTOR_OPERATOR)}.
+   * </p>
+   * <p>
+   * If the semantics of the rotations composition corresponds to a
+   * {@link RotationConvention#FRAME_TRANSFORM frame transform} convention,
+   * the application order will be reversed. So keeping the exact same
+   * meaning of all {@code r1}, {@code r2}, {@code u}, {@code v}, {@code w}
+   * and  {@code comp} as above, {@code comp} could also be computed as
+   * {@code comp = r1.compose(r2, RotationConvention.FRAME_TRANSFORM)}.
+   * </p>
+   * @param r rotation to apply the rotation to
+   * @param convention convention to use for the semantics of the angle
+   * @return a new rotation which is the composition of r by the instance
+   */
+  public Rotation compose(final Rotation r, final RotationConvention convention) {
+    return convention == RotationConvention.VECTOR_OPERATOR ?
+           composeInternal(r) : r.composeInternal(this);
+  }
+
+  /** Compose the instance with another rotation using vector operator convention.
+   * @param r rotation to apply the rotation to
+   * @return a new rotation which is the composition of r by the instance
+   * using vector operator convention
+   */
+  private Rotation composeInternal(final Rotation r) {
     return new Rotation(r.q0 * q0 - (r.q1 * q1 + r.q2 * q2 + r.q3 * q3),
                         r.q1 * q0 + r.q0 * q1 + (r.q2 * q3 - r.q3 * q2),
                         r.q2 * q0 + r.q0 * q2 + (r.q3 * q1 - r.q1 * q3),
@@ -1234,17 +1236,57 @@ public class Rotation implements Serializable {
   }
 
   /** Apply the inverse of the instance to another rotation.
-   * Applying the inverse of the instance to a rotation is computing
-   * the composition in an order compliant with the following rule :
-   * let u be any vector and v its image by r (i.e. r.applyTo(u) = v),
-   * let w be the inverse image of v by the instance
-   * (i.e. applyInverseTo(v) = w), then w = comp.applyTo(u), where
-   * comp = applyInverseTo(r).
+   * <p>
+   * Calling this method is equivalent to call
+   * {@link #composeInverse(Rotation, RotationConvention)
+   * composeInverse(r, RotationConvention.VECTOR_OPERATOR)}.
+   * </p>
    * @param r rotation to apply the rotation to
    * @return a new rotation which is the composition of r by the inverse
    * of the instance
    */
   public Rotation applyInverseTo(Rotation r) {
+    return composeInverse(r, RotationConvention.VECTOR_OPERATOR);
+  }
+
+  /** Compose the inverse of the instance with another rotation.
+   * <p>
+   * If the semantics of the rotations composition corresponds to a
+   * {@link RotationConvention#VECTOR_OPERATOR vector operator} convention,
+   * applying the inverse of the instance to a rotation is computing
+   * the composition in an order compliant with the following rule :
+   * let {@code u} be any vector and {@code v} its image by {@code r1}
+   * (i.e. {@code r1.applyTo(u) = v}). Let {@code w} be the inverse image
+   * of {@code v} by {@code r2} (i.e. {@code r2.applyInverseTo(v) = w}).
+   * Then {@code w = comp.applyTo(u)}, where
+   * {@code comp = r2.composeInverse(r1)}.
+   * </p>
+   * <p>
+   * If the semantics of the rotations composition corresponds to a
+   * {@link RotationConvention#FRAME_TRANSFORM frame transform} convention,
+   * the application order will be reversed, which means it is the
+   * <em>innermost</em> rotation that will be reversed. So keeping the exact same
+   * meaning of all {@code r1}, {@code r2}, {@code u}, {@code v}, {@code w}
+   * and  {@code comp} as above, {@code comp} could also be computed as
+   * {@code comp = r1.revert().composeInverse(r2.revert(), RotationConvention.FRAME_TRANSFORM)}.
+   * </p>
+   * @param r rotation to apply the rotation to
+   * @param convention convention to use for the semantics of the angle
+   * @return a new rotation which is the composition of r by the inverse
+   * of the instance
+   */
+  public Rotation composeInverse(final Rotation r, final RotationConvention convention) {
+    return convention == RotationConvention.VECTOR_OPERATOR ?
+           composeInverseInternal(r) : r.composeInternal(revert());
+  }
+
+  /** Compose the inverse of the instance with another rotation
+   * using vector operator convention.
+   * @param r rotation to apply the rotation to
+   * @return a new rotation which is the composition of r by the inverse
+   * of the instance using vector operator convention
+   */
+  private Rotation composeInverseInternal(Rotation r) {
     return new Rotation(-r.q0 * q0 - (r.q1 * q1 + r.q2 * q2 + r.q3 * q3),
                         -r.q1 * q0 + r.q0 * q1 + (r.q2 * q3 - r.q3 * q2),
                         -r.q2 * q0 + r.q0 * q2 + (r.q3 * q1 - r.q1 * q3),
@@ -1376,7 +1418,7 @@ public class Rotation implements Serializable {
    * @return <i>distance</i> between r1 and r2
    */
   public static double distance(Rotation r1, Rotation r2) {
-      return r1.applyInverseTo(r2).getAngle();
+      return r1.composeInverseInternal(r2).getAngle();
   }
 
 }

@@ -16,9 +16,11 @@
  */
 package org.apache.commons.math4;
 
-import java.util.Random;
 import java.util.concurrent.Callable;
 
+import org.apache.commons.math4.util.MathArrays;
+import org.apache.commons.math4.random.RandomGenerator;
+import org.apache.commons.math4.random.Well19937c;
 import org.apache.commons.math4.exception.MathIllegalStateException;
 import org.apache.commons.math4.exception.util.LocalizedFormats;
 import org.apache.commons.math4.stat.descriptive.StatisticalSummary;
@@ -35,7 +37,7 @@ public class PerfTestUtils {
     /** Default number of code repeats for computing the average run time. */
     private static final int DEFAULT_REPEAT_STAT = 10000;
     /** RNG. */
-    private static Random rng = new Random();
+    private static RandomGenerator rng = new Well19937c();
 
     /**
      * Timing.
@@ -104,9 +106,16 @@ public class PerfTestUtils {
         final int numMethods = methods.length;
         final double[][][] timesAndResults = new double[numMethods][repeatStat][2];
 
+        // Indices into the array containing the methods to benchmark.
+        // The purpose is that at each repeat, the "methods" are called in a different order.
+        final int[] methodSequence = MathArrays.natural(numMethods);
+
         try {
             for (int k = 0; k < repeatStat; k++) {
-                for (int j = 0; j < numMethods; j++) {
+                MathArrays.shuffle(methodSequence, rng);
+                for (int n = 0; n < numMethods; n++) {
+                    final int j = methodSequence[n]; // Index of the timed method.
+
                     if (runGC) {
                         // Try to perform GC outside the timed block.
                         System.gc();

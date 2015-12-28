@@ -24,7 +24,12 @@ import org.apache.commons.math4.util.FastMath;
 /** This class implements a powerful pseudo-random number generator
  * developed by Makoto Matsumoto and Takuji Nishimura during
  * 1996-1997.
-
+ *
+ * <b>Caveat:</b> It is recommended to use one of WELL generators rather
+ * than the MersenneTwister generator (see
+ * <a href="http://www.iro.umontreal.ca/~panneton/WELLRNG.html">
+ * this paper</a> for more information).
+ *
  * <p>This generator features an extremely long period
  * (2<sup>19937</sup>-1) and 623-dimensional equidistribution up to 32
  * bits accuracy. The home page for this generator is located at <a
