@@ -16,12 +16,12 @@
  */
 package org.apache.commons.math3.analysis.interpolation;
 
-import org.apache.commons.math3.exception.DimensionMismatchException;
-import org.apache.commons.math3.exception.util.LocalizedFormats;
-import org.apache.commons.math3.exception.NumberIsTooSmallException;
-import org.apache.commons.math3.exception.NonMonotonicSequenceException;
 import org.apache.commons.math3.analysis.polynomials.PolynomialFunction;
 import org.apache.commons.math3.analysis.polynomials.PolynomialSplineFunction;
+import org.apache.commons.math3.exception.DimensionMismatchException;
+import org.apache.commons.math3.exception.NonMonotonicSequenceException;
+import org.apache.commons.math3.exception.NumberIsTooSmallException;
+import org.apache.commons.math3.exception.util.LocalizedFormats;
 import org.apache.commons.math3.util.MathArrays;
 
 /**
@@ -29,7 +29,7 @@ import org.apache.commons.math3.util.MathArrays;
  * <p>
  * The {@link #interpolate(double[], double[])} method returns a {@link PolynomialSplineFunction}
  * consisting of n cubic polynomials, defined over the subintervals determined by the x values,
- * x[0] < x[i] ... < x[n].  The x values are referred to as "knot points."</p>
+ * {@code x[0] < x[i] ... < x[n].}  The x values are referred to as "knot points."
  * <p>
  * The value of the PolynomialSplineFunction at a point x that is greater than or equal to the smallest
  * knot point and strictly less than the largest knot point is computed by finding the subinterval to which
@@ -42,7 +42,7 @@ import org.apache.commons.math3.util.MathArrays;
  *  corresponding y value.</li>
  * <li>Adjacent polynomials are equal through two derivatives at the knot points (i.e., adjacent polynomials
  *  "match up" at the knot points, as do their first and second derivatives).</li>
- * </ol></p>
+ * </ol>
  * <p>
  * The cubic spline interpolation algorithm implemented is as described in R.L. Burden, J.D. Faires,
  * <u>Numerical Analysis</u>, 4th Ed., 1989, PWS-Kent, ISBN 0-53491-585-X, pp 126-131.

@@ -19,19 +19,19 @@ package org.apache.commons.math3.analysis.interpolation;
 import org.apache.commons.math3.analysis.TrivariateFunction;
 import org.apache.commons.math3.exception.DimensionMismatchException;
 import org.apache.commons.math3.exception.NoDataException;
-import org.apache.commons.math3.exception.OutOfRangeException;
 import org.apache.commons.math3.exception.NonMonotonicSequenceException;
+import org.apache.commons.math3.exception.OutOfRangeException;
 import org.apache.commons.math3.util.MathArrays;
 
 /**
  * Function that implements the
  * <a href="http://en.wikipedia.org/wiki/Tricubic_interpolation">
  * tricubic spline interpolation</a>, as proposed in
- * <quote>
- *  Tricubic interpolation in three dimensions<br/>
- *  F. Lekien and J. Marsden<br/>
+ * <blockquote>
+ *  Tricubic interpolation in three dimensions,
+ *  F. Lekien and J. Marsden,
  *  <em>Int. J. Numer. Meth. Engng</em> 2005; <b>63</b>:455-471
- * </quote>
+ * </blockquote>
  *
  * @since 2.2
  * @deprecated To be removed in 4.0 (see MATH-1166).

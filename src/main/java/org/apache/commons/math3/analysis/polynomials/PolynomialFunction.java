@@ -19,14 +19,14 @@ package org.apache.commons.math3.analysis.polynomials;
 import java.io.Serializable;
 import java.util.Arrays;
 
-import org.apache.commons.math3.exception.util.LocalizedFormats;
-import org.apache.commons.math3.exception.NoDataException;
-import org.apache.commons.math3.exception.NullArgumentException;
 import org.apache.commons.math3.analysis.DifferentiableUnivariateFunction;
-import org.apache.commons.math3.analysis.UnivariateFunction;
 import org.apache.commons.math3.analysis.ParametricUnivariateFunction;
+import org.apache.commons.math3.analysis.UnivariateFunction;
 import org.apache.commons.math3.analysis.differentiation.DerivativeStructure;
 import org.apache.commons.math3.analysis.differentiation.UnivariateDifferentiableFunction;
+import org.apache.commons.math3.exception.NoDataException;
+import org.apache.commons.math3.exception.NullArgumentException;
+import org.apache.commons.math3.exception.util.LocalizedFormats;
 import org.apache.commons.math3.util.FastMath;
 import org.apache.commons.math3.util.MathUtils;
 
@@ -81,8 +81,8 @@ public class PolynomialFunction implements UnivariateDifferentiableFunction, Dif
     /**
      * Compute the value of the function for the given argument.
      * <p>
-     *  The value returned is <br/>
-     *  <code>coefficients[n] * x^n + ... + coefficients[1] * x  + coefficients[0]</code>
+     *  The value returned is </p><p>
+     *  {@code coefficients[n] * x^n + ... + coefficients[1] * x  + coefficients[0]}
      * </p>
      *
      * @param x Argument for which the function value should be computed.
@@ -188,7 +188,7 @@ public class PolynomialFunction implements UnivariateDifferentiableFunction, Dif
      * Subtract a polynomial from the instance.
      *
      * @param p Polynomial to subtract.
-     * @return a new polynomial which is the difference the instance minus {@code p}.
+     * @return a new polynomial which is the instance minus {@code p}.
      */
     public PolynomialFunction subtract(final PolynomialFunction p) {
         // identify the lowest degree polynomial
@@ -215,7 +215,7 @@ public class PolynomialFunction implements UnivariateDifferentiableFunction, Dif
     /**
      * Negate the instance.
      *
-     * @return a new polynomial.
+     * @return a new polynomial with all coefficients negated
      */
     public PolynomialFunction negate() {
         double[] newCoefficients = new double[coefficients.length];
@@ -229,7 +229,7 @@ public class PolynomialFunction implements UnivariateDifferentiableFunction, Dif
      * Multiply the instance by a polynomial.
      *
      * @param p Polynomial to multiply by.
-     * @return a new polynomial.
+     * @return a new polynomial equal to this times {@code p}
      */
     public PolynomialFunction multiply(final PolynomialFunction p) {
         double[] newCoefficients = new double[coefficients.length + p.coefficients.length - 1];

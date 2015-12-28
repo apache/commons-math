@@ -18,17 +18,17 @@ package org.apache.commons.math3.analysis.polynomials;
 
 import java.util.Arrays;
 
-import org.apache.commons.math3.util.MathArrays;
 import org.apache.commons.math3.analysis.DifferentiableUnivariateFunction;
 import org.apache.commons.math3.analysis.UnivariateFunction;
 import org.apache.commons.math3.analysis.differentiation.DerivativeStructure;
 import org.apache.commons.math3.analysis.differentiation.UnivariateDifferentiableFunction;
-import org.apache.commons.math3.exception.NonMonotonicSequenceException;
-import org.apache.commons.math3.exception.OutOfRangeException;
-import org.apache.commons.math3.exception.NumberIsTooSmallException;
 import org.apache.commons.math3.exception.DimensionMismatchException;
+import org.apache.commons.math3.exception.NonMonotonicSequenceException;
 import org.apache.commons.math3.exception.NullArgumentException;
+import org.apache.commons.math3.exception.NumberIsTooSmallException;
+import org.apache.commons.math3.exception.OutOfRangeException;
 import org.apache.commons.math3.exception.util.LocalizedFormats;
+import org.apache.commons.math3.util.MathArrays;
 
 /**
  * Represents a polynomial spline function.
@@ -59,8 +59,8 @@ import org.apache.commons.math3.exception.util.LocalizedFormats;
  * than the largest one, an <code>IllegalArgumentException</code>
  * is thrown.</li>
  * <li> Let <code>j</code> be the index of the largest knot point that is less
- * than or equal to <code>x</code>.  The value returned is <br>
- * <code>polynomials[j](x - knot[j])</code></li></ol></p>
+ * than or equal to <code>x</code>.  The value returned is
+ * {@code polynomials[j](x - knot[j])}</li></ol>
  *
  */
 public class PolynomialSplineFunction implements UnivariateDifferentiableFunction, DifferentiableUnivariateFunction {

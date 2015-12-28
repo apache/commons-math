@@ -177,7 +177,7 @@ public class TricubicSplineInterpolator
 
     /**
      * Compute the next index of an array, clipping if necessary.
-     * It is assumed (but not checked) that {@code i} is larger than or equal to 0}.
+     * It is assumed (but not checked) that {@code i} is larger than or equal to 0.
      *
      * @param i Index
      * @param max Upper limit of the array

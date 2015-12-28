@@ -19,8 +19,8 @@ package org.apache.commons.math3.analysis.interpolation;
 import org.apache.commons.math3.analysis.TrivariateFunction;
 import org.apache.commons.math3.exception.DimensionMismatchException;
 import org.apache.commons.math3.exception.NoDataException;
-import org.apache.commons.math3.exception.OutOfRangeException;
 import org.apache.commons.math3.exception.NonMonotonicSequenceException;
+import org.apache.commons.math3.exception.OutOfRangeException;
 import org.apache.commons.math3.util.MathArrays;
 
 /**
@@ -28,9 +28,9 @@ import org.apache.commons.math3.util.MathArrays;
  * <a href="http://en.wikipedia.org/wiki/Tricubic_interpolation">
  * tricubic spline interpolation</a>, as proposed in
  * <blockquote>
- *  Tricubic interpolation in three dimensions<br>
- *  F. Lekien and J. Marsden<br>
- *  <em>Int. J. Numer. Meth. Eng</em> 2005; <b>63</b>:455-471<br>
+ *  Tricubic interpolation in three dimensions,
+ *  F. Lekien and J. Marsden,
+ *  <em>Int. J. Numer. Meth. Eng</em> 2005; <b>63</b>:455-471
  * </blockquote>
  *
  * @since 3.4.
@@ -114,7 +114,7 @@ public class TricubicInterpolatingFunction
     private final double[] yval;
     /** Samples z-coordinates */
     private final double[] zval;
-    /** Set of cubic splines pacthing the whole data grid */
+    /** Set of cubic splines patching the whole data grid */
     private final TricubicFunction[][][] splines;
 
     /**
