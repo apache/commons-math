@@ -20,7 +20,7 @@ package org.apache.commons.math4.distribution;
 import org.apache.commons.math4.TestUtils;
 import org.apache.commons.math4.distribution.ZipfDistribution.ZipfRejectionInversionSampler;
 import org.apache.commons.math4.exception.NotStrictlyPositiveException;
-import org.apache.commons.math4.random.AbstractRandomGenerator;
+import org.apache.commons.math4.random.BaseRandomGenerator;
 import org.apache.commons.math4.random.RandomGenerator;
 import org.apache.commons.math4.random.Well1024a;
 import org.apache.commons.math4.util.FastMath;
@@ -215,20 +215,27 @@ public class ZipfDistributionTest extends IntegerDistributionAbstractTest {
                 long start = System.currentTimeMillis();
                 final int[] randomNumberCounter = new int[1];
 
-                RandomGenerator randomGenerator  = new AbstractRandomGenerator() {
+                RandomGenerator randomGenerator  = new BaseRandomGenerator() {
+                        private final RandomGenerator r = new Well1024a(0L);
 
-                    private final RandomGenerator r = new Well1024a(0L);
-
-                    @Override
-                    public void setSeed(long seed) {
-                    }
-
-                    @Override
-                    public double nextDouble() {
-                        randomNumberCounter[0]+=1;
-                        return r.nextDouble();
-                    }
-                };
+                        @Override
+                        public void setSeed(long s) {
+                            r.setSeed(s);
+                        }
+                        @Override
+                        public void setSeed(int s) {
+                            r.setSeed(s);
+                        }
+                        @Override
+                        public void setSeed(int[] s) {
+                            r.setSeed(s);
+                        }
+                        @Override
+                        public int nextInt() {
+                            randomNumberCounter[0] += 1;
+                            return r.nextInt();
+                        }
+                    };
 
                 final ZipfDistribution distribution = new ZipfDistribution(randomGenerator, numPoints, exponent);
                 for (int i = 0; i < numGeneratedSamples; ++i) {
