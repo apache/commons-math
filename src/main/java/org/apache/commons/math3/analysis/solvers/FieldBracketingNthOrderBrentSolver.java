@@ -36,12 +36,11 @@ import org.apache.commons.math3.util.Precision;
  * The changes with respect to the original Brent algorithm are:
  * <ul>
  *   <li>the returned value is chosen in the current interval according
- *   to user specified {@link AllowedSolution},</li>
+ *   to user specified {@link AllowedSolution}</li>
  *   <li>the maximal order for the invert polynomial root search is
  *   user-specified instead of being invert quadratic only</li>
- * </ul>
- * </p>
- * The given interval must bracket the root.
+ * </ul><p>
+ * The given interval must bracket the root.</p>
  *
  * @param <T> the type of the field elements
  * @since 3.6

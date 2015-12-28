@@ -20,8 +20,8 @@ package org.apache.commons.math3.analysis.solvers;
 import org.apache.commons.math3.analysis.UnivariateFunction;
 import org.apache.commons.math3.exception.MathInternalError;
 import org.apache.commons.math3.exception.NoBracketingException;
-import org.apache.commons.math3.exception.NumberIsTooSmallException;
 import org.apache.commons.math3.exception.NumberIsTooLargeException;
+import org.apache.commons.math3.exception.NumberIsTooSmallException;
 import org.apache.commons.math3.exception.TooManyEvaluationsException;
 import org.apache.commons.math3.util.FastMath;
 import org.apache.commons.math3.util.Precision;
@@ -36,9 +36,8 @@ import org.apache.commons.math3.util.Precision;
  *   to user specified {@link AllowedSolution},</li>
  *   <li>the maximal order for the invert polynomial root search is
  *   user-specified instead of being invert quadratic only</li>
- * </ul>
- * </p>
- * The given interval must bracket the root.
+ * </ul><p>
+ * The given interval must bracket the root.</p>
  *
  */
 public class BracketingNthOrderBrentSolver

@@ -16,10 +16,10 @@
  */
 package org.apache.commons.math3.analysis.solvers;
 
-import org.apache.commons.math3.util.FastMath;
-import org.apache.commons.math3.exception.NumberIsTooLargeException;
 import org.apache.commons.math3.exception.NoBracketingException;
+import org.apache.commons.math3.exception.NumberIsTooLargeException;
 import org.apache.commons.math3.exception.TooManyEvaluationsException;
+import org.apache.commons.math3.util.FastMath;
 
 /**
  * This class implements the <a href="http://mathworld.wolfram.com/MullersMethod.html">
@@ -30,7 +30,7 @@ import org.apache.commons.math3.exception.TooManyEvaluationsException;
  * Muller's method applies to both real and complex functions, but here we
  * restrict ourselves to real functions.
  * This class differs from {@link MullerSolver} in the way it avoids complex
- * operations.</p>
+ * operations.</p><p>
  * Muller's original method would have function evaluation at complex point.
  * Since our f(x) is real, we have to find ways to avoid that. Bracketing
  * condition is one way to go: by requiring bracketing in every iteration,

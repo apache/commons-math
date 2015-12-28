@@ -18,8 +18,8 @@ package org.apache.commons.math3.analysis.solvers;
 
 
 import org.apache.commons.math3.exception.NoBracketingException;
-import org.apache.commons.math3.exception.TooManyEvaluationsException;
 import org.apache.commons.math3.exception.NumberIsTooLargeException;
+import org.apache.commons.math3.exception.TooManyEvaluationsException;
 import org.apache.commons.math3.util.FastMath;
 import org.apache.commons.math3.util.Precision;
 
@@ -31,15 +31,14 @@ import org.apache.commons.math3.util.Precision;
  * in the given interval {@code [a, b]} to within a tolerance
  * {@code 2 eps abs(x) + t} where {@code eps} is the relative accuracy and
  * {@code t} is the absolute accuracy.
- * The given interval must bracket the root.
+ * <p>The given interval must bracket the root.</p>
  * <p>
  *  The reference implementation is given in chapter 4 of
  *  <blockquote>
- *   <b>Algorithms for Minimization Without Derivatives</b><br>
- *   <em>Richard P. Brent</em><br>
- *   Dover, 2002<br>
+ *   <b>Algorithms for Minimization Without Derivatives</b>,
+ *   <em>Richard P. Brent</em>,
+ *   Dover, 2002
  *  </blockquote>
- * </p>
  *
  * @see BaseAbstractUnivariateSolver
  */
@@ -138,8 +137,8 @@ public class BrentSolver extends AbstractUnivariateSolver {
      * This implementation is based on the algorithm described at page 58 of
      * the book
      * <blockquote>
-     *  <b>Algorithms for Minimization Without Derivatives</b>
-     *  <it>Richard P. Brent</it>
+     *  <b>Algorithms for Minimization Without Derivatives</b>,
+     *  <it>Richard P. Brent</it>,
      *  Dover 0-486-41998-3
      * </blockquote>
      *

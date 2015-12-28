@@ -16,14 +16,14 @@
  */
 package org.apache.commons.math3.analysis.solvers;
 
+import org.apache.commons.math3.analysis.polynomials.PolynomialFunction;
 import org.apache.commons.math3.complex.Complex;
 import org.apache.commons.math3.complex.ComplexUtils;
-import org.apache.commons.math3.analysis.polynomials.PolynomialFunction;
 import org.apache.commons.math3.exception.NoBracketingException;
-import org.apache.commons.math3.exception.NullArgumentException;
 import org.apache.commons.math3.exception.NoDataException;
-import org.apache.commons.math3.exception.TooManyEvaluationsException;
+import org.apache.commons.math3.exception.NullArgumentException;
 import org.apache.commons.math3.exception.NumberIsTooLargeException;
+import org.apache.commons.math3.exception.TooManyEvaluationsException;
 import org.apache.commons.math3.exception.util.LocalizedFormats;
 import org.apache.commons.math3.util.FastMath;
 
@@ -32,8 +32,8 @@ import org.apache.commons.math3.util.FastMath;
  * Laguerre's Method</a> for root finding of real coefficient polynomials.
  * For reference, see
  * <blockquote>
- *  <b>A First Course in Numerical Analysis</b><br>
- *  ISBN 048641454X, chapter 8.<br>
+ *  <b>A First Course in Numerical Analysis</b>,
+ *  ISBN 048641454X, chapter 8.
  * </blockquote>
  * Laguerre's method is global in the sense that it can start with any initial
  * approximation and be able to solve all roots from that point.
@@ -136,7 +136,7 @@ public class LaguerreSolver extends AbstractPolynomialSolver {
      * Despite the bracketing condition, the root returned by
      * {@link LaguerreSolver.ComplexSolver#solve(Complex[],Complex)} may
      * not be a real zero inside {@code [min, max]}.
-     * For example, <code>p(x) = x<sup>3</sup> + 1,</code>
+     * For example, <code> p(x) = x<sup>3</sup> + 1, </code>
      * with {@code min = -2}, {@code max = 2}, {@code initial = 0}.
      * When it occurs, this code calls
      * {@link LaguerreSolver.ComplexSolver#solveAll(Complex[],Complex)}
@@ -176,8 +176,8 @@ public class LaguerreSolver extends AbstractPolynomialSolver {
     /**
      * Find all complex roots for the polynomial with the given
      * coefficients, starting from the given initial value.
-     * <br/>
-     * Note: This method is not part of the API of {@link BaseUnivariateSolver}.
+     * <p>
+     * Note: This method is not part of the API of {@link BaseUnivariateSolver}.</p>
      *
      * @param coefficients Polynomial coefficients.
      * @param initial Start value.
@@ -200,8 +200,8 @@ public class LaguerreSolver extends AbstractPolynomialSolver {
     /**
      * Find all complex roots for the polynomial with the given
      * coefficients, starting from the given initial value.
-     * <br/>
-     * Note: This method is not part of the API of {@link BaseUnivariateSolver}.
+     * <p>
+     * Note: This method is not part of the API of {@link BaseUnivariateSolver}.</p>
      *
      * @param coefficients polynomial coefficients
      * @param initial start value
@@ -231,8 +231,8 @@ public class LaguerreSolver extends AbstractPolynomialSolver {
     /**
      * Find a complex root for the polynomial with the given coefficients,
      * starting from the given initial value.
-     * <br/>
-     * Note: This method is not part of the API of {@link BaseUnivariateSolver}.
+     * <p>
+     * Note: This method is not part of the API of {@link BaseUnivariateSolver}.</p>
      *
      * @param coefficients Polynomial coefficients.
      * @param initial Start value.
@@ -255,8 +255,8 @@ public class LaguerreSolver extends AbstractPolynomialSolver {
     /**
      * Find a complex root for the polynomial with the given coefficients,
      * starting from the given initial value.
-     * <br/>
-     * Note: This method is not part of the API of {@link BaseUnivariateSolver}.
+     * <p>
+     * Note: This method is not part of the API of {@link BaseUnivariateSolver}.</p>
      *
      * @param coefficients polynomial coefficients
      * @param initial start value
