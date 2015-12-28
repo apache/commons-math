@@ -345,8 +345,8 @@ public abstract class AdaptiveStepsizeFieldIntegrator<T extends RealFieldElement
 
     /** Reset internal state to dummy values. */
     protected void resetInternalState() {
-        stepStart = null;
-        stepSize  = minStep.multiply(maxStep).sqrt();
+        setStepStart(null);
+        setStepSize(minStep.multiply(maxStep).sqrt());
     }
 
     /** Get the minimal step.

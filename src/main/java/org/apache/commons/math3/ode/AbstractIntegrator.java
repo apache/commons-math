@@ -394,6 +394,7 @@ public abstract class AbstractIntegrator implements FirstOrderIntegrator {
                 }
 
                 boolean needReset = false;
+                resetOccurred = false;
                 for (final EventState state : eventsStates) {
                     needReset =  needReset || state.reset(eventT, eventYComplete);
                 }
