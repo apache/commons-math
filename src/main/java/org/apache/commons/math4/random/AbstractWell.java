@@ -79,7 +79,7 @@ public abstract class AbstractWell
         index = 0;
 
         // Initialize the pool content.
-        setSeed(seed);
+        setSeedInternal(seed);
     }
 
     /**
@@ -92,6 +92,25 @@ public abstract class AbstractWell
         this(k, new int[] { (int) (seed >>> 32), (int) (seed & 0xffffffffl) });
     }
 
+
+    /** {@inheritDoc} */
+    @Override
+    public void setSeed(int seed) {
+        setSeedInternal(seed);
+    }
+
+    /** {@inheritDoc} */
+    @Override
+    public void setSeed(int[] seed) {
+        setSeedInternal(seed);
+    }
+
+    /** {@inheritDoc} */
+    @Override
+    public void setSeed(long seed) {
+        setSeedInternal(seed);
+    }
+
     /**
      * Reinitialize the generator as if just built with the given int seed.
      *
@@ -100,9 +119,8 @@ public abstract class AbstractWell
      *
      * @param seed Seed (32 bits integer).
      */
-    @Override
-    public void setSeed(final int seed) {
-        setSeed(new int[] { seed });
+    private void setSeedInternal(final int seed) {
+        setSeedInternal(new int[] { seed });
     }
 
     /**
@@ -114,8 +132,7 @@ public abstract class AbstractWell
      * @param seed Seed (32 bits integers array). If null the seed of the generator
      * will be the system time plus the system identity hash code of the instance.
      */
-    @Override
-    public void setSeed(final int[] seed) {
+    private void setSeedInternal(final int[] seed) {
         if (seed == null) {
             setSeed(System.currentTimeMillis() + System.identityHashCode(this));
             return;
@@ -142,9 +159,8 @@ public abstract class AbstractWell
      *
      * @param seed Seed (64 bits integer).
      */
-    @Override
-    public void setSeed(final long seed) {
-        setSeed(new int[] { (int) (seed >>> 32), (int) (seed & 0xffffffffl) });
+    private void setSeedInternal(final long seed) {
+        setSeedInternal(new int[] { (int) (seed >>> 32), (int) (seed & 0xffffffffl) });
     }
 
     /**
