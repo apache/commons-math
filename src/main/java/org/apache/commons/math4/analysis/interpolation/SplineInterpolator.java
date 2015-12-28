@@ -29,7 +29,7 @@ import org.apache.commons.math4.util.MathArrays;
  * <p>
  * The {@link #interpolate(double[], double[])} method returns a {@link PolynomialSplineFunction}
  * consisting of n cubic polynomials, defined over the subintervals determined by the x values,
- * x[0] < x[i] ... < x[n].  The x values are referred to as "knot points."</p>
+ * @code{x[0] < x[i] ... < x[n].}  The x values are referred to as "knot points."</p>
  * <p>
  * The value of the PolynomialSplineFunction at a point x that is greater than or equal to the smallest
  * knot point and strictly less than the largest knot point is computed by finding the subinterval to which

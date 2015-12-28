@@ -57,8 +57,8 @@ import org.apache.commons.math4.util.MathArrays;
  * than the largest one, an <code>IllegalArgumentException</code>
  * is thrown.</li>
  * <li> Let <code>j</code> be the index of the largest knot point that is less
- * than or equal to <code>x</code>.  The value returned is <br>
- * <code>polynomials[j](x - knot[j])</code></li></ol></p>
+ * than or equal to <code>x</code>.  The value returned is
+ * {@code polynomials[j](x - knot[j])}</li></ol>
  *
  */
 public class PolynomialSplineFunction implements UnivariateDifferentiableFunction {
