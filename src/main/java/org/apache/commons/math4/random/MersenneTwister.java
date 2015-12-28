@@ -111,7 +111,7 @@ public class MersenneTwister
      */
     public MersenneTwister() {
         mt = new int[N];
-        setSeed(System.currentTimeMillis() + System.identityHashCode(this));
+        setSeedInternal(System.currentTimeMillis() + System.identityHashCode(this));
     }
 
     /** Creates a new random number generator using a single int seed.
@@ -119,7 +119,7 @@ public class MersenneTwister
      */
     public MersenneTwister(int seed) {
         mt = new int[N];
-        setSeed(seed);
+        setSeedInternal(seed);
     }
 
     /** Creates a new random number generator using an int array seed.
@@ -128,7 +128,7 @@ public class MersenneTwister
      */
     public MersenneTwister(int[] seed) {
         mt = new int[N];
-        setSeed(seed);
+        setSeedInternal(seed);
     }
 
     /** Creates a new random number generator using a single long seed.
@@ -136,7 +136,25 @@ public class MersenneTwister
      */
     public MersenneTwister(long seed) {
         mt = new int[N];
-        setSeed(seed);
+        setSeedInternal(seed);
+    }
+
+    /** {@inheritDoc} */
+    @Override
+    public void setSeed(int seed) {
+        setSeedInternal(seed);
+    }
+
+    /** {@inheritDoc} */
+    @Override
+    public void setSeed(int[] seed) {
+        setSeedInternal(seed);
+    }
+
+    /** {@inheritDoc} */
+    @Override
+    public void setSeed(long seed) {
+        setSeedInternal(seed);
     }
 
     /** Reinitialize the generator as if just built with the given int seed.
@@ -144,8 +162,7 @@ public class MersenneTwister
      * generator built with the same seed.</p>
      * @param seed the initial seed (32 bits integer)
      */
-    @Override
-    public void setSeed(int seed) {
+    private void setSeedInternal(int seed) {
         // we use a long masked by 0xffffffffL as a poor man unsigned int
         long longMT = seed;
         // NB: unlike original C code, we are working with java longs, the cast below makes masking unnecessary
@@ -167,15 +184,14 @@ public class MersenneTwister
      * the seed of the generator will be the current system time plus the
      * system identity hash code of this instance
      */
-    @Override
-    public void setSeed(int[] seed) {
+    private void setSeedInternal(int[] seed) {
 
         if (seed == null) {
-            setSeed(System.currentTimeMillis() + System.identityHashCode(this));
+            setSeedInternal(System.currentTimeMillis() + System.identityHashCode(this));
             return;
         }
 
-        setSeed(19650218);
+        setSeedInternal(19650218);
         int i = 1;
         int j = 0;
 
@@ -217,9 +233,8 @@ public class MersenneTwister
      * generator built with the same seed.</p>
      * @param seed the initial seed (64 bits integer)
      */
-    @Override
-    public void setSeed(long seed) {
-        setSeed(new int[] { (int) (seed >>> 32), (int) (seed & 0xffffffffl) });
+    private void setSeedInternal(long seed) {
+        setSeedInternal(new int[] { (int) (seed >>> 32), (int) (seed & 0xffffffffl) });
     }
 
     /**
