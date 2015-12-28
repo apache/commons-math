@@ -38,7 +38,7 @@ import org.apache.commons.math3.util.MathUtils;
  * real univariate functions.
  * <p>
  * For reference, see
- * <a href="http://www.stat.washington.edu/courses/stat527/s13/readings/Cleveland_JASA_1979.pdf">
+ * <a href="http://amstat.tandfonline.com/doi/abs/10.1080/01621459.1979.10481038">
  * William S. Cleveland - Robust Locally Weighted Regression and Smoothing
  * Scatterplots</a>
  * </p>
