@@ -43,13 +43,13 @@ import org.junit.Ignore;
  */
 
 public abstract class RandomGeneratorAbstractTest extends RandomDataGeneratorTest {
-
-    /** RandomGenerator under test */
+    /** Generator to test. */
     protected RandomGenerator generator;
 
     /**
      * Override this method in subclasses to provide a concrete generator to test.
-     * Return a generator seeded with a fixed seed.
+     *
+     * @return a new generator seeded with a fixed seed.
      */
     protected abstract RandomGenerator makeGenerator();
 
