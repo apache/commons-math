@@ -138,7 +138,6 @@ public class BracketingNthOrderBrentSolverDFP extends FieldBracketingNthOrderBre
         RealFieldUnivariateFunction<Dfp> fieldF = new RealFieldUnivariateFunction<Dfp>() {
 
             /** {@inheritDoc} */
-            @Override
             public Dfp value(final Dfp x) {
                 return f.value(x);
             }

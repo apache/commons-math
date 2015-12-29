@@ -40,7 +40,6 @@ public class QuantizationError implements MapDataVisualization {
     }
 
     /** {@inheritDoc} */
-    @Override
     public double[][] computeImage(NeuronSquareMesh2D map,
                                    Iterable<double[]> data) {
         final int nR = map.getNumberOfRows();

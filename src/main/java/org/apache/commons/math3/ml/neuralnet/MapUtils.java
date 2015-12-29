@@ -298,7 +298,6 @@ public class MapUtils {
         static final Comparator<PairNeuronDouble> COMPARATOR
             = new Comparator<PairNeuronDouble>() {
             /** {@inheritDoc} */
-            @Override
             public int compare(PairNeuronDouble o1,
                                PairNeuronDouble o2) {
                 return Double.compare(o1.value, o2.value);

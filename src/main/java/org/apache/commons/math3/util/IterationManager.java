@@ -62,7 +62,6 @@ public class IterationManager {
                             final Incrementor.MaxCountExceededCallback callBack) {
         this(maxIterations, new IntegerSequence.Incrementor.MaxCountExceededCallback() {
             /** {@inheritDoc} */
-            @Override
             public void trigger(final int maximalCount) throws MaxCountExceededException {
                 callBack.trigger(maximalCount);
             }

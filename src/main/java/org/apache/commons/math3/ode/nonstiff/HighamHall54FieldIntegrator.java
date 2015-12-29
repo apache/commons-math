@@ -105,7 +105,6 @@ public class HighamHall54FieldIntegrator<T extends RealFieldElement<T>>
     }
 
     /** {@inheritDoc} */
-    @Override
     public T[] getC() {
         final T[] c = MathArrays.buildArray(getField(), 6);
         c[0] = fraction(2, 9);
@@ -118,7 +117,6 @@ public class HighamHall54FieldIntegrator<T extends RealFieldElement<T>>
     }
 
     /** {@inheritDoc} */
-    @Override
     public T[][] getA() {
         final T[][] a = MathArrays.buildArray(getField(), 6, -1);
         for (int i = 0; i < a.length; ++i) {
@@ -149,7 +147,6 @@ public class HighamHall54FieldIntegrator<T extends RealFieldElement<T>>
     }
 
     /** {@inheritDoc} */
-    @Override
     public T[] getB() {
         final T[] b = MathArrays.buildArray(getField(), 7);
         b[0] = fraction(  1, 12);

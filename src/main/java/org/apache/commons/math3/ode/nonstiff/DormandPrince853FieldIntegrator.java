@@ -191,7 +191,6 @@ public class DormandPrince853FieldIntegrator<T extends RealFieldElement<T>>
     }
 
     /** {@inheritDoc} */
-    @Override
     public T[] getC() {
 
         final T sqrt6 = getField().getOne().multiply(6).sqrt();
@@ -218,7 +217,6 @@ public class DormandPrince853FieldIntegrator<T extends RealFieldElement<T>>
     }
 
     /** {@inheritDoc} */
-    @Override
     public T[][] getA() {
 
         final T sqrt6 = getField().getOne().multiply(6).sqrt();
@@ -371,7 +369,6 @@ public class DormandPrince853FieldIntegrator<T extends RealFieldElement<T>>
     }
 
     /** {@inheritDoc} */
-    @Override
     public T[] getB() {
         final T[] b = MathArrays.buildArray(getField(), 16);
         b[ 0] = fraction(104257, 1920240);

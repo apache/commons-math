@@ -111,7 +111,6 @@ public abstract class RungeKuttaFieldIntegrator<T extends RealFieldElement<T>>
                                                                              FieldEquationsMapper<T> mapper);
 
     /** {@inheritDoc} */
-    @Override
     public FieldODEStateAndDerivative<T> integrate(final FieldExpandableODE<T> equations,
                                                    final FieldODEState<T> initialState, final T finalTime)
         throws NumberIsTooSmallException, DimensionMismatchException,

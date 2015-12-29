@@ -124,7 +124,6 @@ public class MicrosphereProjectionInterpolator
      * @throws DimensionMismatchException if the space dimension of the
      * given samples does not match the space dimension of the microsphere.
      */
-    @Override
     public MultivariateFunction interpolate(final double[][] xval,
                                             final double[] yval)
         throws DimensionMismatchException,
@@ -153,7 +152,6 @@ public class MicrosphereProjectionInterpolator
 
         return new MultivariateFunction() {
             /** {inheritDoc} */
-            @Override
             public double value(double[] point) {
                 return m.value(point,
                                xval,

@@ -64,19 +64,16 @@ public class EulerFieldIntegrator<T extends RealFieldElement<T>> extends RungeKu
     }
 
     /** {@inheritDoc} */
-    @Override
     public T[] getC() {
         return MathArrays.buildArray(getField(), 0);
     }
 
     /** {@inheritDoc} */
-    @Override
     public T[][] getA() {
         return MathArrays.buildArray(getField(), 0, 0);
     }
 
     /** {@inheritDoc} */
-    @Override
     public T[] getB() {
         final T[] b = MathArrays.buildArray(getField(), 1);
         b[0] = getField().getOne();

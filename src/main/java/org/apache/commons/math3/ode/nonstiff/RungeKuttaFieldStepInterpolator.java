@@ -69,6 +69,7 @@ abstract class RungeKuttaFieldStepInterpolator<T extends RealFieldElement<T>>
     }
 
     /** {@inheritDoc} */
+    @Override
     protected RungeKuttaFieldStepInterpolator<T> create(boolean newForward,
                                                         FieldODEStateAndDerivative<T> newGlobalPreviousState,
                                                         FieldODEStateAndDerivative<T> newGlobalCurrentState,
@@ -103,7 +104,6 @@ abstract class RungeKuttaFieldStepInterpolator<T extends RealFieldElement<T>>
      * @param coefficients coefficients to apply to the method staged derivatives
      * @return combined state
      */
-    @SafeVarargs
     protected final T[] previousStateLinearCombination(final T ... coefficients) {
         return combine(getPreviousState().getState(),
                        coefficients);
@@ -113,7 +113,6 @@ abstract class RungeKuttaFieldStepInterpolator<T extends RealFieldElement<T>>
      * @param coefficients coefficients to apply to the method staged derivatives
      * @return combined state
      */
-    @SuppressWarnings("unchecked")
     protected T[] currentStateLinearCombination(final T ... coefficients) {
         return combine(getCurrentState().getState(),
                        coefficients);
@@ -123,7 +122,6 @@ abstract class RungeKuttaFieldStepInterpolator<T extends RealFieldElement<T>>
      * @param coefficients coefficients to apply to the method staged derivatives
      * @return combined state
      */
-    @SuppressWarnings("unchecked")
     protected T[] derivativeLinearCombination(final T ... coefficients) {
         return combine(MathArrays.buildArray(field, yDotK[0].length), coefficients);
     }
@@ -131,9 +129,8 @@ abstract class RungeKuttaFieldStepInterpolator<T extends RealFieldElement<T>>
     /** Linearly combine arrays.
      * @param a array to add to
      * @param coefficients coefficients to apply to the method staged derivatives
-     * @return a itself, as a conveniency for fluent API
+     * @return a itself, as a convenience for fluent API
      */
-    @SuppressWarnings("unchecked")
     private T[] combine(final T[] a, final T ... coefficients) {
         for (int i = 0; i < a.length; ++i) {
             for (int k = 0; k < coefficients.length; ++k) {

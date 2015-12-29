@@ -24,6 +24,7 @@ import org.apache.commons.math3.util.Decimal64Field;
 
 public class EulerFieldIntegratorTest extends AbstractRungeKuttaFieldIntegratorTest {
 
+    @Override
     protected <T extends RealFieldElement<T>> RungeKuttaFieldIntegrator<T>
     createIntegrator(Field<T> field, T step) {
         return new EulerFieldIntegrator<T>(field, step);

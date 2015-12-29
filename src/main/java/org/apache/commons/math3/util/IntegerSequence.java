@@ -108,7 +108,6 @@ public class IntegerSequence {
         }
 
         /** {@inheritDoc} */
-        @Override
         public Iterator<Integer> iterator() {
             return Incrementor.create()
                 .withStart(start)
@@ -130,7 +129,6 @@ public class IntegerSequence {
         private static final MaxCountExceededCallback CALLBACK
             = new MaxCountExceededCallback() {
                     /** {@inheritDoc} */
-                    @Override
                     public void trigger(int max) throws MaxCountExceededException {
                         throw new MaxCountExceededException(max);
                     }
@@ -328,7 +326,7 @@ public class IntegerSequence {
          * {@link MaxCountExceededCallback#trigger(int) trigger} method of the
          * callback object passed to the
          * {@link #withCallback(MaxCountExceededCallback)} method.
-         * If not explictly set, a default callback is used that will throw
+         * If not explicitly set, a default callback is used that will throw
          * a {@code MaxCountExceededException}.
          *
          * @throws MaxCountExceededException at counter exhaustion, unless a
@@ -341,13 +339,11 @@ public class IntegerSequence {
         }
 
         /** {@inheritDoc} */
-        @Override
         public boolean hasNext() {
             return canIncrement(0);
         }
 
         /** {@inheritDoc} */
-        @Override
         public Integer next() {
             final int value = count;
             increment();
@@ -359,7 +355,6 @@ public class IntegerSequence {
          *
          * @throws MathUnsupportedOperationException
          */
-        @Override
         public void remove() {
             throw new MathUnsupportedOperationException();
         }

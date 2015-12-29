@@ -34,7 +34,6 @@ public final class MicrosphereProjectionInterpolatorTest {
     @Test
     public void testLinearFunction2D() {
         MultivariateFunction f = new MultivariateFunction() {
-            @Override
             public double value(double[] x) {
                 if (x.length != 2) {
                     throw new IllegalArgumentException();

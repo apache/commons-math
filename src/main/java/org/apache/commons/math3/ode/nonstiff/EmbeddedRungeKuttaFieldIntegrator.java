@@ -213,7 +213,6 @@ public abstract class EmbeddedRungeKuttaFieldIntegrator<T extends RealFieldEleme
     }
 
     /** {@inheritDoc} */
-    @Override
     public FieldODEStateAndDerivative<T> integrate(final FieldExpandableODE<T> equations,
                                                    final FieldODEState<T> initialState, final T finalTime)
         throws NumberIsTooSmallException, DimensionMismatchException,

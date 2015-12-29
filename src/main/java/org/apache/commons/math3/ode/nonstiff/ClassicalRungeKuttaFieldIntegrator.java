@@ -62,7 +62,6 @@ public class ClassicalRungeKuttaFieldIntegrator<T extends RealFieldElement<T>>
     }
 
     /** {@inheritDoc} */
-    @Override
     public T[] getC() {
         final T[] c = MathArrays.buildArray(getField(), 3);
         c[0] = getField().getOne().multiply(0.5);
@@ -72,7 +71,6 @@ public class ClassicalRungeKuttaFieldIntegrator<T extends RealFieldElement<T>>
     }
 
     /** {@inheritDoc} */
-    @Override
     public T[][] getA() {
         final T[][] a = MathArrays.buildArray(getField(), 3, -1);
         for (int i = 0; i < a.length; ++i) {
@@ -88,7 +86,6 @@ public class ClassicalRungeKuttaFieldIntegrator<T extends RealFieldElement<T>>
     }
 
     /** {@inheritDoc} */
-    @Override
     public T[] getB() {
         final T[] b = MathArrays.buildArray(getField(), 4);
         b[0] = fraction(1, 6);

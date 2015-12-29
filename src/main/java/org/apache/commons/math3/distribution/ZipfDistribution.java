@@ -137,6 +137,7 @@ public class ZipfDistribution extends AbstractIntegerDistribution {
     }
 
     /** {@inheritDoc} */
+    @Override
     public double logProbability(int x) {
         if (x <= 0 || x > numberOfElements) {
             return Double.NEGATIVE_INFINITY;
@@ -277,6 +278,7 @@ public class ZipfDistribution extends AbstractIntegerDistribution {
     /**
      * {@inheritDoc}
      */
+    @Override
     public int sample() {
         if (sampler == null) {
             sampler = new ZipfRejectionInversionSampler(numberOfElements, exponent);

@@ -92,7 +92,6 @@ public class KohonenUpdateAction implements UpdateAction {
     /**
      * {@inheritDoc}
      */
-    @Override
     public void update(Network net,
                        double[] features) {
         final long numCalls = numberOfCalls.incrementAndGet() - 1;

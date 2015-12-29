@@ -189,6 +189,7 @@ public class AdamsNordsieckFieldTransformer<T extends RealFieldElement<T>> {
      * @return Nordsieck transformer for the specified field and number of steps
      * @param <T> the type of the field elements
      */
+    @SuppressWarnings("unchecked")
     public static <T extends RealFieldElement<T>> AdamsNordsieckFieldTransformer<T>
     getInstance(final Field<T> field, final int nSteps) {
         synchronized(CACHE) {
@@ -199,13 +200,13 @@ public class AdamsNordsieckFieldTransformer<T extends RealFieldElement<T>> {
                                         AdamsNordsieckFieldTransformer<? extends RealFieldElement<?>>>();
                 CACHE.put(nSteps, map);
             }
-            @SuppressWarnings("unchecked")
-            AdamsNordsieckFieldTransformer<T> t = (AdamsNordsieckFieldTransformer<T>) map.get(field);
+            @SuppressWarnings("rawtypes") // use rawtype to avoid compilation problems with java 1.5
+            AdamsNordsieckFieldTransformer t = map.get(field);
             if (t == null) {
                 t = new AdamsNordsieckFieldTransformer<T>(field, nSteps);
-                map.put(field, t);
+                map.put(field, (AdamsNordsieckFieldTransformer<T>) t);
             }
-            return t;
+            return (AdamsNordsieckFieldTransformer<T>) t;
 
         }
     }
