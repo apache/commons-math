@@ -26,19 +26,19 @@ import org.apache.commons.math3.exception.NumberIsTooSmallException;
 import org.apache.commons.math3.util.Decimal64Field;
 import org.junit.Test;
 
-public class AdamsBashforthFieldIntegratorTest extends AbstractAdamsFieldIntegratorTest {
+public class AdamsMoultonFieldIntegratorTest extends AbstractAdamsFieldIntegratorTest {
 
     protected <T extends RealFieldElement<T>> AdamsFieldIntegrator<T>
     createIntegrator(Field<T> field, final int nSteps, final double minStep, final double maxStep,
                      final double scalAbsoluteTolerance, final double scalRelativeTolerance) {
-        return new AdamsBashforthFieldIntegrator<T>(field, nSteps, minStep, maxStep,
+        return new AdamsMoultonFieldIntegrator<T>(field, nSteps, minStep, maxStep,
                         scalAbsoluteTolerance, scalRelativeTolerance);
     }
 
     protected <T extends RealFieldElement<T>> AdamsFieldIntegrator<T>
     createIntegrator(Field<T> field, final int nSteps, final double minStep, final double maxStep,
                      final double[] vecAbsoluteTolerance, final double[] vecRelativeTolerance) {
-        return new AdamsBashforthFieldIntegrator<T>(field, nSteps, minStep, maxStep,
+        return new AdamsMoultonFieldIntegrator<T>(field, nSteps, minStep, maxStep,
                         vecAbsoluteTolerance, vecRelativeTolerance);
     }
 
@@ -49,10 +49,10 @@ public class AdamsBashforthFieldIntegratorTest extends AbstractAdamsFieldIntegra
 
     @Test
     public void testIncreasingTolerance() {
-        // the 2.6 and 122 factors are only valid for this test
+        // the 0.45 and 8.69 factors are only valid for this test
         // and has been obtained from trial and error
         // there are no general relationship between local and global errors
-        doTestIncreasingTolerance(Decimal64Field.getInstance(), 2.6, 122);
+        doTestIncreasingTolerance(Decimal64Field.getInstance(), 0.45, 8.69);
     }
 
     @Test(expected = MaxCountExceededException.class)
@@ -62,12 +62,12 @@ public class AdamsBashforthFieldIntegratorTest extends AbstractAdamsFieldIntegra
 
     @Test
     public void backward() {
-        doBackward(Decimal64Field.getInstance(), 4.3e-8, 4.3e-8, 1.0e-16, "Adams-Bashforth");
+        doBackward(Decimal64Field.getInstance(), 3.0e-9, 3.0e-9, 1.0e-16, "Adams-Moulton");
     }
 
     @Test
     public void polynomial() {
-        doPolynomial(Decimal64Field.getInstance(), 5, 0.004, 6.0e-10);
+        doPolynomial(Decimal64Field.getInstance(), 5, 2.2e-05, 1.1e-11);
     }
 
     @Test(expected=MathIllegalStateException.class)

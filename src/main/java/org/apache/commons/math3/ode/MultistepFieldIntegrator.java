@@ -316,6 +316,33 @@ public abstract class MultistepFieldIntegrator<T extends RealFieldElement<T>>
       return nSteps;
     }
 
+    /** Rescale the instance.
+     * <p>Since the scaled and Nordsieck arrays are shared with the caller,
+     * this method has the side effect of rescaling this arrays in the caller too.</p>
+     * @param newStepSize new step size to use in the scaled and Nordsieck arrays
+     */
+    protected void rescale(final T newStepSize) {
+
+        final T ratio = newStepSize.divide(getStepSize());
+        for (int i = 0; i < scaled.length; ++i) {
+            scaled[i] = scaled[i].multiply(ratio);
+        }
+
+        final T[][] nData = nordsieck.getDataRef();
+        T power = ratio;
+        for (int i = 0; i < nData.length; ++i) {
+            power = power.multiply(ratio);
+            final T[] nDataI = nData[i];
+            for (int j = 0; j < nDataI.length; ++j) {
+                nDataI[j] = nDataI[j].multiply(power);
+            }
+        }
+
+        setStepSize(newStepSize);
+
+    }
+
+
     /** Compute step grow/shrink factor according to normalized error.
      * @param error normalized error of the current step
      * @return grow/shrink factor for next step
