@@ -63,13 +63,6 @@ public class BaseRandomGeneratorTest extends RandomGeneratorAbstractTest {
     public void testNextBytesPrecondition3() {
         final int len = 3;
         final byte[] b = new byte[len];
-        baseRandomGenerator.nextBytes(b, 0, 0);
-    }
-
-    @Test(expected=OutOfRangeException.class)
-    public void testNextBytesPrecondition4() {
-        final int len = 3;
-        final byte[] b = new byte[len];
         baseRandomGenerator.nextBytes(b, 0, len + 1);
     }
 
