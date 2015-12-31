@@ -556,14 +556,16 @@ public class CMAESOptimizer
      * Checks dimensions and values of boundaries and inputSigma if defined.
      */
     private void checkParameters() {
-        final double[] init = getStartPoint();
-        final double[] lB = getLowerBound();
-        final double[] uB = getUpperBound();
-
         if (inputSigma != null) {
+            final double[] init = getStartPoint();
+
             if (inputSigma.length != init.length) {
                 throw new DimensionMismatchException(inputSigma.length, init.length);
             }
+
+            final double[] lB = getLowerBound();
+            final double[] uB = getUpperBound();
+
             for (int i = 0; i < init.length; i++) {
                 if (inputSigma[i] > uB[i] - lB[i]) {
                     throw new OutOfRangeException(inputSigma[i], 0, uB[i] - lB[i]);

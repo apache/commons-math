@@ -113,7 +113,7 @@ public class LaguerreSolver extends AbstractPolynomialSolver {
 
         // Reduce interval if min and initial bracket the root.
         if (yInitial * yMin < 0) {
-            return laguerre(min, initial, yMin, yInitial);
+            return laguerre(min, initial);
         }
 
         // Return the second endpoint if it is good enough.
@@ -124,7 +124,7 @@ public class LaguerreSolver extends AbstractPolynomialSolver {
 
         // Reduce interval if initial and max bracket the root.
         if (yInitial * yMax < 0) {
-            return laguerre(initial, max, yInitial, yMax);
+            return laguerre(initial, max);
         }
 
         throw new NoBracketingException(min, max, yMin, yMax);
@@ -144,12 +144,9 @@ public class LaguerreSolver extends AbstractPolynomialSolver {
      *
      * @param lo Lower bound of the search interval.
      * @param hi Higher bound of the search interval.
-     * @param fLo Function value at the lower bound of the search interval.
-     * @param fHi Function value at the higher bound of the search interval.
      * @return the point at which the function value is zero.
      */
-    private double laguerre(double lo, double hi,
-                            double fLo, double fHi) {
+    private double laguerre(double lo, double hi) {
         final Complex c[] = ComplexUtils.convertToComplex(getCoefficients());
 
         final Complex initial = new Complex(0.5 * (lo + hi), 0);

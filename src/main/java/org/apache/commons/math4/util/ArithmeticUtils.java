@@ -650,7 +650,7 @@ public final class ArithmeticUtils {
      */
      private static long addAndCheck(long a, long b, Localizable pattern) throws MathArithmeticException {
          final long result = a + b;
-         if (!((a ^ b) < 0 | (a ^ result) >= 0)) {
+         if (!((a ^ b) < 0 || (a ^ result) >= 0)) {
              throw new MathArithmeticException(pattern, a, b);
          }
          return result;
