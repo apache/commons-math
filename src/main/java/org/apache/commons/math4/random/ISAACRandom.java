@@ -131,7 +131,7 @@ public class ISAACRandom
      * @param seed Seed.
      */
     private void setSeedInternal(int seed) {
-        setSeed(new int[]{seed});
+        setSeedInternal(new int[] { seed });
     }
 
     /**
@@ -140,7 +140,7 @@ public class ISAACRandom
      * @param seed Seed.
      */
     private void setSeedInternal(long seed) {
-        setSeed(new int[]{(int) (seed >>> 32), (int) (seed & 0xffffffffL)});
+        setSeedInternal(new int[] { (int) (seed >>> 32), (int) (seed & 0xffffffffL) });
     }
 
     /**
@@ -150,7 +150,7 @@ public class ISAACRandom
      */
     private void setSeedInternal(int[] seed) {
         if (seed == null) {
-            setSeed(System.currentTimeMillis() + System.identityHashCode(this));
+            setSeedInternal(System.currentTimeMillis() + System.identityHashCode(this));
             return;
         }
         final int seedLen = seed.length;
