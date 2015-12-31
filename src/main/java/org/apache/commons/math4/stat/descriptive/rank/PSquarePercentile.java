@@ -159,7 +159,7 @@ public class PSquarePercentile extends AbstractStorelessUnivariateStatistic
         boolean result = false;
         if (this == o) {
             result = true;
-        } else if (o != null && o instanceof PSquarePercentile) {
+        } else if (o instanceof PSquarePercentile) {
             PSquarePercentile that = (PSquarePercentile) o;
             boolean isNotNull = markers != null && that.markers != null;
             boolean isNull = markers == null && that.markers == null;
@@ -410,7 +410,7 @@ public class PSquarePercentile extends AbstractStorelessUnivariateStatistic
             boolean result = false;
             if (this == o) {
                 result = true;
-            } else if (o != null && o instanceof Markers) {
+            } else if (o instanceof Markers) {
                 Markers that = (Markers) o;
                 result = Arrays.deepEquals(markerArray, that.markerArray);
             }
@@ -802,7 +802,7 @@ public class PSquarePercentile extends AbstractStorelessUnivariateStatistic
             boolean result = false;
             if (this == o) {
                 result = true;
-            } else if (o != null && o instanceof Marker) {
+            } else if (o instanceof Marker) {
                 Marker that = (Marker) o;
 
                 result = Double.compare(markerHeight, that.markerHeight) == 0;
