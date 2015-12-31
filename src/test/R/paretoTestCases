@@ -31,7 +31,7 @@ tol <- 1E-9
 
 # Function definitions
 
-library(VGAM)
+require("VGAM")
 source("testFunctions")           # utility test functions
 
 # function to verify distribution computations
