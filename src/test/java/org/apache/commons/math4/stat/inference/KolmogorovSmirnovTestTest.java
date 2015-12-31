@@ -25,7 +25,6 @@ import org.apache.commons.math4.distribution.NormalDistribution;
 import org.apache.commons.math4.distribution.UniformRealDistribution;
 import org.apache.commons.math4.random.RandomGenerator;
 import org.apache.commons.math4.random.Well19937c;
-import org.apache.commons.math4.stat.inference.KolmogorovSmirnovTest;
 import org.apache.commons.math4.util.CombinatoricsUtils;
 import org.apache.commons.math4.util.FastMath;
 import org.apache.commons.math4.util.MathArrays;
@@ -181,10 +180,46 @@ public class KolmogorovSmirnovTestTest {
         final double[] smallSample2 = {
             10, 11, 12, 16, 20, 27, 28, 32, 44, 54
         };
-        // Reference values from R, version 2.15.3 - R uses non-strict inequality in null hypothesis
+        // Reference values from R, version 3.2.0 - R uses non-strict inequality in null hypothesis
         Assert
             .assertEquals(0.105577085453247, test.kolmogorovSmirnovTest(smallSample1, smallSample2, false), TOLERANCE);
         Assert.assertEquals(0.5, test.kolmogorovSmirnovStatistic(smallSample1, smallSample2), TOLERANCE);
+    }
+
+    /** Small samples - exact p-value, checked against R */
+    @Test
+    public void testTwoSampleSmallSampleExact2() {
+        final KolmogorovSmirnovTest test = new KolmogorovSmirnovTest();
+        final double[] smallSample1 = {
+            6, 7, 9, 13, 19, 21, 22, 23, 24, 29, 30, 34, 36, 41, 45, 47, 51, 63, 33, 91
+        };
+        final double[] smallSample2 = {
+            10, 11, 12, 16, 20, 27, 28, 32, 44, 54, 56, 57, 64, 69, 71, 80, 81, 88, 90
+        };
+        // Reference values from R, version 3.2.0 - R uses non-strict inequality in null hypothesis
+        Assert
+            .assertEquals(0.0462986609, test.kolmogorovSmirnovTest(smallSample1, smallSample2, false), TOLERANCE);
+        Assert.assertEquals(0.4263157895, test.kolmogorovSmirnovStatistic(smallSample1, smallSample2), TOLERANCE);
+    }
+
+    /** Small samples - exact p-value, checked against R */
+    @Test
+    public void testTwoSampleSmallSampleExact3() {
+        final KolmogorovSmirnovTest test = new KolmogorovSmirnovTest();
+        final double[] smallSample1 = {
+            -10, -5, 17, 21, 22, 23, 24, 30, 44, 50, 56, 57, 59, 67, 73, 75, 77, 78, 79, 80, 81, 83, 84, 85, 88, 90,
+            92, 93, 94, 95, 98, 100, 101, 103, 105, 110
+        };
+        final double[] smallSample2 = {
+            -2, -1, 0, 10, 14, 15, 16, 20, 25, 26, 27, 31, 32, 33, 34, 45, 47, 48, 51, 52, 53, 54, 60, 61, 62, 63,
+            74, 82, 106, 107, 109, 11, 112, 113, 114
+        };
+        // Reference values from R, version 3.2.0 - R uses non-strict inequality in null hypothesis
+        Assert
+            .assertEquals(0.00300743602, test.kolmogorovSmirnovTest(smallSample1, smallSample2, false), TOLERANCE);
+        Assert.assertEquals(0.4103174603, test.kolmogorovSmirnovStatistic(smallSample1, smallSample2), TOLERANCE);
+        Assert
+        .assertEquals(0.00300743602, test.kolmogorovSmirnovTest(smallSample2, smallSample1, false), TOLERANCE);
     }
 
     /**
@@ -279,10 +314,9 @@ public class KolmogorovSmirnovTestTest {
     }
 
     /**
-     * Verifies that Monte Carlo simulation gives results close to exact p values. This test is a
-     * little long-running (more than two minutes on a fast machine), so is disabled by default.
+     * Verifies that Monte Carlo simulation gives results close to exact p values.
      */
-    // @Test
+    @Test
     public void testTwoSampleMonteCarlo() {
         final KolmogorovSmirnovTest test = new KolmogorovSmirnovTest(new Well19937c(1000));
         final int sampleSize = 14;
