@@ -20,7 +20,6 @@ package org.apache.commons.math3.stat.inference;
 import java.math.BigDecimal;
 import java.util.Arrays;
 import java.util.HashSet;
-import java.util.Iterator;
 
 import org.apache.commons.math3.distribution.EnumeratedRealDistribution;
 import org.apache.commons.math3.distribution.RealDistribution;
@@ -69,14 +68,9 @@ import org.apache.commons.math3.util.MathUtils;
  * default 2-sample test method, {@link #kolmogorovSmirnovTest(double[], double[])} works as
  * follows:
  * <ul>
- * <li>For very small samples (where the product of the sample sizes is less than
- * {@value #SMALL_SAMPLE_PRODUCT}), the exact distribution is used to compute the p-value for the
- * 2-sample test.</li>
- * <li>For mid-size samples (product of sample sizes greater than or equal to
- * {@value #SMALL_SAMPLE_PRODUCT} but less than {@value #LARGE_SAMPLE_PRODUCT}), Monte Carlo
- * simulation is used to compute the p-value. The simulation randomly generates partitions of \(m +
- * n\) into an \(m\)-set and an \(n\)-set and reports the proportion that give \(D\) values
- * exceeding the observed value.</li>
+ * <li>For small samples (where the product of the sample sizes is less than
+ * {@value #LARGE_SAMPLE_PRODUCT}), the method presented in [4] is used to compute the
+ * exact p-value for the 2-sample test.</li>
  * <li>When the product of the sample sizes exceeds {@value #LARGE_SAMPLE_PRODUCT}, the asymptotic
  * distribution of \(D_{n,m}\) is used. See {@link #approximateP(double, int, int)} for details on
  * the approximation.</li>
@@ -97,8 +91,6 @@ import org.apache.commons.math3.util.MathUtils;
  * The methods used by the 2-sample default implementation are also exposed directly:
  * <ul>
  * <li>{@link #exactP(double, int, int, boolean)} computes exact 2-sample p-values</li>
- * <li>{@link #monteCarloP(double, int, int, boolean, int)} computes 2-sample p-values by Monte
- * Carlo simulation</li>
  * <li>{@link #approximateP(double, int, int)} uses the asymptotic distribution The {@code boolean}
  * arguments in the first two methods allow the probability used to estimate the p-value to be
  * expressed using strict or non-strict inequality. See
@@ -115,6 +107,8 @@ import org.apache.commons.math3.util.MathUtils;
  * <li>[3] Jasjeet S. Sekhon. 2011. <a href="http://www.jstatsoft.org/article/view/v042i07">
  * Multivariate and Propensity Score Matching Software with Automated Balance Optimization:
  * The Matching package for R</a> Journal of Statistical Software, 42(7): 1-52.</li>
+ * <li>[4] Wilcox, Rand. 2012. Introduction to Robust Estimation and Hypothesis Testing,
+ * Chapter 5, 3rd Ed. Academic Press.</li>
  * </ul>
  * <br/>
  * Note that [1] contains an error in computing h, refer to <a
@@ -136,16 +130,19 @@ public class KolmogorovSmirnovTest {
     /** Convergence criterion for the sums in #pelzGood(double, double, int)} */
     protected static final double PG_SUM_RELATIVE_ERROR = 1.0e-10;
 
-    /** When product of sample sizes is less than this value, 2-sample K-S test is exact */
+    /** No longer used. */
+    @Deprecated
     protected static final int SMALL_SAMPLE_PRODUCT = 200;
 
     /**
      * When product of sample sizes exceeds this value, 2-sample K-S test uses asymptotic
-     * distribution for strict inequality p-value.
+     * distribution to compute the p-value.
      */
     protected static final int LARGE_SAMPLE_PRODUCT = 10000;
 
-    /** Default number of iterations used by {@link #monteCarloP(double, int, int, boolean, int)} */
+    /** Default number of iterations used by {@link #monteCarloP(double, int, int, boolean, int)}.
+     *  Deprecated as of version 3.6, as this method is no longer needed. */
+    @Deprecated
     protected static final int MONTE_CARLO_ITERATIONS = 1000000;
 
     /** Random data generator used by {@link #monteCarloP(double, int, int, boolean, int)} */
@@ -160,9 +157,12 @@ public class KolmogorovSmirnovTest {
 
     /**
      * Construct a KolmogorovSmirnovTest with the provided random data generator.
+     * The #monteCarloP(double, int, int, boolean, int) that uses the generator supplied to this
+     * constructor is deprecated as of version 3.6.
      *
      * @param rng random data generator used by {@link #monteCarloP(double, int, int, boolean, int)}
      */
+    @Deprecated
     public KolmogorovSmirnovTest(RandomGenerator rng) {
         this.rng = rng;
     }
@@ -226,18 +226,9 @@ public class KolmogorovSmirnovTest {
      * {@code y.length} will strictly exceed (if {@code strict} is {@code true}) or be at least as
      * large as {@code strict = false}) as {@code kolmogorovSmirnovStatistic(x, y)}.
      * <ul>
-     * <li>For very small samples (where the product of the sample sizes is less than
-     * {@value #SMALL_SAMPLE_PRODUCT}), the exact distribution is used to compute the p-value. This
-     * is accomplished by enumerating all partitions of the combined sample into two subsamples of
-     * the respective sample sizes, computing \(D_{n,m}\) for each partition and returning the
-     * proportion of partitions that give \(D\) values exceeding the observed value. In the very
-     * small sample case, if there are ties in the data, the actual sample values (including ties)
-     * are used in generating the partitions (which are basically multi-set partitions in this
-     * case).</li>
-     * <li>For mid-size samples (product of sample sizes greater than or equal to
-     * {@value #SMALL_SAMPLE_PRODUCT} but less than {@value #LARGE_SAMPLE_PRODUCT}), Monte Carlo
-     * simulation is used to compute the p-value. The simulation randomly generates partitions and
-     * reports the proportion that give \(D\) values exceeding the observed value.</li>
+     * <li>For small samples (where the product of the sample sizes is less than
+     * {@value #LARGE_SAMPLE_PRODUCT}), the exact p-value is computed using the method presented
+     * in [4], implemented in {@link #exactP(double, int, int, boolean)}. </li>
      * <li>When the product of the sample sizes exceeds {@value #LARGE_SAMPLE_PRODUCT}, the
      * asymptotic distribution of \(D_{n,m}\) is used. See {@link #approximateP(double, int, int)}
      * for details on the approximation.</li>
@@ -274,11 +265,8 @@ public class KolmogorovSmirnovTest {
             xa = x;
             ya = y;
         }
-        if (lengthProduct < SMALL_SAMPLE_PRODUCT) {
-            return integralExactP(integralKolmogorovSmirnovStatistic(xa, ya) + (strict?1l:0l), x.length, y.length);
-        }
         if (lengthProduct < LARGE_SAMPLE_PRODUCT) {
-            return integralMonteCarloP(integralKolmogorovSmirnovStatistic(xa, ya) + (strict?1l:0l), x.length, y.length, MONTE_CARLO_ITERATIONS);
+            return exactP(kolmogorovSmirnovStatistic(xa, ya), x.length, y.length, strict);
         }
         return approximateP(kolmogorovSmirnovStatistic(x, y), x.length, y.length);
     }
@@ -1000,16 +988,8 @@ public class KolmogorovSmirnovTest {
      * d)\), where \(D_{n,m}\) is the 2-sample Kolmogorov-Smirnov statistic. See
      * {@link #kolmogorovSmirnovStatistic(double[], double[])} for the definition of \(D_{n,m}\).
      * <p>
-     * The returned probability is exact, obtained by enumerating all partitions of {@code m + n}
-     * into {@code m} and {@code n} sets, computing \(D_{n,m}\) for each partition and counting the
-     * number of partitions that yield \(D_{n,m}\) values exceeding (resp. greater than or equal to)
-     * {@code d}.
-     * </p>
-     * <p>
-     * <strong>USAGE NOTE</strong>: Since this method enumerates all combinations in \({m+n} \choose
-     * {n}\), it is very slow if called for large {@code m, n}. For this reason,
-     * {@link #kolmogorovSmirnovTest(double[], double[])} uses this only for {@code m * n < }
-     * {@value #SMALL_SAMPLE_PRODUCT}.
+     * The returned probability is exact, implemented by unwinding the recursive function
+     * definitions presented in [4] (class javadoc).
      * </p>
      *
      * @param d D-statistic value
@@ -1020,49 +1000,9 @@ public class KolmogorovSmirnovTest {
      *         greater than (resp. greater than or equal to) {@code d}
      */
     public double exactP(double d, int n, int m, boolean strict) {
-        return integralExactP(calculateIntegralD(d, n, m, strict), n, m);
+       return 1 - n(m, n, m, n, calculateIntegralD(d, m, n, strict), strict) /
+               CombinatoricsUtils.binomialCoefficientDouble(n + m, m);
     }
-
-    /**
-     * Computes \(P(D_{n,m} >= d/(n*m))\), where \(D_{n,m}\) is the
-     * 2-sample Kolmogorov-Smirnov statistic.
-     * <p>
-     * Here d is the D-statistic represented as long value.
-     * The real D-statistic is obtained by dividing d by n*m.
-     * See also {@link #exactP(double, int, int, boolean)}.
-     *
-     * @param d integral D-statistic
-     * @param n first sample size
-     * @param m second sample size
-     * @return probability that a randomly selected m-n partition of m + n generates \(D_{n,m}\)
-     *         greater than or equal to {@code d/(n*m)}
-     */
-    private double integralExactP(long d, int n, int m) {
-        Iterator<int[]> combinationsIterator = CombinatoricsUtils.combinationsIterator(n + m, n);
-        long tail = 0;
-        final double[] nSet = new double[n];
-        final double[] mSet = new double[m];
-        while (combinationsIterator.hasNext()) {
-            // Generate an n-set
-            final int[] nSetI = combinationsIterator.next();
-            // Copy the n-set to nSet and its complement to mSet
-            int j = 0;
-            int k = 0;
-            for (int i = 0; i < n + m; i++) {
-                if (j < n && nSetI[j] == i) {
-                    nSet[j++] = i;
-                } else {
-                    mSet[k++] = i;
-                }
-            }
-            final long curD = integralKolmogorovSmirnovStatistic(nSet, mSet);
-            if (curD >= d) {
-                tail++;
-            }
-        }
-        return (double) tail / (double) CombinatoricsUtils.binomialCoefficient(n + m, n);
-    }
-
 
     /**
      * Uses the Kolmogorov-Smirnov distribution to approximate \(P(D_{n,m} > d)\) where \(D_{n,m}\)
@@ -1269,5 +1209,62 @@ public class KolmogorovSmirnovTest {
         for (int i = 0; i < data.length; i++) {
             data[i] += dist.sample();
         }
+    }
+
+    /**
+     * The function C(i, j) defined in [4] (class javadoc), formula (5.5).
+     * defined to return 1 if |i/n - j/m| <= c; 0 otherwise. Here c is scaled up
+     * and recoded as a long to avoid rounding errors in comparison tests, so what
+     * is actually tested is |im - jn| <= cmn.
+     *
+     * @param i first path parameter
+     * @param j second path paramter
+     * @param m first sample size
+     * @param n second sample size
+     * @param cmn integral D-statistic (see {@link #calculateIntegralD(double, int, int, boolean)})
+     * @param strict whether or not the null hypothesis uses strict inequality
+     * @return C(i,j) for given m, n, c
+     */
+    private static int c(int i, int j, int m, int n, long cmn, boolean strict) {
+        if (strict) {
+            return FastMath.abs(i*(long)n - j*(long)m) <= cmn ? 1 : 0;
+        }
+        return FastMath.abs(i*(long)n - j*(long)m) < cmn ? 1 : 0;
+    }
+
+    /**
+     * The function N(i, j) defined in [4] (class javadoc).
+     * Returns the number of paths over the lattice {(i,j) : 0 <= i <= n, 0 <= j <= m}
+     * from (0,0) to (i,j) satisfying C(h,k, m, n, c) = 1 for each (h,k) on the path.
+     * The return value is integral, but subject to overflow, so it is maintained and
+     * returned as a double.
+     *
+     * @param i first path parameter
+     * @param j second path parameter
+     * @param m first sample size
+     * @param n second sample size
+     * @param cnm integral D-statistic (see {@link #calculateIntegralD(double, int, int, boolean)})
+     * @param strict whether or not the null hypothesis uses strict inequality
+     * @return number or paths to (i, j) from (0,0) representing D-values as large as c for given m, n
+     */
+    private static double n(int i, int j, int m, int n, long cnm, boolean strict) {
+        /*
+         * Unwind the recursive definition given in [4].
+         * Compute n(1,1), n(1,2)...n(2,1), n(2,2)... up to n(i,j), one row at a time.
+         * When n(i,*) are being computed, lag[] holds the values of n(i - 1, *).
+         */
+        final double[] lag = new double[n];
+        double last = 0;
+        for (int k = 0; k < n; k++) {
+            lag[k] = c(0, k + 1, m, n, cnm, strict);
+        }
+        for (int k = 1; k <= i; k++) {
+            last = c(k, 0, m, n, cnm, strict);
+            for (int l = 1; l <= j; l++) {
+                lag[l - 1] = c(k, l, m, n, cnm, strict) * (last + lag[l - 1]);
+                last = lag[l - 1];
+            }
+        }
+        return last;
     }
 }

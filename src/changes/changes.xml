@@ -51,6 +51,9 @@ If the output is not quite correct, check for invisible trailing spaces!
   </properties>
   <body>
     <release version="3.6" date="XXXX-XX-XX" description="">
+      <action dev="psteitz" type="fix" issue="MATH-1310">
+        Improved performance and accuracy of 2-sample KolmogorovSmirnov tests.
+      </action>
       <action dev="luc" type="fix" issue="MATH-1297">
         Detect start failures with multi-step ODE integrators.
       </action>

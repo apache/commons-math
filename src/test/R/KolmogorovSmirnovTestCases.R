@@ -156,6 +156,12 @@ uniform <- c(0.7930305, 0.6424382, 0.8747699, 0.7156518, 0.1845909, 0.2022326,
 
 smallSample1 <- c(6, 7, 9, 13, 19, 21, 22, 23, 24)
 smallSample2 <- c(10, 11, 12, 16, 20, 27, 28, 32, 44, 54)
+smallSample3 <- c(6, 7, 9, 13, 19, 21, 22, 23, 24, 29, 30, 34, 36, 41, 45, 47, 51, 63, 33, 91)
+smallSample4 <- c(10, 11, 12, 16, 20, 27, 28, 32, 44, 54, 56, 57, 64, 69, 71, 80, 81, 88, 90)
+smallSample5 <- c(-10, -5, 17, 21, 22, 23, 24, 30, 44, 50, 56, 57, 59, 67, 73, 75, 77, 78, 79, 80, 81, 83, 84, 85, 88, 90,
+                   92, 93, 94, 95, 98, 100, 101, 103, 105, 110)
+smallSample6 <- c(-2, -1, 0, 10, 14, 15, 16, 20, 25, 26, 27, 31, 32, 33, 34, 45, 47, 48, 51, 52, 53, 54, 60, 61, 62, 63,
+                  74, 82, 106, 107, 109, 11, 112, 113, 114)
 bootSample1 <- c(0, 2, 4, 6, 8, 8, 10, 15, 22, 30, 33, 36, 38)
 bootSample2 <- c(9, 17, 20, 33, 40, 51, 60, 60, 72, 90, 101)
 roundingSample1 <- c(2,4,6,8,9,10,11,12,13)
@@ -185,7 +191,13 @@ verifyTwoSampleLargeSamples(gaussian, gaussian2, 0.0319983962391632, 0.202352941
 "Two sample N(0, 1) vs N(0, 1.6)")
 
 verifyTwoSampleSmallSamplesExact(smallSample1, smallSample2, 0.105577085453247, .5, tol,
-"Two sample small samples exact")
+"Two sample small samples exact 1")
+
+verifyTwoSampleSmallSamplesExact(smallSample3, smallSample4, 0.046298660942952,  0.426315789473684, tol,
+"Two sample small samples exact 2")
+
+verifyTwoSampleSmallSamplesExact(smallSample5, smallSample6, 0.00300743602233366, 0.41031746031746, tol,
+"Two sample small samples exact 3")
 
 verifyTwoSampleBootstrap(bootSample1, bootSample2, 0.0059, 1E-3, "Two sample bootstrap - isolated failures possible")
 verifyTwoSampleBootstrap(gaussian, gaussian2, 0.0237, 1E-2, "Two sample bootstrap - isolated failures possible")
