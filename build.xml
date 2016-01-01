@@ -247,7 +247,7 @@
                  bottom="Copyright (c) 2003-${current.year}  Apache Software Foundation"
         additionalparam="-header &apos;&lt;script type=&quot;text/javascript&quot; src=&quot;http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML&quot;&gt;&lt;/script&gt;&apos;"
            classpathref="compile.classpath">
-        <link href="http://java.sun.com/j2se/1.5.0/docs/api/"/>  
+        <link href="http://docs.oracle.com/javase/1.5.0/docs/api/"/>  
     </javadoc>
   </target>
 
