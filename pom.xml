@@ -128,11 +128,6 @@
       <email>brentworden at apache dot org</email>
     </developer>
     <developer>
-      <name>Thomas Neidhart</name>
-      <id>tn</id>
-      <email>tn at apache dot org</email>
-    </developer>
-    <developer>
       <name>Evan Ward</name>
       <id>evanward</id>
       <email>evanward at apache dot org</email>
@@ -276,6 +271,9 @@
     </contributor>
     <contributor>
       <name>Venkatesha Murthy</name>
+    </contributor>
+    <contributor>
+      <name>Thomas Neidhart</name>
     </contributor>
     <contributor>
       <name>Christopher Nix</name>
