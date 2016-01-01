@@ -99,7 +99,8 @@ public class Precision {
      * @param eps the amount of error to allow when checking for equality
      * @return <ul><li>0 if  {@link #equals(double, double, double) equals(x, y, eps)}</li>
      *       <li>&lt; 0 if !{@link #equals(double, double, double) equals(x, y, eps)} &amp;&amp; x &lt; y</li>
-     *       <li>> 0 if !{@link #equals(double, double, double) equals(x, y, eps)} &amp;&amp; x > y</li></ul>
+     *       <li>> 0 if !{@link #equals(double, double, double) equals(x, y, eps)} &amp;&amp; x > y or
+     *       either argument is NaN</li></ul>
      */
     public static int compareTo(double x, double y, double eps) {
         if (equals(x, y, eps)) {
@@ -117,7 +118,7 @@ public class Precision {
      * point numbers are considered equal.
      * Adapted from <a
      * href="http://randomascii.wordpress.com/2012/02/25/comparing-floating-point-numbers-2012-edition/">
-     * Bruce Dawson</a>
+     * Bruce Dawson</a>. Returns {@code false} if either of the arguments is NaN.
      *
      * @param x first value
      * @param y second value
@@ -125,7 +126,8 @@ public class Precision {
      * values between {@code x} and {@code y}.
      * @return <ul><li>0 if  {@link #equals(double, double, int) equals(x, y, maxUlps)}</li>
      *       <li>&lt; 0 if !{@link #equals(double, double, int) equals(x, y, maxUlps)} &amp;&amp; x &lt; y</li>
-     *       <li>> 0 if !{@link #equals(double, double, int) equals(x, y, maxUlps)} &amp;&amp; x > y</li></ul>
+     *       <li>&gt; 0 if !{@link #equals(double, double, int) equals(x, y, maxUlps)} &amp;&amp; x > y
+     *       or either argument is NaN</li></ul>
      */
     public static int compareTo(final double x, final double y, final int maxUlps) {
         if (equals(x, y, maxUlps)) {
@@ -149,7 +151,7 @@ public class Precision {
     }
 
     /**
-     * Returns true if both arguments are NaN or neither is NaN and they are
+     * Returns true if both arguments are NaN or they are
      * equal as defined by {@link #equals(float,float) equals(x, y, 1)}.
      *
      * @param x first value
@@ -162,8 +164,9 @@ public class Precision {
     }
 
     /**
-     * Returns true if both arguments are equal or within the range of allowed
-     * error (inclusive).
+     * Returns true if the arguments are equal or within the range of allowed
+     * error (inclusive).  Returns {@code false} if either of the arguments
+     * is NaN.
      *
      * @param x first value
      * @param y second value
@@ -176,7 +179,7 @@ public class Precision {
     }
 
     /**
-     * Returns true if both arguments are NaN or are equal or within the range
+     * Returns true if the arguments are both NaN, are equal, or are within the range
      * of allowed error (inclusive).
      *
      * @param x first value
@@ -191,14 +194,14 @@ public class Precision {
     }
 
     /**
-     * Returns true if both arguments are equal or within the range of allowed
+     * Returns true if the arguments are equal or within the range of allowed
      * error (inclusive).
      * Two float numbers are considered equal if there are {@code (maxUlps - 1)}
      * (or fewer) floating point numbers between them, i.e. two adjacent floating
      * point numbers are considered equal.
      * Adapted from <a
      * href="http://randomascii.wordpress.com/2012/02/25/comparing-floating-point-numbers-2012-edition/">
-     * Bruce Dawson</a>
+     * Bruce Dawson</a>.  Returns {@code false} if either of the arguments is NaN.
      *
      * @param x first value
      * @param y second value
@@ -242,7 +245,7 @@ public class Precision {
     }
 
     /**
-     * Returns true if both arguments are NaN or if they are equal as defined
+     * Returns true if the arguments are both NaN or if they are equal as defined
      * by {@link #equals(float,float,int) equals(x, y, maxUlps)}.
      *
      * @param x first value
@@ -270,7 +273,7 @@ public class Precision {
     }
 
     /**
-     * Returns true if both arguments are NaN or neither is NaN and they are
+     * Returns true if the arguments are both NaN or they are
      * equal as defined by {@link #equals(double,double) equals(x, y, 1)}.
      *
      * @param x first value
@@ -285,7 +288,8 @@ public class Precision {
     /**
      * Returns {@code true} if there is no double value strictly between the
      * arguments or the difference between them is within the range of allowed
-     * error (inclusive).
+     * error (inclusive). Returns {@code false} if either of the arguments
+     * is NaN.
      *
      * @param x First value.
      * @param y Second value.
@@ -299,8 +303,9 @@ public class Precision {
 
     /**
      * Returns {@code true} if there is no double value strictly between the
-     * arguments or the relative difference between them is smaller or equal
-     * to the given tolerance.
+     * arguments or the relative difference between them is less than or equal
+     * to the given tolerance. Returns {@code false} if either of the arguments
+     * is NaN.
      *
      * @param x First value.
      * @param y Second value.
@@ -321,7 +326,7 @@ public class Precision {
     }
 
     /**
-     * Returns true if both arguments are NaN or are equal or within the range
+     * Returns true if the arguments are both NaN, are equal or are within the range
      * of allowed error (inclusive).
      *
      * @param x first value
@@ -336,7 +341,7 @@ public class Precision {
     }
 
     /**
-     * Returns true if both arguments are equal or within the range of allowed
+     * Returns true if the arguments are equal or within the range of allowed
      * error (inclusive).
      * <p>
      * Two float numbers are considered equal if there are {@code (maxUlps - 1)}
@@ -346,7 +351,7 @@ public class Precision {
      * <p>
      * Adapted from <a
      * href="http://randomascii.wordpress.com/2012/02/25/comparing-floating-point-numbers-2012-edition/">
-     * Bruce Dawson</a>
+     * Bruce Dawson</a>. Returns {@code false} if either of the arguments is NaN.
      * </p>
      *
      * @param x first value
