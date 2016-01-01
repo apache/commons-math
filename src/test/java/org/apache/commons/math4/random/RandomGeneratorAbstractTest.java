@@ -442,7 +442,7 @@ public abstract class RandomGeneratorAbstractTest extends RandomDataGeneratorTes
         for (int i = 0; i < len; i++) {
             values[1][i] = gen2.nextGaussian();
         }
-        Assert.assertTrue(Arrays.equals(values[0], values[1]));
+        TestUtils.assertEquals(values[0], values[1], 0d);
     }
 
     // MATH-1300
