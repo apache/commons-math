@@ -328,7 +328,7 @@ public class AdamsNordsieckFieldTransformer<T extends RealFieldElement<T>> {
      * @param highOrder high order scaled derivatives
      * (h<sup>2</sup>/2 y'', ... h<sup>k</sup>/k! y(k))
      * @return updated high order derivatives
-     * @see #updateHighOrderDerivativesPhase2(double[], double[], Array2DRowFieldMatrix)
+     * @see #updateHighOrderDerivativesPhase2(RealFieldElement[], RealFieldElement[], Array2DRowFieldMatrix)
      */
     public Array2DRowFieldMatrix<T> updateHighOrderDerivativesPhase1(final Array2DRowFieldMatrix<T> highOrder) {
         return update.multiply(highOrder);
