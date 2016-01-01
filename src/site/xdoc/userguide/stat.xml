@@ -915,10 +915,9 @@ new KendallsCorrelation().correlation(x, y)
            <a href="http://www.jstatsoft.org/v39/i11/"> Computing the Two-Sided Kolmogorov-Smirnov
            Distribution</a> by Richard Simard and Pierre L'Ecuyer.  In the 2-sample case, estimation
            by default depends on the number of data points.  For small samples, the distribution
-           is computed exactly; for moderately large samples a Monte Carlo procedure is used, and
-           for large samples a numerical approximation of the Kolmogorov distribution is used.
-           Methods to perform each type of p-value estimation are also exposed directly.  See
-           the class javadoc for details.</li>
+           is computed exactly and for large samples a numerical approximation of the Kolmogorov
+           distribution is used. Methods to perform each type of p-value estimation are also exposed
+           directly.  See the class javadoc for details.</li>
           </ul>
           </p>
           <p>
@@ -1237,7 +1236,7 @@ final double d = TestUtils.kolmogorovSmirnovStatistic(x, y);
 TestUtils.exactP(d, x.length, y.length, false)
           </source>
           assuming that the non-strict form of the null hypothesis is desired. Note, however,
-          that exact computation for anything but very small samples takes a very long time.    
+          that exact computation for large samples takes a long time.
           </dd>
         </dl>
         </p>
