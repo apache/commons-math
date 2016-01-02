@@ -22,7 +22,7 @@ import org.apache.commons.math3.Field;
 import org.apache.commons.math3.RealFieldElement;
 import org.apache.commons.math3.util.Decimal64Field;
 
-public class ThreeEighthesFieldIntegratorTest extends AbstractRungeKuttaFieldIntegratorTest {
+public class ThreeEighthesFieldIntegratorTest extends RungeKuttaFieldIntegratorAbstractTest {
 
     protected <T extends RealFieldElement<T>> RungeKuttaFieldIntegrator<T>
     createIntegrator(Field<T> field, T step) {

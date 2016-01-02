@@ -49,7 +49,7 @@ import org.apache.commons.math3.util.MathArrays;
 import org.junit.Assert;
 import org.junit.Test;
 
-public abstract class AbstractRungeKuttaFieldIntegratorTest {
+public abstract class RungeKuttaFieldIntegratorAbstractTest {
 
     protected abstract <T extends RealFieldElement<T>> RungeKuttaFieldIntegrator<T>
         createIntegrator(Field<T> field, T step);

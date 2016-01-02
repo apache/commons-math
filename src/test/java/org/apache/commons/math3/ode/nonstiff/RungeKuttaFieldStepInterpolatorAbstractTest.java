@@ -33,7 +33,7 @@ import org.apache.commons.math3.util.MathArrays;
 import org.junit.Assert;
 import org.junit.Test;
 
-public abstract class AbstractRungeKuttaFieldStepInterpolatorTest {
+public abstract class RungeKuttaFieldStepInterpolatorAbstractTest {
 
     protected abstract <T extends RealFieldElement<T>> RungeKuttaFieldStepInterpolator<T>
         createInterpolator(Field<T> field, boolean forward, T[][] yDotK,

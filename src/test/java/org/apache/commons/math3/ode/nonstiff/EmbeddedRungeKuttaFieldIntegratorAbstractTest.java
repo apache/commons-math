@@ -44,7 +44,7 @@ import org.apache.commons.math3.util.MathArrays;
 import org.junit.Assert;
 import org.junit.Test;
 
-public abstract class AbstractEmbeddedRungeKuttaFieldIntegratorTest {
+public abstract class EmbeddedRungeKuttaFieldIntegratorAbstractTest {
 
     protected abstract <T extends RealFieldElement<T>> EmbeddedRungeKuttaFieldIntegrator<T>
     createIntegrator(Field<T> field, final double minStep, final double maxStep,

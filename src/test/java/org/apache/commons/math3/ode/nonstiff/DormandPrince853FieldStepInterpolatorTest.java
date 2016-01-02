@@ -25,7 +25,7 @@ import org.apache.commons.math3.ode.FieldODEStateAndDerivative;
 import org.apache.commons.math3.util.Decimal64Field;
 import org.junit.Test;
 
-public class DormandPrince853FieldStepInterpolatorTest extends AbstractRungeKuttaFieldStepInterpolatorTest {
+public class DormandPrince853FieldStepInterpolatorTest extends RungeKuttaFieldStepInterpolatorAbstractTest {
 
     protected <T extends RealFieldElement<T>> RungeKuttaFieldStepInterpolator<T>
     createInterpolator(Field<T> field, boolean forward, T[][] yDotK,

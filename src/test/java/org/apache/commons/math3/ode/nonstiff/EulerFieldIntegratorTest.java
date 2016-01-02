@@ -22,7 +22,7 @@ import org.apache.commons.math3.Field;
 import org.apache.commons.math3.RealFieldElement;
 import org.apache.commons.math3.util.Decimal64Field;
 
-public class EulerFieldIntegratorTest extends AbstractRungeKuttaFieldIntegratorTest {
+public class EulerFieldIntegratorTest extends RungeKuttaFieldIntegratorAbstractTest {
 
     @Override
     protected <T extends RealFieldElement<T>> RungeKuttaFieldIntegrator<T>
