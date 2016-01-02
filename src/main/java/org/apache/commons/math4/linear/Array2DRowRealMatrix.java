@@ -267,7 +267,7 @@ public class Array2DRowRealMatrix extends AbstractRealMatrix implements Serializ
     public void setSubMatrix(final double[][] subMatrix, final int row,
                              final int column)
         throws NoDataException, OutOfRangeException,
-        DimensionMismatchException, NullArgumentException {
+        DimensionMismatchException, NullArgumentException, MathIllegalStateException {
         if (data == null) {
             if (row > 0) {
                 throw new MathIllegalStateException(LocalizedFormats.FIRST_ROWS_NOT_INITIALIZED_YET, row);
