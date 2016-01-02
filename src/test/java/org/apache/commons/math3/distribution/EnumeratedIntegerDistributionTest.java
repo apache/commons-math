@@ -22,6 +22,7 @@ import org.apache.commons.math3.exception.NotANumberException;
 import org.apache.commons.math3.exception.NotFiniteNumberException;
 import org.apache.commons.math3.exception.NotPositiveException;
 import org.apache.commons.math3.util.FastMath;
+import org.apache.commons.math3.util.Precision;
 import org.junit.Assert;
 import org.junit.Test;
 
@@ -173,7 +174,7 @@ public class EnumeratedIntegerDistributionTest {
     public void testCreateFromIntegers() {
         final int[] data = new int[] {0, 1, 1, 2, 2, 2};
         EnumeratedIntegerDistribution distribution = new EnumeratedIntegerDistribution(data);
-        Assert.assertEquals(0.5, distribution.probability(2), 0);
-        Assert.assertEquals(0.5, distribution.cumulativeProbability(1), 0);
+        Assert.assertEquals(0.5, distribution.probability(2), Precision.EPSILON);
+        Assert.assertEquals(0.5, distribution.cumulativeProbability(1), Precision.EPSILON);
     }
 }
