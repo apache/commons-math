@@ -40,7 +40,7 @@ import org.apache.commons.math3.util.FastMath;
 import org.junit.Assert;
 import org.junit.Test;
 
-public abstract class AbstractAdamsFieldIntegratorTest {
+public abstract class AdamsFieldIntegratorAbstractTest {
 
     protected abstract <T extends RealFieldElement<T>> AdamsFieldIntegrator<T>
     createIntegrator(Field<T> field, final int nSteps, final double minStep, final double maxStep,

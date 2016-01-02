@@ -21,25 +21,23 @@
    Compiles and runs unit tests against distribution jar(s).  Use .antrc or the 
    command line to control the jdk used to execute this build file.  
    
-   Assumes that the distribution jar to be tested is in the base directory. 
-   Use the "jardir" property to specify the path to the directory containing
-   the jar. Any other jars in this directory will also be added to the
-   classpath.  
+   Assumes that the distribution jar to be tested is in the basedir/lib, along
+   with any dependent jars (junit, hamcrest). Use the "libdir" property to specify
+   the path to the directory containing these jars. 
    
    The default target, "test," executes clean as a dependency.
 -->
   
 <project default="test" name="commons-math" basedir=".">
-  <property name="defaulttargetdir" value="target"/>
-  <property name="libdir" value="target/lib"/>
+  <property name="libdir" value="lib"/>
   <property name="testclassesdir" value="target/test-classes"/>
   <property name="testreportdir" value="target/test-reports"/>
   <property name="defaulttargetdir" value="target"/>
-  <property name="jardir" value="${basedir}"/>
-   <path id="build.classpath">
+  <property name="test.resources" value="src/test/resources"/>
+  <property name="build.home" value="target"/>
+  <path id="build.classpath">
     <fileset dir="${libdir}">
-      <include name="**/*.jar">
-      </include>
+      <include name="*.jar" />
     </fileset>
   </path>
   <target name="clean" description="o Clean up the generated directories">
@@ -58,24 +56,17 @@
     Java library path: ${java.library.path}
     ===========================================================================
     </echo>
-    <mkdir dir="${libdir}" />
-    <condition property="noget">
-      <equals arg2="only" arg1="${build.sysclasspath}">
-      </equals>
-    </condition>
-    <!--Test if JUNIT is present in ANT classpath-->
-    <available property="Junit.present" classname="org.junit.Test">
-    </available>
   </target>
   <target name="test" description="o Run the test cases" if="test.failure" depends="internal-test">
     <fail message="There were test failures.">
     </fail>
   </target>
-  <target name="internal-test" if="Junit.present" depends="clean, junit-present,compile-tests">
+  <target name="internal-test" depends="clean,compile-tests">
     <mkdir dir="${testreportdir}"/>
-    <junit dir="./" failureproperty="test.failure" printSummary="yes" fork="true" haltonerror="true">
+    <junit dir="./" failureproperty="test.failure" printSummary="yes"
+           fork="true" haltonerror="true" showOutput="true">
       <sysproperty key="basedir" value="."/>
-      <formatter usefile="false" type="plain"/>
+      <formatter type="brief"/>
       <classpath>
         <path refid="build.classpath"/>
         <pathelement path="${testclassesdir}"/>
@@ -88,14 +79,7 @@
       </batchtest>
     </junit>
   </target>
-  <target name="junit-present" unless="Junit.present" depends="init">
-  <echo>
-    ================================= WARNING ================================
-    Junit isn't present in your ${ANT_HOME}/lib directory. Tests not executed.
-    ==========================================================================
-  </echo>
-  </target>
-  <target name="compile-tests" if="Junit.present" depends="junit-present">
+  <target name="compile-tests" >
     <mkdir dir="${testclassesdir}"/>
     <javac destdir="${testclassesdir}" deprecation="true" debug="true"
             optimize="false" excludes="**/package.html">
@@ -106,12 +90,10 @@
         <path refid="build.classpath"/>
       </classpath>
     </javac>
-    <copy todir="${testclassesdir}">
-      <fileset dir="src/test/resources">
-        <include name="**/*.xml"/>
-        <include name="**/*.txt"/>
+	<copy todir="${build.home}/test-classes">
+	  <fileset dir="${test.resources}">
       </fileset>
-    </copy>
+	</copy>
   </target>
 </project>
 

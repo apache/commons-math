@@ -313,18 +313,19 @@ edit README.html with released version number
 (13)
 As the web site staging area is shared among all commons components and therefore
 can be published before vote ends, it is not recommended to use the standard staging
-area for the release candidate. So you will just archive the site and transfer it on
-your apache personal area for review:
+area for the release candidate. So you will just archive the transfer the site it on
+your apache personal area for review. Here is how to do this using lftp to initiate
+the sftp transfer (lftp supports a mirror command for recursive transfers, don't
+forget the -R flag for uploading instead of downloading the site):
 
   $ mvn site
   $ cd target
-  $ tar czf site.tar.gz site
-  $ scp site.tar.gz __Your_apache_login__@people.apache.org:~/
-  $ ssh __Your_apache_login__@people.apache.org
-     you@minotaur:~$ tar xzf site.tar.gz
-     you@minotaur:~$ mv site public_html/commons-math-3.4-RC1-site
-     you@minotaur:~$ rm site.tar.gz
-     you@minotaur:~$ logout
+  $ mv site commons-math-3.4-RC1-site
+  $ lftp sftp://__Your_apache_login__@home.apache.org/
+     lftp you@home.apache.org:~> cd public_html
+     lftp you@home.apache.org:~/public_html> mirror -R commons-math-3.4-RC1-site
+     lftp you@home.apache.org:~/public_html> bye
+
 
 (14)
 Call to vote by sending a message to the "dev" ML with subject
@@ -343,7 +344,7 @@ Commit ID the tag points at:
   cf4a9d70c9ac24dd7196995390171150e4e56451
 
 Site:
-  <http://people.apache.org/~__Your_apache_login__/commons-math-3.4-RC1-site>
+  <http://home.apache.org/~__Your_apache_login__/commons-math-3.4-RC1-site>
 
 Distribution files:
   https://dist.apache.org/repos/dist/dev/commons/math/

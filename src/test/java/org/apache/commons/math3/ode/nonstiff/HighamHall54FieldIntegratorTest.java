@@ -22,7 +22,7 @@ import org.apache.commons.math3.Field;
 import org.apache.commons.math3.RealFieldElement;
 import org.apache.commons.math3.util.Decimal64Field;
 
-public class HighamHall54FieldIntegratorTest extends AbstractEmbeddedRungeKuttaFieldIntegratorTest {
+public class HighamHall54FieldIntegratorTest extends EmbeddedRungeKuttaFieldIntegratorAbstractTest {
 
     protected <T extends RealFieldElement<T>> EmbeddedRungeKuttaFieldIntegrator<T>
     createIntegrator(Field<T> field, final double minStep, final double maxStep,
