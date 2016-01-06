@@ -260,7 +260,8 @@ public abstract class EmbeddedRungeKuttaFieldIntegrator<T extends RealFieldEleme
             while (error.subtract(1.0).getReal() >= 0) {
 
                 // first stage
-                yDotK[0] = stepStart.getDerivative();
+                y        = equations.getMapper().mapState(stepStart);
+                yDotK[0] = equations.getMapper().mapDerivative(stepStart);
 
                 if (firstTime) {
                     final T[] scale = MathArrays.buildArray(getField(), mainSetDimension);
@@ -331,7 +332,6 @@ public abstract class EmbeddedRungeKuttaFieldIntegrator<T extends RealFieldEleme
             interpolator.storeState(stateTmp);
             System.arraycopy(yTmp, 0, y, 0, y0.length);
             stepStart = acceptStep(interpolator, finalTime);
-            System.arraycopy(y, 0, yTmp, 0, y.length);
 
             if (!isLastStep) {
 
