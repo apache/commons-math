@@ -340,17 +340,17 @@ public abstract class AbstractFieldIntegrator<T extends RealFieldElement<T>> imp
                     return eventState;
                 }
 
-                boolean needReset = false;
+                FieldODEState<T> newState = null;
                 for (final FieldEventState<T> state : eventsStates) {
-                    needReset =  needReset || state.reset(eventState);
-                }
-                if (needReset) {
-                    // some event handler has triggered changes that
-                    // invalidate the derivatives, we need to recompute them
-                    final T[] y    = equations.getMapper().mapState(eventState);
-                    final T[] yDot = computeDerivatives(eventState.getTime(), y);
-                    resetOccurred = true;
-                    return equations.getMapper().mapStateAndDerivative(eventState.getTime(), y, yDot);
+                    newState = state.reset(eventState);
+                    if (newState != null) {
+                        // some event handler has triggered changes that
+                        // invalidate the derivatives, we need to recompute them
+                        final T[] y    = equations.getMapper().mapState(newState);
+                        final T[] yDot = computeDerivatives(newState.getTime(), y);
+                        resetOccurred = true;
+                        return equations.getMapper().mapStateAndDerivative(newState.getTime(), y, yDot);
+                    }
                 }
 
                 // prepare handling of the remaining part of the step
