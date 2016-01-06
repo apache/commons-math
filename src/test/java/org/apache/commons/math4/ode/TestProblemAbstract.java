@@ -28,22 +28,22 @@ public abstract class TestProblemAbstract
   implements FirstOrderDifferentialEquations {
 
   /** Dimension of the problem. */
-  protected int n;
+  private int n;
 
   /** Number of functions calls. */
-  protected int calls;
+  private int calls;
 
   /** Initial time */
-  protected double t0;
+  private double t0;
 
   /** Initial state */
-  protected double[] y0;
+  private double[] y0;
 
   /** Final time */
-  protected double t1;
+  private double t1;
 
   /** Error scale */
-  protected double[] errorScale;
+  private double[] errorScale;
 
   /**
    * Simple constructor.

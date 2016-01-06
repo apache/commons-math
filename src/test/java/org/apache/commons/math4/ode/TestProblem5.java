@@ -28,7 +28,7 @@ public class TestProblem5 extends TestProblem1 {
    * Simple constructor.
    */
     public TestProblem5() {
-        setFinalConditions(2 * t0 - t1);
+        setFinalConditions(2 * getInitialTime() - getFinalTime());
     }
 
 }
