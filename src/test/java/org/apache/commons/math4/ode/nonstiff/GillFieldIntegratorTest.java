@@ -20,12 +20,7 @@ package org.apache.commons.math4.ode.nonstiff;
 
 import org.apache.commons.math4.Field;
 import org.apache.commons.math4.RealFieldElement;
-import org.apache.commons.math4.ode.FieldExpandableODE;
-import org.apache.commons.math4.ode.FieldODEState;
-import org.apache.commons.math4.ode.FieldODEStateAndDerivative;
 import org.apache.commons.math4.util.Decimal64Field;
-import org.apache.commons.math4.util.MathArrays;
-import org.junit.Assert;
 import org.junit.Test;
 
 public class GillFieldIntegratorTest extends AbstractRungeKuttaFieldIntegratorTest {
@@ -45,55 +40,60 @@ public class GillFieldIntegratorTest extends AbstractRungeKuttaFieldIntegratorTe
         doTestMissedEndEvent(Decimal64Field.getInstance(), 1.0e-15, 6.0e-5);
     }
 
-      @Test
-      public void testSanityChecks() {
-          doTestSanityChecks(Decimal64Field.getInstance());
-      }
+    @Test
+    public void testSanityChecks() {
+        doTestSanityChecks(Decimal64Field.getInstance());
+    }
 
-      @Test
-      public void testDecreasingSteps() {
-          doTestDecreasingSteps(Decimal64Field.getInstance(), 1.0, 1.0, 1.0e-10);
-      }
+    @Test
+    public void testDecreasingSteps() {
+        doTestDecreasingSteps(Decimal64Field.getInstance(), 1.0, 1.0, 1.0e-10);
+    }
 
-      @Test
-      public void testSmallStep() {
-          doTestSmallStep(Decimal64Field.getInstance(), 2.0e-13, 4.0e-12, 1.0e-12, "Gill");
-      }
+    @Test
+    public void testSmallStep() {
+        doTestSmallStep(Decimal64Field.getInstance(), 2.0e-13, 4.0e-12, 1.0e-12, "Gill");
+    }
 
-      @Test
-      public void testBigStep() {
-          doTestBigStep(Decimal64Field.getInstance(), 0.0004, 0.005, 1.0e-12, "Gill");
+    @Test
+    public void testBigStep() {
+        doTestBigStep(Decimal64Field.getInstance(), 0.0004, 0.005, 1.0e-12, "Gill");
 
-      }
+    }
 
-      @Test
-      public void testBackward() {
-          doTestBackward(Decimal64Field.getInstance(), 5.0e-10, 7.0e-10, 1.0e-12, "Gill");
-      }
+    @Test
+    public void testBackward() {
+        doTestBackward(Decimal64Field.getInstance(), 5.0e-10, 7.0e-10, 1.0e-12, "Gill");
+    }
 
-      @Test
-      public void testKepler() {
-          doTestKepler(Decimal64Field.getInstance(), 1.72e-3, 1.0e-5);
-      }
+    @Test
+    public void testKepler() {
+        doTestKepler(Decimal64Field.getInstance(), 1.72e-3, 1.0e-5);
+    }
 
-      @Test
-      public void testStepSize() {
-          doTestStepSize(Decimal64Field.getInstance(), 1.0e-12);
-      }
+    @Test
+    public void testStepSize() {
+        doTestStepSize(Decimal64Field.getInstance(), 1.0e-12);
+    }
 
-      @Test
-      public void testSingleStep() {
-          doTestSingleStep(Decimal64Field.getInstance(), 0.21);
-      }
+    @Test
+    public void testSingleStep() {
+        doTestSingleStep(Decimal64Field.getInstance(), 0.21);
+    }
 
-      @Test
-      public void testTooLargeFirstStep() {
-          doTestTooLargeFirstStep(Decimal64Field.getInstance());
-      }
+    @Test
+    public void testTooLargeFirstStep() {
+        doTestTooLargeFirstStep(Decimal64Field.getInstance());
+    }
 
     @Test
     public void testUnstableDerivative() {
         doTestUnstableDerivative(Decimal64Field.getInstance(), 1.0e-12);
+    }
+
+    @Test
+    public void testDerivativesConsistency() {
+        doTestDerivativesConsistency(Decimal64Field.getInstance(), 1.0e-10);
     }
 
 }
