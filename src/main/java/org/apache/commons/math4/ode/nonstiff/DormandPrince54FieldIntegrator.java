@@ -134,7 +134,7 @@ public class DormandPrince54FieldIntegrator<T extends RealFieldElement<T>>
         final T[] c = MathArrays.buildArray(getField(), 6);
         c[0] = fraction(1,  5);
         c[1] = fraction(3, 10);
-        c[2] = fraction(5,  5);
+        c[2] = fraction(4,  5);
         c[3] = fraction(8,  9);
         c[4] = getField().getOne();
         c[5] = getField().getOne();
@@ -149,7 +149,7 @@ public class DormandPrince54FieldIntegrator<T extends RealFieldElement<T>>
             a[i] = MathArrays.buildArray(getField(), i + 1);
         }
         a[0][0] = fraction(     1,     5);
-        a[1][0] = fraction(     3,     4);
+        a[1][0] = fraction(     3,    40);
         a[1][1] = fraction(     9,    40);
         a[2][0] = fraction(    44,    45);
         a[2][1] = fraction(   -56,    15);

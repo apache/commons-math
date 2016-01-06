@@ -38,12 +38,12 @@ public class DormandPrince54FieldStepInterpolatorTest extends AbstractRungeKutta
 
     @Test
     public void interpolationInside() {
-        doInterpolationInside(Decimal64Field.getInstance(), 4.0e-13, 2.7e-15);
+        doInterpolationInside(Decimal64Field.getInstance(), 9.5e-14, 1.8e-15);
     }
 
     @Test
     public void nonFieldInterpolatorConsistency() {
-        doNonFieldInterpolatorConsistency(Decimal64Field.getInstance(), 4.2e-17, 2.3e-16, 6.7e-16, 8.4e-17);
+        doNonFieldInterpolatorConsistency(Decimal64Field.getInstance(), 2.8e-17, 2.3e-16, 4.5e-16, 5.6e-17);
     }
 
 }
