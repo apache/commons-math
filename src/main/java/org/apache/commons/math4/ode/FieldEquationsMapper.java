@@ -18,7 +18,6 @@
 package org.apache.commons.math4.ode;
 
 import java.io.Serializable;
-import java.lang.reflect.Array;
 
 import org.apache.commons.math4.RealFieldElement;
 import org.apache.commons.math4.exception.MathIllegalArgumentException;
@@ -35,7 +34,7 @@ import org.apache.commons.math4.util.MathArrays;
  * @param <T> the type of the field elements
  * @since 3.6
  */
-class FieldEquationsMapper<T extends RealFieldElement<T>> implements Serializable {
+public class FieldEquationsMapper<T extends RealFieldElement<T>> implements Serializable {
 
     /** Serializable UID. */
     private static final long serialVersionUID = 20151114L;
@@ -119,8 +118,7 @@ class FieldEquationsMapper<T extends RealFieldElement<T>> implements Serializabl
         if (n < 2) {
             return new FieldODEState<T>(t, state);
         } else {
-            @SuppressWarnings("unchecked")
-            final T[][] secondaryState = (T[][]) Array.newInstance(t.getField().getRuntimeClass(), n - 1);
+            final T[][] secondaryState = MathArrays.buildArray(t.getField(), n - 1, -1);
             while (++index < n) {
                 secondaryState[index - 1] = extractEquationData(index, y);
             }
@@ -142,10 +140,8 @@ class FieldEquationsMapper<T extends RealFieldElement<T>> implements Serializabl
         if (n < 2) {
             return new FieldODEStateAndDerivative<T>(t, state, derivative);
         } else {
-            @SuppressWarnings("unchecked")
-            final T[][] secondaryState      = (T[][]) Array.newInstance(t.getField().getRuntimeClass(), n - 1);
-            @SuppressWarnings("unchecked")
-            final T[][] secondaryDerivative = (T[][]) Array.newInstance(t.getField().getRuntimeClass(), n - 1);
+            final T[][] secondaryState      = MathArrays.buildArray(t.getField(), n - 1, -1);
+            final T[][] secondaryDerivative = MathArrays.buildArray(t.getField(), n - 1, -1);
             while (++index < getNumberOfEquations()) {
                 secondaryState[index - 1]      = extractEquationData(index, y);
                 secondaryDerivative[index - 1] = extractEquationData(index, yDot);
