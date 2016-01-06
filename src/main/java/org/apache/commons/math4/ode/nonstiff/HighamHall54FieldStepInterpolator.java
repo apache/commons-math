@@ -84,7 +84,7 @@ class HighamHall54FieldStepInterpolator<T extends RealFieldElement<T>>
             final T b2 = hTheta.multiply(theta.multiply(theta.multiply(theta.multiply(135.0 / 8.0).add(-243.0 /  8.0)).add(459.0 / 32.0)));
             final T b3 = hTheta.multiply(theta.multiply(theta.multiply(theta.multiply(-30.0      ).add( 152.0 /  3.0)).add(-22.0       )));
             final T b4 = hTheta.multiply(theta.multiply(theta.multiply(theta.multiply(125.0 / 8.0).add(-625.0 / 24.0)).add(375.0 / 32.0)));
-            final T b5 = hTheta.multiply(theta.multiply(theta.multiply(                                   5.0 / 12.0)).add( -5.0 / 16.0));
+            final T b5 = hTheta.multiply(theta.multiply(theta.multiply(                                   5.0 / 12.0 ).add( -5.0 / 16.0)));
             interpolatedState       = previousStateLinearCombination(b0, b1, b2, b3, b4, b5);
             interpolatedDerivatives = derivativeLinearCombination(bDot0, bDot1, bDot2, bDot3, bDot4, bDot5);
         } else {
