@@ -45,7 +45,7 @@ public class FieldODEState<T extends RealFieldElement<T>> {
     /** Simple constructor.
      * <p>Calling this constructor is equivalent to call {@link
      * #FieldODEState(RealFieldElement, RealFieldElement[], RealFieldElement[][])
-     * FieldODEState(time, state, null).</p>
+     * FieldODEState(time, state, null)}.</p>
      * @param time time
      * @param state state at time
      */

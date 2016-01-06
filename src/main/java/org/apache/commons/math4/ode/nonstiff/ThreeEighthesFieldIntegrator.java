@@ -41,7 +41,7 @@ import org.apache.commons.math4.util.MathArrays;
  *
  * @see EulerFieldIntegrator
  * @see ClassicalRungeKuttaFieldIntegrator
- * @see GillfieldIntegrator
+ * @see GillFieldIntegrator
  * @see MidpointFieldIntegrator
  * @see LutherFieldIntegrator
  * @param <T> the type of the field elements

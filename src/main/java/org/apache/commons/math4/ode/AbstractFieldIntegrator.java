@@ -246,8 +246,8 @@ public abstract class AbstractFieldIntegrator<T extends RealFieldElement<T>> imp
      * @exception DimensionMismatchException if arrays dimensions do not match equations settings
      * @exception MaxCountExceededException if the number of functions evaluations is exceeded
      * @exception NullPointerException if the ODE equations have not been set (i.e. if this method
-     * is called outside of a call to {@link #integrate(ExpandableStatefulODE, double)} or {@link
-     * #integrate(FirstOrderDifferentialEquations, double, double[], double, double[])})
+     * is called outside of a call to {@link #integrate(FieldExpandableODE, FieldODEState,
+     * RealFieldElement) integrate}
      */
     public T[] computeDerivatives(final T t, final T[] y)
         throws DimensionMismatchException, MaxCountExceededException, NullPointerException {
