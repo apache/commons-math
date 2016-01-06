@@ -92,7 +92,7 @@ public class FieldExpandableODE<T extends RealFieldElement<T>> {
     public int addSecondaryEquations(final FieldSecondaryEquations<T> secondary) {
 
         components.add(secondary);
-        mapper = new FieldEquationsMapper<>(mapper, secondary.getDimension());
+        mapper = new FieldEquationsMapper<T>(mapper, secondary.getDimension());
 
         return components.size() - 1;
 

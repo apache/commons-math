@@ -46,7 +46,7 @@ public abstract class AbstractRungeKuttaFieldStepInterpolatorTest {
     protected <T extends RealFieldElement<T>> void doInterpolationAtBounds(final Field<T> field, double epsilon) {
 
         RungeKuttaFieldStepInterpolator<T> interpolator = setUpInterpolator(field,
-                                                                            new SinCos<>(field),
+                                                                            new SinCos<T>(field),
                                                                             0.0, new double[] { 0.0, 1.0 }, 0.125);
 
         Assert.assertEquals(0.0, interpolator.getPreviousState().getTime().getReal(), 1.0e-15);
@@ -71,7 +71,7 @@ public abstract class AbstractRungeKuttaFieldStepInterpolatorTest {
                                                                          double epsilonSin, double epsilonCos) {
 
         RungeKuttaFieldStepInterpolator<T> interpolator = setUpInterpolator(field,
-                                                                            new SinCos<>(field),
+                                                                            new SinCos<T>(field),
                                                                             0.0, new double[] { 0.0, 1.0 }, 0.0125);
 
         int n = 100;
@@ -97,7 +97,7 @@ public abstract class AbstractRungeKuttaFieldStepInterpolatorTest {
                                                                                      double epsilonSin, double epsilonCos,
                                                                                      double epsilonSinDot, double epsilonCosDot) {
 
-        FieldFirstOrderDifferentialEquations<T> eqn = new SinCos<>(field);
+        FieldFirstOrderDifferentialEquations<T> eqn = new SinCos<T>(field);
         RungeKuttaFieldStepInterpolator<T> fieldInterpolator =
                         setUpInterpolator(field, eqn, 0.0, new double[] { 0.0, 1.0 }, 0.125);
         RungeKuttaStepInterpolator regularInterpolator = convertInterpolator(fieldInterpolator, eqn);
