@@ -19,7 +19,7 @@ package org.apache.commons.math4.ode.sampling;
 
 import org.apache.commons.math4.RealFieldElement;
 import org.apache.commons.math4.exception.MaxCountExceededException;
-import org.apache.commons.math4.ode.FieldExpandableODE;
+import org.apache.commons.math4.ode.FieldEquationsMapper;
 import org.apache.commons.math4.ode.FieldODEStateAndDerivative;
 
 /** This abstract class represents an interpolator over the last step
@@ -64,8 +64,8 @@ public abstract class AbstractFieldStepInterpolator<T extends RealFieldElement<T
     /** integration direction. */
     private boolean forward;
 
-    /** ODE equations with primary and secondary components. */
-    private FieldExpandableODE<T> equations;
+    /** Mapper for ODE equations primary and secondary components. */
+    private FieldEquationsMapper<T> mapper;
 
     /** Simple constructor.
      * This constructor builds an instance that is not usable yet, the
@@ -87,17 +87,17 @@ public abstract class AbstractFieldStepInterpolator<T extends RealFieldElement<T
         currentState        = null;
         finalized           = false;
         forward             = true;
-        equations           = null;
+        mapper              = null;
     }
 
     /** Simple constructor.
      * @param y reference to the integrator array holding the state at
      * the end of the step
      * @param forward integration direction indicator
-     * @param equations primary and secondary equations set
+     * @param mapper mapper for ODE equations primary and secondary components
      */
     protected AbstractFieldStepInterpolator(final T[] y, final boolean forward,
-                                            final FieldExpandableODE<T> equations) {
+                                            final FieldEquationsMapper<T> mapper) {
 
         globalPreviousState = null;
         globalCurrentState  = null;
@@ -107,7 +107,7 @@ public abstract class AbstractFieldStepInterpolator<T extends RealFieldElement<T
         currentState        = y;
         finalized           = false;
         this.forward        = forward;
-        this.equations      = equations;
+        this.mapper         = mapper;
 
     }
 
@@ -138,23 +138,23 @@ public abstract class AbstractFieldStepInterpolator<T extends RealFieldElement<T
 
         if (interpolator.currentState == null) {
             currentState = null;
-            equations    = null;
+            mapper       = null;
         } else {
             currentState   = interpolator.currentState.clone();
         }
 
         finalized = interpolator.finalized;
         forward   = interpolator.forward;
-        equations = interpolator.equations;
+        mapper    = interpolator.mapper;
 
     }
 
     /** Reinitialize the instance
      * @param y reference to the integrator array holding the state at the end of the step
      * @param isForward integration direction indicator
-     * @param eqn primary and secondary equations set
+     * @param equationsMapper mapper for ODE equations primary and secondary components
      */
-    protected void reinitialize(final T[] y, final boolean isForward, final FieldExpandableODE<T> eqn) {
+    protected void reinitialize(final T[] y, final boolean isForward, final FieldEquationsMapper<T> equationsMapper) {
 
         globalPreviousState = null;
         globalCurrentState  = null;
@@ -164,7 +164,7 @@ public abstract class AbstractFieldStepInterpolator<T extends RealFieldElement<T
         currentState        = y.clone();
         finalized           = false;
         this.forward        = isForward;
-        this.equations      = eqn;
+        this.mapper         = equationsMapper;
 
     }
 
@@ -272,7 +272,7 @@ public abstract class AbstractFieldStepInterpolator<T extends RealFieldElement<T
     public FieldODEStateAndDerivative<T> getInterpolatedState(final T time) {
         final T oneMinusThetaH = globalCurrentState.getTime().subtract(time);
         final T theta = (h.getReal() == 0) ? h.getField().getZero() : h.subtract(oneMinusThetaH).divide(h);
-        return computeInterpolatedStateAndDerivatives(equations, theta, oneMinusThetaH);
+        return computeInterpolatedStateAndDerivatives(mapper, time, theta, oneMinusThetaH);
     }
 
     /** {@inheritDoc} */
@@ -283,7 +283,8 @@ public abstract class AbstractFieldStepInterpolator<T extends RealFieldElement<T
     /** Compute the state and derivatives at the interpolated time.
      * This is the main processing method that should be implemented by
      * the derived classes to perform the interpolation.
-     * @param eqn ODE equations with primary and secondary components
+     * @param equationsMapper mapper for ODE equations primary and secondary components
+     * @param time interpolation time
      * @param theta normalized interpolation abscissa within the step
      * (theta is zero at the previous time step and one at the current time step)
      * @param oneMinusThetaH time gap between the interpolated time and
@@ -291,9 +292,8 @@ public abstract class AbstractFieldStepInterpolator<T extends RealFieldElement<T
      * @return interpolated state and derivatives
      * @exception MaxCountExceededException if the number of functions evaluations is exceeded
      */
-    protected abstract FieldODEStateAndDerivative<T> computeInterpolatedStateAndDerivatives(FieldExpandableODE<T> eqn,
-                                                                                            T theta,
-                                                                                            T oneMinusThetaH)
+    protected abstract FieldODEStateAndDerivative<T> computeInterpolatedStateAndDerivatives(FieldEquationsMapper<T> equationsMapper,
+                                                                                            T time, T theta, T oneMinusThetaH)
         throws MaxCountExceededException;
 
     /**
