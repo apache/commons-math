@@ -64,6 +64,20 @@ public abstract class AbstractEmbeddedRungeKuttaFieldIntegratorTest {
             T[][] fieldA = fieldIntegrator.getA();
             T[]   fieldB = fieldIntegrator.getB();
             T[]   fieldC = fieldIntegrator.getC();
+            if (fieldIntegrator instanceof DormandPrince853FieldIntegrator) {
+                // special case for Dormand-Prince 8(5,3), the array in the regular
+                // integrator is smaller because as of 3.X, the interpolation steps
+                // are not performed by the integrator itself
+                T[][] reducedFieldA = MathArrays.buildArray(field, 12, -1);
+                T[]   reducedFieldB = MathArrays.buildArray(field, 13);
+                T[]   reducedFieldC = MathArrays.buildArray(field, 12);
+                System.arraycopy(fieldA, 0, reducedFieldA, 0, reducedFieldA.length);
+                System.arraycopy(fieldB, 0, reducedFieldB, 0, reducedFieldB.length);
+                System.arraycopy(fieldC, 0, reducedFieldC, 0, reducedFieldC.length);
+                fieldA = reducedFieldA;
+                fieldB = reducedFieldB;
+                fieldC = reducedFieldC;
+            }
 
             String fieldName   = fieldIntegrator.getClass().getName();
             String regularName = fieldName.replaceAll("Field", "");

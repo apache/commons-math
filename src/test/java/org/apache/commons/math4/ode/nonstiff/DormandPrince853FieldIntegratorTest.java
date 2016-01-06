@@ -49,12 +49,12 @@ public class DormandPrince853FieldIntegratorTest extends AbstractEmbeddedRungeKu
 
     @Test
     public void testBackward() {
-        doTestBackward(Decimal64Field.getInstance(), 1.1e-7, 1.1e-7, 1.0e-12, "Dormand-Prince 8 (5, 3)");
+        doTestBackward(Decimal64Field.getInstance(), 8.1e-8, 1.1e-7, 1.0e-12, "Dormand-Prince 8 (5, 3)");
     }
 
     @Test
     public void testKepler() {
-        doTestKepler(Decimal64Field.getInstance(), 2.4e-10);
+        doTestKepler(Decimal64Field.getInstance(), 4.4e-11);
     }
 
     @Override
