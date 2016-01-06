@@ -19,6 +19,9 @@ package org.apache.commons.math4.ode.nonstiff;
 
 import org.apache.commons.math4.Field;
 import org.apache.commons.math4.RealFieldElement;
+import org.apache.commons.math4.ode.AbstractFieldIntegrator;
+import org.apache.commons.math4.ode.FieldEquationsMapper;
+import org.apache.commons.math4.util.MathArrays;
 
 /**
  * This class implements a second order Runge-Kutta integrator for
@@ -46,28 +49,47 @@ import org.apache.commons.math4.RealFieldElement;
 
 public class MidpointFieldIntegrator<T extends RealFieldElement<T>> extends RungeKuttaFieldIntegrator<T> {
 
-    /** Time steps Butcher array. */
-    private static final double[] STATIC_C = {
-                                              1.0 / 2.0
-    };
-
-    /** Internal weights Butcher array. */
-    private static final double[][] STATIC_A = {
-                                                { 1.0 / 2.0 }
-    };
-
-    /** Propagation weights Butcher array. */
-    private static final double[] STATIC_B = {
-                                              0.0, 1.0
-    };
-
     /** Simple constructor.
      * Build a midpoint integrator with the given step.
      * @param field field to which the time and state vector elements belong
      * @param step integration step
      */
     public MidpointFieldIntegrator(final Field<T> field, final T step) {
-        super(field, "midpoint", STATIC_C, STATIC_A, STATIC_B, new MidpointFieldStepInterpolator<T>(), step);
+        super(field, "midpoint", step);
+    }
+
+    /** {@inheritDoc} */
+    @Override
+    protected T[] getC() {
+        final T[] c = MathArrays.buildArray(getField(), 1);
+        c[0] = getField().getOne().multiply(0.5);
+        return c;
+    }
+
+    /** {@inheritDoc} */
+    @Override
+    protected T[][] getA() {
+        final T[][] a = MathArrays.buildArray(getField(), 1, 1);
+        a[0][0] = fraction(1, 2);
+        return a;
+    }
+
+    /** {@inheritDoc} */
+    @Override
+    protected T[] getB() {
+        final T[] b = MathArrays.buildArray(getField(), 2);
+        b[0] = getField().getZero();
+        b[1] = getField().getOne();
+        return b;
+    }
+
+    /** {@inheritDoc} */
+    @Override
+    protected MidpointFieldStepInterpolator<T>
+        createInterpolator(final AbstractFieldIntegrator<T> rkIntegrator, final T[] y,
+                           final T[][] yDotArray, final boolean forward,
+                           final FieldEquationsMapper<T> mapper) {
+        return new MidpointFieldStepInterpolator<T>(rkIntegrator, y, yDotArray, forward, mapper);
     }
 
 }

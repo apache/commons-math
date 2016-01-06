@@ -19,6 +19,9 @@ package org.apache.commons.math4.ode.nonstiff;
 
 import org.apache.commons.math4.Field;
 import org.apache.commons.math4.RealFieldElement;
+import org.apache.commons.math4.ode.AbstractFieldIntegrator;
+import org.apache.commons.math4.ode.FieldEquationsMapper;
+import org.apache.commons.math4.util.MathArrays;
 
 /**
  * This class implements a simple Euler integrator for Ordinary
@@ -51,26 +54,42 @@ import org.apache.commons.math4.RealFieldElement;
 
 public class EulerFieldIntegrator<T extends RealFieldElement<T>> extends RungeKuttaFieldIntegrator<T> {
 
-    /** Time steps Butcher array. */
-    private static final double[] STATIC_C = {
-    };
-
-    /** Internal weights Butcher array. */
-    private static final double[][] STATIC_A = {
-    };
-
-    /** Propagation weights Butcher array. */
-    private static final double[] STATIC_B = {
-                                              1.0
-    };
-
     /** Simple constructor.
      * Build an Euler integrator with the given step.
      * @param field field to which the time and state vector elements belong
      * @param step integration step
      */
     public EulerFieldIntegrator(final Field<T> field, final T step) {
-        super(field, "Euler", STATIC_C, STATIC_A, STATIC_B, new EulerFieldStepInterpolator<T>(), step);
+        super(field, "Euler", step);
+    }
+
+    /** {@inheritDoc} */
+    @Override
+    protected T[] getC() {
+        return MathArrays.buildArray(getField(), 0);
+    }
+
+    /** {@inheritDoc} */
+    @Override
+    protected T[][] getA() {
+        return MathArrays.buildArray(getField(), 0, 0);
+    }
+
+    /** {@inheritDoc} */
+    @Override
+    protected T[] getB() {
+        final T[] b = MathArrays.buildArray(getField(), 1);
+        b[0] = getField().getOne();
+        return b;
+    }
+
+    /** {@inheritDoc} */
+    @Override
+    protected EulerFieldStepInterpolator<T>
+        createInterpolator(final AbstractFieldIntegrator<T> rkIntegrator, final T[] y,
+                           final T[][] yDotArray, final boolean forward,
+                           final FieldEquationsMapper<T> mapper) {
+        return new EulerFieldStepInterpolator<T>(rkIntegrator, y, yDotArray, forward, mapper);
     }
 
 }
