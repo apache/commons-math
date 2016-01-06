@@ -52,21 +52,6 @@ public class TestProblem1
     y = new double[y0.length];
   }
 
-  /**
-   * Copy constructor.
-   * @param problem problem to copy
-   */
-  public TestProblem1(TestProblem1 problem) {
-    super(problem);
-    y = problem.y.clone();
-  }
-
-  /** {@inheritDoc} */
-  @Override
-public TestProblem1 copy() {
-    return new TestProblem1(this);
-  }
-
   @Override
   public void doComputeDerivatives(double t, double[] y, double[] yDot) {
 
