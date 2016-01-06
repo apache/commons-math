@@ -18,6 +18,7 @@
 package org.apache.commons.math4.ode.nonstiff;
 
 import org.apache.commons.math4.RealFieldElement;
+import org.apache.commons.math4.ode.AbstractFieldIntegrator;
 import org.apache.commons.math4.ode.FieldEquationsMapper;
 import org.apache.commons.math4.ode.FieldODEStateAndDerivative;
 import org.apache.commons.math4.util.MathArrays;
@@ -88,16 +89,18 @@ class DormandPrince54FieldStepInterpolator<T extends RealFieldElement<T>>
     private boolean vectorsInitialized;
 
     /** Simple constructor.
-     * This constructor builds an instance that is not usable yet, the
-     * {@link #reinitialize} method should be called before using the
-     * instance in order to initialize the internal arrays. This
-     * constructor is used only in order to delay the initialization in
-     * some cases. The {@link EmbeddedRungeKuttaIntegrator} uses the
-     * prototyping design pattern to create the step interpolators by
-     * cloning an uninitialized model and latter initializing the copy.
+     * @param rkIntegrator integrator being used
+     * @param y reference to the integrator array holding the state at
+     * the end of the step
+     * @param yDotArray reference to the integrator array holding all the
+     * intermediate slopes
+     * @param forward integration direction indicator
+     * @param mapper equations mapper for the all equations
      */
-    DormandPrince54FieldStepInterpolator() {
-        super();
+    DormandPrince54FieldStepInterpolator(final AbstractFieldIntegrator<T> rkIntegrator,
+                                         final T[] y, final T[][] yDotArray, final boolean forward,
+                                         final FieldEquationsMapper<T> mapper) {
+        super(rkIntegrator, y, yDotArray, forward, mapper);
         v1 = null;
         v2 = null;
         v3 = null;
@@ -140,17 +143,6 @@ class DormandPrince54FieldStepInterpolator<T extends RealFieldElement<T>>
         return new DormandPrince54FieldStepInterpolator<T>(this);
     }
 
-
-    /** {@inheritDoc} */
-    @Override
-    protected void reinitialize(final T[] y, final boolean isForward, final FieldEquationsMapper<T> equationsMapper) {
-        super.reinitialize(y, isForward, equationsMapper);
-        v1 = null;
-        v2 = null;
-        v3 = null;
-        v4 = null;
-        vectorsInitialized = false;
-    }
 
     /** {@inheritDoc} */
     @Override

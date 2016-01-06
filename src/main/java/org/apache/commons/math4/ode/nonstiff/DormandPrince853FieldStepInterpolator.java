@@ -20,6 +20,7 @@ package org.apache.commons.math4.ode.nonstiff;
 import org.apache.commons.math4.Field;
 import org.apache.commons.math4.RealFieldElement;
 import org.apache.commons.math4.exception.MaxCountExceededException;
+import org.apache.commons.math4.ode.AbstractFieldIntegrator;
 import org.apache.commons.math4.ode.FieldEquationsMapper;
 import org.apache.commons.math4.ode.FieldODEStateAndDerivative;
 import org.apache.commons.math4.util.MathArrays;
@@ -38,172 +39,142 @@ class DormandPrince853FieldStepInterpolator<T extends RealFieldElement<T>>
     extends RungeKuttaFieldStepInterpolator<T> {
 
     /** Propagation weights, element 1. */
-    private static final double B_01 =         104257.0 / 1920240.0;
+    private final T b_01;
 
     // elements 2 to 5 are zero, so they are neither stored nor used
 
     /** Propagation weights, element 6. */
-    private static final double B_06 =        3399327.0 / 763840.0;
+    private final T b_06;
 
     /** Propagation weights, element 7. */
-    private static final double B_07 =       66578432.0 / 35198415.0;
+    private final T b_07;
 
     /** Propagation weights, element 8. */
-    private static final double B_08 =    -1674902723.0 / 288716400.0;
+    private final T b_08;
 
     /** Propagation weights, element 9. */
-    private static final double B_09 = 54980371265625.0 / 176692375811392.0;
+    private final T b_09;
 
     /** Propagation weights, element 10. */
-    private static final double B_10 =        -734375.0 / 4826304.0;
+    private final T b_10;
 
     /** Propagation weights, element 11. */
-    private static final double B_11 =      171414593.0 / 851261400.0;
+    private final T b_11;
 
     /** Propagation weights, element 12. */
-    private static final double B_12 =         137909.0 / 3084480.0;
+    private final T b_12;
 
     /** Time step for stage 14 (interpolation only). */
-    private static final double C14    = 1.0 / 10.0;
+    private final T c14;
 
     /** Internal weights for stage 14, element 1. */
-    private static final double K14_01 =       13481885573.0 / 240030000000.0      - B_01;
+    private final T k14_01;
 
     // elements 2 to 5 are zero, so they are neither stored nor used
 
     /** Internal weights for stage 14, element 6. */
-    private static final double K14_06 =                 0.0                       - B_06;
+    private final T k14_06;
 
     /** Internal weights for stage 14, element 7. */
-    private static final double K14_07 =      139418837528.0 / 549975234375.0      - B_07;
+    private final T k14_07;
 
     /** Internal weights for stage 14, element 8. */
-    private static final double K14_08 =   -11108320068443.0 / 45111937500000.0    - B_08;
+    private final T k14_08;
 
     /** Internal weights for stage 14, element 9. */
-    private static final double K14_09 = -1769651421925959.0 / 14249385146080000.0 - B_09;
+    private final T k14_09;
 
     /** Internal weights for stage 14, element 10. */
-    private static final double K14_10 =          57799439.0 / 377055000.0         - B_10;
+    private final T k14_10;
 
     /** Internal weights for stage 14, element 11. */
-    private static final double K14_11 =      793322643029.0 / 96734250000000.0    - B_11;
+    private final T k14_11;
 
     /** Internal weights for stage 14, element 12. */
-    private static final double K14_12 =        1458939311.0 / 192780000000.0      - B_12;
+    private final T k14_12;
 
     /** Internal weights for stage 14, element 13. */
-    private static final double K14_13 =             -4149.0 / 500000.0;
+    private final T k14_13;
 
     /** Time step for stage 15 (interpolation only). */
-    private static final double C15    = 1.0 / 5.0;
+    private final T c15;
 
 
     /** Internal weights for stage 15, element 1. */
-    private static final double K15_01 =     1595561272731.0 / 50120273500000.0    - B_01;
+    private final T k15_01;
 
     // elements 2 to 5 are zero, so they are neither stored nor used
 
     /** Internal weights for stage 15, element 6. */
-    private static final double K15_06 =      975183916491.0 / 34457688031250.0    - B_06;
+    private final T k15_06;
 
     /** Internal weights for stage 15, element 7. */
-    private static final double K15_07 =    38492013932672.0 / 718912673015625.0   - B_07;
+    private final T k15_07;
 
     /** Internal weights for stage 15, element 8. */
-    private static final double K15_08 = -1114881286517557.0 / 20298710767500000.0 - B_08;
+    private final T k15_08;
 
     /** Internal weights for stage 15, element 9. */
-    private static final double K15_09 =                 0.0                       - B_09;
+    private final T k15_09;
 
     /** Internal weights for stage 15, element 10. */
-    private static final double K15_10 =                 0.0                       - B_10;
+    private final T k15_10;
 
     /** Internal weights for stage 15, element 11. */
-    private static final double K15_11 =    -2538710946863.0 / 23431227861250000.0 - B_11;
+    private final T k15_11;
 
     /** Internal weights for stage 15, element 12. */
-    private static final double K15_12 =        8824659001.0 / 23066716781250.0    - B_12;
+    private final T k15_12;
 
     /** Internal weights for stage 15, element 13. */
-    private static final double K15_13 =      -11518334563.0 / 33831184612500.0;
+    private final T k15_13;
 
     /** Internal weights for stage 15, element 14. */
-    private static final double K15_14 =        1912306948.0 / 13532473845.0;
+    private final T k15_14;
 
     /** Time step for stage 16 (interpolation only). */
-    private static final double C16    = 7.0 / 9.0;
+    private final T c16;
 
 
     /** Internal weights for stage 16, element 1. */
-    private static final double K16_01 =      -13613986967.0 / 31741908048.0       - B_01;
+    private final T k16_01;
 
     // elements 2 to 5 are zero, so they are neither stored nor used
 
     /** Internal weights for stage 16, element 6. */
-    private static final double K16_06 =       -4755612631.0 / 1012344804.0        - B_06;
+    private final T k16_06;
 
     /** Internal weights for stage 16, element 7. */
-    private static final double K16_07 =    42939257944576.0 / 5588559685701.0     - B_07;
+    private final T k16_07;
 
     /** Internal weights for stage 16, element 8. */
-    private static final double K16_08 =    77881972900277.0 / 19140370552944.0    - B_08;
+    private final T k16_08;
 
     /** Internal weights for stage 16, element 9. */
-    private static final double K16_09 =    22719829234375.0 / 63689648654052.0    - B_09;
+    private final T k16_09;
 
     /** Internal weights for stage 16, element 10. */
-    private static final double K16_10 =                 0.0                       - B_10;
+    private final T k16_10;
 
     /** Internal weights for stage 16, element 11. */
-    private static final double K16_11 =                 0.0                       - B_11;
+    private final T k16_11;
 
     /** Internal weights for stage 16, element 12. */
-    private static final double K16_12 =                 0.0                       - B_12;
+    private final T k16_12;
 
     /** Internal weights for stage 16, element 13. */
-    private static final double K16_13 =       -1199007803.0 / 857031517296.0;
+    private final T k16_13;
 
     /** Internal weights for stage 16, element 14. */
-    private static final double K16_14 =      157882067000.0 / 53564469831.0;
+    private final T k16_14;
 
     /** Internal weights for stage 16, element 15. */
-    private static final double K16_15 =     -290468882375.0 / 31741908048.0;
+    private final T k16_15;
 
     /** Interpolation weights.
      * (beware that only the non-null values are in the table)
      */
-    private static final double[][] D = {
-
-      {        -17751989329.0 / 2106076560.0,               4272954039.0 / 7539864640.0,
-              -118476319744.0 / 38604839385.0,            755123450731.0 / 316657731600.0,
-        3692384461234828125.0 / 1744130441634250432.0,     -4612609375.0 / 5293382976.0,
-              2091772278379.0 / 933644586600.0,             2136624137.0 / 3382989120.0,
-                    -126493.0 / 1421424.0,                    98350000.0 / 5419179.0,
-                  -18878125.0 / 2053168.0,                 -1944542619.0 / 438351368.0},
-
-      {         32941697297.0 / 3159114840.0,             456696183123.0 / 1884966160.0,
-             19132610714624.0 / 115814518155.0,       -177904688592943.0 / 474986597400.0,
-       -4821139941836765625.0 / 218016305204281304.0,      30702015625.0 / 3970037232.0,
-            -85916079474274.0 / 2800933759800.0,           -5919468007.0 / 634310460.0,
-                    2479159.0 / 157936.0,                    -18750000.0 / 602131.0,
-                  -19203125.0 / 2053168.0,                 15700361463.0 / 438351368.0},
-
-      {         12627015655.0 / 631822968.0,              -72955222965.0 / 188496616.0,
-            -13145744952320.0 / 69488710893.0,          30084216194513.0 / 56998391688.0,
-        -296858761006640625.0 / 25648977082856624.0,         569140625.0 / 82709109.0,
-               -18684190637.0 / 18672891732.0,                69644045.0 / 89549712.0,
-                  -11847025.0 / 4264272.0,                  -978650000.0 / 16257537.0,
-                  519371875.0 / 6159504.0,                  5256837225.0 / 438351368.0},
-
-      {          -450944925.0 / 17550638.0,               -14532122925.0 / 94248308.0,
-              -595876966400.0 / 2573655959.0,             188748653015.0 / 527762886.0,
-        2545485458115234375.0 / 27252038150535163.0,       -1376953125.0 / 36759604.0,
-                53995596795.0 / 518691437.0,                 210311225.0 / 7047894.0,
-                   -1718875.0 / 39484.0,                      58000000.0 / 602131.0,
-                   -1546875.0 / 39484.0,                   -1262172375.0 / 8429834.0}
-
-    };
+    private final T[][] d;
 
     /** Last evaluations. */
     private T[][] yDotKLast;
@@ -215,19 +186,121 @@ class DormandPrince853FieldStepInterpolator<T extends RealFieldElement<T>>
     private boolean vectorsInitialized;
 
     /** Simple constructor.
-     * This constructor builds an instance that is not usable yet, the
-     * {@link #reinitialize} method should be called before using the
-     * instance in order to initialize the internal arrays. This
-     * constructor is used only in order to delay the initialization in
-     * some cases. The {@link EmbeddedRungeKuttaIntegrator} uses the
-     * prototyping design pattern to create the step interpolators by
-     * cloning an uninitialized model and latter initializing the copy.
+     * @param rkIntegrator integrator being used
+     * @param y reference to the integrator array holding the state at
+     * the end of the step
+     * @param yDotArray reference to the integrator array holding all the
+     * intermediate slopes
+     * @param forward integration direction indicator
+     * @param mapper equations mapper for the all equations
      */
-    DormandPrince853FieldStepInterpolator() {
-        super();
+    DormandPrince853FieldStepInterpolator(final AbstractFieldIntegrator<T> rkIntegrator,
+                                          final T[] y, final T[][] yDotArray, final boolean forward,
+                                          final FieldEquationsMapper<T> mapper) {
+        super(rkIntegrator, y, yDotArray, forward, mapper);
         yDotKLast = null;
         v         = null;
         vectorsInitialized = false;
+
+        b_01   = fraction(        104257.0, 1920240.0);
+        b_06   = fraction(       3399327.0, 763840.0);
+        b_07   = fraction(      66578432.0, 35198415.0);
+        b_08   = fraction(   -1674902723.0, 288716400.0);
+        b_09   = fraction(54980371265625.0, 176692375811392.0);
+        b_10   = fraction(       -734375.0, 4826304.0);
+        b_11   = fraction(     171414593.0, 851261400.0);
+        b_12   = fraction(        137909.0, 3084480.0);
+        c14    = fraction(1.0, 10.0);
+        k14_01 = fraction(      13481885573.0, 240030000000.0)     .subtract(b_01);
+        k14_06 = integrator.getField().getZero()                   .subtract(b_06);
+        k14_07 = fraction(     139418837528.0, 549975234375.0)     .subtract(b_07);
+        k14_08 = fraction(  -11108320068443.0, 45111937500000.0)   .subtract(b_08);
+        k14_09 = fraction(-1769651421925959.0, 14249385146080000.0).subtract(b_09);
+        k14_10 = fraction(         57799439.0, 377055000.0)        .subtract(b_10);
+        k14_11 = fraction(     793322643029.0, 96734250000000.0)   .subtract(b_11);
+        k14_12 = fraction(       1458939311.0, 192780000000.0)     .subtract(b_12);
+        k14_13 = fraction(            -4149.0, 500000.0);
+        c15    = fraction(1.0, 5.0);
+        k15_01 = fraction(    1595561272731.0, 50120273500000.0)   .subtract(b_01);
+        k15_06 = fraction(     975183916491.0, 34457688031250.0)   .subtract(b_06);
+        k15_07 = fraction(   38492013932672.0, 718912673015625.0)  .subtract(b_07);
+        k15_08 = fraction(-1114881286517557.0, 20298710767500000.0).subtract(b_08);
+        k15_09 = integrator.getField().getZero()                   .subtract(b_09);
+        k15_10 = integrator.getField().getZero()                   .subtract(b_10);
+        k15_11 = fraction(   -2538710946863.0, 23431227861250000.0).subtract(b_11);
+        k15_12 = fraction(       8824659001.0, 23066716781250.0)   .subtract(b_12);
+        k15_13 = fraction(     -11518334563.0, 33831184612500.0);
+        k15_14 = fraction(       1912306948.0, 13532473845.0);
+        c16    = fraction(7.0, 9.0);
+        k16_01 = fraction(     -13613986967.0, 31741908048.0)      .subtract(b_01);
+        k16_06 = fraction(      -4755612631.0, 1012344804.0)       .subtract(b_06);
+        k16_07 = fraction(   42939257944576.0, 5588559685701.0)    .subtract(b_07);
+        k16_08 = fraction(   77881972900277.0, 19140370552944.0)   .subtract(b_08);
+        k16_09 = fraction(   22719829234375.0, 63689648654052.0)   .subtract(b_09);
+        k16_10 = integrator.getField().getZero()                   .subtract(b_10);
+        k16_11 = integrator.getField().getZero()                   .subtract(b_11);
+        k16_12 = integrator.getField().getZero()                   .subtract(b_12);
+        k16_13 = fraction(      -1199007803.0, 857031517296.0);
+        k16_14 = fraction(     157882067000.0, 53564469831.0);
+        k16_15 = fraction(    -290468882375.0, 31741908048.0);
+
+        /** Interpolation weights.
+         * (beware that only the non-null values are in the table)
+         */
+        d = MathArrays.buildArray(integrator.getField(), 4, 12);
+
+         d[0][ 0] = fraction(        -17751989329.0, 2106076560.0);
+         d[0][ 1] = fraction(          4272954039.0, 7539864640.0);
+         d[0][ 2] = fraction(       -118476319744.0, 38604839385.0);
+         d[0][ 3] = fraction(        755123450731.0, 316657731600.0);
+         d[0][ 4] = fraction( 3692384461234828125.0, 1744130441634250432.0);
+         d[0][ 5] = fraction(         -4612609375.0, 5293382976.0);
+         d[0][ 6] = fraction(       2091772278379.0, 933644586600.0);
+         d[0][ 7] = fraction(          2136624137.0, 3382989120.0);
+         d[0][ 8] = fraction(             -126493.0, 1421424.0);
+         d[0][ 9] = fraction(            98350000.0, 5419179.0);
+         d[0][10] = fraction(           -18878125.0, 2053168.0);
+         d[0][11] = fraction(         -1944542619.0, 438351368.0);
+
+         d[1][ 0] = fraction(         32941697297.0, 3159114840.0);
+         d[1][ 1] = fraction(        456696183123.0, 1884966160.0);
+         d[1][ 2] = fraction(      19132610714624.0, 115814518155.0);
+         d[1][ 3] = fraction(    -177904688592943.0, 474986597400.0);
+         d[1][ 4] = fraction(-4821139941836765625.0, 218016305204281304.0);
+         d[1][ 5] = fraction(         30702015625.0, 3970037232.0);
+         d[1][ 6] = fraction(     -85916079474274.0, 2800933759800.0);
+         d[1][ 7] = fraction(         -5919468007.0, 634310460.0);
+         d[1][ 8] = fraction(             2479159.0, 157936.0);
+         d[1][ 9] = fraction(           -18750000.0, 602131.0);
+         d[1][10] = fraction(           -19203125.0, 2053168.0);
+         d[1][11] = fraction(         15700361463.0, 438351368.0);
+
+         d[2][ 0] = fraction(         12627015655.0, 631822968.0);
+         d[2][ 1] = fraction(        -72955222965.0, 188496616.0);
+         d[2][ 2] = fraction(     -13145744952320.0, 69488710893.0);
+         d[2][ 3] = fraction(      30084216194513.0, 56998391688.0);
+         d[2][ 4] = fraction( -296858761006640625.0, 25648977082856624.0);
+         d[2][ 5] = fraction(           569140625.0, 82709109.0);
+         d[2][ 6] = fraction(        -18684190637.0, 18672891732.0);
+         d[2][ 7] = fraction(            69644045.0, 89549712.0);
+         d[2][ 8] = fraction(           -11847025.0, 4264272.0);
+         d[2][ 9] = fraction(          -978650000.0, 16257537.0);
+         d[2][10] = fraction(           519371875.0, 6159504.0);
+         d[2][11] = fraction(          5256837225.0, 438351368.0);
+
+         d[3][ 0] = fraction(          -450944925.0, 17550638.0);
+         d[3][ 1] = fraction(        -14532122925.0, 94248308.0);
+         d[3][ 2] = fraction(       -595876966400.0, 2573655959.0);
+         d[3][ 3] = fraction(        188748653015.0, 527762886.0);
+         d[3][ 4] = fraction( 2545485458115234375.0, 27252038150535163.0);
+         d[3][ 5] = fraction(         -1376953125.0, 36759604.0);
+         d[3][ 6] = fraction(         53995596795.0, 518691437.0);
+         d[3][ 7] = fraction(           210311225.0, 7047894.0);
+         d[3][ 8] = fraction(            -1718875.0, 39484.0);
+         d[3][ 9] = fraction(            58000000.0, 602131.0);
+         d[3][10] = fraction(            -1546875.0, 39484.0);
+         d[3][11] = fraction(         -1262172375.0, 8429834.0);
+
     }
 
     /** Copy constructor.
@@ -265,27 +338,68 @@ class DormandPrince853FieldStepInterpolator<T extends RealFieldElement<T>>
 
         }
 
+        b_01   = interpolator.b_01;
+        b_06   = interpolator.b_06;
+        b_07   = interpolator.b_07;
+        b_08   = interpolator.b_08;
+        b_09   = interpolator.b_09;
+        b_10   = interpolator.b_10;
+        b_11   = interpolator.b_11;
+        b_12   = interpolator.b_12;
+        c14    = interpolator.c14;
+        k14_01 = interpolator.k14_01;
+        k14_06 = interpolator.k14_06;
+        k14_07 = interpolator.k14_07;
+        k14_08 = interpolator.k14_08;
+        k14_09 = interpolator.k14_09;
+        k14_10 = interpolator.k14_10;
+        k14_11 = interpolator.k14_11;
+        k14_12 = interpolator.k14_12;
+        k14_13 = interpolator.k14_13;
+        c15    = interpolator.c15;
+        k15_01 = interpolator.k15_01;
+        k15_06 = interpolator.k15_06;
+        k15_07 = interpolator.k15_07;
+        k15_08 = interpolator.k15_08;
+        k15_09 = interpolator.k15_09;
+        k15_10 = interpolator.k15_10;
+        k15_11 = interpolator.k15_11;
+        k15_12 = interpolator.k15_12;
+        k15_13 = interpolator.k15_13;
+        k15_14 = interpolator.k15_14;
+        c16    = interpolator.c16;
+        k16_01 = interpolator.k16_01;
+        k16_06 = interpolator.k16_06;
+        k16_07 = interpolator.k16_07;
+        k16_08 = interpolator.k16_08;
+        k16_09 = interpolator.k16_09;
+        k16_10 = interpolator.k16_10;
+        k16_11 = interpolator.k16_11;
+        k16_12 = interpolator.k16_12;
+        k16_13 = interpolator.k16_13;
+        k16_14 = interpolator.k16_14;
+        k16_15 = interpolator.k16_15;
+
+        d = MathArrays.buildArray(integrator.getField(), 4, -1);
+        for (int i = 0; i < d.length; ++i) {
+            d[i] = interpolator.d[i].clone();
+        }
+
+    }
+
+    /** Create a fraction.
+     * @param p numerator
+     * @param q denominator
+     * @return p/q computed in the instance field
+     */
+    private T fraction(final double p, final double q) {
+        return integrator.getField().getOne().multiply(p).divide(q);
     }
 
     /** {@inheritDoc} */
     @Override
     protected DormandPrince853FieldStepInterpolator<T> doCopy() {
         return new DormandPrince853FieldStepInterpolator<T>(this);
-    }
-
-    /** {@inheritDoc} */
-    @Override
-    public void reinitialize(final T[] y, final boolean isForward, final FieldEquationsMapper<T> equationsMapper) {
-
-        super.reinitialize(y, isForward, equationsMapper);
-
-        final int dimension = currentState.length;
-
-        yDotKLast = MathArrays.buildArray(y[0].getField(), 3, dimension);
-        v         = MathArrays.buildArray(y[0].getField(), 7, dimension);
-
-        vectorsInitialized = false;
-
     }
 
     /** {@inheritDoc} */
@@ -325,29 +439,29 @@ class DormandPrince853FieldStepInterpolator<T extends RealFieldElement<T>>
                 final T yDot14 = yDotKLast[0][i];
                 final T yDot15 = yDotKLast[1][i];
                 final T yDot16 = yDotKLast[2][i];
-                v[0][i] =     yDot01.multiply(B_01).
-                          add(yDot06.multiply(B_06)).
-                          add(yDot07.multiply(B_07)).
-                          add(yDot08.multiply(B_08)).
-                          add(yDot09.multiply(B_09)).
-                          add(yDot10.multiply(B_10)).
-                          add(yDot11.multiply(B_11)).
-                          add(yDot12.multiply(B_12));
+                v[0][i] =     yDot01.multiply(b_01).
+                          add(yDot06.multiply(b_06)).
+                          add(yDot07.multiply(b_07)).
+                          add(yDot08.multiply(b_08)).
+                          add(yDot09.multiply(b_09)).
+                          add(yDot10.multiply(b_10)).
+                          add(yDot11.multiply(b_11)).
+                          add(yDot12.multiply(b_12));
                 v[1][i] = yDot01.subtract(v[0][i]);
                 v[2][i] = v[0][i].subtract(v[1][i]).subtract(yDotK[12][i]);
-                for (int k = 0; k < D.length; ++k) {
-                    v[k+3][i] =     yDot01.multiply(D[k][ 0]).
-                                add(yDot06.multiply(D[k][ 1])).
-                                add(yDot07.multiply(D[k][ 2])).
-                                add(yDot08.multiply(D[k][ 3])).
-                                add(yDot09.multiply(D[k][ 4])).
-                                add(yDot10.multiply(D[k][ 5])).
-                                add(yDot11.multiply(D[k][ 6])).
-                                add(yDot12.multiply(D[k][ 7])).
-                                add(yDot13.multiply(D[k][ 8])).
-                                add(yDot14.multiply(D[k][ 9])).
-                                add(yDot15.multiply(D[k][10])).
-                                add(yDot16.multiply(D[k][11]));
+                for (int k = 0; k < d.length; ++k) {
+                    v[k+3][i] =     yDot01.multiply(d[k][ 0]).
+                                add(yDot06.multiply(d[k][ 1])).
+                                add(yDot07.multiply(d[k][ 2])).
+                                add(yDot08.multiply(d[k][ 3])).
+                                add(yDot09.multiply(d[k][ 4])).
+                                add(yDot10.multiply(d[k][ 5])).
+                                add(yDot11.multiply(d[k][ 6])).
+                                add(yDot12.multiply(d[k][ 7])).
+                                add(yDot13.multiply(d[k][ 8])).
+                                add(yDot14.multiply(d[k][ 9])).
+                                add(yDot15.multiply(d[k][10])).
+                                add(yDot16.multiply(d[k][11]));
                 }
             }
 
@@ -425,51 +539,51 @@ class DormandPrince853FieldStepInterpolator<T extends RealFieldElement<T>>
 
         // k14
         for (int j = 0; j < currentState.length; ++j) {
-            s =     yDotK[ 0][j].multiply(K14_01).
-                add(yDotK[ 5][j].multiply(K14_06)).
-                add(yDotK[ 6][j].multiply(K14_07)).
-                add(yDotK[ 7][j].multiply(K14_08)).
-                add(yDotK[ 8][j].multiply(K14_09)).
-                add(yDotK[ 9][j].multiply(K14_10)).
-                add(yDotK[10][j].multiply(K14_11)).
-                add(yDotK[11][j].multiply(K14_12)).
-                add(yDotK[12][j].multiply(K14_13));
+            s =     yDotK[ 0][j].multiply(k14_01).
+                add(yDotK[ 5][j].multiply(k14_06)).
+                add(yDotK[ 6][j].multiply(k14_07)).
+                add(yDotK[ 7][j].multiply(k14_08)).
+                add(yDotK[ 8][j].multiply(k14_09)).
+                add(yDotK[ 9][j].multiply(k14_10)).
+                add(yDotK[10][j].multiply(k14_11)).
+                add(yDotK[11][j].multiply(k14_12)).
+                add(yDotK[12][j].multiply(k14_13));
             yTmp[j] = currentState[j].add(h.multiply(s));
         }
-        yDotKLast[0] = integrator.computeDerivatives(pT.add(h.multiply(C14)), yTmp);
+        yDotKLast[0] = integrator.computeDerivatives(pT.add(h.multiply(c14)), yTmp);
 
         // k15
         for (int j = 0; j < currentState.length; ++j) {
-            s =     yDotK[ 0][j].multiply(K15_01).
-                add(yDotK[ 5][j].multiply(K15_06)).
-                add(yDotK[ 6][j].multiply(K15_07)).
-                add(yDotK[ 7][j].multiply(K15_08)).
-                add(yDotK[ 8][j].multiply(K15_09)).
-                add(yDotK[ 9][j].multiply(K15_10)).
-                add(yDotK[10][j].multiply(K15_11)).
-                add(yDotK[11][j].multiply(K15_12)).
-                add(yDotK[12][j].multiply(K15_13)).
-                add(yDotKLast[0][j].multiply(K15_14));
+            s =     yDotK[ 0][j].multiply(k15_01).
+                add(yDotK[ 5][j].multiply(k15_06)).
+                add(yDotK[ 6][j].multiply(k15_07)).
+                add(yDotK[ 7][j].multiply(k15_08)).
+                add(yDotK[ 8][j].multiply(k15_09)).
+                add(yDotK[ 9][j].multiply(k15_10)).
+                add(yDotK[10][j].multiply(k15_11)).
+                add(yDotK[11][j].multiply(k15_12)).
+                add(yDotK[12][j].multiply(k15_13)).
+                add(yDotKLast[0][j].multiply(k15_14));
             yTmp[j] = currentState[j].add(h.multiply(s));
         }
-        yDotKLast[1] = integrator.computeDerivatives(pT.add(h.multiply(C15)), yTmp);
+        yDotKLast[1] = integrator.computeDerivatives(pT.add(h.multiply(c15)), yTmp);
 
         // k16
         for (int j = 0; j < currentState.length; ++j) {
-            s =     yDotK[ 0][j].multiply(K16_01).
-                add(yDotK[ 5][j].multiply(K16_06)).
-                add(yDotK[ 6][j].multiply(K16_07)).
-                add(yDotK[ 7][j].multiply(K16_08)).
-                add(yDotK[ 8][j].multiply(K16_09)).
-                add(yDotK[ 9][j].multiply(K16_10)).
-                add(yDotK[10][j].multiply(K16_11)).
-                add(yDotK[11][j].multiply(K16_12)).
-                add(yDotK[12][j].multiply(K16_13)).
-                add(yDotKLast[0][j].multiply(K16_14)).
-                add(yDotKLast[0][j].multiply(K16_15));
+            s =     yDotK[ 0][j].multiply(k16_01).
+                add(yDotK[ 5][j].multiply(k16_06)).
+                add(yDotK[ 6][j].multiply(k16_07)).
+                add(yDotK[ 7][j].multiply(k16_08)).
+                add(yDotK[ 8][j].multiply(k16_09)).
+                add(yDotK[ 9][j].multiply(k16_10)).
+                add(yDotK[10][j].multiply(k16_11)).
+                add(yDotK[11][j].multiply(k16_12)).
+                add(yDotK[12][j].multiply(k16_13)).
+                add(yDotKLast[0][j].multiply(k16_14)).
+                add(yDotKLast[0][j].multiply(k16_15));
             yTmp[j] = currentState[j].add(h.multiply(s));
         }
-        yDotKLast[2] = integrator.computeDerivatives(pT.add(h.multiply(C16)), yTmp);
+        yDotKLast[2] = integrator.computeDerivatives(pT.add(h.multiply(c16)), yTmp);
 
     }
 

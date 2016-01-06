@@ -18,9 +18,9 @@
 package org.apache.commons.math4.ode.nonstiff;
 
 import org.apache.commons.math4.RealFieldElement;
+import org.apache.commons.math4.ode.AbstractFieldIntegrator;
 import org.apache.commons.math4.ode.FieldEquationsMapper;
 import org.apache.commons.math4.ode.FieldODEStateAndDerivative;
-import org.apache.commons.math4.util.FastMath;
 import org.apache.commons.math4.util.MathArrays;
 
 /**
@@ -39,21 +39,77 @@ import org.apache.commons.math4.util.MathArrays;
 class LutherFieldStepInterpolator<T extends RealFieldElement<T>>
     extends RungeKuttaFieldStepInterpolator<T> {
 
-    /** Square root. */
-    private static final double Q = FastMath.sqrt(21);
+    /** -49 - 49 q. */
+    private final T c5a;
+
+    /** 392 + 287 q. */
+    private final T c5b;
+
+    /** -637 - 357 q. */
+    private final T c5c;
+
+    /** 833 + 343 q. */
+    private final T c5d;
+
+    /** -49 + 49 q. */
+    private final T c6a;
+
+    /** -392 - 287 q. */
+    private final T c6b;
+
+    /** -637 + 357 q. */
+    private final T c6c;
+
+    /** 833 - 343 q. */
+    private final T c6d;
+
+    /** 49 + 49 q. */
+    private final T d5a;
+
+    /** -1372 - 847 q. */
+    private final T d5b;
+
+    /** 2254 + 1029 q */
+    private final T d5c;
+
+    /** 49 - 49 q. */
+    private final T d6a;
+
+    /** -1372 + 847 q. */
+    private final T d6b;
+
+    /** 2254 - 1029 q */
+    private final T d6c;
 
     /** Simple constructor.
-     * This constructor builds an instance that is not usable yet, the
-     * {@link
-     * org.apache.commons.math4.ode.sampling.AbstractFieldStepInterpolator#reinitialize}
-     * method should be called before using the instance in order to
-     * initialize the internal arrays. This constructor is used only
-     * in order to delay the initialization in some cases. The {@link
-     * RungeKuttaFieldIntegrator} class uses the prototyping design pattern
-     * to create the step interpolators by cloning an uninitialized model
-     * and later initializing the copy.
+     * @param rkIntegrator integrator being used
+     * @param y reference to the integrator array holding the state at
+     * the end of the step
+     * @param yDotArray reference to the integrator array holding all the
+     * intermediate slopes
+     * @param forward integration direction indicator
+     * @param mapper equations mapper for the all equations
      */
-    LutherFieldStepInterpolator() {
+    LutherFieldStepInterpolator(final AbstractFieldIntegrator<T> rkIntegrator,
+                                final T[] y, final T[][] yDotArray, final boolean forward,
+                                final FieldEquationsMapper<T> mapper) {
+        super(rkIntegrator, y, yDotArray, forward, mapper);
+        final T q = rkIntegrator.getField().getOne().multiply(21).sqrt();
+        c5a = q.multiply(  -49).add(  -49);
+        c5b = q.multiply(  287).add(  392);
+        c5c = q.multiply( -357).add( -637);
+        c5d = q.multiply(  343).add(  833);
+        c6a = q.multiply(   49).add(  -49);
+        c6b = q.multiply( -287).add( -392);
+        c6c = q.multiply(  357).add( -637);
+        c6d = q.multiply( -343).add(  833);
+        d5a = q.multiply(   49).add(   49);
+        d5b = q.multiply( -847).add(-1372);
+        d5c = q.multiply( 1029).add( 2254);
+        d6a = q.multiply(  -49).add(   49);
+        d6b = q.multiply(  847).add(-1372);
+        d6c = q.multiply(-1029).add( 2254);
+
     }
 
     /** Copy constructor.
@@ -63,6 +119,20 @@ class LutherFieldStepInterpolator<T extends RealFieldElement<T>>
      */
     LutherFieldStepInterpolator(final LutherFieldStepInterpolator<T> interpolator) {
         super(interpolator);
+        c5a = interpolator.c5a;
+        c5b = interpolator.c5b;
+        c5c = interpolator.c5c;
+        c5d = interpolator.c5d;
+        c6a = interpolator.c6a;
+        c6b = interpolator.c6b;
+        c6c = interpolator.c6c;
+        c6d = interpolator.c6d;
+        d5a = interpolator.d5a;
+        d5b = interpolator.d5b;
+        d5c = interpolator.d5c;
+        d6a = interpolator.d6a;
+        d6b = interpolator.d6b;
+        d6c = interpolator.d6c;
     }
 
     /** {@inheritDoc} */
@@ -121,25 +191,25 @@ class LutherFieldStepInterpolator<T extends RealFieldElement<T>>
         // are fulfilled, but some of the former ones are not, so the resulting interpolator is order 5.
         // At the end, we get the b_i as polynomials in theta.
 
-        final T coeffDot1 =  theta.multiply(theta.multiply(theta.multiply(theta.multiply(   21                 ).add( -47                  )).add(   36                  )).add( -54            /   5.0)).add(1);
+        final T coeffDot1 =  theta.multiply(theta.multiply(theta.multiply(theta.multiply(   21        ).add( -47          )).add(   36         )).add( -54     /   5.0)).add(1);
         // not really needed as it is zero: final T coeffDot2 =  theta.getField().getZero();
-        final T coeffDot3 =  theta.multiply(theta.multiply(theta.multiply(theta.multiply(  112                 ).add(-608            /  3.0)).add(  320            / 3.0 )).add(-208            /  15.0));
-        final T coeffDot4 =  theta.multiply(theta.multiply(theta.multiply(theta.multiply( -567           /  5.0).add( 972            /  5.0)).add( -486            / 5.0 )).add( 324            /  25.0));
-        final T coeffDot5 =  theta.multiply(theta.multiply(theta.multiply(theta.multiply(( -49 - 49 * Q) /  5.0).add((392 + 287 * Q) / 15.0)).add((-637 - 357 * Q) / 30.0)).add((833 + 343 * Q) / 150.0));
-        final T coeffDot6 =  theta.multiply(theta.multiply(theta.multiply(theta.multiply(( -49 + 49 * Q) /  5.0).add((392 - 287 * Q) / 15.0)).add((-637 + 357 * Q) / 30.0)).add((833 - 343 * Q) / 150.0));
-        final T coeffDot7 =  theta.multiply(theta.multiply(theta.multiply(                                              3                   ).add(   -3                   ).add(   3            /   5.0)));
+        final T coeffDot3 =  theta.multiply(theta.multiply(theta.multiply(theta.multiply(  112        ).add(-608    /  3.0)).add(  320   / 3.0 )).add(-208    /  15.0));
+        final T coeffDot4 =  theta.multiply(theta.multiply(theta.multiply(theta.multiply( -567  /  5.0).add( 972    /  5.0)).add( -486   / 5.0 )).add( 324    /  25.0));
+        final T coeffDot5 =  theta.multiply(theta.multiply(theta.multiply(theta.multiply(c5a.divide(5)).add(c5b.divide(15))).add(c5c.divide(30))).add(c5d.divide(150)));
+        final T coeffDot6 =  theta.multiply(theta.multiply(theta.multiply(theta.multiply(c6a.divide(5)).add(c6b.divide(15))).add(c6c.divide(30))).add(c6d.divide(150)));
+        final T coeffDot7 =  theta.multiply(theta.multiply(theta.multiply(                                              3 )).add(   -3         )).add(   3   /   5.0);
         final T[] interpolatedState       = MathArrays.buildArray(theta.getField(), previousState.length);
         final T[] interpolatedDerivatives = MathArrays.buildArray(theta.getField(), previousState.length);
 
         if ((previousState != null) && (theta.getReal() <= 0.5)) {
 
-            final T coeff1    = theta.multiply(theta.multiply(theta.multiply(theta.multiply(  21           /  5.0).add( -47            /  4.0)).add(   12                  )).add( -27            /   5.0)).add(1);
+            final T coeff1    = theta.multiply(theta.multiply(theta.multiply(theta.multiply(  21    /  5.0).add( -47    /  4.0)).add(   12         )).add( -27    /   5.0)).add(1);
             // not really needed as it is zero: final T coeff2    =  theta.getField().getZero();
-            final T coeff3    = theta.multiply(theta.multiply(theta.multiply(theta.multiply( 112           /  5.0).add(-152            /  3.0)).add(  320            / 9.0 )).add(-104            /  15.0));
-            final T coeff4    = theta.multiply(theta.multiply(theta.multiply(theta.multiply(-567           / 25.0).add( 243            /  5.0)).add( -162            / 5.0 )).add( 162            /  25.0));
-            final T coeff5    = theta.multiply(theta.multiply(theta.multiply(theta.multiply((-49 - 49 * Q) / 25.0).add((392 + 287 * Q) / 60.0)).add((-637 - 357 * Q) / 90.0)).add((833 + 343 * Q) / 300.0));
-            final T coeff6    = theta.multiply(theta.multiply(theta.multiply(theta.multiply((-49 + 49 * Q) / 25.0).add((392 - 287 * Q) / 60.0)).add((-637 + 357 * Q) / 90.0)).add((833 - 343 * Q) / 300.0));
-            final T coeff7    = theta.multiply(theta.multiply(theta.multiply(                                             3            /  4.0 ).add(   -1                  )).add(   3            /  10.0));
+            final T coeff3    = theta.multiply(theta.multiply(theta.multiply(theta.multiply( 112    /  5.0).add(-152    /  3.0)).add(  320   / 9.0 )).add(-104    /  15.0));
+            final T coeff4    = theta.multiply(theta.multiply(theta.multiply(theta.multiply(-567    / 25.0).add( 243    /  5.0)).add( -162   / 5.0 )).add( 162    /  25.0));
+            final T coeff5    = theta.multiply(theta.multiply(theta.multiply(theta.multiply(c5a.divide(25)).add(c5b.divide(60))).add(c5c.divide(90))).add(c5d.divide(300)));
+            final T coeff6    = theta.multiply(theta.multiply(theta.multiply(theta.multiply(c5a.divide(25)).add(c6b.divide(60))).add(c6c.divide(90))).add(c6d.divide(300)));
+            final T coeff7    = theta.multiply(theta.multiply(theta.multiply(                              3            /  4.0)).add(   -1         )).add(   3     /  10.0);
             for (int i = 0; i < interpolatedState.length; ++i) {
                 final T yDot1 = yDotK[0][i];
                 // not really needed as associated coefficients are zero: final T yDot2 = yDotK[1][i];
@@ -167,13 +237,13 @@ class LutherFieldStepInterpolator<T extends RealFieldElement<T>>
             }
         } else {
 
-            final T coeff1    = theta.multiply(theta.multiply(theta.multiply(theta.multiply( -21           /   5.0).add(   151            /  20.0)).add(  -89             /  20.0)).add(  19            /  20.0)).add( -1 /  20.0);
+            final T coeff1    = theta.multiply(theta.multiply(theta.multiply(theta.multiply( -21   /   5.0).add(   151  /  20.0)).add(  -89   /  20.0)).add(  19 /  20.0)).add( -1 /  20.0);
             // not really needed as it is zero: final T coeff2    =  theta.getField().getZero();
-            final T coeff3    = theta.multiply(theta.multiply(theta.multiply(theta.multiply(-112           /   5.0).add(   424            /  15.0)).add( -328             /  45.0)).add( -16            /  45.0)).add(-16 /  45.0);
-            final T coeff4    = theta.multiply(theta.multiply(theta.multiply(theta.multiply( 567           /  25.0).add(  -648            /  25.0)).add(  162             /  25.0)));
-            final T coeff5    = theta.multiply(theta.multiply(theta.multiply(theta.multiply(( 49 + 49 * Q) /  25.0).add((-1372 - 847 * Q) / 300.0)).add((2254 + 1029 * Q) / 900.0)).add( -49            / 180.0)).add(-49 / 180.0);
-            final T coeff6    = theta.multiply(theta.multiply(theta.multiply(theta.multiply(( 49 - 49 * Q) /  25.0).add((-1372 + 847 * Q) / 300.0)).add((2254 - 1029 * Q) / 900.0)).add( -49            / 180.0)).add(-49 / 180.0);
-            final T coeff7    = theta.multiply(theta.multiply(theta.multiply(                                               -3            /   4.0 ).add(    1             /   4.0)).add(  -1            /  20.0)).add( -1 /  20.0);
+            final T coeff3    = theta.multiply(theta.multiply(theta.multiply(theta.multiply(-112   /   5.0).add(   424  /  15.0)).add( -328   /  45.0)).add( -16 /  45.0)).add(-16 /  45.0);
+            final T coeff4    = theta.multiply(theta.multiply(theta.multiply(theta.multiply( 567   /  25.0).add(  -648  /  25.0)).add(  162   /  25.0)));
+            final T coeff5    = theta.multiply(theta.multiply(theta.multiply(theta.multiply(d5a.divide(25)).add(d5b.divide(300))).add(d5c.divide(900))).add( -49 / 180.0)).add(-49 / 180.0);
+            final T coeff6    = theta.multiply(theta.multiply(theta.multiply(theta.multiply(d6a.divide(25)).add(d6b.divide(300))).add(d6c.divide(900))).add( -49 / 180.0)).add(-49 / 180.0);
+            final T coeff7    = theta.multiply(theta.multiply(theta.multiply(                             -3            /   4.0 ).add(    1   /   4.0)).add(  -1 /  20.0)).add( -1 /  20.0);
             for (int i = 0; i < interpolatedState.length; ++i) {
                 final T yDot1 = yDotK[0][i];
                 // not really needed as associated coefficients are zero: final T yDot2 = yDotK[1][i];
