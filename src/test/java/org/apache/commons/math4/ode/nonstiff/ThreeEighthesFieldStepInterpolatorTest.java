@@ -41,4 +41,9 @@ public class ThreeEighthesFieldStepInterpolatorTest extends AbstractRungeKuttaFi
         doInterpolationInside(Decimal64Field.getInstance(), 2.6e-7, 3.6e-6);
     }
 
+    @Test
+    public void nonFieldInterpolatorConsistency() {
+        doNonFieldInterpolatorConsistency(Decimal64Field.getInstance(), 1.4e-17, 1.2e-16, 1.0e-50, 1.0e-50);
+    }
+
 }

@@ -41,4 +41,9 @@ public class EulerFieldStepInterpolatorTest extends AbstractRungeKuttaFieldStepI
         doInterpolationInside(Decimal64Field.getInstance(), 3.3e-4, 7.9e-3);
     }
 
+    @Test
+    public void nonFieldInterpolatorConsistency() {
+        doNonFieldInterpolatorConsistency(Decimal64Field.getInstance(), 1.0e-50, 1.0e-50, 1.0e-50, 1.0e-50);
+    }
+
 }
