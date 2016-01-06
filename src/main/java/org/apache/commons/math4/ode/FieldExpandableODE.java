@@ -79,7 +79,7 @@ public class FieldExpandableODE<T extends RealFieldElement<T>> {
     /** Get the mapper for the set of equations.
      * @return mapper for the set of equations
      */
-    FieldEquationsMapper<T> getMapper() {
+    public FieldEquationsMapper<T> getMapper() {
         return mapper;
     }
 
@@ -95,6 +95,28 @@ public class FieldExpandableODE<T extends RealFieldElement<T>> {
         mapper = new FieldEquationsMapper<>(mapper, secondary.getDimension());
 
         return components.size() - 1;
+
+    }
+
+    /** Initialize equations at the start of an ODE integration.
+     * @param t0 value of the independent <I>time</I> variable at integration start
+     * @param y0 array containing the value of the state vector at integration start
+     * @param finalTime target time for the integration
+     * @exception MaxCountExceededException if the number of functions evaluations is exceeded
+     * @exception DimensionMismatchException if arrays dimensions do not match equations settings
+     */
+    public void init(final T t0, final T[] y0, final T finalTime) {
+
+        // initialize primary equations
+        int index = 0;
+        final T[] primary0 = mapper.extractEquationData(index, y0);
+        primary.init(t0, primary0, finalTime);
+
+        // initialize secondary equations
+        while (++index < mapper.getNumberOfEquations()) {
+            final T[] secondary0 = mapper.extractEquationData(index, y0);
+            components.get(index - 1).init(t0, primary0, secondary0, finalTime);
+        }
 
     }
 
