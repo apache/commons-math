@@ -140,10 +140,10 @@ public abstract class AbstractRungeKuttaFieldStepInterpolatorTest {
         RungeKuttaFieldStepInterpolator<T> interpolator = createInterpolator(field, t1 > t0,
                                                                              new FieldExpandableODE<T>(eqn).getMapper());
         // get the Butcher arrays from the field integrator
-        RungeKuttaFieldIntegrator<T> fieldIntegrator = createFieldIntegrator(field, interpolator);
-        T[][] a = fieldIntegrator.getA();
-        T[]   b = fieldIntegrator.getB();
-        T[]   c = fieldIntegrator.getC();
+        FieldButcherArrayProvider<T> provider = createButcherArrayProvider(field, interpolator);
+        T[][] a = provider.getA();
+        T[]   b = provider.getB();
+        T[]   c = provider.getC();
 
         // store initial state
         T     t          = field.getZero().add(t0);
@@ -259,25 +259,23 @@ public abstract class AbstractRungeKuttaFieldStepInterpolatorTest {
 
     }
 
-    private <T extends RealFieldElement<T>> RungeKuttaFieldIntegrator<T>
-    createFieldIntegrator(final Field<T> field, final RungeKuttaFieldStepInterpolator<T> interpolator) {
-        RungeKuttaFieldIntegrator<T> integrator = null;
+    private <T extends RealFieldElement<T>> FieldButcherArrayProvider<T>
+    createButcherArrayProvider(final Field<T> field, final RungeKuttaFieldStepInterpolator<T> provider) {
+        FieldButcherArrayProvider<T> integrator = null;
         try {
-        String interpolatorName = interpolator.getClass().getName();
+        String interpolatorName = provider.getClass().getName();
         String integratorName = interpolatorName.replaceAll("StepInterpolator", "Integrator");
             @SuppressWarnings("unchecked")
-            Class<RungeKuttaFieldIntegrator<T>> clz = (Class<RungeKuttaFieldIntegrator<T>>) Class.forName(integratorName);
+            Class<FieldButcherArrayProvider<T>> clz = (Class<FieldButcherArrayProvider<T>>) Class.forName(integratorName);
             try {
                 integrator = clz.getConstructor(Field.class, RealFieldElement.class).
-                             newInstance(field, field.getOne());
+                                                newInstance(field, field.getOne());
             } catch (NoSuchMethodException nsme) {
                 try {
                     integrator = clz.getConstructor(Field.class,
-                                                    RealFieldElement.class,
-                                                    RealFieldElement.class,
-                                                    RealFieldElement.class).
-                                 newInstance(field, field.getZero().add(0.001),
-                                             field.getOne(), field.getOne(), field.getOne());
+                                                    Double.TYPE, Double.TYPE,
+                                                    Double.TYPE, Double.TYPE).
+                                 newInstance(field, 0.001, 1.0, 1.0, 1.0);
                 } catch (NoSuchMethodException e) {
                     Assert.fail(e.getLocalizedMessage());
                 }

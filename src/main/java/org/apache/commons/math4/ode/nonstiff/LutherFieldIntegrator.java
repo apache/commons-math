@@ -71,7 +71,7 @@ public class LutherFieldIntegrator<T extends RealFieldElement<T>>
 
     /** {@inheritDoc} */
     @Override
-    protected T[] getC() {
+    public T[] getC() {
         final T q = getField().getZero().add(21).sqrt();
         final T[] c = MathArrays.buildArray(getField(), 6);
         c[0] = getField().getOne();
@@ -85,7 +85,7 @@ public class LutherFieldIntegrator<T extends RealFieldElement<T>>
 
     /** {@inheritDoc} */
     @Override
-    protected T[][] getA() {
+    public T[][] getA() {
         final T q = getField().getZero().add(21).sqrt();
         final T[][] a = MathArrays.buildArray(getField(), 6, -1);
         for (int i = 0; i < a.length; ++i) {
@@ -117,7 +117,7 @@ public class LutherFieldIntegrator<T extends RealFieldElement<T>>
 
     /** {@inheritDoc} */
     @Override
-    protected T[] getB() {
+    public T[] getB() {
 
         final T[] b = MathArrays.buildArray(getField(), 7);
         b[0] = fraction( 1,  20);

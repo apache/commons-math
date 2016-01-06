@@ -61,7 +61,7 @@ public class ThreeEighthesFieldIntegrator<T extends RealFieldElement<T>>
 
     /** {@inheritDoc} */
     @Override
-    protected T[] getC() {
+    public T[] getC() {
         final T[] c = MathArrays.buildArray(getField(), 3);
         c[0] = fraction(1, 3);
         c[1] = c[0].add(c[0]);
@@ -71,7 +71,7 @@ public class ThreeEighthesFieldIntegrator<T extends RealFieldElement<T>>
 
     /** {@inheritDoc} */
     @Override
-    protected T[][] getA() {
+    public T[][] getA() {
         final T[][] a = MathArrays.buildArray(getField(), 3, -1);
         for (int i = 0; i < a.length; ++i) {
             a[i] = MathArrays.buildArray(getField(), i + 1);
@@ -87,7 +87,7 @@ public class ThreeEighthesFieldIntegrator<T extends RealFieldElement<T>>
 
     /** {@inheritDoc} */
     @Override
-    protected T[] getB() {
+    public T[] getB() {
         final T[] b = MathArrays.buildArray(getField(), 4);
         b[0] = fraction(1, 8);
         b[1] = fraction(3, 8);

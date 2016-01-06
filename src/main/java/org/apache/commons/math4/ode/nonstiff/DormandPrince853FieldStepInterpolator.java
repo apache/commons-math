@@ -52,7 +52,7 @@ class DormandPrince853FieldStepInterpolator<T extends RealFieldElement<T>>
         super(field, forward, mapper);
 
         // interpolation weights
-        d = MathArrays.buildArray(getField(), 4, 16);
+        d = MathArrays.buildArray(getField(), 7, 16);
 
         // this row is the same as the b array
         d[0][ 0] = fraction(104257, 1929240);
