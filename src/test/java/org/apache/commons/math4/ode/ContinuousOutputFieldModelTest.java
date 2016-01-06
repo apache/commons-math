@@ -21,6 +21,8 @@ import java.util.Random;
 
 import org.apache.commons.math4.Field;
 import org.apache.commons.math4.RealFieldElement;
+import org.apache.commons.math4.exception.DimensionMismatchException;
+import org.apache.commons.math4.exception.MathIllegalArgumentException;
 import org.apache.commons.math4.ode.nonstiff.DormandPrince54FieldIntegrator;
 import org.apache.commons.math4.ode.nonstiff.DormandPrince853FieldIntegrator;
 import org.apache.commons.math4.ode.sampling.DummyFieldStepInterpolator;
@@ -185,7 +187,9 @@ public class ContinuousOutputFieldModelTest {
             ContinuousOutputFieldModel<T> otherCm = new ContinuousOutputFieldModel<T>();
             otherCm.handleStep(buildInterpolator(field, t0, t1, y), true);
             cm.append(otherCm);
-        } catch(IllegalArgumentException iae) {
+        } catch(DimensionMismatchException dme) {
+            return true; // there was an allowable error
+        } catch(MathIllegalArgumentException miae) {
             return true; // there was an allowable error
         }
         return false; // no allowable error
