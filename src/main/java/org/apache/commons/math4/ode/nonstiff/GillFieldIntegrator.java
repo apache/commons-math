@@ -74,7 +74,7 @@ public class GillFieldIntegrator<T extends RealFieldElement<T>>
     @Override
     protected T[][] getA() {
 
-        final T two     = getField().getOne().multiply(2);
+        final T two     = getField().getZero().add(2);
         final T sqrtTwo = two.sqrt();
 
         final T[][] a = MathArrays.buildArray(getField(), 3, -1);
@@ -94,13 +94,13 @@ public class GillFieldIntegrator<T extends RealFieldElement<T>>
     @Override
     protected T[] getB() {
 
-        final T two     = getField().getOne().multiply(2);
+        final T two     = getField().getZero().add(2);
         final T sqrtTwo = two.sqrt();
 
         final T[] b = MathArrays.buildArray(getField(), 4);
         b[0] = fraction(1, 6);
-        b[1] = two.subtract(sqrtTwo).divide(6);
-        b[2] = two.add(sqrtTwo).divide(6);
+        b[1] = sqrtTwo.subtract(2).divide(-6);
+        b[2] = sqrtTwo.add(2).divide(6);
         b[3] = b[0];
 
         return b;
