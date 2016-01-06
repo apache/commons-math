@@ -332,10 +332,10 @@ public abstract class AbstractFieldIntegrator<T extends RealFieldElement<T>> imp
                 if (needReset) {
                     // some event handler has triggered changes that
                     // invalidate the derivatives, we need to recompute them
-                    final T[] y    = equations.mapState(eventState);
+                    final T[] y    = equations.getMapper().mapState(eventState);
                     final T[] yDot = computeDerivatives(eventState.getTime(), y);
                     resetOccurred = true;
-                    return equations.mapStateAndDerivative(eventState.getTime(), y, yDot);
+                    return equations.getMapper().mapStateAndDerivative(eventState.getTime(), y, yDot);
                 }
 
                 // prepare handling of the remaining part of the step

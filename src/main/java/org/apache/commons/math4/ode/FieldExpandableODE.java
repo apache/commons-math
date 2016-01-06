@@ -16,7 +16,6 @@
  */
 package org.apache.commons.math4.ode;
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -52,26 +51,22 @@ import org.apache.commons.math4.util.MathArrays;
 
 public class FieldExpandableODE<T extends RealFieldElement<T>> {
 
-    /** Total dimension. */
-    private int dimension;
-
     /** Primary differential equation. */
     private final FieldFirstOrderDifferentialEquations<T> primary;
 
-    /** Mapper for primary equation. */
-    private final FieldEquationsMapper<T> primaryMapper;
-
     /** Components of the expandable ODE. */
-    private List<FieldSecondaryComponent<T>> components;
+    private List<FieldSecondaryEquations<T>> components;
+
+    /** Mapper for all equations. */
+    private FieldEquationsMapper<T> mapper;
 
     /** Build an expandable set from its primary ODE set.
      * @param primary the primary set of differential equations to be integrated.
      */
     public FieldExpandableODE(final FieldFirstOrderDifferentialEquations<T> primary) {
-        this.dimension     = primary.getDimension();
-        this.primary       = primary;
-        this.primaryMapper = new FieldEquationsMapper<T>(0, primary.getDimension());
-        this.components    = new ArrayList<FieldExpandableODE.FieldSecondaryComponent<T>>();
+        this.primary    = primary;
+        this.components = new ArrayList<FieldSecondaryEquations<T>>();
+        this.mapper     = new FieldEquationsMapper<T>(null, primary.getDimension());
     }
 
     /** Get the primary set of differential equations.
@@ -81,14 +76,11 @@ public class FieldExpandableODE<T extends RealFieldElement<T>> {
         return primary;
     }
 
-    /** Return the dimension of the complete set of equations.
-     * <p>
-     * The complete set of equations correspond to the primary set plus all secondary sets.
-     * </p>
-     * @return dimension of the complete set of equations
+    /** Get the mapper for the set of equations.
+     * @return mapper for the set of equations
      */
-    public int getTotalDimension() {
-        return dimension;
+    FieldEquationsMapper<T> getMapper() {
+        return mapper;
     }
 
     /** Add a set of secondary equations to be integrated along with the primary set.
@@ -99,93 +91,11 @@ public class FieldExpandableODE<T extends RealFieldElement<T>> {
      */
     public int addSecondaryEquations(final FieldSecondaryEquations<T> secondary) {
 
-        final int firstIndex;
-        if (components.isEmpty()) {
-            // lazy creation of the components list
-            components = new ArrayList<FieldExpandableODE.FieldSecondaryComponent<T>>();
-            firstIndex = primary.getDimension();
-        } else {
-            final FieldSecondaryComponent<T> last = components.get(components.size() - 1);
-            firstIndex = last.mapper.getFirstIndex() + last.mapper.getDimension();
-        }
-
-        final FieldSecondaryComponent<T> component = new FieldSecondaryComponent<T>(secondary, firstIndex);
-        components.add(component);
-
-        // update total dimension
-        dimension = component.mapper.getFirstIndex() + component.mapper.getDimension();
+        components.add(secondary);
+        mapper = new FieldEquationsMapper<>(mapper, secondary.getDimension());
 
         return components.size() - 1;
 
-    }
-
-    /** Map a state to a complete flat array.
-     * @param state state to map
-     * @return flat array containing the mapped state, including primary and secondary components
-     */
-    public T[] mapState(final FieldODEState<T> state) {
-        final T[] y = MathArrays.buildArray(state.getTime().getField(), getTotalDimension());
-        primaryMapper.insertEquationData(state.getState(), y);
-        for (int i = 0; i < components.size(); ++i) {
-            components.get(i).mapper.insertEquationData(state.getSecondaryState(i), y);
-        }
-        return y;
-    }
-
-    /** Map a state derivative to a complete flat array.
-     * @param state state to map
-     * @return flat array containing the mapped state derivative, including primary and secondary components
-     */
-    public T[] mapDerivative(final FieldODEStateAndDerivative<T> state) {
-        final T[] yDot = MathArrays.buildArray(state.getTime().getField(), getTotalDimension());
-        primaryMapper.insertEquationData(state.getDerivative(), yDot);
-        for (int i = 0; i < components.size(); ++i) {
-            components.get(i).mapper.insertEquationData(state.getSecondaryDerivative(i), yDot);
-        }
-        return yDot;
-    }
-
-    /** Map a flat array to a state.
-     * @param t time
-     * @param y array to map, including primary and secondary components
-     * @return mapped state
-     */
-    public FieldODEState<T> mapState(final T t, final T[] y) {
-        final T[] state = primaryMapper.extractEquationData(y);
-        if (components.isEmpty()) {
-            return new FieldODEState<T>(t, state);
-        } else {
-            @SuppressWarnings("unchecked")
-            final T[][] secondaryState = (T[][]) Array.newInstance(t.getField().getRuntimeClass(), components.size());
-            for (int i = 0; i < components.size(); ++i) {
-                secondaryState[i] = components.get(i).mapper.extractEquationData(y);
-            }
-            return new FieldODEState<T>(t, state, secondaryState);
-        }
-    }
-
-    /** Map flat arrays to a state and derivative.
-     * @param t time
-     * @param y state array to map, including primary and secondary components
-     * @param yDot state derivative array to map, including primary and secondary components
-     * @return mapped state
-     */
-    public FieldODEStateAndDerivative<T> mapStateAndDerivative(final T t, final T[] y, final T[] yDot) {
-        final T[] state      = primaryMapper.extractEquationData(y);
-        final T[] derivative = primaryMapper.extractEquationData(yDot);
-        if (components.isEmpty()) {
-            return new FieldODEStateAndDerivative<T>(t, state, derivative);
-        } else {
-            @SuppressWarnings("unchecked")
-            final T[][] secondaryState      = (T[][]) Array.newInstance(t.getField().getRuntimeClass(), components.size());
-            @SuppressWarnings("unchecked")
-            final T[][] secondaryDerivative = (T[][]) Array.newInstance(t.getField().getRuntimeClass(), components.size());
-            for (int i = 0; i < components.size(); ++i) {
-                secondaryState[i]      = components.get(i).mapper.extractEquationData(y);
-                secondaryDerivative[i] = components.get(i).mapper.extractEquationData(yDot);
-            }
-            return new FieldODEStateAndDerivative<T>(t, state, derivative, secondaryState, secondaryDerivative);
-        }
     }
 
     /** Get the current time derivative of the complete state vector.
@@ -198,43 +108,23 @@ public class FieldExpandableODE<T extends RealFieldElement<T>> {
     public T[] computeDerivatives(final T t, final T[] y)
         throws MaxCountExceededException, DimensionMismatchException {
 
-        final T[] yDot = MathArrays.buildArray(t.getField(), getTotalDimension());
+        final T[] yDot = MathArrays.buildArray(t.getField(), mapper.getTotalDimension());
 
         // compute derivatives of the primary equations
-        final T[] primaryState    = primaryMapper.extractEquationData(y);
+        int index = 0;
+        final T[] primaryState    = mapper.extractEquationData(index, y);
         final T[] primaryStateDot = primary.computeDerivatives(t, primaryState);
-        primaryMapper.insertEquationData(primaryStateDot, yDot);
+        mapper.insertEquationData(index, primaryStateDot, yDot);
 
         // Add contribution for secondary equations
-        for (final FieldSecondaryComponent<T> component : components) {
-            final T[] componentState    = component.mapper.extractEquationData(y);
-            final T[] componentStateDot = component.equation.computeDerivatives(t, primaryState, primaryStateDot, componentState);
-            component.mapper.insertEquationData(componentStateDot, yDot);
+        while (++index < mapper.getNumberOfEquations()) {
+            final T[] componentState    = mapper.extractEquationData(index, y);
+            final T[] componentStateDot = components.get(index - 1).computeDerivatives(t, primaryState, primaryStateDot,
+                                                                                       componentState);
+            mapper.insertEquationData(index, componentStateDot, yDot);
         }
 
         return yDot;
-
-    }
-
-    /** Components of the compound ODE.
-     * @param <S> the type of the field elements
-     */
-    private static class FieldSecondaryComponent<S extends RealFieldElement<S>> {
-
-        /** Secondary differential equation. */
-        private final FieldSecondaryEquations<S> equation;
-
-        /** Mapper between local and complete arrays. */
-        private final FieldEquationsMapper<S> mapper;
-
-        /** Simple constructor.
-         * @param equation secondary differential equation
-         * @param firstIndex index to use for the first element in the complete arrays
-         */
-        FieldSecondaryComponent(final FieldSecondaryEquations<S> equation, final int firstIndex) {
-            this.equation = equation;
-            this.mapper   = new FieldEquationsMapper<S>(firstIndex, equation.getDimension());
-        }
 
     }
 
