@@ -20,6 +20,7 @@ package org.apache.commons.math4.ode.nonstiff;
 
 import org.apache.commons.math4.Field;
 import org.apache.commons.math4.RealFieldElement;
+import org.apache.commons.math4.analysis.differentiation.DerivativeStructure;
 import org.apache.commons.math4.exception.DimensionMismatchException;
 import org.apache.commons.math4.exception.MaxCountExceededException;
 import org.apache.commons.math4.exception.NoBracketingException;
@@ -454,6 +455,146 @@ public abstract class AbstractEmbeddedRungeKuttaFieldIntegratorTest {
                 Assert.assertEquals(0.0, maxError.getReal(), epsilon);
             }
         }
+    }
+
+    @Test
+    public abstract void testPartialDerivatives();
+
+    protected <T extends RealFieldElement<T>> void doTestPartialDerivatives(final double epsilonY,
+                                                                            final double[] epsilonPartials) {
+
+        // parameters indices
+        final int parameters = 5;
+        final int order      = 1;
+        final int parOmega   = 0;
+        final int parTO      = 1;
+        final int parY00     = 2;
+        final int parY01     = 3;
+        final int parT       = 4;
+
+        DerivativeStructure omega = new DerivativeStructure(parameters, order, parOmega, 1.3);
+        DerivativeStructure t0    = new DerivativeStructure(parameters, order, parTO, 1.3);
+        DerivativeStructure[] y0  = new DerivativeStructure[] {
+            new DerivativeStructure(parameters, order, parY00, 3.0),
+            new DerivativeStructure(parameters, order, parY01, 4.0)
+        };
+        DerivativeStructure t     = new DerivativeStructure(parameters, order, parT, 6.0);
+        SinCos sinCos = new SinCos(omega);
+
+        EmbeddedRungeKuttaFieldIntegrator<DerivativeStructure> integrator =
+                        createIntegrator(omega.getField(),
+                                         t.subtract(t0).multiply(0.001).getReal(), t.subtract(t0).getReal(),
+                                         1.0e-12, 1.0e-12);
+        FieldODEStateAndDerivative<DerivativeStructure> result =
+                        integrator.integrate(new FieldExpandableODE<DerivativeStructure>(sinCos),
+                                             new FieldODEState<DerivativeStructure>(t0, y0),
+                                             t);
+
+        // check values
+        for (int i = 0; i < sinCos.getDimension(); ++i) {
+            Assert.assertEquals(sinCos.theoreticalY(t.getReal())[i], result.getState()[i].getValue(), epsilonY);
+        }
+
+        // check derivatives
+        final double[][] derivatives = sinCos.getDerivatives(t.getReal()); 
+        for (int i = 0; i < sinCos.getDimension(); ++i) {
+            for (int parameter = 0; parameter < parameters; ++parameter) {
+                Assert.assertEquals(derivatives[i][parameter], dYdP(result.getState()[i], parameter), epsilonPartials[parameter]);
+            }
+        }
+
+    }
+
+    private double dYdP(final DerivativeStructure y, final int parameter) {
+        int[] orders = new int[y.getFreeParameters()];
+        orders[parameter] = 1;
+        return y.getPartialDerivative(orders);
+    }
+
+    private static class SinCos implements FieldFirstOrderDifferentialEquations<DerivativeStructure> {
+
+        private final DerivativeStructure omega;
+        private       DerivativeStructure r;
+        private       DerivativeStructure alpha;
+
+        private double dRdY00;
+        private double dRdY01;
+        private double dAlphadOmega;
+        private double dAlphadT0;
+        private double dAlphadY00;
+        private double dAlphadY01;
+
+        protected SinCos(final DerivativeStructure omega) {
+            this.omega = omega;
+        }
+
+        public int getDimension() {
+            return 2;
+        }
+
+        public void init(final DerivativeStructure t0, final DerivativeStructure[] y0,
+                         final DerivativeStructure finalTime) {
+
+            // theoretical solution is y(t) = { r * sin(omega * t + alpha), r * cos(omega * t + alpha) }
+            // so we retrieve alpha by identification from the initial state
+            final DerivativeStructure r2 = y0[0].multiply(y0[0]).add(y0[1].multiply(y0[1]));
+
+            this.r            = r2.sqrt();
+            this.dRdY00       = y0[0].divide(r).getReal();
+            this.dRdY01       = y0[1].divide(r).getReal();
+
+            this.alpha        = y0[0].atan2(y0[1]).subtract(t0.multiply(omega));
+            this.dAlphadOmega = -t0.getReal();
+            this.dAlphadT0    = -omega.getReal();
+            this.dAlphadY00   = y0[1].divide(r2).getReal();
+            this.dAlphadY01   = y0[0].negate().divide(r2).getReal();
+
+        }
+
+        public DerivativeStructure[] computeDerivatives(final DerivativeStructure t, final DerivativeStructure[] y) {
+            return new DerivativeStructure[] {
+                omega.multiply(y[1]),
+                omega.multiply(y[0]).negate()
+            };
+        }
+
+        public double[] theoreticalY(final double t) {
+            final double theta = omega.getReal() * t + alpha.getReal();
+            return new double[] {
+                r.getReal() * FastMath.sin(theta), r.getReal() * FastMath.cos(theta)
+            };
+        }
+
+        public double[][] getDerivatives(final double t) {
+
+            // intermediate angle and state
+            final double theta        = omega.getReal() * t + alpha.getReal();
+            final double sin          = FastMath.sin(theta);
+            final double cos          = FastMath.cos(theta);
+            final double y0           = r.getReal() * sin;
+            final double y1           = r.getReal() * cos;
+
+            // partial derivatives of the state first component
+            final double dY0dOmega    =                y1 * (t + dAlphadOmega);
+            final double dY0dT0       =                y1 * dAlphadT0;
+            final double dY0dY00      = dRdY00 * sin + y1 * dAlphadY00;
+            final double dY0dY01      = dRdY01 * sin + y1 * dAlphadY01;
+            final double dY0dT        =                y1 * omega.getReal();
+
+            // partial derivatives of the state second component
+            final double dY1dOmega    =              - y0 * (t + dAlphadOmega);
+            final double dY1dT0       =              - y0 * dAlphadT0;
+            final double dY1dY00      = dRdY00 * cos - y0 * dAlphadY00;
+            final double dY1dY01      = dRdY01 * cos - y0 * dAlphadY01;
+            final double dY1dT        =              - y0 * omega.getReal();
+
+            return new double[][] {
+                { dY0dOmega, dY0dT0, dY0dY00, dY0dY01, dY0dT },
+                { dY1dOmega, dY1dT0, dY1dY00, dY1dY01, dY1dT }
+            };
+
+        }
+
     }
 
 }

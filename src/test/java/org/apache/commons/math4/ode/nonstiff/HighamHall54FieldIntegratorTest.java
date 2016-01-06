@@ -21,7 +21,6 @@ package org.apache.commons.math4.ode.nonstiff;
 import org.apache.commons.math4.Field;
 import org.apache.commons.math4.RealFieldElement;
 import org.apache.commons.math4.util.Decimal64Field;
-import org.junit.Test;
 
 public class HighamHall54FieldIntegratorTest extends AbstractEmbeddedRungeKuttaFieldIntegratorTest {
 
@@ -37,22 +36,22 @@ public class HighamHall54FieldIntegratorTest extends AbstractEmbeddedRungeKuttaF
         return new HighamHall54FieldIntegrator<T>(field, minStep, maxStep, vecAbsoluteTolerance, vecRelativeTolerance);
     }
 
-    @Test
+    @Override
     public void testNonFieldIntegratorConsistency() {
         doTestNonFieldIntegratorConsistency(Decimal64Field.getInstance());
     }
 
-    @Test
+    @Override
     public void testSanityChecks() {
         doTestSanityChecks(Decimal64Field.getInstance());
     }
 
-    @Test
+    @Override
     public void testBackward() {
         doTestBackward(Decimal64Field.getInstance(), 5.0e-7, 5.0e-7, 1.0e-12, "Higham-Hall 5(4)");
     }
 
-    @Test
+    @Override
     public void testKepler() {
         doTestKepler(Decimal64Field.getInstance(), 1.5e-4);
     }
@@ -88,6 +87,11 @@ public class HighamHall54FieldIntegratorTest extends AbstractEmbeddedRungeKuttaF
     @Override
     public void testEventsNoConvergence() {
         doTestEventsNoConvergence(Decimal64Field.getInstance());
+    }
+
+    @Override
+    public void testPartialDerivatives() {
+        doTestPartialDerivatives(1.2e-11, new double[] { 6.4e-11, 1.8e-11, 2.4e-12, 2.2e-12, 1.8e-11 });
     }
 
 }

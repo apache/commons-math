@@ -21,7 +21,6 @@ package org.apache.commons.math4.ode.nonstiff;
 import org.apache.commons.math4.Field;
 import org.apache.commons.math4.RealFieldElement;
 import org.apache.commons.math4.util.Decimal64Field;
-import org.junit.Test;
 
 public class EulerFieldIntegratorTest extends AbstractRungeKuttaFieldIntegratorTest {
 
@@ -30,71 +29,76 @@ public class EulerFieldIntegratorTest extends AbstractRungeKuttaFieldIntegratorT
         return new EulerFieldIntegrator<T>(field, step);
     }
 
-    @Test
+    @Override
     public void testNonFieldIntegratorConsistency() {
         doTestNonFieldIntegratorConsistency(Decimal64Field.getInstance());
     }
 
-    @Test
+    @Override
     public void testMissedEndEvent() {
         doTestMissedEndEvent(Decimal64Field.getInstance(), 1.0e-15, 6.0e-5);
     }
 
-    @Test
+    @Override
     public void testSanityChecks() {
         doTestSanityChecks(Decimal64Field.getInstance());
     }
 
-    @Test
+    @Override
     public void testDecreasingSteps() {
         doTestDecreasingSteps(Decimal64Field.getInstance(), 1.0, 1.5, 1.0e-10);
     }
 
-    @Test
+    @Override
     public void testSmallStep() {
         doTestSmallStep(Decimal64Field.getInstance(), 2.0e-4, 1.0e-3, 1.0e-12, "Euler");
     }
 
-    @Test
+    @Override
     public void testBigStep() {
         doTestBigStep(Decimal64Field.getInstance(), 0.01, 0.2, 1.0e-12, "Euler");
 
     }
 
-    @Test
+    @Override
     public void testBackward() {
         doTestBackward(Decimal64Field.getInstance(),0.45, 0.45, 1.0e-12, "Euler");
     }
 
-    @Test
+    @Override
     public void testKepler() {
         // Euler integrator is clearly not able to solve this problem
         doTestKepler(Decimal64Field.getInstance(), 881.176, 0.001);
     }
 
-    @Test
+    @Override
     public void testStepSize() {
         doTestStepSize(Decimal64Field.getInstance(), 1.0e-12);
     }
 
-    @Test
+    @Override
     public void testSingleStep() {
         doTestSingleStep(Decimal64Field.getInstance(), 0.21);
     }
 
-    @Test
+    @Override
     public void testTooLargeFirstStep() {
         doTestTooLargeFirstStep(Decimal64Field.getInstance());
     }
 
-    @Test
+    @Override
     public void testUnstableDerivative() {
         doTestUnstableDerivative(Decimal64Field.getInstance(), 1.0e-12);
     }
 
-    @Test
+    @Override
     public void testDerivativesConsistency() {
         doTestDerivativesConsistency(Decimal64Field.getInstance(), 1.0e-10);
+    }
+
+    @Override
+    public void testPartialDerivatives() {
+        doTestPartialDerivatives(0.085, new double[] { 0.47, 0.13, 0.019, 0.019, 0.13 });
     }
 
 }
