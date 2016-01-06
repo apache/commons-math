@@ -109,20 +109,12 @@ public abstract class TestFieldProblemAbstract<T extends RealFieldElement<T>>
         return n;
     }
 
-    /**
-     * Get the initial time.
-     * @return initial time
+   /**
+     * Get the initial state.
+     * @return initial state
      */
-    public T getInitialTime() {
-        return t0;
-    }
-
-    /**
-     * Get the initial state vector.
-     * @return initial state vector
-     */
-    public T[] getInitialState() {
-        return y0;
+    public FieldODEState<T> getInitialState() {
+        return new FieldODEState<T>(t0, y0);
     }
 
     /**

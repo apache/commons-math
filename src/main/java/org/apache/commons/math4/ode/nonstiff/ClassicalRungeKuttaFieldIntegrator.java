@@ -19,7 +19,6 @@ package org.apache.commons.math4.ode.nonstiff;
 
 import org.apache.commons.math4.Field;
 import org.apache.commons.math4.RealFieldElement;
-import org.apache.commons.math4.ode.AbstractFieldIntegrator;
 import org.apache.commons.math4.ode.FieldEquationsMapper;
 import org.apache.commons.math4.util.MathArrays;
 
@@ -101,10 +100,8 @@ public class ClassicalRungeKuttaFieldIntegrator<T extends RealFieldElement<T>>
     /** {@inheritDoc} */
     @Override
     protected ClassicalRungeKuttaFieldStepInterpolator<T>
-        createInterpolator(final AbstractFieldIntegrator<T> rkIntegrator, final T[] y,
-                           final T[][] yDotArray, final boolean forward,
-                           final FieldEquationsMapper<T> mapper) {
-        return new ClassicalRungeKuttaFieldStepInterpolator<T>(rkIntegrator, y, yDotArray, forward, mapper);
+        createInterpolator(final boolean forward, final FieldEquationsMapper<T> mapper) {
+        return new ClassicalRungeKuttaFieldStepInterpolator<T>(this, forward, mapper);
     }
 
 }

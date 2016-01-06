@@ -21,7 +21,6 @@ import org.apache.commons.math4.RealFieldElement;
 import org.apache.commons.math4.ode.AbstractFieldIntegrator;
 import org.apache.commons.math4.ode.FieldEquationsMapper;
 import org.apache.commons.math4.ode.FieldODEStateAndDerivative;
-import org.apache.commons.math4.util.MathArrays;
 
 /**
  * This class represents an interpolator over the last step during an
@@ -38,17 +37,13 @@ class HighamHall54FieldStepInterpolator<T extends RealFieldElement<T>>
 
     /** Simple constructor.
      * @param rkIntegrator integrator being used
-     * @param y reference to the integrator array holding the state at
-     * the end of the step
-     * @param yDotArray reference to the integrator array holding all the
-     * intermediate slopes
      * @param forward integration direction indicator
      * @param mapper equations mapper for the all equations
       */
     HighamHall54FieldStepInterpolator(final AbstractFieldIntegrator<T> rkIntegrator,
-                                      final T[] y, final T[][] yDotArray, final boolean forward,
+                                      final boolean forward,
                                       final FieldEquationsMapper<T> mapper) {
-     super(rkIntegrator, y, yDotArray, forward, mapper);
+     super(rkIntegrator, forward, mapper);
     }
 
     /** Copy constructor.
@@ -68,72 +63,44 @@ class HighamHall54FieldStepInterpolator<T extends RealFieldElement<T>>
 
 
     /** {@inheritDoc} */
+    @SuppressWarnings("unchecked")
     @Override
     protected FieldODEStateAndDerivative<T> computeInterpolatedStateAndDerivatives(final FieldEquationsMapper<T> mapper,
                                                                                    final T time, final T theta,
                                                                                    final T oneMinusThetaH) {
 
         final T bDot0 = theta.multiply(theta.multiply(theta.multiply( -10.0      ).add( 16.0       )).add(-15.0 /  2.0)).add(1);
+        final T bDot1 = time.getField().getZero();
         final T bDot2 = theta.multiply(theta.multiply(theta.multiply( 135.0 / 2.0).add(-729.0 / 8.0)).add(459.0 / 16.0));
         final T bDot3 = theta.multiply(theta.multiply(theta.multiply(-120.0      ).add( 152.0      )).add(-44.0       ));
         final T bDot4 = theta.multiply(theta.multiply(theta.multiply( 125.0 / 2.0).add(-625.0 / 8.0)).add(375.0 / 16.0));
         final T bDot5 = theta.multiply(  5.0 /  8.0).multiply(theta.multiply(2).subtract(1));
-        final T[] interpolatedState       = MathArrays.buildArray(theta.getField(), previousState.length);
-        final T[] interpolatedDerivatives = MathArrays.buildArray(theta.getField(), previousState.length);
+        final T[] interpolatedState;
+        final T[] interpolatedDerivatives;
 
-        if ((previousState != null) && (theta.getReal() <= 0.5)) {
+        if (getGlobalPreviousState() != null && theta.getReal() <= 0.5) {
             final T hTheta = h.multiply(theta);
             final T b0 = hTheta.multiply(theta.multiply(theta.multiply(theta.multiply( -5.0 / 2.0).add(  16.0 /  3.0)).add(-15.0 /  4.0)).add(1));
+            final T b1 = time.getField().getZero();
             final T b2 = hTheta.multiply(theta.multiply(theta.multiply(theta.multiply(135.0 / 8.0).add(-243.0 /  8.0)).add(459.0 / 32.0)));
             final T b3 = hTheta.multiply(theta.multiply(theta.multiply(theta.multiply(-30.0      ).add( 152.0 /  3.0)).add(-22.0       )));
             final T b4 = hTheta.multiply(theta.multiply(theta.multiply(theta.multiply(125.0 / 8.0).add(-625.0 / 24.0)).add(375.0 / 32.0)));
             final T b5 = hTheta.multiply(theta.multiply(theta.multiply(                                   5.0 / 12.0)).add( -5.0 / 16.0));
-            for (int i = 0; i < interpolatedState.length; ++i) {
-                final T yDot0 = yDotK[0][i];
-                final T yDot2 = yDotK[2][i];
-                final T yDot3 = yDotK[3][i];
-                final T yDot4 = yDotK[4][i];
-                final T yDot5 = yDotK[5][i];
-                interpolatedState[i] = previousState[i].
-                                       add(b0.multiply(yDot0)).
-                                       add(b2.multiply(yDot2)).
-                                       add(b3.multiply(yDot3)).
-                                       add(b4.multiply(yDot4)).
-                                       add(b5.multiply(yDot5));
-                interpolatedDerivatives[i] =     bDot0.multiply(yDot0).
-                                             add(bDot2.multiply(yDot2)).
-                                             add(bDot3.multiply(yDot3)).
-                                             add(bDot4.multiply(yDot4)).
-                                             add(bDot5.multiply(yDot5));
-            }
+            interpolatedState       = previousStateLinearCombination(b0, b1, b2, b3, b4, b5);
+            interpolatedDerivatives = derivativeLinearCombination(bDot0, bDot1, bDot2, bDot3, bDot4, bDot5);
         } else {
             final T theta2 = theta.multiply(theta);
             final T b0 = h.multiply( theta.multiply(theta.multiply(theta.multiply(theta.multiply(-5.0 / 2.0).add( 16.0 / 3.0)).add( -15.0 /  4.0)).add(  1.0       )).add(  -1.0 / 12.0));
+            final T b1 = time.getField().getZero();
             final T b2 = h.multiply(theta2.multiply(theta.multiply(theta.multiply(                               135.0 / 8.0 ).add(-243.0 /  8.0)).add(459.0 / 32.0)).add( -27.0 / 32.0));
             final T b3 = h.multiply(theta2.multiply(theta.multiply(theta.multiply(                               -30.0       ).add( 152.0 /  3.0)).add(-22.0       )).add(  4.0  /  3.0));
             final T b4 = h.multiply(theta2.multiply(theta.multiply(theta.multiply(                               125.0 / 8.0 ).add(-625.0 / 24.0)).add(375.0 / 32.0)).add(-125.0 / 96.0));
             final T b5 = h.multiply(theta2.multiply(theta.multiply(                                                                   5.0 / 12.0 ).add(-5.0  / 16.0)).add(  -5.0 / 48.0));
-            for (int i = 0; i < interpolatedState.length; ++i) {
-                final T yDot0 = yDotK[0][i];
-                final T yDot2 = yDotK[2][i];
-                final T yDot3 = yDotK[3][i];
-                final T yDot4 = yDotK[4][i];
-                final T yDot5 = yDotK[5][i];
-                interpolatedState[i] = currentState[i].
-                                       add(b0.multiply(yDot0)).
-                                       add(b2.multiply(yDot2)).
-                                       add(b3.multiply(yDot3)).
-                                       add(b4.multiply(yDot4)).
-                                       add(b5.multiply(yDot5));
-         interpolatedDerivatives[i] =     bDot0.multiply(yDot0).
-                                      add(bDot2.multiply(yDot2)).
-                                      add(bDot3.multiply(yDot3)).
-                                      add(bDot4.multiply(yDot4)).
-                                      add(bDot5.multiply(yDot5));
-            }
+            interpolatedState       = currentStateLinearCombination(b0, b1, b2, b3, b4, b5);
+            interpolatedDerivatives = derivativeLinearCombination(bDot0, bDot1, bDot2, bDot3, bDot4, bDot5);
         }
 
-        return new FieldODEStateAndDerivative<T>(time, interpolatedState, yDotK[0]);
+        return new FieldODEStateAndDerivative<T>(time, interpolatedState, interpolatedDerivatives);
 
     }
 

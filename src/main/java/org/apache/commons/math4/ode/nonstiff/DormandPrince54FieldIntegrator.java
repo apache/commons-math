@@ -19,7 +19,6 @@ package org.apache.commons.math4.ode.nonstiff;
 
 import org.apache.commons.math4.Field;
 import org.apache.commons.math4.RealFieldElement;
-import org.apache.commons.math4.ode.AbstractFieldIntegrator;
 import org.apache.commons.math4.ode.FieldEquationsMapper;
 import org.apache.commons.math4.util.MathArrays;
 import org.apache.commons.math4.util.MathUtils;
@@ -93,7 +92,7 @@ public class DormandPrince54FieldIntegrator<T extends RealFieldElement<T>>
                                           final double minStep, final double maxStep,
                                           final double scalAbsoluteTolerance,
                                           final double scalRelativeTolerance) {
-        super(field, METHOD_NAME, true,
+        super(field, METHOD_NAME, 6,
               minStep, maxStep, scalAbsoluteTolerance, scalRelativeTolerance);
         e1 = fraction(    71,  57600);
         e3 = fraction(   -71,  16695);
@@ -119,7 +118,7 @@ public class DormandPrince54FieldIntegrator<T extends RealFieldElement<T>>
                                           final double minStep, final double maxStep,
                                           final double[] vecAbsoluteTolerance,
                                           final double[] vecRelativeTolerance) {
-        super(field, METHOD_NAME, true,
+        super(field, METHOD_NAME, 6,
               minStep, maxStep, vecAbsoluteTolerance, vecRelativeTolerance);
         e1 = fraction(    71,  57600);
         e3 = fraction(   -71,  16695);
@@ -190,10 +189,8 @@ public class DormandPrince54FieldIntegrator<T extends RealFieldElement<T>>
     /** {@inheritDoc} */
     @Override
     protected DormandPrince54FieldStepInterpolator<T>
-        createInterpolator(final AbstractFieldIntegrator<T> rkIntegrator, final T[] y,
-                           final T[][] yDotArray, final boolean forward,
-                           final FieldEquationsMapper<T> mapper) {
-        return new DormandPrince54FieldStepInterpolator<T>(rkIntegrator, y, yDotArray, forward, mapper);
+        createInterpolator(final boolean forward, final FieldEquationsMapper<T> mapper) {
+        return new DormandPrince54FieldStepInterpolator<T>(this, forward, mapper);
     }
 
     /** {@inheritDoc} */

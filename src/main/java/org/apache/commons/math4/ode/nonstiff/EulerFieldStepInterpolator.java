@@ -21,7 +21,6 @@ import org.apache.commons.math4.RealFieldElement;
 import org.apache.commons.math4.ode.AbstractFieldIntegrator;
 import org.apache.commons.math4.ode.FieldEquationsMapper;
 import org.apache.commons.math4.ode.FieldODEStateAndDerivative;
-import org.apache.commons.math4.util.MathArrays;
 
 /**
  * This class implements a linear interpolator for step.
@@ -52,17 +51,13 @@ class EulerFieldStepInterpolator<T extends RealFieldElement<T>>
 
     /** Simple constructor.
      * @param rkIntegrator integrator being used
-     * @param y reference to the integrator array holding the state at
-     * the end of the step
-     * @param yDotArray reference to the integrator array holding all the
-     * intermediate slopes
      * @param forward integration direction indicator
      * @param mapper equations mapper for the all equations
      */
     EulerFieldStepInterpolator(final AbstractFieldIntegrator<T> rkIntegrator,
-                               final T[] y, final T[][] yDotArray, final boolean forward,
+                               final boolean forward,
                                final FieldEquationsMapper<T> mapper) {
-        super(rkIntegrator, y, yDotArray, forward, mapper);
+        super(rkIntegrator, forward, mapper);
     }
 
     /** Copy constructor.
@@ -81,22 +76,23 @@ class EulerFieldStepInterpolator<T extends RealFieldElement<T>>
     }
 
     /** {@inheritDoc} */
+    @SuppressWarnings("unchecked")
     @Override
     protected FieldODEStateAndDerivative<T> computeInterpolatedStateAndDerivatives(final FieldEquationsMapper<T> mapper,
                                                                                    final T time, final T theta,
                                                                                    final T oneMinusThetaH) {
-        final T[] interpolatedState = MathArrays.buildArray(theta.getField(), previousState.length);
-        if ((previousState != null) && (theta.getReal() <= 0.5)) {
-            for (int i = 0; i < previousState.length; ++i) {
-                interpolatedState[i] = previousState[i].add(theta.multiply(h).multiply(yDotK[0][i]));
-            }
+        final T[] interpolatedState;
+        final T[] interpolatedDerivatives;
+        if ((getGlobalPreviousState() != null) && (theta.getReal() <= 0.5)) {
+            interpolatedState       = previousStateLinearCombination(theta.multiply(h));
+            interpolatedDerivatives = derivativeLinearCombination(time.getField().getOne());
         } else {
-            for (int i = 0; i < previousState.length; ++i) {
-                interpolatedState[i] = currentState[i].subtract(oneMinusThetaH.multiply(yDotK[0][i]));
-            }
+            interpolatedState       = currentStateLinearCombination(oneMinusThetaH.negate());
+            interpolatedDerivatives = derivativeLinearCombination(time.getField().getOne());
         }
 
-        return new FieldODEStateAndDerivative<T>(time, interpolatedState, yDotK[0]);
+        return new FieldODEStateAndDerivative<T>(time, interpolatedState, interpolatedDerivatives);
+
     }
 
 }

@@ -66,9 +66,10 @@ public class TestFieldProblem1<T extends RealFieldElement<T>>
 
     @Override
     public T[] computeTheoreticalState(T t) {
-        final T[] y0 = getInitialState();
+        final FieldODEState<T> s0 = getInitialState();
+        final T[] y0 = s0.getState();
         final T[] y = MathArrays.buildArray(getField(), getDimension());
-        T c = getInitialTime().subtract(t).exp();
+        T c = s0.getTime().subtract(t).exp();
         for (int i = 0; i < getDimension(); ++i) {
             y[i] = c.multiply(y0[i]);
         }

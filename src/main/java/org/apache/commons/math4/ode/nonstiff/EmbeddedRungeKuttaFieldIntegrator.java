@@ -23,7 +23,6 @@ import org.apache.commons.math4.exception.DimensionMismatchException;
 import org.apache.commons.math4.exception.MaxCountExceededException;
 import org.apache.commons.math4.exception.NoBracketingException;
 import org.apache.commons.math4.exception.NumberIsTooSmallException;
-import org.apache.commons.math4.ode.AbstractFieldIntegrator;
 import org.apache.commons.math4.ode.FieldEquationsMapper;
 import org.apache.commons.math4.ode.FieldExpandableODE;
 import org.apache.commons.math4.ode.FieldODEState;
@@ -71,8 +70,8 @@ import org.apache.commons.math4.util.MathUtils;
 public abstract class EmbeddedRungeKuttaFieldIntegrator<T extends RealFieldElement<T>>
     extends AdaptiveStepsizeFieldIntegrator<T> {
 
-    /** Indicator for <i>fsal</i> methods. */
-    private final boolean fsal;
+    /** Index of the pre-computed derivative for <i>fsal</i> methods. */
+    private final int fsal;
 
     /** Time steps from Butcher array (without the first zero). */
     private final T[] c;
@@ -98,7 +97,8 @@ public abstract class EmbeddedRungeKuttaFieldIntegrator<T extends RealFieldEleme
     /** Build a Runge-Kutta integrator with the given Butcher array.
      * @param field field to which the time and state vector elements belong
      * @param name name of the method
-     * @param fsal indicate that the method is an <i>fsal</i>
+     * @param fsal index of the pre-computed derivative for <i>fsal</i> methods
+     * or -1 if method is not <i>fsal</i>
      * @param minStep minimal step (sign is irrelevant, regardless of
      * integration direction, forward or backward), the last step can
      * be smaller than this
@@ -108,7 +108,7 @@ public abstract class EmbeddedRungeKuttaFieldIntegrator<T extends RealFieldEleme
      * @param scalAbsoluteTolerance allowed absolute error
      * @param scalRelativeTolerance allowed relative error
      */
-    protected EmbeddedRungeKuttaFieldIntegrator(final Field<T> field, final String name, final boolean fsal,
+    protected EmbeddedRungeKuttaFieldIntegrator(final Field<T> field, final String name, final int fsal,
                                                 final double minStep, final double maxStep,
                                                 final double scalAbsoluteTolerance,
                                                 final double scalRelativeTolerance) {
@@ -132,7 +132,8 @@ public abstract class EmbeddedRungeKuttaFieldIntegrator<T extends RealFieldEleme
     /** Build a Runge-Kutta integrator with the given Butcher array.
      * @param field field to which the time and state vector elements belong
      * @param name name of the method
-     * @param fsal indicate that the method is an <i>fsal</i>
+     * @param fsal index of the pre-computed derivative for <i>fsal</i> methods
+     * or -1 if method is not <i>fsal</i>
      * @param minStep minimal step (must be positive even for backward
      * integration), the last step can be smaller than this
      * @param maxStep maximal step (must be positive even for backward
@@ -140,7 +141,7 @@ public abstract class EmbeddedRungeKuttaFieldIntegrator<T extends RealFieldEleme
      * @param vecAbsoluteTolerance allowed absolute error
      * @param vecRelativeTolerance allowed relative error
      */
-    protected EmbeddedRungeKuttaFieldIntegrator(final Field<T> field, final String name, final boolean fsal,
+    protected EmbeddedRungeKuttaFieldIntegrator(final Field<T> field, final String name, final int fsal,
                                                 final double   minStep, final double maxStep,
                                                 final double[] vecAbsoluteTolerance,
                                                 final double[] vecRelativeTolerance) {
@@ -195,18 +196,11 @@ public abstract class EmbeddedRungeKuttaFieldIntegrator<T extends RealFieldEleme
     protected abstract T[] getB();
 
     /** Create an interpolator.
-     * @param rkIntegrator integrator being used
-     * @param y reference to the integrator array holding the state at
-     * the end of the step
-     * @param yDotArray reference to the integrator array holding all the
-     * intermediate slopes
      * @param forward integration direction indicator
      * @param mapper equations mapper for the all equations
      * @return external weights for the high order method from Butcher array
      */
-    protected abstract RungeKuttaFieldStepInterpolator<T> createInterpolator(AbstractFieldIntegrator<T> rkIntegrator,
-                                                                             T[] y, T[][] yDotArray,
-                                                                             boolean forward,
+    protected abstract RungeKuttaFieldStepInterpolator<T> createInterpolator(boolean forward,
                                                                              FieldEquationsMapper<T> mapper);
     /** Get the order of the method.
      * @return order of the method
@@ -248,7 +242,7 @@ public abstract class EmbeddedRungeKuttaFieldIntegrator<T extends RealFieldEleme
 
         // set up an interpolator sharing the integrator arrays
         final RungeKuttaFieldStepInterpolator<T> interpolator =
-                        createInterpolator(this, y0, yDotK, forward, equations.getMapper());
+                        createInterpolator(forward, equations.getMapper());
         interpolator.storeState(stepStart);
 
         // set up integration control objects
@@ -328,11 +322,12 @@ public abstract class EmbeddedRungeKuttaFieldIntegrator<T extends RealFieldEleme
                 }
 
             }
-            final T stepEnd   = stepStart.getTime().add(stepSize);
-            final T[] yDotTmp = fsal ? yDotK[stages - 1] : computeDerivatives(stepEnd, yTmp);
+            final T   stepEnd = stepStart.getTime().add(stepSize);
+            final T[] yDotTmp = (fsal >= 0) ? yDotK[fsal] : computeDerivatives(stepEnd, yTmp);
             final FieldODEStateAndDerivative<T> stateTmp = new FieldODEStateAndDerivative<T>(stepEnd, yTmp, yDotTmp);
 
             // local error is small enough: accept the step, trigger events and step handlers
+            interpolator.setSlopes(yDotK);
             interpolator.storeState(stateTmp);
             System.arraycopy(yTmp, 0, y, 0, y0.length);
             stepStart = acceptStep(interpolator, finalTime);

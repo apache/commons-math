@@ -112,18 +112,11 @@ public abstract class RungeKuttaFieldIntegrator<T extends RealFieldElement<T>>
     protected abstract T[] getB();
 
     /** Create an interpolator.
-     * @param rkIntegrator integrator being used
-     * @param y reference to the integrator array holding the state at
-     * the end of the step
-     * @param yDotArray reference to the integrator array holding all the
-     * intermediate slopes
      * @param forward integration direction indicator
      * @param mapper equations mapper for the all equations
      * @return external weights for the high order method from Butcher array
      */
-    protected abstract RungeKuttaFieldStepInterpolator<T> createInterpolator(AbstractFieldIntegrator<T> rkIntegrator,
-                                                                             T[] y, T[][] yDotArray,
-                                                                             boolean forward,
+    protected abstract RungeKuttaFieldStepInterpolator<T> createInterpolator(boolean forward,
                                                                              FieldEquationsMapper<T> mapper);
 
     /** {@inheritDoc} */
@@ -147,7 +140,7 @@ public abstract class RungeKuttaFieldIntegrator<T extends RealFieldElement<T>>
 
         // set up an interpolator sharing the integrator arrays
         final RungeKuttaFieldStepInterpolator<T> interpolator =
-                        createInterpolator(this, y0, yDotK, forward, equations.getMapper());
+                        createInterpolator(forward, equations.getMapper());
         interpolator.storeState(stepStart);
 
         // set up integration control objects
@@ -172,6 +165,7 @@ public abstract class RungeKuttaFieldIntegrator<T extends RealFieldElement<T>>
             interpolator.shift();
 
             // first stage
+            y        = equations.getMapper().mapState(stepStart);
             yDotK[0] = equations.getMapper().mapDerivative(stepStart);
 
             // next stages
@@ -202,6 +196,7 @@ public abstract class RungeKuttaFieldIntegrator<T extends RealFieldElement<T>>
             final FieldODEStateAndDerivative<T> stateTmp = new FieldODEStateAndDerivative<T>(stepEnd, yTmp, yDotTmp);
 
             // discrete events handling
+            interpolator.setSlopes(yDotK);
             interpolator.storeState(stateTmp);
             System.arraycopy(yTmp, 0, y, 0, y0.length);
             stepStart = acceptStep(interpolator, finalTime);
