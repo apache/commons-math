@@ -86,7 +86,7 @@ public class EulerFieldIntegrator<T extends RealFieldElement<T>> extends RungeKu
     @Override
     protected EulerFieldStepInterpolator<T>
         createInterpolator(final boolean forward, final FieldEquationsMapper<T> mapper) {
-        return new EulerFieldStepInterpolator<T>(this, forward, mapper);
+        return new EulerFieldStepInterpolator<T>(getField(), forward, mapper);
     }
 
 }

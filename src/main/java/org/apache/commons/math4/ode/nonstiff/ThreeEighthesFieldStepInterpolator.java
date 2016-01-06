@@ -17,8 +17,8 @@
 
 package org.apache.commons.math4.ode.nonstiff;
 
+import org.apache.commons.math4.Field;
 import org.apache.commons.math4.RealFieldElement;
-import org.apache.commons.math4.ode.AbstractFieldIntegrator;
 import org.apache.commons.math4.ode.FieldEquationsMapper;
 import org.apache.commons.math4.ode.FieldODEStateAndDerivative;
 
@@ -62,14 +62,13 @@ class ThreeEighthesFieldStepInterpolator<T extends RealFieldElement<T>>
       extends RungeKuttaFieldStepInterpolator<T> {
 
     /** Simple constructor.
-     * @param rkIntegrator integrator being used
+     * @param field field to which the time and state vector elements belong
      * @param forward integration direction indicator
      * @param mapper equations mapper for the all equations
      */
-    ThreeEighthesFieldStepInterpolator(final AbstractFieldIntegrator<T> rkIntegrator,
-                                       final boolean forward,
+    ThreeEighthesFieldStepInterpolator(final Field<T> field, final boolean forward,
                                        final FieldEquationsMapper<T> mapper) {
-        super(rkIntegrator, forward, mapper);
+        super(field, forward, mapper);
     }
 
     /** Copy constructor.

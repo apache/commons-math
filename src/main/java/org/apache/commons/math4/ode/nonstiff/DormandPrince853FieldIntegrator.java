@@ -396,7 +396,7 @@ public class DormandPrince853FieldIntegrator<T extends RealFieldElement<T>>
     @Override
     protected DormandPrince853FieldStepInterpolator<T>
         createInterpolator(final boolean forward, final FieldEquationsMapper<T> mapper) {
-        return new DormandPrince853FieldStepInterpolator<T>(this, forward, mapper);
+        return new DormandPrince853FieldStepInterpolator<T>(getField(), forward, mapper);
     }
 
     /** {@inheritDoc} */

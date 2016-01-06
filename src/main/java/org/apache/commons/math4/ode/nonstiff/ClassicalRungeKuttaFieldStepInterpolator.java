@@ -17,8 +17,8 @@
 
 package org.apache.commons.math4.ode.nonstiff;
 
+import org.apache.commons.math4.Field;
 import org.apache.commons.math4.RealFieldElement;
-import org.apache.commons.math4.ode.AbstractFieldIntegrator;
 import org.apache.commons.math4.ode.FieldEquationsMapper;
 import org.apache.commons.math4.ode.FieldODEStateAndDerivative;
 
@@ -60,14 +60,13 @@ class ClassicalRungeKuttaFieldStepInterpolator<T extends RealFieldElement<T>>
     extends RungeKuttaFieldStepInterpolator<T> {
 
     /** Simple constructor.
-     * @param rkIntegrator integrator being used
+     * @param field field to which the time and state vector elements belong
      * @param forward integration direction indicator
      * @param mapper equations mapper for the all equations
      */
-    ClassicalRungeKuttaFieldStepInterpolator(final AbstractFieldIntegrator<T> rkIntegrator,
-                                             final boolean forward,
+    ClassicalRungeKuttaFieldStepInterpolator(final Field<T> field, final boolean forward,
                                              final FieldEquationsMapper<T> mapper) {
-        super(rkIntegrator, forward, mapper);
+        super(field, forward, mapper);
     }
 
     /** Copy constructor.
@@ -92,7 +91,7 @@ class ClassicalRungeKuttaFieldStepInterpolator<T extends RealFieldElement<T>>
                                                                                    final T time, final T theta,
                                                                                    final T oneMinusThetaH) {
 
-        final T one                       = time.getField().getOne();
+        final T one                       = getField().getOne();
         final T oneMinusTheta             = one.subtract(theta);
         final T oneMinus2Theta            = one.subtract(theta.multiply(2));
         final T coeffDot1                 = oneMinusTheta.multiply(oneMinus2Theta);

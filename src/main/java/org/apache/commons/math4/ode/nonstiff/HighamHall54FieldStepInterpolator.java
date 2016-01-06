@@ -17,8 +17,8 @@
 
 package org.apache.commons.math4.ode.nonstiff;
 
+import org.apache.commons.math4.Field;
 import org.apache.commons.math4.RealFieldElement;
-import org.apache.commons.math4.ode.AbstractFieldIntegrator;
 import org.apache.commons.math4.ode.FieldEquationsMapper;
 import org.apache.commons.math4.ode.FieldODEStateAndDerivative;
 
@@ -36,14 +36,13 @@ class HighamHall54FieldStepInterpolator<T extends RealFieldElement<T>>
     extends RungeKuttaFieldStepInterpolator<T> {
 
     /** Simple constructor.
-     * @param rkIntegrator integrator being used
+     * @param field field to which the time and state vector elements belong
      * @param forward integration direction indicator
      * @param mapper equations mapper for the all equations
       */
-    HighamHall54FieldStepInterpolator(final AbstractFieldIntegrator<T> rkIntegrator,
-                                      final boolean forward,
+    HighamHall54FieldStepInterpolator(final Field<T> field, final boolean forward,
                                       final FieldEquationsMapper<T> mapper) {
-     super(rkIntegrator, forward, mapper);
+     super(field, forward, mapper);
     }
 
     /** Copy constructor.
@@ -70,7 +69,7 @@ class HighamHall54FieldStepInterpolator<T extends RealFieldElement<T>>
                                                                                    final T oneMinusThetaH) {
 
         final T bDot0 = theta.multiply(theta.multiply(theta.multiply( -10.0      ).add( 16.0       )).add(-15.0 /  2.0)).add(1);
-        final T bDot1 = time.getField().getZero();
+        final T bDot1 = getField().getZero();
         final T bDot2 = theta.multiply(theta.multiply(theta.multiply( 135.0 / 2.0).add(-729.0 / 8.0)).add(459.0 / 16.0));
         final T bDot3 = theta.multiply(theta.multiply(theta.multiply(-120.0      ).add( 152.0      )).add(-44.0       ));
         final T bDot4 = theta.multiply(theta.multiply(theta.multiply( 125.0 / 2.0).add(-625.0 / 8.0)).add(375.0 / 16.0));
@@ -81,7 +80,7 @@ class HighamHall54FieldStepInterpolator<T extends RealFieldElement<T>>
         if (getGlobalPreviousState() != null && theta.getReal() <= 0.5) {
             final T hTheta = h.multiply(theta);
             final T b0 = hTheta.multiply(theta.multiply(theta.multiply(theta.multiply( -5.0 / 2.0).add(  16.0 /  3.0)).add(-15.0 /  4.0)).add(1));
-            final T b1 = time.getField().getZero();
+            final T b1 = getField().getZero();
             final T b2 = hTheta.multiply(theta.multiply(theta.multiply(theta.multiply(135.0 / 8.0).add(-243.0 /  8.0)).add(459.0 / 32.0)));
             final T b3 = hTheta.multiply(theta.multiply(theta.multiply(theta.multiply(-30.0      ).add( 152.0 /  3.0)).add(-22.0       )));
             final T b4 = hTheta.multiply(theta.multiply(theta.multiply(theta.multiply(125.0 / 8.0).add(-625.0 / 24.0)).add(375.0 / 32.0)));
@@ -91,7 +90,7 @@ class HighamHall54FieldStepInterpolator<T extends RealFieldElement<T>>
         } else {
             final T theta2 = theta.multiply(theta);
             final T b0 = h.multiply( theta.multiply(theta.multiply(theta.multiply(theta.multiply(-5.0 / 2.0).add( 16.0 / 3.0)).add( -15.0 /  4.0)).add(  1.0       )).add(  -1.0 / 12.0));
-            final T b1 = time.getField().getZero();
+            final T b1 = getField().getZero();
             final T b2 = h.multiply(theta2.multiply(theta.multiply(theta.multiply(                               135.0 / 8.0 ).add(-243.0 /  8.0)).add(459.0 / 32.0)).add( -27.0 / 32.0));
             final T b3 = h.multiply(theta2.multiply(theta.multiply(theta.multiply(                               -30.0       ).add( 152.0 /  3.0)).add(-22.0       )).add(  4.0  /  3.0));
             final T b4 = h.multiply(theta2.multiply(theta.multiply(theta.multiply(                               125.0 / 8.0 ).add(-625.0 / 24.0)).add(375.0 / 32.0)).add(-125.0 / 96.0));

@@ -17,8 +17,8 @@
 
 package org.apache.commons.math4.ode.nonstiff;
 
+import org.apache.commons.math4.Field;
 import org.apache.commons.math4.RealFieldElement;
-import org.apache.commons.math4.ode.AbstractFieldIntegrator;
 import org.apache.commons.math4.ode.FieldEquationsMapper;
 import org.apache.commons.math4.ode.sampling.AbstractFieldStepInterpolator;
 import org.apache.commons.math4.util.MathArrays;
@@ -36,36 +36,25 @@ import org.apache.commons.math4.util.MathArrays;
 abstract class RungeKuttaFieldStepInterpolator<T extends RealFieldElement<T>>
     extends AbstractFieldStepInterpolator<T> {
 
-    /** Reference to the integrator. */
-    protected AbstractFieldIntegrator<T> integrator;
+    /** Field to which the time and state vector elements belong. */
+    private final Field<T> field;
 
     /** Slopes at the intermediate points. */
     private T[][] yDotK;
 
     /** Simple constructor.
-     * @param rkIntegrator integrator being used
+     * @param field field to which the time and state vector elements belong
      * @param forward integration direction indicator
      * @param mapper equations mapper for the all equations
      */
-    protected RungeKuttaFieldStepInterpolator(final AbstractFieldIntegrator<T> rkIntegrator,
-                                              final boolean forward,
+    protected RungeKuttaFieldStepInterpolator(final Field<T> field, final boolean forward,
                                               final FieldEquationsMapper<T> mapper) {
         super(forward, mapper);
-        this.yDotK      = null;
-        this.integrator = rkIntegrator;
+        this.field = field;
+        this.yDotK = null;
     }
 
     /** Copy constructor.
-
-     * <p>The copied interpolator should have been finalized before the
-     * copy, otherwise the copy will not be able to perform correctly any
-     * interpolation and will throw a {@link NullPointerException}
-     * later. Since we don't want this constructor to throw the
-     * exceptions finalization may involve and since we don't want this
-     * method to modify the state of the copied interpolator,
-     * finalization is <strong>not</strong> done automatically, it
-     * remains under user control.</p>
-
      * <p>The copy is a deep copy: its arrays are separated from the
      * original arrays of the instance.</p>
 
@@ -75,10 +64,10 @@ abstract class RungeKuttaFieldStepInterpolator<T extends RealFieldElement<T>>
     RungeKuttaFieldStepInterpolator(final RungeKuttaFieldStepInterpolator<T> interpolator) {
 
         super(interpolator);
+        field = interpolator.field;
 
         if (yDotK != null) {
-            yDotK = MathArrays.buildArray(interpolator.integrator.getField(),
-                                          interpolator.yDotK.length, -1);
+            yDotK = MathArrays.buildArray(field, interpolator.yDotK.length, -1);
             for (int k = 0; k < yDotK.length; ++k) {
                 yDotK[k] = interpolator.yDotK[k].clone();
             }
@@ -87,10 +76,13 @@ abstract class RungeKuttaFieldStepInterpolator<T extends RealFieldElement<T>>
             yDotK = null;
         }
 
-        // we cannot keep any reference to the equations in the copy
-        // the interpolator should have been finalized before
-        integrator = null;
+    }
 
+    /** Get the field to which the time and state vector elements belong.
+     * @return to which the time and state vector elements belong
+     */
+    protected Field<T> getField() {
+        return field;
     }
 
     /** Store the slopes at the intermediate points.
@@ -126,8 +118,7 @@ abstract class RungeKuttaFieldStepInterpolator<T extends RealFieldElement<T>>
      */
     @SuppressWarnings("unchecked")
     protected T[] derivativeLinearCombination(final T ... coefficients) {
-        return combine(MathArrays.buildArray(integrator.getField(), yDotK[0].length),
-                       coefficients);
+        return combine(MathArrays.buildArray(field, yDotK[0].length), coefficients);
     }
 
     /** Linearly combine arrays.

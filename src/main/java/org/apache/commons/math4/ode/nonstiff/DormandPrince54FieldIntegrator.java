@@ -190,7 +190,7 @@ public class DormandPrince54FieldIntegrator<T extends RealFieldElement<T>>
     @Override
     protected DormandPrince54FieldStepInterpolator<T>
         createInterpolator(final boolean forward, final FieldEquationsMapper<T> mapper) {
-        return new DormandPrince54FieldStepInterpolator<T>(this, forward, mapper);
+        return new DormandPrince54FieldStepInterpolator<T>(getField(), forward, mapper);
     }
 
     /** {@inheritDoc} */

@@ -17,8 +17,8 @@
 
 package org.apache.commons.math4.ode.nonstiff;
 
+import org.apache.commons.math4.Field;
 import org.apache.commons.math4.RealFieldElement;
-import org.apache.commons.math4.ode.AbstractFieldIntegrator;
 import org.apache.commons.math4.ode.FieldEquationsMapper;
 import org.apache.commons.math4.ode.FieldODEStateAndDerivative;
 
@@ -73,15 +73,14 @@ class DormandPrince54FieldStepInterpolator<T extends RealFieldElement<T>>
     private final T d6;
 
     /** Simple constructor.
-     * @param rkIntegrator integrator being used
+     * @param field field to which the time and state vector elements belong
      * @param forward integration direction indicator
      * @param mapper equations mapper for the all equations
      */
-    DormandPrince54FieldStepInterpolator(final AbstractFieldIntegrator<T> rkIntegrator,
-                                         final boolean forward,
+    DormandPrince54FieldStepInterpolator(final Field<T> field, final boolean forward,
                                          final FieldEquationsMapper<T> mapper) {
-        super(rkIntegrator, forward, mapper);
-        final T one = rkIntegrator.getField().getOne();
+        super(field, forward, mapper);
+        final T one = field.getOne();
         a70 = one.multiply(   35.0).divide( 384.0);
         a72 = one.multiply(  500.0).divide(1113.0);
         a73 = one.multiply(  125.0).divide( 192.0);
@@ -131,7 +130,7 @@ class DormandPrince54FieldStepInterpolator<T extends RealFieldElement<T>>
                                                                                    final T oneMinusThetaH) {
 
         // interpolate
-        final T one      = theta.getField().getOne();
+        final T one      = getField().getOne();
         final T eta      = one.subtract(theta);
         final T twoTheta = theta.multiply(2);
         final T dot2     = one.subtract(twoTheta);
@@ -148,7 +147,7 @@ class DormandPrince54FieldStepInterpolator<T extends RealFieldElement<T>>
                                 subtract(f2.multiply(a70.subtract(1))).
                                 add(f3.multiply(a70.multiply(2).subtract(1))).
                                 add(f4.multiply(d0));
-            final T coeff1    = theta.getField().getZero();
+            final T coeff1    = getField().getZero();
             final T coeff2    = f1.multiply(a72).
                                 subtract(f2.multiply(a72)).
                                 add(f3.multiply(a72.multiply(2))).
@@ -170,7 +169,7 @@ class DormandPrince54FieldStepInterpolator<T extends RealFieldElement<T>>
                                 subtract(dot2.multiply(a70.subtract(1))).
                                 add(dot3.multiply(a70.multiply(2).subtract(1))).
                                 add(dot4.multiply(d0));
-            final T coeffDot1 = theta.getField().getZero();
+            final T coeffDot1 = getField().getZero();
             final T coeffDot2 = a72.
                                 subtract(dot2.multiply(a72)).
                                 add(dot3.multiply(a72.multiply(2))).
@@ -201,7 +200,7 @@ class DormandPrince54FieldStepInterpolator<T extends RealFieldElement<T>>
                                 subtract(f2.multiply(a70.subtract(1))).
                                 add(f3.multiply(a70.multiply(2).subtract(1))).
                                 add(f4.multiply(d0));
-            final T coeff1    = theta.getField().getZero();
+            final T coeff1    = getField().getZero();
             final T coeff2    = f1.multiply(a72).
                                 subtract(f2.multiply(a72)).
                                 add(f3.multiply(a72.multiply(2))).
@@ -223,7 +222,7 @@ class DormandPrince54FieldStepInterpolator<T extends RealFieldElement<T>>
                                 subtract(dot2.multiply(a70.subtract(1))).
                                 add(dot3.multiply(a70.multiply(2).subtract(1))).
                                 add(dot4.multiply(d0));
-            final T coeffDot1 = theta.getField().getZero();
+            final T coeffDot1 = getField().getZero();
             final T coeffDot2 = a72.
                                 subtract(dot2.multiply(a72)).
                                 add(dot3.multiply(a72.multiply(2))).

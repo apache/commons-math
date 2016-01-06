@@ -138,7 +138,7 @@ public class LutherFieldIntegrator<T extends RealFieldElement<T>>
     @Override
     protected LutherFieldStepInterpolator<T>
         createInterpolator(final boolean forward, final FieldEquationsMapper<T> mapper) {
-        return new LutherFieldStepInterpolator<T>(this, forward, mapper);
+        return new LutherFieldStepInterpolator<T>(getField(), forward, mapper);
     }
 
 }

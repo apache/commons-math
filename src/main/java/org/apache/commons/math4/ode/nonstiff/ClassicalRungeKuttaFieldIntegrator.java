@@ -101,7 +101,7 @@ public class ClassicalRungeKuttaFieldIntegrator<T extends RealFieldElement<T>>
     @Override
     protected ClassicalRungeKuttaFieldStepInterpolator<T>
         createInterpolator(final boolean forward, final FieldEquationsMapper<T> mapper) {
-        return new ClassicalRungeKuttaFieldStepInterpolator<T>(this, forward, mapper);
+        return new ClassicalRungeKuttaFieldStepInterpolator<T>(getField(), forward, mapper);
     }
 
 }
