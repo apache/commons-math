@@ -64,40 +64,40 @@ public class LutherFieldIntegratorTest extends AbstractRungeKuttaFieldIntegrator
     public void testSmallStep()
          throws DimensionMismatchException, NumberIsTooSmallException,
                 MaxCountExceededException, NoBracketingException {
-        doTestSmallStep(Decimal64Field.getInstance(), 9.0e-17, 4.0e-15, 1.0e-12, "Luther");
+        doTestSmallStep(Decimal64Field.getInstance(), 8.7e-17, 3.6e-15, 1.0e-12, "Luther");
     }
 
     @Test
     public void testBigStep()
         throws DimensionMismatchException, NumberIsTooSmallException,
                MaxCountExceededException, NoBracketingException {
-        doTestBigStep(Decimal64Field.getInstance(), 0.00002, 0.001, 1.0e-12, "Luther");
+        doTestBigStep(Decimal64Field.getInstance(), 2.7e-5, 1.7e-3, 1.0e-12, "Luther");
     }
 
     @Test
     public void testBackward()
         throws DimensionMismatchException, NumberIsTooSmallException,
                MaxCountExceededException, NoBracketingException {
-        doTestBackward(Decimal64Field.getInstance(), 3.0e-13, 5.0e-13, 1.0e-12, "Luther");
+        doTestBackward(Decimal64Field.getInstance(), 2.4e-13, 4.3e-13, 1.0e-12, "Luther");
     }
 
     @Test
     public void testKepler()
         throws DimensionMismatchException, NumberIsTooSmallException,
                MaxCountExceededException, NoBracketingException {
-        doTestKepler(Decimal64Field.getInstance(), 2.2e-7, 1.0e-8);
+        doTestKepler(Decimal64Field.getInstance(), 2.18e-7, 4.0e-10);
     }
 
     @Test
     public void testStepSize()
         throws DimensionMismatchException, NumberIsTooSmallException,
                MaxCountExceededException, NoBracketingException {
-        doTestStepSize(Decimal64Field.getInstance(), 1.0e-12);
+        doTestStepSize(Decimal64Field.getInstance(), 1.0e-22);
     }
 
     @Test
     public void testSingleStep() {
-        doTestSingleStep(Decimal64Field.getInstance(), 1.0e-11);
+        doTestSingleStep(Decimal64Field.getInstance(), 6.0e-12);
     }
 
     @Test
@@ -107,12 +107,12 @@ public class LutherFieldIntegratorTest extends AbstractRungeKuttaFieldIntegrator
 
     @Test
     public void testUnstableDerivative() {
-        doTestUnstableDerivative(Decimal64Field.getInstance(), 1.0e-12);
+        doTestUnstableDerivative(Decimal64Field.getInstance(), 4.0e-15);
     }
 
     @Test
     public void testDerivativesConsistency() {
-        doTestDerivativesConsistency(Decimal64Field.getInstance(), 1.0e-10);
+        doTestDerivativesConsistency(Decimal64Field.getInstance(), 1.0e-20);
     }
 
 }
