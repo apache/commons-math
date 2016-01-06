@@ -22,7 +22,9 @@ import java.lang.reflect.InvocationTargetException;
 
 import org.apache.commons.math4.Field;
 import org.apache.commons.math4.RealFieldElement;
+import org.apache.commons.math4.ode.AbstractIntegrator;
 import org.apache.commons.math4.ode.EquationsMapper;
+import org.apache.commons.math4.ode.ExpandableStatefulODE;
 import org.apache.commons.math4.ode.FieldEquationsMapper;
 import org.apache.commons.math4.ode.FieldExpandableODE;
 import org.apache.commons.math4.ode.FieldFirstOrderDifferentialEquations;
@@ -70,7 +72,7 @@ public abstract class AbstractRungeKuttaFieldStepInterpolatorTest {
 
         RungeKuttaFieldStepInterpolator<T> interpolator = setUpInterpolator(field,
                                                                             new SinCos<>(field),
-                                                                            0.0, new double[] { 0.0, 1.0 }, 0.125);
+                                                                            0.0, new double[] { 0.0, 1.0 }, 0.0125);
 
         int n = 100;
         double maxErrorSin = 0;
@@ -95,9 +97,10 @@ public abstract class AbstractRungeKuttaFieldStepInterpolatorTest {
                                                                                      double epsilonSin, double epsilonCos,
                                                                                      double epsilonSinDot, double epsilonCosDot) {
 
+        FieldFirstOrderDifferentialEquations<T> eqn = new SinCos<>(field);
         RungeKuttaFieldStepInterpolator<T> fieldInterpolator =
-                        setUpInterpolator(field, new SinCos<>(field), 0.0, new double[] { 0.0, 1.0 }, 0.125);
-        RungeKuttaStepInterpolator regularInterpolator = convertInterpolator(fieldInterpolator);
+                        setUpInterpolator(field, eqn, 0.0, new double[] { 0.0, 1.0 }, 0.125);
+        RungeKuttaStepInterpolator regularInterpolator = convertInterpolator(fieldInterpolator, eqn);
 
         int n = 100;
         double maxErrorSin    = 0;
@@ -185,7 +188,8 @@ public abstract class AbstractRungeKuttaFieldStepInterpolatorTest {
     }
 
     private <T extends RealFieldElement<T>>
-    RungeKuttaStepInterpolator convertInterpolator(final RungeKuttaFieldStepInterpolator<T> fieldInterpolator) {
+    RungeKuttaStepInterpolator convertInterpolator(final RungeKuttaFieldStepInterpolator<T> fieldInterpolator,
+                                                   final FieldFirstOrderDifferentialEquations<T> eqn) {
 
         RungeKuttaStepInterpolator regularInterpolator = null;
         try {
@@ -225,7 +229,25 @@ public abstract class AbstractRungeKuttaFieldStepInterpolatorTest {
                 secondaryMappers[i] = new EquationsMapper(start[i + 1], start[i + 2]);
             }
 
-            regularInterpolator.reinitialize(null, y, yDotArray,
+            AbstractIntegrator dummyIntegrator = new AbstractIntegrator("dummy") {
+                @Override
+                public void integrate(ExpandableStatefulODE equations, double t) {
+                    Assert.fail("this method should not be called");
+                }
+                @Override
+                public void computeDerivatives(final double t, final double[] y, final double[] yDot) {
+                    T fieldT = fieldInterpolator.getField().getZero().add(t);
+                    T[] fieldY = MathArrays.buildArray(fieldInterpolator.getField(), y.length);
+                    for (int i = 0; i < y.length; ++i) {
+                        fieldY[i] = fieldInterpolator.getField().getZero().add(y[i]);
+                    }
+                    T[] fieldYDot = eqn.computeDerivatives(fieldT, fieldY);
+                    for (int i = 0; i < yDot.length; ++i) {
+                        yDot[i] = fieldYDot[i].getReal();
+                    }
+                }
+            };
+            regularInterpolator.reinitialize(dummyIntegrator, y, yDotArray,
                                              fieldInterpolator.isForward(),
                                              primaryMapper, secondaryMappers);
 
