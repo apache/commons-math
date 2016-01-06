@@ -69,13 +69,6 @@ public class FieldExpandableODE<T extends RealFieldElement<T>> {
         this.mapper     = new FieldEquationsMapper<T>(null, primary.getDimension());
     }
 
-    /** Get the primary set of differential equations.
-     * @return primary set of differential equations
-     */
-    public FieldFirstOrderDifferentialEquations<T> getPrimary() {
-        return primary;
-    }
-
     /** Get the mapper for the set of equations.
      * @return mapper for the set of equations
      */
@@ -87,14 +80,15 @@ public class FieldExpandableODE<T extends RealFieldElement<T>> {
      * @param secondary secondary equations set
      * @return index of the secondary equation in the expanded state, to be used
      * as the parameter to {@link FieldODEState#getSecondaryState(int)} and
-     * {@link FieldODEStateAndDerivative#getSecondaryDerivative(int)}
+     * {@link FieldODEStateAndDerivative#getSecondaryDerivative(int)} (beware index
+     * 0 corresponds to main state, additional states start at 1)
      */
     public int addSecondaryEquations(final FieldSecondaryEquations<T> secondary) {
 
         components.add(secondary);
         mapper = new FieldEquationsMapper<T>(mapper, secondary.getDimension());
 
-        return components.size() - 1;
+        return components.size();
 
     }
 

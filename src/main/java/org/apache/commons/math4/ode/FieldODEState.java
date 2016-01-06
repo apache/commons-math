@@ -59,9 +59,9 @@ public class FieldODEState<T extends RealFieldElement<T>> {
      * @param secondaryState state at time (may be null)
      */
     public FieldODEState(T time, T[] state, T[][] secondaryState) {
-        this.time                = time;
-        this.state               = state.clone();
-        this.secondaryState      = copy(time.getField(), secondaryState);
+        this.time           = time;
+        this.state          = state.clone();
+        this.secondaryState = copy(time.getField(), secondaryState);
     }
 
     /** Copy a two-dimensions array.
@@ -77,11 +77,11 @@ public class FieldODEState<T extends RealFieldElement<T>> {
         }
 
         // allocate the array
-        final T[][] copied = MathArrays.buildArray(field, original.length, original[0].length);
+        final T[][] copied = MathArrays.buildArray(field, original.length, -1);
 
         // copy content
         for (int i = 0; i < original.length; ++i) {
-            System.arraycopy(original[i], 0, copied[i], 0, original[i].length);
+            copied[i] = original[i].clone();
         }
 
         return copied;
@@ -119,19 +119,21 @@ public class FieldODEState<T extends RealFieldElement<T>> {
     /** Get secondary state dimension.
      * @param index index of the secondary set as returned
      * by {@link FieldExpandableODE#addSecondaryEquations(FieldSecondaryEquations)}
+     * (beware index 0 corresponds to main state, additional states start at 1)
      * @return secondary state dimension
      */
     public int getSecondaryStateDimension(final int index) {
-        return secondaryState[index].length;
+        return index == 0 ? state.length : secondaryState[index - 1].length;
     }
 
     /** Get secondary state at time.
      * @param index index of the secondary set as returned
      * by {@link FieldExpandableODE#addSecondaryEquations(FieldSecondaryEquations)}
+     * (beware index 0 corresponds to main state, additional states start at 1)
      * @return secondary state at time
      */
     public T[] getSecondaryState(final int index) {
-        return secondaryState[index].clone();
+        return index == 0 ? state.clone() : secondaryState[index - 1].clone();
     }
 
 }

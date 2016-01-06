@@ -57,7 +57,7 @@ public class FieldEquationsMapper<T extends RealFieldElement<T>> implements Seri
         if (mapper == null) {
             start[0] = 0;
         } else {
-            System.arraycopy(mapper.start, 0, start, 0, index);
+            System.arraycopy(mapper.start, 0, start, 0, index + 1);
         }
         start[index + 1] = start[index] + dimension;
     }
@@ -88,7 +88,7 @@ public class FieldEquationsMapper<T extends RealFieldElement<T>> implements Seri
         int index = 0;
         insertEquationData(index, state.getState(), y);
         while (++index < getNumberOfEquations()) {
-            insertEquationData(index, state.getSecondaryState(index - 1), y);
+            insertEquationData(index, state.getSecondaryState(index), y);
         }
         return y;
     }
@@ -102,36 +102,9 @@ public class FieldEquationsMapper<T extends RealFieldElement<T>> implements Seri
         int index = 0;
         insertEquationData(index, state.getDerivative(), yDot);
         while (++index < getNumberOfEquations()) {
-            insertEquationData(index, state.getSecondaryDerivative(index - 1), yDot);
+            insertEquationData(index, state.getSecondaryDerivative(index), yDot);
         }
         return yDot;
-    }
-
-    /** Map a flat array to a state.
-     * @param t time
-     * @param y array to map, including primary and secondary components
-     * @return mapped state
-     * @exception DimensionMismatchException if array does not match total dimension
-     */
-    public FieldODEState<T> mapState(final T t, final T[] y)
-        throws DimensionMismatchException {
-
-        if (y.length != getTotalDimension()) {
-            throw new DimensionMismatchException(y.length, getTotalDimension());
-        }
-
-        final int n = getNumberOfEquations();
-        int index = 0;
-        final T[] state = extractEquationData(index, y);
-        if (n < 2) {
-            return new FieldODEState<T>(t, state);
-        } else {
-            final T[][] secondaryState = MathArrays.buildArray(t.getField(), n - 1, -1);
-            while (++index < n) {
-                secondaryState[index - 1] = extractEquationData(index, y);
-            }
-            return new FieldODEState<T>(t, state, secondaryState);
-        }
     }
 
     /** Map flat arrays to a state and derivative.
