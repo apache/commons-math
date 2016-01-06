@@ -21,14 +21,28 @@ package org.apache.commons.math4.ode.nonstiff;
 import org.apache.commons.math4.Field;
 import org.apache.commons.math4.RealFieldElement;
 import org.apache.commons.math4.ode.FieldEquationsMapper;
+import org.apache.commons.math4.ode.FieldODEStateAndDerivative;
 import org.apache.commons.math4.util.Decimal64Field;
 import org.junit.Test;
 
 public class DormandPrince853FieldStepInterpolatorTest extends AbstractRungeKuttaFieldStepInterpolatorTest {
 
     protected <T extends RealFieldElement<T>> RungeKuttaFieldStepInterpolator<T>
-    createInterpolator(Field<T> field, boolean forward, FieldEquationsMapper<T> mapper) {
-        return new DormandPrince853FieldStepInterpolator<T>(field, forward, mapper);
+    createInterpolator(Field<T> field, boolean forward, T[][] yDotK,
+                       FieldODEStateAndDerivative<T> globalPreviousState,
+                       FieldODEStateAndDerivative<T> globalCurrentState,
+                       FieldODEStateAndDerivative<T> softPreviousState,
+                       FieldODEStateAndDerivative<T> softCurrentState,
+                       FieldEquationsMapper<T> mapper) {
+        return new DormandPrince853FieldStepInterpolator<T>(field, forward, yDotK,
+                                                            globalPreviousState, globalCurrentState,
+                                                            softPreviousState, softCurrentState,
+                                                            mapper);
+    }
+
+    protected <T extends RealFieldElement<T>> FieldButcherArrayProvider<T>
+    createButcherArrayProvider(final Field<T> field) {
+        return new DormandPrince853FieldIntegrator<T>(field, 0, 1, 1, 1);
     }
 
     @Test

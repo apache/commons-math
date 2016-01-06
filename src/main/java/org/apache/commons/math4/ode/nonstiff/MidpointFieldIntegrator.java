@@ -20,6 +20,7 @@ package org.apache.commons.math4.ode.nonstiff;
 import org.apache.commons.math4.Field;
 import org.apache.commons.math4.RealFieldElement;
 import org.apache.commons.math4.ode.FieldEquationsMapper;
+import org.apache.commons.math4.ode.FieldODEStateAndDerivative;
 import org.apache.commons.math4.util.MathArrays;
 
 /**
@@ -85,8 +86,14 @@ public class MidpointFieldIntegrator<T extends RealFieldElement<T>> extends Rung
     /** {@inheritDoc} */
     @Override
     protected MidpointFieldStepInterpolator<T>
-        createInterpolator(final boolean forward, final FieldEquationsMapper<T> mapper) {
-        return new MidpointFieldStepInterpolator<T>(getField(), forward, mapper);
+        createInterpolator(final boolean forward, T[][] yDotK,
+                           final FieldODEStateAndDerivative<T> globalPreviousState,
+                           final FieldODEStateAndDerivative<T> globalCurrentState,
+                           final FieldEquationsMapper<T> mapper) {
+        return new MidpointFieldStepInterpolator<T>(getField(), forward, yDotK,
+                                                    globalPreviousState, globalCurrentState,
+                                                    globalPreviousState, globalCurrentState,
+                                                    mapper);
     }
 
 }

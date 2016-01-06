@@ -80,7 +80,7 @@ import org.apache.commons.math4.util.FastMath;
  */
 
 public class ContinuousOutputFieldModel<T extends RealFieldElement<T>>
-  implements FieldStepHandler<T> {
+    implements FieldStepHandler<T> {
 
     /** Initial integration time. */
     private T initialTime;
@@ -156,7 +156,7 @@ public class ContinuousOutputFieldModel<T extends RealFieldElement<T>>
         }
 
         for (FieldStepInterpolator<T> interpolator : model.steps) {
-            steps.add(interpolator.copy());
+            steps.add(interpolator);
         }
 
         index = steps.size() - 1;
@@ -201,7 +201,7 @@ public class ContinuousOutputFieldModel<T extends RealFieldElement<T>>
             forward     = interpolator.isForward();
         }
 
-        steps.add(interpolator.copy());
+        steps.add(interpolator);
 
         if (isLast) {
             finalTime = interpolator.getCurrentState().getTime();

@@ -52,26 +52,36 @@ class EulerFieldStepInterpolator<T extends RealFieldElement<T>>
     /** Simple constructor.
      * @param field field to which the time and state vector elements belong
      * @param forward integration direction indicator
+     * @param yDotK slopes at the intermediate points
+     * @param globalPreviousState start of the global step
+     * @param globalCurrentState end of the global step
+     * @param softPreviousState start of the restricted step
+     * @param softCurrentState end of the restricted step
      * @param mapper equations mapper for the all equations
      */
     EulerFieldStepInterpolator(final Field<T> field, final boolean forward,
-                               final FieldEquationsMapper<T> mapper) {
-        super(field, forward, mapper);
-    }
-
-    /** Copy constructor.
-     * @param interpolator interpolator to copy from. The copy is a deep
-     * copy: its arrays are separated from the original arrays of the
-     * instance
-     */
-    EulerFieldStepInterpolator(final EulerFieldStepInterpolator<T> interpolator) {
-        super(interpolator);
+                                             final T[][] yDotK,
+                                             final FieldODEStateAndDerivative<T> globalPreviousState,
+                                             final FieldODEStateAndDerivative<T> globalCurrentState,
+                                             final FieldODEStateAndDerivative<T> softPreviousState,
+                                             final FieldODEStateAndDerivative<T> softCurrentState,
+                                             final FieldEquationsMapper<T> mapper) {
+        super(field, forward, yDotK,
+              globalPreviousState, globalCurrentState, softPreviousState, softCurrentState,
+              mapper);
     }
 
     /** {@inheritDoc} */
-    @Override
-    protected EulerFieldStepInterpolator<T> doCopy() {
-        return new EulerFieldStepInterpolator<T>(this);
+    protected EulerFieldStepInterpolator<T> create(final Field<T> newField, final boolean newForward, final T[][] newYDotK,
+                                                                 final FieldODEStateAndDerivative<T> newGlobalPreviousState,
+                                                                 final FieldODEStateAndDerivative<T> newGlobalCurrentState,
+                                                                 final FieldODEStateAndDerivative<T> newSoftPreviousState,
+                                                                 final FieldODEStateAndDerivative<T> newSoftCurrentState,
+                                                                 final FieldEquationsMapper<T> newMapper) {
+        return new EulerFieldStepInterpolator<T>(newField, newForward, newYDotK,
+                                                 newGlobalPreviousState, newGlobalCurrentState,
+                                                 newSoftPreviousState, newSoftCurrentState,
+                                                 newMapper);
     }
 
     /** {@inheritDoc} */
@@ -79,15 +89,15 @@ class EulerFieldStepInterpolator<T extends RealFieldElement<T>>
     @Override
     protected FieldODEStateAndDerivative<T> computeInterpolatedStateAndDerivatives(final FieldEquationsMapper<T> mapper,
                                                                                    final T time, final T theta,
-                                                                                   final T oneMinusThetaH) {
+                                                                                   final T thetaH, final T oneMinusThetaH) {
         final T[] interpolatedState;
         final T[] interpolatedDerivatives;
         if (getGlobalPreviousState() != null && theta.getReal() <= 0.5) {
-            interpolatedState       = previousStateLinearCombination(theta.multiply(h));
-            interpolatedDerivatives = derivativeLinearCombination(getField().getOne());
+            interpolatedState       = previousStateLinearCombination(thetaH);
+            interpolatedDerivatives = derivativeLinearCombination(time.getField().getOne());
         } else {
             interpolatedState       = currentStateLinearCombination(oneMinusThetaH.negate());
-            interpolatedDerivatives = derivativeLinearCombination(getField().getOne());
+            interpolatedDerivatives = derivativeLinearCombination(time.getField().getOne());
         }
 
         return new FieldODEStateAndDerivative<T>(time, interpolatedState, interpolatedDerivatives);

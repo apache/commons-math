@@ -18,8 +18,6 @@
 package org.apache.commons.math4.ode.nonstiff;
 
 
-import java.lang.reflect.InvocationTargetException;
-
 import org.apache.commons.math4.Field;
 import org.apache.commons.math4.RealFieldElement;
 import org.apache.commons.math4.ode.AbstractIntegrator;
@@ -38,7 +36,15 @@ import org.junit.Test;
 public abstract class AbstractRungeKuttaFieldStepInterpolatorTest {
 
     protected abstract <T extends RealFieldElement<T>> RungeKuttaFieldStepInterpolator<T>
-        createInterpolator(Field<T> field, boolean forward, FieldEquationsMapper<T> mapper);
+        createInterpolator(Field<T> field, boolean forward, T[][] yDotK,
+                           FieldODEStateAndDerivative<T> globalPreviousState,
+                           FieldODEStateAndDerivative<T> globalCurrentState,
+                           FieldODEStateAndDerivative<T> softPreviousState,
+                           FieldODEStateAndDerivative<T> softCurrentState,
+                           FieldEquationsMapper<T> mapper);
+
+    protected abstract <T extends RealFieldElement<T>> FieldButcherArrayProvider<T>
+        createButcherArrayProvider(final Field<T> field);
 
     @Test
     public abstract void interpolationAtBounds();
@@ -140,10 +146,8 @@ public abstract class AbstractRungeKuttaFieldStepInterpolatorTest {
                                                          final double t0, final double[] y0,
                                                          final double t1) {
 
-        RungeKuttaFieldStepInterpolator<T> interpolator = createInterpolator(field, t1 > t0,
-                                                                             new FieldExpandableODE<T>(eqn).getMapper());
         // get the Butcher arrays from the field integrator
-        FieldButcherArrayProvider<T> provider = createButcherArrayProvider(field, interpolator);
+        FieldButcherArrayProvider<T> provider = createButcherArrayProvider(field);
         T[][] a = provider.getA();
         T[]   b = provider.getB();
         T[]   c = provider.getC();
@@ -156,8 +160,7 @@ public abstract class AbstractRungeKuttaFieldStepInterpolatorTest {
             fieldY[i] = field.getZero().add(y0[i]);
         }
         fieldYDotK[0] = eqn.computeDerivatives(t, fieldY);
-        interpolator.storeState(new FieldODEStateAndDerivative<T>(t, fieldY, fieldYDotK[0]));
-        interpolator.shift();
+        FieldODEStateAndDerivative<T> s0 = new FieldODEStateAndDerivative<T>(t, fieldY, fieldYDotK[0]);
 
         // perform one integration step, in order to get consistent derivatives
         T h = field.getZero().add(t1 - t0);
@@ -170,20 +173,20 @@ public abstract class AbstractRungeKuttaFieldStepInterpolatorTest {
             }
             fieldYDotK[k + 1] = eqn.computeDerivatives(h.multiply(c[k]).add(t0), fieldY);
         }
-        interpolator.setSlopes(fieldYDotK);
 
         // store state at step end
+        t = field.getZero().add(t1);
         for (int i = 0; i < y0.length; ++i) {
             fieldY[i] = field.getZero().add(y0[i]);
             for (int s = 0; s < b.length; ++s) {
                 fieldY[i] = fieldY[i].add(h.multiply(b[s].multiply(fieldYDotK[s][i])));
             }
         }
-        interpolator.storeState(new FieldODEStateAndDerivative<T>(field.getZero().add(t1),
-                                                                  fieldY,
-                                                                  eqn.computeDerivatives(field.getZero().add(t1), fieldY)));
+        FieldODEStateAndDerivative<T> s1 = new FieldODEStateAndDerivative<T>(t, fieldY,
+                                                                             eqn.computeDerivatives(t, fieldY));
 
-        return interpolator;
+        return createInterpolator(field, t1 > t0, fieldYDotK, s0, s1, s0, s1,
+                                  new FieldExpandableODE<T>(eqn).getMapper());
 
     }
 
@@ -236,10 +239,10 @@ public abstract class AbstractRungeKuttaFieldStepInterpolatorTest {
                 }
                 @Override
                 public void computeDerivatives(final double t, final double[] y, final double[] yDot) {
-                    T fieldT = fieldInterpolator.getField().getZero().add(t);
-                    T[] fieldY = MathArrays.buildArray(fieldInterpolator.getField(), y.length);
+                    T fieldT = fieldInterpolator.getCurrentState().getTime().getField().getZero().add(t);
+                    T[] fieldY = MathArrays.buildArray(fieldInterpolator.getCurrentState().getTime().getField(), y.length);
                     for (int i = 0; i < y.length; ++i) {
-                        fieldY[i] = fieldInterpolator.getField().getZero().add(y[i]);
+                        fieldY[i] = fieldInterpolator.getCurrentState().getTime().getField().getZero().add(y[i]);
                     }
                     T[] fieldYDot = eqn.computeDerivatives(fieldT, fieldY);
                     for (int i = 0; i < yDot.length; ++i) {
@@ -278,42 +281,6 @@ public abstract class AbstractRungeKuttaFieldStepInterpolatorTest {
         }
 
         return regularInterpolator;
-
-    }
-
-    private <T extends RealFieldElement<T>> FieldButcherArrayProvider<T>
-    createButcherArrayProvider(final Field<T> field, final RungeKuttaFieldStepInterpolator<T> provider) {
-        FieldButcherArrayProvider<T> integrator = null;
-        try {
-        String interpolatorName = provider.getClass().getName();
-        String integratorName = interpolatorName.replaceAll("StepInterpolator", "Integrator");
-            @SuppressWarnings("unchecked")
-            Class<FieldButcherArrayProvider<T>> clz = (Class<FieldButcherArrayProvider<T>>) Class.forName(integratorName);
-            try {
-                integrator = clz.getConstructor(Field.class, RealFieldElement.class).
-                                                newInstance(field, field.getOne());
-            } catch (NoSuchMethodException nsme) {
-                try {
-                    integrator = clz.getConstructor(Field.class,
-                                                    Double.TYPE, Double.TYPE,
-                                                    Double.TYPE, Double.TYPE).
-                                 newInstance(field, 0.001, 1.0, 1.0, 1.0);
-                } catch (NoSuchMethodException e) {
-                    Assert.fail(e.getLocalizedMessage());
-                }
-            }
-
-        } catch (InvocationTargetException ite) {
-            Assert.fail(ite.getLocalizedMessage());
-        } catch (IllegalAccessException iae) {
-            Assert.fail(iae.getLocalizedMessage());
-        } catch (InstantiationException ie) {
-            Assert.fail(ie.getLocalizedMessage());
-        } catch (ClassNotFoundException cnfe) {
-            Assert.fail(cnfe.getLocalizedMessage());
-        }
-
-        return integrator;
 
     }
 

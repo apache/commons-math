@@ -307,6 +307,7 @@ public abstract class AbstractFieldIntegrator<T extends RealFieldElement<T>> imp
                 }
             }
 
+            AbstractFieldStepInterpolator<T> restricted = interpolator;
             while (!occurringEvents.isEmpty()) {
 
                 // handle the chronologically first event
@@ -315,11 +316,10 @@ public abstract class AbstractFieldIntegrator<T extends RealFieldElement<T>> imp
                 iterator.remove();
 
                 // get state at event time
-                final FieldODEStateAndDerivative<T> eventState = interpolator.getInterpolatedState(currentEvent.getEventTime());
+                final FieldODEStateAndDerivative<T> eventState = restricted.getInterpolatedState(currentEvent.getEventTime());
 
                 // restrict the interpolator to the first part of the step, up to the event
-                interpolator.setSoftPreviousState(previousState);
-                interpolator.setSoftCurrentState(eventState);
+                restricted = restricted.restrictStep(previousState, eventState);
 
                 // advance all event states to current time
                 for (final FieldEventState<T> state : eventsStates) {
@@ -329,7 +329,7 @@ public abstract class AbstractFieldIntegrator<T extends RealFieldElement<T>> imp
 
                 // handle the first part of the step, up to the event
                 for (final FieldStepHandler<T> handler : stepHandlers) {
-                    handler.handleStep(interpolator, isLastStep);
+                    handler.handleStep(restricted, isLastStep);
                 }
 
                 if (isLastStep) {
@@ -351,11 +351,10 @@ public abstract class AbstractFieldIntegrator<T extends RealFieldElement<T>> imp
 
                 // prepare handling of the remaining part of the step
                 previousState = eventState;
-                interpolator.setSoftPreviousState(eventState);
-                interpolator.setSoftCurrentState(currentState);
+                restricted = restricted.restrictStep(eventState, currentState);
 
                 // check if the same event occurs again in the remaining part of the step
-                if (currentEvent.evaluateStep(interpolator)) {
+                if (currentEvent.evaluateStep(restricted)) {
                     // the event occurs during the current step
                     occurringEvents.add(currentEvent);
                 }
@@ -371,7 +370,7 @@ public abstract class AbstractFieldIntegrator<T extends RealFieldElement<T>> imp
 
             // handle the remaining part of the step, after all events if any
             for (FieldStepHandler<T> handler : stepHandlers) {
-                handler.handleStep(interpolator, isLastStep);
+                handler.handleStep(restricted, isLastStep);
             }
 
             return currentState;

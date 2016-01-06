@@ -67,42 +67,49 @@ class GillFieldStepInterpolator<T extends RealFieldElement<T>>
     /** Simple constructor.
      * @param field field to which the time and state vector elements belong
      * @param forward integration direction indicator
+     * @param yDotK slopes at the intermediate points
+     * @param globalPreviousState start of the global step
+     * @param globalCurrentState end of the global step
+     * @param softPreviousState start of the restricted step
+     * @param softCurrentState end of the restricted step
      * @param mapper equations mapper for the all equations
      */
     GillFieldStepInterpolator(final Field<T> field, final boolean forward,
+                              final T[][] yDotK,
+                              final FieldODEStateAndDerivative<T> globalPreviousState,
+                              final FieldODEStateAndDerivative<T> globalCurrentState,
+                              final FieldODEStateAndDerivative<T> softPreviousState,
+                              final FieldODEStateAndDerivative<T> softCurrentState,
                               final FieldEquationsMapper<T> mapper) {
-        super(field, forward, mapper);
+        super(field, forward, yDotK,
+              globalPreviousState, globalCurrentState, softPreviousState, softCurrentState,
+              mapper);
         final T sqrt = field.getZero().add(0.5).sqrt();
         one_minus_inv_sqrt_2 = field.getOne().subtract(sqrt);
         one_plus_inv_sqrt_2  = field.getOne().add(sqrt);
     }
 
-    /** Copy constructor.
-     * @param interpolator interpolator to copy from. The copy is a deep
-     * copy: its arrays are separated from the original arrays of the
-     * instance
-     */
-    GillFieldStepInterpolator(final GillFieldStepInterpolator<T> interpolator) {
-        super(interpolator);
-        one_minus_inv_sqrt_2 = interpolator.one_minus_inv_sqrt_2;
-        one_plus_inv_sqrt_2  = interpolator.one_plus_inv_sqrt_2;
-    }
-
     /** {@inheritDoc} */
-    @Override
-    protected GillFieldStepInterpolator<T> doCopy() {
-        return new GillFieldStepInterpolator<T>(this);
+    protected GillFieldStepInterpolator<T> create(final Field<T> newField, final boolean newForward, final T[][] newYDotK,
+                                                  final FieldODEStateAndDerivative<T> newGlobalPreviousState,
+                                                  final FieldODEStateAndDerivative<T> newGlobalCurrentState,
+                                                  final FieldODEStateAndDerivative<T> newSoftPreviousState,
+                                                  final FieldODEStateAndDerivative<T> newSoftCurrentState,
+                                                  final FieldEquationsMapper<T> newMapper) {
+        return new GillFieldStepInterpolator<T>(newField, newForward, newYDotK,
+                                                newGlobalPreviousState, newGlobalCurrentState,
+                                                newSoftPreviousState, newSoftCurrentState,
+                                                newMapper);
     }
-
 
     /** {@inheritDoc} */
     @SuppressWarnings("unchecked")
     @Override
     protected FieldODEStateAndDerivative<T> computeInterpolatedStateAndDerivatives(final FieldEquationsMapper<T> mapper,
                                                                                    final T time, final T theta,
-                                                                                   final T oneMinusThetaH) {
+                                                                                   final T thetaH, final T oneMinusThetaH) {
 
-        final T one        = getField().getOne();
+        final T one        = time.getField().getOne();
         final T twoTheta   = theta.multiply(2);
         final T fourTheta2 = twoTheta.multiply(twoTheta);
         final T coeffDot1  = theta.multiply(twoTheta.subtract(3)).add(1);
@@ -114,7 +121,7 @@ class GillFieldStepInterpolator<T extends RealFieldElement<T>>
         final T[] interpolatedDerivatives;
 
         if (getGlobalPreviousState() != null && theta.getReal() <= 0.5) {
-            final T s               = theta.multiply(h).divide(6.0);
+            final T s               = thetaH.divide(6.0);
             final T c23             = s.multiply(theta.multiply(6).subtract(fourTheta2));
             final T coeff1          = s.multiply(fourTheta2.subtract(theta.multiply(9)).add(6));
             final T coeff2          = c23.multiply(one_minus_inv_sqrt_2);

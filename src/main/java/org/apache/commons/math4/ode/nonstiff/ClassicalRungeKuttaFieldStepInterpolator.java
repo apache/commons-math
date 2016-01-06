@@ -62,26 +62,36 @@ class ClassicalRungeKuttaFieldStepInterpolator<T extends RealFieldElement<T>>
     /** Simple constructor.
      * @param field field to which the time and state vector elements belong
      * @param forward integration direction indicator
+     * @param yDotK slopes at the intermediate points
+     * @param globalPreviousState start of the global step
+     * @param globalCurrentState end of the global step
+     * @param softPreviousState start of the restricted step
+     * @param softCurrentState end of the restricted step
      * @param mapper equations mapper for the all equations
      */
     ClassicalRungeKuttaFieldStepInterpolator(final Field<T> field, final boolean forward,
+                                             final T[][] yDotK,
+                                             final FieldODEStateAndDerivative<T> globalPreviousState,
+                                             final FieldODEStateAndDerivative<T> globalCurrentState,
+                                             final FieldODEStateAndDerivative<T> softPreviousState,
+                                             final FieldODEStateAndDerivative<T> softCurrentState,
                                              final FieldEquationsMapper<T> mapper) {
-        super(field, forward, mapper);
-    }
-
-    /** Copy constructor.
-     * @param interpolator interpolator to copy from. The copy is a deep
-     * copy: its arrays are separated from the original arrays of the
-     * instance
-     */
-    ClassicalRungeKuttaFieldStepInterpolator(final ClassicalRungeKuttaFieldStepInterpolator<T> interpolator) {
-        super(interpolator);
+        super(field, forward, yDotK,
+              globalPreviousState, globalCurrentState, softPreviousState, softCurrentState,
+              mapper);
     }
 
     /** {@inheritDoc} */
-    @Override
-    protected ClassicalRungeKuttaFieldStepInterpolator<T> doCopy() {
-        return new ClassicalRungeKuttaFieldStepInterpolator<T>(this);
+    protected ClassicalRungeKuttaFieldStepInterpolator<T> create(final Field<T> newField, final boolean newForward, final T[][] newYDotK,
+                                                                 final FieldODEStateAndDerivative<T> newGlobalPreviousState,
+                                                                 final FieldODEStateAndDerivative<T> newGlobalCurrentState,
+                                                                 final FieldODEStateAndDerivative<T> newSoftPreviousState,
+                                                                 final FieldODEStateAndDerivative<T> newSoftCurrentState,
+                                                                 final FieldEquationsMapper<T> newMapper) {
+        return new ClassicalRungeKuttaFieldStepInterpolator<T>(newField, newForward, newYDotK,
+                                                               newGlobalPreviousState, newGlobalCurrentState,
+                                                               newSoftPreviousState, newSoftCurrentState,
+                                                               newMapper);
     }
 
     /** {@inheritDoc} */
@@ -89,9 +99,9 @@ class ClassicalRungeKuttaFieldStepInterpolator<T extends RealFieldElement<T>>
     @Override
     protected FieldODEStateAndDerivative<T> computeInterpolatedStateAndDerivatives(final FieldEquationsMapper<T> mapper,
                                                                                    final T time, final T theta,
-                                                                                   final T oneMinusThetaH) {
+                                                                                   final T thetaH, final T oneMinusThetaH) {
 
-        final T one                       = getField().getOne();
+        final T one                       = time.getField().getOne();
         final T oneMinusTheta             = one.subtract(theta);
         final T oneMinus2Theta            = one.subtract(theta.multiply(2));
         final T coeffDot1                 = oneMinusTheta.multiply(oneMinus2Theta);
@@ -102,7 +112,7 @@ class ClassicalRungeKuttaFieldStepInterpolator<T extends RealFieldElement<T>>
 
         if (getGlobalPreviousState() != null && theta.getReal() <= 0.5) {
             final T fourTheta2      = theta.multiply(theta).multiply(4);
-            final T s               = theta.multiply(h).divide(6.0);
+            final T s               = thetaH.divide(6.0);
             final T coeff1          = s.multiply(fourTheta2.subtract(theta.multiply(9)).add(6));
             final T coeff23         = s.multiply(theta.multiply(6).subtract(fourTheta2));
             final T coeff4          = s.multiply(fourTheta2.subtract(theta.multiply(3)));

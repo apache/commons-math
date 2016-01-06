@@ -83,11 +83,23 @@ class LutherFieldStepInterpolator<T extends RealFieldElement<T>>
     /** Simple constructor.
      * @param field field to which the time and state vector elements belong
      * @param forward integration direction indicator
+     * @param yDotK slopes at the intermediate points
+     * @param globalPreviousState start of the global step
+     * @param globalCurrentState end of the global step
+     * @param softPreviousState start of the restricted step
+     * @param softCurrentState end of the restricted step
      * @param mapper equations mapper for the all equations
      */
     LutherFieldStepInterpolator(final Field<T> field, final boolean forward,
+                                final T[][] yDotK,
+                                final FieldODEStateAndDerivative<T> globalPreviousState,
+                                final FieldODEStateAndDerivative<T> globalCurrentState,
+                                final FieldODEStateAndDerivative<T> softPreviousState,
+                                final FieldODEStateAndDerivative<T> softCurrentState,
                                 final FieldEquationsMapper<T> mapper) {
-        super(field, forward, mapper);
+        super(field, forward, yDotK,
+              globalPreviousState, globalCurrentState, softPreviousState, softCurrentState,
+              mapper);
         final T q = field.getZero().add(21).sqrt();
         c5a = q.multiply(  -49).add(  -49);
         c5b = q.multiply(  287).add(  392);
@@ -103,45 +115,27 @@ class LutherFieldStepInterpolator<T extends RealFieldElement<T>>
         d6a = q.multiply(  -49).add(   49);
         d6b = q.multiply(  847).add(-1372);
         d6c = q.multiply(-1029).add( 2254);
-
-    }
-
-    /** Copy constructor.
-     * @param interpolator interpolator to copy from. The copy is a deep
-     * copy: its arrays are separated from the original arrays of the
-     * instance
-     */
-    LutherFieldStepInterpolator(final LutherFieldStepInterpolator<T> interpolator) {
-        super(interpolator);
-        c5a = interpolator.c5a;
-        c5b = interpolator.c5b;
-        c5c = interpolator.c5c;
-        c5d = interpolator.c5d;
-        c6a = interpolator.c6a;
-        c6b = interpolator.c6b;
-        c6c = interpolator.c6c;
-        c6d = interpolator.c6d;
-        d5a = interpolator.d5a;
-        d5b = interpolator.d5b;
-        d5c = interpolator.d5c;
-        d6a = interpolator.d6a;
-        d6b = interpolator.d6b;
-        d6c = interpolator.d6c;
     }
 
     /** {@inheritDoc} */
-    @Override
-    protected LutherFieldStepInterpolator<T> doCopy() {
-        return new LutherFieldStepInterpolator<T>(this);
+    protected LutherFieldStepInterpolator<T> create(final Field<T> newField, final boolean newForward, final T[][] newYDotK,
+                                                    final FieldODEStateAndDerivative<T> newGlobalPreviousState,
+                                                    final FieldODEStateAndDerivative<T> newGlobalCurrentState,
+                                                    final FieldODEStateAndDerivative<T> newSoftPreviousState,
+                                                    final FieldODEStateAndDerivative<T> newSoftCurrentState,
+                                                    final FieldEquationsMapper<T> newMapper) {
+        return new LutherFieldStepInterpolator<T>(newField, newForward, newYDotK,
+                                                  newGlobalPreviousState, newGlobalCurrentState,
+                                                  newSoftPreviousState, newSoftCurrentState,
+                                                  newMapper);
     }
-
 
     /** {@inheritDoc} */
     @SuppressWarnings("unchecked")
     @Override
     protected FieldODEStateAndDerivative<T> computeInterpolatedStateAndDerivatives(final FieldEquationsMapper<T> mapper,
                                                                                    final T time, final T theta,
-                                                                                   final T oneMinusThetaH) {
+                                                                                   final T thetaH, final T oneMinusThetaH) {
 
         // the coefficients below have been computed by solving the
         // order conditions from a theorem from Butcher (1963), using
@@ -187,7 +181,7 @@ class LutherFieldStepInterpolator<T extends RealFieldElement<T>>
         // At the end, we get the b_i as polynomials in theta.
 
         final T coeffDot1 =  theta.multiply(theta.multiply(theta.multiply(theta.multiply(   21        ).add( -47          )).add(   36         )).add( -54     /   5.0)).add(1);
-        final T coeffDot2 =  getField().getZero();
+        final T coeffDot2 =  time.getField().getZero();
         final T coeffDot3 =  theta.multiply(theta.multiply(theta.multiply(theta.multiply(  112        ).add(-608    /  3.0)).add(  320   / 3.0 )).add(-208    /  15.0));
         final T coeffDot4 =  theta.multiply(theta.multiply(theta.multiply(theta.multiply( -567  /  5.0).add( 972    /  5.0)).add( -486   / 5.0 )).add( 324    /  25.0));
         final T coeffDot5 =  theta.multiply(theta.multiply(theta.multiply(theta.multiply(c5a.divide(5)).add(c5b.divide(15))).add(c5c.divide(30))).add(c5d.divide(150)));
@@ -198,9 +192,9 @@ class LutherFieldStepInterpolator<T extends RealFieldElement<T>>
 
         if (getGlobalPreviousState() != null && theta.getReal() <= 0.5) {
 
-            final T s         = theta.multiply(h);
+            final T s         = thetaH;
             final T coeff1    = s.multiply(theta.multiply(theta.multiply(theta.multiply(theta.multiply(  21    /  5.0).add( -47    /  4.0)).add(   12         )).add( -27    /   5.0)).add(1));
-            final T coeff2    = getField().getZero();
+            final T coeff2    = time.getField().getZero();
             final T coeff3    = s.multiply(theta.multiply(theta.multiply(theta.multiply(theta.multiply( 112    /  5.0).add(-152    /  3.0)).add(  320   / 9.0 )).add(-104    /  15.0)));
             final T coeff4    = s.multiply(theta.multiply(theta.multiply(theta.multiply(theta.multiply(-567    / 25.0).add( 243    /  5.0)).add( -162   / 5.0 )).add( 162    /  25.0)));
             final T coeff5    = s.multiply(theta.multiply(theta.multiply(theta.multiply(theta.multiply(c5a.divide(25)).add(c5b.divide(60))).add(c5c.divide(90))).add(c5d.divide(300))));
@@ -212,7 +206,7 @@ class LutherFieldStepInterpolator<T extends RealFieldElement<T>>
 
             final T s         = oneMinusThetaH;
             final T coeff1    = s.multiply(theta.multiply(theta.multiply(theta.multiply(theta.multiply( -21   /   5.0).add(   151  /  20.0)).add( -89   /   20.0)).add(  19 /  20.0)).add(- 1 / 20.0));
-            final T coeff2    = getField().getZero();
+            final T coeff2    = time.getField().getZero();
             final T coeff3    = s.multiply(theta.multiply(theta.multiply(theta.multiply(theta.multiply(-112   /   5.0).add(   424  /  15.0)).add( -328  /   45.0)).add( -16 /  45.0)).add(-16 /  45.0));
             final T coeff4    = s.multiply(theta.multiply(theta.multiply(theta.multiply(theta.multiply( 567   /  25.0).add(  -648  /  25.0)).add(  162  /   25.0))));
             final T coeff5    = s.multiply(theta.multiply(theta.multiply(theta.multiply(theta.multiply(d5a.divide(25)).add(d5b.divide(300))).add(d5c.divide(900))).add( -49 / 180.0)).add(-49 / 180.0));

@@ -183,10 +183,15 @@ public abstract class EmbeddedRungeKuttaFieldIntegrator<T extends RealFieldEleme
 
     /** Create an interpolator.
      * @param forward integration direction indicator
+     * @param yDotK slopes at the intermediate points
+     * @param globalPreviousState start of the global step
+     * @param globalCurrentState end of the global step
      * @param mapper equations mapper for the all equations
      * @return external weights for the high order method from Butcher array
      */
-    protected abstract RungeKuttaFieldStepInterpolator<T> createInterpolator(boolean forward,
+    protected abstract RungeKuttaFieldStepInterpolator<T> createInterpolator(boolean forward, T[][] yDotK,
+                                                                             final FieldODEStateAndDerivative<T> globalPreviousState,
+                                                                             final FieldODEStateAndDerivative<T> globalCurrentState,
                                                                              FieldEquationsMapper<T> mapper);
     /** Get the order of the method.
      * @return order of the method
@@ -226,11 +231,6 @@ public abstract class EmbeddedRungeKuttaFieldIntegrator<T extends RealFieldEleme
         final T[][] yDotK  = MathArrays.buildArray(getField(), stages, -1);
         final T[]   yTmp   = MathArrays.buildArray(getField(), y0.length);
 
-        // set up an interpolator sharing the integrator arrays
-        final RungeKuttaFieldStepInterpolator<T> interpolator =
-                        createInterpolator(forward, equations.getMapper());
-        interpolator.storeState(stepStart);
-
         // set up integration control objects
         T  hNew           = getField().getZero();
         boolean firstTime = true;
@@ -238,8 +238,6 @@ public abstract class EmbeddedRungeKuttaFieldIntegrator<T extends RealFieldEleme
         // main integration loop
         isLastStep = false;
         do {
-
-            interpolator.shift();
 
             // iterate over step size, ensuring local normalized error is smaller than 1
             T error = getField().getZero().add(10);
@@ -314,15 +312,11 @@ public abstract class EmbeddedRungeKuttaFieldIntegrator<T extends RealFieldEleme
             final FieldODEStateAndDerivative<T> stateTmp = new FieldODEStateAndDerivative<T>(stepEnd, yTmp, yDotTmp);
 
             // local error is small enough: accept the step, trigger events and step handlers
-            interpolator.setSlopes(yDotK);
-            interpolator.storeState(stateTmp);
             System.arraycopy(yTmp, 0, y, 0, y0.length);
-            stepStart = acceptStep(interpolator, finalTime);
+            stepStart = acceptStep(createInterpolator(forward, yDotK, stepStart, stateTmp, equations.getMapper()),
+                                   finalTime);
 
             if (!isLastStep) {
-
-                // prepare next step
-                interpolator.storeState(stepStart);
 
                 // stepsize control for next step
                 final T factor = MathUtils.min(maxGrowth,

@@ -75,11 +75,23 @@ class DormandPrince54FieldStepInterpolator<T extends RealFieldElement<T>>
     /** Simple constructor.
      * @param field field to which the time and state vector elements belong
      * @param forward integration direction indicator
+     * @param yDotK slopes at the intermediate points
+     * @param globalPreviousState start of the global step
+     * @param globalCurrentState end of the global step
+     * @param softPreviousState start of the restricted step
+     * @param softCurrentState end of the restricted step
      * @param mapper equations mapper for the all equations
      */
     DormandPrince54FieldStepInterpolator(final Field<T> field, final boolean forward,
+                                         final T[][] yDotK,
+                                         final FieldODEStateAndDerivative<T> globalPreviousState,
+                                         final FieldODEStateAndDerivative<T> globalCurrentState,
+                                         final FieldODEStateAndDerivative<T> softPreviousState,
+                                         final FieldODEStateAndDerivative<T> softCurrentState,
                                          final FieldEquationsMapper<T> mapper) {
-        super(field, forward, mapper);
+        super(field, forward, yDotK,
+              globalPreviousState, globalCurrentState, softPreviousState, softCurrentState,
+              mapper);
         final T one = field.getOne();
         a70 = one.multiply(   35.0).divide( 384.0);
         a72 = one.multiply(  500.0).divide(1113.0);
@@ -94,43 +106,27 @@ class DormandPrince54FieldStepInterpolator<T extends RealFieldElement<T>>
         d6  = one.multiply(    69997945.0).divide(    29380423.0);
     }
 
-    /** Copy constructor.
-     * @param interpolator interpolator to copy from. The copy is a deep
-     * copy: its arrays are separated from the original arrays of the
-     * instance
-     */
-    DormandPrince54FieldStepInterpolator(final DormandPrince54FieldStepInterpolator<T> interpolator) {
-
-        super(interpolator);
-        a70 = interpolator.a70;
-        a72 = interpolator.a72;
-        a73 = interpolator.a73;
-        a74 = interpolator.a74;
-        a75 = interpolator.a75;
-        d0  = interpolator.d0;
-        d2  = interpolator.d2;
-        d3  = interpolator.d3;
-        d4  = interpolator.d4;
-        d5  = interpolator.d5;
-        d6  = interpolator.d6;
-
-    }
-
     /** {@inheritDoc} */
-    @Override
-    protected DormandPrince54FieldStepInterpolator<T> doCopy() {
-        return new DormandPrince54FieldStepInterpolator<T>(this);
+    protected DormandPrince54FieldStepInterpolator<T> create(final Field<T> newField, final boolean newForward, final T[][] newYDotK,
+                                                                 final FieldODEStateAndDerivative<T> newGlobalPreviousState,
+                                                                 final FieldODEStateAndDerivative<T> newGlobalCurrentState,
+                                                                 final FieldODEStateAndDerivative<T> newSoftPreviousState,
+                                                                 final FieldODEStateAndDerivative<T> newSoftCurrentState,
+                                                                 final FieldEquationsMapper<T> newMapper) {
+        return new DormandPrince54FieldStepInterpolator<T>(newField, newForward, newYDotK,
+                                                           newGlobalPreviousState, newGlobalCurrentState,
+                                                           newSoftPreviousState, newSoftCurrentState,
+                                                           newMapper);
     }
-
     /** {@inheritDoc} */
     @SuppressWarnings("unchecked")
     @Override
     protected FieldODEStateAndDerivative<T> computeInterpolatedStateAndDerivatives(final FieldEquationsMapper<T> mapper,
                                                                                    final T time, final T theta,
-                                                                                   final T oneMinusThetaH) {
+                                                                                   final T thetaH, final T oneMinusThetaH) {
 
         // interpolate
-        final T one      = getField().getOne();
+        final T one      = time.getField().getOne();
         final T eta      = one.subtract(theta);
         final T twoTheta = theta.multiply(2);
         final T dot2     = one.subtract(twoTheta);
@@ -139,7 +135,7 @@ class DormandPrince54FieldStepInterpolator<T extends RealFieldElement<T>>
         final T[] interpolatedState;
         final T[] interpolatedDerivatives;
         if (getGlobalPreviousState() != null && theta.getReal() <= 0.5) {
-            final T f1        = h.multiply(theta);
+            final T f1        = thetaH;
             final T f2        = f1.multiply(eta);
             final T f3        = f2.multiply(theta);
             final T f4        = f3.multiply(eta);
@@ -147,7 +143,7 @@ class DormandPrince54FieldStepInterpolator<T extends RealFieldElement<T>>
                                 subtract(f2.multiply(a70.subtract(1))).
                                 add(f3.multiply(a70.multiply(2).subtract(1))).
                                 add(f4.multiply(d0));
-            final T coeff1    = getField().getZero();
+            final T coeff1    = time.getField().getZero();
             final T coeff2    = f1.multiply(a72).
                                 subtract(f2.multiply(a72)).
                                 add(f3.multiply(a72.multiply(2))).
@@ -169,7 +165,7 @@ class DormandPrince54FieldStepInterpolator<T extends RealFieldElement<T>>
                                 subtract(dot2.multiply(a70.subtract(1))).
                                 add(dot3.multiply(a70.multiply(2).subtract(1))).
                                 add(dot4.multiply(d0));
-            final T coeffDot1 = getField().getZero();
+            final T coeffDot1 = time.getField().getZero();
             final T coeffDot2 = a72.
                                 subtract(dot2.multiply(a72)).
                                 add(dot3.multiply(a72.multiply(2))).
@@ -200,7 +196,7 @@ class DormandPrince54FieldStepInterpolator<T extends RealFieldElement<T>>
                                 subtract(f2.multiply(a70.subtract(1))).
                                 add(f3.multiply(a70.multiply(2).subtract(1))).
                                 add(f4.multiply(d0));
-            final T coeff1    = getField().getZero();
+            final T coeff1    = time.getField().getZero();
             final T coeff2    = f1.multiply(a72).
                                 subtract(f2.multiply(a72)).
                                 add(f3.multiply(a72.multiply(2))).
@@ -222,7 +218,7 @@ class DormandPrince54FieldStepInterpolator<T extends RealFieldElement<T>>
                                 subtract(dot2.multiply(a70.subtract(1))).
                                 add(dot3.multiply(a70.multiply(2).subtract(1))).
                                 add(dot4.multiply(d0));
-            final T coeffDot1 = getField().getZero();
+            final T coeffDot1 = time.getField().getZero();
             final T coeffDot2 = a72.
                                 subtract(dot2.multiply(a72)).
                                 add(dot3.multiply(a72.multiply(2))).
