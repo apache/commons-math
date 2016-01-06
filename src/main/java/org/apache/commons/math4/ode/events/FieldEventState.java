@@ -191,99 +191,90 @@ public class FieldEventState<T extends RealFieldElement<T>> {
     public boolean evaluateStep(final FieldStepInterpolator<T> interpolator)
         throws MaxCountExceededException, NoBracketingException {
 
-        try {
-            forward = interpolator.isForward();
-            final FieldODEStateAndDerivative<T> s1 = interpolator.getCurrentState();
-            final T t1 = s1.getTime();
-            final T dt = t1.subtract(t0);
-            if (dt.abs().subtract(convergence).getReal() < 0) {
-                // we cannot do anything on such a small step, don't trigger any events
-                return false;
+        forward = interpolator.isForward();
+        final FieldODEStateAndDerivative<T> s1 = interpolator.getCurrentState();
+        final T t1 = s1.getTime();
+        final T dt = t1.subtract(t0);
+        if (dt.abs().subtract(convergence).getReal() < 0) {
+            // we cannot do anything on such a small step, don't trigger any events
+            return false;
+        }
+        final int n = FastMath.max(1, (int) FastMath.ceil(FastMath.abs(dt.getReal()) / maxCheckInterval));
+        final T   h = dt.divide(n);
+
+        final RealFieldUnivariateFunction<T> f = new RealFieldUnivariateFunction<T>() {
+            /** {@inheritDoc} */
+            public T value(final T t) {
+                return handler.g(interpolator.getInterpolatedState(t));
             }
-            final int n = FastMath.max(1, (int) FastMath.ceil(FastMath.abs(dt.getReal()) / maxCheckInterval));
-            final T   h = dt.divide(n);
+        };
 
-            final RealFieldUnivariateFunction<T> f = new RealFieldUnivariateFunction<T>() {
-                /** {@inheritDoc} */
-                public T value(final T t) throws LocalMaxCountExceededException {
-                    try {
-                        return handler.g(interpolator.getInterpolatedState(t));
-                    } catch (MaxCountExceededException mcee) {
-                        throw new LocalMaxCountExceededException(mcee);
-                    }
-                }
-            };
+        T ta = t0;
+        T ga = g0;
+        for (int i = 0; i < n; ++i) {
 
-            T ta = t0;
-            T ga = g0;
-            for (int i = 0; i < n; ++i) {
+            // evaluate handler value at the end of the substep
+            final T tb = (i == n - 1) ? t1 : t0.add(h.multiply(i + 1));
+            final T gb = handler.g(interpolator.getInterpolatedState(tb));
 
-                // evaluate handler value at the end of the substep
-                final T tb = (i == n - 1) ? t1 : t0.add(h.multiply(i + 1));
-                final T gb = handler.g(interpolator.getInterpolatedState(tb));
+            // check events occurrence
+            if (g0Positive ^ (gb.getReal() >= 0)) {
+                // there is a sign change: an event is expected during this step
 
-                // check events occurrence
-                if (g0Positive ^ (gb.getReal() >= 0)) {
-                    // there is a sign change: an event is expected during this step
+                // variation direction, with respect to the integration direction
+                increasing = gb.subtract(ga).getReal() >= 0;
 
-                    // variation direction, with respect to the integration direction
-                    increasing = gb.subtract(ga).getReal() >= 0;
+                // find the event time making sure we select a solution just at or past the exact root
+                final T root = forward ?
+                               solver.solve(maxIterationCount, f, ta, tb, AllowedSolution.RIGHT_SIDE) :
+                               solver.solve(maxIterationCount, f, tb, ta, AllowedSolution.LEFT_SIDE);
 
-                    // find the event time making sure we select a solution just at or past the exact root
-                    final T root = forward ?
-                                   solver.solve(maxIterationCount, f, ta, tb, AllowedSolution.RIGHT_SIDE) :
-                                   solver.solve(maxIterationCount, f, tb, ta, AllowedSolution.LEFT_SIDE);
+                if (previousEventTime != null &&
+                    root.subtract(ta).abs().subtract(convergence).getReal() <= 0 &&
+                    root.subtract(previousEventTime).abs().subtract(convergence).getReal() <= 0) {
+                    // we have either found nothing or found (again ?) a past event,
+                    // retry the substep excluding this value, and taking care to have the
+                    // required sign in case the g function is noisy around its zero and
+                    // crosses the axis several times
+                    do {
+                        ta = forward ? ta.add(convergence) : ta.subtract(convergence);
+                        ga = f.value(ta);
+                    } while ((g0Positive ^ (ga.getReal() >= 0)) && (forward ^ (ta.subtract(tb).getReal() >= 0)));
 
-                    if (previousEventTime != null &&
-                        root.subtract(ta).abs().subtract(convergence).getReal() <= 0 &&
-                        root.subtract(previousEventTime).abs().subtract(convergence).getReal() <= 0) {
-                        // we have either found nothing or found (again ?) a past event,
-                        // retry the substep excluding this value, and taking care to have the
-                        // required sign in case the g function is noisy around its zero and
-                        // crosses the axis several times
-                        do {
-                            ta = forward ? ta.add(convergence) : ta.subtract(convergence);
-                            ga = f.value(ta);
-                        } while ((g0Positive ^ (ga.getReal() >= 0)) && (forward ^ (ta.subtract(tb).getReal() >= 0)));
-
-                        if (forward ^ (ta.subtract(tb).getReal() >= 0)) {
-                            // we were able to skip this spurious root
-                            --i;
-                        } else {
-                            // we can't avoid this root before the end of the step,
-                            // we have to handle it despite it is close to the former one
-                            // maybe we have two very close roots
-                            pendingEventTime = root;
-                            pendingEvent     = true;
-                            return true;
-                        }
-                    } else if (previousEventTime == null ||
-                               previousEventTime.subtract(root).abs().subtract(convergence).getReal() > 0) {
+                    if (forward ^ (ta.subtract(tb).getReal() >= 0)) {
+                        // we were able to skip this spurious root
+                        --i;
+                    } else {
+                        // we can't avoid this root before the end of the step,
+                        // we have to handle it despite it is close to the former one
+                        // maybe we have two very close roots
                         pendingEventTime = root;
                         pendingEvent     = true;
                         return true;
-                    } else {
-                        // no sign change: there is no event for now
-                        ta = tb;
-                        ga = gb;
                     }
-
+                } else if (previousEventTime == null ||
+                           previousEventTime.subtract(root).abs().subtract(convergence).getReal() > 0) {
+                    pendingEventTime = root;
+                    pendingEvent     = true;
+                    return true;
                 } else {
                     // no sign change: there is no event for now
                     ta = tb;
                     ga = gb;
                 }
 
+            } else {
+                // no sign change: there is no event for now
+                ta = tb;
+                ga = gb;
             }
 
-            // no event during the whole step
-            pendingEvent     = false;
-            pendingEventTime = null;
-            return false;
-
-        } catch (LocalMaxCountExceededException lmcee) {
-            throw lmcee.getException();
         }
+
+        // no event during the whole step
+        pendingEvent     = false;
+        pendingEventTime = null;
+        return false;
 
     }
 
@@ -347,31 +338,6 @@ public class FieldEventState<T extends RealFieldElement<T>> {
         pendingEventTime  = null;
 
         return newState;
-
-    }
-
-    /** Local wrapper to propagate exceptions. */
-    private static class LocalMaxCountExceededException extends RuntimeException {
-
-        /** Serializable UID. */
-        private static final long serialVersionUID = 20151113L;
-
-        /** Wrapped exception. */
-        private final MaxCountExceededException wrapped;
-
-        /** Simple constructor.
-         * @param exception exception to wrap
-         */
-        LocalMaxCountExceededException(final MaxCountExceededException exception) {
-            wrapped = exception;
-        }
-
-        /** Get the wrapped exception.
-         * @return wrapped exception
-         */
-        public MaxCountExceededException getException() {
-            return wrapped;
-        }
 
     }
 
