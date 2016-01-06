@@ -20,7 +20,7 @@ package org.apache.commons.math4.ode;
 import java.util.Collection;
 
 import org.apache.commons.math4.RealFieldElement;
-import org.apache.commons.math4.analysis.solvers.FieldBracketingNthOrderBrentSolver;
+import org.apache.commons.math4.analysis.solvers.BracketedRealFieldUnivariateSolver;
 import org.apache.commons.math4.exception.MaxCountExceededException;
 import org.apache.commons.math4.exception.NoBracketingException;
 import org.apache.commons.math4.exception.NumberIsTooSmallException;
@@ -71,7 +71,8 @@ public interface FieldFirstOrderIntegrator<T extends RealFieldElement<T>> {
 
     /** Add an event handler to the integrator.
      * <p>
-     * The default solver is a 5<sup>th</sup> order {@link FieldBracketingNthOrderBrentSolver}.
+     * The default solver is a 5<sup>th</sup> order {@link
+     * org.apache.commons.math4.analysis.solvers.FieldBracketingNthOrderBrentSolver}.
      * </p>
      * @param handler event handler
      * @param maxCheckInterval maximal time interval between switching
@@ -80,7 +81,8 @@ public interface FieldFirstOrderIntegrator<T extends RealFieldElement<T>> {
      * @param convergence convergence threshold in the event time search
      * @param maxIterationCount upper limit of the iteration count in
      * the event time search events.
-     * @see #addEventHandler(FieldEventHandler, double, double, int, FieldBracketingNthOrderBrentSolver)
+     * @see #addEventHandler(FieldEventHandler, double, double, int,
+     * org.apache.commons.math4.analysis.solvers.FieldBracketingNthOrderBrentSolver)
      * @see #getEventHandlers()
      * @see #clearEventHandlers()
      */
@@ -102,7 +104,7 @@ public interface FieldFirstOrderIntegrator<T extends RealFieldElement<T>> {
      */
     void addEventHandler(FieldEventHandler<T>  handler, double maxCheckInterval,
                          double convergence, int maxIterationCount,
-                         FieldBracketingNthOrderBrentSolver<T> solver);
+                         BracketedRealFieldUnivariateSolver<T> solver);
 
     /** Get all the event handlers that have been added to the integrator.
      * @return an unmodifiable collection of the added events handlers

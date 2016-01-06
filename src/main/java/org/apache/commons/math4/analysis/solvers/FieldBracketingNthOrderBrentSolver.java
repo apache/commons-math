@@ -45,7 +45,8 @@ import org.apache.commons.math4.util.Precision;
  * @param <T> the type of the field elements
  * @since 3.6
  */
-public class FieldBracketingNthOrderBrentSolver<T extends RealFieldElement<T>> {
+public class FieldBracketingNthOrderBrentSolver<T extends RealFieldElement<T>>
+    implements BracketedRealFieldUnivariateSolver<T> {
 
    /** Maximal aging triggering an attempt to balance the bracketing interval. */
     private static final int MAXIMAL_AGING = 2;
