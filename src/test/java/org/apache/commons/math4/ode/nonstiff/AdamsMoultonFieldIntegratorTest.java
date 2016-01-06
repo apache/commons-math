@@ -26,7 +26,7 @@ import org.apache.commons.math4.exception.NumberIsTooSmallException;
 import org.apache.commons.math4.util.Decimal64Field;
 import org.junit.Test;
 
-public class AdamsMoultonFieldIntegratorTest extends AbstractAdamsFieldIntegratorTest {
+public class AdamsMoultonFieldIntegratorTest extends AdamsFieldIntegratorAbstractTest {
 
     protected <T extends RealFieldElement<T>> AdamsFieldIntegrator<T>
     createIntegrator(Field<T> field, final int nSteps, final double minStep, final double maxStep,

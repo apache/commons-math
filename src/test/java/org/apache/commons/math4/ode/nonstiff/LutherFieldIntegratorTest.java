@@ -26,7 +26,7 @@ import org.apache.commons.math4.exception.NoBracketingException;
 import org.apache.commons.math4.exception.NumberIsTooSmallException;
 import org.apache.commons.math4.util.Decimal64Field;
 
-public class LutherFieldIntegratorTest extends AbstractRungeKuttaFieldIntegratorTest {
+public class LutherFieldIntegratorTest extends RungeKuttaFieldIntegratorAbstractTest {
 
     protected <T extends RealFieldElement<T>> RungeKuttaFieldIntegrator<T>
     createIntegrator(Field<T> field, T step) {

@@ -25,7 +25,7 @@ import org.apache.commons.math4.ode.FieldODEStateAndDerivative;
 import org.apache.commons.math4.util.Decimal64Field;
 import org.junit.Test;
 
-public class GillFieldStepInterpolatorTest extends AbstractRungeKuttaFieldStepInterpolatorTest {
+public class GillFieldStepInterpolatorTest extends RungeKuttaFieldStepInterpolatorAbstractTest {
 
     protected <T extends RealFieldElement<T>> RungeKuttaFieldStepInterpolator<T>
     createInterpolator(Field<T> field, boolean forward, T[][] yDotK,

@@ -22,7 +22,7 @@ import org.apache.commons.math4.Field;
 import org.apache.commons.math4.RealFieldElement;
 import org.apache.commons.math4.util.Decimal64Field;
 
-public class DormandPrince54FieldIntegratorTest extends AbstractEmbeddedRungeKuttaFieldIntegratorTest {
+public class DormandPrince54FieldIntegratorTest extends EmbeddedRungeKuttaFieldIntegratorAbstractTest {
 
     protected <T extends RealFieldElement<T>> EmbeddedRungeKuttaFieldIntegrator<T>
     createIntegrator(Field<T> field, final double minStep, final double maxStep,

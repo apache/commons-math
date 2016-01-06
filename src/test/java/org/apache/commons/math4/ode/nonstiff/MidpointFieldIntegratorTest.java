@@ -22,7 +22,7 @@ import org.apache.commons.math4.Field;
 import org.apache.commons.math4.RealFieldElement;
 import org.apache.commons.math4.util.Decimal64Field;
 
-public class MidpointFieldIntegratorTest extends AbstractRungeKuttaFieldIntegratorTest {
+public class MidpointFieldIntegratorTest extends RungeKuttaFieldIntegratorAbstractTest {
 
     protected <T extends RealFieldElement<T>> RungeKuttaFieldIntegrator<T>
     createIntegrator(Field<T> field, T step) {
