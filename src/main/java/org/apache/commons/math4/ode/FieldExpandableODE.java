@@ -121,7 +121,7 @@ public class FieldExpandableODE<T extends RealFieldElement<T>> {
 
     /** Map a state to a complete flat array.
      * @param state state to map
-     * @return flat array containing the mapped state
+     * @return flat array containing the mapped state, including primary and secondary components
      */
     public T[] mapState(final FieldODEState<T> state) {
         final T[] y = MathArrays.buildArray(state.getTime().getField(), getTotalDimension());
@@ -134,7 +134,7 @@ public class FieldExpandableODE<T extends RealFieldElement<T>> {
 
     /** Map a state derivative to a complete flat array.
      * @param state state to map
-     * @return flat array containing the mapped state derivative
+     * @return flat array containing the mapped state derivative, including primary and secondary components
      */
     public T[] mapDerivative(final FieldODEStateAndDerivative<T> state) {
         final T[] yDot = MathArrays.buildArray(state.getTime().getField(), getTotalDimension());
@@ -147,7 +147,7 @@ public class FieldExpandableODE<T extends RealFieldElement<T>> {
 
     /** Map a flat array to a state.
      * @param t time
-     * @param y array to map
+     * @param y array to map, including primary and secondary components
      * @return mapped state
      */
     public FieldODEState<T> mapState(final T t, final T[] y) {
@@ -166,8 +166,8 @@ public class FieldExpandableODE<T extends RealFieldElement<T>> {
 
     /** Map flat arrays to a state and derivative.
      * @param t time
-     * @param y state array to map
-     * @param yDot state derivative array to map
+     * @param y state array to map, including primary and secondary components
+     * @param yDot state derivative array to map, including primary and secondary components
      * @return mapped state
      */
     public FieldODEStateAndDerivative<T> mapStateAndDerivative(final T t, final T[] y, final T[] yDot) {
