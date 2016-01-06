@@ -52,11 +52,11 @@ class EulerFieldStepInterpolator<T extends RealFieldElement<T>>
     /** Simple constructor.
      * This constructor builds an instance that is not usable yet, the
      * {@link
-     * org.apache.commons.math4.ode.sampling.AbstractStepInterpolator#reinitialize}
+     * org.apache.commons.math4.ode.sampling.AbstractFieldStepInterpolator#reinitialize}
      * method should be called before using the instance in order to
      * initialize the internal arrays. This constructor is used only
      * in order to delay the initialization in some cases. The {@link
-     * RungeKuttaIntegrator} class uses the prototyping design pattern
+     * RungeKuttaFieldIntegrator} class uses the prototyping design pattern
      * to create the step interpolators by cloning an uninitialized model
      * and later initializing the copy.
      */
