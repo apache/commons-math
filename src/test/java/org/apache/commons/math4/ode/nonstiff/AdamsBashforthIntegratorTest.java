@@ -77,7 +77,7 @@ public class AdamsBashforthIntegratorTest {
     public void testIncreasingTolerance() throws DimensionMismatchException, NumberIsTooSmallException, MaxCountExceededException, NoBracketingException {
 
         int previousCalls = Integer.MAX_VALUE;
-        for (int i = -12; i < -5; ++i) {
+        for (int i = -12; i < -2; ++i) {
             TestProblem1 pb = new TestProblem1();
             double minStep = 0;
             double maxStep = pb.getFinalTime() - pb.getInitialTime();
@@ -93,10 +93,10 @@ public class AdamsBashforthIntegratorTest {
                             pb.getInitialTime(), pb.getInitialState(),
                             pb.getFinalTime(), new double[pb.getDimension()]);
 
-            // the 8 and 122 factors are only valid for this test
+            // the 2.6 and 122 factors are only valid for this test
             // and has been obtained from trial and error
             // there are no general relationship between local and global errors
-            Assert.assertTrue(handler.getMaximalValueError() > (  8 * scalAbsoluteTolerance));
+            Assert.assertTrue(handler.getMaximalValueError() > (2.6 * scalAbsoluteTolerance));
             Assert.assertTrue(handler.getMaximalValueError() < (122 * scalAbsoluteTolerance));
 
             int calls = pb.getCalls();

@@ -74,10 +74,10 @@ public abstract class AbstractAdamsFieldIntegratorTest {
     public abstract void testIncreasingTolerance();
 
     protected <T extends RealFieldElement<T>> void doTestIncreasingTolerance(final Field<T> field,
-                                                                             int ratioMin, int ratioMax) {
+                                                                             double ratioMin, double ratioMax) {
 
         int previousCalls = Integer.MAX_VALUE;
-        for (int i = -12; i < -5; ++i) {
+        for (int i = -12; i < -2; ++i) {
             TestFieldProblem1<T> pb = new TestFieldProblem1<T>(field);
             double minStep = 0;
             double maxStep = pb.getFinalTime().subtract(pb.getInitialState().getTime()).getReal();
@@ -106,7 +106,7 @@ public abstract class AbstractAdamsFieldIntegratorTest {
     @Test(expected = MaxCountExceededException.class)
     public abstract void exceedMaxEvaluations();
 
-    protected <T extends RealFieldElement<T>> void doExceedMaxEvaluations(final Field<T> field) {
+    protected <T extends RealFieldElement<T>> void doExceedMaxEvaluations(final Field<T> field, final int max) {
 
         TestFieldProblem1<T> pb  = new TestFieldProblem1<T>(field);
         double range = pb.getFinalTime().subtract(pb.getInitialState().getTime()).getReal();
@@ -114,7 +114,7 @@ public abstract class AbstractAdamsFieldIntegratorTest {
         FirstOrderFieldIntegrator<T> integ = createIntegrator(field, 2, 0, range, 1.0e-12, 1.0e-12);
         TestFieldProblemHandler<T> handler = new TestFieldProblemHandler<T>(pb, integ);
         integ.addStepHandler(handler);
-        integ.setMaxEvaluations(650);
+        integ.setMaxEvaluations(max);
         integ.integrate(new FieldExpandableODE<T>(pb), pb.getInitialState(), pb.getFinalTime());
 
     }
@@ -132,7 +132,6 @@ public abstract class AbstractAdamsFieldIntegratorTest {
         double range = pb.getFinalTime().subtract(pb.getInitialState().getTime()).getReal();
 
         AdamsFieldIntegrator<T> integ = createIntegrator(field, 4, 0, range, 1.0e-12, 1.0e-12);
-        integ.setStarterIntegrator(new PerfectStarter<T>(pb, (integ.getNSteps() + 5) / 2));
         TestFieldProblemHandler<T> handler = new TestFieldProblemHandler<T>(pb, integ);
         integ.addStepHandler(handler);
         integ.integrate(new FieldExpandableODE<T>(pb), pb.getInitialState(), pb.getFinalTime());
