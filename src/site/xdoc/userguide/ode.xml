@@ -315,7 +315,7 @@ public int eventOccurred(double t, double[] y, boolean increasing) {
           href="../apidocs/org/apache/commons/math4/ode/JacobianMatrices.html">JacobianMatrices</a> class can do most of
           this as long as the local derivatives are provided to it. It will set up the variational equations, register
           them as secondary equations into the ODE, and it will set up the initial values and retrieve the intermediate
-          and finale values as Jacobian matrices.
+          and final values as Jacobian matrices.
         </p>
         <p>
           If for example the original state dimension is 6 and there are 3 parameters, the compound state will be a 60
