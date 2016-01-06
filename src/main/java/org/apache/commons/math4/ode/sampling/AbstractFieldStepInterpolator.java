@@ -68,47 +68,21 @@ public abstract class AbstractFieldStepInterpolator<T extends RealFieldElement<T
     private FieldEquationsMapper<T> mapper;
 
     /** Simple constructor.
-     * This constructor builds an instance that is not usable yet, the
-     * {@link #reinitialize} method should be called before using the
-     * instance in order to initialize the internal arrays. This
-     * constructor is used only in order to delay the initialization in
-     * some cases. As an example, the {@link
-     * org.apache.commons.math4.ode.nonstiff.EmbeddedRungeKuttaIntegrator}
-     * class uses the prototyping design pattern to create the step
-     * interpolators by cloning an uninitialized model and latter
-     * initializing the copy.
+     * @param y reference to the integrator array holding the state at the end of the step
+     * @param isForward integration direction indicator
+     * @param equationsMapper mapper for ODE equations primary and secondary components
      */
-    protected AbstractFieldStepInterpolator() {
+    protected AbstractFieldStepInterpolator(final T[] y, final boolean isForward,
+                                            final FieldEquationsMapper<T> equationsMapper) {
         globalPreviousState = null;
         globalCurrentState  = null;
         softPreviousState   = null;
         softCurrentState    = null;
         h                   = null;
-        currentState        = null;
+        currentState        = y.clone();
         finalized           = false;
-        forward             = true;
-        mapper              = null;
-    }
-
-    /** Simple constructor.
-     * @param y reference to the integrator array holding the state at
-     * the end of the step
-     * @param forward integration direction indicator
-     * @param mapper mapper for ODE equations primary and secondary components
-     */
-    protected AbstractFieldStepInterpolator(final T[] y, final boolean forward,
-                                            final FieldEquationsMapper<T> mapper) {
-
-        globalPreviousState = null;
-        globalCurrentState  = null;
-        softPreviousState   = null;
-        softCurrentState    = null;
-        h                   = null;
-        currentState        = y;
-        finalized           = false;
-        this.forward        = forward;
-        this.mapper         = mapper;
-
+        this.forward        = isForward;
+        this.mapper         = equationsMapper;
     }
 
     /** Copy constructor.
@@ -146,25 +120,6 @@ public abstract class AbstractFieldStepInterpolator<T extends RealFieldElement<T
         finalized = interpolator.finalized;
         forward   = interpolator.forward;
         mapper    = interpolator.mapper;
-
-    }
-
-    /** Reinitialize the instance
-     * @param y reference to the integrator array holding the state at the end of the step
-     * @param isForward integration direction indicator
-     * @param equationsMapper mapper for ODE equations primary and secondary components
-     */
-    protected void reinitialize(final T[] y, final boolean isForward, final FieldEquationsMapper<T> equationsMapper) {
-
-        globalPreviousState = null;
-        globalCurrentState  = null;
-        softPreviousState   = null;
-        softCurrentState    = null;
-        h                   = null;
-        currentState        = y.clone();
-        finalized           = false;
-        this.forward        = isForward;
-        this.mapper         = equationsMapper;
 
     }
 
