@@ -120,7 +120,7 @@ public abstract class RungeKuttaFieldIntegrator<T extends RealFieldElement<T>>
         sanityChecks(initialState, finalTime);
         final T   t0 = initialState.getTime();
         final T[] y0 = equations.getMapper().mapState(initialState);
-        stepStart    = initIntegration(equations, t0, y0, finalTime);
+        setStepStart(initIntegration(equations, t0, y0, finalTime));
         final boolean forward = finalTime.subtract(initialState.getTime()).getReal() > 0;
 
         // create some internal working arrays
@@ -131,26 +131,26 @@ public abstract class RungeKuttaFieldIntegrator<T extends RealFieldElement<T>>
 
         // set up integration control objects
         if (forward) {
-            if (stepStart.getTime().add(step).subtract(finalTime).getReal() >= 0) {
-                stepSize = finalTime.subtract(stepStart.getTime());
+            if (getStepStart().getTime().add(step).subtract(finalTime).getReal() >= 0) {
+                setStepSize(finalTime.subtract(getStepStart().getTime()));
             } else {
-                stepSize = step;
+                setStepSize(step);
             }
         } else {
-            if (stepStart.getTime().subtract(step).subtract(finalTime).getReal() <= 0) {
-                stepSize = finalTime.subtract(stepStart.getTime());
+            if (getStepStart().getTime().subtract(step).subtract(finalTime).getReal() <= 0) {
+                setStepSize(finalTime.subtract(getStepStart().getTime()));
             } else {
-                stepSize = step.negate();
+                setStepSize(step.negate());
             }
         }
 
         // main integration loop
-        isLastStep = false;
+        setIsLastStep(false);
         do {
 
             // first stage
-            y        = equations.getMapper().mapState(stepStart);
-            yDotK[0] = equations.getMapper().mapDerivative(stepStart);
+            y        = equations.getMapper().mapState(getStepStart());
+            yDotK[0] = equations.getMapper().mapDerivative(getStepStart());
 
             // next stages
             for (int k = 1; k < stages; ++k) {
@@ -160,10 +160,10 @@ public abstract class RungeKuttaFieldIntegrator<T extends RealFieldElement<T>>
                     for (int l = 1; l < k; ++l) {
                         sum = sum.add(yDotK[l][j].multiply(a[k-1][l]));
                     }
-                    yTmp[j] = y[j].add(stepSize.multiply(sum));
+                    yTmp[j] = y[j].add(getStepSize().multiply(sum));
                 }
 
-                yDotK[k] = computeDerivatives(stepStart.getTime().add(stepSize.multiply(c[k-1])), yTmp);
+                yDotK[k] = computeDerivatives(getStepStart().getTime().add(getStepSize().multiply(c[k-1])), yTmp);
 
             }
 
@@ -173,34 +173,34 @@ public abstract class RungeKuttaFieldIntegrator<T extends RealFieldElement<T>>
                 for (int l = 1; l < stages; ++l) {
                     sum = sum.add(yDotK[l][j].multiply(b[l]));
                 }
-                yTmp[j] = y[j].add(stepSize.multiply(sum));
+                yTmp[j] = y[j].add(getStepSize().multiply(sum));
             }
-            final T stepEnd   = stepStart.getTime().add(stepSize);
+            final T stepEnd   = getStepStart().getTime().add(getStepSize());
             final T[] yDotTmp = computeDerivatives(stepEnd, yTmp);
             final FieldODEStateAndDerivative<T> stateTmp = new FieldODEStateAndDerivative<T>(stepEnd, yTmp, yDotTmp);
 
             // discrete events handling
             System.arraycopy(yTmp, 0, y, 0, y0.length);
-            stepStart = acceptStep(createInterpolator(forward, yDotK, stepStart, stateTmp, equations.getMapper()),
-                                   finalTime);
+            setStepStart(acceptStep(createInterpolator(forward, yDotK, getStepStart(), stateTmp, equations.getMapper()),
+                                    finalTime));
 
-            if (!isLastStep) {
+            if (!isLastStep()) {
 
                 // stepsize control for next step
-                final T  nextT      = stepStart.getTime().add(stepSize);
+                final T  nextT      = getStepStart().getTime().add(getStepSize());
                 final boolean nextIsLast = forward ?
                                            (nextT.subtract(finalTime).getReal() >= 0) :
                                            (nextT.subtract(finalTime).getReal() <= 0);
                 if (nextIsLast) {
-                    stepSize = finalTime.subtract(stepStart.getTime());
+                    setStepSize(finalTime.subtract(getStepStart().getTime()));
                 }
             }
 
-        } while (!isLastStep);
+        } while (!isLastStep());
 
-        final FieldODEStateAndDerivative<T> finalState = stepStart;
-        stepStart = null;
-        stepSize  = null;
+        final FieldODEStateAndDerivative<T> finalState = getStepStart();
+        setStepStart(null);
+        setStepSize(null);
         return finalState;
 
     }

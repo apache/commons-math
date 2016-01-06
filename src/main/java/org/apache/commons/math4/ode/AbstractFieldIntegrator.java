@@ -56,16 +56,19 @@ public abstract class AbstractFieldIntegrator<T extends RealFieldElement<T>> imp
     private static final double DEFAULT_FUNCTION_VALUE_ACCURACY = 1e-15;
 
     /** Step handler. */
-    protected Collection<FieldStepHandler<T>> stepHandlers;
+    private Collection<FieldStepHandler<T>> stepHandlers;
 
     /** Current step start. */
-    protected FieldODEStateAndDerivative<T> stepStart;
+    private FieldODEStateAndDerivative<T> stepStart;
 
     /** Current stepsize. */
-    protected T stepSize;
+    private T stepSize;
 
     /** Indicator for last step. */
-    protected boolean isLastStep;
+    private boolean isLastStep;
+
+    /** Indicator that a state or derivative reset was triggered by some event. */
+    private boolean resetOccurred;
 
     /** Field to which the time and state vector elements belong. */
     private final Field<T> field;
@@ -352,6 +355,7 @@ public abstract class AbstractFieldIntegrator<T extends RealFieldElement<T>> imp
                 }
 
                 FieldODEState<T> newState = null;
+                resetOccurred = false;
                 for (final FieldEventState<T> state : eventsStates) {
                     newState = state.reset(eventState);
                     if (newState != null) {
@@ -359,6 +363,7 @@ public abstract class AbstractFieldIntegrator<T extends RealFieldElement<T>> imp
                         // invalidate the derivatives, we need to recompute them
                         final T[] y    = equations.getMapper().mapState(newState);
                         final T[] yDot = computeDerivatives(newState.getTime(), y);
+                        resetOccurred = true;
                         return equations.getMapper().mapStateAndDerivative(newState.getTime(), y, yDot);
                     }
                 }
@@ -409,6 +414,54 @@ public abstract class AbstractFieldIntegrator<T extends RealFieldElement<T>> imp
                                                 dt, threshold, false);
         }
 
+    }
+
+    /** Check if a reset occurred while last step was accepted.
+     * @return true if a reset occurred while last step was accepted
+     */
+    protected boolean resetOccurred() {
+        return resetOccurred;
+    }
+
+    /** Set the current step size.
+     * @param stepSize step size to set
+     */
+    protected void setStepSize(final T stepSize) {
+        this.stepSize = stepSize;
+    }
+
+    /** Get the current step size.
+     * @return current step size
+     */
+    protected T getStepSize() {
+        return stepSize;
+    }
+    /** Set current step start.
+     * @param stepStart step start
+     */
+    protected void setStepStart(final FieldODEStateAndDerivative<T> stepStart) {
+        this.stepStart = stepStart;
+    }
+
+    /** Getcurrent step start.
+     * @return current step start
+     */
+    protected FieldODEStateAndDerivative<T> getStepStart() {
+        return stepStart;
+    }
+
+    /** Set the last state flag.
+     * @param isLastStep if true, this step is the last one
+     */
+    protected void setIsLastStep(final boolean isLastStep) {
+        this.isLastStep = isLastStep;
+    }
+
+    /** Check if this step is the last one.
+     * @return true if this step is the last one
+     */
+    protected boolean isLastStep() {
+        return isLastStep;
     }
 
 }

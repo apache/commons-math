@@ -222,7 +222,7 @@ public abstract class EmbeddedRungeKuttaFieldIntegrator<T extends RealFieldEleme
         sanityChecks(initialState, finalTime);
         final T   t0 = initialState.getTime();
         final T[] y0 = equations.getMapper().mapState(initialState);
-        stepStart    = initIntegration(equations, t0, y0, finalTime);
+        setStepStart(initIntegration(equations, t0, y0, finalTime));
         final boolean forward = finalTime.subtract(initialState.getTime()).getReal() > 0;
 
         // create some internal working arrays
@@ -236,7 +236,7 @@ public abstract class EmbeddedRungeKuttaFieldIntegrator<T extends RealFieldEleme
         boolean firstTime = true;
 
         // main integration loop
-        isLastStep = false;
+        setIsLastStep(false);
         do {
 
             // iterate over step size, ensuring local normalized error is smaller than 1
@@ -244,8 +244,8 @@ public abstract class EmbeddedRungeKuttaFieldIntegrator<T extends RealFieldEleme
             while (error.subtract(1.0).getReal() >= 0) {
 
                 // first stage
-                y        = equations.getMapper().mapState(stepStart);
-                yDotK[0] = equations.getMapper().mapDerivative(stepStart);
+                y        = equations.getMapper().mapState(getStepStart());
+                yDotK[0] = equations.getMapper().mapDerivative(getStepStart());
 
                 if (firstTime) {
                     final T[] scale = MathArrays.buildArray(getField(), mainSetDimension);
@@ -258,18 +258,18 @@ public abstract class EmbeddedRungeKuttaFieldIntegrator<T extends RealFieldEleme
                             scale[i] = y[i].abs().multiply(vecRelativeTolerance[i]).add(vecAbsoluteTolerance[i]);
                         }
                     }
-                    hNew = initializeStep(forward, getOrder(), scale, stepStart, equations.getMapper());
+                    hNew = initializeStep(forward, getOrder(), scale, getStepStart(), equations.getMapper());
                     firstTime = false;
                 }
 
-                stepSize = hNew;
+                setStepSize(hNew);
                 if (forward) {
-                    if (stepStart.getTime().add(stepSize).subtract(finalTime).getReal() >= 0) {
-                        stepSize = finalTime.subtract(stepStart.getTime());
+                    if (getStepStart().getTime().add(getStepSize()).subtract(finalTime).getReal() >= 0) {
+                        setStepSize(finalTime.subtract(getStepStart().getTime()));
                     }
                 } else {
-                    if (stepStart.getTime().add(stepSize).subtract(finalTime).getReal() <= 0) {
-                        stepSize = finalTime.subtract(stepStart.getTime());
+                    if (getStepStart().getTime().add(getStepSize()).subtract(finalTime).getReal() <= 0) {
+                        setStepSize(finalTime.subtract(getStepStart().getTime()));
                     }
                 }
 
@@ -281,10 +281,10 @@ public abstract class EmbeddedRungeKuttaFieldIntegrator<T extends RealFieldEleme
                         for (int l = 1; l < k; ++l) {
                             sum = sum.add(yDotK[l][j].multiply(a[k-1][l]));
                         }
-                        yTmp[j] = y[j].add(stepSize.multiply(sum));
+                        yTmp[j] = y[j].add(getStepSize().multiply(sum));
                     }
 
-                    yDotK[k] = computeDerivatives(stepStart.getTime().add(stepSize.multiply(c[k-1])), yTmp);
+                    yDotK[k] = computeDerivatives(getStepStart().getTime().add(getStepSize().multiply(c[k-1])), yTmp);
 
                 }
 
@@ -294,53 +294,53 @@ public abstract class EmbeddedRungeKuttaFieldIntegrator<T extends RealFieldEleme
                     for (int l = 1; l < stages; ++l) {
                         sum = sum.add(yDotK[l][j].multiply(b[l]));
                     }
-                    yTmp[j] = y[j].add(stepSize.multiply(sum));
+                    yTmp[j] = y[j].add(getStepSize().multiply(sum));
                 }
 
                 // estimate the error at the end of the step
-                error = estimateError(yDotK, y, yTmp, stepSize);
+                error = estimateError(yDotK, y, yTmp, getStepSize());
                 if (error.subtract(1.0).getReal() >= 0) {
                     // reject the step and attempt to reduce error by stepsize control
                     final T factor = MathUtils.min(maxGrowth,
                                                    MathUtils.max(minReduction, safety.multiply(error.pow(exp))));
-                    hNew = filterStep(stepSize.multiply(factor), forward, false);
+                    hNew = filterStep(getStepSize().multiply(factor), forward, false);
                 }
 
             }
-            final T   stepEnd = stepStart.getTime().add(stepSize);
+            final T   stepEnd = getStepStart().getTime().add(getStepSize());
             final T[] yDotTmp = (fsal >= 0) ? yDotK[fsal] : computeDerivatives(stepEnd, yTmp);
             final FieldODEStateAndDerivative<T> stateTmp = new FieldODEStateAndDerivative<T>(stepEnd, yTmp, yDotTmp);
 
             // local error is small enough: accept the step, trigger events and step handlers
             System.arraycopy(yTmp, 0, y, 0, y0.length);
-            stepStart = acceptStep(createInterpolator(forward, yDotK, stepStart, stateTmp, equations.getMapper()),
-                                   finalTime);
+            setStepStart(acceptStep(createInterpolator(forward, yDotK, getStepStart(), stateTmp, equations.getMapper()),
+                                    finalTime));
 
-            if (!isLastStep) {
+            if (!isLastStep()) {
 
                 // stepsize control for next step
                 final T factor = MathUtils.min(maxGrowth,
                                                MathUtils.max(minReduction, safety.multiply(error.pow(exp))));
-                final T  scaledH    = stepSize.multiply(factor);
-                final T  nextT      = stepStart.getTime().add(scaledH);
+                final T  scaledH    = getStepSize().multiply(factor);
+                final T  nextT      = getStepStart().getTime().add(scaledH);
                 final boolean nextIsLast = forward ?
                                            nextT.subtract(finalTime).getReal() >= 0 :
                                            nextT.subtract(finalTime).getReal() <= 0;
                 hNew = filterStep(scaledH, forward, nextIsLast);
 
-                final T  filteredNextT      = stepStart.getTime().add(hNew);
+                final T  filteredNextT      = getStepStart().getTime().add(hNew);
                 final boolean filteredNextIsLast = forward ?
                                                    filteredNextT.subtract(finalTime).getReal() >= 0 :
                                                    filteredNextT.subtract(finalTime).getReal() <= 0;
                 if (filteredNextIsLast) {
-                    hNew = finalTime.subtract(stepStart.getTime());
+                    hNew = finalTime.subtract(getStepStart().getTime());
                 }
 
             }
 
-        } while (!isLastStep);
+        } while (!isLastStep());
 
-        final FieldODEStateAndDerivative<T> finalState = stepStart;
+        final FieldODEStateAndDerivative<T> finalState = getStepStart();
         resetInternalState();
         return finalState;
 
