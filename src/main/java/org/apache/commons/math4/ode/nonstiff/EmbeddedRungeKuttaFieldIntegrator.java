@@ -23,6 +23,8 @@ import org.apache.commons.math4.exception.DimensionMismatchException;
 import org.apache.commons.math4.exception.MaxCountExceededException;
 import org.apache.commons.math4.exception.NoBracketingException;
 import org.apache.commons.math4.exception.NumberIsTooSmallException;
+import org.apache.commons.math4.ode.AbstractFieldIntegrator;
+import org.apache.commons.math4.ode.FieldEquationsMapper;
 import org.apache.commons.math4.ode.FieldExpandableODE;
 import org.apache.commons.math4.ode.FieldODEState;
 import org.apache.commons.math4.ode.FieldODEStateAndDerivative;
@@ -73,19 +75,16 @@ public abstract class EmbeddedRungeKuttaFieldIntegrator<T extends RealFieldEleme
     private final boolean fsal;
 
     /** Time steps from Butcher array (without the first zero). */
-    private final double[] c;
+    private final T[] c;
 
     /** Internal weights from Butcher array (without the first empty row). */
-    private final double[][] a;
+    private final T[][] a;
 
     /** External weights for the high order method from Butcher array. */
-    private final double[] b;
-
-    /** Prototype of the step interpolator. */
-    private final RungeKuttaFieldStepInterpolator<T> prototype;
+    private final T[] b;
 
     /** Stepsize control exponent. */
-    private final double exp;
+    private final T exp;
 
     /** Safety factor for stepsize control. */
     private T safety;
@@ -100,10 +99,6 @@ public abstract class EmbeddedRungeKuttaFieldIntegrator<T extends RealFieldEleme
      * @param field field to which the time and state vector elements belong
      * @param name name of the method
      * @param fsal indicate that the method is an <i>fsal</i>
-     * @param c time steps from Butcher array (without the first zero)
-     * @param a internal weights from Butcher array (without the first empty row)
-     * @param b propagation weights for the high order method from Butcher array
-     * @param prototype prototype of the step interpolator to use
      * @param minStep minimal step (sign is irrelevant, regardless of
      * integration direction, forward or backward), the last step can
      * be smaller than this
@@ -114,21 +109,18 @@ public abstract class EmbeddedRungeKuttaFieldIntegrator<T extends RealFieldEleme
      * @param scalRelativeTolerance allowed relative error
      */
     protected EmbeddedRungeKuttaFieldIntegrator(final Field<T> field, final String name, final boolean fsal,
-                                                final double[] c, final double[][] a, final double[] b,
-                                                final RungeKuttaFieldStepInterpolator<T> prototype,
                                                 final double minStep, final double maxStep,
                                                 final double scalAbsoluteTolerance,
                                                 final double scalRelativeTolerance) {
 
         super(field, name, minStep, maxStep, scalAbsoluteTolerance, scalRelativeTolerance);
 
-        this.fsal      = fsal;
-        this.c         = c;
-        this.a         = a;
-        this.b         = b;
-        this.prototype = prototype;
+        this.fsal = fsal;
+        this.c    = getC();
+        this.a    = getA();
+        this.b    = getB();
 
-        exp = -1.0 / getOrder();
+        exp = field.getOne().divide(-getOrder());
 
         // set the default values of the algorithm control parameters
         setSafety(field.getZero().add(0.9));
@@ -141,10 +133,6 @@ public abstract class EmbeddedRungeKuttaFieldIntegrator<T extends RealFieldEleme
      * @param field field to which the time and state vector elements belong
      * @param name name of the method
      * @param fsal indicate that the method is an <i>fsal</i>
-     * @param c time steps from Butcher array (without the first zero)
-     * @param a internal weights from Butcher array (without the first empty row)
-     * @param b propagation weights for the high order method from Butcher array
-     * @param prototype prototype of the step interpolator to use
      * @param minStep minimal step (must be positive even for backward
      * integration), the last step can be smaller than this
      * @param maxStep maximal step (must be positive even for backward
@@ -153,21 +141,18 @@ public abstract class EmbeddedRungeKuttaFieldIntegrator<T extends RealFieldEleme
      * @param vecRelativeTolerance allowed relative error
      */
     protected EmbeddedRungeKuttaFieldIntegrator(final Field<T> field, final String name, final boolean fsal,
-                                                final double[] c, final double[][] a, final double[] b,
-                                                final RungeKuttaFieldStepInterpolator<T> prototype,
                                                 final double   minStep, final double maxStep,
                                                 final double[] vecAbsoluteTolerance,
                                                 final double[] vecRelativeTolerance) {
 
         super(field, name, minStep, maxStep, vecAbsoluteTolerance, vecRelativeTolerance);
 
-        this.fsal      = fsal;
-        this.c         = c;
-        this.a         = a;
-        this.b         = b;
-        this.prototype = prototype;
+        this.fsal = fsal;
+        this.c    = getC();
+        this.a    = getA();
+        this.b    = getB();
 
-        exp = -1.0 / getOrder();
+        exp = field.getOne().divide(-getOrder());
 
         // set the default values of the algorithm control parameters
         setSafety(field.getZero().add(0.9));
@@ -176,6 +161,53 @@ public abstract class EmbeddedRungeKuttaFieldIntegrator<T extends RealFieldEleme
 
     }
 
+    /** Create a fraction.
+     * @param p numerator
+     * @param q denominator
+     * @return p/q computed in the instance field
+     */
+    protected T fraction(final int p, final int q) {
+        return getField().getOne().multiply(p).divide(q);
+    }
+
+    /** Create a fraction.
+     * @param p numerator
+     * @param q denominator
+     * @return p/q computed in the instance field
+     */
+    protected T fraction(final double p, final double q) {
+        return getField().getOne().multiply(p).divide(q);
+    }
+
+    /** Get the time steps from Butcher array (without the first zero).
+     * @return time steps from Butcher array (without the first zero
+     */
+    protected abstract T[] getC();
+
+    /** Get the internal weights from Butcher array (without the first empty row).
+     * @return internal weights from Butcher array (without the first empty row)
+     */
+    protected abstract T[][] getA();
+
+    /** Get the external weights for the high order method from Butcher array.
+     * @return external weights for the high order method from Butcher array
+     */
+    protected abstract T[] getB();
+
+    /** Create an interpolator.
+     * @param rkIntegrator integrator being used
+     * @param y reference to the integrator array holding the state at
+     * the end of the step
+     * @param yDotArray reference to the integrator array holding all the
+     * intermediate slopes
+     * @param forward integration direction indicator
+     * @param mapper equations mapper for the all equations
+     * @return external weights for the high order method from Butcher array
+     */
+    protected abstract RungeKuttaFieldStepInterpolator<T> createInterpolator(AbstractFieldIntegrator<T> rkIntegrator,
+                                                                             T[] y, T[][] yDotArray,
+                                                                             boolean forward,
+                                                                             FieldEquationsMapper<T> mapper);
     /** Get the order of the method.
      * @return order of the method
      */
@@ -215,8 +247,8 @@ public abstract class EmbeddedRungeKuttaFieldIntegrator<T extends RealFieldEleme
         final T[]   yTmp   = MathArrays.buildArray(getField(), y0.length);
 
         // set up an interpolator sharing the integrator arrays
-        final RungeKuttaFieldStepInterpolator<T> interpolator = (RungeKuttaFieldStepInterpolator<T>) prototype.copy();
-        interpolator.reinitialize(this, y0, yDotK, forward, equations.getMapper());
+        final RungeKuttaFieldStepInterpolator<T> interpolator =
+                        createInterpolator(this, y0, yDotK, forward, equations.getMapper());
         interpolator.storeState(stepStart);
 
         // set up integration control objects

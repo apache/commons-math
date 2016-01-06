@@ -25,6 +25,7 @@ import org.apache.commons.math4.exception.MaxCountExceededException;
 import org.apache.commons.math4.exception.NoBracketingException;
 import org.apache.commons.math4.exception.NumberIsTooSmallException;
 import org.apache.commons.math4.ode.AbstractFieldIntegrator;
+import org.apache.commons.math4.ode.FieldEquationsMapper;
 import org.apache.commons.math4.ode.FieldExpandableODE;
 import org.apache.commons.math4.ode.FieldFirstOrderDifferentialEquations;
 import org.apache.commons.math4.ode.FieldODEState;
@@ -60,16 +61,13 @@ public abstract class RungeKuttaFieldIntegrator<T extends RealFieldElement<T>>
     extends AbstractFieldIntegrator<T> {
 
     /** Time steps from Butcher array (without the first zero). */
-    private final double[] c;
+    private final T[] c;
 
     /** Internal weights from Butcher array (without the first empty row). */
-    private final double[][] a;
+    private final T[][] a;
 
     /** External weights for the high order method from Butcher array. */
-    private final double[] b;
-
-    /** Prototype of the step interpolator. */
-    private final RungeKuttaFieldStepInterpolator<T> prototype;
+    private final T[] b;
 
     /** Integration step. */
     private final T step;
@@ -79,23 +77,54 @@ public abstract class RungeKuttaFieldIntegrator<T extends RealFieldElement<T>>
      * step. The default step handler does nothing.
      * @param field field to which the time and state vector elements belong
      * @param name name of the method
-     * @param c time steps from Butcher array (without the first zero)
-     * @param a internal weights from Butcher array (without the first empty row)
-     * @param b propagation weights for the high order method from Butcher array
-     * @param prototype prototype of the step interpolator to use
      * @param step integration step
      */
-    protected RungeKuttaFieldIntegrator(final Field<T> field, final String name,
-                                        final double[] c, final double[][] a, final double[] b,
-                                        final RungeKuttaFieldStepInterpolator<T> prototype,
-                                        final T step) {
+    protected RungeKuttaFieldIntegrator(final Field<T> field, final String name, final T step) {
         super(field, name);
-        this.c          = c;
-        this.a          = a;
-        this.b          = b;
-        this.prototype  = prototype;
-        this.step       = step.abs();
+        this.c    = getC();
+        this.a    = getA();
+        this.b    = getB();
+        this.step = step.abs();
     }
+
+    /** Create a fraction.
+     * @param p numerator
+     * @param q denominator
+     * @return p/q computed in the instance field
+     */
+    protected T fraction(final int p, final int q) {
+        return getField().getOne().multiply(p).divide(q);
+    }
+
+    /** Get the time steps from Butcher array (without the first zero).
+     * @return time steps from Butcher array (without the first zero
+     */
+    protected abstract T[] getC();
+
+    /** Get the internal weights from Butcher array (without the first empty row).
+     * @return internal weights from Butcher array (without the first empty row)
+     */
+    protected abstract T[][] getA();
+
+    /** Get the external weights for the high order method from Butcher array.
+     * @return external weights for the high order method from Butcher array
+     */
+    protected abstract T[] getB();
+
+    /** Create an interpolator.
+     * @param rkIntegrator integrator being used
+     * @param y reference to the integrator array holding the state at
+     * the end of the step
+     * @param yDotArray reference to the integrator array holding all the
+     * intermediate slopes
+     * @param forward integration direction indicator
+     * @param mapper equations mapper for the all equations
+     * @return external weights for the high order method from Butcher array
+     */
+    protected abstract RungeKuttaFieldStepInterpolator<T> createInterpolator(AbstractFieldIntegrator<T> rkIntegrator,
+                                                                             T[] y, T[][] yDotArray,
+                                                                             boolean forward,
+                                                                             FieldEquationsMapper<T> mapper);
 
     /** {@inheritDoc} */
     @Override
@@ -117,8 +146,8 @@ public abstract class RungeKuttaFieldIntegrator<T extends RealFieldElement<T>>
         final T[]   yTmp   = MathArrays.buildArray(getField(), y0.length);
 
         // set up an interpolator sharing the integrator arrays
-        final RungeKuttaFieldStepInterpolator<T> interpolator = (RungeKuttaFieldStepInterpolator<T>) prototype.copy();
-        interpolator.reinitialize(this, y0, yDotK, forward, equations.getMapper());
+        final RungeKuttaFieldStepInterpolator<T> interpolator =
+                        createInterpolator(this, y0, yDotK, forward, equations.getMapper());
         interpolator.storeState(stepStart);
 
         // set up integration control objects
