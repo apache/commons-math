@@ -19,6 +19,9 @@ package org.apache.commons.math4.ode.nonstiff;
 
 import org.apache.commons.math4.Field;
 import org.apache.commons.math4.RealFieldElement;
+import org.apache.commons.math4.ode.AbstractFieldIntegrator;
+import org.apache.commons.math4.ode.FieldEquationsMapper;
+import org.apache.commons.math4.util.MathArrays;
 import org.apache.commons.math4.util.MathUtils;
 
 
@@ -42,30 +45,8 @@ public class HighamHall54FieldIntegrator<T extends RealFieldElement<T>>
     /** Integrator method name. */
     private static final String METHOD_NAME = "Higham-Hall 5(4)";
 
-    /** Time steps Butcher array. */
-    private static final double[] STATIC_C = {
-        2.0/9.0, 1.0/3.0, 1.0/2.0, 3.0/5.0, 1.0, 1.0
-    };
-
-    /** Internal weights Butcher array. */
-    private static final double[][] STATIC_A = {
-        {2.0/9.0},
-        {1.0/12.0, 1.0/4.0},
-        {1.0/8.0, 0.0, 3.0/8.0},
-        {91.0/500.0, -27.0/100.0, 78.0/125.0, 8.0/125.0},
-        {-11.0/20.0, 27.0/20.0, 12.0/5.0, -36.0/5.0, 5.0},
-        {1.0/12.0, 0.0, 27.0/32.0, -4.0/3.0, 125.0/96.0, 5.0/48.0}
-    };
-
-    /** Propagation weights Butcher array. */
-    private static final double[] STATIC_B = {
-        1.0/12.0, 0.0, 27.0/32.0, -4.0/3.0, 125.0/96.0, 5.0/48.0, 0.0
-    };
-
     /** Error weights Butcher array. */
-    private static final double[] STATIC_E = {
-        -1.0/20.0, 0.0, 81.0/160.0, -6.0/5.0, 25.0/32.0, 1.0/16.0, -1.0/10.0
-    };
+    private final T[] e ;
 
     /** Simple constructor.
      * Build a fifth order Higham and Hall integrator with the given step bounds
@@ -83,9 +64,16 @@ public class HighamHall54FieldIntegrator<T extends RealFieldElement<T>>
                                        final double minStep, final double maxStep,
                                        final double scalAbsoluteTolerance,
                                        final double scalRelativeTolerance) {
-        super(field, METHOD_NAME, false, STATIC_C, STATIC_A, STATIC_B,
-              new HighamHall54FieldStepInterpolator<T>(),
+        super(field, METHOD_NAME, false,
               minStep, maxStep, scalAbsoluteTolerance, scalRelativeTolerance);
+        e = MathArrays.buildArray(field, 7);
+        e[0] = fraction(-1,  20);
+        e[1] = field.getZero();
+        e[2] = fraction(81, 160);
+        e[3] = fraction(-6,   5);
+        e[4] = fraction(25,  32);
+        e[5] = fraction( 1,  16);
+        e[6] = fraction(-1,  10);
     }
 
     /** Simple constructor.
@@ -104,9 +92,83 @@ public class HighamHall54FieldIntegrator<T extends RealFieldElement<T>>
                                        final double minStep, final double maxStep,
                                        final double[] vecAbsoluteTolerance,
                                        final double[] vecRelativeTolerance) {
-        super(field, METHOD_NAME, false, STATIC_C, STATIC_A, STATIC_B,
-              new HighamHall54FieldStepInterpolator<T>(),
+        super(field, METHOD_NAME, false,
               minStep, maxStep, vecAbsoluteTolerance, vecRelativeTolerance);
+        e = MathArrays.buildArray(field, 7);
+        e[0] = fraction(-1,  20);
+        e[1] = field.getZero();
+        e[2] = fraction(81, 160);
+        e[3] = fraction(-6,   5);
+        e[4] = fraction(25,  32);
+        e[5] = fraction( 1,  16);
+        e[6] = fraction(-1,  10);
+    }
+
+    /** {@inheritDoc} */
+    @Override
+    protected T[] getC() {
+        final T[] c = MathArrays.buildArray(getField(), 6);
+        c[0] = fraction(2, 9);
+        c[1] = fraction(1, 3);
+        c[2] = fraction(1, 2);
+        c[3] = fraction(3, 5);
+        c[4] = getField().getOne();
+        c[5] = getField().getOne();
+        return c;
+    }
+
+    /** {@inheritDoc} */
+    @Override
+    protected T[][] getA() {
+        final T[][] a = MathArrays.buildArray(getField(), 6, -1);
+        for (int i = 0; i < a.length; ++i) {
+            a[i] = MathArrays.buildArray(getField(), i + 1);
+        }
+        a[0][0] = fraction(     2,     9);
+        a[1][0] = fraction(     1,    12);
+        a[1][1] = fraction(     1,     4);
+        a[2][0] = fraction(     1,     8);
+        a[2][1] = getField().getZero();
+        a[2][2] = fraction(     3,     8);
+        a[3][0] = fraction(    91,   500);
+        a[3][1] = fraction(   -27,   100);
+        a[3][2] = fraction(    78,   125);
+        a[3][3] = fraction(     8,   125);
+        a[4][0] = fraction(   -11,    20);
+        a[4][1] = fraction(    27,    20);
+        a[4][2] = fraction(    12,     5);
+        a[4][3] = fraction(   -36,     5);
+        a[4][4] = fraction(     5,     1);
+        a[5][0] = fraction(     1,    12);
+        a[5][1] = getField().getZero();
+        a[5][2] = fraction(    27,    32);
+        a[5][3] = fraction(    -4,     3);
+        a[5][4] = fraction(   125,    96);
+        a[5][5] = fraction(     5,    48);
+        return a;
+    }
+
+    /** {@inheritDoc} */
+    @Override
+    protected T[] getB() {
+        final T[] b = MathArrays.buildArray(getField(), 7);
+        b[0] = fraction(  1, 12);
+        b[1] = getField().getZero();
+        b[2] = fraction( 27, 32);
+        b[3] = fraction( -4,  3);
+        b[4] = fraction(125, 96);
+        b[5] = fraction(  5, 48);
+        b[6] = getField().getZero();
+        return b;
+    }
+
+    /** {@inheritDoc} */
+    @Override
+    protected HighamHall54FieldStepInterpolator<T>
+        createInterpolator(final AbstractFieldIntegrator<T> rkIntegrator, final T[] y,
+                           final T[][] yDotArray, final boolean forward,
+                           final FieldEquationsMapper<T> mapper) {
+        return new HighamHall54FieldStepInterpolator<T>(rkIntegrator, y, yDotArray, forward, mapper);
     }
 
     /** {@inheritDoc} */
@@ -122,9 +184,9 @@ public class HighamHall54FieldIntegrator<T extends RealFieldElement<T>>
         T error = getField().getZero();
 
         for (int j = 0; j < mainSetDimension; ++j) {
-            T errSum = yDotK[0][j].multiply(STATIC_E[0]);
-            for (int l = 1; l < STATIC_E.length; ++l) {
-                errSum = errSum.add(yDotK[l][j].multiply(STATIC_E[l]));
+            T errSum = yDotK[0][j].multiply(e[0]);
+            for (int l = 1; l < e.length; ++l) {
+                errSum = errSum.add(yDotK[l][j].multiply(e[l]));
             }
 
             final T yScale = MathUtils.max(y0[j].abs(), y1[j].abs());

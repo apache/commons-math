@@ -19,7 +19,9 @@ package org.apache.commons.math4.ode.nonstiff;
 
 import org.apache.commons.math4.Field;
 import org.apache.commons.math4.RealFieldElement;
-import org.apache.commons.math4.util.FastMath;
+import org.apache.commons.math4.ode.AbstractFieldIntegrator;
+import org.apache.commons.math4.ode.FieldEquationsMapper;
+import org.apache.commons.math4.util.MathArrays;
 import org.apache.commons.math4.util.MathUtils;
 
 
@@ -63,149 +65,58 @@ public class DormandPrince853FieldIntegrator<T extends RealFieldElement<T>>
     /** Integrator method name. */
     private static final String METHOD_NAME = "Dormand-Prince 8 (5, 3)";
 
-    /** Time steps Butcher array. */
-    private static final double[] STATIC_C = {
-        (12.0 - 2.0 * FastMath.sqrt(6.0)) / 135.0, (6.0 - FastMath.sqrt(6.0)) / 45.0, (6.0 - FastMath.sqrt(6.0)) / 30.0,
-        (6.0 + FastMath.sqrt(6.0)) / 30.0, 1.0/3.0, 1.0/4.0, 4.0/13.0, 127.0/195.0, 3.0/5.0,
-        6.0/7.0, 1.0, 1.0
-    };
-
-    /** Internal weights Butcher array. */
-    private static final double[][] STATIC_A = {
-
-        // k2
-        {(12.0 - 2.0 * FastMath.sqrt(6.0)) / 135.0},
-
-        // k3
-        {(6.0 - FastMath.sqrt(6.0)) / 180.0, (6.0 - FastMath.sqrt(6.0)) / 60.0},
-
-        // k4
-        {(6.0 - FastMath.sqrt(6.0)) / 120.0, 0.0, (6.0 - FastMath.sqrt(6.0)) / 40.0},
-
-        // k5
-        {(462.0 + 107.0 * FastMath.sqrt(6.0)) / 3000.0, 0.0,
-            (-402.0 - 197.0 * FastMath.sqrt(6.0)) / 1000.0, (168.0 + 73.0 * FastMath.sqrt(6.0)) / 375.0},
-
-        // k6
-        {1.0 / 27.0, 0.0, 0.0, (16.0 + FastMath.sqrt(6.0)) / 108.0, (16.0 - FastMath.sqrt(6.0)) / 108.0},
-
-        // k7
-        {19.0 / 512.0, 0.0, 0.0, (118.0 + 23.0 * FastMath.sqrt(6.0)) / 1024.0,
-            (118.0 - 23.0 * FastMath.sqrt(6.0)) / 1024.0, -9.0 / 512.0},
-
-        // k8
-        {13772.0 / 371293.0, 0.0, 0.0, (51544.0 + 4784.0 * FastMath.sqrt(6.0)) / 371293.0,
-                (51544.0 - 4784.0 * FastMath.sqrt(6.0)) / 371293.0, -5688.0 / 371293.0, 3072.0 / 371293.0},
-
-        // k9
-        {58656157643.0 / 93983540625.0, 0.0, 0.0,
-                    (-1324889724104.0 - 318801444819.0 * FastMath.sqrt(6.0)) / 626556937500.0,
-                    (-1324889724104.0 + 318801444819.0 * FastMath.sqrt(6.0)) / 626556937500.0,
-                    96044563816.0 / 3480871875.0, 5682451879168.0 / 281950621875.0,
-                    -165125654.0 / 3796875.0},
-
-        // k10
-        {8909899.0 / 18653125.0, 0.0, 0.0,
-                        (-4521408.0 - 1137963.0 * FastMath.sqrt(6.0)) / 2937500.0,
-                        (-4521408.0 + 1137963.0 * FastMath.sqrt(6.0)) / 2937500.0,
-                        96663078.0 / 4553125.0, 2107245056.0 / 137915625.0,
-                        -4913652016.0 / 147609375.0, -78894270.0 / 3880452869.0},
-
-        // k11
-        {-20401265806.0 / 21769653311.0, 0.0, 0.0,
-                            (354216.0 + 94326.0 * FastMath.sqrt(6.0)) / 112847.0,
-                            (354216.0 - 94326.0 * FastMath.sqrt(6.0)) / 112847.0,
-                            -43306765128.0 / 5313852383.0, -20866708358144.0 / 1126708119789.0,
-                            14886003438020.0 / 654632330667.0, 35290686222309375.0 / 14152473387134411.0,
-                            -1477884375.0 / 485066827.0},
-
-        // k12
-        {39815761.0 / 17514443.0, 0.0, 0.0,
-                                (-3457480.0 - 960905.0 * FastMath.sqrt(6.0)) / 551636.0,
-                                (-3457480.0 + 960905.0 * FastMath.sqrt(6.0)) / 551636.0,
-                                -844554132.0 / 47026969.0, 8444996352.0 / 302158619.0,
-                                -2509602342.0 / 877790785.0, -28388795297996250.0 / 3199510091356783.0,
-                                226716250.0 / 18341897.0, 1371316744.0 / 2131383595.0},
-
-        // k13 should be for interpolation only, but since it is the same
-        // stage as the first evaluation of the next step, we perform it
-        // here at no cost by specifying this is an fsal method
-        {104257.0/1920240.0, 0.0, 0.0, 0.0, 0.0, 3399327.0/763840.0,
-                                    66578432.0/35198415.0, -1674902723.0/288716400.0,
-                                    54980371265625.0/176692375811392.0, -734375.0/4826304.0,
-                                    171414593.0/851261400.0, 137909.0/3084480.0}
-
-    };
-
-    /** Propagation weights Butcher array. */
-    private static final double[] STATIC_B = {
-        104257.0/1920240.0,
-        0.0,
-        0.0,
-        0.0,
-        0.0,
-        3399327.0/763840.0,
-        66578432.0/35198415.0,
-        -1674902723.0/288716400.0,
-        54980371265625.0/176692375811392.0,
-        -734375.0/4826304.0,
-        171414593.0/851261400.0,
-        137909.0/3084480.0,
-        0.0
-    };
-
     /** First error weights array, element 1. */
-    private static final double E1_01 =         116092271.0 / 8848465920.0;
+    private final T e1_01;
 
     // elements 2 to 5 are zero, so they are neither stored nor used
 
     /** First error weights array, element 6. */
-    private static final double E1_06 =          -1871647.0 / 1527680.0;
+    private final T e1_06;
 
     /** First error weights array, element 7. */
-    private static final double E1_07 =         -69799717.0 / 140793660.0;
+    private final T e1_07;
 
     /** First error weights array, element 8. */
-    private static final double E1_08 =     1230164450203.0 / 739113984000.0;
+    private final T e1_08;
 
     /** First error weights array, element 9. */
-    private static final double E1_09 = -1980813971228885.0 / 5654156025964544.0;
+    private final T e1_09;
 
     /** First error weights array, element 10. */
-    private static final double E1_10 =         464500805.0 / 1389975552.0;
+    private final T e1_10;
 
     /** First error weights array, element 11. */
-    private static final double E1_11 =     1606764981773.0 / 19613062656000.0;
+    private final T e1_11;
 
     /** First error weights array, element 12. */
-    private static final double E1_12 =           -137909.0 / 6168960.0;
+    private final T e1_12;
 
 
     /** Second error weights array, element 1. */
-    private static final double E2_01 =           -364463.0 / 1920240.0;
+    private final T e2_01;
 
     // elements 2 to 5 are zero, so they are neither stored nor used
 
     /** Second error weights array, element 6. */
-    private static final double E2_06 =           3399327.0 / 763840.0;
+    private final T e2_06;
 
     /** Second error weights array, element 7. */
-    private static final double E2_07 =          66578432.0 / 35198415.0;
+    private final T e2_07;
 
     /** Second error weights array, element 8. */
-    private static final double E2_08 =       -1674902723.0 / 288716400.0;
+    private final T e2_08;
 
     /** Second error weights array, element 9. */
-    private static final double E2_09 =   -74684743568175.0 / 176692375811392.0;
+    private final T e2_09;
 
     /** Second error weights array, element 10. */
-    private static final double E2_10 =           -734375.0 / 4826304.0;
+    private final T e2_10;
 
     /** Second error weights array, element 11. */
-    private static final double E2_11 =         171414593.0 / 851261400.0;
+    private final T e2_11;
 
     /** Second error weights array, element 12. */
-    private static final double E2_12 =             69869.0 / 3084480.0;
+    private final T e2_12;
 
     /** Simple constructor.
      * Build an eighth order Dormand-Prince integrator with the given step bounds
@@ -223,9 +134,24 @@ public class DormandPrince853FieldIntegrator<T extends RealFieldElement<T>>
                                            final double minStep, final double maxStep,
                                            final double scalAbsoluteTolerance,
                                            final double scalRelativeTolerance) {
-        super(field, METHOD_NAME, true, STATIC_C, STATIC_A, STATIC_B,
-              new DormandPrince853FieldStepInterpolator<T>(),
+        super(field, METHOD_NAME, true,
               minStep, maxStep, scalAbsoluteTolerance, scalRelativeTolerance);
+        e1_01 = fraction(        116092271.0,       8848465920.0);
+        e1_06 = fraction(         -1871647.0,          1527680.0);
+        e1_07 = fraction(        -69799717.0,        140793660.0);
+        e1_08 = fraction(    1230164450203.0,     739113984000.0);
+        e1_09 = fraction(-1980813971228885.0, 5654156025964544.0);
+        e1_10 = fraction(        464500805.0,       1389975552.0);
+        e1_11 = fraction(    1606764981773.0,   19613062656000.0);
+        e1_12 = fraction(          -137909.0,          6168960.0);
+        e2_01 = fraction(          -364463.0,          1920240.0);
+        e2_06 = fraction(          3399327.0,           763840.0);
+        e2_07 = fraction(         66578432.0,         35198415.0);
+        e2_08 = fraction(      -1674902723.0,        288716400.0);
+        e2_09 = fraction(  -74684743568175.0,  176692375811392.0);
+        e2_10 = fraction(          -734375.0,          4826304.0);
+        e2_11 = fraction(        171414593.0,        851261400.0);
+        e2_12 = fraction(            69869.0,          3084480.0);
     }
 
     /** Simple constructor.
@@ -244,9 +170,185 @@ public class DormandPrince853FieldIntegrator<T extends RealFieldElement<T>>
                                            final double minStep, final double maxStep,
                                            final double[] vecAbsoluteTolerance,
                                            final double[] vecRelativeTolerance) {
-        super(field, METHOD_NAME, true, STATIC_C, STATIC_A, STATIC_B,
-              new DormandPrince853FieldStepInterpolator<T>(),
+        super(field, METHOD_NAME, true,
               minStep, maxStep, vecAbsoluteTolerance, vecRelativeTolerance);
+        e1_01 = fraction(        116092271.0,       8848465920.0);
+        e1_06 = fraction(         -1871647.0,          1527680.0);
+        e1_07 = fraction(        -69799717.0,        140793660.0);
+        e1_08 = fraction(    1230164450203.0,     739113984000.0);
+        e1_09 = fraction(-1980813971228885.0, 5654156025964544.0);
+        e1_10 = fraction(        464500805.0,       1389975552.0);
+        e1_11 = fraction(    1606764981773.0,   19613062656000.0);
+        e1_12 = fraction(          -137909.0,          6168960.0);
+        e2_01 = fraction(          -364463.0,          1920240.0);
+        e2_06 = fraction(          3399327.0,           763840.0);
+        e2_07 = fraction(         66578432.0,         35198415.0);
+        e2_08 = fraction(      -1674902723.0,        288716400.0);
+        e2_09 = fraction(  -74684743568175.0,  176692375811392.0);
+        e2_10 = fraction(          -734375.0,          4826304.0);
+        e2_11 = fraction(        171414593.0,        851261400.0);
+        e2_12 = fraction(            69869.0,          3084480.0);
+    }
+
+    /** {@inheritDoc} */
+    @Override
+    protected T[] getC() {
+
+        final T sqrt6 = getField().getOne().multiply(6).sqrt();
+
+        final T[] c = MathArrays.buildArray(getField(), 12);
+        c[ 0] = sqrt6.add(-6).divide(-67.5);
+        c[ 1] = sqrt6.add(-6).divide(-45.0);
+        c[ 2] = sqrt6.add(-6).divide(-30.0);
+        c[ 3] = sqrt6.add( 6).divide( 30.0);
+        c[ 4] = fraction(1, 3);
+        c[ 5] = fraction(1, 4);
+        c[ 6] = fraction(4, 13);
+        c[ 7] = fraction(127, 195);
+        c[ 8] = fraction(3, 5);
+        c[ 9] = fraction(6, 7);
+        c[10] = getField().getOne();
+        c[11] = getField().getOne();
+
+        return c;
+
+    }
+
+    /** {@inheritDoc} */
+    @Override
+    protected T[][] getA() {
+
+        final T sqrt6 = getField().getOne().multiply(6).sqrt();
+
+        final T[][] a = MathArrays.buildArray(getField(), 12, -1);
+        for (int i = 0; i < a.length; ++i) {
+            a[i] = MathArrays.buildArray(getField(), i + 1);
+        }
+
+        a[ 0][ 0] = sqrt6.add(-6).divide(-67.5);
+
+        a[ 1][ 0] = sqrt6.add(-6).divide(-180);
+        a[ 1][ 1] = sqrt6.add(-6).divide( -40);
+
+        a[ 2][ 0] = sqrt6.add(-6).divide(-120);
+        a[ 2][ 1] = getField().getZero();
+        a[ 2][ 2] = sqrt6.add(-6).divide( -40);
+
+        a[ 3][ 0] = sqrt6.multiply(107).add(462).divide( 3000);
+        a[ 3][ 1] = getField().getZero();
+        a[ 3][ 2] = sqrt6.multiply(197).add(402).divide(-1000);
+        a[ 3][ 3] = sqrt6.multiply( 73).add(168).divide(  375);
+
+        a[ 4][ 0] = fraction(1, 27);
+        a[ 4][ 1] = getField().getZero();
+        a[ 4][ 2] = getField().getZero();
+        a[ 4][ 3] = sqrt6.add( 16).divide( 108);
+        a[ 4][ 4] = sqrt6.add(-16).divide(-108);
+
+        a[ 5][ 0] = fraction(19, 512);
+        a[ 5][ 1] = getField().getZero();
+        a[ 5][ 2] = getField().getZero();
+        a[ 5][ 3] = sqrt6.multiply( 23).add(118).divide(1024);
+        a[ 5][ 4] = sqrt6.multiply(-23).add(118).divide(1024);
+        a[ 5][ 5] = fraction(-9, 512);
+
+        a[ 6][ 0] = fraction(13772, 371293);
+        a[ 6][ 1] = getField().getZero();
+        a[ 6][ 2] = getField().getZero();
+        a[ 6][ 3] = sqrt6.multiply( 4784).add(51544).divide(371293);
+        a[ 6][ 4] = sqrt6.multiply(-4784).add(51544).divide(371293);
+        a[ 6][ 5] = fraction(-5688, 371283);
+        a[ 6][ 6] = fraction( 3072, 371293);
+
+        a[ 7][ 0] = fraction(58656157643.0, 93983540625.0);
+        a[ 7][ 1] = getField().getZero();
+        a[ 7][ 2] = getField().getZero();
+        a[ 7][ 3] = sqrt6.multiply(-318801444819.0).add(-1324889724104.0).divide(626556937500.0);
+        a[ 7][ 4] = sqrt6.multiply( 318801444819.0).add(-1324889724104.0).divide(626556937500.0);
+        a[ 7][ 5] = fraction(96044563816.0, 3480871875.0);
+        a[ 7][ 6] = fraction(5682451879168.0, 281950621875.0);
+        a[ 7][ 7] = fraction(-165125654.0, 3796875.0);
+
+        a[ 8][ 0] = fraction(8909899.0, 18653125.0);
+        a[ 8][ 1] = getField().getZero();
+        a[ 8][ 2] = getField().getZero();
+        a[ 8][ 3] = sqrt6.multiply(-1137963.0).add(-4521408.0).divide(2937500.0);
+        a[ 8][ 4] = sqrt6.multiply( 1137963.0).add(-4521408.0).divide(2937500.0);
+        a[ 8][ 5] = fraction(96663078.0, 4553125.0);
+        a[ 8][ 6] = fraction(2107245056.0, 137915625.0);
+        a[ 8][ 7] = fraction(-4913652016.0, 147609375.0);
+        a[ 8][ 8] = fraction(-78894270.0, 3880452869.0);
+
+        a[ 9][ 0] = fraction(-20401265806.0, 21769653311.0);
+        a[ 9][ 1] = getField().getZero();
+        a[ 9][ 2] = getField().getZero();
+        a[ 9][ 3] = sqrt6.multiply( 94326.0).add(354216.0).divide(112847.0);
+        a[ 9][ 4] = sqrt6.multiply(-94326.0).add(354216.0).divide(112847.0);
+        a[ 9][ 5] = fraction(-43306765128.0, 5313852383.0);
+        a[ 9][ 6] = fraction(-20866708358144.0, 1126708119789.0);
+        a[ 9][ 7] = fraction(14886003438020.0, 654632330667.0);
+        a[ 9][ 8] = fraction(35290686222309375.0, 14152473387134411.0);
+        a[ 9][ 9] = fraction(-1477884375.0, 485066827.0);
+
+        a[10][ 0] = fraction(39815761.0, 17514443.0);
+        a[10][ 1] = getField().getZero();
+        a[10][ 2] = getField().getZero();
+        a[10][ 3] = sqrt6.multiply(-960905.0).add(-3457480.0).divide(551636.0);
+        a[10][ 4] = sqrt6.multiply( 960905.0).add(-3457480.0).divide(551636.0);
+        a[10][ 5] = fraction(-844554132.0, 47026969.0);
+        a[10][ 6] = fraction(8444996352.0, 302158619.0);
+        a[10][ 7] = fraction(-2509602342.0, 877790785.0);
+        a[10][ 8] = fraction(-28388795297996250.0, 3199510091356783.0);
+        a[10][ 9] = fraction(226716250.0, 18341897.0);
+        a[10][10] = fraction(1371316744.0, 2131383595.0);
+
+        // this stage should be for interpolation only, but since it is the same
+        // stage as the first evaluation of the next step, we perform it
+        // here at no cost by specifying this is an fsal method
+        a[11][ 0] = fraction(104257.0, 1920240.0);
+        a[11][ 1] = getField().getZero();
+        a[11][ 2] = getField().getZero();
+        a[11][ 3] = getField().getZero();
+        a[11][ 4] = getField().getZero();
+        a[11][ 5] = fraction(3399327.0, 763840.0);
+        a[11][ 6] = fraction(66578432.0, 35198415.0);
+        a[11][ 7] = fraction(-1674902723.0, 288716400.0);
+        a[11][ 8] = fraction(54980371265625.0, 176692375811392.0);
+        a[11][ 9] = fraction(-734375.0, 4826304.0);
+        a[11][10] = fraction(171414593.0, 851261400.0);
+        a[11][11] = fraction(137909.0, 3084480.0);
+
+        return a;
+
+    }
+
+    /** {@inheritDoc} */
+    @Override
+    protected T[] getB() {
+        final T[] b = MathArrays.buildArray(getField(), 13);
+        b[ 0] = fraction(104257, 1929240);
+        b[ 1] = getField().getZero();
+        b[ 2] = getField().getZero();
+        b[ 3] = getField().getZero();
+        b[ 4] = getField().getZero();
+        b[ 5] = fraction(        3399327.0,          763840.0);
+        b[ 6] = fraction(       66578432.0,        35198415.0);
+        b[ 7] = fraction(    -1674902723.0,       288716400.0);
+        b[ 8] = fraction( 54980371265625.0, 176692375811392.0);
+        b[ 9] = fraction(        -734375.0,         4826304.0);
+        b[10] = fraction(      171414593.0,       851261400.0);
+        b[11] = fraction(         137909.0,         3084480.0);
+        b[12] = getField().getZero();
+        return b;
+    }
+
+    /** {@inheritDoc} */
+    @Override
+    protected DormandPrince853FieldStepInterpolator<T>
+        createInterpolator(final AbstractFieldIntegrator<T> rkIntegrator, final T[] y,
+                           final T[][] yDotArray, final boolean forward,
+                           final FieldEquationsMapper<T> mapper) {
+        return new DormandPrince853FieldStepInterpolator<T>(rkIntegrator, y, yDotArray, forward, mapper);
     }
 
     /** {@inheritDoc} */
@@ -262,22 +364,22 @@ public class DormandPrince853FieldIntegrator<T extends RealFieldElement<T>>
         T error2 = h.getField().getZero();
 
         for (int j = 0; j < mainSetDimension; ++j) {
-            final T errSum1 =      yDotK[ 0][j].multiply(E1_01).
-                               add(yDotK[ 5][j].multiply(E1_06)).
-                               add(yDotK[ 6][j].multiply(E1_07)).
-                               add(yDotK[ 7][j].multiply(E1_08)).
-                               add(yDotK[ 8][j].multiply(E1_09)).
-                               add(yDotK[ 9][j].multiply(E1_10)).
-                               add(yDotK[10][j].multiply(E1_11)).
-                               add(yDotK[11][j].multiply(E1_12));
-            final T errSum2 =      yDotK[ 0][j].multiply(E2_01).
-                               add(yDotK[ 5][j].multiply(E2_06)).
-                               add(yDotK[ 6][j].multiply(E2_07)).
-                               add(yDotK[ 7][j].multiply(E2_08)).
-                               add(yDotK[ 8][j].multiply(E2_09)).
-                               add(yDotK[ 9][j].multiply(E2_10)).
-                               add(yDotK[10][j].multiply(E2_11)).
-                               add(yDotK[11][j].multiply(E2_12));
+            final T errSum1 =      yDotK[ 0][j].multiply(e1_01).
+                               add(yDotK[ 5][j].multiply(e1_06)).
+                               add(yDotK[ 6][j].multiply(e1_07)).
+                               add(yDotK[ 7][j].multiply(e1_08)).
+                               add(yDotK[ 8][j].multiply(e1_09)).
+                               add(yDotK[ 9][j].multiply(e1_10)).
+                               add(yDotK[10][j].multiply(e1_11)).
+                               add(yDotK[11][j].multiply(e1_12));
+            final T errSum2 =      yDotK[ 0][j].multiply(e2_01).
+                               add(yDotK[ 5][j].multiply(e2_06)).
+                               add(yDotK[ 6][j].multiply(e2_07)).
+                               add(yDotK[ 7][j].multiply(e2_08)).
+                               add(yDotK[ 8][j].multiply(e2_09)).
+                               add(yDotK[ 9][j].multiply(e2_10)).
+                               add(yDotK[10][j].multiply(e2_11)).
+                               add(yDotK[11][j].multiply(e2_12));
 
             final T yScale = MathUtils.max(y0[j].abs(), y1[j].abs());
             final T tol = vecAbsoluteTolerance == null ?
