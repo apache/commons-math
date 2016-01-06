@@ -21,9 +21,9 @@ import org.apache.commons.math4.RealFieldElement;
 
 /** Container for time, main and secondary state vectors as well as their derivatives.
 
- * @see FieldFirstOrderDifferentialEquations
+ * @see FirstOrderFieldDifferentialEquations
  * @see FieldSecondaryEquations
- * @see FieldFirstOrderIntegrator
+ * @see FirstOrderFieldIntegrator
  * @param <T> the type of the field elements
  * @since 3.6
  */

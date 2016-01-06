@@ -28,7 +28,7 @@ import org.apache.commons.math4.exception.MaxCountExceededException;
 import org.apache.commons.math4.exception.NoBracketingException;
 import org.apache.commons.math4.exception.NumberIsTooSmallException;
 import org.apache.commons.math4.ode.FieldExpandableODE;
-import org.apache.commons.math4.ode.FieldFirstOrderDifferentialEquations;
+import org.apache.commons.math4.ode.FirstOrderFieldDifferentialEquations;
 import org.apache.commons.math4.ode.FieldODEState;
 import org.apache.commons.math4.ode.FieldODEStateAndDerivative;
 import org.apache.commons.math4.ode.TestFieldProblem1;
@@ -126,7 +126,7 @@ public abstract class AbstractRungeKuttaFieldIntegratorTest {
         k[0] = field.getZero().add(1.0e-4);
         k[1] = field.getZero().add(1.0e-5);
         k[2] = field.getZero().add(1.0e-6);
-        FieldFirstOrderDifferentialEquations<T> ode = new FieldFirstOrderDifferentialEquations<T>() {
+        FirstOrderFieldDifferentialEquations<T> ode = new FirstOrderFieldDifferentialEquations<T>() {
 
             public int getDimension() {
                 return k.length;
@@ -424,7 +424,7 @@ public abstract class AbstractRungeKuttaFieldIntegratorTest {
             public void init(FieldODEStateAndDerivative<T> s0, T t) {
             }
         });
-        integ.integrate(new FieldExpandableODE<T>(new FieldFirstOrderDifferentialEquations<T>() {
+        integ.integrate(new FieldExpandableODE<T>(new FirstOrderFieldDifferentialEquations<T>() {
             public void init(T t0, T[] y0, T t) {
             }
             public T[] computeDerivatives(T t, T[] y) {
@@ -470,7 +470,7 @@ public abstract class AbstractRungeKuttaFieldIntegratorTest {
         final T[] y0 = MathArrays.buildArray(field, 1);
         y0[0] = field.getOne();
         final T t   = field.getZero().add(0.001);
-        FieldFirstOrderDifferentialEquations<T> equations = new FieldFirstOrderDifferentialEquations<T>() {
+        FirstOrderFieldDifferentialEquations<T> equations = new FirstOrderFieldDifferentialEquations<T>() {
 
             public int getDimension() {
                 return 1;
@@ -573,7 +573,7 @@ public abstract class AbstractRungeKuttaFieldIntegratorTest {
         return y.getPartialDerivative(orders);
     }
 
-    private static class SinCos implements FieldFirstOrderDifferentialEquations<DerivativeStructure> {
+    private static class SinCos implements FirstOrderFieldDifferentialEquations<DerivativeStructure> {
 
         private final DerivativeStructure omega;
         private       DerivativeStructure r;

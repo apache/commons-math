@@ -85,10 +85,10 @@
         <p>
           The user should describe his problem in his own classes which should implement the
           <a href="../apidocs/org/apache/commons/math4/ode/FirstOrderDifferentialEquations.html">FirstOrderDifferentialEquations</a>
-          interface (or  <a href="../apidocs/org/apache/commons/math4/ode/FieldFirstOrderDifferentialEquations.html">FieldFirstOrderDifferentialEquations</a>
+          interface (or  <a href="../apidocs/org/apache/commons/math4/ode/FirstOrderFieldDifferentialEquations.html">FirstOrderFieldDifferentialEquations</a>
           interface). Then he should pass it to the integrator he prefers among all the classes that implement
           the <a href="../apidocs/org/apache/commons/math4/ode/FirstOrderIntegrator.html">FirstOrderIntegrator</a>
-          interface (or the <a href="../apidocs/org/apache/commons/math4/ode/FieldFirstOrderIntegrator.html">FieldFirstOrderIntegrator</a>
+          interface (or the <a href="../apidocs/org/apache/commons/math4/ode/FirstOrderFieldIntegrator.html">FirstOrderFieldIntegrator</a>
           interface). The following example shows how to implement the simple two-dimensional problem using double primitives:
           <ul>
             <li>y'<sub>0</sub>(t) = &#x3c9; &#xD7; (c<sub>1</sub> - y<sub>1</sub>(t))</li>

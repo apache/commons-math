@@ -26,8 +26,8 @@ import org.apache.commons.math4.exception.MaxCountExceededException;
 import org.apache.commons.math4.exception.NoBracketingException;
 import org.apache.commons.math4.exception.NumberIsTooSmallException;
 import org.apache.commons.math4.ode.FieldExpandableODE;
-import org.apache.commons.math4.ode.FieldFirstOrderDifferentialEquations;
-import org.apache.commons.math4.ode.FieldFirstOrderIntegrator;
+import org.apache.commons.math4.ode.FirstOrderFieldDifferentialEquations;
+import org.apache.commons.math4.ode.FirstOrderFieldIntegrator;
 import org.apache.commons.math4.ode.FieldODEState;
 import org.apache.commons.math4.ode.FieldODEStateAndDerivative;
 import org.apache.commons.math4.ode.TestFieldProblem1;
@@ -131,7 +131,7 @@ public abstract class AbstractEmbeddedRungeKuttaFieldIntegratorTest {
     public abstract void testForwardBackwardExceptions();
 
     protected <T extends RealFieldElement<T>> void doTestForwardBackwardExceptions(final Field<T> field) {
-        FieldFirstOrderDifferentialEquations<T> equations = new FieldFirstOrderDifferentialEquations<T>() {
+        FirstOrderFieldDifferentialEquations<T> equations = new FirstOrderFieldDifferentialEquations<T>() {
 
             public int getDimension() {
                 return 1;
@@ -188,7 +188,7 @@ public abstract class AbstractEmbeddedRungeKuttaFieldIntegratorTest {
         double[] vecAbsoluteTolerance = { 1.0e-15, 1.0e-16 };
         double[] vecRelativeTolerance = { 1.0e-15, 1.0e-16 };
 
-        FieldFirstOrderIntegrator<T> integ = createIntegrator(field, minStep, maxStep,
+        FirstOrderFieldIntegrator<T> integ = createIntegrator(field, minStep, maxStep,
                                                               vecAbsoluteTolerance, vecRelativeTolerance);
         TestFieldProblemHandler<T> handler = new TestFieldProblemHandler<T>(pb, integ);
         integ.addStepHandler(handler);
@@ -212,7 +212,7 @@ public abstract class AbstractEmbeddedRungeKuttaFieldIntegratorTest {
             double scalAbsoluteTolerance = FastMath.pow(10.0, i);
             double scalRelativeTolerance = 0.01 * scalAbsoluteTolerance;
 
-            FieldFirstOrderIntegrator<T> integ = createIntegrator(field, minStep, maxStep,
+            FirstOrderFieldIntegrator<T> integ = createIntegrator(field, minStep, maxStep,
                                                                   scalAbsoluteTolerance, scalRelativeTolerance);
             TestFieldProblemHandler<T> handler = new TestFieldProblemHandler<T>(pb, integ);
             integ.addStepHandler(handler);
@@ -243,7 +243,7 @@ public abstract class AbstractEmbeddedRungeKuttaFieldIntegratorTest {
       double scalAbsoluteTolerance = 1.0e-8;
       double scalRelativeTolerance = 0.01 * scalAbsoluteTolerance;
 
-      FieldFirstOrderIntegrator<T> integ = createIntegrator(field, minStep, maxStep,
+      FirstOrderFieldIntegrator<T> integ = createIntegrator(field, minStep, maxStep,
                                                             scalAbsoluteTolerance, scalRelativeTolerance);
       TestFieldProblemHandler<T> handler = new TestFieldProblemHandler<T>(pb, integ);
       integ.addStepHandler(handler);
@@ -275,7 +275,7 @@ public abstract class AbstractEmbeddedRungeKuttaFieldIntegratorTest {
         double scalAbsoluteTolerance = 1.0e-8;
         double scalRelativeTolerance = 0.01 * scalAbsoluteTolerance;
 
-        FieldFirstOrderIntegrator<T> integ = createIntegrator(field, minStep, maxStep,
+        FirstOrderFieldIntegrator<T> integ = createIntegrator(field, minStep, maxStep,
                                                               scalAbsoluteTolerance, scalRelativeTolerance);
         TestFieldProblemHandler<T> handler = new TestFieldProblemHandler<T>(pb, integ);
         integ.addStepHandler(handler);
@@ -314,7 +314,7 @@ public abstract class AbstractEmbeddedRungeKuttaFieldIntegratorTest {
         double scalAbsoluteTolerance = 1.0e-8;
         double scalRelativeTolerance = 0.01 * scalAbsoluteTolerance;
 
-        FieldFirstOrderIntegrator<T> integ = createIntegrator(field, minStep, maxStep,
+        FirstOrderFieldIntegrator<T> integ = createIntegrator(field, minStep, maxStep,
                                                               scalAbsoluteTolerance, scalRelativeTolerance);
         TestFieldProblemHandler<T> handler = new TestFieldProblemHandler<T>(pb, integ);
         integ.addStepHandler(handler);
@@ -422,7 +422,7 @@ public abstract class AbstractEmbeddedRungeKuttaFieldIntegratorTest {
         double[] vecAbsoluteTolerance = { 1.0e-8, 1.0e-8, 1.0e-10, 1.0e-10 };
         double[] vecRelativeTolerance = { 1.0e-10, 1.0e-10, 1.0e-8, 1.0e-8 };
 
-        FieldFirstOrderIntegrator<T> integ = createIntegrator(field, minStep, maxStep,
+        FirstOrderFieldIntegrator<T> integ = createIntegrator(field, minStep, maxStep,
                                                               vecAbsoluteTolerance, vecRelativeTolerance);
         integ.addStepHandler(new KeplerHandler<T>(pb, epsilon));
         integ.integrate(new FieldExpandableODE<T>(pb), pb.getInitialState(), pb.getFinalTime());
@@ -511,7 +511,7 @@ public abstract class AbstractEmbeddedRungeKuttaFieldIntegratorTest {
         return y.getPartialDerivative(orders);
     }
 
-    private static class SinCos implements FieldFirstOrderDifferentialEquations<DerivativeStructure> {
+    private static class SinCos implements FirstOrderFieldDifferentialEquations<DerivativeStructure> {
 
         private final DerivativeStructure omega;
         private       DerivativeStructure r;

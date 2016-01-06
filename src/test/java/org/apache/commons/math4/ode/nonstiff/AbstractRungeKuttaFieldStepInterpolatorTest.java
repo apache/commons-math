@@ -25,7 +25,7 @@ import org.apache.commons.math4.ode.EquationsMapper;
 import org.apache.commons.math4.ode.ExpandableStatefulODE;
 import org.apache.commons.math4.ode.FieldEquationsMapper;
 import org.apache.commons.math4.ode.FieldExpandableODE;
-import org.apache.commons.math4.ode.FieldFirstOrderDifferentialEquations;
+import org.apache.commons.math4.ode.FirstOrderFieldDifferentialEquations;
 import org.apache.commons.math4.ode.FieldODEStateAndDerivative;
 import org.apache.commons.math4.ode.sampling.AbstractFieldStepInterpolator;
 import org.apache.commons.math4.util.FastMath;
@@ -103,7 +103,7 @@ public abstract class AbstractRungeKuttaFieldStepInterpolatorTest {
                                                                                      double epsilonSin, double epsilonCos,
                                                                                      double epsilonSinDot, double epsilonCosDot) {
 
-        FieldFirstOrderDifferentialEquations<T> eqn = new SinCos<T>(field);
+        FirstOrderFieldDifferentialEquations<T> eqn = new SinCos<T>(field);
         RungeKuttaFieldStepInterpolator<T> fieldInterpolator =
                         setUpInterpolator(field, eqn, 0.0, new double[] { 0.0, 1.0 }, 0.125);
         RungeKuttaStepInterpolator regularInterpolator = convertInterpolator(fieldInterpolator, eqn);
@@ -142,7 +142,7 @@ public abstract class AbstractRungeKuttaFieldStepInterpolatorTest {
 
     private <T extends RealFieldElement<T>>
     RungeKuttaFieldStepInterpolator<T> setUpInterpolator(final Field<T> field,
-                                                         final FieldFirstOrderDifferentialEquations<T> eqn,
+                                                         final FirstOrderFieldDifferentialEquations<T> eqn,
                                                          final double t0, final double[] y0,
                                                          final double t1) {
 
@@ -192,7 +192,7 @@ public abstract class AbstractRungeKuttaFieldStepInterpolatorTest {
 
     private <T extends RealFieldElement<T>>
     RungeKuttaStepInterpolator convertInterpolator(final RungeKuttaFieldStepInterpolator<T> fieldInterpolator,
-                                                   final FieldFirstOrderDifferentialEquations<T> eqn) {
+                                                   final FirstOrderFieldDifferentialEquations<T> eqn) {
 
         RungeKuttaStepInterpolator regularInterpolator = null;
         try {
@@ -284,7 +284,7 @@ public abstract class AbstractRungeKuttaFieldStepInterpolatorTest {
 
     }
 
-    private static class SinCos<T extends RealFieldElement<T>> implements FieldFirstOrderDifferentialEquations<T> {
+    private static class SinCos<T extends RealFieldElement<T>> implements FirstOrderFieldDifferentialEquations<T> {
         private final Field<T> field;
         protected SinCos(final Field<T> field) {
             this.field = field;

@@ -35,12 +35,12 @@ import org.apache.commons.math4.ode.sampling.FieldStepHandler;
  * be handled should implement the {@link
  * FirstOrderDifferentialEquations} interface.</p>
  *
- * @see FieldFirstOrderDifferentialEquations
+ * @see FirstOrderFieldDifferentialEquations
  * @param <T> the type of the field elements
  * @since 3.6
  */
 
-public interface FieldFirstOrderIntegrator<T extends RealFieldElement<T>> {
+public interface FirstOrderFieldIntegrator<T extends RealFieldElement<T>> {
 
     /** Get the name of the method.
      * @return name of the method

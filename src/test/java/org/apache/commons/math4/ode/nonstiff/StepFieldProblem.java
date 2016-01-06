@@ -19,7 +19,7 @@ package org.apache.commons.math4.ode.nonstiff;
 
 import org.apache.commons.math4.Field;
 import org.apache.commons.math4.RealFieldElement;
-import org.apache.commons.math4.ode.FieldFirstOrderDifferentialEquations;
+import org.apache.commons.math4.ode.FirstOrderFieldDifferentialEquations;
 import org.apache.commons.math4.ode.FieldODEState;
 import org.apache.commons.math4.ode.FieldODEStateAndDerivative;
 import org.apache.commons.math4.ode.events.Action;
@@ -28,7 +28,7 @@ import org.apache.commons.math4.util.MathArrays;
 
 
 public class StepFieldProblem<T extends RealFieldElement<T>>
-    implements FieldFirstOrderDifferentialEquations<T>, FieldEventHandler<T> {
+    implements FirstOrderFieldDifferentialEquations<T>, FieldEventHandler<T> {
 
     public StepFieldProblem(Field<T> field, T rateBefore, T rateAfter, T switchTime) {
         this.field      = field;

@@ -34,7 +34,7 @@ import org.apache.commons.math4.ode.FieldODEStateAndDerivative;
  * last one, store the points in an ephemeris, or forward them to
  * specialized processing or output methods.</p>
  *
- * @see org.apache.commons.math4.ode.FieldFirstOrderIntegrator
+ * @see org.apache.commons.math4.ode.FirstOrderFieldIntegrator
  * @see FieldStepInterpolator
  * @param <T> the type of the field elements
  * @since 3.6
