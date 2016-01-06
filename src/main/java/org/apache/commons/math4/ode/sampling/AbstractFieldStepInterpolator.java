@@ -128,16 +128,19 @@ public abstract class AbstractFieldStepInterpolator<T extends RealFieldElement<T
     }
 
     /** {@inheritDoc} */
+    @Override
     public FieldODEStateAndDerivative<T> getPreviousState() {
         return softPreviousState;
     }
 
     /** {@inheritDoc} */
+    @Override
     public FieldODEStateAndDerivative<T> getCurrentState() {
         return softCurrentState;
     }
 
     /** {@inheritDoc} */
+    @Override
     public FieldODEStateAndDerivative<T> getInterpolatedState(final T time) {
         final T thetaH         = time.subtract(globalPreviousState.getTime());
         final T oneMinusThetaH = globalCurrentState.getTime().subtract(time);
@@ -146,6 +149,7 @@ public abstract class AbstractFieldStepInterpolator<T extends RealFieldElement<T
     }
 
     /** {@inheritDoc} */
+    @Override
     public boolean isForward() {
         return forward;
     }

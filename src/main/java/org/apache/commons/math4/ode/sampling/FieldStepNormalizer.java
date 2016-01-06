@@ -168,6 +168,7 @@ public class FieldStepNormalizer<T extends RealFieldElement<T>> implements Field
     }
 
     /** {@inheritDoc} */
+    @Override
     public void init(final FieldODEStateAndDerivative<T> initialState, final T finalTime) {
 
         first   = null;

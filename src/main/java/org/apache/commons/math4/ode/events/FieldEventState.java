@@ -204,6 +204,7 @@ public class FieldEventState<T extends RealFieldElement<T>> {
 
         final RealFieldUnivariateFunction<T> f = new RealFieldUnivariateFunction<T>() {
             /** {@inheritDoc} */
+            @Override
             public T value(final T t) {
                 return handler.g(interpolator.getInterpolatedState(t));
             }

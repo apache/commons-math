@@ -176,6 +176,7 @@ public class ContinuousOutputFieldModel<T extends RealFieldElement<T>>
     }
 
     /** {@inheritDoc} */
+    @Override
     public void init(final FieldODEStateAndDerivative<T> initialState, final T t) {
         initialTime = initialState.getTime();
         finalTime   = t;
