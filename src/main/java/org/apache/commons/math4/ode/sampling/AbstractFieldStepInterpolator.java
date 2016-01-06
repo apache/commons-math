@@ -79,7 +79,7 @@ public abstract class AbstractFieldStepInterpolator<T extends RealFieldElement<T
         softPreviousState   = null;
         softCurrentState    = null;
         h                   = null;
-        currentState        = y.clone();
+        currentState        = y;
         finalized           = false;
         this.forward        = isForward;
         this.mapper         = equationsMapper;
