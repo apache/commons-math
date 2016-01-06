@@ -112,7 +112,7 @@ public class FieldRotation<T extends RealFieldElement<T>> implements Serializabl
      * @param angle rotation angle.
      * @exception MathIllegalArgumentException if the axis norm is zero
      * @deprecated as of 3.6, replaced with {@link
-     * #FieldRotation(FieldVector3D, RealFieldElement, RotationConvention)
+     * #FieldRotation(FieldVector3D, RealFieldElement, RotationConvention)}
      */
     @Deprecated
     public FieldRotation(final FieldVector3D<T> axis, final T angle)
@@ -1401,7 +1401,7 @@ public class FieldRotation<T extends RealFieldElement<T>> implements Serializabl
     /** Apply the inverse of the instance to another rotation.
      * <p>
      * Calling this method is equivalent to call
-     * {@link #composeInverse(FieldRotation<T>, RotationConvention)
+     * {@link #composeInverse(FieldRotation, RotationConvention)
      * composeInverse(r, RotationConvention.VECTOR_OPERATOR)}.
      * </p>
      * @param r rotation to apply the rotation to
