@@ -17,18 +17,19 @@
 
 package org.apache.commons.math3.ml.neuralnet.sofm;
 
-import org.apache.commons.math3.ml.neuralnet.Neuron;
-import org.apache.commons.math3.ml.neuralnet.Network;
-import org.apache.commons.math3.ml.neuralnet.MapUtils;
-import org.apache.commons.math3.ml.neuralnet.UpdateAction;
-import org.apache.commons.math3.ml.neuralnet.OffsetFeatureInitializer;
-import org.apache.commons.math3.ml.neuralnet.FeatureInitializer;
-import org.apache.commons.math3.ml.neuralnet.FeatureInitializerFactory;
 import org.apache.commons.math3.ml.distance.DistanceMeasure;
 import org.apache.commons.math3.ml.distance.EuclideanDistance;
+import org.apache.commons.math3.ml.neuralnet.FeatureInitializer;
+import org.apache.commons.math3.ml.neuralnet.FeatureInitializerFactory;
+import org.apache.commons.math3.ml.neuralnet.MapUtils;
+import org.apache.commons.math3.ml.neuralnet.Network;
+import org.apache.commons.math3.ml.neuralnet.Neuron;
+import org.apache.commons.math3.ml.neuralnet.OffsetFeatureInitializer;
+import org.apache.commons.math3.ml.neuralnet.UpdateAction;
 import org.apache.commons.math3.ml.neuralnet.oned.NeuronString;
-import org.junit.Test;
+import org.apache.commons.math3.util.Precision;
 import org.junit.Assert;
+import org.junit.Test;
 
 /**
  * Tests for {@link KohonenUpdateAction} class.
@@ -82,7 +83,7 @@ public class KohonenUpdateActionTest {
 
         Assert.assertEquals(bestBefore, bestAfter);
         // Distance is now zero.
-        Assert.assertEquals(0, dist.compute(bestAfter.getFeatures(), features), 0d);
+        Assert.assertEquals(0, dist.compute(bestAfter.getFeatures(), features), Precision.EPSILON);
 
         for (int i = 0; i < netSize; i++) {
             // All distances have decreased.
