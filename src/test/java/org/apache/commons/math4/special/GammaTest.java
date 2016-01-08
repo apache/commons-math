@@ -107,6 +107,7 @@ public class GammaTest {
         Assert.assertEquals(-100.56088545786867450, Gamma.digamma(0.01), eps);
         Assert.assertEquals(-4.0390398965921882955, Gamma.digamma(-0.8), eps);
         Assert.assertEquals(4.2003210041401844726, Gamma.digamma(-6.3), eps);
+        Assert.assertEquals(-3.110625123035E-5, Gamma.digamma(1.4616), eps);
     }
 
     @Test
