@@ -253,8 +253,7 @@ public abstract class RandomGeneratorAbstractTest extends RandomDataGeneratorTes
         for (int i = 0; i < N; ++i) {
             sample.addValue(generator.nextDouble());
         }
-        Assert.assertEquals("Note: This test will fail randomly about 1 in 100 times.",
-                0.5, sample.getMean(), FastMath.sqrt(N/12.0) * 2.576);
+        Assert.assertEquals(0.5, sample.getMean(), 0.01);
         Assert.assertEquals(1.0 / (2.0 * FastMath.sqrt(3.0)),
                      sample.getStandardDeviation(), 0.01);
     }
@@ -262,12 +261,11 @@ public abstract class RandomGeneratorAbstractTest extends RandomDataGeneratorTes
     @Test
     public void testFloatDirect() {
         SummaryStatistics sample = new SummaryStatistics();
-        final int N = 1000;
+        final int N = 10000;
         for (int i = 0; i < N; ++i) {
             sample.addValue(generator.nextFloat());
         }
-        Assert.assertEquals("Note: This test will fail randomly about 1 in 100 times.",
-                0.5, sample.getMean(), FastMath.sqrt(N/12.0) * 2.576);
+        Assert.assertEquals(0.5, sample.getMean(), 0.01);
         Assert.assertEquals(1.0 / (2.0 * FastMath.sqrt(3.0)),
                      sample.getStandardDeviation(), 0.01);
     }
