@@ -19,11 +19,12 @@ package org.apache.commons.math3.random;
 import java.util.Arrays;
 
 import org.apache.commons.math3.TestUtils;
-import org.apache.commons.math3.stat.Frequency;
-import org.apache.commons.math3.stat.descriptive.SummaryStatistics;
-import org.apache.commons.math3.util.FastMath;
+import org.apache.commons.math3.distribution.RealDistribution;
+import org.apache.commons.math3.distribution.UniformRealDistribution;
 import org.apache.commons.math3.exception.MathIllegalArgumentException;
-
+import org.apache.commons.math3.stat.Frequency;
+import org.apache.commons.math3.stat.inference.KolmogorovSmirnovTest;
+import org.apache.commons.math3.util.FastMath;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
@@ -260,29 +261,14 @@ public abstract class RandomGeneratorAbstractTest extends RandomDataGeneratorTes
     }
 
     @Test
-    public void testDoubleDirect() {
-        SummaryStatistics sample = new SummaryStatistics();
-        final int N = 10000;
-        for (int i = 0; i < N; ++i) {
-            sample.addValue(generator.nextDouble());
+    public void testNextDouble() {
+        final double[] sample = new double[10000];
+        for (int i = 0; i < sample.length; i++) {
+            sample[i] = generator.nextDouble();
         }
-        Assert.assertEquals("Note: This test will fail randomly about 1 in 100 times.",
-                0.5, sample.getMean(), FastMath.sqrt(N/12.0) * 2.576);
-        Assert.assertEquals(1.0 / (2.0 * FastMath.sqrt(3.0)),
-                     sample.getStandardDeviation(), 0.01);
-    }
-
-    @Test
-    public void testFloatDirect() {
-        SummaryStatistics sample = new SummaryStatistics();
-        final int N = 1000;
-        for (int i = 0; i < N; ++i) {
-            sample.addValue(generator.nextFloat());
-        }
-        Assert.assertEquals("Note: This test will fail randomly about 1 in 100 times.",
-                0.5, sample.getMean(), FastMath.sqrt(N/12.0) * 2.576);
-        Assert.assertEquals(1.0 / (2.0 * FastMath.sqrt(3.0)),
-                     sample.getStandardDeviation(), 0.01);
+        final RealDistribution uniformDistribution = new UniformRealDistribution(0,1);
+        final KolmogorovSmirnovTest ks = new KolmogorovSmirnovTest();
+        Assert.assertFalse(ks.kolmogorovSmirnovTest(uniformDistribution, sample, .01));
     }
 
     @Test(expected=MathIllegalArgumentException.class)
