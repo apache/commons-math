@@ -19,16 +19,16 @@ package org.apache.commons.math4.random;
 import java.util.Arrays;
 
 import org.apache.commons.math4.TestUtils;
+import org.apache.commons.math4.distribution.RealDistribution;
+import org.apache.commons.math4.distribution.UniformRealDistribution;
 import org.apache.commons.math4.exception.MathIllegalArgumentException;
-import org.apache.commons.math4.random.RandomDataGenerator;
-import org.apache.commons.math4.random.RandomGenerator;
 import org.apache.commons.math4.stat.Frequency;
-import org.apache.commons.math4.stat.descriptive.SummaryStatistics;
+import org.apache.commons.math4.stat.inference.KolmogorovSmirnovTest;
 import org.apache.commons.math4.util.FastMath;
 import org.junit.Assert;
 import org.junit.Before;
-import org.junit.Test;
 import org.junit.Ignore;
+import org.junit.Test;
 
 /**
  * Base class for RandomGenerator tests.
@@ -247,28 +247,16 @@ public abstract class RandomGeneratorAbstractTest extends RandomDataGeneratorTes
     }
 
     @Test
-    public void testDoubleDirect() {
-        SummaryStatistics sample = new SummaryStatistics();
-        final int N = 10000;
-        for (int i = 0; i < N; ++i) {
-            sample.addValue(generator.nextDouble());
+    public void testNextDouble() {
+        final double[] sample = new double[1000];
+        for (int i = 0; i < sample.length; i++) {
+            sample[i] = generator.nextDouble();
         }
-        Assert.assertEquals(0.5, sample.getMean(), 0.01);
-        Assert.assertEquals(1.0 / (2.0 * FastMath.sqrt(3.0)),
-                     sample.getStandardDeviation(), 0.01);
+        final RealDistribution uniformDistribution = new UniformRealDistribution(0,1);
+        final KolmogorovSmirnovTest ks = new KolmogorovSmirnovTest();
+        Assert.assertFalse(ks.kolmogorovSmirnovTest(uniformDistribution, sample, .01));
     }
 
-    @Test
-    public void testFloatDirect() {
-        SummaryStatistics sample = new SummaryStatistics();
-        final int N = 10000;
-        for (int i = 0; i < N; ++i) {
-            sample.addValue(generator.nextFloat());
-        }
-        Assert.assertEquals(0.5, sample.getMean(), 0.01);
-        Assert.assertEquals(1.0 / (2.0 * FastMath.sqrt(3.0)),
-                     sample.getStandardDeviation(), 0.01);
-    }
 
     @Test(expected=MathIllegalArgumentException.class)
     public void testNextIntPrecondition1() {
