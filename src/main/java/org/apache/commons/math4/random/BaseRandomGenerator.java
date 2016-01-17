@@ -120,7 +120,7 @@ public abstract class BaseRandomGenerator
             int bits;
             int val;
             do {
-                bits = nextInt() >>> 1;
+                bits = (nextInt() >>> 1);
                 val = bits % n;
             } while (bits - val + (n - 1) < 0);
             return val;
