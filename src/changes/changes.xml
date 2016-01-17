@@ -54,21 +54,6 @@ If the output is not quite correct, check for invisible trailing spaces!
     </release>
 
     <release version="4.0" date="XXXX-XX-XX" description="">
-      <action dev="erans" type="fix" issue="MATH-1308">
-        Removed obsolete class "AbstractRandomGenerator" (package "o.a.c.m.random").
-      </action>
-      <action dev="erans" type="fix" issue="MATH-1306" due-to="Rostislav Krasny">
-        New method "nextBytes(byte[],int,int)" in "BaseRandomGenerator"
-        for partial filling of the user-supplied array.
-      </action>
-      <action dev="erans" type="fix" issue="MATH-1309">
-        Remove calls to public methods "setSeed" from constructors (in RNG implementations).
-      </action>
-      <action dev="erans" type="fix" issue="MATH-1307">
-        New base class for all RNG implementations: "BaseRandomGenerator" replaces
-        "BitsStreamGenerator" whose method "nextInt(int)" is replaced by "nextInt()"
-        as the generator of randomness that must be implemented in concrete subclasses.
-      </action>
       <action dev="erans" type="fix" issue="MATH-1301">
         "JDKRandomGenerator": Method "nextInt(int)" now throws a "NotStrictlyPositiveException".
         The class now delegates to (rather inherits from) "java.util.Random".
