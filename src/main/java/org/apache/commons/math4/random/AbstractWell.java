@@ -134,7 +134,7 @@ public abstract class AbstractWell
      */
     private void setSeedInternal(final int[] seed) {
         if (seed == null) {
-            setSeedInternal(System.currentTimeMillis() + System.identityHashCode(this));
+            setSeed(System.currentTimeMillis() + System.identityHashCode(this));
             return;
         }
 
