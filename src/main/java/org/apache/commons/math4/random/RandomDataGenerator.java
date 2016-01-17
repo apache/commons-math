@@ -55,7 +55,7 @@ import org.apache.commons.math4.util.MathArrays;
  * <code>RandomGenerator</code> is provided in the constructor, the default is
  * to use a {@link Well19937c} generator. To plug in a different
  * implementation, either implement <code>RandomGenerator</code> directly or
- * extend {@link BaseRandomGenerator}.
+ * extend {@link AbstractRandomGenerator}.
  * <p>
  * Supports reseeding the underlying pseudo-random number generator (PRNG). The
  * <code>SecurityProvider</code> and <code>Algorithm</code> used by the
