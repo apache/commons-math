@@ -222,24 +222,21 @@ public class MersenneTwister
         setSeed(new int[] { (int) (seed >>> 32), (int) (seed & 0xffffffffl) });
     }
 
-    /**
-     * Generates the next pseudorandom number.
-     *
-     * <p>
-     * This method is the core generation algorithm. It is used by all the
-     * public generation methods for the various primitive types
-     * {@link #nextBoolean()}, {@link #nextBytes(byte[])}, {@link #nextDouble()},
+    /** Generate next pseudorandom number.
+     * <p>This method is the core generation algorithm. It is used by all the
+     * public generation methods for the various primitive types {@link
+     * #nextBoolean()}, {@link #nextBytes(byte[])}, {@link #nextDouble()},
      * {@link #nextFloat()}, {@link #nextGaussian()} and {@link #nextLong()}.
      * </p>
-     *
-     * @param bits Number of random bits to produce.
-     * @return the random bits generated.
+     * @param bits number of random bits to produce
+     * @return random bits generated
      */
     @Override
     public int nextInt() {
+
         int y;
 
-        if (mti >= N) { // Generate N words at one time.
+        if (mti >= N) { // generate N words at one time
             int mtNext = mt[0];
             for (int k = 0; k < N - M; ++k) {
                 int mtCurr = mtNext;
@@ -261,7 +258,7 @@ public class MersenneTwister
 
         y = mt[mti++];
 
-        // Tempering.
+        // tempering
         y ^=  y >>> 11;
         y ^= (y <<   7) & 0x9d2c5680;
         y ^= (y <<  15) & 0xefc60000;
