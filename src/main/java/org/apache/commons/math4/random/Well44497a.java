@@ -81,7 +81,7 @@ public class Well44497a extends AbstractWell {
 
     /** {@inheritDoc} */
     @Override
-    public int nextInt() {
+    protected int next(final int bits) {
 
         final int indexRm1 = TABLE.getIndexPred(index);
         final int indexRm2 = TABLE.getIndexPred2(index);
@@ -105,6 +105,8 @@ public class Well44497a extends AbstractWell {
         v[indexRm2] &= 0xFFFF8000;
         index        = indexRm1;
 
-        return z4;
+        return z4 >>> (32 - bits);
+
     }
+
 }

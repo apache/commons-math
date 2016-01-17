@@ -81,7 +81,7 @@ public class Well44497b extends AbstractWell {
 
     /** {@inheritDoc} */
     @Override
-    public int nextInt() {
+    protected int next(final int bits) {
 
         // compute raw value given by WELL44497a generator
         // which is NOT maximally-equidistributed
@@ -112,6 +112,8 @@ public class Well44497b extends AbstractWell {
         z4 ^= (z4 <<  7) & 0x93dd1400;
         z4 ^= (z4 << 15) & 0xfa118000;
 
-        return z4;
+        return z4 >>> (32 - bits);
+
     }
+
 }

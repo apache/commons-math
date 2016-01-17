@@ -21,7 +21,7 @@ import org.apache.commons.math4.random.Well19937a;
 import org.junit.Assert;
 import org.junit.Test;
 
-public class Well19937aTest extends BaseRandomGeneratorTest {
+public class Well19937aTest extends RandomGeneratorAbstractTest {
 
     @Override
     public RandomGenerator makeGenerator() {

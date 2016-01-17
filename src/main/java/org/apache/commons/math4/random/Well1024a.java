@@ -16,18 +16,15 @@
  */
 package org.apache.commons.math4.random;
 
-/**
- * This class implements the WELL1024a pseudo-random number generator
+/** This class implements the WELL1024a pseudo-random number generator
  * from Fran&ccedil;ois Panneton, Pierre L'Ecuyer and Makoto Matsumoto.
- *
  * <p>
  * This generator is described in a paper by Fran&ccedil;ois Panneton,
- * Pierre L'Ecuyer and Makoto Matsumoto
- * <a href="http://www.iro.umontreal.ca/~lecuyer/myftp/papers/wellrng.pdf">
- * Improved Long-Period Generators Based on Linear Recurrences Modulo 2</a>
- * ACM Transactions on Mathematical Software, 32, 1 (2006). The errata for the paper
- * are in <a href="http://www.iro.umontreal.ca/~lecuyer/myftp/papers/wellrng-errata.txt">wellrng-errata.txt</a>.
- * </p>
+ * Pierre L'Ecuyer and Makoto Matsumoto <a
+ * href="http://www.iro.umontreal.ca/~lecuyer/myftp/papers/wellrng.pdf">Improved
+ * Long-Period Generators Based on Linear Recurrences Modulo 2</a> ACM
+ * Transactions on Mathematical Software, 32, 1 (2006). The errata for the paper
+ * are in <a href="http://www.iro.umontreal.ca/~lecuyer/myftp/papers/wellrng-errata.txt">wellrng-errata.txt</a>.</p>
  *
  * @see <a href="http://www.iro.umontreal.ca/~panneton/WELLRNG.html">WELL Random number generator</a>
  * @since 2.2
@@ -84,7 +81,8 @@ public class Well1024a extends AbstractWell {
 
     /** {@inheritDoc} */
     @Override
-    public int nextInt() {
+    protected int next(final int bits) {
+
         final int indexRm1 = TABLE.getIndexPred(index);
 
         final int v0       = v[index];
@@ -102,6 +100,8 @@ public class Well1024a extends AbstractWell {
         v[indexRm1]  = z4;
         index        = indexRm1;
 
-        return z4;
+        return z4 >>> (32 - bits);
+
     }
+
 }
