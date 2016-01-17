@@ -21,7 +21,7 @@ import org.apache.commons.math4.random.RandomGenerator;
 import org.junit.Assert;
 import org.junit.Test;
 
-public class MersenneTwisterTest extends BaseRandomGeneratorTest {
+public class MersenneTwisterTest extends RandomGeneratorAbstractTest {
 
     @Override
     protected RandomGenerator makeGenerator() {

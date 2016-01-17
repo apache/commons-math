@@ -83,12 +83,10 @@ import org.apache.commons.math4.util.FastMath;
  * @since 2.0
 
  */
-public class MersenneTwister
-    extends BaseRandomGenerator
-    implements Serializable {
+public class MersenneTwister extends BitsStreamGenerator implements Serializable {
 
     /** Serializable version identifier. */
-    private static final long serialVersionUID = 20151228L;
+    private static final long serialVersionUID = 8661194735290153518L;
 
     /** Size of the bytes pool. */
     private static final int   N     = 624;
@@ -226,13 +224,13 @@ public class MersenneTwister
      * <p>This method is the core generation algorithm. It is used by all the
      * public generation methods for the various primitive types {@link
      * #nextBoolean()}, {@link #nextBytes(byte[])}, {@link #nextDouble()},
-     * {@link #nextFloat()}, {@link #nextGaussian()} and {@link #nextLong()}.
-     * </p>
+     * {@link #nextFloat()}, {@link #nextGaussian()}, {@link #nextInt()},
+     * {@link #next(int)} and {@link #nextLong()}.</p>
      * @param bits number of random bits to produce
      * @return random bits generated
      */
     @Override
-    public int nextInt() {
+    protected int next(int bits) {
 
         int y;
 
@@ -264,6 +262,8 @@ public class MersenneTwister
         y ^= (y <<  15) & 0xefc60000;
         y ^=  y >>> 18;
 
-        return y;
+        return y >>> (32 - bits);
+
     }
+
 }
