@@ -38,7 +38,7 @@ public abstract class AbstractWell
     extends BaseRandomGenerator
     implements Serializable {
     /** Serializable version identifier. */
-    private static final long serialVersionUID = 20151228L;
+    private static final long serialVersionUID = 20150228L;
     /** Current index in the bytes pool. */
     protected int index;
     /** Bytes pool. */
