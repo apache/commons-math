@@ -41,11 +41,9 @@ import org.apache.commons.math4.util.FastMath;
  *
  * @since 3.0
  */
-public class ISAACRandom
-    extends BaseRandomGenerator
-    implements Serializable {
+public class ISAACRandom extends BitsStreamGenerator implements Serializable {
     /** Serializable version identifier */
-    private static final long serialVersionUID = 20151227L;
+    private static final long serialVersionUID = 7288197941165002400L;
     /** Log of size of rsl[] and mem[] */
     private static final int SIZE_L = 8;
     /** Size of rsl[] and mem[] */
@@ -140,12 +138,12 @@ public class ISAACRandom
 
     /** {@inheritDoc} */
     @Override
-    public int nextInt() {
+    protected int next(int bits) {
         if (count < 0) {
             isaac();
             count = SIZE - 1;
         }
-        return rsl[count--];
+        return rsl[count--] >>> 32 - bits;
     }
 
     /** Generate 256 results */
