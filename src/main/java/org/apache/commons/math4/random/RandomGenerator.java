@@ -18,8 +18,8 @@ package org.apache.commons.math4.random;
 
 
 /**
- * Interface extracted from <code>java.util.Random</code>.
- * This interface is implemented by {@link BaseRandomGenerator}.
+ * Interface extracted from <code>java.util.Random</code>.  This interface is
+ * implemented by {@link AbstractRandomGenerator}.
  *
  * @since 1.1
  */
