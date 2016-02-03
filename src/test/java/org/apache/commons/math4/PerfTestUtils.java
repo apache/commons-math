@@ -16,12 +16,16 @@
  */
 package org.apache.commons.math4;
 
+import java.util.regex.Pattern;
+import java.util.regex.Matcher;
+import java.util.regex.MatchResult;
 import java.util.concurrent.Callable;
 
 import org.apache.commons.math4.util.MathArrays;
 import org.apache.commons.math4.random.RandomGenerator;
 import org.apache.commons.math4.random.Well19937c;
 import org.apache.commons.math4.exception.MathIllegalStateException;
+import org.apache.commons.math4.exception.NumberIsTooLargeException;
 import org.apache.commons.math4.exception.util.LocalizedFormats;
 import org.apache.commons.math4.stat.descriptive.StatisticalSummary;
 import org.apache.commons.math4.stat.descriptive.SummaryStatistics;
@@ -30,6 +34,18 @@ import org.apache.commons.math4.stat.descriptive.SummaryStatistics;
  * Simple benchmarking utilities.
  */
 public class PerfTestUtils {
+    /** Formatting. */
+    private static final int DEFAULT_MAX_NAME_WIDTH = 45;
+    /** Formatting. */
+    private static final String ELLIPSIS = "...";
+    /** Formatting. */
+    private static final String TO_STRING_MEMORY_ADDRESS_REGEX = "@\\p{XDigit}{1,8}";
+    /** Formatting. */
+    private static final String JAVA_IDENTIFIER_REGEX =
+        "(\\p{javaJavaIdentifierStart}\\p{javaJavaIdentifierPart}*\\.)*\\p{javaJavaIdentifierStart}\\p{javaJavaIdentifierPart}*";
+    /** Formatting. */
+    private static final Pattern JAVA_IDENTIFIER_PATTERN =
+        Pattern.compile(JAVA_IDENTIFIER_REGEX);
     /** Nanoseconds to milliseconds conversion factor ({@value}). */
     public static final double NANO_TO_MILLI = 1e-6;
     /** Default number of code repeat per timed block. */
@@ -159,6 +175,7 @@ public class PerfTestUtils {
      * {@link #time(int,int,boolean,Callable[]) time} method.
      *
      * @param title Title of the test (for the report).
+     * @param maxNameWidth Maximum width of the first column of the report.
      * @param repeatChunk Each timing measurement will done done for that
      * number of repeats of the code.
      * @param repeatStat Timing will be averaged over that number of runs.
@@ -172,6 +189,7 @@ public class PerfTestUtils {
      */
     @SuppressWarnings("boxing")
     public static StatisticalSummary[] timeAndReport(String title,
+                                                     int maxNameWidth,
                                                      int repeatChunk,
                                                      int repeatStat,
                                                      boolean runGC,
@@ -179,20 +197,26 @@ public class PerfTestUtils {
         // Header format.
         final String hFormat = "%s (calls per timed block: %d, timed blocks: %d, time unit: ms)";
 
+        // TODO: user-defined parameter?
+        final boolean removePackageName = false;
+
         // Width of the longest name.
         int nameLength = 0;
         for (RunTest m : methods) {
-            int len = m.getName().length();
+            int len = shorten(m.getName(), removePackageName).length();
             if (len > nameLength) {
                 nameLength = len;
             }
         }
-        final String nameLengthFormat = "%" + nameLength + "s";
+        final int actualNameLength = nameLength < maxNameWidth ?
+            nameLength :
+            maxNameWidth;
+        final String nameLengthFormat = "%" + actualNameLength + "s";
 
         // Column format.
-        final String cFormat = nameLengthFormat + " %14s %14s %10s %10s %15s";
+        final String cFormat = nameLengthFormat + " %9s %7s %10s %5s %4s %10s";
         // Result format.
-        final String format = nameLengthFormat + " %.8e %.8e %.4e %.4e % .8e";
+        final String format = nameLengthFormat + " %.3e %.1e %.4e %.3f %.2f %.4e";
 
         System.out.println(String.format(hFormat,
                                          title,
@@ -201,9 +225,10 @@ public class PerfTestUtils {
         System.out.println(String.format(cFormat,
                                          "name",
                                          "time/call",
-                                         "std error",
+                                         "std dev",
                                          "total time",
                                          "ratio",
+                                         "cv",
                                          "difference"));
         final StatisticalSummary[] time = time(repeatChunk,
                                                repeatStat,
@@ -213,12 +238,18 @@ public class PerfTestUtils {
         for (int i = 0, max = time.length; i < max; i++) {
             final StatisticalSummary s = time[i];
             final double sum = s.getSum() * repeatChunk;
+            final double mean = s.getMean();
+            final double sigma = s.getStandardDeviation();
             System.out.println(String.format(format,
-                                             methods[i].getName(),
-                                             s.getMean(),
-                                             s.getStandardDeviation(),
+                                             truncate(shorten(methods[i].getName(),
+                                                              removePackageName),
+                                                      actualNameLength,
+                                                      ELLIPSIS),
+                                             mean,
+                                             sigma,
                                              sum,
                                              sum / refSum,
+                                             sigma / mean,
                                              sum - refSum));
         }
 
@@ -240,6 +271,7 @@ public class PerfTestUtils {
     public static StatisticalSummary[] timeAndReport(String title,
                                                      RunTest ... methods) {
         return timeAndReport(title,
+                             DEFAULT_MAX_NAME_WIDTH,
                              DEFAULT_REPEAT_CHUNK,
                              DEFAULT_REPEAT_STAT,
                              false,
@@ -268,5 +300,84 @@ public class PerfTestUtils {
 
         /** {@inheritDoc} */
         public abstract Double call() throws Exception;
+    }
+
+    /**
+     * Truncates a string so that it will not be longer than the
+     * specified length.
+     *
+     * @param str String to truncate.
+     * @param maxLength Maximum length.
+     * @param ellipsis String to use in place of the part being removed
+     * from the original string.
+     * @return the truncated string.
+     * @throws NumberIsTooLargeException if the length of {@code ellipsis}
+     * is larger than {@code maxLength - 2}.
+     */
+    private static String truncate(String str,
+                                   int maxLength,
+                                   String ellipsis) {
+        final int ellSize = ellipsis.length();
+        if (ellSize > maxLength - 2) {
+            throw new NumberIsTooLargeException(ellSize, maxLength - 2, false);
+        }
+
+        final int strSize = str.length();
+        if (strSize <= maxLength) {
+            // Size is OK.
+            return str;
+        }
+
+        return str.substring(0, maxLength - ellSize) + ellipsis;
+    }
+
+    /**
+     * Shortens a string.
+     * It will shorten package names and remove memory addresses
+     * that appear in an instance's name.
+     *
+     * @param str Orginal string.
+     * @param removePackageName Whether package name part of a
+     * fully-quallified name should be removed entirely.
+     * @return the shortened string.
+     */
+    private static String shorten(String str,
+                                  boolean removePackageName) {
+        final Matcher m = JAVA_IDENTIFIER_PATTERN.matcher(str);
+        final StringBuffer sb = new StringBuffer();
+        while (m.find()) {
+            final MatchResult r = m.toMatchResult();
+            m.appendReplacement(sb, shortenPackageName(r.group(),
+                                                       removePackageName));
+        }
+        m.appendTail(sb);
+
+        return sb.toString().replaceAll(TO_STRING_MEMORY_ADDRESS_REGEX, "");
+    }
+
+    /**
+     * Shortens package part of the name of a class.
+     *
+     * @param name Class name.
+     * @param remove Whether package name part of a fully-qualified
+     * name should be removed entirely.
+     * @return the shortened name.
+     */
+    private static String shortenPackageName(String name,
+                                             boolean remove) {
+        final String[] comp = name.split("\\.");
+        final int last = comp.length - 1;
+
+        if (remove) {
+            return comp[last];
+        }
+
+        final StringBuilder s = new StringBuilder();
+        for (int i = 0; i < last; i++) {
+            s.append(comp[i].substring(0, 1)).append(".");
+        }
+        s.append(comp[last]);
+
+        return s.toString();
     }
 }
