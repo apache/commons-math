@@ -8,16 +8,16 @@ The conclusions reported here are based on ideas presented in this blog post:
    accepted commits are the result of a merge from the "release" branch
    (from a release candidate that passed a vote).
 2. Contents that is candidate for being released must be merged into the
-   "release" branch, from the "development" branch.
-3. The "development" branch collects all modifications that will be part
+   "release" branch, from the "develop" branch.
+3. The "develop" branch collects all modifications that will be part
    of the next release.
-   Usually, changes should not be committed directly to the "development"
+   Usually, changes should not be committed directly to the "develop"
    branch; they should be merged from a branch specifically created for
    that purpose (see next point).
 4. Work on an identified issue (bug fix or new feature) must be done in a
    new branch named after its corresponding report in the bug-tracking
    system (JIRA), e.g. "feature-MATH-1319".
    After completion, and in the absence of technical objections, the feature
-   branch is merged into the "development" branch, using the "--no-ff" git
+   branch is merged into the "develop" branch, using the "--no-ff" git
    option.
    That feature branch is then deleted.
