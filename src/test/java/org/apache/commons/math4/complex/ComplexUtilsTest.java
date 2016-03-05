@@ -17,16 +17,12 @@
 
 package org.apache.commons.math4.complex;
 
-import java.util.Arrays;
-
 import org.apache.commons.math4.TestUtils;
-import org.apache.commons.math4.complex.Complex;
-import org.apache.commons.math4.complex.ComplexUtils;
 import org.apache.commons.math4.exception.MathIllegalArgumentException;
 import org.apache.commons.math4.util.FastMath;
 import org.apache.commons.math4.util.IntegerSequence;
-import org.junit.Test;
 import org.junit.Assert;
+import org.junit.Test;
 
 /**
  */

@@ -32,7 +32,7 @@ import org.apache.commons.math4.util.Precision;
 /**
  * Representation of a Complex number, i.e. a number which has both a
  * real and imaginary part.
- * <br/>
+ * <p>
  * Implementations of arithmetic operations handle {@code NaN} and
  * infinite values according to the rules for {@link java.lang.Double}, i.e.
  * {@link #equals} is an equivalence relation for all instances that have
@@ -50,7 +50,7 @@ import org.apache.commons.math4.util.Precision;
  * equals for primitive double} in {@link org.apache.commons.math4.util.Precision}
  * conforms with IEEE-754 while this class conforms with the standard behavior
  * for Java object types.
- * <br/>
+ * <p>
  * Implements Serializable since 2.0
  *
  */
