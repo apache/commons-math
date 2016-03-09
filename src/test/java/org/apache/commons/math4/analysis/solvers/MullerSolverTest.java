@@ -173,7 +173,8 @@ public final class MullerSolverTest {
         final UnivariateSolver solver = new MullerSolver(0.25);
         final double min = 20;
         final double max = 100.04173804515072;
-        final double result = solver.solve(1000, logFunction, min, max, 100 / (double) 3);
+        final double start = 100d / 3;
+        final double result = solver.solve(1000, logFunction, min, max, start);
 
         Assert.assertTrue(result + " < " + min, result >= min);
         Assert.assertTrue(result + " > " + max, result <= max);
