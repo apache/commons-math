@@ -147,4 +147,35 @@ public final class MullerSolverTest {
             // expected
         }
     }
+
+    @Test
+    public void testMath1333() {
+        final UnivariateFunction logFunction = new UnivariateFunction() {
+                private double log1pe(double x) {
+                    if (x > 0) {
+                        return x + FastMath.log1p(FastMath.exp(-x));
+                    } else {
+                        return FastMath.log1p(FastMath.exp(x));
+                    }
+                }
+
+                @Override
+                public double value(double x) {
+                    final double a = 0.15076136473214652;
+                    final double b = 4.880819340168248;
+                    final double c = -2330.4196672490493;
+                    final double d = 1.1871451743330544E-16;
+                    //aa*log(1+e^(bbx+c))+d - 0.01 * x - 20 * 0.01
+                    return a * a * log1pe(b * b * x + c) + d - 0.01 * x - 20 * 0.01;
+                }
+            };
+
+        final UnivariateSolver solver = new MullerSolver(0.25);
+        final double min = 20;
+        final double max = 100.04173804515072;
+        final double result = solver.solve(1000, logFunction, min, max, 100 / (double) 3);
+
+        Assert.assertTrue(result + " < " + min, result >= min);
+        Assert.assertTrue(result + " > " + max, result <= max);
+    }
 }

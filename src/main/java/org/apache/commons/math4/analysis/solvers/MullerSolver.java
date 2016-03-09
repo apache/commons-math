@@ -29,8 +29,6 @@ import org.apache.commons.math4.util.FastMath;
  * <p>
  * Muller's method applies to both real and complex functions, but here we
  * restrict ourselves to real functions.
- * This class differs from {@link MullerSolver} in the way it avoids complex
- * operations.</p><p>
  * Muller's original method would have function evaluation at complex point.
  * Since our f(x) is real, we have to find ways to avoid that. Bracketing
  * condition is one way to go: by requiring bracketing in every iteration,
@@ -161,6 +159,13 @@ public class MullerSolver extends AbstractUnivariateSolver {
             // xplus and xminus are two roots of parabola and at least
             // one of them should lie in (x0, x2)
             final double x = isSequence(x0, xplus, x2) ? xplus : xminus;
+
+            // XXX debug
+            if (!isSequence(x0, x, x2)) {
+                System.out.println("x=" + x + " x0=" + x0 + " x2=" + x2);
+                throw new org.apache.commons.math4.exception.MathInternalError();
+            }
+
             final double y = computeObjectiveValue(x);
 
             // check for convergence
