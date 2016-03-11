@@ -76,6 +76,7 @@
       <item name="Filters"                 href="/userguide/filter.html"/>
       <item name="Machine Learning"        href="/userguide/ml.html"/>
       <item name="Exceptions"              href="/userguide/exceptions.html"/>
+      <item name="Random Number Generators" href="/userguide/rng.html"/>
     </menu>
     
     <head>
