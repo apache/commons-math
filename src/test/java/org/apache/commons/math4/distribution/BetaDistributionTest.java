@@ -321,12 +321,14 @@ public class BetaDistributionTest {
 
     @Test
     public void testMomentsSampling() {
-        RandomGenerator random = new Well1024a(0x7829862c82fec2dal);
+        final UniformRandomProvider rng = RandomSource.create(RandomSource.WELL_1024_A,
+                                                              123456789L);
         final int numSamples = 1000;
         for (final double alpha : alphaBetas) {
             for (final double beta : alphaBetas) {
-                final BetaDistribution betaDistribution = new BetaDistribution(random, alpha, beta);
-                final double[] observed = new BetaDistribution(alpha, beta).sample(numSamples);
+                final BetaDistribution betaDistribution = new BetaDistribution(alpha, beta);
+                final double[] observed = AbstractRealDistribution.sample(numSamples,
+                                                                          betaDistribution.createSampler(rng));
                 Arrays.sort(observed);
 
                 final String distribution = String.format("Beta(%.2f, %.2f)", alpha, beta);
@@ -353,11 +355,7 @@ public class BetaDistributionTest {
                 final BetaDistribution betaDistribution = new BetaDistribution(alpha, beta);
 
                 final RealDistribution.Sampler sampler = betaDistribution.createSampler(rng);
-                final double[] observed = new double[numSamples];
-
-                for (int i = 0; i < numSamples; i++) {
-                    observed[i] = sampler.sample();
-                }
+                final double[] observed = AbstractRealDistribution.sample(numSamples, sampler);
 
                 Assert.assertFalse("G goodness-of-fit test rejected null at alpha = " + level,
                                    gTest(betaDistribution, observed) < level);

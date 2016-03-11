@@ -347,12 +347,7 @@ public abstract class RealDistributionAbstractTest {
         final int sampleSize = 1000;
         final RealDistribution.Sampler sampler =
             distribution.createSampler(RandomSource.create(RandomSource.WELL_19937_C, 123456789L));
-
-        final double[] sample = new double[sampleSize];
-        for (int i = 0; i < sampleSize; i++) {
-            sample[i] = sampler.sample();
-        }
-
+        final double[] sample = AbstractRealDistribution.sample(sampleSize, sampler);
         final double[] quartiles = TestUtils.getDistributionQuartiles(distribution);
         final double[] expected = {250, 250, 250, 250};
         final long[] counts = new long[4];
