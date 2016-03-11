@@ -23,6 +23,7 @@ import org.apache.commons.math4.exception.OutOfRangeException;
 import org.apache.commons.math4.exception.util.LocalizedFormats;
 import org.apache.commons.math4.random.RandomGenerator;
 import org.apache.commons.math4.random.Well19937c;
+import org.apache.commons.math4.rng.UniformRandomProvider;
 import org.apache.commons.math4.special.Erf;
 import org.apache.commons.math4.util.FastMath;
 
@@ -116,6 +117,7 @@ public class NormalDistribution extends AbstractRealDistribution {
      * @throws NotStrictlyPositiveException if {@code sd <= 0}.
      * @since 3.3
      */
+    @Deprecated
     public NormalDistribution(RandomGenerator rng, double mean, double sd)
         throws NotStrictlyPositiveException {
         this(rng, mean, sd, DEFAULT_INVERSE_ABSOLUTE_ACCURACY);
@@ -131,6 +133,7 @@ public class NormalDistribution extends AbstractRealDistribution {
      * @throws NotStrictlyPositiveException if {@code sd <= 0}.
      * @since 3.1
      */
+    @Deprecated
     public NormalDistribution(RandomGenerator rng,
                               double mean,
                               double sd,
@@ -291,7 +294,46 @@ public class NormalDistribution extends AbstractRealDistribution {
 
     /** {@inheritDoc} */
     @Override
+    @Deprecated
     public double sample()  {
         return standardDeviation * random.nextGaussian() + mean;
+    }
+
+    /** {@inheritDoc} */
+    @Override
+    public RealDistribution.Sampler createSampler(final UniformRandomProvider rng) {
+        return new RealDistribution.Sampler() {
+            /** Next gaussian. */
+            private double nextGaussian = Double.NaN;
+
+            /** {@inheritDoc} */
+            @Override
+            public double sample() {
+                final double random;
+                if (Double.isNaN(nextGaussian)) {
+                    // Generate a pair of Gaussian numbers.
+
+                    final double x = rng.nextDouble();
+                    final double y = rng.nextDouble();
+                    final double alpha = 2 * FastMath.PI * x;
+                    final double r = FastMath.sqrt(-2 * FastMath.log(y));
+
+                    // Return the first element of the generated pair.
+                    random = r * FastMath.cos(alpha);
+
+                    // Keep second element of the pair for next invocation.
+                    nextGaussian = r * FastMath.sin(alpha);
+                } else {
+                    // Use the second element of the pair (generated at the
+                    // previous invocation).
+                    random = nextGaussian;
+
+                    // Both elements of the pair have been used.
+                    nextGaussian = Double.NaN;
+                }
+
+                return standardDeviation * random + mean;
+            }
+        };
     }
 }

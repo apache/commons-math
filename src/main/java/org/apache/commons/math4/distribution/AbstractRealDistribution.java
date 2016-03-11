@@ -25,6 +25,7 @@ import org.apache.commons.math4.exception.NumberIsTooLargeException;
 import org.apache.commons.math4.exception.OutOfRangeException;
 import org.apache.commons.math4.exception.util.LocalizedFormats;
 import org.apache.commons.math4.random.RandomGenerator;
+import org.apache.commons.math4.rng.UniformRandomProvider;
 import org.apache.commons.math4.util.FastMath;
 
 /**
@@ -32,10 +33,18 @@ import org.apache.commons.math4.util.FastMath;
  * Default implementations are provided for some of the methods
  * that do not vary from distribution to distribution.
  *
+ * <p>
+ * This base class provides a default factory method for creating
+ * a {@link RealDistribution.Sampler sampler instance} that uses the
+ * <a href="http://en.wikipedia.org/wiki/Inverse_transform_sampling">
+ * inversion method</a> for generating random samples that follow the
+ * distribution.
+ * </p>
+ *
  * @since 3.0
  */
 public abstract class AbstractRealDistribution
-implements RealDistribution, Serializable {
+    implements RealDistribution, Serializable {
     /** Default absolute accuracy for inverse cumulative computation. */
     public static final double SOLVER_DEFAULT_ABSOLUTE_ACCURACY = 1e-6;
     /** Serializable version identifier */
@@ -45,12 +54,14 @@ implements RealDistribution, Serializable {
      * RNG instance used to generate samples from the distribution.
      * @since 3.1
      */
+    @Deprecated
     protected final RandomGenerator random;
 
     /**
      * @param rng Random number generator.
      * @since 3.1
      */
+    @Deprecated
     protected AbstractRealDistribution(RandomGenerator rng) {
         random = rng;
     }
@@ -210,6 +221,7 @@ implements RealDistribution, Serializable {
 
     /** {@inheritDoc} */
     @Override
+    @Deprecated
     public void reseedRandomGenerator(long seed) {
         random.setSeed(seed);
     }
@@ -223,6 +235,7 @@ implements RealDistribution, Serializable {
      * </a>
      */
     @Override
+    @Deprecated
     public double sample() {
         return inverseCumulativeProbability(random.nextDouble());
     }
@@ -234,6 +247,7 @@ implements RealDistribution, Serializable {
      * {@link #sample()} in a loop.
      */
     @Override
+    @Deprecated
     public double[] sample(int sampleSize) {
         if (sampleSize <= 0) {
             throw new NotStrictlyPositiveException(LocalizedFormats.NUMBER_OF_SAMPLES,
@@ -266,5 +280,16 @@ implements RealDistribution, Serializable {
     public double logDensity(double x) {
         return FastMath.log(density(x));
     }
-}
 
+    /**{@inheritDoc} */
+    @Override
+    public RealDistribution.Sampler createSampler(final UniformRandomProvider rng) {
+        return new RealDistribution.Sampler() {
+            /** {@inheritDoc} */
+            @Override
+            public double sample() {
+                return inverseCumulativeProbability(rng.nextDouble());
+            }
+        };
+    }
+}

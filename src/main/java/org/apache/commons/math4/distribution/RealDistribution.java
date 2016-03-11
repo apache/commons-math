@@ -18,6 +18,7 @@ package org.apache.commons.math4.distribution;
 
 import org.apache.commons.math4.exception.NumberIsTooLargeException;
 import org.apache.commons.math4.exception.OutOfRangeException;
+import org.apache.commons.math4.rng.UniformRandomProvider;
 
 /**
  * Base interface for distributions on the reals.
@@ -164,6 +165,7 @@ public interface RealDistribution {
      *
      * @param seed the new seed
      */
+    @Deprecated
     void reseedRandomGenerator(long seed);
 
     /**
@@ -171,6 +173,7 @@ public interface RealDistribution {
      *
      * @return a random value.
      */
+    @Deprecated
     double sample();
 
     /**
@@ -181,5 +184,27 @@ public interface RealDistribution {
      * @throws org.apache.commons.math4.exception.NotStrictlyPositiveException
      * if {@code sampleSize} is not positive
      */
+    @Deprecated
     double[] sample(int sampleSize);
+
+    /**
+     * Creates a sampler.
+     *
+     * @param rng Generator of uniformly distributed numbers.
+     * @return a sampler that produces random numbers according this
+     * distribution.
+     */
+    Sampler createSampler(UniformRandomProvider rng);
+
+    /**
+     * Sampling functionality.
+     */
+    interface Sampler {
+        /**
+         * Generates a random value sampled from this distribution.
+         *
+         * @return a random value.
+         */
+        double sample();
+    }
 }

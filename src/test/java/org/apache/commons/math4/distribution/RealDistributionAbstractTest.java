@@ -32,6 +32,7 @@ import org.apache.commons.math4.analysis.integration.IterativeLegendreGaussInteg
 import org.apache.commons.math4.distribution.RealDistribution;
 import org.apache.commons.math4.exception.MathIllegalArgumentException;
 import org.apache.commons.math4.exception.NumberIsTooLargeException;
+import org.apache.commons.math4.rng.RandomSource;
 import org.apache.commons.math4.util.FastMath;
 import org.junit.After;
 import org.junit.Assert;
@@ -333,6 +334,29 @@ public abstract class RealDistributionAbstractTest {
         double[] quartiles = TestUtils.getDistributionQuartiles(distribution);
         double[] expected = {250, 250, 250, 250};
         long[] counts = new long[4];
+        for (int i = 0; i < sampleSize; i++) {
+            TestUtils.updateCounts(sample[i], counts, quartiles);
+        }
+        TestUtils.assertChiSquareAccept(expected, counts, 0.001);
+    }
+
+
+    // New design
+    @Test
+    public void testSampler() {
+        final int sampleSize = 1000;
+        final RealDistribution.Sampler sampler =
+            distribution.createSampler(RandomSource.create(RandomSource.WELL_19937_C, 123456789L));
+
+        final double[] sample = new double[sampleSize];
+        for (int i = 0; i < sampleSize; i++) {
+            sample[i] = sampler.sample();
+        }
+
+        final double[] quartiles = TestUtils.getDistributionQuartiles(distribution);
+        final double[] expected = {250, 250, 250, 250};
+        final long[] counts = new long[4];
+
         for (int i = 0; i < sampleSize; i++) {
             TestUtils.updateCounts(sample[i], counts, quartiles);
         }

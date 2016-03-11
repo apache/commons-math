@@ -22,6 +22,8 @@ import org.apache.commons.math4.distribution.BetaDistribution;
 import org.apache.commons.math4.random.RandomGenerator;
 import org.apache.commons.math4.random.Well1024a;
 import org.apache.commons.math4.random.Well19937a;
+import org.apache.commons.math4.rng.RandomSource;
+import org.apache.commons.math4.rng.UniformRandomProvider;
 import org.apache.commons.math4.stat.StatUtils;
 import org.apache.commons.math4.stat.inference.KolmogorovSmirnovTest;
 import org.apache.commons.math4.stat.inference.TestUtils;
@@ -340,13 +342,23 @@ public class BetaDistributionTest {
 
     @Test
     public void testGoodnessOfFit() {
-        RandomGenerator random = new Well19937a(0x237db1db907b089fl);
+        final UniformRandomProvider rng = RandomSource.create(RandomSource.WELL_19937_A,
+                                                              123456789L);
+        final RandomGenerator random = new Well19937a(0x237db1db907b089fL);
+
         final int numSamples = 1000;
         final double level = 0.01;
         for (final double alpha : alphaBetas) {
             for (final double beta : alphaBetas) {
-                final BetaDistribution betaDistribution = new BetaDistribution(random, alpha, beta);
-                final double[] observed = betaDistribution.sample(numSamples);
+                final BetaDistribution betaDistribution = new BetaDistribution(alpha, beta);
+
+                final RealDistribution.Sampler sampler = betaDistribution.createSampler(rng);
+                final double[] observed = new double[numSamples];
+
+                for (int i = 0; i < numSamples; i++) {
+                    observed[i] = sampler.sample();
+                }
+
                 Assert.assertFalse("G goodness-of-fit test rejected null at alpha = " + level,
                                    gTest(betaDistribution, observed) < level);
                 Assert.assertFalse("KS goodness-of-fit test rejected null at alpha = " + level,
@@ -377,5 +389,4 @@ public class BetaDistributionTest {
 
         return TestUtils.gTest(expected, observed);
     }
-
 }
