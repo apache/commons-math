@@ -30,6 +30,7 @@ import org.apache.commons.math4.exception.NotPositiveException;
 import org.apache.commons.math4.exception.OutOfRangeException;
 import org.apache.commons.math4.random.RandomGenerator;
 import org.apache.commons.math4.random.Well19937c;
+import org.apache.commons.math4.rng.UniformRandomProvider;
 import org.apache.commons.math4.util.Pair;
 
 /**
@@ -93,6 +94,7 @@ public class EnumeratedRealDistribution extends AbstractRealDistribution {
      * @throws NotANumberException if any of the probabilities are NaN.
      * @throws MathArithmeticException all of the probabilities are 0.
      */
+    @Deprecated
     public EnumeratedRealDistribution(final RandomGenerator rng,
                                     final double[] singletons, final double[] probabilities)
         throws DimensionMismatchException, NotPositiveException, MathArithmeticException,
@@ -111,6 +113,7 @@ public class EnumeratedRealDistribution extends AbstractRealDistribution {
      * @param data input dataset
      * @since 3.6
      */
+    @Deprecated
     public EnumeratedRealDistribution(final RandomGenerator rng, final double[] data) {
         super(rng);
         final Map<Double, Integer> dataMap = new HashMap<Double, Integer>();
@@ -319,7 +322,24 @@ public class EnumeratedRealDistribution extends AbstractRealDistribution {
      * {@inheritDoc}
      */
     @Override
+    @Deprecated
     public double sample() {
         return innerDistribution.sample();
+    }
+
+    /** {@inheritDoc} */
+    @Override
+    public RealDistribution.Sampler createSampler(final UniformRandomProvider rng) {
+        return new RealDistribution.Sampler() {
+            /** Delegate. */
+            private final EnumeratedDistribution<Double>.Sampler inner =
+                innerDistribution.createSampler(rng);
+
+            /** {@inheritDoc} */
+            @Override
+            public double sample() {
+                return inner.sample();
+            }
+        };
     }
 }

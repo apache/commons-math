@@ -30,6 +30,7 @@ import org.apache.commons.math4.exception.NotFiniteNumberException;
 import org.apache.commons.math4.exception.NotPositiveException;
 import org.apache.commons.math4.util.FastMath;
 import org.apache.commons.math4.util.Pair;
+import org.apache.commons.math4.rng.RandomSource;
 import org.junit.Assert;
 import org.junit.Test;
 
@@ -175,8 +176,9 @@ public class EnumeratedRealDistributionTest {
     @Test
     public void testSample() {
         final int n = 1000000;
-        testDistribution.reseedRandomGenerator(-334759360); // fixed seed
-        final double[] samples = testDistribution.sample(n);
+        final RealDistribution.Sampler sampler =
+            testDistribution.createSampler(RandomSource.create(RandomSource.WELL_1024_A, -123456789));
+        final double[] samples = AbstractRealDistribution.sample(n, sampler);
         Assert.assertEquals(n, samples.length);
         double sum = 0;
         double sumOfSquares = 0;
