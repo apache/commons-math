@@ -18,6 +18,7 @@
 package org.apache.commons.math4.distribution;
 
 import org.apache.commons.math4.exception.OutOfRangeException;
+import org.apache.commons.math4.rng.UniformRandomProvider;
 
 /**
  * Implementation of the constant real distribution.
@@ -106,6 +107,7 @@ public class ConstantRealDistribution extends AbstractRealDistribution {
 
     /** {@inheritDoc} */
     @Override
+    @Deprecated
     public double sample()  {
         return value;
     }
@@ -115,5 +117,23 @@ public class ConstantRealDistribution extends AbstractRealDistribution {
      * @param seed (ignored)
      */
     @Override
+    @Deprecated
     public void reseedRandomGenerator(long seed) {}
+
+    /**
+     * {@inheritDoc}
+     *
+     * @param rng Not used: distribution contains a single value.
+     * @return the value of the distribution.
+     */
+    @Override
+    public RealDistribution.Sampler createSampler(final UniformRandomProvider rng) {
+        return new RealDistribution.Sampler() {
+            /** {@inheritDoc} */
+            @Override
+            public double sample() {
+                return value;
+            }
+        };
+    }
 }
