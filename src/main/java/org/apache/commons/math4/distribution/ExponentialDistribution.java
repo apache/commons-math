@@ -21,6 +21,7 @@ import org.apache.commons.math4.exception.OutOfRangeException;
 import org.apache.commons.math4.exception.util.LocalizedFormats;
 import org.apache.commons.math4.random.RandomGenerator;
 import org.apache.commons.math4.random.Well19937c;
+import org.apache.commons.math4.rng.UniformRandomProvider;
 import org.apache.commons.math4.util.CombinatoricsUtils;
 import org.apache.commons.math4.util.FastMath;
 import org.apache.commons.math4.util.ResizableDoubleArray;
@@ -134,6 +135,7 @@ public class ExponentialDistribution extends AbstractRealDistribution {
      * @throws NotStrictlyPositiveException if {@code mean <= 0}.
      * @since 3.3
      */
+    @Deprecated
     public ExponentialDistribution(RandomGenerator rng, double mean)
         throws NotStrictlyPositiveException {
         this(rng, mean, DEFAULT_INVERSE_ABSOLUTE_ACCURACY);
@@ -150,6 +152,7 @@ public class ExponentialDistribution extends AbstractRealDistribution {
      * @throws NotStrictlyPositiveException if {@code mean <= 0}.
      * @since 3.1
      */
+    @Deprecated
     public ExponentialDistribution(RandomGenerator rng,
                                    double mean,
                                    double inverseCumAccuracy)
@@ -243,6 +246,7 @@ public class ExponentialDistribution extends AbstractRealDistribution {
      * @since 2.2
      */
     @Override
+    @Deprecated
     public double sample() {
         // Step 1:
         double a = 0;
@@ -344,5 +348,60 @@ public class ExponentialDistribution extends AbstractRealDistribution {
     @Override
     public boolean isSupportConnected() {
         return true;
+    }
+
+    /**
+     * {@inheritDoc}
+     *
+     * <p>Sampling algorithm uses the
+     *  <a href="http://www.jesus.ox.ac.uk/~clifford/a5/chap1/node5.html">
+     *   inversion method</a> to generate exponentially distributed
+     *  random values from uniform deviates.
+     * </p>
+     */
+    @Override
+    public RealDistribution.Sampler createSampler(final UniformRandomProvider rng) {
+        return new RealDistribution.Sampler() {
+            /** {@inheritDoc} */
+            @Override
+            public double sample() {
+                // Step 1:
+                double a = 0;
+                double u = rng.nextDouble();
+
+                // Step 2 and 3:
+                while (u < 0.5) {
+                    a += EXPONENTIAL_SA_QI[0];
+                    u *= 2;
+                }
+
+                // Step 4 (now u >= 0.5):
+                u += u - 1;
+
+                // Step 5:
+                if (u <= EXPONENTIAL_SA_QI[0]) {
+                    return mean * (a + u);
+                }
+
+                // Step 6:
+                int i = 0; // Should be 1, be we iterate before it in while using 0
+                double u2 = rng.nextDouble();
+                double umin = u2;
+
+                // Step 7 and 8:
+                do {
+                    ++i;
+                    u2 = rng.nextDouble();
+
+                    if (u2 < umin) {
+                        umin = u2;
+                    }
+
+                    // Step 8:
+                } while (u > EXPONENTIAL_SA_QI[i]); // Ensured to exit since EXPONENTIAL_SA_QI[MAX] = 1
+
+                return mean * (a + umin * EXPONENTIAL_SA_QI[0]);
+            }
+        };
     }
 }
