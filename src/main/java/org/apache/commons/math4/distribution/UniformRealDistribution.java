@@ -22,6 +22,7 @@ import org.apache.commons.math4.exception.OutOfRangeException;
 import org.apache.commons.math4.exception.util.LocalizedFormats;
 import org.apache.commons.math4.random.RandomGenerator;
 import org.apache.commons.math4.random.Well19937c;
+import org.apache.commons.math4.rng.UniformRandomProvider;
 
 /**
  * Implementation of the uniform real distribution.
@@ -83,6 +84,7 @@ public class UniformRealDistribution extends AbstractRealDistribution {
      * @throws NumberIsTooLargeException if {@code lower >= upper}.
      * @since 3.1
      */
+    @Deprecated
     public UniformRealDistribution(RandomGenerator rng,
                                    double lower,
                                    double upper)
@@ -192,8 +194,22 @@ public class UniformRealDistribution extends AbstractRealDistribution {
 
     /** {@inheritDoc} */
     @Override
+    @Deprecated
     public double sample()  {
         final double u = random.nextDouble();
         return u * upper + (1 - u) * lower;
+    }
+
+    /** {@inheritDoc} */
+    @Override
+    public RealDistribution.Sampler createSampler(final UniformRandomProvider rng) {
+        return new RealDistribution.Sampler() {
+            /** {@inheritDoc} */
+            @Override
+            public double sample() {
+                final double u = random.nextDouble();
+                return u * upper + (1 - u) * lower;
+            }
+        };
     }
 }
