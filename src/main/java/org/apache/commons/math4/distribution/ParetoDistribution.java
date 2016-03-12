@@ -21,6 +21,7 @@ import org.apache.commons.math4.exception.NotStrictlyPositiveException;
 import org.apache.commons.math4.exception.util.LocalizedFormats;
 import org.apache.commons.math4.random.RandomGenerator;
 import org.apache.commons.math4.random.Well19937c;
+import org.apache.commons.math4.rng.UniformRandomProvider;
 import org.apache.commons.math4.util.FastMath;
 
 /**
@@ -117,6 +118,7 @@ public class ParetoDistribution extends AbstractRealDistribution {
      * @param shape Shape parameter of this distribution.
      * @throws NotStrictlyPositiveException if {@code scale <= 0} or {@code shape <= 0}.
      */
+    @Deprecated
     public ParetoDistribution(RandomGenerator rng, double scale, double shape)
         throws NotStrictlyPositiveException {
         this(rng, scale, shape, DEFAULT_INVERSE_ABSOLUTE_ACCURACY);
@@ -131,6 +133,7 @@ public class ParetoDistribution extends AbstractRealDistribution {
      * @param inverseCumAccuracy Inverse cumulative probability accuracy.
      * @throws NotStrictlyPositiveException if {@code scale <= 0} or {@code shape <= 0}.
      */
+    @Deprecated
     public ParetoDistribution(RandomGenerator rng,
                               double scale,
                               double shape,
@@ -295,8 +298,22 @@ public class ParetoDistribution extends AbstractRealDistribution {
 
     /** {@inheritDoc} */
     @Override
+    @Deprecated
     public double sample()  {
         final double n = random.nextDouble();
         return scale / FastMath.pow(n, 1 / shape);
+    }
+
+    /** {@inheritDoc} */
+    @Override
+    public RealDistribution.Sampler createSampler(final UniformRandomProvider rng) {
+        return new RealDistribution.Sampler() {
+            /** {@inheritDoc} */
+            @Override
+            public double sample() {
+                final double n = rng.nextDouble();
+                return scale / FastMath.pow(n, 1 / shape);
+            }
+        };
     }
 }
