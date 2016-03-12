@@ -22,6 +22,7 @@ import org.apache.commons.math4.exception.NumberIsTooLargeException;
 import org.apache.commons.math4.exception.util.LocalizedFormats;
 import org.apache.commons.math4.random.RandomGenerator;
 import org.apache.commons.math4.random.Well19937c;
+import org.apache.commons.math4.rng.UniformRandomProvider;
 import org.apache.commons.math4.special.Erf;
 import org.apache.commons.math4.util.FastMath;
 
@@ -143,6 +144,7 @@ public class LogNormalDistribution extends AbstractRealDistribution {
      * @throws NotStrictlyPositiveException if {@code shape <= 0}.
      * @since 3.3
      */
+    @Deprecated
     public LogNormalDistribution(RandomGenerator rng, double scale, double shape)
         throws NotStrictlyPositiveException {
         this(rng, scale, shape, DEFAULT_INVERSE_ABSOLUTE_ACCURACY);
@@ -158,6 +160,7 @@ public class LogNormalDistribution extends AbstractRealDistribution {
      * @throws NotStrictlyPositiveException if {@code shape <= 0}.
      * @since 3.1
      */
+    @Deprecated
     public LogNormalDistribution(RandomGenerator rng,
                                  double scale,
                                  double shape,
@@ -345,8 +348,25 @@ public class LogNormalDistribution extends AbstractRealDistribution {
 
     /** {@inheritDoc} */
     @Override
+    @Deprecated
     public double sample()  {
         final double n = random.nextGaussian();
         return FastMath.exp(scale + shape * n);
+    }
+
+    /** {@inheritDoc} */
+    @Override
+    public RealDistribution.Sampler createSampler(final UniformRandomProvider rng) {
+        return new RealDistribution.Sampler() {
+            /** Gaussian sampling. */
+            final RealDistribution.Sampler gaussian = new NormalDistribution().createSampler(rng);
+
+            /** {@inheritDoc} */
+            @Override
+            public double sample() {
+                final double n = random.nextGaussian();
+                return FastMath.exp(scale + shape * n);
+            }
+        };
     }
 }
