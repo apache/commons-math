@@ -20,6 +20,7 @@ import org.apache.commons.math4.exception.NotStrictlyPositiveException;
 import org.apache.commons.math4.exception.util.LocalizedFormats;
 import org.apache.commons.math4.random.RandomGenerator;
 import org.apache.commons.math4.random.Well19937c;
+import org.apache.commons.math4.rng.UniformRandomProvider;
 import org.apache.commons.math4.special.Gamma;
 import org.apache.commons.math4.util.FastMath;
 
@@ -152,6 +153,7 @@ public class GammaDistribution extends AbstractRealDistribution {
      * {@code scale <= 0}.
      * @since 3.3
      */
+    @Deprecated
     public GammaDistribution(RandomGenerator rng, double shape, double scale)
         throws NotStrictlyPositiveException {
         this(rng, shape, scale, DEFAULT_INVERSE_ABSOLUTE_ACCURACY);
@@ -170,6 +172,7 @@ public class GammaDistribution extends AbstractRealDistribution {
      * {@code scale <= 0}.
      * @since 3.1
      */
+    @Deprecated
     public GammaDistribution(RandomGenerator rng,
                              double shape,
                              double scale,
@@ -419,6 +422,7 @@ public class GammaDistribution extends AbstractRealDistribution {
      * @return random value sampled from the Gamma(shape, scale) distribution
      */
     @Override
+    @Deprecated
     public double sample()  {
         if (shape < 1) {
             // [1]: p. 228, Algorithm GS
@@ -482,5 +486,105 @@ public class GammaDistribution extends AbstractRealDistribution {
                 return scale * d * v;
             }
         }
+    }
+
+    /**
+     * {@inheritDoc}
+     *
+     * <p>
+     * Sampling algorithms:
+     * <ul>
+     *  <li>
+     *   For {@code 0 < shape < 1}:
+     *   <blockquote>
+     *    Ahrens, J. H. and Dieter, U.,
+     *    <i>Computer methods for sampling from gamma, beta, Poisson and binomial distributions,</i>
+     *    Computing, 12, 223-246, 1974.
+     *   </blockquote>
+     *  </li>
+     *  <li>
+     *  For {@code shape >= 1}:
+     *   <blockquote>
+     *   Marsaglia and Tsang, <i>A Simple Method for Generating
+     *   Gamma Variables.</i> ACM Transactions on Mathematical Software,
+     *   Volume 26 Issue 3, September, 2000.
+     *   </blockquote>
+     *  </li>
+     * </ul>
+     * </p>
+     */
+    @Override
+    public RealDistribution.Sampler createSampler(final UniformRandomProvider rng) {
+        return new RealDistribution.Sampler() {
+            /** Gaussian sampling. */
+            final RealDistribution.Sampler gaussian = new NormalDistribution().createSampler(rng);
+
+            /** {@inheritDoc} */
+            @Override
+            public double sample() {
+                if (shape < 1) {
+                    // [1]: p. 228, Algorithm GS
+
+                    while (true) {
+                        // Step 1:
+                        final double u = rng.nextDouble();
+                        final double bGS = 1 + shape / FastMath.E;
+                        final double p = bGS * u;
+
+                        if (p <= 1) {
+                            // Step 2:
+
+                            final double x = FastMath.pow(p, 1 / shape);
+                            final double u2 = rng.nextDouble();
+
+                            if (u2 > FastMath.exp(-x)) {
+                                // Reject
+                                continue;
+                            } else {
+                                return scale * x;
+                            }
+                        } else {
+                            // Step 3:
+
+                            final double x = -1 * FastMath.log((bGS - p) / shape);
+                            final double u2 = rng.nextDouble();
+
+                            if (u2 > FastMath.pow(x, shape - 1)) {
+                                // Reject
+                                continue;
+                            } else {
+                                return scale * x;
+                            }
+                        }
+                    }
+                }
+
+                // Now shape >= 1
+
+                final double d = shape - 0.333333333333333333;
+                final double c = 1 / (3 * FastMath.sqrt(d));
+
+                while (true) {
+                    final double x = gaussian.sample();
+                    final double v = (1 + c * x) * (1 + c * x) * (1 + c * x);
+
+                    if (v <= 0) {
+                        continue;
+                    }
+
+                    final double x2 = x * x;
+                    final double u = rng.nextDouble();
+
+                    // Squeeze
+                    if (u < 1 - 0.0331 * x2 * x2) {
+                        return scale * d * v;
+                    }
+
+                    if (FastMath.log(u) < 0.5 * x2 + d * (1 - v + FastMath.log(v))) {
+                        return scale * d * v;
+                    }
+                }
+            }
+        };
     }
 }
