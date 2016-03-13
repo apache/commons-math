@@ -1107,6 +1107,23 @@ public class MathArraysTest {
     }
 
     @Test
+    public void testShuffleNoDuplicates() {
+        final int n = 100;
+        final int[] orig = MathArrays.natural(n);
+        MathArrays.shuffle(orig);
+
+        // Test that all (unique) entries exist in the shuffled array.
+        final int[] count = new int[n];
+        for (int i = 0; i < n; i++) {
+            count[orig[i]] += 1;
+        }
+
+        for (int i = 0; i < n; i++) {
+            Assert.assertEquals(1, count[i]);
+        }
+    }
+
+    @Test
     public void testShuffleTail() {
         final int[] orig = new int[] { 0, 1, 2, 3, 4, 5, 6, 7, 8, 9 };
         final int[] list = orig.clone();
