@@ -30,7 +30,6 @@ import org.apache.commons.math4.exception.NotStrictlyPositiveException;
 import org.apache.commons.math4.exception.NullArgumentException;
 import org.apache.commons.math4.exception.util.LocalizedFormats;
 import org.apache.commons.math4.random.RandomGenerator;
-import org.apache.commons.math4.random.Well19937c;
 import org.apache.commons.math4.rng.UniformRandomProvider;
 import org.apache.commons.math4.util.MathArrays;
 import org.apache.commons.math4.util.Pair;
@@ -61,7 +60,7 @@ public class EnumeratedDistribution<T> implements Serializable {
      * RNG instance used to generate samples from the distribution.
      */
     @Deprecated
-    protected final RandomGenerator random;
+    protected RandomGenerator random = null;
 
     /**
      * List of random variable values.
@@ -81,45 +80,57 @@ public class EnumeratedDistribution<T> implements Serializable {
     private final double[] cumulativeProbabilities;
 
     /**
-     * Create an enumerated distribution using the given probability mass function
-     * enumeration.
-     * <p>
-     * <b>Note:</b> this constructor will implicitly create an instance of
-     * {@link Well19937c} as random generator to be used for sampling only (see
-     * {@link #sample()} and {@link #sample(int)}). In case no sampling is
-     * needed for the created distribution, it is advised to pass {@code null}
-     * as random generator via the appropriate constructors to avoid the
-     * additional initialisation overhead.
-     *
-     * @param pmf probability mass function enumerated as a list of <T, probability>
-     * pairs.
-     * @throws NotPositiveException if any of the probabilities are negative.
-     * @throws NotFiniteNumberException if any of the probabilities are infinite.
-     * @throws NotANumberException if any of the probabilities are NaN.
-     * @throws MathArithmeticException all of the probabilities are 0.
+     * XXX TODO: remove once "EnumeratedIntegerDistribution" has been changed.
      */
-    public EnumeratedDistribution(final List<Pair<T, Double>> pmf)
+    @Deprecated
+    public EnumeratedDistribution(final RandomGenerator rng, final List<Pair<T, Double>> pmf)
         throws NotPositiveException, MathArithmeticException, NotFiniteNumberException, NotANumberException {
-        this(new Well19937c(), pmf);
+        random = rng;
+        singletons = new ArrayList<T>(pmf.size());
+        final double[] probs = new double[pmf.size()];
+
+        for (int i = 0; i < pmf.size(); i++) {
+            final Pair<T, Double> sample = pmf.get(i);
+            singletons.add(sample.getKey());
+            final double p = sample.getValue();
+            if (p < 0) {
+                throw new NotPositiveException(sample.getValue());
+            }
+            if (Double.isInfinite(p)) {
+                throw new NotFiniteNumberException(p);
+            }
+            if (Double.isNaN(p)) {
+                throw new NotANumberException();
+            }
+            probs[i] = p;
+        }
+
+        probabilities = MathArrays.normalizeArray(probs, 1.0);
+
+        cumulativeProbabilities = new double[probabilities.length];
+        double sum = 0;
+        for (int i = 0; i < probabilities.length; i++) {
+            sum += probabilities[i];
+            cumulativeProbabilities[i] = sum;
+        }
     }
 
     /**
      * Create an enumerated distribution using the given random number generator
      * and probability mass function enumeration.
      *
-     * @param rng random number generator.
-     * @param pmf probability mass function enumerated as a list of <T, probability>
-     * pairs.
+     * @param pmf probability mass function enumerated as a list of
+     * {@code <T, probability>} pairs.
      * @throws NotPositiveException if any of the probabilities are negative.
      * @throws NotFiniteNumberException if any of the probabilities are infinite.
      * @throws NotANumberException if any of the probabilities are NaN.
      * @throws MathArithmeticException all of the probabilities are 0.
      */
-    @Deprecated
-    public EnumeratedDistribution(final RandomGenerator rng, final List<Pair<T, Double>> pmf)
-        throws NotPositiveException, MathArithmeticException, NotFiniteNumberException, NotANumberException {
-        random = rng;
-
+    public EnumeratedDistribution(final List<Pair<T, Double>> pmf)
+        throws NotPositiveException,
+               MathArithmeticException,
+               NotFiniteNumberException,
+               NotANumberException {
         singletons = new ArrayList<T>(pmf.size());
         final double[] probs = new double[pmf.size()];
 

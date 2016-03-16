@@ -24,6 +24,7 @@ import org.apache.commons.math4.special.Gamma;
 import org.apache.commons.math4.util.CombinatoricsUtils;
 import org.apache.commons.math4.util.FastMath;
 import org.apache.commons.math4.util.MathUtils;
+import org.apache.commons.math4.rng.RandomSource;
 
 /**
  * Implementation of the Poisson distribution.
@@ -47,7 +48,7 @@ public class PoissonDistribution extends AbstractIntegerDistribution {
     /** Distribution used to compute normal approximation. */
     private final NormalDistribution normal;
     /** Distribution needed for the {@link #sample()} method. */
-    private final ExponentialDistribution exponential;
+    private final RealDistribution.Sampler exponentialSampler;
     /** Mean of the distribution. */
     private final double mean;
 
@@ -130,10 +131,11 @@ public class PoissonDistribution extends AbstractIntegerDistribution {
         this.maxIterations = maxIterations;
 
         // Use the same RNG instance as the parent class.
-        normal = new NormalDistribution(rng, p, FastMath.sqrt(p),
+        normal = new NormalDistribution(p, FastMath.sqrt(p),
                                         NormalDistribution.DEFAULT_INVERSE_ABSOLUTE_ACCURACY);
-        exponential = new ExponentialDistribution(rng, 1,
-                                                  ExponentialDistribution.DEFAULT_INVERSE_ABSOLUTE_ACCURACY);
+
+        // XXX TODO: RNG source should not be hard-coded.
+        exponentialSampler = new ExponentialDistribution(1).createSampler(RandomSource.create(RandomSource.WELL_19937_C));
     }
 
     /**
@@ -364,16 +366,16 @@ public class PoissonDistribution extends AbstractIntegerDistribution {
                         continue;
                     }
                     y = x < 0 ? FastMath.floor(x) : FastMath.ceil(x);
-                    final double e = exponential.sample();
+                    final double e = exponentialSampler.sample();
                     v = -e - (n * n / 2) + c1;
                 } else {
                     if (u > p1 + p2) {
                         y = lambda;
                         break;
                     } else {
-                        x = delta + (twolpd / delta) * exponential.sample();
+                        x = delta + (twolpd / delta) * exponentialSampler.sample();
                         y = FastMath.ceil(x);
-                        v = -exponential.sample() - delta * (x + 1) / twolpd;
+                        v = -exponentialSampler.sample() - delta * (x + 1) / twolpd;
                     }
                 }
                 a = x < 0 ? 1 : 0;

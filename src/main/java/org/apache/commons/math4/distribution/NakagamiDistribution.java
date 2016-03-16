@@ -19,8 +19,6 @@ package org.apache.commons.math4.distribution;
 import org.apache.commons.math4.exception.NotStrictlyPositiveException;
 import org.apache.commons.math4.exception.NumberIsTooSmallException;
 import org.apache.commons.math4.exception.util.LocalizedFormats;
-import org.apache.commons.math4.random.RandomGenerator;
-import org.apache.commons.math4.random.Well19937c;
 import org.apache.commons.math4.special.Gamma;
 import org.apache.commons.math4.util.FastMath;
 
@@ -37,7 +35,7 @@ public class NakagamiDistribution extends AbstractRealDistribution {
     public static final double DEFAULT_INVERSE_ABSOLUTE_ACCURACY = 1e-9;
 
     /** Serializable version identifier. */
-    private static final long serialVersionUID = 20141003;
+    private static final long serialVersionUID = 20160311L;
 
     /** The shape parameter. */
     private final double mu;
@@ -47,33 +45,20 @@ public class NakagamiDistribution extends AbstractRealDistribution {
     private final double inverseAbsoluteAccuracy;
 
     /**
-     * Build a new instance.
-     * <p>
-     * <b>Note:</b> this constructor will implicitly create an instance of
-     * {@link Well19937c} as random generator to be used for sampling only (see
-     * {@link #sample()} and {@link #sample(int)}). In case no sampling is
-     * needed for the created distribution, it is advised to pass {@code null}
-     * as random generator via the appropriate constructors to avoid the
-     * additional initialisation overhead.
+     * Creates a distribution.
      *
      * @param mu shape parameter
      * @param omega scale parameter (must be positive)
      * @throws NumberIsTooSmallException if {@code mu < 0.5}
      * @throws NotStrictlyPositiveException if {@code omega <= 0}
      */
-    public NakagamiDistribution(double mu, double omega) {
+    public NakagamiDistribution(double mu,
+                                double omega) {
         this(mu, omega, DEFAULT_INVERSE_ABSOLUTE_ACCURACY);
     }
 
     /**
-     * Build a new instance.
-     * <p>
-     * <b>Note:</b> this constructor will implicitly create an instance of
-     * {@link Well19937c} as random generator to be used for sampling only (see
-     * {@link #sample()} and {@link #sample(int)}). In case no sampling is
-     * needed for the created distribution, it is advised to pass {@code null}
-     * as random generator via the appropriate constructors to avoid the
-     * additional initialisation overhead.
+     * Creates a distribution.
      *
      * @param mu shape parameter
      * @param omega scale parameter (must be positive)
@@ -82,24 +67,9 @@ public class NakagamiDistribution extends AbstractRealDistribution {
      * @throws NumberIsTooSmallException if {@code mu < 0.5}
      * @throws NotStrictlyPositiveException if {@code omega <= 0}
      */
-    public NakagamiDistribution(double mu, double omega, double inverseAbsoluteAccuracy) {
-        this(new Well19937c(), mu, omega, inverseAbsoluteAccuracy);
-    }
-
-    /**
-     * Build a new instance.
-     *
-     * @param rng Random number generator
-     * @param mu shape parameter
-     * @param omega scale parameter (must be positive)
-     * @param inverseAbsoluteAccuracy the maximum absolute error in inverse
-     * cumulative probability estimates (defaults to {@link #DEFAULT_INVERSE_ABSOLUTE_ACCURACY}).
-     * @throws NumberIsTooSmallException if {@code mu < 0.5}
-     * @throws NotStrictlyPositiveException if {@code omega <= 0}
-     */
-    public NakagamiDistribution(RandomGenerator rng, double mu, double omega, double inverseAbsoluteAccuracy) {
-        super(rng);
-
+    public NakagamiDistribution(double mu,
+                                double omega,
+                                double inverseAbsoluteAccuracy) {
         if (mu < 0.5) {
             throw new NumberIsTooSmallException(mu, 0.5, true);
         }

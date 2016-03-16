@@ -327,22 +327,6 @@ public abstract class RealDistributionAbstractTest {
      * Test sampling
      */
     @Test
-    public void testSampling() {
-        final int sampleSize = 1000;
-        distribution.reseedRandomGenerator(1000); // Use fixed seed
-        double[] sample = distribution.sample(sampleSize);
-        double[] quartiles = TestUtils.getDistributionQuartiles(distribution);
-        double[] expected = {250, 250, 250, 250};
-        long[] counts = new long[4];
-        for (int i = 0; i < sampleSize; i++) {
-            TestUtils.updateCounts(sample[i], counts, quartiles);
-        }
-        TestUtils.assertChiSquareAccept(expected, counts, 0.001);
-    }
-
-
-    // New design
-    @Test
     public void testSampler() {
         final int sampleSize = 1000;
         final RealDistribution.Sampler sampler =
@@ -403,16 +387,18 @@ public abstract class RealDistributionAbstractTest {
                ClassNotFoundException {
         // Construct a distribution and initialize its internal random
         // generator, using a fixed seed for deterministic results.
-        distribution.reseedRandomGenerator(123);
-        distribution.sample();
+        final long seed = 123;
+        RandomSource source = RandomSource.WELL_512_A;
+        RealDistribution.Sampler origSampler = distribution.createSampler(RandomSource.create(source, seed));
 
         // Clone the distribution.
         final RealDistribution cloned = deepClone();
+        RealDistribution.Sampler clonedSampler = cloned.createSampler(RandomSource.create(source, seed));
 
         // Make sure they still produce the same samples.
-        final double s1 = distribution.sample();
-        final double s2 = cloned.sample();
-        Assert.assertEquals(s1, s2, 0d);
+        Assert.assertEquals(origSampler.sample(),
+                            clonedSampler.sample(),
+                            0d);
     }
 
     //------------------ Getters / Setters for test instance data -----------

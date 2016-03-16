@@ -346,8 +346,6 @@ public class BetaDistributionTest {
     public void testGoodnessOfFit() {
         final UniformRandomProvider rng = RandomSource.create(RandomSource.WELL_19937_A,
                                                               123456789L);
-        final RandomGenerator random = new Well19937a(0x237db1db907b089fL);
-
         final int numSamples = 1000;
         final double level = 0.01;
         for (final double alpha : alphaBetas) {
@@ -360,7 +358,7 @@ public class BetaDistributionTest {
                 Assert.assertFalse("G goodness-of-fit test rejected null at alpha = " + level,
                                    gTest(betaDistribution, observed) < level);
                 Assert.assertFalse("KS goodness-of-fit test rejected null at alpha = " + level,
-                                   new KolmogorovSmirnovTest(random).kolmogorovSmirnovTest(betaDistribution, observed) < level);
+                                   new KolmogorovSmirnovTest(RandomSource.JDK, 3448845623L).kolmogorovSmirnovTest(betaDistribution, observed) < level);
             }
         }
     }

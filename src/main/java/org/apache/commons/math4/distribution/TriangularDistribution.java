@@ -21,8 +21,6 @@ import org.apache.commons.math4.exception.NumberIsTooLargeException;
 import org.apache.commons.math4.exception.NumberIsTooSmallException;
 import org.apache.commons.math4.exception.OutOfRangeException;
 import org.apache.commons.math4.exception.util.LocalizedFormats;
-import org.apache.commons.math4.random.RandomGenerator;
-import org.apache.commons.math4.random.Well19937c;
 import org.apache.commons.math4.util.FastMath;
 
 /**
@@ -35,7 +33,7 @@ import org.apache.commons.math4.util.FastMath;
  */
 public class TriangularDistribution extends AbstractRealDistribution {
     /** Serializable version identifier. */
-    private static final long serialVersionUID = 20120112L;
+    private static final long serialVersionUID = 20160311L;
     /** Lower limit of this distribution (inclusive). */
     private final double a;
     /** Upper limit of this distribution (inclusive). */
@@ -46,31 +44,8 @@ public class TriangularDistribution extends AbstractRealDistribution {
     private final double solverAbsoluteAccuracy;
 
     /**
-     * Creates a triangular real distribution using the given lower limit,
-     * upper limit, and mode.
-     * <p>
-     * <b>Note:</b> this constructor will implicitly create an instance of
-     * {@link Well19937c} as random generator to be used for sampling only (see
-     * {@link #sample()} and {@link #sample(int)}). In case no sampling is
-     * needed for the created distribution, it is advised to pass {@code null}
-     * as random generator via the appropriate constructors to avoid the
-     * additional initialisation overhead.
+     * Creates a distribution.
      *
-     * @param a Lower limit of this distribution (inclusive).
-     * @param b Upper limit of this distribution (inclusive).
-     * @param c Mode of this distribution.
-     * @throws NumberIsTooLargeException if {@code a >= b} or if {@code c > b}.
-     * @throws NumberIsTooSmallException if {@code c < a}.
-     */
-    public TriangularDistribution(double a, double c, double b)
-        throws NumberIsTooLargeException, NumberIsTooSmallException {
-        this(new Well19937c(), a, c, b);
-    }
-
-    /**
-     * Creates a triangular distribution.
-     *
-     * @param rng Random number generator.
      * @param a Lower limit of this distribution (inclusive).
      * @param b Upper limit of this distribution (inclusive).
      * @param c Mode of this distribution.
@@ -78,13 +53,11 @@ public class TriangularDistribution extends AbstractRealDistribution {
      * @throws NumberIsTooSmallException if {@code c < a}.
      * @since 3.1
      */
-    public TriangularDistribution(RandomGenerator rng,
-                                  double a,
+    public TriangularDistribution(double a,
                                   double c,
                                   double b)
-        throws NumberIsTooLargeException, NumberIsTooSmallException {
-        super(rng);
-
+        throws NumberIsTooLargeException,
+               NumberIsTooSmallException {
         if (a >= b) {
             throw new NumberIsTooLargeException(
                             LocalizedFormats.LOWER_BOUND_NOT_BELOW_UPPER_BOUND,

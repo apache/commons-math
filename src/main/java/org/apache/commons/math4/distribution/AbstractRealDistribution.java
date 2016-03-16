@@ -48,23 +48,15 @@ public abstract class AbstractRealDistribution
     /** Default absolute accuracy for inverse cumulative computation. */
     public static final double SOLVER_DEFAULT_ABSOLUTE_ACCURACY = 1e-6;
     /** Serializable version identifier */
-    private static final long serialVersionUID = -38038050983108802L;
+    private static final long serialVersionUID = 20160311L;
 
     /**
      * RNG instance used to generate samples from the distribution.
      * @since 3.1
+     * XXX: hard-coded value to prevent "NullPointerException".
      */
     @Deprecated
-    protected final RandomGenerator random;
-
-    /**
-     * @param rng Random number generator.
-     * @since 3.1
-     */
-    @Deprecated
-    protected AbstractRealDistribution(RandomGenerator rng) {
-        random = rng;
-    }
+    protected final RandomGenerator random = new org.apache.commons.math4.random.Well19937c();
 
     /**
      * For a random variable {@code X} whose values are distributed according

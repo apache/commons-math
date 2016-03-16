@@ -20,8 +20,6 @@ package org.apache.commons.math4.distribution;
 import org.apache.commons.math4.exception.NotStrictlyPositiveException;
 import org.apache.commons.math4.exception.OutOfRangeException;
 import org.apache.commons.math4.exception.util.LocalizedFormats;
-import org.apache.commons.math4.random.RandomGenerator;
-import org.apache.commons.math4.random.Well19937c;
 import org.apache.commons.math4.special.Gamma;
 import org.apache.commons.math4.util.FastMath;
 
@@ -33,7 +31,8 @@ import org.apache.commons.math4.util.FastMath;
  *
  * @see <a href="http://en.wikipedia.org/wiki/Weibull_distribution">Weibull distribution (Wikipedia)</a>
  * @see <a href="http://mathworld.wolfram.com/WeibullDistribution.html">Weibull distribution (MathWorld)</a>
- * @since 1.1 (changed to concrete class in 3.0)
+ *
+ * @since 1.1
  */
 public class WeibullDistribution extends AbstractRealDistribution {
     /**
@@ -42,7 +41,7 @@ public class WeibullDistribution extends AbstractRealDistribution {
      */
     public static final double DEFAULT_INVERSE_ABSOLUTE_ACCURACY = 1e-9;
     /** Serializable version identifier. */
-    private static final long serialVersionUID = 8589540077390120676L;
+    private static final long serialVersionUID = 20160311L;
     /** The shape parameter. */
     private final double shape;
     /** The scale parameter. */
@@ -59,15 +58,7 @@ public class WeibullDistribution extends AbstractRealDistribution {
     private boolean numericalVarianceIsCalculated = false;
 
     /**
-     * Create a Weibull distribution with the given shape and scale and a
-     * location equal to zero.
-     * <p>
-     * <b>Note:</b> this constructor will implicitly create an instance of
-     * {@link Well19937c} as random generator to be used for sampling only (see
-     * {@link #sample()} and {@link #sample(int)}). In case no sampling is
-     * needed for the created distribution, it is advised to pass {@code null}
-     * as random generator via the appropriate constructors to avoid the
-     * additional initialisation overhead.
+     * Creates a distribution.
      *
      * @param alpha Shape parameter.
      * @param beta Scale parameter.
@@ -80,63 +71,19 @@ public class WeibullDistribution extends AbstractRealDistribution {
     }
 
     /**
-     * Create a Weibull distribution with the given shape, scale and inverse
-     * cumulative probability accuracy and a location equal to zero.
-     * <p>
-     * <b>Note:</b> this constructor will implicitly create an instance of
-     * {@link Well19937c} as random generator to be used for sampling only (see
-     * {@link #sample()} and {@link #sample(int)}). In case no sampling is
-     * needed for the created distribution, it is advised to pass {@code null}
-     * as random generator via the appropriate constructors to avoid the
-     * additional initialisation overhead.
+     * Creates a distribution.
      *
      * @param alpha Shape parameter.
      * @param beta Scale parameter.
      * @param inverseCumAccuracy Maximum absolute error in inverse
      * cumulative probability estimates
      * (defaults to {@link #DEFAULT_INVERSE_ABSOLUTE_ACCURACY}).
-     * @throws NotStrictlyPositiveException if {@code alpha <= 0} or
-     * {@code beta <= 0}.
-     * @since 2.1
-     */
-    public WeibullDistribution(double alpha, double beta,
-                               double inverseCumAccuracy) {
-        this(new Well19937c(), alpha, beta, inverseCumAccuracy);
-    }
-
-    /**
-     * Creates a Weibull distribution.
-     *
-     * @param rng Random number generator.
-     * @param alpha Shape parameter.
-     * @param beta Scale parameter.
      * @throws NotStrictlyPositiveException if {@code alpha <= 0} or {@code beta <= 0}.
-     * @since 3.3
      */
-    public WeibullDistribution(RandomGenerator rng, double alpha, double beta)
-        throws NotStrictlyPositiveException {
-        this(rng, alpha, beta, DEFAULT_INVERSE_ABSOLUTE_ACCURACY);
-    }
-
-    /**
-     * Creates a Weibull distribution.
-     *
-     * @param rng Random number generator.
-     * @param alpha Shape parameter.
-     * @param beta Scale parameter.
-     * @param inverseCumAccuracy Maximum absolute error in inverse
-     * cumulative probability estimates
-     * (defaults to {@link #DEFAULT_INVERSE_ABSOLUTE_ACCURACY}).
-     * @throws NotStrictlyPositiveException if {@code alpha <= 0} or {@code beta <= 0}.
-     * @since 3.1
-     */
-    public WeibullDistribution(RandomGenerator rng,
-                               double alpha,
+    public WeibullDistribution(double alpha,
                                double beta,
                                double inverseCumAccuracy)
         throws NotStrictlyPositiveException {
-        super(rng);
-
         if (alpha <= 0) {
             throw new NotStrictlyPositiveException(LocalizedFormats.SHAPE,
                                                    alpha);

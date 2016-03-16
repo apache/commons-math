@@ -19,8 +19,6 @@ package org.apache.commons.math4.distribution;
 import org.apache.commons.math4.exception.NotStrictlyPositiveException;
 import org.apache.commons.math4.exception.OutOfRangeException;
 import org.apache.commons.math4.exception.util.LocalizedFormats;
-import org.apache.commons.math4.random.RandomGenerator;
-import org.apache.commons.math4.random.Well19937c;
 import org.apache.commons.math4.rng.UniformRandomProvider;
 import org.apache.commons.math4.util.CombinatoricsUtils;
 import org.apache.commons.math4.util.FastMath;
@@ -39,7 +37,7 @@ public class ExponentialDistribution extends AbstractRealDistribution {
      */
     public static final double DEFAULT_INVERSE_ABSOLUTE_ACCURACY = 1e-9;
     /** Serializable version identifier */
-    private static final long serialVersionUID = 2401296428283614780L;
+    private static final long serialVersionUID = 20160311L;
     /**
      * Used when generating Exponential samples.
      * Table containing the constants
@@ -91,14 +89,7 @@ public class ExponentialDistribution extends AbstractRealDistribution {
     }
 
     /**
-     * Create an exponential distribution with the given mean.
-     * <p>
-     * <b>Note:</b> this constructor will implicitly create an instance of
-     * {@link Well19937c} as random generator to be used for sampling only (see
-     * {@link #sample()} and {@link #sample(int)}). In case no sampling is
-     * needed for the created distribution, it is advised to pass {@code null}
-     * as random generator via the appropriate constructors to avoid the
-     * additional initialisation overhead.
+     * Creates a distribution.
      *
      * @param mean mean of this distribution.
      */
@@ -107,58 +98,19 @@ public class ExponentialDistribution extends AbstractRealDistribution {
     }
 
     /**
-     * Create an exponential distribution with the given mean.
-     * <p>
-     * <b>Note:</b> this constructor will implicitly create an instance of
-     * {@link Well19937c} as random generator to be used for sampling only (see
-     * {@link #sample()} and {@link #sample(int)}). In case no sampling is
-     * needed for the created distribution, it is advised to pass {@code null}
-     * as random generator via the appropriate constructors to avoid the
-     * additional initialisation overhead.
+     * Creates a distribution.
      *
      * @param mean Mean of this distribution.
      * @param inverseCumAccuracy Maximum absolute error in inverse
      * cumulative probability estimates (defaults to
      * {@link #DEFAULT_INVERSE_ABSOLUTE_ACCURACY}).
      * @throws NotStrictlyPositiveException if {@code mean <= 0}.
+     *
      * @since 2.1
      */
-    public ExponentialDistribution(double mean, double inverseCumAccuracy) {
-        this(new Well19937c(), mean, inverseCumAccuracy);
-    }
-
-    /**
-     * Creates an exponential distribution.
-     *
-     * @param rng Random number generator.
-     * @param mean Mean of this distribution.
-     * @throws NotStrictlyPositiveException if {@code mean <= 0}.
-     * @since 3.3
-     */
-    @Deprecated
-    public ExponentialDistribution(RandomGenerator rng, double mean)
-        throws NotStrictlyPositiveException {
-        this(rng, mean, DEFAULT_INVERSE_ABSOLUTE_ACCURACY);
-    }
-
-    /**
-     * Creates an exponential distribution.
-     *
-     * @param rng Random number generator.
-     * @param mean Mean of this distribution.
-     * @param inverseCumAccuracy Maximum absolute error in inverse
-     * cumulative probability estimates (defaults to
-     * {@link #DEFAULT_INVERSE_ABSOLUTE_ACCURACY}).
-     * @throws NotStrictlyPositiveException if {@code mean <= 0}.
-     * @since 3.1
-     */
-    @Deprecated
-    public ExponentialDistribution(RandomGenerator rng,
-                                   double mean,
+    public ExponentialDistribution(double mean,
                                    double inverseCumAccuracy)
         throws NotStrictlyPositiveException {
-        super(rng);
-
         if (mean <= 0) {
             throw new NotStrictlyPositiveException(LocalizedFormats.MEAN, mean);
         }

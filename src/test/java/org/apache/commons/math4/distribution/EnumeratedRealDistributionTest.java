@@ -30,6 +30,7 @@ import org.apache.commons.math4.exception.NotFiniteNumberException;
 import org.apache.commons.math4.exception.NotPositiveException;
 import org.apache.commons.math4.util.FastMath;
 import org.apache.commons.math4.util.Pair;
+import org.apache.commons.math4.rng.UniformRandomProvider;
 import org.apache.commons.math4.rng.RandomSource;
 import org.junit.Assert;
 import org.junit.Test;
@@ -197,7 +198,8 @@ public class EnumeratedRealDistributionTest {
         List<Pair<Object,Double>> list = new ArrayList<Pair<Object, Double>>();
         list.add(new Pair<Object, Double>(new Object() {}, new Double(0)));
         list.add(new Pair<Object, Double>(new Object() {}, new Double(1)));
-        Assert.assertEquals(1, new EnumeratedDistribution<Object>(list).sample(1).length);
+        final UniformRandomProvider rng = RandomSource.create(RandomSource.WELL_512_A);
+        Assert.assertEquals(1, new EnumeratedDistribution<Object>(list).createSampler(rng).sample(1).length);
     }
 
     @Test

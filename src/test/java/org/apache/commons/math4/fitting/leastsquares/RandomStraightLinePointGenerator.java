@@ -22,8 +22,8 @@ import java.awt.geom.Point2D;
 import org.apache.commons.math4.distribution.NormalDistribution;
 import org.apache.commons.math4.distribution.RealDistribution;
 import org.apache.commons.math4.distribution.UniformRealDistribution;
-import org.apache.commons.math4.random.RandomGenerator;
-import org.apache.commons.math4.random.Well44497b;
+import org.apache.commons.math4.rng.UniformRandomProvider;
+import org.apache.commons.math4.rng.RandomSource;
 
 /**
  * Factory for generating a cloud of points that approximate a straight line.
@@ -34,9 +34,9 @@ public class RandomStraightLinePointGenerator {
     /** Intercept. */
     private final double intercept;
     /** RNG for the x-coordinate. */
-    private final RealDistribution x;
+    private final RealDistribution.Sampler x;
     /** RNG for the error on the y-coordinate. */
-    private final RealDistribution error;
+    private final RealDistribution.Sampler error;
 
     /**
      * The generator will create a cloud of points whose x-coordinates
@@ -61,12 +61,11 @@ public class RandomStraightLinePointGenerator {
                                             double lo,
                                             double hi,
                                             long seed) {
-        final RandomGenerator rng = new Well44497b(seed);
+        final UniformRandomProvider rng = RandomSource.create(RandomSource.WELL_44497_B, seed);
         slope = a;
         intercept = b;
-        error = new NormalDistribution(rng, 0, sigma,
-                                       NormalDistribution.DEFAULT_INVERSE_ABSOLUTE_ACCURACY);
-        x = new UniformRealDistribution(rng, lo, hi);
+        error = new NormalDistribution(0, sigma).createSampler(rng);
+        x = new UniformRealDistribution(lo, hi).createSampler(rng);
     }
 
     /**

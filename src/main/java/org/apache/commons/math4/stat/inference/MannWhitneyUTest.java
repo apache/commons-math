@@ -182,7 +182,7 @@ public class MannWhitneyUTest {
 
         // No try-catch or advertised exception because args are valid
         // pass a null rng to avoid unneeded overhead as we will not sample from this distribution
-        final NormalDistribution standardNormal = new NormalDistribution(null, 0, 1);
+        final NormalDistribution standardNormal = new NormalDistribution(0, 1);
 
         return 2 * standardNormal.cumulativeProbability(z);
     }

@@ -32,6 +32,7 @@ import org.apache.commons.math4.exception.NullArgumentException;
 import org.apache.commons.math4.exception.OutOfRangeException;
 import org.apache.commons.math4.random.RandomGenerator;
 import org.apache.commons.math4.random.Well19937c;
+import org.apache.commons.math4.rng.RandomSource;
 import org.apache.commons.math4.stat.descriptive.StorelessUnivariateStatistic;
 import org.apache.commons.math4.stat.descriptive.StorelessUnivariateStatisticAbstractTest;
 import org.apache.commons.math4.stat.descriptive.UnivariateStatistic;
@@ -709,6 +710,8 @@ public class PSquarePercentileTest extends
             VERY_LARGE = 10000000;
 
     private void doDistributionTest(RealDistribution distribution) {
+        final RealDistribution.Sampler sampler =
+            distribution.createSampler(RandomSource.create(RandomSource.WELL_19937_C, 1000));
         double data[];
 
         data = distribution.sample(VERY_LARGE);
@@ -754,8 +757,8 @@ public class PSquarePercentileTest extends
      */
     @Test
     public void testDistribution() {
-        doDistributionTest(new NormalDistribution(randomGenerator, 4000, 50));
-        doDistributionTest(new LogNormalDistribution(randomGenerator,4000, 50));
+        doDistributionTest(new NormalDistribution(4000, 50));
+        doDistributionTest(new LogNormalDistribution(4000, 50));
         // doDistributionTest((new ExponentialDistribution(4000));
         // doDistributionTest(new GammaDistribution(5d,1d),0.1);
     }

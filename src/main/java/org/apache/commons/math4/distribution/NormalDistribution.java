@@ -21,8 +21,6 @@ import org.apache.commons.math4.exception.NotStrictlyPositiveException;
 import org.apache.commons.math4.exception.NumberIsTooLargeException;
 import org.apache.commons.math4.exception.OutOfRangeException;
 import org.apache.commons.math4.exception.util.LocalizedFormats;
-import org.apache.commons.math4.random.RandomGenerator;
-import org.apache.commons.math4.random.Well19937c;
 import org.apache.commons.math4.rng.UniformRandomProvider;
 import org.apache.commons.math4.special.Erf;
 import org.apache.commons.math4.util.FastMath;
@@ -55,92 +53,37 @@ public class NormalDistribution extends AbstractRealDistribution {
     /**
      * Create a normal distribution with mean equal to zero and standard
      * deviation equal to one.
-     * <p>
-     * <b>Note:</b> this constructor will implicitly create an instance of
-     * {@link Well19937c} as random generator to be used for sampling only (see
-     * {@link #sample()} and {@link #sample(int)}). In case no sampling is
-     * needed for the created distribution, it is advised to pass {@code null}
-     * as random generator via the appropriate constructors to avoid the
-     * additional initialisation overhead.
      */
     public NormalDistribution() {
         this(0, 1);
     }
 
     /**
-     * Create a normal distribution using the given mean and standard deviation.
-     * <p>
-     * <b>Note:</b> this constructor will implicitly create an instance of
-     * {@link Well19937c} as random generator to be used for sampling only (see
-     * {@link #sample()} and {@link #sample(int)}). In case no sampling is
-     * needed for the created distribution, it is advised to pass {@code null}
-     * as random generator via the appropriate constructors to avoid the
-     * additional initialisation overhead.
+     * Creates a distribution.
      *
      * @param mean Mean for this distribution.
      * @param sd Standard deviation for this distribution.
      * @throws NotStrictlyPositiveException if {@code sd <= 0}.
      */
-    public NormalDistribution(double mean, double sd)
+    public NormalDistribution(double mean,
+                              double sd)
         throws NotStrictlyPositiveException {
         this(mean, sd, DEFAULT_INVERSE_ABSOLUTE_ACCURACY);
     }
 
+
     /**
-     * Create a normal distribution using the given mean, standard deviation and
-     * inverse cumulative distribution accuracy.
-     * <p>
-     * <b>Note:</b> this constructor will implicitly create an instance of
-     * {@link Well19937c} as random generator to be used for sampling only (see
-     * {@link #sample()} and {@link #sample(int)}). In case no sampling is
-     * needed for the created distribution, it is advised to pass {@code null}
-     * as random generator via the appropriate constructors to avoid the
-     * additional initialisation overhead.
+     * Creates a distribution.
      *
      * @param mean Mean for this distribution.
      * @param sd Standard deviation for this distribution.
      * @param inverseCumAccuracy Inverse cumulative probability accuracy.
      * @throws NotStrictlyPositiveException if {@code sd <= 0}.
-     * @since 2.1
      */
-    public NormalDistribution(double mean, double sd, double inverseCumAccuracy)
-        throws NotStrictlyPositiveException {
-        this(new Well19937c(), mean, sd, inverseCumAccuracy);
-    }
-
-    /**
-     * Creates a normal distribution.
-     *
-     * @param rng Random number generator.
-     * @param mean Mean for this distribution.
-     * @param sd Standard deviation for this distribution.
-     * @throws NotStrictlyPositiveException if {@code sd <= 0}.
-     * @since 3.3
-     */
-    @Deprecated
-    public NormalDistribution(RandomGenerator rng, double mean, double sd)
-        throws NotStrictlyPositiveException {
-        this(rng, mean, sd, DEFAULT_INVERSE_ABSOLUTE_ACCURACY);
-    }
-
-    /**
-     * Creates a normal distribution.
-     *
-     * @param rng Random number generator.
-     * @param mean Mean for this distribution.
-     * @param sd Standard deviation for this distribution.
-     * @param inverseCumAccuracy Inverse cumulative probability accuracy.
-     * @throws NotStrictlyPositiveException if {@code sd <= 0}.
-     * @since 3.1
-     */
-    @Deprecated
-    public NormalDistribution(RandomGenerator rng,
-                              double mean,
+    public NormalDistribution(double mean,
                               double sd,
                               double inverseCumAccuracy)
         throws NotStrictlyPositiveException {
-        super(rng);
-
         if (sd <= 0) {
             throw new NotStrictlyPositiveException(LocalizedFormats.STANDARD_DEVIATION, sd);
         }

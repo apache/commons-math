@@ -18,8 +18,6 @@ package org.apache.commons.math4.distribution;
 
 import org.apache.commons.math4.exception.NotStrictlyPositiveException;
 import org.apache.commons.math4.exception.util.LocalizedFormats;
-import org.apache.commons.math4.random.RandomGenerator;
-import org.apache.commons.math4.random.Well19937c;
 import org.apache.commons.math4.special.Beta;
 import org.apache.commons.math4.special.Gamma;
 import org.apache.commons.math4.util.FastMath;
@@ -37,7 +35,7 @@ public class TDistribution extends AbstractRealDistribution {
      */
     public static final double DEFAULT_INVERSE_ABSOLUTE_ACCURACY = 1e-9;
     /** Serializable version identifier */
-    private static final long serialVersionUID = -5852615386664158222L;
+    private static final long serialVersionUID = 20160311L;
     /** The degrees of freedom. */
     private final double degreesOfFreedom;
     /** Inverse cumulative probability accuracy. */
@@ -46,14 +44,7 @@ public class TDistribution extends AbstractRealDistribution {
     private final double factor;
 
     /**
-     * Create a t distribution using the given degrees of freedom.
-     * <p>
-     * <b>Note:</b> this constructor will implicitly create an instance of
-     * {@link Well19937c} as random generator to be used for sampling only (see
-     * {@link #sample()} and {@link #sample(int)}). In case no sampling is
-     * needed for the created distribution, it is advised to pass {@code null}
-     * as random generator via the appropriate constructors to avoid the
-     * additional initialisation overhead.
+     * Creates a distribution.
      *
      * @param degreesOfFreedom Degrees of freedom.
      * @throws NotStrictlyPositiveException if {@code degreesOfFreedom <= 0}
@@ -64,58 +55,17 @@ public class TDistribution extends AbstractRealDistribution {
     }
 
     /**
-     * Create a t distribution using the given degrees of freedom and the
-     * specified inverse cumulative probability absolute accuracy.
-     * <p>
-     * <b>Note:</b> this constructor will implicitly create an instance of
-     * {@link Well19937c} as random generator to be used for sampling only (see
-     * {@link #sample()} and {@link #sample(int)}). In case no sampling is
-     * needed for the created distribution, it is advised to pass {@code null}
-     * as random generator via the appropriate constructors to avoid the
-     * additional initialisation overhead.
+     * Creates a distribution.
      *
      * @param degreesOfFreedom Degrees of freedom.
      * @param inverseCumAccuracy the maximum absolute error in inverse
      * cumulative probability estimates
      * (defaults to {@link #DEFAULT_INVERSE_ABSOLUTE_ACCURACY}).
      * @throws NotStrictlyPositiveException if {@code degreesOfFreedom <= 0}
-     * @since 2.1
      */
-    public TDistribution(double degreesOfFreedom, double inverseCumAccuracy)
-        throws NotStrictlyPositiveException {
-        this(new Well19937c(), degreesOfFreedom, inverseCumAccuracy);
-    }
-
-    /**
-     * Creates a t distribution.
-     *
-     * @param rng Random number generator.
-     * @param degreesOfFreedom Degrees of freedom.
-     * @throws NotStrictlyPositiveException if {@code degreesOfFreedom <= 0}
-     * @since 3.3
-     */
-    public TDistribution(RandomGenerator rng, double degreesOfFreedom)
-        throws NotStrictlyPositiveException {
-        this(rng, degreesOfFreedom, DEFAULT_INVERSE_ABSOLUTE_ACCURACY);
-    }
-
-    /**
-     * Creates a t distribution.
-     *
-     * @param rng Random number generator.
-     * @param degreesOfFreedom Degrees of freedom.
-     * @param inverseCumAccuracy the maximum absolute error in inverse
-     * cumulative probability estimates
-     * (defaults to {@link #DEFAULT_INVERSE_ABSOLUTE_ACCURACY}).
-     * @throws NotStrictlyPositiveException if {@code degreesOfFreedom <= 0}
-     * @since 3.1
-     */
-    public TDistribution(RandomGenerator rng,
-                         double degreesOfFreedom,
+    public TDistribution(double degreesOfFreedom,
                          double inverseCumAccuracy)
         throws NotStrictlyPositiveException {
-        super(rng);
-
         if (degreesOfFreedom <= 0) {
             throw new NotStrictlyPositiveException(LocalizedFormats.DEGREES_OF_FREEDOM,
                                                    degreesOfFreedom);

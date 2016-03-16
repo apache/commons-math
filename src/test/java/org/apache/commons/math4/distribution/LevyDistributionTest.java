@@ -17,7 +17,6 @@
 package org.apache.commons.math4.distribution;
 
 import org.apache.commons.math4.distribution.LevyDistribution;
-import org.apache.commons.math4.random.Well19937a;
 import org.apache.commons.math4.util.Precision;
 import org.junit.Assert;
 import org.junit.Test;
@@ -41,7 +40,7 @@ public class LevyDistributionTest extends RealDistributionAbstractTest {
 
     @Override
     public LevyDistribution makeDistribution() {
-        return new LevyDistribution(new Well19937a(0xc5a5506bbb17e57al), 1.2, 0.4);
+        return new LevyDistribution(1.2, 0.4);
     }
 
     @Override

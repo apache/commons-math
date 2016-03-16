@@ -20,8 +20,6 @@ package org.apache.commons.math4.distribution;
 import org.apache.commons.math4.exception.NotStrictlyPositiveException;
 import org.apache.commons.math4.exception.NumberIsTooLargeException;
 import org.apache.commons.math4.exception.util.LocalizedFormats;
-import org.apache.commons.math4.random.RandomGenerator;
-import org.apache.commons.math4.random.Well19937c;
 import org.apache.commons.math4.rng.UniformRandomProvider;
 import org.apache.commons.math4.special.Erf;
 import org.apache.commons.math4.util.FastMath;
@@ -78,35 +76,21 @@ public class LogNormalDistribution extends AbstractRealDistribution {
     private final double solverAbsoluteAccuracy;
 
     /**
-     * Create a log-normal distribution, where the mean and standard deviation
+     * Creates a log-normal distribution, where the mean and standard deviation
      * of the {@link NormalDistribution normally distributed} natural
      * logarithm of the log-normal distribution are equal to zero and one
      * respectively. In other words, the scale of the returned distribution is
      * {@code 0}, while its shape is {@code 1}.
-     * <p>
-     * <b>Note:</b> this constructor will implicitly create an instance of
-     * {@link Well19937c} as random generator to be used for sampling only (see
-     * {@link #sample()} and {@link #sample(int)}). In case no sampling is
-     * needed for the created distribution, it is advised to pass {@code null}
-     * as random generator via the appropriate constructors to avoid the
-     * additional initialisation overhead.
      */
     public LogNormalDistribution() {
         this(0, 1);
     }
 
     /**
-     * Create a log-normal distribution using the specified scale and shape.
-     * <p>
-     * <b>Note:</b> this constructor will implicitly create an instance of
-     * {@link Well19937c} as random generator to be used for sampling only (see
-     * {@link #sample()} and {@link #sample(int)}). In case no sampling is
-     * needed for the created distribution, it is advised to pass {@code null}
-     * as random generator via the appropriate constructors to avoid the
-     * additional initialisation overhead.
+     * Creates a log-normal distribution.
      *
-     * @param scale the scale parameter of this distribution
-     * @param shape the shape parameter of this distribution
+     * @param scale Scale parameter of this distribution.
+     * @param shape Shape parameter of this distribution.
      * @throws NotStrictlyPositiveException if {@code shape <= 0}.
      */
     public LogNormalDistribution(double scale, double shape)
@@ -115,59 +99,17 @@ public class LogNormalDistribution extends AbstractRealDistribution {
     }
 
     /**
-     * Create a log-normal distribution using the specified scale, shape and
-     * inverse cumulative distribution accuracy.
-     * <p>
-     * <b>Note:</b> this constructor will implicitly create an instance of
-     * {@link Well19937c} as random generator to be used for sampling only (see
-     * {@link #sample()} and {@link #sample(int)}). In case no sampling is
-     * needed for the created distribution, it is advised to pass {@code null}
-     * as random generator via the appropriate constructors to avoid the
-     * additional initialisation overhead.
-     *
-     * @param scale the scale parameter of this distribution
-     * @param shape the shape parameter of this distribution
-     * @param inverseCumAccuracy Inverse cumulative probability accuracy.
-     * @throws NotStrictlyPositiveException if {@code shape <= 0}.
-     */
-    public LogNormalDistribution(double scale, double shape, double inverseCumAccuracy)
-        throws NotStrictlyPositiveException {
-        this(new Well19937c(), scale, shape, inverseCumAccuracy);
-    }
-
-    /**
      * Creates a log-normal distribution.
      *
-     * @param rng Random number generator.
-     * @param scale Scale parameter of this distribution.
-     * @param shape Shape parameter of this distribution.
-     * @throws NotStrictlyPositiveException if {@code shape <= 0}.
-     * @since 3.3
-     */
-    @Deprecated
-    public LogNormalDistribution(RandomGenerator rng, double scale, double shape)
-        throws NotStrictlyPositiveException {
-        this(rng, scale, shape, DEFAULT_INVERSE_ABSOLUTE_ACCURACY);
-    }
-
-    /**
-     * Creates a log-normal distribution.
-     *
-     * @param rng Random number generator.
      * @param scale Scale parameter of this distribution.
      * @param shape Shape parameter of this distribution.
      * @param inverseCumAccuracy Inverse cumulative probability accuracy.
      * @throws NotStrictlyPositiveException if {@code shape <= 0}.
-     * @since 3.1
      */
-    @Deprecated
-    public LogNormalDistribution(RandomGenerator rng,
-                                 double scale,
+    public LogNormalDistribution(double scale,
                                  double shape,
                                  double inverseCumAccuracy)
         throws NotStrictlyPositiveException {
-        super(rng);
-
         if (shape <= 0) {
             throw new NotStrictlyPositiveException(LocalizedFormats.SHAPE, shape);
         }

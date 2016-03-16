@@ -17,13 +17,14 @@
 package org.apache.commons.math4.analysis.interpolation;
 
 import org.apache.commons.math4.analysis.BivariateFunction;
+import org.apache.commons.math4.distribution.RealDistribution;
 import org.apache.commons.math4.distribution.UniformRealDistribution;
 import org.apache.commons.math4.exception.DimensionMismatchException;
 import org.apache.commons.math4.exception.InsufficientDataException;
 import org.apache.commons.math4.exception.NonMonotonicSequenceException;
 import org.apache.commons.math4.exception.NullArgumentException;
-import org.apache.commons.math4.random.RandomGenerator;
-import org.apache.commons.math4.random.Well19937c;
+import org.apache.commons.math4.rng.UniformRandomProvider;
+import org.apache.commons.math4.rng.RandomSource;
 import org.junit.Assert;
 import org.junit.Test;
 
@@ -157,9 +158,9 @@ public final class PiecewiseBicubicSplineInterpolatorTest {
         BivariateFunction p = interpolator.interpolate(xval, yval, zval);
         double x, y;
 
-        final RandomGenerator rng = new Well19937c(1234567L); // "tol" depends on the seed.
-        final UniformRealDistribution distX = new UniformRealDistribution( rng, xval[0], xval[xval.length - 1] );
-        final UniformRealDistribution distY = new UniformRealDistribution( rng, yval[0], yval[yval.length - 1] );
+        final UniformRandomProvider rng = RandomSource.create(RandomSource.WELL_19937_C, 1234567L);
+        final RealDistribution.Sampler distX = new UniformRealDistribution(xval[0], xval[xval.length - 1]).createSampler(rng);
+        final RealDistribution.Sampler distY = new UniformRealDistribution(yval[0], yval[yval.length - 1]).createSampler(rng);
 
         final int numSamples = 50;
         final double tol = 2e-14;
@@ -209,9 +210,9 @@ public final class PiecewiseBicubicSplineInterpolatorTest {
         BivariateFunction p = interpolator.interpolate(xval, yval, zval);
         double x, y;
 
-        final RandomGenerator rng = new Well19937c(1234567L); // "tol" depends on the seed.
-        final UniformRealDistribution distX = new UniformRealDistribution( rng, xval[0], xval[xval.length - 1] );
-        final UniformRealDistribution distY = new UniformRealDistribution( rng, yval[0], yval[yval.length - 1] );
+        final UniformRandomProvider rng = RandomSource.create(RandomSource.WELL_19937_C, 1234567L);
+        final RealDistribution.Sampler distX = new UniformRealDistribution(xval[0], xval[xval.length - 1]).createSampler(rng);
+        final RealDistribution.Sampler distY = new UniformRealDistribution(yval[0], yval[yval.length - 1]).createSampler(rng);
 
         final int numSamples = 50;
         final double tol = 5e-13;

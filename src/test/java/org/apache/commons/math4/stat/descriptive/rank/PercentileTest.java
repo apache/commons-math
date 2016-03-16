@@ -18,14 +18,16 @@ package org.apache.commons.math4.stat.descriptive.rank;
 
 import java.util.Arrays;
 
+import org.apache.commons.math4.distribution.RealDistribution;
+import org.apache.commons.math4.distribution.AbstractRealDistribution;
 import org.apache.commons.math4.distribution.NormalDistribution;
 import org.apache.commons.math4.exception.MathIllegalArgumentException;
 import org.apache.commons.math4.exception.NotANumberException;
 import org.apache.commons.math4.exception.NullArgumentException;
 import org.apache.commons.math4.exception.OutOfRangeException;
-import org.apache.commons.math4.random.JDKRandomGenerator;
-import org.apache.commons.math4.random.RandomGenerator;
 import org.apache.commons.math4.random.Well1024a;
+import org.apache.commons.math4.rng.RandomSource;
+import org.apache.commons.math4.rng.UniformRandomProvider;
 import org.apache.commons.math4.stat.descriptive.UnivariateStatistic;
 import org.apache.commons.math4.stat.descriptive.UnivariateStatisticAbstractTest;
 import org.apache.commons.math4.stat.descriptive.rank.Percentile.EstimationType;
@@ -587,22 +589,23 @@ public class PercentileTest extends UnivariateStatisticAbstractTest{
 
     @Test
     public void testStoredVsDirect() {
-        final RandomGenerator rand= new JDKRandomGenerator();
-        rand.setSeed(Long.MAX_VALUE);
-        for (final int sampleSize:sampleSizes) {
-            final double[] data = new NormalDistribution(rand,4000, 50)
-                                .sample(sampleSize);
-            for (final double p:new double[] {50d,95d}) {
+        final RealDistribution.Sampler sampler =
+            new NormalDistribution(4000, 50).createSampler(RandomSource.create(RandomSource.JDK,
+                                                                               Long.MAX_VALUE));
+
+        for (final int sampleSize : sampleSizes) {
+            final double[] data = AbstractRealDistribution.sample(sampleSize, sampler);
+            for (final double p : new double[] { 50d, 95d }) {
                 for (final Percentile.EstimationType e : Percentile.EstimationType.values()) {
                     reset(p, e);
                     final Percentile pStoredData = getUnivariateStatistic();
                     pStoredData.setData(data);
-                    final double storedDataResult=pStoredData.evaluate();
+                    final double storedDataResult = pStoredData.evaluate();
                     pStoredData.setData(null);
                     final Percentile pDirect = getUnivariateStatistic();
-                    Assert.assertEquals("Sample="+sampleSize+",P="+p+" e="+e,
-                            storedDataResult,
-                            pDirect.evaluate(data),0d);
+                    Assert.assertEquals("Sample=" + sampleSize + ", P=" + p + " e=" + e,
+                                        storedDataResult,
+                                        pDirect.evaluate(data), 0d);
                 }
             }
         }

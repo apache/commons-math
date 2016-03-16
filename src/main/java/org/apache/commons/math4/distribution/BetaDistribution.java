@@ -18,8 +18,6 @@ package org.apache.commons.math4.distribution;
 
 import org.apache.commons.math4.exception.NumberIsTooSmallException;
 import org.apache.commons.math4.exception.util.LocalizedFormats;
-import org.apache.commons.math4.random.RandomGenerator;
-import org.apache.commons.math4.random.Well19937c;
 import org.apache.commons.math4.rng.UniformRandomProvider;
 import org.apache.commons.math4.special.Beta;
 import org.apache.commons.math4.special.Gamma;
@@ -39,7 +37,7 @@ public class BetaDistribution extends AbstractRealDistribution {
      */
     public static final double DEFAULT_INVERSE_ABSOLUTE_ACCURACY = 1e-9;
     /** Serializable version identifier. */
-    private static final long serialVersionUID = -1221965979403477668L;
+    private static final long serialVersionUID = 20160311L;
     /** First shape parameter. */
     private final double alpha;
     /** Second shape parameter. */
@@ -52,14 +50,7 @@ public class BetaDistribution extends AbstractRealDistribution {
     private final double solverAbsoluteAccuracy;
 
     /**
-     * Build a new instance.
-     * <p>
-     * <b>Note:</b> this constructor will implicitly create an instance of
-     * {@link Well19937c} as random generator to be used for sampling only (see
-     * {@link #sample()} and {@link #sample(int)}). In case no sampling is
-     * needed for the created distribution, it is advised to pass {@code null}
-     * as random generator via the appropriate constructors to avoid the
-     * additional initialisation overhead.
+     * Creates a new instance.
      *
      * @param alpha First shape parameter (must be positive).
      * @param beta Second shape parameter (must be positive).
@@ -69,57 +60,19 @@ public class BetaDistribution extends AbstractRealDistribution {
     }
 
     /**
-     * Build a new instance.
-     * <p>
-     * <b>Note:</b> this constructor will implicitly create an instance of
-     * {@link Well19937c} as random generator to be used for sampling only (see
-     * {@link #sample()} and {@link #sample(int)}). In case no sampling is
-     * needed for the created distribution, it is advised to pass {@code null}
-     * as random generator via the appropriate constructors to avoid the
-     * additional initialisation overhead.
+     * Creates a new instance.
      *
      * @param alpha First shape parameter (must be positive).
      * @param beta Second shape parameter (must be positive).
      * @param inverseCumAccuracy Maximum absolute error in inverse
      * cumulative probability estimates (defaults to
      * {@link #DEFAULT_INVERSE_ABSOLUTE_ACCURACY}).
-     * @since 2.1
-     */
-    public BetaDistribution(double alpha, double beta, double inverseCumAccuracy) {
-        this(new Well19937c(), alpha, beta, inverseCumAccuracy);
-    }
-
-    /**
-     * Creates a &beta; distribution.
      *
-     * @param rng Random number generator.
-     * @param alpha First shape parameter (must be positive).
-     * @param beta Second shape parameter (must be positive).
-     * @since 3.3
-     */
-    @Deprecated
-    public BetaDistribution(RandomGenerator rng, double alpha, double beta) {
-        this(rng, alpha, beta, DEFAULT_INVERSE_ABSOLUTE_ACCURACY);
-    }
-
-    /**
-     * Creates a &beta; distribution.
-     *
-     * @param rng Random number generator.
-     * @param alpha First shape parameter (must be positive).
-     * @param beta Second shape parameter (must be positive).
-     * @param inverseCumAccuracy Maximum absolute error in inverse
-     * cumulative probability estimates (defaults to
-     * {@link #DEFAULT_INVERSE_ABSOLUTE_ACCURACY}).
      * @since 3.1
      */
-    @Deprecated
-    public BetaDistribution(RandomGenerator rng,
-                            double alpha,
+    public BetaDistribution(double alpha,
                             double beta,
                             double inverseCumAccuracy) {
-        super(rng);
-
         this.alpha = alpha;
         this.beta = beta;
         z = Double.NaN;

@@ -14,6 +14,7 @@
 
 package org.apache.commons.math4.filter;
 
+import org.apache.commons.math4.distribution.RealDistribution;
 import org.apache.commons.math4.distribution.NormalDistribution;
 import org.apache.commons.math4.filter.DefaultMeasurementModel;
 import org.apache.commons.math4.filter.DefaultProcessModel;
@@ -26,9 +27,10 @@ import org.apache.commons.math4.linear.MatrixDimensionMismatchException;
 import org.apache.commons.math4.linear.MatrixUtils;
 import org.apache.commons.math4.linear.RealMatrix;
 import org.apache.commons.math4.linear.RealVector;
-import org.apache.commons.math4.random.JDKRandomGenerator;
 import org.apache.commons.math4.random.RandomGenerator;
-import org.apache.commons.math4.random.Well19937c;
+import org.apache.commons.math4.random.JDKRandomGenerator;
+import org.apache.commons.math4.rng.UniformRandomProvider;
+import org.apache.commons.math4.rng.RandomSource;
 import org.apache.commons.math4.util.FastMath;
 import org.apache.commons.math4.util.Precision;
 import org.junit.Assert;
@@ -392,8 +394,8 @@ public class KalmanFilterTest {
         final MeasurementModel mm = new DefaultMeasurementModel(H, R);
         final KalmanFilter filter = new KalmanFilter(pm, mm);
 
-        final RandomGenerator rng = new Well19937c(1000);
-        final NormalDistribution dist = new NormalDistribution(rng, 0, measurementNoise);
+        final UniformRandomProvider rng = RandomSource.create(RandomSource.WELL_19937_C, 1000);
+        final RealDistribution.Sampler dist = new NormalDistribution(0, measurementNoise).createSampler(rng);
 
         for (int i = 0; i < iterations; i++) {
             // get the "real" cannonball position

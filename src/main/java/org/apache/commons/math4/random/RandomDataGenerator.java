@@ -18,6 +18,9 @@
 package org.apache.commons.math4.random;
 
 import java.io.Serializable;
+import java.io.IOException;
+import java.io.ObjectOutputStream;
+import java.io.ObjectInputStream;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.security.NoSuchProviderException;
@@ -46,6 +49,8 @@ import org.apache.commons.math4.exception.NotStrictlyPositiveException;
 import org.apache.commons.math4.exception.NumberIsTooLargeException;
 import org.apache.commons.math4.exception.OutOfRangeException;
 import org.apache.commons.math4.exception.util.LocalizedFormats;
+import org.apache.commons.math4.rng.RandomSource;
+import org.apache.commons.math4.rng.UniformRandomProvider;
 import org.apache.commons.math4.util.MathArrays;
 
 /**
@@ -115,7 +120,13 @@ public class RandomDataGenerator implements Serializable {
     private static final long serialVersionUID = -626730818244969716L;
 
     /** underlying random number generator */
+    @Deprecated
     private RandomGenerator rand = null;
+
+    /** Underlying random number generator. */
+    private transient UniformRandomProvider randomProvider = null;
+    /** Underlying source of randomness. */
+    private final RandomSource randomSource;
 
     /** underlying secure random number generator */
     private RandomGenerator secRand = null;
@@ -129,6 +140,7 @@ public class RandomDataGenerator implements Serializable {
      * The generator is initialized and seeded on first use.</p>
      */
     public RandomDataGenerator() {
+        randomSource = RandomSource.WELL_19937_C;
     }
 
     /**
@@ -138,8 +150,20 @@ public class RandomDataGenerator implements Serializable {
      * @param rand the source of (non-secure) random data
      * (may be null, resulting in the default generator)
      */
+    @Deprecated
     public RandomDataGenerator(RandomGenerator rand) {
         this.rand = rand;
+        randomSource = RandomSource.WELL_19937_C;
+    }
+
+    /**
+     * Creates a new instance.
+     *
+     * @param source Source of (non-secure) random data.
+     * If {@code null}, {@link RandomSource#WELL_19937_C} will be used.
+     */
+    public RandomDataGenerator(RandomSource source) {
+        randomSource = source == null ? RandomSource.WELL_19937_C : source;
     }
 
     /**
@@ -491,8 +515,7 @@ public class RandomDataGenerator implements Serializable {
      * @throws NotStrictlyPositiveException if {@code mean <= 0}.
      */
     public double nextExponential(double mean) throws NotStrictlyPositiveException {
-        return new ExponentialDistribution(getRandomGenerator(), mean,
-                ExponentialDistribution.DEFAULT_INVERSE_ABSOLUTE_ACCURACY).sample();
+        return new ExponentialDistribution(mean, ExponentialDistribution.DEFAULT_INVERSE_ABSOLUTE_ACCURACY).createSampler(getRandomProvider()).sample();
     }
 
     /**
@@ -518,8 +541,7 @@ public class RandomDataGenerator implements Serializable {
      * {@code scale <= 0}.
      */
     public double nextGamma(double shape, double scale) throws NotStrictlyPositiveException {
-        return new GammaDistribution(getRandomGenerator(),shape, scale,
-                GammaDistribution.DEFAULT_INVERSE_ABSOLUTE_ACCURACY).sample();
+        return new GammaDistribution(shape, scale, GammaDistribution.DEFAULT_INVERSE_ABSOLUTE_ACCURACY).createSampler(getRandomProvider()).sample();
     }
 
     /**
@@ -535,8 +557,7 @@ public class RandomDataGenerator implements Serializable {
      * @throws NotPositiveException  if {@code numberOfSuccesses < 0}.
      */
     public int nextHypergeometric(int populationSize, int numberOfSuccesses, int sampleSize) throws NotPositiveException, NotStrictlyPositiveException, NumberIsTooLargeException {
-        return new HypergeometricDistribution(getRandomGenerator(),populationSize,
-                numberOfSuccesses, sampleSize).sample();
+        return new HypergeometricDistribution(getRandomGenerator(), populationSize, numberOfSuccesses, sampleSize).sample();
     }
 
     /**
@@ -561,8 +582,7 @@ public class RandomDataGenerator implements Serializable {
      * @throws NotStrictlyPositiveException if {@code df <= 0}
      */
     public double nextT(double df) throws NotStrictlyPositiveException {
-        return new TDistribution(getRandomGenerator(), df,
-                TDistribution.DEFAULT_INVERSE_ABSOLUTE_ACCURACY).sample();
+        return new TDistribution(df, TDistribution.DEFAULT_INVERSE_ABSOLUTE_ACCURACY).createSampler(getRandomProvider()).sample();
     }
 
     /**
@@ -575,8 +595,7 @@ public class RandomDataGenerator implements Serializable {
      * {@code scale <= 0}.
      */
     public double nextWeibull(double shape, double scale) throws NotStrictlyPositiveException {
-        return new WeibullDistribution(getRandomGenerator(), shape, scale,
-                WeibullDistribution.DEFAULT_INVERSE_ABSOLUTE_ACCURACY).sample();
+        return new WeibullDistribution(shape, scale, WeibullDistribution.DEFAULT_INVERSE_ABSOLUTE_ACCURACY).createSampler(getRandomProvider()).sample();
     }
 
     /**
@@ -600,8 +619,7 @@ public class RandomDataGenerator implements Serializable {
      * @return random value sampled from the beta(alpha, beta) distribution
      */
     public double nextBeta(double alpha, double beta) {
-        return new BetaDistribution(getRandomGenerator(), alpha, beta,
-                BetaDistribution.DEFAULT_INVERSE_ABSOLUTE_ACCURACY).sample();
+        return new BetaDistribution(alpha, beta, BetaDistribution.DEFAULT_INVERSE_ABSOLUTE_ACCURACY).createSampler(getRandomProvider()).sample();
     }
 
     /**
@@ -623,8 +641,7 @@ public class RandomDataGenerator implements Serializable {
      * @return random value sampled from the Cauchy(median, scale) distribution
      */
     public double nextCauchy(double median, double scale) {
-        return new CauchyDistribution(getRandomGenerator(), median, scale,
-                CauchyDistribution.DEFAULT_INVERSE_ABSOLUTE_ACCURACY).sample();
+        return new CauchyDistribution(median, scale, CauchyDistribution.DEFAULT_INVERSE_ABSOLUTE_ACCURACY).createSampler(getRandomProvider()).sample();
     }
 
     /**
@@ -634,8 +651,7 @@ public class RandomDataGenerator implements Serializable {
      * @return random value sampled from the ChiSquare(df) distribution
      */
     public double nextChiSquare(double df) {
-        return new ChiSquaredDistribution(getRandomGenerator(), df,
-                ChiSquaredDistribution.DEFAULT_INVERSE_ABSOLUTE_ACCURACY).sample();
+        return new ChiSquaredDistribution(df, ChiSquaredDistribution.DEFAULT_INVERSE_ABSOLUTE_ACCURACY).createSampler(getRandomProvider()).sample();
     }
 
     /**
@@ -648,8 +664,7 @@ public class RandomDataGenerator implements Serializable {
      * {@code numeratorDf <= 0} or {@code denominatorDf <= 0}.
      */
     public double nextF(double numeratorDf, double denominatorDf) throws NotStrictlyPositiveException {
-        return new FDistribution(getRandomGenerator(), numeratorDf, denominatorDf,
-                FDistribution.DEFAULT_INVERSE_ABSOLUTE_ACCURACY).sample();
+        return new FDistribution(numeratorDf, denominatorDf, FDistribution.DEFAULT_INVERSE_ABSOLUTE_ACCURACY).createSampler(getRandomProvider()).sample();
     }
 
     /**
@@ -830,7 +845,8 @@ public class RandomDataGenerator implements Serializable {
      * @param seed the seed value to use
      */
     public void reSeed(long seed) {
-       getRandomGenerator().setSeed(seed);
+        randomProvider = RandomSource.create(randomSource, seed);
+        getRandomGenerator().setSeed(seed);
     }
 
     /**
@@ -861,7 +877,7 @@ public class RandomDataGenerator implements Serializable {
      * {@code System.currentTimeMillis() + System.identityHashCode(this))}.
      */
     public void reSeed() {
-        getRandomGenerator().setSeed(System.currentTimeMillis() + System.identityHashCode(this));
+        reSeed(System.currentTimeMillis() + System.identityHashCode(this));
     }
 
     /**
@@ -896,6 +912,7 @@ public class RandomDataGenerator implements Serializable {
      * @return the Random used to generate random data
      * @since 3.2
      */
+    @Deprecated
     public RandomGenerator getRandomGenerator() {
         if (rand == null) {
             initRan();
@@ -904,9 +921,23 @@ public class RandomDataGenerator implements Serializable {
     }
 
     /**
+     * @return the generator used to generate non-secure random data.
+     *
+     * XXX TODO: method cannot be "private" because of its use in "ValueServer" in "DIGEST_MODE".
+     * "ValueServer" should be fixed to not use the internals of another class!
+     */
+    UniformRandomProvider getRandomProvider() {
+        if (randomProvider == null) {
+            randomProvider = RandomSource.create(randomSource);
+        }
+        return randomProvider;
+    }
+
+    /**
      * Sets the default generator to a {@link Well19937c} generator seeded with
      * {@code System.currentTimeMillis() + System.identityHashCode(this))}.
      */
+    @Deprecated
     private void initRan() {
         rand = new Well19937c(System.currentTimeMillis() + System.identityHashCode(this));
     }
@@ -927,5 +958,43 @@ public class RandomDataGenerator implements Serializable {
             secRand.setSeed(System.currentTimeMillis() + System.identityHashCode(this));
         }
         return secRand;
+    }
+
+    /**
+     * @param out Output stream.
+     * @throws IOException if an error occurs.
+     */
+    private void writeObject(ObjectOutputStream out)
+        throws IOException {
+        // Write non-transient fields.
+        out.defaultWriteObject();
+
+        if (randomProvider != null) {
+            // Save state of "randomProvider".
+            out.writeObject(RandomSource.saveState(randomProvider));
+        } else {
+            out.writeObject(null);
+        }
+   }
+
+    /**
+     * @param in Input stream.
+     * @throws IOException if an error occurs.
+     * @throws ClassNotFoundException if an error occurs.
+     */
+    private void readObject(ObjectInputStream in)
+        throws IOException,
+               ClassNotFoundException {
+        // Read non-transient fields.
+        in.defaultReadObject();
+
+        // Read "randomProvider" state (can be null).
+        final Object state = in.readObject();
+        if (state != null) {
+            // Recreate "randomProvider" from serialized info.
+            randomProvider = RandomSource.create(randomSource);
+            // And restore its state.
+            RandomSource.restoreState(randomProvider, (RandomSource.State) state);
+        }
     }
 }
