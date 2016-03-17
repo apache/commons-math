@@ -160,14 +160,6 @@ public class UniformRealDistribution extends AbstractRealDistribution {
 
     /** {@inheritDoc} */
     @Override
-    @Deprecated
-    public double sample()  {
-        final double u = random.nextDouble();
-        return u * upper + (1 - u) * lower;
-    }
-
-    /** {@inheritDoc} */
-    @Override
     public RealDistribution.Sampler createSampler(final UniformRandomProvider rng) {
         return new RealDistribution.Sampler() {
             /** {@inheritDoc} */

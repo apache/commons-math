@@ -250,14 +250,6 @@ public class ParetoDistribution extends AbstractRealDistribution {
 
     /** {@inheritDoc} */
     @Override
-    @Deprecated
-    public double sample()  {
-        final double n = random.nextDouble();
-        return scale / FastMath.pow(n, 1 / shape);
-    }
-
-    /** {@inheritDoc} */
-    @Override
     public RealDistribution.Sampler createSampler(final UniformRandomProvider rng) {
         return new RealDistribution.Sampler() {
             /** {@inheritDoc} */

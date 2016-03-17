@@ -160,7 +160,8 @@ public class KolmogorovSmirnovTest {
      * The #monteCarloP(double, int, int, boolean, int) that uses the generator supplied to this
      * constructor is deprecated as of version 3.6.
      *
-     * @param rng random data generator used by {@link #monteCarloP(double, int, int, boolean, int)}
+     * @param source random data generator used by {@link #monteCarloP(double, int, int, boolean, int)}
+     * @param seed Seed.
      */
     @Deprecated
     public KolmogorovSmirnovTest(RandomSource source,
@@ -1209,10 +1210,8 @@ public class KolmogorovSmirnovTest {
     private static void jitter(double[] data, RealDistribution.Sampler sampler) {
         for (int i = 0; i < data.length; i++) {
             final double d = sampler.sample();
-            System.out.println("d=" + d); // XXX
             data[i] += d;
         }
-        System.out.println(); // XXX
     }
 
     /**

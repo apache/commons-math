@@ -237,13 +237,6 @@ public class NormalDistribution extends AbstractRealDistribution {
 
     /** {@inheritDoc} */
     @Override
-    @Deprecated
-    public double sample()  {
-        return standardDeviation * random.nextGaussian() + mean;
-    }
-
-    /** {@inheritDoc} */
-    @Override
     public RealDistribution.Sampler createSampler(final UniformRandomProvider rng) {
         return new RealDistribution.Sampler() {
             /** Next gaussian. */

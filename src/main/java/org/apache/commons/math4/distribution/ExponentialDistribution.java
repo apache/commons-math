@@ -186,58 +186,6 @@ public class ExponentialDistribution extends AbstractRealDistribution {
         return ret;
     }
 
-    /**
-     * {@inheritDoc}
-     *
-     * <p><strong>Algorithm Description</strong>: this implementation uses the
-     * <a href="http://www.jesus.ox.ac.uk/~clifford/a5/chap1/node5.html">
-     * Inversion Method</a> to generate exponentially distributed random values
-     * from uniform deviates.</p>
-     *
-     * @return a random value.
-     * @since 2.2
-     */
-    @Override
-    @Deprecated
-    public double sample() {
-        // Step 1:
-        double a = 0;
-        double u = random.nextDouble();
-
-        // Step 2 and 3:
-        while (u < 0.5) {
-            a += EXPONENTIAL_SA_QI[0];
-            u *= 2;
-        }
-
-        // Step 4 (now u >= 0.5):
-        u += u - 1;
-
-        // Step 5:
-        if (u <= EXPONENTIAL_SA_QI[0]) {
-            return mean * (a + u);
-        }
-
-        // Step 6:
-        int i = 0; // Should be 1, be we iterate before it in while using 0
-        double u2 = random.nextDouble();
-        double umin = u2;
-
-        // Step 7 and 8:
-        do {
-            ++i;
-            u2 = random.nextDouble();
-
-            if (u2 < umin) {
-                umin = u2;
-            }
-
-            // Step 8:
-        } while (u > EXPONENTIAL_SA_QI[i]); // Ensured to exit since EXPONENTIAL_SA_QI[MAX] = 1
-
-        return mean * (a + umin * EXPONENTIAL_SA_QI[0]);
-    }
-
     /** {@inheritDoc} */
     @Override
     protected double getSolverAbsoluteAccuracy() {

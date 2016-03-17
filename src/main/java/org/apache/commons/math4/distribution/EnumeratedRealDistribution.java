@@ -273,15 +273,6 @@ public class EnumeratedRealDistribution extends AbstractRealDistribution {
         return true;
     }
 
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    @Deprecated
-    public double sample() {
-        return innerDistribution.sample();
-    }
-
     /** {@inheritDoc} */
     @Override
     public RealDistribution.Sampler createSampler(final UniformRandomProvider rng) {

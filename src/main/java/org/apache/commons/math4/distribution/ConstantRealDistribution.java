@@ -104,21 +104,6 @@ public class ConstantRealDistribution extends AbstractRealDistribution {
         return true;
     }
 
-    /** {@inheritDoc} */
-    @Override
-    @Deprecated
-    public double sample()  {
-        return value;
-    }
-
-    /**
-     * Override with no-op (there is no generator).
-     * @param seed (ignored)
-     */
-    @Override
-    @Deprecated
-    public void reseedRandomGenerator(long seed) {}
-
     /**
      * {@inheritDoc}
      *

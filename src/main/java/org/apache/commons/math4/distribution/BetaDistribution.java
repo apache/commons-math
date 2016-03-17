@@ -254,7 +254,7 @@ public class BetaDistribution extends AbstractRealDistribution {
      * @since 3.6
      */
     private static class ChengBetaSampler implements RealDistribution.Sampler {
-        /** RNG (uniform distribution. */
+        /** RNG (uniform distribution). */
         private final UniformRandomProvider rng;
         /** First shape parameter. */
         private final double alphaShape;
@@ -264,7 +264,7 @@ public class BetaDistribution extends AbstractRealDistribution {
         /**
          * Creates a sampler instance.
          *
-         * @param rng Generator.
+         * @param generator RNG.
          * @param alpha Distribution first shape parameter.
          * @param beta Distribution second shape parameter.
          */

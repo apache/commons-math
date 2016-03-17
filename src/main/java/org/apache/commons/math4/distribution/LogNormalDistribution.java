@@ -290,23 +290,15 @@ public class LogNormalDistribution extends AbstractRealDistribution {
 
     /** {@inheritDoc} */
     @Override
-    @Deprecated
-    public double sample()  {
-        final double n = random.nextGaussian();
-        return FastMath.exp(scale + shape * n);
-    }
-
-    /** {@inheritDoc} */
-    @Override
     public RealDistribution.Sampler createSampler(final UniformRandomProvider rng) {
         return new RealDistribution.Sampler() {
             /** Gaussian sampling. */
-            final RealDistribution.Sampler gaussian = new NormalDistribution().createSampler(rng);
+            private final RealDistribution.Sampler gaussian = new NormalDistribution().createSampler(rng);
 
             /** {@inheritDoc} */
             @Override
             public double sample() {
-                final double n = random.nextGaussian();
+                final double n = gaussian.sample();
                 return FastMath.exp(scale + shape * n);
             }
         };

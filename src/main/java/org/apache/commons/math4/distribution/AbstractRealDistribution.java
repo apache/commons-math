@@ -20,11 +20,9 @@ import java.io.Serializable;
 
 import org.apache.commons.math4.analysis.UnivariateFunction;
 import org.apache.commons.math4.analysis.solvers.UnivariateSolverUtils;
-import org.apache.commons.math4.exception.NotStrictlyPositiveException;
 import org.apache.commons.math4.exception.NumberIsTooLargeException;
 import org.apache.commons.math4.exception.OutOfRangeException;
 import org.apache.commons.math4.exception.util.LocalizedFormats;
-import org.apache.commons.math4.random.RandomGenerator;
 import org.apache.commons.math4.rng.UniformRandomProvider;
 import org.apache.commons.math4.util.FastMath;
 
@@ -49,14 +47,6 @@ public abstract class AbstractRealDistribution
     public static final double SOLVER_DEFAULT_ABSOLUTE_ACCURACY = 1e-6;
     /** Serializable version identifier */
     private static final long serialVersionUID = 20160311L;
-
-    /**
-     * RNG instance used to generate samples from the distribution.
-     * @since 3.1
-     * XXX: hard-coded value to prevent "NullPointerException".
-     */
-    @Deprecated
-    protected final RandomGenerator random = new org.apache.commons.math4.random.Well19937c();
 
     /**
      * For a random variable {@code X} whose values are distributed according
@@ -209,47 +199,6 @@ public abstract class AbstractRealDistribution
      */
     protected double getSolverAbsoluteAccuracy() {
         return SOLVER_DEFAULT_ABSOLUTE_ACCURACY;
-    }
-
-    /** {@inheritDoc} */
-    @Override
-    @Deprecated
-    public void reseedRandomGenerator(long seed) {
-        random.setSeed(seed);
-    }
-
-    /**
-     * {@inheritDoc}
-     *
-     * The default implementation uses the
-     * <a href="http://en.wikipedia.org/wiki/Inverse_transform_sampling">
-     * inversion method.
-     * </a>
-     */
-    @Override
-    @Deprecated
-    public double sample() {
-        return inverseCumulativeProbability(random.nextDouble());
-    }
-
-    /**
-     * {@inheritDoc}
-     *
-     * The default implementation generates the sample by calling
-     * {@link #sample()} in a loop.
-     */
-    @Override
-    @Deprecated
-    public double[] sample(int sampleSize) {
-        if (sampleSize <= 0) {
-            throw new NotStrictlyPositiveException(LocalizedFormats.NUMBER_OF_SAMPLES,
-                    sampleSize);
-        }
-        double[] out = new double[sampleSize];
-        for (int i = 0; i < sampleSize; i++) {
-            out[i] = sample();
-        }
-        return out;
     }
 
     /**

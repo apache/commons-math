@@ -25,6 +25,7 @@ import org.apache.commons.math4.distribution.RealDistribution;
 import org.apache.commons.math4.distribution.UniformRealDistribution;
 import org.apache.commons.math4.fitting.SimpleCurveFitter;
 import org.apache.commons.math4.fitting.WeightedObservedPoints;
+import org.apache.commons.math4.rng.RandomSource;
 import org.junit.Test;
 
 /**
@@ -34,8 +35,9 @@ public class SimpleCurveFitterTest {
     @Test
     public void testPolynomialFit() {
         final Random randomizer = new Random(53882150042L);
-        final RealDistribution rng = new UniformRealDistribution(-100, 100);
-        rng.reseedRandomGenerator(64925784252L);
+        final RealDistribution.Sampler rng
+            = new UniformRealDistribution(-100, 100).createSampler(RandomSource.create(RandomSource.WELL_512_A,
+                                                                                       64925784253L));
 
         final double[] coeff = { 12.9, -3.4, 2.1 }; // 12.9 - 3.4 x + 2.1 x^2
         final PolynomialFunction f = new PolynomialFunction(coeff);

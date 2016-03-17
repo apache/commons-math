@@ -23,9 +23,11 @@ import java.util.Collection;
 import org.apache.commons.math4.TestUtils;
 import org.apache.commons.math4.distribution.IntegerDistribution;
 import org.apache.commons.math4.distribution.RealDistribution;
+import org.apache.commons.math4.distribution.AbstractRealDistribution;
 import org.apache.commons.math4.distribution.UniformIntegerDistribution;
 import org.apache.commons.math4.distribution.UniformRealDistribution;
 import org.apache.commons.math4.util.Precision;
+import org.apache.commons.math4.rng.RandomSource;
 import org.junit.Assert;
 import org.junit.Test;
 
@@ -281,9 +283,11 @@ public class AggregateSummaryStatisticsTest {
      */
     private double[] generateSample() {
         final IntegerDistribution size = new UniformIntegerDistribution(10, 100);
-        final RealDistribution randomData = new UniformRealDistribution(-100, 100);
+        final RealDistribution.Sampler randomData
+            = new UniformRealDistribution(-100, 100).createSampler(RandomSource.create(RandomSource.WELL_512_A,
+                                                                                       64925784252L));;
         final int sampleSize = size.sample();
-        final double[] out = randomData.sample(sampleSize);
+        final double[] out = AbstractRealDistribution.sample(sampleSize, randomData);
         return out;
     }
 

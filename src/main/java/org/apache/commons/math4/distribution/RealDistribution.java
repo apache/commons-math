@@ -161,33 +161,6 @@ public interface RealDistribution {
     boolean isSupportConnected();
 
     /**
-     * Reseed the random generator used to generate samples.
-     *
-     * @param seed the new seed
-     */
-    @Deprecated
-    void reseedRandomGenerator(long seed);
-
-    /**
-     * Generate a random value sampled from this distribution.
-     *
-     * @return a random value.
-     */
-    @Deprecated
-    double sample();
-
-    /**
-     * Generate a random sample from the distribution.
-     *
-     * @param sampleSize the number of random values to generate
-     * @return an array representing the random sample
-     * @throws org.apache.commons.math4.exception.NotStrictlyPositiveException
-     * if {@code sampleSize} is not positive
-     */
-    @Deprecated
-    double[] sample(int sampleSize);
-
-    /**
      * Creates a sampler.
      *
      * @param rng Generator of uniformly distributed numbers.

@@ -20,6 +20,7 @@ package org.apache.commons.math4.linear;
 import java.util.Arrays;
 import java.util.Random;
 
+import org.apache.commons.math4.distribution.RealDistribution;
 import org.apache.commons.math4.distribution.NormalDistribution;
 import org.apache.commons.math4.exception.MathUnsupportedOperationException;
 import org.apache.commons.math4.linear.ArrayRealVector;
@@ -32,6 +33,7 @@ import org.apache.commons.math4.linear.TriDiagonalTransformer;
 import org.apache.commons.math4.util.FastMath;
 import org.apache.commons.math4.util.MathArrays;
 import org.apache.commons.math4.util.Precision;
+import org.apache.commons.math4.rng.RandomSource;
 import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
@@ -468,7 +470,9 @@ public class EigenDecompositionTest {
     public void testNormalDistributionUnsymmetricMatrix() {
         for (int run = 0; run < 100; run++) {
             Random r = new Random(System.currentTimeMillis());
-            NormalDistribution dist = new NormalDistribution(0.0, r.nextDouble() * 5);
+            RealDistribution.Sampler dist 
+                = new NormalDistribution(0.0, r.nextDouble() * 5).createSampler(RandomSource.create(RandomSource.WELL_512_A,
+                                                                                                    64925784252L));
 
             // matrix size
             int size = r.nextInt(20) + 4;

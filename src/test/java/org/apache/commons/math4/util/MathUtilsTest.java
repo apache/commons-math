@@ -20,6 +20,7 @@ import org.apache.commons.math4.exception.NotFiniteNumberException;
 import org.apache.commons.math4.exception.NullArgumentException;
 import org.apache.commons.math4.exception.util.LocalizedFormats;
 import org.apache.commons.math4.random.RandomDataGenerator;
+import org.apache.commons.math4.rng.RandomSource;
 import org.apache.commons.math4.util.FastMath;
 import org.apache.commons.math4.util.MathUtils;
 import org.junit.Assert;
@@ -100,7 +101,9 @@ public final class MathUtilsTest {
 
         // Generate 10 distinct random values
         for (int i = 0; i < 10; i++) {
-            final RealDistribution u = new UniformRealDistribution(i + 0.5, i + 0.75);
+            final RealDistribution.Sampler u
+                = new UniformRealDistribution(i + 0.5, i + 0.75).createSampler(RandomSource.create(RandomSource.WELL_512_A,
+                                                                                                   64925784252L));
             original[i] = u.sample();
         }
 

@@ -26,6 +26,7 @@ import org.apache.commons.math4.exception.ConvergenceException;
 import org.apache.commons.math4.fitting.PolynomialCurveFitter;
 import org.apache.commons.math4.fitting.WeightedObservedPoints;
 import org.apache.commons.math4.util.FastMath;
+import org.apache.commons.math4.rng.RandomSource;
 import org.junit.Assert;
 import org.junit.Test;
 
@@ -35,9 +36,9 @@ import org.junit.Test;
 public class PolynomialCurveFitterTest {
     @Test
     public void testFit() {
-        final RealDistribution rng = new UniformRealDistribution(-100, 100);
-        rng.reseedRandomGenerator(64925784252L);
-
+        final RealDistribution.Sampler rng
+            = new UniformRealDistribution(-100, 100).createSampler(RandomSource.create(RandomSource.WELL_512_A,
+                                                                                       64925784252L));
         final double[] coeff = { 12.9, -3.4, 2.1 }; // 12.9 - 3.4 x + 2.1 x^2
         final PolynomialFunction f = new PolynomialFunction(coeff);
 

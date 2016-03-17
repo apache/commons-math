@@ -310,6 +310,7 @@ public class EnumeratedDistribution<T> implements Serializable {
      * Creates a {@link Sampler}.
      *
      * @param rng Random number generator.
+     * @return a new sampler instance.
      */
     public Sampler createSampler(final UniformRandomProvider rng) {
         return new Sampler(rng);
