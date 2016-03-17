@@ -1,116 +1,32 @@
-The Apache Commons Math team is pleased to announce the commons-math3-3.6 release!
 
-The Apache Commons Math project is a library of lightweight, self-contained mathematics
-and statistics components addressing the most common practical problems not immediately
-available in the Java programming language or commons-lang.
+              Apache Commons Math 3.6.1 RELEASE NOTES
+
+The Apache Commons Math team is pleased to announce the release of
+commons-math3-3.6.1
+
+The Apache Commons Math project is a library of lightweight, self-contained
+mathematics and statistics components addressing the most common practical
+problems not immediately available in the Java programming language or
+commons-lang.
+
+This is a minor bug fix release. It incorporates three bug fixes since version
+3.6. The minimum version of the Java platform required to compile and use
+Commons Math 3.6.1 is Java 5.
 
 Changes in this version include:
 
-New features:
-o Added a RotationConvention enumerate to allow specifying the semantics
-        or axis/angle for rotations. This enumerate has two values:
-        VECTOR_OPERATOR and FRAME_TRANSFORM.  Issue: MATH-1302,MATH-1303.
-o Added a field-based version of Ordinary Differential Equations framework.
-        This allows integrating ode that refer to RealField elements instead of
-        primitive double, hence opening the way to use DerivativeStructure to
-        compute partial differential without using variational equations, or to solve
-        ode with extended precision using Dfp.  Issue: MATH-1288.
-o Added a nth order Brent solver for general real fields, replacing the former
-        solver that was restricted to Dfp fields only.
-o New "Range" inner class of "o.a.c.m.util.IntegerSequence".  Issue: MATH-1286.
-o "AggregateSummaryStatistics" can now aggregate any kind of
-        "StatisticalSummary".  Issue: MATH-837.
-o Deep copy of "Network" (package "o.a.c.m.ml.neuralnet") to allow evaluation of
-        of intermediate states during training.  Issue: MATH-1278.
-o Added negative zero support in FastMath.pow.  Issue: MATH-1273. Thanks to Qualtagh.
-o Various SOFM visualizations (in package "o.a.c.m.ml.neuralnet.twod.util"):
-        Unified distance matrix, hit histogram, smoothed data histograms,
-        topographic error, quantization error.  Issue: MATH-1270.
-o New interfaces to be implemented by algorithms that visualizes properties
-        of a "NeuronSquareMesh2D" (package "o.a.c.m.ml.neuralnet.twod.util").  Issue: MATH-1268.
-o Reimplemented pow(double, double) in FastMath, for better accuracy in
-        integral power cases and trying to fix erroneous JIT optimization again.
-o Added a pow(double, long) method in FastMath.
-o "NeuronSquareMesh2D" (package "o.a.c.m.ml.neuralnet.twod") implements "Iterable".  Issue: MATH-1265.
-o "MapUtils" (package "o.a.c.m.ml.neuralnet"): Method to sort units according to distance
-        from a given vector.  Issue: MATH-1264.
-o Accessor (class "o.a.c.m.ml.neuralnet.twod.NeuronSquareMesh2D").  Issue: MATH-1263.
-o New "IntegerSequence" class (in package "o.a.c.m.util") with "Incrementor" inner class.  Issue: MATH-1259.
-o "Neuron" class (package "o.a.c.m.ml.neuralnet"): added methods that can be used
-        to assess concurrency performance.  Issue: MATH-1250.
-o Method "cosAngle" in "o.a.c.m.util.MathArrays".  Issue: MATH-1244.
-
 Fixed Bugs:
-o Improved performance and accuracy of 2-sample KolmogorovSmirnov tests.  Issue: MATH-1310.
-o Detect start failures with multi-step ODE integrators.  Issue: MATH-1297.
-o Fixed stability issues with Adams-Bashforth and Adams-Moulton ODE integrators.
-        The integrators did not estimate the local error properly and were sometimes
-        stuck attempting to reduce indefinitely the step size as they thought the
-        error was too high. Thanks to Julien Queyrel.
-o Increased default value for number of allowed evaluations in
-        "o.a.c.m.optim.univariate.BracketFinder".  Issue: MATH-1295. Thanks to Luke Lindsay.
-o Fixed potential race condition in PolynomialUtils#buildPolynomial in
-        case polynomials are generated from multiple threads. Furthermore, the
-        synchronization is now performed on the coefficient list instead of the class.  Issue: MATH-1294. Thanks to Kamil Włodarczyk.
-o Fixed FastMath.exp that potentially returned NaN for non-NaN argument.  Issue: MATH-1269.
-o Updated reference in ZipfDistribution's javadoc.  Issue: MATH-1285. Thanks to Pim van der Hoorn.
-o Fixed "Gamma#gamma(double)" for negative values smaller than -20.  Issue: MATH-1283. Thanks to Jean Noel Delavalade.
-o Fixed javadoc of methods {floorDiv,floorMod} in class "FastMath".  Issue: MATH-1237. Thanks to Ken Williams.
-o Check precondition (class "o.a.c.m.random.EmpiricalDistribution").  Issue: MATH-1279.
-o Fixed incorrect Kendall's tau coefficient calculation due to internal integer overflow.  Issue: MATH-1277. Thanks to Marc Rosen.
-o Fixed split/side inconsistencies in BSP trees.  Issue: MATH-1266.
-o Avoid overflow in "Fraction" (multiplication or division by an int).  Issue: MATH-1261. Thanks to Osamu Ikeuchi.
-o Added check for equal array lengths to distance measure functions.  Issue: MATH-1258. Thanks to Gunel Jahangirova.
-o Better accuracy in computation of cumulative probability of "NormalDistribution"
-        (package "o.a.c.m.distribution").  Issue: MATH-1257. Thanks to Bill Murphy.
-o Boundary check to construct an "Interval" (package "o.a.c.m.geometry.euclidean.oned").  Issue: MATH-1256.
-o Wrong neighbourhood size in class "KohonenUpdateAction" (package "o.a.c.m.ml.neuralnet.sofm").  Issue: MATH-1255.
-o ResizableDoubleArray constructor does not work with double array of size 1.  Issue: MATH-1252. Thanks to John Bay.
-o Fixed initial value of "number of calls" counter in class "KohonenUpdateAction"
-        (package "o.a.c.m.ml.neuralnet.sofm").  Issue: MATH-1251.
-o Removed unnecessary allocations in "BigFraction" (package "o.a.c.m.fraction").  Issue: MATH-1248. Thanks to Chris Popp.
-o Fixed error in computing discrete distribution of D statistics for small-sample
-        2-sample Kolmogorov-Smirnov tests. Error was causing incorrect p-values returned
-        by exactP and monteCarloP methods (used by default for small, mid-size samples).  Issue: MATH-1245.
-o "KolmogorovSmirnovTest#ksSum(...)" returned wrong result in case the provided
-        t-parameters was zero. This affected the calculation of "approximateP(...)" for
-        identical samples.  Issue: MATH-1240.
-o Improved performance to calculate the two-sample Kolmogorov-Smirnov test
-        via monte carlo simulation ("KolmogorovSmirnovTets#monteCarloP(...)").  Issue: MATH-1242. Thanks to Otmar Ertl.
-o A "StackOverflowException" was thrown when passing Double.NaN or infinity
-        to "Gamma#digamma(double)" or "Gamma#trigamma(double)". Now the input value
-        is propagated to the output if it is not a real number.  Issue: MATH-1241. Thanks to Aleksei Dievskii.
-o Improved performance of calculating the two-sample Kolmogorov-Smirnov
-        test statistic.  Issue: MATH-1232. Thanks to Otmar Ertl.
-o Fixed error message for unknown parameter name in ODE.  Issue: MATH-1232.
-o Fixed wrong event detection in case of close events pairs.  Issue: MATH-1226.
-o Fix potential branching errors in "FastMath#pow(double, double)" when
-        passing special values, i.e. infinity, due to erroneous JIT optimization.
-o Fixed equals/hashcode contract failure for Dfp.  Issue: MATH-1118.
-o Fixed wrong splitting of huge number in extended accuracy algorithms.  Issue: MATH-1223.
-o Improve performance of "BetaDistribution#sample()" by using Cheng's algorithm.  Issue: MATH-1153. Thanks to Sergei Lebedev.
-o Computation of 2-sample Kolmogorov-Smirnov statistic in case of ties
-        was not correct.  Issue: MATH-1197.
+o MATH-1316:  Fix code example in User Guide > Statistics > Multiple linear regression. 
+o MATH-1342:  Fix ODE integrators when multiple events are nearly simultaneous. 
 
 Changes:
-o Modified 2-sample KolmogorovSmirnovTest to handle ties in sample data. By default,
-        ties are broken by adding random jitter to input data. Also added bootstrap method
-        analogous to ks.boot in R Matching package.  Issue: MATH-1246.
-o Added bootstrap method to KolmogorovSmirnov test.  Issue: MATH-1246.
-o Added constructors taking sample data as arguments to enumerated real and integer distributions.  Issue: MATH-1287.
-o Improved performance of sampling and inverse cumulative probability calculation
-        for geometric distributions.  Issue: MATH-1276.
-o Representation of Kolmogorov-Smirnov statistic as integral value.  Issue: MATH-1274.
-o Faster generation of Zipf distributed random numbers by using rejection-inversion sampling.  Issue: MATH-1220.
-o Improved performance of sort-in-place methods by avoiding boxing.  Issue: MATH-990.
-o Refactored implementation of the "miscrosphere projection"
-        interpolation algorithm.
-        New classes: "MicrosphereProjectionInterpolator",
-        "InterpolatingMicrosphere" and "InterpolatingMicrosphere2D"
-        replace "MicrosphereInterpolator" and "MicrosphereInterpolatingFunction".
-        (package "o.a.c.m.analysis.interpolation").  Issue: MATH-1243.
+o MATH-1317:  Add uniformity unit tests to "RandomGeneratorAbstractTest". 
 
 
-Have fun!
--Apache Commons Math team
+For complete information on Apache Commons Math, including instructions on how
+to submit bug reports, patches, or suggestions for improvement, see the Apache
+Commons Math website:
+
+http://commons.apache.org/proper/commons-math/
+
 
