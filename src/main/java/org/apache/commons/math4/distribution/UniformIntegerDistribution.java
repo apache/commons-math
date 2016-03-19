@@ -19,8 +19,7 @@ package org.apache.commons.math4.distribution;
 
 import org.apache.commons.math4.exception.NumberIsTooLargeException;
 import org.apache.commons.math4.exception.util.LocalizedFormats;
-import org.apache.commons.math4.random.RandomGenerator;
-import org.apache.commons.math4.random.Well19937c;
+import org.apache.commons.math4.rng.UniformRandomProvider;
 
 /**
  * Implementation of the uniform integer distribution.
@@ -32,7 +31,7 @@ import org.apache.commons.math4.random.Well19937c;
  */
 public class UniformIntegerDistribution extends AbstractIntegerDistribution {
     /** Serializable version identifier. */
-    private static final long serialVersionUID = 20120109L;
+    private static final long serialVersionUID = 20160308L;
     /** Lower bound (inclusive) of this distribution. */
     private final int lower;
     /** Upper bound (inclusive) of this distribution. */
@@ -41,39 +40,14 @@ public class UniformIntegerDistribution extends AbstractIntegerDistribution {
     /**
      * Creates a new uniform integer distribution using the given lower and
      * upper bounds (both inclusive).
-     * <p>
-     * <b>Note:</b> this constructor will implicitly create an instance of
-     * {@link Well19937c} as random generator to be used for sampling only (see
-     * {@link #sample()} and {@link #sample(int)}). In case no sampling is
-     * needed for the created distribution, it is advised to pass {@code null}
-     * as random generator via the appropriate constructors to avoid the
-     * additional initialisation overhead.
      *
-     * @param lower Lower bound (inclusive) of this distribution.
-     * @param upper Upper bound (inclusive) of this distribution.
-     * @throws NumberIsTooLargeException if {@code lower >= upper}.
-     */
-    public UniformIntegerDistribution(int lower, int upper)
-        throws NumberIsTooLargeException {
-        this(new Well19937c(), lower, upper);
-    }
-
-    /**
-     * Creates a new uniform integer distribution using the given lower and
-     * upper bounds (both inclusive).
-     *
-     * @param rng Random number generator.
      * @param lower Lower bound (inclusive) of this distribution.
      * @param upper Upper bound (inclusive) of this distribution.
      * @throws NumberIsTooLargeException if {@code lower > upper}.
-     * @since 3.1
      */
-    public UniformIntegerDistribution(RandomGenerator rng,
-                                      int lower,
+    public UniformIntegerDistribution(int lower,
                                       int upper)
         throws NumberIsTooLargeException {
-        super(rng);
-
         if (lower > upper) {
             throw new NumberIsTooLargeException(
                             LocalizedFormats.LOWER_BOUND_NOT_BELOW_UPPER_BOUND,
@@ -165,24 +139,30 @@ public class UniformIntegerDistribution extends AbstractIntegerDistribution {
         return true;
     }
 
-    /** {@inheritDoc} */
+    /**{@inheritDoc} */
     @Override
-    public int sample() {
-        final int max = (upper - lower) + 1;
-        if (max <= 0) {
-            // The range is too wide to fit in a positive int (larger
-            // than 2^31); as it covers more than half the integer range,
-            // we use a simple rejection method.
-            while (true) {
-                final int r = random.nextInt();
-                if (r >= lower &&
-                    r <= upper) {
-                    return r;
+    public IntegerDistribution.Sampler createSampler(final UniformRandomProvider rng) {
+        return new IntegerDistribution.Sampler() {
+            /** {@inheritDoc} */
+            @Override
+            public int sample() {
+                final int max = (upper - lower) + 1;
+                if (max <= 0) {
+                    // The range is too wide to fit in a positive int (larger
+                    // than 2^31); as it covers more than half the integer range,
+                    // we use a simple rejection method.
+                    while (true) {
+                        final int r = rng.nextInt();
+                        if (r >= lower &&
+                            r <= upper) {
+                            return r;
+                        }
+                    }
+                } else {
+                    // We can shift the range and directly generate a positive int.
+                    return lower + rng.nextInt(max);
                 }
             }
-        } else {
-            // We can shift the range and directly generate a positive int.
-            return lower + random.nextInt(max);
-        }
+        };
     }
 }

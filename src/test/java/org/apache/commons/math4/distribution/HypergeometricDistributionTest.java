@@ -24,6 +24,7 @@ import org.apache.commons.math4.exception.NotPositiveException;
 import org.apache.commons.math4.exception.NotStrictlyPositiveException;
 import org.apache.commons.math4.exception.NumberIsTooLargeException;
 import org.apache.commons.math4.util.Precision;
+import org.apache.commons.math4.rng.RandomSource;
 import org.junit.Assert;
 import org.junit.Test;
 
@@ -315,7 +316,8 @@ public class HypergeometricDistributionTest extends IntegerDistributionAbstractT
         final int N = 43130568;
         final int m = 42976365;
         final int n = 50;
-        final HypergeometricDistribution dist = new HypergeometricDistribution(N, m, n);
+        final IntegerDistribution.Sampler dist =
+            new HypergeometricDistribution(N, m, n).createSampler(RandomSource.create(RandomSource.WELL_512_A));
 
         for (int i = 0; i < 100; i++) {
             final int sample = dist.sample();

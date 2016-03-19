@@ -29,7 +29,6 @@ import org.apache.commons.math4.exception.NotPositiveException;
 import org.apache.commons.math4.exception.NotStrictlyPositiveException;
 import org.apache.commons.math4.exception.NullArgumentException;
 import org.apache.commons.math4.exception.util.LocalizedFormats;
-import org.apache.commons.math4.random.RandomGenerator;
 import org.apache.commons.math4.rng.UniformRandomProvider;
 import org.apache.commons.math4.util.MathArrays;
 import org.apache.commons.math4.util.Pair;
@@ -52,68 +51,22 @@ import org.apache.commons.math4.util.Pair;
  * @since 3.2
  */
 public class EnumeratedDistribution<T> implements Serializable {
-
     /** Serializable UID. */
-    private static final long serialVersionUID = 20123308L;
-
-    /**
-     * RNG instance used to generate samples from the distribution.
-     */
-    @Deprecated
-    protected RandomGenerator random = null;
-
+    private static final long serialVersionUID = 20160319L;
     /**
      * List of random variable values.
      */
     private final List<T> singletons;
-
     /**
      * Probabilities of respective random variable values. For i = 0, ..., singletons.size() - 1,
      * probability[i] is the probability that a random variable following this distribution takes
      * the value singletons[i].
      */
     private final double[] probabilities;
-
     /**
      * Cumulative probabilities, cached to speed up sampling.
      */
     private final double[] cumulativeProbabilities;
-
-    /**
-     * XXX TODO: remove once "EnumeratedIntegerDistribution" has been changed.
-     */
-    @Deprecated
-    public EnumeratedDistribution(final RandomGenerator rng, final List<Pair<T, Double>> pmf)
-        throws NotPositiveException, MathArithmeticException, NotFiniteNumberException, NotANumberException {
-        random = rng;
-        singletons = new ArrayList<T>(pmf.size());
-        final double[] probs = new double[pmf.size()];
-
-        for (int i = 0; i < pmf.size(); i++) {
-            final Pair<T, Double> sample = pmf.get(i);
-            singletons.add(sample.getKey());
-            final double p = sample.getValue();
-            if (p < 0) {
-                throw new NotPositiveException(sample.getValue());
-            }
-            if (Double.isInfinite(p)) {
-                throw new NotFiniteNumberException(p);
-            }
-            if (Double.isNaN(p)) {
-                throw new NotANumberException();
-            }
-            probs[i] = p;
-        }
-
-        probabilities = MathArrays.normalizeArray(probs, 1.0);
-
-        cumulativeProbabilities = new double[probabilities.length];
-        double sum = 0;
-        for (int i = 0; i < probabilities.length; i++) {
-            sum += probabilities[i];
-            cumulativeProbabilities[i] = sum;
-        }
-    }
 
     /**
      * Create an enumerated distribution using the given random number generator
@@ -161,16 +114,6 @@ public class EnumeratedDistribution<T> implements Serializable {
     }
 
     /**
-     * Reseed the random generator used to generate samples.
-     *
-     * @param seed the new seed
-     */
-    @Deprecated
-    public void reseedRandomGenerator(long seed) {
-        random.setSeed(seed);
-    }
-
-    /**
      * <p>For a random variable {@code X} whose values are distributed according to
      * this distribution, this method returns {@code P(X = x)}. In other words,
      * this method represents the probability mass function (PMF) for the
@@ -213,97 +156,6 @@ public class EnumeratedDistribution<T> implements Serializable {
         }
 
         return samples;
-    }
-
-    /**
-     * Generate a random value sampled from this distribution.
-     *
-     * @return a random value.
-     */
-    @Deprecated
-    public T sample() {
-        final double randomValue = random.nextDouble();
-
-        int index = Arrays.binarySearch(cumulativeProbabilities, randomValue);
-        if (index < 0) {
-            index = -index-1;
-        }
-
-        if (index >= 0 &&
-            index < probabilities.length &&
-            randomValue < cumulativeProbabilities[index]) {
-            return singletons.get(index);
-        }
-
-        /* This should never happen, but it ensures we will return a correct
-         * object in case there is some floating point inequality problem
-         * wrt the cumulative probabilities. */
-        return singletons.get(singletons.size() - 1);
-    }
-
-    /**
-     * Generate a random sample from the distribution.
-     *
-     * @param sampleSize the number of random values to generate.
-     * @return an array representing the random sample.
-     * @throws NotStrictlyPositiveException if {@code sampleSize} is not
-     * positive.
-     */
-    @Deprecated
-    public Object[] sample(int sampleSize) throws NotStrictlyPositiveException {
-        if (sampleSize <= 0) {
-            throw new NotStrictlyPositiveException(LocalizedFormats.NUMBER_OF_SAMPLES,
-                    sampleSize);
-        }
-
-        final Object[] out = new Object[sampleSize];
-
-        for (int i = 0; i < sampleSize; i++) {
-            out[i] = sample();
-        }
-
-        return out;
-
-    }
-
-    /**
-     * Generate a random sample from the distribution.
-     * <p>
-     * If the requested samples fit in the specified array, it is returned
-     * therein. Otherwise, a new array is allocated with the runtime type of
-     * the specified array and the size of this collection.
-     *
-     * @param sampleSize the number of random values to generate.
-     * @param array the array to populate.
-     * @return an array representing the random sample.
-     * @throws NotStrictlyPositiveException if {@code sampleSize} is not positive.
-     * @throws NullArgumentException if {@code array} is null
-     */
-    @Deprecated
-    public T[] sample(int sampleSize, final T[] array) throws NotStrictlyPositiveException {
-        if (sampleSize <= 0) {
-            throw new NotStrictlyPositiveException(LocalizedFormats.NUMBER_OF_SAMPLES, sampleSize);
-        }
-
-        if (array == null) {
-            throw new NullArgumentException(LocalizedFormats.INPUT_ARRAY);
-        }
-
-        T[] out;
-        if (array.length < sampleSize) {
-            @SuppressWarnings("unchecked") // safe as both are of type T
-            final T[] unchecked = (T[]) Array.newInstance(array.getClass().getComponentType(), sampleSize);
-            out = unchecked;
-        } else {
-            out = array;
-        }
-
-        for (int i = 0; i < sampleSize; i++) {
-            out[i] = sample();
-        }
-
-        return out;
-
     }
 
     /**

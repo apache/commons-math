@@ -18,9 +18,6 @@
 package org.apache.commons.math4.random;
 
 import java.io.Serializable;
-import java.io.IOException;
-import java.io.ObjectOutputStream;
-import java.io.ObjectInputStream;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.security.NoSuchProviderException;
@@ -49,7 +46,6 @@ import org.apache.commons.math4.exception.NotStrictlyPositiveException;
 import org.apache.commons.math4.exception.NumberIsTooLargeException;
 import org.apache.commons.math4.exception.OutOfRangeException;
 import org.apache.commons.math4.exception.util.LocalizedFormats;
-import org.apache.commons.math4.rng.RandomSource;
 import org.apache.commons.math4.rng.UniformRandomProvider;
 import org.apache.commons.math4.util.MathArrays;
 
@@ -120,13 +116,7 @@ public class RandomDataGenerator implements Serializable {
     private static final long serialVersionUID = -626730818244969716L;
 
     /** underlying random number generator */
-    @Deprecated
-    private RandomGenerator rand = null;
-
-    /** Underlying random number generator. */
-    private transient UniformRandomProvider randomProvider = null;
-    /** Underlying source of randomness. */
-    private final RandomSource randomSource;
+    private RandomGenerator rand;
 
     /** underlying secure random number generator */
     private RandomGenerator secRand = null;
@@ -140,7 +130,7 @@ public class RandomDataGenerator implements Serializable {
      * The generator is initialized and seeded on first use.</p>
      */
     public RandomDataGenerator() {
-        randomSource = RandomSource.WELL_19937_C;
+        rand = new Well19937c();
     }
 
     /**
@@ -150,20 +140,8 @@ public class RandomDataGenerator implements Serializable {
      * @param rand the source of (non-secure) random data
      * (may be null, resulting in the default generator)
      */
-    @Deprecated
     public RandomDataGenerator(RandomGenerator rand) {
         this.rand = rand;
-        randomSource = RandomSource.WELL_19937_C;
-    }
-
-    /**
-     * Creates a new instance.
-     *
-     * @param source Source of (non-secure) random data.
-     * If {@code null}, {@link RandomSource#WELL_19937_C} will be used.
-     */
-    public RandomDataGenerator(RandomSource source) {
-        randomSource = source == null ? RandomSource.WELL_19937_C : source;
     }
 
     /**
@@ -235,7 +213,7 @@ public class RandomDataGenerator implements Serializable {
      * @throws NumberIsTooLargeException if {@code lower >= upper}
      */
     public int nextInt(final int lower, final int upper) throws NumberIsTooLargeException {
-        return new UniformIntegerDistribution(getRandomGenerator(), lower, upper).sample();
+        return new UniformIntegerDistribution(lower, upper).createSampler(getRandomProvider()).sample();
     }
 
     /** Generates a uniformly distributed random long integer between {@code lower}
@@ -400,7 +378,7 @@ public class RandomDataGenerator implements Serializable {
      * @throws NumberIsTooLargeException if {@code lower >= upper}.
      */
     public int nextSecureInt(final int lower, final int upper) throws NumberIsTooLargeException {
-        return new UniformIntegerDistribution(getSecRan(), lower, upper).sample();
+        return new UniformIntegerDistribution(lower, upper).createSampler(getSecureRandomProvider()).sample();
     }
 
     /**
@@ -470,9 +448,9 @@ public class RandomDataGenerator implements Serializable {
      * @throws NotStrictlyPositiveException if {@code mean <= 0}.
      */
     public long nextPoisson(double mean) throws NotStrictlyPositiveException {
-        return new PoissonDistribution(getRandomGenerator(), mean,
+        return new PoissonDistribution(mean,
                 PoissonDistribution.DEFAULT_EPSILON,
-                PoissonDistribution.DEFAULT_MAX_ITERATIONS).sample();
+                PoissonDistribution.DEFAULT_MAX_ITERATIONS).createSampler(getRandomProvider()).sample();
     }
 
     /**
@@ -557,7 +535,7 @@ public class RandomDataGenerator implements Serializable {
      * @throws NotPositiveException  if {@code numberOfSuccesses < 0}.
      */
     public int nextHypergeometric(int populationSize, int numberOfSuccesses, int sampleSize) throws NotPositiveException, NotStrictlyPositiveException, NumberIsTooLargeException {
-        return new HypergeometricDistribution(getRandomGenerator(), populationSize, numberOfSuccesses, sampleSize).sample();
+        return new HypergeometricDistribution(populationSize, numberOfSuccesses, sampleSize).createSampler(getRandomProvider()).sample();
     }
 
     /**
@@ -571,7 +549,7 @@ public class RandomDataGenerator implements Serializable {
      * range {@code [0, 1]}.
      */
     public int nextPascal(int r, double p) throws NotStrictlyPositiveException, OutOfRangeException {
-        return new PascalDistribution(getRandomGenerator(), r, p).sample();
+        return new PascalDistribution(r, p).createSampler(getRandomProvider()).sample();
     }
 
     /**
@@ -608,7 +586,7 @@ public class RandomDataGenerator implements Serializable {
      * or {@code exponent <= 0}.
      */
     public int nextZipf(int numberOfElements, double exponent) throws NotStrictlyPositiveException {
-        return new ZipfDistribution(getRandomGenerator(), numberOfElements, exponent).sample();
+        return new ZipfDistribution(numberOfElements, exponent).createSampler(getRandomProvider()).sample();
     }
 
     /**
@@ -630,7 +608,7 @@ public class RandomDataGenerator implements Serializable {
      * @return random value sampled from the Binomial(numberOfTrials, probabilityOfSuccess) distribution
      */
     public int nextBinomial(int numberOfTrials, double probabilityOfSuccess) {
-        return new BinomialDistribution(getRandomGenerator(), numberOfTrials, probabilityOfSuccess).sample();
+        return new BinomialDistribution(numberOfTrials, probabilityOfSuccess).createSampler(getRandomProvider()).sample();
     }
 
     /**
@@ -764,7 +742,7 @@ public class RandomDataGenerator implements Serializable {
      * <p>
      * Generated arrays represent permutations of {@code n} taken {@code k} at a
      * time.</p>
-     * This method calls {@link MathArrays#shuffle(int[],RandomGenerator)
+     * This method calls {@link MathArrays#shuffle(int[],UniformRandomProvider)
      * MathArrays.shuffle} in order to create a random shuffle of the set
      * of natural numbers {@code { 0, 1, ..., n - 1 }}.
      *
@@ -788,7 +766,7 @@ public class RandomDataGenerator implements Serializable {
         }
 
         int[] index = MathArrays.natural(n);
-        MathArrays.shuffle(index, getRandomGenerator());
+        MathArrays.shuffle(index, getRandomProvider());
 
         // Return a new array containing the first "k" entries of "index".
         return MathArrays.copyOf(index, k);
@@ -845,7 +823,6 @@ public class RandomDataGenerator implements Serializable {
      * @param seed the seed value to use
      */
     public void reSeed(long seed) {
-        randomProvider = RandomSource.create(randomSource, seed);
         getRandomGenerator().setSeed(seed);
     }
 
@@ -912,12 +889,82 @@ public class RandomDataGenerator implements Serializable {
      * @return the Random used to generate random data
      * @since 3.2
      */
-    @Deprecated
     public RandomGenerator getRandomGenerator() {
         if (rand == null) {
             initRan();
         }
         return rand;
+    }
+
+    /**
+     * @param rng {@link RandomGenerator} instance.
+     * @return a {@link UniformRandomProvider} instance.
+     */
+    private UniformRandomProvider wrapRandomGenerator(final RandomGenerator rng) {
+        return new UniformRandomProvider() {
+            /** {@inheritDoc} */
+            @Override
+            public void nextBytes(byte[] bytes) {
+                rng.nextBytes(bytes);
+            }
+
+            /** {@inheritDoc} */
+            @Override
+            public void nextBytes(byte[] bytes,
+                                  int start,
+                                  int len) {
+                throw new MathInternalError();
+            }
+
+            /** {@inheritDoc} */
+            @Override
+            public int nextInt() {
+                return rng.nextInt();
+            }
+
+            /** {@inheritDoc} */
+            @Override
+            public int nextInt(int n) {
+                return rng.nextInt(n);
+            }
+
+            /** {@inheritDoc} */
+            @Override
+            public long nextLong() {
+                return rng.nextLong();
+            }
+
+            /** {@inheritDoc} */
+            @Override
+            public long nextLong(long n) {
+                throw new MathInternalError();
+            }
+
+            /** {@inheritDoc} */
+            @Override
+            public boolean nextBoolean() {
+                return rng.nextBoolean();
+            }
+
+            /** {@inheritDoc} */
+            @Override
+            public float nextFloat() {
+                return rng.nextFloat();
+            }
+
+            /** {@inheritDoc} */
+            @Override
+            public double nextDouble() {
+                return rng.nextDouble();
+            }
+        };
+    }
+
+    /**
+     * @return the generator used to generate secure random data.
+     */
+    private UniformRandomProvider getSecureRandomProvider() {
+        return wrapRandomGenerator(getSecRan());
     }
 
     /**
@@ -927,17 +974,13 @@ public class RandomDataGenerator implements Serializable {
      * "ValueServer" should be fixed to not use the internals of another class!
      */
     UniformRandomProvider getRandomProvider() {
-        if (randomProvider == null) {
-            randomProvider = RandomSource.create(randomSource);
-        }
-        return randomProvider;
+        return wrapRandomGenerator(getRandomGenerator());
     }
 
     /**
      * Sets the default generator to a {@link Well19937c} generator seeded with
      * {@code System.currentTimeMillis() + System.identityHashCode(this))}.
      */
-    @Deprecated
     private void initRan() {
         rand = new Well19937c(System.currentTimeMillis() + System.identityHashCode(this));
     }
@@ -958,43 +1001,5 @@ public class RandomDataGenerator implements Serializable {
             secRand.setSeed(System.currentTimeMillis() + System.identityHashCode(this));
         }
         return secRand;
-    }
-
-    /**
-     * @param out Output stream.
-     * @throws IOException if an error occurs.
-     */
-    private void writeObject(ObjectOutputStream out)
-        throws IOException {
-        // Write non-transient fields.
-        out.defaultWriteObject();
-
-        if (randomProvider != null) {
-            // Save state of "randomProvider".
-            out.writeObject(RandomSource.saveState(randomProvider));
-        } else {
-            out.writeObject(null);
-        }
-   }
-
-    /**
-     * @param in Input stream.
-     * @throws IOException if an error occurs.
-     * @throws ClassNotFoundException if an error occurs.
-     */
-    private void readObject(ObjectInputStream in)
-        throws IOException,
-               ClassNotFoundException {
-        // Read non-transient fields.
-        in.defaultReadObject();
-
-        // Read "randomProvider" state (can be null).
-        final Object state = in.readObject();
-        if (state != null) {
-            // Recreate "randomProvider" from serialized info.
-            randomProvider = RandomSource.create(randomSource);
-            // And restore its state.
-            RandomSource.restoreState(randomProvider, (RandomSource.State) state);
-        }
     }
 }

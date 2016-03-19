@@ -282,7 +282,9 @@ public class AggregateSummaryStatisticsTest {
      * @return array of random double values
      */
     private double[] generateSample() {
-        final IntegerDistribution size = new UniformIntegerDistribution(10, 100);
+        final IntegerDistribution.Sampler size =
+            new UniformIntegerDistribution(10, 100).createSampler(RandomSource.create(RandomSource.WELL_512_A,
+                                                                                      327652));
         final RealDistribution.Sampler randomData
             = new UniformRealDistribution(-100, 100).createSampler(RandomSource.create(RandomSource.WELL_512_A,
                                                                                        64925784252L));;
@@ -312,7 +314,9 @@ public class AggregateSummaryStatisticsTest {
             if (i == 4 || cur == length - 1) {
                 next = length - 1;
             } else {
-                next = (new UniformIntegerDistribution(cur, length - 1)).sample();
+                final IntegerDistribution.Sampler sampler =
+                    new UniformIntegerDistribution(cur, length - 1).createSampler(RandomSource.create(RandomSource.WELL_512_A));
+                next = sampler.sample();
             }
             final int subLength = next - cur + 1;
             out[i] = new double[subLength];

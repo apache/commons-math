@@ -20,9 +20,7 @@ package org.apache.commons.math4.distribution;
 import org.apache.commons.math4.TestUtils;
 import org.apache.commons.math4.distribution.ZipfDistribution.ZipfRejectionInversionSampler;
 import org.apache.commons.math4.exception.NotStrictlyPositiveException;
-import org.apache.commons.math4.random.AbstractRandomGenerator;
-import org.apache.commons.math4.random.RandomGenerator;
-import org.apache.commons.math4.random.Well1024a;
+import org.apache.commons.math4.rng.RandomSource;
 import org.apache.commons.math4.util.FastMath;
 import org.junit.Assert;
 import org.junit.Ignore;
@@ -150,15 +148,18 @@ public class ZipfDistributionTest extends IntegerDistributionAbstractTest {
                     weightSum += weights[i-1];
                 }
 
-                ZipfDistribution distribution = new ZipfDistribution(numPoints, exponent);
-                distribution.reseedRandomGenerator(6); // use fixed seed, the test is expected to fail for more than 50% of all seeds because each test case can fail with probability 0.001, the chance that all test cases do not fail is 0.999^(32*22) = 0.49442874426
+                // Use fixed seed, the test is expected to fail for more than 50% of all
+                // seeds because each test case can fail with probability 0.001, the chance
+                // that all test cases do not fail is 0.999^(32*22) = 0.49442874426
+                IntegerDistribution.Sampler distribution =
+                    new ZipfDistribution(numPoints, exponent).createSampler(RandomSource.create(RandomSource.WELL_19937_C, 6));
 
                 double[] expectedCounts = new double[numPoints];
                 long[] observedCounts = new long[numPoints];
                 for (int i = 0; i < numPoints; i++) {
                     expectedCounts[i] = sampleSize * (weights[i]/weightSum);
                 }
-                int[] sample = distribution.sample(sampleSize);
+                int[] sample = AbstractIntegerDistribution.sample(sampleSize, distribution);
                 for (int s : sample) {
                     observedCounts[s-1]++;
                 }
@@ -177,10 +178,10 @@ public class ZipfDistributionTest extends IntegerDistributionAbstractTest {
         };
         for (final double testValue : testValues) {
             final double expected = FastMath.log1p(testValue);
-            TestUtils.assertRelativelyEquals(expected, ZipfRejectionInversionSampler.helper1(testValue)*testValue, tol);
+            final double actual = ZipfRejectionInversionSampler.helper1(testValue) * testValue;
+            TestUtils.assertRelativelyEquals(expected, actual, tol);
         }
     }
-
 
     @Test
     public void testSamplerHelper1Minus1() {
@@ -197,7 +198,8 @@ public class ZipfDistributionTest extends IntegerDistributionAbstractTest {
         };
         for (double testValue : testValues) {
             final double expected = FastMath.expm1(testValue);
-            TestUtils.assertRelativelyEquals(expected, ZipfRejectionInversionSampler.helper2(testValue)*testValue, tol);
+            final double actual = ZipfRejectionInversionSampler.helper2(testValue) * testValue;
+            TestUtils.assertRelativelyEquals(expected, actual, tol);
         }
     }
 
@@ -215,22 +217,8 @@ public class ZipfDistributionTest extends IntegerDistributionAbstractTest {
                 long start = System.currentTimeMillis();
                 final int[] randomNumberCounter = new int[1];
 
-                RandomGenerator randomGenerator  = new AbstractRandomGenerator() {
-
-                    private final RandomGenerator r = new Well1024a(0L);
-
-                    @Override
-                    public void setSeed(long seed) {
-                    }
-
-                    @Override
-                    public double nextDouble() {
-                        randomNumberCounter[0]+=1;
-                        return r.nextDouble();
-                    }
-                };
-
-                final ZipfDistribution distribution = new ZipfDistribution(randomGenerator, numPoints, exponent);
+                final IntegerDistribution.Sampler distribution =
+                    new ZipfDistribution(numPoints, exponent).createSampler(RandomSource.create(RandomSource.WELL_1024_A));
                 for (int i = 0; i < numGeneratedSamples; ++i) {
                     sum += distribution.sample();
                 }

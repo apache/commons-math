@@ -19,8 +19,7 @@ package org.apache.commons.math4.distribution;
 
 import org.apache.commons.math4.exception.NotStrictlyPositiveException;
 import org.apache.commons.math4.exception.util.LocalizedFormats;
-import org.apache.commons.math4.random.RandomGenerator;
-import org.apache.commons.math4.random.Well19937c;
+import org.apache.commons.math4.rng.UniformRandomProvider;
 import org.apache.commons.math4.util.FastMath;
 
 /**
@@ -59,45 +58,18 @@ public class ZipfDistribution extends AbstractIntegerDistribution {
     private double numericalVariance = Double.NaN;
     /** Whether or not the numerical variance has been calculated */
     private boolean numericalVarianceIsCalculated = false;
-    /** The sampler to be used for the sample() method */
-    private transient ZipfRejectionInversionSampler sampler;
 
     /**
-     * Create a new Zipf distribution with the given number of elements and
-     * exponent.
-     * <p>
-     * <b>Note:</b> this constructor will implicitly create an instance of
-     * {@link Well19937c} as random generator to be used for sampling only (see
-     * {@link #sample()} and {@link #sample(int)}). In case no sampling is
-     * needed for the created distribution, it is advised to pass {@code null}
-     * as random generator via the appropriate constructors to avoid the
-     * additional initialisation overhead.
+     * Creates a distribution.
      *
      * @param numberOfElements Number of elements.
      * @param exponent Exponent.
      * @exception NotStrictlyPositiveException if {@code numberOfElements <= 0}
      * or {@code exponent <= 0}.
      */
-    public ZipfDistribution(final int numberOfElements, final double exponent) {
-        this(new Well19937c(), numberOfElements, exponent);
-    }
-
-    /**
-     * Creates a Zipf distribution.
-     *
-     * @param rng Random number generator.
-     * @param numberOfElements Number of elements.
-     * @param exponent Exponent.
-     * @exception NotStrictlyPositiveException if {@code numberOfElements <= 0}
-     * or {@code exponent <= 0}.
-     * @since 3.1
-     */
-    public ZipfDistribution(RandomGenerator rng,
-                            int numberOfElements,
+    public ZipfDistribution(int numberOfElements,
                             double exponent)
         throws NotStrictlyPositiveException {
-        super(rng);
-
         if (numberOfElements <= 0) {
             throw new NotStrictlyPositiveException(LocalizedFormats.DIMENSION,
                                                    numberOfElements);
@@ -285,13 +257,20 @@ public class ZipfDistribution extends AbstractIntegerDistribution {
         return true;
     }
 
-    /** {@inheritDoc} */
+    /**{@inheritDoc} */
     @Override
-    public int sample() {
-        if (sampler == null) {
-            sampler = new ZipfRejectionInversionSampler(numberOfElements, exponent);
-        }
-        return sampler.sample(random);
+    public IntegerDistribution.Sampler createSampler(final UniformRandomProvider rng) {
+        return new IntegerDistribution.Sampler() {
+            /** Helper. */
+            private final ZipfRejectionInversionSampler sampler =
+                new ZipfRejectionInversionSampler(numberOfElements, exponent);
+
+            /** {@inheritDoc} */
+            @Override
+            public int sample() {
+                return sampler.sample(rng);
+            }
+        };
     }
 
     /**
@@ -318,8 +297,7 @@ public class ZipfDistribution extends AbstractIntegerDistribution {
      *
      * @since 3.6
      */
-    static final class ZipfRejectionInversionSampler {
-
+    static class ZipfRejectionInversionSampler {
         /** Exponent parameter of the distribution. */
         private final double exponent;
         /** Number of elements. */
@@ -331,7 +309,7 @@ public class ZipfDistribution extends AbstractIntegerDistribution {
         /** Constant equal to {@code 2 - hIntegralInverse(hIntegral(2.5) - h(2)}. */
         private final double s;
 
-        /** Simple constructor.
+        /**
          * @param numberOfElements number of elements
          * @param exponent exponent parameter of the distribution
          */
@@ -343,18 +321,18 @@ public class ZipfDistribution extends AbstractIntegerDistribution {
             this.s = 2d - hIntegralInverse(hIntegral(2.5) - h(2));
         }
 
-        /** Generate one integral number in the range [1, numberOfElements].
+        /**
+         * Generates one integer in the range [1, numberOfElements].
+         *
          * @param random random generator to use
          * @return generated integral number in the range [1, numberOfElements]
          */
-        int sample(final RandomGenerator random) {
+        int sample(final UniformRandomProvider random) {
             while(true) {
-
                 final double u = hIntegralNumberOfElements + random.nextDouble() * (hIntegralX1 - hIntegralNumberOfElements);
                 // u is uniformly distributed in (hIntegralX1, hIntegralNumberOfElements]
 
                 double x = hIntegralInverse(u);
-
                 int k = (int)(x + 0.5);
 
                 // Limit k to the range [1, numberOfElements]

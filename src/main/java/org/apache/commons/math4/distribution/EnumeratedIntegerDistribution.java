@@ -27,8 +27,7 @@ import org.apache.commons.math4.exception.MathArithmeticException;
 import org.apache.commons.math4.exception.NotANumberException;
 import org.apache.commons.math4.exception.NotFiniteNumberException;
 import org.apache.commons.math4.exception.NotPositiveException;
-import org.apache.commons.math4.random.RandomGenerator;
-import org.apache.commons.math4.random.Well19937c;
+import org.apache.commons.math4.rng.UniformRandomProvider;
 import org.apache.commons.math4.util.Pair;
 
 /**
@@ -42,10 +41,8 @@ import org.apache.commons.math4.util.Pair;
  * @since 3.2
  */
 public class EnumeratedIntegerDistribution extends AbstractIntegerDistribution {
-
     /** Serializable UID. */
     private static final long serialVersionUID = 20130308L;
-
     /**
      * {@link EnumeratedDistribution} instance (using the {@link Integer} wrapper)
      * used to generate the pmf.
@@ -53,15 +50,7 @@ public class EnumeratedIntegerDistribution extends AbstractIntegerDistribution {
     protected final EnumeratedDistribution<Integer> innerDistribution;
 
     /**
-     * Create a discrete distribution using the given probability mass function
-     * definition.
-     * <p>
-     * <b>Note:</b> this constructor will implicitly create an instance of
-     * {@link Well19937c} as random generator to be used for sampling only (see
-     * {@link #sample()} and {@link #sample(int)}). In case no sampling is
-     * needed for the created distribution, it is advised to pass {@code null}
-     * as random generator via the appropriate constructors to avoid the
-     * additional initialisation overhead.
+     * Create a discrete distribution.
      *
      * @param singletons array of random variable values.
      * @param probabilities array of probabilities.
@@ -72,45 +61,24 @@ public class EnumeratedIntegerDistribution extends AbstractIntegerDistribution {
      * @throws NotANumberException if any of the probabilities are NaN.
      * @throws MathArithmeticException all of the probabilities are 0.
      */
-    public EnumeratedIntegerDistribution(final int[] singletons, final double[] probabilities)
-    throws DimensionMismatchException, NotPositiveException, MathArithmeticException,
-           NotFiniteNumberException, NotANumberException{
-        this(new Well19937c(), singletons, probabilities);
+    public EnumeratedIntegerDistribution(final int[] singletons,
+                                         final double[] probabilities)
+        throws DimensionMismatchException,
+               NotPositiveException,
+               MathArithmeticException,
+               NotFiniteNumberException,
+               NotANumberException {
+        innerDistribution = new EnumeratedDistribution<Integer>(createDistribution(singletons,
+                                                                                   probabilities));
     }
 
     /**
-     * Create a discrete distribution using the given random number generator
-     * and probability mass function definition.
+     * Create a discrete integer-valued distribution from the input data.
+     * Values are assigned mass based on their frequency.
      *
-     * @param rng random number generator.
-     * @param singletons array of random variable values.
-     * @param probabilities array of probabilities.
-     * @throws DimensionMismatchException if
-     * {@code singletons.length != probabilities.length}
-     * @throws NotPositiveException if any of the probabilities are negative.
-     * @throws NotFiniteNumberException if any of the probabilities are infinite.
-     * @throws NotANumberException if any of the probabilities are NaN.
-     * @throws MathArithmeticException all of the probabilities are 0.
-     */
-    public EnumeratedIntegerDistribution(final RandomGenerator rng,
-                                       final int[] singletons, final double[] probabilities)
-        throws DimensionMismatchException, NotPositiveException, MathArithmeticException,
-                NotFiniteNumberException, NotANumberException {
-        super(rng);
-        innerDistribution = new EnumeratedDistribution<Integer>(
-                rng, createDistribution(singletons, probabilities));
-    }
-
-    /**
-     * Create a discrete integer-valued distribution from the input data.  Values are assigned
-     * mass based on their frequency.
-     *
-     * @param rng random number generator used for sampling
      * @param data input dataset
-     * #since 3.6
      */
-    public EnumeratedIntegerDistribution(final RandomGenerator rng, final int[] data) {
-        super(rng);
+    public EnumeratedIntegerDistribution(final int[] data) {
         final Map<Integer, Integer> dataMap = new HashMap<Integer, Integer>();
         for (int value : data) {
             Integer count = dataMap.get(value);
@@ -129,19 +97,7 @@ public class EnumeratedIntegerDistribution extends AbstractIntegerDistribution {
             probabilities[index] = entry.getValue().intValue() / denom;
             index++;
         }
-        innerDistribution = new EnumeratedDistribution<Integer>(rng, createDistribution(values, probabilities));
-    }
-
-    /**
-     * Create a discrete integer-valued distribution from the input data.  Values are assigned
-     * mass based on their frequency.  For example, [0,1,1,2] as input creates a distribution
-     * with values 0, 1 and 2 having probability masses 0.25, 0.5 and 0.25 respectively,
-     *
-     * @param data input dataset
-     * @since 3.6
-     */
-    public EnumeratedIntegerDistribution(final int[] data) {
-        this(new Well19937c(), data);
+        innerDistribution = new EnumeratedDistribution<Integer>(createDistribution(values, probabilities));
     }
 
     /**
@@ -162,7 +118,6 @@ public class EnumeratedIntegerDistribution extends AbstractIntegerDistribution {
             samples.add(new Pair<Integer, Double>(singletons[i], probabilities[i]));
         }
         return samples;
-
     }
 
     /**
@@ -273,11 +228,19 @@ public class EnumeratedIntegerDistribution extends AbstractIntegerDistribution {
         return true;
     }
 
-    /**
-     * {@inheritDoc}
-     */
+    /** {@inheritDoc} */
     @Override
-    public int sample() {
-        return innerDistribution.sample();
+    public IntegerDistribution.Sampler createSampler(final UniformRandomProvider rng) {
+        return new IntegerDistribution.Sampler() {
+            /** Delegate. */
+            private final EnumeratedDistribution<Integer>.Sampler inner =
+                innerDistribution.createSampler(rng);
+
+            /** {@inheritDoc} */
+            @Override
+            public int sample() {
+                return inner.sample();
+            }
+        };
     }
 }
