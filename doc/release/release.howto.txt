@@ -256,7 +256,9 @@ Create and transfer the artifacts to the Nexus server (a.k.a. "deploy").
 Because the artifacts must be cryptographically signed, this step requires that
 a profile named "release" exists in the maven "settings.xml" configuration file
 which will contain the identifier of your GPG key (cf. sample "settings.xml" 
-file).
+file). You will also have to follow the instructions at
+https://maven.apache.org/guides/mini/guide-encryption.html to set your password
+in the settings.xml file.
 
 You can then run
 
@@ -316,7 +318,10 @@ can be published before vote ends, it is not recommended to use the standard sta
 area for the release candidate. So you will just archive the transfer the site it on
 your apache personal area for review. Here is how to do this using lftp to initiate
 the sftp transfer (lftp supports a mirror command for recursive transfers, don't
-forget the -R flag for uploading instead of downloading the site):
+forget the -R flag for uploading instead of downloading the site). If you
+haven't setup your login on home.apache.org you will need to go to
+https://id.apache.org/, login and copy the contents of your ~/.ssh/id_rsa.pub
+file to "SSH Key (authorized_keys line)". Then run these commands:
 
   $ mvn site
   $ cd target
@@ -381,7 +386,8 @@ After correcting the problems, you'll likely have to start again from step 3,
 (16)
 After at least 72 hours have elapsed, send a "[VOTE][RESULT]" mail to
 summarize the outcome of the vote. This should tally the votes cast,
-and state which are binding (PMC members).
+and state which are binding (PMC members). The vote needs at least three +1's
+from PMC members to pass.
 
 
 (17)
@@ -419,21 +425,22 @@ Release (a.k.a. "promote") the artifacts on the Nexus server, as shown here:
 
 (19)
 Publish the web site. This is done by first committing the web site to the staging area, and then
-by publishing the staging area (which is shared among all commons compoents.
+by publishing the staging area (which is shared among all commons components.
 
-In order to commit the web site to the staging area, look at the subversion workspace that was
-automatically checked out during the 'mvn site' command in folder site-content. You can also check
-it out directly by yourself elsewhere:
+In order to commit the web site to the staging area, look at the subversion
+workspace that was automatically checked out during the 'mvn site' command in
+folder site-content. Note that svn commits in the site-content directory are
+immediately synced with the live site and so your changes shoule show up in a
+few minutes once you commit the new site. You can also check out the site
+directly by yourself elsewhere:
 
   svn checkout https://svn.apache.org/repos/infra/websites/production/commons/content/proper/commons-math site-content
 
 Remove all files there (except .svn folder) and move all the files from the site.
-You may want to adjust manually some parts like fixing broken relative links or
-copying the content of the current apidocs to javadocs/api-3.4.
 
  $ cd site-content
  $ rm -fr *
- $ cp -pR ../target/site/* .
+ $ cp -pR ../target/commons-math-3.6.1-RC1-site/* .
 
 Check for possibly new files:
  $ svn status
@@ -442,12 +449,7 @@ and "svn add" them if necessary.
 Commit the new contents of the web site:
  $ svn commit -m "updating site after official release of version 3.4"
 
-Beware the commit command may be very long (several hours ...). The web site will be available
-for review at:
-  http://commons.staging.apache.org/proper/commons-math/
- 
-Publishing the staging web site is done directly from a browser at URL:
-  https://cms.apache.org/commons/publish
+Beware the commit command may be very long (several hours ...).
 
 (20)
 The javadocs for several version is kept available on the website under the javadocs directory.
@@ -459,6 +461,10 @@ the links to former versions to work. This is done as follows:
   $ svn cp -m "copying 3.4 apidocs to versioned directory for the long-term links" \
         https://svn.apache.org/repos/infra/websites/production/commons/content/proper/commons-math/apidocs \
         https://svn.apache.org/repos/infra/websites/production/commons/content/proper/commons-math/javadocs/api-3.4
+
+Now wait a few minutes for the live site to fully sync and then check
+http://commons.apache.org/proper/commons-math/ to make sure everything looks
+correct.
 
 (21)
 Put the official final tag to point at the same commit as the last release candidate tag:
@@ -500,3 +506,36 @@ send (from your apache account) a release announcement to the following ML:
   announce@apache.org
   dev@commons.apache.org
   user@commons.apache.org
+
+If you don't have it setup already you can follow these instructions to send
+email from your apache account :
+
+https://reference.apache.org/committer/email#sendingemailfromyourapacheorgemailaddress
+
+You can use the following message as a template:
+
+----------
+The Apache Commons Team is pleased to announce the availability of:
+
+Apache Commons Math 3.6.1
+
+Apache Commons Math is a library of lightweight, self-contained mathematics and
+statistics components addressing the most common problems not available in the
+Java programming language or Commons Lang.
+
+The release notes can be reviewed at:
+http://www.apache.org/dist/commons/math/RELEASE-NOTES.txt
+
+Distribution packages can be downloaded from:
+https://commons.apache.org/proper/commons-math/download_math.cgi
+
+When downloading, please verify signatures using the KEYS file available at:
+http://www.apache.org/dist/commons
+
+Maven artifacts are also available in the central Maven repository:
+
+http://repo1.maven.org/maven2/org/apache/commons/
+
+The Apache Commons Team
+----------
+
