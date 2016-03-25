@@ -20,11 +20,13 @@ package org.apache.commons.math4.stat.inference;
 import java.math.BigDecimal;
 import java.util.Arrays;
 import java.util.HashSet;
-import java.util.Iterator;
 
+import org.apache.commons.math4.distribution.EnumeratedRealDistribution;
 import org.apache.commons.math4.distribution.RealDistribution;
+import org.apache.commons.math4.distribution.UniformRealDistribution;
 import org.apache.commons.math4.exception.InsufficientDataException;
 import org.apache.commons.math4.exception.MathArithmeticException;
+import org.apache.commons.math4.exception.MathInternalError;
 import org.apache.commons.math4.exception.NullArgumentException;
 import org.apache.commons.math4.exception.NumberIsTooLargeException;
 import org.apache.commons.math4.exception.OutOfRangeException;
@@ -37,14 +39,13 @@ import org.apache.commons.math4.linear.Array2DRowFieldMatrix;
 import org.apache.commons.math4.linear.FieldMatrix;
 import org.apache.commons.math4.linear.MatrixUtils;
 import org.apache.commons.math4.linear.RealMatrix;
+import org.apache.commons.math4.random.JDKRandomGenerator;
 import org.apache.commons.math4.random.RandomGenerator;
 import org.apache.commons.math4.random.Well19937c;
 import org.apache.commons.math4.util.CombinatoricsUtils;
 import org.apache.commons.math4.util.FastMath;
 import org.apache.commons.math4.util.MathArrays;
-
-import static org.apache.commons.math4.util.FastMath.PI;
-import static org.apache.commons.math4.util.MathUtils.PI_SQUARED;
+import org.apache.commons.math4.util.MathUtils;
 
 /**
  * Implementation of the <a href="http://en.wikipedia.org/wiki/Kolmogorov-Smirnov_test">
@@ -67,18 +68,18 @@ import static org.apache.commons.math4.util.MathUtils.PI_SQUARED;
  * default 2-sample test method, {@link #kolmogorovSmirnovTest(double[], double[])} works as
  * follows:
  * <ul>
- * <li>For very small samples (where the product of the sample sizes is less than
- * {@value #SMALL_SAMPLE_PRODUCT}), the exact distribution is used to compute the p-value for the
- * 2-sample test.</li>
- * <li>For mid-size samples (product of sample sizes greater than or equal to
- * {@value #SMALL_SAMPLE_PRODUCT} but less than {@value #LARGE_SAMPLE_PRODUCT}), Monte Carlo
- * simulation is used to compute the p-value. The simulation randomly generates partitions of \(m +
- * n\) into an \(m\)-set and an \(n\)-set and reports the proportion that give \(D\) values
- * exceeding the observed value.</li>
+ * <li>For small samples (where the product of the sample sizes is less than
+ * {@value #LARGE_SAMPLE_PRODUCT}), the method presented in [4] is used to compute the
+ * exact p-value for the 2-sample test.</li>
  * <li>When the product of the sample sizes exceeds {@value #LARGE_SAMPLE_PRODUCT}, the asymptotic
  * distribution of \(D_{n,m}\) is used. See {@link #approximateP(double, int, int)} for details on
  * the approximation.</li>
- * </ul>
+ * </ul></p><p>
+ * If the product of the sample sizes is less than {@value #LARGE_SAMPLE_PRODUCT} and the sample
+ * data contains ties, random jitter is added to the sample data to break ties before applying
+ * the algorithm above. Alternatively, the {@link #bootstrap(double[], double[], int, boolean)}
+ * method, modeled after <a href="http://sekhon.berkeley.edu/matching/ks.boot.html">ks.boot</a>
+ * in the R Matching package [3], can be used if ties are known to be present in the data.
  * </p>
  * <p>
  * In the two-sample case, \(D_{n,m}\) has a discrete distribution. This makes the p-value
@@ -90,8 +91,6 @@ import static org.apache.commons.math4.util.MathUtils.PI_SQUARED;
  * The methods used by the 2-sample default implementation are also exposed directly:
  * <ul>
  * <li>{@link #exactP(double, int, int, boolean)} computes exact 2-sample p-values</li>
- * <li>{@link #monteCarloP(double, int, int, boolean, int)} computes 2-sample p-values by Monte
- * Carlo simulation</li>
  * <li>{@link #approximateP(double, int, int)} uses the asymptotic distribution The {@code boolean}
  * arguments in the first two methods allow the probability used to estimate the p-value to be
  * expressed using strict or non-strict inequality. See
@@ -105,6 +104,11 @@ import static org.apache.commons.math4.util.MathUtils.PI_SQUARED;
  * George Marsaglia, Wai Wan Tsang, and Jingbo Wang</li>
  * <li>[2] <a href="http://www.jstatsoft.org/v39/i11/"> Computing the Two-Sided Kolmogorov-Smirnov
  * Distribution</a> by Richard Simard and Pierre L'Ecuyer</li>
+ * <li>[3] Jasjeet S. Sekhon. 2011. <a href="http://www.jstatsoft.org/article/view/v042i07">
+ * Multivariate and Propensity Score Matching Software with Automated Balance Optimization:
+ * The Matching package for R</a> Journal of Statistical Software, 42(7): 1-52.</li>
+ * <li>[4] Wilcox, Rand. 2012. Introduction to Robust Estimation and Hypothesis Testing,
+ * Chapter 5, 3rd Ed. Academic Press.</li>
  * </ul>
  * <br/>
  * Note that [1] contains an error in computing h, refer to <a
@@ -126,16 +130,19 @@ public class KolmogorovSmirnovTest {
     /** Convergence criterion for the sums in #pelzGood(double, double, int)} */
     protected static final double PG_SUM_RELATIVE_ERROR = 1.0e-10;
 
-    /** When product of sample sizes is less than this value, 2-sample K-S test is exact */
+    /** No longer used. */
+    @Deprecated
     protected static final int SMALL_SAMPLE_PRODUCT = 200;
 
     /**
      * When product of sample sizes exceeds this value, 2-sample K-S test uses asymptotic
-     * distribution for strict inequality p-value.
+     * distribution to compute the p-value.
      */
     protected static final int LARGE_SAMPLE_PRODUCT = 10000;
 
-    /** Default number of iterations used by {@link #monteCarloP(double, int, int, boolean, int)} */
+    /** Default number of iterations used by {@link #monteCarloP(double, int, int, boolean, int)}.
+     *  Deprecated as of version 3.6, as this method is no longer needed. */
+    @Deprecated
     protected static final int MONTE_CARLO_ITERATIONS = 1000000;
 
     /** Random data generator used by {@link #monteCarloP(double, int, int, boolean, int)} */
@@ -150,9 +157,12 @@ public class KolmogorovSmirnovTest {
 
     /**
      * Construct a KolmogorovSmirnovTest with the provided random data generator.
+     * The #monteCarloP(double, int, int, boolean, int) that uses the generator supplied to this
+     * constructor is deprecated as of version 3.6.
      *
      * @param rng random data generator used by {@link #monteCarloP(double, int, int, boolean, int)}
      */
+    @Deprecated
     public KolmogorovSmirnovTest(RandomGenerator rng) {
         this.rng = rng;
     }
@@ -216,22 +226,21 @@ public class KolmogorovSmirnovTest {
      * {@code y.length} will strictly exceed (if {@code strict} is {@code true}) or be at least as
      * large as {@code strict = false}) as {@code kolmogorovSmirnovStatistic(x, y)}.
      * <ul>
-     * <li>For very small samples (where the product of the sample sizes is less than
-     * {@value #SMALL_SAMPLE_PRODUCT}), the exact distribution is used to compute the p-value. This
-     * is accomplished by enumerating all partitions of the combined sample into two subsamples of
-     * the respective sample sizes, computing \(D_{n,m}\) for each partition and returning the
-     * proportion of partitions that give \(D\) values exceeding the observed value. In the very
-     * small sample case, if there are ties in the data, the actual sample values (including ties)
-     * are used in generating the partitions (which are basically multi-set partitions in this
-     * case).</li>
-     * <li>For mid-size samples (product of sample sizes greater than or equal to
-     * {@value #SMALL_SAMPLE_PRODUCT} but less than {@value #LARGE_SAMPLE_PRODUCT}), Monte Carlo
-     * simulation is used to compute the p-value. The simulation randomly generates partitions and
-     * reports the proportion that give \(D\) values exceeding the observed value.</li>
+     * <li>For small samples (where the product of the sample sizes is less than
+     * {@value #LARGE_SAMPLE_PRODUCT}), the exact p-value is computed using the method presented
+     * in [4], implemented in {@link #exactP(double, int, int, boolean)}. </li>
      * <li>When the product of the sample sizes exceeds {@value #LARGE_SAMPLE_PRODUCT}, the
      * asymptotic distribution of \(D_{n,m}\) is used. See {@link #approximateP(double, int, int)}
      * for details on the approximation.</li>
-     * </ul>
+     * </ul><p>
+     * If {@code x.length * y.length} < {@value #LARGE_SAMPLE_PRODUCT} and the combined set of values in
+     * {@code x} and {@code y} contains ties, random jitter is added to {@code x} and {@code y} to
+     * break ties before computing \(D_{n,m}\) and the p-value. The jitter is uniformly distributed
+     * on (-minDelta / 2, minDelta / 2) where minDelta is the smallest pairwise difference between
+     * values in the combined sample.</p>
+     * <p>
+     * If ties are known to be present in the data, {@link #bootstrap(double[], double[], int, boolean)}
+     * may be used as an alternative method for estimating the p-value.</p>
      *
      * @param x first sample dataset
      * @param y second sample dataset
@@ -242,17 +251,22 @@ public class KolmogorovSmirnovTest {
      * @throws InsufficientDataException if either {@code x} or {@code y} does not have length at
      *         least 2
      * @throws NullArgumentException if either {@code x} or {@code y} is null
+     * @see #bootstrap(double[], double[], int, boolean)
      */
     public double kolmogorovSmirnovTest(double[] x, double[] y, boolean strict) {
         final long lengthProduct = (long) x.length * y.length;
-        if (lengthProduct < SMALL_SAMPLE_PRODUCT) {
-            if (hasTies(x, y)) {
-                return exactP(x, y, strict);
-            }
-            return integralExactP(integralKolmogorovSmirnovStatistic(x, y) + (strict?1l:0l), x.length, y.length);
+        double[] xa = null;
+        double[] ya = null;
+        if (lengthProduct < LARGE_SAMPLE_PRODUCT && hasTies(x,y)) {
+            xa = MathArrays.copyOf(x);
+            ya = MathArrays.copyOf(y);
+            fixTies(xa, ya);
+        } else {
+            xa = x;
+            ya = y;
         }
         if (lengthProduct < LARGE_SAMPLE_PRODUCT) {
-            return integralMonteCarloP(integralKolmogorovSmirnovStatistic(x, y) + (strict?1l:0l), x.length, y.length, MONTE_CARLO_ITERATIONS);
+            return exactP(kolmogorovSmirnovStatistic(xa, ya), x.length, y.length, strict);
         }
         return approximateP(kolmogorovSmirnovStatistic(x, y), x.length, y.length);
     }
@@ -379,6 +393,65 @@ public class KolmogorovSmirnovTest {
             throw new OutOfRangeException(LocalizedFormats.OUT_OF_BOUND_SIGNIFICANCE_LEVEL, alpha, 0, 0.5);
         }
         return kolmogorovSmirnovTest(distribution, data) < alpha;
+    }
+
+    /**
+     * Estimates the <i>p-value</i> of a two-sample
+     * <a href="http://en.wikipedia.org/wiki/Kolmogorov-Smirnov_test"> Kolmogorov-Smirnov test</a>
+     * evaluating the null hypothesis that {@code x} and {@code y} are samples drawn from the same
+     * probability distribution. This method estimates the p-value by repeatedly sampling sets of size
+     * {@code x.length} and {@code y.length} from the empirical distribution of the combined sample.
+     * When {@code strict} is true, this is equivalent to the algorithm implemented in the R function
+     * {@code ks.boot}, described in <pre>
+     * Jasjeet S. Sekhon. 2011. 'Multivariate and Propensity Score Matching
+     * Software with Automated Balance Optimization: The Matching package for R.'
+     * Journal of Statistical Software, 42(7): 1-52.
+     * </pre>
+     * @param x first sample
+     * @param y second sample
+     * @param iterations number of bootstrap resampling iterations
+     * @param strict whether or not the null hypothesis is expressed as a strict inequality
+     * @return estimated p-value
+     */
+    public double bootstrap(double[] x, double[] y, int iterations, boolean strict) {
+        final int xLength = x.length;
+        final int yLength = y.length;
+        final double[] combined = new double[xLength + yLength];
+        System.arraycopy(x, 0, combined, 0, xLength);
+        System.arraycopy(y, 0, combined, xLength, yLength);
+        final EnumeratedRealDistribution dist = new EnumeratedRealDistribution(rng, combined);
+        final long d = integralKolmogorovSmirnovStatistic(x, y);
+        int greaterCount = 0;
+        int equalCount = 0;
+        double[] curX;
+        double[] curY;
+        long curD;
+        for (int i = 0; i < iterations; i++) {
+            curX = dist.sample(xLength);
+            curY = dist.sample(yLength);
+            curD = integralKolmogorovSmirnovStatistic(curX, curY);
+            if (curD > d) {
+                greaterCount++;
+            } else if (curD == d) {
+                equalCount++;
+            }
+        }
+        return strict ? greaterCount / (double) iterations :
+            (greaterCount + equalCount) / (double) iterations;
+    }
+
+    /**
+     * Computes {@code bootstrap(x, y, iterations, true)}.
+     * This is equivalent to ks.boot(x,y, nboots=iterations) using the R Matching
+     * package function. See #bootstrap(double[], double[], int, boolean).
+     *
+     * @param x first sample
+     * @param y second sample
+     * @param iterations number of bootstrap resampling iterations
+     * @return estimated p-value
+     */
+    public double bootstrap(double[] x, double[] y, int iterations) {
+        return bootstrap(x, y, iterations, true);
     }
 
     /**
@@ -543,7 +616,7 @@ public class KolmogorovSmirnovTest {
         double sum = 0;
         double increment = 0;
         double kTerm = 0;
-        double z2Term = PI_SQUARED / (8 * z2);
+        double z2Term = MathUtils.PI_SQUARED / (8 * z2);
         int k = 1;
         for (; k < MAXIMUM_PARTIAL_SUM_COUNT; k++) {
             kTerm = 2 * k - 1;
@@ -568,7 +641,7 @@ public class KolmogorovSmirnovTest {
         for (k = 0; k < MAXIMUM_PARTIAL_SUM_COUNT; k++) {
             kTerm = k + 0.5;
             kTerm2 = kTerm * kTerm;
-            increment = (PI_SQUARED * kTerm2 - z2) * FastMath.exp(-PI_SQUARED * kTerm2 / twoZ2);
+            increment = (MathUtils.PI_SQUARED * kTerm2 - z2) * FastMath.exp(-MathUtils.PI_SQUARED * kTerm2 / twoZ2);
             sum += increment;
             if (FastMath.abs(increment) < PG_SUM_RELATIVE_ERROR * FastMath.abs(sum)) {
                 break;
@@ -577,7 +650,7 @@ public class KolmogorovSmirnovTest {
         if (k == MAXIMUM_PARTIAL_SUM_COUNT) {
             throw new TooManyIterationsException(MAXIMUM_PARTIAL_SUM_COUNT);
         }
-        final double sqrtHalfPi = FastMath.sqrt(PI / 2);
+        final double sqrtHalfPi = FastMath.sqrt(FastMath.PI / 2);
         // Instead of doubling sum, divide by 3 instead of 6
         ret += sum * sqrtHalfPi / (3 * z4 * sqrtN);
 
@@ -586,15 +659,15 @@ public class KolmogorovSmirnovTest {
         final double z4Term = 2 * z4;
         final double z6Term = 6 * z6;
         z2Term = 5 * z2;
-        final double pi4 = PI_SQUARED * PI_SQUARED;
+        final double pi4 = MathUtils.PI_SQUARED * MathUtils.PI_SQUARED;
         sum = 0;
         kTerm = 0;
         kTerm2 = 0;
         for (k = 0; k < MAXIMUM_PARTIAL_SUM_COUNT; k++) {
             kTerm = k + 0.5;
             kTerm2 = kTerm * kTerm;
-            increment =  (z6Term + z4Term + PI_SQUARED * (z4Term - z2Term) * kTerm2 +
-                    pi4 * (1 - twoZ2) * kTerm2 * kTerm2) * FastMath.exp(-PI_SQUARED * kTerm2 / twoZ2);
+            increment =  (z6Term + z4Term + MathUtils.PI_SQUARED * (z4Term - z2Term) * kTerm2 +
+                    pi4 * (1 - twoZ2) * kTerm2 * kTerm2) * FastMath.exp(-MathUtils.PI_SQUARED * kTerm2 / twoZ2);
             sum += increment;
             if (FastMath.abs(increment) < PG_SUM_RELATIVE_ERROR * FastMath.abs(sum)) {
                 break;
@@ -607,7 +680,7 @@ public class KolmogorovSmirnovTest {
         kTerm2 = 0;
         for (k = 1; k < MAXIMUM_PARTIAL_SUM_COUNT; k++) {
             kTerm2 = k * k;
-            increment = PI_SQUARED * kTerm2 * FastMath.exp(-PI_SQUARED * kTerm2 / twoZ2);
+            increment = MathUtils.PI_SQUARED * kTerm2 * FastMath.exp(-MathUtils.PI_SQUARED * kTerm2 / twoZ2);
             sum2 += increment;
             if (FastMath.abs(increment) < PG_SUM_RELATIVE_ERROR * FastMath.abs(sum2)) {
                 break;
@@ -621,7 +694,7 @@ public class KolmogorovSmirnovTest {
 
         // K_3(z) One more time with feeling - two doubly infinite sums, all k powers even.
         // Multiply coefficient denominators by 2, so omit doubling sums.
-        final double pi6 = pi4 * PI_SQUARED;
+        final double pi6 = pi4 * MathUtils.PI_SQUARED;
         sum = 0;
         double kTerm4 = 0;
         double kTerm6 = 0;
@@ -631,8 +704,8 @@ public class KolmogorovSmirnovTest {
             kTerm4 = kTerm2 * kTerm2;
             kTerm6 = kTerm4 * kTerm2;
             increment = (pi6 * kTerm6 * (5 - 30 * z2) + pi4 * kTerm4 * (-60 * z2 + 212 * z4) +
-                    PI_SQUARED * kTerm2 * (135 * z4 - 96 * z6) - 30 * z6 - 90 * z8) *
-                    FastMath.exp(-PI_SQUARED * kTerm2 / twoZ2);
+                            MathUtils.PI_SQUARED * kTerm2 * (135 * z4 - 96 * z6) - 30 * z6 - 90 * z8) *
+                    FastMath.exp(-MathUtils.PI_SQUARED * kTerm2 / twoZ2);
             sum += increment;
             if (FastMath.abs(increment) < PG_SUM_RELATIVE_ERROR * FastMath.abs(sum)) {
                 break;
@@ -645,8 +718,8 @@ public class KolmogorovSmirnovTest {
         for (k = 1; k < MAXIMUM_PARTIAL_SUM_COUNT; k++) {
             kTerm2 = k * k;
             kTerm4 = kTerm2 * kTerm2;
-            increment = (-pi4 * kTerm4 + 3 * PI_SQUARED * kTerm2 * z2) *
-                    FastMath.exp(-PI_SQUARED * kTerm2 / twoZ2);
+            increment = (-pi4 * kTerm4 + 3 * MathUtils.PI_SQUARED * kTerm2 * z2) *
+                    FastMath.exp(-MathUtils.PI_SQUARED * kTerm2 / twoZ2);
             sum2 += increment;
             if (FastMath.abs(increment) < PG_SUM_RELATIVE_ERROR * FastMath.abs(sum2)) {
                 break;
@@ -915,16 +988,8 @@ public class KolmogorovSmirnovTest {
      * d)\), where \(D_{n,m}\) is the 2-sample Kolmogorov-Smirnov statistic. See
      * {@link #kolmogorovSmirnovStatistic(double[], double[])} for the definition of \(D_{n,m}\).
      * <p>
-     * The returned probability is exact, obtained by enumerating all partitions of {@code m + n}
-     * into {@code m} and {@code n} sets, computing \(D_{n,m}\) for each partition and counting the
-     * number of partitions that yield \(D_{n,m}\) values exceeding (resp. greater than or equal to)
-     * {@code d}.
-     * </p>
-     * <p>
-     * <strong>USAGE NOTE</strong>: Since this method enumerates all combinations in \({m+n} \choose
-     * {n}\), it is very slow if called for large {@code m, n}. For this reason,
-     * {@link #kolmogorovSmirnovTest(double[], double[])} uses this only for {@code m * n < }
-     * {@value #SMALL_SAMPLE_PRODUCT}.
+     * The returned probability is exact, implemented by unwinding the recursive function
+     * definitions presented in [4] (class javadoc).
      * </p>
      *
      * @param d D-statistic value
@@ -935,106 +1000,8 @@ public class KolmogorovSmirnovTest {
      *         greater than (resp. greater than or equal to) {@code d}
      */
     public double exactP(double d, int n, int m, boolean strict) {
-        return integralExactP(calculateIntegralD(d, n, m, strict), n, m);
-    }
-
-    /**
-     * Computes \(P(D_{n,m} >= d/(n*m))\), where \(D_{n,m}\) is the
-     * 2-sample Kolmogorov-Smirnov statistic.
-     * <p>
-     * Here d is the D-statistic represented as long value.
-     * The real D-statistic is obtained by dividing d by n*m.
-     * See also {@link #exactP(double, int, int, boolean)}.
-     *
-     * @param d integral D-statistic
-     * @param n first sample size
-     * @param m second sample size
-     * @return probability that a randomly selected m-n partition of m + n generates \(D_{n,m}\)
-     *         greater than or equal to {@code d/(n*m)}
-     */
-    private double integralExactP(long d, int n, int m) {
-        Iterator<int[]> combinationsIterator = CombinatoricsUtils.combinationsIterator(n + m, n);
-        long tail = 0;
-        final double[] nSet = new double[n];
-        final double[] mSet = new double[m];
-        while (combinationsIterator.hasNext()) {
-            // Generate an n-set
-            final int[] nSetI = combinationsIterator.next();
-            // Copy the n-set to nSet and its complement to mSet
-            int j = 0;
-            int k = 0;
-            for (int i = 0; i < n + m; i++) {
-                if (j < n && nSetI[j] == i) {
-                    nSet[j++] = i;
-                } else {
-                    mSet[k++] = i;
-                }
-            }
-            final long curD = integralKolmogorovSmirnovStatistic(nSet, mSet);
-            if (curD >= d) {
-                tail++;
-            }
-        }
-        return (double) tail / (double) CombinatoricsUtils.binomialCoefficient(n + m, n);
-    }
-
-    /**
-     * Computes the exact p value for a two-sample Kolmogorov-Smirnov test with
-     * {@code x} and {@code y} as samples, possibly containing ties. This method
-     * uses the same implementation as {@link #exactP(double, int, int, boolean)}
-     * with the exception that it examines partitions of the combined sample,
-     * preserving ties in the data.  What is returned is the exact probability
-     * that a random partition of the combined dataset into a subset of size
-     * {@code x.length} and another of size {@code y.length} yields a \(D\)
-     * value greater than (resp greater than or equal to) \(D(x,y)\).
-     * <p>
-     * This method should not be used on large samples (a good rule of thumb is
-     * to keep the product of the sample sizes less than
-     * {@link #SMALL_SAMPLE_PRODUCT} when using this method).  If the data do
-     * not contain ties, {@link #exactP(double[], double[], boolean)} should be
-     * used instead of this method.</p>
-     *
-     * @param x first sample
-     * @param y second sample
-     * @param strict whether or not the inequality in the null hypothesis is strict
-     * @return p-value
-     */
-    public double exactP(double[] x, double[] y, boolean strict) {
-        final long d = integralKolmogorovSmirnovStatistic(x, y);
-        final int n = x.length;
-        final int m = y.length;
-
-        // Concatenate x and y into universe, preserving ties in the data
-        final double[] universe = new double[n + m];
-        System.arraycopy(x, 0, universe, 0, n);
-        System.arraycopy(y, 0, universe, n, m);
-
-        // Iterate over all n, m partitions of the n + m elements in the universe,
-        // Computing D for each one
-        Iterator<int[]> combinationsIterator = CombinatoricsUtils.combinationsIterator(n + m, n);
-        long tail = 0;
-        final double[] nSet = new double[n];
-        final double[] mSet = new double[m];
-        while (combinationsIterator.hasNext()) {
-            // Generate an n-set
-            final int[] nSetI = combinationsIterator.next();
-            // Copy the elements of the universe in the n-set to nSet
-            // and the others to mSet
-            int j = 0;
-            int k = 0;
-            for (int i = 0; i < n + m; i++) {
-                if (j < n && nSetI[j] == i) {
-                    nSet[j++] = universe[i];
-                } else {
-                    mSet[k++] = universe[i];
-                }
-            }
-            final long curD = integralKolmogorovSmirnovStatistic(nSet, mSet);
-            if (curD > d || (curD == d && !strict)) {
-                tail++;
-            }
-        }
-        return (double) tail / (double) CombinatoricsUtils.binomialCoefficient(n + m, n);
+       return 1 - n(m, n, m, n, calculateIntegralD(d, m, n, strict), strict) /
+               CombinatoricsUtils.binomialCoefficientDouble(n + m, m);
     }
 
     /**
@@ -1153,6 +1120,59 @@ public class KolmogorovSmirnovTest {
     }
 
     /**
+     * If there are no ties in the combined dataset formed from x and y, this
+     * method is a no-op.  If there are ties, a uniform random deviate in
+     * (-minDelta / 2, minDelta / 2) - {0} is added to each value in x and y, where
+     * minDelta is the minimum difference between unequal values in the combined
+     * sample.  A fixed seed is used to generate the jitter, so repeated activations
+     * with the same input arrays result in the same values.
+     *
+     * NOTE: if there are ties in the data, this method overwrites the data in
+     * x and y with the jittered values.
+     *
+     * @param x first sample
+     * @param y second sample
+     */
+    private static void fixTies(double[] x, double[] y) {
+       final double[] values = MathArrays.unique(MathArrays.concatenate(x,y));
+       if (values.length == x.length + y.length) {
+           return;  // There are no ties
+       }
+
+       // Find the smallest difference between values, or 1 if all values are the same
+       double minDelta = 1;
+       double prev = values[0];
+       double delta = 1;
+       for (int i = 1; i < values.length; i++) {
+          delta = prev - values[i];
+          if (delta < minDelta) {
+              minDelta = delta;
+          }
+          prev = values[i];
+       }
+       minDelta /= 2;
+
+       // Add jitter using a fixed seed (so same arguments always give same results),
+       // low-initialization-overhead generator
+       final RealDistribution dist =
+               new UniformRealDistribution(new JDKRandomGenerator(100), -minDelta, minDelta);
+
+       // It is theoretically possible that jitter does not break ties, so repeat
+       // until all ties are gone.  Bound the loop and throw MIE if bound is exceeded.
+       int ct = 0;
+       boolean ties = true;
+       do {
+           jitter(x, dist);
+           jitter(y, dist);
+           ties = hasTies(x, y);
+           ct++;
+       } while (ties && ct < 1000);
+       if (ties) {
+           throw new MathInternalError(); // Should never happen
+       }
+    }
+
+    /**
      * Returns true iff there are ties in the combined sample
      * formed from x and y.
      *
@@ -1160,8 +1180,8 @@ public class KolmogorovSmirnovTest {
      * @param y second sample
      * @return true if x and y together contain ties
      */
-    private boolean hasTies(double[] x, double[] y) {
-        HashSet<Double> values = new HashSet<Double>();
+    private static boolean hasTies(double[] x, double[] y) {
+        final HashSet<Double> values = new HashSet<Double>();
             for (int i = 0; i < x.length; i++) {
                 if (!values.add(x[i])) {
                     return true;
@@ -1173,5 +1193,78 @@ public class KolmogorovSmirnovTest {
                 }
             }
         return false;
+    }
+
+    /**
+     * Adds random jitter to {@code data} using deviates sampled from {@code dist}.
+     * <p>
+     * Note that jitter is applied in-place - i.e., the array
+     * values are overwritten with the result of applying jitter.</p>
+     *
+     * @param data input/output data array - entries overwritten by the method
+     * @param dist probability distribution to sample for jitter values
+     * @throws NullPointerException if either of the parameters is null
+     */
+    private static void jitter(double[] data, RealDistribution dist) {
+        for (int i = 0; i < data.length; i++) {
+            data[i] += dist.sample();
+        }
+    }
+
+    /**
+     * The function C(i, j) defined in [4] (class javadoc), formula (5.5).
+     * defined to return 1 if |i/n - j/m| <= c; 0 otherwise. Here c is scaled up
+     * and recoded as a long to avoid rounding errors in comparison tests, so what
+     * is actually tested is |im - jn| <= cmn.
+     *
+     * @param i first path parameter
+     * @param j second path paramter
+     * @param m first sample size
+     * @param n second sample size
+     * @param cmn integral D-statistic (see {@link #calculateIntegralD(double, int, int, boolean)})
+     * @param strict whether or not the null hypothesis uses strict inequality
+     * @return C(i,j) for given m, n, c
+     */
+    private static int c(int i, int j, int m, int n, long cmn, boolean strict) {
+        if (strict) {
+            return FastMath.abs(i*(long)n - j*(long)m) <= cmn ? 1 : 0;
+        }
+        return FastMath.abs(i*(long)n - j*(long)m) < cmn ? 1 : 0;
+    }
+
+    /**
+     * The function N(i, j) defined in [4] (class javadoc).
+     * Returns the number of paths over the lattice {(i,j) : 0 <= i <= n, 0 <= j <= m}
+     * from (0,0) to (i,j) satisfying C(h,k, m, n, c) = 1 for each (h,k) on the path.
+     * The return value is integral, but subject to overflow, so it is maintained and
+     * returned as a double.
+     *
+     * @param i first path parameter
+     * @param j second path parameter
+     * @param m first sample size
+     * @param n second sample size
+     * @param cnm integral D-statistic (see {@link #calculateIntegralD(double, int, int, boolean)})
+     * @param strict whether or not the null hypothesis uses strict inequality
+     * @return number or paths to (i, j) from (0,0) representing D-values as large as c for given m, n
+     */
+    private static double n(int i, int j, int m, int n, long cnm, boolean strict) {
+        /*
+         * Unwind the recursive definition given in [4].
+         * Compute n(1,1), n(1,2)...n(2,1), n(2,2)... up to n(i,j), one row at a time.
+         * When n(i,*) are being computed, lag[] holds the values of n(i - 1, *).
+         */
+        final double[] lag = new double[n];
+        double last = 0;
+        for (int k = 0; k < n; k++) {
+            lag[k] = c(0, k + 1, m, n, cnm, strict);
+        }
+        for (int k = 1; k <= i; k++) {
+            last = c(k, 0, m, n, cnm, strict);
+            for (int l = 1; l <= j; l++) {
+                lag[l - 1] = c(k, l, m, n, cnm, strict) * (last + lag[l - 1]);
+                last = lag[l - 1];
+            }
+        }
+        return last;
     }
 }

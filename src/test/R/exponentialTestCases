@@ -42,7 +42,7 @@ verifyDistribution <- function(points, expected, mean, tol) {
         displayPadded(output, SUCCEEDED, WIDTH)
     } else {
         displayPadded(output, FAILED, WIDTH)
-    }       
+    }
 }
 
 # function to verify density computations
@@ -58,7 +58,7 @@ verifyDensity <- function(points, expected, mean, tol) {
         displayPadded(output, SUCCEEDED, WIDTH)
     } else {
         displayPadded(output, FAILED, WIDTH)
-    }       
+    }
 }
 
 # function to verify quantiles
@@ -74,7 +74,7 @@ verifyQuantiles <- function(points, expected, mean, tol) {
         displayPadded(output, SUCCEEDED, WIDTH)
     } else {
         displayPadded(output, FAILED, WIDTH)
-    }    
+    }
 }
 
 
@@ -98,6 +98,6 @@ if (assertEquals(0.0905214480757, pexp(.75, 1/mean) - pexp(.25, 1/mean), tol, "P
     displayPadded(output, SUCCEEDED, WIDTH)
 } else {
     displayPadded(output, FAILED, WIDTH)
-}      
+}
 
 displayDashes(WIDTH)

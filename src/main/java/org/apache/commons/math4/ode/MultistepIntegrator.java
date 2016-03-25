@@ -18,6 +18,7 @@
 package org.apache.commons.math4.ode;
 
 import org.apache.commons.math4.exception.DimensionMismatchException;
+import org.apache.commons.math4.exception.MathIllegalStateException;
 import org.apache.commons.math4.exception.MaxCountExceededException;
 import org.apache.commons.math4.exception.NoBracketingException;
 import org.apache.commons.math4.exception.NumberIsTooSmallException;
@@ -223,7 +224,7 @@ public abstract class MultistepIntegrator extends AdaptiveStepsizeIntegrator {
         starter.clearStepHandlers();
 
         // set up one specific step handler to extract initial Nordsieck vector
-        starter.addStepHandler(new NordsieckInitializer(nSteps, y0.length));
+        starter.addStepHandler(new NordsieckInitializer((nSteps + 3) / 2, y0.length));
 
         // start integration, expecting a InitializationCompletedMarkerException
         try {
@@ -248,11 +249,14 @@ public abstract class MultistepIntegrator extends AdaptiveStepsizeIntegrator {
                 }, t0, y0, t, new double[y0.length]);
             }
 
+            // we should not reach this step
+            throw new MathIllegalStateException(LocalizedFormats.MULTISTEP_STARTER_STOPPED_EARLY);
+
         } catch (InitializationCompletedMarkerException icme) { // NOPMD
             // this is the expected nominal interruption of the start integrator
 
             // count the evaluations used by the starter
-            getEvaluationsCounter().incrementCount(starter.getEvaluations());
+            getCounter().increment(starter.getEvaluations());
 
         }
 
@@ -315,6 +319,13 @@ public abstract class MultistepIntegrator extends AdaptiveStepsizeIntegrator {
       this.safety = safety;
     }
 
+    /** Get the number of steps of the multistep method (excluding the one being computed).
+     * @return number of steps of the multistep method (excluding the one being computed)
+     */
+    public int getNSteps() {
+      return nSteps;
+    }
+
     /** Compute step grow/shrink factor according to normalized error.
      * @param error normalized error of the current step
      * @return grow/shrink factor for next step
@@ -323,7 +334,10 @@ public abstract class MultistepIntegrator extends AdaptiveStepsizeIntegrator {
         return FastMath.min(maxGrowth, FastMath.max(minReduction, safety * FastMath.pow(error, exp)));
     }
 
-    /** Transformer used to convert the first step to Nordsieck representation. */
+    /** Transformer used to convert the first step to Nordsieck representation.
+     * @deprecated as of 3.6 this unused interface is deprecated
+     */
+    @Deprecated
     public interface NordsieckTransformer {
         /** Initialize the high order scaled derivatives at step start.
          * @param h step size to use for scaling
@@ -354,14 +368,14 @@ public abstract class MultistepIntegrator extends AdaptiveStepsizeIntegrator {
         private final double[][] yDot;
 
         /** Simple constructor.
-         * @param nSteps number of steps of the multistep method (excluding the one being computed)
+         * @param nbStartPoints number of start points (including the initial point)
          * @param n problem dimension
          */
-        public NordsieckInitializer(final int nSteps, final int n) {
+        NordsieckInitializer(final int nbStartPoints, final int n) {
             this.count = 0;
-            this.t     = new double[nSteps];
-            this.y     = new double[nSteps][n];
-            this.yDot  = new double[nSteps][n];
+            this.t     = new double[nbStartPoints];
+            this.y     = new double[nbStartPoints][n];
+            this.yDot  = new double[nbStartPoints][n];
         }
 
         /** {@inheritDoc} */
@@ -373,7 +387,7 @@ public abstract class MultistepIntegrator extends AdaptiveStepsizeIntegrator {
             final double curr = interpolator.getCurrentTime();
 
             if (count == 0) {
-                // first step, we need to store also the beginning of the step
+                // first step, we need to store also the point at the beginning of the step
                 interpolator.setInterpolatedTime(prev);
                 t[0] = prev;
                 final ExpandableStatefulODE expandable = getExpandable();
@@ -388,7 +402,7 @@ public abstract class MultistepIntegrator extends AdaptiveStepsizeIntegrator {
                 }
             }
 
-            // store the end of the step
+            // store the point at the end of the step
             ++count;
             interpolator.setInterpolatedTime(curr);
             t[count] = curr;
@@ -406,7 +420,7 @@ public abstract class MultistepIntegrator extends AdaptiveStepsizeIntegrator {
 
             if (count == t.length - 1) {
 
-                // this was the last step we needed, we can compute the derivatives
+                // this was the last point we needed, we can compute the derivatives
                 stepStart = t[0];
                 stepSize  = (t[t.length - 1] - t[0]) / (t.length - 1);
 
@@ -442,7 +456,7 @@ public abstract class MultistepIntegrator extends AdaptiveStepsizeIntegrator {
         private static final long serialVersionUID = -1914085471038046418L;
 
         /** Simple constructor. */
-        public InitializationCompletedMarkerException() {
+        InitializationCompletedMarkerException() {
             super((Throwable) null);
         }
 

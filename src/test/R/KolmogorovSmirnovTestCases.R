@@ -21,12 +21,20 @@
 # into the same directory, launch R from this directory and then enter
 # source("<name-of-this-file>")
 #
+# NOTE: the 2-sample bootstrap test requires the "Matching" library
+## https://cran.r-project.org/web/packages/Matching/index.html
+## See http://sekhon.berkeley.edu/matching for additional documentation.
+## Jasjeet S. Sekhon. 2011. ``Multivariate and Propensity Score Matching
+## Software with Automated Balance Optimization: The Matching package for R.''
+## Journal of Statistical Software, 42(7): 1-52.
+#
 #------------------------------------------------------------------------------
 tol <- 1E-14                     # error tolerance for tests
 #------------------------------------------------------------------------------
 # Function definitions
 
 source("testFunctions")           # utility test functions
+require("Matching")               # for ks.boot
 
 verifyOneSampleGaussian <- function(data, expectedP, expectedD, mean, sigma, exact, tol, desc) {
     results <- ks.test(data, "pnorm", mean, sigma, exact = exact)
@@ -34,12 +42,12 @@ verifyOneSampleGaussian <- function(data, expectedP, expectedD, mean, sigma, exa
         displayPadded(c(desc," p-value test"), SUCCEEDED, WIDTH)
     } else {
         displayPadded(c(desc, " p-value test"), FAILED, WIDTH)
-    } 
+    }
     if (assertEquals(expectedD, results$statistic, tol, "D statistic value")) {
         displayPadded(c(desc," D statistic test"), SUCCEEDED, WIDTH)
     } else {
         displayPadded(c(desc, " D statistic test"), FAILED, WIDTH)
-    } 
+    }
 }
 
 verifyOneSampleUniform <- function(data, expectedP, expectedD, min, max, exact, tol, desc) {
@@ -48,12 +56,12 @@ verifyOneSampleUniform <- function(data, expectedP, expectedD, min, max, exact, 
         displayPadded(c(desc," p-value test"), SUCCEEDED, WIDTH)
     } else {
         displayPadded(c(desc, " p-value test"), FAILED, WIDTH)
-    } 
+    }
     if (assertEquals(expectedD, results$statistic, tol, "D statistic value")) {
         displayPadded(c(desc," D statistic test"), SUCCEEDED, WIDTH)
     } else {
         displayPadded(c(desc, " D statistic test"), FAILED, WIDTH)
-    } 
+    }
 }
 
 verifyTwoSampleLargeSamples <- function(sample1, sample2, expectedP, expectedD, tol, desc) {
@@ -62,12 +70,12 @@ verifyTwoSampleLargeSamples <- function(sample1, sample2, expectedP, expectedD, 
         displayPadded(c(desc," p-value test"), SUCCEEDED, WIDTH)
     } else {
         displayPadded(c(desc, " p-value test"), FAILED, WIDTH)
-    } 
+    }
     if (assertEquals(expectedD, results$statistic, tol, "D statistic value")) {
         displayPadded(c(desc," D statistic test"), SUCCEEDED, WIDTH)
     } else {
         displayPadded(c(desc, " D statistic test"), FAILED, WIDTH)
-    } 
+    }
 }
 
 verifyTwoSampleSmallSamplesExact <- function(sample1, sample2, expectedP, expectedD, tol, desc) {
@@ -76,14 +84,22 @@ verifyTwoSampleSmallSamplesExact <- function(sample1, sample2, expectedP, expect
         displayPadded(c(desc," p-value test"), SUCCEEDED, WIDTH)
     } else {
         displayPadded(c(desc, " p-value test"), FAILED, WIDTH)
-    } 
+    }
     if (assertEquals(expectedD, results$statistic, tol, "D statistic value")) {
         displayPadded(c(desc," D statistic test"), SUCCEEDED, WIDTH)
     } else {
         displayPadded(c(desc, " D statistic test"), FAILED, WIDTH)
-    } 
+    }
 }
 
+verifyTwoSampleBootstrap <- function(sample1, sample2, expectedP, tol, desc) {
+    results <- ks.boot(sample1, sample2,nboots=10000 )
+    if (assertEquals(expectedP, results$ks.boot.pvalue, tol, "p-value")) {
+        displayPadded(c(desc, " p-value test"), SUCCEEDED, WIDTH)
+    } else {
+        displayPadded(c(desc, " p-value test"), FAILED, WIDTH)
+    }
+}
 
 cat("KolmogorovSmirnovTest test cases\n")
 
@@ -100,7 +116,7 @@ gaussian <- c(0.26055895, -0.63665233, 1.51221323, 0.61246988, -0.03013003, -1.7
    0.25165971, -0.04125231, -0.23756244, -0.93389975, 0.75551407, 0.08347445, -0.27482228, -0.4717632,
   -0.1867746, -0.1166976, 0.5763333, 0.1307952, 0.7630584, -0.3616248, 2.1383790,-0.7946630,
    0.0231885, 0.7919195, 1.6057144, -0.3802508, 0.1229078, 1.5252901, -0.8543149, 0.3025040)
-   
+
 shortGaussian <- gaussian[1:50]
 
 gaussian2 <- c(2.88041498038308, -0.632349445671017, 0.402121295225571, 0.692626364613243, 1.30693446815426,
@@ -137,10 +153,20 @@ uniform <- c(0.7930305, 0.6424382, 0.8747699, 0.7156518, 0.1845909, 0.2022326,
    0.85201008, 0.02945562, 0.26200374, 0.11382818, 0.17238856, 0.36449473, 0.69688273, 0.96216330,
    0.4859432,0.4503438, 0.1917656, 0.8357845, 0.9957812, 0.4633570, 0.8654599, 0.4597996,
    0.68190289, 0.58887855, 0.09359396, 0.98081979, 0.73659533, 0.89344777, 0.18903099, 0.97660425)
-   
+
 smallSample1 <- c(6, 7, 9, 13, 19, 21, 22, 23, 24)
 smallSample2 <- c(10, 11, 12, 16, 20, 27, 28, 32, 44, 54)
- 
+smallSample3 <- c(6, 7, 9, 13, 19, 21, 22, 23, 24, 29, 30, 34, 36, 41, 45, 47, 51, 63, 33, 91)
+smallSample4 <- c(10, 11, 12, 16, 20, 27, 28, 32, 44, 54, 56, 57, 64, 69, 71, 80, 81, 88, 90)
+smallSample5 <- c(-10, -5, 17, 21, 22, 23, 24, 30, 44, 50, 56, 57, 59, 67, 73, 75, 77, 78, 79, 80, 81, 83, 84, 85, 88, 90,
+                   92, 93, 94, 95, 98, 100, 101, 103, 105, 110)
+smallSample6 <- c(-2, -1, 0, 10, 14, 15, 16, 20, 25, 26, 27, 31, 32, 33, 34, 45, 47, 48, 51, 52, 53, 54, 60, 61, 62, 63,
+                  74, 82, 106, 107, 109, 11, 112, 113, 114)
+bootSample1 <- c(0, 2, 4, 6, 8, 8, 10, 15, 22, 30, 33, 36, 38)
+bootSample2 <- c(9, 17, 20, 33, 40, 51, 60, 60, 72, 90, 101)
+roundingSample1 <- c(2,4,6,8,9,10,11,12,13)
+roundingSample2 <- c(0,1,3,5,7)
+
 shortUniform <- uniform[1:20]
 
 verifyOneSampleGaussian(gaussian, 0.3172069207622391, 0.0932947561266756, 0, 1,
@@ -165,8 +191,18 @@ verifyTwoSampleLargeSamples(gaussian, gaussian2, 0.0319983962391632, 0.202352941
 "Two sample N(0, 1) vs N(0, 1.6)")
 
 verifyTwoSampleSmallSamplesExact(smallSample1, smallSample2, 0.105577085453247, .5, tol,
-"Two sample small samples exact")
+"Two sample small samples exact 1")
+
+verifyTwoSampleSmallSamplesExact(smallSample3, smallSample4, 0.046298660942952,  0.426315789473684, tol,
+"Two sample small samples exact 2")
+
+verifyTwoSampleSmallSamplesExact(smallSample5, smallSample6, 0.00300743602233366, 0.41031746031746, tol,
+"Two sample small samples exact 3")
+
+verifyTwoSampleBootstrap(bootSample1, bootSample2, 0.0059, 1E-3, "Two sample bootstrap - isolated failures possible")
+verifyTwoSampleBootstrap(gaussian, gaussian2, 0.0237, 1E-2, "Two sample bootstrap - isolated failures possible")
+verifyTwoSampleBootstrap(roundingSample1, roundingSample2, 0.06303, 1E-2, "Two sample bootstrap - isolated failures possible")
 
 displayDashes(WIDTH)
-            
+
 

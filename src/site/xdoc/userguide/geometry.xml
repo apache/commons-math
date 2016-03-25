@@ -129,7 +129,7 @@
           matrix into a set of Cardan angles can be done using the
           following single line of code:
         </p>
-        <source>double[] angles = new Rotation(matrix, 1.0e-10).getAngles(RotationOrder.XYZ);</source>
+        <source>double[] angles = new Rotation(matrix, 1.0e-10).getAngles(RotationOrder.XYZ, RotationConvention.FRAME_TRANSFORM);</source>
         <p>
           Focus is oriented on what a rotation <em>does</em> rather than on its
           underlying representation. Once it has been built, and regardless of
@@ -157,6 +157,18 @@
           observatory location and the Earth rotation.
         </p>
         <p>
+          In order to support naturally both views, the enumerate RotationConvention
+          has been introduced in version 3.6. This enumerate can take two values:
+          <code>VECTOR_OPERATOR</code> or <code>FRAME_TRANSFORM</code>. This
+          enumerate must be passed as an argument to the few methods that depend
+          on an interpretation of the semantics of the angle/axis. The value
+          <code>VECTOR_OPERATOR</code> corresponds to rotations that are
+          considered to move vectors within a fixed frame. The value
+          <code>FRAME_TRANSFORM</code> corresponds to rotations that are
+          considered to represent frame rotations, so fixed vectors coordinates
+          change as their reference frame changes.
+        </p>
+        <p>
           These examples show that a rotation means what the user wants it to
           mean, so this class does not push the user towards one specific
           definition and hence does not provide methods like
@@ -175,8 +187,12 @@
           previous notations, we would say we can apply <code>r<sub>1</sub></code> to
           <code>r<sub>2</sub></code> and the result we get is <code>r =
           r<sub>1</sub> o r<sub>2</sub></code>. For this purpose, the class
-          provides the methods: <code>applyTo(Rotation)</code> and
-          <code>applyInverseTo(Rotation)</code>.
+          provides the methods: <code>compose(Rotation, RotationConvention)</code> and
+          <code>composeInverse(Rotation, RotationConvention)</code>. There are also
+          shortcuts <code>applyTo(Rotation)</code> which is equivalent to
+          <code>compose(Rotation, RotationConvention.VECTOR_OPERATOR)</code> and
+          <code>applyInverseTo(Rotation)</code> which is equivalent to
+          <code>composeInverse(Rotation, RotationConvention.VECTOR_OPERATOR)</code>.
         </p>
       </subsection>
       <subsection name="11.3 n-Sphere" href="sphere">

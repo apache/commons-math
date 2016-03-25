@@ -37,7 +37,7 @@ class InsideFinder<S extends Space> {
     /** Simple constructor.
      * @param region region on which to operate
      */
-    public InsideFinder(final Region<S> region) {
+    InsideFinder(final Region<S> region) {
         this.region = region;
         plusFound  = false;
         minusFound = false;

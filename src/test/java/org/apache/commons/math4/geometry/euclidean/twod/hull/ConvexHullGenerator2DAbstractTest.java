@@ -40,7 +40,7 @@ import org.junit.Test;
 
 /**
  * Abstract base test class for 2D convex hull generators.
- * 
+ *
  */
 public abstract class ConvexHullGenerator2DAbstractTest {
 
@@ -67,7 +67,7 @@ public abstract class ConvexHullGenerator2DAbstractTest {
     public void testNullArgument() {
         generator.generate(null);
     }
-    
+
     @Test
     public void testEmpty() {
         ConvexHull2D hull = generator.generate(Collections.<Vector2D>emptyList());
@@ -246,9 +246,9 @@ public abstract class ConvexHullGenerator2DAbstractTest {
 
         hull = createConvexHullGenerator(true).generate(points);
         checkConvexHull(points, hull, true);
-        
+
         points.clear();
-        
+
         // second case: multiple points are collinear
         points.add(new Vector2D(0, -29.959696875));
         points.add(new Vector2D(0, -31.621809375));
@@ -327,7 +327,7 @@ public abstract class ConvexHullGenerator2DAbstractTest {
             points.add(new Vector2D(line[0], line[1]));
         }
 
-        Vector2D[] referenceHull = new Vector2D[] { 
+        Vector2D[] referenceHull = new Vector2D[] {
             new Vector2D(-11.0, -1.0),
             new Vector2D(-10.0, -3.0),
             new Vector2D( -6.0, -7.0),
@@ -364,7 +364,7 @@ public abstract class ConvexHullGenerator2DAbstractTest {
     }
 
     // ------------------------------------------------------------------------------
-    
+
     protected final List<Vector2D> createRandomPoints(int size) {
         // create the cloud container
         List<Vector2D> points = new ArrayList<Vector2D>(size);
@@ -419,13 +419,13 @@ public abstract class ConvexHullGenerator2DAbstractTest {
                     return false;
                 }
             }
-            
+
             sign = cmp;
         }
-        
+
         return true;
     }
-    
+
     // verify that all points are inside the convex hull region
     protected final void checkPointsInsideHullRegion(final Collection<Vector2D> points,
                                                      final ConvexHull2D hull,

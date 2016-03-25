@@ -527,7 +527,7 @@ public class IntervalsSet extends AbstractRegion<Euclidean1D, Euclidean1D> imple
 
         /** Simple constructor.
          */
-        public SubIntervalsIterator() {
+        SubIntervalsIterator() {
 
             current = getFirstIntervalBoundary();
 

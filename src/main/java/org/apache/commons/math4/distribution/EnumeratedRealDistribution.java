@@ -17,7 +17,10 @@
 package org.apache.commons.math4.distribution;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.Map.Entry;
 
 import org.apache.commons.math4.exception.DimensionMismatchException;
 import org.apache.commons.math4.exception.MathArithmeticException;
@@ -51,7 +54,7 @@ public class EnumeratedRealDistribution extends AbstractRealDistribution {
     protected final EnumeratedDistribution<Double> innerDistribution;
 
     /**
-     * Create a discrete distribution using the given probability mass function
+     * Create a discrete real-valued distribution using the given probability mass function
      * enumeration.
      * <p>
      * <b>Note:</b> this constructor will implicitly create an instance of
@@ -77,7 +80,7 @@ public class EnumeratedRealDistribution extends AbstractRealDistribution {
     }
 
     /**
-     * Create a discrete distribution using the given random number generator
+     * Create a discrete real-valued distribution using the given random number generator
      * and probability mass function enumeration.
      *
      * @param rng random number generator.
@@ -95,17 +98,72 @@ public class EnumeratedRealDistribution extends AbstractRealDistribution {
         throws DimensionMismatchException, NotPositiveException, MathArithmeticException,
                NotFiniteNumberException, NotANumberException {
         super(rng);
+
+        innerDistribution = new EnumeratedDistribution<Double>(
+                rng, createDistribution(singletons, probabilities));
+    }
+
+    /**
+     * Create a discrete real-valued distribution from the input data.  Values are assigned
+     * mass based on their frequency.
+     *
+     * @param rng random number generator used for sampling
+     * @param data input dataset
+     * @since 3.6
+     */
+    public EnumeratedRealDistribution(final RandomGenerator rng, final double[] data) {
+        super(rng);
+        final Map<Double, Integer> dataMap = new HashMap<Double, Integer>();
+        for (double value : data) {
+            Integer count = dataMap.get(value);
+            if (count == null) {
+                count = 0;
+            }
+            dataMap.put(value, ++count);
+        }
+        final int massPoints = dataMap.size();
+        final double denom = data.length;
+        final double[] values = new double[massPoints];
+        final double[] probabilities = new double[massPoints];
+        int index = 0;
+        for (Entry<Double, Integer> entry : dataMap.entrySet()) {
+            values[index] = entry.getKey();
+            probabilities[index] = entry.getValue().intValue() / denom;
+            index++;
+        }
+        innerDistribution = new EnumeratedDistribution<Double>(rng, createDistribution(values, probabilities));
+    }
+
+    /**
+     * Create a discrete real-valued distribution from the input data.  Values are assigned
+     * mass based on their frequency.  For example, [0,1,1,2] as input creates a distribution
+     * with values 0, 1 and 2 having probability masses 0.25, 0.5 and 0.25 respectively,
+     *
+     * @param data input dataset
+     * @since 3.6
+     */
+    public EnumeratedRealDistribution(final double[] data) {
+        this(new Well19937c(), data);
+    }
+    /**
+     * Create the list of Pairs representing the distribution from singletons and probabilities.
+     *
+     * @param singletons values
+     * @param probabilities probabilities
+     * @return list of value/probability pairs
+     */
+    private static List<Pair<Double, Double>>  createDistribution(double[] singletons, double[] probabilities) {
         if (singletons.length != probabilities.length) {
             throw new DimensionMismatchException(probabilities.length, singletons.length);
         }
 
-        List<Pair<Double, Double>> samples = new ArrayList<Pair<Double, Double>>(singletons.length);
+        final List<Pair<Double, Double>> samples = new ArrayList<Pair<Double, Double>>(singletons.length);
 
         for (int i = 0; i < singletons.length; i++) {
             samples.add(new Pair<Double, Double>(singletons[i], probabilities[i]));
         }
+        return samples;
 
-        innerDistribution = new EnumeratedDistribution<Double>(rng, samples);
     }
 
     /**

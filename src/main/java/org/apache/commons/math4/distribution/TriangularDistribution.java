@@ -259,6 +259,7 @@ public class TriangularDistribution extends AbstractRealDistribution {
         return true;
     }
 
+    /** {@inheritDoc} */
     @Override
     public double inverseCumulativeProbability(double p)
         throws OutOfRangeException {

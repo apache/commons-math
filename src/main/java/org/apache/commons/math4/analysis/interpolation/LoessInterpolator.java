@@ -36,14 +36,14 @@ import org.apache.commons.math4.util.MathUtils;
  * Implements the <a href="http://en.wikipedia.org/wiki/Local_regression">
  * Local Regression Algorithm</a> (also Loess, Lowess) for interpolation of
  * real univariate functions.
- * <p/>
+ * <p>
  * For reference, see
- * <a href="http://www.math.tau.ac.il/~yekutiel/MA seminar/Cleveland 1979.pdf">
+ * <a href="http://amstat.tandfonline.com/doi/abs/10.1080/01621459.1979.10481038">
  * William S. Cleveland - Robust Locally Weighted Regression and Smoothing
- * Scatterplots</a>
- * <p/>
+ * Scatterplots</a></p>
+ * <p>
  * This class implements both the loess method and serves as an interpolation
- * adapter to it, allowing one to build a spline on the obtained loess fit.
+ * adapter to it, allowing one to build a spline on the obtained loess fit.</p>
  *
  * @since 2.0
  */
@@ -65,16 +65,16 @@ public class LoessInterpolator
      * a particular point, this fraction of source points closest
      * to the current point is taken into account for computing
      * a least-squares regression.
-     * <p/>
-     * A sensible value is usually 0.25 to 0.5.
+     * <p>
+     * A sensible value is usually 0.25 to 0.5.</p>
      */
     private final double bandwidth;
     /**
      * The number of robustness iterations parameter: this many
      * robustness iterations are done.
-     * <p/>
+     * <p>
      * A sensible value is usually 0 (just the initial fit without any
-     * robustness iterations) to 4.
+     * robustness iterations) to 4.</p>
      */
     private final int robustnessIters;
     /**
@@ -109,10 +109,10 @@ public class LoessInterpolator
      * @param bandwidth  when computing the loess fit at
      * a particular point, this fraction of source points closest
      * to the current point is taken into account for computing
-     * a least-squares regression.</br>
+     * a least-squares regression.
      * A sensible value is usually 0.25 to 0.5, the default value is
      * {@link #DEFAULT_BANDWIDTH}.
-     * @param robustnessIters This many robustness iterations are done.</br>
+     * @param robustnessIters This many robustness iterations are done.
      * A sensible value is usually 0 (just the initial fit without any
      * robustness iterations) to 4, the default value is
      * {@link #DEFAULT_ROBUSTNESS_ITERS}.
@@ -130,10 +130,10 @@ public class LoessInterpolator
      * @param bandwidth  when computing the loess fit at
      * a particular point, this fraction of source points closest
      * to the current point is taken into account for computing
-     * a least-squares regression.</br>
+     * a least-squares regression.
      * A sensible value is usually 0.25 to 0.5, the default value is
      * {@link #DEFAULT_BANDWIDTH}.
-     * @param robustnessIters This many robustness iterations are done.</br>
+     * @param robustnessIters This many robustness iterations are done.
      * A sensible value is usually 0 (just the initial fit without any
      * robustness iterations) to 4, the default value is
      * {@link #DEFAULT_ROBUSTNESS_ITERS}.

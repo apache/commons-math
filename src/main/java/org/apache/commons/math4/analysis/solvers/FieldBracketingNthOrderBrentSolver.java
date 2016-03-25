@@ -14,16 +14,20 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.apache.commons.math4.dfp;
+package org.apache.commons.math4.analysis.solvers;
 
 
-import org.apache.commons.math4.analysis.solvers.AllowedSolution;
+import org.apache.commons.math4.Field;
+import org.apache.commons.math4.RealFieldElement;
+import org.apache.commons.math4.analysis.RealFieldUnivariateFunction;
 import org.apache.commons.math4.exception.MathInternalError;
 import org.apache.commons.math4.exception.NoBracketingException;
 import org.apache.commons.math4.exception.NullArgumentException;
 import org.apache.commons.math4.exception.NumberIsTooSmallException;
-import org.apache.commons.math4.util.Incrementor;
+import org.apache.commons.math4.util.IntegerSequence;
+import org.apache.commons.math4.util.MathArrays;
 import org.apache.commons.math4.util.MathUtils;
+import org.apache.commons.math4.util.Precision;
 
 /**
  * This class implements a modification of the <a
@@ -32,33 +36,38 @@ import org.apache.commons.math4.util.MathUtils;
  * The changes with respect to the original Brent algorithm are:
  * <ul>
  *   <li>the returned value is chosen in the current interval according
- *   to user specified {@link AllowedSolution},</li>
+ *   to user specified {@link AllowedSolution}</li>
  *   <li>the maximal order for the invert polynomial root search is
  *   user-specified instead of being invert quadratic only</li>
- * </ul>
- * </p>
- * The given interval must bracket the root.
+ * </ul><p>
+ * The given interval must bracket the root.</p>
  *
+ * @param <T> the type of the field elements
+ * @since 3.6
  */
-public class BracketingNthOrderBrentSolverDFP {
+public class FieldBracketingNthOrderBrentSolver<T extends RealFieldElement<T>>
+    implements BracketedRealFieldUnivariateSolver<T> {
 
    /** Maximal aging triggering an attempt to balance the bracketing interval. */
     private static final int MAXIMAL_AGING = 2;
+
+    /** Field to which the elements belong. */
+    private final Field<T> field;
 
     /** Maximal order. */
     private final int maximalOrder;
 
     /** Function value accuracy. */
-    private final Dfp functionValueAccuracy;
+    private final T functionValueAccuracy;
 
     /** Absolute accuracy. */
-    private final Dfp absoluteAccuracy;
+    private final T absoluteAccuracy;
 
     /** Relative accuracy. */
-    private final Dfp relativeAccuracy;
+    private final T relativeAccuracy;
 
     /** Evaluations counter. */
-    private final Incrementor evaluations = new Incrementor();
+    private IntegerSequence.Incrementor evaluations;
 
     /**
      * Construct a solver.
@@ -69,18 +78,20 @@ public class BracketingNthOrderBrentSolverDFP {
      * @param maximalOrder maximal order.
      * @exception NumberIsTooSmallException if maximal order is lower than 2
      */
-    public BracketingNthOrderBrentSolverDFP(final Dfp relativeAccuracy,
-                                            final Dfp absoluteAccuracy,
-                                            final Dfp functionValueAccuracy,
-                                            final int maximalOrder)
+    public FieldBracketingNthOrderBrentSolver(final T relativeAccuracy,
+                                              final T absoluteAccuracy,
+                                              final T functionValueAccuracy,
+                                              final int maximalOrder)
         throws NumberIsTooSmallException {
         if (maximalOrder < 2) {
             throw new NumberIsTooSmallException(maximalOrder, 2, true);
         }
-        this.maximalOrder = maximalOrder;
-        this.absoluteAccuracy = absoluteAccuracy;
-        this.relativeAccuracy = relativeAccuracy;
+        this.field                 = relativeAccuracy.getField();
+        this.maximalOrder          = maximalOrder;
+        this.absoluteAccuracy      = absoluteAccuracy;
+        this.relativeAccuracy      = relativeAccuracy;
         this.functionValueAccuracy = functionValueAccuracy;
+        this.evaluations           = IntegerSequence.Incrementor.create();
     }
 
     /** Get the maximal order.
@@ -115,7 +126,7 @@ public class BracketingNthOrderBrentSolverDFP {
      * Get the absolute accuracy.
      * @return absolute accuracy
      */
-    public Dfp getAbsoluteAccuracy() {
+    public T getAbsoluteAccuracy() {
         return absoluteAccuracy;
     }
 
@@ -123,7 +134,7 @@ public class BracketingNthOrderBrentSolverDFP {
      * Get the relative accuracy.
      * @return relative accuracy
      */
-    public Dfp getRelativeAccuracy() {
+    public T getRelativeAccuracy() {
         return relativeAccuracy;
     }
 
@@ -131,7 +142,7 @@ public class BracketingNthOrderBrentSolverDFP {
      * Get the function accuracy.
      * @return function accuracy
      */
-    public Dfp getFunctionValueAccuracy() {
+    public T getFunctionValueAccuracy() {
         return functionValueAccuracy;
     }
 
@@ -151,8 +162,8 @@ public class BracketingNthOrderBrentSolverDFP {
      * @exception NullArgumentException if f is null.
      * @exception NoBracketingException if root cannot be bracketed
      */
-    public Dfp solve(final int maxEval, final UnivariateDfpFunction f,
-                     final Dfp min, final Dfp max, final AllowedSolution allowedSolution)
+    public T solve(final int maxEval, final RealFieldUnivariateFunction<T> f,
+                   final T min, final T max, final AllowedSolution allowedSolution)
         throws NullArgumentException, NoBracketingException {
         return solve(maxEval, f, min, max, min.add(max).divide(2), allowedSolution);
     }
@@ -174,46 +185,45 @@ public class BracketingNthOrderBrentSolverDFP {
      * @exception NullArgumentException if f is null.
      * @exception NoBracketingException if root cannot be bracketed
      */
-    public Dfp solve(final int maxEval, final UnivariateDfpFunction f,
-                     final Dfp min, final Dfp max, final Dfp startValue,
-                     final AllowedSolution allowedSolution)
+    public T solve(final int maxEval, final RealFieldUnivariateFunction<T> f,
+                   final T min, final T max, final T startValue,
+                   final AllowedSolution allowedSolution)
         throws NullArgumentException, NoBracketingException {
 
         // Checks.
         MathUtils.checkNotNull(f);
 
         // Reset.
-        evaluations.setMaximalCount(maxEval);
-        evaluations.resetCount();
-        Dfp zero = startValue.getZero();
-        Dfp nan  = zero.newInstance((byte) 1, Dfp.QNAN);
+        evaluations = evaluations.withMaximalCount(maxEval).withStart(0);
+        T zero = field.getZero();
+        T nan  = zero.add(Double.NaN);
 
         // prepare arrays with the first points
-        final Dfp[] x = new Dfp[maximalOrder + 1];
-        final Dfp[] y = new Dfp[maximalOrder + 1];
+        final T[] x = MathArrays.buildArray(field, maximalOrder + 1);
+        final T[] y = MathArrays.buildArray(field, maximalOrder + 1);
         x[0] = min;
         x[1] = startValue;
         x[2] = max;
 
         // evaluate initial guess
-        evaluations.incrementCount();
+        evaluations.increment();
         y[1] = f.value(x[1]);
-        if (y[1].isZero()) {
+        if (Precision.equals(y[1].getReal(), 0.0, 1)) {
             // return the initial guess if it is a perfect root.
             return x[1];
         }
 
-        // evaluate first  endpoint
-        evaluations.incrementCount();
+        // evaluate first endpoint
+        evaluations.increment();
         y[0] = f.value(x[0]);
-        if (y[0].isZero()) {
+        if (Precision.equals(y[0].getReal(), 0.0, 1)) {
             // return the first endpoint if it is a perfect root.
             return x[0];
         }
 
         int nbPoints;
         int signChangeIndex;
-        if (y[0].multiply(y[1]).negativeOrNull()) {
+        if (y[0].multiply(y[1]).getReal() < 0) {
 
             // reduce interval if it brackets the root
             nbPoints        = 2;
@@ -222,59 +232,59 @@ public class BracketingNthOrderBrentSolverDFP {
         } else {
 
             // evaluate second endpoint
-            evaluations.incrementCount();
+            evaluations.increment();
             y[2] = f.value(x[2]);
-            if (y[2].isZero()) {
+            if (Precision.equals(y[2].getReal(), 0.0, 1)) {
                 // return the second endpoint if it is a perfect root.
                 return x[2];
             }
 
-            if (y[1].multiply(y[2]).negativeOrNull()) {
+            if (y[1].multiply(y[2]).getReal() < 0) {
                 // use all computed point as a start sampling array for solving
                 nbPoints        = 3;
                 signChangeIndex = 2;
             } else {
-                throw new NoBracketingException(x[0].toDouble(), x[2].toDouble(),
-                                                y[0].toDouble(), y[2].toDouble());
+                throw new NoBracketingException(x[0].getReal(), x[2].getReal(),
+                                                y[0].getReal(), y[2].getReal());
             }
 
         }
 
         // prepare a work array for inverse polynomial interpolation
-        final Dfp[] tmpX = new Dfp[x.length];
+        final T[] tmpX = MathArrays.buildArray(field, x.length);
 
         // current tightest bracketing of the root
-        Dfp xA    = x[signChangeIndex - 1];
-        Dfp yA    = y[signChangeIndex - 1];
-        Dfp absXA = xA.abs();
-        Dfp absYA = yA.abs();
+        T xA    = x[signChangeIndex - 1];
+        T yA    = y[signChangeIndex - 1];
+        T absXA = xA.abs();
+        T absYA = yA.abs();
         int agingA   = 0;
-        Dfp xB    = x[signChangeIndex];
-        Dfp yB    = y[signChangeIndex];
-        Dfp absXB = xB.abs();
-        Dfp absYB = yB.abs();
+        T xB    = x[signChangeIndex];
+        T yB    = y[signChangeIndex];
+        T absXB = xB.abs();
+        T absYB = yB.abs();
         int agingB   = 0;
 
         // search loop
         while (true) {
 
             // check convergence of bracketing interval
-            Dfp maxX = absXA.lessThan(absXB) ? absXB : absXA;
-            Dfp maxY = absYA.lessThan(absYB) ? absYB : absYA;
-            final Dfp xTol = absoluteAccuracy.add(relativeAccuracy.multiply(maxX));
-            if (xB.subtract(xA).subtract(xTol).negativeOrNull() ||
-                maxY.lessThan(functionValueAccuracy)) {
+            T maxX = absXA.subtract(absXB).getReal() < 0 ? absXB : absXA;
+            T maxY = absYA.subtract(absYB).getReal() < 0 ? absYB : absYA;
+            final T xTol = absoluteAccuracy.add(relativeAccuracy.multiply(maxX));
+            if (xB.subtract(xA).subtract(xTol).getReal() <= 0 ||
+                maxY.subtract(functionValueAccuracy).getReal() < 0) {
                 switch (allowedSolution) {
                 case ANY_SIDE :
-                    return absYA.lessThan(absYB) ? xA : xB;
+                    return absYA.subtract(absYB).getReal() < 0 ? xA : xB;
                 case LEFT_SIDE :
                     return xA;
                 case RIGHT_SIDE :
                     return xB;
                 case BELOW_SIDE :
-                    return yA.lessThan(zero) ? xA : xB;
+                    return yA.getReal() <= 0 ? xA : xB;
                 case ABOVE_SIDE :
-                    return yA.lessThan(zero) ? xB : xA;
+                    return yA.getReal() < 0 ? xB : xA;
                 default :
                     // this should never happen
                     throw new MathInternalError(null);
@@ -282,7 +292,7 @@ public class BracketingNthOrderBrentSolverDFP {
             }
 
             // target for the next evaluation point
-            Dfp targetY;
+            T targetY;
             if (agingA >= MAXIMAL_AGING) {
                 // we keep updating the high bracket, try to compensate this
                 targetY = yB.divide(16).negate();
@@ -295,7 +305,7 @@ public class BracketingNthOrderBrentSolverDFP {
             }
 
             // make a few attempts to guess a root,
-            Dfp nextX;
+            T nextX;
             int start = 0;
             int end   = nbPoints;
             do {
@@ -304,7 +314,7 @@ public class BracketingNthOrderBrentSolverDFP {
                 System.arraycopy(x, start, tmpX, start, end - start);
                 nextX = guessX(targetY, tmpX, y, start, end);
 
-                if (!(nextX.greaterThan(xA) && nextX.lessThan(xB))) {
+                if (!((nextX.subtract(xA).getReal() > 0) && (nextX.subtract(xB).getReal() < 0))) {
                     // the guessed root is not strictly inside of the tightest bracketing interval
 
                     // the guessed root is either not strictly inside the interval or it
@@ -323,9 +333,9 @@ public class BracketingNthOrderBrentSolverDFP {
 
                 }
 
-            } while (nextX.isNaN() && (end - start > 1));
+            } while (Double.isNaN(nextX.getReal()) && (end - start > 1));
 
-            if (nextX.isNaN()) {
+            if (Double.isNaN(nextX.getReal())) {
                 // fall back to bisection
                 nextX = xA.add(xB.subtract(xA).divide(2));
                 start = signChangeIndex - 1;
@@ -333,9 +343,9 @@ public class BracketingNthOrderBrentSolverDFP {
             }
 
             // evaluate the function at the guessed root
-            evaluations.incrementCount();
-            final Dfp nextY = f.value(nextX);
-            if (nextY.isZero()) {
+            evaluations.increment();
+            final T nextY = f.value(nextX);
+            if (Precision.equals(nextY.getReal(), 0.0, 1)) {
                 // we have found an exact root, since it is not an approximation
                 // we don't need to bother about the allowed solutions setting
                 return nextX;
@@ -374,7 +384,7 @@ public class BracketingNthOrderBrentSolverDFP {
             ++nbPoints;
 
             // update the bracketing interval
-            if (nextY.multiply(yA).negativeOrNull()) {
+            if (nextY.multiply(yA).getReal() <= 0) {
                 // the sign change occurs before the inserted point
                 xB = nextX;
                 yB = nextY;
@@ -412,7 +422,7 @@ public class BracketingNthOrderBrentSolverDFP {
      * @param end end index of the points to consider (exclusive)
      * @return guessed root (will be a NaN if two points share the same y)
      */
-    private Dfp guessX(final Dfp targetY, final Dfp[] x, final Dfp[] y,
+    private T guessX(final T targetY, final T[] x, final T[] y,
                        final int start, final int end) {
 
         // compute Q Newton coefficients by divided differences
@@ -424,7 +434,7 @@ public class BracketingNthOrderBrentSolverDFP {
         }
 
         // evaluate Q(targetY)
-        Dfp x0 = targetY.getZero();
+        T x0 = field.getZero();
         for (int j = end - 1; j >= start; --j) {
             x0 = x[j].add(x0.multiply(targetY.subtract(y[j])));
         }

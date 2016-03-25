@@ -52,7 +52,7 @@ class EdgesBuilder implements BSPTreeVisitor<Sphere2D> {
      * @param root tree root
      * @param tolerance below which points are consider to be identical
      */
-    public EdgesBuilder(final BSPTree<Sphere2D> root, final double tolerance) {
+    EdgesBuilder(final BSPTree<Sphere2D> root, final double tolerance) {
         this.root            = root;
         this.tolerance       = tolerance;
         this.edgeToNode      = new IdentityHashMap<Edge, BSPTree<Sphere2D>>();

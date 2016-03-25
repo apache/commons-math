@@ -1,0 +1,15 @@
+language: java
+sudo: false
+
+jdk:
+  - openjdk7
+  - oraclejdk8
+
+# only build master and the MATH_3_X branch
+branches:
+  only:
+    - master
+    - MATH_3_X
+
+after_success:
+  - mvn clean test jacoco:report coveralls:report

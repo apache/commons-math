@@ -25,10 +25,6 @@ import org.apache.commons.math4.distribution.IntegerDistribution;
 import org.apache.commons.math4.distribution.RealDistribution;
 import org.apache.commons.math4.distribution.UniformIntegerDistribution;
 import org.apache.commons.math4.distribution.UniformRealDistribution;
-import org.apache.commons.math4.stat.descriptive.AggregateSummaryStatistics;
-import org.apache.commons.math4.stat.descriptive.StatisticalSummary;
-import org.apache.commons.math4.stat.descriptive.StatisticalSummaryValues;
-import org.apache.commons.math4.stat.descriptive.SummaryStatistics;
 import org.apache.commons.math4.util.Precision;
 import org.junit.Assert;
 import org.junit.Test;
@@ -36,7 +32,6 @@ import org.junit.Test;
 
 /**
  * Test cases for {@link AggregateSummaryStatistics}
- *
  */
 public class AggregateSummaryStatisticsTest {
 
@@ -132,7 +127,6 @@ public class AggregateSummaryStatisticsTest {
      * partition and comparing the result of aggregate(...) applied to the collection
      * of per-partition SummaryStatistics with a single SummaryStatistics computed
      * over the full sample.
-     *
      */
     @Test
     public void testAggregate() {
@@ -159,6 +153,42 @@ public class AggregateSummaryStatisticsTest {
                 subSampleStats[i].addValue(subSamples[i][j]);
             }
             aggregate.add(subSampleStats[i]);
+        }
+
+        // Compare values
+        StatisticalSummary aggregatedStats = AggregateSummaryStatistics.aggregate(aggregate);
+        assertEquals(totalStats.getSummary(), aggregatedStats, 10E-12);
+    }
+
+    /**
+     * Similar to {@link #testAggregate()} but operating on
+     * {@link StatisticalSummary} instead.
+     */
+    @Test
+    public void testAggregateStatisticalSummary() {
+
+        // Generate a random sample and random partition
+        double[] totalSample = generateSample();
+        double[][] subSamples = generatePartition(totalSample);
+        int nSamples = subSamples.length;
+
+        // Compute combined stats directly
+        SummaryStatistics totalStats = new SummaryStatistics();
+        for (int i = 0; i < totalSample.length; i++) {
+            totalStats.addValue(totalSample[i]);
+        }
+
+        // Now compute subsample stats individually and aggregate
+        SummaryStatistics[] subSampleStats = new SummaryStatistics[nSamples];
+        for (int i = 0; i < nSamples; i++) {
+            subSampleStats[i] = new SummaryStatistics();
+        }
+        Collection<StatisticalSummary> aggregate = new ArrayList<StatisticalSummary>();
+        for (int i = 0; i < nSamples; i++) {
+            for (int j = 0; j < subSamples[i].length; j++) {
+                subSampleStats[i].addValue(subSamples[i][j]);
+            }
+            aggregate.add(subSampleStats[i].getSummary());
         }
 
         // Compare values
@@ -269,7 +299,7 @@ public class AggregateSummaryStatisticsTest {
         final double[][] out = new double[5][];
         int cur = 0;          // beginning of current partition segment
         int offset = 0;       // end of current partition segment
-        int sampleCount = 0;  // number of segments defined 
+        int sampleCount = 0;  // number of segments defined
         for (int i = 0; i < 5; i++) {
             if (cur == length || offset == length) {
                 break;

@@ -96,7 +96,7 @@ import org.apache.commons.math4.util.FastMath;
  * computed from s<sub>1</sub>(n), s<sub>2</sub>(n) ... s<sub>k</sub>(n), the formula being exact
  * for degree k polynomials.
  * <pre>
- * s<sub>1</sub>(n-i) = s<sub>1</sub>(n) + &sum;<sub>j</sub> j (-i)<sup>j-1</sup> s<sub>j</sub>(n)
+ * s<sub>1</sub>(n-i) = s<sub>1</sub>(n) + &sum;<sub>j&gt;0</sub> (j+1) (-i)<sup>j</sup> s<sub>j+1</sub>(n)
  * </pre>
  * The previous formula can be used with several values for i to compute the transform between
  * classical representation and Nordsieck vector. The transform between r<sub>n</sub>
@@ -105,7 +105,8 @@ import org.apache.commons.math4.util.FastMath;
  * q<sub>n</sub> = s<sub>1</sub>(n) u + P r<sub>n</sub>
  * </pre>
  * where u is the [ 1 1 ... 1 ]<sup>T</sup> vector and P is the (k-1)&times;(k-1) matrix built
- * with the j (-i)<sup>j-1</sup> terms:
+ * with the (j+1) (-i)<sup>j</sup> terms with i being the row number starting from 1 and j being
+ * the column number starting from 1:
  * <pre>
  *        [  -2   3   -4    5  ... ]
  *        [  -4  12  -32   80  ... ]
@@ -203,7 +204,6 @@ public class AdamsMoultonIntegrator extends AdamsIntegrator {
         super(METHOD_NAME, nSteps, nSteps + 1, minStep, maxStep,
               vecAbsoluteTolerance, vecRelativeTolerance);
     }
-
 
     /** {@inheritDoc} */
     @Override
@@ -367,7 +367,7 @@ public class AdamsMoultonIntegrator extends AdamsIntegrator {
          * @param scaled current scaled first derivative
          * @param state state to correct (will be overwritten after visit)
          */
-        public Corrector(final double[] previous, final double[] scaled, final double[] state) {
+        Corrector(final double[] previous, final double[] scaled, final double[] state) {
             this.previous = previous;
             this.scaled   = scaled;
             this.after    = state;
@@ -407,10 +407,10 @@ public class AdamsMoultonIntegrator extends AdamsIntegrator {
                 after[i] += previous[i] + scaled[i];
                 if (i < mainSetDimension) {
                     final double yScale = FastMath.max(FastMath.abs(previous[i]), FastMath.abs(after[i]));
-                    final double tol = (vecAbsoluteTolerance == null) ?
-                                       (scalAbsoluteTolerance + scalRelativeTolerance * yScale) :
-                                       (vecAbsoluteTolerance[i] + vecRelativeTolerance[i] * yScale);
-                    final double ratio  = (after[i] - before[i]) / tol;
+                    final double tol    = (vecAbsoluteTolerance == null) ?
+                                          (scalAbsoluteTolerance + scalRelativeTolerance * yScale) :
+                                          (vecAbsoluteTolerance[i] + vecRelativeTolerance[i] * yScale);
+                    final double ratio  = (after[i] - before[i]) / tol; // (corrected-predicted)/tol
                     error += ratio * ratio;
                 }
             }

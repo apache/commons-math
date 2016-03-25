@@ -56,7 +56,7 @@ class HessenbergTransformer {
      * @param matrix matrix to transform
      * @throws NonSquareMatrixException if the matrix is not square
      */
-    public HessenbergTransformer(final RealMatrix matrix) {
+    HessenbergTransformer(final RealMatrix matrix) {
         if (!matrix.isSquare()) {
             throw new NonSquareMatrixException(matrix.getRowDimension(),
                     matrix.getColumnDimension());

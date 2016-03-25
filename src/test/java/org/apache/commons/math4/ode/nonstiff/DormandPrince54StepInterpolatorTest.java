@@ -53,7 +53,7 @@ public class DormandPrince54StepInterpolatorTest {
     DormandPrince54Integrator integ = new DormandPrince54Integrator(minStep, maxStep,
                                                                     scalAbsoluteTolerance,
                                                                     scalRelativeTolerance);
-    StepInterpolatorTestUtils.checkDerivativesConsistency(integ, pb, 1.0e-10);
+    StepInterpolatorTestUtils.checkDerivativesConsistency(integ, pb, 0.01, 3.6e-12);
   }
 
   @Test

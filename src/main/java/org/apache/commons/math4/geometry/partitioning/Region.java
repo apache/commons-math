@@ -53,7 +53,7 @@ import org.apache.commons.math4.geometry.Space;
 public interface Region<S extends Space> {
 
     /** Enumerate for the location of a point with respect to the region. */
-    public static enum Location {
+    enum Location {
         /** Code for points inside the partition. */
         INSIDE,
 

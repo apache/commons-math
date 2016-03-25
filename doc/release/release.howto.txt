@@ -25,38 +25,36 @@ of files used by maven to pick up authentication credentials needed to
 connect to remote servers and to cryptographically sign the artifacts.
 
 Since [math] has switched to git as its version control system, release preparation
-can be done easily on the release manager local host in a branch. We will use a
-temporary branch for all release candidates, and delete it afterwards, so the branch
-will be simply named release-candidates. The branch will only be used to store the
-release specific parts (i.e. the pom changes with the version number, the release date
-in the site and so on). Everything else and in particular code change that will remain
-in the component after the release must be committed to the master branch. The release
-candidate branch will be synchronized with master at the start of each new candidate for
+can be done easily on the release manager local host in a branch. As branches deletion
+is now forbidden at Apache, we will use a specific release branch for every version.
+The branch will be simply named X.Y-release, with X.Y being the version number.
+The branch will be used to store the release specific parts (i.e. the pom changes with
+the version number, the release date in the site and so on). Everything else and in
+particular code change that will remain in the component after the release must be
+committed to the master branch (or version branch). The release candidate branch will
+be created from master or version branch at the start of each new candidate for
 this particular release. Once the release is done, the branch will be merged back to
-master and deleted. Of course, this will not delete the history, only the name
-release-candidates pointing to the head of this branch will disappear and can be reused
-for next version.
+master, but it will never be deleted so release history will be preserved.
 
 The example below show a typical workflow. Just after commit A in the master branch, the
-release-candidate branch is created starting from master. This is shown by the 'b' in the
-second line. Then release candidate specific commits are made on the pom and a few other
+X.Y-release branch is created starting from master. This is shown by the 'b' in the
+second line. Then release specific commits are made on the pom and a few other
 files, leading to a commit which will be tagged as RC1. This release candidate fails, and
 a few corrections need to be made on master, corresponding to commits B and C. Then the
-release candidate branch is synchronized by running a 'git merge' command on the branch.
+X.Y-release branch is synchronized by running a 'git merge' command on the branch.
 This is shown by the 'm' in the second line. A new commit is tagged as RC2. This second
 release candidate also fails, and a new correction is made on master branch, a new merge
-is done on the release branch, a new commit is tagged and a third release candidate is
+is done on the X.Y-release branch, a new commit is tagged and a third release candidate is
 create, which succeeds. Then a final tag will be added on the final commit of this branch
 showing the status as released. Then the files are cleaned to prepare for next version
 (pom getting again a SNAPSHOT suffix, changes.xml getting a new placeholder for changes)
-and the cleaned branch is merged back to master. Once the branch has been merged, it is not
-useful anymore so it is deleted, hence the name release-candidate can be used again for
-the release branch of the next version.
+and the cleaned branch is merged back to master. Once the X.Y-release branch has been merged,
+it is kept for history. The release for next version will use another specific branch.
 
 
  ----A-------> B --> C----------> D--------------------------------------m---->    <- master branch
       \               \            \                                    /
-       b---> RC1 ------m---> RC2 ---m---> RC3/final release --> cleaning --X       <- release-candidates branch
+       b---> RC1 ------m---> RC2 ---m---> RC3/final release --> cleaning --X       <- X.Y-release branch
 
 This process allows:
 
@@ -65,9 +63,7 @@ This process allows:
  - to preserve future reference to the release
  - to allow parallel work on master during the release
  - if necessary to have multiple release managers or help on the
-   release as the release-candidates branch is shared
- - to abort a release by deleting the branch early if some
-   larger change is needed on master
+   release as the X.Y-release branch is shared
 
 
 (0)
@@ -92,41 +88,43 @@ should create the artifacts in the "target/deploy".
 
 
 (2)
-At this point, you will work mainly on the release-candidates branch.
+At this point, you will work mainly on the X.Y-release branch.
 
-If the release-candidates branch does not exist because it is the first release
-candidate, create it locally starting from the master branch and push it to
-Apache repository (assuming it is called origin), remembering the binding
-between the local and remote origin branches:
+If the X.Y-release branch does not exist because it is the first release
+candidate, create it locally starting from the master branch or the version
+branch and push it to Apache repository (assuming it is called origin),
+remembering the binding between the local and remote origin branches:
 
-  $ git branch release-candidates
-  $ git push -u origin release-candidates
+  $ git branch X.Y-release
+  $ git push -u origin X.Y-release
 
 (3)
-Switch to the release candidate branch:
+Switch to the release branch:
 
-  $ git checkout release-candidates
+  $ git checkout X.Y-release
 
 
 (4)
-If there have been changes committed in the master branch since the creation of
-the release candidate branch, there are two cases:
+If there have been changes committed in the master branch or the version
+branch since the creation of the release branch, there are two cases:
 
   (4a)
-  if all these changes must be included in the release-candidate,
-  merge master branch into release-candidates branch:
+  if all these changes must be included in the X.Y-release
+  merge master branch or version branch into X.Y-release branch:
 
   $ git merge master
+  or, if the version branch is called MATH_3_X
+  $ git merge MATH_3_X
 
   (4b)
-  if only part of these changes must be included in the release-candidate,
-  cherry-pick the required commits into release-candidates branch:
+  if only part of these changes must be included in the X.Y-release,
+  cherry-pick the required commits into X.Y-release branch:
 
   $ git cherry-pick commit-SHA
 
 (5)
 Update the release specific files, checking you are really working on the
-release-candidate branch and *not* on the master branch.
+X.Y-release branch and *not* on the master branch.
 
 In particular:
  * Update and commit the "src/site/site.xml" file to contain the information
@@ -315,18 +313,19 @@ edit README.html with released version number
 (13)
 As the web site staging area is shared among all commons components and therefore
 can be published before vote ends, it is not recommended to use the standard staging
-area for the release candidate. So you will just archive the site and transfer it on
-your apache personal area for review:
+area for the release candidate. So you will just archive the transfer the site it on
+your apache personal area for review. Here is how to do this using lftp to initiate
+the sftp transfer (lftp supports a mirror command for recursive transfers, don't
+forget the -R flag for uploading instead of downloading the site):
 
   $ mvn site
   $ cd target
-  $ tar czf site.tar.gz site
-  $ scp site.tar.gz __Your_apache_login__@people.apache.org:~/
-  $ ssh __Your_apache_login__@people.apache.org
-     you@minotaur:~$ tar xzf site.tar.gz
-     you@minotaur:~$ mv site public_html/commons-math-3.4-RC1-site
-     you@minotaur:~$ rm site.tar.gz
-     you@minotaur:~$ logout
+  $ mv site commons-math-3.4-RC1-site
+  $ lftp sftp://__Your_apache_login__@home.apache.org/
+     lftp you@home.apache.org:~> cd public_html
+     lftp you@home.apache.org:~/public_html> mirror -R commons-math-3.4-RC1-site
+     lftp you@home.apache.org:~/public_html> bye
+
 
 (14)
 Call to vote by sending a message to the "dev" ML with subject
@@ -345,7 +344,7 @@ Commit ID the tag points at:
   cf4a9d70c9ac24dd7196995390171150e4e56451
 
 Site:
-  <http://people.apache.org/~__Your_apache_login__/commons-math-3.4-RC1-site>
+  <http://home.apache.org/~__Your_apache_login__/commons-math-3.4-RC1-site>
 
 Distribution files:
   https://dist.apache.org/repos/dist/dev/commons/math/
@@ -488,38 +487,14 @@ Double-check "pom.xml" *really* has a -SNAPSHOT version and commit everything:
 
 
 (23)
-Switch back to master and merge the release-candidate branch
+Switch back to master and merge the X.Y-release branch
 
   $ git checkout master
-  $ get merge release-candidates
+  $ get merge X.Y-release
   $ git push
 
 
 (24)
-Delete the now useless release-candidates branch locally (i.e. on your machine):
-
- $ git branch -d release-candidates
-
-Take care at this step to *never* use the "-D" switch, but to use the "-d" switch
-as shown above. The difference is that if you forgot to merge branch release-candidates
-to another still existing branch (here master) as written in the preceding step, git
-will refuse to delete the branch if you use "-d" and will warn you that you are deleting
-a branch that is not merged, but it will delete the branch regardless of its merged
-status if you use "-D".
-
-If you deleted the branch by error without merging it, don't push the deletion to
-Apache repository!
-
-Once you are really sure everything is OK and the tags belong to the ancestors of the
-Apache repository head, you can delete the release-candidates branch also on the
-Apache repository. Beware that deleting a remote branch as a weird syntax, as it
-uses "git push" to push "nothing" (because there is nothing before the colon) into
-the "release-candidates" branch of the "origin" repository):
-
- $ git push origin :release-candidates
-
-
-(25)
 Allow for the web site mirrors to be updated (possibly several hours); then
 send (from your apache account) a release announcement to the following ML:
   announce@apache.org

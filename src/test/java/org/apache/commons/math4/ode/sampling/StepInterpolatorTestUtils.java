@@ -17,11 +17,16 @@
 package org.apache.commons.math4.ode.sampling;
 
 
+import org.apache.commons.math4.RealFieldElement;
 import org.apache.commons.math4.exception.DimensionMismatchException;
 import org.apache.commons.math4.exception.MaxCountExceededException;
 import org.apache.commons.math4.exception.NoBracketingException;
 import org.apache.commons.math4.exception.NumberIsTooSmallException;
+import org.apache.commons.math4.ode.FieldExpandableODE;
+import org.apache.commons.math4.ode.FirstOrderFieldIntegrator;
+import org.apache.commons.math4.ode.FieldODEStateAndDerivative;
 import org.apache.commons.math4.ode.FirstOrderIntegrator;
+import org.apache.commons.math4.ode.TestFieldProblemAbstract;
 import org.apache.commons.math4.ode.TestProblemAbstract;
 import org.apache.commons.math4.ode.sampling.StepHandler;
 import org.apache.commons.math4.ode.sampling.StepInterpolator;
@@ -32,6 +37,7 @@ public class StepInterpolatorTestUtils {
 
     public static void checkDerivativesConsistency(final FirstOrderIntegrator integrator,
                                                    final TestProblemAbstract problem,
+                                                   final double finiteDifferencesRatio,
                                                    final double threshold)
         throws DimensionMismatchException, NumberIsTooSmallException,
                MaxCountExceededException, NoBracketingException {
@@ -40,8 +46,9 @@ public class StepInterpolatorTestUtils {
             public void handleStep(StepInterpolator interpolator, boolean isLast)
                 throws MaxCountExceededException {
 
-                final double h = 0.001 * (interpolator.getCurrentTime() - interpolator.getPreviousTime());
-                final double t = interpolator.getCurrentTime() - 300 * h;
+                final double dt = interpolator.getCurrentTime() - interpolator.getPreviousTime();
+                final double h  = finiteDifferencesRatio * dt;
+                final double t  = interpolator.getCurrentTime() - 0.3 * dt;
 
                 if (FastMath.abs(h) < 10 * FastMath.ulp(t)) {
                     return;
@@ -72,7 +79,7 @@ public class StepInterpolatorTestUtils {
                                                32 * (yP3h[i] - yM3h[i]) +
                                              -168 * (yP2h[i] - yM2h[i]) +
                                               672 * (yP1h[i] - yM1h[i])) / (840 * h);
-                    Assert.assertEquals(approYDot, yDot[i], threshold);
+                    Assert.assertEquals("" + (approYDot - yDot[i]), approYDot, yDot[i], threshold);
                 }
 
             }
@@ -85,6 +92,52 @@ public class StepInterpolatorTestUtils {
         integrator.integrate(problem,
                              problem.getInitialTime(), problem.getInitialState(),
                              problem.getFinalTime(), new double[problem.getDimension()]);
+
+    }
+
+    public static <T extends RealFieldElement<T>> void checkDerivativesConsistency(final FirstOrderFieldIntegrator<T> integrator,
+                                                                                   final TestFieldProblemAbstract<T> problem,
+                                                                                   final double threshold) {
+        integrator.addStepHandler(new FieldStepHandler<T>() {
+
+            public void handleStep(FieldStepInterpolator<T> interpolator, boolean isLast)
+                throws MaxCountExceededException {
+
+                final T h = interpolator.getCurrentState().getTime().subtract(interpolator.getPreviousState().getTime()).multiply(0.001);
+                final T t = interpolator.getCurrentState().getTime().subtract(h.multiply(300));
+
+                if (h.abs().subtract(FastMath.ulp(t.getReal()) * 10).getReal() < 0) {
+                    return;
+                }
+
+                final T[] yM4h = interpolator.getInterpolatedState(t.add(h.multiply(-4))).getState();
+                final T[] yM3h = interpolator.getInterpolatedState(t.add(h.multiply(-3))).getState();
+                final T[] yM2h = interpolator.getInterpolatedState(t.add(h.multiply(-2))).getState();
+                final T[] yM1h = interpolator.getInterpolatedState(t.add(h.multiply(-1))).getState();
+                final T[] yP1h = interpolator.getInterpolatedState(t.add(h.multiply( 1))).getState();
+                final T[] yP2h = interpolator.getInterpolatedState(t.add(h.multiply( 2))).getState();
+                final T[] yP3h = interpolator.getInterpolatedState(t.add(h.multiply( 3))).getState();
+                final T[] yP4h = interpolator.getInterpolatedState(t.add(h.multiply( 4))).getState();
+
+                final T[] yDot = interpolator.getInterpolatedState(t).getDerivative();
+
+                for (int i = 0; i < yDot.length; ++i) {
+                    final T approYDot =     yP4h[i].subtract(yM4h[i]).multiply(  -3).
+                                        add(yP3h[i].subtract(yM3h[i]).multiply(  32)).
+                                        add(yP2h[i].subtract(yM2h[i]).multiply(-168)).
+                                        add(yP1h[i].subtract(yM1h[i]).multiply( 672)).
+                                        divide(h.multiply(840));
+                    Assert.assertEquals(approYDot.getReal(), yDot[i].getReal(), threshold);
+                }
+
+            }
+
+            public void init(FieldODEStateAndDerivative<T> state0, T t) {
+            }
+
+        });
+
+        integrator.integrate(new FieldExpandableODE<T>(problem), problem.getInitialState(), problem.getFinalTime());
 
     }
 }

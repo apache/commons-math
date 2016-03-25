@@ -76,11 +76,11 @@ public class BracketFinder {
     private double fMid;
 
     /**
-     * Constructor with default values {@code 100, 50} (see the
+     * Constructor with default values {@code 100, 500} (see the
      * {@link #BracketFinder(double,int) other constructor}).
      */
     public BracketFinder() {
-        this(100, 50);
+        this(100, 500);
     }
 
     /**

@@ -361,7 +361,7 @@ public class PolygonsSet extends AbstractRegion<Euclidean2D, Euclidean1D> {
         /** Build a non-processed vertex not owned by any node yet.
          * @param location vertex location
          */
-        public Vertex(final Vector2D location) {
+        Vertex(final Vector2D location) {
             this.location = location;
             this.incoming = null;
             this.outgoing = null;
@@ -463,7 +463,7 @@ public class PolygonsSet extends AbstractRegion<Euclidean2D, Euclidean1D> {
          * @param end end vertex
          * @param line line supporting the edge
          */
-        public Edge(final Vertex start, final Vertex end, final Line line) {
+        Edge(final Vertex start, final Vertex end, final Line line) {
 
             this.start = start;
             this.end   = end;
@@ -906,10 +906,10 @@ public class PolygonsSet extends AbstractRegion<Euclidean2D, Euclidean1D> {
          * @param startNode node whose intersection with current node defines start point
          * @param endNode node whose intersection with current node defines end point
          */
-        public ConnectableSegment(final Vector2D start, final Vector2D end, final Line line,
-                                  final BSPTree<Euclidean2D> node,
-                                  final BSPTree<Euclidean2D> startNode,
-                                  final BSPTree<Euclidean2D> endNode) {
+        ConnectableSegment(final Vector2D start, final Vector2D end, final Line line,
+                           final BSPTree<Euclidean2D> node,
+                           final BSPTree<Euclidean2D> startNode,
+                           final BSPTree<Euclidean2D> endNode) {
             super(start, end, line);
             this.node      = node;
             this.startNode = startNode;
@@ -996,7 +996,7 @@ public class PolygonsSet extends AbstractRegion<Euclidean2D, Euclidean1D> {
         /** Simple constructor.
          * @param tolerance tolerance for close nodes connection
          */
-        public SegmentsBuilder(final double tolerance) {
+        SegmentsBuilder(final double tolerance) {
             this.tolerance = tolerance;
             this.segments  = new ArrayList<ConnectableSegment>();
         }

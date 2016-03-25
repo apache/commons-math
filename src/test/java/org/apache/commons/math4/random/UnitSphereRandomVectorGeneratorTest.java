@@ -30,7 +30,7 @@ public class UnitSphereRandomVectorGeneratorTest {
      */
     @Test
     public void test2DDistribution() {
-      
+
         RandomGenerator rg = new JDKRandomGenerator();
         rg.setSeed(17399225432l);
         UnitSphereRandomVectorGenerator generator = new UnitSphereRandomVectorGenerator(2, rg);

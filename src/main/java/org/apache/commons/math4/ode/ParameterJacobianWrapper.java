@@ -46,9 +46,9 @@ class ParameterJacobianWrapper implements ParameterJacobianProvider {
      * @param paramsAndSteps parameters and steps to compute the Jacobians df/dp
      * @see JacobianMatrices#setParameterStep(String, double)
      */
-    public ParameterJacobianWrapper(final FirstOrderDifferentialEquations fode,
-                                    final ParameterizedODE pode,
-                                    final ParameterConfiguration[] paramsAndSteps) {
+    ParameterJacobianWrapper(final FirstOrderDifferentialEquations fode,
+                             final ParameterizedODE pode,
+                             final ParameterConfiguration[] paramsAndSteps) {
         this.fode = fode;
         this.pode = pode;
         this.hParam = new HashMap<String, Double>();

@@ -94,6 +94,7 @@ public class MultiStartMultivariateOptimizer
      */
     private Comparator<PointValuePair> getPairComparator() {
         return new Comparator<PointValuePair>() {
+            /** {@inheritDoc} */
             @Override
             public int compare(final PointValuePair o1,
                                final PointValuePair o2) {

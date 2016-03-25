@@ -358,12 +358,12 @@ public class FunctionUtilsTest {
     public void testDerivativeUnivariate() {
 
         final UnivariateDifferentiableFunction f = new UnivariateDifferentiableFunction() {
-            
+
             @Override
             public double value(double x) {
                 return x * x;
             }
-            
+
             @Override
             public DerivativeStructure value(DerivativeStructure x) {
                 return x.multiply(x);
@@ -390,12 +390,12 @@ public class FunctionUtilsTest {
         final double b = 0.5;
         final double c = 0.25;
         final MultivariateDifferentiableFunction mdf = new MultivariateDifferentiableFunction() {
-            
+
             @Override
             public double value(double[] point) {
                 return a * point[0] * point[0] + b * point[1] * point[1] + c * point[0] * point[1];
             }
-            
+
             @Override
             public DerivativeStructure value(DerivativeStructure[] point) {
                 DerivativeStructure x  = point[0];

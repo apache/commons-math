@@ -111,8 +111,39 @@ public class FieldRotation<T extends RealFieldElement<T>> implements Serializabl
      * @param axis axis around which to rotate
      * @param angle rotation angle.
      * @exception MathIllegalArgumentException if the axis norm is zero
+     * @deprecated as of 3.6, replaced with {@link
+     * #FieldRotation(FieldVector3D, RealFieldElement, RotationConvention)}
      */
+    @Deprecated
     public FieldRotation(final FieldVector3D<T> axis, final T angle)
+        throws MathIllegalArgumentException {
+        this(axis, angle, RotationConvention.VECTOR_OPERATOR);
+    }
+
+    /** Build a rotation from an axis and an angle.
+     * <p>We use the convention that angles are oriented according to
+     * the effect of the rotation on vectors around the axis. That means
+     * that if (i, j, k) is a direct frame and if we first provide +k as
+     * the axis and &pi;/2 as the angle to this constructor, and then
+     * {@link #applyTo(FieldVector3D) apply} the instance to +i, we will get
+     * +j.</p>
+     * <p>Another way to represent our convention is to say that a rotation
+     * of angle &theta; about the unit vector (x, y, z) is the same as the
+     * rotation build from quaternion components { cos(-&theta;/2),
+     * x * sin(-&theta;/2), y * sin(-&theta;/2), z * sin(-&theta;/2) }.
+     * Note the minus sign on the angle!</p>
+     * <p>On the one hand this convention is consistent with a vectorial
+     * perspective (moving vectors in fixed frames), on the other hand it
+     * is different from conventions with a frame perspective (fixed vectors
+     * viewed from different frames) like the ones used for example in spacecraft
+     * attitude community or in the graphics community.</p>
+     * @param axis axis around which to rotate
+     * @param angle rotation angle.
+     * @param convention convention to use for the semantics of the angle
+     * @exception MathIllegalArgumentException if the axis norm is zero
+     * @since 3.6
+     */
+    public FieldRotation(final FieldVector3D<T> axis, final T angle, final RotationConvention convention)
         throws MathIllegalArgumentException {
 
         final T norm = axis.getNorm();
@@ -120,7 +151,7 @@ public class FieldRotation<T extends RealFieldElement<T>> implements Serializabl
             throw new MathIllegalArgumentException(LocalizedFormats.ZERO_NORM_FOR_ROTATION_AXIS);
         }
 
-        final T halfAngle = angle.multiply(-0.5);
+        final T halfAngle = angle.multiply(convention == RotationConvention.VECTOR_OPERATOR ? -0.5 : 0.5);
         final T coeff = halfAngle.sin().divide(norm);
 
         q0 = halfAngle.cos();
@@ -194,7 +225,7 @@ public class FieldRotation<T extends RealFieldElement<T>> implements Serializabl
 
     }
 
-    /** Build the rotation that transforms a pair of vector into another pair.
+    /** Build the rotation that transforms a pair of vectors into another pair.
 
      * <p>Except for possible scale factors, if the instance were applied to
      * the pair (u<sub>1</sub>, u<sub>2</sub>) it will produce the pair
@@ -203,27 +234,27 @@ public class FieldRotation<T extends RealFieldElement<T>> implements Serializabl
      * <p>If the angular separation between u<sub>1</sub> and u<sub>2</sub> is
      * not the same as the angular separation between v<sub>1</sub> and
      * v<sub>2</sub>, then a corrected v'<sub>2</sub> will be used rather than
-     * v<sub>2</sub>, the corrected vector will be in the (v<sub>1</sub>,
-     * v<sub>2</sub>) plane.</p>
+     * v<sub>2</sub>, the corrected vector will be in the (&pm;v<sub>1</sub>,
+     * +v<sub>2</sub>) half-plane.</p>
 
      * @param u1 first vector of the origin pair
      * @param u2 second vector of the origin pair
      * @param v1 desired image of u1 by the rotation
      * @param v2 desired image of u2 by the rotation
      * @exception MathArithmeticException if the norm of one of the vectors is zero,
-     * or if one of the pair is degenerated (i.e. the vectors of the pair are colinear)
+     * or if one of the pair is degenerated (i.e. the vectors of the pair are collinear)
      */
     public FieldRotation(FieldVector3D<T> u1, FieldVector3D<T> u2, FieldVector3D<T> v1, FieldVector3D<T> v2)
         throws MathArithmeticException {
 
         // build orthonormalized base from u1, u2
-        // this fails when vectors are null or colinear, which is forbidden to define a rotation
+        // this fails when vectors are null or collinear, which is forbidden to define a rotation
         final FieldVector3D<T> u3 = FieldVector3D.crossProduct(u1, u2).normalize();
         u2 = FieldVector3D.crossProduct(u3, u1).normalize();
         u1 = u1.normalize();
 
         // build an orthonormalized base from v1, v2
-        // this fails when vectors are null or colinear, which is forbidden to define a rotation
+        // this fails when vectors are null or collinear, which is forbidden to define a rotation
         final FieldVector3D<T> v3 = FieldVector3D.crossProduct(v1, v2).normalize();
         v2 = FieldVector3D.crossProduct(v3, v1).normalize();
         v1 = v1.normalize();
@@ -254,7 +285,7 @@ public class FieldRotation<T extends RealFieldElement<T>> implements Serializabl
      * applied to the vector u it will produce the vector v. There is an
      * infinite number of such rotations, this constructor choose the
      * one with the smallest associated angle (i.e. the one whose axis
-     * is orthogonal to the (u, v) plane). If u and v are colinear, an
+     * is orthogonal to the (u, v) plane). If u and v are collinear, an
      * arbitrary rotation axis is chosen.</p>
 
      * @param u origin vector
@@ -309,13 +340,44 @@ public class FieldRotation<T extends RealFieldElement<T>> implements Serializabl
      * @param alpha1 angle of the first elementary rotation
      * @param alpha2 angle of the second elementary rotation
      * @param alpha3 angle of the third elementary rotation
+     * @deprecated as of 3.6, replaced with {@link
+     * #FieldRotation(RotationOrder, RotationConvention,
+     * RealFieldElement, RealFieldElement, RealFieldElement)}
      */
+    @Deprecated
     public FieldRotation(final RotationOrder order, final T alpha1, final T alpha2, final T alpha3) {
+        this(order, RotationConvention.VECTOR_OPERATOR, alpha1, alpha2, alpha3);
+    }
+
+    /** Build a rotation from three Cardan or Euler elementary rotations.
+
+     * <p>Cardan rotations are three successive rotations around the
+     * canonical axes X, Y and Z, each axis being used once. There are
+     * 6 such sets of rotations (XYZ, XZY, YXZ, YZX, ZXY and ZYX). Euler
+     * rotations are three successive rotations around the canonical
+     * axes X, Y and Z, the first and last rotations being around the
+     * same axis. There are 6 such sets of rotations (XYX, XZX, YXY,
+     * YZY, ZXZ and ZYZ), the most popular one being ZXZ.</p>
+     * <p>Beware that many people routinely use the term Euler angles even
+     * for what really are Cardan angles (this confusion is especially
+     * widespread in the aerospace business where Roll, Pitch and Yaw angles
+     * are often wrongly tagged as Euler angles).</p>
+
+     * @param order order of rotations to compose, from left to right
+     * (i.e. we will use {@code r1.compose(r2.compose(r3, convention), convention)})
+     * @param convention convention to use for the semantics of the angle
+     * @param alpha1 angle of the first elementary rotation
+     * @param alpha2 angle of the second elementary rotation
+     * @param alpha3 angle of the third elementary rotation
+     * @since 3.6
+     */
+    public FieldRotation(final RotationOrder order, final RotationConvention convention,
+                         final T alpha1, final T alpha2, final T alpha3) {
         final T one = alpha1.getField().getOne();
-        final FieldRotation<T> r1 = new FieldRotation<T>(new FieldVector3D<T>(one, order.getA1()), alpha1);
-        final FieldRotation<T> r2 = new FieldRotation<T>(new FieldVector3D<T>(one, order.getA2()), alpha2);
-        final FieldRotation<T> r3 = new FieldRotation<T>(new FieldVector3D<T>(one, order.getA3()), alpha3);
-        final FieldRotation<T> composed = r1.applyTo(r2.applyTo(r3));
+        final FieldRotation<T> r1 = new FieldRotation<T>(new FieldVector3D<T>(one, order.getA1()), alpha1, convention);
+        final FieldRotation<T> r2 = new FieldRotation<T>(new FieldVector3D<T>(one, order.getA2()), alpha2, convention);
+        final FieldRotation<T> r3 = new FieldRotation<T>(new FieldVector3D<T>(one, order.getA3()), alpha3, convention);
+        final FieldRotation<T> composed = r1.compose(r2.compose(r3, convention), convention);
         q0 = composed.q0;
         q1 = composed.q1;
         q2 = composed.q2;
@@ -425,18 +487,40 @@ public class FieldRotation<T extends RealFieldElement<T>> implements Serializabl
     /** Get the normalized axis of the rotation.
      * @return normalized axis of the rotation
      * @see #FieldRotation(FieldVector3D, RealFieldElement)
+     * @deprecated as of 3.6, replaced with {@link #getAxis(RotationConvention)}
      */
+    @Deprecated
     public FieldVector3D<T> getAxis() {
+        return getAxis(RotationConvention.VECTOR_OPERATOR);
+    }
+
+    /** Get the normalized axis of the rotation.
+     * <p>
+     * Note that as {@link #getAngle()} always returns an angle
+     * between 0 and &pi;, changing the convention changes the
+     * direction of the axis, not the sign of the angle.
+     * </p>
+     * @param convention convention to use for the semantics of the angle
+     * @return normalized axis of the rotation
+     * @see #FieldRotation(FieldVector3D, RealFieldElement)
+     * @since 3.6
+     */
+    public FieldVector3D<T> getAxis(final RotationConvention convention) {
         final T squaredSine = q1.multiply(q1).add(q2.multiply(q2)).add(q3.multiply(q3));
         if (squaredSine.getReal() == 0) {
             final Field<T> field = squaredSine.getField();
-            return new FieldVector3D<T>(field.getOne(), field.getZero(), field.getZero());
-        } else if (q0.getReal() < 0) {
-            T inverse = squaredSine.sqrt().reciprocal();
+            return new FieldVector3D<T>(convention == RotationConvention.VECTOR_OPERATOR ? field.getOne(): field.getOne().negate(),
+                                        field.getZero(),
+                                        field.getZero());
+        } else {
+            final double sgn = convention == RotationConvention.VECTOR_OPERATOR ? +1 : -1;
+            if (q0.getReal() < 0) {
+                T inverse = squaredSine.sqrt().reciprocal().multiply(sgn);
+                return new FieldVector3D<T>(q1.multiply(inverse), q2.multiply(inverse), q3.multiply(inverse));
+            }
+            final T inverse = squaredSine.sqrt().reciprocal().negate().multiply(sgn);
             return new FieldVector3D<T>(q1.multiply(inverse), q2.multiply(inverse), q3.multiply(inverse));
         }
-        final T inverse = squaredSine.sqrt().reciprocal().negate();
-        return new FieldVector3D<T>(q1.multiply(inverse), q2.multiply(inverse), q3.multiply(inverse));
     }
 
     /** Get the angle of the rotation.
@@ -486,202 +570,442 @@ public class FieldRotation<T extends RealFieldElement<T>> implements Serializabl
      * @return an array of three angles, in the order specified by the set
      * @exception CardanEulerSingularityException if the rotation is
      * singular with respect to the angles set specified
+     * @deprecated as of 3.6, replaced with {@link #getAngles(RotationOrder, RotationConvention)}
      */
+    @Deprecated
     public T[] getAngles(final RotationOrder order)
         throws CardanEulerSingularityException {
+        return getAngles(order, RotationConvention.VECTOR_OPERATOR);
+    }
 
-        if (order == RotationOrder.XYZ) {
+    /** Get the Cardan or Euler angles corresponding to the instance.
 
-            // r (+K) coordinates are :
-            //  sin (theta), -cos (theta) sin (phi), cos (theta) cos (phi)
-            // (-r) (+I) coordinates are :
-            // cos (psi) cos (theta), -sin (psi) cos (theta), sin (theta)
-            final // and we can choose to have theta in the interval [-PI/2 ; +PI/2]
-            FieldVector3D<T> v1 = applyTo(vector(0, 0, 1));
-            final FieldVector3D<T> v2 = applyInverseTo(vector(1, 0, 0));
-            if  ((v2.getZ().getReal() < -0.9999999999) || (v2.getZ().getReal() > 0.9999999999)) {
-                throw new CardanEulerSingularityException(true);
+     * <p>The equations show that each rotation can be defined by two
+     * different values of the Cardan or Euler angles set. For example
+     * if Cardan angles are used, the rotation defined by the angles
+     * a<sub>1</sub>, a<sub>2</sub> and a<sub>3</sub> is the same as
+     * the rotation defined by the angles &pi; + a<sub>1</sub>, &pi;
+     * - a<sub>2</sub> and &pi; + a<sub>3</sub>. This method implements
+     * the following arbitrary choices:</p>
+     * <ul>
+     *   <li>for Cardan angles, the chosen set is the one for which the
+     *   second angle is between -&pi;/2 and &pi;/2 (i.e its cosine is
+     *   positive),</li>
+     *   <li>for Euler angles, the chosen set is the one for which the
+     *   second angle is between 0 and &pi; (i.e its sine is positive).</li>
+     * </ul>
+
+     * <p>Cardan and Euler angle have a very disappointing drawback: all
+     * of them have singularities. This means that if the instance is
+     * too close to the singularities corresponding to the given
+     * rotation order, it will be impossible to retrieve the angles. For
+     * Cardan angles, this is often called gimbal lock. There is
+     * <em>nothing</em> to do to prevent this, it is an intrinsic problem
+     * with Cardan and Euler representation (but not a problem with the
+     * rotation itself, which is perfectly well defined). For Cardan
+     * angles, singularities occur when the second angle is close to
+     * -&pi;/2 or +&pi;/2, for Euler angle singularities occur when the
+     * second angle is close to 0 or &pi;, this implies that the identity
+     * rotation is always singular for Euler angles!</p>
+
+     * @param order rotation order to use
+     * @param convention convention to use for the semantics of the angle
+     * @return an array of three angles, in the order specified by the set
+     * @exception CardanEulerSingularityException if the rotation is
+     * singular with respect to the angles set specified
+     * @since 3.6
+     */
+    public T[] getAngles(final RotationOrder order, RotationConvention convention)
+        throws CardanEulerSingularityException {
+
+        if (convention == RotationConvention.VECTOR_OPERATOR) {
+            if (order == RotationOrder.XYZ) {
+
+                // r (+K) coordinates are :
+                //  sin (theta), -cos (theta) sin (phi), cos (theta) cos (phi)
+                // (-r) (+I) coordinates are :
+                // cos (psi) cos (theta), -sin (psi) cos (theta), sin (theta)
+                final // and we can choose to have theta in the interval [-PI/2 ; +PI/2]
+                FieldVector3D<T> v1 = applyTo(vector(0, 0, 1));
+                final FieldVector3D<T> v2 = applyInverseTo(vector(1, 0, 0));
+                if  ((v2.getZ().getReal() < -0.9999999999) || (v2.getZ().getReal() > 0.9999999999)) {
+                    throw new CardanEulerSingularityException(true);
+                }
+                return buildArray(v1.getY().negate().atan2(v1.getZ()),
+                                  v2.getZ().asin(),
+                                  v2.getY().negate().atan2(v2.getX()));
+
+            } else if (order == RotationOrder.XZY) {
+
+                // r (+J) coordinates are :
+                // -sin (psi), cos (psi) cos (phi), cos (psi) sin (phi)
+                // (-r) (+I) coordinates are :
+                // cos (theta) cos (psi), -sin (psi), sin (theta) cos (psi)
+                // and we can choose to have psi in the interval [-PI/2 ; +PI/2]
+                final FieldVector3D<T> v1 = applyTo(vector(0, 1, 0));
+                final FieldVector3D<T> v2 = applyInverseTo(vector(1, 0, 0));
+                if ((v2.getY().getReal() < -0.9999999999) || (v2.getY().getReal() > 0.9999999999)) {
+                    throw new CardanEulerSingularityException(true);
+                }
+                return buildArray(v1.getZ().atan2(v1.getY()),
+                                  v2.getY().asin().negate(),
+                                  v2.getZ().atan2(v2.getX()));
+
+            } else if (order == RotationOrder.YXZ) {
+
+                // r (+K) coordinates are :
+                //  cos (phi) sin (theta), -sin (phi), cos (phi) cos (theta)
+                // (-r) (+J) coordinates are :
+                // sin (psi) cos (phi), cos (psi) cos (phi), -sin (phi)
+                // and we can choose to have phi in the interval [-PI/2 ; +PI/2]
+                final FieldVector3D<T> v1 = applyTo(vector(0, 0, 1));
+                final FieldVector3D<T> v2 = applyInverseTo(vector(0, 1, 0));
+                if ((v2.getZ().getReal() < -0.9999999999) || (v2.getZ().getReal() > 0.9999999999)) {
+                    throw new CardanEulerSingularityException(true);
+                }
+                return buildArray(v1.getX().atan2(v1.getZ()),
+                                  v2.getZ().asin().negate(),
+                                  v2.getX().atan2(v2.getY()));
+
+            } else if (order == RotationOrder.YZX) {
+
+                // r (+I) coordinates are :
+                // cos (psi) cos (theta), sin (psi), -cos (psi) sin (theta)
+                // (-r) (+J) coordinates are :
+                // sin (psi), cos (phi) cos (psi), -sin (phi) cos (psi)
+                // and we can choose to have psi in the interval [-PI/2 ; +PI/2]
+                final FieldVector3D<T> v1 = applyTo(vector(1, 0, 0));
+                final FieldVector3D<T> v2 = applyInverseTo(vector(0, 1, 0));
+                if ((v2.getX().getReal() < -0.9999999999) || (v2.getX().getReal() > 0.9999999999)) {
+                    throw new CardanEulerSingularityException(true);
+                }
+                return buildArray(v1.getZ().negate().atan2(v1.getX()),
+                                  v2.getX().asin(),
+                                  v2.getZ().negate().atan2(v2.getY()));
+
+            } else if (order == RotationOrder.ZXY) {
+
+                // r (+J) coordinates are :
+                // -cos (phi) sin (psi), cos (phi) cos (psi), sin (phi)
+                // (-r) (+K) coordinates are :
+                // -sin (theta) cos (phi), sin (phi), cos (theta) cos (phi)
+                // and we can choose to have phi in the interval [-PI/2 ; +PI/2]
+                final FieldVector3D<T> v1 = applyTo(vector(0, 1, 0));
+                final FieldVector3D<T> v2 = applyInverseTo(vector(0, 0, 1));
+                if ((v2.getY().getReal() < -0.9999999999) || (v2.getY().getReal() > 0.9999999999)) {
+                    throw new CardanEulerSingularityException(true);
+                }
+                return buildArray(v1.getX().negate().atan2(v1.getY()),
+                                  v2.getY().asin(),
+                                  v2.getX().negate().atan2(v2.getZ()));
+
+            } else if (order == RotationOrder.ZYX) {
+
+                // r (+I) coordinates are :
+                //  cos (theta) cos (psi), cos (theta) sin (psi), -sin (theta)
+                // (-r) (+K) coordinates are :
+                // -sin (theta), sin (phi) cos (theta), cos (phi) cos (theta)
+                // and we can choose to have theta in the interval [-PI/2 ; +PI/2]
+                final FieldVector3D<T> v1 = applyTo(vector(1, 0, 0));
+                final FieldVector3D<T> v2 = applyInverseTo(vector(0, 0, 1));
+                if ((v2.getX().getReal() < -0.9999999999) || (v2.getX().getReal() > 0.9999999999)) {
+                    throw new CardanEulerSingularityException(true);
+                }
+                return buildArray(v1.getY().atan2(v1.getX()),
+                                  v2.getX().asin().negate(),
+                                  v2.getY().atan2(v2.getZ()));
+
+            } else if (order == RotationOrder.XYX) {
+
+                // r (+I) coordinates are :
+                //  cos (theta), sin (phi1) sin (theta), -cos (phi1) sin (theta)
+                // (-r) (+I) coordinates are :
+                // cos (theta), sin (theta) sin (phi2), sin (theta) cos (phi2)
+                // and we can choose to have theta in the interval [0 ; PI]
+                final FieldVector3D<T> v1 = applyTo(vector(1, 0, 0));
+                final FieldVector3D<T> v2 = applyInverseTo(vector(1, 0, 0));
+                if ((v2.getX().getReal() < -0.9999999999) || (v2.getX().getReal() > 0.9999999999)) {
+                    throw new CardanEulerSingularityException(false);
+                }
+                return buildArray(v1.getY().atan2(v1.getZ().negate()),
+                                  v2.getX().acos(),
+                                  v2.getY().atan2(v2.getZ()));
+
+            } else if (order == RotationOrder.XZX) {
+
+                // r (+I) coordinates are :
+                //  cos (psi), cos (phi1) sin (psi), sin (phi1) sin (psi)
+                // (-r) (+I) coordinates are :
+                // cos (psi), -sin (psi) cos (phi2), sin (psi) sin (phi2)
+                // and we can choose to have psi in the interval [0 ; PI]
+                final FieldVector3D<T> v1 = applyTo(vector(1, 0, 0));
+                final FieldVector3D<T> v2 = applyInverseTo(vector(1, 0, 0));
+                if ((v2.getX().getReal() < -0.9999999999) || (v2.getX().getReal() > 0.9999999999)) {
+                    throw new CardanEulerSingularityException(false);
+                }
+                return buildArray(v1.getZ().atan2(v1.getY()),
+                                  v2.getX().acos(),
+                                  v2.getZ().atan2(v2.getY().negate()));
+
+            } else if (order == RotationOrder.YXY) {
+
+                // r (+J) coordinates are :
+                //  sin (theta1) sin (phi), cos (phi), cos (theta1) sin (phi)
+                // (-r) (+J) coordinates are :
+                // sin (phi) sin (theta2), cos (phi), -sin (phi) cos (theta2)
+                // and we can choose to have phi in the interval [0 ; PI]
+                final FieldVector3D<T> v1 = applyTo(vector(0, 1, 0));
+                final FieldVector3D<T> v2 = applyInverseTo(vector(0, 1, 0));
+                if ((v2.getY().getReal() < -0.9999999999) || (v2.getY().getReal() > 0.9999999999)) {
+                    throw new CardanEulerSingularityException(false);
+                }
+                return buildArray(v1.getX().atan2(v1.getZ()),
+                                  v2.getY().acos(),
+                                  v2.getX().atan2(v2.getZ().negate()));
+
+            } else if (order == RotationOrder.YZY) {
+
+                // r (+J) coordinates are :
+                //  -cos (theta1) sin (psi), cos (psi), sin (theta1) sin (psi)
+                // (-r) (+J) coordinates are :
+                // sin (psi) cos (theta2), cos (psi), sin (psi) sin (theta2)
+                // and we can choose to have psi in the interval [0 ; PI]
+                final FieldVector3D<T> v1 = applyTo(vector(0, 1, 0));
+                final FieldVector3D<T> v2 = applyInverseTo(vector(0, 1, 0));
+                if ((v2.getY().getReal() < -0.9999999999) || (v2.getY().getReal() > 0.9999999999)) {
+                    throw new CardanEulerSingularityException(false);
+                }
+                return buildArray(v1.getZ().atan2(v1.getX().negate()),
+                                  v2.getY().acos(),
+                                  v2.getZ().atan2(v2.getX()));
+
+            } else if (order == RotationOrder.ZXZ) {
+
+                // r (+K) coordinates are :
+                //  sin (psi1) sin (phi), -cos (psi1) sin (phi), cos (phi)
+                // (-r) (+K) coordinates are :
+                // sin (phi) sin (psi2), sin (phi) cos (psi2), cos (phi)
+                // and we can choose to have phi in the interval [0 ; PI]
+                final FieldVector3D<T> v1 = applyTo(vector(0, 0, 1));
+                final FieldVector3D<T> v2 = applyInverseTo(vector(0, 0, 1));
+                if ((v2.getZ().getReal() < -0.9999999999) || (v2.getZ().getReal() > 0.9999999999)) {
+                    throw new CardanEulerSingularityException(false);
+                }
+                return buildArray(v1.getX().atan2(v1.getY().negate()),
+                                  v2.getZ().acos(),
+                                  v2.getX().atan2(v2.getY()));
+
+            } else { // last possibility is ZYZ
+
+                // r (+K) coordinates are :
+                //  cos (psi1) sin (theta), sin (psi1) sin (theta), cos (theta)
+                // (-r) (+K) coordinates are :
+                // -sin (theta) cos (psi2), sin (theta) sin (psi2), cos (theta)
+                // and we can choose to have theta in the interval [0 ; PI]
+                final FieldVector3D<T> v1 = applyTo(vector(0, 0, 1));
+                final FieldVector3D<T> v2 = applyInverseTo(vector(0, 0, 1));
+                if ((v2.getZ().getReal() < -0.9999999999) || (v2.getZ().getReal() > 0.9999999999)) {
+                    throw new CardanEulerSingularityException(false);
+                }
+                return buildArray(v1.getY().atan2(v1.getX()),
+                                  v2.getZ().acos(),
+                                  v2.getY().atan2(v2.getX().negate()));
+
             }
-            return buildArray(v1.getY().negate().atan2(v1.getZ()),
-                              v2.getZ().asin(),
-                              v2.getY().negate().atan2(v2.getX()));
+        } else {
+            if (order == RotationOrder.XYZ) {
 
-        } else if (order == RotationOrder.XZY) {
+                // r (Vector3D.plusI) coordinates are :
+                //  cos (theta) cos (psi), -cos (theta) sin (psi), sin (theta)
+                // (-r) (Vector3D.plusK) coordinates are :
+                // sin (theta), -sin (phi) cos (theta), cos (phi) cos (theta)
+                // and we can choose to have theta in the interval [-PI/2 ; +PI/2]
+                FieldVector3D<T> v1 = applyTo(Vector3D.PLUS_I);
+                FieldVector3D<T> v2 = applyInverseTo(Vector3D.PLUS_K);
+                if ((v2.getX().getReal() < -0.9999999999) || (v2.getX().getReal() > 0.9999999999)) {
+                    throw new CardanEulerSingularityException(true);
+                }
+                return buildArray(v2.getY().negate().atan2(v2.getZ()),
+                                  v2.getX().asin(),
+                                  v1.getY().negate().atan2(v1.getX()));
 
-            // r (+J) coordinates are :
-            // -sin (psi), cos (psi) cos (phi), cos (psi) sin (phi)
-            // (-r) (+I) coordinates are :
-            // cos (theta) cos (psi), -sin (psi), sin (theta) cos (psi)
-            // and we can choose to have psi in the interval [-PI/2 ; +PI/2]
-            final FieldVector3D<T> v1 = applyTo(vector(0, 1, 0));
-            final FieldVector3D<T> v2 = applyInverseTo(vector(1, 0, 0));
-            if ((v2.getY().getReal() < -0.9999999999) || (v2.getY().getReal() > 0.9999999999)) {
-                throw new CardanEulerSingularityException(true);
+            } else if (order == RotationOrder.XZY) {
+
+                // r (Vector3D.plusI) coordinates are :
+                // cos (psi) cos (theta), -sin (psi), cos (psi) sin (theta)
+                // (-r) (Vector3D.plusJ) coordinates are :
+                // -sin (psi), cos (phi) cos (psi), sin (phi) cos (psi)
+                // and we can choose to have psi in the interval [-PI/2 ; +PI/2]
+                FieldVector3D<T> v1 = applyTo(Vector3D.PLUS_I);
+                FieldVector3D<T> v2 = applyInverseTo(Vector3D.PLUS_J);
+                if ((v2.getX().getReal() < -0.9999999999) || (v2.getX().getReal() > 0.9999999999)) {
+                    throw new CardanEulerSingularityException(true);
+                }
+                return buildArray(v2.getZ().atan2(v2.getY()),
+                                  v2.getX().asin().negate(),
+                                  v1.getZ().atan2(v1.getX()));
+
+            } else if (order == RotationOrder.YXZ) {
+
+                // r (Vector3D.plusJ) coordinates are :
+                // cos (phi) sin (psi), cos (phi) cos (psi), -sin (phi)
+                // (-r) (Vector3D.plusK) coordinates are :
+                // sin (theta) cos (phi), -sin (phi), cos (theta) cos (phi)
+                // and we can choose to have phi in the interval [-PI/2 ; +PI/2]
+                FieldVector3D<T> v1 = applyTo(Vector3D.PLUS_J);
+                FieldVector3D<T> v2 = applyInverseTo(Vector3D.PLUS_K);
+                if ((v2.getY().getReal() < -0.9999999999) || (v2.getY().getReal() > 0.9999999999)) {
+                    throw new CardanEulerSingularityException(true);
+                }
+                return buildArray(v2.getX().atan2(v2.getZ()),
+                                  v2.getY().asin().negate(),
+                                  v1.getX().atan2(v1.getY()));
+
+            } else if (order == RotationOrder.YZX) {
+
+                // r (Vector3D.plusJ) coordinates are :
+                // sin (psi), cos (psi) cos (phi), -cos (psi) sin (phi)
+                // (-r) (Vector3D.plusI) coordinates are :
+                // cos (theta) cos (psi), sin (psi), -sin (theta) cos (psi)
+                // and we can choose to have psi in the interval [-PI/2 ; +PI/2]
+                FieldVector3D<T> v1 = applyTo(Vector3D.PLUS_J);
+                FieldVector3D<T> v2 = applyInverseTo(Vector3D.PLUS_I);
+                if ((v2.getY().getReal() < -0.9999999999) || (v2.getY().getReal() > 0.9999999999)) {
+                    throw new CardanEulerSingularityException(true);
+                }
+                return buildArray(v2.getZ().negate().atan2(v2.getX()),
+                                  v2.getY().asin(),
+                                  v1.getZ().negate().atan2(v1.getY()));
+
+            } else if (order == RotationOrder.ZXY) {
+
+                // r (Vector3D.plusK) coordinates are :
+                //  -cos (phi) sin (theta), sin (phi), cos (phi) cos (theta)
+                // (-r) (Vector3D.plusJ) coordinates are :
+                // -sin (psi) cos (phi), cos (psi) cos (phi), sin (phi)
+                // and we can choose to have phi in the interval [-PI/2 ; +PI/2]
+                FieldVector3D<T> v1 = applyTo(Vector3D.PLUS_K);
+                FieldVector3D<T> v2 = applyInverseTo(Vector3D.PLUS_J);
+                if ((v2.getZ().getReal() < -0.9999999999) || (v2.getZ().getReal() > 0.9999999999)) {
+                    throw new CardanEulerSingularityException(true);
+                }
+                return buildArray(v2.getX().negate().atan2(v2.getY()),
+                                  v2.getZ().asin(),
+                                  v1.getX().negate().atan2(v1.getZ()));
+
+            } else if (order == RotationOrder.ZYX) {
+
+                // r (Vector3D.plusK) coordinates are :
+                //  -sin (theta), cos (theta) sin (phi), cos (theta) cos (phi)
+                // (-r) (Vector3D.plusI) coordinates are :
+                // cos (psi) cos (theta), sin (psi) cos (theta), -sin (theta)
+                // and we can choose to have theta in the interval [-PI/2 ; +PI/2]
+                FieldVector3D<T> v1 = applyTo(Vector3D.PLUS_K);
+                FieldVector3D<T> v2 = applyInverseTo(Vector3D.PLUS_I);
+                if  ((v2.getZ().getReal() < -0.9999999999) || (v2.getZ().getReal() > 0.9999999999)) {
+                    throw new CardanEulerSingularityException(true);
+                }
+                return buildArray(v2.getY().atan2(v2.getX()),
+                                  v2.getZ().asin().negate(),
+                                  v1.getY().atan2(v1.getZ()));
+
+            } else if (order == RotationOrder.XYX) {
+
+                // r (Vector3D.plusI) coordinates are :
+                //  cos (theta), sin (phi2) sin (theta), cos (phi2) sin (theta)
+                // (-r) (Vector3D.plusI) coordinates are :
+                // cos (theta), sin (theta) sin (phi1), -sin (theta) cos (phi1)
+                // and we can choose to have theta in the interval [0 ; PI]
+                FieldVector3D<T> v1 = applyTo(Vector3D.PLUS_I);
+                FieldVector3D<T> v2 = applyInverseTo(Vector3D.PLUS_I);
+                if ((v2.getX().getReal() < -0.9999999999) || (v2.getX().getReal() > 0.9999999999)) {
+                    throw new CardanEulerSingularityException(false);
+                }
+                return buildArray(v2.getY().atan2(v2.getZ().negate()),
+                                  v2.getX().acos(),
+                                  v1.getY().atan2(v1.getZ()));
+
+            } else if (order == RotationOrder.XZX) {
+
+                // r (Vector3D.plusI) coordinates are :
+                //  cos (psi), -cos (phi2) sin (psi), sin (phi2) sin (psi)
+                // (-r) (Vector3D.plusI) coordinates are :
+                // cos (psi), sin (psi) cos (phi1), sin (psi) sin (phi1)
+                // and we can choose to have psi in the interval [0 ; PI]
+                FieldVector3D<T> v1 = applyTo(Vector3D.PLUS_I);
+                FieldVector3D<T> v2 = applyInverseTo(Vector3D.PLUS_I);
+                if ((v2.getX().getReal() < -0.9999999999) || (v2.getX().getReal() > 0.9999999999)) {
+                    throw new CardanEulerSingularityException(false);
+                }
+                return buildArray(v2.getZ().atan2(v2.getY()),
+                                  v2.getX().acos(),
+                                  v1.getZ().atan2(v1.getY().negate()));
+
+            } else if (order == RotationOrder.YXY) {
+
+                // r (Vector3D.plusJ) coordinates are :
+                // sin (phi) sin (theta2), cos (phi), -sin (phi) cos (theta2)
+                // (-r) (Vector3D.plusJ) coordinates are :
+                //  sin (theta1) sin (phi), cos (phi), cos (theta1) sin (phi)
+                // and we can choose to have phi in the interval [0 ; PI]
+                FieldVector3D<T> v1 = applyTo(Vector3D.PLUS_J);
+                FieldVector3D<T> v2 = applyInverseTo(Vector3D.PLUS_J);
+                if ((v2.getY().getReal() < -0.9999999999) || (v2.getY().getReal() > 0.9999999999)) {
+                    throw new CardanEulerSingularityException(false);
+                }
+                return buildArray(v2.getX().atan2(v2.getZ()),
+                                  v2.getY().acos(),
+                                  v1.getX().atan2(v1.getZ().negate()));
+
+            } else if (order == RotationOrder.YZY) {
+
+                // r (Vector3D.plusJ) coordinates are :
+                // sin (psi) cos (theta2), cos (psi), sin (psi) sin (theta2)
+                // (-r) (Vector3D.plusJ) coordinates are :
+                //  -cos (theta1) sin (psi), cos (psi), sin (theta1) sin (psi)
+                // and we can choose to have psi in the interval [0 ; PI]
+                FieldVector3D<T> v1 = applyTo(Vector3D.PLUS_J);
+                FieldVector3D<T> v2 = applyInverseTo(Vector3D.PLUS_J);
+                if ((v2.getY().getReal() < -0.9999999999) || (v2.getY().getReal() > 0.9999999999)) {
+                    throw new CardanEulerSingularityException(false);
+                }
+                return buildArray(v2.getZ().atan2(v2.getX().negate()),
+                                  v2.getY().acos(),
+                                  v1.getZ().atan2(v1.getX()));
+
+            } else if (order == RotationOrder.ZXZ) {
+
+                // r (Vector3D.plusK) coordinates are :
+                // sin (phi) sin (psi2), sin (phi) cos (psi2), cos (phi)
+                // (-r) (Vector3D.plusK) coordinates are :
+                //  sin (psi1) sin (phi), -cos (psi1) sin (phi), cos (phi)
+                // and we can choose to have phi in the interval [0 ; PI]
+                FieldVector3D<T> v1 = applyTo(Vector3D.PLUS_K);
+                FieldVector3D<T> v2 = applyInverseTo(Vector3D.PLUS_K);
+                if ((v2.getZ().getReal() < -0.9999999999) || (v2.getZ().getReal() > 0.9999999999)) {
+                    throw new CardanEulerSingularityException(false);
+                }
+                return buildArray(v2.getX().atan2(v2.getY().negate()),
+                                  v2.getZ().acos(),
+                                  v1.getX().atan2(v1.getY()));
+
+            } else { // last possibility is ZYZ
+
+                // r (Vector3D.plusK) coordinates are :
+                // -sin (theta) cos (psi2), sin (theta) sin (psi2), cos (theta)
+                // (-r) (Vector3D.plusK) coordinates are :
+                //  cos (psi1) sin (theta), sin (psi1) sin (theta), cos (theta)
+                // and we can choose to have theta in the interval [0 ; PI]
+                FieldVector3D<T> v1 = applyTo(Vector3D.PLUS_K);
+                FieldVector3D<T> v2 = applyInverseTo(Vector3D.PLUS_K);
+                if ((v2.getZ().getReal() < -0.9999999999) || (v2.getZ().getReal() > 0.9999999999)) {
+                    throw new CardanEulerSingularityException(false);
+                }
+                return buildArray(v2.getY().atan2(v2.getX()),
+                                  v2.getZ().acos(),
+                                  v1.getY().atan2(v1.getX().negate()));
+
             }
-            return buildArray(v1.getZ().atan2(v1.getY()),
-                              v2.getY().asin().negate(),
-                              v2.getZ().atan2(v2.getX()));
-
-        } else if (order == RotationOrder.YXZ) {
-
-            // r (+K) coordinates are :
-            //  cos (phi) sin (theta), -sin (phi), cos (phi) cos (theta)
-            // (-r) (+J) coordinates are :
-            // sin (psi) cos (phi), cos (psi) cos (phi), -sin (phi)
-            // and we can choose to have phi in the interval [-PI/2 ; +PI/2]
-            final FieldVector3D<T> v1 = applyTo(vector(0, 0, 1));
-            final FieldVector3D<T> v2 = applyInverseTo(vector(0, 1, 0));
-            if ((v2.getZ().getReal() < -0.9999999999) || (v2.getZ().getReal() > 0.9999999999)) {
-                throw new CardanEulerSingularityException(true);
-            }
-            return buildArray(v1.getX().atan2(v1.getZ()),
-                              v2.getZ().asin().negate(),
-                              v2.getX().atan2(v2.getY()));
-
-        } else if (order == RotationOrder.YZX) {
-
-            // r (+I) coordinates are :
-            // cos (psi) cos (theta), sin (psi), -cos (psi) sin (theta)
-            // (-r) (+J) coordinates are :
-            // sin (psi), cos (phi) cos (psi), -sin (phi) cos (psi)
-            // and we can choose to have psi in the interval [-PI/2 ; +PI/2]
-            final FieldVector3D<T> v1 = applyTo(vector(1, 0, 0));
-            final FieldVector3D<T> v2 = applyInverseTo(vector(0, 1, 0));
-            if ((v2.getX().getReal() < -0.9999999999) || (v2.getX().getReal() > 0.9999999999)) {
-                throw new CardanEulerSingularityException(true);
-            }
-            return buildArray(v1.getZ().negate().atan2(v1.getX()),
-                              v2.getX().asin(),
-                              v2.getZ().negate().atan2(v2.getY()));
-
-        } else if (order == RotationOrder.ZXY) {
-
-            // r (+J) coordinates are :
-            // -cos (phi) sin (psi), cos (phi) cos (psi), sin (phi)
-            // (-r) (+K) coordinates are :
-            // -sin (theta) cos (phi), sin (phi), cos (theta) cos (phi)
-            // and we can choose to have phi in the interval [-PI/2 ; +PI/2]
-            final FieldVector3D<T> v1 = applyTo(vector(0, 1, 0));
-            final FieldVector3D<T> v2 = applyInverseTo(vector(0, 0, 1));
-            if ((v2.getY().getReal() < -0.9999999999) || (v2.getY().getReal() > 0.9999999999)) {
-                throw new CardanEulerSingularityException(true);
-            }
-            return buildArray(v1.getX().negate().atan2(v1.getY()),
-                              v2.getY().asin(),
-                              v2.getX().negate().atan2(v2.getZ()));
-
-        } else if (order == RotationOrder.ZYX) {
-
-            // r (+I) coordinates are :
-            //  cos (theta) cos (psi), cos (theta) sin (psi), -sin (theta)
-            // (-r) (+K) coordinates are :
-            // -sin (theta), sin (phi) cos (theta), cos (phi) cos (theta)
-            // and we can choose to have theta in the interval [-PI/2 ; +PI/2]
-            final FieldVector3D<T> v1 = applyTo(vector(1, 0, 0));
-            final FieldVector3D<T> v2 = applyInverseTo(vector(0, 0, 1));
-            if ((v2.getX().getReal() < -0.9999999999) || (v2.getX().getReal() > 0.9999999999)) {
-                throw new CardanEulerSingularityException(true);
-            }
-            return buildArray(v1.getY().atan2(v1.getX()),
-                              v2.getX().asin().negate(),
-                              v2.getY().atan2(v2.getZ()));
-
-        } else if (order == RotationOrder.XYX) {
-
-            // r (+I) coordinates are :
-            //  cos (theta), sin (phi1) sin (theta), -cos (phi1) sin (theta)
-            // (-r) (+I) coordinates are :
-            // cos (theta), sin (theta) sin (phi2), sin (theta) cos (phi2)
-            // and we can choose to have theta in the interval [0 ; PI]
-            final FieldVector3D<T> v1 = applyTo(vector(1, 0, 0));
-            final FieldVector3D<T> v2 = applyInverseTo(vector(1, 0, 0));
-            if ((v2.getX().getReal() < -0.9999999999) || (v2.getX().getReal() > 0.9999999999)) {
-                throw new CardanEulerSingularityException(false);
-            }
-            return buildArray(v1.getY().atan2(v1.getZ().negate()),
-                              v2.getX().acos(),
-                              v2.getY().atan2(v2.getZ()));
-
-        } else if (order == RotationOrder.XZX) {
-
-            // r (+I) coordinates are :
-            //  cos (psi), cos (phi1) sin (psi), sin (phi1) sin (psi)
-            // (-r) (+I) coordinates are :
-            // cos (psi), -sin (psi) cos (phi2), sin (psi) sin (phi2)
-            // and we can choose to have psi in the interval [0 ; PI]
-            final FieldVector3D<T> v1 = applyTo(vector(1, 0, 0));
-            final FieldVector3D<T> v2 = applyInverseTo(vector(1, 0, 0));
-            if ((v2.getX().getReal() < -0.9999999999) || (v2.getX().getReal() > 0.9999999999)) {
-                throw new CardanEulerSingularityException(false);
-            }
-            return buildArray(v1.getZ().atan2(v1.getY()),
-                              v2.getX().acos(),
-                              v2.getZ().atan2(v2.getY().negate()));
-
-        } else if (order == RotationOrder.YXY) {
-
-            // r (+J) coordinates are :
-            //  sin (theta1) sin (phi), cos (phi), cos (theta1) sin (phi)
-            // (-r) (+J) coordinates are :
-            // sin (phi) sin (theta2), cos (phi), -sin (phi) cos (theta2)
-            // and we can choose to have phi in the interval [0 ; PI]
-            final FieldVector3D<T> v1 = applyTo(vector(0, 1, 0));
-            final FieldVector3D<T> v2 = applyInverseTo(vector(0, 1, 0));
-            if ((v2.getY().getReal() < -0.9999999999) || (v2.getY().getReal() > 0.9999999999)) {
-                throw new CardanEulerSingularityException(false);
-            }
-            return buildArray(v1.getX().atan2(v1.getZ()),
-                              v2.getY().acos(),
-                              v2.getX().atan2(v2.getZ().negate()));
-
-        } else if (order == RotationOrder.YZY) {
-
-            // r (+J) coordinates are :
-            //  -cos (theta1) sin (psi), cos (psi), sin (theta1) sin (psi)
-            // (-r) (+J) coordinates are :
-            // sin (psi) cos (theta2), cos (psi), sin (psi) sin (theta2)
-            // and we can choose to have psi in the interval [0 ; PI]
-            final FieldVector3D<T> v1 = applyTo(vector(0, 1, 0));
-            final FieldVector3D<T> v2 = applyInverseTo(vector(0, 1, 0));
-            if ((v2.getY().getReal() < -0.9999999999) || (v2.getY().getReal() > 0.9999999999)) {
-                throw new CardanEulerSingularityException(false);
-            }
-            return buildArray(v1.getZ().atan2(v1.getX().negate()),
-                              v2.getY().acos(),
-                              v2.getZ().atan2(v2.getX()));
-
-        } else if (order == RotationOrder.ZXZ) {
-
-            // r (+K) coordinates are :
-            //  sin (psi1) sin (phi), -cos (psi1) sin (phi), cos (phi)
-            // (-r) (+K) coordinates are :
-            // sin (phi) sin (psi2), sin (phi) cos (psi2), cos (phi)
-            // and we can choose to have phi in the interval [0 ; PI]
-            final FieldVector3D<T> v1 = applyTo(vector(0, 0, 1));
-            final FieldVector3D<T> v2 = applyInverseTo(vector(0, 0, 1));
-            if ((v2.getZ().getReal() < -0.9999999999) || (v2.getZ().getReal() > 0.9999999999)) {
-                throw new CardanEulerSingularityException(false);
-            }
-            return buildArray(v1.getX().atan2(v1.getY().negate()),
-                              v2.getZ().acos(),
-                              v2.getX().atan2(v2.getY()));
-
-        } else { // last possibility is ZYZ
-
-            // r (+K) coordinates are :
-            //  cos (psi1) sin (theta), sin (psi1) sin (theta), cos (theta)
-            // (-r) (+K) coordinates are :
-            // -sin (theta) cos (psi2), sin (theta) sin (psi2), cos (theta)
-            // and we can choose to have theta in the interval [0 ; PI]
-            final FieldVector3D<T> v1 = applyTo(vector(0, 0, 1));
-            final FieldVector3D<T> v2 = applyInverseTo(vector(0, 0, 1));
-            if ((v2.getZ().getReal() < -0.9999999999) || (v2.getZ().getReal() > 0.9999999999)) {
-                throw new CardanEulerSingularityException(false);
-            }
-            return buildArray(v1.getY().atan2(v1.getX()),
-                              v2.getZ().acos(),
-                              v2.getY().atan2(v2.getX().negate()));
-
         }
 
     }
@@ -946,15 +1270,53 @@ public class FieldRotation<T extends RealFieldElement<T>> implements Serializabl
     }
 
     /** Apply the instance to another rotation.
-     * Applying the instance to a rotation is computing the composition
-     * in an order compliant with the following rule : let u be any
-     * vector and v its image by r (i.e. r.applyTo(u) = v), let w be the image
-     * of v by the instance (i.e. applyTo(v) = w), then w = comp.applyTo(u),
-     * where comp = applyTo(r).
+     * <p>
+     * Calling this method is equivalent to call
+     * {@link #compose(FieldRotation, RotationConvention)
+     * compose(r, RotationConvention.VECTOR_OPERATOR)}.
+     * </p>
      * @param r rotation to apply the rotation to
      * @return a new rotation which is the composition of r by the instance
      */
     public FieldRotation<T> applyTo(final FieldRotation<T> r) {
+        return compose(r, RotationConvention.VECTOR_OPERATOR);
+    }
+
+    /** Compose the instance with another rotation.
+     * <p>
+     * If the semantics of the rotations composition corresponds to a
+     * {@link RotationConvention#VECTOR_OPERATOR vector operator} convention,
+     * applying the instance to a rotation is computing the composition
+     * in an order compliant with the following rule : let {@code u} be any
+     * vector and {@code v} its image by {@code r1} (i.e.
+     * {@code r1.applyTo(u) = v}). Let {@code w} be the image of {@code v} by
+     * rotation {@code r2} (i.e. {@code r2.applyTo(v) = w}). Then
+     * {@code w = comp.applyTo(u)}, where
+     * {@code comp = r2.compose(r1, RotationConvention.VECTOR_OPERATOR)}.
+     * </p>
+     * <p>
+     * If the semantics of the rotations composition corresponds to a
+     * {@link RotationConvention#FRAME_TRANSFORM frame transform} convention,
+     * the application order will be reversed. So keeping the exact same
+     * meaning of all {@code r1}, {@code r2}, {@code u}, {@code v}, {@code w}
+     * and  {@code comp} as above, {@code comp} could also be computed as
+     * {@code comp = r1.compose(r2, RotationConvention.FRAME_TRANSFORM)}.
+     * </p>
+     * @param r rotation to apply the rotation to
+     * @param convention convention to use for the semantics of the angle
+     * @return a new rotation which is the composition of r by the instance
+     */
+    public FieldRotation<T> compose(final FieldRotation<T> r, final RotationConvention convention) {
+        return convention == RotationConvention.VECTOR_OPERATOR ?
+                             composeInternal(r) : r.composeInternal(this);
+    }
+
+    /** Compose the instance with another rotation using vector operator convention.
+     * @param r rotation to apply the rotation to
+     * @return a new rotation which is the composition of r by the instance
+     * using vector operator convention
+     */
+    private FieldRotation<T> composeInternal(final FieldRotation<T> r) {
         return new FieldRotation<T>(r.q0.multiply(q0).subtract(r.q1.multiply(q1).add(r.q2.multiply(q2)).add(r.q3.multiply(q3))),
                                     r.q1.multiply(q0).add(r.q0.multiply(q1)).add(r.q2.multiply(q3).subtract(r.q3.multiply(q2))),
                                     r.q2.multiply(q0).add(r.q0.multiply(q2)).add(r.q3.multiply(q1).subtract(r.q1.multiply(q3))),
@@ -963,20 +1325,58 @@ public class FieldRotation<T extends RealFieldElement<T>> implements Serializabl
     }
 
     /** Apply the instance to another rotation.
-     * Applying the instance to a rotation is computing the composition
-     * in an order compliant with the following rule : let u be any
-     * vector and v its image by r (i.e. r.applyTo(u) = v), let w be the image
-     * of v by the instance (i.e. applyTo(v) = w), then w = comp.applyTo(u),
-     * where comp = applyTo(r).
+     * <p>
+     * Calling this method is equivalent to call
+     * {@link #compose(Rotation, RotationConvention)
+     * compose(r, RotationConvention.VECTOR_OPERATOR)}.
+     * </p>
      * @param r rotation to apply the rotation to
      * @return a new rotation which is the composition of r by the instance
      */
     public FieldRotation<T> applyTo(final Rotation r) {
+        return compose(r, RotationConvention.VECTOR_OPERATOR);
+    }
+
+    /** Compose the instance with another rotation.
+     * <p>
+     * If the semantics of the rotations composition corresponds to a
+     * {@link RotationConvention#VECTOR_OPERATOR vector operator} convention,
+     * applying the instance to a rotation is computing the composition
+     * in an order compliant with the following rule : let {@code u} be any
+     * vector and {@code v} its image by {@code r1} (i.e.
+     * {@code r1.applyTo(u) = v}). Let {@code w} be the image of {@code v} by
+     * rotation {@code r2} (i.e. {@code r2.applyTo(v) = w}). Then
+     * {@code w = comp.applyTo(u)}, where
+     * {@code comp = r2.compose(r1, RotationConvention.VECTOR_OPERATOR)}.
+     * </p>
+     * <p>
+     * If the semantics of the rotations composition corresponds to a
+     * {@link RotationConvention#FRAME_TRANSFORM frame transform} convention,
+     * the application order will be reversed. So keeping the exact same
+     * meaning of all {@code r1}, {@code r2}, {@code u}, {@code v}, {@code w}
+     * and  {@code comp} as above, {@code comp} could also be computed as
+     * {@code comp = r1.compose(r2, RotationConvention.FRAME_TRANSFORM)}.
+     * </p>
+     * @param r rotation to apply the rotation to
+     * @param convention convention to use for the semantics of the angle
+     * @return a new rotation which is the composition of r by the instance
+     */
+    public FieldRotation<T> compose(final Rotation r, final RotationConvention convention) {
+        return convention == RotationConvention.VECTOR_OPERATOR ?
+                             composeInternal(r) : applyTo(r, this);
+    }
+
+    /** Compose the instance with another rotation using vector operator convention.
+     * @param r rotation to apply the rotation to
+     * @return a new rotation which is the composition of r by the instance
+     * using vector operator convention
+     */
+    private FieldRotation<T> composeInternal(final Rotation r) {
         return new FieldRotation<T>(q0.multiply(r.getQ0()).subtract(q1.multiply(r.getQ1()).add(q2.multiply(r.getQ2())).add(q3.multiply(r.getQ3()))),
-                                    q0.multiply(r.getQ1()).add(q1.multiply(r.getQ0())).add(q3.multiply(r.getQ2()).subtract(q2.multiply(r.getQ3()))),
-                                    q0.multiply(r.getQ2()).add(q2.multiply(r.getQ0())).add(q1.multiply(r.getQ3()).subtract(q3.multiply(r.getQ1()))),
-                                    q0.multiply(r.getQ3()).add(q3.multiply(r.getQ0())).add(q2.multiply(r.getQ1()).subtract(q1.multiply(r.getQ2()))),
-                                    false);
+                        q0.multiply(r.getQ1()).add(q1.multiply(r.getQ0())).add(q3.multiply(r.getQ2()).subtract(q2.multiply(r.getQ3()))),
+                        q0.multiply(r.getQ2()).add(q2.multiply(r.getQ0())).add(q1.multiply(r.getQ3()).subtract(q3.multiply(r.getQ1()))),
+                        q0.multiply(r.getQ3()).add(q3.multiply(r.getQ0())).add(q2.multiply(r.getQ1()).subtract(q1.multiply(r.getQ2()))),
+                        false);
     }
 
     /** Apply a rotation to another rotation.
@@ -999,17 +1399,57 @@ public class FieldRotation<T extends RealFieldElement<T>> implements Serializabl
     }
 
     /** Apply the inverse of the instance to another rotation.
-     * Applying the inverse of the instance to a rotation is computing
-     * the composition in an order compliant with the following rule :
-     * let u be any vector and v its image by r (i.e. r.applyTo(u) = v),
-     * let w be the inverse image of v by the instance
-     * (i.e. applyInverseTo(v) = w), then w = comp.applyTo(u), where
-     * comp = applyInverseTo(r).
+     * <p>
+     * Calling this method is equivalent to call
+     * {@link #composeInverse(FieldRotation, RotationConvention)
+     * composeInverse(r, RotationConvention.VECTOR_OPERATOR)}.
+     * </p>
      * @param r rotation to apply the rotation to
      * @return a new rotation which is the composition of r by the inverse
      * of the instance
      */
     public FieldRotation<T> applyInverseTo(final FieldRotation<T> r) {
+        return composeInverse(r, RotationConvention.VECTOR_OPERATOR);
+    }
+
+    /** Compose the inverse of the instance with another rotation.
+     * <p>
+     * If the semantics of the rotations composition corresponds to a
+     * {@link RotationConvention#VECTOR_OPERATOR vector operator} convention,
+     * applying the inverse of the instance to a rotation is computing
+     * the composition in an order compliant with the following rule :
+     * let {@code u} be any vector and {@code v} its image by {@code r1}
+     * (i.e. {@code r1.applyTo(u) = v}). Let {@code w} be the inverse image
+     * of {@code v} by {@code r2} (i.e. {@code r2.applyInverseTo(v) = w}).
+     * Then {@code w = comp.applyTo(u)}, where
+     * {@code comp = r2.composeInverse(r1)}.
+     * </p>
+     * <p>
+     * If the semantics of the rotations composition corresponds to a
+     * {@link RotationConvention#FRAME_TRANSFORM frame transform} convention,
+     * the application order will be reversed, which means it is the
+     * <em>innermost</em> rotation that will be reversed. So keeping the exact same
+     * meaning of all {@code r1}, {@code r2}, {@code u}, {@code v}, {@code w}
+     * and  {@code comp} as above, {@code comp} could also be computed as
+     * {@code comp = r1.revert().composeInverse(r2.revert(), RotationConvention.FRAME_TRANSFORM)}.
+     * </p>
+     * @param r rotation to apply the rotation to
+     * @param convention convention to use for the semantics of the angle
+     * @return a new rotation which is the composition of r by the inverse
+     * of the instance
+     */
+    public FieldRotation<T> composeInverse(final FieldRotation<T> r, final RotationConvention convention) {
+        return convention == RotationConvention.VECTOR_OPERATOR ?
+                             composeInverseInternal(r) : r.composeInternal(revert());
+    }
+
+    /** Compose the inverse of the instance with another rotation
+     * using vector operator convention.
+     * @param r rotation to apply the rotation to
+     * @return a new rotation which is the composition of r by the inverse
+     * of the instance using vector operator convention
+     */
+    private FieldRotation<T> composeInverseInternal(FieldRotation<T> r) {
         return new FieldRotation<T>(r.q0.multiply(q0).add(r.q1.multiply(q1).add(r.q2.multiply(q2)).add(r.q3.multiply(q3))).negate(),
                                     r.q0.multiply(q1).add(r.q2.multiply(q3).subtract(r.q3.multiply(q2))).subtract(r.q1.multiply(q0)),
                                     r.q0.multiply(q2).add(r.q3.multiply(q1).subtract(r.q1.multiply(q3))).subtract(r.q2.multiply(q0)),
@@ -1018,17 +1458,57 @@ public class FieldRotation<T extends RealFieldElement<T>> implements Serializabl
     }
 
     /** Apply the inverse of the instance to another rotation.
-     * Applying the inverse of the instance to a rotation is computing
-     * the composition in an order compliant with the following rule :
-     * let u be any vector and v its image by r (i.e. r.applyTo(u) = v),
-     * let w be the inverse image of v by the instance
-     * (i.e. applyInverseTo(v) = w), then w = comp.applyTo(u), where
-     * comp = applyInverseTo(r).
+     * <p>
+     * Calling this method is equivalent to call
+     * {@link #composeInverse(Rotation, RotationConvention)
+     * composeInverse(r, RotationConvention.VECTOR_OPERATOR)}.
+     * </p>
      * @param r rotation to apply the rotation to
      * @return a new rotation which is the composition of r by the inverse
      * of the instance
      */
     public FieldRotation<T> applyInverseTo(final Rotation r) {
+        return composeInverse(r, RotationConvention.VECTOR_OPERATOR);
+    }
+
+    /** Compose the inverse of the instance with another rotation.
+     * <p>
+     * If the semantics of the rotations composition corresponds to a
+     * {@link RotationConvention#VECTOR_OPERATOR vector operator} convention,
+     * applying the inverse of the instance to a rotation is computing
+     * the composition in an order compliant with the following rule :
+     * let {@code u} be any vector and {@code v} its image by {@code r1}
+     * (i.e. {@code r1.applyTo(u) = v}). Let {@code w} be the inverse image
+     * of {@code v} by {@code r2} (i.e. {@code r2.applyInverseTo(v) = w}).
+     * Then {@code w = comp.applyTo(u)}, where
+     * {@code comp = r2.composeInverse(r1)}.
+     * </p>
+     * <p>
+     * If the semantics of the rotations composition corresponds to a
+     * {@link RotationConvention#FRAME_TRANSFORM frame transform} convention,
+     * the application order will be reversed, which means it is the
+     * <em>innermost</em> rotation that will be reversed. So keeping the exact same
+     * meaning of all {@code r1}, {@code r2}, {@code u}, {@code v}, {@code w}
+     * and  {@code comp} as above, {@code comp} could also be computed as
+     * {@code comp = r1.revert().composeInverse(r2.revert(), RotationConvention.FRAME_TRANSFORM)}.
+     * </p>
+     * @param r rotation to apply the rotation to
+     * @param convention convention to use for the semantics of the angle
+     * @return a new rotation which is the composition of r by the inverse
+     * of the instance
+     */
+    public FieldRotation<T> composeInverse(final Rotation r, final RotationConvention convention) {
+        return convention == RotationConvention.VECTOR_OPERATOR ?
+                             composeInverseInternal(r) : applyTo(r, revert());
+    }
+
+    /** Compose the inverse of the instance with another rotation
+     * using vector operator convention.
+     * @param r rotation to apply the rotation to
+     * @return a new rotation which is the composition of r by the inverse
+     * of the instance using vector operator convention
+     */
+    private FieldRotation<T> composeInverseInternal(Rotation r) {
         return new FieldRotation<T>(q0.multiply(r.getQ0()).add(q1.multiply(r.getQ1()).add(q2.multiply(r.getQ2())).add(q3.multiply(r.getQ3()))).negate(),
                                     q1.multiply(r.getQ0()).add(q3.multiply(r.getQ2()).subtract(q2.multiply(r.getQ3()))).subtract(q0.multiply(r.getQ1())),
                                     q2.multiply(r.getQ0()).add(q1.multiply(r.getQ3()).subtract(q3.multiply(r.getQ1()))).subtract(q0.multiply(r.getQ2())),
@@ -1177,7 +1657,7 @@ public class FieldRotation<T extends RealFieldElement<T>> implements Serializabl
      * @return <i>distance</i> between r1 and r2
      */
     public static <T extends RealFieldElement<T>> T distance(final FieldRotation<T> r1, final FieldRotation<T> r2) {
-        return r1.applyInverseTo(r2).getAngle();
+        return r1.composeInverseInternal(r2).getAngle();
     }
 
 }

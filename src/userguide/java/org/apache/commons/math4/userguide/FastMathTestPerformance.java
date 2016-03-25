@@ -651,6 +651,7 @@ public class FastMathTestPerformance {
         final String M = "Math";
         final String FM = "FastMath";
 
+        final int maxWidth = 15;
         final int numStat = 100;
         final int numCall = RUNS / numStat;
 
@@ -658,6 +659,7 @@ public class FastMathTestPerformance {
         final double y = Math.random();
 
         PerfTestUtils.timeAndReport("log",
+                                    maxWidth,
                                     numCall,
                                     numStat,
                                     false,
@@ -681,6 +683,7 @@ public class FastMathTestPerformance {
                                     });
 
         PerfTestUtils.timeAndReport("log10",
+                                    maxWidth,
                                     numCall,
                                     numStat,
                                     false,
@@ -704,6 +707,7 @@ public class FastMathTestPerformance {
                                     });
 
         PerfTestUtils.timeAndReport("log1p",
+                                    maxWidth,
                                     numCall,
                                     numStat,
                                     false,
@@ -727,6 +731,7 @@ public class FastMathTestPerformance {
                                     });
 
         PerfTestUtils.timeAndReport("pow",
+                                    maxWidth,
                                     numCall,
                                     numStat,
                                     false,
@@ -750,6 +755,7 @@ public class FastMathTestPerformance {
                                     });
 
         PerfTestUtils.timeAndReport("exp",
+                                    maxWidth,
                                     numCall,
                                     numStat,
                                     false,
@@ -773,6 +779,7 @@ public class FastMathTestPerformance {
                                     });
 
         PerfTestUtils.timeAndReport("sin",
+                                    maxWidth,
                                     numCall,
                                     numStat,
                                     false,
@@ -796,6 +803,7 @@ public class FastMathTestPerformance {
                                     });
 
         PerfTestUtils.timeAndReport("asin",
+                                    maxWidth,
                                     numCall,
                                     numStat,
                                     false,
@@ -819,6 +827,7 @@ public class FastMathTestPerformance {
                                     });
 
         PerfTestUtils.timeAndReport("cos",
+                                    maxWidth,
                                     numCall,
                                     numStat,
                                     false,
@@ -842,6 +851,7 @@ public class FastMathTestPerformance {
                                     });
 
         PerfTestUtils.timeAndReport("acos",
+                                    maxWidth,
                                     numCall,
                                     numStat,
                                     false,
@@ -865,6 +875,7 @@ public class FastMathTestPerformance {
                                     });
 
         PerfTestUtils.timeAndReport("tan",
+                                    maxWidth,
                                     numCall,
                                     numStat,
                                     false,
@@ -888,6 +899,7 @@ public class FastMathTestPerformance {
                                     });
 
         PerfTestUtils.timeAndReport("atan",
+                                    maxWidth,
                                     numCall,
                                     numStat,
                                     false,
@@ -911,6 +923,7 @@ public class FastMathTestPerformance {
                                     });
 
         PerfTestUtils.timeAndReport("atan2",
+                                    maxWidth,
                                     numCall,
                                     numStat,
                                     false,
@@ -934,6 +947,7 @@ public class FastMathTestPerformance {
                                     });
 
         PerfTestUtils.timeAndReport("hypot",
+                                    maxWidth,
                                     numCall,
                                     numStat,
                                     false,
@@ -958,6 +972,7 @@ public class FastMathTestPerformance {
 
 
         PerfTestUtils.timeAndReport("cbrt",
+                                    maxWidth,
                                     numCall,
                                     numStat,
                                     false,
@@ -981,6 +996,7 @@ public class FastMathTestPerformance {
                                     });
 
         PerfTestUtils.timeAndReport("sqrt",
+                                    maxWidth,
                                     numCall,
                                     numStat,
                                     false,
@@ -1004,6 +1020,7 @@ public class FastMathTestPerformance {
                                     });
 
         PerfTestUtils.timeAndReport("cosh",
+                                    maxWidth,
                                     numCall,
                                     numStat,
                                     false,
@@ -1027,6 +1044,7 @@ public class FastMathTestPerformance {
                                     });
 
         PerfTestUtils.timeAndReport("sinh",
+                                    maxWidth,
                                     numCall,
                                     numStat,
                                     false,
@@ -1050,6 +1068,7 @@ public class FastMathTestPerformance {
                                     });
 
         PerfTestUtils.timeAndReport("tanh",
+                                    maxWidth,
                                     numCall,
                                     numStat,
                                     false,
@@ -1073,6 +1092,7 @@ public class FastMathTestPerformance {
                                     });
 
         PerfTestUtils.timeAndReport("expm1",
+                                    maxWidth,
                                     numCall,
                                     numStat,
                                     false,
@@ -1096,6 +1116,7 @@ public class FastMathTestPerformance {
                                     });
 
         PerfTestUtils.timeAndReport("abs",
+                                    maxWidth,
                                     numCall,
                                     numStat,
                                     false,

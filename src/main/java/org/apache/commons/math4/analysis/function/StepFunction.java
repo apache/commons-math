@@ -41,10 +41,10 @@ public class StepFunction implements UnivariateFunction {
     /**
      * Builds a step function from a list of arguments and the corresponding
      * values. Specifically, returns the function h(x) defined by <pre><code>
-     * h(x) = y[0] for all x < x[1]
-     *        y[1] for x[1] <= x < x[2]
+     * h(x) = y[0] for all x &lt; x[1]
+     *        y[1] for x[1] &le; x &lt; x[2]
      *        ...
-     *        y[y.length - 1] for x >= x[x.length - 1]
+     *        y[y.length - 1] for x &ge; x[x.length - 1]
      * </code></pre>
      * The value of {@code x[0]} is ignored, but it must be strictly less than
      * {@code x[1]}.

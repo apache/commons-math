@@ -27,14 +27,14 @@ import org.junit.Test;
 
 /**
  * Test cases for the IntervalUtils class.
- * 
+ *
  */
 public class IntervalUtilsTest {
 
     private final int successes = 50;
     private final int trials = 500;
     private final double confidenceLevel = 0.9;
-    
+
     // values to test must be exactly the same
     private final double eps = 0.0;
 

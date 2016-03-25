@@ -97,6 +97,8 @@ class DormandPrince54StepInterpolator
    * prototyping design pattern to create the step interpolators by
    * cloning an uninitialized model and latter initializing the copy.
    */
+  // CHECKSTYLE: stop RedundantModifier
+  // the public modifier here is needed for serialization
   public DormandPrince54StepInterpolator() {
     super();
     v1 = null;
@@ -105,13 +107,14 @@ class DormandPrince54StepInterpolator
     v4 = null;
     vectorsInitialized = false;
   }
+  // CHECKSTYLE: resume RedundantModifier
 
   /** Copy constructor.
    * @param interpolator interpolator to copy from. The copy is a deep
    * copy: its arrays are separated from the original arrays of the
    * instance
    */
-  public DormandPrince54StepInterpolator(final DormandPrince54StepInterpolator interpolator) {
+  DormandPrince54StepInterpolator(final DormandPrince54StepInterpolator interpolator) {
 
     super(interpolator);
 

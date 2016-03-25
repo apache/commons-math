@@ -32,7 +32,7 @@ public class AgrestiCoullIntervalTest extends BinomialConfidenceIntervalAbstract
     protected BinomialConfidenceInterval createBinomialConfidenceInterval() {
         return new AgrestiCoullInterval();
     }
-    
+
     @Test
     public void testStandardInterval() {
         ConfidenceInterval confidenceInterval = createStandardTestInterval();

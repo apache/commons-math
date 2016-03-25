@@ -562,14 +562,14 @@ System.out.println(regression.getInterceptStdErr() );
           <source>
 OLSMultipleLinearRegression regression = new OLSMultipleLinearRegression();
 double[] y = new double[]{11.0, 12.0, 13.0, 14.0, 15.0, 16.0};
-double[] x = new double[6][];
+double[][] x = new double[6][];
 x[0] = new double[]{0, 0, 0, 0, 0};
 x[1] = new double[]{2.0, 0, 0, 0, 0};
 x[2] = new double[]{0, 3.0, 0, 0, 0};
 x[3] = new double[]{0, 0, 4.0, 0, 0};
 x[4] = new double[]{0, 0, 0, 5.0, 0};
 x[5] = new double[]{0, 0, 0, 0, 6.0};          
-regression.newSample(y, x);
+regression.newSampleData(y, x);
           </source>
           </dd>
           <dd>Get regression parameters and diagnostics:
@@ -593,7 +593,7 @@ double sigma = regression.estimateRegressionStandardError();
           <source>
 GLSMultipleLinearRegression regression = new GLSMultipleLinearRegression();
 double[] y = new double[]{11.0, 12.0, 13.0, 14.0, 15.0, 16.0};
-double[] x = new double[6][];
+double[][] x = new double[6][];
 x[0] = new double[]{0, 0, 0, 0, 0};
 x[1] = new double[]{2.0, 0, 0, 0, 0};
 x[2] = new double[]{0, 3.0, 0, 0, 0};
@@ -915,10 +915,9 @@ new KendallsCorrelation().correlation(x, y)
            <a href="http://www.jstatsoft.org/v39/i11/"> Computing the Two-Sided Kolmogorov-Smirnov
            Distribution</a> by Richard Simard and Pierre L'Ecuyer.  In the 2-sample case, estimation
            by default depends on the number of data points.  For small samples, the distribution
-           is computed exactly; for moderately large samples a Monte Carlo procedure is used, and
-           for large samples a numerical approximation of the Kolmogorov distribution is used.
-           Methods to perform each type of p-value estimation are also exposed directly.  See
-           the class javadoc for details.</li>
+           is computed exactly and for large samples a numerical approximation of the Kolmogorov
+           distribution is used. Methods to perform each type of p-value estimation are also exposed
+           directly.  See the class javadoc for details.</li>
           </ul>
           </p>
           <p>
@@ -1237,7 +1236,7 @@ final double d = TestUtils.kolmogorovSmirnovStatistic(x, y);
 TestUtils.exactP(d, x.length, y.length, false)
           </source>
           assuming that the non-strict form of the null hypothesis is desired. Note, however,
-          that exact computation for anything but very small samples takes a very long time.    
+          that exact computation for large samples takes a long time.
           </dd>
         </dl>
         </p>

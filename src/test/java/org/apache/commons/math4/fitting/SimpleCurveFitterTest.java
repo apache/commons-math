@@ -47,7 +47,7 @@ public class SimpleCurveFitterTest {
             obs.add(x, f.value(x) + 0.1 * randomizer.nextGaussian());
         }
 
-        final ParametricUnivariateFunction function = new PolynomialFunction.Parametric(); 
+        final ParametricUnivariateFunction function = new PolynomialFunction.Parametric();
         // Start fit from initial guesses that are far from the optimal values.
         final SimpleCurveFitter fitter
             = SimpleCurveFitter.create(function,

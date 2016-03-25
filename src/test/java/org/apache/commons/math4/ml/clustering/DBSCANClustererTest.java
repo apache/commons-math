@@ -149,19 +149,19 @@ public class DBSCANClustererTest {
                 new DoublePoint(new int[] {14, 8}), // C
                 new DoublePoint(new int[] {7, 15}), // N - Noise, should not be present
                 new DoublePoint(new int[] {17, 8}), // D - single-link connected to C should not be present
-                
+
         };
-        
+
         final DBSCANClusterer<DoublePoint> clusterer = new DBSCANClusterer<DoublePoint>(3, 3);
         List<Cluster<DoublePoint>> clusters = clusterer.cluster(Arrays.asList(points));
-        
+
         Assert.assertEquals(1, clusters.size());
-        
+
         final List<DoublePoint> clusterOne =
                 Arrays.asList(points[0], points[1], points[2], points[3], points[4], points[5], points[6], points[7]);
         Assert.assertTrue(clusters.get(0).getPoints().containsAll(clusterOne));
     }
-    
+
     @Test
     public void testGetEps() {
         final DBSCANClusterer<DoublePoint> transformer = new DBSCANClusterer<DoublePoint>(2.0, 5);

@@ -81,8 +81,10 @@ public class UnivariateSolverUtils {
         return solver.solve(Integer.MAX_VALUE, function, x0, x1);
     }
 
-    /** Force a root found by a non-bracketing solver to lie on a specified side,
-     * as if the solver was a bracketing one.
+    /**
+     * Force a root found by a non-bracketing solver to lie on a specified side,
+     * as if the solver were a bracketing one.
+     *
      * @param maxEval maximal number of new evaluations of the function
      * (evaluations already done for finding the root should have already been subtracted
      * from this number)
@@ -173,13 +175,13 @@ public class UnivariateSolverUtils {
      * This method simply calls {@link #bracket(UnivariateFunction, double, double, double,
      * double, double, int) bracket(function, initial, lowerBound, upperBound, q, r, maximumIterations)}
      * with {@code q} and {@code r} set to 1.0 and {@code maximumIterations} set to {@code Integer.MAX_VALUE}.
-     * <strong>Note: </strong> this method can take
-     * <code>Integer.MAX_VALUE</code> iterations to throw a
-     * <code>ConvergenceException.</code>  Unless you are confident that there
-     * is a root between <code>lowerBound</code> and <code>upperBound</code>
-     * near <code>initial,</code> it is better to use
-     * {@link #bracket(UnivariateFunction, double, double, double, double,
-     * double, int) bracket(function, initial, lowerBound, upperBound, q, r, maximumIterations)},
+     * <p>
+     * <strong>Note: </strong> this method can take {@code Integer.MAX_VALUE}
+     * iterations to throw a {@code ConvergenceException.}  Unless you are
+     * confident that there is a root between {@code lowerBound} and
+     * {@code upperBound} near {@code initial}, it is better to use
+     * {@link #bracket(UnivariateFunction, double, double, double, double,double, int)
+     * bracket(function, initial, lowerBound, upperBound, q, r, maximumIterations)},
      * explicitly specifying the maximum number of iterations.</p>
      *
      * @param function Function.
@@ -244,11 +246,11 @@ public class UnivariateSolverUtils {
      * The algorithm stops when one of the following happens: <ul>
      * <li> at least one positive and one negative value have been found --  success!</li>
      * <li> both endpoints have reached their respective limits -- NoBracketingException </li>
-     * <li> {@code maximumIterations} iterations elapse -- NoBracketingException </li></ul></p>
+     * <li> {@code maximumIterations} iterations elapse -- NoBracketingException </li></ul>
      * <p>
      * If different signs are found at first iteration ({@code k=1}), then the returned
      * interval will be \( [a, b] = [l_1, u_1] \). If different signs are found at a later
-     * iteration ({code k>1}, then the returned interval will be either
+     * iteration {@code k>1}, then the returned interval will be either
      * \( [a, b] = [l_{k+1}, l_{k}] \) or \( [a, b] = [u_{k}, u_{k+1}] \). A root solver called
      * with these parameters will therefore start with the smallest bracketing interval known
      * at this step.

@@ -41,7 +41,7 @@ public class HypergeometricDistributionTest extends IntegerDistributionAbstractT
     public HypergeometricDistributionTest() {
         setTolerance(1e-12);
     }
-    
+
     //-------------- Implementations for abstract methods -----------------------
 
     /** Creates the default discrete distribution instance to use in tests. */
@@ -56,7 +56,7 @@ public class HypergeometricDistributionTest extends IntegerDistributionAbstractT
         return new int[] {-1, 0, 1, 2, 3, 4, 5, 10};
     }
 
-    /** 
+    /**
      * Creates the default probability density test expected values
      * Reference values are from R, version 2.15.3.
      */
@@ -66,7 +66,7 @@ public class HypergeometricDistributionTest extends IntegerDistributionAbstractT
             0.0992063492063, 0.00396825396825, 0d};
     }
 
-    /** 
+    /**
      * Creates the default probability log density test expected values
      * Reference values are from R, version 2.14.1.
      */
@@ -83,7 +83,7 @@ public class HypergeometricDistributionTest extends IntegerDistributionAbstractT
         return makeDensityTestPoints();
     }
 
-    /** 
+    /**
      * Creates the default cumulative probability density test expected values
      * Reference values are from R, version 2.15.3.
      */
@@ -292,7 +292,7 @@ public class HypergeometricDistributionTest extends IntegerDistributionAbstractT
         Assert.assertEquals(dist.getNumericalMean(), 55d * 200d / 3000d, tol);
         Assert.assertEquals(dist.getNumericalVariance(), ( 200d * 55d * (3000d - 200d) * (3000d - 55d) ) / ( (3000d * 3000d * 2999d) ), tol);
     }
-    
+
     @Test
     public void testMath644() {
         int N = 14761461;  // population
@@ -301,10 +301,10 @@ public class HypergeometricDistributionTest extends IntegerDistributionAbstractT
 
         int k = 0;
         final HypergeometricDistribution dist = new HypergeometricDistribution(N, m, n);
-        
+
         Assert.assertTrue(Precision.compareTo(1.0, dist.upperCumulativeProbability(k), 1) == 0);
         Assert.assertTrue(Precision.compareTo(dist.cumulativeProbability(k), 0.0, 1) > 0);
-        
+
         // another way to calculate the upper cumulative probability
         double upper = 1.0 - dist.cumulativeProbability(k) + dist.probability(k);
         Assert.assertTrue(Precision.compareTo(1.0, upper, 1) == 0);

@@ -488,7 +488,7 @@ public class FieldVector3DTest {
         Assert.assertEquals(FastMath.PI / 2, createVector(0, 1, 0, 3).getAlpha().getReal(), 1.0e-10);
         Assert.assertEquals(0,           createVector(0, 1, 0, 3).getDelta().getReal(), 1.0e-10);
         Assert.assertEquals(FastMath.PI / 2, createVector(0, 0, 1, 3).getDelta().getReal(), 1.0e-10);
-      
+
         FieldVector3D<DerivativeStructure> u = createVector(-1, 1, -1, 3);
         Assert.assertEquals(3 * FastMath.PI /4, u.getAlpha().getReal(), 1.0e-10);
         Assert.assertEquals(-1.0 / FastMath.sqrt(3), u.getDelta().sin().getReal(), 1.0e-10);
@@ -634,8 +634,8 @@ public class FieldVector3DTest {
         final FieldVector3D<DerivativeStructure> u2 = createVector( 1796571811118507.0 /  2147483648.0,
                                           7853468008299307.0 /  2147483648.0,
                                           2599586637357461.0 / 17179869184.0, 3);
-        final FieldVector3D<DerivativeStructure> u3 = createVector(12753243807587107.0 / 18446744073709551616.0, 
-                                         -2313766922703915.0 / 18446744073709551616.0, 
+        final FieldVector3D<DerivativeStructure> u3 = createVector(12753243807587107.0 / 18446744073709551616.0,
+                                         -2313766922703915.0 / 18446744073709551616.0,
                                           -227970081415313.0 /   288230376151711744.0, 3);
         FieldVector3D<DerivativeStructure> cNaive = new FieldVector3D<DerivativeStructure>(u1.getY().multiply(u2.getZ()).subtract(u1.getZ().multiply(u2.getY())),
                                        u1.getZ().multiply(u2.getX()).subtract(u1.getX().multiply(u2.getZ())),

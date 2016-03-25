@@ -25,6 +25,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
+import java.util.SortedMap;
 import java.util.TreeMap;
 
 import org.apache.commons.math4.exception.MathIllegalArgumentException;
@@ -67,7 +68,7 @@ public class Frequency implements Serializable {
     private static final long serialVersionUID = -3845586908418844111L;
 
     /** underlying collection */
-    private final TreeMap<Comparable<?>, Long> freqTable;
+    private final SortedMap<Comparable<?>, Long> freqTable;
 
     /**
      * Default constructor.
@@ -626,6 +627,7 @@ public class Frequency implements Serializable {
     /**
      * A Comparator that compares comparable objects using the
      * natural order.  Copied from Commons Collections ComparableComparator.
+     * @param <T> the type of the objects compared
      */
     private static class NaturalComparator<T extends Comparable<T>> implements Comparator<Comparable<T>>, Serializable {
 

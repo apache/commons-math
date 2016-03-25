@@ -42,7 +42,7 @@ import org.apache.commons.math4.util.MathUtils;
 public class KMeansPlusPlusClusterer<T extends Clusterable> extends Clusterer<T> {
 
     /** Strategies to use for replacing an empty cluster. */
-    public static enum EmptyClusterStrategy {
+    public enum EmptyClusterStrategy {
 
         /** Split the cluster with largest distance variance. */
         LARGEST_VARIANCE,

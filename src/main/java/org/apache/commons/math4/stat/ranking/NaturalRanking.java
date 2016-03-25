@@ -438,7 +438,7 @@ public class NaturalRanking implements RankingAlgorithm {
          * @param value the value of the pair
          * @param position the original position
          */
-        public IntDoublePair(double value, int position) {
+        IntDoublePair(double value, int position) {
             this.value = value;
             this.position = position;
         }

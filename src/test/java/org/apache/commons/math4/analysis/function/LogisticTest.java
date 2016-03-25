@@ -88,7 +88,7 @@ public class LogisticTest {
 
         final Logistic f = new Logistic(k, 0, 1, 1, a, 1);
         final Sigmoid g = new Sigmoid(a, k);
-        
+
         final double min = -10;
         final double max = 10;
         final double n = 20;
@@ -148,7 +148,7 @@ public class LogisticTest {
         final Logistic.Parametric f = new Logistic.Parametric();
         // Compare using the "Sigmoid" function.
         final Sigmoid.Parametric g = new Sigmoid.Parametric();
-        
+
         final double x = 0.12345;
         final double[] gf = f.gradient(x, new double[] {k, 0, 1, 1, a, 1});
         final double[] gg = g.gradient(x, new double[] {a, k});
@@ -167,7 +167,7 @@ public class LogisticTest {
         final double n = 3.4;
 
         final Logistic.Parametric f = new Logistic.Parametric();
-        
+
         final double x = m - 1;
         final double qExp1 = 2;
 
@@ -187,7 +187,7 @@ public class LogisticTest {
         final double n = 3.4;
 
         final Logistic.Parametric f = new Logistic.Parametric();
-        
+
         final double x = 0;
         final double qExp1 = 2;
 

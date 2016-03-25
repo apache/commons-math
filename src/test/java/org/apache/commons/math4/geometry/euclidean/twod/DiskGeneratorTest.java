@@ -116,6 +116,6 @@ public class DiskGeneratorTest {
             Assert.assertEquals(0.0, refCenter.distance(disk.getCenter()), 3e-9 * refRadius);
             Assert.assertEquals(refRadius, disk.getRadius(), 7e-10 * refRadius);
         }
-        
+
     }
 }

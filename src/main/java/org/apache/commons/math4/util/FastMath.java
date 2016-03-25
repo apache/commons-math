@@ -938,13 +938,13 @@ public class FastMath {
 
         /* epsilon is the difference in x from the nearest multiple of 2^-10.  It
          * has a value in the range 0 <= epsilon < 2^-10.
-         * Do the subtraction from x as the last step to avoid possible loss of percison.
+         * Do the subtraction from x as the last step to avoid possible loss of precision.
          */
         final double epsilon = x - (intVal + intFrac / 1024.0);
 
         /* Compute z = exp(epsilon) - 1.0 via a minimax polynomial.  z has
        full double precision (52 bits).  Since z < 2^-10, we will have
-       62 bits of precision when combined with the contant 1.  This will be
+       62 bits of precision when combined with the constant 1.  This will be
        used in the last addition below to get proper rounding. */
 
         /* Remez generated polynomial.  Converges on the interval [0, 2^-10], error
@@ -968,6 +968,13 @@ public class FastMath {
        much larger than the others.  If there are extra bits specified from the
        pow() function, use them. */
         final double tempC = tempB + tempA;
+
+        // If tempC is positive infinite, the evaluation below could result in NaN,
+        // because z could be negative at the same time.
+        if (tempC == Double.POSITIVE_INFINITY) {
+            return Double.POSITIVE_INFINITY;
+        }
+
         final double result;
         if (extra != 0.0) {
             result = tempC*extra*z + tempC*extra + tempC*z + tempB + tempA;
@@ -1655,7 +1662,7 @@ public class FastMath {
         /** Simple constructor.
          * @param x number to split
          */
-        public Split(final double x) {
+        Split(final double x) {
             full = x;
             high = Double.longBitsToDouble(Double.doubleToRawLongBits(x) & ((-1L) << 27));
             low  = x - high;
@@ -1665,7 +1672,7 @@ public class FastMath {
          * @param high high order bits
          * @param low low order bits
          */
-        public Split(final double high, final double low) {
+        Split(final double high, final double low) {
             this(high == 0.0 ? (low == 0.0 && Double.doubleToRawLongBits(high) == Long.MIN_VALUE /* negative zero */ ? -0.0 : low) : high + low, high, low);
         }
 
@@ -1674,7 +1681,7 @@ public class FastMath {
          * @param high high order bits
          * @param low low order bits
          */
-        public Split(final double full, final double high, final double low) {
+        Split(final double full, final double high, final double low) {
             this.full = full;
             this.high = high;
             this.low  = low;
@@ -3927,7 +3934,7 @@ public class FastMath {
             return a * b;
     }
 
-    /** Finds q such that a = q b + r with 0 <= r < b if b > 0 and b < r <= 0 if b > 0.
+    /** Finds q such that a = q b + r with 0 <= r < b if b > 0 and b < r <= 0 if b < 0.
      * <p>
      * This methods returns the same value as integer division when
      * a and b are same signs, but returns a different value when
@@ -3935,7 +3942,7 @@ public class FastMath {
      * </p>
      * @param a dividend
      * @param b divisor
-     * @return q such that a = q b + r with 0 <= r < b if b > 0 and b < r <= 0 if b > 0
+     * @return q such that a = q b + r with 0 <= r < b if b > 0 and b < r <= 0 if b < 0
      * @exception MathArithmeticException if b == 0
      * @see #floorMod(int, int)
      * @since 3.4
@@ -3957,7 +3964,7 @@ public class FastMath {
 
     }
 
-    /** Finds q such that a = q b + r with 0 <= r < b if b > 0 and b < r <= 0 if b > 0.
+    /** Finds q such that a = q b + r with 0 <= r < b if b > 0 and b < r <= 0 if b < 0.
      * <p>
      * This methods returns the same value as integer division when
      * a and b are same signs, but returns a different value when
@@ -3965,7 +3972,7 @@ public class FastMath {
      * </p>
      * @param a dividend
      * @param b divisor
-     * @return q such that a = q b + r with 0 <= r < b if b > 0 and b < r <= 0 if b > 0
+     * @return q such that a = q b + r with 0 <= r < b if b > 0 and b < r <= 0 if b < 0
      * @exception MathArithmeticException if b == 0
      * @see #floorMod(long, long)
      * @since 3.4
@@ -3987,7 +3994,7 @@ public class FastMath {
 
     }
 
-    /** Finds r such that a = q b + r with 0 <= r < b if b > 0 and b < r <= 0 if b > 0.
+    /** Finds r such that a = q b + r with 0 <= r < b if b > 0 and b < r <= 0 if b < 0.
      * <p>
      * This methods returns the same value as integer modulo when
      * a and b are same signs, but returns a different value when
@@ -3995,7 +4002,7 @@ public class FastMath {
      * </p>
      * @param a dividend
      * @param b divisor
-     * @return r such that a = q b + r with 0 <= r < b if b > 0 and b < r <= 0 if b > 0
+     * @return r such that a = q b + r with 0 <= r < b if b > 0 and b < r <= 0 if b < 0
      * @exception MathArithmeticException if b == 0
      * @see #floorDiv(int, int)
      * @since 3.4
@@ -4017,7 +4024,7 @@ public class FastMath {
 
     }
 
-    /** Finds r such that a = q b + r with 0 <= r < b if b > 0 and b < r <= 0 if b > 0.
+    /** Finds r such that a = q b + r with 0 <= r < b if b > 0 and b < r <= 0 if b < 0.
      * <p>
      * This methods returns the same value as integer modulo when
      * a and b are same signs, but returns a different value when
@@ -4025,7 +4032,7 @@ public class FastMath {
      * </p>
      * @param a dividend
      * @param b divisor
-     * @return r such that a = q b + r with 0 <= r < b if b > 0 and b < r <= 0 if b > 0
+     * @return r such that a = q b + r with 0 <= r < b if b > 0 and b < r <= 0 if b < 0
      * @exception MathArithmeticException if b == 0
      * @see #floorDiv(long, long)
      * @since 3.4

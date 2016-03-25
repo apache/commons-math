@@ -117,7 +117,7 @@ public class MultiStartUnivariateOptimizerTest {
         JDKRandomGenerator g = new JDKRandomGenerator();
         g.setSeed(4312000053L);
         MultiStartUnivariateOptimizer optimizer = new MultiStartUnivariateOptimizer(underlying, 5, g);
- 
+
         try {
             optimizer.optimize(new MaxEval(300),
                                new UnivariateObjectiveFunction(f),

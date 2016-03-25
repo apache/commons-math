@@ -101,7 +101,7 @@ public class TDistributionTest extends RealDistributionAbstractTest {
                 new double[] {Double.NEGATIVE_INFINITY, Double.POSITIVE_INFINITY});
         verifyInverseCumulativeProbabilities();
     }
-    
+
     @Test
     public void testCumulativeProbablilityExtremes() {
         TDistribution dist;
@@ -111,7 +111,7 @@ public class TDistributionTest extends RealDistributionAbstractTest {
                 dist.cumulativeProbability(Double.POSITIVE_INFINITY), Double.MIN_VALUE);
             Assert.assertEquals(0,
                 dist.cumulativeProbability(Double.NEGATIVE_INFINITY), Double.MIN_VALUE);
-        }   
+        }
     }
 
     @Test

@@ -68,7 +68,7 @@ public class PoissonDistributionTest extends IntegerDistributionAbstractTest {
                 0.156293451851d, 0.00529247667642d, 8.27746364655e-09};
     }
 
-    /** 
+    /**
      * Creates the default logarithmic probability density test expected values.
      * Reference values are from R, version 2.14.1.
      */

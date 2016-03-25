@@ -32,8 +32,8 @@ import org.apache.commons.math4.util.FastMath;
  * Laguerre's Method</a> for root finding of real coefficient polynomials.
  * For reference, see
  * <blockquote>
- *  <b>A First Course in Numerical Analysis</b><br>
- *  ISBN 048641454X, chapter 8.<br>
+ *  <b>A First Course in Numerical Analysis</b>,
+ *  ISBN 048641454X, chapter 8.
  * </blockquote>
  * Laguerre's method is global in the sense that it can start with any initial
  * approximation and be able to solve all roots from that point.
@@ -113,7 +113,7 @@ public class LaguerreSolver extends AbstractPolynomialSolver {
 
         // Reduce interval if min and initial bracket the root.
         if (yInitial * yMin < 0) {
-            return laguerre(min, initial, yMin, yInitial);
+            return laguerre(min, initial);
         }
 
         // Return the second endpoint if it is good enough.
@@ -124,7 +124,7 @@ public class LaguerreSolver extends AbstractPolynomialSolver {
 
         // Reduce interval if initial and max bracket the root.
         if (yInitial * yMax < 0) {
-            return laguerre(initial, max, yInitial, yMax);
+            return laguerre(initial, max);
         }
 
         throw new NoBracketingException(min, max, yMin, yMax);
@@ -136,7 +136,7 @@ public class LaguerreSolver extends AbstractPolynomialSolver {
      * Despite the bracketing condition, the root returned by
      * {@link LaguerreSolver.ComplexSolver#solve(Complex[],Complex)} may
      * not be a real zero inside {@code [min, max]}.
-     * For example, <code>p(x) = x<sup>3</sup> + 1,</code>
+     * For example, <code> p(x) = x<sup>3</sup> + 1, </code>
      * with {@code min = -2}, {@code max = 2}, {@code initial = 0}.
      * When it occurs, this code calls
      * {@link LaguerreSolver.ComplexSolver#solveAll(Complex[],Complex)}
@@ -144,12 +144,9 @@ public class LaguerreSolver extends AbstractPolynomialSolver {
      *
      * @param lo Lower bound of the search interval.
      * @param hi Higher bound of the search interval.
-     * @param fLo Function value at the lower bound of the search interval.
-     * @param fHi Function value at the higher bound of the search interval.
      * @return the point at which the function value is zero.
      */
-    private double laguerre(double lo, double hi,
-                            double fLo, double fHi) {
+    private double laguerre(double lo, double hi) {
         final Complex c[] = ComplexUtils.real2Complex(getCoefficients());
 
         final Complex initial = new Complex(0.5 * (lo + hi), 0);
@@ -173,8 +170,8 @@ public class LaguerreSolver extends AbstractPolynomialSolver {
     /**
      * Find all complex roots for the polynomial with the given
      * coefficients, starting from the given initial value.
-     * <br/>
-     * Note: This method is not part of the API of {@link BaseUnivariateSolver}.
+     * <p>
+     * Note: This method is not part of the API of {@link BaseUnivariateSolver}.</p>
      *
      * @param coefficients Polynomial coefficients.
      * @param initial Start value.
@@ -203,8 +200,8 @@ public class LaguerreSolver extends AbstractPolynomialSolver {
     /**
      * Find a complex root for the polynomial with the given coefficients,
      * starting from the given initial value.
-     * <br/>
-     * Note: This method is not part of the API of {@link BaseUnivariateSolver}.
+     * <p>
+     * Note: This method is not part of the API of {@link BaseUnivariateSolver}.</p>
      *
      * @param coefficients Polynomial coefficients.
      * @param initial Start value.

@@ -56,7 +56,7 @@ class StorelessBivariateCovariance {
      * Create an empty {@link StorelessBivariateCovariance} instance with
      * bias correction.
      */
-    public StorelessBivariateCovariance() {
+    StorelessBivariateCovariance() {
         this(true);
     }
 
@@ -67,7 +67,7 @@ class StorelessBivariateCovariance {
      * for bias, i.e. n-1 in the denominator, otherwise there is no bias correction,
      * i.e. n in the denominator.
      */
-    public StorelessBivariateCovariance(final boolean biasCorrection) {
+    StorelessBivariateCovariance(final boolean biasCorrection) {
         meanX = meanY = 0.0;
         n = 0;
         covarianceNumerator = 0.0;

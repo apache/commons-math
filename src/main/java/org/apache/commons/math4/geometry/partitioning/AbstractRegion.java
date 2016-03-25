@@ -110,6 +110,7 @@ public abstract class AbstractRegion<S extends Space, T extends Space> implement
             // (we don't want equal size elements to be removed, so
             // we use a trick to fool the TreeSet)
             final TreeSet<SubHyperplane<S>> ordered = new TreeSet<SubHyperplane<S>>(new Comparator<SubHyperplane<S>>() {
+                /** {@inheritDoc} */
                 @Override
                 public int compare(final SubHyperplane<S> o1, final SubHyperplane<S> o2) {
                     final double size1 = o1.getSize();

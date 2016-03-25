@@ -125,6 +125,7 @@ public class TricubicInterpolator
                                                  dFdX, dFdY, dFdZ,
                                                  d2FdXdY, d2FdXdZ, d2FdYdZ,
                                                  d3FdXdYdZ) {
+            /** {@inheritDoc} */
             @Override
             public boolean isValidPoint(double x, double y, double z) {
                 if (x < xval[1] ||

@@ -22,6 +22,7 @@ import org.apache.commons.math4.complex.Quaternion;
 import org.apache.commons.math4.exception.DimensionMismatchException;
 import org.apache.commons.math4.exception.ZeroException;
 import org.apache.commons.math4.geometry.euclidean.threed.Rotation;
+import org.apache.commons.math4.geometry.euclidean.threed.RotationConvention;
 import org.apache.commons.math4.geometry.euclidean.threed.Vector3D;
 import org.apache.commons.math4.util.FastMath;
 import org.junit.Test;
@@ -85,7 +86,7 @@ public class QuaternionTest {
     public void testWrongDimension() {
         new Quaternion(new double[] { 1, 2 });
     }
-    
+
     @Test
     public final void testConjugate() {
         final double q0 = 2;
@@ -413,9 +414,15 @@ public class QuaternionTest {
             final Rotation rotP = new Rotation(qP.getQ0(), qP.getQ1(), qP.getQ2(), qP.getQ3(), true);
 
             Assert.assertEquals(rot.getAngle(), rotP.getAngle(), COMPARISON_EPS);
-            Assert.assertEquals(rot.getAxis().getX(), rot.getAxis().getX(), COMPARISON_EPS);
-            Assert.assertEquals(rot.getAxis().getY(), rot.getAxis().getY(), COMPARISON_EPS);
-            Assert.assertEquals(rot.getAxis().getZ(), rot.getAxis().getZ(), COMPARISON_EPS);
+            Assert.assertEquals(rot.getAxis(RotationConvention.VECTOR_OPERATOR).getX(),
+                                rot.getAxis(RotationConvention.VECTOR_OPERATOR).getX(),
+                                COMPARISON_EPS);
+            Assert.assertEquals(rot.getAxis(RotationConvention.VECTOR_OPERATOR).getY(),
+                                rot.getAxis(RotationConvention.VECTOR_OPERATOR).getY(),
+                                COMPARISON_EPS);
+            Assert.assertEquals(rot.getAxis(RotationConvention.VECTOR_OPERATOR).getZ(),
+                                rot.getAxis(RotationConvention.VECTOR_OPERATOR).getZ(),
+                                COMPARISON_EPS);
         }
     }
 

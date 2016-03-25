@@ -19,14 +19,15 @@ package org.apache.commons.math4.random;
 import java.util.Arrays;
 
 import org.apache.commons.math4.TestUtils;
+import org.apache.commons.math4.distribution.RealDistribution;
+import org.apache.commons.math4.distribution.UniformRealDistribution;
 import org.apache.commons.math4.exception.MathIllegalArgumentException;
-import org.apache.commons.math4.random.RandomDataGenerator;
-import org.apache.commons.math4.random.RandomGenerator;
 import org.apache.commons.math4.stat.Frequency;
-import org.apache.commons.math4.stat.descriptive.SummaryStatistics;
+import org.apache.commons.math4.stat.inference.KolmogorovSmirnovTest;
 import org.apache.commons.math4.util.FastMath;
 import org.junit.Assert;
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Test;
 
 /**
@@ -67,7 +68,7 @@ public abstract class RandomGeneratorAbstractTest extends RandomDataGeneratorTes
     public void setUp() {
         generator = makeGenerator();
     }
-    
+
     // Omit secureXxx tests, since they do not use the provided generator
     @Override
     public void testNextSecureLongIAE() {}
@@ -162,21 +163,6 @@ public abstract class RandomGeneratorAbstractTest extends RandomDataGeneratorTes
     }
 
     @Test
-    public void testNextIntIAE2() {
-        try {
-            generator.nextInt(-1);
-            Assert.fail("MathIllegalArgumentException expected");
-        } catch (MathIllegalArgumentException ex) {
-            // ignored
-        }
-        try {
-            generator.nextInt(0);
-        } catch (MathIllegalArgumentException ex) {
-            // ignored
-        }
-    }
-
-    @Test
     public void testNextLongDirect() {
         long q1 = Long.MAX_VALUE/4;
         long q2 = 2 *  q1;
@@ -261,34 +247,25 @@ public abstract class RandomGeneratorAbstractTest extends RandomDataGeneratorTes
     }
 
     @Test
-    public void testDoubleDirect() {
-        SummaryStatistics sample = new SummaryStatistics();
-        final int N = 10000;
-        for (int i = 0; i < N; ++i) {
-            sample.addValue(generator.nextDouble());
+    public void testNextDouble() {
+        final double[] sample = new double[1000];
+        for (int i = 0; i < sample.length; i++) {
+            sample[i] = generator.nextDouble();
         }
-        Assert.assertEquals("Note: This test will fail randomly about 1 in 100 times.",
-                0.5, sample.getMean(), FastMath.sqrt(N/12.0) * 2.576);
-        Assert.assertEquals(1.0 / (2.0 * FastMath.sqrt(3.0)),
-                     sample.getStandardDeviation(), 0.01);
+        final RealDistribution uniformDistribution = new UniformRealDistribution(0,1);
+        final KolmogorovSmirnovTest ks = new KolmogorovSmirnovTest();
+        Assert.assertFalse(ks.kolmogorovSmirnovTest(uniformDistribution, sample, .01));
     }
 
-    @Test
-    public void testFloatDirect() {
-        SummaryStatistics sample = new SummaryStatistics();
-        final int N = 1000;
-        for (int i = 0; i < N; ++i) {
-            sample.addValue(generator.nextFloat());
-        }
-        Assert.assertEquals("Note: This test will fail randomly about 1 in 100 times.",
-                0.5, sample.getMean(), FastMath.sqrt(N/12.0) * 2.576);
-        Assert.assertEquals(1.0 / (2.0 * FastMath.sqrt(3.0)),
-                     sample.getStandardDeviation(), 0.01);
+
+    @Test(expected=MathIllegalArgumentException.class)
+    public void testNextIntPrecondition1() {
+        generator.nextInt(-1);
     }
 
     @Test(expected=MathIllegalArgumentException.class)
-    public void testNextIntNeg() {
-        generator.nextInt(-1);
+    public void testNextIntPrecondition2() {
+        generator.nextInt(0);
     }
 
     @Test
@@ -324,7 +301,7 @@ public abstract class RandomGeneratorAbstractTest extends RandomDataGeneratorTes
     }
 
     @Test
-    public void testNexBoolean2() {
+    public void testNextBoolean2() {
         int walk = 0;
         final int N = 10000;
         for (int k = 0; k < N; ++k) {
@@ -340,7 +317,7 @@ public abstract class RandomGeneratorAbstractTest extends RandomDataGeneratorTes
     }
 
     @Test
-    public void testNexBytes() {
+    public void testNextBytes() {
         long[] count = new long[256];
         byte[] bytes = new byte[10];
         double[] expected = new double[256];
@@ -359,6 +336,31 @@ public abstract class RandomGeneratorAbstractTest extends RandomDataGeneratorTes
 
         TestUtils.assertChiSquareAccept(expected, count, 0.001);
 
+    }
+
+    // MATH-1300
+    @Test
+    public void testNextBytesChunks() {
+        final int[] chunkSizes = { 4, 8, 12, 16 };
+        final int[] chunks = { 1, 2, 3, 4, 5 };
+        for (int chunkSize : chunkSizes) {
+            for (int numChunks : chunks) {
+                checkNextBytesChunks(chunkSize, numChunks);
+            }
+        }
+    }
+
+    // MATH-1300: Test is ignored because it will fail due to the array
+    // size not being a multiple of 4.
+    @Ignore@Test
+    public void testNextBytesChunksFail() {
+        final int[] chunkSizes = { 5 };
+        final int[] chunks = { 4 };
+        for (int chunkSize : chunkSizes) {
+            for (int numChunks : chunks) {
+                checkNextBytesChunks(chunkSize, numChunks);
+            }
+        }
     }
 
     @Test
@@ -429,4 +431,32 @@ public abstract class RandomGeneratorAbstractTest extends RandomDataGeneratorTes
         Assert.assertTrue(Arrays.equals(values[0], values[1]));
     }
 
+    // MATH-1300
+    private void checkNextBytesChunks(int chunkSize,
+                                      int numChunks) {
+        final RandomGenerator rg = makeGenerator();
+        final long seed = 1234567L;
+
+        final byte[] b1 = new byte[chunkSize * numChunks];
+        final byte[] b2 = new byte[chunkSize];
+
+        // Generate the chunks in a single call.
+        rg.setSeed(seed);
+        rg.nextBytes(b1);
+
+        // Reset.
+        rg.setSeed(seed);
+        // Generate the chunks in consecutive calls.
+        for (int i = 0; i < numChunks; i++) {
+            rg.nextBytes(b2);
+        }
+
+        // Store last 128 bytes chunk of b1 into b3.
+        final byte[] b3 = new byte[chunkSize];
+        System.arraycopy(b1, b1.length - b3.length, b3, 0, b3.length);
+
+        // Sequence of calls must be the same.
+        Assert.assertArrayEquals("chunkSize=" + chunkSize + " numChunks=" + numChunks,
+                                 b2, b3);
+    }
 }

@@ -151,7 +151,7 @@ public class CorrelatedRandomVectorGeneratorTest {
                 {0.009881156, 0.008196856, 0.019023866, 0.009210099},
                 {0.010499559, 0.010732709, 0.009210099, 0.019107243}
         };
-        
+
         final double[][] covMatrix2 = new double[][]{
                 {0.0, 0.0, 0.0, 0.0, 0.0},
                 {0.0, 0.013445532, 0.010394690, 0.009881156, 0.010499559},
@@ -159,7 +159,7 @@ public class CorrelatedRandomVectorGeneratorTest {
                 {0.0, 0.009881156, 0.008196856, 0.019023866, 0.009210099},
                 {0.0, 0.010499559, 0.010732709, 0.009210099, 0.019107243}
         };
-        
+
         final double[][] covMatrix3 = new double[][]{
                 {0.013445532, 0.010394690, 0.0, 0.009881156, 0.010499559},
                 {0.010394690, 0.023006616, 0.0, 0.008196856, 0.010732709},
@@ -167,7 +167,7 @@ public class CorrelatedRandomVectorGeneratorTest {
                 {0.009881156, 0.008196856, 0.0, 0.019023866, 0.009210099},
                 {0.010499559, 0.010732709, 0.0, 0.009210099, 0.019107243}
         };
-        
+
         testSampler(covMatrix1, 10000, 0.001);
         testSampler(covMatrix2, 10000, 0.001);
         testSampler(covMatrix3, 10000, 0.001);
@@ -181,12 +181,12 @@ public class CorrelatedRandomVectorGeneratorTest {
                 new double[cov.length],
                 matrix,
                 small,
-                new GaussianRandomGenerator(new JDKRandomGenerator()));
+                new GaussianRandomGenerator(new Well1024a(0x366a26b94e520f41l)));
     }
 
     private void testSampler(final double[][] covMatrix, int samples, double epsilon) {
         CorrelatedRandomVectorGenerator sampler = createSampler(covMatrix);
-        
+
         StorelessCovariance cov = new StorelessCovariance(covMatrix.length);
         for (int i = 0; i < samples; ++i) {
             cov.increment(sampler.nextVector());

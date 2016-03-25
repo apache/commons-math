@@ -211,6 +211,7 @@ public class MultiStartUnivariateOptimizer
      */
     private void sortPairs(final GoalType goal) {
         Arrays.sort(optima, new Comparator<UnivariatePointValuePair>() {
+                /** {@inheritDoc} */
                 @Override
                 public int compare(final UnivariatePointValuePair o1,
                                    final UnivariatePointValuePair o2) {

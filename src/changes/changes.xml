@@ -54,160 +54,40 @@ If the output is not quite correct, check for invisible trailing spaces!
     </release>
 
     <release version="4.0" date="XXXX-XX-XX" description="">
-      <action dev="erans" type="fix" issue="MATH-1279"> <!-- backported to 3.6 -->
-        Check precondition (class "o.a.c.m.random.EmpiricalDistribution").
+      <action dev="erans" type="fix" issue="MATH-1301">
+        "JDKRandomGenerator": Method "nextInt(int)" now throws a "NotStrictlyPositiveException".
+        The class now delegates to (rather inherits from) "java.util.Random".
       </action>
-      <action dev="erans" type="add" issue="MATH-1278"> <!-- backported to 3.6 -->
-        Deep copy of "Network" (package "o.a.c.m.ml.neuralnet") to allow evaluation of
-        of intermediate states during training.
+      <action dev="erans" type="update" issue="MATH-1305" due-to="Rostislav Krasny">
+        "AbstractRandomGenerator" and "BitsStreamGenerator": Slight performance
+        improvement of the "nextBytes" method (particularly when the number of
+        requested bytes is a multiple of 4).
       </action>
-      <action dev="oertl" type="update" issue="MATH-1276"> <!-- backported to 3.6 -->
-        Improved performance of sampling and inverse cumulative probability calculation
-        for geometric distributions.
+      <action dev="erans" type="fix" issue="MATH-1300" due-to="Rostislav Krasny">
+        "AbstractRandomGenerator" and "BitsStreamGenerator": Remove a redundant call
+        to the random data provider.
       </action>
-      <action dev="oertl" type="fix" issue="MATH-1277" due-to="Marc Rosen"> <!-- backported to 3.6 -->
-        Fixed incorrect Kendall's tau coefficient calculation due to internal integer overflow.
-      </action>
-      <action dev="oertl" type="update" issue="MATH-1274"> <!-- backported to 3.6 -->
-        Representation of Kolmogorov-Smirnov statistic as integral value.
-      </action>
-      <action dev="erans" type="add" issue="MATH-1270"> <!-- backported to 3.6 -->
-        Various SOFM visualizations (in package "o.a.c.m.ml.neuralnet.twod.util"):
-        Unified distance matrix, hit histogram, smoothed data histograms,
-        topographic error, quantization error.
-      </action>
-      <action dev="erans" type="add" issue="MATH-1268"> <!-- backported to 3.6 -->
-        New interfaces to be implemented by algorithms that visualizes properties
-        of a "NeuronSquareMesh2D" (package "o.a.c.m.ml.neuralnet.twod.util").
-      </action>
-      <action dev="luc" type="add" issue="MATH-1273" due-to="Qualtagh"> <!-- backported to 3.6 -->
-        Added negative zero support in FastMath.pow.
+      <action dev="erans" type="add" issue="MATH-1295" due-to="Aleksei Dievskii">
+        "FactorialLog": Cache-based computation of the "log factorial" function (implemented
+        as an inner class of "CombinatoricsUtils" in package "o.a.c.m.util").
       </action>
       <action dev="luc" type="add" issue="MATH-1271" due-to="Qualtagh">
         Added divideUnsigned and remainderUnsigned to ArithmeticUtils.
       </action>
-      <action dev="luc" type="fix" issue="MATH-1272" due-to="Qualtagh"> <!-- backported to 3.6 -->
-        Fixed infinite loop in FastMath.pow(double, long) with Long.MIN_VALUE.
-      </action>
-      <action dev="luc" type="fix" issue="MATH-1266"> <!-- backported to 3.6 -->
-        Fixed split/side inconsistencies in BSP trees.
-      </action>
-      <action dev="erans" type="add" issue="MATH-1265"> <!-- backported to 3.6 -->
-        "NeuronSquareMesh2D" (package "o.a.c.m.ml.neuralnet.twod") implements "Iterable".
-      </action>
-      <action dev="erans" type="add" issue="MATH-1264"> <!-- backported to 3.6 -->
-        "MapUtils" (package "o.a.c.m.ml.neuralnet"): Method to sort units according to distance
-        from a given vector.
-      </action>
-      <action dev="erans" type="add" issue="MATH-1263"> <!-- backported to 3.6 -->
-        Accessor (class "o.a.c.m.ml.neuralnet.twod.NeuronSquareMesh2D").
-      </action>
-      <action dev="erans" type="add" issue="MATH-1259"> <!-- backported to 3.6 -->
-        New "IntegerSequence" class (in package "o.a.c.m.util") with "Incrementor" inner class.
-      </action>
-      <action dev="oertl" type="update" issue="MATH-1220"> <!-- backported to 3.6 -->
-        Faster generation of Zipf distributed random numbers by using rejection-inversion sampling.
-      </action>
-      <action dev="oertl" type="update" issue="MATH-990"> <!-- backported to 3.6 -->
-        Improved performance of sort-in-place methods by avoiding boxing.
-      </action>
-      <action dev="erans" type="fix" issue="MATH-1261" due-to="Osamu Ikeuchi"> <!-- backported to 3.6 -->
-        Avoid overflow in "Fraction" (multiplication or division by an int).
-      </action>
-      <action dev="oertl" type="fix" issue="MATH-1258" due-to="Gunel Jahangirova"> <!-- backported to 3.6 -->
-        Added check for equal array lengths to distance measure functions.
-      </action>
-      <action dev="erans" type="fix" issue="MATH-1257" due-to="Bill Murphy"> <!-- backported to 3.6 -->
-        Better accuracy in computation of cumulative probability of "NormalDistribution"
-        (package "o.a.c.m.distribution").
-      </action>
-      <action dev="erans" type="fix" issue="MATH-1256"> <!-- backported to 3.6 -->
-        Boundary check to construct an "Interval" (package "o.a.c.m.geometry.euclidean.oned").
-      </action>
-      <action dev="erans" type="fix" issue="MATH-1255"> <!-- backported to 3.6 -->
-        Wrong neighbourhood size in class "KohonenUpdateAction" (package "o.a.c.m.ml.neuralnet.sofm").
-      </action>
-      <action dev="psteitz" type="fix" issue="MATH-1252" due-to="John Bay"> <!-- backported to 3.6 -->
-        ResizableDoubleArray constructor does not work with double array of size 1.
-      </action>
-      <action dev="erans" type="fix" issue="MATH-1251"> <!-- backported to 3.6 -->
-        Fixed initial value of "number of calls" counter in class "KohonenUpdateAction"
-        (package "o.a.c.m.ml.neuralnet.sofm").
-      </action>
-      <action dev="erans" type="add" issue="MATH-1250"> <!-- backported to 3.6 -->
-        "Neuron" class (package "o.a.c.m.ml.neuralnet"): added methods that can be used
-        to assess concurrency performance.
-      </action>
-      <action dev="erans" type="fix" issue="MATH-1248" due-to="Chris Popp"> <!-- backported to 3.6 -->
-        Removed unnecessary allocations in "BigFraction" (package "o.a.c.m.fraction").
-      </action>
-      <action dev="psteitz" type="fix" issue="MATH-1245"> <!-- backported to 3.6 -->
-        Fixed error in computing discrete distribution of D statistics for small-sample
-        2-sample Kolmogorov-Smirnov tests. Error was causing incorrect p-values returned 
-        by exactP and monteCarloP methods (used by default for small, mid-size samples).
-      </action>
-      <action dev="erans" type="update" issue="MATH-1243"> <!-- backported to 3.6 -->
-        Refactored implementation of the "miscrosphere projection"
-        interpolation algorithm.
-        New classes: "MicrosphereProjectionInterpolator",
-        "InterpolatingMicrosphere" and "InterpolatingMicrosphere2D"
-        replace "MicrosphereInterpolator" and "MicrosphereInterpolatingFunction".
-        (package "o.a.c.m.analysis.interpolation").
-      </action>
-      <action dev="erans" type="add" issue="MATH-1244"> <!-- backported to 3.6 -->
-        Method "cosAngle" in "o.a.c.m.util.MathArrays".
-      </action>
-      <action dev="tn" type="fix" issue="MATH-1240"> <!-- backported to 3.6 -->
-        "KolmogorovSmirnovTest#ksSum(...)" returned wrong result in case the provided
-        t-parameters was zero. This affected the calculation of "approximateP(...)" for
-        identical samples.
-      </action>    
-      <action dev="tn" type="fix" issue="MATH-1242" due-to="Otmar Ertl"> <!-- backported to 3.6 -->
-        Improved performance to calculate the two-sample Kolmogorov-Smirnov test
-        via monte carlo simulation ("KolmogorovSmirnovTets#monteCarloP(...)").
-      </action>
-      <action dev="tn" type="fix" issue="MATH-1241" due-to="Aleksei Dievskii"> <!-- backported to 3.6 -->
-        A "StackOverflowException" was thrown when passing Double.NaN or
-        infinity to "Gamma#digamma(double)" or "Gamma#trigamma(double)".
-        Now the input value is propagated to the output if it is not a real number.
-      </action>
-      <action dev="tn" type="fix" issue="MATH-1232" due-to="Otmar Ertl"> <!-- backported to 3.6 -->
-        Improved performance of calculating the two-sample Kolmogorov-Smirnov
-        test statistic.
-      </action>
       <action dev="erans" type="fix" issue="MATH-1231">
         Lifted unnecessary restriction on constructor's argument of
         "MicrosphereInterpolator" (package "o.a.c.m.analysis.interpolation").
-      </action>
-      <action dev="luc" type="fix" issue="MATH-1232"> <!-- backported to 3.6 -->
-        Fixed error message for unknown parameter name in ODE.
       </action>
       <action dev="tn" type="fix" issue="MATH-1230">
         The "SimplexSolver" will now throw a "DimensionMismatchException"
         when calling "optimize(...)" with linear constraints whose dimension
         does not match the dimension of the objective function.
       </action>
-      <action dev="luc" type="fix" issue="MATH-1226"> <!-- backported to 3.6 -->
-        Fixed wrong event detection in case of close events pairs.
-      </action>
-      <action dev="luc" type="add" > <!-- backported to 3.6 -->
-        Reimplemented pow(double, double) in FastMath, for better accuracy in
-        integral power cases and trying to fix erroneous JIT optimization again.
-      </action>
-      <action dev="luc" type="add" > <!-- backported to 3.6 -->
-        Added a pow(double, long) method in FastMath.
-      </action>
       <action dev="luc" type="add" >
         Added a fast implementation of IEEEremainder in FastMath.
       </action>
       <action dev="luc" type="fix" issue="MATH-1222" due-to="Benedikt Ritter">
         Use Double.isNaN rather than x != x in FastMath.
-      </action>
-      <action dev="luc" type="fix" issue="MATH-1118" > <!-- backported to 3.6 -->
-        Fixed equals/hashcode contract failure for Dfp.
-      </action>
-      <action dev="luc" type="fix" issue="MATH-1223"> <!-- backported to 3.6 -->
-        Fixed wrong splitting of huge number in extended accuracy algorithms.
       </action>
       <action dev="luc" type="fix" issue="MATH-1143">
         Added helper methods to FunctionUtils for univariate and multivariate differentiable functions conversion.
@@ -218,17 +98,10 @@ If the output is not quite correct, check for invisible trailing spaces!
       <action dev="tn" type="fix" issue="MATH-1221">
         Improve performance of "ZipfDistribution" by caching the nth generalized harmonic.
       </action>
-      <action dev="tn" type="fix" issue="MATH-1153" due-to="Sergei Lebedev"> <!-- backported to 3.6 -->
-        Improve performance of "BetaDistribution#sample()" by using Cheng's algorithm.
-      </action>    
       <action dev="tn" type="update" issue="MATH-853">
         "MathRuntimeException" is now the base class for all commons-math
         exceptions (except for "NullArgumentException" which extends
         "NullPointerException").
-      </action>    
-      <action dev="tn" type="fix" issue="MATH-1197"> <!-- backported to 3.6 -->
-        Computation of 2-sample Kolmogorov-Smirnov statistic in case of ties
-        was not correct.
       </action>    
       <action dev="tn" type="remove" issue="MATH-1205">
         Removed methods "test(...)" from "AbstractUnivariateStatistic".
@@ -309,6 +182,247 @@ If the output is not quite correct, check for invisible trailing spaces!
       <action dev="tn" type="update" issue="MATH-760" due-to="sebb">
         Field "windowSize" in "DescriptiveStatistics" has been made private.
       </action>
+    </release>
+
+    <release version="3.6" date="2016-01-05" description="
+This is a minor release: It combines bug fixes and new features.
+ Changes to existing features were made in a backwards-compatible
+ way such as to allow drop-in replacement of the v3.x JAR file.
+
+Most notable among the new features are:
+ field-based version of Ordinary Differential Equations framework,
+ numerous improvements in distributions, statistics and neuralnet packages,
+ refactored implementation of microsphere interpolation algorithm,
+ explicit specification of rotation convention to use (both vector
+ operator and frame transform conventions are now available).
+
+The minimum version of the Java platform required to compile and use
+ Commons Math is Java 5.
+
+Users are encouraged to upgrade to this version as this release not
+ only includes bug fixes but also deprecates numerous classes and
+ methods that will be deleted from the next major release (4.0).
+
+  Caveat:
+  1. The implementation of the BOBYQA optimization algorithm is in alpha
+  state (cf. MATH-621): Many code paths are untested, and we are looking
+  for volunteers to improve the code readability, robustness and performance
+  and to extend the unit tests suite.
+  2. A few methods in the FastMath class are in fact slower that their
+  counterpart in either Math or StrictMath (cf. MATH-740 and MATH-901).
+">
+      <action dev="psteitz" type="fix" issue="MATH-1310">
+        Improved performance and accuracy of 2-sample KolmogorovSmirnov tests.
+      </action>
+      <action dev="luc" type="fix" issue="MATH-1297">
+        Detect start failures with multi-step ODE integrators.
+      </action>
+      <action dev="luc" type="add" issue="MATH-1302,MATH-1303">
+        Added a RotationConvention enumerate to allow specifying the semantics
+        or axis/angle for rotations. This enumerate has two values:
+        VECTOR_OPERATOR and FRAME_TRANSFORM.
+      </action>
+      <action dev="luc" type="fix" due-to="Julien Queyrel">
+        Fixed stability issues with Adams-Bashforth and Adams-Moulton ODE integrators.
+        The integrators did not estimate the local error properly and were sometimes
+        stuck attempting to reduce indefinitely the step size as they thought the
+        error was too high.
+      </action>
+      <action dev="luc" type="add" issue="MATH-1288">
+        Added a field-based version of Ordinary Differential Equations framework.
+        This allows integrating ode that refer to RealField elements instead of
+        primitive double, hence opening the way to use DerivativeStructure to
+        compute partial differential without using variational equations, or to solve
+        ode with extended precision using Dfp.
+      </action>
+      <action dev="erans" type="fix" issue="MATH-1295" due-to="Luke Lindsay">
+        Increased default value for number of allowed evaluations in
+        "o.a.c.m.optim.univariate.BracketFinder".
+      </action>
+      <action dev="psteitz" type="update" issue="MATH-1246">
+        Modified 2-sample KolmogorovSmirnovTest to handle ties in sample data. By default,
+        ties are broken by adding random jitter to input data. Also added bootstrap method
+        analogous to ks.boot in R Matching package.
+      </action>
+      <action dev="tn" type="fix" issue="MATH-1294" due-to="Kamil Włodarczyk">
+        Fixed potential race condition in PolynomialUtils#buildPolynomial in
+        case polynomials are generated from multiple threads. Furthermore, the
+        synchronization is now performed on the coefficient list instead of the class.
+      </action>    
+      <action dev="psteitz" type="update" issue="MATH-1246">
+        Added bootstrap method to KolmogorovSmirnov test.
+      </action>
+      <action dev="psteitz" type="update" issue="MATH-1287">
+        Added constructors taking sample data as arguments to enumerated real and integer distributions.
+      </action>
+      <action dev="oertl" type="fix" issue="MATH-1269">
+        Fixed FastMath.exp that potentially returned NaN for non-NaN argument.
+      </action>
+      <action dev="luc" type="add">
+        Added a nth order Brent solver for general real fields, replacing the former
+        solver that was restricted to Dfp fields only.
+      </action>
+      <action dev="erans" type="add" issue="MATH-1286">
+        New "Range" inner class of "o.a.c.m.util.IntegerSequence".
+      </action>
+      <action dev="oertl" type="fix" issue="MATH-1285" due-to="Pim van der Hoorn ">
+        Updated reference in ZipfDistribution's javadoc.
+      </action>
+      <action dev="tn" type="fix" issue="MATH-1283" due-to="Jean Noel Delavalade">
+        Fixed "Gamma#gamma(double)" for negative values smaller than -20.
+      </action>    
+      <action dev="tn" type="fix" issue="MATH-1237" due-to="Ken Williams">
+        Fixed javadoc of methods {floorDiv,floorMod} in class "FastMath".
+      </action>
+      <action dev="tn" type="add" issue="MATH-837">
+        "AggregateSummaryStatistics" can now aggregate any kind of
+        "StatisticalSummary".
+      </action>
+      <action dev="erans" type="fix" issue="MATH-1279">
+        Check precondition (class "o.a.c.m.random.EmpiricalDistribution").
+      </action>
+      <action dev="erans" type="add" issue="MATH-1278">
+        Deep copy of "Network" (package "o.a.c.m.ml.neuralnet") to allow evaluation of
+        of intermediate states during training.
+      </action>
+      <action dev="oertl" type="update" issue="MATH-1276">
+        Improved performance of sampling and inverse cumulative probability calculation
+        for geometric distributions.
+      </action>
+      <action dev="oertl" type="fix" issue="MATH-1277" due-to="Marc Rosen">
+        Fixed incorrect Kendall's tau coefficient calculation due to internal integer overflow.
+      </action>
+      <action dev="oertl" type="update" issue="MATH-1274">
+        Representation of Kolmogorov-Smirnov statistic as integral value.
+      </action>
+      <action dev="luc" type="add" issue="MATH-1273" due-to="Qualtagh">
+        Added negative zero support in FastMath.pow.
+      </action>
+      <action dev="erans" type="add" issue="MATH-1270">
+        Various SOFM visualizations (in package "o.a.c.m.ml.neuralnet.twod.util"):
+        Unified distance matrix, hit histogram, smoothed data histograms,
+        topographic error, quantization error.
+      </action>
+      <action dev="erans" type="add" issue="MATH-1268">
+        New interfaces to be implemented by algorithms that visualizes properties
+        of a "NeuronSquareMesh2D" (package "o.a.c.m.ml.neuralnet.twod.util").
+      </action>
+      <action dev="luc" type="add" >
+        Reimplemented pow(double, double) in FastMath, for better accuracy in
+        integral power cases and trying to fix erroneous JIT optimization again.
+      </action>
+      <action dev="luc" type="add" >
+        Added a pow(double, long) method in FastMath.
+      </action>
+      <action dev="luc" type="fix" issue="MATH-1266">
+        Fixed split/side inconsistencies in BSP trees.
+      </action>
+      <action dev="erans" type="add" issue="MATH-1265">
+        "NeuronSquareMesh2D" (package "o.a.c.m.ml.neuralnet.twod") implements "Iterable".
+      </action>
+      <action dev="erans" type="add" issue="MATH-1264">
+        "MapUtils" (package "o.a.c.m.ml.neuralnet"): Method to sort units according to distance
+        from a given vector.
+      </action>
+      <action dev="erans" type="add" issue="MATH-1263">
+        Accessor (class "o.a.c.m.ml.neuralnet.twod.NeuronSquareMesh2D").
+      </action>
+      <action dev="erans" type="add" issue="MATH-1259">
+        New "IntegerSequence" class (in package "o.a.c.m.util") with "Incrementor" inner class.
+      </action>
+      <action dev="oertl" type="update" issue="MATH-1220">
+        Faster generation of Zipf distributed random numbers by using rejection-inversion sampling.
+      </action>
+      <action dev="oertl" type="update" issue="MATH-990">
+        Improved performance of sort-in-place methods by avoiding boxing.
+      </action>
+      <action dev="erans" type="fix" issue="MATH-1261" due-to="Osamu Ikeuchi">
+        Avoid overflow in "Fraction" (multiplication or division by an int).
+      </action>
+      <action dev="oertl" type="fix" issue="MATH-1258" due-to="Gunel Jahangirova">
+        Added check for equal array lengths to distance measure functions.
+      </action>
+      <action dev="erans" type="fix" issue="MATH-1257" due-to="Bill Murphy">
+        Better accuracy in computation of cumulative probability of "NormalDistribution"
+        (package "o.a.c.m.distribution").
+      </action>
+      <action dev="erans" type="fix" issue="MATH-1256">
+        Boundary check to construct an "Interval" (package "o.a.c.m.geometry.euclidean.oned").
+      </action>
+      <action dev="erans" type="fix" issue="MATH-1255">
+        Wrong neighbourhood size in class "KohonenUpdateAction" (package "o.a.c.m.ml.neuralnet.sofm").
+      </action>
+      <action dev="psteitz" type="fix" issue="MATH-1252" due-to="John Bay">
+        ResizableDoubleArray constructor does not work with double array of size 1.
+      </action>
+      <action dev="erans" type="fix" issue="MATH-1251">
+        Fixed initial value of "number of calls" counter in class "KohonenUpdateAction"
+        (package "o.a.c.m.ml.neuralnet.sofm").
+      </action>
+      <action dev="erans" type="add" issue="MATH-1250">
+        "Neuron" class (package "o.a.c.m.ml.neuralnet"): added methods that can be used
+        to assess concurrency performance.
+      </action>
+      <action dev="erans" type="fix" issue="MATH-1248" due-to="Chris Popp">
+        Removed unnecessary allocations in "BigFraction" (package "o.a.c.m.fraction").
+      </action>
+      <action dev="psteitz" type="fix" issue="MATH-1245">
+        Fixed error in computing discrete distribution of D statistics for small-sample
+        2-sample Kolmogorov-Smirnov tests. Error was causing incorrect p-values returned 
+        by exactP and monteCarloP methods (used by default for small, mid-size samples).
+      </action>
+      <action dev="erans" type="update" issue="MATH-1243">
+        Refactored implementation of the "miscrosphere projection"
+        interpolation algorithm.
+        New classes: "MicrosphereProjectionInterpolator",
+        "InterpolatingMicrosphere" and "InterpolatingMicrosphere2D"
+        replace "MicrosphereInterpolator" and "MicrosphereInterpolatingFunction".
+        (package "o.a.c.m.analysis.interpolation").
+      </action>
+      <action dev="erans" type="add" issue="MATH-1244">
+        Method "cosAngle" in "o.a.c.m.util.MathArrays".
+      </action>
+      <action dev="tn" type="fix" issue="MATH-1240">
+        "KolmogorovSmirnovTest#ksSum(...)" returned wrong result in case the provided
+        t-parameters was zero. This affected the calculation of "approximateP(...)" for
+        identical samples.
+      </action>
+      <action dev="tn" type="fix" issue="MATH-1242" due-to="Otmar Ertl">
+        Improved performance to calculate the two-sample Kolmogorov-Smirnov test
+        via monte carlo simulation ("KolmogorovSmirnovTets#monteCarloP(...)").
+      </action>    
+      <action dev="tn" type="fix" issue="MATH-1241" due-to="Aleksei Dievskii">
+        A "StackOverflowException" was thrown when passing Double.NaN or infinity
+        to "Gamma#digamma(double)" or "Gamma#trigamma(double)". Now the input value
+        is propagated to the output if it is not a real number.
+      </action>    
+      <action dev="tn" type="fix" issue="MATH-1232" due-to="Otmar Ertl">
+        Improved performance of calculating the two-sample Kolmogorov-Smirnov
+        test statistic.
+      </action>    
+      <action dev="luc" type="fix" issue="MATH-1232">
+        Fixed error message for unknown parameter name in ODE.
+      </action>
+      <action dev="luc" type="fix" issue="MATH-1226">
+        Fixed wrong event detection in case of close events pairs.
+      </action>
+      <action dev="tn" type="fix">
+        Fix potential branching errors in "FastMath#pow(double, double)" when
+        passing special values, i.e. infinity, due to erroneous JIT optimization.
+      </action>    
+      <action dev="luc" type="fix" issue="MATH-1118" >
+        Fixed equals/hashcode contract failure for Dfp.
+      </action>
+      <action dev="luc" type="fix" issue="MATH-1223" >
+       Fixed wrong splitting of huge number in extended accuracy algorithms.
+      </action>
+      <action dev="tn" type="fix" issue="MATH-1153" due-to="Sergei Lebedev">
+        Improve performance of "BetaDistribution#sample()" by using Cheng's algorithm.
+      </action>
+      <action dev="tn" type="fix" issue="MATH-1197">
+        Computation of 2-sample Kolmogorov-Smirnov statistic in case of ties
+        was not correct.
+      </action>    
     </release>
 
     <release version="3.5" date="2015-04-17" description="

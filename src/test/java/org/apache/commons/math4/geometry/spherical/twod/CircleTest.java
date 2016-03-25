@@ -17,6 +17,7 @@
 package org.apache.commons.math4.geometry.spherical.twod;
 
 import org.apache.commons.math4.geometry.euclidean.threed.Rotation;
+import org.apache.commons.math4.geometry.euclidean.threed.RotationConvention;
 import org.apache.commons.math4.geometry.euclidean.threed.Vector3D;
 import org.apache.commons.math4.geometry.partitioning.Transform;
 import org.apache.commons.math4.geometry.spherical.oned.Arc;
@@ -96,7 +97,7 @@ public class CircleTest {
         Assert.assertEquals(circle.getPhase(p), circle.getPhase(samePhase), 1.0e-10);
         Assert.assertEquals(0.0, circle.getPhase(circle.getXAxis()), 1.0e-10);
         Assert.assertEquals(0.5 * FastMath.PI, circle.getPhase(circle.getYAxis()), 1.0e-10);
-        
+
     }
 
     @Test
@@ -129,7 +130,7 @@ public class CircleTest {
         Assert.assertEquals(0.0,                circle.getOffset(new S2Point(Vector3D.MINUS_J)), 1.0e-10);
         Assert.assertEquals(-0.5 * FastMath.PI, circle.getOffset(new S2Point(Vector3D.PLUS_K)),  1.0e-10);
         Assert.assertEquals( 0.5 * FastMath.PI, circle.getOffset(new S2Point(Vector3D.MINUS_K)), 1.0e-10);
-        
+
     }
 
     @Test
@@ -162,7 +163,8 @@ public class CircleTest {
         for (int i = 0; i < 100; ++i) {
 
             Rotation r = new Rotation(new Vector3D(sphRandom.nextVector()),
-                                      FastMath.PI * random.nextDouble());
+                                      FastMath.PI * random.nextDouble(),
+                                      RotationConvention.VECTOR_OPERATOR);
             Transform<Sphere2D, Sphere1D> t = Circle.getTransform(r);
 
             S2Point  p = new S2Point(new Vector3D(sphRandom.nextVector()));

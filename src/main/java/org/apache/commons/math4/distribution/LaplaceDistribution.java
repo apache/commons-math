@@ -111,6 +111,7 @@ public class LaplaceDistribution extends AbstractRealDistribution {
         }
     }
 
+    /** {@inheritDoc} */
     @Override
     public double inverseCumulativeProbability(double p) throws OutOfRangeException {
         if (p < 0.0 || p > 1.0) {

@@ -22,7 +22,7 @@
 # source("<name-of-this-file>")
 #
 # R functions used
-# dzipf(x, N, s, log = FALSE) <- density 
+# dzipf(x, N, s, log = FALSE) <- density
 # pzipf(q, N, s) <- distribution
 #------------------------------------------------------------------------------
 tol <- 1E-6                       # error tolerance for tests
@@ -46,7 +46,7 @@ verifyDensity <- function(points, expected, N, s, tol, log = FALSE) {
         displayPadded(output, SUCCEEDED, WIDTH)
     } else {
         displayPadded(output, FAILED, WIDTH)
-    }       
+    }
 }
 
 # function to verify distribution computations
@@ -63,7 +63,7 @@ verifyDistribution <- function(points, expected, N, s, tol) {
         displayPadded(output, SUCCEEDED, WIDTH)
     } else {
         displayPadded(output, FAILED, WIDTH)
-    }       
+    }
 }
 
 #--------------------------------------------------------------------------

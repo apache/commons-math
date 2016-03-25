@@ -36,7 +36,7 @@ public class MultiKMeansPlusPlusClustererTest {
         MultiKMeansPlusPlusClusterer<DoublePoint> transformer =
             new MultiKMeansPlusPlusClusterer<DoublePoint>(
                     new KMeansPlusPlusClusterer<DoublePoint>(3, 10), 5);
-        
+
         DoublePoint[] points = new DoublePoint[] {
 
                 // first expected cluster

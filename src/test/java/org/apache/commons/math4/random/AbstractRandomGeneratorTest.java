@@ -28,12 +28,12 @@ public class AbstractRandomGeneratorTest extends RandomGeneratorAbstractTest {
     public AbstractRandomGeneratorTest() {
         super();
     }
-    
+
     @Override
     protected RandomGenerator makeGenerator() {
         RandomGenerator generator = new TestRandomGenerator();
         generator.setSeed(1001);
         return generator;
     }
-    
+
 }

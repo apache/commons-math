@@ -25,8 +25,8 @@ import org.apache.commons.math4.exception.NonMonotonicSequenceException;
 import org.apache.commons.math4.exception.NumberIsTooSmallException;
 
 /**
- * Implements the <a href="
- * http://mathworld.wolfram.com/NewtonsDividedDifferenceInterpolationFormula.html">
+ * Implements the <a href=
+ * "http://mathworld.wolfram.com/NewtonsDividedDifferenceInterpolationFormula.html">
  * Divided Difference Algorithm</a> for interpolation of real univariate
  * functions. For reference, see <b>Introduction to Numerical Analysis</b>,
  * ISBN 038795452X, chapter 2.
@@ -85,9 +85,10 @@ public class DividedDifferenceInterpolator
      * The divided difference array is defined recursively by <pre>
      * f[x0] = f(x0)
      * f[x0,x1,...,xk] = (f[x1,...,xk] - f[x0,...,x[k-1]]) / (xk - x0)
-     * </pre></p>
+     * </pre>
      * <p>
-     * The computational complexity is O(N^2).</p>
+     * The computational complexity is \(O(n^2)\) where \(n\) is the common
+     * length of {@code x} and {@code y}.</p>
      *
      * @param x Interpolating points array.
      * @param y Interpolating values array.

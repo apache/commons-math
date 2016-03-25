@@ -192,6 +192,7 @@ public class LeastSquaresFactory {
                                                    final RealMatrix weights) {
         final RealMatrix weightSquareRoot = squareRoot(weights);
         return new LeastSquaresAdapter(problem) {
+            /** {@inheritDoc} */
             @Override
             public Evaluation evaluate(final RealVector point) {
                 return new DenseWeightedEvaluation(super.evaluate(point), weightSquareRoot);
@@ -226,6 +227,7 @@ public class LeastSquaresFactory {
                                                        final Incrementor counter) {
         return new LeastSquaresAdapter(problem) {
 
+            /** {@inheritDoc} */
             @Override
             public Evaluation evaluate(final RealVector point) {
                 counter.incrementCount();
@@ -245,6 +247,7 @@ public class LeastSquaresFactory {
      */
     public static ConvergenceChecker<Evaluation> evaluationChecker(final ConvergenceChecker<PointVectorValuePair> checker) {
         return new ConvergenceChecker<Evaluation>() {
+            /** {@inheritDoc} */
             @Override
             public boolean converged(final int iteration,
                                      final Evaluation previous,

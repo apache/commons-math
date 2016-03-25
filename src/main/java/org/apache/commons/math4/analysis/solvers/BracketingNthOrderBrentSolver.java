@@ -36,9 +36,8 @@ import org.apache.commons.math4.util.Precision;
  *   to user specified {@link AllowedSolution},</li>
  *   <li>the maximal order for the invert polynomial root search is
  *   user-specified instead of being invert quadratic only</li>
- * </ul>
- * </p>
- * The given interval must bracket the root.
+ * </ul><p>
+ * The given interval must bracket the root.</p>
  *
  */
 public class BracketingNthOrderBrentSolver

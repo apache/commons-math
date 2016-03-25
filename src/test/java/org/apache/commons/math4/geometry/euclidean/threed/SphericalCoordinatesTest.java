@@ -98,7 +98,7 @@ public class SphericalCoordinatesTest {
                                                          cvalue.getPartialDerivative(0, 0, 1));
 
                     Vector3D testCGradient = new Vector3D(sc.toCartesianGradient(sGradient));
-                    
+
                     Assert.assertEquals(0, testCGradient.distance(refCGradient) / refCGradient.getNorm(), 5.0e-14);
 
                 }

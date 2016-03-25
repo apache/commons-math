@@ -61,15 +61,18 @@ class MidpointStepInterpolator
    * to create the step interpolators by cloning an uninitialized model
    * and later initializing the copy.
    */
+  // CHECKSTYLE: stop RedundantModifier
+  // the public modifier here is needed for serialization
   public MidpointStepInterpolator() {
   }
+  // CHECKSTYLE: resume RedundantModifier
 
   /** Copy constructor.
    * @param interpolator interpolator to copy from. The copy is a deep
    * copy: its arrays are separated from the original arrays of the
    * instance
    */
-  public MidpointStepInterpolator(final MidpointStepInterpolator interpolator) {
+  MidpointStepInterpolator(final MidpointStepInterpolator interpolator) {
     super(interpolator);
   }
 

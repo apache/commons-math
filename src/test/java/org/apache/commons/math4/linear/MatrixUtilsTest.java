@@ -315,8 +315,8 @@ public final class MatrixUtilsTest {
         }
         return d;
     }
-  
-    @Test 
+
+    @Test
     public void testSolveLowerTriangularSystem(){
         RealMatrix rm = new Array2DRowRealMatrix(
                 new double[][] { {2,0,0,0 }, { 1,1,0,0 }, { 3,3,3,0 }, { 3,3,3,4 } },
@@ -325,8 +325,8 @@ public final class MatrixUtilsTest {
         MatrixUtils.solveLowerTriangularSystem(rm, b);
         TestUtils.assertEquals( new double[]{1,2,-1.66666666666667, 1.0}  , b.toArray() , 1.0e-12);
     }
-    
-     
+
+
     /*
      * Taken from R manual http://stat.ethz.ch/R-manual/R-patched/library/base/html/backsolve.html
      */
@@ -449,7 +449,7 @@ public final class MatrixUtilsTest {
         };
         MatrixUtils.checkSymmetric(MatrixUtils.createRealMatrix(dataSym), Math.ulp(1d));
     }
-    
+
     @Test(expected=NonSymmetricMatrixException.class)
     public void testCheckSymmetric2() {
         final double[][] dataNonSym = {
@@ -459,19 +459,19 @@ public final class MatrixUtilsTest {
         };
         MatrixUtils.checkSymmetric(MatrixUtils.createRealMatrix(dataNonSym), Math.ulp(1d));
     }
-    
+
     @Test(expected=SingularMatrixException.class)
     public void testInverseSingular() {
         RealMatrix m = MatrixUtils.createRealMatrix(testData3x3Singular);
         MatrixUtils.inverse(m);
     }
-    
+
     @Test(expected=NonSquareMatrixException.class)
     public void testInverseNonSquare() {
         RealMatrix m = MatrixUtils.createRealMatrix(testData3x4);
         MatrixUtils.inverse(m);
     }
-    
+
     @Test
     public void testInverseDiagonalMatrix() {
         final double[] data = { 1, 2, 3 };

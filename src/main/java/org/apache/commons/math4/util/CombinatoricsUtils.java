@@ -23,6 +23,7 @@ import org.apache.commons.math4.exception.MathArithmeticException;
 import org.apache.commons.math4.exception.NotPositiveException;
 import org.apache.commons.math4.exception.NumberIsTooLargeException;
 import org.apache.commons.math4.exception.util.LocalizedFormats;
+import org.apache.commons.math4.special.Gamma;
 
 /**
  * Combinatorial utilities.
@@ -44,6 +45,15 @@ public final class CombinatoricsUtils {
     /** Stirling numbers of the second kind. */
     static final AtomicReference<long[][]> STIRLING_S2 = new AtomicReference<long[][]> (null);
 
+    /**
+     * Default implementation of {@link #factorialLog(int)} method:
+     * <ul>
+     *  <li>No pre-computation</li>
+     *  <li>No cache allocation</li>
+     * </ul>
+     */
+    private static final FactorialLog FACTORIAL_LOG_NO_CACHE = FactorialLog.create();
+
     /** Private constructor (class contains only static methods). */
     private CombinatoricsUtils() {}
 
@@ -62,7 +72,7 @@ public final class CombinatoricsUtils {
      * <li> The result is small enough to fit into a {@code long}. The
      * largest value of {@code n} for which all coefficients are
      * {@code  < Long.MAX_VALUE} is 66. If the computed value exceeds
-     * {@code Long.MAX_VALUE} an {@code ArithMeticException} is
+     * {@code Long.MAX_VALUE} a {@code MathArithMeticException} is
      * thrown.</li>
      * </ul></p>
      *
@@ -189,7 +199,7 @@ public final class CombinatoricsUtils {
      * <Strong>Preconditions</strong>:
      * <ul>
      * <li> {@code 0 <= k <= n } (otherwise
-     * {@code IllegalArgumentException} is thrown)</li>
+     * {@code MathIllegalArgumentException} is thrown)</li>
      * </ul></p>
      *
      * @param n the size of the set
@@ -256,11 +266,11 @@ public final class CombinatoricsUtils {
      * <Strong>Preconditions</strong>:
      * <ul>
      * <li> {@code n >= 0} (otherwise
-     * {@code IllegalArgumentException} is thrown)</li>
+     * {@code MathIllegalArgumentException} is thrown)</li>
      * <li> The result is small enough to fit into a {@code long}. The
-     * largest value of {@code n} for which {@code n!} <
+     * largest value of {@code n} for which {@code n!} does not exceed
      * Long.MAX_VALUE} is 20. If the computed value exceeds {@code Long.MAX_VALUE}
-     * an {@code ArithMeticException } is thrown.</li>
+     * an {@code MathArithMeticException } is thrown.</li>
      * </ul>
      * </p>
      *
@@ -288,9 +298,9 @@ public final class CombinatoricsUtils {
      * factorial</a> of {@code n} (the product of the numbers 1 to n), as a
      * {@code double}.
      * The result should be small enough to fit into a {@code double}: The
-     * largest {@code n} for which {@code n! < Double.MAX_VALUE} is 170.
-     * If the computed value exceeds {@code Double.MAX_VALUE},
-     * {@code Double.POSITIVE_INFINITY} is returned.
+     * largest {@code n} for which {@code n!} does not exceed
+     * {@code Double.MAX_VALUE} is 170. If the computed value exceeds
+     * {@code Double.MAX_VALUE}, {@code Double.POSITIVE_INFINITY} is returned.
      *
      * @param n Argument.
      * @return {@code n!}
@@ -311,22 +321,11 @@ public final class CombinatoricsUtils {
      * Compute the natural logarithm of the factorial of {@code n}.
      *
      * @param n Argument.
-     * @return {@code n!}
+     * @return {@code log(n!)}
      * @throws NotPositiveException if {@code n < 0}.
      */
     public static double factorialLog(final int n) throws NotPositiveException {
-        if (n < 0) {
-            throw new NotPositiveException(LocalizedFormats.FACTORIAL_NEGATIVE_PARAMETER,
-                                           n);
-        }
-        if (n < 21) {
-            return FastMath.log(FACTORIALS[n]);
-        }
-        double logSum = 0;
-        for (int i = 2; i <= n; i++) {
-            logSum += FastMath.log(i);
-        }
-        return logSum;
+        return FACTORIAL_LOG_NO_CACHE.value(n);
     }
 
     /**
@@ -423,11 +422,11 @@ public final class CombinatoricsUtils {
      * they are visited in lexicographic order with significance from right to
      * left. For example, combinationsIterator(4, 2) returns an Iterator that
      * will generate the following sequence of arrays on successive calls to
-     * {@code next()}:<br/>
+     * {@code next()}:</p><p>
      * {@code [0, 1], [0, 2], [1, 2], [0, 3], [1, 3], [2, 3]}
-     * </p>
+     * </p><p>
      * If {@code k == 0} an Iterator containing an empty array is returned and
-     * if {@code k == n} an Iterator containing [0, ..., n -1] is returned.
+     * if {@code k == n} an Iterator containing [0, ..., n -1] is returned.</p>
      *
      * @param n Size of the set from which subsets are selected.
      * @param k Size of the subsets to be enumerated.
@@ -457,6 +456,98 @@ public final class CombinatoricsUtils {
         }
         if (n < 0) {
             throw new NotPositiveException(LocalizedFormats.BINOMIAL_NEGATIVE_PARAMETER, n);
+        }
+    }
+
+    /**
+     * Class for computing the natural logarithm of the factorial of {@code n}.
+     * It allows to allocate a cache of precomputed values.
+     * In case of cache miss, computation is preformed by a call to
+     * {@link Gamma#logGamma(double)}.
+     */
+    public static final class FactorialLog {
+        /**
+         * Precomputed values of the function:
+         * {@code LOG_FACTORIALS[i] = log(i!)}.
+         */
+        private final double[] LOG_FACTORIALS;
+
+        /**
+         * Creates an instance, reusing the already computed values if available.
+         *
+         * @param numValues Number of values of the function to compute.
+         * @param cache Existing cache.
+         * @throw NotPositiveException if {@code n < 0}.
+         */
+        private FactorialLog(int numValues,
+                             double[] cache) {
+            if (numValues < 0) {
+                throw new NotPositiveException(numValues);
+            }
+
+            LOG_FACTORIALS = new double[numValues];
+
+            final int beginCopy = 2;
+            final int endCopy = cache == null || cache.length <= beginCopy ?
+                beginCopy : cache.length <= numValues ?
+                cache.length : numValues;
+
+            // Copy available values.
+            for (int i = beginCopy; i < endCopy; i++) {
+                LOG_FACTORIALS[i] = cache[i];
+            }
+
+            // Precompute.
+            for (int i = endCopy; i < numValues; i++) {
+                LOG_FACTORIALS[i] = LOG_FACTORIALS[i - 1] + FastMath.log(i);
+            }
+        }
+
+        /**
+         * Creates an instance with no precomputed values.
+         * @return instance with no precomputed values
+         */
+        public static FactorialLog create() {
+            return new FactorialLog(0, null);
+        }
+
+        /**
+         * Creates an instance with the specified cache size.
+         *
+         * @param cacheSize Number of precomputed values of the function.
+         * @return a new instance where {@code cacheSize} values have been
+         * precomputed.
+         * @throws NotPositiveException if {@code n < 0}.
+         */
+        public FactorialLog withCache(final int cacheSize) {
+            return new FactorialLog(cacheSize, LOG_FACTORIALS);
+        }
+
+        /**
+         * Computes {@code log(n!)}.
+         *
+         * @param n Argument.
+         * @return {@code log(n!)}.
+         * @throws NotPositiveException if {@code n < 0}.
+         */
+        public double value(final int n) {
+            if (n < 0) {
+                throw new NotPositiveException(LocalizedFormats.FACTORIAL_NEGATIVE_PARAMETER,
+                                               n);
+            }
+
+            // Use cache of precomputed values.
+            if (n < LOG_FACTORIALS.length) {
+                return LOG_FACTORIALS[n];
+            }
+
+            // Use cache of precomputed factorial values.
+            if (n < FACTORIALS.length) {
+                return FastMath.log(FACTORIALS[n]);
+            }
+
+            // Delegate.
+            return Gamma.logGamma(n + 1);
         }
     }
 }

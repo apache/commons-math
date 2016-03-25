@@ -32,7 +32,7 @@ public class NormalApproximationIntervalTest extends BinomialConfidenceIntervalA
     protected BinomialConfidenceInterval createBinomialConfidenceInterval() {
         return new NormalApproximationInterval();
     }
-    
+
     @Test
     public void testStandardInterval() {
         ConfidenceInterval confidenceInterval = createStandardTestInterval();

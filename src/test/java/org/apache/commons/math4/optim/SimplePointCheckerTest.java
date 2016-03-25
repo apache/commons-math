@@ -33,7 +33,7 @@ public class SimplePointCheckerTest {
         final int max = 10;
         final SimplePointChecker<PointValuePair> checker
             = new SimplePointChecker<PointValuePair>(1e-1, 1e-2, max);
-        Assert.assertTrue(checker.converged(max, null, null)); 
+        Assert.assertTrue(checker.converged(max, null, null));
         Assert.assertTrue(checker.converged(max + 1, null, null));
     }
 

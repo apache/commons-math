@@ -599,7 +599,7 @@ public class ArcsSet extends AbstractRegion<Sphere1D, Sphere1D> implements Itera
 
         /** Simple constructor.
          */
-        public SubArcsIterator() {
+        SubArcsIterator() {
 
             firstStart = getFirstArcStart();
             current    = firstStart;

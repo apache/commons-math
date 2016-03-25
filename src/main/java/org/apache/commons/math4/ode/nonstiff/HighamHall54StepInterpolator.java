@@ -45,16 +45,19 @@ class HighamHall54StepInterpolator
    * to create the step interpolators by cloning an uninitialized model
    * and later initializing the copy.
    */
+  // CHECKSTYLE: stop RedundantModifier
+  // the public modifier here is needed for serialization
   public HighamHall54StepInterpolator() {
     super();
   }
+  // CHECKSTYLE: resume RedundantModifier
 
   /** Copy constructor.
    * @param interpolator interpolator to copy from. The copy is a deep
    * copy: its arrays are separated from the original arrays of the
    * instance
    */
-  public HighamHall54StepInterpolator(final HighamHall54StepInterpolator interpolator) {
+  HighamHall54StepInterpolator(final HighamHall54StepInterpolator interpolator) {
     super(interpolator);
   }
 

@@ -14,26 +14,13 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.apache.commons.math4.dfp;
+package org.apache.commons.math4.random;
 
-/**
- * An interface representing a univariate {@link Dfp} function.
- *
- */
-public interface UnivariateDfpFunction {
+public class JDKRandomGeneratorTest extends RandomGeneratorAbstractTest {
 
-    /**
-     * Compute the value of the function.
-     *
-     * @param x Point at which the function value should be computed.
-     * @return the value.
-     * @throws IllegalArgumentException when the activated method itself can
-     * ascertain that preconditions, specified in the API expressed at the
-     * level of the activated method, have been violated.  In the vast
-     * majority of cases where Commons-Math throws IllegalArgumentException,
-     * it is the result of argument checking of actual parameters immediately
-     * passed to a method.
-     */
-    Dfp value(Dfp x);
-
+    @Override
+    protected RandomGenerator makeGenerator() {
+        final long seed = 111;
+        return new JDKRandomGenerator(seed);
+    }
 }

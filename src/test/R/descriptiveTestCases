@@ -38,7 +38,7 @@ verifyMean <- function(values, expectedMean, tol, desc) {
         displayPadded(c(desc," mean test"), SUCCEEDED, WIDTH)
     } else {
         displayPadded(c(desc, " mean test"), FAILED, WIDTH)
-    } 
+    }
 }
 
 verifySigma <- function(values, expectedSigma, tol, desc) {
@@ -47,7 +47,7 @@ verifySigma <- function(values, expectedSigma, tol, desc) {
         displayPadded(c(desc," std test"), SUCCEEDED, WIDTH)
     } else {
         displayPadded(c(desc, " std test"), FAILED, WIDTH)
-    } 
+    }
 }
 
 cat("Descriptive test cases\n")
@@ -80,4 +80,4 @@ expectedSigma <- 0.000429123454003053
 verifyMean(values, expectedMean, tol, "Mavro")
 verifySigma(values, expectedSigma, tol, "Mavro")
 
-displayDashes(WIDTH)        
+displayDashes(WIDTH)

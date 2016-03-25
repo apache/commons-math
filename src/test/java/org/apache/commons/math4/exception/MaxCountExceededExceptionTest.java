@@ -22,7 +22,7 @@ import org.junit.Test;
 
 /**
  * Test for {@link MaxCountExceededException}.
- * 
+ *
  */
 public class MaxCountExceededExceptionTest {
     @Test

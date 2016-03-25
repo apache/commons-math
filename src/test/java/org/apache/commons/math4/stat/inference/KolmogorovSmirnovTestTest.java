@@ -17,6 +17,7 @@
 
 package org.apache.commons.math4.stat.inference;
 
+import java.lang.reflect.Method;
 import java.util.Arrays;
 
 import org.apache.commons.math4.TestUtils;
@@ -24,9 +25,9 @@ import org.apache.commons.math4.distribution.NormalDistribution;
 import org.apache.commons.math4.distribution.UniformRealDistribution;
 import org.apache.commons.math4.random.RandomGenerator;
 import org.apache.commons.math4.random.Well19937c;
-import org.apache.commons.math4.stat.inference.KolmogorovSmirnovTest;
 import org.apache.commons.math4.util.CombinatoricsUtils;
 import org.apache.commons.math4.util.FastMath;
+import org.apache.commons.math4.util.MathArrays;
 import org.junit.Assert;
 import org.junit.Test;
 
@@ -179,66 +180,46 @@ public class KolmogorovSmirnovTestTest {
         final double[] smallSample2 = {
             10, 11, 12, 16, 20, 27, 28, 32, 44, 54
         };
-        // Reference values from R, version 2.15.3 - R uses non-strict inequality in null hypothesis
+        // Reference values from R, version 3.2.0 - R uses non-strict inequality in null hypothesis
         Assert
             .assertEquals(0.105577085453247, test.kolmogorovSmirnovTest(smallSample1, smallSample2, false), TOLERANCE);
         Assert.assertEquals(0.5, test.kolmogorovSmirnovStatistic(smallSample1, smallSample2), TOLERANCE);
     }
 
-    /** Small sample no ties, exactP methods should agree */
+    /** Small samples - exact p-value, checked against R */
     @Test
-    public void testExactPConsistency() {
+    public void testTwoSampleSmallSampleExact2() {
         final KolmogorovSmirnovTest test = new KolmogorovSmirnovTest();
-        final double[] x = {
-            1, 7, 9, 13, 19, 21, 22, 23, 24
+        final double[] smallSample1 = {
+            6, 7, 9, 13, 19, 21, 22, 23, 24, 29, 30, 34, 36, 41, 45, 47, 51, 63, 33, 91
         };
-        final double[] y = {
-            3, 4, 12, 16, 20, 27, 28, 32, 44, 54
+        final double[] smallSample2 = {
+            10, 11, 12, 16, 20, 27, 28, 32, 44, 54, 56, 57, 64, 69, 71, 80, 81, 88, 90
         };
-        Assert.assertEquals(test.exactP(x, y, true),
-                            test.exactP(test.kolmogorovSmirnovStatistic(x, y),
-                                        x.length, y.length, true), Double.MIN_VALUE);
-        Assert.assertEquals(test.exactP(x, y, false),
-                            test.exactP(test.kolmogorovSmirnovStatistic(x, y),
-                                        x.length, y.length, false), Double.MIN_VALUE);
+        // Reference values from R, version 3.2.0 - R uses non-strict inequality in null hypothesis
+        Assert
+            .assertEquals(0.0462986609, test.kolmogorovSmirnovTest(smallSample1, smallSample2, false), TOLERANCE);
+        Assert.assertEquals(0.4263157895, test.kolmogorovSmirnovStatistic(smallSample1, smallSample2), TOLERANCE);
     }
 
-    /**
-     * Extreme case for ties - all values the same.  Strict p-value should be 0,
-     * non-strict should be 1
-     */
+    /** Small samples - exact p-value, checked against R */
     @Test
-    public void testExactPNoVariance() {
+    public void testTwoSampleSmallSampleExact3() {
         final KolmogorovSmirnovTest test = new KolmogorovSmirnovTest();
-        final double[] x = {
-            1, 1, 1, 1, 1, 1
+        final double[] smallSample1 = {
+            -10, -5, 17, 21, 22, 23, 24, 30, 44, 50, 56, 57, 59, 67, 73, 75, 77, 78, 79, 80, 81, 83, 84, 85, 88, 90,
+            92, 93, 94, 95, 98, 100, 101, 103, 105, 110
         };
-        final double[] y = {
-            1, 1, 1, 1
+        final double[] smallSample2 = {
+            -2, -1, 0, 10, 14, 15, 16, 20, 25, 26, 27, 31, 32, 33, 34, 45, 47, 48, 51, 52, 53, 54, 60, 61, 62, 63,
+            74, 82, 106, 107, 109, 11, 112, 113, 114
         };
-        Assert.assertEquals(0, test.exactP(x, y, true), Double.MIN_VALUE);
-        Assert.assertEquals(1, test.exactP(x, y, false), Double.MIN_VALUE);
-        Assert.assertEquals(0, test.kolmogorovSmirnovTest(x, y, true), Double.MIN_VALUE);
-        Assert.assertEquals(1, test.kolmogorovSmirnovTest(x, y, false), Double.MIN_VALUE);
-    }
-
-    /**
-     * Split {0, 0, 0, 1, 1, 1} into 3-sets.  Most extreme is 0's vs 1's.  Non-strict
-     * p-value for this split should be 2 / (6 choose 3); strict should be 0.
-     */
-    @Test
-    public void testExactPSimpleSplit() {
-        final KolmogorovSmirnovTest test = new KolmogorovSmirnovTest();
-        final double[] x = {
-            0, 0, 0
-        };
-        final double[] y = {
-            1, 1, 1
-        };
-        // Above is one way to do this - other way is s/x/y - so 2 in strict test below
-        Assert.assertEquals(0, test.exactP(x, y, true), Double.MIN_VALUE);
-        Assert.assertEquals(2 / (double) CombinatoricsUtils.binomialCoefficient(6, 3),
-                            test.exactP(x, y, false), Double.MIN_VALUE);
+        // Reference values from R, version 3.2.0 - R uses non-strict inequality in null hypothesis
+        Assert
+            .assertEquals(0.00300743602, test.kolmogorovSmirnovTest(smallSample1, smallSample2, false), TOLERANCE);
+        Assert.assertEquals(0.4103174603, test.kolmogorovSmirnovStatistic(smallSample1, smallSample2), TOLERANCE);
+        Assert
+        .assertEquals(0.00300743602, test.kolmogorovSmirnovTest(smallSample2, smallSample1, false), TOLERANCE);
     }
 
     /**
@@ -333,10 +314,9 @@ public class KolmogorovSmirnovTestTest {
     }
 
     /**
-     * Verifies that Monte Carlo simulation gives results close to exact p values. This test is a
-     * little long-running (more than two minutes on a fast machine), so is disabled by default.
+     * Verifies that Monte Carlo simulation gives results close to exact p values.
      */
-    // @Test
+    @Test
     public void testTwoSampleMonteCarlo() {
         final KolmogorovSmirnovTest test = new KolmogorovSmirnovTest(new Well19937c(1000));
         final int sampleSize = 14;
@@ -589,6 +569,98 @@ public class KolmogorovSmirnovTestTest {
     }
 
     /**
+     * Test an example with ties in the data.  Reference data is R 3.2.0,
+     * ks.boot implemented in Matching (Version 4.8-3.4, Build Date: 2013/10/28)
+     */
+    @Test
+    public void testBootstrapSmallSamplesWithTies() {
+        final double[] x = {0, 2, 4, 6, 8, 8, 10, 15, 22, 30, 33, 36, 38};
+        final double[] y = {9, 17, 20, 33, 40, 51, 60, 60, 72, 90, 101};
+        final KolmogorovSmirnovTest test = new KolmogorovSmirnovTest(new Well19937c(2000));
+        Assert.assertEquals(0.0059, test.bootstrap(x, y, 10000, false), 1E-3);
+    }
+
+    /**
+     * Reference data is R 3.2.0, ks.boot implemented in
+     * Matching (Version 4.8-3.4, Build Date: 2013/10/28)
+     */
+    @Test
+    public void testBootstrapLargeSamples() {
+        final KolmogorovSmirnovTest test = new KolmogorovSmirnovTest(new Well19937c(1000));
+        Assert.assertEquals(0.0237, test.bootstrap(gaussian, gaussian2, 10000), 1E-2);
+    }
+
+    /**
+     * Test an example where D-values are close (subject to rounding).
+     * Reference data is R 3.2.0, ks.boot implemented in
+     * Matching (Version 4.8-3.4, Build Date: 2013/10/28)
+     */
+    @Test
+    public void testBootstrapRounding() {
+        final double[] x = {2,4,6,8,9,10,11,12,13};
+        final double[] y = {0,1,3,5,7};
+        final KolmogorovSmirnovTest test = new KolmogorovSmirnovTest(new Well19937c(1000));
+        Assert.assertEquals(0.06303, test.bootstrap(x, y, 10000, false), 1E-2);
+    }
+
+    @Test
+    public void testFixTiesNoOp() throws Exception {
+        final double[] x = {0, 1, 2, 3, 4};
+        final double[] y = {5, 6, 7, 8};
+        final double[] origX = MathArrays.copyOf(x);
+        final double[] origY = MathArrays.copyOf(y);
+        fixTies(x,y);
+        Assert.assertArrayEquals(origX, x, 0);
+        Assert.assertArrayEquals(origY, y, 0);
+    }
+
+    /**
+     * Verify that fixTies is deterministic, i.e,
+     * x = x', y = y' => fixTies(x,y) = fixTies(x', y')
+     */
+    @Test
+    public void testFixTiesConsistency() throws Exception {
+        final double[] x = {0, 1, 2, 3, 4, 2};
+        final double[] y = {5, 6, 7, 8, 1, 2};
+        final double[] xP = MathArrays.copyOf(x);
+        final double[] yP = MathArrays.copyOf(y);
+        checkFixTies(x, y);
+        final double[] fixedX = MathArrays.copyOf(x);
+        final double[] fixedY = MathArrays.copyOf(y);
+        checkFixTies(xP, yP);
+        Assert.assertArrayEquals(fixedX, xP, 0);
+        Assert.assertArrayEquals(fixedY,  yP, 0);
+    }
+
+    @Test
+    public void testFixTies() throws Exception {
+        checkFixTies(new double[] {0, 1, 1, 4, 0}, new double[] {0, 5, 0.5, 0.55, 7});
+        checkFixTies(new double[] {1, 1, 1, 1, 1}, new double[] {1, 1});
+        checkFixTies(new double[] {1, 2, 3}, new double[] {1});
+        checkFixTies(new double[] {1, 1, 0, 1, 0}, new double[] {});
+    }
+
+    /**
+     * Checks that fixTies eliminates ties in the data but does not otherwise
+     * perturb the ordering.
+     */
+    private void checkFixTies(double[] x, double[] y) throws Exception {
+        final double[] origCombined = MathArrays.concatenate(x, y);
+        fixTies(x, y);
+        Assert.assertFalse(hasTies(x, y));
+        final double[] combined = MathArrays.concatenate(x, y);
+        for (int i = 0; i < combined.length; i++) {
+            for (int j = 0; j < i; j++) {
+                Assert.assertTrue(combined[i] != combined[j]);
+                if (combined[i] < combined[j])
+                    Assert.assertTrue(origCombined[i] < origCombined[j]
+                                          || origCombined[i] == origCombined[j]);
+            }
+
+        }
+    }
+
+    /**
      * Verifies the inequality exactP(criticalValue, n, m, true) < alpha < exactP(criticalValue, n,
      * m, false).
      *
@@ -620,6 +692,26 @@ public class KolmogorovSmirnovTestTest {
     private void checkApproximateTable(int n, int m, double criticalValue, double alpha, double epsilon) {
         final KolmogorovSmirnovTest test = new KolmogorovSmirnovTest();
         Assert.assertEquals(alpha, test.approximateP(criticalValue, n, m), epsilon);
+    }
+
+    /**
+     * Reflection hack to expose private fixTies method for testing.
+     */
+    private static void fixTies(double[] x, double[] y) throws Exception {
+        Method method = KolmogorovSmirnovTest.class.getDeclaredMethod("fixTies",
+                                             double[].class, double[].class);
+        method.setAccessible(true);
+        method.invoke(KolmogorovSmirnovTest.class, x, y);
+    }
+
+    /**
+     * Reflection hack to expose private hasTies method.
+     */
+    private static boolean hasTies(double[] x, double[] y) throws Exception {
+        Method method = KolmogorovSmirnovTest.class.getDeclaredMethod("hasTies",
+                                               double[].class, double[].class);
+        method.setAccessible(true);
+        return (boolean) method.invoke(KolmogorovSmirnovTest.class, x, y);
     }
 
 }

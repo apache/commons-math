@@ -28,22 +28,22 @@ public abstract class TestProblemAbstract
   implements FirstOrderDifferentialEquations {
 
   /** Dimension of the problem. */
-  protected int n;
+  private int n;
 
   /** Number of functions calls. */
-  protected int calls;
+  private int calls;
 
   /** Initial time */
-  protected double t0;
+  private double t0;
 
   /** Initial state */
-  protected double[] y0;
+  private double[] y0;
 
   /** Final time */
-  protected double t1;
+  private double t1;
 
   /** Error scale */
-  protected double[] errorScale;
+  private double[] errorScale;
 
   /**
    * Simple constructor.
@@ -56,33 +56,6 @@ public abstract class TestProblemAbstract
     t1         = 0;
     errorScale = null;
   }
-
-  /**
-   * Copy constructor.
-   * @param problem problem to copy
-   */
-  protected TestProblemAbstract(TestProblemAbstract problem) {
-    n     = problem.n;
-    calls = problem.calls;
-    t0    = problem.t0;
-    if (problem.y0 == null) {
-      y0 = null;
-    } else {
-      y0 = problem.y0.clone();
-    }
-    if (problem.errorScale == null) {
-      errorScale = null;
-    } else {
-      errorScale = problem.errorScale.clone();
-    }
-    t1 = problem.t1;
-  }
-
-  /**
-   * Copy operation.
-   * @return a copy of the instance
-   */
-  public abstract TestProblemAbstract copy();
 
   /**
    * Set the initial conditions

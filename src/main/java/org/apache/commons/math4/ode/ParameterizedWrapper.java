@@ -35,7 +35,7 @@ class ParameterizedWrapper implements ParameterizedODE {
     /** Simple constructor.
      * @param ode original first order differential equations
      */
-    public ParameterizedWrapper(final FirstOrderDifferentialEquations ode) {
+    ParameterizedWrapper(final FirstOrderDifferentialEquations ode) {
         this.fode = ode;
     }
 

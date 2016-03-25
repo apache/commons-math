@@ -39,7 +39,7 @@ verifyDistribution <- function(points, expected, m, s, tol) {
   i <- 0
   for (point in points) {
     i <- i + 1
-    rDistValues[i] <- pnaka(point, m, s)
+    rDistValues[i] <- pnaka(point, s, m)
   }
   output <- c("Distribution test m = ",m,", s = ", s)
   if (assertEquals(expected, rDistValues, tol, "Distribution Values")) {
@@ -55,7 +55,7 @@ verifyDensity <- function(points, expected, m, s, tol) {
   i <- 0
   for (point in points) {
     i <- i + 1
-    rDensityValues[i] <- dnaka(point, m, s)
+    rDensityValues[i] <- dnaka(point, s, m)
   }
   output <- c("Density test m = ",m,", s = ", s)
   if (assertEquals(expected, rDensityValues, tol, "Density Values")) {

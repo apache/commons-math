@@ -95,7 +95,7 @@ public abstract class BaseAbstractUnivariateIntegrator implements UnivariateInte
      *       the "reasonable value" varies widely for different algorithms. Users are
      *       advised to use the default value supplied by the algorithm.</li>
      * </ul>
-     * </p>
+     *
      * @param relativeAccuracy relative accuracy of the result
      * @param absoluteAccuracy absolute accuracy of the result
      * @param minimalIterationCount minimum number of iterations

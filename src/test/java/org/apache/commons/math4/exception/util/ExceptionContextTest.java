@@ -31,7 +31,7 @@ import org.junit.Test;
 
 /**
  * Test for {@link ExceptionContext}.
- * 
+ *
  */
 public class ExceptionContextTest {
     @Test

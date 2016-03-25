@@ -71,7 +71,7 @@ public class CMAESOptimizerTest {
                 GoalType.MINIMIZE, LAMBDA, true, 0, 1e-13,
                 1e-13, 1e-6, 100000, expected);
     }
-    
+
     @Test(expected = DimensionMismatchException.class)
     public void testBoundariesDimensionMismatch() {
         double[] startPoint = point(DIM,0.5);
@@ -119,7 +119,7 @@ public class CMAESOptimizerTest {
                 GoalType.MINIMIZE, LAMBDA, true, 0, 1e-13,
                 1e-13, 1e-6, 100000, expected);
     }
-    
+
     @Test
     @Retry(3)
     public void testRosen() {
@@ -150,7 +150,7 @@ public class CMAESOptimizerTest {
         doTest(new MinusElli(), startPoint, insigma, boundaries,
                 GoalType.MAXIMIZE, LAMBDA, false, 0, 1.0-1e-13,
                 2e-10, 5e-6, 100000, expected);
-        boundaries = boundaries(DIM,-0.3,0.3); 
+        boundaries = boundaries(DIM,-0.3,0.3);
         startPoint = point(DIM,0.1);
         doTest(new MinusElli(), startPoint, insigma, boundaries,
                 GoalType.MAXIMIZE, LAMBDA, true, 0, 1.0-1e-13,
@@ -409,7 +409,7 @@ public class CMAESOptimizerTest {
             };
 
         final double[] start = { 1 };
- 
+
         // No bounds.
         PointValuePair result = optimizer.optimize(new MaxEval(100000),
                                                    new ObjectiveFunction(fitnessFunction),
@@ -454,7 +454,7 @@ public class CMAESOptimizerTest {
         Assert.assertEquals(resNoBound, resNearLo, 1e-3);
         Assert.assertEquals(resNoBound, resNearHi, 1e-3);
     }
- 
+
     /**
      * @param func Function to optimize.
      * @param startPoint Starting point.
@@ -477,7 +477,7 @@ public class CMAESOptimizerTest {
                         GoalType goal,
                         int lambda,
                         boolean isActive,
-                        int diagonalOnly, 
+                        int diagonalOnly,
                         double stopValue,
                         double fTol,
                         double pointTol,

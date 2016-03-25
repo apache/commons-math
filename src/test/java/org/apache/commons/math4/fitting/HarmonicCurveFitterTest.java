@@ -151,7 +151,7 @@ public class HarmonicCurveFitterTest {
         }
 
         // Pass it to the fitter.
-        final WeightedObservedPoints points = new WeightedObservedPoints();        
+        final WeightedObservedPoints points = new WeightedObservedPoints();
         for (int i = 0; i < size; ++i) {
             points.add(1, xTab[i], yTab[i]);
         }

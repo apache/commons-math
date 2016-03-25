@@ -42,16 +42,14 @@ import org.apache.commons.math4.util.Precision;
  *  <li>{@code 1 + NaNi}</li>
  *  <li>{@code NaN + i}</li>
  *  <li>{@code NaN + NaNi}</li>
- * </ul>
- * Note that this is in contradiction with the IEEE-754 standard for floating
+ * </ul><p>
+ * Note that this contradicts the IEEE-754 standard for floating
  * point numbers (according to which the test {@code x == x} must fail if
  * {@code x} is {@code NaN}). The method
  * {@link org.apache.commons.math4.util.Precision#equals(double,double,int)
  * equals for primitive double} in {@link org.apache.commons.math4.util.Precision}
  * conforms with IEEE-754 while this class conforms with the standard behavior
- * for Java object types.
- * <p>
- * Implements Serializable since 2.0
+ * for Java object types.</p>
  *
  */
 public class Complex implements FieldElement<Complex>, Serializable  {
@@ -138,12 +136,9 @@ public class Complex implements FieldElement<Complex>, Serializable  {
      * Returns a {@code Complex} whose value is
      * {@code (this + addend)}.
      * Uses the definitional formula
-     * <pre>
-     *  <code>
-     *   (a + bi) + (c + di) = (a+c) + (b+d)i
-     *  </code>
-     * </pre>
-     * <br/>
+     * <p>
+     *   {@code (a + bi) + (c + di) = (a+c) + (b+d)i}
+     * </p>
      * If either {@code this} or {@code addend} has a {@code NaN} value in
      * either part, {@link #NaN} is returned; otherwise {@code Infinite}
      * and {@code NaN} values are returned in the parts of the result
@@ -181,17 +176,17 @@ public class Complex implements FieldElement<Complex>, Serializable  {
     }
 
      /**
-     * Return the conjugate of this complex number.
+     * Returns the conjugate of this complex number.
      * The conjugate of {@code a + bi} is {@code a - bi}.
-     * <br/>
+     * <p>
      * {@link #NaN} is returned if either the real or imaginary
      * part of this Complex number equals {@code Double.NaN}.
-     * <br/>
+     * </p><p>
      * If the imaginary part is infinite, and the real part is not
      * {@code NaN}, the returned value has infinite imaginary part
      * of the opposite sign, e.g. the conjugate of
      * {@code 1 + POSITIVE_INFINITY i} is {@code 1 - NEGATIVE_INFINITY i}.
-     *
+     * </p>
      * @return the conjugate of this Complex object.
      */
     public Complex conjugate() {
@@ -217,7 +212,7 @@ public class Complex implements FieldElement<Complex>, Serializable  {
      * <a href="http://doi.acm.org/10.1145/1039813.1039814">
      * prescaling of operands</a> to limit the effects of overflows and
      * underflows in the computation.
-     * <br/>
+     * <p>
      * {@code Infinite} and {@code NaN} values are handled according to the
      * following rules, applied in the order presented:
      * <ul>
@@ -424,7 +419,7 @@ public class Complex implements FieldElement<Complex>, Serializable  {
      * Returns {@code true} if, both for the real part and for the imaginary
      * part, there is no double value strictly between the arguments or the
      * relative difference between them is smaller or equal to the given
-     * tolerance.
+     * tolerance. Returns {@code false} if either of the arguments is NaN.
      *
      * @param x First value (cannot be {@code null}).
      * @param y Second value (cannot be {@code null}).
@@ -503,21 +498,19 @@ public class Complex implements FieldElement<Complex>, Serializable  {
      * Returns a {@code Complex} whose value is {@code this * factor}.
      * Implements preliminary checks for {@code NaN} and infinity followed by
      * the definitional formula:
-     * <pre>
-     *  <code>
-     *   (a + bi)(c + di) = (ac - bd) + (ad + bc)i
-     *  </code>
-     * </pre>
+     * <p>
+     *   {@code (a + bi)(c + di) = (ac - bd) + (ad + bc)i}
+     * </p>
      * Returns {@link #NaN} if either {@code this} or {@code factor} has one or
      * more {@code NaN} parts.
-     * <br/>
+     * <p>
      * Returns {@link #INF} if neither {@code this} nor {@code factor} has one
      * or more {@code NaN} parts and if either {@code this} or {@code factor}
      * has one or more infinite parts (same result is returned regardless of
      * the sign of the components).
-     * <br/>
+     * </p><p>
      * Returns finite values in components of the result per the definitional
-     * formula in all remaining cases.
+     * formula in all remaining cases.</p>
      *
      * @param  factor value to be multiplied by this {@code Complex}.
      * @return {@code this * factor}.
@@ -585,7 +578,7 @@ public class Complex implements FieldElement<Complex>, Serializable  {
     /**
      * Returns a {@code Complex} whose value is {@code (-this)}.
      * Returns {@code NaN} if either real or imaginary
-     * part of this Complex number equals {@code Double.NaN}.
+     * part of this Complex number is {@code Double.NaN}.
      *
      * @return {@code -this}.
      */
@@ -602,11 +595,9 @@ public class Complex implements FieldElement<Complex>, Serializable  {
      * Returns a {@code Complex} whose value is
      * {@code (this - subtrahend)}.
      * Uses the definitional formula
-     * <pre>
-     *  <code>
-     *   (a + bi) - (c + di) = (a-c) + (b-d)i
-     *  </code>
-     * </pre>
+     * <p>
+     *  {@code (a + bi) - (c + di) = (a-c) + (b-d)i}
+     * </p>
      * If either {@code this} or {@code subtrahend} has a {@code NaN]} value in either part,
      * {@link #NaN} is returned; otherwise infinite and {@code NaN} values are
      * returned in the parts of the result according to the rules for

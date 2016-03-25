@@ -184,14 +184,14 @@ public class FastMathTest {
         for (double x = start; x < end; x += 1e-3) {
             final double tst = FastMath.cosh(x);
             final double ref = Math.cosh(x);
-            maxErr = FastMath.max(maxErr, FastMath.abs(ref - tst) / FastMath.ulp(ref));            
+            maxErr = FastMath.max(maxErr, FastMath.abs(ref - tst) / FastMath.ulp(ref));
         }
         Assert.assertEquals(0, maxErr, 3);
 
         for (double x = start; x < end; x += 1e-3) {
             final double tst = FastMath.sinh(x);
             final double ref = Math.sinh(x);
-            maxErr = FastMath.max(maxErr, FastMath.abs(ref - tst) / FastMath.ulp(ref));            
+            maxErr = FastMath.max(maxErr, FastMath.abs(ref - tst) / FastMath.ulp(ref));
         }
         Assert.assertEquals(0, maxErr, 3);
     }
@@ -206,16 +206,25 @@ public class FastMathTest {
         for (double x = start; x > end; x -= 1e-3) {
             final double tst = FastMath.cosh(x);
             final double ref = Math.cosh(x);
-            maxErr = FastMath.max(maxErr, FastMath.abs(ref - tst) / FastMath.ulp(ref));            
+            maxErr = FastMath.max(maxErr, FastMath.abs(ref - tst) / FastMath.ulp(ref));
         }
         Assert.assertEquals(0, maxErr, 3);
 
         for (double x = start; x > end; x -= 1e-3) {
             final double tst = FastMath.sinh(x);
             final double ref = Math.sinh(x);
-            maxErr = FastMath.max(maxErr, FastMath.abs(ref - tst) / FastMath.ulp(ref));            
+            maxErr = FastMath.max(maxErr, FastMath.abs(ref - tst) / FastMath.ulp(ref));
         }
         Assert.assertEquals(0, maxErr, 3);
+    }
+
+    @Test
+    public void testMath1269() {
+        final double arg = 709.8125;
+        final double vM = Math.exp(arg);
+        final double vFM = FastMath.exp(arg);
+        Assert.assertTrue("exp(" + arg + ") is " + vFM + " instead of " + vM,
+                          Precision.equalsIncludingNaN(vM, vFM));
     }
 
     @Test
@@ -1020,13 +1029,13 @@ public class FastMathTest {
      */
     @Test
     public void testAcosSpecialCases() {
-        
+
         Assert.assertTrue("acos(NaN) should be NaN", Double.isNaN(FastMath.acos(Double.NaN)));
-        
+
         Assert.assertTrue("acos(-1.1) should be NaN", Double.isNaN(FastMath.acos(-1.1)));
 
         Assert.assertTrue("acos(-1.1) should be NaN", Double.isNaN(FastMath.acos(1.1)));
-        
+
         Assert.assertEquals("acos(-1.0) should be PI", FastMath.acos(-1.0), FastMath.PI, Precision.EPSILON);
 
         Assert.assertEquals("acos(1.0) should be 0.0", FastMath.acos(1.0), 0.0, Precision.EPSILON);
@@ -1039,13 +1048,13 @@ public class FastMathTest {
      */
     @Test
     public void testAsinSpecialCases() {
-   
+
         Assert.assertTrue("asin(NaN) should be NaN", Double.isNaN(FastMath.asin(Double.NaN)));
-        
+
         Assert.assertTrue("asin(1.1) should be NaN", Double.isNaN(FastMath.asin(1.1)));
-        
+
         Assert.assertTrue("asin(-1.1) should be NaN", Double.isNaN(FastMath.asin(-1.1)));
-        
+
         Assert.assertEquals("asin(1.0) should be PI/2", FastMath.asin(1.0), FastMath.PI / 2.0, Precision.EPSILON);
 
         Assert.assertEquals("asin(-1.0) should be -PI/2", FastMath.asin(-1.0), -FastMath.PI / 2.0, Precision.EPSILON);
@@ -1451,7 +1460,7 @@ public class FastMathTest {
     public void testIntPowLongMinValue() {
         Assert.assertEquals(1.0, FastMath.pow(1.0, Long.MIN_VALUE), -1.0);
     }
-    
+
     @Test(timeout=5000L)
     public void testIntPowSpecialCases() {
         final double EXACT = -1.0;

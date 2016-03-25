@@ -52,35 +52,20 @@ public class TestProblem1
     y = new double[y0.length];
   }
 
-  /**
-   * Copy constructor.
-   * @param problem problem to copy
-   */
-  public TestProblem1(TestProblem1 problem) {
-    super(problem);
-    y = problem.y.clone();
-  }
-
-  /** {@inheritDoc} */
-  @Override
-public TestProblem1 copy() {
-    return new TestProblem1(this);
-  }
-
   @Override
   public void doComputeDerivatives(double t, double[] y, double[] yDot) {
 
     // compute the derivatives
-    for (int i = 0; i < n; ++i)
+    for (int i = 0; i < getDimension(); ++i)
       yDot[i] = -y[i];
 
   }
 
   @Override
   public double[] computeTheoreticalState(double t) {
-    double c = FastMath.exp (t0 - t);
-    for (int i = 0; i < n; ++i) {
-      y[i] = c * y0[i];
+    double c = FastMath.exp (getInitialTime() - t);
+    for (int i = 0; i < getDimension(); ++i) {
+      y[i] = c * getInitialState()[i];
     }
     return y;
   }

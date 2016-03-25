@@ -74,6 +74,7 @@ public abstract class BinaryChromosome extends AbstractListChromosome<Integer> {
         return rList;
     }
 
+    /** {@inheritDoc} */
     @Override
     protected boolean isSame(Chromosome another) {
         // type check

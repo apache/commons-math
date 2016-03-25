@@ -17,11 +17,12 @@
 
 package org.apache.commons.math4.ml.neuralnet;
 
-import java.util.HashMap;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
-import java.util.ArrayList;
+import java.util.Comparator;
 
 import org.apache.commons.math4.exception.NoDataException;
 import org.apache.commons.math4.ml.distance.DistanceMeasure;
@@ -136,7 +137,7 @@ public class MapUtils {
             list.add(new PairNeuronDouble(n, d));
         }
 
-        Collections.sort(list);
+        Collections.sort(list, PairNeuronDouble.COMPARATOR);
 
         final int len = list.size();
         final Neuron[] sorted = new Neuron[len];
@@ -292,18 +293,27 @@ public class MapUtils {
     /**
      * Helper data structure holding a (Neuron, double) pair.
      */
-    private static class PairNeuronDouble implements Comparable<PairNeuronDouble> {
-        /** Key */
+    private static class PairNeuronDouble {
+        /** Comparator. */
+        static final Comparator<PairNeuronDouble> COMPARATOR
+            = new Comparator<PairNeuronDouble>() {
+            /** {@inheritDoc} */
+            @Override
+            public int compare(PairNeuronDouble o1,
+                               PairNeuronDouble o2) {
+                return Double.compare(o1.value, o2.value);
+            }
+        };
+        /** Key. */
         private final Neuron neuron;
-        /** Value */
+        /** Value. */
         private final double value;
 
         /**
          * @param neuron Neuron.
          * @param value Value.
          */
-        public PairNeuronDouble(Neuron neuron,
-                                double value) {
+        PairNeuronDouble(Neuron neuron, double value) {
             this.neuron = neuron;
             this.value = value;
         }
@@ -313,15 +323,5 @@ public class MapUtils {
             return neuron;
         }
 
-        /** @return the value. */
-        public double getValue() {
-            return value;
-        }
-
-        /** {@inheritDoc} */
-        @Override
-        public int compareTo(PairNeuronDouble other) {
-            return Double.compare(this.value, other.value);
-        }
     }
 }

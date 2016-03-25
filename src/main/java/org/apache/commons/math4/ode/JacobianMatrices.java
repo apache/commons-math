@@ -433,8 +433,8 @@ public class JacobianMatrices {
          * @exception DimensionMismatchException if there is a dimension mismatch between
          * the steps array {@code hY} and the equation dimension
          */
-        public MainStateJacobianWrapper(final FirstOrderDifferentialEquations ode,
-                                        final double[] hY)
+        MainStateJacobianWrapper(final FirstOrderDifferentialEquations ode,
+                                 final double[] hY)
             throws DimensionMismatchException {
             this.ode = ode;
             this.hY = hY.clone();

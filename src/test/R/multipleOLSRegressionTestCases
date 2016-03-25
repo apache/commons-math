@@ -44,13 +44,13 @@ verifyRegression <- function(model, expectedBeta, expectedResiduals,
         displayPadded(output, SUCCEEDED, WIDTH)
     } else {
         displayPadded(output, FAILED, WIDTH)
-    }  
+    }
     output <- c("Residuals test dataset = ", modelName)
     if (assertEquals(expectedResiduals,residuals,tol,"Residuals")) {
         displayPadded(output, SUCCEEDED, WIDTH)
     } else {
         displayPadded(output, FAILED, WIDTH)
-    }    
+    }
     output <- c("Errors test dataset = ", modelName)
     if (assertEquals(expectedErrors,errors,tol,"Errors")) {
         displayPadded(output, SUCCEEDED, WIDTH)
@@ -95,13 +95,13 @@ expectedStdError <- NaN
 expectedRSquare <- 1
 expectedAdjRSquare <- NaN
 verifyRegression(model, expectedBeta, expectedResiduals, expectedErrors,
- expectedStdError, expectedRSquare, expectedAdjRSquare, "perfect fit") 
+ expectedStdError, expectedRSquare, expectedAdjRSquare, "perfect fit")
 
 # Longley
 #
 # Data Source: J. Longley (1967) "An Appraisal of Least Squares Programs for the
-# Electronic Computer from the Point of View of the User", 
-# Journal of the American Statistical Association, 
+# Electronic Computer from the Point of View of the User",
+# Journal of the American Statistical Association,
 # vol. 62. September, pp. 819-841.
 #
 # Certified values (and data) are from NIST:
@@ -154,16 +154,16 @@ expectedRSquare <- 0.995479004577296
 expectedAdjRSquare <- 0.992465007628826
 
 verifyRegression(model, expectedBeta, expectedResiduals, expectedErrors,
-expectedStdError, expectedRSquare, expectedAdjRSquare, "Longley") 
+expectedStdError, expectedRSquare, expectedAdjRSquare, "Longley")
 
 # Model with no intercept
 model <- lm(y ~ 0 + x1 + x2 + x3 + x4 + x5 + x6)
 
-estimates <- matrix(c(-52.99357013868291, 129.54486693117232, 
+estimates <- matrix(c(-52.99357013868291, 129.54486693117232,
          0.07107319907358, 0.03016640003786,
-        -0.42346585566399, 0.41773654056612, 
+        -0.42346585566399, 0.41773654056612,
         -0.57256866841929, 0.27899087467676,
-        -0.41420358884978, 0.32128496193363, 
+        -0.41420358884978, 0.32128496193363,
          48.41786562001326, 17.68948737819961),
          nrow = 6, ncol = 2, byrow = TRUE)
 
@@ -171,7 +171,7 @@ expectedBeta <- estimates[,1]
 expectedErrors <- estimates[,2]
 expectedResiduals <- c(279.90274927293092, -130.32465380836874, 90.73228661967445,
   -401.31252201634948, -440.46768772620027, -543.54512853774793, 201.32111639536299,
-   215.90889365977932, 73.09368242049943, 913.21694494481869, 424.82484953610174, 
+   215.90889365977932, 73.09368242049943, 913.21694494481869, 424.82484953610174,
    -8.56475876776709, -361.32974610842876, 27.34560497213464, 151.28955976355002,
    -492.49937355336846)
 expectedStdError <- 475.1655079819517
@@ -179,7 +179,7 @@ expectedRSquare <- 0.9999670130706
 expectedAdjRSquare <- 0.999947220913
 
 verifyRegression(model, expectedBeta, expectedResiduals, expectedErrors,
-expectedStdError, expectedRSquare, expectedAdjRSquare, "Longley No Intercept") 
+expectedStdError, expectedRSquare, expectedAdjRSquare, "Longley No Intercept")
 
 # Swiss Fertility (R dataset named "swiss")
 
@@ -272,23 +272,23 @@ expectedRSquare <- 0.649789742860228
 expectedAdjRSquare <- 0.6164363850373927
 
 verifyRegression(model, expectedBeta, expectedResiduals, expectedErrors,
-expectedStdError, expectedRSquare, expectedAdjRSquare, "Swiss Fertility") 
+expectedStdError, expectedRSquare, expectedAdjRSquare, "Swiss Fertility")
 
 # model with no intercept
 model <- lm(y ~ 0 + x1 + x2 + x3 + x4)
 
 estimates <- matrix(c(0.52191832900513, 0.10470063765677,
       2.36588087917963, 0.41684100584290,
-     -0.94770353802795, 0.43370143099691, 
+     -0.94770353802795, 0.43370143099691,
       0.30851985863609, 0.07694953606522),
      nrow = 4, ncol = 2, byrow = TRUE)
 
 expectedBeta <- estimates[,1]
 expectedErrors <- estimates[,2]
 
-expectedResiduals <- c(44.138759883538249, 27.720705122356215, 35.873200836126799, 
+expectedResiduals <- c(44.138759883538249, 27.720705122356215, 35.873200836126799,
   34.574619581211977, 26.600168342080213, 15.074636243026923, -12.704904871199814,
-  1.497443824078134, 2.691972687079431, 5.582798774291231, -4.422986561283165, 
+  1.497443824078134, 2.691972687079431, 5.582798774291231, -4.422986561283165,
   -9.198581600334345, 4.481765170730647, 2.273520207553216, -22.649827853221336,
   -17.747900013943308, 20.298314638496436, 6.861405135329779, -8.684712790954924,
   -10.298639278062371, -9.896618896845819, 4.568568616351242, -15.313570491727944,
@@ -304,6 +304,6 @@ expectedRSquare <- 0.946350722085
 expectedAdjRSquare <- 0.9413600915813
 
 verifyRegression(model, expectedBeta, expectedResiduals, expectedErrors,
-expectedStdError, expectedRSquare, expectedAdjRSquare, "Swiss Fertility No Intercept") 
+expectedStdError, expectedRSquare, expectedAdjRSquare, "Swiss Fertility No Intercept")
 
 displayDashes(WIDTH)

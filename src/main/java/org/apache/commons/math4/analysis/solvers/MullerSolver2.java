@@ -30,15 +30,15 @@ import org.apache.commons.math4.util.FastMath;
  * Muller's method applies to both real and complex functions, but here we
  * restrict ourselves to real functions.
  * This class differs from {@link MullerSolver} in the way it avoids complex
- * operations.</p>
+ * operations.</p><p>
  * Except for the initial [min, max], it does not require bracketing
- * condition, e.g. f(x0), f(x1), f(x2) can have the same sign. If complex
- * number arises in the computation, we simply use its modulus as real
+ * condition, e.g. f(x0), f(x1), f(x2) can have the same sign. If a complex
+ * number arises in the computation, we simply use its modulus as a real
  * approximation.</p>
  * <p>
- * Because the interval may not be bracketing, bisection alternative is
+ * Because the interval may not be bracketing, the bisection alternative is
  * not applicable here. However in practice our treatment usually works
- * well, especially near real zeroes where the imaginary part of complex
+ * well, especially near real zeroes where the imaginary part of the complex
  * approximation is often negligible.</p>
  * <p>
  * The formulas here do not use divided differences directly.</p>

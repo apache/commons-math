@@ -18,6 +18,7 @@ package org.apache.commons.math4.geometry.euclidean.twod;
 
 import java.util.ArrayList;
 import java.util.Iterator;
+import java.util.List;
 
 import org.apache.commons.math4.exception.MathIllegalArgumentException;
 import org.apache.commons.math4.exception.util.LocalizedFormats;
@@ -50,7 +51,7 @@ class NestedLoops {
     private Vector2D[] loop;
 
     /** Surrounded loops. */
-    private ArrayList<NestedLoops> surrounded;
+    private List<NestedLoops> surrounded;
 
     /** Polygon enclosing a finite region. */
     private Region<Euclidean2D> polygon;
@@ -69,7 +70,7 @@ class NestedLoops {
      * @param tolerance tolerance below which points are considered identical
      * @since 3.3
      */
-    public NestedLoops(final double tolerance) {
+    NestedLoops(final double tolerance) {
         this.surrounded = new ArrayList<NestedLoops>();
         this.tolerance  = tolerance;
     }

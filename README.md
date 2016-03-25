@@ -43,6 +43,11 @@
 Apache Commons Math
 ===================
 
+[![Build Status](https://travis-ci.org/apache/commons-math.svg?branch=master)](https://travis-ci.org/apache/commons-math)
+[![Coverage Status](https://coveralls.io/repos/apache/commons-math/badge.svg?branch=master&service=github)](https://coveralls.io/github/apache/commons-math?branch=master)
+[![Maven Central](https://maven-badges.herokuapp.com/maven-central/org.apache.commons/commons-math3/badge.svg)](https://maven-badges.herokuapp.com/maven-central/org.apache.commons/commons-math3/)
+[![License](http://img.shields.io/:license-apache-blue.svg)](http://www.apache.org/licenses/LICENSE-2.0.html)
+
 The Apache Commons Math project is a library of lightweight, self-contained mathematics and statistics components addressing the most common practical problems not immediately available in the Java programming language or commons-lang.
 
 Documentation
@@ -62,7 +67,7 @@ Alternatively you can pull it from the central Maven repositories:
 <dependency>
   <groupId>org.apache.commons</groupId>
   <artifactId>commons-math3</artifactId>
-  <version>3.4.1</version>
+  <version>3.5</version>
 </dependency>
 ```
 

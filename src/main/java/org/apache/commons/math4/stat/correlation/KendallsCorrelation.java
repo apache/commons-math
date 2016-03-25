@@ -168,6 +168,7 @@ public class KendallsCorrelation {
         }
 
         Arrays.sort(pairs, new Comparator<Pair<Double, Double>>() {
+            /** {@inheritDoc} */
             @Override
             public int compare(Pair<Double, Double> pair1, Pair<Double, Double> pair2) {
                 int compareFirst = pair1.getFirst().compareTo(pair2.getFirst());

@@ -112,6 +112,7 @@ public class LogisticDistribution extends AbstractRealDistribution {
         return 1.0 / (1.0 + FastMath.exp(-z));
     }
 
+    /** {@inheritDoc} */
     @Override
     public double inverseCumulativeProbability(double p) throws OutOfRangeException {
         if (p < 0.0 || p > 1.0) {

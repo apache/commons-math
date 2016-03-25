@@ -125,7 +125,7 @@ public class TravellingSalesmanSolver {
                                                createRandomIterator(numSamplesPerTask),
                                                action);
         }
-        
+
         return tasks;
     }
 

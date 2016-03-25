@@ -146,7 +146,7 @@ public class PolyhedronsSetTest {
         Vector3D barycenter = (Vector3D) tree.getBarycenter();
         Vector3D s = new Vector3D(10.2, 4.3, -6.7);
         Vector3D c = new Vector3D(-0.2, 2.1, -3.2);
-        Rotation r = new Rotation(new Vector3D(6.2, -4.4, 2.1), 0.12);
+        Rotation r = new Rotation(new Vector3D(6.2, -4.4, 2.1), 0.12, RotationConvention.VECTOR_OPERATOR);
 
         tree = tree.rotate(c, r).translate(s);
 
@@ -258,20 +258,20 @@ public class PolyhedronsSetTest {
     @Test
     public void testIssue780() throws MathArithmeticException {
         float[] coords = {
-            1.000000f, -1.000000f, -1.000000f, 
-            1.000000f, -1.000000f, 1.000000f, 
-            -1.000000f, -1.000000f, 1.000000f, 
-            -1.000000f, -1.000000f, -1.000000f, 
-            1.000000f, 1.000000f, -1f, 
-            0.999999f, 1.000000f, 1.000000f,   // 1.000000f, 1.000000f, 1.000000f, 
-            -1.000000f, 1.000000f, 1.000000f, 
+            1.000000f, -1.000000f, -1.000000f,
+            1.000000f, -1.000000f, 1.000000f,
+            -1.000000f, -1.000000f, 1.000000f,
+            -1.000000f, -1.000000f, -1.000000f,
+            1.000000f, 1.000000f, -1f,
+            0.999999f, 1.000000f, 1.000000f,   // 1.000000f, 1.000000f, 1.000000f,
+            -1.000000f, 1.000000f, 1.000000f,
             -1.000000f, 1.000000f, -1.000000f};
         int[] indices = {
-            0, 1, 2, 0, 2, 3, 
-            4, 7, 6, 4, 6, 5, 
-            0, 4, 5, 0, 5, 1, 
-            1, 5, 6, 1, 6, 2, 
-            2, 6, 7, 2, 7, 3, 
+            0, 1, 2, 0, 2, 3,
+            4, 7, 6, 4, 6, 5,
+            0, 4, 5, 0, 5, 1,
+            1, 5, 6, 1, 6, 2,
+            2, 6, 7, 2, 7, 3,
             4, 0, 3, 4, 3, 7};
         ArrayList<SubHyperplane<Euclidean3D>> subHyperplaneList = new ArrayList<SubHyperplane<Euclidean3D>>();
         for (int idx = 0; idx < indices.length; idx += 3) {

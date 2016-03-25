@@ -568,6 +568,15 @@ public class ComplexTest {
     }
 
     @Test
+    public void testFloatingPointEqualsWithAllowedDeltaNaN() {
+        final Complex x = new Complex(0, Double.NaN);
+        final Complex y = new Complex(Double.NaN, 0);
+        Assert.assertFalse(Complex.equals(x, Complex.ZERO, 0.1));
+        Assert.assertFalse(Complex.equals(x, x, 0.1));
+        Assert.assertFalse(Complex.equals(x, y, 0.1));
+    }
+
+    @Test
     public void testFloatingPointEqualsWithRelativeTolerance() {
         final double tol = 1e-4;
         final double re = 1;
@@ -577,6 +586,15 @@ public class ComplexTest {
         final Complex x = new Complex(re, im);
         final Complex y = new Complex(re * f, im * f);
         Assert.assertTrue(Complex.equalsWithRelativeTolerance(x, y, tol));
+    }
+
+    @Test
+    public void testFloatingPointEqualsWithRelativeToleranceNaN() {
+        final Complex x = new Complex(0, Double.NaN);
+        final Complex y = new Complex(Double.NaN, 0);
+        Assert.assertFalse(Complex.equalsWithRelativeTolerance(x, Complex.ZERO, 0.1));
+        Assert.assertFalse(Complex.equalsWithRelativeTolerance(x, x, 0.1));
+        Assert.assertFalse(Complex.equalsWithRelativeTolerance(x, y, 0.1));
     }
 
     @Test
@@ -822,7 +840,7 @@ public class ComplexTest {
         };
         for(String t : props) {
             System.out.println(t + "=" + System.getProperty(t));
-        }    
+        }
         System.out.println("<<testJava()");
     }
 

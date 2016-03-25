@@ -105,7 +105,7 @@ public class RectangularCholeskyDecompositionTest {
         composeAndTest(m3, 4);
 
     }
-    
+
     private void composeAndTest(RealMatrix m, int expectedRank) {
         RectangularCholeskyDecomposition r = new RectangularCholeskyDecomposition(m);
         Assert.assertEquals(expectedRank, r.getRank());

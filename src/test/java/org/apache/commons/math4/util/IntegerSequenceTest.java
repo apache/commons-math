@@ -27,17 +27,40 @@ import org.junit.Test;
  */
 public class IntegerSequenceTest {
     @Test
+    public void testRangeMultipleIterations() {
+        // Check that we can iterate several times using the same instance.
+        final int start = 1;
+        final int max = 7;
+        final int step = 2;
+
+        final List<Integer> seq = new ArrayList<Integer>();
+        final IntegerSequence.Range r = IntegerSequence.range(start, max, step);
+
+        final int numTimes = 3;
+        for (int n = 0; n < numTimes; n++) {
+            seq.clear();
+            for (Integer i : r) {
+                seq.add(i);
+            }
+            Assert.assertEquals(4, seq.size());
+            Assert.assertEquals(seq.size(), r.size());
+        }
+    }
+
+    @Test
     public void testIncreasingRange() {
         final int start = 1;
         final int max = 7;
         final int step = 2;
 
         final List<Integer> seq = new ArrayList<Integer>();
-        for (Integer i : IntegerSequence.range(start, max, step)) {
+        final IntegerSequence.Range r = IntegerSequence.range(start, max, step);
+        for (Integer i : r) {
             seq.add(i);
         }
 
         Assert.assertEquals(4, seq.size());
+        Assert.assertEquals(seq.size(), r.size());
         for (int i = 0; i < seq.size(); i++) {
             Assert.assertEquals(start + i * step, seq.get(i).intValue());
         }
@@ -50,11 +73,13 @@ public class IntegerSequenceTest {
         final int step = 2;
 
         final List<Integer> seq = new ArrayList<Integer>();
-        for (Integer i : IntegerSequence.range(start, max, step)) {
+        final IntegerSequence.Range r = IntegerSequence.range(start, max, step);
+        for (Integer i : r) {
             seq.add(i);
         }
 
         Assert.assertEquals(5, seq.size());
+        Assert.assertEquals(seq.size(), r.size());
         for (int i = 0; i < seq.size(); i++) {
             Assert.assertEquals(start + i * step, seq.get(i).intValue());
         }
@@ -67,11 +92,13 @@ public class IntegerSequenceTest {
         final int step = -3;
 
         final List<Integer> seq = new ArrayList<Integer>();
-        for (Integer i : IntegerSequence.range(start, max, step)) {
+        final IntegerSequence.Range r = IntegerSequence.range(start, max, step);
+        for (Integer i : r) {
             seq.add(i);
         }
 
         Assert.assertEquals(7, seq.size());
+        Assert.assertEquals(seq.size(), r.size());
         for (int i = 0; i < seq.size(); i++) {
             Assert.assertEquals(start + i * step, seq.get(i).intValue());
         }
@@ -84,11 +111,13 @@ public class IntegerSequenceTest {
         final int step = -1;
 
         final List<Integer> seq = new ArrayList<Integer>();
-        for (Integer i : IntegerSequence.range(start, max, step)) {
+        final IntegerSequence.Range r = IntegerSequence.range(start, max, step);
+        for (Integer i : r) {
             seq.add(i);
         }
 
         Assert.assertEquals(1, seq.size());
+        Assert.assertEquals(seq.size(), r.size());
         Assert.assertEquals(start, seq.get(0).intValue());
     }
 
@@ -110,14 +139,16 @@ public class IntegerSequenceTest {
     @Test
     public void testEmptyRange() {
         final int start = 2;
-        final int end = 1;
+        final int end = 0;
 
         final List<Integer> seq = new ArrayList<Integer>();
-        for (Integer i : IntegerSequence.range(start, end)) {
+        final IntegerSequence.Range r = IntegerSequence.range(start, end);
+        for (Integer i : r) {
             seq.add(i);
         }
 
         Assert.assertEquals(0, seq.size());
+        Assert.assertEquals(seq.size(), r.size());
     }
 
     @Test
@@ -127,11 +158,13 @@ public class IntegerSequenceTest {
         final int step = -1;
 
         final List<Integer> seq = new ArrayList<Integer>();
-        for (Integer i : IntegerSequence.range(start, max, step)) {
+        final IntegerSequence.Range r = IntegerSequence.range(start, max, step);
+        for (Integer i : r) {
             seq.add(i);
         }
 
         Assert.assertEquals(0, seq.size());
+        Assert.assertEquals(seq.size(), r.size());
     }
 
     @Test(expected=MaxCountExceededException.class)

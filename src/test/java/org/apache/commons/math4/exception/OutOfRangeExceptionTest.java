@@ -22,7 +22,7 @@ import org.junit.Test;
 
 /**
  * Test for {@link OutOfRangeException}.
- * 
+ *
  */
 public class OutOfRangeExceptionTest {
     @Test

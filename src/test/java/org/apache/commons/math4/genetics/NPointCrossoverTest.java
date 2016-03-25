@@ -42,7 +42,7 @@ public class NPointCrossoverTest {
         final CrossoverPolicy cp = new NPointCrossover<Integer>(1);
         cp.crossover(p1c,p2c);
     }
-    
+
     @Test(expected = NumberIsTooLargeException.class)
     public void testNumberIsTooLargeException() {
         final Integer[] p1 = new Integer[] {1,0,1,0,0,1,0,1,1};
@@ -54,7 +54,7 @@ public class NPointCrossoverTest {
         final CrossoverPolicy cp = new NPointCrossover<Integer>(15);
         cp.crossover(p1c,p2c);
     }
-    
+
     @Test(expected = MathIllegalArgumentException.class)
     public void testCrossoverInvalidFixedLengthChromosomeFirst() {
         final Integer[] p1 = new Integer[] {1,0,1,0,0,1,0,1,1};
@@ -69,7 +69,7 @@ public class NPointCrossoverTest {
         final CrossoverPolicy cp = new NPointCrossover<Integer>(1);
         cp.crossover(p1c,p2c);
     }
-    
+
     @Test(expected = MathIllegalArgumentException.class)
     public void testCrossoverInvalidFixedLengthChromosomeSecond() {
         final Integer[] p1 = new Integer[] {1,0,1,0,0,1,0,1,1};
@@ -84,7 +84,7 @@ public class NPointCrossoverTest {
         final CrossoverPolicy cp = new NPointCrossover<Integer>(1);
         cp.crossover(p1c,p2c);
     }
-    
+
     @Test
     public void testCrossover() {
         Integer[] p1 = new Integer[] {1,0,1,0,1,0,1,0,1};
@@ -108,10 +108,10 @@ public class NPointCrossoverTest {
             c2 = ((BinaryChromosome) pair.getSecond()).getRepresentation().toArray(c2);
 
             Assert.assertEquals(order, detectCrossoverPoints(p1c, p2c, (BinaryChromosome) pair.getFirst()));
-            Assert.assertEquals(order, detectCrossoverPoints(p2c, p1c, (BinaryChromosome) pair.getSecond()));            
+            Assert.assertEquals(order, detectCrossoverPoints(p2c, p1c, (BinaryChromosome) pair.getSecond()));
         }
     }
-    
+
     private int detectCrossoverPoints(BinaryChromosome p1, BinaryChromosome p2, BinaryChromosome c) {
         int crossovers = 0;
         final int length = p1.getLength();
@@ -119,7 +119,7 @@ public class NPointCrossoverTest {
         final List<Integer> p1Rep = p1.getRepresentation();
         final List<Integer> p2Rep = p2.getRepresentation();
         final List<Integer> cRep = c.getRepresentation();
-        
+
         List<Integer> rep = p1Rep;
         for (int i = 0; i < length; i++) {
             if (rep.get(i) != cRep.get(i)) {
@@ -127,7 +127,7 @@ public class NPointCrossoverTest {
                 rep = rep == p1Rep ? p2Rep : p1Rep;
             }
         }
-        
+
         return crossovers;
     }
 

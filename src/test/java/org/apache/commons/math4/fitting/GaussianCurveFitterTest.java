@@ -238,7 +238,7 @@ public class GaussianCurveFitterTest {
     public void testFit02() {
         GaussianCurveFitter.create().fit(new WeightedObservedPoints().toList());
     }
-    
+
     /**
      * Two points is not enough observed points.
      */
@@ -250,7 +250,7 @@ public class GaussianCurveFitterTest {
                     {4.02804905, 664002.0}
                 }).toList());
     }
-    
+
     /**
      * Poor data: right of peak not symmetric with left of peak.
      */
@@ -262,8 +262,8 @@ public class GaussianCurveFitterTest {
         Assert.assertEquals(233003.2967252038, parameters[0], 1e-4);
         Assert.assertEquals(-10.654887521095983, parameters[1], 1e-4);
         Assert.assertEquals(4.335937353196641, parameters[2], 1e-4);
-    }  
-    
+    }
+
     /**
      * Poor data: long tails.
      */
@@ -276,7 +276,7 @@ public class GaussianCurveFitterTest {
         Assert.assertEquals(-13.29641995105174, parameters[1], 1e-4);
         Assert.assertEquals(1.7297330293549908, parameters[2], 1e-4);
     }
-    
+
     /**
      * Poor data: right of peak is missing.
      */
@@ -288,7 +288,7 @@ public class GaussianCurveFitterTest {
         Assert.assertEquals(285250.66754309234, parameters[0], 1e-4);
         Assert.assertEquals(-13.528375695228455, parameters[1], 1e-4);
         Assert.assertEquals(1.5204344894331614, parameters[2], 1e-4);
-    }    
+    }
 
     /**
      * Basic with smaller dataset.
@@ -308,7 +308,7 @@ public class GaussianCurveFitterTest {
         // The optimizer will try negative sigma values but "GaussianCurveFitter"
         // will catch the raised exceptions and return NaN values instead.
 
-        final double[] data = { 
+        final double[] data = {
             1.1143831578403364E-29,
             4.95281403484594E-28,
             1.1171347211930288E-26,
@@ -376,7 +376,7 @@ public class GaussianCurveFitterTest {
         Assert.assertEquals(0.603770729862231, p[1], 1e-15);
         Assert.assertEquals(1.0786447936766612, p[2], 1e-14);
     }
-    
+
     /**
      * Adds the specified points to specified <code>GaussianCurveFitter</code>
      * instance.

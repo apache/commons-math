@@ -50,7 +50,7 @@ public class GaussNewtonOptimizer implements LeastSquaresOptimizer {
 
     /** The decomposition algorithm to use to solve the normal equations. */
     //TODO move to linear package and expand options?
-    public static enum Decomposition {
+    public enum Decomposition {
         /**
          * Solve by forming the normal equations (J<sup>T</sup>Jx=J<sup>T</sup>r) and
          * using the {@link LUDecomposition}.
@@ -234,13 +234,11 @@ public class GaussNewtonOptimizer implements LeastSquaresOptimizer {
             currentPoint = current.getPoint();
 
             // Check convergence.
-            if (previous != null) {
-                if (checker.converged(iterationCounter.getCount(), previous, current)) {
-                    return new OptimumImpl(
-                            current,
-                            evaluationCounter.getCount(),
-                            iterationCounter.getCount());
-                }
+            if (previous != null &&
+                checker.converged(iterationCounter.getCount(), previous, current)) {
+                return new OptimumImpl(current,
+                                       evaluationCounter.getCount(),
+                                       iterationCounter.getCount());
             }
 
             // solve the linearized least squares problem
@@ -250,6 +248,7 @@ public class GaussNewtonOptimizer implements LeastSquaresOptimizer {
         }
     }
 
+    /** {@inheritDoc} */
     @Override
     public String toString() {
         return "GaussNewtonOptimizer{" +

@@ -127,10 +127,10 @@ public class RRQRSolverTest {
                 { 1, 2515 }, { 2, 422 }, { -3, 898 }
         });
 
-        
+
         RRQRDecomposition decomposition = new RRQRDecomposition(MatrixUtils.createRealMatrix(testData3x3NonSingular));
         DecompositionSolver solver = decomposition.getSolver();
-        
+
         // using RealMatrix
         Assert.assertEquals(0, solver.solve(b).subtract(xRef).getNorm(), 3.0e-16 * xRef.getNorm());
 

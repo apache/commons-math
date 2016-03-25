@@ -88,11 +88,11 @@ public class EventStateTest {
                MaxCountExceededException, NoBracketingException {
 
         FirstOrderDifferentialEquations equation = new FirstOrderDifferentialEquations() {
-            
+
             public int getDimension() {
                 return 1;
             }
-            
+
             public void computeDerivatives(double t, double[] y, double[] yDot) {
                 yDot[0] = 1.0;
             }
@@ -153,11 +153,11 @@ public class EventStateTest {
 
         ExpandableStatefulODE equation =
                 new ExpandableStatefulODE(new FirstOrderDifferentialEquations() {
-            
+
             public int getDimension() {
                 return 1;
             }
-            
+
             public void computeDerivatives(double t, double[] y, double[] yDot) {
                 yDot[0] = 2.0;
             }
@@ -165,11 +165,11 @@ public class EventStateTest {
         equation.setTime(0.0);
         equation.setPrimaryState(new double[1]);
         equation.addSecondaryEquations(new SecondaryEquations() {
-            
+
             public int getDimension() {
                 return 1;
             }
-            
+
             public void computeDerivatives(double t, double[] primary,
                                            double[] primaryDot, double[] secondary,
                                            double[] secondaryDot) {
@@ -221,11 +221,11 @@ public class EventStateTest {
                MaxCountExceededException, NoBracketingException {
 
         FirstOrderDifferentialEquations equation = new FirstOrderDifferentialEquations() {
-            
+
             public int getDimension() {
                 return 1;
             }
-            
+
             public void computeDerivatives(double t, double[] y, double[] yDot) {
                 yDot[0] = 1.0;
             }

@@ -587,7 +587,7 @@ public class ArithmeticUtilsTest {
             // success
         }
     }
-    
+
     /**
      * Testing helper method.
      * @return an array of int numbers containing corner cases:<ul>
@@ -619,7 +619,7 @@ public class ArithmeticUtilsTest {
         }
         return ints;
     }
-    
+
     /**
      * Testing helper method.
      * @return an array of long numbers containing corner cases:<ul>
@@ -656,37 +656,37 @@ public class ArithmeticUtilsTest {
         }
         return longs;
     }
-    
+
     private static long toUnsignedLong(int number) {
         return number < 0 ? 0x100000000L + (long)number : (long)number;
     }
-    
+
     private static int remainderUnsignedExpected(int dividend, int divisor) {
         return (int)remainderUnsignedExpected(toUnsignedLong(dividend), toUnsignedLong(divisor));
     }
-    
+
     private static int divideUnsignedExpected(int dividend, int divisor) {
         return (int)divideUnsignedExpected(toUnsignedLong(dividend), toUnsignedLong(divisor));
     }
-    
+
     private static BigInteger toUnsignedBigInteger(long number) {
         return number < 0L ? BigInteger.ONE.shiftLeft(64).add(BigInteger.valueOf(number)) : BigInteger.valueOf(number);
     }
-    
+
     private static long remainderUnsignedExpected(long dividend, long divisor) {
         return toUnsignedBigInteger(dividend).remainder(toUnsignedBigInteger(divisor)).longValue();
     }
-    
+
     private static long divideUnsignedExpected(long dividend, long divisor) {
         return toUnsignedBigInteger(dividend).divide(toUnsignedBigInteger(divisor)).longValue();
     }
-    
+
     @Test(timeout=5000L)
     public void testRemainderUnsignedInt() {
         Assert.assertEquals(36, ArithmeticUtils.remainderUnsigned(-2147479015, 63));
         Assert.assertEquals(6, ArithmeticUtils.remainderUnsigned(-2147479015, 25));
     }
-    
+
     @Test(timeout=5000L)
     public void testRemainderUnsignedIntSpecialCases() {
         int ints[] = getIntSpecialCases();
@@ -705,12 +705,12 @@ public class ArithmeticUtilsTest {
             }
         }
     }
-    
+
     @Test(timeout=5000L)
     public void testRemainderUnsignedLong() {
         Assert.assertEquals(48L, ArithmeticUtils.remainderUnsigned(-2147479015L, 63L));
     }
-    
+
     @Test//(timeout=5000L)
     public void testRemainderUnsignedLongSpecialCases() {
         long longs[] = getLongSpecialCases();
@@ -729,7 +729,7 @@ public class ArithmeticUtilsTest {
             }
         }
     }
-    
+
     @Test(timeout=5000L)
     public void testDivideUnsignedInt() {
         Assert.assertEquals(34087115, ArithmeticUtils.divideUnsigned(-2147479015, 63));
@@ -743,7 +743,7 @@ public class ArithmeticUtilsTest {
         Assert.assertEquals(1, ArithmeticUtils.divideUnsigned(-16, 2147483647));
         Assert.assertEquals(1, ArithmeticUtils.divideUnsigned(-16, 2147483646));
     }
-    
+
     @Test(timeout=5000L)
     public void testDivideUnsignedIntSpecialCases() {
         int ints[] = getIntSpecialCases();
@@ -762,12 +762,12 @@ public class ArithmeticUtilsTest {
             }
         }
     }
-    
+
     @Test(timeout=5000L)
     public void testDivideUnsignedLong() {
         Assert.assertEquals(292805461453366231L, ArithmeticUtils.divideUnsigned(-2147479015L, 63L));
     }
-    
+
     @Test(timeout=5000L)
     public void testDivideUnsignedLongSpecialCases() {
         long longs[] = getLongSpecialCases();

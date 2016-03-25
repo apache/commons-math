@@ -49,20 +49,20 @@ public class UniformCrossoverTest {
     public void testRatioTooLow() {
         new UniformCrossover<Integer>(-0.5d);
     }
-    
+
     @Test(expected = OutOfRangeException.class)
     public void testRatioTooHigh() {
         new UniformCrossover<Integer>(1.5d);
     }
-    
+
     @Test
     public void testCrossover() {
         // test crossover with different ratios
         performCrossover(0.5);
         performCrossover(0.7);
-        performCrossover(0.2);        
+        performCrossover(0.2);
     }
-    
+
     private void performCrossover(double ratio) {
         final DummyBinaryChromosome p1c = new DummyBinaryChromosome(p1);
         final DummyBinaryChromosome p2c = new DummyBinaryChromosome(p2);
@@ -107,7 +107,7 @@ public class UniformCrossoverTest {
             Assert.assertEquals(1.0 - ratio, (double) from2 / LEN, 0.1);
         }
     }
-    
+
     @Test(expected = DimensionMismatchException.class)
     public void testCrossoverDimensionMismatchException(){
         @SuppressWarnings("boxing")
@@ -121,7 +121,7 @@ public class UniformCrossoverTest {
         final CrossoverPolicy cp = new UniformCrossover<Integer>(0.5d);
         cp.crossover(p1c, p2c);
     }
-    
+
     @Test(expected = MathIllegalArgumentException.class)
     public void testCrossoverInvalidFixedLengthChromosomeFirst() {
         @SuppressWarnings("boxing")
@@ -137,7 +137,7 @@ public class UniformCrossoverTest {
         final CrossoverPolicy cp = new UniformCrossover<Integer>(0.5d);
         cp.crossover(p1c, p2c);
     }
-    
+
     @Test(expected = MathIllegalArgumentException.class)
     public void testCrossoverInvalidFixedLengthChromosomeSecond() {
         @SuppressWarnings("boxing")

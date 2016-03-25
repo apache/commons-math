@@ -275,7 +275,7 @@ class BicubicFunction implements BivariateFunction {
      *
      * @param coeff Spline coefficients.
      */
-    public BicubicFunction(double[] coeff) {
+    BicubicFunction(double[] coeff) {
         a = new double[N][N];
         for (int j = 0; j < N; j++) {
             final double[] aJ = a[j];
