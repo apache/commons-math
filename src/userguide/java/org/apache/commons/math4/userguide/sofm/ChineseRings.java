@@ -20,6 +20,8 @@ package org.apache.commons.math4.userguide.sofm;
 import org.apache.commons.math4.geometry.euclidean.threed.Vector3D;
 import org.apache.commons.math4.geometry.euclidean.threed.Rotation;
 import org.apache.commons.math4.random.UnitSphereRandomVectorGenerator;
+import org.apache.commons.math4.rng.UniformRandomProvider;
+import org.apache.commons.math4.rng.RandomSource;
 import org.apache.commons.math4.distribution.RealDistribution;
 import org.apache.commons.math4.distribution.UniformRealDistribution;
 
@@ -57,11 +59,13 @@ public class ChineseRings {
         final UnitSphereRandomVectorGenerator unit
             = new UnitSphereRandomVectorGenerator(2);
 
-        final RealDistribution radius1
+        final UniformRandomProvider rng = RandomSource.create(RandomSource.WELL_19937_C);
+
+        final RealDistribution.Sampler radius1
             = new UniformRealDistribution(radiusRing1 - halfWidthRing1,
-                                          radiusRing1 + halfWidthRing1);
-        final RealDistribution widthRing1
-            = new UniformRealDistribution(-halfWidthRing1, halfWidthRing1);
+                                          radiusRing1 + halfWidthRing1).createSampler(rng);
+        final RealDistribution.Sampler widthRing1
+            = new UniformRealDistribution(-halfWidthRing1, halfWidthRing1).createSampler(rng);
 
         for (int i = 0; i < numPointsRing1; i++) {
             final double[] v = unit.nextVector();
@@ -72,11 +76,11 @@ public class ChineseRings {
                                         widthRing1.sample());
         }
 
-        final RealDistribution radius2
+        final RealDistribution.Sampler radius2
             = new UniformRealDistribution(radiusRing2 - halfWidthRing2,
-                                          radiusRing2 + halfWidthRing2);
-        final RealDistribution widthRing2
-            = new UniformRealDistribution(-halfWidthRing2, halfWidthRing2);
+                                          radiusRing2 + halfWidthRing2).createSampler(rng);
+        final RealDistribution.Sampler widthRing2
+            = new UniformRealDistribution(-halfWidthRing2, halfWidthRing2).createSampler(rng);
 
         for (int i = 0; i < numPointsRing2; i++) {
             final double[] v = unit.nextVector();
