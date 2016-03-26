@@ -42,10 +42,8 @@ public class BetaDistribution extends AbstractRealDistribution {
     private final double alpha;
     /** Second shape parameter. */
     private final double beta;
-    /** Normalizing factor used in density computations.
-     * updated whenever alpha or beta are changed.
-     */
-    private double z;
+    /** Normalizing factor used in density computations.*/
+    private final double z;
     /** Inverse cumulative probability accuracy. */
     private final double solverAbsoluteAccuracy;
 
@@ -75,7 +73,7 @@ public class BetaDistribution extends AbstractRealDistribution {
                             double inverseCumAccuracy) {
         this.alpha = alpha;
         this.beta = beta;
-        z = Double.NaN;
+        z = Gamma.logGamma(alpha) + Gamma.logGamma(beta) - Gamma.logGamma(alpha + beta);
         solverAbsoluteAccuracy = inverseCumAccuracy;
     }
 
@@ -97,13 +95,6 @@ public class BetaDistribution extends AbstractRealDistribution {
         return beta;
     }
 
-    /** Recompute the normalization factor. */
-    private void recomputeZ() {
-        if (Double.isNaN(z)) {
-            z = Gamma.logGamma(alpha) + Gamma.logGamma(beta) - Gamma.logGamma(alpha + beta);
-        }
-    }
-
     /** {@inheritDoc} */
     @Override
     public double density(double x) {
@@ -114,7 +105,6 @@ public class BetaDistribution extends AbstractRealDistribution {
     /** {@inheritDoc} **/
     @Override
     public double logDensity(double x) {
-        recomputeZ();
         if (x < 0 || x > 1) {
             return Double.NEGATIVE_INFINITY;
         } else if (x == 0) {
