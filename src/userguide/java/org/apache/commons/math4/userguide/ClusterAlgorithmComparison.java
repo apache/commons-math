@@ -46,7 +46,7 @@ import org.apache.commons.math4.ml.clustering.DBSCANClusterer;
 import org.apache.commons.math4.ml.clustering.DoublePoint;
 import org.apache.commons.math4.ml.clustering.FuzzyKMeansClusterer;
 import org.apache.commons.math4.ml.clustering.KMeansPlusPlusClusterer;
-import org.apache.commons.math4.random.RandomAdaptor;
+import org.apache.commons.math4.random.JDKRandomAdaptor;
 import org.apache.commons.math4.random.SobolSequenceGenerator;
 import org.apache.commons.math4.rng.UniformRandomProvider;
 import org.apache.commons.math4.rng.RandomSource;
@@ -84,8 +84,7 @@ public class ClusterAlgorithmComparison {
         }
         
         if (shuffle) {
-            // Collections.shuffle(points, new RandomAdaptor(rng)); // XXX TODO
-            Collections.shuffle(points); // XXX temporary workaround
+            Collections.shuffle(points, new JDKRandomAdaptor(rng));
         }
 
         return points;
@@ -115,8 +114,7 @@ public class ClusterAlgorithmComparison {
         }
         
         if (shuffle) {
-            // Collections.shuffle(points, new RandomAdaptor(rng)); // XXX TODO
-            Collections.shuffle(points); // XXX temporary workaround
+            Collections.shuffle(points, new JDKRandomAdaptor(rng));
         }
 
         return points;
@@ -153,8 +151,7 @@ public class ClusterAlgorithmComparison {
         }
         
         if (shuffle) {
-            // Collections.shuffle(points, new RandomAdaptor(rng)); // XXX TODO
-            Collections.shuffle(points); // XXX temporary workaround
+            Collections.shuffle(points, new JDKRandomAdaptor(rng));
         }
 
         return points;
@@ -206,8 +203,9 @@ public class ClusterAlgorithmComparison {
             setLayout(new GridBagLayout());
             
             int nSamples = 1500;
-            
-            UniformRandomProvider rng = RandomSource.create(RandomSource.WELL_19937_C, 0);
+
+            final long seed = RandomSource.createLong(); // Random seed.
+            UniformRandomProvider rng = RandomSource.create(RandomSource.WELL_19937_C, seed);
             List<List<DoublePoint>> datasets = new ArrayList<List<DoublePoint>>();
 
             datasets.add(normalize(makeCircles(nSamples, true, 0.04, 0.5, rng), -1, 1, -1, 1));
