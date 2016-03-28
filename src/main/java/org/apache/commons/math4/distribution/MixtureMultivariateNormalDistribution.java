@@ -21,7 +21,6 @@ import java.util.List;
 
 import org.apache.commons.math4.exception.DimensionMismatchException;
 import org.apache.commons.math4.exception.NotPositiveException;
-import org.apache.commons.math4.random.RandomGenerator;
 import org.apache.commons.math4.util.Pair;
 
 /**
@@ -33,63 +32,42 @@ import org.apache.commons.math4.util.Pair;
  */
 public class MixtureMultivariateNormalDistribution
     extends MixtureMultivariateRealDistribution<MultivariateNormalDistribution> {
-
-    /**
-     * Creates a multivariate normal mixture distribution.
-     * <p>
-     * <b>Note:</b> this constructor will implicitly create an instance of
-     * {@link org.apache.commons.math4.random.Well19937c Well19937c} as random
-     * generator to be used for sampling only (see {@link #sample()} and
-     * {@link #sample(int)}). In case no sampling is needed for the created
-     * distribution, it is advised to pass {@code null} as random generator via
-     * the appropriate constructors to avoid the additional initialisation
-     * overhead.
-     *
-     * @param weights Weights of each component.
-     * @param means Mean vector for each component.
-     * @param covariances Covariance matrix for each component.
-     */
-    public MixtureMultivariateNormalDistribution(double[] weights,
-                                                 double[][] means,
-                                                 double[][][] covariances) {
-        super(createComponents(weights, means, covariances));
-    }
-
-    /**
-     * Creates a mixture model from a list of distributions and their
-     * associated weights.
-     * <p>
-     * <b>Note:</b> this constructor will implicitly create an instance of
-     * {@link org.apache.commons.math4.random.Well19937c Well19937c} as random
-     * generator to be used for sampling only (see {@link #sample()} and
-     * {@link #sample(int)}). In case no sampling is needed for the created
-     * distribution, it is advised to pass {@code null} as random generator via
-     * the appropriate constructors to avoid the additional initialisation
-     * overhead.
-     *
-     * @param components List of (weight, distribution) pairs from which to sample.
-     */
-    public MixtureMultivariateNormalDistribution(List<Pair<Double, MultivariateNormalDistribution>> components) {
-        super(components);
-    }
-
     /**
      * Creates a mixture model from a list of distributions and their
      * associated weights.
      *
-     * @param rng Random number generator.
      * @param components Distributions from which to sample.
      * @throws NotPositiveException if any of the weights is negative.
      * @throws DimensionMismatchException if not all components have the same
      * number of variables.
      */
-    public MixtureMultivariateNormalDistribution(RandomGenerator rng,
-                                                 List<Pair<Double, MultivariateNormalDistribution>> components)
-        throws NotPositiveException, DimensionMismatchException {
-        super(rng, components);
+    public MixtureMultivariateNormalDistribution(List<Pair<Double, MultivariateNormalDistribution>> components)
+        throws NotPositiveException,
+               DimensionMismatchException {
+        super(components);
     }
 
     /**
+     * Creates a multivariate normal mixture distribution.
+     *
+     * @param weights Weights of each component.
+     * @param means Mean vector for each component.
+     * @param covariances Covariance matrix for each component.
+     * @throws NotPositiveException if any of the weights is negative.
+     * @throws DimensionMismatchException if not all components have the same
+     * number of variables.
+     */
+    public MixtureMultivariateNormalDistribution(double[] weights,
+                                                 double[][] means,
+                                                 double[][][] covariances)
+        throws NotPositiveException,
+               DimensionMismatchException {
+        this(createComponents(weights, means, covariances));
+    }
+
+    /**
+     * Creates components of the mixture model.
+     *
      * @param weights Weights of each component.
      * @param means Mean vector for each component.
      * @param covariances Covariance matrix for each component.

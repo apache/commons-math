@@ -22,8 +22,7 @@ import org.apache.commons.math4.linear.EigenDecomposition;
 import org.apache.commons.math4.linear.NonPositiveDefiniteMatrixException;
 import org.apache.commons.math4.linear.RealMatrix;
 import org.apache.commons.math4.linear.SingularMatrixException;
-import org.apache.commons.math4.random.RandomGenerator;
-import org.apache.commons.math4.random.Well19937c;
+import org.apache.commons.math4.rng.UniformRandomProvider;
 import org.apache.commons.math4.util.FastMath;
 import org.apache.commons.math4.util.MathArrays;
 
@@ -53,17 +52,11 @@ public class MultivariateNormalDistribution
     /**
      * Creates a multivariate normal distribution with the given mean vector and
      * covariance matrix.
-     * <br/>
+     * <p>
      * The number of dimensions is equal to the length of the mean vector
      * and to the number of rows and columns of the covariance matrix.
      * It is frequently written as "p" in formulae.
-     * <p>
-     * <b>Note:</b> this constructor will implicitly create an instance of
-     * {@link Well19937c} as random generator to be used for sampling only (see
-     * {@link #sample()} and {@link #sample(int)}). In case no sampling is
-     * needed for the created distribution, it is advised to pass {@code null}
-     * as random generator via the appropriate constructors to avoid the
-     * additional initialisation overhead.
+     * </p>
      *
      * @param means Vector of means.
      * @param covariances Covariance matrix.
@@ -76,37 +69,10 @@ public class MultivariateNormalDistribution
      */
     public MultivariateNormalDistribution(final double[] means,
                                           final double[][] covariances)
-        throws SingularMatrixException,
-               DimensionMismatchException,
-               NonPositiveDefiniteMatrixException {
-        this(new Well19937c(), means, covariances);
-    }
-
-    /**
-     * Creates a multivariate normal distribution with the given mean vector and
-     * covariance matrix.
-     * <br/>
-     * The number of dimensions is equal to the length of the mean vector
-     * and to the number of rows and columns of the covariance matrix.
-     * It is frequently written as "p" in formulae.
-     *
-     * @param rng Random Number Generator.
-     * @param means Vector of means.
-     * @param covariances Covariance matrix.
-     * @throws DimensionMismatchException if the arrays length are
-     * inconsistent.
-     * @throws SingularMatrixException if the eigenvalue decomposition cannot
-     * be performed on the provided covariance matrix.
-     * @throws NonPositiveDefiniteMatrixException if any of the eigenvalues is
-     * negative.
-     */
-    public MultivariateNormalDistribution(RandomGenerator rng,
-                                          final double[] means,
-                                          final double[][] covariances)
             throws SingularMatrixException,
                    DimensionMismatchException,
                    NonPositiveDefiniteMatrixException {
-        super(rng, means.length);
+        super(means.length);
 
         final int dim = means.length;
 
@@ -210,21 +176,30 @@ public class MultivariateNormalDistribution
 
     /** {@inheritDoc} */
     @Override
-    public double[] sample() {
-        final int dim = getDimension();
-        final double[] normalVals = new double[dim];
+    public MultivariateRealDistribution.Sampler createSampler(final UniformRandomProvider rng) {
+        return new MultivariateRealDistribution.Sampler() {
+            /** Normal distribution. */
+            private final RealDistribution.Sampler gauss = new NormalDistribution().createSampler(rng);
 
-        for (int i = 0; i < dim; i++) {
-            normalVals[i] = random.nextGaussian();
-        }
+            /** {@inheritDoc} */
+            @Override
+            public double[] sample() {
+                final int dim = getDimension();
+                final double[] normalVals = new double[dim];
 
-        final double[] vals = samplingMatrix.operate(normalVals);
+                for (int i = 0; i < dim; i++) {
+                    normalVals[i] = gauss.sample();
+                }
 
-        for (int i = 0; i < dim; i++) {
-            vals[i] += means[i];
-        }
+                final double[] vals = samplingMatrix.operate(normalVals);
 
-        return vals;
+                for (int i = 0; i < dim; i++) {
+                    vals[i] += means[i];
+                }
+
+                return vals;
+            }
+        };
     }
 
     /**

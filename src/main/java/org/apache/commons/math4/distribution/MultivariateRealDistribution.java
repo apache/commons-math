@@ -16,7 +16,7 @@
  */
 package org.apache.commons.math4.distribution;
 
-import org.apache.commons.math4.exception.NotStrictlyPositiveException;
+import org.apache.commons.math4.rng.UniformRandomProvider;
 
 /**
  * Base interface for multivariate distributions on the reals.
@@ -42,13 +42,6 @@ public interface MultivariateRealDistribution {
     double density(double[] x);
 
     /**
-     * Reseeds the random generator used to generate samples.
-     *
-     * @param seed Seed with which to initialize the random number generator.
-     */
-    void reseedRandomGenerator(long seed);
-
-    /**
      * Gets the number of random variables of the distribution.
      * It is the size of the array returned by the {@link #sample() sample}
      * method.
@@ -58,21 +51,27 @@ public interface MultivariateRealDistribution {
     int getDimension();
 
     /**
-     * Generates a random value vector sampled from this distribution.
+     * Creates a sampler.
      *
-     * @return a random value vector.
+     * @param rng Generator of uniformly distributed numbers.
+     * @return a sampler that produces random numbers according this
+     * distribution.
+     *
+     * @since 4.0
      */
-    double[] sample();
+    Sampler createSampler(UniformRandomProvider rng);
 
     /**
-     * Generates a list of a random value vectors from the distribution.
+     * Sampling functionality.
      *
-     * @param sampleSize the number of random vectors to generate.
-     * @return an array representing the random samples.
-     * @throws org.apache.commons.math4.exception.NotStrictlyPositiveException
-     * if {@code sampleSize} is not positive.
-     *
-     * @see #sample()
+     * @since 4.0
      */
-    double[][] sample(int sampleSize) throws NotStrictlyPositiveException;
+    interface Sampler {
+        /**
+         * Generates a random value vector sampled from this distribution.
+         *
+         * @return a random value vector.
+         */
+        double[] sample();
+    }
 }

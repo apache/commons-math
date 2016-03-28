@@ -23,8 +23,7 @@ import org.apache.commons.math4.exception.DimensionMismatchException;
 import org.apache.commons.math4.exception.MathArithmeticException;
 import org.apache.commons.math4.exception.NotPositiveException;
 import org.apache.commons.math4.exception.util.LocalizedFormats;
-import org.apache.commons.math4.random.RandomGenerator;
-import org.apache.commons.math4.random.Well19937c;
+import org.apache.commons.math4.rng.UniformRandomProvider;
 import org.apache.commons.math4.util.Pair;
 
 /**
@@ -45,33 +44,14 @@ public class MixtureMultivariateRealDistribution<T extends MultivariateRealDistr
     /**
      * Creates a mixture model from a list of distributions and their
      * associated weights.
-     * <p>
-     * <b>Note:</b> this constructor will implicitly create an instance of
-     * {@link Well19937c} as random generator to be used for sampling only (see
-     * {@link #sample()} and {@link #sample(int)}). In case no sampling is
-     * needed for the created distribution, it is advised to pass {@code null}
-     * as random generator via the appropriate constructors to avoid the
-     * additional initialisation overhead.
      *
-     * @param components List of (weight, distribution) pairs from which to sample.
-     */
-    public MixtureMultivariateRealDistribution(List<Pair<Double, T>> components) {
-        this(new Well19937c(), components);
-    }
-
-    /**
-     * Creates a mixture model from a list of distributions and their
-     * associated weights.
-     *
-     * @param rng Random number generator.
      * @param components Distributions from which to sample.
      * @throws NotPositiveException if any of the weights is negative.
      * @throws DimensionMismatchException if not all components have the same
      * number of variables.
      */
-    public MixtureMultivariateRealDistribution(RandomGenerator rng,
-                                               List<Pair<Double, T>> components) {
-        super(rng, components.get(0).getSecond().getDimension());
+    public MixtureMultivariateRealDistribution(List<Pair<Double, T>> components) {
+        super(components.get(0).getSecond().getDimension());
 
         final int numComp = components.size();
         final int dim = getDimension();
@@ -112,49 +92,6 @@ public class MixtureMultivariateRealDistribution<T extends MultivariateRealDistr
         return p;
     }
 
-    /** {@inheritDoc} */
-    @Override
-    public double[] sample() {
-        // Sampled values.
-        double[] vals = null;
-
-        // Determine which component to sample from.
-        final double randomValue = random.nextDouble();
-        double sum = 0;
-
-        for (int i = 0; i < weight.length; i++) {
-            sum += weight[i];
-            if (randomValue <= sum) {
-                // pick model i
-                vals = distribution.get(i).sample();
-                break;
-            }
-        }
-
-        if (vals == null) {
-            // This should never happen, but it ensures we won't return a null in
-            // case the loop above has some floating point inequality problem on
-            // the final iteration.
-            vals = distribution.get(weight.length - 1).sample();
-        }
-
-        return vals;
-    }
-
-    /** {@inheritDoc} */
-    @Override
-    public void reseedRandomGenerator(long seed) {
-        // Seed needs to be propagated to underlying components
-        // in order to maintain consistency between runs.
-        super.reseedRandomGenerator(seed);
-
-        for (int i = 0; i < distribution.size(); i++) {
-            // Make each component's seed different in order to avoid
-            // using the same sequence of random numbers.
-            distribution.get(i).reseedRandomGenerator(i + 1 + seed);
-        }
-    }
-
     /**
      * Gets the distributions that make up the mixture model.
      *
@@ -168,5 +105,62 @@ public class MixtureMultivariateRealDistribution<T extends MultivariateRealDistr
         }
 
         return list;
+    }
+
+    /** {@inheritDoc} */
+    @Override
+    public MultivariateRealDistribution.Sampler createSampler(UniformRandomProvider rng) {
+        return new MixtureSampler(rng);
+    }
+
+    /**
+     * Sampler.
+     */
+    private class MixtureSampler implements MultivariateRealDistribution.Sampler {
+        /** RNG */
+        private final UniformRandomProvider rng;
+        /** Sampler for each of the distribution in the mixture. */
+        private final MultivariateRealDistribution.Sampler[] samplers;
+
+        /**
+         * @param generator RNG.
+         */
+        MixtureSampler(UniformRandomProvider generator) {
+            rng = generator;
+
+            samplers = new MultivariateRealDistribution.Sampler[weight.length];
+            for (int i = 0; i < weight.length; i++) {
+                samplers[i] = distribution.get(i).createSampler(rng);
+            }
+        }
+
+        /** {@inheritDoc} */
+        @Override
+        public double[] sample() {
+            // Sampled values.
+            double[] vals = null;
+
+            // Determine which component to sample from.
+            final double randomValue = rng.nextDouble();
+            double sum = 0;
+
+            for (int i = 0; i < weight.length; i++) {
+                sum += weight[i];
+                if (randomValue <= sum) {
+                    // pick model i
+                    vals = samplers[i].sample();
+                    break;
+                }
+            }
+
+            if (vals == null) {
+                // This should never happen, but it ensures we won't return a null in
+                // case the loop above has some floating point inequality problem on
+                // the final iteration.
+                vals = samplers[weight.length - 1].sample();
+            }
+
+            return vals;
+        }
     }
 }

@@ -20,6 +20,7 @@ package org.apache.commons.math4.distribution;
 import org.apache.commons.math4.distribution.MultivariateNormalDistribution;
 import org.apache.commons.math4.distribution.NormalDistribution;
 import org.apache.commons.math4.linear.RealMatrix;
+import org.apache.commons.math4.rng.RandomSource;
 import org.apache.commons.math4.stat.correlation.Covariance;
 
 import java.util.Random;
@@ -75,11 +76,12 @@ public class MultivariateNormalDistributionTest {
         final double[][] sigma = { { 2, -1.1 },
                                    { -1.1, 2 } };
         final MultivariateNormalDistribution d = new MultivariateNormalDistribution(mu, sigma);
-        d.reseedRandomGenerator(50);
+        final MultivariateRealDistribution.Sampler sampler =
+            d.createSampler(RandomSource.create(RandomSource.WELL_19937_C, 50));
 
         final int n = 500000;
+        final double[][] samples = AbstractMultivariateRealDistribution.sample(n, sampler);
 
-        final double[][] samples = d.sample(n);
         final int dim = d.getDimension();
         final double[] sampleMeans = new double[dim];
 
