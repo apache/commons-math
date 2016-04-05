@@ -398,11 +398,8 @@ public abstract class AbstractIntegrator implements FirstOrderIntegrator {
                     return eventT;
                 }
 
-                boolean needReset = false;
                 resetOccurred = false;
-                for (final EventState state : eventsStates) {
-                    needReset =  needReset || state.reset(eventT, eventYComplete);
-                }
+                final boolean needReset = currentEvent.reset(eventT, eventYComplete);
                 if (needReset) {
                     // some event handler has triggered changes that
                     // invalidate the derivatives, we need to recompute them
