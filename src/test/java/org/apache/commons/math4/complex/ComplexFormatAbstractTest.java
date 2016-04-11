@@ -17,10 +17,15 @@
 
 package org.apache.commons.math4.complex;
 
+import java.text.FieldPosition;
 import java.text.NumberFormat;
 import java.text.ParsePosition;
+import java.util.Arrays;
 import java.util.Locale;
 
+import org.apache.commons.math4.exception.MathIllegalArgumentException;
+import org.apache.commons.math4.exception.NoDataException;
+import org.apache.commons.math4.exception.NullArgumentException;
 import org.junit.Test;
 import org.junit.Assert;
 import org.apache.commons.math4.complex.Complex;
@@ -278,6 +283,106 @@ public abstract class ComplexFormatAbstractTest {
         ComplexFormat cf = new ComplexFormat(nf);
         Assert.assertNotNull(cf);
         Assert.assertEquals(nf, cf.getRealFormat());
+    }
+
+    @Test
+    public void testConstructorExceptions() {
+        NumberFormat nullFormat = null;
+        NumberFormat format = NumberFormat.getInstance();
+        try {
+            ComplexFormat cf = new ComplexFormat(nullFormat);
+        }
+        catch (Exception e) {
+            Assert.assertTrue(e instanceof NullArgumentException);
+        }
+        try {
+            ComplexFormat cf = new ComplexFormat(nullFormat, format);
+        }
+        catch (Exception e) {
+            Assert.assertTrue(e instanceof NullArgumentException);
+        }
+        try {
+            ComplexFormat cf = new ComplexFormat(format, nullFormat);
+        }
+        catch (Exception e) {
+            Assert.assertTrue(e instanceof NullArgumentException);
+        }
+    }
+
+    @Test
+    public void testConstructorDoubleFormat() {
+        NumberFormat defaultFormat = NumberFormat.getInstance();
+        NumberFormat numberFormat = NumberFormat.getNumberInstance();
+        ComplexFormat cf = new ComplexFormat(defaultFormat, numberFormat);
+        Assert.assertEquals(defaultFormat, cf.getRealFormat());
+        Assert.assertEquals(numberFormat, cf.getImaginaryFormat());
+    }
+
+    @Test
+    public void testStringConstructor() {
+        String nullString = null;
+        String emptyString = "";
+        String oddImaginaryCharacter = "q";
+        try {
+            ComplexFormat cf = new ComplexFormat(nullString);
+        }
+        catch (Exception e) {
+            Assert.assertTrue(e instanceof NullArgumentException);
+        }
+        try {
+            ComplexFormat cf = new ComplexFormat(emptyString);
+        }
+        catch (Exception e) {
+            Assert.assertTrue(e instanceof NoDataException);
+        }
+        ComplexFormat cf = new ComplexFormat(oddImaginaryCharacter);
+        Assert.assertEquals(oddImaginaryCharacter, cf.getImaginaryCharacter());
+    }
+
+    @Test
+    public void testGetAvailableLocales() {
+        Assert.assertEquals(Arrays.asList(NumberFormat.getAvailableLocales()),Arrays.asList(ComplexFormat.getAvailableLocales()));
+    }
+
+    @Test
+    public void testGetInstance() {
+        ComplexFormat cf = ComplexFormat.getInstance();
+        Assert.assertNotNull(cf);
+        Assert.assertNotNull(cf.getRealFormat());
+        Assert.assertNotNull(cf.getImaginaryFormat());
+        Assert.assertTrue(cf.getRealFormat() instanceof NumberFormat);
+        Assert.assertTrue(cf.getImaginaryFormat() instanceof NumberFormat);
+    }
+
+    @Test
+    public void testFormatObjectStringBufferFieldPositionWithComplex() {
+        ComplexFormat cf = ComplexFormat.getInstance();
+        String source = "1" + getDecimalCharacter() + "23 + 1" + getDecimalCharacter() + "43i";
+        Object expected = new Complex(1.23, 1.43);
+        String formatted = cf.format(expected, new StringBuffer(), new FieldPosition(0)).toString();
+        Assert.assertEquals(source, formatted);
+    }
+
+    @Test
+    public void testFormatObjectStringBufferFieldPositionWitNumber() {
+        ComplexFormat cf = ComplexFormat.getInstance();
+        String source = "1" + getDecimalCharacter() + "23";
+        Number expected = new Double(1.23);
+        String formatted = cf.format(expected, new StringBuffer(), new FieldPosition(0)).toString();
+        Assert.assertEquals(source, formatted);
+    }
+
+    @Test
+    public void testFormatObjectStringBufferFieldPositionException() {
+        ComplexFormat cf = ComplexFormat.getInstance();
+        Object expected = "Something that's not a number or Complex";
+        try {
+            String formatted = cf.format(expected, new StringBuffer(), new FieldPosition(0)).toString();
+        }
+        catch (Exception e) {
+            Assert.assertTrue(e instanceof MathIllegalArgumentException);
+        }
+
     }
 
     @Test
