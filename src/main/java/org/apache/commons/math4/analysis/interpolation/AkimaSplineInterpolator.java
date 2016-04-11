@@ -48,7 +48,7 @@ import org.apache.commons.math4.util.Precision;
 public class AkimaSplineInterpolator
     implements UnivariateInterpolator {
     /** The minimum number of points that are needed to compute the function. */
-    protected static final int MINIMUM_NUMBER_POINTS = 5;
+    private static final int MINIMUM_NUMBER_POINTS = 5;
 
     /**
      * Computes an interpolating function for the data set.

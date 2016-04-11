@@ -66,7 +66,7 @@ public class PolynomialSplineFunction implements UnivariateDifferentiableFunctio
      * Spline segment interval delimiters (knots).
      * Size is n + 1 for n segments.
      */
-    protected final double knots[];
+    private final double knots[];
     /**
      * The polynomial functions that make up the spline.  The first element
      * determines the value of the spline over the first subinterval, the
@@ -74,7 +74,7 @@ public class PolynomialSplineFunction implements UnivariateDifferentiableFunctio
      * evaluating these functions at {@code (x - knot[i])} where i is the
      * knot segment to which x belongs.
      */
-    protected final PolynomialFunction polynomials[];
+    private final PolynomialFunction polynomials[];
     /**
      * Number of spline segments. It is equal to the number of polynomials and
      * to the number of partition points - 1.
