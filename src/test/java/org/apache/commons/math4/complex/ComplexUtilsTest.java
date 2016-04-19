@@ -18,15 +18,17 @@
 package org.apache.commons.math4.complex;
 
 import org.apache.commons.math4.TestUtils;
+import org.apache.commons.math4.complex.Complex;
+import org.apache.commons.math4.complex.ComplexUtils;
 import org.apache.commons.math4.exception.MathIllegalArgumentException;
 import org.apache.commons.math4.util.FastMath;
 import org.apache.commons.math4.util.IntegerSequence;
 import org.apache.commons.math4.util.IntegerSequence.Range;
 import org.junit.Assert;
 import org.junit.Test;
+import org.junit.Assert;
 
 /**
- * Test cases for {@link ComplexUtils}.
  */
 public class ComplexUtilsTest {
 
@@ -278,39 +280,39 @@ public class ComplexUtilsTest {
     public void testRealToComplex() {
         setArrays();
         // Real double to complex, range 3-7, increment 1, entered as ints
-        TestUtils.assertEquals(msg, ansArrayc1r, ComplexUtils.real2Complex(d, 3, 7), Math.ulp(1));
+        TestUtils.assertEquals(msg, ansArrayc1r, ComplexUtils.real2Complex(d, 3, 7),Math.ulp(1.0));
         // Real float to complex, range 3-7, increment 1, entered as ints
-        TestUtils.assertEquals(msg, ansArrayc1r, ComplexUtils.real2Complex(f, 3, 7), Math.ulp(1));
+        TestUtils.assertEquals(msg, ansArrayc1r, ComplexUtils.real2Complex(f, 3, 7),Math.ulp(1.0));
         // Real double to complex, range 3-7, increment 2, entered as ints
-        TestUtils.assertEquals(msg, ansArrayc2r, ComplexUtils.real2Complex(d, 3, 7, 2), Math.ulp(1));
+        TestUtils.assertEquals(msg, ansArrayc2r, ComplexUtils.real2Complex(d, 3, 7, 2),Math.ulp(1.0));
         // Real float to complex, range 3-7, increment 2, entered as ints
-        TestUtils.assertEquals(msg, ansArrayc2r, ComplexUtils.real2Complex(f, 3, 7, 2), Math.ulp(1));
+        TestUtils.assertEquals(msg, ansArrayc2r, ComplexUtils.real2Complex(f, 3, 7, 2),Math.ulp(1.0));
         // Real double to complex, range 3-7, increment 1, using IntegerSequence
-        TestUtils.assertEquals(msg, ansArrayc1r, ComplexUtils.real2Complex(d, range1), Math.ulp(1));
+        TestUtils.assertEquals(msg, ansArrayc1r, ComplexUtils.real2Complex(d, range1),Math.ulp(1.0));
         // Real float to complex, range 3-7, increment 1, using IntegerSequence
-        TestUtils.assertEquals(msg, ansArrayc1r, ComplexUtils.real2Complex(f, range1), Math.ulp(1));
+        TestUtils.assertEquals(msg, ansArrayc1r, ComplexUtils.real2Complex(f, range1),Math.ulp(1.0));
         // Real double to complex, range 3-7, increment 2, using IntegerSequence
-        TestUtils.assertEquals(msg, ansArrayc2r, ComplexUtils.real2Complex(d, 3, 7, 2), Math.ulp(1));
+        TestUtils.assertEquals(msg, ansArrayc2r, ComplexUtils.real2Complex(d, 3, 7, 2),Math.ulp(1.0));
         // Real float to complex, range 3-7, increment 2, using IntegerSequence
-        TestUtils.assertEquals(msg, ansArrayc2r, ComplexUtils.real2Complex(f, 3, 7, 2), Math.ulp(1));
+        TestUtils.assertEquals(msg, ansArrayc2r, ComplexUtils.real2Complex(f, 3, 7, 2),Math.ulp(1.0));
         // Real double to complex, whole array
-        TestUtils.assertEquals(msg, cr, ComplexUtils.real2Complex(d), Math.ulp(1));
+        TestUtils.assertEquals(msg, cr, ComplexUtils.real2Complex(d),Math.ulp(1.0));
         // Real float to complex, whole array
-        TestUtils.assertEquals(msg, cr, ComplexUtils.real2Complex(f), Math.ulp(1));
+        TestUtils.assertEquals(msg, cr, ComplexUtils.real2Complex(f),Math.ulp(1.0));
         // 2d
         for (int i = 0; i < 10; i++) {
             // Real double to complex, 2d
-            TestUtils.assertEquals(msg, cr2d[i], ComplexUtils.real2Complex(d2d[i]), Math.ulp(1));
+            TestUtils.assertEquals(msg, cr2d[i], ComplexUtils.real2Complex(d2d[i]),Math.ulp(1.0));
             // Real float to complex, 2d
-            TestUtils.assertEquals(msg, cr2d[i], ComplexUtils.real2Complex(f2d[i]), Math.ulp(1));
+            TestUtils.assertEquals(msg, cr2d[i], ComplexUtils.real2Complex(f2d[i]),Math.ulp(1.0));
         }
         // 3d
         for (int i = 0; i < 10; i++) {
             for (int j = 0; j < 10; j++) {
                 // Real double to complex, 3d
-                TestUtils.assertEquals(msg, cr3d[i][j], ComplexUtils.real2Complex(d3d[i][j]), Math.ulp(1));
+                TestUtils.assertEquals(msg, cr3d[i][j], ComplexUtils.real2Complex(d3d[i][j]),Math.ulp(1.0));
                 // Real float to complex, 3d
-                TestUtils.assertEquals(msg, cr3d[i][j], ComplexUtils.real2Complex(f3d[i][j]), Math.ulp(1));
+                TestUtils.assertEquals(msg, cr3d[i][j], ComplexUtils.real2Complex(f3d[i][j]),Math.ulp(1.0));
             }
         }
         if (!msg.equals("")) {
@@ -322,39 +324,39 @@ public class ComplexUtilsTest {
     public void testComplexToReal() {
         setArrays();
         // Real complex to double, range 3-7, increment 1, entered as ints
-        TestUtils.assertEquals(msg, ansArrayd1r, ComplexUtils.complex2Real(c, 3, 7), Math.ulp(1));
+        TestUtils.assertEquals(msg, ansArrayd1r, ComplexUtils.complex2Real(c, 3, 7),Math.ulp(1.0));
         // Real complex to float, range 3-7, increment 1, entered as ints
-        TestUtils.assertEquals(msg, ansArrayf1r, ComplexUtils.complex2RealFloat(c, 3, 7), Math.ulp(1));
+        TestUtils.assertEquals(msg, ansArrayf1r, ComplexUtils.complex2RealFloat(c, 3, 7),Math.ulp(1.0f));
         // Real complex to double, range 3-7, increment 2, entered as ints
-        TestUtils.assertEquals(msg, ansArrayd2r, ComplexUtils.complex2Real(c, 3, 7, 2), Math.ulp(1));
+        TestUtils.assertEquals(msg, ansArrayd2r, ComplexUtils.complex2Real(c, 3, 7, 2),Math.ulp(1.0));
         // Real complex to float, range 3-7, increment 2, entered as ints
-        TestUtils.assertEquals(msg, ansArrayf2r, ComplexUtils.complex2RealFloat(c, 3, 7, 2), Math.ulp(1));
+        TestUtils.assertEquals(msg, ansArrayf2r, ComplexUtils.complex2RealFloat(c, 3, 7, 2),Math.ulp(1.0f));
         // Real complex to double, range 3-7, increment 1, using IntegerSequence
-        TestUtils.assertEquals(msg, ansArrayd1r, ComplexUtils.complex2Real(c, range1), Math.ulp(1));
+        TestUtils.assertEquals(msg, ansArrayd1r, ComplexUtils.complex2Real(c, range1),Math.ulp(1.0));
         // Real complex to float, range 3-7, increment 1, using IntegerSequence
-        TestUtils.assertEquals(msg, ansArrayf1r, ComplexUtils.complex2RealFloat(c, range1), Math.ulp(1));
+        TestUtils.assertEquals(msg, ansArrayf1r, ComplexUtils.complex2RealFloat(c, range1),Math.ulp(1.0f));
         // Real complex to double, range 3-7, increment 2, using IntegerSequence
-        TestUtils.assertEquals(msg, ansArrayd2r, ComplexUtils.complex2Real(c, 3, 7, 2), Math.ulp(1));
+        TestUtils.assertEquals(msg, ansArrayd2r, ComplexUtils.complex2Real(c, 3, 7, 2),Math.ulp(1.0));
         // Real complex to float, range 3-7, increment 2, using IntegerSequence
-        TestUtils.assertEquals(msg, ansArrayf2r, ComplexUtils.complex2RealFloat(c, 3, 7, 2), Math.ulp(1));
+        TestUtils.assertEquals(msg, ansArrayf2r, ComplexUtils.complex2RealFloat(c, 3, 7, 2),Math.ulp(1.0f));
         // Real complex to double, whole array
-        TestUtils.assertEquals(msg, sr, ComplexUtils.complex2Real(c), Math.ulp(1));
+        TestUtils.assertEquals(msg, sr, ComplexUtils.complex2Real(c),Math.ulp(1.0));
         // Real complex to float, whole array
-        TestUtils.assertEquals(msg, sfr, ComplexUtils.complex2RealFloat(c), Math.ulp(1));
+        TestUtils.assertEquals(msg, sfr, ComplexUtils.complex2RealFloat(c),Math.ulp(1.0f));
         // 2d
         for (int i = 0; i < 10; i++) {
             // Real complex to double, 2d
-            TestUtils.assertEquals(msg, sr2d[i], ComplexUtils.complex2Real(c2d[i]), Math.ulp(1));
+            TestUtils.assertEquals(msg, sr2d[i], ComplexUtils.complex2Real(c2d[i]),Math.ulp(1.0));
             // Real complex to float, 2d
-            TestUtils.assertEquals(msg, sfr2d[i], ComplexUtils.complex2RealFloat(c2d[i]), Math.ulp(1));
+            TestUtils.assertEquals(msg, sfr2d[i], ComplexUtils.complex2RealFloat(c2d[i]),Math.ulp(1.0f));
         }
         // 3d
         for (int i = 0; i < 10; i++) {
             for (int j = 0; j < 10; j++) {
                 // Real complex to double, 3d
-                TestUtils.assertEquals(msg, sr3d[i][j], ComplexUtils.complex2Real(c3d[i][j]), Math.ulp(1));
+                TestUtils.assertEquals(msg, sr3d[i][j], ComplexUtils.complex2Real(c3d[i][j]),Math.ulp(1.0));
                 // Real complex to float, 3d
-                TestUtils.assertEquals(msg, sfr3d[i][j], ComplexUtils.complex2RealFloat(c3d[i][j]), Math.ulp(1));
+                TestUtils.assertEquals(msg, sfr3d[i][j], ComplexUtils.complex2RealFloat(c3d[i][j]),Math.ulp(1.0f));
             }
         }
         if (!msg.equals("")) {
@@ -368,43 +370,43 @@ public class ComplexUtilsTest {
     public void testImaginaryToComplex() {
         setArrays();
         // Imaginary double to complex, range 3-7, increment 1, entered as ints
-        TestUtils.assertEquals(msg, ansArrayc1i, ComplexUtils.imaginary2Complex(d, 3, 7), Math.ulp(1));
+        TestUtils.assertEquals(msg, ansArrayc1i, ComplexUtils.imaginary2Complex(d, 3, 7),Math.ulp(1.0));
         // Imaginary float to complex, range 3-7, increment 1, entered as ints
-        TestUtils.assertEquals(msg, ansArrayc1i, ComplexUtils.imaginary2Complex(f, 3, 7), Math.ulp(1));
+        TestUtils.assertEquals(msg, ansArrayc1i, ComplexUtils.imaginary2Complex(f, 3, 7),Math.ulp(1.0));
         // Imaginary double to complex, range 3-7, increment 2, entered as ints
-        TestUtils.assertEquals(msg, ansArrayc2i, ComplexUtils.imaginary2Complex(d, 3, 7, 2), Math.ulp(1));
+        TestUtils.assertEquals(msg, ansArrayc2i, ComplexUtils.imaginary2Complex(d, 3, 7, 2),Math.ulp(1.0));
         // Imaginary float to complex, range 3-7, increment 2, entered as ints
-        TestUtils.assertEquals(msg, ansArrayc2i, ComplexUtils.imaginary2Complex(f, 3, 7, 2), Math.ulp(1));
+        TestUtils.assertEquals(msg, ansArrayc2i, ComplexUtils.imaginary2Complex(f, 3, 7, 2),Math.ulp(1.0));
         // Imaginary double to complex, range 3-7, increment 1, using
         // IntegerSequence
-        TestUtils.assertEquals(msg, ansArrayc1i, ComplexUtils.imaginary2Complex(d, range1), Math.ulp(1));
+        TestUtils.assertEquals(msg, ansArrayc1i, ComplexUtils.imaginary2Complex(d, range1),Math.ulp(1.0));
         // Imaginary float to complex, range 3-7, increment 1, using
         // IntegerSequence
-        TestUtils.assertEquals(msg, ansArrayc1i, ComplexUtils.imaginary2Complex(f, range1), Math.ulp(1));
+        TestUtils.assertEquals(msg, ansArrayc1i, ComplexUtils.imaginary2Complex(f, range1),Math.ulp(1.0));
         // Imaginary double to complex, range 3-7, increment 2, using
         // IntegerSequence
-        TestUtils.assertEquals(msg, ansArrayc2i, ComplexUtils.imaginary2Complex(d, 3, 7, 2), Math.ulp(1));
+        TestUtils.assertEquals(msg, ansArrayc2i, ComplexUtils.imaginary2Complex(d, 3, 7, 2),Math.ulp(1.0));
         // Imaginary float to complex, range 3-7, increment 2, using
         // IntegerSequence
-        TestUtils.assertEquals(msg, ansArrayc2i, ComplexUtils.imaginary2Complex(f, 3, 7, 2), Math.ulp(1));
+        TestUtils.assertEquals(msg, ansArrayc2i, ComplexUtils.imaginary2Complex(f, 3, 7, 2),Math.ulp(1.0));
         // Imaginary double to complex, whole array
-        TestUtils.assertEquals(msg, ci, ComplexUtils.imaginary2Complex(d), Math.ulp(1));
+        TestUtils.assertEquals(msg, ci, ComplexUtils.imaginary2Complex(d),Math.ulp(1.0));
         // Imaginary float to complex, whole array
-        TestUtils.assertEquals(msg, ci, ComplexUtils.imaginary2Complex(f), Math.ulp(1));
+        TestUtils.assertEquals(msg, ci, ComplexUtils.imaginary2Complex(f),Math.ulp(1.0));
         // 2d
         for (int i = 0; i < 10; i++) {
             // Imaginary double to complex, 2d
-            TestUtils.assertEquals(msg, ci2d[i], ComplexUtils.imaginary2Complex(d2d[i]), Math.ulp(1));
+            TestUtils.assertEquals(msg, ci2d[i], ComplexUtils.imaginary2Complex(d2d[i]),Math.ulp(1.0));
             // Imaginary float to complex, 2d
-            TestUtils.assertEquals(msg, ci2d[i], ComplexUtils.imaginary2Complex(f2d[i]), Math.ulp(1));
+            TestUtils.assertEquals(msg, ci2d[i], ComplexUtils.imaginary2Complex(f2d[i]),Math.ulp(1.0));
         }
         // 3d
         for (int i = 0; i < 10; i++) {
             for (int j = 0; j < 10; j++) {
                 // Imaginary double to complex, 3d
-                TestUtils.assertEquals(msg, ci3d[i][j], ComplexUtils.imaginary2Complex(d3d[i][j]), Math.ulp(1));
+                TestUtils.assertEquals(msg, ci3d[i][j], ComplexUtils.imaginary2Complex(d3d[i][j]),Math.ulp(1.0));
                 // Imaginary float to complex, 3d
-                TestUtils.assertEquals(msg, ci3d[i][j], ComplexUtils.imaginary2Complex(f3d[i][j]), Math.ulp(1));
+                TestUtils.assertEquals(msg, ci3d[i][j], ComplexUtils.imaginary2Complex(f3d[i][j]),Math.ulp(1.0));
             }
         }
         if (!msg.equals("")) {
@@ -416,43 +418,43 @@ public class ComplexUtilsTest {
     public void testComplexToImaginary() {
         setArrays();
         // Imaginary complex to double, range 3-7, increment 1, entered as ints
-        TestUtils.assertEquals(msg, ansArrayd1i, ComplexUtils.complex2Imaginary(c, 3, 7), Math.ulp(1));
+        TestUtils.assertEquals(msg, ansArrayd1i, ComplexUtils.complex2Imaginary(c, 3, 7),Math.ulp(1.0f));
         // Imaginary complex to float, range 3-7, increment 1, entered as ints
-        TestUtils.assertEquals(msg, ansArrayf1i, ComplexUtils.complex2ImaginaryFloat(c, 3, 7), Math.ulp(1));
+        TestUtils.assertEquals(msg, ansArrayf1i, ComplexUtils.complex2ImaginaryFloat(c, 3, 7),Math.ulp(1.0f));
         // Imaginary complex to double, range 3-7, increment 2, entered as ints
-        TestUtils.assertEquals(msg, ansArrayd2i, ComplexUtils.complex2Imaginary(c, 3, 7, 2), Math.ulp(1));
+        TestUtils.assertEquals(msg, ansArrayd2i, ComplexUtils.complex2Imaginary(c, 3, 7, 2),Math.ulp(1.0));
         // Imaginary complex to float, range 3-7, increment 2, entered as ints
-        TestUtils.assertEquals(msg, ansArrayf2i, ComplexUtils.complex2ImaginaryFloat(c, 3, 7, 2), Math.ulp(1));
+        TestUtils.assertEquals(msg, ansArrayf2i, ComplexUtils.complex2ImaginaryFloat(c, 3, 7, 2),Math.ulp(1.0f));
         // Imaginary complex to double, range 3-7, increment 1, using
         // IntegerSequence
-        TestUtils.assertEquals(msg, ansArrayd1i, ComplexUtils.complex2Imaginary(c, range1), Math.ulp(1));
+        TestUtils.assertEquals(msg, ansArrayd1i, ComplexUtils.complex2Imaginary(c, range1),Math.ulp(1.0));
         // Imaginary complex to float, range 3-7, increment 1, using
         // IntegerSequence
-        TestUtils.assertEquals(msg, ansArrayf1i, ComplexUtils.complex2ImaginaryFloat(c, range1), Math.ulp(1));
+        TestUtils.assertEquals(msg, ansArrayf1i, ComplexUtils.complex2ImaginaryFloat(c, range1),Math.ulp(1.0f));
         // Imaginary complex to double, range 3-7, increment 2, using
         // IntegerSequence
-        TestUtils.assertEquals(msg, ansArrayd2i, ComplexUtils.complex2Imaginary(c, 3, 7, 2), Math.ulp(1));
+        TestUtils.assertEquals(msg, ansArrayd2i, ComplexUtils.complex2Imaginary(c, 3, 7, 2),Math.ulp(1.0));
         // Imaginary complex to float, range 3-7, increment 2, using
         // IntegerSequence
-        TestUtils.assertEquals(msg, ansArrayf2i, ComplexUtils.complex2ImaginaryFloat(c, 3, 7, 2), Math.ulp(1));
+        TestUtils.assertEquals(msg, ansArrayf2i, ComplexUtils.complex2ImaginaryFloat(c, 3, 7, 2),Math.ulp(1.0f));
         // Imaginary complex to double, whole array
-        TestUtils.assertEquals(msg, si, ComplexUtils.complex2Imaginary(c), Math.ulp(1));
+        TestUtils.assertEquals(msg, si, ComplexUtils.complex2Imaginary(c),Math.ulp(1.0));
         // Imaginary complex to float, whole array
-        TestUtils.assertEquals(msg, sfi, ComplexUtils.complex2ImaginaryFloat(c), Math.ulp(1));
+        TestUtils.assertEquals(msg, sfi, ComplexUtils.complex2ImaginaryFloat(c),Math.ulp(1.0f));
         // 2d
         for (int i = 0; i < 10; i++) {
             // Imaginary complex to double, 2d
-            TestUtils.assertEquals(msg, si2d[i], ComplexUtils.complex2Imaginary(c2d[i]), Math.ulp(1));
+            TestUtils.assertEquals(msg, si2d[i], ComplexUtils.complex2Imaginary(c2d[i]),Math.ulp(1.0));
             // Imaginary complex to float, 2d
-            TestUtils.assertEquals(msg, sfi2d[i], ComplexUtils.complex2ImaginaryFloat(c2d[i]), Math.ulp(1));
+            TestUtils.assertEquals(msg, sfi2d[i], ComplexUtils.complex2ImaginaryFloat(c2d[i]),Math.ulp(1.0f));
         }
         // 3d
         for (int i = 0; i < 10; i++) {
             for (int j = 0; j < 10; j++) {
                 // Imaginary complex to double, 3d
-                TestUtils.assertEquals(msg, si3d[i][j], ComplexUtils.complex2Imaginary(c3d[i][j]), Math.ulp(1));
+                TestUtils.assertEquals(msg, si3d[i][j], ComplexUtils.complex2Imaginary(c3d[i][j]),Math.ulp(1.0));
                 // Imaginary complex to float, 3d
-                TestUtils.assertEquals(msg, sfi3d[i][j], ComplexUtils.complex2ImaginaryFloat(c3d[i][j]), Math.ulp(1));
+                TestUtils.assertEquals(msg, sfi3d[i][j], ComplexUtils.complex2ImaginaryFloat(c3d[i][j]),Math.ulp(1.0f));
             }
         }
         if (!msg.equals("")) {
@@ -467,44 +469,44 @@ public class ComplexUtilsTest {
         setArrays();
         // Interleaved double to complex, range 3-7, increment 1, entered as
         // ints
-        TestUtils.assertEquals(msg, ansArrayc3, ComplexUtils.interleaved2Complex(di, 3, 7), Math.ulp(1));
+        TestUtils.assertEquals(msg, ansArrayc3, ComplexUtils.interleaved2Complex(di, 3, 7),Math.ulp(1.0));
         // Interleaved float to complex, range 3-7, increment 1, entered as ints
-        TestUtils.assertEquals(msg, ansArrayc3, ComplexUtils.interleaved2Complex(fi, 3, 7), Math.ulp(1));
+        TestUtils.assertEquals(msg, ansArrayc3, ComplexUtils.interleaved2Complex(fi, 3, 7),Math.ulp(1.0));
         // Interleaved double to complex, range 3-7, increment 2, entered as
         // ints
-        TestUtils.assertEquals(msg, ansArrayc4, ComplexUtils.interleaved2Complex(di, 3, 7, 2), Math.ulp(1));
+        TestUtils.assertEquals(msg, ansArrayc4, ComplexUtils.interleaved2Complex(di, 3, 7, 2),Math.ulp(1.0));
         // Interleaved float to complex, range 3-7, increment 2, entered as ints
-        TestUtils.assertEquals(msg, ansArrayc4, ComplexUtils.interleaved2Complex(fi, 3, 7, 2), Math.ulp(1));
+        TestUtils.assertEquals(msg, ansArrayc4, ComplexUtils.interleaved2Complex(fi, 3, 7, 2),Math.ulp(1.0));
         // Interleaved double to complex, range 3-7, increment 1, using
         // IntegerSequence
-        TestUtils.assertEquals(msg, ansArrayc3, ComplexUtils.interleaved2Complex(di, range1), Math.ulp(1));
+        TestUtils.assertEquals(msg, ansArrayc3, ComplexUtils.interleaved2Complex(di, range1),Math.ulp(1.0));
         // Interleaved float to complex, range 3-7, increment 1, using
         // IntegerSequence
-        TestUtils.assertEquals(msg, ansArrayc3, ComplexUtils.interleaved2Complex(fi, range1), Math.ulp(1));
+        TestUtils.assertEquals(msg, ansArrayc3, ComplexUtils.interleaved2Complex(fi, range1),Math.ulp(1.0));
         // Interleaved double to complex, range 3-7, increment 2, using
         // IntegerSequence
-        TestUtils.assertEquals(msg, ansArrayc4, ComplexUtils.interleaved2Complex(di, 3, 7, 2), Math.ulp(1));
+        TestUtils.assertEquals(msg, ansArrayc4, ComplexUtils.interleaved2Complex(di, 3, 7, 2),Math.ulp(1.0));
         // Interleaved float to complex, range 3-7, increment 2, using
         // IntegerSequence
-        TestUtils.assertEquals(msg, ansArrayc4, ComplexUtils.interleaved2Complex(fi, 3, 7, 2), Math.ulp(1));
+        TestUtils.assertEquals(msg, ansArrayc4, ComplexUtils.interleaved2Complex(fi, 3, 7, 2),Math.ulp(1.0));
         // Interleaved double to complex, whole array
-        TestUtils.assertEquals(msg, c, ComplexUtils.interleaved2Complex(di), Math.ulp(1));
+        TestUtils.assertEquals(msg, c, ComplexUtils.interleaved2Complex(di),Math.ulp(1.0));
         // Interleaved float to complex, whole array
-        TestUtils.assertEquals(msg, c, ComplexUtils.interleaved2Complex(fi), Math.ulp(1));
+        TestUtils.assertEquals(msg, c, ComplexUtils.interleaved2Complex(fi),Math.ulp(1.0));
         // 2d
         for (int i = 0; i < 10; i++) {
             // Interleaved double to complex, 2d
-            TestUtils.assertEquals(msg, c2d[i], ComplexUtils.interleaved2Complex(di2d[i]), Math.ulp(1));
+            TestUtils.assertEquals(msg, c2d[i], ComplexUtils.interleaved2Complex(di2d[i]),Math.ulp(1.0));
             // Interleaved float to complex, 2d
-            TestUtils.assertEquals(msg, c2d[i], ComplexUtils.interleaved2Complex(fi2d[i]), Math.ulp(1));
+            TestUtils.assertEquals(msg, c2d[i], ComplexUtils.interleaved2Complex(fi2d[i]),Math.ulp(1.0));
         }
         // 3d
         for (int i = 0; i < 10; i++) {
             for (int j = 0; j < 10; j++) {
                 // Interleaved double to complex, 3d
-                TestUtils.assertEquals(msg, c3d[i][j], ComplexUtils.interleaved2Complex(di3d[i][j]), Math.ulp(1));
+                TestUtils.assertEquals(msg, c3d[i][j], ComplexUtils.interleaved2Complex(di3d[i][j]),Math.ulp(1.0));
                 // Interleaved float to complex, 3d
-                TestUtils.assertEquals(msg, c3d[i][j], ComplexUtils.interleaved2Complex(fi3d[i][j]), Math.ulp(1));
+                TestUtils.assertEquals(msg, c3d[i][j], ComplexUtils.interleaved2Complex(fi3d[i][j]),Math.ulp(1.0));
             }
         }
         if (!msg.equals("")) {
@@ -517,44 +519,44 @@ public class ComplexUtilsTest {
         setArrays();
         // Interleaved complex to double, range 3-7, increment 1, entered as
         // ints
-        TestUtils.assertEquals(msg, ansArraydi1, ComplexUtils.complex2Interleaved(c, 3, 7), Math.ulp(1));
+        TestUtils.assertEquals(msg, ansArraydi1, ComplexUtils.complex2Interleaved(c, 3, 7),Math.ulp(1.0));
         // Interleaved complex to float, range 3-7, increment 1, entered as ints
-        TestUtils.assertEquals(msg, ansArrayfi1, ComplexUtils.complex2InterleavedFloat(c, 3, 7), Math.ulp(1));
+        TestUtils.assertEquals(msg, ansArrayfi1, ComplexUtils.complex2InterleavedFloat(c, 3, 7),Math.ulp(1.0f));
         // Interleaved complex to double, range 3-7, increment 2, entered as
         // ints
-        TestUtils.assertEquals(msg, ansArraydi2, ComplexUtils.complex2Interleaved(c, 3, 7, 2), Math.ulp(1));
+        TestUtils.assertEquals(msg, ansArraydi2, ComplexUtils.complex2Interleaved(c, 3, 7, 2),Math.ulp(1.0));
         // Interleaved complex to float, range 3-7, increment 2, entered as ints
-        TestUtils.assertEquals(msg, ansArrayfi2, ComplexUtils.complex2InterleavedFloat(c, 3, 7, 2), Math.ulp(1));
+        TestUtils.assertEquals(msg, ansArrayfi2, ComplexUtils.complex2InterleavedFloat(c, 3, 7, 2),Math.ulp(1.0f));
         // Interleaved complex to double, range 3-7, increment 1, using
         // IntegerSequence
-        TestUtils.assertEquals(msg, ansArraydi1, ComplexUtils.complex2Interleaved(c, range1), Math.ulp(1));
+        TestUtils.assertEquals(msg, ansArraydi1, ComplexUtils.complex2Interleaved(c, range1),Math.ulp(1.0));
         // Interleaved complex to float, range 3-7, increment 1, using
         // IntegerSequence
-        TestUtils.assertEquals(msg, ansArrayfi1, ComplexUtils.complex2InterleavedFloat(c, range1), Math.ulp(1));
+        TestUtils.assertEquals(msg, ansArrayfi1, ComplexUtils.complex2InterleavedFloat(c, range1),Math.ulp(1.0f));
         // Interleaved complex to double, range 3-7, increment 2, using
         // IntegerSequence
-        TestUtils.assertEquals(msg, ansArraydi2, ComplexUtils.complex2Interleaved(c, 3, 7, 2), Math.ulp(1));
+        TestUtils.assertEquals(msg, ansArraydi2, ComplexUtils.complex2Interleaved(c, 3, 7, 2),Math.ulp(1.0));
         // Interleaved complex to float, range 3-7, increment 2, using
         // IntegerSequence
-        TestUtils.assertEquals(msg, ansArrayfi2, ComplexUtils.complex2InterleavedFloat(c, 3, 7, 2), Math.ulp(1));
+        TestUtils.assertEquals(msg, ansArrayfi2, ComplexUtils.complex2InterleavedFloat(c, 3, 7, 2),Math.ulp(1.0f));
         // Interleaved complex to double, whole array
-        TestUtils.assertEquals(msg, di, ComplexUtils.complex2Interleaved(c), Math.ulp(1));
+        TestUtils.assertEquals(msg, di, ComplexUtils.complex2Interleaved(c),Math.ulp(1.0));
         // Interleaved complex to float, whole array
-        TestUtils.assertEquals(msg, fi, ComplexUtils.complex2InterleavedFloat(c), Math.ulp(1));
+        TestUtils.assertEquals(msg, fi, ComplexUtils.complex2InterleavedFloat(c),Math.ulp(1.0f));
         // 2d
         for (int i = 0; i < 10; i++) {
             // Interleaved complex to double, 2d
-            TestUtils.assertEquals(msg, di2d[i], ComplexUtils.complex2Interleaved(c2d[i]), Math.ulp(1));
+            TestUtils.assertEquals(msg, di2d[i], ComplexUtils.complex2Interleaved(c2d[i]),Math.ulp(1.0));
             // Interleaved complex to float, 2d
-            TestUtils.assertEquals(msg, fi2d[i], ComplexUtils.complex2InterleavedFloat(c2d[i]), Math.ulp(1));
+            TestUtils.assertEquals(msg, fi2d[i], ComplexUtils.complex2InterleavedFloat(c2d[i]),Math.ulp(1.0f));
         }
         // 3d
         for (int i = 0; i < 10; i++) {
             for (int j = 0; j < 10; j++) {
                 // Interleaved complex to double, 3d
-                TestUtils.assertEquals(msg, di3d[i][j], ComplexUtils.complex2Interleaved(c3d[i][j]), Math.ulp(1));
+                TestUtils.assertEquals(msg, di3d[i][j], ComplexUtils.complex2Interleaved(c3d[i][j]),Math.ulp(1.0));
                 // Interleaved complex to float, 3d
-                TestUtils.assertEquals(msg, fi3d[i][j], ComplexUtils.complex2InterleavedFloat(c3d[i][j]), Math.ulp(1));
+                TestUtils.assertEquals(msg, fi3d[i][j], ComplexUtils.complex2InterleavedFloat(c3d[i][j]),Math.ulp(1.0f));
             }
         }
         if (!msg.equals("")) {
@@ -567,18 +569,18 @@ public class ComplexUtilsTest {
     public void testSplit2Complex() {
         setArrays();
         // Split double to complex, whole array
-        TestUtils.assertEquals(msg, c, ComplexUtils.split2Complex(sr, si), Math.ulp(1));
+        TestUtils.assertEquals(msg, c, ComplexUtils.split2Complex(sr, si),Math.ulp(1.0));
 
         // 2d
         for (int i = 0; i < 10; i++) {
             // Split double to complex, 2d
-            TestUtils.assertEquals(msg, c2d[i], ComplexUtils.split2Complex(sr2d[i], si2d[i]), Math.ulp(1));
+            TestUtils.assertEquals(msg, c2d[i], ComplexUtils.split2Complex(sr2d[i], si2d[i]),Math.ulp(1.0));
         }
         // 3d
         for (int i = 0; i < 10; i++) {
             for (int j = 0; j < 10; j++) {
                 // Split double to complex, 3d
-                TestUtils.assertEquals(msg, c3d[i][j], ComplexUtils.split2Complex(sr3d[i][j], si3d[i][j]), Math.ulp(1));
+                TestUtils.assertEquals(msg, c3d[i][j], ComplexUtils.split2Complex(sr3d[i][j], si3d[i][j]),Math.ulp(1.0));
             }
         }
         if (!msg.equals("")) {
