@@ -54,7 +54,43 @@ If the output is not quite correct, check for invisible trailing spaces!
     </release>
 
     <release version="4.0" date="XXXX-XX-XX" description="">
-      <action dev="erans" type="fix" issue="MATH-1301">
+      <action dev="erans" type="add" issue="MATH-1335">
+        Refactoring of uniform random number generator functionality: new API
+        implemented in package "o.a.c.m.rng".
+      </action>
+      <action dev="erans" type="fix" issue="MATH-1340">
+        Avoid exception swallowing (in class "TestUtils").
+      </action>
+      <action dev="erans" type="fix" issue="MATH-1339">
+        Avoid redundant object creation.
+      </action>
+      <action dev="erans" type="add" issue="MATH-1337">
+        Adaptor class from new API ("o.a.c.m.rng.RandomSource") to old API
+        ("o.a.c.m.random.RandomGenerator").
+      </action>
+      <action dev="erans" type="add" issue="MATH-1327">
+        Report on performance and correctness of the new RNG implementations.
+      </action>
+      <action dev="erans" type="add" issue="MATH-1314">
+        Javadoc of the new RNG API ("o.a.c.m.rng") mentions the "seed problem".
+      </action>
+      <action dev="erans" type="add" issue="MATH-1158">
+        New interface for sampling from distribution (package "o.a.c.m.distribution").
+      </action>
+      <action dev="erans" type="fix" issue="MATH-1356">
+        "HypergeometricDistribution": Handle special cases that produced NaN.
+      </action>
+      <action dev="erans" type="add" issue="MATH-1351">
+        New sampler API for "MultivariateRealDistribution".
+      </action>
+      <action dev="erans" type="add" issue="MATH-1348">
+        Adaptor for using one of the new RNG implementations where an instance of
+        "java.util.Random" is required.
+      </action>
+      <action dev="erans" type="fix" issue="MATH-1343">
+        "BetaDistribution": Removed unnecessary recomputation.
+      </action>
+      <action dev="erans" type="fix" issue="MATH-1124">
         "JDKRandomGenerator": Method "nextInt(int)" now throws a "NotStrictlyPositiveException".
         The class now delegates to (rather inherits from) "java.util.Random".
       </action>
