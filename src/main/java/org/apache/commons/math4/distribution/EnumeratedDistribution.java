@@ -29,8 +29,7 @@ import org.apache.commons.math4.exception.NotPositiveException;
 import org.apache.commons.math4.exception.NotStrictlyPositiveException;
 import org.apache.commons.math4.exception.NullArgumentException;
 import org.apache.commons.math4.exception.util.LocalizedFormats;
-import org.apache.commons.math4.random.RandomGenerator;
-import org.apache.commons.math4.random.Well19937c;
+import org.apache.commons.math4.rng.UniformRandomProvider;
 import org.apache.commons.math4.util.MathArrays;
 import org.apache.commons.math4.util.Pair;
 
@@ -52,71 +51,39 @@ import org.apache.commons.math4.util.Pair;
  * @since 3.2
  */
 public class EnumeratedDistribution<T> implements Serializable {
-
     /** Serializable UID. */
-    private static final long serialVersionUID = 20123308L;
-
-    /**
-     * RNG instance used to generate samples from the distribution.
-     */
-    protected final RandomGenerator random;
-
+    private static final long serialVersionUID = 20160319L;
     /**
      * List of random variable values.
      */
     private final List<T> singletons;
-
     /**
      * Probabilities of respective random variable values. For i = 0, ..., singletons.size() - 1,
      * probability[i] is the probability that a random variable following this distribution takes
      * the value singletons[i].
      */
     private final double[] probabilities;
-
     /**
      * Cumulative probabilities, cached to speed up sampling.
      */
     private final double[] cumulativeProbabilities;
 
     /**
-     * Create an enumerated distribution using the given probability mass function
-     * enumeration.
-     * <p>
-     * <b>Note:</b> this constructor will implicitly create an instance of
-     * {@link Well19937c} as random generator to be used for sampling only (see
-     * {@link #sample()} and {@link #sample(int)}). In case no sampling is
-     * needed for the created distribution, it is advised to pass {@code null}
-     * as random generator via the appropriate constructors to avoid the
-     * additional initialisation overhead.
+     * Create an enumerated distribution using the given random number generator
+     * and probability mass function enumeration.
      *
-     * @param pmf probability mass function enumerated as a list of <T, probability>
-     * pairs.
+     * @param pmf probability mass function enumerated as a list of
+     * {@code <T, probability>} pairs.
      * @throws NotPositiveException if any of the probabilities are negative.
      * @throws NotFiniteNumberException if any of the probabilities are infinite.
      * @throws NotANumberException if any of the probabilities are NaN.
      * @throws MathArithmeticException all of the probabilities are 0.
      */
     public EnumeratedDistribution(final List<Pair<T, Double>> pmf)
-        throws NotPositiveException, MathArithmeticException, NotFiniteNumberException, NotANumberException {
-        this(new Well19937c(), pmf);
-    }
-
-    /**
-     * Create an enumerated distribution using the given random number generator
-     * and probability mass function enumeration.
-     *
-     * @param rng random number generator.
-     * @param pmf probability mass function enumerated as a list of <T, probability>
-     * pairs.
-     * @throws NotPositiveException if any of the probabilities are negative.
-     * @throws NotFiniteNumberException if any of the probabilities are infinite.
-     * @throws NotANumberException if any of the probabilities are NaN.
-     * @throws MathArithmeticException all of the probabilities are 0.
-     */
-    public EnumeratedDistribution(final RandomGenerator rng, final List<Pair<T, Double>> pmf)
-        throws NotPositiveException, MathArithmeticException, NotFiniteNumberException, NotANumberException {
-        random = rng;
-
+        throws NotPositiveException,
+               MathArithmeticException,
+               NotFiniteNumberException,
+               NotANumberException {
         singletons = new ArrayList<T>(pmf.size());
         final double[] probs = new double[pmf.size()];
 
@@ -144,15 +111,6 @@ public class EnumeratedDistribution<T> implements Serializable {
             sum += probabilities[i];
             cumulativeProbabilities[i] = sum;
         }
-    }
-
-    /**
-     * Reseed the random generator used to generate samples.
-     *
-     * @param seed the new seed
-     */
-    public void reseedRandomGenerator(long seed) {
-        random.setSeed(seed);
     }
 
     /**
@@ -201,91 +159,113 @@ public class EnumeratedDistribution<T> implements Serializable {
     }
 
     /**
-     * Generate a random value sampled from this distribution.
+     * Creates a {@link Sampler}.
      *
-     * @return a random value.
+     * @param rng Random number generator.
+     * @return a new sampler instance.
      */
-    public T sample() {
-        final double randomValue = random.nextDouble();
-
-        int index = Arrays.binarySearch(cumulativeProbabilities, randomValue);
-        if (index < 0) {
-            index = -index-1;
-        }
-
-        if (index >= 0 &&
-            index < probabilities.length &&
-            randomValue < cumulativeProbabilities[index]) {
-            return singletons.get(index);
-        }
-
-        /* This should never happen, but it ensures we will return a correct
-         * object in case there is some floating point inequality problem
-         * wrt the cumulative probabilities. */
-        return singletons.get(singletons.size() - 1);
+    public Sampler createSampler(final UniformRandomProvider rng) {
+        return new Sampler(rng);
     }
 
     /**
-     * Generate a random sample from the distribution.
-     *
-     * @param sampleSize the number of random values to generate.
-     * @return an array representing the random sample.
-     * @throws NotStrictlyPositiveException if {@code sampleSize} is not
-     * positive.
+     * Sampler functionality.
      */
-    public Object[] sample(int sampleSize) throws NotStrictlyPositiveException {
-        if (sampleSize <= 0) {
-            throw new NotStrictlyPositiveException(LocalizedFormats.NUMBER_OF_SAMPLES,
-                    sampleSize);
+    public class Sampler {
+        /** RNG. */
+        private final UniformRandomProvider random;
+
+        /**
+         * @param rng Random number generator.
+         */
+        Sampler(UniformRandomProvider rng) {
+            random = rng;
         }
 
-        final Object[] out = new Object[sampleSize];
+        /**
+         * Generates a random value sampled from this distribution.
+         *
+         * @return a random value.
+         */
+        public T sample() {
+            final double randomValue = random.nextDouble();
 
-        for (int i = 0; i < sampleSize; i++) {
-            out[i] = sample();
+            int index = Arrays.binarySearch(cumulativeProbabilities, randomValue);
+            if (index < 0) {
+                index = -index - 1;
+            }
+
+            if (index >= 0 &&
+                index < probabilities.length &&
+                randomValue < cumulativeProbabilities[index]) {
+                return singletons.get(index);
+            }
+
+            // This should never happen, but it ensures we will return a correct
+            // object in case there is some floating point inequality problem
+            // wrt the cumulative probabilities.
+            return singletons.get(singletons.size() - 1);
         }
 
-        return out;
+        /**
+         * Generates a random sample from the distribution.
+         *
+         * @param sampleSize the number of random values to generate.
+         * @return an array representing the random sample.
+         * @throws NotStrictlyPositiveException if {@code sampleSize} is not
+         * positive.
+         */
+        public Object[] sample(int sampleSize) throws NotStrictlyPositiveException {
+            if (sampleSize <= 0) {
+                throw new NotStrictlyPositiveException(LocalizedFormats.NUMBER_OF_SAMPLES,
+                                                       sampleSize);
+            }
 
+            final Object[] out = new Object[sampleSize];
+
+            for (int i = 0; i < sampleSize; i++) {
+                out[i] = sample();
+            }
+
+            return out;
+        }
+
+        /**
+         * Generates a random sample from the distribution.
+         * <p>
+         * If the requested samples fit in the specified array, it is returned
+         * therein. Otherwise, a new array is allocated with the runtime type of
+         * the specified array and the size of this collection.
+         *
+         * @param sampleSize the number of random values to generate.
+         * @param array the array to populate.
+         * @return an array representing the random sample.
+         * @throws NotStrictlyPositiveException if {@code sampleSize} is not positive.
+         * @throws NullArgumentException if {@code array} is null
+         */
+        public T[] sample(int sampleSize, final T[] array) throws NotStrictlyPositiveException {
+            if (sampleSize <= 0) {
+                throw new NotStrictlyPositiveException(LocalizedFormats.NUMBER_OF_SAMPLES, sampleSize);
+            }
+
+            if (array == null) {
+                throw new NullArgumentException(LocalizedFormats.INPUT_ARRAY);
+            }
+
+            T[] out;
+            if (array.length < sampleSize) {
+                @SuppressWarnings("unchecked") // safe as both are of type T
+                final T[] unchecked = (T[]) Array.newInstance(array.getClass().getComponentType(), sampleSize);
+                out = unchecked;
+            } else {
+                out = array;
+            }
+
+            for (int i = 0; i < sampleSize; i++) {
+                out[i] = sample();
+            }
+
+            return out;
+        }
     }
-
-    /**
-     * Generate a random sample from the distribution.
-     * <p>
-     * If the requested samples fit in the specified array, it is returned
-     * therein. Otherwise, a new array is allocated with the runtime type of
-     * the specified array and the size of this collection.
-     *
-     * @param sampleSize the number of random values to generate.
-     * @param array the array to populate.
-     * @return an array representing the random sample.
-     * @throws NotStrictlyPositiveException if {@code sampleSize} is not positive.
-     * @throws NullArgumentException if {@code array} is null
-     */
-    public T[] sample(int sampleSize, final T[] array) throws NotStrictlyPositiveException {
-        if (sampleSize <= 0) {
-            throw new NotStrictlyPositiveException(LocalizedFormats.NUMBER_OF_SAMPLES, sampleSize);
-        }
-
-        if (array == null) {
-            throw new NullArgumentException(LocalizedFormats.INPUT_ARRAY);
-        }
-
-        T[] out;
-        if (array.length < sampleSize) {
-            @SuppressWarnings("unchecked") // safe as both are of type T
-            final T[] unchecked = (T[]) Array.newInstance(array.getClass().getComponentType(), sampleSize);
-            out = unchecked;
-        } else {
-            out = array;
-        }
-
-        for (int i = 0; i < sampleSize; i++) {
-            out[i] = sample();
-        }
-
-        return out;
-
-    }
-
 }

@@ -27,11 +27,13 @@ import java.util.Set;
 import org.apache.commons.math4.distribution.LogNormalDistribution;
 import org.apache.commons.math4.distribution.NormalDistribution;
 import org.apache.commons.math4.distribution.RealDistribution;
+import org.apache.commons.math4.distribution.AbstractRealDistribution;
 import org.apache.commons.math4.exception.MathIllegalArgumentException;
 import org.apache.commons.math4.exception.NullArgumentException;
 import org.apache.commons.math4.exception.OutOfRangeException;
 import org.apache.commons.math4.random.RandomGenerator;
 import org.apache.commons.math4.random.Well19937c;
+import org.apache.commons.math4.rng.RandomSource;
 import org.apache.commons.math4.stat.descriptive.StorelessUnivariateStatistic;
 import org.apache.commons.math4.stat.descriptive.StorelessUnivariateStatisticAbstractTest;
 import org.apache.commons.math4.stat.descriptive.UnivariateStatistic;
@@ -709,41 +711,43 @@ public class PSquarePercentileTest extends
             VERY_LARGE = 10000000;
 
     private void doDistributionTest(RealDistribution distribution) {
+        final RealDistribution.Sampler sampler =
+            distribution.createSampler(RandomSource.create(RandomSource.WELL_19937_C, 1000));
         double data[];
 
-        data = distribution.sample(VERY_LARGE);
+        data = AbstractRealDistribution.sample(VERY_LARGE, sampler);
         doCalculatePercentile(50, data, 0.0001);
         doCalculatePercentile(95, data, 0.0001);
 
-        data = distribution.sample(LARGE);
+        data = AbstractRealDistribution.sample(LARGE, sampler);
         doCalculatePercentile(50, data, 0.001);
         doCalculatePercentile(95, data, 0.001);
 
-        data = distribution.sample(VERY_BIG);
+        data = AbstractRealDistribution.sample(VERY_BIG, sampler);
         doCalculatePercentile(50, data, 0.001);
         doCalculatePercentile(95, data, 0.001);
 
-        data = distribution.sample(BIG);
+        data = AbstractRealDistribution.sample(BIG, sampler);
         doCalculatePercentile(50, data, 0.001);
         doCalculatePercentile(95, data, 0.001);
 
-        data = distribution.sample(STANDARD);
+        data = AbstractRealDistribution.sample(STANDARD, sampler);
         doCalculatePercentile(50, data, 0.005);
         doCalculatePercentile(95, data, 0.005);
 
-        data = distribution.sample(MEDIUM);
+        data = AbstractRealDistribution.sample(MEDIUM, sampler);
         doCalculatePercentile(50, data, 0.005);
         doCalculatePercentile(95, data, 0.005);
 
-        data = distribution.sample(NOMINAL);
+        data = AbstractRealDistribution.sample(NOMINAL, sampler);
         doCalculatePercentile(50, data, 0.01);
         doCalculatePercentile(95, data, 0.01);
 
-        data = distribution.sample(SMALL);
+        data = AbstractRealDistribution.sample(SMALL, sampler);
         doCalculatePercentile(50, data, 0.01);
         doCalculatePercentile(95, data, 0.01);
 
-        data = distribution.sample(TINY);
+        data = AbstractRealDistribution.sample(TINY, sampler);
         doCalculatePercentile(50, data, 0.05);
         doCalculatePercentile(95, data, 0.05);
 
@@ -754,8 +758,8 @@ public class PSquarePercentileTest extends
      */
     @Test
     public void testDistribution() {
-        doDistributionTest(new NormalDistribution(randomGenerator, 4000, 50));
-        doDistributionTest(new LogNormalDistribution(randomGenerator,4000, 50));
+        doDistributionTest(new NormalDistribution(4000, 50));
+        doDistributionTest(new LogNormalDistribution(4000, 50));
         // doDistributionTest((new ExponentialDistribution(4000));
         // doDistributionTest(new GammaDistribution(5d,1d),0.1);
     }

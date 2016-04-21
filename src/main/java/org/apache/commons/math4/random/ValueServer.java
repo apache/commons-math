@@ -202,7 +202,7 @@ public class ValueServer {
      * @throws ZeroException if URL contains no data
      */
     public void computeDistribution(int binCount) throws NullArgumentException, IOException, ZeroException {
-        empiricalDistribution = new EmpiricalDistribution(binCount, randomData.getRandomGenerator());
+        empiricalDistribution = new EmpiricalDistribution(binCount);
         empiricalDistribution.load(valuesFileURL);
         mu = empiricalDistribution.getSampleStats().getMean();
         sigma = empiricalDistribution.getSampleStats().getStandardDeviation();
@@ -372,7 +372,7 @@ public class ValueServer {
             (empiricalDistribution.getBinStats().size() == 0)) {
             throw new MathIllegalStateException(LocalizedFormats.DIGEST_NOT_INITIALIZED);
         }
-        return empiricalDistribution.getNextValue();
+        return empiricalDistribution.createSampler(randomData.getRandomProvider()).sample();
     }
 
     /**

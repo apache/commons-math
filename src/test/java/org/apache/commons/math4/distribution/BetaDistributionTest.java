@@ -22,6 +22,8 @@ import org.apache.commons.math4.distribution.BetaDistribution;
 import org.apache.commons.math4.random.RandomGenerator;
 import org.apache.commons.math4.random.Well1024a;
 import org.apache.commons.math4.random.Well19937a;
+import org.apache.commons.math4.rng.RandomSource;
+import org.apache.commons.math4.rng.UniformRandomProvider;
 import org.apache.commons.math4.stat.StatUtils;
 import org.apache.commons.math4.stat.inference.KolmogorovSmirnovTest;
 import org.apache.commons.math4.stat.inference.TestUtils;
@@ -319,12 +321,14 @@ public class BetaDistributionTest {
 
     @Test
     public void testMomentsSampling() {
-        RandomGenerator random = new Well1024a(0x7829862c82fec2dal);
+        final UniformRandomProvider rng = RandomSource.create(RandomSource.WELL_1024_A,
+                                                              123456789L);
         final int numSamples = 1000;
         for (final double alpha : alphaBetas) {
             for (final double beta : alphaBetas) {
-                final BetaDistribution betaDistribution = new BetaDistribution(random, alpha, beta);
-                final double[] observed = new BetaDistribution(alpha, beta).sample(numSamples);
+                final BetaDistribution betaDistribution = new BetaDistribution(alpha, beta);
+                final double[] observed = AbstractRealDistribution.sample(numSamples,
+                                                                          betaDistribution.createSampler(rng));
                 Arrays.sort(observed);
 
                 final String distribution = String.format("Beta(%.2f, %.2f)", alpha, beta);
@@ -340,17 +344,21 @@ public class BetaDistributionTest {
 
     @Test
     public void testGoodnessOfFit() {
-        RandomGenerator random = new Well19937a(0x237db1db907b089fl);
+        final UniformRandomProvider rng = RandomSource.create(RandomSource.WELL_19937_A,
+                                                              123456789L);
         final int numSamples = 1000;
         final double level = 0.01;
         for (final double alpha : alphaBetas) {
             for (final double beta : alphaBetas) {
-                final BetaDistribution betaDistribution = new BetaDistribution(random, alpha, beta);
-                final double[] observed = betaDistribution.sample(numSamples);
+                final BetaDistribution betaDistribution = new BetaDistribution(alpha, beta);
+
+                final RealDistribution.Sampler sampler = betaDistribution.createSampler(rng);
+                final double[] observed = AbstractRealDistribution.sample(numSamples, sampler);
+
                 Assert.assertFalse("G goodness-of-fit test rejected null at alpha = " + level,
                                    gTest(betaDistribution, observed) < level);
                 Assert.assertFalse("KS goodness-of-fit test rejected null at alpha = " + level,
-                                   new KolmogorovSmirnovTest(random).kolmogorovSmirnovTest(betaDistribution, observed) < level);
+                                   new KolmogorovSmirnovTest(RandomSource.JDK, 3448845623L).kolmogorovSmirnovTest(betaDistribution, observed) < level);
             }
         }
     }
@@ -377,5 +385,4 @@ public class BetaDistributionTest {
 
         return TestUtils.gTest(expected, observed);
     }
-
 }

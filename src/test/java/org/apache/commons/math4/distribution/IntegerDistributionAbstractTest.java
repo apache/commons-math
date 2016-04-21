@@ -20,6 +20,7 @@ import org.apache.commons.math4.TestUtils;
 import org.apache.commons.math4.distribution.AbstractIntegerDistribution;
 import org.apache.commons.math4.distribution.IntegerDistribution;
 import org.apache.commons.math4.exception.MathIllegalArgumentException;
+import org.apache.commons.math4.rng.RandomSource;
 import org.apache.commons.math4.util.FastMath;
 import org.junit.After;
 import org.junit.Assert;
@@ -296,8 +297,11 @@ public abstract class IntegerDistributionAbstractTest {
         for (int i = 0; i < length; i++) {
             expectedCounts[i] = sampleSize * densityValues[i];
         }
-        distribution.reseedRandomGenerator(1000); // Use fixed seed
-        int[] sample = distribution.sample(sampleSize);
+        // Use fixed seed.
+        final IntegerDistribution.Sampler sampler =
+            distribution.createSampler(RandomSource.create(RandomSource.WELL_512_A,
+                                                           1000));
+        int[] sample = AbstractIntegerDistribution.sample(sampleSize, sampler);
         for (int i = 0; i < sampleSize; i++) {
           for (int j = 0; j < length; j++) {
               if (sample[i] == densityPoints[j]) {

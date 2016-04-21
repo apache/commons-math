@@ -41,6 +41,7 @@ import org.apache.commons.math4.exception.NotStrictlyPositiveException;
 import org.apache.commons.math4.exception.util.LocalizedFormats;
 import org.apache.commons.math4.stat.descriptive.StatisticalSummary;
 import org.apache.commons.math4.stat.descriptive.SummaryStatistics;
+import org.apache.commons.math4.rng.UniformRandomProvider;
 import org.apache.commons.math4.util.FastMath;
 import org.apache.commons.math4.util.MathUtils;
 
@@ -111,9 +112,6 @@ public class EmpiricalDistribution extends AbstractRealDistribution {
     /** Serializable version identifier */
     private static final long serialVersionUID = 5729073523949762654L;
 
-    /** RandomDataGenerator instance to use in repeated calls to getNext() */
-    protected final RandomDataGenerator randomData;
-
     /** List of SummaryStatistics objects characterizing the bins */
     private final List<SummaryStatistics> binStats;
 
@@ -152,51 +150,12 @@ public class EmpiricalDistribution extends AbstractRealDistribution {
      * @throws NotStrictlyPositiveException if {@code binCount <= 0}.
      */
     public EmpiricalDistribution(int binCount) {
-        this(binCount, new RandomDataGenerator());
-    }
-
-    /**
-     * Creates a new EmpiricalDistribution with the specified bin count using the
-     * provided {@link RandomGenerator} as the source of random data.
-     *
-     * @param binCount number of bins. Must be strictly positive.
-     * @param generator random data generator (may be null, resulting in default JDK generator)
-     * @throws NotStrictlyPositiveException if {@code binCount <= 0}.
-     * @since 3.0
-     */
-    public EmpiricalDistribution(int binCount, RandomGenerator generator) {
-        this(binCount, new RandomDataGenerator(generator));
-    }
-
-    /**
-     * Creates a new EmpiricalDistribution with default bin count using the
-     * provided {@link RandomGenerator} as the source of random data.
-     *
-     * @param generator random data generator (may be null, resulting in default JDK generator)
-     * @since 3.0
-     */
-    public EmpiricalDistribution(RandomGenerator generator) {
-        this(DEFAULT_BIN_COUNT, generator);
-    }
-
-    /**
-     * Private constructor to allow lazy initialisation of the RNG contained
-     * in the {@link #randomData} instance variable.
-     *
-     * @param binCount number of bins. Must be strictly positive.
-     * @param randomData Random data generator.
-     * @throws NotStrictlyPositiveException if {@code binCount <= 0}.
-     */
-    private EmpiricalDistribution(int binCount,
-                                  RandomDataGenerator randomData) {
-        super(randomData.getRandomGenerator());
         if (binCount <= 0) {
             throw new NotStrictlyPositiveException(binCount);
         }
         this.binCount = binCount;
-        this.randomData = randomData;
         binStats = new ArrayList<SummaryStatistics>();
-    }
+     }
 
     /**
      * Computes the empirical distribution from the provided
@@ -446,22 +405,6 @@ public class EmpiricalDistribution extends AbstractRealDistribution {
     }
 
     /**
-     * Generates a random value from this distribution.
-     * <strong>Preconditions:</strong><ul>
-     * <li>the distribution must be loaded before invoking this method</li></ul>
-     * @return the random value.
-     * @throws MathIllegalStateException if the distribution has not been loaded
-     */
-    public double getNextValue() throws MathIllegalStateException {
-
-        if (!loaded) {
-            throw new MathIllegalStateException(LocalizedFormats.DISTRIBUTION_NOT_LOADED);
-        }
-
-        return sample();
-    }
-
-    /**
      * Returns a {@link StatisticalSummary} describing this distribution.
      * <strong>Preconditions:</strong><ul>
      * <li>the distribution must be loaded before invoking this method</li></ul>
@@ -545,16 +488,6 @@ public class EmpiricalDistribution extends AbstractRealDistribution {
      */
     public boolean isLoaded() {
         return loaded;
-    }
-
-    /**
-     * Reseeds the random number generator used by {@link #getNextValue()}.
-     *
-     * @param seed random generator seed
-     * @since 3.0
-     */
-    public void reSeed(long seed) {
-        randomData.reSeed(seed);
     }
 
     // Distribution methods ---------------------------
@@ -731,13 +664,13 @@ public class EmpiricalDistribution extends AbstractRealDistribution {
         return true;
     }
 
-    /**
-     * {@inheritDoc}
-     * @since 3.1
-     */
+    /**{@inheritDoc} */
     @Override
-    public void reseedRandomGenerator(long seed) {
-        randomData.reSeed(seed);
+    public RealDistribution.Sampler createSampler(final UniformRandomProvider rng) {
+        if (!loaded) {
+            throw new MathIllegalStateException(LocalizedFormats.DISTRIBUTION_NOT_LOADED);
+        }
+        return super.createSampler(rng);
     }
 
     /**
@@ -808,9 +741,8 @@ public class EmpiricalDistribution extends AbstractRealDistribution {
         if (bStats.getN() == 1 || bStats.getVariance() == 0) {
             return new ConstantRealDistribution(bStats.getMean());
         } else {
-            return new NormalDistribution(randomData.getRandomGenerator(),
-                bStats.getMean(), bStats.getStandardDeviation(),
-                NormalDistribution.DEFAULT_INVERSE_ABSOLUTE_ACCURACY);
+            return new NormalDistribution(bStats.getMean(), bStats.getStandardDeviation(),
+                                          NormalDistribution.DEFAULT_INVERSE_ABSOLUTE_ACCURACY);
         }
     }
 }

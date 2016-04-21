@@ -19,8 +19,7 @@ package org.apache.commons.math4.distribution;
 import org.apache.commons.math4.exception.NotStrictlyPositiveException;
 import org.apache.commons.math4.exception.OutOfRangeException;
 import org.apache.commons.math4.exception.util.LocalizedFormats;
-import org.apache.commons.math4.random.RandomGenerator;
-import org.apache.commons.math4.random.Well19937c;
+import org.apache.commons.math4.rng.UniformRandomProvider;
 import org.apache.commons.math4.util.CombinatoricsUtils;
 import org.apache.commons.math4.util.FastMath;
 import org.apache.commons.math4.util.ResizableDoubleArray;
@@ -38,7 +37,7 @@ public class ExponentialDistribution extends AbstractRealDistribution {
      */
     public static final double DEFAULT_INVERSE_ABSOLUTE_ACCURACY = 1e-9;
     /** Serializable version identifier */
-    private static final long serialVersionUID = 2401296428283614780L;
+    private static final long serialVersionUID = 20160311L;
     /**
      * Used when generating Exponential samples.
      * Table containing the constants
@@ -90,14 +89,7 @@ public class ExponentialDistribution extends AbstractRealDistribution {
     }
 
     /**
-     * Create an exponential distribution with the given mean.
-     * <p>
-     * <b>Note:</b> this constructor will implicitly create an instance of
-     * {@link Well19937c} as random generator to be used for sampling only (see
-     * {@link #sample()} and {@link #sample(int)}). In case no sampling is
-     * needed for the created distribution, it is advised to pass {@code null}
-     * as random generator via the appropriate constructors to avoid the
-     * additional initialisation overhead.
+     * Creates a distribution.
      *
      * @param mean mean of this distribution.
      */
@@ -106,56 +98,19 @@ public class ExponentialDistribution extends AbstractRealDistribution {
     }
 
     /**
-     * Create an exponential distribution with the given mean.
-     * <p>
-     * <b>Note:</b> this constructor will implicitly create an instance of
-     * {@link Well19937c} as random generator to be used for sampling only (see
-     * {@link #sample()} and {@link #sample(int)}). In case no sampling is
-     * needed for the created distribution, it is advised to pass {@code null}
-     * as random generator via the appropriate constructors to avoid the
-     * additional initialisation overhead.
+     * Creates a distribution.
      *
      * @param mean Mean of this distribution.
      * @param inverseCumAccuracy Maximum absolute error in inverse
      * cumulative probability estimates (defaults to
      * {@link #DEFAULT_INVERSE_ABSOLUTE_ACCURACY}).
      * @throws NotStrictlyPositiveException if {@code mean <= 0}.
+     *
      * @since 2.1
      */
-    public ExponentialDistribution(double mean, double inverseCumAccuracy) {
-        this(new Well19937c(), mean, inverseCumAccuracy);
-    }
-
-    /**
-     * Creates an exponential distribution.
-     *
-     * @param rng Random number generator.
-     * @param mean Mean of this distribution.
-     * @throws NotStrictlyPositiveException if {@code mean <= 0}.
-     * @since 3.3
-     */
-    public ExponentialDistribution(RandomGenerator rng, double mean)
-        throws NotStrictlyPositiveException {
-        this(rng, mean, DEFAULT_INVERSE_ABSOLUTE_ACCURACY);
-    }
-
-    /**
-     * Creates an exponential distribution.
-     *
-     * @param rng Random number generator.
-     * @param mean Mean of this distribution.
-     * @param inverseCumAccuracy Maximum absolute error in inverse
-     * cumulative probability estimates (defaults to
-     * {@link #DEFAULT_INVERSE_ABSOLUTE_ACCURACY}).
-     * @throws NotStrictlyPositiveException if {@code mean <= 0}.
-     * @since 3.1
-     */
-    public ExponentialDistribution(RandomGenerator rng,
-                                   double mean,
+    public ExponentialDistribution(double mean,
                                    double inverseCumAccuracy)
         throws NotStrictlyPositiveException {
-        super(rng);
-
         if (mean <= 0) {
             throw new NotStrictlyPositiveException(LocalizedFormats.MEAN, mean);
         }
@@ -231,57 +186,6 @@ public class ExponentialDistribution extends AbstractRealDistribution {
         return ret;
     }
 
-    /**
-     * {@inheritDoc}
-     *
-     * <p><strong>Algorithm Description</strong>: this implementation uses the
-     * <a href="http://www.jesus.ox.ac.uk/~clifford/a5/chap1/node5.html">
-     * Inversion Method</a> to generate exponentially distributed random values
-     * from uniform deviates.</p>
-     *
-     * @return a random value.
-     * @since 2.2
-     */
-    @Override
-    public double sample() {
-        // Step 1:
-        double a = 0;
-        double u = random.nextDouble();
-
-        // Step 2 and 3:
-        while (u < 0.5) {
-            a += EXPONENTIAL_SA_QI[0];
-            u *= 2;
-        }
-
-        // Step 4 (now u >= 0.5):
-        u += u - 1;
-
-        // Step 5:
-        if (u <= EXPONENTIAL_SA_QI[0]) {
-            return mean * (a + u);
-        }
-
-        // Step 6:
-        int i = 0; // Should be 1, be we iterate before it in while using 0
-        double u2 = random.nextDouble();
-        double umin = u2;
-
-        // Step 7 and 8:
-        do {
-            ++i;
-            u2 = random.nextDouble();
-
-            if (u2 < umin) {
-                umin = u2;
-            }
-
-            // Step 8:
-        } while (u > EXPONENTIAL_SA_QI[i]); // Ensured to exit since EXPONENTIAL_SA_QI[MAX] = 1
-
-        return mean * (a + umin * EXPONENTIAL_SA_QI[0]);
-    }
-
     /** {@inheritDoc} */
     @Override
     protected double getSolverAbsoluteAccuracy() {
@@ -344,5 +248,60 @@ public class ExponentialDistribution extends AbstractRealDistribution {
     @Override
     public boolean isSupportConnected() {
         return true;
+    }
+
+    /**
+     * {@inheritDoc}
+     *
+     * <p>Sampling algorithm uses the
+     *  <a href="http://www.jesus.ox.ac.uk/~clifford/a5/chap1/node5.html">
+     *   inversion method</a> to generate exponentially distributed
+     *  random values from uniform deviates.
+     * </p>
+     */
+    @Override
+    public RealDistribution.Sampler createSampler(final UniformRandomProvider rng) {
+        return new RealDistribution.Sampler() {
+            /** {@inheritDoc} */
+            @Override
+            public double sample() {
+                // Step 1:
+                double a = 0;
+                double u = rng.nextDouble();
+
+                // Step 2 and 3:
+                while (u < 0.5) {
+                    a += EXPONENTIAL_SA_QI[0];
+                    u *= 2;
+                }
+
+                // Step 4 (now u >= 0.5):
+                u += u - 1;
+
+                // Step 5:
+                if (u <= EXPONENTIAL_SA_QI[0]) {
+                    return mean * (a + u);
+                }
+
+                // Step 6:
+                int i = 0; // Should be 1, be we iterate before it in while using 0
+                double u2 = rng.nextDouble();
+                double umin = u2;
+
+                // Step 7 and 8:
+                do {
+                    ++i;
+                    u2 = rng.nextDouble();
+
+                    if (u2 < umin) {
+                        umin = u2;
+                    }
+
+                    // Step 8:
+                } while (u > EXPONENTIAL_SA_QI[i]); // Ensured to exit since EXPONENTIAL_SA_QI[MAX] = 1
+
+                return mean * (a + umin * EXPONENTIAL_SA_QI[0]);
+            }
+        };
     }
 }

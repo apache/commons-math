@@ -19,8 +19,7 @@ package org.apache.commons.math4.distribution;
 
 import org.apache.commons.math4.exception.NotStrictlyPositiveException;
 import org.apache.commons.math4.exception.util.LocalizedFormats;
-import org.apache.commons.math4.random.RandomGenerator;
-import org.apache.commons.math4.random.Well19937c;
+import org.apache.commons.math4.rng.UniformRandomProvider;
 import org.apache.commons.math4.util.FastMath;
 
 /**
@@ -51,7 +50,7 @@ public class ParetoDistribution extends AbstractRealDistribution {
     public static final double DEFAULT_INVERSE_ABSOLUTE_ACCURACY = 1e-9;
 
     /** Serializable version identifier. */
-    private static final long serialVersionUID = 20130424;
+    private static final long serialVersionUID = 20160311L;
 
     /** The scale parameter of this distribution. */
     private final double scale;
@@ -63,81 +62,37 @@ public class ParetoDistribution extends AbstractRealDistribution {
     private final double solverAbsoluteAccuracy;
 
     /**
-     * Create a Pareto distribution with a scale of {@code 1} and a shape of {@code 1}.
+     * Creates a Pareto distribution with a scale of {@code 1} and a shape of {@code 1}.
      */
     public ParetoDistribution() {
         this(1, 1);
     }
 
     /**
-     * Create a Pareto distribution using the specified scale and shape.
-     * <p>
-     * <b>Note:</b> this constructor will implicitly create an instance of
-     * {@link Well19937c} as random generator to be used for sampling only (see
-     * {@link #sample()} and {@link #sample(int)}). In case no sampling is
-     * needed for the created distribution, it is advised to pass {@code null}
-     * as random generator via the appropriate constructors to avoid the
-     * additional initialisation overhead.
+     * Creates a Pareto distribution.
      *
      * @param scale the scale parameter of this distribution
      * @param shape the shape parameter of this distribution
      * @throws NotStrictlyPositiveException if {@code scale <= 0} or {@code shape <= 0}.
      */
-    public ParetoDistribution(double scale, double shape)
+    public ParetoDistribution(double scale,
+                              double shape)
         throws NotStrictlyPositiveException {
         this(scale, shape, DEFAULT_INVERSE_ABSOLUTE_ACCURACY);
     }
 
     /**
-     * Create a Pareto distribution using the specified scale, shape and
-     * inverse cumulative distribution accuracy.
-     * <p>
-     * <b>Note:</b> this constructor will implicitly create an instance of
-     * {@link Well19937c} as random generator to be used for sampling only (see
-     * {@link #sample()} and {@link #sample(int)}). In case no sampling is
-     * needed for the created distribution, it is advised to pass {@code null}
-     * as random generator via the appropriate constructors to avoid the
-     * additional initialisation overhead.
-     *
-     * @param scale the scale parameter of this distribution
-     * @param shape the shape parameter of this distribution
-     * @param inverseCumAccuracy Inverse cumulative probability accuracy.
-     * @throws NotStrictlyPositiveException if {@code scale <= 0} or {@code shape <= 0}.
-     */
-    public ParetoDistribution(double scale, double shape, double inverseCumAccuracy)
-        throws NotStrictlyPositiveException {
-        this(new Well19937c(), scale, shape, inverseCumAccuracy);
-    }
-
-    /**
      * Creates a Pareto distribution.
      *
-     * @param rng Random number generator.
-     * @param scale Scale parameter of this distribution.
-     * @param shape Shape parameter of this distribution.
-     * @throws NotStrictlyPositiveException if {@code scale <= 0} or {@code shape <= 0}.
-     */
-    public ParetoDistribution(RandomGenerator rng, double scale, double shape)
-        throws NotStrictlyPositiveException {
-        this(rng, scale, shape, DEFAULT_INVERSE_ABSOLUTE_ACCURACY);
-    }
-
-    /**
-     * Creates a Pareto distribution.
-     *
-     * @param rng Random number generator.
      * @param scale Scale parameter of this distribution.
      * @param shape Shape parameter of this distribution.
      * @param inverseCumAccuracy Inverse cumulative probability accuracy.
      * @throws NotStrictlyPositiveException if {@code scale <= 0} or {@code shape <= 0}.
      */
-    public ParetoDistribution(RandomGenerator rng,
-                              double scale,
+    public ParetoDistribution(double scale,
                               double shape,
                               double inverseCumAccuracy)
         throws NotStrictlyPositiveException {
-        super(rng);
-
         if (scale <= 0) {
             throw new NotStrictlyPositiveException(LocalizedFormats.SCALE, scale);
         }
@@ -295,8 +250,14 @@ public class ParetoDistribution extends AbstractRealDistribution {
 
     /** {@inheritDoc} */
     @Override
-    public double sample()  {
-        final double n = random.nextDouble();
-        return scale / FastMath.pow(n, 1 / shape);
+    public RealDistribution.Sampler createSampler(final UniformRandomProvider rng) {
+        return new RealDistribution.Sampler() {
+            /** {@inheritDoc} */
+            @Override
+            public double sample() {
+                final double n = rng.nextDouble();
+                return scale / FastMath.pow(n, 1 / shape);
+            }
+        };
     }
 }

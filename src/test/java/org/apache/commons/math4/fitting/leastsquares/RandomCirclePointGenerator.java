@@ -20,8 +20,8 @@ import org.apache.commons.math4.distribution.NormalDistribution;
 import org.apache.commons.math4.distribution.RealDistribution;
 import org.apache.commons.math4.distribution.UniformRealDistribution;
 import org.apache.commons.math4.geometry.euclidean.twod.Vector2D;
-import org.apache.commons.math4.random.RandomGenerator;
-import org.apache.commons.math4.random.Well44497b;
+import org.apache.commons.math4.rng.UniformRandomProvider;
+import org.apache.commons.math4.rng.RandomSource;
 import org.apache.commons.math4.util.FastMath;
 import org.apache.commons.math4.util.MathUtils;
 
@@ -30,11 +30,11 @@ import org.apache.commons.math4.util.MathUtils;
  */
 public class RandomCirclePointGenerator {
     /** RNG for the x-coordinate of the center. */
-    private final RealDistribution cX;
+    private final RealDistribution.Sampler cX;
     /** RNG for the y-coordinate of the center. */
-    private final RealDistribution cY;
+    private final RealDistribution.Sampler cY;
     /** RNG for the parametric position of the point. */
-    private final RealDistribution tP;
+    private final RealDistribution.Sampler tP;
     /** Radius of the circle. */
     private final double radius;
 
@@ -52,13 +52,11 @@ public class RandomCirclePointGenerator {
                                       double xSigma,
                                       double ySigma,
                                       long seed) {
-        final RandomGenerator rng = new Well44497b(seed);
+        final UniformRandomProvider rng = RandomSource.create(RandomSource.WELL_44497_B, seed);
         this.radius = radius;
-        cX = new NormalDistribution(rng, x, xSigma,
-                                    NormalDistribution.DEFAULT_INVERSE_ABSOLUTE_ACCURACY);
-        cY = new NormalDistribution(rng, y, ySigma,
-                                    NormalDistribution.DEFAULT_INVERSE_ABSOLUTE_ACCURACY);
-        tP = new UniformRealDistribution(rng, 0, MathUtils.TWO_PI);
+        cX = new NormalDistribution(x, xSigma).createSampler(rng);
+        cY = new NormalDistribution(y, ySigma).createSampler(rng);
+        tP = new UniformRealDistribution(0, MathUtils.TWO_PI).createSampler(rng);
     }
 
     /**

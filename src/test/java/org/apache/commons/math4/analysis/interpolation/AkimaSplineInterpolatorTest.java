@@ -20,13 +20,14 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
 import org.apache.commons.math4.analysis.UnivariateFunction;
+import org.apache.commons.math4.distribution.RealDistribution;
 import org.apache.commons.math4.distribution.UniformRealDistribution;
 import org.apache.commons.math4.exception.DimensionMismatchException;
 import org.apache.commons.math4.exception.NonMonotonicSequenceException;
 import org.apache.commons.math4.exception.NullArgumentException;
 import org.apache.commons.math4.exception.NumberIsTooSmallException;
-import org.apache.commons.math4.random.RandomGenerator;
-import org.apache.commons.math4.random.Well19937c;
+import org.apache.commons.math4.rng.UniformRandomProvider;
+import org.apache.commons.math4.rng.RandomSource;
 import org.apache.commons.math4.util.FastMath;
 import org.apache.commons.math4.util.Precision;
 import org.junit.Assert;
@@ -212,9 +213,9 @@ public class AkimaSplineInterpolatorTest
             assertTrue( Precision.equals( expected, actual ) );
         }
 
-        final RandomGenerator rng = new Well19937c( 1234567L ); // "tol" depends on the seed.
-        final UniformRealDistribution distX =
-            new UniformRealDistribution( rng, xValues[0], xValues[xValues.length - 1] );
+        final UniformRandomProvider rng = RandomSource.create(RandomSource.WELL_19937_C, 1234567L); // "tol" depends on the seed.
+        final RealDistribution.Sampler distX =
+            new UniformRealDistribution(xValues[0], xValues[xValues.length - 1]).createSampler(rng);
 
         double sumError = 0;
         for ( int i = 0; i < numberOfSamples; i++ )

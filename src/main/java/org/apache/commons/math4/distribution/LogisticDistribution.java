@@ -19,8 +19,6 @@ package org.apache.commons.math4.distribution;
 import org.apache.commons.math4.exception.NotStrictlyPositiveException;
 import org.apache.commons.math4.exception.OutOfRangeException;
 import org.apache.commons.math4.exception.util.LocalizedFormats;
-import org.apache.commons.math4.random.RandomGenerator;
-import org.apache.commons.math4.random.Well19937c;
 import org.apache.commons.math4.util.FastMath;
 import org.apache.commons.math4.util.MathUtils;
 
@@ -35,7 +33,7 @@ import org.apache.commons.math4.util.MathUtils;
 public class LogisticDistribution extends AbstractRealDistribution {
 
     /** Serializable version identifier. */
-    private static final long serialVersionUID = 20141003;
+    private static final long serialVersionUID = 20160311L;
 
     /** The location parameter. */
     private final double mu;
@@ -43,34 +41,14 @@ public class LogisticDistribution extends AbstractRealDistribution {
     private final double s;
 
     /**
-     * Build a new instance.
-     * <p>
-     * <b>Note:</b> this constructor will implicitly create an instance of
-     * {@link Well19937c} as random generator to be used for sampling only (see
-     * {@link #sample()} and {@link #sample(int)}). In case no sampling is
-     * needed for the created distribution, it is advised to pass {@code null}
-     * as random generator via the appropriate constructors to avoid the
-     * additional initialisation overhead.
+     * Creates a distribution.
      *
      * @param mu location parameter
      * @param s scale parameter (must be positive)
      * @throws NotStrictlyPositiveException if {@code beta <= 0}
      */
-    public LogisticDistribution(double mu, double s) {
-        this(new Well19937c(), mu, s);
-    }
-
-    /**
-     * Build a new instance.
-     *
-     * @param rng Random number generator
-     * @param mu location parameter
-     * @param s scale parameter (must be positive)
-     * @throws NotStrictlyPositiveException if {@code beta <= 0}
-     */
-    public LogisticDistribution(RandomGenerator rng, double mu, double s) {
-        super(rng);
-
+    public LogisticDistribution(double mu,
+                                double s) {
         if (s <= 0.0) {
             throw new NotStrictlyPositiveException(LocalizedFormats.NOT_POSITIVE_SCALE, s);
         }

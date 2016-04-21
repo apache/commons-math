@@ -21,7 +21,8 @@ import org.apache.commons.math4.analysis.UnivariateFunction;
 import org.apache.commons.math4.analysis.function.Constant;
 import org.apache.commons.math4.distribution.RealDistribution;
 import org.apache.commons.math4.distribution.UniformRealDistribution;
-import org.apache.commons.math4.random.RandomGenerator;
+import org.apache.commons.math4.rng.RandomSource;
+import org.apache.commons.math4.rng.UniformRandomProvider;
 
 /**
  * Creates functions that will select the initial values of a neuron's
@@ -45,10 +46,10 @@ public class FeatureInitializerFactory {
      * @throws org.apache.commons.math4.exception.NumberIsTooLargeException
      * if {@code min >= max}.
      */
-    public static FeatureInitializer uniform(final RandomGenerator rng,
+    public static FeatureInitializer uniform(final UniformRandomProvider rng,
                                              final double min,
                                              final double max) {
-        return randomize(new UniformRealDistribution(rng, min, max),
+        return randomize(new UniformRealDistribution(min, max).createSampler(rng),
                          function(new Constant(0), 0, 0));
     }
 
@@ -64,8 +65,7 @@ public class FeatureInitializerFactory {
      */
     public static FeatureInitializer uniform(final double min,
                                              final double max) {
-        return randomize(new UniformRealDistribution(min, max),
-                         function(new Constant(0), 0, 0));
+        return uniform(RandomSource.create(RandomSource.WELL_19937_C), min, max);
     }
 
     /**
@@ -98,12 +98,12 @@ public class FeatureInitializerFactory {
     /**
      * Adds some amount of random data to the given initializer.
      *
-     * @param random Random variable distribution.
+     * @param random Random variable distribution sampler.
      * @param orig Original initializer.
      * @return an initializer whose {@link FeatureInitializer#value() value}
      * method will return {@code orig.value() + random.sample()}.
      */
-    public static FeatureInitializer randomize(final RealDistribution random,
+    public static FeatureInitializer randomize(final RealDistribution.Sampler random,
                                                final FeatureInitializer orig) {
         return new FeatureInitializer() {
             /** {@inheritDoc} */

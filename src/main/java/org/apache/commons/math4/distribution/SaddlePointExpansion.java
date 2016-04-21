@@ -159,6 +159,9 @@ final class SaddlePointExpansion {
             }
             ret = s1;
         } else {
+            if (x == 0) {
+                return mu;
+            }
             ret = x * FastMath.log(x / mu) + mu - x;
         }
         return ret;
@@ -180,6 +183,9 @@ final class SaddlePointExpansion {
             if (p < 0.1) {
                 ret = -getDeviancePart(n, n * q) - n * p;
             } else {
+                if (n == 0) {
+                    return 0;
+                }
                 ret = n * FastMath.log(q);
             }
         } else if (x == n) {

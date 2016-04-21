@@ -22,8 +22,8 @@ import java.util.regex.MatchResult;
 import java.util.concurrent.Callable;
 
 import org.apache.commons.math4.util.MathArrays;
-import org.apache.commons.math4.random.RandomGenerator;
-import org.apache.commons.math4.random.Well19937c;
+import org.apache.commons.math4.rng.UniformRandomProvider;
+import org.apache.commons.math4.rng.RandomSource;
 import org.apache.commons.math4.exception.MathIllegalStateException;
 import org.apache.commons.math4.exception.NumberIsTooLargeException;
 import org.apache.commons.math4.exception.util.LocalizedFormats;
@@ -53,7 +53,7 @@ public class PerfTestUtils {
     /** Default number of code repeats for computing the average run time. */
     private static final int DEFAULT_REPEAT_STAT = 10000;
     /** RNG. */
-    private static RandomGenerator rng = new Well19937c();
+    private static UniformRandomProvider rng = RandomSource.create(RandomSource.WELL_19937_C);
 
     /**
      * Timing.

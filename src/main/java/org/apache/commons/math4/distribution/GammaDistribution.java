@@ -18,8 +18,7 @@ package org.apache.commons.math4.distribution;
 
 import org.apache.commons.math4.exception.NotStrictlyPositiveException;
 import org.apache.commons.math4.exception.util.LocalizedFormats;
-import org.apache.commons.math4.random.RandomGenerator;
-import org.apache.commons.math4.random.Well19937c;
+import org.apache.commons.math4.rng.UniformRandomProvider;
 import org.apache.commons.math4.special.Gamma;
 import org.apache.commons.math4.util.FastMath;
 
@@ -36,7 +35,7 @@ public class GammaDistribution extends AbstractRealDistribution {
      */
     public static final double DEFAULT_INVERSE_ABSOLUTE_ACCURACY = 1e-9;
     /** Serializable version identifier. */
-    private static final long serialVersionUID = 20120524L;
+    private static final long serialVersionUID = 20160311L;
     /** The shape parameter. */
     private final double shape;
     /** The scale parameter. */
@@ -98,35 +97,20 @@ public class GammaDistribution extends AbstractRealDistribution {
     private final double solverAbsoluteAccuracy;
 
     /**
-     * Creates a new gamma distribution with specified values of the shape and
-     * scale parameters.
-     * <p>
-     * <b>Note:</b> this constructor will implicitly create an instance of
-     * {@link Well19937c} as random generator to be used for sampling only (see
-     * {@link #sample()} and {@link #sample(int)}). In case no sampling is
-     * needed for the created distribution, it is advised to pass {@code null}
-     * as random generator via the appropriate constructors to avoid the
-     * additional initialisation overhead.
+     * Creates a distribution.
      *
      * @param shape the shape parameter
      * @param scale the scale parameter
      * @throws NotStrictlyPositiveException if {@code shape <= 0} or
      * {@code scale <= 0}.
      */
-    public GammaDistribution(double shape, double scale) throws NotStrictlyPositiveException {
+    public GammaDistribution(double shape, double scale)
+        throws NotStrictlyPositiveException {
         this(shape, scale, DEFAULT_INVERSE_ABSOLUTE_ACCURACY);
     }
 
     /**
-     * Creates a new gamma distribution with specified values of the shape and
-     * scale parameters.
-     * <p>
-     * <b>Note:</b> this constructor will implicitly create an instance of
-     * {@link Well19937c} as random generator to be used for sampling only (see
-     * {@link #sample()} and {@link #sample(int)}). In case no sampling is
-     * needed for the created distribution, it is advised to pass {@code null}
-     * as random generator via the appropriate constructors to avoid the
-     * additional initialisation overhead.
+     * Creates a distribution.
      *
      * @param shape the shape parameter
      * @param scale the scale parameter
@@ -135,48 +119,11 @@ public class GammaDistribution extends AbstractRealDistribution {
      * {@link #DEFAULT_INVERSE_ABSOLUTE_ACCURACY}).
      * @throws NotStrictlyPositiveException if {@code shape <= 0} or
      * {@code scale <= 0}.
-     * @since 2.1
      */
-    public GammaDistribution(double shape, double scale, double inverseCumAccuracy)
-        throws NotStrictlyPositiveException {
-        this(new Well19937c(), shape, scale, inverseCumAccuracy);
-    }
-
-    /**
-     * Creates a Gamma distribution.
-     *
-     * @param rng Random number generator.
-     * @param shape the shape parameter
-     * @param scale the scale parameter
-     * @throws NotStrictlyPositiveException if {@code shape <= 0} or
-     * {@code scale <= 0}.
-     * @since 3.3
-     */
-    public GammaDistribution(RandomGenerator rng, double shape, double scale)
-        throws NotStrictlyPositiveException {
-        this(rng, shape, scale, DEFAULT_INVERSE_ABSOLUTE_ACCURACY);
-    }
-
-    /**
-     * Creates a Gamma distribution.
-     *
-     * @param rng Random number generator.
-     * @param shape the shape parameter
-     * @param scale the scale parameter
-     * @param inverseCumAccuracy the maximum absolute error in inverse
-     * cumulative probability estimates (defaults to
-     * {@link #DEFAULT_INVERSE_ABSOLUTE_ACCURACY}).
-     * @throws NotStrictlyPositiveException if {@code shape <= 0} or
-     * {@code scale <= 0}.
-     * @since 3.1
-     */
-    public GammaDistribution(RandomGenerator rng,
-                             double shape,
+    public GammaDistribution(double shape,
                              double scale,
                              double inverseCumAccuracy)
         throws NotStrictlyPositiveException {
-        super(rng);
-
         if (shape <= 0) {
             throw new NotStrictlyPositiveException(LocalizedFormats.SHAPE, shape);
         }
@@ -404,83 +351,102 @@ public class GammaDistribution extends AbstractRealDistribution {
     }
 
     /**
-     * <p>This implementation uses the following algorithms: </p>
+     * {@inheritDoc}
      *
-     * <p>For 0 < shape < 1: <br/>
-     * Ahrens, J. H. and Dieter, U., <i>Computer methods for
-     * sampling from gamma, beta, Poisson and binomial distributions.</i>
-     * Computing, 12, 223-246, 1974.</p>
-     *
-     * <p>For shape >= 1: <br/>
-     * Marsaglia and Tsang, <i>A Simple Method for Generating
-     * Gamma Variables.</i> ACM Transactions on Mathematical Software,
-     * Volume 26 Issue 3, September, 2000.</p>
-     *
-     * @return random value sampled from the Gamma(shape, scale) distribution
+     * <p>
+     * Sampling algorithms:
+     * <ul>
+     *  <li>
+     *   For {@code 0 < shape < 1}:
+     *   <blockquote>
+     *    Ahrens, J. H. and Dieter, U.,
+     *    <i>Computer methods for sampling from gamma, beta, Poisson and binomial distributions,</i>
+     *    Computing, 12, 223-246, 1974.
+     *   </blockquote>
+     *  </li>
+     *  <li>
+     *  For {@code shape >= 1}:
+     *   <blockquote>
+     *   Marsaglia and Tsang, <i>A Simple Method for Generating
+     *   Gamma Variables.</i> ACM Transactions on Mathematical Software,
+     *   Volume 26 Issue 3, September, 2000.
+     *   </blockquote>
+     *  </li>
+     * </ul>
+     * </p>
      */
     @Override
-    public double sample()  {
-        if (shape < 1) {
-            // [1]: p. 228, Algorithm GS
+    public RealDistribution.Sampler createSampler(final UniformRandomProvider rng) {
+        return new RealDistribution.Sampler() {
+            /** Gaussian sampling. */
+            private final RealDistribution.Sampler gaussian = new NormalDistribution().createSampler(rng);
 
-            while (true) {
-                // Step 1:
-                final double u = random.nextDouble();
-                final double bGS = 1 + shape / FastMath.E;
-                final double p = bGS * u;
+            /** {@inheritDoc} */
+            @Override
+            public double sample() {
+                if (shape < 1) {
+                    // [1]: p. 228, Algorithm GS
 
-                if (p <= 1) {
-                    // Step 2:
+                    while (true) {
+                        // Step 1:
+                        final double u = rng.nextDouble();
+                        final double bGS = 1 + shape / FastMath.E;
+                        final double p = bGS * u;
 
-                    final double x = FastMath.pow(p, 1 / shape);
-                    final double u2 = random.nextDouble();
+                        if (p <= 1) {
+                            // Step 2:
 
-                    if (u2 > FastMath.exp(-x)) {
-                        // Reject
-                        continue;
-                    } else {
-                        return scale * x;
+                            final double x = FastMath.pow(p, 1 / shape);
+                            final double u2 = rng.nextDouble();
+
+                            if (u2 > FastMath.exp(-x)) {
+                                // Reject
+                                continue;
+                            } else {
+                                return scale * x;
+                            }
+                        } else {
+                            // Step 3:
+
+                            final double x = -1 * FastMath.log((bGS - p) / shape);
+                            final double u2 = rng.nextDouble();
+
+                            if (u2 > FastMath.pow(x, shape - 1)) {
+                                // Reject
+                                continue;
+                            } else {
+                                return scale * x;
+                            }
+                        }
                     }
-                } else {
-                    // Step 3:
+                }
 
-                    final double x = -1 * FastMath.log((bGS - p) / shape);
-                    final double u2 = random.nextDouble();
+                // Now shape >= 1
 
-                    if (u2 > FastMath.pow(x, shape - 1)) {
-                        // Reject
+                final double d = shape - 0.333333333333333333;
+                final double c = 1 / (3 * FastMath.sqrt(d));
+
+                while (true) {
+                    final double x = gaussian.sample();
+                    final double v = (1 + c * x) * (1 + c * x) * (1 + c * x);
+
+                    if (v <= 0) {
                         continue;
-                    } else {
-                        return scale * x;
+                    }
+
+                    final double x2 = x * x;
+                    final double u = rng.nextDouble();
+
+                    // Squeeze
+                    if (u < 1 - 0.0331 * x2 * x2) {
+                        return scale * d * v;
+                    }
+
+                    if (FastMath.log(u) < 0.5 * x2 + d * (1 - v + FastMath.log(v))) {
+                        return scale * d * v;
                     }
                 }
             }
-        }
-
-        // Now shape >= 1
-
-        final double d = shape - 0.333333333333333333;
-        final double c = 1 / (3 * FastMath.sqrt(d));
-
-        while (true) {
-            final double x = random.nextGaussian();
-            final double v = (1 + c * x) * (1 + c * x) * (1 + c * x);
-
-            if (v <= 0) {
-                continue;
-            }
-
-            final double x2 = x * x;
-            final double u = random.nextDouble();
-
-            // Squeeze
-            if (u < 1 - 0.0331 * x2 * x2) {
-                return scale * d * v;
-            }
-
-            if (FastMath.log(u) < 0.5 * x2 + d * (1 - v + FastMath.log(v))) {
-                return scale * d * v;
-            }
-        }
+        };
     }
 }

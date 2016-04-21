@@ -25,6 +25,7 @@ import org.apache.commons.math4.exception.NotANumberException;
 import org.apache.commons.math4.exception.NotFiniteNumberException;
 import org.apache.commons.math4.exception.NotPositiveException;
 import org.apache.commons.math4.util.FastMath;
+import org.apache.commons.math4.rng.RandomSource;
 import org.junit.Assert;
 import org.junit.Test;
 
@@ -157,8 +158,10 @@ public class EnumeratedIntegerDistributionTest {
     @Test
     public void testSample() {
         final int n = 1000000;
-        testDistribution.reseedRandomGenerator(-334759360); // fixed seed
-        final int[] samples = testDistribution.sample(n);
+        final IntegerDistribution.Sampler sampler
+            = testDistribution.createSampler(RandomSource.create(RandomSource.WELL_19937_C,
+                                                                 -334759360)); // fixed seed
+        final int[] samples = AbstractIntegerDistribution.sample(n, sampler);
         Assert.assertEquals(n, samples.length);
         double sum = 0;
         double sumOfSquares = 0;

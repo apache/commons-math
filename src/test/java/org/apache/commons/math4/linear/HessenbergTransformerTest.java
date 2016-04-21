@@ -19,11 +19,13 @@ package org.apache.commons.math4.linear;
 
 import java.util.Random;
 
+import org.apache.commons.math4.distribution.RealDistribution;
 import org.apache.commons.math4.distribution.NormalDistribution;
 import org.apache.commons.math4.linear.HessenbergTransformer;
 import org.apache.commons.math4.linear.MatrixUtils;
 import org.apache.commons.math4.linear.NonSquareMatrixException;
 import org.apache.commons.math4.linear.RealMatrix;
+import org.apache.commons.math4.rng.RandomSource;
 import org.junit.Test;
 import org.junit.Assert;
 
@@ -112,7 +114,9 @@ public class HessenbergTransformerTest {
     public void testRandomDataNormalDistribution() {
         for (int run = 0; run < 100; run++) {
             Random r = new Random(System.currentTimeMillis());
-            NormalDistribution dist = new NormalDistribution(0.0, r.nextDouble() * 5);
+            RealDistribution.Sampler dist 
+                = new NormalDistribution(0.0, r.nextDouble() * 5).createSampler(RandomSource.create(RandomSource.WELL_512_A,
+                                                                                                    64925784252L));
 
             // matrix size
             int size = r.nextInt(20) + 4;

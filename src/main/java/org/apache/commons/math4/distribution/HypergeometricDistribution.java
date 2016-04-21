@@ -21,8 +21,6 @@ import org.apache.commons.math4.exception.NotPositiveException;
 import org.apache.commons.math4.exception.NotStrictlyPositiveException;
 import org.apache.commons.math4.exception.NumberIsTooLargeException;
 import org.apache.commons.math4.exception.util.LocalizedFormats;
-import org.apache.commons.math4.random.RandomGenerator;
-import org.apache.commons.math4.random.Well19937c;
 import org.apache.commons.math4.util.FastMath;
 
 /**
@@ -33,7 +31,7 @@ import org.apache.commons.math4.util.FastMath;
  */
 public class HypergeometricDistribution extends AbstractIntegerDistribution {
     /** Serializable version identifier. */
-    private static final long serialVersionUID = -436928820673516179L;
+    private static final long serialVersionUID = 20160318L;
     /** The number of successes in the population. */
     private final int numberOfSuccesses;
     /** The population size. */
@@ -46,33 +44,8 @@ public class HypergeometricDistribution extends AbstractIntegerDistribution {
     private boolean numericalVarianceIsCalculated = false;
 
     /**
-     * Construct a new hypergeometric distribution with the specified population
-     * size, number of successes in the population, and sample size.
-     * <p>
-     * <b>Note:</b> this constructor will implicitly create an instance of
-     * {@link Well19937c} as random generator to be used for sampling only (see
-     * {@link #sample()} and {@link #sample(int)}). In case no sampling is
-     * needed for the created distribution, it is advised to pass {@code null}
-     * as random generator via the appropriate constructors to avoid the
-     * additional initialisation overhead.
-     *
-     * @param populationSize Population size.
-     * @param numberOfSuccesses Number of successes in the population.
-     * @param sampleSize Sample size.
-     * @throws NotPositiveException if {@code numberOfSuccesses < 0}.
-     * @throws NotStrictlyPositiveException if {@code populationSize <= 0}.
-     * @throws NumberIsTooLargeException if {@code numberOfSuccesses > populationSize},
-     * or {@code sampleSize > populationSize}.
-     */
-    public HypergeometricDistribution(int populationSize, int numberOfSuccesses, int sampleSize)
-    throws NotPositiveException, NotStrictlyPositiveException, NumberIsTooLargeException {
-        this(new Well19937c(), populationSize, numberOfSuccesses, sampleSize);
-    }
-
-    /**
      * Creates a new hypergeometric distribution.
      *
-     * @param rng Random number generator.
      * @param populationSize Population size.
      * @param numberOfSuccesses Number of successes in the population.
      * @param sampleSize Sample size.
@@ -80,15 +53,13 @@ public class HypergeometricDistribution extends AbstractIntegerDistribution {
      * @throws NotStrictlyPositiveException if {@code populationSize <= 0}.
      * @throws NumberIsTooLargeException if {@code numberOfSuccesses > populationSize},
      * or {@code sampleSize > populationSize}.
-     * @since 3.1
      */
-    public HypergeometricDistribution(RandomGenerator rng,
-                                      int populationSize,
+    public HypergeometricDistribution(int populationSize,
                                       int numberOfSuccesses,
                                       int sampleSize)
-    throws NotPositiveException, NotStrictlyPositiveException, NumberIsTooLargeException {
-        super(rng);
-
+    throws NotPositiveException,
+           NotStrictlyPositiveException,
+           NumberIsTooLargeException {
         if (populationSize <= 0) {
             throw new NotStrictlyPositiveException(LocalizedFormats.POPULATION_SIZE,
                                                    populationSize);

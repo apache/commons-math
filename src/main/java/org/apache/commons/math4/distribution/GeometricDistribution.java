@@ -18,8 +18,6 @@ package org.apache.commons.math4.distribution;
 
 import org.apache.commons.math4.exception.OutOfRangeException;
 import org.apache.commons.math4.exception.util.LocalizedFormats;
-import org.apache.commons.math4.random.RandomGenerator;
-import org.apache.commons.math4.random.Well19937c;
 import org.apache.commons.math4.util.FastMath;
 
 /**
@@ -32,7 +30,7 @@ import org.apache.commons.math4.util.FastMath;
 public class GeometricDistribution extends AbstractIntegerDistribution {
 
     /** Serializable version identifier. */
-    private static final long serialVersionUID = 20130507L;
+    private static final long serialVersionUID = 20160318L;
     /** The probability of success. */
     private final double probabilityOfSuccess;
     /** {@code log(p)} where p is the probability of success. */
@@ -41,32 +39,12 @@ public class GeometricDistribution extends AbstractIntegerDistribution {
     private final double log1mProbabilityOfSuccess;
 
     /**
-     * Create a geometric distribution with the given probability of success.
-     * <p>
-     * <b>Note:</b> this constructor will implicitly create an instance of
-     * {@link Well19937c} as random generator to be used for sampling only (see
-     * {@link #sample()} and {@link #sample(int)}). In case no sampling is
-     * needed for the created distribution, it is advised to pass {@code null}
-     * as random generator via the appropriate constructors to avoid the
-     * additional initialisation overhead.
-     *
-     * @param p probability of success.
-     * @throws OutOfRangeException if {@code p <= 0} or {@code p > 1}.
-     */
-    public GeometricDistribution(double p) {
-        this(new Well19937c(), p);
-    }
-
-    /**
      * Creates a geometric distribution.
      *
-     * @param rng Random number generator.
      * @param p Probability of success.
      * @throws OutOfRangeException if {@code p <= 0} or {@code p > 1}.
      */
-    public GeometricDistribution(RandomGenerator rng, double p) {
-        super(rng);
-
+    public GeometricDistribution(double p) {
         if (p <= 0 || p > 1) {
             throw new OutOfRangeException(LocalizedFormats.OUT_OF_RANGE_LEFT, p, 0, 1);
         }

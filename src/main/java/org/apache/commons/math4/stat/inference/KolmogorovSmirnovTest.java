@@ -23,6 +23,7 @@ import java.util.HashSet;
 
 import org.apache.commons.math4.distribution.EnumeratedRealDistribution;
 import org.apache.commons.math4.distribution.RealDistribution;
+import org.apache.commons.math4.distribution.AbstractRealDistribution;
 import org.apache.commons.math4.distribution.UniformRealDistribution;
 import org.apache.commons.math4.exception.InsufficientDataException;
 import org.apache.commons.math4.exception.MathArithmeticException;
@@ -39,9 +40,8 @@ import org.apache.commons.math4.linear.Array2DRowFieldMatrix;
 import org.apache.commons.math4.linear.FieldMatrix;
 import org.apache.commons.math4.linear.MatrixUtils;
 import org.apache.commons.math4.linear.RealMatrix;
-import org.apache.commons.math4.random.JDKRandomGenerator;
-import org.apache.commons.math4.random.RandomGenerator;
-import org.apache.commons.math4.random.Well19937c;
+import org.apache.commons.math4.rng.RandomSource;
+import org.apache.commons.math4.rng.UniformRandomProvider;
 import org.apache.commons.math4.util.CombinatoricsUtils;
 import org.apache.commons.math4.util.FastMath;
 import org.apache.commons.math4.util.MathArrays;
@@ -145,14 +145,14 @@ public class KolmogorovSmirnovTest {
     @Deprecated
     protected static final int MONTE_CARLO_ITERATIONS = 1000000;
 
-    /** Random data generator used by {@link #monteCarloP(double, int, int, boolean, int)} */
-    private final RandomGenerator rng;
+    @Deprecated
+    private final UniformRandomProvider rng;
 
     /**
      * Construct a KolmogorovSmirnovTest instance with a default random data generator.
      */
     public KolmogorovSmirnovTest() {
-        rng = new Well19937c();
+        rng = RandomSource.create(RandomSource.WELL_19937_C);
     }
 
     /**
@@ -160,11 +160,13 @@ public class KolmogorovSmirnovTest {
      * The #monteCarloP(double, int, int, boolean, int) that uses the generator supplied to this
      * constructor is deprecated as of version 3.6.
      *
-     * @param rng random data generator used by {@link #monteCarloP(double, int, int, boolean, int)}
+     * @param source random data generator used by {@link #monteCarloP(double, int, int, boolean, int)}
+     * @param seed Seed.
      */
     @Deprecated
-    public KolmogorovSmirnovTest(RandomGenerator rng) {
-        this.rng = rng;
+    public KolmogorovSmirnovTest(RandomSource source,
+                                 long seed) {
+        rng = RandomSource.create(source, seed);
     }
 
     /**
@@ -419,7 +421,7 @@ public class KolmogorovSmirnovTest {
         final double[] combined = new double[xLength + yLength];
         System.arraycopy(x, 0, combined, 0, xLength);
         System.arraycopy(y, 0, combined, xLength, yLength);
-        final EnumeratedRealDistribution dist = new EnumeratedRealDistribution(rng, combined);
+        final RealDistribution.Sampler sampler = new EnumeratedRealDistribution(combined).createSampler(rng);
         final long d = integralKolmogorovSmirnovStatistic(x, y);
         int greaterCount = 0;
         int equalCount = 0;
@@ -427,8 +429,8 @@ public class KolmogorovSmirnovTest {
         double[] curY;
         long curD;
         for (int i = 0; i < iterations; i++) {
-            curX = dist.sample(xLength);
-            curY = dist.sample(yLength);
+            curX = AbstractRealDistribution.sample(xLength, sampler);
+            curY = AbstractRealDistribution.sample(yLength, sampler);
             curD = integralKolmogorovSmirnovStatistic(curX, curY);
             if (curD > d) {
                 greaterCount++;
@@ -1041,7 +1043,7 @@ public class KolmogorovSmirnovTest {
      * @param numberOfTrueValues number of {@code true} values the boolean array should finally have
      * @param rng random data generator
      */
-    static void fillBooleanArrayRandomlyWithFixedNumberTrueValues(final boolean[] b, final int numberOfTrueValues, final RandomGenerator rng) {
+    private static void fillBooleanArrayRandomlyWithFixedNumberTrueValues(final boolean[] b, final int numberOfTrueValues, final UniformRandomProvider rng) {
         Arrays.fill(b, true);
         for (int k = numberOfTrueValues; k < b.length; k++) {
             final int r = rng.nextInt(k + 1);
@@ -1154,16 +1156,16 @@ public class KolmogorovSmirnovTest {
 
        // Add jitter using a fixed seed (so same arguments always give same results),
        // low-initialization-overhead generator
-       final RealDistribution dist =
-               new UniformRealDistribution(new JDKRandomGenerator(100), -minDelta, minDelta);
+       final RealDistribution.Sampler sampler =
+           new UniformRealDistribution(-minDelta, minDelta).createSampler(RandomSource.create(RandomSource.JDK, 100));
 
        // It is theoretically possible that jitter does not break ties, so repeat
        // until all ties are gone.  Bound the loop and throw MIE if bound is exceeded.
        int ct = 0;
        boolean ties = true;
        do {
-           jitter(x, dist);
-           jitter(y, dist);
+           jitter(x, sampler);
+           jitter(y, sampler);
            ties = hasTies(x, y);
            ct++;
        } while (ties && ct < 1000);
@@ -1202,12 +1204,13 @@ public class KolmogorovSmirnovTest {
      * values are overwritten with the result of applying jitter.</p>
      *
      * @param data input/output data array - entries overwritten by the method
-     * @param dist probability distribution to sample for jitter values
+     * @param sampler probability distribution to sample for jitter values
      * @throws NullPointerException if either of the parameters is null
      */
-    private static void jitter(double[] data, RealDistribution dist) {
+    private static void jitter(double[] data, RealDistribution.Sampler sampler) {
         for (int i = 0; i < data.length; i++) {
-            data[i] += dist.sample();
+            final double d = sampler.sample();
+            data[i] += d;
         }
     }
 

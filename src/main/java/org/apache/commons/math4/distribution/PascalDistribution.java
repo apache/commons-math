@@ -19,8 +19,6 @@ package org.apache.commons.math4.distribution;
 import org.apache.commons.math4.exception.NotStrictlyPositiveException;
 import org.apache.commons.math4.exception.OutOfRangeException;
 import org.apache.commons.math4.exception.util.LocalizedFormats;
-import org.apache.commons.math4.random.RandomGenerator;
-import org.apache.commons.math4.random.Well19937c;
 import org.apache.commons.math4.special.Beta;
 import org.apache.commons.math4.util.CombinatoricsUtils;
 import org.apache.commons.math4.util.FastMath;
@@ -77,13 +75,6 @@ public class PascalDistribution extends AbstractIntegerDistribution {
     /**
      * Create a Pascal distribution with the given number of successes and
      * probability of success.
-     * <p>
-     * <b>Note:</b> this constructor will implicitly create an instance of
-     * {@link Well19937c} as random generator to be used for sampling only (see
-     * {@link #sample()} and {@link #sample(int)}). In case no sampling is
-     * needed for the created distribution, it is advised to pass {@code null}
-     * as random generator via the appropriate constructors to avoid the
-     * additional initialisation overhead.
      *
      * @param r Number of successes.
      * @param p Probability of success.
@@ -91,29 +82,10 @@ public class PascalDistribution extends AbstractIntegerDistribution {
      * @throws OutOfRangeException if the probability of success is not in the
      * range {@code [0, 1]}.
      */
-    public PascalDistribution(int r, double p)
-        throws NotStrictlyPositiveException, OutOfRangeException {
-        this(new Well19937c(), r, p);
-    }
-
-    /**
-     * Create a Pascal distribution with the given number of successes and
-     * probability of success.
-     *
-     * @param rng Random number generator.
-     * @param r Number of successes.
-     * @param p Probability of success.
-     * @throws NotStrictlyPositiveException if the number of successes is not positive
-     * @throws OutOfRangeException if the probability of success is not in the
-     * range {@code [0, 1]}.
-     * @since 3.1
-     */
-    public PascalDistribution(RandomGenerator rng,
-                              int r,
+    public PascalDistribution(int r,
                               double p)
-        throws NotStrictlyPositiveException, OutOfRangeException {
-        super(rng);
-
+        throws NotStrictlyPositiveException,
+               OutOfRangeException {
         if (r <= 0) {
             throw new NotStrictlyPositiveException(LocalizedFormats.NUMBER_OF_SUCCESSES,
                                                    r);

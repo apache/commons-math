@@ -17,11 +17,12 @@
 package org.apache.commons.math4.analysis.interpolation;
 
 import org.apache.commons.math4.analysis.BivariateFunction;
+import org.apache.commons.math4.distribution.RealDistribution;
 import org.apache.commons.math4.distribution.UniformRealDistribution;
 import org.apache.commons.math4.exception.DimensionMismatchException;
 import org.apache.commons.math4.exception.MathIllegalArgumentException;
-import org.apache.commons.math4.random.RandomGenerator;
-import org.apache.commons.math4.random.Well19937c;
+import org.apache.commons.math4.rng.UniformRandomProvider;
+import org.apache.commons.math4.rng.RandomSource;
 import org.junit.Assert;
 import org.junit.Test;
 
@@ -146,9 +147,9 @@ public final class BicubicInterpolatorTest {
         final BicubicInterpolatingFunction p = interpolator.interpolate(xval, yval, zval);
         double x, y;
 
-        final RandomGenerator rng = new Well19937c();
-        final UniformRealDistribution distX = new UniformRealDistribution(rng, xval[0], xval[xval.length - 1]);
-        final UniformRealDistribution distY = new UniformRealDistribution(rng, yval[0], yval[yval.length - 1]);
+        final UniformRandomProvider rng = RandomSource.create(RandomSource.WELL_19937_C);
+        final RealDistribution.Sampler distX = new UniformRealDistribution(xval[0], xval[xval.length - 1]).createSampler(rng);
+        final RealDistribution.Sampler distY = new UniformRealDistribution(yval[0], yval[yval.length - 1]).createSampler(rng);
 
         int count = 0;
         while (true) {

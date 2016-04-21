@@ -30,6 +30,8 @@ import org.apache.commons.math4.exception.NotFiniteNumberException;
 import org.apache.commons.math4.exception.NotPositiveException;
 import org.apache.commons.math4.util.FastMath;
 import org.apache.commons.math4.util.Pair;
+import org.apache.commons.math4.rng.UniformRandomProvider;
+import org.apache.commons.math4.rng.RandomSource;
 import org.junit.Assert;
 import org.junit.Test;
 
@@ -175,8 +177,9 @@ public class EnumeratedRealDistributionTest {
     @Test
     public void testSample() {
         final int n = 1000000;
-        testDistribution.reseedRandomGenerator(-334759360); // fixed seed
-        final double[] samples = testDistribution.sample(n);
+        final RealDistribution.Sampler sampler =
+            testDistribution.createSampler(RandomSource.create(RandomSource.WELL_1024_A, -123456789));
+        final double[] samples = AbstractRealDistribution.sample(n, sampler);
         Assert.assertEquals(n, samples.length);
         double sum = 0;
         double sumOfSquares = 0;
@@ -195,7 +198,8 @@ public class EnumeratedRealDistributionTest {
         List<Pair<Object,Double>> list = new ArrayList<Pair<Object, Double>>();
         list.add(new Pair<Object, Double>(new Object() {}, new Double(0)));
         list.add(new Pair<Object, Double>(new Object() {}, new Double(1)));
-        Assert.assertEquals(1, new EnumeratedDistribution<Object>(list).sample(1).length);
+        final UniformRandomProvider rng = RandomSource.create(RandomSource.WELL_512_A);
+        Assert.assertEquals(1, new EnumeratedDistribution<Object>(list).createSampler(rng).sample(1).length);
     }
 
     @Test

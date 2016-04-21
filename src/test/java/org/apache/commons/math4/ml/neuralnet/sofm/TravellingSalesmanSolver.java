@@ -44,8 +44,8 @@ import org.apache.commons.math4.ml.neuralnet.sofm.LearningFactorFunction;
 import org.apache.commons.math4.ml.neuralnet.sofm.LearningFactorFunctionFactory;
 import org.apache.commons.math4.ml.neuralnet.sofm.NeighbourhoodSizeFunction;
 import org.apache.commons.math4.ml.neuralnet.sofm.NeighbourhoodSizeFunctionFactory;
-import org.apache.commons.math4.random.RandomGenerator;
-import org.apache.commons.math4.random.Well44497b;
+import org.apache.commons.math4.rng.RandomSource;
+import org.apache.commons.math4.rng.UniformRandomProvider;
 import org.apache.commons.math4.util.FastMath;
 
 /**
@@ -56,7 +56,7 @@ import org.apache.commons.math4.util.FastMath;
 public class TravellingSalesmanSolver {
     private static final long FIRST_NEURON_ID = 0;
     /** RNG. */
-    private final RandomGenerator random;
+    private final UniformRandomProvider random;
     /** Set of cities. */
     private final Set<City> cities = new HashSet<City>();
     /** SOFM. */
@@ -72,7 +72,7 @@ public class TravellingSalesmanSolver {
      */
     public TravellingSalesmanSolver(City[] cityList,
                                     double numNeuronsPerCity) {
-        this(cityList, numNeuronsPerCity, new Well44497b().nextLong());
+        this(cityList, numNeuronsPerCity, RandomSource.createLong());
     }
 
     /**
@@ -84,7 +84,7 @@ public class TravellingSalesmanSolver {
     public TravellingSalesmanSolver(City[] cityList,
                                     double numNeuronsPerCity,
                                     long seed) {
-        random = new Well44497b(seed);
+        random = RandomSource.create(RandomSource.WELL_1024_A, seed);
 
         // Make sure that each city will appear only once in the list.
         for (City city : cityList) {
@@ -338,12 +338,13 @@ public class TravellingSalesmanSolver {
         final UnivariateFunction f1 = FunctionUtils.add(h1, new Constant(centre[0]));
         final UnivariateFunction f2 = FunctionUtils.add(h2, new Constant(centre[1]));
 
-        final RealDistribution u
-            = new UniformRealDistribution(random, -0.05 * radius, 0.05 * radius);
+        final RealDistribution u = new UniformRealDistribution(-0.05 * radius, 0.05 * radius);
 
         return new FeatureInitializer[] {
-            FeatureInitializerFactory.randomize(u, FeatureInitializerFactory.function(f1, 0, 1)),
-            FeatureInitializerFactory.randomize(u, FeatureInitializerFactory.function(f2, 0, 1))
+            FeatureInitializerFactory.randomize(u.createSampler(random),
+                                                FeatureInitializerFactory.function(f1, 0, 1)),
+            FeatureInitializerFactory.randomize(u.createSampler(random),
+                                                FeatureInitializerFactory.function(f2, 0, 1))
         };
     }
 }

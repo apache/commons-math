@@ -1209,18 +1209,4 @@ public class RandomDataGeneratorTest {
         }
         TestUtils.assertChiSquareAccept(densityPoints, expectedCounts, observedCounts, .001);
     }
-
-    @Test
-    /**
-     * MATH-720
-     */
-    public void testReseed() {
-        PoissonDistribution x = new PoissonDistribution(3.0);
-        x.reseedRandomGenerator(0);
-        final double u = x.sample();
-        PoissonDistribution y = new PoissonDistribution(3.0);
-        y.reseedRandomGenerator(0);
-        Assert.assertEquals(u, y.sample(), 0);
-    }
-
 }

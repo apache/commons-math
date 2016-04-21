@@ -19,8 +19,6 @@ package org.apache.commons.math4.distribution;
 import org.apache.commons.math4.exception.NotPositiveException;
 import org.apache.commons.math4.exception.OutOfRangeException;
 import org.apache.commons.math4.exception.util.LocalizedFormats;
-import org.apache.commons.math4.random.RandomGenerator;
-import org.apache.commons.math4.random.Well19937c;
 import org.apache.commons.math4.special.Beta;
 import org.apache.commons.math4.util.FastMath;
 
@@ -39,40 +37,15 @@ public class BinomialDistribution extends AbstractIntegerDistribution {
     private final double probabilityOfSuccess;
 
     /**
-     * Create a binomial distribution with the given number of trials and
-     * probability of success.
-     * <p>
-     * <b>Note:</b> this constructor will implicitly create an instance of
-     * {@link Well19937c} as random generator to be used for sampling only (see
-     * {@link #sample()} and {@link #sample(int)}). In case no sampling is
-     * needed for the created distribution, it is advised to pass {@code null}
-     * as random generator via the appropriate constructors to avoid the
-     * additional initialisation overhead.
-     *
-     * @param trials Number of trials.
-     * @param p Probability of success.
-     * @throws NotPositiveException if {@code trials < 0}.
-     * @throws OutOfRangeException if {@code p < 0} or {@code p > 1}.
-     */
-    public BinomialDistribution(int trials, double p) {
-        this(new Well19937c(), trials, p);
-    }
-
-    /**
      * Creates a binomial distribution.
      *
-     * @param rng Random number generator.
      * @param trials Number of trials.
      * @param p Probability of success.
      * @throws NotPositiveException if {@code trials < 0}.
      * @throws OutOfRangeException if {@code p < 0} or {@code p > 1}.
-     * @since 3.1
      */
-    public BinomialDistribution(RandomGenerator rng,
-                                int trials,
+    public BinomialDistribution(int trials,
                                 double p) {
-        super(rng);
-
         if (trials < 0) {
             throw new NotPositiveException(LocalizedFormats.NUMBER_OF_TRIALS,
                                            trials);

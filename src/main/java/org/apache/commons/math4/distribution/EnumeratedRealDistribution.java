@@ -28,15 +28,14 @@ import org.apache.commons.math4.exception.NotANumberException;
 import org.apache.commons.math4.exception.NotFiniteNumberException;
 import org.apache.commons.math4.exception.NotPositiveException;
 import org.apache.commons.math4.exception.OutOfRangeException;
-import org.apache.commons.math4.random.RandomGenerator;
-import org.apache.commons.math4.random.Well19937c;
+import org.apache.commons.math4.rng.UniformRandomProvider;
 import org.apache.commons.math4.util.Pair;
 
 /**
  * <p>Implementation of a real-valued {@link EnumeratedDistribution}.
  *
  * <p>Values with zero-probability are allowed but they do not extend the
- * support.<br/>
+ * support.<br>
  * Duplicate values are allowed. Probabilities of duplicate values are combined
  * when computing cumulative probabilities and statistics.</p>
  *
@@ -45,7 +44,7 @@ import org.apache.commons.math4.util.Pair;
 public class EnumeratedRealDistribution extends AbstractRealDistribution {
 
     /** Serializable UID. */
-    private static final long serialVersionUID = 20130308L;
+    private static final long serialVersionUID = 20160311L;
 
     /**
      * {@link EnumeratedDistribution} (using the {@link Double} wrapper)
@@ -54,36 +53,9 @@ public class EnumeratedRealDistribution extends AbstractRealDistribution {
     protected final EnumeratedDistribution<Double> innerDistribution;
 
     /**
-     * Create a discrete real-valued distribution using the given probability mass function
-     * enumeration.
-     * <p>
-     * <b>Note:</b> this constructor will implicitly create an instance of
-     * {@link Well19937c} as random generator to be used for sampling only (see
-     * {@link #sample()} and {@link #sample(int)}). In case no sampling is
-     * needed for the created distribution, it is advised to pass {@code null}
-     * as random generator via the appropriate constructors to avoid the
-     * additional initialisation overhead.
-     *
-     * @param singletons array of random variable values.
-     * @param probabilities array of probabilities.
-     * @throws DimensionMismatchException if
-     * {@code singletons.length != probabilities.length}
-     * @throws NotPositiveException if any of the probabilities are negative.
-     * @throws NotFiniteNumberException if any of the probabilities are infinite.
-     * @throws NotANumberException if any of the probabilities are NaN.
-     * @throws MathArithmeticException all of the probabilities are 0.
-     */
-    public EnumeratedRealDistribution(final double[] singletons, final double[] probabilities)
-    throws DimensionMismatchException, NotPositiveException, MathArithmeticException,
-           NotFiniteNumberException, NotANumberException {
-        this(new Well19937c(), singletons, probabilities);
-    }
-
-    /**
      * Create a discrete real-valued distribution using the given random number generator
      * and probability mass function enumeration.
      *
-     * @param rng random number generator.
      * @param singletons array of random variable values.
      * @param probabilities array of probabilities.
      * @throws DimensionMismatchException if
@@ -93,26 +65,23 @@ public class EnumeratedRealDistribution extends AbstractRealDistribution {
      * @throws NotANumberException if any of the probabilities are NaN.
      * @throws MathArithmeticException all of the probabilities are 0.
      */
-    public EnumeratedRealDistribution(final RandomGenerator rng,
-                                    final double[] singletons, final double[] probabilities)
-        throws DimensionMismatchException, NotPositiveException, MathArithmeticException,
-               NotFiniteNumberException, NotANumberException {
-        super(rng);
-
-        innerDistribution = new EnumeratedDistribution<Double>(
-                rng, createDistribution(singletons, probabilities));
+    public EnumeratedRealDistribution(final double[] singletons,
+                                      final double[] probabilities)
+        throws DimensionMismatchException,
+               NotPositiveException,
+               MathArithmeticException,
+               NotFiniteNumberException,
+               NotANumberException {
+        innerDistribution = new EnumeratedDistribution<Double>(createDistribution(singletons, probabilities));
     }
 
     /**
-     * Create a discrete real-valued distribution from the input data.  Values are assigned
-     * mass based on their frequency.
+     * Creates a discrete real-valued distribution from the input data.
+     * Values are assigned mass based on their frequency.
      *
-     * @param rng random number generator used for sampling
      * @param data input dataset
-     * @since 3.6
      */
-    public EnumeratedRealDistribution(final RandomGenerator rng, final double[] data) {
-        super(rng);
+    public EnumeratedRealDistribution(final double[] data) {
         final Map<Double, Integer> dataMap = new HashMap<Double, Integer>();
         for (double value : data) {
             Integer count = dataMap.get(value);
@@ -131,20 +100,9 @@ public class EnumeratedRealDistribution extends AbstractRealDistribution {
             probabilities[index] = entry.getValue().intValue() / denom;
             index++;
         }
-        innerDistribution = new EnumeratedDistribution<Double>(rng, createDistribution(values, probabilities));
+        innerDistribution = new EnumeratedDistribution<Double>(createDistribution(values, probabilities));
     }
 
-    /**
-     * Create a discrete real-valued distribution from the input data.  Values are assigned
-     * mass based on their frequency.  For example, [0,1,1,2] as input creates a distribution
-     * with values 0, 1 and 2 having probability masses 0.25, 0.5 and 0.25 respectively,
-     *
-     * @param data input dataset
-     * @since 3.6
-     */
-    public EnumeratedRealDistribution(final double[] data) {
-        this(new Well19937c(), data);
-    }
     /**
      * Create the list of Pairs representing the distribution from singletons and probabilities.
      *
@@ -315,11 +273,19 @@ public class EnumeratedRealDistribution extends AbstractRealDistribution {
         return true;
     }
 
-    /**
-     * {@inheritDoc}
-     */
+    /** {@inheritDoc} */
     @Override
-    public double sample() {
-        return innerDistribution.sample();
+    public RealDistribution.Sampler createSampler(final UniformRandomProvider rng) {
+        return new RealDistribution.Sampler() {
+            /** Delegate. */
+            private final EnumeratedDistribution<Double>.Sampler inner =
+                innerDistribution.createSampler(rng);
+
+            /** {@inheritDoc} */
+            @Override
+            public double sample() {
+                return inner.sample();
+            }
+        };
     }
 }

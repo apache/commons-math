@@ -20,8 +20,7 @@ package org.apache.commons.math4.distribution;
 import org.apache.commons.math4.exception.NumberIsTooLargeException;
 import org.apache.commons.math4.exception.OutOfRangeException;
 import org.apache.commons.math4.exception.util.LocalizedFormats;
-import org.apache.commons.math4.random.RandomGenerator;
-import org.apache.commons.math4.random.Well19937c;
+import org.apache.commons.math4.rng.UniformRandomProvider;
 
 /**
  * Implementation of the uniform real distribution.
@@ -33,7 +32,7 @@ import org.apache.commons.math4.random.Well19937c;
  */
 public class UniformRealDistribution extends AbstractRealDistribution {
     /** Serializable version identifier. */
-    private static final long serialVersionUID = 20120109L;
+    private static final long serialVersionUID = 20160311L;
     /** Lower bound of this distribution (inclusive). */
     private final double lower;
     /** Upper bound of this distribution (exclusive). */
@@ -42,52 +41,21 @@ public class UniformRealDistribution extends AbstractRealDistribution {
     /**
      * Create a standard uniform real distribution with lower bound (inclusive)
      * equal to zero and upper bound (exclusive) equal to one.
-     * <p>
-     * <b>Note:</b> this constructor will implicitly create an instance of
-     * {@link Well19937c} as random generator to be used for sampling only (see
-     * {@link #sample()} and {@link #sample(int)}). In case no sampling is
-     * needed for the created distribution, it is advised to pass {@code null}
-     * as random generator via the appropriate constructors to avoid the
-     * additional initialisation overhead.
      */
     public UniformRealDistribution() {
         this(0, 1);
     }
 
     /**
-     * Create a uniform real distribution using the given lower and upper
-     * bounds.
-     * <p>
-     * <b>Note:</b> this constructor will implicitly create an instance of
-     * {@link Well19937c} as random generator to be used for sampling only (see
-     * {@link #sample()} and {@link #sample(int)}). In case no sampling is
-     * needed for the created distribution, it is advised to pass {@code null}
-     * as random generator via the appropriate constructors to avoid the
-     * additional initialisation overhead.
-     *
-     * @param lower Lower bound of this distribution (inclusive).
-     * @param upper Upper bound of this distribution (exclusive).
-     * @throws NumberIsTooLargeException if {@code lower >= upper}.
-     */
-    public UniformRealDistribution(double lower, double upper)
-        throws NumberIsTooLargeException {
-        this(new Well19937c(), lower, upper);
-    }
-
-    /**
      * Creates a uniform distribution.
      *
-     * @param rng Random number generator.
      * @param lower Lower bound of this distribution (inclusive).
      * @param upper Upper bound of this distribution (exclusive).
      * @throws NumberIsTooLargeException if {@code lower >= upper}.
-     * @since 3.1
      */
-    public UniformRealDistribution(RandomGenerator rng,
-                                   double lower,
+    public UniformRealDistribution(double lower,
                                    double upper)
         throws NumberIsTooLargeException {
-        super(rng);
         if (lower >= upper) {
             throw new NumberIsTooLargeException(
                             LocalizedFormats.LOWER_BOUND_NOT_BELOW_UPPER_BOUND,
@@ -192,8 +160,14 @@ public class UniformRealDistribution extends AbstractRealDistribution {
 
     /** {@inheritDoc} */
     @Override
-    public double sample()  {
-        final double u = random.nextDouble();
-        return u * upper + (1 - u) * lower;
+    public RealDistribution.Sampler createSampler(final UniformRandomProvider rng) {
+        return new RealDistribution.Sampler() {
+            /** {@inheritDoc} */
+            @Override
+            public double sample() {
+                final double u = rng.nextDouble();
+                return u * upper + (1 - u) * lower;
+            }
+        };
     }
 }

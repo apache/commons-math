@@ -23,8 +23,8 @@ import java.util.Arrays;
 import org.apache.commons.math4.TestUtils;
 import org.apache.commons.math4.distribution.NormalDistribution;
 import org.apache.commons.math4.distribution.UniformRealDistribution;
-import org.apache.commons.math4.random.RandomGenerator;
-import org.apache.commons.math4.random.Well19937c;
+import org.apache.commons.math4.rng.RandomSource;
+import org.apache.commons.math4.rng.UniformRandomProvider;
 import org.apache.commons.math4.util.CombinatoricsUtils;
 import org.apache.commons.math4.util.FastMath;
 import org.apache.commons.math4.util.MathArrays;
@@ -318,7 +318,7 @@ public class KolmogorovSmirnovTestTest {
      */
     @Test
     public void testTwoSampleMonteCarlo() {
-        final KolmogorovSmirnovTest test = new KolmogorovSmirnovTest(new Well19937c(1000));
+        final KolmogorovSmirnovTest test = new KolmogorovSmirnovTest(RandomSource.WELL_19937_C, 1000);
         final int sampleSize = 14;
         final double tol = .001;
         final double[] shortUniform = new double[sampleSize];
@@ -345,7 +345,7 @@ public class KolmogorovSmirnovTestTest {
 
     @Test
     public void testTwoSampleMonteCarloDifferentSampleSizes() {
-        final KolmogorovSmirnovTest test = new KolmogorovSmirnovTest(new Well19937c(1000));
+        final KolmogorovSmirnovTest test = new KolmogorovSmirnovTest(RandomSource.WELL_19937_C, 1000);
         final int sampleSize1 = 14;
         final int sampleSize2 = 7;
         final double d = 0.3;
@@ -364,7 +364,7 @@ public class KolmogorovSmirnovTestTest {
     public void testTwoSampleMonteCarloPerformance() {
         int numIterations = 100_000;
         int N = (int)Math.sqrt(KolmogorovSmirnovTest.LARGE_SAMPLE_PRODUCT);
-        final KolmogorovSmirnovTest test = new KolmogorovSmirnovTest(new Well19937c(1000));
+        final KolmogorovSmirnovTest test = new KolmogorovSmirnovTest(RandomSource.WELL_19937_C, 1000);
         for (int n = 2; n <= N; ++n) {
             long startMillis = System.currentTimeMillis();
             int m = KolmogorovSmirnovTest.LARGE_SAMPLE_PRODUCT/n;
@@ -500,7 +500,7 @@ public class KolmogorovSmirnovTestTest {
     public void testDRoundingMonteCarlo() {
         final double tol = 1e-2;
         final int iterations = 1000000;
-        final KolmogorovSmirnovTest test = new KolmogorovSmirnovTest(new Well19937c(1000));
+        final KolmogorovSmirnovTest test = new KolmogorovSmirnovTest(RandomSource.WELL_19937_C, 1000);
 
         final double[] x = {0, 2, 3, 4, 5, 6, 7, 8, 9, 12};
         final double[] y = {1, 10, 11, 13, 14, 15, 16, 17, 18};
@@ -519,14 +519,17 @@ public class KolmogorovSmirnovTestTest {
     }
 
     @Test
-    public void testFillBooleanArrayRandomlyWithFixedNumberTrueValues() {
+    public void testFillBooleanArrayRandomlyWithFixedNumberTrueValues() throws Exception {
+        Method method = KolmogorovSmirnovTest.class.getDeclaredMethod("fillBooleanArrayRandomlyWithFixedNumberTrueValues",
+                                                                      boolean[].class, Integer.TYPE, UniformRandomProvider.class);
+        method.setAccessible(true);
 
         final int[][] parameters = {{5, 1}, {5, 2}, {5, 3}, {5, 4}, {8, 1}, {8, 2}, {8, 3}, {8, 4}, {8, 5}, {8, 6}, {8, 7}};
 
         final double alpha = 0.001;
         final int numIterations = 1000000;
 
-        final RandomGenerator rng = new Well19937c(0);
+        final UniformRandomProvider rng = RandomSource.create(RandomSource.WELL_19937_C, 0);
 
         for (final int[] parameter : parameters) {
 
@@ -537,7 +540,7 @@ public class KolmogorovSmirnovTestTest {
             final long[] counts = new long[1 << arraySize];
 
             for (int i = 0; i < numIterations; ++i) {
-                KolmogorovSmirnovTest.fillBooleanArrayRandomlyWithFixedNumberTrueValues(b, numberOfTrueValues, rng);
+                method.invoke(KolmogorovSmirnovTest.class, b, numberOfTrueValues, rng);
                 int x = 0;
                 for (int j = 0; j < arraySize; ++j) {
                     x = ((x << 1) | ((b[j])?1:0));
@@ -576,7 +579,7 @@ public class KolmogorovSmirnovTestTest {
     public void testBootstrapSmallSamplesWithTies() {
         final double[] x = {0, 2, 4, 6, 8, 8, 10, 15, 22, 30, 33, 36, 38};
         final double[] y = {9, 17, 20, 33, 40, 51, 60, 60, 72, 90, 101};
-        final KolmogorovSmirnovTest test = new KolmogorovSmirnovTest(new Well19937c(2000));
+        final KolmogorovSmirnovTest test = new KolmogorovSmirnovTest(RandomSource.WELL_19937_C, 2000);
         Assert.assertEquals(0.0059, test.bootstrap(x, y, 10000, false), 1E-3);
     }
 
@@ -586,7 +589,7 @@ public class KolmogorovSmirnovTestTest {
      */
     @Test
     public void testBootstrapLargeSamples() {
-        final KolmogorovSmirnovTest test = new KolmogorovSmirnovTest(new Well19937c(1000));
+        final KolmogorovSmirnovTest test = new KolmogorovSmirnovTest(RandomSource.WELL_19937_C, 1000);
         Assert.assertEquals(0.0237, test.bootstrap(gaussian, gaussian2, 10000), 1E-2);
     }
 
@@ -599,7 +602,7 @@ public class KolmogorovSmirnovTestTest {
     public void testBootstrapRounding() {
         final double[] x = {2,4,6,8,9,10,11,12,13};
         final double[] y = {0,1,3,5,7};
-        final KolmogorovSmirnovTest test = new KolmogorovSmirnovTest(new Well19937c(1000));
+        final KolmogorovSmirnovTest test = new KolmogorovSmirnovTest(RandomSource.WELL_19937_C, 1000);
         Assert.assertEquals(0.06303, test.bootstrap(x, y, 10000, false), 1E-2);
     }
 
@@ -629,7 +632,7 @@ public class KolmogorovSmirnovTestTest {
         final double[] fixedY = MathArrays.copyOf(y);
         checkFixTies(xP, yP);
         Assert.assertArrayEquals(fixedX, xP, 0);
-        Assert.assertArrayEquals(fixedY,  yP, 0);
+        Assert.assertArrayEquals(fixedY, yP, 0);
     }
 
     @Test
@@ -699,7 +702,7 @@ public class KolmogorovSmirnovTestTest {
      */
     private static void fixTies(double[] x, double[] y) throws Exception {
         Method method = KolmogorovSmirnovTest.class.getDeclaredMethod("fixTies",
-                                             double[].class, double[].class);
+                                                                      double[].class, double[].class);
         method.setAccessible(true);
         method.invoke(KolmogorovSmirnovTest.class, x, y);
     }
@@ -709,7 +712,7 @@ public class KolmogorovSmirnovTestTest {
      */
     private static boolean hasTies(double[] x, double[] y) throws Exception {
         Method method = KolmogorovSmirnovTest.class.getDeclaredMethod("hasTies",
-                                               double[].class, double[].class);
+                                                                      double[].class, double[].class);
         method.setAccessible(true);
         return (boolean) method.invoke(KolmogorovSmirnovTest.class, x, y);
     }

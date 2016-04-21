@@ -157,7 +157,7 @@ public class ChiSquareTest {
 
         // pass a null rng to avoid unneeded overhead as we will not sample from this distribution
         final ChiSquaredDistribution distribution =
-            new ChiSquaredDistribution(null, expected.length - 1.0);
+            new ChiSquaredDistribution(expected.length - 1.0);
         return 1.0 - distribution.cumulativeProbability(chiSquare(expected, observed));
     }
 
@@ -510,7 +510,7 @@ public class ChiSquareTest {
 
         // pass a null rng to avoid unneeded overhead as we will not sample from this distribution
         final ChiSquaredDistribution distribution =
-                new ChiSquaredDistribution(null, (double) observed1.length - 1);
+                new ChiSquaredDistribution((double) observed1.length - 1);
         return 1 - distribution.cumulativeProbability(
                 chiSquareDataSetsComparison(observed1, observed2));
 

@@ -27,6 +27,7 @@ import org.apache.commons.math4.distribution.UniformIntegerDistribution;
 import org.apache.commons.math4.stat.descriptive.UnivariateStatistic;
 import org.apache.commons.math4.stat.descriptive.WeightedEvaluation;
 import org.apache.commons.math4.util.FastMath;
+import org.apache.commons.math4.rng.RandomSource;
 import org.junit.Assert;
 import org.junit.Test;
 
@@ -178,7 +179,9 @@ public abstract class UnivariateStatisticAbstractTest {
 
         // Fill weights array with random int values between 1 and 5
         int[] intWeights = new int[len];
-        final IntegerDistribution weightDist = new UniformIntegerDistribution(1, 5);
+        final IntegerDistribution.Sampler weightDist =
+            new UniformIntegerDistribution(1, 5).createSampler(RandomSource.create(RandomSource.WELL_512_A,
+                                                                                   234878544L));
         for (int i = 0; i < len; i++) {
             intWeights[i] = weightDist.sample();
             weights[i] = intWeights[i];
@@ -187,7 +190,9 @@ public abstract class UnivariateStatisticAbstractTest {
         // Fill values array with random data from N(mu, sigma)
         // and fill valuesList with values from values array with
         // values[i] repeated weights[i] times, each i
-        final RealDistribution valueDist = new NormalDistribution(mu, sigma);
+        final RealDistribution.Sampler valueDist =
+            new NormalDistribution(mu, sigma).createSampler(RandomSource.create(RandomSource.WELL_512_A,
+                                                                                64925784252L));
         List<Double> valuesList = new ArrayList<Double>();
         for (int i = 0; i < len; i++) {
             double value = valueDist.sample();

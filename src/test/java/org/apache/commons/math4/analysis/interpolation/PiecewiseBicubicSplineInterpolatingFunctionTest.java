@@ -17,13 +17,14 @@
 package org.apache.commons.math4.analysis.interpolation;
 
 import org.apache.commons.math4.analysis.BivariateFunction;
+import org.apache.commons.math4.distribution.RealDistribution;
 import org.apache.commons.math4.distribution.UniformRealDistribution;
 import org.apache.commons.math4.exception.DimensionMismatchException;
 import org.apache.commons.math4.exception.InsufficientDataException;
 import org.apache.commons.math4.exception.NonMonotonicSequenceException;
 import org.apache.commons.math4.exception.NullArgumentException;
-import org.apache.commons.math4.random.RandomGenerator;
-import org.apache.commons.math4.random.Well19937c;
+import org.apache.commons.math4.rng.UniformRandomProvider;
+import org.apache.commons.math4.rng.RandomSource;
 import org.apache.commons.math4.util.FastMath;
 import org.apache.commons.math4.util.Precision;
 import org.junit.Assert;
@@ -175,7 +176,7 @@ public final class PiecewiseBicubicSplineInterpolatingFunctionTest {
         final double maximumY = 10;
         final int numberOfSamples = 100;
 
-        final double interpolationTolerance = 2e-14;
+        final double interpolationTolerance = 1e-13;
         final double maxTolerance = 6e-14;
 
         // Function values
@@ -250,9 +251,9 @@ public final class PiecewiseBicubicSplineInterpolatingFunctionTest {
             }
         }
 
-        final RandomGenerator rng = new Well19937c(1234567L);
-        final UniformRealDistribution distX = new UniformRealDistribution(rng, xValues[0], xValues[xValues.length - 1]);
-        final UniformRealDistribution distY = new UniformRealDistribution(rng, yValues[0], yValues[yValues.length - 1]);
+        final UniformRandomProvider rng = RandomSource.create(RandomSource.WELL_19937_C, 1234567L);
+        final RealDistribution.Sampler distX = new UniformRealDistribution(xValues[0], xValues[xValues.length - 1]).createSampler(rng);
+        final RealDistribution.Sampler distY = new UniformRealDistribution(yValues[0], yValues[yValues.length - 1]).createSampler(rng);
 
         double sumError = 0;
         for (int i = 0; i < numberOfSamples; i++) {

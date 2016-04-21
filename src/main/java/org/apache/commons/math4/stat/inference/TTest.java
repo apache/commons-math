@@ -1058,7 +1058,7 @@ public class TTest {
 
         final double t = FastMath.abs(t(m, mu, v, n));
         // pass a null rng to avoid unneeded overhead as we will not sample from this distribution
-        final TDistribution distribution = new TDistribution(null, n - 1);
+        final TDistribution distribution = new TDistribution(n - 1);
         return 2.0 * distribution.cumulativeProbability(-t);
 
     }
@@ -1088,7 +1088,7 @@ public class TTest {
         final double t = FastMath.abs(t(m1, m2, v1, v2, n1, n2));
         final double degreesOfFreedom = df(v1, v2, n1, n2);
         // pass a null rng to avoid unneeded overhead as we will not sample from this distribution
-        final TDistribution distribution = new TDistribution(null, degreesOfFreedom);
+        final TDistribution distribution = new TDistribution(degreesOfFreedom);
         return 2.0 * distribution.cumulativeProbability(-t);
 
     }
@@ -1118,7 +1118,7 @@ public class TTest {
         final double t = FastMath.abs(homoscedasticT(m1, m2, v1, v2, n1, n2));
         final double degreesOfFreedom = n1 + n2 - 2;
         // pass a null rng to avoid unneeded overhead as we will not sample from this distribution
-        final TDistribution distribution = new TDistribution(null, degreesOfFreedom);
+        final TDistribution distribution = new TDistribution(degreesOfFreedom);
         return 2.0 * distribution.cumulativeProbability(-t);
 
     }

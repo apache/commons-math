@@ -35,7 +35,7 @@ public class AbstractRealDistributionTest {
         final double x3 = 3.0;
         final double p12 = 0.5;
         final AbstractRealDistribution distribution;
-        distribution = new AbstractRealDistribution(null) {
+        distribution = new AbstractRealDistribution() {
             private static final long serialVersionUID = 1L;
 
             @Override
@@ -119,7 +119,7 @@ public class AbstractRealDistributionTest {
         final double p12 = 1.0 / 3.0;
         final double p23 = 2.0 / 3.0;
         final AbstractRealDistribution distribution;
-        distribution = new AbstractRealDistribution(null) {
+        distribution = new AbstractRealDistribution() {
             private static final long serialVersionUID = 1L;
 
             @Override

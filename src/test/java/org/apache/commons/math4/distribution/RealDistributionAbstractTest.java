@@ -32,6 +32,7 @@ import org.apache.commons.math4.analysis.integration.IterativeLegendreGaussInteg
 import org.apache.commons.math4.distribution.RealDistribution;
 import org.apache.commons.math4.exception.MathIllegalArgumentException;
 import org.apache.commons.math4.exception.NumberIsTooLargeException;
+import org.apache.commons.math4.rng.RandomSource;
 import org.apache.commons.math4.util.FastMath;
 import org.junit.After;
 import org.junit.Assert;
@@ -326,13 +327,15 @@ public abstract class RealDistributionAbstractTest {
      * Test sampling
      */
     @Test
-    public void testSampling() {
+    public void testSampler() {
         final int sampleSize = 1000;
-        distribution.reseedRandomGenerator(1000); // Use fixed seed
-        double[] sample = distribution.sample(sampleSize);
-        double[] quartiles = TestUtils.getDistributionQuartiles(distribution);
-        double[] expected = {250, 250, 250, 250};
-        long[] counts = new long[4];
+        final RealDistribution.Sampler sampler =
+            distribution.createSampler(RandomSource.create(RandomSource.WELL_19937_C, 123456789L));
+        final double[] sample = AbstractRealDistribution.sample(sampleSize, sampler);
+        final double[] quartiles = TestUtils.getDistributionQuartiles(distribution);
+        final double[] expected = {250, 250, 250, 250};
+        final long[] counts = new long[4];
+
         for (int i = 0; i < sampleSize; i++) {
             TestUtils.updateCounts(sample[i], counts, quartiles);
         }
@@ -384,16 +387,18 @@ public abstract class RealDistributionAbstractTest {
                ClassNotFoundException {
         // Construct a distribution and initialize its internal random
         // generator, using a fixed seed for deterministic results.
-        distribution.reseedRandomGenerator(123);
-        distribution.sample();
+        final long seed = 123;
+        RandomSource source = RandomSource.WELL_512_A;
+        RealDistribution.Sampler origSampler = distribution.createSampler(RandomSource.create(source, seed));
 
         // Clone the distribution.
         final RealDistribution cloned = deepClone();
+        RealDistribution.Sampler clonedSampler = cloned.createSampler(RandomSource.create(source, seed));
 
         // Make sure they still produce the same samples.
-        final double s1 = distribution.sample();
-        final double s2 = cloned.sample();
-        Assert.assertEquals(s1, s2, 0d);
+        Assert.assertEquals(origSampler.sample(),
+                            clonedSampler.sample(),
+                            0d);
     }
 
     //------------------ Getters / Setters for test instance data -----------

@@ -40,8 +40,8 @@ import org.apache.commons.math4.exception.NotStrictlyPositiveException;
 import org.apache.commons.math4.exception.NullArgumentException;
 import org.apache.commons.math4.exception.NumberIsTooLargeException;
 import org.apache.commons.math4.exception.util.LocalizedFormats;
-import org.apache.commons.math4.random.RandomGenerator;
-import org.apache.commons.math4.random.Well19937c;
+import org.apache.commons.math4.rng.RandomSource;
+import org.apache.commons.math4.rng.UniformRandomProvider;
 
 /**
  * Arrays utilities.
@@ -1578,7 +1578,7 @@ public class MathArrays {
      * The {@code start} and {@code pos} parameters select which portion
      * of the array is randomized and which is left untouched.
      *
-     * @see #shuffle(int[],int,Position,RandomGenerator)
+     * @see #shuffle(int[],int,Position,UniformRandomProvider)
      *
      * @param list Array whose entries will be shuffled (in-place).
      * @param start Index at which shuffling begins.
@@ -1589,7 +1589,7 @@ public class MathArrays {
     public static void shuffle(int[] list,
                                int start,
                                Position pos) {
-        shuffle(list, start, pos, new Well19937c());
+        shuffle(list, start, pos, RandomSource.create(RandomSource.WELL_19937_C));
     }
 
     /**
@@ -1609,7 +1609,7 @@ public class MathArrays {
     public static void shuffle(int[] list,
                                int start,
                                Position pos,
-                               RandomGenerator rng) {
+                               UniformRandomProvider rng) {
         switch (pos) {
         case TAIL: {
             for (int i = list.length - 1; i >= start; i--) {
@@ -1618,7 +1618,7 @@ public class MathArrays {
                     target = start;
                 } else {
                     // NumberIsTooLargeException cannot occur.
-                    target = new UniformIntegerDistribution(rng, start, i).sample();
+                    target = new UniformIntegerDistribution(start, i).createSampler(rng).sample();
                 }
                 final int temp = list[target];
                 list[target] = list[i];
@@ -1633,7 +1633,7 @@ public class MathArrays {
                     target = start;
                 } else {
                     // NumberIsTooLargeException cannot occur.
-                    target = new UniformIntegerDistribution(rng, i, start).sample();
+                    target = new UniformIntegerDistribution(i, start).createSampler(rng).sample();
                 }
                 final int temp = list[target];
                 list[target] = list[i];
@@ -1649,25 +1649,25 @@ public class MathArrays {
     /**
      * Shuffle the entries of the given array.
      *
-     * @see #shuffle(int[],int,Position,RandomGenerator)
+     * @see #shuffle(int[],int,Position,UniformRandomProvider)
      *
      * @param list Array whose entries will be shuffled (in-place).
      * @param rng Random number generator.
      */
     public static void shuffle(int[] list,
-                               RandomGenerator rng) {
+                               UniformRandomProvider rng) {
         shuffle(list, 0, Position.TAIL, rng);
     }
 
     /**
      * Shuffle the entries of the given array.
      *
-     * @see #shuffle(int[],int,Position,RandomGenerator)
+     * @see #shuffle(int[],int,Position,UniformRandomProvider)
      *
      * @param list Array whose entries will be shuffled (in-place).
      */
     public static void shuffle(int[] list) {
-        shuffle(list, new Well19937c());
+        shuffle(list, RandomSource.create(RandomSource.WELL_19937_C));
     }
 
     /**

@@ -25,6 +25,7 @@ import org.apache.commons.math4.exception.NotANumberException;
 import org.apache.commons.math4.exception.NotPositiveException;
 import org.apache.commons.math4.exception.NotStrictlyPositiveException;
 import org.apache.commons.math4.exception.NullArgumentException;
+import org.apache.commons.math4.rng.RandomSource;
 import org.apache.commons.math4.random.Well1024a;
 import org.apache.commons.math4.util.FastMath;
 import org.apache.commons.math4.util.MathArrays;
@@ -1111,7 +1112,8 @@ public class MathArraysTest {
         final int[] orig = new int[] { 0, 1, 2, 3, 4, 5, 6, 7, 8, 9 };
         final int[] list = orig.clone();
         final int start = 4;
-        MathArrays.shuffle(list, start, MathArrays.Position.TAIL, new Well1024a(7654321L));
+        MathArrays.shuffle(list, start, MathArrays.Position.TAIL,
+                           RandomSource.create(RandomSource.WELL_19937_C, 7654321L));
 
         // Ensure that all entries below index "start" did not move.
         for (int i = 0; i < start; i++) {
@@ -1134,7 +1136,8 @@ public class MathArraysTest {
         final int[] orig = new int[] { 0, 1, 2, 3, 4, 5, 6, 7, 8, 9 };
         final int[] list = orig.clone();
         final int start = 4;
-        MathArrays.shuffle(list, start, MathArrays.Position.HEAD, new Well1024a(1234567L));
+        MathArrays.shuffle(list, start, MathArrays.Position.HEAD,
+                           RandomSource.create(RandomSource.WELL_19937_C, 1234567L));
 
         // Ensure that all entries above index "start" did not move.
         for (int i = start + 1; i < orig.length; i++) {

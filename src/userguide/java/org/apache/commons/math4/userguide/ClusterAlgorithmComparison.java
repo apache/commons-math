@@ -34,6 +34,8 @@ import java.util.List;
 import javax.swing.JComponent;
 import javax.swing.JLabel;
 
+import org.apache.commons.math4.distribution.RealDistribution;
+import org.apache.commons.math4.distribution.UniformRealDistribution;
 import org.apache.commons.math4.distribution.NormalDistribution;
 import org.apache.commons.math4.geometry.euclidean.twod.Vector2D;
 import org.apache.commons.math4.ml.clustering.CentroidCluster;
@@ -44,10 +46,10 @@ import org.apache.commons.math4.ml.clustering.DBSCANClusterer;
 import org.apache.commons.math4.ml.clustering.DoublePoint;
 import org.apache.commons.math4.ml.clustering.FuzzyKMeansClusterer;
 import org.apache.commons.math4.ml.clustering.KMeansPlusPlusClusterer;
-import org.apache.commons.math4.random.RandomAdaptor;
-import org.apache.commons.math4.random.RandomGenerator;
+import org.apache.commons.math4.random.JDKRandomAdaptor;
 import org.apache.commons.math4.random.SobolSequenceGenerator;
-import org.apache.commons.math4.random.Well19937c;
+import org.apache.commons.math4.rng.UniformRandomProvider;
+import org.apache.commons.math4.rng.RandomSource;
 import org.apache.commons.math4.util.FastMath;
 import org.apache.commons.math4.util.Pair;
 import org.apache.commons.math4.userguide.ExampleUtils.ExampleFrame;
@@ -59,12 +61,16 @@ import org.apache.commons.math4.userguide.ExampleUtils.ExampleFrame;
  */
 public class ClusterAlgorithmComparison {
 
-    public static List<Vector2D> makeCircles(int samples, boolean shuffle, double noise, double factor, final RandomGenerator random) {
+    public static List<Vector2D> makeCircles(int samples,
+                                             boolean shuffle,
+                                             double noise,
+                                             double factor,
+                                             UniformRandomProvider rng) {
         if (factor < 0 || factor > 1) {
             throw new IllegalArgumentException();
         }
         
-        NormalDistribution dist = new NormalDistribution(random, 0.0, noise, 1e-9);
+        RealDistribution.Sampler dist = new NormalDistribution(0.0, noise).createSampler(rng);
 
         List<Vector2D> points = new ArrayList<Vector2D>();
         double range = 2.0 * FastMath.PI;
@@ -78,14 +84,17 @@ public class ClusterAlgorithmComparison {
         }
         
         if (shuffle) {
-            Collections.shuffle(points, new RandomAdaptor(random));
+            Collections.shuffle(points, new JDKRandomAdaptor(rng));
         }
 
         return points;
     }
 
-    public static List<Vector2D> makeMoons(int samples, boolean shuffle, double noise, RandomGenerator random) {
-        NormalDistribution dist = new NormalDistribution(random, 0.0, noise, 1e-9);
+    public static List<Vector2D> makeMoons(int samples,
+                                           boolean shuffle,
+                                           double noise,
+                                           UniformRandomProvider rng) {
+        RealDistribution.Sampler dist = new NormalDistribution(0.0, noise).createSampler(rng);
 
         int nSamplesOut = samples / 2;
         int nSamplesIn = samples - nSamplesOut;
@@ -105,23 +114,25 @@ public class ClusterAlgorithmComparison {
         }
         
         if (shuffle) {
-            Collections.shuffle(points, new RandomAdaptor(random));
+            Collections.shuffle(points, new JDKRandomAdaptor(rng));
         }
 
         return points;
     }
 
-    public static List<Vector2D> makeBlobs(int samples, int centers, double clusterStd,
-                                           double min, double max, boolean shuffle, RandomGenerator random) {
+    public static List<Vector2D> makeBlobs(int samples,
+                                           int centers,
+                                           double clusterStd,
+                                           double min,
+                                           double max,
+                                           boolean shuffle,
+                                           UniformRandomProvider rng) {
+        RealDistribution.Sampler uniform = new UniformRealDistribution(min, max).createSampler(rng);
+        RealDistribution.Sampler gauss = new NormalDistribution(0.0, clusterStd).createSampler(rng);
 
-        NormalDistribution dist = new NormalDistribution(random, 0.0, clusterStd, 1e-9);
-
-        double range = max - min;
         Vector2D[] centerPoints = new Vector2D[centers];
         for (int i = 0; i < centers; i++) {
-            double x = random.nextDouble() * range + min;
-            double y = random.nextDouble() * range + min;
-            centerPoints[i] = new Vector2D(x, y);
+            centerPoints[i] = new Vector2D(uniform.sample(), uniform.sample());
         }
         
         int[] nSamplesPerCenter = new int[centers];
@@ -135,13 +146,12 @@ public class ClusterAlgorithmComparison {
         List<Vector2D> points = new ArrayList<Vector2D>();
         for (int i = 0; i < centers; i++) {
             for (int j = 0; j < nSamplesPerCenter[i]; j++) {
-                Vector2D point = new Vector2D(dist.sample(), dist.sample());
-                points.add(point.add(centerPoints[i]));
+                points.add(centerPoints[i].add(generateNoiseVector(gauss)));
             }
         }
         
         if (shuffle) {
-            Collections.shuffle(points, new RandomAdaptor(random));
+            Collections.shuffle(points, new JDKRandomAdaptor(rng));
         }
 
         return points;
@@ -162,11 +172,15 @@ public class ClusterAlgorithmComparison {
         return points;
     }
 
-    public static Vector2D generateNoiseVector(NormalDistribution distribution) {
+    public static Vector2D generateNoiseVector(RealDistribution.Sampler distribution) {
         return new Vector2D(distribution.sample(), distribution.sample());
     }
     
-    public static List<DoublePoint> normalize(final List<Vector2D> input, double minX, double maxX, double minY, double maxY) {
+    public static List<DoublePoint> normalize(final List<Vector2D> input,
+                                              double minX,
+                                              double maxX,
+                                              double minY,
+                                              double maxY) {
         double rangeX = maxX - minX;
         double rangeY = maxY - minY;
         List<DoublePoint> points = new ArrayList<DoublePoint>();
@@ -189,8 +203,9 @@ public class ClusterAlgorithmComparison {
             setLayout(new GridBagLayout());
             
             int nSamples = 1500;
-            
-            RandomGenerator rng = new Well19937c(0);
+
+            final long seed = RandomSource.createLong(); // Random seed.
+            UniformRandomProvider rng = RandomSource.create(RandomSource.WELL_19937_C, seed);
             List<List<DoublePoint>> datasets = new ArrayList<List<DoublePoint>>();
 
             datasets.add(normalize(makeCircles(nSamples, true, 0.04, 0.5, rng), -1, 1, -1, 1));
@@ -200,11 +215,16 @@ public class ClusterAlgorithmComparison {
 
             List<Pair<String, Clusterer<DoublePoint>>> algorithms = new ArrayList<Pair<String, Clusterer<DoublePoint>>>();
             
-            algorithms.add(new Pair<String, Clusterer<DoublePoint>>("KMeans\n(k=2)", new KMeansPlusPlusClusterer<DoublePoint>(2)));            
-            algorithms.add(new Pair<String, Clusterer<DoublePoint>>("KMeans\n(k=3)", new KMeansPlusPlusClusterer<DoublePoint>(3)));
-            algorithms.add(new Pair<String, Clusterer<DoublePoint>>("FuzzyKMeans\n(k=3, fuzzy=2)", new FuzzyKMeansClusterer<DoublePoint>(3, 2)));
-            algorithms.add(new Pair<String, Clusterer<DoublePoint>>("FuzzyKMeans\n(k=3, fuzzy=10)", new FuzzyKMeansClusterer<DoublePoint>(3, 10)));
-            algorithms.add(new Pair<String, Clusterer<DoublePoint>>("DBSCAN\n(eps=.1, min=3)", new DBSCANClusterer<DoublePoint>(0.1, 3)));
+            algorithms.add(new Pair<String, Clusterer<DoublePoint>>("KMeans\n(k=2)",
+                                                                    new KMeansPlusPlusClusterer<DoublePoint>(2)));
+            algorithms.add(new Pair<String, Clusterer<DoublePoint>>("KMeans\n(k=3)",
+                                                                    new KMeansPlusPlusClusterer<DoublePoint>(3)));
+            algorithms.add(new Pair<String, Clusterer<DoublePoint>>("FuzzyKMeans\n(k=3, fuzzy=2)",
+                                                                    new FuzzyKMeansClusterer<DoublePoint>(3, 2)));
+            algorithms.add(new Pair<String, Clusterer<DoublePoint>>("FuzzyKMeans\n(k=3, fuzzy=10)",
+                                                                    new FuzzyKMeansClusterer<DoublePoint>(3, 10)));
+            algorithms.add(new Pair<String, Clusterer<DoublePoint>>("DBSCAN\n(eps=.1, min=3)",
+                                                                    new DBSCANClusterer<DoublePoint>(0.1, 3)));
             
             GridBagConstraints c = new GridBagConstraints();
             c.fill = GridBagConstraints.VERTICAL;

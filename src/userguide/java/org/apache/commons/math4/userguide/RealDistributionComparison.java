@@ -46,8 +46,6 @@ import org.apache.commons.math4.distribution.ParetoDistribution;
 import org.apache.commons.math4.distribution.RealDistribution;
 import org.apache.commons.math4.distribution.TDistribution;
 import org.apache.commons.math4.distribution.WeibullDistribution;
-import org.apache.commons.math4.random.MersenneTwister;
-import org.apache.commons.math4.random.RandomGenerator;
 import org.apache.commons.math4.util.FastMath;
 import org.apache.commons.math4.userguide.ExampleUtils.ExampleFrame;
 
@@ -242,14 +240,13 @@ public class RealDistributionComparison {
             container.add(comp, c);
 
             c.gridx++;
-            RandomGenerator rng = new MersenneTwister(0);
             comp = createComponent("Levy", 0, 3,
                                    new String[] { "c=0.5", "c=1", "c=2", "c=4", "c=8" },
-                                   new LevyDistribution(rng, 0, 0.5),
-                                   new LevyDistribution(rng, 0, 1),
-                                   new LevyDistribution(rng, 0, 2),
-                                   new LevyDistribution(rng, 0, 4),
-                                   new LevyDistribution(rng, 0, 8));
+                                   new LevyDistribution(0, 0.5),
+                                   new LevyDistribution(0, 1),
+                                   new LevyDistribution(0, 2),
+                                   new LevyDistribution(0, 4),
+                                   new LevyDistribution(0, 8));
             container.add(comp, c);
 
             c.gridy++;
