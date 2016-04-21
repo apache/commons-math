@@ -1,0 +1,3803 @@
+# 
+# RNG: org.apache.commons.math4.rng.internal.source64.XorShift1024Star
+# 
+# Java: 1.8.0_66
+# Runtime: 1.8.0_66-b17
+# JVM: Java HotSpot(TM) 64-Bit Server VM 25.66-b17
+# OS: Linux 3.16.0-4-amd64 amd64
+# 
+# Analyzer: ./stdin2testu01 BigCrush 
+# 
+xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+                 Starting BigCrush
+                 Version: TestU01 1.2.3
+xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+
+
+***********************************************************
+Test smarsa_SerialOver calling smultin_MultinomialOver
+
+***********************************************************
+HOST = gaianss, Linux
+
+stdin
+
+
+smultin_MultinomialOver test:
+-----------------------------------------------
+   N =  1,  n = 1000000000,  r =  0,   d =  256,   t =  3,
+       Sparse =  FALSE
+
+       GenerCell = smultin_GenerCellSerial
+       Number of cells = d^t =           16777216
+       Expected number per cell =   59.604645
+       Hashing =  FALSE
+
+   For Delta > -1, we use the ChiSquare approximation
+   Correction factor of the ChiSquare: 
+       Delta =     1,    Mu =   0.0083558402,    Sigma =          1
+
+-----------------------------------------------
+Test Results for Delta =   1.0000
+
+Number of degrees of freedom          : 16711680
+Value of the statistic                : 1.67e+7
+p-value of test                       :    0.12
+
+
+-----------------------------------------------
+CPU time used                    :  00:02:12.69
+
+Generator state:
+N/A
+
+
+
+***********************************************************
+Test smarsa_SerialOver calling smultin_MultinomialOver
+
+***********************************************************
+HOST = gaianss, Linux
+
+stdin
+
+
+smultin_MultinomialOver test:
+-----------------------------------------------
+   N =  1,  n = 1000000000,  r = 22,   d =  256,   t =  3,
+       Sparse =  FALSE
+
+       GenerCell = smultin_GenerCellSerial
+       Number of cells = d^t =           16777216
+       Expected number per cell =   59.604645
+       Hashing =  FALSE
+
+   For Delta > -1, we use the ChiSquare approximation
+   Correction factor of the ChiSquare: 
+       Delta =     1,    Mu =   0.0083558402,    Sigma =          1
+
+-----------------------------------------------
+Test Results for Delta =   1.0000
+
+Number of degrees of freedom          : 16711680
+Value of the statistic                : 1.67e+7
+p-value of test                       :    0.76
+
+
+-----------------------------------------------
+CPU time used                    :  00:01:35.97
+
+Generator state:
+N/A
+
+
+
+***********************************************************
+Test smarsa_CollisionOver calling smultin_MultinomialOver
+
+***********************************************************
+HOST = gaianss, Linux
+
+stdin
+
+
+smultin_MultinomialOver test:
+-----------------------------------------------
+   N = 30,  n = 20000000,  r =  0,   d = 2097152,   t =  2,
+       Sparse =   TRUE
+
+       GenerCell = smultin_GenerCellSerial
+       Number of cells = d^t =      4398046511104
+       Expected number per cell =  1 /  219902.33
+       EColl = n^2 / (2k) =  45.47473509
+       Hashing =   TRUE
+
+       Collision test
+
+       CollisionOver:   density = n / k =  1 /  219902.33
+       Expected number of collisions = Mu =      45.47
+
+
+-----------------------------------------------
+Results of CollisionOver test:
+
+POISSON approximation                 :
+Expected number of collisions = N*Mu  :     1364.24
+Observed number of collisions         :     1351
+p-value of test                       :    0.63
+
+-----------------------------
+Total number of cells containing j balls
+
+  j =  0                              :  131940795334471
+  j =  1                              :        599997298
+  j =  2                              :             1351
+  j =  3                              :                0
+  j =  4                              :                0
+  j =  5                              :                0
+
+-----------------------------------------------
+CPU time used                    :  00:06:20.64
+
+Generator state:
+N/A
+
+
+
+***********************************************************
+Test smarsa_CollisionOver calling smultin_MultinomialOver
+
+***********************************************************
+HOST = gaianss, Linux
+
+stdin
+
+
+smultin_MultinomialOver test:
+-----------------------------------------------
+   N = 30,  n = 20000000,  r =  9,   d = 2097152,   t =  2,
+       Sparse =   TRUE
+
+       GenerCell = smultin_GenerCellSerial
+       Number of cells = d^t =      4398046511104
+       Expected number per cell =  1 /  219902.33
+       EColl = n^2 / (2k) =  45.47473509
+       Hashing =   TRUE
+
+       Collision test
+
+       CollisionOver:   density = n / k =  1 /  219902.33
+       Expected number of collisions = Mu =      45.47
+
+
+-----------------------------------------------
+Results of CollisionOver test:
+
+POISSON approximation                 :
+Expected number of collisions = N*Mu  :     1364.24
+Observed number of collisions         :     1363
+p-value of test                       :    0.51
+
+-----------------------------
+Total number of cells containing j balls
+
+  j =  0                              :  131940795334483
+  j =  1                              :        599997274
+  j =  2                              :             1363
+  j =  3                              :                0
+  j =  4                              :                0
+  j =  5                              :                0
+
+-----------------------------------------------
+CPU time used                    :  00:04:22.63
+
+Generator state:
+N/A
+
+
+
+***********************************************************
+Test smarsa_CollisionOver calling smultin_MultinomialOver
+
+***********************************************************
+HOST = gaianss, Linux
+
+stdin
+
+
+smultin_MultinomialOver test:
+-----------------------------------------------
+   N = 30,  n = 20000000,  r =  0,   d = 16384,   t =  3,
+       Sparse =   TRUE
+
+       GenerCell = smultin_GenerCellSerial
+       Number of cells = d^t =      4398046511104
+       Expected number per cell =  1 /  219902.33
+       EColl = n^2 / (2k) =  45.47473509
+       Hashing =   TRUE
+
+       Collision test
+
+       CollisionOver:   density = n / k =  1 /  219902.33
+       Expected number of collisions = Mu =      45.47
+
+
+-----------------------------------------------
+Results of CollisionOver test:
+
+POISSON approximation                 :
+Expected number of collisions = N*Mu  :     1364.24
+Observed number of collisions         :     1347
+p-value of test                       :    0.67
+
+-----------------------------
+Total number of cells containing j balls
+
+  j =  0                              :  131940795334467
+  j =  1                              :        599997306
+  j =  2                              :             1347
+  j =  3                              :                0
+  j =  4                              :                0
+  j =  5                              :                0
+
+-----------------------------------------------
+CPU time used                    :  00:05:30.73
+
+Generator state:
+N/A
+
+
+
+***********************************************************
+Test smarsa_CollisionOver calling smultin_MultinomialOver
+
+***********************************************************
+HOST = gaianss, Linux
+
+stdin
+
+
+smultin_MultinomialOver test:
+-----------------------------------------------
+   N = 30,  n = 20000000,  r = 16,   d = 16384,   t =  3,
+       Sparse =   TRUE
+
+       GenerCell = smultin_GenerCellSerial
+       Number of cells = d^t =      4398046511104
+       Expected number per cell =  1 /  219902.33
+       EColl = n^2 / (2k) =  45.47473509
+       Hashing =   TRUE
+
+       Collision test
+
+       CollisionOver:   density = n / k =  1 /  219902.33
+       Expected number of collisions = Mu =      45.47
+
+
+-----------------------------------------------
+Results of CollisionOver test:
+
+POISSON approximation                 :
+Expected number of collisions = N*Mu  :     1364.24
+Observed number of collisions         :     1346
+p-value of test                       :    0.68
+
+-----------------------------
+Total number of cells containing j balls
+
+  j =  0                              :  131940795334466
+  j =  1                              :        599997308
+  j =  2                              :             1346
+  j =  3                              :                0
+  j =  4                              :                0
+  j =  5                              :                0
+
+-----------------------------------------------
+CPU time used                    :  00:05:52.54
+
+Generator state:
+N/A
+
+
+
+***********************************************************
+Test smarsa_CollisionOver calling smultin_MultinomialOver
+
+***********************************************************
+HOST = gaianss, Linux
+
+stdin
+
+
+smultin_MultinomialOver test:
+-----------------------------------------------
+   N = 30,  n = 20000000,  r =  0,   d =   64,   t =  7,
+       Sparse =   TRUE
+
+       GenerCell = smultin_GenerCellSerial
+       Number of cells = d^t =      4398046511104
+       Expected number per cell =  1 /  219902.33
+       EColl = n^2 / (2k) =  45.47473509
+       Hashing =   TRUE
+
+       Collision test
+
+       CollisionOver:   density = n / k =  1 /  219902.33
+       Expected number of collisions = Mu =      45.47
+
+
+-----------------------------------------------
+Results of CollisionOver test:
+
+POISSON approximation                 :
+Expected number of collisions = N*Mu  :     1364.24
+Observed number of collisions         :     1339
+p-value of test                       :    0.75
+
+-----------------------------
+Total number of cells containing j balls
+
+  j =  0                              :  131940795334459
+  j =  1                              :        599997322
+  j =  2                              :             1339
+  j =  3                              :                0
+  j =  4                              :                0
+  j =  5                              :                0
+
+-----------------------------------------------
+CPU time used                    :  00:06:16.22
+
+Generator state:
+N/A
+
+
+
+***********************************************************
+Test smarsa_CollisionOver calling smultin_MultinomialOver
+
+***********************************************************
+HOST = gaianss, Linux
+
+stdin
+
+
+smultin_MultinomialOver test:
+-----------------------------------------------
+   N = 30,  n = 20000000,  r = 24,   d =   64,   t =  7,
+       Sparse =   TRUE
+
+       GenerCell = smultin_GenerCellSerial
+       Number of cells = d^t =      4398046511104
+       Expected number per cell =  1 /  219902.33
+       EColl = n^2 / (2k) =  45.47473509
+       Hashing =   TRUE
+
+       Collision test
+
+       CollisionOver:   density = n / k =  1 /  219902.33
+       Expected number of collisions = Mu =      45.47
+
+
+-----------------------------------------------
+Results of CollisionOver test:
+
+POISSON approximation                 :
+Expected number of collisions = N*Mu  :     1364.24
+Observed number of collisions         :     1412
+p-value of test                       :    0.10
+
+-----------------------------
+Total number of cells containing j balls
+
+  j =  0                              :  131940795334532
+  j =  1                              :        599997176
+  j =  2                              :             1412
+  j =  3                              :                0
+  j =  4                              :                0
+  j =  5                              :                0
+
+-----------------------------------------------
+CPU time used                    :  00:06:03.73
+
+Generator state:
+N/A
+
+
+
+***********************************************************
+Test smarsa_CollisionOver calling smultin_MultinomialOver
+
+***********************************************************
+HOST = gaianss, Linux
+
+stdin
+
+
+smultin_MultinomialOver test:
+-----------------------------------------------
+   N = 30,  n = 20000000,  r =  0,   d =    8,   t = 14,
+       Sparse =   TRUE
+
+       GenerCell = smultin_GenerCellSerial
+       Number of cells = d^t =      4398046511104
+       Expected number per cell =  1 /  219902.33
+       EColl = n^2 / (2k) =  45.47473509
+       Hashing =   TRUE
+
+       Collision test
+
+       CollisionOver:   density = n / k =  1 /  219902.33
+       Expected number of collisions = Mu =      45.47
+
+
+-----------------------------------------------
+Results of CollisionOver test:
+
+POISSON approximation                 :
+Expected number of collisions = N*Mu  :     1364.24
+Observed number of collisions         :     1382
+p-value of test                       :    0.32
+
+-----------------------------
+Total number of cells containing j balls
+
+  j =  0                              :  131940795334502
+  j =  1                              :        599997236
+  j =  2                              :             1382
+  j =  3                              :                0
+  j =  4                              :                0
+  j =  5                              :                0
+
+-----------------------------------------------
+CPU time used                    :  00:05:44.71
+
+Generator state:
+N/A
+
+
+
+***********************************************************
+Test smarsa_CollisionOver calling smultin_MultinomialOver
+
+***********************************************************
+HOST = gaianss, Linux
+
+stdin
+
+
+smultin_MultinomialOver test:
+-----------------------------------------------
+   N = 30,  n = 20000000,  r = 27,   d =    8,   t = 14,
+       Sparse =   TRUE
+
+       GenerCell = smultin_GenerCellSerial
+       Number of cells = d^t =      4398046511104
+       Expected number per cell =  1 /  219902.33
+       EColl = n^2 / (2k) =  45.47473509
+       Hashing =   TRUE
+
+       Collision test
+
+       CollisionOver:   density = n / k =  1 /  219902.33
+       Expected number of collisions = Mu =      45.47
+
+
+-----------------------------------------------
+Results of CollisionOver test:
+
+POISSON approximation                 :
+Expected number of collisions = N*Mu  :     1364.24
+Observed number of collisions         :     1378
+p-value of test                       :    0.36
+
+-----------------------------
+Total number of cells containing j balls
+
+  j =  0                              :  131940795334498
+  j =  1                              :        599997244
+  j =  2                              :             1378
+  j =  3                              :                0
+  j =  4                              :                0
+  j =  5                              :                0
+
+-----------------------------------------------
+CPU time used                    :  00:05:53.44
+
+Generator state:
+N/A
+
+
+
+***********************************************************
+Test smarsa_CollisionOver calling smultin_MultinomialOver
+
+***********************************************************
+HOST = gaianss, Linux
+
+stdin
+
+
+smultin_MultinomialOver test:
+-----------------------------------------------
+   N = 30,  n = 20000000,  r =  0,   d =    4,   t = 21,
+       Sparse =   TRUE
+
+       GenerCell = smultin_GenerCellSerial
+       Number of cells = d^t =      4398046511104
+       Expected number per cell =  1 /  219902.33
+       EColl = n^2 / (2k) =  45.47473509
+       Hashing =   TRUE
+
+       Collision test
+
+       CollisionOver:   density = n / k =  1 /  219902.33
+       Expected number of collisions = Mu =      45.47
+
+
+-----------------------------------------------
+Results of CollisionOver test:
+
+POISSON approximation                 :
+Expected number of collisions = N*Mu  :     1364.24
+Observed number of collisions         :     1406
+p-value of test                       :    0.13
+
+-----------------------------
+Total number of cells containing j balls
+
+  j =  0                              :  131940795334526
+  j =  1                              :        599997188
+  j =  2                              :             1406
+  j =  3                              :                0
+  j =  4                              :                0
+  j =  5                              :                0
+
+-----------------------------------------------
+CPU time used                    :  00:06:00.03
+
+Generator state:
+N/A
+
+
+
+***********************************************************
+Test smarsa_CollisionOver calling smultin_MultinomialOver
+
+***********************************************************
+HOST = gaianss, Linux
+
+stdin
+
+
+smultin_MultinomialOver test:
+-----------------------------------------------
+   N = 30,  n = 20000000,  r = 28,   d =    4,   t = 21,
+       Sparse =   TRUE
+
+       GenerCell = smultin_GenerCellSerial
+       Number of cells = d^t =      4398046511104
+       Expected number per cell =  1 /  219902.33
+       EColl = n^2 / (2k) =  45.47473509
+       Hashing =   TRUE
+
+       Collision test
+
+       CollisionOver:   density = n / k =  1 /  219902.33
+       Expected number of collisions = Mu =      45.47
+
+
+-----------------------------------------------
+Results of CollisionOver test:
+
+POISSON approximation                 :
+Expected number of collisions = N*Mu  :     1364.24
+Observed number of collisions         :     1326
+p-value of test                       :    0.85
+
+-----------------------------
+Total number of cells containing j balls
+
+  j =  0                              :  131940795334446
+  j =  1                              :        599997348
+  j =  2                              :             1326
+  j =  3                              :                0
+  j =  4                              :                0
+  j =  5                              :                0
+
+-----------------------------------------------
+CPU time used                    :  00:05:22.67
+
+Generator state:
+N/A
+
+
+
+***********************************************************
+HOST = gaianss, Linux
+
+stdin
+
+
+smarsa_BirthdaySpacings test:
+-----------------------------------------------
+   N = 100,  n = 10000000,  r =  0,    d = 2147483648,    t = 2,    p = 1
+
+
+      Number of cells = d^t = 4611686018427387904
+      Lambda = Poisson mean =      54.2101
+
+
+----------------------------------------------------
+Total expected number = N*Lambda      :    5421.01
+Total observed number                 :    5441
+p-value of test                       :    0.39
+
+
+-----------------------------------------------
+CPU time used                    :  00:04:27.51
+
+Generator state:
+N/A
+
+
+
+***********************************************************
+HOST = gaianss, Linux
+
+stdin
+
+
+smarsa_BirthdaySpacings test:
+-----------------------------------------------
+   N = 20,  n = 20000000,  r =  0,    d = 2097152,    t = 3,    p = 1
+
+
+      Number of cells = d^t = 9223372036854775808
+      Lambda = Poisson mean =     216.8404
+
+
+----------------------------------------------------
+Total expected number = N*Lambda      :    4336.81
+Total observed number                 :    4421
+p-value of test                       :    0.10
+
+
+-----------------------------------------------
+CPU time used                    :  00:01:56.13
+
+Generator state:
+N/A
+
+
+
+***********************************************************
+HOST = gaianss, Linux
+
+stdin
+
+
+smarsa_BirthdaySpacings test:
+-----------------------------------------------
+   N = 20,  n = 30000000,  r = 14,    d = 65536,    t = 4,    p = 1
+
+
+      Number of cells = d^t = 18446744073709551616
+      Lambda = Poisson mean =     365.9182
+
+
+----------------------------------------------------
+Total expected number = N*Lambda      :    7318.36
+Total observed number                 :    7257
+p-value of test                       :    0.76
+
+
+-----------------------------------------------
+CPU time used                    :  00:03:14.34
+
+Generator state:
+N/A
+
+
+
+***********************************************************
+HOST = gaianss, Linux
+
+stdin
+
+
+smarsa_BirthdaySpacings test:
+-----------------------------------------------
+   N = 20,  n = 20000000,  r =  0,    d = 512,    t = 7,    p = 1
+
+
+      Number of cells = d^t = 9223372036854775808
+      Lambda = Poisson mean =     216.8404
+
+
+----------------------------------------------------
+Total expected number = N*Lambda      :    4336.81
+Total observed number                 :    4363
+p-value of test                       :    0.35
+
+
+-----------------------------------------------
+CPU time used                    :  00:02:22.39
+
+Generator state:
+N/A
+
+
+
+***********************************************************
+HOST = gaianss, Linux
+
+stdin
+
+
+smarsa_BirthdaySpacings test:
+-----------------------------------------------
+   N = 20,  n = 20000000,  r =  7,    d = 512,    t = 7,    p = 1
+
+
+      Number of cells = d^t = 9223372036854775808
+      Lambda = Poisson mean =     216.8404
+
+
+----------------------------------------------------
+Total expected number = N*Lambda      :    4336.81
+Total observed number                 :    4418
+p-value of test                       :    0.11
+
+
+-----------------------------------------------
+CPU time used                    :  00:02:31.98
+
+Generator state:
+N/A
+
+
+
+***********************************************************
+HOST = gaianss, Linux
+
+stdin
+
+
+smarsa_BirthdaySpacings test:
+-----------------------------------------------
+   N = 20,  n = 30000000,  r = 14,    d = 256,    t = 8,    p = 1
+
+
+      Number of cells = d^t = 18446744073709551616
+      Lambda = Poisson mean =     365.9182
+
+
+----------------------------------------------------
+Total expected number = N*Lambda      :    7318.36
+Total observed number                 :    7290
+p-value of test                       :    0.63
+
+
+-----------------------------------------------
+CPU time used                    :  00:04:00.56
+
+Generator state:
+N/A
+
+
+
+***********************************************************
+HOST = gaianss, Linux
+
+stdin
+
+
+smarsa_BirthdaySpacings test:
+-----------------------------------------------
+   N = 20,  n = 30000000,  r = 22,    d = 256,    t = 8,    p = 1
+
+
+      Number of cells = d^t = 18446744073709551616
+      Lambda = Poisson mean =     365.9182
+
+
+----------------------------------------------------
+Total expected number = N*Lambda      :    7318.36
+Total observed number                 :    7385
+p-value of test                       :    0.22
+
+
+-----------------------------------------------
+CPU time used                    :  00:03:59.22
+
+Generator state:
+N/A
+
+
+
+***********************************************************
+HOST = gaianss, Linux
+
+stdin
+
+
+smarsa_BirthdaySpacings test:
+-----------------------------------------------
+   N = 20,  n = 30000000,  r =  0,    d = 16,    t = 16,    p = 1
+
+
+      Number of cells = d^t = 18446744073709551616
+      Lambda = Poisson mean =     365.9182
+
+
+----------------------------------------------------
+Total expected number = N*Lambda      :    7318.36
+Total observed number                 :    7362
+p-value of test                       :    0.31
+
+
+-----------------------------------------------
+CPU time used                    :  00:04:57.60
+
+Generator state:
+N/A
+
+
+
+***********************************************************
+HOST = gaianss, Linux
+
+stdin
+
+
+smarsa_BirthdaySpacings test:
+-----------------------------------------------
+   N = 20,  n = 30000000,  r = 26,    d = 16,    t = 16,    p = 1
+
+
+      Number of cells = d^t = 18446744073709551616
+      Lambda = Poisson mean =     365.9182
+
+
+----------------------------------------------------
+Total expected number = N*Lambda      :    7318.36
+Total observed number                 :    7264
+p-value of test                       :    0.74
+
+
+-----------------------------------------------
+CPU time used                    :  00:05:37.30
+
+Generator state:
+N/A
+
+
+
+***********************************************************
+HOST = gaianss, Linux
+
+stdin
+
+
+snpair_ClosePairs test:
+-----------------------------------------------
+   N = 30,  n = 6000000,  r =  0,  t = 3,  p = 0,  m = 30,  Torus =  TRUE
+
+
+---------------------------------------
+Test based on the 2 nearest points (NP):
+
+Stat. AD on the N values (NP)         :    0.65
+p-value of test                       :    0.60
+
+
+A2 test based on the spacings between the
+   successive jump times of process Y_n(t):
+
+A2 test on the values of A2 (m-NP)    :    0.83
+p-value of test                       :    0.46
+
+Test on the Nm values of W_{n,i}(mNP1):    2.98
+p-value of test                       :    0.03
+
+Test on the jump times of Y
+   (superposition of Yn):
+
+Expected number of jumps of Y = mN    :     900
+Number of jumps of Y                  :     948
+p-value of test                       :    0.06
+
+Stat. AD (mNP2)                       :    1.73
+p-value of test                       :    0.13
+
+Stat. AD after spacings (mNP2-S)      :    0.85
+p-value of test                       :    0.45
+
+-----------------------------------------------
+CPU time used                    :  00:03:14.19
+
+Generator state:
+N/A
+
+
+
+***********************************************************
+HOST = gaianss, Linux
+
+stdin
+
+
+snpair_ClosePairs test:
+-----------------------------------------------
+   N = 20,  n = 4000000,  r =  0,  t = 5,  p = 0,  m = 30,  Torus =  TRUE
+
+
+---------------------------------------
+Test based on the 2 nearest points (NP):
+
+Stat. AD on the N values (NP)         :    1.00
+p-value of test                       :    0.35
+
+
+A2 test based on the spacings between the
+   successive jump times of process Y_n(t):
+
+A2 test on the values of A2 (m-NP)    :    1.71
+p-value of test                       :    0.13
+
+Test on the Nm values of W_{n,i}(mNP1):    1.03
+p-value of test                       :    0.34
+
+Test on the jump times of Y
+   (superposition of Yn):
+
+Expected number of jumps of Y = mN    :     600
+Number of jumps of Y                  :     578
+p-value of test                       :    0.81
+
+Stat. AD (mNP2)                       :    0.54
+p-value of test                       :    0.71
+
+Stat. AD after spacings (mNP2-S)      :    0.45
+p-value of test                       :    0.79
+
+-----------------------------------------------
+CPU time used                    :  00:02:11.25
+
+Generator state:
+N/A
+
+
+
+***********************************************************
+HOST = gaianss, Linux
+
+stdin
+
+
+snpair_ClosePairs test:
+-----------------------------------------------
+   N = 10,  n = 3000000,  r =  0,  t = 9,  p = 0,  m = 30,  Torus =  TRUE
+
+
+---------------------------------------
+Test based on the 2 nearest points (NP):
+
+Stat. AD on the N values (NP)         :    2.45
+p-value of test                       :    0.05
+
+
+A2 test based on the spacings between the
+   successive jump times of process Y_n(t):
+
+A2 test on the values of A2 (m-NP)    :    2.12
+p-value of test                       :    0.08
+
+Test on the Nm values of W_{n,i}(mNP1):    1.25
+p-value of test                       :    0.25
+
+Test on the jump times of Y
+   (superposition of Yn):
+
+Expected number of jumps of Y = mN    :     300
+Number of jumps of Y                  :     289
+p-value of test                       :    0.73
+
+Stat. AD (mNP2)                       :    2.77
+p-value of test                       :    0.04
+
+Stat. AD after spacings (mNP2-S)      :    0.87
+p-value of test                       :    0.44
+
+-----------------------------------------------
+CPU time used                    :  00:03:00.61
+
+Generator state:
+N/A
+
+
+
+***********************************************************
+HOST = gaianss, Linux
+
+stdin
+
+
+snpair_ClosePairs test:
+-----------------------------------------------
+   N =  5,  n = 2000000,  r =  0,  t = 16,  p = 0,  m = 30,  Torus =  TRUE
+
+
+---------------------------------------
+Test based on the 2 nearest points (NP):
+
+Stat. AD on the N values (NP)         :    0.58
+p-value of test                       :    0.66
+
+
+A2 test based on the spacings between the
+   successive jump times of process Y_n(t):
+
+A2 test on the values of A2 (m-NP)    :    0.77
+p-value of test                       :    0.49
+
+Test on the Nm values of W_{n,i}(mNP1):    1.01
+p-value of test                       :    0.35
+
+Test on the jump times of Y
+   (superposition of Yn):
+
+Expected number of jumps of Y = mN    :     150
+Number of jumps of Y                  :     161
+p-value of test                       :    0.19
+
+Stat. AD (mNP2)                       :    0.29
+p-value of test                       :    0.95
+
+Stat. AD after spacings (mNP2-S)      :    0.72
+p-value of test                       :    0.54
+
+-----------------------------------------------
+CPU time used                    :  00:03:16.10
+
+Generator state:
+N/A
+
+
+
+***********************************************************
+HOST = gaianss, Linux
+
+stdin
+
+
+sknuth_SimpPoker test:
+-----------------------------------------------
+   N =  1,  n = 400000000,  r =  0,   d =    8,   k =    8
+
+
+-----------------------------------------------
+Number of degrees of freedom          :    7
+Chi-square statistic                  :    0.32
+p-value of test                       :    0.9999    *****
+
+-----------------------------------------------
+CPU time used                    :  00:01:17.28
+
+Generator state:
+N/A
+
+
+
+***********************************************************
+HOST = gaianss, Linux
+
+stdin
+
+
+sknuth_SimpPoker test:
+-----------------------------------------------
+   N =  1,  n = 400000000,  r = 27,   d =    8,   k =    8
+
+
+-----------------------------------------------
+Number of degrees of freedom          :    7
+Chi-square statistic                  :   10.67
+p-value of test                       :    0.15
+
+-----------------------------------------------
+CPU time used                    :  00:01:31.35
+
+Generator state:
+N/A
+
+
+
+***********************************************************
+HOST = gaianss, Linux
+
+stdin
+
+
+sknuth_SimpPoker test:
+-----------------------------------------------
+   N =  1,  n = 100000000,  r =  0,   d =   32,   k =   32
+
+
+-----------------------------------------------
+Number of degrees of freedom          :   18
+Chi-square statistic                  :   18.51
+p-value of test                       :    0.42
+
+-----------------------------------------------
+CPU time used                    :  00:01:16.51
+
+Generator state:
+N/A
+
+
+
+***********************************************************
+HOST = gaianss, Linux
+
+stdin
+
+
+sknuth_SimpPoker test:
+-----------------------------------------------
+   N =  1,  n = 100000000,  r = 25,   d =   32,   k =   32
+
+
+-----------------------------------------------
+Number of degrees of freedom          :   18
+Chi-square statistic                  :   20.49
+p-value of test                       :    0.31
+
+-----------------------------------------------
+CPU time used                    :  00:01:30.88
+
+Generator state:
+N/A
+
+
+
+***********************************************************
+HOST = gaianss, Linux
+
+stdin
+
+
+sknuth_CouponCollector test:
+-----------------------------------------------
+   N =  1,  n = 200000000,  r =  0,   d =    8
+
+
+-----------------------------------------------
+Number of degrees of freedom          :   54
+Chi-square statistic                  :   61.87
+p-value of test                       :    0.22
+
+-----------------------------------------------
+CPU time used                    :  00:01:42.81
+
+Generator state:
+N/A
+
+
+
+***********************************************************
+HOST = gaianss, Linux
+
+stdin
+
+
+sknuth_CouponCollector test:
+-----------------------------------------------
+   N =  1,  n = 200000000,  r = 10,   d =    8
+
+
+-----------------------------------------------
+Number of degrees of freedom          :   54
+Chi-square statistic                  :   32.45
+p-value of test                       :    0.9912
+
+-----------------------------------------------
+CPU time used                    :  00:01:56.89
+
+Generator state:
+N/A
+
+
+
+***********************************************************
+HOST = gaianss, Linux
+
+stdin
+
+
+sknuth_CouponCollector test:
+-----------------------------------------------
+   N =  1,  n = 200000000,  r = 20,   d =    8
+
+
+-----------------------------------------------
+Number of degrees of freedom          :   54
+Chi-square statistic                  :   50.89
+p-value of test                       :    0.59
+
+-----------------------------------------------
+CPU time used                    :  00:01:59.28
+
+Generator state:
+N/A
+
+
+
+***********************************************************
+HOST = gaianss, Linux
+
+stdin
+
+
+sknuth_CouponCollector test:
+-----------------------------------------------
+   N =  1,  n = 200000000,  r = 27,   d =    8
+
+
+-----------------------------------------------
+Number of degrees of freedom          :   54
+Chi-square statistic                  :   56.98
+p-value of test                       :    0.36
+
+-----------------------------------------------
+CPU time used                    :  00:01:57.72
+
+Generator state:
+N/A
+
+
+
+***********************************************************
+HOST = gaianss, Linux
+
+stdin
+
+
+sknuth_Gap test:
+-----------------------------------------------
+   N =  1,  n = 500000000,  r =  0,   Alpha =        0,   Beta  =   0.0625
+
+
+-----------------------------------------------
+Number of degrees of freedom          :  232
+Chi-square statistic                  :  193.95
+p-value of test                       :    0.97
+
+-----------------------------------------------
+CPU time used                    :  00:02:10.30
+
+Generator state:
+N/A
+
+
+
+***********************************************************
+HOST = gaianss, Linux
+
+stdin
+
+
+sknuth_Gap test:
+-----------------------------------------------
+   N =  1,  n = 300000000,  r = 25,   Alpha =        0,   Beta  =  0.03125
+
+
+-----------------------------------------------
+Number of degrees of freedom          :  434
+Chi-square statistic                  :  454.43
+p-value of test                       :    0.24
+
+-----------------------------------------------
+CPU time used                    :  00:02:58.42
+
+Generator state:
+N/A
+
+
+
+***********************************************************
+HOST = gaianss, Linux
+
+stdin
+
+
+sknuth_Gap test:
+-----------------------------------------------
+   N =  1,  n = 100000000,  r =  0,   Alpha =        0,   Beta  = 0.0078125
+
+
+-----------------------------------------------
+Number of degrees of freedom          : 1437
+Chi-square statistic                  : 1476.45
+p-value of test                       :    0.23
+
+-----------------------------------------------
+CPU time used                    :  00:03:08.10
+
+Generator state:
+N/A
+
+
+
+***********************************************************
+HOST = gaianss, Linux
+
+stdin
+
+
+sknuth_Gap test:
+-----------------------------------------------
+   N =  1,  n = 10000000,  r = 20,   Alpha =        0,   Beta  = 0.000976562
+
+
+-----------------------------------------------
+Number of degrees of freedom          : 7046
+Chi-square statistic                  : 7241.10
+p-value of test                       :    0.05
+
+-----------------------------------------------
+CPU time used                    :  00:03:00.22
+
+Generator state:
+N/A
+
+
+
+***********************************************************
+HOST = gaianss, Linux
+
+stdin
+
+
+sknuth_Run test:
+-----------------------------------------------
+   N =  5,  n = 1000000000,  r =  0,   Up = FALSE
+
+
+-----------------------------------------------
+
+Kolmogorov-Smirnov+ statistic = D+    :    0.35
+p-value of test                       :    0.25
+
+Kolmogorov-Smirnov- statistic = D-    :    0.13
+p-value of test                       :    0.78
+
+Anderson-Darling statistic = A2       :    0.73
+p-value of test                       :    0.53
+
+Test on the sum of all N observations
+Number of degrees of freedom          :   30
+Chi-square statistic                  :   22.77
+p-value of test                       :    0.82
+
+-----------------------------------------------
+CPU time used                    :  00:01:43.90
+
+Generator state:
+N/A
+
+
+
+***********************************************************
+HOST = gaianss, Linux
+
+stdin
+
+
+sknuth_Run test:
+-----------------------------------------------
+   N = 10,  n = 1000000000,  r = 15,   Up =  TRUE
+
+
+-----------------------------------------------
+
+Kolmogorov-Smirnov+ statistic = D+    :    0.15
+p-value of test                       :    0.59
+
+Kolmogorov-Smirnov- statistic = D-    :    0.13
+p-value of test                       :    0.66
+
+Anderson-Darling statistic = A2       :    0.41
+p-value of test                       :    0.84
+
+Test on the sum of all N observations
+Number of degrees of freedom          :   60
+Chi-square statistic                  :   59.80
+p-value of test                       :    0.48
+
+-----------------------------------------------
+CPU time used                    :  00:04:09.72
+
+Generator state:
+N/A
+
+
+
+***********************************************************
+Test sknuth_Permutation calling smultin_Multinomial
+
+***********************************************************
+HOST = gaianss, Linux
+
+stdin
+
+
+smultin_Multinomial test:
+-----------------------------------------------
+   N =  1,  n = 1000000000,  r =  5,   t =  3,
+       Sparse =  FALSE
+
+       GenerCell = smultin_GenerCellPermut
+       Number of cells = t! =                  6
+       Expected number per cell =  1.6666667e+08
+       Hashing =  FALSE
+
+   For Delta > -1, we use the ChiSquare approximation
+   Correction factor of the ChiSquare: 
+       Delta =     1,    Mu =  2.5000002e-09,    Sigma =          1
+
+-----------------------------------------------
+Test Results for Delta =   1.0000
+
+Number of degrees of freedom          :    5
+Value of the statistic                :    3.62
+p-value of test                       :    0.61
+
+
+-----------------------------------------------
+CPU time used                    :  00:01:10.95
+
+Generator state:
+N/A
+
+
+
+***********************************************************
+Test sknuth_Permutation calling smultin_Multinomial
+
+***********************************************************
+HOST = gaianss, Linux
+
+stdin
+
+
+smultin_Multinomial test:
+-----------------------------------------------
+   N =  1,  n = 1000000000,  r =  5,   t =  5,
+       Sparse =  FALSE
+
+       GenerCell = smultin_GenerCellPermut
+       Number of cells = t! =                120
+       Expected number per cell =   8333333.3
+       Hashing =  FALSE
+
+   For Delta > -1, we use the ChiSquare approximation
+   Correction factor of the ChiSquare: 
+       Delta =     1,    Mu =  5.9500005e-08,    Sigma =          1
+
+-----------------------------------------------
+Test Results for Delta =   1.0000
+
+Number of degrees of freedom          :  119
+Value of the statistic                :  120.91
+p-value of test                       :    0.43
+
+
+-----------------------------------------------
+CPU time used                    :  00:02:05.76
+
+Generator state:
+N/A
+
+
+
+***********************************************************
+Test sknuth_Permutation calling smultin_Multinomial
+
+***********************************************************
+HOST = gaianss, Linux
+
+stdin
+
+
+smultin_Multinomial test:
+-----------------------------------------------
+   N =  1,  n = 500000000,  r =  5,   t =  7,
+       Sparse =  FALSE
+
+       GenerCell = smultin_GenerCellPermut
+       Number of cells = t! =               5040
+       Expected number per cell =   99206.349
+       Hashing =  FALSE
+
+   For Delta > -1, we use the ChiSquare approximation
+   Correction factor of the ChiSquare: 
+       Delta =     1,    Mu =  5.0390004e-06,    Sigma =          1
+
+-----------------------------------------------
+Test Results for Delta =   1.0000
+
+Number of degrees of freedom          : 5039
+Value of the statistic                : 4958.56
+p-value of test                       :    0.79
+
+
+-----------------------------------------------
+CPU time used                    :  00:01:31.87
+
+Generator state:
+N/A
+
+
+
+***********************************************************
+Test sknuth_Permutation calling smultin_Multinomial
+
+***********************************************************
+HOST = gaianss, Linux
+
+stdin
+
+
+smultin_Multinomial test:
+-----------------------------------------------
+   N =  1,  n = 500000000,  r = 10,   t = 10,
+       Sparse =  FALSE
+
+       GenerCell = smultin_GenerCellPermut
+       Number of cells = t! =            3628800
+       Expected number per cell =    137.7866
+       Hashing =  FALSE
+
+   For Delta > -1, we use the ChiSquare approximation
+   Correction factor of the ChiSquare: 
+       Delta =     1,    Mu =   0.0036287993,    Sigma =          1
+
+-----------------------------------------------
+Test Results for Delta =   1.0000
+
+Number of degrees of freedom          : 3628799
+Value of the statistic                : 3.63e+6
+p-value of test                       :    0.66
+
+
+-----------------------------------------------
+CPU time used                    :  00:03:05.04
+
+Generator state:
+N/A
+
+
+
+***********************************************************
+Test sknuth_CollisionPermut calling smultin_Multinomial
+
+***********************************************************
+HOST = gaianss, Linux
+
+stdin
+
+
+smultin_Multinomial test:
+-----------------------------------------------
+   N = 20,  n = 20000000,  r =  0,   t = 14,
+       Sparse =   TRUE
+
+       GenerCell = smultin_GenerCellPermut
+       Number of cells = t! =        87178291200
+       Expected number per cell =  1 /  4358.9146
+       EColl = n^2 / (2k) =   2294.14912
+       Hashing =   TRUE
+
+       Collision test,    Mu =      2293.9736,    Sigma =    47.8841
+
+-----------------------------------------------
+Test Results for Collisions
+
+For the total number of collisions, we use
+      the Poisson approximation:
+Expected number of collisions = N*Mu  :    45879.47
+Observed number of collisions         :    46291
+p-value of test                       :    0.03
+
+
+-----------------------------
+Total number of cells containing j balls
+
+  j =  0                              :    1743165870291
+  j =  1                              :        399907422
+  j =  2                              :            46283
+  j =  3                              :                4
+  j =  4                              :                0
+  j =  5                              :                0
+
+-----------------------------------------------
+CPU time used                    :  00:04:22.84
+
+Generator state:
+N/A
+
+
+
+***********************************************************
+Test sknuth_CollisionPermut calling smultin_Multinomial
+
+***********************************************************
+HOST = gaianss, Linux
+
+stdin
+
+
+smultin_Multinomial test:
+-----------------------------------------------
+   N = 20,  n = 20000000,  r = 10,   t = 14,
+       Sparse =   TRUE
+
+       GenerCell = smultin_GenerCellPermut
+       Number of cells = t! =        87178291200
+       Expected number per cell =  1 /  4358.9146
+       EColl = n^2 / (2k) =   2294.14912
+       Hashing =   TRUE
+
+       Collision test,    Mu =      2293.9736,    Sigma =    47.8841
+
+-----------------------------------------------
+Test Results for Collisions
+
+For the total number of collisions, we use
+      the Poisson approximation:
+Expected number of collisions = N*Mu  :    45879.47
+Observed number of collisions         :    45938
+p-value of test                       :    0.39
+
+
+-----------------------------
+Total number of cells containing j balls
+
+  j =  0                              :    1743165869938
+  j =  1                              :        399908127
+  j =  2                              :            45932
+  j =  3                              :                3
+  j =  4                              :                0
+  j =  5                              :                0
+
+-----------------------------------------------
+CPU time used                    :  00:04:47.79
+
+Generator state:
+N/A
+
+
+
+***********************************************************
+HOST = gaianss, Linux
+
+stdin
+
+
+sknuth_MaxOft test:
+-----------------------------------------------
+   N = 40,  n = 10000000,  r =  0,   d = 100000,   t =  8
+
+      Number of categories = 100000
+      Expected number per category  = 100.00
+
+
+-----------------------------------------------
+Test results for chi2 with 99999 degrees of freedom:
+
+Kolmogorov-Smirnov+ statistic = D+    :   0.046
+p-value of test                       :    0.82
+
+Kolmogorov-Smirnov- statistic = D-    :   0.098
+p-value of test                       :    0.44
+
+Anderson-Darling statistic = A2       :    0.55
+p-value of test                       :    0.69
+
+Test on the sum of all N observations
+Number of degrees of freedom          : 3999960
+Chi-square statistic                  : 4.00e+6
+p-value of test                       :    0.31
+
+
+-----------------------------------------------
+Test results for Anderson-Darling:
+
+Kolmogorov-Smirnov+ statistic = D+    :   0.097
+p-value of test                       :    0.44
+
+Kolmogorov-Smirnov- statistic = D-    :   0.065
+p-value of test                       :    0.68
+
+Anderson-Darling statistic = A2       :    0.63
+p-value of test                       :    0.61
+
+
+-----------------------------------------------
+CPU time used                    :  00:03:24.68
+
+Generator state:
+N/A
+
+
+
+***********************************************************
+HOST = gaianss, Linux
+
+stdin
+
+
+sknuth_MaxOft test:
+-----------------------------------------------
+   N = 30,  n = 10000000,  r =  0,   d = 100000,   t = 16
+
+      Number of categories = 100000
+      Expected number per category  = 100.00
+
+
+-----------------------------------------------
+Test results for chi2 with 99999 degrees of freedom:
+
+Kolmogorov-Smirnov+ statistic = D+    :    0.13
+p-value of test                       :    0.34
+
+Kolmogorov-Smirnov- statistic = D-    :   0.076
+p-value of test                       :    0.67
+
+Anderson-Darling statistic = A2       :    0.50
+p-value of test                       :    0.75
+
+Test on the sum of all N observations
+Number of degrees of freedom          : 2999970
+Chi-square statistic                  : 3.00e+6
+p-value of test                       :    0.63
+
+
+-----------------------------------------------
+Test results for Anderson-Darling:
+
+Kolmogorov-Smirnov+ statistic = D+    :    0.16
+p-value of test                       :    0.21
+
+Kolmogorov-Smirnov- statistic = D-    :   0.081
+p-value of test                       :    0.64
+
+Anderson-Darling statistic = A2       :    0.64
+p-value of test                       :    0.61
+
+
+-----------------------------------------------
+CPU time used                    :  00:03:12.34
+
+Generator state:
+N/A
+
+
+
+***********************************************************
+HOST = gaianss, Linux
+
+stdin
+
+
+sknuth_MaxOft test:
+-----------------------------------------------
+   N = 20,  n = 10000000,  r =  0,   d = 100000,   t = 24
+
+      Number of categories = 100000
+      Expected number per category  = 100.00
+
+
+-----------------------------------------------
+Test results for chi2 with 99999 degrees of freedom:
+
+Kolmogorov-Smirnov+ statistic = D+    :    0.22
+p-value of test                       :    0.13
+
+Kolmogorov-Smirnov- statistic = D-    :   0.034
+p-value of test                       :    0.93
+
+Anderson-Darling statistic = A2       :    0.94
+p-value of test                       :    0.39
+
+Test on the sum of all N observations
+Number of degrees of freedom          : 1999980
+Chi-square statistic                  : 2.00e+6
+p-value of test                       :    0.88
+
+
+-----------------------------------------------
+Test results for Anderson-Darling:
+
+Kolmogorov-Smirnov+ statistic = D+    :    0.22
+p-value of test                       :    0.13
+
+Kolmogorov-Smirnov- statistic = D-    :   0.044
+p-value of test                       :    0.90
+
+Anderson-Darling statistic = A2       :    0.72
+p-value of test                       :    0.54
+
+
+-----------------------------------------------
+CPU time used                    :  00:02:34.07
+
+Generator state:
+N/A
+
+
+
+***********************************************************
+HOST = gaianss, Linux
+
+stdin
+
+
+sknuth_MaxOft test:
+-----------------------------------------------
+   N = 20,  n = 10000000,  r =  0,   d = 100000,   t = 32
+
+      Number of categories = 100000
+      Expected number per category  = 100.00
+
+
+-----------------------------------------------
+Test results for chi2 with 99999 degrees of freedom:
+
+Kolmogorov-Smirnov+ statistic = D+    :    0.21
+p-value of test                       :    0.14
+
+Kolmogorov-Smirnov- statistic = D-    :    0.13
+p-value of test                       :    0.49
+
+Anderson-Darling statistic = A2       :    0.88
+p-value of test                       :    0.43
+
+Test on the sum of all N observations
+Number of degrees of freedom          : 1999980
+Chi-square statistic                  : 2.00e+6
+p-value of test                       :    0.55
+
+
+-----------------------------------------------
+Test results for Anderson-Darling:
+
+Kolmogorov-Smirnov+ statistic = D+    :    0.13
+p-value of test                       :    0.47
+
+Kolmogorov-Smirnov- statistic = D-    :    0.16
+p-value of test                       :    0.34
+
+Anderson-Darling statistic = A2       :    0.62
+p-value of test                       :    0.63
+
+
+-----------------------------------------------
+CPU time used                    :  00:02:52.93
+
+Generator state:
+N/A
+
+
+
+***********************************************************
+HOST = gaianss, Linux
+
+stdin
+
+
+svaria_SampleProd test:
+-----------------------------------------------
+   N = 40,  n = 10000000,  r =  0,   t = 8
+
+
+-----------------------------------------------
+
+Kolmogorov-Smirnov+ statistic = D+    :    0.28
+p-value of test                       :  1.5e-3
+
+Kolmogorov-Smirnov- statistic = D-    :   0.045
+p-value of test                       :    0.83
+
+Anderson-Darling statistic = A2       :    3.36
+p-value of test                       :    0.02
+
+-----------------------------------------------
+CPU time used                    :  00:02:25.71
+
+Generator state:
+N/A
+
+
+
+***********************************************************
+HOST = gaianss, Linux
+
+stdin
+
+
+svaria_SampleProd test:
+-----------------------------------------------
+   N = 20,  n = 10000000,  r =  0,   t = 16
+
+
+-----------------------------------------------
+
+Kolmogorov-Smirnov+ statistic = D+    :    0.19
+p-value of test                       :    0.20
+
+Kolmogorov-Smirnov- statistic = D-    : 9.32e-3
+p-value of test                       :    0.99
+
+Anderson-Darling statistic = A2       :    1.74
+p-value of test                       :    0.13
+
+-----------------------------------------------
+CPU time used                    :  00:01:44.06
+
+Generator state:
+N/A
+
+
+
+***********************************************************
+HOST = gaianss, Linux
+
+stdin
+
+
+svaria_SampleProd test:
+-----------------------------------------------
+   N = 20,  n = 10000000,  r =  0,   t = 24
+
+
+-----------------------------------------------
+
+Kolmogorov-Smirnov+ statistic = D+    :   0.040
+p-value of test                       :    0.91
+
+Kolmogorov-Smirnov- statistic = D-    :    0.12
+p-value of test                       :    0.50
+
+Anderson-Darling statistic = A2       :    0.35
+p-value of test                       :    0.90
+
+-----------------------------------------------
+CPU time used                    :  00:02:13.35
+
+Generator state:
+N/A
+
+
+
+***********************************************************
+HOST = gaianss, Linux
+
+stdin
+
+
+svaria_SampleMean test:
+-----------------------------------------------
+   N = 20000000,  n = 30,  r =  0
+
+
+-----------------------------------------------
+
+Kolmogorov-Smirnov+ statistic = D+    : 1.19e-4
+p-value of test                       :    0.57
+
+Kolmogorov-Smirnov- statistic = D-    : 9.42e-5
+p-value of test                       :    0.70
+
+Anderson-Darling statistic = A2       :    0.30
+p-value of test                       :    0.93
+
+-----------------------------------------------
+CPU time used                    :  00:00:32.43
+
+Generator state:
+N/A
+
+
+
+***********************************************************
+HOST = gaianss, Linux
+
+stdin
+
+
+svaria_SampleMean test:
+-----------------------------------------------
+   N = 20000000,  n = 30,  r = 10
+
+
+-----------------------------------------------
+
+Kolmogorov-Smirnov+ statistic = D+    : 1.31e-4
+p-value of test                       :    0.50
+
+Kolmogorov-Smirnov- statistic = D-    : 2.56e-4
+p-value of test                       :    0.07
+
+Anderson-Darling statistic = A2       :    1.32
+p-value of test                       :    0.23
+
+-----------------------------------------------
+CPU time used                    :  00:00:33.90
+
+Generator state:
+N/A
+
+
+
+***********************************************************
+HOST = gaianss, Linux
+
+stdin
+
+
+svaria_SampleCorr test:
+-----------------------------------------------
+   N =  1,  n = 2000000000,  r =  0,   k = 1
+
+
+-----------------------------------------------
+Normal statistic                      :   -0.69
+p-value of test                       :    0.75
+
+-----------------------------------------------
+CPU time used                    :  00:00:28.89
+
+Generator state:
+N/A
+
+
+
+***********************************************************
+HOST = gaianss, Linux
+
+stdin
+
+
+svaria_SampleCorr test:
+-----------------------------------------------
+   N =  1,  n = 2000000000,  r =  0,   k = 2
+
+
+-----------------------------------------------
+Normal statistic                      :    0.42
+p-value of test                       :    0.34
+
+-----------------------------------------------
+CPU time used                    :  00:00:31.28
+
+Generator state:
+N/A
+
+
+
+***********************************************************
+HOST = gaianss, Linux
+
+stdin
+
+
+svaria_AppearanceSpacings test:
+-----------------------------------------------
+   N =  1,   Q = 10000000,   K = 1000000000,   r = 0,   s = 3,   L = 15
+
+   Sequences of n = (K + Q)L =  15150000000 bits
+   Q = 10000000 initialization blocks
+   K = 1000000000 blocks for the test
+   the blocks have L = 15 bits
+
+
+
+-----------------------------------------------
+Normal statistic                      :    0.57
+p-value of test                       :    0.28
+
+-----------------------------------------------
+CPU time used                    :  00:02:02.35
+
+Generator state:
+N/A
+
+
+
+***********************************************************
+HOST = gaianss, Linux
+
+stdin
+
+
+svaria_AppearanceSpacings test:
+-----------------------------------------------
+   N =  1,   Q = 10000000,   K = 1000000000,   r = 27,   s = 3,   L = 15
+
+   Sequences of n = (K + Q)L =  15150000000 bits
+   Q = 10000000 initialization blocks
+   K = 1000000000 blocks for the test
+   the blocks have L = 15 bits
+
+
+
+-----------------------------------------------
+Normal statistic                      :   -0.29
+p-value of test                       :    0.61
+
+-----------------------------------------------
+CPU time used                    :  00:02:10.32
+
+Generator state:
+N/A
+
+
+
+***********************************************************
+HOST = gaianss, Linux
+
+stdin
+
+
+svaria_WeightDistrib test:
+-----------------------------------------------
+   N =  1,  n = 20000000,  r =  0,  k = 256,  Alpha =      0,  Beta =   0.25
+
+
+-----------------------------------------------
+Number of degrees of freedom          :   67
+Chi-square statistic                  :   43.47
+p-value of test                       :    0.99
+
+-----------------------------------------------
+CPU time used                    :  00:01:20.62
+
+Generator state:
+N/A
+
+
+
+***********************************************************
+HOST = gaianss, Linux
+
+stdin
+
+
+svaria_WeightDistrib test:
+-----------------------------------------------
+   N =  1,  n = 20000000,  r = 20,  k = 256,  Alpha =      0,  Beta =   0.25
+
+
+-----------------------------------------------
+Number of degrees of freedom          :   67
+Chi-square statistic                  :   78.98
+p-value of test                       :    0.15
+
+-----------------------------------------------
+CPU time used                    :  00:01:41.59
+
+Generator state:
+N/A
+
+
+
+***********************************************************
+HOST = gaianss, Linux
+
+stdin
+
+
+svaria_WeightDistrib test:
+-----------------------------------------------
+   N =  1,  n = 20000000,  r = 28,  k = 256,  Alpha =      0,  Beta =   0.25
+
+
+-----------------------------------------------
+Number of degrees of freedom          :   67
+Chi-square statistic                  :   66.93
+p-value of test                       :    0.48
+
+-----------------------------------------------
+CPU time used                    :  00:01:41.38
+
+Generator state:
+N/A
+
+
+
+***********************************************************
+HOST = gaianss, Linux
+
+stdin
+
+
+svaria_WeightDistrib test:
+-----------------------------------------------
+   N =  1,  n = 20000000,  r =  0,  k = 256,  Alpha =      0,  Beta = 0.0625
+
+
+-----------------------------------------------
+Number of degrees of freedom          :   37
+Chi-square statistic                  :   28.48
+p-value of test                       :    0.84
+
+-----------------------------------------------
+CPU time used                    :  00:01:22.32
+
+Generator state:
+N/A
+
+
+
+***********************************************************
+HOST = gaianss, Linux
+
+stdin
+
+
+svaria_WeightDistrib test:
+-----------------------------------------------
+   N =  1,  n = 20000000,  r = 10,  k = 256,  Alpha =      0,  Beta = 0.0625
+
+
+-----------------------------------------------
+Number of degrees of freedom          :   37
+Chi-square statistic                  :   30.46
+p-value of test                       :    0.77
+
+-----------------------------------------------
+CPU time used                    :  00:01:38.57
+
+Generator state:
+N/A
+
+
+
+***********************************************************
+HOST = gaianss, Linux
+
+stdin
+
+
+svaria_WeightDistrib test:
+-----------------------------------------------
+   N =  1,  n = 20000000,  r = 26,  k = 256,  Alpha =      0,  Beta = 0.0625
+
+
+-----------------------------------------------
+Number of degrees of freedom          :   37
+Chi-square statistic                  :   33.93
+p-value of test                       :    0.61
+
+-----------------------------------------------
+CPU time used                    :  00:01:41.54
+
+Generator state:
+N/A
+
+
+
+***********************************************************
+HOST = gaianss, Linux
+
+stdin
+
+
+svaria_SumCollector test:
+-----------------------------------------------
+   N =  1,  n = 500000000,  r =  0,   g = 10
+
+
+-----------------------------------------------
+Number of degrees of freedom          :   29
+Chi-square statistic                  :   33.00
+p-value of test                       :    0.28
+
+-----------------------------------------------
+CPU time used                    :  00:02:42.81
+
+Generator state:
+N/A
+
+
+
+***********************************************************
+HOST = gaianss, Linux
+
+stdin
+
+
+smarsa_MatrixRank test:
+-----------------------------------------------
+   N = 10,  n = 1000000,  r =  0,    s = 5,    L = 30,    k = 30
+
+
+-----------------------------------------------
+
+Kolmogorov-Smirnov+ statistic = D+    :    0.33
+p-value of test                       :    0.08
+
+Kolmogorov-Smirnov- statistic = D-    : 7.27e-3
+p-value of test                       :    0.9922
+
+Anderson-Darling statistic = A2       :    2.23
+p-value of test                       :    0.07
+
+Test on the sum of all N observations
+Number of degrees of freedom          :   40
+Chi-square statistic                  :   23.85
+p-value of test                       :    0.98
+
+-----------------------------------------------
+CPU time used                    :  00:01:26.70
+
+Generator state:
+N/A
+
+
+
+***********************************************************
+HOST = gaianss, Linux
+
+stdin
+
+
+smarsa_MatrixRank test:
+-----------------------------------------------
+   N = 10,  n = 1000000,  r = 25,    s = 5,    L = 30,    k = 30
+
+
+-----------------------------------------------
+
+Kolmogorov-Smirnov+ statistic = D+    :   0.062
+p-value of test                       :    0.89
+
+Kolmogorov-Smirnov- statistic = D-    :    0.34
+p-value of test                       :    0.07
+
+Anderson-Darling statistic = A2       :    1.34
+p-value of test                       :    0.22
+
+Test on the sum of all N observations
+Number of degrees of freedom          :   40
+Chi-square statistic                  :   47.76
+p-value of test                       :    0.19
+
+-----------------------------------------------
+CPU time used                    :  00:01:33.67
+
+Generator state:
+N/A
+
+
+
+***********************************************************
+HOST = gaianss, Linux
+
+stdin
+
+
+smarsa_MatrixRank test:
+-----------------------------------------------
+   N =  1,  n = 5000,  r =  0,    s = 4,    L = 1000,    k = 1000
+
+
+-----------------------------------------------
+Number of degrees of freedom          :    3
+Chi-square statistic                  :    4.19
+p-value of test                       :    0.24
+
+-----------------------------------------------
+CPU time used                    :  00:02:22.57
+
+Generator state:
+N/A
+
+
+
+***********************************************************
+HOST = gaianss, Linux
+
+stdin
+
+
+smarsa_MatrixRank test:
+-----------------------------------------------
+   N =  1,  n = 5000,  r = 26,    s = 4,    L = 1000,    k = 1000
+
+
+-----------------------------------------------
+Number of degrees of freedom          :    3
+Chi-square statistic                  :    2.41
+p-value of test                       :    0.49
+
+-----------------------------------------------
+CPU time used                    :  00:02:16.57
+
+Generator state:
+N/A
+
+
+
+***********************************************************
+HOST = gaianss, Linux
+
+stdin
+
+
+smarsa_MatrixRank test:
+-----------------------------------------------
+   N =  1,  n = 80,  r = 15,    s = 15,    L = 5000,    k = 5000
+
+
+-----------------------------------------------
+Number of degrees of freedom          :    2
+Chi-square statistic                  :    3.12
+p-value of test                       :    0.21
+
+-----------------------------------------------
+CPU time used                    :  00:01:32.73
+
+Generator state:
+N/A
+
+
+
+***********************************************************
+HOST = gaianss, Linux
+
+stdin
+
+
+smarsa_MatrixRank test:
+-----------------------------------------------
+   N =  1,  n = 80,  r =  0,    s = 30,    L = 5000,    k = 5000
+
+
+-----------------------------------------------
+Number of degrees of freedom          :    2
+Chi-square statistic                  :    1.82
+p-value of test                       :    0.40
+
+-----------------------------------------------
+CPU time used                    :  00:01:17.47
+
+Generator state:
+N/A
+
+
+
+***********************************************************
+HOST = gaianss, Linux
+
+stdin
+
+
+smarsa_Savir2 test:
+-----------------------------------------------
+   N = 10,  n = 10000000,  r = 10,    m = 1048576,    t = 30
+
+
+-----------------------------------------------
+
+Kolmogorov-Smirnov+ statistic = D+    :   0.018
+p-value of test                       :    0.98
+
+Kolmogorov-Smirnov- statistic = D-    :    0.51
+p-value of test                       :  2.8e-3
+
+Anderson-Darling statistic = A2       :    3.57
+p-value of test                       :    0.01
+
+Test on the sum of all N observations
+Number of degrees of freedom          :  130
+Chi-square statistic                  :  165.44
+p-value of test                       :    0.02
+
+-----------------------------------------------
+CPU time used                    :  00:01:01.79
+
+Generator state:
+N/A
+
+
+
+***********************************************************
+HOST = gaianss, Linux
+
+stdin
+
+
+smarsa_GCD test:
+-----------------------------------------------
+   N = 10,  n = 50000000,  r =  0,   s = 30
+
+
+-----------------------------------------------
+Test results for GCD values:
+
+Kolmogorov-Smirnov+ statistic = D+    :   0.083
+p-value of test                       :    0.83
+
+Kolmogorov-Smirnov- statistic = D-    :    0.37
+p-value of test                       :    0.05
+
+Anderson-Darling statistic = A2       :    1.37
+p-value of test                       :    0.21
+
+Test on the sum of all N observations
+Number of degrees of freedom          : 17430
+Chi-square statistic                  :17681.10
+p-value of test                       :    0.09
+
+
+
+-----------------------------------------------
+CPU time used                    :  00:01:55.61
+
+Generator state:
+N/A
+
+
+
+***********************************************************
+HOST = gaianss, Linux
+
+stdin
+
+
+swalk_RandomWalk1 test:
+-----------------------------------------------
+   N =  1,  n = 100000000,  r =  0,   s = 5,   L0 =   50,   L1 =   50
+
+
+
+-----------------------------------------------
+Test on the values of the Statistic H
+
+Number of degrees of freedom          :   36
+ChiSquare statistic                   :   29.42
+p-value of test                       :    0.77
+
+
+-----------------------------------------------
+Test on the values of the Statistic M
+
+Number of degrees of freedom          :   35
+ChiSquare statistic                   :   37.42
+p-value of test                       :    0.36
+
+
+-----------------------------------------------
+Test on the values of the Statistic J
+
+Number of degrees of freedom          :   25
+ChiSquare statistic                   :   22.81
+p-value of test                       :    0.59
+
+
+-----------------------------------------------
+Test on the values of the Statistic R
+
+Number of degrees of freedom          :   24
+ChiSquare statistic                   :   13.86
+p-value of test                       :    0.95
+
+
+-----------------------------------------------
+Test on the values of the Statistic C
+
+Number of degrees of freedom          :   17
+ChiSquare statistic                   :   14.86
+p-value of test                       :    0.61
+
+
+-----------------------------------------------
+CPU time used                    :  00:00:50.87
+
+Generator state:
+N/A
+
+
+
+***********************************************************
+HOST = gaianss, Linux
+
+stdin
+
+
+swalk_RandomWalk1 test:
+-----------------------------------------------
+   N =  1,  n = 100000000,  r = 25,   s = 5,   L0 =   50,   L1 =   50
+
+
+
+-----------------------------------------------
+Test on the values of the Statistic H
+
+Number of degrees of freedom          :   36
+ChiSquare statistic                   :   31.02
+p-value of test                       :    0.70
+
+
+-----------------------------------------------
+Test on the values of the Statistic M
+
+Number of degrees of freedom          :   35
+ChiSquare statistic                   :   26.18
+p-value of test                       :    0.86
+
+
+-----------------------------------------------
+Test on the values of the Statistic J
+
+Number of degrees of freedom          :   25
+ChiSquare statistic                   :   32.19
+p-value of test                       :    0.15
+
+
+-----------------------------------------------
+Test on the values of the Statistic R
+
+Number of degrees of freedom          :   24
+ChiSquare statistic                   :   29.36
+p-value of test                       :    0.21
+
+
+-----------------------------------------------
+Test on the values of the Statistic C
+
+Number of degrees of freedom          :   17
+ChiSquare statistic                   :   16.10
+p-value of test                       :    0.52
+
+
+-----------------------------------------------
+CPU time used                    :  00:00:52.06
+
+Generator state:
+N/A
+
+
+
+***********************************************************
+HOST = gaianss, Linux
+
+stdin
+
+
+swalk_RandomWalk1 test:
+-----------------------------------------------
+   N =  1,  n = 10000000,  r =  0,   s = 10,   L0 = 1000,   L1 = 1000
+
+
+
+-----------------------------------------------
+Test on the values of the Statistic H
+
+Number of degrees of freedom          :  146
+ChiSquare statistic                   :  140.98
+p-value of test                       :    0.60
+
+
+-----------------------------------------------
+Test on the values of the Statistic M
+
+Number of degrees of freedom          :  146
+ChiSquare statistic                   :  145.85
+p-value of test                       :    0.49
+
+
+-----------------------------------------------
+Test on the values of the Statistic J
+
+Number of degrees of freedom          :  500
+ChiSquare statistic                   :  488.81
+p-value of test                       :    0.63
+
+
+-----------------------------------------------
+Test on the values of the Statistic R
+
+Number of degrees of freedom          :  136
+ChiSquare statistic                   :  125.51
+p-value of test                       :    0.73
+
+
+-----------------------------------------------
+Test on the values of the Statistic C
+
+Number of degrees of freedom          :   74
+ChiSquare statistic                   :   92.01
+p-value of test                       :    0.08
+
+
+-----------------------------------------------
+CPU time used                    :  00:00:59.93
+
+Generator state:
+N/A
+
+
+
+***********************************************************
+HOST = gaianss, Linux
+
+stdin
+
+
+swalk_RandomWalk1 test:
+-----------------------------------------------
+   N =  1,  n = 10000000,  r = 20,   s = 10,   L0 = 1000,   L1 = 1000
+
+
+
+-----------------------------------------------
+Test on the values of the Statistic H
+
+Number of degrees of freedom          :  146
+ChiSquare statistic                   :  158.78
+p-value of test                       :    0.22
+
+
+-----------------------------------------------
+Test on the values of the Statistic M
+
+Number of degrees of freedom          :  146
+ChiSquare statistic                   :  162.06
+p-value of test                       :    0.17
+
+
+-----------------------------------------------
+Test on the values of the Statistic J
+
+Number of degrees of freedom          :  500
+ChiSquare statistic                   :  514.96
+p-value of test                       :    0.31
+
+
+-----------------------------------------------
+Test on the values of the Statistic R
+
+Number of degrees of freedom          :  136
+ChiSquare statistic                   :  113.03
+p-value of test                       :    0.92
+
+
+-----------------------------------------------
+Test on the values of the Statistic C
+
+Number of degrees of freedom          :   74
+ChiSquare statistic                   :   76.39
+p-value of test                       :    0.40
+
+
+-----------------------------------------------
+CPU time used                    :  00:00:58.37
+
+Generator state:
+N/A
+
+
+
+***********************************************************
+HOST = gaianss, Linux
+
+stdin
+
+
+swalk_RandomWalk1 test:
+-----------------------------------------------
+   N =  1,  n = 1000000,  r =  0,   s = 15,   L0 = 10000,   L1 = 10000
+
+
+
+-----------------------------------------------
+Test on the values of the Statistic H
+
+Number of degrees of freedom          :  384
+ChiSquare statistic                   :  476.81
+p-value of test                       :  8.6e-4    *****
+
+
+-----------------------------------------------
+Test on the values of the Statistic M
+
+Number of degrees of freedom          :  384
+ChiSquare statistic                   :  360.01
+p-value of test                       :    0.81
+
+
+-----------------------------------------------
+Test on the values of the Statistic J
+
+Number of degrees of freedom          : 5000
+ChiSquare statistic                   : 5095.55
+p-value of test                       :    0.17
+
+
+-----------------------------------------------
+Test on the values of the Statistic R
+
+Number of degrees of freedom          :  378
+ChiSquare statistic                   :  389.90
+p-value of test                       :    0.33
+
+
+-----------------------------------------------
+Test on the values of the Statistic C
+
+Number of degrees of freedom          :  200
+ChiSquare statistic                   :  191.48
+p-value of test                       :    0.65
+
+
+-----------------------------------------------
+CPU time used                    :  00:00:49.17
+
+Generator state:
+N/A
+
+
+
+***********************************************************
+HOST = gaianss, Linux
+
+stdin
+
+
+swalk_RandomWalk1 test:
+-----------------------------------------------
+   N =  1,  n = 1000000,  r = 15,   s = 15,   L0 = 10000,   L1 = 10000
+
+
+
+-----------------------------------------------
+Test on the values of the Statistic H
+
+Number of degrees of freedom          :  384
+ChiSquare statistic                   :  412.32
+p-value of test                       :    0.15
+
+
+-----------------------------------------------
+Test on the values of the Statistic M
+
+Number of degrees of freedom          :  384
+ChiSquare statistic                   :  376.91
+p-value of test                       :    0.59
+
+
+-----------------------------------------------
+Test on the values of the Statistic J
+
+Number of degrees of freedom          : 5000
+ChiSquare statistic                   : 4896.52
+p-value of test                       :    0.85
+
+
+-----------------------------------------------
+Test on the values of the Statistic R
+
+Number of degrees of freedom          :  378
+ChiSquare statistic                   :  404.35
+p-value of test                       :    0.17
+
+
+-----------------------------------------------
+Test on the values of the Statistic C
+
+Number of degrees of freedom          :  200
+ChiSquare statistic                   :  191.43
+p-value of test                       :    0.66
+
+
+-----------------------------------------------
+CPU time used                    :  00:00:47.71
+
+Generator state:
+N/A
+
+
+
+***********************************************************
+HOST = gaianss, Linux
+
+stdin
+
+
+scomp_LinearComp test:
+-----------------------------------------------
+   N =  1,  n = 400020,  r =  0,    s = 1
+
+
+
+-----------------------------------------------
+Number of degrees of freedom          :   12
+Chi2 statistic for size of jumps      :   19.82
+p-value of test                       :    0.07
+
+
+-----------------------------------------------
+Normal statistic for number of jumps  :    2.80
+p-value of test                       :  2.6e-3
+
+
+
+-----------------------------------------------
+CPU time used                    :  00:02:23.35
+
+Generator state:
+N/A
+
+
+
+***********************************************************
+HOST = gaianss, Linux
+
+stdin
+
+
+scomp_LinearComp test:
+-----------------------------------------------
+   N =  1,  n = 400020,  r = 29,    s = 1
+
+
+
+-----------------------------------------------
+Number of degrees of freedom          :   12
+Chi2 statistic for size of jumps      :   18.32
+p-value of test                       :    0.11
+
+
+-----------------------------------------------
+Normal statistic for number of jumps  :   -0.46
+p-value of test                       :    0.68
+
+
+
+-----------------------------------------------
+CPU time used                    :  00:02:24.12
+
+Generator state:
+N/A
+
+
+
+***********************************************************
+HOST = gaianss, Linux
+
+stdin
+
+
+scomp_LempelZiv test:
+-----------------------------------------------
+   N = 10,  n = 134217728,  r =  0,   s =   30,   k =   27
+
+
+-----------------------------------------------
+
+Kolmogorov-Smirnov+ statistic = D+    :    0.10
+p-value of test                       :    0.76
+
+Kolmogorov-Smirnov- statistic = D-    :    0.35
+p-value of test                       :    0.06
+
+Anderson-Darling statistic = A2       :    1.77
+p-value of test                       :    0.12
+
+Tests on the sum of all N observations
+Standardized normal statistic         :    1.40
+p-value of test                       :    0.08
+
+Sample variance                       :    0.75
+p-value of test                       :    0.67
+
+-----------------------------------------------
+CPU time used                    :  00:01:00.18
+
+Generator state:
+N/A
+
+
+
+***********************************************************
+HOST = gaianss, Linux
+
+stdin
+
+
+scomp_LempelZiv test:
+-----------------------------------------------
+   N = 10,  n = 134217728,  r = 15,   s =   15,   k =   27
+
+
+-----------------------------------------------
+
+Kolmogorov-Smirnov+ statistic = D+    :    0.19
+p-value of test                       :    0.44
+
+Kolmogorov-Smirnov- statistic = D-    :   0.065
+p-value of test                       :    0.88
+
+Anderson-Darling statistic = A2       :    0.56
+p-value of test                       :    0.69
+
+Tests on the sum of all N observations
+Standardized normal statistic         :   -0.78
+p-value of test                       :    0.78
+
+Sample variance                       :    0.92
+p-value of test                       :    0.51
+
+-----------------------------------------------
+CPU time used                    :  00:01:06.23
+
+Generator state:
+N/A
+
+
+
+***********************************************************
+HOST = gaianss, Linux
+
+stdin
+
+
+sspectral_Fourier3 test:
+-----------------------------------------------
+   N = 100000,  n = 16384,  r =  0,   s =    3,   k =   14
+
+
+-----------------------------------------------
+
+Kolmogorov-Smirnov+ statistic = D+    :   0.010
+p-value of test                       :    0.43
+
+Kolmogorov-Smirnov- statistic = D-    : 4.09e-3
+p-value of test                       :    0.87
+
+Anderson-Darling statistic = A2       :    0.68
+p-value of test                       :    0.58
+
+-----------------------------------------------
+CPU time used                    :  00:00:47.78
+
+Generator state:
+N/A
+
+
+
+***********************************************************
+HOST = gaianss, Linux
+
+stdin
+
+
+sspectral_Fourier3 test:
+-----------------------------------------------
+   N = 100000,  n = 16384,  r = 27,   s =    3,   k =   14
+
+
+-----------------------------------------------
+
+Kolmogorov-Smirnov+ statistic = D+    : 8.32e-3
+p-value of test                       :    0.56
+
+Kolmogorov-Smirnov- statistic = D-    : 5.56e-3
+p-value of test                       :    0.77
+
+Anderson-Darling statistic = A2       :    0.29
+p-value of test                       :    0.95
+
+-----------------------------------------------
+CPU time used                    :  00:00:47.13
+
+Generator state:
+N/A
+
+
+
+***********************************************************
+HOST = gaianss, Linux
+
+stdin
+
+
+sstring_LongestHeadRun test:
+-----------------------------------------------
+   N =  1,  n = 1000,  r =  0,   s = 3,   L = 10000020
+
+
+-----------------------------------------------
+Number of degrees of freedom          :    8
+Chi-square statistic                  :    9.30
+p-value of test                       :    0.32
+
+-----------------------------------------------
+Global longest run of 1               :   32.00
+p-value of test                       :    0.50
+
+
+
+-----------------------------------------------
+CPU time used                    :  00:01:41.18
+
+Generator state:
+N/A
+
+
+
+***********************************************************
+HOST = gaianss, Linux
+
+stdin
+
+
+sstring_LongestHeadRun test:
+-----------------------------------------------
+   N =  1,  n = 1000,  r = 27,   s = 3,   L = 10000020
+
+
+-----------------------------------------------
+Number of degrees of freedom          :    8
+Chi-square statistic                  :   10.47
+p-value of test                       :    0.23
+
+-----------------------------------------------
+Global longest run of 1               :   30.00
+p-value of test                       :    0.90
+
+
+
+-----------------------------------------------
+CPU time used                    :  00:01:43.10
+
+Generator state:
+N/A
+
+
+
+***********************************************************
+HOST = gaianss, Linux
+
+stdin
+
+
+sstring_PeriodsInStrings test:
+-----------------------------------------------
+   N = 10,  n = 500000000,  r =  0,   s =   10
+
+
+-----------------------------------------------
+
+Kolmogorov-Smirnov+ statistic = D+    :    0.30
+p-value of test                       :    0.13
+
+Kolmogorov-Smirnov- statistic = D-    :    0.10
+p-value of test                       :    0.76
+
+Anderson-Darling statistic = A2       :    1.45
+p-value of test                       :    0.19
+
+Test on the sum of all N observations
+Number of degrees of freedom          :  200
+Chi-square statistic                  :  173.14
+p-value of test                       :    0.92
+
+-----------------------------------------------
+CPU time used                    :  00:02:47.20
+
+Generator state:
+N/A
+
+
+
+***********************************************************
+HOST = gaianss, Linux
+
+stdin
+
+
+sstring_PeriodsInStrings test:
+-----------------------------------------------
+   N = 10,  n = 500000000,  r = 20,   s =   10
+
+
+-----------------------------------------------
+
+Kolmogorov-Smirnov+ statistic = D+    :   0.048
+p-value of test                       :    0.93
+
+Kolmogorov-Smirnov- statistic = D-    :    0.31
+p-value of test                       :    0.11
+
+Anderson-Darling statistic = A2       :    2.44
+p-value of test                       :    0.05
+
+Test on the sum of all N observations
+Number of degrees of freedom          :  200
+Chi-square statistic                  :  243.67
+p-value of test                       :    0.02
+
+-----------------------------------------------
+CPU time used                    :  00:02:49.40
+
+Generator state:
+N/A
+
+
+
+***********************************************************
+HOST = gaianss, Linux
+
+stdin
+
+
+sstring_HammingWeight2 test:
+-----------------------------------------------
+   N = 10,  n = 1000000000,  r =  0,   s = 3,   L = 1000000
+
+
+-----------------------------------------------
+
+Kolmogorov-Smirnov+ statistic = D+    :    0.34
+p-value of test                       :    0.08
+
+Kolmogorov-Smirnov- statistic = D-    :   0.014
+p-value of test                       :    0.98
+
+Anderson-Darling statistic = A2       :    1.73
+p-value of test                       :    0.13
+
+Test on the sum of all N observations
+Number of degrees of freedom          : 10000
+Chi-square statistic                  : 9755.01
+p-value of test                       :    0.96
+
+-----------------------------------------------
+CPU time used                    :  00:01:05.84
+
+Generator state:
+N/A
+
+
+
+***********************************************************
+HOST = gaianss, Linux
+
+stdin
+
+
+sstring_HammingWeight2 test:
+-----------------------------------------------
+   N = 10,  n = 1000000000,  r = 27,   s = 3,   L = 1000000
+
+
+-----------------------------------------------
+
+Kolmogorov-Smirnov+ statistic = D+    :   0.089
+p-value of test                       :    0.81
+
+Kolmogorov-Smirnov- statistic = D-    :    0.40
+p-value of test                       :    0.03
+
+Anderson-Darling statistic = A2       :    2.00
+p-value of test                       :    0.09
+
+Test on the sum of all N observations
+Number of degrees of freedom          : 10000
+Chi-square statistic                  :10219.87
+p-value of test                       :    0.06
+
+-----------------------------------------------
+CPU time used                    :  00:01:06.29
+
+Generator state:
+N/A
+
+
+
+***********************************************************
+HOST = gaianss, Linux
+
+stdin
+
+
+sstring_HammingCorr test:
+-----------------------------------------------
+   N =  1,  n = 1000000000,  r = 10,   s = 10,   L = 30
+
+
+
+-----------------------------------------------
+Normal statistic                      :    0.47
+p-value of test                       :    0.32
+
+-----------------------------------------------
+CPU time used                    :  00:01:21.62
+
+Generator state:
+N/A
+
+
+
+***********************************************************
+HOST = gaianss, Linux
+
+stdin
+
+
+sstring_HammingCorr test:
+-----------------------------------------------
+   N =  1,  n = 100000000,  r = 10,   s = 10,   L = 300
+
+
+
+-----------------------------------------------
+Normal statistic                      :   -0.40
+p-value of test                       :    0.66
+
+-----------------------------------------------
+CPU time used                    :  00:01:19.22
+
+Generator state:
+N/A
+
+
+
+***********************************************************
+HOST = gaianss, Linux
+
+stdin
+
+
+sstring_HammingCorr test:
+-----------------------------------------------
+   N =  1,  n = 100000000,  r = 10,   s = 10,   L = 1200
+
+
+
+-----------------------------------------------
+Normal statistic                      :    0.57
+p-value of test                       :    0.28
+
+-----------------------------------------------
+CPU time used                    :  00:05:13.55
+
+Generator state:
+N/A
+
+
+
+***********************************************************
+HOST = gaianss, Linux
+
+stdin
+
+
+sstring_HammingIndep test:
+-----------------------------------------------
+   N = 10,  n = 30000000,  r =  0,   s = 3,   L = 30,   d = 0
+
+
+
+Counters with expected numbers >= 10
+-----------------------------------------------
+
+Kolmogorov-Smirnov+ statistic = D+    :    0.17
+p-value of test                       :    0.52
+
+Kolmogorov-Smirnov- statistic = D-    :    0.17
+p-value of test                       :    0.51
+
+Anderson-Darling statistic = A2       :    0.44
+p-value of test                       :    0.81
+
+Test on the sum of all N observations
+Number of degrees of freedom          : 4890
+Chi-square statistic                  : 4866.90
+p-value of test                       :    0.59
+
+-----------------------------------------------
+CPU time used                    :  00:02:09.53
+
+Generator state:
+N/A
+
+
+
+***********************************************************
+HOST = gaianss, Linux
+
+stdin
+
+
+sstring_HammingIndep test:
+-----------------------------------------------
+   N = 10,  n = 30000000,  r = 27,   s = 3,   L = 30,   d = 0
+
+
+
+Counters with expected numbers >= 10
+-----------------------------------------------
+
+Kolmogorov-Smirnov+ statistic = D+    :    0.42
+p-value of test                       :    0.02
+
+Kolmogorov-Smirnov- statistic = D-    :    0.13
+p-value of test                       :    0.67
+
+Anderson-Darling statistic = A2       :    2.27
+p-value of test                       :    0.07
+
+Test on the sum of all N observations
+Number of degrees of freedom          : 4890
+Chi-square statistic                  : 4778.52
+p-value of test                       :    0.87
+
+-----------------------------------------------
+CPU time used                    :  00:02:14.78
+
+Generator state:
+N/A
+
+
+
+***********************************************************
+HOST = gaianss, Linux
+
+stdin
+
+
+sstring_HammingIndep test:
+-----------------------------------------------
+   N =  1,  n = 30000000,  r =  0,   s = 4,   L = 300,   d = 0
+
+
+
+Counters with expected numbers >= 10
+-----------------------------------------------
+Number of degrees of freedom          : 4117
+Chi-square statistic                  : 4082.68
+p-value of test                       :    0.65
+
+-----------------------------------------------
+CPU time used                    :  00:01:35.68
+
+Generator state:
+N/A
+
+
+
+***********************************************************
+HOST = gaianss, Linux
+
+stdin
+
+
+sstring_HammingIndep test:
+-----------------------------------------------
+   N =  1,  n = 30000000,  r = 26,   s = 4,   L = 300,   d = 0
+
+
+
+Counters with expected numbers >= 10
+-----------------------------------------------
+Number of degrees of freedom          : 4117
+Chi-square statistic                  : 4075.73
+p-value of test                       :    0.67
+
+-----------------------------------------------
+CPU time used                    :  00:01:38.69
+
+Generator state:
+N/A
+
+
+
+***********************************************************
+HOST = gaianss, Linux
+
+stdin
+
+
+sstring_HammingIndep test:
+-----------------------------------------------
+   N =  1,  n = 10000000,  r =  0,   s = 5,   L = 1200,   d = 0
+
+
+
+Counters with expected numbers >= 10
+-----------------------------------------------
+Number of degrees of freedom          : 11825
+Chi-square statistic                  :11730.94
+p-value of test                       :    0.73
+
+-----------------------------------------------
+CPU time used                    :  00:01:45.01
+
+Generator state:
+N/A
+
+
+
+***********************************************************
+HOST = gaianss, Linux
+
+stdin
+
+
+sstring_HammingIndep test:
+-----------------------------------------------
+   N =  1,  n = 10000000,  r = 25,   s = 5,   L = 1200,   d = 0
+
+
+
+Counters with expected numbers >= 10
+-----------------------------------------------
+Number of degrees of freedom          : 11825
+Chi-square statistic                  :11627.85
+p-value of test                       :    0.90
+
+-----------------------------------------------
+CPU time used                    :  00:01:49.65
+
+Generator state:
+N/A
+
+
+
+***********************************************************
+HOST = gaianss, Linux
+
+stdin
+
+
+sstring_Run test:
+-----------------------------------------------
+   N =  1,  n = 2000000000,  r =  0,   s =    3
+
+
+-----------------------------------------------
+Total number of 1 runs:  2000000000
+
+Number of degrees of freedom          :   54
+Chi2 statistic for number of runs     :   57.88
+p-value of test                       :    0.33
+
+
+-----------------------------------------------
+Total number of bits:  8000019894
+
+Normal statistic for number of bits   :    0.16
+p-value of test                       :    0.44
+
+
+
+-----------------------------------------------
+CPU time used                    :  00:01:22.90
+
+Generator state:
+N/A
+
+
+
+***********************************************************
+HOST = gaianss, Linux
+
+stdin
+
+
+sstring_Run test:
+-----------------------------------------------
+   N =  1,  n = 2000000000,  r = 27,   s =    3
+
+
+-----------------------------------------------
+Total number of 1 runs:  2000000000
+
+Number of degrees of freedom          :   54
+Chi2 statistic for number of runs     :   74.00
+p-value of test                       :    0.04
+
+
+-----------------------------------------------
+Total number of bits:  8000149914
+
+Normal statistic for number of bits   :    1.19
+p-value of test                       :    0.12
+
+
+
+-----------------------------------------------
+CPU time used                    :  00:01:25.45
+
+Generator state:
+N/A
+
+
+
+***********************************************************
+HOST = gaianss, Linux
+
+stdin
+
+
+sstring_AutoCor test:
+-----------------------------------------------
+   N = 10,  n = 1000000030,  r =  0,   s = 3,   d = 1
+
+
+-----------------------------------------------
+
+Kolmogorov-Smirnov+ statistic = D+    :    0.13
+p-value of test                       :    0.68
+
+Kolmogorov-Smirnov- statistic = D-    :    0.17
+p-value of test                       :    0.50
+
+Anderson-Darling statistic = A2       :    0.49
+p-value of test                       :    0.75
+
+Tests on the sum of all N observations
+Standardized normal statistic         :    0.54
+p-value of test                       :    0.29
+
+Sample variance                       :    0.81
+p-value of test                       :    0.60
+
+-----------------------------------------------
+CPU time used                    :  00:02:48.04
+
+Generator state:
+N/A
+
+
+
+***********************************************************
+HOST = gaianss, Linux
+
+stdin
+
+
+sstring_AutoCor test:
+-----------------------------------------------
+   N = 10,  n = 1000000029,  r =  0,   s = 3,   d = 3
+
+
+-----------------------------------------------
+
+Kolmogorov-Smirnov+ statistic = D+    :    0.25
+p-value of test                       :    0.24
+
+Kolmogorov-Smirnov- statistic = D-    :    0.14
+p-value of test                       :    0.63
+
+Anderson-Darling statistic = A2       :    0.78
+p-value of test                       :    0.49
+
+Tests on the sum of all N observations
+Standardized normal statistic         :   -0.41
+p-value of test                       :    0.66
+
+Sample variance                       :    0.35
+p-value of test                       :    0.96
+
+-----------------------------------------------
+CPU time used                    :  00:02:31.56
+
+Generator state:
+N/A
+
+
+
+***********************************************************
+HOST = gaianss, Linux
+
+stdin
+
+
+sstring_AutoCor test:
+-----------------------------------------------
+   N = 10,  n = 1000000030,  r = 27,   s = 3,   d = 1
+
+
+-----------------------------------------------
+
+Kolmogorov-Smirnov+ statistic = D+    :    0.20
+p-value of test                       :    0.41
+
+Kolmogorov-Smirnov- statistic = D-    :   0.064
+p-value of test                       :    0.89
+
+Anderson-Darling statistic = A2       :    0.44
+p-value of test                       :    0.80
+
+Tests on the sum of all N observations
+Standardized normal statistic         :   -0.65
+p-value of test                       :    0.74
+
+Sample variance                       :    1.14
+p-value of test                       :    0.33
+
+-----------------------------------------------
+CPU time used                    :  00:02:46.59
+
+Generator state:
+N/A
+
+
+
+***********************************************************
+HOST = gaianss, Linux
+
+stdin
+
+
+sstring_AutoCor test:
+-----------------------------------------------
+   N = 10,  n = 1000000029,  r = 27,   s = 3,   d = 3
+
+
+-----------------------------------------------
+
+Kolmogorov-Smirnov+ statistic = D+    :    0.20
+p-value of test                       :    0.41
+
+Kolmogorov-Smirnov- statistic = D-    :    0.27
+p-value of test                       :    0.20
+
+Anderson-Darling statistic = A2       :    0.77
+p-value of test                       :    0.50
+
+Tests on the sum of all N observations
+Standardized normal statistic         : 3.76e-3
+p-value of test                       :    0.50
+
+Sample variance                       :    0.82
+p-value of test                       :    0.60
+
+-----------------------------------------------
+CPU time used                    :  00:02:24.22
+
+Generator state:
+N/A
+
+
+
+
+========= Summary results of BigCrush =========
+
+ Version:          TestU01 1.2.3
+ Generator:        stdin
+ Number of statistics:  160
+ Total CPU time:   04:21:23.01
+ The following tests gave p-values outside [0.001, 0.9990]:
+ (eps  means a value < 1.0e-300):
+ (eps1 means a value < 1.0e-15):
+
+       Test                          p-value
+ ----------------------------------------------
+ 26  SimpPoker, r = 0                0.9999 
+ 78  RandomWalk1 H (L=10000, r=0)    8.6e-4
+ ----------------------------------------------
+ All other tests were passed
+
+
+
+# 
+# Test duration: 1358.10906162945 minutes
+# 

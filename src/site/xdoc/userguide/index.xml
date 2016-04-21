@@ -183,6 +183,13 @@
             <li><a href="exceptions.html#a19.4_Features">19.4 Features</a></li>
           </ul>
         </li>
+        <li><a href="rng.html">20. Random Number Generators</a>
+          <ul>
+           <li><a href="rng.html#a20.1_Overview">20.1 Overview</a></li>
+           <li><a href="rng.html#a20.2_Performance">20.2 Performance</a></li>
+           <li><a href="rng.html#a20.3_Quality">20.3 Quality</a></li>
+          </ul>
+        </li>
         </ul>
       </section>
     
