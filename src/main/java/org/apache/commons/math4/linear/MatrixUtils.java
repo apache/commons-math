@@ -204,19 +204,16 @@ public class MatrixUtils {
     }
 
     /**
-     * Returns a diagonal matrix with specified elements.
+     * Creates a diagonal matrix with the specified diagonal elements.
      *
-     * @param diagonal diagonal elements of the matrix (the array elements
-     * will be copied)
-     * @return diagonal matrix
+     * @param diagonal Diagonal elements of the matrix.
+     * The array elements will be copied.
+     * @return a diagonal matrix instance.
+     *
      * @since 2.0
      */
-    public static RealMatrix createRealDiagonalMatrix(final double[] diagonal) {
-        final RealMatrix m = createRealMatrix(diagonal.length, diagonal.length);
-        for (int i = 0; i < diagonal.length; ++i) {
-            m.setEntry(i, i, diagonal[i]);
-        }
-        return m;
+    public static DiagonalMatrix createRealDiagonalMatrix(final double[] diagonal) {
+        return new DiagonalMatrix(diagonal, true);
     }
 
     /**
