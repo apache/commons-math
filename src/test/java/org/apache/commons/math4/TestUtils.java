@@ -119,10 +119,8 @@ public class TestUtils {
             ByteArrayInputStream bis = new ByteArrayInputStream(bos.toByteArray());
             ObjectInputStream si = new ObjectInputStream(bis);
             return si.readObject();
-        } catch (IOException ioe) {
-            return null;
-        } catch (ClassNotFoundException cnfe) {
-            return null;
+        } catch (Exception e) {
+            throw new RuntimeException(e);
         }
     }
 
