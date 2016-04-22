@@ -210,10 +210,29 @@ public class MatrixUtils {
      * The array elements will be copied.
      * @return a diagonal matrix instance.
      *
+     * @see #createRealMatrixWithDiagonal(double[])
      * @since 2.0
      */
     public static DiagonalMatrix createRealDiagonalMatrix(final double[] diagonal) {
         return new DiagonalMatrix(diagonal, true);
+    }
+
+    /**
+     * Creates a dense matrix with the specified diagonal elements.
+     *
+     * @param diagonal Diagonal elements of the matrix.
+     * @return a matrix instance.
+     *
+     * @see #createRealDiagonalMatrix(double[])
+     * @since 4.0
+     */
+    public static RealMatrix createRealMatrixWithDiagonal(final double[] diagonal) {
+        final int size = diagonal.length;
+        final RealMatrix m = createRealMatrix(size, size);
+        for (int i = 0; i < size; i++) {
+            m.setEntry(i, i, diagonal[i]);
+        }
+        return m;
     }
 
     /**

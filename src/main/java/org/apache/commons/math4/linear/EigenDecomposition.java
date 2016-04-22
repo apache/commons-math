@@ -189,7 +189,7 @@ public class EigenDecomposition {
 
         if (cachedD == null) {
             // cache the matrix for subsequent calls
-            cachedD = MatrixUtils.createRealDiagonalMatrix(realEigenvalues);
+            cachedD = MatrixUtils.createRealMatrixWithDiagonal(realEigenvalues);
 
             for (int i = 0; i < imagEigenvalues.length; i++) {
                 if (Precision.compareTo(imagEigenvalues[i], 0.0, EPSILON) > 0) {
