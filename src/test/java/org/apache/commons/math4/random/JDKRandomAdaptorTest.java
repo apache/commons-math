@@ -80,9 +80,14 @@ public class JDKRandomAdaptorTest {
         Assert.assertEquals(withoutReseed, withReseed, 0);
     }
 
-    @Test(expected=MathUnsupportedOperationException.class)
+    @Test
     public void testSerializeIsNotSupported() {
-        TestUtils.serializeAndRecover(new JDKRandomAdaptor(RandomSource.create(RandomSource.WELL_512_A)));
+        try {
+            TestUtils.serializeAndRecover(new JDKRandomAdaptor(RandomSource.create(RandomSource.WELL_512_A)));
+        } catch (Exception e) {
+            Throwable cause = e.getCause();
+            Assert.assertTrue(cause instanceof MathUnsupportedOperationException);
+        }
     }
 
     /**
