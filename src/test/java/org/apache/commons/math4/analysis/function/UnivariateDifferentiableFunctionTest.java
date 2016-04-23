@@ -165,8 +165,6 @@ public class UnivariateDifferentiableFunctionTest {
         Assert.assertEquals(1/(a*FastMath.log(10)), log10.value(new DerivativeStructure(1,1,0,a)).getPartialDerivative(1), EPS);
     }
 
-    //TODO: pick up here
-
     @Test
     public void testLog1p() {
         Log1p log1p = new Log1p();
