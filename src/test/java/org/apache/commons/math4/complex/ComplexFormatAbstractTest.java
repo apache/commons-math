@@ -356,7 +356,7 @@ public abstract class ComplexFormatAbstractTest {
 
     @Test
     public void testFormatObjectStringBufferFieldPositionWithComplex() {
-        ComplexFormat cf = ComplexFormat.getInstance();
+        ComplexFormat cf = ComplexFormat.getInstance(getLocale());
         String source = "1" + getDecimalCharacter() + "23 + 1" + getDecimalCharacter() + "43i";
         Object expected = new Complex(1.23, 1.43);
         String formatted = cf.format(expected, new StringBuffer(), new FieldPosition(0)).toString();
@@ -365,7 +365,7 @@ public abstract class ComplexFormatAbstractTest {
 
     @Test
     public void testFormatObjectStringBufferFieldPositionWitNumber() {
-        ComplexFormat cf = ComplexFormat.getInstance();
+        ComplexFormat cf = ComplexFormat.getInstance(getLocale());
         String source = "1" + getDecimalCharacter() + "23";
         Number expected = new Double(1.23);
         String formatted = cf.format(expected, new StringBuffer(), new FieldPosition(0)).toString();
