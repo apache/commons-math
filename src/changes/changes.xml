@@ -54,6 +54,9 @@ If the output is not quite correct, check for invisible trailing spaces!
     </release>
 
     <release version="4.0" date="XXXX-XX-XX" description="">
+      <action dev="erans" type="add" issue="MATH-1350" due-to="Rob Tompkins">
+        Improved code coverage (unit tests).
+      </action>
       <action dev="erans" type="add" issue="MATH-1335">
         Refactoring of uniform random number generator functionality: new API
         implemented in package "o.a.c.m.rng".
