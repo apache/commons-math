@@ -223,6 +223,23 @@ If the output is not quite correct, check for invisible trailing spaces!
       </action>
     </release>
 
+    <release version="3.6.1" date="2016-03-21" description="
+This is a minor bug fix release. It incorporates three bug fixes since version 3.6.
+
+The minimum version of the Java platform required to compile and use
+ Commons Math 3.6.1 is Java 5.
+">
+      <action dev="psteitz" type="update" issue="MATH-1317">
+        Add uniformity unit tests to "RandomGeneratorAbstractTest".
+      </action>
+      <action dev="psteitz" type="fix" issue="MATH-1316">
+        Fix code example in User Guide > Statistics > Multiple linear regression.
+      </action>
+      <action dev="evan" type="fix" issue="MATH-1342">
+        Fix ODE integrators when multiple events are nearly simultaneous.
+      </action>
+    </release>
+
     <release version="3.6" date="2016-01-05" description="
 This is a minor release: It combines bug fixes and new features.
  Changes to existing features were made in a backwards-compatible
