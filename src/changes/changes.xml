@@ -54,6 +54,10 @@ If the output is not quite correct, check for invisible trailing spaces!
     </release>
 
     <release version="4.0" date="XXXX-XX-XX" description="">
+      <action dev="erans" type="update" issue="MATH-1318" due-to="Eric Prescott-Gagnon">
+        "o.a.c.m.special.Gamma.digamma": Improved performance (through the use of
+        the reflection formula for negative arguments).
+      </action>
       <action dev="erans" type="add" issue="MATH-1350" due-to="Rob Tompkins">
         Improved code coverage (unit tests).
       </action>
