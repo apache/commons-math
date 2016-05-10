@@ -436,7 +436,7 @@ public class Gamma {
      * 0 < x < 10^-5 and within 10^-8 absolute tolerance otherwise.</p>
      *
      * @param x Argument.
-     * @return digamma(x) to within 10-8 relative or absolute error whichever is larger.
+     * @return digamma(x) to within 10^-8 relative or absolute error whichever is larger.
      * @see <a href="http://en.wikipedia.org/wiki/Digamma_function">Digamma</a>
      * @see <a href="http://www.uv.es/~bernardo/1976AppStatist.pdf">Bernardo&apos;s original article </a>
      * @since 2.0
@@ -480,7 +480,7 @@ public class Gamma {
      * of digamma.
      *
      * @param x Argument.
-     * @return trigamma(x) to within 10-8 relative or absolute error whichever is smaller
+     * @return trigamma(x) to within 10^-8 relative or absolute error whichever is smaller
      * @see <a href="http://en.wikipedia.org/wiki/Trigamma_function">Trigamma</a>
      * @see Gamma#digamma(double)
      * @since 2.0
