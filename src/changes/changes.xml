@@ -54,6 +54,9 @@ If the output is not quite correct, check for invisible trailing spaces!
     </release>
 
     <release version="4.0" date="XXXX-XX-XX" description="">
+      <action dev="erans" type="add" issue="MATH-1015" due-to="Thomas Neidhart">
+        Gauss-Laguerre quadrature.
+      </action>
       <action dev="erans" type="add" issue="MATH-1350" due-to="Rob Tompkins">
         Improved code coverage (unit tests).
       </action>
@@ -141,35 +144,35 @@ If the output is not quite correct, check for invisible trailing spaces!
         "MathRuntimeException" is now the base class for all commons-math
         exceptions (except for "NullArgumentException" which extends
         "NullPointerException").
-      </action>    
+      </action>
       <action dev="tn" type="remove" issue="MATH-1205">
         Removed methods "test(...)" from "AbstractUnivariateStatistic".
         The already existing methods "MathArrays#verifyValues(...)" shall
         be used instead.
-      </action>    
+      </action>
       <action dev="tn" type="update" issue="MATH-1205">
         The abstract class "AbstractStorelessUnivariateStatistic" does not
         extend anymore from "AbstractUnivariateStatistic".
-      </action>    
+      </action>
       <action dev="tn" type="update" issue="MATH-1205">
         Default implementation of
         "AbstractStorelessUnivariateStatistic#equals(Object)"
         will only return true if both instances have the same type. Previously
         different statistics were considered to be equal if their current state
         happened to be equal.
-      </action>    
+      </action>
       <action dev="tn" type="update" issue="MATH-1205">
         Default implementations of "AbstractStorelessUnivariateStatistic#evaluate(...)"
         do not alter the internal state anymore. Instead a temporary copy of
         the statistic is created for evaluation purposes.
-      </action>    
+      </action>
       <action dev="tn" type="fix" issue="MATH-1205">
         Methods "evaluate(...)" of class "Variance" changed the internal state
         although it was stated differently in the javadoc.
       </action>
       <action dev="luc" type="fix" issue="MATH-1191">
         Fixed ignored method parameters in QRDecomposition protected methods.
-      </action>    
+      </action>
       <action dev="luc" type="fix" issue="MATH-1212">
         Changed javadoc as the RandomDataGenerator class does not implement
         an interface anymore (the previous interface has been deprecated in
