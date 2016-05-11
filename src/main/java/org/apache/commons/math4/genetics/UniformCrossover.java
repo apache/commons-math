@@ -23,7 +23,7 @@ import org.apache.commons.math4.exception.DimensionMismatchException;
 import org.apache.commons.math4.exception.MathIllegalArgumentException;
 import org.apache.commons.math4.exception.OutOfRangeException;
 import org.apache.commons.math4.exception.util.LocalizedFormats;
-import org.apache.commons.math4.random.RandomGenerator;
+import org.apache.commons.math4.rng.UniformRandomProvider;
 
 /**
  * Perform Uniform Crossover [UX] on the specified chromosomes. A fixed mixing
@@ -115,7 +115,7 @@ public class UniformCrossover<T> implements CrossoverPolicy {
         final List<T> child1Rep = new ArrayList<T>(length);
         final List<T> child2Rep = new ArrayList<T>(length);
 
-        final RandomGenerator random = GeneticAlgorithm.getRandomGenerator();
+        final UniformRandomProvider random = GeneticAlgorithm.getRandomGenerator();
 
         for (int index = 0; index < length; index++) {
 

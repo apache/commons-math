@@ -25,7 +25,7 @@ import java.util.Set;
 import org.apache.commons.math4.exception.DimensionMismatchException;
 import org.apache.commons.math4.exception.MathIllegalArgumentException;
 import org.apache.commons.math4.exception.util.LocalizedFormats;
-import org.apache.commons.math4.random.RandomGenerator;
+import org.apache.commons.math4.rng.UniformRandomProvider;
 import org.apache.commons.math4.util.FastMath;
 
 /**
@@ -103,7 +103,7 @@ public class OrderedCrossover<T> implements CrossoverPolicy {
         final Set<T> child1Set = new HashSet<T>(length);
         final Set<T> child2Set = new HashSet<T>(length);
 
-        final RandomGenerator random = GeneticAlgorithm.getRandomGenerator();
+        final UniformRandomProvider random = GeneticAlgorithm.getRandomGenerator();
         // choose random points, making sure that lb < ub.
         int a = random.nextInt(length);
         int b;
