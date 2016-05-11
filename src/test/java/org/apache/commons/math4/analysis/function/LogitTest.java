@@ -26,8 +26,8 @@ import org.apache.commons.math4.analysis.function.Sigmoid;
 import org.apache.commons.math4.exception.DimensionMismatchException;
 import org.apache.commons.math4.exception.NullArgumentException;
 import org.apache.commons.math4.exception.OutOfRangeException;
-import org.apache.commons.math4.random.RandomGenerator;
-import org.apache.commons.math4.random.Well1024a;
+import org.apache.commons.math4.rng.RandomSource;
+import org.apache.commons.math4.rng.UniformRandomProvider;
 import org.apache.commons.math4.util.FastMath;
 import org.junit.Assert;
 import org.junit.Test;
@@ -160,7 +160,8 @@ public class LogitTest {
         final double hi = 3;
         final Logit f = new Logit(lo, hi);
         final Sigmoid g = new Sigmoid(lo, hi);
-        RandomGenerator random = new Well1024a(0x49914cdd9f0b8db5l);
+        final UniformRandomProvider random = RandomSource.create(RandomSource.WELL_1024_A,
+                                                                 0x49914cdd9f0b8db5l);
         final UnivariateDifferentiableFunction id = FunctionUtils.compose((UnivariateDifferentiableFunction) g,
                                                                 (UnivariateDifferentiableFunction) f);
 
@@ -180,7 +181,8 @@ public class LogitTest {
         final double hi = 3;
         final Logit f = new Logit(lo, hi);
         final Sigmoid g = new Sigmoid(lo, hi);
-        RandomGenerator random = new Well1024a(0x96885e9c1f81cea5l);
+        final UniformRandomProvider random = RandomSource.create(RandomSource.WELL_1024_A,
+                                                                 0x96885e9c1f81cea6l);
         final UnivariateDifferentiableFunction id =
                 FunctionUtils.compose((UnivariateDifferentiableFunction) g, (UnivariateDifferentiableFunction) f);
         for (int maxOrder = 0; maxOrder < 6; ++maxOrder) {
@@ -190,7 +192,8 @@ public class LogitTest {
                 final DerivativeStructure dsX = new DerivativeStructure(1, maxOrder, 0, x);
                 max = FastMath.max(max, FastMath.abs(dsX.getPartialDerivative(maxOrder) -
                                                      id.value(dsX).getPartialDerivative(maxOrder)));
-                Assert.assertEquals(dsX.getPartialDerivative(maxOrder),
+                Assert.assertEquals("maxOrder = " + maxOrder,
+                                    dsX.getPartialDerivative(maxOrder),
                                     id.value(dsX).getPartialDerivative(maxOrder),
                                     epsilon[maxOrder]);
             }
