@@ -16,8 +16,8 @@
  */
 package org.apache.commons.math4.random;
 
-import org.apache.commons.math4.random.JDKRandomGenerator;
-import org.apache.commons.math4.random.RandomGenerator;
+import org.apache.commons.math4.rng.RandomSource;
+import org.apache.commons.math4.rng.UniformRandomProvider;
 import org.apache.commons.math4.random.UnitSphereRandomVectorGenerator;
 import org.apache.commons.math4.util.FastMath;
 import org.junit.Assert;
@@ -31,8 +31,7 @@ public class UnitSphereRandomVectorGeneratorTest {
     @Test
     public void test2DDistribution() {
 
-        RandomGenerator rg = new JDKRandomGenerator();
-        rg.setSeed(17399225432l);
+        UniformRandomProvider rg = RandomSource.create(RandomSource.XOR_SHIFT_1024_S, 17399225432L);
         UnitSphereRandomVectorGenerator generator = new UnitSphereRandomVectorGenerator(2, rg);
 
         // In 2D, angles with a given vector should be uniformly distributed

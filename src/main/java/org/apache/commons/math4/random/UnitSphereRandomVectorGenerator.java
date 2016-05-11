@@ -17,6 +17,10 @@
 
 package org.apache.commons.math4.random;
 
+import org.apache.commons.math4.rng.RandomSource;
+import org.apache.commons.math4.rng.UniformRandomProvider;
+import org.apache.commons.math4.distribution.RealDistribution;
+import org.apache.commons.math4.distribution.NormalDistribution;
 import org.apache.commons.math4.util.FastMath;
 
 
@@ -28,9 +32,9 @@ import org.apache.commons.math4.util.FastMath;
 public class UnitSphereRandomVectorGenerator
     implements RandomVectorGenerator {
     /**
-     * RNG used for generating the individual components of the vectors.
+     * Sampler used for generating the individual components of the vectors.
      */
-    private final RandomGenerator rand;
+    private final RealDistribution.Sampler rand;
     /**
      * Space dimension.
      */
@@ -38,12 +42,12 @@ public class UnitSphereRandomVectorGenerator
 
     /**
      * @param dimension Space dimension.
-     * @param rand RNG for the individual components of the vectors.
+     * @param rng RNG for the individual components of the vectors.
      */
     public UnitSphereRandomVectorGenerator(final int dimension,
-                                           final RandomGenerator rand) {
+                                           final UniformRandomProvider rng) {
         this.dimension = dimension;
-        this.rand = rand;
+        this.rand = new NormalDistribution().createSampler(rng);
     }
     /**
      * Create an object that will use a default RNG ({@link MersenneTwister}),
@@ -52,7 +56,7 @@ public class UnitSphereRandomVectorGenerator
      * @param dimension Space dimension.
      */
     public UnitSphereRandomVectorGenerator(final int dimension) {
-        this(dimension, new MersenneTwister());
+        this(dimension, RandomSource.create(RandomSource.MT_64));
     }
 
     /** {@inheritDoc} */
@@ -65,7 +69,7 @@ public class UnitSphereRandomVectorGenerator
         // normalizing to unit length.
         double normSq = 0;
         for (int i = 0; i < dimension; i++) {
-            final double comp = rand.nextGaussian();
+            final double comp = rand.sample();
             v[i] = comp;
             normSq += comp * comp;
         }

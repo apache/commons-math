@@ -30,7 +30,8 @@ import org.apache.commons.math4.geometry.spherical.twod.S2Point;
 import org.apache.commons.math4.geometry.spherical.twod.Sphere2D;
 import org.apache.commons.math4.random.RandomGenerator;
 import org.apache.commons.math4.random.UnitSphereRandomVectorGenerator;
-import org.apache.commons.math4.random.Well1024a;
+import org.apache.commons.math4.rng.UniformRandomProvider;
+import org.apache.commons.math4.rng.RandomSource;
 import org.apache.commons.math4.util.FastMath;
 import org.apache.commons.math4.util.MathUtils;
 import org.junit.Assert;
@@ -135,8 +136,8 @@ public class CircleTest {
 
     @Test
     public void testInsideArc() {
-        RandomGenerator random = new Well1024a(0xbfd34e92231bbcfel);
-        UnitSphereRandomVectorGenerator sphRandom = new UnitSphereRandomVectorGenerator(3, random);
+        UnitSphereRandomVectorGenerator sphRandom = new UnitSphereRandomVectorGenerator(3, RandomSource.create(RandomSource.WELL_1024_A,
+                                                                                                               0xbfd34e92231bbcfel));
         for (int i = 0; i < 100; ++i) {
             Circle c1 = new Circle(new Vector3D(sphRandom.nextVector()), 1.0e-10);
             Circle c2 = new Circle(new Vector3D(sphRandom.nextVector()), 1.0e-10);
@@ -158,7 +159,8 @@ public class CircleTest {
 
     @Test
     public void testTransform() {
-        RandomGenerator random = new Well1024a(0x16992fc4294bf2f1l);
+        UniformRandomProvider random = RandomSource.create(RandomSource.WELL_1024_A,
+                                                           0x16992fc4294bf2f1l);
         UnitSphereRandomVectorGenerator sphRandom = new UnitSphereRandomVectorGenerator(3, random);
         for (int i = 0; i < 100; ++i) {
 

@@ -26,9 +26,9 @@ import org.apache.commons.math4.geometry.enclosing.WelzlEncloser;
 import org.apache.commons.math4.geometry.euclidean.threed.Euclidean3D;
 import org.apache.commons.math4.geometry.euclidean.threed.SphereGenerator;
 import org.apache.commons.math4.geometry.euclidean.threed.Vector3D;
-import org.apache.commons.math4.random.RandomGenerator;
 import org.apache.commons.math4.random.UnitSphereRandomVectorGenerator;
-import org.apache.commons.math4.random.Well1024a;
+import org.apache.commons.math4.rng.UniformRandomProvider;
+import org.apache.commons.math4.rng.RandomSource;
 import org.junit.Assert;
 import org.junit.Test;
 
@@ -104,7 +104,8 @@ public class WelzlEncloser3DTest {
 
     @Test
     public void testLargeSamples() throws IOException {
-        RandomGenerator random = new Well1024a(0x35ddecfc78131e1dl);
+        final UniformRandomProvider random = RandomSource.create(RandomSource.WELL_1024_A,
+                                                                 0x35ddecfc78131e1dl);
         final UnitSphereRandomVectorGenerator sr = new UnitSphereRandomVectorGenerator(3, random);
         for (int k = 0; k < 50; ++k) {
 
