@@ -26,7 +26,8 @@ import org.apache.commons.math4.analysis.differentiation.DerivativeStructure;
 import org.apache.commons.math4.analysis.polynomials.PolynomialFunction;
 import org.apache.commons.math4.exception.DimensionMismatchException;
 import org.apache.commons.math4.exception.NumberIsTooLargeException;
-import org.apache.commons.math4.random.Well1024a;
+import org.apache.commons.math4.rng.UniformRandomProvider;
+import org.apache.commons.math4.rng.RandomSource;
 import org.apache.commons.math4.util.ArithmeticUtils;
 import org.apache.commons.math4.util.CombinatoricsUtils;
 import org.apache.commons.math4.util.FastMath;
@@ -1447,7 +1448,7 @@ public class DerivativeStructureTest extends ExtendedFieldElementAbstractTest<De
     public void testLinearCombination2DSDS() {
         // we compare accurate versus naive dot product implementations
         // on regular vectors (i.e. not extreme cases like in the previous test)
-        Well1024a random = new Well1024a(0xc6af886975069f11l);
+        UniformRandomProvider random = RandomSource.create(RandomSource.WELL_1024_A, 0xc6af886975069f11l);
 
         for (int i = 0; i < 10000; ++i) {
             final DerivativeStructure[] u = new DerivativeStructure[4];
@@ -1491,7 +1492,7 @@ public class DerivativeStructureTest extends ExtendedFieldElementAbstractTest<De
     public void testLinearCombination2DoubleDS() {
         // we compare accurate versus naive dot product implementations
         // on regular vectors (i.e. not extreme cases like in the previous test)
-        Well1024a random = new Well1024a(0xc6af886975069f11l);
+        UniformRandomProvider random = RandomSource.create(RandomSource.WELL_1024_A, 0xc6af886975069f11l);
 
         for (int i = 0; i < 10000; ++i) {
             final double[] u = new double[4];
