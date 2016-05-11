@@ -19,10 +19,8 @@ import org.apache.commons.math4.exception.MathArithmeticException;
 import org.apache.commons.math4.exception.NotFiniteNumberException;
 import org.apache.commons.math4.exception.NullArgumentException;
 import org.apache.commons.math4.exception.util.LocalizedFormats;
-import org.apache.commons.math4.random.RandomDataGenerator;
+import org.apache.commons.math4.rng.UniformRandomProvider;
 import org.apache.commons.math4.rng.RandomSource;
-import org.apache.commons.math4.util.FastMath;
-import org.apache.commons.math4.util.MathUtils;
 import org.junit.Assert;
 import org.junit.Test;
 
@@ -97,23 +95,26 @@ public final class MathUtilsTest {
     public void testPermutedArrayHash() {
         double[] original = new double[10];
         double[] permuted = new double[10];
-        RandomDataGenerator random = new RandomDataGenerator();
+
+        final UniformRandomProvider random = RandomSource.create(RandomSource.WELL_512_A,
+                                                                 64925784252L);
 
         // Generate 10 distinct random values
         for (int i = 0; i < 10; i++) {
             final RealDistribution.Sampler u
-                = new UniformRealDistribution(i + 0.5, i + 0.75).createSampler(RandomSource.create(RandomSource.WELL_512_A,
-                                                                                                   64925784252L));
+                = new UniformRealDistribution(i + 0.5, i + 0.75).createSampler(random);
             original[i] = u.sample();
         }
 
         // Generate a random permutation, making sure it is not the identity
         boolean isIdentity = true;
         do {
-            int[] permutation = random.nextPermutation(10, 10);
+            int[] permutation = MathArrays.natural(10);
+            MathArrays.shuffle(permutation, random);
             for (int i = 0; i < 10; i++) {
                 if (i != permutation[i]) {
                     isIdentity = false;
+                    break;
                 }
                 permuted[i] = original[permutation[i]];
             }
