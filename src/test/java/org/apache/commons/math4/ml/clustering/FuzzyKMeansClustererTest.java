@@ -28,8 +28,8 @@ import org.apache.commons.math4.ml.clustering.DoublePoint;
 import org.apache.commons.math4.ml.clustering.FuzzyKMeansClusterer;
 import org.apache.commons.math4.ml.distance.CanberraDistance;
 import org.apache.commons.math4.ml.distance.DistanceMeasure;
-import org.apache.commons.math4.random.JDKRandomGenerator;
-import org.apache.commons.math4.random.RandomGenerator;
+import org.apache.commons.math4.rng.RandomSource;
+import org.apache.commons.math4.rng.UniformRandomProvider;
 import org.hamcrest.CoreMatchers;
 import org.junit.Assert;
 import org.junit.Test;
@@ -97,7 +97,7 @@ public class FuzzyKMeansClustererTest {
     @Test
     public void testGetters() {
         final DistanceMeasure measure = new CanberraDistance();
-        final RandomGenerator random = new JDKRandomGenerator();
+        final UniformRandomProvider random = RandomSource.create(RandomSource.MT_64);
         final FuzzyKMeansClusterer<DoublePoint> clusterer =
                 new FuzzyKMeansClusterer<DoublePoint>(3, 2.0, 100, measure, 1e-6, random);
 

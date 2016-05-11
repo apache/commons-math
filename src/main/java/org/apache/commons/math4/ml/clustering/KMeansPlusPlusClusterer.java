@@ -28,8 +28,8 @@ import org.apache.commons.math4.exception.NumberIsTooSmallException;
 import org.apache.commons.math4.exception.util.LocalizedFormats;
 import org.apache.commons.math4.ml.distance.DistanceMeasure;
 import org.apache.commons.math4.ml.distance.EuclideanDistance;
-import org.apache.commons.math4.random.JDKRandomGenerator;
-import org.apache.commons.math4.random.RandomGenerator;
+import org.apache.commons.math4.rng.RandomSource;
+import org.apache.commons.math4.rng.UniformRandomProvider;
 import org.apache.commons.math4.stat.descriptive.moment.Variance;
 import org.apache.commons.math4.util.MathUtils;
 
@@ -65,7 +65,7 @@ public class KMeansPlusPlusClusterer<T extends Clusterable> extends Clusterer<T>
     private final int maxIterations;
 
     /** Random generator for choosing initial centers. */
-    private final RandomGenerator random;
+    private final UniformRandomProvider random;
 
     /** Selected strategy for empty clusters. */
     private final EmptyClusterStrategy emptyStrategy;
@@ -109,7 +109,7 @@ public class KMeansPlusPlusClusterer<T extends Clusterable> extends Clusterer<T>
      * @param measure the distance measure to use
      */
     public KMeansPlusPlusClusterer(final int k, final int maxIterations, final DistanceMeasure measure) {
-        this(k, maxIterations, measure, new JDKRandomGenerator());
+        this(k, maxIterations, measure, RandomSource.create(RandomSource.MT_64));
     }
 
     /** Build a clusterer.
@@ -125,7 +125,7 @@ public class KMeansPlusPlusClusterer<T extends Clusterable> extends Clusterer<T>
      */
     public KMeansPlusPlusClusterer(final int k, final int maxIterations,
                                    final DistanceMeasure measure,
-                                   final RandomGenerator random) {
+                                   final UniformRandomProvider random) {
         this(k, maxIterations, measure, random, EmptyClusterStrategy.LARGEST_VARIANCE);
     }
 
@@ -141,7 +141,7 @@ public class KMeansPlusPlusClusterer<T extends Clusterable> extends Clusterer<T>
      */
     public KMeansPlusPlusClusterer(final int k, final int maxIterations,
                                    final DistanceMeasure measure,
-                                   final RandomGenerator random,
+                                   final UniformRandomProvider random,
                                    final EmptyClusterStrategy emptyStrategy) {
         super(measure);
         this.k             = k;
@@ -170,7 +170,7 @@ public class KMeansPlusPlusClusterer<T extends Clusterable> extends Clusterer<T>
      * Returns the random generator this instance will use.
      * @return the random generator
      */
-    public RandomGenerator getRandomGenerator() {
+    public UniformRandomProvider getRandomGenerator() {
         return random;
     }
 
