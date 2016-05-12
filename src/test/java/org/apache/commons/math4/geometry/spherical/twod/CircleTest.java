@@ -28,7 +28,6 @@ import org.apache.commons.math4.geometry.spherical.oned.SubLimitAngle;
 import org.apache.commons.math4.geometry.spherical.twod.Circle;
 import org.apache.commons.math4.geometry.spherical.twod.S2Point;
 import org.apache.commons.math4.geometry.spherical.twod.Sphere2D;
-import org.apache.commons.math4.random.RandomGenerator;
 import org.apache.commons.math4.random.UnitSphereRandomVectorGenerator;
 import org.apache.commons.math4.rng.UniformRandomProvider;
 import org.apache.commons.math4.rng.RandomSource;
