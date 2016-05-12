@@ -31,8 +31,7 @@ import org.apache.commons.math4.distribution.AbstractRealDistribution;
 import org.apache.commons.math4.exception.MathIllegalArgumentException;
 import org.apache.commons.math4.exception.NullArgumentException;
 import org.apache.commons.math4.exception.OutOfRangeException;
-import org.apache.commons.math4.random.RandomGenerator;
-import org.apache.commons.math4.random.Well19937c;
+import org.apache.commons.math4.rng.UniformRandomProvider;
 import org.apache.commons.math4.rng.RandomSource;
 import org.apache.commons.math4.stat.descriptive.StorelessUnivariateStatistic;
 import org.apache.commons.math4.stat.descriptive.StorelessUnivariateStatisticAbstractTest;
@@ -55,7 +54,7 @@ public class PSquarePercentileTest extends
     protected double percentile95 = 16.72195;// 20.82d; this is approximation
     protected double tolerance = 10E-12;
 
-    private final RandomGenerator randomGenerator = new Well19937c(1000);
+    private final UniformRandomProvider randomGenerator = RandomSource.create(RandomSource.WELL_19937_C, 1000);
 
     @Override
     public double getTolerance() {
