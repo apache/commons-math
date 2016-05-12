@@ -50,8 +50,8 @@ import org.apache.commons.math4.geometry.partitioning.RegionDumper;
 import org.apache.commons.math4.geometry.partitioning.RegionFactory;
 import org.apache.commons.math4.geometry.partitioning.RegionParser;
 import org.apache.commons.math4.geometry.partitioning.SubHyperplane;
-import org.apache.commons.math4.random.RandomGenerator;
-import org.apache.commons.math4.random.Well1024a;
+import org.apache.commons.math4.rng.UniformRandomProvider;
+import org.apache.commons.math4.rng.RandomSource;
 import org.apache.commons.math4.util.FastMath;
 import org.junit.Assert;
 import org.junit.Test;
@@ -440,7 +440,7 @@ public class PolyhedronsSetTest {
     public void testIssue1211() throws IOException, ParseException {
 
         PolyhedronsSet polyset = RegionParser.parsePolyhedronsSet(loadTestData("issue-1211.bsp"));
-        RandomGenerator random = new Well1024a(0xb97c9d1ade21e40al);
+        UniformRandomProvider random = RandomSource.create(RandomSource.WELL_1024_A, 0xb97c9d1ade21e40al);
         int nrays = 1000;
         for (int i = 0; i < nrays; i++) {
             Vector3D origin    = Vector3D.ZERO;

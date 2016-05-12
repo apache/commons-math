@@ -29,8 +29,8 @@ import org.apache.commons.math4.geometry.euclidean.twod.hull.ConvexHull2D;
 import org.apache.commons.math4.geometry.euclidean.twod.hull.ConvexHullGenerator2D;
 import org.apache.commons.math4.geometry.partitioning.Region;
 import org.apache.commons.math4.geometry.partitioning.Region.Location;
-import org.apache.commons.math4.random.MersenneTwister;
-import org.apache.commons.math4.random.RandomGenerator;
+import org.apache.commons.math4.rng.UniformRandomProvider;
+import org.apache.commons.math4.rng.RandomSource;
 import org.apache.commons.math4.util.FastMath;
 import org.apache.commons.math4.util.MathArrays;
 import org.apache.commons.math4.util.Precision;
@@ -45,7 +45,7 @@ import org.junit.Test;
 public abstract class ConvexHullGenerator2DAbstractTest {
 
     protected ConvexHullGenerator2D generator;
-    protected RandomGenerator random;
+    protected UniformRandomProvider random;
 
     protected abstract ConvexHullGenerator2D createConvexHullGenerator(boolean includeCollinearPoints);
 
@@ -58,7 +58,7 @@ public abstract class ConvexHullGenerator2DAbstractTest {
     public void setUp() {
         // by default, do not include collinear points
         generator = createConvexHullGenerator(false);
-        random = new MersenneTwister(10);
+        random = RandomSource.create(RandomSource.MT, 10);
     }
 
     // ------------------------------------------------------------------------------
