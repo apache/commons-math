@@ -19,7 +19,8 @@ package org.apache.commons.math4.stat.correlation;
 import org.apache.commons.math4.TestUtils;
 import org.apache.commons.math4.linear.Array2DRowRealMatrix;
 import org.apache.commons.math4.linear.RealMatrix;
-import org.apache.commons.math4.random.ISAACRandom;
+import org.apache.commons.math4.rng.UniformRandomProvider;
+import org.apache.commons.math4.rng.RandomSource;
 import org.apache.commons.math4.stat.correlation.StorelessBivariateCovariance;
 import org.apache.commons.math4.stat.correlation.StorelessCovariance;
 import org.junit.Assert;
@@ -235,7 +236,7 @@ public class StorelessCovarianceTest {
         StorelessBivariateCovariance cov = new StorelessBivariateCovariance();// covariance of the superset
         StorelessBivariateCovariance chk = new StorelessBivariateCovariance();// check covariance made by appending covariance of subsets
 
-        ISAACRandom rand = new ISAACRandom(10L);// Seed can be changed
+        final UniformRandomProvider rand = RandomSource.create(RandomSource.ISAAC, 10L);// Seed can be changed
         for (int s = 0; s < num_sets; s++) {// loop through sets of samlpes
             StorelessBivariateCovariance covs = new StorelessBivariateCovariance();
             for (int i = 0; i < 5; i++) { // loop through individual samlpes.
