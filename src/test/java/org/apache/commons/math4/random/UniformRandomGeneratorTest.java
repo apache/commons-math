@@ -18,8 +18,8 @@
 package org.apache.commons.math4.random;
 
 import org.apache.commons.math4.random.JDKRandomGenerator;
-import org.apache.commons.math4.random.RandomGenerator;
-import org.apache.commons.math4.random.UniformRandomGenerator;
+import org.apache.commons.math4.rng.UniformRandomProvider;
+import org.apache.commons.math4.rng.RandomSource;
 import org.apache.commons.math4.stat.StatUtils;
 import org.junit.Assert;
 import org.junit.Test;
@@ -29,8 +29,7 @@ public class UniformRandomGeneratorTest {
 
     @Test
     public void testMeanAndStandardDeviation() {
-        RandomGenerator rg = new JDKRandomGenerator();
-        rg.setSeed(17399225432l);
+        final UniformRandomProvider rg = RandomSource.create(RandomSource.ISAAC, 17399225432L);
         UniformRandomGenerator generator = new UniformRandomGenerator(rg);
         double[] sample = new double[10000];
         for (int i = 0; i < sample.length; ++i) {
@@ -39,5 +38,4 @@ public class UniformRandomGeneratorTest {
         Assert.assertEquals(0.0, StatUtils.mean(sample), 0.07);
         Assert.assertEquals(1.0, StatUtils.variance(sample), 0.02);
     }
-
 }
