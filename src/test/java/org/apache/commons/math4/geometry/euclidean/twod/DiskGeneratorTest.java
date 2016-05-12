@@ -24,7 +24,6 @@ import org.apache.commons.math4.geometry.enclosing.EnclosingBall;
 import org.apache.commons.math4.geometry.euclidean.twod.DiskGenerator;
 import org.apache.commons.math4.geometry.euclidean.twod.Euclidean2D;
 import org.apache.commons.math4.geometry.euclidean.twod.Vector2D;
-import org.apache.commons.math4.random.RandomGenerator;
 import org.apache.commons.math4.random.UnitSphereRandomVectorGenerator;
 import org.apache.commons.math4.rng.UniformRandomProvider;
 import org.apache.commons.math4.rng.RandomSource;
