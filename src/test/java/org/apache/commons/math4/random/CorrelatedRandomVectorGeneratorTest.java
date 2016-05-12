@@ -25,9 +25,9 @@ import org.apache.commons.math4.linear.MatrixUtils;
 import org.apache.commons.math4.linear.RealMatrix;
 import org.apache.commons.math4.random.CorrelatedRandomVectorGenerator;
 import org.apache.commons.math4.random.GaussianRandomGenerator;
-import org.apache.commons.math4.random.JDKRandomGenerator;
 import org.apache.commons.math4.random.NormalizedRandomGenerator;
-import org.apache.commons.math4.random.RandomGenerator;
+import org.apache.commons.math4.rng.UniformRandomProvider;
+import org.apache.commons.math4.rng.RandomSource;
 import org.apache.commons.math4.stat.correlation.StorelessCovariance;
 import org.apache.commons.math4.stat.descriptive.moment.VectorialCovariance;
 import org.apache.commons.math4.stat.descriptive.moment.VectorialMean;
@@ -61,9 +61,7 @@ public class CorrelatedRandomVectorGeneratorTest {
             }
         }
 
-        RandomGenerator rg = new JDKRandomGenerator();
-        rg.setSeed(17399225432l);
-        GaussianRandomGenerator rawGenerator = new GaussianRandomGenerator(rg);
+        GaussianRandomGenerator rawGenerator = new GaussianRandomGenerator(RandomSource.create(RandomSource.WELL_1024_A, 17399225432l));
         generator = new CorrelatedRandomVectorGenerator(mean,
                                                         covariance,
                                                         1.0e-12 * covariance.getNorm(),
@@ -85,9 +83,7 @@ public class CorrelatedRandomVectorGeneratorTest {
                 { 6, 2, -1, 197 }
         };
         RealMatrix covRM = MatrixUtils.createRealMatrix(cov);
-        JDKRandomGenerator jg = new JDKRandomGenerator();
-        jg.setSeed(5322145245211l);
-        NormalizedRandomGenerator rg = new GaussianRandomGenerator(jg);
+        NormalizedRandomGenerator rg = new GaussianRandomGenerator(RandomSource.create(RandomSource.WELL_1024_A, 5322145245211l));
         CorrelatedRandomVectorGenerator sg =
             new CorrelatedRandomVectorGenerator(mean, covRM, 0.00001, rg);
 
@@ -181,7 +177,7 @@ public class CorrelatedRandomVectorGeneratorTest {
                 new double[cov.length],
                 matrix,
                 small,
-                new GaussianRandomGenerator(new Well1024a(0x366a26b94e520f41l)));
+                new GaussianRandomGenerator(RandomSource.create(RandomSource.WELL_1024_A, 0x366a26b94e520f41l)));
     }
 
     private void testSampler(final double[][] covMatrix, int samples, double epsilon) {
@@ -196,7 +192,5 @@ public class CorrelatedRandomVectorGeneratorTest {
         for (int r = 0; r < covMatrix.length; ++r) {
             TestUtils.assertEquals(covMatrix[r], sampleCov[r], epsilon);
         }
-
     }
-
 }

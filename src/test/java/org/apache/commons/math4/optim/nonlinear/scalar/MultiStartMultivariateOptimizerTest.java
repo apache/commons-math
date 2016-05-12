@@ -30,8 +30,9 @@ import org.apache.commons.math4.optim.nonlinear.scalar.gradient.CircleScalar;
 import org.apache.commons.math4.optim.nonlinear.scalar.gradient.NonLinearConjugateGradientOptimizer;
 import org.apache.commons.math4.optim.nonlinear.scalar.noderiv.NelderMeadSimplex;
 import org.apache.commons.math4.optim.nonlinear.scalar.noderiv.SimplexOptimizer;
+import org.apache.commons.math4.rng.UniformRandomProvider;
+import org.apache.commons.math4.rng.RandomSource;
 import org.apache.commons.math4.random.GaussianRandomGenerator;
-import org.apache.commons.math4.random.JDKRandomGenerator;
 import org.apache.commons.math4.random.RandomVectorGenerator;
 import org.apache.commons.math4.random.UncorrelatedRandomVectorGenerator;
 import org.junit.Assert;
@@ -52,8 +53,7 @@ public class MultiStartMultivariateOptimizerTest {
         GradientMultivariateOptimizer underlying
             = new NonLinearConjugateGradientOptimizer(NonLinearConjugateGradientOptimizer.Formula.POLAK_RIBIERE,
                                                       new SimpleValueChecker(1e-10, 1e-10));
-        JDKRandomGenerator g = new JDKRandomGenerator();
-        g.setSeed(753289573253l);
+        UniformRandomProvider g = RandomSource.create(RandomSource.MT_64, 753289573253l);
         RandomVectorGenerator generator
             = new UncorrelatedRandomVectorGenerator(new double[] { 50, 50 },
                                                     new double[] { 10, 10 },
@@ -73,15 +73,12 @@ public class MultiStartMultivariateOptimizerTest {
         for (PointValuePair o : optima) {
             // we check the results of all intermediate restarts here (there are 10 such results)
             Vector2D center = new Vector2D(o.getPointRef()[0], o.getPointRef()[1]);
-            Assert.assertTrue(69.9592 < circle.getRadius(center));
-            Assert.assertTrue(69.9602 > circle.getRadius(center));
-            Assert.assertTrue(96.0745 < center.getX());
-            Assert.assertTrue(96.0762 > center.getX());
-            Assert.assertTrue(48.1344 < center.getY());
-            Assert.assertTrue(48.1354 > center.getY());
+            Assert.assertEquals(69.9597, circle.getRadius(center), 1e-3);
+            Assert.assertEquals(96.07535, center.getX(), 1.4e-3);
+            Assert.assertEquals(48.1349, center.getY(), 5e-3);
         }
 
-        Assert.assertTrue(optimizer.getEvaluations() > 850);
+        Assert.assertTrue(optimizer.getEvaluations() > 800);
         Assert.assertTrue(optimizer.getEvaluations() < 900);
 
         Assert.assertEquals(3.1267527, optimum.getValue(), 1e-8);
@@ -97,8 +94,7 @@ public class MultiStartMultivariateOptimizerTest {
                 { 0.9, 1.2 } ,
                 {  3.5, -2.3 }
             });
-        JDKRandomGenerator g = new JDKRandomGenerator();
-        g.setSeed(16069223052l);
+        UniformRandomProvider g = RandomSource.create(RandomSource.MT_64, 16069223052l);
         RandomVectorGenerator generator
             = new UncorrelatedRandomVectorGenerator(2, new GaussianRandomGenerator(g));
         int nbStarts = 10;

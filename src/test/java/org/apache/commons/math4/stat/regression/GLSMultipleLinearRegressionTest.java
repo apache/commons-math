@@ -27,8 +27,10 @@ import org.apache.commons.math4.linear.RealMatrix;
 import org.apache.commons.math4.linear.RealVector;
 import org.apache.commons.math4.random.CorrelatedRandomVectorGenerator;
 import org.apache.commons.math4.random.GaussianRandomGenerator;
-import org.apache.commons.math4.random.JDKRandomGenerator;
-import org.apache.commons.math4.random.RandomGenerator;
+import org.apache.commons.math4.rng.UniformRandomProvider;
+import org.apache.commons.math4.rng.RandomSource;
+import org.apache.commons.math4.distribution.RealDistribution;
+import org.apache.commons.math4.distribution.NormalDistribution;
 import org.apache.commons.math4.stat.correlation.Covariance;
 import org.apache.commons.math4.stat.descriptive.DescriptiveStatistics;
 import org.apache.commons.math4.stat.regression.GLSMultipleLinearRegression;
@@ -220,8 +222,8 @@ public class GLSMultipleLinearRegressionTest extends MultipleLinearRegressionAbs
      */
     @Test
     public void testGLSEfficiency() {
-        RandomGenerator rg = new JDKRandomGenerator();
-        rg.setSeed(200);  // Seed has been selected to generate non-trivial covariance
+        final UniformRandomProvider rg = RandomSource.create(RandomSource.MT, 123456789L);
+        final RealDistribution.Sampler gauss = new NormalDistribution().createSampler(rg);
 
         // Assume model has 16 observations (will use Longley data).  Start by generating
         // non-constant variances for the 16 error terms.
@@ -237,7 +239,7 @@ public class GLSMultipleLinearRegressionTest extends MultipleLinearRegressionAbs
         RealMatrix errorSeeds = MatrixUtils.createRealMatrix(numSeeds, nObs);
         for (int i = 0; i < numSeeds; i++) {
             for (int j = 0; j < nObs; j++) {
-                errorSeeds.setEntry(i, j, rg.nextGaussian() * sigma[j]);
+                errorSeeds.setEntry(i, j, gauss.sample() * sigma[j]);
             }
         }
 
@@ -297,5 +299,4 @@ public class GLSMultipleLinearRegressionTest extends MultipleLinearRegressionAbs
         assert(olsBetaStats.getMean() > 1.5 * glsBetaStats.getMean());
         assert(olsBetaStats.getStandardDeviation() > glsBetaStats.getStandardDeviation());
     }
-
 }
