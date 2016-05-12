@@ -17,8 +17,8 @@
 package org.apache.commons.math4;
 
 import org.apache.commons.math4.RealFieldElement;
-import org.apache.commons.math4.random.RandomGenerator;
-import org.apache.commons.math4.random.Well1024a;
+import org.apache.commons.math4.rng.UniformRandomProvider;
+import org.apache.commons.math4.rng.RandomSource;
 import org.apache.commons.math4.util.FastMath;
 import org.apache.commons.math4.util.MathArrays;
 import org.junit.Assert;
@@ -393,7 +393,7 @@ public abstract class ExtendedFieldElementAbstractTest<T extends RealFieldElemen
 
     @Test
     public void testLinearCombinationFaFa() {
-        RandomGenerator r = new Well1024a(0xfafal);
+        UniformRandomProvider r = RandomSource.create(RandomSource.WELL_1024_A, 0xfafal);
         for (int i = 0; i < 50; ++i) {
             double[] aD = generateDouble(r, 10);
             double[] bD = generateDouble(r, 10);
@@ -406,7 +406,7 @@ public abstract class ExtendedFieldElementAbstractTest<T extends RealFieldElemen
 
     @Test
     public void testLinearCombinationDaFa() {
-        RandomGenerator r = new Well1024a(0xdafal);
+        UniformRandomProvider r = RandomSource.create(RandomSource.WELL_1024_A, 0xdafal);
         for (int i = 0; i < 50; ++i) {
             double[] aD = generateDouble(r, 10);
             double[] bD = generateDouble(r, 10);
@@ -418,7 +418,7 @@ public abstract class ExtendedFieldElementAbstractTest<T extends RealFieldElemen
 
     @Test
     public void testLinearCombinationFF2() {
-        RandomGenerator r = new Well1024a(0xff2l);
+        UniformRandomProvider r = RandomSource.create(RandomSource.WELL_1024_A, 0xff2l);
         for (int i = 0; i < 50; ++i) {
             double[] aD = generateDouble(r, 2);
             double[] bD = generateDouble(r, 2);
@@ -431,7 +431,7 @@ public abstract class ExtendedFieldElementAbstractTest<T extends RealFieldElemen
 
     @Test
     public void testLinearCombinationDF2() {
-        RandomGenerator r = new Well1024a(0xdf2l);
+        UniformRandomProvider r = RandomSource.create(RandomSource.WELL_1024_A, 0xdf2l);
         for (int i = 0; i < 50; ++i) {
             double[] aD = generateDouble(r, 2);
             double[] bD = generateDouble(r, 2);
@@ -443,7 +443,7 @@ public abstract class ExtendedFieldElementAbstractTest<T extends RealFieldElemen
 
     @Test
     public void testLinearCombinationFF3() {
-        RandomGenerator r = new Well1024a(0xff3l);
+        UniformRandomProvider r = RandomSource.create(RandomSource.WELL_1024_A, 0xff3l);
         for (int i = 0; i < 50; ++i) {
             double[] aD = generateDouble(r, 3);
             double[] bD = generateDouble(r, 3);
@@ -456,7 +456,7 @@ public abstract class ExtendedFieldElementAbstractTest<T extends RealFieldElemen
 
     @Test
     public void testLinearCombinationDF3() {
-        RandomGenerator r = new Well1024a(0xdf3l);
+        UniformRandomProvider r = RandomSource.create(RandomSource.WELL_1024_A, 0xdf3l);
         for (int i = 0; i < 50; ++i) {
             double[] aD = generateDouble(r, 3);
             double[] bD = generateDouble(r, 3);
@@ -468,7 +468,7 @@ public abstract class ExtendedFieldElementAbstractTest<T extends RealFieldElemen
 
     @Test
     public void testLinearCombinationFF4() {
-        RandomGenerator r = new Well1024a(0xff4l);
+        UniformRandomProvider r = RandomSource.create(RandomSource.WELL_1024_A, 0xff4l);
         for (int i = 0; i < 50; ++i) {
             double[] aD = generateDouble(r, 4);
             double[] bD = generateDouble(r, 4);
@@ -481,7 +481,7 @@ public abstract class ExtendedFieldElementAbstractTest<T extends RealFieldElemen
 
     @Test
     public void testLinearCombinationDF4() {
-        RandomGenerator r = new Well1024a(0xdf4l);
+        UniformRandomProvider r = RandomSource.create(RandomSource.WELL_1024_A, 0xdf4l);
         for (int i = 0; i < 50; ++i) {
             double[] aD = generateDouble(r, 4);
             double[] bD = generateDouble(r, 4);
@@ -521,7 +521,7 @@ public abstract class ExtendedFieldElementAbstractTest<T extends RealFieldElemen
         Assert.assertTrue(t1a.hashCode() != t2.hashCode());
     }
 
-    private double[] generateDouble (final RandomGenerator r, int n) {
+    private double[] generateDouble (final UniformRandomProvider r, int n) {
         double[] a = new double[n];
         for (int i = 0; i < n; ++i) {
             a[i] = r.nextDouble();
