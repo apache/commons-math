@@ -35,6 +35,27 @@ public class GaussIntegratorFactory {
     private final BaseRuleFactory<BigDecimal> legendreHighPrecision = new LegendreHighPrecisionRuleFactory();
     /** Generator of Gauss-Hermite integrators. */
     private final BaseRuleFactory<Double> hermite = new HermiteRuleFactory();
+    /** Generator of Gauss-Laguerre integrators. */
+    private final BaseRuleFactory<Double> laguerre = new LaguerreRuleFactory();
+
+    /**
+     * Creates a Gauss-Laguerre integrator of the given order.
+     * The call to the
+     * {@link GaussIntegrator#integrate(org.apache.commons.math4.analysis.UnivariateFunction)
+     * integrate} method will perform an integration on the interval
+     * \([0, +\infty)\): the computed value is the improper integral of
+     * \(e^{-x} f(x)\)
+     * where \(f(x)\) is the function passed to the
+     * {@link SymmetricGaussIntegrator#integrate(org.apache.commons.math4.analysis.UnivariateFunction)
+     * integrate} method.
+     *
+     * @param numberOfPoints Order of the integration rule.
+     * @return a Gauss-Legendre integrator.
+     * @since 4.0
+     */
+    public GaussIntegrator laguerre(int numberOfPoints) {
+        return new GaussIntegrator(getRule(laguerre, numberOfPoints));
+    }
 
     /**
      * Creates a Gauss-Legendre integrator of the given order.
