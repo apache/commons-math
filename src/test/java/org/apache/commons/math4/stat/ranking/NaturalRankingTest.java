@@ -19,8 +19,8 @@ package org.apache.commons.math4.stat.ranking;
 import org.junit.Assert;
 import org.apache.commons.math4.TestUtils;
 import org.apache.commons.math4.exception.NotANumberException;
-import org.apache.commons.math4.random.JDKRandomGenerator;
-import org.apache.commons.math4.random.RandomGenerator;
+import org.apache.commons.math4.rng.UniformRandomProvider;
+import org.apache.commons.math4.rng.RandomSource;
 import org.apache.commons.math4.stat.ranking.NaNStrategy;
 import org.apache.commons.math4.stat.ranking.NaturalRanking;
 import org.apache.commons.math4.stat.ranking.TiesStrategy;
@@ -172,10 +172,9 @@ public class NaturalRankingTest {
 
     @Test
     public void testNaNsFixedTiesRandom() {
-        RandomGenerator randomGenerator = new JDKRandomGenerator();
-        randomGenerator.setSeed(1000);
+        UniformRandomProvider randomGenerator = RandomSource.create(RandomSource.JDK, 1000L);
         NaturalRanking ranking = new NaturalRanking(NaNStrategy.FIXED,
-                randomGenerator);
+                                                    randomGenerator);
         double[] ranks = ranking.rank(exampleData);
         double[] correctRanks = { 5, 3, 6, 7, 3, 8, Double.NaN, 1, 2 };
         TestUtils.assertEquals(correctRanks, ranks, 0d);
