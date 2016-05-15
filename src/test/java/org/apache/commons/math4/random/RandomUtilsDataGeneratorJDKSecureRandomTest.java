@@ -26,6 +26,6 @@ public class RandomUtilsDataGeneratorJDKSecureRandomTest
     extends RandomUtilsDataGeneratorAbstractTest {
 
     public RandomUtilsDataGeneratorJDKSecureRandomTest() {
-        super(RandomUtils.asUniformRandomProvider(new SecureRandom(new byte[] {-12, 34, -56, 78})));
+        super(RandomUtils.asUniformRandomProvider(new SecureRandom(new byte[] {1, 2, 3, 4})));
     }
 }
