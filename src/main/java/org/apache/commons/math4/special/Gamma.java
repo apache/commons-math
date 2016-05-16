@@ -53,13 +53,14 @@ import org.apache.commons.math4.util.FastMath;
 public class Gamma {
     /**
      * <a href="http://en.wikipedia.org/wiki/Euler-Mascheroni_constant">Euler-Mascheroni constant</a>
+     *
      * @since 2.0
      */
     public static final double GAMMA = 0.577215664901532860606512090082;
 
     /**
-     * The value of the {@code g} constant in the Lanczos approximation, see
-     * {@link #lanczos(double)}.
+     * Constant \( g = \frac{607}{128} \) in the {@link #lanczos(double) Lanczos approximation}.
+     *
      * @since 3.1
      */
     public static final double LANCZOS_G = 607.0 / 128.0;
@@ -218,13 +219,12 @@ public class Gamma {
     private Gamma() {}
 
     /**
+     * Returns the value of \( \log \Gamma(x) \) for \( x > 0 \).
+     *
      * <p>
-     * Returns the value of log&nbsp;&Gamma;(x) for x&nbsp;&gt;&nbsp;0.
-     * </p>
-     * <p>
-     * For x &le; 8, the implementation is based on the double precision
+     * For \( x \leq 8 \), the implementation is based on the double precision
      * implementation in the <em>NSWC Library of Mathematics Subroutines</em>,
-     * {@code DGAMLN}. For x &gt; 8, the implementation is based on
+     * {@code DGAMLN}. For \( x \geq 8 \), the implementation is based on
      * </p>
      * <ul>
      * <li><a href="http://mathworld.wolfram.com/GammaFunction.html">Gamma
@@ -237,8 +237,7 @@ public class Gamma {
      * </ul>
      *
      * @param x Argument.
-     * @return the value of {@code log(Gamma(x))}, {@code Double.NaN} if
-     * {@code x <= 0.0}.
+     * @return the value of {@code log(Gamma(x))} or {@code NaN} if {@code x <= 0}.
      */
     public static double logGamma(double x) {
         double ret;
@@ -267,7 +266,7 @@ public class Gamma {
     }
 
     /**
-     * Returns the regularized gamma function P(a, x).
+     * Returns the regularized gamma function \( P(a, x) \).
      *
      * @param a Parameter.
      * @param x Value.
@@ -279,7 +278,7 @@ public class Gamma {
     }
 
     /**
-     * Returns the regularized gamma function P(a, x).
+     * Returns the regularized gamma function \( P(a, x) \).
      *
      * The implementation of this method is based on:
      * <ul>
@@ -360,7 +359,7 @@ public class Gamma {
     }
 
     /**
-     * Returns the regularized gamma function Q(a, x) = 1 - P(a, x).
+     * Returns the regularized gamma function \( Q(a, x) = 1 - P(a, x) \).
      *
      * The implementation of this method is based on:
      * <ul>
@@ -424,21 +423,24 @@ public class Gamma {
 
 
     /**
-     * <p>Computes the digamma function of x.</p>
+     * Computes the digamma function.
      *
      * <p>This is an independently written implementation of the algorithm described in
      * Jose Bernardo, Algorithm AS 103: Psi (Digamma) Function, Applied Statistics, 1976.
-     * A reflection formula (https://en.wikipedia.org/wiki/Digamma_function#Reflection_formula)
-     * is incorporated to improve performance on negative values.</p>
+     * A <a href="https://en.wikipedia.org/wiki/Digamma_function#Reflection_formula">
+     * reflection formula</a> is incorporated to improve performance on negative values.</p>
      *
-     * <p>Some of the constants have been changed to increase accuracy at the moderate expense
-     * of run-time.  The result should be accurate to within 10^-8 relative tolerance for
-     * 0 < x < 10^-5 and within 10^-8 absolute tolerance otherwise.</p>
+     * <p>Some of the constants have been changed to increase accuracy at the moderate
+     * expense of run-time.  The result should be accurate to within \( 10^{-8} \)
+     * relative tolerance for \( 0 < x < 10^{-5} \) and within \( 10^{-8} \) absolute
+     * tolerance otherwise.</p>
      *
      * @param x Argument.
-     * @return digamma(x) to within 10^-8 relative or absolute error whichever is larger.
+     * @return digamma(x) to within \( 10^{-8} \) relative or absolute error whichever is larger.
+     *
      * @see <a href="http://en.wikipedia.org/wiki/Digamma_function">Digamma</a>
-     * @see <a href="http://www.uv.es/~bernardo/1976AppStatist.pdf">Bernardo&apos;s original article </a>
+     * @see <a href="http://www.uv.es/~bernardo/1976AppStatist.pdf">Bernardo's original article</a>
+     *
      * @since 2.0
      */
     public static double digamma(double x) {
@@ -475,14 +477,17 @@ public class Gamma {
     }
 
     /**
-     * Computes the trigamma function of x.
+     * Computes the trigamma function.
      * This function is derived by taking the derivative of the implementation
      * of digamma.
      *
      * @param x Argument.
-     * @return trigamma(x) to within 10^-8 relative or absolute error whichever is smaller
+     * @return {@code trigamma(x)} to within \( 10^{-8} \) relative or absolute
+     * error whichever is smaller
+     *
      * @see <a href="http://en.wikipedia.org/wiki/Trigamma_function">Trigamma</a>
      * @see Gamma#digamma(double)
+     *
      * @since 2.0
      */
     public static double trigamma(double x) {
@@ -511,11 +516,11 @@ public class Gamma {
      * Returns the Lanczos approximation used to compute the gamma function.
      * The Lanczos approximation is related to the Gamma function by the
      * following equation
-     * <center>
-     * {@code gamma(x) = sqrt(2 * pi) / x * (x + g + 0.5) ^ (x + 0.5)
-     *                   * exp(-x - g - 0.5) * lanczos(x)},
-     * </center>
-     * where {@code g} is the Lanczos constant.
+     * \[
+     * \Gamma(x) = \sqrt{2\pi} \, \frac{(x + g + 1/2)^{x + \frac{1}{2}} \, e^{-x - g - \frac{1}{2}} \, \mathrm{lanczos}(x)}
+     *                              {x}
+     * \]
+     * where \(g\) is the Lanczos constant.
      * </p>
      *
      * @param x Argument.
@@ -535,10 +540,9 @@ public class Gamma {
     }
 
     /**
-     * Returns the value of 1 / &Gamma;(1 + x) - 1 for -0&#46;5 &le; x &le;
-     * 1&#46;5. This implementation is based on the double precision
-     * implementation in the <em>NSWC Library of Mathematics Subroutines</em>,
-     * {@code DGAM1}.
+     * Returns the value of \( 1 / \Gamma(1 + x) - 1 \) for \( -0.5 \leq x \leq 1.5 \).
+     * This implementation is based on the double precision implementation in
+     * the <em>NSWC Library of Mathematics Subroutines</em>, {@code DGAM1}.
      *
      * @param x Argument.
      * @return The value of {@code 1.0 / Gamma(1.0 + x) - 1.0}.
@@ -629,7 +633,7 @@ public class Gamma {
     }
 
     /**
-     * Returns the value of log &Gamma;(1 + x) for -0&#46;5 &le; x &le; 1&#46;5.
+     * Returns the value of \( \log \Gamma(1 + x) \) for \( -0.5 \leq x \leq 1.5 \).
      * This implementation is based on the double precision implementation in
      * the <em>NSWC Library of Mathematics Subroutines</em>, {@code DGMLN1}.
      *
@@ -654,9 +658,9 @@ public class Gamma {
 
 
     /**
-     * Returns the value of Γ(x). Based on the <em>NSWC Library of
-     * Mathematics Subroutines</em> double precision implementation,
-     * {@code DGAMMA}.
+     * Returns the value of \( \Gamma(x) \).
+     * Based on the <em>NSWC Library of Mathematics Subroutines</em> double
+     * precision implementation, {@code DGAMMA}.
      *
      * @param x Argument.
      * @return the value of {@code Gamma(x)}.
