@@ -43,7 +43,7 @@ public interface MultivariateRealDistribution {
 
     /**
      * Gets the number of random variables of the distribution.
-     * It is the size of the array returned by the {@link #sample() sample}
+     * It is the size of the array returned by the {@link Sampler#sample() sample}
      * method.
      *
      * @return the number of variables.
