@@ -17,28 +17,37 @@
 package org.apache.commons.math4.util;
 
 import java.io.Serializable;
-
+import java.io.IOException;
+import java.io.ObjectOutputStream;
+import java.io.ObjectInputStream;
 import org.apache.commons.math4.exception.MathIllegalArgumentException;
 import org.apache.commons.math4.rng.UniformRandomProvider;
-
+import org.apache.commons.math4.rng.RandomSource;
 
 /**
  * A strategy of selecting random index between begin and end indices.
+ *
  * @since 3.4
  */
 public class RandomPivotingStrategy implements PivotingStrategyInterface, Serializable {
-
     /** Serializable UID. */
-    private static final long serialVersionUID = 20140713L;
-
+    private static final long serialVersionUID = 20160517L;
+    /** Source of randomness. */
+    private final RandomSource randomSource;
     /** Random generator to use for selecting pivot. */
-    private final UniformRandomProvider random;
+    private transient UniformRandomProvider random;
 
-    /** Simple constructor.
-     * @param random random generator to use for selecting pivot
+    /**
+     * Simple constructor.
+     *
+     * @param random Random generator to use for selecting pivot.
+     *
+     * @since 4.0
      */
-    public RandomPivotingStrategy(final UniformRandomProvider random) {
-        this.random = random;
+    public RandomPivotingStrategy(RandomSource randomSource,
+                                  long seed) {
+        this.randomSource = randomSource;
+        random = RandomSource.create(randomSource, seed);
     }
 
     /**
@@ -55,4 +64,34 @@ public class RandomPivotingStrategy implements PivotingStrategyInterface, Serial
         return begin + random.nextInt(end - begin - 1);
     }
 
+    /**
+     * @param out Output stream.
+     * @throws IOException if an error occurs.
+     */
+    private void writeObject(ObjectOutputStream out)
+        throws IOException {
+        // Write non-transient fields.
+        out.defaultWriteObject();
+
+        // Save current state.
+        out.writeObject(RandomSource.saveState(random));
+   }
+
+    /**
+     * @param in Input stream.
+     * @throws IOException if an error occurs.
+     * @throws ClassNotFoundException if an error occurs.
+     */
+    private void readObject(ObjectInputStream in)
+        throws IOException,
+               ClassNotFoundException {
+        // Read non-transient fields.
+        in.defaultReadObject();
+
+        // Recreate the "delegate" from serialized info.
+        random = RandomSource.create(randomSource);
+        // And restore its state.
+        final RandomSource.State state = (RandomSource.State) in.readObject();
+        RandomSource.restoreState(random, state);
+    }
 }
