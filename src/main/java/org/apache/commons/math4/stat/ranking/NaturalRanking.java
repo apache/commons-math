@@ -24,8 +24,9 @@ import java.util.List;
 
 import org.apache.commons.math4.exception.MathInternalError;
 import org.apache.commons.math4.exception.NotANumberException;
-import org.apache.commons.math4.random.RandomDataGenerator;
-import org.apache.commons.math4.random.RandomGenerator;
+import org.apache.commons.math4.rng.UniformRandomProvider;
+import org.apache.commons.math4.rng.RandomSource;
+import org.apache.commons.math4.random.RandomUtils;
 import org.apache.commons.math4.util.FastMath;
 
 
@@ -82,16 +83,13 @@ public class NaturalRanking implements RankingAlgorithm {
     private final TiesStrategy tiesStrategy;
 
     /** Source of random data - used only when ties strategy is RANDOM */
-    private final RandomDataGenerator randomData;
+    private final RandomUtils.DataGenerator randomData;
 
     /**
      * Create a NaturalRanking with default strategies for handling ties and NaNs.
      */
     public NaturalRanking() {
-        super();
-        tiesStrategy = DEFAULT_TIES_STRATEGY;
-        nanStrategy = DEFAULT_NAN_STRATEGY;
-        randomData = null;
+        this(DEFAULT_NAN_STRATEGY, DEFAULT_TIES_STRATEGY, null);
     }
 
     /**
@@ -100,10 +98,9 @@ public class NaturalRanking implements RankingAlgorithm {
      * @param tiesStrategy the TiesStrategy to use
      */
     public NaturalRanking(TiesStrategy tiesStrategy) {
-        super();
-        this.tiesStrategy = tiesStrategy;
-        nanStrategy = DEFAULT_NAN_STRATEGY;
-        randomData = new RandomDataGenerator();
+        this(DEFAULT_NAN_STRATEGY,
+             tiesStrategy,
+             RandomSource.create(RandomSource.WELL_19937_C));
     }
 
     /**
@@ -112,10 +109,7 @@ public class NaturalRanking implements RankingAlgorithm {
      * @param nanStrategy the NaNStrategy to use
      */
     public NaturalRanking(NaNStrategy nanStrategy) {
-        super();
-        this.nanStrategy = nanStrategy;
-        tiesStrategy = DEFAULT_TIES_STRATEGY;
-        randomData = null;
+        this(nanStrategy, DEFAULT_TIES_STRATEGY, null);
     }
 
     /**
@@ -124,11 +118,11 @@ public class NaturalRanking implements RankingAlgorithm {
      * @param nanStrategy NaNStrategy to use
      * @param tiesStrategy TiesStrategy to use
      */
-    public NaturalRanking(NaNStrategy nanStrategy, TiesStrategy tiesStrategy) {
-        super();
-        this.nanStrategy = nanStrategy;
-        this.tiesStrategy = tiesStrategy;
-        randomData = new RandomDataGenerator();
+    public NaturalRanking(NaNStrategy nanStrategy,
+                          TiesStrategy tiesStrategy) {
+        this(nanStrategy,
+             tiesStrategy,
+             RandomSource.create(RandomSource.WELL_19937_C));
     }
 
     /**
@@ -137,13 +131,9 @@ public class NaturalRanking implements RankingAlgorithm {
      *
      * @param randomGenerator source of random data
      */
-    public NaturalRanking(RandomGenerator randomGenerator) {
-        super();
-        this.tiesStrategy = TiesStrategy.RANDOM;
-        nanStrategy = DEFAULT_NAN_STRATEGY;
-        randomData = new RandomDataGenerator(randomGenerator);
+    public NaturalRanking(UniformRandomProvider randomGenerator) {
+        this(DEFAULT_NAN_STRATEGY, TiesStrategy.RANDOM, randomGenerator);
     }
-
 
     /**
      * Create a NaturalRanking with the given NaNStrategy, TiesStrategy.RANDOM
@@ -153,11 +143,21 @@ public class NaturalRanking implements RankingAlgorithm {
      * @param randomGenerator source of random data
      */
     public NaturalRanking(NaNStrategy nanStrategy,
-            RandomGenerator randomGenerator) {
-        super();
+                          UniformRandomProvider randomGenerator) {
+        this(nanStrategy, TiesStrategy.RANDOM, randomGenerator);
+    }
+
+    /**
+     * @param nanStrategy NaN strategy.
+     * @param tiesStrategy Tie strategy.
+     * @param randomGenerator RNG.
+     */
+    private NaturalRanking(NaNStrategy nanStrategy,
+                           TiesStrategy tiesStrategy,
+                           UniformRandomProvider randomGenerator) {
         this.nanStrategy = nanStrategy;
-        this.tiesStrategy = TiesStrategy.RANDOM;
-        randomData = new RandomDataGenerator(randomGenerator);
+        this.tiesStrategy = tiesStrategy;
+        randomData = RandomUtils.createDataGenerator(randomGenerator);
     }
 
     /**
