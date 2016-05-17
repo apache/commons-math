@@ -31,13 +31,15 @@ import org.apache.commons.math4.util.FastMath;
 
 
 /**
- * <p> Ranking based on the natural ordering on doubles.</p>
+ * Ranking based on the natural ordering on doubles.
+ *
  * <p>NaNs are treated according to the configured {@link NaNStrategy} and ties
  * are handled using the selected {@link TiesStrategy}.
  * Configuration settings are supplied in optional constructor arguments.
  * Defaults are {@link NaNStrategy#FAILED} and {@link TiesStrategy#AVERAGE},
  * respectively. When using {@link TiesStrategy#RANDOM}, a
- * {@link RandomGenerator} may be supplied as a constructor argument.</p>
+ * {@link UniformRandomProvider random generator} may be supplied as a
+ * constructor argument.</p>
  * <p>Examples:
  * <table border="1" cellpadding="3">
  * <tr><th colspan="3">
@@ -127,7 +129,7 @@ public class NaturalRanking implements RankingAlgorithm {
 
     /**
      * Create a NaturalRanking with TiesStrategy.RANDOM and the given
-     * RandomGenerator as the source of random data.
+     * random generator as the source of random data.
      *
      * @param randomGenerator source of random data
      */
