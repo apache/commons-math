@@ -40,7 +40,8 @@ public class RandomPivotingStrategy implements PivotingStrategyInterface, Serial
     /**
      * Simple constructor.
      *
-     * @param random Random generator to use for selecting pivot.
+     * @param randomSource RNG to use for selecting pivot.
+     * @param seed Seed for initializing the RNG.
      *
      * @since 4.0
      */
@@ -52,7 +53,9 @@ public class RandomPivotingStrategy implements PivotingStrategyInterface, Serial
 
     /**
      * {@inheritDoc}
-     * A uniform random pivot selection between begin and end indices
+     *
+     * A uniform random pivot selection between begin and end indices.
+     *
      * @return The index corresponding to a random uniformly selected
      * value between first and the last indices of the array slice
      * @throws MathIllegalArgumentException when indices exceeds range
