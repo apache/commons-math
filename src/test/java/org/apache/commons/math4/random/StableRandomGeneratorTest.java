@@ -17,22 +17,18 @@
 package org.apache.commons.math4.random;
 
 import org.apache.commons.math4.exception.OutOfRangeException;
-import org.apache.commons.math4.random.RandomGenerator;
-import org.apache.commons.math4.random.StableRandomGenerator;
-import org.apache.commons.math4.random.Well19937c;
+import org.apache.commons.math4.rng.UniformRandomProvider;
+import org.apache.commons.math4.rng.RandomSource;
 import org.apache.commons.math4.stat.StatUtils;
 import org.apache.commons.math4.stat.descriptive.DescriptiveStatistics;
 import org.junit.Assert;
 import org.junit.Test;
 
 /**
- * The class <code>StableRandomGeneratorTest</code> contains tests for the class
- * {@link StableRandomGenerator}
- *
+ * Tests for the class {@link StableRandomGenerator}.
  */
 public class StableRandomGeneratorTest {
-
-    private RandomGenerator rg = new Well19937c(100);
+    private final UniformRandomProvider rg = RandomSource.create(RandomSource.WELL_19937_C, 100);
     private final static int sampleSize = 10000;
 
     /**

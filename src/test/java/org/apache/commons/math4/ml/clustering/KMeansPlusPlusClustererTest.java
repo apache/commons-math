@@ -28,20 +28,19 @@ import org.apache.commons.math4.ml.clustering.Cluster;
 import org.apache.commons.math4.ml.clustering.DoublePoint;
 import org.apache.commons.math4.ml.clustering.KMeansPlusPlusClusterer;
 import org.apache.commons.math4.ml.distance.EuclideanDistance;
-import org.apache.commons.math4.random.JDKRandomGenerator;
-import org.apache.commons.math4.random.RandomGenerator;
+import org.apache.commons.math4.rng.RandomSource;
+import org.apache.commons.math4.rng.UniformRandomProvider;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
 public class KMeansPlusPlusClustererTest {
 
-    private RandomGenerator random;
+    private UniformRandomProvider random;
 
     @Before
     public void setUp() {
-        random = new JDKRandomGenerator();
-        random.setSeed(1746432956321l);
+        random = RandomSource.create(RandomSource.MT_64, 1746432956321l);
     }
 
     /**
@@ -152,10 +151,8 @@ public class KMeansPlusPlusClustererTest {
 
         // Ask a KMeansPlusPlusClusterer to run zero iterations (i.e., to simply choose initial
         // cluster centers).
-        final long RANDOM_SEED = 0;
         final int NUM_CLUSTERS = 2;
         final int NUM_ITERATIONS = 0;
-        random.setSeed(RANDOM_SEED);
 
         KMeansPlusPlusClusterer<DoublePoint> clusterer =
             new KMeansPlusPlusClusterer<DoublePoint>(NUM_CLUSTERS, NUM_ITERATIONS,

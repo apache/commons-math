@@ -17,31 +17,35 @@
 
 package org.apache.commons.math4.random;
 
+import org.apache.commons.math4.rng.UniformRandomProvider;
+import org.apache.commons.math4.distribution.RealDistribution;
+import org.apache.commons.math4.distribution.NormalDistribution;
+
 /**
- * This class is a gaussian normalized random generator for scalars.
- * <p>This class is a simple wrapper around the {@link
- * RandomGenerator#nextGaussian} method.</p>
+ * Random generator that generates normally distributed samples.
+ *
  * @since 1.2
  */
-
 public class GaussianRandomGenerator implements NormalizedRandomGenerator {
+    /** Gaussian distribution sampler. */
+    private final RealDistribution.Sampler sampler;
 
-    /** Underlying generator. */
-    private final RandomGenerator generator;
-
-    /** Create a new generator.
-     * @param generator underlying random generator to use
+    /**
+     * Creates a new generator.
+     *
+     * @param generator Underlying random generator.
      */
-    public GaussianRandomGenerator(final RandomGenerator generator) {
-        this.generator = generator;
+    public GaussianRandomGenerator(final UniformRandomProvider generator) {
+        sampler = new NormalDistribution().createSampler(generator);
     }
 
-    /** Generate a random scalar with null mean and unit standard deviation.
-     * @return a random scalar with null mean and unit standard deviation
+    /**
+     * Generates a random scalar with zero mean and unit standard deviation.
+     *
+     * @return a random value sampled from a normal distribution.
      */
     @Override
     public double nextNormalizedDouble() {
-        return generator.nextGaussian();
+        return sampler.sample();
     }
-
 }

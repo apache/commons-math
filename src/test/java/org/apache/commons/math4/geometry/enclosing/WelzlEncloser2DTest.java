@@ -25,8 +25,8 @@ import org.apache.commons.math4.geometry.enclosing.WelzlEncloser;
 import org.apache.commons.math4.geometry.euclidean.twod.DiskGenerator;
 import org.apache.commons.math4.geometry.euclidean.twod.Euclidean2D;
 import org.apache.commons.math4.geometry.euclidean.twod.Vector2D;
-import org.apache.commons.math4.random.RandomGenerator;
-import org.apache.commons.math4.random.Well1024a;
+import org.apache.commons.math4.rng.UniformRandomProvider;
+import org.apache.commons.math4.rng.RandomSource;
 import org.junit.Assert;
 import org.junit.Test;
 
@@ -84,7 +84,7 @@ public class WelzlEncloser2DTest {
 
     @Test
     public void testLargeSamples() {
-        RandomGenerator random = new Well1024a(0xa2a63cad12c01fb2l);
+        UniformRandomProvider random = RandomSource.create(RandomSource.WELL_1024_A, 0xa2a63cad12c01fb2l);
         for (int k = 0; k < 100; ++k) {
             int nbPoints = random.nextInt(10000);
             List<Vector2D> points = new ArrayList<Vector2D>();

@@ -28,8 +28,8 @@ import org.apache.commons.math4.linear.MatrixUtils;
 import org.apache.commons.math4.linear.RealMatrix;
 import org.apache.commons.math4.ml.distance.DistanceMeasure;
 import org.apache.commons.math4.ml.distance.EuclideanDistance;
-import org.apache.commons.math4.random.JDKRandomGenerator;
-import org.apache.commons.math4.random.RandomGenerator;
+import org.apache.commons.math4.rng.RandomSource;
+import org.apache.commons.math4.rng.UniformRandomProvider;
 import org.apache.commons.math4.util.FastMath;
 import org.apache.commons.math4.util.MathArrays;
 import org.apache.commons.math4.util.MathUtils;
@@ -83,7 +83,7 @@ public class FuzzyKMeansClusterer<T extends Clusterable> extends Clusterer<T> {
     private final double epsilon;
 
     /** Random generator for choosing initial centers. */
-    private final RandomGenerator random;
+    private final UniformRandomProvider random;
 
     /** The membership matrix. */
     private double[][] membershipMatrix;
@@ -120,7 +120,7 @@ public class FuzzyKMeansClusterer<T extends Clusterable> extends Clusterer<T> {
     public FuzzyKMeansClusterer(final int k, final double fuzziness,
                                 final int maxIterations, final DistanceMeasure measure)
             throws NumberIsTooSmallException {
-        this(k, fuzziness, maxIterations, measure, DEFAULT_EPSILON, new JDKRandomGenerator());
+        this(k, fuzziness, maxIterations, measure, DEFAULT_EPSILON, RandomSource.create(RandomSource.MT_64));
     }
 
     /**
@@ -137,7 +137,7 @@ public class FuzzyKMeansClusterer<T extends Clusterable> extends Clusterer<T> {
      */
     public FuzzyKMeansClusterer(final int k, final double fuzziness,
                                 final int maxIterations, final DistanceMeasure measure,
-                                final double epsilon, final RandomGenerator random)
+                                final double epsilon, final UniformRandomProvider random)
             throws NumberIsTooSmallException {
 
         super(measure);
@@ -192,7 +192,7 @@ public class FuzzyKMeansClusterer<T extends Clusterable> extends Clusterer<T> {
      * Returns the random generator this instance will use.
      * @return the random generator
      */
-    public RandomGenerator getRandomGenerator() {
+    public UniformRandomProvider getRandomGenerator() {
         return random;
     }
 

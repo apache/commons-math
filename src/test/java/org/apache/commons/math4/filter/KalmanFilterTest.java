@@ -27,9 +27,6 @@ import org.apache.commons.math4.linear.MatrixDimensionMismatchException;
 import org.apache.commons.math4.linear.MatrixUtils;
 import org.apache.commons.math4.linear.RealMatrix;
 import org.apache.commons.math4.linear.RealVector;
-import org.apache.commons.math4.random.RandomGenerator;
-import org.apache.commons.math4.random.JDKRandomGenerator;
-import org.apache.commons.math4.rng.UniformRandomProvider;
 import org.apache.commons.math4.rng.RandomSource;
 import org.apache.commons.math4.util.FastMath;
 import org.apache.commons.math4.util.Precision;
@@ -129,19 +126,20 @@ public class KalmanFilterTest {
         RealVector pNoise = new ArrayRealVector(1);
         RealVector mNoise = new ArrayRealVector(1);
 
-        RandomGenerator rand = new JDKRandomGenerator();
+        final RealDistribution.Sampler rand = new NormalDistribution().createSampler(RandomSource.create(RandomSource.WELL_19937_C));
+
         // iterate 60 steps
         for (int i = 0; i < 60; i++) {
             filter.predict();
 
             // Simulate the process
-            pNoise.setEntry(0, processNoise * rand.nextGaussian());
+            pNoise.setEntry(0, processNoise * rand.sample());
 
             // x = A * x + p_noise
             x = A.operate(x).add(pNoise);
 
             // Simulate the measurement
-            mNoise.setEntry(0, measurementNoise * rand.nextGaussian());
+            mNoise.setEntry(0, measurementNoise * rand.sample());
 
             // z = H * x + m_noise
             RealVector z = H.operate(x).add(mNoise);
@@ -217,7 +215,7 @@ public class KalmanFilterTest {
         double[] expectedInitialState = new double[] { 0.0, 0.0 };
         assertVectorEquals(expectedInitialState, filter.getStateEstimation());
 
-        RandomGenerator rand = new JDKRandomGenerator();
+        final RealDistribution.Sampler rand = new NormalDistribution().createSampler(RandomSource.create(RandomSource.WELL_19937_C));
 
         RealVector tmpPNoise = new ArrayRealVector(
                 new double[] { FastMath.pow(dt, 2d) / 2d, dt });
@@ -227,13 +225,13 @@ public class KalmanFilterTest {
             filter.predict(u);
 
             // Simulate the process
-            RealVector pNoise = tmpPNoise.mapMultiply(accelNoise * rand.nextGaussian());
+            RealVector pNoise = tmpPNoise.mapMultiply(accelNoise * rand.sample());
 
             // x = A * x + B * u + pNoise
             x = A.operate(x).add(B.operate(u)).add(pNoise);
 
             // Simulate the measurement
-            double mNoise = measurementNoise * rand.nextGaussian();
+            double mNoise = measurementNoise * rand.sample();
 
             // z = H * x + m_noise
             RealVector z = H.operate(x).mapAdd(mNoise);
@@ -394,8 +392,7 @@ public class KalmanFilterTest {
         final MeasurementModel mm = new DefaultMeasurementModel(H, R);
         final KalmanFilter filter = new KalmanFilter(pm, mm);
 
-        final UniformRandomProvider rng = RandomSource.create(RandomSource.WELL_19937_C, 1000);
-        final RealDistribution.Sampler dist = new NormalDistribution(0, measurementNoise).createSampler(rng);
+        final RealDistribution.Sampler dist = new NormalDistribution(0, measurementNoise).createSampler(RandomSource.create(RandomSource.WELL_19937_C, 1000));
 
         for (int i = 0; i < iterations; i++) {
             // get the "real" cannonball position

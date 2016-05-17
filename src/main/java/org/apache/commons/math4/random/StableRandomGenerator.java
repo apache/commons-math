@@ -16,6 +16,7 @@
  */
 package org.apache.commons.math4.random;
 
+import org.apache.commons.math4.rng.UniformRandomProvider;
 import org.apache.commons.math4.exception.NullArgumentException;
 import org.apache.commons.math4.exception.OutOfRangeException;
 import org.apache.commons.math4.exception.util.LocalizedFormats;
@@ -33,28 +34,25 @@ import org.apache.commons.math4.util.FastMath;
  */
 public class StableRandomGenerator implements NormalizedRandomGenerator {
     /** Underlying generator. */
-    private final RandomGenerator generator;
-
+    private final UniformRandomProvider generator;
     /** stability parameter */
     private final double alpha;
-
     /** skewness parameter */
     private final double beta;
-
     /** cache of expression value used in generation */
     private final double zeta;
 
     /**
      * Create a new generator.
      *
-     * @param generator underlying random generator to use
+     * @param generator Underlying random generator
      * @param alpha Stability parameter. Must be in range (0, 2]
      * @param beta Skewness parameter. Must be in range [-1, 1]
      * @throws NullArgumentException if generator is null
      * @throws OutOfRangeException if {@code alpha <= 0} or {@code alpha > 2}
      * or {@code beta < -1} or {@code beta > 1}
      */
-    public StableRandomGenerator(final RandomGenerator generator,
+    public StableRandomGenerator(final UniformRandomProvider generator,
                                  final double alpha, final double beta)
         throws NullArgumentException, OutOfRangeException {
         if (generator == null) {

@@ -24,7 +24,7 @@ import org.apache.commons.math4.exception.MathIllegalArgumentException;
 import org.apache.commons.math4.exception.NotStrictlyPositiveException;
 import org.apache.commons.math4.exception.NumberIsTooLargeException;
 import org.apache.commons.math4.exception.util.LocalizedFormats;
-import org.apache.commons.math4.random.RandomGenerator;
+import org.apache.commons.math4.rng.UniformRandomProvider;
 
 /**
  * N-point crossover policy. For each iteration a random crossover point is
@@ -142,7 +142,7 @@ public class NPointCrossover<T> implements CrossoverPolicy {
         final List<T> child1Rep = new ArrayList<T>(length);
         final List<T> child2Rep = new ArrayList<T>(length);
 
-        final RandomGenerator random = GeneticAlgorithm.getRandomGenerator();
+        final UniformRandomProvider random = GeneticAlgorithm.getRandomGenerator();
 
         List<T> c1 = child1Rep;
         List<T> c2 = child2Rep;

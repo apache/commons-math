@@ -18,8 +18,8 @@ package org.apache.commons.math4.genetics;
 
 import org.apache.commons.math4.exception.OutOfRangeException;
 import org.apache.commons.math4.exception.util.LocalizedFormats;
-import org.apache.commons.math4.random.JDKRandomGenerator;
-import org.apache.commons.math4.random.RandomGenerator;
+import org.apache.commons.math4.rng.RandomSource;
+import org.apache.commons.math4.rng.UniformRandomProvider;
 
 /**
  * Implementation of a genetic algorithm. All factors that govern the operation
@@ -30,12 +30,12 @@ import org.apache.commons.math4.random.RandomGenerator;
 public class GeneticAlgorithm {
 
     /**
-     * Static random number generator shared by GA implementation classes. Set the randomGenerator seed to get
-     * reproducible results. Use {@link #setRandomGenerator(RandomGenerator)} to supply an alternative to the default
-     * JDK-provided PRNG.
+     * Static random number generator shared by GA implementation classes.
+     * Use {@link #setRandomGenerator(UniformRandomProvider)} to supply an
+     * alternative to the default PRNG, and/or select a specific seed.
      */
     //@GuardedBy("this")
-    private static RandomGenerator randomGenerator = new JDKRandomGenerator();
+    private static UniformRandomProvider randomGenerator = RandomSource.create(RandomSource.WELL_19937_C);
 
     /** the crossover policy used by the algorithm. */
     private final CrossoverPolicy crossoverPolicy;
@@ -90,7 +90,7 @@ public class GeneticAlgorithm {
      *
      * @param random random generator
      */
-    public static synchronized void setRandomGenerator(final RandomGenerator random) {
+    public static synchronized void setRandomGenerator(final UniformRandomProvider random) {
         randomGenerator = random;
     }
 
@@ -99,7 +99,7 @@ public class GeneticAlgorithm {
      *
      * @return the static random generator shared by GA implementation classes
      */
-    public static synchronized RandomGenerator getRandomGenerator() {
+    public static synchronized UniformRandomProvider getRandomGenerator() {
         return randomGenerator;
     }
 
@@ -148,7 +148,7 @@ public class GeneticAlgorithm {
     public Population nextGeneration(final Population current) {
         Population nextGeneration = current.nextGeneration();
 
-        RandomGenerator randGen = getRandomGenerator();
+        UniformRandomProvider randGen = getRandomGenerator();
 
         while (nextGeneration.getPopulationSize() < nextGeneration.getPopulationLimit()) {
             // select parent chromosomes

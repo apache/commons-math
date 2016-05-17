@@ -19,9 +19,6 @@ package org.apache.commons.math4.distribution;
 import java.util.Arrays;
 
 import org.apache.commons.math4.distribution.BetaDistribution;
-import org.apache.commons.math4.random.RandomGenerator;
-import org.apache.commons.math4.random.Well1024a;
-import org.apache.commons.math4.random.Well19937a;
 import org.apache.commons.math4.rng.RandomSource;
 import org.apache.commons.math4.rng.UniformRandomProvider;
 import org.apache.commons.math4.stat.StatUtils;

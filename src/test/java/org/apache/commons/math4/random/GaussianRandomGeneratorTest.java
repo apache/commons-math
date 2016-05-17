@@ -18,8 +18,8 @@
 package org.apache.commons.math4.random;
 
 import org.apache.commons.math4.random.GaussianRandomGenerator;
-import org.apache.commons.math4.random.JDKRandomGenerator;
-import org.apache.commons.math4.random.RandomGenerator;
+import org.apache.commons.math4.rng.UniformRandomProvider;
+import org.apache.commons.math4.rng.RandomSource;
 import org.apache.commons.math4.stat.StatUtils;
 import org.junit.Assert;
 import org.junit.Test;
@@ -29,9 +29,7 @@ public class GaussianRandomGeneratorTest {
 
     @Test
     public void testMeanAndStandardDeviation() {
-        RandomGenerator rg = new JDKRandomGenerator();
-        rg.setSeed(17399225432l);
-        GaussianRandomGenerator generator = new GaussianRandomGenerator(rg);
+        GaussianRandomGenerator generator = new GaussianRandomGenerator(RandomSource.create(RandomSource.MT, 17399225432l));
         double[] sample = new double[10000];
         for (int i = 0; i < sample.length; ++i) {
             sample[i] = generator.nextNormalizedDouble();
@@ -39,5 +37,4 @@ public class GaussianRandomGeneratorTest {
         Assert.assertEquals(0.0, StatUtils.mean(sample), 0.012);
         Assert.assertEquals(1.0, StatUtils.variance(sample), 0.01);
     }
-
 }

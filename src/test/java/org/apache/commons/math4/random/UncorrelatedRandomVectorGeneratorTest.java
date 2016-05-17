@@ -18,9 +18,8 @@
 package org.apache.commons.math4.random;
 
 import org.apache.commons.math4.linear.RealMatrix;
+import org.apache.commons.math4.rng.RandomSource;
 import org.apache.commons.math4.random.GaussianRandomGenerator;
-import org.apache.commons.math4.random.JDKRandomGenerator;
-import org.apache.commons.math4.random.RandomGenerator;
 import org.apache.commons.math4.random.UncorrelatedRandomVectorGenerator;
 import org.apache.commons.math4.stat.descriptive.moment.VectorialCovariance;
 import org.apache.commons.math4.stat.descriptive.moment.VectorialMean;
@@ -35,11 +34,10 @@ public class UncorrelatedRandomVectorGeneratorTest {
     public UncorrelatedRandomVectorGeneratorTest() {
         mean              = new double[] {0.0, 1.0, -3.0, 2.3};
         standardDeviation = new double[] {1.0, 2.0, 10.0, 0.1};
-        RandomGenerator rg = new JDKRandomGenerator();
-        rg.setSeed(17399225432l);
         generator =
             new UncorrelatedRandomVectorGenerator(mean, standardDeviation,
-                    new GaussianRandomGenerator(rg));
+                                                  new GaussianRandomGenerator(RandomSource.create(RandomSource.MT,
+                                                                                                  17399225432l)));
     }
 
     @Test

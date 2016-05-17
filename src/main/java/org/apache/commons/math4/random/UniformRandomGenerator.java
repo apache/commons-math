@@ -18,39 +18,41 @@
 package org.apache.commons.math4.random;
 
 import org.apache.commons.math4.util.FastMath;
+import org.apache.commons.math4.rng.UniformRandomProvider;
 
 /**
  * This class implements a normalized uniform random generator.
- * <p>Since it is a normalized random generator, it generates values
- * from a uniform distribution with mean equal to 0 and standard
- * deviation equal to 1. Generated values fall in the range
- * [-&#x0221A;3, +&#x0221A;3].</p>
+ *
+ * <p>
+ * It generates values from a uniform distribution with mean
+ * equal to 0 and standard deviation equal to 1.
+ * Generated values fall in the range \( [-\sqrt{3}, +\sqrt{3}] \).
+ * </p>
  *
  * @since 1.2
  */
 public class UniformRandomGenerator implements NormalizedRandomGenerator {
-
     /** Square root of three. */
-    private static final double SQRT3 = FastMath.sqrt(3.0);
-
+    private static final double SQRT3 = FastMath.sqrt(3);
     /** Underlying generator. */
-    private final RandomGenerator generator;
+    private final UniformRandomProvider generator;
 
-    /** Create a new generator.
-     * @param generator underlying random generator to use
+    /**
+     * Creates a new generator.
+     *
+     * @param generator Underlying random generator.
      */
-    public UniformRandomGenerator(RandomGenerator generator) {
+    public UniformRandomGenerator(UniformRandomProvider generator) {
         this.generator = generator;
     }
 
-    /** Generate a random scalar with null mean and unit standard deviation.
-     * <p>The number generated is uniformly distributed between -&sqrt;(3)
-     * and +&sqrt;(3).</p>
-     * @return a random scalar with null mean and unit standard deviation
+    /**
+     * Generates a random scalar with zero mean and unit standard deviation.
+     *
+     * @return a random scalar in the range \( [-\sqrt{3}, +\sqrt{3}] \).
      */
     @Override
     public double nextNormalizedDouble() {
-        return SQRT3 * (2 * generator.nextDouble() - 1.0);
+        return SQRT3 * (2 * generator.nextDouble() - 1);
     }
-
 }

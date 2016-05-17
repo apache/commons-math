@@ -28,9 +28,8 @@ import org.apache.commons.math4.dfp.Dfp;
 import org.apache.commons.math4.dfp.DfpField;
 import org.apache.commons.math4.dfp.DfpMath;
 import org.apache.commons.math4.exception.MathArithmeticException;
-import org.apache.commons.math4.random.MersenneTwister;
-import org.apache.commons.math4.random.RandomGenerator;
-import org.apache.commons.math4.random.Well1024a;
+import org.apache.commons.math4.rng.UniformRandomProvider;
+import org.apache.commons.math4.rng.RandomSource;
 import org.apache.commons.math4.util.FastMath;
 import org.apache.commons.math4.util.Precision;
 import org.junit.Assert;
@@ -45,12 +44,12 @@ public class FastMathTest {
 
 
     private DfpField field;
-    private RandomGenerator generator;
+    private UniformRandomProvider generator;
 
     @Before
     public void setUp() {
         field = new DfpField(40);
-        generator = new MersenneTwister(6176597458463500194l);
+        generator = RandomSource.create(RandomSource.MT, 6176597458463500194l);
     }
 
     @Test
@@ -1914,7 +1913,8 @@ public class FastMathTest {
 
     @Test
     public void testFloorDivModInt() {
-        RandomGenerator generator = new Well1024a(0x7ccab45edeaab90al);
+        UniformRandomProvider generator = RandomSource.create(RandomSource.WELL_1024_A,
+                                                              0x7ccab45edeaab90al);
         for (int i = 0; i < 10000; ++i) {
             int a = generator.nextInt();
             int b = generator.nextInt();
@@ -1986,7 +1986,8 @@ public class FastMathTest {
 
     @Test
     public void testFloorDivModLong() {
-        RandomGenerator generator = new Well1024a(0xb87b9bc14c96ccd5l);
+        UniformRandomProvider generator = RandomSource.create(RandomSource.WELL_1024_A,
+                                                              0xb87b9bc14c96ccd5l);
         for (int i = 0; i < 10000; ++i) {
             long a = generator.nextLong();
             long b = generator.nextLong();

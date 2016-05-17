@@ -22,7 +22,8 @@ import java.util.List;
 import org.apache.commons.math4.ExtendedFieldElementAbstractTest;
 import org.apache.commons.math4.TestUtils;
 import org.apache.commons.math4.analysis.polynomials.PolynomialFunction;
-import org.apache.commons.math4.random.Well1024a;
+import org.apache.commons.math4.rng.UniformRandomProvider;
+import org.apache.commons.math4.rng.RandomSource;
 import org.apache.commons.math4.util.FastMath;
 import org.junit.Assert;
 import org.junit.Test;
@@ -1022,7 +1023,8 @@ public class SparseGradientTest extends ExtendedFieldElementAbstractTest<SparseG
     public void testLinearCombination2DSDS() {
         // we compare accurate versus naive dot product implementations
         // on regular vectors (i.e. not extreme cases like in the previous test)
-        Well1024a random = new Well1024a(0xc6af886975069f11l);
+        UniformRandomProvider random = RandomSource.create(RandomSource.WELL_1024_A,
+                                                           0xc6af886975069f11l);
 
         for (int i = 0; i < 10000; ++i) {
             final SparseGradient[] u = new SparseGradient[4];
@@ -1066,7 +1068,8 @@ public class SparseGradientTest extends ExtendedFieldElementAbstractTest<SparseG
     public void testLinearCombination2DoubleDS() {
         // we compare accurate versus naive dot product implementations
         // on regular vectors (i.e. not extreme cases like in the previous test)
-        Well1024a random = new Well1024a(0xc6af886975069f11l);
+        UniformRandomProvider random = RandomSource.create(RandomSource.WELL_1024_A,
+                                                           0xc6af886975069f11l);
 
         for (int i = 0; i < 10000; ++i) {
             final double[] u = new double[4];

@@ -26,7 +26,7 @@ import org.apache.commons.math4.exception.util.LocalizedFormats;
 import org.apache.commons.math4.optim.MaxEval;
 import org.apache.commons.math4.optim.OptimizationData;
 import org.apache.commons.math4.optim.nonlinear.scalar.GoalType;
-import org.apache.commons.math4.random.RandomGenerator;
+import org.apache.commons.math4.rng.UniformRandomProvider;
 
 /**
  * Special implementation of the {@link UnivariateOptimizer} interface
@@ -47,7 +47,7 @@ public class MultiStartUnivariateOptimizer
     /** Number of starts to go. */
     private final int starts;
     /** Random generator for multi-start. */
-    private final RandomGenerator generator;
+    private final UniformRandomProvider generator;
     /** Found optima. */
     private UnivariatePointValuePair[] optima;
     /** Optimization data. */
@@ -75,7 +75,7 @@ public class MultiStartUnivariateOptimizer
      */
     public MultiStartUnivariateOptimizer(final UnivariateOptimizer optimizer,
                                          final int starts,
-                                         final RandomGenerator generator) {
+                                         final UniformRandomProvider generator) {
         super(optimizer.getConvergenceChecker());
 
         if (starts < 1) {

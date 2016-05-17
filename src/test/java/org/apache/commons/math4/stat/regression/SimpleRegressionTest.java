@@ -20,7 +20,8 @@ import java.util.Random;
 
 import org.apache.commons.math4.exception.MathIllegalArgumentException;
 import org.apache.commons.math4.exception.OutOfRangeException;
-import org.apache.commons.math4.random.ISAACRandom;
+import org.apache.commons.math4.rng.UniformRandomProvider;
+import org.apache.commons.math4.rng.RandomSource;
 import org.apache.commons.math4.stat.regression.ModelSpecificationException;
 import org.apache.commons.math4.stat.regression.RegressionResults;
 import org.apache.commons.math4.stat.regression.SimpleRegression;
@@ -135,7 +136,7 @@ public final class SimpleRegressionTest {
      */
     private void check(boolean includeIntercept) {
         final int sets = 2;
-        final ISAACRandom rand = new ISAACRandom(10L);// Seed can be changed
+        final UniformRandomProvider rand = RandomSource.create(RandomSource.ISAAC, 10L);// Seed can be changed
         final SimpleRegression whole = new SimpleRegression(includeIntercept);// regression of the whole set
         final SimpleRegression parts = new SimpleRegression(includeIntercept);// regression with parts.
 

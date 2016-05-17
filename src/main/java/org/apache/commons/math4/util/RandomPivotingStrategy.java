@@ -19,7 +19,7 @@ package org.apache.commons.math4.util;
 import java.io.Serializable;
 
 import org.apache.commons.math4.exception.MathIllegalArgumentException;
-import org.apache.commons.math4.random.RandomGenerator;
+import org.apache.commons.math4.rng.UniformRandomProvider;
 
 
 /**
@@ -32,12 +32,12 @@ public class RandomPivotingStrategy implements PivotingStrategyInterface, Serial
     private static final long serialVersionUID = 20140713L;
 
     /** Random generator to use for selecting pivot. */
-    private final RandomGenerator random;
+    private final UniformRandomProvider random;
 
     /** Simple constructor.
      * @param random random generator to use for selecting pivot
      */
-    public RandomPivotingStrategy(final RandomGenerator random) {
+    public RandomPivotingStrategy(final UniformRandomProvider random) {
         this.random = random;
     }
 

@@ -25,8 +25,8 @@ import org.apache.commons.math4.exception.NotANumberException;
 import org.apache.commons.math4.exception.NotPositiveException;
 import org.apache.commons.math4.exception.NotStrictlyPositiveException;
 import org.apache.commons.math4.exception.NullArgumentException;
+import org.apache.commons.math4.rng.UniformRandomProvider;
 import org.apache.commons.math4.rng.RandomSource;
-import org.apache.commons.math4.random.Well1024a;
 import org.apache.commons.math4.util.FastMath;
 import org.apache.commons.math4.util.MathArrays;
 import org.apache.commons.math4.util.Precision;
@@ -762,7 +762,8 @@ public class MathArraysTest {
     public void testLinearCombination2() {
         // we compare accurate versus naive dot product implementations
         // on regular vectors (i.e. not extreme cases like in the previous test)
-        Well1024a random = new Well1024a(553267312521321234l);
+        UniformRandomProvider random = RandomSource.create(RandomSource.XOR_SHIFT_1024_S,
+                                                           553267312521321234l);
 
         for (int i = 0; i < 10000; ++i) {
             final double ux = 1e17 * random.nextDouble();

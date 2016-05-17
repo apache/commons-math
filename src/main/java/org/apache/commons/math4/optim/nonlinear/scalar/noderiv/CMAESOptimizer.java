@@ -35,7 +35,9 @@ import org.apache.commons.math4.optim.OptimizationData;
 import org.apache.commons.math4.optim.PointValuePair;
 import org.apache.commons.math4.optim.nonlinear.scalar.GoalType;
 import org.apache.commons.math4.optim.nonlinear.scalar.MultivariateOptimizer;
-import org.apache.commons.math4.random.RandomGenerator;
+import org.apache.commons.math4.rng.UniformRandomProvider;
+import org.apache.commons.math4.distribution.RealDistribution;
+import org.apache.commons.math4.distribution.NormalDistribution;
 import org.apache.commons.math4.util.FastMath;
 import org.apache.commons.math4.util.MathArrays;
 
@@ -195,8 +197,8 @@ public class CMAESOptimizer
     /** Size of history queue of best values. */
     private int historySize;
 
-    /** Random generator. */
-    private final RandomGenerator random;
+    /** Gaussian sampler. */
+    private final RealDistribution.Sampler random;
 
     /** History of sigma values. */
     private final List<Double> statisticsSigmaHistory = new ArrayList<Double>();
@@ -216,7 +218,7 @@ public class CMAESOptimizer
      * remains diagonal.
      * @param checkFeasableCount Determines how often new random objective variables are
      * generated in case they are out of bounds.
-     * @param random Random generator.
+     * @param rng Random generator.
      * @param generateStatistics Whether statistic data is collected.
      * @param checker Convergence checker.
      *
@@ -227,7 +229,7 @@ public class CMAESOptimizer
                           boolean isActiveCMA,
                           int diagonalOnly,
                           int checkFeasableCount,
-                          RandomGenerator random,
+                          UniformRandomProvider rng,
                           boolean generateStatistics,
                           ConvergenceChecker<PointValuePair> checker) {
         super(checker);
@@ -236,7 +238,7 @@ public class CMAESOptimizer
         this.isActiveCMA = isActiveCMA;
         this.diagonalOnly = diagonalOnly;
         this.checkFeasableCount = checkFeasableCount;
-        this.random = random;
+        this.random = new NormalDistribution().createSampler(rng);
         this.generateStatistics = generateStatistics;
     }
 
@@ -1335,7 +1337,7 @@ public class CMAESOptimizer
     private double[] randn(int size) {
         final double[] randn = new double[size];
         for (int i = 0; i < size; i++) {
-            randn[i] = random.nextGaussian();
+            randn[i] = random.sample();
         }
         return randn;
     }
@@ -1349,7 +1351,7 @@ public class CMAESOptimizer
         final double[][] d = new double[size][popSize];
         for (int r = 0; r < size; r++) {
             for (int c = 0; c < popSize; c++) {
-                d[r][c] = random.nextGaussian();
+                d[r][c] = random.sample();
             }
         }
         return new Array2DRowRealMatrix(d, false);

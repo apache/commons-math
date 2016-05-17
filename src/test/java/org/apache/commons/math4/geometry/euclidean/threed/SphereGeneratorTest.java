@@ -24,9 +24,9 @@ import org.apache.commons.math4.geometry.enclosing.EnclosingBall;
 import org.apache.commons.math4.geometry.euclidean.threed.Euclidean3D;
 import org.apache.commons.math4.geometry.euclidean.threed.SphereGenerator;
 import org.apache.commons.math4.geometry.euclidean.threed.Vector3D;
-import org.apache.commons.math4.random.RandomGenerator;
 import org.apache.commons.math4.random.UnitSphereRandomVectorGenerator;
-import org.apache.commons.math4.random.Well1024a;
+import org.apache.commons.math4.rng.UniformRandomProvider;
+import org.apache.commons.math4.rng.RandomSource;
 import org.apache.commons.math4.util.FastMath;
 import org.junit.Assert;
 import org.junit.Test;
@@ -137,7 +137,8 @@ public class SphereGeneratorTest {
 
     @Test
     public void testRandom() {
-        final RandomGenerator random = new Well1024a(0xd015982e9f31ee04l);
+        final UniformRandomProvider random = RandomSource.create(RandomSource.WELL_1024_A,
+                                                                 0xd015982e9f31ee04l);
         final UnitSphereRandomVectorGenerator sr = new UnitSphereRandomVectorGenerator(3, random);
         for (int i = 0; i < 100; ++i) {
             double d = 25 * random.nextDouble();
@@ -151,7 +152,6 @@ public class SphereGeneratorTest {
             Assert.assertEquals(0.0, refCenter.distance(sphere.getCenter()), 4e-7 * refRadius);
             Assert.assertEquals(refRadius, sphere.getRadius(), 1e-7 * refRadius);
         }
-
     }
 
     @Test

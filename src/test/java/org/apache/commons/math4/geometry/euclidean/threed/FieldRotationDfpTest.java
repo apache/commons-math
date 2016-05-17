@@ -29,7 +29,8 @@ import org.apache.commons.math4.geometry.euclidean.threed.Rotation;
 import org.apache.commons.math4.geometry.euclidean.threed.RotationOrder;
 import org.apache.commons.math4.geometry.euclidean.threed.Vector3D;
 import org.apache.commons.math4.random.UnitSphereRandomVectorGenerator;
-import org.apache.commons.math4.random.Well1024a;
+import org.apache.commons.math4.rng.UniformRandomProvider;
+import org.apache.commons.math4.rng.RandomSource;
 import org.apache.commons.math4.util.FastMath;
 import org.apache.commons.math4.util.MathUtils;
 import org.junit.Assert;
@@ -800,8 +801,8 @@ public class FieldRotationDfpTest {
 
     @Test
     public void testDoubleVectors() throws MathIllegalArgumentException {
-
-        Well1024a random = new Well1024a(0x180b41cfeeffaf67l);
+        UniformRandomProvider random = RandomSource.create(RandomSource.WELL_1024_A,
+                                                           0x180b41cfeeffaf67l);
         UnitSphereRandomVectorGenerator g = new UnitSphereRandomVectorGenerator(3, random);
         for (int i = 0; i < 10; ++i) {
             double[] unit = g.nextVector();
@@ -835,9 +836,9 @@ public class FieldRotationDfpTest {
 
     @Test
     public void testDoubleRotations() throws MathIllegalArgumentException {
-
+        UniformRandomProvider random = RandomSource.create(RandomSource.WELL_1024_A,
+                                                           0x180b41cfeeffaf67l);
         DfpField field = new DfpField(20);
-        Well1024a random = new Well1024a(0x180b41cfeeffaf67l);
         UnitSphereRandomVectorGenerator g = new UnitSphereRandomVectorGenerator(3, random);
         for (int i = 0; i < 10; ++i) {
             double[] unit1 = g.nextVector();

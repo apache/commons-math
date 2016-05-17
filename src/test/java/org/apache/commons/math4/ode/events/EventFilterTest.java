@@ -27,8 +27,8 @@ import org.apache.commons.math4.ode.events.EventFilter;
 import org.apache.commons.math4.ode.events.EventHandler;
 import org.apache.commons.math4.ode.events.FilterType;
 import org.apache.commons.math4.ode.nonstiff.DormandPrince853Integrator;
-import org.apache.commons.math4.random.RandomGenerator;
-import org.apache.commons.math4.random.Well19937a;
+import org.apache.commons.math4.rng.UniformRandomProvider;
+import org.apache.commons.math4.rng.RandomSource;
 import org.apache.commons.math4.util.FastMath;
 import org.junit.Assert;
 import org.junit.Test;
@@ -118,7 +118,7 @@ public class EventFilterTest {
         }
 
         // verify old events are preserved, even if randomly accessed
-        RandomGenerator rng = new Well19937a(0xb0e7401265af8cd3l);
+        UniformRandomProvider rng = RandomSource.create(RandomSource.TWO_CMRES, 0xb0e7401265af8cd3l);
         for (int i = 0; i < 5000; i++) {
             double t = t0 + (t1 - t0) * rng.nextDouble();
             double g = eventFilter.g(t, new double[] { FastMath.sin(t), FastMath.cos(t) });

@@ -27,7 +27,8 @@ import org.apache.commons.math4.exception.DimensionMismatchException;
 import org.apache.commons.math4.exception.MathArithmeticException;
 import org.apache.commons.math4.geometry.euclidean.threed.FieldVector3D;
 import org.apache.commons.math4.geometry.euclidean.threed.Vector3D;
-import org.apache.commons.math4.random.Well1024a;
+import org.apache.commons.math4.rng.UniformRandomProvider;
+import org.apache.commons.math4.rng.RandomSource;
 import org.apache.commons.math4.util.FastMath;
 import org.apache.commons.math4.util.Precision;
 import org.junit.Assert;
@@ -592,7 +593,7 @@ public class FieldVector3DTest {
     public void testDotProduct() {
         // we compare accurate versus naive dot product implementations
         // on regular vectors (i.e. not extreme cases like in the previous test)
-        Well1024a random = new Well1024a(553267312521321234l);
+        UniformRandomProvider random = RandomSource.create(RandomSource.WELL_1024_A, 553267312521321237l);
         for (int i = 0; i < 10000; ++i) {
             double ux = 10000 * random.nextDouble();
             double uy = 10000 * random.nextDouble();
@@ -649,7 +650,7 @@ public class FieldVector3DTest {
     public void testCrossProduct() {
         // we compare accurate versus naive cross product implementations
         // on regular vectors (i.e. not extreme cases like in the previous test)
-        Well1024a random = new Well1024a(885362227452043214l);
+        UniformRandomProvider random = RandomSource.create(RandomSource.WELL_1024_A, 885362227452043214l);
         for (int i = 0; i < 10000; ++i) {
             double ux = random.nextDouble();
             double uy = random.nextDouble();

@@ -24,9 +24,9 @@ import org.apache.commons.math4.geometry.enclosing.EnclosingBall;
 import org.apache.commons.math4.geometry.euclidean.twod.DiskGenerator;
 import org.apache.commons.math4.geometry.euclidean.twod.Euclidean2D;
 import org.apache.commons.math4.geometry.euclidean.twod.Vector2D;
-import org.apache.commons.math4.random.RandomGenerator;
 import org.apache.commons.math4.random.UnitSphereRandomVectorGenerator;
-import org.apache.commons.math4.random.Well1024a;
+import org.apache.commons.math4.rng.UniformRandomProvider;
+import org.apache.commons.math4.rng.RandomSource;
 import org.junit.Assert;
 import org.junit.Test;
 
@@ -102,7 +102,8 @@ public class DiskGeneratorTest {
 
     @Test
     public void testRandom() {
-        final RandomGenerator random = new Well1024a(0x12faa818373ffe90l);
+        final UniformRandomProvider random = RandomSource.create(RandomSource.WELL_1024_A,
+                                                                 0x12faa818373ffe90l);
         final UnitSphereRandomVectorGenerator sr = new UnitSphereRandomVectorGenerator(2, random);
         for (int i = 0; i < 500; ++i) {
             double d = 25 * random.nextDouble();

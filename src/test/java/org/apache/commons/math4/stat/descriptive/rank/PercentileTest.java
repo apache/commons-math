@@ -25,7 +25,6 @@ import org.apache.commons.math4.exception.MathIllegalArgumentException;
 import org.apache.commons.math4.exception.NotANumberException;
 import org.apache.commons.math4.exception.NullArgumentException;
 import org.apache.commons.math4.exception.OutOfRangeException;
-import org.apache.commons.math4.random.Well1024a;
 import org.apache.commons.math4.rng.RandomSource;
 import org.apache.commons.math4.rng.UniformRandomProvider;
 import org.apache.commons.math4.stat.descriptive.UnivariateStatistic;
@@ -317,7 +316,7 @@ public class PercentileTest extends UnivariateStatisticAbstractTest{
 
     @Test
     public void testAllTechniquesPercentileUsingRandomPivoting() {
-        kthSelector = new KthSelector(new RandomPivotingStrategy(new Well1024a(0x268a7fb4194240f6l)));
+        kthSelector = new KthSelector(new RandomPivotingStrategy(RandomSource.create(RandomSource.WELL_1024_A, 0x268a7fb4194240f6l)));
         Assert.assertEquals(RandomPivotingStrategy.class,
                             getUnivariateStatistic().getPivotingStrategy().getClass());
         checkAllTechniquesPercentile();
@@ -696,7 +695,7 @@ public class PercentileTest extends UnivariateStatisticAbstractTest{
         for (final PivotingStrategyInterface strategy : new PivotingStrategyInterface[] {
             new MedianOf3PivotingStrategy(),
             new CentralPivotingStrategy(),
-            new RandomPivotingStrategy(new Well1024a(0xf097c734e4740053l))
+            new RandomPivotingStrategy(RandomSource.create(RandomSource.WELL_1024_A, 0xf097c734e4740053l))
         }) {
             kthSelector = new KthSelector(strategy);
             testAllEstimationTechniquesOnly();
