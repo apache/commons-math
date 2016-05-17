@@ -48,9 +48,10 @@ public class IntegerSequence {
     }
 
     /**
-     * Creates a sequence \( a_i, i < 0 <= n \)
-     * where \( a_i = start + i * step \)
-     * and \( n \) is such that \( a_n <= max \) and \( a_{n+1} > max \).
+     * Creates a sequence <code>a<sub>i</sub>, i < 0 < n</code>
+     * where <code>a<sub>i</sub> = start + i * step</code>
+     * and {@code n} is such that <code>a<sub>n</sub> <= max</code>
+     * and  <code>a<sub>n+1</sub> > max</code>.
      *
      * @param start First value of the range.
      * @param max Last value of the range that satisfies the above
@@ -78,9 +79,10 @@ public class IntegerSequence {
         private final int step;
 
         /**
-         * Creates a sequence \( a_i, i < 0 <= n \)
-         * where \( a_i = start + i * step \)
-         * and \( n \) is such that \( a_n <= max \) and \( a_{n+1} > max \).
+         * Creates a sequence <code>a<sub>i</sub>, i < 0 < n</code>
+         * where <code>a<sub>i</sub> = start + i * step</code>
+         * and {@code n} is such that <code>a<sub>n</sub> <= max</code>
+         * and  <code>a<sub>n+1</sub> > max</code>.
          *
          * @param start First value of the range.
          * @param max Last value of the range that satisfies the above
