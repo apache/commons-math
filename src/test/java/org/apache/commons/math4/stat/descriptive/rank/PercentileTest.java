@@ -316,7 +316,7 @@ public class PercentileTest extends UnivariateStatisticAbstractTest{
 
     @Test
     public void testAllTechniquesPercentileUsingRandomPivoting() {
-        kthSelector = new KthSelector(new RandomPivotingStrategy(RandomSource.create(RandomSource.WELL_1024_A, 0x268a7fb4194240f6l)));
+        kthSelector = new KthSelector(new RandomPivotingStrategy(RandomSource.WELL_1024_A, 0x268a7fb4194240f6l));
         Assert.assertEquals(RandomPivotingStrategy.class,
                             getUnivariateStatistic().getPivotingStrategy().getClass());
         checkAllTechniquesPercentile();
@@ -695,7 +695,7 @@ public class PercentileTest extends UnivariateStatisticAbstractTest{
         for (final PivotingStrategyInterface strategy : new PivotingStrategyInterface[] {
             new MedianOf3PivotingStrategy(),
             new CentralPivotingStrategy(),
-            new RandomPivotingStrategy(RandomSource.create(RandomSource.WELL_1024_A, 0xf097c734e4740053l))
+            new RandomPivotingStrategy(RandomSource.WELL_1024_A, 0xf097c734e4740053l)
         }) {
             kthSelector = new KthSelector(strategy);
             testAllEstimationTechniquesOnly();
