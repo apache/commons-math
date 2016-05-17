@@ -24,9 +24,7 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
 
-import org.apache.commons.math4.random.MersenneTwister;
-import org.apache.commons.math4.random.RandomGenerator;
-import org.apache.commons.math4.random.SynchronizedRandomGenerator;
+import org.apache.commons.math4.rng.RandomSource;
 import org.junit.Assert;
 import org.junit.Test;
 
@@ -38,9 +36,9 @@ public class SynchronizedRandomGeneratorTest {
     @Test
     public void testAdapter() {
         final int seed = 12345;
-        final RandomGenerator orig = new MersenneTwister(seed);
+        final RandomGenerator orig = new RngAdaptor(RandomSource.MT, seed);
         final RandomGenerator wrap
-            = new SynchronizedRandomGenerator(new MersenneTwister(seed));
+            = new SynchronizedRandomGenerator(new RngAdaptor(RandomSource.MT, seed));
 
         final int bSize = 67;
         final byte[] bOrig = new byte[bSize];
@@ -92,7 +90,7 @@ public class SynchronizedRandomGeneratorTest {
                                    final int numSamples)
         throws InterruptedException,
                ExecutionException {
-        final RandomGenerator rng = new MersenneTwister();
+        final RandomGenerator rng = new RngAdaptor(RandomSource.MT);
         final RandomGenerator wrapper = sync ? new SynchronizedRandomGenerator(rng) : rng;
 
         final List<Callable<Double>> tasks = new ArrayList<Callable<Double>>();
