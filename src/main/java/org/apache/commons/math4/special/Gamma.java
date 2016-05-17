@@ -214,18 +214,19 @@ public class Gamma {
     private static final double INV_GAMMA1P_M1_C13 = -.205633841697760710345015413002057E-06;
 
     /**
-     * Default constructor.  Prohibit instantiation.
+     * Class contains only static methods.
      */
     private Gamma() {}
 
     /**
-     * Returns the value of \( \log \Gamma(x) \) for \( x > 0 \).
+     * Computes the function \( \ln \Gamma(x) \) for \( x > 0 \).
      *
      * <p>
      * For \( x \leq 8 \), the implementation is based on the double precision
      * implementation in the <em>NSWC Library of Mathematics Subroutines</em>,
      * {@code DGAMLN}. For \( x \geq 8 \), the implementation is based on
      * </p>
+     *
      * <ul>
      * <li><a href="http://mathworld.wolfram.com/GammaFunction.html">Gamma
      *     Function</a>, equation (28).</li>
@@ -237,7 +238,7 @@ public class Gamma {
      * </ul>
      *
      * @param x Argument.
-     * @return the value of {@code log(Gamma(x))} or {@code NaN} if {@code x <= 0}.
+     * @return \( \ln \Gamma(x) \), or {@code NaN} if {@code x <= 0}.
      */
     public static double logGamma(double x) {
         double ret;
@@ -266,11 +267,11 @@ public class Gamma {
     }
 
     /**
-     * Returns the regularized gamma function \( P(a, x) \).
+     * Computes the regularized gamma function \( P(a, x) \).
      *
-     * @param a Parameter.
+     * @param a Parameter \( a \).
      * @param x Value.
-     * @return the regularized gamma function P(a, x).
+     * @return \( P(a, x) \)
      * @throws MaxCountExceededException if the algorithm fails to converge.
      */
     public static double regularizedGammaP(double a, double x) {
@@ -278,7 +279,7 @@ public class Gamma {
     }
 
     /**
-     * Returns the regularized gamma function \( P(a, x) \).
+     * Computes the regularized gamma function \( P(a, x) \).
      *
      * The implementation of this method is based on:
      * <ul>
@@ -296,13 +297,13 @@ public class Gamma {
      *  </li>
      * </ul>
      *
-     * @param a the a parameter.
-     * @param x the value.
+     * @param a Parameter \( a \).
+     * @param x Argument.
      * @param epsilon When the absolute value of the nth item in the
      * series is less than epsilon the approximation ceases to calculate
      * further elements in the series.
      * @param maxIterations Maximum number of "iterations" to complete.
-     * @return the regularized gamma function P(a, x)
+     * @return \( P(a, x) \)
      * @throws MaxCountExceededException if the algorithm fails to converge.
      */
     public static double regularizedGammaP(double a,
@@ -347,11 +348,11 @@ public class Gamma {
     }
 
     /**
-     * Returns the regularized gamma function Q(a, x) = 1 - P(a, x).
+     * Computes the regularized gamma function \( Q(a, x) = 1 - P(a, x) \).
      *
-     * @param a the a parameter.
-     * @param x the value.
-     * @return the regularized gamma function Q(a, x)
+     * @param a Parameter \( a \).
+     * @param x Argument.
+     * @return \( Q(a, x) \)
      * @throws MaxCountExceededException if the algorithm fails to converge.
      */
     public static double regularizedGammaQ(double a, double x) {
@@ -359,7 +360,7 @@ public class Gamma {
     }
 
     /**
-     * Returns the regularized gamma function \( Q(a, x) = 1 - P(a, x) \).
+     * Computes the regularized gamma function \( Q(a, x) = 1 - P(a, x) \).
      *
      * The implementation of this method is based on:
      * <ul>
@@ -374,13 +375,13 @@ public class Gamma {
      *  </li>
      * </ul>
      *
-     * @param a the a parameter.
-     * @param x the value.
+     * @param a Parameter \( a \).
+     * @param x Argument.
      * @param epsilon When the absolute value of the nth item in the
      * series is less than epsilon the approximation ceases to calculate
      * further elements in the series.
      * @param maxIterations Maximum number of "iterations" to complete.
-     * @return the regularized gamma function P(a, x)
+     * @return \( Q(a, x) \)
      * @throws MaxCountExceededException if the algorithm fails to converge.
      */
     public static double regularizedGammaQ(final double a,
@@ -423,7 +424,9 @@ public class Gamma {
 
 
     /**
-     * Computes the digamma function.
+     * Computes the digamma function, defined as the logarithmic derivative
+     * of the \( \Gamma \) function:
+     * \( \frac{d}{dx}(\ln \Gamma(x)) = \frac{\Gamma^\prime(x)}{\Gamma(x)} \).
      *
      * <p>This is an independently written implementation of the algorithm described in
      * Jose Bernardo, Algorithm AS 103: Psi (Digamma) Function, Applied Statistics, 1976.
@@ -477,16 +480,17 @@ public class Gamma {
     }
 
     /**
-     * Computes the trigamma function.
-     * This function is derived by taking the derivative of the implementation
-     * of digamma.
+     * Computes the trigamma function \( \psi_1(x) = \frac{d^2}{dx^2} (\ln \Gamma(x)) \).
+     * <p>
+     * This function is the derivative of the {@link #digamma(double) digamma function}.
+     * </p>
      *
      * @param x Argument.
-     * @return {@code trigamma(x)} to within \( 10^{-8} \) relative or absolute
+     * @return \( \psi_1(x) \) to within \( 10^{-8} \) relative or absolute
      * error whichever is smaller
      *
      * @see <a href="http://en.wikipedia.org/wiki/Trigamma_function">Trigamma</a>
-     * @see Gamma#digamma(double)
+     * @see #digamma(double)
      *
      * @since 2.0
      */
@@ -512,23 +516,26 @@ public class Gamma {
     }
 
     /**
+     * Computes the Lanczos approximation used to compute the gamma function.
+     *
      * <p>
-     * Returns the Lanczos approximation used to compute the gamma function.
      * The Lanczos approximation is related to the Gamma function by the
      * following equation
      * \[
-     * \Gamma(x) = \sqrt{2\pi} \, \frac{(x + g + 1/2)^{x + \frac{1}{2}} \, e^{-x - g - \frac{1}{2}} \, \mathrm{lanczos}(x)}
-     *                              {x}
+     * \Gamma(x) = \sqrt{2\pi} \, \frac{(g + x + \frac{1}{2})^{x + \frac{1}{2}} \, e^{-(g + x + \frac{1}{2})} \, \mathrm{lanczos}(x)}
+     *                                 {x}
      * \]
      * where \(g\) is the Lanczos constant.
      * </p>
      *
      * @param x Argument.
      * @return The Lanczos approximation.
+     *
      * @see <a href="http://mathworld.wolfram.com/LanczosApproximation.html">Lanczos Approximation</a>
      * equations (1) through (5), and Paul Godfrey's
      * <a href="http://my.fit.edu/~gabdo/gamma.txt">Note on the computation
      * of the convergent Lanczos complex Gamma approximation</a>
+     *
      * @since 3.1
      */
     public static double lanczos(final double x) {
@@ -540,14 +547,17 @@ public class Gamma {
     }
 
     /**
-     * Returns the value of \( 1 / \Gamma(1 + x) - 1 \) for \( -0.5 \leq x \leq 1.5 \).
+     * Computes the function \( \frac{1}{\Gamma(1 + x)} - 1 \) for \( -0.5 \leq x \leq 1.5 \).
+     * <p>
      * This implementation is based on the double precision implementation in
      * the <em>NSWC Library of Mathematics Subroutines</em>, {@code DGAM1}.
+     * </p>
      *
      * @param x Argument.
-     * @return The value of {@code 1.0 / Gamma(1.0 + x) - 1.0}.
+     * @return \( \frac{1}{\Gamma(1 + x)} - 1 \)
      * @throws NumberIsTooSmallException if {@code x < -0.5}
      * @throws NumberIsTooLargeException if {@code x > 1.5}
+     *
      * @since 3.1
      */
     public static double invGamma1pm1(final double x) {
@@ -633,12 +643,14 @@ public class Gamma {
     }
 
     /**
-     * Returns the value of \( \log \Gamma(1 + x) \) for \( -0.5 \leq x \leq 1.5 \).
+     * Computes the function \( \ln \Gamma(1 + x) \) for \( -0.5 \leq x \leq 1.5 \).
+     * <p>
      * This implementation is based on the double precision implementation in
      * the <em>NSWC Library of Mathematics Subroutines</em>, {@code DGMLN1}.
+     * </p>
      *
      * @param x Argument.
-     * @return The value of {@code log(Gamma(1 + x))}.
+     * @return \( \ln \Gamma(1 + x) \)
      * @throws NumberIsTooSmallException if {@code x < -0.5}.
      * @throws NumberIsTooLargeException if {@code x > 1.5}.
      * @since 3.1
@@ -658,12 +670,15 @@ public class Gamma {
 
 
     /**
-     * Returns the value of \( \Gamma(x) \).
+     * Computes the value of \( \Gamma(x) \).
+     * <p>
      * Based on the <em>NSWC Library of Mathematics Subroutines</em> double
      * precision implementation, {@code DGAMMA}.
+     * </p>
      *
      * @param x Argument.
-     * @return the value of {@code Gamma(x)}.
+     * @return \( \Gamma(x) \)
+     *
      * @since 3.1
      */
     public static double gamma(final double x) {
