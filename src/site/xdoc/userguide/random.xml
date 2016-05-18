@@ -28,9 +28,11 @@
 
 <section name="2 Data Generation">
 
-<subsection name="2.1 Overview" href="overview">
+<subsection name="2.1 Overview"
+	    href="overview">
     <p>
-    The Commons Math random package includes utilities for
+    The Commons Math <a href="../apidocs/org/apache/commons/math4/random/package-summary.html">o.a.c.m.random</a>
+    package includes utilities for
     <ul>
         <li>generating random numbers</li>
         <li>generating random vectors</li>
@@ -44,37 +46,34 @@
          histograms</li>
     </ul></p>
     <p>
-     The source of random data used by the data generation utilities is
-     pluggable.  By default, the JDK-supplied PseudoRandom Number Generator
-     (PRNG) is used, but alternative generators can be "plugged in" using an
-     adaptor framework, which provides a generic facility for replacing 
-     <code>java.util.Random</code> with an alternative PRNG. Other very
-     good PRNG suitable for Monte-Carlo analysis (but <strong>not</strong>
-     for cryptography) provided by the library are the Mersenne twister from
-     Makoto Matsumoto and Takuji Nishimura and the more recent WELL generators
-     (Well Equidistributed Long-period Linear) from Fran&#231;ois Panneton, Pierre
-     L&#39;Ecuyer and Makoto Matsumoto.
+      These utilities rely on an underlying "source of randomness", which in most
+      cases is a pseudo-random number generator (PRNG) that produces sequences
+      of numbers that are uniformly distributed within their range.
+      Commons Math provides many PRNG implementations that share a common
+      interface:
+      <a href="../apidocs/org/apache/commons/math4/rng/UniformRandomProvider.html">
+	UniformRandomProvider</a> (for more details about this interface and the
+      available RNG algorithms, please refer to the documentation of package
+      <a href="../apidocs/org/apache/commons/math4/rng/package-summary.html">
+	org.apache.commons.math4.rng</a>.
     </p>
     <p>
-     Sections 2.2-2.6 below show how to use the commons math API to generate
-     different kinds of random data.  The examples all use the default
-     JDK-supplied PRNG.  PRNG pluggability is covered in 2.7.  The only 
-     modification required to the examples to use alternative PRNGs is to
-     replace the argumentless constructor calls with invocations including
-     a <code>RandomGenerator</code> instance as a parameter.
-    </p>  
+      A PRNG algorithm is often deterministic, i.e. it produces the same sequence
+      when initialized with the same "seed".
+      This property is important for some applications like Monte-Carlo simulations,
+      but makes such a PRNG often unsuitable for cryptographic purposes.
+    </p>
 </subsection>
 
-<subsection name="2.2 Random numbers" href="deviates">
-    <p>
-    The <a href="../apidocs/org/apache/commons/math4/random/RandomDataGenerator.html">
-    RandomDataGenerator</a> class implements methods for generating random sequences
-    of numbers. The API contracts of these methods use the following concepts:
+<subsection name="2.2 Random Deviates"
+	    href="deviates">
+  <p>
     <dl>
     <dt>Random sequence of numbers from a probability distribution</dt>
-    <dd>There is no such thing as a single "random number."  What can be
+    <dd>
+    There is no such thing as a single "random number."  What can be
     generated  are <i>sequences</i> of numbers that appear to be random.  When
-    using the built-in JDK function <code>Math.random(),</code> sequences of 
+    using the built-in JDK function <code>Math.random()</code>, sequences of 
     values generated follow the 
     <a href="http://www.itl.nist.gov/div898/handbook/eda/section3/eda3662.htm">
     Uniform Distribution</a>, which means that the values are evenly spread
@@ -85,84 +84,46 @@
     probability distribution</a> basically amounts to asserting that different
     ranges in the set  of possible values of a random variable have
     different probabilities of containing the value.  Commons Math supports
-    generating random sequences from each of the distributions in the
+    generating random sequences from each of the distributions defined in the
     <a href="../apidocs/org/apache/commons/math4/distribution/package-summary.html">
-    distributions</a> package.
-    The javadoc for the <code>nextXxx</code> methods in 
-    <a href="../apidocs/org/apache/commons/math4/random/RandomDataGenerator.html">
-    RandomDataGenerator</a> describes the algorithms used to generate
-    random deviates.   
+      o.a.c.m.distribution</a> package.
+    Please refer to the <a href="../distribution.html">specific documentation</a>
+    for more details.
     </dd>
+
     <dt>Cryptographically secure random sequences</dt>
-    <dd>It is possible for a sequence of numbers to appear random, but
+    <dd>
+    It is possible for a sequence of numbers to appear random, but
     nonetheless to be predictable based on the algorithm used to generate the
     sequence. If in addition to randomness, strong unpredictability is
     required, it is best to use a  
     <a href="http://www.wikipedia.org/wiki/Cryptographically_secure_pseudo-random_number_generator">
-    secure random number generator</a> to generate values (or strings). The
-    nextSecureXxx methods implemented by <code>RandomDataGenerator</code>
-    use the JDK <code>SecureRandom</code> PRNG to generate cryptographically
-    secure sequences. The <code>setSecureAlgorithm</code> method allows you to
-    change the underlying PRNG. These methods are <strong>much slower</strong> than
-    the corresponding "non-secure" versions, so they should only be used when cryptographic
-    security is required.  The <code>ISAACRandom</code> class implements a fast
-    cryptographically secure pseudorandom number generator.</dd>
-    <dt>Seeding pseudo-random number generators</dt>
-    <dd>By default, the implementation provided in <code>RandomDataGenerator</code>
-    uses the JDK-provided PRNG.  Like most other PRNGs, the JDK generator
-    generates sequences of random numbers based on an initial "seed value."
-    For the non-secure methods, starting with the same seed always produces the
-    same sequence of values.  Secure sequences started with the same seeds will
-    diverge. When a new <code>RandomDataGenerator</code> is created, the underlying
-    random number generators are <strong>not</strong> initialized.  The first
-    call to a data generation method, or to a <code>reSeed()</code> method
-    initializes the appropriate generator.  If you do not explicitly seed the
-    generator, it is by default seeded with the current time in milliseconds.
-    Therefore, to generate sequences of random data values, you should always
-    instantiate <strong>one</strong> <code> RandomDataGenerator</code> and use it
-    repeatedly instead of creating new instances for subsequent values in the
-    sequence.  For example, the following will generate a random sequence of 50
-    long integers between 1 and 1,000,000, using the current time in
-    milliseconds as the seed for the JDK PRNG:
+      secure random number generator</a> to generate values (or strings).
+
+    Most PRNG implemented in this library are not secure in that sense, except
+    perhaps the <a href="../apidocs/org/apache/commons/math4/rng/internal/source32/ISAACRandom.html">
+      ISAAC generator</a>.
+    An alternative is to use an instance of the JDK-provided <code>SecureRandom</code>
+    generator.
+    In general, such secure generator produce sequence based on a source of
+    true randomness, and sequences started with the same seed will diverge.
+
+    The <a href="../apidocs/org/apache/commons/math4/random/RandomUtils.html">RandomUtils</a>
+    class provides factory" method to wrap <code>java.util.Random</code> or
+    <code>java.security.SecureRandom</code> instances in an object that implements
+    the <a href="../apidocs/org/apache/commons/math4/rng/UniformRandomProvider.html">
+    UniformRandomProvider</a> interface:
     <source>
-RandomDataGenerator randomData = new RandomDataGenerator(); 
-for (int i = 0; i &lt; 1000; i++) {
-    value = randomData.nextLong(1, 1000000);
-}
-    </source>
-    The following will not in general produce a good random sequence, since the
-    PRNG is reseeded each time through the loop with the current time in
-    milliseconds:
-    <source>
-for (int i = 0; i &lt; 1000; i++) {
-    RandomDataGenerator randomData = new RandomDataGenerator(); 
-    value = randomData.nextLong(1, 1000000);
-}
-    </source>
-    The following will produce the same random sequence each time it is
-    executed:
-    <source>
-RandomDataGenerator randomData = new RandomDataGenerator(); 
-randomData.reSeed(1000);
-for (int i = 0; i = 1000; i++) {
-    value = randomData.nextLong(1, 1000000);
-}
-    </source>
-    The following will produce a different random sequence each time it is
-     executed. 
-    <source>
-RandomDataGenerator randomData = new RandomDataGenerator(); 
-randomData.reSeedSecure(1000);
-for (int i = 0; i &lt; 1000; i++) {
-    value = randomData.nextSecureLong(1, 1000000);
-}
-    </source>
-    </dd></dl>
-    </p>
+UniformRandomProvider rg = RandomUtils.asUniformRandomProvider(new java.security.SecureRandom());
+</source>
+    </dd>
+    </dl>
+  </p>
 </subsection>
 
-<subsection name="2.3 Random Vectors" href="vectors">
-    <p>
+<subsection name="2.3 Random Vectors"
+	    href="vectors">
+  <p>
     Some algorithms require random vectors instead of random scalars. When the
     components of these vectors are uncorrelated, they may be generated simply
     one at a time and packed together in the vector. The <a
@@ -175,21 +136,26 @@ for (int i = 0; i &lt; 1000; i++) {
     case, the user must set up a complete covariance matrix instead of a simple
     standard deviations vector. This matrix gathers both the variance and the
     correlation information of the probability law.
-    </p>
-    <p>
+  </p>
+  <p>
     The main use for correlated random vector generation is for Monte-Carlo
     simulation of physical problems with several variables, for example to
     generate error vectors to be added to a nominal vector. A particularly
     common case is when the generated vector should be drawn from a <a
     href="http://en.wikipedia.org/wiki/Multivariate_normal_distribution">
     Multivariate Normal Distribution</a>.
-    </p>
-    <p><dl>
+  </p>
+
+  <p><dl>
     <dt>Generating random vectors from a bivariate normal distribution</dt><dd>
     <source>
-// Create and seed a RandomGenerator (could use any of the generators in the random package here)
-RandomGenerator rg = new JDKRandomGenerator();
-rg.setSeed(17399225432l);  // Fixed seed means same results every time
+// Import common PRNG interface and factory class that instantiates the PRNG.
+import org.apache.commons.math4.rng.UniformRandomProvider;
+import org.apache.commons.math4.rng.RandomSource;
+
+// Create (and possibly seed) a PRNG (could use any of the CM-provided generators)
+long seed = 17399225432L; // Fixed seed means same results every time 
+UniformRandomProvider rg = RandomSource.create(RandomSource.MT, seed);
 
 // Create a GassianRandomGenerator using rg as its source of randomness
 GaussianRandomGenerator rawGenerator = new GaussianRandomGenerator(rg);
@@ -201,10 +167,13 @@ CorrelatedRandomVectorGenerator generator =
 // Use the generator to generate correlated vectors
 double[] randomVector = generator.nextVector();
 ... </source>
-    The <code>mean</code> argument is a double[] array holding the means of the random vector
-    components.  In the bivariate case, it must have length 2.  The <code>covariance</code> argument
-    is a RealMatrix, which needs to be 2 x 2.  The main diagonal elements are the
-    variances of the vector components and the off-diagonal elements are the covariances.
+
+    The <code>mean</code> argument is a <code>double[]</code> array holding the means
+    of the random vector components.  In the bivariate case, it must have length 2.
+    The <code>covariance</code> argument is a <code>RealMatrix</code>, which has to
+    be 2 x 2.
+    The main diagonal elements are the variances of the vector components and the
+    off-diagonal elements are the covariances.
     For example, if the means are 1 and 2 respectively, and the desired standard deviations
     are 3 and 4, respectively, then we need to use
     <source>
@@ -214,9 +183,10 @@ RealMatrix covariance = MatrixUtils.createRealMatrix(cov); </source>
     where c is the desired covariance. If you are starting with a desired correlation,
     you need to translate this to a covariance by multiplying it by the product of the
     standard deviations.  For example, if you want to generate data that will give Pearson's
-    R of 0.5, you would use c = 3 * 4 * .5 = 6.
-    </dd></dl></p>
-    <p>
+    R of 0.5, you would use c = 3 * 4 * 0.5 = 6.
+    </dd>
+  </dl></p>
+  <p>
     In addition to multivariate normal distributions, correlated vectors from multivariate uniform
     distributions can be generated by creating a
     <a href="../apidocs/org/apache/commons/math4/random/UniformRandomGenerator.html">UniformRandomGenerator</a>
@@ -224,8 +194,9 @@ RealMatrix covariance = MatrixUtils.createRealMatrix(cov); </source>
     <code>GaussianRandomGenerator</code> above.  More generally, any
     <a href="../apidocs/org/apache/commons/math4/random/NormalizedRandomGenerator.html">NormalizedRandomGenerator</a>
     may be used.
-    </p>
-    <p><dl>
+  </p>
+
+  <p><dl>
     <dt>Low discrepancy sequences</dt>
     <dd>
     There exist several quasi-random sequences with the property that for all values of N, the subsequence
@@ -234,8 +205,10 @@ RealMatrix covariance = MatrixUtils.createRealMatrix(cov); </source>
     is completely deterministic), their unique properties give them an important advantage for quasi-Monte Carlo simulations.<br/>
     Currently, the following low-discrepancy sequences are supported:
     <ul>
-        <li><a href="../apidocs/org/apache/commons/math4/random/SobolSequenceGenerator.html">Sobol sequence</a> (pre-configured up to dimension 1000)</li>
-        <li><a href="../apidocs/org/apache/commons/math4/random/HaltonSequenceGenerator.html">Halton sequence</a> (pre-configured up to dimension 40)</li>
+      <li><a href="../apidocs/org/apache/commons/math4/random/SobolSequenceGenerator.html">
+      Sobol sequence</a> (pre-configured up to dimension 1000)</li>
+      <li><a href="../apidocs/org/apache/commons/math4/random/HaltonSequenceGenerator.html">
+      Halton sequence</a> (pre-configured up to dimension 40)</li>
     </ul>
     <source>
 // Create a Sobol sequence generator for 2-dimensional vectors
@@ -244,73 +217,61 @@ RandomVectorGenerator generator = new SobolSequence(2);
 // Use the generator to generate vectors
 double[] randomVector = generator.nextVector();
 ... </source>
-    The figure below illustrates the unique properties of low-discrepancy sequences when generating N samples
-    in the interval [0, 1]. Roughly speaking, such sequences "fill" the respective space more evenly which leads to faster convergence in
-    quasi-Monte Carlo simulations.<br/>
-    <img src="../images/userguide/low_discrepancy_sequences.png" alt="Comparison of low-discrepancy sequences"/>
-    </dd></dl>
-    </p>
-    <p></p>
+
+    The figure below illustrates the unique properties of low-discrepancy sequences when
+    generating N samples in the interval [0, 1]. Roughly speaking, such sequences "fill"
+    the respective space more evenly which leads to faster convergence in quasi-Monte Carlo
+    simulations.<br/>
+    <img src="../images/userguide/low_discrepancy_sequences.png"
+	 alt="Comparison of low-discrepancy sequences"/>
+    </dd>
+  </dl></p>
+
 </subsection>
 
-<subsection name="2.4 Random Strings" href="strings">
+<subsection name="2.4 Random Strings"
+	    href="strings">
     <p>
-    The methods <code>nextHexString</code> and <code>nextSecureHexString</code>
-    can be used to generate random strings of hexadecimal characters.  Both
-    of these methods produce sequences of strings with good dispersion
-    properties.  The difference between the two methods is that the second is
-    cryptographically secure.  Specifically, the implementation of 
-    <code>nextHexString(n)</code> in <code>RandomDataGenerator</code> uses the
-    following simple algorithm to generate a string of <code>n</code> hex digits:
-    <ol>
-    <li>n/2+1 binary bytes are generated using the underlying RandomGenerator</li>
-    <li>Each binary byte is translated into 2 hex digits</li></ol>
-    The <code>RandomDataGenerator</code> implementation of the "secure" version, 
-    <code>nextSecureHexString</code> generates hex characters in 40-byte
-    "chunks" using a 3-step process:
-    <ol>
-    <li>20 random bytes are generated using the underlying 
-    <code>SecureRandom.</code></li>
-    <li>SHA-1 hash is applied to yield a 20-byte binary digest.</li>
-    <li>Each byte of the binary digest is converted to 2 hex digits</li></ol>
-    Similarly to the secure random number generation methods, 
-    <code>nextSecureHexString</code> is <strong>much slower</strong> than
-    the non-secure version.  It should be used only for applications such as 
-    generating unique session or transaction ids where predictability of
-    subsequent ids based on observation of previous values is a security
-    concern.  If all that is needed is an even distribution of hex characters
-    in the generated strings, the non-secure method should be used.        
+    The method <code>nextHexString</code> in
+    <a href="../apidocs/org/apache/commons/math4/random/RandomUtils.DataGenerator.html">
+      RandomUtils.DataGenerator</a> can be used to generate random strings of
+    hexadecimal characters.
+    It produces sequences of strings with good dispersion properties.
+    A string can be generated in two different ways, depending on the value
+    of the boolean argument passed to the method (see the Javadoc for more
+    details).
     </p>
 </subsection>
 
-<subsection name="2.5 Random permutations, combinations, sampling"
- href="combinatorics">
-    <p>
+<subsection name="2.5 Random Permutations, Combinations, Sampling"
+	    href="combinatorics">
+  <p>
     To select a random sample of objects in a collection, you can use the
-    <code>nextSample</code> method implemented by <code>RandomDataGenerator</code>.
-    Specifically,  if <code>c</code> is a collection containing at least 
-    <code>k</code> objects, and <code>randomData</code> is a 
-    <code>RandomDataGenerator</code> instance <code>randomData.nextSample(c, k)</code>
-    will return an <code>object[]</code> array of length <code>k</code>
-    consisting of elements randomly selected from the collection.  If 
-    <code>c</code> contains duplicate references, there may be duplicate
+    <code>nextSample</code> method provided by in
+    <a href="../apidocs/org/apache/commons/math4/random/RandomUtils.DataGenerator.html">
+      RandomUtils.DataGenerator</a>.
+    Specifically, if <code>c</code> is a <code>java.util.Collection<T></code>
+    containing at least <code>k</code> objects, and <code>randomData</code> is a 
+    <code>RandomUtils.DataGenerator</code> instance <code>randomData.nextSample(c, k)</code>
+    will return an <code>List<T></code> instance of size <code>k</code>
+    consisting of elements randomly selected from the collection.
+    If  <code>c</code> contains duplicate references, there may be duplicate
     references in the returned array; otherwise returned elements will be
-    unique -- i.e., the sampling is without replacement among the object
-    references in the collection. </p>
-    <p>
-    If <code>randomData</code> is a <code>RandomDataGenerator</code> instance, and 
-    <code>n</code> and <code>k</code> are integers with 
-    <code> k &lt;= n</code>,  then 
+    unique (i.e. the sampling is without replacement among the object
+    references in the collection).
+  </p>
+
+  <p>
+    If <code>n</code> and <code>k</code> are integers with <code>k < n</code>, then 
     <code>randomData.nextPermutation(n, k)</code> returns an <code>int[]</code>
     array of length <code>k</code> whose whose entries are selected randomly, 
     without repetition, from the integers <code>0</code> through
-    <code>n-1</code> (inclusive), i.e., 
-    <code>randomData.nextPermutation(n, k)</code> returns a random
-    permutation of  <code>n</code> taken <code>k</code> at a time.   
-    </p>
+    <code>n-1</code> (inclusive).
+  </p>
 </subsection>
 
-<subsection name="2.6 Generating data 'like' an input file" href="empirical">
+<subsection name="2.6 Generating data 'like' an input file"
+	    href="empirical">
     <p>
     Using the <code>ValueServer</code> class, you can generate data based on
     the values in an input file in one of two ways:
@@ -361,200 +322,6 @@ double[] randomVector = generator.nextVector();
       </dd>
     </dl>
   </p>
-</subsection>
-
-<subsection name="2.7 PRNG Pluggability" href="pluggability">
-  <p>
-      To enable alternative PRNGs to be "plugged in" to the commons-math data
-      generation utilities and to provide a generic means to replace 
-      <code>java.util.Random</code> in applications, a random generator 
-      adaptor framework has been added to commons-math.  The
-      <a href="../apidocs/org/apache/commons/math4/random/RandomGenerator.html">
-      RandomGenerator</a> interface abstracts the public interface of
-      <code>java.util.Random</code> and any implementation of this
-      interface can be used as the source of random data for the commons-math 
-      data generation classes.  An abstract base class, 
-      <a href="../apidocs/org/apache/commons/math4/random/AbstractRandomGenerator.html">
-      AbstractRandomGenerator</a> is provided to make implementation easier.
-      This class provides default implementations of "derived" data generation
-      methods based on the primitive,  <code>nextDouble()</code>.
-      To support generic replacement of <code>java.util.Random</code>, the 
-      <a href="../apidocs/org/apache/commons/math4/random/RandomAdaptor.html">
-      RandomAdaptor</a> class is provided, which extends
-      <code>java.util.Random</code> and wraps and delegates calls to
-      a <code>RandomGenerator</code> instance.   
-  </p>
-
-      <p>Commons-math provides by itself several implementations of the <a
-      href="../apidocs/org/apache/commons/math4/random/RandomGenerator.html">
-      RandomGenerator</a> interface:
-      <ul>
-        <li><a href="../apidocs/org/apache/commons/math4/random/JDKRandomGenerator.html">JDKRandomGenerator</a>
-            that extends the JDK provided generator</li>
-        <li><a href="../apidocs/org/apache/commons/math4/random/AbstractRandomGenerator.html">
-            AbstractRandomGenerator</a> as a helper for users generators</li>
-        <li><a href="../apidocs/org/apache/commons/math4/random/BitStreamGenerator.html">
-            BitStreamGenerator</a> which is an abstract class for several generators and
-            which in turn is extended by:
-            <ul>
-              <li><a href="../apidocs/org/apache/commons/math4/random/MersenneTwister.html">MersenneTwister</a></li>
-              <li><a href="../apidocs/org/apache/commons/math4/random/Well512a.html">Well512a</a></li>
-              <li><a href="../apidocs/org/apache/commons/math4/random/Well1024a.html">Well1024a</a></li>
-              <li><a href="../apidocs/org/apache/commons/math4/random/Well19937a.html">Well19937a</a></li>
-              <li><a href="../apidocs/org/apache/commons/math4/random/Well19937c.html">Well19937c</a></li>
-              <li><a href="../apidocs/org/apache/commons/math4/random/Well44497a.html">Well44497a</a></li>
-              <li><a href="../apidocs/org/apache/commons/math4/random/Well44497b.html">Well44497b</a></li>
-            </ul>
-          </li>
-        </ul>
-      </p>
-
-      <p>
-      The JDK provided generator is a simple one that can be used only for very simple needs.
-      The Mersenne Twister is a fast generator with very good properties well suited for
-      Monte-Carlo simulation. It is equidistributed for generating vectors up to dimension 623
-      and has a huge period: 2<sup>19937</sup> - 1 (which is a Mersenne prime). This generator
-      is described in a paper by Makoto Matsumoto and Takuji Nishimura in 1998: <a
-      href="http://www.math.sci.hiroshima-u.ac.jp/~m-mat/MT/ARTICLES/mt.pdf">Mersenne Twister:
-      A 623-Dimensionally Equidistributed Uniform Pseudo-Random Number Generator</a>, ACM
-      Transactions on Modeling and Computer Simulation, Vol. 8, No. 1, January 1998, pp 3--30.
-      The WELL generators are a family of generators with period ranging from 2<sup>512</sup> - 1
-      to 2<sup>44497</sup> - 1 (this last one is also a Mersenne prime) with even better properties
-      than Mersenne Twister. These generators are described in a paper by Fran&#231;ois Panneton,
-      Pierre L'Ecuyer and Makoto Matsumoto <a
-      href="http://www.iro.umontreal.ca/~lecuyer/myftp/papers/wellrng.pdf">Improved Long-Period
-      Generators Based on Linear Recurrences Modulo 2</a> ACM Transactions on Mathematical Software,
-      32, 1 (2006). The errata for the paper are in <a
-      href="http://www.iro.umontreal.ca/~lecuyer/myftp/papers/wellrng-errata.txt">wellrng-errata.txt</a>.
-      </p>
-
-      <p>
-      For simple sampling, any of these generators is sufficient. For Monte-Carlo simulations the
-      JDK generator does not have any of the good mathematical properties of the other generators,
-      so it should be avoided. The Mersenne twister and WELL generators have equidistribution properties
-      proven according to their bits pool size which is directly linked to their period (all of them
-      have maximal period, i.e. a generator with size n pool has a period 2<sup>n</sup>-1). They also
-      have equidistribution properties for 32 bits blocks up to s/32 dimension where s is their pool size.
-      So WELL19937c for exemple is equidistributed up to dimension 623 (19937/32). This means a Monte-Carlo
-      simulation generating a vector of n variables at each iteration has some guarantees on the properties
-      of the vector as long as its dimension does not exceed the limit. However, since we use bits from two
-      successive 32 bits generated integers to create one double, this limit is smaller when the variables are
-      of type double. so for Monte-Carlo simulation where less the 16 doubles are generated at each round,
-      WELL1024 may be sufficient. If a larger number of doubles are needed a generator with a larger pool
-      would be useful.
-      </p>
-
-      <p>
-      The WELL generators are more modern then MersenneTwister (the paper describing than has been published
-      in 2006 instead of 1998) and fix some of its (few) drawbacks. If initialization array contains many
-      zero bits, MersenneTwister may take a very long time (several hundreds of thousands of iterations to
-      reach a steady state with a balanced number of zero and one in its bits pool). So the WELL generators
-      are better to <i>escape zeroland</i> as explained by the WELL generators creators. The Well19937a and
-      Well44497a generator are not maximally equidistributed (i.e. there are some dimensions or bits blocks
-      size for which they are not equidistributed). The Well512a, Well1024a, Well19937c and Well44497b are
-      maximally equidistributed for blocks size up to 32 bits (they should behave correctly also for double
-      based on more than 32 bits blocks, but equidistribution is not proven at these blocks sizes).
-      </p>
-
-      <p>
-      The MersenneTwister generator uses a 624 elements integer array, so it consumes less than 2.5 kilobytes.
-      The WELL generators use 6 integer arrays with a size equal to the pool size, so for example the
-      WELL44497b generator uses about 33 kilobytes. This may be important if a very large number of
-      generator instances were used at the same time.
-      </p> 
-
-      <p>
-      All generators are quite fast. As an example, here are some comparisons, obtained on a 64 bits JVM on a
-      linux computer with a 2008 processor (AMD phenom Quad 9550 at 2.2 GHz). The generation rate for
-      MersenneTwister was between 25 and 27 millions doubles per second (remember we generate two 32 bits integers for
-      each double). Generation rates for other PRNG, relative to MersenneTwister:
-      </p>
-
-      <p>
-        <table border="1" align="center">
-          <tr BGCOLOR="#CCCCFF"><td colspan="2"><font size="+1">Example of performances</font></td></tr>
-          <tr BGCOLOR="#EEEEFF"><font size="+1"><td>Name</td><td>generation rate (relative to MersenneTwister)</td></font></tr>
-          <tr><td><a href="../apidocs/org/apache/commons/math4/random/MersenneTwister.html">MersenneTwister</a></td><td>1</td></tr>
-          <tr><td><a href="../apidocs/org/apache/commons/math4/random/JDKRandomGenerator.html">JDKRandomGenerator</a></td><td>between 0.96 and 1.16</td></tr>
-          <tr><td><a href="../apidocs/org/apache/commons/math4/random/Well512a.html">Well512a</a></td><td>between 0.85 and 0.88</td></tr>
-          <tr><td><a href="../apidocs/org/apache/commons/math4/random/Well1024a.html">Well1024a</a></td><td>between 0.63 and 0.73</td></tr>
-          <tr><td><a href="../apidocs/org/apache/commons/math4/random/Well19937a.html">Well19937a</a></td><td>between 0.70 and 0.71</td></tr>
-          <tr><td><a href="../apidocs/org/apache/commons/math4/random/Well19937c.html">Well19937c</a></td><td>between 0.57 and 0.71</td></tr>
-          <tr><td><a href="../apidocs/org/apache/commons/math4/random/Well44497a.html">Well44497a</a></td><td>between 0.69 and 0.71</td></tr>
-          <tr><td><a href="../apidocs/org/apache/commons/math4/random/Well44497b.html">Well44497b</a></td><td>between 0.65 and 0.71</td></tr>
-        </table>
-      </p>
-
-      <p>
-      So for most simulation problems, the better generators like <a
-      href="../apidocs/org/apache/commons/math4/random/Well19937c.html">Well19937c</a> and <a
-      href="../apidocs/org/apache/commons/math4/random/Well44497b.html">Well44497b</a> are probably very good choices.
-      </p>
-
-      <p>
-      Note that <em>none</em> of these generators are suitable for cryptography. They are devoted
-      to simulation, and to generate very long series with strong properties on the series as a whole
-      (equidistribution, no correlation ...). They do not attempt to create small series but with
-      very strong properties of unpredictability as needed in cryptography.
-      </p>
-
-  <p>
-     Examples:
-     <dl>
-      <dt>Create a RandomGenerator based on RngPack's Mersenne Twister</dt>
-      <dd>To create a RandomGenerator using the RngPack Mersenne Twister PRNG
-       as the source of randomness, extend <code>AbstractRandomGenerator</code>
-       overriding the derived methods that the RngPack implementation provides:
-       <source>
-import edu.cornell.lassp.houle.RngPack.RanMT;
-/**
- * AbstractRandomGenerator based on RngPack RanMT generator.
- */
-public class RngPackGenerator extends AbstractRandomGenerator {
-    
-    private RanMT random = new RanMT();
-    
-    public void setSeed(long seed) {
-       random = new RanMT(seed);
-    }
-    
-    public double nextDouble() {
-        return random.raw();
-    }
-    
-    public double nextGaussian() {
-        return random.gaussian();
-    }
-    
-    public int nextInt(int n) {
-        return random.choose(n);
-    }
-    
-    public boolean nextBoolean() {
-        return random.coin();
-    }
-}
-      </source>
-      </dd>
-      <dt>Use the Mersenne Twister RandomGenerator in place of 
-      <code>java.util.Random</code> in <code>RandomData</code></dt>
-      <dd>
-      <source>
-RandomData randomData = new RandomDataImpl(new RngPackGenerator());
-      </source>
-      </dd>
-      <dt>Create an adaptor instance based on the Mersenne Twister generator
-      that can be used in place of a <code>Random</code></dt>
-      <dd>
-      <source>
- RandomGenerator generator = new RngPackGenerator();
- Random random = RandomAdaptor.createAdaptor(generator);
- // random can now be used in place of a Random instance, data generation
- // calls will be delegated to the wrapped Mersenne Twister
-      </source>
-      </dd>
-  </dl>
- </p>
 </subsection>
 
 </section>
