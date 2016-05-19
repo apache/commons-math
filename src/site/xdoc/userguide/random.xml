@@ -29,7 +29,7 @@
 <section name="2 Data Generation">
 
 <subsection name="2.1 Overview"
-	    href="overview">
+            href="overview">
     <p>
     The Commons Math <a href="../apidocs/org/apache/commons/math4/random/package-summary.html">o.a.c.m.random</a>
     package includes utilities for
@@ -53,9 +53,10 @@
       interface:
       <a href="../apidocs/org/apache/commons/math4/rng/UniformRandomProvider.html">
 	UniformRandomProvider</a> (for more details about this interface and the
-      available RNG algorithms, please refer to the documentation of package
+      available RNG algorithms, please refer to the Javadoc of package
       <a href="../apidocs/org/apache/commons/math4/rng/package-summary.html">
-	org.apache.commons.math4.rng</a>.
+	    org.apache.commons.math4.rng</a> and <a href="../userguide/rng.html">this section</a>
+      of the userguide.
     </p>
     <p>
       A PRNG algorithm is often deterministic, i.e. it produces the same sequence
@@ -66,7 +67,7 @@
 </subsection>
 
 <subsection name="2.2 Random Deviates"
-	    href="deviates">
+            href="deviates">
   <p>
     <dl>
     <dt>Random sequence of numbers from a probability distribution</dt>
@@ -109,7 +110,7 @@
     true randomness, and sequences started with the same seed will diverge.
 
     The <a href="../apidocs/org/apache/commons/math4/random/RandomUtils.html">RandomUtils</a>
-    class provides factory" method to wrap <code>java.util.Random</code> or
+    class provides a "factory" method to wrap <code>java.util.Random</code> or
     <code>java.security.SecureRandom</code> instances in an object that implements
     the <a href="../apidocs/org/apache/commons/math4/rng/UniformRandomProvider.html">
     UniformRandomProvider</a> interface:
@@ -122,7 +123,7 @@ UniformRandomProvider rg = RandomUtils.asUniformRandomProvider(new java.security
 </subsection>
 
 <subsection name="2.3 Random Vectors"
-	    href="vectors">
+            href="vectors">
   <p>
     Some algorithms require random vectors instead of random scalars. When the
     components of these vectors are uncorrelated, they may be generated simply
@@ -230,7 +231,7 @@ double[] randomVector = generator.nextVector();
 </subsection>
 
 <subsection name="2.4 Random Strings"
-	    href="strings">
+            href="strings">
     <p>
     The method <code>nextHexString</code> in
     <a href="../apidocs/org/apache/commons/math4/random/RandomUtils.DataGenerator.html">
@@ -244,16 +245,16 @@ double[] randomVector = generator.nextVector();
 </subsection>
 
 <subsection name="2.5 Random Permutations, Combinations, Sampling"
-	    href="combinatorics">
+            href="combinatorics">
   <p>
     To select a random sample of objects in a collection, you can use the
     <code>nextSample</code> method provided by in
     <a href="../apidocs/org/apache/commons/math4/random/RandomUtils.DataGenerator.html">
       RandomUtils.DataGenerator</a>.
-    Specifically, if <code>c</code> is a <code>java.util.Collection<T></code>
+    Specifically, if <code>c</code> is a <code>java.util.Collection&lt;T&gt;</code>
     containing at least <code>k</code> objects, and <code>randomData</code> is a 
     <code>RandomUtils.DataGenerator</code> instance <code>randomData.nextSample(c, k)</code>
-    will return an <code>List<T></code> instance of size <code>k</code>
+    will return an <code>List&lt;T&gt;</code> instance of size <code>k</code>
     consisting of elements randomly selected from the collection.
     If  <code>c</code> contains duplicate references, there may be duplicate
     references in the returned array; otherwise returned elements will be
@@ -262,7 +263,7 @@ double[] randomVector = generator.nextVector();
   </p>
 
   <p>
-    If <code>n</code> and <code>k</code> are integers with <code>k < n</code>, then 
+    If <code>n</code> and <code>k</code> are integers with <code>k &lt; n</code>, then 
     <code>randomData.nextPermutation(n, k)</code> returns an <code>int[]</code>
     array of length <code>k</code> whose whose entries are selected randomly, 
     without repetition, from the integers <code>0</code> through
@@ -270,56 +271,30 @@ double[] randomVector = generator.nextVector();
   </p>
 </subsection>
 
-<subsection name="2.6 Generating data 'like' an input file"
-	    href="empirical">
+<subsection name="2.6 Generating data like an input file"
+            href="empirical">
     <p>
-    Using the <code>ValueServer</code> class, you can generate data based on
-    the values in an input file in one of two ways:
+    Using the <code>EmpiricalDistribution</code> class, you can generate data based on
+    the values in an input file:
     <dl>
-      <dt>Replay Mode</dt>
-      <dd> The following code will read data from <code>url</code> 
-      (a <code>java.net.URL</code> instance), cycling through the values in the 
-      file in sequence, reopening and starting at the beginning again when all 
-      values have been read.
-      <source>
-      ValueServer vs = new ValueServer();
-      vs.setValuesFileURL(url); 
-      vs.setMode(ValueServer.REPLAY_MODE);
-      vs.resetReplayFile();
-      double value = vs.getNext();
-      // ...Generate and use more values...
-      vs.closeReplayFile();
-      </source>
-      The values in the file are not stored in memory, so it does not matter
-      how large the file is, but you do need to explicitly close the file
-      as above.  The expected file format is \n -delimited (i.e. one per line)
-      strings representing valid floating point numbers.
-      </dd>
-      <dt>Digest Mode</dt>
-      <dd>When used in Digest Mode, the ValueServer reads the entire input file
-      and estimates a probability density function based on data from the file.
-      The estimation method is essentially the 
-      <a href="http://nedwww.ipac.caltech.edu/level5/March02/Silverman/Silver2_6.html">
-      Variable Kernel Method</a> with Gaussian smoothing.  Once the density
-      has been estimated, <code>getNext()</code> returns random values whose
-      probability distribution matches the empirical distribution -- i.e., if
-      you generate a large number of such values, their distribution should
-      "look like" the distribution of the values in the input file.  The values
-      are not stored in memory in this case either, so there is no limit to the
-      size of the input file.  Here is an example:
-      <source>
-      ValueServer vs = new ValueServer();
-      vs.setValuesFileURL(url); 
-      vs.setMode(ValueServer.DIGEST_MODE);
-      vs.computeDistribution(500); //Read file and estimate distribution using 500 bins
-      double value = vs.getNext();
-      // ...Generate and use more values...
-      </source>
-      See the javadoc for <code>ValueServer</code> and 
-      <code>EmpiricalDistribution</code> for more details.  Note that 
-      <code>computeDistribution()</code> opens and closes the input file
-       by itself. 
-      </dd>
+    <source>
+int binCount = 500;
+EmpiricalDistribution empDist = new EmpiricalDistribution(binCount);
+empDist.load("data.txt");
+RealDistribution.Sampler sampler = empDist.createSampler(RandomSource.create(RandomSource.MT));
+double value = sampler.nextDouble(); </source>
+
+    The entire input file is read and a probability density function is estimated
+    based on data from the file.
+    The estimation method is essentially the 
+    <a href="http://nedwww.ipac.caltech.edu/level5/March02/Silverman/Silver2_6.html">
+      Variable Kernel Method</a> with Gaussian smoothing.
+    The created sampler will return random values whose probability distribution
+    matches the empirical distribution (i.e. if you generate a large number of
+    such values, their distribution should "look like" the distribution of the
+    values in the input file.
+    The values are not stored in memory in this case either, so there is no limit to the
+    size of the input file.
     </dl>
   </p>
 </subsection>
