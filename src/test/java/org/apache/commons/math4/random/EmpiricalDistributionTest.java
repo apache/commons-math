@@ -257,39 +257,6 @@ public final class EmpiricalDistributionTest extends RealDistributionAbstractTes
         TestUtils.assertEquals(expectedGeneratorUpperBounds, dist.getGeneratorUpperBounds(), tol);
     }
 
-    // XXX REMOVE (test "embedded RNG" which is to be removed)
-//     @Test
-//     public void testGeneratorConfig() {
-//         double[] testData = {0, 1, 2, 3, 4};
-//         RandomGenerator generator = new RandomAdaptorTest.ConstantGenerator(0.5);
-
-//         EmpiricalDistribution dist = new EmpiricalDistribution(5, generator);
-//         dist.load(testData);
-//         for (int i = 0; i < 5; i++) {
-//             Assert.assertEquals(2.0, dist.getNextValue(), 0d);
-//         }
-
-//         // Verify no NPE with null generator argument
-//         dist = new EmpiricalDistribution(5, (RandomGenerator) null);
-//         dist.load(testData);
-//         dist.getNextValue();
-//     }
-
-    // XXX REMOVE (test "embedded RNG" which is to be removed)
-//     @Test
-//     public void testReSeed() throws Exception {
-//         empiricalDistribution.load(url);
-//         empiricalDistribution.reSeed(100);
-//         final double [] values = new double[10];
-//         for (int i = 0; i < 10; i++) {
-//             values[i] = empiricalDistribution.getNextValue();
-//         }
-//         empiricalDistribution.reSeed(100);
-//         for (int i = 0; i < 10; i++) {
-//             Assert.assertEquals(values[i],empiricalDistribution.getNextValue(), 0d);
-//         }
-//     }
-
     private void verifySame(EmpiricalDistribution d1, EmpiricalDistribution d2) {
         Assert.assertEquals(d1.isLoaded(), d2.isLoaded());
         Assert.assertEquals(d1.getBinCount(), d2.getBinCount());
