@@ -32,7 +32,7 @@ public class RandomGeneratorFactory {
     private RandomGeneratorFactory() {}
 
     /**
-     * Creates a {@link RandomDataGenerator} instance that wraps a
+     * Creates a {@link RandomGenerator} instance that wraps a
      * {@link Random} instance.
      *
      * @param rng JDK {@link Random} instance that will generate the
