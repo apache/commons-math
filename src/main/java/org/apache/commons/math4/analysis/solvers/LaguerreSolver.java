@@ -147,7 +147,7 @@ public class LaguerreSolver extends AbstractPolynomialSolver {
      * @return the point at which the function value is zero.
      */
     private double laguerre(double lo, double hi) {
-        final Complex c[] = ComplexUtils.convertToComplex(getCoefficients());
+        final Complex c[] = ComplexUtils.real2Complex(getCoefficients());
 
         final Complex initial = new Complex(0.5 * (lo + hi), 0);
         final Complex z = complexSolver.solve(c, initial);
@@ -193,7 +193,7 @@ public class LaguerreSolver extends AbstractPolynomialSolver {
               Double.NEGATIVE_INFINITY,
               Double.POSITIVE_INFINITY,
               initial);
-        return complexSolver.solveAll(ComplexUtils.convertToComplex(coefficients),
+        return complexSolver.solveAll(ComplexUtils.real2Complex(coefficients),
                                       new Complex(initial, 0d));
     }
 
@@ -223,7 +223,7 @@ public class LaguerreSolver extends AbstractPolynomialSolver {
               Double.NEGATIVE_INFINITY,
               Double.POSITIVE_INFINITY,
               initial);
-        return complexSolver.solve(ComplexUtils.convertToComplex(coefficients),
+        return complexSolver.solve(ComplexUtils.real2Complex(coefficients),
                                    new Complex(initial, 0d));
     }
 
