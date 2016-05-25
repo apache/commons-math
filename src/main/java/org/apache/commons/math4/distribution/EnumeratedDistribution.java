@@ -20,7 +20,9 @@ import java.io.Serializable;
 import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.apache.commons.math4.exception.MathArithmeticException;
 import org.apache.commons.math4.exception.NotANumberException;
@@ -68,10 +70,15 @@ public class EnumeratedDistribution<T> implements Serializable {
 
     /**
      * Probabilities of respective random variable values. For i = 0, ..., singletons.size() - 1,
-     * probability[i] is the probability that a random variable following this distribution takes
+     * probabilities[i] is the probability that a random variable following this distribution takes
      * the value singletons[i].
      */
     private final double[] probabilities;
+
+    /**
+     * Probabilities of aggregated distinct random variables, cached to speed up probability lookup.
+     */
+    private final Map<T, Double> massPoints;
 
     /**
      * Cumulative probabilities, cached to speed up sampling.
@@ -125,7 +132,7 @@ public class EnumeratedDistribution<T> implements Serializable {
             singletons.add(sample.getKey());
             final double p = sample.getValue();
             if (p < 0) {
-                throw new NotPositiveException(sample.getValue());
+                throw new NotPositiveException(p);
             }
             if (Double.isInfinite(p)) {
                 throw new NotFiniteNumberException(p);
@@ -138,11 +145,23 @@ public class EnumeratedDistribution<T> implements Serializable {
 
         probabilities = MathArrays.normalizeArray(probs, 1.0);
 
+        massPoints = new HashMap<T, Double>();
         cumulativeProbabilities = new double[probabilities.length];
         double sum = 0;
         for (int i = 0; i < probabilities.length; i++) {
-            sum += probabilities[i];
+            double probability = probabilities[i];
+
+            sum += probability;
             cumulativeProbabilities[i] = sum;
+
+            T randomVariable = singletons.get(i);
+            final double existingProbability;
+            if (massPoints.containsKey(randomVariable)) {
+                existingProbability = massPoints.get(randomVariable);
+            } else {
+                existingProbability = 0.0;
+            }
+            massPoints.put(randomVariable, existingProbability + probability);
         }
     }
 
@@ -162,22 +181,16 @@ public class EnumeratedDistribution<T> implements Serializable {
      * distribution.</p>
      *
      * <p>Note that if {@code x1} and {@code x2} satisfy {@code x1.equals(x2)},
-     * or both are null, then {@code probability(x1) = probability(x2)}.</p>
+     * or both are null, then {@code probability(x1) == probability(x2)}.</p>
      *
      * @param x the point at which the PMF is evaluated
      * @return the value of the probability mass function at {@code x}
      */
     double probability(final T x) {
-        double probability = 0;
-
-        for (int i = 0; i < probabilities.length; i++) {
-            if ((x == null && singletons.get(i) == null) ||
-                (x != null && x.equals(singletons.get(i)))) {
-                probability += probabilities[i];
-            }
+        if (!massPoints.containsKey(x)) {
+            return 0.0;
         }
-
-        return probability;
+        return massPoints.get(x);
     }
 
     /**
@@ -213,9 +226,7 @@ public class EnumeratedDistribution<T> implements Serializable {
             index = -index-1;
         }
 
-        if (index >= 0 &&
-            index < probabilities.length &&
-            randomValue < cumulativeProbabilities[index]) {
+        if (randomValue < cumulativeProbabilities[index]) {
             return singletons.get(index);
         }
 
