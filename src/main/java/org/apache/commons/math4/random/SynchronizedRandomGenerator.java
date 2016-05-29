@@ -24,7 +24,9 @@ package org.apache.commons.math4.random;
  * class.
  *
  * @since 3.1
+ * @deprecated As of 4.0. No replacement.
  */
+@Deprecated
 public class SynchronizedRandomGenerator implements RandomGenerator {
     /** Object to which all calls will be delegated. */
     private final RandomGenerator wrapped;
