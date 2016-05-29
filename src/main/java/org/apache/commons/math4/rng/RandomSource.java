@@ -253,11 +253,11 @@ public enum RandomSource {
      * <p>
      * Example of usage:
      * <pre><code>
-     *  UniformRandomProvider rng = RandomSource.create(Source.MT);
+     *  UniformRandomProvider rng = RandomSource.create(RandomSource.MT);
      * </code></pre>
      * </p>
      *
-     * @param source {@link RandomSource RNG type}.
+     * @param source {@link RNG type}.
      * @return the RNG.
      */
     public static UniformRandomProvider create(RandomSource source) {
@@ -270,7 +270,7 @@ public enum RandomSource {
      * <p>
      * Example of usage:
      * <pre><code>
-     *  UniformRandomProvider rng = RandomSource.create(Source.TWO_CMRES_SELECT, 26219, 6, 9);
+     *  UniformRandomProvider rng = RandomSource.create(RandomSource.TWO_CMRES_SELECT, 26219, 6, 9);
      * </code></pre>
      * </p>
      *
@@ -304,7 +304,7 @@ public enum RandomSource {
      *  </li>
      * </p>
      *
-     * @param source {@link RandomSource RNG type}.
+     * @param source {@link RNG type}.
      * @param seed Seed value.  It can be {@code null} (in which case a
      * random value will be used).
      * @param data Additional arguments to the implementation's constructor.
@@ -359,7 +359,7 @@ public enum RandomSource {
      * This parameter must have been obtained by a call to
      * {@link #saveState(UniformRandomProvider) saveState(rng)}
      * where {@code rng} is either the same object as {@code provider},
-     * or an object of the same concrete type.
+     * or an object of the exact same class.
      * @throws MathUnsupportedOperationException if the {@code provider} is
      * not an object created by this factory or the underlying source of
      * randomness does not support this functionality.
