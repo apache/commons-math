@@ -319,8 +319,8 @@ public class MultivariateSummaryStatistics
         final String separator = ", ";
         final String suffix = System.getProperty("line.separator");
         StringBuilder outBuffer = new StringBuilder();
-        outBuffer.append("MultivariateSummaryStatistics:" + suffix);
-        outBuffer.append("n: " + getN() + suffix);
+        outBuffer.append("MultivariateSummaryStatistics:").append(suffix);
+        outBuffer.append("n: ").append(getN()).append(suffix);
         append(outBuffer, getMin(), "min: ", separator, suffix);
         append(outBuffer, getMax(), "max: ", separator, suffix);
         append(outBuffer, getMean(), "mean: ", separator, suffix);
@@ -328,7 +328,7 @@ public class MultivariateSummaryStatistics
         append(outBuffer, getSumSq(), "sum of squares: ", separator, suffix);
         append(outBuffer, getSumLog(), "sum of logarithms: ", separator, suffix);
         append(outBuffer, getStandardDeviation(), "standard deviation: ", separator, suffix);
-        outBuffer.append("covariance: " + getCovariance().toString() + suffix);
+        outBuffer.append("covariance: ").append(getCovariance()).append(suffix);
         return outBuffer.toString();
     }
 
