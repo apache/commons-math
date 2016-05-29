@@ -46,7 +46,7 @@ import org.apache.commons.math4.util.FastMath;
 import org.apache.commons.math4.util.MathUtils;
 
 /**
- * <p>Represents an <a href="http://http://en.wikipedia.org/wiki/Empirical_distribution_function">
+ * <p>Represents an <a href="http://en.wikipedia.org/wiki/Empirical_distribution_function">
  * empirical probability distribution</a> -- a probability distribution derived
  * from observed data without making any assumptions about the functional form
  * of the population distribution that the data come from.</p>
