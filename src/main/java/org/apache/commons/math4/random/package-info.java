@@ -20,14 +20,13 @@
  * <p>
  *  Some of the utilities in this package use the pseudo-random number
  *  generators defined in package {@link org.apache.commons.math4.rng}
- *  to provide higher level functionality (such as random strings) based
- *  on an underlying source of randomness that provides sequences of
- *  uniformly distributed integers.
+ *  to provide {@link org.apache.commons.math4.random.RandomUtils.DataGenerator
+ *  higher level functionality} (such as random strings) based on an underlying
+ *  source of randomness that provides sequences of uniformly distributed integers.
  * </p>
  * <p>
- *  Others are sources of pseudo-randomness that directly produce "compound"
- *  types such as {@link org.apache.commons.math4.random.RandomVectorGenerator
- *  random vectors}.
+ *  Others are sources of pseudo-randomness that directly produce "compound" types
+ *  such as {@link org.apache.commons.math4.random.RandomVectorGenerator random vectors}.
  * </p>
  */
 package org.apache.commons.math4.random;
