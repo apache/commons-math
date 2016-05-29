@@ -257,7 +257,7 @@ public enum RandomSource {
      * </code></pre>
      * </p>
      *
-     * @param source {@link RNG type}.
+     * @param source RNG type.
      * @return the RNG.
      */
     public static UniformRandomProvider create(RandomSource source) {
@@ -304,7 +304,7 @@ public enum RandomSource {
      *  </li>
      * </p>
      *
-     * @param source {@link RNG type}.
+     * @param source RNG type.
      * @param seed Seed value.  It can be {@code null} (in which case a
      * random value will be used).
      * @param data Additional arguments to the implementation's constructor.
