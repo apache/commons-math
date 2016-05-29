@@ -14,7 +14,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.apache.commons.math4.random;
+package org.apache.commons.math4.distribution;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -28,11 +28,6 @@ import org.apache.commons.math4.TestUtils;
 import org.apache.commons.math4.analysis.UnivariateFunction;
 import org.apache.commons.math4.analysis.integration.BaseAbstractUnivariateIntegrator;
 import org.apache.commons.math4.analysis.integration.IterativeLegendreGaussIntegrator;
-import org.apache.commons.math4.distribution.ConstantRealDistribution;
-import org.apache.commons.math4.distribution.NormalDistribution;
-import org.apache.commons.math4.distribution.RealDistribution;
-import org.apache.commons.math4.distribution.RealDistributionAbstractTest;
-import org.apache.commons.math4.distribution.UniformRealDistribution;
 import org.apache.commons.math4.exception.MathIllegalStateException;
 import org.apache.commons.math4.exception.NullArgumentException;
 import org.apache.commons.math4.exception.NotStrictlyPositiveException;
@@ -44,7 +39,7 @@ import org.junit.Before;
 import org.junit.Test;
 
 /**
- * Test cases for the EmpiricalDistribution class
+ * Test cases for the {@link EmpiricalDistribution} class.
  */
 public final class EmpiricalDistributionTest extends RealDistributionAbstractTest {
 
@@ -256,39 +251,6 @@ public final class EmpiricalDistributionTest extends RealDistributionAbstractTes
         TestUtils.assertEquals(expectedBinUpperBounds, dist.getUpperBounds(), tol);
         TestUtils.assertEquals(expectedGeneratorUpperBounds, dist.getGeneratorUpperBounds(), tol);
     }
-
-    // XXX REMOVE (test "embedded RNG" which is to be removed)
-//     @Test
-//     public void testGeneratorConfig() {
-//         double[] testData = {0, 1, 2, 3, 4};
-//         RandomGenerator generator = new RandomAdaptorTest.ConstantGenerator(0.5);
-
-//         EmpiricalDistribution dist = new EmpiricalDistribution(5, generator);
-//         dist.load(testData);
-//         for (int i = 0; i < 5; i++) {
-//             Assert.assertEquals(2.0, dist.getNextValue(), 0d);
-//         }
-
-//         // Verify no NPE with null generator argument
-//         dist = new EmpiricalDistribution(5, (RandomGenerator) null);
-//         dist.load(testData);
-//         dist.getNextValue();
-//     }
-
-    // XXX REMOVE (test "embedded RNG" which is to be removed)
-//     @Test
-//     public void testReSeed() throws Exception {
-//         empiricalDistribution.load(url);
-//         empiricalDistribution.reSeed(100);
-//         final double [] values = new double[10];
-//         for (int i = 0; i < 10; i++) {
-//             values[i] = empiricalDistribution.getNextValue();
-//         }
-//         empiricalDistribution.reSeed(100);
-//         for (int i = 0; i < 10; i++) {
-//             Assert.assertEquals(values[i],empiricalDistribution.getNextValue(), 0d);
-//         }
-//     }
 
     private void verifySame(EmpiricalDistribution d1, EmpiricalDistribution d2) {
         Assert.assertEquals(d1.isLoaded(), d2.isLoaded());

@@ -18,11 +18,12 @@ package org.apache.commons.math4.random;
 
 
 /**
- * Interface extracted from <code>java.util.Random</code>.  This interface is
- * implemented by {@link AbstractRandomGenerator}.
+ * Interface extracted from <code>java.util.Random</code>.
  *
  * @since 1.1
+ * @deprecated As of 4.0.  Please use {@link org.apache.commons.math4.rng.UniformRandomProvider} instead.
  */
+@Deprecated
 public interface RandomGenerator {
 
     /**

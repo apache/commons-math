@@ -31,7 +31,7 @@ import org.apache.commons.math4.rng.internal.source64.TwoCmres;
  * </code></pre>
  * or
  * <pre><code>
- *  final int[] seed = new int[] { 196, 9, 0, 226  };
+ *  final int[] seed = new int[] { 196, 9, 0, 226 };
  *  UniformRandomProvider rng = RandomSource.create(RandomSource.MT, seed);
  * </code></pre>
  * or
@@ -44,8 +44,8 @@ import org.apache.commons.math4.rng.internal.source64.TwoCmres;
  * (optional) seed.
  * <br>
  * In the first form, a random seed will be {@link SeedFactory generated
- * automatically}; the random seed generation step is explicit in the
- * third form.
+ * automatically}; in the second form, a fixed seed is used; a random seed
+ * is explicitly generated in the third form.
  * </p>
  *
  * <p>
@@ -68,22 +68,22 @@ import org.apache.commons.math4.rng.internal.source64.TwoCmres;
  * internal state.
  * <br>
  * When the seed value passed by the caller is of the native type, it is
- * expected that the sequences produced will be the same as those
- * produced by other implementations of the algorithm.
+ * expected that the sequences produced will be identical to those
+ * produced by other implementations of the same reference algorithm.
  * <br>
  * However, when the seed value passed by the caller is not of the native
  * type, a transformation is performed by this library and the resulting
  * native type value will <i>not</i> contain more information than the
  * original seed value.
  * If the algorithm's native type is "simpler" than the type passed by
- * the caller, then some (unuse) information will even be lost.
+ * the caller, then some (unused) information will even be lost.
  * <br>
  * The transformation from non-native to native seed type is arbitrary,
  * as long as it does not reduce the amount of information required by
  * the algorithm to initialize its state.
- * The consequence of the transformation is that the sequences produced
- * by this library may not be the same as the sequences produced by other
- * implementations of the same algorithm!
+ * The consequence of the transformation is that sequences produced
+ * by this library may <i>not</i> be the same as the sequences produced
+ * by other implementations of the same algorithm!
  * </p>
  *
  * <p>
@@ -93,11 +93,12 @@ import org.apache.commons.math4.rng.internal.source64.TwoCmres;
  * generators factory method}.
  * <br>
  * Although the seed-generating methods defined in this class will likely
- * return different values for all calls, there is no guarantee that the
- * produced seed will result always in a "good" sequence of numbers, even
- * if the generator is good.
+ * return different values each time they are called, there is no guarantee
+ * that the resulting "seed" will always generate a <i>good</i> (i.e.
+ * sufficiently uniformly random for the intended purpose) sequence of
+ * numbers, even if the generator is good!
  * The only way to ensure that the selected seed will make the generator
- * produce a "good" sequence is to submit that sequence to a series of
+ * produce a good sequence is to submit that sequence to a series of
  * stringent tests, as provided by tools such as
  * <a href="http://www.phy.duke.edu/~rgb/General/dieharder.php">dieharder</a>
  * or <a href="http://simul.iro.umontreal.ca/testu01/tu01.html">TestU01</a>.
@@ -133,7 +134,7 @@ import org.apache.commons.math4.rng.internal.source64.TwoCmres;
  * used for {@link #restoreState(UniformRandomProvider,State) restoring}
  * a generator (of the same type) to an identical state (e.g. to allow
  * persistent storage, or to continue a sequence from where the original
- * instance left off.).
+ * instance left off).
  * </p>
  *
  * @since 4.0
@@ -252,11 +253,11 @@ public enum RandomSource {
      * <p>
      * Example of usage:
      * <pre><code>
-     *  UniformRandomProvider rng = RandomSource.create(Source.MT);
+     *  UniformRandomProvider rng = RandomSource.create(RandomSource.MT);
      * </code></pre>
      * </p>
      *
-     * @param source {@link RandomSource RNG type}.
+     * @param source RNG type.
      * @return the RNG.
      */
     public static UniformRandomProvider create(RandomSource source) {
@@ -269,7 +270,7 @@ public enum RandomSource {
      * <p>
      * Example of usage:
      * <pre><code>
-     *  UniformRandomProvider rng = RandomSource.create(Source.TWO_CMRES_SELECT, 26219, 6, 9);
+     *  UniformRandomProvider rng = RandomSource.create(RandomSource.TWO_CMRES_SELECT, 26219, 6, 9);
      * </code></pre>
      * </p>
      *
@@ -303,7 +304,7 @@ public enum RandomSource {
      *  </li>
      * </p>
      *
-     * @param source {@link RandomSource RNG type}.
+     * @param source RNG type.
      * @param seed Seed value.  It can be {@code null} (in which case a
      * random value will be used).
      * @param data Additional arguments to the implementation's constructor.
@@ -358,7 +359,7 @@ public enum RandomSource {
      * This parameter must have been obtained by a call to
      * {@link #saveState(UniformRandomProvider) saveState(rng)}
      * where {@code rng} is either the same object as {@code provider},
-     * or an object of the same concrete type.
+     * or an object of the exact same class.
      * @throws MathUnsupportedOperationException if the {@code provider} is
      * not an object created by this factory or the underlying source of
      * randomness does not support this functionality.

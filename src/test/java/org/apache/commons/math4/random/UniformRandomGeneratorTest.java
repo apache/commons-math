@@ -17,7 +17,6 @@
 
 package org.apache.commons.math4.random;
 
-import org.apache.commons.math4.random.JDKRandomGenerator;
 import org.apache.commons.math4.rng.UniformRandomProvider;
 import org.apache.commons.math4.rng.RandomSource;
 import org.apache.commons.math4.stat.StatUtils;
