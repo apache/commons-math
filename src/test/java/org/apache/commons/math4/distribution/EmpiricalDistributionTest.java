@@ -14,7 +14,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.apache.commons.math4.random;
+package org.apache.commons.math4.distribution;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -28,11 +28,6 @@ import org.apache.commons.math4.TestUtils;
 import org.apache.commons.math4.analysis.UnivariateFunction;
 import org.apache.commons.math4.analysis.integration.BaseAbstractUnivariateIntegrator;
 import org.apache.commons.math4.analysis.integration.IterativeLegendreGaussIntegrator;
-import org.apache.commons.math4.distribution.ConstantRealDistribution;
-import org.apache.commons.math4.distribution.NormalDistribution;
-import org.apache.commons.math4.distribution.RealDistribution;
-import org.apache.commons.math4.distribution.RealDistributionAbstractTest;
-import org.apache.commons.math4.distribution.UniformRealDistribution;
 import org.apache.commons.math4.exception.MathIllegalStateException;
 import org.apache.commons.math4.exception.NullArgumentException;
 import org.apache.commons.math4.exception.NotStrictlyPositiveException;
@@ -44,7 +39,7 @@ import org.junit.Before;
 import org.junit.Test;
 
 /**
- * Test cases for the EmpiricalDistribution class
+ * Test cases for the {@link EmpiricalDistribution} class.
  */
 public final class EmpiricalDistributionTest extends RealDistributionAbstractTest {
 

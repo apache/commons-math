@@ -15,7 +15,7 @@
  * limitations under the License.
  */
 
-package org.apache.commons.math4.random;
+package org.apache.commons.math4.distribution;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -28,10 +28,6 @@ import java.nio.charset.Charset;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.apache.commons.math4.distribution.AbstractRealDistribution;
-import org.apache.commons.math4.distribution.ConstantRealDistribution;
-import org.apache.commons.math4.distribution.NormalDistribution;
-import org.apache.commons.math4.distribution.RealDistribution;
 import org.apache.commons.math4.exception.MathIllegalStateException;
 import org.apache.commons.math4.exception.MathInternalError;
 import org.apache.commons.math4.exception.NullArgumentException;
