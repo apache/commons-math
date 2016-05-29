@@ -50,7 +50,7 @@ public class UnitSphereRandomVectorGenerator
         this.rand = new NormalDistribution().createSampler(rng);
     }
     /**
-     * Create an object that will use a default RNG ({@link MersenneTwister}),
+     * Create an object that will use a {@link RandomSource#MT_64 default RNG},
      * in order to generate the individual components.
      *
      * @param dimension Space dimension.
