@@ -18,7 +18,6 @@ package org.apache.commons.math4.distribution;
 
 import static org.junit.Assert.assertEquals;
 
-import org.apache.commons.math4.distribution.EnumeratedIntegerDistribution;
 import org.apache.commons.math4.exception.DimensionMismatchException;
 import org.apache.commons.math4.exception.MathArithmeticException;
 import org.apache.commons.math4.exception.NotANumberException;
