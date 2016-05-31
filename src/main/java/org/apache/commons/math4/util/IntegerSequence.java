@@ -17,10 +17,11 @@
 package org.apache.commons.math4.util;
 
 import java.util.Iterator;
-import org.apache.commons.math4.exception.MaxCountExceededException;
-import org.apache.commons.math4.exception.NullArgumentException;
+
 import org.apache.commons.math4.exception.MathUnsupportedOperationException;
+import org.apache.commons.math4.exception.MaxCountExceededException;
 import org.apache.commons.math4.exception.NotStrictlyPositiveException;
+import org.apache.commons.math4.exception.NullArgumentException;
 import org.apache.commons.math4.exception.ZeroException;
 
 /**
@@ -364,4 +365,5 @@ public class IntegerSequence {
             throw new MathUnsupportedOperationException();
         }
     }
+
 }
