@@ -145,8 +145,8 @@ public class EnumeratedDistribution<T> implements Serializable {
      * @return the value of the probability mass function at {@code x}
      */
     double probability(final T x) {
-	final Double p = massPoints.get(x);
-	return p == null ? 0 : p.doubleValue();
+        final Double p = massPoints.get(x);
+        return p == null ? 0 : p.doubleValue();
     }
 
     /**

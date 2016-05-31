@@ -47,7 +47,7 @@ public class EnumeratedDistributionTest {
 
     @Test
     public void testGetPmf() {
-	final String s = "bike";
+        final String s = "bike";
         final List<Pair<String, Double>> pmf = Arrays.asList(
             new Pair<String, Double>(s, 0.1),
             new Pair<String, Double>(s, 0.3),
