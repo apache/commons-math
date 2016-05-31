@@ -156,8 +156,7 @@ public abstract class AbstractIntegerDistribution implements IntegerDistribution
      */
     private double checkedCumulativeProbability(int argument)
         throws MathInternalError {
-        double result = Double.NaN;
-        result = cumulativeProbability(argument);
+        final double result = cumulativeProbability(argument);
         if (Double.isNaN(result)) {
             throw new MathInternalError(LocalizedFormats
                     .DISCRETE_CUMULATIVE_PROBABILITY_RETURNED_NAN, argument);
