@@ -17,6 +17,12 @@
 
 package org.apache.commons.math4.util;
 
+import org.apache.commons.math4.Field;
+import org.apache.commons.math4.exception.*;
+import org.apache.commons.math4.exception.util.LocalizedFormats;
+import org.apache.commons.math4.rng.RandomSource;
+import org.apache.commons.math4.rng.UniformRandomProvider;
+
 import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -25,22 +31,6 @@ import java.util.Comparator;
 import java.util.Iterator;
 import java.util.List;
 import java.util.TreeSet;
-
-import org.apache.commons.math4.Field;
-import org.apache.commons.math4.exception.DimensionMismatchException;
-import org.apache.commons.math4.exception.MathArithmeticException;
-import org.apache.commons.math4.exception.MathIllegalArgumentException;
-import org.apache.commons.math4.exception.MathInternalError;
-import org.apache.commons.math4.exception.NoDataException;
-import org.apache.commons.math4.exception.NonMonotonicSequenceException;
-import org.apache.commons.math4.exception.NotANumberException;
-import org.apache.commons.math4.exception.NotPositiveException;
-import org.apache.commons.math4.exception.NotStrictlyPositiveException;
-import org.apache.commons.math4.exception.NullArgumentException;
-import org.apache.commons.math4.exception.NumberIsTooLargeException;
-import org.apache.commons.math4.exception.util.LocalizedFormats;
-import org.apache.commons.math4.rng.RandomSource;
-import org.apache.commons.math4.rng.UniformRandomProvider;
 
 /**
  * Arrays utilities.
@@ -1931,4 +1921,43 @@ public class MathArrays {
         }
         return out;
     }
+
+    /**
+     *
+     * Returns index of the first element of given array with the minimum value
+     *
+     * @param data an array of elements
+     * @return returns an index of the minimum element in the array
+     */
+    public static int argmin(final double[] data) {
+        double minValue = data[0];
+        int minIndex = 0;
+        for (int i = 0; i < data.length; i++) {
+            if (data[i] < minValue) {
+                minIndex = i;
+                minValue = data[minIndex];
+            }
+        }
+        return minIndex;
+    }
+
+    /**
+     *
+     *  Returns index of the first element of given array with the maximum value
+     *
+     * @param data an array of elements
+     * @return index of the maximum element in the array
+     */
+    public static <T extends Comparable> int argmax(final double[] data) {
+        double maxValue = data[0];
+        int maxIndex = 0;
+        for (int i = 0; i < data.length; i++) {
+            if (data[i] >maxValue) {
+                maxIndex = i;
+                maxValue = data[maxIndex];
+            }
+        }
+        return maxIndex;
+    }
+
 }

@@ -13,8 +13,6 @@
  */
 package org.apache.commons.math4.util;
 
-import java.util.Arrays;
-
 import org.apache.commons.math4.TestUtils;
 import org.apache.commons.math4.exception.DimensionMismatchException;
 import org.apache.commons.math4.exception.MathArithmeticException;
@@ -25,13 +23,12 @@ import org.apache.commons.math4.exception.NotANumberException;
 import org.apache.commons.math4.exception.NotPositiveException;
 import org.apache.commons.math4.exception.NotStrictlyPositiveException;
 import org.apache.commons.math4.exception.NullArgumentException;
-import org.apache.commons.math4.rng.UniformRandomProvider;
 import org.apache.commons.math4.rng.RandomSource;
-import org.apache.commons.math4.util.FastMath;
-import org.apache.commons.math4.util.MathArrays;
-import org.apache.commons.math4.util.Precision;
+import org.apache.commons.math4.rng.UniformRandomProvider;
 import org.junit.Assert;
 import org.junit.Test;
+
+import java.util.Arrays;
 
 /**
  * Test cases for the {@link MathArrays} class.
@@ -1337,5 +1334,61 @@ public class MathArraysTest {
     @Test(expected=NullPointerException.class)
     public void testUniqueNullArgument() {
         MathArrays.unique(null);
+    }
+
+    @Test
+    public void testArgMin() {
+        final double[] data = { 1, 0, -8, 10, 17, 11, -15};
+        final int index = MathArrays.argmin(data);
+        Assert.assertEquals(6, index);
+    }
+
+    @Test
+    public void testArgMinNegativeOnlyValues() {
+        final double[] data = { -1, 0, -8, -10, -17, -11, -15};
+        final int index = MathArrays.argmin(data);
+        Assert.assertEquals(4, index);
+    }
+
+    @Test
+    public void testArgMinPositiveOnlyValues() {
+        final double[] data = { 5, 3, 8, 2, 17, 11, 15};
+        final int index = MathArrays.argmin(data);
+        Assert.assertEquals(3, index);
+    }
+
+    @Test
+    public void testArgMinRepetedValues() {
+        final double[] data = { -1, -17, -8, -10, -17, -11, -15};
+        final int index = MathArrays.argmin(data);
+        Assert.assertEquals(1, index);
+    }
+
+    @Test
+    public void testArgMax() {
+        final double[] data = { 23, 10, -8, 1, 39, 7, -15};
+        final int index = MathArrays.argmax(data);
+        Assert.assertEquals(4, index);
+    }
+
+    @Test
+    public void testArgMaxNegativeOnlyValues() {
+        final double[] data = { -1, Double.MIN_VALUE, -8, -10, -17, -11, -15};
+        final int index = MathArrays.argmax(data);
+        Assert.assertEquals(1, index);
+    }
+
+    @Test
+    public void testArgMaxPositiveOnlyValues() {
+        final double[] data = { 5, 3, 8, 2, 17, Double.MAX_VALUE, 15};
+        final int index = MathArrays.argmax(data);
+        Assert.assertEquals(5, index);
+    }
+
+    @Test
+    public void testArgMaxRepetedValues() {
+        final double[] data = { 11, 7, 3, -6, -7, 11, -5};
+        final int index = MathArrays.argmax(data);
+        Assert.assertEquals(0, index);
     }
 }
