@@ -23,11 +23,10 @@ import java.util.Collection;
 import java.util.List;
 
 import org.apache.commons.math4.exception.NumberIsTooSmallException;
-import org.apache.commons.math4.ml.clustering.CentroidCluster;
-import org.apache.commons.math4.ml.clustering.Cluster;
-import org.apache.commons.math4.ml.clustering.DoublePoint;
-import org.apache.commons.math4.ml.clustering.KMeansPlusPlusClusterer;
 import org.apache.commons.math4.ml.distance.EuclideanDistance;
+import org.apache.commons.math4.random.GaussianRandomGenerator;
+import org.apache.commons.math4.random.RandomVectorGenerator;
+import org.apache.commons.math4.random.UncorrelatedRandomVectorGenerator;
 import org.apache.commons.math4.rng.RandomSource;
 import org.apache.commons.math4.rng.UniformRandomProvider;
 import org.junit.Assert;
@@ -187,6 +186,25 @@ public class KMeansPlusPlusClustererTest {
 
         transformer.cluster(Arrays.asList(points));
 
+    }
+
+    @Test
+    public void testNumberOfRequestedClustersSameAsInputSize() {
+
+        final RandomVectorGenerator rng = new UncorrelatedRandomVectorGenerator(10,
+                new GaussianRandomGenerator(RandomSource.create(RandomSource.MT)));
+
+        List<DoublePoint> points = new ArrayList<>();
+
+        for (int i = 0; i < 10; i++) {
+            final DoublePoint point = new DoublePoint(rng.nextVector());
+            for (int j = 0; j < 3; j++) {
+                points.add(point);
+            }
+        }
+
+        final KMeansPlusPlusClusterer<DoublePoint> clusterer = new KMeansPlusPlusClusterer<>(12);
+        clusterer.cluster(points);
     }
 
 }

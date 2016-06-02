@@ -372,7 +372,9 @@ public class KMeansPlusPlusClusterer<T extends Clusterable> extends Clusterer<T>
 
                 final T p = pointList.get(nextPointIndex);
 
-                resultSet.add(new CentroidCluster<T> (p));
+                final CentroidCluster<T> cluster = new CentroidCluster<>(p);
+                cluster.addPoint(p);
+                resultSet.add(cluster);
 
                 // Mark it as taken.
                 taken[nextPointIndex] = true;
