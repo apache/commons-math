@@ -110,13 +110,15 @@ public class DescriptiveStatistics implements StatisticalSummary, Serializable {
     private UnivariateStatistic sumImpl = new Sum();
 
     /**
-     * Construct a DescriptiveStatistics instance with an infinite window.
+     * Construct a {@code DescriptiveStatistics} instance with an infinite
+     * window.
      */
     public DescriptiveStatistics() {
     }
 
     /**
-     * Construct a DescriptiveStatistics instance with the specified window.
+     * Construct a {@code DescriptiveStatistics} instance with the specified
+     * window.
      *
      * @param window the window size.
      * @throws MathIllegalArgumentException if window size is less than 1 but
@@ -127,10 +129,10 @@ public class DescriptiveStatistics implements StatisticalSummary, Serializable {
     }
 
     /**
-     * Construct a DescriptiveStatistics instance with an infinite window
-     * and the initial data values in double[] initialDoubleArray.
-     * If initialDoubleArray is null, then this constructor corresponds to
-     * DescriptiveStatistics()
+     * Construct a {@code DescriptiveStatistics} instance with an infinite
+     * window and the initial data values in {@code initialDoubleArray}.
+     * If {@code initialDoubleArray} is {@code null}, then this constructor
+     * corresponds to {@link #DescriptiveStatistics() }.
      *
      * @param initialDoubleArray the initial double[].
      */
@@ -141,8 +143,8 @@ public class DescriptiveStatistics implements StatisticalSummary, Serializable {
     }
 
     /**
-     * Copy constructor.  Construct a new DescriptiveStatistics instance that
-     * is a copy of original.
+     * Copy constructor. Construct a new {@code DescriptiveStatistics} instance
+     * that is a copy of {@code original}.
      *
      * @param original DescriptiveStatistics instance to copy
      * @throws NullArgumentException if original is null
