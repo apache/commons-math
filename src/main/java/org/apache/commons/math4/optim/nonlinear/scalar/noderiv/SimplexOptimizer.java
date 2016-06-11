@@ -159,12 +159,18 @@ public class SimplexOptimizer extends MultivariateOptimizer {
         int iteration = 0;
         final ConvergenceChecker<PointValuePair> checker = getConvergenceChecker();
         while (true) {
-            if (getIterations() > 0) {
+            iteration = getIterations();
+            if (iteration > 0) {
                 boolean converged = true;
                 for (int i = 0; i < simplex.getSize(); i++) {
                     PointValuePair prev = previous[i];
                     converged = converged &&
                         checker.converged(iteration, prev, simplex.getPoint(i));
+
+                    if (!converged) {
+                        // Short circuit, since "converged" will stay "false".
+                        break;
+                    }
                 }
                 if (converged) {
                     // We have found an optimum.
