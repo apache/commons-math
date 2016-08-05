@@ -1948,7 +1948,7 @@ public class FastMathTest {
      */
     @Test
     public void testRoundDown() {
-        double x = 0x1.fffffffffffffp-2;
+        double x = 0x1.fffffffffffffp-2; // greatest floating point value less than 0.5
         assertTrue(x < 0.5d);
         assertEquals(0, FastMath.round(x));
 
@@ -1956,7 +1956,7 @@ public class FastMathTest {
         assertEquals("4503599627370497", new BigDecimal(x).toString());
         assertTrue(x == Math.rint(x));
         assertTrue(x == FastMath.round(x));
-        assertTrue(x == Math.round(x));
+        //assertTrue(x == Math.round(x)); // fails with Java 7, fixed in Java 8
     }
 
 }
