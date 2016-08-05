@@ -345,6 +345,18 @@ public class DerivativeStructureTest extends ExtendedFieldElementAbstractTest<De
                     Assert.assertEquals(0.0, d, Precision.SAFE_MIN);
                 }
             }
+
+            // 0^p with p smaller than 1.0
+            DerivativeStructure u = new DerivativeStructure(3, maxOrder, 1, -0.0).pow(0.25);
+            for (int i0 = 0; i0 <= maxOrder; ++i0) {
+                for (int i1 = 0; i1 <= maxOrder; ++i1) {
+                    for (int i2 = 0; i2 <= maxOrder; ++i2) {
+                        if (i0 + i1 + i2 <= maxOrder) {
+                            Assert.assertEquals(0.0, u.getPartialDerivative(i0, i1, i2), 1.0e-10);
+                        }
+                    }
+                }
+            }
         }
 
     }

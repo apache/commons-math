@@ -893,6 +893,12 @@ public class DSCompiler {
             return;
         }
 
+        if (operand[operandOffset] == 0) {
+            // special case, 0^p = 0 for all p
+            Arrays.fill(result, resultOffset, resultOffset + getSize(), 0);
+            return;
+        }
+
         // create the function value and derivatives
         // [x^p, px^(p-1), p(p-1)x^(p-2), ... ]
         double[] function = new double[1 + order];
