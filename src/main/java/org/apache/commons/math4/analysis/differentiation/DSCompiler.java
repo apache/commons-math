@@ -886,6 +886,13 @@ public class DSCompiler {
     public void pow(final double[] operand, final int operandOffset, final double p,
                     final double[] result, final int resultOffset) {
 
+        if (p == 0) {
+            // special case, x^0 = 1 for all x
+            result[resultOffset] = 1.0;
+            Arrays.fill(result, resultOffset + 1, resultOffset + getSize(), 0);
+            return;
+        }
+
         // create the function value and derivatives
         // [x^p, px^(p-1), p(p-1)x^(p-2), ... ]
         double[] function = new double[1 + order];
