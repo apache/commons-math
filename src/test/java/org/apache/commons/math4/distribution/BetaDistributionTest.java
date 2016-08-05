@@ -18,12 +18,11 @@ package org.apache.commons.math4.distribution;
 
 import java.util.Arrays;
 
-import org.apache.commons.math4.distribution.BetaDistribution;
 import org.apache.commons.math4.rng.RandomSource;
 import org.apache.commons.math4.rng.UniformRandomProvider;
 import org.apache.commons.math4.stat.StatUtils;
 import org.apache.commons.math4.stat.inference.KolmogorovSmirnovTest;
-import org.apache.commons.math4.stat.inference.TestUtils;
+import org.apache.commons.math4.stat.inference.InferenceTestUtils;
 import org.junit.Assert;
 import org.junit.Test;
 
@@ -325,7 +324,7 @@ public class BetaDistributionTest {
             for (final double beta : alphaBetas) {
                 final BetaDistribution betaDistribution = new BetaDistribution(alpha, beta);
                 final double[] observed = AbstractRealDistribution.sample(numSamples,
-                                                                          betaDistribution.createSampler(rng));
+                        betaDistribution.createSampler(rng));
                 Arrays.sort(observed);
 
                 final String distribution = String.format("Beta(%.2f, %.2f)", alpha, beta);
@@ -380,6 +379,6 @@ public class BetaDistributionTest {
         final double[] expected = new double[numBins];
         Arrays.fill(expected, (double) values.length / numBins);
 
-        return TestUtils.gTest(expected, observed);
+        return InferenceTestUtils.gTest(expected, observed);
     }
 }

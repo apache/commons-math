@@ -27,8 +27,6 @@ import org.apache.commons.math4.exception.NullArgumentException;
 import org.apache.commons.math4.exception.NumberIsTooSmallException;
 import org.apache.commons.math4.exception.OutOfRangeException;
 import org.apache.commons.math4.stat.descriptive.SummaryStatistics;
-import org.apache.commons.math4.stat.inference.OneWayAnova;
-import org.apache.commons.math4.stat.inference.TestUtils;
 import org.apache.commons.math4.util.FastMath;
 import org.junit.Assert;
 import org.junit.Test;
@@ -38,7 +36,7 @@ import org.junit.Test;
  * Test cases for the TestUtils class.
  *
  */
-public class TestUtilsTest {
+public class InferenceTestUtilsTest {
 
     @Test
     public void testChiSquare() {
@@ -50,18 +48,18 @@ public class TestUtilsTest {
 
         long[] observed = {10, 9, 11};
         double[] expected = {10, 10, 10};
-        Assert.assertEquals("chi-square statistic", 0.2,  TestUtils.chiSquare(expected, observed), 10E-12);
-        Assert.assertEquals("chi-square p-value", 0.904837418036, TestUtils.chiSquareTest(expected, observed), 1E-10);
+        Assert.assertEquals("chi-square statistic", 0.2,  InferenceTestUtils.chiSquare(expected, observed), 10E-12);
+        Assert.assertEquals("chi-square p-value", 0.904837418036, InferenceTestUtils.chiSquareTest(expected, observed), 1E-10);
 
         long[] observed1 = { 500, 623, 72, 70, 31 };
         double[] expected1 = { 485, 541, 82, 61, 37 };
-        Assert.assertEquals( "chi-square test statistic", 9.023307936427388, TestUtils.chiSquare(expected1, observed1), 1E-10);
-        Assert.assertEquals("chi-square p-value", 0.06051952647453607, TestUtils.chiSquareTest(expected1, observed1), 1E-9);
-        Assert.assertTrue("chi-square test reject", TestUtils.chiSquareTest(expected1, observed1, 0.07));
-        Assert.assertTrue("chi-square test accept", !TestUtils.chiSquareTest(expected1, observed1, 0.05));
+        Assert.assertEquals( "chi-square test statistic", 9.023307936427388, InferenceTestUtils.chiSquare(expected1, observed1), 1E-10);
+        Assert.assertEquals("chi-square p-value", 0.06051952647453607, InferenceTestUtils.chiSquareTest(expected1, observed1), 1E-9);
+        Assert.assertTrue("chi-square test reject", InferenceTestUtils.chiSquareTest(expected1, observed1, 0.07));
+        Assert.assertTrue("chi-square test accept", !InferenceTestUtils.chiSquareTest(expected1, observed1, 0.05));
 
         try {
-            TestUtils.chiSquareTest(expected1, observed1, 95);
+            InferenceTestUtils.chiSquareTest(expected1, observed1, 95);
             Assert.fail("alpha out of range, OutOfRangeException expected");
         } catch (OutOfRangeException ex) {
             // expected
@@ -70,7 +68,7 @@ public class TestUtilsTest {
         long[] tooShortObs = { 0 };
         double[] tooShortEx = { 1 };
         try {
-            TestUtils.chiSquare(tooShortEx, tooShortObs);
+            InferenceTestUtils.chiSquare(tooShortEx, tooShortObs);
             Assert.fail("arguments too short, DimensionMismatchException expected");
         } catch (DimensionMismatchException ex) {
             // expected
@@ -80,7 +78,7 @@ public class TestUtilsTest {
         long[] unMatchedObs = { 0, 1, 2, 3 };
         double[] unMatchedEx = { 1, 1, 2 };
         try {
-            TestUtils.chiSquare(unMatchedEx, unMatchedObs);
+            InferenceTestUtils.chiSquare(unMatchedEx, unMatchedObs);
             Assert.fail("arrays have different lengths, DimensionMismatchException expected");
         } catch (DimensionMismatchException ex) {
             // expected
@@ -89,7 +87,7 @@ public class TestUtilsTest {
         // 0 expected count
         expected[0] = 0;
         try {
-            TestUtils.chiSquareTest(expected, observed, .01);
+            InferenceTestUtils.chiSquareTest(expected, observed, .01);
             Assert.fail("bad expected count, NotStrictlyPositiveException expected");
         } catch (NotStrictlyPositiveException ex) {
             // expected
@@ -99,7 +97,7 @@ public class TestUtilsTest {
         expected[0] = 1;
         observed[0] = -1;
         try {
-            TestUtils.chiSquareTest(expected, observed, .01);
+            InferenceTestUtils.chiSquareTest(expected, observed, .01);
             Assert.fail("bad expected count, NotPositiveException expected");
         } catch (NotPositiveException ex) {
             // expected
@@ -113,20 +111,20 @@ public class TestUtilsTest {
         // Target values computed using R version 1.8.1
 
         long[][] counts = { {40, 22, 43}, {91, 21, 28}, {60, 10, 22}};
-        Assert.assertEquals( "chi-square test statistic", 22.709027688, TestUtils.chiSquare(counts), 1E-9);
-        Assert.assertEquals("chi-square p-value", 0.000144751460134, TestUtils.chiSquareTest(counts), 1E-9);
-        Assert.assertTrue("chi-square test reject", TestUtils.chiSquareTest(counts, 0.0002));
-        Assert.assertTrue("chi-square test accept", !TestUtils.chiSquareTest(counts, 0.0001));
+        Assert.assertEquals( "chi-square test statistic", 22.709027688, InferenceTestUtils.chiSquare(counts), 1E-9);
+        Assert.assertEquals("chi-square p-value", 0.000144751460134, InferenceTestUtils.chiSquareTest(counts), 1E-9);
+        Assert.assertTrue("chi-square test reject", InferenceTestUtils.chiSquareTest(counts, 0.0002));
+        Assert.assertTrue("chi-square test accept", !InferenceTestUtils.chiSquareTest(counts, 0.0001));
 
         long[][] counts2 = {{10, 15}, {30, 40}, {60, 90} };
-        Assert.assertEquals( "chi-square test statistic", 0.168965517241, TestUtils.chiSquare(counts2), 1E-9);
-        Assert.assertEquals("chi-square p-value",0.918987499852, TestUtils.chiSquareTest(counts2), 1E-9);
-        Assert.assertTrue("chi-square test accept", !TestUtils.chiSquareTest(counts2, 0.1));
+        Assert.assertEquals( "chi-square test statistic", 0.168965517241, InferenceTestUtils.chiSquare(counts2), 1E-9);
+        Assert.assertEquals("chi-square p-value",0.918987499852, InferenceTestUtils.chiSquareTest(counts2), 1E-9);
+        Assert.assertTrue("chi-square test accept", !InferenceTestUtils.chiSquareTest(counts2, 0.1));
 
         // ragged input array
         long[][] counts3 = { {40, 22, 43}, {91, 21, 28}, {60, 10}};
         try {
-            TestUtils.chiSquare(counts3);
+            InferenceTestUtils.chiSquare(counts3);
             Assert.fail("Expecting DimensionMismatchException");
         } catch (DimensionMismatchException ex) {
             // expected
@@ -135,14 +133,14 @@ public class TestUtilsTest {
         // insufficient data
         long[][] counts4 = {{40, 22, 43}};
         try {
-            TestUtils.chiSquare(counts4);
+            InferenceTestUtils.chiSquare(counts4);
             Assert.fail("Expecting DimensionMismatchException");
         } catch (DimensionMismatchException ex) {
             // expected
         }
         long[][] counts5 = {{40}, {40}, {30}, {10}};
         try {
-            TestUtils.chiSquare(counts5);
+            InferenceTestUtils.chiSquare(counts5);
             Assert.fail("Expecting DimensionMismatchException");
         } catch (DimensionMismatchException ex) {
             // expected
@@ -151,7 +149,7 @@ public class TestUtilsTest {
         // negative counts
         long[][] counts6 = {{10, -2}, {30, 40}, {60, 90} };
         try {
-            TestUtils.chiSquare(counts6);
+            InferenceTestUtils.chiSquare(counts6);
             Assert.fail("Expecting NotPositiveException");
         } catch (NotPositiveException ex) {
             // expected
@@ -159,7 +157,7 @@ public class TestUtilsTest {
 
         // bad alpha
         try {
-            TestUtils.chiSquareTest(counts, 0);
+            InferenceTestUtils.chiSquareTest(counts, 0);
             Assert.fail("Expecting OutOfRangeException");
         } catch (OutOfRangeException ex) {
             // expected
@@ -181,7 +179,7 @@ public class TestUtilsTest {
         double cst = csti.chiSquareTest(exp, obs);
         Assert.assertEquals("chi-square p-value", 0.0, cst, 1E-3);
         Assert.assertEquals( "chi-square test statistic",
-                114875.90421929007, TestUtils.chiSquare(exp, obs), 1E-9);
+                114875.90421929007, InferenceTestUtils.chiSquare(exp, obs), 1E-9);
     }
 
     /** Contingency table containing zeros - PR # 32531 */
@@ -190,9 +188,9 @@ public class TestUtilsTest {
         // Target values computed using R version 1.8.1
         long[][] counts = { {40, 0, 4}, {91, 1, 2}, {60, 2, 0}};
         Assert.assertEquals( "chi-square test statistic", 9.67444662263,
-                TestUtils.chiSquare(counts), 1E-9);
+                InferenceTestUtils.chiSquare(counts), 1E-9);
         Assert.assertEquals("chi-square p-value", 0.0462835770603,
-                TestUtils.chiSquareTest(counts), 1E-9);
+                InferenceTestUtils.chiSquareTest(counts), 1E-9);
     }
 
     private double[] tooShortObs = { 1.0 };
@@ -212,63 +210,63 @@ public class TestUtilsTest {
 
         // Target comparison values computed using R version 1.8.1 (Linux version)
         Assert.assertEquals("t statistic",  -2.81976445346,
-                TestUtils.t(mu, observed), 10E-10);
+                InferenceTestUtils.t(mu, observed), 10E-10);
         Assert.assertEquals("t statistic",  -2.81976445346,
-                TestUtils.t(mu, sampleStats), 10E-10);
+                InferenceTestUtils.t(mu, sampleStats), 10E-10);
         Assert.assertEquals("p value", 0.0136390585873,
-                TestUtils.tTest(mu, observed), 10E-10);
+                InferenceTestUtils.tTest(mu, observed), 10E-10);
         Assert.assertEquals("p value", 0.0136390585873,
-                TestUtils.tTest(mu, sampleStats), 10E-10);
+                InferenceTestUtils.tTest(mu, sampleStats), 10E-10);
 
         try {
-            TestUtils.t(mu, (double[]) null);
+            InferenceTestUtils.t(mu, (double[]) null);
             Assert.fail("arguments too short, NullArgumentException expected");
         } catch (NullArgumentException ex) {
             // expected
         }
 
         try {
-            TestUtils.t(mu, (SummaryStatistics) null);
+            InferenceTestUtils.t(mu, (SummaryStatistics) null);
             Assert.fail("arguments too short, NullArgumentException expected");
         } catch (NullArgumentException ex) {
             // expected
         }
 
         try {
-            TestUtils.t(mu, emptyObs);
+            InferenceTestUtils.t(mu, emptyObs);
             Assert.fail("arguments too short, NumberIsTooSmallException expected");
         } catch (NumberIsTooSmallException ex) {
             // expected
         }
 
         try {
-            TestUtils.t(mu, emptyStats);
+            InferenceTestUtils.t(mu, emptyStats);
             Assert.fail("arguments too short, NumberIsTooSmallException expected");
         } catch (NumberIsTooSmallException ex) {
             // expected
         }
 
         try {
-            TestUtils.t(mu, tooShortObs);
+            InferenceTestUtils.t(mu, tooShortObs);
             Assert.fail("insufficient data to compute t statistic, NumberIsTooSmallException expected");
         } catch (NumberIsTooSmallException ex) {
             // expected
         }
         try {
-            TestUtils.tTest(mu, tooShortObs);
+            InferenceTestUtils.tTest(mu, tooShortObs);
             Assert.fail("insufficient data to perform t test, NumberIsTooSmallException expected");
         } catch (NumberIsTooSmallException ex) {
             // expected
         }
 
         try {
-            TestUtils.t(mu, (SummaryStatistics) null);
+            InferenceTestUtils.t(mu, (SummaryStatistics) null);
             Assert.fail("insufficient data to compute t statistic, NullArgumentException expected");
         } catch (NullArgumentException ex) {
             // expected
         }
         try {
-            TestUtils.tTest(mu, (SummaryStatistics) null);
+            InferenceTestUtils.tTest(mu, (SummaryStatistics) null);
             Assert.fail("insufficient data to perform t test, NullArgumentException expected");
         } catch (NullArgumentException ex) {
             // expected
@@ -285,27 +283,27 @@ public class TestUtilsTest {
         }
         // Target comparison values computed using R version 1.8.1 (Linux version)
         Assert.assertEquals("one sample t stat", 3.86485535541,
-                TestUtils.t(0d, oneSidedP), 10E-10);
+                InferenceTestUtils.t(0d, oneSidedP), 10E-10);
         Assert.assertEquals("one sample t stat", 3.86485535541,
-                TestUtils.t(0d, oneSidedPStats),1E-10);
+                InferenceTestUtils.t(0d, oneSidedPStats),1E-10);
         Assert.assertEquals("one sample p value", 0.000521637019637,
-                TestUtils.tTest(0d, oneSidedP) / 2d, 10E-10);
+                InferenceTestUtils.tTest(0d, oneSidedP) / 2d, 10E-10);
         Assert.assertEquals("one sample p value", 0.000521637019637,
-                TestUtils.tTest(0d, oneSidedPStats) / 2d, 10E-5);
-        Assert.assertTrue("one sample t-test reject", TestUtils.tTest(0d, oneSidedP, 0.01));
-        Assert.assertTrue("one sample t-test reject", TestUtils.tTest(0d, oneSidedPStats, 0.01));
-        Assert.assertTrue("one sample t-test accept", !TestUtils.tTest(0d, oneSidedP, 0.0001));
-        Assert.assertTrue("one sample t-test accept", !TestUtils.tTest(0d, oneSidedPStats, 0.0001));
+                InferenceTestUtils.tTest(0d, oneSidedPStats) / 2d, 10E-5);
+        Assert.assertTrue("one sample t-test reject", InferenceTestUtils.tTest(0d, oneSidedP, 0.01));
+        Assert.assertTrue("one sample t-test reject", InferenceTestUtils.tTest(0d, oneSidedPStats, 0.01));
+        Assert.assertTrue("one sample t-test accept", !InferenceTestUtils.tTest(0d, oneSidedP, 0.0001));
+        Assert.assertTrue("one sample t-test accept", !InferenceTestUtils.tTest(0d, oneSidedPStats, 0.0001));
 
         try {
-            TestUtils.tTest(0d, oneSidedP, 95);
+            InferenceTestUtils.tTest(0d, oneSidedP, 95);
             Assert.fail("alpha out of range, OutOfRangeException expected");
         } catch (OutOfRangeException ex) {
             // expected
         }
 
         try {
-            TestUtils.tTest(0d, oneSidedPStats, 95);
+            InferenceTestUtils.tTest(0d, oneSidedPStats, 95);
             Assert.fail("alpha out of range, OutOfRangeException expected");
         } catch (OutOfRangeException ex) {
             // expected
@@ -328,73 +326,73 @@ public class TestUtilsTest {
 
         // Target comparison values computed using R version 1.8.1 (Linux version)
         Assert.assertEquals("two sample heteroscedastic t stat", 1.60371728768,
-                TestUtils.t(sample1, sample2), 1E-10);
+                InferenceTestUtils.t(sample1, sample2), 1E-10);
         Assert.assertEquals("two sample heteroscedastic t stat", 1.60371728768,
-                TestUtils.t(sampleStats1, sampleStats2), 1E-10);
+                InferenceTestUtils.t(sampleStats1, sampleStats2), 1E-10);
         Assert.assertEquals("two sample heteroscedastic p value", 0.128839369622,
-                TestUtils.tTest(sample1, sample2), 1E-10);
+                InferenceTestUtils.tTest(sample1, sample2), 1E-10);
         Assert.assertEquals("two sample heteroscedastic p value", 0.128839369622,
-                TestUtils.tTest(sampleStats1, sampleStats2), 1E-10);
+                InferenceTestUtils.tTest(sampleStats1, sampleStats2), 1E-10);
         Assert.assertTrue("two sample heteroscedastic t-test reject",
-                TestUtils.tTest(sample1, sample2, 0.2));
+                InferenceTestUtils.tTest(sample1, sample2, 0.2));
         Assert.assertTrue("two sample heteroscedastic t-test reject",
-                TestUtils.tTest(sampleStats1, sampleStats2, 0.2));
+                InferenceTestUtils.tTest(sampleStats1, sampleStats2, 0.2));
         Assert.assertTrue("two sample heteroscedastic t-test accept",
-                !TestUtils.tTest(sample1, sample2, 0.1));
+                !InferenceTestUtils.tTest(sample1, sample2, 0.1));
         Assert.assertTrue("two sample heteroscedastic t-test accept",
-                !TestUtils.tTest(sampleStats1, sampleStats2, 0.1));
+                !InferenceTestUtils.tTest(sampleStats1, sampleStats2, 0.1));
 
         try {
-            TestUtils.tTest(sample1, sample2, .95);
+            InferenceTestUtils.tTest(sample1, sample2, .95);
             Assert.fail("alpha out of range, OutOfRangeException expected");
         } catch (OutOfRangeException ex) {
             // expected
         }
 
         try {
-            TestUtils.tTest(sampleStats1, sampleStats2, .95);
+            InferenceTestUtils.tTest(sampleStats1, sampleStats2, .95);
             Assert.fail("alpha out of range, OutOfRangeException expected");
         } catch (OutOfRangeException ex) {
             // expected
         }
 
         try {
-            TestUtils.tTest(sample1, tooShortObs, .01);
+            InferenceTestUtils.tTest(sample1, tooShortObs, .01);
             Assert.fail("insufficient data, NumberIsTooSmallException expected");
         } catch (NumberIsTooSmallException ex) {
             // expected
         }
 
         try {
-            TestUtils.tTest(sampleStats1, (SummaryStatistics) null, .01);
+            InferenceTestUtils.tTest(sampleStats1, (SummaryStatistics) null, .01);
             Assert.fail("insufficient data, NullArgumentException expected");
         } catch (NullArgumentException ex) {
             // expected
         }
 
         try {
-            TestUtils.tTest(sample1, tooShortObs);
+            InferenceTestUtils.tTest(sample1, tooShortObs);
             Assert.fail("insufficient data, NumberIsTooSmallException expected");
         } catch (NumberIsTooSmallException ex) {
             // expected
         }
 
         try {
-            TestUtils.tTest(sampleStats1, (SummaryStatistics) null);
+            InferenceTestUtils.tTest(sampleStats1, (SummaryStatistics) null);
             Assert.fail("insufficient data, NullArgumentException expected");
         } catch (NullArgumentException ex) {
             // expected
         }
 
         try {
-            TestUtils.t(sample1, tooShortObs);
+            InferenceTestUtils.t(sample1, tooShortObs);
             Assert.fail("insufficient data, NumberIsTooSmallException expected");
         } catch (NumberIsTooSmallException ex) {
             // expected
         }
 
         try {
-            TestUtils.t(sampleStats1, (SummaryStatistics) null);
+            InferenceTestUtils.t(sampleStats1, (SummaryStatistics) null);
             Assert.fail("insufficient data, NullArgumentException expected");
         } catch (NullArgumentException ex) {
             // expected
@@ -415,13 +413,13 @@ public class TestUtilsTest {
 
         // Target comparison values computed using R version 1.8.1 (Linux version)
         Assert.assertEquals("two sample homoscedastic t stat", 0.73096310086,
-                TestUtils.homoscedasticT(sample1, sample2), 10E-11);
+                InferenceTestUtils.homoscedasticT(sample1, sample2), 10E-11);
         Assert.assertEquals("two sample homoscedastic p value", 0.4833963785,
-                TestUtils.homoscedasticTTest(sampleStats1, sampleStats2), 1E-10);
+                InferenceTestUtils.homoscedasticTTest(sampleStats1, sampleStats2), 1E-10);
         Assert.assertTrue("two sample homoscedastic t-test reject",
-                TestUtils.homoscedasticTTest(sample1, sample2, 0.49));
+                InferenceTestUtils.homoscedasticTTest(sample1, sample2, 0.49));
         Assert.assertTrue("two sample homoscedastic t-test accept",
-                !TestUtils.homoscedasticTTest(sample1, sample2, 0.48));
+                !InferenceTestUtils.homoscedasticTTest(sample1, sample2, 0.48));
     }
 
     @Test
@@ -430,9 +428,9 @@ public class TestUtilsTest {
         double[] sample2 = {4d, 5d};
 
         // Target values computed using R, version 1.8.1 (linux version)
-        Assert.assertEquals(-2.2360679775, TestUtils.t(sample1, sample2),
+        Assert.assertEquals(-2.2360679775, InferenceTestUtils.t(sample1, sample2),
                 1E-10);
-        Assert.assertEquals(0.198727388935, TestUtils.tTest(sample1, sample2),
+        Assert.assertEquals(0.198727388935, InferenceTestUtils.tTest(sample1, sample2),
                 1E-10);
     }
 
@@ -443,11 +441,11 @@ public class TestUtilsTest {
         double[] sample3 = {5d, 7d, 8d, 10d};
 
         // Target values computed using R, version 1.8.1 (linux version)
-        Assert.assertEquals(-0.3133, TestUtils.pairedT(sample1, sample2), 1E-4);
-        Assert.assertEquals(0.774544295819, TestUtils.pairedTTest(sample1, sample2), 1E-10);
-        Assert.assertEquals(0.001208, TestUtils.pairedTTest(sample1, sample3), 1E-6);
-        Assert.assertFalse(TestUtils.pairedTTest(sample1, sample3, .001));
-        Assert.assertTrue(TestUtils.pairedTTest(sample1, sample3, .002));
+        Assert.assertEquals(-0.3133, InferenceTestUtils.pairedT(sample1, sample2), 1E-4);
+        Assert.assertEquals(0.774544295819, InferenceTestUtils.pairedTTest(sample1, sample2), 1E-10);
+        Assert.assertEquals(0.001208, InferenceTestUtils.pairedTTest(sample1, sample3), 1E-6);
+        Assert.assertFalse(InferenceTestUtils.pairedTTest(sample1, sample3, .001));
+        Assert.assertTrue(InferenceTestUtils.pairedTTest(sample1, sample3, .002));
     }
 
     private double[] classA =
@@ -466,11 +464,11 @@ public class TestUtilsTest {
         classes.add(classB);
         classes.add(classC);
         Assert.assertEquals(oneWayAnova.anovaFValue(classes),
-                TestUtils.oneWayAnovaFValue(classes), 10E-12);
+                InferenceTestUtils.oneWayAnovaFValue(classes), 10E-12);
         Assert.assertEquals(oneWayAnova.anovaPValue(classes),
-                TestUtils.oneWayAnovaPValue(classes), 10E-12);
+                InferenceTestUtils.oneWayAnovaPValue(classes), 10E-12);
         Assert.assertEquals(oneWayAnova.anovaTest(classes, 0.01),
-                TestUtils.oneWayAnovaTest(classes, 0.01));
+                InferenceTestUtils.oneWayAnovaTest(classes, 0.01));
     }
     @Test
     public void testGTestGoodnesOfFit() throws Exception {
@@ -482,11 +480,11 @@ public class TestUtilsTest {
             70, 79, 3, 4
         };
         Assert.assertEquals("G test statistic",
-                13.144799, TestUtils.g(exp, obs), 1E-5);
-        double p_gtgf = TestUtils.gTest(exp, obs);
+                13.144799, InferenceTestUtils.g(exp, obs), 1E-5);
+        double p_gtgf = InferenceTestUtils.gTest(exp, obs);
         Assert.assertEquals("g-Test p-value", 0.004333, p_gtgf, 1E-5);
 
-        Assert.assertTrue(TestUtils.gTest(exp, obs, 0.05));
+        Assert.assertTrue(InferenceTestUtils.gTest(exp, obs, 0.05));
 }
 
     @Test
@@ -499,36 +497,36 @@ public class TestUtilsTest {
             807, 759, 184
         };
 
-        double g = TestUtils.gDataSetsComparison(obs1, obs2);
+        double g = InferenceTestUtils.gDataSetsComparison(obs1, obs2);
 
         Assert.assertEquals("G test statistic",
                 7.3008170, g, 1E-4);
-        double p_gti = TestUtils.gTestDataSetsComparison(obs1, obs2);
+        double p_gti = InferenceTestUtils.gTestDataSetsComparison(obs1, obs2);
 
         Assert.assertEquals("g-Test p-value", 0.0259805, p_gti, 1E-4);
-        Assert.assertTrue(TestUtils.gTestDataSetsComparison(obs1, obs2, 0.05));
+        Assert.assertTrue(InferenceTestUtils.gTestDataSetsComparison(obs1, obs2, 0.05));
     }
 
     @Test
     public void testRootLogLikelihood() {
         // positive where k11 is bigger than expected.
-        Assert.assertTrue(TestUtils.rootLogLikelihoodRatio(904, 21060, 1144, 283012) > 0.0);
+        Assert.assertTrue(InferenceTestUtils.rootLogLikelihoodRatio(904, 21060, 1144, 283012) > 0.0);
 
         // negative because k11 is lower than expected
-        Assert.assertTrue(TestUtils.rootLogLikelihoodRatio(36, 21928, 60280, 623876) < 0.0);
+        Assert.assertTrue(InferenceTestUtils.rootLogLikelihoodRatio(36, 21928, 60280, 623876) < 0.0);
 
-        Assert.assertEquals(FastMath.sqrt(2.772589), TestUtils.rootLogLikelihoodRatio(1, 0, 0, 1), 0.000001);
-        Assert.assertEquals(-FastMath.sqrt(2.772589), TestUtils.rootLogLikelihoodRatio(0, 1, 1, 0), 0.000001);
-        Assert.assertEquals(FastMath.sqrt(27.72589), TestUtils.rootLogLikelihoodRatio(10, 0, 0, 10), 0.00001);
+        Assert.assertEquals(FastMath.sqrt(2.772589), InferenceTestUtils.rootLogLikelihoodRatio(1, 0, 0, 1), 0.000001);
+        Assert.assertEquals(-FastMath.sqrt(2.772589), InferenceTestUtils.rootLogLikelihoodRatio(0, 1, 1, 0), 0.000001);
+        Assert.assertEquals(FastMath.sqrt(27.72589), InferenceTestUtils.rootLogLikelihoodRatio(10, 0, 0, 10), 0.00001);
 
-        Assert.assertEquals(FastMath.sqrt(39.33052), TestUtils.rootLogLikelihoodRatio(5, 1995, 0, 100000), 0.00001);
-        Assert.assertEquals(-FastMath.sqrt(39.33052), TestUtils.rootLogLikelihoodRatio(0, 100000, 5, 1995), 0.00001);
+        Assert.assertEquals(FastMath.sqrt(39.33052), InferenceTestUtils.rootLogLikelihoodRatio(5, 1995, 0, 100000), 0.00001);
+        Assert.assertEquals(-FastMath.sqrt(39.33052), InferenceTestUtils.rootLogLikelihoodRatio(0, 100000, 5, 1995), 0.00001);
 
-        Assert.assertEquals(FastMath.sqrt(4730.737), TestUtils.rootLogLikelihoodRatio(1000, 1995, 1000, 100000), 0.001);
-        Assert.assertEquals(-FastMath.sqrt(4730.737), TestUtils.rootLogLikelihoodRatio(1000, 100000, 1000, 1995), 0.001);
+        Assert.assertEquals(FastMath.sqrt(4730.737), InferenceTestUtils.rootLogLikelihoodRatio(1000, 1995, 1000, 100000), 0.001);
+        Assert.assertEquals(-FastMath.sqrt(4730.737), InferenceTestUtils.rootLogLikelihoodRatio(1000, 100000, 1000, 1995), 0.001);
 
-        Assert.assertEquals(FastMath.sqrt(5734.343), TestUtils.rootLogLikelihoodRatio(1000, 1000, 1000, 100000), 0.001);
-        Assert.assertEquals(FastMath.sqrt(5714.932), TestUtils.rootLogLikelihoodRatio(1000, 1000, 1000, 99000), 0.001);
+        Assert.assertEquals(FastMath.sqrt(5734.343), InferenceTestUtils.rootLogLikelihoodRatio(1000, 1000, 1000, 100000), 0.001);
+        Assert.assertEquals(FastMath.sqrt(5714.932), InferenceTestUtils.rootLogLikelihoodRatio(1000, 1000, 1000, 99000), 0.001);
     }
 
     @Test
@@ -536,8 +534,8 @@ public class TestUtilsTest {
        final NormalDistribution unitNormal = new NormalDistribution(0d, 1d);
        final double[] sample = KolmogorovSmirnovTestTest.gaussian;
        final double tol = KolmogorovSmirnovTestTest.TOLERANCE;
-       Assert.assertEquals(0.3172069207622391, TestUtils.kolmogorovSmirnovTest(unitNormal, sample), tol);
-       Assert.assertEquals(0.0932947561266756, TestUtils.kolmogorovSmirnovStatistic(unitNormal, sample), tol);
+       Assert.assertEquals(0.3172069207622391, InferenceTestUtils.kolmogorovSmirnovTest(unitNormal, sample), tol);
+       Assert.assertEquals(0.0932947561266756, InferenceTestUtils.kolmogorovSmirnovStatistic(unitNormal, sample), tol);
     }
 
     @Test
@@ -550,10 +548,10 @@ public class TestUtilsTest {
             10, 11, 12, 16, 20, 27, 28, 32, 44, 54
         };
         Assert
-            .assertEquals(0.105577085453247, TestUtils.kolmogorovSmirnovTest(smallSample1, smallSample2, false), tol);
-        final double d = TestUtils.kolmogorovSmirnovStatistic(smallSample1, smallSample2);
+            .assertEquals(0.105577085453247, InferenceTestUtils.kolmogorovSmirnovTest(smallSample1, smallSample2, false), tol);
+        final double d = InferenceTestUtils.kolmogorovSmirnovStatistic(smallSample1, smallSample2);
         Assert.assertEquals(0.5, d, tol);
         Assert
-        .assertEquals(0.105577085453247, TestUtils.exactP(d, smallSample1.length,smallSample2.length, false), tol);
+        .assertEquals(0.105577085453247, InferenceTestUtils.exactP(d, smallSample1.length, smallSample2.length, false), tol);
     }
 }

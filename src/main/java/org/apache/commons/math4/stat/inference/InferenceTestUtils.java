@@ -38,7 +38,7 @@ import org.apache.commons.math4.stat.descriptive.StatisticalSummary;
  *
  * @since 1.1
  */
-public class TestUtils  {
+public class InferenceTestUtils {
 
     /** Singleton TTest instance. */
     private static final TTest T_TEST = new TTest();
@@ -58,7 +58,7 @@ public class TestUtils  {
     /**
      * Prevent instantiation.
      */
-    private TestUtils() {
+    private InferenceTestUtils() {
         super();
     }
 
