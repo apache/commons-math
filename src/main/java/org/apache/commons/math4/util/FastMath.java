@@ -3510,7 +3510,25 @@ public class FastMath {
      * @return closest long to x
      */
     public static long round(double x) {
-        return (long) floor(x + 0.5);
+        final long bits = Double.doubleToRawLongBits(x);
+        final int biasedExp = ((int)(bits>>52)) & 0x7ff;
+        // Shift to get rid of bits past comma except first one: will need to
+        // 1-shift to the right to end up with correct magnitude.
+        final int shift = (52 - 1 + Double.MAX_EXPONENT) - biasedExp;
+        if ((shift & -64) == 0) {
+            // shift in [0,63], so unbiased exp in [-12,51].
+            long extendedMantissa = 0x0010000000000000L | (bits & 0x000fffffffffffffL);
+            if (bits < 0) {
+                extendedMantissa = -extendedMantissa;
+            }
+            // If value is positive and first bit past comma is 0, rounding
+            // to lower integer, else to upper one, which is what "+1" and
+            // then ">>1" do.
+            return ((extendedMantissa >> shift) + 1L) >> 1;
+        } else {
+            // +-Infinity, NaN, or a mathematical integer.
+            return (long) x;
+        }
     }
 
     /** Get the closest int to x.
@@ -3518,7 +3536,25 @@ public class FastMath {
      * @return closest int to x
      */
     public static int round(final float x) {
-        return (int) floor(x + 0.5f);
+        final int bits = Float.floatToRawIntBits(x);
+        final int biasedExp = (bits>>23) & 0xff;
+        // Shift to get rid of bits past comma except first one: will need to
+        // 1-shift to the right to end up with correct magnitude.
+        final int shift = (23 - 1 + Float.MAX_EXPONENT) - biasedExp;
+        if ((shift & -32) == 0) {
+            // shift in [0,31], so unbiased exp in [-9,22].
+            int extendedMantissa = 0x00800000 | (bits & 0x007fffff);
+            if (bits < 0) {
+                extendedMantissa = -extendedMantissa;
+            }
+            // If value is positive and first bit past comma is 0, rounding
+            // to lower integer, else to upper one, which is what "+1" and
+            // then ">>1" do.
+            return ((extendedMantissa >> shift) + 1) >> 1;
+        } else {
+            // +-Infinity, NaN, or a mathematical integer.
+            return (int) x;
+        }
     }
 
     /** Compute the minimum of two values
