@@ -133,10 +133,10 @@ public class KthSelector implements Serializable {
         int i = begin + 1;
         int j = end - 1;
         while (i < j) {
-            while (i < j && work[j] > value) {
+            while (i < j && Double.compare(work[j], value) > 0) {
                 --j;
             }
-            while (i < j && work[i] < value) {
+            while (i < j && Double.compare(work[i], value) < 0) {
                 ++i;
             }
 
@@ -147,7 +147,7 @@ public class KthSelector implements Serializable {
             }
         }
 
-        if (i >= end || work[i] > value) {
+        if (i >= end || Double.compare(work[i], value) > 0) {
             --i;
         }
         work[begin] = work[i];
