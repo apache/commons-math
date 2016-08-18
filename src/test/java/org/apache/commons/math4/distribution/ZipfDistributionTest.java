@@ -20,7 +20,7 @@ package org.apache.commons.math4.distribution;
 import org.apache.commons.math4.TestUtils;
 import org.apache.commons.math4.distribution.ZipfDistribution.ZipfRejectionInversionSampler;
 import org.apache.commons.math4.exception.NotStrictlyPositiveException;
-import org.apache.commons.math4.rng.RandomSource;
+import org.apache.commons.rng.RandomSource;
 import org.apache.commons.math4.util.FastMath;
 import org.junit.Assert;
 import org.junit.Ignore;

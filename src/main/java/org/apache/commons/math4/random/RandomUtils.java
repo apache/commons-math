@@ -29,7 +29,7 @@ import org.apache.commons.math4.exception.NotFiniteNumberException;
 import org.apache.commons.math4.exception.NotStrictlyPositiveException;
 import org.apache.commons.math4.exception.NumberIsTooLargeException;
 import org.apache.commons.math4.exception.util.LocalizedFormats;
-import org.apache.commons.math4.rng.UniformRandomProvider;
+import org.apache.commons.rng.UniformRandomProvider;
 import org.apache.commons.math4.util.MathArrays;
 
 /**

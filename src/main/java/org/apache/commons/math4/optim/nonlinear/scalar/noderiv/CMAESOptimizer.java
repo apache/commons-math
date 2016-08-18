@@ -35,7 +35,7 @@ import org.apache.commons.math4.optim.OptimizationData;
 import org.apache.commons.math4.optim.PointValuePair;
 import org.apache.commons.math4.optim.nonlinear.scalar.GoalType;
 import org.apache.commons.math4.optim.nonlinear.scalar.MultivariateOptimizer;
-import org.apache.commons.math4.rng.UniformRandomProvider;
+import org.apache.commons.rng.UniformRandomProvider;
 import org.apache.commons.math4.distribution.RealDistribution;
 import org.apache.commons.math4.distribution.NormalDistribution;
 import org.apache.commons.math4.util.FastMath;

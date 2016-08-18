@@ -18,8 +18,8 @@ package org.apache.commons.math4.genetics;
 
 import org.apache.commons.math4.exception.OutOfRangeException;
 import org.apache.commons.math4.exception.util.LocalizedFormats;
-import org.apache.commons.math4.rng.RandomSource;
-import org.apache.commons.math4.rng.UniformRandomProvider;
+import org.apache.commons.rng.RandomSource;
+import org.apache.commons.rng.UniformRandomProvider;
 
 /**
  * Implementation of a genetic algorithm. All factors that govern the operation

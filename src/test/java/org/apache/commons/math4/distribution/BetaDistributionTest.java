@@ -18,8 +18,8 @@ package org.apache.commons.math4.distribution;
 
 import java.util.Arrays;
 
-import org.apache.commons.math4.rng.RandomSource;
-import org.apache.commons.math4.rng.UniformRandomProvider;
+import org.apache.commons.rng.RandomSource;
+import org.apache.commons.rng.UniformRandomProvider;
 import org.apache.commons.math4.stat.StatUtils;
 import org.apache.commons.math4.stat.inference.KolmogorovSmirnovTest;
 import org.apache.commons.math4.stat.inference.InferenceTestUtils;

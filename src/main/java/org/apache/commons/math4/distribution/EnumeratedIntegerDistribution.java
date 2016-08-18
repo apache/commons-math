@@ -27,7 +27,7 @@ import org.apache.commons.math4.exception.MathArithmeticException;
 import org.apache.commons.math4.exception.NotANumberException;
 import org.apache.commons.math4.exception.NotFiniteNumberException;
 import org.apache.commons.math4.exception.NotPositiveException;
-import org.apache.commons.math4.rng.UniformRandomProvider;
+import org.apache.commons.rng.UniformRandomProvider;
 import org.apache.commons.math4.util.Pair;
 
 /**
