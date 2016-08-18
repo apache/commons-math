@@ -10,12 +10,12 @@ to the following:
 
 Alternatively, a "standalone" JAR can be created with the following
 command:
- $ mvn -Dmainclass=org.apache.commons.math4.userguide.rng.RandomStressTester \
-       -Djarbasename=RandomStressTester \
+ $ mvn -Dmainclass=org.apache.commons.math4.userguide.rng.ChineseRingsClassifier \
+       -Djarbasename=ChineseRingsClassifier \
        clean compile assembly:single
 where the value of the "mainclass" argument is the fully-qualified name
 of the class whose "main" method will be the program's entry point, and
 the "jarbasename" argument is the basename of the JAR file to be created.
 Then, the application can be run with the following command:
- $ java -jar RandomStressTester [args]
+ $ java -jar ChineseRingsClassifier [args]
 where "[args]" is the list of arguments passed to the "main" method.
