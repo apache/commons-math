@@ -77,7 +77,7 @@ public class RandomPivotingStrategy implements PivotingStrategyInterface, Serial
         out.defaultWriteObject();
 
         // Save current state.
-        out.writeObject(RandomSource.saveState(random));
+        out.writeObject(RandomSource.saveState(random).getState());
    }
 
     /**
@@ -94,7 +94,7 @@ public class RandomPivotingStrategy implements PivotingStrategyInterface, Serial
         // Recreate the "delegate" from serialized info.
         random = RandomSource.create(randomSource);
         // And restore its state.
-        final RandomSource.State state = (RandomSource.State) in.readObject();
+        final RandomSource.State state = new RandomSource.State((byte[]) in.readObject());
         RandomSource.restoreState(random, state);
     }
 }

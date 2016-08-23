@@ -206,7 +206,7 @@ public final class RngAdaptor
         out.defaultWriteObject();
 
         // Save current state.
-        out.writeObject(RandomSource.saveState(delegate));
+        out.writeObject(RandomSource.saveState(delegate).getState());
    }
 
     /**
@@ -223,7 +223,7 @@ public final class RngAdaptor
         // Recreate the "delegate" from serialized info.
         delegate = RandomSource.create(source);
         // And restore its state.
-        final RandomSource.State state = (RandomSource.State) in.readObject();
+        final RandomSource.State state = new RandomSource.State((byte[]) in.readObject());
         RandomSource.restoreState(delegate, state);
     }
 }
