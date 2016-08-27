@@ -49,14 +49,8 @@
       These utilities rely on an underlying "source of randomness", which in most
       cases is a pseudo-random number generator (PRNG) that produces sequences
       of numbers that are uniformly distributed within their range.
-      Commons Math provides many PRNG implementations that share a common
-      interface:
-      <a href="../apidocs/org/apache/commons/math4/rng/UniformRandomProvider.html">
-	UniformRandomProvider</a> (for more details about this interface and the
-      available RNG algorithms, please refer to the Javadoc of package
-      <a href="../apidocs/org/apache/commons/math4/rng/package-summary.html">
-	    org.apache.commons.math4.rng</a> and <a href="../userguide/rng.html">this section</a>
-      of the userguide.
+      Commons Math depends on <a href="http://commons.apache.org/rng">Commons Rng</a>
+      for the PRNG implementations.
     </p>
     <p>
       A PRNG algorithm is often deterministic, i.e. it produces the same sequence
@@ -96,23 +90,20 @@
     <dd>
     It is possible for a sequence of numbers to appear random, but
     nonetheless to be predictable based on the algorithm used to generate the
-    sequence. If in addition to randomness, strong unpredictability is
-    required, it is best to use a  
+    sequence.
+    When in addition to randomness, strong unpredictability is
+    required, a
     <a href="http://www.wikipedia.org/wiki/Cryptographically_secure_pseudo-random_number_generator">
-      secure random number generator</a> to generate values (or strings).
-
-    Most PRNG implemented in this library are not secure in that sense, except
-    perhaps the <a href="../apidocs/org/apache/commons/math4/rng/internal/source32/ISAACRandom.html">
-      ISAAC generator</a>.
-    An alternative is to use an instance of the JDK-provided <code>SecureRandom</code>
-    generator.
+    secure random number generator</a>
+    should be used to generate values (or strings), for example an instance of
+    the JDK-provided <code>SecureRandom</code> generator.
     In general, such secure generator produce sequence based on a source of
     true randomness, and sequences started with the same seed will diverge.
 
     The <a href="../apidocs/org/apache/commons/math4/random/RandomUtils.html">RandomUtils</a>
-    class provides a "factory" method to wrap <code>java.util.Random</code> or
-    <code>java.security.SecureRandom</code> instances in an object that implements
-    the <a href="../apidocs/org/apache/commons/math4/rng/UniformRandomProvider.html">
+    class provides a method for wrapping a <code>java.util.Random</code> or
+    <code>java.security.SecureRandom</code> instance in an object that implements
+    the <a href="http://commons.apache.org/proper/commons-rng/apidocs/org/apache/commons/rng/UniformRandomProvider.html">
     UniformRandomProvider</a> interface:
     <source>
 UniformRandomProvider rg = RandomUtils.asUniformRandomProvider(new java.security.SecureRandom());
@@ -151,21 +142,21 @@ UniformRandomProvider rg = RandomUtils.asUniformRandomProvider(new java.security
     <dt>Generating random vectors from a bivariate normal distribution</dt><dd>
     <source>
 // Import common PRNG interface and factory class that instantiates the PRNG.
-import org.apache.commons.math4.rng.UniformRandomProvider;
-import org.apache.commons.math4.rng.RandomSource;
+import org.apache.commons.rng.UniformRandomProvider;
+import org.apache.commons.rng.RandomSource;
 
-// Create (and possibly seed) a PRNG (could use any of the CM-provided generators)
+// Create (and possibly seed) a PRNG (could use any of the CM-provided generators).
 long seed = 17399225432L; // Fixed seed means same results every time 
 UniformRandomProvider rg = RandomSource.create(RandomSource.MT, seed);
 
-// Create a GassianRandomGenerator using rg as its source of randomness
+// Create a GaussianRandomGenerator using "rg" as its source of randomness.
 GaussianRandomGenerator rawGenerator = new GaussianRandomGenerator(rg);
 
-// Create a CorrelatedRandomVectorGenerator using rawGenerator for the components
+// Create a CorrelatedRandomVectorGenerator using "rawGenerator" for the components.
 CorrelatedRandomVectorGenerator generator = 
     new CorrelatedRandomVectorGenerator(mean, covariance, 1.0e-12 * covariance.getNorm(), rawGenerator);
 
-// Use the generator to generate correlated vectors
+// Use the generator to generate correlated vectors.
 double[] randomVector = generator.nextVector();
 ... </source>
 
@@ -181,7 +172,7 @@ double[] randomVector = generator.nextVector();
 double[] mean = {1, 2};
 double[][] cov = {{9, c}, {c, 16}};
 RealMatrix covariance = MatrixUtils.createRealMatrix(cov); </source>
-    where c is the desired covariance. If you are starting with a desired correlation,
+    where "c" is the desired covariance. If you are starting with a desired correlation,
     you need to translate this to a covariance by multiplying it by the product of the
     standard deviations.  For example, if you want to generate data that will give Pearson's
     R of 0.5, you would use c = 3 * 4 * 0.5 = 6.
