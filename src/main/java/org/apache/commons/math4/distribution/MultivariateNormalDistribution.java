@@ -22,7 +22,7 @@ import org.apache.commons.math4.linear.EigenDecomposition;
 import org.apache.commons.math4.linear.NonPositiveDefiniteMatrixException;
 import org.apache.commons.math4.linear.RealMatrix;
 import org.apache.commons.math4.linear.SingularMatrixException;
-import org.apache.commons.math4.rng.UniformRandomProvider;
+import org.apache.commons.rng.UniformRandomProvider;
 import org.apache.commons.math4.util.FastMath;
 import org.apache.commons.math4.util.MathArrays;
 

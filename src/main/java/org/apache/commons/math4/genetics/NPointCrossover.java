@@ -24,7 +24,7 @@ import org.apache.commons.math4.exception.MathIllegalArgumentException;
 import org.apache.commons.math4.exception.NotStrictlyPositiveException;
 import org.apache.commons.math4.exception.NumberIsTooLargeException;
 import org.apache.commons.math4.exception.util.LocalizedFormats;
-import org.apache.commons.math4.rng.UniformRandomProvider;
+import org.apache.commons.rng.UniformRandomProvider;
 
 /**
  * N-point crossover policy. For each iteration a random crossover point is

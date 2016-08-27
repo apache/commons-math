@@ -25,7 +25,7 @@ import java.util.Set;
 import org.apache.commons.math4.exception.DimensionMismatchException;
 import org.apache.commons.math4.exception.MathIllegalArgumentException;
 import org.apache.commons.math4.exception.util.LocalizedFormats;
-import org.apache.commons.math4.rng.UniformRandomProvider;
+import org.apache.commons.rng.UniformRandomProvider;
 import org.apache.commons.math4.util.FastMath;
 
 /**

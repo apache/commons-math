@@ -24,8 +24,8 @@ import java.util.List;
 
 import org.apache.commons.math4.exception.MathInternalError;
 import org.apache.commons.math4.exception.NotANumberException;
-import org.apache.commons.math4.rng.UniformRandomProvider;
-import org.apache.commons.math4.rng.RandomSource;
+import org.apache.commons.rng.UniformRandomProvider;
+import org.apache.commons.rng.RandomSource;
 import org.apache.commons.math4.random.RandomUtils;
 import org.apache.commons.math4.util.FastMath;
 

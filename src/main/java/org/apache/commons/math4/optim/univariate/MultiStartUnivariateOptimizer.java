@@ -26,7 +26,7 @@ import org.apache.commons.math4.exception.util.LocalizedFormats;
 import org.apache.commons.math4.optim.MaxEval;
 import org.apache.commons.math4.optim.OptimizationData;
 import org.apache.commons.math4.optim.nonlinear.scalar.GoalType;
-import org.apache.commons.math4.rng.UniformRandomProvider;
+import org.apache.commons.rng.UniformRandomProvider;
 
 /**
  * Special implementation of the {@link UnivariateOptimizer} interface

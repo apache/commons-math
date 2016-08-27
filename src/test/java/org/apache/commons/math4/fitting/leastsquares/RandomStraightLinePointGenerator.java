@@ -22,8 +22,8 @@ import java.awt.geom.Point2D;
 import org.apache.commons.math4.distribution.NormalDistribution;
 import org.apache.commons.math4.distribution.RealDistribution;
 import org.apache.commons.math4.distribution.UniformRealDistribution;
-import org.apache.commons.math4.rng.UniformRandomProvider;
-import org.apache.commons.math4.rng.RandomSource;
+import org.apache.commons.rng.UniformRandomProvider;
+import org.apache.commons.rng.RandomSource;
 
 /**
  * Factory for generating a cloud of points that approximate a straight line.

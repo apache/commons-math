@@ -16,7 +16,7 @@
  */
 package org.apache.commons.math4.distribution;
 
-import org.apache.commons.math4.rng.UniformRandomProvider;
+import org.apache.commons.rng.UniformRandomProvider;
 
 /**
  * Base interface for multivariate distributions on the reals.

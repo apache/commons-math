@@ -18,7 +18,7 @@
 package org.apache.commons.math4.random;
 
 import org.apache.commons.math4.util.FastMath;
-import org.apache.commons.math4.rng.UniformRandomProvider;
+import org.apache.commons.rng.UniformRandomProvider;
 
 /**
  * This class implements a normalized uniform random generator.

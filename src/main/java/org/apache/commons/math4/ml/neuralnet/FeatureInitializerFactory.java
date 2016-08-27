@@ -21,8 +21,8 @@ import org.apache.commons.math4.analysis.UnivariateFunction;
 import org.apache.commons.math4.analysis.function.Constant;
 import org.apache.commons.math4.distribution.RealDistribution;
 import org.apache.commons.math4.distribution.UniformRealDistribution;
-import org.apache.commons.math4.rng.RandomSource;
-import org.apache.commons.math4.rng.UniformRandomProvider;
+import org.apache.commons.rng.RandomSource;
+import org.apache.commons.rng.UniformRandomProvider;
 
 /**
  * Creates functions that will select the initial values of a neuron's
