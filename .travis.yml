@@ -8,6 +8,7 @@ jdk:
 # only build master and the MATH_3_X branch
 branches:
   only:
+    - develop
     - master
     - MATH_3_X
 
