@@ -20,8 +20,10 @@ import java.awt.Color;
 import java.awt.Graphics2D;
 import java.awt.geom.GeneralPath;
 
+import org.apache.commons.rng.UniformRandomProvider;
+import org.apache.commons.rng.RandomSource;
+
 import org.apache.commons.math4.genetics.GeneticAlgorithm;
-import org.apache.commons.math4.random.RandomGenerator;
 import org.apache.commons.math4.util.FastMath;
 
 /**
@@ -50,7 +52,7 @@ public class Polygon {
     public static Polygon randomPolygon(int length) {
         final int polygonSize = 4 + 2 * length;
 
-        final RandomGenerator random = GeneticAlgorithm.getRandomGenerator();
+        final UniformRandomProvider random = GeneticAlgorithm.getRandomGenerator();
         
         Polygon p = new Polygon();
         p.data = new float[polygonSize];

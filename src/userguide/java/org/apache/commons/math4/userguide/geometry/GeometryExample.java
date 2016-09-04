@@ -31,6 +31,9 @@ import javax.swing.JComponent;
 import javax.swing.JPanel;
 import javax.swing.JSplitPane;
 
+import org.apache.commons.rng.UniformRandomProvider;
+import org.apache.commons.rng.RandomSource;
+
 import org.apache.commons.math4.geometry.enclosing.Encloser;
 import org.apache.commons.math4.geometry.enclosing.EnclosingBall;
 import org.apache.commons.math4.geometry.enclosing.WelzlEncloser;
@@ -41,8 +44,6 @@ import org.apache.commons.math4.geometry.euclidean.twod.Vector2D;
 import org.apache.commons.math4.geometry.euclidean.twod.hull.ConvexHull2D;
 import org.apache.commons.math4.geometry.euclidean.twod.hull.ConvexHullGenerator2D;
 import org.apache.commons.math4.geometry.euclidean.twod.hull.MonotoneChain;
-import org.apache.commons.math4.random.MersenneTwister;
-import org.apache.commons.math4.random.RandomGenerator;
 import org.apache.commons.math4.util.FastMath;
 import org.apache.commons.math4.userguide.ExampleUtils;
 import org.apache.commons.math4.userguide.ExampleUtils.ExampleFrame;
@@ -65,7 +66,7 @@ import org.piccolo2d.nodes.PText;
 public class GeometryExample {
 
     public static List<Vector2D> createRandomPoints(int size) {
-        RandomGenerator random = new MersenneTwister();
+        final UniformRandomProvider random = RandomSource.create(RandomSource.MT);
 
         // create the cloud container
         List<Vector2D> points = new ArrayList<Vector2D>(size);

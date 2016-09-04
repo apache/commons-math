@@ -25,6 +25,9 @@ import javax.swing.BoxLayout;
 import javax.swing.JComponent;
 import javax.swing.JPanel;
 
+import org.apache.commons.rng.UniformRandomProvider;
+import org.apache.commons.rng.RandomSource;
+
 import org.apache.commons.math4.filter.DefaultMeasurementModel;
 import org.apache.commons.math4.filter.DefaultProcessModel;
 import org.apache.commons.math4.filter.KalmanFilter;
@@ -33,8 +36,7 @@ import org.apache.commons.math4.filter.ProcessModel;
 import org.apache.commons.math4.linear.MatrixUtils;
 import org.apache.commons.math4.linear.RealMatrix;
 import org.apache.commons.math4.linear.RealVector;
-import org.apache.commons.math4.random.RandomGenerator;
-import org.apache.commons.math4.random.Well19937c;
+import org.apache.commons.math4.random.GaussianRandomGenerator;
 import org.apache.commons.math4.util.FastMath;
 import org.apache.commons.math4.userguide.ExampleUtils;
 import org.apache.commons.math4.userguide.ExampleUtils.ExampleFrame;
@@ -59,7 +61,7 @@ public class CannonballExample {
         private final double timeslice;
         private final double measurementNoise;
         
-        private final RandomGenerator rng;
+        private final GaussianRandomGenerator rng;
         
         public Cannonball(double timeslice, double angle, double initialVelocity, double measurementNoise, int seed) {
             this.timeslice = timeslice;
@@ -73,7 +75,7 @@ public class CannonballExample {
             this.location = new double[] { 0, 0 };
             
             this.measurementNoise = measurementNoise;
-            this.rng = new Well19937c(seed);
+            this.rng = new GaussianRandomGenerator(RandomSource.create(RandomSource.WELL_19937_C, seed));
         }
         
         public double getX() {
@@ -85,11 +87,11 @@ public class CannonballExample {
         }
 
         public double getMeasuredX() {
-            return location[0] + rng.nextGaussian() * measurementNoise;
+            return location[0] + rng.nextNormalizedDouble() * measurementNoise;
         }
 
         public double getMeasuredY() {
-            return location[1] + rng.nextGaussian() * measurementNoise;
+            return location[1] + rng.nextNormalizedDouble() * measurementNoise;
         }
 
         public double getXVelocity() {

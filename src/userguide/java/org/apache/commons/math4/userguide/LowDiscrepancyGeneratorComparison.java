@@ -32,10 +32,11 @@ import javax.swing.JComponent;
 import javax.swing.JLabel;
 import javax.swing.JTextArea;
 
+import org.apache.commons.rng.UniformRandomProvider;
+import org.apache.commons.rng.RandomSource;
+
 import org.apache.commons.math4.geometry.euclidean.twod.Vector2D;
 import org.apache.commons.math4.random.HaltonSequenceGenerator;
-import org.apache.commons.math4.random.JDKRandomGenerator;
-import org.apache.commons.math4.random.MersenneTwister;
 import org.apache.commons.math4.random.RandomGenerator;
 import org.apache.commons.math4.random.RandomVectorGenerator;
 import org.apache.commons.math4.random.SobolSequenceGenerator;
@@ -130,12 +131,12 @@ public class LowDiscrepancyGeneratorComparison {
             List<Pair<String, RandomVectorGenerator>> generators = new ArrayList<Pair<String, RandomVectorGenerator>>();
 
             generators.add(new Pair<String, RandomVectorGenerator>("Uncorrelated\nUniform(JDK)",
-                    new UncorrelatedRandomVectorGenerator(2, new UniformRandomGenerator(new JDKRandomGenerator()))));
+                                                                   new UncorrelatedRandomVectorGenerator(2, new UniformRandomGenerator(RandomSource.create(RandomSource.JDK)))));
             generators.add(new Pair<String, RandomVectorGenerator>("Independent\nRandom(MT)", new RandomVectorGenerator() {
 
-                RandomGenerator[] rngs = new RandomGenerator[] {
-                    new MersenneTwister(0),
-                    new MersenneTwister(1)
+                final UniformRandomProvider[] rngs = new UniformRandomProvider[] {
+                    RandomSource.create(RandomSource.MT, 123456789),
+                    RandomSource.create(RandomSource.MT, 987654321)
                 };
                 
                 public double[] nextVector() {

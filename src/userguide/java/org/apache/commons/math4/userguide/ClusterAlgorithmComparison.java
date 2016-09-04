@@ -34,6 +34,9 @@ import java.util.List;
 import javax.swing.JComponent;
 import javax.swing.JLabel;
 
+import org.apache.commons.rng.UniformRandomProvider;
+import org.apache.commons.rng.RandomSource;
+
 import org.apache.commons.math4.distribution.RealDistribution;
 import org.apache.commons.math4.distribution.UniformRealDistribution;
 import org.apache.commons.math4.distribution.NormalDistribution;
@@ -48,8 +51,6 @@ import org.apache.commons.math4.ml.clustering.FuzzyKMeansClusterer;
 import org.apache.commons.math4.ml.clustering.KMeansPlusPlusClusterer;
 import org.apache.commons.math4.random.JDKRandomAdaptor;
 import org.apache.commons.math4.random.SobolSequenceGenerator;
-import org.apache.commons.math4.rng.UniformRandomProvider;
-import org.apache.commons.math4.rng.RandomSource;
 import org.apache.commons.math4.util.FastMath;
 import org.apache.commons.math4.util.Pair;
 import org.apache.commons.math4.userguide.ExampleUtils.ExampleFrame;

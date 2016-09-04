@@ -20,6 +20,10 @@ package org.apache.commons.math4.userguide.sofm;
 import java.util.Iterator;
 import java.io.PrintWriter;
 import java.io.IOException;
+
+import org.apache.commons.rng.UniformRandomProvider;
+import org.apache.commons.rng.RandomSource;
+
 import org.apache.commons.math4.ml.neuralnet.SquareNeighbourhood;
 import org.apache.commons.math4.ml.neuralnet.FeatureInitializer;
 import org.apache.commons.math4.ml.neuralnet.FeatureInitializerFactory;
@@ -33,8 +37,6 @@ import org.apache.commons.math4.ml.neuralnet.sofm.KohonenUpdateAction;
 import org.apache.commons.math4.ml.neuralnet.sofm.KohonenTrainingTask;
 import org.apache.commons.math4.ml.distance.DistanceMeasure;
 import org.apache.commons.math4.ml.distance.EuclideanDistance;
-import org.apache.commons.math4.random.RandomGenerator;
-import org.apache.commons.math4.random.Well19937c;
 import org.apache.commons.math4.stat.descriptive.SummaryStatistics;
 import org.apache.commons.math4.geometry.euclidean.threed.Vector3D;
 import org.apache.commons.math4.util.FastMath;
@@ -253,7 +255,7 @@ public class ChineseRingsClassifier {
             /** Data. */
             final Vector3D[] points = rings.getPoints();
             /** RNG. */
-            final RandomGenerator rng = new Well19937c();
+            final UniformRandomProvider rng = RandomSource.create(RandomSource.KISS);
             /** Number of samples. */
             private long n = 0;
 

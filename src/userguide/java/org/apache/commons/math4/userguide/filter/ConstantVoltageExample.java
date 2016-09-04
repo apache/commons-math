@@ -25,6 +25,9 @@ import javax.swing.BoxLayout;
 import javax.swing.JComponent;
 import javax.swing.JPanel;
 
+import org.apache.commons.rng.UniformRandomProvider;
+import org.apache.commons.rng.RandomSource;
+
 import org.apache.commons.math4.filter.DefaultMeasurementModel;
 import org.apache.commons.math4.filter.DefaultProcessModel;
 import org.apache.commons.math4.filter.KalmanFilter;
@@ -34,8 +37,7 @@ import org.apache.commons.math4.linear.Array2DRowRealMatrix;
 import org.apache.commons.math4.linear.ArrayRealVector;
 import org.apache.commons.math4.linear.RealMatrix;
 import org.apache.commons.math4.linear.RealVector;
-import org.apache.commons.math4.random.RandomGenerator;
-import org.apache.commons.math4.random.Well19937c;
+import org.apache.commons.math4.random.GaussianRandomGenerator;
 import org.apache.commons.math4.userguide.ExampleUtils;
 import org.apache.commons.math4.userguide.ExampleUtils.ExampleFrame;
 
@@ -55,7 +57,7 @@ public class ConstantVoltageExample {
         private final double initialVoltage;
         private final double processNoise;
         private final double measurementNoise;
-        private final RandomGenerator rng;
+        private final GaussianRandomGenerator rng;
 
         private double voltage;
 
@@ -64,7 +66,7 @@ public class ConstantVoltageExample {
             this.voltage = voltage;
             this.processNoise = processNoise;
             this.measurementNoise = measurementNoise;
-            rng = new Well19937c(seed);
+            rng = new GaussianRandomGenerator(RandomSource.create(RandomSource.WELL_19937_C, seed));
         }
         
         /**
@@ -77,12 +79,12 @@ public class ConstantVoltageExample {
         }
         
         public double getMeasuredVoltage() {
-            return getVoltage() + rng.nextGaussian() * measurementNoise; 
+            return getVoltage() + rng.nextNormalizedDouble() * measurementNoise; 
         }
         
         public void step() {
             // we apply only the process noise
-            voltage = initialVoltage + rng.nextGaussian() * processNoise;
+            voltage = initialVoltage + rng.nextNormalizedDouble() * processNoise;
         }
     }
 
