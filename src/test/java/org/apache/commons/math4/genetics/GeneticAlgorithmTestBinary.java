@@ -119,8 +119,9 @@ public class GeneticAlgorithmTestBinary {
         public double fitness() {
             int num = 0;
             for (int val : this.getRepresentation()) {
-                if (val != 0)
+                if (val != 0) {
                     num++;
+                }
             }
             // number of elements >= 0
             return num;

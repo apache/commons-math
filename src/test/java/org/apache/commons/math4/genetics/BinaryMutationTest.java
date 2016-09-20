@@ -36,8 +36,9 @@ public class BinaryMutationTest {
             // one gene should be different
             int numDifferent = 0;
             for (int j=0; j<original.getRepresentation().size(); j++) {
-                if (original.getRepresentation().get(j) != mutated.getRepresentation().get(j))
+                if (original.getRepresentation().get(j) != mutated.getRepresentation().get(j)) {
                     numDifferent++;
+                }
             }
             Assert.assertEquals(1, numDifferent);
         }

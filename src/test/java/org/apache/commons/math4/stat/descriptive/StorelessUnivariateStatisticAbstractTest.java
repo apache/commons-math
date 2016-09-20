@@ -89,8 +89,9 @@ public abstract class StorelessUnivariateStatisticAbstractTest
 
         for (int i = 0; i < testArray.length; i++) {
             statistic.increment(testArray[i]);
-            if(i % 5 == 0)
+            if(i % 5 == 0) {
                 statistic = (StorelessUnivariateStatistic)TestUtils.serializeAndRecover(statistic);
+            }
         }
 
         TestUtils.checkSerializedEquality(statistic);

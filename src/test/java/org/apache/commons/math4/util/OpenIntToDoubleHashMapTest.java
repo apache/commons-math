@@ -62,8 +62,9 @@ public class OpenIntToDoubleHashMapTest {
     private Map<Integer, Double> generate() {
         Map<Integer, Double> map = new HashMap<>();
         Random r = new Random();
-        for (int i = 0; i < 2000; ++i)
+        for (int i = 0; i < 2000; ++i) {
             map.put(r.nextInt(), r.nextDouble());
+        }
         return map;
     }
 
@@ -102,8 +103,9 @@ public class OpenIntToDoubleHashMapTest {
         Assert.assertEquals(mapSize, map.size());
         for (Map.Entry<Integer, Double> mapEntry : javaMap.entrySet()) {
             map.put(mapEntry.getKey(), mapEntry.getValue());
-            if (!keysInMap.contains(mapEntry.getKey()))
+            if (!keysInMap.contains(mapEntry.getKey())) {
                 ++mapSize;
+            }
             Assert.assertEquals(mapSize, map.size());
             Assert.assertTrue(Precision.equals(mapEntry.getValue(), map.get(mapEntry.getKey()), 1));
         }
@@ -135,8 +137,9 @@ public class OpenIntToDoubleHashMapTest {
         Map<Integer, Double> generated = generateAbsent();
         OpenIntToDoubleHashMap map = createFromJavaMap();
 
-        for (Map.Entry<Integer, Double> mapEntry : generated.entrySet())
+        for (Map.Entry<Integer, Double> mapEntry : generated.entrySet()) {
             Assert.assertTrue(Double.isNaN(map.get(mapEntry.getKey())));
+        }
     }
 
     @Test
@@ -174,8 +177,9 @@ public class OpenIntToDoubleHashMapTest {
             map.remove(mapEntry.getKey());
             Assert.assertEquals(--mapSize, map.size());
             Assert.assertTrue(Double.isNaN(map.get(mapEntry.getKey())));
-            if (count++ > 5)
+            if (count++ > 5) {
                 break;
+            }
         }
 
         /* Ensure that put and get still work correctly after removals */
@@ -209,8 +213,9 @@ public class OpenIntToDoubleHashMapTest {
         Map<Integer, Double> generated = new HashMap<>();
         do {
             generated.putAll(generate());
-            for (Integer key : javaMap.keySet())
+            for (Integer key : javaMap.keySet()) {
                 generated.remove(key);
+            }
         } while (generated.size() < 100);
         return generated;
     }
@@ -221,8 +226,9 @@ public class OpenIntToDoubleHashMapTest {
             new OpenIntToDoubleHashMap(createFromJavaMap());
         Assert.assertEquals(javaMap.size(), copy.size());
 
-        for (Map.Entry<Integer, Double> mapEntry : javaMap.entrySet())
+        for (Map.Entry<Integer, Double> mapEntry : javaMap.entrySet()) {
             Assert.assertTrue(Precision.equals(mapEntry.getValue(), copy.get(mapEntry.getKey()), 1));
+        }
     }
 
     @Test

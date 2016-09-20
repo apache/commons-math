@@ -250,9 +250,10 @@ public abstract class IntegerDistributionAbstractTest {
                 lower, distribution.inverseCumulativeProbability(0.0));
 
         final int upper = distribution.getSupportUpperBound();
-        if (upper != Integer.MAX_VALUE)
+        if (upper != Integer.MAX_VALUE) {
             Assert.assertEquals("Cumulative probability of support upper bound must be equal to 1.",
                     1.0, distribution.cumulativeProbability(upper), 0.0);
+        }
         Assert.assertEquals("Inverse cumulative probability of 1 must be equal to support upper bound.",
                 upper, distribution.inverseCumulativeProbability(1.0));
     }

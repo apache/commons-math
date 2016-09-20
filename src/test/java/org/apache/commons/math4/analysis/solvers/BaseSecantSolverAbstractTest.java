@@ -105,7 +105,9 @@ public abstract class BaseSecantSolverAbstractTest {
 
         for(int i = 0; i < testsData.length; i++) {
             // Skip test, if needed.
-            if (counts[i] == -1) continue;
+            if (counts[i] == -1) {
+                continue;
+            }
 
             // Compute solution.
             double[] testData = testsData[i];

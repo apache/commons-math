@@ -836,10 +836,11 @@ public class FastMathTest {
             Dfp refdfp = DfpMath.atan(field.newDfp(y).divide(field.newDfp(x)));
             /* Make adjustments for sign */
             if (x < 0.0) {
-                if (y > 0.0)
+                if (y > 0.0) {
                     refdfp = field.getPi().add(refdfp);
-                else
+                } else {
                     refdfp = refdfp.subtract(field.getPi());
+                }
             }
 
             double ref = refdfp.toDouble();

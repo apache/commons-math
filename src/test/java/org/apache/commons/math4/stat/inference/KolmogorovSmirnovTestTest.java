@@ -655,9 +655,10 @@ public class KolmogorovSmirnovTestTest {
         for (int i = 0; i < combined.length; i++) {
             for (int j = 0; j < i; j++) {
                 Assert.assertTrue(combined[i] != combined[j]);
-                if (combined[i] < combined[j])
+                if (combined[i] < combined[j]) {
                     Assert.assertTrue(origCombined[i] < origCombined[j]
                                           || origCombined[i] == origCombined[j]);
+                }
             }
 
         }

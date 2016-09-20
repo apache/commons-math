@@ -524,10 +524,12 @@ public class CMAESOptimizerTest {
     private static double[][] boundaries(int dim,
             double lower, double upper) {
         double[][] boundaries = new double[2][dim];
-        for (int i = 0; i < dim; i++)
+        for (int i = 0; i < dim; i++) {
             boundaries[0][i] = lower;
-        for (int i = 0; i < dim; i++)
+        }
+        for (int i = 0; i < dim; i++) {
             boundaries[1][i] = upper;
+        }
         return boundaries;
     }
 
@@ -536,8 +538,9 @@ public class CMAESOptimizerTest {
         @Override
         public double value(double[] x) {
             double f = 0;
-            for (int i = 0; i < x.length; ++i)
+            for (int i = 0; i < x.length; ++i) {
                 f += x[i] * x[i];
+            }
             return f;
         }
     }
@@ -556,8 +559,9 @@ public class CMAESOptimizerTest {
         @Override
         public double value(double[] x) {
             double f = x[0] * x[0];
-            for (int i = 1; i < x.length; ++i)
+            for (int i = 1; i < x.length; ++i) {
                 f += factor * x[i] * x[i];
+            }
             return f;
         }
     }
@@ -576,8 +580,9 @@ public class CMAESOptimizerTest {
         @Override
         public double value(double[] x) {
             double f = factor * x[0] * x[0];
-            for (int i = 1; i < x.length; ++i)
+            for (int i = 1; i < x.length; ++i) {
                 f += x[i] * x[i];
+            }
             return f;
         }
     }
@@ -597,8 +602,9 @@ public class CMAESOptimizerTest {
         public double value(double[] x) {
             int end = x.length - 1;
             double f = x[0] * x[0] / factor + factor * x[end] * x[end];
-            for (int i = 1; i < end; ++i)
+            for (int i = 1; i < end; ++i) {
                 f += x[i] * x[i];
+            }
             return f;
         }
     }
@@ -618,8 +624,9 @@ public class CMAESOptimizerTest {
         @Override
         public double value(double[] x) {
             double f = 0;
-            for (int i = 0; i < x.length; ++i)
+            for (int i = 0; i < x.length; ++i) {
                 f += (i < x.length / 2 ? factor : 1) * x[i] * x[i];
+            }
             return f;
         }
     }
@@ -640,8 +647,9 @@ public class CMAESOptimizerTest {
         public double value(double[] x) {
             double f = 0;
             x = B.Rotate(x);
-            for (int i = 0; i < x.length; ++i)
+            for (int i = 0; i < x.length; ++i) {
                 f += FastMath.pow(factor, i / (x.length - 1.)) * x[i] * x[i];
+            }
             return f;
         }
     }
@@ -661,8 +669,9 @@ public class CMAESOptimizerTest {
         @Override
         public double value(double[] x) {
             double f = 0;
-            for (int i = 0; i < x.length; ++i)
+            for (int i = 0; i < x.length; ++i) {
                 f += FastMath.pow(factor, i / (x.length - 1.)) * x[i] * x[i];
+            }
             return f;
         }
     }
@@ -680,9 +689,10 @@ public class CMAESOptimizerTest {
         @Override
         public double value(double[] x) {
             double f = 0;
-            for (int i = 0; i < x.length; ++i)
+            for (int i = 0; i < x.length; ++i) {
                 f += FastMath.pow(FastMath.abs(x[i]), 2. + 10 * (double) i
                         / (x.length - 1.));
+            }
             return f;
         }
     }
@@ -701,9 +711,10 @@ public class CMAESOptimizerTest {
         @Override
         public double value(double[] x) {
             double f = 0;
-            for (int i = 0; i < x.length - 1; ++i)
+            for (int i = 0; i < x.length - 1; ++i) {
                 f += 1e2 * (x[i] * x[i] - x[i + 1]) * (x[i] * x[i] - x[i + 1])
                 + (x[i] - 1.) * (x[i] - 1.);
+            }
             return f;
         }
     }
@@ -755,8 +766,9 @@ public class CMAESOptimizerTest {
             double fac;
             for (int i = 0; i < x.length; ++i) {
                 fac = FastMath.pow(axisratio, (i - 1.) / (x.length - 1.));
-                if (i == 0 && x[i] < 0)
+                if (i == 0 && x[i] < 0) {
                     fac *= 1.;
+                }
                 f += fac * fac * x[i] * x[i] + amplitude
                 * (1. - FastMath.cos(2. * FastMath.PI * fac * x[i]));
             }
@@ -773,15 +785,17 @@ public class CMAESOptimizerTest {
             double[] y = new double[x.length];
             for (int i = 0; i < x.length; ++i) {
                 y[i] = 0;
-                for (int j = 0; j < x.length; ++j)
+                for (int j = 0; j < x.length; ++j) {
                     y[i] += basis[i][j] * x[j];
+                }
             }
             return y;
         }
 
         void GenBasis(int DIM) {
-            if (basis != null ? basis.length == DIM : false)
+            if (basis != null ? basis.length == DIM : false) {
                 return;
+            }
 
             double sp;
             int i, j, k;
@@ -790,20 +804,25 @@ public class CMAESOptimizerTest {
             basis = new double[DIM][DIM];
             for (i = 0; i < DIM; ++i) {
                 /* sample components gaussian */
-                for (j = 0; j < DIM; ++j)
+                for (j = 0; j < DIM; ++j) {
                     basis[i][j] = rand.nextGaussian();
+                }
                 /* substract projection of previous vectors */
                 for (j = i - 1; j >= 0; --j) {
-                    for (sp = 0., k = 0; k < DIM; ++k)
+                    for (sp = 0., k = 0; k < DIM; ++k) {
                         sp += basis[i][k] * basis[j][k]; /* scalar product */
-                    for (k = 0; k < DIM; ++k)
+                    }
+                    for (k = 0; k < DIM; ++k) {
                         basis[i][k] -= sp * basis[j][k]; /* substract */
+                    }
                 }
                 /* normalize */
-                for (sp = 0., k = 0; k < DIM; ++k)
+                for (sp = 0., k = 0; k < DIM; ++k) {
                     sp += basis[i][k] * basis[i][k]; /* squared norm */
-                for (k = 0; k < DIM; ++k)
+                }
+                for (k = 0; k < DIM; ++k) {
                     basis[i][k] /= FastMath.sqrt(sp);
+                }
             }
         }
     }

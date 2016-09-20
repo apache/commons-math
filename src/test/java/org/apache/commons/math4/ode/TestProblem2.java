@@ -57,8 +57,9 @@ public class TestProblem2
   public void doComputeDerivatives(double t, double[] y, double[] yDot) {
 
     // compute the derivatives
-    for (int i = 0; i < getDimension(); ++i)
-      yDot[i] = t * (t * t - y[i]);
+    for (int i = 0; i < getDimension(); ++i) {
+        yDot[i] = t * (t * t - y[i]);
+    }
 
   }
 
