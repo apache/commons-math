@@ -35,7 +35,7 @@ public class NodesSet<S extends Space> implements Iterable<BSPTree<S>> {
     /** Simple constructor.
      */
     public NodesSet() {
-        list = new ArrayList<>();
+        list = new ArrayList<BSPTree<S>>();
     }
 
     /** Add a node if not already known.

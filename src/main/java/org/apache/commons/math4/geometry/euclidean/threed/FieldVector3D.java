@@ -408,7 +408,7 @@ public class FieldVector3D<T extends RealFieldElement<T>> implements Serializabl
      * @return a new vector
      */
     public FieldVector3D<T> add(final FieldVector3D<T> v) {
-        return new FieldVector3D<>(x.add(v.x), y.add(v.y), z.add(v.z));
+        return new FieldVector3D<T>(x.add(v.x), y.add(v.y), z.add(v.z));
     }
 
     /** Add a vector to the instance.
@@ -416,7 +416,7 @@ public class FieldVector3D<T extends RealFieldElement<T>> implements Serializabl
      * @return a new vector
      */
     public FieldVector3D<T> add(final Vector3D v) {
-        return new FieldVector3D<>(x.add(v.getX()), y.add(v.getY()), z.add(v.getZ()));
+        return new FieldVector3D<T>(x.add(v.getX()), y.add(v.getY()), z.add(v.getZ()));
     }
 
     /** Add a scaled vector to the instance.
@@ -425,7 +425,7 @@ public class FieldVector3D<T extends RealFieldElement<T>> implements Serializabl
      * @return a new vector
      */
     public FieldVector3D<T> add(final T factor, final FieldVector3D<T> v) {
-        return new FieldVector3D<>(x.getField().getOne(), this, factor, v);
+        return new FieldVector3D<T>(x.getField().getOne(), this, factor, v);
     }
 
     /** Add a scaled vector to the instance.
@@ -434,7 +434,7 @@ public class FieldVector3D<T extends RealFieldElement<T>> implements Serializabl
      * @return a new vector
      */
     public FieldVector3D<T> add(final T factor, final Vector3D v) {
-        return new FieldVector3D<>(x.add(factor.multiply(v.getX())),
+        return new FieldVector3D<T>(x.add(factor.multiply(v.getX())),
                                     y.add(factor.multiply(v.getY())),
                                     z.add(factor.multiply(v.getZ())));
     }
@@ -445,7 +445,7 @@ public class FieldVector3D<T extends RealFieldElement<T>> implements Serializabl
      * @return a new vector
      */
     public FieldVector3D<T> add(final double factor, final FieldVector3D<T> v) {
-        return new FieldVector3D<>(1.0, this, factor, v);
+        return new FieldVector3D<T>(1.0, this, factor, v);
     }
 
     /** Add a scaled vector to the instance.
@@ -454,7 +454,7 @@ public class FieldVector3D<T extends RealFieldElement<T>> implements Serializabl
      * @return a new vector
      */
     public FieldVector3D<T> add(final double factor, final Vector3D v) {
-        return new FieldVector3D<>(x.add(factor * v.getX()),
+        return new FieldVector3D<T>(x.add(factor * v.getX()),
                                     y.add(factor * v.getY()),
                                     z.add(factor * v.getZ()));
     }
@@ -464,7 +464,7 @@ public class FieldVector3D<T extends RealFieldElement<T>> implements Serializabl
      * @return a new vector
      */
     public FieldVector3D<T> subtract(final FieldVector3D<T> v) {
-        return new FieldVector3D<>(x.subtract(v.x), y.subtract(v.y), z.subtract(v.z));
+        return new FieldVector3D<T>(x.subtract(v.x), y.subtract(v.y), z.subtract(v.z));
     }
 
     /** Subtract a vector from the instance.
@@ -472,7 +472,7 @@ public class FieldVector3D<T extends RealFieldElement<T>> implements Serializabl
      * @return a new vector
      */
     public FieldVector3D<T> subtract(final Vector3D v) {
-        return new FieldVector3D<>(x.subtract(v.getX()), y.subtract(v.getY()), z.subtract(v.getZ()));
+        return new FieldVector3D<T>(x.subtract(v.getX()), y.subtract(v.getY()), z.subtract(v.getZ()));
     }
 
     /** Subtract a scaled vector from the instance.
@@ -481,7 +481,7 @@ public class FieldVector3D<T extends RealFieldElement<T>> implements Serializabl
      * @return a new vector
      */
     public FieldVector3D<T> subtract(final T factor, final FieldVector3D<T> v) {
-        return new FieldVector3D<>(x.getField().getOne(), this, factor.negate(), v);
+        return new FieldVector3D<T>(x.getField().getOne(), this, factor.negate(), v);
     }
 
     /** Subtract a scaled vector from the instance.
@@ -490,7 +490,7 @@ public class FieldVector3D<T extends RealFieldElement<T>> implements Serializabl
      * @return a new vector
      */
     public FieldVector3D<T> subtract(final T factor, final Vector3D v) {
-        return new FieldVector3D<>(x.subtract(factor.multiply(v.getX())),
+        return new FieldVector3D<T>(x.subtract(factor.multiply(v.getX())),
                                     y.subtract(factor.multiply(v.getY())),
                                     z.subtract(factor.multiply(v.getZ())));
     }
@@ -501,7 +501,7 @@ public class FieldVector3D<T extends RealFieldElement<T>> implements Serializabl
      * @return a new vector
      */
     public FieldVector3D<T> subtract(final double factor, final FieldVector3D<T> v) {
-        return new FieldVector3D<>(1.0, this, -factor, v);
+        return new FieldVector3D<T>(1.0, this, -factor, v);
     }
 
     /** Subtract a scaled vector from the instance.
@@ -510,7 +510,7 @@ public class FieldVector3D<T extends RealFieldElement<T>> implements Serializabl
      * @return a new vector
      */
     public FieldVector3D<T> subtract(final double factor, final Vector3D v) {
-        return new FieldVector3D<>(x.subtract(factor * v.getX()),
+        return new FieldVector3D<T>(x.subtract(factor * v.getX()),
                                     y.subtract(factor * v.getY()),
                                     z.subtract(factor * v.getZ()));
     }
@@ -551,13 +551,13 @@ public class FieldVector3D<T extends RealFieldElement<T>> implements Serializabl
 
         if (FastMath.abs(x.getReal()) <= threshold) {
             final T inverse  = y.multiply(y).add(z.multiply(z)).sqrt().reciprocal();
-            return new FieldVector3D<>(inverse.getField().getZero(), inverse.multiply(z), inverse.multiply(y).negate());
+            return new FieldVector3D<T>(inverse.getField().getZero(), inverse.multiply(z), inverse.multiply(y).negate());
         } else if (FastMath.abs(y.getReal()) <= threshold) {
             final T inverse  = x.multiply(x).add(z.multiply(z)).sqrt().reciprocal();
-            return new FieldVector3D<>(inverse.multiply(z).negate(), inverse.getField().getZero(), inverse.multiply(x));
+            return new FieldVector3D<T>(inverse.multiply(z).negate(), inverse.getField().getZero(), inverse.multiply(x));
         } else {
             final T inverse  = x.multiply(x).add(y.multiply(y)).sqrt().reciprocal();
-            return new FieldVector3D<>(inverse.multiply(y), inverse.multiply(x).negate(), inverse.getField().getZero());
+            return new FieldVector3D<T>(inverse.multiply(y), inverse.multiply(x).negate(), inverse.getField().getZero());
         }
 
     }
@@ -655,7 +655,7 @@ public class FieldVector3D<T extends RealFieldElement<T>> implements Serializabl
      * @return a new vector which is opposite to the instance
      */
     public FieldVector3D<T> negate() {
-        return new FieldVector3D<>(x.negate(), y.negate(), z.negate());
+        return new FieldVector3D<T>(x.negate(), y.negate(), z.negate());
     }
 
     /** Multiply the instance by a scalar.
@@ -663,7 +663,7 @@ public class FieldVector3D<T extends RealFieldElement<T>> implements Serializabl
      * @return a new vector
      */
     public FieldVector3D<T> scalarMultiply(final T a) {
-        return new FieldVector3D<>(x.multiply(a), y.multiply(a), z.multiply(a));
+        return new FieldVector3D<T>(x.multiply(a), y.multiply(a), z.multiply(a));
     }
 
     /** Multiply the instance by a scalar.
@@ -671,7 +671,7 @@ public class FieldVector3D<T extends RealFieldElement<T>> implements Serializabl
      * @return a new vector
      */
     public FieldVector3D<T> scalarMultiply(final double a) {
-        return new FieldVector3D<>(x.multiply(a), y.multiply(a), z.multiply(a));
+        return new FieldVector3D<T>(x.multiply(a), y.multiply(a), z.multiply(a));
     }
 
     /**
@@ -779,7 +779,7 @@ public class FieldVector3D<T extends RealFieldElement<T>> implements Serializabl
      * @return the cross product this ^ v as a new Vector3D
      */
     public FieldVector3D<T> crossProduct(final FieldVector3D<T> v) {
-        return new FieldVector3D<>(x.linearCombination(y, v.z, z.negate(), v.y),
+        return new FieldVector3D<T>(x.linearCombination(y, v.z, z.negate(), v.y),
                                     y.linearCombination(z, v.x, x.negate(), v.z),
                                     z.linearCombination(x, v.y, y.negate(), v.x));
     }
@@ -789,7 +789,7 @@ public class FieldVector3D<T extends RealFieldElement<T>> implements Serializabl
      * @return the cross product this ^ v as a new Vector3D
      */
     public FieldVector3D<T> crossProduct(final Vector3D v) {
-        return new FieldVector3D<>(x.linearCombination(v.getZ(), y, -v.getY(), z),
+        return new FieldVector3D<T>(x.linearCombination(v.getZ(), y, -v.getY(), z),
                                     y.linearCombination(v.getX(), z, -v.getZ(), x),
                                     z.linearCombination(v.getY(), x, -v.getX(), y));
     }
@@ -993,7 +993,7 @@ public class FieldVector3D<T extends RealFieldElement<T>> implements Serializabl
      */
     public static <T extends RealFieldElement<T>> FieldVector3D<T> crossProduct(final Vector3D v1,
                                                                                     final FieldVector3D<T> v2) {
-        return new FieldVector3D<>(v2.x.linearCombination(v1.getY(), v2.z, -v1.getZ(), v2.y),
+        return new FieldVector3D<T>(v2.x.linearCombination(v1.getY(), v2.z, -v1.getZ(), v2.y),
                                     v2.y.linearCombination(v1.getZ(), v2.x, -v1.getX(), v2.z),
                                     v2.z.linearCombination(v1.getX(), v2.y, -v1.getY(), v2.x));
     }

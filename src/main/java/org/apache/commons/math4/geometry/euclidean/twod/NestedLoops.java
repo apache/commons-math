@@ -71,7 +71,7 @@ class NestedLoops {
      * @since 3.3
      */
     NestedLoops(final double tolerance) {
-        this.surrounded = new ArrayList<>();
+        this.surrounded = new ArrayList<NestedLoops>();
         this.tolerance  = tolerance;
     }
 
@@ -90,11 +90,11 @@ class NestedLoops {
         }
 
         this.loop       = loop;
-        this.surrounded = new ArrayList<>();
+        this.surrounded = new ArrayList<NestedLoops>();
         this.tolerance  = tolerance;
 
         // build the polygon defined by the loop
-        final ArrayList<SubHyperplane<Euclidean2D>> edges = new ArrayList<>();
+        final ArrayList<SubHyperplane<Euclidean2D>> edges = new ArrayList<SubHyperplane<Euclidean2D>>();
         Vector2D current = loop[loop.length - 1];
         for (int i = 0; i < loop.length; ++i) {
             final Vector2D previous = current;
@@ -152,7 +152,7 @@ class NestedLoops {
         }
 
         // we should be separate from the remaining children
-        RegionFactory<Euclidean2D> factory = new RegionFactory<>();
+        RegionFactory<Euclidean2D> factory = new RegionFactory<Euclidean2D>();
         for (final NestedLoops child : surrounded) {
             if (!factory.intersection(node.polygon, child.polygon).isEmpty()) {
                 throw new MathIllegalArgumentException(LocalizedFormats.CROSSING_BOUNDARY_LOOPS);

@@ -32,7 +32,7 @@ public class SimplePointCheckerTest {
     public void testIterationCheck() {
         final int max = 10;
         final SimplePointChecker<PointValuePair> checker
-            = new SimplePointChecker<>(1e-1, 1e-2, max);
+            = new SimplePointChecker<PointValuePair>(1e-1, 1e-2, max);
         Assert.assertTrue(checker.converged(max, null, null));
         Assert.assertTrue(checker.converged(max + 1, null, null));
     }
@@ -40,7 +40,7 @@ public class SimplePointCheckerTest {
     @Test
     public void testIterationCheckDisabled() {
         final SimplePointChecker<PointValuePair> checker
-            = new SimplePointChecker<>(1e-8, 1e-8);
+            = new SimplePointChecker<PointValuePair>(1e-8, 1e-8);
 
         final PointValuePair a = new PointValuePair(new double[] { 1d }, 1d);
         final PointValuePair b = new PointValuePair(new double[] { 10d }, 10d);

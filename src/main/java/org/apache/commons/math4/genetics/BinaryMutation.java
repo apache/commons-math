@@ -43,7 +43,7 @@ public class BinaryMutation implements MutationPolicy {
         }
 
         BinaryChromosome origChrom = (BinaryChromosome) original;
-        List<Integer> newRepr = new ArrayList<>(origChrom.getRepresentation());
+        List<Integer> newRepr = new ArrayList<Integer>(origChrom.getRepresentation());
 
         // randomly select a gene
         int geneIndex = GeneticAlgorithm.getRandomGenerator().nextInt(origChrom.getLength());

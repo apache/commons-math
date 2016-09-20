@@ -38,7 +38,7 @@ import org.junit.Test;
 public class CombinatoricsUtilsTest {
 
     /** cached binomial coefficients */
-    private static final List<Map<Integer, Long>> binomialCache = new ArrayList<>();
+    private static final List<Map<Integer, Long>> binomialCache = new ArrayList<Map<Integer, Long>>();
 
     /** Verify that b(0,0) = 1 */
     @Test

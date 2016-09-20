@@ -82,10 +82,10 @@ public abstract class AbstractIntegrator implements FirstOrderIntegrator {
      */
     public AbstractIntegrator(final String name) {
         this.name = name;
-        stepHandlers = new ArrayList<>();
+        stepHandlers = new ArrayList<StepHandler>();
         stepStart = Double.NaN;
         stepSize  = Double.NaN;
-        eventsStates = new ArrayList<>();
+        eventsStates = new ArrayList<EventState>();
         statesInitialized = false;
         evaluations = IntegerSequence.Incrementor.create().withMaximalCount(Integer.MAX_VALUE);
     }
@@ -145,7 +145,7 @@ public abstract class AbstractIntegrator implements FirstOrderIntegrator {
     /** {@inheritDoc} */
     @Override
     public Collection<EventHandler> getEventHandlers() {
-        final List<EventHandler> list = new ArrayList<>(eventsStates.size());
+        final List<EventHandler> list = new ArrayList<EventHandler>(eventsStates.size());
         for (EventState state : eventsStates) {
             list.add(state.getEventHandler());
         }
@@ -341,7 +341,7 @@ public abstract class AbstractIntegrator implements FirstOrderIntegrator {
 
             // search for next events that may occur during the step
             final int orderingSign = interpolator.isForward() ? +1 : -1;
-            SortedSet<EventState> occurringEvents = new TreeSet<>(new Comparator<EventState>() {
+            SortedSet<EventState> occurringEvents = new TreeSet<EventState>(new Comparator<EventState>() {
 
                 /** {@inheritDoc} */
                 @Override

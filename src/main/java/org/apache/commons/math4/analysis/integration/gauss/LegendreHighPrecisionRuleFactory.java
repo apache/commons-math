@@ -66,7 +66,7 @@ public class LegendreHighPrecisionRuleFactory extends BaseRuleFactory<BigDecimal
 
         if (numberOfPoints == 1) {
             // Break recursion.
-            return new Pair<>(new BigDecimal[] { BigDecimal.ZERO },
+            return new Pair<BigDecimal[], BigDecimal[]>(new BigDecimal[] { BigDecimal.ZERO },
                                                         new BigDecimal[] { two });
         }
 
@@ -210,6 +210,6 @@ public class LegendreHighPrecisionRuleFactory extends BaseRuleFactory<BigDecimal
             weights[iMax] = tmp2;
         }
 
-        return new Pair<>(points, weights);
+        return new Pair<BigDecimal[], BigDecimal[]>(points, weights);
     }
 }

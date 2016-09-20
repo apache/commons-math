@@ -1209,7 +1209,7 @@ public class Complex implements FieldElement<Complex>, Serializable  {
                                            n);
         }
 
-        final List<Complex> result = new ArrayList<>();
+        final List<Complex> result = new ArrayList<Complex>();
 
         if (isNaN) {
             result.add(NaN);

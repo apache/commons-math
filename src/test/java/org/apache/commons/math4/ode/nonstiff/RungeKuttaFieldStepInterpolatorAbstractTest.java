@@ -52,7 +52,7 @@ public abstract class RungeKuttaFieldStepInterpolatorAbstractTest {
     protected <T extends RealFieldElement<T>> void doInterpolationAtBounds(final Field<T> field, double epsilon) {
 
         RungeKuttaFieldStepInterpolator<T> interpolator = setUpInterpolator(field,
-                                                                            new SinCos<>(field),
+                                                                            new SinCos<T>(field),
                                                                             0.0, new double[] { 0.0, 1.0 }, 0.125);
 
         Assert.assertEquals(0.0, interpolator.getPreviousState().getTime().getReal(), 1.0e-15);
@@ -77,7 +77,7 @@ public abstract class RungeKuttaFieldStepInterpolatorAbstractTest {
                                                                          double epsilonSin, double epsilonCos) {
 
         RungeKuttaFieldStepInterpolator<T> interpolator = setUpInterpolator(field,
-                                                                            new SinCos<>(field),
+                                                                            new SinCos<T>(field),
                                                                             0.0, new double[] { 0.0, 1.0 }, 0.0125);
 
         int n = 100;
@@ -103,7 +103,7 @@ public abstract class RungeKuttaFieldStepInterpolatorAbstractTest {
                                                                                      double epsilonSin, double epsilonCos,
                                                                                      double epsilonSinDot, double epsilonCosDot) {
 
-        FirstOrderFieldDifferentialEquations<T> eqn = new SinCos<>(field);
+        FirstOrderFieldDifferentialEquations<T> eqn = new SinCos<T>(field);
         RungeKuttaFieldStepInterpolator<T> fieldInterpolator =
                         setUpInterpolator(field, eqn, 0.0, new double[] { 0.0, 1.0 }, 0.125);
         RungeKuttaStepInterpolator regularInterpolator = convertInterpolator(fieldInterpolator, eqn);
@@ -160,7 +160,7 @@ public abstract class RungeKuttaFieldStepInterpolatorAbstractTest {
             fieldY[i] = field.getZero().add(y0[i]);
         }
         fieldYDotK[0] = eqn.computeDerivatives(t, fieldY);
-        FieldODEStateAndDerivative<T> s0 = new FieldODEStateAndDerivative<>(t, fieldY, fieldYDotK[0]);
+        FieldODEStateAndDerivative<T> s0 = new FieldODEStateAndDerivative<T>(t, fieldY, fieldYDotK[0]);
 
         // perform one integration step, in order to get consistent derivatives
         T h = field.getZero().add(t1 - t0);
@@ -182,11 +182,11 @@ public abstract class RungeKuttaFieldStepInterpolatorAbstractTest {
                 fieldY[i] = fieldY[i].add(h.multiply(b[s].multiply(fieldYDotK[s][i])));
             }
         }
-        FieldODEStateAndDerivative<T> s1 = new FieldODEStateAndDerivative<>(t, fieldY,
+        FieldODEStateAndDerivative<T> s1 = new FieldODEStateAndDerivative<T>(t, fieldY,
                                                                              eqn.computeDerivatives(t, fieldY));
 
         return createInterpolator(field, t1 > t0, fieldYDotK, s0, s1, s0, s1,
-                                  new FieldExpandableODE<>(eqn).getMapper());
+                                  new FieldExpandableODE<T>(eqn).getMapper());
 
     }
 

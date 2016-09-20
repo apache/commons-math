@@ -74,7 +74,7 @@ public class Frequency implements Serializable {
      * Default constructor.
      */
     public Frequency() {
-        freqTable = new TreeMap<>();
+        freqTable = new TreeMap<Comparable<?>, Long>();
     }
 
     /**
@@ -84,7 +84,7 @@ public class Frequency implements Serializable {
      */
     @SuppressWarnings("unchecked") // TODO is the cast OK?
     public Frequency(Comparator<?> comparator) {
-        freqTable = new TreeMap<>((Comparator<? super Comparable<?>>) comparator);
+        freqTable = new TreeMap<Comparable<?>, Long>((Comparator<? super Comparable<?>>) comparator);
     }
 
     /**
@@ -574,7 +574,7 @@ public class Frequency implements Serializable {
             }
         }
 
-        List<Comparable<?>> modeList = new ArrayList<>();
+        List<Comparable<?>> modeList = new ArrayList<Comparable<?>>();
         for (Entry<Comparable<?>, Long> ent : freqTable.entrySet()) {
             long frequency = ent.getValue().longValue();
             if (frequency == mostPopular) {

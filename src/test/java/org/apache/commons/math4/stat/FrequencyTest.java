@@ -367,7 +367,7 @@ public final class FrequencyTest {
         Frequency h = new Frequency();
         h.addValue(THREE_LONG);
 
-        List<Frequency> coll = new ArrayList<>();
+        List<Frequency> coll = new ArrayList<Frequency>();
         coll.add(g);
         coll.add(h);
         f.merge(coll);

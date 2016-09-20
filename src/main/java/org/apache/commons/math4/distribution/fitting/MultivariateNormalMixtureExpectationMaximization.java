@@ -328,7 +328,7 @@ public class MultivariateNormalMixtureExpectationMaximization {
 
         // components of mixture model to be created
         final List<Pair<Double, MultivariateNormalDistribution>> components =
-                new ArrayList<>(numComponents);
+                new ArrayList<Pair<Double, MultivariateNormalDistribution>>(numComponents);
 
         // create a component based on data in each bin
         for (int binIndex = 0; binIndex < numComponents; binIndex++) {
@@ -364,7 +364,7 @@ public class MultivariateNormalMixtureExpectationMaximization {
             final MultivariateNormalDistribution mvn
                 = new MultivariateNormalDistribution(columnMeans, covMat);
 
-            components.add(new Pair<>(weight, mvn));
+            components.add(new Pair<Double, MultivariateNormalDistribution>(weight, mvn));
         }
 
         return new MixtureMultivariateNormalDistribution(components);

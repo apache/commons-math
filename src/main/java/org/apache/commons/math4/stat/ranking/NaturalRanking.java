@@ -230,7 +230,7 @@ public class NaturalRanking implements RankingAlgorithm {
         double[] out = new double[ranks.length];
         int pos = 1;  // position in sorted array
         out[ranks[0].getPosition()] = pos;
-        List<Integer> tiesTrace = new ArrayList<>();
+        List<Integer> tiesTrace = new ArrayList<Integer>();
         tiesTrace.add(ranks[0].getPosition());
         for (int i = 1; i < ranks.length; i++) {
             if (Double.compare(ranks[i].getValue(), ranks[i - 1].getValue()) > 0) {
@@ -239,7 +239,7 @@ public class NaturalRanking implements RankingAlgorithm {
                 if (tiesTrace.size() > 1) {  // if seq is nontrivial, resolve
                     resolveTie(out, tiesTrace);
                 }
-                tiesTrace = new ArrayList<>();
+                tiesTrace = new ArrayList<Integer>();
                 tiesTrace.add(ranks[i].getPosition());
             } else {
                 // tie sequence continues
@@ -410,7 +410,7 @@ public class NaturalRanking implements RankingAlgorithm {
      * @return list of indexes i such that <code>ranks[i] = NaN</code>
      */
     private List<Integer> getNanPositions(IntDoublePair[] ranks) {
-        ArrayList<Integer> out = new ArrayList<>();
+        ArrayList<Integer> out = new ArrayList<Integer>();
         for (int i = 0; i < ranks.length; i++) {
             if (Double.isNaN(ranks[i].getValue())) {
                 out.add(Integer.valueOf(i));

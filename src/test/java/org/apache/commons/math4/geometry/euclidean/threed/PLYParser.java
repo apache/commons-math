@@ -214,7 +214,7 @@ public class PLYParser {
      */
     private List<Field> parseNextLine()
         throws IOException, ParseException {
-        final List<Field> fields = new ArrayList<>();
+        final List<Field> fields = new ArrayList<Field>();
         line = br.readLine();
         if (line == null) {
             throw new EOFException();

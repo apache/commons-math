@@ -33,15 +33,15 @@ public class DiskGenerator implements SupportBallGenerator<Euclidean2D, Vector2D
     public EnclosingBall<Euclidean2D, Vector2D> ballOnSupport(final List<Vector2D> support) {
 
         if (support.size() < 1) {
-            return new EnclosingBall<>(Vector2D.ZERO, Double.NEGATIVE_INFINITY);
+            return new EnclosingBall<Euclidean2D, Vector2D>(Vector2D.ZERO, Double.NEGATIVE_INFINITY);
         } else {
             final Vector2D vA = support.get(0);
             if (support.size() < 2) {
-                return new EnclosingBall<>(vA, 0, vA);
+                return new EnclosingBall<Euclidean2D, Vector2D>(vA, 0, vA);
             } else {
                 final Vector2D vB = support.get(1);
                 if (support.size() < 3) {
-                    return new EnclosingBall<>(new Vector2D(0.5, vA, 0.5, vB),
+                    return new EnclosingBall<Euclidean2D, Vector2D>(new Vector2D(0.5, vA, 0.5, vB),
                                                                     0.5 * vA.distance(vB),
                                                                     vA, vB);
                 } else {
@@ -86,7 +86,7 @@ public class DiskGenerator implements SupportBallGenerator<Euclidean2D, Vector2D
                     final BigFraction dx      = c2[0].subtract(centerX);
                     final BigFraction dy      = c3[0].subtract(centerY);
                     final BigFraction r2      = dx.multiply(dx).add(dy.multiply(dy));
-                    return new EnclosingBall<>(new Vector2D(centerX.doubleValue(),
+                    return new EnclosingBall<Euclidean2D, Vector2D>(new Vector2D(centerX.doubleValue(),
                                                                                  centerY.doubleValue()),
                                                                     FastMath.sqrt(r2.doubleValue()),
                                                                     vA, vB, vC);

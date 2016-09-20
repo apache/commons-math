@@ -53,7 +53,7 @@ public class GeneticAlgorithmTestPermutations {
     private static final int TOURNAMENT_ARITY = 2;
 
     // numbers from 0 to N-1
-    private static final List<Integer> sequence = new ArrayList<>();
+    private static final List<Integer> sequence = new ArrayList<Integer>();
     static {
         for (int i=0; i<DIMENSION; i++) {
             sequence.add(i);
@@ -101,7 +101,7 @@ public class GeneticAlgorithmTestPermutations {
      * Initializes a random population
      */
     private static ElitisticListPopulation randomPopulation() {
-        List<Chromosome> popList = new ArrayList<>();
+        List<Chromosome> popList = new ArrayList<Chromosome>();
         for (int i=0; i<POPULATION_SIZE; i++) {
             Chromosome randChrom = new MinPermutations(RandomKey.randomPermutation(DIMENSION));
             popList.add(randChrom);

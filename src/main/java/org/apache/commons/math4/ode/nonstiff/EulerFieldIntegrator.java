@@ -90,7 +90,7 @@ public class EulerFieldIntegrator<T extends RealFieldElement<T>> extends RungeKu
                            final FieldODEStateAndDerivative<T> globalPreviousState,
                            final FieldODEStateAndDerivative<T> globalCurrentState,
                            final FieldEquationsMapper<T> mapper) {
-        return new EulerFieldStepInterpolator<>(getField(), forward, yDotK,
+        return new EulerFieldStepInterpolator<T>(getField(), forward, yDotK,
                                                  globalPreviousState, globalCurrentState,
                                                  globalPreviousState, globalCurrentState,
                                                  mapper);

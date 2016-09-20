@@ -216,7 +216,7 @@ public class KMeansPlusPlusClusterer<T extends Clusterable> extends Clusterer<T>
         final int max = (maxIterations < 0) ? Integer.MAX_VALUE : maxIterations;
         for (int count = 0; count < max; count++) {
             boolean emptyCluster = false;
-            List<CentroidCluster<T>> newClusters = new ArrayList<>();
+            List<CentroidCluster<T>> newClusters = new ArrayList<CentroidCluster<T>>();
             for (final CentroidCluster<T> cluster : clusters) {
                 final Clusterable newCenter;
                 if (cluster.getPoints().isEmpty()) {
@@ -288,7 +288,7 @@ public class KMeansPlusPlusClusterer<T extends Clusterable> extends Clusterer<T>
 
         // Convert to list for indexed access. Make it unmodifiable, since removal of items
         // would screw up the logic of this method.
-        final List<T> pointList = Collections.unmodifiableList(new ArrayList<> (points));
+        final List<T> pointList = Collections.unmodifiableList(new ArrayList<T> (points));
 
         // The number of points in the list.
         final int numPoints = pointList.size();
@@ -298,7 +298,7 @@ public class KMeansPlusPlusClusterer<T extends Clusterable> extends Clusterer<T>
         final boolean[] taken = new boolean[numPoints];
 
         // The resulting list of initial centers.
-        final List<CentroidCluster<T>> resultSet = new ArrayList<>();
+        final List<CentroidCluster<T>> resultSet = new ArrayList<CentroidCluster<T>>();
 
         // Choose one center uniformly at random from among the data points.
         final int firstPointIndex = random.nextInt(numPoints);

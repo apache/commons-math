@@ -50,7 +50,7 @@ class PropertiesComputer implements BSPTreeVisitor<Sphere2D> {
         this.tolerance              = tolerance;
         this.summedArea             = 0;
         this.summedBarycenter       = Vector3D.ZERO;
-        this.convexCellsInsidePoints = new ArrayList<>();
+        this.convexCellsInsidePoints = new ArrayList<Vector3D>();
     }
 
     /** {@inheritDoc} */

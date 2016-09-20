@@ -37,7 +37,7 @@ import org.junit.Test;
 @SuppressWarnings("boxing")
 public class OpenIntToDoubleHashMapTest {
 
-    private Map<Integer, Double> javaMap = new HashMap<>();
+    private Map<Integer, Double> javaMap = new HashMap<Integer, Double>();
 
     @Before
     public void setUp() throws Exception {
@@ -60,7 +60,7 @@ public class OpenIntToDoubleHashMapTest {
     }
 
     private Map<Integer, Double> generate() {
-        Map<Integer, Double> map = new HashMap<>();
+        Map<Integer, Double> map = new HashMap<Integer, Double>();
         Random r = new Random();
         for (int i = 0; i < 2000; ++i)
             map.put(r.nextInt(), r.nextDouble());
@@ -168,7 +168,7 @@ public class OpenIntToDoubleHashMapTest {
         OpenIntToDoubleHashMap map = createFromJavaMap();
         int mapSize = javaMap.size();
         int count = 0;
-        Set<Integer> keysInMap = new HashSet<>(javaMap.keySet());
+        Set<Integer> keysInMap = new HashSet<Integer>(javaMap.keySet());
         for (Map.Entry<Integer, Double> mapEntry : javaMap.entrySet()) {
             keysInMap.remove(mapEntry.getKey());
             map.remove(mapEntry.getKey());
@@ -206,7 +206,7 @@ public class OpenIntToDoubleHashMapTest {
      * Returns a map with at least 100 elements where each element is absent from javaMap.
      */
     private Map<Integer, Double> generateAbsent() {
-        Map<Integer, Double> generated = new HashMap<>();
+        Map<Integer, Double> generated = new HashMap<Integer, Double>();
         do {
             generated.putAll(generate());
             for (Integer key : javaMap.keySet())

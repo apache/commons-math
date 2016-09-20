@@ -57,7 +57,7 @@ class CircleProblem {
     public CircleProblem(double xError,
                          double yError,
                          int searchResolution) {
-        points = new ArrayList<>();
+        points = new ArrayList<double[]>();
         xSigma = xError;
         ySigma = yError;
         resolution = searchResolution;

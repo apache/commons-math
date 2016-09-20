@@ -97,11 +97,11 @@ public class OrderedCrossover<T> implements CrossoverPolicy {
         final List<T> parent1Rep = first.getRepresentation();
         final List<T> parent2Rep = second.getRepresentation();
         // and of the children
-        final List<T> child1 = new ArrayList<>(length);
-        final List<T> child2 = new ArrayList<>(length);
+        final List<T> child1 = new ArrayList<T>(length);
+        final List<T> child2 = new ArrayList<T>(length);
         // sets of already inserted items for quick access
-        final Set<T> child1Set = new HashSet<>(length);
-        final Set<T> child2Set = new HashSet<>(length);
+        final Set<T> child1Set = new HashSet<T>(length);
+        final Set<T> child2Set = new HashSet<T>(length);
 
         final RandomGenerator random = GeneticAlgorithm.getRandomGenerator();
         // choose random points, making sure that lb < ub.

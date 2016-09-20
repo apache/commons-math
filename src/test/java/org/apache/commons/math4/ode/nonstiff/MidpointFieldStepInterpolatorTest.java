@@ -34,7 +34,7 @@ public class MidpointFieldStepInterpolatorTest extends RungeKuttaFieldStepInterp
                        FieldODEStateAndDerivative<T> softPreviousState,
                        FieldODEStateAndDerivative<T> softCurrentState,
                        FieldEquationsMapper<T> mapper) {
-        return new MidpointFieldStepInterpolator<>(field, forward, yDotK,
+        return new MidpointFieldStepInterpolator<T>(field, forward, yDotK,
                                                     globalPreviousState, globalCurrentState,
                                                     softPreviousState, softCurrentState,
                                                     mapper);
@@ -42,7 +42,7 @@ public class MidpointFieldStepInterpolatorTest extends RungeKuttaFieldStepInterp
 
     protected <T extends RealFieldElement<T>> FieldButcherArrayProvider<T>
     createButcherArrayProvider(final Field<T> field) {
-        return new MidpointFieldIntegrator<>(field, field.getOne());
+        return new MidpointFieldIntegrator<T>(field, field.getOne());
     }
 
     @Test

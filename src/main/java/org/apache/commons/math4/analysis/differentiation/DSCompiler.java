@@ -126,7 +126,7 @@ public class DSCompiler {
 
     /** Array of all compilers created so far. */
     private static AtomicReference<DSCompiler[][]> compilers =
-            new AtomicReference<>(null);
+            new AtomicReference<DSCompiler[][]>(null);
 
     /** Number of free parameters. */
     private final int parameters;
@@ -358,14 +358,14 @@ public class DSCompiler {
 
         for (int i = 0; i < dSize; ++i) {
             final int[][] dRow = derivativeCompiler.multIndirection[i];
-            List<int[]> row = new ArrayList<>(dRow.length * 2);
+            List<int[]> row = new ArrayList<int[]>(dRow.length * 2);
             for (int j = 0; j < dRow.length; ++j) {
                 row.add(new int[] { dRow[j][0], lowerIndirection[dRow[j][1]], vSize + dRow[j][2] });
                 row.add(new int[] { dRow[j][0], vSize + dRow[j][1], lowerIndirection[dRow[j][2]] });
             }
 
             // combine terms with similar derivation orders
-            final List<int[]> combined = new ArrayList<>(row.size());
+            final List<int[]> combined = new ArrayList<int[]>(row.size());
             for (int j = 0; j < row.size(); ++j) {
                 final int[] termJ = row.get(j);
                 if (termJ[0] > 0) {
@@ -428,7 +428,7 @@ public class DSCompiler {
         // with respect to the parameter this compiler handles and the
         // underlying one did not handle
         for (int i = 0; i < dSize; ++i) {
-            List<int[]> row = new ArrayList<>();
+            List<int[]> row = new ArrayList<int[]>();
             for (int[] term : derivativeCompiler.compIndirection[i]) {
 
                 // handle term p * f_k(g(x)) * g_l1(x) * g_l2(x) * ... * g_lp(x)
@@ -475,7 +475,7 @@ public class DSCompiler {
             }
 
             // combine terms with similar derivation orders
-            final List<int[]> combined = new ArrayList<>(row.size());
+            final List<int[]> combined = new ArrayList<int[]>(row.size());
             for (int j = 0; j < row.size(); ++j) {
                 final int[] termJ = row.get(j);
                 if (termJ[0] > 0) {

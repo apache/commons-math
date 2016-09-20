@@ -83,7 +83,7 @@ public class SubLine extends AbstractSubHyperplane<Euclidean2D, Euclidean1D> {
 
         final Line line = (Line) getHyperplane();
         final List<Interval> list = ((IntervalsSet) getRemainingRegion()).asList();
-        final List<Segment> segments = new ArrayList<>(list.size());
+        final List<Segment> segments = new ArrayList<Segment>(list.size());
 
         for (final Interval interval : list) {
             final Vector2D start = line.toSpace((Point<Euclidean1D>) new Vector1D(interval.getInf()));
@@ -168,11 +168,11 @@ public class SubLine extends AbstractSubHyperplane<Euclidean2D, Euclidean1D> {
             // the lines are parallel
             final double global = otherLine.getOffset(thisLine);
             if (global < -tolerance) {
-                return new SplitSubHyperplane<>(null, this);
+                return new SplitSubHyperplane<Euclidean2D>(null, this);
             } else if (global > tolerance) {
-                return new SplitSubHyperplane<>(this, null);
+                return new SplitSubHyperplane<Euclidean2D>(this, null);
             } else {
-                return new SplitSubHyperplane<>(null, null);
+                return new SplitSubHyperplane<Euclidean2D>(null, null);
             }
         }
 
@@ -187,13 +187,13 @@ public class SubLine extends AbstractSubHyperplane<Euclidean2D, Euclidean1D> {
         final BSPTree<Euclidean1D> splitTree = getRemainingRegion().getTree(false).split(subMinus);
         final BSPTree<Euclidean1D> plusTree  = getRemainingRegion().isEmpty(splitTree.getPlus()) ?
                                                new BSPTree<Euclidean1D>(Boolean.FALSE) :
-                                               new BSPTree<>(subPlus, new BSPTree<Euclidean1D>(Boolean.FALSE),
+                                               new BSPTree<Euclidean1D>(subPlus, new BSPTree<Euclidean1D>(Boolean.FALSE),
                                                                         splitTree.getPlus(), null);
         final BSPTree<Euclidean1D> minusTree = getRemainingRegion().isEmpty(splitTree.getMinus()) ?
                                                new BSPTree<Euclidean1D>(Boolean.FALSE) :
-                                               new BSPTree<>(subMinus, new BSPTree<Euclidean1D>(Boolean.FALSE),
+                                               new BSPTree<Euclidean1D>(subMinus, new BSPTree<Euclidean1D>(Boolean.FALSE),
                                                                         splitTree.getMinus(), null);
-        return new SplitSubHyperplane<>(new SubLine(thisLine.copySelf(), new IntervalsSet(plusTree, tolerance)),
+        return new SplitSubHyperplane<Euclidean2D>(new SubLine(thisLine.copySelf(), new IntervalsSet(plusTree, tolerance)),
                                                    new SubLine(thisLine.copySelf(), new IntervalsSet(minusTree, tolerance)));
 
     }

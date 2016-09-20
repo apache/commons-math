@@ -37,15 +37,15 @@ public class SphereGenerator implements SupportBallGenerator<Euclidean3D, Vector
     public EnclosingBall<Euclidean3D, Vector3D> ballOnSupport(final List<Vector3D> support) {
 
         if (support.size() < 1) {
-            return new EnclosingBall<>(Vector3D.ZERO, Double.NEGATIVE_INFINITY);
+            return new EnclosingBall<Euclidean3D, Vector3D>(Vector3D.ZERO, Double.NEGATIVE_INFINITY);
         } else {
             final Vector3D vA = support.get(0);
             if (support.size() < 2) {
-                return new EnclosingBall<>(vA, 0, vA);
+                return new EnclosingBall<Euclidean3D, Vector3D>(vA, 0, vA);
             } else {
                 final Vector3D vB = support.get(1);
                 if (support.size() < 3) {
-                    return new EnclosingBall<>(new Vector3D(0.5, vA, 0.5, vB),
+                    return new EnclosingBall<Euclidean3D, Vector3D>(new Vector3D(0.5, vA, 0.5, vB),
                                                                     0.5 * vA.distance(vB),
                                                                     vA, vB);
                 } else {
@@ -61,7 +61,7 @@ public class SphereGenerator implements SupportBallGenerator<Euclidean3D, Vector
                                                                                 p.toSubSpace(vC)));
 
                         // convert back to 3D
-                        return new EnclosingBall<>(p.toSpace(disk.getCenter()),
+                        return new EnclosingBall<Euclidean3D, Vector3D>(p.toSpace(disk.getCenter()),
                                                                         disk.getRadius(), vA, vB, vC);
 
                     } else {
@@ -118,7 +118,7 @@ public class SphereGenerator implements SupportBallGenerator<Euclidean3D, Vector
                         final BigFraction dy      = c3[0].subtract(centerY);
                         final BigFraction dz      = c4[0].subtract(centerZ);
                         final BigFraction r2      = dx.multiply(dx).add(dy.multiply(dy)).add(dz.multiply(dz));
-                        return new EnclosingBall<>(new Vector3D(centerX.doubleValue(),
+                        return new EnclosingBall<Euclidean3D, Vector3D>(new Vector3D(centerX.doubleValue(),
                                                                                      centerY.doubleValue(),
                                                                                      centerZ.doubleValue()),
                                                                         FastMath.sqrt(r2.doubleValue()),

@@ -27,13 +27,13 @@ public class DormandPrince54FieldIntegratorTest extends EmbeddedRungeKuttaFieldI
     protected <T extends RealFieldElement<T>> EmbeddedRungeKuttaFieldIntegrator<T>
     createIntegrator(Field<T> field, final double minStep, final double maxStep,
                      final double scalAbsoluteTolerance, final double scalRelativeTolerance) {
-        return new DormandPrince54FieldIntegrator<>(field, minStep, maxStep, scalAbsoluteTolerance, scalRelativeTolerance);
+        return new DormandPrince54FieldIntegrator<T>(field, minStep, maxStep, scalAbsoluteTolerance, scalRelativeTolerance);
     }
 
     protected <T extends RealFieldElement<T>> EmbeddedRungeKuttaFieldIntegrator<T>
     createIntegrator(Field<T> field, final double minStep, final double maxStep,
                      final double[] vecAbsoluteTolerance, final double[] vecRelativeTolerance) {
-        return new DormandPrince54FieldIntegrator<>(field, minStep, maxStep, vecAbsoluteTolerance, vecRelativeTolerance);
+        return new DormandPrince54FieldIntegrator<T>(field, minStep, maxStep, vecAbsoluteTolerance, vecRelativeTolerance);
     }
 
     @Override

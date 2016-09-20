@@ -40,7 +40,7 @@ public class DummyFieldStepInterpolator<T extends RealFieldElement<T>>
                                                       final FieldODEStateAndDerivative<T> newSoftPreviousState,
                                                       final FieldODEStateAndDerivative<T> newSoftCurrentState,
                                                       final FieldEquationsMapper<T> newMapper) {
-        return new DummyFieldStepInterpolator<>(newForward,
+        return new DummyFieldStepInterpolator<T>(newForward,
                                                  newGlobalPreviousState, newGlobalCurrentState,
                                                  newSoftPreviousState, newSoftCurrentState,
                                                  newMapper);

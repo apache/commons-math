@@ -72,7 +72,7 @@ public class HermiteParametricTest extends GaussianQuadratureAbstractTest {
     @SuppressWarnings("boxing") // OK here
     @Parameters
     public static Collection<Object[]> getParameters() {
-        final ArrayList<Object[]> parameters = new ArrayList<>();
+        final ArrayList<Object[]> parameters = new ArrayList<Object[]>();
         for (int k = 1; k <= MAX_NUM_POINTS; k++) {
             parameters.add(new Object[] { k, 2 * k - 1, Math.ulp(1d), 195 });
         }

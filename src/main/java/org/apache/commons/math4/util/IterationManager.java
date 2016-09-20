@@ -43,7 +43,7 @@ public class IterationManager {
      */
     public IterationManager(final int maxIterations) {
         this.iterations = new Incrementor(maxIterations);
-        this.listeners = new CopyOnWriteArrayList<>();
+        this.listeners = new CopyOnWriteArrayList<IterationListener>();
     }
 
     /**
@@ -58,7 +58,7 @@ public class IterationManager {
     public IterationManager(final int maxIterations,
                             final Incrementor.MaxCountExceededCallback callBack) {
         this.iterations = new Incrementor(maxIterations, callBack);
-        this.listeners = new CopyOnWriteArrayList<>();
+        this.listeners = new CopyOnWriteArrayList<IterationListener>();
     }
 
     /**

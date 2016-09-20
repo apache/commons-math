@@ -163,7 +163,7 @@ public class ConvexHull2D implements ConvexHull<Euclidean2D, Vector2D>, Serializ
         if (vertices.length < 3) {
             throw new InsufficientDataException();
         }
-        final RegionFactory<Euclidean2D> factory = new RegionFactory<>();
+        final RegionFactory<Euclidean2D> factory = new RegionFactory<Euclidean2D>();
         final Segment[] segments = retrieveLineSegments();
         final Line[] lineArray = new Line[segments.length];
         for (int i = 0; i < segments.length; i++) {

@@ -309,7 +309,7 @@ public abstract class EmbeddedRungeKuttaFieldIntegrator<T extends RealFieldEleme
             }
             final T   stepEnd = getStepStart().getTime().add(getStepSize());
             final T[] yDotTmp = (fsal >= 0) ? yDotK[fsal] : computeDerivatives(stepEnd, yTmp);
-            final FieldODEStateAndDerivative<T> stateTmp = new FieldODEStateAndDerivative<>(stepEnd, yTmp, yDotTmp);
+            final FieldODEStateAndDerivative<T> stateTmp = new FieldODEStateAndDerivative<T>(stepEnd, yTmp, yDotTmp);
 
             // local error is small enough: accept the step, trigger events and step handlers
             System.arraycopy(yTmp, 0, y, 0, y0.length);

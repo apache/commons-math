@@ -76,7 +76,7 @@ public abstract class ListPopulation implements Population {
                                                 chromosomes.size(), populationLimit, false);
         }
         this.populationLimit = populationLimit;
-        this.chromosomes = new ArrayList<>(populationLimit);
+        this.chromosomes = new ArrayList<Chromosome>(populationLimit);
         this.chromosomes.addAll(chromosomes);
     }
 

@@ -39,8 +39,8 @@ public class FieldExpandableODETest {
     }
 
     private <T extends RealFieldElement<T>> void doTestOnlyMainEquation(final Field<T> field) {
-        FirstOrderFieldDifferentialEquations<T> main = new Linear<>(field, 3, 0);
-        FieldExpandableODE<T> equation = new FieldExpandableODE<>(main);
+        FirstOrderFieldDifferentialEquations<T> main = new Linear<T>(field, 3, 0);
+        FieldExpandableODE<T> equation = new FieldExpandableODE<T>(main);
         Assert.assertEquals(main.getDimension(), equation.getMapper().getTotalDimension());
         Assert.assertEquals(1, equation.getMapper().getNumberOfEquations());
         T t0 = field.getZero().add(10);
@@ -70,11 +70,11 @@ public class FieldExpandableODETest {
 
     private <T extends RealFieldElement<T>> void doTestMainAndSecondary(final Field<T> field) {
 
-        FirstOrderFieldDifferentialEquations<T> main = new Linear<>(field, 3, 0);
-        FieldExpandableODE<T> equation = new FieldExpandableODE<>(main);
-        FieldSecondaryEquations<T> secondary1 = new Linear<>(field, 3, main.getDimension());
+        FirstOrderFieldDifferentialEquations<T> main = new Linear<T>(field, 3, 0);
+        FieldExpandableODE<T> equation = new FieldExpandableODE<T>(main);
+        FieldSecondaryEquations<T> secondary1 = new Linear<T>(field, 3, main.getDimension());
         int i1 = equation.addSecondaryEquations(secondary1);
-        FieldSecondaryEquations<T> secondary2 = new Linear<>(field, 5, main.getDimension() + secondary1.getDimension());
+        FieldSecondaryEquations<T> secondary2 = new Linear<T>(field, 5, main.getDimension() + secondary1.getDimension());
         int i2 = equation.addSecondaryEquations(secondary2);
         Assert.assertEquals(main.getDimension() + secondary1.getDimension() + secondary2.getDimension(),
                             equation.getMapper().getTotalDimension());
@@ -127,11 +127,11 @@ public class FieldExpandableODETest {
 
     private <T extends RealFieldElement<T>> void doTestMap(final Field<T> field) {
 
-        FirstOrderFieldDifferentialEquations<T> main = new Linear<>(field, 3, 0);
-        FieldExpandableODE<T> equation = new FieldExpandableODE<>(main);
-        FieldSecondaryEquations<T> secondary1 = new Linear<>(field, 3, main.getDimension());
+        FirstOrderFieldDifferentialEquations<T> main = new Linear<T>(field, 3, 0);
+        FieldExpandableODE<T> equation = new FieldExpandableODE<T>(main);
+        FieldSecondaryEquations<T> secondary1 = new Linear<T>(field, 3, main.getDimension());
         int i1 = equation.addSecondaryEquations(secondary1);
-        FieldSecondaryEquations<T> secondary2 = new Linear<>(field, 5, main.getDimension() + secondary1.getDimension());
+        FieldSecondaryEquations<T> secondary2 = new Linear<T>(field, 5, main.getDimension() + secondary1.getDimension());
         int i2 = equation.addSecondaryEquations(secondary2);
         Assert.assertEquals(main.getDimension() + secondary1.getDimension() + secondary2.getDimension(),
                             equation.getMapper().getTotalDimension());
@@ -215,9 +215,9 @@ public class FieldExpandableODETest {
     private <T extends RealFieldElement<T>> void doTestExtractDimensionMismatch(final Field<T> field)
         throws DimensionMismatchException {
 
-        FirstOrderFieldDifferentialEquations<T> main = new Linear<>(field, 3, 0);
-        FieldExpandableODE<T> equation = new FieldExpandableODE<>(main);
-        FieldSecondaryEquations<T> secondary1 = new Linear<>(field, 3, main.getDimension());
+        FirstOrderFieldDifferentialEquations<T> main = new Linear<T>(field, 3, 0);
+        FieldExpandableODE<T> equation = new FieldExpandableODE<T>(main);
+        FieldSecondaryEquations<T> secondary1 = new Linear<T>(field, 3, main.getDimension());
         int i1 = equation.addSecondaryEquations(secondary1);
         T[] tooShort    = MathArrays.buildArray(field, main.getDimension());
         equation.getMapper().extractEquationData(i1, tooShort);
@@ -231,9 +231,9 @@ public class FieldExpandableODETest {
     private <T extends RealFieldElement<T>> void doTestInsertTooShortComplete(final Field<T> field)
         throws DimensionMismatchException {
 
-        FirstOrderFieldDifferentialEquations<T> main = new Linear<>(field, 3, 0);
-        FieldExpandableODE<T> equation = new FieldExpandableODE<>(main);
-        FieldSecondaryEquations<T> secondary1 = new Linear<>(field, 3, main.getDimension());
+        FirstOrderFieldDifferentialEquations<T> main = new Linear<T>(field, 3, 0);
+        FieldExpandableODE<T> equation = new FieldExpandableODE<T>(main);
+        FieldSecondaryEquations<T> secondary1 = new Linear<T>(field, 3, main.getDimension());
         int i1 = equation.addSecondaryEquations(secondary1);
         T[] equationData = MathArrays.buildArray(field, secondary1.getDimension());
         T[] tooShort     = MathArrays.buildArray(field, main.getDimension());
@@ -248,9 +248,9 @@ public class FieldExpandableODETest {
     private <T extends RealFieldElement<T>> void doTestInsertWrongEquationData(final Field<T> field)
         throws DimensionMismatchException {
 
-        FirstOrderFieldDifferentialEquations<T> main = new Linear<>(field, 3, 0);
-        FieldExpandableODE<T> equation = new FieldExpandableODE<>(main);
-        FieldSecondaryEquations<T> secondary1 = new Linear<>(field, 3, main.getDimension());
+        FirstOrderFieldDifferentialEquations<T> main = new Linear<T>(field, 3, 0);
+        FieldExpandableODE<T> equation = new FieldExpandableODE<T>(main);
+        FieldSecondaryEquations<T> secondary1 = new Linear<T>(field, 3, main.getDimension());
         int i1 = equation.addSecondaryEquations(secondary1);
         T[] wrongEquationData = MathArrays.buildArray(field, secondary1.getDimension() + 1);
         T[] complete          = MathArrays.buildArray(field, equation.getMapper().getTotalDimension());
@@ -265,8 +265,8 @@ public class FieldExpandableODETest {
     private <T extends RealFieldElement<T>> void doTestNegativeIndex(final Field<T> field)
         throws MathIllegalArgumentException {
 
-        FirstOrderFieldDifferentialEquations<T> main = new Linear<>(field, 3, 0);
-        FieldExpandableODE<T> equation = new FieldExpandableODE<>(main);
+        FirstOrderFieldDifferentialEquations<T> main = new Linear<T>(field, 3, 0);
+        FieldExpandableODE<T> equation = new FieldExpandableODE<T>(main);
         T[] complete = MathArrays.buildArray(field, equation.getMapper().getTotalDimension());
         equation.getMapper().extractEquationData(-1, complete);
     }
@@ -279,8 +279,8 @@ public class FieldExpandableODETest {
     private <T extends RealFieldElement<T>> void doTestTooLargeIndex(final Field<T> field)
         throws MathIllegalArgumentException {
 
-        FirstOrderFieldDifferentialEquations<T> main = new Linear<>(field, 3, 0);
-        FieldExpandableODE<T> equation = new FieldExpandableODE<>(main);
+        FirstOrderFieldDifferentialEquations<T> main = new Linear<T>(field, 3, 0);
+        FieldExpandableODE<T> equation = new FieldExpandableODE<T>(main);
         T[] complete = MathArrays.buildArray(field, equation.getMapper().getTotalDimension());
         equation.getMapper().extractEquationData(+1, complete);
     }

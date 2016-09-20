@@ -90,8 +90,8 @@ public class OverlappingEventsTest implements FirstOrderDifferentialEquations {
         double t = 0.0;
         double tEnd = 10.0;
         double[] y = {0.0, 0.0};
-        List<Double> events1 = new ArrayList<>();
-        List<Double> events2 = new ArrayList<>();
+        List<Double> events1 = new ArrayList<Double>();
+        List<Double> events2 = new ArrayList<Double>();
         while (t < tEnd) {
             t = integrator.integrate(this, t, y, tEnd, y);
             //System.out.println("t=" + t + ",\t\ty=[" + y[0] + "," + y[1] + "]");

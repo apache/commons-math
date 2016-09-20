@@ -115,7 +115,7 @@ public class GillFieldIntegrator<T extends RealFieldElement<T>>
                            final FieldODEStateAndDerivative<T> globalPreviousState,
                            final FieldODEStateAndDerivative<T> globalCurrentState,
                            final FieldEquationsMapper<T> mapper) {
-        return new GillFieldStepInterpolator<>(getField(), forward, yDotK,
+        return new GillFieldStepInterpolator<T>(getField(), forward, yDotK,
                                                 globalPreviousState, globalCurrentState,
                                                 globalPreviousState, globalCurrentState,
                                                 mapper);

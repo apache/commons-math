@@ -51,7 +51,7 @@ public class SparseFieldMatrix<T extends FieldElement<T>> extends AbstractFieldM
         super(field);
         rows = 0;
         columns= 0;
-        entries = new OpenIntToFieldHashMap<>(field);
+        entries = new OpenIntToFieldHashMap<T>(field);
     }
 
     /**
@@ -69,7 +69,7 @@ public class SparseFieldMatrix<T extends FieldElement<T>> extends AbstractFieldM
         super(field, rowDimension, columnDimension);
         this.rows = rowDimension;
         this.columns = columnDimension;
-        entries = new OpenIntToFieldHashMap<>(field);
+        entries = new OpenIntToFieldHashMap<T>(field);
     }
 
     /**
@@ -81,7 +81,7 @@ public class SparseFieldMatrix<T extends FieldElement<T>> extends AbstractFieldM
         super(other.getField(), other.getRowDimension(), other.getColumnDimension());
         rows = other.getRowDimension();
         columns = other.getColumnDimension();
-        entries = new OpenIntToFieldHashMap<>(other.entries);
+        entries = new OpenIntToFieldHashMap<T>(other.entries);
     }
 
     /**
@@ -93,7 +93,7 @@ public class SparseFieldMatrix<T extends FieldElement<T>> extends AbstractFieldM
         super(other.getField(), other.getRowDimension(), other.getColumnDimension());
         rows = other.getRowDimension();
         columns = other.getColumnDimension();
-        entries = new OpenIntToFieldHashMap<>(getField());
+        entries = new OpenIntToFieldHashMap<T>(getField());
         for (int i = 0; i < rows; i++) {
             for (int j = 0; j < columns; j++) {
                 setEntry(i, j, other.getEntry(i, j));
@@ -118,13 +118,13 @@ public class SparseFieldMatrix<T extends FieldElement<T>> extends AbstractFieldM
     /** {@inheritDoc} */
     @Override
     public FieldMatrix<T> copy() {
-        return new SparseFieldMatrix<>(this);
+        return new SparseFieldMatrix<T>(this);
     }
 
     /** {@inheritDoc} */
     @Override
     public FieldMatrix<T> createMatrix(int rowDimension, int columnDimension) {
-        return new SparseFieldMatrix<>(getField(), rowDimension, columnDimension);
+        return new SparseFieldMatrix<T>(getField(), rowDimension, columnDimension);
     }
 
     /** {@inheritDoc} */

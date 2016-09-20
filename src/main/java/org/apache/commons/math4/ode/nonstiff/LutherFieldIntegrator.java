@@ -140,7 +140,7 @@ public class LutherFieldIntegrator<T extends RealFieldElement<T>>
                            final FieldODEStateAndDerivative<T> globalPreviousState,
                            final FieldODEStateAndDerivative<T> globalCurrentState,
                            final FieldEquationsMapper<T> mapper) {
-        return new LutherFieldStepInterpolator<>(getField(), forward, yDotK,
+        return new LutherFieldStepInterpolator<T>(getField(), forward, yDotK,
                                                   globalPreviousState, globalCurrentState,
                                                   globalPreviousState, globalCurrentState,
                                                   mapper);

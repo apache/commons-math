@@ -44,18 +44,18 @@ class BoundaryBuilder<S extends Space> implements BSPTreeVisitor<S> {
 
         // characterize the cut sub-hyperplane,
         // first with respect to the plus sub-tree
-        final Characterization<S> plusChar = new Characterization<>(node.getPlus(), node.getCut().copySelf());
+        final Characterization<S> plusChar = new Characterization<S>(node.getPlus(), node.getCut().copySelf());
 
         if (plusChar.touchOutside()) {
             // plusChar.outsideTouching() corresponds to a subset of the cut sub-hyperplane
             // known to have outside cells on its plus side, we want to check if parts
             // of this subset do have inside cells on their minus side
-            final Characterization<S> minusChar = new Characterization<>(node.getMinus(), plusChar.outsideTouching());
+            final Characterization<S> minusChar = new Characterization<S>(node.getMinus(), plusChar.outsideTouching());
             if (minusChar.touchInside()) {
                 // this part belongs to the boundary,
                 // it has the outside on its plus side and the inside on its minus side
                 plusOutside = minusChar.insideTouching();
-                splitters = new NodesSet<>();
+                splitters = new NodesSet<S>();
                 splitters.addAll(minusChar.getInsideSplitters());
                 splitters.addAll(plusChar.getOutsideSplitters());
             }
@@ -65,13 +65,13 @@ class BoundaryBuilder<S extends Space> implements BSPTreeVisitor<S> {
             // plusChar.insideTouching() corresponds to a subset of the cut sub-hyperplane
             // known to have inside cells on its plus side, we want to check if parts
             // of this subset do have outside cells on their minus side
-            final Characterization<S> minusChar = new Characterization<>(node.getMinus(), plusChar.insideTouching());
+            final Characterization<S> minusChar = new Characterization<S>(node.getMinus(), plusChar.insideTouching());
             if (minusChar.touchOutside()) {
                 // this part belongs to the boundary,
                 // it has the inside on its plus side and the outside on its minus side
                 plusInside = minusChar.outsideTouching();
                 if (splitters == null) {
-                    splitters = new NodesSet<>();
+                    splitters = new NodesSet<S>();
                 }
                 splitters.addAll(minusChar.getOutsideSplitters());
                 splitters.addAll(plusChar.getInsideSplitters());
@@ -86,7 +86,7 @@ class BoundaryBuilder<S extends Space> implements BSPTreeVisitor<S> {
         }
 
         // set the boundary attribute at non-leaf nodes
-        node.setAttribute(new BoundaryAttribute<>(plusOutside, plusInside, splitters));
+        node.setAttribute(new BoundaryAttribute<S>(plusOutside, plusInside, splitters));
 
     }
 

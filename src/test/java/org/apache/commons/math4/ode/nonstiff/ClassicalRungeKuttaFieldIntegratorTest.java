@@ -26,7 +26,7 @@ public class ClassicalRungeKuttaFieldIntegratorTest extends RungeKuttaFieldInteg
 
     protected <T extends RealFieldElement<T>> RungeKuttaFieldIntegrator<T>
     createIntegrator(Field<T> field, T step) {
-        return new ClassicalRungeKuttaFieldIntegrator<>(field, step);
+        return new ClassicalRungeKuttaFieldIntegrator<T>(field, step);
     }
 
     @Override

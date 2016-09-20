@@ -137,7 +137,7 @@ public class StepInterpolatorTestUtils {
 
         });
 
-        integrator.integrate(new FieldExpandableODE<>(problem), problem.getInitialState(), problem.getFinalTime());
+        integrator.integrate(new FieldExpandableODE<T>(problem), problem.getInitialState(), problem.getFinalTime());
 
     }
 }

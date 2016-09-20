@@ -93,7 +93,7 @@ public abstract class ConvexHullGenerator2DAbstractTest {
 
     @Test
     public void testAllIdentical() {
-        final Collection<Vector2D> points = new ArrayList<>();
+        final Collection<Vector2D> points = new ArrayList<Vector2D>();
         points.add(new Vector2D(1, 1));
         points.add(new Vector2D(1, 1));
         points.add(new Vector2D(1, 1));
@@ -118,7 +118,7 @@ public abstract class ConvexHullGenerator2DAbstractTest {
 
     @Test
     public void testCollinearPoints() {
-        final Collection<Vector2D> points = new ArrayList<>();
+        final Collection<Vector2D> points = new ArrayList<Vector2D>();
         points.add(new Vector2D(1, 1));
         points.add(new Vector2D(2, 2));
         points.add(new Vector2D(2, 4));
@@ -131,7 +131,7 @@ public abstract class ConvexHullGenerator2DAbstractTest {
 
     @Test
     public void testCollinearPointsReverse() {
-        final Collection<Vector2D> points = new ArrayList<>();
+        final Collection<Vector2D> points = new ArrayList<Vector2D>();
         points.add(new Vector2D(1, 1));
         points.add(new Vector2D(2, 2));
         points.add(new Vector2D(2, 4));
@@ -144,7 +144,7 @@ public abstract class ConvexHullGenerator2DAbstractTest {
 
     @Test
     public void testCollinearPointsIncluded() {
-        final Collection<Vector2D> points = new ArrayList<>();
+        final Collection<Vector2D> points = new ArrayList<Vector2D>();
         points.add(new Vector2D(1, 1));
         points.add(new Vector2D(2, 2));
         points.add(new Vector2D(2, 4));
@@ -157,7 +157,7 @@ public abstract class ConvexHullGenerator2DAbstractTest {
 
     @Test
     public void testCollinearPointsIncludedReverse() {
-        final Collection<Vector2D> points = new ArrayList<>();
+        final Collection<Vector2D> points = new ArrayList<Vector2D>();
         points.add(new Vector2D(1, 1));
         points.add(new Vector2D(2, 2));
         points.add(new Vector2D(2, 4));
@@ -170,7 +170,7 @@ public abstract class ConvexHullGenerator2DAbstractTest {
 
     @Test
     public void testIdenticalPoints() {
-        final Collection<Vector2D> points = new ArrayList<>();
+        final Collection<Vector2D> points = new ArrayList<Vector2D>();
         points.add(new Vector2D(1, 1));
         points.add(new Vector2D(2, 2));
         points.add(new Vector2D(2, 4));
@@ -183,7 +183,7 @@ public abstract class ConvexHullGenerator2DAbstractTest {
 
     @Test
     public void testIdenticalPoints2() {
-        final Collection<Vector2D> points = new ArrayList<>();
+        final Collection<Vector2D> points = new ArrayList<Vector2D>();
         points.add(new Vector2D(1, 1));
         points.add(new Vector2D(2, 2));
         points.add(new Vector2D(2, 4));
@@ -196,7 +196,7 @@ public abstract class ConvexHullGenerator2DAbstractTest {
 
     @Test
     public void testClosePoints() {
-        final Collection<Vector2D> points = new ArrayList<>();
+        final Collection<Vector2D> points = new ArrayList<Vector2D>();
         points.add(new Vector2D(1, 1));
         points.add(new Vector2D(2, 2));
         points.add(new Vector2D(2, 4));
@@ -211,7 +211,7 @@ public abstract class ConvexHullGenerator2DAbstractTest {
     public void testCollinearPointOnExistingBoundary() {
         // MATH-1135: check that collinear points on the hull are handled correctly
         //            when only a minimal hull shall be constructed
-        final Collection<Vector2D> points = new ArrayList<>();
+        final Collection<Vector2D> points = new ArrayList<Vector2D>();
         points.add(new Vector2D(7.3152, 34.7472));
         points.add(new Vector2D(6.400799999999997, 34.747199999999985));
         points.add(new Vector2D(5.486399999999997, 34.7472));
@@ -233,7 +233,7 @@ public abstract class ConvexHullGenerator2DAbstractTest {
         //            make sure that they are processed in the proper order
         //            for each algorithm.
 
-        List<Vector2D> points = new ArrayList<>();
+        List<Vector2D> points = new ArrayList<Vector2D>();
 
         // first case: 3 points are collinear
         points.add(new Vector2D(16.078200000000184, -36.52519999989808));
@@ -270,7 +270,7 @@ public abstract class ConvexHullGenerator2DAbstractTest {
     @Test
     public void testIssue1123() {
 
-        List<Vector2D> points = new ArrayList<>();
+        List<Vector2D> points = new ArrayList<Vector2D>();
 
         int[][] data = new int[][] { { -11, -1 }, { -11, 0 }, { -11, 1 },
                 { -10, -3 }, { -10, -2 }, { -10, -1 }, { -10, 0 }, { -10, 1 },
@@ -367,7 +367,7 @@ public abstract class ConvexHullGenerator2DAbstractTest {
 
     protected final List<Vector2D> createRandomPoints(int size) {
         // create the cloud container
-        List<Vector2D> points = new ArrayList<>(size);
+        List<Vector2D> points = new ArrayList<Vector2D>(size);
         // fill the cloud with a random distribution of points
         for (int i = 0; i < size; i++) {
             points.add(new Vector2D(random.nextDouble() * 2.0 - 1.0, random.nextDouble() * 2.0 - 1.0));

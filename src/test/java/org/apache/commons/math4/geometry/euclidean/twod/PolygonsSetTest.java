@@ -675,15 +675,15 @@ public class PolygonsSetTest {
         hyp[4] = (SubLine) hyp[4].split(hyp[3].getHyperplane()).getMinus().split(hyp[0].getHyperplane()).getMinus();
         hyp[5] = (SubLine) hyp[5].split(hyp[4].getHyperplane()).getMinus().split(hyp[0].getHyperplane()).getMinus();
         hyp[6] = (SubLine) hyp[6].split(hyp[3].getHyperplane()).getMinus().split(hyp[1].getHyperplane()).getMinus();
-        BSPTree<Euclidean2D> tree = new BSPTree<>(Boolean.TRUE);
+        BSPTree<Euclidean2D> tree = new BSPTree<Euclidean2D>(Boolean.TRUE);
         for (int i = hyp.length - 1; i >= 0; --i) {
-            tree = new BSPTree<>(hyp[i], new BSPTree<Euclidean2D>(Boolean.FALSE), tree, null);
+            tree = new BSPTree<Euclidean2D>(hyp[i], new BSPTree<Euclidean2D>(Boolean.FALSE), tree, null);
         }
         PolygonsSet set = new PolygonsSet(tree, 1.0e-10);
         SubLine splitter =
             new Line(new Vector2D(-2.0 * sqrt3 / 3.0, 0.0), 9 * pi6, 1.0e-10).wholeHyperplane();
         PolygonsSet slice =
-            new PolygonsSet(new BSPTree<>(splitter,
+            new PolygonsSet(new BSPTree<Euclidean2D>(splitter,
                                                      set.getTree(false).split(splitter).getPlus(),
                                                      new BSPTree<Euclidean2D>(Boolean.FALSE), null),
                             1.0e-10);
@@ -726,85 +726,85 @@ public class PolygonsSetTest {
     @Test
     public void testBug20040520() {
         BSPTree<Euclidean2D> a0 =
-            new BSPTree<>(buildSegment(new Vector2D(0.85, -0.05),
+            new BSPTree<Euclidean2D>(buildSegment(new Vector2D(0.85, -0.05),
                                                   new Vector2D(0.90, -0.10)),
                                                   new BSPTree<Euclidean2D>(Boolean.FALSE),
                                                   new BSPTree<Euclidean2D>(Boolean.TRUE),
                                                   null);
         BSPTree<Euclidean2D> a1 =
-            new BSPTree<>(buildSegment(new Vector2D(0.85, -0.10),
+            new BSPTree<Euclidean2D>(buildSegment(new Vector2D(0.85, -0.10),
                                                   new Vector2D(0.90, -0.10)),
                                                   new BSPTree<Euclidean2D>(Boolean.FALSE), a0, null);
         BSPTree<Euclidean2D> a2 =
-            new BSPTree<>(buildSegment(new Vector2D(0.90, -0.05),
+            new BSPTree<Euclidean2D>(buildSegment(new Vector2D(0.90, -0.05),
                                                   new Vector2D(0.85, -0.05)),
                                                   new BSPTree<Euclidean2D>(Boolean.FALSE), a1, null);
         BSPTree<Euclidean2D> a3 =
-            new BSPTree<>(buildSegment(new Vector2D(0.82, -0.05),
+            new BSPTree<Euclidean2D>(buildSegment(new Vector2D(0.82, -0.05),
                                                   new Vector2D(0.82, -0.08)),
                                                   new BSPTree<Euclidean2D>(Boolean.FALSE),
                                                   new BSPTree<Euclidean2D>(Boolean.TRUE),
                                                   null);
         BSPTree<Euclidean2D> a4 =
-            new BSPTree<>(buildHalfLine(new Vector2D(0.85, -0.05),
+            new BSPTree<Euclidean2D>(buildHalfLine(new Vector2D(0.85, -0.05),
                                                    new Vector2D(0.80, -0.05),
                                                    false),
                                                    new BSPTree<Euclidean2D>(Boolean.FALSE), a3, null);
         BSPTree<Euclidean2D> a5 =
-            new BSPTree<>(buildSegment(new Vector2D(0.82, -0.08),
+            new BSPTree<Euclidean2D>(buildSegment(new Vector2D(0.82, -0.08),
                                                   new Vector2D(0.82, -0.18)),
                                                   new BSPTree<Euclidean2D>(Boolean.FALSE),
                                                   new BSPTree<Euclidean2D>(Boolean.TRUE),
                                                   null);
         BSPTree<Euclidean2D> a6 =
-            new BSPTree<>(buildHalfLine(new Vector2D(0.82, -0.18),
+            new BSPTree<Euclidean2D>(buildHalfLine(new Vector2D(0.82, -0.18),
                                                    new Vector2D(0.85, -0.15),
                                                    true),
                                                    new BSPTree<Euclidean2D>(Boolean.FALSE), a5, null);
         BSPTree<Euclidean2D> a7 =
-            new BSPTree<>(buildHalfLine(new Vector2D(0.85, -0.05),
+            new BSPTree<Euclidean2D>(buildHalfLine(new Vector2D(0.85, -0.05),
                                                    new Vector2D(0.82, -0.08),
                                                    false),
                                                    a4, a6, null);
         BSPTree<Euclidean2D> a8 =
-            new BSPTree<>(buildLine(new Vector2D(0.85, -0.25),
+            new BSPTree<Euclidean2D>(buildLine(new Vector2D(0.85, -0.25),
                                                new Vector2D(0.85,  0.05)),
                                                a2, a7, null);
         BSPTree<Euclidean2D> a9 =
-            new BSPTree<>(buildLine(new Vector2D(0.90,  0.05),
+            new BSPTree<Euclidean2D>(buildLine(new Vector2D(0.90,  0.05),
                                                new Vector2D(0.90, -0.50)),
                                                a8, new BSPTree<Euclidean2D>(Boolean.FALSE), null);
 
         BSPTree<Euclidean2D> b0 =
-            new BSPTree<>(buildSegment(new Vector2D(0.92, -0.12),
+            new BSPTree<Euclidean2D>(buildSegment(new Vector2D(0.92, -0.12),
                                                   new Vector2D(0.92, -0.08)),
                                                   new BSPTree<Euclidean2D>(Boolean.FALSE), new BSPTree<Euclidean2D>(Boolean.TRUE),
                                                   null);
         BSPTree<Euclidean2D> b1 =
-            new BSPTree<>(buildHalfLine(new Vector2D(0.92, -0.08),
+            new BSPTree<Euclidean2D>(buildHalfLine(new Vector2D(0.92, -0.08),
                                                    new Vector2D(0.90, -0.10),
                                                    true),
                                                    new BSPTree<Euclidean2D>(Boolean.FALSE), b0, null);
         BSPTree<Euclidean2D> b2 =
-            new BSPTree<>(buildSegment(new Vector2D(0.92, -0.18),
+            new BSPTree<Euclidean2D>(buildSegment(new Vector2D(0.92, -0.18),
                                                   new Vector2D(0.92, -0.12)),
                                                   new BSPTree<Euclidean2D>(Boolean.FALSE), new BSPTree<Euclidean2D>(Boolean.TRUE),
                                                   null);
         BSPTree<Euclidean2D> b3 =
-            new BSPTree<>(buildSegment(new Vector2D(0.85, -0.15),
+            new BSPTree<Euclidean2D>(buildSegment(new Vector2D(0.85, -0.15),
                                                   new Vector2D(0.90, -0.20)),
                                                   new BSPTree<Euclidean2D>(Boolean.FALSE), b2, null);
         BSPTree<Euclidean2D> b4 =
-            new BSPTree<>(buildSegment(new Vector2D(0.95, -0.15),
+            new BSPTree<Euclidean2D>(buildSegment(new Vector2D(0.95, -0.15),
                                                   new Vector2D(0.85, -0.05)),
                                                   b1, b3, null);
         BSPTree<Euclidean2D> b5 =
-            new BSPTree<>(buildHalfLine(new Vector2D(0.85, -0.05),
+            new BSPTree<Euclidean2D>(buildHalfLine(new Vector2D(0.85, -0.05),
                                                    new Vector2D(0.85, -0.25),
                                                    true),
                                                    new BSPTree<Euclidean2D>(Boolean.FALSE), b4, null);
         BSPTree<Euclidean2D> b6 =
-            new BSPTree<>(buildLine(new Vector2D(0.0, -1.10),
+            new BSPTree<Euclidean2D>(buildLine(new Vector2D(0.0, -1.10),
                                                new Vector2D(1.0, -0.10)),
                                                new BSPTree<Euclidean2D>(Boolean.FALSE), b5, null);
 
@@ -866,7 +866,7 @@ public class PolygonsSetTest {
         };
 
         BSPTree<Euclidean2D> node1 =
-            new BSPTree<>(new SubLine(l[0],
+            new BSPTree<Euclidean2D>(new SubLine(l[0],
                                                  new IntervalsSet(intersectionAbscissa(l[0], l[1]),
                                                                   intersectionAbscissa(l[0], l[2]),
                                                                   1.0e-10)),
@@ -874,7 +874,7 @@ public class PolygonsSetTest {
                                      new BSPTree<Euclidean2D>(Boolean.FALSE),
                                      null);
         BSPTree<Euclidean2D> node2 =
-            new BSPTree<>(new SubLine(l[1],
+            new BSPTree<Euclidean2D>(new SubLine(l[1],
                                                  new IntervalsSet(intersectionAbscissa(l[1], l[2]),
                                                                   intersectionAbscissa(l[1], l[3]),
                                                                   1.0e-10)),
@@ -882,14 +882,14 @@ public class PolygonsSetTest {
                                      new BSPTree<Euclidean2D>(Boolean.FALSE),
                                      null);
         BSPTree<Euclidean2D> node3 =
-            new BSPTree<>(new SubLine(l[2],
+            new BSPTree<Euclidean2D>(new SubLine(l[2],
                                                  new IntervalsSet(intersectionAbscissa(l[2], l[3]),
                                                  Double.POSITIVE_INFINITY, 1.0e-10)),
                                      node2,
                                      new BSPTree<Euclidean2D>(Boolean.FALSE),
                                      null);
         BSPTree<Euclidean2D> node4 =
-            new BSPTree<>(l[3].wholeHyperplane(),
+            new BSPTree<Euclidean2D>(l[3].wholeHyperplane(),
                                      node3,
                                      new BSPTree<Euclidean2D>(Boolean.FALSE),
                                      null);
@@ -1126,7 +1126,7 @@ public class PolygonsSetTest {
     @Test
     public void testThinRectangle() {
 
-        RegionFactory<Euclidean2D> factory = new RegionFactory<>();
+        RegionFactory<Euclidean2D> factory = new RegionFactory<Euclidean2D>();
         Vector2D pA = new Vector2D(0.0,        1.0);
         Vector2D pB = new Vector2D(0.0,        0.0);
         Vector2D pC = new Vector2D(1.0 / 64.0, 0.0);
@@ -1236,7 +1236,7 @@ public class PolygonsSetTest {
     }
 
     private PolygonsSet buildSet(Vector2D[][] vertices) {
-        ArrayList<SubHyperplane<Euclidean2D>> edges = new ArrayList<>();
+        ArrayList<SubHyperplane<Euclidean2D>> edges = new ArrayList<SubHyperplane<Euclidean2D>>();
         for (int i = 0; i < vertices.length; ++i) {
             int l = vertices[i].length;
             for (int j = 0; j < l; ++j) {

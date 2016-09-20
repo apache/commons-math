@@ -53,7 +53,7 @@ public abstract class UnmodifiableRealVectorAbstractTest {
      * The list of methods which are excluded from the general test
      * {@link #testAllButExcluded()}.
      */
-    protected static final Set<String> EXCLUDE = new HashSet<>();
+    protected static final Set<String> EXCLUDE = new HashSet<String>();
     /** The random number generator (always initialized with the same seed. */
     protected static final Random RANDOM;
 

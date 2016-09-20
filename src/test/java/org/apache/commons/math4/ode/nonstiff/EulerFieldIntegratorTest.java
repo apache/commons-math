@@ -26,7 +26,7 @@ public class EulerFieldIntegratorTest extends RungeKuttaFieldIntegratorAbstractT
 
     protected <T extends RealFieldElement<T>> RungeKuttaFieldIntegrator<T>
     createIntegrator(Field<T> field, T step) {
-        return new EulerFieldIntegrator<>(field, step);
+        return new EulerFieldIntegrator<T>(field, step);
     }
 
     @Override

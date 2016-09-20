@@ -51,14 +51,14 @@ public class Network
     private static final long serialVersionUID = 20130207L;
     /** Neurons. */
     private final ConcurrentHashMap<Long, Neuron> neuronMap
-        = new ConcurrentHashMap<>();
+        = new ConcurrentHashMap<Long, Neuron>();
     /** Next available neuron identifier. */
     private final AtomicLong nextId;
     /** Neuron's features set size. */
     private final int featureSize;
     /** Links. */
     private final ConcurrentHashMap<Long, Set<Long>> linkMap
-        = new ConcurrentHashMap<>();
+        = new ConcurrentHashMap<Long, Set<Long>>();
 
     /**
      * Comparator that prescribes an order of the neurons according
@@ -155,7 +155,7 @@ public class Network
         }
 
         for (Map.Entry<Long, Set<Long>> e : linkMap.entrySet()) {
-            copy.linkMap.put(e.getKey(), new HashSet<>(e.getValue()));
+            copy.linkMap.put(e.getKey(), new HashSet<Long>(e.getValue()));
         }
 
         return copy;
@@ -178,7 +178,7 @@ public class Network
      * @see NeuronIdentifierComparator
      */
     public Collection<Neuron> getNeurons(Comparator<Neuron> comparator) {
-        final List<Neuron> neurons = new ArrayList<>();
+        final List<Neuron> neurons = new ArrayList<Neuron>();
         neurons.addAll(neuronMap.values());
 
         Collections.sort(neurons, comparator);
@@ -356,7 +356,7 @@ public class Network
      */
     public Collection<Neuron> getNeighbours(Iterable<Neuron> neurons,
                                             Iterable<Neuron> exclude) {
-        final Set<Long> idList = new HashSet<>();
+        final Set<Long> idList = new HashSet<Long>();
 
         for (Neuron n : neurons) {
             idList.addAll(linkMap.get(n.getIdentifier()));
@@ -367,7 +367,7 @@ public class Network
             }
         }
 
-        final List<Neuron> neuronList = new ArrayList<>();
+        final List<Neuron> neuronList = new ArrayList<Neuron>();
         for (Long id : idList) {
             neuronList.add(getNeuron(id));
         }
@@ -403,7 +403,7 @@ public class Network
             }
         }
 
-        final List<Neuron> neuronList = new ArrayList<>();
+        final List<Neuron> neuronList = new ArrayList<Neuron>();
         for (Long id : idList) {
             neuronList.add(getNeuron(id));
         }

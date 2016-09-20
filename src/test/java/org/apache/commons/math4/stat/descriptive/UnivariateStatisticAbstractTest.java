@@ -188,7 +188,7 @@ public abstract class UnivariateStatisticAbstractTest {
         // and fill valuesList with values from values array with
         // values[i] repeated weights[i] times, each i
         final RealDistribution valueDist = new NormalDistribution(mu, sigma);
-        List<Double> valuesList = new ArrayList<>();
+        List<Double> valuesList = new ArrayList<Double>();
         for (int i = 0; i < len; i++) {
             double value = valueDist.sample();
             values[i] = value;

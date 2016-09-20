@@ -65,7 +65,7 @@ class HighamHall54FieldStepInterpolator<T extends RealFieldElement<T>>
                                                           final FieldODEStateAndDerivative<T> newSoftPreviousState,
                                                           final FieldODEStateAndDerivative<T> newSoftCurrentState,
                                                           final FieldEquationsMapper<T> newMapper) {
-        return new HighamHall54FieldStepInterpolator<>(newField, newForward, newYDotK,
+        return new HighamHall54FieldStepInterpolator<T>(newField, newForward, newYDotK,
                                                         newGlobalPreviousState, newGlobalCurrentState,
                                                         newSoftPreviousState, newSoftCurrentState,
                                                         newMapper);
@@ -109,7 +109,7 @@ class HighamHall54FieldStepInterpolator<T extends RealFieldElement<T>>
             interpolatedDerivatives = derivativeLinearCombination(bDot0, bDot1, bDot2, bDot3, bDot4, bDot5);
         }
 
-        return new FieldODEStateAndDerivative<>(time, interpolatedState, interpolatedDerivatives);
+        return new FieldODEStateAndDerivative<T>(time, interpolatedState, interpolatedDerivatives);
 
     }
 

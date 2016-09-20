@@ -105,7 +105,7 @@ public class MapUtils {
             }
         }
 
-        return new Pair<>(best[0], best[1]);
+        return new Pair<Neuron, Neuron>(best[0], best[1]);
     }
 
     /**
@@ -130,7 +130,7 @@ public class MapUtils {
     public static Neuron[] sort(double[] features,
                                 Iterable<Neuron> neurons,
                                 DistanceMeasure distance) {
-        final List<PairNeuronDouble> list = new ArrayList<>();
+        final List<PairNeuronDouble> list = new ArrayList<PairNeuronDouble>();
 
         for (final Neuron n : neurons) {
             final double d = distance.compute(n.getFeatures(), features);
@@ -196,7 +196,7 @@ public class MapUtils {
     public static int[][] computeHitHistogram(Iterable<double[]> data,
                                               NeuronSquareMesh2D map,
                                               DistanceMeasure distance) {
-        final HashMap<Neuron, Integer> hit = new HashMap<>();
+        final HashMap<Neuron, Integer> hit = new HashMap<Neuron, Integer>();
         final Network net = map.getNetwork();
 
         for (double[] f : data) {

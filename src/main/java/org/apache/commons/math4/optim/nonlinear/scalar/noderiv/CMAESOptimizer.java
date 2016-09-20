@@ -199,13 +199,13 @@ public class CMAESOptimizer
     private final RandomGenerator random;
 
     /** History of sigma values. */
-    private final List<Double> statisticsSigmaHistory = new ArrayList<>();
+    private final List<Double> statisticsSigmaHistory = new ArrayList<Double>();
     /** History of mean matrix. */
-    private final List<RealMatrix> statisticsMeanHistory = new ArrayList<>();
+    private final List<RealMatrix> statisticsMeanHistory = new ArrayList<RealMatrix>();
     /** History of fitness values. */
-    private final List<Double> statisticsFitnessHistory = new ArrayList<>();
+    private final List<Double> statisticsFitnessHistory = new ArrayList<Double>();
     /** History of D matrix. */
-    private final List<RealMatrix> statisticsDHistory = new ArrayList<>();
+    private final List<RealMatrix> statisticsDHistory = new ArrayList<RealMatrix>();
 
     /**
      * @param maxIterations Maximal number of iterations.

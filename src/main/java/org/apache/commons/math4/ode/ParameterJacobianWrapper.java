@@ -51,7 +51,7 @@ class ParameterJacobianWrapper implements ParameterJacobianProvider {
                              final ParameterConfiguration[] paramsAndSteps) {
         this.fode = fode;
         this.pode = pode;
-        this.hParam = new HashMap<>();
+        this.hParam = new HashMap<String, Double>();
 
         // set up parameters for jacobian computation
         for (final ParameterConfiguration param : paramsAndSteps) {

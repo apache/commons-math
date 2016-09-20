@@ -170,7 +170,7 @@ public class ArcsSetTest {
 
     @Test
     public void testSpecialConstruction() {
-        List<SubHyperplane<Sphere1D>> boundary = new ArrayList<>();
+        List<SubHyperplane<Sphere1D>> boundary = new ArrayList<SubHyperplane<Sphere1D>>();
         boundary.add(new LimitAngle(new S1Point(0.0), false, 1.0e-10).wholeHyperplane());
         boundary.add(new LimitAngle(new S1Point(MathUtils.TWO_PI - 1.0e-11), true, 1.0e-10).wholeHyperplane());
         ArcsSet set = new ArcsSet(boundary, 1.0e-10);
@@ -271,7 +271,7 @@ public class ArcsSetTest {
 
     @Test
     public void testMultiple() {
-        RegionFactory<Sphere1D> factory = new RegionFactory<>();
+        RegionFactory<Sphere1D> factory = new RegionFactory<Sphere1D>();
         ArcsSet set = (ArcsSet)
         factory.intersection(factory.union(factory.difference(new ArcsSet(1.0, 6.0, 1.0e-10),
                                                               new ArcsSet(3.0, 5.0, 1.0e-10)),
@@ -347,9 +347,9 @@ public class ArcsSetTest {
         for (int k = -2; k < 3; ++k) {
             SubLimitAngle l1  = new LimitAngle(new S1Point(1.0 + k * MathUtils.TWO_PI), false, 1.0e-10).wholeHyperplane();
             SubLimitAngle l2  = new LimitAngle(new S1Point(1.5 + k * MathUtils.TWO_PI), true,  1.0e-10).wholeHyperplane();
-            ArcsSet set = new ArcsSet(new BSPTree<>(l1,
+            ArcsSet set = new ArcsSet(new BSPTree<Sphere1D>(l1,
                                                             new BSPTree<Sphere1D>(Boolean.FALSE),
-                                                            new BSPTree<>(l2,
+                                                            new BSPTree<Sphere1D>(l2,
                                                                                   new BSPTree<Sphere1D>(Boolean.FALSE),
                                                                                   new BSPTree<Sphere1D>(Boolean.TRUE),
                                                                                   null),
@@ -371,10 +371,10 @@ public class ArcsSetTest {
         SubLimitAngle l1 = new LimitAngle(new S1Point(1.0), false, 1.0e-10).wholeHyperplane();
         SubLimitAngle l2 = new LimitAngle(new S1Point(2.0), true,  1.0e-10).wholeHyperplane();
         SubLimitAngle l3 = new LimitAngle(new S1Point(3.0), false, 1.0e-10).wholeHyperplane();
-        new ArcsSet(new BSPTree<>(l1,
+        new ArcsSet(new BSPTree<Sphere1D>(l1,
                                           new BSPTree<Sphere1D>(Boolean.FALSE),
-                                          new BSPTree<>(l2,
-                                                                new BSPTree<>(l3,
+                                          new BSPTree<Sphere1D>(l2,
+                                                                new BSPTree<Sphere1D>(l3,
                                                                                       new BSPTree<Sphere1D>(Boolean.FALSE),
                                                                                       new BSPTree<Sphere1D>(Boolean.TRUE),
                                                                                       null),

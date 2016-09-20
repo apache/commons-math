@@ -84,7 +84,7 @@ public class TournamentSelection implements SelectionPolicy {
         };
 
         // create a copy of the chromosome list
-        List<Chromosome> chromosomes = new ArrayList<> (population.getChromosomes());
+        List<Chromosome> chromosomes = new ArrayList<Chromosome> (population.getChromosomes());
         for (int i=0; i<this.arity; i++) {
             // select a random individual and add it to the tournament
             int rind = GeneticAlgorithm.getRandomGenerator().nextInt(chromosomes.size());

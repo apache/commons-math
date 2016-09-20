@@ -270,7 +270,7 @@ public abstract class AbstractFieldMatrix<T extends FieldElement<T>>
 
         final char[] binaryRepresentation = Integer.toBinaryString(power)
                 .toCharArray();
-        final ArrayList<Integer> nonZeroPositions = new ArrayList<>();
+        final ArrayList<Integer> nonZeroPositions = new ArrayList<Integer>();
 
         for (int i = 0; i < binaryRepresentation.length; ++i) {
             if (binaryRepresentation[i] == '1') {
@@ -279,7 +279,7 @@ public abstract class AbstractFieldMatrix<T extends FieldElement<T>>
             }
         }
 
-        ArrayList<FieldMatrix<T>> results = new ArrayList<>(
+        ArrayList<FieldMatrix<T>> results = new ArrayList<FieldMatrix<T>>(
                 binaryRepresentation.length);
 
         results.add(0, this.copy());
@@ -537,7 +537,7 @@ public abstract class AbstractFieldMatrix<T extends FieldElement<T>>
     @Override
     public FieldVector<T> getRowVector(final int row)
         throws OutOfRangeException {
-        return new ArrayFieldVector<>(field, getRow(row), false);
+        return new ArrayFieldVector<T>(field, getRow(row), false);
     }
 
     /** {@inheritDoc} */
@@ -560,7 +560,7 @@ public abstract class AbstractFieldMatrix<T extends FieldElement<T>>
     @Override
     public FieldVector<T> getColumnVector(final int column)
         throws OutOfRangeException {
-        return new ArrayFieldVector<>(field, getColumn(column), false);
+        return new ArrayFieldVector<T>(field, getColumn(column), false);
     }
 
     /** {@inheritDoc} */
@@ -726,7 +726,7 @@ public abstract class AbstractFieldMatrix<T extends FieldElement<T>>
     public FieldVector<T> operate(final FieldVector<T> v)
         throws DimensionMismatchException {
         try {
-            return new ArrayFieldVector<>(field, operate(((ArrayFieldVector<T>) v).getDataRef()), false);
+            return new ArrayFieldVector<T>(field, operate(((ArrayFieldVector<T>) v).getDataRef()), false);
         } catch (ClassCastException cce) {
             final int nRows = getRowDimension();
             final int nCols = getColumnDimension();
@@ -743,7 +743,7 @@ public abstract class AbstractFieldMatrix<T extends FieldElement<T>>
                 out[row] = sum;
             }
 
-            return new ArrayFieldVector<>(field, out, false);
+            return new ArrayFieldVector<T>(field, out, false);
         }
     }
 
@@ -774,7 +774,7 @@ public abstract class AbstractFieldMatrix<T extends FieldElement<T>>
     public FieldVector<T> preMultiply(final FieldVector<T> v)
         throws DimensionMismatchException {
         try {
-            return new ArrayFieldVector<>(field, preMultiply(((ArrayFieldVector<T>) v).getDataRef()), false);
+            return new ArrayFieldVector<T>(field, preMultiply(((ArrayFieldVector<T>) v).getDataRef()), false);
         } catch (ClassCastException cce) {
             final int nRows = getRowDimension();
             final int nCols = getColumnDimension();
@@ -791,7 +791,7 @@ public abstract class AbstractFieldMatrix<T extends FieldElement<T>>
                 out[col] = sum;
             }
 
-            return new ArrayFieldVector<>(field, out, false);
+            return new ArrayFieldVector<T>(field, out, false);
         }
     }
 

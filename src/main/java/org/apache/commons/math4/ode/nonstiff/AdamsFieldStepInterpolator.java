@@ -103,7 +103,7 @@ class AdamsFieldStepInterpolator<T extends RealFieldElement<T>> extends Abstract
         this.scalingH  = stepSize;
         this.reference = reference;
         this.scaled    = scaled.clone();
-        this.nordsieck = new Array2DRowFieldMatrix<>(nordsieck.getData(), false);
+        this.nordsieck = new Array2DRowFieldMatrix<T>(nordsieck.getData(), false);
     }
 
     /** Create a new instance.
@@ -121,7 +121,7 @@ class AdamsFieldStepInterpolator<T extends RealFieldElement<T>> extends Abstract
                                                    FieldODEStateAndDerivative<T> newSoftPreviousState,
                                                    FieldODEStateAndDerivative<T> newSoftCurrentState,
                                                    FieldEquationsMapper<T> newMapper) {
-        return new AdamsFieldStepInterpolator<>(scalingH, reference, scaled, nordsieck,
+        return new AdamsFieldStepInterpolator<T>(scalingH, reference, scaled, nordsieck,
                                                  newForward,
                                                  newGlobalPreviousState, newGlobalCurrentState,
                                                  newSoftPreviousState, newSoftCurrentState,
@@ -181,7 +181,7 @@ class AdamsFieldStepInterpolator<T extends RealFieldElement<T>> extends Abstract
                 estimatedDerivatives[j].add(scaled[j].multiply(normalizedAbscissa)).divide(x);
         }
 
-        return new FieldODEStateAndDerivative<>(time, estimatedState, estimatedDerivatives);
+        return new FieldODEStateAndDerivative<S>(time, estimatedState, estimatedDerivatives);
 
     }
 

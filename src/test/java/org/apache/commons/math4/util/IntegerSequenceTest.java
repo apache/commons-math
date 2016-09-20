@@ -33,7 +33,7 @@ public class IntegerSequenceTest {
         final int max = 7;
         final int step = 2;
 
-        final List<Integer> seq = new ArrayList<>();
+        final List<Integer> seq = new ArrayList<Integer>();
         final IntegerSequence.Range r = IntegerSequence.range(start, max, step);
 
         final int numTimes = 3;
@@ -53,7 +53,7 @@ public class IntegerSequenceTest {
         final int max = 7;
         final int step = 2;
 
-        final List<Integer> seq = new ArrayList<>();
+        final List<Integer> seq = new ArrayList<Integer>();
         final IntegerSequence.Range r = IntegerSequence.range(start, max, step);
         for (Integer i : r) {
             seq.add(i);
@@ -72,7 +72,7 @@ public class IntegerSequenceTest {
         final int max = -1;
         final int step = 2;
 
-        final List<Integer> seq = new ArrayList<>();
+        final List<Integer> seq = new ArrayList<Integer>();
         final IntegerSequence.Range r = IntegerSequence.range(start, max, step);
         for (Integer i : r) {
             seq.add(i);
@@ -91,7 +91,7 @@ public class IntegerSequenceTest {
         final int max = -8;
         final int step = -3;
 
-        final List<Integer> seq = new ArrayList<>();
+        final List<Integer> seq = new ArrayList<Integer>();
         final IntegerSequence.Range r = IntegerSequence.range(start, max, step);
         for (Integer i : r) {
             seq.add(i);
@@ -110,7 +110,7 @@ public class IntegerSequenceTest {
         final int max = 1;
         final int step = -1;
 
-        final List<Integer> seq = new ArrayList<>();
+        final List<Integer> seq = new ArrayList<Integer>();
         final IntegerSequence.Range r = IntegerSequence.range(start, max, step);
         for (Integer i : r) {
             seq.add(i);
@@ -126,7 +126,7 @@ public class IntegerSequenceTest {
         final int start = -2;
         final int end = 4;
 
-        final List<Integer> seq = new ArrayList<>();
+        final List<Integer> seq = new ArrayList<Integer>();
         for (Integer i : IntegerSequence.range(start, end)) {
             seq.add(i);
         }
@@ -141,7 +141,7 @@ public class IntegerSequenceTest {
         final int start = 2;
         final int end = 0;
 
-        final List<Integer> seq = new ArrayList<>();
+        final List<Integer> seq = new ArrayList<Integer>();
         final IntegerSequence.Range r = IntegerSequence.range(start, end);
         for (Integer i : r) {
             seq.add(i);
@@ -157,7 +157,7 @@ public class IntegerSequenceTest {
         final int max = -1;
         final int step = -1;
 
-        final List<Integer> seq = new ArrayList<>();
+        final List<Integer> seq = new ArrayList<Integer>();
         final IntegerSequence.Range r = IntegerSequence.range(start, max, step);
         for (Integer i : r) {
             seq.add(i);

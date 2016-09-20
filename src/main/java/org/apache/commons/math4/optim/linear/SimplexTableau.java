@@ -78,7 +78,7 @@ class SimplexTableau implements Serializable {
     private final boolean restrictToNonNegative;
 
     /** The variables each column represents */
-    private final List<String> columnLabels = new ArrayList<>();
+    private final List<String> columnLabels = new ArrayList<String>();
 
     /** Simple tableau. */
     private transient Array2DRowRealMatrix tableau;
@@ -272,7 +272,7 @@ class SimplexTableau implements Serializable {
      * @return new versions of the constraints
      */
     public List<LinearConstraint> normalizeConstraints(Collection<LinearConstraint> originalConstraints) {
-        List<LinearConstraint> normalized = new ArrayList<>(originalConstraints.size());
+        List<LinearConstraint> normalized = new ArrayList<LinearConstraint>(originalConstraints.size());
         for (LinearConstraint constraint : originalConstraints) {
             normalized.add(normalize(constraint));
         }
@@ -395,7 +395,7 @@ class SimplexTableau implements Serializable {
             return;
         }
 
-        final Set<Integer> columnsToDrop = new TreeSet<>();
+        final Set<Integer> columnsToDrop = new TreeSet<Integer>();
         columnsToDrop.add(0);
 
         // positive cost non-artificial variables
@@ -469,7 +469,7 @@ class SimplexTableau implements Serializable {
         Integer negativeVarBasicRow = negativeVarColumn > 0 ? getBasicRow(negativeVarColumn) : null;
         double mostNegative = negativeVarBasicRow == null ? 0 : getEntry(negativeVarBasicRow, getRhsOffset());
 
-        final Set<Integer> usedBasicRows = new HashSet<>();
+        final Set<Integer> usedBasicRows = new HashSet<Integer>();
         final double[] coefficients = new double[getOriginalNumDecisionVariables()];
         for (int i = 0; i < coefficients.length; i++) {
             int colIndex = columnLabels.indexOf("x" + i);

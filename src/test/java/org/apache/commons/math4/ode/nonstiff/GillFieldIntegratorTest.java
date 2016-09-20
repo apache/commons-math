@@ -26,7 +26,7 @@ public class GillFieldIntegratorTest extends RungeKuttaFieldIntegratorAbstractTe
 
     protected <T extends RealFieldElement<T>> RungeKuttaFieldIntegrator<T>
     createIntegrator(Field<T> field, T step) {
-        return new GillFieldIntegrator<>(field, step);
+        return new GillFieldIntegrator<T>(field, step);
     }
 
     @Override

@@ -33,7 +33,7 @@ public abstract class AbstractParameterizable implements Parameterizable {
      * @param names names of the supported parameters
      */
     protected AbstractParameterizable(final String ... names) {
-        parametersNames = new ArrayList<>();
+        parametersNames = new ArrayList<String>();
         for (final String name : names) {
             parametersNames.add(name);
         }
@@ -43,7 +43,7 @@ public abstract class AbstractParameterizable implements Parameterizable {
      * @param names names of the supported parameters
      */
     protected AbstractParameterizable(final Collection<String> names) {
-        parametersNames = new ArrayList<>();
+        parametersNames = new ArrayList<String>();
         parametersNames.addAll(names);
     }
 

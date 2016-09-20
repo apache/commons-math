@@ -155,7 +155,7 @@ public class DSCompilerTest {
     @Test public void testMultiplicationRules()
         throws SecurityException, NoSuchFieldException, IllegalArgumentException, IllegalAccessException {
 
-        Map<String,String> referenceRules = new HashMap<>();
+        Map<String,String> referenceRules = new HashMap<String, String>();
         referenceRules.put("(f*g)",          "f * g");
         referenceRules.put("d(f*g)/dx",      "f * dg/dx + df/dx * g");
         referenceRules.put("d(f*g)/dy",      referenceRules.get("d(f*g)/dx").replaceAll("x", "y"));
@@ -246,7 +246,7 @@ public class DSCompilerTest {
 
         // the following reference rules have all been computed independently from the library,
         // using only pencil and paper and some search and replace to handle symmetries
-        Map<String,String> referenceRules = new HashMap<>();
+        Map<String,String> referenceRules = new HashMap<String, String>();
         referenceRules.put("(f(g))",              "(f(g))");
         referenceRules.put("d(f(g))/dx",          "d(f(g))/dg * dg/dx");
         referenceRules.put("d(f(g))/dy",          referenceRules.get("d(f(g))/dx").replaceAll("x", "y"));

@@ -284,8 +284,8 @@ public class AdamsMoultonFieldIntegrator<T extends RealFieldElement<T>> extends 
             updateHighOrderDerivativesPhase2(predictedScaled, correctedScaled, predictedNordsieck);
 
             // discrete events handling
-            stepEnd = new FieldODEStateAndDerivative<>(stepEnd.getTime(), predictedY, correctedYDot);
-            setStepStart(acceptStep(new AdamsFieldStepInterpolator<>(getStepSize(), stepEnd,
+            stepEnd = new FieldODEStateAndDerivative<T>(stepEnd.getTime(), predictedY, correctedYDot);
+            setStepStart(acceptStep(new AdamsFieldStepInterpolator<T>(getStepSize(), stepEnd,
                                                                       correctedScaled, predictedNordsieck, forward,
                                                                       getStepStart(), stepEnd,
                                                                       equations.getMapper()),

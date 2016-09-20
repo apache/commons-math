@@ -357,7 +357,7 @@ public abstract class RealDistributionAbstractTest {
                 return distribution.density(x);
             }
         };
-        final ArrayList<Double> integrationTestPoints = new ArrayList<>();
+        final ArrayList<Double> integrationTestPoints = new ArrayList<Double>();
         for (int i = 0; i < cumulativeTestPoints.length; i++) {
             if (Double.isNaN(cumulativeTestValues[i]) ||
                     cumulativeTestValues[i] < 1.0e-5 ||

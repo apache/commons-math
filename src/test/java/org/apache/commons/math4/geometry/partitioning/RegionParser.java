@@ -211,7 +211,7 @@ public class RegionParser {
             getWord(TOLERANCE);
             tolerance = getNumber();
             getWord(PLUS);
-            root = new BSPTree<>();
+            root = new BSPTree<S>();
             parseTree(root);
             if (tokenizer.hasMoreTokens()) {
                 throw new ParseException("unexpected " + tokenizer.nextToken(), 0);

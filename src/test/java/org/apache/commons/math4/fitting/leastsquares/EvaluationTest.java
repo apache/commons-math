@@ -262,7 +262,7 @@ public class EvaluationTest {
         // "MultivariateJacobianFunction".
         final MultivariateJacobianFunction m1 = new MultivariateJacobianFunction() {
                 public Pair<RealVector, RealMatrix> value(RealVector notUsed) {
-                    return new Pair<>(null, null);
+                    return new Pair<RealVector, RealMatrix>(null, null);
                 }
             };
 
@@ -276,7 +276,7 @@ public class EvaluationTest {
 
         final MultivariateJacobianFunction m2 = new ValueAndJacobianFunction() {
                 public Pair<RealVector, RealMatrix> value(RealVector notUsed) {
-                    return new Pair<>(null, null);
+                    return new Pair<RealVector, RealMatrix>(null, null);
                 }
                 public RealVector computeValue(final double[] params) {
                     return null;

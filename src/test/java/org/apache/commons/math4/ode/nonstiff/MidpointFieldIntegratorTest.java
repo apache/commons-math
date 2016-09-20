@@ -26,7 +26,7 @@ public class MidpointFieldIntegratorTest extends RungeKuttaFieldIntegratorAbstra
 
     protected <T extends RealFieldElement<T>> RungeKuttaFieldIntegrator<T>
     createIntegrator(Field<T> field, T step) {
-        return new MidpointFieldIntegrator<>(field, step);
+        return new MidpointFieldIntegrator<T>(field, step);
     }
 
     @Override

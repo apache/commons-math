@@ -279,8 +279,8 @@ public class FuzzyKMeansClusterer<T extends Clusterable> extends Clusterer<T> {
         }
 
         // copy the input collection to an unmodifiable list with indexed access
-        points = Collections.unmodifiableList(new ArrayList<>(dataPoints));
-        clusters = new ArrayList<>();
+        points = Collections.unmodifiableList(new ArrayList<T>(dataPoints));
+        clusters = new ArrayList<CentroidCluster<T>>();
         membershipMatrix = new double[size][k];
         final double[][] oldMatrix = new double[size][k];
 
@@ -316,7 +316,7 @@ public class FuzzyKMeansClusterer<T extends Clusterable> extends Clusterer<T> {
      */
     private void updateClusterCenters() {
         int j = 0;
-        final List<CentroidCluster<T>> newClusters = new ArrayList<>(k);
+        final List<CentroidCluster<T>> newClusters = new ArrayList<CentroidCluster<T>>(k);
         for (final CentroidCluster<T> cluster : clusters) {
             final Clusterable center = cluster.getCenter();
             int i = 0;

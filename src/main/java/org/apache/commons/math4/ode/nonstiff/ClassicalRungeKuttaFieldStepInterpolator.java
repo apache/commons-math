@@ -89,7 +89,7 @@ class ClassicalRungeKuttaFieldStepInterpolator<T extends RealFieldElement<T>>
                                                                  final FieldODEStateAndDerivative<T> newSoftPreviousState,
                                                                  final FieldODEStateAndDerivative<T> newSoftCurrentState,
                                                                  final FieldEquationsMapper<T> newMapper) {
-        return new ClassicalRungeKuttaFieldStepInterpolator<>(newField, newForward, newYDotK,
+        return new ClassicalRungeKuttaFieldStepInterpolator<T>(newField, newForward, newYDotK,
                                                                newGlobalPreviousState, newGlobalCurrentState,
                                                                newSoftPreviousState, newSoftCurrentState,
                                                                newMapper);
@@ -129,7 +129,7 @@ class ClassicalRungeKuttaFieldStepInterpolator<T extends RealFieldElement<T>>
             interpolatedDerivatives = derivativeLinearCombination(coeffDot1, coeffDot23, coeffDot23, coeffDot4);
         }
 
-        return new FieldODEStateAndDerivative<>(time, interpolatedState, interpolatedDerivatives);
+        return new FieldODEStateAndDerivative<T>(time, interpolatedState, interpolatedDerivatives);
 
     }
 

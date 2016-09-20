@@ -65,7 +65,7 @@ public class SimplexTableauTest {
     @Test
     public void testTableauWithNoArtificialVars() {
         LinearObjectiveFunction f = new LinearObjectiveFunction(new double[] {15, 10}, 0);
-        Collection<LinearConstraint> constraints = new ArrayList<>();
+        Collection<LinearConstraint> constraints = new ArrayList<LinearConstraint>();
         constraints.add(new LinearConstraint(new double[] {1, 0}, Relationship.LEQ, 2));
         constraints.add(new LinearConstraint(new double[] {0, 1}, Relationship.LEQ, 3));
         constraints.add(new LinearConstraint(new double[] {1, 1}, Relationship.LEQ, 4));
@@ -94,7 +94,7 @@ public class SimplexTableauTest {
     }
 
     private Collection<LinearConstraint> createConstraints() {
-        Collection<LinearConstraint> constraints = new ArrayList<>();
+        Collection<LinearConstraint> constraints = new ArrayList<LinearConstraint>();
         constraints.add(new LinearConstraint(new double[] {1, 0}, Relationship.LEQ, 2));
         constraints.add(new LinearConstraint(new double[] {0, 1}, Relationship.LEQ, 3));
         constraints.add(new LinearConstraint(new double[] {1, 1}, Relationship.EQ, 4));

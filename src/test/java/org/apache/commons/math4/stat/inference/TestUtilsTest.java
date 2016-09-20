@@ -457,7 +457,7 @@ public class TestUtilsTest {
     private double[] classC =
       {110.0, 115.0, 111.0, 117.0, 128.0};
 
-    private List<double[]> classes = new ArrayList<>();
+    private List<double[]> classes = new ArrayList<double[]>();
     private OneWayAnova oneWayAnova = new OneWayAnova();
 
     @Test

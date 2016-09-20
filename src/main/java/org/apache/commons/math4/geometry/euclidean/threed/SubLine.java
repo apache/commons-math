@@ -85,7 +85,7 @@ public class SubLine {
     public List<Segment> getSegments() {
 
         final List<Interval> list = remainingRegion.asList();
-        final List<Segment> segments = new ArrayList<>(list.size());
+        final List<Segment> segments = new ArrayList<Segment>(list.size());
 
         for (final Interval interval : list) {
             final Vector3D start = line.toSpace((Point<Euclidean1D>) new Vector1D(interval.getInf()));

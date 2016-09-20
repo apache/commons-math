@@ -56,8 +56,8 @@ class Characterization<S extends Space> {
     Characterization(final BSPTree<S> node, final SubHyperplane<S> sub) {
         outsideTouching  = null;
         insideTouching   = null;
-        outsideSplitters = new NodesSet<>();
-        insideSplitters  = new NodesSet<>();
+        outsideSplitters = new NodesSet<S>();
+        insideSplitters  = new NodesSet<S>();
         characterize(node, sub, new ArrayList<BSPTree<S>>());
     }
 

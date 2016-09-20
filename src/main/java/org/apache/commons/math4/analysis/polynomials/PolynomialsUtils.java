@@ -51,34 +51,34 @@ public class PolynomialsUtils {
 
         // initialize recurrence for Chebyshev polynomials
         // T0(X) = 1, T1(X) = 0 + 1 * X
-        CHEBYSHEV_COEFFICIENTS = new ArrayList<>();
+        CHEBYSHEV_COEFFICIENTS = new ArrayList<BigFraction>();
         CHEBYSHEV_COEFFICIENTS.add(BigFraction.ONE);
         CHEBYSHEV_COEFFICIENTS.add(BigFraction.ZERO);
         CHEBYSHEV_COEFFICIENTS.add(BigFraction.ONE);
 
         // initialize recurrence for Hermite polynomials
         // H0(X) = 1, H1(X) = 0 + 2 * X
-        HERMITE_COEFFICIENTS = new ArrayList<>();
+        HERMITE_COEFFICIENTS = new ArrayList<BigFraction>();
         HERMITE_COEFFICIENTS.add(BigFraction.ONE);
         HERMITE_COEFFICIENTS.add(BigFraction.ZERO);
         HERMITE_COEFFICIENTS.add(BigFraction.TWO);
 
         // initialize recurrence for Laguerre polynomials
         // L0(X) = 1, L1(X) = 1 - 1 * X
-        LAGUERRE_COEFFICIENTS = new ArrayList<>();
+        LAGUERRE_COEFFICIENTS = new ArrayList<BigFraction>();
         LAGUERRE_COEFFICIENTS.add(BigFraction.ONE);
         LAGUERRE_COEFFICIENTS.add(BigFraction.ONE);
         LAGUERRE_COEFFICIENTS.add(BigFraction.MINUS_ONE);
 
         // initialize recurrence for Legendre polynomials
         // P0(X) = 1, P1(X) = 0 + 1 * X
-        LEGENDRE_COEFFICIENTS = new ArrayList<>();
+        LEGENDRE_COEFFICIENTS = new ArrayList<BigFraction>();
         LEGENDRE_COEFFICIENTS.add(BigFraction.ONE);
         LEGENDRE_COEFFICIENTS.add(BigFraction.ZERO);
         LEGENDRE_COEFFICIENTS.add(BigFraction.ONE);
 
         // initialize map for Jacobi polynomials
-        JACOBI_COEFFICIENTS = new HashMap<>();
+        JACOBI_COEFFICIENTS = new HashMap<JacobiKey, List<BigFraction>>();
 
     }
 
@@ -228,7 +228,7 @@ public class PolynomialsUtils {
         if (!JACOBI_COEFFICIENTS.containsKey(key)) {
 
             // allocate a new list for v, w
-            final List<BigFraction> list = new ArrayList<>();
+            final List<BigFraction> list = new ArrayList<BigFraction>();
             JACOBI_COEFFICIENTS.put(key, list);
 
             // Pv,w,0(x) = 1;

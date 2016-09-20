@@ -209,7 +209,7 @@ public class PSquarePercentileTest extends
     public void testHashCodeInMarkers() {
         PSquarePercentile p = new PSquarePercentile(95);
         PSquarePercentile p2 = new PSquarePercentile(95);
-        Set<PSquarePercentile> s = new HashSet<>();
+        Set<PSquarePercentile> s = new HashSet<PSquarePercentile>();
         s.add(p);
         s.add(p2);
         Assert.assertEquals(1, s.size());
@@ -237,7 +237,7 @@ public class PSquarePercentileTest extends
                                 95.1959, 95.1442, 95.0610, 95.1591, 95.1195,
                                 95.1772, 95.0925, 95.1990, 95.1682 }), 0.0);
         Assert.assertTrue(m1.equals(m2));
-        Set<PSquareMarkers> setMarkers = new LinkedHashSet<>();
+        Set<PSquareMarkers> setMarkers = new LinkedHashSet<PSquareMarkers>();
         Assert.assertTrue(setMarkers.add(m1));
         Assert.assertFalse(setMarkers.add(m2));
         Assert.assertEquals(1, setMarkers.size());

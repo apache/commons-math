@@ -36,14 +36,14 @@ public final class FieldBracketingNthOrderBrentSolverTest {
 
     @Test(expected=NumberIsTooSmallException.class)
     public void testInsufficientOrder3() {
-        new FieldBracketingNthOrderBrentSolver<>(relativeAccuracy, absoluteAccuracy,
+        new FieldBracketingNthOrderBrentSolver<Dfp>(relativeAccuracy, absoluteAccuracy,
                                                     functionValueAccuracy, 1);
     }
 
     @Test
     public void testConstructorOK() {
         FieldBracketingNthOrderBrentSolver<Dfp> solver =
-                new FieldBracketingNthOrderBrentSolver<>(relativeAccuracy, absoluteAccuracy,
+                new FieldBracketingNthOrderBrentSolver<Dfp>(relativeAccuracy, absoluteAccuracy,
                                                             functionValueAccuracy, 2);
         Assert.assertEquals(2, solver.getMaximalOrder());
     }
@@ -51,7 +51,7 @@ public final class FieldBracketingNthOrderBrentSolverTest {
     @Test
     public void testConvergenceOnFunctionAccuracy() {
         FieldBracketingNthOrderBrentSolver<Dfp> solver =
-                new FieldBracketingNthOrderBrentSolver<>(relativeAccuracy, absoluteAccuracy,
+                new FieldBracketingNthOrderBrentSolver<Dfp>(relativeAccuracy, absoluteAccuracy,
                                                             field.newDfp(1.0e-20), 20);
         RealFieldUnivariateFunction<Dfp> f = new RealFieldUnivariateFunction<Dfp>() {
             public Dfp value(Dfp x) {
@@ -127,7 +127,7 @@ public final class FieldBracketingNthOrderBrentSolverTest {
     private void check(RealFieldUnivariateFunction<Dfp> f, int maxEval, double min, double max,
                        AllowedSolution allowedSolution) {
         FieldBracketingNthOrderBrentSolver<Dfp> solver =
-                new FieldBracketingNthOrderBrentSolver<>(relativeAccuracy, absoluteAccuracy,
+                new FieldBracketingNthOrderBrentSolver<Dfp>(relativeAccuracy, absoluteAccuracy,
                                                      functionValueAccuracy, 20);
         Dfp xResult = solver.solve(maxEval, f, field.newDfp(min), field.newDfp(max),
                                    allowedSolution);

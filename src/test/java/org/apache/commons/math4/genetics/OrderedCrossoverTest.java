@@ -42,8 +42,8 @@ public class OrderedCrossoverTest {
         final CrossoverPolicy cp = new OrderedCrossover<Integer>();
 
         for (int i = 0; i < 20; i++) {
-            final Set<Integer> parentSet1 = new HashSet<>(Arrays.asList(p1));
-            final Set<Integer> parentSet2 = new HashSet<>(Arrays.asList(p2));
+            final Set<Integer> parentSet1 = new HashSet<Integer>(Arrays.asList(p1));
+            final Set<Integer> parentSet2 = new HashSet<Integer>(Arrays.asList(p2));
 
             final ChromosomePair pair = cp.crossover(p1c, p2c);
 

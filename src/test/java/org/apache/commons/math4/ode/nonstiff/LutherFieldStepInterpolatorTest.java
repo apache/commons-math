@@ -34,7 +34,7 @@ public class LutherFieldStepInterpolatorTest extends RungeKuttaFieldStepInterpol
                        FieldODEStateAndDerivative<T> softPreviousState,
                        FieldODEStateAndDerivative<T> softCurrentState,
                        FieldEquationsMapper<T> mapper) {
-        return new LutherFieldStepInterpolator<>(field, forward, yDotK,
+        return new LutherFieldStepInterpolator<T>(field, forward, yDotK,
                                                   globalPreviousState, globalCurrentState,
                                                   softPreviousState, softCurrentState,
                                                   mapper);
@@ -42,7 +42,7 @@ public class LutherFieldStepInterpolatorTest extends RungeKuttaFieldStepInterpol
 
     protected <T extends RealFieldElement<T>> FieldButcherArrayProvider<T>
     createButcherArrayProvider(final Field<T> field) {
-        return new LutherFieldIntegrator<>(field, field.getOne());
+        return new LutherFieldIntegrator<T>(field, field.getOne());
     }
 
     @Test

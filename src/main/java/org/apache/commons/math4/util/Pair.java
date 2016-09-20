@@ -151,6 +151,6 @@ public class Pair<K, V> {
      * @since 3.3
      */
     public static <K, V> Pair<K, V> create(K k, V v) {
-        return new Pair<>(k, v);
+        return new Pair<K, V>(k, v);
     }
 }

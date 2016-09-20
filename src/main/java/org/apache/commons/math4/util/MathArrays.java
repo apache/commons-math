@@ -844,7 +844,7 @@ public class MathArrays {
 
         // Associate each abscissa "x[i]" with its index "i".
         final List<PairDoubleInteger> list
-            = new ArrayList<>(len);
+            = new ArrayList<PairDoubleInteger>(len);
         for (int i = 0; i < len; i++) {
             list.add(new PairDoubleInteger(x[i], i));
         }
@@ -1921,7 +1921,7 @@ public class MathArrays {
      * @since 3.6
      */
     public static double[] unique(double[] data) {
-        TreeSet<Double> values = new TreeSet<>();
+        TreeSet<Double> values = new TreeSet<Double>();
         for (int i = 0; i < data.length; i++) {
             values.add(data[i]);
         }

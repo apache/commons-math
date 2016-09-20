@@ -116,7 +116,7 @@ public abstract class AbstractSubHyperplane<S extends Space, T extends Space>
         final Hyperplane<S> tHyperplane = transform.apply(hyperplane);
 
         // transform the tree, except for boundary attribute splitters
-        final Map<BSPTree<T>, BSPTree<T>> map = new HashMap<>();
+        final Map<BSPTree<T>, BSPTree<T>> map = new HashMap<BSPTree<T>, BSPTree<T>>();
         final BSPTree<T> tTree =
             recurseTransform(remainingRegion.getTree(false), tHyperplane, transform, map);
 
@@ -153,7 +153,7 @@ public abstract class AbstractSubHyperplane<S extends Space, T extends Space>
 
         final BSPTree<T> transformedNode;
         if (node.getCut() == null) {
-            transformedNode = new BSPTree<>(node.getAttribute());
+            transformedNode = new BSPTree<T>(node.getAttribute());
         } else {
 
             @SuppressWarnings("unchecked")
@@ -164,10 +164,10 @@ public abstract class AbstractSubHyperplane<S extends Space, T extends Space>
                 final SubHyperplane<T> tPI = (attribute.getPlusInside() == null) ?
                     null : transform.apply(attribute.getPlusInside(), hyperplane, transformed);
                 // we start with an empty list of splitters, it will be filled in out of recursion
-                attribute = new BoundaryAttribute<>(tPO, tPI, new NodesSet<T>());
+                attribute = new BoundaryAttribute<T>(tPO, tPI, new NodesSet<T>());
             }
 
-            transformedNode = new BSPTree<>(transform.apply(node.getCut(), hyperplane, transformed),
+            transformedNode = new BSPTree<T>(transform.apply(node.getCut(), hyperplane, transformed),
                     recurseTransform(node.getPlus(),  transformed, transform, map),
                     recurseTransform(node.getMinus(), transformed, transform, map),
                     attribute);

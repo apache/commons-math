@@ -34,7 +34,7 @@ public class ThreeEighthesFieldStepInterpolatorTest extends RungeKuttaFieldStepI
                        FieldODEStateAndDerivative<T> softPreviousState,
                        FieldODEStateAndDerivative<T> softCurrentState,
                        FieldEquationsMapper<T> mapper) {
-        return new ThreeEighthesFieldStepInterpolator<>(field, forward, yDotK,
+        return new ThreeEighthesFieldStepInterpolator<T>(field, forward, yDotK,
                                                          globalPreviousState, globalCurrentState,
                                                          softPreviousState, softCurrentState,
                                                          mapper);
@@ -42,7 +42,7 @@ public class ThreeEighthesFieldStepInterpolatorTest extends RungeKuttaFieldStepI
 
     protected <T extends RealFieldElement<T>> FieldButcherArrayProvider<T>
     createButcherArrayProvider(final Field<T> field) {
-        return new ThreeEighthesFieldIntegrator<>(field, field.getOne());
+        return new ThreeEighthesFieldIntegrator<T>(field, field.getOne());
     }
 
     @Test

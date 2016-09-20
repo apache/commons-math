@@ -139,7 +139,7 @@ public class NeuronStringTest {
     public void testGetNeighboursWithExclude() {
         final FeatureInitializer[] initArray = { init };
         final Network net = new NeuronString(5, true, initArray).getNetwork();
-        final Collection<Neuron> exclude = new ArrayList<>();
+        final Collection<Neuron> exclude = new ArrayList<Neuron>();
         exclude.add(net.getNeuron(1));
         final Collection<Neuron> neighbours = net.getNeighbours(net.getNeuron(0),
                                                                 exclude);

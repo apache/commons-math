@@ -170,7 +170,7 @@ public class HarmonicCurveFitterTest {
                              0, 1, 2, 3, 2, 1,
                              0, -1, -2, -3, -2, -1,
                              0, 1, 2, 3, 2, 1, 0 };
-        final List<WeightedObservedPoint> points = new ArrayList<>();
+        final List<WeightedObservedPoint> points = new ArrayList<WeightedObservedPoint>();
         for (int i = 0; i < y.length; i++) {
             points.add(new WeightedObservedPoint(1, i, y[i]));
         }

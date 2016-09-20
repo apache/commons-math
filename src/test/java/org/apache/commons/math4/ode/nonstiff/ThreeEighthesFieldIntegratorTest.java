@@ -26,7 +26,7 @@ public class ThreeEighthesFieldIntegratorTest extends RungeKuttaFieldIntegratorA
 
     protected <T extends RealFieldElement<T>> RungeKuttaFieldIntegrator<T>
     createIntegrator(Field<T> field, T step) {
-        return new ThreeEighthesFieldIntegrator<>(field, step);
+        return new ThreeEighthesFieldIntegrator<T>(field, step);
     }
 
     @Override

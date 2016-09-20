@@ -483,7 +483,7 @@ public class RandomDataGeneratorTest {
          *    [binBounds[binCount - 2], upper = binBounds[binCount - 1]), [upper, +inf)
          *
          */
-        List<Integer> binBounds = new ArrayList<>();
+        List<Integer> binBounds = new ArrayList<Integer>();
         binBounds.add(lower);
         int bound = lower + binWidth;
         while (bound < upper - binWidth) {
@@ -872,14 +872,14 @@ public class RandomDataGeneratorTest {
         long[] observed = { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 };
         double[] expected = { 100, 100, 100, 100, 100, 100, 100, 100, 100, 100 };
 
-        HashSet<Object> cPop = new HashSet<>(); // {0,1,2,3,4}
+        HashSet<Object> cPop = new HashSet<Object>(); // {0,1,2,3,4}
         for (int i = 0; i < 5; i++) {
             cPop.add(Integer.toString(i));
         }
 
         Object[] sets = new Object[10]; // 2-sets from 5
         for (int i = 0; i < 10; i++) {
-            HashSet<Object> hs = new HashSet<>();
+            HashSet<Object> hs = new HashSet<Object>();
             hs.add(c[i][0]);
             hs.add(c[i][1]);
             sets[i] = hs;
@@ -898,7 +898,7 @@ public class RandomDataGeneratorTest {
                 testStatistic.chiSquare(expected, observed) < 27.88);
 
         // Make sure sample of size = size of collection returns same collection
-        HashSet<Object> hs = new HashSet<>();
+        HashSet<Object> hs = new HashSet<Object>();
         hs.add("one");
         Object[] one = randomData.nextSample(hs, 1);
         String oneString = (String) one[0];
@@ -916,7 +916,7 @@ public class RandomDataGeneratorTest {
 
         // Make sure we fail for empty collection
         try {
-            hs = new HashSet<>();
+            hs = new HashSet<Object>();
             one = randomData.nextSample(hs, 0);
             Assert.fail("n = k = 0, expecting MathIllegalArgumentException");
         } catch (MathIllegalArgumentException ex) {
@@ -928,7 +928,7 @@ public class RandomDataGeneratorTest {
     private int findSample(Object[] u, Object[] samp) {
         for (int i = 0; i < u.length; i++) {
             HashSet<Object> set = (HashSet<Object>) u[i];
-            HashSet<Object> sampSet = new HashSet<>();
+            HashSet<Object> sampSet = new HashSet<Object>();
             for (int j = 0; j < samp.length; j++) {
                 sampSet.add(samp[j]);
             }

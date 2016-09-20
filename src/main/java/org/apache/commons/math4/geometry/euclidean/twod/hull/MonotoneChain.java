@@ -77,7 +77,7 @@ public class MonotoneChain extends AbstractConvexHullGenerator2D {
     @Override
     public Collection<Vector2D> findHullVertices(final Collection<Vector2D> points) {
 
-        final List<Vector2D> pointsSortedByXAxis = new ArrayList<>(points);
+        final List<Vector2D> pointsSortedByXAxis = new ArrayList<Vector2D>(points);
 
         // sort the points in increasing order on the x-axis
         Collections.sort(pointsSortedByXAxis, new Comparator<Vector2D>() {
@@ -97,13 +97,13 @@ public class MonotoneChain extends AbstractConvexHullGenerator2D {
         });
 
         // build lower hull
-        final List<Vector2D> lowerHull = new ArrayList<>();
+        final List<Vector2D> lowerHull = new ArrayList<Vector2D>();
         for (Vector2D p : pointsSortedByXAxis) {
             updateHull(p, lowerHull);
         }
 
         // build upper hull
-        final List<Vector2D> upperHull = new ArrayList<>();
+        final List<Vector2D> upperHull = new ArrayList<Vector2D>();
         for (int idx = pointsSortedByXAxis.size() - 1; idx >= 0; idx--) {
             final Vector2D p = pointsSortedByXAxis.get(idx);
             updateHull(p, upperHull);
@@ -111,7 +111,7 @@ public class MonotoneChain extends AbstractConvexHullGenerator2D {
 
         // concatenate the lower and upper hulls
         // the last point of each list is omitted as it is repeated at the beginning of the other list
-        final List<Vector2D> hullVertices = new ArrayList<>(lowerHull.size() + upperHull.size() - 2);
+        final List<Vector2D> hullVertices = new ArrayList<Vector2D>(lowerHull.size() + upperHull.size() - 2);
         for (int idx = 0; idx < lowerHull.size() - 1; idx++) {
             hullVertices.add(lowerHull.get(idx));
         }

@@ -93,8 +93,8 @@ public class InterpolatingMicrosphere {
         this.maxDarkFraction = maxDarkFraction;
         this.darkThreshold = darkThreshold;
         this.background = background;
-        microsphere = new ArrayList<>(size);
-        microsphereData = new ArrayList<>(size);
+        microsphere = new ArrayList<Facet>(size);
+        microsphereData = new ArrayList<FacetData>(size);
     }
 
     /**
@@ -150,7 +150,7 @@ public class InterpolatingMicrosphere {
         microsphere = other.microsphere;
 
         // Field must be copied.
-        microsphereData = new ArrayList<>(size);
+        microsphereData = new ArrayList<FacetData>(size);
         for (FacetData fd : other.microsphereData) {
             microsphereData.add(new FacetData(fd.illumination(), fd.sample()));
         }

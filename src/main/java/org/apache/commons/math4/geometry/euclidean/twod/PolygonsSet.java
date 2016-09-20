@@ -199,7 +199,7 @@ public class PolygonsSet extends AbstractRegion<Euclidean2D, Euclidean1D> {
         final int n = vertices.length;
         if (n == 0) {
             // the tree represents the whole space
-            return new BSPTree<>(Boolean.TRUE);
+            return new BSPTree<Euclidean2D>(Boolean.TRUE);
         }
 
         // build the vertices
@@ -209,7 +209,7 @@ public class PolygonsSet extends AbstractRegion<Euclidean2D, Euclidean1D> {
         }
 
         // build the edges
-        List<Edge> edges = new ArrayList<>(n);
+        List<Edge> edges = new ArrayList<Edge>(n);
         for (int i = 0; i < n; ++i) {
 
             // get the endpoints of the edge
@@ -238,7 +238,7 @@ public class PolygonsSet extends AbstractRegion<Euclidean2D, Euclidean1D> {
         }
 
         // build the tree top-down
-        final BSPTree<Euclidean2D> tree = new BSPTree<>();
+        final BSPTree<Euclidean2D> tree = new BSPTree<Euclidean2D>();
         insertEdges(hyperplaneThickness, tree, edges);
 
         return tree;
@@ -287,8 +287,8 @@ public class PolygonsSet extends AbstractRegion<Euclidean2D, Euclidean1D> {
 
         // we have split the node by inserting an edge as a cut sub-hyperplane
         // distribute the remaining edges in the two sub-trees
-        final List<Edge> plusList  = new ArrayList<>();
-        final List<Edge> minusList = new ArrayList<>();
+        final List<Edge> plusList  = new ArrayList<Edge>();
+        final List<Edge> minusList = new ArrayList<Edge>();
         for (final Edge edge : edges) {
             if (edge != inserted) {
                 final double startOffset = inserted.getLine().getOffset((Point<Euclidean2D>) edge.getStart().getLocation());
@@ -365,7 +365,7 @@ public class PolygonsSet extends AbstractRegion<Euclidean2D, Euclidean1D> {
             this.location = location;
             this.incoming = null;
             this.outgoing = null;
-            this.lines    = new ArrayList<>();
+            this.lines    = new ArrayList<Line>();
         }
 
         /** Get Vertex location.
@@ -640,7 +640,7 @@ public class PolygonsSet extends AbstractRegion<Euclidean2D, Euclidean1D> {
                 }
 
                 // create the segment loops
-                final ArrayList<List<Segment>> loops = new ArrayList<>();
+                final ArrayList<List<Segment>> loops = new ArrayList<List<Segment>>();
                 for (ConnectableSegment s = getUnprocessed(segments); s != null; s = getUnprocessed(segments)) {
                     final List<Segment> loop = followLoop(s);
                     if (loop != null) {
@@ -824,7 +824,7 @@ public class PolygonsSet extends AbstractRegion<Euclidean2D, Euclidean1D> {
      */
     private List<Segment> followLoop(final ConnectableSegment defining) {
 
-        final List<Segment> loop = new ArrayList<>();
+        final List<Segment> loop = new ArrayList<Segment>();
         loop.add(defining);
         defining.setProcessed(true);
 
@@ -998,7 +998,7 @@ public class PolygonsSet extends AbstractRegion<Euclidean2D, Euclidean1D> {
          */
         SegmentsBuilder(final double tolerance) {
             this.tolerance = tolerance;
-            this.segments  = new ArrayList<>();
+            this.segments  = new ArrayList<ConnectableSegment>();
         }
 
         /** {@inheritDoc} */

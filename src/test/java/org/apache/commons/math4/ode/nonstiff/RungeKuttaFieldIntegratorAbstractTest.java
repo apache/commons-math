@@ -151,8 +151,8 @@ public abstract class RungeKuttaFieldIntegratorAbstractTest {
             y0[i] = field.getOne().add(i);
         }
 
-        FieldODEStateAndDerivative<T> result = integrator.integrate(new FieldExpandableODE<>(ode),
-                                                                    new FieldODEState<>(t0, y0),
+        FieldODEStateAndDerivative<T> result = integrator.integrate(new FieldExpandableODE<T>(ode),
+                                                                    new FieldODEState<T>(t0, y0),
                                                                     tEvent);
         Assert.assertEquals(tEvent.getReal(), result.getTime().getReal(), epsilonT);
         T[] y = result.getState();
@@ -180,8 +180,8 @@ public abstract class RungeKuttaFieldIntegratorAbstractTest {
                 return Action.CONTINUE;
             }
         }, Double.POSITIVE_INFINITY, 1.0e-20, 100);
-        result = integrator.integrate(new FieldExpandableODE<>(ode),
-                                      new FieldODEState<>(t0, y0),
+        result = integrator.integrate(new FieldExpandableODE<T>(ode),
+                                      new FieldODEState<T>(t0, y0),
                                       tEvent.add(120));
         Assert.assertEquals(tEvent.add(120).getReal(), result.getTime().getReal(), epsilonT);
         y = result.getState();
@@ -201,17 +201,17 @@ public abstract class RungeKuttaFieldIntegratorAbstractTest {
                MaxCountExceededException, NoBracketingException {
         RungeKuttaFieldIntegrator<T> integrator = createIntegrator(field, field.getZero().add(0.01));
         try  {
-            TestFieldProblem1<T> pb = new TestFieldProblem1<>(field);
-            integrator.integrate(new FieldExpandableODE<>(pb),
-                                 new FieldODEState<>(field.getZero(), MathArrays.buildArray(field, pb.getDimension() + 10)),
+            TestFieldProblem1<T> pb = new TestFieldProblem1<T>(field);
+            integrator.integrate(new FieldExpandableODE<T>(pb),
+                                 new FieldODEState<T>(field.getZero(), MathArrays.buildArray(field, pb.getDimension() + 10)),
                                  field.getOne());
             Assert.fail("an exception should have been thrown");
         } catch(DimensionMismatchException ie) {
         }
         try  {
-            TestFieldProblem1<T> pb = new TestFieldProblem1<>(field);
-            integrator.integrate(new FieldExpandableODE<>(pb),
-                                 new FieldODEState<>(field.getZero(), MathArrays.buildArray(field, pb.getDimension())),
+            TestFieldProblem1<T> pb = new TestFieldProblem1<T>(field);
+            integrator.integrate(new FieldExpandableODE<T>(pb),
+                                 new FieldODEState<T>(field.getZero(), MathArrays.buildArray(field, pb.getDimension())),
                                  field.getZero());
             Assert.fail("an exception should have been thrown");
         } catch(NumberIsTooSmallException ie) {
@@ -231,12 +231,12 @@ public abstract class RungeKuttaFieldIntegratorAbstractTest {
         @SuppressWarnings("unchecked")
         TestFieldProblemAbstract<T>[] allProblems =
                         (TestFieldProblemAbstract<T>[]) Array.newInstance(TestFieldProblemAbstract.class, 6);
-        allProblems[0] = new TestFieldProblem1<>(field);
-        allProblems[1] = new TestFieldProblem2<>(field);
-        allProblems[2] = new TestFieldProblem3<>(field);
-        allProblems[3] = new TestFieldProblem4<>(field);
-        allProblems[4] = new TestFieldProblem5<>(field);
-        allProblems[5] = new TestFieldProblem6<>(field);
+        allProblems[0] = new TestFieldProblem1<T>(field);
+        allProblems[1] = new TestFieldProblem2<T>(field);
+        allProblems[2] = new TestFieldProblem3<T>(field);
+        allProblems[3] = new TestFieldProblem4<T>(field);
+        allProblems[4] = new TestFieldProblem5<T>(field);
+        allProblems[5] = new TestFieldProblem6<T>(field);
         for (TestFieldProblemAbstract<T> pb :  allProblems) {
 
             T previousValueError = null;
@@ -246,7 +246,7 @@ public abstract class RungeKuttaFieldIntegratorAbstractTest {
                 T step = pb.getFinalTime().subtract(pb.getInitialState().getTime()).multiply(FastMath.pow(2.0, -i));
 
                 RungeKuttaFieldIntegrator<T> integ = createIntegrator(field, step);
-                TestFieldProblemHandler<T> handler = new TestFieldProblemHandler<>(pb, integ);
+                TestFieldProblemHandler<T> handler = new TestFieldProblemHandler<T>(pb, integ);
                 integ.addStepHandler(handler);
                 FieldEventHandler<T>[] functions = pb.getEventsHandlers();
                 for (int l = 0; l < functions.length; ++l) {
@@ -254,7 +254,7 @@ public abstract class RungeKuttaFieldIntegratorAbstractTest {
                                           Double.POSITIVE_INFINITY, 1.0e-6 * step.getReal(), 1000);
                 }
                 Assert.assertEquals(functions.length, integ.getEventHandlers().size());
-                FieldODEStateAndDerivative<T> stop = integ.integrate(new FieldExpandableODE<>(pb),
+                FieldODEStateAndDerivative<T> stop = integ.integrate(new FieldExpandableODE<T>(pb),
                                                                      pb.getInitialState(),
                                                                      pb.getFinalTime());
                 if (functions.length == 0) {
@@ -292,13 +292,13 @@ public abstract class RungeKuttaFieldIntegratorAbstractTest {
          throws DimensionMismatchException, NumberIsTooSmallException,
                 MaxCountExceededException, NoBracketingException {
 
-        TestFieldProblem1<T> pb = new TestFieldProblem1<>(field);
+        TestFieldProblem1<T> pb = new TestFieldProblem1<T>(field);
         T step = pb.getFinalTime().subtract(pb.getInitialState().getTime()).multiply(0.001);
 
         RungeKuttaFieldIntegrator<T> integ = createIntegrator(field, step);
-        TestFieldProblemHandler<T> handler = new TestFieldProblemHandler<>(pb, integ);
+        TestFieldProblemHandler<T> handler = new TestFieldProblemHandler<T>(pb, integ);
         integ.addStepHandler(handler);
-        integ.integrate(new FieldExpandableODE<>(pb), pb.getInitialState(), pb.getFinalTime());
+        integ.integrate(new FieldExpandableODE<T>(pb), pb.getInitialState(), pb.getFinalTime());
 
         Assert.assertEquals(0, handler.getLastError().getReal(),         epsilonLast);
         Assert.assertEquals(0, handler.getMaximalValueError().getReal(), epsilonMaxValue);
@@ -318,13 +318,13 @@ public abstract class RungeKuttaFieldIntegratorAbstractTest {
         throws DimensionMismatchException, NumberIsTooSmallException,
                MaxCountExceededException, NoBracketingException {
 
-        TestFieldProblem1<T> pb = new TestFieldProblem1<>(field);
+        TestFieldProblem1<T> pb = new TestFieldProblem1<T>(field);
         T step = pb.getFinalTime().subtract(pb.getInitialState().getTime()).multiply(0.2);
 
         RungeKuttaFieldIntegrator<T> integ = createIntegrator(field, step);
-        TestFieldProblemHandler<T> handler = new TestFieldProblemHandler<>(pb, integ);
+        TestFieldProblemHandler<T> handler = new TestFieldProblemHandler<T>(pb, integ);
         integ.addStepHandler(handler);
-        integ.integrate(new FieldExpandableODE<>(pb), pb.getInitialState(), pb.getFinalTime());
+        integ.integrate(new FieldExpandableODE<T>(pb), pb.getInitialState(), pb.getFinalTime());
 
         Assert.assertTrue(handler.getLastError().getReal()         > belowLast);
         Assert.assertTrue(handler.getMaximalValueError().getReal() > belowMaxValue);
@@ -344,13 +344,13 @@ public abstract class RungeKuttaFieldIntegratorAbstractTest {
         throws DimensionMismatchException, NumberIsTooSmallException,
                MaxCountExceededException, NoBracketingException {
 
-        TestFieldProblem5<T> pb = new TestFieldProblem5<>(field);
+        TestFieldProblem5<T> pb = new TestFieldProblem5<T>(field);
         T step = pb.getFinalTime().subtract(pb.getInitialState().getTime()).multiply(0.001).abs();
 
         RungeKuttaFieldIntegrator<T> integ = createIntegrator(field, step);
-        TestFieldProblemHandler<T> handler = new TestFieldProblemHandler<>(pb, integ);
+        TestFieldProblemHandler<T> handler = new TestFieldProblemHandler<T>(pb, integ);
         integ.addStepHandler(handler);
-        integ.integrate(new FieldExpandableODE<>(pb), pb.getInitialState(), pb.getFinalTime());
+        integ.integrate(new FieldExpandableODE<T>(pb), pb.getInitialState(), pb.getFinalTime());
 
         Assert.assertEquals(0, handler.getLastError().getReal(),         epsilonLast);
         Assert.assertEquals(0, handler.getMaximalValueError().getReal(), epsilonMaxValue);
@@ -366,12 +366,12 @@ public abstract class RungeKuttaFieldIntegratorAbstractTest {
         throws DimensionMismatchException, NumberIsTooSmallException,
                MaxCountExceededException, NoBracketingException {
 
-        final TestFieldProblem3<T> pb  = new TestFieldProblem3<>(field, field.getZero().add(0.9));
+        final TestFieldProblem3<T> pb  = new TestFieldProblem3<T>(field, field.getZero().add(0.9));
         T step = pb.getFinalTime().subtract(pb.getInitialState().getTime()).multiply(0.0003);
 
         RungeKuttaFieldIntegrator<T> integ = createIntegrator(field, step);
-        integ.addStepHandler(new KeplerHandler<>(pb, expectedMaxError, epsilon));
-        integ.integrate(new FieldExpandableODE<>(pb), pb.getInitialState(), pb.getFinalTime());
+        integ.addStepHandler(new KeplerHandler<T>(pb, expectedMaxError, epsilon));
+        integ.integrate(new FieldExpandableODE<T>(pb), pb.getInitialState(), pb.getFinalTime());
     }
 
     private static class KeplerHandler<T extends RealFieldElement<T>> implements FieldStepHandler<T> {
@@ -424,7 +424,7 @@ public abstract class RungeKuttaFieldIntegratorAbstractTest {
             public void init(FieldODEStateAndDerivative<T> s0, T t) {
             }
         });
-        integ.integrate(new FieldExpandableODE<>(new FirstOrderFieldDifferentialEquations<T>() {
+        integ.integrate(new FieldExpandableODE<T>(new FirstOrderFieldDifferentialEquations<T>() {
             public void init(T t0, T[] y0, T t) {
             }
             public T[] computeDerivatives(T t, T[] y) {
@@ -435,7 +435,7 @@ public abstract class RungeKuttaFieldIntegratorAbstractTest {
             public int getDimension() {
                 return 1;
             }
-        }), new FieldODEState<>(field.getZero(), MathArrays.buildArray(field, 1)), field.getZero().add(5.0));
+        }), new FieldODEState<T>(field.getZero(), MathArrays.buildArray(field, 1)), field.getZero().add(5.0));
     }
 
     @Test
@@ -443,7 +443,7 @@ public abstract class RungeKuttaFieldIntegratorAbstractTest {
 
     protected <T extends RealFieldElement<T>> void doTestSingleStep(final Field<T> field, final double epsilon) {
 
-        final TestFieldProblem3<T> pb  = new TestFieldProblem3<>(field, field.getZero().add(0.9));
+        final TestFieldProblem3<T> pb  = new TestFieldProblem3<T>(field, field.getZero().add(0.9));
         T h = pb.getFinalTime().subtract(pb.getInitialState().getTime()).multiply(0.0003);
 
         RungeKuttaFieldIntegrator<T> integ = createIntegrator(field, field.getZero().add(Double.NaN));
@@ -489,7 +489,7 @@ public abstract class RungeKuttaFieldIntegratorAbstractTest {
 
         };
 
-        integ.integrate(new FieldExpandableODE<>(equations), new FieldODEState<>(t0, y0), t);
+        integ.integrate(new FieldExpandableODE<T>(equations), new FieldODEState<T>(t0, y0), t);
 
     }
 
@@ -497,14 +497,14 @@ public abstract class RungeKuttaFieldIntegratorAbstractTest {
     public abstract void testUnstableDerivative();
 
     protected <T extends RealFieldElement<T>> void doTestUnstableDerivative(Field<T> field, double epsilon) {
-      final StepFieldProblem<T> stepProblem = new StepFieldProblem<>(field,
+      final StepFieldProblem<T> stepProblem = new StepFieldProblem<T>(field,
                                                                       field.getZero().add(0.0),
                                                                       field.getZero().add(1.0),
                                                                       field.getZero().add(2.0));
       RungeKuttaFieldIntegrator<T> integ = createIntegrator(field, field.getZero().add(0.3));
       integ.addEventHandler(stepProblem, 1.0, 1.0e-12, 1000);
-      FieldODEStateAndDerivative<T> result = integ.integrate(new FieldExpandableODE<>(stepProblem),
-                                                             new FieldODEState<>(field.getZero(), MathArrays.buildArray(field, 1)),
+      FieldODEStateAndDerivative<T> result = integ.integrate(new FieldExpandableODE<T>(stepProblem),
+                                                             new FieldODEState<T>(field.getZero(), MathArrays.buildArray(field, 1)),
                                                              field.getZero().add(10.0));
       Assert.assertEquals(8.0, result.getState()[0].getReal(), epsilon);
     }
@@ -513,7 +513,7 @@ public abstract class RungeKuttaFieldIntegratorAbstractTest {
     public abstract void testDerivativesConsistency();
 
     protected <T extends RealFieldElement<T>> void doTestDerivativesConsistency(final Field<T> field, double epsilon) {
-        TestFieldProblem3<T> pb = new TestFieldProblem3<>(field);
+        TestFieldProblem3<T> pb = new TestFieldProblem3<T>(field);
         T step = pb.getFinalTime().subtract(pb.getInitialState().getTime()).multiply(0.001);
         RungeKuttaFieldIntegrator<T> integ = createIntegrator(field, step);
         StepInterpolatorTestUtils.checkDerivativesConsistency(integ, pb, 1.0e-10);
@@ -546,8 +546,8 @@ public abstract class RungeKuttaFieldIntegratorAbstractTest {
         RungeKuttaFieldIntegrator<DerivativeStructure> integrator =
                         createIntegrator(omega.getField(), t.subtract(t0).multiply(0.001));
         FieldODEStateAndDerivative<DerivativeStructure> result =
-                        integrator.integrate(new FieldExpandableODE<>(sinCos),
-                                             new FieldODEState<>(t0, y0),
+                        integrator.integrate(new FieldExpandableODE<DerivativeStructure>(sinCos),
+                                             new FieldODEState<DerivativeStructure>(t0, y0),
                                              t);
 
         // check values

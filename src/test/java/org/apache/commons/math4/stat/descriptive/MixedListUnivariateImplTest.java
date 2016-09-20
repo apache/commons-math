@@ -59,7 +59,7 @@ public final class MixedListUnivariateImplTest {
     /** test stats */
     @Test
     public void testStats() {
-        List<Object> externalList = new ArrayList<>();
+        List<Object> externalList = new ArrayList<Object>();
 
         DescriptiveStatistics u = new ListUnivariateImpl(externalList,transformers);
 
@@ -82,7 +82,7 @@ public final class MixedListUnivariateImplTest {
 
     @Test
     public void testN0andN1Conditions() {
-        DescriptiveStatistics u = new ListUnivariateImpl(new ArrayList<>(),transformers);
+        DescriptiveStatistics u = new ListUnivariateImpl(new ArrayList<Object>(),transformers);
 
         Assert.assertTrue(
             "Mean of n = 0 set should be NaN",
@@ -112,7 +112,7 @@ public final class MixedListUnivariateImplTest {
     @Test
     public void testSkewAndKurtosis() {
         ListUnivariateImpl u =
-            new ListUnivariateImpl(new ArrayList<>(), transformers);
+            new ListUnivariateImpl(new ArrayList<Object>(), transformers);
 
         u.addObject("12.5");
         u.addObject(Integer.valueOf(12));
@@ -146,7 +146,7 @@ public final class MixedListUnivariateImplTest {
 
     @Test
     public void testProductAndGeometricMean() {
-        ListUnivariateImpl u = new ListUnivariateImpl(new ArrayList<>(),transformers);
+        ListUnivariateImpl u = new ListUnivariateImpl(new ArrayList<Object>(),transformers);
         u.setWindowSize(10);
 
         u.addValue(1.0);

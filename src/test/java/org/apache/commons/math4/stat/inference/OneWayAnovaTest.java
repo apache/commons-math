@@ -47,7 +47,7 @@ public class OneWayAnovaTest {
     @Test
     public void testAnovaFValue() {
         // Target comparison values computed using R version 2.6.0 (Linux version)
-        List<double[]> threeClasses = new ArrayList<>();
+        List<double[]> threeClasses = new ArrayList<double[]>();
         threeClasses.add(classA);
         threeClasses.add(classB);
         threeClasses.add(classC);
@@ -55,14 +55,14 @@ public class OneWayAnovaTest {
         Assert.assertEquals("ANOVA F-value",  24.67361709460624,
                  testStatistic.anovaFValue(threeClasses), 1E-12);
 
-        List<double[]> twoClasses = new ArrayList<>();
+        List<double[]> twoClasses = new ArrayList<double[]>();
         twoClasses.add(classA);
         twoClasses.add(classB);
 
         Assert.assertEquals("ANOVA F-value",  0.0150579150579,
                  testStatistic.anovaFValue(twoClasses), 1E-12);
 
-        List<double[]> emptyContents = new ArrayList<>();
+        List<double[]> emptyContents = new ArrayList<double[]>();
         emptyContents.add(emptyArray);
         emptyContents.add(classC);
         try {
@@ -72,7 +72,7 @@ public class OneWayAnovaTest {
             // expected
         }
 
-        List<double[]> tooFew = new ArrayList<>();
+        List<double[]> tooFew = new ArrayList<double[]>();
         tooFew.add(classA);
         try {
             testStatistic.anovaFValue(tooFew);
@@ -86,7 +86,7 @@ public class OneWayAnovaTest {
     @Test
     public void testAnovaPValue() {
         // Target comparison values computed using R version 2.6.0 (Linux version)
-        List<double[]> threeClasses = new ArrayList<>();
+        List<double[]> threeClasses = new ArrayList<double[]>();
         threeClasses.add(classA);
         threeClasses.add(classB);
         threeClasses.add(classC);
@@ -94,7 +94,7 @@ public class OneWayAnovaTest {
         Assert.assertEquals("ANOVA P-value", 6.959446E-06,
                  testStatistic.anovaPValue(threeClasses), 1E-12);
 
-        List<double[]> twoClasses = new ArrayList<>();
+        List<double[]> twoClasses = new ArrayList<double[]>();
         twoClasses.add(classA);
         twoClasses.add(classB);
 
@@ -106,7 +106,7 @@ public class OneWayAnovaTest {
     @Test
     public void testAnovaPValueSummaryStatistics() {
         // Target comparison values computed using R version 2.6.0 (Linux version)
-        List<SummaryStatistics> threeClasses = new ArrayList<>();
+        List<SummaryStatistics> threeClasses = new ArrayList<SummaryStatistics>();
         SummaryStatistics statsA = new SummaryStatistics();
         for (double a : classA) {
             statsA.addValue(a);
@@ -126,7 +126,7 @@ public class OneWayAnovaTest {
         Assert.assertEquals("ANOVA P-value", 6.959446E-06,
                  testStatistic.anovaPValue(threeClasses, true), 1E-12);
 
-        List<SummaryStatistics> twoClasses = new ArrayList<>();
+        List<SummaryStatistics> twoClasses = new ArrayList<SummaryStatistics>();
         twoClasses.add(statsA);
         twoClasses.add(statsB);
 
@@ -138,14 +138,14 @@ public class OneWayAnovaTest {
     @Test
     public void testAnovaTest() {
         // Target comparison values computed using R version 2.3.1 (Linux version)
-        List<double[]> threeClasses = new ArrayList<>();
+        List<double[]> threeClasses = new ArrayList<double[]>();
         threeClasses.add(classA);
         threeClasses.add(classB);
         threeClasses.add(classC);
 
         Assert.assertTrue("ANOVA Test P<0.01", testStatistic.anovaTest(threeClasses, 0.01));
 
-        List<double[]> twoClasses = new ArrayList<>();
+        List<double[]> twoClasses = new ArrayList<double[]>();
         twoClasses.add(classA);
         twoClasses.add(classB);
 

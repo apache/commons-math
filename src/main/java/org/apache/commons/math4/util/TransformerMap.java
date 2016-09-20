@@ -49,7 +49,7 @@ public class TransformerMap implements NumberTransformer, Serializable {
      * Build a map containing only the default transformer.
      */
     public TransformerMap() {
-        map = new HashMap<>();
+        map = new HashMap<Class<?>, NumberTransformer>();
         defaultTransformer = new DefaultTransformer();
     }
 

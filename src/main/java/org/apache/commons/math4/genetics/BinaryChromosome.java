@@ -67,7 +67,7 @@ public abstract class BinaryChromosome extends AbstractListChromosome<Integer> {
      */
     public static List<Integer> randomBinaryRepresentation(int length) {
         // random binary list
-        List<Integer> rList= new ArrayList<> (length);
+        List<Integer> rList= new ArrayList<Integer> (length);
         for (int j=0; j<length; j++) {
             rList.add(GeneticAlgorithm.getRandomGenerator().nextInt(2));
         }

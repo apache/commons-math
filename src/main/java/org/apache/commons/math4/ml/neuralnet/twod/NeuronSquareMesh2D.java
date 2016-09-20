@@ -423,7 +423,7 @@ public class NeuronSquareMesh2D
      */
     private void createLinks() {
         // "linkEnd" will store the identifiers of the "neighbours".
-        final List<Long> linkEnd = new ArrayList<>();
+        final List<Long> linkEnd = new ArrayList<Long>();
         final int iLast = numberOfRows - 1;
         final int jLast = numberOfColumns - 1;
         for (int i = 0; i < numberOfRows; i++) {

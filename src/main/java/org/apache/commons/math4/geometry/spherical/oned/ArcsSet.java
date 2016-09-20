@@ -132,7 +132,7 @@ public class ArcsSet extends AbstractRegion<Sphere1D, Sphere1D> implements Itera
 
         if (Precision.equals(lower, upper, 0) || (upper - lower) >= MathUtils.TWO_PI) {
             // the tree must cover the whole circle
-            return new BSPTree<>(Boolean.TRUE);
+            return new BSPTree<Sphere1D>(Boolean.TRUE);
         } else  if (lower > upper) {
             throw new NumberIsTooLargeException(LocalizedFormats.ENDPOINTS_NOT_AN_INTERVAL,
                                                 lower, upper, true);
@@ -148,9 +148,9 @@ public class ArcsSet extends AbstractRegion<Sphere1D, Sphere1D> implements Itera
             // simple arc starting after 0 and ending before 2 \pi
             final SubHyperplane<Sphere1D> upperCut =
                     new LimitAngle(new S1Point(normalizedUpper), true, tolerance).wholeHyperplane();
-            return new BSPTree<>(lowerCut,
+            return new BSPTree<Sphere1D>(lowerCut,
                                          new BSPTree<Sphere1D>(Boolean.FALSE),
-                                         new BSPTree<>(upperCut,
+                                         new BSPTree<Sphere1D>(upperCut,
                                                                new BSPTree<Sphere1D>(Boolean.FALSE),
                                                                new BSPTree<Sphere1D>(Boolean.TRUE),
                                                                null),
@@ -159,8 +159,8 @@ public class ArcsSet extends AbstractRegion<Sphere1D, Sphere1D> implements Itera
             // arc wrapping around 2 \pi
             final SubHyperplane<Sphere1D> upperCut =
                     new LimitAngle(new S1Point(normalizedUpper - MathUtils.TWO_PI), true, tolerance).wholeHyperplane();
-            return new BSPTree<>(lowerCut,
-                                         new BSPTree<>(upperCut,
+            return new BSPTree<Sphere1D>(lowerCut,
+                                         new BSPTree<Sphere1D>(upperCut,
                                                                new BSPTree<Sphere1D>(Boolean.FALSE),
                                                                new BSPTree<Sphere1D>(Boolean.TRUE),
                                                                null),
@@ -504,9 +504,9 @@ public class ArcsSet extends AbstractRegion<Sphere1D, Sphere1D> implements Itera
                         final double previousOffset = alpha - previous;
                         final double currentOffset  = a[0] - alpha;
                         if (previousOffset < currentOffset) {
-                            return new BoundaryProjection<>(point, new S1Point(previous), previousOffset);
+                            return new BoundaryProjection<Sphere1D>(point, new S1Point(previous), previousOffset);
                         } else {
-                            return new BoundaryProjection<>(point, new S1Point(a[0]), currentOffset);
+                            return new BoundaryProjection<Sphere1D>(point, new S1Point(a[0]), currentOffset);
                         }
                     }
                 } else if (alpha <= a[1]) {
@@ -515,9 +515,9 @@ public class ArcsSet extends AbstractRegion<Sphere1D, Sphere1D> implements Itera
                     final double offset0 = a[0] - alpha;
                     final double offset1 = alpha - a[1];
                     if (offset0 < offset1) {
-                        return new BoundaryProjection<>(point, new S1Point(a[1]), offset1);
+                        return new BoundaryProjection<Sphere1D>(point, new S1Point(a[1]), offset1);
                     } else {
-                        return new BoundaryProjection<>(point, new S1Point(a[0]), offset0);
+                        return new BoundaryProjection<Sphere1D>(point, new S1Point(a[0]), offset0);
                     }
                 }
             }
@@ -527,7 +527,7 @@ public class ArcsSet extends AbstractRegion<Sphere1D, Sphere1D> implements Itera
         if (Double.isNaN(previous)) {
 
             // there are no points at all in the arcs set
-            return new BoundaryProjection<>(point, null, MathUtils.TWO_PI);
+            return new BoundaryProjection<Sphere1D>(point, null, MathUtils.TWO_PI);
 
         } else {
 
@@ -538,18 +538,18 @@ public class ArcsSet extends AbstractRegion<Sphere1D, Sphere1D> implements Itera
                 final double previousOffset = alpha - (previous - MathUtils.TWO_PI);
                 final double currentOffset  = first - alpha;
                 if (previousOffset < currentOffset) {
-                    return new BoundaryProjection<>(point, new S1Point(previous), previousOffset);
+                    return new BoundaryProjection<Sphere1D>(point, new S1Point(previous), previousOffset);
                 } else {
-                    return new BoundaryProjection<>(point, new S1Point(first), currentOffset);
+                    return new BoundaryProjection<Sphere1D>(point, new S1Point(first), currentOffset);
                 }
             } else {
                 // the test point is between last and 2\pi
                 final double previousOffset = alpha - previous;
                 final double currentOffset  = first + MathUtils.TWO_PI - alpha;
                 if (previousOffset < currentOffset) {
-                    return new BoundaryProjection<>(point, new S1Point(previous), previousOffset);
+                    return new BoundaryProjection<Sphere1D>(point, new S1Point(previous), previousOffset);
                 } else {
-                    return new BoundaryProjection<>(point, new S1Point(first), currentOffset);
+                    return new BoundaryProjection<Sphere1D>(point, new S1Point(first), currentOffset);
                 }
             }
 
@@ -565,7 +565,7 @@ public class ArcsSet extends AbstractRegion<Sphere1D, Sphere1D> implements Itera
      * @return a new ordered list containing {@link Arc Arc} elements
      */
     public List<Arc> asList() {
-        final List<Arc> list = new ArrayList<>();
+        final List<Arc> list = new ArrayList<Arc>();
         for (final double[] a : this) {
             list.add(new Arc(a[0], a[1], getTolerance()));
         }
@@ -724,8 +724,8 @@ public class ArcsSet extends AbstractRegion<Sphere1D, Sphere1D> implements Itera
      */
     public Split split(final Arc arc) {
 
-        final List<Double> minus = new ArrayList<>();
-        final List<Double>  plus = new ArrayList<>();
+        final List<Double> minus = new ArrayList<Double>();
+        final List<Double>  plus = new ArrayList<Double>();
 
         final double reference = FastMath.PI + arc.getInf();
         final double arcLength = arc.getSup() - arc.getInf();
@@ -861,7 +861,7 @@ public class ArcsSet extends AbstractRegion<Sphere1D, Sphere1D> implements Itera
             }
 
             // build the tree by adding all angular sectors
-            BSPTree<Sphere1D> tree = new BSPTree<>(Boolean.FALSE);
+            BSPTree<Sphere1D> tree = new BSPTree<Sphere1D>(Boolean.FALSE);
             for (int i = 0; i < limits.size() - 1; i += 2) {
                 addArcLimit(tree, limits.get(i),     true);
                 addArcLimit(tree, limits.get(i + 1), false);

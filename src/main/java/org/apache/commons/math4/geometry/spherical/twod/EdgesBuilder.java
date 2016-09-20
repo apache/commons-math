@@ -55,8 +55,8 @@ class EdgesBuilder implements BSPTreeVisitor<Sphere2D> {
     EdgesBuilder(final BSPTree<Sphere2D> root, final double tolerance) {
         this.root            = root;
         this.tolerance       = tolerance;
-        this.edgeToNode      = new IdentityHashMap<>();
-        this.nodeToEdgesList = new IdentityHashMap<>();
+        this.edgeToNode      = new IdentityHashMap<Edge, BSPTree<Sphere2D>>();
+        this.nodeToEdgesList = new IdentityHashMap<BSPTree<Sphere2D>, List<Edge>>();
     }
 
     /** {@inheritDoc} */
@@ -165,7 +165,7 @@ class EdgesBuilder implements BSPTreeVisitor<Sphere2D> {
             previous.setNextEdge(getFollowingEdge(previous));
         }
 
-        return new ArrayList<>(edgeToNode.keySet());
+        return new ArrayList<Edge>(edgeToNode.keySet());
 
     }
 

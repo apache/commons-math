@@ -61,11 +61,11 @@ public class SubOrientedPoint extends AbstractSubHyperplane<Euclidean1D, Euclide
     public SplitSubHyperplane<Euclidean1D> split(final Hyperplane<Euclidean1D> hyperplane) {
         final double global = hyperplane.getOffset(((OrientedPoint) getHyperplane()).getLocation());
         if (global < -1.0e-10) {
-            return new SplitSubHyperplane<>(null, this);
+            return new SplitSubHyperplane<Euclidean1D>(null, this);
         } else if (global > 1.0e-10) {
-            return new SplitSubHyperplane<>(this, null);
+            return new SplitSubHyperplane<Euclidean1D>(this, null);
         } else {
-            return new SplitSubHyperplane<>(null, null);
+            return new SplitSubHyperplane<Euclidean1D>(null, null);
         }
     }
 

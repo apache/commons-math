@@ -111,10 +111,10 @@ public class KohonenUpdateAction implements UpdateAction {
 
         if (currentNeighbourhood > 0) {
             // Initial set of neurons only contains the winning neuron.
-            Collection<Neuron> neighbours = new HashSet<>();
+            Collection<Neuron> neighbours = new HashSet<Neuron>();
             neighbours.add(best);
             // Winning neuron must be excluded from the neighbours.
-            final HashSet<Neuron> exclude = new HashSet<>();
+            final HashSet<Neuron> exclude = new HashSet<Neuron>();
             exclude.add(best);
 
             int radius = 1;

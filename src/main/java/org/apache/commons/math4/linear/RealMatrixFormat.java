@@ -315,8 +315,8 @@ public class RealMatrixFormat {
         }
 
         // parse components
-        List<List<Number>> matrix = new ArrayList<>();
-        List<Number> rowComponents = new ArrayList<>();
+        List<List<Number>> matrix = new ArrayList<List<Number>>();
+        List<Number> rowComponents = new ArrayList<Number>();
         for (boolean loop = true; loop;){
 
             if (!rowComponents.isEmpty()) {
@@ -329,7 +329,7 @@ public class RealMatrixFormat {
                         CompositeFormat.parseAndIgnoreWhitespace(source, pos);
                         if (CompositeFormat.parseFixedstring(source, trimmedRowSeparator, pos)) {
                             matrix.add(rowComponents);
-                            rowComponents = new ArrayList<>();
+                            rowComponents = new ArrayList<Number>();
                             continue;
                         } else {
                             loop = false;

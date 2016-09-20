@@ -34,7 +34,7 @@ public class GaussIntegratorTest {
         final double[] weights = { 9.8, 7.6, 5.4 };
 
         final GaussIntegrator integrator
-            = new GaussIntegrator(new Pair<>(points, weights));
+            = new GaussIntegrator(new Pair<double[], double[]>(points, weights));
 
         Assert.assertEquals(weights.length, integrator.getNumberOfPoints());
 
@@ -49,7 +49,7 @@ public class GaussIntegratorTest {
         final double[] weights = { 9.8, 7.6, 5.4 };
 
         final GaussIntegrator integrator
-            = new GaussIntegrator(new Pair<>(points, weights));
+            = new GaussIntegrator(new Pair<double[], double[]>(points, weights));
 
         Assert.assertEquals(points.length, integrator.getNumberOfPoints());
 
@@ -64,7 +64,7 @@ public class GaussIntegratorTest {
         final double[] weights = { 1, 1, 1, 1, 1, 1 };
 
         final GaussIntegrator integrator
-            = new GaussIntegrator(new Pair<>(points, weights));
+            = new GaussIntegrator(new Pair<double[], double[]>(points, weights));
 
         final double val = 123.456;
         final UnivariateFunction c = new Constant(val);

@@ -67,8 +67,8 @@ public class TestFieldProblem4<T extends RealFieldElement<T>>
         @SuppressWarnings("unchecked")
         FieldEventHandler<T>[] handlers =
                         (FieldEventHandler<T>[]) Array.newInstance(FieldEventHandler.class, 2);
-        handlers[0] = new Bounce<>();
-        handlers[1] = new Stop<>();
+        handlers[0] = new Bounce<T>();
+        handlers[1] = new Stop<T>();
         return handlers;
     }
 
@@ -130,7 +130,7 @@ public class TestFieldProblem4<T extends RealFieldElement<T>>
             T[] y = state.getState();
             y[0] = y[0].negate();
             y[1] = y[1].negate();
-            return new FieldODEState<>(state.getTime(), y);
+            return new FieldODEState<T>(state.getTime(), y);
         }
 
     }

@@ -332,7 +332,7 @@ public class LeastSquaresFactory {
             final double[] p = point.toArray();
 
             // Evaluate.
-            return new Pair<>(computeValue(p),
+            return new Pair<RealVector, RealMatrix>(computeValue(p),
                                                     computeJacobian(p));
         }
 

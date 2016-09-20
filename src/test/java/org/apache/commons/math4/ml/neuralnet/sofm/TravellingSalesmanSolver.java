@@ -58,7 +58,7 @@ public class TravellingSalesmanSolver {
     /** RNG. */
     private final RandomGenerator random;
     /** Set of cities. */
-    private final Set<City> cities = new HashSet<>();
+    private final Set<City> cities = new HashSet<City>();
     /** SOFM. */
     private final Network net;
     /** Distance function. */
@@ -176,7 +176,7 @@ public class TravellingSalesmanSolver {
      * @return the iterator.
      */
     private Iterator<double[]> createRandomIterator(final long numSamples) {
-        final List<City> cityList = new ArrayList<>();
+        final List<City> cityList = new ArrayList<City>();
         cityList.addAll(cities);
 
         return new Iterator<double[]>() {
@@ -204,7 +204,7 @@ public class TravellingSalesmanSolver {
      */
     private List<Neuron> getNeuronList() {
         // Sequence of coordinates.
-        final List<Neuron> list = new ArrayList<>();
+        final List<Neuron> list = new ArrayList<Neuron>();
 
         // First neuron.
         Neuron current = net.getNeuron(FIRST_NEURON_ID);
@@ -230,7 +230,7 @@ public class TravellingSalesmanSolver {
      */
     public List<double[]> getCoordinatesList() {
         // Sequence of coordinates.
-        final List<double[]> coordinatesList = new ArrayList<>();
+        final List<double[]> coordinatesList = new ArrayList<double[]>();
 
         for (Neuron n : getNeuronList()) {
             coordinatesList.add(n.getFeatures());

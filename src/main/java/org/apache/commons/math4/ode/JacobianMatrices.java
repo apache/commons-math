@@ -141,7 +141,7 @@ public class JacobianMatrices {
         }
         this.dirtyParameter = false;
 
-        this.jacobianProviders = new ArrayList<>();
+        this.jacobianProviders = new ArrayList<ParameterJacobianProvider>();
 
         // set the default initial state Jacobian to the identity
         // and the default initial parameters Jacobian to the null matrix

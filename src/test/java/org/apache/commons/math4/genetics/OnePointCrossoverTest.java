@@ -34,7 +34,7 @@ public class OnePointCrossoverTest {
         BinaryChromosome p1c = new DummyBinaryChromosome(p1);
         BinaryChromosome p2c = new DummyBinaryChromosome(p2);
 
-        OnePointCrossover<Integer> opc = new OnePointCrossover<>();
+        OnePointCrossover<Integer> opc = new OnePointCrossover<Integer>();
 
         // how to test a stochastic method?
         for (int i=0; i<20; i++) {
