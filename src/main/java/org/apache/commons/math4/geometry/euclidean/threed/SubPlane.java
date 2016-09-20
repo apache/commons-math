@@ -67,11 +67,11 @@ public class SubPlane extends AbstractSubHyperplane<Euclidean3D, Euclidean2D> {
             // the hyperplanes are parallel
             final double global = otherPlane.getOffset(thisPlane);
             if (global < -tolerance) {
-                return new SplitSubHyperplane<Euclidean3D>(null, this);
+                return new SplitSubHyperplane<>(null, this);
             } else if (global > tolerance) {
-                return new SplitSubHyperplane<Euclidean3D>(this, null);
+                return new SplitSubHyperplane<>(this, null);
             } else {
-                return new SplitSubHyperplane<Euclidean3D>(null, null);
+                return new SplitSubHyperplane<>(null, null);
             }
         }
 
@@ -92,15 +92,15 @@ public class SubPlane extends AbstractSubHyperplane<Euclidean3D, Euclidean2D> {
         final BSPTree<Euclidean2D> splitTree = getRemainingRegion().getTree(false).split(l2DMinus);
         final BSPTree<Euclidean2D> plusTree  = getRemainingRegion().isEmpty(splitTree.getPlus()) ?
                                                new BSPTree<Euclidean2D>(Boolean.FALSE) :
-                                               new BSPTree<Euclidean2D>(l2DPlus, new BSPTree<Euclidean2D>(Boolean.FALSE),
+                                               new BSPTree<>(l2DPlus, new BSPTree<Euclidean2D>(Boolean.FALSE),
                                                                         splitTree.getPlus(), null);
 
         final BSPTree<Euclidean2D> minusTree = getRemainingRegion().isEmpty(splitTree.getMinus()) ?
                                                new BSPTree<Euclidean2D>(Boolean.FALSE) :
-                                                   new BSPTree<Euclidean2D>(l2DMinus, new BSPTree<Euclidean2D>(Boolean.FALSE),
+                                                   new BSPTree<>(l2DMinus, new BSPTree<Euclidean2D>(Boolean.FALSE),
                                                                             splitTree.getMinus(), null);
 
-        return new SplitSubHyperplane<Euclidean3D>(new SubPlane(thisPlane.copySelf(), new PolygonsSet(plusTree, tolerance)),
+        return new SplitSubHyperplane<>(new SubPlane(thisPlane.copySelf(), new PolygonsSet(plusTree, tolerance)),
                                                    new SubPlane(thisPlane.copySelf(), new PolygonsSet(minusTree, tolerance)));
 
     }

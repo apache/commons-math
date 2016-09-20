@@ -95,10 +95,10 @@ public abstract class AbstractFieldIntegrator<T extends RealFieldElement<T>> imp
     protected AbstractFieldIntegrator(final Field<T> field, final String name) {
         this.field        = field;
         this.name         = name;
-        stepHandlers      = new ArrayList<FieldStepHandler<T>>();
+        stepHandlers      = new ArrayList<>();
         stepStart         = null;
         stepSize          = null;
-        eventsStates      = new ArrayList<FieldEventState<T>>();
+        eventsStates      = new ArrayList<>();
         statesInitialized = false;
         evaluations       = IntegerSequence.Incrementor.create().withMaximalCount(Integer.MAX_VALUE);
     }
@@ -142,7 +142,7 @@ public abstract class AbstractFieldIntegrator<T extends RealFieldElement<T>> imp
                                 final int maxIterationCount) {
         addEventHandler(handler, maxCheckInterval, convergence,
                         maxIterationCount,
-                        new FieldBracketingNthOrderBrentSolver<T>(field.getZero().add(DEFAULT_RELATIVE_ACCURACY),
+                        new FieldBracketingNthOrderBrentSolver<>(field.getZero().add(DEFAULT_RELATIVE_ACCURACY),
                                                                   field.getZero().add(convergence),
                                                                   field.getZero().add(DEFAULT_FUNCTION_VALUE_ACCURACY),
                                                                   5));
@@ -155,14 +155,14 @@ public abstract class AbstractFieldIntegrator<T extends RealFieldElement<T>> imp
                                 final double convergence,
                                 final int maxIterationCount,
                                 final BracketedRealFieldUnivariateSolver<T> solver) {
-        eventsStates.add(new FieldEventState<T>(handler, maxCheckInterval, field.getZero().add(convergence),
+        eventsStates.add(new FieldEventState<>(handler, maxCheckInterval, field.getZero().add(convergence),
                                                 maxIterationCount, solver));
     }
 
     /** {@inheritDoc} */
     @Override
     public Collection<FieldEventHandler<T>> getEventHandlers() {
-        final List<FieldEventHandler<T>> list = new ArrayList<FieldEventHandler<T>>(eventsStates.size());
+        final List<FieldEventHandler<T>> list = new ArrayList<>(eventsStates.size());
         for (FieldEventState<T> state : eventsStates) {
             list.add(state.getEventHandler());
         }
@@ -223,7 +223,7 @@ public abstract class AbstractFieldIntegrator<T extends RealFieldElement<T>> imp
 
         // set up derivatives of initial state
         final T[] y0Dot = computeDerivatives(t0, y0);
-        final FieldODEStateAndDerivative<T> state0 = new FieldODEStateAndDerivative<T>(t0, y0, y0Dot);
+        final FieldODEStateAndDerivative<T> state0 = new FieldODEStateAndDerivative<>(t0, y0, y0Dot);
 
         // initialize event handlers
         for (final FieldEventState<T> state : eventsStates) {
@@ -307,7 +307,7 @@ public abstract class AbstractFieldIntegrator<T extends RealFieldElement<T>> imp
 
             // search for next events that may occur during the step
             final int orderingSign = interpolator.isForward() ? +1 : -1;
-            SortedSet<FieldEventState<T>> occurringEvents = new TreeSet<FieldEventState<T>>(new Comparator<FieldEventState<T>>() {
+            SortedSet<FieldEventState<T>> occurringEvents = new TreeSet<>(new Comparator<FieldEventState<T>>() {
 
                 /** {@inheritDoc} */
                 @Override

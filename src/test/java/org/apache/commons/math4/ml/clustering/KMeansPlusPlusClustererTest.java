@@ -51,7 +51,7 @@ public class KMeansPlusPlusClustererTest {
     @Test
     public void testPerformClusterAnalysisDegenerate() {
         KMeansPlusPlusClusterer<DoublePoint> transformer =
-                new KMeansPlusPlusClusterer<DoublePoint>(1, 1);
+                new KMeansPlusPlusClusterer<>(1, 1);
 
         DoublePoint[] points = new DoublePoint[] {
                 new DoublePoint(new int[] { 1959, 325100 }),
@@ -101,7 +101,7 @@ public class KMeansPlusPlusClustererTest {
 
             for (int n = 2; n < 27; ++n) {
                 KMeansPlusPlusClusterer<DoublePoint> transformer =
-                    new KMeansPlusPlusClusterer<DoublePoint>(n, 100, new EuclideanDistance(), random, strategy);
+                    new KMeansPlusPlusClusterer<>(n, 100, new EuclideanDistance(), random, strategy);
 
                 List<? extends Cluster<DoublePoint>> clusters =
                         transformer.cluster(Arrays.asList(breakingPoints));
@@ -142,7 +142,7 @@ public class KMeansPlusPlusClustererTest {
         DoublePoint repeatedPoint = new DoublePoint(repeatedArray);
         DoublePoint uniquePoint = new DoublePoint(uniqueArray);
 
-        Collection<DoublePoint> points = new ArrayList<DoublePoint>();
+        Collection<DoublePoint> points = new ArrayList<>();
         final int NUM_REPEATED_POINTS = 10 * 1000;
         for (int i = 0; i < NUM_REPEATED_POINTS; ++i) {
             points.add(repeatedPoint);
@@ -155,7 +155,7 @@ public class KMeansPlusPlusClustererTest {
         final int NUM_ITERATIONS = 0;
 
         KMeansPlusPlusClusterer<DoublePoint> clusterer =
-            new KMeansPlusPlusClusterer<DoublePoint>(NUM_CLUSTERS, NUM_ITERATIONS,
+            new KMeansPlusPlusClusterer<>(NUM_CLUSTERS, NUM_ITERATIONS,
                     new CloseDistance(), random);
         List<CentroidCluster<DoublePoint>> clusters = clusterer.cluster(points);
 
@@ -175,7 +175,7 @@ public class KMeansPlusPlusClustererTest {
     @Test(expected=NumberIsTooSmallException.class)
     public void testPerformClusterAnalysisToManyClusters() {
         KMeansPlusPlusClusterer<DoublePoint> transformer =
-            new KMeansPlusPlusClusterer<DoublePoint>(3, 1, new EuclideanDistance(), random);
+            new KMeansPlusPlusClusterer<>(3, 1, new EuclideanDistance(), random);
 
         DoublePoint[] points = new DoublePoint[] {
             new DoublePoint(new int[] {

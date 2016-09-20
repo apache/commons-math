@@ -46,7 +46,7 @@ class StraightLineProblem {
      * @param error Assumed error for the y-coordinate.
      */
     public StraightLineProblem(double error) {
-        points = new ArrayList<double[]>();
+        points = new ArrayList<>();
         sigma = error;
     }
 

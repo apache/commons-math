@@ -30,7 +30,7 @@ public class LutherFieldIntegratorTest extends RungeKuttaFieldIntegratorAbstract
 
     protected <T extends RealFieldElement<T>> RungeKuttaFieldIntegrator<T>
     createIntegrator(Field<T> field, T step) {
-        return new LutherFieldIntegrator<T>(field, step);
+        return new LutherFieldIntegrator<>(field, step);
     }
 
     @Override

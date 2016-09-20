@@ -163,9 +163,9 @@ public class BSPTree<S extends Space> {
         }
 
         cut          = chopped;
-        plus         = new BSPTree<S>();
+        plus         = new BSPTree<>();
         plus.parent  = this;
-        minus        = new BSPTree<S>();
+        minus        = new BSPTree<>();
         minus.parent = this;
         return true;
 
@@ -181,10 +181,10 @@ public class BSPTree<S extends Space> {
     public BSPTree<S> copySelf() {
 
         if (cut == null) {
-            return new BSPTree<S>(attribute);
+            return new BSPTree<>(attribute);
         }
 
-        return new BSPTree<S>(cut.copySelf(), plus.copySelf(), minus.copySelf(),
+        return new BSPTree<>(cut.copySelf(), plus.copySelf(), minus.copySelf(),
                            attribute);
 
     }
@@ -340,7 +340,7 @@ public class BSPTree<S extends Space> {
      * than maxOffset from the point)
      */
     public List<BSPTree<S>> getCloseCuts(final Point<S> point, final double maxOffset) {
-        final List<BSPTree<S>> close = new ArrayList<BSPTree<S>>();
+        final List<BSPTree<S>> close = new ArrayList<>();
         recurseCloseCuts(point, maxOffset, close);
         return close;
     }
@@ -554,7 +554,7 @@ public class BSPTree<S extends Space> {
     public BSPTree<S> split(final SubHyperplane<S> sub) {
 
         if (cut == null) {
-            return new BSPTree<S>(sub, copySelf(), new BSPTree<S>(attribute), null);
+            return new BSPTree<>(sub, copySelf(), new BSPTree<S>(attribute), null);
         }
 
         final Hyperplane<S> cHyperplane = cut.getHyperplane();
@@ -566,12 +566,12 @@ public class BSPTree<S extends Space> {
             final BSPTree<S> split = plus.split(sub);
             if (cut.split(sHyperplane).getSide() == Side.PLUS) {
                 split.plus =
-                    new BSPTree<S>(cut.copySelf(), split.plus, minus.copySelf(), attribute);
+                    new BSPTree<>(cut.copySelf(), split.plus, minus.copySelf(), attribute);
                 split.plus.condense();
                 split.plus.parent = split;
             } else {
                 split.minus =
-                    new BSPTree<S>(cut.copySelf(), split.minus, minus.copySelf(), attribute);
+                    new BSPTree<>(cut.copySelf(), split.minus, minus.copySelf(), attribute);
                 split.minus.condense();
                 split.minus.parent = split;
             }
@@ -582,12 +582,12 @@ public class BSPTree<S extends Space> {
             final BSPTree<S> split = minus.split(sub);
             if (cut.split(sHyperplane).getSide() == Side.PLUS) {
                 split.plus =
-                    new BSPTree<S>(cut.copySelf(), plus.copySelf(), split.plus, attribute);
+                    new BSPTree<>(cut.copySelf(), plus.copySelf(), split.plus, attribute);
                 split.plus.condense();
                 split.plus.parent = split;
             } else {
                 split.minus =
-                    new BSPTree<S>(cut.copySelf(), plus.copySelf(), split.minus, attribute);
+                    new BSPTree<>(cut.copySelf(), plus.copySelf(), split.minus, attribute);
                 split.minus.condense();
                 split.minus.parent = split;
             }
@@ -597,7 +597,7 @@ public class BSPTree<S extends Space> {
         {
             final SubHyperplane.SplitSubHyperplane<S> cutParts = cut.split(sHyperplane);
             final BSPTree<S> split =
-                new BSPTree<S>(sub, plus.split(subParts.getPlus()), minus.split(subParts.getMinus()),
+                new BSPTree<>(sub, plus.split(subParts.getPlus()), minus.split(subParts.getMinus()),
                                null);
             split.plus.cut          = cutParts.getPlus();
             split.minus.cut         = cutParts.getMinus();
@@ -612,8 +612,8 @@ public class BSPTree<S extends Space> {
         }
         default :
             return cHyperplane.sameOrientationAs(sHyperplane) ?
-                   new BSPTree<S>(sub, plus.copySelf(),  minus.copySelf(), attribute) :
-                   new BSPTree<S>(sub, minus.copySelf(), plus.copySelf(),  attribute);
+                   new BSPTree<>(sub, plus.copySelf(),  minus.copySelf(), attribute) :
+                   new BSPTree<>(sub, minus.copySelf(), plus.copySelf(),  attribute);
         }
 
     }
@@ -710,16 +710,16 @@ public class BSPTree<S extends Space> {
                                             final Object internalAttributes) {
 
         // build the current cell leaf
-        BSPTree<S> tree = new BSPTree<S>(cellAttribute);
+        BSPTree<S> tree = new BSPTree<>(cellAttribute);
 
         // build the pruned tree bottom-up
         for (BSPTree<S> current = this; current.parent != null; current = current.parent) {
             final SubHyperplane<S> parentCut = current.parent.cut.copySelf();
-            final BSPTree<S>       sibling   = new BSPTree<S>(otherLeafsAttributes);
+            final BSPTree<S>       sibling   = new BSPTree<>(otherLeafsAttributes);
             if (current == current.parent.plus) {
-                tree = new BSPTree<S>(parentCut, tree, sibling, internalAttributes);
+                tree = new BSPTree<>(parentCut, tree, sibling, internalAttributes);
             } else {
-                tree = new BSPTree<S>(parentCut, sibling, tree, internalAttributes);
+                tree = new BSPTree<>(parentCut, sibling, tree, internalAttributes);
             }
         }
 

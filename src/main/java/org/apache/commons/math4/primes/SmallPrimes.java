@@ -125,7 +125,7 @@ class SmallPrimes {
      * @return the list of prime factors of n
      */
     public static List<Integer> trialDivision(int n){
-        final List<Integer> factors = new ArrayList<Integer>(32);
+        final List<Integer> factors = new ArrayList<>(32);
         n = smallTrialDivision(n, factors);
         if (1 == n) {
             return factors;

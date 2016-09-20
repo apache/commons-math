@@ -91,7 +91,7 @@ class ThreeEighthesFieldStepInterpolator<T extends RealFieldElement<T>>
                                                            final FieldODEStateAndDerivative<T> newSoftPreviousState,
                                                            final FieldODEStateAndDerivative<T> newSoftCurrentState,
                                                            final FieldEquationsMapper<T> newMapper) {
-        return new ThreeEighthesFieldStepInterpolator<T>(newField, newForward, newYDotK,
+        return new ThreeEighthesFieldStepInterpolator<>(newField, newForward, newYDotK,
                                                          newGlobalPreviousState, newGlobalCurrentState,
                                                          newSoftPreviousState, newSoftCurrentState,
                                                          newMapper);
@@ -132,7 +132,7 @@ class ThreeEighthesFieldStepInterpolator<T extends RealFieldElement<T>>
             interpolatedDerivatives = derivativeLinearCombination(coeffDot1, coeffDot2, coeffDot3, coeffDot4);
         }
 
-        return new FieldODEStateAndDerivative<T>(time, interpolatedState, interpolatedDerivatives);
+        return new FieldODEStateAndDerivative<>(time, interpolatedState, interpolatedDerivatives);
 
     }
 

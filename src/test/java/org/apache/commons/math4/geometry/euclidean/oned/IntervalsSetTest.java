@@ -66,7 +66,7 @@ public class IntervalsSetTest {
 
     @Test
     public void testMultiple() {
-        RegionFactory<Euclidean1D> factory = new RegionFactory<Euclidean1D>();
+        RegionFactory<Euclidean1D> factory = new RegionFactory<>();
         IntervalsSet set = (IntervalsSet)
         factory.intersection(factory.union(factory.difference(new IntervalsSet(1.0, 6.0, 1.0e-10),
                                                               new IntervalsSet(3.0, 5.0, 1.0e-10)),

@@ -479,9 +479,9 @@ public class RandomUtils {
                 throw new NotStrictlyPositiveException(LocalizedFormats.NUMBER_OF_SAMPLES, k);
             }
 
-            final ArrayList<T> objects = new ArrayList<T>(collection);
+            final ArrayList<T> objects = new ArrayList<>(collection);
             final int[] index = nextPermutation(len, k);
-            final List<T> result = new ArrayList<T>(k);
+            final List<T> result = new ArrayList<>(k);
             for (int i = 0; i < k; i++) {
                 result.add(objects.get(index[i]));
             }

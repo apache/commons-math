@@ -33,8 +33,8 @@ import org.junit.Test;
 
 public class UniformCrossoverTest {
     private static final int LEN = 10000;
-    private static final List<Integer> p1 = new ArrayList<Integer>(LEN);
-    private static final List<Integer> p2 = new ArrayList<Integer>(LEN);
+    private static final List<Integer> p1 = new ArrayList<>(LEN);
+    private static final List<Integer> p2 = new ArrayList<>(LEN);
 
     @SuppressWarnings("boxing")
     @BeforeClass

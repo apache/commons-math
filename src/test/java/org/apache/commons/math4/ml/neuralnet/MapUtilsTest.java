@@ -49,8 +49,8 @@ public class MapUtilsTest {
         final Network net = new NeuronString(3, false, initArray).getNetwork();
         final DistanceMeasure dist = new EuclideanDistance();
 
-        final Set<Neuron> allBest = new HashSet<Neuron>();
-        final Set<Neuron> best = new HashSet<Neuron>();
+        final Set<Neuron> allBest = new HashSet<>();
+        final Set<Neuron> best = new HashSet<>();
         double[][] features;
 
         // The following tests ensures that
@@ -97,7 +97,7 @@ public class MapUtilsTest {
 
     @Test
     public void testSort() {
-        final Set<Neuron> list = new HashSet<Neuron>();
+        final Set<Neuron> list = new HashSet<>();
 
         for (int i = 0; i < 4; i++) {
             list.add(new Neuron(i, new double[] { i - 0.5 }));

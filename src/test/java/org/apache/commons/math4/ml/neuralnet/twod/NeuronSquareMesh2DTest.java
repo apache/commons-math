@@ -574,7 +574,7 @@ public class NeuronSquareMesh2DTest {
                                              initArray).getNetwork();
 
         Collection<Neuron> neighbours;
-        Collection<Neuron> exclude = new HashSet<Neuron>();
+        Collection<Neuron> exclude = new HashSet<>();
 
         // Level-1 neighbourhood.
         neighbours = net.getNeighbours(net.getNeuron(12));
@@ -623,7 +623,7 @@ public class NeuronSquareMesh2DTest {
                                                    initArray).getNetwork();
 
         Collection<Neuron> neighbours;
-        Collection<Neuron> exclude = new HashSet<Neuron>();
+        Collection<Neuron> exclude = new HashSet<>();
 
         // Level-1 neighbourhood.
         neighbours = net.getNeighbours(net.getNeuron(8));
@@ -854,13 +854,13 @@ public class NeuronSquareMesh2DTest {
                                                               3, true,
                                                               SquareNeighbourhood.VON_NEUMANN,
                                                               initArray);
-        final Set<Neuron> fromMap = new HashSet<Neuron>();
+        final Set<Neuron> fromMap = new HashSet<>();
         for (Neuron n : map) {
             fromMap.add(n);
         }
 
         final Network net = map.getNetwork();
-        final Set<Neuron> fromNet = new HashSet<Neuron>();
+        final Set<Neuron> fromNet = new HashSet<>();
         for (Neuron n : net) {
             fromNet.add(n);
         }

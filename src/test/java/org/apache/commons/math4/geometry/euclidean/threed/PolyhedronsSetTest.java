@@ -243,7 +243,7 @@ public class PolyhedronsSetTest {
             new PolyhedronsSet(x - w, x + w, y - l, y + l, z - w, z + w, 1.0e-10);
         PolyhedronsSet zBeam =
             new PolyhedronsSet(x - w, x + w, y - w, y + w, z - l, z + l, 1.0e-10);
-        RegionFactory<Euclidean3D> factory = new RegionFactory<Euclidean3D>();
+        RegionFactory<Euclidean3D> factory = new RegionFactory<>();
         PolyhedronsSet tree = (PolyhedronsSet) factory.union(xBeam, factory.union(yBeam, zBeam));
         Vector3D barycenter = (Vector3D) tree.getBarycenter();
 
@@ -273,7 +273,7 @@ public class PolyhedronsSetTest {
             1, 5, 6, 1, 6, 2,
             2, 6, 7, 2, 7, 3,
             4, 0, 3, 4, 3, 7};
-        ArrayList<SubHyperplane<Euclidean3D>> subHyperplaneList = new ArrayList<SubHyperplane<Euclidean3D>>();
+        ArrayList<SubHyperplane<Euclidean3D>> subHyperplaneList = new ArrayList<>();
         for (int idx = 0; idx < indices.length; idx += 3) {
             int idxA = indices[idx] * 3;
             int idxB = indices[idx + 1] * 3;
@@ -283,7 +283,7 @@ public class PolyhedronsSetTest {
             Vector3D v_3 = new Vector3D(coords[idxC], coords[idxC + 1], coords[idxC + 2]);
             Vector3D[] vertices = {v_1, v_2, v_3};
             Plane polyPlane = new Plane(v_1, v_2, v_3, 1.0e-10);
-            ArrayList<SubHyperplane<Euclidean2D>> lines = new ArrayList<SubHyperplane<Euclidean2D>>();
+            ArrayList<SubHyperplane<Euclidean2D>> lines = new ArrayList<>();
 
             Vector2D[] projPts = new Vector2D[vertices.length];
             for (int ptIdx = 0; ptIdx < projPts.length; ptIdx++) {

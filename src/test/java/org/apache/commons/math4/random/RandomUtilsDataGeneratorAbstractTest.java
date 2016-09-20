@@ -318,14 +318,14 @@ public abstract class RandomUtilsDataGeneratorAbstractTest {
         long[] observed = { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 };
         double[] expected = { 100, 100, 100, 100, 100, 100, 100, 100, 100, 100 };
 
-        HashSet<Object> cPop = new HashSet<Object>(); // {0,1,2,3,4}
+        HashSet<Object> cPop = new HashSet<>(); // {0,1,2,3,4}
         for (int i = 0; i < 5; i++) {
             cPop.add(Integer.toString(i));
         }
 
         Object[] sets = new Object[10]; // 2-sets from 5
         for (int i = 0; i < 10; i++) {
-            HashSet<Object> hs = new HashSet<Object>();
+            HashSet<Object> hs = new HashSet<>();
             hs.add(c[i][0]);
             hs.add(c[i][1]);
             sets[i] = hs;
@@ -342,7 +342,7 @@ public abstract class RandomUtilsDataGeneratorAbstractTest {
                           testStatistic.chiSquare(expected, observed) < 27.88);
 
         // Make sure sample of size = size of collection returns same collection
-        HashSet<Object> hs = new HashSet<Object>();
+        HashSet<Object> hs = new HashSet<>();
         hs.add("one");
         List<Object> one = randomData.nextSample(hs, 1);
         String oneString = (String) one.get(0);
@@ -361,7 +361,7 @@ public abstract class RandomUtilsDataGeneratorAbstractTest {
 
         // Make sure we fail for empty collection.
         try {
-            hs = new HashSet<Object>();
+            hs = new HashSet<>();
             one = randomData.nextSample(hs, 0);
             Assert.fail("n = k = 0, expecting MathIllegalArgumentException");
         } catch (MathIllegalArgumentException ex) {
@@ -374,7 +374,7 @@ public abstract class RandomUtilsDataGeneratorAbstractTest {
         Object[] samp = sampList.toArray(new Object[sampList.size()]);
         for (int i = 0; i < u.length; i++) {
             HashSet<Object> set = (HashSet<Object>) u[i];
-            HashSet<Object> sampSet = new HashSet<Object>();
+            HashSet<Object> sampSet = new HashSet<>();
             for (int j = 0; j < samp.length; j++) {
                 sampSet.add(samp[j]);
             }

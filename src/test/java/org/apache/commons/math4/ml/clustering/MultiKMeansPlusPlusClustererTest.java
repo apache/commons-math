@@ -34,7 +34,7 @@ public class MultiKMeansPlusPlusClustererTest {
     @Test
     public void dimension2() {
         MultiKMeansPlusPlusClusterer<DoublePoint> transformer =
-            new MultiKMeansPlusPlusClusterer<DoublePoint>(
+            new MultiKMeansPlusPlusClusterer<>(
                     new KMeansPlusPlusClusterer<DoublePoint>(3, 10), 5);
 
         DoublePoint[] points = new DoublePoint[] {

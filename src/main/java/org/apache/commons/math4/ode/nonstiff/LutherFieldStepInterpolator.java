@@ -125,7 +125,7 @@ class LutherFieldStepInterpolator<T extends RealFieldElement<T>>
                                                     final FieldODEStateAndDerivative<T> newSoftPreviousState,
                                                     final FieldODEStateAndDerivative<T> newSoftCurrentState,
                                                     final FieldEquationsMapper<T> newMapper) {
-        return new LutherFieldStepInterpolator<T>(newField, newForward, newYDotK,
+        return new LutherFieldStepInterpolator<>(newField, newForward, newYDotK,
                                                   newGlobalPreviousState, newGlobalCurrentState,
                                                   newSoftPreviousState, newSoftCurrentState,
                                                   newMapper);
@@ -217,7 +217,7 @@ class LutherFieldStepInterpolator<T extends RealFieldElement<T>>
             interpolatedDerivatives = derivativeLinearCombination(coeffDot1, coeffDot2, coeffDot3, coeffDot4, coeffDot5, coeffDot6, coeffDot7);
         }
 
-        return new FieldODEStateAndDerivative<T>(time, interpolatedState, interpolatedDerivatives);
+        return new FieldODEStateAndDerivative<>(time, interpolatedState, interpolatedDerivatives);
 
     }
 

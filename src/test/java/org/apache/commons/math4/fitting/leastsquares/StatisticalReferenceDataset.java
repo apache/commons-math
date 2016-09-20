@@ -68,7 +68,7 @@ public abstract class StatisticalReferenceDataset {
     public StatisticalReferenceDataset(final BufferedReader in)
         throws IOException {
 
-        final ArrayList<String> lines = new ArrayList<String>();
+        final ArrayList<String> lines = new ArrayList<>();
         for (String line = in.readLine(); line != null; line = in.readLine()) {
             lines.add(line);
         }

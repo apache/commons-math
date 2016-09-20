@@ -455,7 +455,7 @@ public class InferenceTestUtilsTest {
     private double[] classC =
       {110.0, 115.0, 111.0, 117.0, 128.0};
 
-    private List<double[]> classes = new ArrayList<double[]>();
+    private List<double[]> classes = new ArrayList<>();
     private OneWayAnova oneWayAnova = new OneWayAnova();
 
     @Test

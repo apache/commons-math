@@ -57,7 +57,7 @@ public class LaguerreRuleFactory extends BaseRuleFactory<Double> {
             weights[i] = xi / n1Squared / (val * val);
         }
 
-        return new Pair<Double[], Double[]>(points, weights);
+        return new Pair<>(points, weights);
     }
 
     /**

@@ -62,9 +62,9 @@ public class ExceptionContext implements Serializable {
      */
     public ExceptionContext(final Throwable throwable) {
         this.throwable = throwable;
-        msgPatterns    = new ArrayList<Localizable>();
-        msgArguments   = new ArrayList<Object[]>();
-        context        = new HashMap<String, Object>();
+        msgPatterns    = new ArrayList<>();
+        msgArguments   = new ArrayList<>();
+        context        = new HashMap<>();
     }
 
     /** Get a reference to the exception to which the context relates.
@@ -256,8 +256,8 @@ public class ExceptionContext implements Serializable {
                ClassNotFoundException {
         // Step 1.
         final int len = in.readInt();
-        msgPatterns = new ArrayList<Localizable>(len);
-        msgArguments = new ArrayList<Object[]>(len);
+        msgPatterns = new ArrayList<>(len);
+        msgArguments = new ArrayList<>(len);
         // Step 2.
         for (int i = 0; i < len; i++) {
             // Step 3.
@@ -311,7 +311,7 @@ public class ExceptionContext implements Serializable {
                ClassNotFoundException {
         // Step 1.
         final int len = in.readInt();
-        context = new HashMap<String, Object>();
+        context = new HashMap<>();
         for (int i = 0; i < len; i++) {
             // Step 2.
             final String key = (String) in.readObject();

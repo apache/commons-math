@@ -130,7 +130,7 @@ public abstract class MultistepFieldIntegrator<T extends RealFieldElement<T>>
                   nSteps, 2, true);
         }
 
-        starter = new DormandPrince853FieldIntegrator<T>(field, minStep, maxStep,
+        starter = new DormandPrince853FieldIntegrator<>(field, minStep, maxStep,
                                                          scalAbsoluteTolerance,
                                                          scalRelativeTolerance);
         this.nSteps = nSteps;
@@ -170,7 +170,7 @@ public abstract class MultistepFieldIntegrator<T extends RealFieldElement<T>>
                                        final double[] vecAbsoluteTolerance,
                                        final double[] vecRelativeTolerance) {
         super(field, name, minStep, maxStep, vecAbsoluteTolerance, vecRelativeTolerance);
-        starter = new DormandPrince853FieldIntegrator<T>(field, minStep, maxStep,
+        starter = new DormandPrince853FieldIntegrator<>(field, minStep, maxStep,
                                                          vecAbsoluteTolerance,
                                                          vecRelativeTolerance);
         this.nSteps = nSteps;

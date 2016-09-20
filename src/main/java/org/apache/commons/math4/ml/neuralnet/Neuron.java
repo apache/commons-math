@@ -63,7 +63,7 @@ public class Neuron implements Serializable {
            double[] features) {
         this.identifier = identifier;
         this.size = features.length;
-        this.features = new AtomicReference<double[]>(features.clone());
+        this.features = new AtomicReference<>(features.clone());
     }
 
     /**

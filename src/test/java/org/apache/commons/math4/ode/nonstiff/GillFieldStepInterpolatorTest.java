@@ -34,7 +34,7 @@ public class GillFieldStepInterpolatorTest extends RungeKuttaFieldStepInterpolat
                        FieldODEStateAndDerivative<T> softPreviousState,
                        FieldODEStateAndDerivative<T> softCurrentState,
                        FieldEquationsMapper<T> mapper) {
-        return new GillFieldStepInterpolator<T>(field, forward, yDotK,
+        return new GillFieldStepInterpolator<>(field, forward, yDotK,
                                                 globalPreviousState, globalCurrentState,
                                                 softPreviousState, softCurrentState,
                                                 mapper);
@@ -42,7 +42,7 @@ public class GillFieldStepInterpolatorTest extends RungeKuttaFieldStepInterpolat
 
     protected <T extends RealFieldElement<T>> FieldButcherArrayProvider<T>
     createButcherArrayProvider(final Field<T> field) {
-        return new GillFieldIntegrator<T>(field, field.getOne());
+        return new GillFieldIntegrator<>(field, field.getOne());
     }
 
     @Test

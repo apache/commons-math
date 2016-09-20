@@ -150,7 +150,7 @@ public class EmpiricalDistribution extends AbstractRealDistribution {
             throw new NotStrictlyPositiveException(binCount);
         }
         this.binCount = binCount;
-        binStats = new ArrayList<SummaryStatistics>();
+        binStats = new ArrayList<>();
      }
 
     /**

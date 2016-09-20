@@ -114,7 +114,7 @@ public abstract class TestFieldProblemAbstract<T extends RealFieldElement<T>>
      * @return initial state
      */
     public FieldODEState<T> getInitialState() {
-        return new FieldODEState<T>(t0, y0);
+        return new FieldODEState<>(t0, y0);
     }
 
     /**

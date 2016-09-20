@@ -140,7 +140,7 @@ public class PrimesTest {
         }
         return out;
     }
-    static final HashSet<Integer> PRIMES_SET = new HashSet<Integer>();
+    static final HashSet<Integer> PRIMES_SET = new HashSet<>();
     static {
         for (int p : PRIMES) {
             PRIMES_SET.add(p);

@@ -56,7 +56,7 @@ public final class EmpiricalDistributionTest extends RealDistributionAbstractTes
         super.setUp();
         empiricalDistribution = new EmpiricalDistribution(100);
         url = getClass().getResource("testData.txt");
-        final ArrayList<Double> list = new ArrayList<Double>();
+        final ArrayList<Double> list = new ArrayList<>();
         try {
             empiricalDistribution2 = new EmpiricalDistribution(100);
             BufferedReader in =

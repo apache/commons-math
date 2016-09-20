@@ -34,7 +34,7 @@ public class DormandPrince853FieldStepInterpolatorTest extends RungeKuttaFieldSt
                        FieldODEStateAndDerivative<T> softPreviousState,
                        FieldODEStateAndDerivative<T> softCurrentState,
                        FieldEquationsMapper<T> mapper) {
-        return new DormandPrince853FieldStepInterpolator<T>(field, forward, yDotK,
+        return new DormandPrince853FieldStepInterpolator<>(field, forward, yDotK,
                                                             globalPreviousState, globalCurrentState,
                                                             softPreviousState, softCurrentState,
                                                             mapper);
@@ -42,7 +42,7 @@ public class DormandPrince853FieldStepInterpolatorTest extends RungeKuttaFieldSt
 
     protected <T extends RealFieldElement<T>> FieldButcherArrayProvider<T>
     createButcherArrayProvider(final Field<T> field) {
-        return new DormandPrince853FieldIntegrator<T>(field, 0, 1, 1, 1);
+        return new DormandPrince853FieldIntegrator<>(field, 0, 1, 1, 1);
     }
 
     @Test

@@ -201,13 +201,13 @@ public class CMAESOptimizer
     private final RealDistribution.Sampler random;
 
     /** History of sigma values. */
-    private final List<Double> statisticsSigmaHistory = new ArrayList<Double>();
+    private final List<Double> statisticsSigmaHistory = new ArrayList<>();
     /** History of mean matrix. */
-    private final List<RealMatrix> statisticsMeanHistory = new ArrayList<RealMatrix>();
+    private final List<RealMatrix> statisticsMeanHistory = new ArrayList<>();
     /** History of fitness values. */
-    private final List<Double> statisticsFitnessHistory = new ArrayList<Double>();
+    private final List<Double> statisticsFitnessHistory = new ArrayList<>();
     /** History of D matrix. */
-    private final List<RealMatrix> statisticsDHistory = new ArrayList<RealMatrix>();
+    private final List<RealMatrix> statisticsDHistory = new ArrayList<>();
 
     /**
      * @param maxIterations Maximal number of iterations.

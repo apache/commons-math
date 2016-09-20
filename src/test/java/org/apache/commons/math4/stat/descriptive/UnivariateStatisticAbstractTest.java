@@ -193,7 +193,7 @@ public abstract class UnivariateStatisticAbstractTest {
         final RealDistribution.Sampler valueDist =
             new NormalDistribution(mu, sigma).createSampler(RandomSource.create(RandomSource.WELL_512_A,
                                                                                 64925784252L));
-        List<Double> valuesList = new ArrayList<Double>();
+        List<Double> valuesList = new ArrayList<>();
         for (int i = 0; i < len; i++) {
             double value = valueDist.sample();
             values[i] = value;

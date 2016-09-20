@@ -54,7 +54,7 @@ public class SimplexSolverTest {
 
         LinearObjectiveFunction f = new LinearObjectiveFunction(new double[] { 10, -57, -9, -24}, 0);
 
-        ArrayList<LinearConstraint> constraints = new ArrayList<LinearConstraint>();
+        ArrayList<LinearConstraint> constraints = new ArrayList<>();
 
         constraints.add(new LinearConstraint(new double[] {0.5, -5.5, -2.5, 9}, Relationship.LEQ, 0));
         constraints.add(new LinearConstraint(new double[] {0.5, -1.5, -0.5, 1}, Relationship.LEQ, 0));
@@ -75,7 +75,7 @@ public class SimplexSolverTest {
         LinearObjectiveFunction f = new LinearObjectiveFunction(
                 new double[] { 1.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0}, 0.0);
 
-        ArrayList <LinearConstraint>constraints = new ArrayList<LinearConstraint>();
+        ArrayList <LinearConstraint>constraints = new ArrayList<>();
 
         constraints.add(new LinearConstraint(new double[] {0.0, 39.0, 23.0, 96.0, 15.0, 48.0, 9.0, 21.0, 48.0, 36.0, 76.0, 19.0, 88.0, 17.0, 16.0, 36.0,}, Relationship.GEQ, 15.0));
         constraints.add(new LinearConstraint(new double[] {0.0, 59.0, 93.0, 12.0, 29.0, 78.0, 73.0, 87.0, 32.0, 70.0, 68.0, 24.0, 11.0, 26.0, 65.0, 25.0,}, Relationship.GEQ, 29.0));
@@ -97,7 +97,7 @@ public class SimplexSolverTest {
         LinearObjectiveFunction f = new LinearObjectiveFunction(
                 new double[] { 1.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0}, 0.0);
 
-        ArrayList <LinearConstraint>constraints = new ArrayList<LinearConstraint>();
+        ArrayList <LinearConstraint>constraints = new ArrayList<>();
 
         constraints.add(new LinearConstraint(new double[] {0.0, 16.0, 14.0, 69.0, 1.0, 85.0, 52.0, 43.0, 64.0, 97.0, 14.0, 74.0, 89.0, 28.0, 94.0, 58.0, 13.0, 22.0, 21.0, 17.0, 30.0, 25.0, 1.0, 59.0, 91.0, 78.0, 12.0, 74.0, 56.0, 3.0, 88.0,}, Relationship.GEQ, 91.0));
         constraints.add(new LinearConstraint(new double[] {0.0, 60.0, 40.0, 81.0, 71.0, 72.0, 46.0, 45.0, 38.0, 48.0, 40.0, 17.0, 33.0, 85.0, 64.0, 32.0, 84.0, 3.0, 54.0, 44.0, 71.0, 67.0, 90.0, 95.0, 54.0, 99.0, 99.0, 29.0, 52.0, 98.0, 9.0,}, Relationship.GEQ, 54.0));
@@ -120,7 +120,7 @@ public class SimplexSolverTest {
     public void testMath781() {
         LinearObjectiveFunction f = new LinearObjectiveFunction(new double[] { 2, 6, 7 }, 0);
 
-        ArrayList<LinearConstraint> constraints = new ArrayList<LinearConstraint>();
+        ArrayList<LinearConstraint> constraints = new ArrayList<>();
         constraints.add(new LinearConstraint(new double[] { 1, 2, 1 }, Relationship.LEQ, 2));
         constraints.add(new LinearConstraint(new double[] { -1, 1, 1 }, Relationship.LEQ, -1));
         constraints.add(new LinearConstraint(new double[] { 2, -3, 1 }, Relationship.LEQ, -1));
@@ -139,7 +139,7 @@ public class SimplexSolverTest {
     @Test
     public void testMath713NegativeVariable() {
         LinearObjectiveFunction f = new LinearObjectiveFunction(new double[] {1.0, 1.0}, 0.0d);
-        ArrayList<LinearConstraint> constraints = new ArrayList<LinearConstraint>();
+        ArrayList<LinearConstraint> constraints = new ArrayList<>();
         constraints.add(new LinearConstraint(new double[] {1, 0}, Relationship.EQ, 1));
 
         double epsilon = 1e-6;
@@ -154,7 +154,7 @@ public class SimplexSolverTest {
     @Test
     public void testMath434NegativeVariable() {
         LinearObjectiveFunction f = new LinearObjectiveFunction(new double[] {0.0, 0.0, 1.0}, 0.0d);
-        ArrayList<LinearConstraint> constraints = new ArrayList<LinearConstraint>();
+        ArrayList<LinearConstraint> constraints = new ArrayList<>();
         constraints.add(new LinearConstraint(new double[] {1, 1, 0}, Relationship.EQ, 5));
         constraints.add(new LinearConstraint(new double[] {0, 0, 1}, Relationship.GEQ, -10));
 
@@ -174,7 +174,7 @@ public class SimplexSolverTest {
         double epsilon = 1e-6;
 
         LinearObjectiveFunction f = new LinearObjectiveFunction(new double[] {1.0, 0.0}, 0.0);
-        ArrayList<LinearConstraint> constraints = new ArrayList<LinearConstraint>();
+        ArrayList<LinearConstraint> constraints = new ArrayList<>();
         constraints.add(new LinearConstraint(new double[] {epsilon/2, 0.5}, Relationship.EQ, 0));
         constraints.add(new LinearConstraint(new double[] {1e-3, 0.1}, Relationship.EQ, 10));
 
@@ -189,7 +189,7 @@ public class SimplexSolverTest {
         LinearObjectiveFunction f = new LinearObjectiveFunction(new double[] {1.0}, 0.0);
 
         double epsilon = 1e-6;
-        ArrayList<LinearConstraint> constraints = new ArrayList<LinearConstraint>();
+        ArrayList<LinearConstraint> constraints = new ArrayList<>();
         constraints.add(new LinearConstraint(new double[] {200}, Relationship.GEQ, 1));
         constraints.add(new LinearConstraint(new double[] {100}, Relationship.GEQ, 0.499900001));
 
@@ -205,7 +205,7 @@ public class SimplexSolverTest {
     public void testMath434PivotRowSelection2() {
         LinearObjectiveFunction f = new LinearObjectiveFunction(new double[] {0.0d, 1.0d, 1.0d, 0.0d, 0.0d, 0.0d, 0.0d}, 0.0d);
 
-        ArrayList<LinearConstraint> constraints = new ArrayList<LinearConstraint>();
+        ArrayList<LinearConstraint> constraints = new ArrayList<>();
         constraints.add(new LinearConstraint(new double[] {1.0d, -0.1d, 0.0d, 0.0d, 0.0d, 0.0d, 0.0d}, Relationship.EQ, -0.1d));
         constraints.add(new LinearConstraint(new double[] {1.0d, 0.0d, 0.0d, 0.0d, 0.0d, 0.0d, 0.0d}, Relationship.GEQ, -1e-18d));
         constraints.add(new LinearConstraint(new double[] {0.0d, 1.0d, 0.0d, 0.0d, 0.0d, 0.0d, 0.0d}, Relationship.GEQ, 0.0d));
@@ -230,7 +230,7 @@ public class SimplexSolverTest {
     @Test
     public void testMath272() {
         LinearObjectiveFunction f = new LinearObjectiveFunction(new double[] { 2, 2, 1 }, 0);
-        Collection<LinearConstraint> constraints = new ArrayList<LinearConstraint>();
+        Collection<LinearConstraint> constraints = new ArrayList<>();
         constraints.add(new LinearConstraint(new double[] { 1, 1, 0 }, Relationship.GEQ,  1));
         constraints.add(new LinearConstraint(new double[] { 1, 0, 1 }, Relationship.GEQ,  1));
         constraints.add(new LinearConstraint(new double[] { 0, 1, 0 }, Relationship.GEQ,  1));
@@ -248,7 +248,7 @@ public class SimplexSolverTest {
     @Test
     public void testMath286() {
         LinearObjectiveFunction f = new LinearObjectiveFunction(new double[] { 0.8, 0.2, 0.7, 0.3, 0.6, 0.4 }, 0 );
-        Collection<LinearConstraint> constraints = new ArrayList<LinearConstraint>();
+        Collection<LinearConstraint> constraints = new ArrayList<>();
         constraints.add(new LinearConstraint(new double[] { 1, 0, 1, 0, 1, 0 }, Relationship.EQ, 23.0));
         constraints.add(new LinearConstraint(new double[] { 0, 1, 0, 1, 0, 1 }, Relationship.EQ, 23.0));
         constraints.add(new LinearConstraint(new double[] { 1, 0, 0, 0, 0, 0 }, Relationship.GEQ, 10.0));
@@ -270,7 +270,7 @@ public class SimplexSolverTest {
     @Test
     public void testDegeneracy() {
         LinearObjectiveFunction f = new LinearObjectiveFunction(new double[] { 0.8, 0.7 }, 0 );
-        Collection<LinearConstraint> constraints = new ArrayList<LinearConstraint>();
+        Collection<LinearConstraint> constraints = new ArrayList<>();
         constraints.add(new LinearConstraint(new double[] { 1, 1 }, Relationship.LEQ, 18.0));
         constraints.add(new LinearConstraint(new double[] { 1, 0 }, Relationship.GEQ, 10.0));
         constraints.add(new LinearConstraint(new double[] { 0, 1 }, Relationship.GEQ, 8.0));
@@ -284,7 +284,7 @@ public class SimplexSolverTest {
     @Test
     public void testMath288() {
         LinearObjectiveFunction f = new LinearObjectiveFunction(new double[] { 7, 3, 0, 0 }, 0 );
-        Collection<LinearConstraint> constraints = new ArrayList<LinearConstraint>();
+        Collection<LinearConstraint> constraints = new ArrayList<>();
         constraints.add(new LinearConstraint(new double[] { 3, 0, -5, 0 }, Relationship.LEQ, 0.0));
         constraints.add(new LinearConstraint(new double[] { 2, 0, 0, -5 }, Relationship.LEQ, 0.0));
         constraints.add(new LinearConstraint(new double[] { 0, 3, 0, -5 }, Relationship.LEQ, 0.0));
@@ -300,7 +300,7 @@ public class SimplexSolverTest {
     @Test
     public void testMath290GEQ() {
         LinearObjectiveFunction f = new LinearObjectiveFunction(new double[] { 1, 5 }, 0 );
-        Collection<LinearConstraint> constraints = new ArrayList<LinearConstraint>();
+        Collection<LinearConstraint> constraints = new ArrayList<>();
         constraints.add(new LinearConstraint(new double[] { 2, 0 }, Relationship.GEQ, -1.0));
         SimplexSolver solver = new SimplexSolver();
         PointValuePair solution = solver.optimize(DEFAULT_MAX_ITER, f, new LinearConstraintSet(constraints),
@@ -313,7 +313,7 @@ public class SimplexSolverTest {
     @Test(expected=NoFeasibleSolutionException.class)
     public void testMath290LEQ() {
         LinearObjectiveFunction f = new LinearObjectiveFunction(new double[] { 1, 5 }, 0 );
-        Collection<LinearConstraint> constraints = new ArrayList<LinearConstraint>();
+        Collection<LinearConstraint> constraints = new ArrayList<>();
         constraints.add(new LinearConstraint(new double[] { 2, 0 }, Relationship.LEQ, -1.0));
         SimplexSolver solver = new SimplexSolver();
         solver.optimize(DEFAULT_MAX_ITER, f, new LinearConstraintSet(constraints),
@@ -323,7 +323,7 @@ public class SimplexSolverTest {
     @Test
     public void testMath293() {
       LinearObjectiveFunction f = new LinearObjectiveFunction(new double[] { 0.8, 0.2, 0.7, 0.3, 0.4, 0.6}, 0 );
-      Collection<LinearConstraint> constraints = new ArrayList<LinearConstraint>();
+      Collection<LinearConstraint> constraints = new ArrayList<>();
       constraints.add(new LinearConstraint(new double[] { 1, 0, 1, 0, 1, 0 }, Relationship.EQ, 30.0));
       constraints.add(new LinearConstraint(new double[] { 0, 1, 0, 1, 0, 1 }, Relationship.EQ, 30.0));
       constraints.add(new LinearConstraint(new double[] { 0.8, 0.2, 0.0, 0.0, 0.0, 0.0 }, Relationship.GEQ, 10.0));
@@ -347,7 +347,7 @@ public class SimplexSolverTest {
       double valC = 0.4 * solution1.getPoint()[4] + 0.6 * solution1.getPoint()[5];
 
       f = new LinearObjectiveFunction(new double[] { 0.8, 0.2, 0.7, 0.3, 0.4, 0.6}, 0 );
-      constraints = new ArrayList<LinearConstraint>();
+      constraints = new ArrayList<>();
       constraints.add(new LinearConstraint(new double[] { 1, 0, 1, 0, 1, 0 }, Relationship.EQ, 30.0));
       constraints.add(new LinearConstraint(new double[] { 0, 1, 0, 1, 0, 1 }, Relationship.EQ, 30.0));
       constraints.add(new LinearConstraint(new double[] { 0.8, 0.2, 0.0, 0.0, 0.0, 0.0 }, Relationship.GEQ, valA));
@@ -374,7 +374,7 @@ public class SimplexSolverTest {
     }
 
     private List<LinearConstraint> createMath930Constraints() {
-        List<LinearConstraint> constraints = new ArrayList<LinearConstraint>();
+        List<LinearConstraint> constraints = new ArrayList<>();
         constraints.add(new LinearConstraint(new double[] {1, -1, -1, 1, -1, 1, 1, -1, -1, 1, 1, -1, 1, -1, -1, 1, -1, 1, 1, -1, 1, -1, -1, 1, 1, -1, -1, 1, -1, 1, 1, -1, 0}, Relationship.GEQ, 0.0));
         constraints.add(new LinearConstraint(new double[] {1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, -1}, Relationship.GEQ, 0.0));
         constraints.add(new LinearConstraint(new double[] {1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, -1}, Relationship.LEQ, 0.0));
@@ -479,7 +479,7 @@ public class SimplexSolverTest {
     public void testSimplexSolver() {
         LinearObjectiveFunction f =
             new LinearObjectiveFunction(new double[] { 15, 10 }, 7);
-        Collection<LinearConstraint> constraints = new ArrayList<LinearConstraint>();
+        Collection<LinearConstraint> constraints = new ArrayList<>();
         constraints.add(new LinearConstraint(new double[] { 1, 0 }, Relationship.LEQ, 2));
         constraints.add(new LinearConstraint(new double[] { 0, 1 }, Relationship.LEQ, 3));
         constraints.add(new LinearConstraint(new double[] { 1, 1 }, Relationship.EQ, 4));
@@ -495,7 +495,7 @@ public class SimplexSolverTest {
     @Test
     public void testSingleVariableAndConstraint() {
         LinearObjectiveFunction f = new LinearObjectiveFunction(new double[] { 3 }, 0);
-        Collection<LinearConstraint> constraints = new ArrayList<LinearConstraint>();
+        Collection<LinearConstraint> constraints = new ArrayList<>();
         constraints.add(new LinearConstraint(new double[] { 1 }, Relationship.LEQ, 10));
 
         SimplexSolver solver = new SimplexSolver();
@@ -512,7 +512,7 @@ public class SimplexSolverTest {
     @Test
     public void testModelWithNoArtificialVars() {
         LinearObjectiveFunction f = new LinearObjectiveFunction(new double[] { 15, 10 }, 0);
-        Collection<LinearConstraint> constraints = new ArrayList<LinearConstraint>();
+        Collection<LinearConstraint> constraints = new ArrayList<>();
         constraints.add(new LinearConstraint(new double[] { 1, 0 }, Relationship.LEQ, 2));
         constraints.add(new LinearConstraint(new double[] { 0, 1 }, Relationship.LEQ, 3));
         constraints.add(new LinearConstraint(new double[] { 1, 1 }, Relationship.LEQ, 4));
@@ -528,7 +528,7 @@ public class SimplexSolverTest {
     @Test
     public void testMinimization() {
         LinearObjectiveFunction f = new LinearObjectiveFunction(new double[] { -2, 1 }, -5);
-        Collection<LinearConstraint> constraints = new ArrayList<LinearConstraint>();
+        Collection<LinearConstraint> constraints = new ArrayList<>();
         constraints.add(new LinearConstraint(new double[] { 1, 2 }, Relationship.LEQ, 6));
         constraints.add(new LinearConstraint(new double[] { 3, 2 }, Relationship.LEQ, 12));
         constraints.add(new LinearConstraint(new double[] { 0, 1 }, Relationship.GEQ, 0));
@@ -544,7 +544,7 @@ public class SimplexSolverTest {
     @Test
     public void testSolutionWithNegativeDecisionVariable() {
         LinearObjectiveFunction f = new LinearObjectiveFunction(new double[] { -2, 1 }, 0);
-        Collection<LinearConstraint> constraints = new ArrayList<LinearConstraint>();
+        Collection<LinearConstraint> constraints = new ArrayList<>();
         constraints.add(new LinearConstraint(new double[] { 1, 1 }, Relationship.GEQ, 6));
         constraints.add(new LinearConstraint(new double[] { 1, 2 }, Relationship.LEQ, 14));
 
@@ -559,7 +559,7 @@ public class SimplexSolverTest {
     @Test(expected = NoFeasibleSolutionException.class)
     public void testInfeasibleSolution() {
         LinearObjectiveFunction f = new LinearObjectiveFunction(new double[] { 15 }, 0);
-        Collection<LinearConstraint> constraints = new ArrayList<LinearConstraint>();
+        Collection<LinearConstraint> constraints = new ArrayList<>();
         constraints.add(new LinearConstraint(new double[] { 1 }, Relationship.LEQ, 1));
         constraints.add(new LinearConstraint(new double[] { 1 }, Relationship.GEQ, 3));
 
@@ -571,7 +571,7 @@ public class SimplexSolverTest {
     @Test(expected = UnboundedSolutionException.class)
     public void testUnboundedSolution() {
         LinearObjectiveFunction f = new LinearObjectiveFunction(new double[] { 15, 10 }, 0);
-        Collection<LinearConstraint> constraints = new ArrayList<LinearConstraint>();
+        Collection<LinearConstraint> constraints = new ArrayList<>();
         constraints.add(new LinearConstraint(new double[] { 1, 0 }, Relationship.EQ, 2));
 
         SimplexSolver solver = new SimplexSolver();
@@ -582,7 +582,7 @@ public class SimplexSolverTest {
     @Test
     public void testRestrictVariablesToNonNegative() {
         LinearObjectiveFunction f = new LinearObjectiveFunction(new double[] { 409, 523, 70, 204, 339 }, 0);
-        Collection<LinearConstraint> constraints = new ArrayList<LinearConstraint>();
+        Collection<LinearConstraint> constraints = new ArrayList<>();
         constraints.add(new LinearConstraint(new double[] {    43,   56, 345,  56,    5 }, Relationship.LEQ,  4567456));
         constraints.add(new LinearConstraint(new double[] {    12,   45,   7,  56,   23 }, Relationship.LEQ,    56454));
         constraints.add(new LinearConstraint(new double[] {     8,  768,   0,  34, 7456 }, Relationship.LEQ,  1923421));
@@ -604,7 +604,7 @@ public class SimplexSolverTest {
     public void testEpsilon() {
       LinearObjectiveFunction f =
           new LinearObjectiveFunction(new double[] { 10, 5, 1 }, 0);
-      Collection<LinearConstraint> constraints = new ArrayList<LinearConstraint>();
+      Collection<LinearConstraint> constraints = new ArrayList<>();
       constraints.add(new LinearConstraint(new double[] {  9, 8, 0 }, Relationship.EQ,  17));
       constraints.add(new LinearConstraint(new double[] {  0, 7, 8 }, Relationship.LEQ,  7));
       constraints.add(new LinearConstraint(new double[] { 10, 0, 2 }, Relationship.LEQ, 10));
@@ -621,7 +621,7 @@ public class SimplexSolverTest {
     @Test
     public void testTrivialModel() {
         LinearObjectiveFunction f = new LinearObjectiveFunction(new double[] { 1, 1 }, 0);
-        Collection<LinearConstraint> constraints = new ArrayList<LinearConstraint>();
+        Collection<LinearConstraint> constraints = new ArrayList<>();
         constraints.add(new LinearConstraint(new double[] { 1, 1 }, Relationship.EQ,  0));
 
         SimplexSolver solver = new SimplexSolver();
@@ -657,7 +657,7 @@ public class SimplexSolverTest {
                                            1, 1, 1, 1, 1, 1};
 
         LinearObjectiveFunction f = new LinearObjectiveFunction(objective, 0);
-        Collection<LinearConstraint> constraints = new ArrayList<LinearConstraint>();
+        Collection<LinearConstraint> constraints = new ArrayList<>();
         constraints.add(equationFromString(objective.length, "x0 + x1 + x2 + x3 - x12 = 0"));
         constraints.add(equationFromString(objective.length, "x4 + x5 + x6 + x7 + x8 + x9 + x10 + x11 - x13 = 0"));
         constraints.add(equationFromString(objective.length, "x4 + x5 + x6 + x7 + x8 + x9 + x10 + x11 >= 49"));
@@ -765,7 +765,7 @@ public class SimplexSolverTest {
 
         LinearObjectiveFunction f = new LinearObjectiveFunction(new double[] { 7, 3, 0, 0 }, 0 );
 
-        List<LinearConstraint> constraints = new ArrayList<LinearConstraint>();
+        List<LinearConstraint> constraints = new ArrayList<>();
         constraints.add(new LinearConstraint(new double[] { 3, 0, -5, 0 }, Relationship.LEQ, 0.0));
         constraints.add(new LinearConstraint(new double[] { 2, 0, 0, -5 }, Relationship.LEQ, 0.0));
         constraints.add(new LinearConstraint(new double[] { 0, 3, 0, -5 }, Relationship.LEQ, 0.0));
@@ -805,7 +805,7 @@ public class SimplexSolverTest {
         // x1,x2,x3 >= 0
 
         LinearObjectiveFunction f = new LinearObjectiveFunction(new double[] { 2, 15, 18 }, 0);
-        Collection<LinearConstraint> constraints = new ArrayList<LinearConstraint>();
+        Collection<LinearConstraint> constraints = new ArrayList<>();
         // this constraint is wrong, the dimension is less than expected one
         constraints.add(new LinearConstraint(new double[] { -1, 2 - 6 }, Relationship.LEQ, -10));
         constraints.add(new LinearConstraint(new double[] { 0, 1, 2 }, Relationship.LEQ, 6));

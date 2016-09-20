@@ -54,7 +54,7 @@ public abstract class AdamsFieldIntegratorAbstractTest {
     public abstract void testMinStep();
 
     protected <T extends RealFieldElement<T>> void doDimensionCheck(final Field<T> field) {
-        TestFieldProblem1<T> pb = new TestFieldProblem1<T>(field);
+        TestFieldProblem1<T> pb = new TestFieldProblem1<>(field);
 
         double minStep = pb.getFinalTime().subtract(pb.getInitialState().getTime()).multiply(0.1).getReal();
         double maxStep = pb.getFinalTime().subtract(pb.getInitialState().getTime()).getReal();
@@ -64,9 +64,9 @@ public abstract class AdamsFieldIntegratorAbstractTest {
         FirstOrderFieldIntegrator<T> integ = createIntegrator(field, 4, minStep, maxStep,
                                                               vecAbsoluteTolerance,
                                                               vecRelativeTolerance);
-        TestFieldProblemHandler<T> handler = new TestFieldProblemHandler<T>(pb, integ);
+        TestFieldProblemHandler<T> handler = new TestFieldProblemHandler<>(pb, integ);
         integ.addStepHandler(handler);
-        integ.integrate(new FieldExpandableODE<T>(pb), pb.getInitialState(), pb.getFinalTime());
+        integ.integrate(new FieldExpandableODE<>(pb), pb.getInitialState(), pb.getFinalTime());
 
     }
 
@@ -78,7 +78,7 @@ public abstract class AdamsFieldIntegratorAbstractTest {
 
         int previousCalls = Integer.MAX_VALUE;
         for (int i = -12; i < -2; ++i) {
-            TestFieldProblem1<T> pb = new TestFieldProblem1<T>(field);
+            TestFieldProblem1<T> pb = new TestFieldProblem1<>(field);
             double minStep = 0;
             double maxStep = pb.getFinalTime().subtract(pb.getInitialState().getTime()).getReal();
             double scalAbsoluteTolerance = FastMath.pow(10.0, i);
@@ -87,9 +87,9 @@ public abstract class AdamsFieldIntegratorAbstractTest {
             FirstOrderFieldIntegrator<T> integ = createIntegrator(field, 4, minStep, maxStep,
                                                                   scalAbsoluteTolerance,
                                                                   scalRelativeTolerance);
-            TestFieldProblemHandler<T> handler = new TestFieldProblemHandler<T>(pb, integ);
+            TestFieldProblemHandler<T> handler = new TestFieldProblemHandler<>(pb, integ);
             integ.addStepHandler(handler);
-            integ.integrate(new FieldExpandableODE<T>(pb), pb.getInitialState(), pb.getFinalTime());
+            integ.integrate(new FieldExpandableODE<>(pb), pb.getInitialState(), pb.getFinalTime());
 
             Assert.assertTrue(handler.getMaximalValueError().getReal() > ratioMin * scalAbsoluteTolerance);
             Assert.assertTrue(handler.getMaximalValueError().getReal() < ratioMax * scalAbsoluteTolerance);
@@ -108,14 +108,14 @@ public abstract class AdamsFieldIntegratorAbstractTest {
 
     protected <T extends RealFieldElement<T>> void doExceedMaxEvaluations(final Field<T> field, final int max) {
 
-        TestFieldProblem1<T> pb  = new TestFieldProblem1<T>(field);
+        TestFieldProblem1<T> pb  = new TestFieldProblem1<>(field);
         double range = pb.getFinalTime().subtract(pb.getInitialState().getTime()).getReal();
 
         FirstOrderFieldIntegrator<T> integ = createIntegrator(field, 2, 0, range, 1.0e-12, 1.0e-12);
-        TestFieldProblemHandler<T> handler = new TestFieldProblemHandler<T>(pb, integ);
+        TestFieldProblemHandler<T> handler = new TestFieldProblemHandler<>(pb, integ);
         integ.addStepHandler(handler);
         integ.setMaxEvaluations(max);
-        integ.integrate(new FieldExpandableODE<T>(pb), pb.getInitialState(), pb.getFinalTime());
+        integ.integrate(new FieldExpandableODE<>(pb), pb.getInitialState(), pb.getFinalTime());
 
     }
 
@@ -128,13 +128,13 @@ public abstract class AdamsFieldIntegratorAbstractTest {
                                                               final double epsilonMaxTime,
                                                               final String name) {
 
-        TestFieldProblem5<T> pb = new TestFieldProblem5<T>(field);
+        TestFieldProblem5<T> pb = new TestFieldProblem5<>(field);
         double range = pb.getFinalTime().subtract(pb.getInitialState().getTime()).getReal();
 
         AdamsFieldIntegrator<T> integ = createIntegrator(field, 4, 0, range, 1.0e-12, 1.0e-12);
-        TestFieldProblemHandler<T> handler = new TestFieldProblemHandler<T>(pb, integ);
+        TestFieldProblemHandler<T> handler = new TestFieldProblemHandler<>(pb, integ);
         integ.addStepHandler(handler);
-        integ.integrate(new FieldExpandableODE<T>(pb), pb.getInitialState(), pb.getFinalTime());
+        integ.integrate(new FieldExpandableODE<>(pb), pb.getInitialState(), pb.getFinalTime());
 
         Assert.assertEquals(0.0, handler.getLastError().getReal(), epsilonLast);
         Assert.assertEquals(0.0, handler.getMaximalValueError().getReal(), epsilonMaxValue);
@@ -149,15 +149,15 @@ public abstract class AdamsFieldIntegratorAbstractTest {
                                                                 final int nLimit,
                                                                 final double epsilonBad,
                                                                 final double epsilonGood) {
-        TestFieldProblem6<T> pb = new TestFieldProblem6<T>(field);
+        TestFieldProblem6<T> pb = new TestFieldProblem6<>(field);
         double range = pb.getFinalTime().subtract(pb.getInitialState().getTime()).abs().getReal();
 
         for (int nSteps = 2; nSteps < 8; ++nSteps) {
             AdamsFieldIntegrator<T> integ = createIntegrator(field, nSteps, 1.0e-6 * range, 0.1 * range, 1.0e-4, 1.0e-4);
-            integ.setStarterIntegrator(new PerfectStarter<T>(pb, nSteps));
-            TestFieldProblemHandler<T> handler = new TestFieldProblemHandler<T>(pb, integ);
+            integ.setStarterIntegrator(new PerfectStarter<>(pb, nSteps));
+            TestFieldProblemHandler<T> handler = new TestFieldProblemHandler<>(pb, integ);
             integ.addStepHandler(handler);
-            integ.integrate(new FieldExpandableODE<T>(pb), pb.getInitialState(), pb.getFinalTime());
+            integ.integrate(new FieldExpandableODE<>(pb), pb.getInitialState(), pb.getFinalTime());
             if (nSteps < nLimit) {
                 Assert.assertTrue(handler.getMaximalValueError().getReal() > epsilonBad);
             } else {
@@ -171,7 +171,7 @@ public abstract class AdamsFieldIntegratorAbstractTest {
     public abstract void testStartFailure();
 
     protected <T extends RealFieldElement<T>> void doTestStartFailure(final Field<T> field) {
-        TestFieldProblem1<T> pb = new TestFieldProblem1<T>(field);
+        TestFieldProblem1<T> pb = new TestFieldProblem1<>(field);
         double minStep = pb.getFinalTime().subtract(pb.getInitialState().getTime()).multiply(0.0001).getReal();
         double maxStep = pb.getFinalTime().subtract(pb.getInitialState().getTime()).getReal();
         double scalAbsoluteTolerance = 1.0e-6;
@@ -180,10 +180,10 @@ public abstract class AdamsFieldIntegratorAbstractTest {
         MultistepFieldIntegrator<T> integ = createIntegrator(field, 6, minStep, maxStep,
                                                              scalAbsoluteTolerance,
                                                              scalRelativeTolerance);
-        integ.setStarterIntegrator(new DormandPrince853FieldIntegrator<T>(field, maxStep * 0.5, maxStep, 0.1, 0.1));
-        TestFieldProblemHandler<T> handler = new TestFieldProblemHandler<T>(pb, integ);
+        integ.setStarterIntegrator(new DormandPrince853FieldIntegrator<>(field, maxStep * 0.5, maxStep, 0.1, 0.1));
+        TestFieldProblemHandler<T> handler = new TestFieldProblemHandler<>(pb, integ);
         integ.addStepHandler(handler);
-        integ.integrate(new FieldExpandableODE<T>(pb), pb.getInitialState(), pb.getFinalTime());
+        integ.integrate(new FieldExpandableODE<>(pb), pb.getInitialState(), pb.getFinalTime());
 
     }
 
@@ -194,7 +194,7 @@ public abstract class AdamsFieldIntegratorAbstractTest {
 
         public PerfectStarter(final TestFieldProblemAbstract<T> problem, final int nbSteps) {
             super(problem.getField(), "perfect-starter");
-            this.interpolator = new PerfectInterpolator<T>(problem);
+            this.interpolator = new PerfectInterpolator<>(problem);
             this.nbSteps      = nbSteps;
         }
 
@@ -252,7 +252,7 @@ public abstract class AdamsFieldIntegratorAbstractTest {
         public FieldODEStateAndDerivative<T> getInterpolatedState(T time) {
             T[] y    = problem.computeTheoreticalState(time);
             T[] yDot = problem.computeDerivatives(time, y);
-            return new FieldODEStateAndDerivative<T>(time, y, yDot);
+            return new FieldODEStateAndDerivative<>(time, y, yDot);
         }
 
     }

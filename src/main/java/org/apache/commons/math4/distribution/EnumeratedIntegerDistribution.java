@@ -68,7 +68,7 @@ public class EnumeratedIntegerDistribution extends AbstractIntegerDistribution {
                MathArithmeticException,
                NotFiniteNumberException,
                NotANumberException {
-        innerDistribution = new EnumeratedDistribution<Integer>(createDistribution(singletons,
+        innerDistribution = new EnumeratedDistribution<>(createDistribution(singletons,
                                                                                    probabilities));
     }
 
@@ -79,7 +79,7 @@ public class EnumeratedIntegerDistribution extends AbstractIntegerDistribution {
      * @param data input dataset
      */
     public EnumeratedIntegerDistribution(final int[] data) {
-        final Map<Integer, Integer> dataMap = new HashMap<Integer, Integer>();
+        final Map<Integer, Integer> dataMap = new HashMap<>();
         for (int value : data) {
             Integer count = dataMap.get(value);
             if (count == null) {
@@ -97,7 +97,7 @@ public class EnumeratedIntegerDistribution extends AbstractIntegerDistribution {
             probabilities[index] = entry.getValue().intValue() / denom;
             index++;
         }
-        innerDistribution = new EnumeratedDistribution<Integer>(createDistribution(values, probabilities));
+        innerDistribution = new EnumeratedDistribution<>(createDistribution(values, probabilities));
     }
 
     /**
@@ -112,10 +112,10 @@ public class EnumeratedIntegerDistribution extends AbstractIntegerDistribution {
             throw new DimensionMismatchException(probabilities.length, singletons.length);
         }
 
-        final List<Pair<Integer, Double>> samples = new ArrayList<Pair<Integer, Double>>(singletons.length);
+        final List<Pair<Integer, Double>> samples = new ArrayList<>(singletons.length);
 
         for (int i = 0; i < singletons.length; i++) {
-            samples.add(new Pair<Integer, Double>(singletons[i], probabilities[i]));
+            samples.add(new Pair<>(singletons[i], probabilities[i]));
         }
         return samples;
     }

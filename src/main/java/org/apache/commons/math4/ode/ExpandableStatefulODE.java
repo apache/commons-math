@@ -76,7 +76,7 @@ public class ExpandableStatefulODE {
         this.time            = Double.NaN;
         this.primaryState    = new double[n];
         this.primaryStateDot = new double[n];
-        this.components      = new ArrayList<ExpandableStatefulODE.SecondaryComponent>();
+        this.components      = new ArrayList<>();
     }
 
     /** Get the primary set of differential equations.
@@ -138,7 +138,7 @@ public class ExpandableStatefulODE {
         final int firstIndex;
         if (components.isEmpty()) {
             // lazy creation of the components list
-            components = new ArrayList<ExpandableStatefulODE.SecondaryComponent>();
+            components = new ArrayList<>();
             firstIndex = primary.getDimension();
         } else {
             final SecondaryComponent last = components.get(components.size() - 1);

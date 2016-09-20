@@ -42,12 +42,12 @@ public class ContinuousOutputFieldModelTest {
     }
 
     private <T extends RealFieldElement<T>> void doTestBoundaries(final Field<T> field) {
-        TestFieldProblem3<T> pb = new TestFieldProblem3<T>(field, field.getZero().add(0.9));
+        TestFieldProblem3<T> pb = new TestFieldProblem3<>(field, field.getZero().add(0.9));
         double minStep = 0;
         double maxStep = pb.getFinalTime().subtract(pb.getInitialState().getTime()).getReal();
-        FirstOrderFieldIntegrator<T> integ = new DormandPrince54FieldIntegrator<T>(field, minStep, maxStep, 1.0e-8, 1.0e-8);
+        FirstOrderFieldIntegrator<T> integ = new DormandPrince54FieldIntegrator<>(field, minStep, maxStep, 1.0e-8, 1.0e-8);
         integ.addStepHandler(new ContinuousOutputFieldModel<T>());
-        integ.integrate(new FieldExpandableODE<T>(pb), pb.getInitialState(), pb.getFinalTime());
+        integ.integrate(new FieldExpandableODE<>(pb), pb.getInitialState(), pb.getFinalTime());
         ContinuousOutputFieldModel<T> cm = (ContinuousOutputFieldModel<T>) integ.getStepHandlers().iterator().next();
         cm.getInterpolatedState(pb.getInitialState().getTime().multiply(2).subtract(pb.getFinalTime()));
         cm.getInterpolatedState(pb.getFinalTime().multiply(2).subtract(pb.getInitialState().getTime()));
@@ -61,13 +61,13 @@ public class ContinuousOutputFieldModelTest {
 
     private <T extends RealFieldElement<T>> void doTestRandomAccess(final Field<T> field)  {
 
-        TestFieldProblem3<T> pb = new TestFieldProblem3<T>(field, field.getZero().add(0.9));
+        TestFieldProblem3<T> pb = new TestFieldProblem3<>(field, field.getZero().add(0.9));
         double minStep = 0;
         double maxStep = pb.getFinalTime().subtract(pb.getInitialState().getTime()).getReal();
-        FirstOrderFieldIntegrator<T> integ = new DormandPrince54FieldIntegrator<T>(field, minStep, maxStep, 1.0e-8, 1.0e-8);
-        ContinuousOutputFieldModel<T> cm = new ContinuousOutputFieldModel<T>();
+        FirstOrderFieldIntegrator<T> integ = new DormandPrince54FieldIntegrator<>(field, minStep, maxStep, 1.0e-8, 1.0e-8);
+        ContinuousOutputFieldModel<T> cm = new ContinuousOutputFieldModel<>();
         integ.addStepHandler(cm);
-        integ.integrate(new FieldExpandableODE<T>(pb), pb.getInitialState(), pb.getFinalTime());
+        integ.integrate(new FieldExpandableODE<>(pb), pb.getInitialState(), pb.getFinalTime());
 
         Random random = new Random(347588535632l);
         T maxError    = field.getZero();
@@ -117,32 +117,32 @@ public class ContinuousOutputFieldModelTest {
         };
 
         // integrate backward from &pi; to 0;
-        ContinuousOutputFieldModel<T> cm1 = new ContinuousOutputFieldModel<T>();
+        ContinuousOutputFieldModel<T> cm1 = new ContinuousOutputFieldModel<>();
         FirstOrderFieldIntegrator<T> integ1 =
-                        new DormandPrince853FieldIntegrator<T>(field, 0, 1.0, 1.0e-8, 1.0e-8);
+                        new DormandPrince853FieldIntegrator<>(field, 0, 1.0, 1.0e-8, 1.0e-8);
         integ1.addStepHandler(cm1);
         T t0 = field.getZero().add(FastMath.PI);
         T[] y0 = MathArrays.buildArray(field, 2);
         y0[0] = field.getOne().negate();
         y0[1] = field.getZero();
-        integ1.integrate(new FieldExpandableODE<T>(problem),
-                         new FieldODEState<T>(t0, y0),
+        integ1.integrate(new FieldExpandableODE<>(problem),
+                         new FieldODEState<>(t0, y0),
                          field.getZero());
 
         // integrate backward from 2&pi; to &pi;
-        ContinuousOutputFieldModel<T> cm2 = new ContinuousOutputFieldModel<T>();
+        ContinuousOutputFieldModel<T> cm2 = new ContinuousOutputFieldModel<>();
         FirstOrderFieldIntegrator<T> integ2 =
-                        new DormandPrince853FieldIntegrator<T>(field, 0, 0.1, 1.0e-12, 1.0e-12);
+                        new DormandPrince853FieldIntegrator<>(field, 0, 0.1, 1.0e-12, 1.0e-12);
         integ2.addStepHandler(cm2);
         t0 = field.getZero().add(2.0 * FastMath.PI);
         y0[0] = field.getOne();
         y0[1] = field.getZero();
-        integ2.integrate(new FieldExpandableODE<T>(problem),
-                         new FieldODEState<T>(t0, y0),
+        integ2.integrate(new FieldExpandableODE<>(problem),
+                         new FieldODEState<>(t0, y0),
                          field.getZero().add(FastMath.PI));
 
         // merge the two half circles
-        ContinuousOutputFieldModel<T> cm = new ContinuousOutputFieldModel<T>();
+        ContinuousOutputFieldModel<T> cm = new ContinuousOutputFieldModel<>();
         cm.append(cm2);
         cm.append(new ContinuousOutputFieldModel<T>());
         cm.append(cm1);
@@ -164,7 +164,7 @@ public class ContinuousOutputFieldModelTest {
     }
 
     private <T extends RealFieldElement<T>> void doTestErrorConditions(final Field<T> field) {
-        ContinuousOutputFieldModel<T> cm = new ContinuousOutputFieldModel<T>();
+        ContinuousOutputFieldModel<T> cm = new ContinuousOutputFieldModel<>();
         cm.handleStep(buildInterpolator(field, 0, 1, new double[] { 0.0, 1.0, -2.0 }), true);
 
         // dimension mismatch
@@ -184,7 +184,7 @@ public class ContinuousOutputFieldModelTest {
     private <T extends RealFieldElement<T>> boolean checkAppendError(Field<T> field, ContinuousOutputFieldModel<T> cm,
                                                                      double t0, double t1, double[] y) {
         try {
-            ContinuousOutputFieldModel<T> otherCm = new ContinuousOutputFieldModel<T>();
+            ContinuousOutputFieldModel<T> otherCm = new ContinuousOutputFieldModel<>();
             otherCm.handleStep(buildInterpolator(field, t0, t1, y), true);
             cm.append(otherCm);
         } catch(DimensionMismatchException dme) {
@@ -201,9 +201,9 @@ public class ContinuousOutputFieldModelTest {
         for (int i = 0; i < y.length; ++i) {
             fieldY[i] = field.getZero().add(y[i]);
         }
-        final FieldODEStateAndDerivative<T> s0 = new FieldODEStateAndDerivative<T>(field.getZero().add(t0), fieldY, fieldY);
-        final FieldODEStateAndDerivative<T> s1 = new FieldODEStateAndDerivative<T>(field.getZero().add(t1), fieldY, fieldY);
-        final FieldEquationsMapper<T> mapper   = new FieldExpandableODE<T>(new FirstOrderFieldDifferentialEquations<T>() {
+        final FieldODEStateAndDerivative<T> s0 = new FieldODEStateAndDerivative<>(field.getZero().add(t0), fieldY, fieldY);
+        final FieldODEStateAndDerivative<T> s1 = new FieldODEStateAndDerivative<>(field.getZero().add(t1), fieldY, fieldY);
+        final FieldEquationsMapper<T> mapper   = new FieldExpandableODE<>(new FirstOrderFieldDifferentialEquations<T>() {
             public int getDimension() {
                 return s0.getStateDimension();
             }
@@ -213,7 +213,7 @@ public class ContinuousOutputFieldModelTest {
                 return y;
             }
         }).getMapper();
-        return new DummyFieldStepInterpolator<T>(t1 >= t0, s0, s1, s0, s1, mapper);
+        return new DummyFieldStepInterpolator<>(t1 >= t0, s0, s1, s0, s1, mapper);
     }
 
     public void checkValue(double value, double reference) {

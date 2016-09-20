@@ -30,7 +30,7 @@ import org.junit.Test;
 public class ArgUtilsTest {
     @Test
     public void testFlatten() {
-        final List<Object> orig = new ArrayList<Object>();
+        final List<Object> orig = new ArrayList<>();
 
         final Object[] struct = new Object[] {
             new Object[] {

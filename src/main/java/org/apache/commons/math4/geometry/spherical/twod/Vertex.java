@@ -45,7 +45,7 @@ public class Vertex {
         this.location = location;
         this.incoming = null;
         this.outgoing = null;
-        this.circles  = new ArrayList<Circle>();
+        this.circles  = new ArrayList<>();
     }
 
     /** Get Vertex location.

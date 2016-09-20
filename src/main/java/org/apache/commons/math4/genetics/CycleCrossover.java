@@ -129,13 +129,13 @@ public class CycleCrossover<T> implements CrossoverPolicy {
         final List<T> parent1Rep = first.getRepresentation();
         final List<T> parent2Rep = second.getRepresentation();
         // and of the children: do a crossover copy to simplify the later processing
-        final List<T> child1Rep = new ArrayList<T>(second.getRepresentation());
-        final List<T> child2Rep = new ArrayList<T>(first.getRepresentation());
+        final List<T> child1Rep = new ArrayList<>(second.getRepresentation());
+        final List<T> child2Rep = new ArrayList<>(first.getRepresentation());
 
         // the set of all visited indices so far
-        final Set<Integer> visitedIndices = new HashSet<Integer>(length);
+        final Set<Integer> visitedIndices = new HashSet<>(length);
         // the indices of the current cycle
-        final List<Integer> indices = new ArrayList<Integer>(length);
+        final List<Integer> indices = new ArrayList<>(length);
 
         // determine the starting index
         int idx = randomStart ? GeneticAlgorithm.getRandomGenerator().nextInt(length) : 0;

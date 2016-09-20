@@ -292,7 +292,7 @@ public class HarmonicCurveFitter extends AbstractCurveFitter {
          * @return the input observations, sorted.
          */
         private List<WeightedObservedPoint> sortObservations(Collection<WeightedObservedPoint> unsorted) {
-            final List<WeightedObservedPoint> observations = new ArrayList<WeightedObservedPoint>(unsorted);
+            final List<WeightedObservedPoint> observations = new ArrayList<>(unsorted);
 
             // Since the samples are almost always already sorted, this
             // method is implemented as an insertion sort that reorders the

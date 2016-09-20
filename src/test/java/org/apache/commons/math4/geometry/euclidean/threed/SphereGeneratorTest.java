@@ -144,7 +144,7 @@ public class SphereGeneratorTest {
             double d = 25 * random.nextDouble();
             double refRadius = 10 * random.nextDouble();
             Vector3D refCenter = new Vector3D(d, new Vector3D(sr.nextVector()));
-            List<Vector3D> support = new ArrayList<Vector3D>();
+            List<Vector3D> support = new ArrayList<>();
             for (int j = 0; j < 5; ++j) {
                 support.add(new Vector3D(1.0, refCenter, refRadius, new Vector3D(sr.nextVector())));
             }

@@ -65,8 +65,8 @@ public class FieldExpandableODE<T extends RealFieldElement<T>> {
      */
     public FieldExpandableODE(final FirstOrderFieldDifferentialEquations<T> primary) {
         this.primary    = primary;
-        this.components = new ArrayList<FieldSecondaryEquations<T>>();
-        this.mapper     = new FieldEquationsMapper<T>(null, primary.getDimension());
+        this.components = new ArrayList<>();
+        this.mapper     = new FieldEquationsMapper<>(null, primary.getDimension());
     }
 
     /** Get the mapper for the set of equations.
@@ -86,7 +86,7 @@ public class FieldExpandableODE<T extends RealFieldElement<T>> {
     public int addSecondaryEquations(final FieldSecondaryEquations<T> secondary) {
 
         components.add(secondary);
-        mapper = new FieldEquationsMapper<T>(mapper, secondary.getDimension());
+        mapper = new FieldEquationsMapper<>(mapper, secondary.getDimension());
 
         return components.size();
 

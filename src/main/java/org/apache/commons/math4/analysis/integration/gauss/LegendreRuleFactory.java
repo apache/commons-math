@@ -37,7 +37,7 @@ public class LegendreRuleFactory extends BaseRuleFactory<Double> {
 
         if (numberOfPoints == 1) {
             // Break recursion.
-            return new Pair<Double[], Double[]>(new Double[] { 0d },
+            return new Pair<>(new Double[] { 0d },
                                                 new Double[] { 2d });
         }
 
@@ -135,6 +135,6 @@ public class LegendreRuleFactory extends BaseRuleFactory<Double> {
             weights[iMax] = w;
         }
 
-        return new Pair<Double[], Double[]>(points, weights);
+        return new Pair<>(points, weights);
     }
 }

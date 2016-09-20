@@ -51,7 +51,7 @@ public class BaseRuleFactoryTest {
                                      new ArrayBlockingQueue<Runnable>(2));
 
         final List<Future<Pair<double[], double[]>>> results
-            = new ArrayList<Future<Pair<double[], double[]>>>();
+            = new ArrayList<>();
         for (int i = 0; i < numTasks; i++) {
             results.add(exec.submit(new RuleBuilder()));
         }
@@ -103,7 +103,7 @@ class DummyRuleFactory extends BaseRuleFactory<Double> {
             p[i] = new Double(i);
             w[i] = new Double(i);
         }
-        return new Pair<Double[], Double[]>(p, w);
+        return new Pair<>(p, w);
     }
 
     public int getNumberOfCalls() {

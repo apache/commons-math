@@ -41,7 +41,7 @@ public class MultiStartMultivariateOptimizer
     /** Underlying optimizer. */
     private final MultivariateOptimizer optimizer;
     /** Found optima. */
-    private final List<PointValuePair> optima = new ArrayList<PointValuePair>();
+    private final List<PointValuePair> optima = new ArrayList<>();
 
     /**
      * Create a multi-start optimizer from a single-start optimizer.

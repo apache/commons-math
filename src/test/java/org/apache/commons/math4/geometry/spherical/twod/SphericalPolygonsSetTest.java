@@ -113,7 +113,7 @@ public class SphericalPolygonsSetTest {
     public void testPositiveOctantByIntersection() {
         double tol = 0.01;
         double sinTol = FastMath.sin(tol);
-        RegionFactory<Sphere2D> factory = new RegionFactory<Sphere2D>();
+        RegionFactory<Sphere2D> factory = new RegionFactory<>();
         SphericalPolygonsSet plusX = new SphericalPolygonsSet(Vector3D.PLUS_I, tol);
         SphericalPolygonsSet plusY = new SphericalPolygonsSet(Vector3D.PLUS_J, tol);
         SphericalPolygonsSet plusZ = new SphericalPolygonsSet(Vector3D.PLUS_K, tol);
@@ -203,7 +203,7 @@ public class SphericalPolygonsSetTest {
     public void testNonConvex() {
         double tol = 0.01;
         double sinTol = FastMath.sin(tol);
-        RegionFactory<Sphere2D> factory = new RegionFactory<Sphere2D>();
+        RegionFactory<Sphere2D> factory = new RegionFactory<>();
         SphericalPolygonsSet plusX = new SphericalPolygonsSet(Vector3D.PLUS_I, tol);
         SphericalPolygonsSet plusY = new SphericalPolygonsSet(Vector3D.PLUS_J, tol);
         SphericalPolygonsSet plusZ = new SphericalPolygonsSet(Vector3D.PLUS_K, tol);
@@ -273,7 +273,7 @@ public class SphericalPolygonsSetTest {
     @Test
     public void testModeratlyComplexShape() {
         double tol = 0.01;
-        List<SubHyperplane<Sphere2D>> boundary = new ArrayList<SubHyperplane<Sphere2D>>();
+        List<SubHyperplane<Sphere2D>> boundary = new ArrayList<>();
         boundary.add(create(Vector3D.MINUS_J, Vector3D.PLUS_I,  Vector3D.PLUS_K,  tol, 0.0, 0.5 * FastMath.PI));
         boundary.add(create(Vector3D.MINUS_I, Vector3D.PLUS_K,  Vector3D.PLUS_J,  tol, 0.0, 0.5 * FastMath.PI));
         boundary.add(create(Vector3D.PLUS_K,  Vector3D.PLUS_J,  Vector3D.MINUS_I, tol, 0.0, 0.5 * FastMath.PI));
@@ -330,7 +330,7 @@ public class SphericalPolygonsSetTest {
     public void testSeveralParts() {
         double tol = 0.01;
         double sinTol = FastMath.sin(tol);
-        List<SubHyperplane<Sphere2D>> boundary = new ArrayList<SubHyperplane<Sphere2D>>();
+        List<SubHyperplane<Sphere2D>> boundary = new ArrayList<>();
 
         // first part: +X, +Y, +Z octant
         boundary.add(create(Vector3D.PLUS_J,  Vector3D.PLUS_K,  Vector3D.PLUS_I,  tol, 0.0, 0.5 * FastMath.PI));
@@ -413,7 +413,7 @@ public class SphericalPolygonsSetTest {
         SphericalPolygonsSet triOut    = new SphericalPolygonsSet(center, Vector3D.PLUS_K, 0.25, 3, tol);
         SphericalPolygonsSet triIn     = new SphericalPolygonsSet(center, Vector3D.PLUS_K, 0.15, 3, tol);
 
-        RegionFactory<Sphere2D> factory = new RegionFactory<Sphere2D>();
+        RegionFactory<Sphere2D> factory = new RegionFactory<>();
         SphericalPolygonsSet hexa   = (SphericalPolygonsSet) factory.difference(hexaOut,   hexaIn);
         SphericalPolygonsSet penta  = (SphericalPolygonsSet) factory.difference(pentaOut,  pentaIn);
         SphericalPolygonsSet quadri = (SphericalPolygonsSet) factory.difference(quadriOut, quadriIn);
@@ -474,7 +474,7 @@ public class SphericalPolygonsSetTest {
           { 42.15249,  9.56001 }, { 43.00998,  9.39000 }, { 42.62812,  8.74600 }, { 42.25651,  8.54421 },
           { 41.58361,  8.77572 }, { 41.38000,  9.22975 }
         });
-        RegionFactory<Sphere2D> factory = new RegionFactory<Sphere2D>();
+        RegionFactory<Sphere2D> factory = new RegionFactory<>();
         SphericalPolygonsSet zone = (SphericalPolygonsSet) factory.union(continental, corsica);
         EnclosingBall<Sphere2D, S2Point> enclosing = zone.getEnclosingCap();
         Vector3D enclosingCenter = ((S2Point) enclosing.getCenter()).getVector();
@@ -532,7 +532,7 @@ public class SphericalPolygonsSetTest {
 
     private SubCircle create(Vector3D pole, Vector3D x, Vector3D y,
                              double tolerance, double ... limits) {
-        RegionFactory<Sphere1D> factory = new RegionFactory<Sphere1D>();
+        RegionFactory<Sphere1D> factory = new RegionFactory<>();
         Circle circle = new Circle(pole, tolerance);
         Circle phased =
                 (Circle) Circle.getTransform(new Rotation(circle.getXAxis(), circle.getYAxis(), x, y)).apply(circle);

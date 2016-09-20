@@ -72,7 +72,7 @@ public class EnumeratedRealDistribution extends AbstractRealDistribution {
                MathArithmeticException,
                NotFiniteNumberException,
                NotANumberException {
-        innerDistribution = new EnumeratedDistribution<Double>(createDistribution(singletons, probabilities));
+        innerDistribution = new EnumeratedDistribution<>(createDistribution(singletons, probabilities));
     }
 
     /**
@@ -82,7 +82,7 @@ public class EnumeratedRealDistribution extends AbstractRealDistribution {
      * @param data input dataset
      */
     public EnumeratedRealDistribution(final double[] data) {
-        final Map<Double, Integer> dataMap = new HashMap<Double, Integer>();
+        final Map<Double, Integer> dataMap = new HashMap<>();
         for (double value : data) {
             Integer count = dataMap.get(value);
             if (count == null) {
@@ -100,7 +100,7 @@ public class EnumeratedRealDistribution extends AbstractRealDistribution {
             probabilities[index] = entry.getValue().intValue() / denom;
             index++;
         }
-        innerDistribution = new EnumeratedDistribution<Double>(createDistribution(values, probabilities));
+        innerDistribution = new EnumeratedDistribution<>(createDistribution(values, probabilities));
     }
 
     /**
@@ -115,10 +115,10 @@ public class EnumeratedRealDistribution extends AbstractRealDistribution {
             throw new DimensionMismatchException(probabilities.length, singletons.length);
         }
 
-        final List<Pair<Double, Double>> samples = new ArrayList<Pair<Double, Double>>(singletons.length);
+        final List<Pair<Double, Double>> samples = new ArrayList<>(singletons.length);
 
         for (int i = 0; i < singletons.length; i++) {
-            samples.add(new Pair<Double, Double>(singletons[i], probabilities[i]));
+            samples.add(new Pair<>(singletons[i], probabilities[i]));
         }
         return samples;
 

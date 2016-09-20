@@ -193,7 +193,7 @@ public class DormandPrince54FieldIntegrator<T extends RealFieldElement<T>>
         createInterpolator(final boolean forward, T[][] yDotK,
                            final FieldODEStateAndDerivative<T> globalPreviousState,
                            final FieldODEStateAndDerivative<T> globalCurrentState, final FieldEquationsMapper<T> mapper) {
-        return new DormandPrince54FieldStepInterpolator<T>(getField(), forward, yDotK,
+        return new DormandPrince54FieldStepInterpolator<>(getField(), forward, yDotK,
                                                            globalPreviousState, globalCurrentState,
                                                            globalPreviousState, globalCurrentState,
                                                            mapper);

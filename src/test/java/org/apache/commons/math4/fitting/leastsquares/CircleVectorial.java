@@ -29,7 +29,7 @@ class CircleVectorial {
     private ArrayList<Vector2D> points;
 
     public CircleVectorial() {
-        points  = new ArrayList<Vector2D>();
+        points  = new ArrayList<>();
     }
 
     public void addPoint(double px, double py) {

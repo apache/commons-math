@@ -129,10 +129,10 @@ public class MultivariateNormalMixtureExpectationMaximizationTest {
 
         // Create components and mixture
         List<Pair<Double, MultivariateNormalDistribution>> components =
-                new ArrayList<Pair<Double, MultivariateNormalDistribution>>();
-        components.add(new Pair<Double, MultivariateNormalDistribution>(
+                new ArrayList<>();
+        components.add(new Pair<>(
                 weights[0], mvns[0]));
-        components.add(new Pair<Double, MultivariateNormalDistribution>(
+        components.add(new Pair<>(
                 weights[1], mvns[1]));
 
         MixtureMultivariateNormalDistribution badInitialMix

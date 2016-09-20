@@ -100,7 +100,7 @@ public class ContinuousOutputFieldModel<T extends RealFieldElement<T>>
      * Build an empty continuous output model.
      */
     public ContinuousOutputFieldModel() {
-        steps       = new ArrayList<FieldStepInterpolator<T>>();
+        steps       = new ArrayList<>();
         initialTime = null;
         finalTime   = null;
         forward     = true;

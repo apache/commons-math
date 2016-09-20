@@ -43,7 +43,7 @@ public final class CombinatoricsUtils {
         6402373705728000l, 121645100408832000l, 2432902008176640000l };
 
     /** Stirling numbers of the second kind. */
-    static final AtomicReference<long[][]> STIRLING_S2 = new AtomicReference<long[][]> (null);
+    static final AtomicReference<long[][]> STIRLING_S2 = new AtomicReference<> (null);
 
     /**
      * Default implementation of {@link #factorialLog(int)} method:

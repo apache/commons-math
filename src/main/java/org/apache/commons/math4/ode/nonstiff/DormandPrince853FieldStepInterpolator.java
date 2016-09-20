@@ -195,7 +195,7 @@ class DormandPrince853FieldStepInterpolator<T extends RealFieldElement<T>>
                                                                final FieldODEStateAndDerivative<T> newSoftPreviousState,
                                                                final FieldODEStateAndDerivative<T> newSoftCurrentState,
                                                                final FieldEquationsMapper<T> newMapper) {
-        return new DormandPrince853FieldStepInterpolator<T>(newField, newForward, newYDotK,
+        return new DormandPrince853FieldStepInterpolator<>(newField, newForward, newYDotK,
                                                             newGlobalPreviousState, newGlobalCurrentState,
                                                             newSoftPreviousState, newSoftCurrentState,
                                                             newMapper);
@@ -295,7 +295,7 @@ class DormandPrince853FieldStepInterpolator<T extends RealFieldElement<T>>
                                                                   q[8], q[9], q[10], q[11], q[12], q[13], q[14], q[15]);
         }
 
-        return new FieldODEStateAndDerivative<T>(time, interpolatedState, interpolatedDerivatives);
+        return new FieldODEStateAndDerivative<>(time, interpolatedState, interpolatedDerivatives);
 
     }
 

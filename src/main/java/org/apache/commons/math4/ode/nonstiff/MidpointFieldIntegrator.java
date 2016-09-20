@@ -90,7 +90,7 @@ public class MidpointFieldIntegrator<T extends RealFieldElement<T>> extends Rung
                            final FieldODEStateAndDerivative<T> globalPreviousState,
                            final FieldODEStateAndDerivative<T> globalCurrentState,
                            final FieldEquationsMapper<T> mapper) {
-        return new MidpointFieldStepInterpolator<T>(getField(), forward, yDotK,
+        return new MidpointFieldStepInterpolator<>(getField(), forward, yDotK,
                                                     globalPreviousState, globalCurrentState,
                                                     globalPreviousState, globalCurrentState,
                                                     mapper);

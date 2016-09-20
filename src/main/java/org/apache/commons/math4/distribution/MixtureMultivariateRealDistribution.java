@@ -73,7 +73,7 @@ public class MixtureMultivariateRealDistribution<T extends MultivariateRealDistr
         }
 
         // Store each distribution and its normalized weight.
-        distribution = new ArrayList<T>();
+        distribution = new ArrayList<>();
         weight = new double[numComp];
         for (int i = 0; i < numComp; i++) {
             final Pair<Double, T> comp = components.get(i);
@@ -98,10 +98,10 @@ public class MixtureMultivariateRealDistribution<T extends MultivariateRealDistr
      * @return the component distributions and associated weights.
      */
     public List<Pair<Double, T>> getComponents() {
-        final List<Pair<Double, T>> list = new ArrayList<Pair<Double, T>>(weight.length);
+        final List<Pair<Double, T>> list = new ArrayList<>(weight.length);
 
         for (int i = 0; i < weight.length; i++) {
-            list.add(new Pair<Double, T>(weight[i], distribution.get(i)));
+            list.add(new Pair<>(weight[i], distribution.get(i)));
         }
 
         return list;

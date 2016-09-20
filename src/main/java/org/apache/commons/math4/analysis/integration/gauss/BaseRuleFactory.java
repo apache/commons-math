@@ -37,10 +37,10 @@ import org.apache.commons.math4.util.Pair;
 public abstract class BaseRuleFactory<T extends Number> {
     /** List of points and weights, indexed by the order of the rule. */
     private final Map<Integer, Pair<T[], T[]>> pointsAndWeights
-        = new TreeMap<Integer, Pair<T[], T[]>>();
+        = new TreeMap<>();
     /** Cache for double-precision rules. */
     private final Map<Integer, Pair<double[], double[]>> pointsAndWeightsDouble
-        = new TreeMap<Integer, Pair<double[], double[]>>();
+        = new TreeMap<>();
 
     /**
      * Gets a copy of the quadrature rule with the given number of integration
@@ -75,7 +75,7 @@ public abstract class BaseRuleFactory<T extends Number> {
         }
 
         // Return a copy.
-        return new Pair<double[], double[]>(cached.getFirst().clone(),
+        return new Pair<>(cached.getFirst().clone(),
                                             cached.getSecond().clone());
     }
 
@@ -149,6 +149,6 @@ public abstract class BaseRuleFactory<T extends Number> {
             wD[i] = wT[i].doubleValue();
         }
 
-        return new Pair<double[], double[]>(pD, wD);
+        return new Pair<>(pD, wD);
     }
 }
