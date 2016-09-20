@@ -5,9 +5,9 @@ This document summarizes a discussion that took place on the "dev" ML:
 The conclusions reported here are based on ideas presented in this blog post:
   http://nvie.com/posts/a-successful-git-branching-model/
 
-1. The "master" branch can only contain released code; i.e. the only
-   accepted commits are the result of a merge from the "release" branch
-   (from a release candidate that passed a vote).
+1. A tag in git will represent a full release (from a release candidate that
+   passed a vote). Note, this tag will not have the suffix "RC#", as tags
+   with that suffix represent a release candidate.
 2. Contents that is candidate for being released must be merged into the
    "release" branch, from the "master" branch.
 3. The "master" branch collects all modifications that will be part
