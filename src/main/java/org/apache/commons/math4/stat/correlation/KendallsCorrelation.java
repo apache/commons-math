@@ -164,7 +164,7 @@ public class KendallsCorrelation {
         @SuppressWarnings("unchecked")
         Pair<Double, Double>[] pairs = new Pair[n];
         for (int i = 0; i < n; i++) {
-            pairs[i] = new Pair<Double, Double>(xArray[i], yArray[i]);
+            pairs[i] = new Pair<>(xArray[i], yArray[i]);
         }
 
         Arrays.sort(pairs, new Comparator<Pair<Double, Double>>() {

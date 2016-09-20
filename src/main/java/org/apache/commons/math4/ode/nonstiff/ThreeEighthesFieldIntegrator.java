@@ -104,7 +104,7 @@ public class ThreeEighthesFieldIntegrator<T extends RealFieldElement<T>>
                            final FieldODEStateAndDerivative<T> globalPreviousState,
                            final FieldODEStateAndDerivative<T> globalCurrentState,
                            final FieldEquationsMapper<T> mapper) {
-        return new ThreeEighthesFieldStepInterpolator<T>(getField(), forward, yDotK,
+        return new ThreeEighthesFieldStepInterpolator<>(getField(), forward, yDotK,
                                                          globalPreviousState, globalCurrentState,
                                                          globalPreviousState, globalCurrentState,
                                                          mapper);

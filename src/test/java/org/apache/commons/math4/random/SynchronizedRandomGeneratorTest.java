@@ -95,7 +95,7 @@ public class SynchronizedRandomGeneratorTest {
         final RandomGenerator rng = new MersenneTwister();
         final RandomGenerator wrapper = sync ? new SynchronizedRandomGenerator(rng) : rng;
 
-        final List<Callable<Double>> tasks = new ArrayList<Callable<Double>>();
+        final List<Callable<Double>> tasks = new ArrayList<>();
         for (int i = 0; i < numGenerators; i++) {
             tasks.add(new Callable<Double>() {
                     @Override

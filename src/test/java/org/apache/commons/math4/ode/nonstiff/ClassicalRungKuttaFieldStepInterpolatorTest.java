@@ -34,7 +34,7 @@ public class ClassicalRungKuttaFieldStepInterpolatorTest extends RungeKuttaField
                        FieldODEStateAndDerivative<T> softPreviousState,
                        FieldODEStateAndDerivative<T> softCurrentState,
                        FieldEquationsMapper<T> mapper) {
-        return new ClassicalRungeKuttaFieldStepInterpolator<T>(field, forward, yDotK,
+        return new ClassicalRungeKuttaFieldStepInterpolator<>(field, forward, yDotK,
                                                                globalPreviousState, globalCurrentState,
                                                                softPreviousState, softCurrentState,
                                                                mapper);
@@ -42,7 +42,7 @@ public class ClassicalRungKuttaFieldStepInterpolatorTest extends RungeKuttaField
 
     protected <T extends RealFieldElement<T>> FieldButcherArrayProvider<T>
     createButcherArrayProvider(final Field<T> field) {
-        return new ClassicalRungeKuttaFieldIntegrator<T>(field, field.getOne());
+        return new ClassicalRungeKuttaFieldIntegrator<>(field, field.getOne());
     }
 
     @Test

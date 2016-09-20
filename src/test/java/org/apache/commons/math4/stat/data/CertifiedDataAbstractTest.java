@@ -48,7 +48,7 @@ public abstract class CertifiedDataAbstractTest {
     public void setUp() throws IOException {
         descriptives = new DescriptiveStatistics();
         summaries = new SummaryStatistics();
-        certifiedValues = new HashMap<String, Double>();
+        certifiedValues = new HashMap<>();
 
         loadData();
     }

@@ -94,7 +94,7 @@ public class NPointCrossoverTest {
         BinaryChromosome p2c = new DummyBinaryChromosome(p2);
 
         final int order = 3;
-        NPointCrossover<Integer> npc = new NPointCrossover<Integer>(order);
+        NPointCrossover<Integer> npc = new NPointCrossover<>(order);
 
         // the two parent chromosomes are different at each position, so it is easy to detect
         // the number of crossovers that happened for each child

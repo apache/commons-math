@@ -108,12 +108,12 @@ public class IntervalsSet extends AbstractRegion<Euclidean1D, Euclidean1D> imple
         if (Double.isInfinite(lower) && (lower < 0)) {
             if (Double.isInfinite(upper) && (upper > 0)) {
                 // the tree must cover the whole real line
-                return new BSPTree<Euclidean1D>(Boolean.TRUE);
+                return new BSPTree<>(Boolean.TRUE);
             }
             // the tree must be open on the negative infinity side
             final SubHyperplane<Euclidean1D> upperCut =
                 new OrientedPoint(new Vector1D(upper), true, tolerance).wholeHyperplane();
-            return new BSPTree<Euclidean1D>(upperCut,
+            return new BSPTree<>(upperCut,
                                new BSPTree<Euclidean1D>(Boolean.FALSE),
                                new BSPTree<Euclidean1D>(Boolean.TRUE),
                                null);
@@ -122,7 +122,7 @@ public class IntervalsSet extends AbstractRegion<Euclidean1D, Euclidean1D> imple
             new OrientedPoint(new Vector1D(lower), false, tolerance).wholeHyperplane();
         if (Double.isInfinite(upper) && (upper > 0)) {
             // the tree must be open on the positive infinity side
-            return new BSPTree<Euclidean1D>(lowerCut,
+            return new BSPTree<>(lowerCut,
                                             new BSPTree<Euclidean1D>(Boolean.FALSE),
                                             new BSPTree<Euclidean1D>(Boolean.TRUE),
                                             null);
@@ -131,9 +131,9 @@ public class IntervalsSet extends AbstractRegion<Euclidean1D, Euclidean1D> imple
         // the tree must be bounded on the two sides
         final SubHyperplane<Euclidean1D> upperCut =
             new OrientedPoint(new Vector1D(upper), true, tolerance).wholeHyperplane();
-        return new BSPTree<Euclidean1D>(lowerCut,
+        return new BSPTree<>(lowerCut,
                                         new BSPTree<Euclidean1D>(Boolean.FALSE),
-                                        new BSPTree<Euclidean1D>(upperCut,
+                                        new BSPTree<>(upperCut,
                                                                  new BSPTree<Euclidean1D>(Boolean.FALSE),
                                                                  new BSPTree<Euclidean1D>(Boolean.TRUE),
                                                                  null),
@@ -222,9 +222,9 @@ public class IntervalsSet extends AbstractRegion<Euclidean1D, Euclidean1D> imple
                 final double previousOffset = x - previous;
                 final double currentOffset  = a[0] - x;
                 if (previousOffset < currentOffset) {
-                    return new BoundaryProjection<Euclidean1D>(point, finiteOrNullPoint(previous), previousOffset);
+                    return new BoundaryProjection<>(point, finiteOrNullPoint(previous), previousOffset);
                 } else {
-                    return new BoundaryProjection<Euclidean1D>(point, finiteOrNullPoint(a[0]), currentOffset);
+                    return new BoundaryProjection<>(point, finiteOrNullPoint(a[0]), currentOffset);
                 }
             } else if (x <= a[1]) {
                 // the test point lies within the current interval
@@ -232,16 +232,16 @@ public class IntervalsSet extends AbstractRegion<Euclidean1D, Euclidean1D> imple
                 final double offset0 = a[0] - x;
                 final double offset1 = x - a[1];
                 if (offset0 < offset1) {
-                    return new BoundaryProjection<Euclidean1D>(point, finiteOrNullPoint(a[1]), offset1);
+                    return new BoundaryProjection<>(point, finiteOrNullPoint(a[1]), offset1);
                 } else {
-                    return new BoundaryProjection<Euclidean1D>(point, finiteOrNullPoint(a[0]), offset0);
+                    return new BoundaryProjection<>(point, finiteOrNullPoint(a[0]), offset0);
                 }
             }
             previous = a[1];
         }
 
         // the test point if past the last sub-interval
-        return new BoundaryProjection<Euclidean1D>(point, finiteOrNullPoint(previous), x - previous);
+        return new BoundaryProjection<>(point, finiteOrNullPoint(previous), x - previous);
 
     }
 
@@ -267,7 +267,7 @@ public class IntervalsSet extends AbstractRegion<Euclidean1D, Euclidean1D> imple
      * elements
      */
     public List<Interval> asList() {
-        final List<Interval> list = new ArrayList<Interval>();
+        final List<Interval> list = new ArrayList<>();
         for (final double[] a : this) {
             list.add(new Interval(a[0], a[1]));
         }

@@ -61,9 +61,9 @@ public class FieldHermiteInterpolator<T extends FieldElement<T>> {
     /** Create an empty interpolator.
      */
     public FieldHermiteInterpolator() {
-        this.abscissae      = new ArrayList<T>();
-        this.topDiagonal    = new ArrayList<T[]>();
-        this.bottomDiagonal = new ArrayList<T[]>();
+        this.abscissae      = new ArrayList<>();
+        this.topDiagonal    = new ArrayList<>();
+        this.bottomDiagonal = new ArrayList<>();
     }
 
     /** Add a sample point.

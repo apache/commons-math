@@ -147,7 +147,7 @@ public class AggregateSummaryStatisticsTest {
         for (int i = 0; i < nSamples; i++) {
             subSampleStats[i] = new SummaryStatistics();
         }
-        Collection<SummaryStatistics> aggregate = new ArrayList<SummaryStatistics>();
+        Collection<SummaryStatistics> aggregate = new ArrayList<>();
         for (int i = 0; i < nSamples; i++) {
             for (int j = 0; j < subSamples[i].length; j++) {
                 subSampleStats[i].addValue(subSamples[i][j]);
@@ -183,7 +183,7 @@ public class AggregateSummaryStatisticsTest {
         for (int i = 0; i < nSamples; i++) {
             subSampleStats[i] = new SummaryStatistics();
         }
-        Collection<StatisticalSummary> aggregate = new ArrayList<StatisticalSummary>();
+        Collection<StatisticalSummary> aggregate = new ArrayList<>();
         for (int i = 0; i < nSamples; i++) {
             for (int j = 0; j < subSamples[i].length; j++) {
                 subSampleStats[i].addValue(subSamples[i][j]);
@@ -213,7 +213,7 @@ public class AggregateSummaryStatisticsTest {
         for (int i = 0; i < 5; i++) {
             subSampleStats[i] = new SummaryStatistics();
         }
-        Collection<SummaryStatistics> aggregate = new ArrayList<SummaryStatistics>();
+        Collection<SummaryStatistics> aggregate = new ArrayList<>();
         for (int i = 0; i < 5; i++) {
             for (int j = 0; j < subSamples[i].length; j++) {
                 subSampleStats[i].addValue(subSamples[i][j]);
@@ -242,7 +242,7 @@ public class AggregateSummaryStatisticsTest {
         for (int i = 0; i < 4; i++) {
             subSampleStats[i] = new SummaryStatistics();
         }
-        Collection<SummaryStatistics> aggregate = new ArrayList<SummaryStatistics>();
+        Collection<SummaryStatistics> aggregate = new ArrayList<>();
         for (int i = 0; i < 4; i++) {
             for (int j = 0; j < subSamples[i].length; j++) {
                 subSampleStats[i].addValue(subSamples[i][j]);

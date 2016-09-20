@@ -111,7 +111,7 @@ public class ContinuousOutputModel
    * Build an empty continuous output model.
    */
   public ContinuousOutputModel() {
-    steps = new ArrayList<StepInterpolator>();
+    steps = new ArrayList<>();
     initialTime = Double.NaN;
     finalTime   = Double.NaN;
     forward     = true;

@@ -61,7 +61,7 @@ class ParameterizedWrapper implements ParameterizedODE {
     /** {@inheritDoc} */
     @Override
     public Collection<String> getParametersNames() {
-        return new ArrayList<String>();
+        return new ArrayList<>();
     }
 
     /** {@inheritDoc} */

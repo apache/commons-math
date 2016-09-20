@@ -59,9 +59,9 @@ public class HermiteInterpolator implements UnivariateDifferentiableVectorFuncti
     /** Create an empty interpolator.
      */
     public HermiteInterpolator() {
-        this.abscissae      = new ArrayList<Double>();
-        this.topDiagonal    = new ArrayList<double[]>();
-        this.bottomDiagonal = new ArrayList<double[]>();
+        this.abscissae      = new ArrayList<>();
+        this.topDiagonal    = new ArrayList<>();
+        this.bottomDiagonal = new ArrayList<>();
     }
 
     /** Add a sample point.

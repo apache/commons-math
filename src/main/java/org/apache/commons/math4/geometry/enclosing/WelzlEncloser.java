@@ -78,8 +78,8 @@ public class WelzlEncloser<S extends Space, P extends Point<S>> implements Enclo
     private EnclosingBall<S, P> pivotingBall(final Iterable<P> points) {
 
         final P first = points.iterator().next();
-        final List<P> extreme = new ArrayList<P>(first.getSpace().getDimension() + 1);
-        final List<P> support = new ArrayList<P>(first.getSpace().getDimension() + 1);
+        final List<P> extreme = new ArrayList<>(first.getSpace().getDimension() + 1);
+        final List<P> support = new ArrayList<>(first.getSpace().getDimension() + 1);
 
         // start with only first point selected as a candidate support
         extreme.add(first);

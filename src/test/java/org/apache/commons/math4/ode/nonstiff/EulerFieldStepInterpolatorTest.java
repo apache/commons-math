@@ -33,7 +33,7 @@ public class EulerFieldStepInterpolatorTest extends RungeKuttaFieldStepInterpola
                        FieldODEStateAndDerivative<T> globalCurrentState,
                        FieldODEStateAndDerivative<T> softPreviousState,
                        FieldODEStateAndDerivative<T> softCurrentState, FieldEquationsMapper<T> mapper) {
-        return new EulerFieldStepInterpolator<T>(field, forward, yDotK,
+        return new EulerFieldStepInterpolator<>(field, forward, yDotK,
                                                  globalPreviousState, globalCurrentState,
                                                  softPreviousState, softCurrentState,
                                                  mapper);
@@ -41,7 +41,7 @@ public class EulerFieldStepInterpolatorTest extends RungeKuttaFieldStepInterpola
 
     protected <T extends RealFieldElement<T>> FieldButcherArrayProvider<T>
     createButcherArrayProvider(final Field<T> field) {
-        return new EulerFieldIntegrator<T>(field, field.getOne());
+        return new EulerFieldIntegrator<>(field, field.getOne());
     }
 
     @Test

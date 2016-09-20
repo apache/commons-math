@@ -47,7 +47,7 @@ public class ListUnivariateImpl extends DescriptiveStatistics implements Seriali
      * No argument Constructor
      */
     public ListUnivariateImpl(){
-        this(new ArrayList<Object>());
+        this(new ArrayList<>());
     }
 
     /**

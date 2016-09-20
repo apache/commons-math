@@ -84,7 +84,7 @@ public final class AklToussaintHeuristic {
             return points;
         }
 
-        final List<Vector2D> reducedPoints = new ArrayList<Vector2D>(quadrilateral);
+        final List<Vector2D> reducedPoints = new ArrayList<>(quadrilateral);
         for (final Vector2D p : points) {
             // check all points if they are within the quadrilateral
             // in which case they can not be part of the convex hull
@@ -103,7 +103,7 @@ public final class AklToussaintHeuristic {
      * @return the quadrilateral
      */
     private static List<Vector2D> buildQuadrilateral(final Vector2D... points) {
-        List<Vector2D> quadrilateral = new ArrayList<Vector2D>();
+        List<Vector2D> quadrilateral = new ArrayList<>();
         for (Vector2D p : points) {
             if (!quadrilateral.contains(p)) {
                 quadrilateral.add(p);

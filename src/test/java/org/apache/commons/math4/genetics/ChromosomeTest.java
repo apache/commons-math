@@ -92,7 +92,7 @@ public class ChromosomeTest {
             }
         };
 
-        List<Chromosome> popChr = new ArrayList<Chromosome>();
+        List<Chromosome> popChr = new ArrayList<>();
         popChr.add(c1);
         popChr.add(c2);
         popChr.add(c3);

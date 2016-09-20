@@ -112,7 +112,7 @@ public class KohonenTrainingTaskTest {
         final ExecutorService service = Executors.newCachedThreadPool();
         final int numProcs = Runtime.getRuntime().availableProcessors();
         final Runnable[] tasks = solver.createParallelTasks(numProcs, 5000);
-        final List<Future<?>> execOutput = new ArrayList<Future<?>>();
+        final List<Future<?>> execOutput = new ArrayList<>();
         // Run tasks.
         for (Runnable r : tasks) {
             execOutput.add(service.submit(r));
@@ -165,7 +165,7 @@ public class KohonenTrainingTaskTest {
      * @return the total distance.
      */
     private Collection<City> uniqueCities(City[] cityList) {
-        final Set<City> unique = new HashSet<City>();
+        final Set<City> unique = new HashSet<>();
         for (City c : cityList) {
             unique.add(c);
         }

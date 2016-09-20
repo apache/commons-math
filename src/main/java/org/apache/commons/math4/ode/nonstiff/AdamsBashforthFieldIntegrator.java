@@ -301,7 +301,7 @@ public class AdamsBashforthFieldIntegrator<T extends RealFieldElement<T>> extend
             }
 
             // discrete events handling
-            setStepStart(acceptStep(new AdamsFieldStepInterpolator<T>(getStepSize(), stepEnd,
+            setStepStart(acceptStep(new AdamsFieldStepInterpolator<>(getStepSize(), stepEnd,
                                                                       predictedScaled, predictedNordsieck, forward,
                                                                       getStepStart(), stepEnd,
                                                                       equations.getMapper()),

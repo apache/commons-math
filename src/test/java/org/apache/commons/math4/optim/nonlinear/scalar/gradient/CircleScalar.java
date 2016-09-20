@@ -32,7 +32,7 @@ public class CircleScalar {
     private ArrayList<Vector2D> points;
 
     public CircleScalar() {
-        points  = new ArrayList<Vector2D>();
+        points  = new ArrayList<>();
     }
 
     public void addPoint(double px, double py) {

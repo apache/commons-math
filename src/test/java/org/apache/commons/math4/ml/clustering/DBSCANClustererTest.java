@@ -99,7 +99,7 @@ public class DBSCANClustererTest {
         };
 
         final DBSCANClusterer<DoublePoint> transformer =
-                new DBSCANClusterer<DoublePoint>(2.0, 5);
+                new DBSCANClusterer<>(2.0, 5);
         final List<Cluster<DoublePoint>> clusters = transformer.cluster(Arrays.asList(points));
 
         final List<DoublePoint> clusterOne =
@@ -152,7 +152,7 @@ public class DBSCANClustererTest {
 
         };
 
-        final DBSCANClusterer<DoublePoint> clusterer = new DBSCANClusterer<DoublePoint>(3, 3);
+        final DBSCANClusterer<DoublePoint> clusterer = new DBSCANClusterer<>(3, 3);
         List<Cluster<DoublePoint>> clusters = clusterer.cluster(Arrays.asList(points));
 
         Assert.assertEquals(1, clusters.size());
@@ -164,13 +164,13 @@ public class DBSCANClustererTest {
 
     @Test
     public void testGetEps() {
-        final DBSCANClusterer<DoublePoint> transformer = new DBSCANClusterer<DoublePoint>(2.0, 5);
+        final DBSCANClusterer<DoublePoint> transformer = new DBSCANClusterer<>(2.0, 5);
         Assert.assertEquals(2.0, transformer.getEps(), 0.0);
     }
 
     @Test
     public void testGetMinPts() {
-        final DBSCANClusterer<DoublePoint> transformer = new DBSCANClusterer<DoublePoint>(2.0, 5);
+        final DBSCANClusterer<DoublePoint> transformer = new DBSCANClusterer<>(2.0, 5);
         Assert.assertEquals(5, transformer.getMinPts());
     }
 
@@ -186,7 +186,7 @@ public class DBSCANClustererTest {
 
     @Test(expected = NullArgumentException.class)
     public void testNullDataset() {
-        DBSCANClusterer<DoublePoint> clusterer = new DBSCANClusterer<DoublePoint>(2.0, 5);
+        DBSCANClusterer<DoublePoint> clusterer = new DBSCANClusterer<>(2.0, 5);
         clusterer.cluster(null);
     }
 

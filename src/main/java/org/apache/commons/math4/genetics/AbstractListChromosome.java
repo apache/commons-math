@@ -59,7 +59,7 @@ public abstract class AbstractListChromosome<T> extends Chromosome {
     public AbstractListChromosome(final List<T> representation, final boolean copyList) {
         checkValidity(representation);
         this.representation =
-                Collections.unmodifiableList(copyList ? new ArrayList<T>(representation) : representation);
+                Collections.unmodifiableList(copyList ? new ArrayList<>(representation) : representation);
     }
 
     /**

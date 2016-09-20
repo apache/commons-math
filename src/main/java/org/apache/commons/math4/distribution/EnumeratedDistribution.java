@@ -117,7 +117,7 @@ public class EnumeratedDistribution<T> implements Serializable {
         throws NotPositiveException, MathArithmeticException, NotFiniteNumberException, NotANumberException {
         random = rng;
 
-        singletons = new ArrayList<T>(pmf.size());
+        singletons = new ArrayList<>(pmf.size());
         final double[] probs = new double[pmf.size()];
 
         for (int i = 0; i < pmf.size(); i++) {
@@ -191,10 +191,10 @@ public class EnumeratedDistribution<T> implements Serializable {
      * @return the probability mass function.
      */
     public List<Pair<T, Double>> getPmf() {
-        final List<Pair<T, Double>> samples = new ArrayList<Pair<T, Double>>(probabilities.length);
+        final List<Pair<T, Double>> samples = new ArrayList<>(probabilities.length);
 
         for (int i = 0; i < probabilities.length; i++) {
-            samples.add(new Pair<T, Double>(singletons.get(i), probabilities[i]));
+            samples.add(new Pair<>(singletons.get(i), probabilities[i]));
         }
 
         return samples;

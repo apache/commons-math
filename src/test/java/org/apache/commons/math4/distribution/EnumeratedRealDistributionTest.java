@@ -192,10 +192,10 @@ public class EnumeratedRealDistributionTest {
 
     @Test
     public void testIssue942() {
-        List<Pair<Object,Double>> list = new ArrayList<Pair<Object, Double>>();
+        List<Pair<Object,Double>> list = new ArrayList<>();
         list.add(new Pair<Object, Double>(new Object() {}, new Double(0)));
         list.add(new Pair<Object, Double>(new Object() {}, new Double(1)));
-        Assert.assertEquals(1, new EnumeratedDistribution<Object>(list).sample(1).length);
+        Assert.assertEquals(1, new EnumeratedDistribution<>(list).sample(1).length);
     }
 
     @Test

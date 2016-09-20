@@ -127,7 +127,7 @@ public class SubCircleTest {
 
     private SubCircle create(Vector3D pole, Vector3D x, Vector3D y,
                              double tolerance, double ... limits) {
-        RegionFactory<Sphere1D> factory = new RegionFactory<Sphere1D>();
+        RegionFactory<Sphere1D> factory = new RegionFactory<>();
         Circle circle = new Circle(pole, tolerance);
         Circle phased =
                 (Circle) Circle.getTransform(new Rotation(circle.getXAxis(), circle.getYAxis(), x, y)).apply(circle);

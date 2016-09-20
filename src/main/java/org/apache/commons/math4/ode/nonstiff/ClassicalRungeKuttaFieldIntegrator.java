@@ -105,7 +105,7 @@ public class ClassicalRungeKuttaFieldIntegrator<T extends RealFieldElement<T>>
                            final FieldODEStateAndDerivative<T> globalPreviousState,
                            final FieldODEStateAndDerivative<T> globalCurrentState,
                            final FieldEquationsMapper<T> mapper) {
-        return new ClassicalRungeKuttaFieldStepInterpolator<T>(getField(), forward, yDotK,
+        return new ClassicalRungeKuttaFieldStepInterpolator<>(getField(), forward, yDotK,
                                                                globalPreviousState, globalCurrentState,
                                                                globalPreviousState, globalCurrentState,
                                                                mapper);

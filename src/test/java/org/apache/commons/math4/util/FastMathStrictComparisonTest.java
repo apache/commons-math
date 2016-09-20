@@ -212,7 +212,7 @@ public class FastMathStrictComparisonTest {
     @Parameters
     public static List<Object[]> data() throws Exception {
         String singleMethod = System.getProperty("testMethod");
-        List<Object[]> list = new ArrayList<Object[]>();
+        List<Object[]> list = new ArrayList<>();
         for(Method mathMethod : StrictMath.class.getDeclaredMethods()) {
             method:
             if (Modifier.isPublic(mathMethod.getModifiers())){// Only test public methods

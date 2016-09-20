@@ -125,7 +125,7 @@ public class ArithmeticUtilsTest {
     @Test
     public void testGcdConsistency() {
         int[] primeList = {19, 23, 53, 67, 73, 79, 101, 103, 111, 131};
-        ArrayList<Integer> primes = new ArrayList<Integer>();
+        ArrayList<Integer> primes = new ArrayList<>();
         for (int i = 0; i < primeList.length; i++) {
             primes.add(Integer.valueOf(primeList[i]));
         }

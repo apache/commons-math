@@ -34,7 +34,7 @@ public class HighamHall54FieldStepInterpolatorTest extends RungeKuttaFieldStepIn
                        FieldODEStateAndDerivative<T> softPreviousState,
                        FieldODEStateAndDerivative<T> softCurrentState,
                        FieldEquationsMapper<T> mapper) {
-        return new HighamHall54FieldStepInterpolator<T>(field, forward, yDotK,
+        return new HighamHall54FieldStepInterpolator<>(field, forward, yDotK,
                                                         globalPreviousState, globalCurrentState,
                                                         softPreviousState, softCurrentState,
                                                         mapper);
@@ -42,7 +42,7 @@ public class HighamHall54FieldStepInterpolatorTest extends RungeKuttaFieldStepIn
 
     protected <T extends RealFieldElement<T>> FieldButcherArrayProvider<T>
     createButcherArrayProvider(final Field<T> field) {
-        return new HighamHall54FieldIntegrator<T>(field, 0, 1, 1, 1);
+        return new HighamHall54FieldIntegrator<>(field, 0, 1, 1, 1);
     }
 
     @Test

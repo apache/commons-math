@@ -203,7 +203,7 @@ public class OutlineExtractor {
                 }
 
                 // compute the projection of the facet in the outline plane
-                final ArrayList<SubHyperplane<Euclidean2D>> edges = new ArrayList<SubHyperplane<Euclidean2D>>();
+                final ArrayList<SubHyperplane<Euclidean2D>> edges = new ArrayList<>();
                 for (Vector2D[] loop : vertices) {
                     final boolean closed = loop[0] != null;
                     int previous         = closed ? (loop.length - 1) : 1;

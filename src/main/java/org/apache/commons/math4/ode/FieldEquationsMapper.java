@@ -130,7 +130,7 @@ public class FieldEquationsMapper<T extends RealFieldElement<T>> implements Seri
         final T[] state      = extractEquationData(index, y);
         final T[] derivative = extractEquationData(index, yDot);
         if (n < 2) {
-            return new FieldODEStateAndDerivative<T>(t, state, derivative);
+            return new FieldODEStateAndDerivative<>(t, state, derivative);
         } else {
             final T[][] secondaryState      = MathArrays.buildArray(t.getField(), n - 1, -1);
             final T[][] secondaryDerivative = MathArrays.buildArray(t.getField(), n - 1, -1);
@@ -138,7 +138,7 @@ public class FieldEquationsMapper<T extends RealFieldElement<T>> implements Seri
                 secondaryState[index - 1]      = extractEquationData(index, y);
                 secondaryDerivative[index - 1] = extractEquationData(index, yDot);
             }
-            return new FieldODEStateAndDerivative<T>(t, state, derivative, secondaryState, secondaryDerivative);
+            return new FieldODEStateAndDerivative<>(t, state, derivative, secondaryState, secondaryDerivative);
         }
     }
 

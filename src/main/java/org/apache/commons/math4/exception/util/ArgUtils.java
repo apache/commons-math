@@ -38,7 +38,7 @@ public class ArgUtils {
      * {@code array}.
      */
     public static Object[] flatten(Object[] array) {
-        final List<Object> list = new ArrayList<Object>();
+        final List<Object> list = new ArrayList<>();
         if (array != null) {
             for (Object o : array) {
                 if (o instanceof Object[]) {

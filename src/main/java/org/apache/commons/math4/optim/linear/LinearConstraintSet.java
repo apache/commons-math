@@ -30,7 +30,7 @@ import org.apache.commons.math4.optim.OptimizationData;
  */
 public class LinearConstraintSet implements OptimizationData {
     /** Set of constraints. */
-    private final Set<LinearConstraint> linearConstraints = new LinkedHashSet<LinearConstraint>();
+    private final Set<LinearConstraint> linearConstraints = new LinkedHashSet<>();
 
     /**
      * Creates a set containing the given constraints.

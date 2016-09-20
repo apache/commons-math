@@ -162,6 +162,6 @@ public class GaussIntegratorFactory {
             weights[i] *= scale;
         }
 
-        return new Pair<double[], double[]>(points, weights);
+        return new Pair<>(points, weights);
     }
 }

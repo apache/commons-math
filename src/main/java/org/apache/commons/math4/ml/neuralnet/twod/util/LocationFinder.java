@@ -29,7 +29,7 @@ import org.apache.commons.math4.exception.MathIllegalStateException;
  */
 public class LocationFinder {
     /** Identifier to location mapping. */
-    private final Map<Long, Location> locations = new HashMap<Long, Location>();
+    private final Map<Long, Location> locations = new HashMap<>();
 
     /**
      * Container holding a (row, column) pair.

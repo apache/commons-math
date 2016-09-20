@@ -108,7 +108,7 @@ public class DiskGeneratorTest {
             double d = 25 * random.nextDouble();
             double refRadius = 10 * random.nextDouble();
             Vector2D refCenter = new Vector2D(d, new Vector2D(sr.nextVector()));
-            List<Vector2D> support = new ArrayList<Vector2D>();
+            List<Vector2D> support = new ArrayList<>();
             for (int j = 0; j < 3; ++j) {
                 support.add(new Vector2D(1.0, refCenter, refRadius, new Vector2D(sr.nextVector())));
             }

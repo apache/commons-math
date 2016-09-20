@@ -56,14 +56,14 @@ public class SubCircle extends AbstractSubHyperplane<Sphere2D, Sphere1D> {
 
         if (angle < thisCircle.getTolerance() || angle > FastMath.PI - thisCircle.getTolerance()) {
             // the two circles are aligned or opposite
-            return new SplitSubHyperplane<Sphere2D>(null, null);
+            return new SplitSubHyperplane<>(null, null);
         } else {
             // the two circles intersect each other
             final Arc    arc          = thisCircle.getInsideArc(otherCircle);
             final ArcsSet.Split split = ((ArcsSet) getRemainingRegion()).split(arc);
             final ArcsSet plus        = split.getPlus();
             final ArcsSet minus       = split.getMinus();
-            return new SplitSubHyperplane<Sphere2D>(plus  == null ? null : new SubCircle(thisCircle.copySelf(), plus),
+            return new SplitSubHyperplane<>(plus  == null ? null : new SubCircle(thisCircle.copySelf(), plus),
                                                     minus == null ? null : new SubCircle(thisCircle.copySelf(), minus));
         }
 

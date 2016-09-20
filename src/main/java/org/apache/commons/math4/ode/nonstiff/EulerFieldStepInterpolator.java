@@ -79,7 +79,7 @@ class EulerFieldStepInterpolator<T extends RealFieldElement<T>>
                                                                  final FieldODEStateAndDerivative<T> newSoftPreviousState,
                                                                  final FieldODEStateAndDerivative<T> newSoftCurrentState,
                                                                  final FieldEquationsMapper<T> newMapper) {
-        return new EulerFieldStepInterpolator<T>(newField, newForward, newYDotK,
+        return new EulerFieldStepInterpolator<>(newField, newForward, newYDotK,
                                                  newGlobalPreviousState, newGlobalCurrentState,
                                                  newSoftPreviousState, newSoftCurrentState,
                                                  newMapper);
@@ -101,7 +101,7 @@ class EulerFieldStepInterpolator<T extends RealFieldElement<T>>
             interpolatedDerivatives = derivativeLinearCombination(time.getField().getOne());
         }
 
-        return new FieldODEStateAndDerivative<T>(time, interpolatedState, interpolatedDerivatives);
+        return new FieldODEStateAndDerivative<>(time, interpolatedState, interpolatedDerivatives);
 
     }
 

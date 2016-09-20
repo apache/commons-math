@@ -209,7 +209,7 @@ public class SparseFieldMatrixTest {
         SparseFieldMatrix<Fraction> m2 = createSparseMatrix(testData2);
         assertClose("inverse multiply", m.multiply(mInv), identity,
                 entryTolerance);
-        assertClose("inverse multiply", m.multiply(new Array2DRowFieldMatrix<Fraction>(FractionField.getInstance(), testDataInv)), identity,
+        assertClose("inverse multiply", m.multiply(new Array2DRowFieldMatrix<>(FractionField.getInstance(), testDataInv)), identity,
                     entryTolerance);
         assertClose("inverse multiply", mInv.multiply(m), identity,
                 entryTolerance);
@@ -270,7 +270,7 @@ public class SparseFieldMatrixTest {
         assertClose("identity operate", testVector, m.operate(testVector),
                 entryTolerance);
         assertClose("identity operate", testVector, m.operate(
-                new ArrayFieldVector<Fraction>(testVector)).toArray(), entryTolerance);
+                new ArrayFieldVector<>(testVector)).toArray(), entryTolerance);
         m = createSparseMatrix(bigSingular);
         try {
             m.operate(testVector);
@@ -296,8 +296,8 @@ public class SparseFieldMatrixTest {
     @Test
     public void testTranspose() {
         FieldMatrix<Fraction> m = createSparseMatrix(testData);
-        FieldMatrix<Fraction> mIT = new FieldLUDecomposition<Fraction>(m).getSolver().getInverse().transpose();
-        FieldMatrix<Fraction> mTI = new FieldLUDecomposition<Fraction>(m.transpose()).getSolver().getInverse();
+        FieldMatrix<Fraction> mIT = new FieldLUDecomposition<>(m).getSolver().getInverse().transpose();
+        FieldMatrix<Fraction> mTI = new FieldLUDecomposition<>(m.transpose()).getSolver().getInverse();
         assertClose("inverse-transpose", mIT, mTI, normTolerance);
         m = createSparseMatrix(testData2);
         FieldMatrix<Fraction> mt = createSparseMatrix(testData2T);
@@ -311,7 +311,7 @@ public class SparseFieldMatrixTest {
         assertClose("premultiply", m.preMultiply(testVector), preMultTest,
             normTolerance);
         assertClose("premultiply", m.preMultiply(
-            new ArrayFieldVector<Fraction>(testVector).toArray()), preMultTest, normTolerance);
+            new ArrayFieldVector<>(testVector).toArray()), preMultTest, normTolerance);
         m = createSparseMatrix(bigSingular);
         try {
             m.preMultiply(testVector);
@@ -392,7 +392,7 @@ public class SparseFieldMatrixTest {
         Assert.assertEquals(2, p.getRowDimension());
         Assert.assertEquals(2, p.getColumnDimension());
         // Invert p
-        FieldMatrix<Fraction> pInverse = new FieldLUDecomposition<Fraction>(p).getSolver().getInverse();
+        FieldMatrix<Fraction> pInverse = new FieldLUDecomposition<>(p).getSolver().getInverse();
         Assert.assertEquals(2, pInverse.getRowDimension());
         Assert.assertEquals(2, pInverse.getColumnDimension());
 
@@ -402,9 +402,9 @@ public class SparseFieldMatrixTest {
         FieldMatrix<Fraction> coefficients = createSparseMatrix(coefficientsData);
         Fraction[] constants = { new Fraction(1), new Fraction(-2), new Fraction(1) };
         Fraction[] solution;
-        solution = new FieldLUDecomposition<Fraction>(coefficients)
+        solution = new FieldLUDecomposition<>(coefficients)
             .getSolver()
-            .solve(new ArrayFieldVector<Fraction>(constants, false)).toArray();
+            .solve(new ArrayFieldVector<>(constants, false)).toArray();
         Assert.assertEquals((new Fraction(2).multiply((solution[0])).add(new Fraction(3).multiply(solution[1])).subtract(new Fraction(2).multiply(solution[2]))).doubleValue(),
                 constants[0].doubleValue(), 1E-12);
         Assert.assertEquals(((new Fraction(-1).multiply(solution[0])).add(new Fraction(7).multiply(solution[1])).add(new Fraction(6).multiply(solution[2]))).doubleValue(),
@@ -525,8 +525,8 @@ public class SparseFieldMatrixTest {
     @Test
     public void testGetRowVector() {
         FieldMatrix<Fraction> m = createSparseMatrix(subTestData);
-        FieldVector<Fraction> mRow0 = new ArrayFieldVector<Fraction>(subRow0[0]);
-        FieldVector<Fraction> mRow3 = new ArrayFieldVector<Fraction>(subRow3[0]);
+        FieldVector<Fraction> mRow0 = new ArrayFieldVector<>(subRow0[0]);
+        FieldVector<Fraction> mRow3 = new ArrayFieldVector<>(subRow3[0]);
         Assert.assertEquals("Row0", mRow0, m.getRowVector(0));
         Assert.assertEquals("Row3", mRow3, m.getRowVector(3));
         try {
@@ -569,7 +569,7 @@ public class SparseFieldMatrixTest {
         for (int i = 0; i < data.length; ++i) {
             data[i] = column[i][0];
         }
-        return new ArrayFieldVector<Fraction>(data, false);
+        return new ArrayFieldVector<>(data, false);
     }
 
     @Test
@@ -653,7 +653,7 @@ public class SparseFieldMatrixTest {
             // expected
         }
         try {
-            new SparseFieldMatrix<Fraction>(field, 0, 0);
+            new SparseFieldMatrix<>(field, 0, 0);
             Assert.fail("expecting MathIllegalArgumentException");
         } catch (MathIllegalArgumentException e) {
             // expected
@@ -702,7 +702,7 @@ public class SparseFieldMatrixTest {
     }
 
     private SparseFieldMatrix<Fraction> createSparseMatrix(Fraction[][] data) {
-        SparseFieldMatrix<Fraction> matrix = new SparseFieldMatrix<Fraction>(field, data.length, data[0].length);
+        SparseFieldMatrix<Fraction> matrix = new SparseFieldMatrix<>(field, data.length, data[0].length);
         for (int row = 0; row < data.length; row++) {
             for (int col = 0; col < data[row].length; col++) {
                 matrix.setEntry(row, col, data[row][col]);

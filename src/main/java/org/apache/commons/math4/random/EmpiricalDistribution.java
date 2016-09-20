@@ -195,7 +195,7 @@ public class EmpiricalDistribution extends AbstractRealDistribution {
         }
         this.binCount = binCount;
         this.randomData = randomData;
-        binStats = new ArrayList<SummaryStatistics>();
+        binStats = new ArrayList<>();
     }
 
     /**

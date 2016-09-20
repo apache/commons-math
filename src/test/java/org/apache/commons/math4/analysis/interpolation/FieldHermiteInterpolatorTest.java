@@ -33,7 +33,7 @@ public class FieldHermiteInterpolatorTest {
 
     @Test
     public void testZero() {
-        FieldHermiteInterpolator<BigFraction> interpolator = new FieldHermiteInterpolator<BigFraction>();
+        FieldHermiteInterpolator<BigFraction> interpolator = new FieldHermiteInterpolator<>();
         interpolator.addSamplePoint(new BigFraction(0), new BigFraction[] { new BigFraction(0) });
         for (int x = -10; x < 10; x++) {
             BigFraction y = interpolator.value(new BigFraction(x))[0];
@@ -46,7 +46,7 @@ public class FieldHermiteInterpolatorTest {
 
     @Test
     public void testQuadratic() {
-        FieldHermiteInterpolator<BigFraction> interpolator = new FieldHermiteInterpolator<BigFraction>();
+        FieldHermiteInterpolator<BigFraction> interpolator = new FieldHermiteInterpolator<>();
         interpolator.addSamplePoint(new BigFraction(0), new BigFraction[] { new BigFraction(2) });
         interpolator.addSamplePoint(new BigFraction(1), new BigFraction[] { new BigFraction(0) });
         interpolator.addSamplePoint(new BigFraction(2), new BigFraction[] { new BigFraction(0) });
@@ -63,7 +63,7 @@ public class FieldHermiteInterpolatorTest {
 
     @Test
     public void testMixedDerivatives() {
-        FieldHermiteInterpolator<BigFraction> interpolator = new FieldHermiteInterpolator<BigFraction>();
+        FieldHermiteInterpolator<BigFraction> interpolator = new FieldHermiteInterpolator<>();
         interpolator.addSamplePoint(new BigFraction(0), new BigFraction[] { new BigFraction(1) }, new BigFraction[] { new BigFraction(2) });
         interpolator.addSamplePoint(new BigFraction(1), new BigFraction[] { new BigFraction(4) });
         interpolator.addSamplePoint(new BigFraction(2), new BigFraction[] { new BigFraction(5) }, new BigFraction[] { new BigFraction(2) });
@@ -107,7 +107,7 @@ public class FieldHermiteInterpolatorTest {
 
             DfpField field = new DfpField(30);
             Dfp step = field.getOne().divide(field.newDfp(10));
-            FieldHermiteInterpolator<Dfp> interpolator = new FieldHermiteInterpolator<Dfp>();
+            FieldHermiteInterpolator<Dfp> interpolator = new FieldHermiteInterpolator<>();
             for (int j = 0; j < 1 + maxDegree; ++j) {
                 Dfp x = field.newDfp(j).multiply(step);
                 Dfp[] values = new Dfp[p.length];
@@ -151,7 +151,7 @@ public class FieldHermiteInterpolatorTest {
 
             DfpField field = new DfpField(30);
             Dfp step = field.getOne().divide(field.newDfp(10));
-            FieldHermiteInterpolator<Dfp> interpolator = new FieldHermiteInterpolator<Dfp>();
+            FieldHermiteInterpolator<Dfp> interpolator = new FieldHermiteInterpolator<>();
             for (int j = 0; j < 1 + maxDegree / 2; ++j) {
                 Dfp x = field.newDfp(j).multiply(step);
                 Dfp[] values      = new Dfp[p.length];
@@ -186,7 +186,7 @@ public class FieldHermiteInterpolatorTest {
     @Test
     public void testSine() {
         DfpField field = new DfpField(30);
-        FieldHermiteInterpolator<Dfp> interpolator = new FieldHermiteInterpolator<Dfp>();
+        FieldHermiteInterpolator<Dfp> interpolator = new FieldHermiteInterpolator<>();
         for (Dfp x = field.getZero(); x.getReal() < FastMath.PI; x = x.add(0.5)) {
             interpolator.addSamplePoint(x, new Dfp[] { x.sin() });
         }
@@ -199,7 +199,7 @@ public class FieldHermiteInterpolatorTest {
     @Test
     public void testSquareRoot() {
         DfpField field = new DfpField(30);
-        FieldHermiteInterpolator<Dfp> interpolator = new FieldHermiteInterpolator<Dfp>();
+        FieldHermiteInterpolator<Dfp> interpolator = new FieldHermiteInterpolator<>();
         for (Dfp x = field.getOne(); x.getReal() < 3.6; x = x.add(0.5)) {
             interpolator.addSamplePoint(x, new Dfp[] { x.sqrt() });
         }
@@ -213,7 +213,7 @@ public class FieldHermiteInterpolatorTest {
     public void testWikipedia() {
         // this test corresponds to the example from Wikipedia page:
         // http://en.wikipedia.org/wiki/Hermite_interpolation
-        FieldHermiteInterpolator<BigFraction> interpolator = new FieldHermiteInterpolator<BigFraction>();
+        FieldHermiteInterpolator<BigFraction> interpolator = new FieldHermiteInterpolator<>();
         interpolator.addSamplePoint(new BigFraction(-1),
                                     new BigFraction[] { new BigFraction( 2) },
                                     new BigFraction[] { new BigFraction(-8) },
@@ -237,7 +237,7 @@ public class FieldHermiteInterpolatorTest {
 
     @Test
     public void testOnePointParabola() {
-        FieldHermiteInterpolator<BigFraction> interpolator = new FieldHermiteInterpolator<BigFraction>();
+        FieldHermiteInterpolator<BigFraction> interpolator = new FieldHermiteInterpolator<>();
         interpolator.addSamplePoint(new BigFraction(0),
                                     new BigFraction[] { new BigFraction(1) },
                                     new BigFraction[] { new BigFraction(1) },
@@ -268,7 +268,7 @@ public class FieldHermiteInterpolatorTest {
 
     @Test(expected=MathIllegalArgumentException.class)
     public void testDuplicatedAbscissa() {
-        FieldHermiteInterpolator<BigFraction> interpolator = new FieldHermiteInterpolator<BigFraction>();
+        FieldHermiteInterpolator<BigFraction> interpolator = new FieldHermiteInterpolator<>();
         interpolator.addSamplePoint(new BigFraction(1), new BigFraction[] { new BigFraction(0) });
         interpolator.addSamplePoint(new BigFraction(1), new BigFraction[] { new BigFraction(1) });
     }

@@ -38,7 +38,7 @@ public class Cluster<T extends Clusterable> implements Serializable {
      * Build a cluster centered at a specified point.
      */
     public Cluster() {
-        points = new ArrayList<T>();
+        points = new ArrayList<>();
     }
 
     /**

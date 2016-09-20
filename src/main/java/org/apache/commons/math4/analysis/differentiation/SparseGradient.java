@@ -61,7 +61,7 @@ public class SparseGradient implements RealFieldElement<SparseGradient>, Seriali
      */
     private SparseGradient(final double value, final Map<Integer, Double> derivatives) {
         this.value = value;
-        this.derivatives = new HashMap<Integer, Double>();
+        this.derivatives = new HashMap<>();
         if (derivatives != null) {
             this.derivatives.putAll(derivatives);
         }
@@ -77,7 +77,7 @@ public class SparseGradient implements RealFieldElement<SparseGradient>, Seriali
     private SparseGradient(final double value, final double scale,
                              final Map<Integer, Double> derivatives) {
         this.value = value;
-        this.derivatives = new HashMap<Integer, Double>();
+        this.derivatives = new HashMap<>();
         if (derivatives != null) {
             for (final Map.Entry<Integer, Double> entry : derivatives.entrySet()) {
                 this.derivatives.put(entry.getKey(), scale * entry.getValue());

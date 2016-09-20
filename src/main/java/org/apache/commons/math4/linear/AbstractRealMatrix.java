@@ -198,7 +198,7 @@ public abstract class AbstractRealMatrix
          */
 
         final char[] binaryRepresentation = Integer.toBinaryString(power).toCharArray();
-        final ArrayList<Integer> nonZeroPositions = new ArrayList<Integer>();
+        final ArrayList<Integer> nonZeroPositions = new ArrayList<>();
         int maxI = -1;
 
         for (int i = 0; i < binaryRepresentation.length; ++i) {

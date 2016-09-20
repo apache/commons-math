@@ -58,7 +58,7 @@ public class SparseFieldVectorTest {
 
     @Test
     public void testMapFunctions() throws FractionConversionException {
-        SparseFieldVector<Fraction> v1 = new SparseFieldVector<Fraction>(field,vec1);
+        SparseFieldVector<Fraction> v1 = new SparseFieldVector<>(field,vec1);
 
         //octave =  v1 .+ 2.0
         FieldVector<Fraction> v_mapAdd = v1.mapAdd(new Fraction(2));
@@ -120,17 +120,17 @@ public class SparseFieldVectorTest {
 
     @Test
     public void testBasicFunctions() throws FractionConversionException {
-        SparseFieldVector<Fraction> v1 = new SparseFieldVector<Fraction>(field,vec1);
-        SparseFieldVector<Fraction> v2 = new SparseFieldVector<Fraction>(field,vec2);
+        SparseFieldVector<Fraction> v1 = new SparseFieldVector<>(field,vec1);
+        SparseFieldVector<Fraction> v2 = new SparseFieldVector<>(field,vec2);
 
-        FieldVector<Fraction> v2_t = new ArrayFieldVectorTest.FieldVectorTestImpl<Fraction>(vec2);
+        FieldVector<Fraction> v2_t = new ArrayFieldVectorTest.FieldVectorTestImpl<>(vec2);
 
         //octave =  v1 + v2
         FieldVector<Fraction> v_add = v1.add(v2);
         Fraction[] result_add = {new Fraction(5), new Fraction(7), new Fraction(9)};
         Assert.assertArrayEquals("compare vect" ,v_add.toArray(),result_add);
 
-        FieldVector<Fraction> vt2 = new ArrayFieldVectorTest.FieldVectorTestImpl<Fraction>(vec2);
+        FieldVector<Fraction> vt2 = new ArrayFieldVectorTest.FieldVectorTestImpl<>(vec2);
         FieldVector<Fraction> v_add_i = v1.add(vt2);
         Fraction[] result_add_i = {new Fraction(5), new Fraction(7), new Fraction(9)};
         Assert.assertArrayEquals("compare vect" ,v_add_i.toArray(),result_add_i);
@@ -181,12 +181,12 @@ public class SparseFieldVectorTest {
     @Test
     public void testOuterProduct() {
         final SparseFieldVector<Fraction> u
-            = new SparseFieldVector<Fraction>(FractionField.getInstance(),
+            = new SparseFieldVector<>(FractionField.getInstance(),
                                               new Fraction[] {new Fraction(1),
                                                               new Fraction(2),
                                                               new Fraction(-3)});
         final SparseFieldVector<Fraction> v
-            = new SparseFieldVector<Fraction>(FractionField.getInstance(),
+            = new SparseFieldVector<>(FractionField.getInstance(),
                                               new Fraction[] {new Fraction(4),
                                                               new Fraction(-2)});
 
@@ -203,7 +203,7 @@ public class SparseFieldVectorTest {
 
     @Test
     public void testMisc() {
-        SparseFieldVector<Fraction> v1 = new SparseFieldVector<Fraction>(field,vec1);
+        SparseFieldVector<Fraction> v1 = new SparseFieldVector<>(field,vec1);
 
         String out1 = v1.toString();
         Assert.assertTrue("some output ",  out1.length()!=0);
@@ -220,11 +220,11 @@ public class SparseFieldVectorTest {
     @Test
     public void testPredicates() {
 
-        SparseFieldVector<Fraction> v = new SparseFieldVector<Fraction>(field, new Fraction[] { new Fraction(0), new Fraction(1), new Fraction(2) });
+        SparseFieldVector<Fraction> v = new SparseFieldVector<>(field, new Fraction[] { new Fraction(0), new Fraction(1), new Fraction(2) });
 
         v.setEntry(0, field.getZero());
-        Assert.assertEquals(v, new SparseFieldVector<Fraction>(field, new Fraction[] { new Fraction(0), new Fraction(1), new Fraction(2) }));
-        Assert.assertNotSame(v, new SparseFieldVector<Fraction>(field, new Fraction[] { new Fraction(0), new Fraction(1), new Fraction(2), new Fraction(3) }));
+        Assert.assertEquals(v, new SparseFieldVector<>(field, new Fraction[] { new Fraction(0), new Fraction(1), new Fraction(2) }));
+        Assert.assertNotSame(v, new SparseFieldVector<>(field, new Fraction[] { new Fraction(0), new Fraction(1), new Fraction(2), new Fraction(3) }));
 
     }
 
@@ -260,7 +260,7 @@ public class SparseFieldVectorTest {
             Fraction.ZERO, Fraction.TWO, Fraction.ZERO,
             Fraction.ZERO, Fraction.ZERO, new Fraction(3)
         };
-        final SparseFieldVector<Fraction> v = new SparseFieldVector<Fraction>(field, data);
+        final SparseFieldVector<Fraction> v = new SparseFieldVector<>(field, data);
         final FieldVectorPreservingVisitor<Fraction> visitor;
         visitor = new FieldVectorPreservingVisitor<Fraction>() {
 
@@ -347,7 +347,7 @@ public class SparseFieldVectorTest {
             Fraction.ZERO, Fraction.TWO, Fraction.ZERO,
             Fraction.ZERO, Fraction.ZERO, new Fraction(3)
         };
-        final SparseFieldVector<Fraction> v = new SparseFieldVector<Fraction>(field, data);
+        final SparseFieldVector<Fraction> v = new SparseFieldVector<>(field, data);
         final int expectedStart = 2;
         final int expectedEnd = 7;
         final FieldVectorPreservingVisitor<Fraction> visitor;
@@ -385,7 +385,7 @@ public class SparseFieldVectorTest {
             Fraction.ZERO, Fraction.TWO, Fraction.ZERO,
             Fraction.ZERO, Fraction.ZERO, new Fraction(3)
         };
-        final SparseFieldVector<Fraction> v = new SparseFieldVector<Fraction>(field, data);
+        final SparseFieldVector<Fraction> v = new SparseFieldVector<>(field, data);
         final FieldVectorPreservingVisitor<Fraction> visitor;
         visitor = new FieldVectorPreservingVisitor<Fraction>() {
             private final boolean[] visited = new boolean[data.length];
@@ -474,7 +474,7 @@ public class SparseFieldVectorTest {
             Fraction.ZERO, Fraction.TWO, Fraction.ZERO,
             Fraction.ZERO, Fraction.ZERO, new Fraction(3)
         };
-        final SparseFieldVector<Fraction> v = new SparseFieldVector<Fraction>(field, data);
+        final SparseFieldVector<Fraction> v = new SparseFieldVector<>(field, data);
         final int expectedStart = 2;
         final int expectedEnd = 7;
         final FieldVectorPreservingVisitor<Fraction> visitor;
@@ -514,7 +514,7 @@ public class SparseFieldVectorTest {
             Fraction.ZERO, Fraction.TWO, Fraction.ZERO,
             Fraction.ZERO, Fraction.ZERO, new Fraction(3)
         };
-        final SparseFieldVector<Fraction> v = new SparseFieldVector<Fraction>(field, data);
+        final SparseFieldVector<Fraction> v = new SparseFieldVector<>(field, data);
         final FieldVectorChangingVisitor<Fraction> visitor;
         visitor = new FieldVectorChangingVisitor<Fraction>() {
 
@@ -605,7 +605,7 @@ public class SparseFieldVectorTest {
             Fraction.ZERO, Fraction.TWO, Fraction.ZERO,
             Fraction.ZERO, Fraction.ZERO, new Fraction(3)
         };
-        final SparseFieldVector<Fraction> v = new SparseFieldVector<Fraction>(field, data);
+        final SparseFieldVector<Fraction> v = new SparseFieldVector<>(field, data);
         final int expectedStart = 2;
         final int expectedEnd = 7;
         final FieldVectorChangingVisitor<Fraction> visitor;
@@ -647,7 +647,7 @@ public class SparseFieldVectorTest {
             Fraction.ZERO, Fraction.TWO, Fraction.ZERO,
             Fraction.ZERO, Fraction.ZERO, new Fraction(3)
         };
-        final SparseFieldVector<Fraction> v = new SparseFieldVector<Fraction>(field, data);
+        final SparseFieldVector<Fraction> v = new SparseFieldVector<>(field, data);
         final FieldVectorChangingVisitor<Fraction> visitor;
         visitor = new FieldVectorChangingVisitor<Fraction>() {
             private final boolean[] visited = new boolean[data.length];
@@ -740,7 +740,7 @@ public class SparseFieldVectorTest {
             Fraction.ZERO, Fraction.TWO, Fraction.ZERO,
             Fraction.ZERO, Fraction.ZERO, new Fraction(3)
         };
-        final SparseFieldVector<Fraction> v = new SparseFieldVector<Fraction>(field, data);
+        final SparseFieldVector<Fraction> v = new SparseFieldVector<>(field, data);
         final int expectedStart = 2;
         final int expectedEnd = 7;
         final FieldVectorChangingVisitor<Fraction> visitor;
@@ -781,6 +781,6 @@ public class SparseFieldVectorTest {
         for (int i = 0; i < n; ++i) {
             t[i] = Fraction.ZERO;
         }
-        return new SparseFieldVector<Fraction>(field, t);
+        return new SparseFieldVector<>(field, t);
     }
 }

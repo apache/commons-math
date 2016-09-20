@@ -99,13 +99,13 @@ public class MixtureMultivariateNormalDistribution
                                                                                        double[][] means,
                                                                                        double[][][] covariances) {
         final List<Pair<Double, MultivariateNormalDistribution>> mvns
-            = new ArrayList<Pair<Double, MultivariateNormalDistribution>>(weights.length);
+            = new ArrayList<>(weights.length);
 
         for (int i = 0; i < weights.length; i++) {
             final MultivariateNormalDistribution dist
                 = new MultivariateNormalDistribution(means[i], covariances[i]);
 
-            mvns.add(new Pair<Double, MultivariateNormalDistribution>(weights[i], dist));
+            mvns.add(new Pair<>(weights[i], dist));
         }
 
         return mvns;

@@ -37,7 +37,7 @@ public class WelzlEncloser2DTest {
     public void testNullList() {
         DiskGenerator generator = new DiskGenerator();
         WelzlEncloser<Euclidean2D, Vector2D> encloser =
-                new WelzlEncloser<Euclidean2D, Vector2D>(1.0e-10, generator);
+                new WelzlEncloser<>(1.0e-10, generator);
         EnclosingBall<Euclidean2D, Vector2D> ball = encloser.enclose(null);
         Assert.assertTrue(ball.getRadius() < 0);
     }
@@ -46,7 +46,7 @@ public class WelzlEncloser2DTest {
     public void testNoPoints() {
         DiskGenerator generator = new DiskGenerator();
         WelzlEncloser<Euclidean2D, Vector2D> encloser =
-                new WelzlEncloser<Euclidean2D, Vector2D>(1.0e-10, generator);
+                new WelzlEncloser<>(1.0e-10, generator);
         EnclosingBall<Euclidean2D, Vector2D> ball = encloser.enclose(new ArrayList<Vector2D>());
         Assert.assertTrue(ball.getRadius() < 0);
     }
@@ -87,7 +87,7 @@ public class WelzlEncloser2DTest {
         RandomGenerator random = new Well1024a(0xa2a63cad12c01fb2l);
         for (int k = 0; k < 100; ++k) {
             int nbPoints = random.nextInt(10000);
-            List<Vector2D> points = new ArrayList<Vector2D>();
+            List<Vector2D> points = new ArrayList<>();
             for (int i = 0; i < nbPoints; ++i) {
                 double x = random.nextDouble();
                 double y = random.nextDouble();
@@ -98,7 +98,7 @@ public class WelzlEncloser2DTest {
     }
 
     private List<Vector2D> buildList(final double ... coordinates) {
-        List<Vector2D> list = new ArrayList<Vector2D>(coordinates.length / 2);
+        List<Vector2D> list = new ArrayList<>(coordinates.length / 2);
         for (int i = 0; i < coordinates.length; i += 2) {
             list.add(new Vector2D(coordinates[i], coordinates[i + 1]));
         }
@@ -129,7 +129,7 @@ public class WelzlEncloser2DTest {
 
         // check removing any point of the support disk fails to enclose the point
         for (int i = 0; i < disk.getSupportSize(); ++i) {
-            List<Vector2D> reducedSupport = new ArrayList<Vector2D>();
+            List<Vector2D> reducedSupport = new ArrayList<>();
             int count = 0;
             for (Vector2D s : disk.getSupport()) {
                 if (count++ != i) {
@@ -151,7 +151,7 @@ public class WelzlEncloser2DTest {
     private EnclosingBall<Euclidean2D, Vector2D> checkDisk(List<Vector2D> points) {
 
         WelzlEncloser<Euclidean2D, Vector2D> encloser =
-                new WelzlEncloser<Euclidean2D, Vector2D>(1.0e-10, new DiskGenerator());
+                new WelzlEncloser<>(1.0e-10, new DiskGenerator());
         EnclosingBall<Euclidean2D, Vector2D> disk = encloser.enclose(points);
 
         // all points are enclosed

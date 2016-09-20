@@ -65,7 +65,7 @@ public class FieldRotationDfpTest {
     @Deprecated
     public void testAxisAngleDeprecated() throws MathIllegalArgumentException {
 
-        FieldRotation<Dfp> r = new FieldRotation<Dfp>(createAxis(10, 10, 10), createAngle(2 * FastMath.PI / 3));
+        FieldRotation<Dfp> r = new FieldRotation<>(createAxis(10, 10, 10), createAngle(2 * FastMath.PI / 3));
         checkVector(r.applyTo(createVector(1, 0, 0)), createVector(0, 1, 0));
         checkVector(r.applyTo(createVector(0, 1, 0)), createVector(0, 0, 1));
         checkVector(r.applyTo(createVector(0, 0, 1)), createVector(1, 0, 0));
@@ -74,16 +74,16 @@ public class FieldRotationDfpTest {
         checkAngle(r.getAngle(), 2 * FastMath.PI / 3);
 
         try {
-            new FieldRotation<Dfp>(createAxis(0, 0, 0), createAngle(2 * FastMath.PI / 3));
+            new FieldRotation<>(createAxis(0, 0, 0), createAngle(2 * FastMath.PI / 3));
             Assert.fail("an exception should have been thrown");
         } catch (MathIllegalArgumentException e) {
         }
 
-        r = new FieldRotation<Dfp>(createAxis(0, 0, 1), createAngle(1.5 * FastMath.PI));
+        r = new FieldRotation<>(createAxis(0, 0, 1), createAngle(1.5 * FastMath.PI));
         checkVector(r.getAxis(), createVector(0, 0, -1));
         checkAngle(r.getAngle(), 0.5 * FastMath.PI);
 
-        r = new FieldRotation<Dfp>(createAxis(0, 1, 0), createAngle(FastMath.PI));
+        r = new FieldRotation<>(createAxis(0, 1, 0), createAngle(FastMath.PI));
         checkVector(r.getAxis(), createVector(0, 1, 0));
         checkAngle(r.getAngle(), FastMath.PI);
 
@@ -94,7 +94,7 @@ public class FieldRotationDfpTest {
     @Test
     public void testAxisAngleVectorOperator() throws MathIllegalArgumentException {
 
-        FieldRotation<Dfp> r = new FieldRotation<Dfp>(createAxis(10, 10, 10),
+        FieldRotation<Dfp> r = new FieldRotation<>(createAxis(10, 10, 10),
                                                       createAngle(2 * FastMath.PI / 3) ,
                                                       RotationConvention.VECTOR_OPERATOR);
         checkVector(r.applyTo(createVector(1, 0, 0)), createVector(0, 1, 0));
@@ -106,21 +106,21 @@ public class FieldRotationDfpTest {
         checkAngle(r.getAngle(), 2 * FastMath.PI / 3);
 
         try {
-            new FieldRotation<Dfp>(createAxis(0, 0, 0),
+            new FieldRotation<>(createAxis(0, 0, 0),
                                    createAngle(2 * FastMath.PI / 3),
                                    RotationConvention.VECTOR_OPERATOR);
             Assert.fail("an exception should have been thrown");
         } catch (MathIllegalArgumentException e) {
         }
 
-        r = new FieldRotation<Dfp>(createAxis(0, 0, 1),
+        r = new FieldRotation<>(createAxis(0, 0, 1),
                                    createAngle(1.5 * FastMath.PI),
                                    RotationConvention.VECTOR_OPERATOR);
         checkVector(r.getAxis(RotationConvention.VECTOR_OPERATOR), createVector(0, 0, -1));
         checkVector(r.getAxis(RotationConvention.FRAME_TRANSFORM), createVector(0, 0, +1));
         checkAngle(r.getAngle(), 0.5 * FastMath.PI);
 
-        r = new FieldRotation<Dfp>(createAxis(0, 1, 0),
+        r = new FieldRotation<>(createAxis(0, 1, 0),
                                    createAngle(FastMath.PI),
                                    RotationConvention.VECTOR_OPERATOR);
         checkVector(r.getAxis(RotationConvention.VECTOR_OPERATOR), createVector(0, +1, 0));
@@ -135,7 +135,7 @@ public class FieldRotationDfpTest {
     @Test
     public void testAxisAngleFrameTransform() throws MathIllegalArgumentException {
 
-        FieldRotation<Dfp> r = new FieldRotation<Dfp>(createAxis(10, 10, 10),
+        FieldRotation<Dfp> r = new FieldRotation<>(createAxis(10, 10, 10),
                                                       createAngle(2 * FastMath.PI / 3) ,
                                                       RotationConvention.FRAME_TRANSFORM);
         checkVector(r.applyTo(createVector(1, 0, 0)), createVector(0, 0, 1));
@@ -147,21 +147,21 @@ public class FieldRotationDfpTest {
         checkAngle(r.getAngle(), 2 * FastMath.PI / 3);
 
         try {
-            new FieldRotation<Dfp>(createAxis(0, 0, 0),
+            new FieldRotation<>(createAxis(0, 0, 0),
                                    createAngle(2 * FastMath.PI / 3),
                                    RotationConvention.FRAME_TRANSFORM);
             Assert.fail("an exception should have been thrown");
         } catch (MathIllegalArgumentException e) {
         }
 
-        r = new FieldRotation<Dfp>(createAxis(0, 0, 1),
+        r = new FieldRotation<>(createAxis(0, 0, 1),
                                    createAngle(1.5 * FastMath.PI),
                                    RotationConvention.FRAME_TRANSFORM);
         checkVector(r.getAxis(RotationConvention.FRAME_TRANSFORM), createVector(0, 0, -1));
         checkVector(r.getAxis(RotationConvention.VECTOR_OPERATOR), createVector(0, 0, +1));
         checkAngle(r.getAngle(), 0.5 * FastMath.PI);
 
-        r = new FieldRotation<Dfp>(createAxis(0, 1, 0),
+        r = new FieldRotation<>(createAxis(0, 1, 0),
                                    createAngle(FastMath.PI),
                                    RotationConvention.FRAME_TRANSFORM);
         checkVector(r.getAxis(RotationConvention.FRAME_TRANSFORM), createVector(0, +1, 0));
@@ -235,13 +235,13 @@ public class FieldRotationDfpTest {
 
         FieldVector3D<Dfp> u = createVector(3, 2, 1);
         FieldVector3D<Dfp> v = createVector(-4, 2, 2);
-        FieldRotation<Dfp> r = new FieldRotation<Dfp>(u, v);
+        FieldRotation<Dfp> r = new FieldRotation<>(u, v);
         checkVector(r.applyTo(u.scalarMultiply(v.getNorm())), v.scalarMultiply(u.getNorm()));
 
-        checkAngle(new FieldRotation<Dfp>(u, u.negate()).getAngle(), FastMath.PI);
+        checkAngle(new FieldRotation<>(u, u.negate()).getAngle(), FastMath.PI);
 
         try {
-            new FieldRotation<Dfp>(u, createVector(0, 0, 0));
+            new FieldRotation<>(u, createVector(0, 0, 0));
             Assert.fail("an exception should have been thrown");
         } catch (MathArithmeticException e) {
             // expected behavior
@@ -256,11 +256,11 @@ public class FieldRotationDfpTest {
         FieldVector3D<Dfp> u2 = createVector(0, 5, 0);
         FieldVector3D<Dfp> v1 = createVector(0, 0, 2);
         FieldVector3D<Dfp> v2 = createVector(-2, 0, 2);
-        FieldRotation<Dfp> r = new FieldRotation<Dfp>(u1, u2, v1, v2);
+        FieldRotation<Dfp> r = new FieldRotation<>(u1, u2, v1, v2);
         checkVector(r.applyTo(createVector(1, 0, 0)), createVector(0, 0, 1));
         checkVector(r.applyTo(createVector(0, 1, 0)), createVector(-1, 0, 0));
 
-        r = new FieldRotation<Dfp>(u1, u2, u1.negate(), u2.negate());
+        r = new FieldRotation<>(u1, u2, u1.negate(), u2.negate());
         FieldVector3D<Dfp> axis = r.getAxis(RotationConvention.VECTOR_OPERATOR);
         if (FieldVector3D.dotProduct(axis, createVector(0, 0, 1)).getReal() > 0) {
             checkVector(axis, createVector(0, 0, 1));
@@ -270,18 +270,18 @@ public class FieldRotationDfpTest {
         checkAngle(r.getAngle(), FastMath.PI);
 
         double sqrt = FastMath.sqrt(2) / 2;
-        r = new FieldRotation<Dfp>(createVector(1, 0, 0),  createVector(0, 1, 0),
+        r = new FieldRotation<>(createVector(1, 0, 0),  createVector(0, 1, 0),
                            createVector(0.5, 0.5,  sqrt),
                            createVector(0.5, 0.5, -sqrt));
         checkRotationDS(r, sqrt, 0.5, 0.5, 0);
 
-        r = new FieldRotation<Dfp>(u1, u2, u1, FieldVector3D.crossProduct(u1, u2));
+        r = new FieldRotation<>(u1, u2, u1, FieldVector3D.crossProduct(u1, u2));
         checkRotationDS(r, sqrt, -sqrt, 0, 0);
 
-        checkRotationDS(new FieldRotation<Dfp>(u1, u2, u1, u2), 1, 0, 0, 0);
+        checkRotationDS(new FieldRotation<>(u1, u2, u1, u2), 1, 0, 0, 0);
 
         try {
-            new FieldRotation<Dfp>(u1, u2, createVector(0, 0, 0), v2);
+            new FieldRotation<>(u1, u2, createVector(0, 0, 0), v2);
             Assert.fail("an exception should have been thrown");
         } catch (MathArithmeticException e) {
             // expected behavior
@@ -411,11 +411,11 @@ public class FieldRotationDfpTest {
         }
 
         checkVector(r.applyTo(createVector(1, 0, 0)),
-                    new FieldVector3D<Dfp>(m3[0][0], m3[1][0], m3[2][0]));
+                    new FieldVector3D<>(m3[0][0], m3[1][0], m3[2][0]));
         checkVector(r.applyTo(createVector(0, 1, 0)),
-                    new FieldVector3D<Dfp>(m3[0][1], m3[1][1], m3[2][1]));
+                    new FieldVector3D<>(m3[0][1], m3[1][1], m3[2][1]));
         checkVector(r.applyTo(createVector(0, 0, 1)),
-                    new FieldVector3D<Dfp>(m3[0][2], m3[1][2], m3[2][2]));
+                    new FieldVector3D<>(m3[0][2], m3[1][2], m3[2][2]));
 
         double[][] m4 = { { 1.0,  0.0,  0.0 },
             { 0.0, -1.0,  0.0 },
@@ -451,7 +451,7 @@ public class FieldRotationDfpTest {
             for (double alpha1 = 0.1; alpha1 < 6.2; alpha1 += 2.0) {
                 for (double alpha2 = -1.55; alpha2 < 1.55; alpha2 += 0.8) {
                     for (double alpha3 = 0.1; alpha3 < 6.2; alpha3 += 2.0) {
-                        FieldRotation<Dfp> r = new FieldRotation<Dfp>(CardanOrders[i],
+                        FieldRotation<Dfp> r = new FieldRotation<>(CardanOrders[i],
                                                                       field.newDfp(alpha1),
                                                                       field.newDfp(alpha2),
                                                                       field.newDfp(alpha3));
@@ -473,7 +473,7 @@ public class FieldRotationDfpTest {
             for (double alpha1 = 0.1; alpha1 < 6.2; alpha1 += 2.0) {
                 for (double alpha2 = 0.05; alpha2 < 3.1; alpha2 += 0.8) {
                     for (double alpha3 = 0.1; alpha3 < 6.2; alpha3 += 2.0) {
-                        FieldRotation<Dfp> r = new FieldRotation<Dfp>(EulerOrders[i],
+                        FieldRotation<Dfp> r = new FieldRotation<>(EulerOrders[i],
                                                                       field.newDfp(alpha1),
                                                                       field.newDfp(alpha2),
                                                                       field.newDfp(alpha3));
@@ -504,7 +504,7 @@ public class FieldRotationDfpTest {
                 for (double alpha1 = 0.1; alpha1 < 6.2; alpha1 += 2.0) {
                     for (double alpha2 = -1.55; alpha2 < 1.55; alpha2 += 0.8) {
                         for (double alpha3 = 0.1; alpha3 < 6.2; alpha3 += 2.0) {
-                            FieldRotation<Dfp> r = new FieldRotation<Dfp>(CardanOrders[i],
+                            FieldRotation<Dfp> r = new FieldRotation<>(CardanOrders[i],
                                                                           convention,
                                                                           field.newDfp(alpha1),
                                                                           field.newDfp(alpha2),
@@ -527,7 +527,7 @@ public class FieldRotationDfpTest {
                 for (double alpha1 = 0.1; alpha1 < 6.2; alpha1 += 2.0) {
                     for (double alpha2 = 0.05; alpha2 < 3.1; alpha2 += 0.8) {
                         for (double alpha3 = 0.1; alpha3 < 6.2; alpha3 += 2.0) {
-                            FieldRotation<Dfp> r = new FieldRotation<Dfp>(EulerOrders[i],
+                            FieldRotation<Dfp> r = new FieldRotation<>(EulerOrders[i],
                                                                           convention,
                                                                           field.newDfp(alpha1),
                                                                           field.newDfp(alpha2),
@@ -557,7 +557,7 @@ public class FieldRotationDfpTest {
             double[] singularCardanAngle = { FastMath.PI / 2, -FastMath.PI / 2 };
             for (int i = 0; i < CardanOrders.length; ++i) {
                 for (int j = 0; j < singularCardanAngle.length; ++j) {
-                    FieldRotation<Dfp> r = new FieldRotation<Dfp>(CardanOrders[i],
+                    FieldRotation<Dfp> r = new FieldRotation<>(CardanOrders[i],
                                                                   convention,
                                                                   field.newDfp(0.1),
                                                                   field.newDfp(singularCardanAngle[j]),
@@ -579,7 +579,7 @@ public class FieldRotationDfpTest {
             double[] singularEulerAngle = { 0, FastMath.PI };
             for (int i = 0; i < EulerOrders.length; ++i) {
                 for (int j = 0; j < singularEulerAngle.length; ++j) {
-                    FieldRotation<Dfp> r = new FieldRotation<Dfp>(EulerOrders[i],
+                    FieldRotation<Dfp> r = new FieldRotation<>(EulerOrders[i],
                                                                   convention,
                                                                   field.newDfp(0.1),
                                                                   field.newDfp(singularEulerAngle[j]),
@@ -599,11 +599,11 @@ public class FieldRotationDfpTest {
     @Test
     public void testQuaternion() throws MathIllegalArgumentException {
 
-        FieldRotation<Dfp> r1 = new FieldRotation<Dfp>(createVector(2, -3, 5),
+        FieldRotation<Dfp> r1 = new FieldRotation<>(createVector(2, -3, 5),
                                                        createAngle(1.7),
                                                        RotationConvention.VECTOR_OPERATOR);
         double n = 23.5;
-        FieldRotation<Dfp> r2 = new FieldRotation<Dfp>(r1.getQ0().multiply(n), r1.getQ1().multiply(n),
+        FieldRotation<Dfp> r2 = new FieldRotation<>(r1.getQ0().multiply(n), r1.getQ1().multiply(n),
                                                        r1.getQ2().multiply(n), r1.getQ3().multiply(n),
                                                        true);
         for (double x = -0.9; x < 0.9; x += 0.2) {
@@ -625,10 +625,10 @@ public class FieldRotationDfpTest {
     @Test
     public void testApplyToRotation() throws MathIllegalArgumentException {
 
-        FieldRotation<Dfp> r1       = new FieldRotation<Dfp>(createVector(2, -3, 5),
+        FieldRotation<Dfp> r1       = new FieldRotation<>(createVector(2, -3, 5),
                                                              createAngle(1.7),
                                                              RotationConvention.VECTOR_OPERATOR);
-        FieldRotation<Dfp> r2       = new FieldRotation<Dfp>(createVector(-1, 3, 2),
+        FieldRotation<Dfp> r2       = new FieldRotation<>(createVector(-1, 3, 2),
                                                              createAngle(0.3),
                                                              RotationConvention.VECTOR_OPERATOR);
         FieldRotation<Dfp> r3       = r2.applyTo(r1);
@@ -653,10 +653,10 @@ public class FieldRotationDfpTest {
     @Test
     public void testComposeVectorOperator() throws MathIllegalArgumentException {
 
-        FieldRotation<Dfp> r1       = new FieldRotation<Dfp>(createVector(2, -3, 5),
+        FieldRotation<Dfp> r1       = new FieldRotation<>(createVector(2, -3, 5),
                                                              createAngle(1.7),
                                                              RotationConvention.VECTOR_OPERATOR);
-        FieldRotation<Dfp> r2       = new FieldRotation<Dfp>(createVector(-1, 3, 2),
+        FieldRotation<Dfp> r2       = new FieldRotation<>(createVector(-1, 3, 2),
                                                              createAngle(0.3),
                                                              RotationConvention.VECTOR_OPERATOR);
         FieldRotation<Dfp> r3       = r2.compose(r1, RotationConvention.VECTOR_OPERATOR);
@@ -682,10 +682,10 @@ public class FieldRotationDfpTest {
     @Test
     public void testComposeFrameTransform() throws MathIllegalArgumentException {
 
-        FieldRotation<Dfp> r1       = new FieldRotation<Dfp>(createVector(2, -3, 5),
+        FieldRotation<Dfp> r1       = new FieldRotation<>(createVector(2, -3, 5),
                                                              createAngle(1.7),
                                                              RotationConvention.FRAME_TRANSFORM);
-        FieldRotation<Dfp> r2       = new FieldRotation<Dfp>(createVector(-1, 3, 2),
+        FieldRotation<Dfp> r2       = new FieldRotation<>(createVector(-1, 3, 2),
                                                              createAngle(0.3),
                                                              RotationConvention.FRAME_TRANSFORM);
         FieldRotation<Dfp> r3       = r2.compose(r1, RotationConvention.FRAME_TRANSFORM);
@@ -713,10 +713,10 @@ public class FieldRotationDfpTest {
     @Test
     public void testApplyInverseToRotation() throws MathIllegalArgumentException {
 
-        FieldRotation<Dfp> r1 = new FieldRotation<Dfp>(createVector(2, -3, 5),
+        FieldRotation<Dfp> r1 = new FieldRotation<>(createVector(2, -3, 5),
                                                        createAngle(1.7),
                                                        RotationConvention.VECTOR_OPERATOR);
-        FieldRotation<Dfp> r2 = new FieldRotation<Dfp>(createVector(-1, 3, 2),
+        FieldRotation<Dfp> r2 = new FieldRotation<>(createVector(-1, 3, 2),
                                                        createAngle(0.3),
                                                        RotationConvention.VECTOR_OPERATOR);
         FieldRotation<Dfp> r3 = r2.applyInverseTo(r1);
@@ -741,10 +741,10 @@ public class FieldRotationDfpTest {
     @Test
     public void testComposeInverseVectorOperator() throws MathIllegalArgumentException {
 
-        FieldRotation<Dfp> r1 = new FieldRotation<Dfp>(createVector(2, -3, 5),
+        FieldRotation<Dfp> r1 = new FieldRotation<>(createVector(2, -3, 5),
                                                        createAngle(1.7),
                                                        RotationConvention.VECTOR_OPERATOR);
-        FieldRotation<Dfp> r2 = new FieldRotation<Dfp>(createVector(-1, 3, 2),
+        FieldRotation<Dfp> r2 = new FieldRotation<>(createVector(-1, 3, 2),
                                                        createAngle(0.3),
                                                        RotationConvention.VECTOR_OPERATOR);
         FieldRotation<Dfp> r3 = r2.composeInverse(r1, RotationConvention.VECTOR_OPERATOR);
@@ -770,10 +770,10 @@ public class FieldRotationDfpTest {
     @Test
     public void testComposeInverseFrameTransform() throws MathIllegalArgumentException {
 
-        FieldRotation<Dfp> r1 = new FieldRotation<Dfp>(createVector(2, -3, 5),
+        FieldRotation<Dfp> r1 = new FieldRotation<>(createVector(2, -3, 5),
                                                        createAngle(1.7),
                                                        RotationConvention.FRAME_TRANSFORM);
-        FieldRotation<Dfp> r2 = new FieldRotation<Dfp>(createVector(-1, 3, 2),
+        FieldRotation<Dfp> r2 = new FieldRotation<>(createVector(-1, 3, 2),
                                                        createAngle(0.3),
                                                        RotationConvention.FRAME_TRANSFORM);
         FieldRotation<Dfp> r3 = r2.composeInverse(r1, RotationConvention.FRAME_TRANSFORM);
@@ -805,7 +805,7 @@ public class FieldRotationDfpTest {
         UnitSphereRandomVectorGenerator g = new UnitSphereRandomVectorGenerator(3, random);
         for (int i = 0; i < 10; ++i) {
             double[] unit = g.nextVector();
-            FieldRotation<Dfp> r = new FieldRotation<Dfp>(createVector(unit[0], unit[1], unit[2]),
+            FieldRotation<Dfp> r = new FieldRotation<>(createVector(unit[0], unit[1], unit[2]),
                                                           createAngle(random.nextDouble()),
                                                           RotationConvention.VECTOR_OPERATOR);
 
@@ -823,9 +823,9 @@ public class FieldRotationDfpTest {
                         Dfp[] rIuArray = new Dfp[3];
                         r.applyInverseTo(new double[] { x, y, z}, rIuArray);
                         checkVector(ruds, ru);
-                        checkVector(ruds, new FieldVector3D<Dfp>(ruArray));
+                        checkVector(ruds, new FieldVector3D<>(ruArray));
                         checkVector(rIuds, rIu);
-                        checkVector(rIuds, new FieldVector3D<Dfp>(rIuArray));
+                        checkVector(rIuds, new FieldVector3D<>(rIuArray));
                     }
                 }
             }
@@ -843,13 +843,13 @@ public class FieldRotationDfpTest {
             double[] unit1 = g.nextVector();
             Rotation r1 = new Rotation(new Vector3D(unit1[0], unit1[1], unit1[2]),
                                       random.nextDouble(), RotationConvention.VECTOR_OPERATOR);
-            FieldRotation<Dfp> r1Prime = new FieldRotation<Dfp>(field.newDfp(r1.getQ0()),
+            FieldRotation<Dfp> r1Prime = new FieldRotation<>(field.newDfp(r1.getQ0()),
                                                                 field.newDfp(r1.getQ1()),
                                                                 field.newDfp(r1.getQ2()),
                                                                 field.newDfp(r1.getQ3()),
                                                                 false);
             double[] unit2 = g.nextVector();
-            FieldRotation<Dfp> r2 = new FieldRotation<Dfp>(createVector(unit2[0], unit2[1], unit2[2]),
+            FieldRotation<Dfp> r2 = new FieldRotation<>(createVector(unit2[0], unit2[1], unit2[2]),
                                                            createAngle(random.nextDouble()),
                                                            RotationConvention.VECTOR_OPERATOR);
 
@@ -880,7 +880,7 @@ public class FieldRotationDfpTest {
     @Test
     public void testArray() throws MathIllegalArgumentException {
 
-        FieldRotation<Dfp> r = new FieldRotation<Dfp>(createAxis(2, -3, 5),
+        FieldRotation<Dfp> r = new FieldRotation<>(createAxis(2, -3, 5),
                                                       createAngle(1.7),
                                                       RotationConvention.VECTOR_OPERATOR);
 
@@ -910,7 +910,7 @@ public class FieldRotationDfpTest {
         Dfp[] in      = new Dfp[3];
         Dfp[] out     = new Dfp[3];
         Dfp[] rebuilt = new Dfp[3];
-        FieldRotation<Dfp> r = new FieldRotation<Dfp>(createVector(2, -3, 5),
+        FieldRotation<Dfp> r = new FieldRotation<>(createVector(2, -3, 5),
                                                       createAngle(1.7),
                                                       RotationConvention.VECTOR_OPERATOR);
         for (double lambda = 0; lambda < 6.2; lambda += 0.2) {
@@ -943,7 +943,7 @@ public class FieldRotationDfpTest {
             }
         }
 
-        r = new FieldRotation<Dfp>(createVector(0, 0, 1), createAngle(FastMath.PI), RotationConvention.VECTOR_OPERATOR);
+        r = new FieldRotation<>(createVector(0, 0, 1), createAngle(FastMath.PI), RotationConvention.VECTOR_OPERATOR);
         for (double lambda = 0; lambda < 6.2; lambda += 0.2) {
             for (double phi = -1.55; phi < 1.55; phi += 0.2) {
                 FieldVector3D<Dfp> u = createVector(FastMath.cos(lambda) * FastMath.cos(phi),
@@ -964,7 +964,7 @@ public class FieldRotationDfpTest {
         FieldVector3D<Dfp> u2 =createVector( -5712344449280879.0 /    2097152.0,
                                    -2275058564560979.0 /    1048576.0,
                                    4423475992255071.0 /      65536.0);
-        FieldRotation<Dfp> rot = new FieldRotation<Dfp>(u1, u2, createVector(1, 0, 0),createVector(0, 0, 1));
+        FieldRotation<Dfp> rot = new FieldRotation<>(u1, u2, createVector(1, 0, 0),createVector(0, 0, 1));
         Assert.assertEquals( 0.6228370359608200639829222, rot.getQ0().getReal(), 1.0e-15);
         Assert.assertEquals( 0.0257707621456498790029987, rot.getQ1().getReal(), 1.0e-15);
         Assert.assertEquals(-0.0000000002503012255839931, rot.getQ2().getReal(), 1.0e-15);
@@ -979,7 +979,7 @@ public class FieldRotationDfpTest {
         FieldVector3D<Dfp> v1 = createVector(0.9999999999999999, 0.0, 0.0);
         FieldVector3D<Dfp> v2 = createVector(0.0, 0.0, -1.0);
 
-        FieldRotation<Dfp> quat = new FieldRotation<Dfp>(u1, u2, v1, v2);
+        FieldRotation<Dfp> quat = new FieldRotation<>(u1, u2, v1, v2);
         double q2 = quat.getQ0().getReal() * quat.getQ0().getReal() +
                     quat.getQ1().getReal() * quat.getQ1().getReal() +
                     quat.getQ2().getReal() * quat.getQ2().getReal() +
@@ -1002,7 +1002,7 @@ public class FieldRotationDfpTest {
     private FieldRotation<Dfp> createRotation(double q0, double q1, double q2, double q3,
                                       boolean needsNormalization) {
         DfpField field = new DfpField(20);
-        return new FieldRotation<Dfp>(field.newDfp(q0),
+        return new FieldRotation<>(field.newDfp(q0),
                                       field.newDfp(q1),
                                       field.newDfp(q2),
                                       field.newDfp(q3),
@@ -1017,17 +1017,17 @@ public class FieldRotationDfpTest {
                 mds[i][j] = field.newDfp(m[i][j]);
             }
         }
-        return new FieldRotation<Dfp>(mds, threshold);
+        return new FieldRotation<>(mds, threshold);
     }
 
     private FieldVector3D<Dfp> createVector(double x, double y, double z) {
         DfpField field = new DfpField(20);
-        return new FieldVector3D<Dfp>(field.newDfp(x), field.newDfp(y), field.newDfp(z));
+        return new FieldVector3D<>(field.newDfp(x), field.newDfp(y), field.newDfp(z));
     }
 
     private FieldVector3D<Dfp> createAxis(double x, double y, double z) {
         DfpField field = new DfpField(20);
-        return new FieldVector3D<Dfp>(field.newDfp(x), field.newDfp(y), field.newDfp(z));
+        return new FieldVector3D<>(field.newDfp(x), field.newDfp(y), field.newDfp(z));
     }
 
     private Dfp createAngle(double alpha) {
