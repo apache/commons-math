@@ -93,18 +93,22 @@ public class CloseEventsTest {
             return actualT;
         }
 
+        @Override
         public void init(double t0, double[] y0, double t) {
         }
 
+        @Override
         public double g(double t, double[] y) {
             return t - eventT;
         }
 
+        @Override
         public Action eventOccurred(double t, double[] y, boolean increasing) {
             this.actualT = t;
             return Action.CONTINUE;
         }
 
+        @Override
         public void resetState(double t, double[] y) {
         }
 
@@ -113,10 +117,12 @@ public class CloseEventsTest {
     /** Some basic equations to integrate. */
     public static class Equation implements FirstOrderDifferentialEquations {
 
+        @Override
         public int getDimension() {
             return 2;
         }
 
+        @Override
         public void computeDerivatives(double t, double[] y, double[] yDot) {
             yDot[0] = 1.0;
             yDot[1] = 2.0;

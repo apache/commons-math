@@ -70,6 +70,7 @@ public class BaseRuleFactoryTest {
 class RuleBuilder implements Callable<Pair<double[], double[]>> {
     private static final DummyRuleFactory factory = new DummyRuleFactory();
 
+    @Override
     public Pair<double[], double[]> call() {
         final int dummy = 2; // Always request the same rule.
         return factory.getRule(dummy);

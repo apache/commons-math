@@ -83,6 +83,7 @@ public class AbstractIntegerDistributionTest {
 
         private final double p = 1d/6d;
 
+        @Override
         public double probability(int x) {
             if (x < 1 || x > 6) {
                 return 0;
@@ -91,6 +92,7 @@ public class AbstractIntegerDistributionTest {
             }
         }
 
+        @Override
         public double cumulativeProbability(int x) {
             if (x < 1) {
                 return 0;
@@ -101,22 +103,27 @@ public class AbstractIntegerDistributionTest {
             }
         }
 
+        @Override
         public double getNumericalMean() {
             return 3.5;
         }
 
+        @Override
         public double getNumericalVariance() {
             return 70/24;  // E(X^2) - E(X)^2
         }
 
+        @Override
         public int getSupportLowerBound() {
             return 1;
         }
 
+        @Override
         public int getSupportUpperBound() {
             return 6;
         }
 
+        @Override
         public final boolean isSupportConnected() {
             return true;
         }

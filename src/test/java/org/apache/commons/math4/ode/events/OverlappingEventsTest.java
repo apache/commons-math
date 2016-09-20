@@ -119,11 +119,13 @@ public class OverlappingEventsTest implements FirstOrderDifferentialEquations {
     }
 
     /** {@inheritDoc} */
+    @Override
     public int getDimension() {
         return 2;
     }
 
     /** {@inheritDoc} */
+    @Override
     public void computeDerivatives(double t, double[] y, double[] yDot) {
         yDot[0] = 1.0;
         yDot[1] = 2.0;
@@ -147,21 +149,25 @@ public class OverlappingEventsTest implements FirstOrderDifferentialEquations {
         }
 
         /** {@inheritDoc} */
+        @Override
         public void init(double t0, double[] y0, double t) {
         }
 
         /** {@inheritDoc} */
+        @Override
         public double g(double t, double[] y) {
             return (eventType == 0) ? y[idx] >= 1.0 ? 1.0 : -1.0
                                     : y[idx] - 1.0;
         }
 
         /** {@inheritDoc} */
+        @Override
         public Action eventOccurred(double t, double[] y, boolean increasing) {
             return Action.STOP;
         }
 
         /** {@inheritDoc} */
+        @Override
         public void resetState(double t, double[] y) {
             // Never called.
         }

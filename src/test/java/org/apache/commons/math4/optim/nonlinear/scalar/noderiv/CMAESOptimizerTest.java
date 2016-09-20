@@ -370,6 +370,7 @@ public class CMAESOptimizerTest {
             = new CMAESOptimizer(30000, 0, true, 10,
                                  0, RandomSource.create(RandomSource.MT_64), false, null);
         final MultivariateFunction fitnessFunction = new MultivariateFunction() {
+                @Override
                 public double value(double[] parameters) {
                     final double target = 1;
                     final double error = target - parameters[0];
@@ -401,6 +402,7 @@ public class CMAESOptimizerTest {
             = new CMAESOptimizer(30000, 0, true, 10,
                                  0, RandomSource.create(RandomSource.MT_64), false, null);
         final MultivariateFunction fitnessFunction = new MultivariateFunction() {
+                @Override
                 public double value(double[] parameters) {
                     final double target = 11.1;
                     final double error = target - parameters[0];
@@ -531,6 +533,7 @@ public class CMAESOptimizerTest {
 
     private static class Sphere implements MultivariateFunction {
 
+        @Override
         public double value(double[] x) {
             double f = 0;
             for (int i = 0; i < x.length; ++i)
@@ -550,6 +553,7 @@ public class CMAESOptimizerTest {
             factor = axisratio * axisratio;
         }
 
+        @Override
         public double value(double[] x) {
             double f = x[0] * x[0];
             for (int i = 1; i < x.length; ++i)
@@ -569,6 +573,7 @@ public class CMAESOptimizerTest {
             factor = axisratio * axisratio;
         }
 
+        @Override
         public double value(double[] x) {
             double f = factor * x[0] * x[0];
             for (int i = 1; i < x.length; ++i)
@@ -588,6 +593,7 @@ public class CMAESOptimizerTest {
             factor = axisratio;
         }
 
+        @Override
         public double value(double[] x) {
             int end = x.length - 1;
             double f = x[0] * x[0] / factor + factor * x[end] * x[end];
@@ -609,6 +615,7 @@ public class CMAESOptimizerTest {
             factor = axisratio * axisratio;
         }
 
+        @Override
         public double value(double[] x) {
             double f = 0;
             for (int i = 0; i < x.length; ++i)
@@ -629,6 +636,7 @@ public class CMAESOptimizerTest {
             factor = axisratio * axisratio;
         }
 
+        @Override
         public double value(double[] x) {
             double f = 0;
             x = B.Rotate(x);
@@ -650,6 +658,7 @@ public class CMAESOptimizerTest {
             factor = axisratio * axisratio;
         }
 
+        @Override
         public double value(double[] x) {
             double f = 0;
             for (int i = 0; i < x.length; ++i)
@@ -660,6 +669,7 @@ public class CMAESOptimizerTest {
 
     private static class MinusElli implements MultivariateFunction {
 
+        @Override
         public double value(double[] x) {
             return 1.0-(new Elli().value(x));
         }
@@ -667,6 +677,7 @@ public class CMAESOptimizerTest {
 
     private static class DiffPow implements MultivariateFunction {
 
+        @Override
         public double value(double[] x) {
             double f = 0;
             for (int i = 0; i < x.length; ++i)
@@ -678,6 +689,7 @@ public class CMAESOptimizerTest {
 
     private static class SsDiffPow implements MultivariateFunction {
 
+        @Override
         public double value(double[] x) {
             double f = FastMath.pow(new DiffPow().value(x), 0.25);
             return f;
@@ -686,6 +698,7 @@ public class CMAESOptimizerTest {
 
     private static class Rosen implements MultivariateFunction {
 
+        @Override
         public double value(double[] x) {
             double f = 0;
             for (int i = 0; i < x.length - 1; ++i)
@@ -706,6 +719,7 @@ public class CMAESOptimizerTest {
             this(1);
         }
 
+        @Override
         public double value(double[] x) {
             double f = 0;
             double res2 = 0;
@@ -735,6 +749,7 @@ public class CMAESOptimizerTest {
             this.amplitude = amplitude;
         }
 
+        @Override
         public double value(double[] x) {
             double f = 0;
             double fac;

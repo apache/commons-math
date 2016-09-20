@@ -174,10 +174,12 @@ public class PolyhedronsSetTest {
         };
         tree.getTree(true).visit(new BSPTreeVisitor<Euclidean3D>() {
 
+            @Override
             public Order visitOrder(BSPTree<Euclidean3D> node) {
                 return Order.MINUS_SUB_PLUS;
             }
 
+            @Override
             public void visitInternalNode(BSPTree<Euclidean3D> node) {
                 @SuppressWarnings("unchecked")
                 BoundaryAttribute<Euclidean3D> attribute =
@@ -190,6 +192,7 @@ public class PolyhedronsSetTest {
                 }
             }
 
+            @Override
             public void visitLeafNode(BSPTree<Euclidean3D> node) {
             }
 

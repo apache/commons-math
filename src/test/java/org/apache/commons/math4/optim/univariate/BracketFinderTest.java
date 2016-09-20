@@ -31,6 +31,7 @@ public class BracketFinderTest {
     public void testCubicMin() {
         final BracketFinder bFind = new BracketFinder();
         final UnivariateFunction func = new UnivariateFunction() {
+                @Override
                 public double value(double x) {
                     if (x < -2) {
                         return value(-2);
@@ -53,6 +54,7 @@ public class BracketFinderTest {
     public void testCubicMax() {
         final BracketFinder bFind = new BracketFinder();
         final UnivariateFunction func = new UnivariateFunction() {
+                @Override
                 public double value(double x) {
                     if (x < -2) {
                         return value(-2);
@@ -73,6 +75,7 @@ public class BracketFinderTest {
     @Test
     public void testMinimumIsOnIntervalBoundary() {
         final UnivariateFunction func = new UnivariateFunction() {
+                @Override
                 public double value(double x) {
                     return x * x;
                 }
@@ -92,6 +95,7 @@ public class BracketFinderTest {
     @Test
     public void testIntervalBoundsOrdering() {
         final UnivariateFunction func = new UnivariateFunction() {
+                @Override
                 public double value(double x) {
                     return x * x;
                 }

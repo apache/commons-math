@@ -103,15 +103,18 @@ public class ContinuousOutputFieldModelTest {
         // theoretical solution: y[0] = cos(t), y[1] = sin(t)
         FirstOrderFieldDifferentialEquations<T> problem =
                         new FirstOrderFieldDifferentialEquations<T>() {
+            @Override
             public T[] computeDerivatives(T t, T[] y) {
                 T[] yDot = MathArrays.buildArray(field, 2);
                 yDot[0] = y[1].negate();
                 yDot[1] = y[0];
                 return yDot;
             }
+            @Override
             public int getDimension() {
                 return 2;
             }
+            @Override
             public void init(T t0, T[] y0, T finalTime) {
             }
         };
@@ -204,11 +207,14 @@ public class ContinuousOutputFieldModelTest {
         final FieldODEStateAndDerivative<T> s0 = new FieldODEStateAndDerivative<>(field.getZero().add(t0), fieldY, fieldY);
         final FieldODEStateAndDerivative<T> s1 = new FieldODEStateAndDerivative<>(field.getZero().add(t1), fieldY, fieldY);
         final FieldEquationsMapper<T> mapper   = new FieldExpandableODE<>(new FirstOrderFieldDifferentialEquations<T>() {
+            @Override
             public int getDimension() {
                 return s0.getStateDimension();
             }
+            @Override
             public void init(T t0, T[] y0, T finalTime) {
             }
+            @Override
             public T[] computeDerivatives(T t, T[] y) {
                 return y;
             }

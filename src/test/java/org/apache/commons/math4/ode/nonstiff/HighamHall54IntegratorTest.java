@@ -46,6 +46,7 @@ public class HighamHall54IntegratorTest {
           new HighamHall54Integrator(0.0, 1.0, 1.0e-10, 1.0e-10);
       FirstOrderDifferentialEquations equations =
           new FirstOrderDifferentialEquations() {
+            @Override
             public void computeDerivatives(double t, double[] y, double[] dot) {
             if (t < -0.5) {
                 throw new LocalException();
@@ -53,7 +54,8 @@ public class HighamHall54IntegratorTest {
                 throw new RuntimeException("oops");
            }
           }
-          public int getDimension() {
+          @Override
+        public int getDimension() {
               return 1;
           }
       };
@@ -212,11 +214,14 @@ public class HighamHall54IntegratorTest {
       integ.addStepHandler(handler);
 
       integ.addEventHandler(new EventHandler() {
+        @Override
         public void init(double t0, double[] y0, double t) {
         }
+        @Override
         public Action eventOccurred(double t, double[] y, boolean increasing) {
           return Action.CONTINUE;
         }
+        @Override
         public double g(double t, double[] y) {
           double middle = (pb.getInitialTime() + pb.getFinalTime()) / 2;
           double offset = t - middle;
@@ -225,6 +230,7 @@ public class HighamHall54IntegratorTest {
           }
           return offset;
         }
+        @Override
         public void resetState(double t, double[] y) {
         }
       }, Double.POSITIVE_INFINITY, 1.0e-8 * maxStep, 1000);
@@ -257,17 +263,21 @@ public class HighamHall54IntegratorTest {
     integ.addStepHandler(handler);
 
     integ.addEventHandler(new EventHandler() {
-      public void init(double t0, double[] y0, double t) {
+      @Override
+    public void init(double t0, double[] y0, double t) {
       }
-      public Action eventOccurred(double t, double[] y, boolean increasing) {
+      @Override
+    public Action eventOccurred(double t, double[] y, boolean increasing) {
         return Action.CONTINUE;
       }
-      public double g(double t, double[] y) {
+      @Override
+    public double g(double t, double[] y) {
         double middle = (pb.getInitialTime() + pb.getFinalTime()) / 2;
         double offset = t - middle;
         return (offset > 0) ? (offset + 0.5) : (offset - 0.5);
       }
-      public void resetState(double t, double[] y) {
+      @Override
+    public void resetState(double t, double[] y) {
       }
     }, Double.POSITIVE_INFINITY, 1.0e-8 * maxStep, 3);
 

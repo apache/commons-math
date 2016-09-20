@@ -115,6 +115,7 @@ public class GeneticAlgorithmTestBinary {
         /**
          * Returns number of elements != 0
          */
+        @Override
         public double fitness() {
             int num = 0;
             for (int val : this.getRepresentation()) {

@@ -66,10 +66,12 @@ public class ReappearingEventTest {
     }
 
     private static class Ode implements FirstOrderDifferentialEquations {
+        @Override
         public int getDimension() {
             return 7;
         }
 
+        @Override
         public void computeDerivatives(double t, double[] y, double[] yDot) {
             Arrays.fill(yDot, 1.0);
         }
@@ -78,17 +80,21 @@ public class ReappearingEventTest {
     /** State events for this unit test. */
     protected static class Event implements EventHandler {
 
+        @Override
         public void init(double t0, double[] y0, double t) {
         }
 
+        @Override
         public double g(double t, double[] y) {
             return y[6] - 15.0;
         }
 
+        @Override
         public Action eventOccurred(double t, double[] y, boolean increasing) {
             return Action.STOP;
         }
 
+        @Override
         public void resetState(double t, double[] y) {
             // Never called.
         }

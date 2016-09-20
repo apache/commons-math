@@ -101,6 +101,7 @@ public class MultiStartUnivariateOptimizerTest {
     @Test
     public void testBadFunction() {
         UnivariateFunction f = new UnivariateFunction() {
+                @Override
                 public double value(double x) {
                     if (x < 0) {
                         throw new LocalException();

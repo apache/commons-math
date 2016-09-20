@@ -299,6 +299,7 @@ public class PerfTestUtils {
         }
 
         /** {@inheritDoc} */
+        @Override
         public abstract Double call() throws Exception;
     }
 

@@ -289,11 +289,14 @@ public abstract class RungeKuttaFieldStepInterpolatorAbstractTest {
         protected SinCos(final Field<T> field) {
             this.field = field;
         }
+        @Override
         public int getDimension() {
             return 2;
         }
+        @Override
         public void init(final T t0, final T[] y0, final T finalTime) {
         }
+        @Override
         public T[] computeDerivatives(final T t, final T[] y) {
             T[] yDot = MathArrays.buildArray(field, 2);
             yDot[0] = y[1];

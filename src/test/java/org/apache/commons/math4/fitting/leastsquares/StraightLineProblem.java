@@ -96,6 +96,7 @@ class StraightLineProblem {
 
     public MultivariateVectorFunction getModelFunction() {
         return new MultivariateVectorFunction() {
+            @Override
             public double[] value(double[] params) {
                 final Model line = new Model(params[0], params[1]);
 
@@ -112,6 +113,7 @@ class StraightLineProblem {
 
     public MultivariateMatrixFunction getModelFunctionJacobian() {
         return new MultivariateMatrixFunction() {
+            @Override
             public double[][] value(double[] point) {
                 return jacobian(point);
             }
@@ -159,6 +161,7 @@ class StraightLineProblem {
             this.b = b;
         }
 
+        @Override
         public double value(double x) {
             return a * x + b;
         }

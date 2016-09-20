@@ -31,16 +31,19 @@ public class ChromosomeTest {
     @Test
     public void testCompareTo() {
         Chromosome c1 = new Chromosome() {
+            @Override
             public double fitness() {
                 return 0;
             }
         };
         Chromosome c2 = new Chromosome() {
+            @Override
             public double fitness() {
                 return 10;
             }
         };
         Chromosome c3 = new Chromosome() {
+            @Override
             public double fitness() {
                 return 10;
             }
@@ -67,26 +70,31 @@ public class ChromosomeTest {
     @Test
     public void testFindSameChromosome() {
         Chromosome c1 = new DummyChromosome(1) {
+            @Override
             public double fitness() {
                 return 1;
             }
         };
         Chromosome c2 = new DummyChromosome(2) {
+            @Override
             public double fitness() {
                 return 2;
             }
         };
         Chromosome c3 = new DummyChromosome(3) {
+            @Override
             public double fitness() {
                 return 3;
             }
         };
         Chromosome c4 = new DummyChromosome(1) {
+            @Override
             public double fitness() {
                 return 5;
             }
         };
         Chromosome c5 = new DummyChromosome(15) {
+            @Override
             public double fitness() {
                 return 15;
             }
@@ -97,6 +105,7 @@ public class ChromosomeTest {
         popChr.add(c2);
         popChr.add(c3);
         Population pop = new ListPopulation(popChr,3) {
+            @Override
             public Population nextGeneration() {
                 // not important
                 return null;

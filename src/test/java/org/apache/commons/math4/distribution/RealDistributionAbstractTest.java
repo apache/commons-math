@@ -356,6 +356,7 @@ public abstract class RealDistributionAbstractTest {
         final BaseAbstractUnivariateIntegrator integrator =
             new IterativeLegendreGaussIntegrator(5, 1.0e-12, 1.0e-10);
         final UnivariateFunction d = new UnivariateFunction() {
+            @Override
             public double value(double x) {
                 return distribution.density(x);
             }

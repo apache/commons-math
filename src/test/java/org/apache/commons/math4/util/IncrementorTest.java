@@ -103,6 +103,7 @@ public class IncrementorTest {
         final Incrementor.MaxCountExceededCallback cb
             = new Incrementor.MaxCountExceededCallback() {
                     /** {@inheritDoc} */
+                    @Override
                     public void trigger(int max) {
                         throw new TooManyEvaluationsException(max);
                     }

@@ -135,9 +135,11 @@ public class DormandPrince54IntegratorTest {
       this.minStep = minStep;
     }
 
+    @Override
     public void init(double t0, double[] y0, double t) {
     }
 
+    @Override
     public void handleStep(StepInterpolator interpolator, boolean isLast) {
       if (isLast) {
         lastSeen = true;
@@ -281,10 +283,12 @@ public class DormandPrince54IntegratorTest {
     public KeplerHandler(TestProblem3 pb) {
       this.pb = pb;
     }
+    @Override
     public void init(double t0, double[] y0, double t) {
       nbSteps = 0;
       maxError = 0;
     }
+    @Override
     public void handleStep(StepInterpolator interpolator, boolean isLast)
         throws MaxCountExceededException {
 
@@ -321,11 +325,13 @@ public class DormandPrince54IntegratorTest {
       minStep = 0;
       maxStep = 0;
     }
+    @Override
     public void init(double t0, double[] y0, double t) {
       firstTime = true;
       minStep = 0;
       maxStep = 0;
     }
+    @Override
     public void handleStep(StepInterpolator interpolator,
                            boolean isLast) {
 

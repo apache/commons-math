@@ -27,6 +27,7 @@ import org.junit.Test;
 
 public class ThreeEighthesFieldStepInterpolatorTest extends RungeKuttaFieldStepInterpolatorAbstractTest {
 
+    @Override
     protected <T extends RealFieldElement<T>> RungeKuttaFieldStepInterpolator<T>
     createInterpolator(Field<T> field, boolean forward, T[][] yDotK,
                        FieldODEStateAndDerivative<T> globalPreviousState,
@@ -40,21 +41,25 @@ public class ThreeEighthesFieldStepInterpolatorTest extends RungeKuttaFieldStepI
                                                          mapper);
     }
 
+    @Override
     protected <T extends RealFieldElement<T>> FieldButcherArrayProvider<T>
     createButcherArrayProvider(final Field<T> field) {
         return new ThreeEighthesFieldIntegrator<>(field, field.getOne());
     }
 
+    @Override
     @Test
     public void interpolationAtBounds() {
         doInterpolationAtBounds(Decimal64Field.getInstance(), 1.0e-15);
     }
 
+    @Override
     @Test
     public void interpolationInside() {
         doInterpolationInside(Decimal64Field.getInstance(), 2.6e-7, 3.6e-6);
     }
 
+    @Override
     @Test
     public void nonFieldInterpolatorConsistency() {
         doNonFieldInterpolatorConsistency(Decimal64Field.getInstance(), 1.4e-17, 1.2e-16, 3.4e-16, 1.4e-17);

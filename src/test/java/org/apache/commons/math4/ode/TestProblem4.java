@@ -99,19 +99,23 @@ public class TestProblem4
       sign = +1;
     }
 
+    @Override
     public void init(double t0, double[] y0, double t) {
     }
 
+    @Override
     public double g(double t, double[] y) {
       return sign * y[0];
     }
 
+    @Override
     public Action eventOccurred(double t, double[] y, boolean increasing) {
       // this sign change is needed because the state will be reset soon
       sign = -sign;
       return Action.RESET_STATE;
     }
 
+    @Override
     public void resetState(double t, double[] y) {
       y[0] = -y[0];
       y[1] = -y[1];
@@ -124,17 +128,21 @@ public class TestProblem4
     public Stop() {
     }
 
+    @Override
     public void init(double t0, double[] y0, double t) {
     }
 
+    @Override
     public double g(double t, double[] y) {
       return t - 12.0;
     }
 
+    @Override
     public Action eventOccurred(double t, double[] y, boolean increasing) {
       return Action.STOP;
     }
 
+    @Override
     public void resetState(double t, double[] y) {
     }
 

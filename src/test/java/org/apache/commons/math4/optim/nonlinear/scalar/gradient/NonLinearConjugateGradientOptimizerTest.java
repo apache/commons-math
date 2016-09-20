@@ -221,6 +221,7 @@ public class NonLinearConjugateGradientOptimizerTest {
 
         final Preconditioner preconditioner
             = new Preconditioner() {
+                    @Override
                     public double[] precondition(double[] point, double[] r) {
                         double[] d = r.clone();
                         d[0] /=  72.0;
@@ -448,6 +449,7 @@ public class NonLinearConjugateGradientOptimizerTest {
 
         public ObjectiveFunction getObjectiveFunction() {
             return new ObjectiveFunction(new MultivariateFunction() {
+                    @Override
                     public double value(double[] point) {
                         double[] y = factors.operate(point);
                         double sum = 0;
@@ -462,6 +464,7 @@ public class NonLinearConjugateGradientOptimizerTest {
 
         public ObjectiveFunctionGradient getObjectiveFunctionGradient() {
             return new ObjectiveFunctionGradient(new MultivariateVectorFunction() {
+                    @Override
                     public double[] value(double[] point) {
                         double[] r = factors.operate(point);
                         for (int i = 0; i < r.length; ++i) {

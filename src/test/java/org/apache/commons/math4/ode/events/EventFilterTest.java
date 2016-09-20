@@ -220,10 +220,12 @@ public class EventFilterTest {
     }
 
     private static class SineCosine implements FirstOrderDifferentialEquations {
+        @Override
         public int getDimension() {
             return 2;
         }
 
+        @Override
         public void computeDerivatives(double t, double[] y, double[] yDot) {
             yDot[0] =  y[1];
             yDot[1] = -y[0];
@@ -246,14 +248,17 @@ public class EventFilterTest {
             return eventCount;
         }
 
+        @Override
         public void init(double t0, double[] y0, double t) {
             eventCount = 0;
         }
 
+        @Override
         public double g(double t, double[] y) {
             return y[0];
         }
 
+        @Override
         public Action eventOccurred(double t, double[] y, boolean increasing) {
             if (increasing) {
                 Assert.assertTrue(expectIncreasing);
@@ -264,6 +269,7 @@ public class EventFilterTest {
             return Action.RESET_STATE;
         }
 
+        @Override
         public void resetState(double t, double[] y) {
             // in fact, we don't really reset anything for this test
         }

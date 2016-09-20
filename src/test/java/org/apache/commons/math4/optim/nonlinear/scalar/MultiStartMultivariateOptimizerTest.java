@@ -121,6 +121,7 @@ public class MultiStartMultivariateOptimizerTest {
             count = 0;
         }
 
+        @Override
         public double value(double[] x) {
             ++count;
             double a = x[1] - x[0] * x[0];

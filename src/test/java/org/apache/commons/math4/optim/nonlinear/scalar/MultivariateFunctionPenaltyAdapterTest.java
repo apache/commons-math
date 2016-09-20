@@ -171,6 +171,7 @@ public class MultivariateFunctionPenaltyAdapterTest {
             this.yMax     = yMax;
         }
 
+        @Override
         public double value(double[] point) {
             // the function should never be called with out of range points
             Assert.assertTrue(point[0] >= xMin);

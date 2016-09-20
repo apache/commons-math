@@ -35,16 +35,19 @@ public class ListPopulationTest {
     @Test
     public void testGetFittestChromosome() {
         Chromosome c1 = new Chromosome() {
+            @Override
             public double fitness() {
                 return 0;
             }
         };
         Chromosome c2 = new Chromosome() {
+            @Override
             public double fitness() {
                 return 10;
             }
         };
         Chromosome c3 = new Chromosome() {
+            @Override
             public double fitness() {
                 return 15;
             }
@@ -56,6 +59,7 @@ public class ListPopulationTest {
         chromosomes.add(c3);
 
         ListPopulation population = new ListPopulation(chromosomes, 10) {
+            @Override
             public Population nextGeneration() {
                 // not important
                 return null;
@@ -73,6 +77,7 @@ public class ListPopulationTest {
         chromosomes.add(new DummyBinaryChromosome(BinaryChromosome.randomBinaryRepresentation(3)));
 
         final ListPopulation population = new ListPopulation(10) {
+            @Override
             public Population nextGeneration() {
                 // not important
                 return null;
@@ -91,6 +96,7 @@ public class ListPopulationTest {
     @Test(expected = NotPositiveException.class)
     public void testSetPopulationLimit() {
         final ListPopulation population = new ListPopulation(10) {
+            @Override
             public Population nextGeneration() {
                 // not important
                 return null;
@@ -103,6 +109,7 @@ public class ListPopulationTest {
     @Test(expected = NotPositiveException.class)
     public void testConstructorPopulationLimitNotPositive() {
         new ListPopulation(-10) {
+            @Override
             public Population nextGeneration() {
                 // not important
                 return null;
@@ -115,6 +122,7 @@ public class ListPopulationTest {
         final ArrayList<Chromosome> chromosomes = new ArrayList<> ();
         chromosomes.add(new DummyBinaryChromosome(BinaryChromosome.randomBinaryRepresentation(3)));
         new ListPopulation(chromosomes, -10) {
+            @Override
             public Population nextGeneration() {
                 // not important
                 return null;
@@ -129,6 +137,7 @@ public class ListPopulationTest {
         chromosomes.add(new DummyBinaryChromosome(BinaryChromosome.randomBinaryRepresentation(3)));
         chromosomes.add(new DummyBinaryChromosome(BinaryChromosome.randomBinaryRepresentation(3)));
         new ListPopulation(chromosomes, 1) {
+            @Override
             public Population nextGeneration() {
                 // not important
                 return null;
@@ -144,6 +153,7 @@ public class ListPopulationTest {
         chromosomes.add(new DummyBinaryChromosome(BinaryChromosome.randomBinaryRepresentation(3)));
 
         final ListPopulation population = new ListPopulation(2) {
+            @Override
             public Population nextGeneration() {
                 // not important
                 return null;
@@ -157,6 +167,7 @@ public class ListPopulationTest {
     public void testAddTooManyChromosomesSingleCall() {
 
         final ListPopulation population = new ListPopulation(2) {
+            @Override
             public Population nextGeneration() {
                 // not important
                 return null;
@@ -176,6 +187,7 @@ public class ListPopulationTest {
         chromosomes.add(new DummyBinaryChromosome(BinaryChromosome.randomBinaryRepresentation(3)));
 
         final ListPopulation population = new ListPopulation(10) {
+            @Override
             public Population nextGeneration() {
                 // not important
                 return null;
@@ -199,6 +211,7 @@ public class ListPopulationTest {
         chromosomes.add(new DummyBinaryChromosome(BinaryChromosome.randomBinaryRepresentation(3)));
 
         final ListPopulation population = new ListPopulation(chromosomes, 3) {
+            @Override
             public Population nextGeneration() {
                 // not important
                 return null;

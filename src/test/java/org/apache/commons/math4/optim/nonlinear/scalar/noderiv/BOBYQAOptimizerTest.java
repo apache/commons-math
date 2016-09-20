@@ -365,6 +365,7 @@ public class BOBYQAOptimizerTest {
 
     private static class Sphere implements MultivariateFunction {
 
+        @Override
         public double value(double[] x) {
             double f = 0;
             for (int i = 0; i < x.length; ++i)
@@ -384,6 +385,7 @@ public class BOBYQAOptimizerTest {
             factor = axisratio * axisratio;
         }
 
+        @Override
         public double value(double[] x) {
             double f = x[0] * x[0];
             for (int i = 1; i < x.length; ++i)
@@ -403,6 +405,7 @@ public class BOBYQAOptimizerTest {
             factor = axisratio * axisratio;
         }
 
+        @Override
         public double value(double[] x) {
             double f = factor * x[0] * x[0];
             for (int i = 1; i < x.length; ++i)
@@ -422,6 +425,7 @@ public class BOBYQAOptimizerTest {
             factor = axisratio;
         }
 
+        @Override
         public double value(double[] x) {
             int end = x.length - 1;
             double f = x[0] * x[0] / factor + factor * x[end] * x[end];
@@ -443,6 +447,7 @@ public class BOBYQAOptimizerTest {
             factor = axisratio * axisratio;
         }
 
+        @Override
         public double value(double[] x) {
             double f = 0;
             for (int i = 0; i < x.length; ++i)
@@ -463,6 +468,7 @@ public class BOBYQAOptimizerTest {
             factor = axisratio * axisratio;
         }
 
+        @Override
         public double value(double[] x) {
             double f = 0;
             x = B.Rotate(x);
@@ -484,6 +490,7 @@ public class BOBYQAOptimizerTest {
             factor = axisratio * axisratio;
         }
 
+        @Override
         public double value(double[] x) {
             double f = 0;
             for (int i = 0; i < x.length; ++i)
@@ -494,6 +501,7 @@ public class BOBYQAOptimizerTest {
 
     private static class MinusElli implements MultivariateFunction {
         private final Elli elli = new Elli();
+        @Override
         public double value(double[] x) {
             return 1.0 - elli.value(x);
         }
@@ -501,6 +509,7 @@ public class BOBYQAOptimizerTest {
 
     private static class DiffPow implements MultivariateFunction {
 //        private int fcount = 0;
+        @Override
         public double value(double[] x) {
             double f = 0;
             for (int i = 0; i < x.length; ++i)
@@ -516,6 +525,7 @@ public class BOBYQAOptimizerTest {
 
     private static class SsDiffPow implements MultivariateFunction {
 
+        @Override
         public double value(double[] x) {
             double f = FastMath.pow(new DiffPow().value(x), 0.25);
             return f;
@@ -524,6 +534,7 @@ public class BOBYQAOptimizerTest {
 
     private static class Rosen implements MultivariateFunction {
 
+        @Override
         public double value(double[] x) {
             double f = 0;
             for (int i = 0; i < x.length - 1; ++i)
@@ -544,6 +555,7 @@ public class BOBYQAOptimizerTest {
             this(1);
         }
 
+        @Override
         public double value(double[] x) {
             double f = 0;
             double res2 = 0;
@@ -573,6 +585,7 @@ public class BOBYQAOptimizerTest {
             this.amplitude = amplitude;
         }
 
+        @Override
         public double value(double[] x) {
             double f = 0;
             double fac;

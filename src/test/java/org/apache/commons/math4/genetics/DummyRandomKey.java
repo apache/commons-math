@@ -39,6 +39,7 @@ public class DummyRandomKey extends RandomKey<String> {
         return new DummyRandomKey(chromosomeRepresentation);
     }
 
+    @Override
     public double fitness() {
         // unimportant
         return 0;

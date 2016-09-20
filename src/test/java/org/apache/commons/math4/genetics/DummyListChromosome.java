@@ -34,6 +34,7 @@ public class DummyListChromosome extends AbstractListChromosome<Integer> {
         super(representation);
     }
 
+    @Override
     public double fitness() {
         // Not important.
         return 0;

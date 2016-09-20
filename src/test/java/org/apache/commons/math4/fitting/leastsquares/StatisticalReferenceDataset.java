@@ -145,6 +145,7 @@ public abstract class StatisticalReferenceDataset {
     class LeastSquaresProblem {
         public MultivariateVectorFunction getModelFunction() {
             return new MultivariateVectorFunction() {
+                @Override
                 public double[] value(final double[] a) {
                     final int n = getNumObservations();
                     final double[] yhat = new double[n];
@@ -158,6 +159,7 @@ public abstract class StatisticalReferenceDataset {
 
         public MultivariateMatrixFunction getModelFunctionJacobian() {
             return new MultivariateMatrixFunction() {
+                @Override
                 public double[][] value(final double[] a)
                     throws IllegalArgumentException {
                     final int n = getNumObservations();

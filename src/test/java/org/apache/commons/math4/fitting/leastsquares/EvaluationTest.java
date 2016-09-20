@@ -73,6 +73,7 @@ public class EvaluationTest {
         Evaluation evaluation = new LeastSquaresBuilder()
                 .target(new ArrayRealVector(new double[]{3,-1}))
                 .model(new MultivariateJacobianFunction() {
+                    @Override
                     public Pair<RealVector, RealMatrix> value(RealVector point) {
                         return new Pair<RealVector, RealMatrix>(
                                 new ArrayRealVector(new double[]{1, 2}),
@@ -97,6 +98,7 @@ public class EvaluationTest {
         RealVector point = new ArrayRealVector(2);
         Evaluation evaluation = new LeastSquaresBuilder()
                 .model(new MultivariateJacobianFunction() {
+                    @Override
                     public Pair<RealVector, RealMatrix> value(RealVector point) {
                         return new Pair<RealVector, RealMatrix>(
                                 new ArrayRealVector(2),
@@ -133,6 +135,7 @@ public class EvaluationTest {
         Evaluation evaluation = new LeastSquaresBuilder()
                 .weight(new DiagonalMatrix(new double[]{16, 4}))
                 .model(new MultivariateJacobianFunction() {
+                    @Override
                     public Pair<RealVector, RealMatrix> value(RealVector actualPoint) {
                         //verify correct values passed in
                         Assert.assertArrayEquals(
@@ -261,6 +264,7 @@ public class EvaluationTest {
         // "ValueAndJacobianFunction" is required but we implement only
         // "MultivariateJacobianFunction".
         final MultivariateJacobianFunction m1 = new MultivariateJacobianFunction() {
+                @Override
                 public Pair<RealVector, RealMatrix> value(RealVector notUsed) {
                     return new Pair<>(null, null);
                 }
@@ -275,12 +279,15 @@ public class EvaluationTest {
         }
 
         final MultivariateJacobianFunction m2 = new ValueAndJacobianFunction() {
+                @Override
                 public Pair<RealVector, RealMatrix> value(RealVector notUsed) {
                     return new Pair<>(null, null);
                 }
+                @Override
                 public RealVector computeValue(final double[] params) {
                     return null;
                 }
+                @Override
                 public RealMatrix computeJacobian(final double[] params) {
                     return null;
                 }
@@ -314,6 +321,7 @@ public class EvaluationTest {
     /** Used for testing direct vs lazy evaluation. */
     private MultivariateVectorFunction dummyModel() {
         return new MultivariateVectorFunction() {
+            @Override
             public double[] value(double[] p) {
                 throw new RuntimeException("dummyModel");
             }
@@ -323,6 +331,7 @@ public class EvaluationTest {
     /** Used for testing direct vs lazy evaluation. */
     private MultivariateMatrixFunction dummyJacobian() {
         return new MultivariateMatrixFunction() {
+            @Override
             public double[][] value(double[] p) {
                 throw new RuntimeException("dummyJacobian");
             }

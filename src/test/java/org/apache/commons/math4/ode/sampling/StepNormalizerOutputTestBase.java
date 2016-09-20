@@ -265,20 +265,24 @@ public abstract class StepNormalizerOutputTestBase
     }
 
     /** {@inheritDoc} */
+    @Override
     public int getDimension() {
         return 1;
     }
 
     /** {@inheritDoc} */
+    @Override
     public void computeDerivatives(double t, double[] y, double[] yDot) {
         yDot[0] = y[0];
     }
 
     /** {@inheritDoc} */
+    @Override
     public void init(double t0, double[] y0, double t) {
     }
 
     /** {@inheritDoc} */
+    @Override
     public void handleStep(double t, double[] y, double[] yDot, boolean isLast) {
         output.add(t);
     }

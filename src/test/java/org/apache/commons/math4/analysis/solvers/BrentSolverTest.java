@@ -256,6 +256,7 @@ public final class BrentSolverTest {
                                         FunctionUtils.multiply(new Constant(1e4),
                                                                FunctionUtils.compose(inv, sqrt)));
 
+                @Override
                 public double value(double x) {
                     return func.value(new DerivativeStructure(1, 1, 0, x)).getPartialDerivative(1);
                 }

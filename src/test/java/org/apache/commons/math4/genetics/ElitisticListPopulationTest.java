@@ -100,6 +100,7 @@ public class ElitisticListPopulationTest {
             counter++;
         }
 
+        @Override
         public double fitness() {
             return this.fitness;
         }

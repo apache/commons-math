@@ -181,6 +181,7 @@ public class SimplexOptimizerNelderMeadTest {
                     { 0, 1 }
                 }, false);
         LeastSquaresConverter ls = new LeastSquaresConverter(new MultivariateVectorFunction() {
+                @Override
                 public double[] value(double[] variables) {
                     return factors.operate(variables);
                 }
@@ -207,6 +208,7 @@ public class SimplexOptimizerNelderMeadTest {
                     { 0, 1 }
                 }, false);
         LeastSquaresConverter ls = new LeastSquaresConverter(new MultivariateVectorFunction() {
+                @Override
                 public double[] value(double[] variables) {
                     return factors.operate(variables);
                 }
@@ -233,6 +235,7 @@ public class SimplexOptimizerNelderMeadTest {
                     { 0, 1 }
                 }, false);
         LeastSquaresConverter ls = new LeastSquaresConverter(new MultivariateVectorFunction() {
+                @Override
                 public double[] value(double[] variables) {
                     return factors.operate(variables);
                 }
@@ -275,6 +278,7 @@ public class SimplexOptimizerNelderMeadTest {
         final double valueXpYm = -0.7290400707055187115322; // Global minimum.
         final double valueXpYp = -valueXpYm; // Global maximum.
 
+        @Override
         public double value(double[] variables) {
             final double x = variables[0];
             final double y = variables[1];
@@ -290,6 +294,7 @@ public class SimplexOptimizerNelderMeadTest {
             count = 0;
         }
 
+        @Override
         public double value(double[] x) {
             ++count;
             double a = x[1] - x[0] * x[0];
@@ -309,6 +314,7 @@ public class SimplexOptimizerNelderMeadTest {
             count = 0;
         }
 
+        @Override
         public double value(double[] x) {
             ++count;
             double a = x[0] + 10 * x[1];

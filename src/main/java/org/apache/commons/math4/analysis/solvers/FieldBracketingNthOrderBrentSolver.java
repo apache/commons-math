@@ -106,6 +106,7 @@ public class FieldBracketingNthOrderBrentSolver<T extends RealFieldElement<T>>
      *
      * @return the maximal number of function evaluations.
      */
+    @Override
     public int getMaxEvaluations() {
         return evaluations.getMaximalCount();
     }
@@ -118,6 +119,7 @@ public class FieldBracketingNthOrderBrentSolver<T extends RealFieldElement<T>>
      *
      * @return the number of evaluations of the objective function.
      */
+    @Override
     public int getEvaluations() {
         return evaluations.getCount();
     }
@@ -126,6 +128,7 @@ public class FieldBracketingNthOrderBrentSolver<T extends RealFieldElement<T>>
      * Get the absolute accuracy.
      * @return absolute accuracy
      */
+    @Override
     public T getAbsoluteAccuracy() {
         return absoluteAccuracy;
     }
@@ -134,6 +137,7 @@ public class FieldBracketingNthOrderBrentSolver<T extends RealFieldElement<T>>
      * Get the relative accuracy.
      * @return relative accuracy
      */
+    @Override
     public T getRelativeAccuracy() {
         return relativeAccuracy;
     }
@@ -142,6 +146,7 @@ public class FieldBracketingNthOrderBrentSolver<T extends RealFieldElement<T>>
      * Get the function accuracy.
      * @return function accuracy
      */
+    @Override
     public T getFunctionValueAccuracy() {
         return functionValueAccuracy;
     }
@@ -162,6 +167,7 @@ public class FieldBracketingNthOrderBrentSolver<T extends RealFieldElement<T>>
      * @exception NullArgumentException if f is null.
      * @exception NoBracketingException if root cannot be bracketed
      */
+    @Override
     public T solve(final int maxEval, final RealFieldUnivariateFunction<T> f,
                    final T min, final T max, final AllowedSolution allowedSolution)
         throws NullArgumentException, NoBracketingException {
@@ -185,6 +191,7 @@ public class FieldBracketingNthOrderBrentSolver<T extends RealFieldElement<T>>
      * @exception NullArgumentException if f is null.
      * @exception NoBracketingException if root cannot be bracketed
      */
+    @Override
     public T solve(final int maxEval, final RealFieldUnivariateFunction<T> f,
                    final T min, final T max, final T startValue,
                    final AllowedSolution allowedSolution)

@@ -52,10 +52,12 @@ public class LutherIntegratorTest {
         final double[] k      = { 1.0e-4, 1.0e-5, 1.0e-6 };
         FirstOrderDifferentialEquations ode = new FirstOrderDifferentialEquations() {
 
+            @Override
             public int getDimension() {
                 return k.length;
             }
 
+            @Override
             public void computeDerivatives(double t, double[] y, double[] yDot) {
                 for (int i = 0; i < y.length; ++i) {
                     yDot[i] = k[i] * y[i];
@@ -79,16 +81,20 @@ public class LutherIntegratorTest {
 
         integrator.addEventHandler(new EventHandler() {
 
+            @Override
             public void init(double t0, double[] y0, double t) {
             }
 
+            @Override
             public void resetState(double t, double[] y) {
             }
 
+            @Override
             public double g(double t, double[] y) {
                 return t - tEvent;
             }
 
+            @Override
             public Action eventOccurred(double t, double[] y, boolean increasing) {
                 Assert.assertEquals(tEvent, t, 1.0e-15);
                 return Action.CONTINUE;
@@ -263,9 +269,11 @@ public class LutherIntegratorTest {
             this.pb = pb;
             maxError = 0;
         }
+        @Override
         public void init(double t0, double[] y0, double t) {
             maxError = 0;
         }
+        @Override
         public void handleStep(StepInterpolator interpolator, boolean isLast) {
 
             double[] interpolatedY = interpolator.getInterpolatedState ();
@@ -291,6 +299,7 @@ public class LutherIntegratorTest {
         final double step = 1.23456;
         FirstOrderIntegrator integ = new LutherIntegrator(step);
         integ.addStepHandler(new StepHandler() {
+            @Override
             public void handleStep(StepInterpolator interpolator, boolean isLast) {
                 if (! isLast) {
                     Assert.assertEquals(step,
@@ -298,13 +307,16 @@ public class LutherIntegratorTest {
                                         1.0e-12);
                 }
             }
+            @Override
             public void init(double t0, double[] y0, double t) {
             }
         });
         integ.integrate(new FirstOrderDifferentialEquations() {
+            @Override
             public void computeDerivatives(double t, double[] y, double[] dot) {
                 dot[0] = 1.0;
             }
+            @Override
             public int getDimension() {
                 return 1;
             }

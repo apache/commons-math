@@ -52,11 +52,13 @@ public class ClassicalRungeKuttaIntegratorTest {
       final double[] k      = { 1.0e-4, 1.0e-5, 1.0e-6 };
       FirstOrderDifferentialEquations ode = new FirstOrderDifferentialEquations() {
 
-          public int getDimension() {
+          @Override
+        public int getDimension() {
               return k.length;
           }
 
-          public void computeDerivatives(double t, double[] y, double[] yDot) {
+          @Override
+        public void computeDerivatives(double t, double[] y, double[] yDot) {
               for (int i = 0; i < y.length; ++i) {
                   yDot[i] = k[i] * y[i];
               }
@@ -79,17 +81,21 @@ public class ClassicalRungeKuttaIntegratorTest {
 
       integrator.addEventHandler(new EventHandler() {
 
-          public void init(double t0, double[] y0, double t) {
+          @Override
+        public void init(double t0, double[] y0, double t) {
           }
 
-          public void resetState(double t, double[] y) {
+          @Override
+        public void resetState(double t, double[] y) {
           }
 
-          public double g(double t, double[] y) {
+          @Override
+        public double g(double t, double[] y) {
               return t - tEvent;
           }
 
-          public Action eventOccurred(double t, double[] y, boolean increasing) {
+          @Override
+        public Action eventOccurred(double t, double[] y, boolean increasing) {
               Assert.assertEquals(tEvent, t, 5.0e-6);
               return Action.CONTINUE;
           }
@@ -263,9 +269,11 @@ public class ClassicalRungeKuttaIntegratorTest {
       this.pb = pb;
       maxError = 0;
     }
+    @Override
     public void init(double t0, double[] y0, double t) {
       maxError = 0;
     }
+    @Override
     public void handleStep(StepInterpolator interpolator, boolean isLast)
         throws MaxCountExceededException {
 
@@ -295,21 +303,25 @@ public class ClassicalRungeKuttaIntegratorTest {
       final double step = 1.23456;
       FirstOrderIntegrator integ = new ClassicalRungeKuttaIntegrator(step);
       integ.addStepHandler(new StepHandler() {
-          public void handleStep(StepInterpolator interpolator, boolean isLast) {
+          @Override
+        public void handleStep(StepInterpolator interpolator, boolean isLast) {
               if (! isLast) {
                   Assert.assertEquals(step,
                                interpolator.getCurrentTime() - interpolator.getPreviousTime(),
                                1.0e-12);
               }
           }
-          public void init(double t0, double[] y0, double t) {
+          @Override
+        public void init(double t0, double[] y0, double t) {
           }
       });
       integ.integrate(new FirstOrderDifferentialEquations() {
-          public void computeDerivatives(double t, double[] y, double[] dot) {
+          @Override
+        public void computeDerivatives(double t, double[] y, double[] dot) {
               dot[0] = 1.0;
           }
-          public int getDimension() {
+          @Override
+        public int getDimension() {
               return 1;
           }
       }, 0.0, new double[] { 0.0 }, 5.0, new double[1]);
@@ -323,11 +335,13 @@ public class ClassicalRungeKuttaIntegratorTest {
       final double end   = 0.001;
       FirstOrderDifferentialEquations equations = new FirstOrderDifferentialEquations() {
 
-          public int getDimension() {
+          @Override
+        public int getDimension() {
               return 1;
           }
 
-          public void computeDerivatives(double t, double[] y, double[] yDot) {
+          @Override
+        public void computeDerivatives(double t, double[] y, double[] yDot) {
               Assert.assertTrue(t >= FastMath.nextAfter(start, Double.NEGATIVE_INFINITY));
               Assert.assertTrue(t <= FastMath.nextAfter(end,   Double.POSITIVE_INFINITY));
               yDot[0] = -100.0 * y[0];

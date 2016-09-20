@@ -49,6 +49,7 @@ public class CircleScalar {
 
     public ObjectiveFunction getObjectiveFunction() {
         return new ObjectiveFunction(new MultivariateFunction() {
+                @Override
                 public double value(double[] params)  {
                     Vector2D center = new Vector2D(params[0], params[1]);
                     double radius = getRadius(center);
@@ -64,6 +65,7 @@ public class CircleScalar {
 
     public ObjectiveFunctionGradient getObjectiveFunctionGradient() {
         return new ObjectiveFunctionGradient(new MultivariateVectorFunction() {
+                @Override
                 public double[] value(double[] params) {
                     Vector2D center = new Vector2D(params[0], params[1]);
                     double radius = getRadius(center);

@@ -89,6 +89,7 @@ public final class BracketingNthOrderBrentSolverTest extends BaseSecantSolverAbs
         BracketingNthOrderBrentSolver solver =
                 new BracketingNthOrderBrentSolver(1.0e-12, 1.0e-10, 1.0e-22, 5);
         UnivariateFunction sharpTurn = new UnivariateFunction() {
+            @Override
             public double value(double x) {
                 return (2 * x + 1) / (1.0e9 * (x + 1));
             }
@@ -204,10 +205,12 @@ public final class BracketingNthOrderBrentSolverTest extends BaseSecantSolverAbs
             return max;
         }
 
+        @Override
         public double value(final double x) {
             return value(new DerivativeStructure(0, 0, x)).getValue();
         }
 
+        @Override
         public abstract DerivativeStructure value(final DerivativeStructure t);
 
     }

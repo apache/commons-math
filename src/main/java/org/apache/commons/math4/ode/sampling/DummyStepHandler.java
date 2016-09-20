@@ -66,6 +66,7 @@ public class DummyStepHandler implements StepHandler {
      * copy.
      * @param isLast true if the step is the last one
      */
+    @Override
     public void handleStep(final StepInterpolator interpolator, final boolean isLast) {
     }
 

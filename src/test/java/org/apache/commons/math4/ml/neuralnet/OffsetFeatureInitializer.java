@@ -43,6 +43,7 @@ public class OffsetFeatureInitializer
     }
 
     /** {@inheritDoc} */
+    @Override
     public double value() {
         return orig.value() + inc++;
     }

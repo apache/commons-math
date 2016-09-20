@@ -39,6 +39,7 @@ public class DummyBinaryChromosome extends BinaryChromosome {
         return new DummyBinaryChromosome(chromosomeRepresentation);
     }
 
+    @Override
     public double fitness() {
         // uninteresting
         return 0;

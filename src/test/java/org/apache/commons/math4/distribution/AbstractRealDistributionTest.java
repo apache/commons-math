@@ -158,6 +158,7 @@ public class AbstractRealDistributionTest {
             public double getNumericalMean() {
                 final UnivariateFunction f = new UnivariateFunction() {
 
+                    @Override
                     public double value(final double x) {
                         return x * density(x);
                     }
@@ -171,6 +172,7 @@ public class AbstractRealDistributionTest {
                 final double meanX = getNumericalMean();
                 final UnivariateFunction f = new UnivariateFunction() {
 
+                    @Override
                     public double value(final double x) {
                         return x * x * density(x);
                     }

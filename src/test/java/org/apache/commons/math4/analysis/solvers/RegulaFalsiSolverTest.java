@@ -49,6 +49,7 @@ public final class RegulaFalsiSolverTest extends BaseSecantSolverAbstractTest {
     public void testIssue631() {
         final UnivariateFunction f = new UnivariateFunction() {
                 /** {@inheritDoc} */
+                @Override
                 public double value(double x) {
                     return FastMath.exp(x) - FastMath.pow(Math.PI, 3.0);
                 }

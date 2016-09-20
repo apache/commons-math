@@ -503,10 +503,12 @@ public class SymmLQTest {
         final RealVector xFromListener = new ArrayRealVector(n);
         final IterationListener listener = new IterationListener() {
 
+            @Override
             public void initializationPerformed(final IterationEvent e) {
                 ++count[0];
             }
 
+            @Override
             public void iterationPerformed(final IterationEvent e) {
                 ++count[2];
                 Assert.assertEquals("iteration performed",
@@ -514,6 +516,7 @@ public class SymmLQTest {
                                     e.getIterations() - 1);
             }
 
+            @Override
             public void iterationStarted(final IterationEvent e) {
                 ++count[1];
                 Assert.assertEquals("iteration started",
@@ -521,6 +524,7 @@ public class SymmLQTest {
                                     e.getIterations() - 1);
             }
 
+            @Override
             public void terminationPerformed(final IterationEvent e) {
                 ++count[3];
                 final IterativeLinearSolverEvent ilse;
@@ -625,18 +629,22 @@ public class SymmLQTest {
                     FastMath.max(1E-5 * rnorm, 1E-10));
             }
 
+            @Override
             public void initializationPerformed(final IterationEvent e) {
                 doTestNormOfResidual(e);
             }
 
+            @Override
             public void iterationPerformed(final IterationEvent e) {
                 doTestNormOfResidual(e);
             }
 
+            @Override
             public void iterationStarted(final IterationEvent e) {
                 doTestNormOfResidual(e);
             }
 
+            @Override
             public void terminationPerformed(final IterationEvent e) {
                 doTestNormOfResidual(e);
             }
@@ -673,18 +681,22 @@ public class SymmLQTest {
                     FastMath.max(1E-5 * rnorm, 1E-10));
             }
 
+            @Override
             public void initializationPerformed(final IterationEvent e) {
                 doTestNormOfResidual(e);
             }
 
+            @Override
             public void iterationPerformed(final IterationEvent e) {
                 doTestNormOfResidual(e);
             }
 
+            @Override
             public void iterationStarted(final IterationEvent e) {
                 doTestNormOfResidual(e);
             }
 
+            @Override
             public void terminationPerformed(final IterationEvent e) {
                 doTestNormOfResidual(e);
             }

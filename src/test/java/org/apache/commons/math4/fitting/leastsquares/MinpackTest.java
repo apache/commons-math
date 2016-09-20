@@ -595,6 +595,7 @@ public class MinpackTest {
 
         public MultivariateVectorFunction getModelFunction() {
             return new MultivariateVectorFunction() {
+                @Override
                 public double[] value(double[] point) {
                     return computeValue(point);
                 }
@@ -603,6 +604,7 @@ public class MinpackTest {
 
         public MultivariateMatrixFunction getModelFunctionJacobian() {
             return new MultivariateMatrixFunction() {
+                @Override
                 public double[][] value(double[] point) {
                     return computeJacobian(point);
                 }

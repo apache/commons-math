@@ -54,6 +54,7 @@ public final class FieldBracketingNthOrderBrentSolverTest {
                 new FieldBracketingNthOrderBrentSolver<>(relativeAccuracy, absoluteAccuracy,
                                                             field.newDfp(1.0e-20), 20);
         RealFieldUnivariateFunction<Dfp> f = new RealFieldUnivariateFunction<Dfp>() {
+            @Override
             public Dfp value(Dfp x) {
                 Dfp one     = field.getOne();
                 Dfp oneHalf = one.divide(2);
@@ -86,36 +87,42 @@ public final class FieldBracketingNthOrderBrentSolverTest {
         // available here: http://www.math.nps.navy.mil/~bneta/SeveralNewMethods.PDF
         for (AllowedSolution allowed : AllowedSolution.values()) {
             check(new RealFieldUnivariateFunction<Dfp>() {
+                @Override
                 public Dfp value(Dfp x) {
                     return DfpMath.sin(x).subtract(x.divide(2));
                 }
             }, 200, -2.0, 2.0, allowed);
 
             check(new RealFieldUnivariateFunction<Dfp>() {
+                @Override
                 public Dfp value(Dfp x) {
                     return DfpMath.pow(x, 5).add(x).subtract(field.newDfp(10000));
                 }
             }, 200, -5.0, 10.0, allowed);
 
             check(new RealFieldUnivariateFunction<Dfp>() {
+                @Override
                 public Dfp value(Dfp x) {
                     return x.sqrt().subtract(field.getOne().divide(x)).subtract(field.newDfp(3));
                 }
             }, 200, 0.001, 10.0, allowed);
 
             check(new RealFieldUnivariateFunction<Dfp>() {
+                @Override
                 public Dfp value(Dfp x) {
                     return DfpMath.exp(x).add(x).subtract(field.newDfp(20));
                 }
             }, 200, -5.0, 5.0, allowed);
 
             check(new RealFieldUnivariateFunction<Dfp>() {
+                @Override
                 public Dfp value(Dfp x) {
                     return DfpMath.log(x).add(x.sqrt()).subtract(field.newDfp(5));
                 }
             }, 200, 0.001, 10.0, allowed);
 
             check(new RealFieldUnivariateFunction<Dfp>() {
+                @Override
                 public Dfp value(Dfp x) {
                     return x.subtract(field.getOne()).multiply(x).multiply(x).subtract(field.getOne());
                 }

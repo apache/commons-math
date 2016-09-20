@@ -85,7 +85,8 @@ public abstract class TestProblemAbstract
     this.errorScale = errorScale.clone();
   }
 
-  public int getDimension() {
+  @Override
+public int getDimension() {
     return n;
   }
 
@@ -144,7 +145,8 @@ public abstract class TestProblemAbstract
     return calls;
   }
 
-  public void computeDerivatives(double t, double[] y, double[] yDot) {
+  @Override
+public void computeDerivatives(double t, double[] y, double[] yDot) {
     ++calls;
     doComputeDerivatives(t, y, yDot);
   }

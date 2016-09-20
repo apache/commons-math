@@ -37,12 +37,14 @@ public class StepFieldProblem<T extends RealFieldElement<T>>
         setRate(rateBefore);
     }
 
+    @Override
     public T[] computeDerivatives(T t, T[] y) {
         T[] yDot = MathArrays.buildArray(field, 1);
         yDot[0] = rate;
         return yDot;
     }
 
+    @Override
     public int getDimension() {
         return 1;
     }
@@ -51,21 +53,26 @@ public class StepFieldProblem<T extends RealFieldElement<T>>
         this.rate = rate;
     }
 
+    @Override
     public void init(T t0, T[] y0, T t) {
     }
 
+    @Override
     public void init(FieldODEStateAndDerivative<T> state0, T t) {
     }
 
+    @Override
     public Action eventOccurred(FieldODEStateAndDerivative<T> state, boolean increasing) {
         setRate(rateAfter);
         return Action.RESET_DERIVATIVES;
     }
 
+    @Override
     public T g(FieldODEStateAndDerivative<T> state) {
         return state.getTime().subtract(switchTime);
     }
 
+    @Override
     public FieldODEState<T> resetState(FieldODEStateAndDerivative<T> state) {
         return state;
     }

@@ -105,6 +105,7 @@ public abstract class TestFieldProblemAbstract<T extends RealFieldElement<T>>
     /** Get the problem dimension.
      * @return problem dimension
      */
+    @Override
     public int getDimension() {
         return n;
     }
@@ -160,10 +161,12 @@ public abstract class TestFieldProblemAbstract<T extends RealFieldElement<T>>
     }
 
     /** {@inheritDoc} */
+    @Override
     public void init(T t0, T[] y0, T t) {
     }
 
     /** {@inheritDoc} */
+    @Override
     public T[] computeDerivatives(T t, T[] y) {
         ++calls;
         return doComputeDerivatives(t, y);

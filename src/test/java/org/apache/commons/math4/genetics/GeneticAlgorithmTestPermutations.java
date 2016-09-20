@@ -120,6 +120,7 @@ public class GeneticAlgorithmTestPermutations {
             super(representation);
         }
 
+        @Override
         public double fitness() {
             int res = 0;
             List<Integer> decoded = decode(sequence);

@@ -54,38 +54,47 @@ public class EvaluationRmsCheckerTest {
      */
     private static Evaluation mockEvaluation(final double rms) {
         return new Evaluation() {
+            @Override
             public RealMatrix getCovariances(double threshold) {
                 return null;
             }
 
+            @Override
             public RealVector getSigma(double covarianceSingularityThreshold) {
                 return null;
             }
 
+            @Override
             public double getRMS() {
                 return rms;
             }
 
+            @Override
             public RealMatrix getJacobian() {
                 return null;
             }
 
+            @Override
             public double getCost() {
                 return 0;
             }
 
+            @Override
             public double getChiSquare() {
                 return 0;
             }
 
+            @Override
             public double getReducedChiSquare(int n) {
                 return 0;
             }
 
+            @Override
             public RealVector getResiduals() {
                 return null;
             }
 
+            @Override
             public RealVector getPoint() {
                 return null;
             }

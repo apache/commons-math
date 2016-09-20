@@ -60,6 +60,7 @@ public class NPointCrossoverTest {
         final Integer[] p1 = new Integer[] {1,0,1,0,0,1,0,1,1};
         final BinaryChromosome p1c = new DummyBinaryChromosome(p1);
         final Chromosome p2c = new Chromosome() {
+            @Override
             public double fitness() {
                 // Not important
                 return 0;
@@ -75,6 +76,7 @@ public class NPointCrossoverTest {
         final Integer[] p1 = new Integer[] {1,0,1,0,0,1,0,1,1};
         final BinaryChromosome p2c = new DummyBinaryChromosome(p1);
         final Chromosome p1c = new Chromosome() {
+            @Override
             public double fitness() {
                 // Not important
                 return 0;

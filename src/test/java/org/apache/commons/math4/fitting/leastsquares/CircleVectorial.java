@@ -50,6 +50,7 @@ class CircleVectorial {
 
     public MultivariateVectorFunction getModelFunction() {
         return new MultivariateVectorFunction() {
+            @Override
             public double[] value(double[] params) {
                 Vector2D center = new Vector2D(params[0], params[1]);
                 double radius = getRadius(center);
@@ -65,6 +66,7 @@ class CircleVectorial {
 
     public MultivariateMatrixFunction getModelFunctionJacobian() {
         return new MultivariateMatrixFunction() {
+            @Override
             public double[][] value(double[] params) {
                 final int n = points.size();
                 final Vector2D center = new Vector2D(params[0], params[1]);

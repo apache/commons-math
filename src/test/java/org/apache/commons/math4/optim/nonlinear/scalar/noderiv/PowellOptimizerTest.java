@@ -79,6 +79,7 @@ public class PowellOptimizerTest {
     @Test
     public void testQuadratic() {
         final MultivariateFunction func = new MultivariateFunction() {
+                @Override
                 public double value(double[] x) {
                     final double a = x[0] - 1;
                     final double b = x[1] - 1;
@@ -110,6 +111,7 @@ public class PowellOptimizerTest {
     @Test
     public void testMaximizeQuadratic() {
         final MultivariateFunction func = new MultivariateFunction() {
+                @Override
                 public double value(double[] x) {
                     final double a = x[0] - 1;
                     final double b = x[1] - 1;
@@ -148,6 +150,7 @@ public class PowellOptimizerTest {
     @Test
     public void testRelativeToleranceOnScaledValues() {
         final MultivariateFunction func = new MultivariateFunction() {
+                @Override
                 public double value(double[] x) {
                     final double a = x[0] - 1;
                     final double b = x[1] - 1;
@@ -183,6 +186,7 @@ public class PowellOptimizerTest {
 
         final double scale = 1e10;
         final MultivariateFunction funcScaled = new MultivariateFunction() {
+                @Override
                 public double value(double[] x) {
                     return scale * func.value(x);
                 }

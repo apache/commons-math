@@ -31,11 +31,13 @@ public class StepProblem
     setRate(rateBefore);
   }
 
-  public void computeDerivatives(double t, double[] y, double[] yDot) {
+  @Override
+public void computeDerivatives(double t, double[] y, double[] yDot) {
     yDot[0] = rate;
   }
 
-  public int getDimension() {
+  @Override
+public int getDimension() {
     return 1;
   }
 
@@ -43,19 +45,23 @@ public class StepProblem
     this.rate = rate;
   }
 
-  public void init(double t0, double[] y0, double t) {
+  @Override
+public void init(double t0, double[] y0, double t) {
   }
 
-  public Action eventOccurred(double t, double[] y, boolean increasing) {
+  @Override
+public Action eventOccurred(double t, double[] y, boolean increasing) {
     setRate(rateAfter);
     return Action.RESET_DERIVATIVES;
   }
 
-  public double g(double t, double[] y) {
+  @Override
+public double g(double t, double[] y) {
     return t - switchTime;
   }
 
-  public void resetState(double t, double[] y) {
+  @Override
+public void resetState(double t, double[] y) {
   }
 
   private double rate;

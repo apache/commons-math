@@ -31,25 +31,31 @@ public class FixedElapsedTimeTest {
     @Test
     public void testIsSatisfied() {
         final Population pop = new Population() {
+            @Override
             public void addChromosome(final Chromosome chromosome) {
                 // unimportant
             }
+            @Override
             public Chromosome getFittestChromosome() {
                 // unimportant
                 return null;
             }
+            @Override
             public int getPopulationLimit() {
                 // unimportant
                 return 0;
             }
+            @Override
             public int getPopulationSize() {
                 // unimportant
                 return 0;
             }
+            @Override
             public Population nextGeneration() {
                 // unimportant
                 return null;
             }
+            @Override
             public Iterator<Chromosome> iterator() {
                 // unimportant
                 return null;

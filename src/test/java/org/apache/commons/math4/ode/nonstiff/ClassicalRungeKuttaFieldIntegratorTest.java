@@ -24,6 +24,7 @@ import org.apache.commons.math4.util.Decimal64Field;
 
 public class ClassicalRungeKuttaFieldIntegratorTest extends RungeKuttaFieldIntegratorAbstractTest {
 
+    @Override
     protected <T extends RealFieldElement<T>> RungeKuttaFieldIntegrator<T>
     createIntegrator(Field<T> field, T step) {
         return new ClassicalRungeKuttaFieldIntegrator<>(field, step);

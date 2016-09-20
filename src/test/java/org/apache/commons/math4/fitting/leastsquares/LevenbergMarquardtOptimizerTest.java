@@ -321,6 +321,7 @@ public class LevenbergMarquardtOptimizerTest
         // Build a new problem with a validator that amounts to cheating.
         final ParameterValidator cheatValidator
             = new ParameterValidator() {
+                    @Override
                     public RealVector validate(RealVector params) {
                         // Cheat: return the optimum found previously.
                         return optimum.getPoint();
@@ -340,6 +341,7 @@ public class LevenbergMarquardtOptimizerTest
         LeastSquaresProblem lsp = new LinearProblem(new double[][] {{1}}, new double[] {1})
                 .getBuilder()
                 .checker(new ConvergenceChecker<Evaluation>() {
+                    @Override
                     public boolean converged(int iteration, Evaluation previous, Evaluation current) {
                         return true;
                     }
@@ -371,6 +373,7 @@ public class LevenbergMarquardtOptimizerTest
 
         public MultivariateVectorFunction getModelFunction() {
             return new MultivariateVectorFunction() {
+                @Override
                 public double[] value(double[] params) {
                     double[] values = new double[time.size()];
                     for (int i = 0; i < values.length; ++i) {
@@ -386,6 +389,7 @@ public class LevenbergMarquardtOptimizerTest
 
         public MultivariateMatrixFunction getModelFunctionJacobian() {
             return new MultivariateMatrixFunction() {
+                @Override
                 public double[][] value(double[] params) {
                     double[][] jacobian = new double[time.size()][5];
 

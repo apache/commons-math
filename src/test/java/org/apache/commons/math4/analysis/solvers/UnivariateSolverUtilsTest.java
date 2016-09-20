@@ -121,6 +121,7 @@ public class UnivariateSolverUtilsTest {
     @Test(expected=NoBracketingException.class)
     public void testBracketLinear(){
         UnivariateSolverUtils.bracket(new UnivariateFunction() {
+            @Override
             public double value(double x) {
                 return 1 - x;
             }
@@ -130,6 +131,7 @@ public class UnivariateSolverUtilsTest {
     @Test
     public void testBracketExponential(){
         double[] result = UnivariateSolverUtils.bracket(new UnivariateFunction() {
+            @Override
             public double value(double x) {
                 return 1 - x;
             }

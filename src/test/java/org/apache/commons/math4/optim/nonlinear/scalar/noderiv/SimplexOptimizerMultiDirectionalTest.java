@@ -136,6 +136,7 @@ public class SimplexOptimizerMultiDirectionalTest {
     public void testRosenbrock() {
         MultivariateFunction rosenbrock
             = new MultivariateFunction() {
+                    @Override
                     public double value(double[] x) {
                         ++count;
                         double a = x[1] - x[0] * x[0];
@@ -166,6 +167,7 @@ public class SimplexOptimizerMultiDirectionalTest {
     public void testPowell() {
         MultivariateFunction powell
             = new MultivariateFunction() {
+                    @Override
                     public double value(double[] x) {
                         ++count;
                         double a = x[0] + 10 * x[1];
@@ -223,6 +225,7 @@ public class SimplexOptimizerMultiDirectionalTest {
         final double valueXpYm = -0.7290400707055187115322; // Global minimum.
         final double valueXpYp = -valueXpYm; // Global maximum.
 
+        @Override
         public double value(double[] variables) {
             final double x = variables[0];
             final double y = variables[1];
@@ -248,6 +251,7 @@ public class SimplexOptimizerMultiDirectionalTest {
             return maximumPosition.clone();
         }
 
+        @Override
         public double value(double[] point) {
             final double x = point[0], y = point[1];
             final double twoS2 = 2.0 * std * std;

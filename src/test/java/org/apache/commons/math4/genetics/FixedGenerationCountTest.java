@@ -33,25 +33,31 @@ public class FixedGenerationCountTest {
 
         int cnt = 0;
         Population pop = new Population() {
+            @Override
             public void addChromosome(Chromosome chromosome) {
                 // unimportant
             }
+            @Override
             public Chromosome getFittestChromosome() {
                 // unimportant
                 return null;
             }
+            @Override
             public int getPopulationLimit() {
                 // unimportant
                 return 0;
             }
+            @Override
             public int getPopulationSize() {
                 // unimportant
                 return 0;
             }
+            @Override
             public Population nextGeneration() {
                 // unimportant
                 return null;
             }
+            @Override
             public Iterator<Chromosome> iterator() {
                 // unimportant
                 return null;

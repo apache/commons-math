@@ -183,15 +183,18 @@ public class TravellingSalesmanSolver {
             /** Number of samples. */
             private long n = 0;
             /** {@inheritDoc} */
+            @Override
             public boolean hasNext() {
                 return n < numSamples;
             }
             /** {@inheritDoc} */
+            @Override
             public double[] next() {
                 ++n;
                 return cityList.get(random.nextInt(cityList.size())).getCoordinates();
             }
             /** {@inheritDoc} */
+            @Override
             public void remove() {
                 throw new MathUnsupportedOperationException();
             }
@@ -405,6 +408,7 @@ class City {
     }
 
     /** {@inheritDoc} */
+    @Override
     public boolean equals(Object o) {
         if (o instanceof City) {
             final City other = (City) o;
@@ -415,6 +419,7 @@ class City {
     }
 
     /** {@inheritDoc} */
+    @Override
     public int hashCode() {
         int result = 17;
 

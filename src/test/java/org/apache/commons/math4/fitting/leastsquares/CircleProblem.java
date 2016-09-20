@@ -103,6 +103,7 @@ class CircleProblem {
 
     public MultivariateVectorFunction getModelFunction() {
         return new MultivariateVectorFunction() {
+            @Override
             public double[] value(double[] params) {
                 final double cx = params[0];
                 final double cy = params[1];
@@ -148,6 +149,7 @@ class CircleProblem {
 
     public MultivariateMatrixFunction getModelFunctionJacobian() {
         return new MultivariateMatrixFunction() {
+            @Override
             public double[][] value(double[] point) {
                 return jacobian(point);
             }

@@ -90,6 +90,7 @@ public final class BrentOptimizerTest {
         final double lower = -1.0;
         final double upper = +1.0;
         UnivariateFunction f = new UnivariateFunction() {
+            @Override
             public double value(double x) {
                 if (x < lower) {
                     throw new NumberIsTooSmallException(x, lower, true);
@@ -215,6 +216,7 @@ public final class BrentOptimizerTest {
     @Test
     public void testMath832() {
         final UnivariateFunction f = new UnivariateFunction() {
+                @Override
                 public double value(double x) {
                     final double sqrtX = FastMath.sqrt(x);
                     final double a = 1e2 * sqrtX;

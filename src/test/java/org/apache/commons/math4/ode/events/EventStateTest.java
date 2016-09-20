@@ -50,9 +50,11 @@ public class EventStateTest {
                                        tolerance, 100,
                                        new BrentSolver(tolerance));
         es.setExpandable(new ExpandableStatefulODE(new FirstOrderDifferentialEquations() {
+            @Override
             public int getDimension() {
                 return 0;
             }
+            @Override
             public void computeDerivatives(double t, double[] y, double[] yDot) {
             }
         }));
@@ -89,10 +91,12 @@ public class EventStateTest {
 
         FirstOrderDifferentialEquations equation = new FirstOrderDifferentialEquations() {
 
+            @Override
             public int getDimension() {
                 return 1;
             }
 
+            @Override
             public void computeDerivatives(double t, double[] y, double[] yDot) {
                 yDot[0] = 1.0;
             }
@@ -120,9 +124,11 @@ public class EventStateTest {
             this.tEvent = tEvent;
         }
 
+        @Override
         public void init(double t0, double[] y0, double t) {
         }
 
+        @Override
         public double g(double t, double[] y) {
             // the bug corresponding to issue 695 causes the g function
             // to be called at obsolete times t despite an event
@@ -133,12 +139,14 @@ public class EventStateTest {
             return t - tEvent;
         }
 
+        @Override
         public Action eventOccurred(double t, double[] y, boolean increasing) {
             // remember in a class variable when the event was triggered
             lastTriggerTime = t;
             return Action.RESET_STATE;
         }
 
+        @Override
         public void resetState(double t, double[] y) {
             y[0] += 1.0;
         }
@@ -154,10 +162,12 @@ public class EventStateTest {
         ExpandableStatefulODE equation =
                 new ExpandableStatefulODE(new FirstOrderDifferentialEquations() {
 
+            @Override
             public int getDimension() {
                 return 1;
             }
 
+            @Override
             public void computeDerivatives(double t, double[] y, double[] yDot) {
                 yDot[0] = 2.0;
             }
@@ -166,10 +176,12 @@ public class EventStateTest {
         equation.setPrimaryState(new double[1]);
         equation.addSecondaryEquations(new SecondaryEquations() {
 
+            @Override
             public int getDimension() {
                 return 1;
             }
 
+            @Override
             public void computeDerivatives(double t, double[] primary,
                                            double[] primaryDot, double[] secondary,
                                            double[] secondaryDot) {
@@ -199,17 +211,21 @@ public class EventStateTest {
             this.target = target;
         }
 
+        @Override
         public void init(double t0, double[] y0, double t) {
         }
 
+        @Override
         public double g(double t, double[] y) {
             return y[index] - target;
         }
 
+        @Override
         public Action eventOccurred(double t, double[] y, boolean increasing) {
             return Action.STOP;
         }
 
+        @Override
         public void resetState(double t, double[] y) {
         }
 
@@ -222,10 +238,12 @@ public class EventStateTest {
 
         FirstOrderDifferentialEquations equation = new FirstOrderDifferentialEquations() {
 
+            @Override
             public int getDimension() {
                 return 1;
             }
 
+            @Override
             public void computeDerivatives(double t, double[] y, double[] yDot) {
                 yDot[0] = 1.0;
             }
@@ -254,16 +272,20 @@ public class EventStateTest {
             this.count = 0;
         }
 
+        @Override
         public void init(double t0, double[] y0, double t) {
         }
 
+        @Override
         public void resetState(double t, double[] y) {
         }
 
+        @Override
         public double g(double t, double[] y) {
             return (t - r1) * (r2 - t);
         }
 
+        @Override
         public Action eventOccurred(double t, double[] y, boolean increasing) {
             return ++count < 2 ? Action.CONTINUE : Action.STOP;
         }

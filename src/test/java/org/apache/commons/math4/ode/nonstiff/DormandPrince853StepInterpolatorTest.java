@@ -121,6 +121,7 @@ public class DormandPrince853StepInterpolatorTest {
                                                                       scalAbsoluteTolerance,
                                                                       scalRelativeTolerance);
     integ.addStepHandler(new StepHandler() {
+        @Override
         public void handleStep(StepInterpolator interpolator, boolean isLast)
             throws MaxCountExceededException {
             StepInterpolator cloned = interpolator.copy();
@@ -142,6 +143,7 @@ public class DormandPrince853StepInterpolatorTest {
                 }
             }
         }
+        @Override
         public void init(double t0, double[] y0, double t) {
         }
     });

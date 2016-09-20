@@ -49,11 +49,13 @@ public class DormandPrince853IntegratorTest {
       final double[] k  = { 1.0e-4, 1.0e-5, 1.0e-6 };
       FirstOrderDifferentialEquations ode = new FirstOrderDifferentialEquations() {
 
-          public int getDimension() {
+          @Override
+        public int getDimension() {
               return k.length;
           }
 
-          public void computeDerivatives(double t, double[] y, double[] yDot) {
+          @Override
+        public void computeDerivatives(double t, double[] y, double[] yDot) {
               for (int i = 0; i < y.length; ++i) {
                   yDot[i] = k[i] * y[i];
               }
@@ -79,17 +81,21 @@ public class DormandPrince853IntegratorTest {
       integrator.setInitialStepSize(60.0);
       integrator.addEventHandler(new EventHandler() {
 
-          public void init(double t0, double[] y0, double t) {
+          @Override
+        public void init(double t0, double[] y0, double t) {
           }
 
-          public void resetState(double t, double[] y) {
+          @Override
+        public void resetState(double t, double[] y) {
           }
 
-          public double g(double t, double[] y) {
+          @Override
+        public double g(double t, double[] y) {
               return t - tEvent;
           }
 
-          public Action eventOccurred(double t, double[] y, boolean increasing) {
+          @Override
+        public Action eventOccurred(double t, double[] y, boolean increasing) {
               Assert.assertEquals(tEvent, t, 5.0e-6);
               return Action.CONTINUE;
           }
@@ -200,11 +206,13 @@ public class DormandPrince853IntegratorTest {
       final double end   = 0.001;
       FirstOrderDifferentialEquations equations = new FirstOrderDifferentialEquations() {
 
-          public int getDimension() {
+          @Override
+        public int getDimension() {
               return 1;
           }
 
-          public void computeDerivatives(double t, double[] y, double[] yDot) {
+          @Override
+        public void computeDerivatives(double t, double[] y, double[] yDot) {
               Assert.assertTrue(t >= FastMath.nextAfter(start, Double.NEGATIVE_INFINITY));
               Assert.assertTrue(t <= FastMath.nextAfter(end,   Double.POSITIVE_INFINITY));
               yDot[0] = -100.0 * y[0];
@@ -340,11 +348,13 @@ public class DormandPrince853IntegratorTest {
 
       FirstOrderDifferentialEquations sincos = new FirstOrderDifferentialEquations() {
 
-          public int getDimension() {
+          @Override
+        public int getDimension() {
               return 2;
           }
 
-          public void computeDerivatives(double t, double[] y, double[] yDot) {
+          @Override
+        public void computeDerivatives(double t, double[] y, double[] yDot) {
               yDot[0] =  y[1];
               yDot[1] = -y[0];
           }
@@ -377,26 +387,31 @@ public class DormandPrince853IntegratorTest {
           this.index = index;
       }
 
-      public void init(double t0, double[] y0, double t) {
+      @Override
+    public void init(double t0, double[] y0, double t) {
           tMin = t0;
       }
 
-      public void handleStep(StepInterpolator interpolator, boolean isLast) {
+      @Override
+    public void handleStep(StepInterpolator interpolator, boolean isLast) {
           tMin = interpolator.getCurrentTime();
       }
 
-      public double g(double t, double[]  y) {
+      @Override
+    public double g(double t, double[]  y) {
           // once a step has been handled by handleStep,
           // events checking should only refer to dates after the step
           Assert.assertTrue(t >= tMin);
           return y[index];
       }
 
-      public Action eventOccurred(double t, double[] y, boolean increasing) {
+      @Override
+    public Action eventOccurred(double t, double[] y, boolean increasing) {
           return Action.RESET_STATE;
       }
 
-      public void resetState(double t, double[] y) {
+      @Override
+    public void resetState(double t, double[] y) {
           // in fact, we don't need to reset anything for the test
       }
 
@@ -406,10 +421,12 @@ public class DormandPrince853IntegratorTest {
     public KeplerHandler(TestProblem3 pb) {
       this.pb = pb;
     }
+    @Override
     public void init(double t0, double[] y0, double t) {
       nbSteps = 0;
       maxError = 0;
     }
+    @Override
     public void handleStep(StepInterpolator interpolator, boolean isLast)
         throws MaxCountExceededException {
 
@@ -446,11 +463,13 @@ public class DormandPrince853IntegratorTest {
         minStep = 0;
         maxStep = 0;
     }
+    @Override
     public void init(double t0, double[] y0, double t) {
       firstTime = true;
       minStep = 0;
       maxStep = 0;
     }
+    @Override
     public void handleStep(StepInterpolator interpolator,
                            boolean isLast) {
 

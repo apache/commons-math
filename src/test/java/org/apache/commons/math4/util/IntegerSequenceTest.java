@@ -256,6 +256,7 @@ public class IntegerSequenceTest {
         final IntegerSequence.Incrementor.MaxCountExceededCallback cb
             = new IntegerSequence.Incrementor.MaxCountExceededCallback() {
                     /** {@inheritDoc} */
+                    @Override
                     public void trigger(int max) {
                         throw new TooManyEvaluationsException(max);
                     }

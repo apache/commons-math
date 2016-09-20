@@ -131,6 +131,7 @@ public abstract class AbstractLeastSquaresOptimizerAbstractTest {
                 .weight(new DiagonalMatrix(new double[]{1}))
                 .start(new double[]{3})
                 .model(new MultivariateJacobianFunction() {
+                    @Override
                     public Pair<RealVector, RealMatrix> value(final RealVector point) {
                         return new Pair<RealVector, RealMatrix>(
                                 new ArrayRealVector(
@@ -550,6 +551,7 @@ public abstract class AbstractLeastSquaresOptimizerAbstractTest {
 
         final LeastSquaresBuilder builder = problem.getBuilder()
                 .checker(new ConvergenceChecker<Evaluation>() {
+                    @Override
                     public boolean converged(int iteration, Evaluation previous, Evaluation current) {
                         Assert.assertThat(
                                 previous.getPoint(),
@@ -580,6 +582,7 @@ public abstract class AbstractLeastSquaresOptimizerAbstractTest {
 
         public MultivariateVectorFunction getModelFunction() {
             return new MultivariateVectorFunction() {
+                @Override
                 public double[] value(double[] params) {
                     return factors.operate(params);
                 }
@@ -588,6 +591,7 @@ public abstract class AbstractLeastSquaresOptimizerAbstractTest {
 
         public MultivariateMatrixFunction getModelFunctionJacobian() {
             return new MultivariateMatrixFunction() {
+                @Override
                 public double[][] value(double[] params) {
                     return factors.getData();
                 }

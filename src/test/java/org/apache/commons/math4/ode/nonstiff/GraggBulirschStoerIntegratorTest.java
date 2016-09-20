@@ -283,11 +283,13 @@ public class GraggBulirschStoerIntegratorTest {
       final double end   = 0.001;
       FirstOrderDifferentialEquations equations = new FirstOrderDifferentialEquations() {
 
-          public int getDimension() {
+          @Override
+        public int getDimension() {
               return 1;
           }
 
-          public void computeDerivatives(double t, double[] y, double[] yDot) {
+          @Override
+        public void computeDerivatives(double t, double[] y, double[] yDot) {
               Assert.assertTrue(t >= FastMath.nextAfter(start, Double.NEGATIVE_INFINITY));
               Assert.assertTrue(t <= FastMath.nextAfter(end,   Double.POSITIVE_INFINITY));
               yDot[0] = -100.0 * y[0];
@@ -320,10 +322,12 @@ public class GraggBulirschStoerIntegratorTest {
     FirstOrderIntegrator integ = new GraggBulirschStoerIntegrator(1e-10, 100.0, 1e-7, 1e-7);
       integ.addStepHandler(new StepHandler() {
 
-          public void init(double t0, double[] y0, double t) {
+          @Override
+        public void init(double t0, double[] y0, double t) {
           }
 
-          public void handleStep(StepInterpolator interpolator, boolean isLast)
+          @Override
+        public void handleStep(StepInterpolator interpolator, boolean isLast)
               throws MaxCountExceededException {
               double t = interpolator.getCurrentTime();
               interpolator.setInterpolatedTime(t);
@@ -337,11 +341,13 @@ public class GraggBulirschStoerIntegratorTest {
       double t0 = 3.0;
       double tend = 10.0;
       integ.integrate(new FirstOrderDifferentialEquations() {
-          public int getDimension() {
+          @Override
+        public int getDimension() {
               return 1;
           }
 
-          public void computeDerivatives(double t, double[] y, double[] yDot) {
+          @Override
+        public void computeDerivatives(double t, double[] y, double[] yDot) {
               yDot[0] = 3.0;
           }
       }, t0, y, tend, y);
@@ -352,10 +358,12 @@ public class GraggBulirschStoerIntegratorTest {
     public KeplerStepHandler(TestProblem3 pb) {
       this.pb = pb;
     }
+    @Override
     public void init(double t0, double[] y0, double t) {
       nbSteps = 0;
       maxError = 0;
     }
+    @Override
     public void handleStep(StepInterpolator interpolator, boolean isLast)
         throws MaxCountExceededException {
 
@@ -392,11 +400,13 @@ public class GraggBulirschStoerIntegratorTest {
         minStep = 0;
         maxStep = 0;
     }
+    @Override
     public void init(double t0, double[] y0, double t) {
       firstTime = true;
       minStep = 0;
       maxStep = 0;
     }
+    @Override
     public void handleStep(StepInterpolator interpolator,
                            boolean isLast) {
 

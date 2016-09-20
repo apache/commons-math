@@ -193,6 +193,7 @@ public class ContinuousOutputFieldModel<T extends RealFieldElement<T>>
      * @exception MaxCountExceededException if the number of functions evaluations is exceeded
      * during step finalization
      */
+    @Override
     public void handleStep(final FieldStepInterpolator<T> interpolator, final boolean isLast)
         throws MaxCountExceededException {
 

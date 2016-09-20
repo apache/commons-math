@@ -86,11 +86,13 @@ public class FirstOrderConverterTest {
         omega2 = omega * omega;
       }
 
-      public int getDimension() {
+      @Override
+    public int getDimension() {
         return n;
       }
 
-      public void computeSecondDerivatives(double t, double[] y, double[] yDot,
+      @Override
+    public void computeSecondDerivatives(double t, double[] y, double[] yDot,
                                            double[] yDDot) {
         for (int i = 0; i < n; ++i) {
           yDDot[i] = -omega2 * y[i];

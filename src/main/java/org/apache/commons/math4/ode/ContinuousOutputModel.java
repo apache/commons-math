@@ -186,7 +186,8 @@ public class ContinuousOutputModel
    * @exception MaxCountExceededException if the number of functions evaluations is exceeded
    * during step finalization
    */
-  public void handleStep(final StepInterpolator interpolator, final boolean isLast)
+  @Override
+public void handleStep(final StepInterpolator interpolator, final boolean isLast)
       throws MaxCountExceededException {
 
     if (steps.size() == 0) {

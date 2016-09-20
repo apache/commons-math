@@ -266,6 +266,7 @@ public class SparseFieldVectorTest {
 
             private int expectedIndex;
 
+            @Override
             public void visit(final int actualIndex, final Fraction actualValue) {
                 Assert.assertEquals(expectedIndex, actualIndex);
                 Assert.assertEquals(Integer.toString(actualIndex),
@@ -273,6 +274,7 @@ public class SparseFieldVectorTest {
                 ++expectedIndex;
             }
 
+            @Override
             public void start(final int actualSize, final int actualStart,
                               final int actualEnd) {
                 Assert.assertEquals(data.length, actualSize);
@@ -281,6 +283,7 @@ public class SparseFieldVectorTest {
                 expectedIndex = 0;
             }
 
+            @Override
             public Fraction end() {
                 return Fraction.ZERO;
             }
@@ -295,14 +298,17 @@ public class SparseFieldVectorTest {
         final FieldVectorPreservingVisitor<Fraction> visitor;
         visitor = new FieldVectorPreservingVisitor<Fraction>() {
 
+            @Override
             public void visit(int index, Fraction value) {
                 // Do nothing
             }
 
+            @Override
             public void start(int dimension, int start, int end) {
                 // Do nothing
             }
 
+            @Override
             public Fraction end() {
                 return Fraction.ZERO;
             }
@@ -355,6 +361,7 @@ public class SparseFieldVectorTest {
 
             private int expectedIndex;
 
+            @Override
             public void visit(final int actualIndex, final Fraction actualValue) {
                 Assert.assertEquals(expectedIndex, actualIndex);
                 Assert.assertEquals(Integer.toString(actualIndex),
@@ -362,6 +369,7 @@ public class SparseFieldVectorTest {
                 ++expectedIndex;
             }
 
+            @Override
             public void start(final int actualSize, final int actualStart,
                               final int actualEnd) {
                 Assert.assertEquals(data.length, actualSize);
@@ -370,6 +378,7 @@ public class SparseFieldVectorTest {
                 expectedIndex = expectedStart;
             }
 
+            @Override
             public Fraction end() {
                 return Fraction.ZERO;
             }
@@ -390,12 +399,14 @@ public class SparseFieldVectorTest {
         visitor = new FieldVectorPreservingVisitor<Fraction>() {
             private final boolean[] visited = new boolean[data.length];
 
+            @Override
             public void visit(final int actualIndex, final Fraction actualValue) {
                 visited[actualIndex] = true;
                 Assert.assertEquals(Integer.toString(actualIndex),
                                     data[actualIndex], actualValue);
             }
 
+            @Override
             public void start(final int actualSize, final int actualStart,
                               final int actualEnd) {
                 Assert.assertEquals(data.length, actualSize);
@@ -404,6 +415,7 @@ public class SparseFieldVectorTest {
                 Arrays.fill(visited, false);
             }
 
+            @Override
             public Fraction end() {
                 for (int i = 0; i < data.length; i++) {
                     Assert.assertTrue("entry " + i + "has not been visited",
@@ -422,14 +434,17 @@ public class SparseFieldVectorTest {
         final FieldVectorPreservingVisitor<Fraction> visitor;
         visitor = new FieldVectorPreservingVisitor<Fraction>() {
 
+            @Override
             public void visit(int index, Fraction value) {
                 // Do nothing
             }
 
+            @Override
             public void start(int dimension, int start, int end) {
                 // Do nothing
             }
 
+            @Override
             public Fraction end() {
                 return Fraction.ZERO;
             }
@@ -481,12 +496,14 @@ public class SparseFieldVectorTest {
         visitor = new FieldVectorPreservingVisitor<Fraction>() {
             private final boolean[] visited = new boolean[data.length];
 
+            @Override
             public void visit(final int actualIndex, final Fraction actualValue) {
                 Assert.assertEquals(Integer.toString(actualIndex),
                                     data[actualIndex], actualValue);
                 visited[actualIndex] = true;
             }
 
+            @Override
             public void start(final int actualSize, final int actualStart,
                               final int actualEnd) {
                 Assert.assertEquals(data.length, actualSize);
@@ -495,6 +512,7 @@ public class SparseFieldVectorTest {
                 Arrays.fill(visited, true);
             }
 
+            @Override
             public Fraction end() {
                 for (int i = expectedStart; i <= expectedEnd; i++) {
                     Assert.assertTrue("entry " + i + "has not been visited",
@@ -520,6 +538,7 @@ public class SparseFieldVectorTest {
 
             private int expectedIndex;
 
+            @Override
             public Fraction visit(final int actualIndex, final Fraction actualValue) {
                 Assert.assertEquals(expectedIndex, actualIndex);
                 Assert.assertEquals(Integer.toString(actualIndex),
@@ -528,6 +547,7 @@ public class SparseFieldVectorTest {
                 return actualValue.add(actualIndex);
             }
 
+            @Override
             public void start(final int actualSize, final int actualStart,
                               final int actualEnd) {
                 Assert.assertEquals(data.length, actualSize);
@@ -536,6 +556,7 @@ public class SparseFieldVectorTest {
                 expectedIndex = 0;
             }
 
+            @Override
             public Fraction end() {
                 return Fraction.ZERO;
             }
@@ -553,14 +574,17 @@ public class SparseFieldVectorTest {
         final FieldVectorChangingVisitor<Fraction> visitor;
         visitor = new FieldVectorChangingVisitor<Fraction>() {
 
+            @Override
             public Fraction visit(int index, Fraction value) {
                 return Fraction.ZERO;
             }
 
+            @Override
             public void start(int dimension, int start, int end) {
                 // Do nothing
             }
 
+            @Override
             public Fraction end() {
                 return Fraction.ZERO;
             }
@@ -613,6 +637,7 @@ public class SparseFieldVectorTest {
 
             private int expectedIndex;
 
+            @Override
             public Fraction visit(final int actualIndex, final Fraction actualValue) {
                 Assert.assertEquals(expectedIndex, actualIndex);
                 Assert.assertEquals(Integer.toString(actualIndex),
@@ -621,6 +646,7 @@ public class SparseFieldVectorTest {
                 return actualValue.add(actualIndex);
             }
 
+            @Override
             public void start(final int actualSize, final int actualStart,
                               final int actualEnd) {
                 Assert.assertEquals(data.length, actualSize);
@@ -629,6 +655,7 @@ public class SparseFieldVectorTest {
                 expectedIndex = expectedStart;
             }
 
+            @Override
             public Fraction end() {
                 return Fraction.ZERO;
             }
@@ -652,6 +679,7 @@ public class SparseFieldVectorTest {
         visitor = new FieldVectorChangingVisitor<Fraction>() {
             private final boolean[] visited = new boolean[data.length];
 
+            @Override
             public Fraction visit(final int actualIndex, final Fraction actualValue) {
                 visited[actualIndex] = true;
                 Assert.assertEquals(Integer.toString(actualIndex),
@@ -659,6 +687,7 @@ public class SparseFieldVectorTest {
                 return actualValue.add(actualIndex);
             }
 
+            @Override
             public void start(final int actualSize, final int actualStart,
                               final int actualEnd) {
                 Assert.assertEquals(data.length, actualSize);
@@ -667,6 +696,7 @@ public class SparseFieldVectorTest {
                 Arrays.fill(visited, false);
             }
 
+            @Override
             public Fraction end() {
                 for (int i = 0; i < data.length; i++) {
                     Assert.assertTrue("entry " + i + "has not been visited",
@@ -688,14 +718,17 @@ public class SparseFieldVectorTest {
         final FieldVectorChangingVisitor<Fraction> visitor;
         visitor = new FieldVectorChangingVisitor<Fraction>() {
 
+            @Override
             public Fraction visit(int index, Fraction value) {
                 return Fraction.ZERO;
             }
 
+            @Override
             public void start(int dimension, int start, int end) {
                 // Do nothing
             }
 
+            @Override
             public Fraction end() {
                 return Fraction.ZERO;
             }
@@ -747,6 +780,7 @@ public class SparseFieldVectorTest {
         visitor = new FieldVectorChangingVisitor<Fraction>() {
             private final boolean[] visited = new boolean[data.length];
 
+            @Override
             public Fraction visit(final int actualIndex, final Fraction actualValue) {
                 Assert.assertEquals(Integer.toString(actualIndex),
                                     data[actualIndex], actualValue);
@@ -754,6 +788,7 @@ public class SparseFieldVectorTest {
                 return actualValue.add(actualIndex);
             }
 
+            @Override
             public void start(final int actualSize, final int actualStart,
                               final int actualEnd) {
                 Assert.assertEquals(data.length, actualSize);
@@ -762,6 +797,7 @@ public class SparseFieldVectorTest {
                 Arrays.fill(visited, true);
             }
 
+            @Override
             public Fraction end() {
                 for (int i = expectedStart; i <= expectedEnd; i++) {
                     Assert.assertTrue("entry " + i + "has not been visited",

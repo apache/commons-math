@@ -356,7 +356,8 @@ public abstract class AbstractStepInterpolator
    * @return previous soft grid point time
    * @see #setSoftPreviousTime(double)
    */
-  public double getPreviousTime() {
+  @Override
+public double getPreviousTime() {
     return softPreviousTime;
   }
 
@@ -365,7 +366,8 @@ public abstract class AbstractStepInterpolator
    * @return current soft grid point time
    * @see #setSoftCurrentTime(double)
    */
-  public double getCurrentTime() {
+  @Override
+public double getCurrentTime() {
     return softCurrentTime;
   }
 

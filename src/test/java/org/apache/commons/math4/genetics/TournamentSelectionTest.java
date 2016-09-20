@@ -52,6 +52,7 @@ public class TournamentSelectionTest {
             counter++;
         }
 
+        @Override
         public double fitness() {
             return this.fitness;
         }

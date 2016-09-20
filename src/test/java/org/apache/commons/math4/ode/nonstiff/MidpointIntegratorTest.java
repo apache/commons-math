@@ -171,21 +171,25 @@ public class MidpointIntegratorTest {
       final double step = 1.23456;
       FirstOrderIntegrator integ = new MidpointIntegrator(step);
       integ.addStepHandler(new StepHandler() {
-          public void handleStep(StepInterpolator interpolator, boolean isLast) {
+          @Override
+        public void handleStep(StepInterpolator interpolator, boolean isLast) {
               if (! isLast) {
                   Assert.assertEquals(step,
                                interpolator.getCurrentTime() - interpolator.getPreviousTime(),
                                1.0e-12);
               }
           }
-          public void init(double t0, double[] y0, double t) {
+          @Override
+        public void init(double t0, double[] y0, double t) {
           }
       });
       integ.integrate(new FirstOrderDifferentialEquations() {
-          public void computeDerivatives(double t, double[] y, double[] dot) {
+          @Override
+        public void computeDerivatives(double t, double[] y, double[] dot) {
               dot[0] = 1.0;
           }
-          public int getDimension() {
+          @Override
+        public int getDimension() {
               return 1;
           }
       }, 0.0, new double[] { 0.0 }, 5.0, new double[1]);

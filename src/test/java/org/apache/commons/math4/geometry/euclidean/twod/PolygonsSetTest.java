@@ -1212,12 +1212,15 @@ public class PolygonsSetTest {
             leafNodes     = 0;
             internalNodes = 0;
             polygonsSet.getTree(false).visit(new BSPTreeVisitor<Euclidean2D>() {
+                @Override
                 public Order visitOrder(BSPTree<Euclidean2D> node) {
                     return Order.SUB_PLUS_MINUS;
                 }
+                @Override
                 public void visitInternalNode(BSPTree<Euclidean2D> node) {
                     ++internalNodes;
                 }
+                @Override
                 public void visitLeafNode(BSPTree<Euclidean2D> node) {
                     ++leafNodes;
                 }
