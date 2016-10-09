@@ -23,6 +23,7 @@ import java.util.List;
 import java.util.Random;
 import java.util.List;
 
+import org.apache.commons.math4.RetryRunner;
 import org.apache.commons.math4.TestUtils;
 import org.apache.commons.math4.exception.MathIllegalArgumentException;
 import org.apache.commons.math4.stat.Frequency;
@@ -31,10 +32,12 @@ import org.apache.commons.math4.util.FastMath;
 import org.apache.commons.rng.UniformRandomProvider;
 import org.junit.Assert;
 import org.junit.Test;
+import org.junit.runner.RunWith;
 
 /**
  * Test cases for the {@link RandomUtils#DataGenerator} class.
  */
+@RunWith(RetryRunner.class)
 public abstract class RandomUtilsDataGeneratorAbstractTest {
     private final long smallSampleSize = 1000;
     private final double[] expected = { 250, 250, 250, 250 };
