@@ -1,9 +1,12 @@
 language: java
-sudo: false
+sudo: required
 
 jdk:
   - openjdk7
   - oraclejdk8
+
+env:
+  - MAVEN_OPTS="-Xmx6g -Xms2g"
 
 # only build master and the MATH_3_X branch
 branches:
