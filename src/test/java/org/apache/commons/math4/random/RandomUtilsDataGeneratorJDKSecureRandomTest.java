@@ -16,12 +16,16 @@
  */
 package org.apache.commons.math4.random;
 
+import org.apache.commons.math4.RetryRunner;
+import org.junit.runner.RunWith;
+
 import java.security.SecureRandom;
 
 /**
  * Test cases for the {@link RandomUtils#DataGenerator} class, using
  * {@link SecureRandom} as the underlying source of randomness.
  */
+@RunWith(RetryRunner.class)
 public class RandomUtilsDataGeneratorJDKSecureRandomTest
     extends RandomUtilsDataGeneratorAbstractTest {
 
