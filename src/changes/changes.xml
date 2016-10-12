@@ -54,6 +54,9 @@ If the output is not quite correct, check for invisible trailing spaces!
     </release>
 
     <release version="4.0" date="XXXX-XX-XX" description="">
+      <action dev="ebourg" type="update" issue="MATH-1389" due-to="Christoph Dibak">
+        Performance improvement for Array2DRowRealMatrix.getSubMatrix()
+      </action>
       <action dev="erans" type="add" issue="MATH-1383">
         Dependency toward the "Commons Rng" component.
       </action>
