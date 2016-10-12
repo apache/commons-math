@@ -390,6 +390,24 @@ public class Array2DRowRealMatrix extends AbstractRealMatrix implements Serializ
 
     /** {@inheritDoc} */
     @Override
+    public RealMatrix getSubMatrix(final int startRow, final int endRow,
+                                   final int startColumn, final int endColumn)
+            throws OutOfRangeException, NumberIsTooSmallException {
+        MatrixUtils.checkSubMatrixIndex(this, startRow, endRow, startColumn, endColumn);
+        final int rowCount = endRow - startRow + 1;
+        final int columnCount = endColumn - startColumn + 1;
+        final double[][] outData = new double[rowCount][columnCount];
+        for (int i = 0; i < rowCount; ++i) {
+            System.arraycopy(data[startRow + i], startColumn, outData[i], 0, columnCount);
+        }
+
+        Array2DRowRealMatrix subMatrix = new Array2DRowRealMatrix();
+        subMatrix.data = outData;
+        return subMatrix;
+    }
+
+    /** {@inheritDoc} */
+    @Override
     public double walkInRowOrder(final RealMatrixChangingVisitor visitor) {
         final int rows    = getRowDimension();
         final int columns = getColumnDimension();
