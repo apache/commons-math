@@ -21,7 +21,7 @@ import java.io.IOException;
 import java.io.ObjectOutputStream;
 import java.io.ObjectInputStream;
 import org.apache.commons.math4.exception.MathIllegalArgumentException;
-import org.apache.commons.rng.UniformRandomProvider;
+import org.apache.commons.rng.RestorableUniformRandomProvider;
 import org.apache.commons.rng.RandomSource;
 
 /**
@@ -35,7 +35,7 @@ public class RandomPivotingStrategy implements PivotingStrategyInterface, Serial
     /** Source of randomness. */
     private final RandomSource randomSource;
     /** Random generator to use for selecting pivot. */
-    private transient UniformRandomProvider random;
+    private transient RestorableUniformRandomProvider random;
 
     /**
      * Simple constructor.
@@ -77,7 +77,7 @@ public class RandomPivotingStrategy implements PivotingStrategyInterface, Serial
         out.defaultWriteObject();
 
         // Save current state.
-        out.writeObject(RandomSource.saveState(random).getState());
+        out.writeObject(((RandomSource.State) random.saveState()).getState());
    }
 
     /**
@@ -95,6 +95,6 @@ public class RandomPivotingStrategy implements PivotingStrategyInterface, Serial
         random = RandomSource.create(randomSource);
         // And restore its state.
         final RandomSource.State state = new RandomSource.State((byte[]) in.readObject());
-        RandomSource.restoreState(random, state);
+        random.restoreState(state);
     }
 }
