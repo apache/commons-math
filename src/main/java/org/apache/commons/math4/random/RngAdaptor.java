@@ -21,7 +21,7 @@ import java.io.IOException;
 import java.io.ObjectOutputStream;
 import java.io.ObjectInputStream;
 import org.apache.commons.math4.util.FastMath;
-import org.apache.commons.rng.UniformRandomProvider;
+import org.apache.commons.rng.RestorableUniformRandomProvider;
 import org.apache.commons.rng.RandomSource;
 
 /**
@@ -52,7 +52,7 @@ import org.apache.commons.rng.RandomSource;
  *  </li>
  *  <li>
  *   The new RNG implementations are not {@code Serializable}.
- *   Use {@link RandomSource#saveState(UniformRandomProvider)}
+ *   Use {@link RestorableUniformRandomProvider#saveState()}
  *   instead.
  *  </li>
  *  <li>
@@ -79,7 +79,7 @@ public final class RngAdaptor
     /** Source. */
     private final RandomSource source;
     /** Delegate. */
-    private transient UniformRandomProvider delegate;
+    private transient RestorableUniformRandomProvider delegate;
     /** Next gaussian. */
     private double nextGaussian = Double.NaN;
 
@@ -206,7 +206,7 @@ public final class RngAdaptor
         out.defaultWriteObject();
 
         // Save current state.
-        out.writeObject(RandomSource.saveState(delegate).getState());
+        out.writeObject(((RandomSource.State) delegate.saveState()).getState());
    }
 
     /**
@@ -224,6 +224,6 @@ public final class RngAdaptor
         delegate = RandomSource.create(source);
         // And restore its state.
         final RandomSource.State state = new RandomSource.State((byte[]) in.readObject());
-        RandomSource.restoreState(delegate, state);
+        delegate.restoreState(state);
     }
 }
