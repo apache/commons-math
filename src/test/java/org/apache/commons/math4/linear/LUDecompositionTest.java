@@ -17,6 +17,8 @@
 
 package org.apache.commons.math4.linear;
 
+import java.util.Random;
+
 import org.apache.commons.math4.linear.LUDecomposition;
 import org.apache.commons.math4.linear.MatrixUtils;
 import org.apache.commons.math4.linear.NonSquareMatrixException;
@@ -30,6 +32,18 @@ public class LUDecompositionTest {
             { 2.0, 5.0, 3.0},
             { 1.0, 0.0, 8.0}
     };
+    
+    // matrix for testing the linear solver on testData
+    private double[][] testDataX = {
+            { -2.0, 1.0, 4.0},
+            { 0.0, 3.0, -1.0},
+            { 2.0, 7.0, 5.0}
+    };
+    
+    //vector for testing the linear solver on testData
+    private double[] testDataY = 
+    		{-7, 13, 4};
+    
     private double[][] testDataMinus = {
             { -1.0, -2.0, -3.0},
             { -2.0, -5.0, -3.0},
@@ -291,5 +305,47 @@ public class LUDecompositionTest {
         Assert.assertTrue(l == lu.getL());
         Assert.assertTrue(u == lu.getU());
         Assert.assertTrue(p == lu.getP());
+    }
+    
+    /** test on a large random matrix (added by wilbur 2016/11/05) */
+    @Test
+    public void testLargeRandomMatrix() {
+    	Random rnd = new Random(31);	// fixed seed for repeatability
+    	int m = 1600;
+    	double[][] arr = new double[m][m];
+    	// create a mxm matrix with uniform random values in [-1,1]
+    	for (int i = 0; i < m; i++) {
+    		for (int j = 0; j < m; j++) {
+    			arr[i][j] = 2 * rnd.nextDouble() - 1;
+    		}
+    	}
+    	RealMatrix A = MatrixUtils.createRealMatrix(arr);
+    	LUDecomposition lu = new LUDecomposition(A);
+    	RealMatrix l = lu.getL();
+    	RealMatrix u = lu.getU();
+    	RealMatrix p = lu.getP();
+    	double norm = l.multiply(u).subtract(p.multiply(A)).getNorm();
+    	System.out.println("testLargeRandomMatrix, norm = " + norm);
+    	Assert.assertEquals(0, norm, 1e-11);	// norm = 9.559464331232448E-12
+    }
+
+    /** test the decomposition solver (added by wilbur 2016/11/05) */
+    @Test
+    public void testSolver() {
+    	RealMatrix A = MatrixUtils.createRealMatrix(testData);
+    	LUDecomposition lu = new LUDecomposition(A);
+    	DecompositionSolver solver = lu.getSolver();
+
+    	// test for A * X = B  (X, B being matrices)
+    	RealMatrix X = MatrixUtils.createRealMatrix(testDataX);
+    	RealMatrix B = A.multiply(X);
+    	RealMatrix Xs = solver.solve(B);
+    	Assert.assertEquals(0, X.subtract(Xs).getNorm(), 1e-11);
+
+    	// test for A * y = b (x, b being vectors)
+    	RealVector x = MatrixUtils.createRealVector(testDataY);
+    	RealVector b = A.operate(x);
+    	RealVector xs = solver.solve(b);
+    	Assert.assertEquals(0, x.subtract(xs).getNorm(), 1e-11);
     }
 }
