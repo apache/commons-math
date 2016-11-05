@@ -325,7 +325,6 @@ public class LUDecompositionTest {
     	RealMatrix u = lu.getU();
     	RealMatrix p = lu.getP();
     	double norm = l.multiply(u).subtract(p.multiply(A)).getNorm();
-    	System.out.println("testLargeRandomMatrix, norm = " + norm);
     	Assert.assertEquals(0, norm, 1e-11);	// norm = 9.559464331232448E-12
     }
 
