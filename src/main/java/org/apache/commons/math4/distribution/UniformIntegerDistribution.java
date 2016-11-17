@@ -22,10 +22,8 @@ import org.apache.commons.math4.exception.util.LocalizedFormats;
 import org.apache.commons.rng.UniformRandomProvider;
 
 /**
- * Implementation of the uniform integer distribution.
- *
- * @see <a href="http://en.wikipedia.org/wiki/Uniform_distribution_(discrete)"
- * >Uniform distribution (discrete), at Wikipedia</a>
+ * Implementation of the <a href="http://en.wikipedia.org/wiki/Uniform_distribution_(discrete)">
+ * uniform integer distribution</a>.
  *
  * @since 3.0
  */
@@ -36,6 +34,10 @@ public class UniformIntegerDistribution extends AbstractIntegerDistribution {
     private final int lower;
     /** Upper bound (inclusive) of this distribution. */
     private final int upper;
+    /** "upper" + "lower" (to avoid overflow). */
+    private final double upperPlusLower;
+    /** "upper" - "lower" (to avoid overflow). */
+    private final double upperMinusLower;
 
     /**
      * Creates a new uniform integer distribution using the given lower and
@@ -55,6 +57,8 @@ public class UniformIntegerDistribution extends AbstractIntegerDistribution {
         }
         this.lower = lower;
         this.upper = upper;
+        upperPlusLower = (double) upper + (double) lower;
+        upperMinusLower = (double) upper - (double) lower;
     }
 
     /** {@inheritDoc} */
@@ -63,7 +67,7 @@ public class UniformIntegerDistribution extends AbstractIntegerDistribution {
         if (x < lower || x > upper) {
             return 0;
         }
-        return 1.0 / (upper - lower + 1);
+        return 1.0 / (upperMinusLower + 1);
     }
 
     /** {@inheritDoc} */
@@ -75,7 +79,7 @@ public class UniformIntegerDistribution extends AbstractIntegerDistribution {
         if (x > upper) {
             return 1;
         }
-        return (x - lower + 1.0) / (upper - lower + 1.0);
+        return (x - lower + 1.0) / (upperMinusLower + 1.0);
     }
 
     /**
@@ -86,7 +90,7 @@ public class UniformIntegerDistribution extends AbstractIntegerDistribution {
      */
     @Override
     public double getNumericalMean() {
-        return 0.5 * (lower + upper);
+        return 0.5 * upperPlusLower;
     }
 
     /**
@@ -97,7 +101,7 @@ public class UniformIntegerDistribution extends AbstractIntegerDistribution {
      */
     @Override
     public double getNumericalVariance() {
-        double n = upper - lower + 1;
+        double n = upperMinusLower + 1;
         return (n * n - 1) / 12.0;
     }
 
