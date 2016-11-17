@@ -22,6 +22,7 @@ import org.junit.Test;
 import org.apache.commons.math4.distribution.IntegerDistribution;
 import org.apache.commons.math4.distribution.UniformIntegerDistribution;
 import org.apache.commons.math4.exception.NumberIsTooLargeException;
+import org.apache.commons.math4.util.Precision;
 
 /**
  * Test cases for UniformIntegerDistribution. See class javadoc for
@@ -111,5 +112,31 @@ public class UniformIntegerDistributionTest extends IntegerDistributionAbstractT
 
         // Degenerate case is allowed.
         new UniformIntegerDistribution(0, 0);
+    }
+
+    // MATH-1396
+    @Test
+    public void testLargeRangeSubtractionOverflow() {
+        final int hi = Integer.MAX_VALUE / 2 + 10;
+        UniformIntegerDistribution dist = new UniformIntegerDistribution(-hi, hi - 1);
+
+        final double tol = Math.ulp(1d);
+        Assert.assertEquals(0.5 / hi, dist.probability(123456), tol);
+        Assert.assertEquals(0.5, dist.cumulativeProbability(-1), tol);
+
+        Assert.assertTrue(Precision.equals((Math.pow(2d * hi, 2) - 1) / 12, dist.getNumericalVariance(), 1));
+    }
+
+    // MATH-1396
+    @Test
+    public void testLargeRangeAdditionOverflow() {
+        final int hi = Integer.MAX_VALUE / 2 + 10;
+        UniformIntegerDistribution dist = new UniformIntegerDistribution(hi - 1, hi + 1);
+
+        final double tol = Math.ulp(1d);
+        Assert.assertEquals(1d / 3d, dist.probability(hi), tol);
+        Assert.assertEquals(2d / 3d, dist.cumulativeProbability(hi), tol);
+
+        Assert.assertTrue(Precision.equals(hi, dist.getNumericalMean(), 1));
     }
 }
