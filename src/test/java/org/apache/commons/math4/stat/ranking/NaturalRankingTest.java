@@ -23,8 +23,11 @@ import org.apache.commons.math4.stat.ranking.NaNStrategy;
 import org.apache.commons.math4.stat.ranking.NaturalRanking;
 import org.apache.commons.math4.stat.ranking.TiesStrategy;
 import org.junit.Test;
+import org.junit.Ignore;
 import org.apache.commons.rng.UniformRandomProvider;
 import org.apache.commons.rng.simple.RandomSource;
+import org.apache.commons.rng.simple.JDKRandomBridge;
+
 
 /**
  * Test cases for NaturalRanking class
@@ -167,6 +170,52 @@ public class NaturalRankingTest {
         ranks = ranking.rank(allSame);
         correctRanks = new double[] { 2.5, 2.5, 2.5, 2.5 };
         TestUtils.assertEquals(correctRanks, ranks, 0d);
+    }
+
+    /*
+     * Cf. MATH-1361
+     * XXX To be removed when issue is fixed.
+     */
+    @Ignore
+    @Test
+    public void testNaNsFixedTiesRandomDEBUG() {
+        int count = 0;
+        final long start = 0;
+        final int num = 10000000;
+        final long max = start + num;
+        for (long i = start; i <= max; i++) {
+            UniformRandomProvider randomGenerator = RandomSource.create(RandomSource.MT, i);
+            NaturalRanking ranking = new NaturalRanking(NaNStrategy.FIXED,
+                                                        randomGenerator);
+            double[] ranks = ranking.rank(exampleData);
+            double[] correctRanks = { 5, 3, 6, 7, 3, 8, Double.NaN, 1, 2 };
+            if (!org.apache.commons.math4.util.MathArrays.equalsIncludingNaN(correctRanks, ranks)) continue;
+
+            ranks = ranking.rank(tiesFirst);
+            correctRanks = new double[] { 1, 2, 4, 3, 5 };
+            if (!org.apache.commons.math4.util.MathArrays.equalsIncludingNaN(correctRanks, ranks)) continue;
+
+            ranks = ranking.rank(tiesLast);
+            correctRanks = new double[] { 3, 3, 2, 1 };
+            if (!org.apache.commons.math4.util.MathArrays.equalsIncludingNaN(correctRanks, ranks)) continue;
+
+            ranks = ranking.rank(multipleNaNs);
+            correctRanks = new double[] { 1, 2, Double.NaN, Double.NaN };
+            if (!org.apache.commons.math4.util.MathArrays.equalsIncludingNaN(correctRanks, ranks)) continue;
+
+            ranks = ranking.rank(multipleTies);
+            correctRanks = new double[] { 3, 2, 4, 4, 6, 7, 1 };
+            if (!org.apache.commons.math4.util.MathArrays.equalsIncludingNaN(correctRanks, ranks)) continue;
+
+            ranks = ranking.rank(allSame);
+            correctRanks = new double[] { 2, 3, 3, 3 };
+            if (!org.apache.commons.math4.util.MathArrays.equalsIncludingNaN(correctRanks, ranks)) continue;
+
+            ++count;
+            //System.out.println("seed = " + i);
+            //break;
+        }
+        System.out.println("success rate = " + count + " / " + num);
     }
 
     @Test
