@@ -19,13 +19,12 @@ package org.apache.commons.math4.stat.ranking;
 import org.junit.Assert;
 import org.apache.commons.math4.TestUtils;
 import org.apache.commons.math4.exception.NotANumberException;
-import org.apache.commons.rng.UniformRandomProvider;
-import org.apache.commons.rng.RandomSource;
 import org.apache.commons.math4.stat.ranking.NaNStrategy;
 import org.apache.commons.math4.stat.ranking.NaturalRanking;
 import org.apache.commons.math4.stat.ranking.TiesStrategy;
 import org.junit.Test;
-
+import org.apache.commons.rng.UniformRandomProvider;
+import org.apache.commons.rng.simple.RandomSource;
 
 /**
  * Test cases for NaturalRanking class

@@ -34,7 +34,7 @@ import org.apache.commons.math4.optim.SimpleBounds;
 import org.apache.commons.math4.optim.nonlinear.scalar.GoalType;
 import org.apache.commons.math4.optim.nonlinear.scalar.ObjectiveFunction;
 import org.apache.commons.math4.optim.nonlinear.scalar.noderiv.CMAESOptimizer;
-import org.apache.commons.rng.RandomSource;
+import org.apache.commons.rng.simple.RandomSource;
 import org.apache.commons.math4.util.FastMath;
 import org.junit.Assert;
 import org.junit.Test;

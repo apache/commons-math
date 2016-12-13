@@ -20,7 +20,7 @@ package org.apache.commons.math4.distribution;
 import org.apache.commons.math4.distribution.MultivariateNormalDistribution;
 import org.apache.commons.math4.distribution.NormalDistribution;
 import org.apache.commons.math4.linear.RealMatrix;
-import org.apache.commons.rng.RandomSource;
+import org.apache.commons.rng.simple.RandomSource;
 import org.apache.commons.math4.stat.correlation.Covariance;
 
 import java.util.Random;

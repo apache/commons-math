@@ -21,9 +21,11 @@ import org.apache.commons.math4.exception.NotStrictlyPositiveException;
 import org.apache.commons.math4.exception.NumberIsTooLargeException;
 import org.apache.commons.math4.exception.OutOfRangeException;
 import org.apache.commons.math4.exception.util.LocalizedFormats;
-import org.apache.commons.rng.UniformRandomProvider;
 import org.apache.commons.math4.special.Erf;
 import org.apache.commons.math4.util.FastMath;
+import org.apache.commons.rng.UniformRandomProvider;
+import org.apache.commons.rng.sampling.distribution.ContinuousSampler;
+import org.apache.commons.rng.sampling.distribution.BoxMullerGaussianSampler;
 
 /**
  * Implementation of the normal (gaussian) distribution.
@@ -239,36 +241,13 @@ public class NormalDistribution extends AbstractRealDistribution {
     @Override
     public RealDistribution.Sampler createSampler(final UniformRandomProvider rng) {
         return new RealDistribution.Sampler() {
-            /** Next gaussian. */
-            private double nextGaussian = Double.NaN;
+            private final ContinuousSampler sampler =
+                new BoxMullerGaussianSampler(rng, mean, standardDeviation);
 
-            /** {@inheritDoc} */
+            /**{@inheritDoc} */
             @Override
             public double sample() {
-                final double random;
-                if (Double.isNaN(nextGaussian)) {
-                    // Generate a pair of Gaussian numbers.
-
-                    final double x = rng.nextDouble();
-                    final double y = rng.nextDouble();
-                    final double alpha = 2 * FastMath.PI * x;
-                    final double r = FastMath.sqrt(-2 * FastMath.log(y));
-
-                    // Return the first element of the generated pair.
-                    random = r * FastMath.cos(alpha);
-
-                    // Keep second element of the pair for next invocation.
-                    nextGaussian = r * FastMath.sin(alpha);
-                } else {
-                    // Use the second element of the pair (generated at the
-                    // previous invocation).
-                    random = nextGaussian;
-
-                    // Both elements of the pair have been used.
-                    nextGaussian = Double.NaN;
-                }
-
-                return standardDeviation * random + mean;
+                return sampler.sample();
             }
         };
     }

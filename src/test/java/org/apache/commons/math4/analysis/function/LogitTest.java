@@ -26,7 +26,7 @@ import org.apache.commons.math4.analysis.function.Sigmoid;
 import org.apache.commons.math4.exception.DimensionMismatchException;
 import org.apache.commons.math4.exception.NullArgumentException;
 import org.apache.commons.math4.exception.OutOfRangeException;
-import org.apache.commons.rng.RandomSource;
+import org.apache.commons.rng.simple.RandomSource;
 import org.apache.commons.rng.UniformRandomProvider;
 import org.apache.commons.math4.util.FastMath;
 import org.junit.Assert;

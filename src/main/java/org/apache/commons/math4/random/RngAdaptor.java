@@ -22,7 +22,8 @@ import java.io.ObjectOutputStream;
 import java.io.ObjectInputStream;
 import org.apache.commons.math4.util.FastMath;
 import org.apache.commons.rng.RestorableUniformRandomProvider;
-import org.apache.commons.rng.RandomSource;
+import org.apache.commons.rng.simple.RandomSource;
+import org.apache.commons.rng.core.RandomProviderDefaultState;
 
 /**
  * Adaptor that delegates to a {@link UniformRandomProvider} instance.
@@ -206,7 +207,7 @@ public final class RngAdaptor
         out.defaultWriteObject();
 
         // Save current state.
-        out.writeObject(((RandomSource.State) delegate.saveState()).getState());
+        out.writeObject(((RandomProviderDefaultState) delegate.saveState()).getState());
    }
 
     /**
@@ -223,7 +224,7 @@ public final class RngAdaptor
         // Recreate the "delegate" from serialized info.
         delegate = RandomSource.create(source);
         // And restore its state.
-        final RandomSource.State state = new RandomSource.State((byte[]) in.readObject());
+        final RandomProviderDefaultState state = new RandomProviderDefaultState((byte[]) in.readObject());
         delegate.restoreState(state);
     }
 }

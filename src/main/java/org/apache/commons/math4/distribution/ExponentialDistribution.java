@@ -19,10 +19,10 @@ package org.apache.commons.math4.distribution;
 import org.apache.commons.math4.exception.NotStrictlyPositiveException;
 import org.apache.commons.math4.exception.OutOfRangeException;
 import org.apache.commons.math4.exception.util.LocalizedFormats;
-import org.apache.commons.rng.UniformRandomProvider;
-import org.apache.commons.math4.util.CombinatoricsUtils;
 import org.apache.commons.math4.util.FastMath;
-import org.apache.commons.math4.util.ResizableDoubleArray;
+import org.apache.commons.rng.UniformRandomProvider;
+import org.apache.commons.rng.sampling.distribution.ContinuousSampler;
+import org.apache.commons.rng.sampling.distribution.AhrensDieterExponentialSampler;
 
 /**
  * Implementation of the exponential distribution.
@@ -38,55 +38,12 @@ public class ExponentialDistribution extends AbstractRealDistribution {
     public static final double DEFAULT_INVERSE_ABSOLUTE_ACCURACY = 1e-9;
     /** Serializable version identifier */
     private static final long serialVersionUID = 20160311L;
-    /**
-     * Used when generating Exponential samples.
-     * Table containing the constants
-     * q_i = sum_{j=1}^i (ln 2)^j/j! = ln 2 + (ln 2)^2/2 + ... + (ln 2)^i/i!
-     * until the largest representable fraction below 1 is exceeded.
-     *
-     * Note that
-     * 1 = 2 - 1 = exp(ln 2) - 1 = sum_{n=1}^infty (ln 2)^n / n!
-     * thus q_i -> 1 as i -> +inf,
-     * so the higher i, the closer to one we get (the series is not alternating).
-     *
-     * By trying, n = 16 in Java is enough to reach 1.0.
-     */
-    private static final double[] EXPONENTIAL_SA_QI;
     /** The mean of this distribution. */
     private final double mean;
     /** The logarithm of the mean, stored to reduce computing time. **/
     private final double logMean;
     /** Inverse cumulative probability accuracy. */
     private final double solverAbsoluteAccuracy;
-
-    /**
-     * Initialize tables.
-     */
-    static {
-        /**
-         * Filling EXPONENTIAL_SA_QI table.
-         * Note that we don't want qi = 0 in the table.
-         */
-        final double LN2 = FastMath.log(2);
-        double qi = 0;
-        int i = 1;
-
-        /**
-         * ArithmeticUtils provides factorials up to 20, so let's use that
-         * limit together with Precision.EPSILON to generate the following
-         * code (a priori, we know that there will be 16 elements, but it is
-         * better to not hardcode it).
-         */
-        final ResizableDoubleArray ra = new ResizableDoubleArray(20);
-
-        while (qi < 1) {
-            qi += FastMath.pow(LN2, i) / CombinatoricsUtils.factorial(i);
-            ra.addElement(qi);
-            ++i;
-        }
-
-        EXPONENTIAL_SA_QI = ra.getElements();
-    }
 
     /**
      * Creates a distribution.
@@ -262,45 +219,13 @@ public class ExponentialDistribution extends AbstractRealDistribution {
     @Override
     public RealDistribution.Sampler createSampler(final UniformRandomProvider rng) {
         return new RealDistribution.Sampler() {
-            /** {@inheritDoc} */
+            private final ContinuousSampler sampler =
+                new AhrensDieterExponentialSampler(rng, mean);
+
+            /**{@inheritDoc} */
             @Override
             public double sample() {
-                // Step 1:
-                double a = 0;
-                double u = rng.nextDouble();
-
-                // Step 2 and 3:
-                while (u < 0.5) {
-                    a += EXPONENTIAL_SA_QI[0];
-                    u *= 2;
-                }
-
-                // Step 4 (now u >= 0.5):
-                u += u - 1;
-
-                // Step 5:
-                if (u <= EXPONENTIAL_SA_QI[0]) {
-                    return mean * (a + u);
-                }
-
-                // Step 6:
-                int i = 0; // Should be 1, be we iterate before it in while using 0
-                double u2 = rng.nextDouble();
-                double umin = u2;
-
-                // Step 7 and 8:
-                do {
-                    ++i;
-                    u2 = rng.nextDouble();
-
-                    if (u2 < umin) {
-                        umin = u2;
-                    }
-
-                    // Step 8:
-                } while (u > EXPONENTIAL_SA_QI[i]); // Ensured to exit since EXPONENTIAL_SA_QI[MAX] = 1
-
-                return mean * (a + umin * EXPONENTIAL_SA_QI[0]);
+                return sampler.sample();
             }
         };
     }

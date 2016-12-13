@@ -19,7 +19,7 @@ package org.apache.commons.math4.random;
 import java.util.Random;
 import org.apache.commons.math4.exception.MathUnsupportedOperationException;
 import org.apache.commons.rng.UniformRandomProvider;
-import org.apache.commons.rng.RandomSource;
+import org.apache.commons.rng.simple.RandomSource;
 import org.apache.commons.math4.distribution.RealDistribution;
 import org.apache.commons.math4.distribution.NormalDistribution;
 import org.apache.commons.math4.TestUtils;

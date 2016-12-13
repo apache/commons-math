@@ -30,7 +30,7 @@ import org.apache.commons.math4.geometry.euclidean.twod.hull.ConvexHullGenerator
 import org.apache.commons.math4.geometry.partitioning.Region;
 import org.apache.commons.math4.geometry.partitioning.Region.Location;
 import org.apache.commons.rng.UniformRandomProvider;
-import org.apache.commons.rng.RandomSource;
+import org.apache.commons.rng.simple.RandomSource;
 import org.apache.commons.math4.util.FastMath;
 import org.apache.commons.math4.util.MathArrays;
 import org.apache.commons.math4.util.Precision;

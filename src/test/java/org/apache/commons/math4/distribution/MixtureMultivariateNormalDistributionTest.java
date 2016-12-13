@@ -23,7 +23,7 @@ import org.apache.commons.math4.distribution.MixtureMultivariateRealDistribution
 import org.apache.commons.math4.distribution.MultivariateNormalDistribution;
 import org.apache.commons.math4.exception.MathArithmeticException;
 import org.apache.commons.math4.exception.NotPositiveException;
-import org.apache.commons.rng.RandomSource;
+import org.apache.commons.rng.simple.RandomSource;
 import org.apache.commons.math4.util.Pair;
 import org.junit.Assert;
 import org.junit.Test;

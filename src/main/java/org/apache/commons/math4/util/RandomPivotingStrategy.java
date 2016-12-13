@@ -22,7 +22,8 @@ import java.io.ObjectOutputStream;
 import java.io.ObjectInputStream;
 import org.apache.commons.math4.exception.MathIllegalArgumentException;
 import org.apache.commons.rng.RestorableUniformRandomProvider;
-import org.apache.commons.rng.RandomSource;
+import org.apache.commons.rng.simple.RandomSource;
+import org.apache.commons.rng.core.RandomProviderDefaultState;
 
 /**
  * A strategy of selecting random index between begin and end indices.
@@ -77,7 +78,7 @@ public class RandomPivotingStrategy implements PivotingStrategyInterface, Serial
         out.defaultWriteObject();
 
         // Save current state.
-        out.writeObject(((RandomSource.State) random.saveState()).getState());
+        out.writeObject(((RandomProviderDefaultState) random.saveState()).getState());
    }
 
     /**
@@ -94,7 +95,7 @@ public class RandomPivotingStrategy implements PivotingStrategyInterface, Serial
         // Recreate the "delegate" from serialized info.
         random = RandomSource.create(randomSource);
         // And restore its state.
-        final RandomSource.State state = new RandomSource.State((byte[]) in.readObject());
+        final RandomProviderDefaultState state = new RandomProviderDefaultState((byte[]) in.readObject());
         random.restoreState(state);
     }
 }

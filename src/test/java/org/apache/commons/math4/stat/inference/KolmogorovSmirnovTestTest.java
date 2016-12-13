@@ -23,7 +23,7 @@ import java.util.Arrays;
 import org.apache.commons.math4.TestUtils;
 import org.apache.commons.math4.distribution.NormalDistribution;
 import org.apache.commons.math4.distribution.UniformRealDistribution;
-import org.apache.commons.rng.RandomSource;
+import org.apache.commons.rng.simple.RandomSource;
 import org.apache.commons.rng.UniformRandomProvider;
 import org.apache.commons.math4.util.CombinatoricsUtils;
 import org.apache.commons.math4.util.FastMath;

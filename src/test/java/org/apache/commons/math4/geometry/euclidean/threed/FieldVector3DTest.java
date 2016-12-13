@@ -28,7 +28,7 @@ import org.apache.commons.math4.exception.MathArithmeticException;
 import org.apache.commons.math4.geometry.euclidean.threed.FieldVector3D;
 import org.apache.commons.math4.geometry.euclidean.threed.Vector3D;
 import org.apache.commons.rng.UniformRandomProvider;
-import org.apache.commons.rng.RandomSource;
+import org.apache.commons.rng.simple.RandomSource;
 import org.apache.commons.math4.util.FastMath;
 import org.apache.commons.math4.util.Precision;
 import org.junit.Assert;

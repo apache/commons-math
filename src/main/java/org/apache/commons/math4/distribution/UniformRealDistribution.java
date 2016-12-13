@@ -21,6 +21,8 @@ import org.apache.commons.math4.exception.NumberIsTooLargeException;
 import org.apache.commons.math4.exception.OutOfRangeException;
 import org.apache.commons.math4.exception.util.LocalizedFormats;
 import org.apache.commons.rng.UniformRandomProvider;
+import org.apache.commons.rng.sampling.distribution.ContinuousSampler;
+import org.apache.commons.rng.sampling.distribution.ContinuousUniformSampler;
 
 /**
  * Implementation of the uniform real distribution.
@@ -162,11 +164,13 @@ public class UniformRealDistribution extends AbstractRealDistribution {
     @Override
     public RealDistribution.Sampler createSampler(final UniformRandomProvider rng) {
         return new RealDistribution.Sampler() {
-            /** {@inheritDoc} */
+            private final ContinuousSampler sampler =
+                new ContinuousUniformSampler(rng, lower, upper);
+
+            /**{@inheritDoc} */
             @Override
             public double sample() {
-                final double u = rng.nextDouble();
-                return u * upper + (1 - u) * lower;
+                return sampler.sample();
             }
         };
     }

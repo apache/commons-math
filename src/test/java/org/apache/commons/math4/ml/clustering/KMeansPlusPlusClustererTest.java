@@ -28,7 +28,7 @@ import org.apache.commons.math4.ml.clustering.Cluster;
 import org.apache.commons.math4.ml.clustering.DoublePoint;
 import org.apache.commons.math4.ml.clustering.KMeansPlusPlusClusterer;
 import org.apache.commons.math4.ml.distance.EuclideanDistance;
-import org.apache.commons.rng.RandomSource;
+import org.apache.commons.rng.simple.RandomSource;
 import org.apache.commons.rng.UniformRandomProvider;
 import org.junit.Assert;
 import org.junit.Before;

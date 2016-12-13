@@ -31,7 +31,7 @@ import org.apache.commons.math4.optim.nonlinear.scalar.gradient.NonLinearConjuga
 import org.apache.commons.math4.optim.nonlinear.scalar.noderiv.NelderMeadSimplex;
 import org.apache.commons.math4.optim.nonlinear.scalar.noderiv.SimplexOptimizer;
 import org.apache.commons.rng.UniformRandomProvider;
-import org.apache.commons.rng.RandomSource;
+import org.apache.commons.rng.simple.RandomSource;
 import org.apache.commons.math4.random.GaussianRandomGenerator;
 import org.apache.commons.math4.random.RandomVectorGenerator;
 import org.apache.commons.math4.random.UncorrelatedRandomVectorGenerator;

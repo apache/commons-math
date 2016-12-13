@@ -24,6 +24,9 @@ import org.apache.commons.math4.exception.NumberIsTooLargeException;
 import org.apache.commons.math4.exception.OutOfRangeException;
 import org.apache.commons.math4.exception.util.LocalizedFormats;
 import org.apache.commons.rng.UniformRandomProvider;
+import org.apache.commons.rng.sampling.distribution.InverseTransformContinuousSampler;
+import org.apache.commons.rng.sampling.distribution.ContinuousInverseCumulativeProbabilityFunction;
+import org.apache.commons.rng.sampling.distribution.ContinuousSampler;
 import org.apache.commons.math4.util.FastMath;
 
 /**
@@ -243,10 +246,26 @@ public abstract class AbstractRealDistribution
     @Override
     public RealDistribution.Sampler createSampler(final UniformRandomProvider rng) {
         return new RealDistribution.Sampler() {
+            private final ContinuousSampler sampler =
+                new InverseTransformContinuousSampler(rng, createICPF());
+
             /** {@inheritDoc} */
             @Override
             public double sample() {
-                return inverseCumulativeProbability(rng.nextDouble());
+                return sampler.sample();
+            }
+        };
+    }
+
+    /**
+     * @return an instance for use by {@link #createSampler(UniformRandomProvider)}
+     */
+    private ContinuousInverseCumulativeProbabilityFunction createICPF() {
+        return new ContinuousInverseCumulativeProbabilityFunction() {
+            /** {@inheritDoc} */
+            @Override
+            public double inverseCumulativeProbability(double p) {
+                return AbstractRealDistribution.this.inverseCumulativeProbability(p);
             }
         };
     }

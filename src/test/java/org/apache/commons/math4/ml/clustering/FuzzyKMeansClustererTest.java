@@ -28,7 +28,7 @@ import org.apache.commons.math4.ml.clustering.DoublePoint;
 import org.apache.commons.math4.ml.clustering.FuzzyKMeansClusterer;
 import org.apache.commons.math4.ml.distance.CanberraDistance;
 import org.apache.commons.math4.ml.distance.DistanceMeasure;
-import org.apache.commons.rng.RandomSource;
+import org.apache.commons.rng.simple.RandomSource;
 import org.apache.commons.rng.UniformRandomProvider;
 import org.hamcrest.CoreMatchers;
 import org.junit.Assert;

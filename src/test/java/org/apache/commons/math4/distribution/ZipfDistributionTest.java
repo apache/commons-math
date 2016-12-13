@@ -18,9 +18,8 @@
 package org.apache.commons.math4.distribution;
 
 import org.apache.commons.math4.TestUtils;
-import org.apache.commons.math4.distribution.ZipfDistribution.ZipfRejectionInversionSampler;
 import org.apache.commons.math4.exception.NotStrictlyPositiveException;
-import org.apache.commons.rng.RandomSource;
+import org.apache.commons.rng.simple.RandomSource;
 import org.apache.commons.math4.util.FastMath;
 import org.junit.Assert;
 import org.junit.Ignore;
@@ -165,41 +164,6 @@ public class ZipfDistributionTest extends IntegerDistributionAbstractTest {
                 }
                 TestUtils.assertChiSquareAccept(expectedCounts, observedCounts, 0.001);
             }
-        }
-    }
-
-    @Test
-    public void testSamplerHelper1() {
-        final double tol = 1e-12;
-        final double[] testValues = {
-            Math.nextUp(-1.), -1e-1, -1e-2, -1e-3, -1e-4, -1e-5, -1e-6, -1e-7, -1e-8,
-            -1e-9, -1e-10, -1e-11, 0., 1e-11, 1e-10, 1e-9, 1e-8, 1e-7, 1e-6,
-            1e-5, 1e-4, 1e-3, 1e-2, 1e-1, 1e0
-        };
-        for (final double testValue : testValues) {
-            final double expected = FastMath.log1p(testValue);
-            final double actual = ZipfRejectionInversionSampler.helper1(testValue) * testValue;
-            TestUtils.assertRelativelyEquals(expected, actual, tol);
-        }
-    }
-
-    @Test
-    public void testSamplerHelper1Minus1() {
-        Assert.assertEquals(Double.POSITIVE_INFINITY, ZipfRejectionInversionSampler.helper1(-1d), 0d);
-    }
-
-    @Test
-    public void testSamplerHelper2() {
-        final double tol = 1e-12;
-        final double[] testValues = {
-            -1e0, -1e-1, -1e-2, -1e-3, -1e-4, -1e-5, -1e-6, -1e-7, -1e-8,
-            -1e-9, -1e-10, -1e-11, 0., 1e-11, 1e-10, 1e-9, 1e-8, 1e-7, 1e-6,
-            1e-5, 1e-4, 1e-3, 1e-2, 1e-1, 1e0
-        };
-        for (double testValue : testValues) {
-            final double expected = FastMath.expm1(testValue);
-            final double actual = ZipfRejectionInversionSampler.helper2(testValue) * testValue;
-            TestUtils.assertRelativelyEquals(expected, actual, tol);
         }
     }
 

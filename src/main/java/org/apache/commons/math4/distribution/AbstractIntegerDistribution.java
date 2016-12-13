@@ -23,6 +23,9 @@ import org.apache.commons.math4.exception.NumberIsTooLargeException;
 import org.apache.commons.math4.exception.OutOfRangeException;
 import org.apache.commons.math4.exception.util.LocalizedFormats;
 import org.apache.commons.rng.UniformRandomProvider;
+import org.apache.commons.rng.sampling.distribution.InverseTransformDiscreteSampler;
+import org.apache.commons.rng.sampling.distribution.DiscreteInverseCumulativeProbabilityFunction;
+import org.apache.commons.rng.sampling.distribution.DiscreteSampler;
 import org.apache.commons.math4.util.FastMath;
 
 /**
@@ -195,10 +198,26 @@ public abstract class AbstractIntegerDistribution implements IntegerDistribution
     @Override
     public IntegerDistribution.Sampler createSampler(final UniformRandomProvider rng) {
         return new IntegerDistribution.Sampler() {
+            private final DiscreteSampler sampler =
+                new InverseTransformDiscreteSampler(rng, createICPF());
+
             /** {@inheritDoc} */
             @Override
             public int sample() {
-                return inverseCumulativeProbability(rng.nextDouble());
+                return sampler.sample();
+            }
+        };
+    }
+
+    /**
+     * @return an instance for use by {@link #createSampler(UniformRandomProvider)}
+     */
+    private DiscreteInverseCumulativeProbabilityFunction createICPF() {
+        return new DiscreteInverseCumulativeProbabilityFunction() {
+            /** {@inheritDoc} */
+            @Override
+            public int inverseCumulativeProbability(double p) {
+                return AbstractIntegerDistribution.this.inverseCumulativeProbability(p);
             }
         };
     }

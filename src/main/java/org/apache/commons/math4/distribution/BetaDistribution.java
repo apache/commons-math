@@ -18,11 +18,12 @@ package org.apache.commons.math4.distribution;
 
 import org.apache.commons.math4.exception.NumberIsTooSmallException;
 import org.apache.commons.math4.exception.util.LocalizedFormats;
-import org.apache.commons.rng.UniformRandomProvider;
 import org.apache.commons.math4.special.Beta;
 import org.apache.commons.math4.special.Gamma;
 import org.apache.commons.math4.util.FastMath;
-import org.apache.commons.math4.util.Precision;
+import org.apache.commons.rng.UniformRandomProvider;
+import org.apache.commons.rng.sampling.distribution.ContinuousSampler;
+import org.apache.commons.rng.sampling.distribution.ChengBetaSampler;
 
 /**
  * Implements the Beta distribution.
@@ -227,150 +228,15 @@ public class BetaDistribution extends AbstractRealDistribution {
      */
     @Override
     public RealDistribution.Sampler createSampler(final UniformRandomProvider rng) {
-        return new ChengBetaSampler(rng, alpha, beta);
-    }
+        return new RealDistribution.Sampler() {
+            private final ContinuousSampler sampler =
+                new ChengBetaSampler(rng, alpha, beta);
 
-    /**
-     * Utility class implementing Cheng's algorithms for beta distribution sampling.
-     *
-     * <blockquote>
-     * <pre>
-     * R. C. H. Cheng,
-     * "Generating beta variates with nonintegral shape parameters",
-     * Communications of the ACM, 21, 317-322, 1978.
-     * </pre>
-     * </blockquote>
-     *
-     * @since 3.6
-     */
-    private static class ChengBetaSampler implements RealDistribution.Sampler {
-        /** RNG (uniform distribution). */
-        private final UniformRandomProvider rng;
-        /** First shape parameter. */
-        private final double alphaShape;
-        /** Second shape parameter. */
-        private final double betaShape;
-
-        /**
-         * Creates a sampler instance.
-         *
-         * @param generator RNG.
-         * @param alpha Distribution first shape parameter.
-         * @param beta Distribution second shape parameter.
-         */
-        ChengBetaSampler(UniformRandomProvider generator,
-                         double alpha,
-                         double beta) {
-            rng = generator;
-            alphaShape = alpha;
-            betaShape = beta;
-        }
-
-        /** {@inheritDoc} */
-        @Override
-        public double sample() {
-            final double a = FastMath.min(alphaShape, betaShape);
-            final double b = FastMath.max(alphaShape, betaShape);
-
-            if (a > 1) {
-                return algorithmBB(alphaShape, a, b);
-            } else {
-                return algorithmBC(alphaShape, b, a);
+            /**{@inheritDoc} */
+            @Override
+            public double sample() {
+                return sampler.sample();
             }
-        }
-
-        /**
-         * Computes one sample using Cheng's BB algorithm, when &alpha; and
-         * &beta; are both larger than 1.
-         *
-         * @param a0 First shape parameter (&alpha;).
-         * @param a Min(&alpha;, &beta;) where &alpha;, &beta; are the shape parameters.
-         * @param b Max(&alpha;, &beta;) where &alpha;, &beta; are the shape parameters.
-         * @return a random sample.
-         */
-        private double algorithmBB(double a0,
-                                   double a,
-                                   double b) {
-            final double alpha = a + b;
-            final double beta = FastMath.sqrt((alpha - 2) / (2 * a * b - alpha));
-            final double gamma = a + 1 / beta;
-
-            double r;
-            double w;
-            double t;
-            do {
-                final double u1 = rng.nextDouble();
-                final double u2 = rng.nextDouble();
-                final double v = beta * (FastMath.log(u1) - FastMath.log1p(-u1));
-                w = a * FastMath.exp(v);
-                final double z = u1 * u1 * u2;
-                r = gamma * v - 1.3862944;
-                final double s = a + r - w;
-                if (s + 2.609438 >= 5 * z) {
-                    break;
-                }
-
-                t = FastMath.log(z);
-                if (s >= t) {
-                    break;
-                }
-            } while (r + alpha * (FastMath.log(alpha) - FastMath.log(b + w)) < t);
-
-            w = FastMath.min(w, Double.MAX_VALUE);
-
-            return Precision.equals(a, a0) ? w / (b + w) : b / (b + w);
-        }
-
-        /**
-         * Computes one sample using Cheng's BC algorithm, when at least one
-         * of &alpha; and &beta; is smaller than 1.
-         *
-         * @param a0 First shape parameter (&alpha;).
-         * @param a Max(&alpha;, &beta;) where &alpha;, &beta; are the shape parameters.
-         * @param b min(&alpha;, &beta;) where &alpha;, &beta; are the shape parameters.
-         * @return a random sample.
-         */
-        private double algorithmBC(double a0,
-                                   double a,
-                                   double b) {
-            final double alpha = a + b;
-            final double beta = 1 / b;
-            final double delta = 1 + a - b;
-            final double k1 = delta * (0.0138889 + 0.0416667 * b) / (a * beta - 0.777778);
-            final double k2 = 0.25 + (0.5 + 0.25 / delta) * b;
-
-            double w;
-            while (true) {
-                final double u1 = rng.nextDouble();
-                final double u2 = rng.nextDouble();
-                final double y = u1 * u2;
-                final double z = u1 * y;
-                if (u1 < 0.5) {
-                    if (0.25 * u2 + z - y >= k1) {
-                        continue;
-                    }
-                } else {
-                    if (z <= 0.25) {
-                        final double v = beta * (FastMath.log(u1) - FastMath.log1p(-u1));
-                        w = a * FastMath.exp(v);
-                        break;
-                    }
-
-                    if (z >= k2) {
-                        continue;
-                    }
-                }
-
-                final double v = beta * (FastMath.log(u1) - FastMath.log1p(-u1));
-                w = a * FastMath.exp(v);
-                if (alpha * (FastMath.log(alpha) - FastMath.log(b + w) + v) - 1.3862944 >= FastMath.log(z)) {
-                    break;
-                }
-            }
-
-            w = FastMath.min(w, Double.MAX_VALUE);
-
-            return Precision.equals(a, a0) ? w / (b + w) : b / (b + w);
-        }
+        };
     }
 }

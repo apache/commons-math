@@ -22,7 +22,7 @@ import org.apache.commons.math4.distribution.UniformRealDistribution;
 import org.apache.commons.math4.exception.DimensionMismatchException;
 import org.apache.commons.math4.exception.MathIllegalArgumentException;
 import org.apache.commons.rng.UniformRandomProvider;
-import org.apache.commons.rng.RandomSource;
+import org.apache.commons.rng.simple.RandomSource;
 import org.apache.commons.math4.util.FastMath;
 import org.apache.commons.math4.util.Precision;
 import org.junit.Assert;

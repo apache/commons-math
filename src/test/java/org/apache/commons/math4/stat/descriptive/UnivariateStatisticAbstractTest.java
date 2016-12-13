@@ -27,7 +27,7 @@ import org.apache.commons.math4.distribution.UniformIntegerDistribution;
 import org.apache.commons.math4.stat.descriptive.UnivariateStatistic;
 import org.apache.commons.math4.stat.descriptive.WeightedEvaluation;
 import org.apache.commons.math4.util.FastMath;
-import org.apache.commons.rng.RandomSource;
+import org.apache.commons.rng.simple.RandomSource;
 import org.junit.Assert;
 import org.junit.Test;
 
