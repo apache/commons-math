@@ -20,7 +20,7 @@ import org.apache.commons.math4.distribution.IntegerDistribution;
 import org.apache.commons.math4.distribution.UniformIntegerDistribution;
 import org.apache.commons.math4.exception.MathIllegalArgumentException;
 import org.apache.commons.math4.exception.NullArgumentException;
-import org.apache.commons.rng.RandomSource;
+import org.apache.commons.rng.simple.RandomSource;
 import org.apache.commons.math4.util.ResizableDoubleArray.ExpansionMode;
 import org.junit.After;
 import org.junit.Assert;

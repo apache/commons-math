@@ -30,7 +30,7 @@ import org.apache.commons.math4.geometry.spherical.twod.S2Point;
 import org.apache.commons.math4.geometry.spherical.twod.Sphere2D;
 import org.apache.commons.math4.random.UnitSphereRandomVectorGenerator;
 import org.apache.commons.rng.UniformRandomProvider;
-import org.apache.commons.rng.RandomSource;
+import org.apache.commons.rng.simple.RandomSource;
 import org.apache.commons.math4.util.FastMath;
 import org.apache.commons.math4.util.MathUtils;
 import org.junit.Assert;

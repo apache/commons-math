@@ -35,7 +35,7 @@ import org.apache.commons.math4.geometry.spherical.twod.SphericalPolygonsSet;
 import org.apache.commons.math4.geometry.spherical.twod.SubCircle;
 import org.apache.commons.math4.geometry.spherical.twod.Vertex;
 import org.apache.commons.math4.random.UnitSphereRandomVectorGenerator;
-import org.apache.commons.rng.RandomSource;
+import org.apache.commons.rng.simple.RandomSource;
 import org.apache.commons.math4.util.FastMath;
 import org.apache.commons.math4.util.MathUtils;
 import org.junit.Assert;

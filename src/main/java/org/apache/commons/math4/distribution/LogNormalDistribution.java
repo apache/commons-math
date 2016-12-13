@@ -20,9 +20,11 @@ package org.apache.commons.math4.distribution;
 import org.apache.commons.math4.exception.NotStrictlyPositiveException;
 import org.apache.commons.math4.exception.NumberIsTooLargeException;
 import org.apache.commons.math4.exception.util.LocalizedFormats;
-import org.apache.commons.rng.UniformRandomProvider;
 import org.apache.commons.math4.special.Erf;
 import org.apache.commons.math4.util.FastMath;
+import org.apache.commons.rng.UniformRandomProvider;
+import org.apache.commons.rng.sampling.distribution.ContinuousSampler;
+import org.apache.commons.rng.sampling.distribution.BoxMullerLogNormalSampler;
 
 /**
  * Implementation of the log-normal (gaussian) distribution.
@@ -292,14 +294,13 @@ public class LogNormalDistribution extends AbstractRealDistribution {
     @Override
     public RealDistribution.Sampler createSampler(final UniformRandomProvider rng) {
         return new RealDistribution.Sampler() {
-            /** Gaussian sampling. */
-            private final RealDistribution.Sampler gaussian = new NormalDistribution().createSampler(rng);
+            private final ContinuousSampler sampler =
+                new BoxMullerLogNormalSampler(rng, scale, shape);
 
-            /** {@inheritDoc} */
+            /**{@inheritDoc} */
             @Override
             public double sample() {
-                final double n = gaussian.sample();
-                return FastMath.exp(scale + shape * n);
+                return sampler.sample();
             }
         };
     }

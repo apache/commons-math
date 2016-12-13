@@ -32,7 +32,7 @@ import org.apache.commons.math4.analysis.integration.IterativeLegendreGaussInteg
 import org.apache.commons.math4.distribution.RealDistribution;
 import org.apache.commons.math4.exception.MathIllegalArgumentException;
 import org.apache.commons.math4.exception.NumberIsTooLargeException;
-import org.apache.commons.rng.RandomSource;
+import org.apache.commons.rng.simple.RandomSource;
 import org.apache.commons.math4.util.FastMath;
 import org.junit.After;
 import org.junit.Assert;

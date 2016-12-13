@@ -19,8 +19,10 @@ package org.apache.commons.math4.distribution;
 
 import org.apache.commons.math4.exception.NotStrictlyPositiveException;
 import org.apache.commons.math4.exception.util.LocalizedFormats;
-import org.apache.commons.rng.UniformRandomProvider;
 import org.apache.commons.math4.util.FastMath;
+import org.apache.commons.rng.UniformRandomProvider;
+import org.apache.commons.rng.sampling.distribution.ContinuousSampler;
+import org.apache.commons.rng.sampling.distribution.InverseTransformParetoSampler;
 
 /**
  * Implementation of the Pareto distribution.
@@ -252,11 +254,13 @@ public class ParetoDistribution extends AbstractRealDistribution {
     @Override
     public RealDistribution.Sampler createSampler(final UniformRandomProvider rng) {
         return new RealDistribution.Sampler() {
-            /** {@inheritDoc} */
+            private final ContinuousSampler sampler =
+                new InverseTransformParetoSampler(rng, scale, shape);
+
+            /**{@inheritDoc} */
             @Override
             public double sample() {
-                final double n = rng.nextDouble();
-                return scale / FastMath.pow(n, 1 / shape);
+                return sampler.sample();
             }
         };
     }

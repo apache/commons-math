@@ -31,7 +31,7 @@ import org.apache.commons.math4.analysis.integration.IterativeLegendreGaussInteg
 import org.apache.commons.math4.exception.MathIllegalStateException;
 import org.apache.commons.math4.exception.NullArgumentException;
 import org.apache.commons.math4.exception.NotStrictlyPositiveException;
-import org.apache.commons.rng.RandomSource;
+import org.apache.commons.rng.simple.RandomSource;
 import org.apache.commons.math4.stat.descriptive.SummaryStatistics;
 import org.apache.commons.math4.util.FastMath;
 import org.junit.Assert;

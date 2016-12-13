@@ -25,7 +25,7 @@ import org.apache.commons.math4.distribution.RealDistribution;
 import org.apache.commons.math4.distribution.UniformRealDistribution;
 import org.apache.commons.math4.fitting.SimpleCurveFitter;
 import org.apache.commons.math4.fitting.WeightedObservedPoints;
-import org.apache.commons.rng.RandomSource;
+import org.apache.commons.rng.simple.RandomSource;
 import org.junit.Test;
 
 /**

@@ -29,7 +29,7 @@ import org.apache.commons.math4.optim.univariate.UnivariateObjectiveFunction;
 import org.apache.commons.math4.optim.univariate.UnivariateOptimizer;
 import org.apache.commons.math4.optim.univariate.UnivariatePointValuePair;
 import org.apache.commons.rng.UniformRandomProvider;
-import org.apache.commons.rng.RandomSource;
+import org.apache.commons.rng.simple.RandomSource;
 import org.apache.commons.math4.util.FastMath;
 import org.junit.Assert;
 import org.junit.Test;
@@ -87,7 +87,7 @@ public class MultiStartUnivariateOptimizerTest {
                                  new UnivariateObjectiveFunction(f),
                                  GoalType.MINIMIZE,
                                  new SearchInterval(-0.3, -0.2));
-        Assert.assertEquals(-0.271956128, optimum.getPoint(), 1e-9);
+        Assert.assertEquals(-0.2719561295, optimum.getPoint(), 1e-9);
         Assert.assertEquals(-0.0443342695, optimum.getValue(), 1e-9);
 
         UnivariatePointValuePair[] optima = optimizer.getOptima();

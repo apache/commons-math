@@ -18,9 +18,11 @@ package org.apache.commons.math4.distribution;
 
 import org.apache.commons.math4.exception.NotStrictlyPositiveException;
 import org.apache.commons.math4.exception.util.LocalizedFormats;
-import org.apache.commons.rng.UniformRandomProvider;
 import org.apache.commons.math4.special.Gamma;
 import org.apache.commons.math4.util.FastMath;
+import org.apache.commons.rng.UniformRandomProvider;
+import org.apache.commons.rng.sampling.distribution.ContinuousSampler;
+import org.apache.commons.rng.sampling.distribution.AhrensDieterMarsagliaTsangGammaSampler;
 
 /**
  * Implementation of the Gamma distribution.
@@ -378,75 +380,15 @@ public class GammaDistribution extends AbstractRealDistribution {
     @Override
     public RealDistribution.Sampler createSampler(final UniformRandomProvider rng) {
         return new RealDistribution.Sampler() {
-            /** Gaussian sampling. */
-            private final RealDistribution.Sampler gaussian = new NormalDistribution().createSampler(rng);
+            private final ContinuousSampler sampler =
+                new AhrensDieterMarsagliaTsangGammaSampler(rng, scale, shape);
 
-            /** {@inheritDoc} */
+            /**{@inheritDoc} */
             @Override
             public double sample() {
-                if (shape < 1) {
-                    // [1]: p. 228, Algorithm GS
-
-                    while (true) {
-                        // Step 1:
-                        final double u = rng.nextDouble();
-                        final double bGS = 1 + shape / FastMath.E;
-                        final double p = bGS * u;
-
-                        if (p <= 1) {
-                            // Step 2:
-
-                            final double x = FastMath.pow(p, 1 / shape);
-                            final double u2 = rng.nextDouble();
-
-                            if (u2 > FastMath.exp(-x)) {
-                                // Reject
-                                continue;
-                            } else {
-                                return scale * x;
-                            }
-                        } else {
-                            // Step 3:
-
-                            final double x = -1 * FastMath.log((bGS - p) / shape);
-                            final double u2 = rng.nextDouble();
-
-                            if (u2 > FastMath.pow(x, shape - 1)) {
-                                // Reject
-                                continue;
-                            } else {
-                                return scale * x;
-                            }
-                        }
-                    }
-                }
-
-                // Now shape >= 1
-
-                final double d = shape - 0.333333333333333333;
-                final double c = 1 / (3 * FastMath.sqrt(d));
-
-                while (true) {
-                    final double x = gaussian.sample();
-                    final double v = (1 + c * x) * (1 + c * x) * (1 + c * x);
-
-                    if (v <= 0) {
-                        continue;
-                    }
-
-                    final double x2 = x * x;
-                    final double u = rng.nextDouble();
-
-                    // Squeeze
-                    if (u < 1 - 0.0331 * x2 * x2) {
-                        return scale * d * v;
-                    }
-
-                    if (FastMath.log(u) < 0.5 * x2 + d * (1 - v + FastMath.log(v))) {
-                        return scale * d * v;
-                    }
-                }
+                return sampler.sample();
             }
         };
+
     }
 }

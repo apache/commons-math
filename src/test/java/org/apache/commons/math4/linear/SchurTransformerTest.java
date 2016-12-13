@@ -25,7 +25,7 @@ import org.apache.commons.math4.linear.MatrixUtils;
 import org.apache.commons.math4.linear.NonSquareMatrixException;
 import org.apache.commons.math4.linear.RealMatrix;
 import org.apache.commons.math4.linear.SchurTransformer;
-import org.apache.commons.rng.RandomSource;
+import org.apache.commons.rng.simple.RandomSource;
 import org.junit.Test;
 import org.junit.Assert;
 

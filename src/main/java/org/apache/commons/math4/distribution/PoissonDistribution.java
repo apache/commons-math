@@ -19,10 +19,11 @@ package org.apache.commons.math4.distribution;
 import org.apache.commons.math4.exception.NotStrictlyPositiveException;
 import org.apache.commons.math4.exception.util.LocalizedFormats;
 import org.apache.commons.math4.special.Gamma;
-import org.apache.commons.math4.util.CombinatoricsUtils;
 import org.apache.commons.math4.util.FastMath;
 import org.apache.commons.math4.util.MathUtils;
 import org.apache.commons.rng.UniformRandomProvider;
+import org.apache.commons.rng.sampling.distribution.DiscreteSampler;
+import org.apache.commons.rng.sampling.distribution.PoissonSampler;
 
 /**
  * Implementation of the Poisson distribution.
@@ -248,108 +249,13 @@ public class PoissonDistribution extends AbstractIntegerDistribution {
     @Override
     public IntegerDistribution.Sampler createSampler(final UniformRandomProvider rng) {
         return new IntegerDistribution.Sampler() {
-            /** Exponential distribution. */
-            private final RealDistribution.Sampler exponentialSampler
-                = new ExponentialDistribution(1).createSampler(rng);
-            /** Gaussian distribution. */
-            private final RealDistribution.Sampler gaussianSampler
-                = new NormalDistribution().createSampler(rng);
+            private final DiscreteSampler sampler =
+                new PoissonSampler(rng, mean);
 
-            /** {@inheritDoc} */
+            /**{@inheritDoc} */
             @Override
             public int sample() {
-                return (int) FastMath.min(nextPoisson(mean),
-                                          Integer.MAX_VALUE);
-            }
-
-            /**
-             * @param meanPoisson Mean of the Poisson distribution.
-             * @return the next sample.
-             */
-            private long nextPoisson(double meanPoisson) {
-                final double pivot = 40.0d;
-                if (meanPoisson < pivot) {
-                    double p = FastMath.exp(-meanPoisson);
-                    long n = 0;
-                    double r = 1.0d;
-                    double rnd = 1.0d;
-
-                    while (n < 1000 * meanPoisson) {
-                        rnd = rng.nextDouble();
-                        r *= rnd;
-                        if (r >= p) {
-                            n++;
-                        } else {
-                            return n;
-                        }
-                    }
-                    return n;
-                } else {
-                    final double lambda = FastMath.floor(meanPoisson);
-                    final double lambdaFractional = meanPoisson - lambda;
-                    final double logLambda = FastMath.log(lambda);
-                    final double logLambdaFactorial = CombinatoricsUtils.factorialLog((int) lambda);
-                    final long y2 = lambdaFractional < Double.MIN_VALUE ? 0 : nextPoisson(lambdaFractional);
-                    final double delta = FastMath.sqrt(lambda * FastMath.log(32 * lambda / FastMath.PI + 1));
-                    final double halfDelta = delta / 2;
-                    final double twolpd = 2 * lambda + delta;
-                    final double a1 = FastMath.sqrt(FastMath.PI * twolpd) * FastMath.exp(1 / (8 * lambda));
-                    final double a2 = (twolpd / delta) * FastMath.exp(-delta * (1 + delta) / twolpd);
-                    final double aSum = a1 + a2 + 1;
-                    final double p1 = a1 / aSum;
-                    final double p2 = a2 / aSum;
-                    final double c1 = 1 / (8 * lambda);
-
-                    double x = 0;
-                    double y = 0;
-                    double v = 0;
-                    int a = 0;
-                    double t = 0;
-                    double qr = 0;
-                    double qa = 0;
-                    while (true) {
-                        final double u = rng.nextDouble();
-                        if (u <= p1) {
-                            final double n = gaussianSampler.sample();
-                            x = n * FastMath.sqrt(lambda + halfDelta) - 0.5d;
-                            if (x > delta || x < -lambda) {
-                                continue;
-                            }
-                            y = x < 0 ? FastMath.floor(x) : FastMath.ceil(x);
-                            final double e = exponentialSampler.sample();
-                            v = -e - (n * n / 2) + c1;
-                        } else {
-                            if (u > p1 + p2) {
-                                y = lambda;
-                                break;
-                            } else {
-                                x = delta + (twolpd / delta) * exponentialSampler.sample();
-                                y = FastMath.ceil(x);
-                                v = -exponentialSampler.sample() - delta * (x + 1) / twolpd;
-                            }
-                        }
-                        a = x < 0 ? 1 : 0;
-                        t = y * (y + 1) / (2 * lambda);
-                        if (v < -t && a == 0) {
-                            y = lambda + y;
-                            break;
-                        }
-                        qr = t * ((2 * y + 1) / (6 * lambda) - 1);
-                        qa = qr - (t * t) / (3 * (lambda + a * (y + 1)));
-                        if (v < qa) {
-                            y = lambda + y;
-                            break;
-                        }
-                        if (v > qr) {
-                            continue;
-                        }
-                        if (v < y * logLambda - CombinatoricsUtils.factorialLog((int) (y + lambda)) + logLambdaFactorial) {
-                            y = lambda + y;
-                            break;
-                        }
-                    }
-                    return y2 + (long) y;
-                }
+                return sampler.sample();
             }
         };
     }

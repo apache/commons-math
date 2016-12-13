@@ -20,6 +20,8 @@ package org.apache.commons.math4.distribution;
 import org.apache.commons.math4.exception.NumberIsTooLargeException;
 import org.apache.commons.math4.exception.util.LocalizedFormats;
 import org.apache.commons.rng.UniformRandomProvider;
+import org.apache.commons.rng.sampling.distribution.DiscreteSampler;
+import org.apache.commons.rng.sampling.distribution.DiscreteUniformSampler;
 
 /**
  * Implementation of the <a href="http://en.wikipedia.org/wiki/Uniform_distribution_(discrete)">
@@ -147,25 +149,13 @@ public class UniformIntegerDistribution extends AbstractIntegerDistribution {
     @Override
     public IntegerDistribution.Sampler createSampler(final UniformRandomProvider rng) {
         return new IntegerDistribution.Sampler() {
-            /** {@inheritDoc} */
+            private final DiscreteSampler sampler =
+                new DiscreteUniformSampler(rng, lower, upper);
+
+            /**{@inheritDoc} */
             @Override
             public int sample() {
-                final int max = (upper - lower) + 1;
-                if (max <= 0) {
-                    // The range is too wide to fit in a positive int (larger
-                    // than 2^31); as it covers more than half the integer range,
-                    // we use a simple rejection method.
-                    while (true) {
-                        final int r = rng.nextInt();
-                        if (r >= lower &&
-                            r <= upper) {
-                            return r;
-                        }
-                    }
-                } else {
-                    // We can shift the range and directly generate a positive int.
-                    return lower + rng.nextInt(max);
-                }
+                return sampler.sample();
             }
         };
     }

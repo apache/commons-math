@@ -23,7 +23,7 @@ import org.apache.commons.math4.ExtendedFieldElementAbstractTest;
 import org.apache.commons.math4.TestUtils;
 import org.apache.commons.math4.analysis.polynomials.PolynomialFunction;
 import org.apache.commons.rng.UniformRandomProvider;
-import org.apache.commons.rng.RandomSource;
+import org.apache.commons.rng.simple.RandomSource;
 import org.apache.commons.math4.util.FastMath;
 import org.junit.Assert;
 import org.junit.Test;

@@ -33,7 +33,7 @@ import org.apache.commons.math4.dfp.DfpField;
 import org.apache.commons.math4.dfp.DfpMath;
 import org.apache.commons.math4.exception.MathArithmeticException;
 import org.apache.commons.rng.UniformRandomProvider;
-import org.apache.commons.rng.RandomSource;
+import org.apache.commons.rng.simple.RandomSource;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Ignore;
