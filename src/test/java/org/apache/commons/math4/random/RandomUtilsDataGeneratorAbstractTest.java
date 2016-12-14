@@ -242,34 +242,34 @@ public abstract class RandomUtilsDataGeneratorAbstractTest {
     }
 
     @Test
-    public void testNextUniformUniformPositiveBounds() {
+    public void testNextUniformPositiveBounds() {
         for (int i = 0; i < 5; i++) {
-            checkNextUniformUniform(0, 10);
+            checkNextUniform(0, 10);
         }
     }
 
     @Test
-    public void testNextUniformUniformNegativeToPositiveBounds() {
+    public void testNextUniformNegativeToPositiveBounds() {
         for (int i = 0; i < 5; i++) {
-            checkNextUniformUniform(-3, 5);
+            checkNextUniform(-3, 5);
         }
     }
 
     @Test
-    public void testNextUniformUniformNegaiveBounds() {
+    public void testNextUniformNegativeBounds() {
         for (int i = 0; i < 5; i++) {
-            checkNextUniformUniform(-7, -3);
+            checkNextUniform(-7, -3);
         }
     }
 
     @Test
-    public void testNextUniformUniformMaximalInterval() {
+    public void testNextUniformMaximalInterval() {
         for (int i = 0; i < 5; i++) {
-            checkNextUniformUniform(-Double.MAX_VALUE, Double.MAX_VALUE);
+            checkNextUniform(-Double.MAX_VALUE, Double.MAX_VALUE);
         }
     }
 
-    private void checkNextUniformUniform(double min, double max) {
+    private void checkNextUniform(double min, double max) {
         // Set up bin bounds - min, binBound[0], ..., binBound[binCount-2], max
         final int binCount = 5;
         final double binSize = max / binCount - min/binCount; // Prevent overflow in extreme value case
