@@ -21,9 +21,9 @@ import java.util.regex.Matcher;
 import java.util.regex.MatchResult;
 import java.util.concurrent.Callable;
 
-import org.apache.commons.math4.util.MathArrays;
 import org.apache.commons.rng.UniformRandomProvider;
 import org.apache.commons.rng.simple.RandomSource;
+import org.apache.commons.rng.sampling.PermutationSampler;
 import org.apache.commons.math4.exception.MathIllegalStateException;
 import org.apache.commons.math4.exception.NumberIsTooLargeException;
 import org.apache.commons.math4.exception.util.LocalizedFormats;
@@ -124,11 +124,11 @@ public class PerfTestUtils {
 
         // Indices into the array containing the methods to benchmark.
         // The purpose is that at each repeat, the "methods" are called in a different order.
-        final int[] methodSequence = MathArrays.natural(numMethods);
+        final int[] methodSequence = PermutationSampler.natural(numMethods);
 
         try {
             for (int k = 0; k < repeatStat; k++) {
-                MathArrays.shuffle(methodSequence, rng);
+                PermutationSampler.shuffle(rng, methodSequence);
                 for (int n = 0; n < numMethods; n++) {
                     final int j = methodSequence[n]; // Index of the timed method.
 

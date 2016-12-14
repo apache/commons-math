@@ -20,6 +20,9 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.math.BigInteger;
 
+import org.apache.commons.rng.UniformRandomProvider;
+import org.apache.commons.rng.simple.RandomSource;
+import org.apache.commons.rng.sampling.PermutationSampler;
 import org.apache.commons.math4.exception.MathArithmeticException;
 import org.apache.commons.math4.exception.MathIllegalArgumentException;
 import org.junit.Assert;
@@ -124,8 +127,9 @@ public class ArithmeticUtilsTest {
     public void testGcdConsistency() {
         int[] primeList = {19, 23, 53, 67, 73, 79, 101, 103, 111, 131};
 
+        final UniformRandomProvider rng = RandomSource.create(RandomSource.WELL_19937_A);
         for (int i = 0; i < 20; i++) {
-            MathArrays.shuffle(primeList);
+            PermutationSampler.shuffle(rng, primeList);
             int p1 = primeList[0];
             int p2 = primeList[1];
             int p3 = primeList[2];
