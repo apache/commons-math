@@ -26,7 +26,7 @@ import javax.swing.JComponent;
 import javax.swing.JPanel;
 
 import org.apache.commons.rng.UniformRandomProvider;
-import org.apache.commons.rng.RandomSource;
+import org.apache.commons.rng.simple.RandomSource;
 
 import org.apache.commons.math4.filter.DefaultMeasurementModel;
 import org.apache.commons.math4.filter.DefaultProcessModel;
