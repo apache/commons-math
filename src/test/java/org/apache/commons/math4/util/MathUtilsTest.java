@@ -21,6 +21,7 @@ import org.apache.commons.math4.exception.NullArgumentException;
 import org.apache.commons.math4.exception.util.LocalizedFormats;
 import org.apache.commons.rng.UniformRandomProvider;
 import org.apache.commons.rng.simple.RandomSource;
+import org.apache.commons.rng.sampling.PermutationSampler;
 import org.junit.Assert;
 import org.junit.Test;
 
@@ -109,8 +110,8 @@ public final class MathUtilsTest {
         // Generate a random permutation, making sure it is not the identity
         boolean isIdentity = true;
         do {
-            int[] permutation = MathArrays.natural(10);
-            MathArrays.shuffle(permutation, random);
+            int[] permutation = PermutationSampler.natural(10);
+            PermutationSampler.shuffle(random, permutation);
             for (int i = 0; i < 10; i++) {
                 if (i != permutation[i]) {
                     isIdentity = false;
