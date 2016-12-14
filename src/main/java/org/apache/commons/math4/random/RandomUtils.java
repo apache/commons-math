@@ -30,7 +30,6 @@ import org.apache.commons.math4.exception.NotStrictlyPositiveException;
 import org.apache.commons.math4.exception.NumberIsTooLargeException;
 import org.apache.commons.math4.exception.util.LocalizedFormats;
 import org.apache.commons.rng.UniformRandomProvider;
-import org.apache.commons.math4.util.MathArrays;
 
 /**
  * Factory for creating generators of miscellaneous data.
@@ -402,91 +401,6 @@ public class RandomUtils {
             }
 
             return u * upper + (1.0 - u) * lower;
-        }
-
-        /**
-         * Generates an integer array of length {@code k} whose entries are selected
-         * randomly, without repetition, from the integers {@code 0, ..., n - 1}
-         * (inclusive).
-         * <p>
-         * Generated arrays represent permutations of {@code n} taken {@code k} at a
-         * time.
-         * </p>
-         * <p>
-         * This method calls {@link MathArrays#shuffle(int[],UniformRandomProvider)
-         * MathArrays.shuffle} in order to create a random shuffle of the set
-         * of natural numbers {@code { 0, 1, ..., n - 1 }}.
-         * </p>
-         *
-         * @param n Domain of the permutation.
-         * @param k Size of the permutation.
-         * @return a random {@code k}-permutation of {@code n}, as an array of
-         * integers.
-         * @throws NumberIsTooLargeException if {@code k > n}.
-         * @throws NotStrictlyPositiveException if {@code k <= 0}.
-         */
-        public int[] nextPermutation(int n,
-                                     int k)
-            throws NumberIsTooLargeException, NotStrictlyPositiveException {
-            if (k > n) {
-                throw new NumberIsTooLargeException(LocalizedFormats.PERMUTATION_EXCEEDS_N,
-                                                    k, n, true);
-            }
-            if (k <= 0) {
-                throw new NotStrictlyPositiveException(LocalizedFormats.PERMUTATION_SIZE,
-                                                       k);
-            }
-
-            final int[] index = MathArrays.natural(n);
-            MathArrays.shuffle(index, rng);
-
-            // Return a new array containing the first "k" entries of "index".
-            return MathArrays.copyOf(index, k);
-        }
-
-        /**
-         * Returns a list of {@code k} objects selected randomly from the
-         * given {@code collection}.
-         *
-         * <p>
-         * Sampling is without replacement; but if {@code collection} contains
-         * identical objects, the sample may include repeats.  If all elements
-         * are distinct, the resulting object array represents a
-         * <a href="http://rkb.home.cern.ch/rkb/AN16pp/node250.html#SECTION0002500000000000000000">
-         * Simple Random Sample</a> of size {@code k} from the elements of
-         * the {@code collection}.
-         * </p>
-         * <p>
-         * This method calls {@link #nextPermutation(int,int) nextPermutation(c.size(), k)}
-         * in order to sample the collection.
-         * </p>
-         *
-         * @param <T> Type of objects held in the {@code collection}.
-         * @param collection Collection to be sampled.
-         * @param k Size of the sample.
-         * @return a random sample of {@code k} elements from the {@code collection}.
-         * @throws NumberIsTooLargeException if {@code k > collection.size()}.
-         * @throws NotStrictlyPositiveException if {@code k <= 0}.
-         */
-        public <T> List<T> nextSample(Collection<T> collection,
-                                      int k) {
-            final int len = collection.size();
-            if (k > len) {
-                throw new NumberIsTooLargeException(LocalizedFormats.SAMPLE_SIZE_EXCEEDS_COLLECTION_SIZE,
-                                                    k, len, true);
-            }
-            if (k <= 0) {
-                throw new NotStrictlyPositiveException(LocalizedFormats.NUMBER_OF_SAMPLES, k);
-            }
-
-            final ArrayList<T> objects = new ArrayList<>(collection);
-            final int[] index = nextPermutation(len, k);
-            final List<T> result = new ArrayList<>(k);
-            for (int i = 0; i < k; i++) {
-                result.add(objects.get(index[i]));
-            }
-
-            return result;
         }
     }
 }
