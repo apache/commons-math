@@ -33,7 +33,7 @@ import javax.swing.JLabel;
 import javax.swing.JTextArea;
 
 import org.apache.commons.rng.UniformRandomProvider;
-import org.apache.commons.rng.RandomSource;
+import org.apache.commons.rng.simple.RandomSource;
 
 import org.apache.commons.math4.geometry.euclidean.twod.Vector2D;
 import org.apache.commons.math4.random.HaltonSequenceGenerator;

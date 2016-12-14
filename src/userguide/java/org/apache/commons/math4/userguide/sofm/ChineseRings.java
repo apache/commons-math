@@ -18,7 +18,7 @@
 package org.apache.commons.math4.userguide.sofm;
 
 import org.apache.commons.rng.UniformRandomProvider;
-import org.apache.commons.rng.RandomSource;
+import org.apache.commons.rng.simple.RandomSource;
 
 import org.apache.commons.math4.geometry.euclidean.threed.Vector3D;
 import org.apache.commons.math4.geometry.euclidean.threed.Rotation;

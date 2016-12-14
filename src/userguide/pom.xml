@@ -113,8 +113,8 @@
       </dependency>
       <dependency>
           <groupId>org.apache.commons</groupId>
-          <artifactId>commons-rng</artifactId>
-          <version>1.0-SNAPSHOT</version>
+          <artifactId>commons-rng-simple</artifactId>
+          <version>1.0</version>
       </dependency>
   </dependencies>
 </project>

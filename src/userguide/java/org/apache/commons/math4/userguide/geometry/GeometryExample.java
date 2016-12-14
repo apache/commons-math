@@ -32,7 +32,7 @@ import javax.swing.JPanel;
 import javax.swing.JSplitPane;
 
 import org.apache.commons.rng.UniformRandomProvider;
-import org.apache.commons.rng.RandomSource;
+import org.apache.commons.rng.simple.RandomSource;
 
 import org.apache.commons.math4.geometry.enclosing.Encloser;
 import org.apache.commons.math4.geometry.enclosing.EnclosingBall;

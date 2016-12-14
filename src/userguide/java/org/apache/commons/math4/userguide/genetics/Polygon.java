@@ -21,7 +21,7 @@ import java.awt.Graphics2D;
 import java.awt.geom.GeneralPath;
 
 import org.apache.commons.rng.UniformRandomProvider;
-import org.apache.commons.rng.RandomSource;
+import org.apache.commons.rng.simple.RandomSource;
 
 import org.apache.commons.math4.genetics.GeneticAlgorithm;
 import org.apache.commons.math4.util.FastMath;
