@@ -260,4 +260,13 @@ public final class PolynomialFunctionTest {
             Assert.assertEquals(0, coefficient, 1e-15);
         }
     }
+    
+    @Test
+    public void testNegate(){
+    	double[] c = {2, 3, 5};
+    	PolynomialFunction f = new PolynomialFunction(c);
+    	double[] result = {-2, -3, -5};
+    	PolynomialFunction res = new PolynomialFunction(result);
+    	Assert.assertEquals(res, f.negate());
+    }
 }
