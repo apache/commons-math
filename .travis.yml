@@ -3,6 +3,7 @@ sudo: false
 
 jdk:
   - openjdk7
+  - oraclejdk7
   - oraclejdk8
 
 # only build master and the MATH_3_X branch
