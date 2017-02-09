@@ -72,7 +72,7 @@ public class PiecewiseBicubicSplineInterpolatingFunction
         if (x == null ||
             y == null ||
             f == null ||
-            f[0] == null) {
+            (f.length > 0 && f[0] == null)) {
             throw new NullArgumentException();
         }
 
