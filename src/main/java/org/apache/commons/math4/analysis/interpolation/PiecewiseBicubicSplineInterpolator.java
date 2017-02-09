@@ -44,7 +44,7 @@ public class PiecewiseBicubicSplineInterpolator
         if ( xval == null ||
              yval == null ||
              fval == null ||
-             fval[0] == null ) {
+             (fval.length>0 && fval[0] == null) ) {
             throw new NullArgumentException();
         }
 
