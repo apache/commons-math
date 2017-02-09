@@ -241,6 +241,28 @@ public class BigFractionTest {
         Assert.assertEquals(5, large.floatValue(), 1e-15);
     }
 
+    // MATH-1402
+    @Test
+    public void testDoubleValueForLargeNumeratorAndSmallDenominator() {
+        final BigInteger pow300 = BigInteger.TEN.pow(300);
+        final BigInteger pow330 = BigInteger.TEN.pow(330);
+        final BigFraction large = new BigFraction(pow330.add(BigInteger.ONE),
+                                                  pow300);
+
+        Assert.assertEquals(1e30, large.doubleValue(), 1e-15);
+    }
+
+    // MATH-1402
+    @Test
+    public void testFloatValueForLargeNumeratorAndSmallDenominator() {
+        final BigInteger pow30 = BigInteger.TEN.pow(30);
+        final BigInteger pow40 = BigInteger.TEN.pow(40);
+        final BigFraction large = new BigFraction(pow40.add(BigInteger.ONE),
+                pow30);
+
+        Assert.assertEquals(1e10f, large.floatValue(), 1e-15);
+    }
+
     @Test
     public void testFloatValue() {
         BigFraction first = new BigFraction(1, 2);
