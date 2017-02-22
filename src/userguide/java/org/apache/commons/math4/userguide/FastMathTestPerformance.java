@@ -62,6 +62,7 @@ public class FastMathTestPerformance {
         testTanh();
         testIEEEremainder();
 
+        testSimpleBenchmark();
     }
 
     @SuppressWarnings("boxing")
