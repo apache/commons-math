@@ -237,4 +237,11 @@ public class RRQRDecompositionTest {
         RRQRDecomposition qr = new RRQRDecomposition(m);
         Assert.assertEquals(2, qr.getRank(0));
     }
+    @Test
+    public void testRank2() {
+        double[][] d = { { 1, 1, 1 }, { 2, 3, 4 }, { 1, 2, 3 } };
+        RealMatrix m = new Array2DRowRealMatrix(d);
+        RRQRDecomposition qr = new RRQRDecomposition(m);
+        Assert.assertEquals(2, qr.getRank(1e-14));
+    }
 }
