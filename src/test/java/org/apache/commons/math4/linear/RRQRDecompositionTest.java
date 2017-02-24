@@ -235,7 +235,6 @@ public class RRQRDecompositionTest {
         double[][] d = { { 1, 1, 1 }, { 0, 0, 0 }, { 1, 2, 3 } };
         RealMatrix m = new Array2DRowRealMatrix(d);
         RRQRDecomposition qr = new RRQRDecomposition(m);
-        Assert.assertEquals(2, qr.getRank(1.0e-16));
+        Assert.assertEquals(2, qr.getRank(0));
     }
-
 }
