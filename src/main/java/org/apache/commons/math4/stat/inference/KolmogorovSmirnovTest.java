@@ -24,7 +24,6 @@ import java.util.HashSet;
 import org.apache.commons.math4.distribution.EnumeratedRealDistribution;
 import org.apache.commons.math4.distribution.RealDistribution;
 import org.apache.commons.math4.distribution.AbstractRealDistribution;
-import org.apache.commons.math4.distribution.UniformRealDistribution;
 import org.apache.commons.math4.exception.InsufficientDataException;
 import org.apache.commons.math4.exception.MathArithmeticException;
 import org.apache.commons.math4.exception.MathInternalError;
@@ -1155,22 +1154,23 @@ public class KolmogorovSmirnovTest {
        minDelta /= 2;
 
        // Add jitter using a fixed seed (so same arguments always give same results),
-       // low-initialization-overhead generator
-       final RealDistribution.Sampler sampler =
-           new UniformRealDistribution(-minDelta, minDelta).createSampler(RandomSource.create(RandomSource.JDK, 100));
+       // low-initialization-overhead generator.
+       final UniformRandomProvider rng = RandomSource.create(RandomSource.TWO_CMRES, 654321);
 
        // It is theoretically possible that jitter does not break ties, so repeat
        // until all ties are gone.  Bound the loop and throw MIE if bound is exceeded.
        int ct = 0;
        boolean ties = true;
        do {
-           jitter(x, sampler);
-           jitter(y, sampler);
+           jitter(x, rng, minDelta);
+           jitter(y, rng, minDelta);
            ties = hasTies(x, y);
            ct++;
+           // If jittering hasn't resolved ties, "minDelta" may be too small.
+           minDelta *= 2;
        } while (ties && ct < 1000);
        if (ties) {
-           throw new MathInternalError(); // Should never happen
+           throw new MathInternalError(); // Should never happen.
        }
     }
 
@@ -1207,9 +1207,9 @@ public class KolmogorovSmirnovTest {
      * @param sampler probability distribution to sample for jitter values
      * @throws NullPointerException if either of the parameters is null
      */
-    private static void jitter(double[] data, RealDistribution.Sampler sampler) {
+    private static void jitter(final double[] data, final UniformRandomProvider rng, final double delta) {
         for (int i = 0; i < data.length; i++) {
-            final double d = sampler.sample();
+            final double d = delta * (2 * rng.nextDouble() - 1);
             data[i] += d;
         }
     }
