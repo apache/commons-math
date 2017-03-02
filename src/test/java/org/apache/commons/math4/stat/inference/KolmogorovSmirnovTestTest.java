@@ -436,24 +436,28 @@ public class KolmogorovSmirnovTestTest {
         Assert.assertEquals(0.9792777290, test.kolmogorovSmirnovTest(x, y), 1e-6);
 
     }
-    
+
     @Test
     public void testTwoSampleWithManyTiesAndVerySmallDelta() {
-        // MATH-1405
+        // Cf. MATH-1405
         final double[] x = {
-                0.000000, 0.000000, 1.000000,
-                1.000000, 1.500000, 1.600000,
-                1.700000, 1.800000, 1.900000, 2.000000, 2.000000000000001 };
-        
+            0.000000, 0.000000, 1.000000,
+            1.000000, 1.500000, 1.600000,
+            1.700000, 1.800000, 1.900000, 2.000000, 2.000000000000001
+        };
+
         final double[] y = {
-                0.000000, 0.000000, 10.000000,
-                10.000000, 11.000000, 11.000000,
-                11.000000, 15.000000, 16.000000,
-                17.000000, 18.000000, 19.000000, 20.000000, 20.000000000000001 };
-        
-        // these values result in an initial calculated minDelta of 4.440892098500626E-16,
-        // which is too small to jitter the existing values to new ones bc of floating-point precision
-        // MATH-1405 added functionality to iteratively increase minDelta until a noticeable jitter occurs
+            0.000000, 0.000000, 10.000000,
+            10.000000, 11.000000, 11.000000,
+            11.000000, 15.000000, 16.000000,
+            17.000000, 18.000000, 19.000000, 20.000000, 20.000000000000001
+        };
+
+        // These values result in an initial calculated minDelta of 4.440892098500626E-16,
+        // which is too small to jitter the existing values to new ones bc of floating-point
+        // precision.
+        // MATH-1405 adds functionality to iteratively increase minDelta until a noticeable
+        // jitter occurs.
 
         final KolmogorovSmirnovTest test = new KolmogorovSmirnovTest();
         Assert.assertEquals(1.12173015e-5, test.kolmogorovSmirnovTest(x, y), 1e-6);
