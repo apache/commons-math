@@ -1154,7 +1154,7 @@ public class KolmogorovSmirnovTest {
        minDelta /= 2;
 
        // Add jitter using a fixed seed (so same arguments always give same results),
-       // low-initialization-overhead generator
+       // low-initialization-overhead generator.
        UniformRandomProvider rng = RandomSource.create(RandomSource.JDK, 100);
 
        // It is theoretically possible that jitter does not break ties, so repeat
@@ -1166,10 +1166,11 @@ public class KolmogorovSmirnovTest {
            jitter(y, rng, minDelta);
            ties = hasTies(x, y);
            ct++;
-           minDelta *= 2; // if jittering hasn't resolved ties, minDelta may be too small, so double it for next iteration
+           // If jittering hasn't resolved ties, "minDelta" may be too small.
+           minDelta *= 2;
        } while (ties && ct < 1000);
        if (ties) {
-           throw new MathInternalError(); // Should never happen
+           throw new MathInternalError(); // Should never happen.
        }
     }
 
