@@ -122,7 +122,7 @@ public class Sigmoid implements UnivariateDifferentiableFunction, Differentiable
                    DimensionMismatchException {
             validateParameters(param);
 
-            final double invExp1 = 1 / (1 + FastMath.exp(-x));
+            final double invExp1 = 1 / (1 + Math.exp(-x));
 
             return new double[] { 1 - invExp1, invExp1 };
         }
@@ -158,7 +158,7 @@ public class Sigmoid implements UnivariateDifferentiableFunction, Differentiable
     private static double value(double x,
                                 double lo,
                                 double hi) {
-        return lo + (hi - lo) / (1 + FastMath.exp(-x));
+        return lo + (hi - lo) / (1 + Math.exp(-x));
     }
 
     /** {@inheritDoc}
@@ -168,7 +168,7 @@ public class Sigmoid implements UnivariateDifferentiableFunction, Differentiable
         throws DimensionMismatchException {
 
         double[] f = new double[t.getOrder() + 1];
-        final double exp = FastMath.exp(-t.getValue());
+        final double exp = Math.exp(-t.getValue());
         if (Double.isInfinite(exp)) {
 
             // special handling near lower boundary, to avoid NaN

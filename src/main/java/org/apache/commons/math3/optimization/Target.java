@@ -17,6 +17,8 @@
 
 package org.apache.commons.math3.optimization;
 
+import org.apache.commons.math3.util.Cloner;
+
 /**
  * Target of the optimization procedure.
  * They are the values which the objective vector function must reproduce
@@ -36,7 +38,7 @@ public class Target implements OptimizationData {
      * @param observations Target values.
      */
     public Target(double[] observations) {
-        target = observations.clone();
+		target = Cloner.clone(observations);
     }
 
     /**
@@ -45,6 +47,6 @@ public class Target implements OptimizationData {
      * @return the initial guess.
      */
     public double[] getTarget() {
-        return target.clone();
+		return Cloner.clone(target);
     }
 }

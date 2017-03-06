@@ -24,7 +24,6 @@ import org.apache.commons.math3.exception.NumberIsTooLargeException;
 import org.apache.commons.math3.exception.OutOfRangeException;
 import org.apache.commons.math3.exception.util.LocalizedFormats;
 import org.apache.commons.math3.random.RandomGenerator;
-import org.apache.commons.math3.util.FastMath;
 
 /**
  * Base class for integer-valued discrete distributions.  Default
@@ -122,19 +121,19 @@ public abstract class AbstractIntegerDistribution implements IntegerDistribution
         // use the one-sided Chebyshev inequality to narrow the bracket
         // cf. AbstractRealDistribution.inverseCumulativeProbability(double)
         final double mu = getNumericalMean();
-        final double sigma = FastMath.sqrt(getNumericalVariance());
+        final double sigma = Math.sqrt(getNumericalVariance());
         final boolean chebyshevApplies = !(Double.isInfinite(mu) || Double.isNaN(mu) ||
                 Double.isInfinite(sigma) || Double.isNaN(sigma) || sigma == 0.0);
         if (chebyshevApplies) {
-            double k = FastMath.sqrt((1.0 - p) / p);
+            double k = Math.sqrt((1.0 - p) / p);
             double tmp = mu - k * sigma;
             if (tmp > lower) {
-                lower = ((int) FastMath.ceil(tmp)) - 1;
+                lower = ((int) Math.ceil(tmp)) - 1;
             }
             k = 1.0 / k;
             tmp = mu + k * sigma;
             if (tmp < upper) {
-                upper = ((int) FastMath.ceil(tmp)) - 1;
+                upper = ((int) Math.ceil(tmp)) - 1;
             }
         }
 
@@ -176,10 +175,10 @@ public abstract class AbstractIntegerDistribution implements IntegerDistribution
     }
 
     /** {@inheritDoc} */
-    public void reseedRandomGenerator(long seed) {
-        random.setSeed(seed);
-        randomData.reSeed(seed);
-    }
+	public void reseedRandomGenerator(long seed) {
+		random.setSeed(seed);
+		randomData.reSeed(seed);
+	}
 
     /**
      * {@inheritDoc}
@@ -248,6 +247,6 @@ public abstract class AbstractIntegerDistribution implements IntegerDistribution
      * @return the logarithm of the value of the probability mass function at {@code x}
      */
     public double logProbability(int x) {
-        return FastMath.log(probability(x));
+        return Math.log(probability(x));
     }
 }

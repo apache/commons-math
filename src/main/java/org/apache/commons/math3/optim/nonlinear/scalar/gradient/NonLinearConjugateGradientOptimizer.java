@@ -19,24 +19,23 @@ package org.apache.commons.math3.optim.nonlinear.scalar.gradient;
 
 import org.apache.commons.math3.analysis.solvers.UnivariateSolver;
 import org.apache.commons.math3.exception.MathInternalError;
-import org.apache.commons.math3.exception.TooManyEvaluationsException;
 import org.apache.commons.math3.exception.MathUnsupportedOperationException;
+import org.apache.commons.math3.exception.TooManyEvaluationsException;
 import org.apache.commons.math3.exception.util.LocalizedFormats;
+import org.apache.commons.math3.optim.ConvergenceChecker;
 import org.apache.commons.math3.optim.OptimizationData;
 import org.apache.commons.math3.optim.PointValuePair;
-import org.apache.commons.math3.optim.ConvergenceChecker;
 import org.apache.commons.math3.optim.nonlinear.scalar.GoalType;
 import org.apache.commons.math3.optim.nonlinear.scalar.GradientMultivariateOptimizer;
 import org.apache.commons.math3.optim.nonlinear.scalar.LineSearch;
+import org.apache.commons.math3.util.Cloner;
 
 
 /**
- * Non-linear conjugate gradient optimizer.
- * <br/>
- * This class supports both the Fletcher-Reeves and the Polak-Ribière
- * update formulas for the conjugate search directions.
- * It also supports optional preconditioning.
- * <br/>
+ * Non-linear conjugate gradient optimizer. <br/>
+ * This class supports both the Fletcher-Reeves and the Polak-Ribiere update
+ * formulas for the conjugate search directions. It also supports optional
+ * preconditioning. <br/>
  * Constraints are not supported: the call to
  * {@link #optimize(OptimizationData[]) optimize} will throw
  * {@link MathUnsupportedOperationException} if bounds are passed to it.
@@ -53,27 +52,26 @@ public class NonLinearConjugateGradientOptimizer
     private final LineSearch line;
 
     /**
-     * Available choices of update formulas for the updating the parameter
-     * that is used to compute the successive conjugate search directions.
-     * For non-linear conjugate gradients, there are
-     * two formulas:
-     * <ul>
-     *   <li>Fletcher-Reeves formula</li>
-     *   <li>Polak-Ribière formula</li>
-     * </ul>
-     *
-     * On the one hand, the Fletcher-Reeves formula is guaranteed to converge
-     * if the start point is close enough of the optimum whether the
-     * Polak-Ribière formula may not converge in rare cases. On the
-     * other hand, the Polak-Ribière formula is often faster when it
-     * does converge. Polak-Ribière is often used.
-     *
-     * @since 2.0
-     */
+	 * Available choices of update formulas for the updating the parameter that
+	 * is used to compute the successive conjugate search directions. For
+	 * non-linear conjugate gradients, there are two formulas:
+	 * <ul>
+	 * <li>Fletcher-Reeves formula</li>
+	 * <li>Polak-Ribiere formula</li>
+	 * </ul>
+	 *
+	 * On the one hand, the Fletcher-Reeves formula is guaranteed to converge if
+	 * the start point is close enough of the optimum whether the Polak-Ribiere
+	 * formula may not converge in rare cases. On the other hand, the
+	 * Polak-Ribiwre formula is often faster when it does converge.
+	 * Polak-Ribiere is often used.
+	 *
+	 * @since 2.0
+	 */
     public enum Formula {
         /** Fletcher-Reeves formula. */
         FLETCHER_REEVES,
-        /** Polak-Ribière formula. */
+		/** Polak-Ribiere formula. */
         POLAK_RIBIERE
     }
 
@@ -260,7 +258,7 @@ public class NonLinearConjugateGradientOptimizer
 
         // Initial search direction.
         double[] steepestDescent = preconditioner.precondition(point, r);
-        double[] searchDirection = steepestDescent.clone();
+		double[] searchDirection = Cloner.clone(steepestDescent);
 
         double delta = 0;
         for (int i = 0; i < n; ++i) {
@@ -323,7 +321,7 @@ public class NonLinearConjugateGradientOptimizer
             if (getIterations() % n == 0 ||
                 beta < 0) {
                 // Break conjugation: reset search direction.
-                searchDirection = steepestDescent.clone();
+				searchDirection = Cloner.clone(steepestDescent);
             } else {
                 // Compute new conjugate search direction.
                 for (int i = 0; i < n; ++i) {
@@ -348,7 +346,7 @@ public class NonLinearConjugateGradientOptimizer
     public static class IdentityPreconditioner implements Preconditioner {
         /** {@inheritDoc} */
         public double[] precondition(double[] variables, double[] r) {
-            return r.clone();
+			return Cloner.clone(r);
         }
     }
 

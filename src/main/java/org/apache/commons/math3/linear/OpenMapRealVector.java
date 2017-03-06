@@ -23,7 +23,6 @@ import org.apache.commons.math3.exception.MathArithmeticException;
 import org.apache.commons.math3.exception.NotPositiveException;
 import org.apache.commons.math3.exception.OutOfRangeException;
 import org.apache.commons.math3.exception.util.LocalizedFormats;
-import org.apache.commons.math3.util.FastMath;
 import org.apache.commons.math3.util.OpenIntToDoubleHashMap;
 import org.apache.commons.math3.util.OpenIntToDoubleHashMap.Iterator;
 
@@ -226,7 +225,7 @@ public class OpenMapRealVector extends SparseRealVector
      * @since 2.1
      */
     protected boolean isDefaultValue(double value) {
-        return FastMath.abs(value) < epsilon;
+        return Math.abs(value) < epsilon;
     }
 
     /** {@inheritDoc} */
@@ -425,7 +424,7 @@ public class OpenMapRealVector extends SparseRealVector
                 res += value * value;
             }
         }
-        return FastMath.sqrt(res);
+        return Math.sqrt(res);
     }
 
     /** {@inheritDoc} */
@@ -463,7 +462,7 @@ public class OpenMapRealVector extends SparseRealVector
         Iterator iter = entries.iterator();
         while (iter.hasNext()) {
             iter.advance();
-            double delta = FastMath.abs(iter.value() - v.getEntry(iter.key()));
+            double delta = Math.abs(iter.value() - v.getEntry(iter.key()));
             max += delta;
         }
         iter = v.getEntries().iterator();
@@ -471,8 +470,8 @@ public class OpenMapRealVector extends SparseRealVector
             iter.advance();
             int key = iter.key();
             if (!entries.containsKey(key)) {
-                double delta = FastMath.abs(iter.value());
-                max +=  FastMath.abs(delta);
+                double delta = Math.abs(iter.value());
+                max +=  Math.abs(delta);
             }
         }
         return max;
@@ -504,7 +503,7 @@ public class OpenMapRealVector extends SparseRealVector
         Iterator iter = entries.iterator();
         while (iter.hasNext()) {
             iter.advance();
-            double delta = FastMath.abs(iter.value() - v.getEntry(iter.key()));
+            double delta = Math.abs(iter.value() - v.getEntry(iter.key()));
             if (delta > max) {
                 max = delta;
             }

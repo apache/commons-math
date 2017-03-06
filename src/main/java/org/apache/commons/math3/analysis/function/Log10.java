@@ -33,7 +33,7 @@ public class Log10 implements UnivariateDifferentiableFunction, DifferentiableUn
 
     /** {@inheritDoc} */
     public double value(double x) {
-        return FastMath.log10(x);
+        return Math.log10(x);
     }
 
     /** {@inheritDoc}

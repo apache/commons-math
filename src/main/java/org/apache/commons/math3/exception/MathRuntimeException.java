@@ -16,9 +16,9 @@
  */
 package org.apache.commons.math3.exception;
 
-import org.apache.commons.math3.exception.util.Localizable;
 import org.apache.commons.math3.exception.util.ExceptionContext;
 import org.apache.commons.math3.exception.util.ExceptionContextProvider;
+import org.apache.commons.math3.exception.util.Localizable;
 
 /**
  * As of release 4.0, all exceptions thrown by the Commons Math code (except
@@ -46,7 +46,11 @@ public class MathRuntimeException extends RuntimeException
         context.addMessage(pattern, args);
     }
 
-    /** {@inheritDoc} */
+	public MathRuntimeException() {
+		context = new ExceptionContext(this);
+	}
+
+	/** {@inheritDoc} */
     public ExceptionContext getContext() {
         return context;
     }
@@ -62,4 +66,18 @@ public class MathRuntimeException extends RuntimeException
     public String getLocalizedMessage() {
         return context.getLocalizedMessage();
     }
+
+	public static IllegalArgumentException createIllegalArgumentException(
+			String string) {
+		// TODO Auto-generated method stub
+		return new IllegalArgumentException(string);
+	}
+
+	public static IllegalArgumentException createIllegalArgumentException(
+			String string,
+			int size) {
+		// TODO Auto-generated method stub
+		return new IllegalArgumentException(string);
+
+	}
 }

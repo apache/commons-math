@@ -121,7 +121,7 @@ public class Skewness extends AbstractStorelessUnivariateStatistic implements Se
         } else {
             double n0 = moment.getN();
             return  (n0 * moment.m3) /
-            ((n0 - 1) * (n0 -2) * FastMath.sqrt(variance) * variance);
+            ((n0 - 1) * (n0 -2) * Math.sqrt(variance) * variance);
         }
     }
 
@@ -187,7 +187,7 @@ public class Skewness extends AbstractStorelessUnivariateStatistic implements Se
                 final double d = values[i] - m;
                 accum3 += d * d * d;
             }
-            accum3 /= variance * FastMath.sqrt(variance);
+            accum3 /= variance * Math.sqrt(variance);
 
             // Get N
             double n0 = length;

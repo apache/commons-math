@@ -17,7 +17,6 @@
 
 package org.apache.commons.math3.optim;
 
-import org.apache.commons.math3.util.FastMath;
 import org.apache.commons.math3.exception.NotStrictlyPositiveException;
 
 /**
@@ -122,8 +121,8 @@ public class SimpleVectorValueChecker
         for (int i = 0; i < p.length; ++i) {
             final double pi         = p[i];
             final double ci         = c[i];
-            final double difference = FastMath.abs(pi - ci);
-            final double size       = FastMath.max(FastMath.abs(pi), FastMath.abs(ci));
+            final double difference = Math.abs(pi - ci);
+            final double size       = Math.max(Math.abs(pi), Math.abs(ci));
             if (difference > size * getRelativeThreshold() &&
                 difference > getAbsoluteThreshold()) {
                 return false;

@@ -18,7 +18,6 @@
 package org.apache.commons.math3.linear;
 
 import org.apache.commons.math3.exception.DimensionMismatchException;
-import org.apache.commons.math3.util.FastMath;
 
 
 /**
@@ -123,8 +122,8 @@ public class CholeskyDecomposition {
                 final double lIJ = lI[j];
                 final double lJI = lJ[i];
                 final double maxDelta =
-                    relativeSymmetryThreshold * FastMath.max(FastMath.abs(lIJ), FastMath.abs(lJI));
-                if (FastMath.abs(lIJ - lJI) > maxDelta) {
+                    relativeSymmetryThreshold * Math.max(Math.abs(lIJ), Math.abs(lJI));
+                if (Math.abs(lIJ - lJI) > maxDelta) {
                     throw new NonSymmetricMatrixException(i, j, relativeSymmetryThreshold);
                 }
                 lJ[i] = 0;
@@ -141,7 +140,7 @@ public class CholeskyDecomposition {
                 throw new NonPositiveDefiniteMatrixException(ltI[i], i, absolutePositivityThreshold);
             }
 
-            ltI[i] = FastMath.sqrt(ltI[i]);
+            ltI[i] = Math.sqrt(ltI[i]);
             final double inverse = 1.0 / ltI[i];
 
             for (int q = order - 1; q > i; --q) {

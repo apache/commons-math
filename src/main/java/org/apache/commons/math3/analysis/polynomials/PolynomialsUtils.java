@@ -332,7 +332,7 @@ public class PolynomialsUtils {
 
         // First polynomial coefficient.
         for (int i = 0; i < dp1; i++){
-            newCoefficients[0] += coefficients[i] * FastMath.pow(shift, i);
+            newCoefficients[0] += coefficients[i] * Math.pow(shift, i);
         }
 
         // Superior order.
@@ -340,7 +340,7 @@ public class PolynomialsUtils {
         for (int i = 0; i < d; i++) {
             for (int j = i; j < d; j++){
                 newCoefficients[i + 1] += coeff[j + 1][j - i] *
-                    coefficients[j + 1] * FastMath.pow(shift, j - i);
+                    coefficients[j + 1] * Math.pow(shift, j - i);
             }
         }
 
@@ -358,7 +358,7 @@ public class PolynomialsUtils {
                                                       final List<BigFraction> coefficients,
                                                       final RecurrenceCoefficientsGenerator generator) {
         synchronized (coefficients) {
-            final int maxDegree = (int) FastMath.floor(FastMath.sqrt(2 * coefficients.size())) - 1;
+            final int maxDegree = (int) Math.floor(Math.sqrt(2 * coefficients.size())) - 1;
             if (degree > maxDegree) {
                 computeUpToDegree(degree, maxDegree, generator, coefficients);
             }

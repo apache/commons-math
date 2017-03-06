@@ -350,7 +350,7 @@ public class NaturalRanking implements RankingAlgorithm {
                 break;
             case RANDOM:    // Fill with random integral values in [c, c + length - 1]
                 Iterator<Integer> iterator = tiesTrace.iterator();
-                long f = FastMath.round(c);
+                long f = Math.round(c);
                 while (iterator.hasNext()) {
                     // No advertised exception because args are guaranteed valid
                     ranks[iterator.next()] =
@@ -360,7 +360,7 @@ public class NaturalRanking implements RankingAlgorithm {
             case SEQUENTIAL:  // Fill sequentially from c to c + length - 1
                 // walk and fill
                 iterator = tiesTrace.iterator();
-                f = FastMath.round(c);
+                f = Math.round(c);
                 int i = 0;
                 while (iterator.hasNext()) {
                     ranks[iterator.next()] = f + i++;

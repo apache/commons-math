@@ -82,7 +82,7 @@ public class NewtonRaphsonSolver extends AbstractUnivariateDifferentiableSolver 
         while (true) {
             final DerivativeStructure y0 = computeObjectiveValueAndDerivative(x0);
             x1 = x0 - (y0.getValue() / y0.getPartialDerivative(1));
-            if (FastMath.abs(x1 - x0) <= absoluteAccuracy) {
+            if (Math.abs(x1 - x0) <= absoluteAccuracy) {
                 return x1;
             }
 

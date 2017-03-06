@@ -111,11 +111,11 @@ public class UnivariateSolverUtils {
         }
 
         // find a very small interval bracketing the root
-        final double step = FastMath.max(bracketing.getAbsoluteAccuracy(),
-                                         FastMath.abs(baseRoot * bracketing.getRelativeAccuracy()));
-        double xLo        = FastMath.max(min, baseRoot - step);
+        final double step = Math.max(bracketing.getAbsoluteAccuracy(),
+                                         Math.abs(baseRoot * bracketing.getRelativeAccuracy()));
+        double xLo        = Math.max(min, baseRoot - step);
         double fLo        = f.value(xLo);
-        double xHi        = FastMath.min(max, baseRoot + step);
+        double xHi        = Math.min(max, baseRoot + step);
         double fHi        = f.value(xHi);
         int remainingEval = maxEval - 2;
         while (remainingEval > 0) {
@@ -150,14 +150,14 @@ public class UnivariateSolverUtils {
 
             // update the lower bound
             if (changeLo) {
-                xLo = FastMath.max(min, xLo - step);
+                xLo = Math.max(min, xLo - step);
                 fLo  = f.value(xLo);
                 remainingEval--;
             }
 
             // update the higher bound
             if (changeHi) {
-                xHi = FastMath.min(max, xHi + step);
+                xHi = Math.min(max, xHi + step);
                 fHi  = f.value(xHi);
                 remainingEval--;
             }
@@ -325,8 +325,8 @@ public class UnivariateSolverUtils {
             final double previousFb = fb;
 
             delta = r * delta + q;
-            a     = FastMath.max(initial - delta, lowerBound);
-            b     = FastMath.min(initial + delta, upperBound);
+            a     = Math.max(initial - delta, lowerBound);
+            b     = Math.min(initial + delta, upperBound);
             fa    = function.value(a);
             fb    = function.value(b);
 

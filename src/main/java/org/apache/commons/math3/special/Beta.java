@@ -19,7 +19,6 @@ package org.apache.commons.math3.special;
 import org.apache.commons.math3.exception.NumberIsTooSmallException;
 import org.apache.commons.math3.exception.OutOfRangeException;
 import org.apache.commons.math3.util.ContinuedFraction;
-import org.apache.commons.math3.util.FastMath;
 
 /**
  * <p>
@@ -54,24 +53,24 @@ public class Beta {
     /** Maximum allowed numerical error. */
     private static final double DEFAULT_EPSILON = 1E-14;
 
-    /** The constant value of ½log 2π. */
+	/** The constant value of 1/2 log(2pi). */
     private static final double HALF_LOG_TWO_PI = .9189385332046727;
 
     /**
      * <p>
-     * The coefficients of the series expansion of the Δ function. This function
+     * The coefficients of the series expansion of the ? function. This function
      * is defined as follows
      * </p>
-     * <center>Δ(x) = log Γ(x) - (x - 0.5) log a + a - 0.5 log 2π,</center>
+     * <center>?(x) = log ?(x) - (x - 0.5) log a + a - 0.5 log 2?,</center>
      * <p>
      * see equation (23) in Didonato and Morris (1992). The series expansion,
-     * which applies for x ≥ 10, reads
+     * which applies for x ? 10, reads
      * </p>
      * <pre>
      *                 14
      *                ====
      *             1  \                2 n
-     *     Δ(x) = ---  >    d  (10 / x)
+     *     ?(x) = ---  >    d  (10 / x)
      *             x  /      n
      *                ====
      *                n = 0
@@ -220,8 +219,8 @@ public class Beta {
                     return 1.0;
                 }
             };
-            ret = FastMath.exp((a * FastMath.log(x)) + (b * FastMath.log1p(-x)) -
-                FastMath.log(a) - logBeta(a, b)) *
+            ret = Math.exp((a * Math.log(x)) + (b * Math.log1p(-x)) -
+                Math.log(a) - logBeta(a, b)) *
                 1.0 / fraction.evaluate(x, epsilon, maxIterations);
         }
 
@@ -257,7 +256,7 @@ public class Beta {
 
 
     /**
-     * Returns the value of log Γ(a + b) for 1 ≤ a, b ≤ 2. Based on the
+     * Returns the value of log ?(a + b) for 1 ? a, b ? 2. Based on the
      * <em>NSWC Library of Mathematics Subroutines</em> double precision
      * implementation, {@code DGSMLN}. In {@code BetaTest.testLogGammaSum()},
      * this private method is accessed through reflection.
@@ -282,14 +281,14 @@ public class Beta {
         if (x <= 0.5) {
             return Gamma.logGamma1p(1.0 + x);
         } else if (x <= 1.5) {
-            return Gamma.logGamma1p(x) + FastMath.log1p(x);
+            return Gamma.logGamma1p(x) + Math.log1p(x);
         } else {
-            return Gamma.logGamma1p(x - 1.0) + FastMath.log(x * (1.0 + x));
+            return Gamma.logGamma1p(x - 1.0) + Math.log(x * (1.0 + x));
         }
     }
 
     /**
-     * Returns the value of log[Γ(b) / Γ(a + b)] for a ≥ 0 and b ≥ 10. Based on
+     * Returns the value of log[?(b) / ?(a + b)] for a ? 0 and b ? 10. Based on
      * the <em>NSWC Library of Mathematics Subroutines</em> double precision
      * implementation, {@code DLGDIV}. In
      * {@code BetaTest.testLogGammaMinusLogGammaSum()}, this private method is
@@ -324,14 +323,14 @@ public class Beta {
             w = deltaMinusDeltaSum(b, a);
         }
 
-        final double u = d * FastMath.log1p(a / b);
-        final double v = a * (FastMath.log(b) - 1.0);
+        final double u = d * Math.log1p(a / b);
+        final double v = a * (Math.log(b) - 1.0);
 
         return u <= v ? (w - u) - v : (w - v) - u;
     }
 
     /**
-     * Returns the value of Δ(b) - Δ(a + b), with 0 ≤ a ≤ b and b ≥ 10. Based
+     * Returns the value of ?(b) - ?(a + b), with 0 ? a ? b and b ? 10. Based
      * on equations (26), (27) and (28) in Didonato and Morris (1992).
      *
      * @param a First argument.
@@ -376,7 +375,7 @@ public class Beta {
     }
 
     /**
-     * Returns the value of Δ(p) + Δ(q) - Δ(p + q), with p, q ≥ 10. Based on
+     * Returns the value of ?(p) + ?(q) - ?(p + q), with p, q ? 10. Based on
      * the <em>NSWC Library of Mathematics Subroutines</em> double precision
      * implementation, {@code DBCORR}. In
      * {@code BetaTest.testSumDeltaMinusDeltaSum()}, this private method is
@@ -397,8 +396,8 @@ public class Beta {
             throw new NumberIsTooSmallException(q, 10.0, true);
         }
 
-        final double a = FastMath.min(p, q);
-        final double b = FastMath.max(p, q);
+        final double a = Math.min(p, q);
+        final double b = Math.max(p, q);
         final double sqrtT = 10.0 / a;
         final double t = sqrtT * sqrtT;
         double z = DELTA[DELTA.length - 1];
@@ -409,7 +408,7 @@ public class Beta {
     }
 
     /**
-     * Returns the value of log B(p, q) for 0 ≤ x ≤ 1 and p, q > 0. Based on the
+     * Returns the value of log B(p, q) for 0 ? x ? 1 and p, q > 0. Based on the
      * <em>NSWC Library of Mathematics Subroutines</em> implementation,
      * {@code DBETLN}.
      *
@@ -423,29 +422,29 @@ public class Beta {
             return Double.NaN;
         }
 
-        final double a = FastMath.min(p, q);
-        final double b = FastMath.max(p, q);
+        final double a = Math.min(p, q);
+        final double b = Math.max(p, q);
         if (a >= 10.0) {
             final double w = sumDeltaMinusDeltaSum(a, b);
             final double h = a / b;
             final double c = h / (1.0 + h);
-            final double u = -(a - 0.5) * FastMath.log(c);
-            final double v = b * FastMath.log1p(h);
+            final double u = -(a - 0.5) * Math.log(c);
+            final double v = b * Math.log1p(h);
             if (u <= v) {
-                return (((-0.5 * FastMath.log(b) + HALF_LOG_TWO_PI) + w) - u) - v;
+                return (((-0.5 * Math.log(b) + HALF_LOG_TWO_PI) + w) - u) - v;
             } else {
-                return (((-0.5 * FastMath.log(b) + HALF_LOG_TWO_PI) + w) - v) - u;
+                return (((-0.5 * Math.log(b) + HALF_LOG_TWO_PI) + w) - v) - u;
             }
         } else if (a > 2.0) {
             if (b > 1000.0) {
-                final int n = (int) FastMath.floor(a - 1.0);
+                final int n = (int) Math.floor(a - 1.0);
                 double prod = 1.0;
                 double ared = a;
                 for (int i = 0; i < n; i++) {
                     ared -= 1.0;
                     prod *= ared / (1.0 + ared / b);
                 }
-                return (FastMath.log(prod) - n * FastMath.log(b)) +
+                return (Math.log(prod) - n * Math.log(b)) +
                         (Gamma.logGamma(ared) +
                          logGammaMinusLogGammaSum(ared, b));
             } else {
@@ -463,13 +462,13 @@ public class Beta {
                         bred -= 1.0;
                         prod2 *= bred / (ared + bred);
                     }
-                    return FastMath.log(prod1) +
-                           FastMath.log(prod2) +
+                    return Math.log(prod1) +
+                           Math.log(prod2) +
                            (Gamma.logGamma(ared) +
                            (Gamma.logGamma(bred) -
                             logGammaSum(ared, bred)));
                 } else {
-                    return FastMath.log(prod1) +
+                    return Math.log(prod1) +
                            Gamma.logGamma(ared) +
                            logGammaMinusLogGammaSum(ared, b);
                 }
@@ -483,7 +482,7 @@ public class Beta {
                         bred -= 1.0;
                         prod *= bred / (a + bred);
                     }
-                    return FastMath.log(prod) +
+                    return Math.log(prod) +
                            (Gamma.logGamma(a) +
                             (Gamma.logGamma(bred) -
                              logGammaSum(a, bred)));
@@ -505,7 +504,7 @@ public class Beta {
                 // return Gamma.logGamma(a) +
                 // (Gamma.logGamma(b) - Gamma.logGamma(a + b));
                 // The following command turns out to be more accurate.
-                return FastMath.log(Gamma.gamma(a) * Gamma.gamma(b) /
+                return Math.log(Gamma.gamma(a) * Gamma.gamma(b) /
                                     Gamma.gamma(a + b));
             }
         }

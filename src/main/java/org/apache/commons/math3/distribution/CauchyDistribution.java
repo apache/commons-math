@@ -21,7 +21,6 @@ import org.apache.commons.math3.exception.OutOfRangeException;
 import org.apache.commons.math3.exception.util.LocalizedFormats;
 import org.apache.commons.math3.random.RandomGenerator;
 import org.apache.commons.math3.random.Well19937c;
-import org.apache.commons.math3.util.FastMath;
 
 /**
  * Implementation of the Cauchy distribution.
@@ -133,7 +132,7 @@ public class CauchyDistribution extends AbstractRealDistribution {
 
     /** {@inheritDoc} */
     public double cumulativeProbability(double x) {
-        return 0.5 + (FastMath.atan((x - median) / scale) / FastMath.PI);
+        return 0.5 + (Math.atan((x - median) / scale) / Math.PI);
     }
 
     /**
@@ -157,7 +156,7 @@ public class CauchyDistribution extends AbstractRealDistribution {
     /** {@inheritDoc} */
     public double density(double x) {
         final double dev = x - median;
-        return (1 / FastMath.PI) * (scale / (dev * dev + scale * scale));
+        return (1 / Math.PI) * (scale / (dev * dev + scale * scale));
     }
 
     /**
@@ -176,7 +175,7 @@ public class CauchyDistribution extends AbstractRealDistribution {
         } else  if (p == 1) {
             ret = Double.POSITIVE_INFINITY;
         } else {
-            ret = median + scale * FastMath.tan(FastMath.PI * (p - .5));
+            ret = median + scale * Math.tan(Math.PI * (p - .5));
         }
         return ret;
     }

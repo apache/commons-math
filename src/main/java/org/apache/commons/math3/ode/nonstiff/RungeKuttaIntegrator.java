@@ -25,6 +25,7 @@ import org.apache.commons.math3.exception.NumberIsTooSmallException;
 import org.apache.commons.math3.ode.AbstractIntegrator;
 import org.apache.commons.math3.ode.ExpandableStatefulODE;
 import org.apache.commons.math3.ode.FirstOrderDifferentialEquations;
+import org.apache.commons.math3.util.Cloner;
 import org.apache.commons.math3.util.FastMath;
 
 /**
@@ -87,7 +88,7 @@ public abstract class RungeKuttaIntegrator extends AbstractIntegrator {
     this.a          = a;
     this.b          = b;
     this.prototype  = prototype;
-    this.step       = FastMath.abs(step);
+    this.step       = Math.abs(step);
   }
 
   /** {@inheritDoc} */
@@ -102,13 +103,13 @@ public abstract class RungeKuttaIntegrator extends AbstractIntegrator {
 
     // create some internal working arrays
     final double[] y0      = equations.getCompleteState();
-    final double[] y       = y0.clone();
+		final double[] y = Cloner.clone(y0);
     final int stages       = c.length + 1;
     final double[][] yDotK = new double[stages][];
     for (int i = 0; i < stages; ++i) {
       yDotK [i] = new double[y0.length];
     }
-    final double[] yTmp    = y0.clone();
+		final double[] yTmp = Cloner.clone(y0);
     final double[] yDotTmp = new double[y0.length];
 
     // set up an interpolator sharing the integrator arrays
@@ -226,13 +227,13 @@ public abstract class RungeKuttaIntegrator extends AbstractIntegrator {
                              final double t0, final double[] y0, final double t) {
 
       // create some internal working arrays
-      final double[] y       = y0.clone();
+		final double[] y = Cloner.clone(y0);
       final int stages       = c.length + 1;
       final double[][] yDotK = new double[stages][];
       for (int i = 0; i < stages; ++i) {
           yDotK [i] = new double[y0.length];
       }
-      final double[] yTmp    = y0.clone();
+		final double[] yTmp = Cloner.clone(y0);
 
       // first stage
       final double h = t - t0;

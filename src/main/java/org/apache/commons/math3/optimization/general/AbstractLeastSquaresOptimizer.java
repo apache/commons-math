@@ -223,7 +223,7 @@ public abstract class AbstractLeastSquaresOptimizer
      */
     protected double computeCost(double[] residuals) {
         final ArrayRealVector r = new ArrayRealVector(residuals);
-        return FastMath.sqrt(r.dotProduct(getWeight().operate(r)));
+        return Math.sqrt(r.dotProduct(getWeight().operate(r)));
     }
 
     /**
@@ -237,7 +237,7 @@ public abstract class AbstractLeastSquaresOptimizer
      * @return RMS value
      */
     public double getRMS() {
-        return FastMath.sqrt(getChiSquare() / rows);
+        return Math.sqrt(getChiSquare() / rows);
     }
 
     /**
@@ -374,10 +374,10 @@ public abstract class AbstractLeastSquaresOptimizer
                                                 rows, cols, false);
         }
         double[] errors = new double[cols];
-        final double c = FastMath.sqrt(getChiSquare() / (rows - cols));
+        final double c = Math.sqrt(getChiSquare() / (rows - cols));
         double[][] covar = computeCovariances(point, 1e-14);
         for (int i = 0; i < errors.length; ++i) {
-            errors[i] = FastMath.sqrt(covar[i][i]) * c;
+            errors[i] = Math.sqrt(covar[i][i]) * c;
         }
         return errors;
     }
@@ -403,7 +403,7 @@ public abstract class AbstractLeastSquaresOptimizer
         final double[] sig = new double[nC];
         final double[][] cov = computeCovariances(params, covarianceSingularityThreshold);
         for (int i = 0; i < nC; ++i) {
-            sig[i] = FastMath.sqrt(cov[i][i]);
+            sig[i] = Math.sqrt(cov[i][i]);
         }
         return sig;
     }
@@ -566,7 +566,7 @@ public abstract class AbstractLeastSquaresOptimizer
             final int dim = m.getRowDimension();
             final RealMatrix sqrtM = new DiagonalMatrix(dim);
             for (int i = 0; i < dim; i++) {
-               sqrtM.setEntry(i, i, FastMath.sqrt(m.getEntry(i, i)));
+               sqrtM.setEntry(i, i, Math.sqrt(m.getEntry(i, i)));
             }
             return sqrtM;
         } else {

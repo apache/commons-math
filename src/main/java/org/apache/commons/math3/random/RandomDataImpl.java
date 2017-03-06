@@ -18,17 +18,15 @@
 package org.apache.commons.math3.random;
 
 import java.io.Serializable;
-import java.security.NoSuchAlgorithmException;
-import java.security.NoSuchProviderException;
 import java.util.Collection;
 
 import org.apache.commons.math3.distribution.IntegerDistribution;
 import org.apache.commons.math3.distribution.RealDistribution;
+import org.apache.commons.math3.exception.MathIllegalArgumentException;
 import org.apache.commons.math3.exception.NotANumberException;
 import org.apache.commons.math3.exception.NotFiniteNumberException;
 import org.apache.commons.math3.exception.NotPositiveException;
 import org.apache.commons.math3.exception.NotStrictlyPositiveException;
-import org.apache.commons.math3.exception.MathIllegalArgumentException;
 import org.apache.commons.math3.exception.NumberIsTooLargeException;
 import org.apache.commons.math3.exception.OutOfRangeException;
 
@@ -181,19 +179,22 @@ public class RandomDataImpl implements RandomData, Serializable {
      * </ol>
      * </p>
      */
-    public String nextSecureHexString(int len) throws NotStrictlyPositiveException {
-        return delegate.nextSecureHexString(len);
-    }
+	// public String nextSecureHexString(int len) throws
+	// NotStrictlyPositiveException {
+	// return delegate.nextSecureHexString(len);
+	// }
 
     /**  {@inheritDoc} */
-    public int nextSecureInt(int lower, int upper) throws NumberIsTooLargeException {
-        return delegate.nextSecureInt(lower, upper);
-    }
+	// public int nextSecureInt(int lower, int upper) throws
+	// NumberIsTooLargeException {
+	// return delegate.nextSecureInt(lower, upper);
+	// }
 
     /** {@inheritDoc} */
-    public long nextSecureLong(long lower, long upper) throws NumberIsTooLargeException {
-        return delegate.nextSecureLong(lower,upper);
-    }
+	// public long nextSecureLong(long lower, long upper) throws
+	// NumberIsTooLargeException {
+	// return delegate.nextSecureLong(lower,upper);
+	// }
 
     /**
      * {@inheritDoc}
@@ -456,9 +457,9 @@ public class RandomDataImpl implements RandomData, Serializable {
      * @param seed
      *            the seed value to use
      */
-    public void reSeed(long seed) {
-        delegate.reSeed(seed);
-    }
+	public void reSeed(long seed) {
+		delegate.reSeed(seed);
+	}
 
     /**
      * Reseeds the secure random number generator with the current time in
@@ -467,9 +468,9 @@ public class RandomDataImpl implements RandomData, Serializable {
      * Will create and initialize if null.
      * </p>
      */
-    public void reSeedSecure() {
-        delegate.reSeedSecure();
-    }
+	// public void reSeedSecure() {
+	// delegate.reSeedSecure();
+	// }
 
     /**
      * Reseeds the secure random number generator with the supplied seed.
@@ -480,9 +481,9 @@ public class RandomDataImpl implements RandomData, Serializable {
      * @param seed
      *            the seed value to use
      */
-    public void reSeedSecure(long seed) {
-        delegate.reSeedSecure(seed);
-    }
+	// public void reSeedSecure(long seed) {
+	// delegate.reSeedSecure(seed);
+	// }
 
     /**
      * Reseeds the random number generator with
@@ -512,10 +513,10 @@ public class RandomDataImpl implements RandomData, Serializable {
      * @throws NoSuchProviderException
      *             if the specified provider is not installed
      */
-    public void setSecureAlgorithm(String algorithm, String provider)
-            throws NoSuchAlgorithmException, NoSuchProviderException {
-       delegate.setSecureAlgorithm(algorithm, provider);
-    }
+	// public void setSecureAlgorithm(String algorithm, String provider)
+	// throws NoSuchAlgorithmException, NoSuchProviderException {
+	// delegate.setSecureAlgorithm(algorithm, provider);
+	// }
 
     /**
      * {@inheritDoc}

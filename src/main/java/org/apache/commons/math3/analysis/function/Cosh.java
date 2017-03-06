@@ -30,7 +30,7 @@ import org.apache.commons.math3.util.FastMath;
 public class Cosh implements UnivariateDifferentiableFunction, DifferentiableUnivariateFunction {
     /** {@inheritDoc} */
     public double value(double x) {
-        return FastMath.cosh(x);
+        return Math.cosh(x);
     }
 
     /** {@inheritDoc}

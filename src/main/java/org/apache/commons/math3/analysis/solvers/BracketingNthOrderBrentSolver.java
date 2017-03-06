@@ -199,11 +199,11 @@ public class BracketingNthOrderBrentSolver
         // current tightest bracketing of the root
         double xA    = x[signChangeIndex - 1];
         double yA    = y[signChangeIndex - 1];
-        double absYA = FastMath.abs(yA);
+        double absYA = Math.abs(yA);
         int agingA   = 0;
         double xB    = x[signChangeIndex];
         double yB    = y[signChangeIndex];
-        double absYB = FastMath.abs(yB);
+        double absYB = Math.abs(yB);
         int agingB   = 0;
 
         // search loop
@@ -211,8 +211,8 @@ public class BracketingNthOrderBrentSolver
 
             // check convergence of bracketing interval
             final double xTol = getAbsoluteAccuracy() +
-                                getRelativeAccuracy() * FastMath.max(FastMath.abs(xA), FastMath.abs(xB));
-            if (((xB - xA) <= xTol) || (FastMath.max(absYA, absYB) < getFunctionValueAccuracy())) {
+                                getRelativeAccuracy() * Math.max(Math.abs(xA), Math.abs(xB));
+            if (((xB - xA) <= xTol) || (Math.max(absYA, absYB) < getFunctionValueAccuracy())) {
                 switch (allowed) {
                 case ANY_SIDE :
                     return absYA < absYB ? xA : xB;
@@ -332,14 +332,14 @@ public class BracketingNthOrderBrentSolver
                 // the sign change occurs before the inserted point
                 xB = nextX;
                 yB = nextY;
-                absYB = FastMath.abs(yB);
+                absYB = Math.abs(yB);
                 ++agingA;
                 agingB = 0;
             } else {
                 // the sign change occurs after the inserted point
                 xA = nextX;
                 yA = nextY;
-                absYA = FastMath.abs(yA);
+                absYA = Math.abs(yA);
                 agingA = 0;
                 ++agingB;
 

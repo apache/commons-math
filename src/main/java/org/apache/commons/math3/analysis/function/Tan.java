@@ -32,7 +32,7 @@ import org.apache.commons.math3.util.FastMath;
 public class Tan implements UnivariateDifferentiableFunction, DifferentiableUnivariateFunction {
     /** {@inheritDoc} */
     public double value(double x) {
-        return FastMath.tan(x);
+        return Math.tan(x);
     }
 
     /** {@inheritDoc}

@@ -154,9 +154,9 @@ public class MidPointIntegrator extends BaseAbstractUnivariateIntegrator {
             final int i = getIterations();
             final double t = stage(i, oldt, min, diff);
             if (i >= getMinimalIterationCount()) {
-                final double delta = FastMath.abs(t - oldt);
+                final double delta = Math.abs(t - oldt);
                 final double rLimit =
-                        getRelativeAccuracy() * (FastMath.abs(oldt) + FastMath.abs(t)) * 0.5;
+                        getRelativeAccuracy() * (Math.abs(oldt) + Math.abs(t)) * 0.5;
                 if ((delta <= rLimit) || (delta <= getAbsoluteAccuracy())) {
                     return t;
                 }

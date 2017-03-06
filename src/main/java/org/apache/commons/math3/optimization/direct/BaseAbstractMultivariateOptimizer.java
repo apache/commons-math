@@ -17,21 +17,22 @@
 
 package org.apache.commons.math3.optimization.direct;
 
-import org.apache.commons.math3.util.Incrementor;
-import org.apache.commons.math3.exception.MaxCountExceededException;
-import org.apache.commons.math3.exception.TooManyEvaluationsException;
 import org.apache.commons.math3.analysis.MultivariateFunction;
+import org.apache.commons.math3.exception.DimensionMismatchException;
+import org.apache.commons.math3.exception.MaxCountExceededException;
+import org.apache.commons.math3.exception.NumberIsTooLargeException;
+import org.apache.commons.math3.exception.NumberIsTooSmallException;
+import org.apache.commons.math3.exception.TooManyEvaluationsException;
 import org.apache.commons.math3.optimization.BaseMultivariateOptimizer;
-import org.apache.commons.math3.optimization.OptimizationData;
+import org.apache.commons.math3.optimization.ConvergenceChecker;
 import org.apache.commons.math3.optimization.GoalType;
 import org.apache.commons.math3.optimization.InitialGuess;
-import org.apache.commons.math3.optimization.SimpleBounds;
-import org.apache.commons.math3.optimization.ConvergenceChecker;
+import org.apache.commons.math3.optimization.OptimizationData;
 import org.apache.commons.math3.optimization.PointValuePair;
+import org.apache.commons.math3.optimization.SimpleBounds;
 import org.apache.commons.math3.optimization.SimpleValueChecker;
-import org.apache.commons.math3.exception.DimensionMismatchException;
-import org.apache.commons.math3.exception.NumberIsTooSmallException;
-import org.apache.commons.math3.exception.NumberIsTooLargeException;
+import org.apache.commons.math3.util.Cloner;
+import org.apache.commons.math3.util.Incrementor;
 
 /**
  * Base class for implementing optimizers for multivariate scalar functions.
@@ -243,21 +244,21 @@ public abstract class BaseAbstractMultivariateOptimizer<FUNC extends Multivariat
      * @return the initial guess.
      */
     public double[] getStartPoint() {
-        return start == null ? null : start.clone();
+		return start == null ? null : Cloner.clone(start);
     }
     /**
      * @return the lower bounds.
      * @since 3.1
      */
     public double[] getLowerBound() {
-        return lowerBound == null ? null : lowerBound.clone();
+		return lowerBound == null ? null : Cloner.clone(lowerBound);
     }
     /**
      * @return the upper bounds.
      * @since 3.1
      */
     public double[] getUpperBound() {
-        return upperBound == null ? null : upperBound.clone();
+		return upperBound == null ? null : Cloner.clone(upperBound);
     }
 
     /**

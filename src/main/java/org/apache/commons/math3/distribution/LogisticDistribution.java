@@ -21,7 +21,6 @@ import org.apache.commons.math3.exception.OutOfRangeException;
 import org.apache.commons.math3.exception.util.LocalizedFormats;
 import org.apache.commons.math3.random.RandomGenerator;
 import org.apache.commons.math3.random.Well19937c;
-import org.apache.commons.math3.util.FastMath;
 import org.apache.commons.math3.util.MathUtils;
 
 /**
@@ -100,14 +99,14 @@ public class LogisticDistribution extends AbstractRealDistribution {
     /** {@inheritDoc} */
     public double density(double x) {
         double z = (x - mu) / s;
-        double v = FastMath.exp(-z);
+        double v = Math.exp(-z);
         return 1 / s * v / ((1.0 + v) * (1.0 + v));
     }
 
     /** {@inheritDoc} */
     public double cumulativeProbability(double x) {
         double z = 1 / s * (x - mu);
-        return 1.0 / (1.0 + FastMath.exp(-z));
+        return 1.0 / (1.0 + Math.exp(-z));
     }
 
     /** {@inheritDoc} */

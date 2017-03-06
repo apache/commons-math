@@ -17,6 +17,8 @@
 
 package org.apache.commons.math3.optimization;
 
+import org.apache.commons.math3.util.Cloner;
+
 /**
  * Simple optimization constraints: lower and upper bounds.
  * The valid range of the parameters is an interval that can be infinite
@@ -40,8 +42,8 @@ public class SimpleBounds implements OptimizationData {
      */
     public SimpleBounds(double[] lB,
                         double[] uB) {
-        lower = lB.clone();
-        upper = uB.clone();
+		lower = Cloner.clone(lB);
+		upper = Cloner.clone(uB);
     }
 
     /**
@@ -50,7 +52,7 @@ public class SimpleBounds implements OptimizationData {
      * @return the initial guess.
      */
     public double[] getLower() {
-        return lower.clone();
+		return Cloner.clone(lower);
     }
     /**
      * Gets the lower bounds.
@@ -58,6 +60,6 @@ public class SimpleBounds implements OptimizationData {
      * @return the initial guess.
      */
     public double[] getUpper() {
-        return upper.clone();
+		return Cloner.clone(upper);
     }
 }

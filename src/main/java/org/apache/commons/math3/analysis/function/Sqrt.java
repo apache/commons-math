@@ -32,7 +32,7 @@ import org.apache.commons.math3.util.FastMath;
 public class Sqrt implements UnivariateDifferentiableFunction, DifferentiableUnivariateFunction {
     /** {@inheritDoc} */
     public double value(double x) {
-        return FastMath.sqrt(x);
+        return Math.sqrt(x);
     }
 
     /** {@inheritDoc}

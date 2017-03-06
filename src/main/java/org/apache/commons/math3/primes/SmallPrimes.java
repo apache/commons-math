@@ -21,8 +21,6 @@ import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.apache.commons.math3.util.FastMath;
-
 /**
  * Utility methods to work on primes within the <code>int</code> range.
  * @since 3.2
@@ -131,7 +129,7 @@ class SmallPrimes {
             return factors;
         }
         // here we are sure that n is either a prime or a semi prime
-        final int bound = (int) FastMath.sqrt(n);
+        final int bound = (int) Math.sqrt(n);
         boundedTrialDivision(n, bound, factors);
         return factors;
     }

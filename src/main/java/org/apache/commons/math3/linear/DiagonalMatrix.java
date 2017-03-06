@@ -23,7 +23,7 @@ import org.apache.commons.math3.exception.NotStrictlyPositiveException;
 import org.apache.commons.math3.exception.NullArgumentException;
 import org.apache.commons.math3.exception.NumberIsTooLargeException;
 import org.apache.commons.math3.exception.OutOfRangeException;
-import org.apache.commons.math3.util.FastMath;
+import org.apache.commons.math3.util.Cloner;
 import org.apache.commons.math3.util.MathUtils;
 import org.apache.commons.math3.util.Precision;
 
@@ -80,7 +80,7 @@ public class DiagonalMatrix extends AbstractRealMatrix
     public DiagonalMatrix(final double[] d, final boolean copyArray)
         throws NullArgumentException {
         MathUtils.checkNotNull(d);
-        data = copyArray ? d.clone() : d;
+		data = copyArray ? Cloner.clone(d) : d;
     }
 
     /**
@@ -314,7 +314,7 @@ public class DiagonalMatrix extends AbstractRealMatrix
      */
     private void ensureZero(final double value) throws NumberIsTooLargeException {
         if (!Precision.equals(0.0, value, 1)) {
-            throw new NumberIsTooLargeException(FastMath.abs(value), 0, true);
+            throw new NumberIsTooLargeException(Math.abs(value), 0, true);
         }
     }
 

@@ -37,7 +37,7 @@ public class NormalApproximationInterval implements BinomialConfidenceInterval {
         final double alpha = (1.0 - confidenceLevel) / 2;
         final NormalDistribution normalDistribution = new NormalDistribution();
         final double difference = normalDistribution.inverseCumulativeProbability(1 - alpha) *
-                                  FastMath.sqrt(1.0 / numberOfTrials * mean * (1 - mean));
+                                  Math.sqrt(1.0 / numberOfTrials * mean * (1 - mean));
         return new ConfidenceInterval(mean - difference, mean + difference, confidenceLevel);
     }
 

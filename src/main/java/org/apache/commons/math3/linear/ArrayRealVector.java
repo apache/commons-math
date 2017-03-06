@@ -21,15 +21,15 @@ import java.util.Arrays;
 import java.util.Iterator;
 
 import org.apache.commons.math3.analysis.UnivariateFunction;
+import org.apache.commons.math3.exception.DimensionMismatchException;
 import org.apache.commons.math3.exception.NotPositiveException;
 import org.apache.commons.math3.exception.NullArgumentException;
-import org.apache.commons.math3.exception.DimensionMismatchException;
 import org.apache.commons.math3.exception.NumberIsTooLargeException;
 import org.apache.commons.math3.exception.NumberIsTooSmallException;
 import org.apache.commons.math3.exception.OutOfRangeException;
 import org.apache.commons.math3.exception.util.LocalizedFormats;
+import org.apache.commons.math3.util.Cloner;
 import org.apache.commons.math3.util.MathUtils;
-import org.apache.commons.math3.util.FastMath;
 
 /**
  * This class implements the {@link RealVector} interface with a double array.
@@ -39,7 +39,8 @@ public class ArrayRealVector extends RealVector implements Serializable {
     /** Serializable version identifier. */
     private static final long serialVersionUID = -1097961340710804027L;
     /** Default format. */
-    private static final RealVectorFormat DEFAULT_FORMAT = RealVectorFormat.getInstance();
+	// private static final RealVectorFormat DEFAULT_FORMAT =
+	// RealVectorFormat.getInstance();
 
     /** Entries of the vector. */
     private double data[];
@@ -82,7 +83,7 @@ public class ArrayRealVector extends RealVector implements Serializable {
      * @param d Array.
      */
     public ArrayRealVector(double[] d) {
-        data = d.clone();
+		data = Cloner.clone(d);
     }
 
     /**
@@ -104,19 +105,23 @@ public class ArrayRealVector extends RealVector implements Serializable {
         if (d == null) {
             throw new NullArgumentException();
         }
-        data = copyArray ? d.clone() :  d;
+		data = copyArray ? Cloner.clone(d) : d;
     }
 
-    /**
-     * Construct a vector from part of a array.
-     *
-     * @param d Array.
-     * @param pos Position of first entry.
-     * @param size Number of entries to copy.
-     * @throws NullArgumentException if {@code d} is {@code null}.
-     * @throws NumberIsTooLargeException if the size of {@code d} is less
-     * than {@code pos + size}.
-     */
+	/**
+	 * Cloner.clone( Construct a vector from part of a array.
+	 *
+	 * @param d
+	 *            Array.
+	 * @param pos
+	 *            Position of first entry.
+	 * @param size
+	 *            Number of entries to copy.
+	 * @throws NullArgumentException
+	 *             if {@code d} is {@code null}.
+	 * @throws NumberIsTooLargeException
+	 *             if the size of {@code d} is less than {@code pos + size}.
+	 */
     public ArrayRealVector(double[] d, int pos, int size)
         throws NullArgumentException, NumberIsTooLargeException {
         if (d == null) {
@@ -199,7 +204,7 @@ public class ArrayRealVector extends RealVector implements Serializable {
      * shallow copy.
      */
     public ArrayRealVector(ArrayRealVector v, boolean deep) {
-        data = deep ? v.data.clone() : v.data;
+		data = deep ? Cloner.clone(v.data) : v.data;
     }
 
     /**
@@ -304,7 +309,7 @@ public class ArrayRealVector extends RealVector implements Serializable {
             return result;
         } else {
             checkVectorDimensions(v);
-            double[] out = data.clone();
+			double[] out = Cloner.clone(data);
             Iterator<Entry> it = v.iterator();
             while (it.hasNext()) {
                 final Entry e = it.next();
@@ -330,7 +335,7 @@ public class ArrayRealVector extends RealVector implements Serializable {
             return result;
         } else {
             checkVectorDimensions(v);
-            double[] out = data.clone();
+			double[] out = Cloner.clone(data);
             Iterator<Entry> it = v.iterator();
             while (it.hasNext()) {
                 final Entry e = it.next();
@@ -407,7 +412,7 @@ public class ArrayRealVector extends RealVector implements Serializable {
             return result;
         } else {
             checkVectorDimensions(v);
-            double[] out = data.clone();
+			double[] out = Cloner.clone(data);
             for (int i = 0; i < data.length; i++) {
                 out[i] *= v.getEntry(i);
             }
@@ -431,7 +436,7 @@ public class ArrayRealVector extends RealVector implements Serializable {
             return result;
         } else {
             checkVectorDimensions(v);
-            double[] out = data.clone();
+			double[] out = Cloner.clone(data);
             for (int i = 0; i < data.length; i++) {
                 out[i] /= v.getEntry(i);
             }
@@ -471,7 +476,7 @@ public class ArrayRealVector extends RealVector implements Serializable {
         for (double a : data) {
             sum += a * a;
         }
-        return FastMath.sqrt(sum);
+        return Math.sqrt(sum);
     }
 
     /** {@inheritDoc} */
@@ -479,7 +484,7 @@ public class ArrayRealVector extends RealVector implements Serializable {
     public double getL1Norm() {
         double sum = 0;
         for (double a : data) {
-            sum += FastMath.abs(a);
+            sum += Math.abs(a);
         }
         return sum;
     }
@@ -489,7 +494,7 @@ public class ArrayRealVector extends RealVector implements Serializable {
     public double getLInfNorm() {
         double max = 0;
         for (double a : data) {
-            max = FastMath.max(max, FastMath.abs(a));
+            max = Math.max(max, Math.abs(a));
         }
         return max;
     }
@@ -505,7 +510,7 @@ public class ArrayRealVector extends RealVector implements Serializable {
                 final double delta = data[i] - vData[i];
                 sum += delta * delta;
             }
-            return FastMath.sqrt(sum);
+            return Math.sqrt(sum);
         } else {
             checkVectorDimensions(v);
             double sum = 0;
@@ -513,7 +518,7 @@ public class ArrayRealVector extends RealVector implements Serializable {
                 final double delta = data[i] - v.getEntry(i);
                 sum += delta * delta;
             }
-            return FastMath.sqrt(sum);
+            return Math.sqrt(sum);
         }
     }
 
@@ -527,7 +532,7 @@ public class ArrayRealVector extends RealVector implements Serializable {
             double sum = 0;
             for (int i = 0; i < data.length; ++i) {
                 final double delta = data[i] - vData[i];
-                sum += FastMath.abs(delta);
+                sum += Math.abs(delta);
             }
             return sum;
         } else {
@@ -535,7 +540,7 @@ public class ArrayRealVector extends RealVector implements Serializable {
             double sum = 0;
             for (int i = 0; i < data.length; ++i) {
                 final double delta = data[i] - v.getEntry(i);
-                sum += FastMath.abs(delta);
+                sum += Math.abs(delta);
             }
             return sum;
         }
@@ -551,7 +556,7 @@ public class ArrayRealVector extends RealVector implements Serializable {
             double max = 0;
             for (int i = 0; i < data.length; ++i) {
                 final double delta = data[i] - vData[i];
-                max = FastMath.max(max, FastMath.abs(delta));
+                max = Math.max(max, Math.abs(delta));
             }
             return max;
         } else {
@@ -559,7 +564,7 @@ public class ArrayRealVector extends RealVector implements Serializable {
             double max = 0;
             for (int i = 0; i < data.length; ++i) {
                 final double delta = data[i] - v.getEntry(i);
-                max = FastMath.max(max, FastMath.abs(delta));
+                max = Math.max(max, Math.abs(delta));
             }
             return max;
         }
@@ -612,9 +617,9 @@ public class ArrayRealVector extends RealVector implements Serializable {
     /** {@inheritDoc} */
     @Override
     public RealVector append(RealVector v) {
-        try {
+		if (v instanceof ArrayRealVector) {
             return new ArrayRealVector(this, (ArrayRealVector) v);
-        } catch (ClassCastException cce) {
+		} else {
             return new ArrayRealVector(this, v);
         }
     }
@@ -722,14 +727,14 @@ public class ArrayRealVector extends RealVector implements Serializable {
     /** {@inheritDoc} */
     @Override
     public double[] toArray(){
-        return data.clone();
+		return Cloner.clone(data);
     }
 
     /** {@inheritDoc} */
-    @Override
-    public String toString(){
-        return DEFAULT_FORMAT.format(this);
-    }
+	// @Override
+	// public String toString(){
+	// return DEFAULT_FORMAT.format(this);
+	// }
 
     /**
      * Check if instance and specified vectors have the same dimension.

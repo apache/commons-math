@@ -18,6 +18,7 @@
 package org.apache.commons.math3.ode.sampling;
 
 import org.apache.commons.math3.exception.MaxCountExceededException;
+import org.apache.commons.math3.util.Cloner;
 import org.apache.commons.math3.util.FastMath;
 import org.apache.commons.math3.util.Precision;
 
@@ -161,7 +162,7 @@ public class StepNormalizer implements StepHandler {
     public StepNormalizer(final double h, final FixedStepHandler handler,
                           final StepNormalizerMode mode,
                           final StepNormalizerBounds bounds) {
-        this.h          = FastMath.abs(h);
+        this.h          = Math.abs(h);
         this.handler    = handler;
         this.mode       = mode;
         this.bounds     = bounds;
@@ -206,8 +207,9 @@ public class StepNormalizer implements StepHandler {
             firstTime = interpolator.getPreviousTime();
             lastTime = interpolator.getPreviousTime();
             interpolator.setInterpolatedTime(lastTime);
-            lastState = interpolator.getInterpolatedState().clone();
-            lastDerivatives = interpolator.getInterpolatedDerivatives().clone();
+			lastState = Cloner.clone(interpolator.getInterpolatedState());
+			lastDerivatives = Cloner
+					.clone(interpolator.getInterpolatedDerivatives());
 
             // Take the integration direction into account.
             forward = interpolator.getCurrentTime() >= lastTime;
@@ -219,7 +221,7 @@ public class StepNormalizer implements StepHandler {
         // Calculate next normalized step time.
         double nextTime = (mode == StepNormalizerMode.INCREMENT) ?
                           lastTime + h :
-                          (FastMath.floor(lastTime / h) + 1) * h;
+                          (Math.floor(lastTime / h) + 1) * h;
         if (mode == StepNormalizerMode.MULTIPLES &&
             Precision.equals(nextTime, lastTime, 1)) {
             nextTime += h;

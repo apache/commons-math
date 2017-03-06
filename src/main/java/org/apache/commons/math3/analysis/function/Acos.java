@@ -32,7 +32,7 @@ import org.apache.commons.math3.util.FastMath;
 public class Acos implements UnivariateDifferentiableFunction, DifferentiableUnivariateFunction {
     /** {@inheritDoc} */
     public double value(double x) {
-        return FastMath.acos(x);
+        return Math.acos(x);
     }
 
     /** {@inheritDoc}

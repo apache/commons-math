@@ -25,7 +25,7 @@ import org.apache.commons.math3.exception.MathIllegalArgumentException;
 import org.apache.commons.math3.exception.NotPositiveException;
 import org.apache.commons.math3.exception.NumberIsTooLargeException;
 import org.apache.commons.math3.exception.NumberIsTooSmallException;
-import org.apache.commons.math3.util.FastMath;
+import org.apache.commons.math3.util.GWTMath;
 
 /** Univariate functions differentiator using finite differences.
  * <p>
@@ -156,7 +156,7 @@ public class FiniteDifferencesDifferentiator
         if (2 * halfSampleSpan >= tUpper - tLower) {
             throw new NumberIsTooLargeException(2 * halfSampleSpan, tUpper - tLower, false);
         }
-        final double safety = FastMath.ulp(halfSampleSpan);
+		final double safety = GWTMath.ulp(halfSampleSpan);
         this.tMin = tLower + halfSampleSpan + safety;
         this.tMax = tUpper - halfSampleSpan - safety;
 
@@ -259,7 +259,7 @@ public class FiniteDifferencesDifferentiator
                 }
 
                 // compute sample position, trying to be centered if possible
-                final double t0 = FastMath.max(FastMath.min(t.getValue(), tMax), tMin) - halfSampleSpan;
+                final double t0 = Math.max(Math.min(t.getValue(), tMax), tMin) - halfSampleSpan;
 
                 // compute sample points
                 final double[] y = new double[nbPoints];
@@ -299,7 +299,7 @@ public class FiniteDifferencesDifferentiator
                 }
 
                 // compute sample position, trying to be centered if possible
-                final double t0 = FastMath.max(FastMath.min(t.getValue(), tMax), tMin) - halfSampleSpan;
+                final double t0 = Math.max(Math.min(t.getValue(), tMax), tMin) - halfSampleSpan;
 
                 // compute sample points
                 double[][] y = null;
@@ -350,7 +350,7 @@ public class FiniteDifferencesDifferentiator
                 }
 
                 // compute sample position, trying to be centered if possible
-                final double t0 = FastMath.max(FastMath.min(t.getValue(), tMax), tMin) - halfSampleSpan;
+                final double t0 = Math.max(Math.min(t.getValue(), tMax), tMin) - halfSampleSpan;
 
                 // compute sample points
                 double[][][] y = null;

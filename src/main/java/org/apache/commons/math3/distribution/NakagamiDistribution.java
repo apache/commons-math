@@ -22,7 +22,6 @@ import org.apache.commons.math3.exception.util.LocalizedFormats;
 import org.apache.commons.math3.random.RandomGenerator;
 import org.apache.commons.math3.random.Well19937c;
 import org.apache.commons.math3.special.Gamma;
-import org.apache.commons.math3.util.FastMath;
 
 /**
  * This class implements the Nakagami distribution.
@@ -141,8 +140,8 @@ public class NakagamiDistribution extends AbstractRealDistribution {
         if (x <= 0) {
             return 0.0;
         }
-        return 2.0 * FastMath.pow(mu, mu) / (Gamma.gamma(mu) * FastMath.pow(omega, mu)) *
-                     FastMath.pow(x, 2 * mu - 1) * FastMath.exp(-mu * x * x / omega);
+        return 2.0 * Math.pow(mu, mu) / (Gamma.gamma(mu) * Math.pow(omega, mu)) *
+                     Math.pow(x, 2 * mu - 1) * Math.exp(-mu * x * x / omega);
     }
 
     /** {@inheritDoc} */
@@ -152,7 +151,7 @@ public class NakagamiDistribution extends AbstractRealDistribution {
 
     /** {@inheritDoc} */
     public double getNumericalMean() {
-        return Gamma.gamma(mu + 0.5) / Gamma.gamma(mu) * FastMath.sqrt(omega / mu);
+        return Gamma.gamma(mu + 0.5) / Gamma.gamma(mu) * Math.sqrt(omega / mu);
     }
 
     /** {@inheritDoc} */

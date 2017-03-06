@@ -18,6 +18,7 @@ package org.apache.commons.math3.exception;
 
 import org.apache.commons.math3.exception.util.Localizable;
 import org.apache.commons.math3.exception.util.LocalizedFormats;
+import org.apache.commons.math3.util.Cloner;
 
 /**
  * Exception to be thrown when two sets of dimensions differ.
@@ -56,21 +57,21 @@ public class MultiDimensionMismatchException extends MathIllegalArgumentExceptio
                                            Integer[] wrong,
                                            Integer[] expected) {
         super(specific, wrong, expected);
-        this.wrong = wrong.clone();
-        this.expected = expected.clone();
+		this.wrong = Cloner.clone(wrong);
+		this.expected = Cloner.clone(expected);
     }
 
     /**
      * @return an array containing the wrong dimensions.
      */
     public Integer[] getWrongDimensions() {
-        return wrong.clone();
+		return Cloner.clone(wrong);
     }
     /**
      * @return an array containing the expected dimensions.
      */
     public Integer[] getExpectedDimensions() {
-        return expected.clone();
+		return Cloner.clone(expected);
     }
 
     /**

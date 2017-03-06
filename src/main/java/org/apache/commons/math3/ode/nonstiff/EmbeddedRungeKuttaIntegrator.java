@@ -22,6 +22,7 @@ import org.apache.commons.math3.exception.MaxCountExceededException;
 import org.apache.commons.math3.exception.NoBracketingException;
 import org.apache.commons.math3.exception.NumberIsTooSmallException;
 import org.apache.commons.math3.ode.ExpandableStatefulODE;
+import org.apache.commons.math3.util.Cloner;
 import org.apache.commons.math3.util.FastMath;
 
 /**
@@ -199,10 +200,10 @@ public abstract class EmbeddedRungeKuttaIntegrator
 
     // create some internal working arrays
     final double[] y0  = equations.getCompleteState();
-    final double[] y = y0.clone();
+		final double[] y = Cloner.clone(y0);
     final int stages = c.length + 1;
     final double[][] yDotK = new double[stages][y.length];
-    final double[] yTmp    = y0.clone();
+		final double[] yTmp = Cloner.clone(y0);
     final double[] yDotTmp = new double[y.length];
 
     // set up an interpolator sharing the integrator arrays
@@ -236,11 +237,11 @@ public abstract class EmbeddedRungeKuttaIntegrator
           final double[] scale = new double[mainSetDimension];
           if (vecAbsoluteTolerance == null) {
               for (int i = 0; i < scale.length; ++i) {
-                scale[i] = scalAbsoluteTolerance + scalRelativeTolerance * FastMath.abs(y[i]);
+                scale[i] = scalAbsoluteTolerance + scalRelativeTolerance * Math.abs(y[i]);
               }
           } else {
               for (int i = 0; i < scale.length; ++i) {
-                scale[i] = vecAbsoluteTolerance[i] + vecRelativeTolerance[i] * FastMath.abs(y[i]);
+                scale[i] = vecAbsoluteTolerance[i] + vecRelativeTolerance[i] * Math.abs(y[i]);
               }
           }
           hNew = initializeStep(forward, getOrder(), scale,
@@ -288,8 +289,8 @@ public abstract class EmbeddedRungeKuttaIntegrator
         if (error >= 1.0) {
           // reject the step and attempt to reduce error by stepsize control
           final double factor =
-              FastMath.min(maxGrowth,
-                           FastMath.max(minReduction, safety * FastMath.pow(error, exp)));
+              Math.min(maxGrowth,
+                           Math.max(minReduction, safety * Math.pow(error, exp)));
           hNew = filterStep(stepSize * factor, forward, false);
         }
 
@@ -314,7 +315,7 @@ public abstract class EmbeddedRungeKuttaIntegrator
 
           // stepsize control for next step
           final double factor =
-              FastMath.min(maxGrowth, FastMath.max(minReduction, safety * FastMath.pow(error, exp)));
+              Math.min(maxGrowth, Math.max(minReduction, safety * Math.pow(error, exp)));
           final double  scaledH    = stepSize * factor;
           final double  nextT      = stepStart + scaledH;
           final boolean nextIsLast = forward ? (nextT >= t) : (nextT <= t);

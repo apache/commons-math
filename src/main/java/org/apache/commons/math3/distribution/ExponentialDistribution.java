@@ -22,7 +22,6 @@ import org.apache.commons.math3.exception.util.LocalizedFormats;
 import org.apache.commons.math3.random.RandomGenerator;
 import org.apache.commons.math3.random.Well19937c;
 import org.apache.commons.math3.util.CombinatoricsUtils;
-import org.apache.commons.math3.util.FastMath;
 import org.apache.commons.math3.util.ResizableDoubleArray;
 
 /**
@@ -68,7 +67,7 @@ public class ExponentialDistribution extends AbstractRealDistribution {
          * Filling EXPONENTIAL_SA_QI table.
          * Note that we don't want qi = 0 in the table.
          */
-        final double LN2 = FastMath.log(2);
+        final double LN2 = Math.log(2);
         double qi = 0;
         int i = 1;
 
@@ -81,7 +80,7 @@ public class ExponentialDistribution extends AbstractRealDistribution {
         final ResizableDoubleArray ra = new ResizableDoubleArray(20);
 
         while (qi < 1) {
-            qi += FastMath.pow(LN2, i) / CombinatoricsUtils.factorial(i);
+            qi += Math.pow(LN2, i) / CombinatoricsUtils.factorial(i);
             ra.addElement(qi);
             ++i;
         }
@@ -160,7 +159,7 @@ public class ExponentialDistribution extends AbstractRealDistribution {
             throw new NotStrictlyPositiveException(LocalizedFormats.MEAN, mean);
         }
         this.mean = mean;
-        logMean = FastMath.log(mean);
+        logMean = Math.log(mean);
         solverAbsoluteAccuracy = inverseCumAccuracy;
     }
 
@@ -176,7 +175,7 @@ public class ExponentialDistribution extends AbstractRealDistribution {
     /** {@inheritDoc} */
     public double density(double x) {
         final double logDensity = logDensity(x);
-        return logDensity == Double.NEGATIVE_INFINITY ? 0 : FastMath.exp(logDensity);
+        return logDensity == Double.NEGATIVE_INFINITY ? 0 : Math.exp(logDensity);
     }
 
     /** {@inheritDoc} **/
@@ -203,7 +202,7 @@ public class ExponentialDistribution extends AbstractRealDistribution {
         if (x <= 0.0) {
             ret = 0.0;
         } else {
-            ret = 1.0 - FastMath.exp(-x / mean);
+            ret = 1.0 - Math.exp(-x / mean);
         }
         return ret;
     }
@@ -223,7 +222,7 @@ public class ExponentialDistribution extends AbstractRealDistribution {
         } else if (p == 1.0) {
             ret = Double.POSITIVE_INFINITY;
         } else {
-            ret = -mean * FastMath.log(1.0 - p);
+            ret = -mean * Math.log(1.0 - p);
         }
 
         return ret;

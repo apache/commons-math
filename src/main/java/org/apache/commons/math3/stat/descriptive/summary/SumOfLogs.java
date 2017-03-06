@@ -82,7 +82,7 @@ public class SumOfLogs extends AbstractStorelessUnivariateStatistic implements S
      */
     @Override
     public void increment(final double d) {
-        value += FastMath.log(d);
+        value += Math.log(d);
         n++;
     }
 
@@ -134,7 +134,7 @@ public class SumOfLogs extends AbstractStorelessUnivariateStatistic implements S
         if (test(values, begin, length, true)) {
             sumLog = 0.0;
             for (int i = begin; i < begin + length; i++) {
-                sumLog += FastMath.log(values[i]);
+                sumLog += Math.log(values[i]);
             }
         }
         return sumLog;

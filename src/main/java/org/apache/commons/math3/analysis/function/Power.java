@@ -42,7 +42,7 @@ public class Power implements UnivariateDifferentiableFunction, DifferentiableUn
 
     /** {@inheritDoc} */
     public double value(double x) {
-        return FastMath.pow(x, p);
+        return Math.pow(x, p);
     }
 
     /** {@inheritDoc}

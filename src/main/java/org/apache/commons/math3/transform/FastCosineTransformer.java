@@ -24,7 +24,6 @@ import org.apache.commons.math3.complex.Complex;
 import org.apache.commons.math3.exception.MathIllegalArgumentException;
 import org.apache.commons.math3.exception.util.LocalizedFormats;
 import org.apache.commons.math3.util.ArithmeticUtils;
-import org.apache.commons.math3.util.FastMath;
 
 /**
  * Implements the Fast Cosine Transform for transformation of one-dimensional
@@ -91,7 +90,7 @@ public class FastCosineTransformer implements RealTransformer, Serializable {
       throws MathIllegalArgumentException {
         if (type == TransformType.FORWARD) {
             if (normalization == DctNormalization.ORTHOGONAL_DCT_I) {
-                final double s = FastMath.sqrt(2.0 / (f.length - 1));
+                final double s = Math.sqrt(2.0 / (f.length - 1));
                 return TransformUtils.scaleArray(fct(f), s);
             }
             return fct(f);
@@ -99,7 +98,7 @@ public class FastCosineTransformer implements RealTransformer, Serializable {
         final double s2 = 2.0 / (f.length - 1);
         final double s1;
         if (normalization == DctNormalization.ORTHOGONAL_DCT_I) {
-            s1 = FastMath.sqrt(s2);
+            s1 = Math.sqrt(s2);
         } else {
             s1 = s2;
         }
@@ -157,8 +156,8 @@ public class FastCosineTransformer implements RealTransformer, Serializable {
         double t1 = 0.5 * (f[0] - f[n]);
         for (int i = 1; i < (n >> 1); i++) {
             final double a = 0.5 * (f[i] + f[n - i]);
-            final double b = FastMath.sin(i * FastMath.PI / n) * (f[i] - f[n - i]);
-            final double c = FastMath.cos(i * FastMath.PI / n) * (f[i] - f[n - i]);
+            final double b = Math.sin(i * Math.PI / n) * (f[i] - f[n - i]);
+            final double c = Math.cos(i * Math.PI / n) * (f[i] - f[n - i]);
             x[i] = a - b;
             x[n - i] = a + b;
             t1 += c;

@@ -304,7 +304,7 @@ public class LevenbergMarquardtOptimizer implements LeastSquaresOptimizer {
         final ConvergenceChecker<Evaluation> checker = problem.getConvergenceChecker();
 
         // arrays shared with the other private methods
-        final int solvedCols  = FastMath.min(nR, nC);
+        final int solvedCols  = Math.min(nR, nC);
         /* Parameters evolution direction associated with lmPar. */
         double[] lmDir = new double[nC];
         /* Levenberg-Marquardt parameter. */
@@ -374,7 +374,7 @@ public class LevenbergMarquardtOptimizer implements LeastSquaresOptimizer {
                     xNorm  += xk * xk;
                     diag[k] = dk;
                 }
-                xNorm = FastMath.sqrt(xNorm);
+                xNorm = Math.sqrt(xNorm);
 
                 // initialize the step bound delta
                 delta = (xNorm == 0) ? initialStepBoundFactor : (initialStepBoundFactor * xNorm);
@@ -391,7 +391,7 @@ public class LevenbergMarquardtOptimizer implements LeastSquaresOptimizer {
                         for (int i = 0; i <= j; ++i) {
                             sum += weightedJacobian[i][pj] * qtf[i];
                         }
-                        maxCosine = FastMath.max(maxCosine, FastMath.abs(sum) / (s * currentCost));
+                        maxCosine = Math.max(maxCosine, Math.abs(sum) / (s * currentCost));
                     }
                 }
             }
@@ -405,7 +405,7 @@ public class LevenbergMarquardtOptimizer implements LeastSquaresOptimizer {
 
             // rescale if necessary
             for (int j = 0; j < nC; ++j) {
-                diag[j] = FastMath.max(diag[j], jacNorm[j]);
+                diag[j] = Math.max(diag[j], jacNorm[j]);
             }
 
             // Inner loop.
@@ -435,10 +435,10 @@ public class LevenbergMarquardtOptimizer implements LeastSquaresOptimizer {
                     double s = diag[pj] * lmDir[pj];
                     lmNorm  += s * s;
                 }
-                lmNorm = FastMath.sqrt(lmNorm);
+                lmNorm = Math.sqrt(lmNorm);
                 // on the first iteration, adjust the initial step bound.
                 if (firstIteration) {
-                    delta = FastMath.min(delta, lmNorm);
+                    delta = Math.min(delta, lmNorm);
                 }
 
                 // Evaluate the function at x + p and calculate its norm.
@@ -485,7 +485,7 @@ public class LevenbergMarquardtOptimizer implements LeastSquaresOptimizer {
                         if ((0.1 * currentCost >= previousCost) || (tmp < 0.1)) {
                             tmp = 0.1;
                         }
-                        delta = tmp * FastMath.min(delta, 10.0 * lmNorm);
+                        delta = tmp * Math.min(delta, 10.0 * lmNorm);
                         lmPar /= tmp;
                 } else if ((lmPar == 0) || (ratio >= 0.75)) {
                     delta = 2 * lmNorm;
@@ -501,7 +501,7 @@ public class LevenbergMarquardtOptimizer implements LeastSquaresOptimizer {
                         double xK = diag[k] * currentPoint[k];
                         xNorm += xK * xK;
                     }
-                    xNorm = FastMath.sqrt(xNorm);
+                    xNorm = Math.sqrt(xNorm);
 
                     // tests for convergence.
                     if (checker != null && checker.converged(iterationCounter.getCount(), previous, current)) {
@@ -522,7 +522,7 @@ public class LevenbergMarquardtOptimizer implements LeastSquaresOptimizer {
                 }
 
                 // Default convergence criteria.
-                if ((FastMath.abs(actRed) <= costRelativeTolerance &&
+                if ((Math.abs(actRed) <= costRelativeTolerance &&
                      preRed <= costRelativeTolerance &&
                      ratio <= 2.0) ||
                     delta <= parRelativeTolerance * xNorm) {
@@ -530,7 +530,7 @@ public class LevenbergMarquardtOptimizer implements LeastSquaresOptimizer {
                 }
 
                 // tests for termination and stringent tolerances
-                if (FastMath.abs(actRed) <= TWO_EPS &&
+                if (Math.abs(actRed) <= TWO_EPS &&
                     preRed <= TWO_EPS &&
                     ratio <= 2.0) {
                     throw new ConvergenceException(LocalizedFormats.TOO_SMALL_COST_RELATIVE_TOLERANCE,
@@ -654,7 +654,7 @@ public class LevenbergMarquardtOptimizer implements LeastSquaresOptimizer {
             work1[pj] = s;
             dxNorm += s * s;
         }
-        dxNorm = FastMath.sqrt(dxNorm);
+        dxNorm = Math.sqrt(dxNorm);
         double fp = dxNorm - delta;
         if (fp <= 0.1 * delta) {
             lmPar = 0;
@@ -696,15 +696,15 @@ public class LevenbergMarquardtOptimizer implements LeastSquaresOptimizer {
             sum /= diag[pj];
             sum2 += sum * sum;
         }
-        double gNorm = FastMath.sqrt(sum2);
+        double gNorm = Math.sqrt(sum2);
         double paru = gNorm / delta;
         if (paru == 0) {
-            paru = Precision.SAFE_MIN / FastMath.min(delta, 0.1);
+            paru = Precision.SAFE_MIN / Math.min(delta, 0.1);
         }
 
         // if the input par lies outside of the interval (parl,paru),
         // set par to the closer endpoint
-        lmPar = FastMath.min(paru, FastMath.max(lmPar, parl));
+        lmPar = Math.min(paru, Math.max(lmPar, parl));
         if (lmPar == 0) {
             lmPar = gNorm / dxNorm;
         }
@@ -713,9 +713,9 @@ public class LevenbergMarquardtOptimizer implements LeastSquaresOptimizer {
 
             // evaluate the function at the current value of lmPar
             if (lmPar == 0) {
-                lmPar = FastMath.max(Precision.SAFE_MIN, 0.001 * paru);
+                lmPar = Math.max(Precision.SAFE_MIN, 0.001 * paru);
             }
-            double sPar = FastMath.sqrt(lmPar);
+            double sPar = Math.sqrt(lmPar);
             for (int j = 0; j < solvedCols; ++j) {
                 int pj = permutation[j];
                 work1[pj] = sPar * diag[pj];
@@ -729,13 +729,13 @@ public class LevenbergMarquardtOptimizer implements LeastSquaresOptimizer {
                 work3[pj] = s;
                 dxNorm += s * s;
             }
-            dxNorm = FastMath.sqrt(dxNorm);
+            dxNorm = Math.sqrt(dxNorm);
             double previousFP = fp;
             fp = dxNorm - delta;
 
             // if the function is small enough, accept the current value
             // of lmPar, also test for the exceptional cases where parl is zero
-            if (FastMath.abs(fp) <= 0.1 * delta ||
+            if (Math.abs(fp) <= 0.1 * delta ||
                 (parl == 0 &&
                  fp <= previousFP &&
                  previousFP < 0)) {
@@ -764,13 +764,13 @@ public class LevenbergMarquardtOptimizer implements LeastSquaresOptimizer {
 
             // depending on the sign of the function, update parl or paru.
             if (fp > 0) {
-                parl = FastMath.max(parl, lmPar);
+                parl = Math.max(parl, lmPar);
             } else if (fp < 0) {
-                paru = FastMath.min(paru, lmPar);
+                paru = Math.min(paru, lmPar);
             }
 
             // compute an improved estimate for lmPar
-            lmPar = FastMath.max(parl, lmPar + correction);
+            lmPar = Math.max(parl, lmPar + correction);
         }
 
         return lmPar;
@@ -846,13 +846,13 @@ public class LevenbergMarquardtOptimizer implements LeastSquaresOptimizer {
                     final double sin;
                     final double cos;
                     double rkk = weightedJacobian[k][pk];
-                    if (FastMath.abs(rkk) < FastMath.abs(lmDiag[k])) {
+                    if (Math.abs(rkk) < Math.abs(lmDiag[k])) {
                         final double cotan = rkk / lmDiag[k];
-                        sin   = 1.0 / FastMath.sqrt(1.0 + cotan * cotan);
+                        sin   = 1.0 / Math.sqrt(1.0 + cotan * cotan);
                         cos   = sin * cotan;
                     } else {
                         final double tan = lmDiag[k] / rkk;
-                        cos = 1.0 / FastMath.sqrt(1.0 + tan * tan);
+                        cos = 1.0 / Math.sqrt(1.0 + tan * tan);
                         sin = cos * tan;
                     }
 
@@ -955,7 +955,7 @@ public class LevenbergMarquardtOptimizer implements LeastSquaresOptimizer {
                 double akk = weightedJacobian[i][k];
                 norm2 += akk * akk;
             }
-            jacNorm[k] = FastMath.sqrt(norm2);
+            jacNorm[k] = Math.sqrt(norm2);
         }
 
         // transform the matrix column after column
@@ -988,7 +988,7 @@ public class LevenbergMarquardtOptimizer implements LeastSquaresOptimizer {
 
             // choose alpha such that Hk.u = alpha ek
             double akk = weightedJacobian[k][pk];
-            double alpha = (akk > 0) ? -FastMath.sqrt(ak2) : FastMath.sqrt(ak2);
+            double alpha = (akk > 0) ? -Math.sqrt(ak2) : Math.sqrt(ak2);
             double betak = 1.0 / (ak2 - akk * alpha);
             beta[pk] = betak;
 

@@ -19,6 +19,7 @@ package org.apache.commons.math3.optimization;
 
 import java.io.Serializable;
 
+import org.apache.commons.math3.util.Cloner;
 import org.apache.commons.math3.util.Pair;
 
 /**
@@ -61,11 +62,13 @@ public class PointVectorValuePair extends Pair<double[], double[]> implements Se
                                 final boolean copyArray) {
         super(copyArray ?
               ((point == null) ? null :
-               point.clone()) :
+						Cloner.clone(point))
+				:
               point,
               copyArray ?
               ((value == null) ? null :
-               value.clone()) :
+								Cloner.clone(value))
+						:
               value);
     }
 
@@ -76,7 +79,7 @@ public class PointVectorValuePair extends Pair<double[], double[]> implements Se
      */
     public double[] getPoint() {
         final double[] p = getKey();
-        return p == null ? null : p.clone();
+		return p == null ? null : Cloner.clone(p);
     }
 
     /**
@@ -96,7 +99,7 @@ public class PointVectorValuePair extends Pair<double[], double[]> implements Se
     @Override
     public double[] getValue() {
         final double[] v = super.getValue();
-        return v == null ? null : v.clone();
+		return v == null ? null : Cloner.clone(v);
     }
 
     /**
@@ -137,8 +140,8 @@ public class PointVectorValuePair extends Pair<double[], double[]> implements Se
          * @param value Value of the objective function at the point.
          */
         DataTransferObject(final double[] point, final double[] value) {
-            this.point = point.clone();
-            this.value = value.clone();
+			this.point = Cloner.clone(point);
+			this.value = Cloner.clone(value);
         }
 
         /** Replace the deserialized data transfer object with a {@link PointValuePair}.

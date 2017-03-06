@@ -23,7 +23,6 @@ import org.apache.commons.math3.exception.util.LocalizedFormats;
 import org.apache.commons.math3.random.RandomGenerator;
 import org.apache.commons.math3.random.Well19937c;
 import org.apache.commons.math3.special.Gamma;
-import org.apache.commons.math3.util.FastMath;
 
 /**
  * Implementation of the Weibull distribution. This implementation uses the
@@ -175,16 +174,16 @@ public class WeibullDistribution extends AbstractRealDistribution {
         }
 
         final double xscale = x / scale;
-        final double xscalepow = FastMath.pow(xscale, shape - 1);
+        final double xscalepow = Math.pow(xscale, shape - 1);
 
         /*
-         * FastMath.pow(x / scale, shape) =
-         * FastMath.pow(xscale, shape) =
-         * FastMath.pow(xscale, shape - 1) * xscale
+         * Math.pow(x / scale, shape) =
+         * Math.pow(xscale, shape) =
+         * Math.pow(xscale, shape - 1) * xscale
          */
         final double xscalepowshape = xscalepow * xscale;
 
-        return (shape / scale) * xscalepow * FastMath.exp(-xscalepowshape);
+        return (shape / scale) * xscalepow * Math.exp(-xscalepowshape);
     }
 
     /** {@inheritDoc} */
@@ -195,16 +194,16 @@ public class WeibullDistribution extends AbstractRealDistribution {
         }
 
         final double xscale = x / scale;
-        final double logxscalepow = FastMath.log(xscale) * (shape - 1);
+        final double logxscalepow = Math.log(xscale) * (shape - 1);
 
         /*
-         * FastMath.pow(x / scale, shape) =
-         * FastMath.pow(xscale, shape) =
-         * FastMath.pow(xscale, shape - 1) * xscale
+         * Math.pow(x / scale, shape) =
+         * Math.pow(xscale, shape) =
+         * Math.pow(xscale, shape - 1) * xscale
          */
-        final double xscalepowshape = FastMath.exp(logxscalepow) * xscale;
+        final double xscalepowshape = Math.exp(logxscalepow) * xscale;
 
-        return FastMath.log(shape / scale) + logxscalepow - xscalepowshape;
+        return Math.log(shape / scale) + logxscalepow - xscalepowshape;
     }
 
     /** {@inheritDoc} */
@@ -213,7 +212,7 @@ public class WeibullDistribution extends AbstractRealDistribution {
         if (x <= 0.0) {
             ret = 0.0;
         } else {
-            ret = 1.0 - FastMath.exp(-FastMath.pow(x / scale, shape));
+            ret = 1.0 - Math.exp(-Math.pow(x / scale, shape));
         }
         return ret;
     }
@@ -234,7 +233,7 @@ public class WeibullDistribution extends AbstractRealDistribution {
         } else  if (p == 1) {
             ret = Double.POSITIVE_INFINITY;
         } else {
-            ret = scale * FastMath.pow(-FastMath.log1p(-p), 1.0 / shape);
+            ret = scale * Math.pow(-Math.log1p(-p), 1.0 / shape);
         }
         return ret;
     }
@@ -274,7 +273,7 @@ public class WeibullDistribution extends AbstractRealDistribution {
         final double sh = getShape();
         final double sc = getScale();
 
-        return sc * FastMath.exp(Gamma.logGamma(1 + (1 / sh)));
+        return sc * Math.exp(Gamma.logGamma(1 + (1 / sh)));
     }
 
     /**
@@ -301,7 +300,7 @@ public class WeibullDistribution extends AbstractRealDistribution {
         final double sc = getScale();
         final double mn = getNumericalMean();
 
-        return (sc * sc) * FastMath.exp(Gamma.logGamma(1 + (2 / sh))) -
+        return (sc * sc) * Math.exp(Gamma.logGamma(1 + (2 / sh))) -
                (mn * mn);
     }
 

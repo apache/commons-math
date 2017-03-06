@@ -21,10 +21,8 @@ import java.util.Arrays;
 import java.util.Comparator;
 
 import org.apache.commons.math3.analysis.MultivariateFunction;
-import org.apache.commons.math3.exception.MathIllegalStateException;
 import org.apache.commons.math3.exception.NotStrictlyPositiveException;
 import org.apache.commons.math3.exception.NullArgumentException;
-import org.apache.commons.math3.exception.util.LocalizedFormats;
 import org.apache.commons.math3.random.RandomVectorGenerator;
 
 /**
@@ -110,12 +108,13 @@ public class BaseMultivariateMultiStartOptimizer<FUNC extends MultivariateFuncti
      * #optimize(int,MultivariateFunction,GoalType,double[]) optimize}
      * has not been called.
      */
-    public PointValuePair[] getOptima() {
-        if (optima == null) {
-            throw new MathIllegalStateException(LocalizedFormats.NO_OPTIMUM_COMPUTED_YET);
-        }
-        return optima.clone();
-    }
+	// public PointValuePair[] getOptima() {
+	// if (optima == null) {
+	// throw new
+	// MathIllegalStateException(LocalizedFormats.NO_OPTIMUM_COMPUTED_YET);
+	// }
+	// return Cloner.clone(optima);
+	// }
 
     /** {@inheritDoc} */
     public int getMaxEvaluations() {

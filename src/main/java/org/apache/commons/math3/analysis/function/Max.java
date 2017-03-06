@@ -28,6 +28,6 @@ import org.apache.commons.math3.util.FastMath;
 public class Max implements BivariateFunction {
     /** {@inheritDoc} */
     public double value(double x, double y) {
-        return FastMath.max(x, y);
+        return Math.max(x, y);
     }
 }

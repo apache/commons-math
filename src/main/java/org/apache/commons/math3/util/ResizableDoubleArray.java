@@ -22,8 +22,8 @@ import java.util.Arrays;
 import org.apache.commons.math3.exception.MathIllegalArgumentException;
 import org.apache.commons.math3.exception.MathIllegalStateException;
 import org.apache.commons.math3.exception.MathInternalError;
-import org.apache.commons.math3.exception.NullArgumentException;
 import org.apache.commons.math3.exception.NotStrictlyPositiveException;
+import org.apache.commons.math3.exception.NullArgumentException;
 import org.apache.commons.math3.exception.NumberIsTooSmallException;
 import org.apache.commons.math3.exception.util.LocalizedFormats;
 
@@ -683,16 +683,16 @@ public class ResizableDoubleArray implements DoubleArray, Serializable {
      * </p>
      */
     protected synchronized void expand() {
-        // notice the use of FastMath.ceil(), this guarantees that we will always
+        // notice the use of Math.ceil(), this guarantees that we will always
         // have an array of at least currentSize + 1.   Assume that the
         // current initial capacity is 1 and the expansion factor
         // is 1.000000000000000001.  The newly calculated size will be
         // rounded up to 2 after the multiplication is performed.
         int newSize = 0;
         if (expansionMode == ExpansionMode.MULTIPLICATIVE) {
-            newSize = (int) FastMath.ceil(internalArray.length * expansionFactor);
+            newSize = (int) Math.ceil(internalArray.length * expansionFactor);
         } else {
-            newSize = (int) (internalArray.length + FastMath.round(expansionFactor));
+            newSize = (int) (internalArray.length + Math.round(expansionFactor));
         }
         final double[] tempArray = new double[newSize];
 

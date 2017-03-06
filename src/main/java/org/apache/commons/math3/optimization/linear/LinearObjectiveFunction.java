@@ -17,14 +17,12 @@
 
 package org.apache.commons.math3.optimization.linear;
 
-import java.io.IOException;
-import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
+//import java.io.ObjectInputStream;
+//import java.io.ObjectOutputStream;
 import java.io.Serializable;
 
-import org.apache.commons.math3.linear.MatrixUtils;
-import org.apache.commons.math3.linear.RealVector;
 import org.apache.commons.math3.linear.ArrayRealVector;
+import org.apache.commons.math3.linear.RealVector;
 
 /**
  * An objective function for a linear optimization problem.
@@ -129,11 +127,11 @@ public class LinearObjectiveFunction implements Serializable {
      * @param oos stream where object should be written
      * @throws IOException if object cannot be written to stream
      */
-    private void writeObject(ObjectOutputStream oos)
-        throws IOException {
-        oos.defaultWriteObject();
-        MatrixUtils.serializeRealVector(coefficients, oos);
-    }
+	// private void writeObject(ObjectOutputStream oos)
+	// throws IOException {
+	// oos.defaultWriteObject();
+	// MatrixUtils.serializeRealVector(coefficients, oos);
+	// }
 
     /**
      * Deserialize the instance.
@@ -141,10 +139,10 @@ public class LinearObjectiveFunction implements Serializable {
      * @throws ClassNotFoundException if a class in the stream cannot be found
      * @throws IOException if object cannot be read from the stream
      */
-    private void readObject(ObjectInputStream ois)
-      throws ClassNotFoundException, IOException {
-        ois.defaultReadObject();
-        MatrixUtils.deserializeRealVector(this, "coefficients", ois);
-    }
+	// private void readObject(ObjectInputStream ois)
+	// throws ClassNotFoundException, IOException {
+	// ois.defaultReadObject();
+	// MatrixUtils.deserializeRealVector(this, "coefficients", ois);
+	// }
 
 }

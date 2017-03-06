@@ -32,7 +32,7 @@ import org.apache.commons.math3.util.FastMath;
 public class Cbrt implements UnivariateDifferentiableFunction, DifferentiableUnivariateFunction {
     /** {@inheritDoc} */
     public double value(double x) {
-        return FastMath.cbrt(x);
+        return Math.cbrt(x);
     }
 
     /** {@inheritDoc}

@@ -16,18 +16,19 @@
  */
 package org.apache.commons.math3.optim.nonlinear.scalar.noderiv;
 
-import org.apache.commons.math3.util.FastMath;
-import org.apache.commons.math3.util.MathArrays;
-import org.apache.commons.math3.exception.NumberIsTooSmallException;
-import org.apache.commons.math3.exception.NotStrictlyPositiveException;
 import org.apache.commons.math3.exception.MathUnsupportedOperationException;
+import org.apache.commons.math3.exception.NotStrictlyPositiveException;
+import org.apache.commons.math3.exception.NumberIsTooSmallException;
 import org.apache.commons.math3.exception.util.LocalizedFormats;
-import org.apache.commons.math3.optim.nonlinear.scalar.GoalType;
-import org.apache.commons.math3.optim.PointValuePair;
 import org.apache.commons.math3.optim.ConvergenceChecker;
-import org.apache.commons.math3.optim.nonlinear.scalar.MultivariateOptimizer;
+import org.apache.commons.math3.optim.PointValuePair;
+import org.apache.commons.math3.optim.nonlinear.scalar.GoalType;
 import org.apache.commons.math3.optim.nonlinear.scalar.LineSearch;
+import org.apache.commons.math3.optim.nonlinear.scalar.MultivariateOptimizer;
 import org.apache.commons.math3.optim.univariate.UnivariatePointValuePair;
+import org.apache.commons.math3.util.Cloner;
+import org.apache.commons.math3.util.GWTMath;
+import org.apache.commons.math3.util.MathArrays;
 
 /**
  * Powell's algorithm.
@@ -59,7 +60,7 @@ public class PowellOptimizer
     /**
      * Minimum relative tolerance.
      */
-    private static final double MIN_RELATIVE_TOLERANCE = 2 * FastMath.ulp(1d);
+	private static final double MIN_RELATIVE_TOLERANCE = 2 * GWTMath.ulp(1d);
     /**
      * Relative threshold.
      */
@@ -90,7 +91,7 @@ public class PowellOptimizer
     public PowellOptimizer(double rel,
                            double abs,
                            ConvergenceChecker<PointValuePair> checker) {
-        this(rel, abs, FastMath.sqrt(rel), FastMath.sqrt(abs), checker);
+        this(rel, abs, Math.sqrt(rel), Math.sqrt(abs), checker);
     }
 
     /**
@@ -181,7 +182,7 @@ public class PowellOptimizer
 
         double[] x = guess;
         double fVal = computeObjectiveValue(x);
-        double[] x1 = x.clone();
+		double[] x1 = Cloner.clone(x);
         while (true) {
             incrementIterationCount();
 
@@ -210,7 +211,7 @@ public class PowellOptimizer
 
             // Default convergence check.
             boolean stop = 2 * (fX - fVal) <=
-                (relativeThreshold * (FastMath.abs(fX) + FastMath.abs(fVal)) +
+                (relativeThreshold * (Math.abs(fX) + Math.abs(fVal)) +
                  absoluteThreshold);
 
             final PointValuePair previous = new PointValuePair(x1, fX);
@@ -233,7 +234,7 @@ public class PowellOptimizer
                 x2[i] = 2 * x[i] - x1[i];
             }
 
-            x1 = x.clone();
+			x1 = Cloner.clone(x);
             fX2 = computeObjectiveValue(x2);
 
             if (fX > fX2) {

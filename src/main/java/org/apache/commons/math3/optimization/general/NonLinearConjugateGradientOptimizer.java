@@ -17,15 +17,16 @@
 
 package org.apache.commons.math3.optimization.general;
 
-import org.apache.commons.math3.exception.MathIllegalStateException;
 import org.apache.commons.math3.analysis.UnivariateFunction;
 import org.apache.commons.math3.analysis.solvers.BrentSolver;
 import org.apache.commons.math3.analysis.solvers.UnivariateSolver;
+import org.apache.commons.math3.exception.MathIllegalStateException;
 import org.apache.commons.math3.exception.util.LocalizedFormats;
+import org.apache.commons.math3.optimization.ConvergenceChecker;
 import org.apache.commons.math3.optimization.GoalType;
 import org.apache.commons.math3.optimization.PointValuePair;
 import org.apache.commons.math3.optimization.SimpleValueChecker;
-import org.apache.commons.math3.optimization.ConvergenceChecker;
+import org.apache.commons.math3.util.Cloner;
 import org.apache.commons.math3.util.FastMath;
 
 /**
@@ -160,7 +161,7 @@ public class NonLinearConjugateGradientOptimizer
 
         // Initial search direction.
         double[] steepestDescent = preconditioner.precondition(point, r);
-        double[] searchDirection = steepestDescent.clone();
+		double[] searchDirection = Cloner.clone(steepestDescent);
 
         double delta = 0;
         for (int i = 0; i < n; ++i) {
@@ -226,7 +227,7 @@ public class NonLinearConjugateGradientOptimizer
             if (iter % n == 0 ||
                 beta < 0) {
                 // Break conjugation: reset search direction.
-                searchDirection = steepestDescent.clone();
+				searchDirection = Cloner.clone(steepestDescent);
             } else {
                 // Compute new conjugate search direction.
                 for (int i = 0; i < n; ++i) {
@@ -249,7 +250,7 @@ public class NonLinearConjugateGradientOptimizer
                                   final double a, final double h) {
         final double yA = f.value(a);
         double yB = yA;
-        for (double step = h; step < Double.MAX_VALUE; step *= FastMath.max(2, yA / yB)) {
+        for (double step = h; step < Double.MAX_VALUE; step *= Math.max(2, yA / yB)) {
             final double b = a + step;
             yB = f.value(b);
             if (yA * yB <= 0) {
@@ -264,7 +265,7 @@ public class NonLinearConjugateGradientOptimizer
 
         /** {@inheritDoc} */
         public double[] precondition(double[] variables, double[] r) {
-            return r.clone();
+			return Cloner.clone(r);
         }
     }
 
@@ -291,7 +292,7 @@ public class NonLinearConjugateGradientOptimizer
         /** {@inheritDoc} */
         public double value(double x) {
             // current point in the search direction
-            final double[] shiftedPoint = point.clone();
+			final double[] shiftedPoint = Cloner.clone(point);
             for (int i = 0; i < shiftedPoint.length; ++i) {
                 shiftedPoint[i] += x * searchDirection[i];
             }

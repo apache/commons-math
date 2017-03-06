@@ -17,6 +17,8 @@
 
 package org.apache.commons.math3.optim;
 
+import org.apache.commons.math3.util.Cloner;
+
 /**
  * Starting point (first guess) of the optimization procedure.
  * <br/>
@@ -32,7 +34,7 @@ public class InitialGuess implements OptimizationData {
      * @param startPoint Initial guess.
      */
     public InitialGuess(double[] startPoint) {
-        init = startPoint.clone();
+		init = Cloner.clone(startPoint);
     }
 
     /**
@@ -41,6 +43,6 @@ public class InitialGuess implements OptimizationData {
      * @return the initial guess.
      */
     public double[] getInitialGuess() {
-        return init.clone();
+		return Cloner.clone(init);
     }
 }

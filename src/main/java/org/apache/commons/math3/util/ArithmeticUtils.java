@@ -261,7 +261,7 @@ public final class ArithmeticUtils {
                 throw new MathArithmeticException(LocalizedFormats.GCD_OVERFLOW_32_BITS,
                                                   p, q);
             }
-            return FastMath.abs(a + b);
+            return Math.abs(a + b);
         }
 
         long al = a;
@@ -341,7 +341,7 @@ public final class ArithmeticUtils {
         a >>= aTwos;
         final int bTwos = Integer.numberOfTrailingZeros(b);
         b >>= bTwos;
-        final int shift = FastMath.min(aTwos, bTwos);
+        final int shift = Math.min(aTwos, bTwos);
 
         // "a" and "b" are positive.
         // If a > b then "gdc(a, b)" is equal to "gcd(a - b, b)".
@@ -399,7 +399,7 @@ public final class ArithmeticUtils {
                 throw new MathArithmeticException(LocalizedFormats.GCD_OVERFLOW_64_BITS,
                                                   p, q);
             }
-            return FastMath.abs(u) + FastMath.abs(v);
+            return Math.abs(u) + Math.abs(v);
         }
         // keep u and v negative, as negative integers range down to
         // -2^63, while positive numbers can only be as large as 2^63-1
@@ -475,7 +475,7 @@ public final class ArithmeticUtils {
         if (a == 0 || b == 0){
             return 0;
         }
-        int lcm = FastMath.abs(ArithmeticUtils.mulAndCheck(a / gcd(a, b), b));
+        int lcm = Math.abs(ArithmeticUtils.mulAndCheck(a / gcd(a, b), b));
         if (lcm == Integer.MIN_VALUE) {
             throw new MathArithmeticException(LocalizedFormats.LCM_OVERFLOW_32_BITS,
                                               a, b);
@@ -509,7 +509,7 @@ public final class ArithmeticUtils {
         if (a == 0 || b == 0){
             return 0;
         }
-        long lcm = FastMath.abs(ArithmeticUtils.mulAndCheck(a / gcd(a, b), b));
+        long lcm = Math.abs(ArithmeticUtils.mulAndCheck(a / gcd(a, b), b));
         if (lcm == Long.MIN_VALUE){
             throw new MathArithmeticException(LocalizedFormats.LCM_OVERFLOW_64_BITS,
                                               a, b);
@@ -870,11 +870,12 @@ public final class ArithmeticUtils {
      * @deprecated use {@link CombinatoricsUtils#stirlingS2(int, int)}
      */
     @Deprecated
-    public static long stirlingS2(final int n, final int k)
-        throws NotPositiveException, NumberIsTooLargeException, MathArithmeticException {
-        return CombinatoricsUtils.stirlingS2(n, k);
-
-    }
+	// public static long stirlingS2(final int n, final int k)
+	// throws NotPositiveException, NumberIsTooLargeException,
+	// MathArithmeticException {
+	// return CombinatoricsUtils.stirlingS2(n, k);
+	//
+	// }
 
     /**
      * Add two long integers, checking for overflow.

@@ -17,14 +17,8 @@
 
 package org.apache.commons.math3.random;
 
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileInputStream;
+//import java.io.BufferedReader;
 import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.net.URL;
-import java.nio.charset.Charset;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -34,14 +28,12 @@ import org.apache.commons.math3.distribution.NormalDistribution;
 import org.apache.commons.math3.distribution.RealDistribution;
 import org.apache.commons.math3.exception.MathIllegalStateException;
 import org.apache.commons.math3.exception.MathInternalError;
+import org.apache.commons.math3.exception.NotStrictlyPositiveException;
 import org.apache.commons.math3.exception.NullArgumentException;
 import org.apache.commons.math3.exception.OutOfRangeException;
-import org.apache.commons.math3.exception.ZeroException;
-import org.apache.commons.math3.exception.NotStrictlyPositiveException;
 import org.apache.commons.math3.exception.util.LocalizedFormats;
 import org.apache.commons.math3.stat.descriptive.StatisticalSummary;
 import org.apache.commons.math3.stat.descriptive.SummaryStatistics;
-import org.apache.commons.math3.util.FastMath;
 import org.apache.commons.math3.util.MathUtils;
 
 /**
@@ -258,29 +250,31 @@ public class EmpiricalDistribution extends AbstractRealDistribution {
      * @throws NullArgumentException if url is null
      * @throws ZeroException if URL contains no data
      */
-    public void load(URL url) throws IOException, NullArgumentException, ZeroException {
-        MathUtils.checkNotNull(url);
-        Charset charset = Charset.forName(FILE_CHARSET);
-        BufferedReader in =
-            new BufferedReader(new InputStreamReader(url.openStream(), charset));
-        try {
-            DataAdapter da = new StreamDataAdapter(in);
-            da.computeStats();
-            if (sampleStats.getN() == 0) {
-                throw new ZeroException(LocalizedFormats.URL_CONTAINS_NO_DATA, url);
-            }
-            // new adapter for the second pass
-            in = new BufferedReader(new InputStreamReader(url.openStream(), charset));
-            fillBinStats(new StreamDataAdapter(in));
-            loaded = true;
-        } finally {
-           try {
-               in.close();
-           } catch (IOException ex) { //NOPMD
-               // ignore
-           }
-        }
-    }
+	// public void load(URL url) throws IOException, NullArgumentException,
+	// ZeroException {
+	// MathUtils.checkNotNull(url);
+	// Charset charset = Charset.forName(FILE_CHARSET);
+	// BufferedReader in =
+	// new BufferedReader(new InputStreamReader(url.openStream(), charset));
+	// try {
+	// DataAdapter da = new StreamDataAdapter(in);
+	// da.computeStats();
+	// if (sampleStats.getN() == 0) {
+	// throw new ZeroException(LocalizedFormats.URL_CONTAINS_NO_DATA, url);
+	// }
+	// // new adapter for the second pass
+	// in = new BufferedReader(new InputStreamReader(url.openStream(),
+	// charset));
+	// fillBinStats(new StreamDataAdapter(in));
+	// loaded = true;
+	// } finally {
+	// try {
+	// in.close();
+	// } catch (IOException ex) { //NOPMD
+	// // ignore
+	// }
+	// }
+	// }
 
     /**
      * Computes the empirical distribution from the input file.
@@ -292,27 +286,28 @@ public class EmpiricalDistribution extends AbstractRealDistribution {
      * @throws IOException if an IO error occurs
      * @throws NullArgumentException if file is null
      */
-    public void load(File file) throws IOException, NullArgumentException {
-        MathUtils.checkNotNull(file);
-        Charset charset = Charset.forName(FILE_CHARSET);
-        InputStream is = new FileInputStream(file);
-        BufferedReader in = new BufferedReader(new InputStreamReader(is, charset));
-        try {
-            DataAdapter da = new StreamDataAdapter(in);
-            da.computeStats();
-            // new adapter for second pass
-            is = new FileInputStream(file);
-            in = new BufferedReader(new InputStreamReader(is, charset));
-            fillBinStats(new StreamDataAdapter(in));
-            loaded = true;
-        } finally {
-            try {
-                in.close();
-            } catch (IOException ex) { //NOPMD
-                // ignore
-            }
-        }
-    }
+	// public void load(File file) throws IOException, NullArgumentException {
+	// MathUtils.checkNotNull(file);
+	// Charset charset = Charset.forName(FILE_CHARSET);
+	// InputStream is = new FileInputStream(file);
+	// BufferedReader in = new BufferedReader(new InputStreamReader(is,
+	// charset));
+	// try {
+	// DataAdapter da = new StreamDataAdapter(in);
+	// da.computeStats();
+	// // new adapter for second pass
+	// is = new FileInputStream(file);
+	// in = new BufferedReader(new InputStreamReader(is, charset));
+	// fillBinStats(new StreamDataAdapter(in));
+	// loaded = true;
+	// } finally {
+	// try {
+	// in.close();
+	// } catch (IOException ex) { //NOPMD
+	// // ignore
+	// }
+	// }
+	// }
 
     /**
      * Provides methods for computing <code>sampleStats</code> and
@@ -339,50 +334,50 @@ public class EmpiricalDistribution extends AbstractRealDistribution {
     /**
      * <code>DataAdapter</code> for data provided through some input stream
      */
-    private class StreamDataAdapter extends DataAdapter{
-
-        /** Input stream providing access to the data */
-        private BufferedReader inputStream;
-
-        /**
-         * Create a StreamDataAdapter from a BufferedReader
-         *
-         * @param in BufferedReader input stream
-         */
-        StreamDataAdapter(BufferedReader in){
-            super();
-            inputStream = in;
-        }
-
-        /** {@inheritDoc} */
-        @Override
-        public void computeBinStats() throws IOException {
-            String str = null;
-            double val = 0.0d;
-            while ((str = inputStream.readLine()) != null) {
-                val = Double.parseDouble(str);
-                SummaryStatistics stats = binStats.get(findBin(val));
-                stats.addValue(val);
-            }
-
-            inputStream.close();
-            inputStream = null;
-        }
-
-        /** {@inheritDoc} */
-        @Override
-        public void computeStats() throws IOException {
-            String str = null;
-            double val = 0.0;
-            sampleStats = new SummaryStatistics();
-            while ((str = inputStream.readLine()) != null) {
-                val = Double.parseDouble(str);
-                sampleStats.addValue(val);
-            }
-            inputStream.close();
-            inputStream = null;
-        }
-    }
+	// private class StreamDataAdapter extends DataAdapter{
+	//
+	// /** Input stream providing access to the data */
+	// private BufferedReader inputStream;
+	//
+	// /**
+	// * Create a StreamDataAdapter from a BufferedReader
+	// *
+	// * @param in BufferedReader input stream
+	// */
+	// StreamDataAdapter(BufferedReader in){
+	// super();
+	// inputStream = in;
+	// }
+	//
+	// /** {@inheritDoc} */
+	// @Override
+	// public void computeBinStats() throws IOException {
+	// String str = null;
+	// double val = 0.0d;
+	// while ((str = inputStream.readLine()) != null) {
+	// val = Double.parseDouble(str);
+	// SummaryStatistics stats = binStats.get(findBin(val));
+	// stats.addValue(val);
+	// }
+	//
+	// inputStream.close();
+	// inputStream = null;
+	// }
+	//
+	// /** {@inheritDoc} */
+	// @Override
+	// public void computeStats() throws IOException {
+	// String str = null;
+	// double val = 0.0;
+	// sampleStats = new SummaryStatistics();
+	// while ((str = inputStream.readLine()) != null) {
+	// val = Double.parseDouble(str);
+	// sampleStats.addValue(val);
+	// }
+	// inputStream.close();
+	// inputStream = null;
+	// }
+	// }
 
     /**
      * <code>DataAdapter</code> for data provided as array of doubles.
@@ -467,8 +462,8 @@ public class EmpiricalDistribution extends AbstractRealDistribution {
      * @return the index of the bin containing the value
      */
     private int findBin(double value) {
-        return FastMath.min(
-                FastMath.max((int) FastMath.ceil((value - min) / delta) - 1, 0),
+        return Math.min(
+                Math.max((int) Math.ceil((value - min) / delta) - 1, 0),
                 binCount - 1);
     }
 

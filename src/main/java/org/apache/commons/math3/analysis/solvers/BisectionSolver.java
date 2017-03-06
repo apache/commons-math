@@ -82,7 +82,7 @@ public class BisectionSolver extends AbstractUnivariateSolver {
                 max = m;
             }
 
-            if (FastMath.abs(max - min) <= absoluteAccuracy) {
+            if (Math.abs(max - min) <= absoluteAccuracy) {
                 m = UnivariateSolverUtils.midpoint(min, max);
                 return m;
             }

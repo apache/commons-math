@@ -119,8 +119,8 @@ public class SimpleUnivariateValueChecker
 
         final double p = previous.getValue();
         final double c = current.getValue();
-        final double difference = FastMath.abs(p - c);
-        final double size = FastMath.max(FastMath.abs(p), FastMath.abs(c));
+        final double difference = Math.abs(p - c);
+        final double size = Math.max(Math.abs(p), Math.abs(c));
         return difference <= size * getRelativeThreshold() ||
             difference <= getAbsoluteThreshold();
     }

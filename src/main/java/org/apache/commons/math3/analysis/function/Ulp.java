@@ -18,7 +18,7 @@
 package org.apache.commons.math3.analysis.function;
 
 import org.apache.commons.math3.analysis.UnivariateFunction;
-import org.apache.commons.math3.util.FastMath;
+import org.apache.commons.math3.util.GWTMath;
 
 /**
  * {@code ulp} function.
@@ -28,6 +28,6 @@ import org.apache.commons.math3.util.FastMath;
 public class Ulp implements UnivariateFunction {
     /** {@inheritDoc} */
     public double value(double x) {
-        return FastMath.ulp(x);
+		return GWTMath.ulp(x);
     }
 }

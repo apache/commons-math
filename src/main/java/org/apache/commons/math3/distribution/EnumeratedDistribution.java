@@ -17,7 +17,7 @@
 package org.apache.commons.math3.distribution;
 
 import java.io.Serializable;
-import java.lang.reflect.Array;
+//import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -27,7 +27,6 @@ import org.apache.commons.math3.exception.NotANumberException;
 import org.apache.commons.math3.exception.NotFiniteNumberException;
 import org.apache.commons.math3.exception.NotPositiveException;
 import org.apache.commons.math3.exception.NotStrictlyPositiveException;
-import org.apache.commons.math3.exception.NullArgumentException;
 import org.apache.commons.math3.exception.util.LocalizedFormats;
 import org.apache.commons.math3.random.RandomGenerator;
 import org.apache.commons.math3.random.Well19937c;
@@ -262,30 +261,34 @@ public class EnumeratedDistribution<T> implements Serializable {
      * @throws NotStrictlyPositiveException if {@code sampleSize} is not positive.
      * @throws NullArgumentException if {@code array} is null
      */
-    public T[] sample(int sampleSize, final T[] array) throws NotStrictlyPositiveException {
-        if (sampleSize <= 0) {
-            throw new NotStrictlyPositiveException(LocalizedFormats.NUMBER_OF_SAMPLES, sampleSize);
-        }
-
-        if (array == null) {
-            throw new NullArgumentException(LocalizedFormats.INPUT_ARRAY);
-        }
-
-        T[] out;
-        if (array.length < sampleSize) {
-            @SuppressWarnings("unchecked") // safe as both are of type T
-            final T[] unchecked = (T[]) Array.newInstance(array.getClass().getComponentType(), sampleSize);
-            out = unchecked;
-        } else {
-            out = array;
-        }
-
-        for (int i = 0; i < sampleSize; i++) {
-            out[i] = sample();
-        }
-
-        return out;
-
-    }
+	// public T[] sample(int sampleSize, final T[] array) throws
+	// NotStrictlyPositiveException {
+	// if (sampleSize <= 0) {
+	// throw new
+	// NotStrictlyPositiveException(LocalizedFormats.NUMBER_OF_SAMPLES,
+	// sampleSize);
+	// }
+	//
+	// if (array == null) {
+	// throw new NullArgumentException(LocalizedFormats.INPUT_ARRAY);
+	// }
+	//
+	// T[] out;
+	// if (array.length < sampleSize) {
+	// @SuppressWarnings("unchecked") // safe as both are of type T
+	// final T[] unchecked = (T[])
+	// Array.newInstance(array.getClass().getComponentType(), sampleSize);
+	// out = unchecked;
+	// } else {
+	// out = array;
+	// }
+	//
+	// for (int i = 0; i < sampleSize; i++) {
+	// out[i] = sample();
+	// }
+	//
+	// return out;
+	//
+	// }
 
 }

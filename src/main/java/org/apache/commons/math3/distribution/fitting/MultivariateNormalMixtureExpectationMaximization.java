@@ -166,7 +166,7 @@ public class MultivariateNormalMixtureExpectationMaximization {
         fittedModel = new MixtureMultivariateNormalDistribution(initialMixture.getComponents());
 
         while (numIterations++ <= maxIterations &&
-               FastMath.abs(previousLogLikelihood - logLikelihood) > threshold) {
+               Math.abs(previousLogLikelihood - logLikelihood) > threshold) {
             previousLogLikelihood = logLikelihood;
             double sumLogLikelihood = 0d;
 
@@ -198,7 +198,7 @@ public class MultivariateNormalMixtureExpectationMaximization {
 
             for (int i = 0; i < n; i++) {
                 final double rowDensity = fittedModel.density(data[i]);
-                sumLogLikelihood += FastMath.log(rowDensity);
+                sumLogLikelihood += Math.log(rowDensity);
 
                 for (int j = 0; j < k; j++) {
                     gamma[i][j] = weights[j] * mvns[j].density(data[i]) / rowDensity;
@@ -252,7 +252,7 @@ public class MultivariateNormalMixtureExpectationMaximization {
                                                                     newCovMatArrays);
         }
 
-        if (FastMath.abs(previousLogLikelihood - logLikelihood) > threshold) {
+        if (Math.abs(previousLogLikelihood - logLikelihood) > threshold) {
             // Did not converge before the maximum number of iterations
             throw new ConvergenceException();
         }

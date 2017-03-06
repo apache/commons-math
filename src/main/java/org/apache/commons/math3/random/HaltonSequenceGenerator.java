@@ -20,6 +20,7 @@ import org.apache.commons.math3.exception.DimensionMismatchException;
 import org.apache.commons.math3.exception.NotPositiveException;
 import org.apache.commons.math3.exception.NullArgumentException;
 import org.apache.commons.math3.exception.OutOfRangeException;
+import org.apache.commons.math3.util.Cloner;
 import org.apache.commons.math3.util.MathUtils;
 
 /**
@@ -115,8 +116,8 @@ public class HaltonSequenceGenerator implements RandomVectorGenerator {
         }
 
         this.dimension = dimension;
-        this.base = bases.clone();
-        this.weight = weights == null ? null : weights.clone();
+		this.base = Cloner.clone(bases);
+		this.weight = weights == null ? null : Cloner.clone(weights);
         count = 0;
     }
 

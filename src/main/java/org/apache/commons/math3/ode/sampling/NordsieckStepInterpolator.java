@@ -17,14 +17,13 @@
 
 package org.apache.commons.math3.ode.sampling;
 
-import java.io.IOException;
-import java.io.ObjectInput;
-import java.io.ObjectOutput;
+//import java.io.ObjectOutput;
 import java.util.Arrays;
 
 import org.apache.commons.math3.exception.MaxCountExceededException;
 import org.apache.commons.math3.linear.Array2DRowRealMatrix;
 import org.apache.commons.math3.ode.EquationsMapper;
+import org.apache.commons.math3.util.Cloner;
 import org.apache.commons.math3.util.FastMath;
 
 /**
@@ -83,13 +82,13 @@ public class NordsieckStepInterpolator extends AbstractStepInterpolator {
         scalingH      = interpolator.scalingH;
         referenceTime = interpolator.referenceTime;
         if (interpolator.scaled != null) {
-            scaled = interpolator.scaled.clone();
+			scaled = Cloner.clone(interpolator.scaled);
         }
         if (interpolator.nordsieck != null) {
             nordsieck = new Array2DRowRealMatrix(interpolator.nordsieck.getDataRef(), true);
         }
         if (interpolator.stateVariation != null) {
-            stateVariation = interpolator.stateVariation.clone();
+			stateVariation = Cloner.clone(interpolator.stateVariation);
         }
     }
 
@@ -200,7 +199,7 @@ public class NordsieckStepInterpolator extends AbstractStepInterpolator {
         for (int i = nData.length - 1; i >= 0; --i) {
             final int order = i + 2;
             final double[] nDataI = nData[i];
-            final double power = FastMath.pow(normalizedAbscissa, order);
+            final double power = Math.pow(normalizedAbscissa, order);
             for (int j = 0; j < nDataI.length; ++j) {
                 final double d = nDataI[j] * power;
                 stateVariation[j]          += d;
@@ -218,76 +217,76 @@ public class NordsieckStepInterpolator extends AbstractStepInterpolator {
     }
 
     /** {@inheritDoc} */
-    @Override
-    public void writeExternal(final ObjectOutput out)
-        throws IOException {
-
-        // save the state of the base class
-        writeBaseExternal(out);
-
-        // save the local attributes
-        out.writeDouble(scalingH);
-        out.writeDouble(referenceTime);
-
-        final int n = (currentState == null) ? -1 : currentState.length;
-        if (scaled == null) {
-            out.writeBoolean(false);
-        } else {
-            out.writeBoolean(true);
-            for (int j = 0; j < n; ++j) {
-                out.writeDouble(scaled[j]);
-            }
-        }
-
-        if (nordsieck == null) {
-            out.writeBoolean(false);
-        } else {
-            out.writeBoolean(true);
-            out.writeObject(nordsieck);
-        }
-
-        // we don't save state variation, it will be recomputed
-
-    }
+	// @Override
+	// public void writeExternal(final ObjectOutput out)
+	// throws IOException {
+	//
+	// // save the state of the base class
+	// writeBaseExternal(out);
+	//
+	// // save the local attributes
+	// out.writeDouble(scalingH);
+	// out.writeDouble(referenceTime);
+	//
+	// final int n = (currentState == null) ? -1 : currentState.length;
+	// if (scaled == null) {
+	// out.writeBoolean(false);
+	// } else {
+	// out.writeBoolean(true);
+	// for (int j = 0; j < n; ++j) {
+	// out.writeDouble(scaled[j]);
+	// }
+	// }
+	//
+	// if (nordsieck == null) {
+	// out.writeBoolean(false);
+	// } else {
+	// out.writeBoolean(true);
+	// out.writeObject(nordsieck);
+	// }
+	//
+	// // we don't save state variation, it will be recomputed
+	//
+	// }
 
     /** {@inheritDoc} */
-    @Override
-    public void readExternal(final ObjectInput in)
-        throws IOException, ClassNotFoundException {
-
-        // read the base class
-        final double t = readBaseExternal(in);
-
-        // read the local attributes
-        scalingH      = in.readDouble();
-        referenceTime = in.readDouble();
-
-        final int n = (currentState == null) ? -1 : currentState.length;
-        final boolean hasScaled = in.readBoolean();
-        if (hasScaled) {
-            scaled = new double[n];
-            for (int j = 0; j < n; ++j) {
-                scaled[j] = in.readDouble();
-            }
-        } else {
-            scaled = null;
-        }
-
-        final boolean hasNordsieck = in.readBoolean();
-        if (hasNordsieck) {
-            nordsieck = (Array2DRowRealMatrix) in.readObject();
-        } else {
-            nordsieck = null;
-        }
-
-        if (hasScaled && hasNordsieck) {
-            // we can now set the interpolated time and state
-            stateVariation = new double[n];
-            setInterpolatedTime(t);
-        } else {
-            stateVariation = null;
-        }
-
-    }
+	// @Override
+	// public void readExternal(final ObjectInput in)
+	// throws IOException, ClassNotFoundException {
+	//
+	// // read the base class
+	// final double t = readBaseExternal(in);
+	//
+	// // read the local attributes
+	// scalingH = in.readDouble();
+	// referenceTime = in.readDouble();
+	//
+	// final int n = (currentState == null) ? -1 : currentState.length;
+	// final boolean hasScaled = in.readBoolean();
+	// if (hasScaled) {
+	// scaled = new double[n];
+	// for (int j = 0; j < n; ++j) {
+	// scaled[j] = in.readDouble();
+	// }
+	// } else {
+	// scaled = null;
+	// }
+	//
+	// final boolean hasNordsieck = in.readBoolean();
+	// if (hasNordsieck) {
+	// nordsieck = (Array2DRowRealMatrix) in.readObject();
+	// } else {
+	// nordsieck = null;
+	// }
+	//
+	// if (hasScaled && hasNordsieck) {
+	// // we can now set the interpolated time and state
+	// stateVariation = new double[n];
+	// setInterpolatedTime(t);
+	// } else {
+	// stateVariation = null;
+	// }
+	//
+	// }
 
 }

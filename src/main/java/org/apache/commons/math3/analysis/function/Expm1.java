@@ -32,7 +32,7 @@ import org.apache.commons.math3.util.FastMath;
 public class Expm1 implements UnivariateDifferentiableFunction, DifferentiableUnivariateFunction {
     /** {@inheritDoc} */
     public double value(double x) {
-        return FastMath.expm1(x);
+        return Math.expm1(x);
     }
 
     /** {@inheritDoc}

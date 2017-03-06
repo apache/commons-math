@@ -16,12 +16,12 @@
  */
 package org.apache.commons.math3.optimization.univariate;
 
-import org.apache.commons.math3.util.Precision;
-import org.apache.commons.math3.util.FastMath;
-import org.apache.commons.math3.exception.NumberIsTooSmallException;
 import org.apache.commons.math3.exception.NotStrictlyPositiveException;
+import org.apache.commons.math3.exception.NumberIsTooSmallException;
 import org.apache.commons.math3.optimization.ConvergenceChecker;
 import org.apache.commons.math3.optimization.GoalType;
+import org.apache.commons.math3.util.GWTMath;
+import org.apache.commons.math3.util.Precision;
 
 /**
  * For a function defined on some interval {@code (lo, hi)}, this class
@@ -46,11 +46,11 @@ public class BrentOptimizer extends BaseAbstractUnivariateOptimizer {
     /**
      * Golden section.
      */
-    private static final double GOLDEN_SECTION = 0.5 * (3 - FastMath.sqrt(5));
+    private static final double GOLDEN_SECTION = 0.5 * (3 - Math.sqrt(5));
     /**
      * Minimum relative tolerance.
      */
-    private static final double MIN_RELATIVE_TOLERANCE = 2 * FastMath.ulp(1d);
+	private static final double MIN_RELATIVE_TOLERANCE = 2 * GWTMath.ulp(1d);
     /**
      * Relative threshold.
      */
@@ -154,18 +154,18 @@ public class BrentOptimizer extends BaseAbstractUnivariateOptimizer {
         int iter = 0;
         while (true) {
             final double m = 0.5 * (a + b);
-            final double tol1 = relativeThreshold * FastMath.abs(x) + absoluteThreshold;
+            final double tol1 = relativeThreshold * Math.abs(x) + absoluteThreshold;
             final double tol2 = 2 * tol1;
 
             // Default stopping criterion.
-            final boolean stop = FastMath.abs(x - m) <= tol2 - 0.5 * (b - a);
+            final boolean stop = Math.abs(x - m) <= tol2 - 0.5 * (b - a);
             if (!stop) {
                 double p = 0;
                 double q = 0;
                 double r = 0;
                 double u = 0;
 
-                if (FastMath.abs(e) > tol1) { // Fit parabola.
+                if (Math.abs(e) > tol1) { // Fit parabola.
                     r = (x - w) * (fx - fv);
                     q = (x - v) * (fx - fw);
                     p = (x - v) * q - (x - w) * r;
@@ -182,7 +182,7 @@ public class BrentOptimizer extends BaseAbstractUnivariateOptimizer {
 
                     if (p > q * (a - x) &&
                         p < q * (b - x) &&
-                        FastMath.abs(p) < FastMath.abs(0.5 * q * r)) {
+                        Math.abs(p) < Math.abs(0.5 * q * r)) {
                         // Parabolic interpolation step.
                         d = p / q;
                         u = x + d;
@@ -215,7 +215,7 @@ public class BrentOptimizer extends BaseAbstractUnivariateOptimizer {
                 }
 
                 // Update by at least "tol1".
-                if (FastMath.abs(d) < tol1) {
+                if (Math.abs(d) < tol1) {
                     if (d >= 0) {
                         u = x + tol1;
                     } else {

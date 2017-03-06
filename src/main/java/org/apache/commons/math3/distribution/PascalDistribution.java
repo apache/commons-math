@@ -23,7 +23,6 @@ import org.apache.commons.math3.random.RandomGenerator;
 import org.apache.commons.math3.random.Well19937c;
 import org.apache.commons.math3.special.Beta;
 import org.apache.commons.math3.util.CombinatoricsUtils;
-import org.apache.commons.math3.util.FastMath;
 
 /**
  * <p>
@@ -124,8 +123,8 @@ public class PascalDistribution extends AbstractIntegerDistribution {
 
         numberOfSuccesses = r;
         probabilityOfSuccess = p;
-        logProbabilityOfSuccess = FastMath.log(p);
-        log1mProbabilityOfSuccess = FastMath.log1p(-p);
+        logProbabilityOfSuccess = Math.log(p);
+        log1mProbabilityOfSuccess = Math.log1p(-p);
     }
 
     /**
@@ -154,8 +153,8 @@ public class PascalDistribution extends AbstractIntegerDistribution {
         } else {
             ret = CombinatoricsUtils.binomialCoefficientDouble(x +
                   numberOfSuccesses - 1, numberOfSuccesses - 1) *
-                  FastMath.pow(probabilityOfSuccess, numberOfSuccesses) *
-                  FastMath.pow(1.0 - probabilityOfSuccess, x);
+                  Math.pow(probabilityOfSuccess, numberOfSuccesses) *
+                  Math.pow(1.0 - probabilityOfSuccess, x);
         }
         return ret;
     }

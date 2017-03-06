@@ -254,7 +254,7 @@ public class SimplexSolver extends LinearOptimizer {
             // only consider pivot elements larger than the cutOff threshold
             // selecting others may lead to degeneracy or numerical instabilities
             if (Precision.compareTo(entry, 0d, cutOff) > 0) {
-                final double ratio = FastMath.abs(rhs / entry);
+                final double ratio = Math.abs(rhs / entry);
                 // check if the entry is strictly equal to the current min ratio
                 // do not use a ulp/epsilon check
                 final int cmp = Double.compare(ratio, minRatio);

@@ -23,6 +23,7 @@ import org.apache.commons.math3.analysis.UnivariateFunction;
 import org.apache.commons.math3.exception.MathIllegalArgumentException;
 import org.apache.commons.math3.exception.util.LocalizedFormats;
 import org.apache.commons.math3.util.ArithmeticUtils;
+import org.apache.commons.math3.util.Cloner;
 
 /**
  * Implements the <a href="http://www.archive.chipcenter.com/dsp/DSP000517F1.html">Fast Hadamard Transform</a> (FHT).
@@ -241,7 +242,7 @@ public class FastHadamardTransformer implements RealTransformer, Serializable {
          * one dimension arrays which we are used in an alternating way.
          */
         double[] yPrevious = new double[n];
-        double[] yCurrent  = x.clone();
+		double[] yCurrent = Cloner.clone(x);
 
         // iterate from left to right (column)
         for (int j = 1; j < n; j <<= 1) {
@@ -292,7 +293,7 @@ public class FastHadamardTransformer implements RealTransformer, Serializable {
          * one dimension arrays which we are used in an alternating way.
          */
         int[] yPrevious = new int[n];
-        int[] yCurrent  = x.clone();
+		int[] yCurrent = Cloner.clone(x);
 
         // iterate from left to right (column)
         for (int j = 1; j < n; j <<= 1) {

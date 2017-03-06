@@ -23,7 +23,6 @@ import org.apache.commons.math3.exception.util.LocalizedFormats;
 import org.apache.commons.math3.random.RandomGenerator;
 import org.apache.commons.math3.random.Well19937c;
 import org.apache.commons.math3.special.Erf;
-import org.apache.commons.math3.util.FastMath;
 
 /**
  * Implementation of the log-normal (gaussian) distribution.
@@ -60,10 +59,10 @@ public class LogNormalDistribution extends AbstractRealDistribution {
     private static final long serialVersionUID = 20120112;
 
     /** &radic;(2 &pi;) */
-    private static final double SQRT2PI = FastMath.sqrt(2 * FastMath.PI);
+    private static final double SQRT2PI = Math.sqrt(2 * Math.PI);
 
     /** &radic;(2) */
-    private static final double SQRT2 = FastMath.sqrt(2.0);
+    private static final double SQRT2 = Math.sqrt(2.0);
 
     /** The scale parameter of this distribution. */
     private final double scale;
@@ -171,7 +170,7 @@ public class LogNormalDistribution extends AbstractRealDistribution {
 
         this.scale = scale;
         this.shape = shape;
-        this.logShapePlusHalfLog2Pi = FastMath.log(shape) + 0.5 * FastMath.log(2 * FastMath.PI);
+        this.logShapePlusHalfLog2Pi = Math.log(shape) + 0.5 * Math.log(2 * Math.PI);
         this.solverAbsoluteAccuracy = inverseCumAccuracy;
     }
 
@@ -208,9 +207,9 @@ public class LogNormalDistribution extends AbstractRealDistribution {
         if (x <= 0) {
             return 0;
         }
-        final double x0 = FastMath.log(x) - scale;
+        final double x0 = Math.log(x) - scale;
         final double x1 = x0 / shape;
-        return FastMath.exp(-0.5 * x1 * x1) / (shape * SQRT2PI * x);
+        return Math.exp(-0.5 * x1 * x1) / (shape * SQRT2PI * x);
     }
 
     /** {@inheritDoc}
@@ -222,7 +221,7 @@ public class LogNormalDistribution extends AbstractRealDistribution {
         if (x <= 0) {
             return Double.NEGATIVE_INFINITY;
         }
-        final double logX = FastMath.log(x);
+        final double logX = Math.log(x);
         final double x0 = logX - scale;
         final double x1 = x0 / shape;
         return -0.5 * x1 * x1 - (logShapePlusHalfLog2Pi + logX);
@@ -247,8 +246,8 @@ public class LogNormalDistribution extends AbstractRealDistribution {
         if (x <= 0) {
             return 0;
         }
-        final double dev = FastMath.log(x) - scale;
-        if (FastMath.abs(dev) > 40 * shape) {
+        final double dev = Math.log(x) - scale;
+        if (Math.abs(dev) > 40 * shape) {
             return dev < 0 ? 0.0d : 1.0d;
         }
         return 0.5 + 0.5 * Erf.erf(dev / (shape * SQRT2));
@@ -278,8 +277,8 @@ public class LogNormalDistribution extends AbstractRealDistribution {
             return super.probability(x0, x1);
         }
         final double denom = shape * SQRT2;
-        final double v0 = (FastMath.log(x0) - scale) / denom;
-        final double v1 = (FastMath.log(x1) - scale) / denom;
+        final double v0 = (Math.log(x0) - scale) / denom;
+        final double v1 = (Math.log(x1) - scale) / denom;
         return 0.5 * Erf.erf(v0, v1);
     }
 
@@ -297,7 +296,7 @@ public class LogNormalDistribution extends AbstractRealDistribution {
      */
     public double getNumericalMean() {
         double s = shape;
-        return FastMath.exp(scale + (s * s / 2));
+        return Math.exp(scale + (s * s / 2));
     }
 
     /**
@@ -309,7 +308,7 @@ public class LogNormalDistribution extends AbstractRealDistribution {
     public double getNumericalVariance() {
         final double s = shape;
         final double ss = s * s;
-        return (FastMath.expm1(ss)) * FastMath.exp(2 * scale + ss);
+        return (Math.expm1(ss)) * Math.exp(2 * scale + ss);
     }
 
     /**
@@ -361,6 +360,6 @@ public class LogNormalDistribution extends AbstractRealDistribution {
     @Override
     public double sample()  {
         final double n = random.nextGaussian();
-        return FastMath.exp(scale + shape * n);
+        return Math.exp(scale + shape * n);
     }
 }

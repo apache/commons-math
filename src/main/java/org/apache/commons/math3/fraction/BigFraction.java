@@ -27,7 +27,7 @@ import org.apache.commons.math3.exception.NullArgumentException;
 import org.apache.commons.math3.exception.ZeroException;
 import org.apache.commons.math3.exception.util.LocalizedFormats;
 import org.apache.commons.math3.util.ArithmeticUtils;
-import org.apache.commons.math3.util.FastMath;
+import org.apache.commons.math3.util.GWTMath;
 import org.apache.commons.math3.util.MathUtils;
 
 /**
@@ -270,15 +270,15 @@ public class BigFraction
         throws FractionConversionException {
         long overflow = Integer.MAX_VALUE;
         double r0 = value;
-        long a0 = (long) FastMath.floor(r0);
+        long a0 = (long) Math.floor(r0);
 
-        if (FastMath.abs(a0) > overflow) {
+        if (Math.abs(a0) > overflow) {
             throw new FractionConversionException(value, a0, 1l);
         }
 
         // check for (almost) integer arguments, which should not go
         // to iterations.
-        if (FastMath.abs(a0 - value) < epsilon) {
+        if (Math.abs(a0 - value) < epsilon) {
             numerator = BigInteger.valueOf(a0);
             denominator = BigInteger.ONE;
             return;
@@ -297,13 +297,13 @@ public class BigFraction
         do {
             ++n;
             final double r1 = 1.0 / (r0 - a0);
-            final long a1 = (long) FastMath.floor(r1);
+            final long a1 = (long) Math.floor(r1);
             p2 = (a1 * p1) + p0;
             q2 = (a1 * q1) + q0;
             if ((p2 > overflow) || (q2 > overflow)) {
                 // in maxDenominator mode, if the last fraction was very close to the actual value
                 // q2 may overflow in the next iteration; in this case return the last one.
-                if (epsilon == 0.0 && FastMath.abs(q1) < maxDenominator) {
+                if (epsilon == 0.0 && Math.abs(q1) < maxDenominator) {
                     break;
                 }
                 throw new FractionConversionException(value, p2, q2);
@@ -311,7 +311,7 @@ public class BigFraction
 
             final double convergent = (double) p2 / (double) q2;
             if ((n < maxIterations) &&
-                (FastMath.abs(convergent - value) > epsilon) &&
+                (Math.abs(convergent - value) > epsilon) &&
                 (q2 < maxDenominator)) {
                 p0 = p1;
                 p1 = p2;
@@ -720,8 +720,9 @@ public class BigFraction
         if (Double.isNaN(result)) {
             // Numerator and/or denominator must be out of range:
             // Calculate how far to shift them to put them in range.
-            int shift = FastMath.max(numerator.bitLength(),
-                                     denominator.bitLength()) - FastMath.getExponent(Double.MAX_VALUE);
+            int shift = Math.max(numerator.bitLength(),
+					denominator.bitLength())
+					- GWTMath.getExponent(Double.MAX_VALUE);
             result = numerator.shiftRight(shift).doubleValue() /
                 denominator.shiftRight(shift).doubleValue();
         }
@@ -773,8 +774,9 @@ public class BigFraction
         if (Double.isNaN(result)) {
             // Numerator and/or denominator must be out of range:
             // Calculate how far to shift them to put them in range.
-            int shift = FastMath.max(numerator.bitLength(),
-                                     denominator.bitLength()) - FastMath.getExponent(Float.MAX_VALUE);
+            int shift = Math.max(numerator.bitLength(),
+					denominator.bitLength())
+					- GWTMath.getExponent(Float.MAX_VALUE);
             result = numerator.shiftRight(shift).floatValue() /
                 denominator.shiftRight(shift).floatValue();
         }
@@ -1079,8 +1081,8 @@ public class BigFraction
      * @return <tt>this<sup>exponent</sup></tt>.
      */
     public double pow(final double exponent) {
-        return FastMath.pow(numerator.doubleValue(),   exponent) /
-               FastMath.pow(denominator.doubleValue(), exponent);
+        return Math.pow(numerator.doubleValue(),   exponent) /
+               Math.pow(denominator.doubleValue(), exponent);
     }
 
     /**

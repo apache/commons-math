@@ -17,21 +17,22 @@
 
 package org.apache.commons.math3.optimization.direct;
 
-import org.apache.commons.math3.util.Incrementor;
-import org.apache.commons.math3.exception.MaxCountExceededException;
-import org.apache.commons.math3.exception.TooManyEvaluationsException;
-import org.apache.commons.math3.exception.DimensionMismatchException;
-import org.apache.commons.math3.exception.NullArgumentException;
 import org.apache.commons.math3.analysis.MultivariateVectorFunction;
-import org.apache.commons.math3.optimization.OptimizationData;
-import org.apache.commons.math3.optimization.InitialGuess;
-import org.apache.commons.math3.optimization.Target;
-import org.apache.commons.math3.optimization.Weight;
+import org.apache.commons.math3.exception.DimensionMismatchException;
+import org.apache.commons.math3.exception.MaxCountExceededException;
+import org.apache.commons.math3.exception.NullArgumentException;
+import org.apache.commons.math3.exception.TooManyEvaluationsException;
+import org.apache.commons.math3.linear.RealMatrix;
 import org.apache.commons.math3.optimization.BaseMultivariateVectorOptimizer;
 import org.apache.commons.math3.optimization.ConvergenceChecker;
+import org.apache.commons.math3.optimization.InitialGuess;
+import org.apache.commons.math3.optimization.OptimizationData;
 import org.apache.commons.math3.optimization.PointVectorValuePair;
 import org.apache.commons.math3.optimization.SimpleVectorValueChecker;
-import org.apache.commons.math3.linear.RealMatrix;
+import org.apache.commons.math3.optimization.Target;
+import org.apache.commons.math3.optimization.Weight;
+import org.apache.commons.math3.util.Cloner;
+import org.apache.commons.math3.util.Incrementor;
 
 /**
  * Base class for implementing optimizers for multivariate scalar functions.
@@ -247,7 +248,7 @@ public abstract class BaseAbstractMultivariateVectorOptimizer<FUNC extends Multi
      * @return the initial guess.
      */
     public double[] getStartPoint() {
-        return start.clone();
+		return Cloner.clone(start);
     }
 
     /**
@@ -267,7 +268,7 @@ public abstract class BaseAbstractMultivariateVectorOptimizer<FUNC extends Multi
      * @since 3.1
      */
     public double[] getTarget() {
-        return target.clone();
+		return Cloner.clone(target);
     }
 
     /**

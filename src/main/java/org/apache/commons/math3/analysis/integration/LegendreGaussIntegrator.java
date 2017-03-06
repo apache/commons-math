@@ -56,8 +56,8 @@ public class LegendreGaussIntegrator extends BaseAbstractUnivariateIntegrator {
 
     /** Abscissas for the 2 points method. */
     private static final double[] ABSCISSAS_2 = {
-        -1.0 / FastMath.sqrt(3.0),
-         1.0 / FastMath.sqrt(3.0)
+        -1.0 / Math.sqrt(3.0),
+         1.0 / Math.sqrt(3.0)
     };
 
     /** Weights for the 2 points method. */
@@ -68,9 +68,9 @@ public class LegendreGaussIntegrator extends BaseAbstractUnivariateIntegrator {
 
     /** Abscissas for the 3 points method. */
     private static final double[] ABSCISSAS_3 = {
-        -FastMath.sqrt(0.6),
+        -Math.sqrt(0.6),
          0.0,
-         FastMath.sqrt(0.6)
+         Math.sqrt(0.6)
     };
 
     /** Weights for the 3 points method. */
@@ -82,36 +82,36 @@ public class LegendreGaussIntegrator extends BaseAbstractUnivariateIntegrator {
 
     /** Abscissas for the 4 points method. */
     private static final double[] ABSCISSAS_4 = {
-        -FastMath.sqrt((15.0 + 2.0 * FastMath.sqrt(30.0)) / 35.0),
-        -FastMath.sqrt((15.0 - 2.0 * FastMath.sqrt(30.0)) / 35.0),
-         FastMath.sqrt((15.0 - 2.0 * FastMath.sqrt(30.0)) / 35.0),
-         FastMath.sqrt((15.0 + 2.0 * FastMath.sqrt(30.0)) / 35.0)
+        -Math.sqrt((15.0 + 2.0 * Math.sqrt(30.0)) / 35.0),
+        -Math.sqrt((15.0 - 2.0 * Math.sqrt(30.0)) / 35.0),
+         Math.sqrt((15.0 - 2.0 * Math.sqrt(30.0)) / 35.0),
+         Math.sqrt((15.0 + 2.0 * Math.sqrt(30.0)) / 35.0)
     };
 
     /** Weights for the 4 points method. */
     private static final double[] WEIGHTS_4 = {
-        (90.0 - 5.0 * FastMath.sqrt(30.0)) / 180.0,
-        (90.0 + 5.0 * FastMath.sqrt(30.0)) / 180.0,
-        (90.0 + 5.0 * FastMath.sqrt(30.0)) / 180.0,
-        (90.0 - 5.0 * FastMath.sqrt(30.0)) / 180.0
+        (90.0 - 5.0 * Math.sqrt(30.0)) / 180.0,
+        (90.0 + 5.0 * Math.sqrt(30.0)) / 180.0,
+        (90.0 + 5.0 * Math.sqrt(30.0)) / 180.0,
+        (90.0 - 5.0 * Math.sqrt(30.0)) / 180.0
     };
 
     /** Abscissas for the 5 points method. */
     private static final double[] ABSCISSAS_5 = {
-        -FastMath.sqrt((35.0 + 2.0 * FastMath.sqrt(70.0)) / 63.0),
-        -FastMath.sqrt((35.0 - 2.0 * FastMath.sqrt(70.0)) / 63.0),
+        -Math.sqrt((35.0 + 2.0 * Math.sqrt(70.0)) / 63.0),
+        -Math.sqrt((35.0 - 2.0 * Math.sqrt(70.0)) / 63.0),
          0.0,
-         FastMath.sqrt((35.0 - 2.0 * FastMath.sqrt(70.0)) / 63.0),
-         FastMath.sqrt((35.0 + 2.0 * FastMath.sqrt(70.0)) / 63.0)
+         Math.sqrt((35.0 - 2.0 * Math.sqrt(70.0)) / 63.0),
+         Math.sqrt((35.0 + 2.0 * Math.sqrt(70.0)) / 63.0)
     };
 
     /** Weights for the 5 points method. */
     private static final double[] WEIGHTS_5 = {
-        (322.0 - 13.0 * FastMath.sqrt(70.0)) / 900.0,
-        (322.0 + 13.0 * FastMath.sqrt(70.0)) / 900.0,
+        (322.0 - 13.0 * Math.sqrt(70.0)) / 900.0,
+        (322.0 + 13.0 * Math.sqrt(70.0)) / 900.0,
         128.0 / 225.0,
-        (322.0 + 13.0 * FastMath.sqrt(70.0)) / 900.0,
-        (322.0 - 13.0 * FastMath.sqrt(70.0)) / 900.0
+        (322.0 + 13.0 * Math.sqrt(70.0)) / 900.0,
+        (322.0 - 13.0 * Math.sqrt(70.0)) / 900.0
     };
 
     /** Abscissas for the current method. */
@@ -214,10 +214,10 @@ public class LegendreGaussIntegrator extends BaseAbstractUnivariateIntegrator {
             final double t = stage(n);
 
             // estimate error
-            final double delta = FastMath.abs(t - oldt);
+            final double delta = Math.abs(t - oldt);
             final double limit =
-                FastMath.max(getAbsoluteAccuracy(),
-                             getRelativeAccuracy() * (FastMath.abs(oldt) + FastMath.abs(t)) * 0.5);
+                Math.max(getAbsoluteAccuracy(),
+                             getRelativeAccuracy() * (Math.abs(oldt) + Math.abs(t)) * 0.5);
 
             // check convergence
             if ((getIterations() + 1 >= getMinimalIterationCount()) && (delta <= limit)) {
@@ -225,8 +225,8 @@ public class LegendreGaussIntegrator extends BaseAbstractUnivariateIntegrator {
             }
 
             // prepare next iteration
-            double ratio = FastMath.min(4, FastMath.pow(delta / limit, 0.5 / abscissas.length));
-            n = FastMath.max((int) (ratio * n), n + 1);
+            double ratio = Math.min(4, Math.pow(delta / limit, 0.5 / abscissas.length));
+            n = Math.max((int) (ratio * n), n + 1);
             oldt = t;
             incrementCount();
 

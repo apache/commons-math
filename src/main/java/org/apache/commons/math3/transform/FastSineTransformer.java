@@ -24,7 +24,6 @@ import org.apache.commons.math3.complex.Complex;
 import org.apache.commons.math3.exception.MathIllegalArgumentException;
 import org.apache.commons.math3.exception.util.LocalizedFormats;
 import org.apache.commons.math3.util.ArithmeticUtils;
-import org.apache.commons.math3.util.FastMath;
 
 /**
  * Implements the Fast Sine Transform for transformation of one-dimensional real
@@ -94,7 +93,7 @@ public class FastSineTransformer implements RealTransformer, Serializable {
      */
     public double[] transform(final double[] f, final TransformType type) {
         if (normalization == DstNormalization.ORTHOGONAL_DST_I) {
-            final double s = FastMath.sqrt(2.0 / f.length);
+            final double s = Math.sqrt(2.0 / f.length);
             return TransformUtils.scaleArray(fst(f), s);
         }
         if (type == TransformType.FORWARD) {
@@ -158,7 +157,7 @@ public class FastSineTransformer implements RealTransformer, Serializable {
         x[0] = 0.0;
         x[n >> 1] = 2.0 * f[n >> 1];
         for (int i = 1; i < (n >> 1); i++) {
-            final double a = FastMath.sin(i * FastMath.PI / n) * (f[i] + f[n - i]);
+            final double a = Math.sin(i * Math.PI / n) * (f[i] + f[n - i]);
             final double b = 0.5 * (f[i] - f[n - i]);
             x[i]     = a + b;
             x[n - i] = a - b;

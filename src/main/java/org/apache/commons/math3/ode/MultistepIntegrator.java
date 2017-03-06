@@ -28,7 +28,7 @@ import org.apache.commons.math3.ode.nonstiff.AdaptiveStepsizeIntegrator;
 import org.apache.commons.math3.ode.nonstiff.DormandPrince853Integrator;
 import org.apache.commons.math3.ode.sampling.StepHandler;
 import org.apache.commons.math3.ode.sampling.StepInterpolator;
-import org.apache.commons.math3.util.FastMath;
+import org.apache.commons.math3.util.Cloner;
 
 /**
  * This class is the base class for multistep integrators for Ordinary
@@ -133,7 +133,7 @@ public abstract class MultistepIntegrator extends AdaptiveStepsizeIntegrator {
         // set the default values of the algorithm control parameters
         setSafety(0.9);
         setMinReduction(0.2);
-        setMaxGrowth(FastMath.pow(2.0, -exp));
+        setMaxGrowth(Math.pow(2.0, -exp));
 
     }
 
@@ -172,7 +172,7 @@ public abstract class MultistepIntegrator extends AdaptiveStepsizeIntegrator {
         // set the default values of the algorithm control parameters
         setSafety(0.9);
         setMinReduction(0.2);
-        setMaxGrowth(FastMath.pow(2.0, -exp));
+        setMaxGrowth(Math.pow(2.0, -exp));
 
     }
 
@@ -329,7 +329,7 @@ public abstract class MultistepIntegrator extends AdaptiveStepsizeIntegrator {
      * @return grow/shrink factor for next step
      */
     protected double computeStepGrowShrinkFactor(final double error) {
-        return FastMath.min(maxGrowth, FastMath.max(minReduction, safety * FastMath.pow(error, exp)));
+        return Math.min(maxGrowth, Math.max(minReduction, safety * Math.pow(error, exp)));
     }
 
     /** Transformer used to convert the first step to Nordsieck representation.
@@ -422,7 +422,7 @@ public abstract class MultistepIntegrator extends AdaptiveStepsizeIntegrator {
                 stepSize  = (t[t.length - 1] - t[0]) / (t.length - 1);
 
                 // first scaled derivative
-                scaled = yDot[0].clone();
+				scaled = Cloner.clone(yDot[0]);
                 for (int j = 0; j < scaled.length; ++j) {
                     scaled[j] *= stepSize;
                 }

@@ -32,7 +32,7 @@ import org.apache.commons.math3.exception.util.LocalizedFormats;
 import org.apache.commons.math3.fitting.leastsquares.LeastSquaresBuilder;
 import org.apache.commons.math3.fitting.leastsquares.LeastSquaresProblem;
 import org.apache.commons.math3.linear.DiagonalMatrix;
-import org.apache.commons.math3.util.FastMath;
+import org.apache.commons.math3.util.Cloner;
 
 /**
  * Fits points to a {@link
@@ -137,7 +137,7 @@ public class GaussianCurveFitter extends AbstractCurveFitter {
      * @return a new instance.
      */
     public GaussianCurveFitter withStartPoint(double[] newStart) {
-        return new GaussianCurveFitter(newStart.clone(),
+		return new GaussianCurveFitter(Cloner.clone(newStart),
                                        maxIter);
     }
 
@@ -314,7 +314,7 @@ public class GaussianCurveFitter extends AbstractCurveFitter {
                 // TODO: Exceptions should not be used for flow control.
                 fwhmApprox = points[points.length - 1].getX() - points[0].getX();
             }
-            final double s = fwhmApprox / (2 * FastMath.sqrt(2 * FastMath.log(2)));
+            final double s = fwhmApprox / (2 * Math.sqrt(2 * Math.log(2)));
 
             return new double[] { n, m, s };
         }

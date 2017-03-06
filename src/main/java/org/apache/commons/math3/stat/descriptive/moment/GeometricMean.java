@@ -111,7 +111,7 @@ public class GeometricMean extends AbstractStorelessUnivariateStatistic implemen
     @Override
     public double getResult() {
         if (sumOfLogs.getN() > 0) {
-            return FastMath.exp(sumOfLogs.getResult() / sumOfLogs.getN());
+            return Math.exp(sumOfLogs.getResult() / sumOfLogs.getN());
         } else {
             return Double.NaN;
         }
@@ -145,7 +145,7 @@ public class GeometricMean extends AbstractStorelessUnivariateStatistic implemen
     public double evaluate(
         final double[] values, final int begin, final int length)
     throws MathIllegalArgumentException {
-        return FastMath.exp(
+        return Math.exp(
             sumOfLogs.evaluate(values, begin, length) / length);
     }
 

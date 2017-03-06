@@ -21,7 +21,6 @@ import org.apache.commons.math3.exception.NotStrictlyPositiveException;
 import org.apache.commons.math3.exception.util.LocalizedFormats;
 import org.apache.commons.math3.random.RandomGenerator;
 import org.apache.commons.math3.random.Well19937c;
-import org.apache.commons.math3.util.FastMath;
 
 /**
  * Implementation of the Zipf distribution.
@@ -133,7 +132,7 @@ public class ZipfDistribution extends AbstractIntegerDistribution {
             return 0.0;
         }
 
-        return (1.0 / FastMath.pow(x, exponent)) / generalizedHarmonic(numberOfElements, exponent);
+        return (1.0 / Math.pow(x, exponent)) / generalizedHarmonic(numberOfElements, exponent);
     }
 
     /** {@inheritDoc} */
@@ -143,7 +142,7 @@ public class ZipfDistribution extends AbstractIntegerDistribution {
             return Double.NEGATIVE_INFINITY;
         }
 
-        return -FastMath.log(x) * exponent - FastMath.log(generalizedHarmonic(numberOfElements, exponent));
+        return -Math.log(x) * exponent - Math.log(generalizedHarmonic(numberOfElements, exponent));
     }
 
     /** {@inheritDoc} */
@@ -237,7 +236,7 @@ public class ZipfDistribution extends AbstractIntegerDistribution {
     private double generalizedHarmonic(final int n, final double m) {
         double value = 0;
         for (int k = n; k > 0; --k) {
-            value += 1.0 / FastMath.pow(k, m);
+            value += 1.0 / Math.pow(k, m);
         }
         return value;
     }
@@ -287,29 +286,30 @@ public class ZipfDistribution extends AbstractIntegerDistribution {
     }
 
     /**
-     * Utility class implementing a rejection inversion sampling method for a discrete,
-     * bounded Zipf distribution that is based on the method described in
-     * <p>
-     * Wolfgang Hörmann and Gerhard Derflinger
-     * "Rejection-inversion to generate variates from monotone discrete distributions."
-     * ACM Transactions on Modeling and Computer Simulation (TOMACS) 6.3 (1996): 169-184.
-     * <p>
-     * The paper describes an algorithm for exponents larger than 1 (Algorithm ZRI).
-     * The original method uses {@code H(x) := (v + x)^(1 - q) / (1 - q)}
-     * as the integral of the hat function. This function is undefined for
-     * q = 1, which is the reason for the limitation of the exponent.
-     * If instead the integral function
-     * {@code H(x) := ((v + x)^(1 - q) - 1) / (1 - q)} is used,
-     * for which a meaningful limit exists for q = 1,
-     * the method works for all positive exponents.
-     * <p>
-     * The following implementation uses v := 0 and generates integral numbers
-     * in the range [1, numberOfElements]. This is different to the original method
-     * where v is defined to be positive and numbers are taken from [0, i_max].
-     * This explains why the implementation looks slightly different.
-     *
-     * @since 3.6
-     */
+	 * Utility class implementing a rejection inversion sampling method for a
+	 * discrete, bounded Zipf distribution that is based on the method described
+	 * in
+	 * <p>
+	 * Wolfgang Hoermann and Gerhard Derflinger
+	 * "Rejection-inversion to generate variates from monotone discrete distributions."
+	 * ACM Transactions on Modeling and Computer Simulation (TOMACS) 6.3 (1996):
+	 * 169-184.
+	 * <p>
+	 * The paper describes an algorithm for exponents larger than 1 (Algorithm
+	 * ZRI). The original method uses {@code H(x) := (v + x)^(1 - q) / (1 - q)}
+	 * as the integral of the hat function. This function is undefined for q =
+	 * 1, which is the reason for the limitation of the exponent. If instead the
+	 * integral function {@code H(x) := ((v + x)^(1 - q) - 1) / (1 - q)} is
+	 * used, for which a meaningful limit exists for q = 1, the method works for
+	 * all positive exponents.
+	 * <p>
+	 * The following implementation uses v := 0 and generates integral numbers
+	 * in the range [1, numberOfElements]. This is different to the original
+	 * method where v is defined to be positive and numbers are taken from [0,
+	 * i_max]. This explains why the implementation looks slightly different.
+	 *
+	 * @since 3.6
+	 */
     static final class ZipfRejectionInversionSampler {
 
         /** Exponent parameter of the distribution. */
@@ -421,7 +421,7 @@ public class ZipfDistribution extends AbstractIntegerDistribution {
          * @return {@code H(x)}
          */
         private double hIntegral(final double x) {
-            final double logX = FastMath.log(x);
+            final double logX = Math.log(x);
             return helper2((1d-exponent)*logX)*logX;
         }
 
@@ -432,7 +432,7 @@ public class ZipfDistribution extends AbstractIntegerDistribution {
          * @return h(x)
          */
         private double h(final double x) {
-            return FastMath.exp(-exponent * FastMath.log(x));
+            return Math.exp(-exponent * Math.log(x));
         }
 
         /**
@@ -448,7 +448,7 @@ public class ZipfDistribution extends AbstractIntegerDistribution {
                 // t could be smaller than -1 in some rare cases due to numerical errors.
                 t = -1;
             }
-            return FastMath.exp(helper1(t)*x);
+            return Math.exp(helper1(t)*x);
         }
 
         /**
@@ -460,8 +460,8 @@ public class ZipfDistribution extends AbstractIntegerDistribution {
          * @return {@code log(1+x)/x}
          */
         static double helper1(final double x) {
-            if (FastMath.abs(x)>1e-8) {
-                return FastMath.log1p(x)/x;
+            if (Math.abs(x)>1e-8) {
+                return Math.log1p(x)/x;
             }
             else {
                 return 1.-x*((1./2.)-x*((1./3.)-x*(1./4.)));
@@ -477,8 +477,8 @@ public class ZipfDistribution extends AbstractIntegerDistribution {
          * @return {@code (exp(x)-1)/x} if x is non-zero, or 1 if x=0
          */
         static double helper2(final double x) {
-            if (FastMath.abs(x)>1e-8) {
-                return FastMath.expm1(x)/x;
+            if (Math.abs(x)>1e-8) {
+                return Math.expm1(x)/x;
             }
             else {
                 return 1.+x*(1./2.)*(1.+x*(1./3.)*(1.+x*(1./4.)));

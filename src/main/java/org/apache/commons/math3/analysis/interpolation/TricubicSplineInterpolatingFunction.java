@@ -21,6 +21,7 @@ import org.apache.commons.math3.exception.DimensionMismatchException;
 import org.apache.commons.math3.exception.NoDataException;
 import org.apache.commons.math3.exception.NonMonotonicSequenceException;
 import org.apache.commons.math3.exception.OutOfRangeException;
+import org.apache.commons.math3.util.Cloner;
 import org.apache.commons.math3.util.MathArrays;
 
 /**
@@ -185,9 +186,9 @@ public class TricubicSplineInterpolatingFunction
         MathArrays.checkOrder(y);
         MathArrays.checkOrder(z);
 
-        xval = x.clone();
-        yval = y.clone();
-        zval = z.clone();
+		xval = Cloner.clone(x);
+		yval = Cloner.clone(y);
+		zval = Cloner.clone(z);
 
         final int lastI = xLen - 1;
         final int lastJ = yLen - 1;

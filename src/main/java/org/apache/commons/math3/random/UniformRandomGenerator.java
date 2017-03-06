@@ -17,8 +17,6 @@
 
 package org.apache.commons.math3.random;
 
-import org.apache.commons.math3.util.FastMath;
-
 /**
  * This class implements a normalized uniform random generator.
  * <p>Since it is a normalized random generator, it generates values
@@ -33,7 +31,7 @@ import org.apache.commons.math3.util.FastMath;
 public class UniformRandomGenerator implements NormalizedRandomGenerator {
 
     /** Square root of three. */
-    private static final double SQRT3 = FastMath.sqrt(3.0);
+    private static final double SQRT3 = Math.sqrt(3.0);
 
     /** Underlying generator. */
     private final RandomGenerator generator;

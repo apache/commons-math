@@ -155,10 +155,10 @@ public class Logistic implements UnivariateDifferentiableFunction, Differentiabl
 
             final double mMinusX = param[1] - x;
             final double oneOverN = 1 / param[5];
-            final double exp = FastMath.exp(b * mMinusX);
+            final double exp = Math.exp(b * mMinusX);
             final double qExp = q * exp;
             final double qExp1 = qExp + 1;
-            final double factor1 = (param[0] - param[4]) * oneOverN / FastMath.pow(qExp1, oneOverN);
+            final double factor1 = (param[0] - param[4]) * oneOverN / Math.pow(qExp1, oneOverN);
             final double factor2 = -factor1 / qExp1;
 
             // Components of the gradient.
@@ -167,7 +167,7 @@ public class Logistic implements UnivariateDifferentiableFunction, Differentiabl
             final double gb = factor2 * mMinusX * qExp;
             final double gq = factor2 * exp;
             final double ga = Logistic.value(mMinusX, 0, b, q, 1, oneOverN);
-            final double gn = factor1 * FastMath.log(qExp1) * oneOverN;
+            final double gn = factor1 * Math.log(qExp1) * oneOverN;
 
             return new double[] { gk, gm, gb, gq, ga, gn };
         }
@@ -215,7 +215,7 @@ public class Logistic implements UnivariateDifferentiableFunction, Differentiabl
                                 double q,
                                 double a,
                                 double oneOverN) {
-        return a + (k - a) / FastMath.pow(1 + q * FastMath.exp(b * mMinusX), oneOverN);
+        return a + (k - a) / Math.pow(1 + q * Math.exp(b * mMinusX), oneOverN);
     }
 
     /** {@inheritDoc}

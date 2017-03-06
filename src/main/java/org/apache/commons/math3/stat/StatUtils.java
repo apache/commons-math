@@ -18,14 +18,13 @@ package org.apache.commons.math3.stat;
 
 import java.util.List;
 
+import org.apache.commons.math3.exception.DimensionMismatchException;
 import org.apache.commons.math3.exception.MathIllegalArgumentException;
+import org.apache.commons.math3.exception.NoDataException;
 import org.apache.commons.math3.exception.NotPositiveException;
 import org.apache.commons.math3.exception.NullArgumentException;
 import org.apache.commons.math3.exception.NumberIsTooSmallException;
-import org.apache.commons.math3.exception.DimensionMismatchException;
-import org.apache.commons.math3.exception.NoDataException;
 import org.apache.commons.math3.exception.util.LocalizedFormats;
-import org.apache.commons.math3.stat.descriptive.DescriptiveStatistics;
 import org.apache.commons.math3.stat.descriptive.UnivariateStatistic;
 import org.apache.commons.math3.stat.descriptive.moment.GeometricMean;
 import org.apache.commons.math3.stat.descriptive.moment.Mean;
@@ -773,27 +772,28 @@ public final class StatUtils {
      * @return normalized (standardized) sample.
      * @since 2.2
      */
-    public static double[] normalize(final double[] sample) {
-        DescriptiveStatistics stats = new DescriptiveStatistics();
-
-        // Add the data from the series to stats
-        for (int i = 0; i < sample.length; i++) {
-            stats.addValue(sample[i]);
-        }
-
-        // Compute mean and standard deviation
-        double mean = stats.getMean();
-        double standardDeviation = stats.getStandardDeviation();
-
-        // initialize the standardizedSample, which has the same length as the sample
-        double[] standardizedSample = new double[sample.length];
-
-        for (int i = 0; i < sample.length; i++) {
-            // z = (x- mean)/standardDeviation
-            standardizedSample[i] = (sample[i] - mean) / standardDeviation;
-        }
-        return standardizedSample;
-    }
+	// public static double[] normalize(final double[] sample) {
+	// DescriptiveStatistics stats = new DescriptiveStatistics();
+	//
+	// // Add the data from the series to stats
+	// for (int i = 0; i < sample.length; i++) {
+	// stats.addValue(sample[i]);
+	// }
+	//
+	// // Compute mean and standard deviation
+	// double mean = stats.getMean();
+	// double standardDeviation = stats.getStandardDeviation();
+	//
+	// // initialize the standardizedSample, which has the same length as the
+	// sample
+	// double[] standardizedSample = new double[sample.length];
+	//
+	// for (int i = 0; i < sample.length; i++) {
+	// // z = (x- mean)/standardDeviation
+	// standardizedSample[i] = (sample[i] - mean) / standardDeviation;
+	// }
+	// return standardizedSample;
+	// }
 
     /**
      * Returns the sample mode(s).  The mode is the most frequently occurring

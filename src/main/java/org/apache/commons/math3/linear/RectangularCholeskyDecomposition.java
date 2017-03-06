@@ -17,8 +17,6 @@
 
 package org.apache.commons.math3.linear;
 
-import org.apache.commons.math3.util.FastMath;
-
 /**
  * Calculates the rectangular Cholesky decomposition of a matrix.
  * <p>The rectangular Cholesky decomposition of a real symmetric positive
@@ -138,7 +136,7 @@ public class RectangularCholeskyDecomposition {
             } else {
 
                 // transform the matrix
-                final double sqrt = FastMath.sqrt(c[ir][ir]);
+                final double sqrt = Math.sqrt(c[ir][ir]);
                 b[r][r] = sqrt;
                 final double inverse  = 1 / sqrt;
                 final double inverse2 = 1 / c[ir][ir];

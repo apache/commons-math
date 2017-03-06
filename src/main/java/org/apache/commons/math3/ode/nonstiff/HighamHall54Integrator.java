@@ -119,7 +119,7 @@ public class HighamHall54Integrator extends EmbeddedRungeKuttaIntegrator {
         errSum += STATIC_E[l] * yDotK[l][j];
       }
 
-      final double yScale = FastMath.max(FastMath.abs(y0[j]), FastMath.abs(y1[j]));
+      final double yScale = Math.max(Math.abs(y0[j]), Math.abs(y1[j]));
       final double tol = (vecAbsoluteTolerance == null) ?
                          (scalAbsoluteTolerance + scalRelativeTolerance * yScale) :
                          (vecAbsoluteTolerance[j] + vecRelativeTolerance[j] * yScale);
@@ -128,7 +128,7 @@ public class HighamHall54Integrator extends EmbeddedRungeKuttaIntegrator {
 
     }
 
-    return FastMath.sqrt(error / mainSetDimension);
+    return Math.sqrt(error / mainSetDimension);
 
   }
 

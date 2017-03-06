@@ -94,15 +94,15 @@ public class GTest {
         }
         double ratio = 1d;
         boolean rescale = false;
-        if (FastMath.abs(sumExpected - sumObserved) > 10E-6) {
+        if (Math.abs(sumExpected - sumObserved) > 10E-6) {
             ratio = sumObserved / sumExpected;
             rescale = true;
         }
         double sum = 0d;
         for (int i = 0; i < observed.length; i++) {
             final double dev = rescale ?
-                    FastMath.log((double) observed[i] / (ratio * expected[i])) :
-                        FastMath.log((double) observed[i] / expected[i]);
+                    Math.log((double) observed[i] / (ratio * expected[i])) :
+                        Math.log((double) observed[i] / expected[i]);
             sum += ((double) observed[i]) * dev;
         }
         return 2d * sum;
@@ -269,7 +269,7 @@ public class GTest {
             for (int j = 0; j < k[i].length; j++) {
                 if (k[i][j] != 0) {
                     final double p_ij = (double) k[i][j] / sum_k;
-                    h += p_ij * FastMath.log(p_ij);
+                    h += p_ij * Math.log(p_ij);
                 }
             }
         }
@@ -296,7 +296,7 @@ public class GTest {
         for (int i = 0; i < k.length; i++) {
             if (k[i] != 0) {
                 final double p_i = (double) k[i] / sum_k;
-                h += p_i * FastMath.log(p_i);
+                h += p_i * Math.log(p_i);
             }
         }
         return -h;
@@ -421,7 +421,7 @@ public class GTest {
             final long k21, final long k22) {
         final double llr = gDataSetsComparison(
                 new long[]{k11, k12}, new long[]{k21, k22});
-        double sqrt = FastMath.sqrt(llr);
+        double sqrt = Math.sqrt(llr);
         if ((double) k11 / (k11 + k12) < (double) k21 / (k21 + k22)) {
             sqrt = -sqrt;
         }

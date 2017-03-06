@@ -40,7 +40,7 @@ public class EarthMoversDistance implements DistanceMeasure {
         double totalDistance = 0;
         for (int i = 0; i < a.length; i++) {
             final double currentDistance = (a[i] + lastDistance) - b[i];
-            totalDistance += FastMath.abs(currentDistance);
+            totalDistance += Math.abs(currentDistance);
             lastDistance = currentDistance;
         }
         return totalDistance;

@@ -23,6 +23,7 @@ import org.apache.commons.math3.exception.MathInternalError;
 import org.apache.commons.math3.fitting.leastsquares.LeastSquaresBuilder;
 import org.apache.commons.math3.fitting.leastsquares.LeastSquaresProblem;
 import org.apache.commons.math3.linear.DiagonalMatrix;
+import org.apache.commons.math3.util.Cloner;
 
 /**
  * Fits points to a {@link
@@ -79,8 +80,7 @@ public class PolynomialCurveFitter extends AbstractCurveFitter {
      * @return a new instance.
      */
     public PolynomialCurveFitter withStartPoint(double[] newStart) {
-        return new PolynomialCurveFitter(newStart.clone(),
-                                         maxIter);
+		return new PolynomialCurveFitter(Cloner.clone(newStart), maxIter);
     }
 
     /**

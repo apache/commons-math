@@ -207,9 +207,9 @@ public class KendallsCorrelation {
         for (int segmentSize = 1; segmentSize < n; segmentSize <<= 1) {
             for (int offset = 0; offset < n; offset += 2 * segmentSize) {
                 int i = offset;
-                final int iEnd = FastMath.min(i + segmentSize, n);
+                final int iEnd = Math.min(i + segmentSize, n);
                 int j = iEnd;
-                final int jEnd = FastMath.min(j + segmentSize, n);
+                final int jEnd = Math.min(j + segmentSize, n);
 
                 int copyLocation = offset;
                 while (i < iEnd || j < jEnd) {
@@ -256,7 +256,7 @@ public class KendallsCorrelation {
 
         final long concordantMinusDiscordant = numPairs - tiedXPairs - tiedYPairs + tiedXYPairs - 2 * swaps;
         final double nonTiedPairsMultiplied = (numPairs - tiedXPairs) * (double) (numPairs - tiedYPairs);
-        return concordantMinusDiscordant / FastMath.sqrt(nonTiedPairsMultiplied);
+        return concordantMinusDiscordant / Math.sqrt(nonTiedPairsMultiplied);
     }
 
     /**

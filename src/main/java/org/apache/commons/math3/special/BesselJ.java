@@ -21,7 +21,6 @@ import org.apache.commons.math3.analysis.UnivariateFunction;
 import org.apache.commons.math3.exception.ConvergenceException;
 import org.apache.commons.math3.exception.MathIllegalArgumentException;
 import org.apache.commons.math3.exception.util.LocalizedFormats;
-import org.apache.commons.math3.util.FastMath;
 import org.apache.commons.math3.util.MathArrays;
 
 /**
@@ -163,7 +162,7 @@ public class BesselJ
             return res.vals[n];
         } else if (res.nVals < 0) {
             throw new MathIllegalArgumentException(LocalizedFormats.BESSEL_FUNCTION_BAD_ARGUMENT,order, x);
-        } else if (FastMath.abs(res.vals[res.nVals - 1]) < 1e-100) {
+        } else if (Math.abs(res.vals[res.nVals - 1]) < 1e-100) {
             return res.vals[n]; // underflow; return value (will be zero)
         }
         throw new ConvergenceException(LocalizedFormats.BESSEL_FUNCTION_FAILED_CONVERGENCE, order, x);
@@ -282,7 +281,7 @@ public class BesselJ
                     halfx = 0.5 * x;
                 }
                 if (alpha != 0) {
-                    tempa = FastMath.pow(halfx, alpha) /
+                    tempa = Math.pow(halfx, alpha) /
                             (alpha * Gamma.gamma(alpha));
                 }
                 tempb = 0;
@@ -322,7 +321,7 @@ public class BesselJ
                 // ---------------------------------------------------------------------
                 // Asymptotic series for X > 25
                 // ---------------------------------------------------------------------
-                final double xc = FastMath.sqrt(PI2 / x);
+                final double xc = Math.sqrt(PI2 / x);
                 final double mul = 0.125 / x;
                 final double xin = mul * mul;
                 int m = 0;
@@ -340,8 +339,8 @@ public class BesselJ
                 // ---------------------------------------------------------------------
                 double t = (double) ((int) ((x / TWOPI) + 0.5));
                 final double z = x - t * TOWPI1 - t * TWOPI2 - (alpha + 0.5) / PI2;
-                double vsin = FastMath.sin(z);
-                double vcos = FastMath.cos(z);
+                double vsin = Math.sin(z);
+                double vcos = Math.cos(z);
                 double gnu = 2 * alpha;
                 double capq;
                 double capp;
@@ -456,7 +455,7 @@ public class BesselJ
                             p = plast * tover;
                             n -= 1;
                             en -= 2.0;
-                            nend = FastMath.min(nb, n);
+                            nend = Math.min(nb, n);
                             for (int l = nstart; l <= nend; l++) {
                                 pold = psavel;
                                 psavel = psave;
@@ -478,8 +477,8 @@ public class BesselJ
                         // ---------------------------------------------------------------------
                         // Calculate special significance test for NBMX > 2.
                         // ---------------------------------------------------------------------
-                        test = FastMath.max(test, FastMath.sqrt(plast * ENSIG) *
-                                                  FastMath.sqrt(2 * p));
+                        test = Math.max(test, Math.sqrt(plast * ENSIG) *
+                                                  Math.sqrt(2 * p));
                     }
                 }
                 // ---------------------------------------------------------------------
@@ -619,8 +618,8 @@ public class BesselJ
                 // Normalize. Divide all B(N) by sum.
                 // ---------------------------------------------------------------------
 
-                if (FastMath.abs(alpha) > 1e-16) {
-                    sum *= Gamma.gamma(alpha) * FastMath.pow(x * 0.5, -alpha);
+                if (Math.abs(alpha) > 1e-16) {
+                    sum *= Gamma.gamma(alpha) * Math.pow(x * 0.5, -alpha);
                 }
                 tempa = ENMTEN;
                 if (sum > 1) {
@@ -628,7 +627,7 @@ public class BesselJ
                 }
 
                 for (n = 0; n < nb; n++) {
-                    if (FastMath.abs(b[n]) < tempa) {
+                    if (Math.abs(b[n]) < tempa) {
                         b[n] = 0;
                     }
                     b[n] /= sum;
@@ -641,7 +640,7 @@ public class BesselJ
             if (b.length > 0) {
                 b[0] = 0;
             }
-            ncalc = FastMath.min(nb, 0) - 1;
+            ncalc = Math.min(nb, 0) - 1;
         }
         return new BesselJResult(MathArrays.copyOf(b, b.length), ncalc);
     }

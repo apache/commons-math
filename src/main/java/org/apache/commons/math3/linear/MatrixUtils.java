@@ -17,25 +17,15 @@
 
 package org.apache.commons.math3.linear;
 
-import java.io.IOException;
-import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
-import java.util.Arrays;
-
-import org.apache.commons.math3.Field;
-import org.apache.commons.math3.FieldElement;
 import org.apache.commons.math3.exception.DimensionMismatchException;
 import org.apache.commons.math3.exception.MathArithmeticException;
 import org.apache.commons.math3.exception.NoDataException;
 import org.apache.commons.math3.exception.NullArgumentException;
 import org.apache.commons.math3.exception.NumberIsTooSmallException;
 import org.apache.commons.math3.exception.OutOfRangeException;
-import org.apache.commons.math3.exception.ZeroException;
 import org.apache.commons.math3.exception.util.LocalizedFormats;
 import org.apache.commons.math3.fraction.BigFraction;
 import org.apache.commons.math3.fraction.Fraction;
-import org.apache.commons.math3.util.FastMath;
-import org.apache.commons.math3.util.MathArrays;
 import org.apache.commons.math3.util.MathUtils;
 import org.apache.commons.math3.util.Precision;
 
@@ -49,13 +39,15 @@ public class MatrixUtils {
      * The default format for {@link RealMatrix} objects.
      * @since 3.1
      */
-    public static final RealMatrixFormat DEFAULT_FORMAT = RealMatrixFormat.getInstance();
+	// public static final RealMatrixFormat DEFAULT_FORMAT =
+	// RealMatrixFormat.getInstance();
 
     /**
      * A format for {@link RealMatrix} objects compatible with octave.
      * @since 3.1
      */
-    public static final RealMatrixFormat OCTAVE_FORMAT = new RealMatrixFormat("[", "]", "", "", "; ", ", ");
+	// public static final RealMatrixFormat OCTAVE_FORMAT = new
+	// RealMatrixFormat("[", "]", "", "", "; ", ", ");
 
     /**
      * Private constructor.
@@ -97,12 +89,14 @@ public class MatrixUtils {
      * @see #createFieldMatrix(FieldElement[][])
      * @since 2.0
      */
-    public static <T extends FieldElement<T>> FieldMatrix<T> createFieldMatrix(final Field<T> field,
-                                                                               final int rows,
-                                                                               final int columns) {
-        return (rows * columns <= 4096) ?
-                new Array2DRowFieldMatrix<T>(field, rows, columns) : new BlockFieldMatrix<T>(field, rows, columns);
-    }
+	// public static <T extends FieldElement<T>> FieldMatrix<T>
+	// createFieldMatrix(final Field<T> field,
+	// final int rows,
+	// final int columns) {
+	// return (rows * columns <= 4096) ?
+	// new Array2DRowFieldMatrix<T>(field, rows, columns) : new
+	// BlockFieldMatrix<T>(field, rows, columns);
+	// }
 
     /**
      * Returns a {@link RealMatrix} whose entries are the the values in the
@@ -154,15 +148,17 @@ public class MatrixUtils {
      * @see #createFieldMatrix(Field, int, int)
      * @since 2.0
      */
-    public static <T extends FieldElement<T>> FieldMatrix<T> createFieldMatrix(T[][] data)
-        throws DimensionMismatchException, NoDataException, NullArgumentException {
-        if (data == null ||
-            data[0] == null) {
-            throw new NullArgumentException();
-        }
-        return (data.length * data[0].length <= 4096) ?
-                new Array2DRowFieldMatrix<T>(data) : new BlockFieldMatrix<T>(data);
-    }
+	// public static <T extends FieldElement<T>> FieldMatrix<T>
+	// createFieldMatrix(T[][] data)
+	// throws DimensionMismatchException, NoDataException, NullArgumentException
+	// {
+	// if (data == null ||
+	// data[0] == null) {
+	// throw new NullArgumentException();
+	// }
+	// return (data.length * data[0].length <= 4096) ?
+	// new Array2DRowFieldMatrix<T>(data) : new BlockFieldMatrix<T>(data);
+	// }
 
     /**
      * Returns <code>dimension x dimension</code> identity matrix.
@@ -190,18 +186,18 @@ public class MatrixUtils {
      * @throws IllegalArgumentException if dimension is not positive
      * @since 2.0
      */
-    public static <T extends FieldElement<T>> FieldMatrix<T>
-        createFieldIdentityMatrix(final Field<T> field, final int dimension) {
-        final T zero = field.getZero();
-        final T one  = field.getOne();
-        final T[][] d = MathArrays.buildArray(field, dimension, dimension);
-        for (int row = 0; row < dimension; row++) {
-            final T[] dRow = d[row];
-            Arrays.fill(dRow, zero);
-            dRow[row] = one;
-        }
-        return new Array2DRowFieldMatrix<T>(field, d, false);
-    }
+	// public static <T extends FieldElement<T>> FieldMatrix<T>
+	// createFieldIdentityMatrix(final Field<T> field, final int dimension) {
+	// final T zero = field.getZero();
+	// final T one = field.getOne();
+	// final T[][] d = MathArrays.buildArray(field, dimension, dimension);
+	// for (int row = 0; row < dimension; row++) {
+	// final T[] dRow = d[row];
+	// Arrays.fill(dRow, zero);
+	// dRow[row] = one;
+	// }
+	// return new Array2DRowFieldMatrix<T>(field, d, false);
+	// }
 
     /**
      * Returns a diagonal matrix with specified elements.
@@ -228,15 +224,16 @@ public class MatrixUtils {
      * @return diagonal matrix
      * @since 2.0
      */
-    public static <T extends FieldElement<T>> FieldMatrix<T>
-        createFieldDiagonalMatrix(final T[] diagonal) {
-        final FieldMatrix<T> m =
-            createFieldMatrix(diagonal[0].getField(), diagonal.length, diagonal.length);
-        for (int i = 0; i < diagonal.length; ++i) {
-            m.setEntry(i, i, diagonal[i]);
-        }
-        return m;
-    }
+	// public static <T extends FieldElement<T>> FieldMatrix<T>
+	// createFieldDiagonalMatrix(final T[] diagonal) {
+	// final FieldMatrix<T> m =
+	// createFieldMatrix(diagonal[0].getField(), diagonal.length,
+	// diagonal.length);
+	// for (int i = 0; i < diagonal.length; ++i) {
+	// m.setEntry(i, i, diagonal[i]);
+	// }
+	// return m;
+	// }
 
     /**
      * Creates a {@link RealVector} using the data from the input array.
@@ -264,16 +261,18 @@ public class MatrixUtils {
      * @throws NullArgumentException if {@code data} is {@code null}.
      * @throws ZeroException if {@code data} has 0 elements
      */
-    public static <T extends FieldElement<T>> FieldVector<T> createFieldVector(final T[] data)
-        throws NoDataException, NullArgumentException, ZeroException {
-        if (data == null) {
-            throw new NullArgumentException();
-        }
-        if (data.length == 0) {
-            throw new ZeroException(LocalizedFormats.VECTOR_MUST_HAVE_AT_LEAST_ONE_ELEMENT);
-        }
-        return new ArrayFieldVector<T>(data[0].getField(), data, true);
-    }
+	// public static <T extends FieldElement<T>> FieldVector<T>
+	// createFieldVector(final T[] data)
+	// throws NoDataException, NullArgumentException, ZeroException {
+	// if (data == null) {
+	// throw new NullArgumentException();
+	// }
+	// if (data.length == 0) {
+	// throw new
+	// ZeroException(LocalizedFormats.VECTOR_MUST_HAVE_AT_LEAST_ONE_ELEMENT);
+	// }
+	// return new ArrayFieldVector<T>(data[0].getField(), data, true);
+	// }
 
     /**
      * Create a row {@link RealMatrix} using the data from the input
@@ -307,22 +306,23 @@ public class MatrixUtils {
      * @throws NoDataException if {@code rowData} is empty.
      * @throws NullArgumentException if {@code rowData} is {@code null}.
      */
-    public static <T extends FieldElement<T>> FieldMatrix<T>
-        createRowFieldMatrix(final T[] rowData)
-        throws NoDataException, NullArgumentException {
-        if (rowData == null) {
-            throw new NullArgumentException();
-        }
-        final int nCols = rowData.length;
-        if (nCols == 0) {
-            throw new NoDataException(LocalizedFormats.AT_LEAST_ONE_COLUMN);
-        }
-        final FieldMatrix<T> m = createFieldMatrix(rowData[0].getField(), 1, nCols);
-        for (int i = 0; i < nCols; ++i) {
-            m.setEntry(0, i, rowData[i]);
-        }
-        return m;
-    }
+	// public static <T extends FieldElement<T>> FieldMatrix<T>
+	// createRowFieldMatrix(final T[] rowData)
+	// throws NoDataException, NullArgumentException {
+	// if (rowData == null) {
+	// throw new NullArgumentException();
+	// }
+	// final int nCols = rowData.length;
+	// if (nCols == 0) {
+	// throw new NoDataException(LocalizedFormats.AT_LEAST_ONE_COLUMN);
+	// }
+	// final FieldMatrix<T> m = createFieldMatrix(rowData[0].getField(), 1,
+	// nCols);
+	// for (int i = 0; i < nCols; ++i) {
+	// m.setEntry(0, i, rowData[i]);
+	// }
+	// return m;
+	// }
 
     /**
      * Creates a column {@link RealMatrix} using the data from the input
@@ -356,22 +356,23 @@ public class MatrixUtils {
      * @throws NoDataException if {@code data} is empty.
      * @throws NullArgumentException if {@code columnData} is {@code null}.
      */
-    public static <T extends FieldElement<T>> FieldMatrix<T>
-        createColumnFieldMatrix(final T[] columnData)
-        throws NoDataException, NullArgumentException {
-        if (columnData == null) {
-            throw new NullArgumentException();
-        }
-        final int nRows = columnData.length;
-        if (nRows == 0) {
-            throw new NoDataException(LocalizedFormats.AT_LEAST_ONE_ROW);
-        }
-        final FieldMatrix<T> m = createFieldMatrix(columnData[0].getField(), nRows, 1);
-        for (int i = 0; i < nRows; ++i) {
-            m.setEntry(i, 0, columnData[i]);
-        }
-        return m;
-    }
+	// public static <T extends FieldElement<T>> FieldMatrix<T>
+	// createColumnFieldMatrix(final T[] columnData)
+	// throws NoDataException, NullArgumentException {
+	// if (columnData == null) {
+	// throw new NullArgumentException();
+	// }
+	// final int nRows = columnData.length;
+	// if (nRows == 0) {
+	// throw new NoDataException(LocalizedFormats.AT_LEAST_ONE_ROW);
+	// }
+	// final FieldMatrix<T> m = createFieldMatrix(columnData[0].getField(),
+	// nRows, 1);
+	// for (int i = 0; i < nRows; ++i) {
+	// m.setEntry(i, 0, columnData[i]);
+	// }
+	// return m;
+	// }
 
     /**
      * Checks whether a matrix is symmetric, within a given relative tolerance.
@@ -399,8 +400,8 @@ public class MatrixUtils {
             for (int j = i + 1; j < rows; j++) {
                 final double mij = matrix.getEntry(i, j);
                 final double mji = matrix.getEntry(j, i);
-                if (FastMath.abs(mij - mji) >
-                    FastMath.max(FastMath.abs(mij), FastMath.abs(mji)) * relativeTolerance) {
+                if (Math.abs(mij - mji) >
+                    Math.max(Math.abs(mij), Math.abs(mji)) * relativeTolerance) {
                     if (raiseException) {
                         throw new NonSymmetricMatrixException(i, j, relativeTolerance);
                     } else {
@@ -737,15 +738,15 @@ public class MatrixUtils {
      * @exception IOException if object cannot be written to stream
      * @see #deserializeRealVector(Object, String, ObjectInputStream)
      */
-    public static void serializeRealVector(final RealVector vector,
-                                           final ObjectOutputStream oos)
-        throws IOException {
-        final int n = vector.getDimension();
-        oos.writeInt(n);
-        for (int i = 0; i < n; ++i) {
-            oos.writeDouble(vector.getEntry(i));
-        }
-    }
+	// public static void serializeRealVector(final RealVector vector,
+	// final ObjectOutputStream oos)
+	// throws IOException {
+	// final int n = vector.getDimension();
+	// oos.writeInt(n);
+	// for (int i = 0; i < n; ++i) {
+	// oos.writeDouble(vector.getEntry(i));
+	// }
+	// }
 
     /** Deserialize  a {@link RealVector} field in a class.
      * <p>
@@ -764,39 +765,39 @@ public class MatrixUtils {
      * @exception IOException if object cannot be read from the stream
      * @see #serializeRealVector(RealVector, ObjectOutputStream)
      */
-    public static void deserializeRealVector(final Object instance,
-                                             final String fieldName,
-                                             final ObjectInputStream ois)
-      throws ClassNotFoundException, IOException {
-        try {
-
-            // read the vector data
-            final int n = ois.readInt();
-            final double[] data = new double[n];
-            for (int i = 0; i < n; ++i) {
-                data[i] = ois.readDouble();
-            }
-
-            // create the instance
-            final RealVector vector = new ArrayRealVector(data, false);
-
-            // set up the field
-            final java.lang.reflect.Field f =
-                instance.getClass().getDeclaredField(fieldName);
-            f.setAccessible(true);
-            f.set(instance, vector);
-
-        } catch (NoSuchFieldException nsfe) {
-            IOException ioe = new IOException();
-            ioe.initCause(nsfe);
-            throw ioe;
-        } catch (IllegalAccessException iae) {
-            IOException ioe = new IOException();
-            ioe.initCause(iae);
-            throw ioe;
-        }
-
-    }
+	// public static void deserializeRealVector(final Object instance,
+	// final String fieldName,
+	// final ObjectInputStream ois)
+	// throws ClassNotFoundException, IOException {
+	// try {
+	//
+	// // read the vector data
+	// final int n = ois.readInt();
+	// final double[] data = new double[n];
+	// for (int i = 0; i < n; ++i) {
+	// data[i] = ois.readDouble();
+	// }
+	//
+	// // create the instance
+	// final RealVector vector = new ArrayRealVector(data, false);
+	//
+	// // set up the field
+	// final java.lang.reflect.Field f =
+	// instance.getClass().getDeclaredField(fieldName);
+	// f.setAccessible(true);
+	// f.set(instance, vector);
+	//
+	// } catch (NoSuchFieldException nsfe) {
+	// IOException ioe = new IOException();
+	// ioe.initCause(nsfe);
+	// throw ioe;
+	// } catch (IllegalAccessException iae) {
+	// IOException ioe = new IOException();
+	// ioe.initCause(iae);
+	// throw ioe;
+	// }
+	//
+	// }
 
     /** Serialize a {@link RealMatrix}.
      * <p>
@@ -838,19 +839,19 @@ public class MatrixUtils {
      * @exception IOException if object cannot be written to stream
      * @see #deserializeRealMatrix(Object, String, ObjectInputStream)
      */
-    public static void serializeRealMatrix(final RealMatrix matrix,
-                                           final ObjectOutputStream oos)
-        throws IOException {
-        final int n = matrix.getRowDimension();
-        final int m = matrix.getColumnDimension();
-        oos.writeInt(n);
-        oos.writeInt(m);
-        for (int i = 0; i < n; ++i) {
-            for (int j = 0; j < m; ++j) {
-                oos.writeDouble(matrix.getEntry(i, j));
-            }
-        }
-    }
+	// public static void serializeRealMatrix(final RealMatrix matrix,
+	// final ObjectOutputStream oos)
+	// throws IOException {
+	// final int n = matrix.getRowDimension();
+	// final int m = matrix.getColumnDimension();
+	// oos.writeInt(n);
+	// oos.writeInt(m);
+	// for (int i = 0; i < n; ++i) {
+	// for (int j = 0; j < m; ++j) {
+	// oos.writeDouble(matrix.getEntry(i, j));
+	// }
+	// }
+	// }
 
     /** Deserialize  a {@link RealMatrix} field in a class.
      * <p>
@@ -869,42 +870,42 @@ public class MatrixUtils {
      * @exception IOException if object cannot be read from the stream
      * @see #serializeRealMatrix(RealMatrix, ObjectOutputStream)
      */
-    public static void deserializeRealMatrix(final Object instance,
-                                             final String fieldName,
-                                             final ObjectInputStream ois)
-      throws ClassNotFoundException, IOException {
-        try {
-
-            // read the matrix data
-            final int n = ois.readInt();
-            final int m = ois.readInt();
-            final double[][] data = new double[n][m];
-            for (int i = 0; i < n; ++i) {
-                final double[] dataI = data[i];
-                for (int j = 0; j < m; ++j) {
-                    dataI[j] = ois.readDouble();
-                }
-            }
-
-            // create the instance
-            final RealMatrix matrix = new Array2DRowRealMatrix(data, false);
-
-            // set up the field
-            final java.lang.reflect.Field f =
-                instance.getClass().getDeclaredField(fieldName);
-            f.setAccessible(true);
-            f.set(instance, matrix);
-
-        } catch (NoSuchFieldException nsfe) {
-            IOException ioe = new IOException();
-            ioe.initCause(nsfe);
-            throw ioe;
-        } catch (IllegalAccessException iae) {
-            IOException ioe = new IOException();
-            ioe.initCause(iae);
-            throw ioe;
-        }
-    }
+	// public static void deserializeRealMatrix(final Object instance,
+	// final String fieldName,
+	// final ObjectInputStream ois)
+	// throws ClassNotFoundException, IOException {
+	// try {
+	//
+	// // read the matrix data
+	// final int n = ois.readInt();
+	// final int m = ois.readInt();
+	// final double[][] data = new double[n][m];
+	// for (int i = 0; i < n; ++i) {
+	// final double[] dataI = data[i];
+	// for (int j = 0; j < m; ++j) {
+	// dataI[j] = ois.readDouble();
+	// }
+	// }
+	//
+	// // create the instance
+	// final RealMatrix matrix = new Array2DRowRealMatrix(data, false);
+	//
+	// // set up the field
+	// final java.lang.reflect.Field f =
+	// instance.getClass().getDeclaredField(fieldName);
+	// f.setAccessible(true);
+	// f.set(instance, matrix);
+	//
+	// } catch (NoSuchFieldException nsfe) {
+	// IOException ioe = new IOException();
+	// ioe.initCause(nsfe);
+	// throw ioe;
+	// } catch (IllegalAccessException iae) {
+	// IOException ioe = new IOException();
+	// ioe.initCause(iae);
+	// throw ioe;
+	// }
+	// }
 
     /**Solve  a  system of composed of a Lower Triangular Matrix
      * {@link RealMatrix}.
@@ -939,7 +940,7 @@ public class MatrixUtils {
         int rows = rm.getRowDimension();
         for( int i = 0 ; i < rows ; i++ ){
             double diag = rm.getEntry(i, i);
-            if( FastMath.abs(diag) < Precision.SAFE_MIN ){
+            if( Math.abs(diag) < Precision.SAFE_MIN ){
                 throw new MathArithmeticException(LocalizedFormats.ZERO_DENOMINATOR);
             }
             double bi = b.getEntry(i)/diag;
@@ -984,7 +985,7 @@ public class MatrixUtils {
         int rows = rm.getRowDimension();
         for( int i = rows-1 ; i >-1 ; i-- ){
             double diag = rm.getEntry(i, i);
-            if( FastMath.abs(diag) < Precision.SAFE_MIN ){
+            if( Math.abs(diag) < Precision.SAFE_MIN ){
                 throw new MathArithmeticException(LocalizedFormats.ZERO_DENOMINATOR);
             }
             double bi = b.getEntry(i)/diag;

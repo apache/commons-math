@@ -23,7 +23,6 @@ import org.apache.commons.math3.exception.NumberIsTooLargeException;
 import org.apache.commons.math3.exception.util.LocalizedFormats;
 import org.apache.commons.math3.random.RandomGenerator;
 import org.apache.commons.math3.random.Well19937c;
-import org.apache.commons.math3.util.FastMath;
 
 /**
  * Implementation of the hypergeometric distribution.
@@ -155,7 +154,7 @@ public class HypergeometricDistribution extends AbstractIntegerDistribution {
      * @return the lowest domain value of the hypergeometric distribution.
      */
     private int getLowerDomain(int n, int m, int k) {
-        return FastMath.max(0, m - (n - k));
+        return Math.max(0, m - (n - k));
     }
 
     /**
@@ -194,13 +193,13 @@ public class HypergeometricDistribution extends AbstractIntegerDistribution {
      * @return the highest domain value of the hypergeometric distribution.
      */
     private int getUpperDomain(int m, int k) {
-        return FastMath.min(k, m);
+        return Math.min(k, m);
     }
 
     /** {@inheritDoc} */
     public double probability(int x) {
         final double logProbability = logProbability(x);
-        return logProbability == Double.NEGATIVE_INFINITY ? 0 : FastMath.exp(logProbability);
+        return logProbability == Double.NEGATIVE_INFINITY ? 0 : Math.exp(logProbability);
     }
 
     /** {@inheritDoc} */
@@ -318,7 +317,7 @@ public class HypergeometricDistribution extends AbstractIntegerDistribution {
      * @return lower bound of the support
      */
     public int getSupportLowerBound() {
-        return FastMath.max(0,
+        return Math.max(0,
                             getSampleSize() + getNumberOfSuccesses() - getPopulationSize());
     }
 
@@ -331,7 +330,7 @@ public class HypergeometricDistribution extends AbstractIntegerDistribution {
      * @return upper bound of the support
      */
     public int getSupportUpperBound() {
-        return FastMath.min(getNumberOfSuccesses(), getSampleSize());
+        return Math.min(getNumberOfSuccesses(), getSampleSize());
     }
 
     /**

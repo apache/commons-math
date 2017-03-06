@@ -20,7 +20,6 @@ package org.apache.commons.math3.linear;
 import java.util.Arrays;
 
 import org.apache.commons.math3.exception.DimensionMismatchException;
-import org.apache.commons.math3.util.FastMath;
 
 
 /**
@@ -93,7 +92,7 @@ public class QRDecomposition {
         final int m = matrix.getRowDimension();
         final int n = matrix.getColumnDimension();
         qrt = matrix.transpose().getData();
-        rDiag = new double[FastMath.min(m, n)];
+        rDiag = new double[Math.min(m, n)];
         cachedQ  = null;
         cachedQT = null;
         cachedR  = null;
@@ -108,7 +107,7 @@ public class QRDecomposition {
      * @since 3.2
      */
     protected void decompose(double[][] matrix) {
-        for (int minor = 0; minor < FastMath.min(matrix.length, matrix[0].length); minor++) {
+        for (int minor = 0; minor < Math.min(matrix.length, matrix[0].length); minor++) {
             performHouseholderReflection(minor, matrix);
         }
     }
@@ -134,7 +133,7 @@ public class QRDecomposition {
             final double c = qrtMinor[row];
             xNormSqr += c * c;
         }
-        final double a = (qrtMinor[minor] > 0) ? -FastMath.sqrt(xNormSqr) : FastMath.sqrt(xNormSqr);
+        final double a = (qrtMinor[minor] > 0) ? -Math.sqrt(xNormSqr) : Math.sqrt(xNormSqr);
         rDiag[minor] = a;
 
         if (a != 0.0) {
@@ -192,7 +191,7 @@ public class QRDecomposition {
             final int m = qrt[0].length;
             double[][] ra = new double[m][n];
             // copy the diagonal from rDiag and the upper triangle of qr
-            for (int row = FastMath.min(m, n) - 1; row >= 0; row--) {
+            for (int row = Math.min(m, n) - 1; row >= 0; row--) {
                 ra[row][row] = rDiag[row];
                 for (int col = row + 1; col < n; col++) {
                     ra[row][col] = qrt[col][row];
@@ -235,11 +234,11 @@ public class QRDecomposition {
              * applying the Householder transformations Q_(m-1),Q_(m-2),...,Q1 in
              * succession to the result
              */
-            for (int minor = m - 1; minor >= FastMath.min(m, n); minor--) {
+            for (int minor = m - 1; minor >= Math.min(m, n); minor--) {
                 qta[minor][minor] = 1.0d;
             }
 
-            for (int minor = FastMath.min(m, n)-1; minor >= 0; minor--){
+            for (int minor = Math.min(m, n)-1; minor >= 0; minor--){
                 final double[] qrtMinor = qrt[minor];
                 qta[minor][minor] = 1.0d;
                 if (qrtMinor[minor] != 0.0) {
@@ -277,7 +276,7 @@ public class QRDecomposition {
             final int m = qrt[0].length;
             double[][] ha = new double[m][n];
             for (int i = 0; i < m; ++i) {
-                for (int j = 0; j < FastMath.min(i + 1, n); ++j) {
+                for (int j = 0; j < Math.min(i + 1, n); ++j) {
                     ha[i][j] = qrt[j][i] / -rDiag[j];
                 }
             }
@@ -336,7 +335,7 @@ public class QRDecomposition {
         /** {@inheritDoc} */
         public boolean isNonSingular() {
             for (double diag : rDiag) {
-                if (FastMath.abs(diag) <= threshold) {
+                if (Math.abs(diag) <= threshold) {
                     return false;
                 }
             }
@@ -358,7 +357,7 @@ public class QRDecomposition {
             final double[] y = b.toArray();
 
             // apply Householder transforms to solve Q.y = b
-            for (int minor = 0; minor < FastMath.min(m, n); minor++) {
+            for (int minor = 0; minor < Math.min(m, n); minor++) {
 
                 final double[] qrtMinor = qrt[minor];
                 double dotProduct = 0;
@@ -406,14 +405,14 @@ public class QRDecomposition {
 
             for (int kBlock = 0; kBlock < cBlocks; ++kBlock) {
                 final int kStart = kBlock * blockSize;
-                final int kEnd   = FastMath.min(kStart + blockSize, columns);
+                final int kEnd   = Math.min(kStart + blockSize, columns);
                 final int kWidth = kEnd - kStart;
 
                 // get the right hand side vector
                 b.copySubMatrix(0, m - 1, kStart, kEnd - 1, y);
 
                 // apply Householder transforms to solve Q.y = b
-                for (int minor = 0; minor < FastMath.min(m, n); minor++) {
+                for (int minor = 0; minor < Math.min(m, n); minor++) {
                     final double[] qrtMinor = qrt[minor];
                     final double factor     = 1.0 / (rDiag[minor] * qrtMinor[minor]);
 

@@ -27,6 +27,7 @@ import org.apache.commons.math3.exception.MathArithmeticException;
 import org.apache.commons.math3.exception.NoDataException;
 import org.apache.commons.math3.exception.ZeroException;
 import org.apache.commons.math3.exception.util.LocalizedFormats;
+import org.apache.commons.math3.util.Cloner;
 import org.apache.commons.math3.util.CombinatoricsUtils;
 
 /** Polynomial interpolator using both sample values and sample derivatives.
@@ -88,7 +89,7 @@ public class HermiteInterpolator implements UnivariateDifferentiableVectorFuncti
 
         for (int i = 0; i < value.length; ++i) {
 
-            final double[] y = value[i].clone();
+			final double[] y = Cloner.clone(value[i]);
             if (i > 1) {
                 double inv = 1.0 / CombinatoricsUtils.factorial(i);
                 for (int j = 0; j < y.length; ++j) {
@@ -113,7 +114,7 @@ public class HermiteInterpolator implements UnivariateDifferentiableVectorFuncti
             }
 
             // update the top diagonal of the divided differences array
-            topDiagonal.add(bottom0.clone());
+			topDiagonal.add(Cloner.clone(bottom0));
 
             // update the abscissae array
             abscissae.add(x);

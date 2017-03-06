@@ -277,7 +277,7 @@ public class LeastSquaresFactory {
             final int dim = m.getRowDimension();
             final RealMatrix sqrtM = new DiagonalMatrix(dim);
             for (int i = 0; i < dim; i++) {
-                sqrtM.setEntry(i, i, FastMath.sqrt(m.getEntry(i, i)));
+                sqrtM.setEntry(i, i, Math.sqrt(m.getEntry(i, i)));
             }
             return sqrtM;
         } else {

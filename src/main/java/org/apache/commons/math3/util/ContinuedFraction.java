@@ -160,7 +160,7 @@ public abstract class ContinuedFraction {
                                                x);
             }
 
-            if (FastMath.abs(deltaN - 1.0) < epsilon) {
+            if (Math.abs(deltaN - 1.0) < epsilon) {
                 break;
             }
 

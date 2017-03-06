@@ -22,7 +22,6 @@ import org.apache.commons.math3.random.RandomGenerator;
 import org.apache.commons.math3.random.Well19937c;
 import org.apache.commons.math3.special.Beta;
 import org.apache.commons.math3.special.Gamma;
-import org.apache.commons.math3.util.FastMath;
 import org.apache.commons.math3.util.Precision;
 
 /**
@@ -151,7 +150,7 @@ public class BetaDistribution extends AbstractRealDistribution {
     /** {@inheritDoc} */
     public double density(double x) {
         final double logDensity = logDensity(x);
-        return logDensity == Double.NEGATIVE_INFINITY ? 0 : FastMath.exp(logDensity);
+        return logDensity == Double.NEGATIVE_INFINITY ? 0 : Math.exp(logDensity);
     }
 
     /** {@inheritDoc} **/
@@ -171,8 +170,8 @@ public class BetaDistribution extends AbstractRealDistribution {
             }
             return Double.NEGATIVE_INFINITY;
         } else {
-            double logX = FastMath.log(x);
-            double log1mX = FastMath.log1p(-x);
+            double logX = Math.log(x);
+            double log1mX = Math.log1p(-x);
             return (alpha - 1) * logX + (beta - 1) * log1mX - z;
         }
     }
@@ -269,27 +268,33 @@ public class BetaDistribution extends AbstractRealDistribution {
     }
 
 
-    /** {@inheritDoc}
-    * <p>
-    * Sampling is performed using Cheng algorithms:
-    * </p>
-    * <p>
-    * R. C. H. Cheng, "Generating beta variates with nonintegral shape parameters.".
-    *                 Communications of the ACM, 21, 317â€“322, 1978.
-    * </p>
-    */
+    /**
+	 * {@inheritDoc}
+	 * <p>
+	 * Sampling is performed using Cheng algorithms:
+	 * </p>
+	 * <p>
+	 * R. C. H. Cheng,
+	 * "Generating beta variates with nonintegral shape parameters.".
+	 * Communications of the ACM, 21, 317--322, 1978.
+	 * </p>
+	 */
     @Override
     public double sample() {
         return ChengBetaSampler.sample(random, alpha, beta);
     }
 
-    /** Utility class implementing Cheng's algorithms for beta distribution sampling.
-     * <p>
-     * R. C. H. Cheng, "Generating beta variates with nonintegral shape parameters.".
-     *                 Communications of the ACM, 21, 317â€“322, 1978.
-     * </p>
-     * @since 3.6
-     */
+    /**
+	 * Utility class implementing Cheng's algorithms for beta distribution
+	 * sampling.
+	 * <p>
+	 * R. C. H. Cheng,
+	 * "Generating beta variates with nonintegral shape parameters.".
+	 * Communications of the ACM, 21, 317--322, 1978.
+	 * </p>
+	 * 
+	 * @since 3.6
+	 */
     private static final class ChengBetaSampler {
 
         /**
@@ -300,8 +305,8 @@ public class BetaDistribution extends AbstractRealDistribution {
          * @return sampled value
          */
         static double sample(RandomGenerator random, final double alpha, final double beta) {
-            final double a = FastMath.min(alpha, beta);
-            final double b = FastMath.max(alpha, beta);
+            final double a = Math.min(alpha, beta);
+            final double b = Math.max(alpha, beta);
 
             if (a > 1) {
                 return algorithmBB(random, alpha, a, b);
@@ -323,7 +328,7 @@ public class BetaDistribution extends AbstractRealDistribution {
                                           final double a,
                                           final double b) {
             final double alpha = a + b;
-            final double beta = FastMath.sqrt((alpha - 2.) / (2. * a * b - alpha));
+            final double beta = Math.sqrt((alpha - 2.) / (2. * a * b - alpha));
             final double gamma = a + 1. / beta;
 
             double r;
@@ -332,8 +337,8 @@ public class BetaDistribution extends AbstractRealDistribution {
             do {
                 final double u1 = random.nextDouble();
                 final double u2 = random.nextDouble();
-                final double v = beta * (FastMath.log(u1) - FastMath.log1p(-u1));
-                w = a * FastMath.exp(v);
+                final double v = beta * (Math.log(u1) - Math.log1p(-u1));
+                w = a * Math.exp(v);
                 final double z = u1 * u1 * u2;
                 r = gamma * v - 1.3862944;
                 final double s = a + r - w;
@@ -341,13 +346,13 @@ public class BetaDistribution extends AbstractRealDistribution {
                     break;
                 }
 
-                t = FastMath.log(z);
+                t = Math.log(z);
                 if (s >= t) {
                     break;
                 }
-            } while (r + alpha * (FastMath.log(alpha) - FastMath.log(b + w)) < t);
+            } while (r + alpha * (Math.log(alpha) - Math.log(b + w)) < t);
 
-            w = FastMath.min(w, Double.MAX_VALUE);
+            w = Math.min(w, Double.MAX_VALUE);
             return Precision.equals(a, a0) ? w / (b + w) : b / (b + w);
         }
 
@@ -381,8 +386,8 @@ public class BetaDistribution extends AbstractRealDistribution {
                     }
                 } else {
                     if (z <= 0.25) {
-                        final double v = beta * (FastMath.log(u1) - FastMath.log1p(-u1));
-                        w = a * FastMath.exp(v);
+                        final double v = beta * (Math.log(u1) - Math.log1p(-u1));
+                        w = a * Math.exp(v);
                         break;
                     }
 
@@ -391,14 +396,14 @@ public class BetaDistribution extends AbstractRealDistribution {
                     }
                 }
 
-                final double v = beta * (FastMath.log(u1) - FastMath.log1p(-u1));
-                w = a * FastMath.exp(v);
-                if (alpha * (FastMath.log(alpha) - FastMath.log(b + w) + v) - 1.3862944 >= FastMath.log(z)) {
+                final double v = beta * (Math.log(u1) - Math.log1p(-u1));
+                w = a * Math.exp(v);
+                if (alpha * (Math.log(alpha) - Math.log(b + w) + v) - 1.3862944 >= Math.log(z)) {
                     break;
                 }
             }
 
-            w = FastMath.min(w, Double.MAX_VALUE);
+            w = Math.min(w, Double.MAX_VALUE);
             return Precision.equals(a, a0) ? w / (b + w) : b / (b + w);
         }
 

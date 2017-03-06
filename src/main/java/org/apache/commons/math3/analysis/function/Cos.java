@@ -32,7 +32,7 @@ import org.apache.commons.math3.util.FastMath;
 public class Cos implements UnivariateDifferentiableFunction, DifferentiableUnivariateFunction {
     /** {@inheritDoc} */
     public double value(double x) {
-        return FastMath.cos(x);
+        return Math.cos(x);
     }
 
     /** {@inheritDoc}

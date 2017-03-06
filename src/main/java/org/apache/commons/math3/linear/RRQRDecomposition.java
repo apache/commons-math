@@ -17,9 +17,6 @@
 
 package org.apache.commons.math3.linear;
 
-import org.apache.commons.math3.util.FastMath;
-
-
 /**
  * Calculates the rank-revealing QR-decomposition of a matrix, with column pivoting.
  * <p>The rank-revealing QR-decomposition of a matrix A consists of three matrices Q,
@@ -170,7 +167,7 @@ public class RRQRDecomposition extends QRDecomposition {
         int rank        = 1;
         double lastNorm = r.getFrobeniusNorm();
         double rNorm    = lastNorm;
-        while (rank < FastMath.min(rows, columns)) {
+        while (rank < Math.min(rows, columns)) {
             double thisNorm = r.getSubMatrix(rank, rows - 1, rank, columns - 1).getFrobeniusNorm();
             if (thisNorm == 0 || (thisNorm / lastNorm) * rNorm < dropThreshold) {
                 break;

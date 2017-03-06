@@ -17,7 +17,7 @@
 package org.apache.commons.math3.transform;
 
 import java.io.Serializable;
-import java.lang.reflect.Array;
+//import java.lang.reflect.Array;
 
 import org.apache.commons.math3.analysis.FunctionUtils;
 import org.apache.commons.math3.analysis.UnivariateFunction;
@@ -27,7 +27,7 @@ import org.apache.commons.math3.exception.MathIllegalArgumentException;
 import org.apache.commons.math3.exception.MathIllegalStateException;
 import org.apache.commons.math3.exception.util.LocalizedFormats;
 import org.apache.commons.math3.util.ArithmeticUtils;
-import org.apache.commons.math3.util.FastMath;
+import org.apache.commons.math3.util.Cloner;
 import org.apache.commons.math3.util.MathArrays;
 
 /**
@@ -178,7 +178,7 @@ public class FastFourierTransformer implements Serializable {
                 }
                 break;
             case UNITARY:
-                final double scaleFactor = 1.0 / FastMath.sqrt(n);
+                final double scaleFactor = 1.0 / Math.sqrt(n);
                 for (int i = 0; i < n; i++) {
                     dataR[i] *= scaleFactor;
                     dataI[i] *= scaleFactor;
@@ -432,17 +432,17 @@ public class FastFourierTransformer implements Serializable {
      * @throws IllegalArgumentException if any dimension is not a power of two
      * @deprecated see MATH-736
      */
-    @Deprecated
-    public Object mdfft(Object mdca, TransformType type) {
-        MultiDimensionalComplexMatrix mdcm = (MultiDimensionalComplexMatrix)
-                new MultiDimensionalComplexMatrix(mdca).clone();
-        int[] dimensionSize = mdcm.getDimensionSizes();
-        //cycle through each dimension
-        for (int i = 0; i < dimensionSize.length; i++) {
-            mdfft(mdcm, type, i, new int[0]);
-        }
-        return mdcm.getArray();
-    }
+	// @Deprecated
+	// public Object mdfft(Object mdca, TransformType type) {
+	// MultiDimensionalComplexMatrix mdcm = (MultiDimensionalComplexMatrix)
+	// new MultiDimensionalComplexMatrix(mdca).clone();
+	// int[] dimensionSize = mdcm.getDimensionSizes();
+	// //cycle through each dimension
+	// for (int i = 0; i < dimensionSize.length; i++) {
+	// mdfft(mdcm, type, i, new int[0]);
+	// }
+	// return mdcm.getArray();
+	// }
 
     /**
      * Performs one dimension of a multi-dimensional Fourier transform.
@@ -454,7 +454,8 @@ public class FastFourierTransformer implements Serializable {
      * @throws IllegalArgumentException if any dimension is not a power of two
      * @deprecated see MATH-736
      */
-    @Deprecated
+	@SuppressWarnings("unused")
+	@Deprecated
     private void mdfft(MultiDimensionalComplexMatrix mdcm,
             TransformType type, int d, int[] subVector) {
 
@@ -516,7 +517,8 @@ public class FastFourierTransformer implements Serializable {
          * @param multiDimensionalComplexArray array containing the matrix
          * elements
          */
-        MultiDimensionalComplexMatrix(Object multiDimensionalComplexArray) {
+		@SuppressWarnings("unused")
+		MultiDimensionalComplexMatrix(Object multiDimensionalComplexArray) {
 
             this.multiDimensionalComplexArray = multiDimensionalComplexArray;
 
@@ -617,7 +619,7 @@ public class FastFourierTransformer implements Serializable {
          * @return size in all dimensions
          */
         public int[] getDimensionSizes() {
-            return dimensionSize.clone();
+			return Cloner.clone(dimensionSize);
         }
 
         /**
@@ -625,26 +627,28 @@ public class FastFourierTransformer implements Serializable {
          *
          * @return underlying storage array
          */
-        public Object getArray() {
+		@SuppressWarnings("unused")
+		public Object getArray() {
             return multiDimensionalComplexArray;
         }
 
-        /** {@inheritDoc} */
-        @Override
-        public Object clone() {
-            MultiDimensionalComplexMatrix mdcm =
-                    new MultiDimensionalComplexMatrix(Array.newInstance(
-                    Complex.class, dimensionSize));
-            clone(mdcm);
-            return mdcm;
-        }
+		// /** {@inheritDoc} */
+		// @Override
+		// public Object clone() {
+		// MultiDimensionalComplexMatrix mdcm =
+		// new MultiDimensionalComplexMatrix(Array.newInstance(
+		// Complex.class, dimensionSize));
+		// clone(mdcm);
+		// return mdcm;
+		// }
 
         /**
          * Copy contents of current array into mdcm.
          *
          * @param mdcm array where to copy data
          */
-        private void clone(MultiDimensionalComplexMatrix mdcm) {
+		@SuppressWarnings("unused")
+		private void clone(MultiDimensionalComplexMatrix mdcm) {
 
             int[] vector = new int[dimensionSize.length];
             int size = 1;

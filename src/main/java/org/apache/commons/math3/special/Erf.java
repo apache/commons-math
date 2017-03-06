@@ -16,8 +16,6 @@
  */
 package org.apache.commons.math3.special;
 
-import org.apache.commons.math3.util.FastMath;
-
 /**
  * This is a utility class that provides computation methods related to the
  * error functions.
@@ -63,7 +61,7 @@ public class Erf {
      * @see Gamma#regularizedGammaP(double, double, double, int)
      */
     public static double erf(double x) {
-        if (FastMath.abs(x) > 40) {
+        if (Math.abs(x) > 40) {
             return x > 0 ? 1 : -1;
         }
         final double ret = Gamma.regularizedGammaP(0.5, x * x, 1.0e-15, 10000);
@@ -94,7 +92,7 @@ public class Erf {
      * @since 2.2
      */
     public static double erfc(double x) {
-        if (FastMath.abs(x) > 40) {
+        if (Math.abs(x) > 40) {
             return x > 0 ? 0 : 2;
         }
         final double ret = Gamma.regularizedGammaQ(0.5, x * x, 1.0e-15, 10000);
@@ -145,7 +143,7 @@ public class Erf {
         // commputed as (1.0 - x) * (1.0 + x),
         // it must NOT be simplified as 1.0 - x * x as this
         // would induce rounding errors near the boundaries +/-1
-        double w = - FastMath.log((1.0 - x) * (1.0 + x));
+        double w = - Math.log((1.0 - x) * (1.0 + x));
         double p;
 
         if (w < 6.25) {
@@ -174,7 +172,7 @@ public class Erf {
             p =      0.24015818242558961693 + p * w;
             p =       1.6536545626831027356 + p * w;
         } else if (w < 16.0) {
-            w = FastMath.sqrt(w) - 3.25;
+            w = Math.sqrt(w) - 3.25;
             p =   2.2137376921775787049e-09;
             p =   9.0756561938885390979e-08 + p * w;
             p =  -2.7517406297064545428e-07 + p * w;
@@ -195,7 +193,7 @@ public class Erf {
             p =       1.0052589676941592334 + p * w;
             p =       3.0838856104922207635 + p * w;
         } else if (!Double.isInfinite(w)) {
-            w = FastMath.sqrt(w) - 5.0;
+            w = Math.sqrt(w) - 5.0;
             p =  -2.7109920616438573243e-11;
             p =  -2.5556418169965252055e-10 + p * w;
             p =   1.5076572693500548083e-09 + p * w;

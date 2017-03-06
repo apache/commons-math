@@ -27,6 +27,7 @@ import org.apache.commons.math3.analysis.differentiation.UnivariateDifferentiabl
 import org.apache.commons.math3.exception.NoDataException;
 import org.apache.commons.math3.exception.NullArgumentException;
 import org.apache.commons.math3.exception.util.LocalizedFormats;
+import org.apache.commons.math3.util.Cloner;
 import org.apache.commons.math3.util.FastMath;
 import org.apache.commons.math3.util.MathUtils;
 
@@ -111,7 +112,7 @@ public class PolynomialFunction implements UnivariateDifferentiableFunction, Dif
      * @return a fresh copy of the coefficients array.
      */
     public double[] getCoefficients() {
-        return coefficients.clone();
+		return Cloner.clone(coefficients);
     }
 
     /**
@@ -167,8 +168,8 @@ public class PolynomialFunction implements UnivariateDifferentiableFunction, Dif
      */
     public PolynomialFunction add(final PolynomialFunction p) {
         // identify the lowest degree polynomial
-        final int lowLength  = FastMath.min(coefficients.length, p.coefficients.length);
-        final int highLength = FastMath.max(coefficients.length, p.coefficients.length);
+        final int lowLength  = Math.min(coefficients.length, p.coefficients.length);
+        final int highLength = Math.max(coefficients.length, p.coefficients.length);
 
         // build the coefficients array
         double[] newCoefficients = new double[highLength];
@@ -192,8 +193,8 @@ public class PolynomialFunction implements UnivariateDifferentiableFunction, Dif
      */
     public PolynomialFunction subtract(final PolynomialFunction p) {
         // identify the lowest degree polynomial
-        int lowLength  = FastMath.min(coefficients.length, p.coefficients.length);
-        int highLength = FastMath.max(coefficients.length, p.coefficients.length);
+        int lowLength  = Math.min(coefficients.length, p.coefficients.length);
+        int highLength = Math.max(coefficients.length, p.coefficients.length);
 
         // build the coefficients array
         double[] newCoefficients = new double[highLength];
@@ -236,8 +237,8 @@ public class PolynomialFunction implements UnivariateDifferentiableFunction, Dif
 
         for (int i = 0; i < newCoefficients.length; ++i) {
             newCoefficients[i] = 0.0;
-            for (int j = FastMath.max(0, i + 1 - p.coefficients.length);
-                 j < FastMath.min(coefficients.length, i + 1);
+            for (int j = Math.max(0, i + 1 - p.coefficients.length);
+                 j < Math.min(coefficients.length, i + 1);
                  ++j) {
                 newCoefficients[i] += coefficients[j] * p.coefficients[i-j];
             }
@@ -329,7 +330,7 @@ public class PolynomialFunction implements UnivariateDifferentiableFunction, Dif
                     }
                 }
 
-                double absAi = FastMath.abs(coefficients[i]);
+                double absAi = Math.abs(coefficients[i]);
                 if ((absAi - 1) != 0) {
                     s.append(toString(absAi));
                     s.append(' ');

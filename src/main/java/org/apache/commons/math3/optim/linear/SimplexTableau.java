@@ -16,9 +16,7 @@
  */
 package org.apache.commons.math3.optim.linear;
 
-import java.io.IOException;
-import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
+//import java.io.ObjectOutputStream;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -29,10 +27,9 @@ import java.util.Set;
 import java.util.TreeSet;
 
 import org.apache.commons.math3.linear.Array2DRowRealMatrix;
-import org.apache.commons.math3.linear.MatrixUtils;
 import org.apache.commons.math3.linear.RealVector;
-import org.apache.commons.math3.optim.nonlinear.scalar.GoalType;
 import org.apache.commons.math3.optim.PointValuePair;
+import org.apache.commons.math3.optim.nonlinear.scalar.GoalType;
 import org.apache.commons.math3.util.Precision;
 
 /**
@@ -693,11 +690,11 @@ class SimplexTableau implements Serializable {
      * @param oos stream where object should be written
      * @throws IOException if object cannot be written to stream
      */
-    private void writeObject(ObjectOutputStream oos)
-        throws IOException {
-        oos.defaultWriteObject();
-        MatrixUtils.serializeRealMatrix(tableau, oos);
-    }
+	// private void writeObject(ObjectOutputStream oos)
+	// throws IOException {
+	// oos.defaultWriteObject();
+	// MatrixUtils.serializeRealMatrix(tableau, oos);
+	// }
 
     /**
      * Deserialize the instance.
@@ -705,9 +702,9 @@ class SimplexTableau implements Serializable {
      * @throws ClassNotFoundException if a class in the stream cannot be found
      * @throws IOException if object cannot be read from the stream
      */
-    private void readObject(ObjectInputStream ois)
-      throws ClassNotFoundException, IOException {
-        ois.defaultReadObject();
-        MatrixUtils.deserializeRealMatrix(this, "tableau", ois);
-    }
+	// private void readObject(ObjectInputStream ois)
+	// throws ClassNotFoundException, IOException {
+	// ois.defaultReadObject();
+	// MatrixUtils.deserializeRealMatrix(this, "tableau", ois);
+	// }
 }

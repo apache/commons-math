@@ -98,7 +98,7 @@ public class ChiSquareTest {
         }
         double ratio = 1.0d;
         boolean rescale = false;
-        if (FastMath.abs(sumExpected - sumObserved) > 10E-6) {
+        if (Math.abs(sumExpected - sumObserved) > 10E-6) {
             ratio = sumObserved / sumExpected;
             rescale = true;
         }
@@ -438,7 +438,7 @@ public class ChiSquareTest {
         // Compare and compute weight only if different
         unequalCounts = countSum1 != countSum2;
         if (unequalCounts) {
-            weight = FastMath.sqrt((double) countSum1 / (double) countSum2);
+            weight = Math.sqrt((double) countSum1 / (double) countSum2);
         }
         // Compute ChiSquare statistic
         double sumSq = 0.0d;

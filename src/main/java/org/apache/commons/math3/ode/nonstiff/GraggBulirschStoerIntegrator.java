@@ -26,6 +26,7 @@ import org.apache.commons.math3.ode.ExpandableStatefulODE;
 import org.apache.commons.math3.ode.events.EventHandler;
 import org.apache.commons.math3.ode.sampling.AbstractStepInterpolator;
 import org.apache.commons.math3.ode.sampling.StepHandler;
+import org.apache.commons.math3.util.Cloner;
 import org.apache.commons.math3.util.FastMath;
 
 /**
@@ -426,12 +427,12 @@ public class GraggBulirschStoerIntegrator extends AdaptiveStepsizeIntegrator {
   private void rescale(final double[] y1, final double[] y2, final double[] scale) {
     if (vecAbsoluteTolerance == null) {
       for (int i = 0; i < scale.length; ++i) {
-        final double yi = FastMath.max(FastMath.abs(y1[i]), FastMath.abs(y2[i]));
+        final double yi = Math.max(Math.abs(y1[i]), Math.abs(y2[i]));
         scale[i] = scalAbsoluteTolerance + scalRelativeTolerance * yi;
       }
     } else {
       for (int i = 0; i < scale.length; ++i) {
-        final double yi = FastMath.max(FastMath.abs(y1[i]), FastMath.abs(y2[i]));
+        final double yi = Math.max(Math.abs(y1[i]), Math.abs(y2[i]));
         scale[i] = vecAbsoluteTolerance[i] + vecRelativeTolerance[i] * yi;
       }
     }
@@ -501,7 +502,7 @@ public class GraggBulirschStoerIntegrator extends AdaptiveStepsizeIntegrator {
           final double ratio = (f[j+1][l] - f[0][l]) / scale[l];
           deltaNorm += ratio * ratio;
         }
-        if (deltaNorm > 4 * FastMath.max(1.0e-15, initialNorm)) {
+        if (deltaNorm > 4 * Math.max(1.0e-15, initialNorm)) {
           return false;
         }
       }
@@ -555,7 +556,7 @@ public class GraggBulirschStoerIntegrator extends AdaptiveStepsizeIntegrator {
 
     // create some internal working arrays
     final double[] y0      = equations.getCompleteState();
-    final double[] y       = y0.clone();
+		final double[] y = Cloner.clone(y0);
     final double[] yDot0   = new double[y.length];
     final double[] y1      = new double[y.length];
     final double[] yTmp    = new double[y.length];
@@ -596,10 +597,10 @@ public class GraggBulirschStoerIntegrator extends AdaptiveStepsizeIntegrator {
     // initial order selection
     final double tol =
         (vecRelativeTolerance == null) ? scalRelativeTolerance : vecRelativeTolerance[0];
-    final double log10R = FastMath.log10(FastMath.max(1.0e-10, tol));
-    int targetIter = FastMath.max(1,
-                              FastMath.min(sequence.length - 2,
-                                       (int) FastMath.floor(0.5 - 0.6 * log10R)));
+    final double log10R = Math.log10(Math.max(1.0e-10, tol));
+    int targetIter = Math.max(1,
+                              Math.min(sequence.length - 2,
+                                       (int) Math.floor(0.5 - 0.6 * log10R)));
 
     // set up an interpolator sharing the integrator arrays
     final AbstractStepInterpolator interpolator =
@@ -666,7 +667,7 @@ public class GraggBulirschStoerIntegrator extends AdaptiveStepsizeIntegrator {
                        yTmp)) {
 
           // the stability check failed, we reduce the global step
-          hNew   = FastMath.abs(filterStep(stepSize * stabilityReduction, forward, false));
+          hNew   = Math.abs(filterStep(stepSize * stabilityReduction, forward, false));
           reject = true;
           loop   = false;
 
@@ -683,26 +684,26 @@ public class GraggBulirschStoerIntegrator extends AdaptiveStepsizeIntegrator {
             // estimate the error at the end of the step.
             error = 0;
             for (int j = 0; j < mainSetDimension; ++j) {
-              final double e = FastMath.abs(y1[j] - y1Diag[0][j]) / scale[j];
+              final double e = Math.abs(y1[j] - y1Diag[0][j]) / scale[j];
               error += e * e;
             }
-            error = FastMath.sqrt(error / mainSetDimension);
+            error = Math.sqrt(error / mainSetDimension);
 
             if ((error > 1.0e15) || ((k > 1) && (error > maxError))) {
               // error is too big, we reduce the global step
-              hNew   = FastMath.abs(filterStep(stepSize * stabilityReduction, forward, false));
+              hNew   = Math.abs(filterStep(stepSize * stabilityReduction, forward, false));
               reject = true;
               loop   = false;
             } else {
 
-              maxError = FastMath.max(4 * error, 1.0);
+              maxError = Math.max(4 * error, 1.0);
 
               // compute optimal stepsize for this order
               final double exp = 1.0 / (2 * k + 1);
-              double fac = stepControl2 / FastMath.pow(error / stepControl1, exp);
-              final double pow = FastMath.pow(stepControl3, exp);
-              fac = FastMath.max(pow / stepControl4, FastMath.min(1 / pow, fac));
-              optimalStep[k]     = FastMath.abs(filterStep(stepSize * fac, forward, true));
+              double fac = stepControl2 / Math.pow(error / stepControl1, exp);
+              final double pow = Math.pow(stepControl3, exp);
+              fac = Math.max(pow / stepControl4, Math.min(1 / pow, fac));
+              optimalStep[k]     = Math.abs(filterStep(stepSize * fac, forward, true));
               costPerTimeUnit[k] = costPerStep[k] / optimalStep[k];
 
               // check convergence
@@ -808,13 +809,13 @@ public class GraggBulirschStoerIntegrator extends AdaptiveStepsizeIntegrator {
 
           // derivative at middle point of the step
           final int l2 = l / 2;
-          double factor = FastMath.pow(0.5 * sequence[l2], l);
+          double factor = Math.pow(0.5 * sequence[l2], l);
           int middleIndex = fk[l2].length / 2;
           for (int i = 0; i < y0.length; ++i) {
             yMidDots[l+1][i] = factor * fk[l2][middleIndex + l][i];
           }
           for (int j = 1; j <= k - l2; ++j) {
-            factor = FastMath.pow(0.5 * sequence[j + l2], l);
+            factor = Math.pow(0.5 * sequence[j + l2], l);
             middleIndex = fk[l2+j].length / 2;
             for (int i = 0; i < y0.length; ++i) {
               diagonal[j-1][i] = factor * fk[l2+j][middleIndex+l][i];
@@ -846,7 +847,7 @@ public class GraggBulirschStoerIntegrator extends AdaptiveStepsizeIntegrator {
           if (useInterpolationError) {
             // use the interpolation error to limit stepsize
             final double interpError = gbsInterpolator.estimateError(scale);
-            hInt = FastMath.abs(stepSize / FastMath.max(FastMath.pow(interpError, 1.0 / (mu+4)),
+            hInt = Math.abs(stepSize / Math.max(Math.pow(interpError, 1.0 / (mu+4)),
                                                 0.01));
             if (interpError > 10.0) {
               hNew = hInt;
@@ -881,7 +882,7 @@ public class GraggBulirschStoerIntegrator extends AdaptiveStepsizeIntegrator {
           if (costPerTimeUnit[k-1] < orderControl1 * costPerTimeUnit[k]) {
             optimalIter = k-1;
           } else if (costPerTimeUnit[k] < orderControl2 * costPerTimeUnit[k-1]) {
-            optimalIter = FastMath.min(k+1, sequence.length - 2);
+            optimalIter = Math.min(k+1, sequence.length - 2);
           }
         } else {
           optimalIter = k - 1;
@@ -890,15 +891,15 @@ public class GraggBulirschStoerIntegrator extends AdaptiveStepsizeIntegrator {
             optimalIter = k - 2;
           }
           if (costPerTimeUnit[k] < orderControl2 * costPerTimeUnit[optimalIter]) {
-            optimalIter = FastMath.min(k, sequence.length - 2);
+            optimalIter = Math.min(k, sequence.length - 2);
           }
         }
 
         if (previousRejected) {
           // after a rejected step neither order nor stepsize
           // should increase
-          targetIter = FastMath.min(optimalIter, k);
-          hNew = FastMath.min(FastMath.abs(stepSize), optimalStep[targetIter]);
+          targetIter = Math.min(optimalIter, k);
+          hNew = Math.min(Math.abs(stepSize), optimalStep[targetIter]);
         } else {
           // stepsize control
           if (optimalIter <= k) {
@@ -922,7 +923,7 @@ public class GraggBulirschStoerIntegrator extends AdaptiveStepsizeIntegrator {
 
       }
 
-      hNew = FastMath.min(hNew, hInt);
+      hNew = Math.min(hNew, hInt);
       if (! forward) {
         hNew = -hNew;
       }

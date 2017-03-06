@@ -17,7 +17,6 @@
 
 package org.apache.commons.math3.linear;
 
-import org.apache.commons.math3.util.FastMath;
 import org.apache.commons.math3.util.Precision;
 
 /**
@@ -184,7 +183,7 @@ class HessenbergTransformer {
             // Scale column.
             double scale = 0;
             for (int i = m; i <= high; i++) {
-                scale += FastMath.abs(householderVectors[i][m - 1]);
+                scale += Math.abs(householderVectors[i][m - 1]);
             }
 
             if (!Precision.equals(scale, 0)) {
@@ -194,7 +193,7 @@ class HessenbergTransformer {
                     ort[i] = householderVectors[i][m - 1] / scale;
                     h += ort[i] * ort[i];
                 }
-                final double g = (ort[m] > 0) ? -FastMath.sqrt(h) : FastMath.sqrt(h);
+                final double g = (ort[m] > 0) ? -Math.sqrt(h) : Math.sqrt(h);
 
                 h -= ort[m] * g;
                 ort[m] -= g;

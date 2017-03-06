@@ -80,7 +80,7 @@ enum Transformer {
         /**  {@inheritDoc} */
         @Override
         protected double transformed(final double g) {
-            return FastMath.min(-Precision.SAFE_MIN, FastMath.min(-g, +g));
+            return Math.min(-Precision.SAFE_MIN, Math.min(-g, +g));
         }
     },
 
@@ -94,7 +94,7 @@ enum Transformer {
         /**  {@inheritDoc} */
         @Override
         protected double transformed(final double g) {
-            return FastMath.max(+Precision.SAFE_MIN, FastMath.max(-g, +g));
+            return Math.max(+Precision.SAFE_MIN, Math.max(-g, +g));
         }
     };
 

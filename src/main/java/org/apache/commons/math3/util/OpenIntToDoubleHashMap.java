@@ -17,8 +17,7 @@
 
 package org.apache.commons.math3.util;
 
-import java.io.IOException;
-import java.io.ObjectInputStream;
+//import java.io.ObjectInputStream;
 import java.io.Serializable;
 import java.util.ConcurrentModificationException;
 import java.util.NoSuchElementException;
@@ -149,7 +148,7 @@ public class OpenIntToDoubleHashMap implements Serializable {
         if (expectedSize == 0) {
             return 1;
         }
-        final int capacity   = (int) FastMath.ceil(expectedSize / LOAD_FACTOR);
+        final int capacity   = (int) Math.ceil(expectedSize / LOAD_FACTOR);
         final int powerOfTwo = Integer.highestOneBit(capacity);
         if (powerOfTwo == capacity) {
             return capacity;
@@ -586,11 +585,11 @@ public class OpenIntToDoubleHashMap implements Serializable {
      * @throws ClassNotFoundException if the class corresponding
      * to the serialized object cannot be found
      */
-    private void readObject(final ObjectInputStream stream)
-        throws IOException, ClassNotFoundException {
-        stream.defaultReadObject();
-        count = 0;
-    }
+	// private void readObject(final ObjectInputStream stream)
+	// throws IOException, ClassNotFoundException {
+	// stream.defaultReadObject();
+	// count = 0;
+	// }
 
 
 }

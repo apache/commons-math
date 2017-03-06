@@ -28,6 +28,6 @@ import org.apache.commons.math3.util.FastMath;
 public class Floor implements UnivariateFunction {
     /** {@inheritDoc} */
     public double value(double x) {
-        return FastMath.floor(x);
+        return Math.floor(x);
     }
 }

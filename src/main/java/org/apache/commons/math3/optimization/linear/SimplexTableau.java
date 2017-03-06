@@ -17,9 +17,7 @@
 
 package org.apache.commons.math3.optimization.linear;
 
-import java.io.IOException;
-import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
+//import java.io.ObjectOutputStream;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -29,7 +27,6 @@ import java.util.Set;
 import java.util.TreeSet;
 
 import org.apache.commons.math3.linear.Array2DRowRealMatrix;
-import org.apache.commons.math3.linear.MatrixUtils;
 import org.apache.commons.math3.linear.RealMatrix;
 import org.apache.commons.math3.linear.RealVector;
 import org.apache.commons.math3.optimization.GoalType;
@@ -461,7 +458,7 @@ class SimplexTableau implements Serializable {
         for (int i = 0; i < getWidth(); i++) {
             double result = tableau.getEntry(minuendRow, i) - tableau.getEntry(subtrahendRow, i) * multiple;
             // cut-off values smaller than the CUTOFF_THRESHOLD, otherwise may lead to numerical instabilities
-            if (FastMath.abs(result) < CUTOFF_THRESHOLD) {
+            if (Math.abs(result) < CUTOFF_THRESHOLD) {
                 result = 0.0;
             }
             tableau.setEntry(minuendRow, i, result);
@@ -617,11 +614,11 @@ class SimplexTableau implements Serializable {
      * @param oos stream where object should be written
      * @throws IOException if object cannot be written to stream
      */
-    private void writeObject(ObjectOutputStream oos)
-        throws IOException {
-        oos.defaultWriteObject();
-        MatrixUtils.serializeRealMatrix(tableau, oos);
-    }
+	// private void writeObject(ObjectOutputStream oos)
+	// throws IOException {
+	// oos.defaultWriteObject();
+	// MatrixUtils.serializeRealMatrix(tableau, oos);
+	// }
 
     /**
      * Deserialize the instance.
@@ -629,9 +626,9 @@ class SimplexTableau implements Serializable {
      * @throws ClassNotFoundException if a class in the stream cannot be found
      * @throws IOException if object cannot be read from the stream
      */
-    private void readObject(ObjectInputStream ois)
-      throws ClassNotFoundException, IOException {
-        ois.defaultReadObject();
-        MatrixUtils.deserializeRealMatrix(this, "tableau", ois);
-    }
+	// private void readObject(ObjectInputStream ois)
+	// throws ClassNotFoundException, IOException {
+	// ois.defaultReadObject();
+	// MatrixUtils.deserializeRealMatrix(this, "tableau", ois);
+	// }
 }

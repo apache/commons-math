@@ -18,7 +18,7 @@
 package org.apache.commons.math3.linear;
 
 import org.apache.commons.math3.exception.DimensionMismatchException;
-import org.apache.commons.math3.util.FastMath;
+import org.apache.commons.math3.util.Cloner;
 
 /**
  * Calculates the LUP-decomposition of a square matrix.
@@ -127,14 +127,14 @@ public class LUDecomposition {
                 luRow[col] = sum;
 
                 // maintain best permutation choice
-                if (FastMath.abs(sum) > largest) {
-                    largest = FastMath.abs(sum);
+                if (Math.abs(sum) > largest) {
+                    largest = Math.abs(sum);
                     max = row;
                 }
             }
 
             // Singularity check
-            if (FastMath.abs(lu[max][col]) < singularityThreshold) {
+            if (Math.abs(lu[max][col]) < singularityThreshold) {
                 singular = true;
                 return;
             }
@@ -228,7 +228,7 @@ public class LUDecomposition {
      * @see #getP()
      */
     public int[] getPivot() {
-        return pivot.clone();
+		return Cloner.clone(pivot);
     }
 
     /**

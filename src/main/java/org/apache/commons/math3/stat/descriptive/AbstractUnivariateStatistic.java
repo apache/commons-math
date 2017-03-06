@@ -16,11 +16,12 @@
  */
 package org.apache.commons.math3.stat.descriptive;
 
+import org.apache.commons.math3.exception.MathIllegalArgumentException;
 import org.apache.commons.math3.exception.NotPositiveException;
 import org.apache.commons.math3.exception.NullArgumentException;
 import org.apache.commons.math3.exception.NumberIsTooLargeException;
-import org.apache.commons.math3.exception.MathIllegalArgumentException;
 import org.apache.commons.math3.exception.util.LocalizedFormats;
+import org.apache.commons.math3.util.Cloner;
 import org.apache.commons.math3.util.MathArrays;
 
 /**
@@ -50,7 +51,7 @@ public abstract class AbstractUnivariateStatistic
      * @see #evaluate()
      */
     public void setData(final double[] values) {
-        storedData = (values == null) ? null : values.clone();
+		storedData = (values == null) ? null : Cloner.clone(values);
     }
 
     /**
@@ -58,7 +59,7 @@ public abstract class AbstractUnivariateStatistic
      * @return copy of the stored data array (may be null)
      */
     public double[] getData() {
-        return (storedData == null) ? null : storedData.clone();
+		return (storedData == null) ? null : Cloner.clone(storedData);
     }
 
     /**
