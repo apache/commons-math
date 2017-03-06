@@ -21,7 +21,6 @@ import org.apache.commons.math3.exception.util.LocalizedFormats;
 import org.apache.commons.math3.random.RandomGenerator;
 import org.apache.commons.math3.random.Well19937c;
 import org.apache.commons.math3.special.Gamma;
-import org.apache.commons.math3.util.FastMath;
 
 /**
  * Implementation of the Gamma distribution.
@@ -188,18 +187,18 @@ public class GammaDistribution extends AbstractRealDistribution {
         this.scale = scale;
         this.solverAbsoluteAccuracy = inverseCumAccuracy;
         this.shiftedShape = shape + Gamma.LANCZOS_G + 0.5;
-        final double aux = FastMath.E / (2.0 * FastMath.PI * shiftedShape);
-        this.densityPrefactor2 = shape * FastMath.sqrt(aux) / Gamma.lanczos(shape);
-        this.logDensityPrefactor2 = FastMath.log(shape) + 0.5 * FastMath.log(aux) -
-                                    FastMath.log(Gamma.lanczos(shape));
+        final double aux = Math.E / (2.0 * Math.PI * shiftedShape);
+        this.densityPrefactor2 = shape * Math.sqrt(aux) / Gamma.lanczos(shape);
+        this.logDensityPrefactor2 = Math.log(shape) + 0.5 * Math.log(aux) -
+                                    Math.log(Gamma.lanczos(shape));
         this.densityPrefactor1 = this.densityPrefactor2 / scale *
-                FastMath.pow(shiftedShape, -shape) *
-                FastMath.exp(shape + Gamma.LANCZOS_G);
-        this.logDensityPrefactor1 = this.logDensityPrefactor2 - FastMath.log(scale) -
-                FastMath.log(shiftedShape) * shape +
+                Math.pow(shiftedShape, -shape) *
+                Math.exp(shape + Gamma.LANCZOS_G);
+        this.logDensityPrefactor1 = this.logDensityPrefactor2 - Math.log(scale) -
+                Math.log(shiftedShape) * shape +
                 shape + Gamma.LANCZOS_G;
-        this.minY = shape + Gamma.LANCZOS_G - FastMath.log(Double.MAX_VALUE);
-        this.maxLogY = FastMath.log(Double.MAX_VALUE) / (shape - 1.0);
+        this.minY = shape + Gamma.LANCZOS_G - Math.log(Double.MAX_VALUE);
+        this.maxLogY = Math.log(Double.MAX_VALUE) / (shape - 1.0);
     }
 
     /**
@@ -290,20 +289,20 @@ public class GammaDistribution extends AbstractRealDistribution {
             return 0;
         }
         final double y = x / scale;
-        if ((y <= minY) || (FastMath.log(y) >= maxLogY)) {
+        if ((y <= minY) || (Math.log(y) >= maxLogY)) {
             /*
              * Overflow.
              */
             final double aux1 = (y - shiftedShape) / shiftedShape;
-            final double aux2 = shape * (FastMath.log1p(aux1) - aux1);
+            final double aux2 = shape * (Math.log1p(aux1) - aux1);
             final double aux3 = -y * (Gamma.LANCZOS_G + 0.5) / shiftedShape +
                     Gamma.LANCZOS_G + aux2;
-            return densityPrefactor2 / x * FastMath.exp(aux3);
+            return densityPrefactor2 / x * Math.exp(aux3);
         }
         /*
          * Natural calculation.
          */
-        return densityPrefactor1 * FastMath.exp(-y) * FastMath.pow(y, shape - 1);
+        return densityPrefactor1 * Math.exp(-y) * Math.pow(y, shape - 1);
     }
 
     /** {@inheritDoc} **/
@@ -316,20 +315,20 @@ public class GammaDistribution extends AbstractRealDistribution {
             return Double.NEGATIVE_INFINITY;
         }
         final double y = x / scale;
-        if ((y <= minY) || (FastMath.log(y) >= maxLogY)) {
+        if ((y <= minY) || (Math.log(y) >= maxLogY)) {
             /*
              * Overflow.
              */
             final double aux1 = (y - shiftedShape) / shiftedShape;
-            final double aux2 = shape * (FastMath.log1p(aux1) - aux1);
+            final double aux2 = shape * (Math.log1p(aux1) - aux1);
             final double aux3 = -y * (Gamma.LANCZOS_G + 0.5) / shiftedShape +
                     Gamma.LANCZOS_G + aux2;
-            return logDensityPrefactor2 - FastMath.log(x) + aux3;
+            return logDensityPrefactor2 - Math.log(x) + aux3;
         }
         /*
          * Natural calculation.
          */
-        return logDensityPrefactor1 - y + FastMath.log(y) * (shape - 1);
+        return logDensityPrefactor1 - y + Math.log(y) * (shape - 1);
     }
 
     /**
@@ -453,16 +452,16 @@ public class GammaDistribution extends AbstractRealDistribution {
             while (true) {
                 // Step 1:
                 final double u = random.nextDouble();
-                final double bGS = 1 + shape / FastMath.E;
+                final double bGS = 1 + shape / Math.E;
                 final double p = bGS * u;
 
                 if (p <= 1) {
                     // Step 2:
 
-                    final double x = FastMath.pow(p, 1 / shape);
+                    final double x = Math.pow(p, 1 / shape);
                     final double u2 = random.nextDouble();
 
-                    if (u2 > FastMath.exp(-x)) {
+                    if (u2 > Math.exp(-x)) {
                         // Reject
                         continue;
                     } else {
@@ -471,10 +470,10 @@ public class GammaDistribution extends AbstractRealDistribution {
                 } else {
                     // Step 3:
 
-                    final double x = -1 * FastMath.log((bGS - p) / shape);
+                    final double x = -1 * Math.log((bGS - p) / shape);
                     final double u2 = random.nextDouble();
 
-                    if (u2 > FastMath.pow(x, shape - 1)) {
+                    if (u2 > Math.pow(x, shape - 1)) {
                         // Reject
                         continue;
                     } else {
@@ -487,7 +486,7 @@ public class GammaDistribution extends AbstractRealDistribution {
         // Now shape >= 1
 
         final double d = shape - 0.333333333333333333;
-        final double c = 1 / (3 * FastMath.sqrt(d));
+        final double c = 1 / (3 * Math.sqrt(d));
 
         while (true) {
             final double x = random.nextGaussian();
@@ -505,7 +504,7 @@ public class GammaDistribution extends AbstractRealDistribution {
                 return scale * d * v;
             }
 
-            if (FastMath.log(u) < 0.5 * x2 + d * (1 - v + FastMath.log(v))) {
+            if (Math.log(u) < 0.5 * x2 + d * (1 - v + Math.log(v))) {
                 return scale * d * v;
             }
         }

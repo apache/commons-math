@@ -110,7 +110,7 @@ public class StatisticalSummaryValues implements Serializable,
      * @return Returns the standard deviation
      */
     public double getStandardDeviation() {
-        return FastMath.sqrt(variance);
+        return Math.sqrt(variance);
     }
 
     /**

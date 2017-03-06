@@ -432,7 +432,7 @@ public class SimpleRegression implements Serializable, UpdatingMultipleLinearReg
         if (n < 2) {
             return Double.NaN; //not enough data
         }
-        if (FastMath.abs(sumXX) < 10 * Double.MIN_VALUE) {
+        if (Math.abs(sumXX) < 10 * Double.MIN_VALUE) {
             return Double.NaN; //not enough variation in x
         }
         return sumXY / sumXX;
@@ -468,7 +468,7 @@ public class SimpleRegression implements Serializable, UpdatingMultipleLinearReg
      * @return sum of squared errors associated with the regression model
      */
     public double getSumSquaredErrors() {
-        return FastMath.max(0d, sumYY - sumXY * sumXY / sumXX);
+        return Math.max(0d, sumYY - sumXY * sumXY / sumXX);
     }
 
     /**
@@ -564,7 +564,7 @@ public class SimpleRegression implements Serializable, UpdatingMultipleLinearReg
      */
     public double getR() {
         double b1 = getSlope();
-        double result = FastMath.sqrt(getRSquare());
+        double result = Math.sqrt(getRSquare());
         if (b1 < 0) {
             result = -result;
         }
@@ -606,7 +606,7 @@ public class SimpleRegression implements Serializable, UpdatingMultipleLinearReg
         if( !hasIntercept ){
             return Double.NaN;
         }
-        return FastMath.sqrt(
+        return Math.sqrt(
             getMeanSquareError() * ((1d / n) + (xbar * xbar) / sumXX));
     }
 
@@ -622,7 +622,7 @@ public class SimpleRegression implements Serializable, UpdatingMultipleLinearReg
      * @return standard error associated with slope estimate
      */
     public double getSlopeStdErr() {
-        return FastMath.sqrt(getMeanSquareError() / sumXX);
+        return Math.sqrt(getMeanSquareError() / sumXX);
     }
 
     /**
@@ -726,7 +726,7 @@ public class SimpleRegression implements Serializable, UpdatingMultipleLinearReg
         // No advertised NotStrictlyPositiveException here - will return NaN above
         TDistribution distribution = new TDistribution(n - 2);
         return 2d * (1.0 - distribution.cumulativeProbability(
-                    FastMath.abs(getSlope()) / getSlopeStdErr()));
+                    Math.abs(getSlope()) / getSlopeStdErr()));
     }
 
     // ---------------------Private methods-----------------------------------
@@ -773,7 +773,7 @@ public class SimpleRegression implements Serializable, UpdatingMultipleLinearReg
             if (n < 3) {
                 throw new NoDataException(LocalizedFormats.NOT_ENOUGH_DATA_REGRESSION);
             }
-            if (FastMath.abs(sumXX) > Precision.SAFE_MIN) {
+            if (Math.abs(sumXX) > Precision.SAFE_MIN) {
                 final double[] params = new double[] { getIntercept(), getSlope() };
                 final double mse = getMeanSquareError();
                 final double _syy = sumYY + sumY * sumY / n;
@@ -852,7 +852,7 @@ public class SimpleRegression implements Serializable, UpdatingMultipleLinearReg
                     //final double _syy = sumYY + sumY * sumY / ((double) n);
                     final double _sxx = sumXX + sumX * sumX / n;
                     final double _sxy = sumXY + sumX * sumY / n;
-                    final double _sse = FastMath.max(0d, _syy - _sxy * _sxy / _sxx);
+                    final double _sse = Math.max(0d, _syy - _sxy * _sxy / _sxx);
                     final double _mse = _sse/((n-1));
                     if( !Double.isNaN(_sxx) ){
                         final double[] vcv = new double[]{ _mse / _sxx };

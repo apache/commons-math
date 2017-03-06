@@ -32,7 +32,7 @@ import org.apache.commons.math3.util.FastMath;
 public class Log1p implements UnivariateDifferentiableFunction, DifferentiableUnivariateFunction {
     /** {@inheritDoc} */
     public double value(double x) {
-        return FastMath.log1p(x);
+        return Math.log1p(x);
     }
 
     /** {@inheritDoc}

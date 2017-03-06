@@ -20,6 +20,7 @@ package org.apache.commons.math3.ode.nonstiff;
 import org.apache.commons.math3.ode.AbstractIntegrator;
 import org.apache.commons.math3.ode.EquationsMapper;
 import org.apache.commons.math3.ode.sampling.StepInterpolator;
+import org.apache.commons.math3.util.Cloner;
 
 /**
  * This class represents an interpolator over the last step during an
@@ -128,10 +129,10 @@ class DormandPrince54StepInterpolator
 
     } else {
 
-      v1 = interpolator.v1.clone();
-      v2 = interpolator.v2.clone();
-      v3 = interpolator.v3.clone();
-      v4 = interpolator.v4.clone();
+			v1 = Cloner.clone(interpolator.v1);
+			v2 = Cloner.clone(interpolator.v2);
+			v3 = Cloner.clone(interpolator.v3);
+			v4 = Cloner.clone(interpolator.v4);
       vectorsInitialized = interpolator.vectorsInitialized;
 
     }

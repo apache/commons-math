@@ -17,11 +17,13 @@
 package org.apache.commons.math3.analysis.interpolation;
 
 import java.util.Arrays;
+
 import org.apache.commons.math3.analysis.BivariateFunction;
 import org.apache.commons.math3.exception.DimensionMismatchException;
 import org.apache.commons.math3.exception.NoDataException;
-import org.apache.commons.math3.exception.OutOfRangeException;
 import org.apache.commons.math3.exception.NonMonotonicSequenceException;
+import org.apache.commons.math3.exception.OutOfRangeException;
+import org.apache.commons.math3.util.Cloner;
 import org.apache.commons.math3.util.MathArrays;
 
 /**
@@ -164,8 +166,8 @@ public class BicubicSplineInterpolatingFunction
         MathArrays.checkOrder(x);
         MathArrays.checkOrder(y);
 
-        xval = x.clone();
-        yval = y.clone();
+		xval = Cloner.clone(x);
+		yval = Cloner.clone(y);
 
         final int lastI = xLen - 1;
         final int lastJ = yLen - 1;

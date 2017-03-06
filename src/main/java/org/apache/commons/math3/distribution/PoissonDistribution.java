@@ -22,7 +22,6 @@ import org.apache.commons.math3.random.RandomGenerator;
 import org.apache.commons.math3.random.Well19937c;
 import org.apache.commons.math3.special.Gamma;
 import org.apache.commons.math3.util.CombinatoricsUtils;
-import org.apache.commons.math3.util.FastMath;
 import org.apache.commons.math3.util.MathUtils;
 
 /**
@@ -130,7 +129,7 @@ public class PoissonDistribution extends AbstractIntegerDistribution {
         this.maxIterations = maxIterations;
 
         // Use the same RNG instance as the parent class.
-        normal = new NormalDistribution(rng, p, FastMath.sqrt(p),
+        normal = new NormalDistribution(rng, p, Math.sqrt(p),
                                         NormalDistribution.DEFAULT_INVERSE_ABSOLUTE_ACCURACY);
         exponential = new ExponentialDistribution(rng, 1,
                                                   ExponentialDistribution.DEFAULT_INVERSE_ABSOLUTE_ACCURACY);
@@ -175,7 +174,7 @@ public class PoissonDistribution extends AbstractIntegerDistribution {
     /** {@inheritDoc} */
     public double probability(int x) {
         final double logProbability = logProbability(x);
-        return logProbability == Double.NEGATIVE_INFINITY ? 0 : FastMath.exp(logProbability);
+        return logProbability == Double.NEGATIVE_INFINITY ? 0 : Math.exp(logProbability);
     }
 
     /** {@inheritDoc} */
@@ -189,7 +188,7 @@ public class PoissonDistribution extends AbstractIntegerDistribution {
         } else {
             ret = -SaddlePointExpansion.getStirlingError(x) -
                   SaddlePointExpansion.getDeviancePart(x, mean) -
-                  0.5 * FastMath.log(MathUtils.TWO_PI) - 0.5 * FastMath.log(x);
+                  0.5 * Math.log(MathUtils.TWO_PI) - 0.5 * Math.log(x);
         }
         return ret;
     }
@@ -300,7 +299,7 @@ public class PoissonDistribution extends AbstractIntegerDistribution {
      */
     @Override
     public int sample() {
-        return (int) FastMath.min(nextPoisson(mean), Integer.MAX_VALUE);
+        return (int) Math.min(nextPoisson(mean), Integer.MAX_VALUE);
     }
 
     /**
@@ -310,7 +309,7 @@ public class PoissonDistribution extends AbstractIntegerDistribution {
     private long nextPoisson(double meanPoisson) {
         final double pivot = 40.0d;
         if (meanPoisson < pivot) {
-            double p = FastMath.exp(-meanPoisson);
+            double p = Math.exp(-meanPoisson);
             long n = 0;
             double r = 1.0d;
             double rnd = 1.0d;
@@ -326,16 +325,16 @@ public class PoissonDistribution extends AbstractIntegerDistribution {
             }
             return n;
         } else {
-            final double lambda = FastMath.floor(meanPoisson);
+            final double lambda = Math.floor(meanPoisson);
             final double lambdaFractional = meanPoisson - lambda;
-            final double logLambda = FastMath.log(lambda);
+            final double logLambda = Math.log(lambda);
             final double logLambdaFactorial = CombinatoricsUtils.factorialLog((int) lambda);
             final long y2 = lambdaFractional < Double.MIN_VALUE ? 0 : nextPoisson(lambdaFractional);
-            final double delta = FastMath.sqrt(lambda * FastMath.log(32 * lambda / FastMath.PI + 1));
+            final double delta = Math.sqrt(lambda * Math.log(32 * lambda / Math.PI + 1));
             final double halfDelta = delta / 2;
             final double twolpd = 2 * lambda + delta;
-            final double a1 = FastMath.sqrt(FastMath.PI * twolpd) * FastMath.exp(1 / (8 * lambda));
-            final double a2 = (twolpd / delta) * FastMath.exp(-delta * (1 + delta) / twolpd);
+            final double a1 = Math.sqrt(Math.PI * twolpd) * Math.exp(1 / (8 * lambda));
+            final double a2 = (twolpd / delta) * Math.exp(-delta * (1 + delta) / twolpd);
             final double aSum = a1 + a2 + 1;
             final double p1 = a1 / aSum;
             final double p2 = a2 / aSum;
@@ -352,11 +351,11 @@ public class PoissonDistribution extends AbstractIntegerDistribution {
                 final double u = random.nextDouble();
                 if (u <= p1) {
                     final double n = random.nextGaussian();
-                    x = n * FastMath.sqrt(lambda + halfDelta) - 0.5d;
+                    x = n * Math.sqrt(lambda + halfDelta) - 0.5d;
                     if (x > delta || x < -lambda) {
                         continue;
                     }
-                    y = x < 0 ? FastMath.floor(x) : FastMath.ceil(x);
+                    y = x < 0 ? Math.floor(x) : Math.ceil(x);
                     final double e = exponential.sample();
                     v = -e - (n * n / 2) + c1;
                 } else {
@@ -365,7 +364,7 @@ public class PoissonDistribution extends AbstractIntegerDistribution {
                         break;
                     } else {
                         x = delta + (twolpd / delta) * exponential.sample();
-                        y = FastMath.ceil(x);
+                        y = Math.ceil(x);
                         v = -exponential.sample() - delta * (x + 1) / twolpd;
                     }
                 }

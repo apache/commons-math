@@ -19,10 +19,6 @@ package org.apache.commons.math3.util;
 
 import java.math.BigDecimal;
 
-import org.apache.commons.math3.exception.MathArithmeticException;
-import org.apache.commons.math3.exception.MathIllegalArgumentException;
-import org.apache.commons.math3.exception.util.LocalizedFormats;
-
 /**
  * Utilities for comparing numbers.
  *
@@ -62,13 +58,15 @@ public class Precision {
     /** Positive zero. */
     private static final double POSITIVE_ZERO = 0d;
     /** Positive zero bits. */
-    private static final long POSITIVE_ZERO_DOUBLE_BITS = Double.doubleToRawLongBits(+0.0);
+    private static final long POSITIVE_ZERO_DOUBLE_BITS = Double.doubleToLongBits(+0.0);
     /** Negative zero bits. */
-    private static final long NEGATIVE_ZERO_DOUBLE_BITS = Double.doubleToRawLongBits(-0.0);
+    private static final long NEGATIVE_ZERO_DOUBLE_BITS = Double.doubleToLongBits(-0.0);
     /** Positive zero bits. */
-    private static final int POSITIVE_ZERO_FLOAT_BITS   = Float.floatToRawIntBits(+0.0f);
+	// private static final int POSITIVE_ZERO_FLOAT_BITS =
+	// Float.floatToRawIntBits(+0.0f);
     /** Negative zero bits. */
-    private static final int NEGATIVE_ZERO_FLOAT_BITS   = Float.floatToRawIntBits(-0.0f);
+	// private static final int NEGATIVE_ZERO_FLOAT_BITS =
+	// Float.floatToRawIntBits(-0.0f);
 
     static {
         /*
@@ -174,9 +172,9 @@ public class Precision {
      * @return {@code true} if the values are equal or within range of each other.
      * @since 2.2
      */
-    public static boolean equals(float x, float y, float eps) {
-        return equals(x, y, 1) || FastMath.abs(y - x) <= eps;
-    }
+	// public static boolean equals(float x, float y, float eps) {
+	// return equals(x, y, 1) || Math.abs(y - x) <= eps;
+	// }
 
     /**
      * Returns true if the arguments are both NaN, are equal, or are within the range
@@ -189,9 +187,9 @@ public class Precision {
      * or both are NaN.
      * @since 2.2
      */
-    public static boolean equalsIncludingNaN(float x, float y, float eps) {
-        return equalsIncludingNaN(x, y) || (FastMath.abs(y - x) <= eps);
-    }
+	// public static boolean equalsIncludingNaN(float x, float y, float eps) {
+	// return equalsIncludingNaN(x, y) || (Math.abs(y - x) <= eps);
+	// }
 
     /**
      * Returns true if the arguments are equal or within the range of allowed
@@ -211,38 +209,39 @@ public class Precision {
      * point values between {@code x} and {@code y}.
      * @since 2.2
      */
-    public static boolean equals(final float x, final float y, final int maxUlps) {
-
-        final int xInt = Float.floatToRawIntBits(x);
-        final int yInt = Float.floatToRawIntBits(y);
-
-        final boolean isEqual;
-        if (((xInt ^ yInt) & SGN_MASK_FLOAT) == 0) {
-            // number have same sign, there is no risk of overflow
-            isEqual = FastMath.abs(xInt - yInt) <= maxUlps;
-        } else {
-            // number have opposite signs, take care of overflow
-            final int deltaPlus;
-            final int deltaMinus;
-            if (xInt < yInt) {
-                deltaPlus  = yInt - POSITIVE_ZERO_FLOAT_BITS;
-                deltaMinus = xInt - NEGATIVE_ZERO_FLOAT_BITS;
-            } else {
-                deltaPlus  = xInt - POSITIVE_ZERO_FLOAT_BITS;
-                deltaMinus = yInt - NEGATIVE_ZERO_FLOAT_BITS;
-            }
-
-            if (deltaPlus > maxUlps) {
-                isEqual = false;
-            } else {
-                isEqual = deltaMinus <= (maxUlps - deltaPlus);
-            }
-
-        }
-
-        return isEqual && !Float.isNaN(x) && !Float.isNaN(y);
-
-    }
+	// public static boolean equals(final float x, final float y, final int
+	// maxUlps) {
+	//
+	// final int xInt = Float.floatToRawIntBits(x);
+	// final int yInt = Float.floatToRawIntBits(y);
+	//
+	// final boolean isEqual;
+	// if (((xInt ^ yInt) & SGN_MASK_FLOAT) == 0) {
+	// // number have same sign, there is no risk of overflow
+	// isEqual = Math.abs(xInt - yInt) <= maxUlps;
+	// } else {
+	// // number have opposite signs, take care of overflow
+	// final int deltaPlus;
+	// final int deltaMinus;
+	// if (xInt < yInt) {
+	// deltaPlus = yInt - POSITIVE_ZERO_FLOAT_BITS;
+	// deltaMinus = xInt - NEGATIVE_ZERO_FLOAT_BITS;
+	// } else {
+	// deltaPlus = xInt - POSITIVE_ZERO_FLOAT_BITS;
+	// deltaMinus = yInt - NEGATIVE_ZERO_FLOAT_BITS;
+	// }
+	//
+	// if (deltaPlus > maxUlps) {
+	// isEqual = false;
+	// } else {
+	// isEqual = deltaMinus <= (maxUlps - deltaPlus);
+	// }
+	//
+	// }
+	//
+	// return isEqual && !Float.isNaN(x) && !Float.isNaN(y);
+	//
+	// }
 
     /**
      * Returns true if the arguments are both NaN or if they are equal as defined
@@ -298,7 +297,7 @@ public class Precision {
      * numbers or they are within range of each other.
      */
     public static boolean equals(double x, double y, double eps) {
-        return equals(x, y, 1) || FastMath.abs(y - x) <= eps;
+        return equals(x, y, 1) || Math.abs(y - x) <= eps;
     }
 
     /**
@@ -319,8 +318,8 @@ public class Precision {
             return true;
         }
 
-        final double absoluteMax = FastMath.max(FastMath.abs(x), FastMath.abs(y));
-        final double relativeDifference = FastMath.abs((x - y) / absoluteMax);
+        final double absoluteMax = Math.max(Math.abs(x), Math.abs(y));
+        final double relativeDifference = Math.abs((x - y) / absoluteMax);
 
         return relativeDifference <= eps;
     }
@@ -337,7 +336,7 @@ public class Precision {
      * @since 2.2
      */
     public static boolean equalsIncludingNaN(double x, double y, double eps) {
-        return equalsIncludingNaN(x, y) || (FastMath.abs(y - x) <= eps);
+        return equalsIncludingNaN(x, y) || (Math.abs(y - x) <= eps);
     }
 
     /**
@@ -363,13 +362,13 @@ public class Precision {
      */
     public static boolean equals(final double x, final double y, final int maxUlps) {
 
-        final long xInt = Double.doubleToRawLongBits(x);
-        final long yInt = Double.doubleToRawLongBits(y);
+        final long xInt = Double.doubleToLongBits(x);
+        final long yInt = Double.doubleToLongBits(y);
 
         final boolean isEqual;
         if (((xInt ^ yInt) & SGN_MASK) == 0l) {
             // number have same sign, there is no risk of overflow
-            isEqual = FastMath.abs(xInt - yInt) <= maxUlps;
+            isEqual = Math.abs(xInt - yInt) <= maxUlps;
         } else {
             // number have opposite signs, take care of overflow
             final long deltaPlus;
@@ -465,9 +464,9 @@ public class Precision {
      * @return the rounded value.
      * @since 1.1 (previously in {@code MathUtils}, moved as of version 3.0)
      */
-    public static float round(float x, int scale) {
-        return round(x, scale, BigDecimal.ROUND_HALF_UP);
-    }
+	// public static float round(float x, int scale) {
+	// return round(x, scale, BigDecimal.ROUND_HALF_UP);
+	// }
 
     /**
      * Rounds the given value to the specified number of decimal places.
@@ -482,12 +481,12 @@ public class Precision {
      * @throws MathArithmeticException if an exact operation is required but result is not exact
      * @throws MathIllegalArgumentException if {@code roundingMethod} is not a valid rounding method.
      */
-    public static float round(float x, int scale, int roundingMethod)
-        throws MathArithmeticException, MathIllegalArgumentException {
-        final float sign = FastMath.copySign(1f, x);
-        final float factor = (float) FastMath.pow(10.0f, scale) * sign;
-        return (float) roundUnscaled(x * factor, sign, roundingMethod) / factor;
-    }
+	// public static float round(float x, int scale, int roundingMethod)
+	// throws MathArithmeticException, MathIllegalArgumentException {
+	// final float sign = Math.copySign(1f, x);
+	// final float factor = (float) Math.pow(10.0f, scale) * sign;
+	// return (float) roundUnscaled(x * factor, sign, roundingMethod) / factor;
+	// }
 
     /**
      * Rounds the given non-negative value to the "nearest" integer. Nearest is
@@ -502,89 +501,98 @@ public class Precision {
      * @throws MathIllegalArgumentException if {@code roundingMethod} is not a valid rounding method.
      * @since 1.1 (previously in {@code MathUtils}, moved as of version 3.0)
      */
-    private static double roundUnscaled(double unscaled,
-                                        double sign,
-                                        int roundingMethod)
-        throws MathArithmeticException, MathIllegalArgumentException {
-        switch (roundingMethod) {
-        case BigDecimal.ROUND_CEILING :
-            if (sign == -1) {
-                unscaled = FastMath.floor(FastMath.nextAfter(unscaled, Double.NEGATIVE_INFINITY));
-            } else {
-                unscaled = FastMath.ceil(FastMath.nextAfter(unscaled, Double.POSITIVE_INFINITY));
-            }
-            break;
-        case BigDecimal.ROUND_DOWN :
-            unscaled = FastMath.floor(FastMath.nextAfter(unscaled, Double.NEGATIVE_INFINITY));
-            break;
-        case BigDecimal.ROUND_FLOOR :
-            if (sign == -1) {
-                unscaled = FastMath.ceil(FastMath.nextAfter(unscaled, Double.POSITIVE_INFINITY));
-            } else {
-                unscaled = FastMath.floor(FastMath.nextAfter(unscaled, Double.NEGATIVE_INFINITY));
-            }
-            break;
-        case BigDecimal.ROUND_HALF_DOWN : {
-            unscaled = FastMath.nextAfter(unscaled, Double.NEGATIVE_INFINITY);
-            double fraction = unscaled - FastMath.floor(unscaled);
-            if (fraction > 0.5) {
-                unscaled = FastMath.ceil(unscaled);
-            } else {
-                unscaled = FastMath.floor(unscaled);
-            }
-            break;
-        }
-        case BigDecimal.ROUND_HALF_EVEN : {
-            double fraction = unscaled - FastMath.floor(unscaled);
-            if (fraction > 0.5) {
-                unscaled = FastMath.ceil(unscaled);
-            } else if (fraction < 0.5) {
-                unscaled = FastMath.floor(unscaled);
-            } else {
-                // The following equality test is intentional and needed for rounding purposes
-                if (FastMath.floor(unscaled) / 2.0 == FastMath.floor(FastMath.floor(unscaled) / 2.0)) { // even
-                    unscaled = FastMath.floor(unscaled);
-                } else { // odd
-                    unscaled = FastMath.ceil(unscaled);
-                }
-            }
-            break;
-        }
-        case BigDecimal.ROUND_HALF_UP : {
-            unscaled = FastMath.nextAfter(unscaled, Double.POSITIVE_INFINITY);
-            double fraction = unscaled - FastMath.floor(unscaled);
-            if (fraction >= 0.5) {
-                unscaled = FastMath.ceil(unscaled);
-            } else {
-                unscaled = FastMath.floor(unscaled);
-            }
-            break;
-        }
-        case BigDecimal.ROUND_UNNECESSARY :
-            if (unscaled != FastMath.floor(unscaled)) {
-                throw new MathArithmeticException();
-            }
-            break;
-        case BigDecimal.ROUND_UP :
-            // do not round if the discarded fraction is equal to zero
-            if (unscaled != FastMath.floor(unscaled)) {
-                unscaled = FastMath.ceil(FastMath.nextAfter(unscaled, Double.POSITIVE_INFINITY));
-            }
-            break;
-        default :
-            throw new MathIllegalArgumentException(LocalizedFormats.INVALID_ROUNDING_METHOD,
-                                                   roundingMethod,
-                                                   "ROUND_CEILING", BigDecimal.ROUND_CEILING,
-                                                   "ROUND_DOWN", BigDecimal.ROUND_DOWN,
-                                                   "ROUND_FLOOR", BigDecimal.ROUND_FLOOR,
-                                                   "ROUND_HALF_DOWN", BigDecimal.ROUND_HALF_DOWN,
-                                                   "ROUND_HALF_EVEN", BigDecimal.ROUND_HALF_EVEN,
-                                                   "ROUND_HALF_UP", BigDecimal.ROUND_HALF_UP,
-                                                   "ROUND_UNNECESSARY", BigDecimal.ROUND_UNNECESSARY,
-                                                   "ROUND_UP", BigDecimal.ROUND_UP);
-        }
-        return unscaled;
-    }
+	// private static double roundUnscaled(double unscaled,
+	// double sign,
+	// int roundingMethod)
+	// throws MathArithmeticException, MathIllegalArgumentException {
+	// switch (roundingMethod) {
+	// case BigDecimal.ROUND_CEILING :
+	// if (sign == -1) {
+	// unscaled = Math.floor(
+	// FastMath.nextAfter(unscaled, Double.NEGATIVE_INFINITY));
+	// } else {
+	// unscaled = Math.ceil(
+	// FastMath.nextAfter(unscaled, Double.POSITIVE_INFINITY));
+	// }
+	// break;
+	// case BigDecimal.ROUND_DOWN :
+	// unscaled = Math.floor(
+	// FastMath.nextAfter(unscaled, Double.NEGATIVE_INFINITY));
+	// break;
+	// case BigDecimal.ROUND_FLOOR :
+	// if (sign == -1) {
+	// unscaled = Math.ceil(
+	// FastMath.nextAfter(unscaled, Double.POSITIVE_INFINITY));
+	// } else {
+	// unscaled = Math.floor(
+	// FastMath.nextAfter(unscaled, Double.NEGATIVE_INFINITY));
+	// }
+	// break;
+	// case BigDecimal.ROUND_HALF_DOWN : {
+	// unscaled = FastMath.nextAfter(unscaled, Double.NEGATIVE_INFINITY);
+	// double fraction = unscaled - Math.floor(unscaled);
+	// if (fraction > 0.5) {
+	// unscaled = Math.ceil(unscaled);
+	// } else {
+	// unscaled = Math.floor(unscaled);
+	// }
+	// break;
+	// }
+	// case BigDecimal.ROUND_HALF_EVEN : {
+	// double fraction = unscaled - Math.floor(unscaled);
+	// if (fraction > 0.5) {
+	// unscaled = Math.ceil(unscaled);
+	// } else if (fraction < 0.5) {
+	// unscaled = Math.floor(unscaled);
+	// } else {
+	// // The following equality test is intentional and needed for rounding
+	// purposes
+	// if (Math.floor(unscaled) / 2.0 == Math.floor(Math.floor(unscaled) / 2.0))
+	// { // even
+	// unscaled = Math.floor(unscaled);
+	// } else { // odd
+	// unscaled = Math.ceil(unscaled);
+	// }
+	// }
+	// break;
+	// }
+	// case BigDecimal.ROUND_HALF_UP : {
+	// unscaled = FastMath.nextAfter(unscaled, Double.POSITIVE_INFINITY);
+	// double fraction = unscaled - Math.floor(unscaled);
+	// if (fraction >= 0.5) {
+	// unscaled = Math.ceil(unscaled);
+	// } else {
+	// unscaled = Math.floor(unscaled);
+	// }
+	// break;
+	// }
+	// case BigDecimal.ROUND_UNNECESSARY :
+	// if (unscaled != Math.floor(unscaled)) {
+	// throw new MathArithmeticException();
+	// }
+	// break;
+	// case BigDecimal.ROUND_UP :
+	// // do not round if the discarded fraction is equal to zero
+	// if (unscaled != Math.floor(unscaled)) {
+	// unscaled = Math.ceil(
+	// FastMath.nextAfter(unscaled, Double.POSITIVE_INFINITY));
+	// }
+	// break;
+	// default :
+	// throw new
+	// MathIllegalArgumentException(LocalizedFormats.INVALID_ROUNDING_METHOD,
+	// roundingMethod,
+	// "ROUND_CEILING", BigDecimal.ROUND_CEILING,
+	// "ROUND_DOWN", BigDecimal.ROUND_DOWN,
+	// "ROUND_FLOOR", BigDecimal.ROUND_FLOOR,
+	// "ROUND_HALF_DOWN", BigDecimal.ROUND_HALF_DOWN,
+	// "ROUND_HALF_EVEN", BigDecimal.ROUND_HALF_EVEN,
+	// "ROUND_HALF_UP", BigDecimal.ROUND_HALF_UP,
+	// "ROUND_UNNECESSARY", BigDecimal.ROUND_UNNECESSARY,
+	// "ROUND_UP", BigDecimal.ROUND_UP);
+	// }
+	// return unscaled;
+	// }
 
 
     /**

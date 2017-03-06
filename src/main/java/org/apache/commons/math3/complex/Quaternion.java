@@ -18,12 +18,12 @@
 package org.apache.commons.math3.complex;
 
 import java.io.Serializable;
-import org.apache.commons.math3.util.FastMath;
-import org.apache.commons.math3.util.MathUtils;
-import org.apache.commons.math3.util.Precision;
+
 import org.apache.commons.math3.exception.DimensionMismatchException;
 import org.apache.commons.math3.exception.ZeroException;
 import org.apache.commons.math3.exception.util.LocalizedFormats;
+import org.apache.commons.math3.util.MathUtils;
+import org.apache.commons.math3.util.Precision;
 
 /**
  * This class implements <a href="http://mathworld.wolfram.com/Quaternion.html">
@@ -234,7 +234,7 @@ public final class Quaternion implements Serializable {
      * @return the norm.
      */
     public double getNorm() {
-        return FastMath.sqrt(q0 * q0 +
+        return Math.sqrt(q0 * q0 +
                              q1 * q1 +
                              q2 * q2 +
                              q3 * q3);
@@ -330,7 +330,7 @@ public final class Quaternion implements Serializable {
      * @return {@code true} if the scalar part of the quaternion is zero.
      */
     public boolean isPureQuaternion(double eps) {
-        return FastMath.abs(getQ0()) <= eps;
+        return Math.abs(getQ0()) <= eps;
     }
 
     /**

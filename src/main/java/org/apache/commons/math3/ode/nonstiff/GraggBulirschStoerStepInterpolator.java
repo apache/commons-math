@@ -17,10 +17,6 @@
 
 package org.apache.commons.math3.ode.nonstiff;
 
-import java.io.IOException;
-import java.io.ObjectInput;
-import java.io.ObjectOutput;
-
 import org.apache.commons.math3.ode.EquationsMapper;
 import org.apache.commons.math3.ode.sampling.AbstractStepInterpolator;
 import org.apache.commons.math3.ode.sampling.StepInterpolator;
@@ -217,7 +213,7 @@ class GraggBulirschStoerStepInterpolator
         for (int i = 0; i < errfac.length; ++i) {
           final int ip5 = i + 5;
           errfac[i] = 1.0 / (ip5 * ip5);
-          final double e = 0.5 * FastMath.sqrt (((double) (i + 1)) / ip5);
+          final double e = 0.5 * Math.sqrt (((double) (i + 1)) / ip5);
           for (int j = 0; j <= i; ++j) {
             errfac[i] *= e / (j + 1);
           }
@@ -307,7 +303,7 @@ class GraggBulirschStoerStepInterpolator
         final double e = polynomials[currentDegree][i] / scale[i];
         error += e * e;
       }
-      error = FastMath.sqrt(error / scale.length) * errfac[currentDegree - 5];
+      error = Math.sqrt(error / scale.length) * errfac[currentDegree - 5];
     }
     return error;
   }
@@ -360,48 +356,48 @@ class GraggBulirschStoerStepInterpolator
   }
 
   /** {@inheritDoc} */
-  @Override
-  public void writeExternal(final ObjectOutput out)
-    throws IOException {
-
-    final int dimension = (currentState == null) ? -1 : currentState.length;
-
-    // save the state of the base class
-    writeBaseExternal(out);
-
-    // save the local attributes (but not the temporary vectors)
-    out.writeInt(currentDegree);
-    for (int k = 0; k <= currentDegree; ++k) {
-      for (int l = 0; l < dimension; ++l) {
-        out.writeDouble(polynomials[k][l]);
-      }
-    }
-
-  }
+	// @Override
+	// public void writeExternal(final ObjectOutput out)
+	// throws IOException {
+	//
+	// final int dimension = (currentState == null) ? -1 : currentState.length;
+	//
+	// // save the state of the base class
+	// writeBaseExternal(out);
+	//
+	// // save the local attributes (but not the temporary vectors)
+	// out.writeInt(currentDegree);
+	// for (int k = 0; k <= currentDegree; ++k) {
+	// for (int l = 0; l < dimension; ++l) {
+	// out.writeDouble(polynomials[k][l]);
+	// }
+	// }
+	//
+	// }
 
   /** {@inheritDoc} */
-  @Override
-  public void readExternal(final ObjectInput in)
-    throws IOException, ClassNotFoundException {
-
-    // read the base class
-    final double t = readBaseExternal(in);
-    final int dimension = (currentState == null) ? -1 : currentState.length;
-
-    // read the local attributes
-    final int degree = in.readInt();
-    resetTables(degree);
-    currentDegree = degree;
-
-    for (int k = 0; k <= currentDegree; ++k) {
-      for (int l = 0; l < dimension; ++l) {
-        polynomials[k][l] = in.readDouble();
-      }
-    }
-
-    // we can now set the interpolated time and state
-    setInterpolatedTime(t);
-
-  }
+	// @Override
+	// public void readExternal(final ObjectInput in)
+	// throws IOException, ClassNotFoundException {
+	//
+	// // read the base class
+	// final double t = readBaseExternal(in);
+	// final int dimension = (currentState == null) ? -1 : currentState.length;
+	//
+	// // read the local attributes
+	// final int degree = in.readInt();
+	// resetTables(degree);
+	// currentDegree = degree;
+	//
+	// for (int k = 0; k <= currentDegree; ++k) {
+	// for (int l = 0; l < dimension; ++l) {
+	// polynomials[k][l] = in.readDouble();
+	// }
+	// }
+	//
+	// // we can now set the interpolated time and state
+	// setInterpolatedTime(t);
+	//
+	// }
 
 }

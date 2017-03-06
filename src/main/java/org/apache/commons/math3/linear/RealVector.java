@@ -20,19 +20,18 @@ package org.apache.commons.math3.linear;
 import java.util.Iterator;
 import java.util.NoSuchElementException;
 
-import org.apache.commons.math3.exception.MathUnsupportedOperationException;
+import org.apache.commons.math3.analysis.FunctionUtils;
+import org.apache.commons.math3.analysis.UnivariateFunction;
+import org.apache.commons.math3.analysis.function.Add;
+import org.apache.commons.math3.analysis.function.Divide;
+import org.apache.commons.math3.analysis.function.Multiply;
 import org.apache.commons.math3.exception.DimensionMismatchException;
+import org.apache.commons.math3.exception.MathArithmeticException;
+import org.apache.commons.math3.exception.MathUnsupportedOperationException;
 import org.apache.commons.math3.exception.NotPositiveException;
 import org.apache.commons.math3.exception.NumberIsTooSmallException;
 import org.apache.commons.math3.exception.OutOfRangeException;
-import org.apache.commons.math3.exception.MathArithmeticException;
-import org.apache.commons.math3.analysis.FunctionUtils;
-import org.apache.commons.math3.analysis.function.Add;
-import org.apache.commons.math3.analysis.function.Multiply;
-import org.apache.commons.math3.analysis.function.Divide;
-import org.apache.commons.math3.analysis.UnivariateFunction;
 import org.apache.commons.math3.exception.util.LocalizedFormats;
-import org.apache.commons.math3.util.FastMath;
 
 /**
  * Class defining a real-valued vector with basic algebraic operations.
@@ -380,7 +379,7 @@ public abstract class RealVector {
             final double diff = e.getValue() - v.getEntry(e.getIndex());
             d += diff * diff;
         }
-        return FastMath.sqrt(d);
+        return Math.sqrt(d);
     }
 
     /**
@@ -401,7 +400,7 @@ public abstract class RealVector {
             final double value = e.getValue();
             sum += value * value;
         }
-        return FastMath.sqrt(sum);
+        return Math.sqrt(sum);
     }
 
     /**
@@ -419,7 +418,7 @@ public abstract class RealVector {
         Iterator<Entry> it = iterator();
         while (it.hasNext()) {
             final Entry e = it.next();
-            norm += FastMath.abs(e.getValue());
+            norm += Math.abs(e.getValue());
         }
         return norm;
     }
@@ -439,7 +438,7 @@ public abstract class RealVector {
         Iterator<Entry> it = iterator();
         while (it.hasNext()) {
             final Entry e = it.next();
-            norm = FastMath.max(norm, FastMath.abs(e.getValue()));
+            norm = Math.max(norm, Math.abs(e.getValue()));
         }
         return norm;
     }
@@ -462,7 +461,7 @@ public abstract class RealVector {
         Iterator<Entry> it = iterator();
         while (it.hasNext()) {
             final Entry e = it.next();
-            d += FastMath.abs(e.getValue() - v.getEntry(e.getIndex()));
+            d += Math.abs(e.getValue() - v.getEntry(e.getIndex()));
         }
         return d;
     }
@@ -488,7 +487,7 @@ public abstract class RealVector {
         Iterator<Entry> it = iterator();
         while (it.hasNext()) {
             final Entry e = it.next();
-            d = FastMath.max(FastMath.abs(e.getValue() - v.getEntry(e.getIndex())), d);
+            d = Math.max(Math.abs(e.getValue() - v.getEntry(e.getIndex())), d);
         }
         return d;
     }

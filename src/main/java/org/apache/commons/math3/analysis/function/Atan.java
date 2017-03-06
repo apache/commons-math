@@ -32,7 +32,7 @@ import org.apache.commons.math3.util.FastMath;
 public class Atan implements UnivariateDifferentiableFunction, DifferentiableUnivariateFunction {
     /** {@inheritDoc} */
     public double value(double x) {
-        return FastMath.atan(x);
+        return Math.atan(x);
     }
 
     /** {@inheritDoc}

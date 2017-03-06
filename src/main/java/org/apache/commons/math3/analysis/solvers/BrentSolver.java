@@ -103,13 +103,13 @@ public class BrentSolver extends AbstractUnivariateSolver {
 
         // Return the initial guess if it is good enough.
         double yInitial = computeObjectiveValue(initial);
-        if (FastMath.abs(yInitial) <= functionValueAccuracy) {
+        if (Math.abs(yInitial) <= functionValueAccuracy) {
             return initial;
         }
 
         // Return the first endpoint if it is good enough.
         double yMin = computeObjectiveValue(min);
-        if (FastMath.abs(yMin) <= functionValueAccuracy) {
+        if (Math.abs(yMin) <= functionValueAccuracy) {
             return min;
         }
 
@@ -120,7 +120,7 @@ public class BrentSolver extends AbstractUnivariateSolver {
 
         // Return the second endpoint if it is good enough.
         double yMax = computeObjectiveValue(max);
-        if (FastMath.abs(yMax) <= functionValueAccuracy) {
+        if (Math.abs(yMax) <= functionValueAccuracy) {
             return max;
         }
 
@@ -163,7 +163,7 @@ public class BrentSolver extends AbstractUnivariateSolver {
         final double eps = getRelativeAccuracy();
 
         while (true) {
-            if (FastMath.abs(fc) < FastMath.abs(fb)) {
+            if (Math.abs(fc) < Math.abs(fb)) {
                 a = b;
                 b = c;
                 c = a;
@@ -172,15 +172,15 @@ public class BrentSolver extends AbstractUnivariateSolver {
                 fc = fa;
             }
 
-            final double tol = 2 * eps * FastMath.abs(b) + t;
+            final double tol = 2 * eps * Math.abs(b) + t;
             final double m = 0.5 * (c - b);
 
-            if (FastMath.abs(m) <= tol ||
+            if (Math.abs(m) <= tol ||
                 Precision.equals(fb, 0))  {
                 return b;
             }
-            if (FastMath.abs(e) < tol ||
-                FastMath.abs(fa) <= FastMath.abs(fb)) {
+            if (Math.abs(e) < tol ||
+                Math.abs(fa) <= Math.abs(fb)) {
                 // Force bisection.
                 d = m;
                 e = d;
@@ -209,8 +209,8 @@ public class BrentSolver extends AbstractUnivariateSolver {
                 }
                 s = e;
                 e = d;
-                if (p >= 1.5 * m * q - FastMath.abs(tol * q) ||
-                    p >= FastMath.abs(0.5 * s * q)) {
+                if (p >= 1.5 * m * q - Math.abs(tol * q) ||
+                    p >= Math.abs(0.5 * s * q)) {
                     // Inverse quadratic interpolation gives a value
                     // in the wrong direction, or progress is slow.
                     // Fall back to bisection.
@@ -223,7 +223,7 @@ public class BrentSolver extends AbstractUnivariateSolver {
             a = b;
             fa = fb;
 
-            if (FastMath.abs(d) > tol) {
+            if (Math.abs(d) > tol) {
                 b += d;
             } else if (m > 0) {
                 b += tol;

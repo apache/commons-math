@@ -17,12 +17,9 @@
 
 package org.apache.commons.math3.ode.sampling;
 
-import java.io.IOException;
-import java.io.ObjectInput;
-import java.io.ObjectOutput;
-
 import org.apache.commons.math3.exception.MaxCountExceededException;
 import org.apache.commons.math3.ode.EquationsMapper;
+import org.apache.commons.math3.util.Cloner;
 
 /** This abstract class represents an interpolator over the last step
  * during an ODE integration.
@@ -146,7 +143,8 @@ public abstract class AbstractStepInterpolator
     this.forward          = forward;
     this.dirtyState       = true;
     this.primaryMapper    = primaryMapper;
-    this.secondaryMappers = (secondaryMappers == null) ? null : secondaryMappers.clone();
+		this.secondaryMappers = (secondaryMappers == null) ? null
+				: Cloner.clone(secondaryMappers);
     allocateInterpolatedArrays(y.length);
 
   }
@@ -183,16 +181,21 @@ public abstract class AbstractStepInterpolator
         secondaryMappers = null;
         allocateInterpolatedArrays(-1);
     } else {
-      currentState                     = interpolator.currentState.clone();
-      interpolatedState                = interpolator.interpolatedState.clone();
-      interpolatedDerivatives          = interpolator.interpolatedDerivatives.clone();
-      interpolatedPrimaryState         = interpolator.interpolatedPrimaryState.clone();
-      interpolatedPrimaryDerivatives   = interpolator.interpolatedPrimaryDerivatives.clone();
+			currentState = Cloner.clone(interpolator.currentState);
+			interpolatedState = Cloner.clone(interpolator.interpolatedState);
+			interpolatedDerivatives = Cloner
+					.clone(interpolator.interpolatedDerivatives);
+			interpolatedPrimaryState = Cloner
+					.clone(interpolator.interpolatedPrimaryState);
+			interpolatedPrimaryDerivatives = Cloner
+					.clone(interpolator.interpolatedPrimaryDerivatives);
       interpolatedSecondaryState       = new double[interpolator.interpolatedSecondaryState.length][];
       interpolatedSecondaryDerivatives = new double[interpolator.interpolatedSecondaryDerivatives.length][];
       for (int i = 0; i < interpolatedSecondaryState.length; ++i) {
-          interpolatedSecondaryState[i]       = interpolator.interpolatedSecondaryState[i].clone();
-          interpolatedSecondaryDerivatives[i] = interpolator.interpolatedSecondaryDerivatives[i].clone();
+				interpolatedSecondaryState[i] = Cloner
+						.clone(interpolator.interpolatedSecondaryState[i]);
+				interpolatedSecondaryDerivatives[i] = Cloner.clone(
+						interpolator.interpolatedSecondaryDerivatives[i]);
       }
     }
 
@@ -201,7 +204,7 @@ public abstract class AbstractStepInterpolator
     dirtyState       = interpolator.dirtyState;
     primaryMapper    = interpolator.primaryMapper;
     secondaryMappers = (interpolator.secondaryMappers == null) ?
-                       null : interpolator.secondaryMappers.clone();
+				null : Cloner.clone(interpolator.secondaryMappers);
 
   }
 
@@ -256,7 +259,7 @@ public abstract class AbstractStepInterpolator
     this.forward          = isForward;
     this.dirtyState       = true;
     this.primaryMapper    = primary;
-    this.secondaryMappers = secondary.clone();
+		this.secondaryMappers = Cloner.clone(secondary);
     allocateInterpolatedArrays(y.length);
 
   }
@@ -500,12 +503,12 @@ public abstract class AbstractStepInterpolator
   }
 
   /** {@inheritDoc} */
-  public abstract void writeExternal(ObjectOutput out)
-    throws IOException;
+	// public abstract void writeExternal(ObjectOutput out)
+	// throws IOException;
 
   /** {@inheritDoc} */
-  public abstract void readExternal(ObjectInput in)
-    throws IOException, ClassNotFoundException;
+	// public abstract void readExternal(ObjectInput in)
+	// throws IOException, ClassNotFoundException;
 
   /** Save the base state of the instance.
    * This method performs step finalization if it has not been done
@@ -513,47 +516,47 @@ public abstract class AbstractStepInterpolator
    * @param out stream where to save the state
    * @exception IOException in case of write error
    */
-  protected void writeBaseExternal(final ObjectOutput out)
-    throws IOException {
-
-    if (currentState == null) {
-        out.writeInt(-1);
-    } else {
-        out.writeInt(currentState.length);
-    }
-    out.writeDouble(globalPreviousTime);
-    out.writeDouble(globalCurrentTime);
-    out.writeDouble(softPreviousTime);
-    out.writeDouble(softCurrentTime);
-    out.writeDouble(h);
-    out.writeBoolean(forward);
-    out.writeObject(primaryMapper);
-    out.write(secondaryMappers.length);
-    for (final EquationsMapper  mapper : secondaryMappers) {
-        out.writeObject(mapper);
-    }
-
-    if (currentState != null) {
-        for (int i = 0; i < currentState.length; ++i) {
-            out.writeDouble(currentState[i]);
-        }
-    }
-
-    out.writeDouble(interpolatedTime);
-
-    // we do not store the interpolated state,
-    // it will be recomputed as needed after reading
-
-    try {
-        // finalize the step (and don't bother saving the now true flag)
-        finalizeStep();
-    } catch (MaxCountExceededException mcee) {
-        final IOException ioe = new IOException(mcee.getLocalizedMessage());
-        ioe.initCause(mcee);
-        throw ioe;
-    }
-
-  }
+	// protected void writeBaseExternal(final ObjectOutput out)
+	// throws IOException {
+	//
+	// if (currentState == null) {
+	// out.writeInt(-1);
+	// } else {
+	// out.writeInt(currentState.length);
+	// }
+	// out.writeDouble(globalPreviousTime);
+	// out.writeDouble(globalCurrentTime);
+	// out.writeDouble(softPreviousTime);
+	// out.writeDouble(softCurrentTime);
+	// out.writeDouble(h);
+	// out.writeBoolean(forward);
+	// out.writeObject(primaryMapper);
+	// out.write(secondaryMappers.length);
+	// for (final EquationsMapper mapper : secondaryMappers) {
+	// out.writeObject(mapper);
+	// }
+	//
+	// if (currentState != null) {
+	// for (int i = 0; i < currentState.length; ++i) {
+	// out.writeDouble(currentState[i]);
+	// }
+	// }
+	//
+	// out.writeDouble(interpolatedTime);
+	//
+	// // we do not store the interpolated state,
+	// // it will be recomputed as needed after reading
+	//
+	// try {
+	// // finalize the step (and don't bother saving the now true flag)
+	// finalizeStep();
+	// } catch (MaxCountExceededException mcee) {
+	// final IOException ioe = new IOException(mcee.getLocalizedMessage());
+	// ioe.initCause(mcee);
+	// throw ioe;
+	// }
+	//
+	// }
 
   /** Read the base state of the instance.
    * This method does <strong>neither</strong> set the interpolated
@@ -566,40 +569,40 @@ public abstract class AbstractStepInterpolator
    * @exception ClassNotFoundException if an equation mapper class
    * cannot be found
    */
-  protected double readBaseExternal(final ObjectInput in)
-    throws IOException, ClassNotFoundException {
-
-    final int dimension = in.readInt();
-    globalPreviousTime  = in.readDouble();
-    globalCurrentTime   = in.readDouble();
-    softPreviousTime    = in.readDouble();
-    softCurrentTime     = in.readDouble();
-    h                   = in.readDouble();
-    forward             = in.readBoolean();
-    primaryMapper       = (EquationsMapper) in.readObject();
-    secondaryMappers    = new EquationsMapper[in.read()];
-    for (int i = 0; i < secondaryMappers.length; ++i) {
-        secondaryMappers[i] = (EquationsMapper) in.readObject();
-    }
-    dirtyState          = true;
-
-    if (dimension < 0) {
-        currentState = null;
-    } else {
-        currentState  = new double[dimension];
-        for (int i = 0; i < currentState.length; ++i) {
-            currentState[i] = in.readDouble();
-        }
-    }
-
-    // we do NOT handle the interpolated time and state here
-    interpolatedTime = Double.NaN;
-    allocateInterpolatedArrays(dimension);
-
-    finalized = true;
-
-    return in.readDouble();
-
-  }
+	// protected double readBaseExternal(final ObjectInput in)
+	// throws IOException, ClassNotFoundException {
+	//
+	// final int dimension = in.readInt();
+	// globalPreviousTime = in.readDouble();
+	// globalCurrentTime = in.readDouble();
+	// softPreviousTime = in.readDouble();
+	// softCurrentTime = in.readDouble();
+	// h = in.readDouble();
+	// forward = in.readBoolean();
+	// primaryMapper = (EquationsMapper) in.readObject();
+	// secondaryMappers = new EquationsMapper[in.read()];
+	// for (int i = 0; i < secondaryMappers.length; ++i) {
+	// secondaryMappers[i] = (EquationsMapper) in.readObject();
+	// }
+	// dirtyState = true;
+	//
+	// if (dimension < 0) {
+	// currentState = null;
+	// } else {
+	// currentState = new double[dimension];
+	// for (int i = 0; i < currentState.length; ++i) {
+	// currentState[i] = in.readDouble();
+	// }
+	// }
+	//
+	// // we do NOT handle the interpolated time and state here
+	// interpolatedTime = Double.NaN;
+	// allocateInterpolatedArrays(dimension);
+	//
+	// finalized = true;
+	//
+	// return in.readDouble();
+	//
+	// }
 
 }

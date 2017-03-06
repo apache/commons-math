@@ -17,8 +17,9 @@
 package org.apache.commons.math3.optim;
 
 import org.apache.commons.math3.exception.DimensionMismatchException;
-import org.apache.commons.math3.exception.NumberIsTooSmallException;
 import org.apache.commons.math3.exception.NumberIsTooLargeException;
+import org.apache.commons.math3.exception.NumberIsTooSmallException;
+import org.apache.commons.math3.util.Cloner;
 
 /**
  * Base class for implementing optimizers for multivariate functions.
@@ -105,19 +106,19 @@ public abstract class BaseMultivariateOptimizer<PAIR>
      * @return the initial guess, or {@code null} if not set.
      */
     public double[] getStartPoint() {
-        return start == null ? null : start.clone();
+		return start == null ? null : Cloner.clone(start);
     }
     /**
      * @return the lower bounds, or {@code null} if not set.
      */
     public double[] getLowerBound() {
-        return lowerBound == null ? null : lowerBound.clone();
+		return lowerBound == null ? null : Cloner.clone(lowerBound);
     }
     /**
      * @return the upper bounds, or {@code null} if not set.
      */
     public double[] getUpperBound() {
-        return upperBound == null ? null : upperBound.clone();
+		return upperBound == null ? null : Cloner.clone(upperBound);
     }
 
     /**

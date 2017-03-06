@@ -296,7 +296,7 @@ public class LoessInterpolator
                 double sumXSquared = 0;
                 double sumY = 0;
                 double sumXY = 0;
-                double denom = FastMath.abs(1.0 / (xval[edge] - x));
+                double denom = Math.abs(1.0 / (xval[edge] - x));
                 for (int k = ileft; k <= iright; ++k) {
                     final double xk   = xval[k];
                     final double yk   = yval[k];
@@ -316,7 +316,7 @@ public class LoessInterpolator
                 final double meanXSquared = sumXSquared / sumWeights;
 
                 final double beta;
-                if (FastMath.sqrt(FastMath.abs(meanXSquared - meanX * meanX)) < accuracy) {
+                if (Math.sqrt(Math.abs(meanXSquared - meanX * meanX)) < accuracy) {
                     beta = 0;
                 } else {
                     beta = (meanXY - meanX * meanY) / (meanXSquared - meanX * meanX);
@@ -325,7 +325,7 @@ public class LoessInterpolator
                 final double alpha = meanY - beta * meanX;
 
                 res[i] = beta * x + alpha;
-                residuals[i] = FastMath.abs(yval[i] - res[i]);
+                residuals[i] = Math.abs(yval[i] - res[i]);
             }
 
             // No need to recompute the robustness weights at the last
@@ -343,7 +343,7 @@ public class LoessInterpolator
             Arrays.sort(sortedResiduals);
             final double medianResidual = sortedResiduals[n / 2];
 
-            if (FastMath.abs(medianResidual) < accuracy) {
+            if (Math.abs(medianResidual) < accuracy) {
                 break;
             }
 
@@ -450,7 +450,7 @@ public class LoessInterpolator
      * @return <code>(1 - |x|<sup>3</sup>)<sup>3</sup></code> for |x| &lt; 1, 0 otherwise.
      */
     private static double tricube(final double x) {
-        final double absX = FastMath.abs(x);
+        final double absX = Math.abs(x);
         if (absX >= 1.0) {
             return 0.0;
         }

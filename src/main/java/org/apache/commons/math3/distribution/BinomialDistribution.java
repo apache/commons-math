@@ -22,7 +22,6 @@ import org.apache.commons.math3.exception.util.LocalizedFormats;
 import org.apache.commons.math3.random.RandomGenerator;
 import org.apache.commons.math3.random.Well19937c;
 import org.apache.commons.math3.special.Beta;
-import org.apache.commons.math3.util.FastMath;
 
 /**
  * Implementation of the binomial distribution.
@@ -106,7 +105,7 @@ public class BinomialDistribution extends AbstractIntegerDistribution {
     /** {@inheritDoc} */
     public double probability(int x) {
         final double logProbability = logProbability(x);
-        return logProbability == Double.NEGATIVE_INFINITY ? 0 : FastMath.exp(logProbability);
+        return logProbability == Double.NEGATIVE_INFINITY ? 0 : Math.exp(logProbability);
     }
 
     /** {@inheritDoc} **/

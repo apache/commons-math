@@ -17,7 +17,6 @@
 
 package org.apache.commons.math3.optim;
 
-import org.apache.commons.math3.util.FastMath;
 import org.apache.commons.math3.exception.NotStrictlyPositiveException;
 
 /**
@@ -117,8 +116,8 @@ public class SimpleValueChecker
 
         final double p = previous.getValue();
         final double c = current.getValue();
-        final double difference = FastMath.abs(p - c);
-        final double size = FastMath.max(FastMath.abs(p), FastMath.abs(c));
+        final double difference = Math.abs(p - c);
+        final double size = Math.max(Math.abs(p), Math.abs(c));
         return difference <= size * getRelativeThreshold() ||
             difference <= getAbsoluteThreshold();
     }

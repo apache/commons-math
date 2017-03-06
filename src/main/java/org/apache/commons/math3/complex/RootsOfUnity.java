@@ -23,7 +23,6 @@ import org.apache.commons.math3.exception.MathIllegalStateException;
 import org.apache.commons.math3.exception.OutOfRangeException;
 import org.apache.commons.math3.exception.ZeroException;
 import org.apache.commons.math3.exception.util.LocalizedFormats;
-import org.apache.commons.math3.util.FastMath;
 
 /**
  * A helper class for the computation and caching of the {@code n}-th roots of
@@ -123,16 +122,16 @@ public class RootsOfUnity implements Serializable {
         isCounterClockWise = n > 0;
 
         // avoid repetitive calculations
-        final int absN = FastMath.abs(n);
+        final int absN = Math.abs(n);
 
         if (absN == omegaCount) {
             return;
         }
 
         // calculate everything from scratch
-        final double t = 2.0 * FastMath.PI / absN;
-        final double cosT = FastMath.cos(t);
-        final double sinT = FastMath.sin(t);
+        final double t = 2.0 * Math.PI / absN;
+        final double cosT = Math.cos(t);
+        final double sinT = Math.sin(t);
         omegaReal = new double[absN];
         omegaImaginaryCounterClockwise = new double[absN];
         omegaImaginaryClockwise = new double[absN];

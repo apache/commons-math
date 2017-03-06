@@ -99,12 +99,12 @@ public class MullerSolver2 extends AbstractUnivariateSolver {
 
         double x0 = min;
         double y0 = computeObjectiveValue(x0);
-        if (FastMath.abs(y0) < functionValueAccuracy) {
+        if (Math.abs(y0) < functionValueAccuracy) {
             return x0;
         }
         double x1 = max;
         double y1 = computeObjectiveValue(x1);
-        if (FastMath.abs(y1) < functionValueAccuracy) {
+        if (Math.abs(y1) < functionValueAccuracy) {
             return x1;
         }
 
@@ -127,12 +127,12 @@ public class MullerSolver2 extends AbstractUnivariateSolver {
             final double denominator;
             if (delta >= 0.0) {
                 // choose a denominator larger in magnitude
-                double dplus = b + FastMath.sqrt(delta);
-                double dminus = b - FastMath.sqrt(delta);
-                denominator = FastMath.abs(dplus) > FastMath.abs(dminus) ? dplus : dminus;
+                double dplus = b + Math.sqrt(delta);
+                double dminus = b - Math.sqrt(delta);
+                denominator = Math.abs(dplus) > Math.abs(dminus) ? dplus : dminus;
             } else {
-                // take the modulus of (B +/- FastMath.sqrt(delta))
-                denominator = FastMath.sqrt(b * b - delta);
+                // take the modulus of (B +/- Math.sqrt(delta))
+                denominator = Math.sqrt(b * b - delta);
             }
             if (denominator != 0) {
                 x = x2 - 2.0 * c * (x2 - x1) / denominator;
@@ -143,15 +143,15 @@ public class MullerSolver2 extends AbstractUnivariateSolver {
                 }
             } else {
                 // extremely rare case, get a random number to skip it
-                x = min + FastMath.random() * (max - min);
+                x = min + Math.random() * (max - min);
                 oldx = Double.POSITIVE_INFINITY;
             }
             final double y = computeObjectiveValue(x);
 
             // check for convergence
-            final double tolerance = FastMath.max(relativeAccuracy * FastMath.abs(x), absoluteAccuracy);
-            if (FastMath.abs(x - oldx) <= tolerance ||
-                FastMath.abs(y) <= functionValueAccuracy) {
+            final double tolerance = Math.max(relativeAccuracy * Math.abs(x), absoluteAccuracy);
+            if (Math.abs(x - oldx) <= tolerance ||
+                Math.abs(y) <= functionValueAccuracy) {
                 return x;
             }
 

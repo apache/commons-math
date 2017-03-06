@@ -32,7 +32,7 @@ import org.apache.commons.math3.util.FastMath;
 public class Tanh implements UnivariateDifferentiableFunction, DifferentiableUnivariateFunction {
     /** {@inheritDoc} */
     public double value(double x) {
-        return FastMath.tanh(x);
+        return Math.tanh(x);
     }
 
     /** {@inheritDoc}

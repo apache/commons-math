@@ -19,6 +19,7 @@ package org.apache.commons.math3.optim.nonlinear.scalar;
 import org.apache.commons.math3.analysis.MultivariateFunction;
 import org.apache.commons.math3.exception.DimensionMismatchException;
 import org.apache.commons.math3.exception.NumberIsTooSmallException;
+import org.apache.commons.math3.util.Cloner;
 import org.apache.commons.math3.util.FastMath;
 import org.apache.commons.math3.util.MathUtils;
 
@@ -141,10 +142,10 @@ public class MultivariateFunctionPenaltyAdapter
         }
 
         this.bounded = bounded;
-        this.lower   = lower.clone();
-        this.upper   = upper.clone();
+		this.lower = Cloner.clone(lower);
+		this.upper = Cloner.clone(upper);
         this.offset  = offset;
-        this.scale   = scale.clone();
+		this.scale = Cloner.clone(scale);
     }
 
     /**
@@ -173,7 +174,7 @@ public class MultivariateFunctionPenaltyAdapter
                     } else {
                         overshoot = 0;
                     }
-                    sum += FastMath.sqrt(overshoot);
+                    sum += Math.sqrt(overshoot);
                 }
                 return offset + sum;
             }

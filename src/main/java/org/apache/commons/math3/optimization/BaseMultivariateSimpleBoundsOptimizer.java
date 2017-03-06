@@ -21,7 +21,7 @@ import org.apache.commons.math3.analysis.MultivariateFunction;
 
 /**
  * This interface is mainly intended to enforce the internal coherence of
- * Commons-FastMath. Users of the API are advised to base their code on
+ * Commons-Math. Users of the API are advised to base their code on
  * the following interfaces:
  * <ul>
  *  <li>{@link org.apache.commons.math3.optimization.MultivariateOptimizer}</li>

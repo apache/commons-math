@@ -95,7 +95,7 @@ public class AkimaSplineInterpolator
         }
 
         for (int i = 1; i < weights.length; i++) {
-            weights[i] = FastMath.abs(differences[i] - differences[i - 1]);
+            weights[i] = Math.abs(differences[i] - differences[i - 1]);
         }
 
         // Prepare Hermite interpolation scheme.

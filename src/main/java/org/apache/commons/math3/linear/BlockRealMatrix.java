@@ -27,7 +27,7 @@ import org.apache.commons.math3.exception.NullArgumentException;
 import org.apache.commons.math3.exception.NumberIsTooSmallException;
 import org.apache.commons.math3.exception.OutOfRangeException;
 import org.apache.commons.math3.exception.util.LocalizedFormats;
-import org.apache.commons.math3.util.FastMath;
+import org.apache.commons.math3.util.Cloner;
 import org.apache.commons.math3.util.MathUtils;
 
 /**
@@ -170,7 +170,7 @@ public class BlockRealMatrix extends AbstractRealMatrix implements Serializable 
                                                          iHeight * blockWidth(jBlock));
                 }
                 if (copyArray) {
-                    blocks[index] = blockData[index].clone();
+					blocks[index] = Cloner.clone(blockData[index]);
                 }
             }
         }
@@ -217,11 +217,11 @@ public class BlockRealMatrix extends AbstractRealMatrix implements Serializable 
         int blockIndex = 0;
         for (int iBlock = 0; iBlock < blockRows; ++iBlock) {
             final int pStart = iBlock * BLOCK_SIZE;
-            final int pEnd = FastMath.min(pStart + BLOCK_SIZE, rows);
+            final int pEnd = Math.min(pStart + BLOCK_SIZE, rows);
             final int iHeight = pEnd - pStart;
             for (int jBlock = 0; jBlock < blockColumns; ++jBlock) {
                 final int qStart = jBlock * BLOCK_SIZE;
-                final int qEnd = FastMath.min(qStart + BLOCK_SIZE, columns);
+                final int qEnd = Math.min(qStart + BLOCK_SIZE, columns);
                 final int jWidth = qEnd - qStart;
 
                 // allocate new block
@@ -261,11 +261,11 @@ public class BlockRealMatrix extends AbstractRealMatrix implements Serializable 
         int blockIndex = 0;
         for (int iBlock = 0; iBlock < blockRows; ++iBlock) {
             final int pStart = iBlock * BLOCK_SIZE;
-            final int pEnd = FastMath.min(pStart + BLOCK_SIZE, rows);
+            final int pEnd = Math.min(pStart + BLOCK_SIZE, rows);
             final int iHeight = pEnd - pStart;
             for (int jBlock = 0; jBlock < blockColumns; ++jBlock) {
                 final int qStart = jBlock * BLOCK_SIZE;
-                final int qEnd = FastMath.min(qStart + BLOCK_SIZE, columns);
+                final int qEnd = Math.min(qStart + BLOCK_SIZE, columns);
                 final int jWidth = qEnd - qStart;
                 blocks[blockIndex] = new double[iHeight * jWidth];
                 ++blockIndex;
@@ -301,9 +301,9 @@ public class BlockRealMatrix extends AbstractRealMatrix implements Serializable 
     @Override
     public BlockRealMatrix add(final RealMatrix m)
         throws MatrixDimensionMismatchException {
-        try {
+		if (m instanceof BlockRealMatrix) {
             return add((BlockRealMatrix) m);
-        } catch (ClassCastException cce) {
+		} else {
             // safety check
             MatrixUtils.checkAdditionCompatible(this, m);
 
@@ -318,9 +318,9 @@ public class BlockRealMatrix extends AbstractRealMatrix implements Serializable 
                     final double[] outBlock = out.blocks[blockIndex];
                     final double[] tBlock   = blocks[blockIndex];
                     final int pStart = iBlock * BLOCK_SIZE;
-                    final int pEnd = FastMath.min(pStart + BLOCK_SIZE, rows);
+                    final int pEnd = Math.min(pStart + BLOCK_SIZE, rows);
                     final int qStart = jBlock * BLOCK_SIZE;
-                    final int qEnd = FastMath.min(qStart + BLOCK_SIZE, columns);
+                    final int qEnd = Math.min(qStart + BLOCK_SIZE, columns);
                     int k = 0;
                     for (int p = pStart; p < pEnd; ++p) {
                         for (int q = qStart; q < qEnd; ++q) {
@@ -369,9 +369,9 @@ public class BlockRealMatrix extends AbstractRealMatrix implements Serializable 
     @Override
     public BlockRealMatrix subtract(final RealMatrix m)
         throws MatrixDimensionMismatchException {
-        try {
+		if (m instanceof BlockRealMatrix) {
             return subtract((BlockRealMatrix) m);
-        } catch (ClassCastException cce) {
+		} else {
             // safety check
             MatrixUtils.checkSubtractionCompatible(this, m);
 
@@ -386,9 +386,9 @@ public class BlockRealMatrix extends AbstractRealMatrix implements Serializable 
                     final double[] outBlock = out.blocks[blockIndex];
                     final double[] tBlock = blocks[blockIndex];
                     final int pStart = iBlock * BLOCK_SIZE;
-                    final int pEnd = FastMath.min(pStart + BLOCK_SIZE, rows);
+                    final int pEnd = Math.min(pStart + BLOCK_SIZE, rows);
                     final int qStart = jBlock * BLOCK_SIZE;
-                    final int qEnd = FastMath.min(qStart + BLOCK_SIZE, columns);
+                    final int qEnd = Math.min(qStart + BLOCK_SIZE, columns);
                     int k = 0;
                     for (int p = pStart; p < pEnd; ++p) {
                         for (int q = qStart; q < qEnd; ++q) {
@@ -472,9 +472,9 @@ public class BlockRealMatrix extends AbstractRealMatrix implements Serializable 
     @Override
     public BlockRealMatrix multiply(final RealMatrix m)
         throws DimensionMismatchException {
-        try {
+		if (m instanceof BlockRealMatrix) {
             return multiply((BlockRealMatrix) m);
-        } catch (ClassCastException cce) {
+		} else {
             // safety check
             MatrixUtils.checkMultiplicationCompatible(this, m);
 
@@ -484,11 +484,11 @@ public class BlockRealMatrix extends AbstractRealMatrix implements Serializable 
             int blockIndex = 0;
             for (int iBlock = 0; iBlock < out.blockRows; ++iBlock) {
                 final int pStart = iBlock * BLOCK_SIZE;
-                final int pEnd = FastMath.min(pStart + BLOCK_SIZE, rows);
+                final int pEnd = Math.min(pStart + BLOCK_SIZE, rows);
 
                 for (int jBlock = 0; jBlock < out.blockColumns; ++jBlock) {
                     final int qStart = jBlock * BLOCK_SIZE;
-                    final int qEnd = FastMath.min(qStart + BLOCK_SIZE, m.getColumnDimension());
+                    final int qEnd = Math.min(qStart + BLOCK_SIZE, m.getColumnDimension());
 
                     // select current block
                     final double[] outBlock = out.blocks[blockIndex];
@@ -542,7 +542,7 @@ public class BlockRealMatrix extends AbstractRealMatrix implements Serializable 
         for (int iBlock = 0; iBlock < out.blockRows; ++iBlock) {
 
             final int pStart = iBlock * BLOCK_SIZE;
-            final int pEnd = FastMath.min(pStart + BLOCK_SIZE, rows);
+            final int pEnd = Math.min(pStart + BLOCK_SIZE, rows);
 
             for (int jBlock = 0; jBlock < out.blockColumns; ++jBlock) {
                 final int jWidth = out.blockWidth(jBlock);
@@ -599,7 +599,7 @@ public class BlockRealMatrix extends AbstractRealMatrix implements Serializable 
 
         for (int iBlock = 0; iBlock < blockRows; ++iBlock) {
             final int pStart = iBlock * BLOCK_SIZE;
-            final int pEnd = FastMath.min(pStart + BLOCK_SIZE, rows);
+            final int pEnd = Math.min(pStart + BLOCK_SIZE, rows);
             int regularPos = 0;
             int lastPos = 0;
             for (int p = pStart; p < pEnd; ++p) {
@@ -633,13 +633,13 @@ public class BlockRealMatrix extends AbstractRealMatrix implements Serializable 
                 for (int j = 0; j < jWidth; ++j) {
                     double sum = 0;
                     for (int i = 0; i < iHeight; ++i) {
-                        sum += FastMath.abs(block[i * jWidth + j]);
+                        sum += Math.abs(block[i * jWidth + j]);
                     }
                     colSums[j] += sum;
                 }
             }
             for (int j = 0; j < jWidth; ++j) {
-                maxColSum = FastMath.max(maxColSum, colSums[j]);
+                maxColSum = Math.max(maxColSum, colSums[j]);
             }
         }
         return maxColSum;
@@ -654,7 +654,7 @@ public class BlockRealMatrix extends AbstractRealMatrix implements Serializable 
                 sum2 += entry * entry;
             }
         }
-        return FastMath.sqrt(sum2);
+        return Math.sqrt(sum2);
     }
 
     /** {@inheritDoc} */
@@ -814,14 +814,14 @@ public class BlockRealMatrix extends AbstractRealMatrix implements Serializable 
         for (int iBlock = blockStartRow; iBlock < blockEndRow; ++iBlock) {
             final int iHeight = blockHeight(iBlock);
             final int firstRow = iBlock * BLOCK_SIZE;
-            final int iStart = FastMath.max(row,    firstRow);
-            final int iEnd = FastMath.min(endRow + 1, firstRow + iHeight);
+            final int iStart = Math.max(row,    firstRow);
+            final int iEnd = Math.min(endRow + 1, firstRow + iHeight);
 
             for (int jBlock = blockStartColumn; jBlock < blockEndColumn; ++jBlock) {
                 final int jWidth = blockWidth(jBlock);
                 final int firstColumn = jBlock * BLOCK_SIZE;
-                final int jStart = FastMath.max(column,    firstColumn);
-                final int jEnd = FastMath.min(endColumn + 1, firstColumn + jWidth);
+                final int jStart = Math.max(column,    firstColumn);
+                final int jEnd = Math.min(endColumn + 1, firstColumn + jWidth);
                 final int jLength = jEnd - jStart;
 
                 // handle one block, row by row
@@ -871,9 +871,9 @@ public class BlockRealMatrix extends AbstractRealMatrix implements Serializable 
     @Override
     public void setRowMatrix(final int row, final RealMatrix matrix)
         throws OutOfRangeException, MatrixDimensionMismatchException {
-        try {
+		if (matrix instanceof BlockRealMatrix) {
             setRowMatrix(row, (BlockRealMatrix) matrix);
-        } catch (ClassCastException cce) {
+		} else {
             super.setRowMatrix(row, matrix);
         }
     }
@@ -955,9 +955,9 @@ public class BlockRealMatrix extends AbstractRealMatrix implements Serializable 
     @Override
     public void setColumnMatrix(final int column, final RealMatrix matrix)
         throws OutOfRangeException, MatrixDimensionMismatchException {
-        try {
+		if (matrix instanceof BlockRealMatrix) {
             setColumnMatrix(column, (BlockRealMatrix) matrix);
-        } catch (ClassCastException cce) {
+		} else {
             super.setColumnMatrix(column, matrix);
         }
     }
@@ -1029,9 +1029,9 @@ public class BlockRealMatrix extends AbstractRealMatrix implements Serializable 
     @Override
     public void setRowVector(final int row, final RealVector vector)
         throws OutOfRangeException, MatrixDimensionMismatchException {
-        try {
+		if (vector instanceof ArrayRealVector) {
             setRow(row, ((ArrayRealVector) vector).getDataRef());
-        } catch (ClassCastException cce) {
+		} else {
             super.setRowVector(row, vector);
         }
     }
@@ -1063,9 +1063,9 @@ public class BlockRealMatrix extends AbstractRealMatrix implements Serializable 
     @Override
     public void setColumnVector(final int column, final RealVector vector)
         throws OutOfRangeException, MatrixDimensionMismatchException {
-        try {
+		if (vector instanceof ArrayRealVector) {
             setColumn(column, ((ArrayRealVector) vector).getDataRef());
-        } catch (ClassCastException cce) {
+		} else {
             super.setColumnVector(column, vector);
         }
     }
@@ -1223,9 +1223,9 @@ public class BlockRealMatrix extends AbstractRealMatrix implements Serializable 
                 final double[] outBlock = out.blocks[blockIndex];
                 final double[] tBlock = blocks[jBlock * blockColumns + iBlock];
                 final int pStart = iBlock * BLOCK_SIZE;
-                final int pEnd = FastMath.min(pStart + BLOCK_SIZE, columns);
+                final int pEnd = Math.min(pStart + BLOCK_SIZE, columns);
                 final int qStart = jBlock * BLOCK_SIZE;
-                final int qEnd = FastMath.min(qStart + BLOCK_SIZE, rows);
+                final int qEnd = Math.min(qStart + BLOCK_SIZE, rows);
                 int k = 0;
                 for (int p = pStart; p < pEnd; ++p) {
                     final int lInc = pEnd - pStart;
@@ -1268,11 +1268,11 @@ public class BlockRealMatrix extends AbstractRealMatrix implements Serializable 
         // perform multiplication block-wise, to ensure good cache behavior
         for (int iBlock = 0; iBlock < blockRows; ++iBlock) {
             final int pStart = iBlock * BLOCK_SIZE;
-            final int pEnd = FastMath.min(pStart + BLOCK_SIZE, rows);
+            final int pEnd = Math.min(pStart + BLOCK_SIZE, rows);
             for (int jBlock = 0; jBlock < blockColumns; ++jBlock) {
                 final double[] block  = blocks[iBlock * blockColumns + jBlock];
                 final int qStart = jBlock * BLOCK_SIZE;
-                final int qEnd = FastMath.min(qStart + BLOCK_SIZE, columns);
+                final int qEnd = Math.min(qStart + BLOCK_SIZE, columns);
                 int k = 0;
                 for (int p = pStart; p < pEnd; ++p) {
                     double sum = 0;
@@ -1312,11 +1312,11 @@ public class BlockRealMatrix extends AbstractRealMatrix implements Serializable 
             final int jWidth3 = jWidth2 + jWidth;
             final int jWidth4 = jWidth3 + jWidth;
             final int qStart = jBlock * BLOCK_SIZE;
-            final int qEnd = FastMath.min(qStart + BLOCK_SIZE, columns);
+            final int qEnd = Math.min(qStart + BLOCK_SIZE, columns);
             for (int iBlock = 0; iBlock < blockRows; ++iBlock) {
                 final double[] block  = blocks[iBlock * blockColumns + jBlock];
                 final int pStart = iBlock * BLOCK_SIZE;
-                final int pEnd = FastMath.min(pStart + BLOCK_SIZE, rows);
+                final int pEnd = Math.min(pStart + BLOCK_SIZE, rows);
                 for (int q = qStart; q < qEnd; ++q) {
                     int k = q - qStart;
                     double sum = 0;
@@ -1347,12 +1347,12 @@ public class BlockRealMatrix extends AbstractRealMatrix implements Serializable 
         visitor.start(rows, columns, 0, rows - 1, 0, columns - 1);
         for (int iBlock = 0; iBlock < blockRows; ++iBlock) {
             final int pStart = iBlock * BLOCK_SIZE;
-            final int pEnd = FastMath.min(pStart + BLOCK_SIZE, rows);
+            final int pEnd = Math.min(pStart + BLOCK_SIZE, rows);
             for (int p = pStart; p < pEnd; ++p) {
                 for (int jBlock = 0; jBlock < blockColumns; ++jBlock) {
                     final int jWidth = blockWidth(jBlock);
                     final int qStart = jBlock * BLOCK_SIZE;
-                    final int qEnd = FastMath.min(qStart + BLOCK_SIZE, columns);
+                    final int qEnd = Math.min(qStart + BLOCK_SIZE, columns);
                     final double[] block = blocks[iBlock * blockColumns + jBlock];
                     int k = (p - pStart) * jWidth;
                     for (int q = qStart; q < qEnd; ++q) {
@@ -1371,12 +1371,12 @@ public class BlockRealMatrix extends AbstractRealMatrix implements Serializable 
         visitor.start(rows, columns, 0, rows - 1, 0, columns - 1);
         for (int iBlock = 0; iBlock < blockRows; ++iBlock) {
             final int pStart = iBlock * BLOCK_SIZE;
-            final int pEnd = FastMath.min(pStart + BLOCK_SIZE, rows);
+            final int pEnd = Math.min(pStart + BLOCK_SIZE, rows);
             for (int p = pStart; p < pEnd; ++p) {
                 for (int jBlock = 0; jBlock < blockColumns; ++jBlock) {
                     final int jWidth = blockWidth(jBlock);
                     final int qStart = jBlock * BLOCK_SIZE;
-                    final int qEnd = FastMath.min(qStart + BLOCK_SIZE, columns);
+                    final int qEnd = Math.min(qStart + BLOCK_SIZE, columns);
                     final double[] block = blocks[iBlock * blockColumns + jBlock];
                     int k = (p - pStart) * jWidth;
                     for (int q = qStart; q < qEnd; ++q) {
@@ -1399,14 +1399,14 @@ public class BlockRealMatrix extends AbstractRealMatrix implements Serializable 
         visitor.start(rows, columns, startRow, endRow, startColumn, endColumn);
         for (int iBlock = startRow / BLOCK_SIZE; iBlock < 1 + endRow / BLOCK_SIZE; ++iBlock) {
             final int p0 = iBlock * BLOCK_SIZE;
-            final int pStart = FastMath.max(startRow, p0);
-            final int pEnd = FastMath.min((iBlock + 1) * BLOCK_SIZE, 1 + endRow);
+            final int pStart = Math.max(startRow, p0);
+            final int pEnd = Math.min((iBlock + 1) * BLOCK_SIZE, 1 + endRow);
             for (int p = pStart; p < pEnd; ++p) {
                 for (int jBlock = startColumn / BLOCK_SIZE; jBlock < 1 + endColumn / BLOCK_SIZE; ++jBlock) {
                     final int jWidth = blockWidth(jBlock);
                     final int q0 = jBlock * BLOCK_SIZE;
-                    final int qStart = FastMath.max(startColumn, q0);
-                    final int qEnd = FastMath.min((jBlock + 1) * BLOCK_SIZE, 1 + endColumn);
+                    final int qStart = Math.max(startColumn, q0);
+                    final int qEnd = Math.min((jBlock + 1) * BLOCK_SIZE, 1 + endColumn);
                     final double[] block = blocks[iBlock * blockColumns + jBlock];
                     int k = (p - p0) * jWidth + qStart - q0;
                     for (int q = qStart; q < qEnd; ++q) {
@@ -1429,14 +1429,14 @@ public class BlockRealMatrix extends AbstractRealMatrix implements Serializable 
         visitor.start(rows, columns, startRow, endRow, startColumn, endColumn);
         for (int iBlock = startRow / BLOCK_SIZE; iBlock < 1 + endRow / BLOCK_SIZE; ++iBlock) {
             final int p0 = iBlock * BLOCK_SIZE;
-            final int pStart = FastMath.max(startRow, p0);
-            final int pEnd = FastMath.min((iBlock + 1) * BLOCK_SIZE, 1 + endRow);
+            final int pStart = Math.max(startRow, p0);
+            final int pEnd = Math.min((iBlock + 1) * BLOCK_SIZE, 1 + endRow);
             for (int p = pStart; p < pEnd; ++p) {
                 for (int jBlock = startColumn / BLOCK_SIZE; jBlock < 1 + endColumn / BLOCK_SIZE; ++jBlock) {
                     final int jWidth = blockWidth(jBlock);
                     final int q0 = jBlock * BLOCK_SIZE;
-                    final int qStart = FastMath.max(startColumn, q0);
-                    final int qEnd = FastMath.min((jBlock + 1) * BLOCK_SIZE, 1 + endColumn);
+                    final int qStart = Math.max(startColumn, q0);
+                    final int qEnd = Math.min((jBlock + 1) * BLOCK_SIZE, 1 + endColumn);
                     final double[] block = blocks[iBlock * blockColumns + jBlock];
                     int k = (p - p0) * jWidth + qStart - q0;
                     for (int q = qStart; q < qEnd; ++q) {
@@ -1456,10 +1456,10 @@ public class BlockRealMatrix extends AbstractRealMatrix implements Serializable 
         int blockIndex = 0;
         for (int iBlock = 0; iBlock < blockRows; ++iBlock) {
             final int pStart = iBlock * BLOCK_SIZE;
-            final int pEnd = FastMath.min(pStart + BLOCK_SIZE, rows);
+            final int pEnd = Math.min(pStart + BLOCK_SIZE, rows);
             for (int jBlock = 0; jBlock < blockColumns; ++jBlock) {
                 final int qStart = jBlock * BLOCK_SIZE;
-                final int qEnd = FastMath.min(qStart + BLOCK_SIZE, columns);
+                final int qEnd = Math.min(qStart + BLOCK_SIZE, columns);
                 final double[] block = blocks[blockIndex];
                 int k = 0;
                 for (int p = pStart; p < pEnd; ++p) {
@@ -1481,10 +1481,10 @@ public class BlockRealMatrix extends AbstractRealMatrix implements Serializable 
         int blockIndex = 0;
         for (int iBlock = 0; iBlock < blockRows; ++iBlock) {
             final int pStart = iBlock * BLOCK_SIZE;
-            final int pEnd = FastMath.min(pStart + BLOCK_SIZE, rows);
+            final int pEnd = Math.min(pStart + BLOCK_SIZE, rows);
             for (int jBlock = 0; jBlock < blockColumns; ++jBlock) {
                 final int qStart = jBlock * BLOCK_SIZE;
-                final int qEnd = FastMath.min(qStart + BLOCK_SIZE, columns);
+                final int qEnd = Math.min(qStart + BLOCK_SIZE, columns);
                 final double[] block = blocks[blockIndex];
                 int k = 0;
                 for (int p = pStart; p < pEnd; ++p) {
@@ -1510,13 +1510,13 @@ public class BlockRealMatrix extends AbstractRealMatrix implements Serializable 
         visitor.start(rows, columns, startRow, endRow, startColumn, endColumn);
         for (int iBlock = startRow / BLOCK_SIZE; iBlock < 1 + endRow / BLOCK_SIZE; ++iBlock) {
             final int p0 = iBlock * BLOCK_SIZE;
-            final int pStart = FastMath.max(startRow, p0);
-            final int pEnd = FastMath.min((iBlock + 1) * BLOCK_SIZE, 1 + endRow);
+            final int pStart = Math.max(startRow, p0);
+            final int pEnd = Math.min((iBlock + 1) * BLOCK_SIZE, 1 + endRow);
             for (int jBlock = startColumn / BLOCK_SIZE; jBlock < 1 + endColumn / BLOCK_SIZE; ++jBlock) {
                 final int jWidth = blockWidth(jBlock);
                 final int q0 = jBlock * BLOCK_SIZE;
-                final int qStart = FastMath.max(startColumn, q0);
-                final int qEnd = FastMath.min((jBlock + 1) * BLOCK_SIZE, 1 + endColumn);
+                final int qStart = Math.max(startColumn, q0);
+                final int qEnd = Math.min((jBlock + 1) * BLOCK_SIZE, 1 + endColumn);
                 final double[] block = blocks[iBlock * blockColumns + jBlock];
                 for (int p = pStart; p < pEnd; ++p) {
                     int k = (p - p0) * jWidth + qStart - q0;
@@ -1541,13 +1541,13 @@ public class BlockRealMatrix extends AbstractRealMatrix implements Serializable 
         visitor.start(rows, columns, startRow, endRow, startColumn, endColumn);
         for (int iBlock = startRow / BLOCK_SIZE; iBlock < 1 + endRow / BLOCK_SIZE; ++iBlock) {
             final int p0 = iBlock * BLOCK_SIZE;
-            final int pStart = FastMath.max(startRow, p0);
-            final int pEnd = FastMath.min((iBlock + 1) * BLOCK_SIZE, 1 + endRow);
+            final int pStart = Math.max(startRow, p0);
+            final int pEnd = Math.min((iBlock + 1) * BLOCK_SIZE, 1 + endRow);
             for (int jBlock = startColumn / BLOCK_SIZE; jBlock < 1 + endColumn / BLOCK_SIZE; ++jBlock) {
                 final int jWidth = blockWidth(jBlock);
                 final int q0 = jBlock * BLOCK_SIZE;
-                final int qStart = FastMath.max(startColumn, q0);
-                final int qEnd = FastMath.min((jBlock + 1) * BLOCK_SIZE, 1 + endColumn);
+                final int qStart = Math.max(startColumn, q0);
+                final int qEnd = Math.min((jBlock + 1) * BLOCK_SIZE, 1 + endColumn);
                 final double[] block = blocks[iBlock * blockColumns + jBlock];
                 for (int p = pStart; p < pEnd; ++p) {
                     int k = (p - p0) * jWidth + qStart - q0;

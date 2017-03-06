@@ -82,7 +82,7 @@ public class NewtonSolver extends AbstractDifferentiableUnivariateSolver {
         double x1;
         while (true) {
             x1 = x0 - (computeObjectiveValue(x0) / computeDerivativeObjectiveValue(x0));
-            if (FastMath.abs(x1 - x0) <= absoluteAccuracy) {
+            if (Math.abs(x1 - x0) <= absoluteAccuracy) {
                 return x1;
             }
 

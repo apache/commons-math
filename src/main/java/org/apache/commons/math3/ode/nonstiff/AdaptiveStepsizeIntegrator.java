@@ -24,6 +24,7 @@ import org.apache.commons.math3.exception.NumberIsTooSmallException;
 import org.apache.commons.math3.exception.util.LocalizedFormats;
 import org.apache.commons.math3.ode.AbstractIntegrator;
 import org.apache.commons.math3.ode.ExpandableStatefulODE;
+import org.apache.commons.math3.util.Cloner;
 import org.apache.commons.math3.util.FastMath;
 
 /**
@@ -153,8 +154,8 @@ public abstract class AdaptiveStepsizeIntegrator
                                  final double absoluteTolerance,
                                  final double relativeTolerance) {
 
-      minStep     = FastMath.abs(minimalStep);
-      maxStep     = FastMath.abs(maximalStep);
+      minStep     = Math.abs(minimalStep);
+      maxStep     = Math.abs(maximalStep);
       initialStep = -1;
 
       scalAbsoluteTolerance = absoluteTolerance;
@@ -182,14 +183,14 @@ public abstract class AdaptiveStepsizeIntegrator
                                  final double[] absoluteTolerance,
                                  final double[] relativeTolerance) {
 
-      minStep     = FastMath.abs(minimalStep);
-      maxStep     = FastMath.abs(maximalStep);
+      minStep     = Math.abs(minimalStep);
+      maxStep     = Math.abs(maximalStep);
       initialStep = -1;
 
       scalAbsoluteTolerance = 0;
       scalRelativeTolerance = 0;
-      vecAbsoluteTolerance  = absoluteTolerance.clone();
-      vecRelativeTolerance  = relativeTolerance.clone();
+		vecAbsoluteTolerance = Cloner.clone(absoluteTolerance);
+		vecRelativeTolerance = Cloner.clone(relativeTolerance);
 
   }
 
@@ -267,7 +268,7 @@ public abstract class AdaptiveStepsizeIntegrator
     }
 
     double h = ((yOnScale2 < 1.0e-10) || (yDotOnScale2 < 1.0e-10)) ?
-               1.0e-6 : (0.01 * FastMath.sqrt(yOnScale2 / yDotOnScale2));
+               1.0e-6 : (0.01 * Math.sqrt(yOnScale2 / yDotOnScale2));
     if (! forward) {
       h = -h;
     }
@@ -284,16 +285,16 @@ public abstract class AdaptiveStepsizeIntegrator
       ratio         = (yDot1[j] - yDot0[j]) / scale[j];
       yDDotOnScale += ratio * ratio;
     }
-    yDDotOnScale = FastMath.sqrt(yDDotOnScale) / h;
+    yDDotOnScale = Math.sqrt(yDDotOnScale) / h;
 
     // step size is computed such that
     // h^order * max (||y'/tol||, ||y''/tol||) = 0.01
-    final double maxInv2 = FastMath.max(FastMath.sqrt(yDotOnScale2), yDDotOnScale);
+    final double maxInv2 = Math.max(Math.sqrt(yDotOnScale2), yDDotOnScale);
     final double h1 = (maxInv2 < 1.0e-15) ?
-                      FastMath.max(1.0e-6, 0.001 * FastMath.abs(h)) :
-                      FastMath.pow(0.01 / maxInv2, 1.0 / order);
-    h = FastMath.min(100.0 * FastMath.abs(h), h1);
-    h = FastMath.max(h, 1.0e-12 * FastMath.abs(t0));  // avoids cancellation when computing t1 - t0
+                      Math.max(1.0e-6, 0.001 * Math.abs(h)) :
+                      Math.pow(0.01 / maxInv2, 1.0 / order);
+    h = Math.min(100.0 * Math.abs(h), h1);
+    h = Math.max(h, 1.0e-12 * Math.abs(t0));  // avoids cancellation when computing t1 - t0
     if (h < getMinStep()) {
       h = getMinStep();
     }
@@ -321,12 +322,12 @@ public abstract class AdaptiveStepsizeIntegrator
     throws NumberIsTooSmallException {
 
       double filteredH = h;
-      if (FastMath.abs(h) < minStep) {
+      if (Math.abs(h) < minStep) {
           if (acceptSmall) {
               filteredH = forward ? minStep : -minStep;
           } else {
               throw new NumberIsTooSmallException(LocalizedFormats.MINIMAL_STEPSIZE_REACHED_DURING_INTEGRATION,
-                                                  FastMath.abs(h), minStep, true);
+                                                  Math.abs(h), minStep, true);
           }
       }
 
@@ -355,7 +356,7 @@ public abstract class AdaptiveStepsizeIntegrator
   /** Reset internal state to dummy values. */
   protected void resetInternalState() {
     stepStart = Double.NaN;
-    stepSize  = FastMath.sqrt(minStep * maxStep);
+    stepSize  = Math.sqrt(minStep * maxStep);
   }
 
   /** Get the minimal step.

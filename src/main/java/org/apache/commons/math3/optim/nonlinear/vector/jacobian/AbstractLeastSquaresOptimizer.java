@@ -78,7 +78,7 @@ public abstract class AbstractLeastSquaresOptimizer
      */
     protected double computeCost(double[] residuals) {
         final ArrayRealVector r = new ArrayRealVector(residuals);
-        return FastMath.sqrt(r.dotProduct(getWeight().operate(r)));
+        return Math.sqrt(r.dotProduct(getWeight().operate(r)));
     }
 
     /**
@@ -93,7 +93,7 @@ public abstract class AbstractLeastSquaresOptimizer
      * @return the RMS value.
      */
     public double getRMS() {
-        return FastMath.sqrt(getChiSquare() / getTargetSize());
+        return Math.sqrt(getChiSquare() / getTargetSize());
     }
 
     /**
@@ -174,7 +174,7 @@ public abstract class AbstractLeastSquaresOptimizer
         final double[] sig = new double[nC];
         final double[][] cov = computeCovariances(params, covarianceSingularityThreshold);
         for (int i = 0; i < nC; ++i) {
-            sig[i] = FastMath.sqrt(cov[i][i]);
+            sig[i] = Math.sqrt(cov[i][i]);
         }
         return sig;
     }
@@ -270,7 +270,7 @@ public abstract class AbstractLeastSquaresOptimizer
             final int dim = m.getRowDimension();
             final RealMatrix sqrtM = new DiagonalMatrix(dim);
             for (int i = 0; i < dim; i++) {
-                sqrtM.setEntry(i, i, FastMath.sqrt(m.getEntry(i, i)));
+                sqrtM.setEntry(i, i, Math.sqrt(m.getEntry(i, i)));
             }
             return sqrtM;
         } else {

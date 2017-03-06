@@ -20,7 +20,6 @@ import org.apache.commons.math3.exception.OutOfRangeException;
 import org.apache.commons.math3.random.RandomGenerator;
 import org.apache.commons.math3.random.Well19937c;
 import org.apache.commons.math3.special.Erf;
-import org.apache.commons.math3.util.FastMath;
 
 /**
  * This class implements the <a href="http://en.wikipedia.org/wiki/L%C3%A9vy_distribution">
@@ -94,7 +93,7 @@ public class LevyDistribution extends AbstractRealDistribution {
 
         final double delta = x - mu;
         final double f     = halfC / delta;
-        return FastMath.sqrt(f / FastMath.PI) * FastMath.exp(-f) /delta;
+        return Math.sqrt(f / Math.PI) * Math.exp(-f) /delta;
     }
 
     /** {@inheritDoc}
@@ -109,7 +108,7 @@ public class LevyDistribution extends AbstractRealDistribution {
 
         final double delta = x - mu;
         final double f     = halfC / delta;
-        return 0.5 * FastMath.log(f / FastMath.PI) - f - FastMath.log(delta);
+        return 0.5 * Math.log(f / Math.PI) - f - Math.log(delta);
     }
 
     /** {@inheritDoc}
@@ -124,7 +123,7 @@ public class LevyDistribution extends AbstractRealDistribution {
         if (x < mu) {
             return Double.NaN;
         }
-        return Erf.erfc(FastMath.sqrt(halfC / (x - mu)));
+        return Erf.erfc(Math.sqrt(halfC / (x - mu)));
     }
 
     /** {@inheritDoc} */

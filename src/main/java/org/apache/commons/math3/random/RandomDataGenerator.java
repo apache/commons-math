@@ -18,10 +18,7 @@
 package org.apache.commons.math3.random;
 
 import java.io.Serializable;
-import java.security.MessageDigest;
-import java.security.NoSuchAlgorithmException;
-import java.security.NoSuchProviderException;
-import java.security.SecureRandom;
+//import java.security.SecureRandom;
 import java.util.Collection;
 
 import org.apache.commons.math3.distribution.BetaDistribution;
@@ -35,10 +32,9 @@ import org.apache.commons.math3.distribution.HypergeometricDistribution;
 import org.apache.commons.math3.distribution.PascalDistribution;
 import org.apache.commons.math3.distribution.PoissonDistribution;
 import org.apache.commons.math3.distribution.TDistribution;
+import org.apache.commons.math3.distribution.UniformIntegerDistribution;
 import org.apache.commons.math3.distribution.WeibullDistribution;
 import org.apache.commons.math3.distribution.ZipfDistribution;
-import org.apache.commons.math3.distribution.UniformIntegerDistribution;
-import org.apache.commons.math3.exception.MathInternalError;
 import org.apache.commons.math3.exception.NotANumberException;
 import org.apache.commons.math3.exception.NotFiniteNumberException;
 import org.apache.commons.math3.exception.NotPositiveException;
@@ -118,7 +114,7 @@ public class RandomDataGenerator implements RandomData, Serializable {
     private RandomGenerator rand = null;
 
     /** underlying secure random number generator */
-    private RandomGenerator secRand = null;
+	// private RandomGenerator secRand = null;
 
     /**
      * Construct a RandomDataGenerator, using a default random generator as the source
@@ -272,85 +268,92 @@ public class RandomDataGenerator implements RandomData, Serializable {
      * </p>
      * @throws NotStrictlyPositiveException if {@code len <= 0}
      */
-    public String nextSecureHexString(int len) throws NotStrictlyPositiveException {
-        if (len <= 0) {
-            throw new NotStrictlyPositiveException(LocalizedFormats.LENGTH, len);
-        }
-
-        // Get SecureRandom and setup Digest provider
-        final RandomGenerator secRan = getSecRan();
-        MessageDigest alg = null;
-        try {
-            alg = MessageDigest.getInstance("SHA-1");
-        } catch (NoSuchAlgorithmException ex) {
-            // this should never happen
-            throw new MathInternalError(ex);
-        }
-        alg.reset();
-
-        // Compute number of iterations required (40 bytes each)
-        int numIter = (len / 40) + 1;
-
-        StringBuilder outBuffer = new StringBuilder();
-        for (int iter = 1; iter < numIter + 1; iter++) {
-            byte[] randomBytes = new byte[40];
-            secRan.nextBytes(randomBytes);
-            alg.update(randomBytes);
-
-            // Compute hash -- will create 20-byte binary hash
-            byte[] hash = alg.digest();
-
-            // Loop over the hash, converting each byte to 2 hex digits
-            for (int i = 0; i < hash.length; i++) {
-                Integer c = Integer.valueOf(hash[i]);
-
-                /*
-                 * Add 128 to byte value to make interval 0-255 This guarantees
-                 * <= 2 hex digits from toHexString() toHexString would
-                 * otherwise add 2^32 to negative arguments
-                 */
-                String hex = Integer.toHexString(c.intValue() + 128);
-
-                // Keep strings uniform length -- guarantees 40 bytes
-                if (hex.length() == 1) {
-                    hex = "0" + hex;
-                }
-                outBuffer.append(hex);
-            }
-        }
-        return outBuffer.toString().substring(0, len);
-    }
+	// public String nextSecureHexString(int len) throws
+	// NotStrictlyPositiveException {
+	// if (len <= 0) {
+	// throw new NotStrictlyPositiveException(LocalizedFormats.LENGTH, len);
+	// }
+	//
+	// // Get SecureRandom and setup Digest provider
+	// final RandomGenerator secRan = getSecRan();
+	// MessageDigest alg = null;
+	// try {
+	// alg = MessageDigest.getInstance("SHA-1");
+	// } catch (NoSuchAlgorithmException ex) {
+	// // this should never happen
+	// throw new MathInternalError(ex);
+	// }
+	// alg.reset();
+	//
+	// // Compute number of iterations required (40 bytes each)
+	// int numIter = (len / 40) + 1;
+	//
+	// StringBuilder outBuffer = new StringBuilder();
+	// for (int iter = 1; iter < numIter + 1; iter++) {
+	// byte[] randomBytes = new byte[40];
+	// secRan.nextBytes(randomBytes);
+	// alg.update(randomBytes);
+	//
+	// // Compute hash -- will create 20-byte binary hash
+	// byte[] hash = alg.digest();
+	//
+	// // Loop over the hash, converting each byte to 2 hex digits
+	// for (int i = 0; i < hash.length; i++) {
+	// Integer c = Integer.valueOf(hash[i]);
+	//
+	// /*
+	// * Add 128 to byte value to make interval 0-255 This guarantees
+	// * <= 2 hex digits from toHexString() toHexString would
+	// * otherwise add 2^32 to negative arguments
+	// */
+	// String hex = Integer.toHexString(c.intValue() + 128);
+	//
+	// // Keep strings uniform length -- guarantees 40 bytes
+	// if (hex.length() == 1) {
+	// hex = "0" + hex;
+	// }
+	// outBuffer.append(hex);
+	// }
+	// }
+	// return outBuffer.toString().substring(0, len);
+	// }
 
     /**  {@inheritDoc} */
-    public int nextSecureInt(final int lower, final int upper) throws NumberIsTooLargeException {
-        return new UniformIntegerDistribution(getSecRan(), lower, upper).sample();
-    }
+	// public int nextSecureInt(final int lower, final int upper) throws
+	// NumberIsTooLargeException {
+	// return new UniformIntegerDistribution(getSecRan(), lower,
+	// upper).sample();
+	// }
 
     /** {@inheritDoc} */
-    public long nextSecureLong(final long lower, final long upper) throws NumberIsTooLargeException {
-        if (lower >= upper) {
-            throw new NumberIsTooLargeException(LocalizedFormats.LOWER_BOUND_NOT_BELOW_UPPER_BOUND,
-                                                lower, upper, false);
-        }
-        final RandomGenerator rng = getSecRan();
-        final long max = (upper - lower) + 1;
-        if (max <= 0) {
-            // the range is too wide to fit in a positive long (larger than 2^63); as it covers
-            // more than half the long range, we use directly a simple rejection method
-            while (true) {
-                final long r = rng.nextLong();
-                if (r >= lower && r <= upper) {
-                    return r;
-                }
-            }
-        } else if (max < Integer.MAX_VALUE){
-            // we can shift the range and generate directly a positive int
-            return lower + rng.nextInt((int) max);
-        } else {
-            // we can shift the range and generate directly a positive long
-            return lower + nextLong(rng, max);
-        }
-    }
+	// public long nextSecureLong(final long lower, final long upper) throws
+	// NumberIsTooLargeException {
+	// if (lower >= upper) {
+	// throw new
+	// NumberIsTooLargeException(LocalizedFormats.LOWER_BOUND_NOT_BELOW_UPPER_BOUND,
+	// lower, upper, false);
+	// }
+	// final RandomGenerator rng = getSecRan();
+	// final long max = (upper - lower) + 1;
+	// if (max <= 0) {
+	// // the range is too wide to fit in a positive long (larger than 2^63); as
+	// it covers
+	// // more than half the long range, we use directly a simple rejection
+	// method
+	// while (true) {
+	// final long r = rng.nextLong();
+	// if (r >= lower && r <= upper) {
+	// return r;
+	// }
+	// }
+	// } else if (max < Integer.MAX_VALUE){
+	// // we can shift the range and generate directly a positive int
+	// return lower + rng.nextInt((int) max);
+	// } else {
+	// // we can shift the range and generate directly a positive long
+	// return lower + nextLong(rng, max);
+	// }
+	// }
 
     /**
      * {@inheritDoc}
@@ -691,9 +694,9 @@ public class RandomDataGenerator implements RandomData, Serializable {
      * Will create and initialize if null.
      * </p>
      */
-    public void reSeedSecure() {
-        getSecRan().setSeed(System.currentTimeMillis());
-    }
+	// public void reSeedSecure() {
+	// getSecRan().setSeed(System.currentTimeMillis());
+	// }
 
     /**
      * Reseeds the secure random number generator with the supplied seed.
@@ -703,9 +706,9 @@ public class RandomDataGenerator implements RandomData, Serializable {
      *
      * @param seed the seed value to use
      */
-    public void reSeedSecure(long seed) {
-        getSecRan().setSeed(seed);
-    }
+	// public void reSeedSecure(long seed) {
+	// getSecRan().setSeed(seed);
+	// }
 
     /**
      * Reseeds the random number generator with
@@ -731,10 +734,12 @@ public class RandomDataGenerator implements RandomData, Serializable {
      * @throws NoSuchAlgorithmException if the specified algorithm is not available
      * @throws NoSuchProviderException if the specified provider is not installed
      */
-    public void setSecureAlgorithm(String algorithm, String provider)
-            throws NoSuchAlgorithmException, NoSuchProviderException {
-        secRand = RandomGeneratorFactory.createRandomGenerator(SecureRandom.getInstance(algorithm, provider));
-    }
+	// public void setSecureAlgorithm(String algorithm, String provider)
+	// throws NoSuchAlgorithmException, NoSuchProviderException {
+	// secRand =
+	// RandomGeneratorFactory.createRandomGenerator(SecureRandom.getInstance(algorithm,
+	// provider));
+	// }
 
     /**
      * Returns the RandomGenerator used to generate non-secure random data.
@@ -772,11 +777,13 @@ public class RandomDataGenerator implements RandomData, Serializable {
      * @return the SecureRandom used to generate secure random data, wrapped in a
      * {@link RandomGenerator}.
      */
-    private RandomGenerator getSecRan() {
-        if (secRand == null) {
-            secRand = RandomGeneratorFactory.createRandomGenerator(new SecureRandom());
-            secRand.setSeed(System.currentTimeMillis() + System.identityHashCode(this));
-        }
-        return secRand;
-    }
+	// private RandomGenerator getSecRan() {
+	// if (secRand == null) {
+	// secRand = RandomGeneratorFactory.createRandomGenerator(new
+	// SecureRandom());
+	// secRand.setSeed(System.currentTimeMillis() +
+	// System.identityHashCode(this));
+	// }
+	// return secRand;
+	// }
 }

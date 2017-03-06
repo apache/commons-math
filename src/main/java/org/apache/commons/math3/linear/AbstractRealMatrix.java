@@ -18,18 +18,16 @@
 package org.apache.commons.math3.linear;
 
 import java.util.ArrayList;
-import java.util.Locale;
 
+import org.apache.commons.math3.exception.DimensionMismatchException;
 import org.apache.commons.math3.exception.NoDataException;
 import org.apache.commons.math3.exception.NotPositiveException;
 import org.apache.commons.math3.exception.NotStrictlyPositiveException;
-import org.apache.commons.math3.exception.DimensionMismatchException;
 import org.apache.commons.math3.exception.NullArgumentException;
 import org.apache.commons.math3.exception.NumberIsTooSmallException;
 import org.apache.commons.math3.exception.OutOfRangeException;
 import org.apache.commons.math3.exception.util.LocalizedFormats;
 import org.apache.commons.math3.util.MathUtils;
-import org.apache.commons.math3.util.FastMath;
 
 /**
  * Basic implementation of RealMatrix methods regardless of the underlying storage.
@@ -43,11 +41,12 @@ public abstract class AbstractRealMatrix
     implements RealMatrix {
 
     /** Default format. */
-    private static final RealMatrixFormat DEFAULT_FORMAT = RealMatrixFormat.getInstance(Locale.US);
-    static {
-        // set the minimum fraction digits to 1 to keep compatibility
-        DEFAULT_FORMAT.getFormat().setMinimumFractionDigits(1);
-    }
+	// private static final RealMatrixFormat DEFAULT_FORMAT =
+	// RealMatrixFormat.getInstance(Locale.US);
+	// static {
+	// // set the minimum fraction digits to 1 to keep compatibility
+	// DEFAULT_FORMAT.getFormat().setMinimumFractionDigits(1);
+	// }
 
     /**
      * Creates a matrix with no data
@@ -260,9 +259,9 @@ public abstract class AbstractRealMatrix
 
             /** {@inheritDoc} */
             public void visit(final int row, final int column, final double value) {
-                columnSum += FastMath.abs(value);
+                columnSum += Math.abs(value);
                 if (row == endRow) {
-                    maxColSum = FastMath.max(maxColSum, columnSum);
+                    maxColSum = Math.max(maxColSum, columnSum);
                     columnSum = 0;
                 }
             }
@@ -295,7 +294,7 @@ public abstract class AbstractRealMatrix
 
             /** {@inheritDoc} */
             public double end() {
-                return FastMath.sqrt(sum);
+                return Math.sqrt(sum);
             }
         });
     }
@@ -682,9 +681,9 @@ public abstract class AbstractRealMatrix
     @Override
     public RealVector operate(final RealVector v)
         throws DimensionMismatchException {
-        try {
+		if (v instanceof ArrayRealVector) {
             return new ArrayRealVector(operate(((ArrayRealVector) v).getDataRef()), false);
-        } catch (ClassCastException cce) {
+		} else {
             final int nRows = getRowDimension();
             final int nCols = getColumnDimension();
             if (v.getDimension() != nCols) {
@@ -727,9 +726,9 @@ public abstract class AbstractRealMatrix
 
     /** {@inheritDoc} */
     public RealVector preMultiply(final RealVector v) throws DimensionMismatchException {
-        try {
+		if (v instanceof ArrayRealVector) {
             return new ArrayRealVector(preMultiply(((ArrayRealVector) v).getDataRef()), false);
-        } catch (ClassCastException cce) {
+		} else {
 
             final int nRows = getRowDimension();
             final int nCols = getColumnDimension();
@@ -906,15 +905,16 @@ public abstract class AbstractRealMatrix
      * Get a string representation for this matrix.
      * @return a string representation for this matrix
      */
-    @Override
-    public String toString() {
-        final StringBuilder res = new StringBuilder();
-        String fullClassName = getClass().getName();
-        String shortClassName = fullClassName.substring(fullClassName.lastIndexOf('.') + 1);
-        res.append(shortClassName);
-        res.append(DEFAULT_FORMAT.format(this));
-        return res.toString();
-    }
+	// @Override
+	// public String toString() {
+	// final StringBuilder res = new StringBuilder();
+	// String fullClassName = getClass().getName();
+	// String shortClassName =
+	// fullClassName.substring(fullClassName.lastIndexOf('.') + 1);
+	// res.append(shortClassName);
+	// res.append(DEFAULT_FORMAT.format(this));
+	// return res.toString();
+	// }
 
     /**
      * Returns true iff <code>object</code> is a

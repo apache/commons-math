@@ -21,6 +21,7 @@ import java.util.List;
 
 import org.apache.commons.math3.exception.DimensionMismatchException;
 import org.apache.commons.math3.exception.MaxCountExceededException;
+import org.apache.commons.math3.util.Cloner;
 
 
 /**
@@ -206,14 +207,14 @@ public class ExpandableStatefulODE {
      * @return primary part of the current state
      */
     public double[] getPrimaryState() {
-        return primaryState.clone();
+		return Cloner.clone(primaryState);
     }
 
     /** Get primary part of the current state derivative.
      * @return primary part of the current state derivative
      */
     public double[] getPrimaryStateDot() {
-        return primaryStateDot.clone();
+		return Cloner.clone(primaryStateDot);
     }
 
     /** Set secondary part of the current state.
@@ -245,7 +246,7 @@ public class ExpandableStatefulODE {
      * @return secondary part of the current state
      */
     public double[] getSecondaryState(final int index) {
-        return components.get(index).state.clone();
+		return Cloner.clone(components.get(index).state);
     }
 
     /** Get secondary part of the current state derivative.
@@ -254,7 +255,7 @@ public class ExpandableStatefulODE {
      * @return secondary part of the current state derivative
      */
     public double[] getSecondaryStateDot(final int index) {
-        return components.get(index).stateDot.clone();
+		return Cloner.clone(components.get(index).stateDot);
     }
 
     /** Set the complete current state.

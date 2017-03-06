@@ -25,7 +25,6 @@ import org.apache.commons.math3.exception.NumberIsTooLargeException;
 import org.apache.commons.math3.exception.OutOfRangeException;
 import org.apache.commons.math3.exception.util.LocalizedFormats;
 import org.apache.commons.math3.random.RandomGenerator;
-import org.apache.commons.math3.util.FastMath;
 
 /**
  * Base class for probability distributions on the reals.
@@ -168,14 +167,14 @@ implements RealDistribution, Serializable {
         }
 
         final double mu = getNumericalMean();
-        final double sig = FastMath.sqrt(getNumericalVariance());
+        final double sig = Math.sqrt(getNumericalVariance());
         final boolean chebyshevApplies;
         chebyshevApplies = !(Double.isInfinite(mu) || Double.isNaN(mu) ||
                              Double.isInfinite(sig) || Double.isNaN(sig));
 
         if (lowerBound == Double.NEGATIVE_INFINITY) {
             if (chebyshevApplies) {
-                lowerBound = mu - sig * FastMath.sqrt((1. - p) / p);
+                lowerBound = mu - sig * Math.sqrt((1. - p) / p);
             } else {
                 lowerBound = -1.0;
                 while (cumulativeProbability(lowerBound) >= p) {
@@ -186,7 +185,7 @@ implements RealDistribution, Serializable {
 
         if (upperBound == Double.POSITIVE_INFINITY) {
             if (chebyshevApplies) {
-                upperBound = mu + sig * FastMath.sqrt(p / (1. - p));
+                upperBound = mu + sig * Math.sqrt(p / (1. - p));
             } else {
                 upperBound = 1.0;
                 while (cumulativeProbability(upperBound) < p) {
@@ -241,10 +240,10 @@ implements RealDistribution, Serializable {
     }
 
     /** {@inheritDoc} */
-    public void reseedRandomGenerator(long seed) {
-        random.setSeed(seed);
-        randomData.reSeed(seed);
-    }
+	public void reseedRandomGenerator(long seed) {
+		random.setSeed(seed);
+		randomData.reSeed(seed);
+	}
 
     /**
      * {@inheritDoc}
@@ -301,7 +300,7 @@ implements RealDistribution, Serializable {
      * @return the logarithm of the value of the probability density function at point {@code x}
      */
     public double logDensity(double x) {
-        return FastMath.log(density(x));
+        return Math.log(density(x));
     }
 }
 

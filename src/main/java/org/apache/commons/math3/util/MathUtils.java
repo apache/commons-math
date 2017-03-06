@@ -39,13 +39,13 @@ public final class MathUtils {
      * \(2\pi\)
      * @since 2.1
      */
-    public static final double TWO_PI = 2 * FastMath.PI;
+    public static final double TWO_PI = 2 * Math.PI;
 
     /**
      * \(\pi^2\)
      * @since 3.4
      */
-    public static final double PI_SQUARED = FastMath.PI * FastMath.PI;
+    public static final double PI_SQUARED = Math.PI * Math.PI;
 
 
     /**
@@ -92,7 +92,7 @@ public final class MathUtils {
      * <p>This method has three main uses:</p>
      * <ul>
      *   <li>normalize an angle between 0 and 2&pi;:<br/>
-     *       {@code a = MathUtils.normalizeAngle(a, FastMath.PI);}</li>
+     *       {@code a = MathUtils.normalizeAngle(a, Math.PI);}</li>
      *   <li>normalize an angle between -&pi; and +&pi;<br/>
      *       {@code a = MathUtils.normalizeAngle(a, 0.0);}</li>
      *   <li>compute the angle between two defining angular positions:<br>
@@ -107,7 +107,7 @@ public final class MathUtils {
      * @since 1.2
      */
      public static double normalizeAngle(double a, double center) {
-         return a - TWO_PI * FastMath.floor((a + FastMath.PI - center) / TWO_PI);
+         return a - TWO_PI * Math.floor((a + Math.PI - center) / TWO_PI);
      }
 
      /** Find the maximum of two field elements.
@@ -151,8 +151,8 @@ public final class MathUtils {
     public static double reduce(double a,
                                 double period,
                                 double offset) {
-        final double p = FastMath.abs(period);
-        return a - p * FastMath.floor((a - offset) / p) - offset;
+        final double p = Math.abs(period);
+        return a - p * Math.floor((a - offset) / p) - offset;
     }
 
     /**

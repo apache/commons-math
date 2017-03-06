@@ -94,15 +94,15 @@ public class MullerSolver extends AbstractUnivariateSolver {
 
         // check for zeros before verifying bracketing
         final double fMin = computeObjectiveValue(min);
-        if (FastMath.abs(fMin) < functionValueAccuracy) {
+        if (Math.abs(fMin) < functionValueAccuracy) {
             return min;
         }
         final double fMax = computeObjectiveValue(max);
-        if (FastMath.abs(fMax) < functionValueAccuracy) {
+        if (Math.abs(fMax) < functionValueAccuracy) {
             return max;
         }
         final double fInitial = computeObjectiveValue(initial);
-        if (FastMath.abs(fInitial) <  functionValueAccuracy) {
+        if (Math.abs(fInitial) <  functionValueAccuracy) {
             return initial;
         }
 
@@ -156,17 +156,17 @@ public class MullerSolver extends AbstractUnivariateSolver {
             final double d012 = (d12 - d01) / (x2 - x0);
             final double c1 = d01 + (x1 - x0) * d012;
             final double delta = c1 * c1 - 4 * y1 * d012;
-            final double xplus = x1 + (-2.0 * y1) / (c1 + FastMath.sqrt(delta));
-            final double xminus = x1 + (-2.0 * y1) / (c1 - FastMath.sqrt(delta));
+            final double xplus = x1 + (-2.0 * y1) / (c1 + Math.sqrt(delta));
+            final double xminus = x1 + (-2.0 * y1) / (c1 - Math.sqrt(delta));
             // xplus and xminus are two roots of parabola and at least
             // one of them should lie in (x0, x2)
             final double x = isSequence(x0, xplus, x2) ? xplus : xminus;
             final double y = computeObjectiveValue(x);
 
             // check for convergence
-            final double tolerance = FastMath.max(relativeAccuracy * FastMath.abs(x), absoluteAccuracy);
-            if (FastMath.abs(x - oldx) <= tolerance ||
-                FastMath.abs(y) <= functionValueAccuracy) {
+            final double tolerance = Math.max(relativeAccuracy * Math.abs(x), absoluteAccuracy);
+            if (Math.abs(x - oldx) <= tolerance ||
+                Math.abs(y) <= functionValueAccuracy) {
                 return x;
             }
 
@@ -188,7 +188,7 @@ public class MullerSolver extends AbstractUnivariateSolver {
             } else {
                 double xm = 0.5 * (x0 + x2);
                 double ym = computeObjectiveValue(xm);
-                if (FastMath.signum(y0) + FastMath.signum(ym) == 0.0) {
+                if (Math.signum(y0) + Math.signum(ym) == 0.0) {
                     x2 = xm; y2 = ym;
                 } else {
                     x0 = xm; y0 = ym;

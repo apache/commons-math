@@ -22,7 +22,6 @@ import org.apache.commons.math3.exception.util.LocalizedFormats;
 import org.apache.commons.math3.random.RandomGenerator;
 import org.apache.commons.math3.random.Well19937c;
 import org.apache.commons.math3.special.Beta;
-import org.apache.commons.math3.util.FastMath;
 
 /**
  * Implementation of the F-distribution.
@@ -155,7 +154,7 @@ public class FDistribution extends AbstractRealDistribution {
      * @since 2.1
      */
     public double density(double x) {
-        return FastMath.exp(logDensity(x));
+        return Math.exp(logDensity(x));
     }
 
     /** {@inheritDoc} **/
@@ -163,10 +162,10 @@ public class FDistribution extends AbstractRealDistribution {
     public double logDensity(double x) {
         final double nhalf = numeratorDegreesOfFreedom / 2;
         final double mhalf = denominatorDegreesOfFreedom / 2;
-        final double logx = FastMath.log(x);
-        final double logn = FastMath.log(numeratorDegreesOfFreedom);
-        final double logm = FastMath.log(denominatorDegreesOfFreedom);
-        final double lognxm = FastMath.log(numeratorDegreesOfFreedom * x +
+        final double logx = Math.log(x);
+        final double logn = Math.log(numeratorDegreesOfFreedom);
+        final double logm = Math.log(denominatorDegreesOfFreedom);
+        final double lognxm = Math.log(numeratorDegreesOfFreedom * x +
                 denominatorDegreesOfFreedom);
         return nhalf * logn + nhalf * logx - logx +
                mhalf * logm - nhalf * lognxm - mhalf * lognxm -

@@ -95,28 +95,28 @@ public class RiddersSolver extends AbstractUnivariateSolver {
             // calculate the new root approximation
             final double x3 = 0.5 * (x1 + x2);
             final double y3 = computeObjectiveValue(x3);
-            if (FastMath.abs(y3) <= functionValueAccuracy) {
+            if (Math.abs(y3) <= functionValueAccuracy) {
                 return x3;
             }
             final double delta = 1 - (y1 * y2) / (y3 * y3);  // delta > 1 due to bracketing
-            final double correction = (FastMath.signum(y2) * FastMath.signum(y3)) *
-                                      (x3 - x1) / FastMath.sqrt(delta);
+            final double correction = (Math.signum(y2) * Math.signum(y3)) *
+                                      (x3 - x1) / Math.sqrt(delta);
             final double x = x3 - correction;                // correction != 0
             final double y = computeObjectiveValue(x);
 
             // check for convergence
-            final double tolerance = FastMath.max(relativeAccuracy * FastMath.abs(x), absoluteAccuracy);
-            if (FastMath.abs(x - oldx) <= tolerance) {
+            final double tolerance = Math.max(relativeAccuracy * Math.abs(x), absoluteAccuracy);
+            if (Math.abs(x - oldx) <= tolerance) {
                 return x;
             }
-            if (FastMath.abs(y) <= functionValueAccuracy) {
+            if (Math.abs(y) <= functionValueAccuracy) {
                 return x;
             }
 
             // prepare the new interval for next iteration
             // Ridders' method guarantees x1 < x < x2
             if (correction > 0.0) {             // x1 < x < x3
-                if (FastMath.signum(y1) + FastMath.signum(y) == 0.0) {
+                if (Math.signum(y1) + Math.signum(y) == 0.0) {
                     x2 = x;
                     y2 = y;
                 } else {
@@ -126,7 +126,7 @@ public class RiddersSolver extends AbstractUnivariateSolver {
                     y2 = y3;
                 }
             } else {                            // x3 < x < x2
-                if (FastMath.signum(y2) + FastMath.signum(y) == 0.0) {
+                if (Math.signum(y2) + Math.signum(y) == 0.0) {
                     x1 = x;
                     y1 = y;
                 } else {

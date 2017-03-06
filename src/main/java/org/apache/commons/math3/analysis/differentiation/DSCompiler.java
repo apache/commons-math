@@ -19,7 +19,7 @@ package org.apache.commons.math3.analysis.differentiation;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-import java.util.concurrent.atomic.AtomicReference;
+//import java.util.concurrent.atomic.AtomicReference;
 
 import org.apache.commons.math3.exception.DimensionMismatchException;
 import org.apache.commons.math3.exception.MathArithmeticException;
@@ -28,6 +28,7 @@ import org.apache.commons.math3.exception.NotPositiveException;
 import org.apache.commons.math3.exception.NumberIsTooLargeException;
 import org.apache.commons.math3.util.CombinatoricsUtils;
 import org.apache.commons.math3.util.FastMath;
+import org.apache.commons.math3.util.GWTMath;
 import org.apache.commons.math3.util.MathArrays;
 
 /** Class holding "compiled" computation rules for derivative structures.
@@ -125,8 +126,8 @@ import org.apache.commons.math3.util.MathArrays;
 public class DSCompiler {
 
     /** Array of all compilers created so far. */
-    private static AtomicReference<DSCompiler[][]> compilers =
-            new AtomicReference<DSCompiler[][]>(null);
+	// private static AtomicReference<DSCompiler[][]> compilers =
+	// new AtomicReference<DSCompiler[][]>(null);
 
     /** Number of free parameters. */
     private final int parameters;
@@ -189,7 +190,7 @@ public class DSCompiler {
         throws NumberIsTooLargeException {
 
         // get the cached compilers
-        final DSCompiler[][] cache = compilers.get();
+		final DSCompiler[][] cache = null;// compilers.get();
         if (cache != null && cache.length > parameters &&
             cache[parameters].length > order && cache[parameters][order] != null) {
             // the compiler has already been created
@@ -197,8 +198,8 @@ public class DSCompiler {
         }
 
         // we need to create more compilers
-        final int maxParameters = FastMath.max(parameters, cache == null ? 0 : cache.length);
-        final int maxOrder      = FastMath.max(order,     cache == null ? 0 : cache[0].length);
+        final int maxParameters = Math.max(parameters, cache == null ? 0 : cache.length);
+        final int maxOrder      = Math.max(order,     cache == null ? 0 : cache[0].length);
         final DSCompiler[][] newCache = new DSCompiler[maxParameters + 1][maxOrder + 1];
 
         if (cache != null) {
@@ -210,7 +211,7 @@ public class DSCompiler {
 
         // create the array in increasing diagonal order
         for (int diag = 0; diag <= parameters + order; ++diag) {
-            for (int o = FastMath.max(0, diag - parameters); o <= FastMath.min(order, diag); ++o) {
+            for (int o = Math.max(0, diag - parameters); o <= Math.min(order, diag); ++o) {
                 final int p = diag - o;
                 if (newCache[p][o] == null) {
                     final DSCompiler valueCompiler      = (p == 0) ? null : newCache[p - 1][o];
@@ -221,7 +222,7 @@ public class DSCompiler {
         }
 
         // atomically reset the cached compilers array
-        compilers.compareAndSet(cache, newCache);
+		// compilers.compareAndSet(cache, newCache);
 
         return newCache[parameters][order];
 
@@ -608,7 +609,7 @@ public class DSCompiler {
                                     final int destP, final int destO, final int[][] destSizes)
         throws NumberIsTooLargeException {
         int[] orders = new int[destP];
-        System.arraycopy(srcDerivativesIndirection[index], 0, orders, 0, FastMath.min(srcP, destP));
+        System.arraycopy(srcDerivativesIndirection[index], 0, orders, 0, Math.min(srcP, destP));
         return getPartialDerivativeIndex(destP, destO, destSizes, orders);
     }
 
@@ -819,8 +820,9 @@ public class DSCompiler {
                           final double[] result, final int resultOffset) {
 
         // compute k such that lhs % rhs = lhs - k rhs
-        final double rem = FastMath.IEEEremainder(lhs[lhsOffset], rhs[rhsOffset]);
-        final double k   = FastMath.rint((lhs[lhsOffset] - rem) / rhs[rhsOffset]);
+		final double rem = GWTMath.IEEEremainder(lhs[lhsOffset],
+				rhs[rhsOffset]);
+        final double k   = Math.rint((lhs[lhsOffset] - rem) / rhs[rhsOffset]);
 
         // set up value
         result[resultOffset] = rem;
@@ -861,8 +863,8 @@ public class DSCompiler {
                 Arrays.fill(function, Double.NaN);
             }
         } else {
-            function[0] = FastMath.pow(a, operand[operandOffset]);
-            final double lnA = FastMath.log(a);
+            function[0] = Math.pow(a, operand[operandOffset]);
+            final double lnA = Math.log(a);
             for (int i = 1; i < function.length; ++i) {
                 function[i] = lnA * function[i - 1];
             }
@@ -889,7 +891,7 @@ public class DSCompiler {
         // create the function value and derivatives
         // [x^p, px^(p-1), p(p-1)x^(p-2), ... ]
         double[] function = new double[1 + order];
-        double xk = FastMath.pow(operand[operandOffset], p - order);
+        double xk = Math.pow(operand[operandOffset], p - order);
         for (int i = order; i > 0; --i) {
             function[i] = xk;
             xk *= operand[operandOffset];
@@ -931,8 +933,8 @@ public class DSCompiler {
 
         if (n > 0) {
             // strictly positive power
-            final int maxOrder = FastMath.min(order, n);
-            double xk = FastMath.pow(operand[operandOffset], n - maxOrder);
+            final int maxOrder = Math.min(order, n);
+            double xk = Math.pow(operand[operandOffset], n - maxOrder);
             for (int i = maxOrder; i > 0; --i) {
                 function[i] = xk;
                 xk *= operand[operandOffset];
@@ -941,7 +943,7 @@ public class DSCompiler {
         } else {
             // strictly negative power
             final double inv = 1.0 / operand[operandOffset];
-            double xk = FastMath.pow(inv, -n);
+            double xk = Math.pow(inv, -n);
             for (int i = 0; i <= order; ++i) {
                 function[i] = xk;
                 xk *= inv;
@@ -996,14 +998,14 @@ public class DSCompiler {
         double[] function = new double[1 + order];
         double xk;
         if (n == 2) {
-            function[0] = FastMath.sqrt(operand[operandOffset]);
+            function[0] = Math.sqrt(operand[operandOffset]);
             xk          = 0.5 / function[0];
         } else if (n == 3) {
-            function[0] = FastMath.cbrt(operand[operandOffset]);
+            function[0] = Math.cbrt(operand[operandOffset]);
             xk          = 1.0 / (3.0 * function[0] * function[0]);
         } else {
-            function[0] = FastMath.pow(operand[operandOffset], 1.0 / n);
-            xk          = 1.0 / (n * FastMath.pow(function[0], n - 1));
+            function[0] = Math.pow(operand[operandOffset], 1.0 / n);
+            xk          = 1.0 / (n * Math.pow(function[0], n - 1));
         }
         final double nReciprocal = 1.0 / n;
         final double xReciprocal = 1.0 / operand[operandOffset];
@@ -1030,7 +1032,7 @@ public class DSCompiler {
 
         // create the function value and derivatives
         double[] function = new double[1 + order];
-        Arrays.fill(function, FastMath.exp(operand[operandOffset]));
+        Arrays.fill(function, Math.exp(operand[operandOffset]));
 
         // apply function composition
         compose(operand, operandOffset, function, result, resultOffset);
@@ -1050,8 +1052,8 @@ public class DSCompiler {
 
         // create the function value and derivatives
         double[] function = new double[1 + order];
-        function[0] = FastMath.expm1(operand[operandOffset]);
-        Arrays.fill(function, 1, 1 + order, FastMath.exp(operand[operandOffset]));
+        function[0] = Math.expm1(operand[operandOffset]);
+        Arrays.fill(function, 1, 1 + order, Math.exp(operand[operandOffset]));
 
         // apply function composition
         compose(operand, operandOffset, function, result, resultOffset);
@@ -1071,7 +1073,7 @@ public class DSCompiler {
 
         // create the function value and derivatives
         double[] function = new double[1 + order];
-        function[0] = FastMath.log(operand[operandOffset]);
+        function[0] = Math.log(operand[operandOffset]);
         if (order > 0) {
             double inv = 1.0 / operand[operandOffset];
             double xk  = inv;
@@ -1098,7 +1100,7 @@ public class DSCompiler {
 
         // create the function value and derivatives
         double[] function = new double[1 + order];
-        function[0] = FastMath.log1p(operand[operandOffset]);
+        function[0] = Math.log1p(operand[operandOffset]);
         if (order > 0) {
             double inv = 1.0 / (1.0 + operand[operandOffset]);
             double xk  = inv;
@@ -1125,10 +1127,10 @@ public class DSCompiler {
 
         // create the function value and derivatives
         double[] function = new double[1 + order];
-        function[0] = FastMath.log10(operand[operandOffset]);
+        function[0] = Math.log10(operand[operandOffset]);
         if (order > 0) {
             double inv = 1.0 / operand[operandOffset];
-            double xk  = inv / FastMath.log(10.0);
+            double xk  = inv / Math.log(10.0);
             for (int i = 1; i <= order; ++i) {
                 function[i] = xk;
                 xk *= -i * inv;
@@ -1153,9 +1155,9 @@ public class DSCompiler {
 
         // create the function value and derivatives
         double[] function = new double[1 + order];
-        function[0] = FastMath.cos(operand[operandOffset]);
+        function[0] = Math.cos(operand[operandOffset]);
         if (order > 0) {
-            function[1] = -FastMath.sin(operand[operandOffset]);
+            function[1] = -Math.sin(operand[operandOffset]);
             for (int i = 2; i <= order; ++i) {
                 function[i] = -function[i - 2];
             }
@@ -1179,9 +1181,9 @@ public class DSCompiler {
 
         // create the function value and derivatives
         double[] function = new double[1 + order];
-        function[0] = FastMath.sin(operand[operandOffset]);
+        function[0] = Math.sin(operand[operandOffset]);
         if (order > 0) {
-            function[1] = FastMath.cos(operand[operandOffset]);
+            function[1] = Math.cos(operand[operandOffset]);
             for (int i = 2; i <= order; ++i) {
                 function[i] = -function[i - 2];
             }
@@ -1205,7 +1207,7 @@ public class DSCompiler {
 
         // create the function value and derivatives
         final double[] function = new double[1 + order];
-        final double t = FastMath.tan(operand[operandOffset]);
+        final double t = Math.tan(operand[operandOffset]);
         function[0] = t;
 
         if (order > 0) {
@@ -1261,7 +1263,7 @@ public class DSCompiler {
         // create the function value and derivatives
         double[] function = new double[1 + order];
         final double x = operand[operandOffset];
-        function[0] = FastMath.acos(x);
+        function[0] = Math.acos(x);
         if (order > 0) {
             // the nth order derivative of acos has the form:
             // dn(acos(x)/dxn = P_n(x) / [1 - x^2]^((2n-1)/2)
@@ -1274,7 +1276,7 @@ public class DSCompiler {
             p[0] = -1;
             final double x2    = x * x;
             final double f     = 1.0 / (1 - x2);
-            double coeff = FastMath.sqrt(f);
+            double coeff = Math.sqrt(f);
             function[1] = coeff * p[0];
             for (int n = 2; n <= order; ++n) {
 
@@ -1318,7 +1320,7 @@ public class DSCompiler {
         // create the function value and derivatives
         double[] function = new double[1 + order];
         final double x = operand[operandOffset];
-        function[0] = FastMath.asin(x);
+        function[0] = Math.asin(x);
         if (order > 0) {
             // the nth order derivative of asin has the form:
             // dn(asin(x)/dxn = P_n(x) / [1 - x^2]^((2n-1)/2)
@@ -1331,7 +1333,7 @@ public class DSCompiler {
             p[0] = 1;
             final double x2    = x * x;
             final double f     = 1.0 / (1 - x2);
-            double coeff = FastMath.sqrt(f);
+            double coeff = Math.sqrt(f);
             function[1] = coeff * p[0];
             for (int n = 2; n <= order; ++n) {
 
@@ -1375,7 +1377,7 @@ public class DSCompiler {
         // create the function value and derivatives
         double[] function = new double[1 + order];
         final double x = operand[operandOffset];
-        function[0] = FastMath.atan(x);
+        function[0] = Math.atan(x);
         if (order > 0) {
             // the nth order derivative of atan has the form:
             // dn(atan(x)/dxn = Q_n(x) / (1 + x^2)^n
@@ -1457,7 +1459,7 @@ public class DSCompiler {
             divide(y, yOffset, tmp2, 0, tmp1, 0);       // y /(r - x)
             atan(tmp1, 0, tmp2, 0);                     // atan(y / (r - x))
             result[resultOffset] =
-                    ((tmp2[0] <= 0) ? -FastMath.PI : FastMath.PI) - 2 * tmp2[0]; // +/-pi - 2 * atan(y / (r - x))
+                    ((tmp2[0] <= 0) ? -Math.PI : Math.PI) - 2 * tmp2[0]; // +/-pi - 2 * atan(y / (r - x))
             for (int i = 1; i < tmp2.length; ++i) {
                 result[resultOffset + i] = -2 * tmp2[i]; // +/-pi - 2 * atan(y / (r - x))
             }
@@ -1465,7 +1467,7 @@ public class DSCompiler {
         }
 
         // fix value to take special cases (+0/+0, +0/-0, -0/+0, -0/-0, +/-infinity) correctly
-        result[resultOffset] = FastMath.atan2(y[yOffset], x[xOffset]);
+        result[resultOffset] = Math.atan2(y[yOffset], x[xOffset]);
 
     }
 
@@ -1482,9 +1484,9 @@ public class DSCompiler {
 
         // create the function value and derivatives
         double[] function = new double[1 + order];
-        function[0] = FastMath.cosh(operand[operandOffset]);
+        function[0] = Math.cosh(operand[operandOffset]);
         if (order > 0) {
-            function[1] = FastMath.sinh(operand[operandOffset]);
+            function[1] = Math.sinh(operand[operandOffset]);
             for (int i = 2; i <= order; ++i) {
                 function[i] = function[i - 2];
             }
@@ -1508,9 +1510,9 @@ public class DSCompiler {
 
         // create the function value and derivatives
         double[] function = new double[1 + order];
-        function[0] = FastMath.sinh(operand[operandOffset]);
+        function[0] = Math.sinh(operand[operandOffset]);
         if (order > 0) {
-            function[1] = FastMath.cosh(operand[operandOffset]);
+            function[1] = Math.cosh(operand[operandOffset]);
             for (int i = 2; i <= order; ++i) {
                 function[i] = function[i - 2];
             }
@@ -1534,7 +1536,7 @@ public class DSCompiler {
 
         // create the function value and derivatives
         final double[] function = new double[1 + order];
-        final double t = FastMath.tanh(operand[operandOffset]);
+        final double t = Math.tanh(operand[operandOffset]);
         function[0] = t;
 
         if (order > 0) {
@@ -1590,7 +1592,7 @@ public class DSCompiler {
         // create the function value and derivatives
         double[] function = new double[1 + order];
         final double x = operand[operandOffset];
-        function[0] = FastMath.acosh(x);
+		function[0] = FastMath.acosh(x);
         if (order > 0) {
             // the nth order derivative of acosh has the form:
             // dn(acosh(x)/dxn = P_n(x) / [x^2 - 1]^((2n-1)/2)
@@ -1603,7 +1605,7 @@ public class DSCompiler {
             p[0] = 1;
             final double x2  = x * x;
             final double f   = 1.0 / (x2 - 1);
-            double coeff = FastMath.sqrt(f);
+            double coeff = Math.sqrt(f);
             function[1] = coeff * p[0];
             for (int n = 2; n <= order; ++n) {
 
@@ -1647,7 +1649,7 @@ public class DSCompiler {
         // create the function value and derivatives
         double[] function = new double[1 + order];
         final double x = operand[operandOffset];
-        function[0] = FastMath.asinh(x);
+		function[0] = FastMath.asinh(x);
         if (order > 0) {
             // the nth order derivative of asinh has the form:
             // dn(asinh(x)/dxn = P_n(x) / [x^2 + 1]^((2n-1)/2)
@@ -1660,7 +1662,7 @@ public class DSCompiler {
             p[0] = 1;
             final double x2    = x * x;
             final double f     = 1.0 / (1 + x2);
-            double coeff = FastMath.sqrt(f);
+            double coeff = Math.sqrt(f);
             function[1] = coeff * p[0];
             for (int n = 2; n <= order; ++n) {
 
@@ -1704,7 +1706,7 @@ public class DSCompiler {
         // create the function value and derivatives
         double[] function = new double[1 + order];
         final double x = operand[operandOffset];
-        function[0] = FastMath.atanh(x);
+		function[0] = FastMath.atanh(x);
         if (order > 0) {
             // the nth order derivative of atanh has the form:
             // dn(atanh(x)/dxn = Q_n(x) / (1 - x^2)^n
@@ -1790,7 +1792,7 @@ public class DSCompiler {
             for (int k = 0; k < orders.length; ++k) {
                 if (orders[k] > 0) {
                     try {
-                        term *= FastMath.pow(delta[k], orders[k]) /
+                        term *= Math.pow(delta[k], orders[k]) /
                         CombinatoricsUtils.factorial(orders[k]);
                     } catch (NotPositiveException e) {
                         // this cannot happen

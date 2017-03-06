@@ -18,8 +18,6 @@ package org.apache.commons.math3.random;
 
 import java.io.Serializable;
 
-import org.apache.commons.math3.util.FastMath;
-
 
 /** This class implements a powerful pseudo-random number generator
  * developed by Makoto Matsumoto and Takuji Nishimura during
@@ -172,7 +170,7 @@ public class MersenneTwister extends BitsStreamGenerator implements Serializable
         int i = 1;
         int j = 0;
 
-        for (int k = FastMath.max(N, seed.length); k != 0; k--) {
+        for (int k = Math.max(N, seed.length); k != 0; k--) {
             long l0 = (mt[i] & 0x7fffffffl)   | ((mt[i]   < 0) ? 0x80000000l : 0x0l);
             long l1 = (mt[i-1] & 0x7fffffffl) | ((mt[i-1] < 0) ? 0x80000000l : 0x0l);
             long l  = (l0 ^ ((l1 ^ (l1 >> 30)) * 1664525l)) + seed[j] + j; // non linear

@@ -17,10 +17,6 @@
 
 package org.apache.commons.math3.ode.nonstiff;
 
-import java.io.IOException;
-import java.io.ObjectInput;
-import java.io.ObjectOutput;
-
 import org.apache.commons.math3.exception.MaxCountExceededException;
 import org.apache.commons.math3.ode.AbstractIntegrator;
 import org.apache.commons.math3.ode.EquationsMapper;
@@ -449,53 +445,53 @@ class DormandPrince853StepInterpolator
   }
 
   /** {@inheritDoc} */
-  @Override
-  public void writeExternal(final ObjectOutput out)
-    throws IOException {
-
-    try {
-        // save the local attributes
-        finalizeStep();
-    } catch (MaxCountExceededException mcee) {
-        final IOException ioe = new IOException(mcee.getLocalizedMessage());
-        ioe.initCause(mcee);
-        throw ioe;
-    }
-
-    final int dimension = (currentState == null) ? -1 : currentState.length;
-    out.writeInt(dimension);
-    for (int i = 0; i < dimension; ++i) {
-      out.writeDouble(yDotKLast[0][i]);
-      out.writeDouble(yDotKLast[1][i]);
-      out.writeDouble(yDotKLast[2][i]);
-    }
-
-    // save the state of the base class
-    super.writeExternal(out);
-
-  }
+	// @Override
+//  public void writeExternal(final ObjectOutput out)
+//    throws IOException {
+//
+//    try {
+//        // save the local attributes
+//        finalizeStep();
+//    } catch (MaxCountExceededException mcee) {
+//        final IOException ioe = new IOException(mcee.getLocalizedMessage());
+//        ioe.initCause(mcee);
+//        throw ioe;
+//    }
+//
+//    final int dimension = (currentState == null) ? -1 : currentState.length;
+//    out.writeInt(dimension);
+//    for (int i = 0; i < dimension; ++i) {
+//      out.writeDouble(yDotKLast[0][i]);
+//      out.writeDouble(yDotKLast[1][i]);
+//      out.writeDouble(yDotKLast[2][i]);
+//    }
+//
+//    // save the state of the base class
+//    super.writeExternal(out);
+//
+//  }
 
   /** {@inheritDoc} */
-  @Override
-  public void readExternal(final ObjectInput in)
-    throws IOException, ClassNotFoundException {
-
-    // read the local attributes
-    yDotKLast = new double[3][];
-    final int dimension = in.readInt();
-    yDotKLast[0] = (dimension < 0) ? null : new double[dimension];
-    yDotKLast[1] = (dimension < 0) ? null : new double[dimension];
-    yDotKLast[2] = (dimension < 0) ? null : new double[dimension];
-
-    for (int i = 0; i < dimension; ++i) {
-      yDotKLast[0][i] = in.readDouble();
-      yDotKLast[1][i] = in.readDouble();
-      yDotKLast[2][i] = in.readDouble();
-    }
-
-    // read the base state
-    super.readExternal(in);
-
-  }
+	// @Override
+	// public void readExternal(final ObjectInput in)
+	// throws IOException, ClassNotFoundException {
+	//
+	// // read the local attributes
+	// yDotKLast = new double[3][];
+	// final int dimension = in.readInt();
+	// yDotKLast[0] = (dimension < 0) ? null : new double[dimension];
+	// yDotKLast[1] = (dimension < 0) ? null : new double[dimension];
+	// yDotKLast[2] = (dimension < 0) ? null : new double[dimension];
+	//
+	// for (int i = 0; i < dimension; ++i) {
+	// yDotKLast[0][i] = in.readDouble();
+	// yDotKLast[1][i] = in.readDouble();
+	// yDotKLast[2][i] = in.readDouble();
+	// }
+	//
+	// // read the base state
+	// super.readExternal(in);
+	//
+	// }
 
 }

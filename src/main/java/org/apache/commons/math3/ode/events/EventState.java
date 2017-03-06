@@ -106,7 +106,7 @@ public class EventState {
                       final UnivariateSolver solver) {
         this.handler           = handler;
         this.maxCheckInterval  = maxCheckInterval;
-        this.convergence       = FastMath.abs(convergence);
+        this.convergence       = Math.abs(convergence);
         this.maxIterationCount = maxIterationCount;
         this.solver            = solver;
 
@@ -183,8 +183,8 @@ public class EventState {
 
             // extremely rare case: there is a zero EXACTLY at interval start
             // we will use the sign slightly after step beginning to force ignoring this zero
-            final double epsilon = FastMath.max(solver.getAbsoluteAccuracy(),
-                                                FastMath.abs(solver.getRelativeAccuracy() * t0));
+            final double epsilon = Math.max(solver.getAbsoluteAccuracy(),
+                                                Math.abs(solver.getRelativeAccuracy() * t0));
             final double tStart = t0 + 0.5 * epsilon;
             interpolator.setInterpolatedTime(tStart);
             g0 = handler.g(tStart, getCompleteState(interpolator));
@@ -228,11 +228,11 @@ public class EventState {
             forward = interpolator.isForward();
             final double t1 = interpolator.getCurrentTime();
             final double dt = t1 - t0;
-            if (FastMath.abs(dt) < convergence) {
+            if (Math.abs(dt) < convergence) {
                 // we cannot do anything on such a small step, don't trigger any events
                 return false;
             }
-            final int    n = FastMath.max(1, (int) FastMath.ceil(FastMath.abs(dt) / maxCheckInterval));
+            final int    n = Math.max(1, (int) Math.ceil(Math.abs(dt) / maxCheckInterval));
             final double h = dt / n;
 
             final UnivariateFunction f = new UnivariateFunction() {
@@ -287,8 +287,8 @@ public class EventState {
                     }
 
                     if ((!Double.isNaN(previousEventTime)) &&
-                        (FastMath.abs(root - ta) <= convergence) &&
-                        (FastMath.abs(root - previousEventTime) <= convergence)) {
+                        (Math.abs(root - ta) <= convergence) &&
+                        (Math.abs(root - previousEventTime) <= convergence)) {
                         // we have either found nothing or found (again ?) a past event,
                         // retry the substep excluding this value, and taking care to have the
                         // required sign in case the g function is noisy around its zero and
@@ -310,7 +310,7 @@ public class EventState {
                             return true;
                         }
                     } else if (Double.isNaN(previousEventTime) ||
-                               (FastMath.abs(previousEventTime - root) > convergence)) {
+                               (Math.abs(previousEventTime - root) > convergence)) {
                         pendingEventTime = root;
                         pendingEvent = true;
                         return true;
@@ -360,7 +360,7 @@ public class EventState {
         t0 = t;
         g0 = handler.g(t, y);
 
-        if (pendingEvent && (FastMath.abs(pendingEventTime - t) <= convergence)) {
+        if (pendingEvent && (Math.abs(pendingEventTime - t) <= convergence)) {
             // force the sign to its value "just after the event"
             previousEventTime = t;
             g0Positive        = increasing;
@@ -388,7 +388,7 @@ public class EventState {
      */
     public boolean reset(final double t, final double[] y) {
 
-        if (!(pendingEvent && (FastMath.abs(pendingEventTime - t) <= convergence))) {
+        if (!(pendingEvent && (Math.abs(pendingEventTime - t) <= convergence))) {
             return false;
         }
 

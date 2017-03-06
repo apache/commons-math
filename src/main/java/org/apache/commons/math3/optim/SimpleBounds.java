@@ -18,6 +18,8 @@ package org.apache.commons.math3.optim;
 
 import java.util.Arrays;
 
+import org.apache.commons.math3.util.Cloner;
+
 /**
  * Simple optimization constraints: lower and upper bounds.
  * The valid range of the parameters is an interval that can be infinite
@@ -39,8 +41,8 @@ public class SimpleBounds implements OptimizationData {
      */
     public SimpleBounds(double[] lB,
                         double[] uB) {
-        lower = lB.clone();
-        upper = uB.clone();
+		lower = Cloner.clone(lB);
+		upper = Cloner.clone(uB);
     }
 
     /**
@@ -49,7 +51,7 @@ public class SimpleBounds implements OptimizationData {
      * @return the lower bounds.
      */
     public double[] getLower() {
-        return lower.clone();
+		return Cloner.clone(lower);
     }
     /**
      * Gets the upper bounds.
@@ -57,7 +59,7 @@ public class SimpleBounds implements OptimizationData {
      * @return the upper bounds.
      */
     public double[] getUpper() {
-        return upper.clone();
+		return Cloner.clone(upper);
     }
 
     /**

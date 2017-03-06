@@ -17,8 +17,6 @@
 package org.apache.commons.math3.exception.util;
 
 import java.util.Locale;
-import java.util.MissingResourceException;
-import java.util.ResourceBundle;
 
 /**
  * Enumeration for localized messages formats used in exceptions messages.
@@ -392,18 +390,19 @@ public enum LocalizedFormats implements Localizable {
 
     /** {@inheritDoc} */
     public String getLocalizedString(final Locale locale) {
-        try {
-            final String path = LocalizedFormats.class.getName().replaceAll("\\.", "/");
-            ResourceBundle bundle =
-                    ResourceBundle.getBundle("assets/" + path, locale);
-            if (bundle.getLocale().getLanguage().equals(locale.getLanguage())) {
-                // the value of the resource is the translated format
-                return bundle.getString(toString());
-            }
-
-        } catch (MissingResourceException mre) { // NOPMD
-            // do nothing here
-        }
+		// try {
+		// final String path =
+		// LocalizedFormats.class.getName().replaceAll("\\.", "/");
+		// ResourceBundle bundle =
+		// ResourceBundle.getBundle("assets/" + path, locale);
+		// if (bundle.getLocale().getLanguage().equals(locale.getLanguage())) {
+		// // the value of the resource is the translated format
+		// return bundle.getString(toString());
+		// }
+		//
+		// } catch (MissingResourceException mre) { // NOPMD
+		// // do nothing here
+		// }
 
         // either the locale is not supported or the resource is unknown
         // don't translate and fall back to using the source format

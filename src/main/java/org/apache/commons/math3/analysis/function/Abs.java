@@ -28,6 +28,6 @@ import org.apache.commons.math3.util.FastMath;
 public class Abs implements UnivariateFunction {
     /** {@inheritDoc} */
     public double value(double x) {
-        return FastMath.abs(x);
+        return Math.abs(x);
     }
 }

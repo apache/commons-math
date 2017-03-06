@@ -20,6 +20,7 @@ package org.apache.commons.math3.random;
 import org.apache.commons.math3.exception.DimensionMismatchException;
 import org.apache.commons.math3.linear.RealMatrix;
 import org.apache.commons.math3.linear.RectangularCholeskyDecomposition;
+import org.apache.commons.math3.util.Cloner;
 
 /**
  * A {@link RandomVectorGenerator} that generates vectors with with
@@ -90,7 +91,7 @@ public class CorrelatedRandomVectorGenerator
         if (mean.length != order) {
             throw new DimensionMismatchException(mean.length, order);
         }
-        this.mean = mean.clone();
+		this.mean = Cloner.clone(mean);
 
         final RectangularCholeskyDecomposition decomposition =
             new RectangularCholeskyDecomposition(covariance, small);

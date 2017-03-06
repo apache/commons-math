@@ -38,7 +38,7 @@ class LutherStepInterpolator extends RungeKuttaStepInterpolator {
     private static final long serialVersionUID = 20140416L;
 
     /** Square root. */
-    private static final double Q = FastMath.sqrt(21);
+    private static final double Q = Math.sqrt(21);
 
     /** Simple constructor.
      * This constructor builds an instance that is not usable yet, the

@@ -254,7 +254,7 @@ public class MillerUpdatingRegression implements UpdatingMultipleLinearRegressio
             if (di != 0.0) {
                 dpi = smartAdd(di, wxi * xi);
                 final double tmp = wxi * xi / di;
-                if (FastMath.abs(tmp) > Precision.EPSILON) {
+                if (Math.abs(tmp) > Precision.EPSILON) {
                     w = (di * w) / dpi;
                 }
             } else {
@@ -291,8 +291,8 @@ public class MillerUpdatingRegression implements UpdatingMultipleLinearRegressio
      * @return the sum of the a and b
      */
     private double smartAdd(double a, double b) {
-        final double _a = FastMath.abs(a);
-        final double _b = FastMath.abs(b);
+        final double _a = Math.abs(a);
+        final double _b = Math.abs(b);
         if (_a > _b) {
             final double eps = _a * Precision.EPSILON;
             if (_b > eps) {
@@ -341,14 +341,14 @@ public class MillerUpdatingRegression implements UpdatingMultipleLinearRegressio
         double total;
         final double eps = this.epsilon;
         for (int i = 0; i < nvars; i++) {
-            this.work_tolset[i] = FastMath.sqrt(d[i]);
+            this.work_tolset[i] = Math.sqrt(d[i]);
         }
         tol[0] = eps * this.work_tolset[0];
         for (int col = 1; col < nvars; col++) {
             pos = col - 1;
             total = work_tolset[col];
             for (int row = 0; row < col; row++) {
-                total += FastMath.abs(r[pos]) * work_tolset[row];
+                total += Math.abs(r[pos]) * work_tolset[row];
                 pos += nvars - row - 2;
             }
             tol[col] = eps * total;
@@ -382,7 +382,7 @@ public class MillerUpdatingRegression implements UpdatingMultipleLinearRegressio
         final double[] ret = new double[nreq];
         boolean rankProblem = false;
         for (int i = nreq - 1; i > -1; i--) {
-            if (FastMath.sqrt(d[i]) < tol[i]) {
+            if (Math.sqrt(d[i]) < tol[i]) {
                 ret[i] = 0.0;
                 d[i] = 0.0;
                 rankProblem = true;
@@ -412,7 +412,7 @@ public class MillerUpdatingRegression implements UpdatingMultipleLinearRegressio
     private void singcheck() {
         int pos;
         for (int i = 0; i < nvars; i++) {
-            work_sing[i] = FastMath.sqrt(d[i]);
+            work_sing[i] = Math.sqrt(d[i]);
         }
         for (int col = 0; col < nvars; col++) {
             // Set elements within R to zero if they are less than tol(col) in
@@ -421,7 +421,7 @@ public class MillerUpdatingRegression implements UpdatingMultipleLinearRegressio
             final double temp = tol[col];
             pos = col - 1;
             for (int row = 0; row < col - 1; row++) {
-                if (FastMath.abs(r[pos]) * work_sing[row] < temp) {
+                if (Math.abs(r[pos]) * work_sing[row] < temp) {
                     r[pos] = 0.0;
                 }
                 pos += nvars - row - 2;
@@ -624,7 +624,7 @@ public class MillerUpdatingRegression implements UpdatingMultipleLinearRegressio
         final int nvm = nvars - 1;
         final int base_pos = r.length - (nvm - in) * (nvm - in + 1) / 2;
         if (d[in] > 0.0) {
-            rms[in + rms_off] = 1.0 / FastMath.sqrt(d[in]);
+            rms[in + rms_off] = 1.0 / Math.sqrt(d[in]);
         }
         for (int col = in + 1; col < nvars; col++) {
             pos = base_pos + col - 1 - in;
@@ -634,7 +634,7 @@ public class MillerUpdatingRegression implements UpdatingMultipleLinearRegressio
                 pos += nvars - row - 2;
             }
             if (sumxx > 0.0) {
-                rms[col + rms_off] = 1.0 / FastMath.sqrt(sumxx);
+                rms[col + rms_off] = 1.0 / Math.sqrt(sumxx);
             } else {
                 rms[col + rms_off] = 0.0;
             }
@@ -644,7 +644,7 @@ public class MillerUpdatingRegression implements UpdatingMultipleLinearRegressio
             sumyy += d[row] * rhs[row] * rhs[row];
         }
         if (sumyy > 0.0) {
-            sumyy = 1.0 / FastMath.sqrt(sumyy);
+            sumyy = 1.0 / Math.sqrt(sumyy);
         }
         pos = 0;
         for (int col1 = in; col1 < nvars; col1++) {
@@ -728,10 +728,10 @@ public class MillerUpdatingRegression implements UpdatingMultipleLinearRegressio
             // Special cases.
             if (d1 > this.epsilon || d2 > this.epsilon) {
                 X = r[m1];
-                if (FastMath.abs(X) * FastMath.sqrt(d1) < tol[mp1]) {
+                if (Math.abs(X) * Math.sqrt(d1) < tol[mp1]) {
                     X = 0.0;
                 }
-                if (d1 < this.epsilon || FastMath.abs(X) < this.epsilon) {
+                if (d1 < this.epsilon || Math.abs(X) < this.epsilon) {
                     d[m] = d2;
                     d[mp1] = d1;
                     r[m1] = 0.0;
@@ -867,7 +867,7 @@ public class MillerUpdatingRegression implements UpdatingMultipleLinearRegressio
         }
         double hii = 0.0;
         for (int col = 0; col < xrow.length; col++) {
-            if (FastMath.sqrt(d[col]) < tol[col]) {
+            if (Math.sqrt(d[col]) < tol[col]) {
                 wk[col] = 0.0;
             } else {
                 pos = col - 1;

@@ -21,6 +21,7 @@ import org.apache.commons.math3.analysis.MultivariateFunction;
 import org.apache.commons.math3.analysis.MultivariateVectorFunction;
 import org.apache.commons.math3.exception.DimensionMismatchException;
 import org.apache.commons.math3.linear.RealMatrix;
+import org.apache.commons.math3.util.Cloner;
 
 /** This class converts {@link MultivariateVectorFunction vectorial
  * objective functions} to {@link MultivariateFunction scalar objective functions}
@@ -75,7 +76,7 @@ public class LeastSquaresConverter implements MultivariateFunction {
     public LeastSquaresConverter(final MultivariateVectorFunction function,
                                  final double[] observations) {
         this.function     = function;
-        this.observations = observations.clone();
+		this.observations = Cloner.clone(observations);
         this.weights      = null;
         this.scale        = null;
     }
@@ -114,8 +115,8 @@ public class LeastSquaresConverter implements MultivariateFunction {
             throw new DimensionMismatchException(observations.length, weights.length);
         }
         this.function     = function;
-        this.observations = observations.clone();
-        this.weights      = weights.clone();
+		this.observations = Cloner.clone(observations);
+		this.weights = Cloner.clone(weights);
         this.scale        = null;
     }
 
@@ -144,7 +145,7 @@ public class LeastSquaresConverter implements MultivariateFunction {
             throw new DimensionMismatchException(observations.length, scale.getColumnDimension());
         }
         this.function     = function;
-        this.observations = observations.clone();
+		this.observations = Cloner.clone(observations);
         this.weights      = null;
         this.scale        = scale.copy();
     }

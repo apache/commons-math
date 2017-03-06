@@ -126,7 +126,7 @@ public class StandardDeviation extends AbstractStorelessUnivariateStatistic
      */
     @Override
     public double getResult() {
-        return FastMath.sqrt(variance.getResult());
+        return Math.sqrt(variance.getResult());
     }
 
     /**
@@ -153,7 +153,7 @@ public class StandardDeviation extends AbstractStorelessUnivariateStatistic
      */
     @Override
     public double evaluate(final double[] values) throws MathIllegalArgumentException  {
-        return FastMath.sqrt(variance.evaluate(values));
+        return Math.sqrt(variance.evaluate(values));
     }
 
     /**
@@ -177,7 +177,7 @@ public class StandardDeviation extends AbstractStorelessUnivariateStatistic
     @Override
     public double evaluate(final double[] values, final int begin, final int length)
     throws MathIllegalArgumentException  {
-       return FastMath.sqrt(variance.evaluate(values, begin, length));
+       return Math.sqrt(variance.evaluate(values, begin, length));
     }
 
     /**
@@ -206,7 +206,7 @@ public class StandardDeviation extends AbstractStorelessUnivariateStatistic
      */
     public double evaluate(final double[] values, final double mean,
             final int begin, final int length) throws MathIllegalArgumentException  {
-        return FastMath.sqrt(variance.evaluate(values, mean, begin, length));
+        return Math.sqrt(variance.evaluate(values, mean, begin, length));
     }
 
     /**
@@ -232,7 +232,7 @@ public class StandardDeviation extends AbstractStorelessUnivariateStatistic
      */
     public double evaluate(final double[] values, final double mean)
     throws MathIllegalArgumentException  {
-        return FastMath.sqrt(variance.evaluate(values, mean));
+        return Math.sqrt(variance.evaluate(values, mean));
     }
 
     /**

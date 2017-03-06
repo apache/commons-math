@@ -164,7 +164,7 @@ public class Product extends AbstractStorelessUnivariateStatistic implements Ser
         if (test(values, weights, begin, length, true)) {
             product = 1.0;
             for (int i = begin; i < begin + length; i++) {
-                product *= FastMath.pow(values[i], weights[i]);
+                product *= Math.pow(values[i], weights[i]);
             }
         }
         return product;

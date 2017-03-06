@@ -19,6 +19,7 @@ package org.apache.commons.math3.analysis.integration.gauss;
 import org.apache.commons.math3.analysis.UnivariateFunction;
 import org.apache.commons.math3.exception.DimensionMismatchException;
 import org.apache.commons.math3.exception.NonMonotonicSequenceException;
+import org.apache.commons.math3.util.Cloner;
 import org.apache.commons.math3.util.MathArrays;
 import org.apache.commons.math3.util.Pair;
 
@@ -56,8 +57,8 @@ public class GaussIntegrator {
 
         MathArrays.checkOrder(points, MathArrays.OrderDirection.INCREASING, true, true);
 
-        this.points = points.clone();
-        this.weights = weights.clone();
+		this.points = Cloner.clone(points);
+		this.weights = Cloner.clone(weights);
     }
 
     /**

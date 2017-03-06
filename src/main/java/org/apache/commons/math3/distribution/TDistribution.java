@@ -22,7 +22,6 @@ import org.apache.commons.math3.random.RandomGenerator;
 import org.apache.commons.math3.random.Well19937c;
 import org.apache.commons.math3.special.Beta;
 import org.apache.commons.math3.special.Gamma;
-import org.apache.commons.math3.util.FastMath;
 
 /**
  * Implementation of Student's t-distribution.
@@ -126,7 +125,7 @@ public class TDistribution extends AbstractRealDistribution {
         final double n = degreesOfFreedom;
         final double nPlus1Over2 = (n + 1) / 2;
         factor = Gamma.logGamma(nPlus1Over2) -
-                 0.5 * (FastMath.log(FastMath.PI) + FastMath.log(n)) -
+                 0.5 * (Math.log(Math.PI) + Math.log(n)) -
                  Gamma.logGamma(n / 2);
     }
 
@@ -141,7 +140,7 @@ public class TDistribution extends AbstractRealDistribution {
 
     /** {@inheritDoc} */
     public double density(double x) {
-        return FastMath.exp(logDensity(x));
+        return Math.exp(logDensity(x));
     }
 
     /** {@inheritDoc} */
@@ -149,7 +148,7 @@ public class TDistribution extends AbstractRealDistribution {
     public double logDensity(double x) {
         final double n = degreesOfFreedom;
         final double nPlus1Over2 = (n + 1) / 2;
-        return factor - nPlus1Over2 * FastMath.log(1 + x * x / n);
+        return factor - nPlus1Over2 * Math.log(1 + x * x / n);
     }
 
     /** {@inheritDoc} */

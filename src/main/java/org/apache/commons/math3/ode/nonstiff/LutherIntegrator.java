@@ -56,7 +56,7 @@ import org.apache.commons.math3.util.FastMath;
 public class LutherIntegrator extends RungeKuttaIntegrator {
 
     /** Square root. */
-    private static final double Q = FastMath.sqrt(21);
+    private static final double Q = Math.sqrt(21);
 
     /** Time steps Butcher array. */
     private static final double[] STATIC_C = {

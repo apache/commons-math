@@ -83,14 +83,14 @@ public class Sinc implements UnivariateDifferentiableFunction, DifferentiableUni
 
     /** {@inheritDoc} */
     public double value(final double x) {
-        final double scaledX = normalized ? FastMath.PI * x : x;
-        if (FastMath.abs(scaledX) <= SHORTCUT) {
+        final double scaledX = normalized ? Math.PI * x : x;
+        if (Math.abs(scaledX) <= SHORTCUT) {
             // use Taylor series
             final double scaledX2 = scaledX * scaledX;
             return ((scaledX2 - 20) * scaledX2 + 120) / 120;
         } else {
             // use definition expression
-            return FastMath.sin(scaledX) / scaledX;
+            return Math.sin(scaledX) / scaledX;
         }
     }
 
@@ -108,12 +108,12 @@ public class Sinc implements UnivariateDifferentiableFunction, DifferentiableUni
     public DerivativeStructure value(final DerivativeStructure t)
         throws DimensionMismatchException {
 
-        final double scaledX  = (normalized ? FastMath.PI : 1) * t.getValue();
+        final double scaledX  = (normalized ? Math.PI : 1) * t.getValue();
         final double scaledX2 = scaledX * scaledX;
 
         double[] f = new double[t.getOrder() + 1];
 
-        if (FastMath.abs(scaledX) <= SHORTCUT) {
+        if (Math.abs(scaledX) <= SHORTCUT) {
 
             for (int i = 0; i < f.length; ++i) {
                 final int k = i / 2;
@@ -131,8 +131,8 @@ public class Sinc implements UnivariateDifferentiableFunction, DifferentiableUni
         } else {
 
             final double inv = 1 / scaledX;
-            final double cos = FastMath.cos(scaledX);
-            final double sin = FastMath.sin(scaledX);
+            final double cos = Math.cos(scaledX);
+            final double sin = Math.sin(scaledX);
 
             f[0] = inv * sin;
 
@@ -191,10 +191,10 @@ public class Sinc implements UnivariateDifferentiableFunction, DifferentiableUni
         }
 
         if (normalized) {
-            double scale = FastMath.PI;
+            double scale = Math.PI;
             for (int i = 1; i < f.length; ++i) {
                 f[i]  *= scale;
-                scale *= FastMath.PI;
+                scale *= Math.PI;
             }
         }
 

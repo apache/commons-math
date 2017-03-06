@@ -165,7 +165,7 @@ public class PearsonsCorrelation {
         for (int i = 0; i < nVars; i++) {
             for (int j = 0; j < nVars; j++) {
                 double r = correlationMatrix.getEntry(i, j);
-                out[i][j] = FastMath.sqrt((1 - r * r) /(nObs - 2));
+                out[i][j] = Math.sqrt((1 - r * r) /(nObs - 2));
             }
         }
         return new BlockRealMatrix(out);
@@ -201,7 +201,7 @@ public class PearsonsCorrelation {
                     out[i][j] = 0d;
                 } else {
                     double r = correlationMatrix.getEntry(i, j);
-                    double t = FastMath.abs(r * FastMath.sqrt((nObs - 2)/(1 - r * r)));
+                    double t = Math.abs(r * Math.sqrt((nObs - 2)/(1 - r * r)));
                     out[i][j] = 2 * tDistribution.cumulativeProbability(-t);
                 }
             }
@@ -300,11 +300,11 @@ public class PearsonsCorrelation {
         int nVars = covarianceMatrix.getColumnDimension();
         RealMatrix outMatrix = new BlockRealMatrix(nVars, nVars);
         for (int i = 0; i < nVars; i++) {
-            double sigma = FastMath.sqrt(covarianceMatrix.getEntry(i, i));
+            double sigma = Math.sqrt(covarianceMatrix.getEntry(i, i));
             outMatrix.setEntry(i, i, 1d);
             for (int j = 0; j < i; j++) {
                 double entry = covarianceMatrix.getEntry(i, j) /
-                       (sigma * FastMath.sqrt(covarianceMatrix.getEntry(j, j)));
+                       (sigma * Math.sqrt(covarianceMatrix.getEntry(j, j)));
                 outMatrix.setEntry(i, j, entry);
                 outMatrix.setEntry(j, i, entry);
             }

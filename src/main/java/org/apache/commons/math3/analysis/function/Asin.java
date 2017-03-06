@@ -32,7 +32,7 @@ import org.apache.commons.math3.util.FastMath;
 public class Asin implements UnivariateDifferentiableFunction, DifferentiableUnivariateFunction {
     /** {@inheritDoc} */
     public double value(double x) {
-        return FastMath.asin(x);
+        return Math.asin(x);
     }
 
     /** {@inheritDoc}

@@ -290,7 +290,7 @@ public abstract class AbstractMultipleLinearRegression implements
         int length = betaVariance[0].length;
         double[] result = new double[length];
         for (int i = 0; i < length; i++) {
-            result[i] = FastMath.sqrt(sigma * betaVariance[i][i]);
+            result[i] = Math.sqrt(sigma * betaVariance[i][i]);
         }
         return result;
     }
@@ -320,7 +320,7 @@ public abstract class AbstractMultipleLinearRegression implements
      * @since 2.2
      */
     public double estimateRegressionStandardError() {
-        return FastMath.sqrt(estimateErrorVariance());
+        return Math.sqrt(estimateErrorVariance());
     }
 
     /**

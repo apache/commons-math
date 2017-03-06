@@ -24,7 +24,6 @@ import org.apache.commons.math3.linear.RealMatrix;
 import org.apache.commons.math3.linear.SingularMatrixException;
 import org.apache.commons.math3.random.RandomGenerator;
 import org.apache.commons.math3.random.Well19937c;
-import org.apache.commons.math3.util.FastMath;
 import org.apache.commons.math3.util.MathArrays;
 
 /**
@@ -152,7 +151,7 @@ public class MultivariateNormalDistribution
 
         // Scale each eigenvector by the square root of its eigenvalue.
         for (int row = 0; row < dim; row++) {
-            final double factor = FastMath.sqrt(covMatEigenvalues[row]);
+            final double factor = Math.sqrt(covMatEigenvalues[row]);
             for (int col = 0; col < dim; col++) {
                 tmpMatrix.multiplyEntry(row, col, factor);
             }
@@ -186,8 +185,8 @@ public class MultivariateNormalDistribution
             throw new DimensionMismatchException(vals.length, dim);
         }
 
-        return FastMath.pow(2 * FastMath.PI, -0.5 * dim) *
-            FastMath.pow(covarianceMatrixDeterminant, -0.5) *
+        return Math.pow(2 * Math.PI, -0.5 * dim) *
+            Math.pow(covarianceMatrixDeterminant, -0.5) *
             getExponentTerm(vals);
     }
 
@@ -202,7 +201,7 @@ public class MultivariateNormalDistribution
         final double[] std = new double[dim];
         final double[][] s = covarianceMatrix.getData();
         for (int i = 0; i < dim; i++) {
-            std[i] = FastMath.sqrt(s[i][i]);
+            std[i] = Math.sqrt(s[i][i]);
         }
         return std;
     }
@@ -242,6 +241,6 @@ public class MultivariateNormalDistribution
         for (int i = 0; i < preMultiplied.length; i++) {
             sum += preMultiplied[i] * centered[i];
         }
-        return FastMath.exp(-0.5 * sum);
+        return Math.exp(-0.5 * sum);
     }
 }

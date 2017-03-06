@@ -135,9 +135,9 @@ public class OpenMapRealMatrix extends AbstractRealMatrix
     @Override
     public OpenMapRealMatrix subtract(final RealMatrix m)
         throws MatrixDimensionMismatchException {
-        try {
+        if (m instanceof OpenMapRealMatrix) {
             return subtract((OpenMapRealMatrix) m);
-        } catch (ClassCastException cce) {
+		} else {
             return (OpenMapRealMatrix) super.subtract(m);
         }
     }
@@ -175,9 +175,9 @@ public class OpenMapRealMatrix extends AbstractRealMatrix
     @Override
     public RealMatrix multiply(final RealMatrix m)
         throws DimensionMismatchException, NumberIsTooLargeException {
-        try {
+		if (m instanceof OpenMapRealMatrix) {
             return multiply((OpenMapRealMatrix) m);
-        } catch (ClassCastException cce) {
+		} else {
 
             MatrixUtils.checkMultiplicationCompatible(this, m);
 

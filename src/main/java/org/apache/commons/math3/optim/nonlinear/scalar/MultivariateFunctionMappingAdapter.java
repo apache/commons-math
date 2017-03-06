@@ -228,12 +228,12 @@ public class MultivariateFunctionMappingAdapter
 
         /** {@inheritDoc} */
         public double unboundedToBounded(final double y) {
-            return lower + FastMath.exp(y);
+            return lower + Math.exp(y);
         }
 
         /** {@inheritDoc} */
         public double boundedToUnbounded(final double x) {
-            return FastMath.log(x - lower);
+            return Math.log(x - lower);
         }
 
     }
@@ -253,12 +253,12 @@ public class MultivariateFunctionMappingAdapter
 
         /** {@inheritDoc} */
         public double unboundedToBounded(final double y) {
-            return upper - FastMath.exp(-y);
+            return upper - Math.exp(-y);
         }
 
         /** {@inheritDoc} */
         public double boundedToUnbounded(final double x) {
-            return -FastMath.log(upper - x);
+            return -Math.log(upper - x);
         }
 
     }

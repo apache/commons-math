@@ -21,13 +21,11 @@ import java.util.Arrays;
 import java.util.Comparator;
 
 import org.apache.commons.math3.analysis.UnivariateFunction;
-import org.apache.commons.math3.exception.MathIllegalStateException;
 import org.apache.commons.math3.exception.NotStrictlyPositiveException;
 import org.apache.commons.math3.exception.NullArgumentException;
-import org.apache.commons.math3.exception.util.LocalizedFormats;
-import org.apache.commons.math3.random.RandomGenerator;
-import org.apache.commons.math3.optimization.GoalType;
 import org.apache.commons.math3.optimization.ConvergenceChecker;
+import org.apache.commons.math3.optimization.GoalType;
+import org.apache.commons.math3.random.RandomGenerator;
 
 /**
  * Special implementation of the {@link UnivariateOptimizer} interface
@@ -130,12 +128,13 @@ public class UnivariateMultiStartOptimizer<FUNC extends UnivariateFunction>
      * #optimize(int,UnivariateFunction,GoalType,double,double) optimize}
      * has not been called.
      */
-    public UnivariatePointValuePair[] getOptima() {
-        if (optima == null) {
-            throw new MathIllegalStateException(LocalizedFormats.NO_OPTIMUM_COMPUTED_YET);
-        }
-        return optima.clone();
-    }
+	// public UnivariatePointValuePair[] getOptima() {
+	// if (optima == null) {
+	// throw new
+	// MathIllegalStateException(LocalizedFormats.NO_OPTIMUM_COMPUTED_YET);
+	// }
+	// return Cloner.clone(optima);
+	// }
 
     /** {@inheritDoc} */
     public UnivariatePointValuePair optimize(int maxEval, final FUNC f,

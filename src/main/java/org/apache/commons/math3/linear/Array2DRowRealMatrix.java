@@ -39,7 +39,7 @@ public class Array2DRowRealMatrix extends AbstractRealMatrix implements Serializ
     private static final long serialVersionUID = -1067294169172445528L;
 
     /** Entries of the matrix. */
-    private double data[][];
+	protected double data[][];
 
     /**
      * Creates a matrix with no data

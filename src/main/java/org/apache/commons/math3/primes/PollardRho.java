@@ -19,8 +19,6 @@ package org.apache.commons.math3.primes;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.apache.commons.math3.util.FastMath;
-
 /**
  * Implementation of the Pollard's rho factorization algorithm.
  * @since 3.2
@@ -83,12 +81,12 @@ class PollardRho {
             }
             int k = 0;
             do {
-                final int bound = FastMath.min(m, r - k);
+                final int bound = Math.min(m, r - k);
                 int q = 1;
                 for (int i = -3; i < bound; i++) { //start at -3 to ensure we enter this loop at least 3 times
                     final long y2 = ((long) y) * y;
                     y = (int) ((y2 + cst) % n);
-                    final long divisor = FastMath.abs(x - y);
+                    final long divisor = Math.abs(x - y);
                     if (0 == divisor) {
                         cst += SmallPrimes.PRIMES_LAST;
                         k = -m;
@@ -99,10 +97,10 @@ class PollardRho {
                     final long prod = divisor * q;
                     q = (int) (prod % n);
                     if (0 == q) {
-                        return gcdPositive(FastMath.abs((int) divisor), n);
+                        return gcdPositive(Math.abs((int) divisor), n);
                     }
                 }
-                final int out = gcdPositive(FastMath.abs(q), n);
+                final int out = gcdPositive(Math.abs(q), n);
                 if (1 != out) {
                     return out;
                 }
@@ -143,7 +141,7 @@ class PollardRho {
         a >>= aTwos;
         final int bTwos = Integer.numberOfTrailingZeros(b);
         b >>= bTwos;
-        final int shift = FastMath.min(aTwos, bTwos);
+        final int shift = Math.min(aTwos, bTwos);
 
         // a and b >0
         // if a > b then gdc(a,b) = gcd(a-b,b)
@@ -151,8 +149,8 @@ class PollardRho {
         // so next a is the absolute difference and next b is the minimum of current values
         while (a != b) {
             final int delta = a - b;
-            b = FastMath.min(a, b);
-            a = FastMath.abs(delta);
+            b = Math.min(a, b);
+            a = Math.abs(delta);
             // for speed optimization:
             // remove any power of two in a as b is guaranteed to be odd throughout all iterations
             a >>= Integer.numberOfTrailingZeros(a);

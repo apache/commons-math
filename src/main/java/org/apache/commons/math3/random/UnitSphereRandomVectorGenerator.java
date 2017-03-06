@@ -17,9 +17,6 @@
 
 package org.apache.commons.math3.random;
 
-import org.apache.commons.math3.util.FastMath;
-
-
 /**
  * Generate random vectors isotropically located on the surface of a sphere.
  *
@@ -70,7 +67,7 @@ public class UnitSphereRandomVectorGenerator
             normSq += comp * comp;
         }
 
-        final double f = 1 / FastMath.sqrt(normSq);
+        final double f = 1 / Math.sqrt(normSq);
         for (int i = 0; i < dimension; i++) {
             v[i] *= f;
         }

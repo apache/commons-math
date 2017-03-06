@@ -17,18 +17,14 @@
 
 package org.apache.commons.math3.util;
 
-import java.lang.reflect.Array;
+//import java.lang.reflect.Array;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.Iterator;
 import java.util.List;
 import java.util.TreeSet;
 
-import org.apache.commons.math3.Field;
-import org.apache.commons.math3.random.RandomGenerator;
-import org.apache.commons.math3.random.Well19937c;
 import org.apache.commons.math3.distribution.UniformIntegerDistribution;
 import org.apache.commons.math3.exception.DimensionMismatchException;
 import org.apache.commons.math3.exception.MathArithmeticException;
@@ -36,12 +32,14 @@ import org.apache.commons.math3.exception.MathIllegalArgumentException;
 import org.apache.commons.math3.exception.MathInternalError;
 import org.apache.commons.math3.exception.NoDataException;
 import org.apache.commons.math3.exception.NonMonotonicSequenceException;
+import org.apache.commons.math3.exception.NotANumberException;
 import org.apache.commons.math3.exception.NotPositiveException;
 import org.apache.commons.math3.exception.NotStrictlyPositiveException;
 import org.apache.commons.math3.exception.NullArgumentException;
 import org.apache.commons.math3.exception.NumberIsTooLargeException;
-import org.apache.commons.math3.exception.NotANumberException;
 import org.apache.commons.math3.exception.util.LocalizedFormats;
+import org.apache.commons.math3.random.RandomGenerator;
+import org.apache.commons.math3.random.Well19937c;
 
 /**
  * Arrays utilities.
@@ -123,7 +121,7 @@ public class MathArrays {
         throws DimensionMismatchException {
         checkEqualLength(a, b);
 
-        final double[] result = a.clone();
+		final double[] result = Cloner.clone(a);
         for (int i = 0; i < a.length; i++) {
             result[i] += b[i];
         }
@@ -143,7 +141,7 @@ public class MathArrays {
         throws DimensionMismatchException {
         checkEqualLength(a, b);
 
-        final double[] result = a.clone();
+		final double[] result = Cloner.clone(a);
         for (int i = 0; i < a.length; i++) {
             result[i] -= b[i];
         }
@@ -163,7 +161,7 @@ public class MathArrays {
         throws DimensionMismatchException {
         checkEqualLength(a, b);
 
-        final double[] result = a.clone();
+		final double[] result = Cloner.clone(a);
         for (int i = 0; i < a.length; i++) {
             result[i] *= b[i];
         }
@@ -183,7 +181,7 @@ public class MathArrays {
         throws DimensionMismatchException {
         checkEqualLength(a, b);
 
-        final double[] result = a.clone();
+		final double[] result = Cloner.clone(a);
         for (int i = 0; i < a.length; i++) {
             result[i] /= b[i];
         }
@@ -203,7 +201,7 @@ public class MathArrays {
         checkEqualLength(p1, p2);
         double sum = 0;
         for (int i = 0; i < p1.length; i++) {
-            sum += FastMath.abs(p1[i] - p2[i]);
+            sum += Math.abs(p1[i] - p2[i]);
         }
         return sum;
     }
@@ -221,7 +219,7 @@ public class MathArrays {
         checkEqualLength(p1, p2);
         int sum = 0;
         for (int i = 0; i < p1.length; i++) {
-            sum += FastMath.abs(p1[i] - p2[i]);
+            sum += Math.abs(p1[i] - p2[i]);
         }
         return sum;
     }
@@ -242,7 +240,7 @@ public class MathArrays {
             final double dp = p1[i] - p2[i];
             sum += dp * dp;
         }
-        return FastMath.sqrt(sum);
+        return Math.sqrt(sum);
     }
 
     /**
@@ -273,7 +271,7 @@ public class MathArrays {
           final double dp = p1[i] - p2[i];
           sum += dp * dp;
       }
-      return FastMath.sqrt(sum);
+      return Math.sqrt(sum);
     }
 
     /**
@@ -289,7 +287,7 @@ public class MathArrays {
         checkEqualLength(p1, p2);
         double max = 0;
         for (int i = 0; i < p1.length; i++) {
-            max = FastMath.max(max, FastMath.abs(p1[i] - p2[i]));
+            max = Math.max(max, Math.abs(p1[i] - p2[i]));
         }
         return max;
     }
@@ -307,7 +305,7 @@ public class MathArrays {
         checkEqualLength(p1, p2);
         int max = 0;
         for (int i = 0; i < p1.length; i++) {
-            max = FastMath.max(max, FastMath.abs(p1[i] - p2[i]));
+            max = Math.max(max, Math.abs(p1[i] - p2[i]));
         }
         return max;
     }
@@ -707,7 +705,7 @@ public class MathArrays {
         double floatn = v.length;
         double agiant = rgiant / floatn;
         for (int i = 0; i < v.length; i++) {
-            double xabs = FastMath.abs(v[i]);
+            double xabs = Math.abs(v[i]);
             if (xabs < rdwarf || xabs > agiant) {
                 if (xabs > rdwarf) {
                     if (xabs > x1max) {
@@ -884,7 +882,7 @@ public class MathArrays {
         for (int j = 0; j < yListLen; j++) {
             // Input array will be modified in place.
             final double[] yInPlace = yList[j];
-            final double[] yOrig = yInPlace.clone();
+			final double[] yOrig = Cloner.clone(yInPlace);
 
             for (int i = 0; i < len; i++) {
                 yInPlace[i] = yOrig[indices[i]];
@@ -923,7 +921,7 @@ public class MathArrays {
      */
     public static int[] copyOf(int[] source, int len) {
          final int[] output = new int[len];
-         System.arraycopy(source, 0, output, 0, FastMath.min(len, source.length));
+         System.arraycopy(source, 0, output, 0, Math.min(len, source.length));
          return output;
      }
 
@@ -938,7 +936,7 @@ public class MathArrays {
      */
     public static double[] copyOf(double[] source, int len) {
          final double[] output = new double[len];
-         System.arraycopy(source, 0, output, 0, FastMath.min(len, source.length));
+         System.arraycopy(source, 0, output, 0, Math.min(len, source.length));
          return output;
      }
 
@@ -953,7 +951,7 @@ public class MathArrays {
     public static double[] copyOfRange(double[] source, int from, int to) {
         final int len = to - from;
         final double[] output = new double[len];
-        System.arraycopy(source, from, output, 0, FastMath.min(len, source.length - from));
+        System.arraycopy(source, from, output, 0, Math.min(len, source.length - from));
         return output;
      }
 
@@ -989,11 +987,13 @@ public class MathArrays {
 
         for (int i = 0; i < len; i++) {
             final double ai    = a[i];
-            final double aHigh = Double.longBitsToDouble(Double.doubleToRawLongBits(ai) & ((-1L) << 27));
+			final double aHigh = Double.longBitsToDouble(
+					Double.doubleToLongBits(ai) & ((-1L) << 27));
             final double aLow  = ai - aHigh;
 
             final double bi    = b[i];
-            final double bHigh = Double.longBitsToDouble(Double.doubleToRawLongBits(bi) & ((-1L) << 27));
+			final double bHigh = Double.longBitsToDouble(
+					Double.doubleToLongBits(bi) & ((-1L) << 27));
             final double bLow  = bi - bHigh;
             prodHigh[i] = ai * bi;
             final double prodLow = aLow * bLow - (((prodHigh[i] -
@@ -1068,9 +1068,11 @@ public class MathArrays {
         // only at the end, after cancellation may have occurred on high order bits
 
         // split a1 and b1 as one 26 bits number and one 27 bits number
-        final double a1High     = Double.longBitsToDouble(Double.doubleToRawLongBits(a1) & ((-1L) << 27));
+		final double a1High = Double
+				.longBitsToDouble(Double.doubleToLongBits(a1) & ((-1L) << 27));
         final double a1Low      = a1 - a1High;
-        final double b1High     = Double.longBitsToDouble(Double.doubleToRawLongBits(b1) & ((-1L) << 27));
+		final double b1High = Double
+				.longBitsToDouble(Double.doubleToLongBits(b1) & ((-1L) << 27));
         final double b1Low      = b1 - b1High;
 
         // accurate multiplication a1 * b1
@@ -1078,9 +1080,11 @@ public class MathArrays {
         final double prod1Low   = a1Low * b1Low - (((prod1High - a1High * b1High) - a1Low * b1High) - a1High * b1Low);
 
         // split a2 and b2 as one 26 bits number and one 27 bits number
-        final double a2High     = Double.longBitsToDouble(Double.doubleToRawLongBits(a2) & ((-1L) << 27));
+		final double a2High = Double
+				.longBitsToDouble(Double.doubleToLongBits(a2) & ((-1L) << 27));
         final double a2Low      = a2 - a2High;
-        final double b2High     = Double.longBitsToDouble(Double.doubleToRawLongBits(b2) & ((-1L) << 27));
+		final double b2High = Double
+				.longBitsToDouble(Double.doubleToLongBits(b2) & ((-1L) << 27));
         final double b2Low      = b2 - b2High;
 
         // accurate multiplication a2 * b2
@@ -1143,9 +1147,11 @@ public class MathArrays {
         // only at the end, after cancellation may have occurred on high order bits
 
         // split a1 and b1 as one 26 bits number and one 27 bits number
-        final double a1High     = Double.longBitsToDouble(Double.doubleToRawLongBits(a1) & ((-1L) << 27));
+		final double a1High = Double
+				.longBitsToDouble(Double.doubleToLongBits(a1) & ((-1L) << 27));
         final double a1Low      = a1 - a1High;
-        final double b1High     = Double.longBitsToDouble(Double.doubleToRawLongBits(b1) & ((-1L) << 27));
+		final double b1High = Double
+				.longBitsToDouble(Double.doubleToLongBits(b1) & ((-1L) << 27));
         final double b1Low      = b1 - b1High;
 
         // accurate multiplication a1 * b1
@@ -1153,9 +1159,11 @@ public class MathArrays {
         final double prod1Low   = a1Low * b1Low - (((prod1High - a1High * b1High) - a1Low * b1High) - a1High * b1Low);
 
         // split a2 and b2 as one 26 bits number and one 27 bits number
-        final double a2High     = Double.longBitsToDouble(Double.doubleToRawLongBits(a2) & ((-1L) << 27));
+		final double a2High = Double
+				.longBitsToDouble(Double.doubleToLongBits(a2) & ((-1L) << 27));
         final double a2Low      = a2 - a2High;
-        final double b2High     = Double.longBitsToDouble(Double.doubleToRawLongBits(b2) & ((-1L) << 27));
+		final double b2High = Double
+				.longBitsToDouble(Double.doubleToLongBits(b2) & ((-1L) << 27));
         final double b2Low      = b2 - b2High;
 
         // accurate multiplication a2 * b2
@@ -1163,9 +1171,11 @@ public class MathArrays {
         final double prod2Low   = a2Low * b2Low - (((prod2High - a2High * b2High) - a2Low * b2High) - a2High * b2Low);
 
         // split a3 and b3 as one 26 bits number and one 27 bits number
-        final double a3High     = Double.longBitsToDouble(Double.doubleToRawLongBits(a3) & ((-1L) << 27));
+		final double a3High = Double
+				.longBitsToDouble(Double.doubleToLongBits(a3) & ((-1L) << 27));
         final double a3Low      = a3 - a3High;
-        final double b3High     = Double.longBitsToDouble(Double.doubleToRawLongBits(b3) & ((-1L) << 27));
+		final double b3High = Double
+				.longBitsToDouble(Double.doubleToLongBits(b3) & ((-1L) << 27));
         final double b3Low      = b3 - b3High;
 
         // accurate multiplication a3 * b3
@@ -1238,9 +1248,11 @@ public class MathArrays {
         // only at the end, after cancellation may have occurred on high order bits
 
         // split a1 and b1 as one 26 bits number and one 27 bits number
-        final double a1High     = Double.longBitsToDouble(Double.doubleToRawLongBits(a1) & ((-1L) << 27));
+		final double a1High = Double
+				.longBitsToDouble(Double.doubleToLongBits(a1) & ((-1L) << 27));
         final double a1Low      = a1 - a1High;
-        final double b1High     = Double.longBitsToDouble(Double.doubleToRawLongBits(b1) & ((-1L) << 27));
+		final double b1High = Double
+				.longBitsToDouble(Double.doubleToLongBits(b1) & ((-1L) << 27));
         final double b1Low      = b1 - b1High;
 
         // accurate multiplication a1 * b1
@@ -1248,9 +1260,11 @@ public class MathArrays {
         final double prod1Low   = a1Low * b1Low - (((prod1High - a1High * b1High) - a1Low * b1High) - a1High * b1Low);
 
         // split a2 and b2 as one 26 bits number and one 27 bits number
-        final double a2High     = Double.longBitsToDouble(Double.doubleToRawLongBits(a2) & ((-1L) << 27));
+		final double a2High = Double
+				.longBitsToDouble(Double.doubleToLongBits(a2) & ((-1L) << 27));
         final double a2Low      = a2 - a2High;
-        final double b2High     = Double.longBitsToDouble(Double.doubleToRawLongBits(b2) & ((-1L) << 27));
+		final double b2High = Double
+				.longBitsToDouble(Double.doubleToLongBits(b2) & ((-1L) << 27));
         final double b2Low      = b2 - b2High;
 
         // accurate multiplication a2 * b2
@@ -1258,9 +1272,11 @@ public class MathArrays {
         final double prod2Low   = a2Low * b2Low - (((prod2High - a2High * b2High) - a2Low * b2High) - a2High * b2Low);
 
         // split a3 and b3 as one 26 bits number and one 27 bits number
-        final double a3High     = Double.longBitsToDouble(Double.doubleToRawLongBits(a3) & ((-1L) << 27));
+		final double a3High = Double
+				.longBitsToDouble(Double.doubleToLongBits(a3) & ((-1L) << 27));
         final double a3Low      = a3 - a3High;
-        final double b3High     = Double.longBitsToDouble(Double.doubleToRawLongBits(b3) & ((-1L) << 27));
+		final double b3High = Double
+				.longBitsToDouble(Double.doubleToLongBits(b3) & ((-1L) << 27));
         final double b3Low      = b3 - b3High;
 
         // accurate multiplication a3 * b3
@@ -1268,9 +1284,11 @@ public class MathArrays {
         final double prod3Low   = a3Low * b3Low - (((prod3High - a3High * b3High) - a3Low * b3High) - a3High * b3Low);
 
         // split a4 and b4 as one 26 bits number and one 27 bits number
-        final double a4High     = Double.longBitsToDouble(Double.doubleToRawLongBits(a4) & ((-1L) << 27));
+		final double a4High = Double
+				.longBitsToDouble(Double.doubleToLongBits(a4) & ((-1L) << 27));
         final double a4Low      = a4 - a4High;
-        final double b4High     = Double.longBitsToDouble(Double.doubleToRawLongBits(b4) & ((-1L) << 27));
+		final double b4High = Double
+				.longBitsToDouble(Double.doubleToLongBits(b4) & ((-1L) << 27));
         final double b4Low      = b4 - b4High;
 
         // accurate multiplication a4 * b4
@@ -1472,12 +1490,13 @@ public class MathArrays {
      * @return a new array
      * @since 3.2
      */
-    public static <T> T[] buildArray(final Field<T> field, final int length) {
-        @SuppressWarnings("unchecked") // OK because field must be correct class
-        T[] array = (T[]) Array.newInstance(field.getRuntimeClass(), length);
-        Arrays.fill(array, field.getZero());
-        return array;
-    }
+	// public static <T> T[] buildArray(final Field<T> field, final int length)
+	// {
+	// @SuppressWarnings("unchecked") // OK because field must be correct class
+	// T[] array = (T[]) Array.newInstance(field.getRuntimeClass(), length);
+	// Arrays.fill(array, field.getZero());
+	// return array;
+	// }
 
     /** Build a double dimension  array of elements.
      * <p>
@@ -1492,22 +1511,23 @@ public class MathArrays {
      * @since 3.2
      */
     @SuppressWarnings("unchecked")
-    public static <T> T[][] buildArray(final Field<T> field, final int rows, final int columns) {
-        final T[][] array;
-        if (columns < 0) {
-            T[] dummyRow = buildArray(field, 0);
-            array = (T[][]) Array.newInstance(dummyRow.getClass(), rows);
-        } else {
-            array = (T[][]) Array.newInstance(field.getRuntimeClass(),
-                                              new int[] {
-                                                  rows, columns
-                                              });
-            for (int i = 0; i < rows; ++i) {
-                Arrays.fill(array[i], field.getZero());
-            }
-        }
-        return array;
-    }
+	// public static <T> T[][] buildArray(final Field<T> field, final int rows,
+	// final int columns) {
+	// final T[][] array;
+	// if (columns < 0) {
+	// T[] dummyRow = buildArray(field, 0);
+	// array = (T[][]) Array.newInstance(dummyRow.getClass(), rows);
+	// } else {
+	// array = (T[][]) Array.newInstance(field.getRuntimeClass(),
+	// new int[] {
+	// rows, columns
+	// });
+	// for (int i = 0; i < rows; ++i) {
+	// Arrays.fill(array[i], field.getZero());
+	// }
+	// }
+	// return array;
+	// }
 
     /**
      * Calculates the <a href="http://en.wikipedia.org/wiki/Convolution">
@@ -1549,7 +1569,7 @@ public class MathArrays {
         // straightforward implementation of the convolution sum
         for (int n = 0; n < totalLength; n++) {
             double yn = 0;
-            int k = FastMath.max(0, n + 1 - xLen);
+            int k = Math.max(0, n + 1 - xLen);
             int j = n - k;
             while (k < hLen && j >= 0) {
                 yn += x[j--] * h[k++];
@@ -1591,19 +1611,23 @@ public class MathArrays {
     }
 
     /**
-     * Shuffle the entries of the given array, using the
-     * <a href="http://en.wikipedia.org/wiki/Fisher–Yates_shuffle#The_modern_algorithm">
-     * Fisher–Yates</a> algorithm.
-     * The {@code start} and {@code pos} parameters select which portion
-     * of the array is randomized and which is left untouched.
-     *
-     * @param list Array whose entries will be shuffled (in-place).
-     * @param start Index at which shuffling begins.
-     * @param pos Shuffling is performed for index positions between
-     * {@code start} and either the end (if {@link Position#TAIL})
-     * or the beginning (if {@link Position#HEAD}) of the array.
-     * @param rng Random number generator.
-     */
+	 * Shuffle the entries of the given array, using the <a href=
+	 * "http://en.wikipedia.org/wiki/Fisher-Yates_shuffle#The_modern_algorithm">
+	 * Fisher-Yates</a> algorithm. The {@code start} and {@code pos} parameters
+	 * select which portion of the array is randomized and which is left
+	 * untouched.
+	 *
+	 * @param list
+	 *            Array whose entries will be shuffled (in-place).
+	 * @param start
+	 *            Index at which shuffling begins.
+	 * @param pos
+	 *            Shuffling is performed for index positions between
+	 *            {@code start} and either the end (if {@link Position#TAIL}) or
+	 *            the beginning (if {@link Position#HEAD}) of the array.
+	 * @param rng
+	 *            Random number generator.
+	 */
     public static void shuffle(int[] list,
                                int start,
                                Position pos,

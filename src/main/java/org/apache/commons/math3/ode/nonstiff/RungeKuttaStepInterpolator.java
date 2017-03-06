@@ -17,13 +17,10 @@
 
 package org.apache.commons.math3.ode.nonstiff;
 
-import java.io.IOException;
-import java.io.ObjectInput;
-import java.io.ObjectOutput;
-
 import org.apache.commons.math3.ode.AbstractIntegrator;
 import org.apache.commons.math3.ode.EquationsMapper;
 import org.apache.commons.math3.ode.sampling.AbstractStepInterpolator;
+import org.apache.commons.math3.util.Cloner;
 
 /** This class represents an interpolator over the last step during an
  * ODE integration for Runge-Kutta and embedded Runge-Kutta integrators.
@@ -85,11 +82,11 @@ abstract class RungeKuttaStepInterpolator
 
     if (interpolator.currentState != null) {
 
-      previousState = interpolator.previousState.clone();
+			previousState = Cloner.clone(interpolator.previousState);
 
       yDotK = new double[interpolator.yDotK.length][];
       for (int k = 0; k < interpolator.yDotK.length; ++k) {
-        yDotK[k] = interpolator.yDotK[k].clone();
+				yDotK[k] = Cloner.clone(interpolator.yDotK[k]);
       }
 
     } else {
@@ -139,73 +136,73 @@ abstract class RungeKuttaStepInterpolator
   /** {@inheritDoc} */
   @Override
   public void shift() {
-    previousState = currentState.clone();
+		previousState = Cloner.clone(currentState);
     super.shift();
   }
 
   /** {@inheritDoc} */
-  @Override
-  public void writeExternal(final ObjectOutput out)
-    throws IOException {
-
-    // save the state of the base class
-    writeBaseExternal(out);
-
-    // save the local attributes
-    final int n = (currentState == null) ? -1 : currentState.length;
-    for (int i = 0; i < n; ++i) {
-      out.writeDouble(previousState[i]);
-    }
-
-    final int kMax = (yDotK == null) ? -1 : yDotK.length;
-    out.writeInt(kMax);
-    for (int k = 0; k < kMax; ++k) {
-      for (int i = 0; i < n; ++i) {
-        out.writeDouble(yDotK[k][i]);
-      }
-    }
-
-    // we do not save any reference to the equations
-
-  }
+	// @Override
+	// public void writeExternal(final ObjectOutput out)
+	// throws IOException {
+	//
+	// // save the state of the base class
+	// writeBaseExternal(out);
+	//
+	// // save the local attributes
+	// final int n = (currentState == null) ? -1 : currentState.length;
+	// for (int i = 0; i < n; ++i) {
+	// out.writeDouble(previousState[i]);
+	// }
+	//
+	// final int kMax = (yDotK == null) ? -1 : yDotK.length;
+	// out.writeInt(kMax);
+	// for (int k = 0; k < kMax; ++k) {
+	// for (int i = 0; i < n; ++i) {
+	// out.writeDouble(yDotK[k][i]);
+	// }
+	// }
+	//
+	// // we do not save any reference to the equations
+	//
+	// }
 
   /** {@inheritDoc} */
-  @Override
-  public void readExternal(final ObjectInput in)
-    throws IOException, ClassNotFoundException {
-
-    // read the base class
-    final double t = readBaseExternal(in);
-
-    // read the local attributes
-    final int n = (currentState == null) ? -1 : currentState.length;
-    if (n < 0) {
-      previousState = null;
-    } else {
-      previousState = new double[n];
-      for (int i = 0; i < n; ++i) {
-        previousState[i] = in.readDouble();
-      }
-    }
-
-    final int kMax = in.readInt();
-    yDotK = (kMax < 0) ? null : new double[kMax][];
-    for (int k = 0; k < kMax; ++k) {
-      yDotK[k] = (n < 0) ? null : new double[n];
-      for (int i = 0; i < n; ++i) {
-        yDotK[k][i] = in.readDouble();
-      }
-    }
-
-    integrator = null;
-
-    if (currentState != null) {
-        // we can now set the interpolated time and state
-        setInterpolatedTime(t);
-    } else {
-        interpolatedTime = t;
-    }
-
-  }
+	// @Override
+	// public void readExternal(final ObjectInput in)
+	// throws IOException, ClassNotFoundException {
+	//
+	// // read the base class
+	// final double t = readBaseExternal(in);
+	//
+	// // read the local attributes
+	// final int n = (currentState == null) ? -1 : currentState.length;
+	// if (n < 0) {
+	// previousState = null;
+	// } else {
+	// previousState = new double[n];
+	// for (int i = 0; i < n; ++i) {
+	// previousState[i] = in.readDouble();
+	// }
+	// }
+	//
+	// final int kMax = in.readInt();
+	// yDotK = (kMax < 0) ? null : new double[kMax][];
+	// for (int k = 0; k < kMax; ++k) {
+	// yDotK[k] = (n < 0) ? null : new double[n];
+	// for (int i = 0; i < n; ++i) {
+	// yDotK[k][i] = in.readDouble();
+	// }
+	// }
+	//
+	// integrator = null;
+	//
+	// if (currentState != null) {
+	// // we can now set the interpolated time and state
+	// setInterpolatedTime(t);
+	// } else {
+	// interpolatedTime = t;
+	// }
+	//
+	// }
 
 }

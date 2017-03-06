@@ -19,6 +19,7 @@ package org.apache.commons.math3.optimization;
 
 import java.io.Serializable;
 
+import org.apache.commons.math3.util.Cloner;
 import org.apache.commons.math3.util.Pair;
 
 /**
@@ -60,7 +61,7 @@ public class PointValuePair extends Pair<double[], Double> implements Serializab
                           final double value,
                           final boolean copyArray) {
         super(copyArray ? ((point == null) ? null :
-                           point.clone()) :
+				Cloner.clone(point)) :
               point,
               value);
     }
@@ -72,7 +73,7 @@ public class PointValuePair extends Pair<double[], Double> implements Serializab
      */
     public double[] getPoint() {
         final double[] p = getKey();
-        return p == null ? null : p.clone();
+		return p == null ? null : Cloner.clone(p);
     }
 
     /**
@@ -112,7 +113,7 @@ public class PointValuePair extends Pair<double[], Double> implements Serializab
          * @param value Value of the objective function at the point.
          */
         DataTransferObject(final double[] point, final double value) {
-            this.point = point.clone();
+			this.point = Cloner.clone(point);
             this.value = value;
         }
 

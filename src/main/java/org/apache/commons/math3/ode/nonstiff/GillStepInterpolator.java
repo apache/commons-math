@@ -56,10 +56,10 @@ class GillStepInterpolator
   extends RungeKuttaStepInterpolator {
 
     /** First Gill coefficient. */
-    private static final double ONE_MINUS_INV_SQRT_2 = 1 - FastMath.sqrt(0.5);
+    private static final double ONE_MINUS_INV_SQRT_2 = 1 - Math.sqrt(0.5);
 
     /** Second Gill coefficient. */
-    private static final double ONE_PLUS_INV_SQRT_2 = 1 + FastMath.sqrt(0.5);
+    private static final double ONE_PLUS_INV_SQRT_2 = 1 + Math.sqrt(0.5);
 
     /** Serializable version identifier. */
     private static final long serialVersionUID = 20111120L;

@@ -37,7 +37,7 @@ import org.apache.commons.math3.ode.events.EventHandler;
 import org.apache.commons.math3.ode.events.EventState;
 import org.apache.commons.math3.ode.sampling.AbstractStepInterpolator;
 import org.apache.commons.math3.ode.sampling.StepHandler;
-import org.apache.commons.math3.util.FastMath;
+import org.apache.commons.math3.util.GWTMath;
 import org.apache.commons.math3.util.IntegerSequence;
 import org.apache.commons.math3.util.Precision;
 
@@ -454,9 +454,10 @@ public abstract class AbstractIntegrator implements FirstOrderIntegrator {
     protected void sanityChecks(final ExpandableStatefulODE equations, final double t)
         throws NumberIsTooSmallException, DimensionMismatchException {
 
-        final double threshold = 1000 * FastMath.ulp(FastMath.max(FastMath.abs(equations.getTime()),
-                                                                  FastMath.abs(t)));
-        final double dt = FastMath.abs(equations.getTime() - t);
+		final double threshold = 1000 * GWTMath
+				.ulp(Math.max(Math.abs(equations.getTime()),
+                                                                  Math.abs(t)));
+        final double dt = Math.abs(equations.getTime() - t);
         if (dt <= threshold) {
             throw new NumberIsTooSmallException(LocalizedFormats.TOO_SMALL_INTEGRATION_INTERVAL,
                                                 dt, threshold, false);

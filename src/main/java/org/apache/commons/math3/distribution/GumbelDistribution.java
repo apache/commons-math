@@ -21,7 +21,6 @@ import org.apache.commons.math3.exception.OutOfRangeException;
 import org.apache.commons.math3.exception.util.LocalizedFormats;
 import org.apache.commons.math3.random.RandomGenerator;
 import org.apache.commons.math3.random.Well19937c;
-import org.apache.commons.math3.util.FastMath;
 import org.apache.commons.math3.util.MathUtils;
 
 /**
@@ -41,7 +40,7 @@ public class GumbelDistribution extends AbstractRealDistribution {
      * Approximation of Euler's constant
      * see http://mathworld.wolfram.com/Euler-MascheroniConstantApproximations.html
      */
-    private static final double EULER = FastMath.PI / (2 * FastMath.E);
+    private static final double EULER = Math.PI / (2 * Math.E);
 
     /** The location parameter. */
     private final double mu;
@@ -106,14 +105,14 @@ public class GumbelDistribution extends AbstractRealDistribution {
     /** {@inheritDoc} */
     public double density(double x) {
         final double z = (x - mu) / beta;
-        final double t = FastMath.exp(-z);
-        return FastMath.exp(-z - t) / beta;
+        final double t = Math.exp(-z);
+        return Math.exp(-z - t) / beta;
     }
 
     /** {@inheritDoc} */
     public double cumulativeProbability(double x) {
         final double z = (x - mu) / beta;
-        return FastMath.exp(-FastMath.exp(-z));
+        return Math.exp(-Math.exp(-z));
     }
 
     /** {@inheritDoc} */
@@ -126,7 +125,7 @@ public class GumbelDistribution extends AbstractRealDistribution {
         } else if (p == 1) {
             return Double.POSITIVE_INFINITY;
         }
-        return mu - FastMath.log(-FastMath.log(p)) * beta;
+        return mu - Math.log(-Math.log(p)) * beta;
     }
 
     /** {@inheritDoc} */

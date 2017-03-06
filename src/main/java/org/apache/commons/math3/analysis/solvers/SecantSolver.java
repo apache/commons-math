@@ -120,13 +120,13 @@ public class SecantSolver extends AbstractUnivariateSolver {
             // If the function value of the last approximation is too small,
             // given the function value accuracy, then we can't get closer to
             // the root than we already are.
-            if (FastMath.abs(f1) <= ftol) {
+            if (Math.abs(f1) <= ftol) {
                 return x1;
             }
 
             // If the current interval is within the given accuracies, we
             // are satisfied with the current approximation.
-            if (FastMath.abs(x1 - x0) < FastMath.max(rtol * FastMath.abs(x1), atol)) {
+            if (Math.abs(x1 - x0) < Math.max(rtol * Math.abs(x1), atol)) {
                 return x1;
             }
         }

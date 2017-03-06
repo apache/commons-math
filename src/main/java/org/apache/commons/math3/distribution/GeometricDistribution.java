@@ -20,7 +20,6 @@ import org.apache.commons.math3.exception.OutOfRangeException;
 import org.apache.commons.math3.exception.util.LocalizedFormats;
 import org.apache.commons.math3.random.RandomGenerator;
 import org.apache.commons.math3.random.Well19937c;
-import org.apache.commons.math3.util.FastMath;
 
 /**
  * Implementation of the geometric distribution.
@@ -72,8 +71,8 @@ public class GeometricDistribution extends AbstractIntegerDistribution {
         }
 
         probabilityOfSuccess = p;
-        logProbabilityOfSuccess = FastMath.log(p);
-        log1mProbabilityOfSuccess = FastMath.log1p(-p);
+        logProbabilityOfSuccess = Math.log(p);
+        log1mProbabilityOfSuccess = Math.log1p(-p);
     }
 
     /**
@@ -90,7 +89,7 @@ public class GeometricDistribution extends AbstractIntegerDistribution {
         if (x < 0) {
             return 0.0;
         } else {
-            return FastMath.exp(log1mProbabilityOfSuccess * x) * probabilityOfSuccess;
+            return Math.exp(log1mProbabilityOfSuccess * x) * probabilityOfSuccess;
         }
     }
 
@@ -109,7 +108,7 @@ public class GeometricDistribution extends AbstractIntegerDistribution {
         if (x < 0) {
             return 0.0;
         } else {
-            return -FastMath.expm1(log1mProbabilityOfSuccess * (x + 1));
+            return -Math.expm1(log1mProbabilityOfSuccess * (x + 1));
         }
     }
 
@@ -180,6 +179,6 @@ public class GeometricDistribution extends AbstractIntegerDistribution {
         if (p == 0) {
             return 0;
         }
-        return Math.max(0, (int) Math.ceil(FastMath.log1p(-p)/log1mProbabilityOfSuccess-1));
+        return Math.max(0, (int) Math.ceil(Math.log1p(-p)/log1mProbabilityOfSuccess-1));
     }
 }

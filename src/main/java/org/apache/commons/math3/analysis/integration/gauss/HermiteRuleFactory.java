@@ -17,8 +17,9 @@
 package org.apache.commons.math3.analysis.integration.gauss;
 
 import org.apache.commons.math3.exception.DimensionMismatchException;
-import org.apache.commons.math3.util.Pair;
 import org.apache.commons.math3.util.FastMath;
+import org.apache.commons.math3.util.GWTMath;
+import org.apache.commons.math3.util.Pair;
 
 /**
  * Factory that creates a
@@ -77,8 +78,8 @@ public class HermiteRuleFactory extends BaseRuleFactory<Double> {
         final Double[] points = new Double[numberOfPoints];
         final Double[] weights = new Double[numberOfPoints];
 
-        final double sqrtTwoTimesLastNumPoints = FastMath.sqrt(2 * lastNumPoints);
-        final double sqrtTwoTimesNumPoints = FastMath.sqrt(2 * numberOfPoints);
+        final double sqrtTwoTimesLastNumPoints = Math.sqrt(2 * lastNumPoints);
+        final double sqrtTwoTimesNumPoints = Math.sqrt(2 * numberOfPoints);
 
         // Find i-th root of H[n+1] by bracketing.
         final int iMax = numberOfPoints / 2;
@@ -99,8 +100,8 @@ public class HermiteRuleFactory extends BaseRuleFactory<Double> {
             for (int j = 1; j < numberOfPoints; j++) {
                 // Compute H[j+1](a) and H[j+1](b)
                 final double jp1 = j + 1;
-                final double s = FastMath.sqrt(2 / jp1);
-                final double sm = FastMath.sqrt(j / jp1);
+                final double s = Math.sqrt(2 / jp1);
+                final double sm = Math.sqrt(j / jp1);
                 final double hpa = s * a * ha - sm * hma;
                 final double hpb = s * b * hb - sm * hmb;
                 hma = ha;
@@ -118,14 +119,14 @@ public class HermiteRuleFactory extends BaseRuleFactory<Double> {
             double hc = H1 * c;
             boolean done = false;
             while (!done) {
-                done = b - a <= Math.ulp(c);
+				done = b - a <= GWTMath.ulp(c);
                 hmc = H0;
                 hc = H1 * c;
                 for (int j = 1; j < numberOfPoints; j++) {
                     // Compute H[j+1](c)
                     final double jp1 = j + 1;
-                    final double s = FastMath.sqrt(2 / jp1);
-                    final double sm = FastMath.sqrt(j / jp1);
+                    final double s = Math.sqrt(2 / jp1);
+                    final double sm = Math.sqrt(j / jp1);
                     final double hpc = s * c * hc - sm * hmc;
                     hmc = hc;
                     hc = hpc;
@@ -163,7 +164,7 @@ public class HermiteRuleFactory extends BaseRuleFactory<Double> {
             double hm = H0;
             for (int j = 1; j < numberOfPoints; j += 2) {
                 final double jp1 = j + 1;
-                hm = -FastMath.sqrt(j / jp1) * hm;
+                hm = -Math.sqrt(j / jp1) * hm;
             }
             final double d = sqrtTwoTimesNumPoints * hm;
             final double w = 2 / (d * d);

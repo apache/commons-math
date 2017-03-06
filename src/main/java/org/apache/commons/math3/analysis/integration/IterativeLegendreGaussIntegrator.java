@@ -127,10 +127,10 @@ public class IterativeLegendreGaussIntegrator
             final double t = stage(n);
 
             // Estimate the error.
-            final double delta = FastMath.abs(t - oldt);
+            final double delta = Math.abs(t - oldt);
             final double limit =
-                FastMath.max(getAbsoluteAccuracy(),
-                             getRelativeAccuracy() * (FastMath.abs(oldt) + FastMath.abs(t)) * 0.5);
+                Math.max(getAbsoluteAccuracy(),
+                             getRelativeAccuracy() * (Math.abs(oldt) + Math.abs(t)) * 0.5);
 
             // check convergence
             if (getIterations() + 1 >= getMinimalIterationCount() &&
@@ -139,8 +139,8 @@ public class IterativeLegendreGaussIntegrator
             }
 
             // Prepare next iteration.
-            final double ratio = FastMath.min(4, FastMath.pow(delta / limit, 0.5 / numberOfPoints));
-            n = FastMath.max((int) (ratio * n), n + 1);
+            final double ratio = Math.min(4, Math.pow(delta / limit, 0.5 / numberOfPoints));
+            n = Math.max((int) (ratio * n), n + 1);
             oldt = t;
             incrementCount();
         }

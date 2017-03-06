@@ -19,8 +19,6 @@ package org.apache.commons.math3.linear;
 
 import java.util.Arrays;
 
-import org.apache.commons.math3.util.FastMath;
-
 
 /**
  * Class transforming a symmetrical matrix to tridiagonal shape.
@@ -201,7 +199,7 @@ class TriDiagonalTransformer {
                 final double c = hK[j];
                 xNormSqr += c * c;
             }
-            final double a = (hK[k + 1] > 0) ? -FastMath.sqrt(xNormSqr) : FastMath.sqrt(xNormSqr);
+            final double a = (hK[k + 1] > 0) ? -Math.sqrt(xNormSqr) : Math.sqrt(xNormSqr);
             secondary[k] = a;
             if (a != 0.0) {
                 // apply Householder transform from left and right simultaneously

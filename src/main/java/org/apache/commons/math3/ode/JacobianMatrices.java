@@ -16,7 +16,7 @@
  */
 package org.apache.commons.math3.ode;
 
-import java.lang.reflect.Array;
+//import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -25,6 +25,7 @@ import org.apache.commons.math3.exception.DimensionMismatchException;
 import org.apache.commons.math3.exception.MathIllegalArgumentException;
 import org.apache.commons.math3.exception.MaxCountExceededException;
 import org.apache.commons.math3.exception.util.LocalizedFormats;
+import org.apache.commons.math3.util.Cloner;
 
 /**
  * This class defines a set of {@link SecondaryEquations secondary equations} to
@@ -199,7 +200,7 @@ public class JacobianMatrices {
      * </p>
      * <p>
      * Given a non zero parameter value pval for the parameter, a reasonable value
-     * for such a step is {@code pval * FastMath.sqrt(Precision.EPSILON)}.
+     * for such a step is {@code pval * Math.sqrt(Precision.EPSILON)}.
      * </p>
      * <p>
      * A zero value for such a step doesn't enable to compute the parameter Jacobian matrix.
@@ -232,25 +233,25 @@ public class JacobianMatrices {
      * @param dYdY0 initial Jacobian matrix w.r.t. state
      * @exception DimensionMismatchException if matrix dimensions are incorrect
      */
-    public void setInitialMainStateJacobian(final double[][] dYdY0)
-        throws DimensionMismatchException {
-
-        // Check dimensions
-        checkDimension(stateDim, dYdY0);
-        checkDimension(stateDim, dYdY0[0]);
-
-        // store the matrix in row major order as a single dimension array
-        int i = 0;
-        for (final double[] row : dYdY0) {
-            System.arraycopy(row, 0, matricesData, i, stateDim);
-            i += stateDim;
-        }
-
-        if (efode != null) {
-            efode.setSecondaryState(index, matricesData);
-        }
-
-    }
+	// public void setInitialMainStateJacobian(final double[][] dYdY0)
+	// throws DimensionMismatchException {
+	//
+	// // Check dimensions
+	// checkDimension(stateDim, dYdY0);
+	// checkDimension(stateDim, dYdY0[0]);
+	//
+	// // store the matrix in row major order as a single dimension array
+	// int i = 0;
+	// for (final double[] row : dYdY0) {
+	// System.arraycopy(row, 0, matricesData, i, stateDim);
+	// i += stateDim;
+	// }
+	//
+	// if (efode != null) {
+	// efode.setSecondaryState(index, matricesData);
+	// }
+	//
+	// }
 
     /** Set the initial value of a column of the Jacobian matrix with respect to one parameter.
      * <p>
@@ -262,28 +263,29 @@ public class JacobianMatrices {
      * @exception UnknownParameterException if a parameter is not supported
      * @throws DimensionMismatchException if the column vector does not match state dimension
      */
-    public void setInitialParameterJacobian(final String pName, final double[] dYdP)
-        throws UnknownParameterException, DimensionMismatchException {
-
-        // Check dimensions
-        checkDimension(stateDim, dYdP);
-
-        // store the column in a global single dimension array
-        int i = stateDim * stateDim;
-        for (ParameterConfiguration param: selectedParameters) {
-            if (pName.equals(param.getParameterName())) {
-                System.arraycopy(dYdP, 0, matricesData, i, stateDim);
-                if (efode != null) {
-                    efode.setSecondaryState(index, matricesData);
-                }
-                return;
-            }
-            i += stateDim;
-        }
-
-        throw new UnknownParameterException(pName);
-
-    }
+	// public void setInitialParameterJacobian(final String pName, final
+	// double[] dYdP)
+	// throws UnknownParameterException, DimensionMismatchException {
+	//
+	// // Check dimensions
+	// checkDimension(stateDim, dYdP);
+	//
+	// // store the column in a global single dimension array
+	// int i = stateDim * stateDim;
+	// for (ParameterConfiguration param: selectedParameters) {
+	// if (pName.equals(param.getParameterName())) {
+	// System.arraycopy(dYdP, 0, matricesData, i, stateDim);
+	// if (efode != null) {
+	// efode.setSecondaryState(index, matricesData);
+	// }
+	// return;
+	// }
+	// i += stateDim;
+	// }
+	//
+	// throw new UnknownParameterException(pName);
+	//
+	// }
 
     /** Get the current value of the Jacobian matrix with respect to state.
      * @param dYdY0 current Jacobian matrix with respect to state.
@@ -326,13 +328,13 @@ public class JacobianMatrices {
      * @param array (may be null if expected is 0)
      * @throws DimensionMismatchException if the array dimension does not match the expected one
      */
-    private void checkDimension(final int expected, final Object array)
-        throws DimensionMismatchException {
-        int arrayDimension = (array == null) ? 0 : Array.getLength(array);
-        if (arrayDimension != expected) {
-            throw new DimensionMismatchException(arrayDimension, expected);
-        }
-    }
+	// private void checkDimension(final int expected, final Object array)
+	// throws DimensionMismatchException {
+	// int arrayDimension = (array == null) ? 0 : Array.getLength(array);
+	// if (arrayDimension != expected) {
+	// throw new DimensionMismatchException(arrayDimension, expected);
+	// }
+	// }
 
     /** Local implementation of secondary equations.
      * <p>
@@ -435,7 +437,7 @@ public class JacobianMatrices {
                                  final double[] hY)
             throws DimensionMismatchException {
             this.ode = ode;
-            this.hY = hY.clone();
+			this.hY = Cloner.clone(hY);
             if (hY.length != ode.getDimension()) {
                 throw new DimensionMismatchException(ode.getDimension(), hY.length);
             }

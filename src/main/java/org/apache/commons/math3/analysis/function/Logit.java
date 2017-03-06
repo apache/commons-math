@@ -161,7 +161,7 @@ public class Logit implements UnivariateDifferentiableFunction, DifferentiableUn
         if (x < lo || x > hi) {
             throw new OutOfRangeException(x, lo, hi);
         }
-        return FastMath.log((x - lo) / (hi - x));
+        return Math.log((x - lo) / (hi - x));
     }
 
     /** {@inheritDoc}
@@ -177,7 +177,7 @@ public class Logit implements UnivariateDifferentiableFunction, DifferentiableUn
         double[] f = new double[t.getOrder() + 1];
 
         // function value
-        f[0] = FastMath.log((x - lo) / (hi - x));
+        f[0] = Math.log((x - lo) / (hi - x));
 
         if (Double.isInfinite(f[0])) {
 

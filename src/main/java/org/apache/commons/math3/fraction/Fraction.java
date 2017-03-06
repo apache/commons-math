@@ -20,11 +20,10 @@ import java.io.Serializable;
 import java.math.BigInteger;
 
 import org.apache.commons.math3.FieldElement;
-import org.apache.commons.math3.exception.util.LocalizedFormats;
 import org.apache.commons.math3.exception.MathArithmeticException;
 import org.apache.commons.math3.exception.NullArgumentException;
+import org.apache.commons.math3.exception.util.LocalizedFormats;
 import org.apache.commons.math3.util.ArithmeticUtils;
-import org.apache.commons.math3.util.FastMath;
 
 /**
  * Representation of a rational number.
@@ -179,13 +178,13 @@ public class Fraction
     {
         long overflow = Integer.MAX_VALUE;
         double r0 = value;
-        long a0 = (long)FastMath.floor(r0);
-        if (FastMath.abs(a0) > overflow) {
+        long a0 = (long)Math.floor(r0);
+        if (Math.abs(a0) > overflow) {
             throw new FractionConversionException(value, a0, 1l);
         }
 
         // check for (almost) integer arguments, which should not go to iterations.
-        if (FastMath.abs(a0 - value) < epsilon) {
+        if (Math.abs(a0 - value) < epsilon) {
             this.numerator = (int) a0;
             this.denominator = 1;
             return;
@@ -204,21 +203,21 @@ public class Fraction
         do {
             ++n;
             double r1 = 1.0 / (r0 - a0);
-            long a1 = (long)FastMath.floor(r1);
+            long a1 = (long)Math.floor(r1);
             p2 = (a1 * p1) + p0;
             q2 = (a1 * q1) + q0;
 
-            if ((FastMath.abs(p2) > overflow) || (FastMath.abs(q2) > overflow)) {
+            if ((Math.abs(p2) > overflow) || (Math.abs(q2) > overflow)) {
                 // in maxDenominator mode, if the last fraction was very close to the actual value
                 // q2 may overflow in the next iteration; in this case return the last one.
-                if (epsilon == 0.0 && FastMath.abs(q1) < maxDenominator) {
+                if (epsilon == 0.0 && Math.abs(q1) < maxDenominator) {
                     break;
                 }
                 throw new FractionConversionException(value, p2, q2);
             }
 
             double convergent = (double)p2 / (double)q2;
-            if (n < maxIterations && FastMath.abs(convergent - value) > epsilon && q2 < maxDenominator) {
+            if (n < maxIterations && Math.abs(convergent - value) > epsilon && q2 < maxDenominator) {
                 p0 = p1;
                 p1 = p2;
                 q0 = q1;

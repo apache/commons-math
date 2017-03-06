@@ -79,7 +79,7 @@ public class Gaussian implements UnivariateDifferentiableFunction, Differentiabl
     public Gaussian(double mean,
                     double sigma)
         throws NotStrictlyPositiveException {
-        this(1 / (sigma * FastMath.sqrt(2 * Math.PI)), mean, sigma);
+        this(1 / (sigma * Math.sqrt(2 * Math.PI)), mean, sigma);
     }
 
     /**
@@ -202,7 +202,7 @@ public class Gaussian implements UnivariateDifferentiableFunction, Differentiabl
     private static double value(double xMinusMean,
                                 double norm,
                                 double i2s2) {
-        return norm * FastMath.exp(-xMinusMean * xMinusMean * i2s2);
+        return norm * Math.exp(-xMinusMean * xMinusMean * i2s2);
     }
 
     /** {@inheritDoc}
@@ -224,7 +224,7 @@ public class Gaussian implements UnivariateDifferentiableFunction, Differentiabl
         final double[] p = new double[f.length];
         p[0] = 1;
         final double u2 = u * u;
-        double coeff = norm * FastMath.exp(-0.5 * u2);
+        double coeff = norm * Math.exp(-0.5 * u2);
         if (coeff <= Precision.SAFE_MIN) {
             Arrays.fill(f, 0.0);
         } else {

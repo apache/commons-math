@@ -22,6 +22,7 @@ import org.apache.commons.math3.analysis.ParametricUnivariateFunction;
 import org.apache.commons.math3.fitting.leastsquares.LeastSquaresBuilder;
 import org.apache.commons.math3.fitting.leastsquares.LeastSquaresProblem;
 import org.apache.commons.math3.linear.DiagonalMatrix;
+import org.apache.commons.math3.util.Cloner;
 
 /**
  * Fits points to a user-defined {@link ParametricUnivariateFunction function}.
@@ -78,7 +79,7 @@ public class SimpleCurveFitter extends AbstractCurveFitter {
      */
     public SimpleCurveFitter withStartPoint(double[] newStart) {
         return new SimpleCurveFitter(function,
-                                     newStart.clone(),
+				Cloner.clone(newStart),
                                      maxIter);
     }
 

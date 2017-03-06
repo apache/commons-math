@@ -17,9 +17,6 @@
 
 package org.apache.commons.math3.linear;
 
-import org.apache.commons.math3.util.FastMath;
-
-
 /**
  * Class transforming any matrix to bi-diagonal shape.
  * <p>Any m &times; n matrix A can be written as the product of three matrices:
@@ -62,7 +59,7 @@ class BiDiagonalTransformer {
 
         final int m = matrix.getRowDimension();
         final int n = matrix.getColumnDimension();
-        final int p = FastMath.min(m, n);
+        final int p = Math.min(m, n);
         householderVectors = matrix.getData();
         main      = new double[p];
         secondary = new double[p - 1];
@@ -266,7 +263,7 @@ class BiDiagonalTransformer {
                 xNormSqr += c * c;
             }
             final double[] hK = householderVectors[k];
-            final double a = (hK[k] > 0) ? -FastMath.sqrt(xNormSqr) : FastMath.sqrt(xNormSqr);
+            final double a = (hK[k] > 0) ? -Math.sqrt(xNormSqr) : Math.sqrt(xNormSqr);
             main[k] = a;
             if (a != 0.0) {
                 hK[k] -= a;
@@ -291,7 +288,7 @@ class BiDiagonalTransformer {
                     final double c = hK[j];
                     xNormSqr += c * c;
                 }
-                final double b = (hK[k + 1] > 0) ? -FastMath.sqrt(xNormSqr) : FastMath.sqrt(xNormSqr);
+                final double b = (hK[k + 1] > 0) ? -Math.sqrt(xNormSqr) : Math.sqrt(xNormSqr);
                 secondary[k] = b;
                 if (b != 0.0) {
                     hK[k + 1] -= b;
@@ -330,7 +327,7 @@ class BiDiagonalTransformer {
                 final double c = hK[j];
                 xNormSqr += c * c;
             }
-            final double a = (hK[k] > 0) ? -FastMath.sqrt(xNormSqr) : FastMath.sqrt(xNormSqr);
+            final double a = (hK[k] > 0) ? -Math.sqrt(xNormSqr) : Math.sqrt(xNormSqr);
             main[k] = a;
             if (a != 0.0) {
                 hK[k] -= a;
@@ -355,7 +352,7 @@ class BiDiagonalTransformer {
                     final double c = householderVectors[i][k];
                     xNormSqr += c * c;
                 }
-                final double b = (hKp1[k] > 0) ? -FastMath.sqrt(xNormSqr) : FastMath.sqrt(xNormSqr);
+                final double b = (hKp1[k] > 0) ? -Math.sqrt(xNormSqr) : Math.sqrt(xNormSqr);
                 secondary[k] = b;
                 if (b != 0.0) {
                     hKp1[k] -= b;

@@ -1000,7 +1000,7 @@ public class TTest {
      */
     protected double t(final double m, final double mu,
                        final double v, final double n) {
-        return (m - mu) / FastMath.sqrt(v / n);
+        return (m - mu) / Math.sqrt(v / n);
     }
 
     /**
@@ -1019,7 +1019,7 @@ public class TTest {
     protected double t(final double m1, final double m2,
                        final double v1, final double v2,
                        final double n1, final double n2)  {
-        return (m1 - m2) / FastMath.sqrt((v1 / n1) + (v2 / n2));
+        return (m1 - m2) / Math.sqrt((v1 / n1) + (v2 / n2));
     }
 
     /**
@@ -1038,7 +1038,7 @@ public class TTest {
                                     final double v1, final double v2,
                                     final double n1, final double n2)  {
         final double pooledVariance = ((n1  - 1) * v1 + (n2 -1) * v2 ) / (n1 + n2 - 2);
-        return (m1 - m2) / FastMath.sqrt(pooledVariance * (1d / n1 + 1d / n2));
+        return (m1 - m2) / Math.sqrt(pooledVariance * (1d / n1 + 1d / n2));
     }
 
     /**
@@ -1056,7 +1056,7 @@ public class TTest {
                            final double v, final double n)
         throws MaxCountExceededException, MathIllegalArgumentException {
 
-        final double t = FastMath.abs(t(m, mu, v, n));
+        final double t = Math.abs(t(m, mu, v, n));
         // pass a null rng to avoid unneeded overhead as we will not sample from this distribution
         final TDistribution distribution = new TDistribution(null, n - 1);
         return 2.0 * distribution.cumulativeProbability(-t);
@@ -1085,7 +1085,7 @@ public class TTest {
                            final double n1, final double n2)
         throws MaxCountExceededException, NotStrictlyPositiveException {
 
-        final double t = FastMath.abs(t(m1, m2, v1, v2, n1, n2));
+        final double t = Math.abs(t(m1, m2, v1, v2, n1, n2));
         final double degreesOfFreedom = df(v1, v2, n1, n2);
         // pass a null rng to avoid unneeded overhead as we will not sample from this distribution
         final TDistribution distribution = new TDistribution(null, degreesOfFreedom);
@@ -1115,7 +1115,7 @@ public class TTest {
                                         double n1, double n2)
         throws MaxCountExceededException, NotStrictlyPositiveException {
 
-        final double t = FastMath.abs(homoscedasticT(m1, m2, v1, v2, n1, n2));
+        final double t = Math.abs(homoscedasticT(m1, m2, v1, v2, n1, n2));
         final double degreesOfFreedom = n1 + n2 - 2;
         // pass a null rng to avoid unneeded overhead as we will not sample from this distribution
         final TDistribution distribution = new TDistribution(null, degreesOfFreedom);

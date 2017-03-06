@@ -24,7 +24,6 @@ import org.apache.commons.math3.exception.util.LocalizedFormats;
 import org.apache.commons.math3.random.RandomGenerator;
 import org.apache.commons.math3.random.Well19937c;
 import org.apache.commons.math3.special.Erf;
-import org.apache.commons.math3.util.FastMath;
 
 /**
  * Implementation of the normal (gaussian) distribution.
@@ -41,7 +40,7 @@ public class NormalDistribution extends AbstractRealDistribution {
     /** Serializable version identifier. */
     private static final long serialVersionUID = 8589540077390120676L;
     /** &radic;(2) */
-    private static final double SQRT2 = FastMath.sqrt(2.0);
+    private static final double SQRT2 = Math.sqrt(2.0);
     /** Mean of this distribution. */
     private final double mean;
     /** Standard deviation of this distribution. */
@@ -144,7 +143,7 @@ public class NormalDistribution extends AbstractRealDistribution {
 
         this.mean = mean;
         standardDeviation = sd;
-        logStandardDeviationPlusHalfLog2Pi = FastMath.log(sd) + 0.5 * FastMath.log(2 * FastMath.PI);
+        logStandardDeviationPlusHalfLog2Pi = Math.log(sd) + 0.5 * Math.log(2 * Math.PI);
         solverAbsoluteAccuracy = inverseCumAccuracy;
     }
 
@@ -168,7 +167,7 @@ public class NormalDistribution extends AbstractRealDistribution {
 
     /** {@inheritDoc} */
     public double density(double x) {
-        return FastMath.exp(logDensity(x));
+        return Math.exp(logDensity(x));
     }
 
     /** {@inheritDoc} */
@@ -188,7 +187,7 @@ public class NormalDistribution extends AbstractRealDistribution {
      */
     public double cumulativeProbability(double x)  {
         final double dev = x - mean;
-        if (FastMath.abs(dev) > 40 * standardDeviation) {
+        if (Math.abs(dev) > 40 * standardDeviation) {
             return dev < 0 ? 0.0d : 1.0d;
         }
         return 0.5 * Erf.erfc(-dev / (standardDeviation * SQRT2));

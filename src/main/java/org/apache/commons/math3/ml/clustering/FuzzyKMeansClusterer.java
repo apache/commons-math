@@ -248,7 +248,7 @@ public class FuzzyKMeansClusterer<T extends Clusterable> extends Clusterer<T> {
             int j = 0;
             for (final CentroidCluster<T> cluster : clusters) {
                 final double dist = distance(point, cluster.getCenter());
-                objFunction += (dist * dist) * FastMath.pow(membershipMatrix[i][j], fuzziness);
+                objFunction += (dist * dist) * Math.pow(membershipMatrix[i][j], fuzziness);
                 j++;
             }
             i++;
@@ -323,7 +323,7 @@ public class FuzzyKMeansClusterer<T extends Clusterable> extends Clusterer<T> {
             double[] arr = new double[center.getPoint().length];
             double sum = 0.0;
             for (final T point : points) {
-                final double u = FastMath.pow(membershipMatrix[i][j], fuzziness);
+                final double u = Math.pow(membershipMatrix[i][j], fuzziness);
                 final double[] pointArr = point.getPoint();
                 for (int idx = 0; idx < arr.length; idx++) {
                     arr[idx] += u * pointArr[idx];
@@ -350,16 +350,16 @@ public class FuzzyKMeansClusterer<T extends Clusterable> extends Clusterer<T> {
             int newCluster = -1;
             for (int j = 0; j < clusters.size(); j++) {
                 double sum = 0.0;
-                final double distA = FastMath.abs(distance(point, clusters.get(j).getCenter()));
+                final double distA = Math.abs(distance(point, clusters.get(j).getCenter()));
 
                 if (distA != 0.0) {
                     for (final CentroidCluster<T> c : clusters) {
-                        final double distB = FastMath.abs(distance(point, c.getCenter()));
+                        final double distB = Math.abs(distance(point, c.getCenter()));
                         if (distB == 0.0) {
                             sum = Double.POSITIVE_INFINITY;
                             break;
                         }
-                        sum += FastMath.pow(distA / distB, 2.0 / (fuzziness - 1.0));
+                        sum += Math.pow(distA / distB, 2.0 / (fuzziness - 1.0));
                     }
                 }
 
@@ -405,8 +405,8 @@ public class FuzzyKMeansClusterer<T extends Clusterable> extends Clusterer<T> {
         double maxMembership = 0.0;
         for (int i = 0; i < points.size(); i++) {
             for (int j = 0; j < clusters.size(); j++) {
-                double v = FastMath.abs(membershipMatrix[i][j] - matrix[i][j]);
-                maxMembership = FastMath.max(v, maxMembership);
+                double v = Math.abs(membershipMatrix[i][j] - matrix[i][j]);
+                maxMembership = Math.max(v, maxMembership);
             }
         }
         return maxMembership;

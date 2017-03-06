@@ -192,7 +192,7 @@ public class RegressionResults implements Serializable {
         }
         double var = this.getVcvElement(index, index);
         if (!Double.isNaN(var) && var > Double.MIN_VALUE) {
-            return FastMath.sqrt(var);
+            return Math.sqrt(var);
         }
         return Double.NaN;
     }
@@ -216,7 +216,7 @@ public class RegressionResults implements Serializable {
         for (int i = 0; i < this.parameters.length; i++) {
             double var = this.getVcvElement(i, i);
             if (!Double.isNaN(var) && var > Double.MIN_VALUE) {
-                se[i] = FastMath.sqrt(var);
+                se[i] = Math.sqrt(var);
                 continue;
             }
             se[i] = Double.NaN;

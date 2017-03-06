@@ -103,11 +103,11 @@ public class KthSelector implements Serializable {
             } else if (k < pivot) {
                 // the element is in the left partition
                 end  = pivot;
-                node = FastMath.min(2 * node + 1, usePivotsHeap ? pivotsHeap.length : end);
+                node = Math.min(2 * node + 1, usePivotsHeap ? pivotsHeap.length : end);
             } else {
                 // the element is in the right partition
                 begin = pivot + 1;
-                node  = FastMath.min(2 * node + 2, usePivotsHeap ? pivotsHeap.length : end);
+                node  = Math.min(2 * node + 2, usePivotsHeap ? pivotsHeap.length : end);
             }
         }
         Arrays.sort(work, begin, end);

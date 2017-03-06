@@ -145,7 +145,7 @@ public class DormandPrince54Integrator extends EmbeddedRungeKuttaIntegrator {
                               E4 * yDotK[3][j] +  E5 * yDotK[4][j] +
                               E6 * yDotK[5][j] +  E7 * yDotK[6][j];
 
-        final double yScale = FastMath.max(FastMath.abs(y0[j]), FastMath.abs(y1[j]));
+        final double yScale = Math.max(Math.abs(y0[j]), Math.abs(y1[j]));
         final double tol = (vecAbsoluteTolerance == null) ?
                            (scalAbsoluteTolerance + scalRelativeTolerance * yScale) :
                                (vecAbsoluteTolerance[j] + vecRelativeTolerance[j] * yScale);
@@ -154,7 +154,7 @@ public class DormandPrince54Integrator extends EmbeddedRungeKuttaIntegrator {
 
     }
 
-    return FastMath.sqrt(error / mainSetDimension);
+    return Math.sqrt(error / mainSetDimension);
 
   }
 

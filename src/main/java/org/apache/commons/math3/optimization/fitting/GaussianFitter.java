@@ -21,13 +21,14 @@ import java.util.Arrays;
 import java.util.Comparator;
 
 import org.apache.commons.math3.analysis.function.Gaussian;
+import org.apache.commons.math3.exception.NotStrictlyPositiveException;
 import org.apache.commons.math3.exception.NullArgumentException;
 import org.apache.commons.math3.exception.NumberIsTooSmallException;
 import org.apache.commons.math3.exception.OutOfRangeException;
 import org.apache.commons.math3.exception.ZeroException;
-import org.apache.commons.math3.exception.NotStrictlyPositiveException;
 import org.apache.commons.math3.exception.util.LocalizedFormats;
 import org.apache.commons.math3.optimization.DifferentiableMultivariateVectorOptimizer;
+import org.apache.commons.math3.util.Cloner;
 import org.apache.commons.math3.util.FastMath;
 
 /**
@@ -183,7 +184,7 @@ public class GaussianFitter extends CurveFitter<Gaussian.Parametric> {
          * @return the input observations, sorted.
          */
         private WeightedObservedPoint[] sortObservations(WeightedObservedPoint[] unsorted) {
-            final WeightedObservedPoint[] observations = unsorted.clone();
+			final WeightedObservedPoint[] observations = Cloner.clone(unsorted);
             final Comparator<WeightedObservedPoint> cmp
                 = new Comparator<WeightedObservedPoint>() {
                 /** {@inheritDoc} */
@@ -249,7 +250,7 @@ public class GaussianFitter extends CurveFitter<Gaussian.Parametric> {
                 // TODO: Exceptions should not be used for flow control.
                 fwhmApprox = points[points.length - 1].getX() - points[0].getX();
             }
-            final double s = fwhmApprox / (2 * FastMath.sqrt(2 * FastMath.log(2)));
+            final double s = fwhmApprox / (2 * Math.sqrt(2 * Math.log(2)));
 
             return new double[] { n, m, s };
         }

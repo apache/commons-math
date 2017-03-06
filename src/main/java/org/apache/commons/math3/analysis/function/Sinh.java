@@ -30,7 +30,7 @@ import org.apache.commons.math3.util.FastMath;
 public class Sinh implements UnivariateDifferentiableFunction, DifferentiableUnivariateFunction {
     /** {@inheritDoc} */
     public double value(double x) {
-        return FastMath.sinh(x);
+        return Math.sinh(x);
     }
 
     /** {@inheritDoc}

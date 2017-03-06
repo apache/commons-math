@@ -17,12 +17,13 @@
 
 package org.apache.commons.math3.optimization.fitting;
 
-import org.apache.commons.math3.optimization.DifferentiableMultivariateVectorOptimizer;
 import org.apache.commons.math3.analysis.function.HarmonicOscillator;
-import org.apache.commons.math3.exception.ZeroException;
-import org.apache.commons.math3.exception.NumberIsTooSmallException;
 import org.apache.commons.math3.exception.MathIllegalStateException;
+import org.apache.commons.math3.exception.NumberIsTooSmallException;
+import org.apache.commons.math3.exception.ZeroException;
 import org.apache.commons.math3.exception.util.LocalizedFormats;
+import org.apache.commons.math3.optimization.DifferentiableMultivariateVectorOptimizer;
+import org.apache.commons.math3.util.Cloner;
 import org.apache.commons.math3.util.FastMath;
 
 /**
@@ -230,7 +231,7 @@ public class HarmonicFitter extends CurveFitter<HarmonicOscillator.Parametric> {
          * @return the input observations, sorted.
          */
         private WeightedObservedPoint[] sortObservations(WeightedObservedPoint[] unsorted) {
-            final WeightedObservedPoint[] observations = unsorted.clone();
+			final WeightedObservedPoint[] observations = Cloner.clone(unsorted);
 
             // Since the samples are almost always already sorted, this
             // method is implemented as an insertion sort that reorders the
@@ -343,8 +344,8 @@ public class HarmonicFitter extends CurveFitter<HarmonicOscillator.Parametric> {
                     throw new MathIllegalStateException(LocalizedFormats.ZERO_DENOMINATOR);
                 }
 
-                aOmega[0] = FastMath.sqrt(c1 / c2);
-                aOmega[1] = FastMath.sqrt(c2 / c3);
+                aOmega[0] = Math.sqrt(c1 / c2);
+                aOmega[1] = Math.sqrt(c2 / c3);
             }
 
             return aOmega;
@@ -372,13 +373,13 @@ public class HarmonicFitter extends CurveFitter<HarmonicOscillator.Parametric> {
                 final double currentYPrime = (currentY - previousY) / (currentX - previousX);
 
                 double omegaX = omega * currentX;
-                double cosine = FastMath.cos(omegaX);
-                double sine = FastMath.sin(omegaX);
+                double cosine = Math.cos(omegaX);
+                double sine = Math.sin(omegaX);
                 fcMean += omega * currentY * cosine - currentYPrime * sine;
                 fsMean += omega * currentY * sine + currentYPrime * cosine;
             }
 
-            return FastMath.atan2(-fsMean, fcMean);
+            return Math.atan2(-fsMean, fcMean);
         }
     }
 }

@@ -67,7 +67,7 @@ public abstract class AbstractEvaluation implements Evaluation {
         final int nC = cov.getColumnDimension();
         final RealVector sig = new ArrayRealVector(nC);
         for (int i = 0; i < nC; ++i) {
-            sig.setEntry(i, FastMath.sqrt(cov.getEntry(i,i)));
+            sig.setEntry(i, Math.sqrt(cov.getEntry(i,i)));
         }
         return sig;
     }
@@ -75,13 +75,13 @@ public abstract class AbstractEvaluation implements Evaluation {
     /** {@inheritDoc} */
     public double getRMS() {
         final double cost = this.getCost();
-        return FastMath.sqrt(cost * cost / this.observationSize);
+        return Math.sqrt(cost * cost / this.observationSize);
     }
 
     /** {@inheritDoc} */
     public double getCost() {
         final ArrayRealVector r = new ArrayRealVector(this.getResiduals());
-        return FastMath.sqrt(r.dotProduct(r));
+        return Math.sqrt(r.dotProduct(r));
     }
 
 }

@@ -22,7 +22,6 @@ import org.apache.commons.math3.exception.NumberIsTooLargeException;
 import org.apache.commons.math3.exception.util.LocalizedFormats;
 import org.apache.commons.math3.random.RandomGenerator;
 import org.apache.commons.math3.random.Well19937c;
-import org.apache.commons.math3.util.FastMath;
 
 /**
  * Implementation of the Pareto distribution.
@@ -31,12 +30,12 @@ import org.apache.commons.math3.util.FastMath;
  * <strong>Parameters:</strong>
  * The probability distribution function of {@code X} is given by (for {@code x >= k}):
  * <pre>
- *  α * k^α / x^(α + 1)
+ *  ? * k^? / x^(? + 1)
  * </pre>
  * <p>
  * <ul>
  * <li>{@code k} is the <em>scale</em> parameter: this is the minimum possible value of {@code X},</li>
- * <li>{@code α} is the <em>shape</em> parameter: this is the Pareto index</li>
+ * <li>{@code ?} is the <em>shape</em> parameter: this is the Pareto index</li>
  * </ul>
  *
  * @see <a href="http://en.wikipedia.org/wiki/Pareto_distribution">
@@ -173,18 +172,18 @@ public class ParetoDistribution extends AbstractRealDistribution {
     /**
      * {@inheritDoc}
      * <p>
-     * For scale {@code k}, and shape {@code α} of this distribution, the PDF
+     * For scale {@code k}, and shape {@code ?} of this distribution, the PDF
      * is given by
      * <ul>
      * <li>{@code 0} if {@code x < k},</li>
-     * <li>{@code α * k^α / x^(α + 1)} otherwise.</li>
+     * <li>{@code ? * k^? / x^(? + 1)} otherwise.</li>
      * </ul>
      */
     public double density(double x) {
         if (x < scale) {
             return 0;
         }
-        return FastMath.pow(scale, shape) / FastMath.pow(x, shape + 1) * shape;
+        return Math.pow(scale, shape) / Math.pow(x, shape + 1) * shape;
     }
 
     /** {@inheritDoc}
@@ -196,23 +195,23 @@ public class ParetoDistribution extends AbstractRealDistribution {
         if (x < scale) {
             return Double.NEGATIVE_INFINITY;
         }
-        return FastMath.log(scale) * shape - FastMath.log(x) * (shape + 1) + FastMath.log(shape);
+        return Math.log(scale) * shape - Math.log(x) * (shape + 1) + Math.log(shape);
     }
 
     /**
      * {@inheritDoc}
      * <p>
-     * For scale {@code k}, and shape {@code α} of this distribution, the CDF is given by
+     * For scale {@code k}, and shape {@code ?} of this distribution, the CDF is given by
      * <ul>
      * <li>{@code 0} if {@code x < k},</li>
-     * <li>{@code 1 - (k / x)^α} otherwise.</li>
+     * <li>{@code 1 - (k / x)^?} otherwise.</li>
      * </ul>
      */
     public double cumulativeProbability(double x)  {
         if (x <= scale) {
             return 0;
         }
-        return 1 - FastMath.pow(scale / x, shape);
+        return 1 - Math.pow(scale / x, shape);
     }
 
     /**
@@ -236,10 +235,10 @@ public class ParetoDistribution extends AbstractRealDistribution {
     /**
      * {@inheritDoc}
      * <p>
-     * For scale {@code k} and shape {@code α}, the mean is given by
+     * For scale {@code k} and shape {@code ?}, the mean is given by
      * <ul>
-     * <li>{@code ∞} if {@code α <= 1},</li>
-     * <li>{@code α * k / (α - 1)} otherwise.</li>
+     * <li>{@code ?} if {@code ? <= 1},</li>
+     * <li>{@code ? * k / (? - 1)} otherwise.</li>
      * </ul>
      */
     public double getNumericalMean() {
@@ -252,10 +251,10 @@ public class ParetoDistribution extends AbstractRealDistribution {
     /**
      * {@inheritDoc}
      * <p>
-     * For scale {@code k} and shape {@code α}, the variance is given by
+     * For scale {@code k} and shape {@code ?}, the variance is given by
      * <ul>
-     * <li>{@code ∞} if {@code 1 < α <= 2},</li>
-     * <li>{@code k^2 * α / ((α - 1)^2 * (α - 2))} otherwise.</li>
+     * <li>{@code ?} if {@code 1 < ? <= 2},</li>
+     * <li>{@code k^2 * ? / ((? - 1)^2 * (? - 2))} otherwise.</li>
      * </ul>
      */
     public double getNumericalVariance() {
@@ -313,6 +312,6 @@ public class ParetoDistribution extends AbstractRealDistribution {
     @Override
     public double sample()  {
         final double n = random.nextDouble();
-        return scale / FastMath.pow(n, 1 / shape);
+        return scale / Math.pow(n, 1 / shape);
     }
 }

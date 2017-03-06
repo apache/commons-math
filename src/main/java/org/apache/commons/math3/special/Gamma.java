@@ -20,7 +20,6 @@ import org.apache.commons.math3.exception.MaxCountExceededException;
 import org.apache.commons.math3.exception.NumberIsTooLargeException;
 import org.apache.commons.math3.exception.NumberIsTooSmallException;
 import org.apache.commons.math3.util.ContinuedFraction;
-import org.apache.commons.math3.util.FastMath;
 
 /**
  * <p>
@@ -87,7 +86,7 @@ public class Gamma {
     };
 
     /** Avoid repeated computation of log of 2 PI in logGamma */
-    private static final double HALF_LOG_2_PI = 0.5 * FastMath.log(2.0 * FastMath.PI);
+    private static final double HALF_LOG_2_PI = 0.5 * Math.log(2.0 * Math.PI);
 
     /** The constant value of &radic;(2&pi;). */
     private static final double SQRT_TWO_PI = 2.506628274631000502;
@@ -246,21 +245,21 @@ public class Gamma {
         if (Double.isNaN(x) || (x <= 0.0)) {
             ret = Double.NaN;
         } else if (x < 0.5) {
-            return logGamma1p(x) - FastMath.log(x);
+            return logGamma1p(x) - Math.log(x);
         } else if (x <= 2.5) {
             return logGamma1p((x - 0.5) - 0.5);
         } else if (x <= 8.0) {
-            final int n = (int) FastMath.floor(x - 1.5);
+            final int n = (int) Math.floor(x - 1.5);
             double prod = 1.0;
             for (int i = 1; i <= n; i++) {
                 prod *= x - i;
             }
-            return logGamma1p(x - (n + 1)) + FastMath.log(prod);
+            return logGamma1p(x - (n + 1)) + Math.log(prod);
         } else {
             double sum = lanczos(x);
             double tmp = x + LANCZOS_G + .5;
-            ret = ((x + .5) * FastMath.log(tmp)) - tmp +
-                HALF_LOG_2_PI + FastMath.log(sum / x);
+            ret = ((x + .5) * Math.log(tmp)) - tmp +
+                HALF_LOG_2_PI + Math.log(sum / x);
         }
 
         return ret;
@@ -325,7 +324,7 @@ public class Gamma {
             double n = 0.0; // current element index
             double an = 1.0 / a; // n-th element in the series
             double sum = an; // partial sum
-            while (FastMath.abs(an/sum) > epsilon &&
+            while (Math.abs(an/sum) > epsilon &&
                    n < maxIterations &&
                    sum < Double.POSITIVE_INFINITY) {
                 // compute next element in the series
@@ -340,7 +339,7 @@ public class Gamma {
             } else if (Double.isInfinite(sum)) {
                 ret = 1.0;
             } else {
-                ret = FastMath.exp(-x + (a * FastMath.log(x)) - logGamma(a)) * sum;
+                ret = Math.exp(-x + (a * Math.log(x)) - logGamma(a)) * sum;
             }
         }
 
@@ -416,7 +415,7 @@ public class Gamma {
             };
 
             ret = 1.0 / cf.evaluate(x, epsilon, maxIterations);
-            ret = FastMath.exp(-x + (a * FastMath.log(x)) - logGamma(a)) * ret;
+            ret = Math.exp(-x + (a * Math.log(x)) - logGamma(a)) * ret;
         }
 
         return ret;
@@ -460,7 +459,7 @@ public class Gamma {
             //            1       1        1         1
             // log(x) -  --- - ------ + ------- - -------
             //           2 x   12 x^2   120 x^4   252 x^6
-            return FastMath.log(x) - 0.5 / x - inv * ((1.0 / 12) + inv * (1.0 / 120 - inv / 252));
+            return Math.log(x) - 0.5 / x - inv * ((1.0 / 12) + inv * (1.0 / 120 - inv / 252));
         }
 
         return digamma(x + 1) - 1 / x;
@@ -641,12 +640,12 @@ public class Gamma {
             throw new NumberIsTooLargeException(x, 1.5, true);
         }
 
-        return -FastMath.log1p(invGamma1pm1(x));
+        return -Math.log1p(invGamma1pm1(x));
     }
 
 
     /**
-     * Returns the value of Γ(x). Based on the <em>NSWC Library of
+     * Returns the value of ?(x). Based on the <em>NSWC Library of
      * Mathematics Subroutines</em> double precision implementation,
      * {@code DGAMMA}.
      *
@@ -656,12 +655,12 @@ public class Gamma {
      */
     public static double gamma(final double x) {
 
-        if ((x == FastMath.rint(x)) && (x <= 0.0)) {
+        if ((x == Math.rint(x)) && (x <= 0.0)) {
             return Double.NaN;
         }
 
         final double ret;
-        final double absX = FastMath.abs(x);
+        final double absX = Math.abs(x);
         if (absX <= 20.0) {
             if (x >= 1.0) {
                 /*
@@ -698,8 +697,8 @@ public class Gamma {
         } else {
             final double y = absX + LANCZOS_G + 0.5;
             final double gammaAbs = SQRT_TWO_PI / absX *
-                                    FastMath.pow(y, absX + 0.5) *
-                                    FastMath.exp(-y) * lanczos(absX);
+                                    Math.pow(y, absX + 0.5) *
+                                    Math.exp(-y) * lanczos(absX);
             if (x > 0.0) {
                 ret = gammaAbs;
             } else {
@@ -711,8 +710,8 @@ public class Gamma {
                  * it is found
                  * Gamma(x) = -pi / [x * sin(pi * x) * Gamma(-x)].
                  */
-                ret = -FastMath.PI /
-                      (x * FastMath.sin(FastMath.PI * x) * gammaAbs);
+                ret = -Math.PI /
+                      (x * Math.sin(Math.PI * x) * gammaAbs);
             }
         }
         return ret;

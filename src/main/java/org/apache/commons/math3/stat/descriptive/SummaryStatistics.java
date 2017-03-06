@@ -216,7 +216,7 @@ public class SummaryStatistics implements StatisticalSummary, Serializable {
         double stdDev = Double.NaN;
         if (getN() > 0) {
             if (getN() > 1) {
-                stdDev = FastMath.sqrt(getVariance());
+                stdDev = Math.sqrt(getVariance());
             } else {
                 stdDev = 0.0;
             }
@@ -233,7 +233,7 @@ public class SummaryStatistics implements StatisticalSummary, Serializable {
      */
     public double getQuadraticMean() {
         final long size = getN();
-        return size > 0 ? FastMath.sqrt(getSumsq() / size) : Double.NaN;
+        return size > 0 ? Math.sqrt(getSumsq() / size) : Double.NaN;
     }
 
     /**

@@ -90,7 +90,7 @@ public interface RandomData {
      * @return a random string of hex characters of length {@code len}
      * @throws NotStrictlyPositiveException if {@code len <= 0}
      */
-    String nextSecureHexString(int len) throws NotStrictlyPositiveException;
+	// String nextSecureHexString(int len) throws NotStrictlyPositiveException;
 
     /**
      * Generates a uniformly distributed random integer between {@code lower}
@@ -110,7 +110,7 @@ public interface RandomData {
      * than or equal to {@code upper}.
      * @throws NumberIsTooLargeException if {@code lower >= upper}.
      */
-    int nextSecureInt(int lower, int upper) throws NumberIsTooLargeException;
+	// int nextSecureInt(int lower, int upper) throws NumberIsTooLargeException;
 
     /**
      * Generates a uniformly distributed random long integer between
@@ -131,7 +131,8 @@ public interface RandomData {
      * less than or equal to {@code upper}.
      * @throws NumberIsTooLargeException if {@code lower >= upper}.
      */
-    long nextSecureLong(long lower, long upper) throws NumberIsTooLargeException;
+	// long nextSecureLong(long lower, long upper) throws
+	// NumberIsTooLargeException;
 
     /**
      * Generates a random value from the Poisson distribution with the given

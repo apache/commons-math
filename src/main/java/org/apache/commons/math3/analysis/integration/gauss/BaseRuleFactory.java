@@ -18,10 +18,12 @@ package org.apache.commons.math3.analysis.integration.gauss;
 
 import java.util.Map;
 import java.util.TreeMap;
-import org.apache.commons.math3.util.Pair;
+
 import org.apache.commons.math3.exception.DimensionMismatchException;
 import org.apache.commons.math3.exception.NotStrictlyPositiveException;
 import org.apache.commons.math3.exception.util.LocalizedFormats;
+import org.apache.commons.math3.util.Cloner;
+import org.apache.commons.math3.util.Pair;
 
 /**
  * Base class for rules that determines the integration nodes and their
@@ -74,8 +76,8 @@ public abstract class BaseRuleFactory<T extends Number> {
         }
 
         // Return a copy.
-        return new Pair<double[], double[]>(cached.getFirst().clone(),
-                                            cached.getSecond().clone());
+		return new Pair<double[], double[]>(Cloner.clone(cached.getFirst()),
+				Cloner.clone(cached.getSecond()));
     }
 
     /**

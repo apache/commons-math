@@ -23,7 +23,7 @@ import org.apache.commons.math3.exception.OutOfRangeException;
 import org.apache.commons.math3.exception.util.LocalizedFormats;
 import org.apache.commons.math3.random.RandomGenerator;
 import org.apache.commons.math3.random.Well19937c;
-import org.apache.commons.math3.util.FastMath;
+import org.apache.commons.math3.util.GWTMath;
 
 /**
  * Implementation of the triangular real distribution.
@@ -102,7 +102,7 @@ public class TriangularDistribution extends AbstractRealDistribution {
         this.a = a;
         this.c = c;
         this.b = b;
-        solverAbsoluteAccuracy = FastMath.max(FastMath.ulp(a), FastMath.ulp(b));
+		solverAbsoluteAccuracy = Math.max(GWTMath.ulp(a), GWTMath.ulp(b));
     }
 
     /**
@@ -276,8 +276,8 @@ public class TriangularDistribution extends AbstractRealDistribution {
             return b;
         }
         if (p < (c - a) / (b - a)) {
-            return a + FastMath.sqrt(p * (b - a) * (c - a));
+            return a + Math.sqrt(p * (b - a) * (c - a));
         }
-        return b - FastMath.sqrt((1 - p) * (b - a) * (b - c));
+        return b - Math.sqrt((1 - p) * (b - a) * (b - c));
     }
 }

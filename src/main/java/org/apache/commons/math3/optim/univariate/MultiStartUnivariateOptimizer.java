@@ -19,13 +19,13 @@ package org.apache.commons.math3.optim.univariate;
 
 import java.util.Arrays;
 import java.util.Comparator;
+
 import org.apache.commons.math3.exception.MathIllegalStateException;
 import org.apache.commons.math3.exception.NotStrictlyPositiveException;
-import org.apache.commons.math3.exception.util.LocalizedFormats;
-import org.apache.commons.math3.random.RandomGenerator;
 import org.apache.commons.math3.optim.MaxEval;
-import org.apache.commons.math3.optim.nonlinear.scalar.GoalType;
 import org.apache.commons.math3.optim.OptimizationData;
+import org.apache.commons.math3.optim.nonlinear.scalar.GoalType;
+import org.apache.commons.math3.random.RandomGenerator;
 
 /**
  * Special implementation of the {@link UnivariateOptimizer} interface
@@ -114,12 +114,13 @@ public class MultiStartUnivariateOptimizer
      * @throws MathIllegalStateException if {@link #optimize(OptimizationData[])
      * optimize} has not been called.
      */
-    public UnivariatePointValuePair[] getOptima() {
-        if (optima == null) {
-            throw new MathIllegalStateException(LocalizedFormats.NO_OPTIMUM_COMPUTED_YET);
-        }
-        return optima.clone();
-    }
+	// public UnivariatePointValuePair[] getOptima() {
+	// if (optima == null) {
+	// throw new
+	// MathIllegalStateException(LocalizedFormats.NO_OPTIMUM_COMPUTED_YET);
+	// }
+	// return Cloner.clone(optima);
+	// }
 
     /**
      * {@inheritDoc}
