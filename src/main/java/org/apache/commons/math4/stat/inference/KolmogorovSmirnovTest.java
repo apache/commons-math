@@ -31,6 +31,7 @@ import org.apache.commons.math4.exception.NullArgumentException;
 import org.apache.commons.math4.exception.NumberIsTooLargeException;
 import org.apache.commons.math4.exception.OutOfRangeException;
 import org.apache.commons.math4.exception.TooManyIterationsException;
+import org.apache.commons.math4.exception.NotANumberException;
 import org.apache.commons.math4.exception.util.LocalizedFormats;
 import org.apache.commons.math4.fraction.BigFraction;
 import org.apache.commons.math4.fraction.BigFractionField;
@@ -243,15 +244,16 @@ public class KolmogorovSmirnovTest {
      * If ties are known to be present in the data, {@link #bootstrap(double[], double[], int, boolean)}
      * may be used as an alternative method for estimating the p-value.</p>
      *
-     * @param x first sample dataset
-     * @param y second sample dataset
-     * @param strict whether or not the probability to compute is expressed as a strict inequality
-     *        (ignored for large samples)
-     * @return p-value associated with the null hypothesis that {@code x} and {@code y} represent
-     *         samples from the same distribution
-     * @throws InsufficientDataException if either {@code x} or {@code y} does not have length at
-     *         least 2
-     * @throws NullArgumentException if either {@code x} or {@code y} is null
+     * @param x first sample dataset.
+     * @param y second sample dataset.
+     * @param strict whether or not the probability to compute is expressed as
+     * a strict inequality (ignored for large samples).
+     * @return p-value associated with the null hypothesis that {@code x} and
+     * {@code y} represent samples from the same distribution.
+     * @throws InsufficientDataException if either {@code x} or {@code y} does
+     * not have length at least 2.
+     * @throws NullArgumentException if either {@code x} or {@code y} is null.
+     * @throws NotANumberException if the input arrays contain NaN values.
      * @see #bootstrap(double[], double[], int, boolean)
      */
     public double kolmogorovSmirnovTest(double[] x, double[] y, boolean strict) {
@@ -1121,80 +1123,61 @@ public class KolmogorovSmirnovTest {
     }
 
     /**
-     * If there are no ties in the combined dataset formed from x and y, this
-     * method is a no-op.  If there are ties, a uniform random deviate in
-     * (-minDelta / 2, minDelta / 2) - {0} is added to each value in x and y, where
-     * minDelta is the minimum difference between unequal values in the combined
-     * sample.  A fixed seed is used to generate the jitter, so repeated activations
-     * with the same input arrays result in the same values.
+     * If there are no ties in the combined dataset formed from x and y,
+     * this method is a no-op.
+     * If there are ties, a uniform random deviate in
+     * is added to each value in x and y, and this method overwrites the
+     * data in x and y with the jittered values.
      *
-     * NOTE: if there are ties in the data, this method overwrites the data in
-     * x and y with the jittered values.
-     *
-     * @param x first sample
-     * @param y second sample
+     * @param x First sample.
+     * @param y Second sample.
+     * @throw NotANumberException if any of the input arrays contain
+     * a NaN value.
      */
     private static void fixTies(double[] x, double[] y) {
-       final double[] values = MathArrays.unique(MathArrays.concatenate(x,y));
-       if (values.length == x.length + y.length) {
-           return;  // There are no ties
-       }
+        if (hasTies(x, y)) {
+            // Add jitter using a fixed seed (so same arguments always give same results),
+            // low-initialization-overhead generator.
+            final UniformRandomProvider rng = RandomSource.create(RandomSource.TWO_CMRES, 7654321);
 
-       // Find the smallest difference between values, or 1 if all values are the same
-       double minDelta = 1;
-       double prev = values[0];
-       double delta = 1;
-       for (int i = 1; i < values.length; i++) {
-          delta = prev - values[i];
-          if (delta < minDelta) {
-              minDelta = delta;
-          }
-          prev = values[i];
-       }
-       minDelta /= 2;
-
-       // Add jitter using a fixed seed (so same arguments always give same results),
-       // low-initialization-overhead generator.
-       final UniformRandomProvider rng = RandomSource.create(RandomSource.TWO_CMRES, 654321);
-
-       // It is theoretically possible that jitter does not break ties, so repeat
-       // until all ties are gone.  Bound the loop and throw MIE if bound is exceeded.
-       int ct = 0;
-       boolean ties = true;
-       do {
-           jitter(x, rng, minDelta);
-           jitter(y, rng, minDelta);
-           ties = hasTies(x, y);
-           ct++;
-           // If jittering hasn't resolved ties, "minDelta" may be too small.
-           minDelta *= 2;
-       } while (ties && ct < 1000);
-       if (ties) {
-           throw new MathInternalError(); // Should never happen.
-       }
+            // It is theoretically possible that jitter does not break ties, so repeat
+            // until all ties are gone.  Bound the loop and throw MIE if bound is exceeded.
+            int ct = 0;
+            boolean ties = true;
+            do {
+                jitter(x, rng, 10);
+                jitter(y, rng, 10);
+                ties = hasTies(x, y);
+                ++ct;
+            } while (ties && ct < 10);
+            if (ties) {
+                throw new MathInternalError(); // Should never happen.
+            }
+        }
     }
 
     /**
-     * Returns true iff there are ties in the combined sample
-     * formed from x and y.
+     * Returns true iff there are ties in the combined sample formed from
+     * x and y.
      *
-     * @param x first sample
-     * @param y second sample
-     * @return true if x and y together contain ties
+     * @param x First sample.
+     * @param y Second sample.
+     * @return true if x and y together contain ties.
+     * @throw NotANumberException if any of the input arrays contain
+     * a NaN value.
      */
     private static boolean hasTies(double[] x, double[] y) {
-        final HashSet<Double> values = new HashSet<>();
-            for (int i = 0; i < x.length; i++) {
-                if (!values.add(x[i])) {
-                    return true;
-                }
-            }
-            for (int i = 0; i < y.length; i++) {
-                if (!values.add(y[i])) {
-                    return true;
-                }
-            }
-        return false;
+       final double[] values = MathArrays.unique(MathArrays.concatenate(x, y));
+
+       // "unique" moves NaN to the head of the output array.
+       if (Double.isNaN(values[0])) {
+           throw new NotANumberException();
+       }
+       if (values.length == x.length + y.length) {
+           return false;  // There are no ties.
+       }
+
+       return true;
     }
 
     /**
@@ -1207,10 +1190,13 @@ public class KolmogorovSmirnovTest {
      * @param sampler probability distribution to sample for jitter values
      * @throws NullPointerException if either of the parameters is null
      */
-    private static void jitter(final double[] data, final UniformRandomProvider rng, final double delta) {
+    private static void jitter(double[] data,
+                               UniformRandomProvider rng,
+                               int ulp) {
+        final int range = ulp * 2;
         for (int i = 0; i < data.length; i++) {
-            final double d = delta * (2 * rng.nextDouble() - 1);
-            data[i] += d;
+            final int rand = rng.nextInt(range) - ulp;
+            data[i] += rand * Math.ulp(data[i]);
         }
     }
 
