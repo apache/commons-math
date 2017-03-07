@@ -26,7 +26,8 @@ import org.apache.commons.rng.simple.RandomSource;
 import org.apache.commons.rng.core.RandomProviderDefaultState;
 
 /**
- * Adaptor that delegates to a {@link UniformRandomProvider} instance.
+ * Adaptor that delegates to a
+ * {@link org.apache.commons.rng.UniformRandomProvider} instance.
  * <p>
  * It is provided for users who wish to test the new RNG implementations
  * the <i>current</i> generators (up to version 3.6 of Commons Math) in
@@ -49,7 +50,7 @@ import org.apache.commons.rng.core.RandomProviderDefaultState;
  *   {@link RandomGenerator#setSeed(int[]) setSeed(int[])} and
  *   {@link RandomGenerator#setSeed(long) setSeed(long)}
  *   methods of the {@link RandomGenerator} are not part of the
- *   {@link UniformRandomProvider new API}.
+ *   {@link org.apache.commons.rng.UniformRandomProvider new API}.
  *  </li>
  *  <li>
  *   The new RNG implementations are not {@code Serializable}.
@@ -58,9 +59,9 @@ import org.apache.commons.rng.core.RandomProviderDefaultState;
  *  </li>
  *  <li>
  *   {@link RandomGenerator#nextGaussian() nextGaussian()} is not
- *   part of the {@link UniformRandomProvider new API} as it defines
- *   a "post-processing" of the output of a <i>uniform</i> RNG in
- *   order to follow a different distribution.
+ *   part of the {@link org.apache.commons.rng.UniformRandomProvider
+ *   new API} as it defines a "post-processing" of the output of a
+ *   <i>uniform</i> RNG in order to follow a different distribution.
  *  </li>
  * </p>
  *
