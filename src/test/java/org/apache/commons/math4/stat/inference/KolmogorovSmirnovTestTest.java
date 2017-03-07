@@ -28,6 +28,7 @@ import org.apache.commons.rng.UniformRandomProvider;
 import org.apache.commons.math4.util.CombinatoricsUtils;
 import org.apache.commons.math4.util.FastMath;
 import org.apache.commons.math4.util.MathArrays;
+import org.apache.commons.math4.exception.NotANumberException;
 import org.junit.Assert;
 import org.junit.Test;
 
@@ -440,27 +441,90 @@ public class KolmogorovSmirnovTestTest {
     @Test
     public void testTwoSampleWithManyTiesAndVerySmallDelta() {
         // Cf. MATH-1405
+
         final double[] x = {
-            0.000000, 0.000000, 1.000000,
-            1.000000, 1.500000, 1.600000,
-            1.700000, 1.800000, 1.900000, 2.000000, 2.000000000000001
+            0.0, 0.0,
+            1.0, 1.0,
+            1.5,
+            1.6,
+            1.7,
+            1.8,
+            1.9,
+            2.0,
+            2.000000000000001
         };
 
         final double[] y = {
-            0.000000, 0.000000, 10.000000,
-            10.000000, 11.000000, 11.000000,
-            11.000000, 15.000000, 16.000000,
-            17.000000, 18.000000, 19.000000, 20.000000, 20.000000000000001
+            0.0, 0.0,
+            10.0, 10.0,
+            11.0, 11.0, 11.0,
+            15.0,
+            16.0,
+            17.0,
+            18.0,
+            19.0,
+            20.0,
+            20.000000000000001
         };
-
-        // These values result in an initial calculated minDelta of 4.440892098500626E-16,
-        // which is too small to jitter the existing values to new ones bc of floating-point
-        // precision.
-        // MATH-1405 adds functionality to iteratively increase minDelta until a noticeable
-        // jitter occurs.
 
         final KolmogorovSmirnovTest test = new KolmogorovSmirnovTest();
         Assert.assertEquals(1.12173015e-5, test.kolmogorovSmirnovTest(x, y), 1e-6);
+    }
+
+    @Test
+    public void testTwoSampleWithManyTiesAndExtremeValues() {
+        // Cf. MATH-1405
+
+        final double[] largeX = {
+            Double.MAX_VALUE, Double.MAX_VALUE,
+            1e40, 1e40,
+            2e40, 2e40,
+            1e30,
+            2e30,
+            3e30,
+            4e30,
+            5e10,
+            6e10,
+            7e10,
+            8e10
+        };
+
+        final double[] smallY = {
+            Double.MIN_VALUE,
+            2 * Double.MIN_VALUE,
+            1e-40, 1e-40,
+            2e-40, 2e-40,
+            1e-30,
+            2e-30,
+            3e-30,
+            4e-30,
+            5e-10,
+            6e-10,
+            7e-10,
+            8e-10
+        };
+
+        final KolmogorovSmirnovTest test = new KolmogorovSmirnovTest();
+        Assert.assertEquals(0, test.kolmogorovSmirnovTest(largeX, smallY), 1e-10);
+    }
+
+    @Test(expected=NotANumberException.class)
+    public void testTwoSampleWithTiesAndNaN1() {
+        // Cf. MATH-1405
+
+        final double[] x = { 1, Double.NaN, 3, 4 };
+        final double[] y = { 1, 2, 3, 4 };
+        new KolmogorovSmirnovTest().kolmogorovSmirnovTest(x, y);
+    }
+
+    @Test(expected=NotANumberException.class)
+    public void testTwoSampleWithTiesAndNaN2() {
+        // Cf. MATH-1405
+
+        final double[] x = { 1, 2, 3, 4 };
+        final double[] y = { 1, 2, Double.NaN, 4 };
+
+        new KolmogorovSmirnovTest().kolmogorovSmirnovTest(x, y);
     }
 
     @Test
