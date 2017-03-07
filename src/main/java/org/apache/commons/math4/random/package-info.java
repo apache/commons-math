@@ -19,8 +19,9 @@
  *
  * <p>
  *  Some of the utilities in this package use the pseudo-random number
- *  generators defined in package {@link org.apache.commons.math4.rng}
- *  to provide {@link org.apache.commons.math4.random.RandomUtils.DataGenerator
+ *  generators defined in the <a href="http://commons.apache.org/rng">
+ *  Commons RNG</a> library in order to provide
+ *  {@link org.apache.commons.math4.random.RandomUtils.DataGenerator
  *  higher level functionality} (such as random strings) based on an underlying
  *  source of randomness that provides sequences of uniformly distributed integers.
  * </p>
