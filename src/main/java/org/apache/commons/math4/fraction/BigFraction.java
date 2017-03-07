@@ -713,8 +713,10 @@ public class BigFraction
      */
     @Override
     public double doubleValue() {
-        double result = numerator.doubleValue() / denominator.doubleValue();
-        if (Double.isNaN(result)) {
+        double doubleNum = numerator.doubleValue();
+        double doubleDen = denominator.doubleValue();
+        double result = doubleNum / doubleDen;
+        if (Double.isInfinite(doubleNum) || Double.isInfinite(doubleDen) || Double.isNaN(result)) {
             // Numerator and/or denominator must be out of range:
             // Calculate how far to shift them to put them in range.
             int shift = FastMath.max(numerator.bitLength(),
@@ -766,8 +768,10 @@ public class BigFraction
      */
     @Override
     public float floatValue() {
-        float result = numerator.floatValue() / denominator.floatValue();
-        if (Double.isNaN(result)) {
+        float floatNum = numerator.floatValue();
+        float floatDen = denominator.floatValue();
+        float result = floatNum / floatDen;
+        if (Float.isInfinite(floatNum) || Float.isInfinite(floatDen) || Float.isNaN(result)) {
             // Numerator and/or denominator must be out of range:
             // Calculate how far to shift them to put them in range.
             int shift = FastMath.max(numerator.bitLength(),
