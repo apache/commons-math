@@ -3777,9 +3777,9 @@ public class FastMath {
         }
     }
 
-    /** Convert a long to interger, detecting overflows
+    /** Convert a long to integer, detecting overflows
      * @param n number to convert to int
-     * @return integer with same valie as n if no overflows occur
+     * @return integer with same value as n if no overflows occur
      * @exception MathArithmeticException if n cannot fit into an int
      * @since 3.4
      */

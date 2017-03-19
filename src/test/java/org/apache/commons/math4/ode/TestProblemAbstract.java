@@ -139,7 +139,7 @@ public int getDimension() {
 
   /**
    * Get the number of calls.
-   * @return nuber of calls
+   * @return number of calls
    */
   public int getCalls() {
     return calls;

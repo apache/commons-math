@@ -154,7 +154,7 @@ public abstract class TestFieldProblemAbstract<T extends RealFieldElement<T>>
 
     /**
      * Get the number of calls.
-     * @return nuber of calls
+     * @return number of calls
      */
     public int getCalls() {
         return calls;
