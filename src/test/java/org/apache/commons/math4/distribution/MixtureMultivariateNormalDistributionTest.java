@@ -17,9 +17,7 @@
 package org.apache.commons.math4.distribution;
 
 import java.util.List;
-import java.util.ArrayList;
 
-import org.apache.commons.math4.distribution.MixtureMultivariateRealDistribution;
 import org.apache.commons.math4.distribution.MultivariateNormalDistribution;
 import org.apache.commons.math4.exception.MathArithmeticException;
 import org.apache.commons.math4.exception.NotPositiveException;

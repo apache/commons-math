@@ -26,7 +26,6 @@ import org.apache.commons.math4.linear.RealMatrix;
 import org.apache.commons.math4.random.CorrelatedRandomVectorGenerator;
 import org.apache.commons.math4.random.GaussianRandomGenerator;
 import org.apache.commons.math4.random.NormalizedRandomGenerator;
-import org.apache.commons.rng.UniformRandomProvider;
 import org.apache.commons.rng.simple.RandomSource;
 import org.apache.commons.math4.stat.correlation.StorelessCovariance;
 import org.apache.commons.math4.stat.descriptive.moment.VectorialCovariance;

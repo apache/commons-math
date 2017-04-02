@@ -26,7 +26,6 @@ import org.apache.commons.math4.util.IntegerSequence;
 import org.apache.commons.math4.util.IntegerSequence.Range;
 import org.junit.Assert;
 import org.junit.Test;
-import org.junit.Assert;
 
 /**
  */

@@ -18,9 +18,6 @@
 package org.apache.commons.math4.random;
 
 import java.util.Random;
-import java.util.List;
-import java.util.ArrayList;
-import java.util.Collection;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import org.apache.commons.math4.exception.MathInternalError;

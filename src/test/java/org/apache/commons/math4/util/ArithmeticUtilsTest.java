@@ -16,7 +16,6 @@
  */
 package org.apache.commons.math4.util;
 
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.math.BigInteger;
 

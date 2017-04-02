@@ -22,10 +22,6 @@ import org.apache.commons.math4.util.FastMath;
 import org.junit.Assert;
 import org.junit.Test;
 
-import java.text.FieldPosition;
-import java.text.NumberFormat;
-import java.text.ParsePosition;
-
 public class Vector2DTest {
 
     private static final double EPS = Math.ulp(1d);

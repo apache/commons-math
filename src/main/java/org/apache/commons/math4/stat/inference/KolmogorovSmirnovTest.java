@@ -19,7 +19,6 @@ package org.apache.commons.math4.stat.inference;
 
 import java.math.BigDecimal;
 import java.util.Arrays;
-import java.util.HashSet;
 
 import org.apache.commons.math4.distribution.EnumeratedRealDistribution;
 import org.apache.commons.math4.distribution.RealDistribution;

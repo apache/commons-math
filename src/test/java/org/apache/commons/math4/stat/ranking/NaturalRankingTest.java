@@ -26,7 +26,6 @@ import org.junit.Test;
 import org.junit.Ignore;
 import org.apache.commons.rng.UniformRandomProvider;
 import org.apache.commons.rng.simple.RandomSource;
-import org.apache.commons.rng.simple.JDKRandomBridge;
 
 
 /**

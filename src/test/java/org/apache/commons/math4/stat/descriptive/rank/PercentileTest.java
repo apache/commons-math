@@ -26,7 +26,6 @@ import org.apache.commons.math4.exception.NotANumberException;
 import org.apache.commons.math4.exception.NullArgumentException;
 import org.apache.commons.math4.exception.OutOfRangeException;
 import org.apache.commons.rng.simple.RandomSource;
-import org.apache.commons.rng.UniformRandomProvider;
 import org.apache.commons.math4.stat.descriptive.UnivariateStatistic;
 import org.apache.commons.math4.stat.descriptive.UnivariateStatisticAbstractTest;
 import org.apache.commons.math4.stat.descriptive.rank.Percentile.EstimationType;
