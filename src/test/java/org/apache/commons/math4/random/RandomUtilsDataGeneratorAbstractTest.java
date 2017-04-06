@@ -20,7 +20,6 @@ import org.apache.commons.math4.RetryRunner;
 import org.apache.commons.math4.TestUtils;
 import org.apache.commons.math4.exception.MathIllegalArgumentException;
 import org.apache.commons.math4.stat.Frequency;
-import org.apache.commons.math4.stat.inference.ChiSquareTest;
 import org.apache.commons.math4.util.FastMath;
 import org.apache.commons.rng.UniformRandomProvider;
 import org.junit.Assert;
@@ -33,11 +32,8 @@ import org.junit.runner.RunWith;
 @RunWith(RetryRunner.class)
 public abstract class RandomUtilsDataGeneratorAbstractTest {
     private final long smallSampleSize = 1000;
-    private final double[] expected = { 250, 250, 250, 250 };
-    private final int largeSampleSize = 10000;
     private final String[] hex = { "0", "1", "2", "3", "4", "5", "6", "7", "8", "9",
                                    "a", "b", "c", "d", "e", "f" };
-    private final ChiSquareTest testStatistic = new ChiSquareTest();
     /** Data generator. */
     private final RandomUtils.DataGenerator randomData;
 
@@ -103,7 +99,7 @@ public abstract class RandomUtilsDataGeneratorAbstractTest {
     }
 
     private void checkNextLongUniform(long min, long max) {
-        final Frequency freq = new Frequency();
+        final Frequency<Long> freq = new Frequency<>();
         for (int i = 0; i < smallSampleSize; i++) {
             final long value = randomData.nextLong(min, max);
             Assert.assertTrue("nextLong range: " + value + " " + min + " " + max,
@@ -181,7 +177,7 @@ public abstract class RandomUtilsDataGeneratorAbstractTest {
         } catch (MathIllegalArgumentException ex) {
             // ignored
         }
-        Frequency f = new Frequency();
+        Frequency<String> f = new Frequency<>();
         for (int i = 0; i < smallSampleSize; i++) {
             hexString = randomData.nextHexString(100, useSha1);
             if (hexString.length() != 100) {
@@ -272,7 +268,7 @@ public abstract class RandomUtilsDataGeneratorAbstractTest {
             binBounds[i] = binBounds[i - 1] + binSize;  // + instead of * to avoid overflow in extreme case
         }
 
-        final Frequency freq = new Frequency();
+        final Frequency<Integer> freq = new Frequency<>();
         for (int i = 0; i < smallSampleSize; i++) {
             final double value = randomData.nextUniform(min, max);
             Assert.assertTrue("nextUniform range", (value > min) && (value < max));
