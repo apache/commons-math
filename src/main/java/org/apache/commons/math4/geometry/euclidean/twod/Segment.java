@@ -25,10 +25,10 @@ import org.apache.commons.math4.util.FastMath;
 public class Segment {
 
     /** Start point of the segment. */
-    private final Vector2D start;
+    private final Coordinates2D start;
 
     /** End point of the segment. */
-    private final Vector2D end;
+    private final Coordinates2D end;
 
     /** Line containing the segment. */
     private final Line     line;
@@ -38,7 +38,7 @@ public class Segment {
      * @param end end point of the segment
      * @param line line containing the segment
      */
-    public Segment(final Vector2D start, final Vector2D end, final Line line) {
+    public Segment(final Coordinates2D start, final Coordinates2D end, final Line line) {
         this.start  = start;
         this.end    = end;
         this.line   = line;
@@ -47,14 +47,14 @@ public class Segment {
     /** Get the start point of the segment.
      * @return start point of the segment
      */
-    public Vector2D getStart() {
+    public Coordinates2D getStart() {
         return start;
     }
 
     /** Get the end point of the segment.
      * @return end point of the segment
      */
-    public Vector2D getEnd() {
+    public Coordinates2D getEnd() {
         return end;
     }
 
@@ -80,7 +80,7 @@ public class Segment {
      * @return distance between the instance and the point
      * @since 3.1
      */
-    public double distance(final Vector2D p) {
+    public double distance(final Coordinates2D p) {
         final double deltaX = end.getX() - start.getX();
         final double deltaY = end.getY() - start.getY();
 
@@ -105,7 +105,7 @@ public class Segment {
             final double px = start.getX() + r * deltaX;
             final double py = start.getY() + r * deltaY;
 
-            final Vector2D interPt = new Vector2D(px, py);
+            final Coordinates2D interPt = new Coordinates2D(px, py);
             return interPt.distance((Point<Euclidean2D>) p);
         }
     }

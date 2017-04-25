@@ -26,7 +26,7 @@ import org.apache.commons.math4.fitting.leastsquares.LeastSquaresProblem;
 import org.apache.commons.math4.fitting.leastsquares.MultivariateJacobianFunction;
 import org.apache.commons.math4.fitting.leastsquares.LeastSquaresOptimizer.Optimum;
 import org.apache.commons.math4.fitting.leastsquares.LeastSquaresProblem.Evaluation;
-import org.apache.commons.math4.geometry.euclidean.twod.Vector2D;
+import org.apache.commons.math4.geometry.euclidean.twod.Coordinates2D;
 import org.apache.commons.math4.linear.Array2DRowRealMatrix;
 import org.apache.commons.math4.linear.ArrayRealVector;
 import org.apache.commons.math4.linear.BlockRealMatrix;
@@ -412,7 +412,7 @@ public abstract class AbstractLeastSquaresOptimizerAbstractTest {
         double rms = optimum.getRMS();
         Assert.assertEquals(1.768262623567235, FastMath.sqrt(circle.getN()) * rms, TOl);
 
-        Vector2D center = new Vector2D(optimum.getPoint().getEntry(0), optimum.getPoint().getEntry(1));
+        Coordinates2D center = new Coordinates2D(optimum.getPoint().getEntry(0), optimum.getPoint().getEntry(1));
         Assert.assertEquals(69.96016176931406, circle.getRadius(center), 1e-6);
         Assert.assertEquals(96.07590211815305, center.getX(), 1e-6);
         Assert.assertEquals(48.13516790438953, center.getY(), 1e-6);
@@ -455,7 +455,7 @@ public abstract class AbstractLeastSquaresOptimizerAbstractTest {
 
         Optimum optimum = optimizer.optimize(builder(circle).weight(new DiagonalMatrix(weights)).start(start).build());
 
-        Vector2D center = new Vector2D(optimum.getPoint().getEntry(0), optimum.getPoint().getEntry(1));
+        Coordinates2D center = new Coordinates2D(optimum.getPoint().getEntry(0), optimum.getPoint().getEntry(1));
         Assert.assertTrue(optimum.getEvaluations() < 25);
         Assert.assertEquals(0.043, optimum.getRMS(), 1e-3);
         Assert.assertEquals(0.292235, circle.getRadius(center), 1e-6);

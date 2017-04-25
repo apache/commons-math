@@ -112,14 +112,14 @@ public class IntervalsSet extends AbstractRegion<Euclidean1D, Euclidean1D> imple
             }
             // the tree must be open on the negative infinity side
             final SubHyperplane<Euclidean1D> upperCut =
-                new OrientedPoint(new Vector1D(upper), true, tolerance).wholeHyperplane();
+                new OrientedPoint(new Coordinates1D(upper), true, tolerance).wholeHyperplane();
             return new BSPTree<>(upperCut,
                                new BSPTree<Euclidean1D>(Boolean.FALSE),
                                new BSPTree<Euclidean1D>(Boolean.TRUE),
                                null);
         }
         final SubHyperplane<Euclidean1D> lowerCut =
-            new OrientedPoint(new Vector1D(lower), false, tolerance).wholeHyperplane();
+            new OrientedPoint(new Coordinates1D(lower), false, tolerance).wholeHyperplane();
         if (Double.isInfinite(upper) && (upper > 0)) {
             // the tree must be open on the positive infinity side
             return new BSPTree<>(lowerCut,
@@ -130,7 +130,7 @@ public class IntervalsSet extends AbstractRegion<Euclidean1D, Euclidean1D> imple
 
         // the tree must be bounded on the two sides
         final SubHyperplane<Euclidean1D> upperCut =
-            new OrientedPoint(new Vector1D(upper), true, tolerance).wholeHyperplane();
+            new OrientedPoint(new Coordinates1D(upper), true, tolerance).wholeHyperplane();
         return new BSPTree<>(lowerCut,
                                         new BSPTree<Euclidean1D>(Boolean.FALSE),
                                         new BSPTree<>(upperCut,
@@ -151,7 +151,7 @@ public class IntervalsSet extends AbstractRegion<Euclidean1D, Euclidean1D> imple
     @Override
     protected void computeGeometricalProperties() {
         if (getTree(false).getCut() == null) {
-            setBarycenter((Point<Euclidean1D>) Vector1D.NaN);
+            setBarycenter((Point<Euclidean1D>) Coordinates1D.NaN);
             setSize(((Boolean) getTree(false).getAttribute()) ? Double.POSITIVE_INFINITY : 0);
         } else {
             double size = 0.0;
@@ -162,9 +162,9 @@ public class IntervalsSet extends AbstractRegion<Euclidean1D, Euclidean1D> imple
             }
             setSize(size);
             if (Double.isInfinite(size)) {
-                setBarycenter((Point<Euclidean1D>) Vector1D.NaN);
+                setBarycenter((Point<Euclidean1D>) Coordinates1D.NaN);
             } else if (size >= Precision.SAFE_MIN) {
-                setBarycenter((Point<Euclidean1D>) new Vector1D(sum / size));
+                setBarycenter((Point<Euclidean1D>) new Coordinates1D(sum / size));
             } else {
                 setBarycenter((Point<Euclidean1D>) ((OrientedPoint) getTree(false).getCut().getHyperplane()).getLocation());
             }
@@ -212,7 +212,7 @@ public class IntervalsSet extends AbstractRegion<Euclidean1D, Euclidean1D> imple
     public BoundaryProjection<Euclidean1D> projectToBoundary(final Point<Euclidean1D> point) {
 
         // get position of test point
-        final double x = ((Vector1D) point).getX();
+        final double x = ((Coordinates1D) point).getX();
 
         double previous = Double.NEGATIVE_INFINITY;
         for (final double[] a : this) {
@@ -249,8 +249,8 @@ public class IntervalsSet extends AbstractRegion<Euclidean1D, Euclidean1D> imple
      * @param x abscissa of the point
      * @return a new point for finite abscissa, null otherwise
      */
-    private Vector1D finiteOrNullPoint(final double x) {
-        return Double.isInfinite(x) ? null : new Vector1D(x);
+    private Coordinates1D finiteOrNullPoint(final double x) {
+        return Double.isInfinite(x) ? null : new Coordinates1D(x);
     }
 
     /** Build an ordered list of intervals representing the instance.

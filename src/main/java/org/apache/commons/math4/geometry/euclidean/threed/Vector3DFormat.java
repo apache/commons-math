@@ -104,7 +104,7 @@ public class Vector3DFormat extends VectorFormat<Euclidean3D> {
     }
 
     /**
-     * Formats a {@link Vector3D} object to produce a string.
+     * Formats a {@link Coordinates3D} object to produce a string.
      * @param vector the object to format.
      * @param toAppendTo where the text is to be appended
      * @param pos On input: an alignment field, if desired. On output: the
@@ -114,42 +114,42 @@ public class Vector3DFormat extends VectorFormat<Euclidean3D> {
     @Override
     public StringBuffer format(final Vector<Euclidean3D> vector, final StringBuffer toAppendTo,
                                final FieldPosition pos) {
-        final Vector3D v3 = (Vector3D) vector;
+        final Coordinates3D v3 = (Coordinates3D) vector;
         return format(toAppendTo, pos, v3.getX(), v3.getY(), v3.getZ());
     }
 
     /**
-     * Parses a string to produce a {@link Vector3D} object.
+     * Parses a string to produce a {@link Coordinates3D} object.
      * @param source the string to parse
-     * @return the parsed {@link Vector3D} object.
+     * @return the parsed {@link Coordinates3D} object.
      * @throws MathParseException if the beginning of the specified string
      * cannot be parsed.
      */
     @Override
-    public Vector3D parse(final String source) throws MathParseException {
+    public Coordinates3D parse(final String source) throws MathParseException {
         ParsePosition parsePosition = new ParsePosition(0);
-        Vector3D result = parse(source, parsePosition);
+        Coordinates3D result = parse(source, parsePosition);
         if (parsePosition.getIndex() == 0) {
             throw new MathParseException(source,
                                          parsePosition.getErrorIndex(),
-                                         Vector3D.class);
+                                         Coordinates3D.class);
         }
         return result;
     }
 
     /**
-     * Parses a string to produce a {@link Vector3D} object.
+     * Parses a string to produce a {@link Coordinates3D} object.
      * @param source the string to parse
      * @param pos input/ouput parsing parameter.
-     * @return the parsed {@link Vector3D} object.
+     * @return the parsed {@link Coordinates3D} object.
      */
     @Override
-    public Vector3D parse(final String source, final ParsePosition pos) {
+    public Coordinates3D parse(final String source, final ParsePosition pos) {
         final double[] coordinates = parseCoordinates(3, source, pos);
         if (coordinates == null) {
             return null;
         }
-        return new Vector3D(coordinates[0], coordinates[1], coordinates[2]);
+        return new Coordinates3D(coordinates[0], coordinates[1], coordinates[2]);
     }
 
 }

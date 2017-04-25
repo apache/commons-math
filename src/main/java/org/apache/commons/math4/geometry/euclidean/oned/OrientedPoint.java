@@ -29,7 +29,7 @@ import org.apache.commons.math4.geometry.partitioning.Hyperplane;
 public class OrientedPoint implements Hyperplane<Euclidean1D> {
 
     /** Vector location. */
-    private final Vector1D location;
+    private final Coordinates1D location;
 
     /** Orientation. */
     private boolean direct;
@@ -44,7 +44,7 @@ public class OrientedPoint implements Hyperplane<Euclidean1D> {
      * @param tolerance tolerance below which points are considered to belong to the hyperplane
      * @since 3.3
      */
-    public OrientedPoint(final Vector1D location, final boolean direct, final double tolerance) {
+    public OrientedPoint(final Coordinates1D location, final boolean direct, final double tolerance) {
         this.location  = location;
         this.direct    = direct;
         this.tolerance = tolerance;
@@ -71,7 +71,7 @@ public class OrientedPoint implements Hyperplane<Euclidean1D> {
     /** {@inheritDoc} */
     @Override
     public double getOffset(final Point<Euclidean1D> point) {
-        final double delta = ((Vector1D) point).getX() - location.getX();
+        final double delta = ((Coordinates1D) point).getX() - location.getX();
         return direct ? delta : -delta;
     }
 
@@ -125,7 +125,7 @@ public class OrientedPoint implements Hyperplane<Euclidean1D> {
     /** Get the hyperplane location on the real line.
      * @return the hyperplane location
      */
-    public Vector1D getLocation() {
+    public Coordinates1D getLocation() {
         return location;
     }
 

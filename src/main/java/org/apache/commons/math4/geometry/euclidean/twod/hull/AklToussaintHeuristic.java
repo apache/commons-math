@@ -20,7 +20,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
-import org.apache.commons.math4.geometry.euclidean.twod.Vector2D;
+import org.apache.commons.math4.geometry.euclidean.twod.Coordinates2D;
 
 /**
  * A simple heuristic to improve the performance of convex hull algorithms.
@@ -50,15 +50,15 @@ public final class AklToussaintHeuristic {
      * @param points the original point set
      * @return a reduced point set, useful as input for convex hull algorithms
      */
-    public static Collection<Vector2D> reducePoints(final Collection<Vector2D> points) {
+    public static Collection<Coordinates2D> reducePoints(final Collection<Coordinates2D> points) {
 
         // find the leftmost point
         int size = 0;
-        Vector2D minX = null;
-        Vector2D maxX = null;
-        Vector2D minY = null;
-        Vector2D maxY = null;
-        for (Vector2D p : points) {
+        Coordinates2D minX = null;
+        Coordinates2D maxX = null;
+        Coordinates2D minY = null;
+        Coordinates2D maxY = null;
+        for (Coordinates2D p : points) {
             if (minX == null || p.getX() < minX.getX()) {
                 minX = p;
             }
@@ -78,14 +78,14 @@ public final class AklToussaintHeuristic {
             return points;
         }
 
-        final List<Vector2D> quadrilateral = buildQuadrilateral(minY, maxX, maxY, minX);
+        final List<Coordinates2D> quadrilateral = buildQuadrilateral(minY, maxX, maxY, minX);
         // if the quadrilateral is not well formed, e.g. only 2 points, do not attempt to reduce
         if (quadrilateral.size() < 3) {
             return points;
         }
 
-        final List<Vector2D> reducedPoints = new ArrayList<>(quadrilateral);
-        for (final Vector2D p : points) {
+        final List<Coordinates2D> reducedPoints = new ArrayList<>(quadrilateral);
+        for (final Coordinates2D p : points) {
             // check all points if they are within the quadrilateral
             // in which case they can not be part of the convex hull
             if (!insideQuadrilateral(p, quadrilateral)) {
@@ -102,9 +102,9 @@ public final class AklToussaintHeuristic {
      * @param points the respective points with min/max x/y coordinate
      * @return the quadrilateral
      */
-    private static List<Vector2D> buildQuadrilateral(final Vector2D... points) {
-        List<Vector2D> quadrilateral = new ArrayList<>();
-        for (Vector2D p : points) {
+    private static List<Coordinates2D> buildQuadrilateral(final Coordinates2D... points) {
+        List<Coordinates2D> quadrilateral = new ArrayList<>();
+        for (Coordinates2D p : points) {
             if (!quadrilateral.contains(p)) {
                 quadrilateral.add(p);
             }
@@ -118,11 +118,11 @@ public final class AklToussaintHeuristic {
      * @param quadrilateralPoints the convex quadrilateral, represented by 4 points
      * @return {@code true} if the point is inside the quadrilateral, {@code false} otherwise
      */
-    private static boolean insideQuadrilateral(final Vector2D point,
-                                               final List<Vector2D> quadrilateralPoints) {
+    private static boolean insideQuadrilateral(final Coordinates2D point,
+                                               final List<Coordinates2D> quadrilateralPoints) {
 
-        Vector2D p1 = quadrilateralPoints.get(0);
-        Vector2D p2 = quadrilateralPoints.get(1);
+        Coordinates2D p1 = quadrilateralPoints.get(0);
+        Coordinates2D p2 = quadrilateralPoints.get(1);
 
         if (point.equals(p1) || point.equals(p2)) {
             return true;

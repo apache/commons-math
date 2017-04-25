@@ -21,7 +21,7 @@ import java.util.ArrayList;
 
 import org.apache.commons.math4.analysis.MultivariateFunction;
 import org.apache.commons.math4.analysis.MultivariateVectorFunction;
-import org.apache.commons.math4.geometry.euclidean.twod.Vector2D;
+import org.apache.commons.math4.geometry.euclidean.twod.Coordinates2D;
 import org.apache.commons.math4.optim.nonlinear.scalar.ObjectiveFunction;
 import org.apache.commons.math4.optim.nonlinear.scalar.ObjectiveFunctionGradient;
 
@@ -29,19 +29,19 @@ import org.apache.commons.math4.optim.nonlinear.scalar.ObjectiveFunctionGradient
  * Class used in the tests.
  */
 public class CircleScalar {
-    private ArrayList<Vector2D> points;
+    private ArrayList<Coordinates2D> points;
 
     public CircleScalar() {
         points  = new ArrayList<>();
     }
 
     public void addPoint(double px, double py) {
-        points.add(new Vector2D(px, py));
+        points.add(new Coordinates2D(px, py));
     }
 
-    public double getRadius(Vector2D center) {
+    public double getRadius(Coordinates2D center) {
         double r = 0;
-        for (Vector2D point : points) {
+        for (Coordinates2D point : points) {
             r += point.distance(center);
         }
         return r / points.size();
@@ -51,10 +51,10 @@ public class CircleScalar {
         return new ObjectiveFunction(new MultivariateFunction() {
                 @Override
                 public double value(double[] params)  {
-                    Vector2D center = new Vector2D(params[0], params[1]);
+                    Coordinates2D center = new Coordinates2D(params[0], params[1]);
                     double radius = getRadius(center);
                     double sum = 0;
-                    for (Vector2D point : points) {
+                    for (Coordinates2D point : points) {
                         double di = point.distance(center) - radius;
                         sum += di * di;
                     }
@@ -67,12 +67,12 @@ public class CircleScalar {
         return new ObjectiveFunctionGradient(new MultivariateVectorFunction() {
                 @Override
                 public double[] value(double[] params) {
-                    Vector2D center = new Vector2D(params[0], params[1]);
+                    Coordinates2D center = new Coordinates2D(params[0], params[1]);
                     double radius = getRadius(center);
                     // gradient of the sum of squared residuals
                     double dJdX = 0;
                     double dJdY = 0;
-                    for (Vector2D pk : points) {
+                    for (Coordinates2D pk : points) {
                         double dk = pk.distance(center);
                         dJdX += (center.getX() - pk.getX()) * (dk - radius) / dk;
                         dJdY += (center.getY() - pk.getY()) * (dk - radius) / dk;

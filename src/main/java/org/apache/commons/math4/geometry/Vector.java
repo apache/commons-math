@@ -26,7 +26,12 @@ import org.apache.commons.math4.exception.MathArithmeticException;
  * @see Point
  * @since 3.0
  */
-public interface Vector<S extends Space> extends Point<S> {
+public interface Vector<S extends Space> {
+
+    /** Get the space to which the point belongs.
+     * @return containing space
+     */
+    Space getSpace();
 
     /** Get the null vector of the vectorial space or origin point of the affine space.
      * @return null vector of the vectorial space or origin point of the affine space
@@ -97,6 +102,12 @@ public interface Vector<S extends Space> extends Point<S> {
     Vector<S> scalarMultiply(double a);
 
     /**
+     * Returns true if any coordinate of this point is NaN; false otherwise
+     * @return  true if any coordinate of this point is NaN; false otherwise
+     */
+    boolean isNaN();
+
+    /**
      * Returns true if any coordinate of this vector is infinite and none are NaN;
      * false otherwise
      * @return  true if any coordinate of this vector is infinite and none are NaN;
@@ -112,6 +123,12 @@ public interface Vector<S extends Space> extends Point<S> {
      * @return the distance between the instance and p according to the L<sub>1</sub> norm
      */
     double distance1(Vector<S> v);
+
+    /** Compute the distance between the instance and another vector.
+     * @param v second vector
+     * @return the distance between the instance and v
+     */
+    double distance(Vector<S> v);
 
     /** Compute the distance between the instance and another vector according to the L<sub>&infin;</sub> norm.
      * <p>Calling this method is equivalent to calling:

@@ -105,31 +105,31 @@ public class Vector1DFormat extends VectorFormat<Euclidean1D> {
     @Override
     public StringBuffer format(final Vector<Euclidean1D> vector, final StringBuffer toAppendTo,
                                final FieldPosition pos) {
-        final Vector1D p1 = (Vector1D) vector;
+        final Coordinates1D p1 = (Coordinates1D) vector;
         return format(toAppendTo, pos, p1.getX());
     }
 
     /** {@inheritDoc} */
     @Override
-    public Vector1D parse(final String source) throws MathParseException {
+    public Coordinates1D parse(final String source) throws MathParseException {
         ParsePosition parsePosition = new ParsePosition(0);
-        Vector1D result = parse(source, parsePosition);
+        Coordinates1D result = parse(source, parsePosition);
         if (parsePosition.getIndex() == 0) {
             throw new MathParseException(source,
                                          parsePosition.getErrorIndex(),
-                                         Vector1D.class);
+                                         Coordinates1D.class);
         }
         return result;
     }
 
     /** {@inheritDoc} */
     @Override
-    public Vector1D parse(final String source, final ParsePosition pos) {
+    public Coordinates1D parse(final String source, final ParsePosition pos) {
         final double[] coordinates = parseCoordinates(1, source, pos);
         if (coordinates == null) {
             return null;
         }
-        return new Vector1D(coordinates[0]);
+        return new Coordinates1D(coordinates[0]);
     }
 
 }

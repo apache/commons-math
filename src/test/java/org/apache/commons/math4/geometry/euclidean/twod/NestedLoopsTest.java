@@ -32,13 +32,13 @@ public class NestedLoopsTest {
 
     @Test
     public void testNestedLoops() throws Exception {
-        Vector2D oneOne = new Vector2D(1.0, 1.0);
-        Vector2D oneNegativeOne = new Vector2D(1.0, -1.0);
-        Vector2D negativeOneNegativeOne = new Vector2D(-1.0, -1.0);
-        Vector2D negativeOneOne = new Vector2D(-1.0, 1.0);
-        Vector2D origin = new Vector2D(0, 0);
+        Coordinates2D oneOne = new Coordinates2D(1.0, 1.0);
+        Coordinates2D oneNegativeOne = new Coordinates2D(1.0, -1.0);
+        Coordinates2D negativeOneNegativeOne = new Coordinates2D(-1.0, -1.0);
+        Coordinates2D negativeOneOne = new Coordinates2D(-1.0, 1.0);
+        Coordinates2D origin = new Coordinates2D(0, 0);
 
-        Vector2D [] vertices = new Vector2D[]{
+        Coordinates2D [] vertices = new Coordinates2D[]{
                 oneOne,
                 oneNegativeOne,
                 negativeOneNegativeOne,
@@ -55,8 +55,8 @@ public class NestedLoopsTest {
         surroundedField.setAccessible(Boolean.TRUE);
         loopField.setAccessible(Boolean.TRUE);
         List<NestedLoops> surrounded = (List<NestedLoops>) surroundedField.get(nestedLoops);
-        Vector2D[] loop = (Vector2D []) loopField.get(surrounded.get(0));
-        Set<Vector2D> vertexSet = new HashSet<>(Arrays.asList(loop));
+        Coordinates2D[] loop = (Coordinates2D []) loopField.get(surrounded.get(0));
+        Set<Coordinates2D> vertexSet = new HashSet<>(Arrays.asList(loop));
         Assert.assertTrue(vertexSet.contains(oneOne));
         Assert.assertTrue(vertexSet.contains(oneNegativeOne));
         Assert.assertTrue(vertexSet.contains(negativeOneNegativeOne));

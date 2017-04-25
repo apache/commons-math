@@ -20,7 +20,7 @@ import org.apache.commons.math4.exception.MathArithmeticException;
 import org.apache.commons.math4.exception.OutOfRangeException;
 import org.apache.commons.math4.geometry.Point;
 import org.apache.commons.math4.geometry.Space;
-import org.apache.commons.math4.geometry.euclidean.threed.Vector3D;
+import org.apache.commons.math4.geometry.euclidean.threed.Coordinates3D;
 import org.apache.commons.math4.util.FastMath;
 import org.apache.commons.math4.util.MathUtils;
 
@@ -38,26 +38,26 @@ import org.apache.commons.math4.util.MathUtils;
 public class S2Point implements Point<Sphere2D> {
 
     /** +I (coordinates: \( \theta = 0, \varphi = \pi/2 \)). */
-    public static final S2Point PLUS_I = new S2Point(0, 0.5 * FastMath.PI, Vector3D.PLUS_I);
+    public static final S2Point PLUS_I = new S2Point(0, 0.5 * FastMath.PI, Coordinates3D.PLUS_I);
 
     /** +J (coordinates: \( \theta = \pi/2, \varphi = \pi/2 \))). */
-    public static final S2Point PLUS_J = new S2Point(0.5 * FastMath.PI, 0.5 * FastMath.PI, Vector3D.PLUS_J);
+    public static final S2Point PLUS_J = new S2Point(0.5 * FastMath.PI, 0.5 * FastMath.PI, Coordinates3D.PLUS_J);
 
     /** +K (coordinates: \( \theta = any angle, \varphi = 0 \)). */
-    public static final S2Point PLUS_K = new S2Point(0, 0, Vector3D.PLUS_K);
+    public static final S2Point PLUS_K = new S2Point(0, 0, Coordinates3D.PLUS_K);
 
     /** -I (coordinates: \( \theta = \pi, \varphi = \pi/2 \)). */
-    public static final S2Point MINUS_I = new S2Point(FastMath.PI, 0.5 * FastMath.PI, Vector3D.MINUS_I);
+    public static final S2Point MINUS_I = new S2Point(FastMath.PI, 0.5 * FastMath.PI, Coordinates3D.MINUS_I);
 
     /** -J (coordinates: \( \theta = 3\pi/2, \varphi = \pi/2 \)). */
-    public static final S2Point MINUS_J = new S2Point(1.5 * FastMath.PI, 0.5 * FastMath.PI, Vector3D.MINUS_J);
+    public static final S2Point MINUS_J = new S2Point(1.5 * FastMath.PI, 0.5 * FastMath.PI, Coordinates3D.MINUS_J);
 
     /** -K (coordinates: \( \theta = any angle, \varphi = \pi \)). */
-    public static final S2Point MINUS_K = new S2Point(0, FastMath.PI, Vector3D.MINUS_K);
+    public static final S2Point MINUS_K = new S2Point(0, FastMath.PI, Coordinates3D.MINUS_K);
 
     // CHECKSTYLE: stop ConstantName
     /** A vector with all coordinates set to NaN. */
-    public static final S2Point NaN = new S2Point(Double.NaN, Double.NaN, Vector3D.NaN);
+    public static final S2Point NaN = new S2Point(Double.NaN, Double.NaN, Coordinates3D.NaN);
     // CHECKSTYLE: resume ConstantName
 
     /** Serializable UID. */
@@ -70,7 +70,7 @@ public class S2Point implements Point<Sphere2D> {
     private final double phi;
 
     /** Corresponding 3D normalized vector. */
-    private final Vector3D vector;
+    private final Coordinates3D vector;
 
     /** Simple constructor.
      * Build a vector from its spherical coordinates
@@ -90,8 +90,8 @@ public class S2Point implements Point<Sphere2D> {
      * @param vector 3D vector
      * @exception MathArithmeticException if vector norm is zero
      */
-    public S2Point(final Vector3D vector) throws MathArithmeticException {
-        this(FastMath.atan2(vector.getY(), vector.getX()), Vector3D.angle(Vector3D.PLUS_K, vector),
+    public S2Point(final Coordinates3D vector) throws MathArithmeticException {
+        this(FastMath.atan2(vector.getY(), vector.getX()), Coordinates3D.angle(Coordinates3D.PLUS_K, vector),
              vector.normalize());
     }
 
@@ -100,7 +100,7 @@ public class S2Point implements Point<Sphere2D> {
      * @param phi polar angle \( \varphi \)
      * @param vector corresponding vector
      */
-    private S2Point(final double theta, final double phi, final Vector3D vector) {
+    private S2Point(final double theta, final double phi, final Coordinates3D vector) {
         this.theta  = theta;
         this.phi    = phi;
         this.vector = vector;
@@ -112,7 +112,7 @@ public class S2Point implements Point<Sphere2D> {
      * @return normalized vector
      * @exception OutOfRangeException if \( \varphi \) is not in the [\( 0; \pi \)] range
      */
-    private static Vector3D vector(final double theta, final double phi)
+    private static Coordinates3D vector(final double theta, final double phi)
        throws OutOfRangeException {
 
         if (phi < 0 || phi > FastMath.PI) {
@@ -124,7 +124,7 @@ public class S2Point implements Point<Sphere2D> {
         final double cosPhi   = FastMath.cos(phi);
         final double sinPhi   = FastMath.sin(phi);
 
-        return new Vector3D(cosTheta * sinPhi, sinTheta * sinPhi, cosPhi);
+        return new Coordinates3D(cosTheta * sinPhi, sinTheta * sinPhi, cosPhi);
 
     }
 
@@ -147,7 +147,7 @@ public class S2Point implements Point<Sphere2D> {
     /** Get the corresponding normalized vector in the 3D euclidean space.
      * @return normalized vector
      */
-    public Vector3D getVector() {
+    public Coordinates3D getVector() {
         return vector;
     }
 
@@ -182,7 +182,7 @@ public class S2Point implements Point<Sphere2D> {
      * @return the angular separation between p1 and p2
      */
     public static double distance(S2Point p1, S2Point p2) {
-        return Vector3D.angle(p1.vector, p2.vector);
+        return Coordinates3D.angle(p1.vector, p2.vector);
     }
 
     /**

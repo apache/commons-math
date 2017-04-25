@@ -18,7 +18,7 @@ package org.apache.commons.math4.geometry.spherical.twod;
 
 import org.apache.commons.math4.geometry.Point;
 import org.apache.commons.math4.geometry.euclidean.threed.Rotation;
-import org.apache.commons.math4.geometry.euclidean.threed.Vector3D;
+import org.apache.commons.math4.geometry.euclidean.threed.Coordinates3D;
 import org.apache.commons.math4.geometry.partitioning.Embedding;
 import org.apache.commons.math4.geometry.partitioning.Hyperplane;
 import org.apache.commons.math4.geometry.partitioning.SubHyperplane;
@@ -45,13 +45,13 @@ import org.apache.commons.math4.util.FastMath;
 public class Circle implements Hyperplane<Sphere2D>, Embedding<Sphere2D, Sphere1D> {
 
     /** Pole or circle center. */
-    private Vector3D pole;
+    private Coordinates3D pole;
 
     /** First axis in the equator plane, origin of the phase angles. */
-    private Vector3D x;
+    private Coordinates3D x;
 
     /** Second axis in the equator plane, in quadrature with respect to x. */
-    private Vector3D y;
+    private Coordinates3D y;
 
     /** Tolerance below which close sub-arcs are merged together. */
     private final double tolerance;
@@ -61,7 +61,7 @@ public class Circle implements Hyperplane<Sphere2D>, Embedding<Sphere2D, Sphere1
      * @param pole circle pole
      * @param tolerance tolerance below which close sub-arcs are merged together
      */
-    public Circle(final Vector3D pole, final double tolerance) {
+    public Circle(final Coordinates3D pole, final double tolerance) {
         reset(pole);
         this.tolerance = tolerance;
     }
@@ -84,7 +84,7 @@ public class Circle implements Hyperplane<Sphere2D>, Embedding<Sphere2D, Sphere1
      * @param y second axis in the equator plane
      * @param tolerance tolerance below which close sub-arcs are merged together
      */
-    private Circle(final Vector3D pole, final Vector3D x, final Vector3D y,
+    private Circle(final Coordinates3D pole, final Coordinates3D x, final Coordinates3D y,
                    final double tolerance) {
         this.pole      = pole;
         this.x         = x;
@@ -111,10 +111,10 @@ public class Circle implements Hyperplane<Sphere2D>, Embedding<Sphere2D, Sphere1
      * <p>The circle is oriented in the trigonometric direction around pole.</p>
      * @param newPole circle pole
      */
-    public void reset(final Vector3D newPole) {
+    public void reset(final Coordinates3D newPole) {
         this.pole = newPole.normalize();
         this.x    = newPole.orthogonal();
-        this.y    = Vector3D.crossProduct(newPole, x).normalize();
+        this.y    = Coordinates3D.crossProduct(newPole, x).normalize();
     }
 
     /** Revert the instance.
@@ -164,7 +164,7 @@ public class Circle implements Hyperplane<Sphere2D>, Embedding<Sphere2D, Sphere1
      * @return phase angle of the direction around the circle
      * @see #toSubSpace(Point)
      */
-    public double getPhase(final Vector3D direction) {
+    public double getPhase(final Coordinates3D direction) {
         return FastMath.PI + FastMath.atan2(-direction.dotProduct(y), -direction.dotProduct(x));
     }
 
@@ -183,8 +183,8 @@ public class Circle implements Hyperplane<Sphere2D>, Embedding<Sphere2D, Sphere1
      * @see #getXAxis()
      * @see #getYAxis()
      */
-    public Vector3D getPointAt(final double alpha) {
-        return new Vector3D(FastMath.cos(alpha), x, FastMath.sin(alpha), y);
+    public Coordinates3D getPointAt(final double alpha) {
+        return new Coordinates3D(FastMath.cos(alpha), x, FastMath.sin(alpha), y);
     }
 
     /** Get the X axis of the circle.
@@ -198,7 +198,7 @@ public class Circle implements Hyperplane<Sphere2D>, Embedding<Sphere2D, Sphere1
      * @see #getYAxis()
      * @see #getPole()
      */
-    public Vector3D getXAxis() {
+    public Coordinates3D getXAxis() {
         return x;
     }
 
@@ -213,7 +213,7 @@ public class Circle implements Hyperplane<Sphere2D>, Embedding<Sphere2D, Sphere1
      * @see #getXAxis()
      * @see #getPole()
      */
-    public Vector3D getYAxis() {
+    public Coordinates3D getYAxis() {
         return y;
     }
 
@@ -226,7 +226,7 @@ public class Circle implements Hyperplane<Sphere2D>, Embedding<Sphere2D, Sphere1
      * @see #getXAxis()
      * @see #getYAxis()
      */
-    public Vector3D getPole() {
+    public Coordinates3D getPole() {
         return pole;
     }
 
@@ -272,15 +272,15 @@ public class Circle implements Hyperplane<Sphere2D>, Embedding<Sphere2D, Sphere1
      * @return offset of the direction
      * @see #getOffset(Point)
      */
-    public double getOffset(final Vector3D direction) {
-        return Vector3D.angle(pole, direction) - 0.5 * FastMath.PI;
+    public double getOffset(final Coordinates3D direction) {
+        return Coordinates3D.angle(pole, direction) - 0.5 * FastMath.PI;
     }
 
     /** {@inheritDoc} */
     @Override
     public boolean sameOrientationAs(final Hyperplane<Sphere2D> other) {
         final Circle otherC = (Circle) other;
-        return Vector3D.dotProduct(pole, otherC.pole) >= 0.0;
+        return Coordinates3D.dotProduct(pole, otherC.pole) >= 0.0;
     }
 
     /** Get a {@link org.apache.commons.math4.geometry.partitioning.Transform

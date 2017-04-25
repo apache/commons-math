@@ -24,7 +24,7 @@ import org.apache.commons.math4.exception.util.LocalizedFormats;
 import org.apache.commons.math4.geometry.euclidean.twod.Euclidean2D;
 import org.apache.commons.math4.geometry.euclidean.twod.Line;
 import org.apache.commons.math4.geometry.euclidean.twod.Segment;
-import org.apache.commons.math4.geometry.euclidean.twod.Vector2D;
+import org.apache.commons.math4.geometry.euclidean.twod.Coordinates2D;
 import org.apache.commons.math4.geometry.hull.ConvexHull;
 import org.apache.commons.math4.geometry.partitioning.Region;
 import org.apache.commons.math4.geometry.partitioning.RegionFactory;
@@ -36,13 +36,13 @@ import org.apache.commons.math4.util.Precision;
  *
  * @since 3.3
  */
-public class ConvexHull2D implements ConvexHull<Euclidean2D, Vector2D>, Serializable {
+public class ConvexHull2D implements ConvexHull<Euclidean2D, Coordinates2D>, Serializable {
 
     /** Serializable UID. */
     private static final long serialVersionUID = 20140129L;
 
     /** Vertices of the hull. */
-    private final Vector2D[] vertices;
+    private final Coordinates2D[] vertices;
 
     /** Tolerance threshold used during creation of the hull vertices. */
     private final double tolerance;
@@ -59,7 +59,7 @@ public class ConvexHull2D implements ConvexHull<Euclidean2D, Vector2D>, Serializ
      * @param tolerance tolerance below which points are considered identical
      * @throws MathIllegalArgumentException if the vertices do not form a convex hull
      */
-    public ConvexHull2D(final Vector2D[] vertices, final double tolerance)
+    public ConvexHull2D(final Coordinates2D[] vertices, final double tolerance)
         throws MathIllegalArgumentException {
 
         // assign tolerance as it will be used by the isConvex method
@@ -77,19 +77,19 @@ public class ConvexHull2D implements ConvexHull<Euclidean2D, Vector2D>, Serializ
      * @param hullVertices the hull vertices
      * @return {@code true} if the vertices form a convex hull, {@code false} otherwise
      */
-    private boolean isConvex(final Vector2D[] hullVertices) {
+    private boolean isConvex(final Coordinates2D[] hullVertices) {
         if (hullVertices.length < 3) {
             return true;
         }
 
         int sign = 0;
         for (int i = 0; i < hullVertices.length; i++) {
-            final Vector2D p1 = hullVertices[i == 0 ? hullVertices.length - 1 : i - 1];
-            final Vector2D p2 = hullVertices[i];
-            final Vector2D p3 = hullVertices[i == hullVertices.length - 1 ? 0 : i + 1];
+            final Coordinates2D p1 = hullVertices[i == 0 ? hullVertices.length - 1 : i - 1];
+            final Coordinates2D p2 = hullVertices[i];
+            final Coordinates2D p3 = hullVertices[i == hullVertices.length - 1 ? 0 : i + 1];
 
-            final Vector2D d1 = p2.subtract(p1);
-            final Vector2D d2 = p3.subtract(p2);
+            final Coordinates2D d1 = p2.subtract(p1);
+            final Coordinates2D d2 = p3.subtract(p2);
 
             final double crossProduct = MathArrays.linearCombination(d1.getX(), d2.getY(), -d1.getY(), d2.getX());
             final int cmp = Precision.compareTo(crossProduct, 0.0, tolerance);
@@ -107,7 +107,7 @@ public class ConvexHull2D implements ConvexHull<Euclidean2D, Vector2D>, Serializ
 
     /** {@inheritDoc} */
     @Override
-    public Vector2D[] getVertices() {
+    public Coordinates2D[] getVertices() {
         return vertices.clone();
     }
 
@@ -132,15 +132,15 @@ public class ConvexHull2D implements ConvexHull<Euclidean2D, Vector2D>, Serializ
                 this.lineSegments = new Segment[0];
             } else if (size == 2) {
                 this.lineSegments = new Segment[1];
-                final Vector2D p1 = vertices[0];
-                final Vector2D p2 = vertices[1];
+                final Coordinates2D p1 = vertices[0];
+                final Coordinates2D p2 = vertices[1];
                 this.lineSegments[0] = new Segment(p1, p2, new Line(p1, p2, tolerance));
             } else {
                 this.lineSegments = new Segment[size];
-                Vector2D firstPoint = null;
-                Vector2D lastPoint = null;
+                Coordinates2D firstPoint = null;
+                Coordinates2D lastPoint = null;
                 int index = 0;
-                for (Vector2D point : vertices) {
+                for (Coordinates2D point : vertices) {
                     if (lastPoint == null) {
                         firstPoint = point;
                         lastPoint = point;

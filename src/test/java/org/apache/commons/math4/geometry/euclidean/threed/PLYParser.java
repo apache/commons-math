@@ -40,7 +40,7 @@ import org.apache.commons.math4.util.Precision;
 public class PLYParser {
 
     /** Parsed vertices. */
-    private Vector3D[] vertices;
+    private Coordinates3D[] vertices;
 
     /** Parsed faces. */
     private int[][] faces;
@@ -167,7 +167,7 @@ public class PLYParser {
             ++vPropertiesNumber;
 
             // parse vertices
-            vertices = new Vector3D[nbVertices];
+            vertices = new Coordinates3D[nbVertices];
             for (int i = 0; i < nbVertices; ++i) {
                 fields = parseNextLine();
                 if (fields.size() != vPropertiesNumber ||
@@ -176,7 +176,7 @@ public class PLYParser {
                     fields.get(zIndex).getToken() != Token.UNKNOWN) {
                     complain();
                 }
-                vertices[i] = new Vector3D(Double.parseDouble(fields.get(xIndex).getValue()),
+                vertices[i] = new Coordinates3D(Double.parseDouble(fields.get(xIndex).getValue()),
                                            Double.parseDouble(fields.get(yIndex).getValue()),
                                            Double.parseDouble(fields.get(zIndex).getValue()));
             }
@@ -229,7 +229,7 @@ public class PLYParser {
     /** Get the parsed vertices.
      * @return parsed vertices
      */
-    public List<Vector3D> getVertices() {
+    public List<Coordinates3D> getVertices() {
         return Arrays.asList(vertices);
     }
 
