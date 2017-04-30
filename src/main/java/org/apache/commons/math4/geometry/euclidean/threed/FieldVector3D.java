@@ -535,9 +535,9 @@ public class FieldVector3D<T extends RealFieldElement<T>> implements Serializabl
      * following example shows how to build a frame having the k axis
      * aligned with the known vector u :
      * <pre><code>
-     *   Vector3D k = u.normalize();
-     *   Vector3D i = k.orthogonal();
-     *   Vector3D j = Vector3D.crossProduct(k, i);
+     *   Cartesian3D k = u.normalize();
+     *   Cartesian3D i = k.orthogonal();
+     *   Cartesian3D j = Cartesian3D.crossProduct(k, i);
      * </code></pre></p>
      * @return a new normalized vector orthogonal to the instance
      * @exception MathArithmeticException if the norm of the instance is null
@@ -707,8 +707,8 @@ public class FieldVector3D<T extends RealFieldElement<T>> implements Serializabl
      *
      * @param other Object to test for equality to this
      * @return true if two 3D vector objects are equal, false if
-     *         object is null, not an instance of Vector3D, or
-     *         not equal to this Vector3D instance
+     *         object is null, not an instance of FieldVector3D, or
+     *         not equal to this FieldVector3D instance
      *
      */
     @Override
@@ -776,7 +776,7 @@ public class FieldVector3D<T extends RealFieldElement<T>> implements Serializabl
 
     /** Compute the cross-product of the instance with another vector.
      * @param v other vector
-     * @return the cross product this ^ v as a new Vector3D
+     * @return the cross product this ^ v as a new FieldVector3D
      */
     public FieldVector3D<T> crossProduct(final FieldVector3D<T> v) {
         return new FieldVector3D<>(x.linearCombination(y, v.z, z.negate(), v.y),
@@ -786,7 +786,7 @@ public class FieldVector3D<T extends RealFieldElement<T>> implements Serializabl
 
     /** Compute the cross-product of the instance with another vector.
      * @param v other vector
-     * @return the cross product this ^ v as a new Vector3D
+     * @return the cross product this ^ v as a new FieldVector3D
      */
     public FieldVector3D<T> crossProduct(final Cartesian3D v) {
         return new FieldVector3D<>(x.linearCombination(v.getZ(), y, -v.getY(), z),

@@ -815,9 +815,9 @@ public class FieldRotation<T extends RealFieldElement<T>> implements Serializabl
         } else {
             if (order == RotationOrder.XYZ) {
 
-                // r (Vector3D.plusI) coordinates are :
+                // r (Cartesian3D.plusI) coordinates are :
                 //  cos (theta) cos (psi), -cos (theta) sin (psi), sin (theta)
-                // (-r) (Vector3D.plusK) coordinates are :
+                // (-r) (Cartesian3D.plusK) coordinates are :
                 // sin (theta), -sin (phi) cos (theta), cos (phi) cos (theta)
                 // and we can choose to have theta in the interval [-PI/2 ; +PI/2]
                 FieldVector3D<T> v1 = applyTo(Cartesian3D.PLUS_I);
@@ -831,9 +831,9 @@ public class FieldRotation<T extends RealFieldElement<T>> implements Serializabl
 
             } else if (order == RotationOrder.XZY) {
 
-                // r (Vector3D.plusI) coordinates are :
+                // r (Cartesian3D.plusI) coordinates are :
                 // cos (psi) cos (theta), -sin (psi), cos (psi) sin (theta)
-                // (-r) (Vector3D.plusJ) coordinates are :
+                // (-r) (Cartesian3D.plusJ) coordinates are :
                 // -sin (psi), cos (phi) cos (psi), sin (phi) cos (psi)
                 // and we can choose to have psi in the interval [-PI/2 ; +PI/2]
                 FieldVector3D<T> v1 = applyTo(Cartesian3D.PLUS_I);
@@ -847,9 +847,9 @@ public class FieldRotation<T extends RealFieldElement<T>> implements Serializabl
 
             } else if (order == RotationOrder.YXZ) {
 
-                // r (Vector3D.plusJ) coordinates are :
+                // r (Cartesian3D.plusJ) coordinates are :
                 // cos (phi) sin (psi), cos (phi) cos (psi), -sin (phi)
-                // (-r) (Vector3D.plusK) coordinates are :
+                // (-r) (Cartesian3D.plusK) coordinates are :
                 // sin (theta) cos (phi), -sin (phi), cos (theta) cos (phi)
                 // and we can choose to have phi in the interval [-PI/2 ; +PI/2]
                 FieldVector3D<T> v1 = applyTo(Cartesian3D.PLUS_J);
@@ -863,9 +863,9 @@ public class FieldRotation<T extends RealFieldElement<T>> implements Serializabl
 
             } else if (order == RotationOrder.YZX) {
 
-                // r (Vector3D.plusJ) coordinates are :
+                // r (Cartesian3D.plusJ) coordinates are :
                 // sin (psi), cos (psi) cos (phi), -cos (psi) sin (phi)
-                // (-r) (Vector3D.plusI) coordinates are :
+                // (-r) (Cartesian3D.plusI) coordinates are :
                 // cos (theta) cos (psi), sin (psi), -sin (theta) cos (psi)
                 // and we can choose to have psi in the interval [-PI/2 ; +PI/2]
                 FieldVector3D<T> v1 = applyTo(Cartesian3D.PLUS_J);
@@ -879,9 +879,9 @@ public class FieldRotation<T extends RealFieldElement<T>> implements Serializabl
 
             } else if (order == RotationOrder.ZXY) {
 
-                // r (Vector3D.plusK) coordinates are :
+                // r (Cartesian3D.plusK) coordinates are :
                 //  -cos (phi) sin (theta), sin (phi), cos (phi) cos (theta)
-                // (-r) (Vector3D.plusJ) coordinates are :
+                // (-r) (Cartesian3D.plusJ) coordinates are :
                 // -sin (psi) cos (phi), cos (psi) cos (phi), sin (phi)
                 // and we can choose to have phi in the interval [-PI/2 ; +PI/2]
                 FieldVector3D<T> v1 = applyTo(Cartesian3D.PLUS_K);
@@ -895,9 +895,9 @@ public class FieldRotation<T extends RealFieldElement<T>> implements Serializabl
 
             } else if (order == RotationOrder.ZYX) {
 
-                // r (Vector3D.plusK) coordinates are :
+                // r (Cartesian3D.plusK) coordinates are :
                 //  -sin (theta), cos (theta) sin (phi), cos (theta) cos (phi)
-                // (-r) (Vector3D.plusI) coordinates are :
+                // (-r) (Cartesian3D.plusI) coordinates are :
                 // cos (psi) cos (theta), sin (psi) cos (theta), -sin (theta)
                 // and we can choose to have theta in the interval [-PI/2 ; +PI/2]
                 FieldVector3D<T> v1 = applyTo(Cartesian3D.PLUS_K);
@@ -911,9 +911,9 @@ public class FieldRotation<T extends RealFieldElement<T>> implements Serializabl
 
             } else if (order == RotationOrder.XYX) {
 
-                // r (Vector3D.plusI) coordinates are :
+                // r (Cartesian3D.plusI) coordinates are :
                 //  cos (theta), sin (phi2) sin (theta), cos (phi2) sin (theta)
-                // (-r) (Vector3D.plusI) coordinates are :
+                // (-r) (Cartesian3D.plusI) coordinates are :
                 // cos (theta), sin (theta) sin (phi1), -sin (theta) cos (phi1)
                 // and we can choose to have theta in the interval [0 ; PI]
                 FieldVector3D<T> v1 = applyTo(Cartesian3D.PLUS_I);
@@ -927,9 +927,9 @@ public class FieldRotation<T extends RealFieldElement<T>> implements Serializabl
 
             } else if (order == RotationOrder.XZX) {
 
-                // r (Vector3D.plusI) coordinates are :
+                // r (Cartesian3D.plusI) coordinates are :
                 //  cos (psi), -cos (phi2) sin (psi), sin (phi2) sin (psi)
-                // (-r) (Vector3D.plusI) coordinates are :
+                // (-r) (Cartesian3D.plusI) coordinates are :
                 // cos (psi), sin (psi) cos (phi1), sin (psi) sin (phi1)
                 // and we can choose to have psi in the interval [0 ; PI]
                 FieldVector3D<T> v1 = applyTo(Cartesian3D.PLUS_I);
@@ -943,9 +943,9 @@ public class FieldRotation<T extends RealFieldElement<T>> implements Serializabl
 
             } else if (order == RotationOrder.YXY) {
 
-                // r (Vector3D.plusJ) coordinates are :
+                // r (Cartesian3D.plusJ) coordinates are :
                 // sin (phi) sin (theta2), cos (phi), -sin (phi) cos (theta2)
-                // (-r) (Vector3D.plusJ) coordinates are :
+                // (-r) (Cartesian3D.plusJ) coordinates are :
                 //  sin (theta1) sin (phi), cos (phi), cos (theta1) sin (phi)
                 // and we can choose to have phi in the interval [0 ; PI]
                 FieldVector3D<T> v1 = applyTo(Cartesian3D.PLUS_J);
@@ -959,9 +959,9 @@ public class FieldRotation<T extends RealFieldElement<T>> implements Serializabl
 
             } else if (order == RotationOrder.YZY) {
 
-                // r (Vector3D.plusJ) coordinates are :
+                // r (Cartesian3D.plusJ) coordinates are :
                 // sin (psi) cos (theta2), cos (psi), sin (psi) sin (theta2)
-                // (-r) (Vector3D.plusJ) coordinates are :
+                // (-r) (Cartesian3D.plusJ) coordinates are :
                 //  -cos (theta1) sin (psi), cos (psi), sin (theta1) sin (psi)
                 // and we can choose to have psi in the interval [0 ; PI]
                 FieldVector3D<T> v1 = applyTo(Cartesian3D.PLUS_J);
@@ -975,9 +975,9 @@ public class FieldRotation<T extends RealFieldElement<T>> implements Serializabl
 
             } else if (order == RotationOrder.ZXZ) {
 
-                // r (Vector3D.plusK) coordinates are :
+                // r (Cartesian3D.plusK) coordinates are :
                 // sin (phi) sin (psi2), sin (phi) cos (psi2), cos (phi)
-                // (-r) (Vector3D.plusK) coordinates are :
+                // (-r) (Cartesian3D.plusK) coordinates are :
                 //  sin (psi1) sin (phi), -cos (psi1) sin (phi), cos (phi)
                 // and we can choose to have phi in the interval [0 ; PI]
                 FieldVector3D<T> v1 = applyTo(Cartesian3D.PLUS_K);
@@ -991,9 +991,9 @@ public class FieldRotation<T extends RealFieldElement<T>> implements Serializabl
 
             } else { // last possibility is ZYZ
 
-                // r (Vector3D.plusK) coordinates are :
+                // r (Cartesian3D.plusK) coordinates are :
                 // -sin (theta) cos (psi2), sin (theta) sin (psi2), cos (theta)
-                // (-r) (Vector3D.plusK) coordinates are :
+                // (-r) (Cartesian3D.plusK) coordinates are :
                 //  cos (psi1) sin (theta), sin (psi1) sin (theta), cos (theta)
                 // and we can choose to have theta in the interval [0 ; PI]
                 FieldVector3D<T> v1 = applyTo(Cartesian3D.PLUS_K);

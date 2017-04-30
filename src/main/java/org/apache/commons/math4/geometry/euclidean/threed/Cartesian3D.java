@@ -196,7 +196,7 @@ public class Cartesian3D implements Serializable, Point<Euclidean3D>, Vector<Euc
 
     /** Get the abscissa of the vector.
      * @return abscissa of the vector
-     * @see #Vector3D(double, double, double)
+     * @see #Cartesian3D(double, double, double)
      */
     public double getX() {
         return x;
@@ -204,7 +204,7 @@ public class Cartesian3D implements Serializable, Point<Euclidean3D>, Vector<Euc
 
     /** Get the ordinate of the vector.
      * @return ordinate of the vector
-     * @see #Vector3D(double, double, double)
+     * @see #Cartesian3D(double, double, double)
      */
     public double getY() {
         return y;
@@ -212,7 +212,7 @@ public class Cartesian3D implements Serializable, Point<Euclidean3D>, Vector<Euc
 
     /** Get the height of the vector.
      * @return height of the vector
-     * @see #Vector3D(double, double, double)
+     * @see #Cartesian3D(double, double, double)
      */
     public double getZ() {
         return z;
@@ -220,7 +220,7 @@ public class Cartesian3D implements Serializable, Point<Euclidean3D>, Vector<Euc
 
     /** Get the vector coordinates as a dimension 3 array.
      * @return vector coordinates
-     * @see #Vector3D(double[])
+     * @see #Cartesian3D(double[])
      */
     public double[] toArray() {
         return new double[] { x, y, z };
@@ -266,7 +266,7 @@ public class Cartesian3D implements Serializable, Point<Euclidean3D>, Vector<Euc
 
     /** Get the azimuth of the vector.
      * @return azimuth (&alpha;) of the vector, between -&pi; and +&pi;
-     * @see #Vector3D(double, double)
+     * @see #Cartesian3D(double, double)
      */
     public double getAlpha() {
         return FastMath.atan2(y, x);
@@ -274,7 +274,7 @@ public class Cartesian3D implements Serializable, Point<Euclidean3D>, Vector<Euc
 
     /** Get the elevation of the vector.
      * @return elevation (&delta;) of the vector, between -&pi;/2 and +&pi;/2
-     * @see #Vector3D(double, double)
+     * @see #Cartesian3D(double, double)
      */
     public double getDelta() {
         return FastMath.asin(z / getNorm());
@@ -324,9 +324,9 @@ public class Cartesian3D implements Serializable, Point<Euclidean3D>, Vector<Euc
      * following example shows how to build a frame having the k axis
      * aligned with the known vector u :
      * <pre><code>
-     *   Vector3D k = u.normalize();
-     *   Vector3D i = k.orthogonal();
-     *   Vector3D j = Vector3D.crossProduct(k, i);
+     *   Cartesian3D k = u.normalize();
+     *   Cartesian3D i = k.orthogonal();
+     *   Cartesian3D j = Cartesian3D.crossProduct(k, i);
      * </code></pre></p>
      * @return a new normalized vector orthogonal to the instance
      * @exception MathArithmeticException if the norm of the instance is null
@@ -423,8 +423,8 @@ public class Cartesian3D implements Serializable, Point<Euclidean3D>, Vector<Euc
      *
      * @param other Object to test for equality to this
      * @return true if two 3D vector objects are equal, false if
-     *         object is null, not an instance of Vector3D, or
-     *         not equal to this Vector3D instance
+     *         object is null, not an instance of Cartesian3D, or
+     *         not equal to this Cartesian3D instance
      *
      */
     @Override
@@ -476,7 +476,7 @@ public class Cartesian3D implements Serializable, Point<Euclidean3D>, Vector<Euc
 
     /** Compute the cross-product of the instance with another vector.
      * @param v other vector
-     * @return the cross product this ^ v as a new Vector3D
+     * @return the cross product this ^ v as a new Cartesian3D
      */
     public Cartesian3D crossProduct(final Vector<Euclidean3D> v) {
         final Cartesian3D v3 = (Cartesian3D) v;

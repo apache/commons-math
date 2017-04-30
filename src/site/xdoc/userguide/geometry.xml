@@ -78,8 +78,8 @@
         <p>
           <a href="../apidocs/org/apache/commons/math4/geometry/euclidean/oned/Vector1D.html">
           Vector1D</a>, <a href="../apidocs/org/apache/commons/math4/geometry/euclidean/twod/Vector2D.html">
-          Vector2D</a> and <a href="../apidocs/org/apache/commons/math4/geometry/euclidean/threed/Vector3D.html">
-          Vector3D</a> provide simple vector types. One important feature is
+          Vector2D</a> and <a href="../apidocs/org/apache/commons/math4/geometry/euclidean/threed/Cartesian3D.html">
+          Cartesian3D</a> provide simple vector types. One important feature is
           that instances of these classes are guaranteed
           to be immutable, this greatly simplifies modeling dynamical systems
           with changing states: once a vector has been computed, a reference to it
@@ -109,7 +109,7 @@
         <p>
           <a href="../apidocs/org/apache/commons/math4/geometry/euclidean/threed/Rotation.html">
           Rotation</a> represents 3D rotations.
-          Rotation instances are also immutable objects, as Vector3D instances.
+          Rotation instances are also immutable objects, as Cartesian3D instances.
         </p>
         <p>
           Rotations can be represented by several different mathematical
@@ -174,8 +174,8 @@
           definition and hence does not provide methods like
           <code>projectVectorIntoDestinationFrame</code> or
           <code>computeTransformedDirection</code>. It provides simpler and more
-          generic methods: <code>applyTo(Vector3D)</code> and
-          <code>applyInverseTo(Vector3D)</code>.
+          generic methods: <code>applyTo(Cartesian3D)</code> and
+          <code>applyInverseTo(Cartesian3D)</code>.
         </p>
         <p>
           Since a rotation is basically a vectorial operator, several
@@ -303,7 +303,7 @@ PolygonsSet empty = new PolygonsSet(new BSPTree&lt;Euclidean2D&gt;(false), toler
          constructor is:
         </p>
         <source>
-PolyhedronsSet(List&lt;Vector3D&gt; vertices, List&lt;int[]&gt; facets, double tolerance);
+PolyhedronsSet(List&lt;Cartesian3D&gt; vertices, List&lt;int[]&gt; facets, double tolerance);
         </source>
         <p>
           The vertices list contains all the vertices of the polyhedrons, the facets list defines the facets,

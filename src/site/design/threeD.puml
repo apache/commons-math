@@ -64,7 +64,7 @@
       package threed #DDDBD8 {
 
         class Euclidean3D
-        class Vector3D
+        class Cartesian3D
         class Line
         class SubLine
         class Plane
@@ -72,7 +72,7 @@
         class PolyhedronsSet
 
         Space            <|.. Euclidean3D
-        Vector_S_        <|.. Vector3D
+        Vector_S_        <|.. Cartesian3D
         Hyperplane_S_    <|.. Plane
         SubHyperplane_S_ <|.. SubPlane
         Region_S_        <|.. PolyhedronsSet

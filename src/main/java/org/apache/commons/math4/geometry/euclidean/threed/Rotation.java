@@ -72,8 +72,8 @@ import org.apache.commons.math4.util.MathArrays;
  * class does not push the user towards one specific definition and hence does not
  * provide methods like <code>projectVectorIntoDestinationFrame</code> or
  * <code>computeTransformedDirection</code>. It provides simpler and more generic
- * methods: {@link #applyTo(Vector3D) applyTo(Vector3D)} and {@link
- * #applyInverseTo(Vector3D) applyInverseTo(Vector3D)}.</p>
+ * methods: {@link #applyTo(Cartesian3D) applyTo(Cartesian3D)} and {@link
+ * #applyInverseTo(Cartesian3D) applyInverseTo(Cartesian3D)}.</p>
  *
  * <p>Since a rotation is basically a vectorial operator, several rotations can be
  * composed together and the composite operation <code>r = r<sub>1</sub> o
@@ -153,13 +153,13 @@ public class Rotation implements Serializable {
   /** Build a rotation from an axis and an angle.
    * <p>
    * Calling this constructor is equivalent to call
-   * {@link #Rotation(Vector3D, double, RotationConvention)
+   * {@link #Rotation(Cartesian3D, double, RotationConvention)
    * new Rotation(axis, angle, RotationConvention.VECTOR_OPERATOR)}
    * </p>
    * @param axis axis around which to rotate
    * @param angle rotation angle.
    * @exception MathIllegalArgumentException if the axis norm is zero
-   * @deprecated as of 3.6, replaced with {@link #Rotation(Vector3D, double, RotationConvention)}
+   * @deprecated as of 3.6, replaced with {@link #Rotation(Cartesian3D, double, RotationConvention)}
    */
   @Deprecated
   public Rotation(Cartesian3D axis, double angle) throws MathIllegalArgumentException {
@@ -518,7 +518,7 @@ public class Rotation implements Serializable {
    * {@link #getAxis(RotationConvention) getAxis(RotationConvention.VECTOR_OPERATOR)}
    * </p>
    * @return normalized axis of the rotation
-   * @see #Rotation(Vector3D, double, RotationConvention)
+   * @see #Rotation(Cartesian3D, double, RotationConvention)
    * @deprecated as of 3.6, replaced with {@link #getAxis(RotationConvention)}
    */
   @Deprecated
@@ -534,7 +534,7 @@ public class Rotation implements Serializable {
    * </p>
    * @param convention convention to use for the semantics of the angle
    * @return normalized axis of the rotation
-   * @see #Rotation(Vector3D, double, RotationConvention)
+   * @see #Rotation(Cartesian3D, double, RotationConvention)
    * @since 3.6
    */
   public Cartesian3D getAxis(final RotationConvention convention) {
@@ -554,7 +554,7 @@ public class Rotation implements Serializable {
 
   /** Get the angle of the rotation.
    * @return angle of the rotation (between 0 and &pi;)
-   * @see #Rotation(Vector3D, double)
+   * @see #Rotation(Cartesian3D, double)
    */
   public double getAngle() {
     if ((q0 < -0.1) || (q0 > 0.1)) {
@@ -628,9 +628,9 @@ public class Rotation implements Serializable {
       if (convention == RotationConvention.VECTOR_OPERATOR) {
           if (order == RotationOrder.XYZ) {
 
-              // r (Vector3D.plusK) coordinates are :
+              // r (Cartesian3D.plusK) coordinates are :
               //  sin (theta), -cos (theta) sin (phi), cos (theta) cos (phi)
-              // (-r) (Vector3D.plusI) coordinates are :
+              // (-r) (Cartesian3D.plusI) coordinates are :
               // cos (psi) cos (theta), -sin (psi) cos (theta), sin (theta)
               // and we can choose to have theta in the interval [-PI/2 ; +PI/2]
               Cartesian3D v1 = applyTo(Cartesian3D.PLUS_K);
@@ -646,9 +646,9 @@ public class Rotation implements Serializable {
 
           } else if (order == RotationOrder.XZY) {
 
-              // r (Vector3D.plusJ) coordinates are :
+              // r (Cartesian3D.plusJ) coordinates are :
               // -sin (psi), cos (psi) cos (phi), cos (psi) sin (phi)
-              // (-r) (Vector3D.plusI) coordinates are :
+              // (-r) (Cartesian3D.plusI) coordinates are :
               // cos (theta) cos (psi), -sin (psi), sin (theta) cos (psi)
               // and we can choose to have psi in the interval [-PI/2 ; +PI/2]
               Cartesian3D v1 = applyTo(Cartesian3D.PLUS_J);
@@ -664,9 +664,9 @@ public class Rotation implements Serializable {
 
           } else if (order == RotationOrder.YXZ) {
 
-              // r (Vector3D.plusK) coordinates are :
+              // r (Cartesian3D.plusK) coordinates are :
               //  cos (phi) sin (theta), -sin (phi), cos (phi) cos (theta)
-              // (-r) (Vector3D.plusJ) coordinates are :
+              // (-r) (Cartesian3D.plusJ) coordinates are :
               // sin (psi) cos (phi), cos (psi) cos (phi), -sin (phi)
               // and we can choose to have phi in the interval [-PI/2 ; +PI/2]
               Cartesian3D v1 = applyTo(Cartesian3D.PLUS_K);
@@ -682,9 +682,9 @@ public class Rotation implements Serializable {
 
           } else if (order == RotationOrder.YZX) {
 
-              // r (Vector3D.plusI) coordinates are :
+              // r (Cartesian3D.plusI) coordinates are :
               // cos (psi) cos (theta), sin (psi), -cos (psi) sin (theta)
-              // (-r) (Vector3D.plusJ) coordinates are :
+              // (-r) (Cartesian3D.plusJ) coordinates are :
               // sin (psi), cos (phi) cos (psi), -sin (phi) cos (psi)
               // and we can choose to have psi in the interval [-PI/2 ; +PI/2]
               Cartesian3D v1 = applyTo(Cartesian3D.PLUS_I);
@@ -700,9 +700,9 @@ public class Rotation implements Serializable {
 
           } else if (order == RotationOrder.ZXY) {
 
-              // r (Vector3D.plusJ) coordinates are :
+              // r (Cartesian3D.plusJ) coordinates are :
               // -cos (phi) sin (psi), cos (phi) cos (psi), sin (phi)
-              // (-r) (Vector3D.plusK) coordinates are :
+              // (-r) (Cartesian3D.plusK) coordinates are :
               // -sin (theta) cos (phi), sin (phi), cos (theta) cos (phi)
               // and we can choose to have phi in the interval [-PI/2 ; +PI/2]
               Cartesian3D v1 = applyTo(Cartesian3D.PLUS_J);
@@ -718,9 +718,9 @@ public class Rotation implements Serializable {
 
           } else if (order == RotationOrder.ZYX) {
 
-              // r (Vector3D.plusI) coordinates are :
+              // r (Cartesian3D.plusI) coordinates are :
               //  cos (theta) cos (psi), cos (theta) sin (psi), -sin (theta)
-              // (-r) (Vector3D.plusK) coordinates are :
+              // (-r) (Cartesian3D.plusK) coordinates are :
               // -sin (theta), sin (phi) cos (theta), cos (phi) cos (theta)
               // and we can choose to have theta in the interval [-PI/2 ; +PI/2]
               Cartesian3D v1 = applyTo(Cartesian3D.PLUS_I);
@@ -736,9 +736,9 @@ public class Rotation implements Serializable {
 
           } else if (order == RotationOrder.XYX) {
 
-              // r (Vector3D.plusI) coordinates are :
+              // r (Cartesian3D.plusI) coordinates are :
               //  cos (theta), sin (phi1) sin (theta), -cos (phi1) sin (theta)
-              // (-r) (Vector3D.plusI) coordinates are :
+              // (-r) (Cartesian3D.plusI) coordinates are :
               // cos (theta), sin (theta) sin (phi2), sin (theta) cos (phi2)
               // and we can choose to have theta in the interval [0 ; PI]
               Cartesian3D v1 = applyTo(Cartesian3D.PLUS_I);
@@ -754,9 +754,9 @@ public class Rotation implements Serializable {
 
           } else if (order == RotationOrder.XZX) {
 
-              // r (Vector3D.plusI) coordinates are :
+              // r (Cartesian3D.plusI) coordinates are :
               //  cos (psi), cos (phi1) sin (psi), sin (phi1) sin (psi)
-              // (-r) (Vector3D.plusI) coordinates are :
+              // (-r) (Cartesian3D.plusI) coordinates are :
               // cos (psi), -sin (psi) cos (phi2), sin (psi) sin (phi2)
               // and we can choose to have psi in the interval [0 ; PI]
               Cartesian3D v1 = applyTo(Cartesian3D.PLUS_I);
@@ -772,9 +772,9 @@ public class Rotation implements Serializable {
 
           } else if (order == RotationOrder.YXY) {
 
-              // r (Vector3D.plusJ) coordinates are :
+              // r (Cartesian3D.plusJ) coordinates are :
               //  sin (theta1) sin (phi), cos (phi), cos (theta1) sin (phi)
-              // (-r) (Vector3D.plusJ) coordinates are :
+              // (-r) (Cartesian3D.plusJ) coordinates are :
               // sin (phi) sin (theta2), cos (phi), -sin (phi) cos (theta2)
               // and we can choose to have phi in the interval [0 ; PI]
               Cartesian3D v1 = applyTo(Cartesian3D.PLUS_J);
@@ -790,9 +790,9 @@ public class Rotation implements Serializable {
 
           } else if (order == RotationOrder.YZY) {
 
-              // r (Vector3D.plusJ) coordinates are :
+              // r (Cartesian3D.plusJ) coordinates are :
               //  -cos (theta1) sin (psi), cos (psi), sin (theta1) sin (psi)
-              // (-r) (Vector3D.plusJ) coordinates are :
+              // (-r) (Cartesian3D.plusJ) coordinates are :
               // sin (psi) cos (theta2), cos (psi), sin (psi) sin (theta2)
               // and we can choose to have psi in the interval [0 ; PI]
               Cartesian3D v1 = applyTo(Cartesian3D.PLUS_J);
@@ -808,9 +808,9 @@ public class Rotation implements Serializable {
 
           } else if (order == RotationOrder.ZXZ) {
 
-              // r (Vector3D.plusK) coordinates are :
+              // r (Cartesian3D.plusK) coordinates are :
               //  sin (psi1) sin (phi), -cos (psi1) sin (phi), cos (phi)
-              // (-r) (Vector3D.plusK) coordinates are :
+              // (-r) (Cartesian3D.plusK) coordinates are :
               // sin (phi) sin (psi2), sin (phi) cos (psi2), cos (phi)
               // and we can choose to have phi in the interval [0 ; PI]
               Cartesian3D v1 = applyTo(Cartesian3D.PLUS_K);
@@ -826,9 +826,9 @@ public class Rotation implements Serializable {
 
           } else { // last possibility is ZYZ
 
-              // r (Vector3D.plusK) coordinates are :
+              // r (Cartesian3D.plusK) coordinates are :
               //  cos (psi1) sin (theta), sin (psi1) sin (theta), cos (theta)
-              // (-r) (Vector3D.plusK) coordinates are :
+              // (-r) (Cartesian3D.plusK) coordinates are :
               // -sin (theta) cos (psi2), sin (theta) sin (psi2), cos (theta)
               // and we can choose to have theta in the interval [0 ; PI]
               Cartesian3D v1 = applyTo(Cartesian3D.PLUS_K);
@@ -846,9 +846,9 @@ public class Rotation implements Serializable {
       } else {
           if (order == RotationOrder.XYZ) {
 
-              // r (Vector3D.plusI) coordinates are :
+              // r (Cartesian3D.plusI) coordinates are :
               //  cos (theta) cos (psi), -cos (theta) sin (psi), sin (theta)
-              // (-r) (Vector3D.plusK) coordinates are :
+              // (-r) (Cartesian3D.plusK) coordinates are :
               // sin (theta), -sin (phi) cos (theta), cos (phi) cos (theta)
               // and we can choose to have theta in the interval [-PI/2 ; +PI/2]
               Cartesian3D v1 = applyTo(Cartesian3D.PLUS_I);
@@ -864,9 +864,9 @@ public class Rotation implements Serializable {
 
           } else if (order == RotationOrder.XZY) {
 
-              // r (Vector3D.plusI) coordinates are :
+              // r (Cartesian3D.plusI) coordinates are :
               // cos (psi) cos (theta), -sin (psi), cos (psi) sin (theta)
-              // (-r) (Vector3D.plusJ) coordinates are :
+              // (-r) (Cartesian3D.plusJ) coordinates are :
               // -sin (psi), cos (phi) cos (psi), sin (phi) cos (psi)
               // and we can choose to have psi in the interval [-PI/2 ; +PI/2]
               Cartesian3D v1 = applyTo(Cartesian3D.PLUS_I);
@@ -882,9 +882,9 @@ public class Rotation implements Serializable {
 
           } else if (order == RotationOrder.YXZ) {
 
-              // r (Vector3D.plusJ) coordinates are :
+              // r (Cartesian3D.plusJ) coordinates are :
               // cos (phi) sin (psi), cos (phi) cos (psi), -sin (phi)
-              // (-r) (Vector3D.plusK) coordinates are :
+              // (-r) (Cartesian3D.plusK) coordinates are :
               // sin (theta) cos (phi), -sin (phi), cos (theta) cos (phi)
               // and we can choose to have phi in the interval [-PI/2 ; +PI/2]
               Cartesian3D v1 = applyTo(Cartesian3D.PLUS_J);
@@ -900,9 +900,9 @@ public class Rotation implements Serializable {
 
           } else if (order == RotationOrder.YZX) {
 
-              // r (Vector3D.plusJ) coordinates are :
+              // r (Cartesian3D.plusJ) coordinates are :
               // sin (psi), cos (psi) cos (phi), -cos (psi) sin (phi)
-              // (-r) (Vector3D.plusI) coordinates are :
+              // (-r) (Cartesian3D.plusI) coordinates are :
               // cos (theta) cos (psi), sin (psi), -sin (theta) cos (psi)
               // and we can choose to have psi in the interval [-PI/2 ; +PI/2]
               Cartesian3D v1 = applyTo(Cartesian3D.PLUS_J);
@@ -918,9 +918,9 @@ public class Rotation implements Serializable {
 
           } else if (order == RotationOrder.ZXY) {
 
-              // r (Vector3D.plusK) coordinates are :
+              // r (Cartesian3D.plusK) coordinates are :
               //  -cos (phi) sin (theta), sin (phi), cos (phi) cos (theta)
-              // (-r) (Vector3D.plusJ) coordinates are :
+              // (-r) (Cartesian3D.plusJ) coordinates are :
               // -sin (psi) cos (phi), cos (psi) cos (phi), sin (phi)
               // and we can choose to have phi in the interval [-PI/2 ; +PI/2]
               Cartesian3D v1 = applyTo(Cartesian3D.PLUS_K);
@@ -936,9 +936,9 @@ public class Rotation implements Serializable {
 
           } else if (order == RotationOrder.ZYX) {
 
-              // r (Vector3D.plusK) coordinates are :
+              // r (Cartesian3D.plusK) coordinates are :
               //  -sin (theta), cos (theta) sin (phi), cos (theta) cos (phi)
-              // (-r) (Vector3D.plusI) coordinates are :
+              // (-r) (Cartesian3D.plusI) coordinates are :
               // cos (psi) cos (theta), sin (psi) cos (theta), -sin (theta)
               // and we can choose to have theta in the interval [-PI/2 ; +PI/2]
               Cartesian3D v1 = applyTo(Cartesian3D.PLUS_K);
@@ -954,9 +954,9 @@ public class Rotation implements Serializable {
 
           } else if (order == RotationOrder.XYX) {
 
-              // r (Vector3D.plusI) coordinates are :
+              // r (Cartesian3D.plusI) coordinates are :
               //  cos (theta), sin (phi2) sin (theta), cos (phi2) sin (theta)
-              // (-r) (Vector3D.plusI) coordinates are :
+              // (-r) (Cartesian3D.plusI) coordinates are :
               // cos (theta), sin (theta) sin (phi1), -sin (theta) cos (phi1)
               // and we can choose to have theta in the interval [0 ; PI]
               Cartesian3D v1 = applyTo(Cartesian3D.PLUS_I);
@@ -972,9 +972,9 @@ public class Rotation implements Serializable {
 
           } else if (order == RotationOrder.XZX) {
 
-              // r (Vector3D.plusI) coordinates are :
+              // r (Cartesian3D.plusI) coordinates are :
               //  cos (psi), -cos (phi2) sin (psi), sin (phi2) sin (psi)
-              // (-r) (Vector3D.plusI) coordinates are :
+              // (-r) (Cartesian3D.plusI) coordinates are :
               // cos (psi), sin (psi) cos (phi1), sin (psi) sin (phi1)
               // and we can choose to have psi in the interval [0 ; PI]
               Cartesian3D v1 = applyTo(Cartesian3D.PLUS_I);
@@ -990,9 +990,9 @@ public class Rotation implements Serializable {
 
           } else if (order == RotationOrder.YXY) {
 
-              // r (Vector3D.plusJ) coordinates are :
+              // r (Cartesian3D.plusJ) coordinates are :
               // sin (phi) sin (theta2), cos (phi), -sin (phi) cos (theta2)
-              // (-r) (Vector3D.plusJ) coordinates are :
+              // (-r) (Cartesian3D.plusJ) coordinates are :
               //  sin (theta1) sin (phi), cos (phi), cos (theta1) sin (phi)
               // and we can choose to have phi in the interval [0 ; PI]
               Cartesian3D v1 = applyTo(Cartesian3D.PLUS_J);
@@ -1008,9 +1008,9 @@ public class Rotation implements Serializable {
 
           } else if (order == RotationOrder.YZY) {
 
-              // r (Vector3D.plusJ) coordinates are :
+              // r (Cartesian3D.plusJ) coordinates are :
               // sin (psi) cos (theta2), cos (psi), sin (psi) sin (theta2)
-              // (-r) (Vector3D.plusJ) coordinates are :
+              // (-r) (Cartesian3D.plusJ) coordinates are :
               //  -cos (theta1) sin (psi), cos (psi), sin (theta1) sin (psi)
               // and we can choose to have psi in the interval [0 ; PI]
               Cartesian3D v1 = applyTo(Cartesian3D.PLUS_J);
@@ -1026,9 +1026,9 @@ public class Rotation implements Serializable {
 
           } else if (order == RotationOrder.ZXZ) {
 
-              // r (Vector3D.plusK) coordinates are :
+              // r (Cartesian3D.plusK) coordinates are :
               // sin (phi) sin (psi2), sin (phi) cos (psi2), cos (phi)
-              // (-r) (Vector3D.plusK) coordinates are :
+              // (-r) (Cartesian3D.plusK) coordinates are :
               //  sin (psi1) sin (phi), -cos (psi1) sin (phi), cos (phi)
               // and we can choose to have phi in the interval [0 ; PI]
               Cartesian3D v1 = applyTo(Cartesian3D.PLUS_K);
@@ -1044,9 +1044,9 @@ public class Rotation implements Serializable {
 
           } else { // last possibility is ZYZ
 
-              // r (Vector3D.plusK) coordinates are :
+              // r (Cartesian3D.plusK) coordinates are :
               // -sin (theta) cos (psi2), sin (theta) sin (psi2), cos (theta)
-              // (-r) (Vector3D.plusK) coordinates are :
+              // (-r) (Cartesian3D.plusK) coordinates are :
               //  cos (psi1) sin (theta), sin (psi1) sin (theta), cos (theta)
               // and we can choose to have theta in the interval [0 ; PI]
               Cartesian3D v1 = applyTo(Cartesian3D.PLUS_K);

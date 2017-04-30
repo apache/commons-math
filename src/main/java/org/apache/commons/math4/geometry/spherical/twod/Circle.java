@@ -147,7 +147,7 @@ public class Circle implements Hyperplane<Sphere2D>, Embedding<Sphere2D, Sphere1
     }
 
     /** {@inheritDoc}
-     * @see #getPhase(Vector3D)
+     * @see #getPhase(Cartesian3D)
      */
     @Override
     public S1Point toSubSpace(final Point<Sphere2D> point) {
@@ -256,7 +256,7 @@ public class Circle implements Hyperplane<Sphere2D>, Embedding<Sphere2D, Sphere1
     }
 
     /** {@inheritDoc}
-     * @see #getOffset(Vector3D)
+     * @see #getOffset(Cartesian3D)
      */
     @Override
     public double getOffset(final Point<Sphere2D> point) {
