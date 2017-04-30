@@ -48,8 +48,8 @@ import org.apache.commons.math4.util.MathArrays;
  * <p>Focus is oriented on what a rotation <em>do</em> rather than on its
  * underlying representation. Once it has been built, and regardless of its
  * internal representation, a rotation is an <em>operator</em> which basically
- * transforms three dimensional {@link Coordinates3D vectors} into other three
- * dimensional {@link Coordinates3D vectors}. Depending on the application, the
+ * transforms three dimensional {@link Cartesian3D vectors} into other three
+ * dimensional {@link Cartesian3D vectors}. Depending on the application, the
  * meaning of these vectors may vary and the semantics of the rotation also.</p>
  * <p>For example in an spacecraft attitude simulation tool, users will often
  * consider the vectors are fixed (say the Earth direction for example) and the
@@ -88,7 +88,7 @@ import org.apache.commons.math4.util.MathArrays;
  *
  * <p>Rotations are guaranteed to be immutable objects.</p>
  *
- * @see Coordinates3D
+ * @see Cartesian3D
  * @see RotationOrder
  * @since 1.2
  */
@@ -162,7 +162,7 @@ public class Rotation implements Serializable {
    * @deprecated as of 3.6, replaced with {@link #Rotation(Vector3D, double, RotationConvention)}
    */
   @Deprecated
-  public Rotation(Coordinates3D axis, double angle) throws MathIllegalArgumentException {
+  public Rotation(Cartesian3D axis, double angle) throws MathIllegalArgumentException {
       this(axis, angle, RotationConvention.VECTOR_OPERATOR);
   }
 
@@ -173,7 +173,7 @@ public class Rotation implements Serializable {
    * @exception MathIllegalArgumentException if the axis norm is zero
    * @since 3.6
    */
-  public Rotation(final Coordinates3D axis, final double angle, final RotationConvention convention)
+  public Rotation(final Cartesian3D axis, final double angle, final RotationConvention convention)
       throws MathIllegalArgumentException {
 
     double norm = axis.getNorm();
@@ -272,18 +272,18 @@ public class Rotation implements Serializable {
    * @exception MathArithmeticException if the norm of one of the vectors is zero,
    * or if one of the pair is degenerated (i.e. the vectors of the pair are collinear)
    */
-  public Rotation(Coordinates3D u1, Coordinates3D u2, Coordinates3D v1, Coordinates3D v2)
+  public Rotation(Cartesian3D u1, Cartesian3D u2, Cartesian3D v1, Cartesian3D v2)
       throws MathArithmeticException {
 
       // build orthonormalized base from u1, u2
       // this fails when vectors are null or collinear, which is forbidden to define a rotation
-      final Coordinates3D u3 = u1.crossProduct(u2).normalize();
+      final Cartesian3D u3 = u1.crossProduct(u2).normalize();
       u2 = u3.crossProduct(u1).normalize();
       u1 = u1.normalize();
 
       // build an orthonormalized base from v1, v2
       // this fails when vectors are null or collinear, which is forbidden to define a rotation
-      final Coordinates3D v3 = v1.crossProduct(v2).normalize();
+      final Cartesian3D v3 = v1.crossProduct(v2).normalize();
       v2 = v3.crossProduct(v1).normalize();
       v1 = v1.normalize();
 
@@ -327,7 +327,7 @@ public class Rotation implements Serializable {
    * @param v desired image of u by the rotation
    * @exception MathArithmeticException if the norm of one of the vectors is zero
    */
-  public Rotation(Coordinates3D u, Coordinates3D v) throws MathArithmeticException {
+  public Rotation(Cartesian3D u, Cartesian3D v) throws MathArithmeticException {
 
     double normProduct = u.getNorm() * v.getNorm();
     if (normProduct == 0) {
@@ -339,7 +339,7 @@ public class Rotation implements Serializable {
     if (dot < ((2.0e-15 - 1.0) * normProduct)) {
       // special case u = -v: we select a PI angle rotation around
       // an arbitrary vector orthogonal to u
-      Coordinates3D w = u.orthogonal();
+      Cartesian3D w = u.orthogonal();
       q0 = 0.0;
       q1 = -w.getX();
       q2 = -w.getY();
@@ -349,7 +349,7 @@ public class Rotation implements Serializable {
       // the shortest possible rotation: axis orthogonal to this plane
       q0 = FastMath.sqrt(0.5 * (1.0 + dot / normProduct));
       double coeff = 1.0 / (2.0 * q0 * normProduct);
-      Coordinates3D q = v.crossProduct(u);
+      Cartesian3D q = v.crossProduct(u);
       q1 = coeff * q.getX();
       q2 = coeff * q.getY();
       q3 = coeff * q.getZ();
@@ -522,7 +522,7 @@ public class Rotation implements Serializable {
    * @deprecated as of 3.6, replaced with {@link #getAxis(RotationConvention)}
    */
   @Deprecated
-  public Coordinates3D getAxis() {
+  public Cartesian3D getAxis() {
     return getAxis(RotationConvention.VECTOR_OPERATOR);
   }
 
@@ -537,18 +537,18 @@ public class Rotation implements Serializable {
    * @see #Rotation(Vector3D, double, RotationConvention)
    * @since 3.6
    */
-  public Coordinates3D getAxis(final RotationConvention convention) {
+  public Cartesian3D getAxis(final RotationConvention convention) {
     final double squaredSine = q1 * q1 + q2 * q2 + q3 * q3;
     if (squaredSine == 0) {
-      return convention == RotationConvention.VECTOR_OPERATOR ? Coordinates3D.PLUS_I : Coordinates3D.MINUS_I;
+      return convention == RotationConvention.VECTOR_OPERATOR ? Cartesian3D.PLUS_I : Cartesian3D.MINUS_I;
     } else {
         final double sgn = convention == RotationConvention.VECTOR_OPERATOR ? +1 : -1;
         if (q0 < 0) {
             final double inverse = sgn / FastMath.sqrt(squaredSine);
-            return new Coordinates3D(q1 * inverse, q2 * inverse, q3 * inverse);
+            return new Cartesian3D(q1 * inverse, q2 * inverse, q3 * inverse);
         }
         final double inverse = -sgn / FastMath.sqrt(squaredSine);
-        return new Coordinates3D(q1 * inverse, q2 * inverse, q3 * inverse);
+        return new Cartesian3D(q1 * inverse, q2 * inverse, q3 * inverse);
     }
   }
 
@@ -633,8 +633,8 @@ public class Rotation implements Serializable {
               // (-r) (Vector3D.plusI) coordinates are :
               // cos (psi) cos (theta), -sin (psi) cos (theta), sin (theta)
               // and we can choose to have theta in the interval [-PI/2 ; +PI/2]
-              Coordinates3D v1 = applyTo(Coordinates3D.PLUS_K);
-              Coordinates3D v2 = applyInverseTo(Coordinates3D.PLUS_I);
+              Cartesian3D v1 = applyTo(Cartesian3D.PLUS_K);
+              Cartesian3D v2 = applyInverseTo(Cartesian3D.PLUS_I);
               if  ((v2.getZ() < -0.9999999999) || (v2.getZ() > 0.9999999999)) {
                   throw new CardanEulerSingularityException(true);
               }
@@ -651,8 +651,8 @@ public class Rotation implements Serializable {
               // (-r) (Vector3D.plusI) coordinates are :
               // cos (theta) cos (psi), -sin (psi), sin (theta) cos (psi)
               // and we can choose to have psi in the interval [-PI/2 ; +PI/2]
-              Coordinates3D v1 = applyTo(Coordinates3D.PLUS_J);
-              Coordinates3D v2 = applyInverseTo(Coordinates3D.PLUS_I);
+              Cartesian3D v1 = applyTo(Cartesian3D.PLUS_J);
+              Cartesian3D v2 = applyInverseTo(Cartesian3D.PLUS_I);
               if ((v2.getY() < -0.9999999999) || (v2.getY() > 0.9999999999)) {
                   throw new CardanEulerSingularityException(true);
               }
@@ -669,8 +669,8 @@ public class Rotation implements Serializable {
               // (-r) (Vector3D.plusJ) coordinates are :
               // sin (psi) cos (phi), cos (psi) cos (phi), -sin (phi)
               // and we can choose to have phi in the interval [-PI/2 ; +PI/2]
-              Coordinates3D v1 = applyTo(Coordinates3D.PLUS_K);
-              Coordinates3D v2 = applyInverseTo(Coordinates3D.PLUS_J);
+              Cartesian3D v1 = applyTo(Cartesian3D.PLUS_K);
+              Cartesian3D v2 = applyInverseTo(Cartesian3D.PLUS_J);
               if ((v2.getZ() < -0.9999999999) || (v2.getZ() > 0.9999999999)) {
                   throw new CardanEulerSingularityException(true);
               }
@@ -687,8 +687,8 @@ public class Rotation implements Serializable {
               // (-r) (Vector3D.plusJ) coordinates are :
               // sin (psi), cos (phi) cos (psi), -sin (phi) cos (psi)
               // and we can choose to have psi in the interval [-PI/2 ; +PI/2]
-              Coordinates3D v1 = applyTo(Coordinates3D.PLUS_I);
-              Coordinates3D v2 = applyInverseTo(Coordinates3D.PLUS_J);
+              Cartesian3D v1 = applyTo(Cartesian3D.PLUS_I);
+              Cartesian3D v2 = applyInverseTo(Cartesian3D.PLUS_J);
               if ((v2.getX() < -0.9999999999) || (v2.getX() > 0.9999999999)) {
                   throw new CardanEulerSingularityException(true);
               }
@@ -705,8 +705,8 @@ public class Rotation implements Serializable {
               // (-r) (Vector3D.plusK) coordinates are :
               // -sin (theta) cos (phi), sin (phi), cos (theta) cos (phi)
               // and we can choose to have phi in the interval [-PI/2 ; +PI/2]
-              Coordinates3D v1 = applyTo(Coordinates3D.PLUS_J);
-              Coordinates3D v2 = applyInverseTo(Coordinates3D.PLUS_K);
+              Cartesian3D v1 = applyTo(Cartesian3D.PLUS_J);
+              Cartesian3D v2 = applyInverseTo(Cartesian3D.PLUS_K);
               if ((v2.getY() < -0.9999999999) || (v2.getY() > 0.9999999999)) {
                   throw new CardanEulerSingularityException(true);
               }
@@ -723,8 +723,8 @@ public class Rotation implements Serializable {
               // (-r) (Vector3D.plusK) coordinates are :
               // -sin (theta), sin (phi) cos (theta), cos (phi) cos (theta)
               // and we can choose to have theta in the interval [-PI/2 ; +PI/2]
-              Coordinates3D v1 = applyTo(Coordinates3D.PLUS_I);
-              Coordinates3D v2 = applyInverseTo(Coordinates3D.PLUS_K);
+              Cartesian3D v1 = applyTo(Cartesian3D.PLUS_I);
+              Cartesian3D v2 = applyInverseTo(Cartesian3D.PLUS_K);
               if ((v2.getX() < -0.9999999999) || (v2.getX() > 0.9999999999)) {
                   throw new CardanEulerSingularityException(true);
               }
@@ -741,8 +741,8 @@ public class Rotation implements Serializable {
               // (-r) (Vector3D.plusI) coordinates are :
               // cos (theta), sin (theta) sin (phi2), sin (theta) cos (phi2)
               // and we can choose to have theta in the interval [0 ; PI]
-              Coordinates3D v1 = applyTo(Coordinates3D.PLUS_I);
-              Coordinates3D v2 = applyInverseTo(Coordinates3D.PLUS_I);
+              Cartesian3D v1 = applyTo(Cartesian3D.PLUS_I);
+              Cartesian3D v2 = applyInverseTo(Cartesian3D.PLUS_I);
               if ((v2.getX() < -0.9999999999) || (v2.getX() > 0.9999999999)) {
                   throw new CardanEulerSingularityException(false);
               }
@@ -759,8 +759,8 @@ public class Rotation implements Serializable {
               // (-r) (Vector3D.plusI) coordinates are :
               // cos (psi), -sin (psi) cos (phi2), sin (psi) sin (phi2)
               // and we can choose to have psi in the interval [0 ; PI]
-              Coordinates3D v1 = applyTo(Coordinates3D.PLUS_I);
-              Coordinates3D v2 = applyInverseTo(Coordinates3D.PLUS_I);
+              Cartesian3D v1 = applyTo(Cartesian3D.PLUS_I);
+              Cartesian3D v2 = applyInverseTo(Cartesian3D.PLUS_I);
               if ((v2.getX() < -0.9999999999) || (v2.getX() > 0.9999999999)) {
                   throw new CardanEulerSingularityException(false);
               }
@@ -777,8 +777,8 @@ public class Rotation implements Serializable {
               // (-r) (Vector3D.plusJ) coordinates are :
               // sin (phi) sin (theta2), cos (phi), -sin (phi) cos (theta2)
               // and we can choose to have phi in the interval [0 ; PI]
-              Coordinates3D v1 = applyTo(Coordinates3D.PLUS_J);
-              Coordinates3D v2 = applyInverseTo(Coordinates3D.PLUS_J);
+              Cartesian3D v1 = applyTo(Cartesian3D.PLUS_J);
+              Cartesian3D v2 = applyInverseTo(Cartesian3D.PLUS_J);
               if ((v2.getY() < -0.9999999999) || (v2.getY() > 0.9999999999)) {
                   throw new CardanEulerSingularityException(false);
               }
@@ -795,8 +795,8 @@ public class Rotation implements Serializable {
               // (-r) (Vector3D.plusJ) coordinates are :
               // sin (psi) cos (theta2), cos (psi), sin (psi) sin (theta2)
               // and we can choose to have psi in the interval [0 ; PI]
-              Coordinates3D v1 = applyTo(Coordinates3D.PLUS_J);
-              Coordinates3D v2 = applyInverseTo(Coordinates3D.PLUS_J);
+              Cartesian3D v1 = applyTo(Cartesian3D.PLUS_J);
+              Cartesian3D v2 = applyInverseTo(Cartesian3D.PLUS_J);
               if ((v2.getY() < -0.9999999999) || (v2.getY() > 0.9999999999)) {
                   throw new CardanEulerSingularityException(false);
               }
@@ -813,8 +813,8 @@ public class Rotation implements Serializable {
               // (-r) (Vector3D.plusK) coordinates are :
               // sin (phi) sin (psi2), sin (phi) cos (psi2), cos (phi)
               // and we can choose to have phi in the interval [0 ; PI]
-              Coordinates3D v1 = applyTo(Coordinates3D.PLUS_K);
-              Coordinates3D v2 = applyInverseTo(Coordinates3D.PLUS_K);
+              Cartesian3D v1 = applyTo(Cartesian3D.PLUS_K);
+              Cartesian3D v2 = applyInverseTo(Cartesian3D.PLUS_K);
               if ((v2.getZ() < -0.9999999999) || (v2.getZ() > 0.9999999999)) {
                   throw new CardanEulerSingularityException(false);
               }
@@ -831,8 +831,8 @@ public class Rotation implements Serializable {
               // (-r) (Vector3D.plusK) coordinates are :
               // -sin (theta) cos (psi2), sin (theta) sin (psi2), cos (theta)
               // and we can choose to have theta in the interval [0 ; PI]
-              Coordinates3D v1 = applyTo(Coordinates3D.PLUS_K);
-              Coordinates3D v2 = applyInverseTo(Coordinates3D.PLUS_K);
+              Cartesian3D v1 = applyTo(Cartesian3D.PLUS_K);
+              Cartesian3D v2 = applyInverseTo(Cartesian3D.PLUS_K);
               if ((v2.getZ() < -0.9999999999) || (v2.getZ() > 0.9999999999)) {
                   throw new CardanEulerSingularityException(false);
               }
@@ -851,8 +851,8 @@ public class Rotation implements Serializable {
               // (-r) (Vector3D.plusK) coordinates are :
               // sin (theta), -sin (phi) cos (theta), cos (phi) cos (theta)
               // and we can choose to have theta in the interval [-PI/2 ; +PI/2]
-              Coordinates3D v1 = applyTo(Coordinates3D.PLUS_I);
-              Coordinates3D v2 = applyInverseTo(Coordinates3D.PLUS_K);
+              Cartesian3D v1 = applyTo(Cartesian3D.PLUS_I);
+              Cartesian3D v2 = applyInverseTo(Cartesian3D.PLUS_K);
               if ((v2.getX() < -0.9999999999) || (v2.getX() > 0.9999999999)) {
                   throw new CardanEulerSingularityException(true);
               }
@@ -869,8 +869,8 @@ public class Rotation implements Serializable {
               // (-r) (Vector3D.plusJ) coordinates are :
               // -sin (psi), cos (phi) cos (psi), sin (phi) cos (psi)
               // and we can choose to have psi in the interval [-PI/2 ; +PI/2]
-              Coordinates3D v1 = applyTo(Coordinates3D.PLUS_I);
-              Coordinates3D v2 = applyInverseTo(Coordinates3D.PLUS_J);
+              Cartesian3D v1 = applyTo(Cartesian3D.PLUS_I);
+              Cartesian3D v2 = applyInverseTo(Cartesian3D.PLUS_J);
               if ((v2.getX() < -0.9999999999) || (v2.getX() > 0.9999999999)) {
                   throw new CardanEulerSingularityException(true);
               }
@@ -887,8 +887,8 @@ public class Rotation implements Serializable {
               // (-r) (Vector3D.plusK) coordinates are :
               // sin (theta) cos (phi), -sin (phi), cos (theta) cos (phi)
               // and we can choose to have phi in the interval [-PI/2 ; +PI/2]
-              Coordinates3D v1 = applyTo(Coordinates3D.PLUS_J);
-              Coordinates3D v2 = applyInverseTo(Coordinates3D.PLUS_K);
+              Cartesian3D v1 = applyTo(Cartesian3D.PLUS_J);
+              Cartesian3D v2 = applyInverseTo(Cartesian3D.PLUS_K);
               if ((v2.getY() < -0.9999999999) || (v2.getY() > 0.9999999999)) {
                   throw new CardanEulerSingularityException(true);
               }
@@ -905,8 +905,8 @@ public class Rotation implements Serializable {
               // (-r) (Vector3D.plusI) coordinates are :
               // cos (theta) cos (psi), sin (psi), -sin (theta) cos (psi)
               // and we can choose to have psi in the interval [-PI/2 ; +PI/2]
-              Coordinates3D v1 = applyTo(Coordinates3D.PLUS_J);
-              Coordinates3D v2 = applyInverseTo(Coordinates3D.PLUS_I);
+              Cartesian3D v1 = applyTo(Cartesian3D.PLUS_J);
+              Cartesian3D v2 = applyInverseTo(Cartesian3D.PLUS_I);
               if ((v2.getY() < -0.9999999999) || (v2.getY() > 0.9999999999)) {
                   throw new CardanEulerSingularityException(true);
               }
@@ -923,8 +923,8 @@ public class Rotation implements Serializable {
               // (-r) (Vector3D.plusJ) coordinates are :
               // -sin (psi) cos (phi), cos (psi) cos (phi), sin (phi)
               // and we can choose to have phi in the interval [-PI/2 ; +PI/2]
-              Coordinates3D v1 = applyTo(Coordinates3D.PLUS_K);
-              Coordinates3D v2 = applyInverseTo(Coordinates3D.PLUS_J);
+              Cartesian3D v1 = applyTo(Cartesian3D.PLUS_K);
+              Cartesian3D v2 = applyInverseTo(Cartesian3D.PLUS_J);
               if ((v2.getZ() < -0.9999999999) || (v2.getZ() > 0.9999999999)) {
                   throw new CardanEulerSingularityException(true);
               }
@@ -941,8 +941,8 @@ public class Rotation implements Serializable {
               // (-r) (Vector3D.plusI) coordinates are :
               // cos (psi) cos (theta), sin (psi) cos (theta), -sin (theta)
               // and we can choose to have theta in the interval [-PI/2 ; +PI/2]
-              Coordinates3D v1 = applyTo(Coordinates3D.PLUS_K);
-              Coordinates3D v2 = applyInverseTo(Coordinates3D.PLUS_I);
+              Cartesian3D v1 = applyTo(Cartesian3D.PLUS_K);
+              Cartesian3D v2 = applyInverseTo(Cartesian3D.PLUS_I);
               if  ((v2.getZ() < -0.9999999999) || (v2.getZ() > 0.9999999999)) {
                   throw new CardanEulerSingularityException(true);
               }
@@ -959,8 +959,8 @@ public class Rotation implements Serializable {
               // (-r) (Vector3D.plusI) coordinates are :
               // cos (theta), sin (theta) sin (phi1), -sin (theta) cos (phi1)
               // and we can choose to have theta in the interval [0 ; PI]
-              Coordinates3D v1 = applyTo(Coordinates3D.PLUS_I);
-              Coordinates3D v2 = applyInverseTo(Coordinates3D.PLUS_I);
+              Cartesian3D v1 = applyTo(Cartesian3D.PLUS_I);
+              Cartesian3D v2 = applyInverseTo(Cartesian3D.PLUS_I);
               if ((v2.getX() < -0.9999999999) || (v2.getX() > 0.9999999999)) {
                   throw new CardanEulerSingularityException(false);
               }
@@ -977,8 +977,8 @@ public class Rotation implements Serializable {
               // (-r) (Vector3D.plusI) coordinates are :
               // cos (psi), sin (psi) cos (phi1), sin (psi) sin (phi1)
               // and we can choose to have psi in the interval [0 ; PI]
-              Coordinates3D v1 = applyTo(Coordinates3D.PLUS_I);
-              Coordinates3D v2 = applyInverseTo(Coordinates3D.PLUS_I);
+              Cartesian3D v1 = applyTo(Cartesian3D.PLUS_I);
+              Cartesian3D v2 = applyInverseTo(Cartesian3D.PLUS_I);
               if ((v2.getX() < -0.9999999999) || (v2.getX() > 0.9999999999)) {
                   throw new CardanEulerSingularityException(false);
               }
@@ -995,8 +995,8 @@ public class Rotation implements Serializable {
               // (-r) (Vector3D.plusJ) coordinates are :
               //  sin (theta1) sin (phi), cos (phi), cos (theta1) sin (phi)
               // and we can choose to have phi in the interval [0 ; PI]
-              Coordinates3D v1 = applyTo(Coordinates3D.PLUS_J);
-              Coordinates3D v2 = applyInverseTo(Coordinates3D.PLUS_J);
+              Cartesian3D v1 = applyTo(Cartesian3D.PLUS_J);
+              Cartesian3D v2 = applyInverseTo(Cartesian3D.PLUS_J);
               if ((v2.getY() < -0.9999999999) || (v2.getY() > 0.9999999999)) {
                   throw new CardanEulerSingularityException(false);
               }
@@ -1013,8 +1013,8 @@ public class Rotation implements Serializable {
               // (-r) (Vector3D.plusJ) coordinates are :
               //  -cos (theta1) sin (psi), cos (psi), sin (theta1) sin (psi)
               // and we can choose to have psi in the interval [0 ; PI]
-              Coordinates3D v1 = applyTo(Coordinates3D.PLUS_J);
-              Coordinates3D v2 = applyInverseTo(Coordinates3D.PLUS_J);
+              Cartesian3D v1 = applyTo(Cartesian3D.PLUS_J);
+              Cartesian3D v2 = applyInverseTo(Cartesian3D.PLUS_J);
               if ((v2.getY() < -0.9999999999) || (v2.getY() > 0.9999999999)) {
                   throw new CardanEulerSingularityException(false);
               }
@@ -1031,8 +1031,8 @@ public class Rotation implements Serializable {
               // (-r) (Vector3D.plusK) coordinates are :
               //  sin (psi1) sin (phi), -cos (psi1) sin (phi), cos (phi)
               // and we can choose to have phi in the interval [0 ; PI]
-              Coordinates3D v1 = applyTo(Coordinates3D.PLUS_K);
-              Coordinates3D v2 = applyInverseTo(Coordinates3D.PLUS_K);
+              Cartesian3D v1 = applyTo(Cartesian3D.PLUS_K);
+              Cartesian3D v2 = applyInverseTo(Cartesian3D.PLUS_K);
               if ((v2.getZ() < -0.9999999999) || (v2.getZ() > 0.9999999999)) {
                   throw new CardanEulerSingularityException(false);
               }
@@ -1049,8 +1049,8 @@ public class Rotation implements Serializable {
               // (-r) (Vector3D.plusK) coordinates are :
               //  cos (psi1) sin (theta), sin (psi1) sin (theta), cos (theta)
               // and we can choose to have theta in the interval [0 ; PI]
-              Coordinates3D v1 = applyTo(Coordinates3D.PLUS_K);
-              Coordinates3D v2 = applyInverseTo(Coordinates3D.PLUS_K);
+              Cartesian3D v1 = applyTo(Cartesian3D.PLUS_K);
+              Cartesian3D v2 = applyInverseTo(Cartesian3D.PLUS_K);
               if ((v2.getZ() < -0.9999999999) || (v2.getZ() > 0.9999999999)) {
                   throw new CardanEulerSingularityException(false);
               }
@@ -1108,7 +1108,7 @@ public class Rotation implements Serializable {
    * @param u vector to apply the rotation to
    * @return a new vector which is the image of u by the rotation
    */
-  public Coordinates3D applyTo(Coordinates3D u) {
+  public Cartesian3D applyTo(Cartesian3D u) {
 
     double x = u.getX();
     double y = u.getY();
@@ -1116,7 +1116,7 @@ public class Rotation implements Serializable {
 
     double s = q1 * x + q2 * y + q3 * z;
 
-    return new Coordinates3D(2 * (q0 * (x * q0 - (q2 * z - q3 * y)) + s * q1) - x,
+    return new Cartesian3D(2 * (q0 * (x * q0 - (q2 * z - q3 * y)) + s * q1) - x,
                         2 * (q0 * (y * q0 - (q3 * x - q1 * z)) + s * q2) - y,
                         2 * (q0 * (z * q0 - (q1 * y - q2 * x)) + s * q3) - z);
 
@@ -1145,7 +1145,7 @@ public class Rotation implements Serializable {
    * @param u vector to apply the inverse of the rotation to
    * @return a new vector which such that u is its image by the rotation
    */
-  public Coordinates3D applyInverseTo(Coordinates3D u) {
+  public Cartesian3D applyInverseTo(Cartesian3D u) {
 
     double x = u.getX();
     double y = u.getY();
@@ -1154,7 +1154,7 @@ public class Rotation implements Serializable {
     double s = q1 * x + q2 * y + q3 * z;
     double m0 = -q0;
 
-    return new Coordinates3D(2 * (m0 * (x * m0 - (q2 * z - q3 * y)) + s * q1) - x,
+    return new Cartesian3D(2 * (m0 * (x * m0 - (q2 * z - q3 * y)) + s * q1) - x,
                         2 * (m0 * (y * m0 - (q3 * x - q1 * z)) + s * q2) - y,
                         2 * (m0 * (z * m0 - (q1 * y - q2 * x)) + s * q3) - z);
 

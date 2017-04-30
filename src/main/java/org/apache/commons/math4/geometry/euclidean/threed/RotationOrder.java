@@ -35,96 +35,96 @@ public final class RotationOrder {
      * around Z
      */
     public static final RotationOrder XYZ =
-      new RotationOrder("XYZ", Coordinates3D.PLUS_I, Coordinates3D.PLUS_J, Coordinates3D.PLUS_K);
+      new RotationOrder("XYZ", Cartesian3D.PLUS_I, Cartesian3D.PLUS_J, Cartesian3D.PLUS_K);
 
     /** Set of Cardan angles.
      * this ordered set of rotations is around X, then around Z, then
      * around Y
      */
     public static final RotationOrder XZY =
-      new RotationOrder("XZY", Coordinates3D.PLUS_I, Coordinates3D.PLUS_K, Coordinates3D.PLUS_J);
+      new RotationOrder("XZY", Cartesian3D.PLUS_I, Cartesian3D.PLUS_K, Cartesian3D.PLUS_J);
 
     /** Set of Cardan angles.
      * this ordered set of rotations is around Y, then around X, then
      * around Z
      */
     public static final RotationOrder YXZ =
-      new RotationOrder("YXZ", Coordinates3D.PLUS_J, Coordinates3D.PLUS_I, Coordinates3D.PLUS_K);
+      new RotationOrder("YXZ", Cartesian3D.PLUS_J, Cartesian3D.PLUS_I, Cartesian3D.PLUS_K);
 
     /** Set of Cardan angles.
      * this ordered set of rotations is around Y, then around Z, then
      * around X
      */
     public static final RotationOrder YZX =
-      new RotationOrder("YZX", Coordinates3D.PLUS_J, Coordinates3D.PLUS_K, Coordinates3D.PLUS_I);
+      new RotationOrder("YZX", Cartesian3D.PLUS_J, Cartesian3D.PLUS_K, Cartesian3D.PLUS_I);
 
     /** Set of Cardan angles.
      * this ordered set of rotations is around Z, then around X, then
      * around Y
      */
     public static final RotationOrder ZXY =
-      new RotationOrder("ZXY", Coordinates3D.PLUS_K, Coordinates3D.PLUS_I, Coordinates3D.PLUS_J);
+      new RotationOrder("ZXY", Cartesian3D.PLUS_K, Cartesian3D.PLUS_I, Cartesian3D.PLUS_J);
 
     /** Set of Cardan angles.
      * this ordered set of rotations is around Z, then around Y, then
      * around X
      */
     public static final RotationOrder ZYX =
-      new RotationOrder("ZYX", Coordinates3D.PLUS_K, Coordinates3D.PLUS_J, Coordinates3D.PLUS_I);
+      new RotationOrder("ZYX", Cartesian3D.PLUS_K, Cartesian3D.PLUS_J, Cartesian3D.PLUS_I);
 
     /** Set of Euler angles.
      * this ordered set of rotations is around X, then around Y, then
      * around X
      */
     public static final RotationOrder XYX =
-      new RotationOrder("XYX", Coordinates3D.PLUS_I, Coordinates3D.PLUS_J, Coordinates3D.PLUS_I);
+      new RotationOrder("XYX", Cartesian3D.PLUS_I, Cartesian3D.PLUS_J, Cartesian3D.PLUS_I);
 
     /** Set of Euler angles.
      * this ordered set of rotations is around X, then around Z, then
      * around X
      */
     public static final RotationOrder XZX =
-      new RotationOrder("XZX", Coordinates3D.PLUS_I, Coordinates3D.PLUS_K, Coordinates3D.PLUS_I);
+      new RotationOrder("XZX", Cartesian3D.PLUS_I, Cartesian3D.PLUS_K, Cartesian3D.PLUS_I);
 
     /** Set of Euler angles.
      * this ordered set of rotations is around Y, then around X, then
      * around Y
      */
     public static final RotationOrder YXY =
-      new RotationOrder("YXY", Coordinates3D.PLUS_J, Coordinates3D.PLUS_I, Coordinates3D.PLUS_J);
+      new RotationOrder("YXY", Cartesian3D.PLUS_J, Cartesian3D.PLUS_I, Cartesian3D.PLUS_J);
 
     /** Set of Euler angles.
      * this ordered set of rotations is around Y, then around Z, then
      * around Y
      */
     public static final RotationOrder YZY =
-      new RotationOrder("YZY", Coordinates3D.PLUS_J, Coordinates3D.PLUS_K, Coordinates3D.PLUS_J);
+      new RotationOrder("YZY", Cartesian3D.PLUS_J, Cartesian3D.PLUS_K, Cartesian3D.PLUS_J);
 
     /** Set of Euler angles.
      * this ordered set of rotations is around Z, then around X, then
      * around Z
      */
     public static final RotationOrder ZXZ =
-      new RotationOrder("ZXZ", Coordinates3D.PLUS_K, Coordinates3D.PLUS_I, Coordinates3D.PLUS_K);
+      new RotationOrder("ZXZ", Cartesian3D.PLUS_K, Cartesian3D.PLUS_I, Cartesian3D.PLUS_K);
 
     /** Set of Euler angles.
      * this ordered set of rotations is around Z, then around Y, then
      * around Z
      */
     public static final RotationOrder ZYZ =
-      new RotationOrder("ZYZ", Coordinates3D.PLUS_K, Coordinates3D.PLUS_J, Coordinates3D.PLUS_K);
+      new RotationOrder("ZYZ", Cartesian3D.PLUS_K, Cartesian3D.PLUS_J, Cartesian3D.PLUS_K);
 
     /** Name of the rotations order. */
     private final String name;
 
     /** Axis of the first rotation. */
-    private final Coordinates3D a1;
+    private final Cartesian3D a1;
 
     /** Axis of the second rotation. */
-    private final Coordinates3D a2;
+    private final Cartesian3D a2;
 
     /** Axis of the third rotation. */
-    private final Coordinates3D a3;
+    private final Cartesian3D a3;
 
     /** Private constructor.
      * This is a utility class that cannot be instantiated by the user,
@@ -135,7 +135,7 @@ public final class RotationOrder {
      * @param a3 axis of the third rotation
      */
     private RotationOrder(final String name,
-                          final Coordinates3D a1, final Coordinates3D a2, final Coordinates3D a3) {
+                          final Cartesian3D a1, final Cartesian3D a2, final Cartesian3D a3) {
         this.name = name;
         this.a1   = a1;
         this.a2   = a2;
@@ -153,21 +153,21 @@ public final class RotationOrder {
     /** Get the axis of the first rotation.
      * @return axis of the first rotation
      */
-    public Coordinates3D getA1() {
+    public Cartesian3D getA1() {
         return a1;
     }
 
     /** Get the axis of the second rotation.
      * @return axis of the second rotation
      */
-    public Coordinates3D getA2() {
+    public Cartesian3D getA2() {
         return a2;
     }
 
     /** Get the axis of the second rotation.
      * @return axis of the second rotation
      */
-    public Coordinates3D getA3() {
+    public Cartesian3D getA3() {
         return a3;
     }
 

@@ -21,7 +21,7 @@ import java.util.ArrayList;
 import org.apache.commons.math4.geometry.Point;
 import org.apache.commons.math4.geometry.euclidean.twod.Euclidean2D;
 import org.apache.commons.math4.geometry.euclidean.twod.PolygonsSet;
-import org.apache.commons.math4.geometry.euclidean.twod.Coordinates2D;
+import org.apache.commons.math4.geometry.euclidean.twod.Cartesian2D;
 import org.apache.commons.math4.geometry.partitioning.AbstractSubHyperplane;
 import org.apache.commons.math4.geometry.partitioning.BSPTree;
 import org.apache.commons.math4.geometry.partitioning.BSPTreeVisitor;
@@ -38,29 +38,29 @@ import org.apache.commons.math4.util.FastMath;
 public class OutlineExtractor {
 
     /** Abscissa axis of the projection plane. */
-    private final Coordinates3D u;
+    private final Cartesian3D u;
 
     /** Ordinate axis of the projection plane. */
-    private final Coordinates3D v;
+    private final Cartesian3D v;
 
     /** Normal of the projection plane (viewing direction). */
-    private final Coordinates3D w;
+    private final Cartesian3D w;
 
     /** Build an extractor for a specific projection plane.
      * @param u abscissa axis of the projection point
      * @param v ordinate axis of the projection point
      */
-    public OutlineExtractor(final Coordinates3D u, final Coordinates3D v) {
+    public OutlineExtractor(final Cartesian3D u, final Cartesian3D v) {
         this.u = u;
         this.v = v;
-        w = Coordinates3D.crossProduct(u, v);
+        w = Cartesian3D.crossProduct(u, v);
     }
 
     /** Extract the outline of a polyhedrons set.
      * @param polyhedronsSet polyhedrons set whose outline must be extracted
      * @return an outline, as an array of loops.
      */
-    public Coordinates2D[][] getOutline(final PolyhedronsSet polyhedronsSet) {
+    public Cartesian2D[][] getOutline(final PolyhedronsSet polyhedronsSet) {
 
         // project all boundary facets into one polygons set
         final BoundaryProjector projector = new BoundaryProjector(polyhedronsSet.getTolerance());
@@ -68,9 +68,9 @@ public class OutlineExtractor {
         final PolygonsSet projected = projector.getProjected();
 
         // Remove the spurious intermediate vertices from the outline
-        final Coordinates2D[][] outline = projected.getVertices();
+        final Cartesian2D[][] outline = projected.getVertices();
         for (int i = 0; i < outline.length; ++i) {
-            final Coordinates2D[] rawLoop = outline[i];
+            final Cartesian2D[] rawLoop = outline[i];
             int end = rawLoop.length;
             int j = 0;
             while (j < end) {
@@ -87,7 +87,7 @@ public class OutlineExtractor {
             }
             if (end != rawLoop.length) {
                 // resize the array
-                outline[i] = new Coordinates2D[end];
+                outline[i] = new Cartesian2D[end];
                 System.arraycopy(rawLoop, 0, outline[i], 0, end);
             }
         }
@@ -104,10 +104,10 @@ public class OutlineExtractor {
      * @param i index of the point to check (must be between 0 and n-1)
      * @return true if the point is exactly between its neighbors
      */
-    private boolean pointIsBetween(final Coordinates2D[] loop, final int n, final int i) {
-        final Coordinates2D previous = loop[(i + n - 1) % n];
-        final Coordinates2D current  = loop[i];
-        final Coordinates2D next     = loop[(i + 1) % n];
+    private boolean pointIsBetween(final Cartesian2D[] loop, final int n, final int i) {
+        final Cartesian2D previous = loop[(i + n - 1) % n];
+        final Cartesian2D current  = loop[i];
+        final Cartesian2D next     = loop[(i + 1) % n];
         final double dx1       = current.getX() - previous.getX();
         final double dy1       = current.getY() - previous.getY();
         final double dx2       = next.getX()    - current.getX();
@@ -174,16 +174,16 @@ public class OutlineExtractor {
 
             final double scal = plane.getNormal().dotProduct(w);
             if (FastMath.abs(scal) > 1.0e-3) {
-                Coordinates2D[][] vertices =
+                Cartesian2D[][] vertices =
                     ((PolygonsSet) absFacet.getRemainingRegion()).getVertices();
 
                 if ((scal < 0) ^ reversed) {
                     // the facet is seen from the inside,
                     // we need to invert its boundary orientation
-                    final Coordinates2D[][] newVertices = new Coordinates2D[vertices.length][];
+                    final Cartesian2D[][] newVertices = new Cartesian2D[vertices.length][];
                     for (int i = 0; i < vertices.length; ++i) {
-                        final Coordinates2D[] loop = vertices[i];
-                        final Coordinates2D[] newLoop = new Coordinates2D[loop.length];
+                        final Cartesian2D[] loop = vertices[i];
+                        final Cartesian2D[] newLoop = new Cartesian2D[loop.length];
                         if (loop[0] == null) {
                             newLoop[0] = null;
                             for (int j = 1; j < loop.length; ++j) {
@@ -204,17 +204,17 @@ public class OutlineExtractor {
 
                 // compute the projection of the facet in the outline plane
                 final ArrayList<SubHyperplane<Euclidean2D>> edges = new ArrayList<>();
-                for (Coordinates2D[] loop : vertices) {
+                for (Cartesian2D[] loop : vertices) {
                     final boolean closed = loop[0] != null;
                     int previous         = closed ? (loop.length - 1) : 1;
-                    Coordinates3D previous3D  = plane.toSpace((Point<Euclidean2D>) loop[previous]);
+                    Cartesian3D previous3D  = plane.toSpace(loop[previous]);
                     int current          = (previous + 1) % loop.length;
-                    Coordinates2D pPoint       = new Coordinates2D(previous3D.dotProduct(u),
+                    Cartesian2D pPoint       = new Cartesian2D(previous3D.dotProduct(u),
                                                          previous3D.dotProduct(v));
                     while (current < loop.length) {
 
-                        final Coordinates3D current3D = plane.toSpace((Point<Euclidean2D>) loop[current]);
-                        final Coordinates2D  cPoint    = new Coordinates2D(current3D.dotProduct(u),
+                        final Cartesian3D current3D = plane.toSpace((Point<Euclidean2D>) loop[current]);
+                        final Cartesian2D  cPoint    = new Cartesian2D(current3D.dotProduct(u),
                                                                  current3D.dotProduct(v));
                         final org.apache.commons.math4.geometry.euclidean.twod.Line line =
                             new org.apache.commons.math4.geometry.euclidean.twod.Line(pPoint, cPoint, tolerance);

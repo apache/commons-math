@@ -23,15 +23,15 @@ import org.apache.commons.math4.geometry.Space;
 import org.apache.commons.math4.geometry.euclidean.oned.Euclidean1D;
 import org.apache.commons.math4.geometry.euclidean.oned.IntervalsSet;
 import org.apache.commons.math4.geometry.euclidean.oned.OrientedPoint;
-import org.apache.commons.math4.geometry.euclidean.oned.Coordinates1D;
+import org.apache.commons.math4.geometry.euclidean.oned.Cartesian1D;
 import org.apache.commons.math4.geometry.euclidean.threed.Euclidean3D;
 import org.apache.commons.math4.geometry.euclidean.threed.Plane;
 import org.apache.commons.math4.geometry.euclidean.threed.PolyhedronsSet;
-import org.apache.commons.math4.geometry.euclidean.threed.Coordinates3D;
+import org.apache.commons.math4.geometry.euclidean.threed.Cartesian3D;
 import org.apache.commons.math4.geometry.euclidean.twod.Euclidean2D;
 import org.apache.commons.math4.geometry.euclidean.twod.Line;
 import org.apache.commons.math4.geometry.euclidean.twod.PolygonsSet;
-import org.apache.commons.math4.geometry.euclidean.twod.Coordinates2D;
+import org.apache.commons.math4.geometry.euclidean.twod.Cartesian2D;
 import org.apache.commons.math4.geometry.spherical.oned.ArcsSet;
 import org.apache.commons.math4.geometry.spherical.oned.LimitAngle;
 import org.apache.commons.math4.geometry.spherical.oned.Sphere1D;
@@ -125,7 +125,7 @@ public class RegionDumper {
             @Override
             protected void formatHyperplane(final Hyperplane<Euclidean2D> hyperplane) {
                 final Line h = (Line) hyperplane;
-                final Coordinates2D p = h.toSpace(Coordinates1D.ZERO);
+                final Cartesian2D p = h.toSpace(Cartesian1D.ZERO);
                 getFormatter().format("%22.15e %22.15e %22.15e %22.15e",
                                       p.getX(), p.getY(), h.getAngle(), h.getTolerance());
             }
@@ -146,7 +146,7 @@ public class RegionDumper {
             @Override
             protected void formatHyperplane(final Hyperplane<Euclidean3D> hyperplane) {
                 final Plane h = (Plane) hyperplane;
-                final Coordinates3D p = h.toSpace(Coordinates2D.ZERO);
+                final Cartesian3D p = h.toSpace(Cartesian2D.ZERO);
                 getFormatter().format("%22.15e %22.15e %22.15e %22.15e %22.15e %22.15e %22.15e",
                                       p.getX(), p.getY(), p.getZ(),
                                       h.getNormal().getX(), h.getNormal().getY(), h.getNormal().getZ(),

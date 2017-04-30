@@ -17,7 +17,7 @@
 package org.apache.commons.math4.geometry.spherical.twod;
 
 import org.apache.commons.math4.geometry.euclidean.threed.Rotation;
-import org.apache.commons.math4.geometry.euclidean.threed.Coordinates3D;
+import org.apache.commons.math4.geometry.euclidean.threed.Cartesian3D;
 import org.apache.commons.math4.geometry.partitioning.RegionFactory;
 import org.apache.commons.math4.geometry.partitioning.Side;
 import org.apache.commons.math4.geometry.partitioning.SubHyperplane.SplitSubHyperplane;
@@ -34,7 +34,7 @@ public class SubCircleTest {
 
     @Test
     public void testFullCircle() {
-        Circle circle = new Circle(Coordinates3D.PLUS_K, 1.0e-10);
+        Circle circle = new Circle(Cartesian3D.PLUS_K, 1.0e-10);
         SubCircle set = circle.wholeHyperplane();
         Assert.assertEquals(MathUtils.TWO_PI, set.getSize(), 1.0e-10);
         Assert.assertTrue(circle == set.getHyperplane());
@@ -44,21 +44,21 @@ public class SubCircleTest {
     @Test
     public void testSide() {
 
-        Circle xzPlane = new Circle(Coordinates3D.PLUS_J, 1.0e-10);
+        Circle xzPlane = new Circle(Cartesian3D.PLUS_J, 1.0e-10);
 
-        SubCircle sc1 = create(Coordinates3D.PLUS_K, Coordinates3D.PLUS_I, Coordinates3D.PLUS_J, 1.0e-10, 1.0, 3.0, 5.0, 6.0);
+        SubCircle sc1 = create(Cartesian3D.PLUS_K, Cartesian3D.PLUS_I, Cartesian3D.PLUS_J, 1.0e-10, 1.0, 3.0, 5.0, 6.0);
         Assert.assertEquals(Side.BOTH, sc1.split(xzPlane).getSide());
 
-        SubCircle sc2 = create(Coordinates3D.PLUS_K, Coordinates3D.PLUS_I, Coordinates3D.PLUS_J, 1.0e-10, 1.0, 3.0);
+        SubCircle sc2 = create(Cartesian3D.PLUS_K, Cartesian3D.PLUS_I, Cartesian3D.PLUS_J, 1.0e-10, 1.0, 3.0);
         Assert.assertEquals(Side.MINUS, sc2.split(xzPlane).getSide());
 
-        SubCircle sc3 = create(Coordinates3D.PLUS_K, Coordinates3D.PLUS_I, Coordinates3D.PLUS_J, 1.0e-10, 5.0, 6.0);
+        SubCircle sc3 = create(Cartesian3D.PLUS_K, Cartesian3D.PLUS_I, Cartesian3D.PLUS_J, 1.0e-10, 5.0, 6.0);
         Assert.assertEquals(Side.PLUS, sc3.split(xzPlane).getSide());
 
-        SubCircle sc4 = create(Coordinates3D.PLUS_J, Coordinates3D.PLUS_K, Coordinates3D.PLUS_I, 1.0e-10, 5.0, 6.0);
+        SubCircle sc4 = create(Cartesian3D.PLUS_J, Cartesian3D.PLUS_K, Cartesian3D.PLUS_I, 1.0e-10, 5.0, 6.0);
         Assert.assertEquals(Side.HYPER, sc4.split(xzPlane).getSide());
 
-        SubCircle sc5 = create(Coordinates3D.MINUS_J, Coordinates3D.PLUS_I, Coordinates3D.PLUS_K, 1.0e-10, 5.0, 6.0);
+        SubCircle sc5 = create(Cartesian3D.MINUS_J, Cartesian3D.PLUS_I, Cartesian3D.PLUS_K, 1.0e-10, 5.0, 6.0);
         Assert.assertEquals(Side.HYPER, sc5.split(xzPlane).getSide());
 
     }
@@ -66,9 +66,9 @@ public class SubCircleTest {
     @Test
     public void testSPlit() {
 
-        Circle xzPlane = new Circle(Coordinates3D.PLUS_J, 1.0e-10);
+        Circle xzPlane = new Circle(Cartesian3D.PLUS_J, 1.0e-10);
 
-        SubCircle sc1 = create(Coordinates3D.PLUS_K, Coordinates3D.PLUS_I, Coordinates3D.PLUS_J, 1.0e-10, 1.0, 3.0, 5.0, 6.0);
+        SubCircle sc1 = create(Cartesian3D.PLUS_K, Cartesian3D.PLUS_I, Cartesian3D.PLUS_J, 1.0e-10, 1.0, 3.0, 5.0, 6.0);
         SplitSubHyperplane<Sphere2D> split1 = sc1.split(xzPlane);
         ArcsSet plus1  = (ArcsSet) ((SubCircle) split1.getPlus()).getRemainingRegion();
         ArcsSet minus1 = (ArcsSet) ((SubCircle) split1.getMinus()).getRemainingRegion();
@@ -79,7 +79,7 @@ public class SubCircleTest {
         Assert.assertEquals(1.0, minus1.asList().get(0).getInf(), 1.0e-10);
         Assert.assertEquals(3.0, minus1.asList().get(0).getSup(), 1.0e-10);
 
-        SubCircle sc2 = create(Coordinates3D.PLUS_K, Coordinates3D.PLUS_I, Coordinates3D.PLUS_J, 1.0e-10, 1.0, 3.0);
+        SubCircle sc2 = create(Cartesian3D.PLUS_K, Cartesian3D.PLUS_I, Cartesian3D.PLUS_J, 1.0e-10, 1.0, 3.0);
         SplitSubHyperplane<Sphere2D> split2 = sc2.split(xzPlane);
         Assert.assertNull(split2.getPlus());
         ArcsSet minus2 = (ArcsSet) ((SubCircle) split2.getMinus()).getRemainingRegion();
@@ -87,7 +87,7 @@ public class SubCircleTest {
         Assert.assertEquals(1.0, minus2.asList().get(0).getInf(), 1.0e-10);
         Assert.assertEquals(3.0, minus2.asList().get(0).getSup(), 1.0e-10);
 
-        SubCircle sc3 = create(Coordinates3D.PLUS_K, Coordinates3D.PLUS_I, Coordinates3D.PLUS_J, 1.0e-10, 5.0, 6.0);
+        SubCircle sc3 = create(Cartesian3D.PLUS_K, Cartesian3D.PLUS_I, Cartesian3D.PLUS_J, 1.0e-10, 5.0, 6.0);
         SplitSubHyperplane<Sphere2D> split3 = sc3.split(xzPlane);
         ArcsSet plus3  = (ArcsSet) ((SubCircle) split3.getPlus()).getRemainingRegion();
         Assert.assertEquals(1, plus3.asList().size());
@@ -95,13 +95,13 @@ public class SubCircleTest {
         Assert.assertEquals(6.0, plus3.asList().get(0).getSup(), 1.0e-10);
         Assert.assertNull(split3.getMinus());
 
-        SubCircle sc4 = create(Coordinates3D.PLUS_J, Coordinates3D.PLUS_K, Coordinates3D.PLUS_I, 1.0e-10, 5.0, 6.0);
+        SubCircle sc4 = create(Cartesian3D.PLUS_J, Cartesian3D.PLUS_K, Cartesian3D.PLUS_I, 1.0e-10, 5.0, 6.0);
         SplitSubHyperplane<Sphere2D> split4 = sc4.split(xzPlane);
         Assert.assertEquals(Side.HYPER, sc4.split(xzPlane).getSide());
         Assert.assertNull(split4.getPlus());
         Assert.assertNull(split4.getMinus());
 
-        SubCircle sc5 = create(Coordinates3D.MINUS_J, Coordinates3D.PLUS_I, Coordinates3D.PLUS_K, 1.0e-10, 5.0, 6.0);
+        SubCircle sc5 = create(Cartesian3D.MINUS_J, Cartesian3D.PLUS_I, Cartesian3D.PLUS_K, 1.0e-10, 5.0, 6.0);
         SplitSubHyperplane<Sphere2D> split5 = sc5.split(xzPlane);
         Assert.assertEquals(Side.HYPER, sc5.split(xzPlane).getSide());
         Assert.assertNull(split5.getPlus());
@@ -113,9 +113,9 @@ public class SubCircleTest {
     public void testSideSplitConsistency() {
 
         double tolerance = 1.0e-6;
-        Circle hyperplane = new Circle(new Coordinates3D(9.738804529764676E-5, -0.6772824575010357, -0.7357230887208355),
+        Circle hyperplane = new Circle(new Cartesian3D(9.738804529764676E-5, -0.6772824575010357, -0.7357230887208355),
                                        tolerance);
-        SubCircle sub = new SubCircle(new Circle(new Coordinates3D(2.1793884139073498E-4, 0.9790647032675541, -0.20354915700704285),
+        SubCircle sub = new SubCircle(new Circle(new Cartesian3D(2.1793884139073498E-4, 0.9790647032675541, -0.20354915700704285),
                                                  tolerance),
                                       new ArcsSet(4.7121441684170700, 4.7125386635004760, tolerance));
         SplitSubHyperplane<Sphere2D> split = sub.split(hyperplane);
@@ -125,7 +125,7 @@ public class SubCircleTest {
 
     }
 
-    private SubCircle create(Coordinates3D pole, Coordinates3D x, Coordinates3D y,
+    private SubCircle create(Cartesian3D pole, Cartesian3D x, Cartesian3D y,
                              double tolerance, double ... limits) {
         RegionFactory<Sphere1D> factory = new RegionFactory<>();
         Circle circle = new Circle(pole, tolerance);

@@ -25,7 +25,7 @@ import org.apache.commons.math4.fitting.leastsquares.LeastSquaresProblem;
 import org.apache.commons.math4.fitting.leastsquares.GaussNewtonOptimizer.Decomposition;
 import org.apache.commons.math4.fitting.leastsquares.LeastSquaresOptimizer.Optimum;
 import org.apache.commons.math4.geometry.euclidean.threed.Plane;
-import org.apache.commons.math4.geometry.euclidean.threed.Coordinates3D;
+import org.apache.commons.math4.geometry.euclidean.threed.Cartesian3D;
 import org.apache.commons.math4.optim.SimpleVectorValueChecker;
 import org.apache.commons.math4.util.FastMath;
 import org.junit.Assert;
@@ -140,8 +140,8 @@ public class GaussNewtonOptimizerWithSVDTest
 
         Optimum optimum = optimizer.optimize(problem.getBuilder().build());
 
-        Plane span = new Plane(Coordinates3D.ZERO, new Coordinates3D(1, 2, -3), new Coordinates3D(2, 1, 0), TOl);
-        double expected = FastMath.abs(span.getOffset(new Coordinates3D(1, 1, 1)));
+        Plane span = new Plane(Cartesian3D.ZERO, new Cartesian3D(1, 2, -3), new Cartesian3D(2, 1, 0), TOl);
+        double expected = FastMath.abs(span.getOffset(new Cartesian3D(1, 1, 1)));
         double actual = optimum.getResiduals().getNorm();
 
         //verify

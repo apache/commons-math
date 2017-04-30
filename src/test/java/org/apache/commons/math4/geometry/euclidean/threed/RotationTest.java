@@ -23,7 +23,7 @@ import org.apache.commons.math4.geometry.euclidean.threed.CardanEulerSingularity
 import org.apache.commons.math4.geometry.euclidean.threed.NotARotationMatrixException;
 import org.apache.commons.math4.geometry.euclidean.threed.Rotation;
 import org.apache.commons.math4.geometry.euclidean.threed.RotationOrder;
-import org.apache.commons.math4.geometry.euclidean.threed.Coordinates3D;
+import org.apache.commons.math4.geometry.euclidean.threed.Cartesian3D;
 import org.apache.commons.math4.util.FastMath;
 import org.apache.commons.math4.util.MathUtils;
 import org.junit.Assert;
@@ -36,21 +36,21 @@ public class RotationTest {
   public void testIdentity() {
 
     Rotation r = Rotation.IDENTITY;
-    checkVector(r.applyTo(Coordinates3D.PLUS_I), Coordinates3D.PLUS_I);
-    checkVector(r.applyTo(Coordinates3D.PLUS_J), Coordinates3D.PLUS_J);
-    checkVector(r.applyTo(Coordinates3D.PLUS_K), Coordinates3D.PLUS_K);
+    checkVector(r.applyTo(Cartesian3D.PLUS_I), Cartesian3D.PLUS_I);
+    checkVector(r.applyTo(Cartesian3D.PLUS_J), Cartesian3D.PLUS_J);
+    checkVector(r.applyTo(Cartesian3D.PLUS_K), Cartesian3D.PLUS_K);
     checkAngle(r.getAngle(), 0);
 
     r = new Rotation(-1, 0, 0, 0, false);
-    checkVector(r.applyTo(Coordinates3D.PLUS_I), Coordinates3D.PLUS_I);
-    checkVector(r.applyTo(Coordinates3D.PLUS_J), Coordinates3D.PLUS_J);
-    checkVector(r.applyTo(Coordinates3D.PLUS_K), Coordinates3D.PLUS_K);
+    checkVector(r.applyTo(Cartesian3D.PLUS_I), Cartesian3D.PLUS_I);
+    checkVector(r.applyTo(Cartesian3D.PLUS_J), Cartesian3D.PLUS_J);
+    checkVector(r.applyTo(Cartesian3D.PLUS_K), Cartesian3D.PLUS_K);
     checkAngle(r.getAngle(), 0);
 
     r = new Rotation(42, 0, 0, 0, true);
-    checkVector(r.applyTo(Coordinates3D.PLUS_I), Coordinates3D.PLUS_I);
-    checkVector(r.applyTo(Coordinates3D.PLUS_J), Coordinates3D.PLUS_J);
-    checkVector(r.applyTo(Coordinates3D.PLUS_K), Coordinates3D.PLUS_K);
+    checkVector(r.applyTo(Cartesian3D.PLUS_I), Cartesian3D.PLUS_I);
+    checkVector(r.applyTo(Cartesian3D.PLUS_J), Cartesian3D.PLUS_J);
+    checkVector(r.applyTo(Cartesian3D.PLUS_K), Cartesian3D.PLUS_K);
     checkAngle(r.getAngle(), 0);
 
   }
@@ -59,95 +59,95 @@ public class RotationTest {
   @Deprecated
   public void testAxisAngleDeprecated() throws MathIllegalArgumentException {
 
-    Rotation r = new Rotation(new Coordinates3D(10, 10, 10), 2 * FastMath.PI / 3);
-    checkVector(r.applyTo(Coordinates3D.PLUS_I), Coordinates3D.PLUS_J);
-    checkVector(r.applyTo(Coordinates3D.PLUS_J), Coordinates3D.PLUS_K);
-    checkVector(r.applyTo(Coordinates3D.PLUS_K), Coordinates3D.PLUS_I);
+    Rotation r = new Rotation(new Cartesian3D(10, 10, 10), 2 * FastMath.PI / 3);
+    checkVector(r.applyTo(Cartesian3D.PLUS_I), Cartesian3D.PLUS_J);
+    checkVector(r.applyTo(Cartesian3D.PLUS_J), Cartesian3D.PLUS_K);
+    checkVector(r.applyTo(Cartesian3D.PLUS_K), Cartesian3D.PLUS_I);
     double s = 1 / FastMath.sqrt(3);
-    checkVector(r.getAxis(), new Coordinates3D(s, s, s));
+    checkVector(r.getAxis(), new Cartesian3D(s, s, s));
     checkAngle(r.getAngle(), 2 * FastMath.PI / 3);
 
     try {
-      new Rotation(new Coordinates3D(0, 0, 0), 2 * FastMath.PI / 3);
+      new Rotation(new Cartesian3D(0, 0, 0), 2 * FastMath.PI / 3);
       Assert.fail("an exception should have been thrown");
     } catch (MathIllegalArgumentException e) {
     }
 
-    r = new Rotation(Coordinates3D.PLUS_K, 1.5 * FastMath.PI);
-    checkVector(r.getAxis(), new Coordinates3D(0, 0, -1));
+    r = new Rotation(Cartesian3D.PLUS_K, 1.5 * FastMath.PI);
+    checkVector(r.getAxis(), new Cartesian3D(0, 0, -1));
     checkAngle(r.getAngle(), 0.5 * FastMath.PI);
 
-    r = new Rotation(Coordinates3D.PLUS_J, FastMath.PI);
-    checkVector(r.getAxis(), Coordinates3D.PLUS_J);
+    r = new Rotation(Cartesian3D.PLUS_J, FastMath.PI);
+    checkVector(r.getAxis(), Cartesian3D.PLUS_J);
     checkAngle(r.getAngle(), FastMath.PI);
 
-    checkVector(Rotation.IDENTITY.getAxis(), Coordinates3D.PLUS_I);
+    checkVector(Rotation.IDENTITY.getAxis(), Cartesian3D.PLUS_I);
 
   }
 
   @Test
   public void testAxisAngleVectorOperator() throws MathIllegalArgumentException {
 
-    Rotation r = new Rotation(new Coordinates3D(10, 10, 10), 2 * FastMath.PI / 3, RotationConvention.VECTOR_OPERATOR);
-    checkVector(r.applyTo(Coordinates3D.PLUS_I), Coordinates3D.PLUS_J);
-    checkVector(r.applyTo(Coordinates3D.PLUS_J), Coordinates3D.PLUS_K);
-    checkVector(r.applyTo(Coordinates3D.PLUS_K), Coordinates3D.PLUS_I);
+    Rotation r = new Rotation(new Cartesian3D(10, 10, 10), 2 * FastMath.PI / 3, RotationConvention.VECTOR_OPERATOR);
+    checkVector(r.applyTo(Cartesian3D.PLUS_I), Cartesian3D.PLUS_J);
+    checkVector(r.applyTo(Cartesian3D.PLUS_J), Cartesian3D.PLUS_K);
+    checkVector(r.applyTo(Cartesian3D.PLUS_K), Cartesian3D.PLUS_I);
     double s = 1 / FastMath.sqrt(3);
-    checkVector(r.getAxis(RotationConvention.VECTOR_OPERATOR), new Coordinates3D( s,  s,  s));
-    checkVector(r.getAxis(RotationConvention.FRAME_TRANSFORM), new Coordinates3D(-s, -s, -s));
+    checkVector(r.getAxis(RotationConvention.VECTOR_OPERATOR), new Cartesian3D( s,  s,  s));
+    checkVector(r.getAxis(RotationConvention.FRAME_TRANSFORM), new Cartesian3D(-s, -s, -s));
     checkAngle(r.getAngle(), 2 * FastMath.PI / 3);
 
     try {
-      new Rotation(new Coordinates3D(0, 0, 0), 2 * FastMath.PI / 3, RotationConvention.VECTOR_OPERATOR);
+      new Rotation(new Cartesian3D(0, 0, 0), 2 * FastMath.PI / 3, RotationConvention.VECTOR_OPERATOR);
       Assert.fail("an exception should have been thrown");
     } catch (MathIllegalArgumentException e) {
     }
 
-    r = new Rotation(Coordinates3D.PLUS_K, 1.5 * FastMath.PI, RotationConvention.VECTOR_OPERATOR);
-    checkVector(r.getAxis(RotationConvention.VECTOR_OPERATOR), new Coordinates3D(0, 0, -1));
-    checkVector(r.getAxis(RotationConvention.FRAME_TRANSFORM), new Coordinates3D(0, 0, +1));
+    r = new Rotation(Cartesian3D.PLUS_K, 1.5 * FastMath.PI, RotationConvention.VECTOR_OPERATOR);
+    checkVector(r.getAxis(RotationConvention.VECTOR_OPERATOR), new Cartesian3D(0, 0, -1));
+    checkVector(r.getAxis(RotationConvention.FRAME_TRANSFORM), new Cartesian3D(0, 0, +1));
     checkAngle(r.getAngle(), 0.5 * FastMath.PI);
 
-    r = new Rotation(Coordinates3D.PLUS_J, FastMath.PI, RotationConvention.VECTOR_OPERATOR);
-    checkVector(r.getAxis(RotationConvention.VECTOR_OPERATOR), Coordinates3D.PLUS_J);
-    checkVector(r.getAxis(RotationConvention.FRAME_TRANSFORM), Coordinates3D.MINUS_J);
+    r = new Rotation(Cartesian3D.PLUS_J, FastMath.PI, RotationConvention.VECTOR_OPERATOR);
+    checkVector(r.getAxis(RotationConvention.VECTOR_OPERATOR), Cartesian3D.PLUS_J);
+    checkVector(r.getAxis(RotationConvention.FRAME_TRANSFORM), Cartesian3D.MINUS_J);
     checkAngle(r.getAngle(), FastMath.PI);
 
-    checkVector(Rotation.IDENTITY.getAxis(RotationConvention.VECTOR_OPERATOR), Coordinates3D.PLUS_I);
-    checkVector(Rotation.IDENTITY.getAxis(RotationConvention.FRAME_TRANSFORM), Coordinates3D.MINUS_I);
+    checkVector(Rotation.IDENTITY.getAxis(RotationConvention.VECTOR_OPERATOR), Cartesian3D.PLUS_I);
+    checkVector(Rotation.IDENTITY.getAxis(RotationConvention.FRAME_TRANSFORM), Cartesian3D.MINUS_I);
 
   }
 
   @Test
   public void testAxisAngleFrameTransform() throws MathIllegalArgumentException {
 
-    Rotation r = new Rotation(new Coordinates3D(10, 10, 10), 2 * FastMath.PI / 3, RotationConvention.FRAME_TRANSFORM);
-    checkVector(r.applyTo(Coordinates3D.PLUS_I), Coordinates3D.PLUS_K);
-    checkVector(r.applyTo(Coordinates3D.PLUS_J), Coordinates3D.PLUS_I);
-    checkVector(r.applyTo(Coordinates3D.PLUS_K), Coordinates3D.PLUS_J);
+    Rotation r = new Rotation(new Cartesian3D(10, 10, 10), 2 * FastMath.PI / 3, RotationConvention.FRAME_TRANSFORM);
+    checkVector(r.applyTo(Cartesian3D.PLUS_I), Cartesian3D.PLUS_K);
+    checkVector(r.applyTo(Cartesian3D.PLUS_J), Cartesian3D.PLUS_I);
+    checkVector(r.applyTo(Cartesian3D.PLUS_K), Cartesian3D.PLUS_J);
     double s = 1 / FastMath.sqrt(3);
-    checkVector(r.getAxis(RotationConvention.FRAME_TRANSFORM), new Coordinates3D( s,  s,  s));
-    checkVector(r.getAxis(RotationConvention.VECTOR_OPERATOR), new Coordinates3D(-s, -s, -s));
+    checkVector(r.getAxis(RotationConvention.FRAME_TRANSFORM), new Cartesian3D( s,  s,  s));
+    checkVector(r.getAxis(RotationConvention.VECTOR_OPERATOR), new Cartesian3D(-s, -s, -s));
     checkAngle(r.getAngle(), 2 * FastMath.PI / 3);
 
     try {
-      new Rotation(new Coordinates3D(0, 0, 0), 2 * FastMath.PI / 3, RotationConvention.FRAME_TRANSFORM);
+      new Rotation(new Cartesian3D(0, 0, 0), 2 * FastMath.PI / 3, RotationConvention.FRAME_TRANSFORM);
       Assert.fail("an exception should have been thrown");
     } catch (MathIllegalArgumentException e) {
     }
 
-    r = new Rotation(Coordinates3D.PLUS_K, 1.5 * FastMath.PI, RotationConvention.FRAME_TRANSFORM);
-    checkVector(r.getAxis(RotationConvention.FRAME_TRANSFORM), new Coordinates3D(0, 0, -1));
-    checkVector(r.getAxis(RotationConvention.VECTOR_OPERATOR), new Coordinates3D(0, 0, +1));
+    r = new Rotation(Cartesian3D.PLUS_K, 1.5 * FastMath.PI, RotationConvention.FRAME_TRANSFORM);
+    checkVector(r.getAxis(RotationConvention.FRAME_TRANSFORM), new Cartesian3D(0, 0, -1));
+    checkVector(r.getAxis(RotationConvention.VECTOR_OPERATOR), new Cartesian3D(0, 0, +1));
     checkAngle(r.getAngle(), 0.5 * FastMath.PI);
 
-    r = new Rotation(Coordinates3D.PLUS_J, FastMath.PI, RotationConvention.FRAME_TRANSFORM);
-    checkVector(r.getAxis(RotationConvention.FRAME_TRANSFORM), Coordinates3D.PLUS_J);
-    checkVector(r.getAxis(RotationConvention.VECTOR_OPERATOR), Coordinates3D.MINUS_J);
+    r = new Rotation(Cartesian3D.PLUS_J, FastMath.PI, RotationConvention.FRAME_TRANSFORM);
+    checkVector(r.getAxis(RotationConvention.FRAME_TRANSFORM), Cartesian3D.PLUS_J);
+    checkVector(r.getAxis(RotationConvention.VECTOR_OPERATOR), Cartesian3D.MINUS_J);
     checkAngle(r.getAngle(), FastMath.PI);
 
-    checkVector(Rotation.IDENTITY.getAxis(RotationConvention.FRAME_TRANSFORM), Coordinates3D.MINUS_I);
-    checkVector(Rotation.IDENTITY.getAxis(RotationConvention.VECTOR_OPERATOR), Coordinates3D.PLUS_I);
+    checkVector(Rotation.IDENTITY.getAxis(RotationConvention.FRAME_TRANSFORM), Cartesian3D.MINUS_I);
+    checkVector(Rotation.IDENTITY.getAxis(RotationConvention.VECTOR_OPERATOR), Cartesian3D.PLUS_I);
 
   }
 
@@ -159,7 +159,7 @@ public class RotationTest {
     checkRotation(reverted.applyTo(r), 1, 0, 0, 0);
     Assert.assertEquals(r.getAngle(), reverted.getAngle(), 1.0e-12);
     Assert.assertEquals(-1,
-                        Coordinates3D.dotProduct(r.getAxis(RotationConvention.VECTOR_OPERATOR),
+                        Cartesian3D.dotProduct(r.getAxis(RotationConvention.VECTOR_OPERATOR),
                                            reverted.getAxis(RotationConvention.VECTOR_OPERATOR)),
                         1.0e-12);
   }
@@ -172,7 +172,7 @@ public class RotationTest {
     checkRotation(reverted.compose(r, RotationConvention.VECTOR_OPERATOR), 1, 0, 0, 0);
     Assert.assertEquals(r.getAngle(), reverted.getAngle(), 1.0e-12);
     Assert.assertEquals(-1,
-                        Coordinates3D.dotProduct(r.getAxis(RotationConvention.VECTOR_OPERATOR),
+                        Cartesian3D.dotProduct(r.getAxis(RotationConvention.VECTOR_OPERATOR),
                                            reverted.getAxis(RotationConvention.VECTOR_OPERATOR)),
                         1.0e-12);
   }
@@ -185,7 +185,7 @@ public class RotationTest {
     checkRotation(reverted.compose(r, RotationConvention.FRAME_TRANSFORM), 1, 0, 0, 0);
     Assert.assertEquals(r.getAngle(), reverted.getAngle(), 1.0e-12);
     Assert.assertEquals(-1,
-                        Coordinates3D.dotProduct(r.getAxis(RotationConvention.FRAME_TRANSFORM),
+                        Cartesian3D.dotProduct(r.getAxis(RotationConvention.FRAME_TRANSFORM),
                                            reverted.getAxis(RotationConvention.FRAME_TRANSFORM)),
                         1.0e-12);
   }
@@ -193,15 +193,15 @@ public class RotationTest {
   @Test
   public void testVectorOnePair() throws MathArithmeticException {
 
-    Coordinates3D u = new Coordinates3D(3, 2, 1);
-    Coordinates3D v = new Coordinates3D(-4, 2, 2);
+    Cartesian3D u = new Cartesian3D(3, 2, 1);
+    Cartesian3D v = new Cartesian3D(-4, 2, 2);
     Rotation r = new Rotation(u, v);
     checkVector(r.applyTo(u.scalarMultiply(v.getNorm())), v.scalarMultiply(u.getNorm()));
 
     checkAngle(new Rotation(u, u.negate()).getAngle(), FastMath.PI);
 
     try {
-        new Rotation(u, Coordinates3D.ZERO);
+        new Rotation(u, Cartesian3D.ZERO);
         Assert.fail("an exception should have been thrown");
     } catch (MathArithmeticException e) {
         // expected behavior
@@ -212,36 +212,36 @@ public class RotationTest {
   @Test
   public void testVectorTwoPairs() throws MathArithmeticException {
 
-    Coordinates3D u1 = new Coordinates3D(3, 0, 0);
-    Coordinates3D u2 = new Coordinates3D(0, 5, 0);
-    Coordinates3D v1 = new Coordinates3D(0, 0, 2);
-    Coordinates3D v2 = new Coordinates3D(-2, 0, 2);
+    Cartesian3D u1 = new Cartesian3D(3, 0, 0);
+    Cartesian3D u2 = new Cartesian3D(0, 5, 0);
+    Cartesian3D v1 = new Cartesian3D(0, 0, 2);
+    Cartesian3D v2 = new Cartesian3D(-2, 0, 2);
     Rotation r = new Rotation(u1, u2, v1, v2);
-    checkVector(r.applyTo(Coordinates3D.PLUS_I), Coordinates3D.PLUS_K);
-    checkVector(r.applyTo(Coordinates3D.PLUS_J), Coordinates3D.MINUS_I);
+    checkVector(r.applyTo(Cartesian3D.PLUS_I), Cartesian3D.PLUS_K);
+    checkVector(r.applyTo(Cartesian3D.PLUS_J), Cartesian3D.MINUS_I);
 
     r = new Rotation(u1, u2, u1.negate(), u2.negate());
-    Coordinates3D axis = r.getAxis(RotationConvention.VECTOR_OPERATOR);
-    if (Coordinates3D.dotProduct(axis, Coordinates3D.PLUS_K) > 0) {
-      checkVector(axis, Coordinates3D.PLUS_K);
+    Cartesian3D axis = r.getAxis(RotationConvention.VECTOR_OPERATOR);
+    if (Cartesian3D.dotProduct(axis, Cartesian3D.PLUS_K) > 0) {
+      checkVector(axis, Cartesian3D.PLUS_K);
     } else {
-      checkVector(axis, Coordinates3D.MINUS_K);
+      checkVector(axis, Cartesian3D.MINUS_K);
     }
     checkAngle(r.getAngle(), FastMath.PI);
 
     double sqrt = FastMath.sqrt(2) / 2;
-    r = new Rotation(Coordinates3D.PLUS_I,  Coordinates3D.PLUS_J,
-                     new Coordinates3D(0.5, 0.5,  sqrt),
-                     new Coordinates3D(0.5, 0.5, -sqrt));
+    r = new Rotation(Cartesian3D.PLUS_I,  Cartesian3D.PLUS_J,
+                     new Cartesian3D(0.5, 0.5,  sqrt),
+                     new Cartesian3D(0.5, 0.5, -sqrt));
     checkRotation(r, sqrt, 0.5, 0.5, 0);
 
-    r = new Rotation(u1, u2, u1, Coordinates3D.crossProduct(u1, u2));
+    r = new Rotation(u1, u2, u1, Cartesian3D.crossProduct(u1, u2));
     checkRotation(r, sqrt, -sqrt, 0, 0);
 
     checkRotation(new Rotation(u1, u2, u1, u2), 1, 0, 0, 0);
 
     try {
-        new Rotation(u1, u2, Coordinates3D.ZERO, v2);
+        new Rotation(u1, u2, Cartesian3D.ZERO, v2);
         Assert.fail("an exception should have been thrown");
     } catch (MathArithmeticException e) {
       // expected behavior
@@ -317,9 +317,9 @@ public class RotationTest {
                       { 0.0, 0.0, 1.0 },
                       { 1.0, 0.0, 0.0 } };
     Rotation r = new Rotation(m1, 1.0e-7);
-    checkVector(r.applyTo(Coordinates3D.PLUS_I), Coordinates3D.PLUS_K);
-    checkVector(r.applyTo(Coordinates3D.PLUS_J), Coordinates3D.PLUS_I);
-    checkVector(r.applyTo(Coordinates3D.PLUS_K), Coordinates3D.PLUS_J);
+    checkVector(r.applyTo(Cartesian3D.PLUS_I), Cartesian3D.PLUS_K);
+    checkVector(r.applyTo(Cartesian3D.PLUS_J), Cartesian3D.PLUS_I);
+    checkVector(r.applyTo(Cartesian3D.PLUS_K), Cartesian3D.PLUS_J);
 
     double[][] m2 = { { 0.83203, -0.55012, -0.07139 },
                       { 0.48293,  0.78164, -0.39474 },
@@ -370,12 +370,12 @@ public class RotationTest {
       }
     }
 
-    checkVector(r.applyTo(Coordinates3D.PLUS_I),
-                new Coordinates3D(m3[0][0], m3[1][0], m3[2][0]));
-    checkVector(r.applyTo(Coordinates3D.PLUS_J),
-                new Coordinates3D(m3[0][1], m3[1][1], m3[2][1]));
-    checkVector(r.applyTo(Coordinates3D.PLUS_K),
-                new Coordinates3D(m3[0][2], m3[1][2], m3[2][2]));
+    checkVector(r.applyTo(Cartesian3D.PLUS_I),
+                new Cartesian3D(m3[0][0], m3[1][0], m3[2][0]));
+    checkVector(r.applyTo(Cartesian3D.PLUS_J),
+                new Cartesian3D(m3[0][1], m3[1][1], m3[2][1]));
+    checkVector(r.applyTo(Cartesian3D.PLUS_K),
+                new Cartesian3D(m3[0][2], m3[1][2], m3[2][2]));
 
     double[][] m4 = { { 1.0,  0.0,  0.0 },
                       { 0.0, -1.0,  0.0 },
@@ -535,7 +535,7 @@ public class RotationTest {
   @Test
   public void testQuaternion() throws MathIllegalArgumentException {
 
-    Rotation r1 = new Rotation(new Coordinates3D(2, -3, 5), 1.7, RotationConvention.VECTOR_OPERATOR);
+    Rotation r1 = new Rotation(new Cartesian3D(2, -3, 5), 1.7, RotationConvention.VECTOR_OPERATOR);
     double n = 23.5;
     Rotation r2 = new Rotation(n * r1.getQ0(), n * r1.getQ1(),
                                n * r1.getQ2(), n * r1.getQ3(),
@@ -543,7 +543,7 @@ public class RotationTest {
     for (double x = -0.9; x < 0.9; x += 0.2) {
       for (double y = -0.9; y < 0.9; y += 0.2) {
         for (double z = -0.9; z < 0.9; z += 0.2) {
-          Coordinates3D u = new Coordinates3D(x, y, z);
+          Cartesian3D u = new Cartesian3D(x, y, z);
           checkVector(r2.applyTo(u), r1.applyTo(u));
         }
       }
@@ -557,14 +557,14 @@ public class RotationTest {
   @Test
   public void testApplyTo() throws MathIllegalArgumentException {
 
-    Rotation r1 = new Rotation(new Coordinates3D(2, -3, 5), 1.7, RotationConvention.VECTOR_OPERATOR);
-    Rotation r2 = new Rotation(new Coordinates3D(-1, 3, 2), 0.3, RotationConvention.VECTOR_OPERATOR);
+    Rotation r1 = new Rotation(new Cartesian3D(2, -3, 5), 1.7, RotationConvention.VECTOR_OPERATOR);
+    Rotation r2 = new Rotation(new Cartesian3D(-1, 3, 2), 0.3, RotationConvention.VECTOR_OPERATOR);
     Rotation r3 = r2.applyTo(r1);
 
     for (double x = -0.9; x < 0.9; x += 0.2) {
       for (double y = -0.9; y < 0.9; y += 0.2) {
         for (double z = -0.9; z < 0.9; z += 0.2) {
-          Coordinates3D u = new Coordinates3D(x, y, z);
+          Cartesian3D u = new Cartesian3D(x, y, z);
           checkVector(r2.applyTo(r1.applyTo(u)), r3.applyTo(u));
         }
       }
@@ -575,14 +575,14 @@ public class RotationTest {
   @Test
   public void testComposeVectorOperator() throws MathIllegalArgumentException {
 
-    Rotation r1 = new Rotation(new Coordinates3D(2, -3, 5), 1.7, RotationConvention.VECTOR_OPERATOR);
-    Rotation r2 = new Rotation(new Coordinates3D(-1, 3, 2), 0.3, RotationConvention.VECTOR_OPERATOR);
+    Rotation r1 = new Rotation(new Cartesian3D(2, -3, 5), 1.7, RotationConvention.VECTOR_OPERATOR);
+    Rotation r2 = new Rotation(new Cartesian3D(-1, 3, 2), 0.3, RotationConvention.VECTOR_OPERATOR);
     Rotation r3 = r2.compose(r1, RotationConvention.VECTOR_OPERATOR);
 
     for (double x = -0.9; x < 0.9; x += 0.2) {
       for (double y = -0.9; y < 0.9; y += 0.2) {
         for (double z = -0.9; z < 0.9; z += 0.2) {
-          Coordinates3D u = new Coordinates3D(x, y, z);
+          Cartesian3D u = new Cartesian3D(x, y, z);
           checkVector(r2.applyTo(r1.applyTo(u)), r3.applyTo(u));
         }
       }
@@ -593,8 +593,8 @@ public class RotationTest {
   @Test
   public void testComposeFrameTransform() throws MathIllegalArgumentException {
 
-    Rotation r1 = new Rotation(new Coordinates3D(2, -3, 5), 1.7, RotationConvention.FRAME_TRANSFORM);
-    Rotation r2 = new Rotation(new Coordinates3D(-1, 3, 2), 0.3, RotationConvention.FRAME_TRANSFORM);
+    Rotation r1 = new Rotation(new Cartesian3D(2, -3, 5), 1.7, RotationConvention.FRAME_TRANSFORM);
+    Rotation r2 = new Rotation(new Cartesian3D(-1, 3, 2), 0.3, RotationConvention.FRAME_TRANSFORM);
     Rotation r3 = r2.compose(r1, RotationConvention.FRAME_TRANSFORM);
     Rotation r4 = r1.compose(r2, RotationConvention.VECTOR_OPERATOR);
     Assert.assertEquals(0.0, Rotation.distance(r3, r4), 1.0e-15);
@@ -602,7 +602,7 @@ public class RotationTest {
     for (double x = -0.9; x < 0.9; x += 0.2) {
       for (double y = -0.9; y < 0.9; y += 0.2) {
         for (double z = -0.9; z < 0.9; z += 0.2) {
-          Coordinates3D u = new Coordinates3D(x, y, z);
+          Cartesian3D u = new Cartesian3D(x, y, z);
           checkVector(r1.applyTo(r2.applyTo(u)), r3.applyTo(u));
         }
       }
@@ -613,14 +613,14 @@ public class RotationTest {
   @Test
   public void testApplyInverseToRotation() throws MathIllegalArgumentException {
 
-    Rotation r1 = new Rotation(new Coordinates3D(2, -3, 5), 1.7, RotationConvention.VECTOR_OPERATOR);
-    Rotation r2 = new Rotation(new Coordinates3D(-1, 3, 2), 0.3, RotationConvention.VECTOR_OPERATOR);
+    Rotation r1 = new Rotation(new Cartesian3D(2, -3, 5), 1.7, RotationConvention.VECTOR_OPERATOR);
+    Rotation r2 = new Rotation(new Cartesian3D(-1, 3, 2), 0.3, RotationConvention.VECTOR_OPERATOR);
     Rotation r3 = r2.applyInverseTo(r1);
 
     for (double x = -0.9; x < 0.9; x += 0.2) {
       for (double y = -0.9; y < 0.9; y += 0.2) {
         for (double z = -0.9; z < 0.9; z += 0.2) {
-          Coordinates3D u = new Coordinates3D(x, y, z);
+          Cartesian3D u = new Cartesian3D(x, y, z);
           checkVector(r2.applyInverseTo(r1.applyTo(u)), r3.applyTo(u));
         }
       }
@@ -631,14 +631,14 @@ public class RotationTest {
   @Test
   public void testComposeInverseVectorOperator() throws MathIllegalArgumentException {
 
-    Rotation r1 = new Rotation(new Coordinates3D(2, -3, 5), 1.7, RotationConvention.VECTOR_OPERATOR);
-    Rotation r2 = new Rotation(new Coordinates3D(-1, 3, 2), 0.3, RotationConvention.VECTOR_OPERATOR);
+    Rotation r1 = new Rotation(new Cartesian3D(2, -3, 5), 1.7, RotationConvention.VECTOR_OPERATOR);
+    Rotation r2 = new Rotation(new Cartesian3D(-1, 3, 2), 0.3, RotationConvention.VECTOR_OPERATOR);
     Rotation r3 = r2.composeInverse(r1, RotationConvention.VECTOR_OPERATOR);
 
     for (double x = -0.9; x < 0.9; x += 0.2) {
       for (double y = -0.9; y < 0.9; y += 0.2) {
         for (double z = -0.9; z < 0.9; z += 0.2) {
-          Coordinates3D u = new Coordinates3D(x, y, z);
+          Cartesian3D u = new Cartesian3D(x, y, z);
           checkVector(r2.applyInverseTo(r1.applyTo(u)), r3.applyTo(u));
         }
       }
@@ -649,8 +649,8 @@ public class RotationTest {
   @Test
   public void testComposeInverseFrameTransform() throws MathIllegalArgumentException {
 
-    Rotation r1 = new Rotation(new Coordinates3D(2, -3, 5), 1.7, RotationConvention.FRAME_TRANSFORM);
-    Rotation r2 = new Rotation(new Coordinates3D(-1, 3, 2), 0.3, RotationConvention.FRAME_TRANSFORM);
+    Rotation r1 = new Rotation(new Cartesian3D(2, -3, 5), 1.7, RotationConvention.FRAME_TRANSFORM);
+    Rotation r2 = new Rotation(new Cartesian3D(-1, 3, 2), 0.3, RotationConvention.FRAME_TRANSFORM);
     Rotation r3 = r2.composeInverse(r1, RotationConvention.FRAME_TRANSFORM);
     Rotation r4 = r1.revert().composeInverse(r2.revert(), RotationConvention.VECTOR_OPERATOR);
     Assert.assertEquals(0.0, Rotation.distance(r3, r4), 1.0e-15);
@@ -658,7 +658,7 @@ public class RotationTest {
     for (double x = -0.9; x < 0.9; x += 0.2) {
       for (double y = -0.9; y < 0.9; y += 0.2) {
         for (double z = -0.9; z < 0.9; z += 0.2) {
-          Coordinates3D u = new Coordinates3D(x, y, z);
+          Cartesian3D u = new Cartesian3D(x, y, z);
           checkVector(r1.applyTo(r2.applyInverseTo(u)), r3.applyTo(u));
         }
       }
@@ -669,13 +669,13 @@ public class RotationTest {
   @Test
   public void testArray() throws MathIllegalArgumentException {
 
-      Rotation r = new Rotation(new Coordinates3D(2, -3, 5), 1.7, RotationConvention.VECTOR_OPERATOR);
+      Rotation r = new Rotation(new Cartesian3D(2, -3, 5), 1.7, RotationConvention.VECTOR_OPERATOR);
 
       for (double x = -0.9; x < 0.9; x += 0.2) {
           for (double y = -0.9; y < 0.9; y += 0.2) {
               for (double z = -0.9; z < 0.9; z += 0.2) {
-                  Coordinates3D u = new Coordinates3D(x, y, z);
-                  Coordinates3D v = r.applyTo(u);
+                  Cartesian3D u = new Cartesian3D(x, y, z);
+                  Cartesian3D v = r.applyTo(u);
                   double[] inOut = new double[] { x, y, z };
                   r.applyTo(inOut, inOut);
                   Assert.assertEquals(v.getX(), inOut[0], 1.0e-10);
@@ -694,10 +694,10 @@ public class RotationTest {
   @Test
   public void testApplyInverseTo() throws MathIllegalArgumentException {
 
-    Rotation r = new Rotation(new Coordinates3D(2, -3, 5), 1.7, RotationConvention.VECTOR_OPERATOR);
+    Rotation r = new Rotation(new Cartesian3D(2, -3, 5), 1.7, RotationConvention.VECTOR_OPERATOR);
     for (double lambda = 0; lambda < 6.2; lambda += 0.2) {
       for (double phi = -1.55; phi < 1.55; phi += 0.2) {
-          Coordinates3D u = new Coordinates3D(FastMath.cos(lambda) * FastMath.cos(phi),
+          Cartesian3D u = new Cartesian3D(FastMath.cos(lambda) * FastMath.cos(phi),
                                     FastMath.sin(lambda) * FastMath.cos(phi),
                                     FastMath.sin(phi));
           r.applyInverseTo(r.applyTo(u));
@@ -709,7 +709,7 @@ public class RotationTest {
     r = Rotation.IDENTITY;
     for (double lambda = 0; lambda < 6.2; lambda += 0.2) {
       for (double phi = -1.55; phi < 1.55; phi += 0.2) {
-          Coordinates3D u = new Coordinates3D(FastMath.cos(lambda) * FastMath.cos(phi),
+          Cartesian3D u = new Cartesian3D(FastMath.cos(lambda) * FastMath.cos(phi),
                                     FastMath.sin(lambda) * FastMath.cos(phi),
                                     FastMath.sin(phi));
           checkVector(u, r.applyInverseTo(r.applyTo(u)));
@@ -717,10 +717,10 @@ public class RotationTest {
       }
     }
 
-    r = new Rotation(Coordinates3D.PLUS_K, FastMath.PI, RotationConvention.VECTOR_OPERATOR);
+    r = new Rotation(Cartesian3D.PLUS_K, FastMath.PI, RotationConvention.VECTOR_OPERATOR);
     for (double lambda = 0; lambda < 6.2; lambda += 0.2) {
       for (double phi = -1.55; phi < 1.55; phi += 0.2) {
-          Coordinates3D u = new Coordinates3D(FastMath.cos(lambda) * FastMath.cos(phi),
+          Cartesian3D u = new Cartesian3D(FastMath.cos(lambda) * FastMath.cos(phi),
                                     FastMath.sin(lambda) * FastMath.cos(phi),
                                     FastMath.sin(phi));
           checkVector(u, r.applyInverseTo(r.applyTo(u)));
@@ -732,13 +732,13 @@ public class RotationTest {
 
   @Test
   public void testIssue639() throws MathArithmeticException{
-      Coordinates3D u1 = new Coordinates3D(-1321008684645961.0 /  268435456.0,
+      Cartesian3D u1 = new Cartesian3D(-1321008684645961.0 /  268435456.0,
                                  -5774608829631843.0 /  268435456.0,
                                  -3822921525525679.0 / 4294967296.0);
-      Coordinates3D u2 =new Coordinates3D( -5712344449280879.0 /    2097152.0,
+      Cartesian3D u2 =new Cartesian3D( -5712344449280879.0 /    2097152.0,
                                  -2275058564560979.0 /    1048576.0,
                                   4423475992255071.0 /      65536.0);
-      Rotation rot = new Rotation(u1, u2, Coordinates3D.PLUS_I,Coordinates3D.PLUS_K);
+      Rotation rot = new Rotation(u1, u2, Cartesian3D.PLUS_I,Cartesian3D.PLUS_K);
       Assert.assertEquals( 0.6228370359608200639829222, rot.getQ0(), 1.0e-15);
       Assert.assertEquals( 0.0257707621456498790029987, rot.getQ1(), 1.0e-15);
       Assert.assertEquals(-0.0000000002503012255839931, rot.getQ2(), 1.0e-15);
@@ -747,11 +747,11 @@ public class RotationTest {
 
   @Test
   public void testIssue801() throws MathArithmeticException {
-      Coordinates3D u1 = new Coordinates3D(0.9999988431610581, -0.0015210774290851095, 0.0);
-      Coordinates3D u2 = new Coordinates3D(0.0, 0.0, 1.0);
+      Cartesian3D u1 = new Cartesian3D(0.9999988431610581, -0.0015210774290851095, 0.0);
+      Cartesian3D u2 = new Cartesian3D(0.0, 0.0, 1.0);
 
-      Coordinates3D v1 = new Coordinates3D(0.9999999999999999, 0.0, 0.0);
-      Coordinates3D v2 = new Coordinates3D(0.0, 0.0, -1.0);
+      Cartesian3D v1 = new Cartesian3D(0.9999999999999999, 0.0, 0.0);
+      Cartesian3D v2 = new Cartesian3D(0.0, 0.0, -1.0);
 
       Rotation quat = new Rotation(u1, u2, v1, v2);
       double q2 = quat.getQ0() * quat.getQ0() +
@@ -759,8 +759,8 @@ public class RotationTest {
                   quat.getQ2() * quat.getQ2() +
                   quat.getQ3() * quat.getQ3();
       Assert.assertEquals(1.0, q2, 1.0e-14);
-      Assert.assertEquals(0.0, Coordinates3D.angle(v1, quat.applyTo(u1)), 1.0e-14);
-      Assert.assertEquals(0.0, Coordinates3D.angle(v2, quat.applyTo(u2)), 1.0e-14);
+      Assert.assertEquals(0.0, Cartesian3D.angle(v1, quat.applyTo(u1)), 1.0e-14);
+      Assert.assertEquals(0.0, Cartesian3D.angle(v2, quat.applyTo(u2)), 1.0e-14);
 
   }
 
@@ -770,13 +770,13 @@ public class RotationTest {
       final double xRotation = FastMath.toDegrees(30);
       final double yRotation = FastMath.toDegrees(20);
       final double zRotation = FastMath.toDegrees(10);
-      final Coordinates3D startingVector = Coordinates3D.PLUS_I;
-      Coordinates3D appliedIndividually = startingVector;
+      final Cartesian3D startingVector = Cartesian3D.PLUS_I;
+      Cartesian3D appliedIndividually = startingVector;
       appliedIndividually = new Rotation(order, RotationConvention.FRAME_TRANSFORM, zRotation, 0, 0).applyTo(appliedIndividually);
       appliedIndividually = new Rotation(order, RotationConvention.FRAME_TRANSFORM, 0, yRotation, 0).applyTo(appliedIndividually);
       appliedIndividually = new Rotation(order, RotationConvention.FRAME_TRANSFORM, 0, 0, xRotation).applyTo(appliedIndividually);
 
-      final Coordinates3D bad = new Rotation(order, RotationConvention.FRAME_TRANSFORM, zRotation, yRotation, xRotation).applyTo(startingVector);
+      final Cartesian3D bad = new Rotation(order, RotationConvention.FRAME_TRANSFORM, zRotation, yRotation, xRotation).applyTo(startingVector);
 
       Assert.assertEquals(bad.getX(), appliedIndividually.getX(), 1e-12);
       Assert.assertEquals(bad.getY(), appliedIndividually.getY(), 1e-12);
@@ -789,8 +789,8 @@ public class RotationTest {
       final double xRotation = FastMath.toDegrees(30);
       final double yRotation = FastMath.toDegrees(20);
       final double zRotation = FastMath.toDegrees(10);
-      final Coordinates3D startingVector = Coordinates3D.PLUS_I;
-      Coordinates3D appliedIndividually = startingVector;
+      final Cartesian3D startingVector = Cartesian3D.PLUS_I;
+      Cartesian3D appliedIndividually = startingVector;
       appliedIndividually = new Rotation(order, RotationConvention.FRAME_TRANSFORM, zRotation, 0, 0).applyTo(appliedIndividually);
       appliedIndividually = new Rotation(order, RotationConvention.FRAME_TRANSFORM, 0, yRotation, 0).applyTo(appliedIndividually);
       appliedIndividually = new Rotation(order, RotationConvention.FRAME_TRANSFORM, 0, 0, xRotation).applyTo(appliedIndividually);
@@ -801,14 +801,14 @@ public class RotationTest {
       final Rotation composite = r1.compose(r2.compose(r3,
                                                        RotationConvention.FRAME_TRANSFORM),
                                             RotationConvention.FRAME_TRANSFORM);
-      final Coordinates3D good = composite.applyTo(startingVector);
+      final Cartesian3D good = composite.applyTo(startingVector);
 
       Assert.assertEquals(good.getX(), appliedIndividually.getX(), 1e-12);
       Assert.assertEquals(good.getY(), appliedIndividually.getY(), 1e-12);
       Assert.assertEquals(good.getZ(), appliedIndividually.getZ(), 1e-12);
   }
 
-  private void checkVector(Coordinates3D v1, Coordinates3D v2) {
+  private void checkVector(Cartesian3D v1, Cartesian3D v2) {
     Assert.assertTrue(v1.subtract(v2).getNorm() < 1.0e-10);
   }
 

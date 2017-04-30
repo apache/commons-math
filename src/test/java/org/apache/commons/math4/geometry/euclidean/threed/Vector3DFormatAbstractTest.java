@@ -22,7 +22,7 @@ import java.text.ParsePosition;
 import java.util.Locale;
 
 import org.apache.commons.math4.exception.MathParseException;
-import org.apache.commons.math4.geometry.euclidean.threed.Coordinates3D;
+import org.apache.commons.math4.geometry.euclidean.threed.Cartesian3D;
 import org.apache.commons.math4.geometry.euclidean.threed.Vector3DFormat;
 import org.junit.Test;
 import org.junit.Assert;
@@ -45,7 +45,7 @@ public abstract class Vector3DFormatAbstractTest {
 
     @Test
     public void testSimpleNoDecimals() {
-        Coordinates3D c = new Coordinates3D(1, 1, 1);
+        Cartesian3D c = new Cartesian3D(1, 1, 1);
         String expected = "{1; 1; 1}";
         String actual = vector3DFormat.format(c);
         Assert.assertEquals(expected, actual);
@@ -53,7 +53,7 @@ public abstract class Vector3DFormatAbstractTest {
 
     @Test
     public void testSimpleWithDecimals() {
-        Coordinates3D c = new Coordinates3D(1.23, 1.43, 1.63);
+        Cartesian3D c = new Cartesian3D(1.23, 1.43, 1.63);
         String expected =
             "{1"    + getDecimalCharacter() +
             "23; 1" + getDecimalCharacter() +
@@ -65,7 +65,7 @@ public abstract class Vector3DFormatAbstractTest {
 
     @Test
     public void testSimpleWithDecimalsTrunc() {
-        Coordinates3D c = new Coordinates3D(1.232323232323, 1.434343434343, 1.633333333333);
+        Cartesian3D c = new Cartesian3D(1.232323232323, 1.434343434343, 1.633333333333);
         String expected =
             "{1"    + getDecimalCharacter() +
             "2323232323; 1" + getDecimalCharacter() +
@@ -77,7 +77,7 @@ public abstract class Vector3DFormatAbstractTest {
 
     @Test
     public void testNegativeX() {
-        Coordinates3D c = new Coordinates3D(-1.232323232323, 1.43, 1.63);
+        Cartesian3D c = new Cartesian3D(-1.232323232323, 1.43, 1.63);
         String expected =
             "{-1"    + getDecimalCharacter() +
             "2323232323; 1" + getDecimalCharacter() +
@@ -89,7 +89,7 @@ public abstract class Vector3DFormatAbstractTest {
 
     @Test
     public void testNegativeY() {
-        Coordinates3D c = new Coordinates3D(1.23, -1.434343434343, 1.63);
+        Cartesian3D c = new Cartesian3D(1.23, -1.434343434343, 1.63);
         String expected =
             "{1"    + getDecimalCharacter() +
             "23; -1" + getDecimalCharacter() +
@@ -101,7 +101,7 @@ public abstract class Vector3DFormatAbstractTest {
 
     @Test
     public void testNegativeZ() {
-        Coordinates3D c = new Coordinates3D(1.23, 1.43, -1.633333333333);
+        Cartesian3D c = new Cartesian3D(1.23, 1.43, -1.633333333333);
         String expected =
             "{1"    + getDecimalCharacter() +
             "23; 1" + getDecimalCharacter() +
@@ -113,7 +113,7 @@ public abstract class Vector3DFormatAbstractTest {
 
     @Test
     public void testNonDefaultSetting() {
-        Coordinates3D c = new Coordinates3D(1, 1, 1);
+        Cartesian3D c = new Cartesian3D(1, 1, 1);
         String expected = "[1 : 1 : 1]";
         String actual = vector3DFormatSquare.format(c);
         Assert.assertEquals(expected, actual);
@@ -124,7 +124,7 @@ public abstract class Vector3DFormatAbstractTest {
         Locale defaultLocal = Locale.getDefault();
         Locale.setDefault(getLocale());
 
-        Coordinates3D c = new Coordinates3D(232.22222222222, -342.3333333333, 432.44444444444);
+        Cartesian3D c = new Cartesian3D(232.22222222222, -342.3333333333, 432.44444444444);
         String expected =
             "{232"    + getDecimalCharacter() +
             "2222222222; -342" + getDecimalCharacter() +
@@ -138,7 +138,7 @@ public abstract class Vector3DFormatAbstractTest {
 
     @Test
     public void testNan() {
-        Coordinates3D c = Coordinates3D.NaN;
+        Cartesian3D c = Cartesian3D.NaN;
         String expected = "{(NaN); (NaN); (NaN)}";
         String actual = vector3DFormat.format(c);
         Assert.assertEquals(expected, actual);
@@ -146,7 +146,7 @@ public abstract class Vector3DFormatAbstractTest {
 
     @Test
     public void testPositiveInfinity() {
-        Coordinates3D c = Coordinates3D.POSITIVE_INFINITY;
+        Cartesian3D c = Cartesian3D.POSITIVE_INFINITY;
         String expected = "{(Infinity); (Infinity); (Infinity)}";
         String actual = vector3DFormat.format(c);
         Assert.assertEquals(expected, actual);
@@ -154,7 +154,7 @@ public abstract class Vector3DFormatAbstractTest {
 
     @Test
     public void tesNegativeInfinity() {
-        Coordinates3D c = Coordinates3D.NEGATIVE_INFINITY;
+        Cartesian3D c = Cartesian3D.NEGATIVE_INFINITY;
         String expected = "{(-Infinity); (-Infinity); (-Infinity)}";
         String actual = vector3DFormat.format(c);
         Assert.assertEquals(expected, actual);
@@ -163,14 +163,14 @@ public abstract class Vector3DFormatAbstractTest {
     @Test
     public void testParseSimpleNoDecimals() throws MathParseException {
         String source = "{1; 1; 1}";
-        Coordinates3D expected = new Coordinates3D(1, 1, 1);
-        Coordinates3D actual = vector3DFormat.parse(source);
+        Cartesian3D expected = new Cartesian3D(1, 1, 1);
+        Cartesian3D actual = vector3DFormat.parse(source);
         Assert.assertEquals(expected, actual);
     }
 
     @Test
     public void testParseIgnoredWhitespace() {
-        Coordinates3D expected = new Coordinates3D(1, 1, 1);
+        Cartesian3D expected = new Cartesian3D(1, 1, 1);
         ParsePosition pos1 = new ParsePosition(0);
         String source1 = "{1;1;1}";
         Assert.assertEquals(expected, vector3DFormat.parse(source1, pos1));
@@ -188,8 +188,8 @@ public abstract class Vector3DFormatAbstractTest {
             "23; 1" + getDecimalCharacter() +
             "43; 1" + getDecimalCharacter() +
             "63}";
-        Coordinates3D expected = new Coordinates3D(1.23, 1.43, 1.63);
-        Coordinates3D actual = vector3DFormat.parse(source);
+        Cartesian3D expected = new Cartesian3D(1.23, 1.43, 1.63);
+        Cartesian3D actual = vector3DFormat.parse(source);
         Assert.assertEquals(expected, actual);
     }
 
@@ -200,8 +200,8 @@ public abstract class Vector3DFormatAbstractTest {
             "2323; 1" + getDecimalCharacter() +
             "4343; 1" + getDecimalCharacter() +
             "6333}";
-        Coordinates3D expected = new Coordinates3D(1.2323, 1.4343, 1.6333);
-        Coordinates3D actual = vector3DFormat.parse(source);
+        Cartesian3D expected = new Cartesian3D(1.2323, 1.4343, 1.6333);
+        Cartesian3D actual = vector3DFormat.parse(source);
         Assert.assertEquals(expected, actual);
     }
 
@@ -212,8 +212,8 @@ public abstract class Vector3DFormatAbstractTest {
             "2323; 1" + getDecimalCharacter() +
             "4343; 1" + getDecimalCharacter() +
             "6333}";
-        Coordinates3D expected = new Coordinates3D(-1.2323, 1.4343, 1.6333);
-        Coordinates3D actual = vector3DFormat.parse(source);
+        Cartesian3D expected = new Cartesian3D(-1.2323, 1.4343, 1.6333);
+        Cartesian3D actual = vector3DFormat.parse(source);
         Assert.assertEquals(expected, actual);
     }
 
@@ -224,8 +224,8 @@ public abstract class Vector3DFormatAbstractTest {
             "2323; -1" + getDecimalCharacter() +
             "4343; 1" + getDecimalCharacter() +
             "6333}";
-        Coordinates3D expected = new Coordinates3D(1.2323, -1.4343, 1.6333);
-        Coordinates3D actual = vector3DFormat.parse(source);
+        Cartesian3D expected = new Cartesian3D(1.2323, -1.4343, 1.6333);
+        Cartesian3D actual = vector3DFormat.parse(source);
         Assert.assertEquals(expected, actual);
     }
 
@@ -236,8 +236,8 @@ public abstract class Vector3DFormatAbstractTest {
             "2323; 1" + getDecimalCharacter() +
             "4343; -1" + getDecimalCharacter() +
             "6333}";
-        Coordinates3D expected = new Coordinates3D(1.2323, 1.4343, -1.6333);
-        Coordinates3D actual = vector3DFormat.parse(source);
+        Cartesian3D expected = new Cartesian3D(1.2323, 1.4343, -1.6333);
+        Cartesian3D actual = vector3DFormat.parse(source);
         Assert.assertEquals(expected, actual);
     }
 
@@ -248,8 +248,8 @@ public abstract class Vector3DFormatAbstractTest {
             "2323; -1" + getDecimalCharacter() +
             "4343; -1" + getDecimalCharacter() +
             "6333}";
-        Coordinates3D expected = new Coordinates3D(-1.2323, -1.4343, -1.6333);
-        Coordinates3D actual = vector3DFormat.parse(source);
+        Cartesian3D expected = new Cartesian3D(-1.2323, -1.4343, -1.6333);
+        Cartesian3D actual = vector3DFormat.parse(source);
         Assert.assertEquals(expected, actual);
     }
 
@@ -260,8 +260,8 @@ public abstract class Vector3DFormatAbstractTest {
             "0; -1" + getDecimalCharacter() +
             "4343; 1" + getDecimalCharacter() +
             "6333}";
-        Coordinates3D expected = new Coordinates3D(0.0, -1.4343, 1.6333);
-        Coordinates3D actual = vector3DFormat.parse(source);
+        Cartesian3D expected = new Cartesian3D(0.0, -1.4343, 1.6333);
+        Cartesian3D actual = vector3DFormat.parse(source);
         Assert.assertEquals(expected, actual);
     }
 
@@ -272,30 +272,30 @@ public abstract class Vector3DFormatAbstractTest {
             "2323 : 1" + getDecimalCharacter() +
             "4343 : 1" + getDecimalCharacter() +
             "6333]";
-        Coordinates3D expected = new Coordinates3D(1.2323, 1.4343, 1.6333);
-        Coordinates3D actual = vector3DFormatSquare.parse(source);
+        Cartesian3D expected = new Cartesian3D(1.2323, 1.4343, 1.6333);
+        Cartesian3D actual = vector3DFormatSquare.parse(source);
         Assert.assertEquals(expected, actual);
     }
 
     @Test
     public void testParseNan() throws MathParseException {
         String source = "{(NaN); (NaN); (NaN)}";
-        Coordinates3D actual = vector3DFormat.parse(source);
-        Assert.assertEquals(Coordinates3D.NaN, actual);
+        Cartesian3D actual = vector3DFormat.parse(source);
+        Assert.assertEquals(Cartesian3D.NaN, actual);
     }
 
     @Test
     public void testParsePositiveInfinity() throws MathParseException {
         String source = "{(Infinity); (Infinity); (Infinity)}";
-        Coordinates3D actual = vector3DFormat.parse(source);
-        Assert.assertEquals(Coordinates3D.POSITIVE_INFINITY, actual);
+        Cartesian3D actual = vector3DFormat.parse(source);
+        Assert.assertEquals(Cartesian3D.POSITIVE_INFINITY, actual);
     }
 
     @Test
     public void testParseNegativeInfinity() throws MathParseException {
         String source = "{(-Infinity); (-Infinity); (-Infinity)}";
-        Coordinates3D actual = vector3DFormat.parse(source);
-        Assert.assertEquals(Coordinates3D.NEGATIVE_INFINITY, actual);
+        Cartesian3D actual = vector3DFormat.parse(source);
+        Assert.assertEquals(Cartesian3D.NEGATIVE_INFINITY, actual);
     }
 
     @Test

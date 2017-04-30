@@ -29,7 +29,7 @@ import org.apache.commons.math4.geometry.euclidean.threed.Euclidean3D;
 import org.apache.commons.math4.geometry.euclidean.threed.Rotation;
 import org.apache.commons.math4.geometry.euclidean.threed.RotationConvention;
 import org.apache.commons.math4.geometry.euclidean.threed.SphereGenerator;
-import org.apache.commons.math4.geometry.euclidean.threed.Coordinates3D;
+import org.apache.commons.math4.geometry.euclidean.threed.Cartesian3D;
 import org.apache.commons.math4.geometry.partitioning.AbstractRegion;
 import org.apache.commons.math4.geometry.partitioning.BSPTree;
 import org.apache.commons.math4.geometry.partitioning.BoundaryProjection;
@@ -58,7 +58,7 @@ public class SphericalPolygonsSet extends AbstractRegion<Sphere2D, Sphere1D> {
      * @param pole pole of the hemisphere (the pole is in the inside half)
      * @param tolerance below which points are consider to be identical
      */
-    public SphericalPolygonsSet(final Coordinates3D pole, final double tolerance) {
+    public SphericalPolygonsSet(final Cartesian3D pole, final double tolerance) {
         super(new BSPTree<>(new Circle(pole, tolerance).wholeHyperplane(),
                                     new BSPTree<Sphere2D>(Boolean.FALSE),
                                     new BSPTree<Sphere2D>(Boolean.TRUE),
@@ -73,7 +73,7 @@ public class SphericalPolygonsSet extends AbstractRegion<Sphere2D, Sphere1D> {
      * @param n number of sides of the polygon
      * @param tolerance below which points are consider to be identical
      */
-    public SphericalPolygonsSet(final Coordinates3D center, final Coordinates3D meridian,
+    public SphericalPolygonsSet(final Cartesian3D center, final Cartesian3D meridian,
                                 final double outsideRadius, final int n,
                                 final double tolerance) {
         this(tolerance, createRegularPolygonVertices(center, meridian, outsideRadius, n));
@@ -159,10 +159,10 @@ public class SphericalPolygonsSet extends AbstractRegion<Sphere2D, Sphere1D> {
      * @param n number of sides of the polygon
      * @return vertices array
      */
-    private static S2Point[] createRegularPolygonVertices(final Coordinates3D center, final Coordinates3D meridian,
+    private static S2Point[] createRegularPolygonVertices(final Cartesian3D center, final Cartesian3D meridian,
                                                           final double outsideRadius, final int n) {
         final S2Point[] array = new S2Point[n];
-        final Rotation r0 = new Rotation(Coordinates3D.crossProduct(center, meridian),
+        final Rotation r0 = new Rotation(Cartesian3D.crossProduct(center, meridian),
                                          outsideRadius, RotationConvention.VECTOR_OPERATOR);
         array[0] = new S2Point(r0.applyTo(center));
 
@@ -226,7 +226,7 @@ public class SphericalPolygonsSet extends AbstractRegion<Sphere2D, Sphere1D> {
 
             // create the edge and store it
             edges.add(new Edge(start, end,
-                               Coordinates3D.angle(start.getLocation().getVector(),
+                               Cartesian3D.angle(start.getLocation().getVector(),
                                               end.getLocation().getVector()),
                                circle));
 
@@ -490,7 +490,7 @@ public class SphericalPolygonsSet extends AbstractRegion<Sphere2D, Sphere1D> {
         }
 
         // gather some inside points, to be used by the encloser
-        final List<Coordinates3D> points = getInsidePoints();
+        final List<Cartesian3D> points = getInsidePoints();
 
         // extract points from the boundary loops, to be used by the encloser as well
         final List<Vertex> boundary = getBoundaryLoops();
@@ -504,10 +504,10 @@ public class SphericalPolygonsSet extends AbstractRegion<Sphere2D, Sphere1D> {
 
         // find the smallest enclosing 3D sphere
         final SphereGenerator generator = new SphereGenerator();
-        final WelzlEncloser<Euclidean3D, Coordinates3D> encloser =
+        final WelzlEncloser<Euclidean3D, Cartesian3D> encloser =
                 new WelzlEncloser<>(getTolerance(), generator);
-        EnclosingBall<Euclidean3D, Coordinates3D> enclosing3D = encloser.enclose(points);
-        final Coordinates3D[] support3D = enclosing3D.getSupport();
+        EnclosingBall<Euclidean3D, Cartesian3D> enclosing3D = encloser.enclose(points);
+        final Cartesian3D[] support3D = enclosing3D.getSupport();
 
         // convert to 3D sphere to spherical cap
         final double r = enclosing3D.getRadius();
@@ -517,7 +517,7 @@ public class SphericalPolygonsSet extends AbstractRegion<Sphere2D, Sphere1D> {
             // fall back to a crude approximation, based only on outside convex cells
             EnclosingBall<Sphere2D, S2Point> enclosingS2 =
                     new EnclosingBall<>(S2Point.PLUS_K, Double.POSITIVE_INFINITY);
-            for (Coordinates3D outsidePoint : getOutsidePoints()) {
+            for (Cartesian3D outsidePoint : getOutsidePoints()) {
                 final S2Point outsideS2 = new S2Point(outsidePoint);
                 final BoundaryProjection<Sphere2D> projection = projectToBoundary(outsideS2);
                 if (FastMath.PI - projection.getOffset() < enclosingS2.getRadius()) {
@@ -545,7 +545,7 @@ public class SphericalPolygonsSet extends AbstractRegion<Sphere2D, Sphere1D> {
     /** Gather some inside points.
      * @return list of points known to be strictly in all inside convex cells
      */
-    private List<Coordinates3D> getInsidePoints() {
+    private List<Cartesian3D> getInsidePoints() {
         final PropertiesComputer pc = new PropertiesComputer(getTolerance());
         getTree(true).visit(pc);
         return pc.getConvexCellsInsidePoints();
@@ -554,7 +554,7 @@ public class SphericalPolygonsSet extends AbstractRegion<Sphere2D, Sphere1D> {
     /** Gather some outside points.
      * @return list of points known to be strictly in all outside convex cells
      */
-    private List<Coordinates3D> getOutsidePoints() {
+    private List<Cartesian3D> getOutsidePoints() {
         final SphericalPolygonsSet complement =
                 (SphericalPolygonsSet) new RegionFactory<Sphere2D>().getComplement(this);
         final PropertiesComputer pc = new PropertiesComputer(getTolerance());

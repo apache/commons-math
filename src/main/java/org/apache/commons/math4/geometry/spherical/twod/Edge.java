@@ -18,7 +18,7 @@ package org.apache.commons.math4.geometry.spherical.twod;
 
 import java.util.List;
 
-import org.apache.commons.math4.geometry.euclidean.threed.Coordinates3D;
+import org.apache.commons.math4.geometry.euclidean.threed.Cartesian3D;
 import org.apache.commons.math4.geometry.spherical.oned.Arc;
 import org.apache.commons.math4.util.FastMath;
 import org.apache.commons.math4.util.MathUtils;
@@ -99,7 +99,7 @@ public class Edge {
      * @param alpha angle along the edge, counted from {@link #getStart()}
      * @return an intermediate point
      */
-    public Coordinates3D getPointAt(final double alpha) {
+    public Cartesian3D getPointAt(final double alpha) {
         return circle.getPointAt(alpha + circle.getPhase(start.getLocation().getVector()));
     }
 

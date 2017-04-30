@@ -26,26 +26,26 @@ import org.apache.commons.math4.util.FastMath;
 /** Class generating an enclosing ball from its support points.
  * @since 3.3
  */
-public class DiskGenerator implements SupportBallGenerator<Euclidean2D, Coordinates2D> {
+public class DiskGenerator implements SupportBallGenerator<Euclidean2D, Cartesian2D> {
 
     /** {@inheritDoc} */
     @Override
-    public EnclosingBall<Euclidean2D, Coordinates2D> ballOnSupport(final List<Coordinates2D> support) {
+    public EnclosingBall<Euclidean2D, Cartesian2D> ballOnSupport(final List<Cartesian2D> support) {
 
         if (support.size() < 1) {
-            return new EnclosingBall<>(Coordinates2D.ZERO, Double.NEGATIVE_INFINITY);
+            return new EnclosingBall<>(Cartesian2D.ZERO, Double.NEGATIVE_INFINITY);
         } else {
-            final Coordinates2D vA = support.get(0);
+            final Cartesian2D vA = support.get(0);
             if (support.size() < 2) {
                 return new EnclosingBall<>(vA, 0, vA);
             } else {
-                final Coordinates2D vB = support.get(1);
+                final Cartesian2D vB = support.get(1);
                 if (support.size() < 3) {
-                    return new EnclosingBall<>(new Coordinates2D(0.5, vA, 0.5, vB),
+                    return new EnclosingBall<>(new Cartesian2D(0.5, vA, 0.5, vB),
                                                                     0.5 * vA.distance(vB),
                                                                     vA, vB);
                 } else {
-                    final Coordinates2D vC = support.get(2);
+                    final Cartesian2D vC = support.get(2);
                     // a disk is 2D can be defined as:
                     // (1)   (x - x_0)^2 + (y - y_0)^2 = r^2
                     // which can be written:
@@ -86,7 +86,7 @@ public class DiskGenerator implements SupportBallGenerator<Euclidean2D, Coordina
                     final BigFraction dx      = c2[0].subtract(centerX);
                     final BigFraction dy      = c3[0].subtract(centerY);
                     final BigFraction r2      = dx.multiply(dx).add(dy.multiply(dy));
-                    return new EnclosingBall<>(new Coordinates2D(centerX.doubleValue(),
+                    return new EnclosingBall<>(new Cartesian2D(centerX.doubleValue(),
                                                                                  centerY.doubleValue()),
                                                                     FastMath.sqrt(r2.doubleValue()),
                                                                     vA, vB, vC);

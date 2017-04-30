@@ -32,48 +32,48 @@ import org.apache.commons.math4.util.MathUtils;
 
 /**
  * This class represents points or vectors in a three-dimensional space.
- * <p>An instance of Coordinates3D represents the point with the corresponding
+ * <p>An instance of Cartesian3D represents the point with the corresponding
  * coordinates.</p>
- * <p>An instance of Coordinates3D also represents the vector which begins at
+ * <p>An instance of Cartesian3D also represents the vector which begins at
  * the origin and ends at the point corresponding to the coordinates.</p>
  * <p>Instance of this class are guaranteed to be immutable.</p>
  * @since 4.0
  */
-public class Coordinates3D implements Serializable, Point<Euclidean3D>, Vector<Euclidean3D> {
+public class Cartesian3D implements Serializable, Point<Euclidean3D>, Vector<Euclidean3D> {
 
     /** Null vector (coordinates: 0, 0, 0). */
-    public static final Coordinates3D ZERO   = new Coordinates3D(0, 0, 0);
+    public static final Cartesian3D ZERO   = new Cartesian3D(0, 0, 0);
 
     /** First canonical vector (coordinates: 1, 0, 0). */
-    public static final Coordinates3D PLUS_I = new Coordinates3D(1, 0, 0);
+    public static final Cartesian3D PLUS_I = new Cartesian3D(1, 0, 0);
 
     /** Opposite of the first canonical vector (coordinates: -1, 0, 0). */
-    public static final Coordinates3D MINUS_I = new Coordinates3D(-1, 0, 0);
+    public static final Cartesian3D MINUS_I = new Cartesian3D(-1, 0, 0);
 
     /** Second canonical vector (coordinates: 0, 1, 0). */
-    public static final Coordinates3D PLUS_J = new Coordinates3D(0, 1, 0);
+    public static final Cartesian3D PLUS_J = new Cartesian3D(0, 1, 0);
 
     /** Opposite of the second canonical vector (coordinates: 0, -1, 0). */
-    public static final Coordinates3D MINUS_J = new Coordinates3D(0, -1, 0);
+    public static final Cartesian3D MINUS_J = new Cartesian3D(0, -1, 0);
 
     /** Third canonical vector (coordinates: 0, 0, 1). */
-    public static final Coordinates3D PLUS_K = new Coordinates3D(0, 0, 1);
+    public static final Cartesian3D PLUS_K = new Cartesian3D(0, 0, 1);
 
     /** Opposite of the third canonical vector (coordinates: 0, 0, -1).  */
-    public static final Coordinates3D MINUS_K = new Coordinates3D(0, 0, -1);
+    public static final Cartesian3D MINUS_K = new Cartesian3D(0, 0, -1);
 
     // CHECKSTYLE: stop ConstantName
     /** A vector with all coordinates set to NaN. */
-    public static final Coordinates3D NaN = new Coordinates3D(Double.NaN, Double.NaN, Double.NaN);
+    public static final Cartesian3D NaN = new Cartesian3D(Double.NaN, Double.NaN, Double.NaN);
     // CHECKSTYLE: resume ConstantName
 
     /** A vector with all coordinates set to positive infinity. */
-    public static final Coordinates3D POSITIVE_INFINITY =
-        new Coordinates3D(Double.POSITIVE_INFINITY, Double.POSITIVE_INFINITY, Double.POSITIVE_INFINITY);
+    public static final Cartesian3D POSITIVE_INFINITY =
+        new Cartesian3D(Double.POSITIVE_INFINITY, Double.POSITIVE_INFINITY, Double.POSITIVE_INFINITY);
 
     /** A vector with all coordinates set to negative infinity. */
-    public static final Coordinates3D NEGATIVE_INFINITY =
-        new Coordinates3D(Double.NEGATIVE_INFINITY, Double.NEGATIVE_INFINITY, Double.NEGATIVE_INFINITY);
+    public static final Cartesian3D NEGATIVE_INFINITY =
+        new Cartesian3D(Double.NEGATIVE_INFINITY, Double.NEGATIVE_INFINITY, Double.NEGATIVE_INFINITY);
 
     /** Serializable version identifier. */
     private static final long serialVersionUID = 1313493323784566947L;
@@ -96,7 +96,7 @@ public class Coordinates3D implements Serializable, Point<Euclidean3D>, Vector<E
      * @see #getY()
      * @see #getZ()
      */
-    public Coordinates3D(double x, double y, double z) {
+    public Cartesian3D(double x, double y, double z) {
         this.x = x;
         this.y = y;
         this.z = z;
@@ -108,7 +108,7 @@ public class Coordinates3D implements Serializable, Point<Euclidean3D>, Vector<E
      * @exception DimensionMismatchException if array does not have 3 elements
      * @see #toArray()
      */
-    public Coordinates3D(double[] v) throws DimensionMismatchException {
+    public Cartesian3D(double[] v) throws DimensionMismatchException {
         if (v.length != 3) {
             throw new DimensionMismatchException(v.length, 3);
         }
@@ -125,7 +125,7 @@ public class Coordinates3D implements Serializable, Point<Euclidean3D>, Vector<E
      * @see #getAlpha()
      * @see #getDelta()
      */
-    public Coordinates3D(double alpha, double delta) {
+    public Cartesian3D(double alpha, double delta) {
         double cosDelta = FastMath.cos(delta);
         this.x = FastMath.cos(alpha) * cosDelta;
         this.y = FastMath.sin(alpha) * cosDelta;
@@ -138,7 +138,7 @@ public class Coordinates3D implements Serializable, Point<Euclidean3D>, Vector<E
      * @param a scale factor
      * @param u base (unscaled) vector
      */
-    public Coordinates3D(double a, Coordinates3D u) {
+    public Cartesian3D(double a, Cartesian3D u) {
         this.x = a * u.x;
         this.y = a * u.y;
         this.z = a * u.z;
@@ -152,7 +152,7 @@ public class Coordinates3D implements Serializable, Point<Euclidean3D>, Vector<E
      * @param a2 second scale factor
      * @param u2 second base (unscaled) vector
      */
-    public Coordinates3D(double a1, Coordinates3D u1, double a2, Coordinates3D u2) {
+    public Cartesian3D(double a1, Cartesian3D u1, double a2, Cartesian3D u2) {
         this.x = MathArrays.linearCombination(a1, u1.x, a2, u2.x);
         this.y = MathArrays.linearCombination(a1, u1.y, a2, u2.y);
         this.z = MathArrays.linearCombination(a1, u1.z, a2, u2.z);
@@ -168,8 +168,8 @@ public class Coordinates3D implements Serializable, Point<Euclidean3D>, Vector<E
      * @param a3 third scale factor
      * @param u3 third base (unscaled) vector
      */
-    public Coordinates3D(double a1, Coordinates3D u1, double a2, Coordinates3D u2,
-                    double a3, Coordinates3D u3) {
+    public Cartesian3D(double a1, Cartesian3D u1, double a2, Cartesian3D u2,
+                    double a3, Cartesian3D u3) {
         this.x = MathArrays.linearCombination(a1, u1.x, a2, u2.x, a3, u3.x);
         this.y = MathArrays.linearCombination(a1, u1.y, a2, u2.y, a3, u3.y);
         this.z = MathArrays.linearCombination(a1, u1.z, a2, u2.z, a3, u3.z);
@@ -187,8 +187,8 @@ public class Coordinates3D implements Serializable, Point<Euclidean3D>, Vector<E
      * @param a4 fourth scale factor
      * @param u4 fourth base (unscaled) vector
      */
-    public Coordinates3D(double a1, Coordinates3D u1, double a2, Coordinates3D u2,
-                    double a3, Coordinates3D u3, double a4, Coordinates3D u4) {
+    public Cartesian3D(double a1, Cartesian3D u1, double a2, Cartesian3D u2,
+                    double a3, Cartesian3D u3, double a4, Cartesian3D u4) {
         this.x = MathArrays.linearCombination(a1, u1.x, a2, u2.x, a3, u3.x, a4, u4.x);
         this.y = MathArrays.linearCombination(a1, u1.y, a2, u2.y, a3, u3.y, a4, u4.y);
         this.z = MathArrays.linearCombination(a1, u1.z, a2, u2.z, a3, u3.z, a4, u4.z);
@@ -234,7 +234,7 @@ public class Coordinates3D implements Serializable, Point<Euclidean3D>, Vector<E
 
     /** {@inheritDoc} */
     @Override
-    public Coordinates3D getZero() {
+    public Cartesian3D getZero() {
         return ZERO;
     }
 
@@ -282,33 +282,33 @@ public class Coordinates3D implements Serializable, Point<Euclidean3D>, Vector<E
 
     /** {@inheritDoc} */
     @Override
-    public Coordinates3D add(final Vector<Euclidean3D> v) {
-        final Coordinates3D v3 = (Coordinates3D) v;
-        return new Coordinates3D(x + v3.x, y + v3.y, z + v3.z);
+    public Cartesian3D add(final Vector<Euclidean3D> v) {
+        final Cartesian3D v3 = (Cartesian3D) v;
+        return new Cartesian3D(x + v3.x, y + v3.y, z + v3.z);
     }
 
     /** {@inheritDoc} */
     @Override
-    public Coordinates3D add(double factor, final Vector<Euclidean3D> v) {
-        return new Coordinates3D(1, this, factor, (Coordinates3D) v);
+    public Cartesian3D add(double factor, final Vector<Euclidean3D> v) {
+        return new Cartesian3D(1, this, factor, (Cartesian3D) v);
     }
 
     /** {@inheritDoc} */
     @Override
-    public Coordinates3D subtract(final Vector<Euclidean3D> v) {
-        final Coordinates3D v3 = (Coordinates3D) v;
-        return new Coordinates3D(x - v3.x, y - v3.y, z - v3.z);
+    public Cartesian3D subtract(final Vector<Euclidean3D> v) {
+        final Cartesian3D v3 = (Cartesian3D) v;
+        return new Cartesian3D(x - v3.x, y - v3.y, z - v3.z);
     }
 
     /** {@inheritDoc} */
     @Override
-    public Coordinates3D subtract(final double factor, final Vector<Euclidean3D> v) {
-        return new Coordinates3D(1, this, -factor, (Coordinates3D) v);
+    public Cartesian3D subtract(final double factor, final Vector<Euclidean3D> v) {
+        return new Cartesian3D(1, this, -factor, (Cartesian3D) v);
     }
 
     /** {@inheritDoc} */
     @Override
-    public Coordinates3D normalize() throws MathArithmeticException {
+    public Cartesian3D normalize() throws MathArithmeticException {
         double s = getNorm();
         if (s == 0) {
             throw new MathArithmeticException(LocalizedFormats.CANNOT_NORMALIZE_A_ZERO_NORM_VECTOR);
@@ -331,7 +331,7 @@ public class Coordinates3D implements Serializable, Point<Euclidean3D>, Vector<E
      * @return a new normalized vector orthogonal to the instance
      * @exception MathArithmeticException if the norm of the instance is null
      */
-    public Coordinates3D orthogonal() throws MathArithmeticException {
+    public Cartesian3D orthogonal() throws MathArithmeticException {
 
         double threshold = 0.6 * getNorm();
         if (threshold == 0) {
@@ -340,13 +340,13 @@ public class Coordinates3D implements Serializable, Point<Euclidean3D>, Vector<E
 
         if (FastMath.abs(x) <= threshold) {
             double inverse  = 1 / FastMath.sqrt(y * y + z * z);
-            return new Coordinates3D(0, inverse * z, -inverse * y);
+            return new Cartesian3D(0, inverse * z, -inverse * y);
         } else if (FastMath.abs(y) <= threshold) {
             double inverse  = 1 / FastMath.sqrt(x * x + z * z);
-            return new Coordinates3D(-inverse * z, 0, inverse * x);
+            return new Cartesian3D(-inverse * z, 0, inverse * x);
         }
         double inverse  = 1 / FastMath.sqrt(x * x + y * y);
-        return new Coordinates3D(inverse * y, -inverse * x, 0);
+        return new Cartesian3D(inverse * y, -inverse * x, 0);
 
     }
 
@@ -361,7 +361,7 @@ public class Coordinates3D implements Serializable, Point<Euclidean3D>, Vector<E
      * @return angular separation between v1 and v2
      * @exception MathArithmeticException if either vector has a null norm
      */
-    public static double angle(Coordinates3D v1, Coordinates3D v2) throws MathArithmeticException {
+    public static double angle(Cartesian3D v1, Cartesian3D v2) throws MathArithmeticException {
 
         double normProduct = v1.getNorm() * v2.getNorm();
         if (normProduct == 0) {
@@ -372,7 +372,7 @@ public class Coordinates3D implements Serializable, Point<Euclidean3D>, Vector<E
         double threshold = normProduct * 0.9999;
         if ((dot < -threshold) || (dot > threshold)) {
             // the vectors are almost aligned, compute using the sine
-            Coordinates3D v3 = crossProduct(v1, v2);
+            Cartesian3D v3 = crossProduct(v1, v2);
             if (dot >= 0) {
                 return FastMath.asin(v3.getNorm() / normProduct);
             }
@@ -386,14 +386,14 @@ public class Coordinates3D implements Serializable, Point<Euclidean3D>, Vector<E
 
     /** {@inheritDoc} */
     @Override
-    public Coordinates3D negate() {
-        return new Coordinates3D(-x, -y, -z);
+    public Cartesian3D negate() {
+        return new Cartesian3D(-x, -y, -z);
     }
 
     /** {@inheritDoc} */
     @Override
-    public Coordinates3D scalarMultiply(double a) {
-        return new Coordinates3D(a * x, a * y, a * z);
+    public Cartesian3D scalarMultiply(double a) {
+        return new Cartesian3D(a * x, a * y, a * z);
     }
 
     /** {@inheritDoc} */
@@ -434,8 +434,8 @@ public class Coordinates3D implements Serializable, Point<Euclidean3D>, Vector<E
             return true;
         }
 
-        if (other instanceof Coordinates3D) {
-            final Coordinates3D rhs = (Coordinates3D)other;
+        if (other instanceof Cartesian3D) {
+            final Cartesian3D rhs = (Cartesian3D)other;
             if (rhs.isNaN()) {
                 return this.isNaN();
             }
@@ -470,7 +470,7 @@ public class Coordinates3D implements Serializable, Point<Euclidean3D>, Vector<E
      */
     @Override
     public double dotProduct(final Vector<Euclidean3D> v) {
-        final Coordinates3D v3 = (Coordinates3D) v;
+        final Cartesian3D v3 = (Cartesian3D) v;
         return MathArrays.linearCombination(x, v3.x, y, v3.y, z, v3.z);
     }
 
@@ -478,9 +478,9 @@ public class Coordinates3D implements Serializable, Point<Euclidean3D>, Vector<E
      * @param v other vector
      * @return the cross product this ^ v as a new Vector3D
      */
-    public Coordinates3D crossProduct(final Vector<Euclidean3D> v) {
-        final Coordinates3D v3 = (Coordinates3D) v;
-        return new Coordinates3D(MathArrays.linearCombination(y, v3.z, -z, v3.y),
+    public Cartesian3D crossProduct(final Vector<Euclidean3D> v) {
+        final Cartesian3D v3 = (Cartesian3D) v;
+        return new Cartesian3D(MathArrays.linearCombination(y, v3.z, -z, v3.y),
                             MathArrays.linearCombination(z, v3.x, -x, v3.z),
                             MathArrays.linearCombination(x, v3.y, -y, v3.x));
     }
@@ -488,7 +488,7 @@ public class Coordinates3D implements Serializable, Point<Euclidean3D>, Vector<E
     /** {@inheritDoc} */
     @Override
     public double distance1(Vector<Euclidean3D> v) {
-        final Coordinates3D v3 = (Coordinates3D) v;
+        final Cartesian3D v3 = (Cartesian3D) v;
         final double dx = FastMath.abs(v3.x - x);
         final double dy = FastMath.abs(v3.y - y);
         final double dz = FastMath.abs(v3.z - z);
@@ -498,20 +498,20 @@ public class Coordinates3D implements Serializable, Point<Euclidean3D>, Vector<E
     /** {@inheritDoc} */
     @Override
     public double distance(Point<Euclidean3D> p) {
-        return distance((Coordinates3D) p);
+        return distance((Cartesian3D) p);
     }
 
     /** {@inheritDoc} */
     @Override
     public double distance(Vector<Euclidean3D> v) {
-        return distance((Coordinates3D) v);
+        return distance((Cartesian3D) v);
     }
 
     /** Compute the distance between the instance and other coordinates.
      * @param c other coordinates
      * @return the distance between the instance and c
      */
-    public double distance(Coordinates3D c) {
+    public double distance(Cartesian3D c) {
         final double dx = c.x - x;
         final double dy = c.y - y;
         final double dz = c.z - z;
@@ -521,7 +521,7 @@ public class Coordinates3D implements Serializable, Point<Euclidean3D>, Vector<E
     /** {@inheritDoc} */
     @Override
     public double distanceInf(Vector<Euclidean3D> v) {
-        final Coordinates3D v3 = (Coordinates3D) v;
+        final Cartesian3D v3 = (Cartesian3D) v;
         final double dx = FastMath.abs(v3.x - x);
         final double dy = FastMath.abs(v3.y - y);
         final double dz = FastMath.abs(v3.z - z);
@@ -531,7 +531,7 @@ public class Coordinates3D implements Serializable, Point<Euclidean3D>, Vector<E
     /** {@inheritDoc} */
     @Override
     public double distanceSq(Vector<Euclidean3D> v) {
-        final Coordinates3D v3 = (Coordinates3D) v;
+        final Cartesian3D v3 = (Cartesian3D) v;
         final double dx = v3.x - x;
         final double dy = v3.y - y;
         final double dz = v3.z - z;
@@ -543,7 +543,7 @@ public class Coordinates3D implements Serializable, Point<Euclidean3D>, Vector<E
      * @param v2 second vector
      * @return the dot product v1.v2
      */
-    public static double dotProduct(Coordinates3D v1, Coordinates3D v2) {
+    public static double dotProduct(Cartesian3D v1, Cartesian3D v2) {
         return v1.dotProduct(v2);
     }
 
@@ -552,7 +552,7 @@ public class Coordinates3D implements Serializable, Point<Euclidean3D>, Vector<E
      * @param v2 second vector
      * @return the cross product v1 ^ v2 as a new Vector
      */
-    public static Coordinates3D crossProduct(final Coordinates3D v1, final Coordinates3D v2) {
+    public static Cartesian3D crossProduct(final Cartesian3D v1, final Cartesian3D v2) {
         return v1.crossProduct(v2);
     }
 
@@ -564,7 +564,7 @@ public class Coordinates3D implements Serializable, Point<Euclidean3D>, Vector<E
      * @param v2 second vector
      * @return the distance between v1 and v2 according to the L<sub>1</sub> norm
      */
-    public static double distance1(Coordinates3D v1, Coordinates3D v2) {
+    public static double distance1(Cartesian3D v1, Cartesian3D v2) {
         return v1.distance1(v2);
     }
 
@@ -576,7 +576,7 @@ public class Coordinates3D implements Serializable, Point<Euclidean3D>, Vector<E
      * @param v2 second vector
      * @return the distance between v1 and v2 according to the L<sub>2</sub> norm
      */
-    public static double distance(Coordinates3D v1, Coordinates3D v2) {
+    public static double distance(Cartesian3D v1, Cartesian3D v2) {
         return v1.distance(v2);
     }
 
@@ -588,7 +588,7 @@ public class Coordinates3D implements Serializable, Point<Euclidean3D>, Vector<E
      * @param v2 second vector
      * @return the distance between v1 and v2 according to the L<sub>&infin;</sub> norm
      */
-    public static double distanceInf(Coordinates3D v1, Coordinates3D v2) {
+    public static double distanceInf(Cartesian3D v1, Cartesian3D v2) {
         return v1.distanceInf(v2);
     }
 
@@ -600,7 +600,7 @@ public class Coordinates3D implements Serializable, Point<Euclidean3D>, Vector<E
      * @param v2 second vector
      * @return the square of the distance between v1 and v2
      */
-    public static double distanceSq(Coordinates3D v1, Coordinates3D v2) {
+    public static double distanceSq(Cartesian3D v1, Cartesian3D v2) {
         return v1.distanceSq(v2);
     }
 

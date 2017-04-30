@@ -55,7 +55,7 @@ public class SphericalCoordinates implements Serializable {
     private static final long serialVersionUID = 20130206L;
 
     /** Cartesian coordinates. */
-    private final Coordinates3D v;
+    private final Cartesian3D v;
 
     /** Radius. */
     private final double r;
@@ -81,7 +81,7 @@ public class SphericalCoordinates implements Serializable {
     /** Build a spherical coordinates transformer from Cartesian coordinates.
      * @param v Cartesian coordinates
      */
-    public SphericalCoordinates(final Coordinates3D v) {
+    public SphericalCoordinates(final Cartesian3D v) {
 
         // Cartesian coordinates
         this.v = v;
@@ -111,7 +111,7 @@ public class SphericalCoordinates implements Serializable {
         this.phi   = phi;
 
         // Cartesian coordinates
-        this.v  = new Coordinates3D(r * cosTheta * sinPhi,
+        this.v  = new Cartesian3D(r * cosTheta * sinPhi,
                                r * sinTheta * sinPhi,
                                r * cosPhi);
 
@@ -120,7 +120,7 @@ public class SphericalCoordinates implements Serializable {
     /** Get the Cartesian coordinates.
      * @return Cartesian coordinates
      */
-    public Coordinates3D getCartesian() {
+    public Cartesian3D getCartesian() {
         return v;
     }
 
@@ -387,7 +387,7 @@ public class SphericalCoordinates implements Serializable {
          * @return replacement {@link SphericalCoordinates}
          */
         private Object readResolve() {
-            return new SphericalCoordinates(new Coordinates3D(x, y, z));
+            return new SphericalCoordinates(new Cartesian3D(x, y, z));
         }
 
     }

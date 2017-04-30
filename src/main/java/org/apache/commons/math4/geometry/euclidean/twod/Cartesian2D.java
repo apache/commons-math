@@ -29,30 +29,30 @@ import org.apache.commons.math4.util.MathArrays;
 import org.apache.commons.math4.util.MathUtils;
 
 /** This class represents a 2D point or a 2D vector.
- * <p>An instance of Coordinates2D represents the point with the corresponding
+ * <p>An instance of Cartesian2D represents the point with the corresponding
  * coordinates.</p>
- * <p>An instance of Coordinates2D also represents the vector which begins at
+ * <p>An instance of Cartesian2D also represents the vector which begins at
  * the origin and ends at the point corresponding to the coordinates.</p>
  * <p>Instances of this class are guaranteed to be immutable.</p>
  * @since 4.0
  */
-public class Coordinates2D implements Point<Euclidean2D>, Vector<Euclidean2D> {
+public class Cartesian2D implements Point<Euclidean2D>, Vector<Euclidean2D> {
 
     /** Origin (coordinates: 0, 0). */
-    public static final Coordinates2D ZERO   = new Coordinates2D(0, 0);
+    public static final Cartesian2D ZERO   = new Cartesian2D(0, 0);
 
     // CHECKSTYLE: stop ConstantName
     /** A vector with all coordinates set to NaN. */
-    public static final Coordinates2D NaN = new Coordinates2D(Double.NaN, Double.NaN);
+    public static final Cartesian2D NaN = new Cartesian2D(Double.NaN, Double.NaN);
     // CHECKSTYLE: resume ConstantName
 
     /** A vector with all coordinates set to positive infinity. */
-    public static final Coordinates2D POSITIVE_INFINITY =
-        new Coordinates2D(Double.POSITIVE_INFINITY, Double.POSITIVE_INFINITY);
+    public static final Cartesian2D POSITIVE_INFINITY =
+        new Cartesian2D(Double.POSITIVE_INFINITY, Double.POSITIVE_INFINITY);
 
     /** A vector with all coordinates set to negative infinity. */
-    public static final Coordinates2D NEGATIVE_INFINITY =
-        new Coordinates2D(Double.NEGATIVE_INFINITY, Double.NEGATIVE_INFINITY);
+    public static final Cartesian2D NEGATIVE_INFINITY =
+        new Cartesian2D(Double.NEGATIVE_INFINITY, Double.NEGATIVE_INFINITY);
 
     /** Serializable UID. */
     private static final long serialVersionUID = 266938651998679754L;
@@ -70,7 +70,7 @@ public class Coordinates2D implements Point<Euclidean2D>, Vector<Euclidean2D> {
      * @see #getX()
      * @see #getY()
      */
-    public Coordinates2D(double x, double y) {
+    public Cartesian2D(double x, double y) {
         this.x = x;
         this.y = y;
     }
@@ -81,7 +81,7 @@ public class Coordinates2D implements Point<Euclidean2D>, Vector<Euclidean2D> {
      * @exception DimensionMismatchException if array does not have 2 elements
      * @see #toArray()
      */
-    public Coordinates2D(double[] v) throws DimensionMismatchException {
+    public Cartesian2D(double[] v) throws DimensionMismatchException {
         if (v.length != 2) {
             throw new DimensionMismatchException(v.length, 2);
         }
@@ -95,7 +95,7 @@ public class Coordinates2D implements Point<Euclidean2D>, Vector<Euclidean2D> {
      * @param a scale factor
      * @param u base (unscaled) vector
      */
-    public Coordinates2D(double a, Coordinates2D u) {
+    public Cartesian2D(double a, Cartesian2D u) {
         this.x = a * u.x;
         this.y = a * u.y;
     }
@@ -108,7 +108,7 @@ public class Coordinates2D implements Point<Euclidean2D>, Vector<Euclidean2D> {
      * @param a2 second scale factor
      * @param u2 second base (unscaled) vector
      */
-    public Coordinates2D(double a1, Coordinates2D u1, double a2, Coordinates2D u2) {
+    public Cartesian2D(double a1, Cartesian2D u1, double a2, Cartesian2D u2) {
         this.x = a1 * u1.x + a2 * u2.x;
         this.y = a1 * u1.y + a2 * u2.y;
     }
@@ -123,8 +123,8 @@ public class Coordinates2D implements Point<Euclidean2D>, Vector<Euclidean2D> {
      * @param a3 third scale factor
      * @param u3 third base (unscaled) vector
      */
-    public Coordinates2D(double a1, Coordinates2D u1, double a2, Coordinates2D u2,
-                   double a3, Coordinates2D u3) {
+    public Cartesian2D(double a1, Cartesian2D u1, double a2, Cartesian2D u2,
+                   double a3, Cartesian2D u3) {
         this.x = a1 * u1.x + a2 * u2.x + a3 * u3.x;
         this.y = a1 * u1.y + a2 * u2.y + a3 * u3.y;
     }
@@ -141,8 +141,8 @@ public class Coordinates2D implements Point<Euclidean2D>, Vector<Euclidean2D> {
      * @param a4 fourth scale factor
      * @param u4 fourth base (unscaled) vector
      */
-    public Coordinates2D(double a1, Coordinates2D u1, double a2, Coordinates2D u2,
-                   double a3, Coordinates2D u3, double a4, Coordinates2D u4) {
+    public Cartesian2D(double a1, Cartesian2D u1, double a2, Cartesian2D u2,
+                   double a3, Cartesian2D u3, double a4, Cartesian2D u4) {
         this.x = a1 * u1.x + a2 * u2.x + a3 * u3.x + a4 * u4.x;
         this.y = a1 * u1.y + a2 * u2.y + a3 * u3.y + a4 * u4.y;
     }
@@ -179,7 +179,7 @@ public class Coordinates2D implements Point<Euclidean2D>, Vector<Euclidean2D> {
 
     /** {@inheritDoc} */
     @Override
-    public Coordinates2D getZero() {
+    public Cartesian2D getZero() {
         return ZERO;
     }
 
@@ -209,35 +209,35 @@ public class Coordinates2D implements Point<Euclidean2D>, Vector<Euclidean2D> {
 
     /** {@inheritDoc} */
     @Override
-    public Coordinates2D add(Vector<Euclidean2D> v) {
-        Coordinates2D v2 = (Coordinates2D) v;
-        return new Coordinates2D(x + v2.getX(), y + v2.getY());
+    public Cartesian2D add(Vector<Euclidean2D> v) {
+        Cartesian2D v2 = (Cartesian2D) v;
+        return new Cartesian2D(x + v2.getX(), y + v2.getY());
     }
 
     /** {@inheritDoc} */
     @Override
-    public Coordinates2D add(double factor, Vector<Euclidean2D> v) {
-        Coordinates2D v2 = (Coordinates2D) v;
-        return new Coordinates2D(x + factor * v2.getX(), y + factor * v2.getY());
+    public Cartesian2D add(double factor, Vector<Euclidean2D> v) {
+        Cartesian2D v2 = (Cartesian2D) v;
+        return new Cartesian2D(x + factor * v2.getX(), y + factor * v2.getY());
     }
 
     /** {@inheritDoc} */
     @Override
-    public Coordinates2D subtract(Vector<Euclidean2D> p) {
-        Coordinates2D p3 = (Coordinates2D) p;
-        return new Coordinates2D(x - p3.x, y - p3.y);
+    public Cartesian2D subtract(Vector<Euclidean2D> p) {
+        Cartesian2D p3 = (Cartesian2D) p;
+        return new Cartesian2D(x - p3.x, y - p3.y);
     }
 
     /** {@inheritDoc} */
     @Override
-    public Coordinates2D subtract(double factor, Vector<Euclidean2D> v) {
-        Coordinates2D v2 = (Coordinates2D) v;
-        return new Coordinates2D(x - factor * v2.getX(), y - factor * v2.getY());
+    public Cartesian2D subtract(double factor, Vector<Euclidean2D> v) {
+        Cartesian2D v2 = (Cartesian2D) v;
+        return new Cartesian2D(x - factor * v2.getX(), y - factor * v2.getY());
     }
 
     /** {@inheritDoc} */
     @Override
-    public Coordinates2D normalize() throws MathArithmeticException {
+    public Cartesian2D normalize() throws MathArithmeticException {
         double s = getNorm();
         if (s == 0) {
             throw new MathArithmeticException(LocalizedFormats.CANNOT_NORMALIZE_A_ZERO_NORM_VECTOR);
@@ -256,7 +256,7 @@ public class Coordinates2D implements Point<Euclidean2D>, Vector<Euclidean2D> {
      * @return angular separation between v1 and v2
      * @exception MathArithmeticException if either vector has a null norm
      */
-    public static double angle(Coordinates2D v1, Coordinates2D v2) throws MathArithmeticException {
+    public static double angle(Cartesian2D v1, Cartesian2D v2) throws MathArithmeticException {
 
         double normProduct = v1.getNorm() * v2.getNorm();
         if (normProduct == 0) {
@@ -281,14 +281,14 @@ public class Coordinates2D implements Point<Euclidean2D>, Vector<Euclidean2D> {
 
     /** {@inheritDoc} */
     @Override
-    public Coordinates2D negate() {
-        return new Coordinates2D(-x, -y);
+    public Cartesian2D negate() {
+        return new Cartesian2D(-x, -y);
     }
 
     /** {@inheritDoc} */
     @Override
-    public Coordinates2D scalarMultiply(double a) {
-        return new Coordinates2D(a * x, a * y);
+    public Cartesian2D scalarMultiply(double a) {
+        return new Cartesian2D(a * x, a * y);
     }
 
     /** {@inheritDoc} */
@@ -306,7 +306,7 @@ public class Coordinates2D implements Point<Euclidean2D>, Vector<Euclidean2D> {
     /** {@inheritDoc} */
     @Override
     public double distance1(Vector<Euclidean2D> p) {
-        Coordinates2D p3 = (Coordinates2D) p;
+        Cartesian2D p3 = (Cartesian2D) p;
         final double dx = FastMath.abs(p3.x - x);
         final double dy = FastMath.abs(p3.y - y);
         return dx + dy;
@@ -315,20 +315,20 @@ public class Coordinates2D implements Point<Euclidean2D>, Vector<Euclidean2D> {
     /** {@inheritDoc} */
     @Override
     public double distance(Point<Euclidean2D> p) {
-        return distance((Coordinates2D) p);
+        return distance((Cartesian2D) p);
     }
 
     /** {@inheritDoc} */
     @Override
     public double distance(Vector<Euclidean2D> v) {
-        return distance((Coordinates2D) v);
+        return distance((Cartesian2D) v);
     }
 
     /** Compute the distance between the instance and other coordinates.
      * @param c other coordinates
      * @return the distance between the instance and c
      */
-    public double distance(Coordinates2D c) {
+    public double distance(Cartesian2D c) {
         final double dx = c.x - x;
         final double dy = c.y - y;
         return FastMath.sqrt(dx * dx + dy * dy);
@@ -337,7 +337,7 @@ public class Coordinates2D implements Point<Euclidean2D>, Vector<Euclidean2D> {
     /** {@inheritDoc} */
     @Override
     public double distanceInf(Vector<Euclidean2D> p) {
-        Coordinates2D p3 = (Coordinates2D) p;
+        Cartesian2D p3 = (Cartesian2D) p;
         final double dx = FastMath.abs(p3.x - x);
         final double dy = FastMath.abs(p3.y - y);
         return FastMath.max(dx, dy);
@@ -346,7 +346,7 @@ public class Coordinates2D implements Point<Euclidean2D>, Vector<Euclidean2D> {
     /** {@inheritDoc} */
     @Override
     public double distanceSq(Vector<Euclidean2D> p) {
-        Coordinates2D p3 = (Coordinates2D) p;
+        Cartesian2D p3 = (Cartesian2D) p;
         final double dx = p3.x - x;
         final double dy = p3.y - y;
         return dx * dx + dy * dy;
@@ -355,12 +355,12 @@ public class Coordinates2D implements Point<Euclidean2D>, Vector<Euclidean2D> {
     /** {@inheritDoc} */
     @Override
     public double dotProduct(final Vector<Euclidean2D> v) {
-        final Coordinates2D v2 = (Coordinates2D) v;
+        final Cartesian2D v2 = (Cartesian2D) v;
         return MathArrays.linearCombination(x, v2.x, y, v2.y);
     }
 
     /**
-     * Compute the cross-product of the instance and the given points.
+     * Compute the cross-product of the instance and the given vector.
      * <p>
      * The cross product can be used to determine the location of a point
      * with regard to the line formed by (p1, p2) and is calculated as:
@@ -379,7 +379,7 @@ public class Coordinates2D implements Point<Euclidean2D>, Vector<Euclidean2D> {
      *
      * @see <a href="http://en.wikipedia.org/wiki/Cross_product">Cross product (Wikipedia)</a>
      */
-    public double crossProduct(final Coordinates2D p1, final Coordinates2D p2) {
+    public double crossProduct(final Cartesian2D p1, final Cartesian2D p2) {
         final double x1 = p2.getX() - p1.getX();
         final double y1 = getY() - p1.getY();
         final double x2 = getX() - p1.getX();
@@ -387,47 +387,47 @@ public class Coordinates2D implements Point<Euclidean2D>, Vector<Euclidean2D> {
         return MathArrays.linearCombination(x1, y1, -x2, y2);
     }
 
-    /** Compute the distance between two vectors according to the L<sub>2</sub> norm.
+    /** Compute the distance between two points according to the L<sub>2</sub> norm.
      * <p>Calling this method is equivalent to calling:
      * <code>p1.subtract(p2).getNorm()</code> except that no intermediate
      * vector is built</p>
-     * @param p1 first vector
-     * @param p2 second vector
+     * @param p1 first point
+     * @param p2 second point
      * @return the distance between p1 and p2 according to the L<sub>2</sub> norm
      */
-    public static double distance(Coordinates2D p1, Coordinates2D p2) {
+    public static double distance(Cartesian2D p1, Cartesian2D p2) {
         return p1.distance(p2);
     }
 
-    /** Compute the distance between two vectors according to the L<sub>&infin;</sub> norm.
+    /** Compute the distance between two points according to the L<sub>&infin;</sub> norm.
      * <p>Calling this method is equivalent to calling:
      * <code>p1.subtract(p2).getNormInf()</code> except that no intermediate
      * vector is built</p>
-     * @param p1 first vector
-     * @param p2 second vector
+     * @param p1 first point
+     * @param p2 second point
      * @return the distance between p1 and p2 according to the L<sub>&infin;</sub> norm
      */
-    public static double distanceInf(Coordinates2D p1, Coordinates2D p2) {
+    public static double distanceInf(Cartesian2D p1, Cartesian2D p2) {
         return p1.distanceInf(p2);
     }
 
-    /** Compute the square of the distance between two vectors.
+    /** Compute the square of the distance between two points.
      * <p>Calling this method is equivalent to calling:
      * <code>p1.subtract(p2).getNormSq()</code> except that no intermediate
      * vector is built</p>
-     * @param p1 first vector
-     * @param p2 second vector
+     * @param p1 first point
+     * @param p2 second point
      * @return the square of the distance between p1 and p2
      */
-    public static double distanceSq(Coordinates2D p1, Coordinates2D p2) {
+    public static double distanceSq(Cartesian2D p1, Cartesian2D p2) {
         return p1.distanceSq(p2);
     }
 
     /**
-     * Test for the equality of two 2D vectors.
+     * Test for the equality of two 2D instances.
      * <p>
      * If all coordinates of two 2D vectors are exactly the same, and none are
-     * <code>Double.NaN</code>, the two 2D vectors are considered to be equal.
+     * <code>Double.NaN</code>, the two 2D instances are considered to be equal.
      * </p>
      * <p>
      * <code>NaN</code> coordinates are considered to affect globally the vector
@@ -437,9 +437,9 @@ public class Coordinates2D implements Point<Euclidean2D>, Vector<Euclidean2D> {
      * </p>
      *
      * @param other Object to test for equality to this
-     * @return true if two 2D vector objects are equal, false if
-     *         object is null, not an instance of Vector2D, or
-     *         not equal to this Vector2D instance
+     * @return true if two 2D Cartesian objects are equal, false if
+     *         object is null, not an instance of Cartesian2D, or
+     *         not equal to this Cartesian2D instance
      *
      */
     @Override
@@ -449,8 +449,8 @@ public class Coordinates2D implements Point<Euclidean2D>, Vector<Euclidean2D> {
             return true;
         }
 
-        if (other instanceof Coordinates2D) {
-            final Coordinates2D rhs = (Coordinates2D)other;
+        if (other instanceof Cartesian2D) {
+            final Cartesian2D rhs = (Cartesian2D)other;
             if (rhs.isNaN()) {
                 return this.isNaN();
             }
@@ -461,7 +461,7 @@ public class Coordinates2D implements Point<Euclidean2D>, Vector<Euclidean2D> {
     }
 
     /**
-     * Get a hashCode for the 2D vector.
+     * Get a hashCode for the 2D coordinates.
      * <p>
      * All NaN values have the same hash code.</p>
      *

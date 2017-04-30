@@ -24,7 +24,7 @@ import org.apache.commons.math4.geometry.euclidean.oned.Euclidean1D;
 import org.apache.commons.math4.geometry.euclidean.oned.Interval;
 import org.apache.commons.math4.geometry.euclidean.oned.IntervalsSet;
 import org.apache.commons.math4.geometry.euclidean.oned.OrientedPoint;
-import org.apache.commons.math4.geometry.euclidean.oned.Coordinates1D;
+import org.apache.commons.math4.geometry.euclidean.oned.Cartesian1D;
 import org.apache.commons.math4.geometry.partitioning.AbstractSubHyperplane;
 import org.apache.commons.math4.geometry.partitioning.BSPTree;
 import org.apache.commons.math4.geometry.partitioning.Hyperplane;
@@ -53,7 +53,7 @@ public class SubLine extends AbstractSubHyperplane<Euclidean2D, Euclidean1D> {
      * @param tolerance tolerance below which points are considered identical
      * @since 3.3
      */
-    public SubLine(final Coordinates2D start, final Coordinates2D end, final double tolerance) {
+    public SubLine(final Cartesian2D start, final Cartesian2D end, final double tolerance) {
         super(new Line(start, end, tolerance), buildIntervalSet(start, end, tolerance));
     }
 
@@ -86,8 +86,8 @@ public class SubLine extends AbstractSubHyperplane<Euclidean2D, Euclidean1D> {
         final List<Segment> segments = new ArrayList<>(list.size());
 
         for (final Interval interval : list) {
-            final Coordinates2D start = line.toSpace((Point<Euclidean1D>) new Coordinates1D(interval.getInf()));
-            final Coordinates2D end   = line.toSpace((Point<Euclidean1D>) new Coordinates1D(interval.getSup()));
+            final Cartesian2D start = line.toSpace(new Cartesian1D(interval.getInf()));
+            final Cartesian2D end   = line.toSpace(new Cartesian1D(interval.getSup()));
             segments.add(new Segment(start, end, line));
         }
 
@@ -109,14 +109,14 @@ public class SubLine extends AbstractSubHyperplane<Euclidean2D, Euclidean1D> {
      * occurring on endpoints lead to null being returned
      * @return the intersection point if there is one, null if the sub-lines don't intersect
      */
-    public Coordinates2D intersection(final SubLine subLine, final boolean includeEndPoints) {
+    public Cartesian2D intersection(final SubLine subLine, final boolean includeEndPoints) {
 
         // retrieve the underlying lines
         Line line1 = (Line) getHyperplane();
         Line line2 = (Line) subLine.getHyperplane();
 
         // compute the intersection on infinite line
-        Coordinates2D v2D = line1.intersection(line2);
+        Cartesian2D v2D = line1.intersection(line2);
         if (v2D == null) {
             return null;
         }
@@ -141,7 +141,7 @@ public class SubLine extends AbstractSubHyperplane<Euclidean2D, Euclidean1D> {
      * @param tolerance tolerance below which points are considered identical
      * @return an interval set
      */
-    private static IntervalsSet buildIntervalSet(final Coordinates2D start, final Coordinates2D end, final double tolerance) {
+    private static IntervalsSet buildIntervalSet(final Cartesian2D start, final Cartesian2D end, final double tolerance) {
         final Line line = new Line(start, end, tolerance);
         return new IntervalsSet(line.toSubSpace(start).getX(),
                                 line.toSubSpace(end).getX(),
@@ -161,7 +161,7 @@ public class SubLine extends AbstractSubHyperplane<Euclidean2D, Euclidean1D> {
 
         final Line    thisLine  = (Line) getHyperplane();
         final Line    otherLine = (Line) hyperplane;
-        final Coordinates2D crossing = thisLine.intersection(otherLine);
+        final Cartesian2D crossing = thisLine.intersection(otherLine);
         final double tolerance  = thisLine.getTolerance();
 
         if (crossing == null) {
@@ -178,7 +178,7 @@ public class SubLine extends AbstractSubHyperplane<Euclidean2D, Euclidean1D> {
 
         // the lines do intersect
         final boolean direct = FastMath.sin(thisLine.getAngle() - otherLine.getAngle()) < 0;
-        final Coordinates1D x      = thisLine.toSubSpace((Point<Euclidean2D>) crossing);
+        final Cartesian1D x      = thisLine.toSubSpace(crossing);
         final SubHyperplane<Euclidean1D> subPlus  =
                 new OrientedPoint(x, !direct, tolerance).wholeHyperplane();
         final SubHyperplane<Euclidean1D> subMinus =

@@ -23,7 +23,7 @@ import java.util.Map;
 
 import org.apache.commons.math4.exception.MathIllegalStateException;
 import org.apache.commons.math4.exception.util.LocalizedFormats;
-import org.apache.commons.math4.geometry.euclidean.threed.Coordinates3D;
+import org.apache.commons.math4.geometry.euclidean.threed.Cartesian3D;
 import org.apache.commons.math4.geometry.partitioning.BSPTree;
 import org.apache.commons.math4.geometry.partitioning.BSPTreeVisitor;
 import org.apache.commons.math4.geometry.partitioning.BoundaryAttribute;
@@ -128,8 +128,8 @@ class EdgesBuilder implements BSPTreeVisitor<Sphere2D> {
         for (final BSPTree<Sphere2D> node : candidates) {
             for (final Edge edge : nodeToEdgesList.get(node)) {
                 if (edge != previous && edge.getStart().getIncoming() == null) {
-                    final Coordinates3D edgeStart = edge.getStart().getLocation().getVector();
-                    final double gap         = Coordinates3D.angle(point.getVector(), edgeStart);
+                    final Cartesian3D edgeStart = edge.getStart().getLocation().getVector();
+                    final double gap         = Cartesian3D.angle(point.getVector(), edgeStart);
                     if (gap <= closest) {
                         closest   = gap;
                         following = edge;
@@ -139,8 +139,8 @@ class EdgesBuilder implements BSPTreeVisitor<Sphere2D> {
         }
 
         if (following == null) {
-            final Coordinates3D previousStart = previous.getStart().getLocation().getVector();
-            if (Coordinates3D.angle(point.getVector(), previousStart) <= tolerance) {
+            final Cartesian3D previousStart = previous.getStart().getLocation().getVector();
+            if (Cartesian3D.angle(point.getVector(), previousStart) <= tolerance) {
                 // the edge connects back to itself
                 return previous;
             }

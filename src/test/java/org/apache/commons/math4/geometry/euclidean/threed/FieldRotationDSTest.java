@@ -26,7 +26,7 @@ import org.apache.commons.math4.geometry.euclidean.threed.FieldVector3D;
 import org.apache.commons.math4.geometry.euclidean.threed.NotARotationMatrixException;
 import org.apache.commons.math4.geometry.euclidean.threed.Rotation;
 import org.apache.commons.math4.geometry.euclidean.threed.RotationOrder;
-import org.apache.commons.math4.geometry.euclidean.threed.Coordinates3D;
+import org.apache.commons.math4.geometry.euclidean.threed.Cartesian3D;
 import org.apache.commons.math4.linear.MatrixUtils;
 import org.apache.commons.math4.linear.RealMatrix;
 import org.apache.commons.math4.random.UnitSphereRandomVectorGenerator;
@@ -975,7 +975,7 @@ public class FieldRotationDSTest {
                         FieldVector3D<DerivativeStructure> uds   = createVector(x, y, z);
                         FieldVector3D<DerivativeStructure> ruds  = r.applyTo(uds);
                         FieldVector3D<DerivativeStructure> rIuds = r.applyInverseTo(uds);
-                        Coordinates3D   u     = new Coordinates3D(x, y, z);
+                        Cartesian3D   u     = new Cartesian3D(x, y, z);
                         FieldVector3D<DerivativeStructure> ru    = r.applyTo(u);
                         FieldVector3D<DerivativeStructure> rIu   = r.applyInverseTo(u);
                         DerivativeStructure[] ruArray = new DerivativeStructure[3];
@@ -1000,7 +1000,7 @@ public class FieldRotationDSTest {
         UnitSphereRandomVectorGenerator g = new UnitSphereRandomVectorGenerator(3, random);
         for (int i = 0; i < 10; ++i) {
             double[] unit1 = g.nextVector();
-            Rotation r1 = new Rotation(new Coordinates3D(unit1[0], unit1[1], unit1[2]),
+            Rotation r1 = new Rotation(new Cartesian3D(unit1[0], unit1[1], unit1[2]),
                                       random.nextDouble(), RotationConvention.VECTOR_OPERATOR);
             FieldRotation<DerivativeStructure> r1Prime = new FieldRotation<>(new DerivativeStructure(4, 1, 0, r1.getQ0()),
                                                 new DerivativeStructure(4, 1, 1, r1.getQ1()),
@@ -1051,7 +1051,7 @@ public class FieldRotationDSTest {
         FieldRotation<DerivativeStructure> r    = new FieldRotation<>(createAxis(kx, ky, kz),
                                                                                          createAngle(theta),
                                                                                          RotationConvention.VECTOR_OPERATOR);
-        Coordinates3D a      = new Coordinates3D(kx / n, ky / n, kz / n);
+        Cartesian3D a      = new Cartesian3D(kx / n, ky / n, kz / n);
 
         // Jacobian of the normalized rotation axis a with respect to the Cartesian vector k
         RealMatrix dadk = MatrixUtils.createRealMatrix(new double[][] {
@@ -1063,15 +1063,15 @@ public class FieldRotationDSTest {
         for (double x = -0.9; x < 0.9; x += 0.2) {
             for (double y = -0.9; y < 0.9; y += 0.2) {
                 for (double z = -0.9; z < 0.9; z += 0.2) {
-                    Coordinates3D   u = new Coordinates3D(x, y, z);
+                    Cartesian3D   u = new Cartesian3D(x, y, z);
                     FieldVector3D<DerivativeStructure> v = r.applyTo(createVector(x, y, z));
 
                     // explicit formula for rotation of vector u around axis a with angle theta
-                    double dot     = Coordinates3D.dotProduct(u, a);
-                    Coordinates3D cross = Coordinates3D.crossProduct(a, u);
+                    double dot     = Cartesian3D.dotProduct(u, a);
+                    Cartesian3D cross = Cartesian3D.crossProduct(a, u);
                     double c1      = 1 - cosTheta;
                     double c2      = c1 * dot;
-                    Coordinates3D rt    = new Coordinates3D(cosTheta, u, c2, a, sinTheta, cross);
+                    Cartesian3D rt    = new Cartesian3D(cosTheta, u, c2, a, sinTheta, cross);
                     Assert.assertEquals(rt.getX(), v.getX().getReal(), eps);
                     Assert.assertEquals(rt.getY(), v.getY().getReal(), eps);
                     Assert.assertEquals(rt.getZ(), v.getZ().getReal(), eps);
@@ -1100,8 +1100,8 @@ public class FieldRotationDSTest {
 
                     // derivative with respect to rotation angle
                     // (analytical differentiation of the explicit formula)
-                    Coordinates3D dvdTheta =
-                            new Coordinates3D(-sinTheta, u, sinTheta * dot, a, cosTheta, cross);
+                    Cartesian3D dvdTheta =
+                            new Cartesian3D(-sinTheta, u, sinTheta * dot, a, cosTheta, cross);
                     Assert.assertEquals(dvdTheta.getX(), v.getX().getPartialDerivative(0, 0, 0, 1), eps);
                     Assert.assertEquals(dvdTheta.getY(), v.getY().getPartialDerivative(0, 0, 0, 1), eps);
                     Assert.assertEquals(dvdTheta.getZ(), v.getZ().getPartialDerivative(0, 0, 0, 1), eps);

@@ -24,7 +24,7 @@ import org.apache.commons.math4.geometry.enclosing.EnclosingBall;
 import org.apache.commons.math4.geometry.enclosing.WelzlEncloser;
 import org.apache.commons.math4.geometry.euclidean.twod.DiskGenerator;
 import org.apache.commons.math4.geometry.euclidean.twod.Euclidean2D;
-import org.apache.commons.math4.geometry.euclidean.twod.Coordinates2D;
+import org.apache.commons.math4.geometry.euclidean.twod.Cartesian2D;
 import org.apache.commons.rng.UniformRandomProvider;
 import org.apache.commons.rng.simple.RandomSource;
 import org.junit.Assert;
@@ -36,36 +36,36 @@ public class WelzlEncloser2DTest {
     @Test
     public void testNullList() {
         DiskGenerator generator = new DiskGenerator();
-        WelzlEncloser<Euclidean2D, Coordinates2D> encloser =
+        WelzlEncloser<Euclidean2D, Cartesian2D> encloser =
                 new WelzlEncloser<>(1.0e-10, generator);
-        EnclosingBall<Euclidean2D, Coordinates2D> ball = encloser.enclose(null);
+        EnclosingBall<Euclidean2D, Cartesian2D> ball = encloser.enclose(null);
         Assert.assertTrue(ball.getRadius() < 0);
     }
 
     @Test
     public void testNoPoints() {
         DiskGenerator generator = new DiskGenerator();
-        WelzlEncloser<Euclidean2D, Coordinates2D> encloser =
+        WelzlEncloser<Euclidean2D, Cartesian2D> encloser =
                 new WelzlEncloser<>(1.0e-10, generator);
-        EnclosingBall<Euclidean2D, Coordinates2D> ball = encloser.enclose(new ArrayList<Coordinates2D>());
+        EnclosingBall<Euclidean2D, Cartesian2D> ball = encloser.enclose(new ArrayList<Cartesian2D>());
         Assert.assertTrue(ball.getRadius() < 0);
     }
 
     @Test
     public void testRegularPoints() {
-        List<Coordinates2D> list = buildList(22, 26, 30, 38, 64, 28,  8, 54, 11, 15);
+        List<Cartesian2D> list = buildList(22, 26, 30, 38, 64, 28,  8, 54, 11, 15);
         checkDisk(list, Arrays.asList(list.get(2), list.get(3), list.get(4)));
     }
 
     @Test
     public void testSolutionOnDiameter() {
-        List<Coordinates2D> list = buildList(22, 26, 30, 38, 64, 28,  8, 54);
+        List<Cartesian2D> list = buildList(22, 26, 30, 38, 64, 28,  8, 54);
         checkDisk(list, Arrays.asList(list.get(2), list.get(3)));
     }
 
     @Test
     public void testReducingBall1() {
-        List<Coordinates2D> list = buildList(0.05380958511396061, 0.57332359658700000,
+        List<Cartesian2D> list = buildList(0.05380958511396061, 0.57332359658700000,
                                         0.99348810731127870, 0.02056421361521466,
                                         0.01203950647796437, 0.99779675042261860,
                                         0.00810189987706078, 0.00589246003827815,
@@ -75,7 +75,7 @@ public class WelzlEncloser2DTest {
 
     @Test
     public void testReducingBall2() {
-        List<Coordinates2D> list = buildList(0.016930586154703, 0.333955448537779,
+        List<Cartesian2D> list = buildList(0.016930586154703, 0.333955448537779,
                                         0.987189104892331, 0.969778855274507,
                                         0.983696889599935, 0.012904580013266,
                                         0.013114499572905, 0.034740156356895);
@@ -87,39 +87,39 @@ public class WelzlEncloser2DTest {
         UniformRandomProvider random = RandomSource.create(RandomSource.WELL_1024_A, 0xa2a63cad12c01fb2l);
         for (int k = 0; k < 100; ++k) {
             int nbPoints = random.nextInt(10000);
-            List<Coordinates2D> points = new ArrayList<>();
+            List<Cartesian2D> points = new ArrayList<>();
             for (int i = 0; i < nbPoints; ++i) {
                 double x = random.nextDouble();
                 double y = random.nextDouble();
-                points.add(new Coordinates2D(x, y));
+                points.add(new Cartesian2D(x, y));
             }
             checkDisk(points);
         }
     }
 
-    private List<Coordinates2D> buildList(final double ... coordinates) {
-        List<Coordinates2D> list = new ArrayList<>(coordinates.length / 2);
+    private List<Cartesian2D> buildList(final double ... coordinates) {
+        List<Cartesian2D> list = new ArrayList<>(coordinates.length / 2);
         for (int i = 0; i < coordinates.length; i += 2) {
-            list.add(new Coordinates2D(coordinates[i], coordinates[i + 1]));
+            list.add(new Cartesian2D(coordinates[i], coordinates[i + 1]));
         }
         return list;
     }
 
-    private void checkDisk(List<Coordinates2D> points, List<Coordinates2D> refSupport) {
+    private void checkDisk(List<Cartesian2D> points, List<Cartesian2D> refSupport) {
 
-        EnclosingBall<Euclidean2D, Coordinates2D> disk = checkDisk(points);
+        EnclosingBall<Euclidean2D, Cartesian2D> disk = checkDisk(points);
 
         // compare computed disk with expected disk
         DiskGenerator generator = new DiskGenerator();
-        EnclosingBall<Euclidean2D, Coordinates2D> expected = generator.ballOnSupport(refSupport);
+        EnclosingBall<Euclidean2D, Cartesian2D> expected = generator.ballOnSupport(refSupport);
         Assert.assertEquals(refSupport.size(), disk.getSupportSize());
         Assert.assertEquals(expected.getRadius(),        disk.getRadius(),        1.0e-10);
         Assert.assertEquals(expected.getCenter().getX(), disk.getCenter().getX(), 1.0e-10);
         Assert.assertEquals(expected.getCenter().getY(), disk.getCenter().getY(), 1.0e-10);
 
-        for (Coordinates2D s : disk.getSupport()) {
+        for (Cartesian2D s : disk.getSupport()) {
             boolean found = false;
-            for (Coordinates2D rs : refSupport) {
+            for (Cartesian2D rs : refSupport) {
                 if (s == rs) {
                     found = true;
                 }
@@ -129,14 +129,14 @@ public class WelzlEncloser2DTest {
 
         // check removing any point of the support disk fails to enclose the point
         for (int i = 0; i < disk.getSupportSize(); ++i) {
-            List<Coordinates2D> reducedSupport = new ArrayList<>();
+            List<Cartesian2D> reducedSupport = new ArrayList<>();
             int count = 0;
-            for (Coordinates2D s : disk.getSupport()) {
+            for (Cartesian2D s : disk.getSupport()) {
                 if (count++ != i) {
                     reducedSupport.add(s);
                 }
             }
-            EnclosingBall<Euclidean2D, Coordinates2D> reducedDisk = generator.ballOnSupport(reducedSupport);
+            EnclosingBall<Euclidean2D, Cartesian2D> reducedDisk = generator.ballOnSupport(reducedSupport);
             boolean foundOutside = false;
             for (int j = 0; j < points.size() && !foundOutside; ++j) {
                 if (!reducedDisk.contains(points.get(j), 1.0e-10)) {
@@ -148,20 +148,20 @@ public class WelzlEncloser2DTest {
 
     }
 
-    private EnclosingBall<Euclidean2D, Coordinates2D> checkDisk(List<Coordinates2D> points) {
+    private EnclosingBall<Euclidean2D, Cartesian2D> checkDisk(List<Cartesian2D> points) {
 
-        WelzlEncloser<Euclidean2D, Coordinates2D> encloser =
+        WelzlEncloser<Euclidean2D, Cartesian2D> encloser =
                 new WelzlEncloser<>(1.0e-10, new DiskGenerator());
-        EnclosingBall<Euclidean2D, Coordinates2D> disk = encloser.enclose(points);
+        EnclosingBall<Euclidean2D, Cartesian2D> disk = encloser.enclose(points);
 
         // all points are enclosed
-        for (Coordinates2D v : points) {
+        for (Cartesian2D v : points) {
             Assert.assertTrue(disk.contains(v, 1.0e-10));
         }
 
-        for (Coordinates2D v : points) {
+        for (Cartesian2D v : points) {
             boolean inSupport = false;
-            for (Coordinates2D s : disk.getSupport()) {
+            for (Cartesian2D s : disk.getSupport()) {
                 if (v == s) {
                     inSupport = true;
                 }

@@ -21,7 +21,7 @@ import java.util.Collection;
 import org.apache.commons.math4.exception.ConvergenceException;
 import org.apache.commons.math4.exception.NullArgumentException;
 import org.apache.commons.math4.geometry.euclidean.twod.Euclidean2D;
-import org.apache.commons.math4.geometry.euclidean.twod.Coordinates2D;
+import org.apache.commons.math4.geometry.euclidean.twod.Cartesian2D;
 import org.apache.commons.math4.geometry.hull.ConvexHullGenerator;
 
 /**
@@ -29,10 +29,10 @@ import org.apache.commons.math4.geometry.hull.ConvexHullGenerator;
  *
  * @since 3.3
  */
-public interface ConvexHullGenerator2D extends ConvexHullGenerator<Euclidean2D, Coordinates2D> {
+public interface ConvexHullGenerator2D extends ConvexHullGenerator<Euclidean2D, Cartesian2D> {
 
     /** {@inheritDoc} */
     @Override
-    ConvexHull2D generate(Collection<Coordinates2D> points) throws NullArgumentException, ConvergenceException;
+    ConvexHull2D generate(Collection<Cartesian2D> points) throws NullArgumentException, ConvergenceException;
 
 }

@@ -108,31 +108,31 @@ public class Vector2DFormat extends VectorFormat<Euclidean2D> {
     @Override
     public StringBuffer format(final Vector<Euclidean2D> vector, final StringBuffer toAppendTo,
                                final FieldPosition pos) {
-        final Coordinates2D p2 = (Coordinates2D) vector;
+        final Cartesian2D p2 = (Cartesian2D) vector;
         return format(toAppendTo, pos, p2.getX(), p2.getY());
     }
 
     /** {@inheritDoc} */
     @Override
-    public Coordinates2D parse(final String source) throws MathParseException {
+    public Cartesian2D parse(final String source) throws MathParseException {
         ParsePosition parsePosition = new ParsePosition(0);
-        Coordinates2D result = parse(source, parsePosition);
+        Cartesian2D result = parse(source, parsePosition);
         if (parsePosition.getIndex() == 0) {
             throw new MathParseException(source,
                                          parsePosition.getErrorIndex(),
-                                         Coordinates2D.class);
+                                         Cartesian2D.class);
         }
         return result;
     }
 
     /** {@inheritDoc} */
     @Override
-    public Coordinates2D parse(final String source, final ParsePosition pos) {
+    public Cartesian2D parse(final String source, final ParsePosition pos) {
         final double[] coordinates = parseCoordinates(2, source, pos);
         if (coordinates == null) {
             return null;
         }
-        return new Coordinates2D(coordinates[0], coordinates[1]);
+        return new Cartesian2D(coordinates[0], coordinates[1]);
     }
 
 }

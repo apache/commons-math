@@ -20,7 +20,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 
 import org.apache.commons.math4.exception.ConvergenceException;
-import org.apache.commons.math4.geometry.euclidean.twod.Coordinates2D;
+import org.apache.commons.math4.geometry.euclidean.twod.Cartesian2D;
 import org.apache.commons.math4.geometry.euclidean.twod.hull.ConvexHull2D;
 import org.apache.commons.math4.geometry.euclidean.twod.hull.ConvexHullGenerator2D;
 import org.apache.commons.math4.geometry.euclidean.twod.hull.MonotoneChain;
@@ -40,16 +40,16 @@ public class MonotoneChainTest extends ConvexHullGenerator2DAbstractTest {
 
     @Test(expected=ConvergenceException.class)
     public void testConvergenceException() {
-        final Collection<Coordinates2D> points = new ArrayList<>();
+        final Collection<Cartesian2D> points = new ArrayList<>();
 
-        points.add(new Coordinates2D(1, 1));
-        points.add(new Coordinates2D(1, 5));
-        points.add(new Coordinates2D(0, 7));
-        points.add(new Coordinates2D(1, 10));
-        points.add(new Coordinates2D(1, 20));
-        points.add(new Coordinates2D(20, 20));
-        points.add(new Coordinates2D(20, 40));
-        points.add(new Coordinates2D(40, 1));
+        points.add(new Cartesian2D(1, 1));
+        points.add(new Cartesian2D(1, 5));
+        points.add(new Cartesian2D(0, 7));
+        points.add(new Cartesian2D(1, 10));
+        points.add(new Cartesian2D(1, 20));
+        points.add(new Cartesian2D(20, 20));
+        points.add(new Cartesian2D(20, 40));
+        points.add(new Cartesian2D(40, 1));
 
         @SuppressWarnings("unused")
         final ConvexHull2D hull = new MonotoneChain(true, 2).generate(points);

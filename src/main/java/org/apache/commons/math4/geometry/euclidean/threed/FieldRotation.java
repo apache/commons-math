@@ -820,8 +820,8 @@ public class FieldRotation<T extends RealFieldElement<T>> implements Serializabl
                 // (-r) (Vector3D.plusK) coordinates are :
                 // sin (theta), -sin (phi) cos (theta), cos (phi) cos (theta)
                 // and we can choose to have theta in the interval [-PI/2 ; +PI/2]
-                FieldVector3D<T> v1 = applyTo(Coordinates3D.PLUS_I);
-                FieldVector3D<T> v2 = applyInverseTo(Coordinates3D.PLUS_K);
+                FieldVector3D<T> v1 = applyTo(Cartesian3D.PLUS_I);
+                FieldVector3D<T> v2 = applyInverseTo(Cartesian3D.PLUS_K);
                 if ((v2.getX().getReal() < -0.9999999999) || (v2.getX().getReal() > 0.9999999999)) {
                     throw new CardanEulerSingularityException(true);
                 }
@@ -836,8 +836,8 @@ public class FieldRotation<T extends RealFieldElement<T>> implements Serializabl
                 // (-r) (Vector3D.plusJ) coordinates are :
                 // -sin (psi), cos (phi) cos (psi), sin (phi) cos (psi)
                 // and we can choose to have psi in the interval [-PI/2 ; +PI/2]
-                FieldVector3D<T> v1 = applyTo(Coordinates3D.PLUS_I);
-                FieldVector3D<T> v2 = applyInverseTo(Coordinates3D.PLUS_J);
+                FieldVector3D<T> v1 = applyTo(Cartesian3D.PLUS_I);
+                FieldVector3D<T> v2 = applyInverseTo(Cartesian3D.PLUS_J);
                 if ((v2.getX().getReal() < -0.9999999999) || (v2.getX().getReal() > 0.9999999999)) {
                     throw new CardanEulerSingularityException(true);
                 }
@@ -852,8 +852,8 @@ public class FieldRotation<T extends RealFieldElement<T>> implements Serializabl
                 // (-r) (Vector3D.plusK) coordinates are :
                 // sin (theta) cos (phi), -sin (phi), cos (theta) cos (phi)
                 // and we can choose to have phi in the interval [-PI/2 ; +PI/2]
-                FieldVector3D<T> v1 = applyTo(Coordinates3D.PLUS_J);
-                FieldVector3D<T> v2 = applyInverseTo(Coordinates3D.PLUS_K);
+                FieldVector3D<T> v1 = applyTo(Cartesian3D.PLUS_J);
+                FieldVector3D<T> v2 = applyInverseTo(Cartesian3D.PLUS_K);
                 if ((v2.getY().getReal() < -0.9999999999) || (v2.getY().getReal() > 0.9999999999)) {
                     throw new CardanEulerSingularityException(true);
                 }
@@ -868,8 +868,8 @@ public class FieldRotation<T extends RealFieldElement<T>> implements Serializabl
                 // (-r) (Vector3D.plusI) coordinates are :
                 // cos (theta) cos (psi), sin (psi), -sin (theta) cos (psi)
                 // and we can choose to have psi in the interval [-PI/2 ; +PI/2]
-                FieldVector3D<T> v1 = applyTo(Coordinates3D.PLUS_J);
-                FieldVector3D<T> v2 = applyInverseTo(Coordinates3D.PLUS_I);
+                FieldVector3D<T> v1 = applyTo(Cartesian3D.PLUS_J);
+                FieldVector3D<T> v2 = applyInverseTo(Cartesian3D.PLUS_I);
                 if ((v2.getY().getReal() < -0.9999999999) || (v2.getY().getReal() > 0.9999999999)) {
                     throw new CardanEulerSingularityException(true);
                 }
@@ -884,8 +884,8 @@ public class FieldRotation<T extends RealFieldElement<T>> implements Serializabl
                 // (-r) (Vector3D.plusJ) coordinates are :
                 // -sin (psi) cos (phi), cos (psi) cos (phi), sin (phi)
                 // and we can choose to have phi in the interval [-PI/2 ; +PI/2]
-                FieldVector3D<T> v1 = applyTo(Coordinates3D.PLUS_K);
-                FieldVector3D<T> v2 = applyInverseTo(Coordinates3D.PLUS_J);
+                FieldVector3D<T> v1 = applyTo(Cartesian3D.PLUS_K);
+                FieldVector3D<T> v2 = applyInverseTo(Cartesian3D.PLUS_J);
                 if ((v2.getZ().getReal() < -0.9999999999) || (v2.getZ().getReal() > 0.9999999999)) {
                     throw new CardanEulerSingularityException(true);
                 }
@@ -900,8 +900,8 @@ public class FieldRotation<T extends RealFieldElement<T>> implements Serializabl
                 // (-r) (Vector3D.plusI) coordinates are :
                 // cos (psi) cos (theta), sin (psi) cos (theta), -sin (theta)
                 // and we can choose to have theta in the interval [-PI/2 ; +PI/2]
-                FieldVector3D<T> v1 = applyTo(Coordinates3D.PLUS_K);
-                FieldVector3D<T> v2 = applyInverseTo(Coordinates3D.PLUS_I);
+                FieldVector3D<T> v1 = applyTo(Cartesian3D.PLUS_K);
+                FieldVector3D<T> v2 = applyInverseTo(Cartesian3D.PLUS_I);
                 if  ((v2.getZ().getReal() < -0.9999999999) || (v2.getZ().getReal() > 0.9999999999)) {
                     throw new CardanEulerSingularityException(true);
                 }
@@ -916,8 +916,8 @@ public class FieldRotation<T extends RealFieldElement<T>> implements Serializabl
                 // (-r) (Vector3D.plusI) coordinates are :
                 // cos (theta), sin (theta) sin (phi1), -sin (theta) cos (phi1)
                 // and we can choose to have theta in the interval [0 ; PI]
-                FieldVector3D<T> v1 = applyTo(Coordinates3D.PLUS_I);
-                FieldVector3D<T> v2 = applyInverseTo(Coordinates3D.PLUS_I);
+                FieldVector3D<T> v1 = applyTo(Cartesian3D.PLUS_I);
+                FieldVector3D<T> v2 = applyInverseTo(Cartesian3D.PLUS_I);
                 if ((v2.getX().getReal() < -0.9999999999) || (v2.getX().getReal() > 0.9999999999)) {
                     throw new CardanEulerSingularityException(false);
                 }
@@ -932,8 +932,8 @@ public class FieldRotation<T extends RealFieldElement<T>> implements Serializabl
                 // (-r) (Vector3D.plusI) coordinates are :
                 // cos (psi), sin (psi) cos (phi1), sin (psi) sin (phi1)
                 // and we can choose to have psi in the interval [0 ; PI]
-                FieldVector3D<T> v1 = applyTo(Coordinates3D.PLUS_I);
-                FieldVector3D<T> v2 = applyInverseTo(Coordinates3D.PLUS_I);
+                FieldVector3D<T> v1 = applyTo(Cartesian3D.PLUS_I);
+                FieldVector3D<T> v2 = applyInverseTo(Cartesian3D.PLUS_I);
                 if ((v2.getX().getReal() < -0.9999999999) || (v2.getX().getReal() > 0.9999999999)) {
                     throw new CardanEulerSingularityException(false);
                 }
@@ -948,8 +948,8 @@ public class FieldRotation<T extends RealFieldElement<T>> implements Serializabl
                 // (-r) (Vector3D.plusJ) coordinates are :
                 //  sin (theta1) sin (phi), cos (phi), cos (theta1) sin (phi)
                 // and we can choose to have phi in the interval [0 ; PI]
-                FieldVector3D<T> v1 = applyTo(Coordinates3D.PLUS_J);
-                FieldVector3D<T> v2 = applyInverseTo(Coordinates3D.PLUS_J);
+                FieldVector3D<T> v1 = applyTo(Cartesian3D.PLUS_J);
+                FieldVector3D<T> v2 = applyInverseTo(Cartesian3D.PLUS_J);
                 if ((v2.getY().getReal() < -0.9999999999) || (v2.getY().getReal() > 0.9999999999)) {
                     throw new CardanEulerSingularityException(false);
                 }
@@ -964,8 +964,8 @@ public class FieldRotation<T extends RealFieldElement<T>> implements Serializabl
                 // (-r) (Vector3D.plusJ) coordinates are :
                 //  -cos (theta1) sin (psi), cos (psi), sin (theta1) sin (psi)
                 // and we can choose to have psi in the interval [0 ; PI]
-                FieldVector3D<T> v1 = applyTo(Coordinates3D.PLUS_J);
-                FieldVector3D<T> v2 = applyInverseTo(Coordinates3D.PLUS_J);
+                FieldVector3D<T> v1 = applyTo(Cartesian3D.PLUS_J);
+                FieldVector3D<T> v2 = applyInverseTo(Cartesian3D.PLUS_J);
                 if ((v2.getY().getReal() < -0.9999999999) || (v2.getY().getReal() > 0.9999999999)) {
                     throw new CardanEulerSingularityException(false);
                 }
@@ -980,8 +980,8 @@ public class FieldRotation<T extends RealFieldElement<T>> implements Serializabl
                 // (-r) (Vector3D.plusK) coordinates are :
                 //  sin (psi1) sin (phi), -cos (psi1) sin (phi), cos (phi)
                 // and we can choose to have phi in the interval [0 ; PI]
-                FieldVector3D<T> v1 = applyTo(Coordinates3D.PLUS_K);
-                FieldVector3D<T> v2 = applyInverseTo(Coordinates3D.PLUS_K);
+                FieldVector3D<T> v1 = applyTo(Cartesian3D.PLUS_K);
+                FieldVector3D<T> v2 = applyInverseTo(Cartesian3D.PLUS_K);
                 if ((v2.getZ().getReal() < -0.9999999999) || (v2.getZ().getReal() > 0.9999999999)) {
                     throw new CardanEulerSingularityException(false);
                 }
@@ -996,8 +996,8 @@ public class FieldRotation<T extends RealFieldElement<T>> implements Serializabl
                 // (-r) (Vector3D.plusK) coordinates are :
                 //  cos (psi1) sin (theta), sin (psi1) sin (theta), cos (theta)
                 // and we can choose to have theta in the interval [0 ; PI]
-                FieldVector3D<T> v1 = applyTo(Coordinates3D.PLUS_K);
-                FieldVector3D<T> v2 = applyInverseTo(Coordinates3D.PLUS_K);
+                FieldVector3D<T> v1 = applyTo(Cartesian3D.PLUS_K);
+                FieldVector3D<T> v2 = applyInverseTo(Cartesian3D.PLUS_K);
                 if ((v2.getZ().getReal() < -0.9999999999) || (v2.getZ().getReal() > 0.9999999999)) {
                     throw new CardanEulerSingularityException(false);
                 }
@@ -1100,7 +1100,7 @@ public class FieldRotation<T extends RealFieldElement<T>> implements Serializabl
      * @param u vector to apply the rotation to
      * @return a new vector which is the image of u by the rotation
      */
-    public FieldVector3D<T> applyTo(final Coordinates3D u) {
+    public FieldVector3D<T> applyTo(final Cartesian3D u) {
 
         final double x = u.getX();
         final double y = u.getY();
@@ -1194,7 +1194,7 @@ public class FieldRotation<T extends RealFieldElement<T>> implements Serializabl
      * @param u vector to apply the inverse of the rotation to
      * @return a new vector which such that u is its image by the rotation
      */
-    public FieldVector3D<T> applyInverseTo(final Coordinates3D u) {
+    public FieldVector3D<T> applyInverseTo(final Cartesian3D u) {
 
         final double x = u.getX();
         final double y = u.getY();

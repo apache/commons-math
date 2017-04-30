@@ -27,33 +27,33 @@ import org.apache.commons.math4.util.FastMath;
 import org.apache.commons.math4.util.MathUtils;
 
 /** This class represents a 1D point or a 1D vector.
- * <p>An instance of Coordinates1D represents the point with the corresponding
- * coordinates.</p>
- * <p>An instance of Coordinates1D also represents the vector which begins at
+ * <p>An instance of Cartesian1D represents the point with the corresponding
+ * Cartesian coordinates.</p>
+ * <p>An instance of Cartesian1D also represents the vector which begins at
  * the origin and ends at the point corresponding to the coordinates.</p>
  * <p>Instances of this class are guaranteed to be immutable.</p>
  * @since 4.0
  */
-public class Coordinates1D implements Point<Euclidean1D>, Vector<Euclidean1D> {
+public class Cartesian1D implements Point<Euclidean1D>, Vector<Euclidean1D> {
 
     /** Origin (coordinates: 0). */
-    public static final Coordinates1D ZERO = new Coordinates1D(0.0);
+    public static final Cartesian1D ZERO = new Cartesian1D(0.0);
 
     /** Unit (coordinates: 1). */
-    public static final Coordinates1D ONE  = new Coordinates1D(1.0);
+    public static final Cartesian1D ONE  = new Cartesian1D(1.0);
 
     // CHECKSTYLE: stop ConstantName
     /** A vector with all coordinates set to NaN. */
-    public static final Coordinates1D NaN = new Coordinates1D(Double.NaN);
+    public static final Cartesian1D NaN = new Cartesian1D(Double.NaN);
     // CHECKSTYLE: resume ConstantName
 
     /** A vector with all coordinates set to positive infinity. */
-    public static final Coordinates1D POSITIVE_INFINITY =
-        new Coordinates1D(Double.POSITIVE_INFINITY);
+    public static final Cartesian1D POSITIVE_INFINITY =
+        new Cartesian1D(Double.POSITIVE_INFINITY);
 
     /** A vector with all coordinates set to negative infinity. */
-    public static final Coordinates1D NEGATIVE_INFINITY =
-        new Coordinates1D(Double.NEGATIVE_INFINITY);
+    public static final Cartesian1D NEGATIVE_INFINITY =
+        new Cartesian1D(Double.NEGATIVE_INFINITY);
 
     /** Serializable UID. */
     private static final long serialVersionUID = 7556674948671647925L;
@@ -66,7 +66,7 @@ public class Coordinates1D implements Point<Euclidean1D>, Vector<Euclidean1D> {
      * @param x abscissa
      * @see #getX()
      */
-    public Coordinates1D(double x) {
+    public Cartesian1D(double x) {
         this.x = x;
     }
 
@@ -76,7 +76,7 @@ public class Coordinates1D implements Point<Euclidean1D>, Vector<Euclidean1D> {
      * @param a scale factor
      * @param u base (unscaled) vector
      */
-    public Coordinates1D(double a, Coordinates1D u) {
+    public Cartesian1D(double a, Cartesian1D u) {
         this.x = a * u.x;
     }
 
@@ -88,7 +88,7 @@ public class Coordinates1D implements Point<Euclidean1D>, Vector<Euclidean1D> {
      * @param a2 second scale factor
      * @param u2 second base (unscaled) vector
      */
-    public Coordinates1D(double a1, Coordinates1D u1, double a2, Coordinates1D u2) {
+    public Cartesian1D(double a1, Cartesian1D u1, double a2, Cartesian1D u2) {
         this.x = a1 * u1.x + a2 * u2.x;
     }
 
@@ -102,8 +102,8 @@ public class Coordinates1D implements Point<Euclidean1D>, Vector<Euclidean1D> {
      * @param a3 third scale factor
      * @param u3 third base (unscaled) vector
      */
-    public Coordinates1D(double a1, Coordinates1D u1, double a2, Coordinates1D u2,
-                   double a3, Coordinates1D u3) {
+    public Cartesian1D(double a1, Cartesian1D u1, double a2, Cartesian1D u2,
+                   double a3, Cartesian1D u3) {
         this.x = a1 * u1.x + a2 * u2.x + a3 * u3.x;
     }
 
@@ -119,8 +119,8 @@ public class Coordinates1D implements Point<Euclidean1D>, Vector<Euclidean1D> {
      * @param a4 fourth scale factor
      * @param u4 fourth base (unscaled) vector
      */
-    public Coordinates1D(double a1, Coordinates1D u1, double a2, Coordinates1D u2,
-                   double a3, Coordinates1D u3, double a4, Coordinates1D u4) {
+    public Cartesian1D(double a1, Cartesian1D u1, double a2, Cartesian1D u2,
+                   double a3, Cartesian1D u3, double a4, Cartesian1D u4) {
         this.x = a1 * u1.x + a2 * u2.x + a3 * u3.x + a4 * u4.x;
     }
 
@@ -140,7 +140,7 @@ public class Coordinates1D implements Point<Euclidean1D>, Vector<Euclidean1D> {
 
     /** {@inheritDoc} */
     @Override
-    public Coordinates1D getZero() {
+    public Cartesian1D getZero() {
         return ZERO;
     }
 
@@ -170,35 +170,35 @@ public class Coordinates1D implements Point<Euclidean1D>, Vector<Euclidean1D> {
 
     /** {@inheritDoc} */
     @Override
-    public Coordinates1D add(Vector<Euclidean1D> v) {
-        Coordinates1D v1 = (Coordinates1D) v;
-        return new Coordinates1D(x + v1.getX());
+    public Cartesian1D add(Vector<Euclidean1D> v) {
+        Cartesian1D v1 = (Cartesian1D) v;
+        return new Cartesian1D(x + v1.getX());
     }
 
     /** {@inheritDoc} */
     @Override
-    public Coordinates1D add(double factor, Vector<Euclidean1D> v) {
-        Coordinates1D v1 = (Coordinates1D) v;
-        return new Coordinates1D(x + factor * v1.getX());
+    public Cartesian1D add(double factor, Vector<Euclidean1D> v) {
+        Cartesian1D v1 = (Cartesian1D) v;
+        return new Cartesian1D(x + factor * v1.getX());
     }
 
     /** {@inheritDoc} */
     @Override
-    public Coordinates1D subtract(Vector<Euclidean1D> p) {
-        Coordinates1D p3 = (Coordinates1D) p;
-        return new Coordinates1D(x - p3.x);
+    public Cartesian1D subtract(Vector<Euclidean1D> p) {
+        Cartesian1D p3 = (Cartesian1D) p;
+        return new Cartesian1D(x - p3.x);
     }
 
     /** {@inheritDoc} */
     @Override
-    public Coordinates1D subtract(double factor, Vector<Euclidean1D> v) {
-        Coordinates1D v1 = (Coordinates1D) v;
-        return new Coordinates1D(x - factor * v1.getX());
+    public Cartesian1D subtract(double factor, Vector<Euclidean1D> v) {
+        Cartesian1D v1 = (Cartesian1D) v;
+        return new Cartesian1D(x - factor * v1.getX());
     }
 
     /** {@inheritDoc} */
     @Override
-    public Coordinates1D normalize() throws MathArithmeticException {
+    public Cartesian1D normalize() throws MathArithmeticException {
         double s = getNorm();
         if (s == 0) {
             throw new MathArithmeticException(LocalizedFormats.CANNOT_NORMALIZE_A_ZERO_NORM_VECTOR);
@@ -207,14 +207,14 @@ public class Coordinates1D implements Point<Euclidean1D>, Vector<Euclidean1D> {
     }
     /** {@inheritDoc} */
     @Override
-    public Coordinates1D negate() {
-        return new Coordinates1D(-x);
+    public Cartesian1D negate() {
+        return new Cartesian1D(-x);
     }
 
     /** {@inheritDoc} */
     @Override
-    public Coordinates1D scalarMultiply(double a) {
-        return new Coordinates1D(a * x);
+    public Cartesian1D scalarMultiply(double a) {
+        return new Cartesian1D(a * x);
     }
 
     /** {@inheritDoc} */
@@ -232,28 +232,28 @@ public class Coordinates1D implements Point<Euclidean1D>, Vector<Euclidean1D> {
     /** {@inheritDoc} */
     @Override
     public double distance1(Vector<Euclidean1D> p) {
-        Coordinates1D p3 = (Coordinates1D) p;
-        final double dx = FastMath.abs(p3.x - x);
+        Cartesian1D p1 = (Cartesian1D) p;
+        final double dx = FastMath.abs(p1.x - x);
         return dx;
     }
 
     /** {@inheritDoc} */
     @Override
     public double distance(Point<Euclidean1D> p) {
-        return distance((Coordinates1D) p);
+        return distance((Cartesian1D) p);
     }
 
     /** {@inheritDoc} */
     @Override
     public double distance(Vector<Euclidean1D> v) {
-        return distance((Coordinates1D) v);
+        return distance((Cartesian1D) v);
     }
 
     /** Compute the distance between the instance and other coordinates.
      * @param c other coordinates
      * @return the distance between the instance and c
      */
-    public double distance(Coordinates1D c) {
+    public double distance(Cartesian1D c) {
         final double dx = c.x - x;
         return FastMath.abs(dx);
     }
@@ -261,27 +261,27 @@ public class Coordinates1D implements Point<Euclidean1D>, Vector<Euclidean1D> {
     /** {@inheritDoc} */
     @Override
     public double distanceInf(Vector<Euclidean1D> p) {
-        Coordinates1D p3 = (Coordinates1D) p;
-        final double dx = FastMath.abs(p3.x - x);
+        Cartesian1D p1 = (Cartesian1D) p;
+        final double dx = FastMath.abs(p1.x - x);
         return dx;
     }
 
     /** {@inheritDoc} */
     @Override
     public double distanceSq(Vector<Euclidean1D> p) {
-        Coordinates1D p3 = (Coordinates1D) p;
-        final double dx = p3.x - x;
+        Cartesian1D p1 = (Cartesian1D) p;
+        final double dx = p1.x - x;
         return dx * dx;
     }
 
     /** {@inheritDoc} */
     @Override
     public double dotProduct(final Vector<Euclidean1D> v) {
-        final Coordinates1D v1 = (Coordinates1D) v;
+        final Cartesian1D v1 = (Cartesian1D) v;
         return x * v1.x;
     }
 
-    /** Compute the distance between two vectors according to the L<sub>2</sub> norm.
+    /** Compute the distance between two points according to the L<sub>2</sub> norm.
      * <p>Calling this method is equivalent to calling:
      * <code>p1.subtract(p2).getNorm()</code> except that no intermediate
      * vector is built</p>
@@ -289,11 +289,11 @@ public class Coordinates1D implements Point<Euclidean1D>, Vector<Euclidean1D> {
      * @param p2 second vector
      * @return the distance between p1 and p2 according to the L<sub>2</sub> norm
      */
-    public static double distance(Coordinates1D p1, Coordinates1D p2) {
+    public static double distance(Cartesian1D p1, Cartesian1D p2) {
         return p1.distance(p2);
     }
 
-    /** Compute the distance between two vectors according to the L<sub>&infin;</sub> norm.
+    /** Compute the distance between two points according to the L<sub>&infin;</sub> norm.
      * <p>Calling this method is equivalent to calling:
      * <code>p1.subtract(p2).getNormInf()</code> except that no intermediate
      * vector is built</p>
@@ -301,11 +301,11 @@ public class Coordinates1D implements Point<Euclidean1D>, Vector<Euclidean1D> {
      * @param p2 second vector
      * @return the distance between p1 and p2 according to the L<sub>&infin;</sub> norm
      */
-    public static double distanceInf(Coordinates1D p1, Coordinates1D p2) {
+    public static double distanceInf(Cartesian1D p1, Cartesian1D p2) {
         return p1.distanceInf(p2);
     }
 
-    /** Compute the square of the distance between two vectors.
+    /** Compute the square of the distance between two points.
      * <p>Calling this method is equivalent to calling:
      * <code>p1.subtract(p2).getNormSq()</code> except that no intermediate
      * vector is built</p>
@@ -313,7 +313,7 @@ public class Coordinates1D implements Point<Euclidean1D>, Vector<Euclidean1D> {
      * @param p2 second vector
      * @return the square of the distance between p1 and p2
      */
-    public static double distanceSq(Coordinates1D p1, Coordinates1D p2) {
+    public static double distanceSq(Cartesian1D p1, Cartesian1D p2) {
         return p1.distanceSq(p2);
     }
 
@@ -343,8 +343,8 @@ public class Coordinates1D implements Point<Euclidean1D>, Vector<Euclidean1D> {
             return true;
         }
 
-        if (other instanceof Coordinates1D) {
-            final Coordinates1D rhs = (Coordinates1D)other;
+        if (other instanceof Cartesian1D) {
+            final Cartesian1D rhs = (Cartesian1D)other;
             if (rhs.isNaN()) {
                 return this.isNaN();
             }

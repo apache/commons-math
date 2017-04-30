@@ -16,7 +16,7 @@
  */
 package org.apache.commons.math4.geometry.spherical.twod;
 
-import org.apache.commons.math4.geometry.euclidean.threed.Coordinates3D;
+import org.apache.commons.math4.geometry.euclidean.threed.Cartesian3D;
 import org.apache.commons.math4.geometry.partitioning.AbstractSubHyperplane;
 import org.apache.commons.math4.geometry.partitioning.Hyperplane;
 import org.apache.commons.math4.geometry.partitioning.Region;
@@ -52,7 +52,7 @@ public class SubCircle extends AbstractSubHyperplane<Sphere2D, Sphere1D> {
 
         final Circle thisCircle   = (Circle) getHyperplane();
         final Circle otherCircle  = (Circle) hyperplane;
-        final double angle = Coordinates3D.angle(thisCircle.getPole(), otherCircle.getPole());
+        final double angle = Cartesian3D.angle(thisCircle.getPole(), otherCircle.getPole());
 
         if (angle < thisCircle.getTolerance() || angle > FastMath.PI - thisCircle.getTolerance()) {
             // the two circles are aligned or opposite

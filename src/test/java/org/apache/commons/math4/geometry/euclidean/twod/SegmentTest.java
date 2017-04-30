@@ -18,7 +18,7 @@ package org.apache.commons.math4.geometry.euclidean.twod;
 
 import org.apache.commons.math4.geometry.euclidean.twod.Line;
 import org.apache.commons.math4.geometry.euclidean.twod.Segment;
-import org.apache.commons.math4.geometry.euclidean.twod.Coordinates2D;
+import org.apache.commons.math4.geometry.euclidean.twod.Cartesian2D;
 import org.apache.commons.math4.util.FastMath;
 import org.junit.Assert;
 import org.junit.Test;
@@ -27,20 +27,20 @@ public class SegmentTest {
 
     @Test
     public void testDistance() {
-        Coordinates2D start = new Coordinates2D(2, 2);
-        Coordinates2D end = new Coordinates2D(-2, -2);
+        Cartesian2D start = new Cartesian2D(2, 2);
+        Cartesian2D end = new Cartesian2D(-2, -2);
         Segment segment = new Segment(start, end, new Line(start, end, 1.0e-10));
 
         // distance to center of segment
-        Assert.assertEquals(FastMath.sqrt(2), segment.distance(new Coordinates2D(1, -1)), 1.0e-10);
+        Assert.assertEquals(FastMath.sqrt(2), segment.distance(new Cartesian2D(1, -1)), 1.0e-10);
 
         // distance a point on segment
-        Assert.assertEquals(FastMath.sin(Math.PI / 4.0), segment.distance(new Coordinates2D(0, -1)), 1.0e-10);
+        Assert.assertEquals(FastMath.sin(Math.PI / 4.0), segment.distance(new Cartesian2D(0, -1)), 1.0e-10);
 
         // distance to end point
-        Assert.assertEquals(FastMath.sqrt(8), segment.distance(new Coordinates2D(0, 4)), 1.0e-10);
+        Assert.assertEquals(FastMath.sqrt(8), segment.distance(new Cartesian2D(0, 4)), 1.0e-10);
 
         // distance to start point
-        Assert.assertEquals(FastMath.sqrt(8), segment.distance(new Coordinates2D(0, -4)), 1.0e-10);
+        Assert.assertEquals(FastMath.sqrt(8), segment.distance(new Cartesian2D(0, -4)), 1.0e-10);
     }
 }

@@ -48,7 +48,7 @@ import org.apache.commons.math4.geometry.partitioning.SubHyperplane;
 class NestedLoops {
 
     /** Boundary loop. */
-    private Coordinates2D[] loop;
+    private Cartesian2D[] loop;
 
     /** Surrounded loops. */
     private List<NestedLoops> surrounded;
@@ -82,7 +82,7 @@ class NestedLoops {
      * @exception MathIllegalArgumentException if an outline has an open boundary loop
      * @since 3.3
      */
-    private NestedLoops(final Coordinates2D[] loop, final double tolerance)
+    private NestedLoops(final Cartesian2D[] loop, final double tolerance)
         throws MathIllegalArgumentException {
 
         if (loop[0] == null) {
@@ -95,9 +95,9 @@ class NestedLoops {
 
         // build the polygon defined by the loop
         final ArrayList<SubHyperplane<Euclidean2D>> edges = new ArrayList<>();
-        Coordinates2D current = loop[loop.length - 1];
+        Cartesian2D current = loop[loop.length - 1];
         for (int i = 0; i < loop.length; ++i) {
-            final Coordinates2D previous = current;
+            final Cartesian2D previous = current;
             current = loop[i];
             final Line   line   = new Line(previous, current, tolerance);
             final IntervalsSet region =
@@ -123,7 +123,7 @@ class NestedLoops {
      * @exception MathIllegalArgumentException if an outline has crossing
      * boundary loops or open boundary loops
      */
-    public void add(final Coordinates2D[] bLoop) throws MathIllegalArgumentException {
+    public void add(final Cartesian2D[] bLoop) throws MathIllegalArgumentException {
         add(new NestedLoops(bLoop, tolerance));
     }
 
@@ -185,7 +185,7 @@ class NestedLoops {
             int min = -1;
             int max = loop.length;
             while (++min < --max) {
-                final Coordinates2D tmp = loop[min];
+                final Cartesian2D tmp = loop[min];
                 loop[min] = loop[max];
                 loop[max] = tmp;
             }

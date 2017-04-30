@@ -22,7 +22,6 @@ import java.text.ParsePosition;
 import java.util.Locale;
 
 import org.apache.commons.math4.exception.MathParseException;
-import org.apache.commons.math4.geometry.euclidean.oned.Coordinates1D;
 import org.apache.commons.math4.geometry.euclidean.oned.Vector1DFormat;
 import org.junit.Assert;
 import org.junit.Test;
@@ -45,7 +44,7 @@ public abstract class Vector1DFormatAbstractTest {
 
     @Test
     public void testSimpleNoDecimals() {
-        Coordinates1D c = new Coordinates1D(1);
+        Cartesian1D c = new Cartesian1D(1);
         String expected = "{1}";
         String actual = vector1DFormat.format(c);
         Assert.assertEquals(expected, actual);
@@ -53,7 +52,7 @@ public abstract class Vector1DFormatAbstractTest {
 
     @Test
     public void testSimpleWithDecimals() {
-        Coordinates1D c = new Coordinates1D(1.23);
+        Cartesian1D c = new Cartesian1D(1.23);
         String expected =
             "{1"    + getDecimalCharacter() +
             "23}";
@@ -63,7 +62,7 @@ public abstract class Vector1DFormatAbstractTest {
 
     @Test
     public void testSimpleWithDecimalsTrunc() {
-        Coordinates1D c = new Coordinates1D(1.232323232323);
+        Cartesian1D c = new Cartesian1D(1.232323232323);
         String expected =
             "{1"    + getDecimalCharacter() +
             "2323232323}";
@@ -73,7 +72,7 @@ public abstract class Vector1DFormatAbstractTest {
 
     @Test
     public void testNegativeX() {
-        Coordinates1D c = new Coordinates1D(-1.232323232323);
+        Cartesian1D c = new Cartesian1D(-1.232323232323);
         String expected =
             "{-1"    + getDecimalCharacter() +
             "2323232323}";
@@ -83,7 +82,7 @@ public abstract class Vector1DFormatAbstractTest {
 
     @Test
     public void testNonDefaultSetting() {
-        Coordinates1D c = new Coordinates1D(1);
+        Cartesian1D c = new Cartesian1D(1);
         String expected = "[1]";
         String actual = vector1DFormatSquare.format(c);
         Assert.assertEquals(expected, actual);
@@ -94,7 +93,7 @@ public abstract class Vector1DFormatAbstractTest {
         Locale defaultLocal = Locale.getDefault();
         Locale.setDefault(getLocale());
 
-        Coordinates1D c = new Coordinates1D(232.22222222222);
+        Cartesian1D c = new Cartesian1D(232.22222222222);
         String expected =
             "{232"    + getDecimalCharacter() +
             "2222222222}";
@@ -106,7 +105,7 @@ public abstract class Vector1DFormatAbstractTest {
 
     @Test
     public void testNan() {
-        Coordinates1D c = Coordinates1D.NaN;
+        Cartesian1D c = Cartesian1D.NaN;
         String expected = "{(NaN)}";
         String actual = vector1DFormat.format(c);
         Assert.assertEquals(expected, actual);
@@ -114,7 +113,7 @@ public abstract class Vector1DFormatAbstractTest {
 
     @Test
     public void testPositiveInfinity() {
-        Coordinates1D c = Coordinates1D.POSITIVE_INFINITY;
+        Cartesian1D c = Cartesian1D.POSITIVE_INFINITY;
         String expected = "{(Infinity)}";
         String actual = vector1DFormat.format(c);
         Assert.assertEquals(expected, actual);
@@ -122,7 +121,7 @@ public abstract class Vector1DFormatAbstractTest {
 
     @Test
     public void tesNegativeInfinity() {
-        Coordinates1D c = Coordinates1D.NEGATIVE_INFINITY;
+        Cartesian1D c = Cartesian1D.NEGATIVE_INFINITY;
         String expected = "{(-Infinity)}";
         String actual = vector1DFormat.format(c);
         Assert.assertEquals(expected, actual);
@@ -131,14 +130,14 @@ public abstract class Vector1DFormatAbstractTest {
     @Test
     public void testParseSimpleNoDecimals() throws MathParseException {
         String source = "{1}";
-        Coordinates1D expected = new Coordinates1D(1);
-        Coordinates1D actual = vector1DFormat.parse(source);
+        Cartesian1D expected = new Cartesian1D(1);
+        Cartesian1D actual = vector1DFormat.parse(source);
         Assert.assertEquals(expected, actual);
     }
 
     @Test
     public void testParseIgnoredWhitespace() {
-        Coordinates1D expected = new Coordinates1D(1);
+        Cartesian1D expected = new Cartesian1D(1);
         ParsePosition pos1 = new ParsePosition(0);
         String source1 = "{1}";
         Assert.assertEquals(expected, vector1DFormat.parse(source1, pos1));
@@ -154,8 +153,8 @@ public abstract class Vector1DFormatAbstractTest {
         String source =
             "{1" + getDecimalCharacter() +
             "23}";
-        Coordinates1D expected = new Coordinates1D(1.23);
-        Coordinates1D actual = vector1DFormat.parse(source);
+        Cartesian1D expected = new Cartesian1D(1.23);
+        Cartesian1D actual = vector1DFormat.parse(source);
         Assert.assertEquals(expected, actual);
     }
 
@@ -164,8 +163,8 @@ public abstract class Vector1DFormatAbstractTest {
         String source =
             "{1" + getDecimalCharacter() +
             "2323}";
-        Coordinates1D expected = new Coordinates1D(1.2323);
-        Coordinates1D actual = vector1DFormat.parse(source);
+        Cartesian1D expected = new Cartesian1D(1.2323);
+        Cartesian1D actual = vector1DFormat.parse(source);
         Assert.assertEquals(expected, actual);
     }
 
@@ -174,8 +173,8 @@ public abstract class Vector1DFormatAbstractTest {
         String source =
             "{-1" + getDecimalCharacter() +
             "2323}";
-        Coordinates1D expected = new Coordinates1D(-1.2323);
-        Coordinates1D actual = vector1DFormat.parse(source);
+        Cartesian1D expected = new Cartesian1D(-1.2323);
+        Cartesian1D actual = vector1DFormat.parse(source);
         Assert.assertEquals(expected, actual);
     }
 
@@ -184,8 +183,8 @@ public abstract class Vector1DFormatAbstractTest {
         String source =
             "{1" + getDecimalCharacter() +
             "2323}";
-        Coordinates1D expected = new Coordinates1D(1.2323);
-        Coordinates1D actual = vector1DFormat.parse(source);
+        Cartesian1D expected = new Cartesian1D(1.2323);
+        Cartesian1D actual = vector1DFormat.parse(source);
         Assert.assertEquals(expected, actual);
     }
 
@@ -194,8 +193,8 @@ public abstract class Vector1DFormatAbstractTest {
         String source =
             "{1" + getDecimalCharacter() +
             "2323}";
-        Coordinates1D expected = new Coordinates1D(1.2323);
-        Coordinates1D actual = vector1DFormat.parse(source);
+        Cartesian1D expected = new Cartesian1D(1.2323);
+        Cartesian1D actual = vector1DFormat.parse(source);
         Assert.assertEquals(expected, actual);
     }
 
@@ -204,8 +203,8 @@ public abstract class Vector1DFormatAbstractTest {
         String source =
             "{-1" + getDecimalCharacter() +
             "2323}";
-        Coordinates1D expected = new Coordinates1D(-1.2323);
-        Coordinates1D actual = vector1DFormat.parse(source);
+        Cartesian1D expected = new Cartesian1D(-1.2323);
+        Cartesian1D actual = vector1DFormat.parse(source);
         Assert.assertEquals(expected, actual);
     }
 
@@ -214,8 +213,8 @@ public abstract class Vector1DFormatAbstractTest {
         String source =
             "{0" + getDecimalCharacter() +
             "0}";
-        Coordinates1D expected = new Coordinates1D(0.0);
-        Coordinates1D actual = vector1DFormat.parse(source);
+        Cartesian1D expected = new Cartesian1D(0.0);
+        Cartesian1D actual = vector1DFormat.parse(source);
         Assert.assertEquals(expected, actual);
     }
 
@@ -224,30 +223,30 @@ public abstract class Vector1DFormatAbstractTest {
         String source =
             "[1" + getDecimalCharacter() +
             "2323]";
-        Coordinates1D expected = new Coordinates1D(1.2323);
-        Coordinates1D actual = vector1DFormatSquare.parse(source);
+        Cartesian1D expected = new Cartesian1D(1.2323);
+        Cartesian1D actual = vector1DFormatSquare.parse(source);
         Assert.assertEquals(expected, actual);
     }
 
     @Test
     public void testParseNan() throws MathParseException {
         String source = "{(NaN)}";
-        Coordinates1D actual = vector1DFormat.parse(source);
-        Assert.assertEquals(Coordinates1D.NaN, actual);
+        Cartesian1D actual = vector1DFormat.parse(source);
+        Assert.assertEquals(Cartesian1D.NaN, actual);
     }
 
     @Test
     public void testParsePositiveInfinity() throws MathParseException {
         String source = "{(Infinity)}";
-        Coordinates1D actual = vector1DFormat.parse(source);
-        Assert.assertEquals(Coordinates1D.POSITIVE_INFINITY, actual);
+        Cartesian1D actual = vector1DFormat.parse(source);
+        Assert.assertEquals(Cartesian1D.POSITIVE_INFINITY, actual);
     }
 
     @Test
     public void testParseNegativeInfinity() throws MathParseException {
         String source = "{(-Infinity)}";
-        Coordinates1D actual = vector1DFormat.parse(source);
-        Assert.assertEquals(Coordinates1D.NEGATIVE_INFINITY, actual);
+        Cartesian1D actual = vector1DFormat.parse(source);
+        Assert.assertEquals(Cartesian1D.NEGATIVE_INFINITY, actual);
     }
 
     @Test

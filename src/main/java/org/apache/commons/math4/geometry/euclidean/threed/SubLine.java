@@ -24,7 +24,7 @@ import org.apache.commons.math4.geometry.Point;
 import org.apache.commons.math4.geometry.euclidean.oned.Euclidean1D;
 import org.apache.commons.math4.geometry.euclidean.oned.Interval;
 import org.apache.commons.math4.geometry.euclidean.oned.IntervalsSet;
-import org.apache.commons.math4.geometry.euclidean.oned.Coordinates1D;
+import org.apache.commons.math4.geometry.euclidean.oned.Cartesian1D;
 import org.apache.commons.math4.geometry.partitioning.Region.Location;
 
 /** This class represents a subset of a {@link Line}.
@@ -54,7 +54,7 @@ public class SubLine {
      * @exception MathIllegalArgumentException if the points are equal
      * @since 3.3
      */
-    public SubLine(final Coordinates3D start, final Coordinates3D end, final double tolerance)
+    public SubLine(final Cartesian3D start, final Cartesian3D end, final double tolerance)
         throws MathIllegalArgumentException {
         this(new Line(start, end, tolerance), buildIntervalSet(start, end, tolerance));
     }
@@ -88,8 +88,8 @@ public class SubLine {
         final List<Segment> segments = new ArrayList<>(list.size());
 
         for (final Interval interval : list) {
-            final Coordinates3D start = line.toSpace((Point<Euclidean1D>) new Coordinates1D(interval.getInf()));
-            final Coordinates3D end   = line.toSpace((Point<Euclidean1D>) new Coordinates1D(interval.getSup()));
+            final Cartesian3D start = line.toSpace(new Cartesian1D(interval.getInf()));
+            final Cartesian3D end   = line.toSpace(new Cartesian1D(interval.getSup()));
             segments.add(new Segment(start, end, line));
         }
 
@@ -111,10 +111,10 @@ public class SubLine {
      * occurring on endpoints lead to null being returned
      * @return the intersection point if there is one, null if the sub-lines don't intersect
      */
-    public Coordinates3D intersection(final SubLine subLine, final boolean includeEndPoints) {
+    public Cartesian3D intersection(final SubLine subLine, final boolean includeEndPoints) {
 
         // compute the intersection on infinite line
-        Coordinates3D v1D = line.intersection(subLine.line);
+        Cartesian3D v1D = line.intersection(subLine.line);
         if (v1D == null) {
             return null;
         }
@@ -140,7 +140,7 @@ public class SubLine {
      * @param tolerance tolerance below which points are considered identical
      * @exception MathIllegalArgumentException if the points are equal
      */
-    private static IntervalsSet buildIntervalSet(final Coordinates3D start, final Coordinates3D end, final double tolerance)
+    private static IntervalsSet buildIntervalSet(final Cartesian3D start, final Cartesian3D end, final double tolerance)
         throws MathIllegalArgumentException {
         final Line line = new Line(start, end, tolerance);
         return new IntervalsSet(line.toSubSpace((Point<Euclidean3D>) start).getX(),
