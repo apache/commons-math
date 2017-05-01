@@ -211,7 +211,7 @@ public class MultivariateNormalDistribution
     private double getExponentTerm(final double[] values) {
         final double[] centered = new double[values.length];
         for (int i = 0; i < centered.length; i++) {
-            centered[i] = values[i] - getMeans()[i];
+            centered[i] = values[i] - means[i];
         }
         final double[] preMultiplied = covarianceMatrixInverse.preMultiply(centered);
         double sum = 0;
