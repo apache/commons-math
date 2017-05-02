@@ -21,6 +21,7 @@ import java.math.BigDecimal;
 
 import org.apache.commons.math4.exception.MathArithmeticException;
 import org.apache.commons.math4.exception.MathIllegalArgumentException;
+import org.apache.commons.math4.exception.NotFiniteNumberException;
 import org.apache.commons.math4.exception.util.LocalizedFormats;
 
 /**
@@ -54,6 +55,12 @@ public class Precision {
 
     /** Exponent offset in IEEE754 representation. */
     private static final long EXPONENT_OFFSET = 1023l;
+    
+    /** IEEE double 64 exponent mask.*/
+    public static final long EXPONENT_MASK = 0x7ff0000000000000L;
+
+    /** Fraction mask */
+    public static final long FRACTION_MASK = 0x000FFFFFFFFFFFFFL;
 
     /** Offset to order signed double numbers lexicographically. */
     private static final long SGN_MASK = 0x8000000000000000L;
@@ -605,4 +612,50 @@ public class Precision {
                                             double originalDelta) {
         return x + originalDelta - x;
     }
+    
+    /**
+     * Rounds <code>x</code> to a power-of-two toward zero.
+     * <p>
+     * There are several special cases, which we list here.
+     * <ul>
+     *  <li>infinite or NaN - <i>i.e.</i> <code>x</code> is not finite - this
+     *      method throws a {@link NotFiniteNumberException}.</li>
+     *  <li>zero or subnormal, it returns the smallest <i>normal</i> power of
+     *      two, namely {@link Double#MIN_NORMAL}.</li>
+     *  <li>already of power of two, this method returns <code>x</code> itself.</li>
+     * </ul>
+     * </p>
+     * 
+     * @param x The value to round.
+     * @return A suitably rounded value.
+     * @throws NotFiniteNumberException If <code>x</code> is not finite.
+     */
+    public static double roundToPowerOfTwoTowardZero(final double x) 
+    	throws NotFiniteNumberException {
+	
+	MathUtils.checkFinite(x);
+	
+	if(Double.compare(x, 0.0) < 0) {
+	    // easier than dealing with sign bit below.
+	    return -roundToPowerOfTwoTowardZero(-x);
+	}
+	
+	if (x < Double.MIN_NORMAL) {
+	    // x is subnormal, so just return the smallest (normal) power of
+	    // two.
+	    return Double.MIN_NORMAL;
+	}
+	
+	// convert to bits. We obviously don't have to worry about NaN, infinite
+	// or 0 cases here.
+	long bits = Double.doubleToLongBits(x);
+	
+	// kill the fraction. Effectively does nothing if x is already a power of two!
+	bits &= ~FRACTION_MASK;
+
+	double powerOfTwo = Double.longBitsToDouble(bits);
+
+	return powerOfTwo;
+    }
+    
 }

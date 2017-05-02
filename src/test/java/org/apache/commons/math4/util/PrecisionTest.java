@@ -549,5 +549,32 @@ public class PrecisionTest {
         Assert.assertFalse(Precision.equals(2.0f, -2.0f, 1));
         Assert.assertTrue(Precision.equals(0.0f, -0.0f, 0));
     }
+    
+    @Test
+    public void testRoundToPowerOfTwo() {
+	
+	// edge cases.
+	Assert.assertTrue(Precision.equals(Double.MIN_NORMAL, Precision.roundToPowerOfTwo(0.0), 0));
+	Assert.assertTrue(Precision.equals(-Double.MIN_NORMAL, Precision.roundToPowerOfTwo(-0.0), 0));
+	
+	Assert.assertTrue(Precision.equals(Double.MIN_NORMAL, Precision.roundToPowerOfTwo(Double.MIN_NORMAL / 2d), 0));
+	Assert.assertTrue(Precision.equals(-Double.MIN_NORMAL, Precision.roundToPowerOfTwo(-Double.MIN_NORMAL / 2d), 0));
+
+	Assert.assertTrue(Precision.equals(2.0, Precision.roundToPowerOfTwo(2.0), 0));
+	Assert.assertTrue(Precision.equals(-2.0, Precision.roundToPowerOfTwo(-2.0), 0));
+	
+	Assert.assertTrue(Precision.equals(2.0, Precision.roundToPowerOfTwo(3.0), 0));
+	Assert.assertTrue(Precision.equals(-2.0, Precision.roundToPowerOfTwo(-3.0), 0));
+
+	// a few tests for the non-special cases.
+	Assert.assertTrue(Precision.equals(32.0, Precision.roundToPowerOfTwo(63.9), 0));
+	Assert.assertTrue(Precision.equals(64.0, Precision.roundToPowerOfTwo(64.0), 0));
+	Assert.assertTrue(Precision.equals(32.0, Precision.roundToPowerOfTwo(64.0 * (1.0 - Precision.EPSILON)), 0));
+	Assert.assertTrue(Precision.equals(64.0, Precision.roundToPowerOfTwo(64.0 * (1.0 + Precision.EPSILON)), 0));	
+	Assert.assertTrue(Precision.equals(64.0, Precision.roundToPowerOfTwo(65.0), 0));	
+	Assert.assertTrue(Precision.equals(.5d, Precision.roundToPowerOfTwo(.5d), 0));
+	Assert.assertTrue(Precision.equals(.5d, Precision.roundToPowerOfTwo(.6d), 0));
+	Assert.assertTrue(Precision.equals(.25d, Precision.roundToPowerOfTwo(.5d - Precision.EPSILON), 0));
+    }
 
 }
