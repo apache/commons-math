@@ -35,7 +35,7 @@ import org.apache.commons.math4.optim.linear.SimplexSolver;
 import org.apache.commons.math4.optim.linear.SolutionCallback;
 import org.apache.commons.math4.optim.linear.UnboundedSolutionException;
 import org.apache.commons.math4.optim.nonlinear.scalar.GoalType;
-import org.apache.commons.math4.util.Precision;
+import org.apache.commons.numbers.core.Precision;
 import org.junit.Test;
 import org.junit.Assert;
 

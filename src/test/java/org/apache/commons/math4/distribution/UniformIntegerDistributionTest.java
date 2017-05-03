@@ -22,7 +22,7 @@ import org.junit.Test;
 import org.apache.commons.math4.distribution.IntegerDistribution;
 import org.apache.commons.math4.distribution.UniformIntegerDistribution;
 import org.apache.commons.math4.exception.NumberIsTooLargeException;
-import org.apache.commons.math4.util.Precision;
+import org.apache.commons.numbers.core.Precision;
 
 /**
  * Test cases for UniformIntegerDistribution. See class javadoc for

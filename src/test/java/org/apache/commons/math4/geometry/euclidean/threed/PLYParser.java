@@ -27,7 +27,7 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.StringTokenizer;
 
-import org.apache.commons.math4.util.Precision;
+import org.apache.commons.numbers.core.Precision;
 
 /** This class is a small and incomplete parser for PLY files.
  * <p>

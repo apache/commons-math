@@ -27,7 +27,7 @@ import org.apache.commons.math4.geometry.partitioning.AbstractRegion;
 import org.apache.commons.math4.geometry.partitioning.BSPTree;
 import org.apache.commons.math4.geometry.partitioning.BoundaryProjection;
 import org.apache.commons.math4.geometry.partitioning.SubHyperplane;
-import org.apache.commons.math4.util.Precision;
+import org.apache.commons.numbers.core.Precision;
 
 /** This class represents a 1D region: a set of intervals.
  * @since 3.0

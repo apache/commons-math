@@ -32,7 +32,7 @@ import org.apache.commons.math4.stat.descriptive.summary.SumOfLogs;
 import org.apache.commons.math4.stat.descriptive.summary.SumOfSquares;
 import org.apache.commons.math4.util.FastMath;
 import org.apache.commons.math4.util.MathUtils;
-import org.apache.commons.math4.util.Precision;
+import org.apache.commons.numbers.core.Precision;
 
 /**
  * <p>

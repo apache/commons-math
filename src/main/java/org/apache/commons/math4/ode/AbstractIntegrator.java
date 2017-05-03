@@ -39,7 +39,7 @@ import org.apache.commons.math4.ode.sampling.AbstractStepInterpolator;
 import org.apache.commons.math4.ode.sampling.StepHandler;
 import org.apache.commons.math4.util.FastMath;
 import org.apache.commons.math4.util.IntegerSequence;
-import org.apache.commons.math4.util.Precision;
+import org.apache.commons.numbers.core.Precision;
 
 /**
  * Base class managing common boilerplate for all integrators.

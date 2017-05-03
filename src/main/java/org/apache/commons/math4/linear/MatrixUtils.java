@@ -37,7 +37,7 @@ import org.apache.commons.math4.fraction.Fraction;
 import org.apache.commons.math4.util.FastMath;
 import org.apache.commons.math4.util.MathArrays;
 import org.apache.commons.math4.util.MathUtils;
-import org.apache.commons.math4.util.Precision;
+import org.apache.commons.numbers.core.Precision;
 
 /**
  * A collection of static methods that operate on or return matrices.

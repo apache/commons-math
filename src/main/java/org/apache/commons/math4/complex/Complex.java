@@ -27,7 +27,7 @@ import org.apache.commons.math4.exception.NullArgumentException;
 import org.apache.commons.math4.exception.util.LocalizedFormats;
 import org.apache.commons.math4.util.FastMath;
 import org.apache.commons.math4.util.MathUtils;
-import org.apache.commons.math4.util.Precision;
+import org.apache.commons.numbers.core.Precision;
 
 /**
  * Representation of a Complex number, i.e. a number which has both a
@@ -46,8 +46,8 @@ import org.apache.commons.math4.util.Precision;
  * Note that this contradicts the IEEE-754 standard for floating
  * point numbers (according to which the test {@code x == x} must fail if
  * {@code x} is {@code NaN}). The method
- * {@link org.apache.commons.math4.util.Precision#equals(double,double,int)
- * equals for primitive double} in {@link org.apache.commons.math4.util.Precision}
+ * {@link org.apache.commons.numbers.core.Precision#equals(double,double,int)
+ * equals for primitive double} in {@link org.apache.commons.numbers.core.Precision}
  * conforms with IEEE-754 while this class conforms with the standard behavior
  * for Java object types.</p>
  *

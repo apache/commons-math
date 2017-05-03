@@ -25,7 +25,7 @@ import org.apache.commons.math4.linear.EigenDecomposition;
 import org.apache.commons.math4.linear.MatrixUtils;
 import org.apache.commons.math4.linear.RealMatrix;
 import org.apache.commons.math4.linear.SingularMatrixException;
-import org.apache.commons.math4.util.Precision;
+import org.apache.commons.numbers.core.Precision;
 import org.junit.Test;
 import org.junit.Assert;
 

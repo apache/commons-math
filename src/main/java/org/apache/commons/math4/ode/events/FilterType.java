@@ -83,7 +83,7 @@ public enum FilterType {
          *   <li>h = min(-s,-g,+g)</li>
          *   <li>h = -g</li>
          * </ul>
-         * where s is a tiny positive value: {@link org.apache.commons.math4.util.Precision#SAFE_MIN}.
+         * where s is a tiny positive value: {@link org.apache.commons.numbers.core.Precision#SAFE_MIN}.
          * </p>
          */
         @Override
@@ -261,7 +261,7 @@ public enum FilterType {
          *   <li>h = min(-s,-g,+g)</li>
          *   <li>h = -g</li>
          * </ul>
-         * where s is a tiny positive value: {@link org.apache.commons.math4.util.Precision#SAFE_MIN}.
+         * where s is a tiny positive value: {@link org.apache.commons.numbers.core.Precision#SAFE_MIN}.
          * </p>
          */
         @Override

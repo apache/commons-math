@@ -26,7 +26,7 @@ import org.apache.commons.math4.linear.RealMatrix;
 import org.apache.commons.math4.optim.ConvergenceChecker;
 import org.apache.commons.math4.util.FastMath;
 import org.apache.commons.math4.util.Incrementor;
-import org.apache.commons.math4.util.Precision;
+import org.apache.commons.numbers.core.Precision;
 
 
 /**

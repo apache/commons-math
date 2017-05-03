@@ -21,7 +21,7 @@ import org.apache.commons.math4.exception.NullArgumentException;
 import org.apache.commons.math4.exception.util.LocalizedFormats;
 import org.apache.commons.math4.util.MathArrays;
 import org.apache.commons.math4.util.MathUtils;
-import org.apache.commons.math4.util.Precision;
+import org.apache.commons.numbers.core.Precision;
 
 /**
  * Abstract base class for implementations of the

@@ -36,7 +36,7 @@ import org.apache.commons.math4.geometry.spherical.oned.Sphere1D;
 import org.apache.commons.math4.geometry.spherical.oned.SubLimitAngle;
 import org.apache.commons.math4.util.FastMath;
 import org.apache.commons.math4.util.MathUtils;
-import org.apache.commons.math4.util.Precision;
+import org.apache.commons.numbers.core.Precision;
 import org.junit.Assert;
 import org.junit.Test;
 

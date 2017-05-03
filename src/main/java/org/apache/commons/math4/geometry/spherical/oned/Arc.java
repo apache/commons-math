@@ -21,7 +21,7 @@ import org.apache.commons.math4.exception.util.LocalizedFormats;
 import org.apache.commons.math4.geometry.partitioning.Region.Location;
 import org.apache.commons.math4.util.FastMath;
 import org.apache.commons.math4.util.MathUtils;
-import org.apache.commons.math4.util.Precision;
+import org.apache.commons.numbers.core.Precision;
 
 
 /** This class represents an arc on a circle.

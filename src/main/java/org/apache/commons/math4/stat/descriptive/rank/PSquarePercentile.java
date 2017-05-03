@@ -37,7 +37,7 @@ import org.apache.commons.math4.stat.descriptive.AbstractStorelessUnivariateStat
 import org.apache.commons.math4.stat.descriptive.StorelessUnivariateStatistic;
 import org.apache.commons.math4.util.MathArrays;
 import org.apache.commons.math4.util.MathUtils;
-import org.apache.commons.math4.util.Precision;
+import org.apache.commons.numbers.core.Precision;
 
 /**
  * A {@link StorelessUnivariateStatistic} estimating percentiles using the

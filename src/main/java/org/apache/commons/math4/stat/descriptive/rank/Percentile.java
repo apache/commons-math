@@ -32,7 +32,7 @@ import org.apache.commons.math4.util.MathArrays;
 import org.apache.commons.math4.util.MathUtils;
 import org.apache.commons.math4.util.MedianOf3PivotingStrategy;
 import org.apache.commons.math4.util.PivotingStrategyInterface;
-import org.apache.commons.math4.util.Precision;
+import org.apache.commons.numbers.core.Precision;
 
 /**
  * Provides percentile computation.

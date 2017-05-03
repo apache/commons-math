@@ -32,7 +32,7 @@ import org.apache.commons.math4.linear.RealVector;
 import org.apache.commons.math4.linear.TriDiagonalTransformer;
 import org.apache.commons.math4.util.FastMath;
 import org.apache.commons.math4.util.MathArrays;
-import org.apache.commons.math4.util.Precision;
+import org.apache.commons.numbers.core.Precision;
 import org.apache.commons.rng.simple.RandomSource;
 import org.junit.After;
 import org.junit.Assert;

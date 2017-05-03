@@ -35,7 +35,7 @@ import org.apache.commons.math4.genetics.Population;
 import org.apache.commons.math4.genetics.StoppingCondition;
 import org.apache.commons.math4.genetics.TournamentSelection;
 import org.apache.commons.math4.util.FastMath;
-import org.apache.commons.math4.util.Precision;
+import org.apache.commons.numbers.core.Precision;
 
 public class HelloWorldExample {
     public static final int    POPULATION_SIZE   = 1000;

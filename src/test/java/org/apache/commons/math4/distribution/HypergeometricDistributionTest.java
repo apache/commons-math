@@ -23,7 +23,7 @@ import org.apache.commons.math4.distribution.IntegerDistribution;
 import org.apache.commons.math4.exception.NotPositiveException;
 import org.apache.commons.math4.exception.NotStrictlyPositiveException;
 import org.apache.commons.math4.exception.NumberIsTooLargeException;
-import org.apache.commons.math4.util.Precision;
+import org.apache.commons.numbers.core.Precision;
 import org.apache.commons.rng.simple.RandomSource;
 import org.junit.Assert;
 import org.junit.Test;

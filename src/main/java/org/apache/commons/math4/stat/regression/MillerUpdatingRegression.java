@@ -21,7 +21,7 @@ import java.util.Arrays;
 import org.apache.commons.math4.exception.util.LocalizedFormats;
 import org.apache.commons.math4.util.FastMath;
 import org.apache.commons.math4.util.MathArrays;
-import org.apache.commons.math4.util.Precision;
+import org.apache.commons.numbers.core.Precision;
 
 /**
  * This class is a concrete implementation of the {@link UpdatingMultipleLinearRegression} interface.

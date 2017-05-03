@@ -34,7 +34,7 @@ import org.apache.commons.math4.geometry.partitioning.Hyperplane;
 import org.apache.commons.math4.geometry.partitioning.Side;
 import org.apache.commons.math4.geometry.partitioning.SubHyperplane;
 import org.apache.commons.math4.util.FastMath;
-import org.apache.commons.math4.util.Precision;
+import org.apache.commons.numbers.core.Precision;
 
 /** This class represents a 2D region: a set of polygons.
  * @since 3.0

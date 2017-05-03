@@ -80,7 +80,7 @@ public abstract class BaseAbstractUnivariateIntegrator implements UnivariateInte
      *       achieved due to large values or short mantissa length. If this
      *       should be the primary criterion for convergence rather then a
      *       safety measure, set the absolute accuracy to a ridiculously small value,
-     *       like {@link org.apache.commons.math4.util.Precision#SAFE_MIN Precision.SAFE_MIN}.</li>
+     *       like {@link org.apache.commons.numbers.core.Precision#SAFE_MIN Precision.SAFE_MIN}.</li>
      *   <li>absolute accuracy:
      *       The default is usually chosen so that results in the interval
      *       -10..-0.1 and +0.1..+10 can be found with a reasonable accuracy. If the

@@ -16,6 +16,7 @@
  */
 package org.apache.commons.math4.util;
 
+import org.apache.commons.numbers.core.Precision;
 import org.apache.commons.math4.exception.ConvergenceException;
 import org.apache.commons.math4.exception.MaxCountExceededException;
 import org.apache.commons.math4.exception.util.LocalizedFormats;

@@ -18,7 +18,7 @@
 package org.apache.commons.math4.linear;
 
 import org.apache.commons.math4.util.FastMath;
-import org.apache.commons.math4.util.Precision;
+import org.apache.commons.numbers.core.Precision;
 
 /**
  * Class transforming a general real matrix to Hessenberg form.

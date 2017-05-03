@@ -17,7 +17,7 @@
 package org.apache.commons.math4.distribution;
 
 import org.apache.commons.math4.distribution.LogisticDistribution;
-import org.apache.commons.math4.util.Precision;
+import org.apache.commons.numbers.core.Precision;
 import org.junit.Assert;
 import org.junit.Test;
 

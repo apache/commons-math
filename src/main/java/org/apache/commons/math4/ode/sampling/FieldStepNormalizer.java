@@ -21,7 +21,7 @@ import org.apache.commons.math4.RealFieldElement;
 import org.apache.commons.math4.exception.MaxCountExceededException;
 import org.apache.commons.math4.ode.FieldODEStateAndDerivative;
 import org.apache.commons.math4.util.FastMath;
-import org.apache.commons.math4.util.Precision;
+import org.apache.commons.numbers.core.Precision;
 
 /**
  * This class wraps an object implementing {@link FieldFixedStepHandler}

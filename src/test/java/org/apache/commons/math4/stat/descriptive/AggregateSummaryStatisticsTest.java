@@ -26,7 +26,7 @@ import org.apache.commons.math4.distribution.RealDistribution;
 import org.apache.commons.math4.distribution.AbstractRealDistribution;
 import org.apache.commons.math4.distribution.UniformIntegerDistribution;
 import org.apache.commons.math4.distribution.UniformRealDistribution;
-import org.apache.commons.math4.util.Precision;
+import org.apache.commons.numbers.core.Precision;
 import org.apache.commons.rng.simple.RandomSource;
 import org.junit.Assert;
 import org.junit.Test;

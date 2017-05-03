@@ -19,7 +19,7 @@ package org.apache.commons.math4.geometry.euclidean.oned;
 import org.apache.commons.math4.geometry.euclidean.oned.Interval;
 import org.apache.commons.math4.geometry.partitioning.Region;
 import org.apache.commons.math4.util.FastMath;
-import org.apache.commons.math4.util.Precision;
+import org.apache.commons.numbers.core.Precision;
 import org.apache.commons.math4.exception.NumberIsTooSmallException;
 import org.junit.Assert;
 import org.junit.Test;

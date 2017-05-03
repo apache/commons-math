@@ -23,7 +23,7 @@ import org.apache.commons.math4.exception.TooManyIterationsException;
 import org.apache.commons.math4.optim.OptimizationData;
 import org.apache.commons.math4.optim.PointValuePair;
 import org.apache.commons.math4.util.FastMath;
-import org.apache.commons.math4.util.Precision;
+import org.apache.commons.numbers.core.Precision;
 
 /**
  * Solves a linear problem using the "Two-Phase Simplex" method.

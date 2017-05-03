@@ -20,7 +20,7 @@ import java.io.Serializable;
 
 import org.apache.commons.math4.util.FastMath;
 import org.apache.commons.math4.util.MathUtils;
-import org.apache.commons.math4.util.Precision;
+import org.apache.commons.numbers.core.Precision;
 
 /**
  *  Value object representing the results of a univariate statistical summary.

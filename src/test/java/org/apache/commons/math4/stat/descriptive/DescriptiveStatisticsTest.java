@@ -28,7 +28,7 @@ import org.apache.commons.math4.stat.descriptive.rank.Min;
 import org.apache.commons.math4.stat.descriptive.rank.Percentile;
 import org.apache.commons.math4.stat.descriptive.summary.Sum;
 import org.apache.commons.math4.stat.descriptive.summary.SumOfSquares;
-import org.apache.commons.math4.util.Precision;
+import org.apache.commons.numbers.core.Precision;
 import org.junit.Assert;
 import org.junit.Test;
 

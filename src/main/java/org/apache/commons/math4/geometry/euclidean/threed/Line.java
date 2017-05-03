@@ -25,7 +25,7 @@ import org.apache.commons.math4.geometry.euclidean.oned.IntervalsSet;
 import org.apache.commons.math4.geometry.euclidean.oned.Vector1D;
 import org.apache.commons.math4.geometry.partitioning.Embedding;
 import org.apache.commons.math4.util.FastMath;
-import org.apache.commons.math4.util.Precision;
+import org.apache.commons.numbers.core.Precision;
 
 /** The class represent lines in a three dimensional space.
 

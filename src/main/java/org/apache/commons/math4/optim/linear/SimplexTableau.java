@@ -34,7 +34,7 @@ import org.apache.commons.math4.linear.MatrixUtils;
 import org.apache.commons.math4.linear.RealVector;
 import org.apache.commons.math4.optim.PointValuePair;
 import org.apache.commons.math4.optim.nonlinear.scalar.GoalType;
-import org.apache.commons.math4.util.Precision;
+import org.apache.commons.numbers.core.Precision;
 
 /**
  * A tableau for use in the Simplex method.

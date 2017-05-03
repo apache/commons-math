@@ -25,7 +25,7 @@ import java.util.List;
 import org.apache.commons.math4.geometry.euclidean.twod.Line;
 import org.apache.commons.math4.geometry.euclidean.twod.Vector2D;
 import org.apache.commons.math4.util.FastMath;
-import org.apache.commons.math4.util.Precision;
+import org.apache.commons.numbers.core.Precision;
 
 /**
  * Implements Andrew's monotone chain method to generate the convex hull of a finite set of

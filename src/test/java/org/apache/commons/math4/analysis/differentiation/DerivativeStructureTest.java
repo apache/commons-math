@@ -31,7 +31,7 @@ import org.apache.commons.rng.simple.RandomSource;
 import org.apache.commons.math4.util.ArithmeticUtils;
 import org.apache.commons.math4.util.CombinatoricsUtils;
 import org.apache.commons.math4.util.FastMath;
-import org.apache.commons.math4.util.Precision;
+import org.apache.commons.numbers.core.Precision;
 import org.junit.Assert;
 import org.junit.Test;
 

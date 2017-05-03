@@ -27,7 +27,7 @@ import org.apache.commons.math4.exception.MathArithmeticException;
 import org.apache.commons.math4.geometry.Space;
 import org.apache.commons.math4.geometry.euclidean.oned.Vector1D;
 import org.apache.commons.math4.util.FastMath;
-import org.apache.commons.math4.util.Precision;
+import org.apache.commons.numbers.core.Precision;
 import org.junit.Assert;
 import org.junit.Test;
 

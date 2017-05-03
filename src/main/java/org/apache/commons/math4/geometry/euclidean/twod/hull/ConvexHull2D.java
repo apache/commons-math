@@ -29,7 +29,7 @@ import org.apache.commons.math4.geometry.hull.ConvexHull;
 import org.apache.commons.math4.geometry.partitioning.Region;
 import org.apache.commons.math4.geometry.partitioning.RegionFactory;
 import org.apache.commons.math4.util.MathArrays;
-import org.apache.commons.math4.util.Precision;
+import org.apache.commons.numbers.core.Precision;
 
 /**
  * This class represents a convex hull in an two-dimensional euclidean space.
