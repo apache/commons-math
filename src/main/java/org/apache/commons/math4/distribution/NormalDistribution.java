@@ -25,7 +25,8 @@ import org.apache.commons.math4.special.Erf;
 import org.apache.commons.math4.util.FastMath;
 import org.apache.commons.rng.UniformRandomProvider;
 import org.apache.commons.rng.sampling.distribution.ContinuousSampler;
-import org.apache.commons.rng.sampling.distribution.BoxMullerGaussianSampler;
+import org.apache.commons.rng.sampling.distribution.GaussianSampler;
+import org.apache.commons.rng.sampling.distribution.MarsagliaNormalizedGaussianSampler;
 
 /**
  * Implementation of the normal (gaussian) distribution.
@@ -242,7 +243,8 @@ public class NormalDistribution extends AbstractRealDistribution {
     public RealDistribution.Sampler createSampler(final UniformRandomProvider rng) {
         return new RealDistribution.Sampler() {
             private final ContinuousSampler sampler =
-                new BoxMullerGaussianSampler(rng, mean, standardDeviation);
+                new GaussianSampler(new MarsagliaNormalizedGaussianSampler(rng),
+                                    mean, standardDeviation);
 
             /**{@inheritDoc} */
             @Override

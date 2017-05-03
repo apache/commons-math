@@ -24,7 +24,7 @@ import org.apache.commons.math4.special.Erf;
 import org.apache.commons.math4.util.FastMath;
 import org.apache.commons.rng.UniformRandomProvider;
 import org.apache.commons.rng.sampling.distribution.ContinuousSampler;
-import org.apache.commons.rng.sampling.distribution.BoxMullerLogNormalSampler;
+import org.apache.commons.rng.sampling.distribution.MarsagliaLogNormalSampler;
 
 /**
  * Implementation of the log-normal (gaussian) distribution.
@@ -295,7 +295,7 @@ public class LogNormalDistribution extends AbstractRealDistribution {
     public RealDistribution.Sampler createSampler(final UniformRandomProvider rng) {
         return new RealDistribution.Sampler() {
             private final ContinuousSampler sampler =
-                new BoxMullerLogNormalSampler(rng, scale, shape);
+                new MarsagliaLogNormalSampler(rng, scale, shape);
 
             /**{@inheritDoc} */
             @Override

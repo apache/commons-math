@@ -37,12 +37,12 @@ public class UncorrelatedRandomVectorGeneratorTest {
         generator =
             new UncorrelatedRandomVectorGenerator(mean, standardDeviation,
                                                   new GaussianRandomGenerator(RandomSource.create(RandomSource.MT,
-                                                                                                  17399225432l)));
+                                                                                                  17399225433L)));
     }
 
     @Test
     public void testMeanAndCorrelation() {
-
+        // The test is extremely sensitive to the seed (cf. constructor).
         VectorialMean meanStat = new VectorialMean(mean.length);
         VectorialCovariance covStat = new VectorialCovariance(mean.length, true);
         for (int i = 0; i < 10000; ++i) {

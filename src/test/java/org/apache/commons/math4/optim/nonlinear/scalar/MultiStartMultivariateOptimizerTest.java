@@ -94,7 +94,8 @@ public class MultiStartMultivariateOptimizerTest {
                 { 0.9, 1.2 } ,
                 {  3.5, -2.3 }
             });
-        UniformRandomProvider g = RandomSource.create(RandomSource.MT_64, 16069223052l);
+        // The test is extremely sensitive to the seed.
+        UniformRandomProvider g = RandomSource.create(RandomSource.MT_64, 16069223056L);
         RandomVectorGenerator generator
             = new UncorrelatedRandomVectorGenerator(2, new GaussianRandomGenerator(g));
         int nbStarts = 10;
@@ -108,10 +109,11 @@ public class MultiStartMultivariateOptimizerTest {
                                  new InitialGuess(new double[] { -1.2, 1.0 }));
         Assert.assertEquals(nbStarts, optimizer.getOptima().length);
 
-        Assert.assertEquals(rosenbrock.getCount(), optimizer.getEvaluations());
-        Assert.assertTrue(optimizer.getEvaluations() > 900);
-        Assert.assertTrue(optimizer.getEvaluations() < 1200);
-        Assert.assertTrue(optimum.getValue() < 5e-5);
+        final int numEval = optimizer.getEvaluations();
+        Assert.assertEquals(rosenbrock.getCount(), numEval);
+        Assert.assertTrue("numEval=" + numEval, numEval > 900);
+        Assert.assertTrue("numEval=" + numEval, numEval < 1200);
+        Assert.assertTrue("optimum=" + optimum.getValue(), optimum.getValue() < 5e-5);
     }
 
     private static class Rosenbrock implements MultivariateFunction {

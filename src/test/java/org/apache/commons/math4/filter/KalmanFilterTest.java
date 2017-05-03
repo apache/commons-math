@@ -392,7 +392,7 @@ public class KalmanFilterTest {
         final MeasurementModel mm = new DefaultMeasurementModel(H, R);
         final KalmanFilter filter = new KalmanFilter(pm, mm);
 
-        final RealDistribution.Sampler dist = new NormalDistribution(0, measurementNoise).createSampler(RandomSource.create(RandomSource.WELL_19937_C, 1000));
+        final RealDistribution.Sampler dist = new NormalDistribution(0, measurementNoise).createSampler(RandomSource.create(RandomSource.WELL_19937_C, 1001));
 
         for (int i = 0; i < iterations; i++) {
             // get the "real" cannonball position
