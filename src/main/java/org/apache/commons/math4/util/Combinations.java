@@ -22,6 +22,7 @@ import java.util.Comparator;
 import java.util.Iterator;
 import java.util.NoSuchElementException;
 
+import org.apache.commons.numbers.core.ArithmeticUtils;
 import org.apache.commons.math4.exception.DimensionMismatchException;
 import org.apache.commons.math4.exception.MathInternalError;
 import org.apache.commons.math4.exception.OutOfRangeException;

@@ -23,7 +23,7 @@ import org.apache.commons.math4.FieldElement;
 import org.apache.commons.math4.exception.MathArithmeticException;
 import org.apache.commons.math4.exception.NullArgumentException;
 import org.apache.commons.math4.exception.util.LocalizedFormats;
-import org.apache.commons.math4.util.ArithmeticUtils;
+import org.apache.commons.numbers.core.ArithmeticUtils;
 import org.apache.commons.math4.util.FastMath;
 
 /**

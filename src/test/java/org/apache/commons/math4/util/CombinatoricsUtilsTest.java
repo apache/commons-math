@@ -25,7 +25,7 @@ import org.apache.commons.math4.exception.MathArithmeticException;
 import org.apache.commons.math4.exception.MathIllegalArgumentException;
 import org.apache.commons.math4.exception.NotPositiveException;
 import org.apache.commons.math4.exception.NumberIsTooLargeException;
-import org.apache.commons.math4.util.ArithmeticUtils;
+import org.apache.commons.numbers.core.ArithmeticUtils;
 import org.apache.commons.math4.util.CombinatoricsUtils;
 import org.apache.commons.math4.util.FastMath;
 import org.junit.Assert;
@@ -137,14 +137,14 @@ public class CombinatoricsUtilsTest {
 
         try {
             CombinatoricsUtils.binomialCoefficient(67, 30);
-            Assert.fail("expecting MathArithmeticException");
-        } catch (MathArithmeticException ex) {
+            Assert.fail("expecting ArithmeticException");
+        } catch (ArithmeticException ex) {
             // ignored
         }
         try {
             CombinatoricsUtils.binomialCoefficient(67, 34);
-            Assert.fail("expecting MathArithmeticException");
-        } catch (MathArithmeticException ex) {
+            Assert.fail("expecting ArithmeticException");
+        } catch (ArithmeticException ex) {
             // ignored
         }
         double x = CombinatoricsUtils.binomialCoefficientDouble(1030, 515);
@@ -167,12 +167,12 @@ public class CombinatoricsUtilsTest {
                 boolean didThrow = false;
                 try {
                     ourResult = CombinatoricsUtils.binomialCoefficient(n, k);
-                } catch (MathArithmeticException ex) {
+                } catch (ArithmeticException ex) {
                     didThrow = true;
                 }
                 try {
                     exactResult = binomialCoefficient(n, k);
-                } catch (MathArithmeticException ex) {
+                } catch (ArithmeticException ex) {
                     shouldThrow = true;
                 }
                 Assert.assertEquals(n + " choose " + k, exactResult, ourResult);
@@ -199,8 +199,8 @@ public class CombinatoricsUtilsTest {
         // This one should throw
         try {
             CombinatoricsUtils.binomialCoefficient(700, 300);
-            Assert.fail("Expecting MathArithmeticException");
-        } catch (MathArithmeticException ex) {
+            Assert.fail("Expecting ArithmeticException");
+        } catch (ArithmeticException ex) {
             // Expected
         }
 
@@ -248,8 +248,8 @@ public class CombinatoricsUtilsTest {
         }
         try {
             CombinatoricsUtils.factorial(21);
-            Assert.fail("expecting MathArithmeticException");
-        } catch (MathArithmeticException ex) {
+            Assert.fail("expecting ArithmeticException");
+        } catch (ArithmeticException ex) {
             // ignored
         }
         Assert.assertTrue("expecting infinite factorial value", Double.isInfinite(CombinatoricsUtils.factorialDouble(171)));
@@ -307,7 +307,7 @@ public class CombinatoricsUtilsTest {
         CombinatoricsUtils.stirlingS2(3, 4);
     }
 
-    @Test(expected=MathArithmeticException.class)
+    @Test(expected=ArithmeticException.class)
     public void testStirlingS2Overflow() {
         CombinatoricsUtils.stirlingS2(26, 9);
     }
@@ -333,7 +333,7 @@ public class CombinatoricsUtilsTest {
     /**
      * Exact (caching) recursive implementation to test against
      */
-    private long binomialCoefficient(int n, int k) throws MathArithmeticException {
+    private long binomialCoefficient(int n, int k) throws ArithmeticException {
         if (binomialCache.size() > n) {
             Long cachedResult = binomialCache.get(n).get(Integer.valueOf(k));
             if (cachedResult != null) {
@@ -357,7 +357,7 @@ public class CombinatoricsUtilsTest {
                 binomialCoefficient(n - 1, k));
         }
         if (result == -1) {
-            throw new MathArithmeticException();
+            throw new ArithmeticException();
         }
         for (int i = binomialCache.size(); i < n + 1; i++) {
             binomialCache.add(new HashMap<Integer, Long>());

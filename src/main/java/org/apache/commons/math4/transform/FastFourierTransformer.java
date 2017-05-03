@@ -24,7 +24,7 @@ import org.apache.commons.math4.exception.DimensionMismatchException;
 import org.apache.commons.math4.exception.MathIllegalArgumentException;
 import org.apache.commons.math4.exception.MathIllegalStateException;
 import org.apache.commons.math4.exception.util.LocalizedFormats;
-import org.apache.commons.math4.util.ArithmeticUtils;
+import org.apache.commons.numbers.core.ArithmeticUtils;
 import org.apache.commons.math4.util.FastMath;
 import org.apache.commons.math4.util.MathArrays;
 

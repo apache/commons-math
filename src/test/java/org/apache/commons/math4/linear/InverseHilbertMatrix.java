@@ -20,7 +20,7 @@ import org.apache.commons.math4.exception.DimensionMismatchException;
 import org.apache.commons.math4.linear.ArrayRealVector;
 import org.apache.commons.math4.linear.RealLinearOperator;
 import org.apache.commons.math4.linear.RealVector;
-import org.apache.commons.math4.util.ArithmeticUtils;
+import org.apache.commons.numbers.core.ArithmeticUtils;
 import org.apache.commons.math4.util.CombinatoricsUtils;
 
 /**

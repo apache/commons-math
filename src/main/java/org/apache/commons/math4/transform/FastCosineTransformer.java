@@ -23,7 +23,7 @@ import org.apache.commons.math4.analysis.UnivariateFunction;
 import org.apache.commons.math4.complex.Complex;
 import org.apache.commons.math4.exception.MathIllegalArgumentException;
 import org.apache.commons.math4.exception.util.LocalizedFormats;
-import org.apache.commons.math4.util.ArithmeticUtils;
+import org.apache.commons.numbers.core.ArithmeticUtils;
 import org.apache.commons.math4.util.FastMath;
 
 /**

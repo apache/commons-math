@@ -27,6 +27,7 @@ import java.math.BigDecimal;
 import java.math.BigInteger;
 import java.math.RoundingMode;
 
+import org.apache.commons.numbers.core.ArithmeticUtils;
 import org.apache.commons.numbers.core.Precision;
 import org.apache.commons.math4.TestUtils;
 import org.apache.commons.math4.dfp.Dfp;

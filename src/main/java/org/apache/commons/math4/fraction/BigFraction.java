@@ -26,7 +26,7 @@ import org.apache.commons.math4.exception.MathIllegalArgumentException;
 import org.apache.commons.math4.exception.NullArgumentException;
 import org.apache.commons.math4.exception.ZeroException;
 import org.apache.commons.math4.exception.util.LocalizedFormats;
-import org.apache.commons.math4.util.ArithmeticUtils;
+import org.apache.commons.numbers.core.ArithmeticUtils;
 import org.apache.commons.math4.util.FastMath;
 import org.apache.commons.math4.util.MathUtils;
 

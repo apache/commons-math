@@ -19,6 +19,7 @@ package org.apache.commons.math4.util;
 import java.util.Iterator;
 import java.util.concurrent.atomic.AtomicReference;
 
+import org.apache.commons.numbers.core.ArithmeticUtils;
 import org.apache.commons.math4.exception.MathArithmeticException;
 import org.apache.commons.math4.exception.NotPositiveException;
 import org.apache.commons.math4.exception.NumberIsTooLargeException;
