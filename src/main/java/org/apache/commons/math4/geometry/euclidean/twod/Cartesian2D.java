@@ -149,7 +149,7 @@ public class Cartesian2D implements Point<Euclidean2D>, Vector<Euclidean2D> {
 
     /** Get the abscissa of the vector.
      * @return abscissa of the vector
-     * @see #Vector2D(double, double)
+     * @see #Cartesian2D(double, double)
      */
     public double getX() {
         return x;
@@ -157,7 +157,7 @@ public class Cartesian2D implements Point<Euclidean2D>, Vector<Euclidean2D> {
 
     /** Get the ordinate of the vector.
      * @return ordinate of the vector
-     * @see #Vector2D(double, double)
+     * @see #Cartesian2D(double, double)
      */
     public double getY() {
         return y;
@@ -165,7 +165,7 @@ public class Cartesian2D implements Point<Euclidean2D>, Vector<Euclidean2D> {
 
     /** Get the vector coordinates as a dimension 2 array.
      * @return vector coordinates
-     * @see #Vector2D(double[])
+     * @see #Cartesian2D(double[])
      */
     public double[] toArray() {
         return new double[] { x, y };

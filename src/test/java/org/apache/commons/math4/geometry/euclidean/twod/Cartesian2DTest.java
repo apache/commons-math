@@ -22,7 +22,7 @@ import org.apache.commons.math4.util.FastMath;
 import org.junit.Assert;
 import org.junit.Test;
 
-public class Vector2DTest {
+public class Cartesian2DTest {
 
     private static final double EPS = Math.ulp(1d);
 

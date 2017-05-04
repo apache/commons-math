@@ -202,8 +202,8 @@ public class Line implements Hyperplane<Euclidean2D>, Embedding<Euclidean2D, Euc
      * instance.</p>
      * <p>
      * As long as neither the instance nor its reverse are modified
-     * (i.e. as long as none of the {@link #reset(Vector2D, Vector2D)},
-     * {@link #reset(Vector2D, double)}, {@link #revertSelf()},
+     * (i.e. as long as none of the {@link #reset(Cartesian2D, Cartesian2D)},
+     * {@link #reset(Cartesian2D, double)}, {@link #revertSelf()},
      * {@link #setAngle(double)} or {@link #setOriginOffset(double)}
      * methods are called), then the line and its reverse remain linked
      * together so that {@code line.getReverse().getReverse() == line}.

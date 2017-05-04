@@ -165,7 +165,7 @@ class NestedLoops {
 
     /** Correct the orientation of the loops contained in the tree.
      * <p>This is this method that really inverts the loops that where
-     * provided through the {@link #add(Vector2D[]) add} method if
+     * provided through the {@link #add(Cartesian2D[]) add} method if
      * they are mis-oriented</p>
      */
     public void correctOrientation() {

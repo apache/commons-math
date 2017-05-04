@@ -306,12 +306,12 @@
         </p>
         <source>
   final double radius = 70.0;
-  final Vector2D[] observedPoints = new Vector2D[] {
-      new Vector2D( 30.0,  68.0),
-      new Vector2D( 50.0,  -6.0),
-      new Vector2D(110.0, -20.0),
-      new Vector2D( 35.0,  15.0),
-      new Vector2D( 45.0,  97.0)
+  final Cartesian2D[] observedPoints = new Cartesian2D[] {
+      new Cartesian2D( 30.0,  68.0),
+      new Cartesian2D( 50.0,  -6.0),
+      new Cartesian2D(110.0, -20.0),
+      new Cartesian2D( 35.0,  15.0),
+      new Cartesian2D( 45.0,  97.0)
   };
 
   // the model function components are the distances to current estimated center,
@@ -319,14 +319,14 @@
   MultivariateJacobianFunction distancesToCurrentCenter = new MultivariateJacobianFunction() {
       public Pair&lt;RealVector, RealMatrix&gt; value(final RealVector point) {
 
-          Vector2D center = new Vector2D(point.getEntry(0), point.getEntry(1));
+          Cartesian2D center = new Cartesian2D(point.getEntry(0), point.getEntry(1));
 
           RealVector value = new ArrayRealVector(observedPoints.length);
           RealMatrix jacobian = new Array2DRowRealMatrix(observedPoints.length, 2);
 
           for (int i = 0; i &lt; observedPoints.length; ++i) {
-              Vector2D o = observedPoints[i];
-              double modelI = Vector2D.distance(o, center);
+              Cartesian2D o = observedPoints[i];
+              double modelI = Cartesian2D.distance(o, center);
               value.setEntry(i, modelI);
               // derivative with respect to p0 = x center
               jacobian.setEntry(i, 0, (center.getX() - o.getX()) / modelI);
@@ -353,7 +353,7 @@
                                 maxIterations(1000).
                                 build();
   LeastSquaresOptimizer.Optimum optimum = new LevenbergMarquardtOptimizer().optimize(problem);
-  Vector2D fittedCenter = new Vector2D(optimum.getPoint().getEntry(0), optimum.getPoint().getEntry(1));
+  Cartesian2D fittedCenter = new Cartesian2D(optimum.getPoint().getEntry(0), optimum.getPoint().getEntry(1));
   System.out.println("fitted center: " + fittedCenter.getX() + " " + fittedCenter.getY());
   System.out.println("RMS: "           + optimum.getRMS());
   System.out.println("evaluations: "   + optimum.getEvaluations());
