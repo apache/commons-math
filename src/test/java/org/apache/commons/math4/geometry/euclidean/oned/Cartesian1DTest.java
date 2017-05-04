@@ -30,7 +30,7 @@ import org.apache.commons.math4.util.Precision;
 import org.junit.Assert;
 import org.junit.Test;
 
-public class Vector1DTest {
+public class Cartesian1DTest {
     @Test
     public void testConstructors() throws DimensionMismatchException {
         checkVector(new Cartesian1D(3, new Cartesian1D(FastMath.PI / 3)),

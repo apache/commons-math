@@ -126,7 +126,7 @@ public class Cartesian1D implements Point<Euclidean1D>, Vector<Euclidean1D> {
 
     /** Get the abscissa of the vector.
      * @return abscissa of the vector
-     * @see #Vector1D(double)
+     * @see #Cartesian1D(double)
      */
     public double getX() {
         return x;
@@ -332,8 +332,8 @@ public class Cartesian1D implements Point<Euclidean1D>, Vector<Euclidean1D> {
      *
      * @param other Object to test for equality to this
      * @return true if two 1D vector objects are equal, false if
-     *         object is null, not an instance of Vector1D, or
-     *         not equal to this Vector1D instance
+     *         object is null, not an instance of Cartesian1D, or
+     *         not equal to this Cartesian1D instance
      *
      */
     @Override

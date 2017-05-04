@@ -76,8 +76,8 @@
 
       <subsection name="11.2 Euclidean spaces" href="euclidean">
         <p>
-          <a href="../apidocs/org/apache/commons/math4/geometry/euclidean/oned/Vector1D.html">
-          Vector1D</a>, <a href="../apidocs/org/apache/commons/math4/geometry/euclidean/twod/Cartesian2D.html">
+          <a href="../apidocs/org/apache/commons/math4/geometry/euclidean/oned/Cartesian1D.html">
+          Cartesian1D</a>, <a href="../apidocs/org/apache/commons/math4/geometry/euclidean/twod/Cartesian2D.html">
           Cartesian2D</a> and <a href="../apidocs/org/apache/commons/math4/geometry/euclidean/threed/Cartesian3D.html">
           Cartesian3D</a> provide simple vector types. One important feature is
           that instances of these classes are guaranteed
