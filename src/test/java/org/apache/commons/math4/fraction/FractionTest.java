@@ -52,13 +52,13 @@ public class FractionTest {
         try {
             new Fraction(Integer.MIN_VALUE, -1);
             Assert.fail();
-        } catch (ArithmeticException ex) {
+        } catch (MathArithmeticException ex) {
             // success
         }
         try {
             new Fraction(1, Integer.MIN_VALUE);
             Assert.fail();
-        } catch (ArithmeticException ex) {
+        } catch (MathArithmeticException ex) {
             // success
         }
 
@@ -295,8 +295,8 @@ public class FractionTest {
         f = new Fraction(0, 3);
         try {
             f = f.reciprocal();
-            Assert.fail("expecting ArithmeticException");
-        } catch (ArithmeticException ex) {}
+            Assert.fail("expecting MathArithmeticException");
+        } catch (MathArithmeticException ex) {}
 
         // large values
         f = new Fraction(Integer.MAX_VALUE, 1);
@@ -328,8 +328,8 @@ public class FractionTest {
         f = new Fraction(Integer.MIN_VALUE, 1);
         try {
             f = f.negate();
-            Assert.fail("expecting ArithmeticException");
-        } catch (ArithmeticException ex) {}
+            Assert.fail("expecting MathArithmeticException");
+        } catch (MathArithmeticException ex) {}
     }
 
     @Test
@@ -392,8 +392,8 @@ public class FractionTest {
         f2 = new Fraction(-1,5);
         try {
             f = f1.add(f2); // should overflow
-            Assert.fail("expecting ArithmeticException but got: " + f.toString());
-        } catch (ArithmeticException ex) {}
+            Assert.fail("expecting MathArithmeticException but got: " + f.toString());
+        } catch (MathArithmeticException ex) {}
 
         try {
             f= new Fraction(-Integer.MAX_VALUE, 1);
@@ -429,8 +429,8 @@ public class FractionTest {
         Fraction f2 = Fraction.ZERO;
         try {
             f1.divide(f2);
-            Assert.fail("expecting ArithmeticException");
-        } catch (ArithmeticException ex) {}
+            Assert.fail("expecting MathArithmeticException");
+        } catch (MathArithmeticException ex) {}
 
         f1 = new Fraction(0, 5);
         f2 = new Fraction(2, 7);
@@ -555,8 +555,8 @@ public class FractionTest {
         f2 = new Fraction(1,5);
         try {
             f = f1.subtract(f2); // should overflow
-            Assert.fail("expecting ArithmeticException but got: " + f.toString());
-        } catch (ArithmeticException ex) {}
+            Assert.fail("expecting MathArithmeticException but got: " + f.toString());
+        } catch (MathArithmeticException ex) {}
 
         try {
             f= new Fraction(Integer.MIN_VALUE, 1);
@@ -599,8 +599,8 @@ public class FractionTest {
         Assert.assertTrue(Fraction.ZERO.equals(Fraction.getReducedFraction(0, -1)));
         try {
             Fraction.getReducedFraction(1, 0);
-            Assert.fail("expecting ArithmeticException");
-        } catch (ArithmeticException ex) {
+            Assert.fail("expecting MathArithmeticException");
+        } catch (MathArithmeticException ex) {
             // expected
         }
         Assert.assertEquals(Fraction.getReducedFraction

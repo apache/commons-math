@@ -248,8 +248,8 @@ public class CombinatoricsUtilsTest {
         }
         try {
             CombinatoricsUtils.factorial(21);
-            Assert.fail("expecting ArithmeticException");
-        } catch (ArithmeticException ex) {
+            Assert.fail("expecting MathArithmeticException");
+        } catch (MathArithmeticException ex) {
             // ignored
         }
         Assert.assertTrue("expecting infinite factorial value", Double.isInfinite(CombinatoricsUtils.factorialDouble(171)));
@@ -307,7 +307,7 @@ public class CombinatoricsUtilsTest {
         CombinatoricsUtils.stirlingS2(3, 4);
     }
 
-    @Test(expected=ArithmeticException.class)
+    @Test(expected=MathArithmeticException.class)
     public void testStirlingS2Overflow() {
         CombinatoricsUtils.stirlingS2(26, 9);
     }
