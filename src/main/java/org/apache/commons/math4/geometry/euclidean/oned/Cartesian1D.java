@@ -34,7 +34,7 @@ import org.apache.commons.math4.util.MathUtils;
  * <p>Instances of this class are guaranteed to be immutable.</p>
  * @since 4.0
  */
-public class Cartesian1D implements Point<Euclidean1D>, Vector<Euclidean1D> {
+public class Cartesian1D extends Vector1D implements Point<Euclidean1D> {
 
     /** Origin (coordinates: 0). */
     public static final Cartesian1D ZERO = new Cartesian1D(0.0);
@@ -128,6 +128,7 @@ public class Cartesian1D implements Point<Euclidean1D>, Vector<Euclidean1D> {
      * @return abscissa of the vector
      * @see #Cartesian1D(double)
      */
+    @Override
     public double getX() {
         return x;
     }

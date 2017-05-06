@@ -130,14 +130,14 @@ public abstract class Vector1DFormatAbstractTest {
     @Test
     public void testParseSimpleNoDecimals() throws MathParseException {
         String source = "{1}";
-        Cartesian1D expected = new Cartesian1D(1);
-        Cartesian1D actual = vector1DFormat.parse(source);
+        Vector1D expected = new Cartesian1D(1);
+        Vector1D actual = vector1DFormat.parse(source);
         Assert.assertEquals(expected, actual);
     }
 
     @Test
     public void testParseIgnoredWhitespace() {
-        Cartesian1D expected = new Cartesian1D(1);
+        Vector1D expected = new Cartesian1D(1);
         ParsePosition pos1 = new ParsePosition(0);
         String source1 = "{1}";
         Assert.assertEquals(expected, vector1DFormat.parse(source1, pos1));
@@ -153,8 +153,8 @@ public abstract class Vector1DFormatAbstractTest {
         String source =
             "{1" + getDecimalCharacter() +
             "23}";
-        Cartesian1D expected = new Cartesian1D(1.23);
-        Cartesian1D actual = vector1DFormat.parse(source);
+        Vector1D expected = new Cartesian1D(1.23);
+        Vector1D actual = vector1DFormat.parse(source);
         Assert.assertEquals(expected, actual);
     }
 
@@ -163,8 +163,8 @@ public abstract class Vector1DFormatAbstractTest {
         String source =
             "{1" + getDecimalCharacter() +
             "2323}";
-        Cartesian1D expected = new Cartesian1D(1.2323);
-        Cartesian1D actual = vector1DFormat.parse(source);
+        Vector1D expected = new Cartesian1D(1.2323);
+        Vector1D actual = vector1DFormat.parse(source);
         Assert.assertEquals(expected, actual);
     }
 
@@ -173,8 +173,8 @@ public abstract class Vector1DFormatAbstractTest {
         String source =
             "{-1" + getDecimalCharacter() +
             "2323}";
-        Cartesian1D expected = new Cartesian1D(-1.2323);
-        Cartesian1D actual = vector1DFormat.parse(source);
+        Vector1D expected = new Cartesian1D(-1.2323);
+        Vector1D actual = vector1DFormat.parse(source);
         Assert.assertEquals(expected, actual);
     }
 
@@ -183,8 +183,8 @@ public abstract class Vector1DFormatAbstractTest {
         String source =
             "{1" + getDecimalCharacter() +
             "2323}";
-        Cartesian1D expected = new Cartesian1D(1.2323);
-        Cartesian1D actual = vector1DFormat.parse(source);
+        Vector1D expected = new Cartesian1D(1.2323);
+        Vector1D actual = vector1DFormat.parse(source);
         Assert.assertEquals(expected, actual);
     }
 
@@ -193,8 +193,8 @@ public abstract class Vector1DFormatAbstractTest {
         String source =
             "{1" + getDecimalCharacter() +
             "2323}";
-        Cartesian1D expected = new Cartesian1D(1.2323);
-        Cartesian1D actual = vector1DFormat.parse(source);
+        Vector1D expected = new Cartesian1D(1.2323);
+        Vector1D actual = vector1DFormat.parse(source);
         Assert.assertEquals(expected, actual);
     }
 
@@ -203,8 +203,8 @@ public abstract class Vector1DFormatAbstractTest {
         String source =
             "{-1" + getDecimalCharacter() +
             "2323}";
-        Cartesian1D expected = new Cartesian1D(-1.2323);
-        Cartesian1D actual = vector1DFormat.parse(source);
+        Vector1D expected = new Cartesian1D(-1.2323);
+        Vector1D actual = vector1DFormat.parse(source);
         Assert.assertEquals(expected, actual);
     }
 
@@ -213,8 +213,8 @@ public abstract class Vector1DFormatAbstractTest {
         String source =
             "{0" + getDecimalCharacter() +
             "0}";
-        Cartesian1D expected = new Cartesian1D(0.0);
-        Cartesian1D actual = vector1DFormat.parse(source);
+        Vector1D expected = new Cartesian1D(0.0);
+        Vector1D actual = vector1DFormat.parse(source);
         Assert.assertEquals(expected, actual);
     }
 
@@ -223,29 +223,29 @@ public abstract class Vector1DFormatAbstractTest {
         String source =
             "[1" + getDecimalCharacter() +
             "2323]";
-        Cartesian1D expected = new Cartesian1D(1.2323);
-        Cartesian1D actual = vector1DFormatSquare.parse(source);
+        Vector1D expected = new Cartesian1D(1.2323);
+        Vector1D actual = vector1DFormatSquare.parse(source);
         Assert.assertEquals(expected, actual);
     }
 
     @Test
     public void testParseNan() throws MathParseException {
         String source = "{(NaN)}";
-        Cartesian1D actual = vector1DFormat.parse(source);
+        Vector1D actual = vector1DFormat.parse(source);
         Assert.assertEquals(Cartesian1D.NaN, actual);
     }
 
     @Test
     public void testParsePositiveInfinity() throws MathParseException {
         String source = "{(Infinity)}";
-        Cartesian1D actual = vector1DFormat.parse(source);
+        Vector1D actual = vector1DFormat.parse(source);
         Assert.assertEquals(Cartesian1D.POSITIVE_INFINITY, actual);
     }
 
     @Test
     public void testParseNegativeInfinity() throws MathParseException {
         String source = "{(-Infinity)}";
-        Cartesian1D actual = vector1DFormat.parse(source);
+        Vector1D actual = vector1DFormat.parse(source);
         Assert.assertEquals(Cartesian1D.NEGATIVE_INFINITY, actual);
     }
 

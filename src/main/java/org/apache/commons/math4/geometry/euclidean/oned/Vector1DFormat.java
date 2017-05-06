@@ -105,26 +105,26 @@ public class Vector1DFormat extends VectorFormat<Euclidean1D> {
     @Override
     public StringBuffer format(final Vector<Euclidean1D> vector, final StringBuffer toAppendTo,
                                final FieldPosition pos) {
-        final Cartesian1D p1 = (Cartesian1D) vector;
+        final Vector1D p1 = (Vector1D) vector;
         return format(toAppendTo, pos, p1.getX());
     }
 
     /** {@inheritDoc} */
     @Override
-    public Cartesian1D parse(final String source) throws MathParseException {
+    public Vector1D parse(final String source) throws MathParseException {
         ParsePosition parsePosition = new ParsePosition(0);
-        Cartesian1D result = parse(source, parsePosition);
+        Vector1D result = parse(source, parsePosition);
         if (parsePosition.getIndex() == 0) {
             throw new MathParseException(source,
                                          parsePosition.getErrorIndex(),
-                                         Cartesian1D.class);
+                                         Vector1D.class);
         }
         return result;
     }
 
     /** {@inheritDoc} */
     @Override
-    public Cartesian1D parse(final String source, final ParsePosition pos) {
+    public Vector1D parse(final String source, final ParsePosition pos) {
         final double[] coordinates = parseCoordinates(1, source, pos);
         if (coordinates == null) {
             return null;
