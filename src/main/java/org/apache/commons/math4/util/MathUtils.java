@@ -29,8 +29,6 @@ import org.apache.commons.math4.exception.util.LocalizedFormats;
 /**
  * Miscellaneous utility functions.
  *
- * @see ArithmeticUtils
- * @see Precision
  * @see MathArrays
  *
  */
