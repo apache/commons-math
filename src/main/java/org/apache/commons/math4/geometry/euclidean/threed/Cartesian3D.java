@@ -39,7 +39,7 @@ import org.apache.commons.math4.util.MathUtils;
  * <p>Instance of this class are guaranteed to be immutable.</p>
  * @since 4.0
  */
-public class Cartesian3D implements Serializable, Point<Euclidean3D>, Vector<Euclidean3D> {
+public class Cartesian3D extends Vector3D implements Serializable, Point<Euclidean3D> {
 
     /** Null vector (coordinates: 0, 0, 0). */
     public static final Cartesian3D ZERO   = new Cartesian3D(0, 0, 0);

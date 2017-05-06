@@ -163,8 +163,8 @@ public abstract class Vector3DFormatAbstractTest {
     @Test
     public void testParseSimpleNoDecimals() throws MathParseException {
         String source = "{1; 1; 1}";
-        Cartesian3D expected = new Cartesian3D(1, 1, 1);
-        Cartesian3D actual = vector3DFormat.parse(source);
+        Vector3D expected = new Cartesian3D(1, 1, 1);
+        Vector3D actual = vector3DFormat.parse(source);
         Assert.assertEquals(expected, actual);
     }
 
@@ -188,8 +188,8 @@ public abstract class Vector3DFormatAbstractTest {
             "23; 1" + getDecimalCharacter() +
             "43; 1" + getDecimalCharacter() +
             "63}";
-        Cartesian3D expected = new Cartesian3D(1.23, 1.43, 1.63);
-        Cartesian3D actual = vector3DFormat.parse(source);
+        Vector3D expected = new Cartesian3D(1.23, 1.43, 1.63);
+        Vector3D actual = vector3DFormat.parse(source);
         Assert.assertEquals(expected, actual);
     }
 
@@ -200,8 +200,8 @@ public abstract class Vector3DFormatAbstractTest {
             "2323; 1" + getDecimalCharacter() +
             "4343; 1" + getDecimalCharacter() +
             "6333}";
-        Cartesian3D expected = new Cartesian3D(1.2323, 1.4343, 1.6333);
-        Cartesian3D actual = vector3DFormat.parse(source);
+        Vector3D expected = new Cartesian3D(1.2323, 1.4343, 1.6333);
+        Vector3D actual = vector3DFormat.parse(source);
         Assert.assertEquals(expected, actual);
     }
 
@@ -212,8 +212,8 @@ public abstract class Vector3DFormatAbstractTest {
             "2323; 1" + getDecimalCharacter() +
             "4343; 1" + getDecimalCharacter() +
             "6333}";
-        Cartesian3D expected = new Cartesian3D(-1.2323, 1.4343, 1.6333);
-        Cartesian3D actual = vector3DFormat.parse(source);
+        Vector3D expected = new Cartesian3D(-1.2323, 1.4343, 1.6333);
+        Vector3D actual = vector3DFormat.parse(source);
         Assert.assertEquals(expected, actual);
     }
 
@@ -224,8 +224,8 @@ public abstract class Vector3DFormatAbstractTest {
             "2323; -1" + getDecimalCharacter() +
             "4343; 1" + getDecimalCharacter() +
             "6333}";
-        Cartesian3D expected = new Cartesian3D(1.2323, -1.4343, 1.6333);
-        Cartesian3D actual = vector3DFormat.parse(source);
+        Vector3D expected = new Cartesian3D(1.2323, -1.4343, 1.6333);
+        Vector3D actual = vector3DFormat.parse(source);
         Assert.assertEquals(expected, actual);
     }
 
@@ -236,8 +236,8 @@ public abstract class Vector3DFormatAbstractTest {
             "2323; 1" + getDecimalCharacter() +
             "4343; -1" + getDecimalCharacter() +
             "6333}";
-        Cartesian3D expected = new Cartesian3D(1.2323, 1.4343, -1.6333);
-        Cartesian3D actual = vector3DFormat.parse(source);
+        Vector3D expected = new Cartesian3D(1.2323, 1.4343, -1.6333);
+        Vector3D actual = vector3DFormat.parse(source);
         Assert.assertEquals(expected, actual);
     }
 
@@ -248,8 +248,8 @@ public abstract class Vector3DFormatAbstractTest {
             "2323; -1" + getDecimalCharacter() +
             "4343; -1" + getDecimalCharacter() +
             "6333}";
-        Cartesian3D expected = new Cartesian3D(-1.2323, -1.4343, -1.6333);
-        Cartesian3D actual = vector3DFormat.parse(source);
+        Vector3D expected = new Cartesian3D(-1.2323, -1.4343, -1.6333);
+        Vector3D actual = vector3DFormat.parse(source);
         Assert.assertEquals(expected, actual);
     }
 
@@ -260,8 +260,8 @@ public abstract class Vector3DFormatAbstractTest {
             "0; -1" + getDecimalCharacter() +
             "4343; 1" + getDecimalCharacter() +
             "6333}";
-        Cartesian3D expected = new Cartesian3D(0.0, -1.4343, 1.6333);
-        Cartesian3D actual = vector3DFormat.parse(source);
+        Vector3D expected = new Cartesian3D(0.0, -1.4343, 1.6333);
+        Vector3D actual = vector3DFormat.parse(source);
         Assert.assertEquals(expected, actual);
     }
 
@@ -272,29 +272,29 @@ public abstract class Vector3DFormatAbstractTest {
             "2323 : 1" + getDecimalCharacter() +
             "4343 : 1" + getDecimalCharacter() +
             "6333]";
-        Cartesian3D expected = new Cartesian3D(1.2323, 1.4343, 1.6333);
-        Cartesian3D actual = vector3DFormatSquare.parse(source);
+        Vector3D expected = new Cartesian3D(1.2323, 1.4343, 1.6333);
+        Vector3D actual = vector3DFormatSquare.parse(source);
         Assert.assertEquals(expected, actual);
     }
 
     @Test
     public void testParseNan() throws MathParseException {
         String source = "{(NaN); (NaN); (NaN)}";
-        Cartesian3D actual = vector3DFormat.parse(source);
+        Vector3D actual = vector3DFormat.parse(source);
         Assert.assertEquals(Cartesian3D.NaN, actual);
     }
 
     @Test
     public void testParsePositiveInfinity() throws MathParseException {
         String source = "{(Infinity); (Infinity); (Infinity)}";
-        Cartesian3D actual = vector3DFormat.parse(source);
+        Vector3D actual = vector3DFormat.parse(source);
         Assert.assertEquals(Cartesian3D.POSITIVE_INFINITY, actual);
     }
 
     @Test
     public void testParseNegativeInfinity() throws MathParseException {
         String source = "{(-Infinity); (-Infinity); (-Infinity)}";
-        Cartesian3D actual = vector3DFormat.parse(source);
+        Vector3D actual = vector3DFormat.parse(source);
         Assert.assertEquals(Cartesian3D.NEGATIVE_INFINITY, actual);
     }
 
