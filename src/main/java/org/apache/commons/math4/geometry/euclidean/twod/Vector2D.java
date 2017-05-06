@@ -25,13 +25,13 @@ public abstract class Vector2D implements Vector<Euclidean2D> {
 
     /** Get the abscissa of the vector.
      * @return abscissa of the vector
-     * @see #Vector2D(double, double)
+     * @see #Cartesian2D(double, double)
      */
     public abstract double getX();
 
     /** Get the ordinate of the vector.
      * @return ordinate of the vector
-     * @see #Vector2D(double, double)
+     * @see #Cartesian2D(double, double)
      */
     public abstract double getY();
 
