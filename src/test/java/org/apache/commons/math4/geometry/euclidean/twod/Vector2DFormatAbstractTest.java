@@ -157,8 +157,8 @@ public abstract class Vector2DFormatAbstractTest {
     @Test
     public void testParseSimpleNoDecimals() throws MathParseException {
         String source = "{1; 1}";
-        Cartesian2D expected = new Cartesian2D(1, 1);
-        Cartesian2D actual = vector2DFormat.parse(source);
+        Vector2D expected = new Cartesian2D(1, 1);
+        Vector2D actual = vector2DFormat.parse(source);
         Assert.assertEquals(expected, actual);
     }
 
@@ -181,8 +181,8 @@ public abstract class Vector2DFormatAbstractTest {
             "{1" + getDecimalCharacter() +
             "23; 1" + getDecimalCharacter() +
             "43}";
-        Cartesian2D expected = new Cartesian2D(1.23, 1.43);
-        Cartesian2D actual = vector2DFormat.parse(source);
+        Vector2D expected = new Cartesian2D(1.23, 1.43);
+        Vector2D actual = vector2DFormat.parse(source);
         Assert.assertEquals(expected, actual);
     }
 
@@ -192,8 +192,8 @@ public abstract class Vector2DFormatAbstractTest {
             "{1" + getDecimalCharacter() +
             "2323; 1" + getDecimalCharacter() +
             "4343}";
-        Cartesian2D expected = new Cartesian2D(1.2323, 1.4343);
-        Cartesian2D actual = vector2DFormat.parse(source);
+        Vector2D expected = new Cartesian2D(1.2323, 1.4343);
+        Vector2D actual = vector2DFormat.parse(source);
         Assert.assertEquals(expected, actual);
     }
 
@@ -203,8 +203,8 @@ public abstract class Vector2DFormatAbstractTest {
             "{-1" + getDecimalCharacter() +
             "2323; 1" + getDecimalCharacter() +
             "4343}";
-        Cartesian2D expected = new Cartesian2D(-1.2323, 1.4343);
-        Cartesian2D actual = vector2DFormat.parse(source);
+        Vector2D expected = new Cartesian2D(-1.2323, 1.4343);
+        Vector2D actual = vector2DFormat.parse(source);
         Assert.assertEquals(expected, actual);
     }
 
@@ -214,8 +214,8 @@ public abstract class Vector2DFormatAbstractTest {
             "{1" + getDecimalCharacter() +
             "2323; -1" + getDecimalCharacter() +
             "4343}";
-        Cartesian2D expected = new Cartesian2D(1.2323, -1.4343);
-        Cartesian2D actual = vector2DFormat.parse(source);
+        Vector2D expected = new Cartesian2D(1.2323, -1.4343);
+        Vector2D actual = vector2DFormat.parse(source);
         Assert.assertEquals(expected, actual);
     }
 
@@ -225,8 +225,8 @@ public abstract class Vector2DFormatAbstractTest {
             "{1" + getDecimalCharacter() +
             "2323; 1" + getDecimalCharacter() +
             "4343}";
-        Cartesian2D expected = new Cartesian2D(1.2323, 1.4343);
-        Cartesian2D actual = vector2DFormat.parse(source);
+        Vector2D expected = new Cartesian2D(1.2323, 1.4343);
+        Vector2D actual = vector2DFormat.parse(source);
         Assert.assertEquals(expected, actual);
     }
 
@@ -236,8 +236,8 @@ public abstract class Vector2DFormatAbstractTest {
             "{-1" + getDecimalCharacter() +
             "2323; -1" + getDecimalCharacter() +
             "4343}";
-        Cartesian2D expected = new Cartesian2D(-1.2323, -1.4343);
-        Cartesian2D actual = vector2DFormat.parse(source);
+        Vector2D expected = new Cartesian2D(-1.2323, -1.4343);
+        Vector2D actual = vector2DFormat.parse(source);
         Assert.assertEquals(expected, actual);
     }
 
@@ -247,8 +247,8 @@ public abstract class Vector2DFormatAbstractTest {
             "{0" + getDecimalCharacter() +
             "0; -1" + getDecimalCharacter() +
             "4343}";
-        Cartesian2D expected = new Cartesian2D(0.0, -1.4343);
-        Cartesian2D actual = vector2DFormat.parse(source);
+        Vector2D expected = new Cartesian2D(0.0, -1.4343);
+        Vector2D actual = vector2DFormat.parse(source);
         Assert.assertEquals(expected, actual);
     }
 
@@ -258,29 +258,29 @@ public abstract class Vector2DFormatAbstractTest {
             "[1" + getDecimalCharacter() +
             "2323 : 1" + getDecimalCharacter() +
             "4343]";
-        Cartesian2D expected = new Cartesian2D(1.2323, 1.4343);
-        Cartesian2D actual = vector2DFormatSquare.parse(source);
+        Vector2D expected = new Cartesian2D(1.2323, 1.4343);
+        Vector2D actual = vector2DFormatSquare.parse(source);
         Assert.assertEquals(expected, actual);
     }
 
     @Test
     public void testParseNan() throws MathParseException {
         String source = "{(NaN); (NaN)}";
-        Cartesian2D actual = vector2DFormat.parse(source);
+        Vector2D actual = vector2DFormat.parse(source);
         Assert.assertEquals(Cartesian2D.NaN, actual);
     }
 
     @Test
     public void testParsePositiveInfinity() throws MathParseException {
         String source = "{(Infinity); (Infinity)}";
-        Cartesian2D actual = vector2DFormat.parse(source);
+        Vector2D actual = vector2DFormat.parse(source);
         Assert.assertEquals(Cartesian2D.POSITIVE_INFINITY, actual);
     }
 
     @Test
     public void testParseNegativeInfinity() throws MathParseException {
         String source = "{(-Infinity); (-Infinity)}";
-        Cartesian2D actual = vector2DFormat.parse(source);
+        Vector2D actual = vector2DFormat.parse(source);
         Assert.assertEquals(Cartesian2D.NEGATIVE_INFINITY, actual);
     }
 

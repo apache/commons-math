@@ -36,7 +36,7 @@ import org.apache.commons.math4.util.MathUtils;
  * <p>Instances of this class are guaranteed to be immutable.</p>
  * @since 4.0
  */
-public class Cartesian2D implements Point<Euclidean2D>, Vector<Euclidean2D> {
+public class Cartesian2D extends Vector2D implements Point<Euclidean2D> {
 
     /** Origin (coordinates: 0, 0). */
     public static final Cartesian2D ZERO   = new Cartesian2D(0, 0);
