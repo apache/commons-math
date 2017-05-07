@@ -42,7 +42,7 @@ import org.apache.commons.math4.util.MathUtils;
  * <li>If both <code>Double.POSITIVE_INFINITY</code> and
  * <code>Double.NEGATIVE_INFINITY</code> are among the values, the result is
  * <code>NaN.</code></li>
- * </ul> </p>
+ * </ul>
  * <p>
  * <strong>Note that this implementation is not synchronized.</strong> If
  * multiple threads access an instance of this class concurrently, and at least
@@ -162,7 +162,7 @@ public class GeometricMean extends AbstractStorelessUnivariateStatistic implemen
      * @param sumLogImpl the StorelessUnivariateStatistic instance to use
      * for computing the log sum
      * @throws MathIllegalStateException if data has already been added
-     *  (i.e if n > 0)
+     *  (i.e if n &gt; 0)
      */
     public void setSumLogImpl(StorelessUnivariateStatistic sumLogImpl)
         throws MathIllegalStateException {

@@ -435,7 +435,7 @@ public class DescriptiveStatistics implements StatisticalSummary, Serializable {
      * <code>MathIllegalArgumentException</code> is thrown)</li>
      * <li>at least one value must be stored (returns <code>Double.NaN
      *     </code> otherwise)</li>
-     * </ul></p>
+     * </ul>
      *
      * @param p the requested percentile (scaled from 0 - 100)
      * @return An estimate for the pth percentile of the stored data

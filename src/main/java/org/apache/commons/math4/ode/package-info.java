@@ -127,10 +127,9 @@
  * automatic guess is wrong.
  * </p>
  *
- * <p>
- * <table border="1" align="center">
- * <tr BGCOLOR="#CCCCFF"><td colspan=2><font size="+2">Fixed Step Integrators</font></td></tr>
- * <tr BGCOLOR="#EEEEFF"><font size="+1"><td>Name</td><td>Order</td></font></tr>
+ * <table border="1" style="text-align: center" summary="Fixed Step Integrators">
+ * <tr style="background-color: #CCCCFF"><td colspan=2 style="font-size: x-large">Fixed Step Integrators</td></tr>
+ * <tr style="background-color: #EEEEFF; font-size: larger"><td>Name</td><td>Order</td></tr>
  * <tr><td>{@link org.apache.commons.math4.ode.nonstiff.EulerIntegrator Euler}</td><td>1</td></tr>
  * <tr><td>{@link org.apache.commons.math4.ode.nonstiff.MidpointIntegrator Midpoint}</td><td>2</td></tr>
  * <tr><td>{@link org.apache.commons.math4.ode.nonstiff.ClassicalRungeKuttaIntegrator Classical Runge-Kutta}</td><td>4</td></tr>
@@ -138,11 +137,10 @@
  * <tr><td>{@link org.apache.commons.math4.ode.nonstiff.ThreeEighthesIntegrator 3/8}</td><td>4</td></tr>
  * <tr><td>{@link org.apache.commons.math4.ode.nonstiff.LutherIntegrator Luther}</td><td>6</td></tr>
  * </table>
- * </p>
  *
- * <table border="1" align="center">
- * <tr BGCOLOR="#CCCCFF"><td colspan=3><font size="+2">Adaptive Stepsize Integrators</font></td></tr>
- * <tr BGCOLOR="#EEEEFF"><font size="+1"><td>Name</td><td>Integration Order</td><td>Error Estimation Order</td></font></tr>
+ * <table border="1" style="text-align: center" summary="Adaptive Stepsize Integrators">
+ * <tr style="background-color: #CCCCFF"><td colspan=3 style="font-size: x-large">Adaptive Stepsize Integrators</td></tr>
+ * <tr style="background-color: #EEEEFF; font-size: larger"><td>Name</td><td>Integration Order</td><td>Error Estimation Order</td></tr>
  * <tr><td>{@link org.apache.commons.math4.ode.nonstiff.HighamHall54Integrator Higham and Hall}</td><td>5</td><td>4</td></tr>
  * <tr><td>{@link org.apache.commons.math4.ode.nonstiff.DormandPrince54Integrator Dormand-Prince 5(4)}</td><td>5</td><td>4</td></tr>
  * <tr><td>{@link org.apache.commons.math4.ode.nonstiff.DormandPrince853Integrator Dormand-Prince 8(5,3)}</td><td>8</td><td>5 and 3</td></tr>
@@ -150,7 +148,6 @@
  * <tr><td>{@link org.apache.commons.math4.ode.nonstiff.AdamsBashforthIntegrator Adams-Bashforth}</td><td>variable</td><td>variable</td></tr>
  * <tr><td>{@link org.apache.commons.math4.ode.nonstiff.AdamsMoultonIntegrator Adams-Moulton}</td><td>variable</td><td>variable</td></tr>
  * </table>
- * </p>
  *
  * <p>
  * In the table above, the {@link org.apache.commons.math4.ode.nonstiff.AdamsBashforthIntegrator

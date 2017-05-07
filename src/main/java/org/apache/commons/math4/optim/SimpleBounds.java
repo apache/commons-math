@@ -22,7 +22,7 @@ import java.util.Arrays;
  * Simple optimization constraints: lower and upper bounds.
  * The valid range of the parameters is an interval that can be infinite
  * (in one or both directions).
- * <br/>
+ * <br>
  * Immutable class.
  *
  * @since 3.1

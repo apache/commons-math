@@ -28,7 +28,7 @@ import org.apache.commons.math4.linear.DiagonalMatrix;
  * Fits points to a {@link
  * org.apache.commons.math4.analysis.polynomials.PolynomialFunction.Parametric polynomial}
  * function.
- * <br/>
+ * <br>
  * The size of the {@link #withStartPoint(double[]) initial guess} array defines the
  * degree of the polynomial to be fitted.
  * They must be sorted in increasing order of the polynomial's degree.

@@ -29,10 +29,10 @@ public class Erf {
      * The number {@code X_CRIT} is used by {@link #erf(double, double)} internally.
      * This number solves {@code erf(x)=0.5} within 1ulp.
      * More precisely, the current implementations of
-     * {@link #erf(double)} and {@link #erfc(double)} satisfy:<br/>
-     * {@code erf(X_CRIT) < 0.5},<br/>
-     * {@code erf(Math.nextUp(X_CRIT) > 0.5},<br/>
-     * {@code erfc(X_CRIT) = 0.5}, and<br/>
+     * {@link #erf(double)} and {@link #erfc(double)} satisfy:<br>
+     * {@code erf(X_CRIT) < 0.5},<br>
+     * {@code erf(Math.nextUp(X_CRIT) > 0.5},<br>
+     * {@code erfc(X_CRIT) = 0.5}, and<br>
      * {@code erfc(Math.nextUp(X_CRIT) < 0.5}
      */
     private static final double X_CRIT = 0.4769362762044697;
@@ -74,7 +74,7 @@ public class Erf {
      * Returns the complementary error function.
      *
      * <p>erfc(x) = 2/&radic;&pi; <sub>x</sub>&int;<sup>&infin;</sup> e<sup>-t<sup>2</sup></sup>dt
-     * <br/>
+     * <br>
      *    = 1 - {@link #erf(double) erf(x)} </p>
      *
      * <p>This implementation computes erfc(x) using the

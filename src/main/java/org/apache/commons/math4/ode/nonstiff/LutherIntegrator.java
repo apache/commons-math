@@ -43,7 +43,7 @@ import org.apache.commons.math4.util.FastMath;
  *            |--------------------------------------------------------------------------------------------------------------------------------------------------
  *            |              1/20                   0                   16/45                  0                   49/180                 49/180         1/20
  * </pre>
- * where q = &radic;21</p>
+ * where q = &radic;21
  *
  * @see EulerIntegrator
  * @see ClassicalRungeKuttaIntegrator

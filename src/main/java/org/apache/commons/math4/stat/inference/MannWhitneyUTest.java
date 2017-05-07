@@ -114,7 +114,6 @@ public class MannWhitneyUTest {
      * <li>All observations in the two samples are independent.</li>
      * <li>The observations are at least ordinal (continuous are also ordinal).</li>
      * </ul>
-     * </p>
      *
      * @param x the first sample
      * @param y the second sample
@@ -203,8 +202,7 @@ public class MannWhitneyUTest {
      * <ul>
      * <li>All observations in the two samples are independent.</li>
      * <li>The observations are at least ordinal (continuous are also ordinal).</li>
-     * </ul>
-     * </p><p>
+     * </ul><p>
      * Ties give rise to biased variance at the moment. See e.g. <a
      * href="http://mlsc.lboro.ac.uk/resources/statistics/Mannwhitney.pdf"
      * >http://mlsc.lboro.ac.uk/resources/statistics/Mannwhitney.pdf</a>.</p>

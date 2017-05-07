@@ -61,7 +61,7 @@ public abstract class AbstractFieldMatrix<T extends FieldElement<T>>
     }
 
     /**
-     * Create a new FieldMatrix<T> with the supplied row and column dimensions.
+     * Create a new {@code FieldMatrix<T>} with the supplied row and column dimensions.
      *
      * @param field Field to which the elements belong.
      * @param rowDimension Number of rows in the new matrix.

@@ -34,7 +34,7 @@ import org.apache.commons.math4.ml.neuralnet.SquareNeighbourhood;
 /**
  * Neural network with the topology of a two-dimensional surface.
  * Each neuron defines one surface element.
- * <br/>
+ * <br>
  * This network is primarily intended to represent a
  * <a href="http://en.wikipedia.org/wiki/Kohonen">
  *  Self Organizing Feature Map</a>.
@@ -141,9 +141,9 @@ public class NeuronSquareMesh2D
      * Creates a two-dimensional network composed of square cells:
      * Each neuron not located on the border of the mesh has four
      * neurons linked to it.
-     * <br/>
+     * <br>
      * The links are bi-directional.
-     * <br/>
+     * <br>
      * The topology of the network can also be a cylinder (if one
      * of the dimensions is wrapped) or a torus (if both dimensions
      * are wrapped).

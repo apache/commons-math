@@ -56,7 +56,7 @@ import org.apache.commons.math4.util.MathUtils;
  * Since they are not Comparable with each other the user must do any necessary coercion.
  * Float.NaN and Double.NaN are not treated specially; they may occur in input and will
  * occur in output if appropriate.
- * </b>
+ * </p>
  * <p>
  * The values are ordered using the default (natural order), unless a
  * <code>Comparator</code> is supplied in the constructor.</p>

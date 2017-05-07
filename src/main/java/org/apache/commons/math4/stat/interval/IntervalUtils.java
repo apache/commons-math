@@ -86,7 +86,6 @@ public final class IntervalUtils {
      * <li>{@code numberOfSuccesses} may not exceed {@code numberOfTrials}</li>
      * <li>{@code confidenceLevel} must be strictly between 0 and 1 (exclusive)</li>
      * </ul>
-     * </p>
      *
      * @param numberOfTrials number of trials
      * @param numberOfSuccesses number of successes

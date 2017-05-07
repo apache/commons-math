@@ -50,7 +50,7 @@ import org.apache.commons.math4.util.MathArrays;
  * D. J., Math. Comp. 26, 1972, pp 941-947.</li>
  * <li>"Bessel Functions of Real Argument and Integer Order," Sookne, D. J., NBS
  * Jour. of Res. B. 77B, 1973, pp 125-132.</li>
- * </ul> </p>
+ * </ul>
  * @since 3.4
  */
 public class BesselJ
@@ -176,8 +176,7 @@ public class BesselJ
      * {@link #getVals()} returns the computed function values.
      * {@link #getnVals()} is the number of values among those returned by {@link #getnVals()}
      * that can be considered accurate.
-     * </p><p>
-     * <ul>
+     * </p><ul>
      * <li>nVals < 0: An argument is out of range. For example, nb <= 0, alpha
      * < 0 or > 1, or x is too large. In this case, b(0) is set to zero, the
      * remainder of the b-vector is not calculated, and nVals is set to
@@ -188,7 +187,7 @@ public class BesselJ
      * precision is lost for nVals < n <= nb. If b(n) does not vanish for n >
      * nVals (because it is too small to be represented), and b(n)/b(nVals) =
      * \(10^{-k}\), then only the first NSIG-k significant figures of b(n) can be
-     * trusted.</li></ul></p>
+     * trusted.</li></ul>
      */
     public static class BesselJResult {
 

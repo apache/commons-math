@@ -33,7 +33,7 @@ import org.apache.commons.numbers.core.Precision;
  * Series C (Applied Statistics), Vol. 41, No. 2
  * (1992), pp. 458-478
  * Published by: Blackwell Publishing for the Royal Statistical Society
- * Stable URL: http://www.jstor.org/stable/2347583 </pre></p>
+ * Stable URL: http://www.jstor.org/stable/2347583 </pre>
  *
  * <p>This method for multiple regression forms the solution to the OLS problem
  * by updating the QR decomposition as described by Gentleman.</p>
@@ -596,7 +596,7 @@ public class MillerUpdatingRegression implements UpdatingMultipleLinearRegressio
      *
      * <p>If IN = 0, the value returned in array CORMAT for the correlation
      * of variables Xi & Xj is: <pre>
-     * sum ( Xi.Xj ) / Sqrt ( sum (Xi^2) . sum (Xj^2) )</pre></p>
+     * sum ( Xi.Xj ) / Sqrt ( sum (Xi^2) . sum (Xj^2) )</pre>
      *
      * <p>On return, array CORMAT contains the upper triangle of the matrix of
      * partial correlations stored by rows, excluding the 1's on the diagonal.

@@ -803,12 +803,12 @@ public abstract class RealVector {
 
     /**
      * Acts as if it is implemented as:
-     * <pre>
+     * {@code
      *  Entry e = null;
      *  for(Iterator<Entry> it = iterator(); it.hasNext(); e = it.next()) {
      *      e.setValue(function.value(e.getValue()));
      *  }
-     * </pre>
+     * }
      * Entries of this vector are modified in-place by this method.
      *
      * @param function Function to apply to each entry.

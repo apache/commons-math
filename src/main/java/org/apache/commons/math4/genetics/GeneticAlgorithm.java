@@ -125,7 +125,6 @@ public class GeneticAlgorithm {
 
     /**
      * Evolve the given population into the next generation.
-     * <p>
      * <ol>
      *  <li>Get nextGeneration population to fill from <code>current</code>
      *      generation, using its nextGeneration method</li>

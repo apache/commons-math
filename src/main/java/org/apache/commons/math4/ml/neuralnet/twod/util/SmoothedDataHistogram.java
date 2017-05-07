@@ -26,11 +26,11 @@ import org.apache.commons.math4.exception.NumberIsTooSmallException;
 /**
  * Visualization of high-dimensional data projection on a 2D-map.
  * The method is described in
- * <quote>
+ * <blockquote>
  *  <em>Using Smoothed Data Histograms for Cluster Visualization in Self-Organizing Maps</em>
  *  <br>
  *  by Elias Pampalk, Andreas Rauber and Dieter Merkl.
- * </quote>
+ * </blockquote>
  * @since 3.6
  */
 public class SmoothedDataHistogram implements MapDataVisualization {

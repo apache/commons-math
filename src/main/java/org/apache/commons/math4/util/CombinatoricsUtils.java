@@ -75,7 +75,7 @@ public final class CombinatoricsUtils {
      * {@code  < Long.MAX_VALUE} is 66. If the computed value exceeds
      * {@code Long.MAX_VALUE} a {@code MathArithMeticException} is
      * thrown.</li>
-     * </ul></p>
+     * </ul>
      *
      * @param n the size of the set
      * @param k the size of the subsets to be counted
@@ -153,10 +153,10 @@ public final class CombinatoricsUtils {
      * <li> {@code 0 <= k <= n } (otherwise
      * {@code IllegalArgumentException} is thrown)</li>
      * <li> The result is small enough to fit into a {@code double}. The
-     * largest value of {@code n} for which all coefficients are <
+     * largest value of {@code n} for which all coefficients are &lt;
      * Double.MAX_VALUE is 1029. If the computed value exceeds Double.MAX_VALUE,
      * Double.POSITIVE_INFINITY is returned</li>
-     * </ul></p>
+     * </ul>
      *
      * @param n the size of the set
      * @param k the size of the subsets to be counted
@@ -201,7 +201,7 @@ public final class CombinatoricsUtils {
      * <ul>
      * <li> {@code 0 <= k <= n } (otherwise
      * {@code MathIllegalArgumentException} is thrown)</li>
-     * </ul></p>
+     * </ul>
      *
      * @param n the size of the set
      * @param k the size of the subsets to be counted
@@ -273,7 +273,6 @@ public final class CombinatoricsUtils {
      * Long.MAX_VALUE} is 20. If the computed value exceeds {@code Long.MAX_VALUE}
      * an {@code MathArithMeticException } is thrown.</li>
      * </ul>
-     * </p>
      *
      * @param n argument
      * @return {@code n!}

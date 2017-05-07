@@ -50,7 +50,7 @@ import org.apache.commons.math4.optim.nonlinear.scalar.MultivariateOptimizer;
  *  the objective function values at the vertices of a simplex (which is a
  *  set of n+1 points in dimension n) that is updated by the algorithms
  *  steps.
- * <p>
+ * </p>
  * <p>
  *  The simplex update procedure ({@link NelderMeadSimplex} or
  * {@link MultiDirectionalSimplex})  must be passed to the
@@ -79,7 +79,7 @@ import org.apache.commons.math4.optim.nonlinear.scalar.MultivariateOptimizer;
  *  MultivariateFunctionMappingAdapter} or
  *  {@link org.apache.commons.math4.optim.nonlinear.scalar.MultivariateFunctionPenaltyAdapter
  *  MultivariateFunctionPenaltyAdapter}.
- *  <br/>
+ *  <br>
  *  The call to {@link #optimize(OptimizationData[]) optimize} will throw
  *  {@link MathUnsupportedOperationException} if bounds are passed to it.
  * </p>

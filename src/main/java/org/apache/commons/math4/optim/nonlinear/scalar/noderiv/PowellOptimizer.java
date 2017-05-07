@@ -34,14 +34,14 @@ import org.apache.commons.math4.util.MathArrays;
  * This code is translated and adapted from the Python version of this
  * algorithm (as implemented in module {@code optimize.py} v0.5 of
  * <em>SciPy</em>).
- * <br/>
+ * <br>
  * The default stopping criterion is based on the differences of the
  * function value between two successive iterations. It is however possible
  * to define a custom convergence checker that might terminate the algorithm
  * earlier.
- * <br/>
+ * <br>
  * Line search is performed by the {@link LineSearch} class.
- * <br/>
+ * <br>
  * Constraints are not supported: the call to
  * {@link #optimize(OptimizationData[]) optimize} will throw
  * {@link MathUnsupportedOperationException} if bounds are passed to it.
@@ -77,7 +77,7 @@ public class PowellOptimizer
      * This constructor allows to specify a user-defined convergence checker,
      * in addition to the parameters that control the default convergence
      * checking procedure.
-     * <br/>
+     * <br>
      * The internal line search tolerances are set to the square-root of their
      * corresponding value in the multivariate optimizer.
      *
@@ -131,7 +131,7 @@ public class PowellOptimizer
 
     /**
      * The parameters control the default convergence checking procedure.
-     * <br/>
+     * <br>
      * The internal line search tolerances are set to the square-root of their
      * corresponding value in the multivariate optimizer.
      *

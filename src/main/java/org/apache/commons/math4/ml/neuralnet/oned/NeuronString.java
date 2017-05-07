@@ -83,11 +83,11 @@ public class NeuronString implements Serializable {
      * Creates a one-dimensional network:
      * Each neuron not located on the border of the mesh has two
      * neurons linked to it.
-     * <br/>
+     * <br>
      * The links are bi-directional.
      * Neurons created successively are neighbours (i.e. there are
      * links between them).
-     * <br/>
+     * <br>
      * The topology of the network can also be a circle (if the
      * dimension is wrapped).
      *

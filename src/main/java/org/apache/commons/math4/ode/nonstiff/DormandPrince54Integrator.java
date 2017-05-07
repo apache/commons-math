@@ -40,7 +40,7 @@ import org.apache.commons.math4.util.FastMath;
  *  J. R. Dormand and P. J. Prince
  *  Journal of Computational and Applied Mathematics
  *  volume 6, no 1, 1980, pp. 19-26
- * </pre></p>
+ * </pre>
  *
  * @since 1.2
  */

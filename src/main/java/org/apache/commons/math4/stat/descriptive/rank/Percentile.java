@@ -43,20 +43,20 @@ import org.apache.commons.numbers.core.Precision;
  * significantly different results.  The algorithm implemented here works as follows:
  * <ol>
  * <li>Let <code>n</code> be the length of the (sorted) array and
- * <code>0 < p <= 100</code> be the desired percentile.</li>
+ * <code>0 &lt; p &lt;= 100</code> be the desired percentile.</li>
  * <li>If <code> n = 1 </code> return the unique array element (regardless of
  * the value of <code>p</code>); otherwise </li>
  * <li>Compute the estimated percentile position
  * <code> pos = p * (n + 1) / 100</code> and the difference, <code>d</code>
  * between <code>pos</code> and <code>floor(pos)</code> (i.e. the fractional
  * part of <code>pos</code>).</li>
- * <li> If <code>pos < 1</code> return the smallest element in the array.</li>
- * <li> Else if <code>pos >= n</code> return the largest element in the array.</li>
+ * <li> If <code>pos &lt; 1</code> return the smallest element in the array.</li>
+ * <li> Else if <code>pos &gt;= n</code> return the largest element in the array.</li>
  * <li> Else let <code>lower</code> be the element in position
  * <code>floor(pos)</code> in the array and let <code>upper</code> be the
  * next element in the array.  Return <code>lower + d * (upper - lower)</code>
  * </li>
- * </ol></p>
+ * </ol>
  * <p>
  * To compute percentiles, the data must be at least partially ordered.  Input
  * arrays are copied and recursively partitioned using an ordering definition.
@@ -247,7 +247,6 @@ public class Percentile extends AbstractUnivariateStatistic implements Serializa
      * <p>
      * Calls to this method do not modify the internal <code>quantile</code>
      * state of this statistic.</p>
-     * <p>
      * <ul>
      * <li>Returns <code>Double.NaN</code> if <code>values</code> has length
      * <code>0</code></li>
@@ -256,7 +255,7 @@ public class Percentile extends AbstractUnivariateStatistic implements Serializa
      * <li>Throws <code>MathIllegalArgumentException</code> if <code>values</code>
      * is null or p is not a valid quantile value (p must be greater than 0
      * and less than or equal to 100) </li>
-     * </ul></p>
+     * </ul>
      * <p>
      * See {@link Percentile} for a description of the percentile estimation
      * algorithm used.</p>
@@ -277,14 +276,13 @@ public class Percentile extends AbstractUnivariateStatistic implements Serializa
      * Returns an estimate of the <code>quantile</code>th percentile of the
      * designated values in the <code>values</code> array.  The quantile
      * estimated is determined by the <code>quantile</code> property.
-     * <p>
      * <ul>
      * <li>Returns <code>Double.NaN</code> if <code>length = 0</code></li>
      * <li>Returns (for any value of <code>quantile</code>)
      * <code>values[begin]</code> if <code>length = 1 </code></li>
      * <li>Throws <code>MathIllegalArgumentException</code> if <code>values</code>
      * is null, or <code>start</code> or <code>length</code> is invalid</li>
-     * </ul></p>
+     * </ul>
      * <p>
      * See {@link Percentile} for a description of the percentile estimation
      * algorithm used.</p>
@@ -310,7 +308,6 @@ public class Percentile extends AbstractUnivariateStatistic implements Serializa
      * <p>
      * Calls to this method do not modify the internal <code>quantile</code>
      * state of this statistic.</p>
-     * <p>
      * <ul>
      * <li>Returns <code>Double.NaN</code> if <code>length = 0</code></li>
      * <li>Returns (for any value of <code>p</code>) <code>values[begin]</code>
@@ -319,7 +316,7 @@ public class Percentile extends AbstractUnivariateStatistic implements Serializa
      *  is null , <code>begin</code> or <code>length</code> is invalid, or
      * <code>p</code> is not a valid quantile value (p must be greater than 0
      * and less than or equal to 100)</li>
-     * </ul></p>
+     * </ul>
      * <p>
      * See {@link Percentile} for a description of the percentile estimation
      * algorithm used.</p>
@@ -367,7 +364,7 @@ public class Percentile extends AbstractUnivariateStatistic implements Serializa
      * Sets the value of the quantile field (determines what percentile is
      * computed when evaluate() is called with no quantile argument).
      *
-     * @param p a value between 0 < p <= 100
+     * @param p a value between 0 &lt; p &lt;= 100
      * @throws MathIllegalArgumentException  if p is not greater than 0 and less
      * than or equal to 100
      */

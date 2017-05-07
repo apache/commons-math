@@ -112,10 +112,10 @@ public abstract class AdamsFieldIntegrator<T extends RealFieldElement<T>> extend
 
     /** Update the high order scaled derivatives for Adams integrators (phase 1).
      * <p>The complete update of high order derivatives has a form similar to:
-     * <pre>
+     * <div style="white-space: pre"><code>
      * r<sub>n+1</sub> = (s<sub>1</sub>(n) - s<sub>1</sub>(n+1)) P<sup>-1</sup> u + P<sup>-1</sup> A P r<sub>n</sub>
-     * </pre>
-     * this method computes the P<sup>-1</sup> A P r<sub>n</sub> part.</p>
+     * </code></div>
+     * this method computes the P<sup>-1</sup> A P r<sub>n</sub> part.
      * @param highOrder high order scaled derivatives
      * (h<sup>2</sup>/2 y'', ... h<sup>k</sup>/k! y(k))
      * @return updated high order derivatives
@@ -127,10 +127,10 @@ public abstract class AdamsFieldIntegrator<T extends RealFieldElement<T>> extend
 
     /** Update the high order scaled derivatives Adams integrators (phase 2).
      * <p>The complete update of high order derivatives has a form similar to:
-     * <pre>
+     * <div style="white-space: pre"><code>
      * r<sub>n+1</sub> = (s<sub>1</sub>(n) - s<sub>1</sub>(n+1)) P<sup>-1</sup> u + P<sup>-1</sup> A P r<sub>n</sub>
-     * </pre>
-     * this method computes the (s<sub>1</sub>(n) - s<sub>1</sub>(n+1)) P<sup>-1</sup> u part.</p>
+     * </code></div>
+     * this method computes the (s<sub>1</sub>(n) - s<sub>1</sub>(n+1)) P<sup>-1</sup> u part.
      * <p>Phase 1 of the update must already have been performed.</p>
      * @param start first order scaled derivatives at step start
      * @param end first order scaled derivatives at step end

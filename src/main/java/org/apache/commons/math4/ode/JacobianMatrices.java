@@ -43,7 +43,6 @@ import org.apache.commons.math4.exception.util.LocalizedFormats;
  * <li>a {@link ParameterJacobianProvider}</li>
  * <li>a {@link ParameterizedODE}</li>
  * </ul>
- * </p>
  *
  * @see ExpandableStatefulODE
  * @see FirstOrderDifferentialEquations

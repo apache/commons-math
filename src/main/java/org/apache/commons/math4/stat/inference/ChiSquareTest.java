@@ -62,7 +62,7 @@ public class ChiSquareTest {
      * </li>
      * <li>The observed and expected arrays must have the same length and
      * their common length must be at least 2.
-     * </li></ul></p><p>
+     * </li></ul><p>
      * If any of the preconditions are not met, an
      * <code>IllegalArgumentException</code> is thrown.</p>
      * <p><strong>Note: </strong>This implementation rescales the
@@ -135,7 +135,7 @@ public class ChiSquareTest {
      * </li>
      * <li>The observed and expected arrays must have the same length and
      * their common length must be at least 2.
-     * </li></ul></p><p>
+     * </li></ul><p>
      * If any of the preconditions are not met, an
      * <code>IllegalArgumentException</code> is thrown.</p>
      * <p><strong>Note: </strong>This implementation rescales the
@@ -181,7 +181,7 @@ public class ChiSquareTest {
      * <li>The observed and expected arrays must have the same length and
      * their common length must be at least 2.
      * <li> <code> 0 &lt; alpha &lt; 0.5 </code>
-     * </li></ul></p><p>
+     * </li></ul><p>
      * If any of the preconditions are not met, an
      * <code>IllegalArgumentException</code> is thrown.</p>
      * <p><strong>Note: </strong>This implementation rescales the
@@ -231,7 +231,7 @@ public class ChiSquareTest {
      * <li>The 2-way table represented by <code>counts</code> must have at
      *  least 2 columns and at least 2 rows.
      * </li>
-     * </li></ul></p><p>
+     * </ul><p>
      * If any of the preconditions are not met, an
      * <code>IllegalArgumentException</code> is thrown.</p>
      *
@@ -295,7 +295,7 @@ public class ChiSquareTest {
      * <li>The 2-way table represented by <code>counts</code> must have at least 2
      *     columns and at least 2 rows.
      * </li>
-     * </li></ul></p><p>
+     * </ul><p>
      * If any of the preconditions are not met, an
      * <code>IllegalArgumentException</code> is thrown.</p>
      *
@@ -342,7 +342,7 @@ public class ChiSquareTest {
      *     same length).</li>
      * <li>The 2-way table represented by <code>counts</code> must have at least 2 columns and
      *     at least 2 rows.</li>
-     * </li></ul></p><p>
+     * </ul><p>
      * If any of the preconditions are not met, an
      * <code>IllegalArgumentException</code> is thrown.</p>
      *
@@ -378,8 +378,8 @@ public class ChiSquareTest {
      * <code>
      * &sum;[(K * observed1[i] - observed2[i]/K)<sup>2</sup> / (observed1[i] + observed2[i])]
      * </code> where
-     * <br/><code>K = &sqrt;[&sum(observed2 / &sum;(observed1)]</code>
-     * </p>
+     * <br><code>K = &radic;[&sum;(observed2 / &sum;(observed1)]</code>
+     * 
      * <p>This statistic can be used to perform a Chi-Square test evaluating the
      * null hypothesis that both observed counts follow the same distribution.</p>
      * <p>
@@ -392,7 +392,7 @@ public class ChiSquareTest {
      * </li>
      * <li>The arrays <code>observed1</code> and <code>observed2</code> must have
      * the same length and their common length must be at least 2.
-     * </li></ul></p><p>
+     * </li></ul><p>
      * If any of the preconditions are not met, an
      * <code>IllegalArgumentException</code> is thrown.</p>
      *
@@ -538,7 +538,7 @@ public class ChiSquareTest {
      * <li>The arrays <code>observed1</code> and <code>observed2</code> must
      * have the same length and their common length must be at least 2.
      * </li>
-     * <li> <code> 0 < alpha < 0.5 </code>
+     * <li> <code> 0 &lt; alpha &lt; 0.5 </code>
      * </li></ul><p>
      * If any of the preconditions are not met, an
      * <code>IllegalArgumentException</code> is thrown.</p>

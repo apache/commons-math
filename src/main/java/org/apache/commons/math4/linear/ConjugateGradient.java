@@ -53,9 +53,9 @@ import org.apache.commons.math4.util.IterationManager;
  * <ul>
  * <li>key {@code "operator"} points to the offending linear operator, say L,</li>
  * <li>key {@code "vector"} points to the offending vector, say x, such that
- * x<sup>T</sup> &middot; L &middot; x < 0.</li>
+ * x<sup>T</sup> &middot; L &middot; x &lt; 0.</li>
  * </ul>
- * </p>
+ * 
  * <h3>References</h3>
  * <dl>
  * <dt><a id="BARR1994">Barret et al. (1994)</a></dt>
@@ -64,8 +64,7 @@ import org.apache.commons.math4.util.IterationManager;
  * <a href="http://www.netlib.org/linalg/html_templates/Templates.html"><em>
  * Templates for the Solution of Linear Systems: Building Blocks for Iterative
  * Methods</em></a>, SIAM</dd>
- * <dt><a id="STRA2002">Strakos and Tichy (2002)
- * <dt>
+ * <dt><a id="STRA2002">Strakos and Tichy (2002)</a></dt>
  * <dd>Z. Strakos and P. Tichy, <a
  * href="http://etna.mcs.kent.edu/vol.13.2002/pp56-80.dir/pp56-80.pdf">
  * <em>On error estimation in the conjugate gradient method and why it works

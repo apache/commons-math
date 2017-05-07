@@ -54,7 +54,7 @@ public class DiagonalMatrix extends AbstractRealMatrix
 
     /**
      * Creates a matrix using the input array as the underlying data.
-     * <br/>
+     * <br>
      * The input array is copied, not referenced.
      *
      * @param d Data for the new matrix.
@@ -65,7 +65,7 @@ public class DiagonalMatrix extends AbstractRealMatrix
 
     /**
      * Creates a matrix using the input array as the underlying data.
-     * <br/>
+     * <br>
      * If an array is created specially in order to be embedded in a
      * this instance and not used directly, the {@code copyArray} may be
      * set to {@code false}.

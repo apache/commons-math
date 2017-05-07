@@ -31,7 +31,7 @@ import org.apache.commons.math4.util.MathUtils;
  * <li> dev = (current obs - previous mean) </li>
  * <li> n = number of observations (including current obs) </li>
  * </ul>
- * Then</p>
+ * Then
  * <p>
  * new value = old value + dev^2 * (n -1) / n.</p>
  * <p>

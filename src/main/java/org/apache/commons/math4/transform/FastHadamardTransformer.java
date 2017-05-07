@@ -95,8 +95,8 @@ public class FastHadamardTransformer implements RealTransformer, Serializable {
      * <li><b>y</b> is the output vector (Fast Hadamard transform of <b>x</b>),</li>
      * <li>a and b are helper rows.</li>
      * </ol>
-     * <table align="center" border="1" cellpadding="3">
-     * <tbody align="center">
+     * <table style="text-align: center" border="1" cellpadding="3" summary="manual calculation for N=8">
+     * <tbody style="text-align: center">
      * <tr>
      *     <th>x</th>
      *     <th>a</th>
@@ -157,7 +157,7 @@ public class FastHadamardTransformer implements RealTransformer, Serializable {
      * <h3>How it works</h3>
      * <ol>
      * <li>Construct a matrix with {@code N} rows and {@code n + 1} columns,
-     * {@code hadm[n+1][N]}.<br/>
+     * {@code hadm[n+1][N]}.<br>
      * <em>(If I use [x][y] it always means [row-offset][column-offset] of a
      * Matrix with n rows and m columns. Its entries go from M[0][0]
      * to M[n][N])</em></li>
@@ -187,8 +187,8 @@ public class FastHadamardTransformer implements RealTransformer, Serializable {
      * <li><em>Algorithm from <a href="http://www.archive.chipcenter.com/dsp/DSP000517F1.html">chipcenter</a>.</em></li>
      * </ol>
      * <h3>Visually</h3>
-     * <table border="1" align="center" cellpadding="3">
-     * <tbody align="center">
+     * <table border="1" cellpadding="3" style="text-align: center" summary="chipcenter algorithm">
+     * <tbody style="text-align: center">
      * <tr>
      *     <td></td><th>0</th><th>1</th><th>2</th><th>3</th>
      *     <th>&hellip;</th>
@@ -198,8 +198,8 @@ public class FastHadamardTransformer implements RealTransformer, Serializable {
      *     <th>0</th>
      *     <td>x<sub>0</sub></td>
      *     <td colspan="5" rowspan="5" align="center" valign="middle">
-     *         &uarr;<br/>
-     *         &larr; D<sub>top</sub> &rarr;<br/>
+     *         &uarr;<br>
+     *         &larr; D<sub>top</sub> &rarr;<br>
      *         &darr;
      *     </td>
      * </tr>
@@ -211,8 +211,8 @@ public class FastHadamardTransformer implements RealTransformer, Serializable {
      *     <th>N / 2</th>
      *     <td>x<sub>N/2</sub></td>
      *     <td colspan="5" rowspan="5" align="center" valign="middle">
-     *         &uarr;<br/>
-     *         &larr; D<sub>bottom</sub> &rarr;<br/>
+     *         &uarr;<br>
+     *         &larr; D<sub>bottom</sub> &rarr;<br>
      *         &darr;
      *     </td>
      * </tr>

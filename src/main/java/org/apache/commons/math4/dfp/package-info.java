@@ -31,7 +31,7 @@
  *       algebraic operation</li>
  *  <li>Comply with IEEE 854-1987 as much as possible.
  *       (See IEEE 854-1987 notes below)</li>
- * </ol></p>
+ * </ol>
  *
  * <p>Trade offs:
  * <ol>
@@ -40,7 +40,7 @@
  *  <li>Digits are bigger, so rounding is a greater loss.  So, if you
  *       really need 12 decimal digits, better use 4 base 10000 digits
  *       there can be one partially filled.</li>
- * </ol></p>
+ * </ol>
  *
  * <p>Numbers are represented  in the following form:
  * <pre>

@@ -42,7 +42,7 @@ import org.apache.commons.math4.util.MathArrays;
  *  corresponding y value.</li>
  * <li>Adjacent polynomials are equal through two derivatives at the knot points (i.e., adjacent polynomials
  *  "match up" at the knot points, as do their first and second derivatives).</li>
- * </ol></p>
+ * </ol>
  * <p>
  * The cubic spline interpolation algorithm implemented is as described in R.L. Burden, J.D. Faires,
  * <u>Numerical Analysis</u>, 4th Ed., 1989, PWS-Kent, ISBN 0-53491-585-X, pp 126-131.

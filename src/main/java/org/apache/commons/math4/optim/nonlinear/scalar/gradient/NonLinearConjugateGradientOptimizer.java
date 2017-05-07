@@ -31,11 +31,11 @@ import org.apache.commons.math4.optim.nonlinear.scalar.LineSearch;
 
 /**
  * Non-linear conjugate gradient optimizer.
- * <br/>
+ * <br>
  * This class supports both the Fletcher-Reeves and the Polak-Ribière
  * update formulas for the conjugate search directions.
  * It also supports optional preconditioning.
- * <br/>
+ * <br>
  * Constraints are not supported: the call to
  * {@link #optimize(OptimizationData[]) optimize} will throw
  * {@link MathUnsupportedOperationException} if bounds are passed to it.

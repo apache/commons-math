@@ -86,7 +86,7 @@ public class BinomialTest {
      * <li>Number of successes must be &ge; 0.</li>
      * <li>Number of successes must be &le; number of trials.</li>
      * <li>Probability must be &ge; 0 and &le; 1.</li>
-     * </ul></p>
+     * </ul>
      *
      * @param numberOfTrials number of trials performed
      * @param numberOfSuccesses number of successes observed

@@ -158,7 +158,6 @@ public class WilcoxonSignedRankTest {
      * ordered, so the comparisons greater than, less than, and equal to are
      * meaningful.</li>
      * </ul>
-     * </p>
      *
      * @param x the first sample
      * @param y the second sample
@@ -281,13 +280,12 @@ public class WilcoxonSignedRankTest {
      * ordered, so the comparisons greater than, less than, and equal to are
      * meaningful.</li>
      * </ul>
-     * </p>
      *
      * @param x the first sample
      * @param y the second sample
      * @param exactPValue
-     *            if the exact p-value is wanted (only works for x.length <= 30,
-     *            if true and x.length > 30, this is ignored because
+     *            if the exact p-value is wanted (only works for x.length &gt;= 30,
+     *            if true and x.length &lt; 30, this is ignored because
      *            calculations may take too long)
      * @return p-value
      * @throws NullArgumentException if {@code x} or {@code y} are {@code null}.
@@ -295,7 +293,7 @@ public class WilcoxonSignedRankTest {
      * @throws DimensionMismatchException if {@code x} and {@code y} do not
      * have the same length.
      * @throws NumberIsTooLargeException if {@code exactPValue} is {@code true}
-     * and {@code x.length} > 30
+     * and {@code x.length} &gt; 30
      * @throws ConvergenceException if the p-value can not be computed due to
      * a convergence error
      * @throws MaxCountExceededException if the maximum number of iterations

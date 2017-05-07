@@ -19,7 +19,7 @@ package org.apache.commons.math4.optim;
 
 /**
  * Starting point (first guess) of the optimization procedure.
- * <br/>
+ * <br>
  * Immutable class.
  *
  * @since 3.1

@@ -27,7 +27,7 @@ import org.apache.commons.math4.util.FastMath;
 /**
  * An implementation of {@link Evaluation} that is designed for extension. All of the
  * methods implemented here use the methods that are left unimplemented.
- * <p/>
+ * <p>
  * TODO cache results?
  *
  * @since 3.3

@@ -107,7 +107,7 @@ public class RootsOfUnity implements Serializable {
      * <ul>
      * <li>{@code abs(n)} is always the number of roots of unity.</li>
      * <li>If {@code n > 0}, then the roots are stored in counter-clockwise order.</li>
-     * <li>If {@code n < 0}, then the roots are stored in clockwise order.</p>
+     * <li>If {@code n < 0}, then the roots are stored in clockwise order.
      * </ul>
      *
      * @param n the (signed) number of roots of unity to be computed

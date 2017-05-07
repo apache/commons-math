@@ -38,7 +38,6 @@ import org.apache.commons.math4.util.MathArrays;
  *       |--------------------
  *       | 1/6  1/3  1/3  1/6
  * </pre>
- * </p>
  *
  * @see EulerFieldIntegrator
  * @see GillFieldIntegrator

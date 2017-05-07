@@ -520,7 +520,6 @@ public final class StatUtils {
      * <code>Double.NaN</code> if the array is empty.
      * <p>
      * Throws <code>MathIllegalArgumentException</code> if the array is null.
-     * <p>
      * <ul>
      * <li>The result is <code>NaN</code> iff all values are <code>NaN</code>
      * (i.e. <code>NaN</code> values have no impact on the value of the statistic).</li>
@@ -542,7 +541,6 @@ public final class StatUtils {
      * <p>
      * Throws <code>MathIllegalArgumentException</code> if the array is null or
      * the array index parameters are not valid.
-     * <p>
      * <ul>
      * <li>The result is <code>NaN</code> iff all values are <code>NaN</code>
      * (i.e. <code>NaN</code> values have no impact on the value of the statistic).</li>
@@ -567,7 +565,6 @@ public final class StatUtils {
      * <code>Double.NaN</code> if the array is empty.
      * <p>
      * Throws <code>MathIllegalArgumentException</code> if the array is null.
-     * <p>
      * <ul>
      * <li>The result is <code>NaN</code> iff all values are <code>NaN</code>
      * (i.e. <code>NaN</code> values have no impact on the value of the statistic).</li>
@@ -589,7 +586,6 @@ public final class StatUtils {
      * <p>
      * Throws <code>MathIllegalArgumentException</code> if the array is null or
      * the array index parameters are not valid.
-     * <p>
      * <ul>
      * <li>The result is <code>NaN</code> iff all values are <code>NaN</code>
      * (i.e. <code>NaN</code> values have no impact on the value of the statistic).</li>
@@ -612,7 +608,6 @@ public final class StatUtils {
     /**
      * Returns an estimate of the <code>p</code>th percentile of the values
      * in the <code>values</code> array.
-     * <p>
      * <ul>
      * <li>Returns <code>Double.NaN</code> if <code>values</code> has length
      *  <code>0</code></li>
@@ -640,7 +635,6 @@ public final class StatUtils {
      * in the <code>values</code> array, starting with the element in (0-based)
      * position <code>begin</code> in the array and including <code>length</code>
      * values.
-     * <p>
      * <ul>
      * <li>Returns <code>Double.NaN</code> if <code>length = 0</code></li>
      * <li>Returns (for any value of <code>p</code>) <code>values[begin]</code>

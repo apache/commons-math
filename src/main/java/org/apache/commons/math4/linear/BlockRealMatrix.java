@@ -112,7 +112,6 @@ public class BlockRealMatrix extends AbstractRealMatrix implements Serializable 
      * <p>Calling this constructor is equivalent to call:
      * <pre>matrix = new BlockRealMatrix(rawData.length, rawData[0].length,
      *                                   toBlocksLayout(rawData), false);</pre>
-     * </p>
      *
      * @param rawData data for new matrix, in raw layout
      * @throws DimensionMismatchException if the shape of {@code blockData} is

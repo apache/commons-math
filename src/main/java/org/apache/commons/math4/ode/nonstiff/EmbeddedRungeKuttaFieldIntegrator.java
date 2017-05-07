@@ -47,7 +47,6 @@ import org.apache.commons.math4.util.MathUtils;
  *       |  b1   b2  ...   bs-1  bs
  *       |  b'1  b'2 ...   b's-1 b's
  * </pre>
- * </p>
  *
  * <p>In fact, we rather use the array defined by ej = bj - b'j to
  * compute directly the error rather than computing two estimates and

@@ -77,7 +77,6 @@ import org.apache.commons.math4.exception.util.LocalizedFormats;
  * <li>{@link #nextUp(float)}</li>
  * <li>{@link #scalb(float, int)}</li>
  * </ul>
- * </p>
  * @since 2.2
  */
 public class FastMath {
@@ -3334,6 +3333,7 @@ public class FastMath {
      * <li>+MAX_VALUE</li>
      * <li>+INFINITY</li>
      * <li></li>
+     * </ul>
      * <p>
      * If arguments compare equal, then the second argument is returned.
      * <p>
@@ -3390,6 +3390,7 @@ public class FastMath {
      * <li>+MAX_VALUE</li>
      * <li>+INFINITY</li>
      * <li></li>
+     * </ul>
      * <p>
      * If arguments compare equal, then the second argument is returned.
      * <p>
@@ -3433,7 +3434,7 @@ public class FastMath {
 
     /** Get the largest whole number smaller than x.
      * @param x number from which floor is requested
-     * @return a double number f such that f is an integer f <= x < f + 1.0
+     * @return a double number f such that f is an integer f &lt;= x &lt; f + 1.0
      */
     public static double floor(double x) {
         long y;
@@ -3460,7 +3461,7 @@ public class FastMath {
 
     /** Get the smallest whole number larger than x.
      * @param x number from which ceil is requested
-     * @return a double number c such that c is an integer c - 1.0 < x <= c
+     * @return a double number c such that c is an integer c - 1.0 &lt; x &lt;= c
      */
     public static double ceil(double x) {
         double y;
@@ -3485,7 +3486,7 @@ public class FastMath {
 
     /** Get the whole number that is the nearest to x, or the even one if x is exactly half way between two integers.
      * @param x number from which nearest whole number is requested
-     * @return a double number r such that r is an integer r - 0.5 <= x <= r + 0.5
+     * @return a double number r such that r is an integer r - 0.5 &lt;= x &lt;= r + 0.5
      */
     public static double rint(double x) {
         double y = floor(x);
@@ -3696,7 +3697,7 @@ public class FastMath {
 
     /**
      * Returns the hypotenuse of a triangle with sides {@code x} and {@code y}
-     * - sqrt(<i>x</i><sup>2</sup>&nbsp;+<i>y</i><sup>2</sup>)<br/>
+     * - sqrt(<i>x</i><sup>2</sup>&nbsp;+<i>y</i><sup>2</sup>)<br>
      * avoiding intermediate overflow or underflow.
      *
      * <ul>
@@ -3750,7 +3751,6 @@ public class FastMath {
      * of the quotient {@code x/y}.
      * If two mathematical integers are equally close to {@code x/y} then
      * {@code n} is the integer that is even.
-     * <p>
      * <ul>
      * <li>If either operand is NaN, the result is NaN.</li>
      * <li>If the result is not NaN, the sign of the result equals the sign of the dividend.</li>
@@ -3971,7 +3971,7 @@ public class FastMath {
             return a * b;
     }
 
-    /** Finds q such that a = q b + r with 0 <= r < b if b > 0 and b < r <= 0 if b < 0.
+    /** Finds q such that a = q b + r with 0 &lt;= r &lt; b if b &gt; 0 and b &lt; r &lt;= 0 if b &lt; 0.
      * <p>
      * This methods returns the same value as integer division when
      * a and b are same signs, but returns a different value when
@@ -3979,7 +3979,7 @@ public class FastMath {
      * </p>
      * @param a dividend
      * @param b divisor
-     * @return q such that a = q b + r with 0 <= r < b if b > 0 and b < r <= 0 if b < 0
+     * @return q such that a = q b + r with 0 &lt;= r &lt; b if b &gt; 0 and b &lt; r &lt;= 0 if b &lt; 0
      * @exception MathArithmeticException if b == 0
      * @see #floorMod(int, int)
      * @since 3.4
@@ -4001,7 +4001,7 @@ public class FastMath {
 
     }
 
-    /** Finds q such that a = q b + r with 0 <= r < b if b > 0 and b < r <= 0 if b < 0.
+    /** Finds q such that a = q b + r with 0 &lt;= r &lt; b if b &gt; 0 and b &lt; r &lt;= 0 if b &lt; 0.
      * <p>
      * This methods returns the same value as integer division when
      * a and b are same signs, but returns a different value when
@@ -4009,7 +4009,7 @@ public class FastMath {
      * </p>
      * @param a dividend
      * @param b divisor
-     * @return q such that a = q b + r with 0 <= r < b if b > 0 and b < r <= 0 if b < 0
+     * @return q such that a = q b + r with 0 &lt;= r &lt; b if b &gt; 0 and b &lt; r &lt;= 0 if b &lt; 0
      * @exception MathArithmeticException if b == 0
      * @see #floorMod(long, long)
      * @since 3.4
@@ -4031,7 +4031,7 @@ public class FastMath {
 
     }
 
-    /** Finds r such that a = q b + r with 0 <= r < b if b > 0 and b < r <= 0 if b < 0.
+    /** Finds r such that a = q b + r with 0 &lt;= r &lt; b if b &gt; 0 and b &lt; r &lt;= 0 if b &lt; 0.
      * <p>
      * This methods returns the same value as integer modulo when
      * a and b are same signs, but returns a different value when
@@ -4039,7 +4039,7 @@ public class FastMath {
      * </p>
      * @param a dividend
      * @param b divisor
-     * @return r such that a = q b + r with 0 <= r < b if b > 0 and b < r <= 0 if b < 0
+     * @return r such that a = q b + r with 0 &lt;= r &lt; b if b &gt; 0 and b &lt; r &lt;= 0 if b &lt; 0
      * @exception MathArithmeticException if b == 0
      * @see #floorDiv(int, int)
      * @since 3.4
@@ -4061,7 +4061,7 @@ public class FastMath {
 
     }
 
-    /** Finds r such that a = q b + r with 0 <= r < b if b > 0 and b < r <= 0 if b < 0.
+    /** Finds r such that a = q b + r with 0 &lt;= r &lt; b if b &gt; 0 and b &lt; r &lt;= 0 if b &lt; 0.
      * <p>
      * This methods returns the same value as integer modulo when
      * a and b are same signs, but returns a different value when
@@ -4069,7 +4069,7 @@ public class FastMath {
      * </p>
      * @param a dividend
      * @param b divisor
-     * @return r such that a = q b + r with 0 <= r < b if b > 0 and b < r <= 0 if b < 0
+     * @return r such that a = q b + r with 0 &lt;= r &lt; b if b &gt; 0 and b &lt; r &lt;= 0 if b &lt; 0
      * @exception MathArithmeticException if b == 0
      * @see #floorDiv(long, long)
      * @since 3.4

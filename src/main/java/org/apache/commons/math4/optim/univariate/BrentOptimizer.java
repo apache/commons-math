@@ -30,7 +30,7 @@ import org.apache.commons.numbers.core.Precision;
  * It implements Richard Brent's algorithm (from his book "Algorithms for
  * Minimization without Derivatives", p. 79) for finding minima of real
  * univariate functions.
- * <br/>
+ * <br>
  * This code is an adaptation, partly based on the Python code from SciPy
  * (module "optimize.py" v0.5); the original algorithm is also modified
  * <ul>

@@ -199,7 +199,7 @@ public class Mean extends AbstractStorelessUnivariateStatistic
      *     <li>the weights array contains one or more NaN values</li>
      *     <li>the weights array contains negative values</li>
      *     <li>the start and length arguments do not determine a valid array</li>
-     * </ul></p>
+     * </ul>
      *
      * @param values the input array
      * @param weights the weights array
@@ -245,7 +245,7 @@ public class Mean extends AbstractStorelessUnivariateStatistic
      *     <li>the weights array contains one or more infinite values</li>
      *     <li>the weights array contains one or more NaN values</li>
      *     <li>the weights array contains negative values</li>
-     * </ul></p>
+     * </ul>
      *
      * @param values the input array
      * @param weights the weights array

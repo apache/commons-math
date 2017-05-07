@@ -41,7 +41,7 @@ import org.apache.commons.math4.util.FastMath;
  * {@link UniformRandomProvider random generator} may be supplied as a
  * constructor argument.</p>
  * <p>Examples:
- * <table border="1" cellpadding="3">
+ * <table border="1" cellpadding="3" summary="Examples">
  * <tr><th colspan="3">
  * Input data: (20, 17, 30, 42.3, 17, 50, Double.NaN, Double.NEGATIVE_INFINITY, 17)
  * </th></tr>
@@ -66,7 +66,7 @@ import org.apache.commons.math4.util.FastMath;
  * <tr>
  * <td>MINIMAL</td>
  * <td>MAXIMUM</td>
- * <td>(6, 5, 7, 8, 5, 9, 2, 2, 5)</td></tr></table></p>
+ * <td>(6, 5, 7, 8, 5, 9, 2, 2, 5)</td></tr></table>
  *
  * @since 2.0
  */

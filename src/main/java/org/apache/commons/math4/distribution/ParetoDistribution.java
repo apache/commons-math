@@ -33,7 +33,6 @@ import org.apache.commons.rng.sampling.distribution.InverseTransformParetoSample
  * <pre>
  *  α * k^α / x^(α + 1)
  * </pre>
- * <p>
  * <ul>
  * <li>{@code k} is the <em>scale</em> parameter: this is the minimum possible value of {@code X},</li>
  * <li>{@code α} is the <em>shape</em> parameter: this is the Pareto index</li>

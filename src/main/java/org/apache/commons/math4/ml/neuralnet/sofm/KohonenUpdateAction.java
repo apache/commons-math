@@ -32,7 +32,7 @@ import org.apache.commons.math4.ml.neuralnet.UpdateAction;
 /**
  * Update formula for <a href="http://en.wikipedia.org/wiki/Kohonen">
  * Kohonen's Self-Organizing Map</a>.
- * <br/>
+ * <br>
  * The {@link #update(Network,double[]) update} method modifies the
  * features {@code w} of the "winning" neuron and its neighbours
  * according to the following rule:
@@ -46,12 +46,12 @@ import org.apache.commons.math4.ml.neuralnet.UpdateAction;
  *  <li>{@code d} is the number of links to traverse in order to reach
  *   the neuron from the winning neuron.</li>
  * </ul>
- * <br/>
+ * <br>
  * This class is thread-safe as long as the arguments passed to the
  * {@link #KohonenUpdateAction(DistanceMeasure,LearningFactorFunction,
  * NeighbourhoodSizeFunction) constructor} are instances of thread-safe
  * classes.
- * <br/>
+ * <br>
  * Each call to the {@link #update(Network,double[]) update} method
  * will increment the internal counter used to compute the current
  * values for

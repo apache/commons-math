@@ -212,7 +212,6 @@ public class BigFraction
      * <li><a href="http://mathworld.wolfram.com/ContinuedFraction.html">
      * Continued Fraction</a> equations (11) and (22)-(26)</li>
      * </ul>
-     * </p>
      *
      * @param value
      *            the double value to convert to a fraction.
@@ -345,7 +344,6 @@ public class BigFraction
      * <li><a href="http://mathworld.wolfram.com/ContinuedFraction.html">
      * Continued Fraction</a> equations (11) and (22)-(26)</li>
      * </ul>
-     * </p>
      *
      * @param value
      *            the double value to convert to a fraction.

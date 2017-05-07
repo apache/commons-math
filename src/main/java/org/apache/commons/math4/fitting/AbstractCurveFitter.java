@@ -30,12 +30,12 @@ import org.apache.commons.math4.fitting.leastsquares.LevenbergMarquardtOptimizer
  * real functions <code>y = f(p<sub>i</sub>;x)</code>, where {@code x} is
  * the independent variable and the <code>p<sub>i</sub></code> are the
  * <em>parameters</em>.
- * <br/>
+ * <br>
  * A fitter will find the optimal values of the parameters by
  * <em>fitting</em> the curve so it remains very close to a set of
  * {@code N} observed points <code>(x<sub>k</sub>, y<sub>k</sub>)</code>,
  * {@code 0 <= k < N}.
- * <br/>
+ * <br>
  * An algorithm usually performs the fit by finding the parameter
  * values that minimizes the objective function
  * <pre><code>

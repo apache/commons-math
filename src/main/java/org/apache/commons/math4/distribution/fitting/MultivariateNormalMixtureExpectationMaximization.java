@@ -37,7 +37,7 @@ import org.apache.commons.math4.util.MathArrays;
 import org.apache.commons.math4.util.Pair;
 
 /**
- * Expectation-Maximization</a> algorithm for fitting the parameters of
+ * Expectation-Maximization algorithm for fitting the parameters of
  * multivariate normal mixture model distributions.
  *
  * This implementation is pure original code based on <a

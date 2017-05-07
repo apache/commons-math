@@ -50,7 +50,7 @@ import org.apache.commons.math4.exception.MathUnsupportedOperationException;
  *  <li>"before.chinese.U.seq.dat": U-matrix of the SOFM before training</li>
  *  <li>"after.chinese.U.seq.dat": U-matrix of the SOFM after training</li>
  *  <li>"after.chinese.hit.seq.dat": Hit histogram after training</li>
- * <ul> 
+ * </ul>
  */
 public class ChineseRingsClassifier {
     /** SOFM. */

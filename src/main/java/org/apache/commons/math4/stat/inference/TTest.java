@@ -40,7 +40,7 @@ import org.apache.commons.math4.util.FastMath;
  * <li>Homoscedastic (equal variance assumption) or heteroscedastic
  * (for two sample tests)</li>
  * <li>Fixed significance level (boolean-valued) or returning p-values.
- * </li></ul></p>
+ * </li></ul>
  * <p>
  * Test statistics are available for all tests.  Methods including "Test" in
  * in their names perform tests, all other methods return t-statistics.  Among
@@ -67,7 +67,7 @@ public class TTest {
      * <strong>Preconditions</strong>: <ul>
      * <li>The input arrays must have the same length and their common length
      * must be at least 2.
-     * </li></ul></p>
+     * </li></ul>
      *
      * @param sample1 array of sample data values
      * @param sample2 array of sample data values
@@ -115,7 +115,7 @@ public class TTest {
      * <strong>Preconditions</strong>: <ul>
      * <li>The input array lengths must be the same and their common length must
      * be at least 2.
-     * </li></ul></p>
+     * </li></ul>
      *
      * @param sample1 array of sample data values
      * @param sample2 array of sample data values
@@ -159,7 +159,7 @@ public class TTest {
      * must be at least 2.
      * </li>
      * <li> <code> 0 &lt; alpha &lt; 0.5 </code>
-     * </li></ul></p>
+     * </li></ul>
      *
      * @param sample1 array of sample data values
      * @param sample2 array of sample data values
@@ -191,7 +191,7 @@ public class TTest {
      * </p><p>
      * <strong>Preconditions</strong>: <ul>
      * <li>The observed array length must be at least 2.
-     * </li></ul></p>
+     * </li></ul>
      *
      * @param mu comparison constant
      * @param observed array of values
@@ -218,7 +218,7 @@ public class TTest {
      * </p><p>
      * <strong>Preconditions</strong>: <ul>
      * <li><code>observed.getN() &ge; 2</code>.
-     * </li></ul></p>
+     * </li></ul>
      *
      * @param mu comparison constant
      * @param sampleStats DescriptiveStatistics holding sample summary statitstics
@@ -250,8 +250,7 @@ public class TTest {
      * where <strong><code>n1</code></strong> is the size of first sample;
      * <strong><code> n2</code></strong> is the size of second sample;
      * <strong><code> m1</code></strong> is the mean of first sample;
-     * <strong><code> m2</code></strong> is the mean of second sample</li>
-     * </ul>
+     * <strong><code> m2</code></strong> is the mean of second sample
      * and <strong><code>var</code></strong> is the pooled variance estimate:
      * </p><p>
      * <code>var = sqrt(((n1 - 1)var1 + (n2 - 1)var2) / ((n1-1) + (n2-1)))</code>
@@ -261,7 +260,7 @@ public class TTest {
      * </p><p>
      * <strong>Preconditions</strong>: <ul>
      * <li>The observed array lengths must both be at least 2.
-     * </li></ul></p>
+     * </li></ul>
      *
      * @param sample1 array of sample data values
      * @param sample2 array of sample data values
@@ -302,7 +301,7 @@ public class TTest {
      * </p><p>
      * <strong>Preconditions</strong>: <ul>
      * <li>The observed array lengths must both be at least 2.
-     * </li></ul></p>
+     * </li></ul>
      *
      * @param sample1 array of sample data values
      * @param sample2 array of sample data values
@@ -323,7 +322,7 @@ public class TTest {
     }
 
     /**
-     * Computes a 2-sample t statistic </a>, comparing the means of the datasets
+     * Computes a 2-sample t statistic, comparing the means of the datasets
      * described by two {@link StatisticalSummary} instances, without the
      * assumption of equal subpopulation variances.  Use
      * {@link #homoscedasticT(StatisticalSummary, StatisticalSummary)} to
@@ -346,7 +345,7 @@ public class TTest {
      * <strong>Preconditions</strong>: <ul>
      * <li>The datasets described by the two Univariates must each contain
      * at least 2 observations.
-     * </li></ul></p>
+     * </li></ul>
      *
      * @param sampleStats1 StatisticalSummary describing data from the first sample
      * @param sampleStats2 StatisticalSummary describing data from the second sample
@@ -394,7 +393,7 @@ public class TTest {
      * <strong>Preconditions</strong>: <ul>
      * <li>The datasets described by the two Univariates must each contain
      * at least 2 observations.
-     * </li></ul></p>
+     * </li></ul>
      *
      * @param sampleStats1 StatisticalSummary describing data from the first sample
      * @param sampleStats2 StatisticalSummary describing data from the second sample
@@ -432,7 +431,7 @@ public class TTest {
      * </p><p>
      * <strong>Preconditions</strong>: <ul>
      * <li>The observed array length must be at least 2.
-     * </li></ul></p>
+     * </li></ul>
      *
      * @param mu constant value to compare sample mean against
      * @param sample array of sample data values
@@ -465,11 +464,11 @@ public class TTest {
      * <li>To test the (2-sided) hypothesis <code>sample mean = mu </code> at
      * the 95% level, use <br><code>tTest(mu, sample, 0.05) </code>
      * </li>
-     * <li>To test the (one-sided) hypothesis <code> sample mean < mu </code>
+     * <li>To test the (one-sided) hypothesis <code> sample mean &lt; mu </code>
      * at the 99% level, first verify that the measured sample mean is less
      * than <code>mu</code> and then use
      * <br><code>tTest(mu, sample, 0.02) </code>
-     * </li></ol></p>
+     * </li></ol>
      * <p>
      * <strong>Usage Note:</strong><br>
      * The validity of the test depends on the assumptions of the one-sample
@@ -478,7 +477,7 @@ public class TTest {
      * </p><p>
      * <strong>Preconditions</strong>: <ul>
      * <li>The observed array length must be at least 2.
-     * </li></ul></p>
+     * </li></ul>
      *
      * @param mu constant value to compare sample mean against
      * @param sample array of sample data values
@@ -518,7 +517,7 @@ public class TTest {
      * <p>
      * <strong>Preconditions</strong>: <ul>
      * <li>The sample must contain at least 2 observations.
-     * </li></ul></p>
+     * </li></ul>
      *
      * @param mu constant value to compare sample mean against
      * @param sampleStats StatisticalSummary describing sample data
@@ -551,11 +550,11 @@ public class TTest {
      * <li>To test the (2-sided) hypothesis <code>sample mean = mu </code> at
      * the 95% level, use <br><code>tTest(mu, sampleStats, 0.05) </code>
      * </li>
-     * <li>To test the (one-sided) hypothesis <code> sample mean < mu </code>
+     * <li>To test the (one-sided) hypothesis <code> sample mean &lt; mu </code>
      * at the 99% level, first verify that the measured sample mean is less
      * than <code>mu</code> and then use
      * <br><code>tTest(mu, sampleStats, 0.02) </code>
-     * </li></ol></p>
+     * </li></ol>
      * <p>
      * <strong>Usage Note:</strong><br>
      * The validity of the test depends on the assumptions of the one-sample
@@ -564,7 +563,7 @@ public class TTest {
      * </p><p>
      * <strong>Preconditions</strong>: <ul>
      * <li>The sample must include at least 2 observations.
-     * </li></ul></p>
+     * </li></ul>
      *
      * @param mu constant value to compare sample mean against
      * @param sampleStats StatisticalSummary describing sample data values
@@ -613,7 +612,7 @@ public class TTest {
      * <p>
      * <strong>Preconditions</strong>: <ul>
      * <li>The observed array lengths must both be at least 2.
-     * </li></ul></p>
+     * </li></ul>
      *
      * @param sample1 array of sample data values
      * @param sample2 array of sample data values
@@ -641,7 +640,7 @@ public class TTest {
      * comparing the means of the input arrays, under the assumption that
      * the two samples are drawn from subpopulations with equal variances.
      * To perform the test without the equal variances assumption, use
-     * {@link #tTest(double[], double[])}.</p>
+     * {@link #tTest(double[], double[])}.
      * <p>
      * The number returned is the smallest significance level
      * at which one can reject the null hypothesis that the two means are
@@ -660,7 +659,7 @@ public class TTest {
      * <p>
      * <strong>Preconditions</strong>: <ul>
      * <li>The observed array lengths must both be at least 2.
-     * </li></ul></p>
+     * </li></ul>
      *
      * @param sample1 array of sample data values
      * @param sample2 array of sample data values
@@ -708,11 +707,11 @@ public class TTest {
      * the 95% level,  use
      * <br><code>tTest(sample1, sample2, 0.05). </code>
      * </li>
-     * <li>To test the (one-sided) hypothesis <code> mean 1 < mean 2 </code>,
+     * <li>To test the (one-sided) hypothesis <code> mean 1 &lt; mean 2 </code>,
      * at the 99% level, first verify that the measured  mean of <code>sample 1</code>
      * is less than the mean of <code>sample 2</code> and then use
      * <br><code>tTest(sample1, sample2, 0.02) </code>
-     * </li></ol></p>
+     * </li></ol>
      * <p>
      * <strong>Usage Note:</strong><br>
      * The validity of the test depends on the assumptions of the parametric
@@ -723,8 +722,8 @@ public class TTest {
      * <strong>Preconditions</strong>: <ul>
      * <li>The observed array lengths must both be at least 2.
      * </li>
-     * <li> <code> 0 < alpha < 0.5 </code>
-     * </li></ul></p>
+     * <li> <code> 0 &lt; alpha &lt; 0.5 </code>
+     * </li></ul>
      *
      * @param sample1 array of sample data values
      * @param sample2 array of sample data values
@@ -770,12 +769,12 @@ public class TTest {
      * <li>To test the (2-sided) hypothesis <code>mean 1 = mean 2 </code> at
      * the 95% level, use <br><code>tTest(sample1, sample2, 0.05). </code>
      * </li>
-     * <li>To test the (one-sided) hypothesis <code> mean 1 < mean 2, </code>
+     * <li>To test the (one-sided) hypothesis <code> mean 1 &lt; mean 2, </code>
      * at the 99% level, first verify that the measured mean of
      * <code>sample 1</code> is less than the mean of <code>sample 2</code>
      * and then use
      * <br><code>tTest(sample1, sample2, 0.02) </code>
-     * </li></ol></p>
+     * </li></ol>
      * <p>
      * <strong>Usage Note:</strong><br>
      * The validity of the test depends on the assumptions of the parametric
@@ -786,8 +785,8 @@ public class TTest {
      * <strong>Preconditions</strong>: <ul>
      * <li>The observed array lengths must both be at least 2.
      * </li>
-     * <li> <code> 0 < alpha < 0.5 </code>
-     * </li></ul></p>
+     * <li> <code> 0 &lt; alpha &lt; 0.5 </code>
+     * </li></ul>
      *
      * @param sample1 array of sample data values
      * @param sample2 array of sample data values
@@ -835,7 +834,7 @@ public class TTest {
      * <strong>Preconditions</strong>: <ul>
      * <li>The datasets described by the two Univariates must each contain
      * at least 2 observations.
-     * </li></ul></p>
+     * </li></ul>
      *
      * @param sampleStats1  StatisticalSummary describing data from the first sample
      * @param sampleStats2  StatisticalSummary describing data from the second sample
@@ -882,7 +881,7 @@ public class TTest {
      * <strong>Preconditions</strong>: <ul>
      * <li>The datasets described by the two Univariates must each contain
      * at least 2 observations.
-     * </li></ul></p>
+     * </li></ul>
      *
      * @param sampleStats1  StatisticalSummary describing data from the first sample
      * @param sampleStats2  StatisticalSummary describing data from the second sample
@@ -931,12 +930,12 @@ public class TTest {
      * the 95%, use
      * <br><code>tTest(sampleStats1, sampleStats2, 0.05) </code>
      * </li>
-     * <li>To test the (one-sided) hypothesis <code> mean 1 < mean 2 </code>
+     * <li>To test the (one-sided) hypothesis <code> mean 1 &lt; mean 2 </code>
      * at the 99% level,  first verify that the measured mean of
      * <code>sample 1</code> is less than  the mean of <code>sample 2</code>
      * and then use
      * <br><code>tTest(sampleStats1, sampleStats2, 0.02) </code>
-     * </li></ol></p>
+     * </li></ol>
      * <p>
      * <strong>Usage Note:</strong><br>
      * The validity of the test depends on the assumptions of the parametric
@@ -948,8 +947,8 @@ public class TTest {
      * <li>The datasets described by the two Univariates must each contain
      * at least 2 observations.
      * </li>
-     * <li> <code> 0 < alpha < 0.5 </code>
-     * </li></ul></p>
+     * <li> <code> 0 &lt; alpha &lt; 0.5 </code>
+     * </li></ul>
      *
      * @param sampleStats1 StatisticalSummary describing sample data values
      * @param sampleStats2 StatisticalSummary describing sample data values

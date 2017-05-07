@@ -34,12 +34,12 @@ import org.apache.commons.math4.optim.PointValuePair;
 /**
  * This class implements the simplex concept.
  * It is intended to be used in conjunction with {@link SimplexOptimizer}.
- * <br/>
+ * <br>
  * The initial configuration of the simplex is set by the constructors
  * {@link #AbstractSimplex(double[])} or {@link #AbstractSimplex(double[][])}.
  * The other {@link #AbstractSimplex(int) constructor} will set all steps
  * to 1, thus building a default configuration from a unit hypercube.
- * <br/>
+ * <br>
  * Users <em>must</em> call the {@link #build(double[]) build} method in order
  * to create the data structure that will be acted on by the other methods of
  * this class.

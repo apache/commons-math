@@ -29,7 +29,7 @@ import org.apache.commons.numbers.core.Precision;
 /**
  * This class implements <a href="http://mathworld.wolfram.com/Quaternion.html">
  * quaternions</a> (Hamilton's hypercomplex numbers).
- * <br/>
+ * <br>
  * Instance of this class are guaranteed to be immutable.
  *
  * @since 3.1

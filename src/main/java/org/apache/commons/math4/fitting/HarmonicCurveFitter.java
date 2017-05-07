@@ -34,7 +34,7 @@ import org.apache.commons.math4.util.FastMath;
  * Fits points to a {@link
  * org.apache.commons.math4.analysis.function.HarmonicOscillator.Parametric harmonic oscillator}
  * function.
- * <br/>
+ * <br>
  * The {@link #withStartPoint(double[]) initial guess values} must be passed
  * in the following order:
  * <ul>

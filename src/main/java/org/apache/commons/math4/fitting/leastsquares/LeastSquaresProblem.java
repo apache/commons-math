@@ -80,7 +80,7 @@ public interface LeastSquaresProblem extends OptimizationProblem<LeastSquaresPro
     public interface Evaluation {
 
         /**
-         * Get the covariance matrix of the optimized parameters. <br/> Note that this
+         * Get the covariance matrix of the optimized parameters. <br> Note that this
          * operation involves the inversion of the <code>J<sup>T</sup>J</code> matrix,
          * where {@code J} is the Jacobian matrix. The {@code threshold} parameter is a
          * way for the caller to specify that the result of this computation should be

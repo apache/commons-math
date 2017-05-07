@@ -33,7 +33,6 @@ package org.apache.commons.math4.ode.nonstiff;
  *       |--------------------
  *       | 1/6  1/3  1/3  1/6
  * </pre>
- * </p>
  *
  * @see EulerIntegrator
  * @see GillIntegrator

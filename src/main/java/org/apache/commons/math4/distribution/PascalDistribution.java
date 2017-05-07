@@ -40,14 +40,14 @@ import org.apache.commons.math4.util.FastMath;
  * </p>
  * <p>
  * For a random variable {@code X} whose values are distributed according to this
- * distribution, the probability mass function is given by<br/>
- * {@code P(X = k) = C(k + r - 1, r - 1) * p^r * (1 - p)^k,}<br/>
+ * distribution, the probability mass function is given by<br>
+ * {@code P(X = k) = C(k + r - 1, r - 1) * p^r * (1 - p)^k,}<br>
  * where {@code r} is the number of successes, {@code p} is the probability of
  * success, and {@code X} is the total number of failures. {@code C(n, k)} is
  * the binomial coefficient ({@code n} choose {@code k}). The mean and variance
- * of {@code X} are<br/>
- * {@code E(X) = (1 - p) * r / p, var(X) = (1 - p) * r / p^2.}<br/>
- * Finally, the cumulative distribution function is given by<br/>
+ * of {@code X} are<br>
+ * {@code E(X) = (1 - p) * r / p, var(X) = (1 - p) * r / p^2.}<br>
+ * Finally, the cumulative distribution function is given by<br>
  * {@code P(X <= k) = I(p, r, k + 1)},
  * where I is the regularized incomplete Beta function.
  * </p>

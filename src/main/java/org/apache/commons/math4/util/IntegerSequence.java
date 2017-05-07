@@ -48,10 +48,10 @@ public class IntegerSequence {
     }
 
     /**
-     * Creates a sequence <code>a<sub>i</sub>, i < 0 < n</code>
+     * Creates a sequence <code>a<sub>i</sub>, i &lt; 0 &lt; n</code>
      * where <code>a<sub>i</sub> = start + i * step</code>
-     * and {@code n} is such that <code>a<sub>n</sub> <= max</code>
-     * and  <code>a<sub>n+1</sub> > max</code>.
+     * and {@code n} is such that <code>a<sub>n</sub> &lt;= max</code>
+     * and  <code>a<sub>n+1</sub> &gt; max</code>.
      *
      * @param start First value of the range.
      * @param max Last value of the range that satisfies the above
@@ -79,10 +79,10 @@ public class IntegerSequence {
         private final int step;
 
         /**
-         * Creates a sequence <code>a<sub>i</sub>, i < 0 < n</code>
+         * Creates a sequence <code>a<sub>i</sub>, i &lt; 0 &lt; n</code>
          * where <code>a<sub>i</sub> = start + i * step</code>
-         * and {@code n} is such that <code>a<sub>n</sub> <= max</code>
-         * and  <code>a<sub>n+1</sub> > max</code>.
+         * and {@code n} is such that <code>a<sub>n</sub> &lt;= max</code>
+         * and  <code>a<sub>n+1</sub> &gt; max</code>.
          *
          * @param start First value of the range.
          * @param max Last value of the range that satisfies the above
@@ -359,7 +359,7 @@ public class IntegerSequence {
         /**
          * Not applicable.
          *
-         * @throws MathUnsupportedOperationException
+         * @throws MathUnsupportedOperationException always
          */
         @Override
         public void remove() {

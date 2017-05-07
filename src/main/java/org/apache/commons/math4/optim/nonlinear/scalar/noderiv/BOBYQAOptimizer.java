@@ -35,7 +35,7 @@ import org.apache.commons.math4.util.FastMath;
  * <a href="http://plato.asu.edu/ftp/other_software/bobyqa.zip">here</a>.
  * See <a href="http://www.optimization-online.org/DB_HTML/2010/05/2616.html">
  * this paper</a> for an introduction.
- * <br/>
+ * <br>
  * BOBYQA is particularly well suited for high dimensional problems
  * where derivatives are not available. In most cases it outperforms the
  * {@link PowellOptimizer} significantly. Stochastic algorithms like
@@ -148,9 +148,9 @@ public class BOBYQAOptimizer
     /**
      * Differences {@link #getLowerBound()} - {@link #originShift}.
      * All the components of every {@link #trustRegionCenterOffset} are going
-     * to satisfy the bounds<br/>
+     * to satisfy the bounds<br>
      * {@link #getLowerBound() lowerBound}<sub>i</sub> &le;
-     * {@link #trustRegionCenterOffset}<sub>i</sub>,<br/>
+     * {@link #trustRegionCenterOffset}<sub>i</sub>,<br>
      * with appropriate equalities when {@link #trustRegionCenterOffset} is
      * on a constraint boundary.
      * XXX "sl" in the original code.
@@ -159,9 +159,9 @@ public class BOBYQAOptimizer
     /**
      * Differences {@link #getUpperBound()} - {@link #originShift}
      * All the components of every {@link #trustRegionCenterOffset} are going
-     * to satisfy the bounds<br/>
+     * to satisfy the bounds<br>
      *  {@link #trustRegionCenterOffset}<sub>i</sub> &le;
-     *  {@link #getUpperBound() upperBound}<sub>i</sub>,<br/>
+     *  {@link #getUpperBound() upperBound}<sub>i</sub>,<br>
      * with appropriate equalities when {@link #trustRegionCenterOffset} is
      * on a constraint boundary.
      * XXX "su" in the original code.

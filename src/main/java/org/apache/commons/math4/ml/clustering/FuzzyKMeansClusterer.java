@@ -43,9 +43,9 @@ import org.apache.commons.math4.util.MathUtils;
  * to the cluster j.
  * <p>
  * The algorithm then tries to minimize the objective function:
- * <pre>
+ * <div style="white-space: pre"><code>
  * J = &#8721;<sub>i=1..C</sub>&#8721;<sub>k=1..N</sub> u<sub>ik</sub><sup>m</sup>d<sub>ik</sub><sup>2</sup>
- * </pre>
+ * </code></div>
  * with d<sub>ik</sub> being the distance between data point i and the cluster center k.
  * <p>
  * The algorithm requires two parameters:

@@ -41,7 +41,7 @@ import org.apache.commons.numbers.core.Precision;
 
 /**
  * A {@link StorelessUnivariateStatistic} estimating percentiles using the
- * <ahref=http://www.cs.wustl.edu/~jain/papers/ftp/psqr.pdf>P<SUP>2</SUP></a>
+ * <a href=http://www.cs.wustl.edu/~jain/papers/ftp/psqr.pdf>P<SUP>2</SUP></a>
  * Algorithm as explained by <a href=http://www.cse.wustl.edu/~jain/>Raj
  * Jain</a> and Imrich Chlamtac in
  * <a href=http://www.cse.wustl.edu/~jain/papers/psqr.htm>P<SUP>2</SUP> Algorithm

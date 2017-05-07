@@ -43,7 +43,6 @@ import org.apache.commons.math4.util.FastMath;
  *                                          ]
  *   </li>
  * </ul>
- * </p>
  * where &theta; belongs to [0 ; 1] and where y'<sub>1</sub> to y'<sub>4</sub>
  * are the four evaluations of the derivatives already computed during
  * the step.</p>

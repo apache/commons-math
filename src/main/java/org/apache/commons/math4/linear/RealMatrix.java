@@ -244,7 +244,7 @@ public interface RealMatrix extends AnyMatrix {
     * 1  2  3  4
     * 5  3  4  8
     * 9  5  6  2
-    * </pre></p>
+    * </pre>
     *
     * @param subMatrix  array containing the submatrix replacement data
     * @param row  row coordinate of the top, left element to be replaced

@@ -31,12 +31,11 @@ import org.apache.commons.math4.optim.OptimizationData;
  * An objective function for a linear optimization problem.
  * <p>
  * A linear objective function has one the form:
- * <pre>
+ * <div style="white-space: pre"><code>
  * c<sub>1</sub>x<sub>1</sub> + ... c<sub>n</sub>x<sub>n</sub> + d
- * </pre>
+ * </code></div>
  * The c<sub>i</sub> and d are the coefficients of the equation,
  * the x<sub>i</sub> are the coordinates of the current point.
- * </p>
  *
  * @since 2.0
  */

@@ -76,7 +76,7 @@ import org.apache.commons.math4.util.MathUtils;
  * <li>Generate a uniformly distributed value in (0,1) </li>
  * <li>Select the subinterval to which the value belongs.
  * <li>Generate a random Gaussian value with mean = mean of the associated
- *     bin and std dev = std dev of associated bin.</li></ol></p>
+ *     bin and std dev = std dev of associated bin.</li></ol>
  *
  * <p>EmpiricalDistribution implements the {@link RealDistribution} interface
  * as follows.  Given x within the range of values in the dataset, let B
@@ -94,7 +94,7 @@ import org.apache.commons.math4.util.MathUtils;
  *    by 10. </li>
  *<li>The input file <i>must</i> be a plain text file containing one valid numeric
  *    entry per line.</li>
- * </ul></p>
+ * </ul>
  *
  */
 public class EmpiricalDistribution extends AbstractRealDistribution {
@@ -434,7 +434,7 @@ public class EmpiricalDistribution extends AbstractRealDistribution {
 
     /**
      * <p>Returns a fresh copy of the array of upper bounds for the bins.
-     * Bins are: <br/>
+     * Bins are: <br>
      * [min,upperBounds[0]],(upperBounds[0],upperBounds[1]],...,
      *  (upperBounds[binCount-2], upperBounds[binCount-1] = max].</p>
      *
@@ -508,7 +508,7 @@ public class EmpiricalDistribution extends AbstractRealDistribution {
      * <li>Compute K(B) = the mass of B with respect to the within-bin kernel (i.e., the
      * integral of the kernel density over B).</li>
      * <li>Return k(x) * P(B) / K(B), where k is the within-bin kernel density
-     * and P(B) is the mass of B.</li></ol></p>
+     * and P(B) is the mass of B.</li></ol>
      * @since 3.1
      */
     @Override
@@ -569,16 +569,16 @@ public class EmpiricalDistribution extends AbstractRealDistribution {
      * <li>Find the smallest i such that the sum of the masses of the bins
      *  through i is at least p.</li>
      * <li>
-     *   Let K be the within-bin kernel distribution for bin i.</br>
-     *   Let K(B) be the mass of B under K. <br/>
+     *   Let K be the within-bin kernel distribution for bin i.<br>
+     *   Let K(B) be the mass of B under K. <br>
      *   Let K(B-) be K evaluated at the lower endpoint of B (the combined
-     *   mass of the bins below B under K).<br/>
-     *   Let P(B) be the probability of bin i.<br/>
-     *   Let P(B-) be the sum of the bin masses below bin i. <br/>
-     *   Let pCrit = p - P(B-)<br/>
-     * <li>Return the inverse of K evaluated at <br/>
+     *   mass of the bins below B under K).<br>
+     *   Let P(B) be the probability of bin i.<br>
+     *   Let P(B-) be the sum of the bin masses below bin i. <br>
+     *   Let pCrit = p - P(B-)<br>
+     * <li>Return the inverse of K evaluated at <br>
      *    K(B-) + pCrit * K(B) / P(B) </li>
-     *  </ol></p>
+     *  </ol>
      *
      * @since 3.1
      */

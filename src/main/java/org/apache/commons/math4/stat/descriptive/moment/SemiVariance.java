@@ -28,8 +28,8 @@ import org.apache.commons.math4.util.MathUtils;
 /**
  * <p>Computes the semivariance of a set of values with respect to a given cutoff value.
  * We define the <i>downside semivariance</i> of a set of values <code>x</code>
- * against the <i>cutoff value</i> <code>cutoff</code> to be <br/>
- * <code>&Sigma; (x[i] - target)<sup>2</sup> / df</code> <br/>
+ * against the <i>cutoff value</i> <code>cutoff</code> to be <br>
+ * <code>&Sigma; (x[i] - target)<sup>2</sup> / df</code> <br>
  * where the sum is taken over all <code>i</code> such that <code>x[i] < cutoff</code>
  * and <code>df</code> is the length of <code>x</code> (non-bias-corrected) or
  * one less than this number (bias corrected).  The <i>upside semivariance</i>

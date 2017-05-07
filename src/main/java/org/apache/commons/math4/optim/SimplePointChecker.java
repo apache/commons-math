@@ -28,7 +28,7 @@ import org.apache.commons.math4.util.Pair;
  * difference between each point coordinate are smaller than a threshold
  * or if either the absolute difference between the point coordinates are
  * smaller than another threshold.
- * <br/>
+ * <br>
  * The {@link #converged(int,Pair,Pair) converged} method will also return
  * {@code true} if the number of iterations has been set (see
  * {@link #SimplePointChecker(double,double,int) this constructor}).

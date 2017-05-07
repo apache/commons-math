@@ -37,7 +37,6 @@ import org.apache.commons.math4.util.MathArrays;
  *       |--------------------
  *       | 1/8  3/8  3/8  1/8
  * </pre>
- * </p>
  *
  * @see EulerFieldIntegrator
  * @see ClassicalRungeKuttaFieldIntegrator

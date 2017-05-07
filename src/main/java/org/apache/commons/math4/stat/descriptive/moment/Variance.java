@@ -52,7 +52,7 @@ import org.apache.commons.math4.util.MathUtils;
  * <code>incrementAll</code> and then executing <code>getResult</code> will
  * sometimes give a different, less accurate, result than executing
  * <code>evaluate</code> with the full array of values. The former approach
- * should only be used when the full array of values is not available.</p>
+ * should only be used when the full array of values is not available.
  * <p>
  * The "population variance"  ( sum((x_i - mean)^2) / n ) can also
  * be computed using this statistic.  The <code>isBiasCorrected</code>
@@ -299,7 +299,7 @@ public class Variance extends AbstractStorelessUnivariateStatistic implements Se
      *     <li>the weights array contains one or more NaN values</li>
      *     <li>the weights array contains negative values</li>
      *     <li>the start and length arguments do not determine a valid array</li>
-     * </ul></p>
+     * </ul>
      * <p>
      * Does not change the internal state of the statistic.</p>
      * <p>
@@ -335,10 +335,10 @@ public class Variance extends AbstractStorelessUnivariateStatistic implements Se
      * <p>
      * Returns the weighted variance of the entries in the the input array.</p>
      * <p>
-     * Uses the formula <pre>
+     * Uses the formula <div style="white-space:pre"><code>
      *   &Sigma;(weights[i]*(values[i] - weightedMean)<sup>2</sup>)/(&Sigma;(weights[i]) - 1)
-     * </pre>
-     * where weightedMean is the weighted mean</p>
+     * </code></div>
+     * where weightedMean is the weighted mean
      * <p>
      * This formula will not return the same result as the unweighted variance when all
      * weights are equal, unless all weights are equal to 1. The formula assumes that
@@ -357,7 +357,7 @@ public class Variance extends AbstractStorelessUnivariateStatistic implements Se
      *     <li>the weights array contains one or more infinite values</li>
      *     <li>the weights array contains one or more NaN values</li>
      *     <li>the weights array contains negative values</li>
-     * </ul></p>
+     * </ul>
      * <p>
      * Does not change the internal state of the statistic.</p>
      * <p>
@@ -463,9 +463,9 @@ public class Variance extends AbstractStorelessUnivariateStatistic implements Se
      * the input array, using the precomputed weighted mean value.  Returns
      * <code>Double.NaN</code> if the designated subarray is empty.
      * <p>
-     * Uses the formula <pre>
+     * Uses the formula <div style="white-space:pre"><code>
      *   &Sigma;(weights[i]*(values[i] - mean)<sup>2</sup>)/(&Sigma;(weights[i]) - 1)
-     * </pre></p>
+     * </code></div>
      * <p>
      * The formula used assumes that the supplied mean value is the weighted arithmetic
      * mean of the sample data, not a known population parameter. This method
@@ -490,7 +490,7 @@ public class Variance extends AbstractStorelessUnivariateStatistic implements Se
      *     <li>the weights array contains one or more NaN values</li>
      *     <li>the weights array contains negative values</li>
      *     <li>the start and length arguments do not determine a valid array</li>
-     * </ul></p>
+     * </ul>
      * <p>
      * Does not change the internal state of the statistic.</p>
      *
@@ -541,9 +541,9 @@ public class Variance extends AbstractStorelessUnivariateStatistic implements Se
      * <p>Returns the weighted variance of the values in the input array, using
      * the precomputed weighted mean value.</p>
      * <p>
-     * Uses the formula <pre>
+     * Uses the formula <div style="white-space:pre"><code>
      *   &Sigma;(weights[i]*(values[i] - mean)<sup>2</sup>)/(&Sigma;(weights[i]) - 1)
-     * </pre></p>
+     * </code></div>
      * <p>
      * The formula used assumes that the supplied mean value is the weighted arithmetic
      * mean of the sample data, not a known population parameter. This method
@@ -567,7 +567,7 @@ public class Variance extends AbstractStorelessUnivariateStatistic implements Se
      *     <li>the weights array contains one or more infinite values</li>
      *     <li>the weights array contains one or more NaN values</li>
      *     <li>the weights array contains negative values</li>
-     * </ul></p>
+     * </ul>
      * <p>
      * Does not change the internal state of the statistic.</p>
      *

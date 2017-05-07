@@ -42,12 +42,11 @@ import org.apache.commons.numbers.core.Precision;
  * it needs (time steps longer or shorter than the fixed time step and
  * non-integer ratios are all allowed).</p>
  *
- * <p>
- * <table border="1" align="center">
- * <tr BGCOLOR="#CCCCFF"><td colspan=6><font size="+2">Examples (step size = 0.5)</font></td></tr>
- * <tr BGCOLOR="#EEEEFF"><font size="+1"><td>Start time</td><td>End time</td>
+ * <table border="1" style="text-align: center" summary="Examples (step size = 0.5)">
+ * <tr style="background-color: #CCCCFF"><td colspan=6 style="font-size: x-large">Examples (step size = 0.5)</td></tr>
+ * <tr style="background-color: #EEEEFF; font-size: large"><td>Start time</td><td>End time</td>
  *  <td>Direction</td><td>{@link StepNormalizerMode Mode}</td>
- *  <td>{@link StepNormalizerBounds Bounds}</td><td>Output</td></font></tr>
+ *  <td>{@link StepNormalizerBounds Bounds}</td><td>Output</td></tr>
  * <tr><td>0.3</td><td>3.1</td><td>forward</td><td>{@link StepNormalizerMode#INCREMENT INCREMENT}</td><td>{@link StepNormalizerBounds#NEITHER NEITHER}</td><td>0.8, 1.3, 1.8, 2.3, 2.8</td></tr>
  * <tr><td>0.3</td><td>3.1</td><td>forward</td><td>{@link StepNormalizerMode#INCREMENT INCREMENT}</td><td>{@link StepNormalizerBounds#FIRST FIRST}</td><td>0.3, 0.8, 1.3, 1.8, 2.3, 2.8</td></tr>
  * <tr><td>0.3</td><td>3.1</td><td>forward</td><td>{@link StepNormalizerMode#INCREMENT INCREMENT}</td><td>{@link StepNormalizerBounds#LAST LAST}</td><td>0.8, 1.3, 1.8, 2.3, 2.8, 3.1</td></tr>
@@ -81,7 +80,6 @@ import org.apache.commons.numbers.core.Precision;
  * <tr><td>3.0</td><td>0.0</td><td>backward</td><td>{@link StepNormalizerMode#MULTIPLES MULTIPLES}</td><td>{@link StepNormalizerBounds#LAST LAST}</td><td>2.5, 2.0, 1.5, 1.0, 0.5, 0.0</td></tr>
  * <tr><td>3.0</td><td>0.0</td><td>backward</td><td>{@link StepNormalizerMode#MULTIPLES MULTIPLES}</td><td>{@link StepNormalizerBounds#BOTH BOTH}</td><td>3.0, 2.5, 2.0, 1.5, 1.0, 0.5, 0.0</td></tr>
  * </table>
- * </p>
  *
  * @param <T> the type of the field elements
  * @see FieldStepHandler

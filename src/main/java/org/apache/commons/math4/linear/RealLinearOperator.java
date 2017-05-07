@@ -35,7 +35,7 @@ import org.apache.commons.math4.exception.DimensionMismatchException;
  *  supply a subroutine for computing y (and perhaps z) given x, which permits
  *  full exploitation of the sparsity or other special structure of A.
  * </blockquote>
- * <br/>
+ * <br>
  *
  * <dl>
  *  <dt><a name="BARR1994">Barret et al. (1994)</a></dt>

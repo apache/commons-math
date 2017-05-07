@@ -24,13 +24,13 @@ package org.apache.commons.math4.ml.neuralnet;
  */
 public enum SquareNeighbourhood {
     /**
-     * <a href="http://en.wikipedia.org/wiki/Von_Neumann_neighborhood"
+     * <a href="http://en.wikipedia.org/wiki/Von_Neumann_neighborhood">
      *  Von Neumann neighbourhood</a>: in two dimensions, each (internal)
      * neuron has four neighbours.
      */
     VON_NEUMANN,
     /**
-     * <a href="http://en.wikipedia.org/wiki/Moore_neighborhood"
+     * <a href="http://en.wikipedia.org/wiki/Moore_neighborhood">
      *  Moore neighbourhood</a>: in two dimensions, each (internal)
      * neuron has eight neighbours.
      */

@@ -453,7 +453,7 @@ public class MultivariateSummaryStatistics
      * @throws DimensionMismatchException if the array dimension
      * does not match the one used at construction
      * @throws MathIllegalStateException if data has already been added
-     *  (i.e if n > 0)
+     *  (i.e if n &gt; 0)
      */
     public void setSumImpl(StorelessUnivariateStatistic[] sumImpl)
     throws MathIllegalStateException, DimensionMismatchException {
@@ -480,7 +480,7 @@ public class MultivariateSummaryStatistics
      * @throws DimensionMismatchException if the array dimension
      * does not match the one used at construction
      * @throws MathIllegalStateException if data has already been added
-     *  (i.e if n > 0)
+     *  (i.e if n &gt; 0)
      */
     public void setSumsqImpl(StorelessUnivariateStatistic[] sumsqImpl)
     throws MathIllegalStateException, DimensionMismatchException {
@@ -507,7 +507,7 @@ public class MultivariateSummaryStatistics
      * @throws DimensionMismatchException if the array dimension
      * does not match the one used at construction
      * @throws MathIllegalStateException if data has already been added
-     *  (i.e if n > 0)
+     *  (i.e if n &gt; 0)
      */
     public void setMinImpl(StorelessUnivariateStatistic[] minImpl)
     throws MathIllegalStateException, DimensionMismatchException {
@@ -534,7 +534,7 @@ public class MultivariateSummaryStatistics
      * @throws DimensionMismatchException if the array dimension
      * does not match the one used at construction
      * @throws MathIllegalStateException if data has already been added
-     *  (i.e if n > 0)
+     *  (i.e if n &gt; 0)
      */
     public void setMaxImpl(StorelessUnivariateStatistic[] maxImpl)
     throws MathIllegalStateException, DimensionMismatchException{
@@ -561,7 +561,7 @@ public class MultivariateSummaryStatistics
      * @throws DimensionMismatchException if the array dimension
      * does not match the one used at construction
      * @throws MathIllegalStateException if data has already been added
-     *  (i.e if n > 0)
+     *  (i.e if n &gt; 0)
      */
     public void setSumLogImpl(StorelessUnivariateStatistic[] sumLogImpl)
     throws MathIllegalStateException, DimensionMismatchException{
@@ -588,7 +588,7 @@ public class MultivariateSummaryStatistics
      * @throws DimensionMismatchException if the array dimension
      * does not match the one used at construction
      * @throws MathIllegalStateException if data has already been added
-     *  (i.e if n > 0)
+     *  (i.e if n &gt; 0)
      */
     public void setGeoMeanImpl(StorelessUnivariateStatistic[] geoMeanImpl)
     throws MathIllegalStateException, DimensionMismatchException {
@@ -615,7 +615,7 @@ public class MultivariateSummaryStatistics
      * @throws DimensionMismatchException if the array dimension
      * does not match the one used at construction
      * @throws MathIllegalStateException if data has already been added
-     *  (i.e if n > 0)
+     *  (i.e if n &gt; 0)
      */
     public void setMeanImpl(StorelessUnivariateStatistic[] meanImpl)
     throws MathIllegalStateException, DimensionMismatchException{

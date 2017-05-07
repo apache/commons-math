@@ -22,7 +22,7 @@ import org.apache.commons.math4.optim.OptimizationData;
 
 /**
  * Search interval and (optional) start value.
- * <br/>
+ * <br>
  * Immutable class.
  *
  * @since 3.1

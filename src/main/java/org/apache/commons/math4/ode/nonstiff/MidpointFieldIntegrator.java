@@ -35,7 +35,6 @@ import org.apache.commons.math4.util.MathArrays;
  *       |----------
  *       |  0    1
  * </pre>
- * </p>
  *
  * @see EulerFieldIntegrator
  * @see ClassicalRungeKuttaFieldIntegrator

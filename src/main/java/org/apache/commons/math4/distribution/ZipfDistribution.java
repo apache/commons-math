@@ -35,7 +35,6 @@ import org.apache.commons.rng.sampling.distribution.RejectionInversionZipfSample
  * </pre>
  * {@code H(N,s)} is the normalizing constant
  * which corresponds to the generalized harmonic number of order N of s.
- * <p>
  * <ul>
  * <li>{@code N} is the number of elements</li>
  * <li>{@code s} is the exponent</li>

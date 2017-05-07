@@ -152,7 +152,7 @@ public class RRQRDecomposition extends QRDecomposition {
      * bottom right submatrices.  When a large fall in norm is seen,
      * the rank is returned. The drop is computed as:</p>
      * <pre>
-     *   (thisNorm/lastNorm) * rNorm < dropThreshold
+     *   (thisNorm/lastNorm) * rNorm &lt; dropThreshold
      * </pre>
      * <p>
      * where thisNorm is the Frobenius norm of the current submatrix,

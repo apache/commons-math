@@ -24,7 +24,7 @@ import org.apache.commons.math4.util.FastMath;
 /**
  * Exponential decay function: <code>a e<sup>-x / b</sup></code>,
  * where {@code x} is the (integer) independent variable.
- * <br/>
+ * <br>
  * Class is immutable.
  *
  * @since 3.3

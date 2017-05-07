@@ -144,11 +144,11 @@ public class PearsonsCorrelation {
 
     /**
      * Returns a matrix of standard errors associated with the estimates
-     * in the correlation matrix.<br/>
+     * in the correlation matrix.<br>
      * <code>getCorrelationStandardErrors().getEntry(i,j)</code> is the standard
      * error associated with <code>getCorrelationMatrix.getEntry(i,j)</code>
      *
-     * <p>The formula used to compute the standard error is <br/>
+     * <p>The formula used to compute the standard error is <br>
      * <code>SE<sub>r</sub> = ((1 - r<sup>2</sup>) / (n - 2))<sup>1/2</sup></code>
      * where <code>r</code> is the estimated correlation coefficient and
      * <code>n</code> is the number of observations in the source dataset.</p>
@@ -288,9 +288,9 @@ public class PearsonsCorrelation {
     /**
      * Derives a correlation matrix from a covariance matrix.
      *
-     * <p>Uses the formula <br/>
+     * <p>Uses the formula <br>
      * <code>r(X,Y) = cov(X,Y)/s(X)s(Y)</code> where
-     * <code>r(&middot,&middot;)</code> is the correlation coefficient and
+     * <code>r(&middot;,&middot;)</code> is the correlation coefficient and
      * <code>s(&middot;)</code> means standard deviation.</p>
      *
      * @param covarianceMatrix the covariance matrix

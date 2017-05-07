@@ -746,7 +746,6 @@ public class MatrixUtils {
      *
      * }
      * </code></pre>
-     * </p>
      *
      * @param vector real vector to serialize
      * @param oos stream where the real vector should be written
@@ -847,7 +846,6 @@ public class MatrixUtils {
      *
      * }
      * </code></pre>
-     * </p>
      *
      * @param matrix real matrix to serialize
      * @param oos stream where the real matrix should be written

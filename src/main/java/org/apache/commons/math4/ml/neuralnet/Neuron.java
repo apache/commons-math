@@ -51,7 +51,7 @@ public class Neuron implements Serializable {
      * Creates a neuron.
      * The size of the feature set is fixed to the length of the given
      * argument.
-     * <br/>
+     * <br>
      * Constructor is package-private: Neurons must be
      * {@link Network#createNeuron(double[]) created} by the network
      * instance to which they will belong.
@@ -113,7 +113,7 @@ public class Neuron implements Serializable {
     /**
      * Tries to atomically update the neuron's features.
      * Update will be performed only if the expected values match the
-     * current values.<br/>
+     * current values.<br>
      * In effect, when concurrent threads call this method, the state
      * could be modified by one, so that it does not correspond to the
      * the state assumed by another.

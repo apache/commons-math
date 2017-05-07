@@ -27,7 +27,7 @@ import org.apache.commons.math4.util.FastMath;
 import org.apache.commons.math4.util.Pair;
 
 /**
- * Implementation of Kendall's Tau-b rank correlation</a>.
+ * Implementation of Kendall's Tau-b rank correlation.
  * <p>
  * A pair of observations (x<sub>1</sub>, y<sub>1</sub>) and
  * (x<sub>2</sub>, y<sub>2</sub>) are considered <i>concordant</i> if
@@ -40,9 +40,9 @@ import org.apache.commons.math4.util.Pair;
  * discordant.
  * <p>
  * Kendall's Tau-b is defined as:
- * <pre>
+ * <div style="white-space: pre"><code>
  * tau<sub>b</sub> = (n<sub>c</sub> - n<sub>d</sub>) / sqrt((n<sub>0</sub> - n<sub>1</sub>) * (n<sub>0</sub> - n<sub>2</sub>))
- * </pre>
+ * </code></div>
  * <p>
  * where:
  * <ul>

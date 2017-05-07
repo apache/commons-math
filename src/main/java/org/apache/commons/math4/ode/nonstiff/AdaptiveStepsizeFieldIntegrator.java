@@ -45,7 +45,7 @@ import org.apache.commons.math4.util.MathUtils;
  * state vector and relTol_i is the relative tolerance for the same
  * component. The user can also use only two scalar values absTol and
  * relTol which will be used for all components.
- * </p>
+ * 
  * <p>
  * Note that <em>only</em> the {@link FieldODEState#getState() main part}
  * of the state vector is used for stepsize control. The {@link
@@ -55,12 +55,12 @@ import org.apache.commons.math4.util.MathUtils;
  *
  * <p>If the estimated error for ym+1 is such that
  * <pre>
- * sqrt((sum (errEst_i / threshold_i)^2 ) / n) < 1
+ * sqrt((sum (errEst_i / threshold_i)^2 ) / n) &lt; 1
  * </pre>
  *
  * (where n is the main set dimension) then the step is accepted,
  * otherwise the step is rejected and a new attempt is made with a new
- * stepsize.</p>
+ * stepsize.
  *
  * @param <T> the type of the field elements
  * @since 3.6

@@ -53,7 +53,7 @@ import org.apache.commons.math4.util.FastMath;
  * data set x<sub>0</sub>, &hellip;, x<sub>N-1</sub> is equal to <em>half</em>
  * of i (the pure imaginary number) times the N first elements of the DFT of the
  * extended data set x<sub>0</sub><sup>&#35;</sup>, &hellip;,
- * x<sub>2N-1</sub><sup>&#35;</sup> <br />
+ * x<sub>2N-1</sub><sup>&#35;</sup> <br>
  * y<sub>n</sub> = (i / 2) &sum;<sub>k=0</sub><sup>2N-1</sup>
  * x<sub>k</sub><sup>&#35;</sup> exp[-2&pi;i nk / (2N)]
  * &nbsp;&nbsp;&nbsp;&nbsp;k = 0, &hellip;, N-1.

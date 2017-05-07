@@ -30,7 +30,6 @@ package org.apache.commons.math4.ode.nonstiff;
  *       |----------
  *       |  0    1
  * </pre>
- * </p>
  *
  * @see EulerIntegrator
  * @see ClassicalRungeKuttaIntegrator

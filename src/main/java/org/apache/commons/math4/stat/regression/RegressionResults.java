@@ -300,7 +300,7 @@ public class RegressionResults implements Serializable {
      * must have been added before invoking this method. If this method is
      * invoked before a model can be estimated, <code>Double.NaN</code> is
      * returned.
-     * </li></ul></p>
+     * </li></ul>
      *
      * @return sum of squared deviations of predicted y values
      */
@@ -322,7 +322,7 @@ public class RegressionResults implements Serializable {
      * must have been added before invoking this method. If this method is
      * invoked before a model can be estimated, <code>Double,NaN</code> is
      * returned.
-     * </li></ul></p>
+     * </li></ul>
      *
      * @return sum of squared errors associated with the regression model
      */
@@ -354,7 +354,7 @@ public class RegressionResults implements Serializable {
      * must have been added before invoking this method. If this method is
      * invoked before a model can be estimated, {@code Double,NaN} is
      * returned.
-     * </li></ul></p>
+     * </li></ul>
      *
      * @return r-square, a double in the interval [0, 1]
      */
@@ -372,7 +372,7 @@ public class RegressionResults implements Serializable {
      *
      * <p>If the regression is estimated without an intercept term, what is returned is <pre>
      * <code> 1 - (1 - {@link #getRSquared()} ) * (n / (n - p)) </code>
-     * </pre></p>
+     * </pre>
      *
      * @return adjusted R-Squared statistic
      */

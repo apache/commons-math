@@ -65,6 +65,9 @@ public class InferenceTestUtils {
     // CHECKSTYLE: stop JavadocMethodCheck
 
     /**
+     * @param sample1 array of sample data values
+     * @param sample2 array of sample data values
+     * @return t statistic
      * @see org.apache.commons.math4.stat.inference.TTest#homoscedasticT(double[], double[])
      */
     public static double homoscedasticT(final double[] sample1, final double[] sample2)
@@ -73,6 +76,9 @@ public class InferenceTestUtils {
     }
 
     /**
+     * @param sampleStats1 StatisticalSummary describing data from the first sample
+     * @param sampleStats2 StatisticalSummary describing data from the second sample
+     * @return t statistic
      * @see org.apache.commons.math4.stat.inference.TTest#homoscedasticT(org.apache.commons.math4.stat.descriptive.StatisticalSummary, org.apache.commons.math4.stat.descriptive.StatisticalSummary)
      */
     public static double homoscedasticT(final StatisticalSummary sampleStats1,
@@ -82,6 +88,11 @@ public class InferenceTestUtils {
     }
 
     /**
+     * @param sample1 array of sample data values
+     * @param sample2 array of sample data values
+     * @param alpha significance level of the test
+     * @return true if the null hypothesis can be rejected with
+     * confidence 1 - alpha
      * @see org.apache.commons.math4.stat.inference.TTest#homoscedasticTTest(double[], double[], double)
      */
     public static boolean homoscedasticTTest(final double[] sample1, final double[] sample2,
@@ -92,6 +103,9 @@ public class InferenceTestUtils {
     }
 
     /**
+     * @param sample1 array of sample data values
+     * @param sample2 array of sample data values
+     * @return p-value for t-test
      * @see org.apache.commons.math4.stat.inference.TTest#homoscedasticTTest(double[], double[])
      */
     public static double homoscedasticTTest(final double[] sample1, final double[] sample2)
@@ -100,6 +114,9 @@ public class InferenceTestUtils {
     }
 
     /**
+     * @param sampleStats1  StatisticalSummary describing data from the first sample
+     * @param sampleStats2  StatisticalSummary describing data from the second sample
+     * @return p-value for t-test
      * @see org.apache.commons.math4.stat.inference.TTest#homoscedasticTTest(org.apache.commons.math4.stat.descriptive.StatisticalSummary, org.apache.commons.math4.stat.descriptive.StatisticalSummary)
      */
     public static double homoscedasticTTest(final StatisticalSummary sampleStats1,
@@ -109,6 +126,9 @@ public class InferenceTestUtils {
     }
 
     /**
+     * @param sample1 array of sample data values
+     * @param sample2 array of sample data values
+     * @return t statistic
      * @see org.apache.commons.math4.stat.inference.TTest#pairedT(double[], double[])
      */
     public static double pairedT(final double[] sample1, final double[] sample2)
@@ -118,6 +138,11 @@ public class InferenceTestUtils {
     }
 
     /**
+     * @param sample1 array of sample data values
+     * @param sample2 array of sample data values
+     * @param alpha significance level of the test
+     * @return true if the null hypothesis can be rejected with
+     * confidence 1 - alpha
      * @see org.apache.commons.math4.stat.inference.TTest#pairedTTest(double[], double[], double)
      */
     public static boolean pairedTTest(final double[] sample1, final double[] sample2,
@@ -128,6 +153,9 @@ public class InferenceTestUtils {
     }
 
     /**
+     * @param sample1 array of sample data values
+     * @param sample2 array of sample data values
+     * @return p-value for t-test
      * @see org.apache.commons.math4.stat.inference.TTest#pairedTTest(double[], double[])
      */
     public static double pairedTTest(final double[] sample1, final double[] sample2)
@@ -137,6 +165,9 @@ public class InferenceTestUtils {
     }
 
     /**
+     * @param mu comparison constant
+     * @param observed array of values
+     * @return t statistic
      * @see org.apache.commons.math4.stat.inference.TTest#t(double, double[])
      */
     public static double t(final double mu, final double[] observed)
@@ -145,6 +176,9 @@ public class InferenceTestUtils {
     }
 
     /**
+     * @param mu comparison constant
+     * @param sampleStats DescriptiveStatistics holding sample summary statitstics
+     * @return t statistic
      * @see org.apache.commons.math4.stat.inference.TTest#t(double, org.apache.commons.math4.stat.descriptive.StatisticalSummary)
      */
     public static double t(final double mu, final StatisticalSummary sampleStats)
@@ -153,6 +187,9 @@ public class InferenceTestUtils {
     }
 
     /**
+     * @param sample1 array of sample data values
+     * @param sample2 array of sample data values
+     * @return t statistic
      * @see org.apache.commons.math4.stat.inference.TTest#t(double[], double[])
      */
     public static double t(final double[] sample1, final double[] sample2)
@@ -161,6 +198,9 @@ public class InferenceTestUtils {
     }
 
     /**
+     * @param sampleStats1 StatisticalSummary describing data from the first sample
+     * @param sampleStats2 StatisticalSummary describing data from the second sample
+     * @return t statistic
      * @see org.apache.commons.math4.stat.inference.TTest#t(org.apache.commons.math4.stat.descriptive.StatisticalSummary, org.apache.commons.math4.stat.descriptive.StatisticalSummary)
      */
     public static double t(final StatisticalSummary sampleStats1,
@@ -170,6 +210,10 @@ public class InferenceTestUtils {
     }
 
     /**
+     * @param mu constant value to compare sample mean against
+     * @param sample array of sample data values
+     * @param alpha significance level of the test
+     * @return p-value
      * @see org.apache.commons.math4.stat.inference.TTest#tTest(double, double[], double)
      */
     public static boolean tTest(final double mu, final double[] sample, final double alpha)
@@ -179,6 +223,9 @@ public class InferenceTestUtils {
     }
 
     /**
+     * @param mu constant value to compare sample mean against
+     * @param sample array of sample data values
+     * @return p-value
      * @see org.apache.commons.math4.stat.inference.TTest#tTest(double, double[])
      */
     public static double tTest(final double mu, final double[] sample)
@@ -188,6 +235,10 @@ public class InferenceTestUtils {
     }
 
     /**
+     * @param mu constant value to compare sample mean against
+     * @param sampleStats StatisticalSummary describing sample data values
+     * @param alpha significance level of the test
+     * @return p-value
      * @see org.apache.commons.math4.stat.inference.TTest#tTest(double, org.apache.commons.math4.stat.descriptive.StatisticalSummary, double)
      */
     public static boolean tTest(final double mu, final StatisticalSummary sampleStats,
@@ -198,6 +249,9 @@ public class InferenceTestUtils {
     }
 
     /**
+     * @param mu constant value to compare sample mean against
+     * @param sampleStats StatisticalSummary describing sample data
+     * @return p-value
      * @see org.apache.commons.math4.stat.inference.TTest#tTest(double, org.apache.commons.math4.stat.descriptive.StatisticalSummary)
      */
     public static double tTest(final double mu, final StatisticalSummary sampleStats)
@@ -207,6 +261,11 @@ public class InferenceTestUtils {
     }
 
     /**
+     * @param sample1 array of sample data values
+     * @param sample2 array of sample data values
+     * @param alpha significance level of the test
+     * @return true if the null hypothesis can be rejected with
+     * confidence 1 - alpha
      * @see org.apache.commons.math4.stat.inference.TTest#tTest(double[], double[], double)
      */
     public static boolean tTest(final double[] sample1, final double[] sample2,
@@ -217,6 +276,9 @@ public class InferenceTestUtils {
     }
 
     /**
+     * @param sample1 array of sample data values
+     * @param sample2 array of sample data values
+     * @return p-value for t-test
      * @see org.apache.commons.math4.stat.inference.TTest#tTest(double[], double[])
      */
     public static double tTest(final double[] sample1, final double[] sample2)
@@ -226,6 +288,11 @@ public class InferenceTestUtils {
     }
 
     /**
+     * @param sampleStats1 StatisticalSummary describing sample data values
+     * @param sampleStats2 StatisticalSummary describing sample data values
+     * @param alpha significance level of the test
+     * @return true if the null hypothesis can be rejected with
+     * confidence 1 - alpha
      * @see org.apache.commons.math4.stat.inference.TTest#tTest(org.apache.commons.math4.stat.descriptive.StatisticalSummary, org.apache.commons.math4.stat.descriptive.StatisticalSummary, double)
      */
     public static boolean tTest(final StatisticalSummary sampleStats1,
@@ -237,6 +304,9 @@ public class InferenceTestUtils {
     }
 
     /**
+     * @param sampleStats1  StatisticalSummary describing data from the first sample
+     * @param sampleStats2  StatisticalSummary describing data from the second sample
+     * @return p-value for t-test
      * @see org.apache.commons.math4.stat.inference.TTest#tTest(org.apache.commons.math4.stat.descriptive.StatisticalSummary, org.apache.commons.math4.stat.descriptive.StatisticalSummary)
      */
     public static double tTest(final StatisticalSummary sampleStats1,
@@ -247,7 +317,10 @@ public class InferenceTestUtils {
     }
 
     /**
-     * @see org.apache.commons.math4.stat.inference.ChiSquareTest#chiSquare(double[], long[])
+     * @param observed array of observed frequency counts
+     * @param expected array of expected frequency counts
+     * @return chiSquare test statistic
+* @see org.apache.commons.math4.stat.inference.ChiSquareTest#chiSquare(double[], long[])
      */
     public static double chiSquare(final double[] expected, final long[] observed)
         throws NotPositiveException, NotStrictlyPositiveException,
@@ -256,6 +329,8 @@ public class InferenceTestUtils {
     }
 
     /**
+     * @param counts array representation of 2-way table
+     * @return chiSquare test statistic
      * @see org.apache.commons.math4.stat.inference.ChiSquareTest#chiSquare(long[][])
      */
     public static double chiSquare(final long[][] counts)
@@ -265,6 +340,11 @@ public class InferenceTestUtils {
     }
 
     /**
+     * @param observed array of observed frequency counts
+     * @param expected array of expected frequency counts
+     * @param alpha significance level of the test
+     * @return true iff null hypothesis can be rejected with confidence
+     * 1 - alpha
      * @see org.apache.commons.math4.stat.inference.ChiSquareTest#chiSquareTest(double[], long[], double)
      */
     public static boolean chiSquareTest(final double[] expected, final long[] observed,
@@ -275,6 +355,9 @@ public class InferenceTestUtils {
     }
 
     /**
+     * @param observed array of observed frequency counts
+     * @param expected array of expected frequency counts
+     * @return p-value
      * @see org.apache.commons.math4.stat.inference.ChiSquareTest#chiSquareTest(double[], long[])
      */
     public static double chiSquareTest(final double[] expected, final long[] observed)
@@ -284,6 +367,10 @@ public class InferenceTestUtils {
     }
 
     /**
+     * @param counts array representation of 2-way table
+     * @param alpha significance level of the test
+     * @return true iff null hypothesis can be rejected with confidence
+     * 1 - alpha
      * @see org.apache.commons.math4.stat.inference.ChiSquareTest#chiSquareTest(long[][], double)
      */
     public static boolean chiSquareTest(final long[][] counts, final double alpha)
@@ -293,6 +380,8 @@ public class InferenceTestUtils {
     }
 
     /**
+     * @param counts array representation of 2-way table
+     * @return p-value
      * @see org.apache.commons.math4.stat.inference.ChiSquareTest#chiSquareTest(long[][])
      */
     public static double chiSquareTest(final long[][] counts)
@@ -302,6 +391,9 @@ public class InferenceTestUtils {
     }
 
     /**
+     * @param observed1 array of observed frequency counts of the first data set
+     * @param observed2 array of observed frequency counts of the second data set
+     * @return chiSquare test statistic
      * @see org.apache.commons.math4.stat.inference.ChiSquareTest#chiSquareDataSetsComparison(long[], long[])
      *
      * @since 1.2
@@ -313,6 +405,9 @@ public class InferenceTestUtils {
     }
 
     /**
+     * @param observed1 array of observed frequency counts of the first data set
+     * @param observed2 array of observed frequency counts of the second data set
+     * @return p-value
      * @see org.apache.commons.math4.stat.inference.ChiSquareTest#chiSquareTestDataSetsComparison(long[], long[])
      *
      * @since 1.2
@@ -325,6 +420,11 @@ public class InferenceTestUtils {
     }
 
     /**
+     * @param observed1 array of observed frequency counts of the first data set
+     * @param observed2 array of observed frequency counts of the second data set
+     * @param alpha significance level of the test
+     * @return true iff null hypothesis can be rejected with confidence
+     * 1 - alpha
      * @see org.apache.commons.math4.stat.inference.ChiSquareTest#chiSquareTestDataSetsComparison(long[], long[], double)
      *
      * @since 1.2
@@ -338,6 +438,9 @@ public class InferenceTestUtils {
     }
 
     /**
+     * @param categoryData <code>Collection</code> of <code>double[]</code>
+     * arrays each containing data for one category
+     * @return Fvalue
      * @see org.apache.commons.math4.stat.inference.OneWayAnova#anovaFValue(Collection)
      *
      * @since 1.2
@@ -348,6 +451,9 @@ public class InferenceTestUtils {
     }
 
     /**
+     * @param categoryData <code>Collection</code> of <code>double[]</code>
+     * arrays each containing data for one category
+     * @return Pvalue
      * @see org.apache.commons.math4.stat.inference.OneWayAnova#anovaPValue(Collection)
      *
      * @since 1.2
@@ -359,6 +465,11 @@ public class InferenceTestUtils {
     }
 
     /**
+     * @param categoryData <code>Collection</code> of <code>double[]</code>
+     * arrays each containing data for one category
+     * @param alpha significance level of the test
+     * @return true if the null hypothesis can be rejected with
+     * confidence 1 - alpha
      * @see org.apache.commons.math4.stat.inference.OneWayAnova#anovaTest(Collection,double)
      *
      * @since 1.2
@@ -371,6 +482,9 @@ public class InferenceTestUtils {
     }
 
      /**
+     * @param observed array of observed frequency counts
+     * @param expected array of expected frequency counts
+     * @return G-Test statistic
      * @see org.apache.commons.math4.stat.inference.GTest#g(double[], long[])
      * @since 3.1
      */
@@ -381,6 +495,9 @@ public class InferenceTestUtils {
     }
 
     /**
+     * @param observed array of observed frequency counts
+     * @param expected array of expected frequency counts
+     * @return p-value
      * @see org.apache.commons.math4.stat.inference.GTest#gTest( double[],  long[] )
      * @since 3.1
      */
@@ -391,6 +508,9 @@ public class InferenceTestUtils {
     }
 
     /**
+     * @param observed array of observed frequency counts
+     * @param expected array of expected frequency counts
+     * @return p-value
      * @see org.apache.commons.math4.stat.inference.GTest#gTestIntrinsic(double[], long[] )
      * @since 3.1
      */
@@ -401,6 +521,11 @@ public class InferenceTestUtils {
     }
 
      /**
+     * @param observed array of observed frequency counts
+     * @param expected array of expected frequency counts
+     * @param alpha significance level of the test
+     * @return true iff null hypothesis can be rejected with confidence 1 -
+     * alpha
      * @see org.apache.commons.math4.stat.inference.GTest#gTest( double[],long[],double)
      * @since 3.1
      */
@@ -412,6 +537,10 @@ public class InferenceTestUtils {
     }
 
     /**
+     * @param observed1 array of observed frequency counts of the first data set
+     * @param observed2 array of observed frequency counts of the second data
+     * set
+     * @return G-Test statistic
      * @see org.apache.commons.math4.stat.inference.GTest#gDataSetsComparison(long[], long[])
      * @since 3.1
      */
@@ -422,6 +551,14 @@ public class InferenceTestUtils {
     }
 
     /**
+     * @param k11 number of times the two events occurred together (AB)
+     * @param k12 number of times the second event occurred WITHOUT the
+     * first event (notA,B)
+     * @param k21 number of times the first event occurred WITHOUT the
+     * second event (A, notB)
+     * @param k22 number of times something else occurred (i.e. was neither
+     * of these events (notA, notB)
+     * @return root log-likelihood ratio
      * @see org.apache.commons.math4.stat.inference.GTest#rootLogLikelihoodRatio(long, long, long, long)
      * @since 3.1
      */
@@ -432,6 +569,10 @@ public class InferenceTestUtils {
 
 
     /**
+     * @param observed1 array of observed frequency counts of the first data set
+     * @param observed2 array of observed frequency counts of the second data
+     * set
+     * @return p-value
      * @see org.apache.commons.math4.stat.inference.GTest#gTestDataSetsComparison(long[], long[])
      * @since 3.1
      */
@@ -443,6 +584,12 @@ public class InferenceTestUtils {
     }
 
     /**
+     * @param observed1 array of observed frequency counts of the first data set
+     * @param observed2 array of observed frequency counts of the second data
+     * set
+     * @param alpha significance level of the test
+     * @return true iff null hypothesis can be rejected with confidence 1 -
+     * alpha
      * @see org.apache.commons.math4.stat.inference.GTest#gTestDataSetsComparison(long[],long[],double)
      * @since 3.1
      */
@@ -455,6 +602,9 @@ public class InferenceTestUtils {
     }
 
     /**
+     * @param dist reference distribution
+     * @param data sample being evaluated
+     * @return Kolmogorov-Smirnov statistic \(D_n\)
      * @see org.apache.commons.math4.stat.inference.KolmogorovSmirnovTest#kolmogorovSmirnovStatistic(RealDistribution, double[])
      * @since 3.3
      */
@@ -464,6 +614,10 @@ public class InferenceTestUtils {
     }
 
     /**
+     * @param dist reference distribution
+     * @param data sample being being evaluated
+     * @return the p-value associated with the null hypothesis that {@code data} is a sample from
+     *         {@code distribution}
      * @see org.apache.commons.math4.stat.inference.KolmogorovSmirnovTest#kolmogorovSmirnovTest(RealDistribution, double[])
      * @since 3.3
      */
@@ -473,6 +627,11 @@ public class InferenceTestUtils {
     }
 
     /**
+     * @param dist reference distribution
+     * @param data sample being being evaluated
+     * @param strict whether or not to force exact computation of the p-value
+     * @return the p-value associated with the null hypothesis that {@code data} is a sample from
+     *         {@code distribution}
      * @see org.apache.commons.math4.stat.inference.KolmogorovSmirnovTest#kolmogorovSmirnovTest(RealDistribution, double[], boolean)
      * @since 3.3
      */
@@ -482,6 +641,11 @@ public class InferenceTestUtils {
     }
 
     /**
+     * @param dist reference distribution
+     * @param data sample being being evaluated
+     * @param alpha significance level of the test
+     * @return true iff the null hypothesis that {@code data} is a sample from {@code distribution}
+     *         can be rejected with confidence 1 - {@code alpha}
      * @see org.apache.commons.math4.stat.inference.KolmogorovSmirnovTest#kolmogorovSmirnovTest(RealDistribution, double[], double)
      * @since 3.3
      */
@@ -491,6 +655,10 @@ public class InferenceTestUtils {
     }
 
     /**
+     * @param x first sample
+     * @param y second sample
+     * @return test statistic \(D_{n,m}\) used to evaluate the null hypothesis that {@code x} and
+     *         {@code y} represent samples from the same underlying distribution
      * @see org.apache.commons.math4.stat.inference.KolmogorovSmirnovTest#kolmogorovSmirnovStatistic(double[], double[])
      * @since 3.3
      */
@@ -500,6 +668,10 @@ public class InferenceTestUtils {
     }
 
     /**
+     * @param x first sample dataset
+     * @param y second sample dataset
+     * @return p-value associated with the null hypothesis that {@code x} and {@code y} represent
+     *         samples from the same distribution
      * @see org.apache.commons.math4.stat.inference.KolmogorovSmirnovTest#kolmogorovSmirnovTest(double[], double[])
      * @since 3.3
      */
@@ -509,6 +681,12 @@ public class InferenceTestUtils {
     }
 
     /**
+     * @param x first sample dataset.
+     * @param y second sample dataset.
+     * @param strict whether or not the probability to compute is expressed as
+     * a strict inequality (ignored for large samples).
+     * @return p-value associated with the null hypothesis that {@code x} and
+     * {@code y} represent samples from the same distribution.
      * @see org.apache.commons.math4.stat.inference.KolmogorovSmirnovTest#kolmogorovSmirnovTest(double[], double[], boolean)
      * @since 3.3
      */
@@ -518,6 +696,12 @@ public class InferenceTestUtils {
     }
 
     /**
+     * @param d D-statistic value
+     * @param n first sample size
+     * @param m second sample size
+     * @param strict whether or not the probability to compute is expressed as a strict inequality
+     * @return probability that a randomly selected m-n partition of m + n generates \(D_{n,m}\)
+     *         greater than (resp. greater than or equal to) {@code d}
      * @see org.apache.commons.math4.stat.inference.KolmogorovSmirnovTest#exactP(double, int, int, boolean)
      * @since 3.3
      */
@@ -526,6 +710,11 @@ public class InferenceTestUtils {
     }
 
     /**
+     * @param d D-statistic value
+     * @param n first sample size
+     * @param m second sample size
+     * @return approximate probability that a randomly selected m-n partition of m + n generates
+     *         \(D_{n,m}\) greater than {@code d}
      * @see org.apache.commons.math4.stat.inference.KolmogorovSmirnovTest#approximateP(double, int, int)
      * @since 3.3
      */
@@ -534,6 +723,13 @@ public class InferenceTestUtils {
     }
 
     /**
+     * @param d D-statistic value
+     * @param n first sample size
+     * @param m second sample size
+     * @param iterations number of random partitions to generate
+     * @param strict whether or not the probability to compute is expressed as a strict inequality
+     * @return proportion of randomly generated m-n partitions of m + n that result in \(D_{n,m}\)
+     *         greater than (resp. greater than or equal to) {@code d}
      * @see org.apache.commons.math4.stat.inference.KolmogorovSmirnovTest#monteCarloP(double, int, int, boolean, int)
      * @since 3.3
      */

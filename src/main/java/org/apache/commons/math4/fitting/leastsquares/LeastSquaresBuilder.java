@@ -112,7 +112,7 @@ public class LeastSquaresBuilder {
 
     /**
      * Configure the convergence checker.
-     * <p/>
+     * <p>
      * This function is an overloaded version of {@link #checker(ConvergenceChecker)}.
      *
      * @param newChecker the convergence checker.

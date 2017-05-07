@@ -56,7 +56,7 @@ public class GaussNewtonOptimizer implements LeastSquaresOptimizer {
          * using the {@link LUDecomposition}.
          *
          * <p> Theoretically this method takes mn<sup>2</sup>/2 operations to compute the
-         * normal matrix and n<sup>3</sup>/3 operations (m > n) to solve the system using
+         * normal matrix and n<sup>3</sup>/3 operations (m &gt; n) to solve the system using
          * the LU decomposition. </p>
          */
         LU {
@@ -81,7 +81,7 @@ public class GaussNewtonOptimizer implements LeastSquaresOptimizer {
          * QRDecomposition}.
          *
          * <p> Theoretically this method takes mn<sup>2</sup> - n<sup>3</sup>/3 operations
-         * (m > n) and has better numerical accuracy than any method that forms the normal
+         * (m &gt; n) and has better numerical accuracy than any method that forms the normal
          * equations. </p>
          */
         QR {
@@ -102,7 +102,7 @@ public class GaussNewtonOptimizer implements LeastSquaresOptimizer {
          * using the {@link CholeskyDecomposition}.
          *
          * <p> Theoretically this method takes mn<sup>2</sup>/2 operations to compute the
-         * normal matrix and n<sup>3</sup>/6 operations (m > n) to solve the system using
+         * normal matrix and n<sup>3</sup>/6 operations (m &gt; n) to solve the system using
          * the Cholesky decomposition. </p>
          */
         CHOLESKY {
@@ -143,7 +143,7 @@ public class GaussNewtonOptimizer implements LeastSquaresOptimizer {
         /**
          * Solve the linear least squares problem Jx=r.
          *
-         * @param jacobian  the Jacobian matrix, J. the number of rows >= the number or
+         * @param jacobian  the Jacobian matrix, J. the number of rows &gt;= the number or
          *                  columns.
          * @param residuals the computed residuals, r.
          * @return the solution x, to the linear least squares problem Jx=r.
@@ -166,7 +166,7 @@ public class GaussNewtonOptimizer implements LeastSquaresOptimizer {
 
     /**
      * Creates a Gauss Newton optimizer.
-     * <p/>
+     * <p>
      * The default for the algorithm is to solve the normal equations using QR
      * decomposition.
      */

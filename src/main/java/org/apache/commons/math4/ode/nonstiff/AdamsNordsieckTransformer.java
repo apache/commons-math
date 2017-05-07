@@ -39,43 +39,42 @@ import org.apache.commons.math4.linear.RealMatrix;
  * representation with higher order scaled derivatives.</p>
  *
  * <p>We define scaled derivatives s<sub>i</sub>(n) at step n as:
- * <pre>
+ * <div style="white-space: pre"><code>
  * s<sub>1</sub>(n) = h y'<sub>n</sub> for first derivative
  * s<sub>2</sub>(n) = h<sup>2</sup>/2 y''<sub>n</sub> for second derivative
  * s<sub>3</sub>(n) = h<sup>3</sup>/6 y'''<sub>n</sub> for third derivative
  * ...
  * s<sub>k</sub>(n) = h<sup>k</sup>/k! y<sup>(k)</sup><sub>n</sub> for k<sup>th</sup> derivative
- * </pre></p>
+ * </code></div>
  *
  * <p>With the previous definition, the classical representation of multistep methods
  * uses first derivatives only, i.e. it handles y<sub>n</sub>, s<sub>1</sub>(n) and
  * q<sub>n</sub> where q<sub>n</sub> is defined as:
- * <pre>
+ * <div style="white-space: pre"><code>
  *   q<sub>n</sub> = [ s<sub>1</sub>(n-1) s<sub>1</sub>(n-2) ... s<sub>1</sub>(n-(k-1)) ]<sup>T</sup>
- * </pre>
- * (we omit the k index in the notation for clarity).</p>
+ * </code></div>
+ * (we omit the k index in the notation for clarity).
  *
  * <p>Another possible representation uses the Nordsieck vector with
  * higher degrees scaled derivatives all taken at the same step, i.e it handles y<sub>n</sub>,
  * s<sub>1</sub>(n) and r<sub>n</sub>) where r<sub>n</sub> is defined as:
- * <pre>
+ * <div style="white-space: pre"><code>
  * r<sub>n</sub> = [ s<sub>2</sub>(n), s<sub>3</sub>(n) ... s<sub>k</sub>(n) ]<sup>T</sup>
- * </pre>
+ * </code></div>
  * (here again we omit the k index in the notation for clarity)
- * </p>
  *
  * <p>Taylor series formulas show that for any index offset i, s<sub>1</sub>(n-i) can be
  * computed from s<sub>1</sub>(n), s<sub>2</sub>(n) ... s<sub>k</sub>(n), the formula being exact
  * for degree k polynomials.
- * <pre>
+ * <div style="white-space: pre"><code>
  * s<sub>1</sub>(n-i) = s<sub>1</sub>(n) + &sum;<sub>j&gt;0</sub> (j+1) (-i)<sup>j</sup> s<sub>j+1</sub>(n)
- * </pre>
+ * </code></div>
  * The previous formula can be used with several values for i to compute the transform between
  * classical representation and Nordsieck vector at step end. The transform between r<sub>n</sub>
  * and q<sub>n</sub> resulting from the Taylor series formulas above is:
- * <pre>
+ * <div style="white-space: pre"><code>
  * q<sub>n</sub> = s<sub>1</sub>(n) u + P r<sub>n</sub>
- * </pre>
+ * </code></div>
  * where u is the [ 1 1 ... 1 ]<sup>T</sup> vector and P is the (k-1)&times;(k-1) matrix built
  * with the (j+1) (-i)<sup>j</sup> terms with i being the row number starting from 1 and j being
  * the column number starting from 1:
@@ -85,7 +84,7 @@ import org.apache.commons.math4.linear.RealMatrix;
  *   P =  [  -6  27 -108  405  ... ]
  *        [  -8  48 -256 1280  ... ]
  *        [          ...           ]
- * </pre></p>
+ * </pre>
  *
  * <p>Changing -i into +i in the formula above can be used to compute a similar transform between
  * classical representation and Nordsieck vector at step start. The resulting matrix is simply
@@ -107,7 +106,7 @@ import org.apache.commons.math4.linear.RealMatrix;
  *        [       ...      | 0 ]
  *        [ 0 0   ...  1 0 | 0 ]
  *        [ 0 0   ...  0 1 | 0 ]
- * </pre></p>
+ * </pre>
  *
  * <p>For {@link AdamsMoultonIntegrator Adams-Moulton} method, the predicted Nordsieck vector
  * at step n+1 is computed from the Nordsieck vector at step n as follows:
@@ -124,7 +123,7 @@ import org.apache.commons.math4.linear.RealMatrix;
  * </ul>
  * where the upper case Y<sub>n+1</sub>, S<sub>1</sub>(n+1) and R<sub>n+1</sub> represent the
  * predicted states whereas the lower case y<sub>n+1</sub>, s<sub>n+1</sub> and r<sub>n+1</sub>
- * represent the corrected states.</p>
+ * represent the corrected states.
  *
  * <p>We observe that both methods use similar update formulas. In both cases a P<sup>-1</sup>u
  * vector and a P<sup>-1</sup> A P matrix are used that do not depend on the state,
@@ -220,7 +219,7 @@ public class AdamsNordsieckTransformer {
      *   P =  [  -6  27 -108  405  ... ]
      *        [  -8  48 -256 1280  ... ]
      *        [          ...           ]
-     * </pre></p>
+     * </pre>
      * @param rows number of rows of the matrix
      * @return P matrix
      */
@@ -319,10 +318,10 @@ public class AdamsNordsieckTransformer {
 
     /** Update the high order scaled derivatives for Adams integrators (phase 1).
      * <p>The complete update of high order derivatives has a form similar to:
-     * <pre>
+     * <div style="white-space: pre"><code>
      * r<sub>n+1</sub> = (s<sub>1</sub>(n) - s<sub>1</sub>(n+1)) P<sup>-1</sup> u + P<sup>-1</sup> A P r<sub>n</sub>
-     * </pre>
-     * this method computes the P<sup>-1</sup> A P r<sub>n</sub> part.</p>
+     * </code></div>
+     * this method computes the P<sup>-1</sup> A P r<sub>n</sub> part.
      * @param highOrder high order scaled derivatives
      * (h<sup>2</sup>/2 y'', ... h<sup>k</sup>/k! y(k))
      * @return updated high order derivatives
@@ -334,10 +333,10 @@ public class AdamsNordsieckTransformer {
 
     /** Update the high order scaled derivatives Adams integrators (phase 2).
      * <p>The complete update of high order derivatives has a form similar to:
-     * <pre>
+     * <div style="white-space: pre"><code>
      * r<sub>n+1</sub> = (s<sub>1</sub>(n) - s<sub>1</sub>(n+1)) P<sup>-1</sup> u + P<sup>-1</sup> A P r<sub>n</sub>
-     * </pre>
-     * this method computes the (s<sub>1</sub>(n) - s<sub>1</sub>(n+1)) P<sup>-1</sup> u part.</p>
+     * </code></div>
+     * this method computes the (s<sub>1</sub>(n) - s<sub>1</sub>(n+1)) P<sup>-1</sup> u part.
      * <p>Phase 1 of the update must already have been performed.</p>
      * @param start first order scaled derivatives at step start
      * @param end first order scaled derivatives at step end

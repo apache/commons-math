@@ -31,12 +31,11 @@ import org.apache.commons.math4.util.MathUtils;
  * <p>
  * To limit numeric errors, the value of the statistic is computed using the
  * following recursive updating algorithm: </p>
- * <p>
  * <ol>
  * <li>Initialize <code>m = </code> the first value</li>
  * <li>For each additional value, update using <br>
  *   <code>m = m + (new value - m) / (number of observations)</code></li>
- * </ol></p>
+ * </ol>
  * <p>
  *  Returns <code>Double.NaN</code> if the dataset is empty. Note that
  *  Double.NaN may also be returned if the input includes NaN and / or infinite

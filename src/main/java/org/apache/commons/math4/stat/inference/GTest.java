@@ -55,7 +55,7 @@ public class GTest {
      * <li>Expected counts must all be positive. </li>
      * <li>Observed counts must all be &ge; 0. </li>
      * <li>The observed and expected arrays must have the same length and their
-     * common length must be at least 2. </li></ul></p>
+     * common length must be at least 2. </li></ul>
      *
      * <p>If any of the preconditions are not met, a
      * {@code MathIllegalArgumentException} is thrown.</p>
@@ -111,7 +111,7 @@ public class GTest {
     /**
      * Returns the <i>observed significance level</i>, or <a href=
      * "http://www.cas.lancs.ac.uk/glossary_v1.1/hyptest.html#pvalue"> p-value</a>,
-     * associated with a G-Test for goodness of fit</a> comparing the
+     * associated with a G-Test for goodness of fit comparing the
      * {@code observed} frequency counts to those in the {@code expected} array.
      *
      * <p>The number returned is the smallest significance level at which one
@@ -128,7 +128,7 @@ public class GTest {
      * <li>Observed counts must all be &ge; 0. </li>
      * <li>The observed and expected arrays must have the
      * same length and their common length must be at least 2.</li>
-     * </ul></p>
+     * </ul>
      *
      * <p>If any of the preconditions are not met, a
      * {@code MathIllegalArgumentException} is thrown.</p>
@@ -202,14 +202,14 @@ public class GTest {
      * {@code gTest(expected, observed, 0.01)}</p>
      *
      * <p>Returns true iff {@link #gTest(double[], long[])
-     *  gTestGoodnessOfFitPValue(expected, observed)} < alpha</p>
+     *  gTestGoodnessOfFitPValue(expected, observed)} &lt; alpha</p>
      *
      * <p><strong>Preconditions</strong>: <ul>
      * <li>Expected counts must all be positive. </li>
      * <li>Observed counts must all be &ge; 0. </li>
      * <li>The observed and expected arrays must have the same length and their
      * common length must be at least 2.
-     * <li> {@code 0 < alpha < 0.5} </li></ul></p>
+     * <li> {@code 0 < alpha < 0.5} </li></ul>
      *
      * <p>If any of the preconditions are not met, a
      * {@code MathIllegalArgumentException} is thrown.</p>
@@ -279,8 +279,8 @@ public class GTest {
     /**
      * Calculates the <a href="http://en.wikipedia.org/wiki/Entropy_%28information_theory%29">
      * Shannon entropy</a> for a vector.  The values of {@code k} are taken to be
-     * incidence counts of the values of a random variable. What is returned is <br/>
-     * &sum;p<sub>i</sub>log(p<sub>i</sub><br/>
+     * incidence counts of the values of a random variable. What is returned is <br>
+     * &sum;p<sub>i</sub>log(p<sub>i</sub><br>
      * where p<sub>i</sub> = k[i] / (sum of elements in k)
      *
      * @param k Vector (for ex. Row Sums of a trials)
@@ -314,8 +314,8 @@ public class GTest {
      * <p> where {@code H} is the
      * <a href="http://en.wikipedia.org/wiki/Entropy_%28information_theory%29">
      * Shannon Entropy</a> of the random variable formed by viewing the elements
-     * of the argument array as incidence counts; <br/>
-     * {@code k} is a matrix with rows {@code [observed1, observed2]}; <br/>
+     * of the argument array as incidence counts; <br>
+     * {@code k} is a matrix with rows {@code [observed1, observed2]}; <br>
      * {@code rowSums, colSums} are the row/col sums of {@code k}; <br>
      * and {@code totalSum} is the overall sum of all entries in {@code k}.</p>
      *
@@ -327,7 +327,7 @@ public class GTest {
      * <li>Observed counts for a specific bin must not both be zero. </li>
      * <li>Observed counts for a specific sample must not all be  0. </li>
      * <li>The arrays {@code observed1} and {@code observed2} must have
-     * the same length and their common length must be at least 2. </li></ul></p>
+     * the same length and their common length must be at least 2. </li></ul>
      *
      * <p>If any of the preconditions are not met, a
      * {@code MathIllegalArgumentException} is thrown.</p>
@@ -398,7 +398,7 @@ public class GTest {
      *
      * <p>{@code (sgn) sqrt(gValueDataSetsComparison({k11, k12}, {k21, k22})}</p>
      *
-     * <p>where {@code sgn} is -1 if {@code k11 / (k11 + k12) < k21 / (k21 + k22))};<br/>
+     * <p>where {@code sgn} is -1 if {@code k11 / (k11 + k12) < k21 / (k21 + k22))};<br>
      * 1 otherwise.</p>
      *
      * <p>Signed root LLR has two advantages over the basic LLR: a) it is positive
@@ -450,7 +450,7 @@ public class GTest {
      * <li>Observed counts for a specific sample must not all be 0. </li>
      * <li>The arrays {@code observed1} and {@code observed2} must
      * have the same length and their common length must be at least 2. </li>
-     * </ul><p>
+     * </ul>
      * <p> If any of the preconditions are not met, a
      * {@code MathIllegalArgumentException} is thrown.</p>
      *
@@ -500,7 +500,7 @@ public class GTest {
      * <li>Observed counts for a specific sample must not all be 0. </li>
      * <li>The arrays {@code observed1} and {@code observed2} must
      * have the same length and their common length must be at least 2. </li>
-     * <li>{@code 0 < alpha < 0.5} </li></ul></p>
+     * <li>{@code 0 < alpha < 0.5} </li></ul>
      *
      * <p>If any of the preconditions are not met, a
      * {@code MathIllegalArgumentException} is thrown.</p>

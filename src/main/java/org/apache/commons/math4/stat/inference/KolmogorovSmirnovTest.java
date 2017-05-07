@@ -73,7 +73,7 @@ import org.apache.commons.math4.util.MathUtils;
  * <li>When the product of the sample sizes exceeds {@value #LARGE_SAMPLE_PRODUCT}, the asymptotic
  * distribution of \(D_{n,m}\) is used. See {@link #approximateP(double, int, int)} for details on
  * the approximation.</li>
- * </ul></p><p>
+ * </ul><p>
  * If the product of the sample sizes is less than {@value #LARGE_SAMPLE_PRODUCT} and the sample
  * data contains ties, random jitter is added to the sample data to break ties before applying
  * the algorithm above. Alternatively, the {@link #bootstrap(double[], double[], int, boolean)}
@@ -82,7 +82,7 @@ import org.apache.commons.math4.util.MathUtils;
  * </p>
  * <p>
  * In the two-sample case, \(D_{n,m}\) has a discrete distribution. This makes the p-value
- * associated with the null hypothesis \(H_0 : D_{n,m} \ge d \) differ from \(H_0 : D_{n,m} > d \)
+ * associated with the null hypothesis \(H_0 : D_{n,m} \ge d \) differ from \(H_0 : D_{n,m} \ge d \)
  * by the mass of the observed value \(d\). To distinguish these, the two-sample tests use a boolean
  * {@code strict} parameter. This parameter is ignored for large samples.
  * </p>
@@ -95,7 +95,6 @@ import org.apache.commons.math4.util.MathUtils;
  * expressed using strict or non-strict inequality. See
  * {@link #kolmogorovSmirnovTest(double[], double[], boolean)}.</li>
  * </ul>
- * </p>
  * <p>
  * References:
  * <ul>
@@ -109,10 +108,9 @@ import org.apache.commons.math4.util.MathUtils;
  * <li>[4] Wilcox, Rand. 2012. Introduction to Robust Estimation and Hypothesis Testing,
  * Chapter 5, 3rd Ed. Academic Press.</li>
  * </ul>
- * <br/>
+ * <br>
  * Note that [1] contains an error in computing h, refer to <a
  * href="https://issues.apache.org/jira/browse/MATH-437">MATH-437</a> for details.
- * </p>
  *
  * @since 3.3
  */
@@ -234,7 +232,7 @@ public class KolmogorovSmirnovTest {
      * asymptotic distribution of \(D_{n,m}\) is used. See {@link #approximateP(double, int, int)}
      * for details on the approximation.</li>
      * </ul><p>
-     * If {@code x.length * y.length} < {@value #LARGE_SAMPLE_PRODUCT} and the combined set of values in
+     * If {@code x.length * y.length <} {@value #LARGE_SAMPLE_PRODUCT} and the combined set of values in
      * {@code x} and {@code y} contains ties, random jitter is added to {@code x} and {@code y} to
      * break ties before computing \(D_{n,m}\) and the p-value. The jitter is uniformly distributed
      * on (-minDelta / 2, minDelta / 2) where minDelta is the smallest pairwise difference between
@@ -457,17 +455,17 @@ public class KolmogorovSmirnovTest {
     }
 
     /**
-     * Calculates \(P(D_n < d)\) using the method described in [1] with quick decisions for extreme
+     * Calculates \(P(D_n &lt; d)\) using the method described in [1] with quick decisions for extreme
      * values given in [2] (see above). The result is not exact as with
      * {@link #cdfExact(double, int)} because calculations are based on
      * {@code double} rather than {@link org.apache.commons.math4.fraction.BigFraction}.
      *
      * @param d statistic
      * @param n sample size
-     * @return \(P(D_n < d)\)
+     * @return \(P(D_n &lt; d)\)
      * @throws MathArithmeticException if algorithm fails to convert {@code h} to a
      *         {@link org.apache.commons.math4.fraction.BigFraction} in expressing {@code d} as \((k
-     *         - h) / m\) for integer {@code k, m} and \(0 \le h < 1\)
+     *         - h) / m\) for integer {@code k, m} and \(0 \le h &lt; 1\)
      */
     public double cdf(double d, int n)
         throws MathArithmeticException {
@@ -483,10 +481,10 @@ public class KolmogorovSmirnovTest {
      *
      * @param d statistic
      * @param n sample size
-     * @return \(P(D_n < d)\)
+     * @return \(P(D_n &lt; d)\)
      * @throws MathArithmeticException if the algorithm fails to convert {@code h} to a
      *         {@link org.apache.commons.math4.fraction.BigFraction} in expressing {@code d} as \((k
-     *         - h) / m\) for integer {@code k, m} and \(0 \le h < 1\)
+     *         - h) / m\) for integer {@code k, m} and \(0 \le h &lt; 1\)
      */
     public double cdfExact(double d, int n)
         throws MathArithmeticException {
@@ -504,10 +502,10 @@ public class KolmogorovSmirnovTest {
      *        very slow execution time, or if {@code double} should be used convenient places to
      *        gain speed. Almost never choose {@code true} in real applications unless you are very
      *        sure; {@code true} is almost solely for verification purposes.
-     * @return \(P(D_n < d)\)
+     * @return \(P(D_n &lt; d)\)
      * @throws MathArithmeticException if algorithm fails to convert {@code h} to a
      *         {@link org.apache.commons.math4.fraction.BigFraction} in expressing {@code d} as \((k
-     *         - h) / m\) for integer {@code k, m} and \(0 \le h < 1\).
+     *         - h) / m\) for integer {@code k, m} and \(0 \le h &lt; 1\).
      */
     public double cdf(double d, int n, boolean exact)
         throws MathArithmeticException {
@@ -546,10 +544,10 @@ public class KolmogorovSmirnovTest {
      *
      * @param d statistic
      * @param n sample size
-     * @return the two-sided probability of \(P(D_n < d)\)
+     * @return the two-sided probability of \(P(D_n &lt; d)\)
      * @throws MathArithmeticException if algorithm fails to convert {@code h} to a
      *         {@link org.apache.commons.math4.fraction.BigFraction} in expressing {@code d} as \((k
-     *         - h) / m\) for integer {@code k, m} and \(0 \le h < 1\).
+     *         - h) / m\) for integer {@code k, m} and \(0 \le h &lt; 1\).
      */
     private double exactK(double d, int n)
         throws MathArithmeticException {
@@ -578,7 +576,7 @@ public class KolmogorovSmirnovTest {
      *
      * @param d statistic
      * @param n sample size
-     * @return \(P(D_n < d)\)
+     * @return \(P(D_n &lt; d)\)
      */
     private double roundedK(double d, int n) {
 
@@ -595,11 +593,11 @@ public class KolmogorovSmirnovTest {
     }
 
     /**
-     * Computes the Pelz-Good approximation for \(P(D_n < d)\) as described in [2] in the class javadoc.
+     * Computes the Pelz-Good approximation for \(P(D_n &lt; d)\) as described in [2] in the class javadoc.
      *
      * @param d value of d-statistic (x in [2])
      * @param n sample size
-     * @return \(P(D_n < d)\)
+     * @return \(P(D_n &lt; d)\)
      * @since 3.4
      */
     public double pelzGood(double d, int n) {
@@ -986,7 +984,7 @@ public class KolmogorovSmirnovTest {
     }
 
     /**
-     * Computes \(P(D_{n,m} > d)\) if {@code strict} is {@code true}; otherwise \(P(D_{n,m} \ge
+     * Computes \(P(D_{n,m} &gt; d)\) if {@code strict} is {@code true}; otherwise \(P(D_{n,m} \ge
      * d)\), where \(D_{n,m}\) is the 2-sample Kolmogorov-Smirnov statistic. See
      * {@link #kolmogorovSmirnovStatistic(double[], double[])} for the definition of \(D_{n,m}\).
      * <p>
@@ -1007,7 +1005,7 @@ public class KolmogorovSmirnovTest {
     }
 
     /**
-     * Uses the Kolmogorov-Smirnov distribution to approximate \(P(D_{n,m} > d)\) where \(D_{n,m}\)
+     * Uses the Kolmogorov-Smirnov distribution to approximate \(P(D_{n,m} &gt; d)\) where \(D_{n,m}\)
      * is the 2-sample Kolmogorov-Smirnov statistic. See
      * {@link #kolmogorovSmirnovStatistic(double[], double[])} for the definition of \(D_{n,m}\).
      * <p>
@@ -1052,7 +1050,7 @@ public class KolmogorovSmirnovTest {
     }
 
     /**
-     * Uses Monte Carlo simulation to approximate \(P(D_{n,m} > d)\) where \(D_{n,m}\) is the
+     * Uses Monte Carlo simulation to approximate \(P(D_{n,m} &gt; d)\) where \(D_{n,m}\) is the
      * 2-sample Kolmogorov-Smirnov statistic. See
      * {@link #kolmogorovSmirnovStatistic(double[], double[])} for the definition of \(D_{n,m}\).
      * <p>

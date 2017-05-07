@@ -23,7 +23,7 @@ import org.apache.commons.math4.exception.NumberIsTooLargeException;
 
 /**
  * Decay function whose shape is similar to a sigmoid.
- * <br/>
+ * <br>
  * Class is immutable.
  *
  * @since 3.3

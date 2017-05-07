@@ -36,9 +36,9 @@ import org.junit.runners.Parameterized.Parameters;
 /**
  * Test to compare FastMath results against StrictMath results for boundary values.
  * <p>
- * Running all tests independently: <br/>
- * {@code mvn test -Dtest=FastMathStrictComparisonTest}<br/>
- * or just run tests against a single method (e.g. scalb):<br/>
+ * Running all tests independently: <br>
+ * {@code mvn test -Dtest=FastMathStrictComparisonTest}<br>
+ * or just run tests against a single method (e.g. scalb):<br>
  * {@code mvn test -Dtest=FastMathStrictComparisonTest -DargLine="-DtestMethod=scalb"}
  */
 @SuppressWarnings("boxing")

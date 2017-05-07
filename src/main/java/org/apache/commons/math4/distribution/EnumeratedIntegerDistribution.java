@@ -34,7 +34,7 @@ import org.apache.commons.math4.util.Pair;
  * <p>Implementation of an integer-valued {@link EnumeratedDistribution}.</p>
  *
  * <p>Values with zero-probability are allowed but they do not extend the
- * support.<br/>
+ * support.<br>
  * Duplicate values are allowed. Probabilities of duplicate values are combined
  * when computing cumulative probabilities and statistics.</p>
  *

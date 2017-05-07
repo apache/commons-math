@@ -375,7 +375,6 @@ public class GammaDistribution extends AbstractRealDistribution {
      *   </blockquote>
      *  </li>
      * </ul>
-     * </p>
      */
     @Override
     public RealDistribution.Sampler createSampler(final UniformRandomProvider rng) {

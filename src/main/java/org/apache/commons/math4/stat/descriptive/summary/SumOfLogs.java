@@ -38,7 +38,7 @@ import org.apache.commons.math4.util.MathUtils;
  * <li>If both <code>Double.POSITIVE_INFINITY</code> and
  * <code>Double.NEGATIVE_INFINITY</code> are among the values, the result is
  * <code>NaN.</code></li>
- * </ul></p>
+ * </ul>
  * <p>
  * <strong>Note that this implementation is not synchronized.</strong> If
  * multiple threads access an instance of this class concurrently, and at least

@@ -63,7 +63,7 @@ import org.apache.commons.rng.core.RandomProviderDefaultState;
  *   new API} as it defines a "post-processing" of the output of a
  *   <i>uniform</i> RNG in order to follow a different distribution.
  *  </li>
- * </p>
+ * </ul>
  *
  * @since 4.0
  *

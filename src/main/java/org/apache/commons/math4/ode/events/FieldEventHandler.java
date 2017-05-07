@@ -74,7 +74,7 @@ public interface FieldEventHandler<T extends RealFieldElement<T>>  {
      * <p>Also note that the integrator expect that once an event has occurred,
      * the sign of the switching function at the start of the next step (i.e.
      * just after the event) is the opposite of the sign just before the event.
-     * This consistency between the steps <string>must</strong> be preserved,
+     * This consistency between the steps <strong>must</strong> be preserved,
      * otherwise {@link org.apache.commons.math4.exception.NoBracketingException
      * exceptions} related to root not being bracketed will occur.</p>
      * <p>This need for consistency is sometimes tricky to achieve. A typical

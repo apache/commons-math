@@ -23,7 +23,7 @@
  *  a scalar function, called the
  *  {@link org.apache.commons.math4.optim.nonlinear.scalar.ObjectiveFunction <em>objective
  *  function</em>}.
- *  <br/>
+ *  <br>
  *  For some scalar objective functions the gradient can be computed (analytically
  *  or numerically). Algorithms that use this knowledge are defined in the
  *  {@link org.apache.commons.math4.optim.nonlinear.scalar.gradient} package.

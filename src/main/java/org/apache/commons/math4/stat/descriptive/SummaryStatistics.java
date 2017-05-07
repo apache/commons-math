@@ -446,7 +446,7 @@ public class SummaryStatistics implements StatisticalSummary, Serializable {
      * </p>
      * @param sumImpl the StorelessUnivariateStatistic instance to use for
      *        computing the Sum
-     * @throws MathIllegalStateException if data has already been added (i.e if n >0)
+     * @throws MathIllegalStateException if data has already been added (i.e if n &gt;0)
      * @since 1.2
      */
     public void setSumImpl(StorelessUnivariateStatistic sumImpl)
@@ -476,7 +476,7 @@ public class SummaryStatistics implements StatisticalSummary, Serializable {
      * </p>
      * @param sumsqImpl the StorelessUnivariateStatistic instance to use for
      *        computing the sum of squares
-     * @throws MathIllegalStateException if data has already been added (i.e if n > 0)
+     * @throws MathIllegalStateException if data has already been added (i.e if n &gt; 0)
      * @since 1.2
      */
     public void setSumsqImpl(StorelessUnivariateStatistic sumsqImpl)
@@ -506,7 +506,7 @@ public class SummaryStatistics implements StatisticalSummary, Serializable {
      * </p>
      * @param minImpl the StorelessUnivariateStatistic instance to use for
      *        computing the minimum
-     * @throws MathIllegalStateException if data has already been added (i.e if n > 0)
+     * @throws MathIllegalStateException if data has already been added (i.e if n &gt; 0)
      * @since 1.2
      */
     public void setMinImpl(StorelessUnivariateStatistic minImpl)
@@ -536,7 +536,7 @@ public class SummaryStatistics implements StatisticalSummary, Serializable {
      * </p>
      * @param maxImpl the StorelessUnivariateStatistic instance to use for
      *        computing the maximum
-     * @throws MathIllegalStateException if data has already been added (i.e if n > 0)
+     * @throws MathIllegalStateException if data has already been added (i.e if n &gt; 0)
      * @since 1.2
      */
     public void setMaxImpl(StorelessUnivariateStatistic maxImpl)
@@ -566,7 +566,7 @@ public class SummaryStatistics implements StatisticalSummary, Serializable {
      * </p>
      * @param sumLogImpl the StorelessUnivariateStatistic instance to use for
      *        computing the log sum
-     * @throws MathIllegalStateException if data has already been added (i.e if n > 0)
+     * @throws MathIllegalStateException if data has already been added (i.e if n &gt; 0)
      * @since 1.2
      */
     public void setSumLogImpl(StorelessUnivariateStatistic sumLogImpl)
@@ -597,7 +597,7 @@ public class SummaryStatistics implements StatisticalSummary, Serializable {
      * </p>
      * @param geoMeanImpl the StorelessUnivariateStatistic instance to use for
      *        computing the geometric mean
-     * @throws MathIllegalStateException if data has already been added (i.e if n > 0)
+     * @throws MathIllegalStateException if data has already been added (i.e if n &gt; 0)
      * @since 1.2
      */
     public void setGeoMeanImpl(StorelessUnivariateStatistic geoMeanImpl)
@@ -627,7 +627,7 @@ public class SummaryStatistics implements StatisticalSummary, Serializable {
      * </p>
      * @param meanImpl the StorelessUnivariateStatistic instance to use for
      *        computing the mean
-     * @throws MathIllegalStateException if data has already been added (i.e if n > 0)
+     * @throws MathIllegalStateException if data has already been added (i.e if n &gt; 0)
      * @since 1.2
      */
     public void setMeanImpl(StorelessUnivariateStatistic meanImpl)
@@ -657,7 +657,7 @@ public class SummaryStatistics implements StatisticalSummary, Serializable {
      * </p>
      * @param varianceImpl the StorelessUnivariateStatistic instance to use for
      *        computing the variance
-     * @throws MathIllegalStateException if data has already been added (i.e if n > 0)
+     * @throws MathIllegalStateException if data has already been added (i.e if n &gt; 0)
      * @since 1.2
      */
     public void setVarianceImpl(StorelessUnivariateStatistic varianceImpl)

@@ -30,7 +30,7 @@ import org.apache.commons.math4.stat.descriptive.moment.SecondMoment;
  * multiple linear regression model.</p>
  *
  * <p>The regression coefficients, <code>b</code>, satisfy the normal equations:
- * <pre><code> X<sup>T</sup> X b = X<sup>T</sup> y </code></pre></p>
+ * <pre><code> X<sup>T</sup> X b = X<sup>T</sup> y </code></pre>
  *
  * <p>To solve the normal equations, this implementation uses QR decomposition
  * of the <code>X</code> matrix. (See {@link QRDecomposition} for details on the
@@ -45,7 +45,7 @@ import org.apache.commons.math4.stat.descriptive.moment.SecondMoment;
  * R<sup>T</sup> (Q<sup>T</sup>Q) R b = R<sup>T</sup> Q<sup>T</sup> y
  * R<sup>T</sup> R b = R<sup>T</sup> Q<sup>T</sup> y
  * (R<sup>T</sup>)<sup>-1</sup> R<sup>T</sup> R b = (R<sup>T</sup>)<sup>-1</sup> R<sup>T</sup> Q<sup>T</sup> y
- * R b = Q<sup>T</sup> y </code></pre></p>
+ * R b = Q<sup>T</sup> y </code></pre>
  *
  * <p>Given <code>Q</code> and <code>R</code>, the last equation is solved by back-substitution.</p>
  *
@@ -210,7 +210,7 @@ public class OLSMultipleLinearRegression extends AbstractMultipleLinearRegressio
      *
      * <p>If the regression is estimated without an intercept term, what is returned is <pre>
      * <code> 1 - (1 - {@link #calculateRSquared()}) * (n / (n - p)) </code>
-     * </pre></p>
+     * </pre>
      *
      * <p>If there is no variance in y, i.e., SSTO = 0, NaN is returned.</p>
      *

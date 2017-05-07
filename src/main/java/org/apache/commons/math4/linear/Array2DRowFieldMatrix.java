@@ -33,11 +33,11 @@ import org.apache.commons.math4.util.MathArrays;
 import org.apache.commons.math4.util.MathUtils;
 
 /**
- * Implementation of FieldMatrix<T> using a {@link FieldElement}[][] array to store entries.
+ * Implementation of {@code FieldMatrix<T>} using a {@link FieldElement}[][] array to store entries.
  * <p>
  * As specified in the {@link FieldMatrix} interface, matrix element indexing
  * is 0-based -- e.g., <code>getEntry(0, 0)</code>
- * returns the element in the first row, first column of the matrix.</li></ul>
+ * returns the element in the first row, first column of the matrix.
  * </p>
  *
  * @param <T> the type of the field elements
