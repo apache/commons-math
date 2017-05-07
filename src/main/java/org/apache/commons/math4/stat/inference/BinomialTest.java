@@ -135,7 +135,11 @@ public class BinomialTest {
                 double pHigh = distribution.probability(criticalValueHigh);
 
                 if (pLow == pHigh) {
-                    pTotal += 2 * pLow;
+                    if (criticalValueLow == criticalValueHigh) {
+                        pTotal += pLow;
+                    } else {
+                        pTotal += 2 * pLow;
+                    }
                     criticalValueLow++;
                     criticalValueHigh--;
                 } else if (pLow < pHigh) {
