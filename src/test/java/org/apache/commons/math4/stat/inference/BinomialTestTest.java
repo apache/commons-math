@@ -42,6 +42,54 @@ public class BinomialTestTest {
             trials, successes, probability, AlternativeHypothesis.GREATER_THAN), 1E-4);
         Assert.assertEquals(0.982, testStatistic.binomialTest(
             trials, successes, probability, AlternativeHypothesis.LESS_THAN), 1E-4);
+
+        // for special boundary conditions
+        Assert.assertEquals(1, testStatistic.binomialTest(
+            3, 3, 1, AlternativeHypothesis.TWO_SIDED), 1E-4);
+        Assert.assertEquals(1, testStatistic.binomialTest(
+            3, 3, 0.9, AlternativeHypothesis.TWO_SIDED), 1E-4);
+        Assert.assertEquals(1, testStatistic.binomialTest(
+            3, 3, 0.8, AlternativeHypothesis.TWO_SIDED), 1E-4);
+        Assert.assertEquals(0.559, testStatistic.binomialTest(
+            3, 3, 0.7, AlternativeHypothesis.TWO_SIDED), 1E-4);
+        Assert.assertEquals(0.28, testStatistic.binomialTest(
+            3, 3, 0.6, AlternativeHypothesis.TWO_SIDED), 1E-4);
+        Assert.assertEquals(0.25, testStatistic.binomialTest(
+            3, 3, 0.5, AlternativeHypothesis.TWO_SIDED), 1E-4);
+        Assert.assertEquals(0.064, testStatistic.binomialTest(
+            3, 3, 0.4, AlternativeHypothesis.TWO_SIDED), 1E-4);
+        Assert.assertEquals(0.027, testStatistic.binomialTest(
+            3, 3, 0.3, AlternativeHypothesis.TWO_SIDED), 1E-4);
+        Assert.assertEquals(0.008, testStatistic.binomialTest(
+            3, 3, 0.2, AlternativeHypothesis.TWO_SIDED), 1E-4);
+        Assert.assertEquals(0.001, testStatistic.binomialTest(
+            3, 3, 0.1, AlternativeHypothesis.TWO_SIDED), 1E-4);
+        Assert.assertEquals(0, testStatistic.binomialTest(
+            3, 3, 0.0, AlternativeHypothesis.TWO_SIDED), 1E-4);
+
+        Assert.assertEquals(0, testStatistic.binomialTest(
+            3, 0, 1, AlternativeHypothesis.TWO_SIDED), 1E-4);
+        Assert.assertEquals(0.001, testStatistic.binomialTest(
+            3, 0, 0.9, AlternativeHypothesis.TWO_SIDED), 1E-4);
+        Assert.assertEquals(0.008, testStatistic.binomialTest(
+            3, 0, 0.8, AlternativeHypothesis.TWO_SIDED), 1E-4);
+        Assert.assertEquals(0.027, testStatistic.binomialTest(
+            3, 0, 0.7, AlternativeHypothesis.TWO_SIDED), 1E-4);
+        Assert.assertEquals(0.064, testStatistic.binomialTest(
+            3, 0, 0.6, AlternativeHypothesis.TWO_SIDED), 1E-4);
+        Assert.assertEquals(0.25, testStatistic.binomialTest(
+            3, 0, 0.5, AlternativeHypothesis.TWO_SIDED), 1E-4);
+        Assert.assertEquals(0.28, testStatistic.binomialTest(
+            3, 0, 0.4, AlternativeHypothesis.TWO_SIDED), 1E-4);
+        Assert.assertEquals(0.559, testStatistic.binomialTest(
+            3, 0, 0.3, AlternativeHypothesis.TWO_SIDED), 1E-4);
+        Assert.assertEquals(1, testStatistic.binomialTest(
+            3, 0, 0.2, AlternativeHypothesis.TWO_SIDED), 1E-4);
+        Assert.assertEquals(1, testStatistic.binomialTest(
+            3, 0, 0.1, AlternativeHypothesis.TWO_SIDED), 1E-4);
+        Assert.assertEquals(1, testStatistic.binomialTest(
+            3, 0, 0.0, AlternativeHypothesis.TWO_SIDED), 1E-4);
+
     }
 
     @Test
