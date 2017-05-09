@@ -875,8 +875,6 @@ public class PSquarePercentile extends AbstractStorelessUnivariateStatistic
      * A simple fixed capacity list that has an upper bound to growth.
      * Once its capacity is reached, {@code add} is a no-op, returning
      * {@code false}.
-     *
-     * @param <E>
      */
     private static class FixedCapacityList<E> extends ArrayList<E> implements Serializable {
 
