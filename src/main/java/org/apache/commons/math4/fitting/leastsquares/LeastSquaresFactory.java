@@ -303,10 +303,6 @@ public class LeastSquaresFactory {
     /**
      * Combine a {@link MultivariateVectorFunction} with a {@link
      * MultivariateMatrixFunction} to produce a {@link MultivariateJacobianFunction}.
-     *
-     * @param value    the vector value function
-     * @param jacobian the Jacobian function
-     * @return a function that computes both at the same time
      */
     private static class LocalValueAndJacobianFunction
         implements ValueAndJacobianFunction {
