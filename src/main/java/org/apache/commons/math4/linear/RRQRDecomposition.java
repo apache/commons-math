@@ -68,7 +68,7 @@ public class RRQRDecomposition extends QRDecomposition {
         this(matrix, 0d);
     }
 
-   /**
+    /**
      * Calculates the QR-decomposition of the given matrix.
      *
      * @param matrix The matrix to decompose.
@@ -92,18 +92,18 @@ public class RRQRDecomposition extends QRDecomposition {
     }
 
     /** Perform Householder reflection for a minor A(minor, minor) of A.
+     *
      * @param minor minor index
      * @param qrt transposed matrix
      */
     @Override
     protected void performHouseholderReflection(int minor, double[][] qrt) {
-
         double l2NormSquaredMax = 0;
         // Find the unreduced column with the greatest L2-Norm
         int l2NormSquaredMaxIndex = minor;
         for (int i = minor; i < qrt.length; i++) {
             double l2NormSquared = 0;
-            for (int j = 0; j < qrt[i].length; j++) {
+            for (int j = minor; j < qrt[i].length; j++) {
                 l2NormSquared += qrt[i][j] * qrt[i][j];
             }
             if (l2NormSquared > l2NormSquaredMax) {
@@ -122,7 +122,6 @@ public class RRQRDecomposition extends QRDecomposition {
         }
 
         super.performHouseholderReflection(minor, qrt);
-
     }
 
 
