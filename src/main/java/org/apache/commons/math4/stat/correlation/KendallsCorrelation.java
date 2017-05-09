@@ -63,7 +63,7 @@ import org.apache.commons.math4.util.Pair;
  * @see <a href="http://en.wikipedia.org/wiki/Kendall_tau_rank_correlation_coefficient">
  * Kendall tau rank correlation coefficient (Wikipedia)</a>
  * @see <a href="http://www.jstor.org/stable/2282833">A Computer
- * Method for Calculating Kendall's Tau with Ungrouped Data</a>
+ * Method for Calculating Kendall&apos;s Tau with Ungrouped Data</a>
  *
  * @since 3.3
  */

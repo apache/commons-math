@@ -442,7 +442,7 @@ public class Gamma {
      * @return digamma(x) to within \( 10^{-8} \) relative or absolute error whichever is larger.
      *
      * @see <a href="http://en.wikipedia.org/wiki/Digamma_function">Digamma</a>
-     * @see <a href="http://www.uv.es/~bernardo/1976AppStatist.pdf">Bernardo's original article</a>
+     * @see <a href="http://www.uv.es/~bernardo/1976AppStatist.pdf">Bernardo&apos;s original article</a>
      *
      * @since 2.0
      */
