@@ -177,15 +177,15 @@ public class BesselJ
      * {@link #getnVals()} is the number of values among those returned by {@link #getnVals()}
      * that can be considered accurate.
      * </p><ul>
-     * <li>nVals < 0: An argument is out of range. For example, nb <= 0, alpha
-     * < 0 or > 1, or x is too large. In this case, b(0) is set to zero, the
+     * <li>{@code nVals < 0}: An argument is out of range. For example, {@code nb <= 0},
+     * {@code alpha < 0 or > 1}, or x is too large. In this case, b(0) is set to zero, the
      * remainder of the b-vector is not calculated, and nVals is set to
      * MIN(nb,0) - 1 so that nVals != nb.</li>
-     * <li>nb > nVals > 0: Not all requested function values could be calculated
+     * <li>{@code nb > nVals > 0}: Not all requested function values could be calculated
      * accurately. This usually occurs because nb is much larger than abs(x). In
-     * this case, b(n) is calculated to the desired accuracy for n < nVals, but
-     * precision is lost for nVals < n <= nb. If b(n) does not vanish for n >
-     * nVals (because it is too small to be represented), and b(n)/b(nVals) =
+     * this case, b(n) is calculated to the desired accuracy for {@code n < nVals}, but
+     * precision is lost for {@code nVals < n <= nb}. If b(n) does not vanish for
+     * {@code n > nVals} (because it is too small to be represented), and b(n)/b(nVals) =
      * \(10^{-k}\), then only the first NSIG-k significant figures of b(n) can be
      * trusted.</li></ul>
      */
@@ -234,10 +234,10 @@ public class BesselJ
      * </p>
      * @param x non-negative real argument for which J's are to be calculated
      * @param alpha fractional part of order for which J's or exponentially
-     * scaled J's (\(J\cdot e^{x}\)) are to be calculated. 0 <= alpha < 1.0.
-     * @param nb integer number of functions to be calculated, nb > 0. The first
+     * scaled J's (\(J\cdot e^{x}\)) are to be calculated. {@code 0 <= alpha < 1.0}
+     * @param nb integer number of functions to be calculated, {@code nb > 0}. The first
      * function calculated is of order alpha, and the last is of order
-     * nb - 1 + alpha.
+     * {@code nb - 1 + alpha}.
      * @return BesselJResult a vector of the functions
      * \(J_{alpha}(x)\) through \(J_{nb-1+alpha}(x)\), or the corresponding exponentially
      * scaled functions and an integer output variable indicating possible errors
