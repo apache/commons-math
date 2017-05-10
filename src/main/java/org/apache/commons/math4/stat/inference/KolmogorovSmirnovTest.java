@@ -127,10 +127,6 @@ public class KolmogorovSmirnovTest {
     /** Convergence criterion for the sums in #pelzGood(double, double, int)} */
     protected static final double PG_SUM_RELATIVE_ERROR = 1.0e-10;
 
-    /** No longer used. */
-    @Deprecated
-    protected static final int SMALL_SAMPLE_PRODUCT = 200;
-
     /**
      * When product of sample sizes exceeds this value, 2-sample K-S test uses asymptotic
      * distribution to compute the p-value.
