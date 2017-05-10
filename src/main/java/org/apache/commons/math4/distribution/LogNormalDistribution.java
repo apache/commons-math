@@ -294,6 +294,9 @@ public class LogNormalDistribution extends AbstractRealDistribution {
     @Override
     public RealDistribution.Sampler createSampler(final UniformRandomProvider rng) {
         return new RealDistribution.Sampler() {
+            /**
+             * Log normal distribution sampler.
+             */
             private final ContinuousSampler sampler =
                 new MarsagliaLogNormalSampler(rng, scale, shape);
 

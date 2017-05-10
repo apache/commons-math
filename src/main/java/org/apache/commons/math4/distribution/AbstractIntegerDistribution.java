@@ -198,6 +198,9 @@ public abstract class AbstractIntegerDistribution implements IntegerDistribution
     @Override
     public IntegerDistribution.Sampler createSampler(final UniformRandomProvider rng) {
         return new IntegerDistribution.Sampler() {
+            /**
+             * Inversion method distribution sampler.
+             */
             private final DiscreteSampler sampler =
                 new InverseTransformDiscreteSampler(rng, createICPF());
 

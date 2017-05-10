@@ -149,6 +149,9 @@ public class UniformIntegerDistribution extends AbstractIntegerDistribution {
     @Override
     public IntegerDistribution.Sampler createSampler(final UniformRandomProvider rng) {
         return new IntegerDistribution.Sampler() {
+            /**
+             * Discrete uniform distribution sampler.
+             */
             private final DiscreteSampler sampler =
                 new DiscreteUniformSampler(rng, lower, upper);
 

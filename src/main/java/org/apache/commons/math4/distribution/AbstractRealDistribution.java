@@ -246,6 +246,9 @@ public abstract class AbstractRealDistribution
     @Override
     public RealDistribution.Sampler createSampler(final UniformRandomProvider rng) {
         return new RealDistribution.Sampler() {
+            /**
+             * Inversion method distribution sampler.
+             */
             private final ContinuousSampler sampler =
                 new InverseTransformContinuousSampler(rng, createICPF());
 

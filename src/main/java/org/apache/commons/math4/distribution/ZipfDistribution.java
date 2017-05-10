@@ -262,6 +262,9 @@ public class ZipfDistribution extends AbstractIntegerDistribution {
     @Override
     public IntegerDistribution.Sampler createSampler(final UniformRandomProvider rng) {
         return new IntegerDistribution.Sampler() {
+            /**
+             * Zipf distribution sampler.
+             */
             private final DiscreteSampler sampler =
                 new RejectionInversionZipfSampler(rng, numberOfElements, exponent);
 

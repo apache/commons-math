@@ -253,6 +253,9 @@ public class ParetoDistribution extends AbstractRealDistribution {
     @Override
     public RealDistribution.Sampler createSampler(final UniformRandomProvider rng) {
         return new RealDistribution.Sampler() {
+            /**
+             * Pareto distribution sampler.
+             */
             private final ContinuousSampler sampler =
                 new InverseTransformParetoSampler(rng, scale, shape);
 

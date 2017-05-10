@@ -249,6 +249,9 @@ public class PoissonDistribution extends AbstractIntegerDistribution {
     @Override
     public IntegerDistribution.Sampler createSampler(final UniformRandomProvider rng) {
         return new IntegerDistribution.Sampler() {
+            /**
+             * Poisson distribution sampler.
+             */
             private final DiscreteSampler sampler =
                 new PoissonSampler(rng, mean);
 

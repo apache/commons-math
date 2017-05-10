@@ -219,6 +219,9 @@ public class ExponentialDistribution extends AbstractRealDistribution {
     @Override
     public RealDistribution.Sampler createSampler(final UniformRandomProvider rng) {
         return new RealDistribution.Sampler() {
+            /**
+             * Exponential distribution sampler.
+             */
             private final ContinuousSampler sampler =
                 new AhrensDieterExponentialSampler(rng, mean);
 

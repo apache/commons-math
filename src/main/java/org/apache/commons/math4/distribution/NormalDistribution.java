@@ -242,6 +242,9 @@ public class NormalDistribution extends AbstractRealDistribution {
     @Override
     public RealDistribution.Sampler createSampler(final UniformRandomProvider rng) {
         return new RealDistribution.Sampler() {
+            /**
+             * Gaussian distribution sampler.
+             */
             private final ContinuousSampler sampler =
                 new GaussianSampler(new MarsagliaNormalizedGaussianSampler(rng),
                                     mean, standardDeviation);

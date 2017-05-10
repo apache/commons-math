@@ -164,6 +164,9 @@ public class UniformRealDistribution extends AbstractRealDistribution {
     @Override
     public RealDistribution.Sampler createSampler(final UniformRandomProvider rng) {
         return new RealDistribution.Sampler() {
+            /**
+             * Uniform distribution sampler.
+             */
             private final ContinuousSampler sampler =
                 new ContinuousUniformSampler(rng, lower, upper);
 

@@ -229,6 +229,9 @@ public class BetaDistribution extends AbstractRealDistribution {
     @Override
     public RealDistribution.Sampler createSampler(final UniformRandomProvider rng) {
         return new RealDistribution.Sampler() {
+            /**
+             * Beta distribution sampler.
+             */
             private final ContinuousSampler sampler =
                 new ChengBetaSampler(rng, alpha, beta);
 

@@ -379,6 +379,9 @@ public class GammaDistribution extends AbstractRealDistribution {
     @Override
     public RealDistribution.Sampler createSampler(final UniformRandomProvider rng) {
         return new RealDistribution.Sampler() {
+            /**
+             * Gamma distribution sampler.
+             */
             private final ContinuousSampler sampler =
                 new AhrensDieterMarsagliaTsangGammaSampler(rng, scale, shape);
 
