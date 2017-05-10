@@ -841,19 +841,19 @@ public final class StatUtils {
      */
     private static double[] getMode(double[] values, final int begin, final int length) {
         // Add the values to the frequency table
-        Frequency freq = new Frequency();
+        Frequency<Double> freq = new Frequency<>();
         for (int i = begin; i < begin + length; i++) {
             final double value = values[i];
             if (!Double.isNaN(value)) {
                 freq.addValue(Double.valueOf(value));
             }
         }
-        List<Comparable<?>> list = freq.getMode();
+        List<Double> list = freq.getMode();
         // Convert the list to an array of primitive double
         double[] modes = new double[list.size()];
         int i = 0;
-        for(Comparable<?> c : list) {
-            modes[i++] = ((Double) c).doubleValue();
+        for(Double c : list) {
+            modes[i++] = c.doubleValue();
         }
         return modes;
     }
