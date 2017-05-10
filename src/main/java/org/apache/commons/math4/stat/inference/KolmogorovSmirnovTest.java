@@ -20,6 +20,8 @@ package org.apache.commons.math4.stat.inference;
 import java.math.BigDecimal;
 import java.util.Arrays;
 
+import org.apache.commons.rng.simple.RandomSource;
+import org.apache.commons.rng.UniformRandomProvider;
 import org.apache.commons.math4.distribution.EnumeratedRealDistribution;
 import org.apache.commons.math4.distribution.RealDistribution;
 import org.apache.commons.math4.distribution.AbstractRealDistribution;
@@ -39,8 +41,6 @@ import org.apache.commons.math4.linear.Array2DRowFieldMatrix;
 import org.apache.commons.math4.linear.FieldMatrix;
 import org.apache.commons.math4.linear.MatrixUtils;
 import org.apache.commons.math4.linear.RealMatrix;
-import org.apache.commons.rng.simple.RandomSource;
-import org.apache.commons.rng.UniformRandomProvider;
 import org.apache.commons.math4.util.CombinatoricsUtils;
 import org.apache.commons.math4.util.FastMath;
 import org.apache.commons.math4.util.MathArrays;
@@ -76,7 +76,7 @@ import org.apache.commons.math4.util.MathUtils;
  * </ul><p>
  * If the product of the sample sizes is less than {@value #LARGE_SAMPLE_PRODUCT} and the sample
  * data contains ties, random jitter is added to the sample data to break ties before applying
- * the algorithm above. Alternatively, the {@link #bootstrap(double[], double[], int, boolean)}
+ * the algorithm above. Alternatively, the {@link #bootstrap(double[],double[],int,boolean,UniformRandomProvider)}
  * method, modeled after <a href="http://sekhon.berkeley.edu/matching/ks.boot.html">ks.boot</a>
  * in the R Matching package [3], can be used if ties are known to be present in the data.
  * </p>
@@ -137,35 +137,10 @@ public class KolmogorovSmirnovTest {
      */
     protected static final int LARGE_SAMPLE_PRODUCT = 10000;
 
-    /** Default number of iterations used by {@link #monteCarloP(double, int, int, boolean, int)}.
+    /** Default number of iterations used by {@link #monteCarloP(double,int,int,boolean,int,UniformRandomProvider)}.
      *  Deprecated as of version 3.6, as this method is no longer needed. */
     @Deprecated
     protected static final int MONTE_CARLO_ITERATIONS = 1000000;
-
-    /** No longer used. */
-    @Deprecated
-    private final UniformRandomProvider rng;
-
-    /**
-     * Construct a KolmogorovSmirnovTest instance with a default random data generator.
-     */
-    public KolmogorovSmirnovTest() {
-        rng = RandomSource.create(RandomSource.WELL_19937_C);
-    }
-
-    /**
-     * Construct a KolmogorovSmirnovTest with the provided random data generator.
-     * The #monteCarloP(double, int, int, boolean, int) that uses the generator supplied to this
-     * constructor is deprecated as of version 3.6.
-     *
-     * @param source random data generator used by {@link #monteCarloP(double, int, int, boolean, int)}
-     * @param seed Seed.
-     */
-    @Deprecated
-    public KolmogorovSmirnovTest(RandomSource source,
-                                 long seed) {
-        rng = RandomSource.create(source, seed);
-    }
 
     /**
      * Computes the <i>p-value</i>, or <i>observed significance level</i>, of a one-sample <a
@@ -239,7 +214,7 @@ public class KolmogorovSmirnovTest {
      * on (-minDelta / 2, minDelta / 2) where minDelta is the smallest pairwise difference between
      * values in the combined sample.</p>
      * <p>
-     * If ties are known to be present in the data, {@link #bootstrap(double[], double[], int, boolean)}
+     * If ties are known to be present in the data, {@link #bootstrap(double[],double[],int,boolean,UniformRandomProvider)}
      * may be used as an alternative method for estimating the p-value.</p>
      *
      * @param x first sample dataset.
@@ -252,7 +227,7 @@ public class KolmogorovSmirnovTest {
      * not have length at least 2.
      * @throws NullArgumentException if either {@code x} or {@code y} is null.
      * @throws NotANumberException if the input arrays contain NaN values.
-     * @see #bootstrap(double[], double[], int, boolean)
+     * @see #bootstrap(double[],double[],int,boolean,UniformRandomProvider)
      */
     public double kolmogorovSmirnovTest(double[] x, double[] y, boolean strict) {
         final long lengthProduct = (long) x.length * y.length;
@@ -398,23 +373,31 @@ public class KolmogorovSmirnovTest {
 
     /**
      * Estimates the <i>p-value</i> of a two-sample
-     * <a href="http://en.wikipedia.org/wiki/Kolmogorov-Smirnov_test"> Kolmogorov-Smirnov test</a>
-     * evaluating the null hypothesis that {@code x} and {@code y} are samples drawn from the same
-     * probability distribution. This method estimates the p-value by repeatedly sampling sets of size
-     * {@code x.length} and {@code y.length} from the empirical distribution of the combined sample.
-     * When {@code strict} is true, this is equivalent to the algorithm implemented in the R function
-     * {@code ks.boot}, described in <pre>
+     * <a href="http://en.wikipedia.org/wiki/Kolmogorov-Smirnov_test">Kolmogorov-Smirnov test</a>
+     * evaluating the null hypothesis that {@code x} and {@code y} are samples
+     * drawn from the same probability distribution.
+     * This method estimates the p-value by repeatedly sampling sets of size
+     * {@code x.length} and {@code y.length} from the empirical distribution
+     * of the combined sample.
+     * When {@code strict} is true, this is equivalent to the algorithm implemented
+     * in the R function {@code ks.boot}, described in <pre>
      * Jasjeet S. Sekhon. 2011. 'Multivariate and Propensity Score Matching
      * Software with Automated Balance Optimization: The Matching package for R.'
      * Journal of Statistical Software, 42(7): 1-52.
      * </pre>
-     * @param x first sample
-     * @param y second sample
-     * @param iterations number of bootstrap resampling iterations
-     * @param strict whether or not the null hypothesis is expressed as a strict inequality
-     * @return estimated p-value
+     *
+     * @param x First sample.
+     * @param y Second sample.
+     * @param iterations Number of bootstrap resampling iterations.
+     * @param strict Whether or not the null hypothesis is expressed as a strict inequality.
+     * @param rng RNG for creating the sampling sets.
+     * @return the estimated p-value.
      */
-    public double bootstrap(double[] x, double[] y, int iterations, boolean strict) {
+    public double bootstrap(double[] x,
+                            double[] y,
+                            int iterations,
+                            boolean strict,
+                            UniformRandomProvider rng) {
         final int xLength = x.length;
         final int yLength = y.length;
         final double[] combined = new double[xLength + yLength];
@@ -439,20 +422,6 @@ public class KolmogorovSmirnovTest {
         }
         return strict ? greaterCount / (double) iterations :
             (greaterCount + equalCount) / (double) iterations;
-    }
-
-    /**
-     * Computes {@code bootstrap(x, y, iterations, true)}.
-     * This is equivalent to ks.boot(x,y, nboots=iterations) using the R Matching
-     * package function. See #bootstrap(double[], double[], int, boolean).
-     *
-     * @param x first sample
-     * @param y second sample
-     * @param iterations number of bootstrap resampling iterations
-     * @return estimated p-value
-     */
-    public double bootstrap(double[] x, double[] y, int iterations) {
-        return bootstrap(x, y, iterations, true);
     }
 
     /**
@@ -1061,36 +1030,45 @@ public class KolmogorovSmirnovTest {
      * {@code d} if {@code strict} is {@code false}.
      * </p>
      *
-     * @param d D-statistic value
-     * @param n first sample size
-     * @param m second sample size
-     * @param iterations number of random partitions to generate
+     * @param d D-statistic value.
+     * @param n First sample size.
+     * @param m Second sample size.
+     * @param iterations Number of random partitions to generate.
      * @param strict whether or not the probability to compute is expressed as a strict inequality
+     * @param rng RNG used for generating the partitions.
      * @return proportion of randomly generated m-n partitions of m + n that result in \(D_{n,m}\)
-     *         greater than (resp. greater than or equal to) {@code d}
+     * greater than (resp. greater than or equal to) {@code d}.
      */
-    public double monteCarloP(final double d, final int n, final int m, final boolean strict,
-                              final int iterations) {
-        return integralMonteCarloP(calculateIntegralD(d, n, m, strict), n, m, iterations);
+    public double monteCarloP(final double d,
+                              final int n,
+                              final int m,
+                              final boolean strict,
+                              final int iterations,
+                              UniformRandomProvider rng) {
+        return integralMonteCarloP(calculateIntegralD(d, n, m, strict), n, m, iterations, rng);
     }
 
     /**
-     * Uses Monte Carlo simulation to approximate \(P(D_{n,m} >= d/(n*m))\) where \(D_{n,m}\) is the
-     * 2-sample Kolmogorov-Smirnov statistic.
+     * Uses Monte Carlo simulation to approximate \(P(D_{n,m} >= d / (n * m))\)
+     * where \(D_{n,m}\) is the 2-sample Kolmogorov-Smirnov statistic.
      * <p>
-     * Here d is the D-statistic represented as long value.
-     * The real D-statistic is obtained by dividing d by n*m.
-     * See also {@link #monteCarloP(double, int, int, boolean, int)}.
+     * Here {@code d} is the D-statistic represented as long value.
+     * The real D-statistic is obtained by dividing {@code d} by {@code n * m}.
+     * See also {@link #monteCarloP(double,int,int,boolean,int,UniformRandomProvider)}.
      *
-     * @param d integral D-statistic
-     * @param n first sample size
-     * @param m second sample size
-     * @param iterations number of random partitions to generate
+     * @param d Integral D-statistic.
+     * @param n First sample size.
+     * @param m Second sample size.
+     * @param iterations Number of random partitions to generate.
+     * @param rng RNG used for generating the partitions.
      * @return proportion of randomly generated m-n partitions of m + n that result in \(D_{n,m}\)
-     *         greater than or equal to {@code d/(n*m))}
+     * greater than or equal to {@code d / (n * m))}.
      */
-    private double integralMonteCarloP(final long d, final int n, final int m, final int iterations) {
-
+    private double integralMonteCarloP(final long d,
+                                       final int n,
+                                       final int m,
+                                       final int iterations,
+                                       UniformRandomProvider rng) {
         // ensure that nn is always the max of (n, m) to require fewer random numbers
         final int nn = FastMath.max(n, m);
         final int mm = FastMath.min(n, m);

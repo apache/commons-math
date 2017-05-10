@@ -354,7 +354,7 @@ public class BetaDistributionTest {
                 Assert.assertFalse("G goodness-of-fit test rejected null at alpha = " + level,
                                    gTest(betaDistribution, observed) < level);
                 Assert.assertFalse("KS goodness-of-fit test rejected null at alpha = " + level,
-                                   new KolmogorovSmirnovTest(RandomSource.JDK, 3448845623L).kolmogorovSmirnovTest(betaDistribution, observed) < level);
+                                   new KolmogorovSmirnovTest().kolmogorovSmirnovTest(betaDistribution, observed) < level);
             }
         }
     }

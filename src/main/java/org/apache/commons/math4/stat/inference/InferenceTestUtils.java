@@ -18,6 +18,7 @@ package org.apache.commons.math4.stat.inference;
 
 import java.util.Collection;
 
+import org.apache.commons.rng.UniformRandomProvider;
 import org.apache.commons.math4.distribution.RealDistribution;
 import org.apache.commons.math4.exception.ConvergenceException;
 import org.apache.commons.math4.exception.DimensionMismatchException;
@@ -728,13 +729,14 @@ public class InferenceTestUtils {
      * @param m second sample size
      * @param iterations number of random partitions to generate
      * @param strict whether or not the probability to compute is expressed as a strict inequality
+     * @param rng RNG used for generating the partitions.
      * @return proportion of randomly generated m-n partitions of m + n that result in \(D_{n,m}\)
-     *         greater than (resp. greater than or equal to) {@code d}
-     * @see org.apache.commons.math4.stat.inference.KolmogorovSmirnovTest#monteCarloP(double, int, int, boolean, int)
+     * greater than (resp. greater than or equal to) {@code d}
+     * @see org.apache.commons.math4.stat.inference.KolmogorovSmirnovTest#monteCarloP(double,int,int,boolean,int,UniformRandomProvider)
      * @since 3.3
      */
-    public static double monteCarloP(double d, int n, int m, boolean strict, int iterations) {
-        return KS_TEST.monteCarloP(d, n, m, strict, iterations);
+    public static double monteCarloP(double d, int n, int m, boolean strict, int iterations, UniformRandomProvider rng) {
+        return KS_TEST.monteCarloP(d, n, m, strict, iterations, rng);
     }
 
 
