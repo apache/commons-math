@@ -45,7 +45,7 @@ import org.apache.commons.math4.util.MathUtils;
  * state vector and relTol_i is the relative tolerance for the same
  * component. The user can also use only two scalar values absTol and
  * relTol which will be used for all components.
- * 
+ *
  * <p>
  * Note that <em>only</em> the {@link FieldODEState#getState() main part}
  * of the state vector is used for stepsize control. The {@link

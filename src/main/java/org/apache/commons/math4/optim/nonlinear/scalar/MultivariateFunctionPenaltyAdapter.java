@@ -89,7 +89,7 @@ public class MultivariateFunctionPenaltyAdapter
      *   penalty(point) = offset + &sum;<sub>i</sub>[scale[i] * &radic;|point[i]-boundary[i]|]
      * </code></div>
      * where indices i correspond to all the components that violates their boundaries.
-     * 
+     *
      * <p>
      * So when attempting a function minimization, offset should be larger than
      * the maximum expected value of the underlying function and scale components

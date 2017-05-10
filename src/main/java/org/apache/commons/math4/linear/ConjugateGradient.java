@@ -55,7 +55,7 @@ import org.apache.commons.math4.util.IterationManager;
  * <li>key {@code "vector"} points to the offending vector, say x, such that
  * x<sup>T</sup> &middot; L &middot; x &lt; 0.</li>
  * </ul>
- * 
+ *
  * <h3>References</h3>
  * <dl>
  * <dt><a id="BARR1994">Barret et al. (1994)</a></dt>

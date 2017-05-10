@@ -84,7 +84,7 @@ public class LeastSquaresConverter implements MultivariateFunction {
      * <div style="white-space: pre"><code>
      * objective = &sum;weight<sub>i</sub>(observation<sub>i</sub>-objective<sub>i</sub>)<sup>2</sup>
      * </code></div>
-     * 
+     *
      * <p>
      * Weights can be used for example to combine residuals with different standard
      * deviations. As an example, consider a residuals array in which even elements
@@ -127,7 +127,7 @@ public class LeastSquaresConverter implements MultivariateFunction {
      * <div style="white-space: pre"><code>
      * objective = y<sup>T</sup>y with y = scale&times;(observation-objective)
      * </code></div>
-     * 
+     *
      * <p>
      * The array computed by the objective function, the observations array and the
      * the scaling matrix must have consistent sizes or a {@link DimensionMismatchException}

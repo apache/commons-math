@@ -113,7 +113,7 @@ import org.apache.commons.math4.util.MathUtils;
  * initial phase. If x<sub>0</sub> is known to be a good approximation to x, one
  * should compute r<sub>0</sub> = b - A &middot; x, solve A &middot; dx = r0,
  * and set x = x<sub>0</sub> + dx.
- * 
+ *
  * <h3><a id="context">Exception context</a></h3>
  * <p>
  * Besides standard {@link DimensionMismatchException}, this class might throw
@@ -127,7 +127,7 @@ import org.apache.commons.math4.util.MathUtils;
  * that x<sup>T</sup> &middot; L &middot; y &ne; y<sup>T</sup> &middot; L
  * &middot; x (within a certain accuracy).</li>
  * </ul>
- * 
+ *
  * <p>
  * {@link NonPositiveDefiniteOperatorException} might also be thrown in case the
  * preconditioner is not positive definite. The relevant keys to the
@@ -138,7 +138,7 @@ import org.apache.commons.math4.util.MathUtils;
  * <li>key {@code "vector"}, which points to the offending vector, say x, such
  * that x<sup>T</sup> &middot; L &middot; x &lt; 0.</li>
  * </ul>
- * 
+ *
  * <h3>References</h3>
  * <dl>
  * <dt><a id="PAIG1975">Paige and Saunders (1975)</a></dt>

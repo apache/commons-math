@@ -51,7 +51,6 @@ import org.apache.commons.numbers.core.Precision;
  * Note: This implementation is not synchronized and produces an approximate
  * result. For small samples, where data can be stored and processed in memory,
  * {@link Percentile} should be used.</p>
- *
  */
 public class PSquarePercentile extends AbstractStorelessUnivariateStatistic
         implements StorelessUnivariateStatistic, Serializable {
@@ -875,6 +874,8 @@ public class PSquarePercentile extends AbstractStorelessUnivariateStatistic
      * A simple fixed capacity list that has an upper bound to growth.
      * Once its capacity is reached, {@code add} is a no-op, returning
      * {@code false}.
+     *
+     * @param <E> type for fixed capacity list
      */
     private static class FixedCapacityList<E> extends ArrayList<E> implements Serializable {
 

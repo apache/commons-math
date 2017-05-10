@@ -142,6 +142,7 @@ public class KolmogorovSmirnovTest {
     @Deprecated
     protected static final int MONTE_CARLO_ITERATIONS = 1000000;
 
+    /** No longer used. */
     @Deprecated
     private final UniformRandomProvider rng;
 
@@ -1184,7 +1185,8 @@ public class KolmogorovSmirnovTest {
      * values are overwritten with the result of applying jitter.</p>
      *
      * @param data input/output data array - entries overwritten by the method
-     * @param sampler probability distribution to sample for jitter values
+     * @param rng probability distribution to sample for jitter values
+     * @param ulp ulp used when generating random numbers
      * @throws NullPointerException if either of the parameters is null
      */
     private static void jitter(double[] data,
