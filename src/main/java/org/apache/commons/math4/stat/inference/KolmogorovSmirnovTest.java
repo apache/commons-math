@@ -133,11 +133,6 @@ public class KolmogorovSmirnovTest {
      */
     protected static final int LARGE_SAMPLE_PRODUCT = 10000;
 
-    /** Default number of iterations used by {@link #monteCarloP(double,int,int,boolean,int,UniformRandomProvider)}.
-     *  Deprecated as of version 3.6, as this method is no longer needed. */
-    @Deprecated
-    protected static final int MONTE_CARLO_ITERATIONS = 1000000;
-
     /**
      * Computes the <i>p-value</i>, or <i>observed significance level</i>, of a one-sample <a
      * href="http://en.wikipedia.org/wiki/Kolmogorov-Smirnov_test"> Kolmogorov-Smirnov test</a>
