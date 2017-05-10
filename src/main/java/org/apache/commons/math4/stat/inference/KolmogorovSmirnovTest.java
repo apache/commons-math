@@ -121,7 +121,7 @@ public class KolmogorovSmirnovTest {
     private static final int MAXIMUM_PARTIAL_SUM_COUNT = 100000;
     /** Convergence criterion for {@link #ksSum(double, double, int)} */
     private static final double KS_SUM_CAUCHY_CRITERION = 1e-20;
-    /** Convergence criterion for the sums in #pelzGood(double, double, int)} */
+    /** Convergence criterion for the sums in {@link #pelzGood(double, int)} */
     private static final double PG_SUM_RELATIVE_ERROR = 1e-10;
 
     /**
