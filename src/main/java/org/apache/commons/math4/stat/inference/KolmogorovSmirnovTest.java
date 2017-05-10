@@ -115,23 +115,20 @@ import org.apache.commons.math4.util.MathUtils;
  * @since 3.3
  */
 public class KolmogorovSmirnovTest {
-
     /**
      * Bound on the number of partial sums in {@link #ksSum(double, double, int)}
      */
-    protected static final int MAXIMUM_PARTIAL_SUM_COUNT = 100000;
-
+    private static final int MAXIMUM_PARTIAL_SUM_COUNT = 100000;
     /** Convergence criterion for {@link #ksSum(double, double, int)} */
-    protected static final double KS_SUM_CAUCHY_CRITERION = 1E-20;
-
+    private static final double KS_SUM_CAUCHY_CRITERION = 1e-20;
     /** Convergence criterion for the sums in #pelzGood(double, double, int)} */
-    protected static final double PG_SUM_RELATIVE_ERROR = 1.0e-10;
+    private static final double PG_SUM_RELATIVE_ERROR = 1e-10;
 
     /**
      * When product of sample sizes exceeds this value, 2-sample K-S test uses asymptotic
      * distribution to compute the p-value.
      */
-    protected static final int LARGE_SAMPLE_PRODUCT = 10000;
+    private static final int LARGE_SAMPLE_PRODUCT = 10000;
 
     /**
      * Computes the <i>p-value</i>, or <i>observed significance level</i>, of a one-sample <a

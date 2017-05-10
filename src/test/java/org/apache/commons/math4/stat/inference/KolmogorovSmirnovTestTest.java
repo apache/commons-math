@@ -40,6 +40,8 @@ import org.junit.Test;
 public class KolmogorovSmirnovTestTest {
 
     protected static final double TOLERANCE = 10e-10;
+    private static final int MONTE_CARLO_ITERATIONS = 1000000;
+    private static final int LARGE_SAMPLE_PRODUCT = 10000;
 
     // Random N(0,1) values generated using R rnorm
     protected static final double[] gaussian = {
@@ -337,9 +339,9 @@ public class KolmogorovSmirnovTestTest {
             double exactPStrict = test.exactP(dv, sampleSize, sampleSize, true);
             double exactPNonStrict = test.exactP(dv, sampleSize, sampleSize, false);
             double montePStrict = test.monteCarloP(dv, sampleSize, sampleSize, true,
-                                                   KolmogorovSmirnovTest.MONTE_CARLO_ITERATIONS, rng);
+                                                   MONTE_CARLO_ITERATIONS, rng);
             double montePNonStrict = test.monteCarloP(dv, sampleSize, sampleSize, false,
-                                                      KolmogorovSmirnovTest.MONTE_CARLO_ITERATIONS, rng);
+                                                      MONTE_CARLO_ITERATIONS, rng);
             Assert.assertEquals(exactPStrict, montePStrict, tol);
             Assert.assertEquals(exactPNonStrict, montePNonStrict, tol);
         }
@@ -356,7 +358,7 @@ public class KolmogorovSmirnovTestTest {
         final double tol = 1e-2;
         Assert.assertEquals(test.exactP(d, sampleSize1, sampleSize2, strict),
                             test.monteCarloP(d, sampleSize1, sampleSize2, strict,
-                                             KolmogorovSmirnovTest.MONTE_CARLO_ITERATIONS, rng),
+                                             MONTE_CARLO_ITERATIONS, rng),
                             tol);
     }
 
@@ -366,12 +368,12 @@ public class KolmogorovSmirnovTestTest {
     // @Test
     public void testTwoSampleMonteCarloPerformance() {
         int numIterations = 100_000;
-        int N = (int)Math.sqrt(KolmogorovSmirnovTest.LARGE_SAMPLE_PRODUCT);
+        int N = (int)Math.sqrt(LARGE_SAMPLE_PRODUCT);
         final KolmogorovSmirnovTest test = new KolmogorovSmirnovTest();
         final UniformRandomProvider rng = RandomSource.create(RandomSource.WELL_19937_C, 1000);
         for (int n = 2; n <= N; ++n) {
             long startMillis = System.currentTimeMillis();
-            int m = KolmogorovSmirnovTest.LARGE_SAMPLE_PRODUCT/n;
+            int m = LARGE_SAMPLE_PRODUCT/n;
             Assert.assertEquals(0d, test.monteCarloP(Double.POSITIVE_INFINITY, n, m, true, numIterations, rng), 0d);
             long endMillis = System.currentTimeMillis();
             System.out.println("n=" + n + ", m=" + m + ", time=" + (endMillis-startMillis)/1000d + "s");
