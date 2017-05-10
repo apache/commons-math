@@ -37,7 +37,6 @@ import org.junit.Test;
  *
  */
 public class InferenceTestUtilsTest {
-
     @Test
     public void testChiSquare() {
 
@@ -533,25 +532,23 @@ public class InferenceTestUtilsTest {
     public void testKSOneSample() throws Exception {
        final NormalDistribution unitNormal = new NormalDistribution(0d, 1d);
        final double[] sample = KolmogorovSmirnovTestTest.gaussian;
-       final double tol = KolmogorovSmirnovTestTest.TOLERANCE;
+       final double tol = 1e-10;
        Assert.assertEquals(0.3172069207622391, InferenceTestUtils.kolmogorovSmirnovTest(unitNormal, sample), tol);
        Assert.assertEquals(0.0932947561266756, InferenceTestUtils.kolmogorovSmirnovStatistic(unitNormal, sample), tol);
     }
 
     @Test
     public void testKSTwoSample() throws Exception {
-        final double tol = KolmogorovSmirnovTestTest.TOLERANCE;
+        final double tol = 1e-10;
         final double[] smallSample1 = {
             6, 7, 9, 13, 19, 21, 22, 23, 24
         };
         final double[] smallSample2 = {
             10, 11, 12, 16, 20, 27, 28, 32, 44, 54
         };
-        Assert
-            .assertEquals(0.105577085453247, InferenceTestUtils.kolmogorovSmirnovTest(smallSample1, smallSample2, false), tol);
+        Assert.assertEquals(0.105577085453247, InferenceTestUtils.kolmogorovSmirnovTest(smallSample1, smallSample2, false), tol);
         final double d = InferenceTestUtils.kolmogorovSmirnovStatistic(smallSample1, smallSample2);
         Assert.assertEquals(0.5, d, tol);
-        Assert
-        .assertEquals(0.105577085453247, InferenceTestUtils.exactP(d, smallSample1.length, smallSample2.length, false), tol);
+        Assert.assertEquals(0.105577085453247, InferenceTestUtils.exactP(d, smallSample1.length, smallSample2.length, false), tol);
     }
 }
