@@ -38,8 +38,7 @@ import org.junit.Test;
  * @since 3.3
  */
 public class KolmogorovSmirnovTestTest {
-
-    protected static final double TOLERANCE = 10e-10;
+    private static final double TOLERANCE = 10e-10;
     private static final int MONTE_CARLO_ITERATIONS = 1000000;
     private static final int LARGE_SAMPLE_PRODUCT = 10000;
 
