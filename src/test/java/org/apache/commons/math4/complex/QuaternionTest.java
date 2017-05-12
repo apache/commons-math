@@ -23,7 +23,7 @@ import org.apache.commons.math4.exception.DimensionMismatchException;
 import org.apache.commons.math4.exception.ZeroException;
 import org.apache.commons.math4.geometry.euclidean.threed.Rotation;
 import org.apache.commons.math4.geometry.euclidean.threed.RotationConvention;
-import org.apache.commons.math4.geometry.euclidean.threed.Vector3D;
+import org.apache.commons.math4.geometry.euclidean.threed.Cartesian3D;
 import org.apache.commons.math4.util.FastMath;
 import org.junit.Test;
 import org.junit.Assert;
@@ -121,16 +121,16 @@ public class QuaternionTest {
         // qResult = (scalarA * scalarB - vectorA . vectorB) + (scalarA * vectorB + scalarB * vectorA + vectorA ^
         // vectorB)
 
-        final Vector3D vectorA = new Vector3D(qA.getVectorPart());
-        final Vector3D vectorB = new Vector3D(qB.getVectorPart());
-        final Vector3D vectorResult = new Vector3D(qResult.getVectorPart());
+        final Cartesian3D vectorA = new Cartesian3D(qA.getVectorPart());
+        final Cartesian3D vectorB = new Cartesian3D(qB.getVectorPart());
+        final Cartesian3D vectorResult = new Cartesian3D(qResult.getVectorPart());
 
-        final double scalarPartRef = qA.getScalarPart() * qB.getScalarPart() - Vector3D.dotProduct(vectorA, vectorB);
+        final double scalarPartRef = qA.getScalarPart() * qB.getScalarPart() - Cartesian3D.dotProduct(vectorA, vectorB);
 
         Assert.assertEquals(scalarPartRef, qResult.getScalarPart(), EPS);
 
-        final Vector3D vectorPartRef = ((vectorA.scalarMultiply(qB.getScalarPart())).add(vectorB.scalarMultiply(qA
-                .getScalarPart()))).add(Vector3D.crossProduct(vectorA, vectorB));
+        final Cartesian3D vectorPartRef = ((vectorA.scalarMultiply(qB.getScalarPart())).add(vectorB.scalarMultiply(qA
+                .getScalarPart()))).add(Cartesian3D.crossProduct(vectorA, vectorB));
         final double norm = (vectorResult.subtract(vectorPartRef)).getNorm();
 
         Assert.assertEquals(0, norm, EPS);
@@ -167,12 +167,12 @@ public class QuaternionTest {
         final double[] vectorQ = quaternion.getVectorPart();
         final double[] vectorResultQxV = qResultQxV.getVectorPart();
 
-        final double scalarPartRefQxV = -Vector3D.dotProduct(new Vector3D(vectorQ), new Vector3D(vector));
+        final double scalarPartRefQxV = -Cartesian3D.dotProduct(new Cartesian3D(vectorQ), new Cartesian3D(vector));
         Assert.assertEquals(scalarPartRefQxV, qResultQxV.getScalarPart(), EPS);
 
-        final Vector3D vectorPartRefQxV = (new Vector3D(vector).scalarMultiply(quaternion.getScalarPart())).add(Vector3D
-                .crossProduct(new Vector3D(vectorQ), new Vector3D(vector)));
-        final double normQxV = (new Vector3D(vectorResultQxV).subtract(vectorPartRefQxV)).getNorm();
+        final Cartesian3D vectorPartRefQxV = (new Cartesian3D(vector).scalarMultiply(quaternion.getScalarPart())).add(Cartesian3D
+                .crossProduct(new Cartesian3D(vectorQ), new Cartesian3D(vector)));
+        final double normQxV = (new Cartesian3D(vectorResultQxV).subtract(vectorPartRefQxV)).getNorm();
         Assert.assertEquals(0, normQxV, EPS);
 
         // Case : Product between a vector and a quaternion : VxQ
@@ -189,12 +189,12 @@ public class QuaternionTest {
         // comparison with the result given by the formula :
         // qResult = (- vector . vectorQ) + (scalarQ * vector + vector ^ vectorQ)
 
-        final double scalarPartRefVxQ = -Vector3D.dotProduct(new Vector3D(vectorQ), new Vector3D(vector));
+        final double scalarPartRefVxQ = -Cartesian3D.dotProduct(new Cartesian3D(vectorQ), new Cartesian3D(vector));
         Assert.assertEquals(scalarPartRefVxQ, qResultVxQ.getScalarPart(), EPS);
 
-        final Vector3D vectorPartRefVxQ = (new Vector3D(vector).scalarMultiply(quaternion.getScalarPart())).add(Vector3D
-                .crossProduct(new Vector3D(vector), new Vector3D(vectorQ)));
-        final double normVxQ = (new Vector3D(vectorResultVxQ).subtract(vectorPartRefVxQ)).getNorm();
+        final Cartesian3D vectorPartRefVxQ = (new Cartesian3D(vector).scalarMultiply(quaternion.getScalarPart())).add(Cartesian3D
+                .crossProduct(new Cartesian3D(vector), new Cartesian3D(vectorQ)));
+        final double normVxQ = (new Cartesian3D(vectorResultVxQ).subtract(vectorPartRefVxQ)).getNorm();
         Assert.assertEquals(0, normVxQ, EPS);
     }
 

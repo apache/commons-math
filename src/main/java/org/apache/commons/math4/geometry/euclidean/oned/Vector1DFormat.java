@@ -129,7 +129,7 @@ public class Vector1DFormat extends VectorFormat<Euclidean1D> {
         if (coordinates == null) {
             return null;
         }
-        return new Vector1D(coordinates[0]);
+        return new Cartesian1D(coordinates[0]);
     }
 
 }

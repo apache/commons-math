@@ -27,7 +27,7 @@ import org.apache.commons.math4.geometry.euclidean.threed.FieldVector3D;
 import org.apache.commons.math4.geometry.euclidean.threed.NotARotationMatrixException;
 import org.apache.commons.math4.geometry.euclidean.threed.Rotation;
 import org.apache.commons.math4.geometry.euclidean.threed.RotationOrder;
-import org.apache.commons.math4.geometry.euclidean.threed.Vector3D;
+import org.apache.commons.math4.geometry.euclidean.threed.Cartesian3D;
 import org.apache.commons.math4.random.UnitSphereRandomVectorGenerator;
 import org.apache.commons.rng.UniformRandomProvider;
 import org.apache.commons.rng.simple.RandomSource;
@@ -816,7 +816,7 @@ public class FieldRotationDfpTest {
                         FieldVector3D<Dfp> uds   = createVector(x, y, z);
                         FieldVector3D<Dfp> ruds  = r.applyTo(uds);
                         FieldVector3D<Dfp> rIuds = r.applyInverseTo(uds);
-                        Vector3D   u     = new Vector3D(x, y, z);
+                        Cartesian3D   u     = new Cartesian3D(x, y, z);
                         FieldVector3D<Dfp> ru    = r.applyTo(u);
                         FieldVector3D<Dfp> rIu   = r.applyInverseTo(u);
                         Dfp[] ruArray = new Dfp[3];
@@ -842,7 +842,7 @@ public class FieldRotationDfpTest {
         UnitSphereRandomVectorGenerator g = new UnitSphereRandomVectorGenerator(3, random);
         for (int i = 0; i < 10; ++i) {
             double[] unit1 = g.nextVector();
-            Rotation r1 = new Rotation(new Vector3D(unit1[0], unit1[1], unit1[2]),
+            Rotation r1 = new Rotation(new Cartesian3D(unit1[0], unit1[1], unit1[2]),
                                       random.nextDouble(), RotationConvention.VECTOR_OPERATOR);
             FieldRotation<Dfp> r1Prime = new FieldRotation<>(field.newDfp(r1.getQ0()),
                                                                 field.newDfp(r1.getQ1()),

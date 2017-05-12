@@ -21,7 +21,7 @@ import org.apache.commons.math4.TestUtils;
 import org.apache.commons.math4.analysis.differentiation.DerivativeStructure;
 import org.apache.commons.math4.exception.DimensionMismatchException;
 import org.apache.commons.math4.geometry.euclidean.threed.SphericalCoordinates;
-import org.apache.commons.math4.geometry.euclidean.threed.Vector3D;
+import org.apache.commons.math4.geometry.euclidean.threed.Cartesian3D;
 import org.apache.commons.math4.util.FastMath;
 import org.junit.Assert;
 import org.junit.Test;
@@ -32,43 +32,43 @@ public class SphericalCoordinatesTest {
     public void testCoordinatesStoC() throws DimensionMismatchException {
         double piO2 = 0.5 * FastMath.PI;
         SphericalCoordinates sc1 = new SphericalCoordinates(2.0, 0, piO2);
-        Assert.assertEquals(0, sc1.getCartesian().distance(new Vector3D(2, 0, 0)), 1.0e-10);
+        Assert.assertEquals(0, sc1.getCartesian().distance(new Cartesian3D(2, 0, 0)), 1.0e-10);
         SphericalCoordinates sc2 = new SphericalCoordinates(2.0, piO2, piO2);
-        Assert.assertEquals(0, sc2.getCartesian().distance(new Vector3D(0, 2, 0)), 1.0e-10);
+        Assert.assertEquals(0, sc2.getCartesian().distance(new Cartesian3D(0, 2, 0)), 1.0e-10);
         SphericalCoordinates sc3 = new SphericalCoordinates(2.0, FastMath.PI, piO2);
-        Assert.assertEquals(0, sc3.getCartesian().distance(new Vector3D(-2, 0, 0)), 1.0e-10);
+        Assert.assertEquals(0, sc3.getCartesian().distance(new Cartesian3D(-2, 0, 0)), 1.0e-10);
         SphericalCoordinates sc4 = new SphericalCoordinates(2.0, -piO2, piO2);
-        Assert.assertEquals(0, sc4.getCartesian().distance(new Vector3D(0, -2, 0)), 1.0e-10);
+        Assert.assertEquals(0, sc4.getCartesian().distance(new Cartesian3D(0, -2, 0)), 1.0e-10);
         SphericalCoordinates sc5 = new SphericalCoordinates(2.0, 1.23456, 0);
-        Assert.assertEquals(0, sc5.getCartesian().distance(new Vector3D(0, 0, 2)), 1.0e-10);
+        Assert.assertEquals(0, sc5.getCartesian().distance(new Cartesian3D(0, 0, 2)), 1.0e-10);
         SphericalCoordinates sc6 = new SphericalCoordinates(2.0, 6.54321, FastMath.PI);
-        Assert.assertEquals(0, sc6.getCartesian().distance(new Vector3D(0, 0, -2)), 1.0e-10);
+        Assert.assertEquals(0, sc6.getCartesian().distance(new Cartesian3D(0, 0, -2)), 1.0e-10);
     }
 
     @Test
     public void testCoordinatesCtoS() throws DimensionMismatchException {
         double piO2 = 0.5 * FastMath.PI;
-        SphericalCoordinates sc1 = new SphericalCoordinates(new Vector3D(2, 0, 0));
+        SphericalCoordinates sc1 = new SphericalCoordinates(new Cartesian3D(2, 0, 0));
         Assert.assertEquals(2,           sc1.getR(),     1.0e-10);
         Assert.assertEquals(0,           sc1.getTheta(), 1.0e-10);
         Assert.assertEquals(piO2,        sc1.getPhi(),   1.0e-10);
-        SphericalCoordinates sc2 = new SphericalCoordinates(new Vector3D(0, 2, 0));
+        SphericalCoordinates sc2 = new SphericalCoordinates(new Cartesian3D(0, 2, 0));
         Assert.assertEquals(2,           sc2.getR(),     1.0e-10);
         Assert.assertEquals(piO2,        sc2.getTheta(), 1.0e-10);
         Assert.assertEquals(piO2,        sc2.getPhi(),   1.0e-10);
-        SphericalCoordinates sc3 = new SphericalCoordinates(new Vector3D(-2, 0, 0));
+        SphericalCoordinates sc3 = new SphericalCoordinates(new Cartesian3D(-2, 0, 0));
         Assert.assertEquals(2,           sc3.getR(),     1.0e-10);
         Assert.assertEquals(FastMath.PI, sc3.getTheta(), 1.0e-10);
         Assert.assertEquals(piO2,        sc3.getPhi(),   1.0e-10);
-        SphericalCoordinates sc4 = new SphericalCoordinates(new Vector3D(0, -2, 0));
+        SphericalCoordinates sc4 = new SphericalCoordinates(new Cartesian3D(0, -2, 0));
         Assert.assertEquals(2,           sc4.getR(),     1.0e-10);
         Assert.assertEquals(-piO2,       sc4.getTheta(), 1.0e-10);
         Assert.assertEquals(piO2,        sc4.getPhi(),   1.0e-10);
-        SphericalCoordinates sc5 = new SphericalCoordinates(new Vector3D(0, 0, 2));
+        SphericalCoordinates sc5 = new SphericalCoordinates(new Cartesian3D(0, 0, 2));
         Assert.assertEquals(2,           sc5.getR(),     1.0e-10);
         //  don't check theta on poles, as it is singular
         Assert.assertEquals(0,           sc5.getPhi(),   1.0e-10);
-        SphericalCoordinates sc6 = new SphericalCoordinates(new Vector3D(0, 0, -2));
+        SphericalCoordinates sc6 = new SphericalCoordinates(new Cartesian3D(0, 0, -2));
         Assert.assertEquals(2,           sc6.getR(),     1.0e-10);
         //  don't check theta on poles, as it is singular
         Assert.assertEquals(FastMath.PI, sc6.getPhi(),   1.0e-10);
@@ -93,11 +93,11 @@ public class SphericalCoordinatesTest {
                     DerivativeStructure cvalue = valueCartesian(new DerivativeStructure(3, 1, 0, sc.getCartesian().getX()),
                                                                 new DerivativeStructure(3, 1, 1, sc.getCartesian().getY()),
                                                                 new DerivativeStructure(3, 1, 2, sc.getCartesian().getZ()));
-                    Vector3D refCGradient = new Vector3D(cvalue.getPartialDerivative(1, 0, 0),
+                    Cartesian3D refCGradient = new Cartesian3D(cvalue.getPartialDerivative(1, 0, 0),
                                                          cvalue.getPartialDerivative(0, 1, 0),
                                                          cvalue.getPartialDerivative(0, 0, 1));
 
-                    Vector3D testCGradient = new Vector3D(sc.toCartesianGradient(sGradient));
+                    Cartesian3D testCGradient = new Cartesian3D(sc.toCartesianGradient(sGradient));
 
                     Assert.assertEquals(0, testCGradient.distance(refCGradient) / refCGradient.getNorm(), 5.0e-14);
 

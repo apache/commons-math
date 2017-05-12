@@ -64,13 +64,13 @@
       package twod #DDDBD8 {
 
         class Euclidean2D
-        class Vector2D
+        class Cartesian2D
         class Line
         class SubLine
         class PolygonsSet
 
         Space            <|.. Euclidean2D
-        Vector_S_        <|.. Vector2D
+        Vector_S_        <|.. Cartesian2D
         Hyperplane_S_    <|.. Line
         SubHyperplane_S_ <|.. SubLine
         Region_S_        <|.. PolygonsSet

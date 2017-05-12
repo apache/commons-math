@@ -149,7 +149,7 @@ public class Vector3DFormat extends VectorFormat<Euclidean3D> {
         if (coordinates == null) {
             return null;
         }
-        return new Vector3D(coordinates[0], coordinates[1], coordinates[2]);
+        return new Cartesian3D(coordinates[0], coordinates[1], coordinates[2]);
     }
 
 }

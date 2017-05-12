@@ -38,7 +38,7 @@ import org.apache.commons.math4.ml.neuralnet.sofm.KohonenTrainingTask;
 import org.apache.commons.math4.ml.distance.DistanceMeasure;
 import org.apache.commons.math4.ml.distance.EuclideanDistance;
 import org.apache.commons.math4.stat.descriptive.SummaryStatistics;
-import org.apache.commons.math4.geometry.euclidean.threed.Vector3D;
+import org.apache.commons.math4.geometry.euclidean.threed.Cartesian3D;
 import org.apache.commons.math4.util.FastMath;
 import org.apache.commons.math4.exception.MathUnsupportedOperationException;
 
@@ -61,7 +61,7 @@ public class ChineseRingsClassifier {
     private final DistanceMeasure distance = new EuclideanDistance();
 
     public static void main(String[] args) {
-        final ChineseRings rings = new ChineseRings(new Vector3D(1, 2, 3),
+        final ChineseRings rings = new ChineseRings(new Cartesian3D(1, 2, 3),
                                                     25, 2,
                                                     20, 1,
                                                     2000, 1500);
@@ -185,7 +185,7 @@ public class ChineseRingsClassifier {
             new SummaryStatistics(),
             new SummaryStatistics()
         };
-        for (Vector3D p : rings.getPoints()) {
+        for (Cartesian3D p : rings.getPoints()) {
             centre[0].addValue(p.getX());
             centre[1].addValue(p.getY());
             centre[2].addValue(p.getZ());
@@ -220,7 +220,7 @@ public class ChineseRingsClassifier {
             public Iterator<double[]> iterator() {
                 return new Iterator<double[]>() {
                     /** Data. */
-                    final Vector3D[] points = rings.getPoints();
+                    final Cartesian3D[] points = rings.getPoints();
                     /** Number of samples. */
                     private int n = 0;
 
@@ -253,7 +253,7 @@ public class ChineseRingsClassifier {
     private Iterator<double[]> createRandomIterator(final long numSamples) {
         return new Iterator<double[]>() {
             /** Data. */
-            final Vector3D[] points = rings.getPoints();
+            final Cartesian3D[] points = rings.getPoints();
             /** RNG. */
             final UniformRandomProvider rng = RandomSource.create(RandomSource.KISS);
             /** Number of samples. */

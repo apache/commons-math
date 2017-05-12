@@ -20,7 +20,7 @@ package org.apache.commons.math4.userguide.sofm;
 import org.apache.commons.rng.UniformRandomProvider;
 import org.apache.commons.rng.simple.RandomSource;
 
-import org.apache.commons.math4.geometry.euclidean.threed.Vector3D;
+import org.apache.commons.math4.geometry.euclidean.threed.Cartesian3D;
 import org.apache.commons.math4.geometry.euclidean.threed.Rotation;
 import org.apache.commons.math4.random.UnitSphereRandomVectorGenerator;
 import org.apache.commons.math4.distribution.RealDistribution;
@@ -32,7 +32,7 @@ import org.apache.commons.math4.distribution.UniformRealDistribution;
  */
 public class ChineseRings {
     /** Points in the two rings. */
-    private final Vector3D[] points;
+    private final Cartesian3D[] points;
 
     /**
      * @param orientationRing1 Vector othogonal to the plane containing the
@@ -44,7 +44,7 @@ public class ChineseRings {
      * @param numPointsRing1 Number of points in the first ring.
      * @param numPointsRing2 Number of points in the second ring.
      */
-    public ChineseRings(Vector3D orientationRing1,
+    public ChineseRings(Cartesian3D orientationRing1,
                         double radiusRing1,
                         double halfWidthRing1,
                         double radiusRing2,
@@ -52,9 +52,9 @@ public class ChineseRings {
                         int numPointsRing1,
                         int numPointsRing2) {
         // First ring (centered at the origin).
-        final Vector3D[] firstRing = new Vector3D[numPointsRing1];
+        final Cartesian3D[] firstRing = new Cartesian3D[numPointsRing1];
         // Second ring (centered around the first ring).
-        final Vector3D[] secondRing = new Vector3D[numPointsRing2];
+        final Cartesian3D[] secondRing = new Cartesian3D[numPointsRing2];
 
         // Create two rings lying in xy-plane.
         final UnitSphereRandomVectorGenerator unit
@@ -72,7 +72,7 @@ public class ChineseRings {
             final double[] v = unit.nextVector();
             final double r = radius1.sample();
             // First ring is in the xy-plane, centered at (0, 0, 0).
-            firstRing[i] = new Vector3D(v[0] * r,
+            firstRing[i] = new Cartesian3D(v[0] * r,
                                         v[1] * r,
                                         widthRing1.sample());
         }
@@ -87,16 +87,16 @@ public class ChineseRings {
             final double[] v = unit.nextVector();
             final double r = radius2.sample();
             // Second ring is in the xz-plane, centered at (radiusRing1, 0, 0).
-            secondRing[i] = new Vector3D(radiusRing1 + v[0] * r,
+            secondRing[i] = new Cartesian3D(radiusRing1 + v[0] * r,
                                          widthRing2.sample(),
                                          v[1] * r);
         }
 
         // Move first and second rings into position.
-        final Rotation rot = new Rotation(Vector3D.PLUS_K,
+        final Rotation rot = new Rotation(Cartesian3D.PLUS_K,
                                           orientationRing1.normalize());
         int count = 0;
-        points = new Vector3D[numPointsRing1 + numPointsRing2];
+        points = new Cartesian3D[numPointsRing1 + numPointsRing2];
         for (int i = 0; i < numPointsRing1; i++) {
             points[count++] = rot.applyTo(firstRing[i]);
         }
@@ -108,7 +108,7 @@ public class ChineseRings {
     /**
      * Gets all the points.
      */
-    public Vector3D[] getPoints() {
+    public Cartesian3D[] getPoints() {
         return points.clone();
     }
 }

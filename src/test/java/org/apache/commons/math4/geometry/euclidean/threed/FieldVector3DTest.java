@@ -26,7 +26,7 @@ import org.apache.commons.math4.analysis.differentiation.DerivativeStructure;
 import org.apache.commons.math4.exception.DimensionMismatchException;
 import org.apache.commons.math4.exception.MathArithmeticException;
 import org.apache.commons.math4.geometry.euclidean.threed.FieldVector3D;
-import org.apache.commons.math4.geometry.euclidean.threed.Vector3D;
+import org.apache.commons.math4.geometry.euclidean.threed.Cartesian3D;
 import org.apache.commons.rng.UniformRandomProvider;
 import org.apache.commons.rng.simple.RandomSource;
 import org.apache.commons.math4.util.FastMath;
@@ -59,7 +59,7 @@ public class FieldVector3DTest {
                                    createVector(1, 0,  0, 4)),
                                    2, 0, 0, 2, 0, 0, 1, 0, 2, 0, 0, 0, 0, 2, 0);
         checkVector(new FieldVector3D<>(new DerivativeStructure(4, 1, 3,  2.0),
-                                   new Vector3D(1, 0,  0)),
+                                   new Cartesian3D(1, 0,  0)),
                                    2, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0);
 
         checkVector(new FieldVector3D<>(2, createVector(1, 0,  0, 3),
@@ -71,9 +71,9 @@ public class FieldVector3DTest {
                                    createVector(0, 0, -1, 4)),
                                    2, 0, 3, -1, 0, 0, 1, 0, -1, 0, 0, 0, 0, -1, -1);
         checkVector(new FieldVector3D<>(new DerivativeStructure(4, 1, 3,  2.0),
-                                   new Vector3D(1, 0,  0),
+                                   new Cartesian3D(1, 0,  0),
                                    new DerivativeStructure(4, 1, 3, -3.0),
-                                   new Vector3D(0, 0, -1)),
+                                   new Cartesian3D(0, 0, -1)),
                                    2, 0, 3, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, -1);
 
         checkVector(new FieldVector3D<>(2, createVector(1, 0, 0, 3),
@@ -88,11 +88,11 @@ public class FieldVector3DTest {
                                    createVector(0, 0, -1, 4)),
                                    2, 5, 3, 4, 0, 0, 1, 0, 4, 0, 1, 0, 0, 4, -1);
         checkVector(new FieldVector3D<>(new DerivativeStructure(4, 1, 3,  2.0),
-                                   new Vector3D(1, 0,  0),
+                                   new Cartesian3D(1, 0,  0),
                                    new DerivativeStructure(4, 1, 3,  5.0),
-                                   new Vector3D(0, 1,  0),
+                                   new Cartesian3D(0, 1,  0),
                                    new DerivativeStructure(4, 1, 3, -3.0),
-                                   new Vector3D(0, 0, -1)),
+                                   new Cartesian3D(0, 0, -1)),
                                    2, 5, 3, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0, -1);
 
         checkVector(new FieldVector3D<>(2, createVector(1, 0, 0, 3),
@@ -110,13 +110,13 @@ public class FieldVector3DTest {
                                    createVector(0, 0, -1, 4)),
                                    2, 0, 3, 9, 0, 0, 1, 0, 9, 0, 0, 0, 0, 9, -1);
         checkVector(new FieldVector3D<>(new DerivativeStructure(4, 1, 3,  2.0),
-                                   new Vector3D(1, 0,  0),
+                                   new Cartesian3D(1, 0,  0),
                                    new DerivativeStructure(4, 1, 3,  5.0),
-                                   new Vector3D(0, 1,  0),
+                                   new Cartesian3D(0, 1,  0),
                                    new DerivativeStructure(4, 1, 3,  5.0),
-                                   new Vector3D(0, -1,  0),
+                                   new Cartesian3D(0, -1,  0),
                                    new DerivativeStructure(4, 1, 3, -3.0),
-                                   new Vector3D(0, 0, -1)),
+                                   new Cartesian3D(0, 0, -1)),
                                    2, 0, 3, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, -1);
 
         checkVector(new FieldVector3D<>(new DerivativeStructure[] {
@@ -270,12 +270,12 @@ public class FieldVector3DTest {
         Assert.assertEquals(0, distance.getPartialDerivative(1, 0, 0), 1.0e-12);
         Assert.assertEquals(0, distance.getPartialDerivative(0, 1, 0), 1.0e-12);
         Assert.assertEquals(0, distance.getPartialDerivative(0, 0, 1), 1.0e-12);
-        distance = FieldVector3D.distance1(v1, new Vector3D(-4, 2, 0));
+        distance = FieldVector3D.distance1(v1, new Cartesian3D(-4, 2, 0));
         Assert.assertEquals(12.0, distance.getReal(), 1.0e-12);
         Assert.assertEquals( 1, distance.getPartialDerivative(1, 0, 0), 1.0e-12);
         Assert.assertEquals(-1, distance.getPartialDerivative(0, 1, 0), 1.0e-12);
         Assert.assertEquals( 1, distance.getPartialDerivative(0, 0, 1), 1.0e-12);
-        distance = FieldVector3D.distance1(new Vector3D(-4, 2, 0), v1);
+        distance = FieldVector3D.distance1(new Cartesian3D(-4, 2, 0), v1);
         Assert.assertEquals(12.0, distance.getReal(), 1.0e-12);
         Assert.assertEquals( 1, distance.getPartialDerivative(1, 0, 0), 1.0e-12);
         Assert.assertEquals(-1, distance.getPartialDerivative(0, 1, 0), 1.0e-12);
@@ -292,12 +292,12 @@ public class FieldVector3DTest {
         Assert.assertEquals(0, distance.getPartialDerivative(1, 0, 0), 1.0e-12);
         Assert.assertEquals(0, distance.getPartialDerivative(0, 1, 0), 1.0e-12);
         Assert.assertEquals(0, distance.getPartialDerivative(0, 0, 1), 1.0e-12);
-        distance = FieldVector3D.distance(v1, new Vector3D(-4, 2, 0));
+        distance = FieldVector3D.distance(v1, new Cartesian3D(-4, 2, 0));
         Assert.assertEquals(FastMath.sqrt(50), distance.getReal(), 1.0e-12);
         Assert.assertEquals( 5 / FastMath.sqrt(50), distance.getPartialDerivative(1, 0, 0), 1.0e-12);
         Assert.assertEquals(-4 / FastMath.sqrt(50), distance.getPartialDerivative(0, 1, 0), 1.0e-12);
         Assert.assertEquals( 3 / FastMath.sqrt(50), distance.getPartialDerivative(0, 0, 1), 1.0e-12);
-        distance = FieldVector3D.distance(new Vector3D(-4, 2, 0), v1);
+        distance = FieldVector3D.distance(new Cartesian3D(-4, 2, 0), v1);
         Assert.assertEquals(FastMath.sqrt(50), distance.getReal(), 1.0e-12);
         Assert.assertEquals( 5 / FastMath.sqrt(50), distance.getPartialDerivative(1, 0, 0), 1.0e-12);
         Assert.assertEquals(-4 / FastMath.sqrt(50), distance.getPartialDerivative(0, 1, 0), 1.0e-12);
@@ -314,12 +314,12 @@ public class FieldVector3DTest {
         Assert.assertEquals(0, distanceSq.getPartialDerivative(1, 0, 0), 1.0e-12);
         Assert.assertEquals(0, distanceSq.getPartialDerivative(0, 1, 0), 1.0e-12);
         Assert.assertEquals(0, distanceSq.getPartialDerivative(0, 0, 1), 1.0e-12);
-        distanceSq = FieldVector3D.distanceSq(v1, new Vector3D(-4, 2, 0));
+        distanceSq = FieldVector3D.distanceSq(v1, new Cartesian3D(-4, 2, 0));
         Assert.assertEquals(50.0, distanceSq.getReal(), 1.0e-12);
         Assert.assertEquals(10, distanceSq.getPartialDerivative(1, 0, 0), 1.0e-12);
         Assert.assertEquals(-8, distanceSq.getPartialDerivative(0, 1, 0), 1.0e-12);
         Assert.assertEquals( 6, distanceSq.getPartialDerivative(0, 0, 1), 1.0e-12);
-        distanceSq = FieldVector3D.distanceSq(new Vector3D(-4, 2, 0), v1);
+        distanceSq = FieldVector3D.distanceSq(new Cartesian3D(-4, 2, 0), v1);
         Assert.assertEquals(50.0, distanceSq.getReal(), 1.0e-12);
         Assert.assertEquals(10, distanceSq.getPartialDerivative(1, 0, 0), 1.0e-12);
         Assert.assertEquals(-8, distanceSq.getPartialDerivative(0, 1, 0), 1.0e-12);
@@ -336,12 +336,12 @@ public class FieldVector3DTest {
         Assert.assertEquals(0, distance.getPartialDerivative(1, 0, 0), 1.0e-12);
         Assert.assertEquals(0, distance.getPartialDerivative(0, 1, 0), 1.0e-12);
         Assert.assertEquals(0, distance.getPartialDerivative(0, 0, 1), 1.0e-12);
-        distance = FieldVector3D.distanceInf(v1, new Vector3D(-4, 2, 0));
+        distance = FieldVector3D.distanceInf(v1, new Cartesian3D(-4, 2, 0));
         Assert.assertEquals(5.0, distance.getReal(), 1.0e-12);
         Assert.assertEquals(1, distance.getPartialDerivative(1, 0, 0), 1.0e-12);
         Assert.assertEquals(0, distance.getPartialDerivative(0, 1, 0), 1.0e-12);
         Assert.assertEquals(0, distance.getPartialDerivative(0, 0, 1), 1.0e-12);
-        distance = FieldVector3D.distanceInf(new Vector3D(-4, 2, 0), v1);
+        distance = FieldVector3D.distanceInf(new Cartesian3D(-4, 2, 0), v1);
         Assert.assertEquals(5.0, distance.getReal(), 1.0e-12);
         Assert.assertEquals(1, distance.getPartialDerivative(1, 0, 0), 1.0e-12);
         Assert.assertEquals(0, distance.getPartialDerivative(0, 1, 0), 1.0e-12);
@@ -368,22 +368,22 @@ public class FieldVector3DTest {
                             1.0e-12);
 
         Assert.assertEquals(5.0,
-                            FieldVector3D.distanceInf(createVector( 1, -2, 3, 3), new Vector3D(-4,  2, 0)).getReal(),
+                            FieldVector3D.distanceInf(createVector( 1, -2, 3, 3), new Cartesian3D(-4,  2, 0)).getReal(),
                             1.0e-12);
         Assert.assertEquals(5.0,
-                            FieldVector3D.distanceInf(createVector( 1, 3, -2, 3), new Vector3D(-4, 0,  2)).getReal(),
+                            FieldVector3D.distanceInf(createVector( 1, 3, -2, 3), new Cartesian3D(-4, 0,  2)).getReal(),
                             1.0e-12);
         Assert.assertEquals(5.0,
-                            FieldVector3D.distanceInf(createVector(-2,  1, 3, 3), new Vector3D( 2, -4, 0)).getReal(),
+                            FieldVector3D.distanceInf(createVector(-2,  1, 3, 3), new Cartesian3D( 2, -4, 0)).getReal(),
                             1.0e-12);
         Assert.assertEquals(5.0,
-                            FieldVector3D.distanceInf(createVector(-2, 3,  1, 3), new Vector3D( 2, 0, -4)).getReal(),
+                            FieldVector3D.distanceInf(createVector(-2, 3,  1, 3), new Cartesian3D( 2, 0, -4)).getReal(),
                             1.0e-12);
         Assert.assertEquals(5.0,
-                            FieldVector3D.distanceInf(createVector(3, -2,  1, 3), new Vector3D(0,  2, -4)).getReal(),
+                            FieldVector3D.distanceInf(createVector(3, -2,  1, 3), new Cartesian3D(0,  2, -4)).getReal(),
                             1.0e-12);
         Assert.assertEquals(5.0,
-                            FieldVector3D.distanceInf(createVector(3,  1, -2, 3), new Vector3D(0, -4,  2)).getReal(),
+                            FieldVector3D.distanceInf(createVector(3,  1, -2, 3), new Cartesian3D(0, -4,  2)).getReal(),
                             1.0e-12);
 
     }
@@ -396,10 +396,10 @@ public class FieldVector3DTest {
         checkVector(v1, 4, 4, 4, 0, 0, 0, 0, 0, 0, 0, 0, 0);
 
         checkVector(v2.subtract(v1), -7, -6, -5, 1, 0, 0, 0, 1, 0, 0, 0, 1);
-        checkVector(v2.subtract(new Vector3D(4, 4, 4)), -7, -6, -5, 1, 0, 0, 0, 1, 0, 0, 0, 1);
+        checkVector(v2.subtract(new Cartesian3D(4, 4, 4)), -7, -6, -5, 1, 0, 0, 0, 1, 0, 0, 0, 1);
         checkVector(v2.subtract(3, v1), -15, -14, -13, 1, 0, 0, 0, 1, 0, 0, 0, 1);
-        checkVector(v2.subtract(3, new Vector3D(4, 4, 4)), -15, -14, -13, 1, 0, 0, 0, 1, 0, 0, 0, 1);
-        checkVector(v2.subtract(new DerivativeStructure(3, 1, 2, 3), new Vector3D(4, 4, 4)),
+        checkVector(v2.subtract(3, new Cartesian3D(4, 4, 4)), -15, -14, -13, 1, 0, 0, 0, 1, 0, 0, 0, 1);
+        checkVector(v2.subtract(new DerivativeStructure(3, 1, 2, 3), new Cartesian3D(4, 4, 4)),
                     -15, -14, -13, 1, 0, -4, 0, 1, -4, 0, 0, -3);
 
         checkVector(createVector(1, 2, 3, 4).subtract(new DerivativeStructure(4, 1, 3, 5.0),
@@ -419,10 +419,10 @@ public class FieldVector3DTest {
         checkVector(v1, -2, 0, 2, 2, 0, 0, 0, 2, 0, 0, 0, 2);
 
         checkVector(v2.add(v1), -5, -2, 1, 3, 0, 0, 0, 3, 0, 0, 0, 3);
-        checkVector(v2.add(new Vector3D(-2, 0, 2)), -5, -2, 1, 1, 0, 0, 0, 1, 0, 0, 0, 1);
+        checkVector(v2.add(new Cartesian3D(-2, 0, 2)), -5, -2, 1, 1, 0, 0, 0, 1, 0, 0, 0, 1);
         checkVector(v2.add(3, v1), -9, -2, 5, 7, 0, 0, 0, 7, 0, 0, 0, 7);
-        checkVector(v2.add(3, new Vector3D(-2, 0, 2)), -9, -2, 5, 1, 0, 0, 0, 1, 0, 0, 0, 1);
-        checkVector(v2.add(new DerivativeStructure(3, 1, 2, 3), new Vector3D(-2, 0, 2)),
+        checkVector(v2.add(3, new Cartesian3D(-2, 0, 2)), -9, -2, 5, 1, 0, 0, 0, 1, 0, 0, 0, 1);
+        checkVector(v2.add(new DerivativeStructure(3, 1, 2, 3), new Cartesian3D(-2, 0, 2)),
                     -9, -2, 5, 1, 0, -2, 0, 1, 0, 0, 0, 3);
 
         checkVector(createVector(1, 2, 3, 4).add(new DerivativeStructure(4, 1, 3, 5.0),
@@ -508,7 +508,7 @@ public class FieldVector3DTest {
         Assert.assertTrue(FastMath.abs(FieldVector3D.angle(v1.toVector3D(), v2).getReal() - 1.2) < 1.0e-12);
 
         try {
-            FieldVector3D.angle(v1, Vector3D.ZERO);
+            FieldVector3D.angle(v1, Cartesian3D.ZERO);
             Assert.fail("an exception should have been thrown");
         } catch (MathArithmeticException mae) {
             // expected
@@ -605,7 +605,7 @@ public class FieldVector3DTest {
 
             FieldVector3D<DerivativeStructure> uds = createVector(ux, uy, uz, 3);
             FieldVector3D<DerivativeStructure> vds = createVector(vx, vy, vz, 3);
-            Vector3D v = new Vector3D(vx, vy, vz);
+            Cartesian3D v = new Cartesian3D(vx, vy, vz);
 
             DerivativeStructure sAccurate = FieldVector3D.dotProduct(uds, vds);
             Assert.assertEquals(sNaive, sAccurate.getReal(), 2.5e-16 * sNaive);
@@ -658,11 +658,11 @@ public class FieldVector3DTest {
             double vx = random.nextDouble();
             double vy = random.nextDouble();
             double vz = random.nextDouble();
-            Vector3D cNaive = new Vector3D(uy * vz - uz * vy, uz * vx - ux * vz, ux * vy - uy * vx);
+            Cartesian3D cNaive = new Cartesian3D(uy * vz - uz * vy, uz * vx - ux * vz, ux * vy - uy * vx);
 
             FieldVector3D<DerivativeStructure> uds = createVector(ux, uy, uz, 3);
             FieldVector3D<DerivativeStructure> vds = createVector(vx, vy, vz, 3);
-            Vector3D v = new Vector3D(vx, vy, vz);
+            Cartesian3D v = new Cartesian3D(vx, vy, vz);
 
             checkVector(FieldVector3D.crossProduct(uds, vds),
                         cNaive.getX(), cNaive.getY(), cNaive.getZ(),

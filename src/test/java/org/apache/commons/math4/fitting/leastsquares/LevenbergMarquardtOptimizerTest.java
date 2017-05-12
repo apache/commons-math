@@ -28,7 +28,7 @@ import org.apache.commons.math4.fitting.leastsquares.LevenbergMarquardtOptimizer
 import org.apache.commons.math4.fitting.leastsquares.ParameterValidator;
 import org.apache.commons.math4.fitting.leastsquares.LeastSquaresOptimizer.Optimum;
 import org.apache.commons.math4.fitting.leastsquares.LeastSquaresProblem.Evaluation;
-import org.apache.commons.math4.geometry.euclidean.twod.Vector2D;
+import org.apache.commons.math4.geometry.euclidean.twod.Cartesian2D;
 import org.apache.commons.math4.linear.DiagonalMatrix;
 import org.apache.commons.math4.linear.RealMatrix;
 import org.apache.commons.math4.linear.RealVector;
@@ -270,7 +270,7 @@ public class LevenbergMarquardtOptimizerTest
         final CircleProblem circle = new CircleProblem(xSigma, ySigma);
 
         final int numPoints = 10;
-        for (Vector2D p : factory.generate(numPoints)) {
+        for (Cartesian2D p : factory.generate(numPoints)) {
             circle.addPoint(p.getX(), p.getY());
         }
 
@@ -307,7 +307,7 @@ public class LevenbergMarquardtOptimizerTest
         final CircleProblem circle = new CircleProblem(xSigma, ySigma);
 
         final int numPoints = 10;
-        for (Vector2D p : factory.generate(numPoints)) {
+        for (Cartesian2D p : factory.generate(numPoints)) {
             circle.addPoint(p.getX(), p.getY());
         }
 

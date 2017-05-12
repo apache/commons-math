@@ -132,7 +132,7 @@ public class Vector2DFormat extends VectorFormat<Euclidean2D> {
         if (coordinates == null) {
             return null;
         }
-        return new Vector2D(coordinates[0], coordinates[1]);
+        return new Cartesian2D(coordinates[0], coordinates[1]);
     }
 
 }

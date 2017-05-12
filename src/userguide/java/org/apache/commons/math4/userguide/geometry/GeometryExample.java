@@ -40,7 +40,7 @@ import org.apache.commons.math4.geometry.enclosing.WelzlEncloser;
 import org.apache.commons.math4.geometry.euclidean.twod.DiskGenerator;
 import org.apache.commons.math4.geometry.euclidean.twod.Euclidean2D;
 import org.apache.commons.math4.geometry.euclidean.twod.Segment;
-import org.apache.commons.math4.geometry.euclidean.twod.Vector2D;
+import org.apache.commons.math4.geometry.euclidean.twod.Cartesian2D;
 import org.apache.commons.math4.geometry.euclidean.twod.hull.ConvexHull2D;
 import org.apache.commons.math4.geometry.euclidean.twod.hull.ConvexHullGenerator2D;
 import org.apache.commons.math4.geometry.euclidean.twod.hull.MonotoneChain;
@@ -65,39 +65,39 @@ import org.piccolo2d.nodes.PText;
  */
 public class GeometryExample {
 
-    public static List<Vector2D> createRandomPoints(int size) {
+    public static List<Cartesian2D> createRandomPoints(int size) {
         final UniformRandomProvider random = RandomSource.create(RandomSource.MT);
 
         // create the cloud container
-        List<Vector2D> points = new ArrayList<Vector2D>(size);
+        List<Cartesian2D> points = new ArrayList<Cartesian2D>(size);
         // fill the cloud with a random distribution of points
         for (int i = 0; i < size; i++) {
-            points.add(new Vector2D(FastMath.round(random.nextDouble() * 400 + 100),
+            points.add(new Cartesian2D(FastMath.round(random.nextDouble() * 400 + 100),
                     FastMath.round(random.nextDouble() * 400 + 100)));
         }
         
         return points;
     }
 
-    public static List<Vector2D> createCircle(int samples) {
-        List<Vector2D> points = new ArrayList<Vector2D>();
-        final Vector2D center = new Vector2D(300, 300);
+    public static List<Cartesian2D> createCircle(int samples) {
+        List<Cartesian2D> points = new ArrayList<Cartesian2D>();
+        final Cartesian2D center = new Cartesian2D(300, 300);
         double range = 2.0 * FastMath.PI;
         double step = range / (samples + 1);
         for (double angle = 0; angle < range; angle += step) {
-            Vector2D circle = new Vector2D(FastMath.cos(angle), FastMath.sin(angle));
+            Cartesian2D circle = new Cartesian2D(FastMath.cos(angle), FastMath.sin(angle));
             points.add(circle.scalarMultiply(200).add(center));
         }
         
         return points;
     }
 
-    public static List<Vector2D> createCross() {
-        List<Vector2D> points = new ArrayList<Vector2D>();
+    public static List<Cartesian2D> createCross() {
+        List<Cartesian2D> points = new ArrayList<Cartesian2D>();
         
         for (int i = 100; i < 500; i += 10) {
-            points.add(new Vector2D(300, i));
-            points.add(new Vector2D(i, 300));
+            points.add(new Cartesian2D(300, i));
+            points.add(new Cartesian2D(i, 300));
         }
 
         return points;
@@ -150,7 +150,7 @@ public class GeometryExample {
     @SuppressWarnings("serial")
     public static class Display extends ExampleFrame {
 
-        private List<Vector2D> points;
+        private List<Cartesian2D> points;
         private PCanvas canvas;
         private JComponent container;
         private JComponent controlPanel;
@@ -223,7 +223,7 @@ public class GeometryExample {
         
         public void paintConvexHull() {
             PNode pointSet = new PNode();
-            for (Vector2D point : points) {
+            for (Cartesian2D point : points) {
                 final PNode node = PPath.createEllipse(point.getX() - 1, point.getY() - 1, 2, 2);
                 node.addAttribute("tooltip", point);
                 node.setPaint(Color.gray);
@@ -236,7 +236,7 @@ public class GeometryExample {
             ConvexHull2D hull = generator.generate(points); //AklToussaintHeuristic.reducePoints(points));
 
             PNode hullNode = new PNode();
-            for (Vector2D vertex : hull.getVertices()) {
+            for (Cartesian2D vertex : hull.getVertices()) {
                 final PPath node = PPath.createEllipse(vertex.getX() - 1, vertex.getY() - 1, 2, 2);
                 node.addAttribute("tooltip", vertex);
                 node.setPaint(Color.red);
@@ -255,9 +255,9 @@ public class GeometryExample {
 
             canvas.getLayer().addChild(hullNode);
 
-            Encloser<Euclidean2D, Vector2D> encloser =
-                    new WelzlEncloser<Euclidean2D, Vector2D>(1e-10, new DiskGenerator());
-            EnclosingBall<Euclidean2D, Vector2D> ball = encloser.enclose(points);
+            Encloser<Euclidean2D, Cartesian2D> encloser =
+                    new WelzlEncloser<Euclidean2D, Cartesian2D>(1e-10, new DiskGenerator());
+            EnclosingBall<Euclidean2D, Cartesian2D> ball = encloser.enclose(points);
 
             final double radius = ball.getRadius();
             PPath ballCenter =

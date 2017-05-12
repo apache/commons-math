@@ -27,8 +27,8 @@ import org.apache.commons.math4.geometry.Space;
  * of the dimensions differences. As an example, {@link
  * org.apache.commons.math4.geometry.euclidean.threed.Line Line} in 3D
  * implements Embedding<{@link
- * org.apache.commons.math4.geometry.euclidean.threed.Vector3D Vector3D}, {link
- * org.apache.commons.math4.geometry.euclidean.oned.Vector1D Vector1D}, i.e. it
+ * org.apache.commons.math4.geometry.euclidean.threed.Cartesian3D Cartesian3D}, {link
+ * org.apache.commons.math4.geometry.euclidean.oned.Cartesian1D Cartesian1D}, i.e. it
  * maps directly dimensions 3 and 1.</p>
 
  * <p>In the 3D euclidean space, hyperplanes are 2D planes, and the 1D

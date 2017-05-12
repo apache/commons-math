@@ -19,7 +19,7 @@ package org.apache.commons.math4.fitting.leastsquares;
 import org.apache.commons.math4.distribution.NormalDistribution;
 import org.apache.commons.math4.distribution.RealDistribution;
 import org.apache.commons.math4.distribution.UniformRealDistribution;
-import org.apache.commons.math4.geometry.euclidean.twod.Vector2D;
+import org.apache.commons.math4.geometry.euclidean.twod.Cartesian2D;
 import org.apache.commons.rng.UniformRandomProvider;
 import org.apache.commons.rng.simple.RandomSource;
 import org.apache.commons.math4.util.FastMath;
@@ -65,8 +65,8 @@ public class RandomCirclePointGenerator {
      * @param n Number of points to create.
      * @return the cloud of {@code n} points.
      */
-    public Vector2D[] generate(int n) {
-        final Vector2D[] cloud = new Vector2D[n];
+    public Cartesian2D[] generate(int n) {
+        final Cartesian2D[] cloud = new Cartesian2D[n];
         for (int i = 0; i < n; i++) {
             cloud[i] = create();
         }
@@ -78,11 +78,11 @@ public class RandomCirclePointGenerator {
      *
      * @return a point.
      */
-    private Vector2D create() {
+    private Cartesian2D create() {
         final double t = tP.sample();
         final double pX = cX.sample() + radius * FastMath.cos(t);
         final double pY = cY.sample() + radius * FastMath.sin(t);
 
-        return new Vector2D(pX, pY);
+        return new Cartesian2D(pX, pY);
     }
 }

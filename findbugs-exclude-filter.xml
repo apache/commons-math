@@ -81,9 +81,9 @@
   <!-- The following equality test is intentional and needed for semantic purposes -->
   <Match>
     <Or>
-      <Class name="org.apache.commons.math4.geometry.euclidean.oned.Vector1D" />
-      <Class name="org.apache.commons.math4.geometry.euclidean.twod.Vector2D" />
-      <Class name="org.apache.commons.math4.geometry.euclidean.threed.Vector3D" />
+      <Class name="org.apache.commons.math4.geometry.euclidean.oned.Cartesian1D" />
+      <Class name="org.apache.commons.math4.geometry.euclidean.twod.Cartesian2D" />
+      <Class name="org.apache.commons.math4.geometry.euclidean.threed.Cartesian3D" />
     </Or>
     <Method name="equals" params="java.lang.Object" returns="boolean" />
     <Bug pattern="FE_FLOATING_POINT_EQUALITY" />

@@ -321,9 +321,9 @@ public abstract class AbstractRegion<S extends Space, T extends Space> implement
      * Region.Location#INSIDE}, {@link Region.Location#OUTSIDE} or
      * {@link Region.Location#BOUNDARY}
      */
-    public Location checkPoint(final Vector<S> point) {
-        return checkPoint((Point<S>) point);
-    }
+//    public Location checkPoint(final Vector<S> point) {
+//        return checkPoint((Point<S>) point);
+//    }
 
     /** {@inheritDoc} */
     @Override
