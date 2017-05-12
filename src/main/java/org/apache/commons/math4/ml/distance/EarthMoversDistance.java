@@ -23,7 +23,7 @@ import org.apache.commons.math4.util.MathArrays;
 /**
  * Calculates the Earh Mover's distance (also known as Wasserstein metric) between two distributions.
  *
- * @see <a href="http://en.wikipedia.org/wiki/Earth_mover's_distance">Earth Mover&apos;s distance (Wikipedia)</a>
+ * @see <a href="http://en.wikipedia.org/wiki/Earth_mover's_distance">Earth Mover's distance (Wikipedia)</a>
  *
  * @since 3.3
  */
