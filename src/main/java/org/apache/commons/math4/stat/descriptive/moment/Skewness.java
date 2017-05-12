@@ -35,7 +35,7 @@ import org.apache.commons.math4.util.MathUtils;
  * where n is the number of values, mean is the {@link Mean} and std is the
  * {@link StandardDeviation} </p>
  * <p>
- * Note that this statistic is undefined for n < 3.  <code>Double.Nan</code>
+ * Note that this statistic is undefined for {@code n < 3}.  <code>Double.Nan</code>
  * is returned when there is not sufficient data to compute the statistic.
  * Double.NaN may also be returned if the input includes NaN and / or
  * infinite values.</p>

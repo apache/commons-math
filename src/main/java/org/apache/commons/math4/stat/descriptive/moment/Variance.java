@@ -276,10 +276,10 @@ public class Variance extends AbstractStorelessUnivariateStatistic implements Se
      * the input array, or <code>Double.NaN</code> if the designated subarray
      * is empty.</p>
      * <p>
-     * Uses the formula <pre>
+     * Uses the formula <div style="white-space: pre"><code>
      *   &Sigma;(weights[i]*(values[i] - weightedMean)<sup>2</sup>)/(&Sigma;(weights[i]) - 1)
-     * </pre>
-     * where weightedMean is the weighted mean</p>
+     * </code></div>
+     * where weightedMean is the weighted mean
      * <p>
      * This formula will not return the same result as the unweighted variance when all
      * weights are equal, unless all weights are equal to 1. The formula assumes that
