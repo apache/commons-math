@@ -27,19 +27,19 @@ public abstract class Vector3D implements Vector<Euclidean3D> {
 
     /** Get the abscissa of the vector.
      * @return abscissa of the vector
-     * @see #Cartesian3D(double, double, double)
+     * @see Cartesian3D#Cartesian3D(double, double, double)
      */
     public abstract double getX();
 
     /** Get the ordinate of the vector.
      * @return ordinate of the vector
-     * @see #Cartesian3D(double, double, double)
+     * @see Cartesian3D#Cartesian3D(double, double, double)
      */
     public abstract double getY();
 
     /** Get the height of the vector.
      * @return height of the vector
-     * @see #Cartesian3D(double, double, double)
+     * @see Cartesian3D#Cartesian3D(double, double, double)
      */
     public abstract double getZ();
 

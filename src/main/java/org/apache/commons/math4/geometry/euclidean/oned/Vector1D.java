@@ -26,7 +26,7 @@ public abstract class Vector1D implements Vector<Euclidean1D> {
 
     /** Get the abscissa of the vector.
      * @return abscissa of the vector
-     * @see #Cartesian1D(double)
+     * @see Cartesian1D#Cartesian1D(double)
      */
     public abstract double getX();
 

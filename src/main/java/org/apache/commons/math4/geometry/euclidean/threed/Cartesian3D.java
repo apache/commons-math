@@ -327,7 +327,7 @@ public class Cartesian3D extends Vector3D implements Serializable, Point<Euclide
      *   Cartesian3D k = u.normalize();
      *   Cartesian3D i = k.orthogonal();
      *   Cartesian3D j = Cartesian3D.crossProduct(k, i);
-     * </code></pre></p>
+     * </code></pre>
      * @return a new normalized vector orthogonal to the instance
      * @exception MathArithmeticException if the norm of the instance is null
      */
