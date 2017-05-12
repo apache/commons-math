@@ -363,12 +363,12 @@ public class RegressionResults implements Serializable {
     }
 
     /**
-     * <p>Returns the adjusted R-squared statistic, defined by the formula <pre>
+     * <p>Returns the adjusted R-squared statistic, defined by the formula <div style="white-space: pre"><code>
      * R<sup>2</sup><sub>adj</sub> = 1 - [SSR (n - 1)] / [SSTO (n - p)]
-     * </pre>
+     * </code></div>
      * where SSR is the sum of squared residuals},
      * SSTO is the total sum of squares}, n is the number
-     * of observations and p is the number of parameters estimated (including the intercept).</p>
+     * of observations and p is the number of parameters estimated (including the intercept).
      *
      * <p>If the regression is estimated without an intercept term, what is returned is <pre>
      * <code> 1 - (1 - {@link #getRSquared()} ) * (n / (n - p)) </code>

@@ -595,7 +595,7 @@ public class MillerUpdatingRegression implements UpdatingMultipleLinearRegressio
      * model, then the usual simple correlations are returned.</p>
      *
      * <p>If IN = 0, the value returned in array CORMAT for the correlation
-     * of variables Xi & Xj is: <pre>
+     * of variables Xi &amp; Xj is: <pre>
      * sum ( Xi.Xj ) / Sqrt ( sum (Xi^2) . sum (Xj^2) )</pre>
      *
      * <p>On return, array CORMAT contains the upper triangle of the matrix of
