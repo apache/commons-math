@@ -146,10 +146,10 @@ public class Product extends AbstractStorelessUnivariateStatistic implements Ser
      *     <li>the start and length arguments do not determine a valid array</li>
      * </ul>
      *
-     * <p>Uses the formula, <pre>
+     * <p>Uses the formula, <div style="white-space: pre"><code>
      *    weighted product = &prod;values[i]<sup>weights[i]</sup>
-     * </pre>
-     * that is, the weights are applied as exponents when computing the weighted product.</p>
+     * </code></div>
+     * that is, the weights are applied as exponents when computing the weighted product.
      *
      * @param values the input array
      * @param weights the weights array
@@ -185,10 +185,10 @@ public class Product extends AbstractStorelessUnivariateStatistic implements Ser
      * </ul>
      *
      * <p>Uses the formula,
-     * <pre>
+     * <div style="white-space: pre"><code>
      *    weighted product = &prod;values[i]<sup>weights[i]</sup>
-     * </pre>
-     * that is, the weights are applied as exponents when computing the weighted product.</p>
+     * </code></div>
+     * that is, the weights are applied as exponents when computing the weighted product.
      *
      * @param values the input array
      * @param weights the weights array
