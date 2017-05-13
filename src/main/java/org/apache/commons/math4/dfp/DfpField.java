@@ -676,6 +676,7 @@ public class DfpField implements Field<Dfp> {
 
     /** Compute ln(a).
      *
+     *  <pre>{@code
      *  Let f(x) = ln(x),
      *
      *  We know that f'(x) = 1/x, thus from Taylor's theorem we have:
@@ -727,6 +728,7 @@ public class DfpField implements Field<Dfp> {
      *  But now we want to find ln(a), so we need to find the value of x
      *  such that a = (x+1)/(x-1).   This is easily solved to find that
      *  x = (a-1)/(a+1).
+     * }</pre>
      * @param a number for which we want the exponential
      * @param one constant with value 1 at desired precision
      * @param two constant with value 2 at desired precision

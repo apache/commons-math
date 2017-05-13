@@ -283,7 +283,8 @@ public class DfpMath {
     }
 
     /** Computes e to the given power.
-     * Where -1 < a < 1.  Use the classic Taylor series.  1 + x**2/2! + x**3/3! + x**4/4!  ...
+     * Where {@code -1 < a < 1}.  Use the classic Taylor series.
+     * {@code 1 + x**2/2! + x**3/3! + x**4/4!  ... }
      * @param a power at which e should be raised
      * @return e<sup>a</sup>
      */
@@ -307,9 +308,9 @@ public class DfpMath {
     }
 
     /** Returns the natural logarithm of a.
-     * a is first split into three parts such that  a = (10000^h)(2^j)k.
-     * ln(a) is computed by ln(a) = ln(5)*h + ln(2)*(h+j) + ln(k)
-     * k is in the range 2/3 < k <4/3 and is passed on to a series expansion.
+     * a is first split into three parts such that {@code a = (10000^h)(2^j)k}.
+     * ln(a) is computed by {@code ln(a) = ln(5)*h + ln(2)*(h+j) + ln(k)}.
+     * k is in the range {@code 2/3 < k <4/3} and is passed on to a series expansion.
      * @param a number from which logarithm is requested
      * @return log(a)
      */
@@ -377,6 +378,7 @@ public class DfpMath {
     }
 
     /** Computes the natural log of a number between 0 and 2.
+     * <pre>{@code
      *  Let f(x) = ln(x),
      *
      *  We know that f'(x) = 1/x, thus from Taylor's theorum we have:
@@ -428,6 +430,7 @@ public class DfpMath {
      *  But now we want to find ln(a), so we need to find the value of x
      *  such that a = (x+1)/(x-1).   This is easily solved to find that
      *  x = (a-1)/(a+1).
+     * }</pre>
      * @param a number from which logarithm is requested, in split form
      * @return log(a)
      */
@@ -463,7 +466,7 @@ public class DfpMath {
 
     /** Computes x to the y power.<p>
      *
-     *  Uses the following method:<p>
+     *  Uses the following method:
      *
      *  <ol>
      *  <li> Set u = rint(y), v = y-u
@@ -472,30 +475,30 @@ public class DfpMath {
      *  <li> Compute c = a - b*ln(2)
      *  <li> x<sup>y</sup> = x<sup>u</sup>  *   2<sup>b</sup> * e<sup>c</sup>
      *  </ol>
-     *  if |y| > 1e8, then we compute by exp(y*ln(x))   <p>
+     *  if {@code |y| > 1e8}, then we compute by {@code exp(y*ln(x))}<p>
      *
-     *  <b>Special Cases</b><p>
+     *  <b>Special Cases</b>
      *  <ul>
      *  <li>  if y is 0.0 or -0.0 then result is 1.0
      *  <li>  if y is 1.0 then result is x
      *  <li>  if y is NaN then result is NaN
      *  <li>  if x is NaN and y is not zero then result is NaN
-     *  <li>  if |x| > 1.0 and y is +Infinity then result is +Infinity
-     *  <li>  if |x| < 1.0 and y is -Infinity then result is +Infinity
-     *  <li>  if |x| > 1.0 and y is -Infinity then result is +0
-     *  <li>  if |x| < 1.0 and y is +Infinity then result is +0
-     *  <li>  if |x| = 1.0 and y is +/-Infinity then result is NaN
-     *  <li>  if x = +0 and y > 0 then result is +0
-     *  <li>  if x = +Inf and y < 0 then result is +0
-     *  <li>  if x = +0 and y < 0 then result is +Inf
-     *  <li>  if x = +Inf and y > 0 then result is +Inf
-     *  <li>  if x = -0 and y > 0, finite, not odd integer then result is +0
-     *  <li>  if x = -0 and y < 0, finite, and odd integer then result is -Inf
-     *  <li>  if x = -Inf and y > 0, finite, and odd integer then result is -Inf
-     *  <li>  if x = -0 and y < 0, not finite odd integer then result is +Inf
-     *  <li>  if x = -Inf and y > 0, not finite odd integer then result is +Inf
-     *  <li>  if x < 0 and y > 0, finite, and odd integer then result is -(|x|<sup>y</sup>)
-     *  <li>  if x < 0 and y > 0, finite, and not integer then result is NaN
+     *  <li>  if {@code |x| > 1.0} and y is +Infinity then result is +Infinity
+     *  <li>  if {@code |x| < 1.0} and y is -Infinity then result is +Infinity
+     *  <li>  if {@code |x| > 1.0} and y is -Infinity then result is +0
+     *  <li>  if {@code |x| < 1.0} and y is +Infinity then result is +0
+     *  <li>  if {@code |x| = 1.0} and y is +/-Infinity then result is NaN
+     *  <li>  if {@code x = +0} and {@code y > 0} then result is +0
+     *  <li>  if {@code x = +Inf} and {@code y < 0} then result is +0
+     *  <li>  if {@code x = +0} and {@code y < 0} then result is +Inf
+     *  <li>  if {@code x = +Inf} and {@code y > 0} then result is +Inf
+     *  <li>  if {@code x = -0} and {@code y > 0}, finite, not odd integer then result is +0
+     *  <li>  if {@code x = -0} and {@code y < 0}, finite, and odd integer then result is -Inf
+     *  <li>  if {@code x = -Inf} and {@code y > 0}, finite, and odd integer then result is -Inf
+     *  <li>  if {@code x = -0} and {@code y < 0}, not finite odd integer then result is +Inf
+     *  <li>  if {@code x = -Inf} and {@code y > 0}, not finite odd integer then result is +Inf
+     *  <li>  if {@code x < 0} and {@code y > 0}, finite, and odd integer then result is -(|x|<sup>y</sup>)
+     *  <li>  if {@code x < 0} and {@code y > 0}, finite, and not integer then result is NaN
      *  </ul>
      *  @param x base to be raised
      *  @param y power to which base should be raised
@@ -661,8 +664,8 @@ public class DfpMath {
 
     }
 
-    /** Computes sin(a)  Used when 0 < a < pi/4.
-     * Uses the classic Taylor series.  x - x**3/3! + x**5/5!  ...
+    /** Computes sin(a)  Used when {@code {@code 0 < a < pi/4}}.
+     * Uses the classic Taylor series.  {@code x - x**3/3! + x**5/5!  ... }
      * @param a number from which sine is desired, in split form
      * @return sin(a)
      */
@@ -691,7 +694,7 @@ public class DfpMath {
 
     }
 
-    /** Computes cos(a)  Used when 0 < a < pi/4.
+    /** Computes cos(a)  Used when {@code 0 < a < pi/4}.
      * Uses the classic Taylor series for cosine.  1 - x**2/2! + x**4/4!  ...
      * @param a number from which cosine is desired, in split form
      * @return cos(a)

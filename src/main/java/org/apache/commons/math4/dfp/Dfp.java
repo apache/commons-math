@@ -51,9 +51,9 @@ import org.apache.commons.math4.util.FastMath;
  *  </ol>
  *
  *  <p>Numbers are represented  in the following form:
- *  <pre>
+ *  <div style="white-space: pre"><code>
  *  n  =  sign &times; mant &times; (radix)<sup>exp</sup>;
- *  </pre>
+ *  </code></div>
  *  where sign is &plusmn;1, mantissa represents a fractional number between
  *  zero and one.  mant[0] is the least significant digit.
  *  exp is in the range of -32767 to 32768
