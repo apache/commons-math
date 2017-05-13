@@ -234,7 +234,7 @@ public class FieldRotation<T extends RealFieldElement<T>> implements Serializabl
      * <p>If the angular separation between u<sub>1</sub> and u<sub>2</sub> is
      * not the same as the angular separation between v<sub>1</sub> and
      * v<sub>2</sub>, then a corrected v'<sub>2</sub> will be used rather than
-     * v<sub>2</sub>, the corrected vector will be in the (&pm;v<sub>1</sub>,
+     * v<sub>2</sub>, the corrected vector will be in the (&plusmn;v<sub>1</sub>,
      * +v<sub>2</sub>) half-plane.</p>
 
      * @param u1 first vector of the origin pair
@@ -1637,9 +1637,9 @@ public class FieldRotation<T extends RealFieldElement<T>> implements Serializabl
      * or very different. It is mathematically defined as the angle of
      * the rotation r that prepended to one of the rotations gives the other
      * one:</p>
-     * <pre>
+     * <div style="white-space: pre"><code>
      *        r<sub>1</sub>(r) = r<sub>2</sub>
-     * </pre>
+     * </code></div>
      * <p>This distance is an angle between 0 and &pi;. Its value is the smallest
      * possible upper bound of the angle in radians between r<sub>1</sub>(v)
      * and r<sub>2</sub>(v) for all possible vectors v. This upper bound is
