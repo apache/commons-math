@@ -50,14 +50,14 @@ import org.apache.commons.numbers.core.Precision;
  *   0    0    0     1     0     0     1     0     3   &lt;= constraint 2
  *   0    0    1     1     0     0     0     1     4   &lt;= constraint 3
  * </pre>
- * W: Phase 1 objective function</br>
- * Z: Phase 2 objective function</br>
- * x1 &amp; x2: Decision variables</br>
- * x-: Extra decision variable to allow for negative values</br>
- * s1 &amp; s2: Slack/Surplus variables</br>
- * a1: Artificial variable</br>
- * RHS: Right hand side</br>
- * </p>
+ * W: Phase 1 objective function<br>
+ * Z: Phase 2 objective function<br>
+ * x1 &amp; x2: Decision variables<br>
+ * x-: Extra decision variable to allow for negative values<br>
+ * s1 &amp; s2: Slack/Surplus variables<br>
+ * a1: Artificial variable<br>
+ * RHS: Right hand side<br>
+ * 
  * @since 2.0
  */
 class SimplexTableau implements Serializable {

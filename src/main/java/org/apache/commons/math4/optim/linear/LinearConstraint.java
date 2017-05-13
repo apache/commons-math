@@ -50,7 +50,7 @@ public class LinearConstraint implements Serializable {
     private static final long serialVersionUID = -764632794033034092L;
     /** Coefficients of the constraint (left hand side). */
     private final transient RealVector coefficients;
-    /** Relationship between left and right hand sides (=, &lt;=, >=). */
+    /** Relationship between left and right hand sides {@code (=, <=, >=)}. */
     private final Relationship relationship;
     /** Value of the constraint (right hand side). */
     private final double value;
