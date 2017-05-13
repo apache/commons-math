@@ -421,7 +421,7 @@ public class SphericalPolygonsSet extends AbstractRegion<Sphere2D, Sphere1D> {
      * <p>
      * This method is intended as a first test to quickly identify points
      * that are guaranteed to be outside of the region, hence performing a full
-     * {@link #checkPoint(org.apache.commons.math4.geometry.Vector) checkPoint}
+     * {@link #checkPoint(org.apache.commons.math4.geometry.Point) checkPoint}
      * only if the point status remains undecided after the quick check. It is
      * is therefore mostly useful to speed up computation for small polygons with
      * complex shapes (say a country boundary on Earth), as the spherical cap will
@@ -429,7 +429,7 @@ public class SphericalPolygonsSet extends AbstractRegion<Sphere2D, Sphere1D> {
      * whereas the full check can be more computing intensive. A typical use case is
      * therefore:
      * </p>
-     * <pre>
+     * <pre>{@code
      *   // compute region, plus an enclosing spherical cap
      *   SphericalPolygonsSet complexShape = ...;
      *   EnclosingBall<Sphere2D, S2Point> cap = complexShape.getEnclosingCap();
@@ -451,7 +451,7 @@ public class SphericalPolygonsSet extends AbstractRegion<Sphere2D, Sphere1D> {
      *     // use l ...
      *
      *   }
-     * </pre>
+     * }</pre>
      * <p>
      * In the special cases of empty or whole sphere polygons, special
      * spherical caps are returned, with angular radius set to negative
