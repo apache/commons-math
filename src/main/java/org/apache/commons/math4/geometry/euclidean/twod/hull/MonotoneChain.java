@@ -44,7 +44,7 @@ import org.apache.commons.numbers.core.Precision;
  * identical and collinear points.
  *
  * @see <a href="http://en.wikibooks.org/wiki/Algorithm_Implementation/Geometry/Convex_hull/Monotone_chain">
- * Andrew&apos;s monotone chain algorithm (Wikibooks)</a>
+ * Andrew's monotone chain algorithm (Wikibooks)</a>
  * @since 3.3
  */
 public class MonotoneChain extends AbstractConvexHullGenerator2D {
