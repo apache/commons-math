@@ -69,7 +69,7 @@ public interface RandomGenerator {
     /**
      * Returns the next pseudorandom, uniformly distributed <code>int</code>
      * value from this random number generator's sequence.
-     * All 2<font size="-1"><sup>32</sup></font> possible {@code int} values
+     * All 2<sup style="font-size: smaller">32</sup> possible {@code int} values
      * should be produced with  (approximately) equal probability.
      *
      * @return the next pseudorandom, uniformly distributed <code>int</code>
@@ -93,7 +93,7 @@ public interface RandomGenerator {
     /**
      * Returns the next pseudorandom, uniformly distributed <code>long</code>
      * value from this random number generator's sequence.  All
-     * 2<font size="-1"><sup>64</sup></font> possible {@code long} values
+     * 2<sup style="font-size: smaller">64</sup> possible {@code long} values
      * should be produced with (approximately) equal probability.
      *
      * @return  the next pseudorandom, uniformly distributed <code>long</code>
