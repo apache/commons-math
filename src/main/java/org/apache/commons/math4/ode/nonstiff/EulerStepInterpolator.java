@@ -35,7 +35,7 @@ import org.apache.commons.math4.ode.sampling.StepInterpolator;
  * </ul>
  *
  * where &theta; belongs to [0 ; 1] and where y' is the evaluation of
- * the derivatives already computed during the step.</p>
+ * the derivatives already computed during the step.
  *
  * @see EulerIntegrator
  * @since 1.2

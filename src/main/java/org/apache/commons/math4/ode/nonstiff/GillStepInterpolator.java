@@ -45,7 +45,7 @@ import org.apache.commons.math4.util.FastMath;
  * </ul>
  * where &theta; belongs to [0 ; 1] and where y'<sub>1</sub> to y'<sub>4</sub>
  * are the four evaluations of the derivatives already computed during
- * the step.</p>
+ * the step.
  *
  * @see GillIntegrator
  * @since 1.2

@@ -38,7 +38,7 @@ import org.apache.commons.math4.ode.FieldODEStateAndDerivative;
  * </ul>
  *
  * where &theta; belongs to [0 ; 1] and where y' is the evaluation of
- * the derivatives already computed during the step.</p>
+ * the derivatives already computed during the step.
  *
  * @see EulerFieldIntegrator
  * @param <T> the type of the field elements

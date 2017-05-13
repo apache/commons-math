@@ -50,7 +50,7 @@ import org.apache.commons.math4.ode.FieldODEStateAndDerivative;
  *
  * where &theta; belongs to [0 ; 1] and where y'<sub>1</sub> to y'<sub>4</sub> are the four
  * evaluations of the derivatives already computed during the
- * step.</p>
+ * step.
  *
  * @see ThreeEighthesFieldIntegrator
  * @param <T> the type of the field elements

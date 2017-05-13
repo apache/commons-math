@@ -37,7 +37,7 @@ import org.apache.commons.math4.ode.sampling.StepInterpolator;
  *
  * where &theta; belongs to [0 ; 1] and where y'<sub>1</sub> and y'<sub>2</sub> are the two
  * evaluations of the derivatives already computed during the
- * step.</p>
+ * step.
  *
  * @see MidpointIntegrator
  * @since 1.2
