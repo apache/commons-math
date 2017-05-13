@@ -46,7 +46,6 @@ import org.apache.commons.math4.util.FastMath;
  * indicates that unless otherwise stated in the code, all FORTRAN functions in
  * this library are license free. Since no such notice appears in the code these
  * functions can safely be ported to Commons-Math.
- * </p>
  */
 public class Beta {
     /** Maximum allowed numerical error. */
@@ -379,7 +378,7 @@ public class Beta {
     }
 
     /**
-     * Returns the value of log B(p, q) for 0 ≤ x ≤ 1 and p, q > 0. Based on the
+     * Returns the value of {@code log B(p, q)} for {@code 0 ≤ x ≤ 1} and {@code p, q > 0}. Based on the
      * <em>NSWC Library of Mathematics Subroutines</em> implementation,
      * {@code DBETLN}.
      *

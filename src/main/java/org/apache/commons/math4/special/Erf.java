@@ -45,7 +45,7 @@ public class Erf {
     /**
      * Returns the error function.
      *
-     * <p>erf(x) = 2/&radic;&pi; <sub>0</sub>&int;<sup>x</sup> e<sup>-t<sup>2</sup></sup>dt </p>
+     * <p>erf(x) = 2/&radic;&pi; <sub>0</sub>&int;<sup>x</sup> e<sup>-t<span style="position: relative; top: -.5em">2</span></sup>dt </p>
      *
      * <p>This implementation computes erf(x) using the
      * {@link Gamma#regularizedGammaP(double, double, double, int) regularized gamma function},
@@ -73,7 +73,7 @@ public class Erf {
     /**
      * Returns the complementary error function.
      *
-     * <p>erfc(x) = 2/&radic;&pi; <sub>x</sub>&int;<sup>&infin;</sup> e<sup>-t<sup>2</sup></sup>dt
+     * <p>erfc(x) = 2/&radic;&pi; <sub>x</sub>&int;<sup>&infin;</sup> e<sup>-t<span style="position: relative; top: -.5em">2</span></sup>dt
      * <br>
      *    = 1 - {@link #erf(double) erf(x)} </p>
      *
