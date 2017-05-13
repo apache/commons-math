@@ -56,7 +56,7 @@
  *    return STOP;
  *  }
  * </pre>
- * </p>
+ * 
  *
  * <p>
  * The second case, change state vector or derivatives is encountered when dealing
@@ -75,7 +75,7 @@
  *    return RESET_DERIVATIVES;
  *  }
  * </pre>
- * </p>
+ * 
  *
  * <p>
  * The third case is useful mainly for monitoring purposes, a simple example is:
@@ -89,8 +89,6 @@
  *    return CONTINUE;
  *  }
  * </pre>
- * </p>
- *
  *
  */
 package org.apache.commons.math4.ode.events;
