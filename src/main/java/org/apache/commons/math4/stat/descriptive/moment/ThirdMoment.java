@@ -33,7 +33,7 @@ import org.apache.commons.math4.util.MathUtils;
  * <li> m2 = previous value of {@link SecondMoment} </li>
  * <li> n = number of observations (including current obs) </li>
  * </ul>
- * Then</p>
+ * Then
  * <p>
  * new value = old value - 3 * (dev/n) * m2 + (n-1) * (n -2) * (dev^3/n^2)</p>
  * <p>

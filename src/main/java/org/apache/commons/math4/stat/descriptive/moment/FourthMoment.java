@@ -38,7 +38,7 @@ import org.apache.commons.math4.util.MathUtils;
  * <li> m2 = previous value of {@link ThirdMoment} </li>
  * <li> n = number of observations (including current obs) </li>
  * </ul>
- * Then </p>
+ * Then
  * <p>
  * new value = old value - 4 * (dev/n) * m3 + 6 * (dev/n)^2 * m2 + <br>
  * [n^2 - 3 * (n-1)] * dev^4 * (n-1) / n^3 </p>
