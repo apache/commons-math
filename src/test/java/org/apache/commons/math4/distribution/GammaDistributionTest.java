@@ -24,7 +24,7 @@ import java.io.InputStreamReader;
 
 import org.apache.commons.math4.distribution.GammaDistribution;
 import org.apache.commons.math4.exception.NotStrictlyPositiveException;
-import org.apache.commons.math4.special.Gamma;
+import org.apache.commons.numbers.gamma.LanczosApproximation;
 import org.apache.commons.math4.stat.descriptive.SummaryStatistics;
 import org.apache.commons.math4.util.FastMath;
 import org.junit.Assert;
@@ -189,8 +189,8 @@ public class GammaDistributionTest extends RealDistributionAbstractTest {
         if (Double.isNaN(x) || (x <= 0.0)) {
             ret = Double.NaN;
         } else {
-            double sum = Gamma.lanczos(x);
-            double tmp = x + Gamma.LANCZOS_G + .5;
+            double sum = LanczosApproximation.value(x);
+            double tmp = x + LanczosApproximation.g() + .5;
             ret = ((x + .5) * FastMath.log(tmp)) - tmp +
                 HALF_LOG_2_PI + FastMath.log(sum / x);
         }

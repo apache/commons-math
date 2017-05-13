@@ -18,7 +18,8 @@ package org.apache.commons.math4.distribution;
 
 import org.apache.commons.math4.exception.NotStrictlyPositiveException;
 import org.apache.commons.math4.exception.util.LocalizedFormats;
-import org.apache.commons.math4.special.Gamma;
+import org.apache.commons.numbers.gamma.LanczosApproximation;
+import org.apache.commons.numbers.gamma.RegularizedGamma;
 import org.apache.commons.math4.util.FastMath;
 import org.apache.commons.rng.UniformRandomProvider;
 import org.apache.commons.rng.sampling.distribution.ContinuousSampler;
@@ -31,6 +32,7 @@ import org.apache.commons.rng.sampling.distribution.AhrensDieterMarsagliaTsangGa
  * @see <a href="http://mathworld.wolfram.com/GammaDistribution.html">Gamma distribution (MathWorld)</a>
  */
 public class GammaDistribution extends AbstractRealDistribution {
+    private static final double LANCZOS_G = LanczosApproximation.g();
     /**
      * Default inverse cumulative probability accuracy.
      * @since 2.1
@@ -44,7 +46,7 @@ public class GammaDistribution extends AbstractRealDistribution {
     private final double scale;
     /**
      * The constant value of {@code shape + g + 0.5}, where {@code g} is the
-     * Lanczos constant {@link Gamma#LANCZOS_G}.
+     * Lanczos constant {@link LanczosApproximation#g()}.
      */
     private final double shiftedShape;
     /**
@@ -136,18 +138,18 @@ public class GammaDistribution extends AbstractRealDistribution {
         this.shape = shape;
         this.scale = scale;
         this.solverAbsoluteAccuracy = inverseCumAccuracy;
-        this.shiftedShape = shape + Gamma.LANCZOS_G + 0.5;
+        this.shiftedShape = shape + LANCZOS_G + 0.5;
         final double aux = FastMath.E / (2.0 * FastMath.PI * shiftedShape);
-        this.densityPrefactor2 = shape * FastMath.sqrt(aux) / Gamma.lanczos(shape);
+        this.densityPrefactor2 = shape * FastMath.sqrt(aux) / LanczosApproximation.value(shape);
         this.logDensityPrefactor2 = FastMath.log(shape) + 0.5 * FastMath.log(aux) -
-                                    FastMath.log(Gamma.lanczos(shape));
+                                    FastMath.log(LanczosApproximation.value(shape));
         this.densityPrefactor1 = this.densityPrefactor2 / scale *
                 FastMath.pow(shiftedShape, -shape) *
-                FastMath.exp(shape + Gamma.LANCZOS_G);
+                FastMath.exp(shape + LANCZOS_G);
         this.logDensityPrefactor1 = this.logDensityPrefactor2 - FastMath.log(scale) -
                 FastMath.log(shiftedShape) * shape +
-                shape + Gamma.LANCZOS_G;
-        this.minY = shape + Gamma.LANCZOS_G - FastMath.log(Double.MAX_VALUE);
+                shape + LANCZOS_G;
+        this.minY = shape + LANCZOS_G - FastMath.log(Double.MAX_VALUE);
         this.maxLogY = FastMath.log(Double.MAX_VALUE) / (shape - 1.0);
     }
 
@@ -222,8 +224,7 @@ public class GammaDistribution extends AbstractRealDistribution {
              */
             final double aux1 = (y - shiftedShape) / shiftedShape;
             final double aux2 = shape * (FastMath.log1p(aux1) - aux1);
-            final double aux3 = -y * (Gamma.LANCZOS_G + 0.5) / shiftedShape +
-                    Gamma.LANCZOS_G + aux2;
+            final double aux3 = -y * (LANCZOS_G + 0.5) / shiftedShape + LANCZOS_G + aux2;
             return densityPrefactor2 / x * FastMath.exp(aux3);
         }
         /*
@@ -248,8 +249,7 @@ public class GammaDistribution extends AbstractRealDistribution {
              */
             final double aux1 = (y - shiftedShape) / shiftedShape;
             final double aux2 = shape * (FastMath.log1p(aux1) - aux1);
-            final double aux3 = -y * (Gamma.LANCZOS_G + 0.5) / shiftedShape +
-                    Gamma.LANCZOS_G + aux2;
+            final double aux3 = -y * (LANCZOS_G + 0.5) / shiftedShape + LANCZOS_G + aux2;
             return logDensityPrefactor2 - FastMath.log(x) + aux3;
         }
         /*
@@ -279,7 +279,7 @@ public class GammaDistribution extends AbstractRealDistribution {
         if (x <= 0) {
             ret = 0;
         } else {
-            ret = Gamma.regularizedGammaP(shape, x / scale);
+            ret = RegularizedGamma.P.value(shape, x / scale);
         }
 
         return ret;

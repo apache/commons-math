@@ -17,11 +17,11 @@
 package org.apache.commons.math4.special;
 
 import org.apache.commons.math4.util.FastMath;
+import org.apache.commons.numbers.gamma.RegularizedGamma;
 
 /**
  * This is a utility class that provides computation methods related to the
  * error functions.
- *
  */
 public class Erf {
 
@@ -48,7 +48,7 @@ public class Erf {
      * <p>erf(x) = 2/&radic;&pi; <sub>0</sub>&int;<sup>x</sup> e<sup>-t<span style="position: relative; top: -.5em">2</span></sup>dt </p>
      *
      * <p>This implementation computes erf(x) using the
-     * {@link Gamma#regularizedGammaP(double, double, double, int) regularized gamma function},
+     * {@link RegularizedGamma.P.value(double, double, double, int) regularized gamma function},
      * following <a href="http://mathworld.wolfram.com/Erf.html"> Erf</a>, equation (3)</p>
      *
      * <p>The value returned is always between -1 and 1 (inclusive).
@@ -60,13 +60,13 @@ public class Erf {
      * @return the error function erf(x)
      * @throws org.apache.commons.math4.exception.MaxCountExceededException
      * if the algorithm fails to converge.
-     * @see Gamma#regularizedGammaP(double, double, double, int)
+     * @see RegularizedGamma.P#value(double, double, double, int)
      */
     public static double erf(double x) {
         if (FastMath.abs(x) > 40) {
             return x > 0 ? 1 : -1;
         }
-        final double ret = Gamma.regularizedGammaP(0.5, x * x, 1.0e-15, 10000);
+        final double ret = RegularizedGamma.P.value(0.5, x * x, 1.0e-15, 10000);
         return x < 0 ? -ret : ret;
     }
 
@@ -78,7 +78,7 @@ public class Erf {
      *    = 1 - {@link #erf(double) erf(x)} </p>
      *
      * <p>This implementation computes erfc(x) using the
-     * {@link Gamma#regularizedGammaQ(double, double, double, int) regularized gamma function},
+     * {@link RegularizedGamma.Q#value(double, double, double, int) regularized gamma function},
      * following <a href="http://mathworld.wolfram.com/Erf.html"> Erf</a>, equation (3).</p>
      *
      * <p>The value returned is always between 0 and 2 (inclusive).
@@ -90,14 +90,14 @@ public class Erf {
      * @return the complementary error function erfc(x)
      * @throws org.apache.commons.math4.exception.MaxCountExceededException
      * if the algorithm fails to converge.
-     * @see Gamma#regularizedGammaQ(double, double, double, int)
+     * @see RegularizedGamma.Q#value(double, double, double, int)
      * @since 2.2
      */
     public static double erfc(double x) {
         if (FastMath.abs(x) > 40) {
             return x > 0 ? 0 : 2;
         }
-        final double ret = Gamma.regularizedGammaQ(0.5, x * x, 1.0e-15, 10000);
+        final double ret = RegularizedGamma.Q.value(0.5, x * x, 1.0e-15, 10000);
         return x < 0 ? 2 - ret : ret;
     }
 

@@ -17,7 +17,7 @@
 package org.apache.commons.math4.analysis.integration.gauss;
 
 import org.apache.commons.math4.analysis.UnivariateFunction;
-import org.apache.commons.math4.special.Gamma;
+import org.apache.commons.numbers.gamma.Gamma;
 import org.apache.commons.math4.util.FastMath;
 import org.junit.Assert;
 import org.junit.Test;
@@ -44,7 +44,7 @@ public class LaguerreTest {
 
             final GaussIntegrator integrator = factory.laguerre(7);
             final double s = integrator.integrate(f);
-            Assert.assertEquals(1d, Gamma.gamma(t) / s, tol);
+            Assert.assertEquals(1d, Gamma.value(t) / s, tol);
         }
     }
 }

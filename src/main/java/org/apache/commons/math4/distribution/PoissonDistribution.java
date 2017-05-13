@@ -18,7 +18,7 @@ package org.apache.commons.math4.distribution;
 
 import org.apache.commons.math4.exception.NotStrictlyPositiveException;
 import org.apache.commons.math4.exception.util.LocalizedFormats;
-import org.apache.commons.math4.special.Gamma;
+import org.apache.commons.numbers.gamma.RegularizedGamma;
 import org.apache.commons.math4.util.FastMath;
 import org.apache.commons.math4.util.MathUtils;
 import org.apache.commons.rng.UniformRandomProvider;
@@ -52,9 +52,9 @@ public class PoissonDistribution extends AbstractIntegerDistribution {
     /**
      * Maximum number of iterations for cumulative probability. Cumulative
      * probabilities are estimated using either Lanczos series approximation
-     * of {@link Gamma#regularizedGammaP(double, double, double, int)}
+     * of {@link RegularizedGamma.P#value(double, double, double, int)}
      * or continued fraction approximation of
-     * {@link Gamma#regularizedGammaQ(double, double, double, int)}.
+     * {@link RegularizedGamma.Q#value(double, double, double, int)}.
      */
     private final int maxIterations;
 
@@ -166,8 +166,8 @@ public class PoissonDistribution extends AbstractIntegerDistribution {
         if (x == Integer.MAX_VALUE) {
             return 1;
         }
-        return Gamma.regularizedGammaQ((double) x + 1, mean, epsilon,
-                                       maxIterations);
+        return RegularizedGamma.Q.value((double) x + 1, mean, epsilon,
+                                        maxIterations);
     }
 
     /**

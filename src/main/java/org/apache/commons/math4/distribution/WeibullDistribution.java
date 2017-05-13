@@ -20,7 +20,7 @@ package org.apache.commons.math4.distribution;
 import org.apache.commons.math4.exception.NotStrictlyPositiveException;
 import org.apache.commons.math4.exception.OutOfRangeException;
 import org.apache.commons.math4.exception.util.LocalizedFormats;
-import org.apache.commons.math4.special.Gamma;
+import org.apache.commons.numbers.gamma.LogGamma;
 import org.apache.commons.math4.util.FastMath;
 
 /**
@@ -224,7 +224,7 @@ public class WeibullDistribution extends AbstractRealDistribution {
         final double sh = getShape();
         final double sc = getScale();
 
-        return sc * FastMath.exp(Gamma.logGamma(1 + (1 / sh)));
+        return sc * FastMath.exp(LogGamma.value(1 + (1 / sh)));
     }
 
     /**
@@ -252,7 +252,7 @@ public class WeibullDistribution extends AbstractRealDistribution {
         final double sc = getScale();
         final double mn = getNumericalMean();
 
-        return (sc * sc) * FastMath.exp(Gamma.logGamma(1 + (2 / sh))) -
+        return (sc * sc) * FastMath.exp(LogGamma.value(1 + (2 / sh))) -
                (mn * mn);
     }
 

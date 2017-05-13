@@ -19,7 +19,7 @@ package org.apache.commons.math4.distribution;
 import org.apache.commons.math4.exception.NotStrictlyPositiveException;
 import org.apache.commons.math4.exception.util.LocalizedFormats;
 import org.apache.commons.math4.special.Beta;
-import org.apache.commons.math4.special.Gamma;
+import org.apache.commons.numbers.gamma.LogGamma;
 import org.apache.commons.math4.util.FastMath;
 
 /**
@@ -75,9 +75,9 @@ public class TDistribution extends AbstractRealDistribution {
 
         final double n = degreesOfFreedom;
         final double nPlus1Over2 = (n + 1) / 2;
-        factor = Gamma.logGamma(nPlus1Over2) -
+        factor = LogGamma.value(nPlus1Over2) -
                  0.5 * (FastMath.log(FastMath.PI) + FastMath.log(n)) -
-                 Gamma.logGamma(n / 2);
+                 LogGamma.value(n / 2);
     }
 
     /**

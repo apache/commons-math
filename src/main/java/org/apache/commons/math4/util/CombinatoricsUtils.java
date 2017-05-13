@@ -24,7 +24,7 @@ import org.apache.commons.math4.exception.MathArithmeticException;
 import org.apache.commons.math4.exception.NotPositiveException;
 import org.apache.commons.math4.exception.NumberIsTooLargeException;
 import org.apache.commons.math4.exception.util.LocalizedFormats;
-import org.apache.commons.math4.special.Gamma;
+import org.apache.commons.numbers.gamma.LogGamma;
 
 /**
  * Combinatorial utilities.
@@ -462,8 +462,8 @@ public final class CombinatoricsUtils {
     /**
      * Class for computing the natural logarithm of the factorial of {@code n}.
      * It allows to allocate a cache of precomputed values.
-     * In case of cache miss, computation is preformed by a call to
-     * {@link Gamma#logGamma(double)}.
+     * In case of cache miss, computation is performed by a call to
+     * {@link LogGamma#value(double)}.
      */
     public static final class FactorialLog {
         /**
@@ -547,7 +547,7 @@ public final class CombinatoricsUtils {
             }
 
             // Delegate.
-            return Gamma.logGamma(n + 1);
+            return LogGamma.value(n + 1);
         }
     }
 }

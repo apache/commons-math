@@ -17,6 +17,7 @@
 
 package org.apache.commons.math4.special;
 
+import org.apache.commons.numbers.gamma.Gamma;
 import org.apache.commons.math4.analysis.UnivariateFunction;
 import org.apache.commons.math4.exception.ConvergenceException;
 import org.apache.commons.math4.exception.MathIllegalArgumentException;
@@ -283,7 +284,7 @@ public class BesselJ
                 }
                 if (alpha != 0) {
                     tempa = FastMath.pow(halfx, alpha) /
-                            (alpha * Gamma.gamma(alpha));
+                            (alpha * Gamma.value(alpha));
                 }
                 tempb = 0;
                 if (x + 1 > 1) {
@@ -620,7 +621,7 @@ public class BesselJ
                 // ---------------------------------------------------------------------
 
                 if (FastMath.abs(alpha) > 1e-16) {
-                    sum *= Gamma.gamma(alpha) * FastMath.pow(x * 0.5, -alpha);
+                    sum *= Gamma.value(alpha) * FastMath.pow(x * 0.5, -alpha);
                 }
                 tempa = ENMTEN;
                 if (sum > 1) {

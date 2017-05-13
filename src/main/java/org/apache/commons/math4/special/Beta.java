@@ -16,6 +16,8 @@
  */
 package org.apache.commons.math4.special;
 
+import org.apache.commons.numbers.gamma.Gamma;
+import org.apache.commons.numbers.gamma.LogGamma;
 import org.apache.commons.math4.exception.NumberIsTooSmallException;
 import org.apache.commons.math4.exception.OutOfRangeException;
 import org.apache.commons.math4.util.ContinuedFraction;
@@ -249,11 +251,11 @@ public class Beta {
 
         final double x = (a - 1.0) + (b - 1.0);
         if (x <= 0.5) {
-            return Gamma.logGamma1p(1.0 + x);
+            return org.apache.commons.math4.special.Gamma.logGamma1p(1.0 + x);
         } else if (x <= 1.5) {
-            return Gamma.logGamma1p(x) + FastMath.log1p(x);
+            return org.apache.commons.math4.special.Gamma.logGamma1p(x) + FastMath.log1p(x);
         } else {
-            return Gamma.logGamma1p(x - 1.0) + FastMath.log(x * (1.0 + x));
+            return org.apache.commons.math4.special.Gamma.logGamma1p(x - 1.0) + FastMath.log(x * (1.0 + x));
         }
     }
 
@@ -415,7 +417,7 @@ public class Beta {
                     prod *= ared / (1.0 + ared / b);
                 }
                 return (FastMath.log(prod) - n * FastMath.log(b)) +
-                        (Gamma.logGamma(ared) +
+                        (LogGamma.value(ared) +
                          logGammaMinusLogGammaSum(ared, b));
             } else {
                 double prod1 = 1.0;
@@ -434,12 +436,12 @@ public class Beta {
                     }
                     return FastMath.log(prod1) +
                            FastMath.log(prod2) +
-                           (Gamma.logGamma(ared) +
-                           (Gamma.logGamma(bred) -
+                           (LogGamma.value(ared) +
+                           (LogGamma.value(bred) -
                             logGammaSum(ared, bred)));
                 } else {
                     return FastMath.log(prod1) +
-                           Gamma.logGamma(ared) +
+                           LogGamma.value(ared) +
                            logGammaMinusLogGammaSum(ared, b);
                 }
             }
@@ -453,29 +455,29 @@ public class Beta {
                         prod *= bred / (a + bred);
                     }
                     return FastMath.log(prod) +
-                           (Gamma.logGamma(a) +
-                            (Gamma.logGamma(bred) -
+                           (LogGamma.value(a) +
+                            (LogGamma.value(bred) -
                              logGammaSum(a, bred)));
                 } else {
-                    return Gamma.logGamma(a) +
+                    return LogGamma.value(a) +
                            logGammaMinusLogGammaSum(a, b);
                 }
             } else {
-                return Gamma.logGamma(a) +
-                       Gamma.logGamma(b) -
+                return LogGamma.value(a) +
+                       LogGamma.value(b) -
                        logGammaSum(a, b);
             }
         } else {
             if (b >= 10.0) {
-                return Gamma.logGamma(a) +
+                return LogGamma.value(a) +
                        logGammaMinusLogGammaSum(a, b);
             } else {
                 // The following command is the original NSWC implementation.
-                // return Gamma.logGamma(a) +
-                // (Gamma.logGamma(b) - Gamma.logGamma(a + b));
+                // return LogGamma.value(a) +
+                // (LogGamma.value(b) - LogGamma.value(a + b));
                 // The following command turns out to be more accurate.
-                return FastMath.log(Gamma.gamma(a) * Gamma.gamma(b) /
-                                    Gamma.gamma(a + b));
+                return FastMath.log(Gamma.value(a) * Gamma.value(b) /
+                                    Gamma.value(a + b));
             }
         }
     }

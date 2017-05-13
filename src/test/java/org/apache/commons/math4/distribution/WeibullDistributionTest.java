@@ -19,7 +19,7 @@ package org.apache.commons.math4.distribution;
 
 import org.apache.commons.math4.distribution.WeibullDistribution;
 import org.apache.commons.math4.exception.NotStrictlyPositiveException;
-import org.apache.commons.math4.special.Gamma;
+import org.apache.commons.numbers.gamma.LogGamma;
 import org.apache.commons.math4.util.FastMath;
 import org.junit.Assert;
 import org.junit.Test;
@@ -112,15 +112,15 @@ public class WeibullDistributionTest extends RealDistributionAbstractTest {
 
         dist = new WeibullDistribution(2.5, 3.5);
         // In R: 3.5*gamma(1+(1/2.5)) (or emperically: mean(rweibull(10000, 2.5, 3.5)))
-        Assert.assertEquals(dist.getNumericalMean(), 3.5 * FastMath.exp(Gamma.logGamma(1 + (1 / 2.5))), tol);
+        Assert.assertEquals(dist.getNumericalMean(), 3.5 * FastMath.exp(LogGamma.value(1 + (1 / 2.5))), tol);
         Assert.assertEquals(dist.getNumericalVariance(), (3.5 * 3.5) *
-                FastMath.exp(Gamma.logGamma(1 + (2 / 2.5))) -
+                FastMath.exp(LogGamma.value(1 + (2 / 2.5))) -
                 (dist.getNumericalMean() * dist.getNumericalMean()), tol);
 
         dist = new WeibullDistribution(10.4, 2.222);
-        Assert.assertEquals(dist.getNumericalMean(), 2.222 * FastMath.exp(Gamma.logGamma(1 + (1 / 10.4))), tol);
+        Assert.assertEquals(dist.getNumericalMean(), 2.222 * FastMath.exp(LogGamma.value(1 + (1 / 10.4))), tol);
         Assert.assertEquals(dist.getNumericalVariance(), (2.222 * 2.222) *
-                FastMath.exp(Gamma.logGamma(1 + (2 / 10.4))) -
+                FastMath.exp(LogGamma.value(1 + (2 / 10.4))) -
                 (dist.getNumericalMean() * dist.getNumericalMean()), tol);
     }
 }

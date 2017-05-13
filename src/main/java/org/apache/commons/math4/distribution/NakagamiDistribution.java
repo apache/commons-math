@@ -19,7 +19,8 @@ package org.apache.commons.math4.distribution;
 import org.apache.commons.math4.exception.NotStrictlyPositiveException;
 import org.apache.commons.math4.exception.NumberIsTooSmallException;
 import org.apache.commons.math4.exception.util.LocalizedFormats;
-import org.apache.commons.math4.special.Gamma;
+import org.apache.commons.numbers.gamma.Gamma;
+import org.apache.commons.numbers.gamma.RegularizedGamma;
 import org.apache.commons.math4.util.FastMath;
 
 /**
@@ -112,26 +113,26 @@ public class NakagamiDistribution extends AbstractRealDistribution {
         if (x <= 0) {
             return 0.0;
         }
-        return 2.0 * FastMath.pow(mu, mu) / (Gamma.gamma(mu) * FastMath.pow(omega, mu)) *
+        return 2.0 * FastMath.pow(mu, mu) / (Gamma.value(mu) * FastMath.pow(omega, mu)) *
                      FastMath.pow(x, 2 * mu - 1) * FastMath.exp(-mu * x * x / omega);
     }
 
     /** {@inheritDoc} */
     @Override
     public double cumulativeProbability(double x) {
-        return Gamma.regularizedGammaP(mu, mu * x * x / omega);
+        return RegularizedGamma.P.value(mu, mu * x * x / omega);
     }
 
     /** {@inheritDoc} */
     @Override
     public double getNumericalMean() {
-        return Gamma.gamma(mu + 0.5) / Gamma.gamma(mu) * FastMath.sqrt(omega / mu);
+        return Gamma.value(mu + 0.5) / Gamma.value(mu) * FastMath.sqrt(omega / mu);
     }
 
     /** {@inheritDoc} */
     @Override
     public double getNumericalVariance() {
-        double v = Gamma.gamma(mu + 0.5) / Gamma.gamma(mu);
+        double v = Gamma.value(mu + 0.5) / Gamma.value(mu);
         return omega * (1 - 1 / mu * v * v);
     }
 

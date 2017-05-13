@@ -19,7 +19,7 @@ package org.apache.commons.math4.distribution;
 import org.apache.commons.math4.exception.NumberIsTooSmallException;
 import org.apache.commons.math4.exception.util.LocalizedFormats;
 import org.apache.commons.math4.special.Beta;
-import org.apache.commons.math4.special.Gamma;
+import org.apache.commons.numbers.gamma.LogGamma;
 import org.apache.commons.math4.util.FastMath;
 import org.apache.commons.rng.UniformRandomProvider;
 import org.apache.commons.rng.sampling.distribution.ContinuousSampler;
@@ -74,7 +74,7 @@ public class BetaDistribution extends AbstractRealDistribution {
                             double inverseCumAccuracy) {
         this.alpha = alpha;
         this.beta = beta;
-        z = Gamma.logGamma(alpha) + Gamma.logGamma(beta) - Gamma.logGamma(alpha + beta);
+        z = LogGamma.value(alpha) + LogGamma.value(beta) - LogGamma.value(alpha + beta);
         solverAbsoluteAccuracy = inverseCumAccuracy;
     }
 

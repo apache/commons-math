@@ -16,7 +16,7 @@
  */
 package org.apache.commons.math4.distribution;
 
-import org.apache.commons.math4.special.Gamma;
+import org.apache.commons.numbers.gamma.LogGamma;
 import org.apache.commons.math4.util.FastMath;
 import org.apache.commons.math4.util.MathUtils;
 
@@ -110,7 +110,7 @@ final class SaddlePointExpansion {
             if (FastMath.floor(z2) == z2) {
                 ret = EXACT_STIRLING_ERRORS[(int) z2];
             } else {
-                ret = Gamma.logGamma(z + 1.0) - (z + 0.5) * FastMath.log(z) +
+                ret = LogGamma.value(z + 1.0) - (z + 0.5) * FastMath.log(z) +
                       z - HALF_LOG_2_PI;
             }
         } else {

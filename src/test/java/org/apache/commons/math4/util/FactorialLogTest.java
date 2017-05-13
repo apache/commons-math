@@ -17,7 +17,7 @@
 package org.apache.commons.math4.util;
 
 import org.apache.commons.math4.exception.NotPositiveException;
-import org.apache.commons.math4.special.Gamma;
+import org.apache.commons.numbers.gamma.LogGamma;
 
 import org.junit.Assert;
 import org.junit.Test;
@@ -43,9 +43,9 @@ public class FactorialLogTest {
         final CombinatoricsUtils.FactorialLog f = CombinatoricsUtils.FactorialLog.create();
 
         // Starting at 21 because for smaller arguments, there is no delegation to the
-        // "Gamma" class.
+        // "LogGamma" class.
         for (int i = 21; i < 10000; i++) {
-            final double expected = Gamma.logGamma(i + 1);
+            final double expected = LogGamma.value(i + 1);
             Assert.assertEquals(i + "! ",
                                 expected, f.value(i), 0d);
         }
