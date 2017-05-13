@@ -60,7 +60,7 @@ import org.apache.commons.math4.util.MathUtils;
  * Applications can use <code>EmpiricalDistribution</code> to build grouped
  * frequency histograms representing the input data or to generate random values
  * "like" those in the input file -- i.e., the values generated will follow the
- * distribution of the values in the file.</p>
+ * distribution of the values in the file.
  *
  * <p>The implementation uses what amounts to the
  * <a href="http://nedwww.ipac.caltech.edu/level5/March02/Silverman/Silver2_6.html">
@@ -83,10 +83,10 @@ import org.apache.commons.math4.util.MathUtils;
  * be the bin containing x and let K be the within-bin kernel for B.  Let P(B-)
  * be the sum of the probabilities of the bins below B and let K(B) be the
  * mass of B under K (i.e., the integral of the kernel density over B).  Then
- * set P(X < x) = P(B-) + P(B) * K(x) / K(B) where K(x) is the kernel distribution
- * evaluated at x. This results in a cdf that matches the grouped frequency
- * distribution at the bin endpoints and interpolates within bins using
- * within-bin kernels.</p>
+ * set {@code P(X < x) = P(B-) + P(B) * K(x) / K(B)} where {@code K(x)} is the
+ * kernel distribution evaluated at x. This results in a cdf that matches the
+ * grouped frequency distribution at the bin endpoints and interpolates within
+ * bins using within-bin kernels.</p>
  *
  *<strong>USAGE NOTES:</strong><ul>
  *<li>The <code>binCount</code> is set by default to 1000.  A good rule of thumb
@@ -532,7 +532,7 @@ public class EmpiricalDistribution extends AbstractRealDistribution {
      * <li>Return P(B-) + P(B) * [K(x) - K(B-)] / K(B) where
      * K(x) is the within-bin kernel distribution function evaluated at x.</li></ol>
      * If K is a constant distribution, we return P(B-) + P(B) (counting the full
-     * mass of B).</p>
+     * mass of B).
      *
      * @since 3.1
      */

@@ -57,9 +57,9 @@ public class LevyDistribution extends AbstractRealDistribution {
     * From Wikipedia: The probability density function of the L&eacute;vy distribution
     * over the domain is
     * </p>
-    * <pre>
+    * <div style="white-space: pre"><code>
     * f(x; &mu;, c) = &radic;(c / 2&pi;) * e<sup>-c / 2 (x - &mu;)</sup> / (x - &mu;)<sup>3/2</sup>
-    * </pre>
+    * </code></div>
     * <p>
     * For this distribution, {@code X}, this method returns {@code P(X < x)}.
     * If {@code x} is less than location parameter &mu;, {@code Double.NaN} is

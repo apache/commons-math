@@ -39,7 +39,7 @@ import org.apache.commons.rng.sampling.distribution.RejectionInversionZipfSample
  * <li>{@code N} is the number of elements</li>
  * <li>{@code s} is the exponent</li>
  * </ul>
- * @see <a href="https://en.wikipedia.org/wiki/Zipf's_law">Zipf&apos;s law (Wikipedia)</a>
+ * @see <a href="https://en.wikipedia.org/wiki/Zipf's_law">Zipf's law (Wikipedia)</a>
  * @see <a href="https://en.wikipedia.org/wiki/Harmonic_number#Generalized_harmonic_numbers">Generalized harmonic numbers</a>
  */
 public class ZipfDistribution extends AbstractIntegerDistribution {

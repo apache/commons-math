@@ -267,7 +267,7 @@ public class GammaDistribution extends AbstractRealDistribution {
      *   <a href="http://mathworld.wolfram.com/Chi-SquaredDistribution.html">
      *    Chi-Squared Distribution</a>, equation (9).
      *  </li>
-     *  <li>Casella, G., & Berger, R. (1990). <i>Statistical Inference</i>.
+     *  <li>Casella, G., &amp; Berger, R. (1990). <i>Statistical Inference</i>.
      *    Belmont, CA: Duxbury Press.
      *  </li>
      * </ul>

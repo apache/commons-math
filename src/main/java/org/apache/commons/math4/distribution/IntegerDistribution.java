@@ -84,8 +84,8 @@ public interface IntegerDistribution {
      * For a random variable {@code X} distributed according to this distribution,
      * the returned value is
      * <ul>
-     * <li><code>inf{x in Z | P(X<=x) >= p}</code> for {@code 0 < p <= 1},</li>
-     * <li><code>inf{x in Z | P(X<=x) > 0}</code> for {@code p = 0}.</li>
+     * <li>{@code inf{x in Z | P(X<=x) >= p}} for {@code 0 < p <= 1},</li>
+     * <li>{@code inf{x in Z | P(X<=x) > 0}} for {@code p = 0}.</li>
      * </ul>
      * If the result exceeds the range of the data type {@code int},
      * then {@code Integer.MIN_VALUE} or {@code Integer.MAX_VALUE} is returned.
@@ -118,7 +118,7 @@ public interface IntegerDistribution {
      * Access the lower bound of the support. This method must return the same
      * value as {@code inverseCumulativeProbability(0)}. In other words, this
      * method must return
-     * <p><code>inf {x in Z | P(X <= x) > 0}</code>.</p>
+     * <p>{@code inf {x in Z | P(X <= x) > 0}}.</p>
      *
      * @return lower bound of the support ({@code Integer.MIN_VALUE}
      * for negative infinity)
@@ -129,7 +129,7 @@ public interface IntegerDistribution {
      * Access the upper bound of the support. This method must return the same
      * value as {@code inverseCumulativeProbability(1)}. In other words, this
      * method must return
-     * <p><code>inf {x in R | P(X <= x) = 1}</code>.</p>
+     * <p>{@code inf {x in R | P(X <= x) = 1}}.</p>
      *
      * @return upper bound of the support ({@code Integer.MAX_VALUE}
      * for positive infinity)

@@ -41,7 +41,7 @@ import org.apache.commons.math4.util.Pair;
  * but zero values are allowed and their sum does not have to equal one. Constructors will normalize input
  * probabilities to make them sum to one.</p>
  *
- * <p>The list of <value, probability> pairs does not, strictly speaking, have to be a function and it can
+ * <p>The list of &lt;value, probability&gt; pairs does not, strictly speaking, have to be a function and it can
  * contain null values.  The pmf created by the constructor will combine probabilities of equal values and
  * will treat null values as equal.  For example, if the list of pairs &lt;"dog", 0.2&gt;, &lt;null, 0.1&gt;,
  * &lt;"pig", 0.2&gt;, &lt;"dog", 0.1&gt;, &lt;null, 0.4&gt; is provided to the constructor, the resulting
@@ -139,7 +139,7 @@ public class EnumeratedDistribution<T> implements Serializable {
     }
 
     /**
-     * <p>Return the probability mass function as a list of <value, probability> pairs.</p>
+     * <p>Return the probability mass function as a list of &lt;value, probability&gt; pairs.</p>
      *
      * <p>Note that if duplicate and / or null values were provided to the constructor
      * when creating this EnumeratedDistribution, the returned list will contain these
