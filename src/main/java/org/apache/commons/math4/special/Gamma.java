@@ -47,7 +47,6 @@ import org.apache.commons.math4.util.FastMath;
  * indicates that unless otherwise stated in the code, all FORTRAN functions in
  * this library are license free. Since no such notice appears in the code these
  * functions can safely be ported to Commons-Math.
- * </p>
  *
  */
 public class Gamma {
@@ -435,14 +434,14 @@ public class Gamma {
      *
      * <p>Some of the constants have been changed to increase accuracy at the moderate
      * expense of run-time.  The result should be accurate to within \( 10^{-8} \)
-     * relative tolerance for \( 0 < x < 10^{-5} \) and within \( 10^{-8} \) absolute
+     * relative tolerance for \( 0 \le x \le 10^{-5} \) and within \( 10^{-8} \) absolute
      * tolerance otherwise.</p>
      *
      * @param x Argument.
      * @return digamma(x) to within \( 10^{-8} \) relative or absolute error whichever is larger.
      *
      * @see <a href="http://en.wikipedia.org/wiki/Digamma_function">Digamma</a>
-     * @see <a href="http://www.uv.es/~bernardo/1976AppStatist.pdf">Bernardo&apos;s original article</a>
+     * @see <a href="http://www.uv.es/~bernardo/1976AppStatist.pdf">Bernardo's original article</a>
      *
      * @since 2.0
      */

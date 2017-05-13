@@ -41,7 +41,6 @@ import org.apache.commons.math4.exception.util.LocalizedFormats;
  * The indices that form a cycle are then used to form the children in alternating order, i.e.
  * in cycle 1, the genes of parent 1 are copied to child 1, while in cycle 2 the genes of parent 1
  * are copied to child 2, and so forth ...
- * </p>
  *
  * Example (zero-start cycle):
  * <pre>

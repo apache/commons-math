@@ -128,7 +128,7 @@ public class GeneticAlgorithm {
      * <ol>
      *  <li>Get nextGeneration population to fill from <code>current</code>
      *      generation, using its nextGeneration method</li>
-     *  <li>Loop until new generation is filled:</li>
+     *  <li>Loop until new generation is filled:
      *  <ul><li>Apply configured SelectionPolicy to select a pair of parents
      *          from <code>current</code></li>
      *      <li>With probability = {@link #getCrossoverRate()}, apply
@@ -137,7 +137,7 @@ public class GeneticAlgorithm {
      *          configured {@link MutationPolicy} to each of the offspring</li>
      *      <li>Add offspring individually to nextGeneration,
      *          space permitting</li>
-     *  </ul>
+     *  </ul></li>
      *  <li>Return nextGeneration</li>
      * </ol>
      *

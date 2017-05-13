@@ -249,7 +249,7 @@ public abstract class RandomKey<T> extends AbstractListChromosome<Double> implem
      * @param originalData the original, unpermuted data
      * @param permutedData the data, somehow permuted
      * @return representation of a permutation corresponding to the permutation
-     *   <code>originalData -> permutedData</code>
+     *   {@code originalData -> permutedData}
      * @throws DimensionMismatchException iff the length of <code>originalData</code>
      *   and <code>permutedData</code> lists are not equal
      * @throws MathIllegalArgumentException iff the <code>permutedData</code> and
