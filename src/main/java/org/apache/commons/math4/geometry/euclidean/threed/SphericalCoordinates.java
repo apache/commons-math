@@ -66,7 +66,7 @@ public class SphericalCoordinates implements Serializable {
     /** Polar angle (co-latitude) &Phi;. */
     private final double phi;
 
-    /** Jacobian of (r, &theta; &Phi). */
+    /** Jacobian of (r, &theta; &Phi;). */
     private double[][] jacobian;
 
     /** Hessian of radius. */
