@@ -17,7 +17,8 @@
 package org.apache.commons.math4.distribution;
 
 import org.apache.commons.math4.exception.OutOfRangeException;
-import org.apache.commons.math4.special.Erf;
+import org.apache.commons.numbers.gamma.Erfc;
+import org.apache.commons.numbers.gamma.InverseErfc;
 import org.apache.commons.math4.util.FastMath;
 
 /**
@@ -105,7 +106,7 @@ public class LevyDistribution extends AbstractRealDistribution {
         if (x < mu) {
             return Double.NaN;
         }
-        return Erf.erfc(FastMath.sqrt(halfC / (x - mu)));
+        return Erfc.value(FastMath.sqrt(halfC / (x - mu)));
     }
 
     /** {@inheritDoc} */
@@ -114,7 +115,7 @@ public class LevyDistribution extends AbstractRealDistribution {
         if (p < 0.0 || p > 1.0) {
             throw new OutOfRangeException(p, 0, 1);
         }
-        final double t = Erf.erfcInv(p);
+        final double t = InverseErfc.value(p);
         return mu + halfC / (t * t);
     }
 

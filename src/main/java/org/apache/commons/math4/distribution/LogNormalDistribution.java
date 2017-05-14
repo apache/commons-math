@@ -20,7 +20,8 @@ package org.apache.commons.math4.distribution;
 import org.apache.commons.math4.exception.NotStrictlyPositiveException;
 import org.apache.commons.math4.exception.NumberIsTooLargeException;
 import org.apache.commons.math4.exception.util.LocalizedFormats;
-import org.apache.commons.math4.special.Erf;
+import org.apache.commons.numbers.gamma.Erf;
+import org.apache.commons.numbers.gamma.ErfDifference;
 import org.apache.commons.math4.util.FastMath;
 import org.apache.commons.rng.UniformRandomProvider;
 import org.apache.commons.rng.sampling.distribution.ContinuousSampler;
@@ -200,7 +201,7 @@ public class LogNormalDistribution extends AbstractRealDistribution {
         if (FastMath.abs(dev) > 40 * shape) {
             return dev < 0 ? 0.0d : 1.0d;
         }
-        return 0.5 + 0.5 * Erf.erf(dev / (shape * SQRT2));
+        return 0.5 + 0.5 * Erf.value(dev / (shape * SQRT2));
     }
 
     /** {@inheritDoc} */
@@ -218,7 +219,7 @@ public class LogNormalDistribution extends AbstractRealDistribution {
         final double denom = shape * SQRT2;
         final double v0 = (FastMath.log(x0) - scale) / denom;
         final double v1 = (FastMath.log(x1) - scale) / denom;
-        return 0.5 * Erf.erf(v0, v1);
+        return 0.5 * ErfDifference.value(v0, v1);
     }
 
     /** {@inheritDoc} */

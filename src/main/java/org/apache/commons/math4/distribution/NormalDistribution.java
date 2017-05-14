@@ -21,7 +21,9 @@ import org.apache.commons.math4.exception.NotStrictlyPositiveException;
 import org.apache.commons.math4.exception.NumberIsTooLargeException;
 import org.apache.commons.math4.exception.OutOfRangeException;
 import org.apache.commons.math4.exception.util.LocalizedFormats;
-import org.apache.commons.math4.special.Erf;
+import org.apache.commons.numbers.gamma.Erfc;
+import org.apache.commons.numbers.gamma.InverseErf;
+import org.apache.commons.numbers.gamma.ErfDifference;
 import org.apache.commons.math4.util.FastMath;
 import org.apache.commons.rng.UniformRandomProvider;
 import org.apache.commons.rng.sampling.distribution.ContinuousSampler;
@@ -142,7 +144,7 @@ public class NormalDistribution extends AbstractRealDistribution {
         if (FastMath.abs(dev) > 40 * standardDeviation) {
             return dev < 0 ? 0.0d : 1.0d;
         }
-        return 0.5 * Erf.erfc(-dev / (standardDeviation * SQRT2));
+        return 0.5 * Erfc.value(-dev / (standardDeviation * SQRT2));
     }
 
     /** {@inheritDoc}
@@ -153,7 +155,7 @@ public class NormalDistribution extends AbstractRealDistribution {
         if (p < 0.0 || p > 1.0) {
             throw new OutOfRangeException(p, 0, 1);
         }
-        return mean + standardDeviation * SQRT2 * Erf.erfInv(2 * p - 1);
+        return mean + standardDeviation * SQRT2 * InverseErf.value(2 * p - 1);
     }
 
     /** {@inheritDoc} */
@@ -168,7 +170,7 @@ public class NormalDistribution extends AbstractRealDistribution {
         final double denom = standardDeviation * SQRT2;
         final double v0 = (x0 - mean) / denom;
         final double v1 = (x1 - mean) / denom;
-        return 0.5 * Erf.erf(v0, v1);
+        return 0.5 * ErfDifference.value(v0, v1);
     }
 
     /** {@inheritDoc} */
