@@ -19,7 +19,7 @@ package org.apache.commons.math4.distribution;
 import org.apache.commons.math4.exception.NotPositiveException;
 import org.apache.commons.math4.exception.OutOfRangeException;
 import org.apache.commons.math4.exception.util.LocalizedFormats;
-import org.apache.commons.math4.special.Beta;
+import org.apache.commons.numbers.gamma.RegularizedBeta;
 import org.apache.commons.math4.util.FastMath;
 
 /**
@@ -109,8 +109,8 @@ public class BinomialDistribution extends AbstractIntegerDistribution {
         } else if (x >= numberOfTrials) {
             ret = 1.0;
         } else {
-            ret = 1.0 - Beta.regularizedBeta(probabilityOfSuccess,
-                    x + 1.0, numberOfTrials - x);
+            ret = 1.0 - RegularizedBeta.value(probabilityOfSuccess,
+                                              x + 1.0, numberOfTrials - x);
         }
         return ret;
     }

@@ -19,7 +19,8 @@ package org.apache.commons.math4.distribution;
 
 import org.apache.commons.math4.exception.NotStrictlyPositiveException;
 import org.apache.commons.math4.exception.util.LocalizedFormats;
-import org.apache.commons.math4.special.Beta;
+import org.apache.commons.numbers.gamma.LogBeta;
+import org.apache.commons.numbers.gamma.RegularizedBeta;
 import org.apache.commons.math4.util.FastMath;
 
 /**
@@ -112,7 +113,7 @@ public class FDistribution extends AbstractRealDistribution {
                 denominatorDegreesOfFreedom);
         return nhalf * logn + nhalf * logx - logx +
                mhalf * logm - nhalf * lognxm - mhalf * lognxm -
-               Beta.logBeta(nhalf, mhalf);
+               LogBeta.value(nhalf, mhalf);
     }
 
     /**
@@ -135,7 +136,7 @@ public class FDistribution extends AbstractRealDistribution {
             double n = numeratorDegreesOfFreedom;
             double m = denominatorDegreesOfFreedom;
 
-            ret = Beta.regularizedBeta((n * x) / (m + n * x),
+            ret = RegularizedBeta.value((n * x) / (m + n * x),
                 0.5 * n,
                 0.5 * m);
         }

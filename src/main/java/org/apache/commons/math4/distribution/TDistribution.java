@@ -18,7 +18,7 @@ package org.apache.commons.math4.distribution;
 
 import org.apache.commons.math4.exception.NotStrictlyPositiveException;
 import org.apache.commons.math4.exception.util.LocalizedFormats;
-import org.apache.commons.math4.special.Beta;
+import org.apache.commons.numbers.gamma.RegularizedBeta;
 import org.apache.commons.numbers.gamma.LogGamma;
 import org.apache.commons.math4.util.FastMath;
 
@@ -111,10 +111,9 @@ public class TDistribution extends AbstractRealDistribution {
             ret = 0.5;
         } else {
             double t =
-                Beta.regularizedBeta(
-                    degreesOfFreedom / (degreesOfFreedom + (x * x)),
-                    0.5 * degreesOfFreedom,
-                    0.5);
+                RegularizedBeta.value(degreesOfFreedom / (degreesOfFreedom + (x * x)),
+                                      0.5 * degreesOfFreedom,
+                                      0.5);
             if (x < 0.0) {
                 ret = 0.5 * t;
             } else {

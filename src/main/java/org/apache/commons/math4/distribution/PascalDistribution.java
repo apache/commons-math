@@ -19,7 +19,7 @@ package org.apache.commons.math4.distribution;
 import org.apache.commons.math4.exception.NotStrictlyPositiveException;
 import org.apache.commons.math4.exception.OutOfRangeException;
 import org.apache.commons.math4.exception.util.LocalizedFormats;
-import org.apache.commons.math4.special.Beta;
+import org.apache.commons.numbers.gamma.RegularizedBeta;
 import org.apache.commons.math4.util.CombinatoricsUtils;
 import org.apache.commons.math4.util.FastMath;
 
@@ -155,8 +155,8 @@ public class PascalDistribution extends AbstractIntegerDistribution {
         if (x < 0) {
             ret = 0.0;
         } else {
-            ret = Beta.regularizedBeta(probabilityOfSuccess,
-                    numberOfSuccesses, x + 1.0);
+            ret = RegularizedBeta.value(probabilityOfSuccess,
+                                        numberOfSuccesses, x + 1.0);
         }
         return ret;
     }

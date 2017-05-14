@@ -18,7 +18,7 @@ package org.apache.commons.math4.distribution;
 
 import org.apache.commons.math4.exception.NumberIsTooSmallException;
 import org.apache.commons.math4.exception.util.LocalizedFormats;
-import org.apache.commons.math4.special.Beta;
+import org.apache.commons.numbers.gamma.RegularizedBeta;
 import org.apache.commons.numbers.gamma.LogGamma;
 import org.apache.commons.math4.util.FastMath;
 import org.apache.commons.rng.UniformRandomProvider;
@@ -135,7 +135,7 @@ public class BetaDistribution extends AbstractRealDistribution {
         } else if (x >= 1) {
             return 1;
         } else {
-            return Beta.regularizedBeta(x, alpha, beta);
+            return RegularizedBeta.value(x, alpha, beta);
         }
     }
 
