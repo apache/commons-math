@@ -577,7 +577,6 @@ public class OLSMultipleLinearRegressionTest extends MultipleLinearRegressionAbs
         TestUtils.assertEquals(0, model.estimateErrorVariance(), 1.0e-7);
         TestUtils.assertEquals(0.00, model.calculateResidualSumOfSquares(), 1.0e-6);
 
-        return;
     }
 
     /*
@@ -645,7 +644,6 @@ public class OLSMultipleLinearRegressionTest extends MultipleLinearRegressionAbs
         TestUtils.assertEquals(1.0, model.calculateRSquared(), 1.0e-10);
         TestUtils.assertEquals(0, model.estimateErrorVariance(), 1.0e-7);
         TestUtils.assertEquals(0.00, model.calculateResidualSumOfSquares(), 1.0e-6);
-        return;
     }
 
     /*
@@ -714,7 +712,6 @@ public class OLSMultipleLinearRegressionTest extends MultipleLinearRegressionAbs
         TestUtils.assertEquals(.999995559025820, model.calculateRSquared(), 1.0e-10);
         TestUtils.assertEquals(5570284.53333333, model.estimateErrorVariance(), 1.0e-6);
         TestUtils.assertEquals(83554268.0000000, model.calculateResidualSumOfSquares(), 1.0e-5);
-        return;
     }
 
     /*
@@ -783,7 +780,6 @@ public class OLSMultipleLinearRegressionTest extends MultipleLinearRegressionAbs
         TestUtils.assertEquals(.957478440825662, model.calculateRSquared(), 1.0e-10);
         TestUtils.assertEquals(55702845333.3333, model.estimateErrorVariance(), 1.0e-4);
         TestUtils.assertEquals(835542680000.000, model.calculateResidualSumOfSquares(), 1.0e-3);
-        return;
     }
 
     /**

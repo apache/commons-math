@@ -829,7 +829,7 @@ public class KolmogorovSmirnovTest {
          * First column and last row has special values (each other reversed).
          */
         for (int i = 0; i < m; ++i) {
-            Hdata[i][0] = Hdata[i][0] - hPowers[i];
+            Hdata[i][0] -= hPowers[i];
             Hdata[m - 1][i] -= hPowers[m - i - 1];
         }
 

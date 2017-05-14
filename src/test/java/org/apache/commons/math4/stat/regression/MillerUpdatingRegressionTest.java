@@ -87,7 +87,6 @@ public class MillerUpdatingRegressionTest {
         if (instance.getN() != xAll.length) {
             Assert.fail("Number of observations not correct in drip addition");
         }
-        return;
     }
 
     @Test
@@ -440,7 +439,6 @@ public class MillerUpdatingRegressionTest {
         TestUtils.assertEquals(0, result.getMeanSquareError(), 1.0e-7);
         TestUtils.assertEquals(0.00, result.getErrorSumSquares(), 1.0e-6);
 
-        return;
     }
 
     @Test
@@ -499,7 +497,6 @@ public class MillerUpdatingRegressionTest {
         TestUtils.assertEquals(1.0, result.getRSquared(), 1.0e-10);
         TestUtils.assertEquals(0, result.getMeanSquareError(), 1.0e-7);
         TestUtils.assertEquals(0.00, result.getErrorSumSquares(), 1.0e-6);
-        return;
     }
 
     @Test
@@ -556,7 +553,6 @@ public class MillerUpdatingRegressionTest {
         TestUtils.assertEquals(.999995559025820, result.getRSquared(), 1.0e-10);
         TestUtils.assertEquals(5570284.53333333, result.getMeanSquareError(), 1.0e-7);
         TestUtils.assertEquals(83554268.0000000, result.getErrorSumSquares(), 1.0e-6);
-        return;
     }
 
     //@Test
@@ -615,7 +611,6 @@ public class MillerUpdatingRegressionTest {
         TestUtils.assertEquals(55702845333.3333, result.getMeanSquareError(), 1.0e-4);
         TestUtils.assertEquals(835542680000.000, result.getErrorSumSquares(), 1.0e-3);
 
-        return;
     }
 
     /**
@@ -813,7 +808,6 @@ public class MillerUpdatingRegressionTest {
         TestUtils.assertEquals(result.getErrorSumSquares(), resultRedundant.getErrorSumSquares(), 1.0e-8);
         TestUtils.assertEquals(result.getMeanSquareError(), resultRedundant.getMeanSquareError(), 1.0e-8);
         TestUtils.assertEquals(result.getRSquared(), resultRedundant.getRSquared(), 1.0e-8);
-        return;
     }
 
     @Test
@@ -928,7 +922,6 @@ public class MillerUpdatingRegressionTest {
         TestUtils.assertEquals(result.getErrorSumSquares(), resultRedundant.getErrorSumSquares(), 1.0e-8);
         TestUtils.assertEquals(result.getMeanSquareError(), resultRedundant.getMeanSquareError(), 1.0e-8);
         TestUtils.assertEquals(result.getRSquared(), resultRedundant.getRSquared(), 1.0e-8);
-        return;
     }
 
     @Test
@@ -999,7 +992,6 @@ public class MillerUpdatingRegressionTest {
         if (pc3 == null) {
             Assert.fail("Should not be null");
         }
-        return;
     }
 
     @Test
@@ -1024,7 +1016,6 @@ public class MillerUpdatingRegressionTest {
         for (int i = 0; i < x.length; i++) {
             TestUtils.assertEquals(instance.getDiagonalOfHatMatrix(x[i]), rm.getEntry(i, i), 1.0e-8);
         }
-        return;
     }
     @Test
     public void testHdiagConstant() {
@@ -1047,7 +1038,6 @@ public class MillerUpdatingRegressionTest {
         for (int i = 0; i < x.length; i++) {
             TestUtils.assertEquals(instance.getDiagonalOfHatMatrix(x[i]), rm.getEntry(i, i), 1.0e-8);
         }
-        return;
     }
 
 
