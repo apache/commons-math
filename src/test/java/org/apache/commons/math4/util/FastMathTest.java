@@ -676,6 +676,31 @@ public class FastMathTest {
 
         assertTrue("pow() had errors in excess of " + MAX_ERROR_ULP + " ULP", maxerrulp < MAX_ERROR_ULP);
     }
+    
+    @Test
+    public void testExpHighBorder() {
+        final double EXACT = -1.0;
+        Assert.assertEquals(Double.NaN, FastMath.exp(Double.NaN), EXACT);
+        Assert.assertTrue(FastMath.exp(709.0) < Double.MAX_VALUE);
+        Assert.assertTrue(FastMath.exp(709.7) < Double.MAX_VALUE);
+        Assert.assertEquals(Double.POSITIVE_INFINITY, FastMath.exp(709.8), EXACT);
+        Assert.assertEquals(Double.POSITIVE_INFINITY, FastMath.exp(709.81), EXACT);
+        Assert.assertEquals(Double.POSITIVE_INFINITY, FastMath.exp(709.812), EXACT);
+        Assert.assertEquals(Double.POSITIVE_INFINITY, FastMath.exp(709.8124), EXACT);
+        Assert.assertEquals(Double.POSITIVE_INFINITY, FastMath.exp(709.81245), EXACT);
+        Assert.assertEquals(Double.POSITIVE_INFINITY, FastMath.exp(709.8125), EXACT);
+        Assert.assertEquals(Double.POSITIVE_INFINITY, FastMath.exp(709.81255), EXACT);
+        Assert.assertEquals(Double.POSITIVE_INFINITY, FastMath.exp(709.8126), EXACT);
+        Assert.assertEquals(Double.POSITIVE_INFINITY, FastMath.exp(709.813), EXACT);
+        Assert.assertEquals(Double.POSITIVE_INFINITY, FastMath.exp(709.82), EXACT);
+        Assert.assertEquals(Double.POSITIVE_INFINITY, FastMath.exp(709.9), EXACT);
+        Assert.assertEquals(Double.POSITIVE_INFINITY, FastMath.exp(710.0), EXACT);
+        // Values near log( Double.MAX_VALUE ) = 709.7827128933839967276924307167.
+        for (long l = Double.doubleToRawLongBits(709.7827128933); l <= Double.doubleToRawLongBits(709.78271289341); l++) {
+            double d = Double.longBitsToDouble(l);
+            Assert.assertFalse(Double.isNaN(FastMath.exp(d)));
+        }
+    }
 
     @Test
     public void testExpAccuracy() {

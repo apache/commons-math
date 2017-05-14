@@ -915,7 +915,11 @@ public class FastMath {
             intVal--;
 
         } else {
-            if (intVal > 709) {
+            // exp(709.7827128934) already overflows Double.MAX_VALUE and becomes infinite.
+            // Values between 709.7827128934 and 710.0 can cause problems.
+            // So it's better to avoid dealing with them.
+            // See https://issues.apache.org/jira/browse/MATH-1269
+            if (intVal > 709 || intVal == 709 && x >= 709.7827128934) {
                 if (hiPrec != null) {
                     hiPrec[0] = Double.POSITIVE_INFINITY;
                     hiPrec[1] = 0.0;
