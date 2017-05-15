@@ -493,8 +493,8 @@ public final class CombinatoricsUtils {
                 cache.length : numValues;
 
             // Copy available values.
-            for (int i = beginCopy; i < endCopy; i++) {
-                LOG_FACTORIALS[i] = cache[i];
+            if (cache != null && endCopy > beginCopy) {
+                System.arraycopy(cache, beginCopy, LOG_FACTORIALS, beginCopy, endCopy - beginCopy);
             }
 
             // Precompute.
