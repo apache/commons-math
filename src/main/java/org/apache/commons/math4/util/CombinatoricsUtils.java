@@ -16,7 +16,6 @@
  */
 package org.apache.commons.math4.util;
 
-import java.util.Iterator;
 import java.util.concurrent.atomic.AtomicReference;
 
 import org.apache.commons.numbers.core.ArithmeticUtils;
@@ -24,7 +23,6 @@ import org.apache.commons.math4.exception.MathArithmeticException;
 import org.apache.commons.math4.exception.NotPositiveException;
 import org.apache.commons.math4.exception.NumberIsTooLargeException;
 import org.apache.commons.math4.exception.util.LocalizedFormats;
-import org.apache.commons.numbers.gamma.LogGamma;
 import org.apache.commons.numbers.combinatorics.Factorial;
 import org.apache.commons.numbers.combinatorics.BinomialCoefficient;
 
