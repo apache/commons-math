@@ -32,12 +32,13 @@ import org.apache.commons.rng.sampling.distribution.AhrensDieterMarsagliaTsangGa
  * @see <a href="http://mathworld.wolfram.com/GammaDistribution.html">Gamma distribution (MathWorld)</a>
  */
 public class GammaDistribution extends AbstractRealDistribution {
-    private static final double LANCZOS_G = LanczosApproximation.g();
     /**
      * Default inverse cumulative probability accuracy.
      * @since 2.1
      */
     public static final double DEFAULT_INVERSE_ABSOLUTE_ACCURACY = 1e-9;
+    /** Lanczos constant. */
+    private static final double LANCZOS_G = LanczosApproximation.g();
     /** Serializable version identifier. */
     private static final long serialVersionUID = 20160311L;
     /** The shape parameter. */
