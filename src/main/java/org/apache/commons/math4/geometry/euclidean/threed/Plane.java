@@ -267,7 +267,7 @@ public class Plane implements Hyperplane<Euclidean3D>, Embedding<Euclidean3D, Eu
 
     /** Transform a 3D space point into an in-plane point.
      * @param point point of the space (must be a {@link Cartesian3D} instance)
-     * @return in-plane point 
+     * @return in-plane point
      * @see #toSpace
      */
     @Override

@@ -56,7 +56,7 @@
  *    return STOP;
  *  }
  * </pre>
- * 
+ *
  *
  * <p>
  * The second case, change state vector or derivatives is encountered when dealing
@@ -75,7 +75,7 @@
  *    return RESET_DERIVATIVES;
  *  }
  * </pre>
- * 
+ *
  *
  * <p>
  * The third case is useful mainly for monitoring purposes, a simple example is:

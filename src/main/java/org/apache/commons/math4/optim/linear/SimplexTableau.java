@@ -57,7 +57,7 @@ import org.apache.commons.numbers.core.Precision;
  * s1 &amp; s2: Slack/Surplus variables<br>
  * a1: Artificial variable<br>
  * RHS: Right hand side<br>
- * 
+ *
  * @since 2.0
  */
 class SimplexTableau implements Serializable {

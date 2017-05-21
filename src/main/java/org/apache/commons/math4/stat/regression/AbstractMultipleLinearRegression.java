@@ -90,7 +90,7 @@ public abstract class AbstractMultipleLinearRegression implements
      *   4     5     6
      *   7     8     9
      * </pre>
-     * 
+     *
      * <p>Note that there is no need to add an initial unitary column (column of 1's) when
      * specifying a model including an intercept term.  If {@link #isNoIntercept()} is <code>true</code>,
      * the X matrix will be created without an initial column of "1"s; otherwise this column will

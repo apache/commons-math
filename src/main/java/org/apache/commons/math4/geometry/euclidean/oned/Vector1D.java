@@ -19,7 +19,7 @@ package org.apache.commons.math4.geometry.euclidean.oned;
 import org.apache.commons.math4.geometry.Vector;
 
 /** This class represents a 1D vector.
- * 
+ *
  * @since 3.0
  */
 public abstract class Vector1D implements Vector<Euclidean1D> {
