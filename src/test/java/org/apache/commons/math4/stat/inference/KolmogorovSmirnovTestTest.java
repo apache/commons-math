@@ -25,7 +25,7 @@ import org.apache.commons.math4.distribution.NormalDistribution;
 import org.apache.commons.math4.distribution.UniformRealDistribution;
 import org.apache.commons.rng.simple.RandomSource;
 import org.apache.commons.rng.UniformRandomProvider;
-import org.apache.commons.math4.util.CombinatoricsUtils;
+import org.apache.commons.numbers.combinatorics.BinomialCoefficient;
 import org.apache.commons.math4.util.FastMath;
 import org.apache.commons.math4.util.MathArrays;
 import org.apache.commons.math4.exception.NotANumberException;
@@ -644,7 +644,7 @@ public class KolmogorovSmirnovTestTest {
                 counts[x] += 1;
             }
 
-            final int numCombinations = (int) CombinatoricsUtils.binomialCoefficient(arraySize, numberOfTrueValues);
+            final int numCombinations = (int) BinomialCoefficient.value(arraySize, numberOfTrueValues);
 
             final long[] observed = new long[numCombinations];
             final double[] expected = new double[numCombinations];

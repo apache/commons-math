@@ -21,7 +21,7 @@ import org.apache.commons.math4.linear.ArrayRealVector;
 import org.apache.commons.math4.linear.RealLinearOperator;
 import org.apache.commons.math4.linear.RealVector;
 import org.apache.commons.numbers.core.ArithmeticUtils;
-import org.apache.commons.math4.util.CombinatoricsUtils;
+import org.apache.commons.numbers.combinatorics.BinomialCoefficient;
 
 /**
  * This class implements inverses of Hilbert Matrices as
@@ -58,11 +58,11 @@ public class InverseHilbertMatrix
      */
     public long getEntry(final int i, final int j) {
         long val = i + j + 1;
-        long aux = CombinatoricsUtils.binomialCoefficient(n + i, n - j - 1);
+        long aux = BinomialCoefficient.value(n + i, n - j - 1);
         val = ArithmeticUtils.mulAndCheck(val, aux);
-        aux = CombinatoricsUtils.binomialCoefficient(n + j, n - i - 1);
+        aux = BinomialCoefficient.value(n + j, n - i - 1);
         val = ArithmeticUtils.mulAndCheck(val, aux);
-        aux = CombinatoricsUtils.binomialCoefficient(i + j, i);
+        aux = BinomialCoefficient.value(i + j, i);
         val = ArithmeticUtils.mulAndCheck(val, aux);
         val = ArithmeticUtils.mulAndCheck(val, aux);
         return ((i + j) & 1) == 0 ? val : -val;

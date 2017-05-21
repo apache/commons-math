@@ -27,7 +27,7 @@ import org.apache.commons.math4.exception.MathArithmeticException;
 import org.apache.commons.math4.exception.NoDataException;
 import org.apache.commons.math4.exception.ZeroException;
 import org.apache.commons.math4.exception.util.LocalizedFormats;
-import org.apache.commons.math4.util.CombinatoricsUtils;
+import org.apache.commons.numbers.combinatorics.Factorial;
 
 /** Polynomial interpolator using both sample values and sample derivatives.
  * <p>
@@ -86,11 +86,13 @@ public class HermiteInterpolator implements UnivariateDifferentiableVectorFuncti
     public void addSamplePoint(final double x, final double[] ... value)
         throws ZeroException, MathArithmeticException {
 
+        if (value.length > 20) {
+            throw new MathArithmeticException(LocalizedFormats.NUMBER_TOO_LARGE, value.length, 20);
+        }
         for (int i = 0; i < value.length; ++i) {
-
             final double[] y = value[i].clone();
             if (i > 1) {
-                double inv = 1.0 / CombinatoricsUtils.factorial(i);
+                double inv = 1.0 / Factorial.value(i);
                 for (int j = 0; j < y.length; ++j) {
                     y[j] *= inv;
                 }

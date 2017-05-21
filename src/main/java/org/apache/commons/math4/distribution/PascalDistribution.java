@@ -19,8 +19,9 @@ package org.apache.commons.math4.distribution;
 import org.apache.commons.math4.exception.NotStrictlyPositiveException;
 import org.apache.commons.math4.exception.OutOfRangeException;
 import org.apache.commons.math4.exception.util.LocalizedFormats;
+import org.apache.commons.numbers.combinatorics.BinomialCoefficientDouble;
+import org.apache.commons.numbers.combinatorics.LogBinomialCoefficient;
 import org.apache.commons.numbers.gamma.RegularizedBeta;
-import org.apache.commons.math4.util.CombinatoricsUtils;
 import org.apache.commons.math4.util.FastMath;
 
 /**
@@ -125,7 +126,7 @@ public class PascalDistribution extends AbstractIntegerDistribution {
         if (x < 0) {
             ret = 0.0;
         } else {
-            ret = CombinatoricsUtils.binomialCoefficientDouble(x +
+            ret = BinomialCoefficientDouble.value(x +
                   numberOfSuccesses - 1, numberOfSuccesses - 1) *
                   FastMath.pow(probabilityOfSuccess, numberOfSuccesses) *
                   FastMath.pow(1.0 - probabilityOfSuccess, x);
@@ -140,7 +141,7 @@ public class PascalDistribution extends AbstractIntegerDistribution {
         if (x < 0) {
             ret = Double.NEGATIVE_INFINITY;
         } else {
-            ret = CombinatoricsUtils.binomialCoefficientLog(x +
+            ret = LogBinomialCoefficient.value(x +
                   numberOfSuccesses - 1, numberOfSuccesses - 1) +
                   logProbabilityOfSuccess * numberOfSuccesses +
                   log1mProbabilityOfSuccess * x;

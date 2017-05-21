@@ -22,7 +22,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.math4.fraction.BigFraction;
-import org.apache.commons.math4.util.CombinatoricsUtils;
+import org.apache.commons.numbers.combinatorics.BinomialCoefficient;
 import org.apache.commons.math4.util.FastMath;
 
 /**
@@ -331,7 +331,7 @@ public class PolynomialsUtils {
         final int[][] coeff = new int[dp1][dp1];
         for (int i = 0; i < dp1; i++){
             for(int j = 0; j <= i; j++){
-                coeff[i][j] = (int) CombinatoricsUtils.binomialCoefficient(i, j);
+                coeff[i][j] = (int) BinomialCoefficient.value(i, j);
             }
         }
 

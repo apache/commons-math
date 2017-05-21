@@ -22,6 +22,7 @@ import java.util.Arrays;
 
 import org.apache.commons.rng.simple.RandomSource;
 import org.apache.commons.rng.UniformRandomProvider;
+import org.apache.commons.numbers.combinatorics.BinomialCoefficientDouble;
 import org.apache.commons.math4.distribution.EnumeratedRealDistribution;
 import org.apache.commons.math4.distribution.RealDistribution;
 import org.apache.commons.math4.distribution.AbstractRealDistribution;
@@ -41,7 +42,6 @@ import org.apache.commons.math4.linear.Array2DRowFieldMatrix;
 import org.apache.commons.math4.linear.FieldMatrix;
 import org.apache.commons.math4.linear.MatrixUtils;
 import org.apache.commons.math4.linear.RealMatrix;
-import org.apache.commons.math4.util.CombinatoricsUtils;
 import org.apache.commons.math4.util.FastMath;
 import org.apache.commons.math4.util.MathArrays;
 import org.apache.commons.math4.util.MathUtils;
@@ -959,7 +959,7 @@ public class KolmogorovSmirnovTest {
      */
     public double exactP(double d, int n, int m, boolean strict) {
        return 1 - n(m, n, m, n, calculateIntegralD(d, m, n, strict), strict) /
-               CombinatoricsUtils.binomialCoefficientDouble(n + m, m);
+           BinomialCoefficientDouble.value(n + m, m);
     }
 
     /**

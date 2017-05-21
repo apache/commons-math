@@ -26,7 +26,7 @@ import org.apache.commons.math4.exception.MathArithmeticException;
 import org.apache.commons.math4.exception.MathInternalError;
 import org.apache.commons.math4.exception.NotPositiveException;
 import org.apache.commons.math4.exception.NumberIsTooLargeException;
-import org.apache.commons.math4.util.CombinatoricsUtils;
+import org.apache.commons.numbers.combinatorics.FactorialDouble;
 import org.apache.commons.math4.util.FastMath;
 import org.apache.commons.math4.util.MathArrays;
 
@@ -123,6 +123,8 @@ import org.apache.commons.math4.util.MathArrays;
  * @since 3.1
  */
 public class DSCompiler {
+    /** Cache for factorials. */
+    private static FactorialDouble FACTORIAL = FactorialDouble.create().withCache(30);
 
     /** Array of all compilers created so far. */
     private static AtomicReference<DSCompiler[][]> compilers =
@@ -1803,8 +1805,7 @@ public class DSCompiler {
             for (int k = 0; k < orders.length; ++k) {
                 if (orders[k] > 0) {
                     try {
-                        term *= FastMath.pow(delta[k], orders[k]) /
-                        CombinatoricsUtils.factorial(orders[k]);
+                        term *= FastMath.pow(delta[k], orders[k]) / FACTORIAL.value(orders[k]);
                     } catch (NotPositiveException e) {
                         // this cannot happen
                         throw new MathInternalError(e);
