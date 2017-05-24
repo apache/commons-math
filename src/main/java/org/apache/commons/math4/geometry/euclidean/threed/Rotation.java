@@ -19,11 +19,11 @@ package org.apache.commons.math4.geometry.euclidean.threed;
 
 import java.io.Serializable;
 
+import org.apache.commons.numbers.arrays.LinearCombination;
 import org.apache.commons.math4.exception.MathArithmeticException;
 import org.apache.commons.math4.exception.MathIllegalArgumentException;
 import org.apache.commons.math4.exception.util.LocalizedFormats;
 import org.apache.commons.math4.util.FastMath;
-import org.apache.commons.math4.util.MathArrays;
 
 /**
  * This class implements rotations in a three-dimensional space.
@@ -290,19 +290,19 @@ public class Rotation implements Serializable {
       // buid a matrix transforming the first base into the second one
       final double[][] m = new double[][] {
           {
-              MathArrays.linearCombination(u1.getX(), v1.getX(), u2.getX(), v2.getX(), u3.getX(), v3.getX()),
-              MathArrays.linearCombination(u1.getY(), v1.getX(), u2.getY(), v2.getX(), u3.getY(), v3.getX()),
-              MathArrays.linearCombination(u1.getZ(), v1.getX(), u2.getZ(), v2.getX(), u3.getZ(), v3.getX())
+              LinearCombination.value(u1.getX(), v1.getX(), u2.getX(), v2.getX(), u3.getX(), v3.getX()),
+              LinearCombination.value(u1.getY(), v1.getX(), u2.getY(), v2.getX(), u3.getY(), v3.getX()),
+              LinearCombination.value(u1.getZ(), v1.getX(), u2.getZ(), v2.getX(), u3.getZ(), v3.getX())
           },
           {
-              MathArrays.linearCombination(u1.getX(), v1.getY(), u2.getX(), v2.getY(), u3.getX(), v3.getY()),
-              MathArrays.linearCombination(u1.getY(), v1.getY(), u2.getY(), v2.getY(), u3.getY(), v3.getY()),
-              MathArrays.linearCombination(u1.getZ(), v1.getY(), u2.getZ(), v2.getY(), u3.getZ(), v3.getY())
+              LinearCombination.value(u1.getX(), v1.getY(), u2.getX(), v2.getY(), u3.getX(), v3.getY()),
+              LinearCombination.value(u1.getY(), v1.getY(), u2.getY(), v2.getY(), u3.getY(), v3.getY()),
+              LinearCombination.value(u1.getZ(), v1.getY(), u2.getZ(), v2.getY(), u3.getZ(), v3.getY())
           },
           {
-              MathArrays.linearCombination(u1.getX(), v1.getZ(), u2.getX(), v2.getZ(), u3.getX(), v3.getZ()),
-              MathArrays.linearCombination(u1.getY(), v1.getZ(), u2.getY(), v2.getZ(), u3.getY(), v3.getZ()),
-              MathArrays.linearCombination(u1.getZ(), v1.getZ(), u2.getZ(), v2.getZ(), u3.getZ(), v3.getZ())
+              LinearCombination.value(u1.getX(), v1.getZ(), u2.getX(), v2.getZ(), u3.getX(), v3.getZ()),
+              LinearCombination.value(u1.getY(), v1.getZ(), u2.getY(), v2.getZ(), u3.getY(), v3.getZ()),
+              LinearCombination.value(u1.getZ(), v1.getZ(), u2.getZ(), v2.getZ(), u3.getZ(), v3.getZ())
           }
       };
 

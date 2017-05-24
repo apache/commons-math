@@ -18,6 +18,7 @@ package org.apache.commons.math4.analysis.differentiation;
 
 import java.io.Serializable;
 
+import org.apache.commons.numbers.arrays.LinearCombination;
 import org.apache.commons.math4.Field;
 import org.apache.commons.math4.FieldElement;
 import org.apache.commons.math4.RealFieldElement;
@@ -965,7 +966,7 @@ public class DerivativeStructure implements RealFieldElement<DerivativeStructure
         for (int i = 0; i < b.length; ++i) {
             bDouble[i] = b[i].getValue();
         }
-        final double accurateValue = MathArrays.linearCombination(aDouble, bDouble);
+        final double accurateValue = LinearCombination.value(aDouble, bDouble);
 
         // compute a simple value, with all partial derivatives
         DerivativeStructure simpleValue = a[0].getField().getZero();
@@ -994,7 +995,7 @@ public class DerivativeStructure implements RealFieldElement<DerivativeStructure
         for (int i = 0; i < b.length; ++i) {
             bDouble[i] = b[i].getValue();
         }
-        final double accurateValue = MathArrays.linearCombination(a, bDouble);
+        final double accurateValue = LinearCombination.value(a, bDouble);
 
         // compute a simple value, with all partial derivatives
         DerivativeStructure simpleValue = b[0].getField().getZero();
@@ -1020,7 +1021,7 @@ public class DerivativeStructure implements RealFieldElement<DerivativeStructure
         throws DimensionMismatchException {
 
         // compute an accurate value, taking care of cancellations
-        final double accurateValue = MathArrays.linearCombination(a1.getValue(), b1.getValue(),
+        final double accurateValue = LinearCombination.value(a1.getValue(), b1.getValue(),
                                                                   a2.getValue(), b2.getValue());
 
         // compute a simple value, with all partial derivatives
@@ -1044,7 +1045,7 @@ public class DerivativeStructure implements RealFieldElement<DerivativeStructure
         throws DimensionMismatchException {
 
         // compute an accurate value, taking care of cancellations
-        final double accurateValue = MathArrays.linearCombination(a1, b1.getValue(),
+        final double accurateValue = LinearCombination.value(a1, b1.getValue(),
                                                                   a2, b2.getValue());
 
         // compute a simple value, with all partial derivatives
@@ -1069,7 +1070,7 @@ public class DerivativeStructure implements RealFieldElement<DerivativeStructure
         throws DimensionMismatchException {
 
         // compute an accurate value, taking care of cancellations
-        final double accurateValue = MathArrays.linearCombination(a1.getValue(), b1.getValue(),
+        final double accurateValue = LinearCombination.value(a1.getValue(), b1.getValue(),
                                                                   a2.getValue(), b2.getValue(),
                                                                   a3.getValue(), b3.getValue());
 
@@ -1095,7 +1096,7 @@ public class DerivativeStructure implements RealFieldElement<DerivativeStructure
         throws DimensionMismatchException {
 
         // compute an accurate value, taking care of cancellations
-        final double accurateValue = MathArrays.linearCombination(a1, b1.getValue(),
+        final double accurateValue = LinearCombination.value(a1, b1.getValue(),
                                                                   a2, b2.getValue(),
                                                                   a3, b3.getValue());
 
@@ -1122,7 +1123,7 @@ public class DerivativeStructure implements RealFieldElement<DerivativeStructure
         throws DimensionMismatchException {
 
         // compute an accurate value, taking care of cancellations
-        final double accurateValue = MathArrays.linearCombination(a1.getValue(), b1.getValue(),
+        final double accurateValue = LinearCombination.value(a1.getValue(), b1.getValue(),
                                                                   a2.getValue(), b2.getValue(),
                                                                   a3.getValue(), b3.getValue(),
                                                                   a4.getValue(), b4.getValue());
@@ -1150,7 +1151,7 @@ public class DerivativeStructure implements RealFieldElement<DerivativeStructure
         throws DimensionMismatchException {
 
         // compute an accurate value, taking care of cancellations
-        final double accurateValue = MathArrays.linearCombination(a1, b1.getValue(),
+        final double accurateValue = LinearCombination.value(a1, b1.getValue(),
                                                                   a2, b2.getValue(),
                                                                   a3, b3.getValue(),
                                                                   a4, b4.getValue());

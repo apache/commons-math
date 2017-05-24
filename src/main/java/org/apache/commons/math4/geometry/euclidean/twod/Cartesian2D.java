@@ -18,6 +18,7 @@ package org.apache.commons.math4.geometry.euclidean.twod;
 
 import java.text.NumberFormat;
 
+import org.apache.commons.numbers.arrays.LinearCombination;
 import org.apache.commons.math4.exception.DimensionMismatchException;
 import org.apache.commons.math4.exception.MathArithmeticException;
 import org.apache.commons.math4.exception.util.LocalizedFormats;
@@ -25,7 +26,6 @@ import org.apache.commons.math4.geometry.Point;
 import org.apache.commons.math4.geometry.Space;
 import org.apache.commons.math4.geometry.Vector;
 import org.apache.commons.math4.util.FastMath;
-import org.apache.commons.math4.util.MathArrays;
 import org.apache.commons.math4.util.MathUtils;
 
 /** This class represents a 2D point or a 2D vector.
@@ -267,7 +267,7 @@ public class Cartesian2D extends Vector2D implements Point<Euclidean2D> {
         double threshold = normProduct * 0.9999;
         if ((dot < -threshold) || (dot > threshold)) {
             // the vectors are almost aligned, compute using the sine
-            final double n = FastMath.abs(MathArrays.linearCombination(v1.x, v2.y, -v1.y, v2.x));
+            final double n = FastMath.abs(LinearCombination.value(v1.x, v2.y, -v1.y, v2.x));
             if (dot >= 0) {
                 return FastMath.asin(n / normProduct);
             }
@@ -356,7 +356,7 @@ public class Cartesian2D extends Vector2D implements Point<Euclidean2D> {
     @Override
     public double dotProduct(final Vector<Euclidean2D> v) {
         final Cartesian2D v2 = (Cartesian2D) v;
-        return MathArrays.linearCombination(x, v2.x, y, v2.y);
+        return LinearCombination.value(x, v2.x, y, v2.y);
     }
 
     /**
@@ -384,7 +384,7 @@ public class Cartesian2D extends Vector2D implements Point<Euclidean2D> {
         final double y1 = getY() - p1.getY();
         final double x2 = getX() - p1.getX();
         final double y2 = p2.getY() - p1.getY();
-        return MathArrays.linearCombination(x1, y1, -x2, y2);
+        return LinearCombination.value(x1, y1, -x2, y2);
     }
 
     /** Compute the distance between two points according to the L<sub>2</sub> norm.

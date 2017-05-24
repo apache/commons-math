@@ -18,6 +18,8 @@ package org.apache.commons.math4.analysis.interpolation;
 
 import java.util.List;
 import java.util.ArrayList;
+import org.apache.commons.numbers.arrays.CosAngle;
+import org.apache.commons.numbers.arrays.SafeNorm;
 import org.apache.commons.math4.random.UnitSphereRandomVectorGenerator;
 import org.apache.commons.math4.exception.DimensionMismatchException;
 import org.apache.commons.math4.exception.NotPositiveException;
@@ -220,7 +222,7 @@ public class InterpolatingMicrosphere {
         for (int i = 0; i < numSamples; i++) {
             // Vector between interpolation point and current sample point.
             final double[] diff = MathArrays.ebeSubtract(samplePoints[i], point);
-            final double diffNorm = MathArrays.safeNorm(diff);
+            final double diffNorm = SafeNorm.value(diff);
 
             if (FastMath.abs(diffNorm) < noInterpolationTolerance) {
                 // No need to interpolate, as the interpolation point is
@@ -301,7 +303,7 @@ public class InterpolatingMicrosphere {
                             double weight) {
         for (int i = 0; i < size; i++) {
             final double[] n = microsphere.get(i).getNormal();
-            final double cos = MathArrays.cosAngle(n, sampleDirection);
+            final double cos = CosAngle.value(n, sampleDirection);
 
             if (cos > 0) {
                 final double illumination = cos * weight;

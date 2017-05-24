@@ -20,6 +20,7 @@ package org.apache.commons.math4.geometry.euclidean.threed;
 import java.io.Serializable;
 import java.text.NumberFormat;
 
+import org.apache.commons.numbers.arrays.LinearCombination;
 import org.apache.commons.math4.exception.DimensionMismatchException;
 import org.apache.commons.math4.exception.MathArithmeticException;
 import org.apache.commons.math4.exception.util.LocalizedFormats;
@@ -27,7 +28,6 @@ import org.apache.commons.math4.geometry.Point;
 import org.apache.commons.math4.geometry.Space;
 import org.apache.commons.math4.geometry.Vector;
 import org.apache.commons.math4.util.FastMath;
-import org.apache.commons.math4.util.MathArrays;
 import org.apache.commons.math4.util.MathUtils;
 
 /**
@@ -153,9 +153,9 @@ public class Cartesian3D extends Vector3D implements Serializable, Point<Euclide
      * @param u2 second base (unscaled) vector
      */
     public Cartesian3D(double a1, Cartesian3D u1, double a2, Cartesian3D u2) {
-        this.x = MathArrays.linearCombination(a1, u1.x, a2, u2.x);
-        this.y = MathArrays.linearCombination(a1, u1.y, a2, u2.y);
-        this.z = MathArrays.linearCombination(a1, u1.z, a2, u2.z);
+        this.x = LinearCombination.value(a1, u1.x, a2, u2.x);
+        this.y = LinearCombination.value(a1, u1.y, a2, u2.y);
+        this.z = LinearCombination.value(a1, u1.z, a2, u2.z);
     }
 
     /** Linear constructor
@@ -170,9 +170,9 @@ public class Cartesian3D extends Vector3D implements Serializable, Point<Euclide
      */
     public Cartesian3D(double a1, Cartesian3D u1, double a2, Cartesian3D u2,
                     double a3, Cartesian3D u3) {
-        this.x = MathArrays.linearCombination(a1, u1.x, a2, u2.x, a3, u3.x);
-        this.y = MathArrays.linearCombination(a1, u1.y, a2, u2.y, a3, u3.y);
-        this.z = MathArrays.linearCombination(a1, u1.z, a2, u2.z, a3, u3.z);
+        this.x = LinearCombination.value(a1, u1.x, a2, u2.x, a3, u3.x);
+        this.y = LinearCombination.value(a1, u1.y, a2, u2.y, a3, u3.y);
+        this.z = LinearCombination.value(a1, u1.z, a2, u2.z, a3, u3.z);
     }
 
     /** Linear constructor
@@ -189,9 +189,9 @@ public class Cartesian3D extends Vector3D implements Serializable, Point<Euclide
      */
     public Cartesian3D(double a1, Cartesian3D u1, double a2, Cartesian3D u2,
                     double a3, Cartesian3D u3, double a4, Cartesian3D u4) {
-        this.x = MathArrays.linearCombination(a1, u1.x, a2, u2.x, a3, u3.x, a4, u4.x);
-        this.y = MathArrays.linearCombination(a1, u1.y, a2, u2.y, a3, u3.y, a4, u4.y);
-        this.z = MathArrays.linearCombination(a1, u1.z, a2, u2.z, a3, u3.z, a4, u4.z);
+        this.x = LinearCombination.value(a1, u1.x, a2, u2.x, a3, u3.x, a4, u4.x);
+        this.y = LinearCombination.value(a1, u1.y, a2, u2.y, a3, u3.y, a4, u4.y);
+        this.z = LinearCombination.value(a1, u1.z, a2, u2.z, a3, u3.z, a4, u4.z);
     }
 
     /** Get the abscissa of the vector.
@@ -466,12 +466,12 @@ public class Cartesian3D extends Vector3D implements Serializable, Point<Euclide
      * algorithms to preserve accuracy and reduce cancellation effects.
      * It should be very accurate even for nearly orthogonal vectors.
      * </p>
-     * @see MathArrays#linearCombination(double, double, double, double, double, double)
+     * @see LinearCombination#value(double, double, double, double, double, double)
      */
     @Override
     public double dotProduct(final Vector<Euclidean3D> v) {
         final Cartesian3D v3 = (Cartesian3D) v;
-        return MathArrays.linearCombination(x, v3.x, y, v3.y, z, v3.z);
+        return LinearCombination.value(x, v3.x, y, v3.y, z, v3.z);
     }
 
     /** Compute the cross-product of the instance with another vector.
@@ -480,9 +480,9 @@ public class Cartesian3D extends Vector3D implements Serializable, Point<Euclide
      */
     public Cartesian3D crossProduct(final Vector<Euclidean3D> v) {
         final Cartesian3D v3 = (Cartesian3D) v;
-        return new Cartesian3D(MathArrays.linearCombination(y, v3.z, -z, v3.y),
-                            MathArrays.linearCombination(z, v3.x, -x, v3.z),
-                            MathArrays.linearCombination(x, v3.y, -y, v3.x));
+        return new Cartesian3D(LinearCombination.value(y, v3.z, -z, v3.y),
+                            LinearCombination.value(z, v3.x, -x, v3.z),
+                            LinearCombination.value(x, v3.y, -y, v3.x));
     }
 
     /** {@inheritDoc} */

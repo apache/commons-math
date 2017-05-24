@@ -21,6 +21,7 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicReference;
 
+import org.apache.commons.numbers.arrays.LinearCombination;
 import org.apache.commons.math4.exception.DimensionMismatchException;
 import org.apache.commons.math4.exception.MathArithmeticException;
 import org.apache.commons.math4.exception.MathInternalError;
@@ -28,7 +29,6 @@ import org.apache.commons.math4.exception.NotPositiveException;
 import org.apache.commons.math4.exception.NumberIsTooLargeException;
 import org.apache.commons.numbers.combinatorics.FactorialDouble;
 import org.apache.commons.math4.util.FastMath;
-import org.apache.commons.math4.util.MathArrays;
 
 /** Class holding "compiled" computation rules for derivative structures.
  * <p>This class implements the computation rules described in Dan Kalman's paper <a
@@ -668,7 +668,7 @@ public class DSCompiler {
                                   final double[] result, final int resultOffset) {
         for (int i = 0; i < getSize(); ++i) {
             result[resultOffset + i] =
-                    MathArrays.linearCombination(a1, c1[offset1 + i], a2, c2[offset2 + i]);
+                    LinearCombination.value(a1, c1[offset1 + i], a2, c2[offset2 + i]);
         }
     }
 
@@ -693,7 +693,7 @@ public class DSCompiler {
                                   final double[] result, final int resultOffset) {
         for (int i = 0; i < getSize(); ++i) {
             result[resultOffset + i] =
-                    MathArrays.linearCombination(a1, c1[offset1 + i],
+                    LinearCombination.value(a1, c1[offset1 + i],
                                                  a2, c2[offset2 + i],
                                                  a3, c3[offset3 + i]);
         }
@@ -724,7 +724,7 @@ public class DSCompiler {
                                   final double[] result, final int resultOffset) {
         for (int i = 0; i < getSize(); ++i) {
             result[resultOffset + i] =
-                    MathArrays.linearCombination(a1, c1[offset1 + i],
+                    LinearCombination.value(a1, c1[offset1 + i],
                                                  a2, c2[offset2 + i],
                                                  a3, c3[offset3 + i],
                                                  a4, c4[offset4 + i]);

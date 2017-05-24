@@ -18,6 +18,8 @@ package org.apache.commons.math4.geometry.euclidean.twod.hull;
 
 import java.io.Serializable;
 
+import org.apache.commons.numbers.arrays.LinearCombination;
+import org.apache.commons.numbers.core.Precision;
 import org.apache.commons.math4.exception.InsufficientDataException;
 import org.apache.commons.math4.exception.MathIllegalArgumentException;
 import org.apache.commons.math4.exception.util.LocalizedFormats;
@@ -28,8 +30,6 @@ import org.apache.commons.math4.geometry.euclidean.twod.Cartesian2D;
 import org.apache.commons.math4.geometry.hull.ConvexHull;
 import org.apache.commons.math4.geometry.partitioning.Region;
 import org.apache.commons.math4.geometry.partitioning.RegionFactory;
-import org.apache.commons.math4.util.MathArrays;
-import org.apache.commons.numbers.core.Precision;
 
 /**
  * This class represents a convex hull in an two-dimensional euclidean space.
@@ -91,7 +91,7 @@ public class ConvexHull2D implements ConvexHull<Euclidean2D, Cartesian2D>, Seria
             final Cartesian2D d1 = p2.subtract(p1);
             final Cartesian2D d2 = p3.subtract(p2);
 
-            final double crossProduct = MathArrays.linearCombination(d1.getX(), d2.getY(), -d1.getY(), d2.getX());
+            final double crossProduct = LinearCombination.value(d1.getX(), d2.getY(), -d1.getY(), d2.getX());
             final int cmp = Precision.compareTo(crossProduct, 0.0, tolerance);
             // in case of collinear points the cross product will be zero
             if (cmp != 0.0) {

@@ -16,6 +16,7 @@
  */
 package org.apache.commons.math4.geometry.euclidean.twod;
 
+import org.apache.commons.numbers.arrays.LinearCombination;
 import org.apache.commons.math4.exception.MathIllegalArgumentException;
 import org.apache.commons.math4.exception.util.LocalizedFormats;
 import org.apache.commons.math4.geometry.Point;
@@ -29,7 +30,6 @@ import org.apache.commons.math4.geometry.partitioning.Hyperplane;
 import org.apache.commons.math4.geometry.partitioning.SubHyperplane;
 import org.apache.commons.math4.geometry.partitioning.Transform;
 import org.apache.commons.math4.util.FastMath;
-import org.apache.commons.math4.util.MathArrays;
 import org.apache.commons.math4.util.MathUtils;
 
 /** This class represents an oriented line in the 2D plane.
@@ -158,7 +158,7 @@ public class Line implements Hyperplane<Euclidean2D>, Embedding<Euclidean2D, Euc
             angle        = FastMath.PI + FastMath.atan2(-dy, -dx);
             cos          = dx / d;
             sin          = dy / d;
-            originOffset = MathArrays.linearCombination(p2.getX(), p1.getY(), -p1.getX(), p2.getY()) / d;
+            originOffset = LinearCombination.value(p2.getX(), p1.getY(), -p1.getX(), p2.getY()) / d;
         }
     }
 
@@ -171,7 +171,7 @@ public class Line implements Hyperplane<Euclidean2D>, Embedding<Euclidean2D, Euc
         this.angle   = MathUtils.normalizeAngle(alpha, FastMath.PI);
         cos          = FastMath.cos(this.angle);
         sin          = FastMath.sin(this.angle);
-        originOffset = MathArrays.linearCombination(cos, p.getY(), -sin, p.getX());
+        originOffset = LinearCombination.value(cos, p.getY(), -sin, p.getX());
     }
 
     /** Revert the instance.
@@ -257,7 +257,7 @@ public class Line implements Hyperplane<Euclidean2D>, Embedding<Euclidean2D, Euc
      * the specified space point
      */
     public Cartesian1D toSubSpace(final Cartesian2D cartesian) {
-        return new Cartesian1D(MathArrays.linearCombination(cos, cartesian.getX(), sin, cartesian.getY()));
+        return new Cartesian1D(LinearCombination.value(cos, cartesian.getX(), sin, cartesian.getY()));
     }
 
     /** Transform a sub-space point into a space point.
@@ -267,8 +267,8 @@ public class Line implements Hyperplane<Euclidean2D>, Embedding<Euclidean2D, Euc
      */
     public Cartesian2D toSpace(Cartesian1D cartesian) {
         final double abscissa = cartesian.getX();
-        return new Cartesian2D(MathArrays.linearCombination(abscissa, cos, -originOffset, sin),
-                            MathArrays.linearCombination(abscissa, sin,  originOffset, cos));
+        return new Cartesian2D(LinearCombination.value(abscissa, cos, -originOffset, sin),
+                            LinearCombination.value(abscissa, sin,  originOffset, cos));
     }
 
     /** Get the intersection point of the instance and another line.
@@ -277,12 +277,12 @@ public class Line implements Hyperplane<Euclidean2D>, Embedding<Euclidean2D, Euc
      * or null if there are no intersection points
      */
     public Cartesian2D intersection(final Line other) {
-        final double d = MathArrays.linearCombination(sin, other.cos, -other.sin, cos);
+        final double d = LinearCombination.value(sin, other.cos, -other.sin, cos);
         if (FastMath.abs(d) < tolerance) {
             return null;
         }
-        return new Cartesian2D(MathArrays.linearCombination(cos, other.originOffset, -other.cos, originOffset) / d,
-                            MathArrays.linearCombination(sin, other.originOffset, -other.sin, originOffset) / d);
+        return new Cartesian2D(LinearCombination.value(cos, other.originOffset, -other.cos, originOffset) / d,
+                            LinearCombination.value(sin, other.originOffset, -other.sin, originOffset) / d);
     }
 
     /** {@inheritDoc}
@@ -328,7 +328,7 @@ public class Line implements Hyperplane<Euclidean2D>, Embedding<Euclidean2D, Euc
      */
     public double getOffset(final Line line) {
         return originOffset +
-               (MathArrays.linearCombination(cos, line.cos, sin, line.sin) > 0 ? -line.originOffset : line.originOffset);
+               (LinearCombination.value(cos, line.cos, sin, line.sin) > 0 ? -line.originOffset : line.originOffset);
     }
 
     /** Get the offset (oriented distance) of a vector.
@@ -350,14 +350,14 @@ public class Line implements Hyperplane<Euclidean2D>, Embedding<Euclidean2D, Euc
      * @return offset of the point
      */
     public double getOffset(Cartesian2D cartesian) {
-        return MathArrays.linearCombination(sin, cartesian.getX(), -cos, cartesian.getY(), 1.0, originOffset);
+        return LinearCombination.value(sin, cartesian.getX(), -cos, cartesian.getY(), 1.0, originOffset);
     }
 
     /** {@inheritDoc} */
     @Override
     public boolean sameOrientationAs(final Hyperplane<Euclidean2D> other) {
         final Line otherL = (Line) other;
-        return MathArrays.linearCombination(sin, otherL.sin, cos, otherL.cos) >= 0.0;
+        return LinearCombination.value(sin, otherL.sin, cos, otherL.cos) >= 0.0;
     }
 
     /** Get one point from the plane.
@@ -369,8 +369,8 @@ public class Line implements Hyperplane<Euclidean2D>, Embedding<Euclidean2D, Euc
     public Cartesian2D getPointAt(final Cartesian1D abscissa, final double offset) {
         final double x       = abscissa.getX();
         final double dOffset = offset - originOffset;
-        return new Cartesian2D(MathArrays.linearCombination(x, cos,  dOffset, sin),
-                            MathArrays.linearCombination(x, sin, -dOffset, cos));
+        return new Cartesian2D(LinearCombination.value(x, cos,  dOffset, sin),
+                            LinearCombination.value(x, sin, -dOffset, cos));
     }
 
     /** Check if the line contains a point.
@@ -400,14 +400,14 @@ public class Line implements Hyperplane<Euclidean2D>, Embedding<Euclidean2D, Euc
      * (they can have either the same or opposite orientations)
      */
     public boolean isParallelTo(final Line line) {
-        return FastMath.abs(MathArrays.linearCombination(sin, line.cos, -cos, line.sin)) < tolerance;
+        return FastMath.abs(LinearCombination.value(sin, line.cos, -cos, line.sin)) < tolerance;
     }
 
     /** Translate the line to force it passing by a point.
      * @param p point by which the line should pass
      */
     public void translateToPoint(final Cartesian2D p) {
-        originOffset = MathArrays.linearCombination(cos, p.getY(), -sin, p.getX());
+        originOffset = LinearCombination.value(cos, p.getY(), -sin, p.getX());
     }
 
     /** Get the angle of the line.
@@ -524,9 +524,9 @@ public class Line implements Hyperplane<Euclidean2D>, Embedding<Euclidean2D, Euc
             this.cX1 = cX1;
             this.cY1 = cY1;
 
-            c1Y = MathArrays.linearCombination(cXY, cY1, -cYY, cX1);
-            c1X = MathArrays.linearCombination(cXX, cY1, -cYX, cX1);
-            c11 = MathArrays.linearCombination(cXX, cYY, -cYX, cXY);
+            c1Y = LinearCombination.value(cXY, cY1, -cYY, cX1);
+            c1X = LinearCombination.value(cXX, cY1, -cYX, cX1);
+            c11 = LinearCombination.value(cXX, cYY, -cYX, cXY);
 
             if (FastMath.abs(c11) < 1.0e-20) {
                 throw new MathIllegalArgumentException(LocalizedFormats.NON_INVERTIBLE_TRANSFORM);
@@ -540,17 +540,17 @@ public class Line implements Hyperplane<Euclidean2D>, Embedding<Euclidean2D, Euc
             final Cartesian2D p2D = (Cartesian2D) point;
             final double  x   = p2D.getX();
             final double  y   = p2D.getY();
-            return new Cartesian2D(MathArrays.linearCombination(cXX, x, cXY, y, cX1, 1),
-                                MathArrays.linearCombination(cYX, x, cYY, y, cY1, 1));
+            return new Cartesian2D(LinearCombination.value(cXX, x, cXY, y, cX1, 1),
+                                LinearCombination.value(cYX, x, cYY, y, cY1, 1));
         }
 
         /** {@inheritDoc} */
         @Override
         public Line apply(final Hyperplane<Euclidean2D> hyperplane) {
             final Line   line    = (Line) hyperplane;
-            final double rOffset = MathArrays.linearCombination(c1X, line.cos, c1Y, line.sin, c11, line.originOffset);
-            final double rCos    = MathArrays.linearCombination(cXX, line.cos, cXY, line.sin);
-            final double rSin    = MathArrays.linearCombination(cYX, line.cos, cYY, line.sin);
+            final double rOffset = LinearCombination.value(c1X, line.cos, c1Y, line.sin, c11, line.originOffset);
+            final double rCos    = LinearCombination.value(cXX, line.cos, cXY, line.sin);
+            final double rSin    = LinearCombination.value(cYX, line.cos, cYY, line.sin);
             final double inv     = 1.0 / FastMath.sqrt(rSin * rSin + rCos * rCos);
             return new Line(FastMath.PI + FastMath.atan2(-rSin, -rCos),
                             inv * rCos, inv * rSin,

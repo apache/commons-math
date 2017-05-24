@@ -17,6 +17,7 @@
 
 package org.apache.commons.math4.analysis;
 
+import org.apache.commons.numbers.arrays.LinearCombination;
 import org.apache.commons.math4.analysis.differentiation.DerivativeStructure;
 import org.apache.commons.math4.analysis.differentiation.MultivariateDifferentiableFunction;
 import org.apache.commons.math4.analysis.differentiation.UnivariateDifferentiableFunction;
@@ -25,7 +26,6 @@ import org.apache.commons.math4.exception.DimensionMismatchException;
 import org.apache.commons.math4.exception.NotStrictlyPositiveException;
 import org.apache.commons.math4.exception.NumberIsTooLargeException;
 import org.apache.commons.math4.exception.util.LocalizedFormats;
-import org.apache.commons.math4.util.MathArrays;
 
 /**
  * Utilities for manipulating function objects.
@@ -464,7 +464,7 @@ public class FunctionUtils {
                     orders[i] = 0;
 
                     // compose partial derivatives
-                    packed[i + 1] = MathArrays.linearCombination(dv, partials);
+                    packed[i + 1] = LinearCombination.value(dv, partials);
 
                 }
 

@@ -21,14 +21,14 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.apache.commons.numbers.arrays.LinearCombination;
+import org.apache.commons.numbers.core.Precision;
 import org.apache.commons.math4.Field;
 import org.apache.commons.math4.FieldElement;
 import org.apache.commons.math4.RealFieldElement;
 import org.apache.commons.math4.exception.DimensionMismatchException;
 import org.apache.commons.math4.util.FastMath;
-import org.apache.commons.math4.util.MathArrays;
 import org.apache.commons.math4.util.MathUtils;
-import org.apache.commons.numbers.core.Precision;
 
 /**
  * First derivative computation with large number of variables.
@@ -752,7 +752,7 @@ public class SparseGradient implements RealFieldElement<SparseGradient>, Seriali
         for (int i = 0; i < b.length; ++i) {
             bDouble[i] = b[i].getValue();
         }
-        out.value = MathArrays.linearCombination(aDouble, bDouble);
+        out.value = LinearCombination.value(aDouble, bDouble);
 
         return out;
 
@@ -773,7 +773,7 @@ public class SparseGradient implements RealFieldElement<SparseGradient>, Seriali
         for (int i = 0; i < b.length; ++i) {
             bDouble[i] = b[i].getValue();
         }
-        out.value = MathArrays.linearCombination(a, bDouble);
+        out.value = LinearCombination.value(a, bDouble);
 
         return out;
 
@@ -788,7 +788,7 @@ public class SparseGradient implements RealFieldElement<SparseGradient>, Seriali
         SparseGradient out = a1.multiply(b1).add(a2.multiply(b2));
 
         // recompute an accurate value, taking care of cancellations
-        out.value = MathArrays.linearCombination(a1.value, b1.value, a2.value, b2.value);
+        out.value = LinearCombination.value(a1.value, b1.value, a2.value, b2.value);
 
         return out;
 
@@ -803,7 +803,7 @@ public class SparseGradient implements RealFieldElement<SparseGradient>, Seriali
         SparseGradient out = b1.multiply(a1).add(b2.multiply(a2));
 
         // recompute an accurate value, taking care of cancellations
-        out.value = MathArrays.linearCombination(a1, b1.value, a2, b2.value);
+        out.value = LinearCombination.value(a1, b1.value, a2, b2.value);
 
         return out;
 
@@ -819,7 +819,7 @@ public class SparseGradient implements RealFieldElement<SparseGradient>, Seriali
         SparseGradient out = a1.multiply(b1).add(a2.multiply(b2)).add(a3.multiply(b3));
 
         // recompute an accurate value, taking care of cancellations
-        out.value = MathArrays.linearCombination(a1.value, b1.value,
+        out.value = LinearCombination.value(a1.value, b1.value,
                                                  a2.value, b2.value,
                                                  a3.value, b3.value);
 
@@ -837,7 +837,7 @@ public class SparseGradient implements RealFieldElement<SparseGradient>, Seriali
         SparseGradient out = b1.multiply(a1).add(b2.multiply(a2)).add(b3.multiply(a3));
 
         // recompute an accurate value, taking care of cancellations
-        out.value = MathArrays.linearCombination(a1, b1.value,
+        out.value = LinearCombination.value(a1, b1.value,
                                                  a2, b2.value,
                                                  a3, b3.value);
 
@@ -856,7 +856,7 @@ public class SparseGradient implements RealFieldElement<SparseGradient>, Seriali
         SparseGradient out = a1.multiply(b1).add(a2.multiply(b2)).add(a3.multiply(b3)).add(a4.multiply(b4));
 
         // recompute an accurate value, taking care of cancellations
-        out.value = MathArrays.linearCombination(a1.value, b1.value,
+        out.value = LinearCombination.value(a1.value, b1.value,
                                                  a2.value, b2.value,
                                                  a3.value, b3.value,
                                                  a4.value, b4.value);
@@ -876,7 +876,7 @@ public class SparseGradient implements RealFieldElement<SparseGradient>, Seriali
         SparseGradient out = b1.multiply(a1).add(b2.multiply(a2)).add(b3.multiply(a3)).add(b4.multiply(a4));
 
         // recompute an accurate value, taking care of cancellations
-        out.value = MathArrays.linearCombination(a1, b1.value,
+        out.value = LinearCombination.value(a1, b1.value,
                                                  a2, b2.value,
                                                  a3, b3.value,
                                                  a4, b4.value);
