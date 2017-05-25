@@ -22,6 +22,10 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 
+import org.apache.commons.numbers.core.Precision;
+import org.apache.commons.numbers.arrays.LinearCombination;
+import org.apache.commons.rng.UniformRandomProvider;
+import org.apache.commons.rng.simple.RandomSource;
 import org.apache.commons.math4.exception.NullArgumentException;
 import org.apache.commons.math4.geometry.euclidean.twod.Euclidean2D;
 import org.apache.commons.math4.geometry.euclidean.twod.Cartesian2D;
@@ -29,11 +33,7 @@ import org.apache.commons.math4.geometry.euclidean.twod.hull.ConvexHull2D;
 import org.apache.commons.math4.geometry.euclidean.twod.hull.ConvexHullGenerator2D;
 import org.apache.commons.math4.geometry.partitioning.Region;
 import org.apache.commons.math4.geometry.partitioning.Region.Location;
-import org.apache.commons.rng.UniformRandomProvider;
-import org.apache.commons.rng.simple.RandomSource;
 import org.apache.commons.math4.util.FastMath;
-import org.apache.commons.math4.util.MathArrays;
-import org.apache.commons.numbers.core.Precision;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
@@ -409,7 +409,7 @@ public abstract class ConvexHullGenerator2DAbstractTest {
             Assert.assertTrue(d1.getNorm() > 1e-10);
             Assert.assertTrue(d2.getNorm() > 1e-10);
 
-            final double cross = MathArrays.linearCombination(d1.getX(), d2.getY(), -d1.getY(), d2.getX());
+            final double cross = LinearCombination.value(d1.getX(), d2.getY(), -d1.getY(), d2.getX());
             final int cmp = Precision.compareTo(cross, 0.0, tolerance);
 
             if (sign != 0 && cmp != sign) {
