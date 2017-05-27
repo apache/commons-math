@@ -127,6 +127,11 @@
       <id>evanward</id>
       <email>evanward at apache dot org</email>
     </developer>
+    <developer>
+      <name>Rob Tompkins</name>
+      <id>chtompki</id>
+      <email>chtompki at apache dot org</email>
+    </developer>
   </developers>
   <contributors>
     <contributor>
@@ -328,9 +333,6 @@
       <name>Mauro Talevi</name>
     </contributor>
     <contributor>
-      <name>Rob Tompkins</name>
-    </contributor>
-    <contributor>
       <name>Radoslav Tsvetkov</name>
     </contributor>
     <contributor>
@@ -430,7 +432,8 @@
          (see "commons.osgi.symbolicName", below). -->
     <!-- TODO: when releasing 4.0, the properties below need to be updated, and
          the 3.x release artifacts need to be put int commons.release.3  -->
-    <commons.componentid>math</commons.componentid>
+    <commons.componentid>math4</commons.componentid>
+    <commons.module.name>org.apache.commons.math4</commons.module.name>
     <!-- This value must reflect the current name of the base package. -->
     <commons.osgi.symbolicName>org.apache.commons.math3</commons.osgi.symbolicName>
     <!-- do not use snapshot suffix here -->
