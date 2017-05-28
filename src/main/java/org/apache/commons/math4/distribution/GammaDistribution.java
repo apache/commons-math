@@ -54,7 +54,7 @@ public class GammaDistribution extends AbstractRealDistribution {
      * The constant value of
      * {@code shape / scale * sqrt(e / (2 * pi * (shape + g + 0.5))) / L(shape)},
      * where {@code L(shape)} is the Lanczos approximation returned by
-     * {@link Gamma#lanczos(double)}. This prefactor is used in
+     * {@link LanczosApproximation#value(double)}. This prefactor is used in
      * {@link #density(double)}, when no overflow occurs with the natural
      * calculation.
      */
@@ -63,7 +63,7 @@ public class GammaDistribution extends AbstractRealDistribution {
      * The constant value of
      * {@code log(shape / scale * sqrt(e / (2 * pi * (shape + g + 0.5))) / L(shape))},
      * where {@code L(shape)} is the Lanczos approximation returned by
-     * {@link Gamma#lanczos(double)}. This prefactor is used in
+     * {@link LanczosApproximation#value(double)}. This prefactor is used in
      * {@link #logDensity(double)}, when no overflow occurs with the natural
      * calculation.
      */
@@ -72,7 +72,7 @@ public class GammaDistribution extends AbstractRealDistribution {
      * The constant value of
      * {@code shape * sqrt(e / (2 * pi * (shape + g + 0.5))) / L(shape)},
      * where {@code L(shape)} is the Lanczos approximation returned by
-     * {@link Gamma#lanczos(double)}. This prefactor is used in
+     * {@link LanczosApproximation#value(double)}. This prefactor is used in
      * {@link #density(double)}, when overflow occurs with the natural
      * calculation.
      */
@@ -81,7 +81,7 @@ public class GammaDistribution extends AbstractRealDistribution {
      * The constant value of
      * {@code log(shape * sqrt(e / (2 * pi * (shape + g + 0.5))) / L(shape))},
      * where {@code L(shape)} is the Lanczos approximation returned by
-     * {@link Gamma#lanczos(double)}. This prefactor is used in
+     * {@link LanczosApproximation#value(double)}. This prefactor is used in
      * {@link #logDensity(double)}, when overflow occurs with the natural
      * calculation.
      */
