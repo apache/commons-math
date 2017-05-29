@@ -752,7 +752,7 @@ public class FieldVector3D<T extends RealFieldElement<T>> implements Serializabl
      * algorithms to preserve accuracy and reduce cancellation effects.
      * It should be very accurate even for nearly orthogonal vectors.
      * </p>
-     * @see MathArrays#linearCombination(double, double, double, double, double, double)
+     *
      * @param v second vector
      * @return the dot product this.v
      */
@@ -766,7 +766,7 @@ public class FieldVector3D<T extends RealFieldElement<T>> implements Serializabl
      * algorithms to preserve accuracy and reduce cancellation effects.
      * It should be very accurate even for nearly orthogonal vectors.
      * </p>
-     * @see MathArrays#linearCombination(double, double, double, double, double, double)
+     *
      * @param v second vector
      * @return the dot product this.v
      */
