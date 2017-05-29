@@ -49,13 +49,7 @@ public class PoissonDistribution extends AbstractIntegerDistribution {
     /** Mean of the distribution. */
     private final double mean;
 
-    /**
-     * Maximum number of iterations for cumulative probability. Cumulative
-     * probabilities are estimated using either Lanczos series approximation
-     * of {@link RegularizedGamma.P#value(double, double, double, int)}
-     * or continued fraction approximation of
-     * {@link RegularizedGamma.Q#value(double, double, double, int)}.
-     */
+    /** Maximum number of iterations for cumulative probability. */
     private final int maxIterations;
 
     /** Convergence criterion for cumulative probability. */
