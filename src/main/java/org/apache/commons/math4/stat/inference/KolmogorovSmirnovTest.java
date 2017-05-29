@@ -67,16 +67,15 @@ import org.apache.commons.math4.util.MathUtils;
  * default 2-sample test method, {@link #kolmogorovSmirnovTest(double[], double[])} works as
  * follows:
  * <ul>
- * <li>For small samples (where the product of the sample sizes is less than
- * {@value #LARGE_SAMPLE_PRODUCT}), the method presented in [4] is used to compute the
- * exact p-value for the 2-sample test.</li>
- * <li>When the product of the sample sizes exceeds {@value #LARGE_SAMPLE_PRODUCT}, the asymptotic
+ * <li>When the product of the sample sizes is less than 10000, the method presented in [4]
+ * is used to compute the exact p-value for the 2-sample test.</li>
+ * <li>When the product of the sample sizes is larger, the asymptotic
  * distribution of \(D_{n,m}\) is used. See {@link #approximateP(double, int, int)} for details on
  * the approximation.</li>
  * </ul><p>
- * If the product of the sample sizes is less than {@value #LARGE_SAMPLE_PRODUCT} and the sample
- * data contains ties, random jitter is added to the sample data to break ties before applying
- * the algorithm above. Alternatively, the {@link #bootstrap(double[],double[],int,boolean,UniformRandomProvider)}
+ * For small samples (former case), if the data contains ties, random jitter is added
+ * to the sample data to break ties before applying the algorithm above. Alternatively,
+ * the {@link #bootstrap(double[],double[],int,boolean,UniformRandomProvider)}
  * method, modeled after <a href="http://sekhon.berkeley.edu/matching/ks.boot.html">ks.boot</a>
  * in the R Matching package [3], can be used if ties are known to be present in the data.
  * </p>
@@ -187,23 +186,7 @@ public class KolmogorovSmirnovTest {
      * that the {@link #kolmogorovSmirnovStatistic(double[], double[])} associated with a randomly
      * selected partition of the combined sample into subsamples of sizes {@code x.length} and
      * {@code y.length} will strictly exceed (if {@code strict} is {@code true}) or be at least as
-     * large as {@code strict = false}) as {@code kolmogorovSmirnovStatistic(x, y)}.
-     * <ul>
-     * <li>For small samples (where the product of the sample sizes is less than
-     * {@value #LARGE_SAMPLE_PRODUCT}), the exact p-value is computed using the method presented
-     * in [4], implemented in {@link #exactP(double, int, int, boolean)}. </li>
-     * <li>When the product of the sample sizes exceeds {@value #LARGE_SAMPLE_PRODUCT}, the
-     * asymptotic distribution of \(D_{n,m}\) is used. See {@link #approximateP(double, int, int)}
-     * for details on the approximation.</li>
-     * </ul><p>
-     * If {@code x.length * y.length <} {@value #LARGE_SAMPLE_PRODUCT} and the combined set of values in
-     * {@code x} and {@code y} contains ties, random jitter is added to {@code x} and {@code y} to
-     * break ties before computing \(D_{n,m}\) and the p-value. The jitter is uniformly distributed
-     * on (-minDelta / 2, minDelta / 2) where minDelta is the smallest pairwise difference between
-     * values in the combined sample.</p>
-     * <p>
-     * If ties are known to be present in the data, {@link #bootstrap(double[],double[],int,boolean,UniformRandomProvider)}
-     * may be used as an alternative method for estimating the p-value.</p>
+     * large as (if {@code strict} is {@code false}) as {@code kolmogorovSmirnovStatistic(x, y)}.
      *
      * @param x first sample dataset.
      * @param y second sample dataset.
@@ -215,6 +198,7 @@ public class KolmogorovSmirnovTest {
      * not have length at least 2.
      * @throws NullArgumentException if either {@code x} or {@code y} is null.
      * @throws NotANumberException if the input arrays contain NaN values.
+     *
      * @see #bootstrap(double[],double[],int,boolean,UniformRandomProvider)
      */
     public double kolmogorovSmirnovTest(double[] x, double[] y, boolean strict) {
@@ -969,9 +953,7 @@ public class KolmogorovSmirnovTest {
      * <p>
      * Specifically, what is returned is \(1 - k(d \sqrt{mn / (m + n)})\) where \(k(t) = 1 + 2
      * \sum_{i=1}^\infty (-1)^i e^{-2 i^2 t^2}\). See {@link #ksSum(double, double, int)} for
-     * details on how convergence of the sum is determined. This implementation passes {@code ksSum}
-     * {@value #KS_SUM_CAUCHY_CRITERION} as {@code tolerance} and
-     * {@value #MAXIMUM_PARTIAL_SUM_COUNT} as {@code maxIterations}.
+     * details on how convergence of the sum is determined.
      * </p>
      *
      * @param d D-statistic value
