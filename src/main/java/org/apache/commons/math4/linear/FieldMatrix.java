@@ -194,7 +194,7 @@ public interface FieldMatrix<T extends FieldElement<T>> extends AnyMatrix {
     void copySubMatrix(int startRow, int endRow, int startColumn, int endColumn,
                        T[][] destination)
     throws MatrixDimensionMismatchException, NumberIsTooSmallException,
-    OutOfRangeException;
+    OutOfRangeException, IllegalArgumentException;
 
   /**
    * Copy a submatrix. Rows and columns are indicated
