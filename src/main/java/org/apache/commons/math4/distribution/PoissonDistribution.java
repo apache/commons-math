@@ -36,12 +36,12 @@ public class PoissonDistribution extends AbstractIntegerDistribution {
      * Default maximum number of iterations for cumulative probability calculations.
      * @since 2.1
      */
-    public static final int DEFAULT_MAX_ITERATIONS = 10000000;
+    private static final int DEFAULT_MAX_ITERATIONS = 10000000;
     /**
      * Default convergence criterion.
      * @since 2.1
      */
-    public static final double DEFAULT_EPSILON = 1e-12;
+    private static final double DEFAULT_EPSILON = 1e-12;
     /** Serializable version identifier. */
     private static final long serialVersionUID = -3349935121172596109L;
     /** Distribution used to compute normal approximation. */
