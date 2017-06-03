@@ -13,6 +13,7 @@
  */
 package org.apache.commons.math4.util;
 
+import org.apache.commons.numbers.angle.PlaneAngleRadians;
 import org.apache.commons.math4.distribution.RealDistribution;
 import org.apache.commons.math4.distribution.UniformRealDistribution;
 import org.apache.commons.math4.exception.MathArithmeticException;
@@ -154,19 +155,6 @@ public final class MathUtilsTest {
     }
 
     @Test
-    public void testNormalizeAngle() {
-        for (double a = -15.0; a <= 15.0; a += 0.1) {
-            for (double b = -15.0; b <= 15.0; b += 0.2) {
-                double c = MathUtils.normalizeAngle(a, b);
-                Assert.assertTrue((b - FastMath.PI) <= c);
-                Assert.assertTrue(c <= (b + FastMath.PI));
-                double twoK = FastMath.rint((a - c) / FastMath.PI);
-                Assert.assertEquals(c, a - twoK * FastMath.PI, 1.0e-14);
-            }
-        }
-    }
-
-    @Test
     public void testReduce() {
         final double period = -12.222;
         final double offset = 13;
@@ -220,15 +208,15 @@ public final class MathUtilsTest {
     }
 
     @Test
-    public void testReduceComparedWithNormalizeAngle() {
-        final double tol = Math.ulp(1d);
+    public void testReduceComparedWithNormalize() {
         final double period = 2 * Math.PI;
         for (double a = -15; a <= 15; a += 0.5) {
             for (double center = -15; center <= 15; center += 1) {
-                final double nA = MathUtils.normalizeAngle(a, center);
+                final double nA = PlaneAngleRadians.normalize(a, center);
                 final double offset = center - Math.PI;
-                final double r = MathUtils.reduce(a, period, offset);
-                Assert.assertEquals(nA, r + offset, tol);
+                final double r = MathUtils.reduce(a, period, offset) + offset;
+                Assert.assertEquals("a=" + a + " center=" + center,
+                                    nA, r, 52 * Math.ulp(nA));
             }
         }
     }
