@@ -17,6 +17,7 @@
 package org.apache.commons.math4.geometry.euclidean.twod;
 
 import org.apache.commons.numbers.arrays.LinearCombination;
+import org.apache.commons.numbers.angle.PlaneAngleRadians;
 import org.apache.commons.math4.exception.MathIllegalArgumentException;
 import org.apache.commons.math4.exception.util.LocalizedFormats;
 import org.apache.commons.math4.geometry.Point;
@@ -59,7 +60,6 @@ import org.apache.commons.math4.util.MathUtils;
  * @since 3.0
  */
 public class Line implements Hyperplane<Euclidean2D>, Embedding<Euclidean2D, Euclidean1D> {
-
     /** Angle with respect to the abscissa axis. */
     private double angle;
 
@@ -125,7 +125,7 @@ public class Line implements Hyperplane<Euclidean2D>, Embedding<Euclidean2D, Euc
      * @param line line to copy
      */
     public Line(final Line line) {
-        angle        = MathUtils.normalizeAngle(line.angle, FastMath.PI);
+        angle        = PlaneAngleRadians.normalizeBetweenZeroAndTwoPi(line.angle);
         cos          = line.cos;
         sin          = line.sin;
         originOffset = line.originOffset;
@@ -168,7 +168,7 @@ public class Line implements Hyperplane<Euclidean2D>, Embedding<Euclidean2D, Euc
      */
     public void reset(final Cartesian2D p, final double alpha) {
         unlinkReverse();
-        this.angle   = MathUtils.normalizeAngle(alpha, FastMath.PI);
+        this.angle   = PlaneAngleRadians.normalizeBetweenZeroAndTwoPi(alpha);
         cos          = FastMath.cos(this.angle);
         sin          = FastMath.sin(this.angle);
         originOffset = LinearCombination.value(cos, p.getY(), -sin, p.getX());
@@ -414,7 +414,7 @@ public class Line implements Hyperplane<Euclidean2D>, Embedding<Euclidean2D, Euc
      * @return the angle of the line with respect to the abscissa axis
      */
     public double getAngle() {
-        return MathUtils.normalizeAngle(angle, FastMath.PI);
+        return PlaneAngleRadians.normalizeBetweenZeroAndTwoPi(angle);
     }
 
     /** Set the angle of the line.
@@ -422,7 +422,7 @@ public class Line implements Hyperplane<Euclidean2D>, Embedding<Euclidean2D, Euc
      */
     public void setAngle(final double angle) {
         unlinkReverse();
-        this.angle = MathUtils.normalizeAngle(angle, FastMath.PI);
+        this.angle = PlaneAngleRadians.normalizeBetweenZeroAndTwoPi(angle);
         cos        = FastMath.cos(this.angle);
         sin        = FastMath.sin(this.angle);
     }

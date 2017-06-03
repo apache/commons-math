@@ -22,6 +22,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.NoSuchElementException;
 
+import org.apache.commons.numbers.angle.PlaneAngleRadians;
 import org.apache.commons.math4.exception.MathIllegalArgumentException;
 import org.apache.commons.math4.exception.MathInternalError;
 import org.apache.commons.math4.exception.NumberIsTooLargeException;
@@ -139,7 +140,7 @@ public class ArcsSet extends AbstractRegion<Sphere1D, Sphere1D> implements Itera
         }
 
         // this is a regular arc, covering only part of the circle
-        final double normalizedLower = MathUtils.normalizeAngle(lower, FastMath.PI);
+        final double normalizedLower = PlaneAngleRadians.normalizeBetweenZeroAndTwoPi(lower);
         final double normalizedUpper = normalizedLower + (upper - lower);
         final SubHyperplane<Sphere1D> lowerCut =
                 new LimitAngle(new S1Point(normalizedLower), false, tolerance).wholeHyperplane();
@@ -731,7 +732,7 @@ public class ArcsSet extends AbstractRegion<Sphere1D, Sphere1D> implements Itera
         final double arcLength = arc.getSup() - arc.getInf();
 
         for (final double[] a : this) {
-            final double syncedStart = MathUtils.normalizeAngle(a[0], reference) - arc.getInf();
+            final double syncedStart = PlaneAngleRadians.normalize(a[0], reference) - arc.getInf();
             final double arcOffset   = a[0] - syncedStart;
             final double syncedEnd   = a[1] - arcOffset;
             if (syncedStart < arcLength) {
@@ -828,7 +829,7 @@ public class ArcsSet extends AbstractRegion<Sphere1D, Sphere1D> implements Itera
             for (int i = 0; i < limits.size(); ++i) {
                 final int    j  = (i + 1) % limits.size();
                 final double lA = limits.get(i);
-                final double lB = MathUtils.normalizeAngle(limits.get(j), lA);
+                final double lB = PlaneAngleRadians.normalize(limits.get(j), lA);
                 if (FastMath.abs(lB - lA) <= getTolerance()) {
                     // the two limits are too close to each other, we remove both of them
                     if (j > 0) {

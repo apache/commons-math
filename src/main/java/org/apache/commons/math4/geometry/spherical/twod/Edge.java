@@ -18,6 +18,7 @@ package org.apache.commons.math4.geometry.spherical.twod;
 
 import java.util.List;
 
+import org.apache.commons.numbers.angle.PlaneAngleRadians;
 import org.apache.commons.math4.geometry.euclidean.threed.Cartesian3D;
 import org.apache.commons.math4.geometry.spherical.oned.Arc;
 import org.apache.commons.math4.util.FastMath;
@@ -128,7 +129,7 @@ public class Edge {
         // get the inside arc, synchronizing its phase with the edge itself
         final double edgeStart        = circle.getPhase(start.getLocation().getVector());
         final Arc    arc              = circle.getInsideArc(splitCircle);
-        final double arcRelativeStart = MathUtils.normalizeAngle(arc.getInf(), edgeStart + FastMath.PI) - edgeStart;
+        final double arcRelativeStart = PlaneAngleRadians.normalize(arc.getInf(), edgeStart + FastMath.PI) - edgeStart;
         final double arcRelativeEnd   = arcRelativeStart + arc.getSize();
         final double unwrappedEnd     = arcRelativeEnd - MathUtils.TWO_PI;
 

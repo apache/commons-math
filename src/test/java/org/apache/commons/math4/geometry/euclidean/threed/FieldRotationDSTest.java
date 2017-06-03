@@ -17,6 +17,7 @@
 
 package org.apache.commons.math4.geometry.euclidean.threed;
 
+import org.apache.commons.numbers.angle.PlaneAngleRadians;
 import org.apache.commons.math4.analysis.differentiation.DerivativeStructure;
 import org.apache.commons.math4.exception.MathArithmeticException;
 import org.apache.commons.math4.exception.MathIllegalArgumentException;
@@ -33,7 +34,6 @@ import org.apache.commons.math4.random.UnitSphereRandomVectorGenerator;
 import org.apache.commons.rng.UniformRandomProvider;
 import org.apache.commons.rng.simple.RandomSource;
 import org.apache.commons.math4.util.FastMath;
-import org.apache.commons.math4.util.MathUtils;
 import org.junit.Assert;
 import org.junit.Test;
 
@@ -1227,7 +1227,7 @@ public class FieldRotationDSTest {
     }
 
     private void checkAngle(DerivativeStructure a1, double a2) {
-        Assert.assertEquals(a1.getReal(), MathUtils.normalizeAngle(a2, a1.getReal()), 1.0e-10);
+        Assert.assertEquals(a1.getReal(), PlaneAngleRadians.normalize(a2, a1.getReal()), 1.0e-10);
     }
 
     private void checkRotationDS(FieldRotation<DerivativeStructure> r, double q0, double q1, double q2, double q3) {

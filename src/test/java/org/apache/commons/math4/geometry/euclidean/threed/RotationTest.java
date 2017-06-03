@@ -17,6 +17,7 @@
 
 package org.apache.commons.math4.geometry.euclidean.threed;
 
+import org.apache.commons.numbers.angle.PlaneAngleRadians;
 import org.apache.commons.math4.exception.MathArithmeticException;
 import org.apache.commons.math4.exception.MathIllegalArgumentException;
 import org.apache.commons.math4.geometry.euclidean.threed.CardanEulerSingularityException;
@@ -25,7 +26,6 @@ import org.apache.commons.math4.geometry.euclidean.threed.Rotation;
 import org.apache.commons.math4.geometry.euclidean.threed.RotationOrder;
 import org.apache.commons.math4.geometry.euclidean.threed.Cartesian3D;
 import org.apache.commons.math4.util.FastMath;
-import org.apache.commons.math4.util.MathUtils;
 import org.junit.Assert;
 import org.junit.Test;
 
@@ -813,7 +813,7 @@ public class RotationTest {
   }
 
   private void checkAngle(double a1, double a2) {
-    Assert.assertEquals(a1, MathUtils.normalizeAngle(a2, a1), 1.0e-10);
+    Assert.assertEquals(a1, PlaneAngleRadians.normalize(a2, a1), 1.0e-10);
   }
 
   private void checkRotation(Rotation r, double q0, double q1, double q2, double q3) {

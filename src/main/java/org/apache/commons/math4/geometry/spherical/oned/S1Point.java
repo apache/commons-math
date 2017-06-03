@@ -16,6 +16,7 @@
  */
 package org.apache.commons.math4.geometry.spherical.oned;
 
+import org.apache.commons.numbers.angle.PlaneAngleRadians;
 import org.apache.commons.math4.geometry.Point;
 import org.apache.commons.math4.geometry.Space;
 import org.apache.commons.math4.geometry.euclidean.twod.Cartesian2D;
@@ -48,7 +49,7 @@ public class S1Point implements Point<Sphere1D> {
      * @see #getAlpha()
      */
     public S1Point(final double alpha) {
-        this(MathUtils.normalizeAngle(alpha, FastMath.PI),
+        this(PlaneAngleRadians.normalizeBetweenZeroAndTwoPi(alpha),
              new Cartesian2D(FastMath.cos(alpha), FastMath.sin(alpha)));
     }
 

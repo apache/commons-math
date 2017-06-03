@@ -16,6 +16,7 @@
  */
 package org.apache.commons.math4.geometry.spherical.oned;
 
+import org.apache.commons.numbers.angle.PlaneAngleRadians;
 import org.apache.commons.math4.exception.NumberIsTooLargeException;
 import org.apache.commons.math4.exception.util.LocalizedFormats;
 import org.apache.commons.math4.geometry.partitioning.Region.Location;
@@ -67,7 +68,7 @@ public class Arc {
             this.upper  = MathUtils.TWO_PI;
             this.middle = FastMath.PI;
         } else  if (lower <= upper) {
-            this.lower  = MathUtils.normalizeAngle(lower, FastMath.PI);
+            this.lower  = PlaneAngleRadians.normalizeBetweenZeroAndTwoPi(lower);
             this.upper  = this.lower + (upper - lower);
             this.middle = 0.5 * (this.lower + this.upper);
         } else {
@@ -119,7 +120,7 @@ public class Arc {
      * Location#INSIDE}, {@link Location#OUTSIDE} or {@link Location#BOUNDARY}
      */
     public Location checkPoint(final double point) {
-        final double normalizedPoint = MathUtils.normalizeAngle(point, middle);
+        final double normalizedPoint = PlaneAngleRadians.normalize(point, middle);
         if (normalizedPoint < lower - tolerance || normalizedPoint > upper + tolerance) {
             return Location.OUTSIDE;
         } else if (normalizedPoint > lower + tolerance && normalizedPoint < upper - tolerance) {
