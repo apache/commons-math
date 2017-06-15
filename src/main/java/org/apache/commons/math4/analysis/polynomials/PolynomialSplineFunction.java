@@ -105,7 +105,7 @@ public class PolynomialSplineFunction implements UnivariateDifferentiableFunctio
         }
         if (knots.length < 2) {
             throw new NumberIsTooSmallException(LocalizedFormats.NOT_ENOUGH_POINTS_IN_SPLINE_PARTITION,
-                                                2, knots.length, false);
+                                                knots.length, 2, true);
         }
         if (knots.length - 1 != polynomials.length) {
             throw new DimensionMismatchException(polynomials.length, knots.length);
