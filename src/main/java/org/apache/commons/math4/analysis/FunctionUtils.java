@@ -317,7 +317,7 @@ public class FunctionUtils {
      * @throws NumberIsTooLargeException if the lower bound {@code min} is
      * greater than, or equal to the upper bound {@code max}.
      * @throws NotStrictlyPositiveException if the number of sample points
-     * {@code n} is negative.
+     * {@code n} is not positive.
      */
     public static double[] sample(UnivariateFunction f, double min, double max, int n)
        throws NumberIsTooLargeException, NotStrictlyPositiveException {
