@@ -20,11 +20,9 @@ import org.apache.commons.math4.distribution.NormalDistribution;
 import org.apache.commons.math4.util.FastMath;
 
 /**
- * Implements the Wilson score method for creating a binomial proportion confidence interval.
+ * Implements the <a href="http://en.wikipedia.org/wiki/Binomial_proportion_confidence_interval#Wilson_score_interval">
+ * Wilson score method</a> for creating a binomial proportion confidence interval.
  *
- * @see <a
- *      href="http://en.wikipedia.org/wiki/Binomial_proportion_confidence_interval#Wilson_score_interval">
- *      Wilson score interval (Wikipedia)</a>
  * @since 3.3
  */
 public class WilsonScoreInterval implements BinomialConfidenceInterval {
@@ -50,5 +48,4 @@ public class WilsonScoreInterval implements BinomialConfidenceInterval {
         final double upperBound = factor * (modifiedSuccessRatio + difference);
         return new ConfidenceInterval(lowerBound, upperBound, confidenceLevel);
     }
-
 }
