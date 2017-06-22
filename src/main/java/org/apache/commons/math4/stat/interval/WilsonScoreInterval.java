@@ -36,14 +36,15 @@ public class WilsonScoreInterval implements BinomialConfidenceInterval {
         final double alpha = (1.0 - confidenceLevel) / 2;
         final NormalDistribution normalDistribution = new NormalDistribution();
         final double z = normalDistribution.inverseCumulativeProbability(1 - alpha);
-        final double zSquared = FastMath.pow(z, 2);
+        final double zSquared = z * z;
+        final double zSquaredOverNumTrials = zSquared / numberOfTrials;
         final double mean = (double) numberOfSuccesses / (double) numberOfTrials;
 
-        final double factor = 1.0 / (1 + (1.0 / numberOfTrials) * zSquared);
-        final double modifiedSuccessRatio = mean + (1.0 / (2 * numberOfTrials)) * zSquared;
+        final double factor = 1.0 / (1 + zSquaredOverNumTrials);
+        final double modifiedSuccessRatio = mean + zSquaredOverNumTrials / 2;
         final double difference = z *
                                   FastMath.sqrt(1.0 / numberOfTrials * mean * (1 - mean) +
-                                                (1.0 / (4 * FastMath.pow(numberOfTrials, 2)) * zSquared));
+                                                (zSquaredOverNumTrials / (4 * numberOfTrials)));
 
         final double lowerBound = factor * (modifiedSuccessRatio - difference);
         final double upperBound = factor * (modifiedSuccessRatio + difference);

@@ -40,4 +40,9 @@ public class WilsonScoreIntervalTest extends BinomialConfidenceIntervalAbstractT
         Assert.assertEquals(0.1242664, confidenceInterval.getUpperBound(), 1E-5);
     }
 
+    @Test
+    public void testMath1421() {
+        double lo = new WilsonScoreInterval().createInterval(19436, 0, 0.95).getLowerBound();
+        Assert.assertTrue(lo + " < 0", lo >= 0);
+    }
 }
