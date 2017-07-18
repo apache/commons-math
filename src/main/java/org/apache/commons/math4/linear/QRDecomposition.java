@@ -86,6 +86,9 @@ public class QRDecomposition {
      *
      * @param matrix The matrix to decompose.
      * @param threshold Singularity threshold.
+     * The matrix will be considered singular if the absolute value of
+     * any of the diagonal elements of the "R" matrix is smaller than
+     * the threshold.
      */
     public QRDecomposition(RealMatrix matrix,
                            double threshold) {
