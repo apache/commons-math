@@ -22,6 +22,7 @@
     <groupId>org.apache.commons</groupId>
     <artifactId>commons-parent</artifactId>
     <version>55</version>
+    <relativePath></relativePath>
   </parent>
 
   <artifactId>commons-math-parent</artifactId>
