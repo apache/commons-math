@@ -14,10 +14,13 @@
 package org.apache.commons.math4.stat.descriptive;
 
 import java.util.Locale;
+import java.util.Random;
 
 import org.apache.commons.math4.TestUtils;
 import org.apache.commons.math4.exception.MathIllegalArgumentException;
+import org.apache.commons.math4.exception.NullArgumentException;
 import org.apache.commons.math4.stat.descriptive.DescriptiveStatistics;
+import static org.apache.commons.math4.stat.descriptive.DescriptiveStatistics.copy;
 import org.apache.commons.math4.stat.descriptive.SummaryStatistics;
 import org.apache.commons.math4.stat.descriptive.UnivariateStatistic;
 import org.apache.commons.math4.stat.descriptive.moment.GeometricMean;
@@ -28,14 +31,19 @@ import org.apache.commons.math4.stat.descriptive.rank.Min;
 import org.apache.commons.math4.stat.descriptive.rank.Percentile;
 import org.apache.commons.math4.stat.descriptive.summary.Sum;
 import org.apache.commons.math4.stat.descriptive.summary.SumOfSquares;
+import org.apache.commons.math4.util.ResizableDoubleArray;
 import org.apache.commons.numbers.core.Precision;
+import org.apache.commons.rng.UniformRandomProvider;
+import org.apache.commons.rng.simple.RandomSource;
 import org.junit.Assert;
+import org.junit.BeforeClass;
 import org.junit.Test;
 
 /**
  * Test cases for the {@link DescriptiveStatistics} class.
  */
 public class DescriptiveStatisticsTest {
+    private static UniformRandomProvider random = RandomSource.create(RandomSource.WELL_1024_A, 2345789432894l);
 
     protected DescriptiveStatistics createDescriptiveStatistics() {
         return new DescriptiveStatistics();
@@ -292,6 +300,83 @@ public class DescriptiveStatisticsTest {
         Assert.assertTrue(iqr >= 0);
     }
 
+    @Test
+    public void testInit0() {
+        //test window constructor
+        int window = 1 + random.nextInt(Integer.MAX_VALUE-1);
+        DescriptiveStatistics instance = new DescriptiveStatistics(window);
+        Assert.assertEquals(window,
+                            instance.getWindowSize());
+    }
+
+    @Test
+    public void testInitDouble() {
+        //test double[] constructor
+        double[] initialDoubleArray = null;
+        new DescriptiveStatistics(initialDoubleArray);
+            //a null argument corresponds to DescriptiveStatistics(), so test
+            //that no exception is thrown
+        int initialDoubleArraySize = random.nextInt(1024 //some random
+            //memory consumption and test size limitation
+        );
+//        System.out.println(String.format("initialDoubleArraySize: %s",
+//                initialDoubleArraySize));
+        initialDoubleArray = new double[initialDoubleArraySize];
+        for(int i = 0; i < initialDoubleArraySize; i++) {
+            double value = random.nextDouble();
+            initialDoubleArray[i] = value;
+        }
+        new DescriptiveStatistics(initialDoubleArray);
+    }
+
+    @Test
+    public void testInitDoubleWrapper() {
+        //test Double[] constructor
+        Double[] initialDoubleWrapperArray = null;
+        new DescriptiveStatistics(initialDoubleWrapperArray);
+        int initialDoubleWrapperArraySize = random.nextInt(1024 //some random
+            //memory consumption and test size limitation
+        );
+        initialDoubleWrapperArray = generateInitialDoubleArray(initialDoubleWrapperArraySize);
+        new DescriptiveStatistics(initialDoubleWrapperArray);
+    }
+
+    @Test
+    public void testInitCopy() {
+        //test copy constructor
+        int initialDoubleArray = random.nextInt(1024 //some random
+            //memory consumption and test size limitation
+        );
+        DescriptiveStatistics original = new DescriptiveStatistics(initialDoubleArray);
+        DescriptiveStatistics instance = new DescriptiveStatistics(original);
+        Assert.assertEquals(original.getGeometricMean(),
+                            instance.getGeometricMean(),
+                            0);
+        Assert.assertEquals(original.getKurtosis(),
+                            instance.getKurtosis(),
+                            0);
+        Assert.assertEquals(original.getMax(),
+                            instance.getMax(),
+                            0);
+        Assert.assertEquals(original.getMean(),
+                            instance.getMean(),
+                            0);
+        Assert.assertEquals(original.getMin(),
+                            instance.getMin(),
+                            0);
+        Assert.assertEquals(original.getN(),
+                            instance.getN());
+        Assert.assertEquals(original.getSkewness(),
+                            instance.getSkewness(),
+                            0);
+        Assert.assertArrayEquals(original.getValues(),
+                                 instance.getValues(),
+                                 0);
+        Assert.assertEquals(original.getWindowSize(),
+                            instance.getWindowSize());
+            //doesn't implement equals
+    }
+
     public void checkremoval(DescriptiveStatistics dstat, int wsize,
                              double mean1, double mean2, double mean3) {
 
@@ -308,6 +393,15 @@ public class DescriptiveStatisticsTest {
         dstat.removeMostRecentValue();
         Assert.assertTrue(Precision.equalsIncludingNaN(mean3, dstat.getMean()));
 
+    }
+
+    private Double[] generateInitialDoubleArray(int size) {
+        Double[] retValue = new Double[size];
+        for(int i = 0; i < size; i++) {
+            Double value = random.nextDouble();
+            retValue[i] = value;
+        }
+        return retValue;
     }
 
     // Test UnivariateStatistics impls for setter injection tests
