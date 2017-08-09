@@ -483,7 +483,7 @@
 
     <!-- Temporary fix to replace svn-based build number with git-based build number -->
     <buildnumber.skip>true</buildnumber.skip>
-    <math.jgit.buildnumber.version>1.2.10</math.jgit.buildnumber.version>
+    <math.jgit.buildnumber.version>1.2.11</math.jgit.buildnumber.version>
     <implementation.build>${git.revision}; ${maven.build.timestamp}</implementation.build>
 
     <!-- Override default buildNumber timestamp format, needed for coveralls plugin -->
@@ -788,7 +788,7 @@
       <build>
         <plugins>
           <plugin>
-            <groupId>ru.concerteza.buildnumber</groupId>
+            <groupId>org.bidib.buildnumber</groupId>
             <artifactId>maven-jgit-buildnumber-plugin</artifactId>
             <version>${math.jgit.buildnumber.version}</version>
             <executions>
