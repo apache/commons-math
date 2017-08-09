@@ -143,6 +143,23 @@ public class DescriptiveStatistics implements StatisticalSummary, Serializable {
     }
 
     /**
+     * Construct a DescriptiveStatistics instance with an infinite window
+     * and the initial data values in {@code initialDoubleArray}.
+     * If {@code initialDoubleArray} is {@code null}, then this constructor
+     * corresponds to {@link #DescriptiveStatistics() }.
+     *
+     * @param initialDoubleArray the initial Double[].
+     */
+    public DescriptiveStatistics(Double[] initialDoubleArray) {
+        if (initialDoubleArray != null) {
+            eDA = new ResizableDoubleArray(initialDoubleArray.length);
+            for(double initialValue : initialDoubleArray) {
+                eDA.addElement(initialValue);
+            }
+        }
+    }
+
+    /**
      * Copy constructor. Construct a new {@code DescriptiveStatistics} instance
      * that is a copy of {@code original}.
      *
