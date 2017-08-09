@@ -31,7 +31,6 @@ import org.apache.commons.math4.geometry.partitioning.Hyperplane;
 import org.apache.commons.math4.geometry.partitioning.SubHyperplane;
 import org.apache.commons.math4.geometry.partitioning.Transform;
 import org.apache.commons.math4.util.FastMath;
-import org.apache.commons.math4.util.MathUtils;
 
 /** This class represents an oriented line in the 2D plane.
 
