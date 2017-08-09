@@ -132,7 +132,7 @@ public class DescriptiveStatistics implements StatisticalSummary, Serializable {
      * Construct a {@code DescriptiveStatistics} instance with an infinite
      * window and the initial data values in {@code initialDoubleArray}.
      * If {@code initialDoubleArray} is {@code null}, then this constructor
-     * corresponds to {@link #DescriptiveStatistics() }.
+     * corresponds to the {@link #DescriptiveStatistics() default constructor}.
      *
      * @param initialDoubleArray the initial double[].
      */
