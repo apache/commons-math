@@ -462,13 +462,13 @@
     <commons.encoding>UTF-8</commons.encoding>
     <maven.compiler.source>1.7</maven.compiler.source>
     <maven.compiler.target>1.7</maven.compiler.target>
-    <math.pmd.version>3.5</math.pmd.version>
-    <math.findbugs.version>3.0.2</math.findbugs.version>
+    <math.pmd.version>3.8</math.pmd.version>
+    <math.findbugs.version>3.0.4</math.findbugs.version>
     <math.checkstyle.version>2.17</math.checkstyle.version>
-    <math.clirr.version>2.7</math.clirr.version>
+    <math.clirr.version>2.8</math.clirr.version>
 
     <!-- Temporary fix to support Java 8 -->
-    <commons.jacoco.version>0.7.5.201505241946</commons.jacoco.version>
+    <commons.jacoco.version>0.7.9</commons.jacoco.version>
     <commons.jacoco.classRatio>0.96</commons.jacoco.classRatio>
     <commons.jacoco.instructionRatio>0.8</commons.jacoco.instructionRatio>
     <commons.jacoco.methodRatio>0.8</commons.jacoco.methodRatio>
