@@ -2,7 +2,6 @@ language: java
 sudo: required
 
 jdk:
-  - openjdk7
   - oraclejdk8
 
 env:
