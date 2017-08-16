@@ -17,6 +17,12 @@
 
 package org.apache.commons.math4.geometry.euclidean.threed;
 
+import org.junit.Assert;
+import org.junit.Test;
+import org.apache.commons.numbers.angle.PlaneAngleRadians;
+import org.apache.commons.rng.UniformRandomProvider;
+import org.apache.commons.rng.simple.RandomSource;
+import org.apache.commons.rng.sampling.UnitSphereSampler;
 import org.apache.commons.numbers.angle.PlaneAngleRadians;
 import org.apache.commons.math4.dfp.Dfp;
 import org.apache.commons.math4.dfp.DfpField;
@@ -29,13 +35,7 @@ import org.apache.commons.math4.geometry.euclidean.threed.NotARotationMatrixExce
 import org.apache.commons.math4.geometry.euclidean.threed.Rotation;
 import org.apache.commons.math4.geometry.euclidean.threed.RotationOrder;
 import org.apache.commons.math4.geometry.euclidean.threed.Cartesian3D;
-import org.apache.commons.math4.random.UnitSphereRandomVectorGenerator;
-import org.apache.commons.rng.UniformRandomProvider;
-import org.apache.commons.rng.simple.RandomSource;
 import org.apache.commons.math4.util.FastMath;
-import org.junit.Assert;
-import org.junit.Test;
-
 
 public class FieldRotationDfpTest {
 
@@ -803,7 +803,7 @@ public class FieldRotationDfpTest {
     public void testDoubleVectors() throws MathIllegalArgumentException {
         UniformRandomProvider random = RandomSource.create(RandomSource.WELL_1024_A,
                                                            0x180b41cfeeffaf67l);
-        UnitSphereRandomVectorGenerator g = new UnitSphereRandomVectorGenerator(3, random);
+        UnitSphereSampler g = new UnitSphereSampler(3, random);
         for (int i = 0; i < 10; ++i) {
             double[] unit = g.nextVector();
             FieldRotation<Dfp> r = new FieldRotation<>(createVector(unit[0], unit[1], unit[2]),
@@ -839,7 +839,7 @@ public class FieldRotationDfpTest {
         UniformRandomProvider random = RandomSource.create(RandomSource.WELL_1024_A,
                                                            0x180b41cfeeffaf67l);
         DfpField field = new DfpField(20);
-        UnitSphereRandomVectorGenerator g = new UnitSphereRandomVectorGenerator(3, random);
+        UnitSphereSampler g = new UnitSphereSampler(3, random);
         for (int i = 0; i < 10; ++i) {
             double[] unit1 = g.nextVector();
             Rotation r1 = new Rotation(new Cartesian3D(unit1[0], unit1[1], unit1[2]),

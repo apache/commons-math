@@ -16,6 +16,11 @@
  */
 package org.apache.commons.math4.geometry.spherical.twod;
 
+import org.junit.Assert;
+import org.junit.Test;
+import org.apache.commons.rng.UniformRandomProvider;
+import org.apache.commons.rng.simple.RandomSource;
+import org.apache.commons.rng.sampling.UnitSphereSampler;
 import org.apache.commons.math4.geometry.euclidean.threed.Rotation;
 import org.apache.commons.math4.geometry.euclidean.threed.RotationConvention;
 import org.apache.commons.math4.geometry.euclidean.threed.Cartesian3D;
@@ -28,13 +33,8 @@ import org.apache.commons.math4.geometry.spherical.oned.SubLimitAngle;
 import org.apache.commons.math4.geometry.spherical.twod.Circle;
 import org.apache.commons.math4.geometry.spherical.twod.S2Point;
 import org.apache.commons.math4.geometry.spherical.twod.Sphere2D;
-import org.apache.commons.math4.random.UnitSphereRandomVectorGenerator;
-import org.apache.commons.rng.UniformRandomProvider;
-import org.apache.commons.rng.simple.RandomSource;
 import org.apache.commons.math4.util.FastMath;
 import org.apache.commons.math4.util.MathUtils;
-import org.junit.Assert;
-import org.junit.Test;
 
 public class CircleTest {
 
@@ -135,8 +135,8 @@ public class CircleTest {
 
     @Test
     public void testInsideArc() {
-        UnitSphereRandomVectorGenerator sphRandom = new UnitSphereRandomVectorGenerator(3, RandomSource.create(RandomSource.WELL_1024_A,
-                                                                                                               0xbfd34e92231bbcfel));
+        UnitSphereSampler sphRandom = new UnitSphereSampler(3, RandomSource.create(RandomSource.WELL_1024_A,
+                                                                                   0xbfd34e92231bbcfel));
         for (int i = 0; i < 100; ++i) {
             Circle c1 = new Circle(new Cartesian3D(sphRandom.nextVector()), 1.0e-10);
             Circle c2 = new Circle(new Cartesian3D(sphRandom.nextVector()), 1.0e-10);
@@ -160,7 +160,7 @@ public class CircleTest {
     public void testTransform() {
         UniformRandomProvider random = RandomSource.create(RandomSource.WELL_1024_A,
                                                            0x16992fc4294bf2f1l);
-        UnitSphereRandomVectorGenerator sphRandom = new UnitSphereRandomVectorGenerator(3, random);
+        UnitSphereSampler sphRandom = new UnitSphereSampler(3, random);
         for (int i = 0; i < 100; ++i) {
 
             Rotation r = new Rotation(new Cartesian3D(sphRandom.nextVector()),

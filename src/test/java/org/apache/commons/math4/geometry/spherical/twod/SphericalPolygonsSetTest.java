@@ -18,7 +18,11 @@ package org.apache.commons.math4.geometry.spherical.twod;
 
 import java.util.ArrayList;
 import java.util.List;
-
+import org.junit.Assert;
+import org.junit.Test;
+import org.apache.commons.rng.UniformRandomProvider;
+import org.apache.commons.rng.simple.RandomSource;
+import org.apache.commons.rng.sampling.UnitSphereSampler;
 import org.apache.commons.math4.geometry.enclosing.EnclosingBall;
 import org.apache.commons.math4.geometry.euclidean.threed.Rotation;
 import org.apache.commons.math4.geometry.euclidean.threed.Cartesian3D;
@@ -34,21 +38,17 @@ import org.apache.commons.math4.geometry.spherical.twod.Sphere2D;
 import org.apache.commons.math4.geometry.spherical.twod.SphericalPolygonsSet;
 import org.apache.commons.math4.geometry.spherical.twod.SubCircle;
 import org.apache.commons.math4.geometry.spherical.twod.Vertex;
-import org.apache.commons.math4.random.UnitSphereRandomVectorGenerator;
-import org.apache.commons.rng.simple.RandomSource;
 import org.apache.commons.math4.util.FastMath;
 import org.apache.commons.math4.util.MathUtils;
-import org.junit.Assert;
-import org.junit.Test;
 
 public class SphericalPolygonsSetTest {
 
     @Test
     public void testFullSphere() {
         SphericalPolygonsSet full = new SphericalPolygonsSet(1.0e-10);
-        UnitSphereRandomVectorGenerator random =
-                new UnitSphereRandomVectorGenerator(3, RandomSource.create(RandomSource.WELL_1024_A,
-                                                                           0x852fd2a0ed8d2f6dl));
+        UnitSphereSampler random =
+                new UnitSphereSampler(3, RandomSource.create(RandomSource.WELL_1024_A,
+                                                             0x852fd2a0ed8d2f6dl));
         for (int i = 0; i < 1000; ++i) {
             Cartesian3D v = new Cartesian3D(random.nextVector());
             Assert.assertEquals(Location.INSIDE, full.checkPoint(new S2Point(v)));
@@ -64,9 +64,9 @@ public class SphericalPolygonsSetTest {
     public void testEmpty() {
         SphericalPolygonsSet empty =
             (SphericalPolygonsSet) new RegionFactory<Sphere2D>().getComplement(new SphericalPolygonsSet(1.0e-10));
-        UnitSphereRandomVectorGenerator random =
-                new UnitSphereRandomVectorGenerator(3, RandomSource.create(RandomSource.WELL_1024_A,
-                                                                           0x76d9205d6167b6ddl));
+        UnitSphereSampler random =
+                new UnitSphereSampler(3, RandomSource.create(RandomSource.WELL_1024_A,
+                                                             0x76d9205d6167b6ddl));
         for (int i = 0; i < 1000; ++i) {
             Cartesian3D v = new Cartesian3D(random.nextVector());
             Assert.assertEquals(Location.OUTSIDE, empty.checkPoint(new S2Point(v)));
@@ -83,9 +83,9 @@ public class SphericalPolygonsSetTest {
         double tol = 0.01;
         double sinTol = FastMath.sin(tol);
         SphericalPolygonsSet south = new SphericalPolygonsSet(Cartesian3D.MINUS_K, tol);
-        UnitSphereRandomVectorGenerator random =
-                new UnitSphereRandomVectorGenerator(3, RandomSource.create(RandomSource.WELL_1024_A,
-                                                                           0x6b9d4a6ad90d7b0bl));
+        UnitSphereSampler random =
+                new UnitSphereSampler(3, RandomSource.create(RandomSource.WELL_1024_A,
+                                                             0x6b9d4a6ad90d7b0bl));
         for (int i = 0; i < 1000; ++i) {
             Cartesian3D v = new Cartesian3D(random.nextVector());
             if (v.getZ() < -sinTol) {
@@ -119,9 +119,9 @@ public class SphericalPolygonsSetTest {
         SphericalPolygonsSet plusZ = new SphericalPolygonsSet(Cartesian3D.PLUS_K, tol);
         SphericalPolygonsSet octant =
                 (SphericalPolygonsSet) factory.intersection(factory.intersection(plusX, plusY), plusZ);
-        UnitSphereRandomVectorGenerator random =
-                new UnitSphereRandomVectorGenerator(3, RandomSource.create(RandomSource.WELL_1024_A,
-                                                                           0x9c9802fde3cbcf25l));
+        UnitSphereSampler random =
+                new UnitSphereSampler(3, RandomSource.create(RandomSource.WELL_1024_A,
+                                                             0x9c9802fde3cbcf25l));
         for (int i = 0; i < 1000; ++i) {
             Cartesian3D v = new Cartesian3D(random.nextVector());
             if ((v.getX() > sinTol) && (v.getY() > sinTol) && (v.getZ() > sinTol)) {
@@ -184,9 +184,9 @@ public class SphericalPolygonsSetTest {
         double tol = 0.01;
         double sinTol = FastMath.sin(tol);
         SphericalPolygonsSet octant = new SphericalPolygonsSet(tol, S2Point.PLUS_I, S2Point.PLUS_J, S2Point.PLUS_K);
-        UnitSphereRandomVectorGenerator random =
-                new UnitSphereRandomVectorGenerator(3, RandomSource.create(RandomSource.WELL_1024_A,
-                                                                           0xb8fc5acc91044308l));
+        UnitSphereSampler random =
+                new UnitSphereSampler(3, RandomSource.create(RandomSource.WELL_1024_A,
+                                                             0xb8fc5acc91044308l));
         for (int i = 0; i < 1000; ++i) {
             Cartesian3D v = new Cartesian3D(random.nextVector());
             if ((v.getX() > sinTol) && (v.getY() > sinTol) && (v.getZ() > sinTol)) {
@@ -210,9 +210,9 @@ public class SphericalPolygonsSetTest {
         SphericalPolygonsSet threeOctants =
                 (SphericalPolygonsSet) factory.difference(plusZ, factory.intersection(plusX, plusY));
 
-        UnitSphereRandomVectorGenerator random =
-                new UnitSphereRandomVectorGenerator(3, RandomSource.create(RandomSource.WELL_1024_A,
-                                                                           0x9c9802fde3cbcf25l));
+        UnitSphereSampler random =
+                new UnitSphereSampler(3, RandomSource.create(RandomSource.WELL_1024_A,
+                                                             0x9c9802fde3cbcf25l));
         for (int i = 0; i < 1000; ++i) {
             Cartesian3D v = new Cartesian3D(random.nextVector());
             if (((v.getX() < -sinTol) || (v.getY() < -sinTol)) && (v.getZ() > sinTol)) {
@@ -344,9 +344,9 @@ public class SphericalPolygonsSetTest {
 
         SphericalPolygonsSet polygon = new SphericalPolygonsSet(boundary, tol);
 
-        UnitSphereRandomVectorGenerator random =
-                new UnitSphereRandomVectorGenerator(3, RandomSource.create(RandomSource.WELL_1024_A,
-                                                                           0xcc5ce49949e0d3ecl));
+        UnitSphereSampler random =
+                new UnitSphereSampler(3, RandomSource.create(RandomSource.WELL_1024_A,
+                                                             0xcc5ce49949e0d3ecl));
         for (int i = 0; i < 1000; ++i) {
             Cartesian3D v = new Cartesian3D(random.nextVector());
             if ((v.getX() < -sinTol) && (v.getY() < -sinTol) && (v.getZ() < -sinTol)) {

@@ -21,16 +21,16 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+import org.junit.Assert;
+import org.junit.Test;
+import org.apache.commons.rng.UniformRandomProvider;
+import org.apache.commons.rng.simple.RandomSource;
+import org.apache.commons.rng.sampling.UnitSphereSampler;
 import org.apache.commons.math4.geometry.enclosing.EnclosingBall;
 import org.apache.commons.math4.geometry.enclosing.WelzlEncloser;
 import org.apache.commons.math4.geometry.euclidean.threed.Euclidean3D;
 import org.apache.commons.math4.geometry.euclidean.threed.SphereGenerator;
 import org.apache.commons.math4.geometry.euclidean.threed.Cartesian3D;
-import org.apache.commons.math4.random.UnitSphereRandomVectorGenerator;
-import org.apache.commons.rng.UniformRandomProvider;
-import org.apache.commons.rng.simple.RandomSource;
-import org.junit.Assert;
-import org.junit.Test;
 
 
 public class WelzlEncloser3DTest {
@@ -106,7 +106,7 @@ public class WelzlEncloser3DTest {
     public void testLargeSamples() throws IOException {
         final UniformRandomProvider random = RandomSource.create(RandomSource.WELL_1024_A,
                                                                  0x35ddecfc78131e1dl);
-        final UnitSphereRandomVectorGenerator sr = new UnitSphereRandomVectorGenerator(3, random);
+        final UnitSphereSampler sr = new UnitSphereSampler(3, random);
         for (int k = 0; k < 50; ++k) {
 
             // define the reference sphere we want to compute

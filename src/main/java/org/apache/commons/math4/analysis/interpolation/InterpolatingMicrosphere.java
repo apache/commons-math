@@ -20,7 +20,7 @@ import java.util.List;
 import java.util.ArrayList;
 import org.apache.commons.numbers.arrays.CosAngle;
 import org.apache.commons.numbers.arrays.SafeNorm;
-import org.apache.commons.math4.random.UnitSphereRandomVectorGenerator;
+import org.apache.commons.rng.sampling.UnitSphereSampler;
 import org.apache.commons.math4.exception.DimensionMismatchException;
 import org.apache.commons.math4.exception.NotPositiveException;
 import org.apache.commons.math4.exception.NotStrictlyPositiveException;
@@ -126,7 +126,7 @@ public class InterpolatingMicrosphere {
                                     double maxDarkFraction,
                                     double darkThreshold,
                                     double background,
-                                    UnitSphereRandomVectorGenerator rand) {
+                                    UnitSphereSampler rand) {
         this(dimension, size, maxDarkFraction, darkThreshold, background);
 
         // Generate the microsphere normals, assuming that a number of

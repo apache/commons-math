@@ -19,18 +19,16 @@ package org.apache.commons.math4.geometry.euclidean.threed;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-
+import org.junit.Assert;
+import org.junit.Test;
+import org.apache.commons.rng.UniformRandomProvider;
+import org.apache.commons.rng.simple.RandomSource;
+import org.apache.commons.rng.sampling.UnitSphereSampler;
 import org.apache.commons.math4.geometry.enclosing.EnclosingBall;
 import org.apache.commons.math4.geometry.euclidean.threed.Euclidean3D;
 import org.apache.commons.math4.geometry.euclidean.threed.SphereGenerator;
 import org.apache.commons.math4.geometry.euclidean.threed.Cartesian3D;
-import org.apache.commons.math4.random.UnitSphereRandomVectorGenerator;
-import org.apache.commons.rng.UniformRandomProvider;
-import org.apache.commons.rng.simple.RandomSource;
 import org.apache.commons.math4.util.FastMath;
-import org.junit.Assert;
-import org.junit.Test;
-
 
 public class SphereGeneratorTest {
 
@@ -139,7 +137,7 @@ public class SphereGeneratorTest {
     public void testRandom() {
         final UniformRandomProvider random = RandomSource.create(RandomSource.WELL_1024_A,
                                                                  0xd015982e9f31ee04l);
-        final UnitSphereRandomVectorGenerator sr = new UnitSphereRandomVectorGenerator(3, random);
+        final UnitSphereSampler sr = new UnitSphereSampler(3, random);
         for (int i = 0; i < 100; ++i) {
             double d = 25 * random.nextDouble();
             double refRadius = 10 * random.nextDouble();

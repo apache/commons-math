@@ -16,12 +16,13 @@
  */
 package org.apache.commons.math4.analysis.interpolation;
 
+import org.apache.commons.rng.simple.RandomSource;
+import org.apache.commons.rng.sampling.UnitSphereSampler;
 import org.apache.commons.math4.analysis.MultivariateFunction;
 import org.apache.commons.math4.exception.DimensionMismatchException;
 import org.apache.commons.math4.exception.NoDataException;
 import org.apache.commons.math4.exception.NotPositiveException;
 import org.apache.commons.math4.exception.NullArgumentException;
-import org.apache.commons.math4.random.UnitSphereRandomVectorGenerator;
 
 /**
  * Interpolator that implements the algorithm described in
@@ -82,7 +83,8 @@ public class MicrosphereProjectionInterpolator
                                           maxDarkFraction,
                                           darkThreshold,
                                           background,
-                                          new UnitSphereRandomVectorGenerator(dimension)),
+                                          new UnitSphereSampler(dimension,
+                                                                RandomSource.create(RandomSource.MT_64))),
              exponent,
              sharedSphere,
              noInterpolationTolerance);
