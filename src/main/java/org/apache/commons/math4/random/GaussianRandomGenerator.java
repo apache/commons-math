@@ -18,8 +18,8 @@
 package org.apache.commons.math4.random;
 
 import org.apache.commons.rng.UniformRandomProvider;
-import org.apache.commons.math4.distribution.RealDistribution;
-import org.apache.commons.math4.distribution.NormalDistribution;
+import org.apache.commons.rng.sampling.distribution.NormalizedGaussianSampler;
+import org.apache.commons.rng.sampling.distribution.MarsagliaNormalizedGaussianSampler;
 
 /**
  * Random generator that generates normally distributed samples.
@@ -28,7 +28,7 @@ import org.apache.commons.math4.distribution.NormalDistribution;
  */
 public class GaussianRandomGenerator implements NormalizedRandomGenerator {
     /** Gaussian distribution sampler. */
-    private final RealDistribution.Sampler sampler;
+    private final NormalizedGaussianSampler sampler;
 
     /**
      * Creates a new generator.
@@ -36,7 +36,7 @@ public class GaussianRandomGenerator implements NormalizedRandomGenerator {
      * @param generator Underlying random generator.
      */
     public GaussianRandomGenerator(final UniformRandomProvider generator) {
-        sampler = new NormalDistribution().createSampler(generator);
+        sampler = new MarsagliaNormalizedGaussianSampler(generator);
     }
 
     /**
