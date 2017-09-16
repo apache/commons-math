@@ -313,13 +313,4 @@ public class OpenMapBigRealMatrix extends AbstractRealMatrix
     private long computeKey(int row, int column) {
         return row * columns + column;
     }
-
-
-    public static void main(String[] args) {
-        OpenMapBigRealMatrix matrix = new OpenMapBigRealMatrix(60000,60000);
-        matrix.addToEntry(235,2362,203956);
-        System.out.println(matrix.getEntry(235,2362));
-        System.out.println(matrix.getEntry(0,2362));
-
-    }
 }

@@ -125,6 +125,19 @@ public final class SparseRealMatrixTest {
         Assert.assertTrue("testData2 is not square", !m2.isSquare());
     }
 
+    /** test dimensions for big matrix */
+    @Test
+    public void testDimensionsBig() {
+        OpenMapBigRealMatrix m = createBigSparseMatrix(testData);
+        OpenMapBigRealMatrix m2 = createBigSparseMatrix(testData2);
+        Assert.assertEquals("testData row dimension", 3, m.getRowDimension());
+        Assert.assertEquals("testData column dimension", 3, m.getColumnDimension());
+        Assert.assertTrue("testData is square", m.isSquare());
+        Assert.assertEquals("testData2 row dimension", m2.getRowDimension(), 2);
+        Assert.assertEquals("testData2 column dimension", m2.getColumnDimension(), 3);
+        Assert.assertTrue("testData2 is not square", !m2.isSquare());
+    }
+
     /** test copy functions */
     @Test
     public void testCopyFunctions() {
@@ -133,6 +146,19 @@ public final class SparseRealMatrixTest {
         Assert.assertEquals(m1.getClass(), m2.getClass());
         Assert.assertEquals((m2), m1);
         OpenMapRealMatrix m3 = createSparseMatrix(testData);
+        RealMatrix m4 = m3.copy();
+        Assert.assertEquals(m3.getClass(), m4.getClass());
+        Assert.assertEquals((m4), m3);
+    }
+
+    /** test copy functions for big matrix */
+    @Test
+    public void testCopyFunctionsBig() {
+        OpenMapBigRealMatrix m1 = createBigSparseMatrix(testData);
+        RealMatrix m2 = m1.copy();
+        Assert.assertEquals(m1.getClass(), m2.getClass());
+        Assert.assertEquals((m2), m1);
+        OpenMapBigRealMatrix m3 = createBigSparseMatrix(testData);
         RealMatrix m4 = m3.copy();
         Assert.assertEquals(m3.getClass(), m4.getClass());
         Assert.assertEquals((m4), m3);
@@ -154,6 +180,22 @@ public final class SparseRealMatrixTest {
         }
     }
 
+    /** test add for big matrix */
+    @Test
+    public void testAddBig() {
+        OpenMapBigRealMatrix m = createBigSparseMatrix(testData);
+        OpenMapBigRealMatrix mInv = createBigSparseMatrix(testDataInv);
+        OpenMapBigRealMatrix mDataPlusInv = createBigSparseMatrix(testDataPlusInv);
+        RealMatrix mPlusMInv = m.add(mInv);
+        for (int row = 0; row < m.getRowDimension(); row++) {
+            for (int col = 0; col < m.getColumnDimension(); col++) {
+                Assert.assertEquals("sum entry entry",
+                        mDataPlusInv.getEntry(row, col), mPlusMInv.getEntry(row, col),
+                        entryTolerance);
+            }
+        }
+    }
+
     /** test add failure */
     @Test
     public void testAddFail() {
@@ -167,11 +209,33 @@ public final class SparseRealMatrixTest {
         }
     }
 
+    /** test add failure for big matrix */
+    @Test
+    public void testAddFailBig() {
+        OpenMapBigRealMatrix m = createBigSparseMatrix(testData);
+        OpenMapBigRealMatrix m2 = createBigSparseMatrix(testData2);
+        try {
+            m.add(m2);
+            Assert.fail("MathIllegalArgumentException expected");
+        } catch (MathIllegalArgumentException ex) {
+            // ignored
+        }
+    }
+
     /** test norm */
     @Test
     public void testNorm() {
         OpenMapRealMatrix m = createSparseMatrix(testData);
         OpenMapRealMatrix m2 = createSparseMatrix(testData2);
+        Assert.assertEquals("testData norm", 14d, m.getNorm(), entryTolerance);
+        Assert.assertEquals("testData2 norm", 7d, m2.getNorm(), entryTolerance);
+    }
+
+    /** test norm of big matrix */
+    @Test
+    public void testNormBig() {
+        OpenMapBigRealMatrix m = createBigSparseMatrix(testData);
+        OpenMapBigRealMatrix m2 = createBigSparseMatrix(testData2);
         Assert.assertEquals("testData norm", 14d, m.getNorm(), entryTolerance);
         Assert.assertEquals("testData2 norm", 7d, m2.getNorm(), entryTolerance);
     }
@@ -326,6 +390,29 @@ public final class SparseRealMatrixTest {
                 m.scalarAdd(2d), entryTolerance);
     }
 
+    /** test addToEntry big */
+    @Test
+    public void testAddToEntryBig() {
+        RealMatrix m = createBigSparseMatrix(testData);
+        m.addToEntry(0,0,2d);
+        double[][] testDataClone = testData.clone();
+        testDataClone[0][0]+=2d;
+        RealMatrix m2 = createBigSparseMatrix(testDataClone);
+        assertClose("add to entry", m,
+                m2, entryTolerance);
+    }
+
+    /** test multiplyEntry big */
+    @Test
+    public void testMultiplyEntryBig() {
+        RealMatrix m = createBigSparseMatrix(testData);
+        m.multiplyEntry(0,0,2d);
+        double[][] testDataClone = testData.clone();
+        testDataClone[0][0]*=2d;
+        RealMatrix m2 = createBigSparseMatrix(testDataClone);
+        assertClose("multipy entry", m,
+                m2, entryTolerance);
+    }
 
     /** test operate */
     @Test
