@@ -25,7 +25,7 @@ import java.util.*;
 
 
 /**
- * Test cases for the {@link OpenIntToDoubleHashMap}.
+ * Test cases for the {@link OpenLongToDoubleHashMap}.
  */
 @SuppressWarnings("boxing")
 public class OpenLongToDoubleHashMapTest {
@@ -181,7 +181,7 @@ public class OpenLongToDoubleHashMapTest {
 
     @Test
     public void testRemoveFromEmpty() {
-        OpenIntToDoubleHashMap map = new OpenIntToDoubleHashMap();
+        OpenLongToDoubleHashMap map = new OpenLongToDoubleHashMap();
         Assert.assertTrue(Double.isNaN(map.remove(50)));
     }
 
@@ -283,7 +283,7 @@ public class OpenLongToDoubleHashMapTest {
      */
     @Test
     public void testPutKeysWithCollisions() {
-        OpenIntToDoubleHashMap map = new OpenIntToDoubleHashMap();
+        OpenLongToDoubleHashMap map = new OpenLongToDoubleHashMap();
         int key1 = -1996012590;
         double value1 = 1.0;
         map.put(key1, value1);
@@ -307,8 +307,8 @@ public class OpenLongToDoubleHashMapTest {
      */
     @Test
     public void testPutKeysWithCollision2() {
-        OpenIntToDoubleHashMap map = new OpenIntToDoubleHashMap();
-        int key1 = 837989881;
+        OpenLongToDoubleHashMap map = new OpenLongToDoubleHashMap();
+        long key1 = 837989881;
         double value1 = 1.0;
         map.put(key1, value1);
         int key2 = 476463321;
