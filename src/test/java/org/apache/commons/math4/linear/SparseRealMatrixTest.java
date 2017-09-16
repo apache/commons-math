@@ -191,6 +191,20 @@ public final class SparseRealMatrixTest {
         }
     }
 
+    /** test m-n = m + -n with big matrix*/
+    @Test
+    public void testPlusMinusBig() {
+        OpenMapBigRealMatrix m = createBigSparseMatrix(testData);
+        OpenMapBigRealMatrix n = createBigSparseMatrix(testDataInv);
+        assertClose("m-n = m + -n", m.subtract(n),
+                n.scalarMultiply(-1d).add(m), entryTolerance);
+        try {
+            m.subtract(createSparseMatrix(testData2));
+            Assert.fail("Expecting illegalArgumentException");
+        } catch (MathIllegalArgumentException ex) {
+            // ignored
+        }
+    }
     /** test multiply */
     @Test
     public void testMultiply() {
@@ -202,6 +216,33 @@ public final class SparseRealMatrixTest {
                 entryTolerance);
         assertClose("inverse multiply", m.multiply(new BlockRealMatrix(testDataInv)), identity,
                     entryTolerance);
+        assertClose("inverse multiply", mInv.multiply(m), identity,
+                entryTolerance);
+        assertClose("identity multiply", m.multiply(identity), m,
+                entryTolerance);
+        assertClose("identity multiply", identity.multiply(mInv), mInv,
+                entryTolerance);
+        assertClose("identity multiply", m2.multiply(identity), m2,
+                entryTolerance);
+        try {
+            m.multiply(createSparseMatrix(bigSingular));
+            Assert.fail("Expecting illegalArgumentException");
+        } catch (MathIllegalArgumentException ex) {
+            // ignored
+        }
+    }
+
+    /** test multiply for big matrix */
+    @Test
+    public void testMultiplyBig() {
+        OpenMapBigRealMatrix m = createBigSparseMatrix(testData);
+        OpenMapBigRealMatrix mInv = createBigSparseMatrix(testDataInv);
+        OpenMapBigRealMatrix identity = createBigSparseMatrix(id);
+        OpenMapBigRealMatrix m2 = createBigSparseMatrix(testData2);
+        assertClose("inverse multiply", m.multiply(mInv), identity,
+                entryTolerance);
+        assertClose("inverse multiply", m.multiply(new BlockRealMatrix(testDataInv)), identity,
+                entryTolerance);
         assertClose("inverse multiply", mInv.multiply(m), identity,
                 entryTolerance);
         assertClose("identity multiply", m.multiply(identity), m,
@@ -232,10 +273,33 @@ public final class SparseRealMatrixTest {
         assertClose("m3*m4=m5", m3.multiply(m4), m5, entryTolerance);
     }
 
+    @Test
+    public void testMultiply2Big() {
+        RealMatrix m3 = createBigSparseMatrix(d3);
+        RealMatrix m4 = createBigSparseMatrix(d4);
+        RealMatrix m5 = createBigSparseMatrix(d5);
+        assertClose("m3*m4=m5", m3.multiply(m4), m5, entryTolerance);
+    }
+
     /** test trace */
     @Test
     public void testTrace() {
         RealMatrix m = createSparseMatrix(id);
+        Assert.assertEquals("identity trace", 3d, m.getTrace(), entryTolerance);
+        m = createSparseMatrix(testData2);
+        try {
+            m.getTrace();
+            Assert.fail("Expecting NonSquareMatrixException");
+        } catch (NonSquareMatrixException ex) {
+            // ignored
+        }
+    }
+
+
+    /** test trace big */
+    @Test
+    public void testTraceBig() {
+        RealMatrix m = createBigSparseMatrix(id);
         Assert.assertEquals("identity trace", 3d, m.getTrace(), entryTolerance);
         m = createSparseMatrix(testData2);
         try {
@@ -254,6 +318,15 @@ public final class SparseRealMatrixTest {
             m.scalarAdd(2d), entryTolerance);
     }
 
+    /** test sclarAdd big */
+    @Test
+    public void testScalarAddBig() {
+        RealMatrix m = createBigSparseMatrix(testData);
+        assertClose("scalar add", createBigSparseMatrix(testDataPlus2),
+                m.scalarAdd(2d), entryTolerance);
+    }
+
+
     /** test operate */
     @Test
     public void testOperate() {
@@ -263,6 +336,24 @@ public final class SparseRealMatrixTest {
         assertClose("identity operate", testVector, m.operate(
                 new ArrayRealVector(testVector)).toArray(), entryTolerance);
         m = createSparseMatrix(bigSingular);
+        try {
+            m.operate(testVector);
+            Assert.fail("Expecting illegalArgumentException");
+        } catch (MathIllegalArgumentException ex) {
+            // ignored
+        }
+    }
+
+
+    /** test operate on big matrix */
+    @Test
+    public void testOperateBig() {
+        RealMatrix m = createBigSparseMatrix(id);
+        assertClose("identity operate", testVector, m.operate(testVector),
+                entryTolerance);
+        assertClose("identity operate", testVector, m.operate(
+                new ArrayRealVector(testVector)).toArray(), entryTolerance);
+        m = createBigSparseMatrix(bigSingular);
         try {
             m.operate(testVector);
             Assert.fail("Expecting illegalArgumentException");
@@ -283,6 +374,19 @@ public final class SparseRealMatrixTest {
         Assert.assertEquals(11.0, b[2], 1.0e-12);
     }
 
+    /** test issue MATH-209 on big matrix */
+    @Test
+    public void testMath209Big() {
+        RealMatrix a = createBigSparseMatrix(new double[][] {
+                { 1, 2 }, { 3, 4 }, { 5, 6 } });
+        double[] b = a.operate(new double[] { 1, 1 });
+        Assert.assertEquals(a.getRowDimension(), b.length);
+        Assert.assertEquals(3.0, b[0], 1.0e-12);
+        Assert.assertEquals(7.0, b[1], 1.0e-12);
+        Assert.assertEquals(11.0, b[2], 1.0e-12);
+    }
+
+
     /** test transpose */
     @Test
     public void testTranspose() {
@@ -295,6 +399,18 @@ public final class SparseRealMatrixTest {
         assertClose("transpose",mt,m.transpose(),normTolerance);
     }
 
+    /** test transpose on big matrix */
+    @Test
+    public void testTransposeBig() {
+        RealMatrix m = createBigSparseMatrix(testData);
+        RealMatrix mIT = new LUDecomposition(m).getSolver().getInverse().transpose();
+        RealMatrix mTI = new LUDecomposition(m.transpose()).getSolver().getInverse();
+        assertClose("inverse-transpose", mIT, mTI, normTolerance);
+        m = createBigSparseMatrix(testData2);
+        RealMatrix mt = createBigSparseMatrix(testData2T);
+        assertClose("transpose",mt,m.transpose(),normTolerance);
+    }
+
     /** test preMultiply by vector */
     @Test
     public void testPremultiplyVector() {
@@ -304,6 +420,24 @@ public final class SparseRealMatrixTest {
         assertClose("premultiply", m.preMultiply(
             new ArrayRealVector(testVector).toArray()), preMultTest, normTolerance);
         m = createSparseMatrix(bigSingular);
+        try {
+            m.preMultiply(testVector);
+            Assert.fail("expecting MathIllegalArgumentException");
+        } catch (MathIllegalArgumentException ex) {
+            // ignored
+        }
+    }
+
+
+    /** test preMultiply by vector on big matrix */
+    @Test
+    public void testPremultiplyVectorBig() {
+        RealMatrix m = createBigSparseMatrix(testData);
+        assertClose("premultiply", m.preMultiply(testVector), preMultTest,
+                normTolerance);
+        assertClose("premultiply", m.preMultiply(
+                new ArrayRealVector(testVector).toArray()), preMultTest, normTolerance);
+        m = createBigSparseMatrix(bigSingular);
         try {
             m.preMultiply(testVector);
             Assert.fail("expecting MathIllegalArgumentException");
@@ -339,8 +473,53 @@ public final class SparseRealMatrixTest {
     }
 
     @Test
+    public void testPremultiplyBig() {
+        RealMatrix m3 = createBigSparseMatrix(d3);
+        RealMatrix m4 = createBigSparseMatrix(d4);
+        RealMatrix m5 = createBigSparseMatrix(d5);
+        assertClose("m3*m4=m5", m4.preMultiply(m3), m5, entryTolerance);
+
+        RealMatrix m = createBigSparseMatrix(testData);
+        RealMatrix mInv = createBigSparseMatrix(testDataInv);
+        RealMatrix identity = createBigSparseMatrix(id);
+        assertClose("inverse multiply", m.preMultiply(mInv), identity,
+                entryTolerance);
+        assertClose("inverse multiply", mInv.preMultiply(m), identity,
+                entryTolerance);
+        assertClose("identity multiply", m.preMultiply(identity), m,
+                entryTolerance);
+        assertClose("identity multiply", identity.preMultiply(mInv), mInv,
+                entryTolerance);
+        try {
+            m.preMultiply(createBigSparseMatrix(bigSingular));
+            Assert.fail("Expecting illegalArgumentException");
+        } catch (MathIllegalArgumentException ex) {
+            // ignored
+        }
+    }
+
+    @Test
     public void testGetVectors() {
         RealMatrix m = createSparseMatrix(testData);
+        assertClose("get row", m.getRow(0), testDataRow1, entryTolerance);
+        assertClose("get col", m.getColumn(2), testDataCol3, entryTolerance);
+        try {
+            m.getRow(10);
+            Assert.fail("expecting OutOfRangeException");
+        } catch (OutOfRangeException ex) {
+            // ignored
+        }
+        try {
+            m.getColumn(-1);
+            Assert.fail("expecting OutOfRangeException");
+        } catch (OutOfRangeException ex) {
+            // ignored
+        }
+    }
+
+    @Test
+    public void testGetVectorsBig() {
+        RealMatrix m = createBigSparseMatrix(testData);
         assertClose("get row", m.getRow(0), testDataRow1, entryTolerance);
         assertClose("get col", m.getColumn(2), testDataCol3, entryTolerance);
         try {
@@ -369,6 +548,20 @@ public final class SparseRealMatrixTest {
         }
     }
 
+
+    @Test
+    public void testGetEntryBig() {
+        RealMatrix m = createBigSparseMatrix(testData);
+        Assert.assertEquals("get entry", m.getEntry(0, 1), 2d, entryTolerance);
+        try {
+            m.getEntry(10, 4);
+            Assert.fail("Expecting OutOfRangeException");
+        } catch (OutOfRangeException ex) {
+            // expected
+        }
+    }
+
+
     /** test examples in user guide */
     @Test
     public void testExamples() {
@@ -391,6 +584,41 @@ public final class SparseRealMatrixTest {
         double[][] coefficientsData = { { 2, 3, -2 }, { -1, 7, 6 },
                 { 4, -3, -5 } };
         RealMatrix coefficients = createSparseMatrix(coefficientsData);
+        RealVector constants = new ArrayRealVector(new double[]{ 1, -2, 1 }, false);
+        RealVector solution = new LUDecomposition(coefficients).getSolver().solve(constants);
+        final double cst0 = constants.getEntry(0);
+        final double cst1 = constants.getEntry(1);
+        final double cst2 = constants.getEntry(2);
+        final double sol0 = solution.getEntry(0);
+        final double sol1 = solution.getEntry(1);
+        final double sol2 = solution.getEntry(2);
+        Assert.assertEquals(2 * sol0 + 3 * sol1 - 2 * sol2, cst0, 1E-12);
+        Assert.assertEquals(-1 * sol0 + 7 * sol1 + 6 * sol2, cst1, 1E-12);
+        Assert.assertEquals(4 * sol0 - 3 * sol1 - 5 * sol2, cst2, 1E-12);
+
+    }
+
+    @Test
+    public void testExamplesBig() {
+        // Create a real matrix with two rows and three columns
+        double[][] matrixData = { { 1d, 2d, 3d }, { 2d, 5d, 3d } };
+        RealMatrix m = createBigSparseMatrix(matrixData);
+        // One more with three rows, two columns
+        double[][] matrixData2 = { { 1d, 2d }, { 2d, 5d }, { 1d, 7d } };
+        RealMatrix n = createBigSparseMatrix(matrixData2);
+        // Now multiply m by n
+        RealMatrix p = m.multiply(n);
+        Assert.assertEquals(2, p.getRowDimension());
+        Assert.assertEquals(2, p.getColumnDimension());
+        // Invert p
+        RealMatrix pInverse = new LUDecomposition(p).getSolver().getInverse();
+        Assert.assertEquals(2, pInverse.getRowDimension());
+        Assert.assertEquals(2, pInverse.getColumnDimension());
+
+        // Solve example
+        double[][] coefficientsData = { { 2, 3, -2 }, { -1, 7, 6 },
+                { 4, -3, -5 } };
+        RealMatrix coefficients = createBigSparseMatrix(coefficientsData);
         RealVector constants = new ArrayRealVector(new double[]{ 1, -2, 1 }, false);
         RealVector solution = new LUDecomposition(coefficients).getSolver().solve(constants);
         final double cst0 = constants.getEntry(0);
@@ -471,11 +699,99 @@ public final class SparseRealMatrixTest {
         }
     }
 
+    // test submatrix accessors
+    @Test
+    public void testSubMatrixBig() {
+        RealMatrix m = createBigSparseMatrix(subTestData);
+        RealMatrix mRows23Cols00 = createBigSparseMatrix(subRows23Cols00);
+        RealMatrix mRows00Cols33 = createBigSparseMatrix(subRows00Cols33);
+        RealMatrix mRows01Cols23 = createBigSparseMatrix(subRows01Cols23);
+        RealMatrix mRows02Cols13 = createBigSparseMatrix(subRows02Cols13);
+        RealMatrix mRows03Cols12 = createBigSparseMatrix(subRows03Cols12);
+        RealMatrix mRows03Cols123 = createBigSparseMatrix(subRows03Cols123);
+        RealMatrix mRows20Cols123 = createBigSparseMatrix(subRows20Cols123);
+        RealMatrix mRows31Cols31 = createBigSparseMatrix(subRows31Cols31);
+        Assert.assertEquals("Rows23Cols00", mRows23Cols00, m.getSubMatrix(2, 3, 0, 0));
+        Assert.assertEquals("Rows00Cols33", mRows00Cols33, m.getSubMatrix(0, 0, 3, 3));
+        Assert.assertEquals("Rows01Cols23", mRows01Cols23, m.getSubMatrix(0, 1, 2, 3));
+        Assert.assertEquals("Rows02Cols13", mRows02Cols13,
+                m.getSubMatrix(new int[] { 0, 2 }, new int[] { 1, 3 }));
+        Assert.assertEquals("Rows03Cols12", mRows03Cols12,
+                m.getSubMatrix(new int[] { 0, 3 }, new int[] { 1, 2 }));
+        Assert.assertEquals("Rows03Cols123", mRows03Cols123,
+                m.getSubMatrix(new int[] { 0, 3 }, new int[] { 1, 2, 3 }));
+        Assert.assertEquals("Rows20Cols123", mRows20Cols123,
+                m.getSubMatrix(new int[] { 2, 0 }, new int[] { 1, 2, 3 }));
+        Assert.assertEquals("Rows31Cols31", mRows31Cols31,
+                m.getSubMatrix(new int[] { 3, 1 }, new int[] { 3, 1 }));
+        Assert.assertEquals("Rows31Cols31", mRows31Cols31,
+                m.getSubMatrix(new int[] { 3, 1 }, new int[] { 3, 1 }));
+
+        try {
+            m.getSubMatrix(1, 0, 2, 4);
+            Assert.fail("Expecting NumberIsTooSmallException");
+        } catch (NumberIsTooSmallException ex) {
+            // expected
+        }
+        try {
+            m.getSubMatrix(-1, 1, 2, 2);
+            Assert.fail("Expecting OutOfRangeException");
+        } catch (OutOfRangeException ex) {
+            // expected
+        }
+        try {
+            m.getSubMatrix(1, 0, 2, 2);
+            Assert.fail("Expecting NumberIsTooSmallException");
+        } catch (NumberIsTooSmallException ex) {
+            // expected
+        }
+        try {
+            m.getSubMatrix(1, 0, 2, 4);
+            Assert.fail("Expecting NumberIsTooSmallException");
+        } catch (NumberIsTooSmallException ex) {
+            // expected
+        }
+        try {
+            m.getSubMatrix(new int[] {}, new int[] { 0 });
+            Assert.fail("Expecting NoDataException");
+        } catch (NoDataException ex) {
+            // expected
+        }
+        try {
+            m.getSubMatrix(new int[] { 0 }, new int[] { 4 });
+            Assert.fail("Expecting OutOfRangeException");
+        } catch (OutOfRangeException ex) {
+            // expected
+        }
+    }
+
     @Test
     public void testGetRowMatrix() {
         RealMatrix m = createSparseMatrix(subTestData);
         RealMatrix mRow0 = createSparseMatrix(subRow0);
         RealMatrix mRow3 = createSparseMatrix(subRow3);
+        Assert.assertEquals("Row0", mRow0, m.getRowMatrix(0));
+        Assert.assertEquals("Row3", mRow3, m.getRowMatrix(3));
+        try {
+            m.getRowMatrix(-1);
+            Assert.fail("Expecting OutOfRangeException");
+        } catch (OutOfRangeException ex) {
+            // expected
+        }
+        try {
+            m.getRowMatrix(4);
+            Assert.fail("Expecting OutOfRangeException");
+        } catch (OutOfRangeException ex) {
+            // expected
+        }
+    }
+
+
+    @Test
+    public void testGetRowMatrixBig() {
+        RealMatrix m = createBigSparseMatrix(subTestData);
+        RealMatrix mRow0 = createBigSparseMatrix(subRow0);
+        RealMatrix mRow3 = createBigSparseMatrix(subRow3);
         Assert.assertEquals("Row0", mRow0, m.getRowMatrix(0));
         Assert.assertEquals("Row3", mRow3, m.getRowMatrix(3));
         try {
@@ -514,6 +830,28 @@ public final class SparseRealMatrixTest {
     }
 
     @Test
+    public void testGetColumnMatrixBig() {
+        RealMatrix m = createBigSparseMatrix(subTestData);
+        RealMatrix mColumn1 = createBigSparseMatrix(subColumn1);
+        RealMatrix mColumn3 = createBigSparseMatrix(subColumn3);
+        Assert.assertEquals("Column1", mColumn1, m.getColumnMatrix(1));
+        Assert.assertEquals("Column3", mColumn3, m.getColumnMatrix(3));
+        try {
+            m.getColumnMatrix(-1);
+            Assert.fail("Expecting OutOfRangeException");
+        } catch (OutOfRangeException ex) {
+            // expected
+        }
+        try {
+            m.getColumnMatrix(4);
+            Assert.fail("Expecting OutOfRangeException");
+        } catch (OutOfRangeException ex) {
+            // expected
+        }
+    }
+
+
+    @Test
     public void testGetRowVector() {
         RealMatrix m = createSparseMatrix(subTestData);
         RealVector mRow0 = new ArrayRealVector(subRow0[0]);
@@ -535,8 +873,50 @@ public final class SparseRealMatrixTest {
     }
 
     @Test
+    public void testGetRowVectorBig() {
+        RealMatrix m = createBigSparseMatrix(subTestData);
+        RealVector mRow0 = new ArrayRealVector(subRow0[0]);
+        RealVector mRow3 = new ArrayRealVector(subRow3[0]);
+        Assert.assertEquals("Row0", mRow0, m.getRowVector(0));
+        Assert.assertEquals("Row3", mRow3, m.getRowVector(3));
+        try {
+            m.getRowVector(-1);
+            Assert.fail("Expecting OutOfRangeException");
+        } catch (OutOfRangeException ex) {
+            // expected
+        }
+        try {
+            m.getRowVector(4);
+            Assert.fail("Expecting OutOfRangeException");
+        } catch (OutOfRangeException ex) {
+            // expected
+        }
+    }
+
+    @Test
     public void testGetColumnVector() {
         RealMatrix m = createSparseMatrix(subTestData);
+        RealVector mColumn1 = columnToVector(subColumn1);
+        RealVector mColumn3 = columnToVector(subColumn3);
+        Assert.assertEquals("Column1", mColumn1, m.getColumnVector(1));
+        Assert.assertEquals("Column3", mColumn3, m.getColumnVector(3));
+        try {
+            m.getColumnVector(-1);
+            Assert.fail("Expecting OutOfRangeException");
+        } catch (OutOfRangeException ex) {
+            // expected
+        }
+        try {
+            m.getColumnVector(4);
+            Assert.fail("Expecting OutOfRangeException");
+        } catch (OutOfRangeException ex) {
+            // expected
+        }
+    }
+
+    @Test
+    public void testGetColumnVectorBig() {
+        RealMatrix m = createBigSparseMatrix(subTestData);
         RealVector mColumn1 = columnToVector(subColumn1);
         RealVector mColumn3 = columnToVector(subColumn3);
         Assert.assertEquals("Column1", mColumn1, m.getColumnVector(1));
@@ -578,12 +958,35 @@ public final class SparseRealMatrixTest {
     }
 
     @Test
+    public void testEqualsAndHashCodeBig() {
+        OpenMapBigRealMatrix m = createBigSparseMatrix(testData);
+        OpenMapBigRealMatrix m1 = m.copy();
+        OpenMapBigRealMatrix mt = (OpenMapBigRealMatrix) m.transpose();
+        Assert.assertTrue(m.hashCode() != mt.hashCode());
+        Assert.assertEquals(m.hashCode(), m1.hashCode());
+        Assert.assertEquals(m, m);
+        Assert.assertEquals(m, m1);
+        Assert.assertFalse(m.equals(null));
+        Assert.assertFalse(m.equals(mt));
+        Assert.assertFalse(m.equals(createBigSparseMatrix(bigSingular)));
+    }
+
+    @Test
     public void testToString() {
         OpenMapRealMatrix m = createSparseMatrix(testData);
         Assert.assertEquals("OpenMapRealMatrix{{1.0,2.0,3.0},{2.0,5.0,3.0},{1.0,0.0,8.0}}",
             m.toString());
         m = new OpenMapRealMatrix(1, 1);
         Assert.assertEquals("OpenMapRealMatrix{{0.0}}", m.toString());
+    }
+
+    @Test
+    public void testToStringBig() {
+        OpenMapBigRealMatrix m = createBigSparseMatrix(testData);
+        Assert.assertEquals("OpenMapBigRealMatrix{{1.0,2.0,3.0},{2.0,5.0,3.0},{1.0,0.0,8.0}}",
+                m.toString());
+        m = new OpenMapBigRealMatrix(1, 1);
+        Assert.assertEquals("OpenMapBigRealMatrix{{0.0}}", m.toString());
     }
 
     @Test
@@ -666,9 +1069,96 @@ public final class SparseRealMatrixTest {
 
     }
 
+
+    @Test
+    public void testSetSubMatrixBig() {
+        OpenMapBigRealMatrix m = createBigSparseMatrix(testData);
+        m.setSubMatrix(detData2, 1, 1);
+        RealMatrix expected = createBigSparseMatrix(new double[][] {
+                { 1.0, 2.0, 3.0 }, { 2.0, 1.0, 3.0 }, { 1.0, 2.0, 4.0 } });
+        Assert.assertEquals(expected, m);
+
+        m.setSubMatrix(detData2, 0, 0);
+        expected = createBigSparseMatrix(new double[][] {
+                { 1.0, 3.0, 3.0 }, { 2.0, 4.0, 3.0 }, { 1.0, 2.0, 4.0 } });
+        Assert.assertEquals(expected, m);
+
+        m.setSubMatrix(testDataPlus2, 0, 0);
+        expected = createBigSparseMatrix(new double[][] {
+                { 3.0, 4.0, 5.0 }, { 4.0, 7.0, 5.0 }, { 3.0, 2.0, 10.0 } });
+        Assert.assertEquals(expected, m);
+
+        // javadoc example
+        OpenMapBigRealMatrix matrix =
+                createBigSparseMatrix(new double[][] {
+                        { 1, 2, 3, 4 }, { 5, 6, 7, 8 }, { 9, 0, 1, 2 } });
+        matrix.setSubMatrix(new double[][] { { 3, 4 }, { 5, 6 } }, 1, 1);
+        expected = createBigSparseMatrix(new double[][] {
+                { 1, 2, 3, 4 }, { 5, 3, 4, 8 }, { 9, 5, 6, 2 } });
+        Assert.assertEquals(expected, matrix);
+
+        // dimension overflow
+        try {
+            m.setSubMatrix(testData, 1, 1);
+            Assert.fail("expecting OutOfRangeException");
+        } catch (OutOfRangeException e) {
+            // expected
+        }
+        // dimension underflow
+        try {
+            m.setSubMatrix(testData, -1, 1);
+            Assert.fail("expecting OutOfRangeException");
+        } catch (OutOfRangeException e) {
+            // expected
+        }
+        try {
+            m.setSubMatrix(testData, 1, -1);
+            Assert.fail("expecting OutOfRangeException");
+        } catch (OutOfRangeException e) {
+            // expected
+        }
+
+        // null
+        try {
+            m.setSubMatrix(null, 1, 1);
+            Assert.fail("expecting NullArgumentException");
+        } catch (NullArgumentException e) {
+            // expected
+        }
+        try {
+            new OpenMapBigRealMatrix(0, 0);
+            Assert.fail("expecting MathIllegalArgumentException");
+        } catch (MathIllegalArgumentException e) {
+            // expected
+        }
+
+        // ragged
+        try {
+            m.setSubMatrix(new double[][] { { 1 }, { 2, 3 } }, 0, 0);
+            Assert.fail("expecting MathIllegalArgumentException");
+        } catch (MathIllegalArgumentException e) {
+            // expected
+        }
+
+        // empty
+        try {
+            m.setSubMatrix(new double[][] { {} }, 0, 0);
+            Assert.fail("expecting MathIllegalArgumentException");
+        } catch (MathIllegalArgumentException e) {
+            // expected
+        }
+
+    }
+
     @Test
     public void testSerial()  {
         OpenMapRealMatrix m = createSparseMatrix(testData);
+        Assert.assertEquals(m,TestUtils.serializeAndRecover(m));
+    }
+
+    @Test
+    public void testSerialBig()  {
+        OpenMapBigRealMatrix m = createBigSparseMatrix(testData);
         Assert.assertEquals(m,TestUtils.serializeAndRecover(m));
     }
 
@@ -694,6 +1184,16 @@ public final class SparseRealMatrixTest {
 
     private OpenMapRealMatrix createSparseMatrix(double[][] data) {
         OpenMapRealMatrix matrix = new OpenMapRealMatrix(data.length, data[0].length);
+        for (int row = 0; row < data.length; row++) {
+            for (int col = 0; col < data[row].length; col++) {
+                matrix.setEntry(row, col, data[row][col]);
+            }
+        }
+        return matrix;
+    }
+
+    private OpenMapBigRealMatrix createBigSparseMatrix(double[][] data) {
+        OpenMapBigRealMatrix matrix = new OpenMapBigRealMatrix(data.length, data[0].length);
         for (int row = 0; row < data.length; row++) {
             for (int col = 0; col < data[row].length; col++) {
                 matrix.setEntry(row, col, data[row][col]);
