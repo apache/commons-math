@@ -71,7 +71,7 @@ public final class MathUtils {
      * @return {@code new Double(x).equals(new Double(y))}
      */
     public static boolean equals(double x, double y) {
-        return new Double(x).equals(new Double(y));
+        return Double.valueOf(x).equals(Double.valueOf(y));
     }
 
     /**
