@@ -496,7 +496,7 @@ public class MillerUpdatingRegression implements UpdatingMultipleLinearRegressio
      */
     private double[] cov(int nreq) {
         if (this.nobs <= nreq) {
-            return null;
+            return new double[0];
         }
         double rnk = 0.0;
         for (int i = 0; i < nreq; i++) {
@@ -625,7 +625,7 @@ public class MillerUpdatingRegression implements UpdatingMultipleLinearRegressio
         double sumyy;
         final int offXX = (nvars - in) * (nvars - in - 1) / 2;
         if (in < -1 || in >= nvars) {
-            return null;
+            return new double[0];
         }
         final int nvm = nvars - 1;
         final int base_pos = r.length - (nvm - in) * (nvm - in + 1) / 2;
