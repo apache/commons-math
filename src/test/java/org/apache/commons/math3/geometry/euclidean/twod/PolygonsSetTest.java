@@ -90,6 +90,45 @@ public class PolygonsSetTest {
         PolygonsSet box = new PolygonsSet(new BSPTree<Euclidean2D>(Boolean.TRUE), 1.0e-10);
         Assert.assertTrue(Double.isInfinite(box.getSize()));
     }
+    
+    @Test
+    public void testSingleInfiniteLine()
+    {
+        double tolerance = 1e-10;
+        Line line = new Line(new Vector2D(0, 0), new Vector2D(1, 1), tolerance);
+        
+        List<SubHyperplane<Euclidean2D>> boundaries = new ArrayList<SubHyperplane<Euclidean2D>>();
+        boundaries.add(line.wholeHyperplane());
+        
+        PolygonsSet polygon = new PolygonsSet(boundaries, tolerance);
+        
+        Assert.assertTrue(Double.isInfinite(polygon.getSize()));
+        
+        Vector2D[][] vertices = polygon.getVertices();
+        Assert.assertEquals(1, vertices.length);
+        
+        Vector2D[] loop = vertices[0];
+        Assert.assertEquals(null, loop[0]);
+        checkPointsEqual(line.toSpace(new Vector1D(-Float.MAX_VALUE)), loop[1], tolerance);
+        checkPointsEqual(line.toSpace(new Vector1D(Float.MAX_VALUE)), loop[2], tolerance);
+    }
+    
+    @Test
+    public void testBoxWithConnectedDanglingLine()
+    {
+        double tolerance = 1e-10;
+     
+        List<SubHyperplane<Euclidean2D>> boundaries = new ArrayList<SubHyperplane<Euclidean2D>>();
+        boundaries.add(buildSegment(new Vector2D(0, 0), new Vector2D(1, 0)));
+        boundaries.add(buildSegment(new Vector2D(1, 0), new Vector2D(1, 1)));
+        boundaries.add(buildSegment(new Vector2D(1, 1), new Vector2D(0, 1)));
+        boundaries.add(buildSegment(new Vector2D(0, 1), new Vector2D(0, 2))); // dangling line
+        boundaries.add(buildSegment(new Vector2D(0, 1), new Vector2D(0, 0)));
+        
+        PolygonsSet polygon = new PolygonsSet(boundaries, tolerance);
+        
+        Assert.assertTrue(Double.isInfinite(polygon.getSize()));
+    }
 
     @Test
     public void testStair() {
@@ -1263,6 +1302,12 @@ public class PolygonsSetTest {
         double lower = (line.toSubSpace(start)).getX();
         double upper = (line.toSubSpace(end)).getX();
         return new SubLine(line, new IntervalsSet(lower, upper, 1.0e-10));
+    }
+    
+    private void checkPointsEqual(Vector2D expected, Vector2D actual, double tolerance)
+    {
+        Assert.assertEquals(expected.getX(), actual.getX(), tolerance);
+        Assert.assertEquals(expected.getY(), actual.getY(), tolerance);
     }
 
     private void checkPoints(Region.Location expected, PolygonsSet set,
