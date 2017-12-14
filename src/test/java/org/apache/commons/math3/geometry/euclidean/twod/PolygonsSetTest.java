@@ -92,8 +92,7 @@ public class PolygonsSetTest {
     }
     
     @Test
-    public void testSingleInfiniteLine()
-    {
+    public void testSingleInfiniteLine() {
         double tolerance = 1e-10;
         Line line = new Line(new Vector2D(0, 0), new Vector2D(1, 1), tolerance);
         
@@ -114,8 +113,7 @@ public class PolygonsSetTest {
     }
     
     @Test
-    public void testBoxWithConnectedDanglingLine()
-    {
+    public void testBoxWithConnectedDanglingLine() {
         double tolerance = 1e-10;
      
         List<SubHyperplane<Euclidean2D>> boundaries = new ArrayList<SubHyperplane<Euclidean2D>>();
@@ -1304,8 +1302,7 @@ public class PolygonsSetTest {
         return new SubLine(line, new IntervalsSet(lower, upper, 1.0e-10));
     }
     
-    private void checkPointsEqual(Vector2D expected, Vector2D actual, double tolerance)
-    {
+    private void checkPointsEqual(Vector2D expected, Vector2D actual, double tolerance) {
         Assert.assertEquals(expected.getX(), actual.getX(), tolerance);
         Assert.assertEquals(expected.getY(), actual.getY(), tolerance);
     }

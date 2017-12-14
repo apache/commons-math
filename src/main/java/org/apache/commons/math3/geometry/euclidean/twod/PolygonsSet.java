@@ -914,8 +914,7 @@ public class PolygonsSet extends AbstractRegion<Euclidean2D, Euclidean1D> {
 
         // filter out spurious vertices, but only if we have more than
         // a single point
-        if (loop.size() > 1)
-        {
+        if (loop.size() > 1) {
             filterSpuriousVertices(loop);
         }
 
@@ -1136,8 +1135,7 @@ public class PolygonsSet extends AbstractRegion<Euclidean2D, Euclidean1D> {
          * @return node closest to point, or null if no node is closer than tolerance
          */
         private BSPTree<Euclidean2D> selectClosest(final Vector2D point, final Iterable<BSPTree<Euclidean2D>> candidates) {
-            if (point != null)
-            {
+            if (point != null) {
                 BSPTree<Euclidean2D> selected = null;
                 double min = Double.POSITIVE_INFINITY;
     
@@ -1149,8 +1147,7 @@ public class PolygonsSet extends AbstractRegion<Euclidean2D, Euclidean1D> {
                     }
                 }
     
-                if (min <= tolerance)
-                {
+                if (min <= tolerance) {
                     return selected;
                 }
             }

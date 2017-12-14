@@ -21,13 +21,11 @@ import org.apache.commons.math3.geometry.partitioning.SubHyperplane.SplitSubHype
 import org.junit.Assert;
 import org.junit.Test;
 
-public class SubOrientedPointTest
-{
+public class SubOrientedPointTest {
     private static final double DEFAULT_TOLERANCE = 1e-10;
     
     @Test
-    public void testGetSize()
-    {
+    public void testGetSize() {
         OrientedPoint hyperplane = new OrientedPoint(new Vector1D(1), true, DEFAULT_TOLERANCE);
         SubOrientedPoint pt = (SubOrientedPoint) hyperplane.wholeHyperplane();
         
@@ -35,8 +33,7 @@ public class SubOrientedPointTest
     }
     
     @Test
-    public void testIsEmpty()
-    {
+    public void testIsEmpty() {
         OrientedPoint hyperplane = new OrientedPoint(new Vector1D(1), true, DEFAULT_TOLERANCE);
         SubOrientedPoint pt = (SubOrientedPoint) hyperplane.wholeHyperplane();
         
@@ -44,8 +41,7 @@ public class SubOrientedPointTest
     }
     
     @Test
-    public void testBuildNew()
-    {
+    public void testBuildNew() {
         OrientedPoint originalHyperplane = new OrientedPoint(new Vector1D(1), true, DEFAULT_TOLERANCE);
         SubOrientedPoint pt = (SubOrientedPoint) originalHyperplane.wholeHyperplane();
         
@@ -60,8 +56,7 @@ public class SubOrientedPointTest
     }
     
     @Test
-    public void testSplit_usesToleranceFromParentHyperplane()
-    {
+    public void testSplit_usesToleranceFromParentHyperplane() {
         OrientedPoint hyperplane = new OrientedPoint(new Vector1D(1), true, 0.1);
         SubOrientedPoint pt = (SubOrientedPoint) hyperplane.wholeHyperplane();
         
