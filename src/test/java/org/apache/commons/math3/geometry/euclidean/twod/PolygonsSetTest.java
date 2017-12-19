@@ -107,25 +107,37 @@ public class PolygonsSetTest {
         Assert.assertEquals(1, vertices.length);
         
         Vector2D[] loop = vertices[0];
+        Assert.assertEquals(3, loop.length);
         Assert.assertEquals(null, loop[0]);
         checkPointsEqual(line.toSpace(new Vector1D(-Float.MAX_VALUE)), loop[1], tolerance);
         checkPointsEqual(line.toSpace(new Vector1D(Float.MAX_VALUE)), loop[2], tolerance);
     }
     
     @Test
-    public void testBoxWithConnectedDanglingLine() {
+    public void testMixOfFiniteAndInfiniteBoundaries() {
         double tolerance = 1e-10;
+        
+        Line line = new Line(new Vector2D(1, 0), new Vector2D(1, 1), tolerance);
      
         List<SubHyperplane<Euclidean2D>> boundaries = new ArrayList<SubHyperplane<Euclidean2D>>();
-        boundaries.add(buildSegment(new Vector2D(0, 0), new Vector2D(1, 0)));
-        boundaries.add(buildSegment(new Vector2D(1, 0), new Vector2D(1, 1)));
-        boundaries.add(buildSegment(new Vector2D(1, 1), new Vector2D(0, 1)));
-        boundaries.add(buildSegment(new Vector2D(0, 1), new Vector2D(0, 2))); // dangling line
         boundaries.add(buildSegment(new Vector2D(0, 1), new Vector2D(0, 0)));
+        boundaries.add(buildSegment(new Vector2D(0, 0), new Vector2D(1, 0)));
+        boundaries.add(new SubLine(line, new IntervalsSet(0, Double.POSITIVE_INFINITY, tolerance)));
         
         PolygonsSet polygon = new PolygonsSet(boundaries, tolerance);
-        
+
         Assert.assertTrue(Double.isInfinite(polygon.getSize()));
+        
+        Vector2D[][] vertices = polygon.getVertices();
+        Assert.assertEquals(1, vertices.length);
+        
+        Vector2D[] loop = vertices[0];
+        Assert.assertEquals(5, loop.length);
+        Assert.assertEquals(null, loop[0]);
+        checkPointsEqual(new Vector2D(0, 1), loop[1], tolerance);
+        checkPointsEqual(new Vector2D(0, 0), loop[2], tolerance);
+        checkPointsEqual(new Vector2D(1, 0), loop[3], tolerance);
+        checkPointsEqual(new Vector2D(1, 0), loop[4], tolerance);
     }
 
     @Test
