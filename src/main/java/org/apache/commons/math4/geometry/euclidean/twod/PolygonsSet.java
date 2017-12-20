@@ -644,7 +644,7 @@ public class PolygonsSet extends AbstractRegion<Euclidean2D, Euclidean1D> {
                 for (ConnectableSegment s = getUnprocessed(segments); s != null; s = getUnprocessed(segments)) {
                     final List<Segment> loop = followLoop(s);
                     if (loop != null) {
-                        if (loop.get(0).getStart() == null) {
+                        if (loop.size() < 2 || loop.get(0).getStart() == null) {
                             // this is an open loop, we put it on the front
                             loops.add(0, loop);
                         } else {
@@ -847,8 +847,11 @@ public class PolygonsSet extends AbstractRegion<Euclidean2D, Euclidean1D> {
             }
         }
 
-        // filter out spurious vertices
-        filterSpuriousVertices(loop);
+        // filter out spurious vertices, but only if we have more than
+        // a single point
+        if (loop.size() > 1) {
+            filterSpuriousVertices(loop);
+        }
 
         if (loop.size() == 2 && loop.get(0).getStart() != null) {
             // this is a degenerated infinitely thin closed loop, we simply ignore it
@@ -1070,20 +1073,23 @@ public class PolygonsSet extends AbstractRegion<Euclidean2D, Euclidean1D> {
          * @return node closest to point, or null if no node is closer than tolerance
          */
         private BSPTree<Euclidean2D> selectClosest(final Cartesian2D point, final Iterable<BSPTree<Euclidean2D>> candidates) {
+            if (point != null) {
+                BSPTree<Euclidean2D> selected = null;
+                double min = Double.POSITIVE_INFINITY;
 
-            BSPTree<Euclidean2D> selected = null;
-            double min = Double.POSITIVE_INFINITY;
+                for (final BSPTree<Euclidean2D> node : candidates) {
+                    final double distance = FastMath.abs(node.getCut().getHyperplane().getOffset(point));
+                    if (distance < min) {
+                        selected = node;
+                        min      = distance;
+                    }
+                }
 
-            for (final BSPTree<Euclidean2D> node : candidates) {
-                final double distance = FastMath.abs(node.getCut().getHyperplane().getOffset(point));
-                if (distance < min) {
-                    selected = node;
-                    min      = distance;
+                if (min <= tolerance) {
+                    return selected;
                 }
             }
-
-            return min <= tolerance ? selected : null;
-
+            return null;
         }
 
         /** Get the segments.
