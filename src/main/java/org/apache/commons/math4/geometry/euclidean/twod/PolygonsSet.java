@@ -644,7 +644,11 @@ public class PolygonsSet extends AbstractRegion<Euclidean2D, Euclidean1D> {
                 for (ConnectableSegment s = getUnprocessed(segments); s != null; s = getUnprocessed(segments)) {
                     final List<Segment> loop = followLoop(s);
                     if (loop != null) {
-                        if (loop.get(0).getStart() == null) {
+                    	// an open loop is one that has fewer than two segments or has a null
+                    	// start point; the case where we have two segments in a closed loop
+                    	// (ie, an infinitely thin, degenerate loop) will result in null being
+                    	// returned from the followLoops method
+                        if (loop.size() < 2 || loop.get(0).getStart() == null) {
                             // this is an open loop, we put it on the front
                             loops.add(0, loop);
                         } else {
@@ -863,18 +867,22 @@ public class PolygonsSet extends AbstractRegion<Euclidean2D, Euclidean1D> {
      * @param loop segments loop to filter (will be modified in-place)
      */
     private void filterSpuriousVertices(final List<Segment> loop) {
-        for (int i = 0; i < loop.size(); ++i) {
-            final Segment previous = loop.get(i);
-            int j = (i + 1) % loop.size();
-            final Segment next = loop.get(j);
-            if (next != null &&
-                Precision.equals(previous.getLine().getAngle(), next.getLine().getAngle(), Precision.EPSILON)) {
-                // the vertex between the two edges is a spurious one
-                // replace the two segments by a single one
-                loop.set(j, new Segment(previous.getStart(), next.getEnd(), previous.getLine()));
-                loop.remove(i--);
-            }
-        }
+    	// we need at least 2 segments in order for one of the contained vertices
+    	// to be unnecessary
+    	if (loop.size() > 1) { 
+	        for (int i = 0; i < loop.size(); ++i) {
+	            final Segment previous = loop.get(i);
+	            int j = (i + 1) % loop.size();
+	            final Segment next = loop.get(j);
+	            if (next != null &&
+	                Precision.equals(previous.getLine().getAngle(), next.getLine().getAngle(), Precision.EPSILON)) {
+	                // the vertex between the two edges is a spurious one
+	                // replace the two segments by a single one
+	                loop.set(j, new Segment(previous.getStart(), next.getEnd(), previous.getLine()));
+	                loop.remove(i--);
+	            }
+	        }
+    	}
     }
 
     /** Private extension of Segment allowing connection. */
@@ -1067,23 +1075,26 @@ public class PolygonsSet extends AbstractRegion<Euclidean2D, Euclidean1D> {
         /** Select the node whose cut sub-hyperplane is closest to specified point.
          * @param point reference point
          * @param candidates candidate nodes
-         * @return node closest to point, or null if no node is closer than tolerance
+         * @return node closest to point, or null if point is null or no node is closer than tolerance
          */
         private BSPTree<Euclidean2D> selectClosest(final Cartesian2D point, final Iterable<BSPTree<Euclidean2D>> candidates) {
-
-            BSPTree<Euclidean2D> selected = null;
-            double min = Double.POSITIVE_INFINITY;
-
-            for (final BSPTree<Euclidean2D> node : candidates) {
-                final double distance = FastMath.abs(node.getCut().getHyperplane().getOffset(point));
-                if (distance < min) {
-                    selected = node;
-                    min      = distance;
-                }
-            }
-
-            return min <= tolerance ? selected : null;
-
+        	if (point != null) {
+	            BSPTree<Euclidean2D> selected = null;
+	            double min = Double.POSITIVE_INFINITY;
+	
+	            for (final BSPTree<Euclidean2D> node : candidates) {
+	                final double distance = FastMath.abs(node.getCut().getHyperplane().getOffset(point));
+	                if (distance < min) {
+	                    selected = node;
+	                    min      = distance;
+	                }
+	            }
+	
+	            if (min <= tolerance) {
+	            	return selected;
+	            }
+        	}
+        	return null;
         }
 
         /** Get the segments.
