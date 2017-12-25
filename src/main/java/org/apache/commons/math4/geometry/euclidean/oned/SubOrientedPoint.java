@@ -59,12 +59,12 @@ public class SubOrientedPoint extends AbstractSubHyperplane<Euclidean1D, Euclide
     /** {@inheritDoc} */
     @Override
     public SplitSubHyperplane<Euclidean1D> split(final Hyperplane<Euclidean1D> hyperplane) {
-    	final OrientedPoint thisHyperplane = (OrientedPoint) getHyperplane();
-    	final double global = hyperplane.getOffset(thisHyperplane.getLocation());
-    	
-    	// use the tolerance value from our parent hyperplane to determine equality
+        final OrientedPoint thisHyperplane = (OrientedPoint) getHyperplane();
+        final double global = hyperplane.getOffset(thisHyperplane.getLocation());
+
+        // use the tolerance value from our parent hyperplane to determine equality
         final double tolerance = thisHyperplane.getTolerance();
-        
+
         if (global < -tolerance) {
             return new SplitSubHyperplane<Euclidean1D>(null, this);
         } else if (global > tolerance) {
