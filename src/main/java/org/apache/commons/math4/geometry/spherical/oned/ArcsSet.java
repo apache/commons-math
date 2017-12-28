@@ -836,7 +836,7 @@ public class ArcsSet extends AbstractRegion<Sphere1D, Sphere1D> implements Itera
                         // regular case, the two entries are consecutive ones
                         limits.remove(j);
                         limits.remove(i);
-                        i = i - 1;
+                        i--;
                     } else {
                         // special case, i the the last entry and j is the first entry
                         // we have wrapped around list end

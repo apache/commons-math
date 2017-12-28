@@ -573,7 +573,7 @@ public class PercentileTest extends UnivariateStatisticAbstractTest{
 
     @Test
     public void testPercentileWithTechnique() {
-        reset (50, Percentile.EstimationType.LEGACY);;
+        reset (50, Percentile.EstimationType.LEGACY);
         final Percentile p = getUnivariateStatistic();
         Assert.assertTrue(Percentile.EstimationType.LEGACY.equals(p.getEstimationType()));
         Assert.assertFalse(Percentile.EstimationType.R_1.equals(p.getEstimationType()));

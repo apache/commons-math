@@ -215,7 +215,7 @@ public class RegionDumper {
             formatter.format("%s %s internal ", prefix, type(node));
             formatHyperplane(node.getCut().getHyperplane());
             formatter.format("%n");
-            prefix = prefix + "  ";
+            prefix += "  ";
         }
 
         /** {@inheritDoc} */

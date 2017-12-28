@@ -99,7 +99,7 @@ public abstract class AbstractRegion<S extends Space, T extends Space> implement
 
         this.tolerance = tolerance;
 
-        if (boundary.size() == 0) {
+        if (boundary.isEmpty()) {
 
             // the tree represents the whole space
             tree = new BSPTree<>(Boolean.TRUE);

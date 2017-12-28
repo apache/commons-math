@@ -56,7 +56,7 @@ public class TestFieldProblem4<T extends RealFieldElement<T>>
         a = convert(1.2);
         T[] y0 = MathArrays.buildArray(field, 2);
         y0[0] = a.sin();
-        y0[1] = a.cos();;
+        y0[1] = a.cos();
         setInitialConditions(convert(0.0), y0);
         setFinalConditions(convert(15));
         setErrorScale(convert(1.0, 0.0));

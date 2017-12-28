@@ -160,7 +160,6 @@ public class TDistributionTest extends RealDistributionAbstractTest {
         TestUtils.assertEquals(prob, makeNistResults(args10, 10), 1.0e-4);
         TestUtils.assertEquals(prob, makeNistResults(args30, 30), 1.0e-4);
         TestUtils.assertEquals(prob, makeNistResults(args100, 100), 1.0e-4);
-        return;
     }
     private double[] makeNistResults(double[] args, int df){
         TDistribution td =  new TDistribution(df);

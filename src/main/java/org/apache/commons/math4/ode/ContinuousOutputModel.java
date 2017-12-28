@@ -129,11 +129,11 @@ public class ContinuousOutputModel
   public void append(final ContinuousOutputModel model)
     throws MathIllegalArgumentException, MaxCountExceededException {
 
-    if (model.steps.size() == 0) {
+    if (model.steps.isEmpty()) {
       return;
     }
 
-    if (steps.size() == 0) {
+    if (steps.isEmpty()) {
       initialTime = model.initialTime;
       forward     = model.forward;
     } else {
@@ -190,7 +190,7 @@ public class ContinuousOutputModel
 public void handleStep(final StepInterpolator interpolator, final boolean isLast)
       throws MaxCountExceededException {
 
-    if (steps.size() == 0) {
+    if (steps.isEmpty()) {
       initialTime = interpolator.getPreviousTime();
       forward     = interpolator.isForward();
     }

@@ -76,7 +76,7 @@ public class WeightedObservedPointsTest {
         Assert.assertTrue(store.toList().size() == 2);
 
         store.clear();
-        Assert.assertTrue(store.toList().size() == 0);
+        Assert.assertTrue(store.toList().isEmpty());
     }
 
     // Ensure that an instance returned by "toList()" is independent from
@@ -97,7 +97,7 @@ public class WeightedObservedPointsTest {
 
         // Clearing "store" has no impact on "list".
         store.clear();
-        Assert.assertFalse(list.size() == 0);
+        Assert.assertFalse(list.isEmpty());
     }
 
     /**
