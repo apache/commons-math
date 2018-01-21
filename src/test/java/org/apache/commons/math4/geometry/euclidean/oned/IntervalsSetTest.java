@@ -97,6 +97,7 @@ public class IntervalsSetTest {
     public void testSinglePoint() {
         IntervalsSet set = new IntervalsSet(1.0, 1.0, 1.0e-10);
         Assert.assertEquals(0.0, set.getSize(), Precision.SAFE_MIN);
+        Assert.assertEquals(0.0, set.getBoundarySize(), Precision.SAFE_MIN);
         Assert.assertEquals(1.0, ((Cartesian1D) set.getBarycenter()).getX(), Precision.EPSILON);
     }
 
