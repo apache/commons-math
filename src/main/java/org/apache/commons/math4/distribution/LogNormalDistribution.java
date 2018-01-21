@@ -25,7 +25,8 @@ import org.apache.commons.numbers.gamma.ErfDifference;
 import org.apache.commons.math4.util.FastMath;
 import org.apache.commons.rng.UniformRandomProvider;
 import org.apache.commons.rng.sampling.distribution.ContinuousSampler;
-import org.apache.commons.rng.sampling.distribution.MarsagliaLogNormalSampler;
+import org.apache.commons.rng.sampling.distribution.LogNormalSampler;
+import org.apache.commons.rng.sampling.distribution.ZigguratNormalizedGaussianSampler;
 
 /**
  * Implementation of the log-normal (gaussian) distribution.
@@ -299,7 +300,7 @@ public class LogNormalDistribution extends AbstractRealDistribution {
              * Log normal distribution sampler.
              */
             private final ContinuousSampler sampler =
-                new MarsagliaLogNormalSampler(rng, scale, shape);
+                new LogNormalSampler(new ZigguratNormalizedGaussianSampler(rng), scale, shape);
 
             /**{@inheritDoc} */
             @Override
