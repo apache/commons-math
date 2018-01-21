@@ -19,7 +19,6 @@ package org.apache.commons.math4.geometry.partitioning;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.apache.commons.math4.exception.MathInternalError;
 import org.apache.commons.math4.geometry.Space;
 
 /** Cut sub-hyperplanes characterization with respect to inside/outside cells.
