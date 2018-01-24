@@ -16,7 +16,7 @@
  */
 package org.apache.commons.math4.stat.inference;
 
-import org.apache.commons.math4.distribution.NormalDistribution;
+import org.apache.commons.statistics.distribution.NormalDistribution;
 import org.apache.commons.math4.exception.ConvergenceException;
 import org.apache.commons.math4.exception.DimensionMismatchException;
 import org.apache.commons.math4.exception.MaxCountExceededException;

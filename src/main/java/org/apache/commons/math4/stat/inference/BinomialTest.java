@@ -16,7 +16,7 @@
  */
 package org.apache.commons.math4.stat.inference;
 
-import org.apache.commons.math4.distribution.BinomialDistribution;
+import org.apache.commons.statistics.distribution.BinomialDistribution;
 import org.apache.commons.math4.exception.MathIllegalArgumentException;
 import org.apache.commons.math4.exception.MathInternalError;
 import org.apache.commons.math4.exception.NotPositiveException;
