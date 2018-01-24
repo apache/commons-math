@@ -16,7 +16,7 @@
  */
 package org.apache.commons.math4.stat.interval;
 
-import org.apache.commons.math4.distribution.NormalDistribution;
+import org.apache.commons.statistics.distribution.NormalDistribution;
 import org.apache.commons.math4.util.FastMath;
 
 /**

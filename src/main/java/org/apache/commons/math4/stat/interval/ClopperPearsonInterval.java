@@ -16,7 +16,7 @@
  */
 package org.apache.commons.math4.stat.interval;
 
-import org.apache.commons.math4.distribution.FDistribution;
+import org.apache.commons.statistics.distribution.FDistribution;
 
 /**
  * Implements the Clopper-Pearson method for creating a binomial proportion confidence interval.
