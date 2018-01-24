@@ -36,8 +36,8 @@ import org.apache.commons.math4.optim.PointValuePair;
 import org.apache.commons.math4.optim.nonlinear.scalar.GoalType;
 import org.apache.commons.math4.optim.nonlinear.scalar.MultivariateOptimizer;
 import org.apache.commons.rng.UniformRandomProvider;
-import org.apache.commons.math4.distribution.RealDistribution;
-import org.apache.commons.math4.distribution.NormalDistribution;
+import org.apache.commons.statistics.distribution.ContinuousDistribution;
+import org.apache.commons.statistics.distribution.NormalDistribution;
 import org.apache.commons.math4.util.FastMath;
 import org.apache.commons.math4.util.MathArrays;
 
@@ -198,7 +198,7 @@ public class CMAESOptimizer
     private int historySize;
 
     /** Gaussian sampler. */
-    private final RealDistribution.Sampler random;
+    private final ContinuousDistribution.Sampler random;
 
     /** History of sigma values. */
     private final List<Double> statisticsSigmaHistory = new ArrayList<>();
