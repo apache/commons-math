@@ -19,8 +19,8 @@ package org.apache.commons.math4.ml.neuralnet;
 
 import org.apache.commons.math4.analysis.UnivariateFunction;
 import org.apache.commons.math4.analysis.function.Constant;
-import org.apache.commons.math4.distribution.RealDistribution;
-import org.apache.commons.math4.distribution.UniformRealDistribution;
+import org.apache.commons.statistics.distribution.ContinuousDistribution;
+import org.apache.commons.statistics.distribution.UniformContinuousDistribution;
 import org.apache.commons.rng.simple.RandomSource;
 import org.apache.commons.rng.UniformRandomProvider;
 
@@ -49,7 +49,7 @@ public class FeatureInitializerFactory {
     public static FeatureInitializer uniform(final UniformRandomProvider rng,
                                              final double min,
                                              final double max) {
-        return randomize(new UniformRealDistribution(min, max).createSampler(rng),
+        return randomize(new UniformContinuousDistribution(min, max).createSampler(rng),
                          function(new Constant(0), 0, 0));
     }
 
@@ -103,7 +103,7 @@ public class FeatureInitializerFactory {
      * @return an initializer whose {@link FeatureInitializer#value() value}
      * method will return {@code orig.value() + random.sample()}.
      */
-    public static FeatureInitializer randomize(final RealDistribution.Sampler random,
+    public static FeatureInitializer randomize(final ContinuousDistribution.Sampler random,
                                                final FeatureInitializer orig) {
         return new FeatureInitializer() {
             /** {@inheritDoc} */
