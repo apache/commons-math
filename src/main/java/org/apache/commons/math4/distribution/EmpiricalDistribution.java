@@ -28,6 +28,9 @@ import java.nio.charset.Charset;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.apache.commons.statistics.distribution.NormalDistribution;
+import org.apache.commons.statistics.distribution.ContinuousDistribution;
+import org.apache.commons.statistics.distribution.ConstantContinuousDistribution;
 import org.apache.commons.math4.exception.MathIllegalStateException;
 import org.apache.commons.math4.exception.MathInternalError;
 import org.apache.commons.math4.exception.NullArgumentException;
@@ -517,7 +520,7 @@ public class EmpiricalDistribution extends AbstractRealDistribution {
             return 0d;
         }
         final int binIndex = findBin(x);
-        final RealDistribution kernel = getKernel(binStats.get(binIndex));
+        final ContinuousDistribution kernel = getKernel(binStats.get(binIndex));
         return kernel.density(x) * pB(binIndex) / kB(binIndex);
     }
 
@@ -546,9 +549,9 @@ public class EmpiricalDistribution extends AbstractRealDistribution {
         final int binIndex = findBin(x);
         final double pBminus = pBminus(binIndex);
         final double pB = pB(binIndex);
-        final RealDistribution kernel = k(x);
-        if (kernel instanceof ConstantRealDistribution) {
-            if (x < kernel.getNumericalMean()) {
+        final ContinuousDistribution kernel = k(x);
+        if (kernel instanceof ConstantContinuousDistribution) {
+            if (x < kernel.getMean()) {
                 return pBminus;
             } else {
                 return pBminus + pB;
@@ -601,7 +604,7 @@ public class EmpiricalDistribution extends AbstractRealDistribution {
             i++;
         }
 
-        final RealDistribution kernel = getKernel(binStats.get(i));
+        final ContinuousDistribution kernel = getKernel(binStats.get(i));
         final double kB = kB(i);
         final double[] binBounds = getUpperBounds();
         final double lower = i == 0 ? min : binBounds[i - 1];
@@ -699,7 +702,7 @@ public class EmpiricalDistribution extends AbstractRealDistribution {
      */
     private double kB(int i) {
         final double[] binBounds = getUpperBounds();
-        final RealDistribution kernel = getKernel(binStats.get(i));
+        final ContinuousDistribution kernel = getKernel(binStats.get(i));
         return i == 0 ? kernel.probability(min, binBounds[0]) :
             kernel.probability(binBounds[i - 1], binBounds[i]);
     }
@@ -710,7 +713,7 @@ public class EmpiricalDistribution extends AbstractRealDistribution {
      * @param x the value to locate within a bin
      * @return the within-bin kernel of the bin containing x
      */
-    private RealDistribution k(double x) {
+    private ContinuousDistribution k(double x) {
         final int binIndex = findBin(x);
         return getKernel(binStats.get(binIndex));
     }
@@ -733,12 +736,11 @@ public class EmpiricalDistribution extends AbstractRealDistribution {
      * @param bStats summary statistics for the bin
      * @return within-bin kernel parameterized by bStats
      */
-    protected RealDistribution getKernel(SummaryStatistics bStats) {
+    protected ContinuousDistribution getKernel(SummaryStatistics bStats) {
         if (bStats.getN() == 1 || bStats.getVariance() == 0) {
-            return new ConstantRealDistribution(bStats.getMean());
+            return new ConstantContinuousDistribution(bStats.getMean());
         } else {
-            return new NormalDistribution(bStats.getMean(), bStats.getStandardDeviation(),
-                                          NormalDistribution.DEFAULT_INVERSE_ABSOLUTE_ACCURACY);
+            return new NormalDistribution(bStats.getMean(), bStats.getStandardDeviation());
         }
     }
 }

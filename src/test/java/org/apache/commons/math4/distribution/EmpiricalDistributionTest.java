@@ -24,6 +24,10 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.Arrays;
 
+import org.apache.commons.statistics.distribution.ContinuousDistribution;
+import org.apache.commons.statistics.distribution.ConstantContinuousDistribution;
+import org.apache.commons.statistics.distribution.UniformContinuousDistribution;
+import org.apache.commons.statistics.distribution.NormalDistribution;
 import org.apache.commons.math4.TestUtils;
 import org.apache.commons.math4.analysis.UnivariateFunction;
 import org.apache.commons.math4.analysis.integration.BaseAbstractUnivariateIntegrator;
@@ -334,7 +338,7 @@ public final class EmpiricalDistributionTest extends RealDistributionAbstractTes
             // Compute bMinus = sum or mass of bins below the bin containing the point
             // First bin has mass 11 / 10000, the rest have mass 10 / 10000.
             final double bMinus = bin == 0 ? 0 : (bin - 1) * binMass + firstBinMass;
-            final RealDistribution kernel = findKernel(lower, upper);
+            final ContinuousDistribution kernel = findKernel(lower, upper);
             final double withinBinKernelMass = kernel.probability(lower, upper);
             final double kernelCum = kernel.probability(lower, testPoints[i]);
             cumValues[i] = bMinus + (bin == 0 ? firstBinMass : binMass) * kernelCum/withinBinKernelMass;
@@ -353,7 +357,7 @@ public final class EmpiricalDistributionTest extends RealDistributionAbstractTes
             final double lower = bin == 0 ? empiricalDistribution.getSupportLowerBound() :
                 binBounds[bin - 1];
             final double upper = binBounds[bin];
-            final RealDistribution kernel = findKernel(lower, upper);
+            final ContinuousDistribution kernel = findKernel(lower, upper);
             final double withinBinKernelMass = kernel.probability(lower, upper);
             final double density = kernel.density(testPoints[i]);
             densityValues[i] = density * (bin == 0 ? firstBinMass : binMass) / withinBinKernelMass;
@@ -456,7 +460,7 @@ public final class EmpiricalDistributionTest extends RealDistributionAbstractTes
      * The first bin includes its lower bound, 0, so has different mean and
      * standard deviation.
      */
-    private RealDistribution findKernel(double lower, double upper) {
+    private ContinuousDistribution findKernel(double lower, double upper) {
         if (lower < 1) {
             return new NormalDistribution(5d, 3.3166247903554);
         } else {
@@ -535,8 +539,8 @@ public final class EmpiricalDistributionTest extends RealDistributionAbstractTes
         }
         // Use constant distribution equal to bin mean within bin
         @Override
-        protected RealDistribution getKernel(SummaryStatistics bStats) {
-            return new ConstantRealDistribution(bStats.getMean());
+        protected ContinuousDistribution getKernel(SummaryStatistics bStats) {
+            return new ConstantContinuousDistribution(bStats.getMean());
         }
     }
 
@@ -549,8 +553,8 @@ public final class EmpiricalDistributionTest extends RealDistributionAbstractTes
             super(i);
         }
         @Override
-        protected RealDistribution getKernel(SummaryStatistics bStats) {
-            return new UniformRealDistribution(bStats.getMin(), bStats.getMax());
+        protected ContinuousDistribution getKernel(SummaryStatistics bStats) {
+            return new UniformContinuousDistribution(bStats.getMin(), bStats.getMax());
         }
     }
 }
