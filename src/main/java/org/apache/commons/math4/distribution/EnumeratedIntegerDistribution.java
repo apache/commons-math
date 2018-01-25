@@ -22,6 +22,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 
+import org.apache.commons.statistics.distribution.DiscreteDistribution;
 import org.apache.commons.math4.exception.DimensionMismatchException;
 import org.apache.commons.math4.exception.MathArithmeticException;
 import org.apache.commons.math4.exception.NotANumberException;
@@ -150,7 +151,7 @@ public class EnumeratedIntegerDistribution extends AbstractIntegerDistribution {
      * @return {@code sum(singletons[i] * probabilities[i])}
      */
     @Override
-    public double getNumericalMean() {
+    public double getMean() {
         double mean = 0;
 
         for (final Pair<Integer, Double> sample : innerDistribution.getPmf()) {
@@ -166,7 +167,7 @@ public class EnumeratedIntegerDistribution extends AbstractIntegerDistribution {
      * @return {@code sum((singletons[i] - mean) ^ 2 * probabilities[i])}
      */
     @Override
-    public double getNumericalVariance() {
+    public double getVariance() {
         double mean = 0;
         double meanOfSquares = 0;
 
@@ -230,8 +231,8 @@ public class EnumeratedIntegerDistribution extends AbstractIntegerDistribution {
 
     /** {@inheritDoc} */
     @Override
-    public IntegerDistribution.Sampler createSampler(final UniformRandomProvider rng) {
-        return new IntegerDistribution.Sampler() {
+    public DiscreteDistribution.Sampler createSampler(final UniformRandomProvider rng) {
+        return new DiscreteDistribution.Sampler() {
             /** Delegate. */
             private final EnumeratedDistribution<Integer>.Sampler inner =
                 innerDistribution.createSampler(rng);

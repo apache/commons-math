@@ -93,8 +93,8 @@ public abstract class AbstractIntegerDistribution implements IntegerDistribution
 
         // use the one-sided Chebyshev inequality to narrow the bracket
         // cf. AbstractRealDistribution.inverseCumulativeProbability(double)
-        final double mu = getNumericalMean();
-        final double sigma = FastMath.sqrt(getNumericalVariance());
+        final double mu = getMean();
+        final double sigma = FastMath.sqrt(getVariance());
         final boolean chebyshevApplies = !(Double.isInfinite(mu) || Double.isNaN(mu) ||
                 Double.isInfinite(sigma) || Double.isNaN(sigma) || sigma == 0.0);
         if (chebyshevApplies) {
@@ -197,8 +197,8 @@ public abstract class AbstractIntegerDistribution implements IntegerDistribution
 
     /**{@inheritDoc} */
     @Override
-    public Sampler createSampler(final UniformRandomProvider rng) {
-        return new IntegerDistribution.Sampler() {
+    public DiscreteDistribution.Sampler createSampler(final UniformRandomProvider rng) {
+        return new DiscreteDistribution.Sampler() {
             /**
              * Inversion method distribution sampler.
              */

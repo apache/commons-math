@@ -18,6 +18,7 @@ package org.apache.commons.math4.distribution;
 
 import static org.junit.Assert.assertEquals;
 
+import org.apache.commons.statistics.distribution.DiscreteDistribution;
 import org.apache.commons.math4.distribution.EnumeratedIntegerDistribution;
 import org.apache.commons.math4.exception.DimensionMismatchException;
 import org.apache.commons.math4.exception.MathArithmeticException;
@@ -117,7 +118,7 @@ public class EnumeratedIntegerDistributionTest {
      */
     @Test
     public void testGetNumericalMean() {
-        Assert.assertEquals(3.4, testDistribution.getNumericalMean(), 1e-10);
+        Assert.assertEquals(3.4, testDistribution.getMean(), 1e-10);
     }
 
     /**
@@ -125,7 +126,7 @@ public class EnumeratedIntegerDistributionTest {
      */
     @Test
     public void testGetNumericalVariance() {
-        Assert.assertEquals(7.84, testDistribution.getNumericalVariance(), 1e-10);
+        Assert.assertEquals(7.84, testDistribution.getVariance(), 1e-10);
     }
 
     /**
@@ -158,7 +159,7 @@ public class EnumeratedIntegerDistributionTest {
     @Test
     public void testSample() {
         final int n = 1000000;
-        final IntegerDistribution.Sampler sampler
+        final DiscreteDistribution.Sampler sampler
             = testDistribution.createSampler(RandomSource.create(RandomSource.WELL_19937_C,
                                                                  -334759360)); // fixed seed
         final int[] samples = AbstractIntegerDistribution.sample(n, sampler);
@@ -169,9 +170,9 @@ public class EnumeratedIntegerDistributionTest {
             sum += samples[i];
             sumOfSquares += samples[i] * samples[i];
         }
-        Assert.assertEquals(testDistribution.getNumericalMean(),
+        Assert.assertEquals(testDistribution.getMean(),
                 sum / n, 1e-2);
-        Assert.assertEquals(testDistribution.getNumericalVariance(),
+        Assert.assertEquals(testDistribution.getVariance(),
                 sumOfSquares / n - FastMath.pow(sum / n, 2), 1e-2);
     }
 
