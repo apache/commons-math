@@ -16,5 +16,6 @@
  */
 /**
  * Implementations of common discrete and continuous distributions.
+ * [Mostly moved to the "Commons Statistics" project (cf. JIRA: MATH-1443).]
  */
 package org.apache.commons.math4.distribution;
