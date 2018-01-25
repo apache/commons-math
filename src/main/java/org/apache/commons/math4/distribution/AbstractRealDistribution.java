@@ -18,6 +18,7 @@ package org.apache.commons.math4.distribution;
 
 import java.io.Serializable;
 
+import org.apache.commons.statistics.distribution.ContinuousDistribution;
 import org.apache.commons.math4.analysis.UnivariateFunction;
 import org.apache.commons.math4.analysis.solvers.UnivariateSolverUtils;
 import org.apache.commons.math4.exception.NumberIsTooLargeException;
@@ -234,7 +235,7 @@ public abstract class AbstractRealDistribution
      * @return an array of size {@code n}.
      */
     public static double[] sample(int n,
-                                  RealDistribution.Sampler sampler) {
+                                  ContinuousDistribution.Sampler sampler) {
         final double[] samples = new double[n];
         for (int i = 0; i < n; i++) {
             samples[i] = sampler.sample();
@@ -244,7 +245,7 @@ public abstract class AbstractRealDistribution
 
     /**{@inheritDoc} */
     @Override
-    public RealDistribution.Sampler createSampler(final UniformRandomProvider rng) {
+    public Sampler createSampler(final UniformRandomProvider rng) {
         return new RealDistribution.Sampler() {
             /**
              * Inversion method distribution sampler.

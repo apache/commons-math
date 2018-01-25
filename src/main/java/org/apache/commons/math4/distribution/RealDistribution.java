@@ -16,6 +16,7 @@
  */
 package org.apache.commons.math4.distribution;
 
+import org.apache.commons.statistics.distribution.ContinuousDistribution;
 import org.apache.commons.math4.exception.NumberIsTooLargeException;
 import org.apache.commons.math4.exception.OutOfRangeException;
 import org.apache.commons.rng.UniformRandomProvider;
@@ -172,7 +173,7 @@ public interface RealDistribution {
     /**
      * Sampling functionality.
      */
-    interface Sampler {
+    interface Sampler extends ContinuousDistribution.Sampler {
         /**
          * Generates a random value sampled from this distribution.
          *

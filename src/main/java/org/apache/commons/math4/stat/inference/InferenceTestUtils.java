@@ -19,7 +19,7 @@ package org.apache.commons.math4.stat.inference;
 import java.util.Collection;
 
 import org.apache.commons.rng.UniformRandomProvider;
-import org.apache.commons.math4.distribution.RealDistribution;
+import org.apache.commons.statistics.distribution.ContinuousDistribution;
 import org.apache.commons.math4.exception.ConvergenceException;
 import org.apache.commons.math4.exception.DimensionMismatchException;
 import org.apache.commons.math4.exception.InsufficientDataException;
@@ -606,10 +606,10 @@ public class InferenceTestUtils {
      * @param dist reference distribution
      * @param data sample being evaluated
      * @return Kolmogorov-Smirnov statistic \(D_n\)
-     * @see org.apache.commons.math4.stat.inference.KolmogorovSmirnovTest#kolmogorovSmirnovStatistic(RealDistribution, double[])
+     * @see org.apache.commons.math4.stat.inference.KolmogorovSmirnovTest#kolmogorovSmirnovStatistic(ContinuousDistribution, double[])
      * @since 3.3
      */
-    public static double kolmogorovSmirnovStatistic(RealDistribution dist, double[] data)
+    public static double kolmogorovSmirnovStatistic(ContinuousDistribution dist, double[] data)
             throws InsufficientDataException, NullArgumentException {
         return KS_TEST.kolmogorovSmirnovStatistic(dist, data);
     }
@@ -619,10 +619,10 @@ public class InferenceTestUtils {
      * @param data sample being being evaluated
      * @return the p-value associated with the null hypothesis that {@code data} is a sample from
      *         {@code distribution}
-     * @see org.apache.commons.math4.stat.inference.KolmogorovSmirnovTest#kolmogorovSmirnovTest(RealDistribution, double[])
+     * @see org.apache.commons.math4.stat.inference.KolmogorovSmirnovTest#kolmogorovSmirnovTest(ContinuousDistribution, double[])
      * @since 3.3
      */
-    public static double kolmogorovSmirnovTest(RealDistribution dist, double[] data)
+    public static double kolmogorovSmirnovTest(ContinuousDistribution dist, double[] data)
             throws InsufficientDataException, NullArgumentException {
         return KS_TEST.kolmogorovSmirnovTest(dist, data);
     }
@@ -633,10 +633,10 @@ public class InferenceTestUtils {
      * @param strict whether or not to force exact computation of the p-value
      * @return the p-value associated with the null hypothesis that {@code data} is a sample from
      *         {@code distribution}
-     * @see org.apache.commons.math4.stat.inference.KolmogorovSmirnovTest#kolmogorovSmirnovTest(RealDistribution, double[], boolean)
+     * @see org.apache.commons.math4.stat.inference.KolmogorovSmirnovTest#kolmogorovSmirnovTest(ContinuousDistribution, double[], boolean)
      * @since 3.3
      */
-    public static double kolmogorovSmirnovTest(RealDistribution dist, double[] data, boolean strict)
+    public static double kolmogorovSmirnovTest(ContinuousDistribution dist, double[] data, boolean strict)
             throws InsufficientDataException, NullArgumentException {
         return KS_TEST.kolmogorovSmirnovTest(dist, data, strict);
     }
@@ -647,10 +647,10 @@ public class InferenceTestUtils {
      * @param alpha significance level of the test
      * @return true iff the null hypothesis that {@code data} is a sample from {@code distribution}
      *         can be rejected with confidence 1 - {@code alpha}
-     * @see org.apache.commons.math4.stat.inference.KolmogorovSmirnovTest#kolmogorovSmirnovTest(RealDistribution, double[], double)
+     * @see org.apache.commons.math4.stat.inference.KolmogorovSmirnovTest#kolmogorovSmirnovTest(ContinuousDistribution, double[], double)
      * @since 3.3
      */
-    public static boolean kolmogorovSmirnovTest(RealDistribution dist, double[] data, double alpha)
+    public static boolean kolmogorovSmirnovTest(ContinuousDistribution dist, double[] data, double alpha)
             throws InsufficientDataException, NullArgumentException {
         return KS_TEST.kolmogorovSmirnovTest(dist, data, alpha);
     }

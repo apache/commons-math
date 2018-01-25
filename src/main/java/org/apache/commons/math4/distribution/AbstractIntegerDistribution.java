@@ -18,6 +18,7 @@ package org.apache.commons.math4.distribution;
 
 import java.io.Serializable;
 
+import org.apache.commons.statistics.distribution.DiscreteDistribution;
 import org.apache.commons.math4.exception.MathInternalError;
 import org.apache.commons.math4.exception.NumberIsTooLargeException;
 import org.apache.commons.math4.exception.OutOfRangeException;
@@ -186,7 +187,7 @@ public abstract class AbstractIntegerDistribution implements IntegerDistribution
      * @return an array of size {@code n}.
      */
     public static int[] sample(int n,
-                               IntegerDistribution.Sampler sampler) {
+                               DiscreteDistribution.Sampler sampler) {
         final int[] samples = new int[n];
         for (int i = 0; i < n; i++) {
             samples[i] = sampler.sample();
@@ -196,7 +197,7 @@ public abstract class AbstractIntegerDistribution implements IntegerDistribution
 
     /**{@inheritDoc} */
     @Override
-    public IntegerDistribution.Sampler createSampler(final UniformRandomProvider rng) {
+    public Sampler createSampler(final UniformRandomProvider rng) {
         return new IntegerDistribution.Sampler() {
             /**
              * Inversion method distribution sampler.

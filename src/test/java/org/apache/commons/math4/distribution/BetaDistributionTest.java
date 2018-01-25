@@ -18,6 +18,7 @@ package org.apache.commons.math4.distribution;
 
 import java.util.Arrays;
 
+import org.apache.commons.statistics.distribution.ContinuousDistribution;
 import org.apache.commons.rng.simple.RandomSource;
 import org.apache.commons.rng.UniformRandomProvider;
 import org.apache.commons.math4.stat.StatUtils;
@@ -346,9 +347,10 @@ public class BetaDistributionTest {
         final double level = 0.01;
         for (final double alpha : alphaBetas) {
             for (final double beta : alphaBetas) {
-                final BetaDistribution betaDistribution = new BetaDistribution(alpha, beta);
+                final org.apache.commons.statistics.distribution.BetaDistribution betaDistribution =
+                    new org.apache.commons.statistics.distribution.BetaDistribution(alpha, beta);
 
-                final RealDistribution.Sampler sampler = betaDistribution.createSampler(rng);
+                final ContinuousDistribution.Sampler sampler = betaDistribution.createSampler(rng);
                 final double[] observed = AbstractRealDistribution.sample(numSamples, sampler);
 
                 Assert.assertFalse("G goodness-of-fit test rejected null at alpha = " + level,
@@ -359,7 +361,7 @@ public class BetaDistributionTest {
         }
     }
 
-    private double gTest(final RealDistribution expectedDistribution, final double[] values) {
+    private double gTest(final ContinuousDistribution expectedDistribution, final double[] values) {
         final int numBins = values.length / 30;
         final double[] breaks = new double[numBins];
         for (int b = 0; b < breaks.length; b++) {

@@ -19,7 +19,7 @@ package org.apache.commons.math4.stat.inference;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.apache.commons.math4.distribution.NormalDistribution;
+import org.apache.commons.statistics.distribution.NormalDistribution;
 import org.apache.commons.math4.exception.DimensionMismatchException;
 import org.apache.commons.math4.exception.NotPositiveException;
 import org.apache.commons.math4.exception.NotStrictlyPositiveException;

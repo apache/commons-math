@@ -22,9 +22,9 @@ import java.util.Arrays;
 
 import org.apache.commons.rng.simple.RandomSource;
 import org.apache.commons.rng.UniformRandomProvider;
+import org.apache.commons.statistics.distribution.ContinuousDistribution;
 import org.apache.commons.numbers.combinatorics.BinomialCoefficientDouble;
 import org.apache.commons.math4.distribution.EnumeratedRealDistribution;
-import org.apache.commons.math4.distribution.RealDistribution;
 import org.apache.commons.math4.distribution.AbstractRealDistribution;
 import org.apache.commons.math4.exception.InsufficientDataException;
 import org.apache.commons.math4.exception.MathArithmeticException;
@@ -144,7 +144,7 @@ public class KolmogorovSmirnovTest {
      * @throws InsufficientDataException if {@code data} does not have length at least 2
      * @throws NullArgumentException if {@code data} is null
      */
-    public double kolmogorovSmirnovTest(RealDistribution distribution, double[] data, boolean exact) {
+    public double kolmogorovSmirnovTest(ContinuousDistribution distribution, double[] data, boolean exact) {
         return 1d - cdf(kolmogorovSmirnovStatistic(distribution, data), data.length, exact);
     }
 
@@ -160,7 +160,7 @@ public class KolmogorovSmirnovTest {
      * @throws InsufficientDataException if {@code data} does not have length at least 2
      * @throws NullArgumentException if {@code data} is null
      */
-    public double kolmogorovSmirnovStatistic(RealDistribution distribution, double[] data) {
+    public double kolmogorovSmirnovStatistic(ContinuousDistribution distribution, double[] data) {
         checkArray(data);
         final int n = data.length;
         final double nd = n;
@@ -224,7 +224,7 @@ public class KolmogorovSmirnovTest {
      * href="http://en.wikipedia.org/wiki/Kolmogorov-Smirnov_test"> Kolmogorov-Smirnov test</a>
      * evaluating the null hypothesis that {@code x} and {@code y} are samples drawn from the same
      * probability distribution. Assumes the strict form of the inequality used to compute the
-     * p-value. See {@link #kolmogorovSmirnovTest(RealDistribution, double[], boolean)}.
+     * p-value. See {@link #kolmogorovSmirnovTest(ContinuousDistribution, double[], boolean)}.
      *
      * @param x first sample dataset
      * @param y second sample dataset
@@ -320,7 +320,7 @@ public class KolmogorovSmirnovTest {
      * @throws InsufficientDataException if {@code data} does not have length at least 2
      * @throws NullArgumentException if {@code data} is null
      */
-    public double kolmogorovSmirnovTest(RealDistribution distribution, double[] data) {
+    public double kolmogorovSmirnovTest(ContinuousDistribution distribution, double[] data) {
         return kolmogorovSmirnovTest(distribution, data, false);
     }
 
@@ -336,7 +336,7 @@ public class KolmogorovSmirnovTest {
      * @throws InsufficientDataException if {@code data} does not have length at least 2
      * @throws NullArgumentException if {@code data} is null
      */
-    public boolean kolmogorovSmirnovTest(RealDistribution distribution, double[] data, double alpha) {
+    public boolean kolmogorovSmirnovTest(ContinuousDistribution distribution, double[] data, double alpha) {
         if ((alpha <= 0) || (alpha > 0.5)) {
             throw new OutOfRangeException(LocalizedFormats.OUT_OF_BOUND_SIGNIFICANCE_LEVEL, alpha, 0, 0.5);
         }
@@ -375,7 +375,7 @@ public class KolmogorovSmirnovTest {
         final double[] combined = new double[xLength + yLength];
         System.arraycopy(x, 0, combined, 0, xLength);
         System.arraycopy(y, 0, combined, xLength, yLength);
-        final RealDistribution.Sampler sampler = new EnumeratedRealDistribution(combined).createSampler(rng);
+        final ContinuousDistribution.Sampler sampler = new EnumeratedRealDistribution(combined).createSampler(rng);
         final long d = integralKolmogorovSmirnovStatistic(x, y);
         int greaterCount = 0;
         int equalCount = 0;
