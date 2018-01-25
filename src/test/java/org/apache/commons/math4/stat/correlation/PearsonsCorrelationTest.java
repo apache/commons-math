@@ -17,7 +17,7 @@
 package org.apache.commons.math4.stat.correlation;
 
 import org.apache.commons.math4.TestUtils;
-import org.apache.commons.math4.distribution.TDistribution;
+import org.apache.commons.statistics.distribution.TDistribution;
 import org.apache.commons.math4.exception.MathIllegalArgumentException;
 import org.apache.commons.math4.linear.BlockRealMatrix;
 import org.apache.commons.math4.linear.RealMatrix;

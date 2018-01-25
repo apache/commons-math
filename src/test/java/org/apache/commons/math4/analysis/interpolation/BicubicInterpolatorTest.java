@@ -17,8 +17,8 @@
 package org.apache.commons.math4.analysis.interpolation;
 
 import org.apache.commons.math4.analysis.BivariateFunction;
-import org.apache.commons.math4.distribution.RealDistribution;
-import org.apache.commons.math4.distribution.UniformRealDistribution;
+import org.apache.commons.statistics.distribution.ContinuousDistribution;
+import org.apache.commons.statistics.distribution.UniformContinuousDistribution;
 import org.apache.commons.math4.exception.DimensionMismatchException;
 import org.apache.commons.math4.exception.MathIllegalArgumentException;
 import org.apache.commons.rng.UniformRandomProvider;
@@ -148,8 +148,8 @@ public final class BicubicInterpolatorTest {
         double x, y;
 
         final UniformRandomProvider rng = RandomSource.create(RandomSource.WELL_19937_C);
-        final RealDistribution.Sampler distX = new UniformRealDistribution(xval[0], xval[xval.length - 1]).createSampler(rng);
-        final RealDistribution.Sampler distY = new UniformRealDistribution(yval[0], yval[yval.length - 1]).createSampler(rng);
+        final ContinuousDistribution.Sampler distX = new UniformContinuousDistribution(xval[0], xval[xval.length - 1]).createSampler(rng);
+        final ContinuousDistribution.Sampler distY = new UniformContinuousDistribution(yval[0], yval[yval.length - 1]).createSampler(rng);
 
         int count = 0;
         while (true) {

@@ -21,8 +21,8 @@ import java.util.Random;
 import org.apache.commons.math4.TestUtils;
 import org.apache.commons.math4.analysis.ParametricUnivariateFunction;
 import org.apache.commons.math4.analysis.polynomials.PolynomialFunction;
-import org.apache.commons.math4.distribution.RealDistribution;
-import org.apache.commons.math4.distribution.UniformRealDistribution;
+import org.apache.commons.statistics.distribution.ContinuousDistribution;
+import org.apache.commons.statistics.distribution.UniformContinuousDistribution;
 import org.apache.commons.math4.fitting.SimpleCurveFitter;
 import org.apache.commons.math4.fitting.WeightedObservedPoints;
 import org.apache.commons.rng.simple.RandomSource;
@@ -35,8 +35,8 @@ public class SimpleCurveFitterTest {
     @Test
     public void testPolynomialFit() {
         final Random randomizer = new Random(53882150042L);
-        final RealDistribution.Sampler rng
-            = new UniformRealDistribution(-100, 100).createSampler(RandomSource.create(RandomSource.WELL_512_A,
+        final ContinuousDistribution.Sampler rng
+            = new UniformContinuousDistribution(-100, 100).createSampler(RandomSource.create(RandomSource.WELL_512_A,
                                                                                        64925784253L));
 
         final double[] coeff = { 12.9, -3.4, 2.1 }; // 12.9 - 3.4 x + 2.1 x^2

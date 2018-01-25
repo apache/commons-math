@@ -14,8 +14,8 @@
 package org.apache.commons.math4.util;
 
 import org.apache.commons.numbers.angle.PlaneAngleRadians;
-import org.apache.commons.math4.distribution.RealDistribution;
-import org.apache.commons.math4.distribution.UniformRealDistribution;
+import org.apache.commons.statistics.distribution.ContinuousDistribution;
+import org.apache.commons.statistics.distribution.UniformContinuousDistribution;
 import org.apache.commons.math4.exception.MathArithmeticException;
 import org.apache.commons.math4.exception.NotFiniteNumberException;
 import org.apache.commons.math4.exception.NullArgumentException;
@@ -103,8 +103,8 @@ public final class MathUtilsTest {
 
         // Generate 10 distinct random values
         for (int i = 0; i < 10; i++) {
-            final RealDistribution.Sampler u
-                = new UniformRealDistribution(i + 0.5, i + 0.75).createSampler(random);
+            final ContinuousDistribution.Sampler u
+                = new UniformContinuousDistribution(i + 0.5, i + 0.75).createSampler(random);
             original[i] = u.sample();
         }
 

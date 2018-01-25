@@ -16,8 +16,8 @@
  */
 package org.apache.commons.math4.util;
 
-import org.apache.commons.math4.distribution.IntegerDistribution;
-import org.apache.commons.math4.distribution.UniformIntegerDistribution;
+import org.apache.commons.statistics.distribution.DiscreteDistribution;
+import org.apache.commons.statistics.distribution.UniformDiscreteDistribution;
 import org.apache.commons.math4.exception.MathIllegalArgumentException;
 import org.apache.commons.math4.exception.NullArgumentException;
 import org.apache.commons.rng.simple.RandomSource;
@@ -322,8 +322,8 @@ public class ResizableDoubleArrayTest extends DoubleArrayAbstractTest {
         ResizableDoubleArray eDA2 = new ResizableDoubleArray(2);
         Assert.assertEquals("Initial number of elements should be 0", 0, eDA2.getNumElements());
 
-        final IntegerDistribution.Sampler randomData =
-            new UniformIntegerDistribution(100, 1000).createSampler(RandomSource.create(RandomSource.WELL_19937_C));
+        final DiscreteDistribution.Sampler randomData =
+            new UniformDiscreteDistribution(100, 1000).createSampler(RandomSource.create(RandomSource.WELL_19937_C));
         final int iterations = randomData.sample();
 
         for( int i = 0; i < iterations; i++) {
@@ -344,9 +344,9 @@ public class ResizableDoubleArrayTest extends DoubleArrayAbstractTest {
         ResizableDoubleArray eDA3 = new ResizableDoubleArray(3, 3.0, 3.5);
         Assert.assertEquals("Initial number of elements should be 0", 0, eDA3.getNumElements() );
 
-        final IntegerDistribution.Sampler randomData =
-            new UniformIntegerDistribution(100, 3000).createSampler(RandomSource.create(RandomSource.WELL_19937_C));
-;
+        final DiscreteDistribution.Sampler randomData =
+            new UniformDiscreteDistribution(100, 3000).createSampler(RandomSource.create(RandomSource.WELL_19937_C));
+
         final int iterations = randomData.sample();
 
         for( int i = 0; i < iterations; i++) {

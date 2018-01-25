@@ -21,11 +21,11 @@ import java.util.ArrayList;
 import java.util.Collection;
 
 import org.apache.commons.math4.TestUtils;
-import org.apache.commons.math4.distribution.IntegerDistribution;
-import org.apache.commons.math4.distribution.RealDistribution;
+import org.apache.commons.statistics.distribution.DiscreteDistribution;
+import org.apache.commons.statistics.distribution.ContinuousDistribution;
 import org.apache.commons.math4.distribution.AbstractRealDistribution;
-import org.apache.commons.math4.distribution.UniformIntegerDistribution;
-import org.apache.commons.math4.distribution.UniformRealDistribution;
+import org.apache.commons.statistics.distribution.UniformDiscreteDistribution;
+import org.apache.commons.statistics.distribution.UniformContinuousDistribution;
 import org.apache.commons.numbers.core.Precision;
 import org.apache.commons.rng.simple.RandomSource;
 import org.junit.Assert;
@@ -282,11 +282,11 @@ public class AggregateSummaryStatisticsTest {
      * @return array of random double values
      */
     private double[] generateSample() {
-        final IntegerDistribution.Sampler size =
-            new UniformIntegerDistribution(10, 100).createSampler(RandomSource.create(RandomSource.WELL_512_A,
+        final DiscreteDistribution.Sampler size =
+            new UniformDiscreteDistribution(10, 100).createSampler(RandomSource.create(RandomSource.WELL_512_A,
                                                                                       327652));
-        final RealDistribution.Sampler randomData
-            = new UniformRealDistribution(-100, 100).createSampler(RandomSource.create(RandomSource.WELL_512_A,
+        final ContinuousDistribution.Sampler randomData
+            = new UniformContinuousDistribution(-100, 100).createSampler(RandomSource.create(RandomSource.WELL_512_A,
                                                                                        64925784252L));;
         final int sampleSize = size.sample();
         final double[] out = AbstractRealDistribution.sample(sampleSize, randomData);
@@ -314,8 +314,8 @@ public class AggregateSummaryStatisticsTest {
             if (i == 4 || cur == length - 1) {
                 next = length - 1;
             } else {
-                final IntegerDistribution.Sampler sampler =
-                    new UniformIntegerDistribution(cur, length - 1).createSampler(RandomSource.create(RandomSource.WELL_512_A));
+                final DiscreteDistribution.Sampler sampler =
+                    new UniformDiscreteDistribution(cur, length - 1).createSampler(RandomSource.create(RandomSource.WELL_512_A));
                 next = sampler.sample();
             }
             final int subLength = next - cur + 1;

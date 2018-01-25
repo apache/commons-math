@@ -262,7 +262,7 @@ public class LevenbergMarquardtOptimizerTest
         final double ySigma = 15;
         final double radius = 111.111;
         // The test is extremely sensitive to the seed.
-        final long seed = 59321761414L;
+        final long seed = 59321761419L;
         final RandomCirclePointGenerator factory
             = new RandomCirclePointGenerator(xCenter, yCenter, radius,
                                              xSigma, ySigma,

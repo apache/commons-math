@@ -25,6 +25,7 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 
+import org.apache.commons.statistics.distribution.ContinuousDistribution;
 import org.apache.commons.math4.TestUtils;
 import org.apache.commons.math4.analysis.UnivariateFunction;
 import org.apache.commons.math4.analysis.integration.BaseAbstractUnivariateIntegrator;
@@ -329,7 +330,7 @@ public abstract class RealDistributionAbstractTest {
     @Test
     public void testSampler() {
         final int sampleSize = 1000;
-        final RealDistribution.Sampler sampler =
+        final ContinuousDistribution.Sampler sampler =
             distribution.createSampler(RandomSource.create(RandomSource.WELL_19937_C, 123456789L));
         final double[] sample = AbstractRealDistribution.sample(sampleSize, sampler);
         final double[] quartiles = TestUtils.getDistributionQuartiles(distribution);

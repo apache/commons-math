@@ -17,8 +17,8 @@
 package org.apache.commons.math4.analysis.interpolation;
 
 import org.apache.commons.math4.analysis.BivariateFunction;
-import org.apache.commons.math4.distribution.RealDistribution;
-import org.apache.commons.math4.distribution.UniformRealDistribution;
+import org.apache.commons.statistics.distribution.ContinuousDistribution;
+import org.apache.commons.statistics.distribution.UniformContinuousDistribution;
 import org.apache.commons.math4.exception.DimensionMismatchException;
 import org.apache.commons.math4.exception.InsufficientDataException;
 import org.apache.commons.math4.exception.NonMonotonicSequenceException;
@@ -159,8 +159,8 @@ public final class PiecewiseBicubicSplineInterpolatorTest {
         double x, y;
 
         final UniformRandomProvider rng = RandomSource.create(RandomSource.WELL_19937_C, 1234567L);
-        final RealDistribution.Sampler distX = new UniformRealDistribution(xval[0], xval[xval.length - 1]).createSampler(rng);
-        final RealDistribution.Sampler distY = new UniformRealDistribution(yval[0], yval[yval.length - 1]).createSampler(rng);
+        final ContinuousDistribution.Sampler distX = new UniformContinuousDistribution(xval[0], xval[xval.length - 1]).createSampler(rng);
+        final ContinuousDistribution.Sampler distY = new UniformContinuousDistribution(yval[0], yval[yval.length - 1]).createSampler(rng);
 
         final int numSamples = 50;
         final double tol = 2e-14;
@@ -211,8 +211,8 @@ public final class PiecewiseBicubicSplineInterpolatorTest {
         double x, y;
 
         final UniformRandomProvider rng = RandomSource.create(RandomSource.WELL_19937_C, 1234567L);
-        final RealDistribution.Sampler distX = new UniformRealDistribution(xval[0], xval[xval.length - 1]).createSampler(rng);
-        final RealDistribution.Sampler distY = new UniformRealDistribution(yval[0], yval[yval.length - 1]).createSampler(rng);
+        final ContinuousDistribution.Sampler distX = new UniformContinuousDistribution(xval[0], xval[xval.length - 1]).createSampler(rng);
+        final ContinuousDistribution.Sampler distY = new UniformContinuousDistribution(yval[0], yval[yval.length - 1]).createSampler(rng);
 
         final int numSamples = 50;
         final double tol = 5e-13;
