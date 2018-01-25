@@ -398,19 +398,31 @@ public class PolyhedronsSet extends AbstractRegion<Euclidean3D, Euclidean2D> {
      */
     private static class FacetsContributionVisitor implements BSPTreeVisitor<Euclidean3D> {
 
+        /** Accumulator for facet volume contributions. */
         private double volumeSum;
+
+        /** Accumulator for barycenter contributions. */
         private Cartesian3D barycenterSum = Cartesian3D.ZERO;
 
+        /** Returns the total computed size (ie, volume) of the polyhedron.
+         * This value will be negative if the polyhedron is "inside-out", meaning
+         * that it has a finite outside surrounded by an infinite inside.
+         * @return
+         */
         public double getSize() {
             // apply the 1/3 pyramid volume scaling factor
             return volumeSum / 3.0;
         }
 
+        /** Returns the computed barycenter. This is the volume-weighted average
+         * of contributions from all facets. All coordinates will be NaN if the
+         * region is infinite.
+         * @return
+         */
         public Cartesian3D getBarycenter() {
             // Since the volume we used when adding together the facet contributions
             // was 3x the actual pyramid size, we'll multiply by 1/4 here instead
-            // of 3/4. This will make the overall polyhedron volume the weighted
-            // average of the pyramid barycenters.
+            // of 3/4 to adjust for the actual barycenter position in each pyramid.
             return new Cartesian3D(1.0 / (4 * getSize()), barycenterSum);
         }
 
