@@ -17,9 +17,6 @@
 package org.apache.commons.math4.distribution;
 
 import org.apache.commons.statistics.distribution.ContinuousDistribution;
-import org.apache.commons.math4.exception.NumberIsTooLargeException;
-import org.apache.commons.math4.exception.OutOfRangeException;
-import org.apache.commons.rng.UniformRandomProvider;
 
 /**
  * Base interface for distributions on the reals.
