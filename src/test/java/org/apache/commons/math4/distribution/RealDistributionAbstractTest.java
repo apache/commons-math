@@ -391,11 +391,11 @@ public abstract class RealDistributionAbstractTest {
         // generator, using a fixed seed for deterministic results.
         final long seed = 123;
         RandomSource source = RandomSource.WELL_512_A;
-        RealDistribution.Sampler origSampler = distribution.createSampler(RandomSource.create(source, seed));
+        ContinuousDistribution.Sampler origSampler = distribution.createSampler(RandomSource.create(source, seed));
 
         // Clone the distribution.
         final RealDistribution cloned = deepClone();
-        RealDistribution.Sampler clonedSampler = cloned.createSampler(RandomSource.create(source, seed));
+        ContinuousDistribution.Sampler clonedSampler = cloned.createSampler(RandomSource.create(source, seed));
 
         // Make sure they still produce the same samples.
         Assert.assertEquals(origSampler.sample(),

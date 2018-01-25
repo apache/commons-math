@@ -100,7 +100,8 @@ import org.apache.commons.math4.util.MathUtils;
  * </ul>
  *
  */
-public class EmpiricalDistribution extends AbstractRealDistribution {
+public class EmpiricalDistribution extends AbstractRealDistribution
+    implements ContinuousDistribution {
 
     /** Default bin count */
     public static final int DEFAULT_BIN_COUNT = 1000;
@@ -623,7 +624,7 @@ public class EmpiricalDistribution extends AbstractRealDistribution {
      * @since 3.1
      */
     @Override
-    public double getNumericalMean() {
+    public double getMean() {
        return sampleStats.getMean();
     }
 
@@ -632,7 +633,7 @@ public class EmpiricalDistribution extends AbstractRealDistribution {
      * @since 3.1
      */
     @Override
-    public double getNumericalVariance() {
+    public double getVariance() {
         return sampleStats.getVariance();
     }
 
@@ -665,7 +666,7 @@ public class EmpiricalDistribution extends AbstractRealDistribution {
 
     /**{@inheritDoc} */
     @Override
-    public RealDistribution.Sampler createSampler(final UniformRandomProvider rng) {
+    public ContinuousDistribution.Sampler createSampler(final UniformRandomProvider rng) {
         if (!loaded) {
             throw new MathIllegalStateException(LocalizedFormats.DISTRIBUTION_NOT_LOADED);
         }
