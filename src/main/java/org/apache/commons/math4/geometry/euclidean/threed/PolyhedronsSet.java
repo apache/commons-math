@@ -407,7 +407,7 @@ public class PolyhedronsSet extends AbstractRegion<Euclidean3D, Euclidean2D> {
         /** Returns the total computed size (ie, volume) of the polyhedron.
          * This value will be negative if the polyhedron is "inside-out", meaning
          * that it has a finite outside surrounded by an infinite inside.
-         * @return
+         * @return the volume.
          */
         public double getSize() {
             // apply the 1/3 pyramid volume scaling factor
@@ -417,7 +417,7 @@ public class PolyhedronsSet extends AbstractRegion<Euclidean3D, Euclidean2D> {
         /** Returns the computed barycenter. This is the volume-weighted average
          * of contributions from all facets. All coordinates will be NaN if the
          * region is infinite.
-         * @return
+         * @return the barycenter.
          */
         public Cartesian3D getBarycenter() {
             // Since the volume we used when adding together the facet contributions
