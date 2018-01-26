@@ -59,6 +59,76 @@ import org.junit.Test;
 public class PolyhedronsSetTest {
 
     @Test
+    public void testFull() {
+        // act
+        PolyhedronsSet tree = new PolyhedronsSet(1e-10);
+
+        // assert
+        Assert.assertEquals(Double.POSITIVE_INFINITY, tree.getSize(), 1.0e-10);
+        Assert.assertEquals(0.0, tree.getBoundarySize(), 1.0e-10);
+        Cartesian3D center = (Cartesian3D) tree.getBarycenter();
+        Assert.assertEquals(Double.NaN, center.getX(), 1e-10);
+        Assert.assertEquals(Double.NaN, center.getY(), 1e-10);
+        Assert.assertEquals(Double.NaN, center.getZ(), 1e-10);
+        Assert.assertEquals(true, tree.isFull());
+        Assert.assertEquals(false, tree.isEmpty());
+
+        checkPoints(Region.Location.INSIDE, tree, new Cartesian3D[] {
+                new Cartesian3D(Double.POSITIVE_INFINITY, Double.POSITIVE_INFINITY, Double.POSITIVE_INFINITY),
+                Cartesian3D.ZERO,
+                new Cartesian3D(Double.NEGATIVE_INFINITY, Double.NEGATIVE_INFINITY, Double.NEGATIVE_INFINITY)
+        });
+    }
+
+    @Test
+    public void testEmpty() {
+        // act
+        PolyhedronsSet tree = new PolyhedronsSet(new BSPTree<Euclidean3D>(Boolean.FALSE), 1e-10);
+
+        // assert
+        Assert.assertEquals(0.0, tree.getSize(), 1.0e-10);
+        Assert.assertEquals(0.0, tree.getBoundarySize(), 1.0e-10);
+        Cartesian3D center = (Cartesian3D) tree.getBarycenter();
+        Assert.assertEquals(Double.NaN, center.getX(), 1e-10);
+        Assert.assertEquals(Double.NaN, center.getY(), 1e-10);
+        Assert.assertEquals(Double.NaN, center.getZ(), 1e-10);
+        Assert.assertEquals(false, tree.isFull());
+        Assert.assertEquals(true, tree.isEmpty());
+
+        checkPoints(Region.Location.OUTSIDE, tree, new Cartesian3D[] {
+                new Cartesian3D(Double.POSITIVE_INFINITY, Double.POSITIVE_INFINITY, Double.POSITIVE_INFINITY),
+                Cartesian3D.ZERO,
+                new Cartesian3D(Double.NEGATIVE_INFINITY, Double.NEGATIVE_INFINITY, Double.NEGATIVE_INFINITY)
+        });
+    }
+
+    @Test
+    public void testSingleInfiniteBoundary() {
+        // arrange
+        Plane plane = new Plane(Cartesian3D.ZERO, Cartesian3D.PLUS_K, 1e-10);
+
+        List<SubHyperplane<Euclidean3D>> boundaries = new ArrayList<>();
+        boundaries.add(plane.wholeHyperplane());
+
+        // act
+        PolyhedronsSet tree = new PolyhedronsSet(boundaries, 1e-10);
+
+        // assert
+        Assert.assertEquals(Double.POSITIVE_INFINITY, tree.getSize(), 1.0e-10);
+        Assert.assertEquals(Double.POSITIVE_INFINITY, tree.getBoundarySize(), 1.0e-10);
+        Cartesian3D center = (Cartesian3D) tree.getBarycenter();
+        Assert.assertEquals(Double.NaN, center.getX(), 1e-10);
+        Assert.assertEquals(Double.NaN, center.getY(), 1e-10);
+        Assert.assertEquals(Double.NaN, center.getZ(), 1e-10);
+        Assert.assertEquals(false, tree.isFull());
+        Assert.assertEquals(false, tree.isEmpty());
+
+        checkPoints(Region.Location.BOUNDARY, tree, new Cartesian3D[] {
+                Cartesian3D.ZERO
+        });
+    }
+
+    @Test
     public void testBox() {
         PolyhedronsSet tree = new PolyhedronsSet(0, 1, 0, 1, 0, 1, 1.0e-10);
         Assert.assertEquals(1.0, tree.getSize(), 1.0e-10);
@@ -88,6 +158,53 @@ public class PolyhedronsSetTest {
             new Cartesian3D(0.5, 0.5, 1.0)
         });
         checkPoints(Region.Location.OUTSIDE, tree, new Cartesian3D[] {
+            new Cartesian3D(0.0, 1.2, 1.2),
+            new Cartesian3D(1.0, 1.2, 1.2),
+            new Cartesian3D(1.2, 0.0, 1.2),
+            new Cartesian3D(1.2, 1.0, 1.2),
+            new Cartesian3D(1.2, 1.2, 0.0),
+            new Cartesian3D(1.2, 1.2, 1.0)
+        });
+    }
+
+    @Test
+    public void testInvertedBox() {
+        // arrange
+        PolyhedronsSet tree = new PolyhedronsSet(0, 1, 0, 1, 0, 1, 1.0e-10);
+
+        // act
+        tree = (PolyhedronsSet) new RegionFactory<Euclidean3D>().getComplement(tree);
+
+        // assert
+        Assert.assertEquals(Double.POSITIVE_INFINITY, tree.getSize(), 1.0e-10);
+        Assert.assertEquals(6.0, tree.getBoundarySize(), 1.0e-10);
+
+        Cartesian3D barycenter = (Cartesian3D) tree.getBarycenter();
+        Assert.assertEquals(Double.NaN, barycenter.getX(), 1.0e-10);
+        Assert.assertEquals(Double.NaN, barycenter.getY(), 1.0e-10);
+        Assert.assertEquals(Double.NaN, barycenter.getZ(), 1.0e-10);
+
+        for (double x = -0.25; x < 1.25; x += 0.1) {
+            boolean xOK = (x < 0.0) || (x > 1.0);
+            for (double y = -0.25; y < 1.25; y += 0.1) {
+                boolean yOK = (y < 0.0) || (y > 1.0);
+                for (double z = -0.25; z < 1.25; z += 0.1) {
+                    boolean zOK = (z < 0.0) || (z > 1.0);
+                    Region.Location expected =
+                        (xOK || yOK || zOK) ? Region.Location.INSIDE : Region.Location.OUTSIDE;
+                    Assert.assertEquals(expected, tree.checkPoint(new Cartesian3D(x, y, z)));
+                }
+            }
+        }
+        checkPoints(Region.Location.BOUNDARY, tree, new Cartesian3D[] {
+            new Cartesian3D(0.0, 0.5, 0.5),
+            new Cartesian3D(1.0, 0.5, 0.5),
+            new Cartesian3D(0.5, 0.0, 0.5),
+            new Cartesian3D(0.5, 1.0, 0.5),
+            new Cartesian3D(0.5, 0.5, 0.0),
+            new Cartesian3D(0.5, 0.5, 1.0)
+        });
+        checkPoints(Region.Location.INSIDE, tree, new Cartesian3D[] {
             new Cartesian3D(0.0, 1.2, 1.2),
             new Cartesian3D(1.0, 1.2, 1.2),
             new Cartesian3D(1.2, 0.0, 1.2),
