@@ -29,8 +29,8 @@ import org.apache.commons.math4.random.CorrelatedRandomVectorGenerator;
 import org.apache.commons.math4.random.GaussianRandomGenerator;
 import org.apache.commons.rng.UniformRandomProvider;
 import org.apache.commons.rng.simple.RandomSource;
-import org.apache.commons.math4.distribution.RealDistribution;
-import org.apache.commons.math4.distribution.NormalDistribution;
+import org.apache.commons.statistics.distribution.ContinuousDistribution;
+import org.apache.commons.statistics.distribution.NormalDistribution;
 import org.apache.commons.math4.stat.correlation.Covariance;
 import org.apache.commons.math4.stat.descriptive.DescriptiveStatistics;
 import org.apache.commons.math4.stat.regression.GLSMultipleLinearRegression;
@@ -223,7 +223,7 @@ public class GLSMultipleLinearRegressionTest extends MultipleLinearRegressionAbs
     @Test
     public void testGLSEfficiency() {
         final UniformRandomProvider rg = RandomSource.create(RandomSource.MT, 123456789L);
-        final RealDistribution.Sampler gauss = new NormalDistribution().createSampler(rg);
+        final ContinuousDistribution.Sampler gauss = new NormalDistribution(0, 1).createSampler(rg);
 
         // Assume model has 16 observations (will use Longley data).  Start by generating
         // non-constant variances for the 16 error terms.

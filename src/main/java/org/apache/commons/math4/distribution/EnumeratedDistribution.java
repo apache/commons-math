@@ -19,7 +19,6 @@ package org.apache.commons.math4.distribution;
 import java.io.Serializable;
 import java.lang.reflect.Array;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 import org.apache.commons.math4.exception.MathArithmeticException;
@@ -30,6 +29,7 @@ import org.apache.commons.math4.exception.NotStrictlyPositiveException;
 import org.apache.commons.math4.exception.NullArgumentException;
 import org.apache.commons.math4.exception.util.LocalizedFormats;
 import org.apache.commons.rng.UniformRandomProvider;
+import org.apache.commons.rng.sampling.DiscreteProbabilityCollectionSampler;
 import org.apache.commons.math4.util.MathArrays;
 import org.apache.commons.math4.util.Pair;
 
@@ -172,14 +172,14 @@ public class EnumeratedDistribution<T> implements Serializable {
      * Sampler functionality.
      */
     public class Sampler {
-        /** RNG. */
-        private final UniformRandomProvider random;
+        /** Underlying sampler. */
+        private final DiscreteProbabilityCollectionSampler<T> sampler;
 
         /**
          * @param rng Random number generator.
          */
         Sampler(UniformRandomProvider rng) {
-            random = rng;
+            sampler = new DiscreteProbabilityCollectionSampler<T>(rng, singletons, probabilities);
         }
 
         /**
@@ -188,23 +188,7 @@ public class EnumeratedDistribution<T> implements Serializable {
          * @return a random value.
          */
         public T sample() {
-            final double randomValue = random.nextDouble();
-
-            int index = Arrays.binarySearch(cumulativeProbabilities, randomValue);
-            if (index < 0) {
-                index = -index - 1;
-            }
-
-            if (index >= 0 &&
-                index < probabilities.length &&
-                randomValue < cumulativeProbabilities[index]) {
-                return singletons.get(index);
-            }
-
-            // This should never happen, but it ensures we will return a correct
-            // object in case there is some floating point inequality problem
-            // wrt the cumulative probabilities.
-            return singletons.get(singletons.size() - 1);
+            return sampler.sample();
         }
 
         /**

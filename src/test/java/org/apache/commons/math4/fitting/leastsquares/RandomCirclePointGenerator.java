@@ -16,9 +16,9 @@
  */
 package org.apache.commons.math4.fitting.leastsquares;
 
-import org.apache.commons.math4.distribution.NormalDistribution;
-import org.apache.commons.math4.distribution.RealDistribution;
-import org.apache.commons.math4.distribution.UniformRealDistribution;
+import org.apache.commons.statistics.distribution.NormalDistribution;
+import org.apache.commons.statistics.distribution.ContinuousDistribution;
+import org.apache.commons.statistics.distribution.UniformContinuousDistribution;
 import org.apache.commons.math4.geometry.euclidean.twod.Cartesian2D;
 import org.apache.commons.rng.UniformRandomProvider;
 import org.apache.commons.rng.simple.RandomSource;
@@ -30,11 +30,11 @@ import org.apache.commons.math4.util.MathUtils;
  */
 public class RandomCirclePointGenerator {
     /** RNG for the x-coordinate of the center. */
-    private final RealDistribution.Sampler cX;
+    private final ContinuousDistribution.Sampler cX;
     /** RNG for the y-coordinate of the center. */
-    private final RealDistribution.Sampler cY;
+    private final ContinuousDistribution.Sampler cY;
     /** RNG for the parametric position of the point. */
-    private final RealDistribution.Sampler tP;
+    private final ContinuousDistribution.Sampler tP;
     /** Radius of the circle. */
     private final double radius;
 
@@ -56,7 +56,7 @@ public class RandomCirclePointGenerator {
         this.radius = radius;
         cX = new NormalDistribution(x, xSigma).createSampler(rng);
         cY = new NormalDistribution(y, ySigma).createSampler(rng);
-        tP = new UniformRealDistribution(0, MathUtils.TWO_PI).createSampler(rng);
+        tP = new UniformContinuousDistribution(0, MathUtils.TWO_PI).createSampler(rng);
     }
 
     /**

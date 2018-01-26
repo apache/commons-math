@@ -21,6 +21,7 @@ import static org.junit.Assert.assertEquals;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.apache.commons.statistics.distribution.ContinuousDistribution;
 import org.apache.commons.math4.distribution.EnumeratedDistribution;
 import org.apache.commons.math4.distribution.EnumeratedRealDistribution;
 import org.apache.commons.math4.exception.DimensionMismatchException;
@@ -136,7 +137,7 @@ public class EnumeratedRealDistributionTest {
      */
     @Test
     public void testGetNumericalMean() {
-        Assert.assertEquals(3.4, testDistribution.getNumericalMean(), 1e-10);
+        Assert.assertEquals(3.4, testDistribution.getMean(), 1e-10);
     }
 
     /**
@@ -144,7 +145,7 @@ public class EnumeratedRealDistributionTest {
      */
     @Test
     public void testGetNumericalVariance() {
-        Assert.assertEquals(7.84, testDistribution.getNumericalVariance(), 1e-10);
+        Assert.assertEquals(7.84, testDistribution.getVariance(), 1e-10);
     }
 
     /**
@@ -177,7 +178,7 @@ public class EnumeratedRealDistributionTest {
     @Test
     public void testSample() {
         final int n = 1000000;
-        final RealDistribution.Sampler sampler =
+        final ContinuousDistribution.Sampler sampler =
             testDistribution.createSampler(RandomSource.create(RandomSource.WELL_1024_A, -123456789));
         final double[] samples = AbstractRealDistribution.sample(n, sampler);
         Assert.assertEquals(n, samples.length);
@@ -187,9 +188,9 @@ public class EnumeratedRealDistributionTest {
             sum += samples[i];
             sumOfSquares += samples[i] * samples[i];
         }
-        Assert.assertEquals(testDistribution.getNumericalMean(),
+        Assert.assertEquals(testDistribution.getMean(),
                 sum / n, 1e-2);
-        Assert.assertEquals(testDistribution.getNumericalVariance(),
+        Assert.assertEquals(testDistribution.getVariance(),
                 sumOfSquares / n - FastMath.pow(sum / n, 2), 1e-2);
     }
 

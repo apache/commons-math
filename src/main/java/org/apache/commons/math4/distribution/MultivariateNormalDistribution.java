@@ -16,6 +16,8 @@
  */
 package org.apache.commons.math4.distribution;
 
+import org.apache.commons.statistics.distribution.ContinuousDistribution;
+import org.apache.commons.statistics.distribution.NormalDistribution;
 import org.apache.commons.math4.exception.DimensionMismatchException;
 import org.apache.commons.math4.linear.Array2DRowRealMatrix;
 import org.apache.commons.math4.linear.EigenDecomposition;
@@ -179,7 +181,7 @@ public class MultivariateNormalDistribution
     public MultivariateRealDistribution.Sampler createSampler(final UniformRandomProvider rng) {
         return new MultivariateRealDistribution.Sampler() {
             /** Normal distribution. */
-            private final RealDistribution.Sampler gauss = new NormalDistribution().createSampler(rng);
+            private final ContinuousDistribution.Sampler gauss = new NormalDistribution(0, 1).createSampler(rng);
 
             /** {@inheritDoc} */
             @Override

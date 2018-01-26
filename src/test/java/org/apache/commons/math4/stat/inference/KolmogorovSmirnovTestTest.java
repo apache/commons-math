@@ -21,8 +21,8 @@ import java.lang.reflect.Method;
 import java.util.Arrays;
 
 import org.apache.commons.math4.TestUtils;
-import org.apache.commons.math4.distribution.NormalDistribution;
-import org.apache.commons.math4.distribution.UniformRealDistribution;
+import org.apache.commons.statistics.distribution.NormalDistribution;
+import org.apache.commons.statistics.distribution.UniformContinuousDistribution;
 import org.apache.commons.rng.simple.RandomSource;
 import org.apache.commons.rng.UniformRandomProvider;
 import org.apache.commons.numbers.combinatorics.BinomialCoefficient;
@@ -142,7 +142,7 @@ public class KolmogorovSmirnovTestTest {
     // @Test - takes about 6 seconds, uncomment for
     public void testOneSampleUniformUniform() {
         final KolmogorovSmirnovTest test = new KolmogorovSmirnovTest();
-        final UniformRealDistribution unif = new UniformRealDistribution(-0.5, 0.5);
+        final UniformContinuousDistribution unif = new UniformContinuousDistribution(-0.5, 0.5);
         Assert.assertEquals(8.881784197001252E-16, test.kolmogorovSmirnovTest(unif, uniform, false), TOLERANCE);
         Assert.assertTrue(test.kolmogorovSmirnovTest(unif, uniform, 0.05));
         Assert.assertEquals(0.5400666982352942, test.kolmogorovSmirnovStatistic(unif, uniform), TOLERANCE);
@@ -152,7 +152,7 @@ public class KolmogorovSmirnovTestTest {
     @Test
     public void testOneSampleUniformUniformSmallSample() {
         final KolmogorovSmirnovTest test = new KolmogorovSmirnovTest();
-        final UniformRealDistribution unif = new UniformRealDistribution(-0.5, 0.5);
+        final UniformContinuousDistribution unif = new UniformContinuousDistribution(-0.5, 0.5);
         final double[] shortUniform = new double[20];
         System.arraycopy(uniform, 0, shortUniform, 0, 20);
         Assert.assertEquals(4.117594598618268E-9, test.kolmogorovSmirnovTest(unif, shortUniform, false), TOLERANCE);
@@ -164,7 +164,7 @@ public class KolmogorovSmirnovTestTest {
     @Test
     public void testOneSampleUniformGaussian() {
         final KolmogorovSmirnovTest test = new KolmogorovSmirnovTest();
-        final UniformRealDistribution unif = new UniformRealDistribution(-0.5, 0.5);
+        final UniformContinuousDistribution unif = new UniformContinuousDistribution(-0.5, 0.5);
         // Value was obtained via exact test, validated against R. Running exact test takes a long
         // time.
         Assert.assertEquals(4.9405812774239166E-11, test.kolmogorovSmirnovTest(unif, gaussian, false), TOLERANCE);

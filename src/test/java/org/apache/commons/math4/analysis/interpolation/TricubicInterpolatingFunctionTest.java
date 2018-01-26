@@ -17,8 +17,8 @@
 package org.apache.commons.math4.analysis.interpolation;
 
 import org.apache.commons.math4.analysis.TrivariateFunction;
-import org.apache.commons.math4.distribution.RealDistribution;
-import org.apache.commons.math4.distribution.UniformRealDistribution;
+import org.apache.commons.statistics.distribution.ContinuousDistribution;
+import org.apache.commons.statistics.distribution.UniformContinuousDistribution;
 import org.apache.commons.math4.exception.DimensionMismatchException;
 import org.apache.commons.math4.exception.MathIllegalArgumentException;
 import org.apache.commons.rng.UniformRandomProvider;
@@ -381,9 +381,9 @@ public final class TricubicInterpolatingFunctionTest {
         }
 
         final UniformRandomProvider rng = RandomSource.create(RandomSource.WELL_19937_C, 1234568L);
-        final RealDistribution.Sampler distX = new UniformRealDistribution(xValues[0], xValues[xValues.length - 1]).createSampler(rng);
-        final RealDistribution.Sampler distY = new UniformRealDistribution(yValues[0], yValues[yValues.length - 1]).createSampler(rng);
-        final RealDistribution.Sampler distZ = new UniformRealDistribution(zValues[0], zValues[zValues.length - 1]).createSampler(rng);
+        final ContinuousDistribution.Sampler distX = new UniformContinuousDistribution(xValues[0], xValues[xValues.length - 1]).createSampler(rng);
+        final ContinuousDistribution.Sampler distY = new UniformContinuousDistribution(yValues[0], yValues[yValues.length - 1]).createSampler(rng);
+        final ContinuousDistribution.Sampler distZ = new UniformContinuousDistribution(zValues[0], zValues[zValues.length - 1]).createSampler(rng);
 
         double sumError = 0;
         for (int i = 0; i < numberOfSamples; i++) {

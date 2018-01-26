@@ -21,7 +21,9 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
+import java.io.Serializable;
 
+import org.apache.commons.statistics.distribution.ContinuousDistribution;
 import org.apache.commons.math4.exception.DimensionMismatchException;
 import org.apache.commons.math4.exception.MathArithmeticException;
 import org.apache.commons.math4.exception.NotANumberException;
@@ -41,8 +43,9 @@ import org.apache.commons.math4.util.Pair;
  *
  * @since 3.2
  */
-public class EnumeratedRealDistribution extends AbstractRealDistribution {
-
+public class EnumeratedRealDistribution
+    implements ContinuousDistribution,
+               Serializable {
     /** Serializable UID. */
     private static final long serialVersionUID = 20160311L;
 
@@ -195,7 +198,7 @@ public class EnumeratedRealDistribution extends AbstractRealDistribution {
      * @return {@code sum(singletons[i] * probabilities[i])}
      */
     @Override
-    public double getNumericalMean() {
+    public double getMean() {
         double mean = 0;
 
         for (final Pair<Double, Double> sample : innerDistribution.getPmf()) {
@@ -211,7 +214,7 @@ public class EnumeratedRealDistribution extends AbstractRealDistribution {
      * @return {@code sum((singletons[i] - mean) ^ 2 * probabilities[i])}
      */
     @Override
-    public double getNumericalVariance() {
+    public double getVariance() {
         double mean = 0;
         double meanOfSquares = 0;
 
@@ -275,8 +278,8 @@ public class EnumeratedRealDistribution extends AbstractRealDistribution {
 
     /** {@inheritDoc} */
     @Override
-    public RealDistribution.Sampler createSampler(final UniformRandomProvider rng) {
-        return new RealDistribution.Sampler() {
+    public ContinuousDistribution.Sampler createSampler(final UniformRandomProvider rng) {
+        return new ContinuousDistribution.Sampler() {
             /** Delegate. */
             private final EnumeratedDistribution<Double>.Sampler inner =
                 innerDistribution.createSampler(rng);

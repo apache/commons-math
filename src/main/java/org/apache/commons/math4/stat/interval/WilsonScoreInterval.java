@@ -16,7 +16,7 @@
  */
 package org.apache.commons.math4.stat.interval;
 
-import org.apache.commons.math4.distribution.NormalDistribution;
+import org.apache.commons.statistics.distribution.NormalDistribution;
 import org.apache.commons.math4.util.FastMath;
 
 /**
@@ -32,7 +32,7 @@ public class WilsonScoreInterval implements BinomialConfidenceInterval {
     public ConfidenceInterval createInterval(int numberOfTrials, int numberOfSuccesses, double confidenceLevel) {
         IntervalUtils.checkParameters(numberOfTrials, numberOfSuccesses, confidenceLevel);
         final double alpha = (1 - confidenceLevel) / 2;
-        final NormalDistribution normalDistribution = new NormalDistribution();
+        final NormalDistribution normalDistribution = new NormalDistribution(0, 1);
         final double z = normalDistribution.inverseCumulativeProbability(1 - alpha);
         final double zSquared = z * z;
         final double oneOverNumTrials = 1d / numberOfTrials;

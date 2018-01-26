@@ -19,9 +19,9 @@ package org.apache.commons.math4.fitting.leastsquares;
 
 import java.awt.geom.Point2D;
 
-import org.apache.commons.math4.distribution.NormalDistribution;
-import org.apache.commons.math4.distribution.RealDistribution;
-import org.apache.commons.math4.distribution.UniformRealDistribution;
+import org.apache.commons.statistics.distribution.NormalDistribution;
+import org.apache.commons.statistics.distribution.ContinuousDistribution;
+import org.apache.commons.statistics.distribution.UniformContinuousDistribution;
 import org.apache.commons.rng.UniformRandomProvider;
 import org.apache.commons.rng.simple.RandomSource;
 
@@ -34,9 +34,9 @@ public class RandomStraightLinePointGenerator {
     /** Intercept. */
     private final double intercept;
     /** RNG for the x-coordinate. */
-    private final RealDistribution.Sampler x;
+    private final ContinuousDistribution.Sampler x;
     /** RNG for the error on the y-coordinate. */
-    private final RealDistribution.Sampler error;
+    private final ContinuousDistribution.Sampler error;
 
     /**
      * The generator will create a cloud of points whose x-coordinates
@@ -65,7 +65,7 @@ public class RandomStraightLinePointGenerator {
         slope = a;
         intercept = b;
         error = new NormalDistribution(0, sigma).createSampler(rng);
-        x = new UniformRealDistribution(lo, hi).createSampler(rng);
+        x = new UniformContinuousDistribution(lo, hi).createSampler(rng);
     }
 
     /**

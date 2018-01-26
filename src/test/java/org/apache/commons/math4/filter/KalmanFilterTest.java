@@ -14,8 +14,8 @@
 
 package org.apache.commons.math4.filter;
 
-import org.apache.commons.math4.distribution.RealDistribution;
-import org.apache.commons.math4.distribution.NormalDistribution;
+import org.apache.commons.statistics.distribution.ContinuousDistribution;
+import org.apache.commons.statistics.distribution.NormalDistribution;
 import org.apache.commons.math4.filter.DefaultMeasurementModel;
 import org.apache.commons.math4.filter.DefaultProcessModel;
 import org.apache.commons.math4.filter.KalmanFilter;
@@ -126,7 +126,7 @@ public class KalmanFilterTest {
         RealVector pNoise = new ArrayRealVector(1);
         RealVector mNoise = new ArrayRealVector(1);
 
-        final RealDistribution.Sampler rand = new NormalDistribution().createSampler(RandomSource.create(RandomSource.WELL_19937_C));
+        final ContinuousDistribution.Sampler rand = new NormalDistribution(0, 1).createSampler(RandomSource.create(RandomSource.WELL_19937_C));
 
         // iterate 60 steps
         for (int i = 0; i < 60; i++) {
@@ -215,7 +215,7 @@ public class KalmanFilterTest {
         double[] expectedInitialState = new double[] { 0.0, 0.0 };
         assertVectorEquals(expectedInitialState, filter.getStateEstimation());
 
-        final RealDistribution.Sampler rand = new NormalDistribution().createSampler(RandomSource.create(RandomSource.WELL_19937_C));
+        final ContinuousDistribution.Sampler rand = new NormalDistribution(0, 1).createSampler(RandomSource.create(RandomSource.WELL_19937_C));
 
         RealVector tmpPNoise = new ArrayRealVector(
                 new double[] { FastMath.pow(dt, 2d) / 2d, dt });
@@ -392,7 +392,7 @@ public class KalmanFilterTest {
         final MeasurementModel mm = new DefaultMeasurementModel(H, R);
         final KalmanFilter filter = new KalmanFilter(pm, mm);
 
-        final RealDistribution.Sampler dist = new NormalDistribution(0, measurementNoise).createSampler(RandomSource.create(RandomSource.WELL_19937_C, 1001));
+        final ContinuousDistribution.Sampler dist = new NormalDistribution(0, measurementNoise).createSampler(RandomSource.create(RandomSource.WELL_19937_C, 1001));
 
         for (int i = 0; i < iterations; i++) {
             // get the "real" cannonball position

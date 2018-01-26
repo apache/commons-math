@@ -24,9 +24,9 @@ import java.util.Iterator;
 import java.util.LinkedHashSet;
 import java.util.Set;
 
-import org.apache.commons.math4.distribution.LogNormalDistribution;
-import org.apache.commons.math4.distribution.NormalDistribution;
-import org.apache.commons.math4.distribution.RealDistribution;
+import org.apache.commons.statistics.distribution.LogNormalDistribution;
+import org.apache.commons.statistics.distribution.NormalDistribution;
+import org.apache.commons.statistics.distribution.ContinuousDistribution;
 import org.apache.commons.math4.distribution.AbstractRealDistribution;
 import org.apache.commons.math4.exception.MathIllegalArgumentException;
 import org.apache.commons.math4.exception.NullArgumentException;
@@ -709,8 +709,8 @@ public class PSquarePercentileTest extends
             STANDARD = 1000, BIG = 10000, VERY_BIG = 50000, LARGE = 1000000,
             VERY_LARGE = 10000000;
 
-    private void doDistributionTest(RealDistribution distribution) {
-        final RealDistribution.Sampler sampler =
+    private void doDistributionTest(ContinuousDistribution distribution) {
+        final ContinuousDistribution.Sampler sampler =
             distribution.createSampler(RandomSource.create(RandomSource.WELL_19937_C, 1000));
         double data[];
 

@@ -18,7 +18,7 @@
 package org.apache.commons.math4.stat.regression;
 import java.io.Serializable;
 
-import org.apache.commons.math4.distribution.TDistribution;
+import org.apache.commons.statistics.distribution.TDistribution;
 import org.apache.commons.math4.exception.MathIllegalArgumentException;
 import org.apache.commons.math4.exception.NoDataException;
 import org.apache.commons.math4.exception.OutOfRangeException;

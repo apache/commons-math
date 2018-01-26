@@ -20,10 +20,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.commons.math4.TestUtils;
-import org.apache.commons.math4.distribution.IntegerDistribution;
-import org.apache.commons.math4.distribution.NormalDistribution;
-import org.apache.commons.math4.distribution.RealDistribution;
-import org.apache.commons.math4.distribution.UniformIntegerDistribution;
+import org.apache.commons.statistics.distribution.DiscreteDistribution;
+import org.apache.commons.statistics.distribution.NormalDistribution;
+import org.apache.commons.statistics.distribution.ContinuousDistribution;
+import org.apache.commons.statistics.distribution.UniformDiscreteDistribution;
 import org.apache.commons.math4.stat.descriptive.UnivariateStatistic;
 import org.apache.commons.math4.stat.descriptive.WeightedEvaluation;
 import org.apache.commons.math4.util.FastMath;
@@ -179,9 +179,9 @@ public abstract class UnivariateStatisticAbstractTest {
 
         // Fill weights array with random int values between 1 and 5
         int[] intWeights = new int[len];
-        final IntegerDistribution.Sampler weightDist =
-            new UniformIntegerDistribution(1, 5).createSampler(RandomSource.create(RandomSource.WELL_512_A,
-                                                                                   234878544L));
+        final DiscreteDistribution.Sampler weightDist =
+            new UniformDiscreteDistribution(1, 5).createSampler(RandomSource.create(RandomSource.WELL_512_A,
+                                                                                    234878544L));
         for (int i = 0; i < len; i++) {
             intWeights[i] = weightDist.sample();
             weights[i] = intWeights[i];
@@ -190,7 +190,7 @@ public abstract class UnivariateStatisticAbstractTest {
         // Fill values array with random data from N(mu, sigma)
         // and fill valuesList with values from values array with
         // values[i] repeated weights[i] times, each i
-        final RealDistribution.Sampler valueDist =
+        final ContinuousDistribution.Sampler valueDist =
             new NormalDistribution(mu, sigma).createSampler(RandomSource.create(RandomSource.WELL_512_A,
                                                                                 64925784252L));
         List<Double> valuesList = new ArrayList<>();

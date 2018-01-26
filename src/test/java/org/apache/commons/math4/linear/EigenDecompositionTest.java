@@ -20,8 +20,8 @@ package org.apache.commons.math4.linear;
 import java.util.Arrays;
 import java.util.Random;
 
-import org.apache.commons.math4.distribution.RealDistribution;
-import org.apache.commons.math4.distribution.NormalDistribution;
+import org.apache.commons.statistics.distribution.ContinuousDistribution;
+import org.apache.commons.statistics.distribution.NormalDistribution;
 import org.apache.commons.math4.exception.MathUnsupportedOperationException;
 import org.apache.commons.math4.linear.ArrayRealVector;
 import org.apache.commons.math4.linear.EigenDecomposition;
@@ -470,7 +470,7 @@ public class EigenDecompositionTest {
     public void testNormalDistributionUnsymmetricMatrix() {
         for (int run = 0; run < 100; run++) {
             Random r = new Random(System.currentTimeMillis());
-            RealDistribution.Sampler dist 
+            ContinuousDistribution.Sampler dist
                 = new NormalDistribution(0.0, r.nextDouble() * 5).createSampler(RandomSource.create(RandomSource.WELL_512_A,
                                                                                                     64925784252L));
 

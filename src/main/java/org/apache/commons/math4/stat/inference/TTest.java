@@ -16,7 +16,7 @@
  */
 package org.apache.commons.math4.stat.inference;
 
-import org.apache.commons.math4.distribution.TDistribution;
+import org.apache.commons.statistics.distribution.TDistribution;
 import org.apache.commons.math4.exception.DimensionMismatchException;
 import org.apache.commons.math4.exception.MathIllegalArgumentException;
 import org.apache.commons.math4.exception.MaxCountExceededException;
@@ -51,7 +51,7 @@ import org.apache.commons.math4.util.FastMath;
  * <p>
  * Input to tests can be either <code>double[]</code> arrays or
  * {@link StatisticalSummary} instances.</p><p>
- * Uses commons-math {@link org.apache.commons.math4.distribution.TDistribution}
+ * Uses commons-math {@link org.apache.commons.statistics.distribution.TDistribution}
  * implementation to estimate exact p-values.</p>
  *
  */

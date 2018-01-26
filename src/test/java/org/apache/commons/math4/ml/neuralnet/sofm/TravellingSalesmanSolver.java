@@ -28,8 +28,8 @@ import org.apache.commons.math4.analysis.FunctionUtils;
 import org.apache.commons.math4.analysis.UnivariateFunction;
 import org.apache.commons.math4.analysis.function.Constant;
 import org.apache.commons.math4.analysis.function.HarmonicOscillator;
-import org.apache.commons.math4.distribution.RealDistribution;
-import org.apache.commons.math4.distribution.UniformRealDistribution;
+import org.apache.commons.statistics.distribution.ContinuousDistribution;
+import org.apache.commons.statistics.distribution.UniformContinuousDistribution;
 import org.apache.commons.math4.exception.MathUnsupportedOperationException;
 import org.apache.commons.math4.ml.distance.DistanceMeasure;
 import org.apache.commons.math4.ml.distance.EuclideanDistance;
@@ -341,7 +341,7 @@ public class TravellingSalesmanSolver {
         final UnivariateFunction f1 = FunctionUtils.add(h1, new Constant(centre[0]));
         final UnivariateFunction f2 = FunctionUtils.add(h2, new Constant(centre[1]));
 
-        final RealDistribution u = new UniformRealDistribution(-0.05 * radius, 0.05 * radius);
+        final ContinuousDistribution u = new UniformContinuousDistribution(-0.05 * radius, 0.05 * radius);
 
         return new FeatureInitializer[] {
             FeatureInitializerFactory.randomize(u.createSampler(random),

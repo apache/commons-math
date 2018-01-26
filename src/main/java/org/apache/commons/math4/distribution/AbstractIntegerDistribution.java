@@ -18,6 +18,7 @@ package org.apache.commons.math4.distribution;
 
 import java.io.Serializable;
 
+import org.apache.commons.statistics.distribution.DiscreteDistribution;
 import org.apache.commons.math4.exception.MathInternalError;
 import org.apache.commons.math4.exception.NumberIsTooLargeException;
 import org.apache.commons.math4.exception.OutOfRangeException;
@@ -92,8 +93,8 @@ public abstract class AbstractIntegerDistribution implements IntegerDistribution
 
         // use the one-sided Chebyshev inequality to narrow the bracket
         // cf. AbstractRealDistribution.inverseCumulativeProbability(double)
-        final double mu = getNumericalMean();
-        final double sigma = FastMath.sqrt(getNumericalVariance());
+        final double mu = getMean();
+        final double sigma = FastMath.sqrt(getVariance());
         final boolean chebyshevApplies = !(Double.isInfinite(mu) || Double.isNaN(mu) ||
                 Double.isInfinite(sigma) || Double.isNaN(sigma) || sigma == 0.0);
         if (chebyshevApplies) {
@@ -186,7 +187,7 @@ public abstract class AbstractIntegerDistribution implements IntegerDistribution
      * @return an array of size {@code n}.
      */
     public static int[] sample(int n,
-                               IntegerDistribution.Sampler sampler) {
+                               DiscreteDistribution.Sampler sampler) {
         final int[] samples = new int[n];
         for (int i = 0; i < n; i++) {
             samples[i] = sampler.sample();
@@ -196,8 +197,8 @@ public abstract class AbstractIntegerDistribution implements IntegerDistribution
 
     /**{@inheritDoc} */
     @Override
-    public IntegerDistribution.Sampler createSampler(final UniformRandomProvider rng) {
-        return new IntegerDistribution.Sampler() {
+    public DiscreteDistribution.Sampler createSampler(final UniformRandomProvider rng) {
+        return new DiscreteDistribution.Sampler() {
             /**
              * Inversion method distribution sampler.
              */

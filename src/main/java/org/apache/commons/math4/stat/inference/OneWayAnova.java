@@ -19,7 +19,7 @@ package org.apache.commons.math4.stat.inference;
 import java.util.ArrayList;
 import java.util.Collection;
 
-import org.apache.commons.math4.distribution.FDistribution;
+import org.apache.commons.statistics.distribution.FDistribution;
 import org.apache.commons.math4.exception.ConvergenceException;
 import org.apache.commons.math4.exception.DimensionMismatchException;
 import org.apache.commons.math4.exception.MaxCountExceededException;
@@ -37,7 +37,7 @@ import org.apache.commons.math4.util.MathUtils;
  * computer programmers).  When two categories are given, this is equivalent to
  * the {@link org.apache.commons.math4.stat.inference.TTest}.
  * </p><p>
- * Uses the {@link org.apache.commons.math4.distribution.FDistribution
+ * Uses the {@link org.apache.commons.statistics.distribution.FDistribution
  * commons-math F Distribution implementation} to estimate exact p-values.</p>
  * <p>This implementation is based on a description at
  * http://faculty.vassar.edu/lowry/ch13pt1.html</p>
@@ -103,7 +103,7 @@ public class OneWayAnova {
      * <code>categoryData</code> collection and each of these arrays must
      * contain at least two values.</li></ul><p>
      * This implementation uses the
-     * {@link org.apache.commons.math4.distribution.FDistribution
+     * {@link org.apache.commons.statistics.distribution.FDistribution
      * commons-math F Distribution implementation} to estimate the exact
      * p-value, using the formula<pre>
      *   p = 1 - cumulativeProbability(F)</pre>
@@ -142,7 +142,7 @@ public class OneWayAnova {
      * <code>categoryData</code> collection and each of these statistics must
      * contain at least two values.</li></ul><p>
      * This implementation uses the
-     * {@link org.apache.commons.math4.distribution.FDistribution
+     * {@link org.apache.commons.statistics.distribution.FDistribution
      * commons-math F Distribution implementation} to estimate the exact
      * p-value, using the formula<pre>
      *   p = 1 - cumulativeProbability(F)</pre>
@@ -223,7 +223,7 @@ public class OneWayAnova {
      * <li>alpha must be strictly greater than 0 and less than or equal to 0.5.
      * </li></ul><p>
      * This implementation uses the
-     * {@link org.apache.commons.math4.distribution.FDistribution
+     * {@link org.apache.commons.statistics.distribution.FDistribution
      * commons-math F Distribution implementation} to estimate the exact
      * p-value, using the formula<pre>
      *   p = 1 - cumulativeProbability(F)</pre>

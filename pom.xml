@@ -367,6 +367,12 @@
   <dependencies>
     <dependency>
       <groupId>org.apache.commons</groupId>
+      <artifactId>commons-statistics-distribution</artifactId>
+      <version>0.1-SNAPSHOT</version>
+    </dependency>
+
+    <dependency>
+      <groupId>org.apache.commons</groupId>
       <artifactId>commons-numbers-core</artifactId>
       <version>1.0-SNAPSHOT</version>
     </dependency>

@@ -19,7 +19,6 @@ package org.apache.commons.math4.geometry.partitioning;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.apache.commons.math4.exception.MathInternalError;
 import org.apache.commons.math4.geometry.Space;
 
 /** Cut sub-hyperplanes characterization with respect to inside/outside cells.
@@ -101,8 +100,16 @@ class Characterization<S extends Space> {
                 splitters.remove(splitters.size() - 1);
                 break;
             default:
-                // this should not happen
-                throw new MathInternalError();
+                // If we reach this point, then the sub-hyperplane we're
+                // testing lies directly on this node's hyperplane. In theory,
+                // this shouldn't ever happen with correctly-formed trees. However,
+                // this does actually occur in practice, especially with manually
+                // built trees or very complex models. Rather than throwing an
+                // exception, we'll attempt to handle this situation gracefully
+                // by treating these sub-hyperplanes as if they lie on the minus
+                // side of the cut hyperplane.
+                characterize(node.getMinus(), sub, splitters);
+                break;
             }
         }
     }
