@@ -26,56 +26,158 @@ import org.junit.Test;
 
 public class IntervalTest {
 
+    private static final double TEST_TOLERANCE = 1e-10;
+
     @Test
-    public void testInterval() {
+    public void testBasicProperties() {
+        // arrange
         Interval interval = new Interval(2.3, 5.7);
-        Assert.assertEquals(3.4, interval.getSize(), 1.0e-10);
-        Assert.assertEquals(4.0, interval.getBarycenter(), 1.0e-10);
-        Assert.assertEquals(Region.Location.BOUNDARY, interval.checkPoint(2.3, 1.0e-10));
-        Assert.assertEquals(Region.Location.BOUNDARY, interval.checkPoint(5.7, 1.0e-10));
-        Assert.assertEquals(Region.Location.OUTSIDE,  interval.checkPoint(1.2, 1.0e-10));
-        Assert.assertEquals(Region.Location.OUTSIDE,  interval.checkPoint(8.7, 1.0e-10));
-        Assert.assertEquals(Region.Location.INSIDE,   interval.checkPoint(3.0, 1.0e-10));
-        Assert.assertEquals(2.3, interval.getInf(), 1.0e-10);
-        Assert.assertEquals(5.7, interval.getSup(), 1.0e-10);
+
+        // act/assert
+        Assert.assertEquals(3.4, interval.getSize(), TEST_TOLERANCE);
+        Assert.assertEquals(4.0, interval.getBarycenter(), TEST_TOLERANCE);
+        Assert.assertEquals(2.3, interval.getInf(), TEST_TOLERANCE);
+        Assert.assertEquals(5.7, interval.getSup(), TEST_TOLERANCE);
     }
 
     @Test
-    public void testTolerance() {
-        Interval interval = new Interval(2.3, 5.7);
-        Assert.assertEquals(Region.Location.OUTSIDE,  interval.checkPoint(1.2, 1.0));
-        Assert.assertEquals(Region.Location.BOUNDARY, interval.checkPoint(1.2, 1.2));
-        Assert.assertEquals(Region.Location.OUTSIDE,  interval.checkPoint(8.7, 2.9));
-        Assert.assertEquals(Region.Location.BOUNDARY, interval.checkPoint(8.7, 3.1));
-        Assert.assertEquals(Region.Location.INSIDE,   interval.checkPoint(3.0, 0.6));
-        Assert.assertEquals(Region.Location.BOUNDARY, interval.checkPoint(3.0, 0.8));
+    public void testBasicProperties_negativeValues() {
+        // arrange
+        Interval interval = new Interval(-5.7, -2.3);
+
+        // act/assert
+        Assert.assertEquals(3.4, interval.getSize(), TEST_TOLERANCE);
+        Assert.assertEquals(-4.0, interval.getBarycenter(), TEST_TOLERANCE);
+        Assert.assertEquals(-5.7, interval.getInf(), TEST_TOLERANCE);
+        Assert.assertEquals(-2.3, interval.getSup(), TEST_TOLERANCE);
+    }
+
+    // MATH-1256
+    @Test(expected = NumberIsTooSmallException.class)
+    public void testStrictOrdering() {
+        new Interval(0, -1);
     }
 
     @Test
-    public void testInfinite() {
-        Interval interval = new Interval(9.0, Double.POSITIVE_INFINITY);
-        Assert.assertEquals(Region.Location.BOUNDARY, interval.checkPoint(9.0, 1.0e-10));
-        Assert.assertEquals(Region.Location.OUTSIDE,  interval.checkPoint(8.4, 1.0e-10));
+    public void testCheckPoint() {
+        // arrange
+        Interval interval = new Interval(2.3, 5.7);
+
+        // act/assert
+        Assert.assertEquals(Region.Location.OUTSIDE,  interval.checkPoint(1.2, TEST_TOLERANCE));
+
+        Assert.assertEquals(Region.Location.OUTSIDE, interval.checkPoint(2.2, TEST_TOLERANCE));
+        Assert.assertEquals(Region.Location.BOUNDARY, interval.checkPoint(2.3, TEST_TOLERANCE));
+        Assert.assertEquals(Region.Location.INSIDE, interval.checkPoint(2.4, TEST_TOLERANCE));
+
+        Assert.assertEquals(Region.Location.INSIDE,   interval.checkPoint(3.0, TEST_TOLERANCE));
+
+        Assert.assertEquals(Region.Location.INSIDE, interval.checkPoint(5.6, TEST_TOLERANCE));
+        Assert.assertEquals(Region.Location.BOUNDARY, interval.checkPoint(5.7, TEST_TOLERANCE));
+        Assert.assertEquals(Region.Location.OUTSIDE, interval.checkPoint(5.8, TEST_TOLERANCE));
+
+        Assert.assertEquals(Region.Location.OUTSIDE,  interval.checkPoint(8.7, TEST_TOLERANCE));
+
+        Assert.assertEquals(Region.Location.OUTSIDE, interval.checkPoint(Double.NEGATIVE_INFINITY, TEST_TOLERANCE));
+        Assert.assertEquals(Region.Location.OUTSIDE, interval.checkPoint(Double.POSITIVE_INFINITY, TEST_TOLERANCE));
+        Assert.assertEquals(Region.Location.BOUNDARY, interval.checkPoint(Double.NaN, TEST_TOLERANCE));
+    }
+
+    @Test
+    public void testCheckPoint_tolerance() {
+        // arrange
+        Interval interval = new Interval(2.3, 5.7);
+
+        // act/assert
+        Assert.assertEquals(Region.Location.OUTSIDE, interval.checkPoint(2.29, 1e-3));
+        Assert.assertEquals(Region.Location.BOUNDARY, interval.checkPoint(2.29, 1e-2));
+        Assert.assertEquals(Region.Location.BOUNDARY, interval.checkPoint(2.29, 1e-1));
+        Assert.assertEquals(Region.Location.BOUNDARY, interval.checkPoint(2.29, 1));
+        Assert.assertEquals(Region.Location.BOUNDARY, interval.checkPoint(2.29, 2));
+
+        Assert.assertEquals(Region.Location.INSIDE, interval.checkPoint(4.0, 1e-3));
+        Assert.assertEquals(Region.Location.INSIDE, interval.checkPoint(4.0, 1e-2));
+        Assert.assertEquals(Region.Location.INSIDE, interval.checkPoint(4.0, 1e-1));
+        Assert.assertEquals(Region.Location.INSIDE, interval.checkPoint(4.0, 1));
+        Assert.assertEquals(Region.Location.BOUNDARY, interval.checkPoint(4.0, 2));
+    }
+
+    @Test
+    public void testInfinite_inf() {
+        // act
+        Interval interval = new Interval(Double.NEGATIVE_INFINITY, 9);
+
+        // assert
+        Assert.assertEquals(Region.Location.BOUNDARY, interval.checkPoint(9.0, TEST_TOLERANCE));
+        Assert.assertEquals(Region.Location.OUTSIDE,  interval.checkPoint(9.4, TEST_TOLERANCE));
         for (double e = 1.0; e <= 6.0; e += 1.0) {
             Assert.assertEquals(Region.Location.INSIDE,
-                                interval.checkPoint(FastMath.pow(10.0, e), 1.0e-10));
+                                interval.checkPoint(-1 * FastMath.pow(10.0, e), TEST_TOLERANCE));
         }
-        Assert.assertTrue(Double.isInfinite(interval.getSize()));
-        Assert.assertEquals(9.0, interval.getInf(), 1.0e-10);
-        Assert.assertTrue(Double.isInfinite(interval.getSup()));
+        Assert.assertEquals(Double.POSITIVE_INFINITY, interval.getSize(), TEST_TOLERANCE);
+        Assert.assertEquals(Double.NEGATIVE_INFINITY, interval.getInf(), TEST_TOLERANCE);
+        Assert.assertEquals(9.0, interval.getSup(), TEST_TOLERANCE);
+    }
 
+    @Test
+    public void testInfinite_sup() {
+        // act
+        Interval interval = new Interval(9.0, Double.POSITIVE_INFINITY);
+
+        // assert
+        Assert.assertEquals(Region.Location.BOUNDARY, interval.checkPoint(9.0, TEST_TOLERANCE));
+        Assert.assertEquals(Region.Location.OUTSIDE,  interval.checkPoint(8.4, TEST_TOLERANCE));
+        for (double e = 1.0; e <= 6.0; e += 1.0) {
+            Assert.assertEquals(Region.Location.INSIDE,
+                                interval.checkPoint(FastMath.pow(10.0, e), TEST_TOLERANCE));
+        }
+        Assert.assertEquals(Double.POSITIVE_INFINITY, interval.getSize(), TEST_TOLERANCE);
+        Assert.assertEquals(9.0, interval.getInf(), TEST_TOLERANCE);
+        Assert.assertEquals(Double.POSITIVE_INFINITY, interval.getSup(), TEST_TOLERANCE);
+    }
+
+    @Test
+    public void testInfinite_infAndSup() {
+        // act
+        Interval interval = new Interval(Double.NEGATIVE_INFINITY, Double.POSITIVE_INFINITY);
+
+        // assert
+        for (double e = 1.0; e <= 6.0; e += 1.0) {
+            Assert.assertEquals(Region.Location.INSIDE,
+                                interval.checkPoint(FastMath.pow(10.0, e), TEST_TOLERANCE));
+        }
+        Assert.assertEquals(Double.POSITIVE_INFINITY, interval.getSize(), TEST_TOLERANCE);
+        Assert.assertEquals(Double.NEGATIVE_INFINITY, interval.getInf(), TEST_TOLERANCE);
+        Assert.assertEquals(Double.POSITIVE_INFINITY, interval.getSup(), TEST_TOLERANCE);
     }
 
     @Test
     public void testSinglePoint() {
+        // act
         Interval interval = new Interval(1.0, 1.0);
+
+        // assert
         Assert.assertEquals(0.0, interval.getSize(), Precision.SAFE_MIN);
         Assert.assertEquals(1.0, interval.getBarycenter(), Precision.EPSILON);
     }
 
-    // MATH-1256
-    @Test(expected=NumberIsTooSmallException.class)
-    public void testStrictOrdering() {
-        new Interval(0, -1);
+    @Test
+    public void testSingleInfinitePoint_positive() {
+        // act
+        Interval interval = new Interval(Double.POSITIVE_INFINITY, Double.POSITIVE_INFINITY);
+
+        // assert
+        Assert.assertEquals(Double.NaN, interval.getSize(), Precision.SAFE_MIN); // inf - inf = NaN according to floating point spec
+        Assert.assertEquals(Double.POSITIVE_INFINITY, interval.getBarycenter(), Precision.EPSILON);
+    }
+
+    @Test
+    public void testSingleInfinitePoint_negative() {
+        // act
+        Interval interval = new Interval(Double.NEGATIVE_INFINITY, Double.NEGATIVE_INFINITY);
+
+        // assert
+        Assert.assertEquals(Double.NaN, interval.getSize(), Precision.SAFE_MIN); // inf - inf = NaN according to floating point spec
+        Assert.assertEquals(Double.NEGATIVE_INFINITY, interval.getBarycenter(), Precision.EPSILON);
     }
 }
