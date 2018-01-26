@@ -549,6 +549,8 @@ public class BOBYQAOptimizer
                         // throw new PathIsExploredException(); // XXX
                     }
                 }
+				// state 650 changed in for-loop should be check
+				if (state == 650) break;
                 state = 680; break;
             }
             ++ntrits;
@@ -2128,6 +2130,8 @@ public class BOBYQAOptimizer
                     }
                 }
             }
+			// state 100 changed in for-loop should be check
+			if (state == 100) break;
 
             // Calculate HHD and some curvatures for the alternative iteration.
 
