@@ -512,7 +512,7 @@ public class PolyhedronsSet extends AbstractRegion<Euclidean3D, Euclidean2D> {
         final Plane                plane = (Plane) cut.getHyperplane();
 
         // establish search order
-        final double offset = plane.getOffset((Point<Euclidean3D>) point);
+        final double offset = plane.getOffset(point);
         final boolean in    = FastMath.abs(offset) < getTolerance();
         final BSPTree<Euclidean3D> near;
         final BSPTree<Euclidean3D> far;
