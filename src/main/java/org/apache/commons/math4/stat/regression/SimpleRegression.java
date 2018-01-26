@@ -91,6 +91,9 @@ public class SimpleRegression implements Serializable, UpdatingMultipleLinearReg
 
     /** include an intercept or not */
     private final boolean hasIntercept;
+
+    /** Cache (performance optimization). */
+    private transient TDistribution distribution;
     // ---------------------Public methods--------------------------------------
 
     /**
@@ -697,9 +700,8 @@ public class SimpleRegression implements Serializable, UpdatingMultipleLinearReg
                                           alpha, 0, 1);
         }
         // No advertised NotStrictlyPositiveException here - will return NaN above
-        TDistribution distribution = new TDistribution(n - 2);
         return getSlopeStdErr() *
-            distribution.inverseCumulativeProbability(1d - alpha / 2d);
+            getDistribution().inverseCumulativeProbability(1d - alpha / 2d);
     }
 
     /**
@@ -729,12 +731,26 @@ public class SimpleRegression implements Serializable, UpdatingMultipleLinearReg
             return Double.NaN;
         }
         // No advertised NotStrictlyPositiveException here - will return NaN above
-        TDistribution distribution = new TDistribution(n - 2);
-        return 2d * (1.0 - distribution.cumulativeProbability(
-                    FastMath.abs(getSlope()) / getSlopeStdErr()));
+        return 2d * (1.0 - getDistribution()
+                     .cumulativeProbability(FastMath.abs(getSlope()) / getSlopeStdErr()));
     }
 
     // ---------------------Private methods-----------------------------------
+
+    /**
+     * Computes or return a cached distribution.
+     *
+     * @return the distribution.
+     */
+    private TDistribution getDistribution() {
+        final double numDeg = n - 2;
+        if (distribution == null ||
+            distribution.getDegreesOfFreedom() != numDeg) {
+            distribution = new TDistribution(numDeg);
+        }
+
+        return distribution;
+    }
 
     /**
     * Returns the intercept of the estimated regression line, given the slope.
