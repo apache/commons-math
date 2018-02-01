@@ -421,7 +421,7 @@ public class BOBYQAOptimizer
             xoptsq += deltaOne * deltaOne;
         }
         double fsave = fAtInterpolationPoints.getEntry(0);
-        final int kbase = 0;
+        int kbase = 0;
 
         // Complete the settings that are required for the iterative procedure.
 
@@ -431,6 +431,7 @@ public class BOBYQAOptimizer
         int nfsav = getEvaluations();
         double rho = initialTrustRegionRadius;
         double delta = rho;
+        int nresc = nfsav;
         double diffa = ZERO;
         double diffb = ZERO;
         double diffc = ZERO;
@@ -449,7 +450,7 @@ public class BOBYQAOptimizer
 
         int state = 20;
         for(;;) {
-        switch (state) {
+        L100 :switch (state) {
         case 20: {
             printState(20); // XXX
             if (trustRegionCenterInterpolationPointIndex != kbase) {
@@ -536,7 +537,8 @@ public class BOBYQAOptimizer
                         bdtest = -work1.getEntry(j);
                     }
                     if (bdtest < bdtol) {
-                        double curv = modelSecondDerivativesValues.getEntry((j + j * j) / 2);
+						int hj = j + 1;
+                        double curv = modelSecondDerivativesValues.getEntry((hj + hj * hj) / 2 - 1);
                         for (int k = 0; k < npt; k++) {
                             // Computing 2nd power
                             final double d1 = interpolationPoints.getEntry(k, j);
@@ -544,13 +546,11 @@ public class BOBYQAOptimizer
                         }
                         bdtest += HALF * curv * rho;
                         if (bdtest < bdtol) {
-                            state = 650; break;
+                            state = 650; break L100;
                         }
                         // throw new PathIsExploredException(); // XXX
                     }
                 }
-				// state 650 changed in for-loop should be check
-				if (state == 650) break;
                 state = 680; break;
             }
             ++ntrits;
@@ -667,6 +667,35 @@ public class BOBYQAOptimizer
             // useful safeguard, but is not invoked in most applications of BOBYQA.
 
         }
+        case 190: {
+            printState(190); // XXX
+            nfsav = getEvaluations();
+            kbase = trustRegionCenterInterpolationPointIndex;
+
+            rescue(lowerBound, upperBound, delta);
+
+            // XOPT is updated now in case the branch below to label 720 is taken.
+            // Any updating of GOPT occurs after the branch below to label 20, which
+            // leads to a trust region iteration as does the branch to label 60.
+
+            xoptsq = ZERO;
+            if (trustRegionCenterInterpolationPointIndex != kbase) {
+                for (int i = 0; i < n; i++) {
+                    trustRegionCenterOffset.setEntry(i, interpolationPoints.getEntry(trustRegionCenterInterpolationPointIndex, i));
+                    // Computing 2nd power
+                    double d__1 = trustRegionCenterOffset.getEntry(i);
+                    xoptsq += d__1 * d__1;
+                }
+            }
+            nresc = getEvaluations();
+            if (nfsav < nresc) {
+                nfsav = nresc;
+                state = 20; break;
+            }
+            if (ntrits > 0) {
+                state = 60; break;
+            }
+        }
         case 210: {
             printState(210); // XXX
             // Pick two alternative vectors of variables, relative to XBASE, that
@@ -763,6 +792,12 @@ public class BOBYQAOptimizer
                     cauchy = ZERO; // XXX Useful statement?
                     state = 230; break;
                 }
+                if (denom <= HALF * (d1 * d1)) {
+                    if (getEvaluations() > nresc) {
+                        state = 190; break;
+                    }
+                    throw new MathIllegalStateException(LocalizedFormats.SIMPLE_MESSAGE, "too much cancellation "+ getEvaluations()+"/"+nresc+" in a denominator");
+                }
                 // Alternatively, if NTRITS is positive, then set KNEW to the index of
                 // the next interpolation point to be deleted to make room for a trust
                 // region step. Again RESCUE may be called if rounding errors have damaged_
@@ -806,6 +841,12 @@ public class BOBYQAOptimizer
                     // Computing 2nd power
                     final double d5 = lagrangeValuesAtNewPoint.getEntry(k);
                     biglsq = FastMath.max(biglsq, temp * (d5 * d5));
+                }
+                if (scaden <= HALF * biglsq) {
+                    if (getEvaluations() > nresc) {
+                        state = 190; break;
+                    }
+                    throw new MathIllegalStateException(LocalizedFormats.SIMPLE_MESSAGE, "too much cancellation "+ getEvaluations()+"/"+nresc+" in a denominator");
                 }
             }
 
@@ -1762,6 +1803,513 @@ public class BOBYQAOptimizer
         } while (getEvaluations() < npt);
     } // prelim
 
+    // ----------------------------------------------------------------------------------------
+
+    /**
+     *     The first NDIM+NPT elements of the array W are used for working space.
+     *     The final elements of BMAT and ZMAT are set in a well-conditioned way
+     *       to the values that are appropriate for the new interpolation points.
+     *     The elements of GOPT, HQ and PQ are also revised to the values that are
+     *       appropriate to the final quadratic model.
+     *
+     *     The arguments N, NPT, XL, XU, IPRINT, MAXFUN, XBASE, XPT, FVAL, XOPT,
+     *       GOPT, HQ, PQ, BMAT, ZMAT, NDIM, SL and SU have the same meanings as
+     *       the corresponding arguments of BOBYQB on the entry to RESCUE.
+     *     NF is maintained as the number of calls of CALFUN so far, except that
+     *       NF is set to -1 if the value of MAXFUN prevents further progress.
+     *     KOPT is maintained so that FVAL(KOPT) is the least calculated function
+     *       value. Its correct value must be given on entry. It is updated if a
+     *       new least function value is found, but the corresponding changes to
+     *       XOPT and GOPT have to be made later by the calling program.
+     *     DELTA is the current trust region radius.
+     *     VLAG is a working space vector that will be used for the values of the
+     *       provisional Lagrange functions at each of the interpolation points.
+     *       They are part of a product that requires VLAG to be of length NDIM.
+     *     PTSAUX is also a working space array. For J=1,2,...,N, PTSAUX(1,J) and
+     *       PTSAUX(2,J) specify the two positions of provisional interpolation
+     *       points when a nonzero step is taken along e_J (the J-th coordinate
+     *       direction) through XBASE+XOPT, as specified below. Usually these
+     *       steps have length DELTA, but other lengths are chosen if necessary
+     *       in order to satisfy the given bounds on the variables.
+     *     PTSID is also a working space array. It has NPT components that denote
+     *       provisional new positions of the original interpolation points, in
+     *       case changes are needed to restore the linear independence of the
+     *       interpolation conditions. The K-th point is a candidate for change
+     *       if and only if PTSID(K) is nonzero. In this case let p and q be the
+     *       int parts of PTSID(K) and (PTSID(K)-p) multiplied by N+1. If p
+     *       and q are both positive, the step from XBASE+XOPT to the new K-th
+     *       interpolation point is PTSAUX(1,p)*e_p + PTSAUX(1,q)*e_q. Otherwise
+     *       the step is PTSAUX(1,p)*e_p or PTSAUX(2,q)*e_q in the cases q=0 or
+     *       p=0, respectively.
+     * @param delta
+     * @param lowerBound Lower bounds.
+     * @param upperBound Upper bounds.
+     */
+    private void rescue (double[] lowerBound,
+                         double[] upperBound,
+                         double delta) {
+
+        final int n = currentBest.getDimension();
+        final int ndim = bMatrix.getRowDimension();
+        final int npt = numberOfInterpolationPoints;
+        final int maxfun = getMaxEvaluations();
+
+        final int np = n + 1;
+        final int nptm = npt - np;
+
+        double[] w = new double[ndim+npt];
+        double sfrac = HALF / (double) np;
+
+        double[] ptsaux = new double[2*n+1];
+        double[] ptsid = new double[npt];
+
+        // Shift the interpolation points so that XOPT becomes the origin, and set
+        // the elements of ZMAT to ZERO. The value of SUMPQ is required in the
+        // updating of HQ below. The squares of the distances from XOPT to the
+        // other interpolation points are set at the end of W. Increments of WINC
+        // may be added later to these squares to balance the consideration of
+        // the choice of point that is going to become current.
+
+        double sumpq = ZERO;
+        double winc = ZERO;
+        double distsq;
+        double beta = 0;
+        double denom = 0;
+
+        for (int k = 0; k < npt; k++) {
+            distsq = ZERO;
+            for (int j = 0; j < n; j++) {
+                interpolationPoints.setEntry(k, j, interpolationPoints.getEntry(k, j) - trustRegionCenterOffset.getEntry(j));
+                // Computing 2nd power
+                double d1 = interpolationPoints.getEntry(k, j);
+                distsq += d1 * d1;
+            }
+            sumpq += modelSecondDerivativesParameters.getEntry(k);
+            w[ndim + k] = distsq;
+            winc = Math.max(winc,distsq);
+            for (int j = 0; j < nptm; j++) {
+                zMatrix.setEntry(k, j, ZERO);
+            }
+        }
+
+        // Update HQ so that HQ and PQ define the second derivatives of the model
+        // after XBASE has been shifted to the trust region centre.
+
+        int ih = 0;
+        for (int j = 0; j < n; j++) {
+            w[j] = HALF * sumpq * trustRegionCenterOffset.getEntry(j);
+            for (int k = 0; k < npt; k++) {
+                w[j] += modelSecondDerivativesParameters.getEntry(k) * interpolationPoints.getEntry(k, j);
+            }
+            for (int i = 0; i <= j; i++) {
+                modelSecondDerivativesValues.setEntry(ih,
+                        modelSecondDerivativesValues.getEntry(ih) + w[i] * trustRegionCenterOffset.getEntry(j) + w[j] * trustRegionCenterOffset.getEntry(i));
+                ih++;
+            }
+        }
+
+        // Shift XBASE, SL, SU and XOPT. Set the elements of BMAT to ZERO, and
+        // also set the elements of PTSAUX.
+
+        for (int j = 0; j < n; j++) {
+            originShift.setEntry(j, originShift.getEntry(j) + trustRegionCenterOffset.getEntry(j));
+            lowerDifference.setEntry(j, lowerDifference.getEntry(j) - trustRegionCenterOffset.getEntry(j));
+            upperDifference.setEntry(j, upperDifference.getEntry(j) - trustRegionCenterOffset.getEntry(j));
+            trustRegionCenterOffset.setEntry(j, ZERO);
+            // Computing MIN
+            double d__1 = delta;
+            double d__2 = upperDifference.getEntry(j);
+            ptsaux[(j << 1)] = Math.min(d__1,d__2);
+            // Computing MAX
+            d__1 = -delta;
+            d__2 = lowerDifference.getEntry(j);
+            ptsaux[(j << 1) + 1] = Math.max(d__1,d__2);
+            if (ptsaux[(j << 1)] + ptsaux[(j << 1) + 1] < ZERO) {
+                double temp = ptsaux[(j << 1)];
+                ptsaux[(j << 1)] = ptsaux[(j << 1) + 1];
+                ptsaux[(j << 1) + 1] = temp;
+            }
+            d__2 = ptsaux[(j << 1) + 1];
+            d__1 = ptsaux[(j << 1)];
+            if (Math.abs(d__2) < HALF * Math.abs(d__1)) {
+                ptsaux[(j << 1) + 1] = HALF * ptsaux[(j << 1)];
+            }
+            for (int i = 0; i < ndim; i++) {
+                bMatrix.setEntry(i, j, ZERO);
+            }
+        }
+        double fbase = fAtInterpolationPoints.getEntry(trustRegionCenterInterpolationPointIndex);
+
+        // Set the identifiers of the artificial interpolation points that are
+        // along a coordinate direction from XOPT, and set the corresponding
+        // nonzero elements of BMAT and ZMAT.
+
+        ptsid[0] = sfrac;
+        for (int j = 0; j < n; j++) {
+            int jp = j + 1;
+            int jpn = jp + n;
+            ptsid[jp] = 1.0 + j + sfrac;
+            if (jpn < npt) {
+                ptsid[jpn] = (1.0+j) / np + sfrac;
+                double temp = ONE / (ptsaux[(j << 1)] - ptsaux[(j << 1) + 1]);
+                bMatrix.setEntry(jp, j, -temp + ONE / ptsaux[(j << 1)]);
+                bMatrix.setEntry(jpn, j, temp + ONE / ptsaux[(j << 1) + 1]);
+                bMatrix.setEntry(0, j, -bMatrix.getEntry(jp, j) - bMatrix.getEntry(jpn, j));
+                double d__1 = ptsaux[(j << 1)] * ptsaux[(j << 1) + 1];
+                zMatrix.setEntry(0, j, Math.sqrt(2.) / Math.abs(d__1));
+                zMatrix.setEntry(jp, j, zMatrix.getEntry(0, j) * ptsaux[(j << 1) + 1] * temp);
+                zMatrix.setEntry(jpn, j, -zMatrix.getEntry(0, j) *
+                        ptsaux[(j << 1)] * temp);
+            } else {
+                bMatrix.setEntry(0,j,-ONE / ptsaux[(j << 1)]);
+                bMatrix.setEntry(jp, j, ONE / ptsaux[(j << 1)]);
+                // Computing 2nd power
+                double d__1 = ptsaux[(j << 1)];
+                bMatrix.setEntry(j + npt, j, -HALF * (d__1 * d__1));
+            }
+        }
+
+        // Set any remaining identifiers with their nonzero elements of ZMAT.
+
+        if (npt >= n + np) {
+            for (int k = np << 1; k <= npt; k++) {
+                int iw = (int) (((double) (k - np) - HALF) / (double) n);
+                int ip = k - np - iw * n;
+                int iq = ip + iw;
+                if (iq > n) {
+                    iq -= n;
+                }
+                ptsid[k-1] = (double) ip + (double) iq / (double) np +
+                        sfrac;
+                double temp = ONE / (ptsaux[(ip << 1)] * ptsaux[(iq << 1)]);
+                zMatrix.setEntry(0, (k - np - 1), temp);
+                zMatrix.setEntry(ip, (k - np - 1), -temp);
+                zMatrix.setEntry(iq, (k - np - 1), -temp);
+                zMatrix.setEntry(k-1, (k - np - 1), temp);
+            }
+        }
+        int nrem = npt;
+        int kold = 0;
+        int knew = trustRegionCenterInterpolationPointIndex;
+
+        // Reorder the provisional points in the way that exchanges PTSID(KOLD)
+        // with PTSID(KNEW).
+
+        int state = 80;
+        for(;;) switch (state) {
+            case 80: {
+                for (int j = 0; j < n; j++) {
+                    double temp = bMatrix.getEntry(kold, j);
+                    bMatrix.setEntry(kold, j, bMatrix.getEntry(knew, j));
+                    bMatrix.setEntry(knew, j, temp);
+                }
+                for (int j = 0; j < nptm; j++) {
+                    double temp = zMatrix.getEntry(kold, j);
+                    zMatrix.setEntry(kold, j, zMatrix.getEntry(knew, j));
+                    zMatrix.setEntry(knew, j, temp);
+                }
+                ptsid[kold] = ptsid[knew];
+                ptsid[knew] = ZERO;
+                w[ndim + knew] = ZERO;
+                --nrem;
+                if (knew != trustRegionCenterInterpolationPointIndex) {
+                    double temp = lagrangeValuesAtNewPoint.getEntry(kold);
+                    lagrangeValuesAtNewPoint.setEntry(kold, lagrangeValuesAtNewPoint.getEntry(knew));
+                    lagrangeValuesAtNewPoint.setEntry(knew, temp);
+
+                    // Update the BMAT and ZMAT matrices so that the status of the KNEW-th
+                    // interpolation point can be changed from provisional to original. The
+                    // branch to label 350 occurs if all the original points are reinstated.
+                    // The nonnegative values of W(NDIM+K) are required in the search below.
+
+                    update(beta, denom, knew);
+
+                    if (nrem == 0) {
+                        return;
+                    }
+                    for (int k = 0; k < npt; k++) {
+                        double d__1 = w[ndim + k];
+                        w[ndim + k] = Math.abs(d__1);
+                    }
+                }
+
+                // Pick the index KNEW of an original interpolation point that has not
+                // yet replaced one of the provisional interpolation points, giving
+                // attention to the closeness to XOPT and to previous tries with KNEW.
+            }
+            case 120: {
+                double dsqmin = ZERO;
+                for (int k = 0; k < npt; k++) {
+                    if (w[ndim + k] > ZERO) {
+                        if (dsqmin == ZERO || w[ndim + k] < dsqmin) {
+                            knew = k;
+                            dsqmin = w[ndim + k];
+                        }
+                    }
+                }
+                if (dsqmin == ZERO) {
+                    state = 260; break;
+                }
+
+                // Form the W-vector of the chosen original interpolation point.
+
+                for (int j = 0; j < n; j++) {
+                    w[npt + j] = interpolationPoints.getEntry(knew, j);
+                }
+                for (int k = 0; k < npt; k++) {
+                    double sum = ZERO;
+                    if (k == trustRegionCenterInterpolationPointIndex) {
+                    } else if (ptsid[k] == ZERO) {
+                        for (int j = 0; j < n; j++) {
+                            sum += w[npt + j] * interpolationPoints.getEntry(k, j);
+                        }
+                    } else {
+                        int ip = (int) ptsid[k];
+                        if (ip > 0) {
+                            sum = w[npt + ip - 1] * ptsaux[(ip-1) << 1];
+                        }
+                        int iq = (int) ((double) np * ptsid[k] - (double) (ip * np));
+                        if (iq > 0) {
+                            int iw = 0;
+                            if (ip == 0) {
+                                iw = 1;
+                            }
+                            sum += w[npt + iq - 1] * ptsaux[iw + ((iq-1) << 1)];
+                        }
+                    }
+                    w[k] = HALF * sum * sum;
+                }
+
+                // Calculate VLAG and BETA for the required updating of the H matrix if
+                // XPT(KNEW,.) is reinstated in the set of interpolation points.
+
+                for (int k = 0; k < npt; k++) {
+                    double sum = ZERO;
+                    for (int j = 0; j < n; j++) {
+                        sum += bMatrix.getEntry(k, j) * w[npt + j];
+                    }
+                    lagrangeValuesAtNewPoint.setEntry(k, sum);
+                }
+                beta = ZERO;
+                for (int j = 0; j < nptm; j++) {
+                    double sum = ZERO;
+                    for (int k = 0; k < npt; k++) {
+                        sum += zMatrix.getEntry(k, j) * w[k];
+                    }
+                    beta -= sum * sum;
+                    for (int k = 0; k < npt; k++) {
+                        lagrangeValuesAtNewPoint.setEntry(k,
+                                lagrangeValuesAtNewPoint.getEntry(k) + sum * zMatrix.getEntry(k, j));
+                    }
+                }
+                double bsum = ZERO;
+                distsq = ZERO;
+                for (int j = 0; j < n; j++) {
+                    double sum = ZERO;
+                    for (int k = 0; k < npt; k++) {
+                        sum += bMatrix.getEntry(k, j) * w[k];
+                    }
+                    int jp = j + npt;
+                    bsum += sum * w[jp];
+                    for (int ip = npt-1; ip < ndim; ip++) {
+                        sum += bMatrix.getEntry(ip, j) * w[ip];
+                    }
+                    bsum += sum * w[jp];
+                    lagrangeValuesAtNewPoint.setEntry(jp, sum);
+                    // Computing 2nd power
+                    double d__1 = interpolationPoints.getEntry(knew, j);
+                    distsq += d__1 * d__1;
+                }
+                beta = HALF * distsq * distsq + beta - bsum;
+                lagrangeValuesAtNewPoint.setEntry(trustRegionCenterInterpolationPointIndex,
+                        lagrangeValuesAtNewPoint.getEntry(trustRegionCenterInterpolationPointIndex) + ONE);
+
+                // KOLD is set to the index of the provisional interpolation point that is
+                // going to be deleted to make way for the KNEW-th original interpolation
+                // point. The choice of KOLD is governed by the avoidance of a small value
+                // of the denominator in the updating calculation of UPDATE.
+
+                denom = ZERO;
+                double vlmxsq = ZERO;
+                for (int k = 0; k < npt; k++) {
+                    // Computing 2nd power
+                    double d__3 = lagrangeValuesAtNewPoint.getEntry(k);
+                    double d__2 = d__3 * d__3;
+
+                    if (ptsid[k] != ZERO) {
+                        double hdiag = ZERO;
+                        for (int j = 0; j < nptm; j++) {
+                            // Computing 2nd power
+                            double d__1 = zMatrix.getEntry(k, j);
+                            hdiag += d__1 * d__1;
+                        }
+                        double den = beta * hdiag + d__2;
+                        if (den > denom) {
+                            kold = k;
+                            denom = den;
+                        }
+                    }
+                    // Computing MAX
+                    double d__1 = vlmxsq;
+                    vlmxsq = Math.max(d__1,d__2);
+                }
+                if (denom <= vlmxsq * .01) {
+                    w[ndim + knew] = -w[ndim + knew] - winc;
+                    state = 120; break;
+                }
+                state = 80; break;
+
+                // When label 260 is reached, all the final positions of the interpolation
+                // points have been chosen although any changes have not been included yet
+                // in XPT. Also the final BMAT and ZMAT matrices are complete, but, apart
+                // from the shift of XBASE, the updating of the quadratic model remains to
+                // be done. The following cycle through the new interpolation points begins
+                // by putting the new point in XPT(KPT,.) and by setting PQ(KPT) to ZERO,
+                // except that a RETURN occurs if MAXFUN prohibits another value of F.
+
+            }
+            case 260: {
+                for (int kpt = 0; kpt < npt; kpt++) {
+                    if (ptsid[kpt] == ZERO) {
+                        continue;
+                    }
+                    if (getEvaluations() >= maxfun) {
+                        return;
+                    }
+                    ih = 0;
+                    for (int j = 0; j < n; j++) {
+                        w[j] = interpolationPoints.getEntry(kpt, j);
+                        interpolationPoints.setEntry(kpt, j, ZERO);
+                        double temp = modelSecondDerivativesParameters.getEntry(kpt) * w[j];
+                        for (int i = 0; i <= j; i++) {
+                            modelSecondDerivativesValues.setEntry(ih,
+                                    modelSecondDerivativesValues.getEntry(ih) + temp * w[i]);
+                            ih++;
+                        }
+                    }
+                    modelSecondDerivativesParameters.setEntry(kpt, ZERO);
+                    int ip = (int) ptsid[kpt];
+                    int iq = (int) ((double) np * ptsid[kpt] - (double) (ip * np));
+                    double xp = 0;
+                    double xq = 0;
+                    if (ip > 0) {
+                        xp = ptsaux[(ip-1) << 1];
+                        interpolationPoints.setEntry(kpt, ip - 1, xp);
+                    }
+                    if (iq > 0) {
+                        xq = ptsaux[(iq-1) << 1];
+                        if (ip == 0) {
+                            xq = ptsaux[((iq-1) << 1) + 1];
+                        }
+                        interpolationPoints.setEntry(kpt, iq - 1, xq);
+                    }
+
+                    // Set VQUAD to the value of the current model at the new point.
+
+                    double vquad = fbase;
+                    int ihp = 0;
+                    if (ip > 0) {
+                        ihp = (ip + ip * ip) / 2;
+                        vquad += xp * (gradientAtTrustRegionCenter.getEntry(ip - 1) +
+                                HALF * xp * modelSecondDerivativesValues.getEntry(ihp-1));
+                    }
+                    if (iq > 0) {
+                        int ihq = (iq + iq * iq) / 2;
+                        vquad += xq * (gradientAtTrustRegionCenter.getEntry(iq - 1) +
+                                HALF * xq * modelSecondDerivativesValues.getEntry(ihq-1));
+                        if (ip > 0) {
+                            int iw = Math.max(ihp,ihq) - Math.abs(ip - iq);
+                            vquad += xp * xq * modelSecondDerivativesValues.getEntry(iw - 1);
+                        }
+                    }
+                    for (int k = 0; k < npt; k++) {
+                        double temp = ZERO;
+                        if (ip > 0) {
+                            temp += xp * interpolationPoints.getEntry(k, ip-1);
+                        }
+                        if (iq > 0) {
+                            temp += xq * interpolationPoints.getEntry(k, iq-1);
+                        }
+                        vquad += HALF * modelSecondDerivativesParameters.getEntry(k) * temp * temp;
+                    }
+
+                    // Calculate F at the new interpolation point, and set DIFF to the factor
+                    // that is going to multiply the KPT-th Lagrange function when the model
+                    // is updated to provide interpolation to the new function value.
+
+                    for (int i = 0; i < n; i++) {
+                        // Computing MIN
+                        // Computing MAX
+                        double d__3 = lowerBound[i];
+                        double d__4 = originShift.getEntry(i) + interpolationPoints.getEntry(kpt, i);
+                        double d__1 = FastMath.max(d__3,d__4);
+                        double d__2 = upperBound[i];
+                        w[i] = Math.min(d__1,d__2);
+                        if (interpolationPoints.getEntry(kpt, i) == lowerDifference.getEntry(i)) {
+                            w[i] = lowerBound[i];
+                        }
+                        if (interpolationPoints.getEntry(kpt, i) == upperDifference.getEntry(i)) {
+                            w[i] = upperBound[i];
+                        }
+                    }
+                    double f = computeObjectiveValue(Arrays.copyOf(w,n));
+                    if (!isMinimize)
+                        f = -f;
+                    fAtInterpolationPoints.setEntry(kpt, f);
+                    if (f < fAtInterpolationPoints.getEntry(trustRegionCenterInterpolationPointIndex)) {
+                        trustRegionCenterInterpolationPointIndex = kpt;
+                    }
+                    double diff = f - vquad;
+
+                    // Update the quadratic model. The RETURN from the subroutine occurs when
+                    // all the new interpolation points are included in the model.
+
+                    for (int i = 0; i < n; i++) {
+                        gradientAtTrustRegionCenter.setEntry(i,
+                                gradientAtTrustRegionCenter.getEntry(i) + diff * bMatrix.getEntry(kpt, i));
+                    }
+                    for (int k = 0; k < npt; k++) {
+                        double sum = ZERO;
+                        for (int j = 0; j < nptm; j++) {
+                            sum += zMatrix.getEntry(k, j) * zMatrix.getEntry(kpt, j);
+                        }
+                        double temp = diff * sum;
+                        if (ptsid[k] == ZERO) {
+                            modelSecondDerivativesParameters.setEntry(k,
+                                    modelSecondDerivativesParameters.getEntry(k) + temp);
+                        } else {
+                            ip = (int) ptsid[k];
+                            iq = (int) ((double) np * ptsid[k] - (double) (ip * np));
+                            int ihq = (iq * iq + iq) / 2;
+                            if (ip == 0) {
+                                // Computing 2nd power
+                                double d__1 = ptsaux[((iq-1) << 1) + 1];
+                                modelSecondDerivativesValues.setEntry(ihq -1,
+                                        modelSecondDerivativesValues.getEntry(ihq - 1) + temp * (d__1 * d__1));
+                            } else {
+                                ihp = (ip * ip + ip) / 2;
+                                // Computing 2nd power
+                                double d__1 = ptsaux[(ip-1) << 1];
+                                modelSecondDerivativesValues.setEntry(ihp -1,
+                                        modelSecondDerivativesValues.getEntry(ihp - 1) + temp * (d__1 * d__1));
+                                if (iq > 0) {
+                                    // Computing 2nd power
+                                    d__1 = ptsaux[(iq-1) << 1];
+                                    modelSecondDerivativesValues.setEntry(ihq -1,
+                                            modelSecondDerivativesValues.getEntry(ihq - 1) + temp * (d__1 * d__1));
+                                    int iw = Math.max(ihp,ihq) - Math.abs(iq - ip);
+                                    modelSecondDerivativesValues.setEntry(iw -1,
+                                            modelSecondDerivativesValues.getEntry(iw - 1) +
+                                                    temp * ptsaux[(ip-1) << 1] * ptsaux[(iq-1) << 1]);
+                                }
+                            }
+                        }
+                    }
+                    ptsid[kpt] = ZERO;
+                }
+                return;
+            }}
+    } // rescue
 
     // ----------------------------------------------------------------------------------------
 
@@ -1882,7 +2430,7 @@ public class BOBYQAOptimizer
 
         int state = 20;
         for(;;) {
-            switch (state) {
+            L200 : switch (state) {
         case 20: {
             printState(20); // XXX
             beta = ZERO;
@@ -2095,11 +2643,11 @@ public class BOBYQAOptimizer
                     if (tempa <= ZERO) {
                         ++nact;
                         xbdi.setEntry(i, MINUS_ONE);
-                        state = 100; break;
+                        state = 100; break L200;
                     } else if (tempb <= ZERO) {
                         ++nact;
                         xbdi.setEntry(i, ONE);
-                        state = 100; break;
+                        state = 100; break L200;
                     }
                     // Computing 2nd power
                     double d1 = trialStepPoint.getEntry(i);
@@ -2155,10 +2703,10 @@ public class BOBYQAOptimizer
             // the alternative iteration.
 
             redmax = ZERO;
-            isav = -1;
+            isav = 0;
             redsav = ZERO;
             iu = (int) (angbd * 17. + 3.1);
-            for (int i = 0; i < iu; i++) {
+            for (int i = 1; i <= iu; i++) {
                 angt = angbd * i / iu;
                 sth = (angt + angt) / (ONE + angt * angt);
                 temp = shs + angt * (angt * dhd - dhs - dhs);
@@ -2176,7 +2724,7 @@ public class BOBYQAOptimizer
             // Return if the reduction is zero. Otherwise, set the sine and cosine
             // of the angle of the alternative iteration, and calculate SDEC.
 
-            if (isav < 0) {
+            if (isav == 0) {
                 state = 190; break;
             }
             if (isav < iu) {
