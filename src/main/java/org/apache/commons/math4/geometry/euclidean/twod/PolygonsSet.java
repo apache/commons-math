@@ -870,11 +870,15 @@ public class PolygonsSet extends AbstractRegion<Euclidean2D, Euclidean1D> {
         // we need at least 2 segments in order for one of the contained vertices
         // to be unnecessary
         if (loop.size() > 1) {
+            // Go through the list and compare each segment with the next
+            // one in line. We can remove the shared vertex if the segments
+            // are not infinite and they lie on the same line.
             for (int i = 0; i < loop.size(); ++i) {
                 final Segment previous = loop.get(i);
                 int j = (i + 1) % loop.size();
                 final Segment next = loop.get(j);
                 if (next != null &&
+                    previous.getStart() != null && next.getEnd() != null &&
                     Precision.equals(previous.getLine().getAngle(), next.getLine().getAngle(), Precision.EPSILON)) {
                     // the vertex between the two edges is a spurious one
                     // replace the two segments by a single one
