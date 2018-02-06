@@ -553,7 +553,7 @@ public class PolygonsSet extends AbstractRegion<Euclidean2D, Euclidean1D> {
                 setBarycenter((Point<Euclidean2D>) Cartesian2D.NaN);
             } else {
                 setSize(0);
-                setBarycenter((Point<Euclidean2D>) new Cartesian2D(0, 0));
+                setBarycenter((Point<Euclidean2D>) Cartesian2D.NaN);
             }
         } else if (v[0][0] == null) {
             // there is at least one open-loop: the polygon is infinite

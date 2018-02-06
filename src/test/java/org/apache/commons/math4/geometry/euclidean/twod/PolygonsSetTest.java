@@ -221,32 +221,59 @@ public class PolygonsSetTest {
 
     @Test
     public void testEmpty() {
-        PolygonsSet empty = (PolygonsSet) new RegionFactory<Euclidean2D>().getComplement(new PolygonsSet(1.0e-10));
-        Assert.assertTrue(empty.isEmpty());
-        Assert.assertEquals(0, empty.getVertices().length);
-        Assert.assertEquals(0.0, empty.getBoundarySize(), 1.0e-10);
-        Assert.assertEquals(0.0, empty.getSize(), 1.0e-10);
+        // act
+        PolygonsSet poly = (PolygonsSet) new RegionFactory<Euclidean2D>().getComplement(new PolygonsSet(1e-10));
+
+        // assert
+        Assert.assertEquals(1e-10, poly.getTolerance(), Precision.EPSILON);
+        Assert.assertEquals(0.0, poly.getSize(), 1e-10);
+        Assert.assertEquals(0.0, poly.getBoundarySize(), 1e-10);
+        Assert.assertEquals(0, poly.getVertices().length);
+        Assert.assertTrue(poly.isEmpty());
+        Assert.assertFalse(poly.isFull());
+        GeometryTestUtils.assertVectorEquals(Cartesian2D.NaN, (Cartesian2D) poly.getBarycenter(), 1e-10);
+
+        checkPoints(Region.Location.OUTSIDE, poly, new Cartesian2D[] {
+                new Cartesian2D(Double.NEGATIVE_INFINITY, Double.NEGATIVE_INFINITY),
+                Cartesian2D.ZERO,
+                new Cartesian2D(Double.POSITIVE_INFINITY, Double.POSITIVE_INFINITY)});
+
+        double offset;
         for (double y = -1; y < 1; y += 0.1) {
             for (double x = -1; x < 1; x += 0.1) {
-                Assert.assertEquals(Double.POSITIVE_INFINITY,
-                                    empty.projectToBoundary(new Cartesian2D(x, y)).getOffset(),
-                                    1.0e-10);
+                offset = poly.projectToBoundary(new Cartesian2D(x, y)).getOffset();
+                Assert.assertTrue(offset > 0);
+                Assert.assertTrue(Double.isInfinite(offset));
             }
         }
     }
 
     @Test
     public void testFull() {
-        PolygonsSet empty = new PolygonsSet(1.0e-10);
-        Assert.assertFalse(empty.isEmpty());
-        Assert.assertEquals(0, empty.getVertices().length);
-        Assert.assertEquals(0.0, empty.getBoundarySize(), 1.0e-10);
-        Assert.assertEquals(Double.POSITIVE_INFINITY, empty.getSize(), 1.0e-10);
+        // act
+        PolygonsSet poly = new PolygonsSet(1e-10);
+
+        // assert
+        Assert.assertEquals(1e-10, poly.getTolerance(), Precision.EPSILON);
+        Assert.assertTrue(poly.getSize() > 0);
+        Assert.assertTrue(Double.isInfinite(poly.getSize()));
+        Assert.assertEquals(0.0, poly.getBoundarySize(), 1e-10);
+        Assert.assertEquals(0, poly.getVertices().length);
+        Assert.assertFalse(poly.isEmpty());
+        Assert.assertTrue(poly.isFull());
+        GeometryTestUtils.assertVectorEquals(Cartesian2D.NaN, (Cartesian2D) poly.getBarycenter(), 1e-10);
+
+        checkPoints(Region.Location.INSIDE, poly, new Cartesian2D[] {
+                new Cartesian2D(Double.NEGATIVE_INFINITY, Double.NEGATIVE_INFINITY),
+                Cartesian2D.ZERO,
+                new Cartesian2D(Double.POSITIVE_INFINITY, Double.POSITIVE_INFINITY)});
+
+        double offset;
         for (double y = -1; y < 1; y += 0.1) {
             for (double x = -1; x < 1; x += 0.1) {
-                Assert.assertEquals(Double.NEGATIVE_INFINITY,
-                                    empty.projectToBoundary(new Cartesian2D(x, y)).getOffset(),
-                                    1.0e-10);
+                offset = poly.projectToBoundary(new Cartesian2D(x, y)).getOffset();
+                Assert.assertTrue(offset < 0);
+                Assert.assertTrue(Double.isInfinite(offset));
             }
         }
     }
