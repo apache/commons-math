@@ -229,8 +229,8 @@ public class PolygonsSetTest {
         Assert.assertEquals(0.0, poly.getSize(), 1e-10);
         Assert.assertEquals(0.0, poly.getBoundarySize(), 1e-10);
         Assert.assertEquals(0, poly.getVertices().length);
-        Assert.assertEquals(true, poly.isEmpty());
-        Assert.assertEquals(false, poly.isFull());
+        Assert.assertTrue(poly.isEmpty());
+        Assert.assertFalse(poly.isFull());
         GeometryTestUtils.assertVectorEquals(Cartesian2D.NaN, (Cartesian2D) poly.getBarycenter(), 1e-10);
 
         checkPoints(Region.Location.OUTSIDE, poly, new Cartesian2D[] {
@@ -238,12 +238,12 @@ public class PolygonsSetTest {
                 Cartesian2D.ZERO,
                 new Cartesian2D(Double.POSITIVE_INFINITY, Double.POSITIVE_INFINITY)});
 
-
+        double offset;
         for (double y = -1; y < 1; y += 0.1) {
             for (double x = -1; x < 1; x += 0.1) {
-                Assert.assertEquals(Double.POSITIVE_INFINITY,
-                                    poly.projectToBoundary(new Cartesian2D(x, y)).getOffset(),
-                                    1.0e-10);
+                offset = poly.projectToBoundary(new Cartesian2D(x, y)).getOffset();
+                Assert.assertTrue(offset > 0);
+                Assert.assertTrue(Double.isInfinite(offset));
             }
         }
     }
@@ -255,11 +255,12 @@ public class PolygonsSetTest {
 
         // assert
         Assert.assertEquals(1e-10, poly.getTolerance(), Precision.EPSILON);
-        Assert.assertEquals(Double.POSITIVE_INFINITY, poly.getSize(), 1e-10);
+        Assert.assertTrue(poly.getSize() > 0);
+        Assert.assertTrue(Double.isInfinite(poly.getSize()));
         Assert.assertEquals(0.0, poly.getBoundarySize(), 1e-10);
         Assert.assertEquals(0, poly.getVertices().length);
-        Assert.assertEquals(false, poly.isEmpty());
-        Assert.assertEquals(true, poly.isFull());
+        Assert.assertFalse(poly.isEmpty());
+        Assert.assertTrue(poly.isFull());
         GeometryTestUtils.assertVectorEquals(Cartesian2D.NaN, (Cartesian2D) poly.getBarycenter(), 1e-10);
 
         checkPoints(Region.Location.INSIDE, poly, new Cartesian2D[] {
@@ -267,11 +268,12 @@ public class PolygonsSetTest {
                 Cartesian2D.ZERO,
                 new Cartesian2D(Double.POSITIVE_INFINITY, Double.POSITIVE_INFINITY)});
 
+        double offset;
         for (double y = -1; y < 1; y += 0.1) {
             for (double x = -1; x < 1; x += 0.1) {
-                Assert.assertEquals(Double.NEGATIVE_INFINITY,
-                                    poly.projectToBoundary(new Cartesian2D(x, y)).getOffset(),
-                                    1e-10);
+                offset = poly.projectToBoundary(new Cartesian2D(x, y)).getOffset();
+                Assert.assertTrue(offset < 0);
+                Assert.assertTrue(Double.isInfinite(offset));
             }
         }
     }
