@@ -20,7 +20,6 @@ package org.apache.commons.math4.complex;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
-
 import org.apache.commons.math4.FieldElement;
 import org.apache.commons.math4.exception.NotPositiveException;
 import org.apache.commons.math4.exception.NullArgumentException;
@@ -888,6 +887,15 @@ public class Complex implements FieldElement<Complex>, Serializable  {
     public Complex pow(Complex x)
         throws NullArgumentException {
         MathUtils.checkNotNull(x);
+        if (real == 0 && imaginary == 0) {
+            if (x.real > 0 && x.imaginary == 0) {
+                // 0 raised to positive number is 0
+                return ZERO;
+            } else {
+                // 0 raised to anything else is NaN
+                return NaN;
+            }
+        }
         return this.log().multiply(x).exp();
     }
 
@@ -899,6 +907,15 @@ public class Complex implements FieldElement<Complex>, Serializable  {
      * @see #pow(Complex)
      */
      public Complex pow(double x) {
+        if (real == 0 && imaginary == 0) {
+            if (x > 0) {
+                // 0 raised to positive number is 0
+                return ZERO;
+            } else {
+                // 0 raised to anything else is NaN
+                return NaN;
+            }
+        }
         return this.log().multiply(x).exp();
     }
 
