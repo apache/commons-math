@@ -16,6 +16,7 @@
  */
 package org.apache.commons.math4.geometry.euclidean.oned;
 
+import org.apache.commons.math4.geometry.GeometryTestUtils;
 import org.apache.commons.math4.geometry.euclidean.oned.Interval;
 import org.apache.commons.math4.geometry.partitioning.Region;
 import org.apache.commons.math4.util.FastMath;
@@ -114,8 +115,8 @@ public class IntervalTest {
             Assert.assertEquals(Region.Location.INSIDE,
                                 interval.checkPoint(-1 * FastMath.pow(10.0, e), TEST_TOLERANCE));
         }
-        Assert.assertEquals(Double.POSITIVE_INFINITY, interval.getSize(), TEST_TOLERANCE);
-        Assert.assertEquals(Double.NEGATIVE_INFINITY, interval.getInf(), TEST_TOLERANCE);
+        GeometryTestUtils.assertPositiveInfinity(interval.getSize());
+        GeometryTestUtils.assertNegativeInfinity(interval.getInf());
         Assert.assertEquals(9.0, interval.getSup(), TEST_TOLERANCE);
     }
 
@@ -131,9 +132,9 @@ public class IntervalTest {
             Assert.assertEquals(Region.Location.INSIDE,
                                 interval.checkPoint(FastMath.pow(10.0, e), TEST_TOLERANCE));
         }
-        Assert.assertEquals(Double.POSITIVE_INFINITY, interval.getSize(), TEST_TOLERANCE);
+        GeometryTestUtils.assertPositiveInfinity(interval.getSize());
         Assert.assertEquals(9.0, interval.getInf(), TEST_TOLERANCE);
-        Assert.assertEquals(Double.POSITIVE_INFINITY, interval.getSup(), TEST_TOLERANCE);
+        GeometryTestUtils.assertPositiveInfinity(interval.getSup());
     }
 
     @Test
@@ -146,9 +147,9 @@ public class IntervalTest {
             Assert.assertEquals(Region.Location.INSIDE,
                                 interval.checkPoint(FastMath.pow(10.0, e), TEST_TOLERANCE));
         }
-        Assert.assertEquals(Double.POSITIVE_INFINITY, interval.getSize(), TEST_TOLERANCE);
-        Assert.assertEquals(Double.NEGATIVE_INFINITY, interval.getInf(), TEST_TOLERANCE);
-        Assert.assertEquals(Double.POSITIVE_INFINITY, interval.getSup(), TEST_TOLERANCE);
+        GeometryTestUtils.assertPositiveInfinity(interval.getSize());
+        GeometryTestUtils.assertNegativeInfinity(interval.getInf());
+        GeometryTestUtils.assertPositiveInfinity(interval.getSup());
     }
 
     @Test
@@ -167,8 +168,8 @@ public class IntervalTest {
         Interval interval = new Interval(Double.POSITIVE_INFINITY, Double.POSITIVE_INFINITY);
 
         // assert
-        Assert.assertEquals(Double.NaN, interval.getSize(), Precision.SAFE_MIN); // inf - inf = NaN according to floating point spec
-        Assert.assertEquals(Double.POSITIVE_INFINITY, interval.getBarycenter(), Precision.EPSILON);
+        Assert.assertTrue(Double.isNaN(interval.getSize())); // inf - inf = NaN according to floating point spec
+        GeometryTestUtils.assertPositiveInfinity(interval.getBarycenter());
     }
 
     @Test
@@ -177,7 +178,7 @@ public class IntervalTest {
         Interval interval = new Interval(Double.NEGATIVE_INFINITY, Double.NEGATIVE_INFINITY);
 
         // assert
-        Assert.assertEquals(Double.NaN, interval.getSize(), Precision.SAFE_MIN); // inf - inf = NaN according to floating point spec
-        Assert.assertEquals(Double.NEGATIVE_INFINITY, interval.getBarycenter(), Precision.EPSILON);
+        Assert.assertTrue(Double.isNaN(interval.getSize())); // inf - inf = NaN according to floating point spec
+        GeometryTestUtils.assertNegativeInfinity(interval.getBarycenter());
     }
 }

@@ -41,9 +41,9 @@ public class IntervalsSetTest {
 
         // assert
         Assert.assertEquals(TEST_TOLERANCE, set.getTolerance(), Precision.SAFE_MIN);
-        Assert.assertEquals(Double.NEGATIVE_INFINITY, set.getInf(), TEST_TOLERANCE);
-        Assert.assertEquals(Double.POSITIVE_INFINITY, set.getSup(), TEST_TOLERANCE);
-        Assert.assertEquals(Double.POSITIVE_INFINITY, set.getSize(), TEST_TOLERANCE);
+        GeometryTestUtils.assertNegativeInfinity(set.getInf());
+        GeometryTestUtils.assertPositiveInfinity(set.getSup());
+        GeometryTestUtils.assertPositiveInfinity(set.getSize());
         Assert.assertEquals(0.0, set.getBoundarySize(), TEST_TOLERANCE);
         GeometryTestUtils.assertVectorEquals(Cartesian1D.NaN, (Cartesian1D) set.getBarycenter(), TEST_TOLERANCE);
 
@@ -69,9 +69,9 @@ public class IntervalsSetTest {
 
         // assert
         Assert.assertEquals(TEST_TOLERANCE, set.getTolerance(), Precision.SAFE_MIN);
-        Assert.assertEquals(Double.NEGATIVE_INFINITY, set.getInf(), TEST_TOLERANCE);
-        Assert.assertEquals(Double.POSITIVE_INFINITY, set.getSup(), TEST_TOLERANCE);
-        Assert.assertEquals(Double.POSITIVE_INFINITY, set.getSize(), TEST_TOLERANCE);
+        GeometryTestUtils.assertNegativeInfinity(set.getInf());
+        GeometryTestUtils.assertPositiveInfinity(set.getSup());
+        GeometryTestUtils.assertPositiveInfinity(set.getSize());
         Assert.assertEquals(0.0, set.getBoundarySize(), TEST_TOLERANCE);
         GeometryTestUtils.assertVectorEquals(Cartesian1D.NaN, (Cartesian1D) set.getBarycenter(), TEST_TOLERANCE);
 
@@ -98,8 +98,8 @@ public class IntervalsSetTest {
         // assert
         Assert.assertEquals(TEST_TOLERANCE, set.getTolerance(), Precision.SAFE_MIN);
         Assert.assertEquals(9.0, set.getInf(), TEST_TOLERANCE);
-        Assert.assertEquals(Double.POSITIVE_INFINITY, set.getSup(), TEST_TOLERANCE);
-        Assert.assertEquals(Double.POSITIVE_INFINITY, set.getSize(), TEST_TOLERANCE);
+        GeometryTestUtils.assertPositiveInfinity(set.getSup());
+        GeometryTestUtils.assertPositiveInfinity(set.getSize());
         Assert.assertEquals(0.0, set.getBoundarySize(), TEST_TOLERANCE);
         GeometryTestUtils.assertVectorEquals(Cartesian1D.NaN, (Cartesian1D) set.getBarycenter(), TEST_TOLERANCE);
 
@@ -122,9 +122,9 @@ public class IntervalsSetTest {
 
         // assert
         Assert.assertEquals(TEST_TOLERANCE, set.getTolerance(), Precision.SAFE_MIN);
-        Assert.assertEquals(Double.NEGATIVE_INFINITY, set.getInf(), TEST_TOLERANCE);
+        GeometryTestUtils.assertNegativeInfinity(set.getInf());
         Assert.assertEquals(9.0, set.getSup(), TEST_TOLERANCE);
-        Assert.assertEquals(Double.POSITIVE_INFINITY, set.getSize(), TEST_TOLERANCE);
+        GeometryTestUtils.assertPositiveInfinity(set.getSize());
         Assert.assertEquals(0.0, set.getBoundarySize(), TEST_TOLERANCE);
         GeometryTestUtils.assertVectorEquals(Cartesian1D.NaN, (Cartesian1D) set.getBarycenter(), TEST_TOLERANCE);
 
@@ -200,9 +200,9 @@ public class IntervalsSetTest {
 
         // assert
         Assert.assertEquals(TEST_TOLERANCE, set.getTolerance(), Precision.SAFE_MIN);
-        Assert.assertEquals(Double.NEGATIVE_INFINITY, set.getInf(), TEST_TOLERANCE);
-        Assert.assertEquals(Double.POSITIVE_INFINITY, set.getSup(), TEST_TOLERANCE);
-        Assert.assertEquals(Double.POSITIVE_INFINITY, set.getSize(), TEST_TOLERANCE);
+        GeometryTestUtils.assertNegativeInfinity(set.getInf());
+        GeometryTestUtils.assertPositiveInfinity(set.getSup());
+        GeometryTestUtils.assertPositiveInfinity(set.getSize());
         Assert.assertEquals(0.0, set.getBoundarySize(), TEST_TOLERANCE);
         GeometryTestUtils.assertVectorEquals(Cartesian1D.NaN, (Cartesian1D) set.getBarycenter(), TEST_TOLERANCE);
 
@@ -233,8 +233,8 @@ public class IntervalsSetTest {
         // assert
         Assert.assertEquals(TEST_TOLERANCE, set.getTolerance(), Precision.SAFE_MIN);
         Assert.assertEquals(9.0, set.getInf(), TEST_TOLERANCE);
-        Assert.assertEquals(Double.POSITIVE_INFINITY, set.getSup(), TEST_TOLERANCE);
-        Assert.assertEquals(Double.POSITIVE_INFINITY, set.getSize(), TEST_TOLERANCE);
+        GeometryTestUtils.assertPositiveInfinity(set.getSup());
+        GeometryTestUtils.assertPositiveInfinity(set.getSize());
         Assert.assertEquals(0.0, set.getBoundarySize(), TEST_TOLERANCE);
         GeometryTestUtils.assertVectorEquals(Cartesian1D.NaN, (Cartesian1D) set.getBarycenter(), TEST_TOLERANCE);
 
@@ -261,9 +261,9 @@ public class IntervalsSetTest {
 
         // assert
         Assert.assertEquals(TEST_TOLERANCE, set.getTolerance(), Precision.SAFE_MIN);
-        Assert.assertEquals(Double.NEGATIVE_INFINITY, set.getInf(), TEST_TOLERANCE);
+        GeometryTestUtils.assertNegativeInfinity(set.getInf());
         Assert.assertEquals(9.0, set.getSup(), TEST_TOLERANCE);
-        Assert.assertEquals(Double.POSITIVE_INFINITY, set.getSize(), TEST_TOLERANCE);
+        GeometryTestUtils.assertPositiveInfinity(set.getSize());
         Assert.assertEquals(0.0, set.getBoundarySize(), TEST_TOLERANCE);
         GeometryTestUtils.assertVectorEquals(Cartesian1D.NaN, (Cartesian1D) set.getBarycenter(), TEST_TOLERANCE);
 
@@ -362,9 +362,9 @@ public class IntervalsSetTest {
 
         // assert
         Assert.assertEquals(TEST_TOLERANCE, set.getTolerance(), Precision.SAFE_MIN);
-        Assert.assertEquals(Double.NEGATIVE_INFINITY, set.getInf(), TEST_TOLERANCE);
-        Assert.assertEquals(Double.POSITIVE_INFINITY, set.getSup(), TEST_TOLERANCE);
-        Assert.assertEquals(Double.POSITIVE_INFINITY, set.getSize(), TEST_TOLERANCE);
+        GeometryTestUtils.assertNegativeInfinity(set.getInf());
+        GeometryTestUtils.assertPositiveInfinity(set.getSup());
+        GeometryTestUtils.assertPositiveInfinity(set.getSize());
         Assert.assertEquals(0.0, set.getBoundarySize(), TEST_TOLERANCE);
         GeometryTestUtils.assertVectorEquals(new Cartesian1D(Double.NaN), (Cartesian1D) set.getBarycenter(), TEST_TOLERANCE);
 
@@ -403,9 +403,9 @@ public class IntervalsSetTest {
 
         // assert
         Assert.assertEquals(tolerance, set.getTolerance(), Precision.SAFE_MIN);
-        Assert.assertEquals(Double.NEGATIVE_INFINITY, set.getInf(), TEST_TOLERANCE);
+        GeometryTestUtils.assertNegativeInfinity(set.getInf());
         Assert.assertEquals(first, set.getSup(), TEST_TOLERANCE);
-        Assert.assertEquals(Double.POSITIVE_INFINITY, set.getSize(), TEST_TOLERANCE);
+        GeometryTestUtils.assertPositiveInfinity(set.getSize());
         Assert.assertEquals(0.0, set.getBoundarySize(), TEST_TOLERANCE);
         GeometryTestUtils.assertVectorEquals(Cartesian1D.NaN, (Cartesian1D) set.getBarycenter(), TEST_TOLERANCE);
 
@@ -434,8 +434,8 @@ public class IntervalsSetTest {
         // assert
         Assert.assertEquals(tolerance, set.getTolerance(), Precision.SAFE_MIN);
         Assert.assertEquals(first, set.getInf(), TEST_TOLERANCE);
-        Assert.assertEquals(Double.POSITIVE_INFINITY, set.getSup(), TEST_TOLERANCE);
-        Assert.assertEquals(Double.POSITIVE_INFINITY, set.getSize(), TEST_TOLERANCE);
+        GeometryTestUtils.assertPositiveInfinity(set.getSup());
+        GeometryTestUtils.assertPositiveInfinity(set.getSize());
         Assert.assertEquals(0.0, set.getBoundarySize(), TEST_TOLERANCE);
         GeometryTestUtils.assertVectorEquals(Cartesian1D.NaN, (Cartesian1D) set.getBarycenter(), TEST_TOLERANCE);
 

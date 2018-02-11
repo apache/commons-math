@@ -18,6 +18,7 @@ package org.apache.commons.math4.geometry.euclidean.oned;
 
 import org.junit.Test;
 import org.apache.commons.math3.util.Precision;
+import org.apache.commons.math4.geometry.GeometryTestUtils;
 import org.apache.commons.math4.geometry.Point;
 import org.apache.commons.math4.geometry.Vector;
 import org.junit.Assert;
@@ -31,7 +32,7 @@ public class OrientedPointTest {
 
         // assert
         Assert.assertEquals(2.0, pt.getLocation().getX(), Precision.EPSILON);
-        Assert.assertEquals(true, pt.isDirect());
+        Assert.assertTrue(pt.isDirect());
         Assert.assertEquals(1e-5, pt.getTolerance(), Precision.EPSILON);
     }
 
@@ -46,7 +47,7 @@ public class OrientedPointTest {
         // assert
         Assert.assertSame(orig, copy);
         Assert.assertEquals(2.0, copy.getLocation().getX(), Precision.EPSILON);
-        Assert.assertEquals(true, copy.isDirect());
+        Assert.assertTrue(copy.isDirect());
         Assert.assertEquals(1e-5, copy.getTolerance(), Precision.EPSILON);
     }
 
@@ -132,8 +133,8 @@ public class OrientedPointTest {
         IntervalsSet set = pt.wholeSpace();
 
         // assert
-        Assert.assertEquals(Double.NEGATIVE_INFINITY, set.getInf(), Precision.EPSILON);
-        Assert.assertEquals(Double.POSITIVE_INFINITY, set.getSup(), Precision.EPSILON);
+        GeometryTestUtils.assertNegativeInfinity(set.getInf());
+        GeometryTestUtils.assertPositiveInfinity(set.getSup());
     }
 
     @Test
@@ -145,16 +146,16 @@ public class OrientedPointTest {
         OrientedPoint direct2 = new OrientedPoint(new Cartesian1D(1.0), true, 1e-5);
 
         // act/assert
-        Assert.assertEquals(true, notDirect1.sameOrientationAs(notDirect1));
-        Assert.assertEquals(true, notDirect1.sameOrientationAs(notDirect2));
-        Assert.assertEquals(true, notDirect2.sameOrientationAs(notDirect1));
+        Assert.assertTrue(notDirect1.sameOrientationAs(notDirect1));
+        Assert.assertTrue(notDirect1.sameOrientationAs(notDirect2));
+        Assert.assertTrue(notDirect2.sameOrientationAs(notDirect1));
 
-        Assert.assertEquals(true, direct1.sameOrientationAs(direct1));
-        Assert.assertEquals(true, direct1.sameOrientationAs(direct2));
-        Assert.assertEquals(true, direct2.sameOrientationAs(direct1));
+        Assert.assertTrue(direct1.sameOrientationAs(direct1));
+        Assert.assertTrue(direct1.sameOrientationAs(direct2));
+        Assert.assertTrue(direct2.sameOrientationAs(direct1));
 
-        Assert.assertEquals(false, notDirect1.sameOrientationAs(direct1));
-        Assert.assertEquals(false, direct1.sameOrientationAs(notDirect1));
+        Assert.assertFalse(notDirect1.sameOrientationAs(direct1));
+        Assert.assertFalse(direct1.sameOrientationAs(notDirect1));
     }
 
     @Test
@@ -179,7 +180,7 @@ public class OrientedPointTest {
 
         // assert
         Assert.assertEquals(2.0, pt.getLocation().getX(), Precision.EPSILON);
-        Assert.assertEquals(false, pt.isDirect());
+        Assert.assertFalse(pt.isDirect());
         Assert.assertEquals(1e-5, pt.getTolerance(), Precision.EPSILON);
 
         Assert.assertEquals(1, pt.getOffset((Vector<Euclidean1D>) new Cartesian1D(1.0)), Precision.EPSILON);
