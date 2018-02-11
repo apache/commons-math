@@ -689,9 +689,7 @@ public class PolygonsSet extends AbstractRegion<Euclidean2D, Euclidean1D> {
                             if (j < (array.length - 1)) {
                                 // current point
                                 array[j++] = segment.getEnd();
-                            }
-
-                            if (j == (array.length - 1)) {
+                            } else if (j == (array.length - 1)) {
                                 // last dummy point
                                 double x = segment.getLine().toSubSpace(segment.getStart()).getX();
                                 x += FastMath.max(1.0, FastMath.abs(x / 2));

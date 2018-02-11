@@ -191,7 +191,7 @@ public class PolygonsSetTest {
         checkPointsEqual(new Cartesian2D(0, 1), loop[1], tolerance);
         checkPointsEqual(new Cartesian2D(0, 0), loop[2], tolerance);
         checkPointsEqual(new Cartesian2D(1, 0), loop[3], tolerance);
-        checkPointsEqual(new Cartesian2D(1, 0), loop[4], tolerance);
+        checkPointsEqual(new Cartesian2D(1, 1), loop[4], tolerance);
     }
 
     @Test
