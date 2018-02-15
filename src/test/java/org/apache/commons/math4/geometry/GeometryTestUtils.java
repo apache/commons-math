@@ -19,6 +19,7 @@ package org.apache.commons.math4.geometry;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Objects;
 
 import org.apache.commons.math3.util.FastMath;
 import org.apache.commons.math4.geometry.euclidean.oned.Cartesian1D;
@@ -81,6 +82,24 @@ public class GeometryTestUtils {
         Assert.assertEquals(msg, expected.getX(), actual.getX(), tolerance);
         Assert.assertEquals(msg, expected.getY(), actual.getY(), tolerance);
         Assert.assertEquals(msg, expected.getZ(), actual.getZ(), tolerance);
+    }
+
+    /** Asserts that the given value is positive infinity.
+     * @param value
+     */
+    public static void assertPositiveInfinity(double value) {
+        String msg = "Expected value to be positive infinity but was " + value;
+        Assert.assertTrue(msg, Double.isInfinite(value));
+        Assert.assertTrue(msg, value > 0);
+    }
+
+    /** Asserts that the given value is negative infinity..
+     * @param value
+     */
+    public static void assertNegativeInfinity(double value) {
+        String msg = "Expected value to be negative infinity but was " + value;
+        Assert.assertTrue(msg, Double.isInfinite(value));
+        Assert.assertTrue(msg, value < 0);
     }
 
     /** Prints a string representation of the given 1D {@link BSPTree} to
@@ -188,7 +207,20 @@ public class GeometryTestUtils {
                 }
             }
 
-            write(node.getClass().getSimpleName() + "@" + System.identityHashCode(node) + " | ");
+            write(nodeIdString(node) + " | ");
+        }
+
+        /** Returns a short string identifier for the given node.
+         * @param node
+         * @return
+         */
+        protected String nodeIdString(BSPTree<S> node) {
+            String str = Objects.toString(node);
+            int idx = str.lastIndexOf('.');
+            if (idx > -1) {
+                return str.substring(idx + 1, str.length());
+            }
+            return str;
         }
 
         /** Adds the given string to the output.

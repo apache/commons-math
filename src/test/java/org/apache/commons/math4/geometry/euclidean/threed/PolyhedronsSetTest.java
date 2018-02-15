@@ -63,11 +63,11 @@ public class PolyhedronsSetTest {
 
         // assert
         Assert.assertEquals(TEST_TOLERANCE, polySet.getTolerance(), Precision.EPSILON);
-        Assert.assertEquals(Double.POSITIVE_INFINITY, polySet.getSize(), TEST_TOLERANCE);
+        GeometryTestUtils.assertPositiveInfinity(polySet.getSize());
         Assert.assertEquals(0.0, polySet.getBoundarySize(), TEST_TOLERANCE);
         GeometryTestUtils.assertVectorEquals(Cartesian3D.NaN, (Cartesian3D) polySet.getBarycenter(), TEST_TOLERANCE);
-        Assert.assertEquals(false, polySet.isEmpty());
-        Assert.assertEquals(true, polySet.isFull());
+        Assert.assertFalse(polySet.isEmpty());
+        Assert.assertTrue(polySet.isFull());
 
         checkPoints(Region.Location.INSIDE, polySet,
                 new Cartesian3D(-Double.MAX_VALUE, -Double.MAX_VALUE, -Double.MAX_VALUE),
@@ -87,8 +87,8 @@ public class PolyhedronsSetTest {
         Assert.assertEquals(0.0, polySet.getSize(), TEST_TOLERANCE);
         Assert.assertEquals(0.0, polySet.getBoundarySize(), TEST_TOLERANCE);
         GeometryTestUtils.assertVectorEquals(Cartesian3D.NaN, (Cartesian3D) polySet.getBarycenter(), TEST_TOLERANCE);
-        Assert.assertEquals(true, polySet.isEmpty());
-        Assert.assertEquals(false, polySet.isFull());
+        Assert.assertTrue(polySet.isEmpty());
+        Assert.assertFalse(polySet.isFull());
 
         checkPoints(Region.Location.OUTSIDE, polySet,
                 new Cartesian3D(-Double.MAX_VALUE, -Double.MAX_VALUE, -Double.MAX_VALUE),
@@ -110,11 +110,11 @@ public class PolyhedronsSetTest {
 
         // assert
         Assert.assertEquals(TEST_TOLERANCE, polySet.getTolerance(), Precision.EPSILON);
-        Assert.assertEquals(Double.POSITIVE_INFINITY, polySet.getSize(), TEST_TOLERANCE);
-        Assert.assertEquals(Double.POSITIVE_INFINITY, polySet.getBoundarySize(), TEST_TOLERANCE);
+        GeometryTestUtils.assertPositiveInfinity(polySet.getSize());
+        GeometryTestUtils.assertPositiveInfinity(polySet.getBoundarySize());
         GeometryTestUtils.assertVectorEquals(Cartesian3D.NaN, (Cartesian3D) polySet.getBarycenter(), TEST_TOLERANCE);
-        Assert.assertEquals(false, polySet.isEmpty());
-        Assert.assertEquals(false, polySet.isFull());
+        Assert.assertFalse(polySet.isEmpty());
+        Assert.assertFalse(polySet.isFull());
 
         checkPoints(Region.Location.INSIDE, polySet,
                 new Cartesian3D(-Double.MAX_VALUE, -Double.MAX_VALUE, -Double.MAX_VALUE),
@@ -136,11 +136,11 @@ public class PolyhedronsSetTest {
 
         // assert
         Assert.assertEquals(TEST_TOLERANCE, polySet.getTolerance(), Precision.EPSILON);
-        Assert.assertEquals(Double.POSITIVE_INFINITY, polySet.getSize(), TEST_TOLERANCE);
+        GeometryTestUtils.assertPositiveInfinity(polySet.getSize());
         Assert.assertEquals(6, polySet.getBoundarySize(), TEST_TOLERANCE);
         GeometryTestUtils.assertVectorEquals(Cartesian3D.NaN, (Cartesian3D) polySet.getBarycenter(), TEST_TOLERANCE);
-        Assert.assertEquals(false, polySet.isEmpty());
-        Assert.assertEquals(false, polySet.isFull());
+        Assert.assertFalse(polySet.isEmpty());
+        Assert.assertFalse(polySet.isFull());
 
         checkPoints(Region.Location.INSIDE, polySet,
                 new Cartesian3D(-Double.MAX_VALUE, -Double.MAX_VALUE, -Double.MAX_VALUE),
@@ -161,11 +161,11 @@ public class PolyhedronsSetTest {
 
         // assert
         Assert.assertEquals(TEST_TOLERANCE, polySet.getTolerance(), Precision.EPSILON);
-        Assert.assertEquals(Double.POSITIVE_INFINITY, polySet.getSize(), TEST_TOLERANCE);
+        GeometryTestUtils.assertPositiveInfinity(polySet.getSize());
         Assert.assertEquals(0.0, polySet.getBoundarySize(), TEST_TOLERANCE);
         GeometryTestUtils.assertVectorEquals(Cartesian3D.NaN, (Cartesian3D) polySet.getBarycenter(), TEST_TOLERANCE);
-        Assert.assertEquals(false, polySet.isEmpty());
-        Assert.assertEquals(true, polySet.isFull());
+        Assert.assertFalse(polySet.isEmpty());
+        Assert.assertTrue(polySet.isFull());
     }
 
     @Test
@@ -181,8 +181,8 @@ public class PolyhedronsSetTest {
         Assert.assertEquals(1.0, polySet.getSize(), TEST_TOLERANCE);
         Assert.assertEquals(6.0, polySet.getBoundarySize(), TEST_TOLERANCE);
         GeometryTestUtils.assertVectorEquals(Cartesian3D.ZERO, (Cartesian3D) polySet.getBarycenter(), TEST_TOLERANCE);
-        Assert.assertEquals(false, polySet.isEmpty());
-        Assert.assertEquals(false, polySet.isFull());
+        Assert.assertFalse(polySet.isEmpty());
+        Assert.assertFalse(polySet.isFull());
 
         checkPoints(Region.Location.OUTSIDE, polySet,
                 new Cartesian3D(-1, 0, 0),
@@ -246,8 +246,8 @@ public class PolyhedronsSetTest {
         Assert.assertEquals(2.0, polySet.getSize(), TEST_TOLERANCE);
         Assert.assertEquals(12.0, polySet.getBoundarySize(), TEST_TOLERANCE);
         GeometryTestUtils.assertVectorEquals(new Cartesian3D(1, 0, 0), (Cartesian3D) polySet.getBarycenter(), TEST_TOLERANCE);
-        Assert.assertEquals(false, polySet.isEmpty());
-        Assert.assertEquals(false, polySet.isFull());
+        Assert.assertFalse(polySet.isEmpty());
+        Assert.assertFalse(polySet.isFull());
 
         checkPoints(Region.Location.OUTSIDE, polySet,
                 new Cartesian3D(-1, 0, 0),
@@ -274,8 +274,8 @@ public class PolyhedronsSetTest {
         Assert.assertEquals(2.0, polySet.getSize(), TEST_TOLERANCE);
         Assert.assertEquals(10.0, polySet.getBoundarySize(), TEST_TOLERANCE);
         GeometryTestUtils.assertVectorEquals(new Cartesian3D(0.5, 0, 0), (Cartesian3D) polySet.getBarycenter(), TEST_TOLERANCE);
-        Assert.assertEquals(false, polySet.isEmpty());
-        Assert.assertEquals(false, polySet.isFull());
+        Assert.assertFalse(polySet.isEmpty());
+        Assert.assertFalse(polySet.isFull());
 
         checkPoints(Region.Location.OUTSIDE, polySet,
                 new Cartesian3D(-1, 0, 0),
@@ -302,8 +302,8 @@ public class PolyhedronsSetTest {
         Assert.assertEquals(2.0, polySet.getSize(), tolerance);
         Assert.assertEquals(10.0, polySet.getBoundarySize(), tolerance);
         GeometryTestUtils.assertVectorEquals(new Cartesian3D(0.5 + 5e-8, 0, 0), (Cartesian3D) polySet.getBarycenter(), TEST_TOLERANCE);
-        Assert.assertEquals(false, polySet.isEmpty());
-        Assert.assertEquals(false, polySet.isFull());
+        Assert.assertFalse(polySet.isEmpty());
+        Assert.assertFalse(polySet.isFull());
 
         checkPoints(Region.Location.OUTSIDE, polySet,
                 new Cartesian3D(-1, 0, 0),
@@ -329,8 +329,8 @@ public class PolyhedronsSetTest {
         Assert.assertEquals(2.0, polySet.getSize(), TEST_TOLERANCE);
         Assert.assertEquals(12.0, polySet.getBoundarySize(), TEST_TOLERANCE);
         GeometryTestUtils.assertVectorEquals(new Cartesian3D(0.5, 0.5, 0), (Cartesian3D) polySet.getBarycenter(), TEST_TOLERANCE);
-        Assert.assertEquals(false, polySet.isEmpty());
-        Assert.assertEquals(false, polySet.isFull());
+        Assert.assertFalse(polySet.isEmpty());
+        Assert.assertFalse(polySet.isFull());
 
         checkPoints(Region.Location.OUTSIDE, polySet,
                 new Cartesian3D(-1, 0, 0),
@@ -358,8 +358,8 @@ public class PolyhedronsSetTest {
         Assert.assertEquals(2.0, polySet.getSize(), TEST_TOLERANCE);
         Assert.assertEquals(12.0, polySet.getBoundarySize(), TEST_TOLERANCE);
         GeometryTestUtils.assertVectorEquals(new Cartesian3D(0.5, 0.5, 0.5), (Cartesian3D) polySet.getBarycenter(), TEST_TOLERANCE);
-        Assert.assertEquals(false, polySet.isEmpty());
-        Assert.assertEquals(false, polySet.isFull());
+        Assert.assertFalse(polySet.isEmpty());
+        Assert.assertFalse(polySet.isFull());
 
         checkPoints(Region.Location.OUTSIDE, polySet,
                 new Cartesian3D(-1, 0, 0),
@@ -421,13 +421,13 @@ public class PolyhedronsSetTest {
         tree = (PolyhedronsSet) new RegionFactory<Euclidean3D>().getComplement(tree);
 
         // assert
-        Assert.assertEquals(Double.POSITIVE_INFINITY, tree.getSize(), 1.0e-10);
+        GeometryTestUtils.assertPositiveInfinity(tree.getSize());
         Assert.assertEquals(6.0, tree.getBoundarySize(), 1.0e-10);
 
         Cartesian3D barycenter = (Cartesian3D) tree.getBarycenter();
-        Assert.assertEquals(Double.NaN, barycenter.getX(), 1.0e-10);
-        Assert.assertEquals(Double.NaN, barycenter.getY(), 1.0e-10);
-        Assert.assertEquals(Double.NaN, barycenter.getZ(), 1.0e-10);
+        Assert.assertTrue(Double.isNaN(barycenter.getX()));
+        Assert.assertTrue(Double.isNaN(barycenter.getY()));
+        Assert.assertTrue(Double.isNaN(barycenter.getZ()));
 
         for (double x = -0.25; x < 1.25; x += 0.1) {
             boolean xOK = (x < 0.0) || (x > 1.0);
@@ -510,8 +510,8 @@ public class PolyhedronsSetTest {
         Assert.assertEquals(sphereVolume(radius), polySet.getSize(), approximationTolerance);
         Assert.assertEquals(sphereSurface(radius), polySet.getBoundarySize(), approximationTolerance);
         GeometryTestUtils.assertVectorEquals(new Cartesian3D(1, 2, 3), (Cartesian3D) polySet.getBarycenter(), TEST_TOLERANCE);
-        Assert.assertEquals(false, polySet.isEmpty());
-        Assert.assertEquals(false, polySet.isFull());
+        Assert.assertFalse(polySet.isEmpty());
+        Assert.assertFalse(polySet.isFull());
 
         checkPoints(Region.Location.OUTSIDE, polySet,
                 new Cartesian3D(-0.1, 2, 3),
@@ -952,8 +952,8 @@ public class PolyhedronsSetTest {
                 result.getSize(), tolerance);
         Assert.assertEquals(cubeSurface(size) - circleSurface(radius) + (0.5 * sphereSurface(radius)),
                 result.getBoundarySize(), tolerance);
-        Assert.assertEquals(false, result.isEmpty());
-        Assert.assertEquals(false, result.isFull());
+        Assert.assertFalse(result.isEmpty());
+        Assert.assertFalse(result.isFull());
 
         checkPoints(Region.Location.OUTSIDE, result,
                 new Cartesian3D(-0.1, 0.5, 0.5),
@@ -987,8 +987,8 @@ public class PolyhedronsSetTest {
         Assert.assertEquals(sphereVolume(radius), result.getSize(), tolerance);
         Assert.assertEquals(sphereSurface(radius), result.getBoundarySize(), tolerance);
         GeometryTestUtils.assertVectorEquals(Cartesian3D.ZERO, (Cartesian3D) result.getBarycenter(), TEST_TOLERANCE);
-        Assert.assertEquals(false, result.isEmpty());
-        Assert.assertEquals(false, result.isFull());
+        Assert.assertFalse(result.isEmpty());
+        Assert.assertFalse(result.isFull());
 
         checkPoints(Region.Location.OUTSIDE, result,
                 new Cartesian3D(-1.1, 0, 0),
@@ -1026,8 +1026,8 @@ public class PolyhedronsSetTest {
         Assert.assertEquals((sphereVolume(radius) * 0.5), result.getSize(), tolerance);
         Assert.assertEquals(circleSurface(radius) + (0.5 * sphereSurface(radius)),
                 result.getBoundarySize(), tolerance);
-        Assert.assertEquals(false, result.isEmpty());
-        Assert.assertEquals(false, result.isFull());
+        Assert.assertFalse(result.isEmpty());
+        Assert.assertFalse(result.isFull());
 
         checkPoints(Region.Location.OUTSIDE, result,
                 new Cartesian3D(-0.1, 0.5, 1.0),
@@ -1061,8 +1061,8 @@ public class PolyhedronsSetTest {
         Assert.assertEquals(sphereVolume(radius), result.getSize(), tolerance);
         Assert.assertEquals(sphereSurface(radius), result.getBoundarySize(), tolerance);
         GeometryTestUtils.assertVectorEquals(Cartesian3D.ZERO, (Cartesian3D) result.getBarycenter(), TEST_TOLERANCE);
-        Assert.assertEquals(false, result.isEmpty());
-        Assert.assertEquals(false, result.isFull());
+        Assert.assertFalse(result.isEmpty());
+        Assert.assertFalse(result.isFull());
 
         checkPoints(Region.Location.OUTSIDE, result,
                 new Cartesian3D(-1.1, 0, 0),
@@ -1104,8 +1104,8 @@ public class PolyhedronsSetTest {
 
         // assert
         Assert.assertEquals(2 * cubeSurface(size), result.getBoundarySize(), TEST_TOLERANCE);
-        Assert.assertEquals(false, result.isEmpty());
-        Assert.assertEquals(false, result.isFull());
+        Assert.assertFalse(result.isEmpty());
+        Assert.assertFalse(result.isFull());
 
         checkPoints(Region.Location.OUTSIDE, result,
                 new Cartesian3D(-0.1, -0.1, -0.1),
@@ -1144,8 +1144,8 @@ public class PolyhedronsSetTest {
         // assert
         Assert.assertEquals(cubeSurface(size) + (sphereSurface(radius)),
                 result.getBoundarySize(), tolerance);
-        Assert.assertEquals(false, result.isEmpty());
-        Assert.assertEquals(false, result.isFull());
+        Assert.assertFalse(result.isEmpty());
+        Assert.assertFalse(result.isFull());
 
         checkPoints(Region.Location.OUTSIDE, result,
                 new Cartesian3D(-0.1, 0.5, 0.5),
@@ -1179,8 +1179,8 @@ public class PolyhedronsSetTest {
         Assert.assertEquals(0.0, result.getSize(), TEST_TOLERANCE);
         Assert.assertEquals(0.0, result.getBoundarySize(), TEST_TOLERANCE);
         GeometryTestUtils.assertVectorEquals(Cartesian3D.NaN, (Cartesian3D) result.getBarycenter(), TEST_TOLERANCE);
-        Assert.assertEquals(true, result.isEmpty());
-        Assert.assertEquals(false, result.isFull());
+        Assert.assertTrue(result.isEmpty());
+        Assert.assertFalse(result.isFull());
 
         checkPoints(Region.Location.OUTSIDE, result,
                 new Cartesian3D(-1.1, 0, 0),
@@ -1216,8 +1216,8 @@ public class PolyhedronsSetTest {
         Assert.assertEquals(cubeVolume(size) - (sphereVolume(radius) * 0.5), result.getSize(), tolerance);
         Assert.assertEquals(cubeSurface(size) - circleSurface(radius) + (0.5 * sphereSurface(radius)),
                 result.getBoundarySize(), tolerance);
-        Assert.assertEquals(false, result.isEmpty());
-        Assert.assertEquals(false, result.isFull());
+        Assert.assertFalse(result.isEmpty());
+        Assert.assertFalse(result.isFull());
 
         checkPoints(Region.Location.OUTSIDE, result,
                 new Cartesian3D(-0.1, 0.5, 1.0),
@@ -1250,8 +1250,8 @@ public class PolyhedronsSetTest {
         Assert.assertEquals(0.0, result.getSize(), TEST_TOLERANCE);
         Assert.assertEquals(0.0, result.getBoundarySize(), TEST_TOLERANCE);
         GeometryTestUtils.assertVectorEquals(Cartesian3D.NaN, (Cartesian3D) result.getBarycenter(), TEST_TOLERANCE);
-        Assert.assertEquals(true, result.isEmpty());
-        Assert.assertEquals(false, result.isFull());
+        Assert.assertTrue(result.isEmpty());
+        Assert.assertFalse(result.isFull());
 
         checkPoints(Region.Location.OUTSIDE, result,
                 new Cartesian3D(-1.1, 0, 0),
@@ -1294,8 +1294,8 @@ public class PolyhedronsSetTest {
                 result.getSize(), tolerance);
         Assert.assertEquals(cubeSurface(size) - (3.0 * circleSurface(radius)) + (1.5 * sphereSurface(radius)),
                 result.getBoundarySize(), tolerance);
-        Assert.assertEquals(false, result.isEmpty());
-        Assert.assertEquals(false, result.isFull());
+        Assert.assertFalse(result.isEmpty());
+        Assert.assertFalse(result.isFull());
 
         checkPoints(Region.Location.OUTSIDE, result,
                 new Cartesian3D(-0.1, 0.5, 0.5),
