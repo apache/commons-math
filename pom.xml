@@ -379,6 +379,12 @@
 
     <dependency>
       <groupId>org.apache.commons</groupId>
+      <artifactId>commons-numbers-complex</artifactId>
+      <version>1.0-SNAPSHOT</version>
+    </dependency>
+
+    <dependency>
+      <groupId>org.apache.commons</groupId>
       <artifactId>commons-numbers-gamma</artifactId>
       <version>1.0-SNAPSHOT</version>
     </dependency>

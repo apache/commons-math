@@ -17,14 +17,14 @@
 
 package org.apache.commons.math4.linear;
 
-import org.apache.commons.math4.complex.Complex;
+import org.apache.commons.numbers.complex.Complex;
+import org.apache.commons.numbers.core.Precision;
 import org.apache.commons.math4.exception.DimensionMismatchException;
 import org.apache.commons.math4.exception.MathArithmeticException;
 import org.apache.commons.math4.exception.MathUnsupportedOperationException;
 import org.apache.commons.math4.exception.MaxCountExceededException;
 import org.apache.commons.math4.exception.util.LocalizedFormats;
 import org.apache.commons.math4.util.FastMath;
-import org.apache.commons.numbers.core.Precision;
 
 /**
  * Calculates the eigen decomposition of a real matrix.
