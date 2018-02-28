@@ -18,12 +18,12 @@ package org.apache.commons.math4.transform;
 
 import java.io.Serializable;
 
+import org.apache.commons.numbers.complex.Complex;
+import org.apache.commons.numbers.core.ArithmeticUtils;
 import org.apache.commons.math4.analysis.FunctionUtils;
 import org.apache.commons.math4.analysis.UnivariateFunction;
-import org.apache.commons.math4.complex.Complex;
 import org.apache.commons.math4.exception.MathIllegalArgumentException;
 import org.apache.commons.math4.exception.util.LocalizedFormats;
-import org.apache.commons.numbers.core.ArithmeticUtils;
 import org.apache.commons.math4.util.FastMath;
 
 /**

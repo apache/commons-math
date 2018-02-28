@@ -18,10 +18,10 @@ package org.apache.commons.math4.transform;
 
 import java.util.Random;
 
+import org.apache.commons.numbers.complex.Complex;
 import org.apache.commons.math4.analysis.UnivariateFunction;
 import org.apache.commons.math4.analysis.function.Sin;
 import org.apache.commons.math4.analysis.function.Sinc;
-import org.apache.commons.math4.complex.Complex;
 import org.apache.commons.math4.exception.MathIllegalArgumentException;
 import org.apache.commons.math4.exception.NotStrictlyPositiveException;
 import org.apache.commons.math4.exception.NumberIsTooLargeException;

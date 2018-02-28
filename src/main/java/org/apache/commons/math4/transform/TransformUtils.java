@@ -18,7 +18,7 @@ package org.apache.commons.math4.transform;
 
 import java.util.Arrays;
 
-import org.apache.commons.math4.complex.Complex;
+import org.apache.commons.numbers.complex.Complex;
 import org.apache.commons.math4.exception.DimensionMismatchException;
 import org.apache.commons.math4.exception.MathIllegalArgumentException;
 import org.apache.commons.math4.exception.util.LocalizedFormats;
