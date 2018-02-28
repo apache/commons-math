@@ -22,6 +22,7 @@ import java.text.NumberFormat;
 import java.text.ParsePosition;
 import java.util.Locale;
 
+import org.apache.commons.numbers.complex.Complex;
 import org.apache.commons.math4.exception.MathIllegalArgumentException;
 import org.apache.commons.math4.exception.MathParseException;
 import org.apache.commons.math4.exception.NoDataException;

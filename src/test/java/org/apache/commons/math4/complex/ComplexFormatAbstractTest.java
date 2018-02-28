@@ -22,14 +22,12 @@ import java.text.NumberFormat;
 import java.text.ParsePosition;
 import java.util.Arrays;
 import java.util.Locale;
-
+import org.junit.Test;
+import org.junit.Assert;
+import org.apache.commons.numbers.complex.Complex;
 import org.apache.commons.math4.exception.MathIllegalArgumentException;
 import org.apache.commons.math4.exception.NoDataException;
 import org.apache.commons.math4.exception.NullArgumentException;
-import org.junit.Test;
-import org.junit.Assert;
-import org.apache.commons.math4.complex.Complex;
-import org.apache.commons.math4.complex.ComplexFormat;
 import org.apache.commons.math4.util.FastMath;
 
 public abstract class ComplexFormatAbstractTest {

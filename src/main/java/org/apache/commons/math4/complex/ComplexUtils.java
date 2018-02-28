@@ -17,6 +17,7 @@
 
 package org.apache.commons.math4.complex;
 
+import org.apache.commons.numbers.complex.Complex;
 import org.apache.commons.math4.exception.MathIllegalArgumentException;
 import org.apache.commons.math4.exception.OutOfRangeException;
 import org.apache.commons.math4.exception.util.LocalizedFormats;

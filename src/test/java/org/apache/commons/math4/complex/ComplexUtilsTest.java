@@ -17,9 +17,8 @@
 
 package org.apache.commons.math4.complex;
 
+import org.apache.commons.numbers.complex.Complex;
 import org.apache.commons.math4.TestUtils;
-import org.apache.commons.math4.complex.Complex;
-import org.apache.commons.math4.complex.ComplexUtils;
 import org.apache.commons.math4.exception.MathIllegalArgumentException;
 import org.apache.commons.math4.util.FastMath;
 import org.apache.commons.math4.util.IntegerSequence;
@@ -218,17 +217,17 @@ public class ComplexUtilsTest {
 
     @Test
     public void testPolar2ComplexNaN() {
-        TestUtils.assertSame(Complex.NaN, ComplexUtils.polar2Complex(nan, 1));
-        TestUtils.assertSame(Complex.NaN, ComplexUtils.polar2Complex(1, nan));
-        TestUtils.assertSame(Complex.NaN, ComplexUtils.polar2Complex(nan, nan));
+        Assert.assertTrue(ComplexUtils.polar2Complex(nan, 1).isNaN());
+        Assert.assertTrue(ComplexUtils.polar2Complex(1, nan).isNaN());
+        Assert.assertTrue(ComplexUtils.polar2Complex(nan, nan).isNaN());
     }
 
     @Test
     public void testPolar2ComplexInf() {
-        TestUtils.assertSame(Complex.NaN, ComplexUtils.polar2Complex(1, inf));
-        TestUtils.assertSame(Complex.NaN, ComplexUtils.polar2Complex(1, negInf));
-        TestUtils.assertSame(Complex.NaN, ComplexUtils.polar2Complex(inf, inf));
-        TestUtils.assertSame(Complex.NaN, ComplexUtils.polar2Complex(inf, negInf));
+        Assert.assertTrue(ComplexUtils.polar2Complex(1, inf).isNaN());
+        Assert.assertTrue(ComplexUtils.polar2Complex(1, negInf).isNaN());
+        Assert.assertTrue(ComplexUtils.polar2Complex(inf, inf).isNaN());
+        Assert.assertTrue(ComplexUtils.polar2Complex(inf, negInf).isNaN());
         TestUtils.assertSame(infInf, ComplexUtils.polar2Complex(inf, pi / 4));
         TestUtils.assertSame(infNaN, ComplexUtils.polar2Complex(inf, 0));
         TestUtils.assertSame(infNegInf, ComplexUtils.polar2Complex(inf, -pi / 4));
