@@ -23,6 +23,7 @@ import org.apache.commons.math4.analysis.solvers.LaguerreSolver;
 import org.apache.commons.math4.exception.NoBracketingException;
 import org.apache.commons.math4.exception.NumberIsTooLargeException;
 import org.apache.commons.math4.util.FastMath;
+import org.apache.commons.math4.TestUtils;
 import org.junit.Assert;
 import org.junit.Test;
 
@@ -129,7 +130,7 @@ public final class LaguerreSolverTest {
                                                 new Complex(0.5, -0.5 * FastMath.sqrt(3.0)) }) {
             final double tolerance = FastMath.max(solver.getAbsoluteAccuracy(),
                                                   FastMath.abs(expected.abs() * solver.getRelativeAccuracy()));
-            assertContains(result, expected, tolerance);
+            TestUtils.assertContains(result, expected, tolerance);
         }
     }
 
@@ -156,36 +157,5 @@ public final class LaguerreSolverTest {
         } catch (NoBracketingException ex) {
             // expected
         }
-    }
-
-    /**
-     * Fails iff values does not contain a number within epsilon of z.
-     *
-     * @param msg  message to return with failure
-     * @param values complex array to search
-     * @param z  value sought
-     * @param epsilon  tolerance
-     */
-    private static void assertContains(String msg, Complex[] values,
-                                       Complex z, double epsilon) {
-        for (Complex value : values) {
-            if (Precision.equals(value.getReal(), z.getReal(), epsilon) &&
-                Precision.equals(value.getImaginary(), z.getImaginary(), epsilon)) {
-                return;
-            }
-        }
-        Assert.fail(msg + " Unable to find " + z);
-    }
-
-    /**
-     * Fails iff values does not contain a number within epsilon of z.
-     *
-     * @param values complex array to search
-     * @param z  value sought
-     * @param epsilon  tolerance
-     */
-    private static void assertContains(Complex[] values,
-                                       Complex z, double epsilon) {
-        assertContains(null, values, z, epsilon);
     }
 }
