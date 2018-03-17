@@ -149,7 +149,7 @@ public class LaguerreSolver extends AbstractPolynomialSolver {
     private double laguerre(double lo, double hi) {
         final Complex c[] = ComplexUtils.real2Complex(getCoefficients());
 
-        final Complex initial = new Complex(0.5 * (lo + hi), 0);
+        final Complex initial = Complex.ofCartesian(0.5 * (lo + hi), 0);
         final Complex z = complexSolver.solve(c, initial);
         if (complexSolver.isRoot(lo, hi, z)) {
             return z.getReal();
@@ -194,7 +194,7 @@ public class LaguerreSolver extends AbstractPolynomialSolver {
               Double.POSITIVE_INFINITY,
               initial);
         return complexSolver.solveAll(ComplexUtils.real2Complex(coefficients),
-                                      new Complex(initial, 0d));
+                                      Complex.ofCartesian(initial, 0d));
     }
 
     /**
@@ -224,7 +224,7 @@ public class LaguerreSolver extends AbstractPolynomialSolver {
               Double.POSITIVE_INFINITY,
               initial);
         return complexSolver.solve(ComplexUtils.real2Complex(coefficients),
-                                   new Complex(initial, 0d));
+                                   Complex.ofCartesian(initial, 0d));
     }
 
     /**
@@ -328,11 +328,11 @@ public class LaguerreSolver extends AbstractPolynomialSolver {
             final double relativeAccuracy = getRelativeAccuracy();
             final double functionValueAccuracy = getFunctionValueAccuracy();
 
-            final Complex nC  = new Complex(n, 0);
-            final Complex n1C = new Complex(n - 1, 0);
+            final Complex nC  = Complex.ofCartesian(n, 0);
+            final Complex n1C = Complex.ofCartesian(n - 1, 0);
 
             Complex z = initial;
-            Complex oldz = new Complex(Double.POSITIVE_INFINITY,
+            Complex oldz = Complex.ofCartesian(Double.POSITIVE_INFINITY,
                                        Double.POSITIVE_INFINITY);
             while (true) {
                 // Compute pv (polynomial value), dv (derivative value), and
@@ -345,7 +345,7 @@ public class LaguerreSolver extends AbstractPolynomialSolver {
                     dv = pv.add(z.multiply(dv));
                     pv = coefficients[j].add(z.multiply(pv));
                 }
-                d2v = d2v.multiply(new Complex(2.0, 0.0));
+                d2v = d2v.multiply(Complex.ofCartesian(2.0, 0.0));
 
                 // Check for convergence.
                 final double tolerance = FastMath.max(relativeAccuracy * z.abs(),
@@ -369,9 +369,9 @@ public class LaguerreSolver extends AbstractPolynomialSolver {
                 final Complex denominator = dplus.abs() > dminus.abs() ? dplus : dminus;
                 // Perturb z if denominator is zero, for instance,
                 // p(x) = x^3 + 1, z = 0.
-                if (denominator.equals(new Complex(0.0, 0.0))) {
-                    z = z.add(new Complex(absoluteAccuracy, absoluteAccuracy));
-                    oldz = new Complex(Double.POSITIVE_INFINITY,
+                if (denominator.equals(Complex.ofCartesian(0.0, 0.0))) {
+                    z = z.add(Complex.ofCartesian(absoluteAccuracy, absoluteAccuracy));
+                    oldz = Complex.ofCartesian(Double.POSITIVE_INFINITY,
                                        Double.POSITIVE_INFINITY);
                 } else {
                     oldz = z;

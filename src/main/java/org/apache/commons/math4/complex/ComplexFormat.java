@@ -187,7 +187,7 @@ public class ComplexFormat {
      * @return A formatted number.
      */
     public String format(Double c) {
-        return format(new Complex(c, 0), new StringBuffer(), new FieldPosition(0)).toString();
+        return format(Complex.ofCartesian(c, 0), new StringBuffer(), new FieldPosition(0)).toString();
     }
 
     /**
@@ -272,7 +272,7 @@ public class ComplexFormat {
         if (obj instanceof Complex) {
             ret = format( (Complex)obj, toAppendTo, pos);
         } else if (obj instanceof Number) {
-            ret = format(new Complex(((Number)obj).doubleValue(), 0.0),
+            ret = format(Complex.ofCartesian(((Number)obj).doubleValue(), 0.0),
                          toAppendTo, pos);
         } else {
             throw new MathIllegalArgumentException(LocalizedFormats.CANNOT_FORMAT_INSTANCE_AS_COMPLEX,
@@ -389,7 +389,7 @@ public class ComplexFormat {
         case 0 :
             // no sign
             // return real only complex number
-            return new Complex(re.doubleValue(), 0.0);
+            return Complex.ofCartesian(re.doubleValue(), 0.0);
         case '-' :
             sign = -1;
             break;
@@ -422,7 +422,7 @@ public class ComplexFormat {
             return null;
         }
 
-        return new Complex(re.doubleValue(), im.doubleValue() * sign);
+        return Complex.ofCartesian(re.doubleValue(), im.doubleValue() * sign);
 
     }
 }
