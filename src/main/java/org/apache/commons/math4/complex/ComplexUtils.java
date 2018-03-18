@@ -37,10 +37,7 @@ public class ComplexUtils {
 
     /**
      * Creates a complex number from the given polar representation.
-     * <p>
-     * If either {@code r} or {@code theta} is NaN, or {@code theta} is
-     * infinite, {@link Complex#NaN} is returned.
-     * <p>
+     *
      * If {@code r} is infinite and {@code theta} is finite, infinite or NaN
      * values may be returned in parts of the result, following the rules for
      * double arithmetic.

@@ -26,10 +26,7 @@ import org.apache.commons.math4.exception.NotStrictlyPositiveException;
  * <p>
  * Such transforms include {@link FastSineTransformer sine transform},
  * {@link FastCosineTransformer cosine transform} or {@link
- * FastHadamardTransformer Hadamard transform}. {@link FastFourierTransformer
- * Fourier transform} is of a different kind and does not implement this
- * interface since it produces {@link org.apache.commons.math4.complex.Complex}
- * results instead of real ones.
+ * FastHadamardTransformer Hadamard transform}.
  *
  * @since 2.0
  */
