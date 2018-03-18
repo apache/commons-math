@@ -46,7 +46,7 @@ public abstract class ComplexFormatAbstractTest {
 
     @Test
     public void testSimpleNoDecimals() {
-        Complex c = new Complex(1, 2);
+        Complex c = Complex.ofCartesian(1, 2);
         String expected = "1 + 2i";
         String actual = complexFormat.format(c);
         Assert.assertEquals(expected, actual);
@@ -57,22 +57,22 @@ public abstract class ComplexFormatAbstractTest {
         final ComplexFormat fmt = ComplexFormat.getInstance(getLocale());
         fmt.getImaginaryFormat().setMaximumFractionDigits(1);
 
-        Complex c = new Complex(1, 1.04);
+        Complex c = Complex.ofCartesian(1, 1.04);
         String expected = "1 + i";
         String actual = fmt.format(c);
         Assert.assertEquals(expected, actual);
 
-        c = new Complex(1, 1.09);
+        c = Complex.ofCartesian(1, 1.09);
         expected = "1 + 1" + getDecimalCharacter() + "1i";
         actual = fmt.format(c);
         Assert.assertEquals(expected, actual);
 
-        c = new Complex(1, -1.09);
+        c = Complex.ofCartesian(1, -1.09);
         expected = "1 - 1" + getDecimalCharacter() + "1i";
         actual = fmt.format(c);
         Assert.assertEquals(expected, actual);
 
-        c = new Complex(1, -1.04);
+        c = Complex.ofCartesian(1, -1.04);
         expected = "1 - i";
         actual = fmt.format(c);
         Assert.assertEquals(expected, actual);
@@ -80,7 +80,7 @@ public abstract class ComplexFormatAbstractTest {
 
     @Test
     public void testSimpleWithDecimals() {
-        Complex c = new Complex(1.23, 1.43);
+        Complex c = Complex.ofCartesian(1.23, 1.43);
         String expected = "1" + getDecimalCharacter() + "23 + 1" + getDecimalCharacter() + "43i";
         String actual = complexFormat.format(c);
         Assert.assertEquals(expected, actual);
@@ -88,7 +88,7 @@ public abstract class ComplexFormatAbstractTest {
 
     @Test
     public void testSimpleWithDecimalsTrunc() {
-        Complex c = new Complex(1.232323232323, 1.434343434343);
+        Complex c = Complex.ofCartesian(1.232323232323, 1.434343434343);
         String expected = "1" + getDecimalCharacter() + "2323232323 + 1" + getDecimalCharacter() + "4343434343i";
         String actual = complexFormat.format(c);
         Assert.assertEquals(expected, actual);
@@ -96,7 +96,7 @@ public abstract class ComplexFormatAbstractTest {
 
     @Test
     public void testNegativeReal() {
-        Complex c = new Complex(-1.232323232323, 1.43);
+        Complex c = Complex.ofCartesian(-1.232323232323, 1.43);
         String expected = "-1" + getDecimalCharacter() + "2323232323 + 1" + getDecimalCharacter() + "43i";
         String actual = complexFormat.format(c);
         Assert.assertEquals(expected, actual);
@@ -104,7 +104,7 @@ public abstract class ComplexFormatAbstractTest {
 
     @Test
     public void testNegativeImaginary() {
-        Complex c = new Complex(1.23, -1.434343434343);
+        Complex c = Complex.ofCartesian(1.23, -1.434343434343);
         String expected = "1" + getDecimalCharacter() + "23 - 1" + getDecimalCharacter() + "4343434343i";
         String actual = complexFormat.format(c);
         Assert.assertEquals(expected, actual);
@@ -112,7 +112,7 @@ public abstract class ComplexFormatAbstractTest {
 
     @Test
     public void testNegativeBoth() {
-        Complex c = new Complex(-1.232323232323, -1.434343434343);
+        Complex c = Complex.ofCartesian(-1.232323232323, -1.434343434343);
         String expected = "-1" + getDecimalCharacter() + "2323232323 - 1" + getDecimalCharacter() + "4343434343i";
         String actual = complexFormat.format(c);
         Assert.assertEquals(expected, actual);
@@ -120,7 +120,7 @@ public abstract class ComplexFormatAbstractTest {
 
     @Test
     public void testZeroReal() {
-        Complex c = new Complex(0.0, -1.434343434343);
+        Complex c = Complex.ofCartesian(0.0, -1.434343434343);
         String expected = "0 - 1" + getDecimalCharacter() + "4343434343i";
         String actual = complexFormat.format(c);
         Assert.assertEquals(expected, actual);
@@ -128,7 +128,7 @@ public abstract class ComplexFormatAbstractTest {
 
     @Test
     public void testZeroImaginary() {
-        Complex c = new Complex(30.23333333333, 0);
+        Complex c = Complex.ofCartesian(30.23333333333, 0);
         String expected = "30" + getDecimalCharacter() + "2333333333";
         String actual = complexFormat.format(c);
         Assert.assertEquals(expected, actual);
@@ -136,7 +136,7 @@ public abstract class ComplexFormatAbstractTest {
 
     @Test
     public void testDifferentImaginaryChar() {
-        Complex c = new Complex(1, 1);
+        Complex c = Complex.ofCartesian(1, 1);
         String expected = "1 + j";
         String actual = complexFormatJ.format(c);
         Assert.assertEquals(expected, actual);
@@ -147,7 +147,7 @@ public abstract class ComplexFormatAbstractTest {
         Locale defaultLocal = Locale.getDefault();
         Locale.setDefault(getLocale());
 
-        Complex c = new Complex(232.22222222222, -342.3333333333);
+        Complex c = Complex.ofCartesian(232.22222222222, -342.3333333333);
         String expected = "232" + getDecimalCharacter() + "2222222222 - 342" + getDecimalCharacter() + "3333333333i";
         String actual = (new ComplexFormat()).format(c);
         Assert.assertEquals(expected, actual);
@@ -157,7 +157,7 @@ public abstract class ComplexFormatAbstractTest {
 
     @Test
     public void testNan() {
-        Complex c = new Complex(Double.NaN, Double.NaN);
+        Complex c = Complex.ofCartesian(Double.NaN, Double.NaN);
         String expected = "(NaN) + (NaN)i";
         String actual = complexFormat.format(c);
         Assert.assertEquals(expected, actual);
@@ -165,7 +165,7 @@ public abstract class ComplexFormatAbstractTest {
 
     @Test
     public void testPositiveInfinity() {
-        Complex c = new Complex(Double.POSITIVE_INFINITY, Double.POSITIVE_INFINITY);
+        Complex c = Complex.ofCartesian(Double.POSITIVE_INFINITY, Double.POSITIVE_INFINITY);
         String expected = "(Infinity) + (Infinity)i";
         String actual = complexFormat.format(c);
         Assert.assertEquals(expected, actual);
@@ -173,7 +173,7 @@ public abstract class ComplexFormatAbstractTest {
 
     @Test
     public void testNegativeInfinity() {
-        Complex c = new Complex(Double.NEGATIVE_INFINITY, Double.NEGATIVE_INFINITY);
+        Complex c = Complex.ofCartesian(Double.NEGATIVE_INFINITY, Double.NEGATIVE_INFINITY);
         String expected = "(-Infinity) - (Infinity)i";
         String actual = complexFormat.format(c);
         Assert.assertEquals(expected, actual);
@@ -182,7 +182,7 @@ public abstract class ComplexFormatAbstractTest {
     @Test
     public void testParseSimpleNoDecimals() {
         String source = "1 + 1i";
-        Complex expected = new Complex(1, 1);
+        Complex expected = Complex.ofCartesian(1, 1);
         Complex actual = complexFormat.parse(source);
         Assert.assertEquals(expected, actual);
     }
@@ -190,7 +190,7 @@ public abstract class ComplexFormatAbstractTest {
     @Test
     public void testParseSimpleWithDecimals() {
         String source = "1" + getDecimalCharacter() + "23 + 1" + getDecimalCharacter() + "43i";
-        Complex expected = new Complex(1.23, 1.43);
+        Complex expected = Complex.ofCartesian(1.23, 1.43);
         Complex actual = complexFormat.parse(source);
         Assert.assertEquals(expected, actual);
     }
@@ -198,7 +198,7 @@ public abstract class ComplexFormatAbstractTest {
     @Test
     public void testParseSimpleWithDecimalsTrunc() {
         String source = "1" + getDecimalCharacter() + "232323232323 + 1" + getDecimalCharacter() + "434343434343i";
-        Complex expected = new Complex(1.232323232323, 1.434343434343);
+        Complex expected = Complex.ofCartesian(1.232323232323, 1.434343434343);
         Complex actual = complexFormat.parse(source);
         Assert.assertEquals(expected, actual);
     }
@@ -206,7 +206,7 @@ public abstract class ComplexFormatAbstractTest {
     @Test
     public void testParseNegativeReal() {
         String source = "-1" + getDecimalCharacter() + "232323232323 + 1" + getDecimalCharacter() + "4343i";
-        Complex expected = new Complex(-1.232323232323, 1.4343);
+        Complex expected = Complex.ofCartesian(-1.232323232323, 1.4343);
         Complex actual = complexFormat.parse(source);
         Assert.assertEquals(expected, actual);
     }
@@ -214,7 +214,7 @@ public abstract class ComplexFormatAbstractTest {
     @Test
     public void testParseNegativeImaginary() {
         String source = "1" + getDecimalCharacter() + "2323 - 1" + getDecimalCharacter() + "434343434343i";
-        Complex expected = new Complex(1.2323, -1.434343434343);
+        Complex expected = Complex.ofCartesian(1.2323, -1.434343434343);
         Complex actual = complexFormat.parse(source);
         Assert.assertEquals(expected, actual);
     }
@@ -222,7 +222,7 @@ public abstract class ComplexFormatAbstractTest {
     @Test
     public void testParseNegativeBoth() {
         String source = "-1" + getDecimalCharacter() + "232323232323 - 1" + getDecimalCharacter() + "434343434343i";
-        Complex expected = new Complex(-1.232323232323, -1.434343434343);
+        Complex expected = Complex.ofCartesian(-1.232323232323, -1.434343434343);
         Complex actual = complexFormat.parse(source);
         Assert.assertEquals(expected, actual);
     }
@@ -230,7 +230,7 @@ public abstract class ComplexFormatAbstractTest {
     @Test
     public void testParseZeroReal() {
         String source = "0" + getDecimalCharacter() + "0 - 1" + getDecimalCharacter() + "4343i";
-        Complex expected = new Complex(0.0, -1.4343);
+        Complex expected = Complex.ofCartesian(0.0, -1.4343);
         Complex actual = complexFormat.parse(source);
         Assert.assertEquals(expected, actual);
     }
@@ -238,7 +238,7 @@ public abstract class ComplexFormatAbstractTest {
     @Test
     public void testParseZeroImaginary() {
         String source = "-1" + getDecimalCharacter() + "2323";
-        Complex expected = new Complex(-1.2323, 0);
+        Complex expected = Complex.ofCartesian(-1.2323, 0);
         Complex actual = complexFormat.parse(source);
         Assert.assertEquals(expected, actual);
     }
@@ -246,7 +246,7 @@ public abstract class ComplexFormatAbstractTest {
     @Test
     public void testParseDifferentImaginaryChar() {
         String source = "-1" + getDecimalCharacter() + "2323 - 1" + getDecimalCharacter() + "4343j";
-        Complex expected = new Complex(-1.2323, -1.4343);
+        Complex expected = Complex.ofCartesian(-1.2323, -1.4343);
         Complex actual = complexFormatJ.parse(source);
         Assert.assertEquals(expected, actual);
     }
@@ -254,7 +254,7 @@ public abstract class ComplexFormatAbstractTest {
     @Test
     public void testParseNan() {
         String source = "(NaN) + (NaN)i";
-        Complex expected = new Complex(Double.NaN, Double.NaN);
+        Complex expected = Complex.ofCartesian(Double.NaN, Double.NaN);
         Complex actual = complexFormat.parse(source);
         Assert.assertEquals(expected, actual);
     }
@@ -262,7 +262,7 @@ public abstract class ComplexFormatAbstractTest {
     @Test
     public void testParsePositiveInfinity() {
         String source = "(Infinity) + (Infinity)i";
-        Complex expected = new Complex(Double.POSITIVE_INFINITY, Double.POSITIVE_INFINITY);
+        Complex expected = Complex.ofCartesian(Double.POSITIVE_INFINITY, Double.POSITIVE_INFINITY);
         Complex actual = complexFormat.parse(source);
         Assert.assertEquals(expected, actual);
     }
@@ -270,7 +270,7 @@ public abstract class ComplexFormatAbstractTest {
     @Test
     public void testPaseNegativeInfinity() {
         String source = "(-Infinity) - (Infinity)i";
-        Complex expected = new Complex(Double.NEGATIVE_INFINITY, Double.NEGATIVE_INFINITY);
+        Complex expected = Complex.ofCartesian(Double.NEGATIVE_INFINITY, Double.NEGATIVE_INFINITY);
         Complex actual = complexFormat.parse(source);
         Assert.assertEquals(expected, actual);
     }
@@ -356,7 +356,7 @@ public abstract class ComplexFormatAbstractTest {
     public void testFormatObjectStringBufferFieldPositionWithComplex() {
         ComplexFormat cf = ComplexFormat.getInstance(getLocale());
         String source = "1" + getDecimalCharacter() + "23 + 1" + getDecimalCharacter() + "43i";
-        Object expected = new Complex(1.23, 1.43);
+        Object expected = Complex.ofCartesian(1.23, 1.43);
         String formatted = cf.format(expected, new StringBuffer(), new FieldPosition(0)).toString();
         Assert.assertEquals(source, formatted);
     }

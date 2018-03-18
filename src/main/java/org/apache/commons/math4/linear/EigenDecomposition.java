@@ -754,7 +754,7 @@ public class EigenDecomposition {
      */
     private Complex cdiv(final double xr, final double xi,
                          final double yr, final double yi) {
-        return new Complex(xr, xi).divide(new Complex(yr, yi));
+        return Complex.ofCartesian(xr, xi).divide(Complex.ofCartesian(yr, yi));
     }
 
     /**

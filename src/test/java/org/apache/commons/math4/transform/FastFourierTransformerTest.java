@@ -174,7 +174,7 @@ public final class FastFourierTransformerTest {
         for (int i = 0; i < n; i++) {
             final double re = 2.0 * random.nextDouble() - 1.0;
             final double im = 2.0 * random.nextDouble() - 1.0;
-            data[i] = new Complex(re, im);
+            data[i] = Complex.ofCartesian(re, im);
         }
         return data;
     }
@@ -211,7 +211,7 @@ public final class FastFourierTransformerTest {
                 yr += c * xr - sgn * s * xi;
                 yi += sgn * s * xr + c * xi;
             }
-            y[i] = new Complex(yr, yi);
+            y[i] = Complex.ofCartesian(yr, yi);
         }
         return y;
     }
@@ -260,7 +260,7 @@ public final class FastFourierTransformerTest {
         final double[] x = createRealData(n);
         final Complex[] xc = new Complex[n];
         for (int i = 0; i < n; i++) {
-            xc[i] = new Complex(x[i], 0.0);
+            xc[i] = Complex.ofCartesian(x[i], 0.0);
         }
         final Complex[] expected;
         final double s;
@@ -301,7 +301,7 @@ public final class FastFourierTransformerTest {
         final Complex[] x = new Complex[n];
         for (int i = 0; i < n; i++) {
             final double t = min + i * (max - min) / n;
-            x[i] = new Complex(f.value(t));
+            x[i] = Complex.ofCartesian(f.value(t));
         }
         final Complex[] expected;
         final double s;
@@ -411,14 +411,14 @@ public final class FastFourierTransformerTest {
 
         double x[] = {1.3, 2.4, 1.7, 4.1, 2.9, 1.7, 5.1, 2.7};
         Complex y[] = {
-            new Complex(21.9, 0.0),
-            new Complex(-2.09497474683058, 1.91507575950825),
-            new Complex(-2.6, 2.7),
-            new Complex(-1.10502525316942, -4.88492424049175),
-            new Complex(0.1, 0.0),
-            new Complex(-1.10502525316942, 4.88492424049175),
-            new Complex(-2.6, -2.7),
-            new Complex(-2.09497474683058, -1.91507575950825)};
+            Complex.ofCartesian(21.9, 0.0),
+            Complex.ofCartesian(-2.09497474683058, 1.91507575950825),
+            Complex.ofCartesian(-2.6, 2.7),
+            Complex.ofCartesian(-1.10502525316942, -4.88492424049175),
+            Complex.ofCartesian(0.1, 0.0),
+            Complex.ofCartesian(-1.10502525316942, 4.88492424049175),
+            Complex.ofCartesian(-2.6, -2.7),
+            Complex.ofCartesian(-2.09497474683058, -1.91507575950825)};
 
         result = transformer.transform(x, TransformType.FORWARD);
         for (int i = 0; i < result.length; i++) {

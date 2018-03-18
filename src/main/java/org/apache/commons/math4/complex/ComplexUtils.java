@@ -64,7 +64,7 @@ public class ComplexUtils {
         if (r < 0) {
             throw new MathIllegalArgumentException(LocalizedFormats.NEGATIVE_COMPLEX_MODULE, r);
         }
-        return new Complex(r * FastMath.cos(theta), r * FastMath.sin(theta));
+        return Complex.ofCartesian(r * FastMath.cos(theta), r * FastMath.sin(theta));
     }
 
     /**
@@ -85,7 +85,7 @@ public class ComplexUtils {
             if (r[x] < 0) {
                 throw new MathIllegalArgumentException(LocalizedFormats.NEGATIVE_COMPLEX_MODULE, r[x]);
             }
-            c[x] = new Complex(r[x] * FastMath.cos(theta[x]), r[x] * FastMath.sin(theta[x]));
+            c[x] = Complex.ofCartesian(r[x] * FastMath.cos(theta[x]), r[x] * FastMath.sin(theta[x]));
         }
         return c;
     }
@@ -140,7 +140,7 @@ public class ComplexUtils {
      * @since 4.0
      */
     public static Complex extractComplexFromRealArray(double[] real, int index) {
-        return new Complex(real[index]);
+        return Complex.ofCartesian(real[index]);
     }
 
     /**
@@ -154,7 +154,7 @@ public class ComplexUtils {
      * @since 4.0
      */
     public static Complex extractComplexFromRealArray(float[] real, int index) {
-        return new Complex(real[index]);
+        return Complex.ofCartesian(real[index]);
     }
 
     /**
@@ -168,7 +168,7 @@ public class ComplexUtils {
      * @since 4.0
      */
     public static Complex extractComplexFromImaginaryArray(double[] imaginary, int index) {
-        return new Complex(0, imaginary[index]);
+        return Complex.ofCartesian(0, imaginary[index]);
     }
 
     /**
@@ -182,7 +182,7 @@ public class ComplexUtils {
      * @since 4.0
      */
     public static Complex extractComplexFromImaginaryArray(float[] imaginary, int index) {
-        return new Complex(0, imaginary[index]);
+        return Complex.ofCartesian(0, imaginary[index]);
     }
 
     /**
@@ -246,13 +246,13 @@ public class ComplexUtils {
      * {@code index}.
      *
      * @param d array of interleaved complex numbers alternating real and imaginary values
-     * @param index location in the array This is the location by complex number, e.g. index number 5 in the array will return {@code new Complex(d[10], d[11])}
+     * @param index location in the array This is the location by complex number, e.g. index number 5 in the array will return {@code Complex.ofCartesian(d[10], d[11])}
      * @return {@code Complex}.
      *
      * @since 4.0
      */
     public static Complex extractComplexFromInterleavedArray(double[] d, int index) {
-        return new Complex(d[index * 2], d[index * 2 + 1]);
+        return Complex.ofCartesian(d[index * 2], d[index * 2 + 1]);
     }
 
     /**
@@ -260,13 +260,13 @@ public class ComplexUtils {
      * {@code index}.
      *
      * @param f float array of interleaved complex numbers alternating real and imaginary values
-     * @param index location in the array This is the location by complex number, e.g. index number 5 in the {@code float[]} array will return new {@code Complex(d[10], d[11])}
+     * @param index location in the array This is the location by complex number, e.g. index number 5 in the {@code float[]} array will return {@code Complex.ofCartesian(d[10], d[11])}
      * @return {@code Complex}.
      *
      * @since 4.0
      */
     public static Complex extractComplexFromInterleavedArray(float[] f, int index) {
-        return new Complex(f[index * 2], f[index * 2 + 1]);
+        return Complex.ofCartesian(f[index * 2], f[index * 2 + 1]);
     }
 
     /**
@@ -439,7 +439,7 @@ public class ComplexUtils {
         int index = 0;
         final Complex c[] = new Complex[real.length];
         for (double d : real) {
-            c[index] = new Complex(d);
+            c[index] = Complex.ofCartesian(d);
             index++;
         }
         return c;
@@ -457,7 +457,7 @@ public class ComplexUtils {
         int index = 0;
         final Complex c[] = new Complex[real.length];
         for (float d : real) {
-            c[index] = new Complex(d);
+            c[index] = Complex.ofCartesian(d);
             index++;
         }
         return c;
@@ -879,7 +879,7 @@ public class ComplexUtils {
         int index = 0;
         final Complex c[] = new Complex[imaginary.length];
         for (double d : imaginary) {
-            c[index] = new Complex(0, d);
+            c[index] = Complex.ofCartesian(0, d);
             index++;
         }
         return c;
@@ -897,7 +897,7 @@ public class ComplexUtils {
         int index = 0;
         final Complex c[] = new Complex[imaginary.length];
         for (float d : imaginary) {
-            c[index] = new Complex(0, d);
+            c[index] = Complex.ofCartesian(0, d);
             index++;
         }
         return c;
@@ -1329,7 +1329,7 @@ public class ComplexUtils {
         final int length = interleaved.length / 2;
         final Complex c[] = new Complex[length];
         for (int n = 0; n < length; n++) {
-            c[n] = new Complex(interleaved[n * 2], interleaved[n * 2 + 1]);
+            c[n] = Complex.ofCartesian(interleaved[n * 2], interleaved[n * 2 + 1]);
         }
         return c;
     }
@@ -1347,7 +1347,7 @@ public class ComplexUtils {
         final int length = interleaved.length / 2;
         final Complex c[] = new Complex[length];
         for (int n = 0; n < length; n++) {
-            c[n] = new Complex(interleaved[n * 2], interleaved[n * 2 + 1]);
+            c[n] = Complex.ofCartesian(interleaved[n * 2], interleaved[n * 2 + 1]);
         }
         return c;
     }
@@ -1819,14 +1819,14 @@ public class ComplexUtils {
             c = new Complex[width / 2][height];
             for (int x = 0; x < width / 2; x++) {
                 for (int y = 0; y < height; y++) {
-                    c[x][y] = new Complex(d[x * 2][y], d[x * 2 + 1][y]);
+                    c[x][y] = Complex.ofCartesian(d[x * 2][y], d[x * 2 + 1][y]);
                 }
             }
         } else {
             c = new Complex[width][height / 2];
             for (int x = 0; x < width; x++) {
                 for (int y = 0; y < height / 2; y++) {
-                    c[x][y] = new Complex(d[x][y * 2], d[x][y * 2 + 1]);
+                    c[x][y] = Complex.ofCartesian(d[x][y * 2], d[x][y * 2 + 1]);
                 }
             }
         }
@@ -1870,7 +1870,7 @@ public class ComplexUtils {
             for (int x = 0; x < width / 2; x++) {
                 for (int y = 0; y < height; y++) {
                     for (int z = 0; z < depth; z++) {
-                        c[x][y][z] = new Complex(d[x * 2][y][z], d[x * 2 + 1][y][z]);
+                        c[x][y][z] = Complex.ofCartesian(d[x * 2][y][z], d[x * 2 + 1][y][z]);
                     }
                 }
             }
@@ -1879,7 +1879,7 @@ public class ComplexUtils {
             for (int x = 0; x < width; x++) {
                 for (int y = 0; y < height / 2; y++) {
                     for (int z = 0; z < depth; z++) {
-                        c[x][y][z] = new Complex(d[x][y * 2][z], d[x][y * 2 + 1][z]);
+                        c[x][y][z] = Complex.ofCartesian(d[x][y * 2][z], d[x][y * 2 + 1][z]);
                     }
                 }
             }
@@ -1888,7 +1888,7 @@ public class ComplexUtils {
             for (int x = 0; x < width; x++) {
                 for (int y = 0; y < height; y++) {
                     for (int z = 0; z < depth / 2; z++) {
-                        c[x][y][z] = new Complex(d[x][y][z * 2], d[x][y][z * 2 + 1]);
+                        c[x][y][z] = Complex.ofCartesian(d[x][y][z * 2], d[x][y][z * 2 + 1]);
                     }
                 }
             }
@@ -1931,14 +1931,14 @@ public class ComplexUtils {
             c = new Complex[width / 2][height];
             for (int x = 0; x < width / 2; x++) {
                 for (int y = 0; y < height; y++) {
-                    c[x][y] = new Complex(d[x * 2][y], d[x * 2 + 1][y]);
+                    c[x][y] = Complex.ofCartesian(d[x * 2][y], d[x * 2 + 1][y]);
                 }
             }
         } else {
             c = new Complex[width][height / 2];
             for (int x = 0; x < width; x++) {
                 for (int y = 0; y < height / 2; y++) {
-                    c[x][y] = new Complex(d[x][y * 2], d[x][y * 2 + 1]);
+                    c[x][y] = Complex.ofCartesian(d[x][y * 2], d[x][y * 2 + 1]);
                 }
             }
         }
@@ -1982,7 +1982,7 @@ public class ComplexUtils {
             for (int x = 0; x < width/2; x ++) {
                 for (int y = 0; y < height; y++) {
                     for (int z = 0; z < depth; z++) {
-                        c[x][y][z] = new Complex(d[x * 2][y][z], d[x * 2 + 1][y][z]);
+                        c[x][y][z] = Complex.ofCartesian(d[x * 2][y][z], d[x * 2 + 1][y][z]);
                     }
                 }
             }
@@ -1991,7 +1991,7 @@ public class ComplexUtils {
             for (int x = 0; x < width; x++) {
                 for (int y = 0; y < height/2; y ++) {
                     for (int z = 0; z < depth; z++) {
-                        c[x][y][z] = new Complex(d[x][y * 2][z], d[x][y * 2 + 1][z]);
+                        c[x][y][z] = Complex.ofCartesian(d[x][y * 2][z], d[x][y * 2 + 1][z]);
                     }
                 }
             }
@@ -2000,7 +2000,7 @@ public class ComplexUtils {
             for (int x = 0; x < width; x++) {
                 for (int y = 0; y < height; y++) {
                     for (int z = 0; z < depth/2; z++) {
-                        c[x][y][z] = new Complex(d[x][y][z * 2], d[x][y][z * 2 + 1]);
+                        c[x][y][z] = Complex.ofCartesian(d[x][y][z * 2], d[x][y][z * 2 + 1]);
                     }
                 }
             }
@@ -2038,7 +2038,7 @@ public class ComplexUtils {
         final int length = real.length;
         final Complex[] c = new Complex[length];
         for (int n = 0; n < length; n++) {
-            c[n] = new Complex(real[n], imag[n]);
+            c[n] = Complex.ofCartesian(real[n], imag[n]);
         }
         return c;
     }
@@ -2095,7 +2095,7 @@ public class ComplexUtils {
         final int length = real.length;
         final Complex[] c = new Complex[length];
         for (int n = 0; n < length; n++) {
-            c[n] = new Complex(real[n], imag[n]);
+            c[n] = Complex.ofCartesian(real[n], imag[n]);
         }
         return c;
     }

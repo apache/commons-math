@@ -35,11 +35,11 @@ public class ComplexUtilsTest {
     private final double nan = Double.NaN;
     private final double pi = FastMath.PI;
 
-    private final Complex negInfInf = new Complex(negInf, inf);
-    private final Complex infNegInf = new Complex(inf, negInf);
-    private final Complex infInf = new Complex(inf, inf);
-    private final Complex negInfNegInf = new Complex(negInf, negInf);
-    private final Complex infNaN = new Complex(inf, nan);
+    private final Complex negInfInf = Complex.ofCartesian(negInf, inf);
+    private final Complex infNegInf = Complex.ofCartesian(inf, negInf);
+    private final Complex infInf = Complex.ofCartesian(inf, inf);
+    private final Complex negInfNegInf = Complex.ofCartesian(negInf, negInf);
+    private final Complex infNaN = Complex.ofCartesian(inf, nan);
 
     private static Complex c[]; // complex array with real values even and imag
                                 // values odd
@@ -116,9 +116,9 @@ public class ComplexUtilsTest {
             di[i + 1] = i + 1;
             fi[i] = i;
             fi[i + 1] = i + 1;
-            c[i / 2] = new Complex(i, i + 1);
-            cr[i / 2] = new Complex(i / 2);
-            ci[i / 2] = new Complex(0, i / 2);
+            c[i / 2] = Complex.ofCartesian(i, i + 1);
+            cr[i / 2] = Complex.ofCartesian(i / 2);
+            ci[i / 2] = Complex.ofCartesian(0, i / 2);
             sr[i / 2] = i;
             si[i / 2] = i + 1;
             sfr[i / 2] = i;
@@ -136,9 +136,9 @@ public class ComplexUtilsTest {
                 di2d[i][j + 1] = 10 * i + j + 1;
                 fi2d[i][j] = 10 * i + j;
                 fi2d[i][j + 1] = 10 * i + j + 1;
-                c2d[i][j / 2] = new Complex(10 * i + j, 10 * i + j + 1);
-                cr2d[i][j / 2] = new Complex(10 * i + j / 2);
-                ci2d[i][j / 2] = new Complex(0, 10 * i + j / 2);
+                c2d[i][j / 2] = Complex.ofCartesian(10 * i + j, 10 * i + j + 1);
+                cr2d[i][j / 2] = Complex.ofCartesian(10 * i + j / 2);
+                ci2d[i][j / 2] = Complex.ofCartesian(0, 10 * i + j / 2);
             }
         }
         for (int i = 0; i < 10; i++) {
@@ -154,20 +154,20 @@ public class ComplexUtilsTest {
                     di3d[i][j][k + 1] = 100 * i + 10 * j + k + 1;
                     fi3d[i][j][k] = 100 * i + 10 * j + k;
                     fi3d[i][j][k + 1] = 100 * i + 10 * j + k + 1;
-                    c3d[i][j][k / 2] = new Complex(100 * i + 10 * j + k, 100 * i + 10 * j + k + 1);
-                    cr3d[i][j][k / 2] = new Complex(100 * i + 10 * j + k / 2);
-                    ci3d[i][j][k / 2] = new Complex(0, 100 * i + 10 * j + k / 2);
+                    c3d[i][j][k / 2] = Complex.ofCartesian(100 * i + 10 * j + k, 100 * i + 10 * j + k + 1);
+                    cr3d[i][j][k / 2] = Complex.ofCartesian(100 * i + 10 * j + k / 2);
+                    ci3d[i][j][k / 2] = Complex.ofCartesian(0, 100 * i + 10 * j + k / 2);
                 }
             }
         }
-        ansArrayc1r = new Complex[] { new Complex(3), new Complex(4), new Complex(5), new Complex(6), new Complex(7) };
-        ansArrayc2r = new Complex[] { new Complex(3), new Complex(5), new Complex(7) };
-        ansArrayc1i = new Complex[] { new Complex(0, 3), new Complex(0, 4), new Complex(0, 5), new Complex(0, 6),
-                new Complex(0, 7) };
-        ansArrayc2i = new Complex[] { new Complex(0, 3), new Complex(0, 5), new Complex(0, 7) };
-        ansArrayc3 = new Complex[] { new Complex(6, 7), new Complex(8, 9), new Complex(10, 11), new Complex(12, 13),
-                new Complex(14, 15) };
-        ansArrayc4 = new Complex[] { new Complex(6, 7), new Complex(10, 11), new Complex(14, 15) };
+        ansArrayc1r = new Complex[] { Complex.ofCartesian(3), Complex.ofCartesian(4), Complex.ofCartesian(5), Complex.ofCartesian(6), Complex.ofCartesian(7) };
+        ansArrayc2r = new Complex[] { Complex.ofCartesian(3), Complex.ofCartesian(5), Complex.ofCartesian(7) };
+        ansArrayc1i = new Complex[] { Complex.ofCartesian(0, 3), Complex.ofCartesian(0, 4), Complex.ofCartesian(0, 5), Complex.ofCartesian(0, 6),
+                Complex.ofCartesian(0, 7) };
+        ansArrayc2i = new Complex[] { Complex.ofCartesian(0, 3), Complex.ofCartesian(0, 5), Complex.ofCartesian(0, 7) };
+        ansArrayc3 = new Complex[] { Complex.ofCartesian(6, 7), Complex.ofCartesian(8, 9), Complex.ofCartesian(10, 11), Complex.ofCartesian(12, 13),
+                Complex.ofCartesian(14, 15) };
+        ansArrayc4 = new Complex[] { Complex.ofCartesian(6, 7), Complex.ofCartesian(10, 11), Complex.ofCartesian(14, 15) };
         ansArrayd1r = new double[] { 6, 8, 10, 12, 14 };
         ansArrayd1i = new double[] { 7, 9, 11, 13, 15 };
         ansArrayd2r = new double[] { 6, 10, 14 };
@@ -207,7 +207,7 @@ public class ComplexUtilsTest {
     }
 
     protected Complex altPolar(double r, double theta) {
-        return Complex.I.multiply(new Complex(theta, 0)).exp().multiply(new Complex(r, 0));
+        return Complex.I.multiply(Complex.ofCartesian(theta, 0)).exp().multiply(Complex.ofCartesian(r, 0));
     }
 
     @Test(expected = MathIllegalArgumentException.class)
@@ -251,17 +251,17 @@ public class ComplexUtilsTest {
     public void testExtractionMethods() {
         setArrays();
         // Extract complex from real double array, index 3
-        TestUtils.assertSame(new Complex(3), ComplexUtils.extractComplexFromRealArray(d, 3));
+        TestUtils.assertSame(Complex.ofCartesian(3), ComplexUtils.extractComplexFromRealArray(d, 3));
         // Extract complex from real float array, index 3
-        TestUtils.assertSame(new Complex(3), ComplexUtils.extractComplexFromRealArray(f, 3));
+        TestUtils.assertSame(Complex.ofCartesian(3), ComplexUtils.extractComplexFromRealArray(f, 3));
         // Extract real double from complex array, index 3
         TestUtils.assertSame(6, ComplexUtils.extractRealFromComplexArray(c, 3));
         // Extract real float from complex array, index 3
         TestUtils.assertSame(6, ComplexUtils.extractRealFloatFromComplexArray(c, 3));
         // Extract complex from interleaved double array, index 3
-        TestUtils.assertSame(new Complex(6, 7), ComplexUtils.extractComplexFromInterleavedArray(d, 3));
+        TestUtils.assertSame(Complex.ofCartesian(6, 7), ComplexUtils.extractComplexFromInterleavedArray(d, 3));
         // Extract complex from interleaved float array, index 3
-        TestUtils.assertSame(new Complex(6, 7), ComplexUtils.extractComplexFromInterleavedArray(f, 3));
+        TestUtils.assertSame(Complex.ofCartesian(6, 7), ComplexUtils.extractComplexFromInterleavedArray(f, 3));
         // Extract interleaved double from complex array, index 3
         TestUtils.assertEquals(msg, new double[] { 6, 7 }, ComplexUtils.extractInterleavedFromComplexArray(c, 3),
                 Math.ulp(1));
@@ -593,7 +593,7 @@ public class ComplexUtilsTest {
         Complex[] c = new Complex[10];
         ComplexUtils.initialize(c);
         for (Complex cc : c) {
-            TestUtils.assertEquals(new Complex(0, 0), cc, 0);
+            TestUtils.assertEquals(Complex.ofCartesian(0, 0), cc, 0);
         }
     }
 }

@@ -75,7 +75,7 @@ public class TransformUtils {
     public static Complex[] scaleArray(Complex[] f, double d) {
 
         for (int i = 0; i < f.length; i++) {
-            f[i] = new Complex(d * f[i].getReal(), d * f[i].getImaginary());
+            f[i] = Complex.ofCartesian(d * f[i].getReal(), d * f[i].getImaginary());
         }
         return f;
     }
@@ -135,7 +135,7 @@ public class TransformUtils {
         final int n = dataR.length;
         final Complex[] c = new Complex[n];
         for (int i = 0; i < n; i++) {
-            c[i] = new Complex(dataR[i], dataI[i]);
+            c[i] = Complex.ofCartesian(dataR[i], dataI[i]);
         }
         return c;
     }
