@@ -301,7 +301,7 @@ public final class FastFourierTransformerTest {
         final Complex[] x = new Complex[n];
         for (int i = 0; i < n; i++) {
             final double t = min + i * (max - min) / n;
-            x[i] = Complex.ofCartesian(f.value(t));
+            x[i] = Complex.ofReal(f.value(t));
         }
         final Complex[] expected;
         final double s;
