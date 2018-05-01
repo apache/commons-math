@@ -247,7 +247,7 @@ public class LevenbergMarquardtOptimizerTest
         final double expectedCost = 8.128869755900439;
         final double expectedRms = 1.0582887010256337;
 
-        final double tol = 1e14;
+        final double tol = 1e-14;
         Assert.assertEquals(expectedChi2, chi2, tol);
         Assert.assertEquals(expectedReducedChi2, reducedChi2, tol);
         Assert.assertEquals(expectedCost, cost, tol);
@@ -357,7 +357,7 @@ public class LevenbergMarquardtOptimizerTest
         Assert.assertThat(optimum.getEvaluations(), is(2));
     }
 
-    private static class BevingtonProblem {
+    protected static class BevingtonProblem {
         private List<Double> time;
         private List<Double> count;
 
