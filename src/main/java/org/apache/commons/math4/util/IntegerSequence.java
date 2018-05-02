@@ -318,10 +318,11 @@ public class IntegerSequence {
                 throw new NotStrictlyPositiveException(nTimes);
             }
 
+            count += nTimes * increment;
+
             if (!canIncrement(0)) {
                 maxCountCallback.trigger(maximalCount);
             }
-            count += nTimes * increment;
         }
 
         /**
@@ -352,7 +353,7 @@ public class IntegerSequence {
         @Override
         public Integer next() {
             final int value = count;
-            increment();
+            count += increment;
             return value;
         }
 

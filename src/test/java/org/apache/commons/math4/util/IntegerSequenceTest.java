@@ -217,6 +217,33 @@ public class IntegerSequenceTest {
         inc.increment(0);
     }
 
+    @Test
+    public void testIncrementTooManyTimes() {
+        final int start = 0;
+        final int max = 3;
+        final int step = 1;
+
+        for (int i = 1; i <= max + 4; i++) {
+            final IntegerSequence.Incrementor inc
+                = IntegerSequence.Incrementor.create()
+                .withStart(start)
+                .withMaximalCount(max)
+                .withIncrement(step);
+
+            Assert.assertTrue(inc.canIncrement(max - 1));
+            Assert.assertFalse(inc.canIncrement(max));
+
+            try {
+                inc.increment(i);
+            } catch (MaxCountExceededException e) {
+                if (i < max) {
+                    Assert.fail("i=" + i);
+                }
+                // Otherwise, the exception is expected.
+            }
+        }
+    }
+
     @Test(expected=ZeroException.class)
     public void testIncrementZeroStep() {
         final int step = 0;
@@ -269,14 +296,8 @@ public class IntegerSequenceTest {
             .withIncrement(step)
             .withCallback(cb);
 
-        try {
-            // One call must succeed.
-            inc.increment();
-        } catch (RuntimeException e) {
-            Assert.fail("unexpected exception");
-        }
-
-        // Second call must fail.
-        inc.increment();
+        Assert.assertTrue(inc.hasNext());
+        Assert.assertEquals(start, inc.next().intValue());
+        inc.increment(); // Must fail.
     }
 }
