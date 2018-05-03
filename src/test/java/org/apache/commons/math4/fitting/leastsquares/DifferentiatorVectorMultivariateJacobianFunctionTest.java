@@ -1,5 +1,3 @@
-package org.apache.commons.math4.fitting.leastsquares;
-
 /*
  * Licensed to the Apache Software Foundation (ASF) under one or more
  * contributor license agreements.  See the NOTICE file distributed with
@@ -16,6 +14,7 @@ package org.apache.commons.math4.fitting.leastsquares;
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+package org.apache.commons.math4.fitting.leastsquares;
 
 public class DifferentiatorVectorMultivariateJacobianFunctionTest
         extends LevenbergMarquardtOptimizerTest {
