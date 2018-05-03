@@ -16,15 +16,25 @@
  */
 package org.apache.commons.math4.fitting.leastsquares;
 
+import org.apache.commons.math4.analysis.differentiation.FiniteDifferencesDifferentiator;
+import org.apache.commons.math4.analysis.differentiation.UnivariateVectorFunctionDifferentiator;
+
 public class DifferentiatorVectorMultivariateJacobianFunctionTest
         extends LevenbergMarquardtOptimizerTest {
 
-    protected static final int POINTS = 10;
-    protected static final double STEP_SIZE = 0.25;
+    protected static final int POINTS = 20;
+    protected static final double STEP_SIZE = 0.2;
+    protected static final UnivariateVectorFunctionDifferentiator differentiator = new FiniteDifferencesDifferentiator(POINTS, STEP_SIZE);
 
     @Override
     public LeastSquaresBuilder builder(BevingtonProblem problem){
-        return base()
-            .model(new DifferentiatorVectorMultivariateJacobianFunction(problem.getModelFunction(), POINTS, STEP_SIZE));
+        return super.builder(problem)
+            .model(new DifferentiatorVectorMultivariateJacobianFunction(problem.getModelFunction(), differentiator));
+    }
+
+    @Override
+    public LeastSquaresBuilder builder(CircleProblem problem){
+        return super.builder(problem)
+                .model(new DifferentiatorVectorMultivariateJacobianFunction(problem.getModelFunction(), differentiator));
     }
 }

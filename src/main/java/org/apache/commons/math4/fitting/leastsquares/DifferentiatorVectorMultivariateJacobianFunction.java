@@ -19,7 +19,6 @@ package org.apache.commons.math4.fitting.leastsquares;
 import org.apache.commons.math4.analysis.MultivariateVectorFunction;
 import org.apache.commons.math4.analysis.UnivariateVectorFunction;
 import org.apache.commons.math4.analysis.differentiation.DerivativeStructure;
-import org.apache.commons.math4.analysis.differentiation.FiniteDifferencesDifferentiator;
 import org.apache.commons.math4.analysis.differentiation.UnivariateVectorFunctionDifferentiator;
 import org.apache.commons.math4.linear.Array2DRowRealMatrix;
 import org.apache.commons.math4.linear.ArrayRealVector;
@@ -29,7 +28,9 @@ import org.apache.commons.math4.util.Pair;
 
 /**
  * A MultivariateJacobianFunction (a thing that requires a derivative)
- * combined with the thing that can find derivatives
+ * combined with the thing that can find derivatives.
+ *
+ * Can be used with a LeastSquaresProblem, a LeastSquaresFactory, or a LeastSquaresBuilder.
  *
  * This version that works with MultivariateVectorFunction
  * @see DifferentiatorMultivariateJacobianFunction for version that works with MultivariateFunction
@@ -45,28 +46,22 @@ public class DifferentiatorVectorMultivariateJacobianFunction implements Multiva
     private final UnivariateVectorFunctionDifferentiator differentiator;
 
     /**
-     * Build a differentiator with number of points and step size when independent variable is unbounded.
-     * <p>
-     * Beware that wrong settings for the finite differences differentiator
-     * can lead to highly unstable and inaccurate results, especially for
-     * high derivation orders. Using very small step sizes is often a
-     * <em>bad</em> idea.
-     * </p>
-     * @param function the function to turn into a multivariate jacobian function
-     * @param nbPoints number of points to use
-     * @param stepSize step size (gap between each point)
-     * @exception org.apache.commons.math4.exception.NotPositiveException if {@code stepsize <= 0} (note that
-     * {@link org.apache.commons.math4.exception.NotPositiveException} extends {@link org.apache.commons.math4.exception.NumberIsTooSmallException})
-     * @exception org.apache.commons.math4.exception.NumberIsTooSmallException {@code nbPoint <= 1}
+     * Build the jacobian function using a differentiator.
      *
-     * This version that works with MultivariateVectorFunction
-     * @see DifferentiatorMultivariateJacobianFunction for version that works with MultivariateFunction
+     * @param function the function to turn into a jacobian
+     * @param differentiator the differentiator to find the derivative
+     *
+     * This version that works with MultivariateFunction
+     * @see DifferentiatorVectorMultivariateJacobianFunction for version that works with MultivariateVectorFunction
      */
-    public DifferentiatorVectorMultivariateJacobianFunction(MultivariateVectorFunction function, int nbPoints, double stepSize) {
+    public DifferentiatorVectorMultivariateJacobianFunction(MultivariateVectorFunction function, UnivariateVectorFunctionDifferentiator differentiator) {
         this.function = function;
-        this.differentiator = new FiniteDifferencesDifferentiator(nbPoints, stepSize);
+        this.differentiator = differentiator;
     }
 
+    /**
+     * @inheritDoc
+     */
     @Override
     public Pair<RealVector, RealMatrix> value(RealVector point) {
         RealVector value = new ArrayRealVector(function.value(point.toArray()));
