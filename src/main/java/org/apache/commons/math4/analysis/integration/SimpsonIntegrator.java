@@ -37,7 +37,7 @@ import org.apache.commons.math4.util.FastMath;
 public class SimpsonIntegrator extends BaseAbstractUnivariateIntegrator {
 
     /** Maximal number of iterations for Simpson. */
-    public static final int SIMPSON_MAX_ITERATIONS_COUNT = 64;
+    public static final int SIMPSON_MAX_ITERATIONS_COUNT = 63;
 
     /**
      * Build a Simpson integrator with given accuracies and iterations counts.
@@ -97,33 +97,30 @@ public class SimpsonIntegrator extends BaseAbstractUnivariateIntegrator {
 
     /** {@inheritDoc} */
     @Override
-    protected double doIntegrate()
-        throws TooManyEvaluationsException, MaxCountExceededException {
-
-        TrapezoidIntegrator qtrap = new TrapezoidIntegrator();
-        if (getMinimalIterationCount() == 1) {
-            return (4 * qtrap.stage(this, 1) - qtrap.stage(this, 0)) / 3.0;
-        }
-
+    protected double doIntegrate() {
         // Simpson's rule requires at least two trapezoid stages.
-        double olds = 0;
-        double oldt = qtrap.stage(this, 0);
+        // So we set the first sum using two trapezoid stages.
+        final TrapezoidIntegrator qtrap = new TrapezoidIntegrator();
+
+        final double s0 = qtrap.stage(this, 0);
+        double oldt = qtrap.stage(this, 1);
+        double olds = (4 * oldt - s0) / 3.0;
         while (true) {
-            final double t = qtrap.stage(this, iterations.getCount());
+            // The first iteration is the first refinement of the sum.
             iterations.incrementCount();
+            final int i = getIterations();
+            final double t = qtrap.stage(this, i + 1); // 1-stage ahead of the iteration
             final double s = (4 * t - oldt) / 3.0;
-            if (iterations.getCount() >= getMinimalIterationCount()) {
+            if (i >= getMinimalIterationCount()) {
                 final double delta = FastMath.abs(s - olds);
-                final double rLimit =
-                    getRelativeAccuracy() * (FastMath.abs(olds) + FastMath.abs(s)) * 0.5;
-                if ((delta <= rLimit) || (delta <= getAbsoluteAccuracy())) {
+                final double rLimit = getRelativeAccuracy() * (FastMath.abs(olds) + FastMath.abs(s)) * 0.5;
+                if (delta <= rLimit ||
+                    delta <= getAbsoluteAccuracy()) {
                     return s;
                 }
             }
             olds = s;
             oldt = t;
         }
-
     }
-
 }
