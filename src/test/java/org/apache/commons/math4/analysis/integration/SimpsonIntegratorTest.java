@@ -122,30 +122,30 @@ public final class SimpsonIntegratorTest {
             // expected
         }
     }
-    
+
     // Tests for MATH-1458:
-    // The SimpsonIntegrator had the following bugs: 
+    // The SimpsonIntegrator had the following bugs:
     // - minimalIterationCount==1 results in no possible iteration
     // - minimalIterationCount==1 computes incorrect Simpson sum (following no iteration)
     // - minimalIterationCount>1 computes the first iteration sum as the Trapezoid sum
     // - minimalIterationCount>1 computes the second iteration sum as the first Simpson sum
-    
+
     /**
-     * Test iteration is possible when minimalIterationCount==1. 
+     * Test iteration is possible when minimalIterationCount==1.
      * <br/>
      * MATH-1458: No iterations were performed when minimalIterationCount==1.
      */
     @Test
     public void testIterationIsPossibleWhenMinimalIterationCountIs1() {
         UnivariateFunction f = new Sin();
-        UnivariateIntegrator integrator = new SimpsonIntegrator(1, 
+        UnivariateIntegrator integrator = new SimpsonIntegrator(1,
                 SimpsonIntegrator.SIMPSON_MAX_ITERATIONS_COUNT);
-        // The range or result is not relevant. 
+        // The range or result is not relevant.
         // This sum should not converge at 1 iteration.
         // This tests iteration occurred.
         integrator.integrate(1000, f, 0, 1);
         // MATH-1458: No iterations were performed when minimalIterationCount==1
-        Assert.assertTrue("Iteration is not above 1", 
+        Assert.assertTrue("Iteration is not above 1",
                 integrator.getIterations() > 1);
     }
 
@@ -158,7 +158,7 @@ public final class SimpsonIntegratorTest {
     public void testConvergenceIsPossibleAtIteration1() {
     	// A linear function y=x should converge immediately
         UnivariateFunction f = new Identity();
-        UnivariateIntegrator integrator = new SimpsonIntegrator(1, 
+        UnivariateIntegrator integrator = new SimpsonIntegrator(1,
                 SimpsonIntegrator.SIMPSON_MAX_ITERATIONS_COUNT);
 
         double min, max, expected, result, tolerance;
@@ -167,13 +167,13 @@ public final class SimpsonIntegratorTest {
         tolerance = FastMath.abs(expected * integrator.getRelativeAccuracy());
         result = integrator.integrate(1000, f, min, max);
         // MATH-1458: No iterations were performed when minimalIterationCount==1
-        Assert.assertTrue("Iteration is not above 0", 
+        Assert.assertTrue("Iteration is not above 0",
                 integrator.getIterations()  > 0);
         // This should converge immediately
         Assert.assertEquals("Iteration", integrator.getIterations(), 1);
         Assert.assertEquals("Result", expected, result, tolerance);
     }
-    
+
     /**
      * Compute the integral using the composite Simpson's rule.
      *
@@ -185,7 +185,7 @@ public final class SimpsonIntegratorTest {
      * @see <a href="https://en.wikipedia.org/wiki/Simpson%27s_rule#Composite_Simpson's_rule">
      *       Composite_Simpson's_rule</a>
      */
-    private static double compositeSimpsonsRule(UnivariateFunction f, double a, 
+    private static double compositeSimpsonsRule(UnivariateFunction f, double a,
             double b, int n)
     {
         // Sum interval [a,b] split into n subintervals, with n an even number:
@@ -216,15 +216,15 @@ public final class SimpsonIntegratorTest {
      * @param iteration the refinement iteration
      * @return the integral between a and b
      */
-    private static double computeSimpsonIteration(UnivariateFunction f, double a, 
+    private static double computeSimpsonIteration(UnivariateFunction f, double a,
             double b, int iteration)
     {
         // The first possible Simpson's sum uses n=2.
-        // The next uses n=4. This is the 1st refinement expected when the 
-        // integrator has performed 1 iteration.        
+        // The next uses n=4. This is the 1st refinement expected when the
+        // integrator has performed 1 iteration.
         final int n = 2 << iteration;
         return compositeSimpsonsRule(f, a, b, n);
-    }    
+    }
 
     /**
      * Test the reference Simpson integration is doing what is expected
@@ -234,12 +234,12 @@ public final class SimpsonIntegratorTest {
         UnivariateFunction f = new Sin();
 
         double a, b, h, expected, result, tolerance;
-        
+
         a = 0.5;
         b = 1;
 
         double b_a = b - a;
-        
+
         // First Simpson sum. 1 midpoint evaluation:
         h = b_a / 2;
         double f00 = f.value(a);
@@ -249,7 +249,7 @@ public final class SimpsonIntegratorTest {
         tolerance = FastMath.abs(expected * SimpsonIntegrator.DEFAULT_RELATIVE_ACCURACY);
         result = computeSimpsonIteration(f, a, b, 0);
         Assert.assertEquals("Result", expected, result, tolerance);
-        
+
         // Second Simpson sum: 2 more evaluations:
         h = b_a / 4;
         double f11 = f.value(a + 1 * h);
@@ -258,24 +258,24 @@ public final class SimpsonIntegratorTest {
         tolerance = FastMath.abs(expected * SimpsonIntegrator.DEFAULT_RELATIVE_ACCURACY);
         result = computeSimpsonIteration(f, a, b, 1);
         Assert.assertEquals("Result", expected, result, tolerance);
-        
+
         // Third Simpson sum: 4 more evaluations:
         h = b_a / 8;
         double f21 = f.value(a + 1 * h);
         double f23 = f.value(a + 3 * h);
         double f25 = f.value(a + 5 * h);
         double f27 = f.value(a + 7 * h);
-        expected = (h / 3) * (f00 + 4 * f21 + 2 * f11 + 4 * f23 + 2 * f01 + 4 * f25 + 
+        expected = (h / 3) * (f00 + 4 * f21 + 2 * f11 + 4 * f23 + 2 * f01 + 4 * f25 +
                 2 * f13 + 4 * f27 + f0n);
         tolerance = FastMath.abs(expected * SimpsonIntegrator.DEFAULT_RELATIVE_ACCURACY);
         result = computeSimpsonIteration(f, a, b, 2);
         Assert.assertEquals("Result", expected, result, tolerance);
     }
-    
+
     /**
      * Test iteration 1 returns the expected sum when minimalIterationCount==1.
      * <br/>
-     * MATH-1458: minimalIterationCount==1 computes incorrect Simpson sum 
+     * MATH-1458: minimalIterationCount==1 computes incorrect Simpson sum
      * (following no iteration).
      */
     @Test
@@ -286,8 +286,8 @@ public final class SimpsonIntegratorTest {
                 0, Double.POSITIVE_INFINITY,
                 1, SimpsonIntegrator.SIMPSON_MAX_ITERATIONS_COUNT);
         double min, max, expected, result, tolerance;
-        
-        // MATH-1458: minimalIterationCount==1 computes incorrect 
+
+        // MATH-1458: minimalIterationCount==1 computes incorrect
         // Simpson sum (following no iteration)
         min = 0;
         max = 1;
@@ -304,30 +304,30 @@ public final class SimpsonIntegratorTest {
     /**
      * Test iteration N returns the expected sum when minimalIterationCount==1.
      * <br/>
-     * MATH-1458: minimalIterationCount>1 computes the second iteration sum as 
-     * the first Simpson sum. 
+     * MATH-1458: minimalIterationCount>1 computes the second iteration sum as
+     * the first Simpson sum.
      */
     @Test
     public void testIterationNComputesTheExpectedSimpsonSum() {
-        // Use 1/x as the function as the sum will asymptote in a monotonic 
+        // Use 1/x as the function as the sum will asymptote in a monotonic
         // series. The convergence can then be controlled.
         UnivariateFunction f = new Inverse();
 
         double min, max, expected, result, tolerance;
         int minIteration, maxIteration;
-        
+
         // Range for integration
         min = 1;
         max = 2;
-        
-        // This is the expected sum. 
+
+        // This is the expected sum.
         // Each iteration will monotonically converge to this.
-        expected = FastMath.log(max) - FastMath.log(min); 
-        
+        expected = FastMath.log(max) - FastMath.log(min);
+
         // Test convergence at the given iteration
         minIteration = 2;
         maxIteration = 4;
-        
+
         // Compute the sums expected for different iterations.
         // Add an additional sum so that the test can compare to the next value.
         double[] sums = new double[maxIteration + 2];
@@ -335,51 +335,51 @@ public final class SimpsonIntegratorTest {
             sums[i] = computeSimpsonIteration(f, min, max, i);
             // Check monotonic
             if (i > 0) {
-                Assert.assertTrue("Expected series not monotonic descending", 
+                Assert.assertTrue("Expected series not monotonic descending",
                         sums[i] < sums[i - 1]);
                 // Check monotonic difference
                 if (i > 1) {
-                    Assert.assertTrue("Expected convergence not monotonic descending", 
+                    Assert.assertTrue("Expected convergence not monotonic descending",
                            sums[i - 1] - sums[i] < sums[i - 2] - sums[i - 1]);
                 }
             }
         }
-        
+
         // Check the test function is correct.
         tolerance = FastMath.abs(expected * SimpsonIntegrator.DEFAULT_RELATIVE_ACCURACY);
         Assert.assertEquals("Expected result", expected, sums[maxIteration], tolerance);
-        
+
         // Set-up to test convergence at a specific iteration.
         // Allow enough function evaluations.
         // Iteration 0 = 3 evaluations
         // Iteration 1 = 5 evaluations
         // Iteration n = 2^(n+1)+1 evaluations
         int evaluations = 2 << (maxIteration + 1) + 1;
-        
+
         for (int i = minIteration; i <= maxIteration; i++) {
             // Create convergence criteria.
             // (sum - previous) is monotonic descending.
             // So use a point half-way between them:
             // ((sums[i-1] - sums[i]) + (sums[i-2] - sums[i-1])) / 2
             final double absoluteAccuracy = (sums[i - 2] - sums[i]) / 2;
-            
+
             // Use minimalIterationCount>1
             UnivariateIntegrator integrator = new SimpsonIntegrator(
                     0, absoluteAccuracy,
                     2, SimpsonIntegrator.SIMPSON_MAX_ITERATIONS_COUNT);
-            
+
             result = integrator.integrate(evaluations, f, min, max);
-            
+
             // Check the iteration is as expected
             Assert.assertEquals("Test failed to control iteration", i, integrator.getIterations());
-            
+
             // MATH-1458: minimalIterationCount>1 computes incorrect Simpson sum
-            // for the iteration. Check it is the correct sum. 
+            // for the iteration. Check it is the correct sum.
             // It should be closer to this one than the previous or next.
             final double dp = FastMath.abs(sums[i-1] - result);
             final double d  = FastMath.abs(sums[i]   - result);
             final double dn = FastMath.abs(sums[i+1] - result);
-            
+
             Assert.assertTrue("Result closer to sum expected from previous iteration: " + i, d < dp);
             Assert.assertTrue("Result closer to sum expected from next iteration: " + i, d < dn);
         }
