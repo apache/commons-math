@@ -97,12 +97,10 @@ public class SimpsonIntegrator extends BaseAbstractUnivariateIntegrator {
 
     /** {@inheritDoc} */
     @Override
-    protected double doIntegrate()
-        throws TooManyEvaluationsException, MaxCountExceededException {
-
+    protected double doIntegrate() {
         // Simpson's rule requires at least two trapezoid stages.
         // So we set the first sum using two trapezoid stages.
-        TrapezoidIntegrator qtrap = new TrapezoidIntegrator();
+        final TrapezoidIntegrator qtrap = new TrapezoidIntegrator();
 
         final double s0 = qtrap.stage(this, 0);
         double oldt = qtrap.stage(this, 1);
@@ -116,8 +114,8 @@ public class SimpsonIntegrator extends BaseAbstractUnivariateIntegrator {
             if (i >= getMinimalIterationCount()) {
                 final double delta = FastMath.abs(s - olds);
                 final double rLimit = getRelativeAccuracy() * (FastMath.abs(olds) + FastMath.abs(s)) * 0.5;
-                if ((delta <= rLimit) || (delta <= getAbsoluteAccuracy()))
-                {
+                if (delta <= rLimit ||
+                    delta <= getAbsoluteAccuracy()) {
                     return s;
                 }
             }
