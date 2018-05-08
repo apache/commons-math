@@ -126,7 +126,5 @@ public class SimpsonIntegrator extends BaseAbstractUnivariateIntegrator {
             olds = s;
             oldt = t;
         }
-        
     }
-
 }
