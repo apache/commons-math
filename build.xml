@@ -228,7 +228,7 @@
   </target>
 
 
-<!-- ========== Produce JavaDocs ========================================== -->
+<!-- ========== Produce Javadocs ========================================== -->
 
   <target name="javadoc" depends="compile" description="Create component Javadoc documentation">
     <mkdir dir="${build.home}/apidocs"/>

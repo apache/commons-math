@@ -54,7 +54,7 @@ Documentation
 -------------
 
 More information can be found on the [homepage](https://commons.apache.org/proper/commons-math).
-The [JavaDoc](https://commons.apache.org/proper/commons-math/apidocs) can be browsed.
+The [Javadoc](https://commons.apache.org/proper/commons-math/apidocs) can be browsed.
 Questions related to the usage of Apache Commons Math should be posted to the [user mailing list][ml].
 
 Where can I get the latest release?
