@@ -16,11 +16,9 @@
  */
 package org.apache.commons.math4.analysis.integration;
 
-import org.apache.commons.math4.exception.MaxCountExceededException;
 import org.apache.commons.math4.exception.NotStrictlyPositiveException;
 import org.apache.commons.math4.exception.NumberIsTooLargeException;
 import org.apache.commons.math4.exception.NumberIsTooSmallException;
-import org.apache.commons.math4.exception.TooManyEvaluationsException;
 import org.apache.commons.math4.util.FastMath;
 
 /**
