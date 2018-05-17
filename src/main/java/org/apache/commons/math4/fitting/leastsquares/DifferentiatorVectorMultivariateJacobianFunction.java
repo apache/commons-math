@@ -51,8 +51,8 @@ public class DifferentiatorVectorMultivariateJacobianFunction implements Multiva
      * @param function the function to turn into a jacobian
      * @param differentiator the differentiator to find the derivative
      *
-     * This version that works with MultivariateFunction
-     * @see DifferentiatorVectorMultivariateJacobianFunction for version that works with MultivariateVectorFunction
+     * This version that works with MultivariateVectorFunction
+     * @see DifferentiatorMultivariateJacobianFunction for version that works with MultivariateFunction
      */
     public DifferentiatorVectorMultivariateJacobianFunction(MultivariateVectorFunction function, UnivariateVectorFunctionDifferentiator differentiator) {
         this.function = function;
@@ -64,7 +64,8 @@ public class DifferentiatorVectorMultivariateJacobianFunction implements Multiva
      */
     @Override
     public Pair<RealVector, RealMatrix> value(RealVector point) {
-        RealVector value = new ArrayRealVector(function.value(point.toArray()));
+        double[] testArray = point.toArray();
+        RealVector value = new ArrayRealVector(function.value(testArray));
         RealMatrix jacobian = new Array2DRowRealMatrix(value.getDimension(), point.getDimension());
 
         for(int column = 0; column < point.getDimension(); column++) {
@@ -72,14 +73,12 @@ public class DifferentiatorVectorMultivariateJacobianFunction implements Multiva
             double originalPoint = point.getEntry(column);
             double[] partialDerivatives = getPartialDerivative(testPoint -> {
 
-                point.setEntry(columnFinal, testPoint);
+                testArray[columnFinal] = testPoint;
 
-                double[] testPointValue = function.value(point.toArray());
-
-                point.setEntry(columnFinal, originalPoint);  //set it back
-
-                return testPointValue;
+                return function.value(testArray);
             }, originalPoint);
+
+            testArray[column] = originalPoint; //set it back
 
             jacobian.setColumn(column, partialDerivatives);
         }

@@ -64,8 +64,9 @@ public class DifferentiatorMultivariateJacobianFunction implements MultivariateJ
      */
     @Override
     public Pair<RealVector, RealMatrix> value(RealVector point) {
+        double[] testArray = point.toArray();
         ArrayRealVector value = new ArrayRealVector(1);
-        value.setEntry(0, function.value(point.toArray()));
+        value.setEntry(0, function.value(testArray));
         RealMatrix jacobian = new Array2DRowRealMatrix(1, point.getDimension());
 
         for(int column = 0; column < point.getDimension(); column++) {
@@ -73,14 +74,12 @@ public class DifferentiatorMultivariateJacobianFunction implements MultivariateJ
             double originalPoint = point.getEntry(column);
             double partialDerivative = getPartialDerivative(testPoint -> {
 
-                point.setEntry(columnFinal, testPoint);
+                testArray[columnFinal] = testPoint;
 
-                double testPointOutput = function.value(point.toArray());
-
-                point.setEntry(columnFinal, originalPoint);  //set it back
-
-                return testPointOutput;
+                return function.value(testArray);
             }, originalPoint);
+
+            testArray[column] = originalPoint; //set it back
 
             jacobian.setEntry(0, column, partialDerivative);
         }
