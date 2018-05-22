@@ -31,9 +31,6 @@ import org.apache.commons.math4.util.Pair;
  * combined with the thing that can find derivatives.
  *
  * Can be used with a LeastSquaresProblem, a LeastSquaresFactory, or a LeastSquaresBuilder.
- *
- * This version that works with MultivariateVectorFunction
- * @see DifferentiatorMultivariateJacobianFunction for version that works with MultivariateFunction
  */
 public class DifferentiatorVectorMultivariateJacobianFunction implements MultivariateJacobianFunction {
     /**
@@ -50,9 +47,6 @@ public class DifferentiatorVectorMultivariateJacobianFunction implements Multiva
      *
      * @param function the function to turn into a jacobian
      * @param differentiator the differentiator to find the derivative
-     *
-     * This version that works with MultivariateVectorFunction
-     * @see DifferentiatorMultivariateJacobianFunction for version that works with MultivariateFunction
      */
     public DifferentiatorVectorMultivariateJacobianFunction(MultivariateVectorFunction function, UnivariateVectorFunctionDifferentiator differentiator) {
         this.function = function;
