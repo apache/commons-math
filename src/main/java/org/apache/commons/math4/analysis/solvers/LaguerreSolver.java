@@ -17,7 +17,7 @@
 package org.apache.commons.math4.analysis.solvers;
 
 import org.apache.commons.numbers.complex.Complex;
-import org.apache.commons.numbers.complex.ComplexUtils;
+import org.apache.commons.numbers.complex.streams.ComplexUtils;
 import org.apache.commons.math4.analysis.polynomials.PolynomialFunction;
 import org.apache.commons.math4.exception.NoBracketingException;
 import org.apache.commons.math4.exception.NoDataException;
