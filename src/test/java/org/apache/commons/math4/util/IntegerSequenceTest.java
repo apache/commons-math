@@ -15,6 +15,7 @@ package org.apache.commons.math4.util;
 
 import java.util.List;
 import java.util.ArrayList;
+import java.util.NoSuchElementException;
 import org.apache.commons.math4.exception.MaxCountExceededException;
 import org.apache.commons.math4.exception.TooManyEvaluationsException;
 import org.apache.commons.math4.exception.NotStrictlyPositiveException;
@@ -270,6 +271,29 @@ public class IntegerSequenceTest {
             inc.increment();
             Assert.fail("exception expected");
         } catch (MaxCountExceededException e) {
+            // Expected.
+        }
+    }
+
+    @Test
+    public void testIteratorNext() {
+        final int start = 1;
+        final int max = 2;
+        final int step = 1;
+
+        final IntegerSequence.Incrementor inc
+            = IntegerSequence.Incrementor.create()
+            .withStart(start)
+            .withMaximalCount(max)
+            .withIncrement(step);
+
+        Assert.assertTrue(inc.hasNext());
+        Assert.assertEquals(1, inc.next().intValue());
+        Assert.assertFalse(inc.hasNext());
+        try {
+            inc.next();
+            Assert.fail("exception expected");
+        } catch (NoSuchElementException e) {
             // Expected.
         }
     }
