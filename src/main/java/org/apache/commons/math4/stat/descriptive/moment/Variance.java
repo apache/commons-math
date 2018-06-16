@@ -333,7 +333,7 @@ public class Variance extends AbstractStorelessUnivariateStatistic implements Se
 
     /**
      * <p>
-     * Returns the weighted variance of the entries in the the input array.</p>
+     * Returns the weighted variance of the entries in the input array.</p>
      * <p>
      * Uses the formula <div style="white-space:pre"><code>
      *   &Sigma;(weights[i]*(values[i] - weightedMean)<sup>2</sup>)/(&Sigma;(weights[i]) - 1)

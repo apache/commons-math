@@ -32,7 +32,7 @@ import org.apache.commons.math4.util.FastMath;
 /** This class represents an oriented great circle on the 2-sphere.
 
  * <p>An oriented circle can be defined by a center point. The circle
- * is the the set of points that are in the normal plan the center.</p>
+ * is the set of points that are in the normal plan the center.</p>
 
  * <p>Since it is oriented the two spherical caps at its two sides are
  * unambiguously identified as a left cap and a right cap. This can be

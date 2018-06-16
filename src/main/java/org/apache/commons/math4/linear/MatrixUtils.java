@@ -105,7 +105,7 @@ public class MatrixUtils {
     }
 
     /**
-     * Returns a {@link RealMatrix} whose entries are the the values in the
+     * Returns a {@link RealMatrix} whose entries are the values in the
      * the input array.
      * <p>The type of matrix returned depends on the dimension. Below
      * 2<sup>12</sup> elements (i.e. 4096 elements or 64&times;64 for a
@@ -136,7 +136,7 @@ public class MatrixUtils {
     }
 
     /**
-     * Returns a {@link FieldMatrix} whose entries are the the values in the
+     * Returns a {@link FieldMatrix} whose entries are the values in the
      * the input array.
      * <p>The type of matrix returned depends on the dimension. Below
      * 2<sup>12</sup> elements (i.e. 4096 elements or 64&times;64 for a
