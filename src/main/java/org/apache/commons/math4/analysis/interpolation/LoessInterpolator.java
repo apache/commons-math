@@ -177,7 +177,7 @@ public class LoessInterpolator
      * @throws NotFiniteNumberException if any of the arguments and values are
      * not finite real numbers.
      * @throws NumberIsTooSmallException if the bandwidth is too small to
-     * accomodate the size of the input data (i.e. the bandwidth must be
+     * accommodate the size of the input data (i.e. the bandwidth must be
      * larger than 2/n).
      */
     @Override
