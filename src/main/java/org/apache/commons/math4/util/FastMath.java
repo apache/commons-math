@@ -41,7 +41,7 @@ import org.apache.commons.math4.exception.util.LocalizedFormats;
  * <p>
  * Note that FastMath is
  * extensively used inside Apache Commons Math, so by calling some algorithms,
- * the overhead when the the tables need to be initialized will occur
+ * the overhead when the tables need to be initialized will occur
  * regardless of the end-user calling FastMath methods directly or not.
  * Performance figures for a specific JVM and hardware can be evaluated by
  * running the FastMathTestPerformance tests in the test directory of the source

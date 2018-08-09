@@ -170,7 +170,7 @@ public class Sum extends AbstractStorelessUnivariateStatistic implements Seriali
     }
 
     /**
-     * The weighted sum of the entries in the the input array.
+     * The weighted sum of the entries in the input array.
      * <p>
      * Throws <code>MathIllegalArgumentException</code> if any of the following are true:
      * <ul><li>the values array is null</li>

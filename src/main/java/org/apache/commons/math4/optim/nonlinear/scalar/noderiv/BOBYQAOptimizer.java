@@ -1913,7 +1913,7 @@ public class BOBYQAOptimizer
 
             // Multiply the search direction by the second derivative matrix of Q and
             // calculate some scalars for the choice of steplength. Then set BLEN to
-            // the length of the the step to the trust region boundary and STPLEN to
+            // the length of the step to the trust region boundary and STPLEN to
             // the steplength, ignoring the simple bounds.
 
             state = 210; break;

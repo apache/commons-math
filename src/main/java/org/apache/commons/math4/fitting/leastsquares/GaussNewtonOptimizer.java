@@ -279,7 +279,7 @@ public class GaussNewtonOptimizer implements LeastSquaresOptimizer {
                         residuals.getEntry(i) * jacobian.getEntry(i, j));
             }
 
-            // add the the contribution to the normal matrix for measurement i
+            // add the contribution to the normal matrix for measurement i
             for (int k = 0; k < nC; ++k) {
                 //only compute the upper triangular part
                 for (int l = k; l < nC; ++l) {

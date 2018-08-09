@@ -399,7 +399,7 @@ public class ChiSquareTest {
      * @param observed1 array of observed frequency counts of the first data set
      * @param observed2 array of observed frequency counts of the second data set
      * @return chiSquare test statistic
-     * @throws DimensionMismatchException the the length of the arrays does not match
+     * @throws DimensionMismatchException the length of the arrays does not match
      * @throws NotPositiveException if any entries in <code>observed1</code> or
      * <code>observed2</code> are negative
      * @throws ZeroException if either all counts of <code>observed1</code> or
@@ -495,7 +495,7 @@ public class ChiSquareTest {
      * @param observed1 array of observed frequency counts of the first data set
      * @param observed2 array of observed frequency counts of the second data set
      * @return p-value
-     * @throws DimensionMismatchException the the length of the arrays does not match
+     * @throws DimensionMismatchException the length of the arrays does not match
      * @throws NotPositiveException if any entries in <code>observed1</code> or
      * <code>observed2</code> are negative
      * @throws ZeroException if either all counts of <code>observed1</code> or
@@ -548,7 +548,7 @@ public class ChiSquareTest {
      * @param alpha significance level of the test
      * @return true iff null hypothesis can be rejected with confidence
      * 1 - alpha
-     * @throws DimensionMismatchException the the length of the arrays does not match
+     * @throws DimensionMismatchException the length of the arrays does not match
      * @throws NotPositiveException if any entries in <code>observed1</code> or
      * <code>observed2</code> are negative
      * @throws ZeroException if either all counts of <code>observed1</code> or

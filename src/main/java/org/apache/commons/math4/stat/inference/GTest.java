@@ -336,7 +336,7 @@ public class GTest {
      * @param observed2 array of observed frequency counts of the second data
      * set
      * @return G-Test statistic
-     * @throws DimensionMismatchException the the lengths of the arrays do not
+     * @throws DimensionMismatchException the lengths of the arrays do not
      * match or their common length is less than 2
      * @throws NotPositiveException if any entry in {@code observed1} or
      * {@code observed2} is negative
@@ -458,7 +458,7 @@ public class GTest {
      * @param observed2 array of observed frequency counts of the second data
      * set
      * @return p-value
-     * @throws DimensionMismatchException the the length of the arrays does not
+     * @throws DimensionMismatchException the length of the arrays does not
      * match or their common length is less than 2
      * @throws NotPositiveException if any of the entries in {@code observed1} or
      * {@code observed2} are negative
@@ -511,7 +511,7 @@ public class GTest {
      * @param alpha significance level of the test
      * @return true iff null hypothesis can be rejected with confidence 1 -
      * alpha
-     * @throws DimensionMismatchException the the length of the arrays does not
+     * @throws DimensionMismatchException the length of the arrays does not
      * match
      * @throws NotPositiveException if any of the entries in {@code observed1} or
      * {@code observed2} are negative
