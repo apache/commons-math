@@ -53,9 +53,7 @@ public class DifferentiatorVectorMultivariateJacobianFunction implements Multiva
         this.differentiator = differentiator;
     }
 
-    /**
-     * @inheritDoc
-     */
+    /** {@inheritDoc} */
     @Override
     public Pair<RealVector, RealMatrix> value(RealVector point) {
         double[] testArray = point.toArray();
