@@ -328,8 +328,7 @@ public class LeastSquaresFactory {
             final double[] p = point.toArray();
 
             // Evaluate.
-            return new Pair<>(computeValue(p),
-                                                    computeJacobian(p));
+            return new Pair<>(computeValue(p), computeJacobian(p));
         }
 
         /** {@inheritDoc} */
