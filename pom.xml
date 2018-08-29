@@ -20,6 +20,7 @@
     <groupId>org.apache.commons</groupId>
     <artifactId>commons-parent</artifactId>
     <version>41</version>
+    <relativePath></relativePath>
   </parent>
   <modelVersion>4.0.0</modelVersion>
   <groupId>org.apache.commons</groupId>
