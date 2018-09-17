@@ -84,13 +84,13 @@ public final class MatrixUtilsTest {
                 MatrixUtils.createRealMatrix(testData));
         try {
             MatrixUtils.createRealMatrix(new double[][] {{1}, {1,2}});  // ragged
-            Assert.fail("Expecting MathIllegalArgumentException");
+            Assert.fail("Expecting DimensionMismatchException");
         } catch (MathIllegalArgumentException ex) {
             // expected
         }
         try {
             MatrixUtils.createRealMatrix(new double[][] {{}, {}});  // no columns
-            Assert.fail("Expecting MathIllegalArgumentException");
+            Assert.fail("Expecting NoDataException");
         } catch (MathIllegalArgumentException ex) {
             // expected
         }
