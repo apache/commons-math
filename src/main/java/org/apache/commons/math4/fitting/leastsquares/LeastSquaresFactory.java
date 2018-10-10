@@ -46,7 +46,7 @@ public class LeastSquaresFactory {
 
     /**
      * Create a {@link org.apache.commons.math4.fitting.leastsquares.LeastSquaresProblem}
-     * from the given elements. There will be no weights applied (unit weights).
+     * from the given elements.
      *
      * @param model          the model function. Produces the computed values.
      * @param observed       the observed (target) values
@@ -328,8 +328,7 @@ public class LeastSquaresFactory {
             final double[] p = point.toArray();
 
             // Evaluate.
-            return new Pair<>(computeValue(p),
-                                                    computeJacobian(p));
+            return new Pair<>(computeValue(p), computeJacobian(p));
         }
 
         /** {@inheritDoc} */

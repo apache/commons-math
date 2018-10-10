@@ -395,13 +395,17 @@ public enum LocalizedFormats implements Localizable {
     public String getLocalizedString(final Locale locale) {
         try {
             final String path = LocalizedFormats.class.getName().replaceAll("\\.", "/");
-            ResourceBundle bundle =
-                    ResourceBundle.getBundle("assets/" + path, locale);
+            final ResourceBundle bundle = ResourceBundle.getBundle("assets/" + path, locale);
             if (bundle.getLocale().getLanguage().equals(locale.getLanguage())) {
-                // the value of the resource is the translated format
-                return bundle.getString(toString());
+                final String key = toString();
+                if (bundle.containsKey(key)) {
+                    // the value of the resource is the translated format
+                    return bundle.getString(key);
+                } else {
+                    // Use default.
+                    return sourceFormat;
+                }
             }
-
         } catch (MissingResourceException mre) { // NOPMD
             // do nothing here
         }
@@ -409,7 +413,5 @@ public enum LocalizedFormats implements Localizable {
         // either the locale is not supported or the resource is unknown
         // don't translate and fall back to using the source format
         return sourceFormat;
-
     }
-
 }

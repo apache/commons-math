@@ -158,6 +158,30 @@ public class CMAESOptimizerTest {
     }
 
     @Test
+    public void testMath1466() {
+        final CMAESOptimizer optimizer
+            = new CMAESOptimizer(30000, Double.NEGATIVE_INFINITY, true, 10,
+                                 0, RandomSource.create(RandomSource.MT_64), false, null);
+        final MultivariateFunction fitnessFunction = new MultivariateFunction() {
+                @Override
+                public double value(double[] x) {
+                    return x[0] * x[0] - 100;
+                }
+            };
+
+        final double[] start = { 100 };
+        final double[] sigma = { 1e-1 };
+        final double[] result = optimizer.optimize(new MaxEval(10000),
+                                                   new ObjectiveFunction(fitnessFunction),
+                                                   SimpleBounds.unbounded(1),
+                                                   GoalType.MINIMIZE,
+                                                   new CMAESOptimizer.PopulationSize(5),
+                                                   new CMAESOptimizer.Sigma(sigma),
+                                                   new InitialGuess(start)).getPoint();
+        Assert.assertEquals(0, result[0], 1e-7);
+    }
+
+    @Test
     public void testEllipse() {
         double[] startPoint = point(DIM,1.0);
         double[] insigma = point(DIM,0.1);
