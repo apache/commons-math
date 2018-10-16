@@ -43,7 +43,7 @@ import org.apache.commons.numbers.core.Precision;
  */
 class SchurTransformer {
     /** Maximum allowed iterations for convergence of the transformation. */
-    private static final int MAX_ITERATIONS = 100;
+    private static final int MAX_ITERATIONS = 1000;
 
     /** P matrix. */
     private final double matrixP[][];
