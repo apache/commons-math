@@ -40,4 +40,17 @@ public class ClopperPearsonIntervalTest extends BinomialConfidenceIntervalAbstra
         Assert.assertEquals(0.1248658, confidenceInterval.getUpperBound(), 1E-5);
     }
 
+    @Test
+    public void testZeroSuccesses() {
+        ConfidenceInterval confidenceInterval = createBinomialConfidenceInterval().createInterval(100, 0, 0.95d);
+        Assert.assertEquals(0.0, confidenceInterval.getLowerBound(), 1E-5);
+        Assert.assertEquals(0.036216, confidenceInterval.getUpperBound(), 1E-5);
+    }
+
+    @Test
+    public void testAllSuccesses() {
+        ConfidenceInterval confidenceInterval = createBinomialConfidenceInterval().createInterval(100, 100, 0.95d);
+        Assert.assertEquals(0.963783, confidenceInterval.getLowerBound(), 1E-5);
+        Assert.assertEquals(1.0, confidenceInterval.getUpperBound(), 1E-5);
+    }
 }
