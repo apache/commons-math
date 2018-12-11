@@ -19,7 +19,7 @@
   <parent>
     <groupId>org.apache.commons</groupId>
     <artifactId>commons-parent</artifactId>
-    <version>41</version>
+    <version>47</version>
   </parent>
   <modelVersion>4.0.0</modelVersion>
   <groupId>org.apache.commons</groupId>
@@ -38,9 +38,9 @@
   </issueManagement>
 
   <scm>
-    <connection>scm:git:http://git-wip-us.apache.org/repos/asf/commons-math.git</connection>
-    <developerConnection>scm:git:https://git-wip-us.apache.org/repos/asf/commons-math.git</developerConnection>
-    <url>https://git-wip-us.apache.org/repos/asf?p=commons-math.git</url>
+    <connection>scm:git:http://gitbox.apache.org/repos/asf/commons-math.git</connection>
+    <developerConnection>scm:git:https://gitbox.apache.org/repos/asf/commons-math.git</developerConnection>
+    <url>https://gitbox.apache.org/repos/asf?p=commons-math.git</url>
   </scm>
 
   <distributionManagement>
@@ -484,9 +484,10 @@
     <math.findbugs.version>3.0.4</math.findbugs.version>
     <math.checkstyle.version>2.17</math.checkstyle.version>
     <math.clirr.version>2.8</math.clirr.version>
+    <math.mathjax.version>2.7.2</math.mathjax.version>
 
     <!-- Temporary fix to support Java 8 -->
-    <commons.jacoco.version>0.7.9</commons.jacoco.version>
+    <commons.jacoco.version>0.8.0</commons.jacoco.version>
     <commons.jacoco.classRatio>0.96</commons.jacoco.classRatio>
     <commons.jacoco.instructionRatio>0.8</commons.jacoco.instructionRatio>
     <commons.jacoco.methodRatio>0.8</commons.jacoco.methodRatio>
@@ -510,9 +511,11 @@
     <!-- JMH Benchmark related properties, version, target compiler and name of the benchmarking uber jar. -->
     <jmh.version>1.13</jmh.version>
     <uberjar.name>benchmarks</uberjar.name>
+    <!-- Java8+ requires additional Javadoc qualifier for MathJax (default to empty). -->
+    <allowscript.javadoc.qualifier></allowscript.javadoc.qualifier>
     <!-- MathJax requires additional Javadoc qualifier for Java8+ -->
     <!-- default to empty for earlier versions of Java -->
-    <mathjax.javadoc.qualifier></mathjax.javadoc.qualifier>
+    <doclint.javadoc.qualifier></doclint.javadoc.qualifier>
   </properties>
 
   <build>
@@ -521,6 +524,9 @@
           <groupId>org.apache.maven.plugins</groupId>
           <artifactId>maven-surefire-plugin</artifactId>
             <configuration>
+            <!-- Fix for OpenJDK 8 now validating class-path attributes in Jar manifests. -->
+            <!-- See https://bugs.debian.org/cgi-bin/bugreport.cgi?bug=912333#63 -->
+            <useSystemClassLoader>false</useSystemClassLoader>
               <includes>
                 <include>**/*Test.java</include>
                 <include>**/*TestBinary.java</include>
@@ -638,7 +644,9 @@
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-javadoc-plugin</artifactId>
         <configuration>
-          <additionalparam>${mathjax.javadoc.qualifier} -header '&lt;script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"&gt;&lt;/script&gt;'</additionalparam>
+          <!-- Enable MathJax -->
+          <additionalparam>${doclint.javadoc.qualifier} ${allowscript.javadoc.qualifier} -header '&lt;script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/${math.mathjax.version}/MathJax.js?config=TeX-AMS-MML_HTMLorMML"&gt;&lt;/script&gt;'</additionalparam>
+          <!-- <aggregate>true</aggregate> -->
         </configuration>
       </plugin>
     </plugins>
@@ -991,7 +999,7 @@
       <activation><jdk>[1.8,)</jdk></activation>
       <properties>
         <!-- MathJax requires additional Javadoc qualifier for Java8+ -->
-        <mathjax.javadoc.qualifier>--allow-script-in-comments</mathjax.javadoc.qualifier>
+        <allowscript.javadoc.qualifier>--allow-script-in-comments</allowscript.javadoc.qualifier>
       </properties>
     </profile>
   </profiles>

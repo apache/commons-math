@@ -48,11 +48,11 @@
         </li>
         <li>Download the Commons Math source code.  Follow the instructions
         under the heading "Repository Checkout" on the
-        <a href="https://git-wip-us.apache.org/">Git at the ASF page</a>.
+        <a href="https://gitbox.apache.org/">Git at the ASF page</a>.
         The git url for the current development sources of Commons Math
-        is <source>http://git-wip-us.apache.org/repos/asf/commons-math.git</source>
+        is <source>http://gitbox.apache.org/repos/asf/commons-math.git</source>
         for anonymous read-only access and
-        <source>https://apacheid@git-wip-us.apache.org/repos/asf/commons-math.git</source>
+        <source>https://apacheid@gitbox.apache.org/repos/asf/commons-math.git</source>
         (where apacheid should be replaced by each committer Apache ID) for committers
         read-write access.
         </li>
