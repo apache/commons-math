@@ -205,6 +205,9 @@ public class RegionParser {
          */
         public TreeBuilder(final String type, final String s)
             throws IOException, ParseException {
+            if (s == null || s.isEmpty()) {
+                throw new ParseException("the string cannot be null or empty", 0);
+            }
             root = null;
             tokenizer = new StringTokenizer(s);
             getWord(type);
