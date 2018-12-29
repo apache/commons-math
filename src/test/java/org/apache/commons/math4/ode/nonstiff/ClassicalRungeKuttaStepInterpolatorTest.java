@@ -68,6 +68,7 @@ public class ClassicalRungeKuttaStepInterpolatorTest {
     for (StepHandler handler : integ.getStepHandlers()) {
         oos.writeObject(handler);
     }
+    oos.flush();
 
     Assert.assertTrue(bos.size () > 880000);
     Assert.assertTrue(bos.size () < 900000);

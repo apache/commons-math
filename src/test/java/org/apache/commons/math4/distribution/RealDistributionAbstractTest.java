@@ -506,6 +506,7 @@ public abstract class RealDistributionAbstractTest {
         final ByteArrayOutputStream bOut = new ByteArrayOutputStream();
         final ObjectOutputStream oOut = new ObjectOutputStream(bOut);
         oOut.writeObject(distribution);
+        oOut.flush();
         final byte[] data = bOut.toByteArray();
 
         // Deserialize from byte array.

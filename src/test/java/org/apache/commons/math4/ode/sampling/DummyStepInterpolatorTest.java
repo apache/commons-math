@@ -84,6 +84,7 @@ public class DummyStepInterpolatorTest {
     ByteArrayOutputStream bos = new ByteArrayOutputStream();
     ObjectOutputStream    oos = new ObjectOutputStream(bos);
     oos.writeObject(interpolator);
+    oos.flush();
 
     Assert.assertTrue(bos.size () > 300);
     Assert.assertTrue(bos.size () < 500);

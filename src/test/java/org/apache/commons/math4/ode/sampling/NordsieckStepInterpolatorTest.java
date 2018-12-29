@@ -66,6 +66,7 @@ public class NordsieckStepInterpolatorTest {
         for (StepHandler handler : integ.getStepHandlers()) {
             oos.writeObject(handler);
         }
+        oos.flush();
 
         Assert.assertTrue(bos.size() > 47000);
         Assert.assertTrue(bos.size() < 48000);

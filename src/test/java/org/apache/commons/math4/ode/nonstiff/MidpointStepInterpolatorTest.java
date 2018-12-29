@@ -69,6 +69,7 @@ public class MidpointStepInterpolatorTest {
     for (StepHandler handler : integ.getStepHandlers()) {
         oos.writeObject(handler);
     }
+    oos.flush();
 
     Assert.assertTrue(bos.size () > 135000);
     Assert.assertTrue(bos.size () < 145000);
