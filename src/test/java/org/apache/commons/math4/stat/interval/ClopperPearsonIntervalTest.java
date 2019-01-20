@@ -16,6 +16,8 @@
  */
 package org.apache.commons.math4.stat.interval;
 
+import static org.junit.Assert.assertEquals;
+
 import org.apache.commons.math4.stat.interval.BinomialConfidenceInterval;
 import org.apache.commons.math4.stat.interval.ClopperPearsonInterval;
 import org.apache.commons.math4.stat.interval.ConfidenceInterval;
@@ -40,4 +42,27 @@ public class ClopperPearsonIntervalTest extends BinomialConfidenceIntervalAbstra
         Assert.assertEquals(0.1248658, confidenceInterval.getUpperBound(), 1E-5);
     }
 
+    /*
+     * See MATH-1401 for more. Handles special cases for ClopperPearson, when the number
+     * of successes is zero, and when the number of successes and number of trials are
+     * equals.
+     */
+
+    @Test
+    public void testNumberOfSuccessesIsZero() {
+        ConfidenceInterval ci = testStatistic.createInterval(1, 0, 0.95);
+        ConfidenceInterval expected = new ConfidenceInterval(0.0, 0.975, ci.getConfidenceLevel());
+        //assertEquals(expected, ci); // TBD: ConfidenceInterval does not contain an equal method yet
+        assertEquals(expected.getLowerBound(), ci.getLowerBound(), 0.0d);
+        assertEquals(expected.getUpperBound(), ci.getUpperBound(), 0.0d);
+    }
+
+    @Test
+    public void testNumberOfSuccessesAndNumberOfTrialsAreEquals() {
+        ConfidenceInterval ci = testStatistic.createInterval(1, 1, 0.95);
+        ConfidenceInterval expected = new ConfidenceInterval(0.025, 1.0, ci.getConfidenceLevel());
+        //assertEquals(expected, ci); // TBD: ConfidenceInterval does not contain an equal method yet
+        assertEquals(expected.getLowerBound(), ci.getLowerBound(), 0.0001d);
+        assertEquals(expected.getUpperBound(), ci.getUpperBound(), 0.0d);
+    }
 }
