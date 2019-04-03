@@ -116,7 +116,7 @@ public class GLSMultipleLinearRegression extends AbstractMultipleLinearRegressio
      */
     @Override
     protected RealVector calculateBeta() {
-        DiagonalMatrix OI = getOmegaInverse();
+        RealMatrix OI = getOmegaInverse();
         RealMatrix XT = getX().transpose();
         RealMatrix XTOIX = XT.multiply(OI.multiply(getX()));
         RealMatrix inverse = new LUDecomposition(XTOIX).getSolver().getInverse();
@@ -132,7 +132,7 @@ public class GLSMultipleLinearRegression extends AbstractMultipleLinearRegressio
      */
     @Override
     protected RealMatrix calculateBetaVariance() {
-        DiagonalMatrix OI = getOmegaInverse();;
+        RealMatrix OI = getOmegaInverse();
         RealMatrix XTOIX = getX().transpose().multiply(OI.multiply(getX()));
         return new LUDecomposition(XTOIX).getSolver().getInverse();
     }
