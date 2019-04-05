@@ -37,7 +37,8 @@ import org.apache.commons.math4.util.FastMath;
  *
  * <p>
  * This base class provides a default factory method for creating
- * a {@link RealDistribution.Sampler sampler instance} that uses the
+ * a {@link org.apache.commons.statistics.distribution.ContinuousDistribution.Sampler
+ * sampler instance} that uses the
  * <a href="http://en.wikipedia.org/wiki/Inverse_transform_sampling">
  * inversion method</a> for generating random samples that follow the
  * distribution.
