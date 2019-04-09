@@ -1063,7 +1063,7 @@ public class MillerUpdatingRegression implements UpdatingMultipleLinearRegressio
         }
 
         boolean needsReorder = false;
-        for (int i = 0; i < this.nvars; i++) {
+        for (int i = 0; i < series.length; i++) {
             if (this.vorder[i] != series[i]) {
                 needsReorder = true;
                 break;
