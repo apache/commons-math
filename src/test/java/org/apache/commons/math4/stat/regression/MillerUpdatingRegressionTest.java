@@ -1051,19 +1051,27 @@ public class MillerUpdatingRegressionTest {
     }
 
 
-    @Test
-    public void testSubsetRegression() {
-
-        MillerUpdatingRegression instance = new MillerUpdatingRegression(3, true);
-        MillerUpdatingRegression redRegression = new MillerUpdatingRegression(2, true);
+    private void subsetRegression(int i_exclude, boolean constant){
+        int[] indices = new int[2];
+        int j = 0;
+        for (int i = 0; i < 3; i++){
+            if (i != i_exclude){
+                indices[j] = i;
+                j++;
+            }
+        }
+        int i0 = indices[0];
+        int i1 = indices[1];
+        MillerUpdatingRegression instance = new MillerUpdatingRegression(3, constant);
+        MillerUpdatingRegression redRegression = new MillerUpdatingRegression(2, constant);
         double[][] x = new double[airdata[0].length][];
         double[][] xReduced = new double[airdata[0].length][];
         double[] y = new double[airdata[0].length];
         for (int i = 0; i < airdata[0].length; i++) {
             x[i] = new double[3];
-            x[i][0] = FastMath.log(airdata[3][i]);
-            x[i][1] = FastMath.log(airdata[4][i]);
-            x[i][2] = airdata[5][i];
+            x[i][i0] = FastMath.log(airdata[3][i]);
+            x[i][i1] = FastMath.log(airdata[4][i]);
+            x[i][i_exclude] = airdata[5][i];
 
             xReduced[i] = new double[2];
             xReduced[i][0] = FastMath.log(airdata[3][i]);
@@ -1075,11 +1083,30 @@ public class MillerUpdatingRegressionTest {
         instance.addObservations(x, y);
         redRegression.addObservations(xReduced, y);
 
-        RegressionResults resultsInstance = instance.regress( new int[]{0,1,2} );
+        int includedIndices[];
+        if (constant){
+            includedIndices = new int[3];
+            includedIndices[0] = 0;
+            includedIndices[1] = i0 + 1;
+            includedIndices[2] = i1 + 1;
+        } else {
+            includedIndices = indices;
+        }
+
+        RegressionResults resultsInstance = instance.regress( includedIndices );
         RegressionResults resultsReduced = redRegression.regress();
 
         TestUtils.assertEquals(resultsInstance.getParameterEstimates(), resultsReduced.getParameterEstimates(), 1.0e-12);
         TestUtils.assertEquals(resultsInstance.getStdErrorOfEstimates(), resultsReduced.getStdErrorOfEstimates(), 1.0e-12);
+    }
+
+
+    @Test
+    public void testSubsetRegression() {
+        for (int i=0; i < 3; i++){
+            subsetRegression(i, true);
+            subsetRegression(i, false);
+        }
     }
 
 
