@@ -46,11 +46,15 @@ public class ClopperPearsonInterval implements BinomialConfidenceInterval {
             lowerBound = numberOfSuccesses /
                 (numberOfSuccesses + (numberOfTrials - numberOfSuccesses + 1) * fValueLowerBound);
 
-            final FDistribution distributionUpperBound = new FDistribution(2 * (numberOfSuccesses + 1),
-                                                                           2 * (numberOfTrials - numberOfSuccesses));
-            final double fValueUpperBound = distributionUpperBound.inverseCumulativeProbability(1 - alpha);
-            upperBound = (numberOfSuccesses + 1) * fValueUpperBound /
-                (numberOfTrials - numberOfSuccesses + (numberOfSuccesses + 1) * fValueUpperBound);
+            if (numberOfSuccesses != numberOfTrials) {
+                final FDistribution distributionUpperBound = new FDistribution(2 * (numberOfSuccesses + 1),
+                                                                               2 * (numberOfTrials - numberOfSuccesses));
+                final double fValueUpperBound = distributionUpperBound.inverseCumulativeProbability(1 - alpha);
+                upperBound = (numberOfSuccesses + 1) * fValueUpperBound /
+                    (numberOfTrials - numberOfSuccesses + (numberOfSuccesses + 1) * fValueUpperBound);
+            } else {
+                upperBound = 1;
+            }
         }
 
         return new ConfidenceInterval(lowerBound, upperBound, confidenceLevel);
