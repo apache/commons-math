@@ -35,26 +35,24 @@ public class ClopperPearsonInterval implements BinomialConfidenceInterval {
                                              double confidenceLevel) {
         IntervalUtils.checkParameters(numberOfTrials, numberOfSuccesses, confidenceLevel);
         double lowerBound = 0;
-        double upperBound = 0;
+        double upperBound = 1;
+
+        final double alpha = 0.5 * (1 - confidenceLevel);
 
         if (numberOfSuccesses > 0) {
-            final double alpha = 0.5 * (1 - confidenceLevel);
-
             final FDistribution distributionLowerBound = new FDistribution(2 * (numberOfTrials - numberOfSuccesses + 1),
                                                                            2 * numberOfSuccesses);
             final double fValueLowerBound = distributionLowerBound.inverseCumulativeProbability(1 - alpha);
             lowerBound = numberOfSuccesses /
                 (numberOfSuccesses + (numberOfTrials - numberOfSuccesses + 1) * fValueLowerBound);
+        }
 
-            if (numberOfSuccesses != numberOfTrials) {
-                final FDistribution distributionUpperBound = new FDistribution(2 * (numberOfSuccesses + 1),
-                                                                               2 * (numberOfTrials - numberOfSuccesses));
-                final double fValueUpperBound = distributionUpperBound.inverseCumulativeProbability(1 - alpha);
-                upperBound = (numberOfSuccesses + 1) * fValueUpperBound /
-                    (numberOfTrials - numberOfSuccesses + (numberOfSuccesses + 1) * fValueUpperBound);
-            } else {
-                upperBound = 1;
-            }
+        if (numberOfSuccesses < numberOfTrials) {
+            final FDistribution distributionUpperBound = new FDistribution(2 * (numberOfSuccesses + 1),
+                                                                           2 * (numberOfTrials - numberOfSuccesses));
+            final double fValueUpperBound = distributionUpperBound.inverseCumulativeProbability(1 - alpha);
+            upperBound = (numberOfSuccesses + 1) * fValueUpperBound /
+                (numberOfTrials - numberOfSuccesses + (numberOfSuccesses + 1) * fValueUpperBound);
         }
 
         return new ConfidenceInterval(lowerBound, upperBound, confidenceLevel);

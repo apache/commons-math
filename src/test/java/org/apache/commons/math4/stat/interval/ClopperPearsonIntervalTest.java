@@ -46,4 +46,68 @@ public class ClopperPearsonIntervalTest extends BinomialConfidenceIntervalAbstra
         Assert.assertEquals(0.025, interval.getLowerBound(), 1e-16);
         Assert.assertEquals(1, interval.getUpperBound(), 0d);
     }
+
+    // number of successes = 0, number of trials = N
+    @Test
+    public void testCase1() {
+        // Check correctness against values obtained with the Python statsmodels.stats.proportion.proportion_confint
+        final int successes = 0;
+        final int trials = 10;
+        final double confidenceLevel = 0.95;
+
+        // proportion_confint(0,10,method='beta') = (0, 0.3084971078187608)
+        final ConfidenceInterval expected = new ConfidenceInterval(0,
+                                                                   0.3084971078187608,
+                                                                   confidenceLevel);
+
+        check(expected, createBinomialConfidenceInterval().createInterval(trials, successes, confidenceLevel));
+    }
+
+    // number of successes = number of trials = N
+    @Test
+    public void testCase2() {
+        // Check correctness against values obtained with the Python statsmodels.stats.proportion.proportion_confint
+        final int successes = 10;
+        final int trials = 10;
+        final double confidenceLevel = 0.95;
+
+        // prop.proportion_confint(10,10,method='beta') = (0.6915028921812392, 1)
+        final ConfidenceInterval expected = new ConfidenceInterval(0.6915028921812392,
+                                                                   1,
+                                                                   confidenceLevel);
+
+        check(expected, createBinomialConfidenceInterval().createInterval(trials, successes, confidenceLevel));
+    }
+
+    // number of successes = k, number of trials = N, 0 < k < N
+    @Test
+    public void testCase3() {
+        // Check correctness against values obtained with the Python statsmodels.stats.proportion.proportion_confint
+        final int successes = 3;
+        final int trials = 10;
+        final double confidenceLevel = 0.95;
+
+        // prop.proportion_confint(3,10,method='beta') = (0.06673951117773447, 0.6524528500599972)
+        final ConfidenceInterval expected = new ConfidenceInterval(0.06673951117773447,
+                                                                   0.6524528500599972,
+                                                                   confidenceLevel);
+
+        check(expected, createBinomialConfidenceInterval().createInterval(trials, successes, confidenceLevel));
+    }
+
+    private void check(ConfidenceInterval expected,
+                       ConfidenceInterval actual) {
+        final double relTol = 1.0e-6; // Reasonable relative tolerance for floating point comparison
+        // Compare bounds using a relative tolerance
+        Assert.assertEquals(expected.getLowerBound(),
+                            actual.getLowerBound(),
+                            relTol * (1.0 + Math.abs(expected.getLowerBound())));
+        Assert.assertEquals(expected.getUpperBound(),
+                            actual.getUpperBound(),
+                            relTol * (1.0 + Math.abs(expected.getUpperBound())));
+        // The confidence level must be exact
+        Assert.assertEquals(expected.getConfidenceLevel(),
+                            actual.getConfidenceLevel(),
+                            0.0);
+    }
 }
