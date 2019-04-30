@@ -66,7 +66,7 @@ public class SobolSequenceGeneratorTest {
         }
 
         try {
-            new SobolSequenceGenerator(1001);
+            new SobolSequenceGenerator(21202);
             Assert.fail("an exception should have been thrown");
         } catch (OutOfRangeException e) {
             // expected
@@ -76,16 +76,16 @@ public class SobolSequenceGeneratorTest {
     @Test
     public void testConstructor2() throws Exception{
         try {
-            final String RESOURCE_NAME = "/assets/org/apache/commons/math4/random/new-joe-kuo-6.1000";
+            final String RESOURCE_NAME = "/assets/org/apache/commons/math4/random/new-joe-kuo-6.21201";
             final InputStream is = getClass().getResourceAsStream(RESOURCE_NAME);
-            new SobolSequenceGenerator(1001, is);
+            new SobolSequenceGenerator(21202, is);
             Assert.fail("an exception should have been thrown");
         } catch (OutOfRangeException e) {
             // expected
         }
 
         try {
-            new SobolSequenceGenerator(1001);
+            new SobolSequenceGenerator(21202);
             Assert.fail("an exception should have been thrown");
         } catch (OutOfRangeException e) {
             // expected

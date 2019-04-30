@@ -62,10 +62,10 @@ public class SobolSequenceGenerator implements RandomVectorGenerator {
     private static final double SCALE = FastMath.pow(2, BITS);
 
     /** The maximum supported space dimension. */
-    private static final int MAX_DIMENSION = 1000;
+    private static final int MAX_DIMENSION = 21201;
 
     /** The resource containing the direction numbers. */
-    private static final String RESOURCE_NAME = "/assets/org/apache/commons/math4/random/new-joe-kuo-6.1000";
+    private static final String RESOURCE_NAME = "/assets/org/apache/commons/math4/random/new-joe-kuo-6.21201";
 
     /** Character set for file input. */
     private static final String FILE_CHARSET = "US-ASCII";
