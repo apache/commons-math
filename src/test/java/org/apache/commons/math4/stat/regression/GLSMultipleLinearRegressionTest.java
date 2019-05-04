@@ -82,26 +82,51 @@ public class GLSMultipleLinearRegressionTest extends MultipleLinearRegressionAbs
     }
 
     @Test(expected=NullArgumentException.class)
-    public void cannotAddXSampleData() {
-        createRegression().newSampleData(new double[]{}, null, null);
+    public void cannotAddXSampleDataWithCovar() {
+        createRegression().newSampleData(new double[]{}, null, (double[][]) null);
     }
 
     @Test(expected=NullArgumentException.class)
-    public void cannotAddNullYSampleData() {
-        createRegression().newSampleData(null, new double[][]{}, null);
+    public void cannotAddXSampleDataWithWeights() {
+        createRegression().newSampleData(new double[]{}, null, (double[]) null);
+    }
+
+
+    @Test(expected=NullArgumentException.class)
+    public void cannotAddNullYSampleDataWithCovar() {
+        createRegression().newSampleData(null, new double[][]{}, (double[][]) null);
+    }
+
+    @Test(expected=NullArgumentException.class)
+    public void cannotAddNullYSampleDataWithWeights() {
+        createRegression().newSampleData(null, new double[][]{}, (double[]) null);
     }
 
     @Test(expected=MathIllegalArgumentException.class)
-    public void cannotAddSampleDataWithSizeMismatch() {
+    public void cannotAddSampleDataWithSizeMismatchWithCovar() {
         double[] y = new double[]{1.0, 2.0};
         double[][] x = new double[1][];
         x[0] = new double[]{1.0, 0};
-        createRegression().newSampleData(y, x, null);
+        createRegression().newSampleData(y, x, (double[][]) null);
     }
 
     @Test(expected=MathIllegalArgumentException.class)
+    public void cannotAddSampleDataWithSizeMismatchWithWeights() {
+        double[] y = new double[]{1.0, 2.0};
+        double[][] x = new double[1][];
+        x[0] = new double[]{1.0, 0};
+        createRegression().newSampleData(y, x, (double[]) null);
+    }
+
+
+    @Test(expected=MathIllegalArgumentException.class)
     public void cannotAddNullCovarianceData() {
-        createRegression().newSampleData(new double[]{}, new double[][]{}, null);
+        createRegression().newSampleData(new double[]{}, new double[][]{}, (double[][]) null);
+    }
+
+    @Test(expected=MathIllegalArgumentException.class)
+    public void cannotAddNullWeights() {
+        createRegression().newSampleData(new double[]{}, new double[][]{}, (double[]) null);
     }
 
     @Test(expected=MathIllegalArgumentException.class)
