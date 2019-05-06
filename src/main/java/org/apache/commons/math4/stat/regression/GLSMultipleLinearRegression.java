@@ -20,6 +20,8 @@ import org.apache.commons.math4.linear.Array2DRowRealMatrix;
 import org.apache.commons.math4.linear.LUDecomposition;
 import org.apache.commons.math4.linear.RealMatrix;
 import org.apache.commons.math4.linear.RealVector;
+import org.apache.commons.math4.linear.DiagonalMatrix;
+import org.apache.commons.math4.exception.DimensionMismatchException;
 
 /**
  * The GLS implementation of multiple linear regression.
@@ -60,17 +62,17 @@ public class GLSMultipleLinearRegression extends AbstractMultipleLinearRegressio
         newCovarianceData(covariance);
     }
 
-    public void newSampleData(double[] y, double[][] x, double[] weights) { //covariance now is double[] instead of double[][]
+    public void newSampleData(double[] y, double[][] x, double[] covariance) { //covariance now is double[] instead of double[][]
         validateSampleData(x, y);
         newYSampleData(y);
         newXSampleData(x);
-        validateCovarianceData(x, weights);
-        newCovarianceData(weights);
+        validateCovarianceData(x, covariance);
+        newCovarianceData(covariance);
     }
 
-    protected void validateCovarianceData(double[][] x, double[] weights) {
-        if (x.length != weights.length) {
-            throw new DimensionMismatchException(x.length, weights.length);
+    protected void validateCovarianceData(double[][] x, double[] covariance) {
+        if (x.length != covariance.length) {
+            throw new DimensionMismatchException(x.length, covariance.length);
         }
     }
 
@@ -97,8 +99,8 @@ public class GLSMultipleLinearRegression extends AbstractMultipleLinearRegressio
      */
     protected RealMatrix getOmegaInverse() {
         if (OmegaInverse == null) {
-            if (OmegaInverse instanceof DiagonalMatrix) {
-                OmegaInverse = Omega.inverse();
+            if (Omega instanceof DiagonalMatrix) {
+                OmegaInverse = ((DiagonalMatrix)Omega).inverse();
             }
             else {
                 OmegaInverse = new LUDecomposition(Omega).getSolver().getInverse();
