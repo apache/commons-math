@@ -41,6 +41,7 @@ public class GLSMultipleLinearRegressionTest extends MultipleLinearRegressionAbs
     private double[] y;
     private double[][] x;
     private double[][] omega;
+    private double[] omegaVector;
     private final double[] longley = new double[] {
             60323,83.0,234289,2356,1590,107608,1947,
             61122,88.5,259426,2325,1456,108632,1948,
@@ -78,32 +79,33 @@ public class GLSMultipleLinearRegressionTest extends MultipleLinearRegressionAbs
         omega[3] = new double[]{0, 0, 0, 4.0, 0, 0};
         omega[4] = new double[]{0, 0, 0, 0, 5.0, 0};
         omega[5] = new double[]{0, 0, 0, 0, 0, 6.0};
+        omegaVector = new double[]{1.0, 2.0, 3.0, 4.0, 5.0, 6.0};
         super.setUp();
     }
 
     @Test(expected=NullArgumentException.class)
-    public void cannotAddXSampleDataWithCovar() {
+    public void cannotAddXSampleDataWithCovariance() {
         createRegression().newSampleData(new double[]{}, null, (double[][]) null);
     }
 
     @Test(expected=NullArgumentException.class)
-    public void cannotAddXSampleDataWithWeights() {
+    public void cannotAddXSampleDataWithVariances() {
         createRegression().newSampleData(new double[]{}, null, (double[]) null);
     }
 
 
     @Test(expected=NullArgumentException.class)
-    public void cannotAddNullYSampleDataWithCovar() {
+    public void cannotAddNullYSampleDataWithCovariance() {
         createRegression().newSampleData(null, new double[][]{}, (double[][]) null);
     }
 
     @Test(expected=NullArgumentException.class)
-    public void cannotAddNullYSampleDataWithWeights() {
+    public void cannotAddNullYSampleDataWithVariances() {
         createRegression().newSampleData(null, new double[][]{}, (double[]) null);
     }
 
     @Test(expected=MathIllegalArgumentException.class)
-    public void cannotAddSampleDataWithSizeMismatchWithCovar() {
+    public void cannotAddSampleDataWithSizeMismatchWithCovariance() {
         double[] y = new double[]{1.0, 2.0};
         double[][] x = new double[1][];
         x[0] = new double[]{1.0, 0};
@@ -111,7 +113,7 @@ public class GLSMultipleLinearRegressionTest extends MultipleLinearRegressionAbs
     }
 
     @Test(expected=MathIllegalArgumentException.class)
-    public void cannotAddSampleDataWithSizeMismatchWithWeights() {
+    public void cannotAddSampleDataWithSizeMismatchWithVariances() {
         double[] y = new double[]{1.0, 2.0};
         double[][] x = new double[1][];
         x[0] = new double[]{1.0, 0};
@@ -125,7 +127,7 @@ public class GLSMultipleLinearRegressionTest extends MultipleLinearRegressionAbs
     }
 
     @Test(expected=MathIllegalArgumentException.class)
-    public void cannotAddNullWeights() {
+    public void cannotAddNullVariances() {
         createRegression().newSampleData(new double[]{}, new double[][]{}, (double[]) null);
     }
 
@@ -193,6 +195,23 @@ public class GLSMultipleLinearRegressionTest extends MultipleLinearRegressionAbs
         model.newSampleData(y, x, omega);
         TestUtils.assertEquals(model.calculateYVariance(), 3.5, 0);
     }
+
+    /**
+     * Verifies that GLS with relevant variance vector gaves the same results
+     * as GLS with covariance matrix.
+     */
+    @Test
+    public void testVariances(){
+        GLSMultipleLinearRegression model = new GLSMultipleLinearRegression();
+        model.newSampleData(y, x, omegaVector);
+        double[] fromVectorBeta = model.calculateBeta().toArray();
+        model.newSampleData(y, x, omega);
+        double[] fromMatrixBeta = model.calculateBeta().toArray();
+        for (int i = 0; i < fromVectorBeta.length; i++) {
+            TestUtils.assertRelativelyEquals(fromMatrixBeta[i], fromVectorBeta[i], 10E-7);
+        }
+    }
+
 
     /**
      * Verifies that setting X, Y and covariance separately has the same effect as newSample(X,Y,cov).
