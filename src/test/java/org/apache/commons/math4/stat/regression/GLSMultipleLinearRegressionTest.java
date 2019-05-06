@@ -84,7 +84,7 @@ public class GLSMultipleLinearRegressionTest extends MultipleLinearRegressionAbs
     }
 
     @Test(expected=NullArgumentException.class)
-    public void cannotAddXSampleDataWithCovariance() {
+    public void cannotAddXSampleDataWithCovariances() {
         createRegression().newSampleData(new double[]{}, null, (double[][]) null);
     }
 
@@ -95,7 +95,7 @@ public class GLSMultipleLinearRegressionTest extends MultipleLinearRegressionAbs
 
 
     @Test(expected=NullArgumentException.class)
-    public void cannotAddNullYSampleDataWithCovariance() {
+    public void cannotAddNullYSampleDataWithCovariances() {
         createRegression().newSampleData(null, new double[][]{}, (double[][]) null);
     }
 
@@ -105,7 +105,7 @@ public class GLSMultipleLinearRegressionTest extends MultipleLinearRegressionAbs
     }
 
     @Test(expected=MathIllegalArgumentException.class)
-    public void cannotAddSampleDataWithSizeMismatchWithCovariance() {
+    public void cannotAddSampleDataWithSizeMismatchWithCovariances() {
         double[] y = new double[]{1.0, 2.0};
         double[][] x = new double[1][];
         x[0] = new double[]{1.0, 0};
@@ -127,7 +127,7 @@ public class GLSMultipleLinearRegressionTest extends MultipleLinearRegressionAbs
     }
 
     @Test(expected=MathIllegalArgumentException.class)
-    public void cannotAddNullVariances() {
+    public void cannotAddNullVarianceData() {
         createRegression().newSampleData(new double[]{}, new double[][]{}, (double[]) null);
     }
 
@@ -197,11 +197,11 @@ public class GLSMultipleLinearRegressionTest extends MultipleLinearRegressionAbs
     }
 
     /**
-     * Verifies that GLS with relevant variance vector gaves the same results
+     * Verifies that GLS with relevant variance vector produces the same results
      * as GLS with covariance matrix.
      */
     @Test
-    public void testVariances(){
+    public void testVarianceCovarianceConsistency(){
         GLSMultipleLinearRegression model = new GLSMultipleLinearRegression();
         model.newSampleData(y, x, omegaVector);
         double[] fromVectorBeta = model.calculateBeta().toArray();
