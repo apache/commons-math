@@ -39,7 +39,7 @@ import org.apache.commons.math4.util.FastMath;
  * its subsequence (x1, ... xN) has a low discrepancy. It can be used to generate pseudo-random
  * points in a space S, which are equi-distributed.
  * <p>
- * The implementation already comes with support for up to 1000 dimensions with direction numbers
+ * The implementation already comes with support for up to 21201 dimensions with direction numbers
  * calculated from <a href="http://web.maths.unsw.edu.au/~fkuo/sobol/">Stephen Joe and Frances Kuo</a>.
  * <p>
  * The generator supports two modes:
@@ -62,10 +62,10 @@ public class SobolSequenceGenerator implements RandomVectorGenerator {
     private static final double SCALE = FastMath.pow(2, BITS);
 
     /** The maximum supported space dimension. */
-    private static final int MAX_DIMENSION = 1000;
+    private static final int MAX_DIMENSION = 21201;
 
     /** The resource containing the direction numbers. */
-    private static final String RESOURCE_NAME = "/assets/org/apache/commons/math4/random/new-joe-kuo-6.1000";
+    private static final String RESOURCE_NAME = "/assets/org/apache/commons/math4/random/new-joe-kuo-6.21201";
 
     /** Character set for file input. */
     private static final String FILE_CHARSET = "US-ASCII";
@@ -86,7 +86,7 @@ public class SobolSequenceGenerator implements RandomVectorGenerator {
      * Construct a new Sobol sequence generator for the given space dimension.
      *
      * @param dimension the space dimension
-     * @throws OutOfRangeException if the space dimension is outside the allowed range of [1, 1000]
+     * @throws OutOfRangeException if the space dimension is outside the allowed range of [1, 21201]
      */
     public SobolSequenceGenerator(final int dimension) throws OutOfRangeException {
         if (dimension < 1 || dimension > MAX_DIMENSION) {
