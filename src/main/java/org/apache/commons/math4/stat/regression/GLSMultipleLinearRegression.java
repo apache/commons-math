@@ -61,18 +61,23 @@ public class GLSMultipleLinearRegression extends AbstractMultipleLinearRegressio
         validateCovarianceData(x, covariance);
         newCovarianceData(covariance);
     }
-
-    public void newSampleData(double[] y, double[][] x, double[] covariance) { //covariance now is double[] instead of double[][]
+    
+    /** Replace sample data, overriding any previous sample.
+     * @param y y values of the sample
+     * @param x x values of the sample
+     * @param variance array representing the variance vector
+     */
+    public void newSampleData(double[] y, double[][] x, double[] variance) {
         validateSampleData(x, y);
         newYSampleData(y);
         newXSampleData(x);
-        validateCovarianceData(x, covariance);
-        newCovarianceData(covariance);
+        validateCovarianceData(x, variance);
+        newCovarianceData(variance);
     }
 
-    protected void validateCovarianceData(double[][] x, double[] covariance) {
-        if (x.length != covariance.length) {
-            throw new DimensionMismatchException(x.length, covariance.length);
+    protected void validateCovarianceData(double[][] x, double[] variance) {
+        if (x.length != variance.length) {
+            throw new DimensionMismatchException(x.length, variance.length);
         }
     }
 
@@ -87,7 +92,11 @@ public class GLSMultipleLinearRegression extends AbstractMultipleLinearRegressio
         this.OmegaInverse = null;
     }
 
-    //use DiagonalMatrix
+    /**
+     * Add the covariance data.
+     *
+     * @param omega the [n] array representing the variance
+     */
     protected void newCovarianceData(double[] omega) {
         this.Omega = new DiagonalMatrix(omega);
     }
