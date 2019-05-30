@@ -278,16 +278,16 @@ public class ChineseRingsClassifier {
     }
 
     /**
-     * Prints the U-matrix of the map to the given filename.
+     * Prints the U-matrix of the map to the given file name.
      *
-     * @param filename File.
+     * @param fileName File.
      * @param sofm Classifier.
      */
-    private static void printU(String filename,
+    private static void printU(String fileName,
                                ChineseRingsClassifier sofm) {
         PrintWriter out = null;
         try {
-            out = new PrintWriter(filename);
+            out = new PrintWriter(fileName);
 
             final double[][] uMatrix = sofm.computeU();
             for (int i = 0; i < uMatrix.length; i++) {
@@ -308,16 +308,16 @@ public class ChineseRingsClassifier {
     }
 
     /**
-     * Prints the hit histogram of the map to the given filename.
+     * Prints the hit histogram of the map to the given file name.
      *
-     * @param filename File.
+     * @param fileName File.
      * @param sofm Classifier.
      */
-    private static void printHit(String filename,
+    private static void printHit(String fileName,
                                  ChineseRingsClassifier sofm) {
         PrintWriter out = null;
         try {
-            out = new PrintWriter(filename);
+            out = new PrintWriter(fileName);
 
             final int[][] histo = sofm.computeHitHistogram();
             for (int i = 0; i < histo.length; i++) {

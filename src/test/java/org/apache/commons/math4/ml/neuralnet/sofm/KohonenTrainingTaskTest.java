@@ -196,17 +196,17 @@ public class KohonenTrainingTaskTest {
 
     /**
      * Prints a summary of the current state of the solver to the
-     * given filename.
+     * given file name.
      *
-     * @param filename File.
+     * @param fileName File.
      * @param solver Solver.
      */
     @SuppressWarnings("unused")
-    private void printSummary(String filename,
+    private void printSummary(String fileName,
                               TravellingSalesmanSolver solver) {
         PrintWriter out = null;
         try {
-            out = new PrintWriter(filename);
+            out = new PrintWriter(fileName);
             out.println(travelCoordinatesTable(solver));
 
             final City[] result = solver.getCityList();
