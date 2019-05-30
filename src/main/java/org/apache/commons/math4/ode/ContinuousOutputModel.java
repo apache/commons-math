@@ -69,7 +69,7 @@ import org.apache.commons.math4.util.FastMath;
  * <p>An important feature of this class is that it implements the
  * <code>Serializable</code> interface. This means that the result of
  * an integration can be serialized and reused later (if stored into a
- * persistent medium like a filesystem or a database) or elsewhere (if
+ * persistent medium like a file system or a database) or elsewhere (if
  * sent to another application). Only the result of the integration is
  * stored, there is no reference to the integrated problem by
  * itself.</p>

@@ -90,7 +90,7 @@
  * of this class is that it implements the <code>Serializable</code>
  * interface. This means that a complete continuous model of the
  * integrated function throughout the integration range can be serialized
- * and reused later (if stored into a persistent medium like a filesystem
+ * and reused later (if stored into a persistent medium like a file system
  * or a database) or elsewhere (if sent to another application). Only the
  * result of the integration is stored, there is no reference to the
  * integrated problem by itself.
