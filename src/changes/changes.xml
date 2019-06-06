@@ -51,6 +51,9 @@ If the output is not quite correct, check for invisible trailing spaces!
   </properties>
   <body>
     <release version="TBD" date="TBD" description="TBD">
+      <action dev="scolebourne" type="update" issue="MATH-1486">
+        Add 'Automatic-Module-Name' for Java 9 and later.
+      </action>
       <action dev="ebourg" type="update" issue="MATH-1389" due-to="Christoph Dibak">
         Performance improvement for Array2DRowRealMatrix.getSubMatrix()
       </action>

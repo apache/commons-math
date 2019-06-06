@@ -367,6 +367,7 @@
          (see "commons.osgi.symbolicName", below). -->
     <commons.componentid>math</commons.componentid>
     <!-- This value must reflect the current name of the base package. -->
+    <commons.module.name>org.apache.commons.math3</commons.module.name>
     <commons.osgi.symbolicName>org.apache.commons.math3</commons.osgi.symbolicName>
     <!-- do not use snapshot suffix here -->
     <commons.release.version>3.6.2-SNAPSHOT</commons.release.version>
@@ -425,6 +426,23 @@
                 <exclude>**/*AbstractTest.java</exclude>
               </excludes>
           </configuration>
+        </plugin>
+        <!-- Add Java 9 module name to MANIFEST.MF, only for main jar, not test jar -->
+        <plugin>
+          <groupId>org.apache.maven.plugins</groupId>
+          <artifactId>maven-jar-plugin</artifactId>
+          <executions>
+            <execution>
+              <id>default-jar</id>
+              <configuration>
+                <archive>
+                  <manifestEntries>
+                    <Automatic-Module-Name>${commons.module.name}</Automatic-Module-Name>
+                  </manifestEntries>
+                </archive>
+              </configuration>
+            </execution>
+          </executions>
         </plugin>
         <plugin>
           <artifactId>maven-assembly-plugin</artifactId>
