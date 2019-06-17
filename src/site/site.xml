@@ -57,7 +57,7 @@
       <item name="Developers Guide" href="/developers.html"/>
       <item name="Proposal" href="/proposal.html"/>
     </menu>
-    
+
     <menu name="User Guide">
       <item name="Contents"                href="/userguide/index.html"/>
       <item name="Overview"                href="/userguide/overview.html"/>
@@ -81,10 +81,9 @@
       <item name="Machine Learning"        href="/userguide/ml.html"/>
       <item name="Exceptions"              href="/userguide/exceptions.html"/>
     </menu>
-    
+
     <head>
-      <script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
-      </script>
+      <![CDATA[<script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML" />]]>
     </head>
 
   </body>
