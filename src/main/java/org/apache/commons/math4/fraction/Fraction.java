@@ -499,12 +499,12 @@ public class Fraction
         int d1 = ArithmeticUtils.gcd(denominator, fraction.denominator);
         if (d1==1) {
             // result is ( (u*v' +/- u'v) / u'v')
-            int uvp = ArithmeticUtils.mulAndCheck(numerator, fraction.denominator);
-            int upv = ArithmeticUtils.mulAndCheck(fraction.numerator, denominator);
+            int uvp = Math.multiplyExact(numerator, fraction.denominator);
+            int upv = Math.multiplyExact(fraction.numerator, denominator);
             return new Fraction
-                (isAdd ? ArithmeticUtils.addAndCheck(uvp, upv) :
-                 ArithmeticUtils.subAndCheck(uvp, upv),
-                 ArithmeticUtils.mulAndCheck(denominator, fraction.denominator));
+                (isAdd ? Math.addExact(uvp, upv) :
+                 Math.subtractExact(uvp, upv),
+                 Math.multiplyExact(denominator, fraction.denominator));
         }
         // the quantity 't' requires 65 bits of precision; see knuth 4.5.1
         // exercise 7.  we're going to use a BigInteger.
@@ -526,7 +526,7 @@ public class Fraction
                                               w);
         }
         return new Fraction (w.intValue(),
-                ArithmeticUtils.mulAndCheck(denominator/d1,
+                Math.multiplyExact(denominator/d1,
                         fraction.denominator/d2));
     }
 
@@ -553,8 +553,8 @@ public class Fraction
         int d1 = ArithmeticUtils.gcd(numerator, fraction.denominator);
         int d2 = ArithmeticUtils.gcd(fraction.numerator, denominator);
         return getReducedFraction
-        (ArithmeticUtils.mulAndCheck(numerator/d1, fraction.numerator/d2),
-                ArithmeticUtils.mulAndCheck(denominator/d2, fraction.denominator/d1));
+        (Math.multiplyExact(numerator/d1, fraction.numerator/d2),
+                Math.multiplyExact(denominator/d2, fraction.denominator/d1));
     }
 
     /**
