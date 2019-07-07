@@ -33,7 +33,7 @@
   </issueManagement>
   <scm>
     <connection>scm:svn:http://svn.apache.org/repos/asf/commons/proper/math/trunk</connection>
-    <developerConnection>scm:svn:https://svn.apache.org/repos/asf/commons/proper/math/trunk</developerConnection>
+    <developerConnection>scm:git:https://gitbox.apache.org/repos/asf/commons-math.git</developerConnection>
     <url>https://gitbox.apache.org/repos/asf?p=commons-math.git</url>
   </scm>
   <properties>
