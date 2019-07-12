@@ -19,7 +19,7 @@
   <parent>
     <groupId>org.apache.commons</groupId>
     <artifactId>commons-parent</artifactId>
-    <version>48</version>
+    <version>47</version>
   </parent>
   <modelVersion>4.0.0</modelVersion>
   <groupId>org.apache.commons</groupId>
@@ -34,7 +34,7 @@
 
   <issueManagement>
     <system>jira</system>
-    <url>https://issues.apache.org/jira/browse/MATH</url>
+    <url>http://issues.apache.org/jira/browse/MATH</url>
   </issueManagement>
 
   <scm>
@@ -366,6 +366,28 @@
 
   <dependencies>
     <dependency>
+      <groupId>org.checkerframework</groupId>
+      <artifactId>checker-qual</artifactId>
+      <version>2.7.0</version>
+      <scope>system</scope>
+      <systemPath>${env.CHECKERFRAMEWORK}/checker/dist/checker-qual.jar</systemPath>
+    </dependency>
+    <dependency>
+      <groupId>org.checkerframework</groupId>
+      <artifactId>checker</artifactId>
+      <version>2.7.0</version>
+      <scope>system</scope>
+      <systemPath>${env.CHECKERFRAMEWORK}/checker/dist/checker.jar</systemPath>
+    </dependency>
+    <!-- The annotated JDK to use. -->
+    <dependency>
+      <groupId>org.checkerframework</groupId>
+      <artifactId>jdk8</artifactId>
+      <version>2.7.0</version>
+      <scope>system</scope>
+      <systemPath>${env.CHECKERFRAMEWORK}/checker/dist/jdk8.jar</systemPath>
+    </dependency>
+    <dependency>
       <groupId>org.apache.commons</groupId>
       <artifactId>commons-statistics-distribution</artifactId>
       <version>0.1-SNAPSHOT</version>
@@ -415,12 +437,6 @@
 
     <dependency>
       <groupId>org.apache.commons</groupId>
-      <artifactId>commons-numbers-rootfinder</artifactId>
-      <version>1.0-SNAPSHOT</version>
-    </dependency>
-
-    <dependency>
-      <groupId>org.apache.commons</groupId>
       <artifactId>commons-rng-client-api</artifactId>
       <version>1.1</version>
     </dependency>
@@ -460,6 +476,7 @@
   </dependencies>
 
   <properties>
+      <annotatedJdk>${org.checkerframework:jdk8:jar}</annotatedJdk>
     <!-- Do not change: "math" is the name of the component even if the
          name of the base package evolves with major release numbers
          (see "commons.osgi.symbolicName", below). -->
@@ -492,6 +509,16 @@
     <math.clirr.version>2.8</math.clirr.version>
     <math.mathjax.version>2.7.2</math.mathjax.version>
 
+    <!-- Temporary fix to support Java 8 -->
+    <commons.jacoco.version>0.8.0</commons.jacoco.version>
+    <commons.jacoco.classRatio>0.96</commons.jacoco.classRatio>
+    <commons.jacoco.instructionRatio>0.8</commons.jacoco.instructionRatio>
+    <commons.jacoco.methodRatio>0.8</commons.jacoco.methodRatio>
+    <commons.jacoco.branchRatio>0.8</commons.jacoco.branchRatio>
+    <commons.jacoco.complexityRatio>0.8</commons.jacoco.complexityRatio>
+    <commons.jacoco.lineRatio>0.85</commons.jacoco.lineRatio>
+    <commons.jacoco.haltOnFailure>false</commons.jacoco.haltOnFailure>
+
     <commons.site.path>math</commons.site.path>
     <commons.scmPubUrl>https://svn.apache.org/repos/infra/websites/production/commons/content/proper/commons-math</commons.scmPubUrl>
     <commons.scmPubCheckoutDirectory>site-content</commons.scmPubCheckoutDirectory>
@@ -516,6 +543,49 @@
 
   <build>
       <plugins>
+          <plugin>
+    <!-- This plugin will set properties values using dependency information -->
+    <groupId>org.apache.maven.plugins</groupId>
+    <artifactId>maven-dependency-plugin</artifactId>
+    <executions>
+      <execution>
+        <goals>
+          <goal>properties</goal>
+        </goals>
+      </execution>
+    </executions>
+  </plugin>
+    <plugin>
+    <artifactId>maven-compiler-plugin</artifactId>
+    <version>3.6.1</version>
+    <configuration>
+      <source>1.8</source>
+      <target>1.8</target>
+      <compilerArguments>
+        <Xmaxerrs>10000</Xmaxerrs>
+        <Xmaxwarns>10000</Xmaxwarns>
+      </compilerArguments>
+      <annotationProcessorPaths>
+        <path>
+          <groupId>org.checkerframework</groupId>
+          <artifactId>checker</artifactId>
+          <version>2.7.0</version>
+        </path>
+      </annotationProcessorPaths>
+      <annotationProcessors>
+        <!-- Add all the checkers you want to enable here -->
+        <annotationProcessor>org.checkerframework.checker.index.IndexChecker</annotationProcessor>
+      </annotationProcessors>
+      <compilerArgs>
+        <!-- location of the annotated JDK, which comes from a Maven dependency -->
+        <arg>-Xbootclasspath/p:${annotatedJdk}</arg>
+        <arg>-AonlyDefs=^org\.apache\.commons\.math4\.util\.</arg>
+        <!-- -Awarns turns type-checking warnings into errors. -->
+        <!-- <arg>-Awarns</arg> -->
+      </compilerArgs>
+    </configuration>
+  </plugin>
+
         <plugin>
           <groupId>org.apache.maven.plugins</groupId>
           <artifactId>maven-surefire-plugin</artifactId>
@@ -641,61 +711,8 @@
         <artifactId>maven-javadoc-plugin</artifactId>
         <configuration>
           <!-- Enable MathJax -->
-          <additionalOptions>-Xdoclint:all --allow-script-in-comments -header '&lt;script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/${math.mathjax.version}/MathJax.js?config=TeX-AMS-MML_HTMLorMML"&gt;&lt;/script&gt;'</additionalOptions>
+          <additionalOptions>${doclint.javadoc.qualifier} ${allowscript.javadoc.qualifier} -header '&lt;script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/${math.mathjax.version}/MathJax.js?config=TeX-AMS-MML_HTMLorMML"&gt;&lt;/script&gt;'</additionalOptions>
           <!-- <aggregate>true</aggregate> -->
-        </configuration>
-      </plugin>
-      <plugin>
-        <groupId>org.apache.rat</groupId>
-        <artifactId>apache-rat-plugin</artifactId>
-        <version>${commons.rat.version}</version>
-        <configuration>
-        <!--
-          Needed for command-line access, e.g mvn apache-rat:rat and mvn apache-rat:check
-          Below should agree with config in <reporting> section, so the site
-          gets consistent output.
-        -->
-           <excludes>
-
-            <!-- MANIFEST files cannot have any comments, so we can't put license header -->
-            <exclude>src/test/maxima/special/RealFunctionValidation/MANIFEST.txt</exclude>
-
-            <!-- the following are test data files with specific syntax that cannot include
-                 Apache header (and the contained data is public, it is not owned by Apache) -->
-            <exclude>src/test/resources/org/apache/commons/math4/distribution/testData.txt</exclude>
-            <exclude>src/test/resources/org/apache/commons/math4/random/emptyFile.txt</exclude>
-            <exclude>src/test/resources/org/apache/commons/math4/stat/data/PiDigits.txt</exclude>
-            <exclude>src/test/resources/org/apache/commons/math4/stat/data/NumAcc3.txt</exclude>
-            <exclude>src/test/resources/org/apache/commons/math4/stat/data/Lew.txt</exclude>
-            <exclude>src/test/resources/org/apache/commons/math4/stat/data/NumAcc2.txt</exclude>
-            <exclude>src/test/resources/org/apache/commons/math4/stat/data/NumAcc1.txt</exclude>
-            <exclude>src/test/resources/org/apache/commons/math4/stat/data/Lottery.txt</exclude>
-            <exclude>src/test/resources/org/apache/commons/math4/stat/data/NumAcc4.txt</exclude>
-            <exclude>src/test/resources/org/apache/commons/math4/stat/data/Michelso.txt</exclude>
-            <exclude>src/test/resources/org/apache/commons/math4/stat/data/Mavro.txt</exclude>
-            <exclude>src/test/resources/org/apache/commons/math4/geometry/euclidean/threed/issue-1211.bsp</exclude>
-            <exclude>src/test/resources/org/apache/commons/math4/geometry/euclidean/threed/pentomino-N-bad-orientation.ply</exclude>
-            <exclude>src/test/resources/org/apache/commons/math4/geometry/euclidean/threed/pentomino-N-hole.ply</exclude>
-            <exclude>src/test/resources/org/apache/commons/math4/geometry/euclidean/threed/pentomino-N-out-of-plane.ply</exclude>
-            <exclude>src/test/resources/org/apache/commons/math4/geometry/euclidean/threed/pentomino-N-too-close.ply</exclude>
-            <exclude>src/test/resources/org/apache/commons/math4/geometry/euclidean/threed/pentomino-N.ply</exclude>
-
-            <!-- direction numbers for Sobol generation from Frances Y. Kuo and Stephen Joe,
-                 available under a BSD-style license (see LICENSE.txt) -->
-            <exclude>src/main/resources/assets/org/apache/commons/math4/random/new-joe-kuo-6.21201</exclude>
-
-            <!-- text file explaining reference to a public domain image -->
-            <exclude>src/userguide/resources/references.txt</exclude>
-
-            <!-- version 0.8 of apache-rat-plugin does not exclude properly
-                 some default development tools files (see RAT-126) -->
-            <exclude>bin/**</exclude>
-            <exclude>.gitignore</exclude>
-            <exclude>.git/**</exclude>
-            <exclude>.checkstyle</exclude>
-            <exclude>.ekstazi/**</exclude>
-
-          </excludes>
         </configuration>
       </plugin>
     </plugins>
@@ -738,19 +755,14 @@
         <artifactId>apache-rat-plugin</artifactId>
         <version>${commons.rat.version}</version>
         <configuration>
-        <!--
-          Needed for command-line access, e.g mvn apache-rat:rat and mvn apache-rat:check
-          Below should agree with config in <build> section, so the site
-          gets consistent output.
-        -->
-           <excludes>
+          <excludes>
 
             <!-- MANIFEST files cannot have any comments, so we can't put license header -->
             <exclude>src/test/maxima/special/RealFunctionValidation/MANIFEST.txt</exclude>
 
             <!-- the following are test data files with specific syntax that cannot include
                  Apache header (and the contained data is public, it is not owned by Apache) -->
-            <exclude>src/test/resources/org/apache/commons/math4/distribution/testData.txt</exclude>
+            <exclude>src/test/resources/org/apache/commons/math4/random/testData.txt</exclude>
             <exclude>src/test/resources/org/apache/commons/math4/random/emptyFile.txt</exclude>
             <exclude>src/test/resources/org/apache/commons/math4/stat/data/PiDigits.txt</exclude>
             <exclude>src/test/resources/org/apache/commons/math4/stat/data/NumAcc3.txt</exclude>
@@ -770,7 +782,7 @@
 
             <!-- direction numbers for Sobol generation from Frances Y. Kuo and Stephen Joe,
                  available under a BSD-style license (see LICENSE.txt) -->
-            <exclude>src/main/resources/assets/org/apache/commons/math4/random/new-joe-kuo-6.21201</exclude>
+            <exclude>src/main/resources/assets/org/apache/commons/math4/random/new-joe-kuo-6.1000</exclude>
 
             <!-- text file explaining reference to a public domain image -->
             <exclude>src/userguide/resources/references.txt</exclude>
@@ -851,7 +863,7 @@
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-javadoc-plugin</artifactId>
         <configuration>
-          <additionalOptions>-Xdoclint:all --allow-script-in-comments -header '&lt;script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/${math.mathjax.version}/MathJax.js?config=TeX-AMS-MML_HTMLorMML"&gt;&lt;/script&gt;'</additionalOptions>
+          <additionalOptions>${mathjax.javadoc.qualifier} -header '&lt;script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"&gt;&lt;/script&gt;'</additionalOptions>
         </configuration>
       </plugin>
     </plugins>
@@ -1048,5 +1060,62 @@
         </plugins>
       </build>
     </profile>
+    <profile>
+      <id>mathjax-java8</id>
+      <activation><jdk>[1.8,)</jdk></activation>
+      <properties>
+        <!-- MathJax requires additional Javadoc qualifier for Java8+ -->
+        <allowscript.javadoc.qualifier>--allow-script-in-comments</allowscript.javadoc.qualifier>
+      </properties>
+    </profile>
+    <profile>
+    <id>checker</id>
+    <dependencies>
+      <dependency>
+        <groupId>org.checkerframework</groupId>
+        <artifactId>checker</artifactId>
+        <version>1.9.13</version>
+        <scope>provided</scope>
+      </dependency>
+      <dependency>
+        <groupId>org.checkerframework</groupId>
+        <artifactId>jdk8</artifactId>
+        <version>1.9.13</version>
+        <scope>provided</scope>
+      </dependency>
+    </dependencies>
+    <build>
+      <plugins>
+        <plugin>
+          <groupId>org.apache.maven.plugins</groupId>
+          <artifactId>maven-dependency-plugin</artifactId>
+          <version>2.10</version>
+          <executions>
+            <execution>
+              <goals>
+                <goal>properties</goal>
+              </goals>
+            </execution>
+          </executions>
+        </plugin>
+        <plugin>
+          <groupId>org.apache.maven.plugins</groupId>
+          <artifactId>maven-compiler-plugin</artifactId>
+          <version>3.3</version>
+          <configuration>
+            <source>${java.version}</source>
+            <target>${java.version}</target>
+            <annotationProcessors>
+              <annotationProcessor>org.checkerframework.checker.index.IndexChecker</annotationProcessor>
+            </annotationProcessors>
+            <compilerArgs>
+              <arg>-Xbootclasspath/p:${org.checkerframework:jdk8:jar}</arg>
+              <arg>-AonlyDefs=^org\.apache\.commons\.math4\.util\.</arg>
+            </compilerArgs>
+          </configuration>
+        </plugin>
+      </plugins>
+    </build>
+  </profile>
   </profiles>
 </project>

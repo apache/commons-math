@@ -18,6 +18,11 @@ package org.apache.commons.math4.util;
 
 import org.apache.commons.math4.exception.MathIllegalArgumentException;
 
+import org.checkerframework.checker.index.qual.IndexFor;
+import org.checkerframework.checker.index.qual.LTEqLengthOf;
+import org.checkerframework.checker.index.qual.Positive;
+import org.checkerframework.checker.index.qual.LessThan;
+
 
 /**
  * A strategy to pick a pivoting index of an array for doing partitioning.
@@ -38,7 +43,7 @@ public interface PivotingStrategyInterface {
      * first and the last element of the array slice
      * @throws MathIllegalArgumentException when indices exceeds range
      */
-    int pivotIndex(double[] work, int begin, int end)
+    int pivotIndex(double[] work, @LessThan("#3") @IndexFor("#1") int begin, @Positive @LTEqLengthOf("#1") int end)
         throws MathIllegalArgumentException;
 
 }
