@@ -2091,7 +2091,7 @@ public class FastMath {
     }
 
     /** Reduce the input argument using the Payne and Hanek method.
-     *  This is good for all inputs 0.0 < x < inf
+     *  This is good for inputs 0.5 < x < inf
      *  Output is remainder after dividing by PI/2
      *  The result array should contain 3 numbers.
      *  result[0] is the integer portion, so mod 4 this gives the quadrant.
