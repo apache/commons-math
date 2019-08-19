@@ -17,7 +17,7 @@ language: java
 sudo: required
 
 jdk:
-  - oraclejdk8
+  - openjdk8
 
 env:
   - MAVEN_OPTS="-Xmx6g -Xms2g"
