@@ -1,5 +1,3 @@
-#!/bin/sh
-#
 # Licensed to the Apache Software Foundation (ASF) under one or more
 # contributor license agreements.  See the NOTICE file distributed with
 # this work for additional information regarding copyright ownership.
@@ -14,17 +12,13 @@
 # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 # See the License for the specific language governing permissions and
 # limitations under the License.
-# -----------------------------------------------------------------------------
-#
-# Shell script to update download page and release notes prior
-# to preparing a commons math release candidate.
-#
-# Note: RELEASE-NOTES.txt may need a little reformatting prior
-# to checkin.  Both RELEASE-NOTES.txt and the generated download
-# page need to be checked in after review.
-#
-# ----------------------------------------------------------------------------
 
-mvn changes:announcement-generate -Prelease-notes [-Dchanges.version=m.n]
+language: java
+jdk:
+  - openjdk8
 
-mvn commons-build:download-page
+env:
+  - MAVEN_OPTS="-Xmx6g -Xms2g"
+
+script:
+  - mvn clean install jacoco:report site -Ptravis-jacoco

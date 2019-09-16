@@ -25,39 +25,39 @@
   <body>
     <menu name="Math">
       <item name="Overview" href="/index.html"/>
-      <item name="Downloads" href="http://commons.apache.org/math/download_math.cgi"/>
+      <item name="Downloads" href="https://commons.apache.org/math/download_math.cgi"/>
       <item name="Latest API docs (development)" href="apidocs/index.html"/>
       <item name="Javadoc (3.6.1 release)"
-            href="http://commons.apache.org/math/javadocs/api-3.6.1/index.html"/>
+         href="https://commons.apache.org/math/javadocs/api-3.6.1/index.html"/>
       <item name="Javadoc (3.6 release)"
-         href="http://commons.apache.org/math/javadocs/api-3.6/index.html"/>
+         href="https://commons.apache.org/math/javadocs/api-3.6/index.html"/>
       <item name="Javadoc (3.5 release)"
-         href="http://commons.apache.org/math/javadocs/api-3.5/index.html"/>
+         href="https://commons.apache.org/math/javadocs/api-3.5/index.html"/>
       <item name="Javadoc (3.4.1 release)"
-         href="http://commons.apache.org/math/javadocs/api-3.4.1/index.html"/>
+         href="https://commons.apache.org/math/javadocs/api-3.4.1/index.html"/>
       <item name="Javadoc (3.4 release)"
-         href="http://commons.apache.org/math/javadocs/api-3.4/index.html"/>
+         href="https://commons.apache.org/math/javadocs/api-3.4/index.html"/>
       <item name="Javadoc (3.3 release)"
-         href="http://commons.apache.org/math/javadocs/api-3.3/index.html"/>
+         href="https://commons.apache.org/math/javadocs/api-3.3/index.html"/>
       <item name="Javadoc (3.2 release)"
-         href="http://commons.apache.org/math/javadocs/api-3.2/index.html"/>
+         href="https://commons.apache.org/math/javadocs/api-3.2/index.html"/>
       <item name="Javadoc (3.1.1 release)"
-         href="http://commons.apache.org/math/javadocs/api-3.1.1/index.html"/>
+         href="https://commons.apache.org/math/javadocs/api-3.1.1/index.html"/>
       <item name="Javadoc (3.1 release)"
-         href="http://commons.apache.org/math/javadocs/api-3.1/index.html"/>
+         href="https://commons.apache.org/math/javadocs/api-3.1/index.html"/>
       <item name="Javadoc (3.0 release)"
-         href="http://commons.apache.org/math/javadocs/api-3.0/index.html"/>
+         href="https://commons.apache.org/math/javadocs/api-3.0/index.html"/>
       <item name="Javadoc (2.2 release)"
-         href="http://commons.apache.org/math/javadocs/api-2.2/index.html"/>
+         href="https://commons.apache.org/math/javadocs/api-2.2/index.html"/>
       <item name="Issue Tracking" href="/issue-tracking.html"/>
       <item name="Source Repository (current)" 
-         href="http://git-wip-us.apache.org/repos/asf/commons-math.git"/>
+         href="https://gitbox.apache.org/repos/asf/commons-math.git"/>
       <item name="Wiki"  
-            href="http://wiki.apache.org/commons/Math"/>
+            href="https://wiki.apache.org/commons/Math"/>
       <item name="Developers Guide" href="/developers.html"/>
       <item name="Proposal" href="/proposal.html"/>
     </menu>
-    
+
     <menu name="User Guide">
       <item name="Contents"                href="/userguide/index.html"/>
       <item name="Overview"                href="/userguide/overview.html"/>
@@ -81,10 +81,9 @@
       <item name="Machine Learning"        href="/userguide/ml.html"/>
       <item name="Exceptions"              href="/userguide/exceptions.html"/>
     </menu>
-    
+
     <head>
-      <script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
-      </script>
+      <![CDATA[<script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML" />]]>
     </head>
 
   </body>

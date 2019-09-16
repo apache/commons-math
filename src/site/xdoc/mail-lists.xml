@@ -26,7 +26,7 @@ limitations under the License.
  | commons-build-plugin/trunk/src/main/resources/commons-xdoc-templates |
  +======================================================================+
  |                                                                      |
- | 1) Re-generate using: mvn commons:mail-page                          |
+ | 1) Re-generate using: mvn commons-build:mail-page                    |
  |                                                                      |
  | 2) Set the following properties in the component's pom:              |
  |    - commons.componentid (required, alphabetic, lower case)          |
@@ -41,14 +41,14 @@ limitations under the License.
 -->
 <document>
   <properties>
-    <title>Commons Math Mailing Lists</title>
-    <author email="dev@commons.apache.org">Commons Documentation Team</author>
+    <title>Apache Commons Math Mailing Lists</title>
+    <author email="dev@commons.apache.org">Apache Commons Documentation Team</author>
   </properties>
   <body>
 
     <section name="Overview">
       <p>
-        <a href="index.html">Commons Math</a> shares mailing lists with all the other 
+        <a href="index.html">Apache Commons Math</a> shares mailing lists with all the other
         <a href="http://commons.apache.org/components.html">Commons Components</a>.
         To make it easier for people to only read messages related to components they are interested in,
         the convention in Commons is to prefix the subject line of messages with the component's name,
@@ -58,24 +58,27 @@ limitations under the License.
         </ul>
       </p>
       <p>
-        Questions related to the usage of Commons Math should be posted to the
+        Questions related to the usage of Apache Commons Math should be posted to the
         <a href="http://mail-archives.apache.org/mod_mbox/commons-user/">User List</a>.
         <br />
         The <a href="http://mail-archives.apache.org/mod_mbox/commons-dev/">Developer List</a>
-        is for questions and discussion related to the development of Commons Math.
+        is for questions and discussion related to the development of Apache Commons Math.
         <br />
         Please do not cross-post; developers are also subscribed to the user list.
+        <br />
+        You must be subscribed to post to the mailing lists.  Follow the Subscribe links below
+        to subscribe.
       </p>
       <p>
         <strong>Note:</strong> please don't send patches or attachments to any of the mailing lists.
-        Patches are best handled via the <a href="issue-tracking.html">Issue Tracking</a> system. 
-        Otherwise, please upload the file to a public server and include the URL in the mail. 
+        Patches are best handled via the <a href="issue-tracking.html">Issue Tracking</a> system.
+        Otherwise, please upload the file to a public server and include the URL in the mail.
       </p>
     </section>
 
-    <section name="Commons Math Mailing Lists">
+    <section name="Apache Commons Math Mailing Lists">
       <p>
-        <strong>Please prefix the subject line of any messages for <a href="index.html">Commons Math</a>
+        <strong>Please prefix the subject line of any messages for <a href="index.html">Apache Commons Math</a>
         with <i>[math]</i></strong> - <i>thanks!</i>
         <br />
         <br />
@@ -96,7 +99,7 @@ limitations under the License.
           <td>
             <strong>Commons User List</strong>
             <br /><br />
-            Questions on using Commons Math.
+            Questions on using Apache Commons Math.
             <br /><br />
           </td>
           <td><a href="mailto:user-subscribe@commons.apache.org">Subscribe</a></td>
@@ -114,7 +117,7 @@ limitations under the License.
           <td>
             <strong>Commons Developer List</strong>
             <br /><br />
-            Discussion of development of Commons Math.
+            Discussion of development of Apache Commons Math.
             <br /><br />
           </td>
           <td><a href="mailto:dev-subscribe@commons.apache.org">Subscribe</a></td>
@@ -185,10 +188,10 @@ limitations under the License.
             General announcements of Apache project releases.
             <br /><br />
           </td>
-          <td><a class="externalLink" href="mailto:announce-subscribe@apache.org">Subscribe</a></td> 
-          <td><a class="externalLink" href="mailto:announce-unsubscribe@apache.org">Unsubscribe</a></td> 
+          <td><a class="externalLink" href="mailto:announce-subscribe@apache.org">Subscribe</a></td>
+          <td><a class="externalLink" href="mailto:announce-unsubscribe@apache.org">Unsubscribe</a></td>
           <td><i>read only</i></td>
-          <td><a class="externalLink" href="http://mail-archives.apache.org/mod_mbox/www-announce/">mail-archives.apache.org</a></td> 
+          <td><a class="externalLink" href="http://mail-archives.apache.org/mod_mbox/www-announce/">mail-archives.apache.org</a></td>
           <td><a class="externalLink" href="http://markmail.org/list/org.apache.announce/">markmail.org</a><br />
               <a class="externalLink" href="http://old.nabble.com/Apache-News-and-Announce-f109.html">old.nabble.com</a><br />
               <a class="externalLink" href="http://www.mail-archive.com/announce@apache.org/">www.mail-archive.com</a><br />

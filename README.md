@@ -25,7 +25,7 @@
  | commons-build-plugin/trunk/src/main/resources/commons-xdoc-templates |
  +======================================================================+
  |                                                                      |
- | 1) Re-generate using: mvn commons:readme-md                          |
+ | 1) Re-generate using: mvn commons-build:readme-md                    |
  |                                                                      |
  | 2) Set the following properties in the component's pom:              |
  |    - commons.componentid (required, alphabetic, lower case)          |
@@ -43,13 +43,18 @@
 Apache Commons Math
 ===================
 
+[![Build Status](https://travis-ci.org/apache/commons-math.svg)](https://travis-ci.org/apache/commons-math)
+[![Coverage Status](https://coveralls.io/repos/apache/commons-math/badge.svg)](https://coveralls.io/r/apache/commons-math)
+[![Maven Central](https://maven-badges.herokuapp.com/maven-central/org.apache.commons/commons-math3/badge.svg)](https://maven-badges.herokuapp.com/maven-central/org.apache.commons/commons-math3/)
+[![Javadocs](https://javadoc.io/badge/org.apache.commons/commons-math3/3.6.2-SNAPSHOT.svg)](https://javadoc.io/doc/org.apache.commons/commons-math3/3.6.2-SNAPSHOT)
+
 The Apache Commons Math project is a library of lightweight, self-contained mathematics and statistics components addressing the most common practical problems not immediately available in the Java programming language or commons-lang.
 
 Documentation
 -------------
 
-More information can be found on the [homepage](https://commons.apache.org/proper/commons-math).
-The [JavaDoc](https://commons.apache.org/proper/commons-math/apidocs) can be browsed.
+More information can be found on the [Apache Commons Math homepage](https://commons.apache.org/proper/commons-math).
+The [Javadoc](https://commons.apache.org/proper/commons-math/apidocs) can be browsed.
 Questions related to the usage of Apache Commons Math should be posted to the [user mailing list][ml].
 
 Where can I get the latest release?
@@ -62,14 +67,14 @@ Alternatively you can pull it from the central Maven repositories:
 <dependency>
   <groupId>org.apache.commons</groupId>
   <artifactId>commons-math3</artifactId>
-  <version>3.4</version>
+  <version>3.6.2-SNAPSHOT</version>
 </dependency>
 ```
 
 Contributing
 ------------
 
-We accept PRs via github. The [developer mailing list][ml] is the main channel of communication for contributors.
+We accept Pull Requests via GitHub. The [developer mailing list][ml] is the main channel of communication for contributors.
 There are some guidelines which will make applying PRs easier for us:
 + No tabs! Please use spaces for indentation.
 + Respect the code style.
@@ -81,7 +86,9 @@ You can learn more about contributing via GitHub in our [contribution guidelines
 
 License
 -------
-Code is under the [Apache Licence v2](https://www.apache.org/licenses/LICENSE-2.0.txt).
+This code is under the [Apache Licence v2](https://www.apache.org/licenses/LICENSE-2.0).
+
+See the `NOTICE.txt` file for required notices and attributions.
 
 Donations
 ---------
@@ -91,8 +98,8 @@ Additional Resources
 --------------------
 
 + [Apache Commons Homepage](https://commons.apache.org/)
-+ [Apache Bugtracker (JIRA)](https://issues.apache.org/jira/)
++ [Apache Issue Tracker (JIRA)](https://issues.apache.org/jira/browse/MATH)
 + [Apache Commons Twitter Account](https://twitter.com/ApacheCommons)
-+ #apachecommons IRC channel on freenode.org
++ `#apache-commons` IRC channel on `irc.freenode.org`
 
 [ml]:https://commons.apache.org/mail-lists.html

@@ -47,7 +47,7 @@ If the output is not quite correct, check for invisible trailing spaces!
 
 <document>
   <properties>
-    <title>Commons Math Release Notes</title>
+    <title>Apache Commons Math Release Notes</title>
   </properties>
   <body>
     <release version="TBD" date="TBD" description="TBD">
@@ -55,6 +55,7 @@ If the output is not quite correct, check for invisible trailing spaces!
         Performance improvement for Array2DRowRealMatrix.getSubMatrix()
       </action>
     </release>
+
     <release version="3.6.1" date="2016-03-21" description="
 This is a minor bug fix release. It incorporates three bug fixes since version 3.6.
 
@@ -71,6 +72,7 @@ The minimum version of the Java platform required to compile and use
         Fix ODE integrators when multiple events are nearly simultaneous.
       </action>
     </release>
+
     <release version="3.6" date="2016-01-05" description="
 This is a minor release: It combines bug fixes and new features.
  Changes to existing features were made in a backwards-compatible

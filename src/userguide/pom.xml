@@ -29,40 +29,52 @@
   <url>http://commons.apache.org/math/</url>
   <issueManagement>
     <system>jira</system>
-    <url>http://issues.apache.org/jira/browse/MATH</url>
+    <url>https://issues.apache.org/jira/browse/MATH</url>
   </issueManagement>
   <scm>
     <connection>scm:svn:http://svn.apache.org/repos/asf/commons/proper/math/trunk</connection>
-    <developerConnection>scm:svn:https://svn.apache.org/repos/asf/commons/proper/math/trunk</developerConnection>
-    <url>http://svn.apache.org/viewvc/commons/proper/math/trunk</url>
+    <developerConnection>scm:git:https://gitbox.apache.org/repos/asf/commons-math.git</developerConnection>
+    <url>https://gitbox.apache.org/repos/asf?p=commons-math.git</url>
   </scm>
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
-    <maven.compiler.source>1.5</maven.compiler.source>
-    <maven.compiler.target>1.5</maven.compiler.target>
+    <maven.compiler.source>1.7</maven.compiler.source>
+    <maven.compiler.target>1.7</maven.compiler.target>
   </properties> 
 
   <build>
     <sourceDirectory>java</sourceDirectory>
-    
+
     <plugins>
+
       <plugin>
-        <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-shade-plugin</artifactId>
+        <artifactId>maven-assembly-plugin</artifactId>
+        <configuration>
+          <archive>
+            <manifest>
+              <mainClass>${mainclass}</mainClass>
+            </manifest>
+          </archive>
+          <descriptorRefs>
+            <descriptorRef>jar-with-dependencies</descriptorRef>
+          </descriptorRefs>
+          <finalName>${jarbasename}</finalName>
+          <appendAssemblyId>false</appendAssemblyId>
+        </configuration>
         <executions>
           <execution>
-            <phase>package</phase>
+            <id>make-assembly</id> <!-- this is used for inheritance merges -->
+            <phase>package</phase> <!-- bind to the packaging phase -->
             <goals>
-              <goal>shade</goal>
+              <goal>single</goal>
             </goals>
           </execution>
         </executions>
-        <configuration>
-          <finalName>${artifactId}-uber-${version}</finalName>
-        </configuration>
       </plugin>
-    </plugins>
+
+   </plugins>
+
   </build>
   <reporting>
   </reporting>
@@ -87,7 +99,7 @@
           <groupId>org.piccolo2d</groupId>
           <artifactId>piccolo2d-extras</artifactId>
           <version>3.0</version>
-      </dependency>      
+      </dependency>
       <dependency>
           <groupId>org.apache.commons</groupId>
           <artifactId>commons-lang3</artifactId>

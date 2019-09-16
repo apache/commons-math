@@ -21,7 +21,7 @@
 #
 # -----------------------------------------------------------------------------
 # Set script variables
-version=2.1
+version=3.6.2
 repo_path=~/.m2/repository/org/apache/commons/commons-math/${version}
 site_mods_path=./siteMods
 release_path=~/math-release
@@ -45,7 +45,7 @@ svn revert src/site/site.xml
 svn revert pom.xml
 #
 # Generate the release artifacts and install them locally
-mvn assembly:assembly
+mvn assembly:single
 mvn -Prc -DcreateChecksum=true install
 #
 # Copy the zips/tarballs and release notes to release directory
