@@ -17,12 +17,6 @@
 package org.apache.commons.math4.analysis.solvers;
 
 
-import org.apache.commons.math4.exception.NoBracketingException;
-import org.apache.commons.math4.exception.NumberIsTooLargeException;
-import org.apache.commons.math4.exception.TooManyEvaluationsException;
-import org.apache.commons.math4.util.FastMath;
-import org.apache.commons.numbers.core.Precision;
-
 /**
  * This class implements the <a href="http://mathworld.wolfram.com/BrentsMethod.html">
  * Brent algorithm</a> for finding zeros of real univariate functions.
@@ -90,10 +84,7 @@ public class BrentSolver extends AbstractUnivariateSolver {
      * {@inheritDoc}
      */
     @Override
-    protected double doSolve()
-        throws NoBracketingException,
-               TooManyEvaluationsException,
-               NumberIsTooLargeException {
+    protected double doSolve() {
         final double min = getMin();
         final double max = getMax();
         final double initial = getStartValue();
