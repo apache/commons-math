@@ -86,7 +86,7 @@
           The user should describe his problem in his own classes which should implement the
           <a href="../apidocs/org/apache/commons/math4/ode/FirstOrderDifferentialEquations.html">FirstOrderDifferentialEquations</a>
           interface (or  <a href="../apidocs/org/apache/commons/math4/ode/FirstOrderFieldDifferentialEquations.html">FirstOrderFieldDifferentialEquations</a>
-          interface). Then he should pass it to the integrator he prefers among all the classes that implement
+          interface). Then they should pass it to the integrator they prefer among all the classes that implement
           the <a href="../apidocs/org/apache/commons/math4/ode/FirstOrderIntegrator.html">FirstOrderIntegrator</a>
           interface (or the <a href="../apidocs/org/apache/commons/math4/ode/FirstOrderFieldIntegrator.html">FirstOrderFieldIntegrator</a>
           interface). The following example shows how to implement the simple two-dimensional problem using double primitives:
@@ -190,7 +190,7 @@ integrator.addStepHandler(stepHandler);
           class can be used to convert the variable stepsize into a fixed stepsize that can be handled by classes
           implementing the <a href="../apidocs/org/apache/commons/math4/ode/sampling/FixedStepHandler.html">FixedStepHandler</a>
           interface. Adaptive stepsize integrators can automatically compute the initial stepsize by themselves,
-          however the user can specify it if he prefers to retain full control over the integration or if the
+          however the user can specify it if they prefers to retain full control over the integration or if the
           automatic guess is wrong.
         </p>
       </subsection>
@@ -308,7 +308,7 @@ public int eventOccurred(double t, double[] y, boolean increasing) {
         <p>
           If in addition to state y(t) the user needs to compute the sensitivity of the final state with respect to
           the initial state (dy/dy<sub>0</sub>) or the sensitivity of the final state with respect to some parameters
-          of the ODE (dy/dp<sub>k</sub>), he needs to register the variational equations as a set of secondary equations
+          of the ODE (dy/dp<sub>k</sub>), they need to register the variational equations as a set of secondary equations
           appended to the main state before the integration starts. Then the integration will propagate the compound
           state composed of both the main state and its partial derivatives. At the end of the integration, the Jacobian
           matrices are extracted from the integrated secondary state. The <a
@@ -359,7 +359,7 @@ public int eventOccurred(double t, double[] y, boolean increasing) {
           The parameters are identified by a name (a simple user defined string), which are also specified at <a
           href="../apidocs/org/apache/commons/math4/ode/JacobianMatrices.html">JacobianMatrices</a> class construction. If the ODE
           is simple enough that the user can implement df(t, y, p)/dp<sub>k</sub> directly for some of the parameters p<sub>k</sub>,
-          then he can provide one or more classes implementing the <a
+          then they can provide one or more classes implementing the <a
           href="../apidocs/org/apache/commons/math4/ode/ParameterJacobianProvider.html">ParameterJacobianProvider</a> interface by
           calling the JacobianMatrices.addParameterJacobianProvide method. The parameters are handled one at a time, but all the calls to
           ParameterJacobianProvider.computeParameterJacobian will be grouped in one sequence after the call to MainStateJacobianProvider.computeMainStateJacobian
