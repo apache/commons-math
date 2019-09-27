@@ -190,7 +190,7 @@ integrator.addStepHandler(stepHandler);
           class can be used to convert the variable stepsize into a fixed stepsize that can be handled by classes
           implementing the <a href="../apidocs/org/apache/commons/math4/ode/sampling/FixedStepHandler.html">FixedStepHandler</a>
           interface. Adaptive stepsize integrators can automatically compute the initial stepsize by themselves,
-          however the user can specify it if they prefers to retain full control over the integration or if the
+          however the user can specify it if they prefer to retain full control over the integration or if the
           automatic guess is wrong.
         </p>
       </subsection>
