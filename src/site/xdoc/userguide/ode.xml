@@ -37,7 +37,7 @@
         </p>
         <p>
           All integrators provide dense output. This means that besides computing the state vector
-          at discrete times, they also provide a cheap mean to get both the state and its derivative
+          at discrete times, they also provide a cheap means to get both the state and its derivative
           between the time steps. They do so through classes extending the
           <a href="../apidocs/org/apache/commons/math4/ode/sampling/StepInterpolator.html">StepInterpolator</a>
           abstract class, which are made available to the user at the end of each step.
