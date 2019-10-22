@@ -62,6 +62,8 @@
     <math.checkstyle.version>2.17</math.checkstyle.version>
     <math.clirr.version>2.8</math.clirr.version>
     <math.mathjax.version>2.7.2</math.mathjax.version>
+    <math.commons.numbers.version>1.0-SNAPSHOT</math.commons.numbers.version>
+    <math.commons.rng.version>1.1</math.commons.rng.version>
 
     <commons.site.path>math</commons.site.path>
     <commons.scmPubUrl>https://svn.apache.org/repos/infra/websites/production/commons/content/proper/commons-math</commons.scmPubUrl>
@@ -114,67 +116,67 @@
     <dependency>
       <groupId>org.apache.commons</groupId>
       <artifactId>commons-numbers-core</artifactId>
-      <version>1.0-SNAPSHOT</version>
+      <version>${math.commons.numbers.version}</version>
     </dependency>
 
     <dependency>
       <groupId>org.apache.commons</groupId>
       <artifactId>commons-numbers-complex</artifactId>
-      <version>1.0-SNAPSHOT</version>
+      <version>${math.commons.numbers.version}</version>
     </dependency>
 
     <dependency>
       <groupId>org.apache.commons</groupId>
       <artifactId>commons-numbers-complex-streams</artifactId>
-      <version>1.0-SNAPSHOT</version>
+      <version>${math.commons.numbers.version}</version>
     </dependency>
 
     <dependency>
       <groupId>org.apache.commons</groupId>
       <artifactId>commons-numbers-gamma</artifactId>
-      <version>1.0-SNAPSHOT</version>
+      <version>${math.commons.numbers.version}</version>
     </dependency>
 
     <dependency>
       <groupId>org.apache.commons</groupId>
       <artifactId>commons-numbers-combinatorics</artifactId>
-      <version>1.0-SNAPSHOT</version>
+      <version>${math.commons.numbers.version}</version>
     </dependency>
 
     <dependency>
       <groupId>org.apache.commons</groupId>
       <artifactId>commons-numbers-arrays</artifactId>
-      <version>1.0-SNAPSHOT</version>
+      <version>${math.commons.numbers.version}</version>
     </dependency>
 
     <dependency>
       <groupId>org.apache.commons</groupId>
       <artifactId>commons-numbers-angle</artifactId>
-      <version>1.0-SNAPSHOT</version>
+      <version>${math.commons.numbers.version}</version>
     </dependency>
 
     <dependency>
       <groupId>org.apache.commons</groupId>
       <artifactId>commons-numbers-rootfinder</artifactId>
-      <version>1.0-SNAPSHOT</version>
+      <version>${math.commons.numbers.version}</version>
     </dependency>
 
     <dependency>
       <groupId>org.apache.commons</groupId>
       <artifactId>commons-rng-client-api</artifactId>
-      <version>1.1</version>
+      <version>${math.commons.rng.version}</version>
     </dependency>
 
     <dependency>
       <groupId>org.apache.commons</groupId>
       <artifactId>commons-rng-simple</artifactId>
-      <version>1.1</version>
+      <version>${math.commons.rng.version}</version>
     </dependency>
 
     <dependency>
       <groupId>org.apache.commons</groupId>
       <artifactId>commons-rng-sampling</artifactId>
-      <version>1.1</version>
+      <version>${math.commons.rng.version}</version>
     </dependency>
 
     <dependency>
