@@ -18,12 +18,16 @@
 package org.apache.commons.math4.stat.inference;
 
 import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.util.Arrays;
 
 import org.apache.commons.rng.simple.RandomSource;
 import org.apache.commons.rng.UniformRandomProvider;
 import org.apache.commons.statistics.distribution.ContinuousDistribution;
 import org.apache.commons.numbers.combinatorics.BinomialCoefficientDouble;
+import org.apache.commons.numbers.fraction.BigFraction;
+import org.apache.commons.numbers.field.BigFractionField;
+import org.apache.commons.numbers.field.FieldSquareMatrix;
 import org.apache.commons.math4.distribution.EnumeratedRealDistribution;
 import org.apache.commons.math4.distribution.AbstractRealDistribution;
 import org.apache.commons.math4.exception.InsufficientDataException;
@@ -35,11 +39,6 @@ import org.apache.commons.math4.exception.OutOfRangeException;
 import org.apache.commons.math4.exception.TooManyIterationsException;
 import org.apache.commons.math4.exception.NotANumberException;
 import org.apache.commons.math4.exception.util.LocalizedFormats;
-import org.apache.commons.math4.fraction.BigFraction;
-import org.apache.commons.math4.fraction.BigFractionField;
-import org.apache.commons.math4.fraction.FractionConversionException;
-import org.apache.commons.math4.linear.Array2DRowFieldMatrix;
-import org.apache.commons.math4.linear.FieldMatrix;
 import org.apache.commons.math4.linear.MatrixUtils;
 import org.apache.commons.math4.linear.RealMatrix;
 import org.apache.commons.math4.util.FastMath;
@@ -122,6 +121,8 @@ public class KolmogorovSmirnovTest {
     private static final double KS_SUM_CAUCHY_CRITERION = 1e-20;
     /** Convergence criterion for the sums in {@link #pelzGood(double, int)} */
     private static final double PG_SUM_RELATIVE_ERROR = 1e-10;
+    /** 1/2 */
+    private static final BigFraction ONE_HALF = BigFraction.of(1, 2);
 
     /**
      * When product of sample sizes exceeds this value, 2-sample K-S test uses asymptotic
@@ -406,11 +407,10 @@ public class KolmogorovSmirnovTest {
      * @param n sample size
      * @return \(P(D_n &lt; d)\)
      * @throws MathArithmeticException if algorithm fails to convert {@code h} to a
-     *         {@link org.apache.commons.math4.fraction.BigFraction} in expressing {@code d} as \((k
-     *         - h) / m\) for integer {@code k, m} and \(0 \le h &lt; 1\)
+     * {@link BigFraction} in expressing {@code d} as
+     * \((k - h) / m\) for integer {@code k, m} and \(0 \le h &lt; 1\)
      */
-    public double cdf(double d, int n)
-        throws MathArithmeticException {
+    public double cdf(double d, int n) {
         return cdf(d, n, false);
     }
 
@@ -425,11 +425,10 @@ public class KolmogorovSmirnovTest {
      * @param n sample size
      * @return \(P(D_n &lt; d)\)
      * @throws MathArithmeticException if the algorithm fails to convert {@code h} to a
-     *         {@link org.apache.commons.math4.fraction.BigFraction} in expressing {@code d} as \((k
-     *         - h) / m\) for integer {@code k, m} and \(0 \le h &lt; 1\)
+     * {@link BigFraction} in expressing {@code d} as
+     * \((k - h) / m\) for integer {@code k, m} and \(0 \le h &lt; 1\)
      */
-    public double cdfExact(double d, int n)
-        throws MathArithmeticException {
+    public double cdfExact(double d, int n) {
         return cdf(d, n, true);
     }
 
@@ -446,12 +445,10 @@ public class KolmogorovSmirnovTest {
      *        sure; {@code true} is almost solely for verification purposes.
      * @return \(P(D_n &lt; d)\)
      * @throws MathArithmeticException if algorithm fails to convert {@code h} to a
-     *         {@link org.apache.commons.math4.fraction.BigFraction} in expressing {@code d} as \((k
-     *         - h) / m\) for integer {@code k, m} and \(0 \le h &lt; 1\).
+     * {@link BigFraction} in expressing {@code d} as
+     * \((k - h) / m\) for integer {@code k, m} and \(0 \le h &lt; 1\).
      */
-    public double cdf(double d, int n, boolean exact)
-        throws MathArithmeticException {
-
+    public double cdf(double d, int n, boolean exact) {
         final double ninv = 1 / ((double) n);
         final double ninvhalf = 0.5 * ninv;
 
@@ -488,18 +485,21 @@ public class KolmogorovSmirnovTest {
      * @param n sample size
      * @return the two-sided probability of \(P(D_n &lt; d)\)
      * @throws MathArithmeticException if algorithm fails to convert {@code h} to a
-     *         {@link org.apache.commons.math4.fraction.BigFraction} in expressing {@code d} as \((k
-     *         - h) / m\) for integer {@code k, m} and \(0 \le h &lt; 1\).
+     * {@link BigFraction}.
      */
-    private double exactK(double d, int n)
-        throws MathArithmeticException {
-
+    private double exactK(double d, int n) {
         final int k = (int) Math.ceil(n * d);
 
-        final FieldMatrix<BigFraction> H = this.createExactH(d, n);
-        final FieldMatrix<BigFraction> Hpower = H.power(n);
+        final FieldSquareMatrix<BigFraction> H;
+        try {
+            H = createExactH(d, n);
+        } catch (ArithmeticException e) {
+            throw new MathArithmeticException(LocalizedFormats.FRACTION);
+        }
 
-        BigFraction pFrac = Hpower.getEntry(k - 1, k - 1);
+        final FieldSquareMatrix<BigFraction> Hpower = H.pow(n);
+
+        BigFraction pFrac = Hpower.get(k - 1, k - 1);
 
         for (int i = 1; i <= n; ++i) {
             pFrac = pFrac.multiply(i).divide(n);
@@ -510,7 +510,7 @@ public class KolmogorovSmirnovTest {
          * divides afterwards. That gives NaN quite easy. This does not (scale is the number of
          * digits):
          */
-        return pFrac.bigDecimalValue(20, BigDecimal.ROUND_HALF_UP).doubleValue();
+        return pFrac.bigDecimalValue(20, RoundingMode.HALF_UP).doubleValue();
     }
 
     /**
@@ -672,23 +672,20 @@ public class KolmogorovSmirnovTest {
         }
         return ret + (sqrtHalfPi / (sqrtN * n)) * (sum / (3240 * z6 * z4) +
                 + sum2 / (108 * z6));
-
     }
 
-    /***
+    /**
      * Creates {@code H} of size {@code m x m} as described in [1] (see above).
      *
      * @param d statistic
      * @param n sample size
      * @return H matrix
-     * @throws NumberIsTooLargeException if fractional part is greater than 1
-     * @throws FractionConversionException if algorithm fails to convert {@code h} to a
-     *         {@link org.apache.commons.math4.fraction.BigFraction} in expressing {@code d} as \((k
-     *         - h) / m\) for integer {@code k, m} and \(0 <= h < 1\).
+     * @throws NumberIsTooLargeException if fractional part is greater than 1.
+     * @throws ArithmeticException if algorithm fails to convert {@code h} to a
+     * {@link BigFraction}.
      */
-    private FieldMatrix<BigFraction> createExactH(double d, int n)
-        throws NumberIsTooLargeException, FractionConversionException {
-
+    private FieldSquareMatrix<BigFraction> createExactH(double d,
+                                                        int n) {
         final int k = (int) Math.ceil(n * d);
         final int m = 2 * k - 1;
         final double hDouble = k - n * d;
@@ -697,15 +694,15 @@ public class KolmogorovSmirnovTest {
         }
         BigFraction h = null;
         try {
-            h = new BigFraction(hDouble, 1.0e-20, 10000);
-        } catch (final FractionConversionException e1) {
+            h = BigFraction.from(hDouble, 1e-20, 10000);
+        } catch (final ArithmeticException e1) {
             try {
-                h = new BigFraction(hDouble, 1.0e-10, 10000);
-            } catch (final FractionConversionException e2) {
-                h = new BigFraction(hDouble, 1.0e-5, 10000);
+                h = BigFraction.from(hDouble, 1e-10, 10000);
+            } catch (final ArithmeticException e2) {
+                h = BigFraction.from(hDouble, 1e-5, 10000);
             }
         }
-        final BigFraction[][] Hdata = new BigFraction[m][m];
+        final FieldSquareMatrix<BigFraction> Hdata = FieldSquareMatrix.create(BigFractionField.get(), m);
 
         /*
          * Start by filling everything with either 0 or 1.
@@ -713,9 +710,9 @@ public class KolmogorovSmirnovTest {
         for (int i = 0; i < m; ++i) {
             for (int j = 0; j < m; ++j) {
                 if (i - j + 1 < 0) {
-                    Hdata[i][j] = BigFraction.ZERO;
+                    Hdata.set(i, j, BigFraction.ZERO);
                 } else {
-                    Hdata[i][j] = BigFraction.ONE;
+                    Hdata.set(i, j, BigFraction.ONE);
                 }
             }
         }
@@ -726,7 +723,7 @@ public class KolmogorovSmirnovTest {
          */
         final BigFraction[] hPowers = new BigFraction[m];
         hPowers[0] = h;
-        for (int i = 1; i < m; ++i) {
+        for (int i = 1; i < m; i++) {
             hPowers[i] = h.multiply(hPowers[i - 1]);
         }
 
@@ -734,16 +731,19 @@ public class KolmogorovSmirnovTest {
          * First column and last row has special values (each other reversed).
          */
         for (int i = 0; i < m; ++i) {
-            Hdata[i][0] = Hdata[i][0].subtract(hPowers[i]);
-            Hdata[m - 1][i] = Hdata[m - 1][i].subtract(hPowers[m - i - 1]);
+            Hdata.set(i, 0,
+                      Hdata.get(i, 0).subtract(hPowers[i]));
+            Hdata.set(m - 1, i,
+                      Hdata.get(m - 1, i).subtract(hPowers[m - i - 1]));
         }
 
         /*
          * [1] states: "For 1/2 < h < 1 the bottom left element of the matrix should be (1 - 2*h^m +
          * (2h - 1)^m )/m!" Since 0 <= h < 1, then if h > 1/2 is sufficient to check:
          */
-        if (h.compareTo(BigFraction.ONE_HALF) == 1) {
-            Hdata[m - 1][0] = Hdata[m - 1][0].add(h.multiply(2).subtract(1).pow(m));
+        if (h.compareTo(ONE_HALF) == 1) {
+            Hdata.set(m - 1, 0,
+                      Hdata.get(m - 1, 0).add(h.multiply(2).subtract(1).pow(m)));
         }
 
         /*
@@ -758,12 +758,13 @@ public class KolmogorovSmirnovTest {
             for (int j = 0; j < i + 1; ++j) {
                 if (i - j + 1 > 0) {
                     for (int g = 2; g <= i - j + 1; ++g) {
-                        Hdata[i][j] = Hdata[i][j].divide(g);
+                        Hdata.set(i, j,
+                                  Hdata.get(i, j).divide(g));
                     }
                 }
             }
         }
-        return new Array2DRowFieldMatrix<>(BigFractionField.getInstance(), Hdata);
+        return Hdata;
     }
 
     /***

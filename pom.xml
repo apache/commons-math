@@ -163,6 +163,12 @@
 
     <dependency>
       <groupId>org.apache.commons</groupId>
+      <artifactId>commons-numbers-field</artifactId>
+      <version>${math.commons.numbers.version}</version>
+    </dependency>
+
+    <dependency>
+      <groupId>org.apache.commons</groupId>
       <artifactId>commons-rng-client-api</artifactId>
       <version>${math.commons.rng.version}</version>
     </dependency>
