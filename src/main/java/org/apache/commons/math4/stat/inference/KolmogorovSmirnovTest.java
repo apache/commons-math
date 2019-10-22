@@ -1085,7 +1085,7 @@ public class KolmogorovSmirnovTest {
         if (hasTies(x, y)) {
             // Add jitter using a fixed seed (so same arguments always give same results),
             // low-initialization-overhead generator.
-            final UniformRandomProvider rng = RandomSource.create(RandomSource.TWO_CMRES, 76543217);
+            final UniformRandomProvider rng = RandomSource.create(RandomSource.SPLIT_MIX_64, 76543217);
 
             // It is theoretically possible that jitter does not break ties, so repeat
             // until all ties are gone.  Bound the loop and throw MIE if bound is exceeded.
