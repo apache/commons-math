@@ -21,7 +21,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.apache.commons.math4.fraction.BigFraction;
+import org.apache.commons.numbers.fraction.BigFraction;
 import org.apache.commons.numbers.combinatorics.BinomialCoefficient;
 import org.apache.commons.math4.util.FastMath;
 
@@ -31,6 +31,10 @@ import org.apache.commons.math4.util.FastMath;
  * @since 2.0
  */
 public class PolynomialsUtils {
+    /** -1 */
+    private static final BigFraction BF__MINUS_ONE = BigFraction.of(-1);
+    /** 2 */
+    private static final BigFraction BF__TWO = BigFraction.of(2);
 
     /** Coefficients for Chebyshev polynomials. */
     private static final List<BigFraction> CHEBYSHEV_COEFFICIENTS;
@@ -61,14 +65,14 @@ public class PolynomialsUtils {
         HERMITE_COEFFICIENTS = new ArrayList<>();
         HERMITE_COEFFICIENTS.add(BigFraction.ONE);
         HERMITE_COEFFICIENTS.add(BigFraction.ZERO);
-        HERMITE_COEFFICIENTS.add(BigFraction.TWO);
+        HERMITE_COEFFICIENTS.add(BF__TWO);
 
         // initialize recurrence for Laguerre polynomials
         // L0(X) = 1, L1(X) = 1 - 1 * X
         LAGUERRE_COEFFICIENTS = new ArrayList<>();
         LAGUERRE_COEFFICIENTS.add(BigFraction.ONE);
         LAGUERRE_COEFFICIENTS.add(BigFraction.ONE);
-        LAGUERRE_COEFFICIENTS.add(BigFraction.MINUS_ONE);
+        LAGUERRE_COEFFICIENTS.add(BF__MINUS_ONE);
 
         // initialize recurrence for Legendre polynomials
         // P0(X) = 1, P1(X) = 0 + 1 * X
@@ -106,7 +110,7 @@ public class PolynomialsUtils {
         return buildPolynomial(degree, CHEBYSHEV_COEFFICIENTS,
                 new RecurrenceCoefficientsGenerator() {
             /** Fixed recurrence coefficients. */
-            private final BigFraction[] coeffs = { BigFraction.ZERO, BigFraction.TWO, BigFraction.ONE };
+            private final BigFraction[] coeffs = { BigFraction.ZERO, BF__TWO, BigFraction.ONE };
             /** {@inheritDoc} */
             @Override
             public BigFraction[] generate(int k) {
@@ -138,8 +142,8 @@ public class PolynomialsUtils {
             public BigFraction[] generate(int k) {
                 return new BigFraction[] {
                         BigFraction.ZERO,
-                        BigFraction.TWO,
-                        new BigFraction(2 * k)};
+                        BF__TWO,
+                        BigFraction.of(2 * k)};
             }
         });
     }
@@ -166,9 +170,9 @@ public class PolynomialsUtils {
             public BigFraction[] generate(int k) {
                 final int kP1 = k + 1;
                 return new BigFraction[] {
-                        new BigFraction(2 * k + 1, kP1),
-                        new BigFraction(-1, kP1),
-                        new BigFraction(k, kP1)};
+                        BigFraction.of(2 * k + 1, kP1),
+                        BigFraction.of(-1, kP1),
+                        BigFraction.of(k, kP1)};
             }
         });
     }
@@ -196,8 +200,8 @@ public class PolynomialsUtils {
                 final int kP1 = k + 1;
                 return new BigFraction[] {
                         BigFraction.ZERO,
-                        new BigFraction(k + kP1, kP1),
-                        new BigFraction(k, kP1)};
+                        BigFraction.of(k + kP1, kP1),
+                        BigFraction.of(k, kP1)};
             }
         });
     }
@@ -235,8 +239,8 @@ public class PolynomialsUtils {
             list.add(BigFraction.ONE);
 
             // P1(x) = (v - w) / 2 + (2 + v + w) * X / 2
-            list.add(new BigFraction(v - w, 2));
-            list.add(new BigFraction(2 + v + w, 2));
+            list.add(BigFraction.of(v - w, 2));
+            list.add(BigFraction.of(2 + v + w, 2));
 
         }
 
@@ -253,9 +257,9 @@ public class PolynomialsUtils {
                 final int den      = 2 * k *  kvw * twoKvwM2;
 
                 return new BigFraction[] {
-                    new BigFraction(twoKvwM1 * (v * v - w * w), den),
-                    new BigFraction(twoKvwM1 * twoKvw * twoKvwM2, den),
-                    new BigFraction(2 * (k + v - 1) * (k + w - 1) * twoKvw, den)
+                    BigFraction.of(twoKvwM1 * (v * v - w * w), den),
+                    BigFraction.of(twoKvwM1 * twoKvw * twoKvwM2, den),
+                    BigFraction.of(2 * (k + v - 1) * (k + w - 1) * twoKvw, den)
                 };
             }
         });
