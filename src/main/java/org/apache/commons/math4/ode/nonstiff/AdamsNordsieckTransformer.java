@@ -21,16 +21,17 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 
-import org.apache.commons.math4.fraction.BigFraction;
+import org.apache.commons.numbers.fraction.BigFraction;
+import org.apache.commons.numbers.field.BigFractionField;
 import org.apache.commons.math4.linear.Array2DRowFieldMatrix;
 import org.apache.commons.math4.linear.Array2DRowRealMatrix;
 import org.apache.commons.math4.linear.ArrayFieldVector;
-import org.apache.commons.math4.linear.FieldDecompositionSolver;
-import org.apache.commons.math4.linear.FieldLUDecomposition;
-import org.apache.commons.math4.linear.FieldMatrix;
 import org.apache.commons.math4.linear.MatrixUtils;
 import org.apache.commons.math4.linear.QRDecomposition;
 import org.apache.commons.math4.linear.RealMatrix;
+import org.apache.commons.math4.field.linalg.FieldDenseMatrix;
+import org.apache.commons.math4.field.linalg.FieldDecompositionSolver;
+import org.apache.commons.math4.field.linalg.FieldLUDecomposition;
 
 /** Transformer to Nordsieck vectors for Adams integrators.
  * <p>This class is used by {@link AdamsBashforthIntegrator Adams-Bashforth} and
@@ -148,38 +149,45 @@ public class AdamsNordsieckTransformer {
      * (excluding the one being computed)
      */
     private AdamsNordsieckTransformer(final int n) {
-
-        final int rows = n - 1;
+        final int dim = n - 1;
 
         // compute exact coefficients
-        FieldMatrix<BigFraction> bigP = buildP(rows);
-        FieldDecompositionSolver<BigFraction> pSolver =
-            new FieldLUDecomposition<>(bigP).getSolver();
+        final FieldDenseMatrix<BigFraction> bigP = buildP(dim);
+        final FieldDecompositionSolver<BigFraction> pSolver = FieldLUDecomposition.of(bigP).getSolver();
 
-        BigFraction[] u = new BigFraction[rows];
-        Arrays.fill(u, BigFraction.ONE);
-        BigFraction[] bigC1 = pSolver.solve(new ArrayFieldVector<>(u, false)).toArray();
+        final FieldDenseMatrix<BigFraction> u = FieldDenseMatrix.create(BigFractionField.get(), dim, 1)
+            .fill(BigFraction.ONE);
+        final FieldDenseMatrix<BigFraction> bigC1 = pSolver.solve(u);
 
         // update coefficients are computed by combining transform from
         // Nordsieck to multistep, then shifting rows to represent step advance
         // then applying inverse transform
-        BigFraction[][] shiftedP = bigP.getData();
-        for (int i = shiftedP.length - 1; i > 0; --i) {
+        final FieldDenseMatrix<BigFraction> shiftedP = bigP.copy();
+        for (int i = dim - 1; i > 0; --i) {
             // shift rows
-            shiftedP[i] = shiftedP[i - 1];
+            for (int j = 0; j < dim; j++) {
+                shiftedP.set(i, j, shiftedP.get(i - 1, j));
+            }
         }
-        shiftedP[0] = new BigFraction[rows];
-        Arrays.fill(shiftedP[0], BigFraction.ZERO);
-        FieldMatrix<BigFraction> bigMSupdate =
-            pSolver.solve(new Array2DRowFieldMatrix<>(shiftedP, false));
+        for (int j = 0; j < dim; j++) {
+            shiftedP.set(0, j, BigFraction.ZERO);
+        }
+
+        final FieldDenseMatrix<BigFraction> bigMSupdate = pSolver.solve(shiftedP);
 
         // convert coefficients to double
-        update         = MatrixUtils.bigFractionMatrixToRealMatrix(bigMSupdate);
-        c1             = new double[rows];
-        for (int i = 0; i < rows; ++i) {
-            c1[i] = bigC1[i].doubleValue();
+        final double[][] updateData = new double[dim][dim];
+        for (int i = 0; i < dim; i++) {
+            for (int j = 0; j < dim; j++) {
+                updateData[i][j] = bigMSupdate.get(i, j).doubleValue();
+            }
         }
 
+        update = new Array2DRowRealMatrix(updateData, false);
+        c1 = new double[dim];
+        for (int i = 0; i < dim; ++i) {
+            c1[i] = bigC1.get(i, 0).doubleValue();
+        }
     }
 
     /** Get the Nordsieck transformer for a given number of steps.
@@ -223,23 +231,23 @@ public class AdamsNordsieckTransformer {
      * @param rows number of rows of the matrix
      * @return P matrix
      */
-    private FieldMatrix<BigFraction> buildP(final int rows) {
+    private FieldDenseMatrix<BigFraction> buildP(final int rows) {
+        final FieldDenseMatrix<BigFraction> pData = FieldDenseMatrix.create(BigFractionField.get(),
+                                                                            rows, rows)
+            .fill(BigFraction.ZERO);
 
-        final BigFraction[][] pData = new BigFraction[rows][rows];
-
-        for (int i = 1; i <= pData.length; ++i) {
+        for (int i = 1; i <= rows; ++i) {
             // build the P matrix elements from Taylor series formulas
-            final BigFraction[] pI = pData[i - 1];
             final int factor = -i;
             int aj = factor;
-            for (int j = 1; j <= pI.length; ++j) {
-                pI[j - 1] = new BigFraction(aj * (j + 1));
+            for (int j = 1; j <= rows; ++j) {
+                pData.set(i - 1, j - 1,
+                          BigFraction.of(aj * (j + 1)));
                 aj *= factor;
             }
         }
 
-        return new Array2DRowFieldMatrix<>(pData, false);
-
+        return pData;
     }
 
     /** Initialize the high order scaled derivatives at step start.
