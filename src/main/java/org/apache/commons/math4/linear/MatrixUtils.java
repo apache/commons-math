@@ -582,13 +582,8 @@ public class MatrixUtils {
      * @throws MatrixDimensionMismatchException if the matrices are not addition
      * compatible.
      */
-    public static void checkAdditionCompatible(final AnyMatrix left, final AnyMatrix right)
-        throws MatrixDimensionMismatchException {
-        if ((left.getRowDimension()    != right.getRowDimension()) ||
-            (left.getColumnDimension() != right.getColumnDimension())) {
-            throw new MatrixDimensionMismatchException(left.getRowDimension(), left.getColumnDimension(),
-                                                       right.getRowDimension(), right.getColumnDimension());
-        }
+    public static void checkAdditionCompatible(final AnyMatrix left, final AnyMatrix right) {
+        left.checkAdd(right);
     }
 
     /**
@@ -599,13 +594,8 @@ public class MatrixUtils {
      * @throws MatrixDimensionMismatchException if the matrices are not addition
      * compatible.
      */
-    public static void checkSubtractionCompatible(final AnyMatrix left, final AnyMatrix right)
-        throws MatrixDimensionMismatchException {
-        if ((left.getRowDimension()    != right.getRowDimension()) ||
-            (left.getColumnDimension() != right.getColumnDimension())) {
-            throw new MatrixDimensionMismatchException(left.getRowDimension(), left.getColumnDimension(),
-                                                       right.getRowDimension(), right.getColumnDimension());
-        }
+    public static void checkSubtractionCompatible(final AnyMatrix left, final AnyMatrix right) {
+        left.checkAdd(right);
     }
 
     /**
@@ -616,13 +606,8 @@ public class MatrixUtils {
      * @throws DimensionMismatchException if matrices are not multiplication
      * compatible.
      */
-    public static void checkMultiplicationCompatible(final AnyMatrix left, final AnyMatrix right)
-        throws DimensionMismatchException {
-
-        if (left.getColumnDimension() != right.getRowDimension()) {
-            throw new DimensionMismatchException(left.getColumnDimension(),
-                                                 right.getRowDimension());
-        }
+    public static void checkMultiplicationCompatible(final AnyMatrix left, final AnyMatrix right) {
+        left.checkMultiply(right);
     }
 
     /**

@@ -17,6 +17,7 @@
 
 package org.apache.commons.math4.linear;
 
+import org.apache.commons.math4.exception.DimensionMismatchException;
 
 /**
  * Interface defining very basic matrix operations.
@@ -46,4 +47,51 @@ public interface AnyMatrix {
      * @return the number of columns.
      */
     int getColumnDimension();
+
+    /**
+     * Checks that this matrix and the {@code other} matrix can be added.
+     *
+     * @param other Matrix to be added.
+     * @return {@code false} if the dimensions do not match.
+     */
+    default boolean canAdd(AnyMatrix other) {
+        return getRowDimension() == other.getRowDimension() &&
+            getColumnDimension() == other.getColumnDimension();
+    }
+
+    /**
+     * Checks that this matrix and the {@code other} matrix can be added.
+     *
+     * @param other Matrix to check.
+     * @throws IllegalArgumentException if the dimensions do not match.
+     */
+    default void checkAdd(AnyMatrix other) {
+        if (!canAdd(other)) {
+            throw new MatrixDimensionMismatchException(getRowDimension(), getColumnDimension(),
+                                                       other.getRowDimension(), other.getColumnDimension());
+        }
+    }
+
+    /**
+     * Checks that this matrix can be multiplied by the {@code other} matrix.
+     *
+     * @param other Matrix to be added.
+     * @return {@code false} if the dimensions do not match.
+     */
+    default boolean canMultiply(AnyMatrix other) {
+        return getColumnDimension() == other.getRowDimension();
+    }
+
+    /**
+     * Checks that this matrix can be multiplied by the {@code other} matrix.
+     *
+     * @param other Matrix to check.
+     * @throws IllegalArgumentException if the dimensions do not match.
+     */
+    default void checkMultiply(AnyMatrix other) {
+        if (!canMultiply(other)) {
+            throw new DimensionMismatchException(getColumnDimension(),
+                                                 other.getRowDimension());
+        }
+    }
 }
