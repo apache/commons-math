@@ -20,28 +20,30 @@ package org.apache.commons.math4.linear;
 
 /**
  * Interface defining very basic matrix operations.
+ *
  * @since 2.0
  */
 public interface AnyMatrix {
-
     /**
-     * Is this a square matrix?
-     * @return true if the matrix is square (rowDimension = columnDimension)
-     */
-    boolean isSquare();
-
-    /**
-     * Returns the number of rows in the matrix.
+     * Indicates whether this is a square matrix.
      *
-     * @return rowDimension
+     * @return {@code true} if the number of rows is the same as the number of columns.
+     */
+    default boolean isSquare() {
+        return getRowDimension() == getColumnDimension();
+    }
+
+    /**
+     * Gets the number of rows.
+     *
+     * @return the number of rows.
      */
     int getRowDimension();
 
     /**
-     * Returns the number of columns in the matrix.
+     * Gets the number of columns.
      *
-     * @return columnDimension
+     * @return the number of columns.
      */
     int getColumnDimension();
-
 }

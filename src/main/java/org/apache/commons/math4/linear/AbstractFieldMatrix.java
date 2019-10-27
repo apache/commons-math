@@ -672,20 +672,6 @@ public abstract class AbstractFieldMatrix<T extends FieldElement<T>>
 
     /** {@inheritDoc} */
     @Override
-    public boolean isSquare() {
-        return getColumnDimension() == getRowDimension();
-    }
-
-    /** {@inheritDoc} */
-    @Override
-    public abstract int getRowDimension();
-
-    /** {@inheritDoc} */
-    @Override
-    public abstract int getColumnDimension();
-
-    /** {@inheritDoc} */
-    @Override
     public T getTrace() throws NonSquareMatrixException {
         final int nRows = getRowDimension();
         final int nCols = getColumnDimension();

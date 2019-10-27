@@ -660,28 +660,6 @@ public abstract class AbstractRealMatrix
 
     /** {@inheritDoc} */
     @Override
-    public boolean isSquare() {
-        return getColumnDimension() == getRowDimension();
-    }
-
-    /**
-     * Returns the number of rows of this matrix.
-     *
-     * @return the number of rows.
-     */
-    @Override
-    public abstract int getRowDimension();
-
-    /**
-     * Returns the number of columns of this matrix.
-     *
-     * @return the number of columns.
-     */
-    @Override
-    public abstract int getColumnDimension();
-
-    /** {@inheritDoc} */
-    @Override
     public double getTrace() throws NonSquareMatrixException {
         final int nRows = getRowDimension();
         final int nCols = getColumnDimension();
