@@ -27,7 +27,6 @@ import org.apache.commons.statistics.distribution.ContinuousDistribution;
 import org.apache.commons.numbers.combinatorics.BinomialCoefficientDouble;
 import org.apache.commons.numbers.fraction.BigFraction;
 import org.apache.commons.numbers.field.BigFractionField;
-import org.apache.commons.numbers.field.FieldSquareMatrix;
 import org.apache.commons.math4.distribution.EnumeratedRealDistribution;
 import org.apache.commons.math4.distribution.AbstractRealDistribution;
 import org.apache.commons.math4.exception.InsufficientDataException;
@@ -44,6 +43,7 @@ import org.apache.commons.math4.linear.RealMatrix;
 import org.apache.commons.math4.util.FastMath;
 import org.apache.commons.math4.util.MathArrays;
 import org.apache.commons.math4.util.MathUtils;
+import org.apache.commons.math4.field.linalg.FieldDenseMatrix;
 
 /**
  * Implementation of the <a href="http://en.wikipedia.org/wiki/Kolmogorov-Smirnov_test">
@@ -490,14 +490,14 @@ public class KolmogorovSmirnovTest {
     private double exactK(double d, int n) {
         final int k = (int) Math.ceil(n * d);
 
-        final FieldSquareMatrix<BigFraction> H;
+        final FieldDenseMatrix<BigFraction> H;
         try {
             H = createExactH(d, n);
         } catch (ArithmeticException e) {
             throw new MathArithmeticException(LocalizedFormats.FRACTION);
         }
 
-        final FieldSquareMatrix<BigFraction> Hpower = H.pow(n);
+        final FieldDenseMatrix<BigFraction> Hpower = H.pow(n);
 
         BigFraction pFrac = Hpower.get(k - 1, k - 1);
 
@@ -684,8 +684,8 @@ public class KolmogorovSmirnovTest {
      * @throws ArithmeticException if algorithm fails to convert {@code h} to a
      * {@link BigFraction}.
      */
-    private FieldSquareMatrix<BigFraction> createExactH(double d,
-                                                        int n) {
+    private FieldDenseMatrix<BigFraction> createExactH(double d,
+                                                       int n) {
         final int k = (int) Math.ceil(n * d);
         final int m = 2 * k - 1;
         final double hDouble = k - n * d;
@@ -702,7 +702,7 @@ public class KolmogorovSmirnovTest {
                 h = BigFraction.from(hDouble, 1e-5, 10000);
             }
         }
-        final FieldSquareMatrix<BigFraction> Hdata = FieldSquareMatrix.create(BigFractionField.get(), m);
+        final FieldDenseMatrix<BigFraction> Hdata = FieldDenseMatrix.create(BigFractionField.get(), m, m);
 
         /*
          * Start by filling everything with either 0 or 1.
