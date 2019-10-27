@@ -304,7 +304,7 @@ public class BlockRealMatrix extends AbstractRealMatrix implements Serializable 
             return add((BlockRealMatrix) m);
         } catch (ClassCastException cce) {
             // safety check
-            MatrixUtils.checkAdditionCompatible(this, m);
+            checkAdd(m);
 
             final BlockRealMatrix out = new BlockRealMatrix(rows, columns);
 
@@ -347,7 +347,7 @@ public class BlockRealMatrix extends AbstractRealMatrix implements Serializable 
     public BlockRealMatrix add(final BlockRealMatrix m)
         throws MatrixDimensionMismatchException {
         // safety check
-        MatrixUtils.checkAdditionCompatible(this, m);
+        checkAdd(m);
 
         final BlockRealMatrix out = new BlockRealMatrix(rows, columns);
 
@@ -372,7 +372,7 @@ public class BlockRealMatrix extends AbstractRealMatrix implements Serializable 
             return subtract((BlockRealMatrix) m);
         } catch (ClassCastException cce) {
             // safety check
-            MatrixUtils.checkSubtractionCompatible(this, m);
+            checkAdd(m);
 
             final BlockRealMatrix out = new BlockRealMatrix(rows, columns);
 
@@ -415,7 +415,7 @@ public class BlockRealMatrix extends AbstractRealMatrix implements Serializable 
     public BlockRealMatrix subtract(final BlockRealMatrix m)
         throws MatrixDimensionMismatchException {
         // safety check
-        MatrixUtils.checkSubtractionCompatible(this, m);
+        checkAdd(m);
 
         final BlockRealMatrix out = new BlockRealMatrix(rows, columns);
 
@@ -475,7 +475,7 @@ public class BlockRealMatrix extends AbstractRealMatrix implements Serializable 
             return multiply((BlockRealMatrix) m);
         } catch (ClassCastException cce) {
             // safety check
-            MatrixUtils.checkMultiplicationCompatible(this, m);
+            checkMultiply(m);
 
             final BlockRealMatrix out = new BlockRealMatrix(rows, m.getColumnDimension());
 
@@ -532,7 +532,7 @@ public class BlockRealMatrix extends AbstractRealMatrix implements Serializable 
     public BlockRealMatrix multiply(BlockRealMatrix m)
         throws DimensionMismatchException {
         // safety check
-        MatrixUtils.checkMultiplicationCompatible(this, m);
+        checkMultiply(m);
 
         final BlockRealMatrix out = new BlockRealMatrix(rows, m.columns);
 

@@ -144,7 +144,7 @@ public abstract class AbstractFieldMatrix<T extends FieldElement<T>>
     public FieldMatrix<T> add(FieldMatrix<T> m)
         throws MatrixDimensionMismatchException {
         // safety check
-        checkAdditionCompatible(m);
+        checkAdd(m);
 
         final int rowCount    = getRowDimension();
         final int columnCount = getColumnDimension();
@@ -163,7 +163,7 @@ public abstract class AbstractFieldMatrix<T extends FieldElement<T>>
     public FieldMatrix<T> subtract(final FieldMatrix<T> m)
         throws MatrixDimensionMismatchException {
         // safety check
-        checkSubtractionCompatible(m);
+        checkAdd(m);
 
         final int rowCount    = getRowDimension();
         final int columnCount = getColumnDimension();
@@ -213,7 +213,7 @@ public abstract class AbstractFieldMatrix<T extends FieldElement<T>>
     public FieldMatrix<T> multiply(final FieldMatrix<T> m)
         throws DimensionMismatchException {
         // safety check
-        checkMultiplicationCompatible(m);
+        checkMultiply(m);
 
         final int nRows = getRowDimension();
         final int nCols = m.getColumnDimension();
@@ -1109,52 +1109,6 @@ public abstract class AbstractFieldMatrix<T extends FieldElement<T>>
         }
         for (final int column : selectedColumns) {
             checkColumnIndex(column);
-        }
-    }
-
-    /**
-     * Check if a matrix is addition compatible with the instance.
-     *
-     * @param m Matrix to check.
-     * @throws MatrixDimensionMismatchException if the matrix is not
-     * addition-compatible with instance.
-     */
-    protected void checkAdditionCompatible(final FieldMatrix<T> m)
-        throws MatrixDimensionMismatchException {
-        if ((getRowDimension() != m.getRowDimension()) ||
-            (getColumnDimension() != m.getColumnDimension())) {
-            throw new MatrixDimensionMismatchException(m.getRowDimension(), m.getColumnDimension(),
-                                                       getRowDimension(), getColumnDimension());
-        }
-    }
-
-    /**
-     * Check if a matrix is subtraction compatible with the instance.
-     *
-     * @param m Matrix to check.
-     * @throws MatrixDimensionMismatchException if the matrix is not
-     * subtraction-compatible with instance.
-     */
-    protected void checkSubtractionCompatible(final FieldMatrix<T> m)
-        throws MatrixDimensionMismatchException {
-        if ((getRowDimension() != m.getRowDimension()) ||
-            (getColumnDimension() != m.getColumnDimension())) {
-            throw new MatrixDimensionMismatchException(m.getRowDimension(), m.getColumnDimension(),
-                                                       getRowDimension(), getColumnDimension());
-        }
-    }
-
-    /**
-     * Check if a matrix is multiplication compatible with the instance.
-     *
-     * @param m Matrix to check.
-     * @throws DimensionMismatchException if the matrix is not
-     * multiplication-compatible with instance.
-     */
-    protected void checkMultiplicationCompatible(final FieldMatrix<T> m)
-        throws DimensionMismatchException {
-        if (getColumnDimension() != m.getRowDimension()) {
-            throw new DimensionMismatchException(m.getRowDimension(), getColumnDimension());
         }
     }
 }

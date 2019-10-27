@@ -228,7 +228,7 @@ public class Array2DRowFieldMatrix<T extends FieldElement<T>>
     public Array2DRowFieldMatrix<T> add(final Array2DRowFieldMatrix<T> m)
         throws MatrixDimensionMismatchException {
         // safety check
-        checkAdditionCompatible(m);
+        checkAdd(m);
 
         final int rowCount    = getRowDimension();
         final int columnCount = getColumnDimension();
@@ -256,7 +256,7 @@ public class Array2DRowFieldMatrix<T extends FieldElement<T>>
     public Array2DRowFieldMatrix<T> subtract(final Array2DRowFieldMatrix<T> m)
         throws MatrixDimensionMismatchException {
         // safety check
-        checkSubtractionCompatible(m);
+        checkAdd(m);
 
         final int rowCount    = getRowDimension();
         final int columnCount = getColumnDimension();
@@ -285,7 +285,7 @@ public class Array2DRowFieldMatrix<T extends FieldElement<T>>
     public Array2DRowFieldMatrix<T> multiply(final Array2DRowFieldMatrix<T> m)
         throws DimensionMismatchException {
         // safety check
-        checkMultiplicationCompatible(m);
+        checkMultiply(m);
 
         final int nRows = this.getRowDimension();
         final int nCols = m.getColumnDimension();

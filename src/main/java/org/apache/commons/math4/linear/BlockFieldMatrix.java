@@ -321,7 +321,7 @@ public class BlockFieldMatrix<T extends FieldElement<T>> extends AbstractFieldMa
         } catch (ClassCastException cce) {
 
             // safety check
-            checkAdditionCompatible(m);
+            checkAdd(m);
 
             final BlockFieldMatrix<T> out = new BlockFieldMatrix<>(getField(), rows, columns);
 
@@ -367,7 +367,7 @@ public class BlockFieldMatrix<T extends FieldElement<T>> extends AbstractFieldMa
         throws MatrixDimensionMismatchException {
 
         // safety check
-        checkAdditionCompatible(m);
+        checkAdd(m);
 
         final BlockFieldMatrix<T> out = new BlockFieldMatrix<>(getField(), rows, columns);
 
@@ -393,7 +393,7 @@ public class BlockFieldMatrix<T extends FieldElement<T>> extends AbstractFieldMa
         } catch (ClassCastException cce) {
 
             // safety check
-            checkSubtractionCompatible(m);
+            checkAdd(m);
 
             final BlockFieldMatrix<T> out = new BlockFieldMatrix<>(getField(), rows, columns);
 
@@ -437,7 +437,7 @@ public class BlockFieldMatrix<T extends FieldElement<T>> extends AbstractFieldMa
      */
     public BlockFieldMatrix<T> subtract(final BlockFieldMatrix<T> m) throws MatrixDimensionMismatchException {
         // safety check
-        checkSubtractionCompatible(m);
+        checkAdd(m);
 
         final BlockFieldMatrix<T> out = new BlockFieldMatrix<>(getField(), rows, columns);
 
@@ -498,7 +498,7 @@ public class BlockFieldMatrix<T extends FieldElement<T>> extends AbstractFieldMa
         } catch (ClassCastException cce) {
 
             // safety check
-            checkMultiplicationCompatible(m);
+            checkMultiply(m);
 
             final BlockFieldMatrix<T> out = new BlockFieldMatrix<>(getField(), rows, m.getColumnDimension());
             final T zero = getField().getZero();
@@ -561,7 +561,7 @@ public class BlockFieldMatrix<T extends FieldElement<T>> extends AbstractFieldMa
         throws DimensionMismatchException {
 
         // safety check
-        checkMultiplicationCompatible(m);
+        checkMultiply(m);
 
         final BlockFieldMatrix<T> out = new BlockFieldMatrix<>(getField(), rows, m.columns);
         final T zero = getField().getZero();

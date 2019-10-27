@@ -160,7 +160,7 @@ public class Array2DRowRealMatrix extends AbstractRealMatrix implements Serializ
     public Array2DRowRealMatrix add(final Array2DRowRealMatrix m)
         throws MatrixDimensionMismatchException {
         // Safety check.
-        MatrixUtils.checkAdditionCompatible(this, m);
+        checkAdd(m);
 
         final int rowCount    = getRowDimension();
         final int columnCount = getColumnDimension();
@@ -187,7 +187,7 @@ public class Array2DRowRealMatrix extends AbstractRealMatrix implements Serializ
      */
     public Array2DRowRealMatrix subtract(final Array2DRowRealMatrix m)
         throws MatrixDimensionMismatchException {
-        MatrixUtils.checkSubtractionCompatible(this, m);
+        checkAdd(m);
 
         final int rowCount    = getRowDimension();
         final int columnCount = getColumnDimension();
@@ -214,7 +214,7 @@ public class Array2DRowRealMatrix extends AbstractRealMatrix implements Serializ
      */
     public Array2DRowRealMatrix multiply(final Array2DRowRealMatrix m)
         throws DimensionMismatchException {
-        MatrixUtils.checkMultiplicationCompatible(this, m);
+        checkMultiply(m);
 
         final int nRows = this.getRowDimension();
         final int nCols = m.getColumnDimension();
