@@ -17,60 +17,47 @@
 
 package org.apache.commons.math4.field.linalg;
 
-import org.apache.commons.numbers.fraction.Fraction;
-import org.apache.commons.numbers.field.FractionField;
 import org.junit.Test;
 import org.junit.Assert;
-import org.apache.commons.math4.linear.NonSquareMatrixException;
+import org.apache.commons.numbers.fraction.Fraction;
+import org.apache.commons.numbers.field.FractionField;
 import org.apache.commons.math4.linear.SingularMatrixException;
+import org.apache.commons.math4.exception.DimensionMismatchException;
 
 public class FieldLUDecompositionTest {
-    private final Fraction[][] testData = {
-            { Fraction.of(1), Fraction.of(2), Fraction.of(3)},
-            { Fraction.of(2), Fraction.of(5), Fraction.of(3)},
-            { Fraction.of(1), Fraction.of(0), Fraction.of(8)}
+    private final int[][] testData = {
+        { 1, 2, 3 },
+        { 2, 5, 3 },
+        { 1, 0, 8 }
     };
-    private final Fraction[][] testDataMinus = {
-            { Fraction.of(-1), Fraction.of(-2), Fraction.of(-3)},
-            { Fraction.of(-2), Fraction.of(-5), Fraction.of(-3)},
-            { Fraction.of(-1), Fraction.of(0), Fraction.of(-8)}
+    private final int[][] testDataMinus = {
+        { -1, -2, -3 },
+        { -2, -5, -3 },
+        { -1, 0, -8 }
     };
-    private final Fraction[][] luData = {
-            { Fraction.of(2), Fraction.of(3), Fraction.of(3) },
-            { Fraction.of(2), Fraction.of(3), Fraction.of(7) },
-            { Fraction.of(6), Fraction.of(6), Fraction.of(8) }
+    private final int[][] luData = {
+        { 2, 3, 3 },
+        { 2, 3, 7 },
+        { 6, 6, 8 }
+    };
+    private final int[][] luData2 = {
+        { 2, 3, 3 },
+        { 0, 5, 7 },
+        { 6, 9, 8 }
     };
 
     // singular matrices
-    private final Fraction[][] singular = {
-            { Fraction.of(2), Fraction.of(3) },
-            { Fraction.of(2), Fraction.of(3) }
+    private int[][] singular = {
+        { 2, 3 },
+        { 2, 3 }
     };
-    private final Fraction[][] bigSingular = {
-            { Fraction.of(1), Fraction.of(2), Fraction.of(3), Fraction.of(4) },
-            { Fraction.of(2), Fraction.of(5), Fraction.of(3), Fraction.of(4) },
-            { Fraction.of(7), Fraction.of(3), Fraction.of(256), Fraction.of(1930) },
-            { Fraction.of(3), Fraction.of(7), Fraction.of(6), Fraction.of(8) }
+    private final int[][] bigSingular = {
+        { 1, 2,   3,    4 },
+        { 2, 5,   3,    4 },
+        { 7, 3, 256, 1930 },
+        { 3, 7,   6,    8 }
     }; // 4th row = 1st + 2nd
 
-    /**
-     * @param data Matrix.
-     * @return a {@link FieldDenseMatrix} instance.
-     */
-    private FieldDenseMatrix<Fraction> create(Fraction[][] data) {
-        final FieldDenseMatrix<Fraction> m = FieldDenseMatrix.create(FractionField.get(),
-                                                                     data.length,
-                                                                     data[0].length);
-        for (int i = 0; i < data.length; i++) {
-            for (int j = 0; j < data.length; j++) {
-                m.set(i, j, data[i][j]);
-            }
-        }
-
-        return m;
-    }
-
-    /** test dimensions */
     @Test
     public void testDimensions() {
         FieldDenseMatrix<Fraction> matrix = create(testData);
@@ -80,7 +67,6 @@ public class FieldLUDecompositionTest {
         Assert.assertEquals(testData.length, LU.getP().getRowDimension());
     }
 
-    /** test PA = LU */
     @Test
     public void testPAEqualLU() {
         FieldDenseMatrix<Fraction> matrix = create(testData);
@@ -105,7 +91,7 @@ public class FieldLUDecompositionTest {
         Assert.assertEquals(p.multiply(matrix), l.multiply(u));
     }
 
-    /** test that L is lower triangular with unit diagonal */
+    /* L is lower triangular with unit diagonal */
     @Test
     public void testLLowerTriangular() {
         FieldDenseMatrix<Fraction> matrix = create(testData);
@@ -118,7 +104,7 @@ public class FieldLUDecompositionTest {
         }
     }
 
-    /** test that U is upper triangular */
+    /* U is upper triangular */
     @Test
     public void testUUpperTriangular() {
         FieldDenseMatrix<Fraction> matrix = create(testData);
@@ -130,7 +116,7 @@ public class FieldLUDecompositionTest {
         }
     }
 
-    /** test that P is a permutation matrix */
+    /* P is a permutation matrix */
     @Test
     public void testPPermutation() {
         FieldDenseMatrix<Fraction> matrix = create(testData);
@@ -202,20 +188,20 @@ public class FieldLUDecompositionTest {
     @Test
     public void testMatricesValues1() {
         FieldLUDecomposition<Fraction> lu = FieldLUDecomposition.of(create(testData));
-        FieldDenseMatrix<Fraction> lRef = create(new Fraction[][] {
-                { Fraction.of(1), Fraction.of(0), Fraction.of(0) },
-                { Fraction.of(2), Fraction.of(1), Fraction.of(0) },
-                { Fraction.of(1), Fraction.of(-2), Fraction.of(1) }
+        FieldDenseMatrix<Fraction> lRef = create(new int[][] {
+                { 1, 0, 0 },
+                { 2, 1, 0 },
+                { 1, -2, 1 }
             });
-        FieldDenseMatrix<Fraction> uRef = create(new Fraction[][] {
-                { Fraction.of(1),  Fraction.of(2), Fraction.of(3) },
-                { Fraction.of(0), Fraction.of(1), Fraction.of(-3) },
-                { Fraction.of(0),  Fraction.of(0), Fraction.of(-1) }
+        FieldDenseMatrix<Fraction> uRef = create(new int[][] {
+                { 1,  2, 3 },
+                { 0, 1, -3 },
+                { 0,  0, -1 }
             });
-        FieldDenseMatrix<Fraction> pRef = create(new Fraction[][] {
-                { Fraction.of(1), Fraction.of(0), Fraction.of(0) },
-                { Fraction.of(0), Fraction.of(1), Fraction.of(0) },
-                { Fraction.of(0), Fraction.of(0), Fraction.of(1) }
+        FieldDenseMatrix<Fraction> pRef = create(new int[][] {
+                { 1, 0, 0 },
+                { 0, 1, 0 },
+                { 0, 0, 1 }
             });
         int[] pivotRef = { 0, 1, 2 };
 
@@ -234,34 +220,95 @@ public class FieldLUDecompositionTest {
 
     @Test
     public void testMatricesValues2() {
-        FieldLUDecomposition<Fraction> lu = FieldLUDecomposition.of(create(luData));
-        FieldDenseMatrix<Fraction> lRef = create(new Fraction[][] {
-                { Fraction.of(1), Fraction.of(0), Fraction.of(0) },
-                { Fraction.of(3), Fraction.of(1), Fraction.of(0) },
-                { Fraction.of(1), Fraction.of(0), Fraction.of(1) }
+        final FieldLUDecomposition<Fraction> lu = FieldLUDecomposition.of(create(luData));
+        final FieldDenseMatrix<Fraction> lRef = create(new int[][] {
+                { 1, 0, 0 },
+                { 3, 1, 0 },
+                { 1, 0, 1 }
             });
-        FieldDenseMatrix<Fraction> uRef = create(new Fraction[][] {
-                { Fraction.of(2), Fraction.of(3), Fraction.of(3)    },
-                { Fraction.of(0), Fraction.of(-3), Fraction.of(-1)  },
-                { Fraction.of(0), Fraction.of(0), Fraction.of(4) }
+        final FieldDenseMatrix<Fraction> uRef = create(new int[][] {
+                { 2, 3, 3 },
+                { 0, -3, -1 },
+                { 0, 0, 4 }
             });
-        FieldDenseMatrix<Fraction> pRef = create(new Fraction[][] {
-                { Fraction.of(1), Fraction.of(0), Fraction.of(0) },
-                { Fraction.of(0), Fraction.of(0), Fraction.of(1) },
-                { Fraction.of(0), Fraction.of(1), Fraction.of(0) }
+        final FieldDenseMatrix<Fraction> pRef = create(new int[][] {
+                { 1, 0, 0 },
+                { 0, 0, 1 },
+                { 0, 1, 0 }
             });
         int[] pivotRef = { 0, 2, 1 };
 
         // check values against known references
-        FieldDenseMatrix<Fraction> l = lu.getL();
+        final FieldDenseMatrix<Fraction> l = lu.getL();
         Assert.assertEquals(lRef, l);
-        FieldDenseMatrix<Fraction> u = lu.getU();
+        final FieldDenseMatrix<Fraction> u = lu.getU();
         Assert.assertEquals(uRef, u);
-        FieldDenseMatrix<Fraction> p = lu.getP();
+        final FieldDenseMatrix<Fraction> p = lu.getP();
         Assert.assertEquals(pRef, p);
         int[] pivot = lu.getPivot();
-        for (int i = 0; i < pivotRef.length; ++i) {
+        for (int i = 0; i < pivotRef.length; i++) {
             Assert.assertEquals(pivotRef[i], pivot[i]);
         }
+    }
+
+    @Test(expected=DimensionMismatchException.class)
+    public void testSolveDimensionErrors() {
+        FieldLUDecomposition
+            .of(create(testData))
+            .getSolver()
+            .solve(create(new int[2][2]));
+    }
+
+    @Test
+    public void testSolve() {
+        final FieldDecompositionSolver<Fraction> solver = FieldLUDecomposition
+            .of(create(testData))
+            .getSolver();
+        final FieldDenseMatrix<Fraction> b = create(new int[][] {
+                { 1, 0 },
+                { 2, -5 },
+                { 3, 1 }
+            });
+        final FieldDenseMatrix<Fraction> xRef = create(new int[][] {
+                { 19, -71 },
+                { -6, 22 },
+                { -2, 9 }
+            });
+
+        final FieldDenseMatrix<Fraction> x = solver.solve(b);
+        for (int i = 0; i < x.getRowDimension(); i++){
+            for (int j = 0; j < x.getColumnDimension(); j++){
+                Assert.assertEquals("(" + i + ", " + j + ")",
+                                    xRef.get(i, j), x.get(i, j));
+            }
+        }
+    }
+
+    @Test
+    public void testDeterminant() {
+        Assert.assertEquals(-1, determinant(testData), 1e-15);
+        Assert.assertEquals(24, determinant(luData), 1e-14);
+        Assert.assertEquals(-10, determinant(luData2), 1e-14);
+        Assert.assertEquals(0, determinant(singular), 1e-15);
+        Assert.assertEquals(0, determinant(bigSingular), 1e-15);
+    }
+
+    private static double determinant(int[][] data) {
+        return FieldLUDecomposition.of(create(data)).getDeterminant().doubleValue();
+    }
+
+    private static FieldDenseMatrix<Fraction> create(final int[][] data) {
+        final int numRows = data.length;
+        final int numCols = data[0].length;
+        final FieldDenseMatrix<Fraction> m = FieldDenseMatrix
+            .create(FractionField.get(), numRows, numCols);
+
+        for (int i = 0; i < numRows; i++) {
+            for (int j = 0; j < numCols; j++) {
+                m.set(i, j, Fraction.of(data[i][j], 1));
+            }
+        }
+
+        return m;
     }
 }
