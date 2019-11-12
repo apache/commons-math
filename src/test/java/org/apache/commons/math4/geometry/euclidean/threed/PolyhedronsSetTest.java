@@ -56,6 +56,16 @@ public class PolyhedronsSetTest {
 
     private static final double TEST_TOLERANCE = 1e-10;
 
+    @Test(expected = ParseException.class)
+    public void testWithEmptyString() throws IOException, ParseException {
+        PolyhedronsSet polySet = RegionParser.parsePolyhedronsSet("");
+    }
+
+    @Test(expected = ParseException.class)
+    public void testWithNullString() throws IOException, ParseException {
+        PolyhedronsSet polySet = RegionParser.parsePolyhedronsSet(null);
+    }
+
     @Test
     public void testWholeSpace() {
         // act
