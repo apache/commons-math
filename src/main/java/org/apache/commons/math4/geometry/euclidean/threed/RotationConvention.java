@@ -17,9 +17,11 @@
 
 package org.apache.commons.math4.geometry.euclidean.threed;
 
+import org.apache.commons.geometry.euclidean.threed.Vector3D;
+
 /**
  * This enumerates is used to differentiate the semantics of a rotation.
- * @see Rotation
+ * @see FieldRotation
  * @since 3.6
  */
 public enum RotationConvention {
@@ -31,10 +33,10 @@ public enum RotationConvention {
      * </p>
      * <p>
      * This means that if we define rotation r is a 90 degrees rotation around
-     * the Z axis, the image of vector {@link Cartesian3D#PLUS_I} would be
-     * {@link Cartesian3D#PLUS_J}, the image of vector {@link Cartesian3D#PLUS_J}
-     * would be {@link Cartesian3D#MINUS_I}, the image of vector {@link Cartesian3D#PLUS_K}
-     * would be {@link Cartesian3D#PLUS_K}, and the image of vector with coordinates (1, 2, 3)
+     * the Z axis, the image of vector {@link Vector3D.Unit#PLUS_X} would be
+     * {@link Vector3D.Unit#PLUS_Y}, the image of vector {@link Vector3D.Unit#PLUS_Y}
+     * would be {@link Vector3D.Unit#MINUS_X}, the image of vector {@link Vector3D.Unit#PLUS_Z}
+     * would be {@link Vector3D.Unit#PLUS_Z}, and the image of vector with coordinates (1, 2, 3)
      * would be vector (-2, 1, 3). This means that the vector rotates counterclockwise.
      * </p>
      * <p>
@@ -58,10 +60,10 @@ public enum RotationConvention {
      * </p>
      * <p>
      * This means that if we define rotation r is a 90 degrees rotation around
-     * the Z axis, the image of vector {@link Cartesian3D#PLUS_I} would be
-     * {@link Cartesian3D#MINUS_J}, the image of vector {@link Cartesian3D#PLUS_J}
-     * would be {@link Cartesian3D#PLUS_I}, the image of vector {@link Cartesian3D#PLUS_K}
-     * would be {@link Cartesian3D#PLUS_K}, and the image of vector with coordinates (1, 2, 3)
+     * the Z axis, the image of vector {@link Vector3D.Unit#PLUS_X} would be
+     * {@link Vector3D.Unit#MINUS_Y}, the image of vector {@link Vector3D.Unit#PLUS_Y}
+     * would be {@link Vector3D.Unit#PLUS_X}, the image of vector {@link Vector3D.Unit#PLUS_Z}
+     * would be {@link Vector3D.Unit#PLUS_Z}, and the image of vector with coordinates (1, 2, 3)
      * would be vector (2, -1, 3). This means that the coordinates of the vector rotates
      * clockwise, because they are expressed with respect to a destination frame that is rotated
      * counterclockwise.

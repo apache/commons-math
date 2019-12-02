@@ -1155,7 +1155,7 @@ public class FieldRotation<T extends RealFieldElement<T>> implements Serializabl
     }
 
     /** Apply a rotation to a vector.
-     * @param r rotation to apply
+     * @param rot rotation to apply
      * @param u vector to apply the rotation to
      * @param <T> the type of the field elements
      * @return a new vector which is the image of u by the rotation
@@ -1252,7 +1252,7 @@ public class FieldRotation<T extends RealFieldElement<T>> implements Serializabl
     }
 
     /** Apply the inverse of a rotation to a vector.
-     * @param r rotation to apply
+     * @param rot rotation to apply
      * @param u vector to apply the inverse of the rotation to
      * @param <T> the type of the field elements
      * @return a new vector which such that u is its image by the rotation
@@ -1330,7 +1330,7 @@ public class FieldRotation<T extends RealFieldElement<T>> implements Serializabl
     /** Apply the instance to another rotation.
      * <p>
      * Calling this method is equivalent to call
-     * {@link #compose(Rotation, RotationConvention)
+     * {@link #compose(QuaternionRotation, RotationConvention)
      * compose(r, RotationConvention.VECTOR_OPERATOR)}.
      * </p>
      * @param r rotation to apply the rotation to
@@ -1370,7 +1370,7 @@ public class FieldRotation<T extends RealFieldElement<T>> implements Serializabl
     }
 
     /** Compose the instance with another rotation using vector operator convention.
-     * @param r rotation to apply the rotation to
+     * @param rot rotation to apply the rotation to
      * @return a new rotation which is the composition of r by the instance
      * using vector operator convention
      */
@@ -1389,7 +1389,7 @@ public class FieldRotation<T extends RealFieldElement<T>> implements Serializabl
      * vector and v its image by rInner (i.e. rInner.applyTo(u) = v), let w be the image
      * of v by rOuter (i.e. rOuter.applyTo(v) = w), then w = comp.applyTo(u),
      * where comp = applyTo(rOuter, rInner).
-     * @param r1 rotation to apply
+     * @param rot1 rotation to apply
      * @param rInner rotation to apply the rotation to
      * @param <T> the type of the field elements
      * @return a new rotation which is the composition of r by the instance
@@ -1465,7 +1465,7 @@ public class FieldRotation<T extends RealFieldElement<T>> implements Serializabl
     /** Apply the inverse of the instance to another rotation.
      * <p>
      * Calling this method is equivalent to call
-     * {@link #composeInverse(Rotation, RotationConvention)
+     * {@link #composeInverse(QuaternionRotation, RotationConvention)
      * composeInverse(r, RotationConvention.VECTOR_OPERATOR)}.
      * </p>
      * @param r rotation to apply the rotation to
@@ -1509,7 +1509,7 @@ public class FieldRotation<T extends RealFieldElement<T>> implements Serializabl
 
     /** Compose the inverse of the instance with another rotation
      * using vector operator convention.
-     * @param r rotation to apply the rotation to
+     * @param rot rotation to apply the rotation to
      * @return a new rotation which is the composition of r by the inverse
      * of the instance using vector operator convention
      */
@@ -1529,7 +1529,7 @@ public class FieldRotation<T extends RealFieldElement<T>> implements Serializabl
      * let w be the inverse image of v by rOuter
      * (i.e. rOuter.applyInverseTo(v) = w), then w = comp.applyTo(u), where
      * comp = applyInverseTo(rOuter, rInner).
-     * @param rOuter rotation to apply the rotation to
+     * @param rotOuter rotation to apply the rotation to
      * @param rInner rotation to apply the rotation to
      * @param <T> the type of the field elements
      * @return a new rotation which is the composition of r by the inverse
