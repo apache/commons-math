@@ -16,6 +16,7 @@
  */
 package org.apache.commons.math4.fitting.leastsquares;
 
+import org.apache.commons.geometry.euclidean.twod.Vector2D;
 import org.apache.commons.math4.analysis.MultivariateMatrixFunction;
 import org.apache.commons.math4.analysis.MultivariateVectorFunction;
 import org.apache.commons.math4.exception.ConvergenceException;
@@ -26,7 +27,6 @@ import org.apache.commons.math4.fitting.leastsquares.LeastSquaresProblem;
 import org.apache.commons.math4.fitting.leastsquares.MultivariateJacobianFunction;
 import org.apache.commons.math4.fitting.leastsquares.LeastSquaresOptimizer.Optimum;
 import org.apache.commons.math4.fitting.leastsquares.LeastSquaresProblem.Evaluation;
-import org.apache.commons.math4.geometry.euclidean.twod.Cartesian2D;
 import org.apache.commons.math4.linear.Array2DRowRealMatrix;
 import org.apache.commons.math4.linear.ArrayRealVector;
 import org.apache.commons.math4.linear.BlockRealMatrix;
@@ -412,7 +412,7 @@ public abstract class AbstractLeastSquaresOptimizerAbstractTest {
         double rms = optimum.getRMS();
         Assert.assertEquals(1.768262623567235, FastMath.sqrt(circle.getN()) * rms, TOl);
 
-        Cartesian2D center = new Cartesian2D(optimum.getPoint().getEntry(0), optimum.getPoint().getEntry(1));
+        Vector2D center = Vector2D.of(optimum.getPoint().getEntry(0), optimum.getPoint().getEntry(1));
         Assert.assertEquals(69.96016176931406, circle.getRadius(center), 1e-6);
         Assert.assertEquals(96.07590211815305, center.getX(), 1e-6);
         Assert.assertEquals(48.13516790438953, center.getY(), 1e-6);
@@ -455,7 +455,7 @@ public abstract class AbstractLeastSquaresOptimizerAbstractTest {
 
         Optimum optimum = optimizer.optimize(builder(circle).weight(new DiagonalMatrix(weights)).start(start).build());
 
-        Cartesian2D center = new Cartesian2D(optimum.getPoint().getEntry(0), optimum.getPoint().getEntry(1));
+        Vector2D center = Vector2D.of(optimum.getPoint().getEntry(0), optimum.getPoint().getEntry(1));
         Assert.assertTrue(optimum.getEvaluations() < 25);
         Assert.assertEquals(0.043, optimum.getRMS(), 1e-3);
         Assert.assertEquals(0.292235, circle.getRadius(center), 1e-6);

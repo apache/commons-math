@@ -20,10 +20,12 @@ package org.apache.commons.math4.geometry.euclidean.threed;
 import org.junit.Assert;
 import org.junit.Test;
 import org.apache.commons.numbers.angle.PlaneAngleRadians;
+import org.apache.commons.numbers.quaternion.Quaternion;
 import org.apache.commons.rng.UniformRandomProvider;
 import org.apache.commons.rng.simple.RandomSource;
 import org.apache.commons.rng.sampling.UnitSphereSampler;
-import org.apache.commons.numbers.angle.PlaneAngleRadians;
+import org.apache.commons.geometry.euclidean.threed.Vector3D;
+import org.apache.commons.geometry.euclidean.threed.rotation.QuaternionRotation;
 import org.apache.commons.math4.dfp.Dfp;
 import org.apache.commons.math4.dfp.DfpField;
 import org.apache.commons.math4.exception.MathArithmeticException;
@@ -32,9 +34,7 @@ import org.apache.commons.math4.geometry.euclidean.threed.CardanEulerSingularity
 import org.apache.commons.math4.geometry.euclidean.threed.FieldRotation;
 import org.apache.commons.math4.geometry.euclidean.threed.FieldVector3D;
 import org.apache.commons.math4.geometry.euclidean.threed.NotARotationMatrixException;
-import org.apache.commons.math4.geometry.euclidean.threed.Rotation;
 import org.apache.commons.math4.geometry.euclidean.threed.RotationOrder;
-import org.apache.commons.math4.geometry.euclidean.threed.Cartesian3D;
 import org.apache.commons.math4.util.FastMath;
 
 public class FieldRotationDfpTest {
@@ -633,11 +633,10 @@ public class FieldRotationDfpTest {
                                                              createAngle(0.3),
                                                              RotationConvention.VECTOR_OPERATOR);
         FieldRotation<Dfp> r3       = r2.applyTo(r1);
-        FieldRotation<Dfp> r3Double = r2.applyTo(new Rotation(r1.getQ0().getReal(),
-                                                      r1.getQ1().getReal(),
-                                                      r1.getQ2().getReal(),
-                                                      r1.getQ3().getReal(),
-                                                      false));
+        FieldRotation<Dfp> r3Double = r2.applyTo(QuaternionRotation.of(r1.getQ0().getReal(),
+                                                                       r1.getQ1().getReal(),
+                                                                       r1.getQ2().getReal(),
+                                                                       r1.getQ3().getReal()));
 
         for (double x = -0.9; x < 0.9; x += 0.2) {
             for (double y = -0.9; y < 0.9; y += 0.2) {
@@ -661,11 +660,10 @@ public class FieldRotationDfpTest {
                                                              createAngle(0.3),
                                                              RotationConvention.VECTOR_OPERATOR);
         FieldRotation<Dfp> r3       = r2.compose(r1, RotationConvention.VECTOR_OPERATOR);
-        FieldRotation<Dfp> r3Double = r2.compose(new Rotation(r1.getQ0().getReal(),
-                                                      r1.getQ1().getReal(),
-                                                      r1.getQ2().getReal(),
-                                                      r1.getQ3().getReal(),
-                                                      false),
+        FieldRotation<Dfp> r3Double = r2.compose(QuaternionRotation.of(r1.getQ0().getReal(),
+                                                                       r1.getQ1().getReal(),
+                                                                       r1.getQ2().getReal(),
+                                                                       r1.getQ3().getReal()),
                                                  RotationConvention.VECTOR_OPERATOR);
 
         for (double x = -0.9; x < 0.9; x += 0.2) {
@@ -690,11 +688,10 @@ public class FieldRotationDfpTest {
                                                              createAngle(0.3),
                                                              RotationConvention.FRAME_TRANSFORM);
         FieldRotation<Dfp> r3       = r2.compose(r1, RotationConvention.FRAME_TRANSFORM);
-        FieldRotation<Dfp> r3Double = r2.compose(new Rotation(r1.getQ0().getReal(),
-                                                      r1.getQ1().getReal(),
-                                                      r1.getQ2().getReal(),
-                                                      r1.getQ3().getReal(),
-                                                      false),
+        FieldRotation<Dfp> r3Double = r2.compose(QuaternionRotation.of(r1.getQ0().getReal(),
+                                                                       r1.getQ1().getReal(),
+                                                                       r1.getQ2().getReal(),
+                                                                       r1.getQ3().getReal()),
                                                  RotationConvention.FRAME_TRANSFORM);
         FieldRotation<Dfp> r4 = r1.compose(r2, RotationConvention.VECTOR_OPERATOR);
         Assert.assertEquals(0.0, FieldRotation.distance(r3, r4).getReal(), 1.0e-15);
@@ -721,11 +718,10 @@ public class FieldRotationDfpTest {
                                                        createAngle(0.3),
                                                        RotationConvention.VECTOR_OPERATOR);
         FieldRotation<Dfp> r3 = r2.applyInverseTo(r1);
-        FieldRotation<Dfp> r3Double = r2.applyInverseTo(new Rotation(r1.getQ0().getReal(),
-                                                             r1.getQ1().getReal(),
-                                                             r1.getQ2().getReal(),
-                                                             r1.getQ3().getReal(),
-                                                             false));
+        FieldRotation<Dfp> r3Double = r2.applyInverseTo(QuaternionRotation.of(r1.getQ0().getReal(),
+                                                                              r1.getQ1().getReal(),
+                                                                              r1.getQ2().getReal(),
+                                                                              r1.getQ3().getReal()));
 
         for (double x = -0.9; x < 0.9; x += 0.2) {
             for (double y = -0.9; y < 0.9; y += 0.2) {
@@ -749,11 +745,10 @@ public class FieldRotationDfpTest {
                                                        createAngle(0.3),
                                                        RotationConvention.VECTOR_OPERATOR);
         FieldRotation<Dfp> r3 = r2.composeInverse(r1, RotationConvention.VECTOR_OPERATOR);
-        FieldRotation<Dfp> r3Double = r2.composeInverse(new Rotation(r1.getQ0().getReal(),
-                                                             r1.getQ1().getReal(),
-                                                             r1.getQ2().getReal(),
-                                                             r1.getQ3().getReal(),
-                                                             false),
+        FieldRotation<Dfp> r3Double = r2.composeInverse(QuaternionRotation.of(r1.getQ0().getReal(),
+                                                                              r1.getQ1().getReal(),
+                                                                              r1.getQ2().getReal(),
+                                                                              r1.getQ3().getReal()),
                                                         RotationConvention.VECTOR_OPERATOR);
 
         for (double x = -0.9; x < 0.9; x += 0.2) {
@@ -778,11 +773,10 @@ public class FieldRotationDfpTest {
                                                        createAngle(0.3),
                                                        RotationConvention.FRAME_TRANSFORM);
         FieldRotation<Dfp> r3 = r2.composeInverse(r1, RotationConvention.FRAME_TRANSFORM);
-        FieldRotation<Dfp> r3Double = r2.composeInverse(new Rotation(r1.getQ0().getReal(),
-                                                             r1.getQ1().getReal(),
-                                                             r1.getQ2().getReal(),
-                                                             r1.getQ3().getReal(),
-                                                             false),
+        FieldRotation<Dfp> r3Double = r2.composeInverse(QuaternionRotation.of(r1.getQ0().getReal(),
+                                                                              r1.getQ1().getReal(),
+                                                                              r1.getQ2().getReal(),
+                                                                              r1.getQ3().getReal()),
                                                         RotationConvention.FRAME_TRANSFORM);
         FieldRotation<Dfp> r4 = r1.revert().composeInverse(r2.revert(), RotationConvention.VECTOR_OPERATOR);
         Assert.assertEquals(0.0, FieldRotation.distance(r3, r4).getReal(), 1.0e-15);
@@ -816,7 +810,7 @@ public class FieldRotationDfpTest {
                         FieldVector3D<Dfp> uds   = createVector(x, y, z);
                         FieldVector3D<Dfp> ruds  = r.applyTo(uds);
                         FieldVector3D<Dfp> rIuds = r.applyInverseTo(uds);
-                        Cartesian3D   u     = new Cartesian3D(x, y, z);
+                        Vector3D u = Vector3D.of(x, y, z);
                         FieldVector3D<Dfp> ru    = r.applyTo(u);
                         FieldVector3D<Dfp> rIu   = r.applyInverseTo(u);
                         Dfp[] ruArray = new Dfp[3];
@@ -831,7 +825,6 @@ public class FieldRotationDfpTest {
                 }
             }
         }
-
     }
 
     @Test
@@ -842,13 +835,14 @@ public class FieldRotationDfpTest {
         UnitSphereSampler g = new UnitSphereSampler(3, random);
         for (int i = 0; i < 10; ++i) {
             double[] unit1 = g.nextVector();
-            Rotation r1 = new Rotation(new Cartesian3D(unit1[0], unit1[1], unit1[2]),
-                                      random.nextDouble(), RotationConvention.VECTOR_OPERATOR);
-            FieldRotation<Dfp> r1Prime = new FieldRotation<>(field.newDfp(r1.getQ0()),
-                                                                field.newDfp(r1.getQ1()),
-                                                                field.newDfp(r1.getQ2()),
-                                                                field.newDfp(r1.getQ3()),
-                                                                false);
+            QuaternionRotation r1 = QuaternionRotation.of(random.nextDouble(),
+                                                          unit1[0], unit1[1], unit1[2]);
+            final Quaternion r1Quat = r1.getQuaternion();
+            FieldRotation<Dfp> r1Prime = new FieldRotation<>(field.newDfp(r1Quat.getW()),
+                                                             field.newDfp(r1Quat.getX()),
+                                                             field.newDfp(r1Quat.getY()),
+                                                             field.newDfp(r1Quat.getZ()),
+                                                             false);
             double[] unit2 = g.nextVector();
             FieldRotation<Dfp> r2 = new FieldRotation<>(createVector(unit2[0], unit2[1], unit2[2]),
                                                            createAngle(random.nextDouble()),

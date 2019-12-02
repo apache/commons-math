@@ -16,8 +16,8 @@
  */
 package org.apache.commons.math4.optim.nonlinear.scalar;
 
+import org.apache.commons.geometry.euclidean.twod.Vector2D;
 import org.apache.commons.math4.analysis.MultivariateFunction;
-import org.apache.commons.math4.geometry.euclidean.twod.Cartesian2D;
 import org.apache.commons.math4.optim.InitialGuess;
 import org.apache.commons.math4.optim.MaxEval;
 import org.apache.commons.math4.optim.PointValuePair;
@@ -72,7 +72,7 @@ public class MultiStartMultivariateOptimizerTest {
         Assert.assertEquals(nbStarts, optima.length);
         for (PointValuePair o : optima) {
             // we check the results of all intermediate restarts here (there are 10 such results)
-            Cartesian2D center = new Cartesian2D(o.getPointRef()[0], o.getPointRef()[1]);
+            Vector2D center = Vector2D.of(o.getPointRef()[0], o.getPointRef()[1]);
             Assert.assertEquals(69.9597, circle.getRadius(center), 1e-3);
             Assert.assertEquals(96.07535, center.getX(), 1.4e-3);
             Assert.assertEquals(48.1349, center.getY(), 5e-3);

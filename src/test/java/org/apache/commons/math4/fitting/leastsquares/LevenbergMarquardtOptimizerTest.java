@@ -17,11 +17,11 @@
 
 package org.apache.commons.math4.fitting.leastsquares;
 
+import org.apache.commons.geometry.euclidean.twod.Vector2D;
 import org.apache.commons.math4.exception.DimensionMismatchException;
 import org.apache.commons.math4.exception.TooManyEvaluationsException;
 import org.apache.commons.math4.fitting.leastsquares.LeastSquaresOptimizer.Optimum;
 import org.apache.commons.math4.fitting.leastsquares.LeastSquaresProblem.Evaluation;
-import org.apache.commons.math4.geometry.euclidean.twod.Cartesian2D;
 import org.apache.commons.math4.linear.DiagonalMatrix;
 import org.apache.commons.math4.linear.RealMatrix;
 import org.apache.commons.math4.linear.RealVector;
@@ -106,7 +106,7 @@ public class LevenbergMarquardtOptimizerTest
         checkEstimate(
                 circle, 0.1, 10, 1.0e-14, 1.0e-16, 1.0e-10, false);
         checkEstimate(
-                circle, 0.1, 10, 1.0e-15, 1.0e-17, 1.0e-10, true);
+                circle, 0.1, 10, 1.0e-15, 1.0e-17, 1.0e-10, false);
         checkEstimate(
                 circle, 0.1,  5, 1.0e-15, 1.0e-16, 1.0e-10, true);
         circle.addPoint(300, -300);
@@ -260,7 +260,7 @@ public class LevenbergMarquardtOptimizerTest
         final CircleProblem circle = new CircleProblem(xSigma, ySigma);
 
         final int numPoints = 10;
-        for (Cartesian2D p : factory.generate(numPoints)) {
+        for (Vector2D p : factory.generate(numPoints)) {
             circle.addPoint(p.getX(), p.getY());
         }
 
@@ -297,7 +297,7 @@ public class LevenbergMarquardtOptimizerTest
         final CircleProblem circle = new CircleProblem(xSigma, ySigma);
 
         final int numPoints = 10;
-        for (Cartesian2D p : factory.generate(numPoints)) {
+        for (Vector2D p : factory.generate(numPoints)) {
             circle.addPoint(p.getX(), p.getY());
         }
 

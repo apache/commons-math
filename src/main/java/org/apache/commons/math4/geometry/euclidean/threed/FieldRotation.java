@@ -19,6 +19,9 @@ package org.apache.commons.math4.geometry.euclidean.threed;
 
 import java.io.Serializable;
 
+import org.apache.commons.numbers.quaternion.Quaternion;
+import org.apache.commons.geometry.euclidean.threed.Vector3D;
+import org.apache.commons.geometry.euclidean.threed.rotation.QuaternionRotation;
 import org.apache.commons.math4.Field;
 import org.apache.commons.math4.RealFieldElement;
 import org.apache.commons.math4.exception.MathArithmeticException;
@@ -28,7 +31,7 @@ import org.apache.commons.math4.util.FastMath;
 import org.apache.commons.math4.util.MathArrays;
 
 /**
- * This class is a re-implementation of {@link Rotation} using {@link RealFieldElement}.
+ * Implementation of rotation using {@link RealFieldElement}.
  * <p>Instance of this class are guaranteed to be immutable.</p>
  *
  * @param <T> the type of the field elements
@@ -820,8 +823,8 @@ public class FieldRotation<T extends RealFieldElement<T>> implements Serializabl
                 // (-r) (Cartesian3D.plusK) coordinates are :
                 // sin (theta), -sin (phi) cos (theta), cos (phi) cos (theta)
                 // and we can choose to have theta in the interval [-PI/2 ; +PI/2]
-                FieldVector3D<T> v1 = applyTo(Cartesian3D.PLUS_I);
-                FieldVector3D<T> v2 = applyInverseTo(Cartesian3D.PLUS_K);
+                FieldVector3D<T> v1 = applyTo(Vector3D.Unit.PLUS_X);
+                FieldVector3D<T> v2 = applyInverseTo(Vector3D.Unit.PLUS_Z);
                 if ((v2.getX().getReal() < -0.9999999999) || (v2.getX().getReal() > 0.9999999999)) {
                     throw new CardanEulerSingularityException(true);
                 }
@@ -836,8 +839,8 @@ public class FieldRotation<T extends RealFieldElement<T>> implements Serializabl
                 // (-r) (Cartesian3D.plusJ) coordinates are :
                 // -sin (psi), cos (phi) cos (psi), sin (phi) cos (psi)
                 // and we can choose to have psi in the interval [-PI/2 ; +PI/2]
-                FieldVector3D<T> v1 = applyTo(Cartesian3D.PLUS_I);
-                FieldVector3D<T> v2 = applyInverseTo(Cartesian3D.PLUS_J);
+                FieldVector3D<T> v1 = applyTo(Vector3D.Unit.PLUS_X);
+                FieldVector3D<T> v2 = applyInverseTo(Vector3D.Unit.PLUS_Y);
                 if ((v2.getX().getReal() < -0.9999999999) || (v2.getX().getReal() > 0.9999999999)) {
                     throw new CardanEulerSingularityException(true);
                 }
@@ -852,8 +855,8 @@ public class FieldRotation<T extends RealFieldElement<T>> implements Serializabl
                 // (-r) (Cartesian3D.plusK) coordinates are :
                 // sin (theta) cos (phi), -sin (phi), cos (theta) cos (phi)
                 // and we can choose to have phi in the interval [-PI/2 ; +PI/2]
-                FieldVector3D<T> v1 = applyTo(Cartesian3D.PLUS_J);
-                FieldVector3D<T> v2 = applyInverseTo(Cartesian3D.PLUS_K);
+                FieldVector3D<T> v1 = applyTo(Vector3D.Unit.PLUS_Y);
+                FieldVector3D<T> v2 = applyInverseTo(Vector3D.Unit.PLUS_Z);
                 if ((v2.getY().getReal() < -0.9999999999) || (v2.getY().getReal() > 0.9999999999)) {
                     throw new CardanEulerSingularityException(true);
                 }
@@ -868,8 +871,8 @@ public class FieldRotation<T extends RealFieldElement<T>> implements Serializabl
                 // (-r) (Cartesian3D.plusI) coordinates are :
                 // cos (theta) cos (psi), sin (psi), -sin (theta) cos (psi)
                 // and we can choose to have psi in the interval [-PI/2 ; +PI/2]
-                FieldVector3D<T> v1 = applyTo(Cartesian3D.PLUS_J);
-                FieldVector3D<T> v2 = applyInverseTo(Cartesian3D.PLUS_I);
+                FieldVector3D<T> v1 = applyTo(Vector3D.Unit.PLUS_Y);
+                FieldVector3D<T> v2 = applyInverseTo(Vector3D.Unit.PLUS_X);
                 if ((v2.getY().getReal() < -0.9999999999) || (v2.getY().getReal() > 0.9999999999)) {
                     throw new CardanEulerSingularityException(true);
                 }
@@ -884,8 +887,8 @@ public class FieldRotation<T extends RealFieldElement<T>> implements Serializabl
                 // (-r) (Cartesian3D.plusJ) coordinates are :
                 // -sin (psi) cos (phi), cos (psi) cos (phi), sin (phi)
                 // and we can choose to have phi in the interval [-PI/2 ; +PI/2]
-                FieldVector3D<T> v1 = applyTo(Cartesian3D.PLUS_K);
-                FieldVector3D<T> v2 = applyInverseTo(Cartesian3D.PLUS_J);
+                FieldVector3D<T> v1 = applyTo(Vector3D.Unit.PLUS_Z);
+                FieldVector3D<T> v2 = applyInverseTo(Vector3D.Unit.PLUS_Y);
                 if ((v2.getZ().getReal() < -0.9999999999) || (v2.getZ().getReal() > 0.9999999999)) {
                     throw new CardanEulerSingularityException(true);
                 }
@@ -900,8 +903,8 @@ public class FieldRotation<T extends RealFieldElement<T>> implements Serializabl
                 // (-r) (Cartesian3D.plusI) coordinates are :
                 // cos (psi) cos (theta), sin (psi) cos (theta), -sin (theta)
                 // and we can choose to have theta in the interval [-PI/2 ; +PI/2]
-                FieldVector3D<T> v1 = applyTo(Cartesian3D.PLUS_K);
-                FieldVector3D<T> v2 = applyInverseTo(Cartesian3D.PLUS_I);
+                FieldVector3D<T> v1 = applyTo(Vector3D.Unit.PLUS_Z);
+                FieldVector3D<T> v2 = applyInverseTo(Vector3D.Unit.PLUS_X);
                 if  ((v2.getZ().getReal() < -0.9999999999) || (v2.getZ().getReal() > 0.9999999999)) {
                     throw new CardanEulerSingularityException(true);
                 }
@@ -916,8 +919,8 @@ public class FieldRotation<T extends RealFieldElement<T>> implements Serializabl
                 // (-r) (Cartesian3D.plusI) coordinates are :
                 // cos (theta), sin (theta) sin (phi1), -sin (theta) cos (phi1)
                 // and we can choose to have theta in the interval [0 ; PI]
-                FieldVector3D<T> v1 = applyTo(Cartesian3D.PLUS_I);
-                FieldVector3D<T> v2 = applyInverseTo(Cartesian3D.PLUS_I);
+                FieldVector3D<T> v1 = applyTo(Vector3D.Unit.PLUS_X);
+                FieldVector3D<T> v2 = applyInverseTo(Vector3D.Unit.PLUS_X);
                 if ((v2.getX().getReal() < -0.9999999999) || (v2.getX().getReal() > 0.9999999999)) {
                     throw new CardanEulerSingularityException(false);
                 }
@@ -932,8 +935,8 @@ public class FieldRotation<T extends RealFieldElement<T>> implements Serializabl
                 // (-r) (Cartesian3D.plusI) coordinates are :
                 // cos (psi), sin (psi) cos (phi1), sin (psi) sin (phi1)
                 // and we can choose to have psi in the interval [0 ; PI]
-                FieldVector3D<T> v1 = applyTo(Cartesian3D.PLUS_I);
-                FieldVector3D<T> v2 = applyInverseTo(Cartesian3D.PLUS_I);
+                FieldVector3D<T> v1 = applyTo(Vector3D.Unit.PLUS_X);
+                FieldVector3D<T> v2 = applyInverseTo(Vector3D.Unit.PLUS_X);
                 if ((v2.getX().getReal() < -0.9999999999) || (v2.getX().getReal() > 0.9999999999)) {
                     throw new CardanEulerSingularityException(false);
                 }
@@ -948,8 +951,8 @@ public class FieldRotation<T extends RealFieldElement<T>> implements Serializabl
                 // (-r) (Cartesian3D.plusJ) coordinates are :
                 //  sin (theta1) sin (phi), cos (phi), cos (theta1) sin (phi)
                 // and we can choose to have phi in the interval [0 ; PI]
-                FieldVector3D<T> v1 = applyTo(Cartesian3D.PLUS_J);
-                FieldVector3D<T> v2 = applyInverseTo(Cartesian3D.PLUS_J);
+                FieldVector3D<T> v1 = applyTo(Vector3D.Unit.PLUS_Y);
+                FieldVector3D<T> v2 = applyInverseTo(Vector3D.Unit.PLUS_Y);
                 if ((v2.getY().getReal() < -0.9999999999) || (v2.getY().getReal() > 0.9999999999)) {
                     throw new CardanEulerSingularityException(false);
                 }
@@ -964,8 +967,8 @@ public class FieldRotation<T extends RealFieldElement<T>> implements Serializabl
                 // (-r) (Cartesian3D.plusJ) coordinates are :
                 //  -cos (theta1) sin (psi), cos (psi), sin (theta1) sin (psi)
                 // and we can choose to have psi in the interval [0 ; PI]
-                FieldVector3D<T> v1 = applyTo(Cartesian3D.PLUS_J);
-                FieldVector3D<T> v2 = applyInverseTo(Cartesian3D.PLUS_J);
+                FieldVector3D<T> v1 = applyTo(Vector3D.Unit.PLUS_Y);
+                FieldVector3D<T> v2 = applyInverseTo(Vector3D.Unit.PLUS_Y);
                 if ((v2.getY().getReal() < -0.9999999999) || (v2.getY().getReal() > 0.9999999999)) {
                     throw new CardanEulerSingularityException(false);
                 }
@@ -980,8 +983,8 @@ public class FieldRotation<T extends RealFieldElement<T>> implements Serializabl
                 // (-r) (Cartesian3D.plusK) coordinates are :
                 //  sin (psi1) sin (phi), -cos (psi1) sin (phi), cos (phi)
                 // and we can choose to have phi in the interval [0 ; PI]
-                FieldVector3D<T> v1 = applyTo(Cartesian3D.PLUS_K);
-                FieldVector3D<T> v2 = applyInverseTo(Cartesian3D.PLUS_K);
+                FieldVector3D<T> v1 = applyTo(Vector3D.Unit.PLUS_Z);
+                FieldVector3D<T> v2 = applyInverseTo(Vector3D.Unit.PLUS_Z);
                 if ((v2.getZ().getReal() < -0.9999999999) || (v2.getZ().getReal() > 0.9999999999)) {
                     throw new CardanEulerSingularityException(false);
                 }
@@ -996,8 +999,8 @@ public class FieldRotation<T extends RealFieldElement<T>> implements Serializabl
                 // (-r) (Cartesian3D.plusK) coordinates are :
                 //  cos (psi1) sin (theta), sin (psi1) sin (theta), cos (theta)
                 // and we can choose to have theta in the interval [0 ; PI]
-                FieldVector3D<T> v1 = applyTo(Cartesian3D.PLUS_K);
-                FieldVector3D<T> v2 = applyInverseTo(Cartesian3D.PLUS_K);
+                FieldVector3D<T> v1 = applyTo(Vector3D.Unit.PLUS_Z);
+                FieldVector3D<T> v2 = applyInverseTo(Vector3D.Unit.PLUS_Z);
                 if ((v2.getZ().getReal() < -0.9999999999) || (v2.getZ().getReal() > 0.9999999999)) {
                     throw new CardanEulerSingularityException(false);
                 }
@@ -1074,8 +1077,8 @@ public class FieldRotation<T extends RealFieldElement<T>> implements Serializabl
     /** Convert to a constant vector without derivatives.
      * @return a constant vector
      */
-    public Rotation toRotation() {
-        return new Rotation(q0.getReal(), q1.getReal(), q2.getReal(), q3.getReal(), false);
+    public QuaternionRotation toRotation() {
+        return QuaternionRotation.of(q0.getReal(), q1.getReal(), q2.getReal(), q3.getReal());
     }
 
     /** Apply the rotation to a vector.
@@ -1100,7 +1103,7 @@ public class FieldRotation<T extends RealFieldElement<T>> implements Serializabl
      * @param u vector to apply the rotation to
      * @return a new vector which is the image of u by the rotation
      */
-    public FieldVector3D<T> applyTo(final Cartesian3D u) {
+    public FieldVector3D<T> applyTo(final Vector3D u) {
 
         final double x = u.getX();
         final double y = u.getY();
@@ -1157,17 +1160,17 @@ public class FieldRotation<T extends RealFieldElement<T>> implements Serializabl
      * @param <T> the type of the field elements
      * @return a new vector which is the image of u by the rotation
      */
-    public static <T extends RealFieldElement<T>> FieldVector3D<T> applyTo(final Rotation r, final FieldVector3D<T> u) {
-
+    public static <T extends RealFieldElement<T>> FieldVector3D<T> applyTo(final QuaternionRotation rot, final FieldVector3D<T> u) {
+        final Quaternion r = rot.getQuaternion();
         final T x = u.getX();
         final T y = u.getY();
         final T z = u.getZ();
 
-        final T s = x.multiply(r.getQ1()).add(y.multiply(r.getQ2())).add(z.multiply(r.getQ3()));
+        final T s = x.multiply(r.getX()).add(y.multiply(r.getY())).add(z.multiply(r.getZ()));
 
-        return new FieldVector3D<>(x.multiply(r.getQ0()).subtract(z.multiply(r.getQ2()).subtract(y.multiply(r.getQ3()))).multiply(r.getQ0()).add(s.multiply(r.getQ1())).multiply(2).subtract(x),
-                                    y.multiply(r.getQ0()).subtract(x.multiply(r.getQ3()).subtract(z.multiply(r.getQ1()))).multiply(r.getQ0()).add(s.multiply(r.getQ2())).multiply(2).subtract(y),
-                                    z.multiply(r.getQ0()).subtract(y.multiply(r.getQ1()).subtract(x.multiply(r.getQ2()))).multiply(r.getQ0()).add(s.multiply(r.getQ3())).multiply(2).subtract(z));
+        return new FieldVector3D<>(x.multiply(r.getW()).subtract(z.multiply(r.getY()).subtract(y.multiply(r.getZ()))).multiply(r.getW()).add(s.multiply(r.getX())).multiply(2).subtract(x),
+                                    y.multiply(r.getW()).subtract(x.multiply(r.getZ()).subtract(z.multiply(r.getX()))).multiply(r.getW()).add(s.multiply(r.getY())).multiply(2).subtract(y),
+                                    z.multiply(r.getW()).subtract(y.multiply(r.getX()).subtract(x.multiply(r.getY()))).multiply(r.getW()).add(s.multiply(r.getZ())).multiply(2).subtract(z));
 
     }
 
@@ -1194,7 +1197,7 @@ public class FieldRotation<T extends RealFieldElement<T>> implements Serializabl
      * @param u vector to apply the inverse of the rotation to
      * @return a new vector which such that u is its image by the rotation
      */
-    public FieldVector3D<T> applyInverseTo(final Cartesian3D u) {
+    public FieldVector3D<T> applyInverseTo(final Vector3D u) {
 
         final double x = u.getX();
         final double y = u.getY();
@@ -1254,18 +1257,18 @@ public class FieldRotation<T extends RealFieldElement<T>> implements Serializabl
      * @param <T> the type of the field elements
      * @return a new vector which such that u is its image by the rotation
      */
-    public static <T extends RealFieldElement<T>> FieldVector3D<T> applyInverseTo(final Rotation r, final FieldVector3D<T> u) {
-
+    public static <T extends RealFieldElement<T>> FieldVector3D<T> applyInverseTo(final QuaternionRotation rot, final FieldVector3D<T> u) {
+        final Quaternion r = rot.getQuaternion();
         final T x = u.getX();
         final T y = u.getY();
         final T z = u.getZ();
 
-        final T s  = x.multiply(r.getQ1()).add(y.multiply(r.getQ2())).add(z.multiply(r.getQ3()));
-        final double m0 = -r.getQ0();
+        final T s  = x.multiply(r.getX()).add(y.multiply(r.getY())).add(z.multiply(r.getZ()));
+        final double m0 = -r.getW();
 
-        return new FieldVector3D<>(x.multiply(m0).subtract(z.multiply(r.getQ2()).subtract(y.multiply(r.getQ3()))).multiply(m0).add(s.multiply(r.getQ1())).multiply(2).subtract(x),
-                                    y.multiply(m0).subtract(x.multiply(r.getQ3()).subtract(z.multiply(r.getQ1()))).multiply(m0).add(s.multiply(r.getQ2())).multiply(2).subtract(y),
-                                    z.multiply(m0).subtract(y.multiply(r.getQ1()).subtract(x.multiply(r.getQ2()))).multiply(m0).add(s.multiply(r.getQ3())).multiply(2).subtract(z));
+        return new FieldVector3D<>(x.multiply(m0).subtract(z.multiply(r.getY()).subtract(y.multiply(r.getZ()))).multiply(m0).add(s.multiply(r.getX())).multiply(2).subtract(x),
+                                    y.multiply(m0).subtract(x.multiply(r.getZ()).subtract(z.multiply(r.getX()))).multiply(m0).add(s.multiply(r.getY())).multiply(2).subtract(y),
+                                    z.multiply(m0).subtract(y.multiply(r.getX()).subtract(x.multiply(r.getY()))).multiply(m0).add(s.multiply(r.getZ())).multiply(2).subtract(z));
 
     }
 
@@ -1333,7 +1336,7 @@ public class FieldRotation<T extends RealFieldElement<T>> implements Serializabl
      * @param r rotation to apply the rotation to
      * @return a new rotation which is the composition of r by the instance
      */
-    public FieldRotation<T> applyTo(final Rotation r) {
+    public FieldRotation<T> applyTo(final QuaternionRotation r) {
         return compose(r, RotationConvention.VECTOR_OPERATOR);
     }
 
@@ -1361,7 +1364,7 @@ public class FieldRotation<T extends RealFieldElement<T>> implements Serializabl
      * @param convention convention to use for the semantics of the angle
      * @return a new rotation which is the composition of r by the instance
      */
-    public FieldRotation<T> compose(final Rotation r, final RotationConvention convention) {
+    public FieldRotation<T> compose(final QuaternionRotation r, final RotationConvention convention) {
         return convention == RotationConvention.VECTOR_OPERATOR ?
                              composeInternal(r) : applyTo(r, this);
     }
@@ -1371,11 +1374,12 @@ public class FieldRotation<T extends RealFieldElement<T>> implements Serializabl
      * @return a new rotation which is the composition of r by the instance
      * using vector operator convention
      */
-    private FieldRotation<T> composeInternal(final Rotation r) {
-        return new FieldRotation<>(q0.multiply(r.getQ0()).subtract(q1.multiply(r.getQ1()).add(q2.multiply(r.getQ2())).add(q3.multiply(r.getQ3()))),
-                        q0.multiply(r.getQ1()).add(q1.multiply(r.getQ0())).add(q3.multiply(r.getQ2()).subtract(q2.multiply(r.getQ3()))),
-                        q0.multiply(r.getQ2()).add(q2.multiply(r.getQ0())).add(q1.multiply(r.getQ3()).subtract(q3.multiply(r.getQ1()))),
-                        q0.multiply(r.getQ3()).add(q3.multiply(r.getQ0())).add(q2.multiply(r.getQ1()).subtract(q1.multiply(r.getQ2()))),
+    private FieldRotation<T> composeInternal(final QuaternionRotation rot) {
+        final Quaternion r = rot.getQuaternion();
+        return new FieldRotation<>(q0.multiply(r.getW()).subtract(q1.multiply(r.getX()).add(q2.multiply(r.getY())).add(q3.multiply(r.getZ()))),
+                        q0.multiply(r.getX()).add(q1.multiply(r.getW())).add(q3.multiply(r.getY()).subtract(q2.multiply(r.getZ()))),
+                        q0.multiply(r.getY()).add(q2.multiply(r.getW())).add(q1.multiply(r.getZ()).subtract(q3.multiply(r.getX()))),
+                        q0.multiply(r.getZ()).add(q3.multiply(r.getW())).add(q2.multiply(r.getX()).subtract(q1.multiply(r.getY()))),
                         false);
     }
 
@@ -1390,11 +1394,12 @@ public class FieldRotation<T extends RealFieldElement<T>> implements Serializabl
      * @param <T> the type of the field elements
      * @return a new rotation which is the composition of r by the instance
      */
-    public static <T extends RealFieldElement<T>> FieldRotation<T> applyTo(final Rotation r1, final FieldRotation<T> rInner) {
-        return new FieldRotation<>(rInner.q0.multiply(r1.getQ0()).subtract(rInner.q1.multiply(r1.getQ1()).add(rInner.q2.multiply(r1.getQ2())).add(rInner.q3.multiply(r1.getQ3()))),
-                                    rInner.q1.multiply(r1.getQ0()).add(rInner.q0.multiply(r1.getQ1())).add(rInner.q2.multiply(r1.getQ3()).subtract(rInner.q3.multiply(r1.getQ2()))),
-                                    rInner.q2.multiply(r1.getQ0()).add(rInner.q0.multiply(r1.getQ2())).add(rInner.q3.multiply(r1.getQ1()).subtract(rInner.q1.multiply(r1.getQ3()))),
-                                    rInner.q3.multiply(r1.getQ0()).add(rInner.q0.multiply(r1.getQ3())).add(rInner.q1.multiply(r1.getQ2()).subtract(rInner.q2.multiply(r1.getQ1()))),
+    public static <T extends RealFieldElement<T>> FieldRotation<T> applyTo(final QuaternionRotation rot1, final FieldRotation<T> rInner) {
+        final Quaternion r1 = rot1.getQuaternion();
+        return new FieldRotation<>(rInner.q0.multiply(r1.getW()).subtract(rInner.q1.multiply(r1.getX()).add(rInner.q2.multiply(r1.getY())).add(rInner.q3.multiply(r1.getZ()))),
+                                    rInner.q1.multiply(r1.getW()).add(rInner.q0.multiply(r1.getX())).add(rInner.q2.multiply(r1.getZ()).subtract(rInner.q3.multiply(r1.getY()))),
+                                    rInner.q2.multiply(r1.getW()).add(rInner.q0.multiply(r1.getY())).add(rInner.q3.multiply(r1.getX()).subtract(rInner.q1.multiply(r1.getZ()))),
+                                    rInner.q3.multiply(r1.getW()).add(rInner.q0.multiply(r1.getZ())).add(rInner.q1.multiply(r1.getY()).subtract(rInner.q2.multiply(r1.getX()))),
                                     false);
     }
 
@@ -1467,7 +1472,7 @@ public class FieldRotation<T extends RealFieldElement<T>> implements Serializabl
      * @return a new rotation which is the composition of r by the inverse
      * of the instance
      */
-    public FieldRotation<T> applyInverseTo(final Rotation r) {
+    public FieldRotation<T> applyInverseTo(final QuaternionRotation r) {
         return composeInverse(r, RotationConvention.VECTOR_OPERATOR);
     }
 
@@ -1497,7 +1502,7 @@ public class FieldRotation<T extends RealFieldElement<T>> implements Serializabl
      * @return a new rotation which is the composition of r by the inverse
      * of the instance
      */
-    public FieldRotation<T> composeInverse(final Rotation r, final RotationConvention convention) {
+    public FieldRotation<T> composeInverse(final QuaternionRotation r, final RotationConvention convention) {
         return convention == RotationConvention.VECTOR_OPERATOR ?
                              composeInverseInternal(r) : applyTo(r, revert());
     }
@@ -1508,11 +1513,12 @@ public class FieldRotation<T extends RealFieldElement<T>> implements Serializabl
      * @return a new rotation which is the composition of r by the inverse
      * of the instance using vector operator convention
      */
-    private FieldRotation<T> composeInverseInternal(Rotation r) {
-        return new FieldRotation<>(q0.multiply(r.getQ0()).add(q1.multiply(r.getQ1()).add(q2.multiply(r.getQ2())).add(q3.multiply(r.getQ3()))).negate(),
-                                    q1.multiply(r.getQ0()).add(q3.multiply(r.getQ2()).subtract(q2.multiply(r.getQ3()))).subtract(q0.multiply(r.getQ1())),
-                                    q2.multiply(r.getQ0()).add(q1.multiply(r.getQ3()).subtract(q3.multiply(r.getQ1()))).subtract(q0.multiply(r.getQ2())),
-                                    q3.multiply(r.getQ0()).add(q2.multiply(r.getQ1()).subtract(q1.multiply(r.getQ2()))).subtract(q0.multiply(r.getQ3())),
+    private FieldRotation<T> composeInverseInternal(QuaternionRotation rot) {
+        final Quaternion r = rot.getQuaternion();
+        return new FieldRotation<>(q0.multiply(r.getW()).add(q1.multiply(r.getX()).add(q2.multiply(r.getY())).add(q3.multiply(r.getZ()))).negate(),
+                                    q1.multiply(r.getW()).add(q3.multiply(r.getY()).subtract(q2.multiply(r.getZ()))).subtract(q0.multiply(r.getX())),
+                                    q2.multiply(r.getW()).add(q1.multiply(r.getZ()).subtract(q3.multiply(r.getX()))).subtract(q0.multiply(r.getY())),
+                                    q3.multiply(r.getW()).add(q2.multiply(r.getX()).subtract(q1.multiply(r.getY()))).subtract(q0.multiply(r.getZ())),
                                     false);
     }
 
@@ -1529,11 +1535,12 @@ public class FieldRotation<T extends RealFieldElement<T>> implements Serializabl
      * @return a new rotation which is the composition of r by the inverse
      * of the instance
      */
-    public static <T extends RealFieldElement<T>> FieldRotation<T> applyInverseTo(final Rotation rOuter, final FieldRotation<T> rInner) {
-        return new FieldRotation<>(rInner.q0.multiply(rOuter.getQ0()).add(rInner.q1.multiply(rOuter.getQ1()).add(rInner.q2.multiply(rOuter.getQ2())).add(rInner.q3.multiply(rOuter.getQ3()))).negate(),
-                                    rInner.q0.multiply(rOuter.getQ1()).add(rInner.q2.multiply(rOuter.getQ3()).subtract(rInner.q3.multiply(rOuter.getQ2()))).subtract(rInner.q1.multiply(rOuter.getQ0())),
-                                    rInner.q0.multiply(rOuter.getQ2()).add(rInner.q3.multiply(rOuter.getQ1()).subtract(rInner.q1.multiply(rOuter.getQ3()))).subtract(rInner.q2.multiply(rOuter.getQ0())),
-                                    rInner.q0.multiply(rOuter.getQ3()).add(rInner.q1.multiply(rOuter.getQ2()).subtract(rInner.q2.multiply(rOuter.getQ1()))).subtract(rInner.q3.multiply(rOuter.getQ0())),
+    public static <T extends RealFieldElement<T>> FieldRotation<T> applyInverseTo(final QuaternionRotation rotOuter, final FieldRotation<T> rInner) {
+        final Quaternion rOuter = rotOuter.getQuaternion();
+        return new FieldRotation<>(rInner.q0.multiply(rOuter.getW()).add(rInner.q1.multiply(rOuter.getX()).add(rInner.q2.multiply(rOuter.getY())).add(rInner.q3.multiply(rOuter.getZ()))).negate(),
+                                    rInner.q0.multiply(rOuter.getX()).add(rInner.q2.multiply(rOuter.getZ()).subtract(rInner.q3.multiply(rOuter.getY()))).subtract(rInner.q1.multiply(rOuter.getW())),
+                                    rInner.q0.multiply(rOuter.getY()).add(rInner.q3.multiply(rOuter.getX()).subtract(rInner.q1.multiply(rOuter.getZ()))).subtract(rInner.q2.multiply(rOuter.getW())),
+                                    rInner.q0.multiply(rOuter.getZ()).add(rInner.q1.multiply(rOuter.getY()).subtract(rInner.q2.multiply(rOuter.getX()))).subtract(rInner.q3.multiply(rOuter.getW())),
                                     false);
     }
 

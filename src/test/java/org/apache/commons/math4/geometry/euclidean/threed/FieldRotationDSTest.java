@@ -20,9 +20,12 @@ package org.apache.commons.math4.geometry.euclidean.threed;
 import org.junit.Assert;
 import org.junit.Test;
 import org.apache.commons.numbers.angle.PlaneAngleRadians;
+import org.apache.commons.numbers.quaternion.Quaternion;
 import org.apache.commons.rng.UniformRandomProvider;
 import org.apache.commons.rng.simple.RandomSource;
 import org.apache.commons.rng.sampling.UnitSphereSampler;
+import org.apache.commons.geometry.euclidean.threed.Vector3D;
+import org.apache.commons.geometry.euclidean.threed.rotation.QuaternionRotation;
 import org.apache.commons.math4.analysis.differentiation.DerivativeStructure;
 import org.apache.commons.math4.exception.MathArithmeticException;
 import org.apache.commons.math4.exception.MathIllegalArgumentException;
@@ -30,9 +33,7 @@ import org.apache.commons.math4.geometry.euclidean.threed.CardanEulerSingularity
 import org.apache.commons.math4.geometry.euclidean.threed.FieldRotation;
 import org.apache.commons.math4.geometry.euclidean.threed.FieldVector3D;
 import org.apache.commons.math4.geometry.euclidean.threed.NotARotationMatrixException;
-import org.apache.commons.math4.geometry.euclidean.threed.Rotation;
 import org.apache.commons.math4.geometry.euclidean.threed.RotationOrder;
-import org.apache.commons.math4.geometry.euclidean.threed.Cartesian3D;
 import org.apache.commons.math4.linear.MatrixUtils;
 import org.apache.commons.math4.linear.RealMatrix;
 import org.apache.commons.math4.util.FastMath;
@@ -779,10 +780,11 @@ public class FieldRotationDSTest {
         checkRotationDS(r1,
                         -r1.getQ0().getReal(), -r1.getQ1().getReal(),
                         -r1.getQ2().getReal(), -r1.getQ3().getReal());
-        Assert.assertEquals(0.288, r1.toRotation().getQ0(), 1.0e-15);
-        Assert.assertEquals(0.384, r1.toRotation().getQ1(), 1.0e-15);
-        Assert.assertEquals(0.36,  r1.toRotation().getQ2(), 1.0e-15);
-        Assert.assertEquals(0.8,   r1.toRotation().getQ3(), 1.0e-15);
+        final Quaternion r1Quat = r1.toRotation().getQuaternion();
+        Assert.assertEquals(0.288, r1Quat.getW(), 1.0e-15);
+        Assert.assertEquals(0.384, r1Quat.getX(), 1.0e-15);
+        Assert.assertEquals(0.36,  r1Quat.getY(), 1.0e-15);
+        Assert.assertEquals(0.8,   r1Quat.getZ(), 1.0e-15);
 
     }
 
@@ -796,11 +798,10 @@ public class FieldRotationDSTest {
                                                                                              createAngle(0.3),
                                                                                              RotationConvention.VECTOR_OPERATOR);
         FieldRotation<DerivativeStructure> r3       = r2.applyTo(r1);
-        FieldRotation<DerivativeStructure> r3Double = r2.applyTo(new Rotation(r1.getQ0().getReal(),
-                                                                              r1.getQ1().getReal(),
-                                                                              r1.getQ2().getReal(),
-                                                                              r1.getQ3().getReal(),
-                                                                              false));
+        FieldRotation<DerivativeStructure> r3Double = r2.applyTo(QuaternionRotation.of(r1.getQ0().getReal(),
+                                                                                       r1.getQ1().getReal(),
+                                                                                       r1.getQ2().getReal(),
+                                                                                       r1.getQ3().getReal()));
 
         for (double x = -0.9; x < 0.9; x += 0.2) {
             for (double y = -0.9; y < 0.9; y += 0.2) {
@@ -824,11 +825,10 @@ public class FieldRotationDSTest {
                                                                                              createAngle(0.3),
                                                                                              RotationConvention.VECTOR_OPERATOR);
         FieldRotation<DerivativeStructure> r3       = r2.compose(r1, RotationConvention.VECTOR_OPERATOR);
-        FieldRotation<DerivativeStructure> r3Double = r2.compose(new Rotation(r1.getQ0().getReal(),
-                                                                              r1.getQ1().getReal(),
-                                                                              r1.getQ2().getReal(),
-                                                                              r1.getQ3().getReal(),
-                                                                              false),
+        FieldRotation<DerivativeStructure> r3Double = r2.compose(QuaternionRotation.of(r1.getQ0().getReal(),
+                                                                                       r1.getQ1().getReal(),
+                                                                                       r1.getQ2().getReal(),
+                                                                                       r1.getQ3().getReal()),
                                                                  RotationConvention.VECTOR_OPERATOR);
 
         for (double x = -0.9; x < 0.9; x += 0.2) {
@@ -853,11 +853,10 @@ public class FieldRotationDSTest {
                                                                                              createAngle(0.3),
                                                                                              RotationConvention.FRAME_TRANSFORM);
         FieldRotation<DerivativeStructure> r3       = r2.compose(r1, RotationConvention.FRAME_TRANSFORM);
-        FieldRotation<DerivativeStructure> r3Double = r2.compose(new Rotation(r1.getQ0().getReal(),
-                                                                              r1.getQ1().getReal(),
-                                                                              r1.getQ2().getReal(),
-                                                                              r1.getQ3().getReal(),
-                                                                              false),
+        FieldRotation<DerivativeStructure> r3Double = r2.compose(QuaternionRotation.of(r1.getQ0().getReal(),
+                                                                                       r1.getQ1().getReal(),
+                                                                                       r1.getQ2().getReal(),
+                                                                                       r1.getQ3().getReal()),
                                                                  RotationConvention.FRAME_TRANSFORM);
 
         for (double x = -0.9; x < 0.9; x += 0.2) {
@@ -882,11 +881,10 @@ public class FieldRotationDSTest {
                                                                                        createAngle(0.3),
                                                                                        RotationConvention.VECTOR_OPERATOR);
         FieldRotation<DerivativeStructure> r3 = r2.applyInverseTo(r1);
-        FieldRotation<DerivativeStructure> r3Double = r2.applyInverseTo(new Rotation(r1.getQ0().getReal(),
-                                                                                     r1.getQ1().getReal(),
-                                                                                     r1.getQ2().getReal(),
-                                                                                     r1.getQ3().getReal(),
-                                                                                    false));
+        FieldRotation<DerivativeStructure> r3Double = r2.applyInverseTo(QuaternionRotation.of(r1.getQ0().getReal(),
+                                                                                              r1.getQ1().getReal(),
+                                                                                              r1.getQ2().getReal(),
+                                                                                              r1.getQ3().getReal()));
 
         for (double x = -0.9; x < 0.9; x += 0.2) {
             for (double y = -0.9; y < 0.9; y += 0.2) {
@@ -910,11 +908,10 @@ public class FieldRotationDSTest {
                                                                                        createAngle(0.3),
                                                                                        RotationConvention.VECTOR_OPERATOR);
         FieldRotation<DerivativeStructure> r3 = r2.composeInverse(r1, RotationConvention.VECTOR_OPERATOR);
-        FieldRotation<DerivativeStructure> r3Double = r2.composeInverse(new Rotation(r1.getQ0().getReal(),
-                                                                                     r1.getQ1().getReal(),
-                                                                                     r1.getQ2().getReal(),
-                                                                                     r1.getQ3().getReal(),
-                                                                                     false),
+        FieldRotation<DerivativeStructure> r3Double = r2.composeInverse(QuaternionRotation.of(r1.getQ0().getReal(),
+                                                                                              r1.getQ1().getReal(),
+                                                                                              r1.getQ2().getReal(),
+                                                                                              r1.getQ3().getReal()),
                                                                         RotationConvention.VECTOR_OPERATOR);
 
         for (double x = -0.9; x < 0.9; x += 0.2) {
@@ -939,11 +936,10 @@ public class FieldRotationDSTest {
                                                                                        createAngle(0.3),
                                                                                        RotationConvention.FRAME_TRANSFORM);
         FieldRotation<DerivativeStructure> r3 = r2.composeInverse(r1, RotationConvention.FRAME_TRANSFORM);
-        FieldRotation<DerivativeStructure> r3Double = r2.composeInverse(new Rotation(r1.getQ0().getReal(),
-                                                                                     r1.getQ1().getReal(),
-                                                                                     r1.getQ2().getReal(),
-                                                                                     r1.getQ3().getReal(),
-                                                                                     false),
+        FieldRotation<DerivativeStructure> r3Double = r2.composeInverse(QuaternionRotation.of(r1.getQ0().getReal(),
+                                                                                              r1.getQ1().getReal(),
+                                                                                              r1.getQ2().getReal(),
+                                                                                              r1.getQ3().getReal()),
                                                                         RotationConvention.FRAME_TRANSFORM);
 
         for (double x = -0.9; x < 0.9; x += 0.2) {
@@ -975,7 +971,7 @@ public class FieldRotationDSTest {
                         FieldVector3D<DerivativeStructure> uds   = createVector(x, y, z);
                         FieldVector3D<DerivativeStructure> ruds  = r.applyTo(uds);
                         FieldVector3D<DerivativeStructure> rIuds = r.applyInverseTo(uds);
-                        Cartesian3D   u     = new Cartesian3D(x, y, z);
+                        Vector3D u = Vector3D.of(x, y, z);
                         FieldVector3D<DerivativeStructure> ru    = r.applyTo(u);
                         FieldVector3D<DerivativeStructure> rIu   = r.applyInverseTo(u);
                         DerivativeStructure[] ruArray = new DerivativeStructure[3];
@@ -1000,12 +996,13 @@ public class FieldRotationDSTest {
         UnitSphereSampler g = new UnitSphereSampler(3, random);
         for (int i = 0; i < 10; ++i) {
             double[] unit1 = g.nextVector();
-            Rotation r1 = new Rotation(new Cartesian3D(unit1[0], unit1[1], unit1[2]),
-                                      random.nextDouble(), RotationConvention.VECTOR_OPERATOR);
-            FieldRotation<DerivativeStructure> r1Prime = new FieldRotation<>(new DerivativeStructure(4, 1, 0, r1.getQ0()),
-                                                new DerivativeStructure(4, 1, 1, r1.getQ1()),
-                                                new DerivativeStructure(4, 1, 2, r1.getQ2()),
-                                                new DerivativeStructure(4, 1, 3, r1.getQ3()),
+            QuaternionRotation r1 = QuaternionRotation.of(random.nextDouble(),
+                                                          unit1[0], unit1[1], unit1[2]);
+            final Quaternion r1Quat = r1.getQuaternion();
+            FieldRotation<DerivativeStructure> r1Prime = new FieldRotation<>(new DerivativeStructure(4, 1, 0, r1Quat.getW()),
+                                                new DerivativeStructure(4, 1, 1, r1Quat.getX()),
+                                                new DerivativeStructure(4, 1, 2, r1Quat.getY()),
+                                                new DerivativeStructure(4, 1, 3, r1Quat.getZ()),
                                                 false);
             double[] unit2 = g.nextVector();
             FieldRotation<DerivativeStructure> r2 = new FieldRotation<>(createVector(unit2[0], unit2[1], unit2[2]),
@@ -1051,7 +1048,7 @@ public class FieldRotationDSTest {
         FieldRotation<DerivativeStructure> r    = new FieldRotation<>(createAxis(kx, ky, kz),
                                                                                          createAngle(theta),
                                                                                          RotationConvention.VECTOR_OPERATOR);
-        Cartesian3D a      = new Cartesian3D(kx / n, ky / n, kz / n);
+        Vector3D a      = Vector3D.of(kx / n, ky / n, kz / n);
 
         // Jacobian of the normalized rotation axis a with respect to the Cartesian vector k
         RealMatrix dadk = MatrixUtils.createRealMatrix(new double[][] {
@@ -1063,15 +1060,15 @@ public class FieldRotationDSTest {
         for (double x = -0.9; x < 0.9; x += 0.2) {
             for (double y = -0.9; y < 0.9; y += 0.2) {
                 for (double z = -0.9; z < 0.9; z += 0.2) {
-                    Cartesian3D   u = new Cartesian3D(x, y, z);
+                    Vector3D   u = Vector3D.of(x, y, z);
                     FieldVector3D<DerivativeStructure> v = r.applyTo(createVector(x, y, z));
 
                     // explicit formula for rotation of vector u around axis a with angle theta
-                    double dot     = Cartesian3D.dotProduct(u, a);
-                    Cartesian3D cross = Cartesian3D.crossProduct(a, u);
+                    double dot     = u.dot(a);
+                    Vector3D cross = a.cross(u);
                     double c1      = 1 - cosTheta;
                     double c2      = c1 * dot;
-                    Cartesian3D rt    = new Cartesian3D(cosTheta, u, c2, a, sinTheta, cross);
+                    Vector3D rt    = Vector3D.linearCombination(cosTheta, u, c2, a, sinTheta, cross);
                     Assert.assertEquals(rt.getX(), v.getX().getReal(), eps);
                     Assert.assertEquals(rt.getY(), v.getY().getReal(), eps);
                     Assert.assertEquals(rt.getZ(), v.getZ().getReal(), eps);
@@ -1100,8 +1097,8 @@ public class FieldRotationDSTest {
 
                     // derivative with respect to rotation angle
                     // (analytical differentiation of the explicit formula)
-                    Cartesian3D dvdTheta =
-                            new Cartesian3D(-sinTheta, u, sinTheta * dot, a, cosTheta, cross);
+                    Vector3D dvdTheta =
+                        Vector3D.linearCombination(-sinTheta, u, sinTheta * dot, a, cosTheta, cross);
                     Assert.assertEquals(dvdTheta.getX(), v.getX().getPartialDerivative(0, 0, 0, 1), eps);
                     Assert.assertEquals(dvdTheta.getY(), v.getY().getPartialDerivative(0, 0, 0, 1), eps);
                     Assert.assertEquals(dvdTheta.getZ(), v.getZ().getPartialDerivative(0, 0, 0, 1), eps);

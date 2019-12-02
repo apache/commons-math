@@ -17,6 +17,8 @@
 
 package org.apache.commons.math4.geometry.euclidean.threed;
 
+import org.apache.commons.geometry.euclidean.threed.Vector3D;
+
 /**
  * This class is a utility representing a rotation order specification
  * for Cardan or Euler angles specification.
@@ -35,96 +37,96 @@ public final class RotationOrder {
      * around Z
      */
     public static final RotationOrder XYZ =
-      new RotationOrder("XYZ", Cartesian3D.PLUS_I, Cartesian3D.PLUS_J, Cartesian3D.PLUS_K);
+      new RotationOrder("XYZ", Vector3D.Unit.PLUS_X, Vector3D.Unit.PLUS_Y, Vector3D.Unit.PLUS_Z);
 
     /** Set of Cardan angles.
      * this ordered set of rotations is around X, then around Z, then
      * around Y
      */
     public static final RotationOrder XZY =
-      new RotationOrder("XZY", Cartesian3D.PLUS_I, Cartesian3D.PLUS_K, Cartesian3D.PLUS_J);
+      new RotationOrder("XZY", Vector3D.Unit.PLUS_X, Vector3D.Unit.PLUS_Z, Vector3D.Unit.PLUS_Y);
 
     /** Set of Cardan angles.
      * this ordered set of rotations is around Y, then around X, then
      * around Z
      */
     public static final RotationOrder YXZ =
-      new RotationOrder("YXZ", Cartesian3D.PLUS_J, Cartesian3D.PLUS_I, Cartesian3D.PLUS_K);
+      new RotationOrder("YXZ", Vector3D.Unit.PLUS_Y, Vector3D.Unit.PLUS_X, Vector3D.Unit.PLUS_Z);
 
     /** Set of Cardan angles.
      * this ordered set of rotations is around Y, then around Z, then
      * around X
      */
     public static final RotationOrder YZX =
-      new RotationOrder("YZX", Cartesian3D.PLUS_J, Cartesian3D.PLUS_K, Cartesian3D.PLUS_I);
+      new RotationOrder("YZX", Vector3D.Unit.PLUS_Y, Vector3D.Unit.PLUS_Z, Vector3D.Unit.PLUS_X);
 
     /** Set of Cardan angles.
      * this ordered set of rotations is around Z, then around X, then
      * around Y
      */
     public static final RotationOrder ZXY =
-      new RotationOrder("ZXY", Cartesian3D.PLUS_K, Cartesian3D.PLUS_I, Cartesian3D.PLUS_J);
+      new RotationOrder("ZXY", Vector3D.Unit.PLUS_Z, Vector3D.Unit.PLUS_X, Vector3D.Unit.PLUS_Y);
 
     /** Set of Cardan angles.
      * this ordered set of rotations is around Z, then around Y, then
      * around X
      */
     public static final RotationOrder ZYX =
-      new RotationOrder("ZYX", Cartesian3D.PLUS_K, Cartesian3D.PLUS_J, Cartesian3D.PLUS_I);
+      new RotationOrder("ZYX", Vector3D.Unit.PLUS_Z, Vector3D.Unit.PLUS_Y, Vector3D.Unit.PLUS_X);
 
     /** Set of Euler angles.
      * this ordered set of rotations is around X, then around Y, then
      * around X
      */
     public static final RotationOrder XYX =
-      new RotationOrder("XYX", Cartesian3D.PLUS_I, Cartesian3D.PLUS_J, Cartesian3D.PLUS_I);
+      new RotationOrder("XYX", Vector3D.Unit.PLUS_X, Vector3D.Unit.PLUS_Y, Vector3D.Unit.PLUS_X);
 
     /** Set of Euler angles.
      * this ordered set of rotations is around X, then around Z, then
      * around X
      */
     public static final RotationOrder XZX =
-      new RotationOrder("XZX", Cartesian3D.PLUS_I, Cartesian3D.PLUS_K, Cartesian3D.PLUS_I);
+      new RotationOrder("XZX", Vector3D.Unit.PLUS_X, Vector3D.Unit.PLUS_Z, Vector3D.Unit.PLUS_X);
 
     /** Set of Euler angles.
      * this ordered set of rotations is around Y, then around X, then
      * around Y
      */
     public static final RotationOrder YXY =
-      new RotationOrder("YXY", Cartesian3D.PLUS_J, Cartesian3D.PLUS_I, Cartesian3D.PLUS_J);
+      new RotationOrder("YXY", Vector3D.Unit.PLUS_Y, Vector3D.Unit.PLUS_X, Vector3D.Unit.PLUS_Y);
 
     /** Set of Euler angles.
      * this ordered set of rotations is around Y, then around Z, then
      * around Y
      */
     public static final RotationOrder YZY =
-      new RotationOrder("YZY", Cartesian3D.PLUS_J, Cartesian3D.PLUS_K, Cartesian3D.PLUS_J);
+      new RotationOrder("YZY", Vector3D.Unit.PLUS_Y, Vector3D.Unit.PLUS_Z, Vector3D.Unit.PLUS_Y);
 
     /** Set of Euler angles.
      * this ordered set of rotations is around Z, then around X, then
      * around Z
      */
     public static final RotationOrder ZXZ =
-      new RotationOrder("ZXZ", Cartesian3D.PLUS_K, Cartesian3D.PLUS_I, Cartesian3D.PLUS_K);
+      new RotationOrder("ZXZ", Vector3D.Unit.PLUS_Z, Vector3D.Unit.PLUS_X, Vector3D.Unit.PLUS_Z);
 
     /** Set of Euler angles.
      * this ordered set of rotations is around Z, then around Y, then
      * around Z
      */
     public static final RotationOrder ZYZ =
-      new RotationOrder("ZYZ", Cartesian3D.PLUS_K, Cartesian3D.PLUS_J, Cartesian3D.PLUS_K);
+      new RotationOrder("ZYZ", Vector3D.Unit.PLUS_Z, Vector3D.Unit.PLUS_Y, Vector3D.Unit.PLUS_Z);
 
     /** Name of the rotations order. */
     private final String name;
 
     /** Axis of the first rotation. */
-    private final Cartesian3D a1;
+    private final Vector3D a1;
 
     /** Axis of the second rotation. */
-    private final Cartesian3D a2;
+    private final Vector3D a2;
 
     /** Axis of the third rotation. */
-    private final Cartesian3D a3;
+    private final Vector3D a3;
 
     /** Private constructor.
      * This is a utility class that cannot be instantiated by the user,
@@ -135,7 +137,7 @@ public final class RotationOrder {
      * @param a3 axis of the third rotation
      */
     private RotationOrder(final String name,
-                          final Cartesian3D a1, final Cartesian3D a2, final Cartesian3D a3) {
+                          final Vector3D a1, final Vector3D a2, final Vector3D a3) {
         this.name = name;
         this.a1   = a1;
         this.a2   = a2;
@@ -153,21 +155,21 @@ public final class RotationOrder {
     /** Get the axis of the first rotation.
      * @return axis of the first rotation
      */
-    public Cartesian3D getA1() {
+    public Vector3D getA1() {
         return a1;
     }
 
     /** Get the axis of the second rotation.
      * @return axis of the second rotation
      */
-    public Cartesian3D getA2() {
+    public Vector3D getA2() {
         return a2;
     }
 
     /** Get the axis of the second rotation.
      * @return axis of the second rotation
      */
-    public Cartesian3D getA3() {
+    public Vector3D getA3() {
         return a3;
     }
 

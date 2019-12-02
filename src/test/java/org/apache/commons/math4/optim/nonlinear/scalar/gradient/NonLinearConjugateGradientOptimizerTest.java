@@ -17,10 +17,10 @@
 
 package org.apache.commons.math4.optim.nonlinear.scalar.gradient;
 
+import org.apache.commons.geometry.euclidean.twod.Vector2D;
 import org.apache.commons.math4.analysis.MultivariateFunction;
 import org.apache.commons.math4.analysis.MultivariateVectorFunction;
 import org.apache.commons.math4.exception.MathUnsupportedOperationException;
-import org.apache.commons.math4.geometry.euclidean.twod.Cartesian2D;
 import org.apache.commons.math4.linear.BlockRealMatrix;
 import org.apache.commons.math4.linear.RealMatrix;
 import org.apache.commons.math4.optim.InitialGuess;
@@ -431,7 +431,7 @@ public class NonLinearConjugateGradientOptimizerTest {
                                  problem.getObjectiveFunctionGradient(),
                                  GoalType.MINIMIZE,
                                  new InitialGuess(new double[] { 98.680, 47.345 }));
-        Cartesian2D center = new Cartesian2D(optimum.getPointRef()[0], optimum.getPointRef()[1]);
+        Vector2D center = Vector2D.of(optimum.getPointRef()[0], optimum.getPointRef()[1]);
         Assert.assertEquals(69.960161753, problem.getRadius(center), 1.0e-8);
         Assert.assertEquals(96.075902096, center.getX(), 1.0e-7);
         Assert.assertEquals(48.135167894, center.getY(), 1.0e-6);

@@ -64,6 +64,7 @@
     <math.mathjax.version>2.7.2</math.mathjax.version>
     <math.commons.numbers.version>1.0-SNAPSHOT</math.commons.numbers.version>
     <math.commons.rng.version>1.2</math.commons.rng.version>
+    <math.commons.geometry.version>1.0-SNAPSHOT</math.commons.geometry.version>
 
     <commons.site.path>math</commons.site.path>
     <commons.scmPubUrl>https://svn.apache.org/repos/infra/websites/production/commons/content/proper/commons-math</commons.scmPubUrl>
@@ -169,6 +170,12 @@
 
     <dependency>
       <groupId>org.apache.commons</groupId>
+      <artifactId>commons-numbers-quaternion</artifactId>
+      <version>${math.commons.numbers.version}</version>
+    </dependency>
+
+    <dependency>
+      <groupId>org.apache.commons</groupId>
       <artifactId>commons-rng-client-api</artifactId>
       <version>${math.commons.rng.version}</version>
     </dependency>
@@ -183,6 +190,12 @@
       <groupId>org.apache.commons</groupId>
       <artifactId>commons-rng-sampling</artifactId>
       <version>${math.commons.rng.version}</version>
+    </dependency>
+
+    <dependency>
+      <groupId>org.apache.commons</groupId>
+      <artifactId>commons-geometry-euclidean</artifactId>
+      <version>${math.commons.geometry.version}</version>
     </dependency>
 
     <dependency>
