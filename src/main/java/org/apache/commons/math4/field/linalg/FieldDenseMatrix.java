@@ -63,9 +63,11 @@ public class FieldDenseMatrix<T>
     /**
      * Factory method.
      *
+     * @param <T> Type of the field elements.
      * @param f Field.
      * @param r Number of rows.
      * @param c Number of columns.
+     * @return a new instance.
      * @throws IllegalArgumentException if {@code r <= 0} or {@code c <= 0}.
      */
     public static <T> FieldDenseMatrix<T> create(Field<T> f,
@@ -77,11 +79,12 @@ public class FieldDenseMatrix<T>
     /**
      * Factory method.
      *
+     * @param <T> Type of the field elements.
      * @param f Field.
      * @param r Number of rows.
      * @param c Number of columns.
-     * @throws IllegalArgumentException if {@code r <= 0} or {@code c <= 0}.
      * @return a matrix with elements zet to {@link Field#zero() zero}.
+     * @throws IllegalArgumentException if {@code r <= 0} or {@code c <= 0}.
      */
     public static <T> FieldDenseMatrix<T> zero(Field<T> f,
                                                int r,
@@ -92,10 +95,11 @@ public class FieldDenseMatrix<T>
     /**
      * Factory method.
      *
+     * @param <T> Type of the field elements.
      * @param f Field.
      * @param n Dimension of the matrix.
-     * @return the identity matrix.
      * @throws IllegalArgumentException if {@code n <= 0}.
+     * @return the identity matrix.
      */
     public static <T> FieldDenseMatrix<T> identity(Field<T> f,
                                                    int n) {

@@ -142,6 +142,7 @@ public class FieldLUDecomposition<T> {
     /**
      * Factory method.
      *
+     * @param <T> Type of the field elements.
      * @param m Matrix to decompose.
      * @return a new instance.
      */
