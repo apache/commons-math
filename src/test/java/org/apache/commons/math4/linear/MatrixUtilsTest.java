@@ -22,7 +22,6 @@ import org.apache.commons.math4.TestUtils;
 import org.apache.commons.math4.exception.MathIllegalArgumentException;
 import org.apache.commons.math4.exception.NotStrictlyPositiveException;
 import org.apache.commons.math4.exception.NullArgumentException;
-import org.apache.commons.math4.fraction.BigFraction;
 import org.apache.commons.math4.dfp.Dfp;
 import org.apache.commons.math4.dfp.DfpField;
 import org.apache.commons.math4.linear.Dfp25;
@@ -259,19 +258,6 @@ public final class MatrixUtilsTest {
         } catch (MathIllegalArgumentException ex) {
             // expected
         }
-    }
-
-    @Test
-    public void testBigDfpConverter() {
-        BigFraction[][] bfData = {
-                { new BigFraction(1), new BigFraction(2), new BigFraction(3) },
-                { new BigFraction(2), new BigFraction(5), new BigFraction(3) },
-                { new BigFraction(1), new BigFraction(0), new BigFraction(8) }
-        };
-        FieldMatrix<BigFraction> m = new Array2DRowFieldMatrix<>(bfData, false);
-        RealMatrix converted = MatrixUtils.bigFractionMatrixToRealMatrix(m);
-        RealMatrix reference = new Array2DRowRealMatrix(testData, false);
-        Assert.assertEquals(0.0, converted.subtract(reference).getNorm(), 0.0);
     }
 
     public static final Dfp[][] asDfp(double[][] data) {

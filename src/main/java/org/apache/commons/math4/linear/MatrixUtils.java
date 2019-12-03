@@ -32,7 +32,6 @@ import org.apache.commons.math4.exception.NumberIsTooSmallException;
 import org.apache.commons.math4.exception.OutOfRangeException;
 import org.apache.commons.math4.exception.ZeroException;
 import org.apache.commons.math4.exception.util.LocalizedFormats;
-import org.apache.commons.math4.fraction.BigFraction;
 import org.apache.commons.math4.util.FastMath;
 import org.apache.commons.math4.util.MathArrays;
 import org.apache.commons.math4.util.MathUtils;
@@ -605,50 +604,6 @@ public class MatrixUtils {
      */
     public static void checkMultiplicationCompatible(final AnyMatrix left, final AnyMatrix right) {
         left.checkMultiply(right);
-    }
-
-    /**
-     * Convert a {@link FieldMatrix}/{@link BigFraction} matrix to a {@link RealMatrix}.
-     *
-     * @param m Matrix to convert.
-     * @return the converted matrix.
-     */
-    public static Array2DRowRealMatrix bigFractionMatrixToRealMatrix(final FieldMatrix<BigFraction> m) {
-        final BigFractionMatrixConverter converter = new BigFractionMatrixConverter();
-        m.walkInOptimizedOrder(converter);
-        return converter.getConvertedMatrix();
-    }
-
-    /** Converter for {@link FieldMatrix}/{@link BigFraction}. */
-    private static class BigFractionMatrixConverter extends DefaultFieldMatrixPreservingVisitor<BigFraction> {
-        /** Converted array. */
-        private double[][] data;
-        /** Simple constructor. */
-        BigFractionMatrixConverter() {
-            super(BigFraction.ZERO);
-        }
-
-        /** {@inheritDoc} */
-        @Override
-        public void start(int rows, int columns,
-                          int startRow, int endRow, int startColumn, int endColumn) {
-            data = new double[rows][columns];
-        }
-
-        /** {@inheritDoc} */
-        @Override
-        public void visit(int row, int column, BigFraction value) {
-            data[row][column] = value.doubleValue();
-        }
-
-        /**
-         * Get the converted matrix.
-         *
-         * @return the converted matrix.
-         */
-        Array2DRowRealMatrix getConvertedMatrix() {
-            return new Array2DRowRealMatrix(data, false);
-        }
     }
 
     /** Serialize a {@link RealVector}.
