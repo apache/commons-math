@@ -14,32 +14,28 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.apache.commons.math4.fraction;
+package org.apache.commons.math4.linear;
 
+import org.apache.commons.math4.dfp.Dfp;
+import org.apache.commons.math4.dfp.DfpField;
 
-import org.apache.commons.math4.TestUtils;
-import org.apache.commons.math4.fraction.Fraction;
-import org.apache.commons.math4.fraction.FractionField;
-import org.junit.Assert;
-import org.junit.Test;
+/**
+ * Dummy class for testing {@link org.apache.commons.math4.Field} functionalities.
+ */
+public class Dfp25 {
+    private static final DfpField FIELD = new DfpField(25);
+    public static final Dfp ZERO = FIELD.newDfp(0d);
+    public static final Dfp ONE = of(1d);
+    public static final Dfp TWO = of(2d);
 
-public class FractionFieldTest {
-
-    @Test
-    public void testZero() {
-        Assert.assertEquals(Fraction.ZERO, FractionField.getInstance().getZero());
+    public static Dfp of(double x) {
+        return ZERO.newInstance(x);
+    }
+    public static Dfp of(double x, double y) {
+        return of(x).divide(of(y));
     }
 
-    @Test
-    public void testOne() {
-        Assert.assertEquals(Fraction.ONE, FractionField.getInstance().getOne());
+    public static DfpField getField() {
+        return FIELD;
     }
-
-    @Test
-    public void testSerial() {
-        // deserializing the singleton should give the singleton itself back
-        FractionField field = FractionField.getInstance();
-        Assert.assertTrue(field == TestUtils.serializeAndRecover(field));
-    }
-
 }

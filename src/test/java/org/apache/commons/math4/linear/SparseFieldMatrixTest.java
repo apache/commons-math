@@ -24,9 +24,8 @@ import org.apache.commons.math4.exception.NoDataException;
 import org.apache.commons.math4.exception.NullArgumentException;
 import org.apache.commons.math4.exception.NumberIsTooSmallException;
 import org.apache.commons.math4.exception.OutOfRangeException;
-import org.apache.commons.math4.fraction.Fraction;
-import org.apache.commons.math4.fraction.FractionConversionException;
-import org.apache.commons.math4.fraction.FractionField;
+import org.apache.commons.math4.dfp.Dfp;
+import org.apache.commons.math4.dfp.DfpField;
 import org.apache.commons.math4.linear.Array2DRowFieldMatrix;
 import org.apache.commons.math4.linear.ArrayFieldVector;
 import org.apache.commons.math4.linear.FieldLUDecomposition;
@@ -41,99 +40,95 @@ import org.apache.commons.math4.linear.SparseFieldMatrix;
  */
 public class SparseFieldMatrixTest {
     // 3 x 3 identity matrix
-    protected Fraction[][] id = { {new Fraction(1), new Fraction(0), new Fraction(0) }, { new Fraction(0), new Fraction(1), new Fraction(0) }, { new Fraction(0), new Fraction(0), new Fraction(1) } };
+    protected Dfp[][] id = { {Dfp25.of(1), Dfp25.of(0), Dfp25.of(0) }, { Dfp25.of(0), Dfp25.of(1), Dfp25.of(0) }, { Dfp25.of(0), Dfp25.of(0), Dfp25.of(1) } };
     // Test data for group operations
-    protected Fraction[][] testData = { { new Fraction(1), new Fraction(2), new Fraction(3) }, { new Fraction(2), new Fraction(5), new Fraction(3) },
-            { new Fraction(1), new Fraction(0), new Fraction(8) } };
-    protected Fraction[][] testDataLU = null;
-    protected Fraction[][] testDataPlus2 = { { new Fraction(3), new Fraction(4), new Fraction(5) }, { new Fraction(4), new Fraction(7), new Fraction(5) },
-            { new Fraction(3), new Fraction(2), new Fraction(10) } };
-    protected Fraction[][] testDataMinus = { { new Fraction(-1), new Fraction(-2), new Fraction(-3) },
-            { new Fraction(-2), new Fraction(-5), new Fraction(-3) }, { new Fraction(-1), new Fraction(0), new Fraction(-8) } };
-    protected Fraction[] testDataRow1 = { new Fraction(1), new Fraction(2), new Fraction(3) };
-    protected Fraction[] testDataCol3 = { new Fraction(3), new Fraction(3), new Fraction(8) };
-    protected Fraction[][] testDataInv = { { new Fraction(-40), new Fraction(16), new Fraction(9) }, { new Fraction(13), new Fraction(-5), new Fraction(-3) },
-            { new Fraction(5), new Fraction(-2), new Fraction(-1) } };
-    protected Fraction[] preMultTest = { new Fraction(8), new Fraction(12), new Fraction(33) };
-    protected Fraction[][] testData2 = { { new Fraction(1), new Fraction(2), new Fraction(3) }, { new Fraction(2), new Fraction(5), new Fraction(3) } };
-    protected Fraction[][] testData2T = { { new Fraction(1), new Fraction(2) }, { new Fraction(2), new Fraction(5) }, { new Fraction(3), new Fraction(3) } };
-    protected Fraction[][] testDataPlusInv = { { new Fraction(-39), new Fraction(18), new Fraction(12) },
-            { new Fraction(15), new Fraction(0), new Fraction(0) }, { new Fraction(6), new Fraction(-2), new Fraction(7) } };
+    protected Dfp[][] testData = { { Dfp25.of(1), Dfp25.of(2), Dfp25.of(3) }, { Dfp25.of(2), Dfp25.of(5), Dfp25.of(3) },
+            { Dfp25.of(1), Dfp25.of(0), Dfp25.of(8) } };
+    protected Dfp[][] testDataLU = null;
+    protected Dfp[][] testDataPlus2 = { { Dfp25.of(3), Dfp25.of(4), Dfp25.of(5) }, { Dfp25.of(4), Dfp25.of(7), Dfp25.of(5) },
+            { Dfp25.of(3), Dfp25.of(2), Dfp25.of(10) } };
+    protected Dfp[][] testDataMinus = { { Dfp25.of(-1), Dfp25.of(-2), Dfp25.of(-3) },
+            { Dfp25.of(-2), Dfp25.of(-5), Dfp25.of(-3) }, { Dfp25.of(-1), Dfp25.of(0), Dfp25.of(-8) } };
+    protected Dfp[] testDataRow1 = { Dfp25.of(1), Dfp25.of(2), Dfp25.of(3) };
+    protected Dfp[] testDataCol3 = { Dfp25.of(3), Dfp25.of(3), Dfp25.of(8) };
+    protected Dfp[][] testDataInv = { { Dfp25.of(-40), Dfp25.of(16), Dfp25.of(9) }, { Dfp25.of(13), Dfp25.of(-5), Dfp25.of(-3) },
+            { Dfp25.of(5), Dfp25.of(-2), Dfp25.of(-1) } };
+    protected Dfp[] preMultTest = { Dfp25.of(8), Dfp25.of(12), Dfp25.of(33) };
+    protected Dfp[][] testData2 = { { Dfp25.of(1), Dfp25.of(2), Dfp25.of(3) }, { Dfp25.of(2), Dfp25.of(5), Dfp25.of(3) } };
+    protected Dfp[][] testData2T = { { Dfp25.of(1), Dfp25.of(2) }, { Dfp25.of(2), Dfp25.of(5) }, { Dfp25.of(3), Dfp25.of(3) } };
+    protected Dfp[][] testDataPlusInv = { { Dfp25.of(-39), Dfp25.of(18), Dfp25.of(12) },
+            { Dfp25.of(15), Dfp25.of(0), Dfp25.of(0) }, { Dfp25.of(6), Dfp25.of(-2), Dfp25.of(7) } };
 
     // lu decomposition tests
-    protected Fraction[][] luData = { { new Fraction(2), new Fraction(3), new Fraction(3) }, { new Fraction(0), new Fraction(5), new Fraction(7) }, { new Fraction(6), new Fraction(9), new Fraction(8) } };
-    protected Fraction[][] luDataLUDecomposition = null;
+    protected Dfp[][] luData = { { Dfp25.of(2), Dfp25.of(3), Dfp25.of(3) }, { Dfp25.of(0), Dfp25.of(5), Dfp25.of(7) }, { Dfp25.of(6), Dfp25.of(9), Dfp25.of(8) } };
+    protected Dfp[][] luDataLUDecomposition = null;
 
     // singular matrices
-    protected Fraction[][] singular = { { new Fraction(2), new Fraction(3) }, { new Fraction(2), new Fraction(3) } };
-    protected Fraction[][] bigSingular = { { new Fraction(1), new Fraction(2), new Fraction(3), new Fraction(4) },
-            { new Fraction(2), new Fraction(5), new Fraction(3), new Fraction(4) }, { new Fraction(7), new Fraction(3), new Fraction(256), new Fraction(1930) }, { new Fraction(3), new Fraction(7), new Fraction(6), new Fraction(8) } }; // 4th
+    protected Dfp[][] singular = { { Dfp25.of(2), Dfp25.of(3) }, { Dfp25.of(2), Dfp25.of(3) } };
+    protected Dfp[][] bigSingular = { { Dfp25.of(1), Dfp25.of(2), Dfp25.of(3), Dfp25.of(4) },
+            { Dfp25.of(2), Dfp25.of(5), Dfp25.of(3), Dfp25.of(4) }, { Dfp25.of(7), Dfp25.of(3), Dfp25.of(256), Dfp25.of(1930) }, { Dfp25.of(3), Dfp25.of(7), Dfp25.of(6), Dfp25.of(8) } }; // 4th
 
     // row
     // =
     // 1st
     // +
     // 2nd
-    protected Fraction[][] detData = { { new Fraction(1), new Fraction(2), new Fraction(3) }, { new Fraction(4), new Fraction(5), new Fraction(6) },
-            { new Fraction(7), new Fraction(8), new Fraction(10) } };
-    protected Fraction[][] detData2 = { { new Fraction(1), new Fraction(3) }, { new Fraction(2), new Fraction(4) } };
+    protected Dfp[][] detData = { { Dfp25.of(1), Dfp25.of(2), Dfp25.of(3) }, { Dfp25.of(4), Dfp25.of(5), Dfp25.of(6) },
+            { Dfp25.of(7), Dfp25.of(8), Dfp25.of(10) } };
+    protected Dfp[][] detData2 = { { Dfp25.of(1), Dfp25.of(3) }, { Dfp25.of(2), Dfp25.of(4) } };
 
     // vectors
-    protected Fraction[] testVector = { new Fraction(1), new Fraction(2), new Fraction(3) };
-    protected Fraction[] testVector2 = { new Fraction(1), new Fraction(2), new Fraction(3), new Fraction(4) };
+    protected Dfp[] testVector = { Dfp25.of(1), Dfp25.of(2), Dfp25.of(3) };
+    protected Dfp[] testVector2 = { Dfp25.of(1), Dfp25.of(2), Dfp25.of(3), Dfp25.of(4) };
 
     // submatrix accessor tests
-    protected Fraction[][] subTestData = null;
+    protected Dfp[][] subTestData = null;
 
     // array selections
-    protected Fraction[][] subRows02Cols13 = { {new Fraction(2), new Fraction(4) }, { new Fraction(4), new Fraction(8) } };
-    protected Fraction[][] subRows03Cols12 = { { new Fraction(2), new Fraction(3) }, { new Fraction(5), new Fraction(6) } };
-    protected Fraction[][] subRows03Cols123 = { { new Fraction(2), new Fraction(3), new Fraction(4) }, { new Fraction(5), new Fraction(6), new Fraction(7) } };
+    protected Dfp[][] subRows02Cols13 = { {Dfp25.of(2), Dfp25.of(4) }, { Dfp25.of(4), Dfp25.of(8) } };
+    protected Dfp[][] subRows03Cols12 = { { Dfp25.of(2), Dfp25.of(3) }, { Dfp25.of(5), Dfp25.of(6) } };
+    protected Dfp[][] subRows03Cols123 = { { Dfp25.of(2), Dfp25.of(3), Dfp25.of(4) }, { Dfp25.of(5), Dfp25.of(6), Dfp25.of(7) } };
 
     // effective permutations
-    protected Fraction[][] subRows20Cols123 = { { new Fraction(4), new Fraction(6), new Fraction(8) }, { new Fraction(2), new Fraction(3), new Fraction(4) } };
-    protected Fraction[][] subRows31Cols31 = null;
+    protected Dfp[][] subRows20Cols123 = { { Dfp25.of(4), Dfp25.of(6), Dfp25.of(8) }, { Dfp25.of(2), Dfp25.of(3), Dfp25.of(4) } };
+    protected Dfp[][] subRows31Cols31 = null;
 
     // contiguous ranges
-    protected Fraction[][] subRows01Cols23 = null;
-    protected Fraction[][] subRows23Cols00 = { { new Fraction(2) }, { new Fraction(4) } };
-    protected Fraction[][] subRows00Cols33 = { { new Fraction(4) } };
+    protected Dfp[][] subRows01Cols23 = null;
+    protected Dfp[][] subRows23Cols00 = { { Dfp25.of(2) }, { Dfp25.of(4) } };
+    protected Dfp[][] subRows00Cols33 = { { Dfp25.of(4) } };
 
     // row matrices
-    protected Fraction[][] subRow0 = { { new Fraction(1), new Fraction(2), new Fraction(3), new Fraction(4) } };
-    protected Fraction[][] subRow3 = { { new Fraction(4), new Fraction(5), new Fraction(6), new Fraction(7) } };
+    protected Dfp[][] subRow0 = { { Dfp25.of(1), Dfp25.of(2), Dfp25.of(3), Dfp25.of(4) } };
+    protected Dfp[][] subRow3 = { { Dfp25.of(4), Dfp25.of(5), Dfp25.of(6), Dfp25.of(7) } };
 
     // column matrices
-    protected Fraction[][] subColumn1 = null;
-    protected Fraction[][] subColumn3 = null;
+    protected Dfp[][] subColumn1 = null;
+    protected Dfp[][] subColumn3 = null;
 
     // tolerances
     protected double entryTolerance = 10E-16;
     protected double normTolerance = 10E-14;
-    protected Field<Fraction> field = FractionField.getInstance();
+    protected Field<Dfp> field = Dfp25.getField();
 
     public SparseFieldMatrixTest() {
-        try {
-            testDataLU = new Fraction[][]{ { new Fraction(2), new Fraction(5), new Fraction(3) }, { new Fraction(.5d), new Fraction(-2.5d), new Fraction(6.5d) },
-                    { new Fraction(0.5d), new Fraction(0.2d), new Fraction(.2d) } };
-            luDataLUDecomposition = new Fraction[][]{ { new Fraction(6), new Fraction(9), new Fraction(8) },
-                { new Fraction(0), new Fraction(5), new Fraction(7) }, { new Fraction(0.33333333333333), new Fraction(0), new Fraction(0.33333333333333) } };
-            subTestData = new Fraction [][]{ { new Fraction(1), new Fraction(2), new Fraction(3), new Fraction(4) },
-                    { new Fraction(1.5), new Fraction(2.5), new Fraction(3.5), new Fraction(4.5) }, { new Fraction(2), new Fraction(4), new Fraction(6), new Fraction(8) }, { new Fraction(4), new Fraction(5), new Fraction(6), new Fraction(7) } };
-            subRows31Cols31 = new Fraction[][]{ { new Fraction(7), new Fraction(5) }, { new Fraction(4.5), new Fraction(2.5) } };
-            subRows01Cols23 = new Fraction[][]{ { new Fraction(3), new Fraction(4) }, { new Fraction(3.5), new Fraction(4.5) } };
-            subColumn1 = new Fraction [][]{ { new Fraction(2) }, { new Fraction(2.5) }, { new Fraction(4) }, { new Fraction(5) } };
-            subColumn3 = new Fraction[][]{ { new Fraction(4) }, { new Fraction(4.5) }, { new Fraction(8) }, { new Fraction(7) } };
-        } catch (FractionConversionException e) {
-            // ignore, can't happen
-        }
+        testDataLU = new Dfp[][]{ { Dfp25.of(2), Dfp25.of(5), Dfp25.of(3) }, { Dfp25.of(.5d), Dfp25.of(-2.5d), Dfp25.of(6.5d) },
+                                  { Dfp25.of(0.5d), Dfp25.of(0.2d), Dfp25.of(.2d) } };
+        luDataLUDecomposition = new Dfp[][]{ { Dfp25.of(6), Dfp25.of(9), Dfp25.of(8) },
+                                             { Dfp25.of(0), Dfp25.of(5), Dfp25.of(7) }, { Dfp25.of(0.33333333333333), Dfp25.of(0), Dfp25.of(0.33333333333333) } };
+        subTestData = new Dfp[][]{ { Dfp25.of(1), Dfp25.of(2), Dfp25.of(3), Dfp25.of(4) },
+                                   { Dfp25.of(1.5), Dfp25.of(2.5), Dfp25.of(3.5), Dfp25.of(4.5) }, { Dfp25.of(2), Dfp25.of(4), Dfp25.of(6), Dfp25.of(8) }, { Dfp25.of(4), Dfp25.of(5), Dfp25.of(6), Dfp25.of(7) } };
+        subRows31Cols31 = new Dfp[][]{ { Dfp25.of(7), Dfp25.of(5) }, { Dfp25.of(4.5), Dfp25.of(2.5) } };
+        subRows01Cols23 = new Dfp[][]{ { Dfp25.of(3), Dfp25.of(4) }, { Dfp25.of(3.5), Dfp25.of(4.5) } };
+        subColumn1 = new Dfp[][]{ { Dfp25.of(2) }, { Dfp25.of(2.5) }, { Dfp25.of(4) }, { Dfp25.of(5) } };
+        subColumn3 = new Dfp[][]{ { Dfp25.of(4) }, { Dfp25.of(4.5) }, { Dfp25.of(8) }, { Dfp25.of(7) } };
     }
 
     /** test dimensions */
     @Test
     public void testDimensions() {
-        SparseFieldMatrix<Fraction> m = createSparseMatrix(testData);
-        SparseFieldMatrix<Fraction> m2 = createSparseMatrix(testData2);
+        SparseFieldMatrix<Dfp> m = createSparseMatrix(testData);
+        SparseFieldMatrix<Dfp> m2 = createSparseMatrix(testData2);
         Assert.assertEquals("testData row dimension", 3, m.getRowDimension());
         Assert.assertEquals("testData column dimension", 3, m.getColumnDimension());
         Assert.assertTrue("testData is square", m.isSquare());
@@ -145,12 +140,12 @@ public class SparseFieldMatrixTest {
     /** test copy functions */
     @Test
     public void testCopyFunctions() {
-        SparseFieldMatrix<Fraction> m1 = createSparseMatrix(testData);
-        FieldMatrix<Fraction> m2 = m1.copy();
+        SparseFieldMatrix<Dfp> m1 = createSparseMatrix(testData);
+        FieldMatrix<Dfp> m2 = m1.copy();
         Assert.assertEquals(m1.getClass(), m2.getClass());
         Assert.assertEquals((m2), m1);
-        SparseFieldMatrix<Fraction> m3 = createSparseMatrix(testData);
-        FieldMatrix<Fraction> m4 = m3.copy();
+        SparseFieldMatrix<Dfp> m3 = createSparseMatrix(testData);
+        FieldMatrix<Dfp> m4 = m3.copy();
         Assert.assertEquals(m3.getClass(), m4.getClass());
         Assert.assertEquals((m4), m3);
     }
@@ -158,14 +153,14 @@ public class SparseFieldMatrixTest {
     /** test add */
     @Test
     public void testAdd() {
-        SparseFieldMatrix<Fraction> m = createSparseMatrix(testData);
-        SparseFieldMatrix<Fraction> mInv = createSparseMatrix(testDataInv);
-        SparseFieldMatrix<Fraction> mDataPlusInv = createSparseMatrix(testDataPlusInv);
-        FieldMatrix<Fraction> mPlusMInv = m.add(mInv);
+        SparseFieldMatrix<Dfp> m = createSparseMatrix(testData);
+        SparseFieldMatrix<Dfp> mInv = createSparseMatrix(testDataInv);
+        SparseFieldMatrix<Dfp> mDataPlusInv = createSparseMatrix(testDataPlusInv);
+        FieldMatrix<Dfp> mPlusMInv = m.add(mInv);
         for (int row = 0; row < m.getRowDimension(); row++) {
             for (int col = 0; col < m.getColumnDimension(); col++) {
                 Assert.assertEquals("sum entry entry",
-                    mDataPlusInv.getEntry(row, col).doubleValue(), mPlusMInv.getEntry(row, col).doubleValue(),
+                    mDataPlusInv.getEntry(row, col).toDouble(), mPlusMInv.getEntry(row, col).toDouble(),
                     entryTolerance);
             }
         }
@@ -174,8 +169,8 @@ public class SparseFieldMatrixTest {
     /** test add failure */
     @Test
     public void testAddFail() {
-        SparseFieldMatrix<Fraction> m = createSparseMatrix(testData);
-        SparseFieldMatrix<Fraction> m2 = createSparseMatrix(testData2);
+        SparseFieldMatrix<Dfp> m = createSparseMatrix(testData);
+        SparseFieldMatrix<Dfp> m2 = createSparseMatrix(testData2);
         try {
             m.add(m2);
             Assert.fail("MathIllegalArgumentException expected");
@@ -188,10 +183,10 @@ public class SparseFieldMatrixTest {
     /** test m-n = m + -n */
     @Test
     public void testPlusMinus() {
-        SparseFieldMatrix<Fraction> m = createSparseMatrix(testData);
-        SparseFieldMatrix<Fraction> n = createSparseMatrix(testDataInv);
+        SparseFieldMatrix<Dfp> m = createSparseMatrix(testData);
+        SparseFieldMatrix<Dfp> n = createSparseMatrix(testDataInv);
         assertClose("m-n = m + -n", m.subtract(n),
-            n.scalarMultiply(new Fraction(-1)).add(m), entryTolerance);
+            n.scalarMultiply(Dfp25.of(-1)).add(m), entryTolerance);
         try {
             m.subtract(createSparseMatrix(testData2));
             Assert.fail("Expecting illegalArgumentException");
@@ -203,13 +198,13 @@ public class SparseFieldMatrixTest {
     /** test multiply */
     @Test
     public void testMultiply() {
-        SparseFieldMatrix<Fraction> m = createSparseMatrix(testData);
-        SparseFieldMatrix<Fraction> mInv = createSparseMatrix(testDataInv);
-        SparseFieldMatrix<Fraction> identity = createSparseMatrix(id);
-        SparseFieldMatrix<Fraction> m2 = createSparseMatrix(testData2);
+        SparseFieldMatrix<Dfp> m = createSparseMatrix(testData);
+        SparseFieldMatrix<Dfp> mInv = createSparseMatrix(testDataInv);
+        SparseFieldMatrix<Dfp> identity = createSparseMatrix(id);
+        SparseFieldMatrix<Dfp> m2 = createSparseMatrix(testData2);
         assertClose("inverse multiply", m.multiply(mInv), identity,
                 entryTolerance);
-        assertClose("inverse multiply", m.multiply(new Array2DRowFieldMatrix<>(FractionField.getInstance(), testDataInv)), identity,
+        assertClose("inverse multiply", m.multiply(new Array2DRowFieldMatrix<>(Dfp25.getField(), testDataInv)), identity,
                     entryTolerance);
         assertClose("inverse multiply", mInv.multiply(m), identity,
                 entryTolerance);
@@ -229,23 +224,23 @@ public class SparseFieldMatrixTest {
 
     // Additional Test for Array2DRowRealMatrixTest.testMultiply
 
-    private Fraction[][] d3 = new Fraction[][] { { new Fraction(1), new Fraction(2), new Fraction(3), new Fraction(4) }, { new Fraction(5), new Fraction(6), new Fraction(7), new Fraction(8) } };
-    private Fraction[][] d4 = new Fraction[][] { { new Fraction(1) }, { new Fraction(2) }, { new Fraction(3) }, { new Fraction(4) } };
-    private Fraction[][] d5 = new Fraction[][] { { new Fraction(30) }, { new Fraction(70) } };
+    private Dfp[][] d3 = new Dfp[][] { { Dfp25.of(1), Dfp25.of(2), Dfp25.of(3), Dfp25.of(4) }, { Dfp25.of(5), Dfp25.of(6), Dfp25.of(7), Dfp25.of(8) } };
+    private Dfp[][] d4 = new Dfp[][] { { Dfp25.of(1) }, { Dfp25.of(2) }, { Dfp25.of(3) }, { Dfp25.of(4) } };
+    private Dfp[][] d5 = new Dfp[][] { { Dfp25.of(30) }, { Dfp25.of(70) } };
 
     @Test
     public void testMultiply2() {
-        FieldMatrix<Fraction> m3 = createSparseMatrix(d3);
-        FieldMatrix<Fraction> m4 = createSparseMatrix(d4);
-        FieldMatrix<Fraction> m5 = createSparseMatrix(d5);
+        FieldMatrix<Dfp> m3 = createSparseMatrix(d3);
+        FieldMatrix<Dfp> m4 = createSparseMatrix(d4);
+        FieldMatrix<Dfp> m5 = createSparseMatrix(d5);
         assertClose("m3*m4=m5", m3.multiply(m4), m5, entryTolerance);
     }
 
     /** test trace */
     @Test
     public void testTrace() {
-        FieldMatrix<Fraction> m = createSparseMatrix(id);
-        Assert.assertEquals("identity trace", 3d, m.getTrace().doubleValue(), entryTolerance);
+        FieldMatrix<Dfp> m = createSparseMatrix(id);
+        Assert.assertEquals("identity trace", 3d, m.getTrace().toDouble(), entryTolerance);
         m = createSparseMatrix(testData2);
         try {
             m.getTrace();
@@ -258,15 +253,15 @@ public class SparseFieldMatrixTest {
     /** test sclarAdd */
     @Test
     public void testScalarAdd() {
-        FieldMatrix<Fraction> m = createSparseMatrix(testData);
+        FieldMatrix<Dfp> m = createSparseMatrix(testData);
         assertClose("scalar add", createSparseMatrix(testDataPlus2),
-            m.scalarAdd(new Fraction(2)), entryTolerance);
+            m.scalarAdd(Dfp25.of(2)), entryTolerance);
     }
 
     /** test operate */
     @Test
     public void testOperate() {
-        FieldMatrix<Fraction> m = createSparseMatrix(id);
+        FieldMatrix<Dfp> m = createSparseMatrix(id);
         assertClose("identity operate", testVector, m.operate(testVector),
                 entryTolerance);
         assertClose("identity operate", testVector, m.operate(
@@ -283,31 +278,31 @@ public class SparseFieldMatrixTest {
     /** test issue MATH-209 */
     @Test
     public void testMath209() {
-        FieldMatrix<Fraction> a = createSparseMatrix(new Fraction[][] {
-                { new Fraction(1), new Fraction(2) }, { new Fraction(3), new Fraction(4) }, { new Fraction(5), new Fraction(6) } });
-        Fraction[] b = a.operate(new Fraction[] { new Fraction(1), new Fraction(1) });
+        FieldMatrix<Dfp> a = createSparseMatrix(new Dfp[][] {
+                { Dfp25.of(1), Dfp25.of(2) }, { Dfp25.of(3), Dfp25.of(4) }, { Dfp25.of(5), Dfp25.of(6) } });
+        Dfp[] b = a.operate(new Dfp[] { Dfp25.of(1), Dfp25.of(1) });
         Assert.assertEquals(a.getRowDimension(), b.length);
-        Assert.assertEquals(3.0, b[0].doubleValue(), 1.0e-12);
-        Assert.assertEquals(7.0, b[1].doubleValue(), 1.0e-12);
-        Assert.assertEquals(11.0, b[2].doubleValue(), 1.0e-12);
+        Assert.assertEquals(3.0, b[0].toDouble(), 1.0e-12);
+        Assert.assertEquals(7.0, b[1].toDouble(), 1.0e-12);
+        Assert.assertEquals(11.0, b[2].toDouble(), 1.0e-12);
     }
 
     /** test transpose */
     @Test
     public void testTranspose() {
-        FieldMatrix<Fraction> m = createSparseMatrix(testData);
-        FieldMatrix<Fraction> mIT = new FieldLUDecomposition<>(m).getSolver().getInverse().transpose();
-        FieldMatrix<Fraction> mTI = new FieldLUDecomposition<>(m.transpose()).getSolver().getInverse();
+        FieldMatrix<Dfp> m = createSparseMatrix(testData);
+        FieldMatrix<Dfp> mIT = new FieldLUDecomposition<>(m).getSolver().getInverse().transpose();
+        FieldMatrix<Dfp> mTI = new FieldLUDecomposition<>(m.transpose()).getSolver().getInverse();
         assertClose("inverse-transpose", mIT, mTI, normTolerance);
         m = createSparseMatrix(testData2);
-        FieldMatrix<Fraction> mt = createSparseMatrix(testData2T);
+        FieldMatrix<Dfp> mt = createSparseMatrix(testData2T);
         assertClose("transpose",mt,m.transpose(),normTolerance);
     }
 
     /** test preMultiply by vector */
     @Test
     public void testPremultiplyVector() {
-        FieldMatrix<Fraction> m = createSparseMatrix(testData);
+        FieldMatrix<Dfp> m = createSparseMatrix(testData);
         assertClose("premultiply", m.preMultiply(testVector), preMultTest,
             normTolerance);
         assertClose("premultiply", m.preMultiply(
@@ -323,14 +318,14 @@ public class SparseFieldMatrixTest {
 
     @Test
     public void testPremultiply() {
-        FieldMatrix<Fraction> m3 = createSparseMatrix(d3);
-        FieldMatrix<Fraction> m4 = createSparseMatrix(d4);
-        FieldMatrix<Fraction> m5 = createSparseMatrix(d5);
+        FieldMatrix<Dfp> m3 = createSparseMatrix(d3);
+        FieldMatrix<Dfp> m4 = createSparseMatrix(d4);
+        FieldMatrix<Dfp> m5 = createSparseMatrix(d5);
         assertClose("m3*m4=m5", m4.preMultiply(m3), m5, entryTolerance);
 
-        SparseFieldMatrix<Fraction> m = createSparseMatrix(testData);
-        SparseFieldMatrix<Fraction> mInv = createSparseMatrix(testDataInv);
-        SparseFieldMatrix<Fraction> identity = createSparseMatrix(id);
+        SparseFieldMatrix<Dfp> m = createSparseMatrix(testData);
+        SparseFieldMatrix<Dfp> mInv = createSparseMatrix(testDataInv);
+        SparseFieldMatrix<Dfp> identity = createSparseMatrix(id);
         assertClose("inverse multiply", m.preMultiply(mInv), identity,
                 entryTolerance);
         assertClose("inverse multiply", mInv.preMultiply(m), identity,
@@ -349,7 +344,7 @@ public class SparseFieldMatrixTest {
 
     @Test
     public void testGetVectors() {
-        FieldMatrix<Fraction> m = createSparseMatrix(testData);
+        FieldMatrix<Dfp> m = createSparseMatrix(testData);
         assertClose("get row", m.getRow(0), testDataRow1, entryTolerance);
         assertClose("get col", m.getColumn(2), testDataCol3, entryTolerance);
         try {
@@ -368,8 +363,8 @@ public class SparseFieldMatrixTest {
 
     @Test
     public void testGetEntry() {
-        FieldMatrix<Fraction> m = createSparseMatrix(testData);
-        Assert.assertEquals("get entry", m.getEntry(0, 1).doubleValue(), 2d, entryTolerance);
+        FieldMatrix<Dfp> m = createSparseMatrix(testData);
+        Assert.assertEquals("get entry", m.getEntry(0, 1).toDouble(), 2d, entryTolerance);
         try {
             m.getEntry(10, 4);
             Assert.fail("Expecting OutOfRangeException");
@@ -382,50 +377,50 @@ public class SparseFieldMatrixTest {
     @Test
     public void testExamples() {
         // Create a real matrix with two rows and three columns
-        Fraction[][] matrixData = { { new Fraction(1), new Fraction(2), new Fraction(3) }, { new Fraction(2), new Fraction(5), new Fraction(3) } };
-        FieldMatrix<Fraction> m = createSparseMatrix(matrixData);
+        Dfp[][] matrixData = { { Dfp25.of(1), Dfp25.of(2), Dfp25.of(3) }, { Dfp25.of(2), Dfp25.of(5), Dfp25.of(3) } };
+        FieldMatrix<Dfp> m = createSparseMatrix(matrixData);
         // One more with three rows, two columns
-        Fraction[][] matrixData2 = { { new Fraction(1), new Fraction(2) }, { new Fraction(2), new Fraction(5) }, { new Fraction(1), new Fraction(7) } };
-        FieldMatrix<Fraction> n = createSparseMatrix(matrixData2);
+        Dfp[][] matrixData2 = { { Dfp25.of(1), Dfp25.of(2) }, { Dfp25.of(2), Dfp25.of(5) }, { Dfp25.of(1), Dfp25.of(7) } };
+        FieldMatrix<Dfp> n = createSparseMatrix(matrixData2);
         // Now multiply m by n
-        FieldMatrix<Fraction> p = m.multiply(n);
+        FieldMatrix<Dfp> p = m.multiply(n);
         Assert.assertEquals(2, p.getRowDimension());
         Assert.assertEquals(2, p.getColumnDimension());
         // Invert p
-        FieldMatrix<Fraction> pInverse = new FieldLUDecomposition<>(p).getSolver().getInverse();
+        FieldMatrix<Dfp> pInverse = new FieldLUDecomposition<>(p).getSolver().getInverse();
         Assert.assertEquals(2, pInverse.getRowDimension());
         Assert.assertEquals(2, pInverse.getColumnDimension());
 
         // Solve example
-        Fraction[][] coefficientsData = { { new Fraction(2), new Fraction(3), new Fraction(-2) }, { new Fraction(-1), new Fraction(7), new Fraction(6) },
-                { new Fraction(4), new Fraction(-3), new Fraction(-5) } };
-        FieldMatrix<Fraction> coefficients = createSparseMatrix(coefficientsData);
-        Fraction[] constants = { new Fraction(1), new Fraction(-2), new Fraction(1) };
-        Fraction[] solution;
+        Dfp[][] coefficientsData = { { Dfp25.of(2), Dfp25.of(3), Dfp25.of(-2) }, { Dfp25.of(-1), Dfp25.of(7), Dfp25.of(6) },
+                { Dfp25.of(4), Dfp25.of(-3), Dfp25.of(-5) } };
+        FieldMatrix<Dfp> coefficients = createSparseMatrix(coefficientsData);
+        Dfp[] constants = { Dfp25.of(1), Dfp25.of(-2), Dfp25.of(1) };
+        Dfp[] solution;
         solution = new FieldLUDecomposition<>(coefficients)
             .getSolver()
             .solve(new ArrayFieldVector<>(constants, false)).toArray();
-        Assert.assertEquals((new Fraction(2).multiply((solution[0])).add(new Fraction(3).multiply(solution[1])).subtract(new Fraction(2).multiply(solution[2]))).doubleValue(),
-                constants[0].doubleValue(), 1E-12);
-        Assert.assertEquals(((new Fraction(-1).multiply(solution[0])).add(new Fraction(7).multiply(solution[1])).add(new Fraction(6).multiply(solution[2]))).doubleValue(),
-                constants[1].doubleValue(), 1E-12);
-        Assert.assertEquals(((new Fraction(4).multiply(solution[0])).subtract(new Fraction(3).multiply( solution[1])).subtract(new Fraction(5).multiply(solution[2]))).doubleValue(),
-                constants[2].doubleValue(), 1E-12);
+        Assert.assertEquals((Dfp25.of(2).multiply((solution[0])).add(Dfp25.of(3).multiply(solution[1])).subtract(Dfp25.of(2).multiply(solution[2]))).toDouble(),
+                constants[0].toDouble(), 1E-12);
+        Assert.assertEquals(((Dfp25.of(-1).multiply(solution[0])).add(Dfp25.of(7).multiply(solution[1])).add(Dfp25.of(6).multiply(solution[2]))).toDouble(),
+                constants[1].toDouble(), 1E-12);
+        Assert.assertEquals(((Dfp25.of(4).multiply(solution[0])).subtract(Dfp25.of(3).multiply( solution[1])).subtract(Dfp25.of(5).multiply(solution[2]))).toDouble(),
+                constants[2].toDouble(), 1E-12);
 
     }
 
     // test submatrix accessors
     @Test
     public void testSubMatrix() {
-        FieldMatrix<Fraction> m = createSparseMatrix(subTestData);
-        FieldMatrix<Fraction> mRows23Cols00 = createSparseMatrix(subRows23Cols00);
-        FieldMatrix<Fraction> mRows00Cols33 = createSparseMatrix(subRows00Cols33);
-        FieldMatrix<Fraction> mRows01Cols23 = createSparseMatrix(subRows01Cols23);
-        FieldMatrix<Fraction> mRows02Cols13 = createSparseMatrix(subRows02Cols13);
-        FieldMatrix<Fraction> mRows03Cols12 = createSparseMatrix(subRows03Cols12);
-        FieldMatrix<Fraction> mRows03Cols123 = createSparseMatrix(subRows03Cols123);
-        FieldMatrix<Fraction> mRows20Cols123 = createSparseMatrix(subRows20Cols123);
-        FieldMatrix<Fraction> mRows31Cols31 = createSparseMatrix(subRows31Cols31);
+        FieldMatrix<Dfp> m = createSparseMatrix(subTestData);
+        FieldMatrix<Dfp> mRows23Cols00 = createSparseMatrix(subRows23Cols00);
+        FieldMatrix<Dfp> mRows00Cols33 = createSparseMatrix(subRows00Cols33);
+        FieldMatrix<Dfp> mRows01Cols23 = createSparseMatrix(subRows01Cols23);
+        FieldMatrix<Dfp> mRows02Cols13 = createSparseMatrix(subRows02Cols13);
+        FieldMatrix<Dfp> mRows03Cols12 = createSparseMatrix(subRows03Cols12);
+        FieldMatrix<Dfp> mRows03Cols123 = createSparseMatrix(subRows03Cols123);
+        FieldMatrix<Dfp> mRows20Cols123 = createSparseMatrix(subRows20Cols123);
+        FieldMatrix<Dfp> mRows31Cols31 = createSparseMatrix(subRows31Cols31);
         Assert.assertEquals("Rows23Cols00", mRows23Cols00, m.getSubMatrix(2, 3, 0, 0));
         Assert.assertEquals("Rows00Cols33", mRows00Cols33, m.getSubMatrix(0, 0, 3, 3));
         Assert.assertEquals("Rows01Cols23", mRows01Cols23, m.getSubMatrix(0, 1, 2, 3));
@@ -482,9 +477,9 @@ public class SparseFieldMatrixTest {
 
     @Test
     public void testGetRowMatrix() {
-        FieldMatrix<Fraction> m = createSparseMatrix(subTestData);
-        FieldMatrix<Fraction> mRow0 = createSparseMatrix(subRow0);
-        FieldMatrix<Fraction> mRow3 = createSparseMatrix(subRow3);
+        FieldMatrix<Dfp> m = createSparseMatrix(subTestData);
+        FieldMatrix<Dfp> mRow0 = createSparseMatrix(subRow0);
+        FieldMatrix<Dfp> mRow3 = createSparseMatrix(subRow3);
         Assert.assertEquals("Row0", mRow0, m.getRowMatrix(0));
         Assert.assertEquals("Row3", mRow3, m.getRowMatrix(3));
         try {
@@ -503,9 +498,9 @@ public class SparseFieldMatrixTest {
 
     @Test
     public void testGetColumnMatrix() {
-        FieldMatrix<Fraction> m = createSparseMatrix(subTestData);
-        FieldMatrix<Fraction> mColumn1 = createSparseMatrix(subColumn1);
-        FieldMatrix<Fraction> mColumn3 = createSparseMatrix(subColumn3);
+        FieldMatrix<Dfp> m = createSparseMatrix(subTestData);
+        FieldMatrix<Dfp> mColumn1 = createSparseMatrix(subColumn1);
+        FieldMatrix<Dfp> mColumn3 = createSparseMatrix(subColumn3);
         Assert.assertEquals("Column1", mColumn1, m.getColumnMatrix(1));
         Assert.assertEquals("Column3", mColumn3, m.getColumnMatrix(3));
         try {
@@ -524,9 +519,9 @@ public class SparseFieldMatrixTest {
 
     @Test
     public void testGetRowVector() {
-        FieldMatrix<Fraction> m = createSparseMatrix(subTestData);
-        FieldVector<Fraction> mRow0 = new ArrayFieldVector<>(subRow0[0]);
-        FieldVector<Fraction> mRow3 = new ArrayFieldVector<>(subRow3[0]);
+        FieldMatrix<Dfp> m = createSparseMatrix(subTestData);
+        FieldVector<Dfp> mRow0 = new ArrayFieldVector<>(subRow0[0]);
+        FieldVector<Dfp> mRow3 = new ArrayFieldVector<>(subRow3[0]);
         Assert.assertEquals("Row0", mRow0, m.getRowVector(0));
         Assert.assertEquals("Row3", mRow3, m.getRowVector(3));
         try {
@@ -545,9 +540,9 @@ public class SparseFieldMatrixTest {
 
     @Test
     public void testGetColumnVector() {
-        FieldMatrix<Fraction> m = createSparseMatrix(subTestData);
-        FieldVector<Fraction> mColumn1 = columnToVector(subColumn1);
-        FieldVector<Fraction> mColumn3 = columnToVector(subColumn3);
+        FieldMatrix<Dfp> m = createSparseMatrix(subTestData);
+        FieldVector<Dfp> mColumn1 = columnToVector(subColumn1);
+        FieldVector<Dfp> mColumn3 = columnToVector(subColumn3);
         Assert.assertEquals("Column1", mColumn1, m.getColumnVector(1));
         Assert.assertEquals("Column3", mColumn3, m.getColumnVector(3));
         try {
@@ -564,8 +559,8 @@ public class SparseFieldMatrixTest {
         }
     }
 
-    private FieldVector<Fraction> columnToVector(Fraction[][] column) {
-        Fraction[] data = new Fraction[column.length];
+    private FieldVector<Dfp> columnToVector(Dfp[][] column) {
+        Dfp[] data = new Dfp[column.length];
         for (int i = 0; i < data.length; ++i) {
             data[i] = column[i][0];
         }
@@ -574,9 +569,9 @@ public class SparseFieldMatrixTest {
 
     @Test
     public void testEqualsAndHashCode() {
-        SparseFieldMatrix<Fraction> m = createSparseMatrix(testData);
-        SparseFieldMatrix<Fraction> m1 = (SparseFieldMatrix<Fraction>) m.copy();
-        SparseFieldMatrix<Fraction> mt = (SparseFieldMatrix<Fraction>) m.transpose();
+        SparseFieldMatrix<Dfp> m = createSparseMatrix(testData);
+        SparseFieldMatrix<Dfp> m1 = (SparseFieldMatrix<Dfp>) m.copy();
+        SparseFieldMatrix<Dfp> mt = (SparseFieldMatrix<Dfp>) m.transpose();
         Assert.assertTrue(m.hashCode() != mt.hashCode());
         Assert.assertEquals(m.hashCode(), m1.hashCode());
         Assert.assertEquals(m, m);
@@ -589,39 +584,39 @@ public class SparseFieldMatrixTest {
     /* Disable for now
     @Test
     public void testToString() {
-        SparseFieldMatrix<Fraction> m = createSparseMatrix(testData);
-        Assert.assertEquals("SparseFieldMatrix<Fraction>{{1.0,2.0,3.0},{2.0,5.0,3.0},{1.0,0.0,8.0}}",
+        SparseFieldMatrix<Dfp> m = createSparseMatrix(testData);
+        Assert.assertEquals("SparseFieldMatrix<Dfp>{{1.0,2.0,3.0},{2.0,5.0,3.0},{1.0,0.0,8.0}}",
             m.toString());
-        m = new SparseFieldMatrix<Fraction>(field, 1, 1);
-        Assert.assertEquals("SparseFieldMatrix<Fraction>{{0.0}}", m.toString());
+        m = new SparseFieldMatrix<Dfp>(field, 1, 1);
+        Assert.assertEquals("SparseFieldMatrix<Dfp>{{0.0}}", m.toString());
     }
     */
 
     @Test
     public void testSetSubMatrix() {
-        SparseFieldMatrix<Fraction> m = createSparseMatrix(testData);
+        SparseFieldMatrix<Dfp> m = createSparseMatrix(testData);
         m.setSubMatrix(detData2, 1, 1);
-        FieldMatrix<Fraction> expected = createSparseMatrix(new Fraction[][] {
-                { new Fraction(1), new Fraction(2), new Fraction(3) }, { new Fraction(2), new Fraction(1), new Fraction(3) }, { new Fraction(1), new Fraction(2), new Fraction(4) } });
+        FieldMatrix<Dfp> expected = createSparseMatrix(new Dfp[][] {
+                { Dfp25.of(1), Dfp25.of(2), Dfp25.of(3) }, { Dfp25.of(2), Dfp25.of(1), Dfp25.of(3) }, { Dfp25.of(1), Dfp25.of(2), Dfp25.of(4) } });
         Assert.assertEquals(expected, m);
 
         m.setSubMatrix(detData2, 0, 0);
-        expected = createSparseMatrix(new Fraction[][] {
-                { new Fraction(1), new Fraction(3), new Fraction(3) }, { new Fraction(2), new Fraction(4), new Fraction(3) }, { new Fraction(1), new Fraction(2), new Fraction(4) } });
+        expected = createSparseMatrix(new Dfp[][] {
+                { Dfp25.of(1), Dfp25.of(3), Dfp25.of(3) }, { Dfp25.of(2), Dfp25.of(4), Dfp25.of(3) }, { Dfp25.of(1), Dfp25.of(2), Dfp25.of(4) } });
         Assert.assertEquals(expected, m);
 
         m.setSubMatrix(testDataPlus2, 0, 0);
-        expected = createSparseMatrix(new Fraction[][] {
-                { new Fraction(3), new Fraction(4), new Fraction(5) }, { new Fraction(4), new Fraction(7), new Fraction(5) }, { new Fraction(3), new Fraction(2), new Fraction(10) } });
+        expected = createSparseMatrix(new Dfp[][] {
+                { Dfp25.of(3), Dfp25.of(4), Dfp25.of(5) }, { Dfp25.of(4), Dfp25.of(7), Dfp25.of(5) }, { Dfp25.of(3), Dfp25.of(2), Dfp25.of(10) } });
         Assert.assertEquals(expected, m);
 
         // javadoc example
-        SparseFieldMatrix<Fraction> matrix =
-            createSparseMatrix(new Fraction[][] {
-        { new Fraction(1), new Fraction(2), new Fraction(3), new Fraction(4) }, { new Fraction(5), new Fraction(6), new Fraction(7), new Fraction(8) }, { new Fraction(9), new Fraction(0), new Fraction(1), new Fraction(2) } });
-        matrix.setSubMatrix(new Fraction[][] { { new Fraction(3), new Fraction(4) }, { new Fraction(5), new Fraction(6) } }, 1, 1);
-        expected = createSparseMatrix(new Fraction[][] {
-                { new Fraction(1), new Fraction(2), new Fraction(3), new Fraction(4) }, { new Fraction(5), new Fraction(3), new Fraction(4), new Fraction(8) }, { new Fraction(9), new Fraction(5), new Fraction(6), new Fraction(2) } });
+        SparseFieldMatrix<Dfp> matrix =
+            createSparseMatrix(new Dfp[][] {
+        { Dfp25.of(1), Dfp25.of(2), Dfp25.of(3), Dfp25.of(4) }, { Dfp25.of(5), Dfp25.of(6), Dfp25.of(7), Dfp25.of(8) }, { Dfp25.of(9), Dfp25.of(0), Dfp25.of(1), Dfp25.of(2) } });
+        matrix.setSubMatrix(new Dfp[][] { { Dfp25.of(3), Dfp25.of(4) }, { Dfp25.of(5), Dfp25.of(6) } }, 1, 1);
+        expected = createSparseMatrix(new Dfp[][] {
+                { Dfp25.of(1), Dfp25.of(2), Dfp25.of(3), Dfp25.of(4) }, { Dfp25.of(5), Dfp25.of(3), Dfp25.of(4), Dfp25.of(8) }, { Dfp25.of(9), Dfp25.of(5), Dfp25.of(6), Dfp25.of(2) } });
         Assert.assertEquals(expected, matrix);
 
         // dimension overflow
@@ -661,7 +656,7 @@ public class SparseFieldMatrixTest {
 
         // ragged
         try {
-            m.setSubMatrix(new Fraction[][] { { new Fraction(1) }, { new Fraction(2), new Fraction(3) } }, 0, 0);
+            m.setSubMatrix(new Dfp[][] { { Dfp25.of(1) }, { Dfp25.of(2), Dfp25.of(3) } }, 0, 0);
             Assert.fail("expecting MathIllegalArgumentException");
         } catch (MathIllegalArgumentException e) {
             // expected
@@ -669,7 +664,7 @@ public class SparseFieldMatrixTest {
 
         // empty
         try {
-            m.setSubMatrix(new Fraction[][] { {} }, 0, 0);
+            m.setSubMatrix(new Dfp[][] { {} }, 0, 0);
             Assert.fail("expecting MathIllegalArgumentException");
         } catch (MathIllegalArgumentException e) {
             // expected
@@ -679,30 +674,30 @@ public class SparseFieldMatrixTest {
     // --------------- -----------------Protected methods
 
     /** verifies that two matrices are close (1-norm) */
-    protected void assertClose(String msg, FieldMatrix<Fraction> m, FieldMatrix<Fraction> n,
+    protected void assertClose(String msg, FieldMatrix<Dfp> m, FieldMatrix<Dfp> n,
             double tolerance) {
         for(int i=0; i < m.getRowDimension(); i++){
             for(int j=0; j < m.getColumnDimension(); j++){
-                Assert.assertEquals(msg, m.getEntry(i,j).doubleValue(), n.getEntry(i,j).doubleValue(), tolerance);
+                Assert.assertEquals(msg, m.getEntry(i,j).toDouble(), n.getEntry(i,j).toDouble(), tolerance);
             }
 
         }
     }
 
     /** verifies that two vectors are close (sup norm) */
-    protected void assertClose(String msg, Fraction[] m, Fraction[] n,
+    protected void assertClose(String msg, Dfp[] m, Dfp[] n,
             double tolerance) {
         if (m.length != n.length) {
             Assert.fail("vectors not same length");
         }
         for (int i = 0; i < m.length; i++) {
-            Assert.assertEquals(msg + " " + i + " elements differ", m[i].doubleValue(), n[i].doubleValue(),
+            Assert.assertEquals(msg + " " + i + " elements differ", m[i].toDouble(), n[i].toDouble(),
                     tolerance);
         }
     }
 
-    private SparseFieldMatrix<Fraction> createSparseMatrix(Fraction[][] data) {
-        SparseFieldMatrix<Fraction> matrix = new SparseFieldMatrix<>(field, data.length, data[0].length);
+    private SparseFieldMatrix<Dfp> createSparseMatrix(Dfp[][] data) {
+        SparseFieldMatrix<Dfp> matrix = new SparseFieldMatrix<>(field, data.length, data[0].length);
         for (int row = 0; row < data.length; row++) {
             for (int col = 0; col < data[row].length; col++) {
                 matrix.setEntry(row, col, data[row][col]);

@@ -22,9 +22,8 @@ import java.util.Arrays;
 import org.apache.commons.math4.exception.MathIllegalArgumentException;
 import org.apache.commons.math4.exception.NumberIsTooSmallException;
 import org.apache.commons.math4.exception.OutOfRangeException;
-import org.apache.commons.math4.fraction.Fraction;
-import org.apache.commons.math4.fraction.FractionConversionException;
-import org.apache.commons.math4.fraction.FractionField;
+import org.apache.commons.math4.dfp.Dfp;
+import org.apache.commons.math4.dfp.DfpField;
 import org.apache.commons.math4.linear.FieldMatrix;
 import org.apache.commons.math4.linear.FieldVector;
 import org.apache.commons.math4.linear.FieldVectorChangingVisitor;
@@ -41,169 +40,169 @@ import org.junit.Test;
 public class SparseFieldVectorTest {
 
     //
-    protected Fraction[][] ma1 = {{new Fraction(1), new Fraction(2), new Fraction(3)}, {new Fraction(4), new Fraction(5), new Fraction(6)}, {new Fraction(7), new Fraction(8), new Fraction(9)}};
-    protected Fraction[] vec1 = {new Fraction(1), new Fraction(2), new Fraction(3)};
-    protected Fraction[] vec2 = {new Fraction(4), new Fraction(5), new Fraction(6)};
-    protected Fraction[] vec3 = {new Fraction(7), new Fraction(8), new Fraction(9)};
-    protected Fraction[] vec4 = {new Fraction(1), new Fraction(2), new Fraction(3), new Fraction(4), new Fraction(5), new Fraction(6), new Fraction(7), new Fraction(8), new Fraction(9)};
-    protected Fraction[] vec_null = {new Fraction(0), new Fraction(0), new Fraction(0)};
-    protected Fraction[] dvec1 = {new Fraction(1), new Fraction(2), new Fraction(3), new Fraction(4), new Fraction(5), new Fraction(6), new Fraction(7), new Fraction(8),new Fraction(9)};
-    protected Fraction[][] mat1 = {{new Fraction(1), new Fraction(2), new Fraction(3)}, {new Fraction(4), new Fraction(5), new Fraction(6)},{ new Fraction(7), new Fraction(8), new Fraction(9)}};
+    protected Dfp[][] ma1 = {{Dfp25.of(1), Dfp25.of(2), Dfp25.of(3)}, {Dfp25.of(4), Dfp25.of(5), Dfp25.of(6)}, {Dfp25.of(7), Dfp25.of(8), Dfp25.of(9)}};
+    protected Dfp[] vec1 = {Dfp25.of(1), Dfp25.of(2), Dfp25.of(3)};
+    protected Dfp[] vec2 = {Dfp25.of(4), Dfp25.of(5), Dfp25.of(6)};
+    protected Dfp[] vec3 = {Dfp25.of(7), Dfp25.of(8), Dfp25.of(9)};
+    protected Dfp[] vec4 = {Dfp25.of(1), Dfp25.of(2), Dfp25.of(3), Dfp25.of(4), Dfp25.of(5), Dfp25.of(6), Dfp25.of(7), Dfp25.of(8), Dfp25.of(9)};
+    protected Dfp[] vec_null = {Dfp25.of(0), Dfp25.of(0), Dfp25.of(0)};
+    protected Dfp[] dvec1 = {Dfp25.of(1), Dfp25.of(2), Dfp25.of(3), Dfp25.of(4), Dfp25.of(5), Dfp25.of(6), Dfp25.of(7), Dfp25.of(8),Dfp25.of(9)};
+    protected Dfp[][] mat1 = {{Dfp25.of(1), Dfp25.of(2), Dfp25.of(3)}, {Dfp25.of(4), Dfp25.of(5), Dfp25.of(6)},{ Dfp25.of(7), Dfp25.of(8), Dfp25.of(9)}};
 
     // tolerances
     protected double entryTolerance = 10E-16;
     protected double normTolerance = 10E-14;
 
-    protected FractionField field = FractionField.getInstance();
+    protected DfpField field = Dfp25.getField();
 
     @Test
-    public void testMapFunctions() throws FractionConversionException {
-        SparseFieldVector<Fraction> v1 = new SparseFieldVector<>(field,vec1);
+    public void testMapFunctions() {
+        SparseFieldVector<Dfp> v1 = new SparseFieldVector<>(field,vec1);
 
         //octave =  v1 .+ 2.0
-        FieldVector<Fraction> v_mapAdd = v1.mapAdd(new Fraction(2));
-        Fraction[] result_mapAdd = {new Fraction(3), new Fraction(4), new Fraction(5)};
+        FieldVector<Dfp> v_mapAdd = v1.mapAdd(Dfp25.of(2));
+        Dfp[] result_mapAdd = {Dfp25.of(3), Dfp25.of(4), Dfp25.of(5)};
         Assert.assertArrayEquals("compare vectors" ,result_mapAdd,v_mapAdd.toArray());
 
         //octave =  v1 .+ 2.0
-        FieldVector<Fraction> v_mapAddToSelf = v1.copy();
-        v_mapAddToSelf.mapAddToSelf(new Fraction(2));
-        Fraction[] result_mapAddToSelf = {new Fraction(3), new Fraction(4), new Fraction(5)};
+        FieldVector<Dfp> v_mapAddToSelf = v1.copy();
+        v_mapAddToSelf.mapAddToSelf(Dfp25.of(2));
+        Dfp[] result_mapAddToSelf = {Dfp25.of(3), Dfp25.of(4), Dfp25.of(5)};
         Assert.assertArrayEquals("compare vectors" ,result_mapAddToSelf,v_mapAddToSelf.toArray());
 
         //octave =  v1 .- 2.0
-        FieldVector<Fraction> v_mapSubtract = v1.mapSubtract(new Fraction(2));
-        Fraction[] result_mapSubtract = {new Fraction(-1), new Fraction(0), new Fraction(1)};
+        FieldVector<Dfp> v_mapSubtract = v1.mapSubtract(Dfp25.of(2));
+        Dfp[] result_mapSubtract = {Dfp25.of(-1), Dfp25.of(0), Dfp25.of(1)};
         Assert.assertArrayEquals("compare vectors" ,result_mapSubtract,v_mapSubtract.toArray());
 
         //octave =  v1 .- 2.0
-        FieldVector<Fraction> v_mapSubtractToSelf = v1.copy();
-        v_mapSubtractToSelf.mapSubtractToSelf(new Fraction(2));
-        Fraction[] result_mapSubtractToSelf = {new Fraction(-1), new Fraction(0), new Fraction(1)};
+        FieldVector<Dfp> v_mapSubtractToSelf = v1.copy();
+        v_mapSubtractToSelf.mapSubtractToSelf(Dfp25.of(2));
+        Dfp[] result_mapSubtractToSelf = {Dfp25.of(-1), Dfp25.of(0), Dfp25.of(1)};
         Assert.assertArrayEquals("compare vectors" ,result_mapSubtractToSelf,v_mapSubtractToSelf.toArray());
 
         //octave =  v1 .* 2.0
-        FieldVector<Fraction> v_mapMultiply = v1.mapMultiply(new Fraction(2));
-        Fraction[] result_mapMultiply = {new Fraction(2), new Fraction(4), new Fraction(6)};
+        FieldVector<Dfp> v_mapMultiply = v1.mapMultiply(Dfp25.of(2));
+        Dfp[] result_mapMultiply = {Dfp25.of(2), Dfp25.of(4), Dfp25.of(6)};
         Assert.assertArrayEquals("compare vectors" ,result_mapMultiply,v_mapMultiply.toArray());
 
         //octave =  v1 .* 2.0
-        FieldVector<Fraction> v_mapMultiplyToSelf = v1.copy();
-        v_mapMultiplyToSelf.mapMultiplyToSelf(new Fraction(2));
-        Fraction[] result_mapMultiplyToSelf = {new Fraction(2), new Fraction(4), new Fraction(6)};
+        FieldVector<Dfp> v_mapMultiplyToSelf = v1.copy();
+        v_mapMultiplyToSelf.mapMultiplyToSelf(Dfp25.of(2));
+        Dfp[] result_mapMultiplyToSelf = {Dfp25.of(2), Dfp25.of(4), Dfp25.of(6)};
         Assert.assertArrayEquals("compare vectors" ,result_mapMultiplyToSelf,v_mapMultiplyToSelf.toArray());
 
         //octave =  v1 ./ 2.0
-        FieldVector<Fraction> v_mapDivide = v1.mapDivide(new Fraction(2));
-        Fraction[] result_mapDivide = {new Fraction(.5d), new Fraction(1), new Fraction(1.5d)};
+        FieldVector<Dfp> v_mapDivide = v1.mapDivide(Dfp25.of(2));
+        Dfp[] result_mapDivide = {Dfp25.of(.5d), Dfp25.of(1), Dfp25.of(1.5d)};
         Assert.assertArrayEquals("compare vectors" ,result_mapDivide,v_mapDivide.toArray());
 
         //octave =  v1 ./ 2.0
-        FieldVector<Fraction> v_mapDivideToSelf = v1.copy();
-        v_mapDivideToSelf.mapDivideToSelf(new Fraction(2));
-        Fraction[] result_mapDivideToSelf = {new Fraction(.5d), new Fraction(1), new Fraction(1.5d)};
+        FieldVector<Dfp> v_mapDivideToSelf = v1.copy();
+        v_mapDivideToSelf.mapDivideToSelf(Dfp25.of(2));
+        Dfp[] result_mapDivideToSelf = {Dfp25.of(.5d), Dfp25.of(1), Dfp25.of(1.5d)};
         Assert.assertArrayEquals("compare vectors" ,result_mapDivideToSelf,v_mapDivideToSelf.toArray());
 
         //octave =  v1 .^-1
-        FieldVector<Fraction> v_mapInv = v1.mapInv();
-        Fraction[] result_mapInv = {new Fraction(1),new Fraction(0.5d),new Fraction(3.333333333333333e-01d)};
+        FieldVector<Dfp> v_mapInv = v1.mapInv();
+        Dfp[] result_mapInv = {Dfp25.of(1),Dfp25.of(0.5d),Dfp25.of(1, 3)};
         Assert.assertArrayEquals("compare vectors" ,result_mapInv,v_mapInv.toArray());
 
         //octave =  v1 .^-1
-        FieldVector<Fraction> v_mapInvToSelf = v1.copy();
+        FieldVector<Dfp> v_mapInvToSelf = v1.copy();
         v_mapInvToSelf.mapInvToSelf();
-        Fraction[] result_mapInvToSelf = {new Fraction(1),new Fraction(0.5d),new Fraction(3.333333333333333e-01d)};
+        Dfp[] result_mapInvToSelf = {Dfp25.of(1),Dfp25.of(0.5d),Dfp25.of(1, 3)};
         Assert.assertArrayEquals("compare vectors" ,result_mapInvToSelf,v_mapInvToSelf.toArray());
 
 
     }
 
     @Test
-    public void testBasicFunctions() throws FractionConversionException {
-        SparseFieldVector<Fraction> v1 = new SparseFieldVector<>(field,vec1);
-        SparseFieldVector<Fraction> v2 = new SparseFieldVector<>(field,vec2);
+    public void testBasicFunctions() {
+        SparseFieldVector<Dfp> v1 = new SparseFieldVector<>(field,vec1);
+        SparseFieldVector<Dfp> v2 = new SparseFieldVector<>(field,vec2);
 
-        FieldVector<Fraction> v2_t = new ArrayFieldVectorTest.FieldVectorTestImpl<>(vec2);
+        FieldVector<Dfp> v2_t = new ArrayFieldVectorTest.FieldVectorTestImpl<>(vec2);
 
         //octave =  v1 + v2
-        FieldVector<Fraction> v_add = v1.add(v2);
-        Fraction[] result_add = {new Fraction(5), new Fraction(7), new Fraction(9)};
+        FieldVector<Dfp> v_add = v1.add(v2);
+        Dfp[] result_add = {Dfp25.of(5), Dfp25.of(7), Dfp25.of(9)};
         Assert.assertArrayEquals("compare vect" ,v_add.toArray(),result_add);
 
-        FieldVector<Fraction> vt2 = new ArrayFieldVectorTest.FieldVectorTestImpl<>(vec2);
-        FieldVector<Fraction> v_add_i = v1.add(vt2);
-        Fraction[] result_add_i = {new Fraction(5), new Fraction(7), new Fraction(9)};
+        FieldVector<Dfp> vt2 = new ArrayFieldVectorTest.FieldVectorTestImpl<>(vec2);
+        FieldVector<Dfp> v_add_i = v1.add(vt2);
+        Dfp[] result_add_i = {Dfp25.of(5), Dfp25.of(7), Dfp25.of(9)};
         Assert.assertArrayEquals("compare vect" ,v_add_i.toArray(),result_add_i);
 
         //octave =  v1 - v2
-        SparseFieldVector<Fraction> v_subtract = v1.subtract(v2);
-        Fraction[] result_subtract = {new Fraction(-3), new Fraction(-3), new Fraction(-3)};
+        SparseFieldVector<Dfp> v_subtract = v1.subtract(v2);
+        Dfp[] result_subtract = {Dfp25.of(-3), Dfp25.of(-3), Dfp25.of(-3)};
         assertClose("compare vect" ,v_subtract.toArray(),result_subtract,normTolerance);
 
-        FieldVector<Fraction> v_subtract_i = v1.subtract(vt2);
-        Fraction[] result_subtract_i = {new Fraction(-3), new Fraction(-3), new Fraction(-3)};
+        FieldVector<Dfp> v_subtract_i = v1.subtract(vt2);
+        Dfp[] result_subtract_i = {Dfp25.of(-3), Dfp25.of(-3), Dfp25.of(-3)};
         assertClose("compare vect" ,v_subtract_i.toArray(),result_subtract_i,normTolerance);
 
         // octave v1 .* v2
-        FieldVector<Fraction>  v_ebeMultiply = v1.ebeMultiply(v2);
-        Fraction[] result_ebeMultiply = {new Fraction(4), new Fraction(10), new Fraction(18)};
+        FieldVector<Dfp>  v_ebeMultiply = v1.ebeMultiply(v2);
+        Dfp[] result_ebeMultiply = {Dfp25.of(4), Dfp25.of(10), Dfp25.of(18)};
         assertClose("compare vect" ,v_ebeMultiply.toArray(),result_ebeMultiply,normTolerance);
 
-        FieldVector<Fraction>  v_ebeMultiply_2 = v1.ebeMultiply(v2_t);
-        Fraction[] result_ebeMultiply_2 = {new Fraction(4), new Fraction(10), new Fraction(18)};
+        FieldVector<Dfp>  v_ebeMultiply_2 = v1.ebeMultiply(v2_t);
+        Dfp[] result_ebeMultiply_2 = {Dfp25.of(4), Dfp25.of(10), Dfp25.of(18)};
         assertClose("compare vect" ,v_ebeMultiply_2.toArray(),result_ebeMultiply_2,normTolerance);
 
         // octave v1 ./ v2
-        FieldVector<Fraction>  v_ebeDivide = v1.ebeDivide(v2);
-        Fraction[] result_ebeDivide = {new Fraction(0.25d), new Fraction(0.4d), new Fraction(0.5d)};
+        FieldVector<Dfp>  v_ebeDivide = v1.ebeDivide(v2);
+        Dfp[] result_ebeDivide = {Dfp25.of(0.25d), Dfp25.of(0.4d), Dfp25.of(0.5d)};
         assertClose("compare vect" ,v_ebeDivide.toArray(),result_ebeDivide,normTolerance);
 
-        FieldVector<Fraction>  v_ebeDivide_2 = v1.ebeDivide(v2_t);
-        Fraction[] result_ebeDivide_2 = {new Fraction(0.25d), new Fraction(0.4d), new Fraction(0.5d)};
+        FieldVector<Dfp>  v_ebeDivide_2 = v1.ebeDivide(v2_t);
+        Dfp[] result_ebeDivide_2 = {Dfp25.of(0.25d), Dfp25.of(0.4d), Dfp25.of(0.5d)};
         assertClose("compare vect" ,v_ebeDivide_2.toArray(),result_ebeDivide_2,normTolerance);
 
         // octave  dot(v1,v2)
-        Fraction dot =  v1.dotProduct(v2);
-        Assert.assertEquals("compare val ",new Fraction(32), dot);
+        Dfp dot =  v1.dotProduct(v2);
+        Assert.assertEquals("compare val ",Dfp25.of(32), dot);
 
         // octave  dot(v1,v2_t)
-        Fraction dot_2 =  v1.dotProduct(v2_t);
-        Assert.assertEquals("compare val ",new Fraction(32), dot_2);
+        Dfp dot_2 =  v1.dotProduct(v2_t);
+        Assert.assertEquals("compare val ",Dfp25.of(32), dot_2);
 
-        FieldMatrix<Fraction> m_outerProduct = v1.outerProduct(v2);
-        Assert.assertEquals("compare val ",new Fraction(4), m_outerProduct.getEntry(0,0));
+        FieldMatrix<Dfp> m_outerProduct = v1.outerProduct(v2);
+        Assert.assertEquals("compare val ",Dfp25.of(4), m_outerProduct.getEntry(0,0));
 
-        FieldMatrix<Fraction> m_outerProduct_2 = v1.outerProduct(v2_t);
-        Assert.assertEquals("compare val ",new Fraction(4), m_outerProduct_2.getEntry(0,0));
+        FieldMatrix<Dfp> m_outerProduct_2 = v1.outerProduct(v2_t);
+        Assert.assertEquals("compare val ",Dfp25.of(4), m_outerProduct_2.getEntry(0,0));
 
     }
 
     @Test
     public void testOuterProduct() {
-        final SparseFieldVector<Fraction> u
-            = new SparseFieldVector<>(FractionField.getInstance(),
-                                              new Fraction[] {new Fraction(1),
-                                                              new Fraction(2),
-                                                              new Fraction(-3)});
-        final SparseFieldVector<Fraction> v
-            = new SparseFieldVector<>(FractionField.getInstance(),
-                                              new Fraction[] {new Fraction(4),
-                                                              new Fraction(-2)});
+        final SparseFieldVector<Dfp> u
+            = new SparseFieldVector<>(Dfp25.getField(),
+                                              new Dfp[] {Dfp25.of(1),
+                                                              Dfp25.of(2),
+                                                              Dfp25.of(-3)});
+        final SparseFieldVector<Dfp> v
+            = new SparseFieldVector<>(Dfp25.getField(),
+                                              new Dfp[] {Dfp25.of(4),
+                                                              Dfp25.of(-2)});
 
-        final FieldMatrix<Fraction> uv = u.outerProduct(v);
+        final FieldMatrix<Dfp> uv = u.outerProduct(v);
 
         final double tol = Math.ulp(1d);
-        Assert.assertEquals(new Fraction(4).doubleValue(), uv.getEntry(0, 0).doubleValue(), tol);
-        Assert.assertEquals(new Fraction(-2).doubleValue(), uv.getEntry(0, 1).doubleValue(), tol);
-        Assert.assertEquals(new Fraction(8).doubleValue(), uv.getEntry(1, 0).doubleValue(), tol);
-        Assert.assertEquals(new Fraction(-4).doubleValue(), uv.getEntry(1, 1).doubleValue(), tol);
-        Assert.assertEquals(new Fraction(-12).doubleValue(), uv.getEntry(2, 0).doubleValue(), tol);
-        Assert.assertEquals(new Fraction(6).doubleValue(), uv.getEntry(2, 1).doubleValue(), tol);
+        Assert.assertEquals(Dfp25.of(4).toDouble(), uv.getEntry(0, 0).toDouble(), tol);
+        Assert.assertEquals(Dfp25.of(-2).toDouble(), uv.getEntry(0, 1).toDouble(), tol);
+        Assert.assertEquals(Dfp25.of(8).toDouble(), uv.getEntry(1, 0).toDouble(), tol);
+        Assert.assertEquals(Dfp25.of(-4).toDouble(), uv.getEntry(1, 1).toDouble(), tol);
+        Assert.assertEquals(Dfp25.of(-12).toDouble(), uv.getEntry(2, 0).toDouble(), tol);
+        Assert.assertEquals(Dfp25.of(6).toDouble(), uv.getEntry(2, 1).toDouble(), tol);
     }
 
     @Test
     public void testMisc() {
-        SparseFieldVector<Fraction> v1 = new SparseFieldVector<>(field,vec1);
+        SparseFieldVector<Dfp> v1 = new SparseFieldVector<>(field,vec1);
 
         String out1 = v1.toString();
         Assert.assertTrue("some output ",  out1.length()!=0);
@@ -220,16 +219,16 @@ public class SparseFieldVectorTest {
     @Test
     public void testPredicates() {
 
-        SparseFieldVector<Fraction> v = new SparseFieldVector<>(field, new Fraction[] { new Fraction(0), new Fraction(1), new Fraction(2) });
+        SparseFieldVector<Dfp> v = new SparseFieldVector<>(field, new Dfp[] { Dfp25.of(0), Dfp25.of(1), Dfp25.of(2) });
 
         v.setEntry(0, field.getZero());
-        Assert.assertEquals(v, new SparseFieldVector<>(field, new Fraction[] { new Fraction(0), new Fraction(1), new Fraction(2) }));
-        Assert.assertNotSame(v, new SparseFieldVector<>(field, new Fraction[] { new Fraction(0), new Fraction(1), new Fraction(2), new Fraction(3) }));
+        Assert.assertEquals(v, new SparseFieldVector<>(field, new Dfp[] { Dfp25.of(0), Dfp25.of(1), Dfp25.of(2) }));
+        Assert.assertNotSame(v, new SparseFieldVector<>(field, new Dfp[] { Dfp25.of(0), Dfp25.of(1), Dfp25.of(2), Dfp25.of(3) }));
 
     }
 
     /** verifies that two vectors are close (sup norm) */
-    protected void assertEquals(String msg, Fraction[] m, Fraction[] n) {
+    protected void assertEquals(String msg, Dfp[] m, Dfp[] n) {
         if (m.length != n.length) {
             Assert.fail("vectors have different lengths");
         }
@@ -239,12 +238,12 @@ public class SparseFieldVectorTest {
     }
 
     /** verifies that two vectors are close (sup norm) */
-    protected void assertClose(String msg, Fraction[] m, Fraction[] n, double tolerance) {
+    protected void assertClose(String msg, Dfp[] m, Dfp[] n, double tolerance) {
         if (m.length != n.length) {
             Assert.fail("vectors have different lengths");
         }
         for (int i = 0; i < m.length; i++) {
-            Assert.assertEquals(msg + " " +  i + " elements differ", m[i].doubleValue(),n[i].doubleValue(), tolerance);
+            Assert.assertEquals(msg + " " +  i + " elements differ", m[i].toDouble(),n[i].toDouble(), tolerance);
         }
     }
 
@@ -255,19 +254,19 @@ public class SparseFieldVectorTest {
     /** The whole vector is visited. */
     @Test
     public void testWalkInDefaultOrderPreservingVisitor1() {
-        final Fraction[] data = new Fraction[] {
-            Fraction.ZERO, Fraction.ONE, Fraction.ZERO,
-            Fraction.ZERO, Fraction.TWO, Fraction.ZERO,
-            Fraction.ZERO, Fraction.ZERO, new Fraction(3)
+        final Dfp[] data = new Dfp[] {
+            Dfp25.ZERO, Dfp25.ONE, Dfp25.ZERO,
+            Dfp25.ZERO, Dfp25.TWO, Dfp25.ZERO,
+            Dfp25.ZERO, Dfp25.ZERO, Dfp25.of(3)
         };
-        final SparseFieldVector<Fraction> v = new SparseFieldVector<>(field, data);
-        final FieldVectorPreservingVisitor<Fraction> visitor;
-        visitor = new FieldVectorPreservingVisitor<Fraction>() {
+        final SparseFieldVector<Dfp> v = new SparseFieldVector<>(field, data);
+        final FieldVectorPreservingVisitor<Dfp> visitor;
+        visitor = new FieldVectorPreservingVisitor<Dfp>() {
 
             private int expectedIndex;
 
             @Override
-            public void visit(final int actualIndex, final Fraction actualValue) {
+            public void visit(final int actualIndex, final Dfp actualValue) {
                 Assert.assertEquals(expectedIndex, actualIndex);
                 Assert.assertEquals(Integer.toString(actualIndex),
                                     data[actualIndex], actualValue);
@@ -284,8 +283,8 @@ public class SparseFieldVectorTest {
             }
 
             @Override
-            public Fraction end() {
-                return Fraction.ZERO;
+            public Dfp end() {
+                return Dfp25.ZERO;
             }
         };
         v.walkInDefaultOrder(visitor);
@@ -294,12 +293,12 @@ public class SparseFieldVectorTest {
     /** Visiting an invalid subvector. */
     @Test
     public void testWalkInDefaultOrderPreservingVisitor2() {
-        final SparseFieldVector<Fraction> v = create(5);
-        final FieldVectorPreservingVisitor<Fraction> visitor;
-        visitor = new FieldVectorPreservingVisitor<Fraction>() {
+        final SparseFieldVector<Dfp> v = create(5);
+        final FieldVectorPreservingVisitor<Dfp> visitor;
+        visitor = new FieldVectorPreservingVisitor<Dfp>() {
 
             @Override
-            public void visit(int index, Fraction value) {
+            public void visit(int index, Dfp value) {
                 // Do nothing
             }
 
@@ -309,8 +308,8 @@ public class SparseFieldVectorTest {
             }
 
             @Override
-            public Fraction end() {
-                return Fraction.ZERO;
+            public Dfp end() {
+                return Dfp25.ZERO;
             }
         };
         try {
@@ -348,21 +347,21 @@ public class SparseFieldVectorTest {
     /** Visiting a valid subvector. */
     @Test
     public void testWalkInDefaultOrderPreservingVisitor3() {
-        final Fraction[] data = new Fraction[] {
-            Fraction.ZERO, Fraction.ONE, Fraction.ZERO,
-            Fraction.ZERO, Fraction.TWO, Fraction.ZERO,
-            Fraction.ZERO, Fraction.ZERO, new Fraction(3)
+        final Dfp[] data = new Dfp[] {
+            Dfp25.ZERO, Dfp25.ONE, Dfp25.ZERO,
+            Dfp25.ZERO, Dfp25.TWO, Dfp25.ZERO,
+            Dfp25.ZERO, Dfp25.ZERO, Dfp25.of(3)
         };
-        final SparseFieldVector<Fraction> v = new SparseFieldVector<>(field, data);
+        final SparseFieldVector<Dfp> v = new SparseFieldVector<>(field, data);
         final int expectedStart = 2;
         final int expectedEnd = 7;
-        final FieldVectorPreservingVisitor<Fraction> visitor;
-        visitor = new FieldVectorPreservingVisitor<Fraction>() {
+        final FieldVectorPreservingVisitor<Dfp> visitor;
+        visitor = new FieldVectorPreservingVisitor<Dfp>() {
 
             private int expectedIndex;
 
             @Override
-            public void visit(final int actualIndex, final Fraction actualValue) {
+            public void visit(final int actualIndex, final Dfp actualValue) {
                 Assert.assertEquals(expectedIndex, actualIndex);
                 Assert.assertEquals(Integer.toString(actualIndex),
                                     data[actualIndex], actualValue);
@@ -379,8 +378,8 @@ public class SparseFieldVectorTest {
             }
 
             @Override
-            public Fraction end() {
-                return Fraction.ZERO;
+            public Dfp end() {
+                return Dfp25.ZERO;
             }
         };
         v.walkInDefaultOrder(visitor, expectedStart, expectedEnd);
@@ -389,18 +388,18 @@ public class SparseFieldVectorTest {
     /** The whole vector is visited. */
     @Test
     public void testWalkInOptimizedOrderPreservingVisitor1() {
-        final Fraction[] data = new Fraction[] {
-            Fraction.ZERO, Fraction.ONE, Fraction.ZERO,
-            Fraction.ZERO, Fraction.TWO, Fraction.ZERO,
-            Fraction.ZERO, Fraction.ZERO, new Fraction(3)
+        final Dfp[] data = new Dfp[] {
+            Dfp25.ZERO, Dfp25.ONE, Dfp25.ZERO,
+            Dfp25.ZERO, Dfp25.TWO, Dfp25.ZERO,
+            Dfp25.ZERO, Dfp25.ZERO, Dfp25.of(3)
         };
-        final SparseFieldVector<Fraction> v = new SparseFieldVector<>(field, data);
-        final FieldVectorPreservingVisitor<Fraction> visitor;
-        visitor = new FieldVectorPreservingVisitor<Fraction>() {
+        final SparseFieldVector<Dfp> v = new SparseFieldVector<>(field, data);
+        final FieldVectorPreservingVisitor<Dfp> visitor;
+        visitor = new FieldVectorPreservingVisitor<Dfp>() {
             private final boolean[] visited = new boolean[data.length];
 
             @Override
-            public void visit(final int actualIndex, final Fraction actualValue) {
+            public void visit(final int actualIndex, final Dfp actualValue) {
                 visited[actualIndex] = true;
                 Assert.assertEquals(Integer.toString(actualIndex),
                                     data[actualIndex], actualValue);
@@ -416,12 +415,12 @@ public class SparseFieldVectorTest {
             }
 
             @Override
-            public Fraction end() {
+            public Dfp end() {
                 for (int i = 0; i < data.length; i++) {
                     Assert.assertTrue("entry " + i + "has not been visited",
                                       visited[i]);
                 }
-                return Fraction.ZERO;
+                return Dfp25.ZERO;
             }
         };
         v.walkInOptimizedOrder(visitor);
@@ -430,12 +429,12 @@ public class SparseFieldVectorTest {
     /** Visiting an invalid subvector. */
     @Test
     public void testWalkInOptimizedOrderPreservingVisitor2() {
-        final SparseFieldVector<Fraction> v = create(5);
-        final FieldVectorPreservingVisitor<Fraction> visitor;
-        visitor = new FieldVectorPreservingVisitor<Fraction>() {
+        final SparseFieldVector<Dfp> v = create(5);
+        final FieldVectorPreservingVisitor<Dfp> visitor;
+        visitor = new FieldVectorPreservingVisitor<Dfp>() {
 
             @Override
-            public void visit(int index, Fraction value) {
+            public void visit(int index, Dfp value) {
                 // Do nothing
             }
 
@@ -445,8 +444,8 @@ public class SparseFieldVectorTest {
             }
 
             @Override
-            public Fraction end() {
-                return Fraction.ZERO;
+            public Dfp end() {
+                return Dfp25.ZERO;
             }
         };
         try {
@@ -484,20 +483,20 @@ public class SparseFieldVectorTest {
     /** Visiting a valid subvector. */
     @Test
     public void testWalkInOptimizedOrderPreservingVisitor3() {
-        final Fraction[] data = new Fraction[] {
-            Fraction.ZERO, Fraction.ONE, Fraction.ZERO,
-            Fraction.ZERO, Fraction.TWO, Fraction.ZERO,
-            Fraction.ZERO, Fraction.ZERO, new Fraction(3)
+        final Dfp[] data = new Dfp[] {
+            Dfp25.ZERO, Dfp25.ONE, Dfp25.ZERO,
+            Dfp25.ZERO, Dfp25.TWO, Dfp25.ZERO,
+            Dfp25.ZERO, Dfp25.ZERO, Dfp25.of(3)
         };
-        final SparseFieldVector<Fraction> v = new SparseFieldVector<>(field, data);
+        final SparseFieldVector<Dfp> v = new SparseFieldVector<>(field, data);
         final int expectedStart = 2;
         final int expectedEnd = 7;
-        final FieldVectorPreservingVisitor<Fraction> visitor;
-        visitor = new FieldVectorPreservingVisitor<Fraction>() {
+        final FieldVectorPreservingVisitor<Dfp> visitor;
+        visitor = new FieldVectorPreservingVisitor<Dfp>() {
             private final boolean[] visited = new boolean[data.length];
 
             @Override
-            public void visit(final int actualIndex, final Fraction actualValue) {
+            public void visit(final int actualIndex, final Dfp actualValue) {
                 Assert.assertEquals(Integer.toString(actualIndex),
                                     data[actualIndex], actualValue);
                 visited[actualIndex] = true;
@@ -513,12 +512,12 @@ public class SparseFieldVectorTest {
             }
 
             @Override
-            public Fraction end() {
+            public Dfp end() {
                 for (int i = expectedStart; i <= expectedEnd; i++) {
                     Assert.assertTrue("entry " + i + "has not been visited",
                                       visited[i]);
                 }
-                return Fraction.ZERO;
+                return Dfp25.ZERO;
             }
         };
         v.walkInOptimizedOrder(visitor, expectedStart, expectedEnd);
@@ -527,19 +526,19 @@ public class SparseFieldVectorTest {
     /** The whole vector is visited. */
     @Test
     public void testWalkInDefaultOrderChangingVisitor1() {
-        final Fraction[] data = new Fraction[] {
-            Fraction.ZERO, Fraction.ONE, Fraction.ZERO,
-            Fraction.ZERO, Fraction.TWO, Fraction.ZERO,
-            Fraction.ZERO, Fraction.ZERO, new Fraction(3)
+        final Dfp[] data = new Dfp[] {
+            Dfp25.ZERO, Dfp25.ONE, Dfp25.ZERO,
+            Dfp25.ZERO, Dfp25.TWO, Dfp25.ZERO,
+            Dfp25.ZERO, Dfp25.ZERO, Dfp25.of(3)
         };
-        final SparseFieldVector<Fraction> v = new SparseFieldVector<>(field, data);
-        final FieldVectorChangingVisitor<Fraction> visitor;
-        visitor = new FieldVectorChangingVisitor<Fraction>() {
+        final SparseFieldVector<Dfp> v = new SparseFieldVector<>(field, data);
+        final FieldVectorChangingVisitor<Dfp> visitor;
+        visitor = new FieldVectorChangingVisitor<Dfp>() {
 
             private int expectedIndex;
 
             @Override
-            public Fraction visit(final int actualIndex, final Fraction actualValue) {
+            public Dfp visit(final int actualIndex, final Dfp actualValue) {
                 Assert.assertEquals(expectedIndex, actualIndex);
                 Assert.assertEquals(Integer.toString(actualIndex),
                                     data[actualIndex], actualValue);
@@ -557,8 +556,8 @@ public class SparseFieldVectorTest {
             }
 
             @Override
-            public Fraction end() {
-                return Fraction.ZERO;
+            public Dfp end() {
+                return Dfp25.ZERO;
             }
         };
         v.walkInDefaultOrder(visitor);
@@ -570,13 +569,13 @@ public class SparseFieldVectorTest {
     /** Visiting an invalid subvector. */
     @Test
     public void testWalkInDefaultOrderChangingVisitor2() {
-        final SparseFieldVector<Fraction> v = create(5);
-        final FieldVectorChangingVisitor<Fraction> visitor;
-        visitor = new FieldVectorChangingVisitor<Fraction>() {
+        final SparseFieldVector<Dfp> v = create(5);
+        final FieldVectorChangingVisitor<Dfp> visitor;
+        visitor = new FieldVectorChangingVisitor<Dfp>() {
 
             @Override
-            public Fraction visit(int index, Fraction value) {
-                return Fraction.ZERO;
+            public Dfp visit(int index, Dfp value) {
+                return Dfp25.ZERO;
             }
 
             @Override
@@ -585,8 +584,8 @@ public class SparseFieldVectorTest {
             }
 
             @Override
-            public Fraction end() {
-                return Fraction.ZERO;
+            public Dfp end() {
+                return Dfp25.ZERO;
             }
         };
         try {
@@ -624,21 +623,21 @@ public class SparseFieldVectorTest {
     /** Visiting a valid subvector. */
     @Test
     public void testWalkInDefaultOrderChangingVisitor3() {
-        final Fraction[] data = new Fraction[] {
-            Fraction.ZERO, Fraction.ONE, Fraction.ZERO,
-            Fraction.ZERO, Fraction.TWO, Fraction.ZERO,
-            Fraction.ZERO, Fraction.ZERO, new Fraction(3)
+        final Dfp[] data = new Dfp[] {
+            Dfp25.ZERO, Dfp25.ONE, Dfp25.ZERO,
+            Dfp25.ZERO, Dfp25.TWO, Dfp25.ZERO,
+            Dfp25.ZERO, Dfp25.ZERO, Dfp25.of(3)
         };
-        final SparseFieldVector<Fraction> v = new SparseFieldVector<>(field, data);
+        final SparseFieldVector<Dfp> v = new SparseFieldVector<>(field, data);
         final int expectedStart = 2;
         final int expectedEnd = 7;
-        final FieldVectorChangingVisitor<Fraction> visitor;
-        visitor = new FieldVectorChangingVisitor<Fraction>() {
+        final FieldVectorChangingVisitor<Dfp> visitor;
+        visitor = new FieldVectorChangingVisitor<Dfp>() {
 
             private int expectedIndex;
 
             @Override
-            public Fraction visit(final int actualIndex, final Fraction actualValue) {
+            public Dfp visit(final int actualIndex, final Dfp actualValue) {
                 Assert.assertEquals(expectedIndex, actualIndex);
                 Assert.assertEquals(Integer.toString(actualIndex),
                                     data[actualIndex], actualValue);
@@ -656,8 +655,8 @@ public class SparseFieldVectorTest {
             }
 
             @Override
-            public Fraction end() {
-                return Fraction.ZERO;
+            public Dfp end() {
+                return Dfp25.ZERO;
             }
         };
         v.walkInDefaultOrder(visitor, expectedStart, expectedEnd);
@@ -669,18 +668,18 @@ public class SparseFieldVectorTest {
     /** The whole vector is visited. */
     @Test
     public void testWalkInOptimizedOrderChangingVisitor1() {
-        final Fraction[] data = new Fraction[] {
-            Fraction.ZERO, Fraction.ONE, Fraction.ZERO,
-            Fraction.ZERO, Fraction.TWO, Fraction.ZERO,
-            Fraction.ZERO, Fraction.ZERO, new Fraction(3)
+        final Dfp[] data = new Dfp[] {
+            Dfp25.ZERO, Dfp25.ONE, Dfp25.ZERO,
+            Dfp25.ZERO, Dfp25.TWO, Dfp25.ZERO,
+            Dfp25.ZERO, Dfp25.ZERO, Dfp25.of(3)
         };
-        final SparseFieldVector<Fraction> v = new SparseFieldVector<>(field, data);
-        final FieldVectorChangingVisitor<Fraction> visitor;
-        visitor = new FieldVectorChangingVisitor<Fraction>() {
+        final SparseFieldVector<Dfp> v = new SparseFieldVector<>(field, data);
+        final FieldVectorChangingVisitor<Dfp> visitor;
+        visitor = new FieldVectorChangingVisitor<Dfp>() {
             private final boolean[] visited = new boolean[data.length];
 
             @Override
-            public Fraction visit(final int actualIndex, final Fraction actualValue) {
+            public Dfp visit(final int actualIndex, final Dfp actualValue) {
                 visited[actualIndex] = true;
                 Assert.assertEquals(Integer.toString(actualIndex),
                                     data[actualIndex], actualValue);
@@ -697,12 +696,12 @@ public class SparseFieldVectorTest {
             }
 
             @Override
-            public Fraction end() {
+            public Dfp end() {
                 for (int i = 0; i < data.length; i++) {
                     Assert.assertTrue("entry " + i + "has not been visited",
                                       visited[i]);
                 }
-                return Fraction.ZERO;
+                return Dfp25.ZERO;
             }
         };
         v.walkInOptimizedOrder(visitor);
@@ -714,13 +713,13 @@ public class SparseFieldVectorTest {
     /** Visiting an invalid subvector. */
     @Test
     public void testWalkInOptimizedOrderChangingVisitor2() {
-        final SparseFieldVector<Fraction> v = create(5);
-        final FieldVectorChangingVisitor<Fraction> visitor;
-        visitor = new FieldVectorChangingVisitor<Fraction>() {
+        final SparseFieldVector<Dfp> v = create(5);
+        final FieldVectorChangingVisitor<Dfp> visitor;
+        visitor = new FieldVectorChangingVisitor<Dfp>() {
 
             @Override
-            public Fraction visit(int index, Fraction value) {
-                return Fraction.ZERO;
+            public Dfp visit(int index, Dfp value) {
+                return Dfp25.ZERO;
             }
 
             @Override
@@ -729,8 +728,8 @@ public class SparseFieldVectorTest {
             }
 
             @Override
-            public Fraction end() {
-                return Fraction.ZERO;
+            public Dfp end() {
+                return Dfp25.ZERO;
             }
         };
         try {
@@ -768,20 +767,20 @@ public class SparseFieldVectorTest {
     /** Visiting a valid subvector. */
     @Test
     public void testWalkInOptimizedOrderChangingVisitor3() {
-        final Fraction[] data = new Fraction[] {
-            Fraction.ZERO, Fraction.ONE, Fraction.ZERO,
-            Fraction.ZERO, Fraction.TWO, Fraction.ZERO,
-            Fraction.ZERO, Fraction.ZERO, new Fraction(3)
+        final Dfp[] data = new Dfp[] {
+            Dfp25.ZERO, Dfp25.ONE, Dfp25.ZERO,
+            Dfp25.ZERO, Dfp25.TWO, Dfp25.ZERO,
+            Dfp25.ZERO, Dfp25.ZERO, Dfp25.of(3)
         };
-        final SparseFieldVector<Fraction> v = new SparseFieldVector<>(field, data);
+        final SparseFieldVector<Dfp> v = new SparseFieldVector<>(field, data);
         final int expectedStart = 2;
         final int expectedEnd = 7;
-        final FieldVectorChangingVisitor<Fraction> visitor;
-        visitor = new FieldVectorChangingVisitor<Fraction>() {
+        final FieldVectorChangingVisitor<Dfp> visitor;
+        visitor = new FieldVectorChangingVisitor<Dfp>() {
             private final boolean[] visited = new boolean[data.length];
 
             @Override
-            public Fraction visit(final int actualIndex, final Fraction actualValue) {
+            public Dfp visit(final int actualIndex, final Dfp actualValue) {
                 Assert.assertEquals(Integer.toString(actualIndex),
                                     data[actualIndex], actualValue);
                 visited[actualIndex] = true;
@@ -798,12 +797,12 @@ public class SparseFieldVectorTest {
             }
 
             @Override
-            public Fraction end() {
+            public Dfp end() {
                 for (int i = expectedStart; i <= expectedEnd; i++) {
                     Assert.assertTrue("entry " + i + "has not been visited",
                                       visited[i]);
                 }
-                return Fraction.ZERO;
+                return Dfp25.ZERO;
             }
         };
         v.walkInOptimizedOrder(visitor, expectedStart, expectedEnd);
@@ -812,10 +811,10 @@ public class SparseFieldVectorTest {
         }
     }
 
-    private SparseFieldVector<Fraction> create(int n) {
-        Fraction[] t = new Fraction[n];
+    private SparseFieldVector<Dfp> create(int n) {
+        Dfp[] t = new Dfp[n];
         for (int i = 0; i < n; ++i) {
-            t[i] = Fraction.ZERO;
+            t[i] = Dfp25.ZERO;
         }
         return new SparseFieldVector<>(field, t);
     }

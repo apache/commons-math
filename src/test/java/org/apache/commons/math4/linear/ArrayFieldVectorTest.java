@@ -26,8 +26,10 @@ import org.apache.commons.math4.TestUtils;
 import org.apache.commons.math4.exception.MathIllegalArgumentException;
 import org.apache.commons.math4.exception.NumberIsTooSmallException;
 import org.apache.commons.math4.exception.OutOfRangeException;
-import org.apache.commons.math4.fraction.Fraction;
-import org.apache.commons.math4.fraction.FractionField;
+import org.apache.commons.math4.dfp.Dfp;
+import org.apache.commons.math4.dfp.DfpField;
+import org.apache.commons.math4.util.BigReal;
+import org.apache.commons.math4.util.BigRealField;
 import org.apache.commons.math4.linear.ArrayFieldVector;
 import org.apache.commons.math4.linear.FieldMatrix;
 import org.apache.commons.math4.linear.FieldVector;
@@ -43,28 +45,28 @@ import org.junit.Test;
 public class ArrayFieldVectorTest {
 
     //
-    protected Fraction[][] ma1 = {
-            {new Fraction(1), new Fraction(2), new Fraction(3)},
-            {new Fraction(4), new Fraction(5), new Fraction(6)},
-            {new Fraction(7), new Fraction(8), new Fraction(9)}
+    protected Dfp[][] ma1 = {
+            {Dfp25.of(1), Dfp25.of(2), Dfp25.of(3)},
+            {Dfp25.of(4), Dfp25.of(5), Dfp25.of(6)},
+            {Dfp25.of(7), Dfp25.of(8), Dfp25.of(9)}
     };
-    protected Fraction[] vec1 = {new Fraction(1), new Fraction(2), new Fraction(3)};
-    protected Fraction[] vec2 = {new Fraction(4), new Fraction(5), new Fraction(6)};
-    protected Fraction[] vec3 = {new Fraction(7), new Fraction(8), new Fraction(9)};
-    protected Fraction[] vec4 = { new Fraction(1), new Fraction(2), new Fraction(3),
-                                  new Fraction(4), new Fraction(5), new Fraction(6),
-                                  new Fraction(7), new Fraction(8), new Fraction(9)};
-    protected Fraction[] vec_null = {Fraction.ZERO, Fraction.ZERO, Fraction.ZERO};
-    protected Fraction[] dvec1 = {new Fraction(1), new Fraction(2), new Fraction(3),
-                                  new Fraction(4), new Fraction(5), new Fraction(6),
-                                  new Fraction(7), new Fraction(8), new Fraction(9)};
-    protected Fraction[][] mat1 = {
-            {new Fraction(1), new Fraction(2), new Fraction(3)},
-            {new Fraction(4), new Fraction(5), new Fraction(6)},
-            {new Fraction(7), new Fraction(8), new Fraction(9)}
+    protected Dfp[] vec1 = {Dfp25.of(1), Dfp25.of(2), Dfp25.of(3)};
+    protected Dfp[] vec2 = {Dfp25.of(4), Dfp25.of(5), Dfp25.of(6)};
+    protected Dfp[] vec3 = {Dfp25.of(7), Dfp25.of(8), Dfp25.of(9)};
+    protected Dfp[] vec4 = { Dfp25.of(1), Dfp25.of(2), Dfp25.of(3),
+                                  Dfp25.of(4), Dfp25.of(5), Dfp25.of(6),
+                                  Dfp25.of(7), Dfp25.of(8), Dfp25.of(9)};
+    protected Dfp[] vec_null = {Dfp25.ZERO, Dfp25.ZERO, Dfp25.ZERO};
+    protected Dfp[] dvec1 = {Dfp25.of(1), Dfp25.of(2), Dfp25.of(3),
+                                  Dfp25.of(4), Dfp25.of(5), Dfp25.of(6),
+                                  Dfp25.of(7), Dfp25.of(8), Dfp25.of(9)};
+    protected Dfp[][] mat1 = {
+            {Dfp25.of(1), Dfp25.of(2), Dfp25.of(3)},
+            {Dfp25.of(4), Dfp25.of(5), Dfp25.of(6)},
+            {Dfp25.of(7), Dfp25.of(8), Dfp25.of(9)}
     };
 
-    // Testclass to test the FieldVector<Fraction> interface
+    // Testclass to test the FieldVector<Dfp> interface
     // only with enough content to support the test
     public static class FieldVectorTestImpl<T extends FieldElement<T>>
         implements FieldVector<T>, Serializable {
@@ -291,24 +293,24 @@ public class ArrayFieldVectorTest {
     @Test
     public void testConstructors() {
 
-        ArrayFieldVector<Fraction> v0 = new ArrayFieldVector<>(FractionField.getInstance());
+        ArrayFieldVector<Dfp> v0 = new ArrayFieldVector<>(Dfp25.getField());
         Assert.assertEquals(0, v0.getDimension());
 
-        ArrayFieldVector<Fraction> v1 = new ArrayFieldVector<>(FractionField.getInstance(), 7);
+        ArrayFieldVector<Dfp> v1 = new ArrayFieldVector<>(Dfp25.getField(), 7);
         Assert.assertEquals(7, v1.getDimension());
-        Assert.assertEquals(Fraction.ZERO, v1.getEntry(6));
+        Assert.assertEquals(Dfp25.ZERO, v1.getEntry(6));
 
-        ArrayFieldVector<Fraction> v2 = new ArrayFieldVector<>(5, new Fraction(123, 100));
+        ArrayFieldVector<Dfp> v2 = new ArrayFieldVector<>(5, Dfp25.of(123, 100));
         Assert.assertEquals(5, v2.getDimension());
-        Assert.assertEquals(new Fraction(123, 100), v2.getEntry(4));
+        Assert.assertEquals(Dfp25.of(123, 100), v2.getEntry(4));
 
-        ArrayFieldVector<Fraction> v3 = new ArrayFieldVector<>(FractionField.getInstance(), vec1);
+        ArrayFieldVector<Dfp> v3 = new ArrayFieldVector<>(Dfp25.getField(), vec1);
         Assert.assertEquals(3, v3.getDimension());
-        Assert.assertEquals(new Fraction(2), v3.getEntry(1));
+        Assert.assertEquals(Dfp25.of(2), v3.getEntry(1));
 
-        ArrayFieldVector<Fraction> v4 = new ArrayFieldVector<>(FractionField.getInstance(), vec4, 3, 2);
+        ArrayFieldVector<Dfp> v4 = new ArrayFieldVector<>(Dfp25.getField(), vec4, 3, 2);
         Assert.assertEquals(2, v4.getDimension());
-        Assert.assertEquals(new Fraction(4), v4.getEntry(0));
+        Assert.assertEquals(Dfp25.of(4), v4.getEntry(0));
         try {
             new ArrayFieldVector<>(vec4, 8, 3);
             Assert.fail("MathIllegalArgumentException expected");
@@ -316,17 +318,17 @@ public class ArrayFieldVectorTest {
             // expected behavior
         }
 
-        FieldVector<Fraction> v5_i = new ArrayFieldVector<>(dvec1);
+        FieldVector<Dfp> v5_i = new ArrayFieldVector<>(dvec1);
         Assert.assertEquals(9, v5_i.getDimension());
-        Assert.assertEquals(new Fraction(9), v5_i.getEntry(8));
+        Assert.assertEquals(Dfp25.of(9), v5_i.getEntry(8));
 
-        ArrayFieldVector<Fraction> v5 = new ArrayFieldVector<>(dvec1);
+        ArrayFieldVector<Dfp> v5 = new ArrayFieldVector<>(dvec1);
         Assert.assertEquals(9, v5.getDimension());
-        Assert.assertEquals(new Fraction(9), v5.getEntry(8));
+        Assert.assertEquals(Dfp25.of(9), v5.getEntry(8));
 
-        ArrayFieldVector<Fraction> v6 = new ArrayFieldVector<>(dvec1, 3, 2);
+        ArrayFieldVector<Dfp> v6 = new ArrayFieldVector<>(dvec1, 3, 2);
         Assert.assertEquals(2, v6.getDimension());
-        Assert.assertEquals(new Fraction(4), v6.getEntry(0));
+        Assert.assertEquals(Dfp25.of(4), v6.getEntry(0));
         try {
             new ArrayFieldVector<>(dvec1, 8, 3);
             Assert.fail("MathIllegalArgumentException expected");
@@ -334,69 +336,69 @@ public class ArrayFieldVectorTest {
             // expected behavior
         }
 
-        ArrayFieldVector<Fraction> v7 = new ArrayFieldVector<>(v1);
+        ArrayFieldVector<Dfp> v7 = new ArrayFieldVector<>(v1);
         Assert.assertEquals(7, v7.getDimension());
-        Assert.assertEquals(Fraction.ZERO, v7.getEntry(6));
+        Assert.assertEquals(Dfp25.ZERO, v7.getEntry(6));
 
-        FieldVectorTestImpl<Fraction> v7_i = new FieldVectorTestImpl<>(vec1);
+        FieldVectorTestImpl<Dfp> v7_i = new FieldVectorTestImpl<>(vec1);
 
-        ArrayFieldVector<Fraction> v7_2 = new ArrayFieldVector<>(v7_i);
+        ArrayFieldVector<Dfp> v7_2 = new ArrayFieldVector<>(v7_i);
         Assert.assertEquals(3, v7_2.getDimension());
-        Assert.assertEquals(new Fraction(2), v7_2.getEntry(1));
+        Assert.assertEquals(Dfp25.of(2), v7_2.getEntry(1));
 
-        ArrayFieldVector<Fraction> v8 = new ArrayFieldVector<>(v1, true);
+        ArrayFieldVector<Dfp> v8 = new ArrayFieldVector<>(v1, true);
         Assert.assertEquals(7, v8.getDimension());
-        Assert.assertEquals(Fraction.ZERO, v8.getEntry(6));
+        Assert.assertEquals(Dfp25.ZERO, v8.getEntry(6));
         Assert.assertNotSame("testData not same object ", v1.getDataRef(), v8.getDataRef());
 
-        ArrayFieldVector<Fraction> v8_2 = new ArrayFieldVector<>(v1, false);
+        ArrayFieldVector<Dfp> v8_2 = new ArrayFieldVector<>(v1, false);
         Assert.assertEquals(7, v8_2.getDimension());
-        Assert.assertEquals(Fraction.ZERO, v8_2.getEntry(6));
+        Assert.assertEquals(Dfp25.ZERO, v8_2.getEntry(6));
         Assert.assertArrayEquals(v1.getDataRef(), v8_2.getDataRef());
 
-        ArrayFieldVector<Fraction> v9 = new ArrayFieldVector<>((FieldVector<Fraction>) v1, (FieldVector<Fraction>) v3);
+        ArrayFieldVector<Dfp> v9 = new ArrayFieldVector<>((FieldVector<Dfp>) v1, (FieldVector<Dfp>) v3);
         Assert.assertEquals(10, v9.getDimension());
-        Assert.assertEquals(new Fraction(1), v9.getEntry(7));
+        Assert.assertEquals(Dfp25.of(1), v9.getEntry(7));
 
     }
 
     @Test
     public void testDataInOut() {
 
-        ArrayFieldVector<Fraction> v1 = new ArrayFieldVector<>(vec1);
-        ArrayFieldVector<Fraction> v2 = new ArrayFieldVector<>(vec2);
-        ArrayFieldVector<Fraction> v4 = new ArrayFieldVector<>(vec4);
-        FieldVectorTestImpl<Fraction> v2_t = new FieldVectorTestImpl<>(vec2);
+        ArrayFieldVector<Dfp> v1 = new ArrayFieldVector<>(vec1);
+        ArrayFieldVector<Dfp> v2 = new ArrayFieldVector<>(vec2);
+        ArrayFieldVector<Dfp> v4 = new ArrayFieldVector<>(vec4);
+        FieldVectorTestImpl<Dfp> v2_t = new FieldVectorTestImpl<>(vec2);
 
-        FieldVector<Fraction> v_append_1 = v1.append(v2);
+        FieldVector<Dfp> v_append_1 = v1.append(v2);
         Assert.assertEquals(6, v_append_1.getDimension());
-        Assert.assertEquals(new Fraction(4), v_append_1.getEntry(3));
+        Assert.assertEquals(Dfp25.of(4), v_append_1.getEntry(3));
 
-        FieldVector<Fraction> v_append_2 = v1.append(new Fraction(2));
+        FieldVector<Dfp> v_append_2 = v1.append(Dfp25.of(2));
         Assert.assertEquals(4, v_append_2.getDimension());
-        Assert.assertEquals(new Fraction(2), v_append_2.getEntry(3));
+        Assert.assertEquals(Dfp25.of(2), v_append_2.getEntry(3));
 
-        FieldVector<Fraction> v_append_4 = v1.append(v2_t);
+        FieldVector<Dfp> v_append_4 = v1.append(v2_t);
         Assert.assertEquals(6, v_append_4.getDimension());
-        Assert.assertEquals(new Fraction(4), v_append_4.getEntry(3));
+        Assert.assertEquals(Dfp25.of(4), v_append_4.getEntry(3));
 
-        FieldVector<Fraction> v_copy = v1.copy();
+        FieldVector<Dfp> v_copy = v1.copy();
         Assert.assertEquals(3, v_copy.getDimension());
         Assert.assertNotSame("testData not same object ", v1.getDataRef(), v_copy.toArray());
 
-        Fraction[] a_frac = v1.toArray();
+        Dfp[] a_frac = v1.toArray();
         Assert.assertEquals(3, a_frac.length);
         Assert.assertNotSame("testData not same object ", v1.getDataRef(), a_frac);
 
 
-//      ArrayFieldVector<Fraction> vout4 = (ArrayFieldVector<Fraction>) v1.clone();
+//      ArrayFieldVector<Dfp> vout4 = (ArrayFieldVector<Dfp>) v1.clone();
 //      Assert.assertEquals(3, vout4.getDimension());
 //      Assert.assertEquals(v1.getDataRef(), vout4.getDataRef());
 
 
-        FieldVector<Fraction> vout5 = v4.getSubVector(3, 3);
+        FieldVector<Dfp> vout5 = v4.getSubVector(3, 3);
         Assert.assertEquals(3, vout5.getDimension());
-        Assert.assertEquals(new Fraction(5), vout5.getEntry(1));
+        Assert.assertEquals(Dfp25.of(5), vout5.getEntry(1));
         try {
             v4.getSubVector(3, 7);
             Assert.fail("OutOfRangeException expected");
@@ -404,20 +406,20 @@ public class ArrayFieldVectorTest {
             // expected behavior
         }
 
-        ArrayFieldVector<Fraction> v_set1 = (ArrayFieldVector<Fraction>) v1.copy();
-        v_set1.setEntry(1, new Fraction(11));
-        Assert.assertEquals(new Fraction(11), v_set1.getEntry(1));
+        ArrayFieldVector<Dfp> v_set1 = (ArrayFieldVector<Dfp>) v1.copy();
+        v_set1.setEntry(1, Dfp25.of(11));
+        Assert.assertEquals(Dfp25.of(11), v_set1.getEntry(1));
         try {
-            v_set1.setEntry(3, new Fraction(11));
+            v_set1.setEntry(3, Dfp25.of(11));
             Assert.fail("OutOfRangeException expected");
         } catch (OutOfRangeException ex) {
             // expected behavior
         }
 
-        ArrayFieldVector<Fraction> v_set2 = (ArrayFieldVector<Fraction>) v4.copy();
+        ArrayFieldVector<Dfp> v_set2 = (ArrayFieldVector<Dfp>) v4.copy();
         v_set2.set(3, v1);
-        Assert.assertEquals(new Fraction(1), v_set2.getEntry(3));
-        Assert.assertEquals(new Fraction(7), v_set2.getEntry(6));
+        Assert.assertEquals(Dfp25.of(1), v_set2.getEntry(3));
+        Assert.assertEquals(Dfp25.of(7), v_set2.getEntry(6));
         try {
             v_set2.set(7, v1);
             Assert.fail("OutOfRangeException expected");
@@ -425,9 +427,9 @@ public class ArrayFieldVectorTest {
             // expected behavior
         }
 
-        ArrayFieldVector<Fraction> v_set3 = (ArrayFieldVector<Fraction>) v1.copy();
-        v_set3.set(new Fraction(13));
-        Assert.assertEquals(new Fraction(13), v_set3.getEntry(2));
+        ArrayFieldVector<Dfp> v_set3 = (ArrayFieldVector<Dfp>) v1.copy();
+        v_set3.set(Dfp25.of(13));
+        Assert.assertEquals(Dfp25.of(13), v_set3.getEntry(2));
 
         try {
             v_set3.getEntry(23);
@@ -436,10 +438,10 @@ public class ArrayFieldVectorTest {
             // expected behavior
         }
 
-        ArrayFieldVector<Fraction> v_set4 = (ArrayFieldVector<Fraction>) v4.copy();
+        ArrayFieldVector<Dfp> v_set4 = (ArrayFieldVector<Dfp>) v4.copy();
         v_set4.setSubVector(3, v2_t);
-        Assert.assertEquals(new Fraction(4), v_set4.getEntry(3));
-        Assert.assertEquals(new Fraction(7), v_set4.getEntry(6));
+        Assert.assertEquals(Dfp25.of(4), v_set4.getEntry(3));
+        Assert.assertEquals(Dfp25.of(7), v_set4.getEntry(6));
         try {
             v_set4.setSubVector(7, v2_t);
             Assert.fail("OutOfRangeException expected");
@@ -448,154 +450,154 @@ public class ArrayFieldVectorTest {
         }
 
 
-        ArrayFieldVector<Fraction> vout10 = (ArrayFieldVector<Fraction>) v1.copy();
-        ArrayFieldVector<Fraction> vout10_2 = (ArrayFieldVector<Fraction>) v1.copy();
+        ArrayFieldVector<Dfp> vout10 = (ArrayFieldVector<Dfp>) v1.copy();
+        ArrayFieldVector<Dfp> vout10_2 = (ArrayFieldVector<Dfp>) v1.copy();
         Assert.assertEquals(vout10, vout10_2);
-        vout10_2.setEntry(0, new Fraction(11, 10));
+        vout10_2.setEntry(0, Dfp25.of(11, 10));
         Assert.assertNotSame(vout10, vout10_2);
 
     }
 
     @Test
     public void testMapFunctions() {
-        ArrayFieldVector<Fraction> v1 = new ArrayFieldVector<>(vec1);
+        ArrayFieldVector<Dfp> v1 = new ArrayFieldVector<>(vec1);
 
         //octave =  v1 .+ 2.0
-        FieldVector<Fraction> v_mapAdd = v1.mapAdd(new Fraction(2));
-        Fraction[] result_mapAdd = {new Fraction(3), new Fraction(4), new Fraction(5)};
+        FieldVector<Dfp> v_mapAdd = v1.mapAdd(Dfp25.of(2));
+        Dfp[] result_mapAdd = {Dfp25.of(3), Dfp25.of(4), Dfp25.of(5)};
         checkArray("compare vectors" ,result_mapAdd,v_mapAdd.toArray());
 
         //octave =  v1 .+ 2.0
-        FieldVector<Fraction> v_mapAddToSelf = v1.copy();
-        v_mapAddToSelf.mapAddToSelf(new Fraction(2));
-        Fraction[] result_mapAddToSelf = {new Fraction(3), new Fraction(4), new Fraction(5)};
+        FieldVector<Dfp> v_mapAddToSelf = v1.copy();
+        v_mapAddToSelf.mapAddToSelf(Dfp25.of(2));
+        Dfp[] result_mapAddToSelf = {Dfp25.of(3), Dfp25.of(4), Dfp25.of(5)};
         checkArray("compare vectors" ,result_mapAddToSelf,v_mapAddToSelf.toArray());
 
         //octave =  v1 .- 2.0
-        FieldVector<Fraction> v_mapSubtract = v1.mapSubtract(new Fraction(2));
-        Fraction[] result_mapSubtract = {new Fraction(-1), Fraction.ZERO, new Fraction(1)};
+        FieldVector<Dfp> v_mapSubtract = v1.mapSubtract(Dfp25.of(2));
+        Dfp[] result_mapSubtract = {Dfp25.of(-1), Dfp25.ZERO, Dfp25.of(1)};
         checkArray("compare vectors" ,result_mapSubtract,v_mapSubtract.toArray());
 
         //octave =  v1 .- 2.0
-        FieldVector<Fraction> v_mapSubtractToSelf = v1.copy();
-        v_mapSubtractToSelf.mapSubtractToSelf(new Fraction(2));
-        Fraction[] result_mapSubtractToSelf = {new Fraction(-1), Fraction.ZERO, new Fraction(1)};
+        FieldVector<Dfp> v_mapSubtractToSelf = v1.copy();
+        v_mapSubtractToSelf.mapSubtractToSelf(Dfp25.of(2));
+        Dfp[] result_mapSubtractToSelf = {Dfp25.of(-1), Dfp25.ZERO, Dfp25.of(1)};
         checkArray("compare vectors" ,result_mapSubtractToSelf,v_mapSubtractToSelf.toArray());
 
         //octave =  v1 .* 2.0
-        FieldVector<Fraction> v_mapMultiply = v1.mapMultiply(new Fraction(2));
-        Fraction[] result_mapMultiply = {new Fraction(2), new Fraction(4), new Fraction(6)};
+        FieldVector<Dfp> v_mapMultiply = v1.mapMultiply(Dfp25.of(2));
+        Dfp[] result_mapMultiply = {Dfp25.of(2), Dfp25.of(4), Dfp25.of(6)};
         checkArray("compare vectors" ,result_mapMultiply,v_mapMultiply.toArray());
 
         //octave =  v1 .* 2.0
-        FieldVector<Fraction> v_mapMultiplyToSelf = v1.copy();
-        v_mapMultiplyToSelf.mapMultiplyToSelf(new Fraction(2));
-        Fraction[] result_mapMultiplyToSelf = {new Fraction(2), new Fraction(4), new Fraction(6)};
+        FieldVector<Dfp> v_mapMultiplyToSelf = v1.copy();
+        v_mapMultiplyToSelf.mapMultiplyToSelf(Dfp25.of(2));
+        Dfp[] result_mapMultiplyToSelf = {Dfp25.of(2), Dfp25.of(4), Dfp25.of(6)};
         checkArray("compare vectors" ,result_mapMultiplyToSelf,v_mapMultiplyToSelf.toArray());
 
         //octave =  v1 ./ 2.0
-        FieldVector<Fraction> v_mapDivide = v1.mapDivide(new Fraction(2));
-        Fraction[] result_mapDivide = {new Fraction(1, 2), new Fraction(1), new Fraction(3, 2)};
+        FieldVector<Dfp> v_mapDivide = v1.mapDivide(Dfp25.of(2));
+        Dfp[] result_mapDivide = {Dfp25.of(1, 2), Dfp25.of(1), Dfp25.of(3, 2)};
         checkArray("compare vectors" ,result_mapDivide,v_mapDivide.toArray());
 
         //octave =  v1 ./ 2.0
-        FieldVector<Fraction> v_mapDivideToSelf = v1.copy();
-        v_mapDivideToSelf.mapDivideToSelf(new Fraction(2));
-        Fraction[] result_mapDivideToSelf = {new Fraction(1, 2), new Fraction(1), new Fraction(3, 2)};
+        FieldVector<Dfp> v_mapDivideToSelf = v1.copy();
+        v_mapDivideToSelf.mapDivideToSelf(Dfp25.of(2));
+        Dfp[] result_mapDivideToSelf = {Dfp25.of(1, 2), Dfp25.of(1), Dfp25.of(3, 2)};
         checkArray("compare vectors" ,result_mapDivideToSelf,v_mapDivideToSelf.toArray());
 
         //octave =  v1 .^-1
-        FieldVector<Fraction> v_mapInv = v1.mapInv();
-        Fraction[] result_mapInv = {new Fraction(1),new Fraction(1, 2),new Fraction(1, 3)};
+        FieldVector<Dfp> v_mapInv = v1.mapInv();
+        Dfp[] result_mapInv = {Dfp25.of(1),Dfp25.of(1, 2),Dfp25.of(1, 3)};
         checkArray("compare vectors" ,result_mapInv,v_mapInv.toArray());
 
         //octave =  v1 .^-1
-        FieldVector<Fraction> v_mapInvToSelf = v1.copy();
+        FieldVector<Dfp> v_mapInvToSelf = v1.copy();
         v_mapInvToSelf.mapInvToSelf();
-        Fraction[] result_mapInvToSelf = {new Fraction(1),new Fraction(1, 2),new Fraction(1, 3)};
+        Dfp[] result_mapInvToSelf = {Dfp25.of(1),Dfp25.of(1, 2),Dfp25.of(1, 3)};
         checkArray("compare vectors" ,result_mapInvToSelf,v_mapInvToSelf.toArray());
 
     }
 
     @Test
     public void testBasicFunctions() {
-        ArrayFieldVector<Fraction> v1 = new ArrayFieldVector<>(vec1);
-        ArrayFieldVector<Fraction> v2 = new ArrayFieldVector<>(vec2);
+        ArrayFieldVector<Dfp> v1 = new ArrayFieldVector<>(vec1);
+        ArrayFieldVector<Dfp> v2 = new ArrayFieldVector<>(vec2);
         new ArrayFieldVector<>(vec_null);
 
-        FieldVectorTestImpl<Fraction> v2_t = new FieldVectorTestImpl<>(vec2);
+        FieldVectorTestImpl<Dfp> v2_t = new FieldVectorTestImpl<>(vec2);
 
         //octave =  v1 + v2
-        ArrayFieldVector<Fraction> v_add = v1.add(v2);
-        Fraction[] result_add = {new Fraction(5), new Fraction(7), new Fraction(9)};
+        ArrayFieldVector<Dfp> v_add = v1.add(v2);
+        Dfp[] result_add = {Dfp25.of(5), Dfp25.of(7), Dfp25.of(9)};
         checkArray("compare vect" ,v_add.toArray(),result_add);
 
-        FieldVectorTestImpl<Fraction> vt2 = new FieldVectorTestImpl<>(vec2);
-        FieldVector<Fraction> v_add_i = v1.add(vt2);
-        Fraction[] result_add_i = {new Fraction(5), new Fraction(7), new Fraction(9)};
+        FieldVectorTestImpl<Dfp> vt2 = new FieldVectorTestImpl<>(vec2);
+        FieldVector<Dfp> v_add_i = v1.add(vt2);
+        Dfp[] result_add_i = {Dfp25.of(5), Dfp25.of(7), Dfp25.of(9)};
         checkArray("compare vect" ,v_add_i.toArray(),result_add_i);
 
         //octave =  v1 - v2
-        ArrayFieldVector<Fraction> v_subtract = v1.subtract(v2);
-        Fraction[] result_subtract = {new Fraction(-3), new Fraction(-3), new Fraction(-3)};
+        ArrayFieldVector<Dfp> v_subtract = v1.subtract(v2);
+        Dfp[] result_subtract = {Dfp25.of(-3), Dfp25.of(-3), Dfp25.of(-3)};
         checkArray("compare vect" ,v_subtract.toArray(),result_subtract);
 
-        FieldVector<Fraction> v_subtract_i = v1.subtract(vt2);
-        Fraction[] result_subtract_i = {new Fraction(-3), new Fraction(-3), new Fraction(-3)};
+        FieldVector<Dfp> v_subtract_i = v1.subtract(vt2);
+        Dfp[] result_subtract_i = {Dfp25.of(-3), Dfp25.of(-3), Dfp25.of(-3)};
         checkArray("compare vect" ,v_subtract_i.toArray(),result_subtract_i);
 
         // octave v1 .* v2
-        ArrayFieldVector<Fraction>  v_ebeMultiply = v1.ebeMultiply(v2);
-        Fraction[] result_ebeMultiply = {new Fraction(4), new Fraction(10), new Fraction(18)};
+        ArrayFieldVector<Dfp>  v_ebeMultiply = v1.ebeMultiply(v2);
+        Dfp[] result_ebeMultiply = {Dfp25.of(4), Dfp25.of(10), Dfp25.of(18)};
         checkArray("compare vect" ,v_ebeMultiply.toArray(),result_ebeMultiply);
 
-        FieldVector<Fraction>  v_ebeMultiply_2 = v1.ebeMultiply(v2_t);
-        Fraction[] result_ebeMultiply_2 = {new Fraction(4), new Fraction(10), new Fraction(18)};
+        FieldVector<Dfp>  v_ebeMultiply_2 = v1.ebeMultiply(v2_t);
+        Dfp[] result_ebeMultiply_2 = {Dfp25.of(4), Dfp25.of(10), Dfp25.of(18)};
         checkArray("compare vect" ,v_ebeMultiply_2.toArray(),result_ebeMultiply_2);
 
         // octave v1 ./ v2
-        ArrayFieldVector<Fraction>  v_ebeDivide = v1.ebeDivide(v2);
-        Fraction[] result_ebeDivide = {new Fraction(1, 4), new Fraction(2, 5), new Fraction(1, 2)};
+        ArrayFieldVector<Dfp>  v_ebeDivide = v1.ebeDivide(v2);
+        Dfp[] result_ebeDivide = {Dfp25.of(1, 4), Dfp25.of(2, 5), Dfp25.of(1, 2)};
         checkArray("compare vect" ,v_ebeDivide.toArray(),result_ebeDivide);
 
-        FieldVector<Fraction>  v_ebeDivide_2 = v1.ebeDivide(v2_t);
-        Fraction[] result_ebeDivide_2 = {new Fraction(1, 4), new Fraction(2, 5), new Fraction(1, 2)};
+        FieldVector<Dfp>  v_ebeDivide_2 = v1.ebeDivide(v2_t);
+        Dfp[] result_ebeDivide_2 = {Dfp25.of(1, 4), Dfp25.of(2, 5), Dfp25.of(1, 2)};
         checkArray("compare vect" ,v_ebeDivide_2.toArray(),result_ebeDivide_2);
 
         // octave  dot(v1,v2)
-        Fraction dot =  v1.dotProduct(v2);
-        Assert.assertEquals("compare val ",new Fraction(32), dot);
+        Dfp dot =  v1.dotProduct(v2);
+        Assert.assertEquals("compare val ",Dfp25.of(32), dot);
 
         // octave  dot(v1,v2_t)
-        Fraction dot_2 =  v1.dotProduct(v2_t);
-        Assert.assertEquals("compare val ",new Fraction(32), dot_2);
+        Dfp dot_2 =  v1.dotProduct(v2_t);
+        Assert.assertEquals("compare val ",Dfp25.of(32), dot_2);
 
-        FieldMatrix<Fraction> m_outerProduct = v1.outerProduct(v2);
-        Assert.assertEquals("compare val ",new Fraction(4), m_outerProduct.getEntry(0,0));
+        FieldMatrix<Dfp> m_outerProduct = v1.outerProduct(v2);
+        Assert.assertEquals("compare val ",Dfp25.of(4), m_outerProduct.getEntry(0,0));
 
-        FieldMatrix<Fraction> m_outerProduct_2 = v1.outerProduct(v2_t);
-        Assert.assertEquals("compare val ",new Fraction(4), m_outerProduct_2.getEntry(0,0));
+        FieldMatrix<Dfp> m_outerProduct_2 = v1.outerProduct(v2_t);
+        Assert.assertEquals("compare val ",Dfp25.of(4), m_outerProduct_2.getEntry(0,0));
 
-        ArrayFieldVector<Fraction> v_projection = v1.projection(v2);
-        Fraction[] result_projection = {new Fraction(128, 77), new Fraction(160, 77), new Fraction(192, 77)};
+        ArrayFieldVector<Dfp> v_projection = v1.projection(v2);
+        Dfp[] result_projection = {Dfp25.of(128, 77), Dfp25.of(160, 77), Dfp25.of(192, 77)};
         checkArray("compare vect", v_projection.toArray(), result_projection);
 
-        FieldVector<Fraction> v_projection_2 = v1.projection(v2_t);
-        Fraction[] result_projection_2 = {new Fraction(128, 77), new Fraction(160, 77), new Fraction(192, 77)};
+        FieldVector<Dfp> v_projection_2 = v1.projection(v2_t);
+        Dfp[] result_projection_2 = {Dfp25.of(128, 77), Dfp25.of(160, 77), Dfp25.of(192, 77)};
         checkArray("compare vect", v_projection_2.toArray(), result_projection_2);
 
     }
 
     @Test
     public void testMisc() {
-        ArrayFieldVector<Fraction> v1 = new ArrayFieldVector<>(vec1);
-        ArrayFieldVector<Fraction> v4 = new ArrayFieldVector<>(vec4);
-        FieldVector<Fraction> v4_2 = new ArrayFieldVector<>(vec4);
+        ArrayFieldVector<Dfp> v1 = new ArrayFieldVector<>(vec1);
+        ArrayFieldVector<Dfp> v4 = new ArrayFieldVector<>(vec4);
+        FieldVector<Dfp> v4_2 = new ArrayFieldVector<>(vec4);
 
         String out1 = v1.toString();
         Assert.assertTrue("some output ",  out1.length()!=0);
         /*
-         Fraction[] dout1 = v1.copyOut();
+         Dfp[] dout1 = v1.copyOut();
         Assert.assertEquals(3, dout1.length);
         assertNotSame("testData not same object ", v1.getDataRef(), dout1);
          */
@@ -624,8 +626,12 @@ public class ArrayFieldVectorTest {
 
     @Test
     public void testSerial()  {
-        ArrayFieldVector<Fraction> v = new ArrayFieldVector<>(vec1);
-        Assert.assertEquals(v,TestUtils.serializeAndRecover(v));
+        final int n = 2;
+        ArrayFieldVector<BigReal> v = new ArrayFieldVector<>(BigRealField.getInstance());
+        for (int i = 0; i < n; i++) {
+            v.append(new BigReal(Math.random()));
+        }
+        Assert.assertEquals(v, TestUtils.serializeAndRecover(v));
     }
 
     @Test
@@ -633,56 +639,56 @@ public class ArrayFieldVectorTest {
 
         // when the field is not specified, array cannot be empty
         try {
-            new ArrayFieldVector<>(new Fraction[0]);
+            new ArrayFieldVector<>(new Dfp[0]);
             Assert.fail("MathIllegalArgumentException expected");
         } catch (MathIllegalArgumentException ex) {
             // expected behavior
         }
         try {
-            new ArrayFieldVector<>(new Fraction[0], true);
+            new ArrayFieldVector<>(new Dfp[0], true);
             Assert.fail("MathIllegalArgumentException expected");
         } catch (MathIllegalArgumentException ex) {
             // expected behavior
         }
         try {
-            new ArrayFieldVector<>(new Fraction[0], false);
+            new ArrayFieldVector<>(new Dfp[0], false);
             Assert.fail("MathIllegalArgumentException expected");
         } catch (MathIllegalArgumentException ex) {
             // expected behavior
         }
 
         // when the field is specified, array can be empty
-        Assert.assertEquals(0, new ArrayFieldVector<>(FractionField.getInstance(), new Fraction[0]).getDimension());
-        Assert.assertEquals(0, new ArrayFieldVector<>(FractionField.getInstance(), new Fraction[0], true).getDimension());
-        Assert.assertEquals(0, new ArrayFieldVector<>(FractionField.getInstance(), new Fraction[0], false).getDimension());
+        Assert.assertEquals(0, new ArrayFieldVector<>(Dfp25.getField(), new Dfp[0]).getDimension());
+        Assert.assertEquals(0, new ArrayFieldVector<>(Dfp25.getField(), new Dfp[0], true).getDimension());
+        Assert.assertEquals(0, new ArrayFieldVector<>(Dfp25.getField(), new Dfp[0], false).getDimension());
 
     }
 
     @Test
     public void testOuterProduct() {
-        final ArrayFieldVector<Fraction> u
-            = new ArrayFieldVector<>(FractionField.getInstance(),
-                                             new Fraction[] {new Fraction(1),
-                                                             new Fraction(2),
-                                                             new Fraction(-3)});
-        final ArrayFieldVector<Fraction> v
-            = new ArrayFieldVector<>(FractionField.getInstance(),
-                                             new Fraction[] {new Fraction(4),
-                                                             new Fraction(-2)});
+        final ArrayFieldVector<Dfp> u
+            = new ArrayFieldVector<>(Dfp25.getField(),
+                                             new Dfp[] {Dfp25.of(1),
+                                                             Dfp25.of(2),
+                                                             Dfp25.of(-3)});
+        final ArrayFieldVector<Dfp> v
+            = new ArrayFieldVector<>(Dfp25.getField(),
+                                             new Dfp[] {Dfp25.of(4),
+                                                             Dfp25.of(-2)});
 
-        final FieldMatrix<Fraction> uv = u.outerProduct(v);
+        final FieldMatrix<Dfp> uv = u.outerProduct(v);
 
         final double tol = Math.ulp(1d);
-        Assert.assertEquals(new Fraction(4).doubleValue(), uv.getEntry(0, 0).doubleValue(), tol);
-        Assert.assertEquals(new Fraction(-2).doubleValue(), uv.getEntry(0, 1).doubleValue(), tol);
-        Assert.assertEquals(new Fraction(8).doubleValue(), uv.getEntry(1, 0).doubleValue(), tol);
-        Assert.assertEquals(new Fraction(-4).doubleValue(), uv.getEntry(1, 1).doubleValue(), tol);
-        Assert.assertEquals(new Fraction(-12).doubleValue(), uv.getEntry(2, 0).doubleValue(), tol);
-        Assert.assertEquals(new Fraction(6).doubleValue(), uv.getEntry(2, 1).doubleValue(), tol);
+        Assert.assertEquals(Dfp25.of(4).toDouble(), uv.getEntry(0, 0).toDouble(), tol);
+        Assert.assertEquals(Dfp25.of(-2).toDouble(), uv.getEntry(0, 1).toDouble(), tol);
+        Assert.assertEquals(Dfp25.of(8).toDouble(), uv.getEntry(1, 0).toDouble(), tol);
+        Assert.assertEquals(Dfp25.of(-4).toDouble(), uv.getEntry(1, 1).toDouble(), tol);
+        Assert.assertEquals(Dfp25.of(-12).toDouble(), uv.getEntry(2, 0).toDouble(), tol);
+        Assert.assertEquals(Dfp25.of(6).toDouble(), uv.getEntry(2, 1).toDouble(), tol);
     }
 
     /** verifies that two vectors are equals */
-    protected void checkArray(String msg, Fraction[] m, Fraction[] n) {
+    protected void checkArray(String msg, Dfp[] m, Dfp[] n) {
         if (m.length != n.length) {
             Assert.fail("vectors have different lengths");
         }
@@ -698,19 +704,19 @@ public class ArrayFieldVectorTest {
     /** The whole vector is visited. */
     @Test
     public void testWalkInDefaultOrderPreservingVisitor1() {
-        final Fraction[] data = new Fraction[] {
-            Fraction.ZERO, Fraction.ONE, Fraction.ZERO,
-            Fraction.ZERO, Fraction.TWO, Fraction.ZERO,
-            Fraction.ZERO, Fraction.ZERO, new Fraction(3)
+        final Dfp[] data = new Dfp[] {
+            Dfp25.ZERO, Dfp25.ONE, Dfp25.ZERO,
+            Dfp25.ZERO, Dfp25.TWO, Dfp25.ZERO,
+            Dfp25.ZERO, Dfp25.ZERO, Dfp25.of(3)
         };
-        final ArrayFieldVector<Fraction> v = new ArrayFieldVector<>(data);
-        final FieldVectorPreservingVisitor<Fraction> visitor;
-        visitor = new FieldVectorPreservingVisitor<Fraction>() {
+        final ArrayFieldVector<Dfp> v = new ArrayFieldVector<>(data);
+        final FieldVectorPreservingVisitor<Dfp> visitor;
+        visitor = new FieldVectorPreservingVisitor<Dfp>() {
 
             private int expectedIndex;
 
             @Override
-            public void visit(final int actualIndex, final Fraction actualValue) {
+            public void visit(final int actualIndex, final Dfp actualValue) {
                 Assert.assertEquals(expectedIndex, actualIndex);
                 Assert.assertEquals(Integer.toString(actualIndex),
                                     data[actualIndex], actualValue);
@@ -727,8 +733,8 @@ public class ArrayFieldVectorTest {
             }
 
             @Override
-            public Fraction end() {
-                return Fraction.ZERO;
+            public Dfp end() {
+                return Dfp25.ZERO;
             }
         };
         v.walkInDefaultOrder(visitor);
@@ -737,12 +743,12 @@ public class ArrayFieldVectorTest {
     /** Visiting an invalid subvector. */
     @Test
     public void testWalkInDefaultOrderPreservingVisitor2() {
-        final ArrayFieldVector<Fraction> v = create(5);
-        final FieldVectorPreservingVisitor<Fraction> visitor;
-        visitor = new FieldVectorPreservingVisitor<Fraction>() {
+        final ArrayFieldVector<Dfp> v = create(5);
+        final FieldVectorPreservingVisitor<Dfp> visitor;
+        visitor = new FieldVectorPreservingVisitor<Dfp>() {
 
             @Override
-            public void visit(int index, Fraction value) {
+            public void visit(int index, Dfp value) {
                 // Do nothing
             }
 
@@ -752,8 +758,8 @@ public class ArrayFieldVectorTest {
             }
 
             @Override
-            public Fraction end() {
-                return Fraction.ZERO;
+            public Dfp end() {
+                return Dfp25.ZERO;
             }
         };
         try {
@@ -791,21 +797,21 @@ public class ArrayFieldVectorTest {
     /** Visiting a valid subvector. */
     @Test
     public void testWalkInDefaultOrderPreservingVisitor3() {
-        final Fraction[] data = new Fraction[] {
-            Fraction.ZERO, Fraction.ONE, Fraction.ZERO,
-            Fraction.ZERO, Fraction.TWO, Fraction.ZERO,
-            Fraction.ZERO, Fraction.ZERO, new Fraction(3)
+        final Dfp[] data = new Dfp[] {
+            Dfp25.ZERO, Dfp25.ONE, Dfp25.ZERO,
+            Dfp25.ZERO, Dfp25.TWO, Dfp25.ZERO,
+            Dfp25.ZERO, Dfp25.ZERO, Dfp25.of(3)
         };
-        final ArrayFieldVector<Fraction> v = new ArrayFieldVector<>(data);
+        final ArrayFieldVector<Dfp> v = new ArrayFieldVector<>(data);
         final int expectedStart = 2;
         final int expectedEnd = 7;
-        final FieldVectorPreservingVisitor<Fraction> visitor;
-        visitor = new FieldVectorPreservingVisitor<Fraction>() {
+        final FieldVectorPreservingVisitor<Dfp> visitor;
+        visitor = new FieldVectorPreservingVisitor<Dfp>() {
 
             private int expectedIndex;
 
             @Override
-            public void visit(final int actualIndex, final Fraction actualValue) {
+            public void visit(final int actualIndex, final Dfp actualValue) {
                 Assert.assertEquals(expectedIndex, actualIndex);
                 Assert.assertEquals(Integer.toString(actualIndex),
                                     data[actualIndex], actualValue);
@@ -822,8 +828,8 @@ public class ArrayFieldVectorTest {
             }
 
             @Override
-            public Fraction end() {
-                return Fraction.ZERO;
+            public Dfp end() {
+                return Dfp25.ZERO;
             }
         };
         v.walkInDefaultOrder(visitor, expectedStart, expectedEnd);
@@ -832,18 +838,18 @@ public class ArrayFieldVectorTest {
     /** The whole vector is visited. */
     @Test
     public void testWalkInOptimizedOrderPreservingVisitor1() {
-        final Fraction[] data = new Fraction[] {
-            Fraction.ZERO, Fraction.ONE, Fraction.ZERO,
-            Fraction.ZERO, Fraction.TWO, Fraction.ZERO,
-            Fraction.ZERO, Fraction.ZERO, new Fraction(3)
+        final Dfp[] data = new Dfp[] {
+            Dfp25.ZERO, Dfp25.ONE, Dfp25.ZERO,
+            Dfp25.ZERO, Dfp25.TWO, Dfp25.ZERO,
+            Dfp25.ZERO, Dfp25.ZERO, Dfp25.of(3)
         };
-        final ArrayFieldVector<Fraction> v = new ArrayFieldVector<>(data);
-        final FieldVectorPreservingVisitor<Fraction> visitor;
-        visitor = new FieldVectorPreservingVisitor<Fraction>() {
+        final ArrayFieldVector<Dfp> v = new ArrayFieldVector<>(data);
+        final FieldVectorPreservingVisitor<Dfp> visitor;
+        visitor = new FieldVectorPreservingVisitor<Dfp>() {
             private final boolean[] visited = new boolean[data.length];
 
             @Override
-            public void visit(final int actualIndex, final Fraction actualValue) {
+            public void visit(final int actualIndex, final Dfp actualValue) {
                 visited[actualIndex] = true;
                 Assert.assertEquals(Integer.toString(actualIndex),
                                     data[actualIndex], actualValue);
@@ -859,12 +865,12 @@ public class ArrayFieldVectorTest {
             }
 
             @Override
-            public Fraction end() {
+            public Dfp end() {
                 for (int i = 0; i < data.length; i++) {
                     Assert.assertTrue("entry " + i + "has not been visited",
                                       visited[i]);
                 }
-                return Fraction.ZERO;
+                return Dfp25.ZERO;
             }
         };
         v.walkInOptimizedOrder(visitor);
@@ -873,12 +879,12 @@ public class ArrayFieldVectorTest {
     /** Visiting an invalid subvector. */
     @Test
     public void testWalkInOptimizedOrderPreservingVisitor2() {
-        final ArrayFieldVector<Fraction> v = create(5);
-        final FieldVectorPreservingVisitor<Fraction> visitor;
-        visitor = new FieldVectorPreservingVisitor<Fraction>() {
+        final ArrayFieldVector<Dfp> v = create(5);
+        final FieldVectorPreservingVisitor<Dfp> visitor;
+        visitor = new FieldVectorPreservingVisitor<Dfp>() {
 
             @Override
-            public void visit(int index, Fraction value) {
+            public void visit(int index, Dfp value) {
                 // Do nothing
             }
 
@@ -888,8 +894,8 @@ public class ArrayFieldVectorTest {
             }
 
             @Override
-            public Fraction end() {
-                return Fraction.ZERO;
+            public Dfp end() {
+                return Dfp25.ZERO;
             }
         };
         try {
@@ -927,20 +933,20 @@ public class ArrayFieldVectorTest {
     /** Visiting a valid subvector. */
     @Test
     public void testWalkInOptimizedOrderPreservingVisitor3() {
-        final Fraction[] data = new Fraction[] {
-            Fraction.ZERO, Fraction.ONE, Fraction.ZERO,
-            Fraction.ZERO, Fraction.TWO, Fraction.ZERO,
-            Fraction.ZERO, Fraction.ZERO, new Fraction(3)
+        final Dfp[] data = new Dfp[] {
+            Dfp25.ZERO, Dfp25.ONE, Dfp25.ZERO,
+            Dfp25.ZERO, Dfp25.TWO, Dfp25.ZERO,
+            Dfp25.ZERO, Dfp25.ZERO, Dfp25.of(3)
         };
-        final ArrayFieldVector<Fraction> v = new ArrayFieldVector<>(data);
+        final ArrayFieldVector<Dfp> v = new ArrayFieldVector<>(data);
         final int expectedStart = 2;
         final int expectedEnd = 7;
-        final FieldVectorPreservingVisitor<Fraction> visitor;
-        visitor = new FieldVectorPreservingVisitor<Fraction>() {
+        final FieldVectorPreservingVisitor<Dfp> visitor;
+        visitor = new FieldVectorPreservingVisitor<Dfp>() {
             private final boolean[] visited = new boolean[data.length];
 
             @Override
-            public void visit(final int actualIndex, final Fraction actualValue) {
+            public void visit(final int actualIndex, final Dfp actualValue) {
                 Assert.assertEquals(Integer.toString(actualIndex),
                                     data[actualIndex], actualValue);
                 visited[actualIndex] = true;
@@ -956,12 +962,12 @@ public class ArrayFieldVectorTest {
             }
 
             @Override
-            public Fraction end() {
+            public Dfp end() {
                 for (int i = expectedStart; i <= expectedEnd; i++) {
                     Assert.assertTrue("entry " + i + "has not been visited",
                                       visited[i]);
                 }
-                return Fraction.ZERO;
+                return Dfp25.ZERO;
             }
         };
         v.walkInOptimizedOrder(visitor, expectedStart, expectedEnd);
@@ -970,19 +976,19 @@ public class ArrayFieldVectorTest {
     /** The whole vector is visited. */
     @Test
     public void testWalkInDefaultOrderChangingVisitor1() {
-        final Fraction[] data = new Fraction[] {
-            Fraction.ZERO, Fraction.ONE, Fraction.ZERO,
-            Fraction.ZERO, Fraction.TWO, Fraction.ZERO,
-            Fraction.ZERO, Fraction.ZERO, new Fraction(3)
+        final Dfp[] data = new Dfp[] {
+            Dfp25.ZERO, Dfp25.ONE, Dfp25.ZERO,
+            Dfp25.ZERO, Dfp25.TWO, Dfp25.ZERO,
+            Dfp25.ZERO, Dfp25.ZERO, Dfp25.of(3)
         };
-        final ArrayFieldVector<Fraction> v = new ArrayFieldVector<>(data);
-        final FieldVectorChangingVisitor<Fraction> visitor;
-        visitor = new FieldVectorChangingVisitor<Fraction>() {
+        final ArrayFieldVector<Dfp> v = new ArrayFieldVector<>(data);
+        final FieldVectorChangingVisitor<Dfp> visitor;
+        visitor = new FieldVectorChangingVisitor<Dfp>() {
 
             private int expectedIndex;
 
             @Override
-            public Fraction visit(final int actualIndex, final Fraction actualValue) {
+            public Dfp visit(final int actualIndex, final Dfp actualValue) {
                 Assert.assertEquals(expectedIndex, actualIndex);
                 Assert.assertEquals(Integer.toString(actualIndex),
                                     data[actualIndex], actualValue);
@@ -1000,8 +1006,8 @@ public class ArrayFieldVectorTest {
             }
 
             @Override
-            public Fraction end() {
-                return Fraction.ZERO;
+            public Dfp end() {
+                return Dfp25.ZERO;
             }
         };
         v.walkInDefaultOrder(visitor);
@@ -1013,13 +1019,13 @@ public class ArrayFieldVectorTest {
     /** Visiting an invalid subvector. */
     @Test
     public void testWalkInDefaultOrderChangingVisitor2() {
-        final ArrayFieldVector<Fraction> v = create(5);
-        final FieldVectorChangingVisitor<Fraction> visitor;
-        visitor = new FieldVectorChangingVisitor<Fraction>() {
+        final ArrayFieldVector<Dfp> v = create(5);
+        final FieldVectorChangingVisitor<Dfp> visitor;
+        visitor = new FieldVectorChangingVisitor<Dfp>() {
 
             @Override
-            public Fraction visit(int index, Fraction value) {
-                return Fraction.ZERO;
+            public Dfp visit(int index, Dfp value) {
+                return Dfp25.ZERO;
             }
 
             @Override
@@ -1028,8 +1034,8 @@ public class ArrayFieldVectorTest {
             }
 
             @Override
-            public Fraction end() {
-                return Fraction.ZERO;
+            public Dfp end() {
+                return Dfp25.ZERO;
             }
         };
         try {
@@ -1067,21 +1073,21 @@ public class ArrayFieldVectorTest {
     /** Visiting a valid subvector. */
     @Test
     public void testWalkInDefaultOrderChangingVisitor3() {
-        final Fraction[] data = new Fraction[] {
-            Fraction.ZERO, Fraction.ONE, Fraction.ZERO,
-            Fraction.ZERO, Fraction.TWO, Fraction.ZERO,
-            Fraction.ZERO, Fraction.ZERO, new Fraction(3)
+        final Dfp[] data = new Dfp[] {
+            Dfp25.ZERO, Dfp25.ONE, Dfp25.ZERO,
+            Dfp25.ZERO, Dfp25.TWO, Dfp25.ZERO,
+            Dfp25.ZERO, Dfp25.ZERO, Dfp25.of(3)
         };
-        final ArrayFieldVector<Fraction> v = new ArrayFieldVector<>(data);
+        final ArrayFieldVector<Dfp> v = new ArrayFieldVector<>(data);
         final int expectedStart = 2;
         final int expectedEnd = 7;
-        final FieldVectorChangingVisitor<Fraction> visitor;
-        visitor = new FieldVectorChangingVisitor<Fraction>() {
+        final FieldVectorChangingVisitor<Dfp> visitor;
+        visitor = new FieldVectorChangingVisitor<Dfp>() {
 
             private int expectedIndex;
 
             @Override
-            public Fraction visit(final int actualIndex, final Fraction actualValue) {
+            public Dfp visit(final int actualIndex, final Dfp actualValue) {
                 Assert.assertEquals(expectedIndex, actualIndex);
                 Assert.assertEquals(Integer.toString(actualIndex),
                                     data[actualIndex], actualValue);
@@ -1099,8 +1105,8 @@ public class ArrayFieldVectorTest {
             }
 
             @Override
-            public Fraction end() {
-                return Fraction.ZERO;
+            public Dfp end() {
+                return Dfp25.ZERO;
             }
         };
         v.walkInDefaultOrder(visitor, expectedStart, expectedEnd);
@@ -1112,18 +1118,18 @@ public class ArrayFieldVectorTest {
     /** The whole vector is visited. */
     @Test
     public void testWalkInOptimizedOrderChangingVisitor1() {
-        final Fraction[] data = new Fraction[] {
-            Fraction.ZERO, Fraction.ONE, Fraction.ZERO,
-            Fraction.ZERO, Fraction.TWO, Fraction.ZERO,
-            Fraction.ZERO, Fraction.ZERO, new Fraction(3)
+        final Dfp[] data = new Dfp[] {
+            Dfp25.ZERO, Dfp25.ONE, Dfp25.ZERO,
+            Dfp25.ZERO, Dfp25.TWO, Dfp25.ZERO,
+            Dfp25.ZERO, Dfp25.ZERO, Dfp25.of(3)
         };
-        final ArrayFieldVector<Fraction> v = new ArrayFieldVector<>(data);
-        final FieldVectorChangingVisitor<Fraction> visitor;
-        visitor = new FieldVectorChangingVisitor<Fraction>() {
+        final ArrayFieldVector<Dfp> v = new ArrayFieldVector<>(data);
+        final FieldVectorChangingVisitor<Dfp> visitor;
+        visitor = new FieldVectorChangingVisitor<Dfp>() {
             private final boolean[] visited = new boolean[data.length];
 
             @Override
-            public Fraction visit(final int actualIndex, final Fraction actualValue) {
+            public Dfp visit(final int actualIndex, final Dfp actualValue) {
                 visited[actualIndex] = true;
                 Assert.assertEquals(Integer.toString(actualIndex),
                                     data[actualIndex], actualValue);
@@ -1140,12 +1146,12 @@ public class ArrayFieldVectorTest {
             }
 
             @Override
-            public Fraction end() {
+            public Dfp end() {
                 for (int i = 0; i < data.length; i++) {
                     Assert.assertTrue("entry " + i + "has not been visited",
                                       visited[i]);
                 }
-                return Fraction.ZERO;
+                return Dfp25.ZERO;
             }
         };
         v.walkInOptimizedOrder(visitor);
@@ -1157,13 +1163,13 @@ public class ArrayFieldVectorTest {
     /** Visiting an invalid subvector. */
     @Test
     public void testWalkInOptimizedOrderChangingVisitor2() {
-        final ArrayFieldVector<Fraction> v = create(5);
-        final FieldVectorChangingVisitor<Fraction> visitor;
-        visitor = new FieldVectorChangingVisitor<Fraction>() {
+        final ArrayFieldVector<Dfp> v = create(5);
+        final FieldVectorChangingVisitor<Dfp> visitor;
+        visitor = new FieldVectorChangingVisitor<Dfp>() {
 
             @Override
-            public Fraction visit(int index, Fraction value) {
-                return Fraction.ZERO;
+            public Dfp visit(int index, Dfp value) {
+                return Dfp25.ZERO;
             }
 
             @Override
@@ -1172,8 +1178,8 @@ public class ArrayFieldVectorTest {
             }
 
             @Override
-            public Fraction end() {
-                return Fraction.ZERO;
+            public Dfp end() {
+                return Dfp25.ZERO;
             }
         };
         try {
@@ -1211,20 +1217,20 @@ public class ArrayFieldVectorTest {
     /** Visiting a valid subvector. */
     @Test
     public void testWalkInOptimizedOrderChangingVisitor3() {
-        final Fraction[] data = new Fraction[] {
-            Fraction.ZERO, Fraction.ONE, Fraction.ZERO,
-            Fraction.ZERO, Fraction.TWO, Fraction.ZERO,
-            Fraction.ZERO, Fraction.ZERO, new Fraction(3)
+        final Dfp[] data = new Dfp[] {
+            Dfp25.ZERO, Dfp25.ONE, Dfp25.ZERO,
+            Dfp25.ZERO, Dfp25.TWO, Dfp25.ZERO,
+            Dfp25.ZERO, Dfp25.ZERO, Dfp25.of(3)
         };
-        final ArrayFieldVector<Fraction> v = new ArrayFieldVector<>(data);
+        final ArrayFieldVector<Dfp> v = new ArrayFieldVector<>(data);
         final int expectedStart = 2;
         final int expectedEnd = 7;
-        final FieldVectorChangingVisitor<Fraction> visitor;
-        visitor = new FieldVectorChangingVisitor<Fraction>() {
+        final FieldVectorChangingVisitor<Dfp> visitor;
+        visitor = new FieldVectorChangingVisitor<Dfp>() {
             private final boolean[] visited = new boolean[data.length];
 
             @Override
-            public Fraction visit(final int actualIndex, final Fraction actualValue) {
+            public Dfp visit(final int actualIndex, final Dfp actualValue) {
                 Assert.assertEquals(Integer.toString(actualIndex),
                                     data[actualIndex], actualValue);
                 visited[actualIndex] = true;
@@ -1241,12 +1247,12 @@ public class ArrayFieldVectorTest {
             }
 
             @Override
-            public Fraction end() {
+            public Dfp end() {
                 for (int i = expectedStart; i <= expectedEnd; i++) {
                     Assert.assertTrue("entry " + i + "has not been visited",
                                       visited[i]);
                 }
-                return Fraction.ZERO;
+                return Dfp25.ZERO;
             }
         };
         v.walkInOptimizedOrder(visitor, expectedStart, expectedEnd);
@@ -1255,10 +1261,10 @@ public class ArrayFieldVectorTest {
         }
     }
 
-    private ArrayFieldVector<Fraction> create(int n) {
-        Fraction[] t = new Fraction[n];
+    private ArrayFieldVector<Dfp> create(int n) {
+        Dfp[] t = new Dfp[n];
         for (int i = 0; i < n; ++i) {
-            t[i] = Fraction.ZERO;
+            t[i] = Dfp25.ZERO;
         }
         return new ArrayFieldVector<>(t);
     }

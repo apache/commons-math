@@ -54,6 +54,9 @@ If the output is not quite correct, check for invisible trailing spaces!
     </release>
 
     <release version="4.0" date="XXXX-XX-XX" description="">
+      <action dev="erans" type="update" issue="MATH-1446">
+        Removed class "Fraction" (ported to "Commons Numbers").
+      </action>
       <action dev="erans" type="update" issue="MATH-1469">
         Removed most codes in package "o.a.c.m.geometry".
         "Commons Math" now depends on "Commons Geometry".

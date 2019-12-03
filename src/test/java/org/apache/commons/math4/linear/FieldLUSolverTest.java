@@ -18,8 +18,8 @@
 package org.apache.commons.math4.linear;
 
 import org.apache.commons.math4.exception.MathIllegalArgumentException;
-import org.apache.commons.math4.fraction.Fraction;
-import org.apache.commons.math4.fraction.FractionField;
+import org.apache.commons.math4.dfp.Dfp;
+import org.apache.commons.math4.dfp.DfpField;
 import org.apache.commons.math4.linear.Array2DRowFieldMatrix;
 import org.apache.commons.math4.linear.FieldDecompositionSolver;
 import org.apache.commons.math4.linear.FieldLUDecomposition;
@@ -54,15 +54,15 @@ public class FieldLUSolverTest {
             { 3, 7,   6,    8 }
     }; // 4th row = 1st + 2nd
 
-    public static FieldMatrix<Fraction> createFractionMatrix(final int[][] data) {
+    public static FieldMatrix<Dfp> createDfpMatrix(final int[][] data) {
         final int numRows = data.length;
         final int numCols = data[0].length;
-        final Array2DRowFieldMatrix<Fraction> m;
-        m = new Array2DRowFieldMatrix<>(FractionField.getInstance(),
+        final Array2DRowFieldMatrix<Dfp> m;
+        m = new Array2DRowFieldMatrix<>(Dfp25.getField(),
                                                 numRows, numCols);
         for (int i = 0; i < numRows; i++) {
             for (int j = 0; j < numCols; j++) {
-                m.setEntry(i, j, new Fraction(data[i][j], 1));
+                m.setEntry(i, j, Dfp25.of(data[i][j], 1));
             }
         }
         return m;
@@ -71,14 +71,14 @@ public class FieldLUSolverTest {
     /** test singular */
     @Test
     public void testSingular() {
-        FieldDecompositionSolver<Fraction> solver;
-        solver = new FieldLUDecomposition<>(createFractionMatrix(testData))
+        FieldDecompositionSolver<Dfp> solver;
+        solver = new FieldLUDecomposition<>(createDfpMatrix(testData))
             .getSolver();
         Assert.assertTrue(solver.isNonSingular());
-        solver = new FieldLUDecomposition<>(createFractionMatrix(singular))
+        solver = new FieldLUDecomposition<>(createDfpMatrix(singular))
             .getSolver();
         Assert.assertFalse(solver.isNonSingular());
-        solver = new FieldLUDecomposition<>(createFractionMatrix(bigSingular))
+        solver = new FieldLUDecomposition<>(createDfpMatrix(bigSingular))
             .getSolver();
         Assert.assertFalse(solver.isNonSingular());
     }
@@ -86,10 +86,10 @@ public class FieldLUSolverTest {
     /** test solve dimension errors */
     @Test
     public void testSolveDimensionErrors() {
-        FieldDecompositionSolver<Fraction> solver;
-        solver = new FieldLUDecomposition<>(createFractionMatrix(testData))
+        FieldDecompositionSolver<Dfp> solver;
+        solver = new FieldLUDecomposition<>(createDfpMatrix(testData))
             .getSolver();
-        FieldMatrix<Fraction> b = createFractionMatrix(new int[2][2]);
+        FieldMatrix<Dfp> b = createDfpMatrix(new int[2][2]);
         try {
             solver.solve(b);
             Assert.fail("an exception should have been thrown");
@@ -107,10 +107,10 @@ public class FieldLUSolverTest {
     /** test solve singularity errors */
     @Test
     public void testSolveSingularityErrors() {
-        FieldDecompositionSolver<Fraction> solver;
-        solver = new FieldLUDecomposition<>(createFractionMatrix(singular))
+        FieldDecompositionSolver<Dfp> solver;
+        solver = new FieldLUDecomposition<>(createDfpMatrix(singular))
             .getSolver();
-        FieldMatrix<Fraction> b = createFractionMatrix(new int[2][2]);
+        FieldMatrix<Dfp> b = createDfpMatrix(new int[2][2]);
         try {
             solver.solve(b);
             Assert.fail("an exception should have been thrown");
@@ -128,18 +128,18 @@ public class FieldLUSolverTest {
     /** test solve */
     @Test
     public void testSolve() {
-        FieldDecompositionSolver<Fraction> solver;
-        solver = new FieldLUDecomposition<>(createFractionMatrix(testData))
+        FieldDecompositionSolver<Dfp> solver;
+        solver = new FieldLUDecomposition<>(createDfpMatrix(testData))
             .getSolver();
-        FieldMatrix<Fraction> b = createFractionMatrix(new int[][] {
+        FieldMatrix<Dfp> b = createDfpMatrix(new int[][] {
                 { 1, 0 }, { 2, -5 }, { 3, 1 }
         });
-        FieldMatrix<Fraction> xRef = createFractionMatrix(new int[][] {
+        FieldMatrix<Dfp> xRef = createDfpMatrix(new int[][] {
                 { 19, -71 }, { -6, 22 }, { -2, 9 }
         });
 
         // using FieldMatrix
-        FieldMatrix<Fraction> x = solver.solve(b);
+        FieldMatrix<Dfp> x = solver.solve(b);
         for (int i = 0; i < x.getRowDimension(); i++){
             for (int j = 0; j < x.getColumnDimension(); j++){
                 Assert.assertEquals("(" + i + ", " + j + ")",
@@ -149,7 +149,7 @@ public class FieldLUSolverTest {
 
         // using ArrayFieldVector
         for (int j = 0; j < b.getColumnDimension(); j++) {
-            final FieldVector<Fraction> xj = solver.solve(b.getColumnVector(j));
+            final FieldVector<Dfp> xj = solver.solve(b.getColumnVector(j));
             for (int i = 0; i < xj.getDimension(); i++){
                 Assert.assertEquals("(" + i + ", " + j + ")",
                                     xRef.getEntry(i, j), xj.getEntry(i));
@@ -158,10 +158,10 @@ public class FieldLUSolverTest {
 
         // using SparseFieldVector
         for (int j = 0; j < b.getColumnDimension(); j++) {
-            final SparseFieldVector<Fraction> bj;
-            bj = new SparseFieldVector<>(FractionField.getInstance(),
+            final SparseFieldVector<Dfp> bj;
+            bj = new SparseFieldVector<>(Dfp25.getField(),
                                                  b.getColumn(j));
-            final FieldVector<Fraction> xj = solver.solve(bj);
+            final FieldVector<Dfp> xj = solver.solve(bj);
             for (int i = 0; i < xj.getDimension(); i++) {
                 Assert.assertEquals("(" + i + ", " + j + ")",
                                     xRef.getEntry(i, j), xj.getEntry(i));
@@ -172,13 +172,13 @@ public class FieldLUSolverTest {
     /** test determinant */
     @Test
     public void testDeterminant() {
-        Assert.assertEquals( -1, getDeterminant(createFractionMatrix(testData)), 1E-15);
-        Assert.assertEquals(-10, getDeterminant(createFractionMatrix(luData)), 1E-14);
-        Assert.assertEquals(  0, getDeterminant(createFractionMatrix(singular)), 1E-15);
-        Assert.assertEquals(  0, getDeterminant(createFractionMatrix(bigSingular)), 1E-15);
+        Assert.assertEquals( -1, getDeterminant(createDfpMatrix(testData)), 1E-15);
+        Assert.assertEquals(-10, getDeterminant(createDfpMatrix(luData)), 1E-14);
+        Assert.assertEquals(  0, getDeterminant(createDfpMatrix(singular)), 1E-15);
+        Assert.assertEquals(  0, getDeterminant(createDfpMatrix(bigSingular)), 1E-15);
     }
 
-    private double getDeterminant(final FieldMatrix<Fraction> m) {
-        return new FieldLUDecomposition<>(m).getDeterminant().doubleValue();
+    private double getDeterminant(final FieldMatrix<Dfp> m) {
+        return new FieldLUDecomposition<>(m).getDeterminant().toDouble();
     }
 }

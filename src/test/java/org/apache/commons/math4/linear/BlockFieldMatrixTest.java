@@ -28,8 +28,10 @@ import org.apache.commons.math4.exception.NotStrictlyPositiveException;
 import org.apache.commons.math4.exception.NullArgumentException;
 import org.apache.commons.math4.exception.NumberIsTooSmallException;
 import org.apache.commons.math4.exception.OutOfRangeException;
-import org.apache.commons.math4.fraction.Fraction;
-import org.apache.commons.math4.fraction.FractionField;
+import org.apache.commons.math4.dfp.Dfp;
+import org.apache.commons.math4.dfp.DfpField;
+import org.apache.commons.math4.util.BigReal;
+import org.apache.commons.math4.util.BigRealField;
 import org.apache.commons.math4.linear.ArrayFieldVector;
 import org.apache.commons.math4.linear.BlockFieldMatrix;
 import org.apache.commons.math4.linear.DefaultFieldMatrixChangingVisitor;
@@ -48,117 +50,117 @@ import org.apache.commons.math4.linear.NonSquareMatrixException;
 public final class BlockFieldMatrixTest {
 
     // 3 x 3 identity matrix
-    protected Fraction[][] id = {
-            {new Fraction(1),new Fraction(0),new Fraction(0)},
-            {new Fraction(0),new Fraction(1),new Fraction(0)},
-            {new Fraction(0),new Fraction(0),new Fraction(1)}
+    protected Dfp[][] id = {
+            {Dfp25.of(1),Dfp25.of(0),Dfp25.of(0)},
+            {Dfp25.of(0),Dfp25.of(1),Dfp25.of(0)},
+            {Dfp25.of(0),Dfp25.of(0),Dfp25.of(1)}
     };
 
     // Test data for group operations
-    protected Fraction[][] testData = {
-            {new Fraction(1),new Fraction(2),new Fraction(3)},
-            {new Fraction(2),new Fraction(5),new Fraction(3)},
-            {new Fraction(1),new Fraction(0),new Fraction(8)}
+    protected Dfp[][] testData = {
+            {Dfp25.of(1),Dfp25.of(2),Dfp25.of(3)},
+            {Dfp25.of(2),Dfp25.of(5),Dfp25.of(3)},
+            {Dfp25.of(1),Dfp25.of(0),Dfp25.of(8)}
     };
-    protected Fraction[][] testDataLU = {
-            {new Fraction(2), new Fraction(5), new Fraction(3)},
-            {new Fraction(1, 2), new Fraction(-5, 2), new Fraction(13, 2)},
-            {new Fraction(1, 2), new Fraction(1, 5), new Fraction(1, 5)}
+    protected Dfp[][] testDataLU = {
+            {Dfp25.of(2), Dfp25.of(5), Dfp25.of(3)},
+            {Dfp25.of(1, 2), Dfp25.of(-5, 2), Dfp25.of(13, 2)},
+            {Dfp25.of(1, 2), Dfp25.of(1, 5), Dfp25.of(1, 5)}
     };
-    protected Fraction[][] testDataPlus2 = {
-            {new Fraction(3),new Fraction(4),new Fraction(5)},
-            {new Fraction(4),new Fraction(7),new Fraction(5)},
-            {new Fraction(3),new Fraction(2),new Fraction(10)}
+    protected Dfp[][] testDataPlus2 = {
+            {Dfp25.of(3),Dfp25.of(4),Dfp25.of(5)},
+            {Dfp25.of(4),Dfp25.of(7),Dfp25.of(5)},
+            {Dfp25.of(3),Dfp25.of(2),Dfp25.of(10)}
     };
-    protected Fraction[][] testDataMinus = {
-            {new Fraction(-1),new Fraction(-2),new Fraction(-3)},
-            {new Fraction(-2),new Fraction(-5),new Fraction(-3)},
-            {new Fraction(-1),new Fraction(0),new Fraction(-8)}
+    protected Dfp[][] testDataMinus = {
+            {Dfp25.of(-1),Dfp25.of(-2),Dfp25.of(-3)},
+            {Dfp25.of(-2),Dfp25.of(-5),Dfp25.of(-3)},
+            {Dfp25.of(-1),Dfp25.of(0),Dfp25.of(-8)}
     };
-    protected Fraction[] testDataRow1 = {new Fraction(1),new Fraction(2),new Fraction(3)};
-    protected Fraction[] testDataCol3 = {new Fraction(3),new Fraction(3),new Fraction(8)};
-    protected Fraction[][] testDataInv = {
-            {new Fraction(-40),new Fraction(16),new Fraction(9)},
-            {new Fraction(13),new Fraction(-5),new Fraction(-3)},
-            {new Fraction(5),new Fraction(-2),new Fraction(-1)}
+    protected Dfp[] testDataRow1 = {Dfp25.of(1),Dfp25.of(2),Dfp25.of(3)};
+    protected Dfp[] testDataCol3 = {Dfp25.of(3),Dfp25.of(3),Dfp25.of(8)};
+    protected Dfp[][] testDataInv = {
+            {Dfp25.of(-40),Dfp25.of(16),Dfp25.of(9)},
+            {Dfp25.of(13),Dfp25.of(-5),Dfp25.of(-3)},
+            {Dfp25.of(5),Dfp25.of(-2),Dfp25.of(-1)}
     };
-    protected Fraction[] preMultTest = {new Fraction(8), new Fraction(12), new Fraction(33)};
-    protected Fraction[][] testData2 = {
-            {new Fraction(1),new Fraction(2),new Fraction(3)},
-            {new Fraction(2),new Fraction(5),new Fraction(3)}
+    protected Dfp[] preMultTest = {Dfp25.of(8), Dfp25.of(12), Dfp25.of(33)};
+    protected Dfp[][] testData2 = {
+            {Dfp25.of(1),Dfp25.of(2),Dfp25.of(3)},
+            {Dfp25.of(2),Dfp25.of(5),Dfp25.of(3)}
     };
-    protected Fraction[][] testData2T = {
-            {new Fraction(1),new Fraction(2)},
-            {new Fraction(2),new Fraction(5)},
-            {new Fraction(3),new Fraction(3)}
+    protected Dfp[][] testData2T = {
+            {Dfp25.of(1),Dfp25.of(2)},
+            {Dfp25.of(2),Dfp25.of(5)},
+            {Dfp25.of(3),Dfp25.of(3)}
     };
-    protected Fraction[][] testDataPlusInv = {
-            {new Fraction(-39),new Fraction(18),new Fraction(12)},
-            {new Fraction(15),new Fraction(0),new Fraction(0)},
-            {new Fraction(6),new Fraction(-2),new Fraction(7)}
+    protected Dfp[][] testDataPlusInv = {
+            {Dfp25.of(-39),Dfp25.of(18),Dfp25.of(12)},
+            {Dfp25.of(15),Dfp25.of(0),Dfp25.of(0)},
+            {Dfp25.of(6),Dfp25.of(-2),Dfp25.of(7)}
     };
 
     // lu decomposition tests
-    protected Fraction[][] luData = {
-            {new Fraction(2),new Fraction(3),new Fraction(3)},
-            {new Fraction(0),new Fraction(5),new Fraction(7)},
-            {new Fraction(6),new Fraction(9),new Fraction(8)}
+    protected Dfp[][] luData = {
+            {Dfp25.of(2),Dfp25.of(3),Dfp25.of(3)},
+            {Dfp25.of(0),Dfp25.of(5),Dfp25.of(7)},
+            {Dfp25.of(6),Dfp25.of(9),Dfp25.of(8)}
     };
-    protected Fraction[][] luDataLUDecomposition = {
-            {new Fraction(6),new Fraction(9),new Fraction(8)},
-            {new Fraction(0),new Fraction(5),new Fraction(7)},
-            {new Fraction(1, 3),new Fraction(0),new Fraction(1, 3)}
+    protected Dfp[][] luDataLUDecomposition = {
+            {Dfp25.of(6),Dfp25.of(9),Dfp25.of(8)},
+            {Dfp25.of(0),Dfp25.of(5),Dfp25.of(7)},
+            {Dfp25.of(1, 3),Dfp25.of(0),Dfp25.of(1, 3)}
     };
 
     // singular matrices
-    protected Fraction[][] singular = { {new Fraction(2),new Fraction(3)}, {new Fraction(2),new Fraction(3)} };
-    protected Fraction[][] bigSingular = {
-            {new Fraction(1),new Fraction(2),new Fraction(3),new Fraction(4)},
-            {new Fraction(2),new Fraction(5),new Fraction(3),new Fraction(4)},
-            {new Fraction(7),new Fraction(3),new Fraction(256),new Fraction(1930)},
-            {new Fraction(3),new Fraction(7),new Fraction(6),new Fraction(8)}
+    protected Dfp[][] singular = { {Dfp25.of(2),Dfp25.of(3)}, {Dfp25.of(2),Dfp25.of(3)} };
+    protected Dfp[][] bigSingular = {
+            {Dfp25.of(1),Dfp25.of(2),Dfp25.of(3),Dfp25.of(4)},
+            {Dfp25.of(2),Dfp25.of(5),Dfp25.of(3),Dfp25.of(4)},
+            {Dfp25.of(7),Dfp25.of(3),Dfp25.of(256),Dfp25.of(1930)},
+            {Dfp25.of(3),Dfp25.of(7),Dfp25.of(6),Dfp25.of(8)}
     }; // 4th row = 1st + 2nd
-    protected Fraction[][] detData = {
-            {new Fraction(1),new Fraction(2),new Fraction(3)},
-            {new Fraction(4),new Fraction(5),new Fraction(6)},
-            {new Fraction(7),new Fraction(8),new Fraction(10)}
+    protected Dfp[][] detData = {
+            {Dfp25.of(1),Dfp25.of(2),Dfp25.of(3)},
+            {Dfp25.of(4),Dfp25.of(5),Dfp25.of(6)},
+            {Dfp25.of(7),Dfp25.of(8),Dfp25.of(10)}
     };
-    protected Fraction[][] detData2 = { {new Fraction(1), new Fraction(3)}, {new Fraction(2), new Fraction(4)}};
+    protected Dfp[][] detData2 = { {Dfp25.of(1), Dfp25.of(3)}, {Dfp25.of(2), Dfp25.of(4)}};
 
     // vectors
-    protected Fraction[] testVector = {new Fraction(1),new Fraction(2),new Fraction(3)};
-    protected Fraction[] testVector2 = {new Fraction(1),new Fraction(2),new Fraction(3),new Fraction(4)};
+    protected Dfp[] testVector = {Dfp25.of(1),Dfp25.of(2),Dfp25.of(3)};
+    protected Dfp[] testVector2 = {Dfp25.of(1),Dfp25.of(2),Dfp25.of(3),Dfp25.of(4)};
 
     // submatrix accessor tests
-    protected Fraction[][] subTestData = {
-            {new Fraction(1), new Fraction(2), new Fraction(3), new Fraction(4)},
-            {new Fraction(3, 2), new Fraction(5, 2), new Fraction(7, 2), new Fraction(9, 2)},
-            {new Fraction(2), new Fraction(4), new Fraction(6), new Fraction(8)},
-            {new Fraction(4), new Fraction(5), new Fraction(6), new Fraction(7)}
+    protected Dfp[][] subTestData = {
+            {Dfp25.of(1), Dfp25.of(2), Dfp25.of(3), Dfp25.of(4)},
+            {Dfp25.of(3, 2), Dfp25.of(5, 2), Dfp25.of(7, 2), Dfp25.of(9, 2)},
+            {Dfp25.of(2), Dfp25.of(4), Dfp25.of(6), Dfp25.of(8)},
+            {Dfp25.of(4), Dfp25.of(5), Dfp25.of(6), Dfp25.of(7)}
     };
     // array selections
-    protected Fraction[][] subRows02Cols13 = { {new Fraction(2), new Fraction(4)}, {new Fraction(4), new Fraction(8)}};
-    protected Fraction[][] subRows03Cols12 = { {new Fraction(2), new Fraction(3)}, {new Fraction(5), new Fraction(6)}};
-    protected Fraction[][] subRows03Cols123 = {
-            {new Fraction(2), new Fraction(3), new Fraction(4)},
-            {new Fraction(5), new Fraction(6), new Fraction(7)}
+    protected Dfp[][] subRows02Cols13 = { {Dfp25.of(2), Dfp25.of(4)}, {Dfp25.of(4), Dfp25.of(8)}};
+    protected Dfp[][] subRows03Cols12 = { {Dfp25.of(2), Dfp25.of(3)}, {Dfp25.of(5), Dfp25.of(6)}};
+    protected Dfp[][] subRows03Cols123 = {
+            {Dfp25.of(2), Dfp25.of(3), Dfp25.of(4)},
+            {Dfp25.of(5), Dfp25.of(6), Dfp25.of(7)}
     };
     // effective permutations
-    protected Fraction[][] subRows20Cols123 = {
-            {new Fraction(4), new Fraction(6), new Fraction(8)},
-            {new Fraction(2), new Fraction(3), new Fraction(4)}
+    protected Dfp[][] subRows20Cols123 = {
+            {Dfp25.of(4), Dfp25.of(6), Dfp25.of(8)},
+            {Dfp25.of(2), Dfp25.of(3), Dfp25.of(4)}
     };
-    protected Fraction[][] subRows31Cols31 = {{new Fraction(7), new Fraction(5)}, {new Fraction(9, 2), new Fraction(5, 2)}};
+    protected Dfp[][] subRows31Cols31 = {{Dfp25.of(7), Dfp25.of(5)}, {Dfp25.of(9, 2), Dfp25.of(5, 2)}};
     // contiguous ranges
-    protected Fraction[][] subRows01Cols23 = {{new Fraction(3),new Fraction(4)} , {new Fraction(7, 2), new Fraction(9, 2)}};
-    protected Fraction[][] subRows23Cols00 = {{new Fraction(2)} , {new Fraction(4)}};
-    protected Fraction[][] subRows00Cols33 = {{new Fraction(4)}};
+    protected Dfp[][] subRows01Cols23 = {{Dfp25.of(3),Dfp25.of(4)} , {Dfp25.of(7, 2), Dfp25.of(9, 2)}};
+    protected Dfp[][] subRows23Cols00 = {{Dfp25.of(2)} , {Dfp25.of(4)}};
+    protected Dfp[][] subRows00Cols33 = {{Dfp25.of(4)}};
     // row matrices
-    protected Fraction[][] subRow0 = {{new Fraction(1),new Fraction(2),new Fraction(3),new Fraction(4)}};
-    protected Fraction[][] subRow3 = {{new Fraction(4),new Fraction(5),new Fraction(6),new Fraction(7)}};
+    protected Dfp[][] subRow0 = {{Dfp25.of(1),Dfp25.of(2),Dfp25.of(3),Dfp25.of(4)}};
+    protected Dfp[][] subRow3 = {{Dfp25.of(4),Dfp25.of(5),Dfp25.of(6),Dfp25.of(7)}};
     // column matrices
-    protected Fraction[][] subColumn1 = {{new Fraction(2)}, {new Fraction(5, 2)}, {new Fraction(4)}, {new Fraction(5)}};
-    protected Fraction[][] subColumn3 = {{new Fraction(4)}, {new Fraction(9, 2)}, {new Fraction(8)}, {new Fraction(7)}};
+    protected Dfp[][] subColumn1 = {{Dfp25.of(2)}, {Dfp25.of(5, 2)}, {Dfp25.of(4)}, {Dfp25.of(5)}};
+    protected Dfp[][] subColumn3 = {{Dfp25.of(4)}, {Dfp25.of(9, 2)}, {Dfp25.of(8)}, {Dfp25.of(7)}};
 
     // tolerances
     protected double entryTolerance = 10E-16;
@@ -167,8 +169,8 @@ public final class BlockFieldMatrixTest {
     /** test dimensions */
     @Test
     public void testDimensions() {
-        BlockFieldMatrix<Fraction> m = new BlockFieldMatrix<>(testData);
-        BlockFieldMatrix<Fraction> m2 = new BlockFieldMatrix<>(testData2);
+        BlockFieldMatrix<Dfp> m = new BlockFieldMatrix<>(testData);
+        BlockFieldMatrix<Dfp> m2 = new BlockFieldMatrix<>(testData2);
         Assert.assertEquals("testData row dimension",3,m.getRowDimension());
         Assert.assertEquals("testData column dimension",3,m.getColumnDimension());
         Assert.assertTrue("testData is square",m.isSquare());
@@ -181,21 +183,21 @@ public final class BlockFieldMatrixTest {
     @Test
     public void testCopyFunctions() {
         Random r = new Random(66636328996002l);
-        BlockFieldMatrix<Fraction> m1 = createRandomMatrix(r, 47, 83);
-        BlockFieldMatrix<Fraction> m2 = new BlockFieldMatrix<>(m1.getData());
+        BlockFieldMatrix<Dfp> m1 = createRandomMatrix(r, 47, 83);
+        BlockFieldMatrix<Dfp> m2 = new BlockFieldMatrix<>(m1.getData());
         Assert.assertEquals(m1, m2);
-        BlockFieldMatrix<Fraction> m3 = new BlockFieldMatrix<>(testData);
-        BlockFieldMatrix<Fraction> m4 = new BlockFieldMatrix<>(m3.getData());
+        BlockFieldMatrix<Dfp> m3 = new BlockFieldMatrix<>(testData);
+        BlockFieldMatrix<Dfp> m4 = new BlockFieldMatrix<>(m3.getData());
         Assert.assertEquals(m3, m4);
     }
 
     /** test add */
     @Test
     public void testAdd() {
-        BlockFieldMatrix<Fraction> m = new BlockFieldMatrix<>(testData);
-        BlockFieldMatrix<Fraction> mInv = new BlockFieldMatrix<>(testDataInv);
-        FieldMatrix<Fraction> mPlusMInv = m.add(mInv);
-        Fraction[][] sumEntries = mPlusMInv.getData();
+        BlockFieldMatrix<Dfp> m = new BlockFieldMatrix<>(testData);
+        BlockFieldMatrix<Dfp> mInv = new BlockFieldMatrix<>(testDataInv);
+        FieldMatrix<Dfp> mPlusMInv = m.add(mInv);
+        Dfp[][] sumEntries = mPlusMInv.getData();
         for (int row = 0; row < m.getRowDimension(); row++) {
             for (int col = 0; col < m.getColumnDimension(); col++) {
                 Assert.assertEquals(testDataPlusInv[row][col],sumEntries[row][col]);
@@ -206,8 +208,8 @@ public final class BlockFieldMatrixTest {
     /** test add failure */
     @Test
     public void testAddFail() {
-        BlockFieldMatrix<Fraction> m = new BlockFieldMatrix<>(testData);
-        BlockFieldMatrix<Fraction> m2 = new BlockFieldMatrix<>(testData2);
+        BlockFieldMatrix<Dfp> m = new BlockFieldMatrix<>(testData);
+        BlockFieldMatrix<Dfp> m2 = new BlockFieldMatrix<>(testData2);
         try {
             m.add(m2);
             Assert.fail("MathIllegalArgumentException expected");
@@ -219,9 +221,9 @@ public final class BlockFieldMatrixTest {
      /** test m-n = m + -n */
     @Test
     public void testPlusMinus() {
-        BlockFieldMatrix<Fraction> m = new BlockFieldMatrix<>(testData);
-        BlockFieldMatrix<Fraction> m2 = new BlockFieldMatrix<>(testDataInv);
-        TestUtils.assertEquals(m.subtract(m2), m2.scalarMultiply(new Fraction(-1)).add(m));
+        BlockFieldMatrix<Dfp> m = new BlockFieldMatrix<>(testData);
+        BlockFieldMatrix<Dfp> m2 = new BlockFieldMatrix<>(testDataInv);
+        TestUtils.assertEquals(m.subtract(m2), m2.scalarMultiply(Dfp25.of(-1)).add(m));
         try {
             m.subtract(new BlockFieldMatrix<>(testData2));
             Assert.fail("Expecting illegalArgumentException");
@@ -233,10 +235,10 @@ public final class BlockFieldMatrixTest {
     /** test multiply */
     @Test
     public void testMultiply() {
-        BlockFieldMatrix<Fraction> m = new BlockFieldMatrix<>(testData);
-        BlockFieldMatrix<Fraction> mInv = new BlockFieldMatrix<>(testDataInv);
-        BlockFieldMatrix<Fraction> identity = new BlockFieldMatrix<>(id);
-        BlockFieldMatrix<Fraction> m2 = new BlockFieldMatrix<>(testData2);
+        BlockFieldMatrix<Dfp> m = new BlockFieldMatrix<>(testData);
+        BlockFieldMatrix<Dfp> mInv = new BlockFieldMatrix<>(testDataInv);
+        BlockFieldMatrix<Dfp> identity = new BlockFieldMatrix<>(id);
+        BlockFieldMatrix<Dfp> m2 = new BlockFieldMatrix<>(testData2);
         TestUtils.assertEquals(m.multiply(mInv), identity);
         TestUtils.assertEquals(mInv.multiply(m), identity);
         TestUtils.assertEquals(m.multiply(identity), m);
@@ -252,15 +254,15 @@ public final class BlockFieldMatrixTest {
 
     @Test
     public void testSeveralBlocks() {
-        FieldMatrix<Fraction> m =
-            new BlockFieldMatrix<>(FractionField.getInstance(), 37, 41);
+        FieldMatrix<Dfp> m =
+            new BlockFieldMatrix<>(Dfp25.getField(), 37, 41);
         for (int i = 0; i < m.getRowDimension(); ++i) {
             for (int j = 0; j < m.getColumnDimension(); ++j) {
-                m.setEntry(i, j, new Fraction(i * 11 + j, 11));
+                m.setEntry(i, j, Dfp25.of(i * 11 + j, 11));
             }
         }
 
-        FieldMatrix<Fraction> mT = m.transpose();
+        FieldMatrix<Dfp> mT = m.transpose();
         Assert.assertEquals(m.getRowDimension(), mT.getColumnDimension());
         Assert.assertEquals(m.getColumnDimension(), mT.getRowDimension());
         for (int i = 0; i < mT.getRowDimension(); ++i) {
@@ -269,99 +271,103 @@ public final class BlockFieldMatrixTest {
             }
         }
 
-        FieldMatrix<Fraction> mPm = m.add(m);
+        FieldMatrix<Dfp> mPm = m.add(m);
         for (int i = 0; i < mPm.getRowDimension(); ++i) {
             for (int j = 0; j < mPm.getColumnDimension(); ++j) {
-                Assert.assertEquals(m.getEntry(i, j).multiply(new Fraction(2)), mPm.getEntry(i, j));
+                Assert.assertEquals(m.getEntry(i, j).multiply(Dfp25.of(2)), mPm.getEntry(i, j));
             }
         }
 
-        FieldMatrix<Fraction> mPmMm = mPm.subtract(m);
+        FieldMatrix<Dfp> mPmMm = mPm.subtract(m);
         for (int i = 0; i < mPmMm.getRowDimension(); ++i) {
             for (int j = 0; j < mPmMm.getColumnDimension(); ++j) {
-                Assert.assertEquals(m.getEntry(i, j), mPmMm.getEntry(i, j));
+                Assert.assertEquals(m.getEntry(i, j).toDouble(),
+                                    mPmMm.getEntry(i, j).toDouble(),
+                                    0d);
             }
         }
 
-        FieldMatrix<Fraction> mTm = mT.multiply(m);
+        FieldMatrix<Dfp> mTm = mT.multiply(m);
         for (int i = 0; i < mTm.getRowDimension(); ++i) {
             for (int j = 0; j < mTm.getColumnDimension(); ++j) {
-                Fraction sum = Fraction.ZERO;
+                Dfp sum = Dfp25.ZERO;
                 for (int k = 0; k < mT.getColumnDimension(); ++k) {
-                    sum = sum.add(new Fraction(k * 11 + i, 11).multiply(new Fraction(k * 11 + j, 11)));
+                    sum = sum.add(Dfp25.of(k * 11 + i, 11).multiply(Dfp25.of(k * 11 + j, 11)));
                 }
                 Assert.assertEquals(sum, mTm.getEntry(i, j));
             }
         }
 
-        FieldMatrix<Fraction> mmT = m.multiply(mT);
+        FieldMatrix<Dfp> mmT = m.multiply(mT);
         for (int i = 0; i < mmT.getRowDimension(); ++i) {
             for (int j = 0; j < mmT.getColumnDimension(); ++j) {
-                Fraction sum = Fraction.ZERO;
+                Dfp sum = Dfp25.ZERO;
                 for (int k = 0; k < m.getColumnDimension(); ++k) {
-                    sum = sum.add(new Fraction(i * 11 + k, 11).multiply(new Fraction(j * 11 + k, 11)));
+                    sum = sum.add(Dfp25.of(i * 11 + k, 11).multiply(Dfp25.of(j * 11 + k, 11)));
                 }
-                Assert.assertEquals(sum, mmT.getEntry(i, j));
+                Assert.assertEquals(sum.toDouble(),
+                                    mmT.getEntry(i, j).toDouble(),
+                                    0d);
             }
         }
 
-        FieldMatrix<Fraction> sub1 = m.getSubMatrix(2, 9, 5, 20);
+        FieldMatrix<Dfp> sub1 = m.getSubMatrix(2, 9, 5, 20);
         for (int i = 0; i < sub1.getRowDimension(); ++i) {
             for (int j = 0; j < sub1.getColumnDimension(); ++j) {
-                Assert.assertEquals(new Fraction((i + 2) * 11 + (j + 5), 11), sub1.getEntry(i, j));
+                Assert.assertEquals(Dfp25.of((i + 2) * 11 + (j + 5), 11), sub1.getEntry(i, j));
             }
         }
 
-        FieldMatrix<Fraction> sub2 = m.getSubMatrix(10, 12, 3, 40);
+        FieldMatrix<Dfp> sub2 = m.getSubMatrix(10, 12, 3, 40);
         for (int i = 0; i < sub2.getRowDimension(); ++i) {
             for (int j = 0; j < sub2.getColumnDimension(); ++j) {
-                Assert.assertEquals(new Fraction((i + 10) * 11 + (j + 3), 11), sub2.getEntry(i, j));
+                Assert.assertEquals(Dfp25.of((i + 10) * 11 + (j + 3), 11), sub2.getEntry(i, j));
             }
         }
 
-        FieldMatrix<Fraction> sub3 = m.getSubMatrix(30, 34, 0, 5);
+        FieldMatrix<Dfp> sub3 = m.getSubMatrix(30, 34, 0, 5);
         for (int i = 0; i < sub3.getRowDimension(); ++i) {
             for (int j = 0; j < sub3.getColumnDimension(); ++j) {
-                Assert.assertEquals(new Fraction((i + 30) * 11 + (j + 0), 11), sub3.getEntry(i, j));
+                Assert.assertEquals(Dfp25.of((i + 30) * 11 + (j + 0), 11), sub3.getEntry(i, j));
             }
         }
 
-        FieldMatrix<Fraction> sub4 = m.getSubMatrix(30, 32, 32, 35);
+        FieldMatrix<Dfp> sub4 = m.getSubMatrix(30, 32, 32, 35);
         for (int i = 0; i < sub4.getRowDimension(); ++i) {
             for (int j = 0; j < sub4.getColumnDimension(); ++j) {
-                Assert.assertEquals(new Fraction((i + 30) * 11 + (j + 32), 11), sub4.getEntry(i, j));
+                Assert.assertEquals(Dfp25.of((i + 30) * 11 + (j + 32), 11), sub4.getEntry(i, j));
             }
         }
 
     }
 
-    //Additional Test for BlockFieldMatrix<Fraction>Test.testMultiply
+    //Additional Test for BlockFieldMatrix<Dfp>Test.testMultiply
 
-    private Fraction[][] d3 = new Fraction[][] {
-            {new Fraction(1),new Fraction(2),new Fraction(3),new Fraction(4)},
-            {new Fraction(5),new Fraction(6),new Fraction(7),new Fraction(8)}
+    private Dfp[][] d3 = new Dfp[][] {
+            {Dfp25.of(1),Dfp25.of(2),Dfp25.of(3),Dfp25.of(4)},
+            {Dfp25.of(5),Dfp25.of(6),Dfp25.of(7),Dfp25.of(8)}
     };
-    private Fraction[][] d4 = new Fraction[][] {
-            {new Fraction(1)},
-            {new Fraction(2)},
-            {new Fraction(3)},
-            {new Fraction(4)}
+    private Dfp[][] d4 = new Dfp[][] {
+            {Dfp25.of(1)},
+            {Dfp25.of(2)},
+            {Dfp25.of(3)},
+            {Dfp25.of(4)}
     };
-    private Fraction[][] d5 = new Fraction[][] {{new Fraction(30)},{new Fraction(70)}};
+    private Dfp[][] d5 = new Dfp[][] {{Dfp25.of(30)},{Dfp25.of(70)}};
 
     @Test
     public void testMultiply2() {
-       FieldMatrix<Fraction> m3 = new BlockFieldMatrix<>(d3);
-       FieldMatrix<Fraction> m4 = new BlockFieldMatrix<>(d4);
-       FieldMatrix<Fraction> m5 = new BlockFieldMatrix<>(d5);
+       FieldMatrix<Dfp> m3 = new BlockFieldMatrix<>(d3);
+       FieldMatrix<Dfp> m4 = new BlockFieldMatrix<>(d4);
+       FieldMatrix<Dfp> m5 = new BlockFieldMatrix<>(d5);
        TestUtils.assertEquals(m3.multiply(m4), m5);
    }
 
     /** test trace */
     @Test
     public void testTrace() {
-        FieldMatrix<Fraction> m = new BlockFieldMatrix<>(id);
-        Assert.assertEquals(new Fraction(3),m.getTrace());
+        FieldMatrix<Dfp> m = new BlockFieldMatrix<>(id);
+        Assert.assertEquals(Dfp25.of(3),m.getTrace());
         m = new BlockFieldMatrix<>(testData2);
         try {
             m.getTrace();
@@ -374,15 +380,15 @@ public final class BlockFieldMatrixTest {
     /** test scalarAdd */
     @Test
     public void testScalarAdd() {
-        FieldMatrix<Fraction> m = new BlockFieldMatrix<>(testData);
+        FieldMatrix<Dfp> m = new BlockFieldMatrix<>(testData);
         TestUtils.assertEquals(new BlockFieldMatrix<>(testDataPlus2),
-                               m.scalarAdd(new Fraction(2)));
+                               m.scalarAdd(Dfp25.of(2)));
     }
 
     /** test operate */
     @Test
     public void testOperate() {
-        FieldMatrix<Fraction> m = new BlockFieldMatrix<>(id);
+        FieldMatrix<Dfp> m = new BlockFieldMatrix<>(id);
         TestUtils.assertEquals(testVector, m.operate(testVector));
         TestUtils.assertEquals(testVector, m.operate(new ArrayFieldVector<>(testVector)).toArray());
         m = new BlockFieldMatrix<>(bigSingular);
@@ -400,9 +406,9 @@ public final class BlockFieldMatrixTest {
         int q = (11 * BlockFieldMatrix.BLOCK_SIZE) / 10;
         int r =  BlockFieldMatrix.BLOCK_SIZE / 2;
         Random random = new Random(111007463902334l);
-        FieldMatrix<Fraction> m1 = createRandomMatrix(random, p, q);
-        FieldMatrix<Fraction> m2 = createRandomMatrix(random, q, r);
-        FieldMatrix<Fraction> m1m2 = m1.multiply(m2);
+        FieldMatrix<Dfp> m1 = createRandomMatrix(random, p, q);
+        FieldMatrix<Dfp> m2 = createRandomMatrix(random, q, r);
+        FieldMatrix<Dfp> m1m2 = m1.multiply(m2);
         for (int i = 0; i < r; ++i) {
             TestUtils.assertEquals(m1m2.getColumn(i), m1.operate(m2.getColumn(i)));
         }
@@ -414,9 +420,9 @@ public final class BlockFieldMatrixTest {
         int q = (11 * BlockFieldMatrix.BLOCK_SIZE) / 10;
         int r =  BlockFieldMatrix.BLOCK_SIZE / 2;
         Random random = new Random(111007463902334l);
-        FieldMatrix<Fraction> m1 = createRandomMatrix(random, p, q);
-        FieldMatrix<Fraction> m2 = createRandomMatrix(random, q, r);
-        FieldMatrix<Fraction> m1m2 = m1.multiply(m2);
+        FieldMatrix<Dfp> m1 = createRandomMatrix(random, p, q);
+        FieldMatrix<Dfp> m2 = createRandomMatrix(random, q, r);
+        FieldMatrix<Dfp> m1m2 = m1.multiply(m2);
         for (int i = 0; i < p; ++i) {
             TestUtils.assertEquals(m1m2.getRow(i), m2.preMultiply(m1.getRow(i)));
         }
@@ -425,34 +431,34 @@ public final class BlockFieldMatrixTest {
     /** test issue MATH-209 */
     @Test
     public void testMath209() {
-        FieldMatrix<Fraction> a = new BlockFieldMatrix<>(new Fraction[][] {
-                { new Fraction(1), new Fraction(2) },
-                { new Fraction(3), new Fraction(4) },
-                { new Fraction(5), new Fraction(6) }
+        FieldMatrix<Dfp> a = new BlockFieldMatrix<>(new Dfp[][] {
+                { Dfp25.of(1), Dfp25.of(2) },
+                { Dfp25.of(3), Dfp25.of(4) },
+                { Dfp25.of(5), Dfp25.of(6) }
         });
-        Fraction[] b = a.operate(new Fraction[] { new Fraction(1), new Fraction(1) });
+        Dfp[] b = a.operate(new Dfp[] { Dfp25.of(1), Dfp25.of(1) });
         Assert.assertEquals(a.getRowDimension(), b.length);
-        Assert.assertEquals( new Fraction(3), b[0]);
-        Assert.assertEquals( new Fraction(7), b[1]);
-        Assert.assertEquals(new Fraction(11), b[2]);
+        Assert.assertEquals( Dfp25.of(3), b[0]);
+        Assert.assertEquals( Dfp25.of(7), b[1]);
+        Assert.assertEquals(Dfp25.of(11), b[2]);
     }
 
     /** test transpose */
     @Test
     public void testTranspose() {
-        FieldMatrix<Fraction> m = new BlockFieldMatrix<>(testData);
-        FieldMatrix<Fraction> mIT = new FieldLUDecomposition<>(m).getSolver().getInverse().transpose();
-        FieldMatrix<Fraction> mTI = new FieldLUDecomposition<>(m.transpose()).getSolver().getInverse();
+        FieldMatrix<Dfp> m = new BlockFieldMatrix<>(testData);
+        FieldMatrix<Dfp> mIT = new FieldLUDecomposition<>(m).getSolver().getInverse().transpose();
+        FieldMatrix<Dfp> mTI = new FieldLUDecomposition<>(m.transpose()).getSolver().getInverse();
         TestUtils.assertEquals(mIT, mTI);
         m = new BlockFieldMatrix<>(testData2);
-        FieldMatrix<Fraction> mt = new BlockFieldMatrix<>(testData2T);
+        FieldMatrix<Dfp> mt = new BlockFieldMatrix<>(testData2T);
         TestUtils.assertEquals(mt, m.transpose());
     }
 
     /** test preMultiply by vector */
     @Test
     public void testPremultiplyVector() {
-        FieldMatrix<Fraction> m = new BlockFieldMatrix<>(testData);
+        FieldMatrix<Dfp> m = new BlockFieldMatrix<>(testData);
         TestUtils.assertEquals(m.preMultiply(testVector), preMultTest);
         TestUtils.assertEquals(m.preMultiply(new ArrayFieldVector<>(testVector).toArray()),
                                preMultTest);
@@ -467,14 +473,14 @@ public final class BlockFieldMatrixTest {
 
     @Test
     public void testPremultiply() {
-        FieldMatrix<Fraction> m3 = new BlockFieldMatrix<>(d3);
-        FieldMatrix<Fraction> m4 = new BlockFieldMatrix<>(d4);
-        FieldMatrix<Fraction> m5 = new BlockFieldMatrix<>(d5);
+        FieldMatrix<Dfp> m3 = new BlockFieldMatrix<>(d3);
+        FieldMatrix<Dfp> m4 = new BlockFieldMatrix<>(d4);
+        FieldMatrix<Dfp> m5 = new BlockFieldMatrix<>(d5);
         TestUtils.assertEquals(m4.preMultiply(m3), m5);
 
-        BlockFieldMatrix<Fraction> m = new BlockFieldMatrix<>(testData);
-        BlockFieldMatrix<Fraction> mInv = new BlockFieldMatrix<>(testDataInv);
-        BlockFieldMatrix<Fraction> identity = new BlockFieldMatrix<>(id);
+        BlockFieldMatrix<Dfp> m = new BlockFieldMatrix<>(testData);
+        BlockFieldMatrix<Dfp> mInv = new BlockFieldMatrix<>(testDataInv);
+        BlockFieldMatrix<Dfp> identity = new BlockFieldMatrix<>(id);
         TestUtils.assertEquals(m.preMultiply(mInv), identity);
         TestUtils.assertEquals(mInv.preMultiply(m), identity);
         TestUtils.assertEquals(m.preMultiply(identity), m);
@@ -489,7 +495,7 @@ public final class BlockFieldMatrixTest {
 
     @Test
     public void testGetVectors() {
-        FieldMatrix<Fraction> m = new BlockFieldMatrix<>(testData);
+        FieldMatrix<Dfp> m = new BlockFieldMatrix<>(testData);
         TestUtils.assertEquals(m.getRow(0), testDataRow1);
         TestUtils.assertEquals(m.getColumn(2), testDataCol3);
         try {
@@ -508,8 +514,8 @@ public final class BlockFieldMatrixTest {
 
     @Test
     public void testGetEntry() {
-        FieldMatrix<Fraction> m = new BlockFieldMatrix<>(testData);
-        Assert.assertEquals(m.getEntry(0,1),new Fraction(2));
+        FieldMatrix<Dfp> m = new BlockFieldMatrix<>(testData);
+        Assert.assertEquals(m.getEntry(0,1),Dfp25.of(2));
         try {
             m.getEntry(10, 4);
             Assert.fail ("Expecting OutOfRangeException");
@@ -522,60 +528,63 @@ public final class BlockFieldMatrixTest {
     @Test
     public void testExamples() {
         // Create a real matrix with two rows and three columns
-        Fraction[][] matrixData = {
-                {new Fraction(1),new Fraction(2),new Fraction(3)},
-                {new Fraction(2),new Fraction(5),new Fraction(3)}
+        Dfp[][] matrixData = {
+                {Dfp25.of(1),Dfp25.of(2),Dfp25.of(3)},
+                {Dfp25.of(2),Dfp25.of(5),Dfp25.of(3)}
         };
-        FieldMatrix<Fraction> m = new BlockFieldMatrix<>(matrixData);
+        FieldMatrix<Dfp> m = new BlockFieldMatrix<>(matrixData);
         // One more with three rows, two columns
-        Fraction[][] matrixData2 = {
-                {new Fraction(1),new Fraction(2)},
-                {new Fraction(2),new Fraction(5)},
-                {new Fraction(1), new Fraction(7)}
+        Dfp[][] matrixData2 = {
+                {Dfp25.of(1),Dfp25.of(2)},
+                {Dfp25.of(2),Dfp25.of(5)},
+                {Dfp25.of(1), Dfp25.of(7)}
         };
-        FieldMatrix<Fraction> n = new BlockFieldMatrix<>(matrixData2);
+        FieldMatrix<Dfp> n = new BlockFieldMatrix<>(matrixData2);
         // Now multiply m by n
-        FieldMatrix<Fraction> p = m.multiply(n);
+        FieldMatrix<Dfp> p = m.multiply(n);
         Assert.assertEquals(2, p.getRowDimension());
         Assert.assertEquals(2, p.getColumnDimension());
         // Invert p
-        FieldMatrix<Fraction> pInverse = new FieldLUDecomposition<>(p).getSolver().getInverse();
+        FieldMatrix<Dfp> pInverse = new FieldLUDecomposition<>(p).getSolver().getInverse();
         Assert.assertEquals(2, pInverse.getRowDimension());
         Assert.assertEquals(2, pInverse.getColumnDimension());
 
         // Solve example
-        Fraction[][] coefficientsData = {
-                {new Fraction(2), new Fraction(3), new Fraction(-2)},
-                {new Fraction(-1), new Fraction(7), new Fraction(6)},
-                {new Fraction(4), new Fraction(-3), new Fraction(-5)}
+        Dfp[][] coefficientsData = {
+                {Dfp25.of(2), Dfp25.of(3), Dfp25.of(-2)},
+                {Dfp25.of(-1), Dfp25.of(7), Dfp25.of(6)},
+                {Dfp25.of(4), Dfp25.of(-3), Dfp25.of(-5)}
         };
-        FieldMatrix<Fraction> coefficients = new BlockFieldMatrix<>(coefficientsData);
-        Fraction[] constants = {
-            new Fraction(1), new Fraction(-2), new Fraction(1)
+        FieldMatrix<Dfp> coefficients = new BlockFieldMatrix<>(coefficientsData);
+        Dfp[] constants = {
+            Dfp25.of(1), Dfp25.of(-2), Dfp25.of(1)
         };
-        Fraction[] solution;
+        Dfp[] solution;
         solution = new FieldLUDecomposition<>(coefficients)
             .getSolver()
             .solve(new ArrayFieldVector<>(constants, false)).toArray();
-        Assert.assertEquals(new Fraction(2).multiply(solution[0]).
-                     add(new Fraction(3).multiply(solution[1])).
-                     subtract(new Fraction(2).multiply(solution[2])),
-                     constants[0]);
-        Assert.assertEquals(new Fraction(-1).multiply(solution[0]).
-                     add(new Fraction(7).multiply(solution[1])).
-                     add(new Fraction(6).multiply(solution[2])),
-                     constants[1]);
-        Assert.assertEquals(new Fraction(4).multiply(solution[0]).
-                     subtract(new Fraction(3).multiply(solution[1])).
-                     subtract(new Fraction(5).multiply(solution[2])),
-                     constants[2]);
+        Assert.assertEquals(Dfp25.of(2).multiply(solution[0]).
+                            add(Dfp25.of(3).multiply(solution[1])).
+                            subtract(Dfp25.of(2).multiply(solution[2])).toDouble(),
+                            constants[0].toDouble(),
+                            0d);
+        Assert.assertEquals(Dfp25.of(-1).multiply(solution[0]).
+                            add(Dfp25.of(7).multiply(solution[1])).
+                            add(Dfp25.of(6).multiply(solution[2])).toDouble(),
+                            constants[1].toDouble(),
+                            0d);
+        Assert.assertEquals(Dfp25.of(4).multiply(solution[0]).
+                            subtract(Dfp25.of(3).multiply(solution[1])).
+                            subtract(Dfp25.of(5).multiply(solution[2])).toDouble(),
+                            constants[2].toDouble(),
+                            0d);
 
     }
 
     // test submatrix accessors
     @Test
     public void testGetSubMatrix() {
-        FieldMatrix<Fraction> m = new BlockFieldMatrix<>(subTestData);
+        FieldMatrix<Dfp> m = new BlockFieldMatrix<>(subTestData);
         checkGetSubMatrix(m, subRows23Cols00,  2 , 3 , 0, 0);
         checkGetSubMatrix(m, subRows00Cols33,  0 , 0 , 3, 3);
         checkGetSubMatrix(m, subRows01Cols23,  0 , 1 , 2, 3);
@@ -593,10 +602,10 @@ public final class BlockFieldMatrixTest {
         checkGetSubMatrix(m, null, new int[] { 0 }, new int[] { 4 });
     }
 
-    private void checkGetSubMatrix(FieldMatrix<Fraction> m, Fraction[][] reference,
+    private void checkGetSubMatrix(FieldMatrix<Dfp> m, Dfp[][] reference,
                                    int startRow, int endRow, int startColumn, int endColumn) {
         try {
-            FieldMatrix<Fraction> sub = m.getSubMatrix(startRow, endRow, startColumn, endColumn);
+            FieldMatrix<Dfp> sub = m.getSubMatrix(startRow, endRow, startColumn, endColumn);
             if (reference != null) {
                 Assert.assertEquals(new BlockFieldMatrix<>(reference), sub);
             } else {
@@ -622,10 +631,10 @@ public final class BlockFieldMatrixTest {
         }
     }
 
-    private void checkGetSubMatrix(FieldMatrix<Fraction> m, Fraction[][] reference,
+    private void checkGetSubMatrix(FieldMatrix<Dfp> m, Dfp[][] reference,
                                    int[] selectedRows, int[] selectedColumns) {
         try {
-            FieldMatrix<Fraction> sub = m.getSubMatrix(selectedRows, selectedColumns);
+            FieldMatrix<Dfp> sub = m.getSubMatrix(selectedRows, selectedColumns);
             if (reference != null) {
                 Assert.assertEquals(new BlockFieldMatrix<>(reference), sub);
             } else {
@@ -653,18 +662,18 @@ public final class BlockFieldMatrixTest {
     @Test
     public void testGetSetMatrixLarge() {
         int n = 3 * BlockFieldMatrix.BLOCK_SIZE;
-        FieldMatrix<Fraction> m =
-            new BlockFieldMatrix<>(FractionField.getInstance(), n, n);
-        FieldMatrix<Fraction> sub =
-            new BlockFieldMatrix<>(FractionField.getInstance(), n - 4, n - 4).scalarAdd(new Fraction(1));
+        FieldMatrix<Dfp> m =
+            new BlockFieldMatrix<>(Dfp25.getField(), n, n);
+        FieldMatrix<Dfp> sub =
+            new BlockFieldMatrix<>(Dfp25.getField(), n - 4, n - 4).scalarAdd(Dfp25.of(1));
 
         m.setSubMatrix(sub.getData(), 2, 2);
         for (int i = 0; i < n; ++i) {
             for (int j = 0; j < n; ++j) {
                 if ((i < 2) || (i > n - 3) || (j < 2) || (j > n - 3)) {
-                    Assert.assertEquals(new Fraction(0), m.getEntry(i, j));
+                    Assert.assertEquals(Dfp25.of(0), m.getEntry(i, j));
                 } else {
-                    Assert.assertEquals(new Fraction(1), m.getEntry(i, j));
+                    Assert.assertEquals(Dfp25.of(1), m.getEntry(i, j));
                 }
             }
         }
@@ -673,7 +682,7 @@ public final class BlockFieldMatrixTest {
 
     @Test
     public void testCopySubMatrix() {
-        FieldMatrix<Fraction> m = new BlockFieldMatrix<>(subTestData);
+        FieldMatrix<Dfp> m = new BlockFieldMatrix<>(subTestData);
         checkCopy(m, subRows23Cols00,  2 , 3 , 0, 0);
         checkCopy(m, subRows00Cols33,  0 , 0 , 3, 3);
         checkCopy(m, subRows01Cols23,  0 , 1 , 2, 3);
@@ -692,12 +701,12 @@ public final class BlockFieldMatrixTest {
         checkCopy(m, null, new int[] { 0 }, new int[] { 4 });
     }
 
-    private void checkCopy(FieldMatrix<Fraction> m, Fraction[][] reference,
+    private void checkCopy(FieldMatrix<Dfp> m, Dfp[][] reference,
                            int startRow, int endRow, int startColumn, int endColumn) {
         try {
-            Fraction[][] sub = (reference == null) ?
-                             new Fraction[1][1] :
-                             new Fraction[reference.length][reference[0].length];
+            Dfp[][] sub = (reference == null) ?
+                             new Dfp[1][1] :
+                             new Dfp[reference.length][reference[0].length];
             m.copySubMatrix(startRow, endRow, startColumn, endColumn, sub);
             if (reference != null) {
                 Assert.assertEquals(new BlockFieldMatrix<>(reference), new BlockFieldMatrix<>(sub));
@@ -719,12 +728,12 @@ public final class BlockFieldMatrixTest {
         }
     }
 
-    private void checkCopy(FieldMatrix<Fraction> m, Fraction[][] reference,
+    private void checkCopy(FieldMatrix<Dfp> m, Dfp[][] reference,
                            int[] selectedRows, int[] selectedColumns) {
         try {
-            Fraction[][] sub = (reference == null) ?
-                    new Fraction[1][1] :
-                    new Fraction[reference.length][reference[0].length];
+            Dfp[][] sub = (reference == null) ?
+                    new Dfp[1][1] :
+                    new Dfp[reference.length][reference[0].length];
             m.copySubMatrix(selectedRows, selectedColumns, sub);
             if (reference != null) {
                 Assert.assertEquals(new BlockFieldMatrix<>(reference), new BlockFieldMatrix<>(sub));
@@ -748,9 +757,9 @@ public final class BlockFieldMatrixTest {
 
     @Test
     public void testGetRowMatrix() {
-        FieldMatrix<Fraction> m     = new BlockFieldMatrix<>(subTestData);
-        FieldMatrix<Fraction> mRow0 = new BlockFieldMatrix<>(subRow0);
-        FieldMatrix<Fraction> mRow3 = new BlockFieldMatrix<>(subRow3);
+        FieldMatrix<Dfp> m     = new BlockFieldMatrix<>(subTestData);
+        FieldMatrix<Dfp> mRow0 = new BlockFieldMatrix<>(subRow0);
+        FieldMatrix<Dfp> mRow3 = new BlockFieldMatrix<>(subRow3);
         Assert.assertEquals("Row0", mRow0, m.getRowMatrix(0));
         Assert.assertEquals("Row3", mRow3, m.getRowMatrix(3));
         try {
@@ -769,8 +778,8 @@ public final class BlockFieldMatrixTest {
 
     @Test
     public void testSetRowMatrix() {
-        FieldMatrix<Fraction> m = new BlockFieldMatrix<>(subTestData);
-        FieldMatrix<Fraction> mRow3 = new BlockFieldMatrix<>(subRow3);
+        FieldMatrix<Dfp> m = new BlockFieldMatrix<>(subTestData);
+        FieldMatrix<Dfp> mRow3 = new BlockFieldMatrix<>(subRow3);
         Assert.assertNotSame(mRow3, m.getRowMatrix(0));
         m.setRowMatrix(0, mRow3);
         Assert.assertEquals(mRow3, m.getRowMatrix(0));
@@ -791,18 +800,18 @@ public final class BlockFieldMatrixTest {
     @Test
     public void testGetSetRowMatrixLarge() {
         int n = 3 * BlockFieldMatrix.BLOCK_SIZE;
-        FieldMatrix<Fraction> m =
-            new BlockFieldMatrix<>(FractionField.getInstance(), n, n);
-        FieldMatrix<Fraction> sub =
-            new BlockFieldMatrix<>(FractionField.getInstance(), 1, n).scalarAdd(new Fraction(1));
+        FieldMatrix<Dfp> m =
+            new BlockFieldMatrix<>(Dfp25.getField(), n, n);
+        FieldMatrix<Dfp> sub =
+            new BlockFieldMatrix<>(Dfp25.getField(), 1, n).scalarAdd(Dfp25.of(1));
 
         m.setRowMatrix(2, sub);
         for (int i = 0; i < n; ++i) {
             for (int j = 0; j < n; ++j) {
                 if (i != 2) {
-                    Assert.assertEquals(new Fraction(0), m.getEntry(i, j));
+                    Assert.assertEquals(Dfp25.of(0), m.getEntry(i, j));
                 } else {
-                    Assert.assertEquals(new Fraction(1), m.getEntry(i, j));
+                    Assert.assertEquals(Dfp25.of(1), m.getEntry(i, j));
                 }
             }
         }
@@ -812,9 +821,9 @@ public final class BlockFieldMatrixTest {
 
     @Test
     public void testGetColumnMatrix() {
-        FieldMatrix<Fraction> m = new BlockFieldMatrix<>(subTestData);
-        FieldMatrix<Fraction> mColumn1 = new BlockFieldMatrix<>(subColumn1);
-        FieldMatrix<Fraction> mColumn3 = new BlockFieldMatrix<>(subColumn3);
+        FieldMatrix<Dfp> m = new BlockFieldMatrix<>(subTestData);
+        FieldMatrix<Dfp> mColumn1 = new BlockFieldMatrix<>(subColumn1);
+        FieldMatrix<Dfp> mColumn3 = new BlockFieldMatrix<>(subColumn3);
         Assert.assertEquals(mColumn1, m.getColumnMatrix(1));
         Assert.assertEquals(mColumn3, m.getColumnMatrix(3));
         try {
@@ -833,8 +842,8 @@ public final class BlockFieldMatrixTest {
 
     @Test
     public void testSetColumnMatrix() {
-        FieldMatrix<Fraction> m = new BlockFieldMatrix<>(subTestData);
-        FieldMatrix<Fraction> mColumn3 = new BlockFieldMatrix<>(subColumn3);
+        FieldMatrix<Dfp> m = new BlockFieldMatrix<>(subTestData);
+        FieldMatrix<Dfp> mColumn3 = new BlockFieldMatrix<>(subColumn3);
         Assert.assertNotSame(mColumn3, m.getColumnMatrix(1));
         m.setColumnMatrix(1, mColumn3);
         Assert.assertEquals(mColumn3, m.getColumnMatrix(1));
@@ -855,18 +864,18 @@ public final class BlockFieldMatrixTest {
     @Test
     public void testGetSetColumnMatrixLarge() {
         int n = 3 * BlockFieldMatrix.BLOCK_SIZE;
-        FieldMatrix<Fraction> m =
-            new BlockFieldMatrix<>(FractionField.getInstance(), n, n);
-        FieldMatrix<Fraction> sub =
-            new BlockFieldMatrix<>(FractionField.getInstance(), n, 1).scalarAdd(new Fraction(1));
+        FieldMatrix<Dfp> m =
+            new BlockFieldMatrix<>(Dfp25.getField(), n, n);
+        FieldMatrix<Dfp> sub =
+            new BlockFieldMatrix<>(Dfp25.getField(), n, 1).scalarAdd(Dfp25.of(1));
 
         m.setColumnMatrix(2, sub);
         for (int i = 0; i < n; ++i) {
             for (int j = 0; j < n; ++j) {
                 if (j != 2) {
-                    Assert.assertEquals(new Fraction(0), m.getEntry(i, j));
+                    Assert.assertEquals(Dfp25.of(0), m.getEntry(i, j));
                 } else {
-                    Assert.assertEquals(new Fraction(1), m.getEntry(i, j));
+                    Assert.assertEquals(Dfp25.of(1), m.getEntry(i, j));
                 }
             }
         }
@@ -876,9 +885,9 @@ public final class BlockFieldMatrixTest {
 
     @Test
     public void testGetRowVector() {
-        FieldMatrix<Fraction> m = new BlockFieldMatrix<>(subTestData);
-        FieldVector<Fraction> mRow0 = new ArrayFieldVector<>(subRow0[0]);
-        FieldVector<Fraction> mRow3 = new ArrayFieldVector<>(subRow3[0]);
+        FieldMatrix<Dfp> m = new BlockFieldMatrix<>(subTestData);
+        FieldVector<Dfp> mRow0 = new ArrayFieldVector<>(subRow0[0]);
+        FieldVector<Dfp> mRow3 = new ArrayFieldVector<>(subRow3[0]);
         Assert.assertEquals(mRow0, m.getRowVector(0));
         Assert.assertEquals(mRow3, m.getRowVector(3));
         try {
@@ -897,8 +906,8 @@ public final class BlockFieldMatrixTest {
 
     @Test
     public void testSetRowVector() {
-        FieldMatrix<Fraction> m = new BlockFieldMatrix<>(subTestData);
-        FieldVector<Fraction> mRow3 = new ArrayFieldVector<>(subRow3[0]);
+        FieldMatrix<Dfp> m = new BlockFieldMatrix<>(subTestData);
+        FieldVector<Dfp> mRow3 = new ArrayFieldVector<>(subRow3[0]);
         Assert.assertNotSame(mRow3, m.getRowMatrix(0));
         m.setRowVector(0, mRow3);
         Assert.assertEquals(mRow3, m.getRowVector(0));
@@ -909,7 +918,7 @@ public final class BlockFieldMatrixTest {
             // expected
         }
         try {
-            m.setRowVector(0, new ArrayFieldVector<>(FractionField.getInstance(), 5));
+            m.setRowVector(0, new ArrayFieldVector<>(Dfp25.getField(), 5));
             Assert.fail("Expecting MatrixDimensionMismatchException");
         } catch (MatrixDimensionMismatchException ex) {
             // expected
@@ -919,16 +928,16 @@ public final class BlockFieldMatrixTest {
     @Test
     public void testGetSetRowVectorLarge() {
         int n = 3 * BlockFieldMatrix.BLOCK_SIZE;
-        FieldMatrix<Fraction> m = new BlockFieldMatrix<>(FractionField.getInstance(), n, n);
-        FieldVector<Fraction> sub = new ArrayFieldVector<>(n, new Fraction(1));
+        FieldMatrix<Dfp> m = new BlockFieldMatrix<>(Dfp25.getField(), n, n);
+        FieldVector<Dfp> sub = new ArrayFieldVector<>(n, Dfp25.of(1));
 
         m.setRowVector(2, sub);
         for (int i = 0; i < n; ++i) {
             for (int j = 0; j < n; ++j) {
                 if (i != 2) {
-                    Assert.assertEquals(new Fraction(0), m.getEntry(i, j));
+                    Assert.assertEquals(Dfp25.of(0), m.getEntry(i, j));
                 } else {
-                    Assert.assertEquals(new Fraction(1), m.getEntry(i, j));
+                    Assert.assertEquals(Dfp25.of(1), m.getEntry(i, j));
                 }
             }
         }
@@ -938,9 +947,9 @@ public final class BlockFieldMatrixTest {
 
     @Test
     public void testGetColumnVector() {
-        FieldMatrix<Fraction> m = new BlockFieldMatrix<>(subTestData);
-        FieldVector<Fraction> mColumn1 = columnToVector(subColumn1);
-        FieldVector<Fraction> mColumn3 = columnToVector(subColumn3);
+        FieldMatrix<Dfp> m = new BlockFieldMatrix<>(subTestData);
+        FieldVector<Dfp> mColumn1 = columnToVector(subColumn1);
+        FieldVector<Dfp> mColumn3 = columnToVector(subColumn3);
         Assert.assertEquals(mColumn1, m.getColumnVector(1));
         Assert.assertEquals(mColumn3, m.getColumnVector(3));
         try {
@@ -959,8 +968,8 @@ public final class BlockFieldMatrixTest {
 
     @Test
     public void testSetColumnVector() {
-        FieldMatrix<Fraction> m = new BlockFieldMatrix<>(subTestData);
-        FieldVector<Fraction> mColumn3 = columnToVector(subColumn3);
+        FieldMatrix<Dfp> m = new BlockFieldMatrix<>(subTestData);
+        FieldVector<Dfp> mColumn3 = columnToVector(subColumn3);
         Assert.assertNotSame(mColumn3, m.getColumnVector(1));
         m.setColumnVector(1, mColumn3);
         Assert.assertEquals(mColumn3, m.getColumnVector(1));
@@ -971,7 +980,7 @@ public final class BlockFieldMatrixTest {
             // expected
         }
         try {
-            m.setColumnVector(0, new ArrayFieldVector<>(FractionField.getInstance(), 5));
+            m.setColumnVector(0, new ArrayFieldVector<>(Dfp25.getField(), 5));
             Assert.fail("Expecting MatrixDimensionMismatchException");
         } catch (MatrixDimensionMismatchException ex) {
             // expected
@@ -981,16 +990,16 @@ public final class BlockFieldMatrixTest {
     @Test
     public void testGetSetColumnVectorLarge() {
         int n = 3 * BlockFieldMatrix.BLOCK_SIZE;
-        FieldMatrix<Fraction> m = new BlockFieldMatrix<>(FractionField.getInstance(), n, n);
-        FieldVector<Fraction> sub = new ArrayFieldVector<>(n, new Fraction(1));
+        FieldMatrix<Dfp> m = new BlockFieldMatrix<>(Dfp25.getField(), n, n);
+        FieldVector<Dfp> sub = new ArrayFieldVector<>(n, Dfp25.of(1));
 
         m.setColumnVector(2, sub);
         for (int i = 0; i < n; ++i) {
             for (int j = 0; j < n; ++j) {
                 if (j != 2) {
-                    Assert.assertEquals(new Fraction(0), m.getEntry(i, j));
+                    Assert.assertEquals(Dfp25.of(0), m.getEntry(i, j));
                 } else {
-                    Assert.assertEquals(new Fraction(1), m.getEntry(i, j));
+                    Assert.assertEquals(Dfp25.of(1), m.getEntry(i, j));
                 }
             }
         }
@@ -998,8 +1007,8 @@ public final class BlockFieldMatrixTest {
 
     }
 
-    private FieldVector<Fraction> columnToVector(Fraction[][] column) {
-        Fraction[] data = new Fraction[column.length];
+    private FieldVector<Dfp> columnToVector(Dfp[][] column) {
+        Dfp[] data = new Dfp[column.length];
         for (int i = 0; i < data.length; ++i) {
             data[i] = column[i][0];
         }
@@ -1008,7 +1017,7 @@ public final class BlockFieldMatrixTest {
 
     @Test
     public void testGetRow() {
-        FieldMatrix<Fraction> m = new BlockFieldMatrix<>(subTestData);
+        FieldMatrix<Dfp> m = new BlockFieldMatrix<>(subTestData);
         checkArrays(subRow0[0], m.getRow(0));
         checkArrays(subRow3[0], m.getRow(3));
         try {
@@ -1027,7 +1036,7 @@ public final class BlockFieldMatrixTest {
 
     @Test
     public void testSetRow() {
-        FieldMatrix<Fraction> m = new BlockFieldMatrix<>(subTestData);
+        FieldMatrix<Dfp> m = new BlockFieldMatrix<>(subTestData);
         Assert.assertTrue(subRow3[0][0] != m.getRow(0)[0]);
         m.setRow(0, subRow3[0]);
         checkArrays(subRow3[0], m.getRow(0));
@@ -1038,7 +1047,7 @@ public final class BlockFieldMatrixTest {
             // expected
         }
         try {
-            m.setRow(0, new Fraction[5]);
+            m.setRow(0, new Dfp[5]);
             Assert.fail("Expecting MatrixDimensionMismatchException");
         } catch (MatrixDimensionMismatchException ex) {
             // expected
@@ -1048,17 +1057,17 @@ public final class BlockFieldMatrixTest {
     @Test
     public void testGetSetRowLarge() {
         int n = 3 * BlockFieldMatrix.BLOCK_SIZE;
-        FieldMatrix<Fraction> m = new BlockFieldMatrix<>(FractionField.getInstance(), n, n);
-        Fraction[] sub = new Fraction[n];
-        Arrays.fill(sub, new Fraction(1));
+        FieldMatrix<Dfp> m = new BlockFieldMatrix<>(Dfp25.getField(), n, n);
+        Dfp[] sub = new Dfp[n];
+        Arrays.fill(sub, Dfp25.of(1));
 
         m.setRow(2, sub);
         for (int i = 0; i < n; ++i) {
             for (int j = 0; j < n; ++j) {
                 if (i != 2) {
-                    Assert.assertEquals(new Fraction(0), m.getEntry(i, j));
+                    Assert.assertEquals(Dfp25.of(0), m.getEntry(i, j));
                 } else {
-                    Assert.assertEquals(new Fraction(1), m.getEntry(i, j));
+                    Assert.assertEquals(Dfp25.of(1), m.getEntry(i, j));
                 }
             }
         }
@@ -1068,9 +1077,9 @@ public final class BlockFieldMatrixTest {
 
     @Test
     public void testGetColumn() {
-        FieldMatrix<Fraction> m = new BlockFieldMatrix<>(subTestData);
-        Fraction[] mColumn1 = columnToArray(subColumn1);
-        Fraction[] mColumn3 = columnToArray(subColumn3);
+        FieldMatrix<Dfp> m = new BlockFieldMatrix<>(subTestData);
+        Dfp[] mColumn1 = columnToArray(subColumn1);
+        Dfp[] mColumn3 = columnToArray(subColumn3);
         checkArrays(mColumn1, m.getColumn(1));
         checkArrays(mColumn3, m.getColumn(3));
         try {
@@ -1089,8 +1098,8 @@ public final class BlockFieldMatrixTest {
 
     @Test
     public void testSetColumn() {
-        FieldMatrix<Fraction> m = new BlockFieldMatrix<>(subTestData);
-        Fraction[] mColumn3 = columnToArray(subColumn3);
+        FieldMatrix<Dfp> m = new BlockFieldMatrix<>(subTestData);
+        Dfp[] mColumn3 = columnToArray(subColumn3);
         Assert.assertTrue(mColumn3[0] != m.getColumn(1)[0]);
         m.setColumn(1, mColumn3);
         checkArrays(mColumn3, m.getColumn(1));
@@ -1101,7 +1110,7 @@ public final class BlockFieldMatrixTest {
             // expected
         }
         try {
-            m.setColumn(0, new Fraction[5]);
+            m.setColumn(0, new Dfp[5]);
             Assert.fail("Expecting MatrixDimensionMismatchException");
         } catch (MatrixDimensionMismatchException ex) {
             // expected
@@ -1111,17 +1120,17 @@ public final class BlockFieldMatrixTest {
     @Test
     public void testGetSetColumnLarge() {
         int n = 3 * BlockFieldMatrix.BLOCK_SIZE;
-        FieldMatrix<Fraction> m = new BlockFieldMatrix<>(FractionField.getInstance(), n, n);
-        Fraction[] sub = new Fraction[n];
-        Arrays.fill(sub, new Fraction(1));
+        FieldMatrix<Dfp> m = new BlockFieldMatrix<>(Dfp25.getField(), n, n);
+        Dfp[] sub = new Dfp[n];
+        Arrays.fill(sub, Dfp25.of(1));
 
         m.setColumn(2, sub);
         for (int i = 0; i < n; ++i) {
             for (int j = 0; j < n; ++j) {
                 if (j != 2) {
-                    Assert.assertEquals(new Fraction(0), m.getEntry(i, j));
+                    Assert.assertEquals(Dfp25.of(0), m.getEntry(i, j));
                 } else {
-                    Assert.assertEquals(new Fraction(1), m.getEntry(i, j));
+                    Assert.assertEquals(Dfp25.of(1), m.getEntry(i, j));
                 }
             }
         }
@@ -1129,15 +1138,15 @@ public final class BlockFieldMatrixTest {
 
     }
 
-    private Fraction[] columnToArray(Fraction[][] column) {
-        Fraction[] data = new Fraction[column.length];
+    private Dfp[] columnToArray(Dfp[][] column) {
+        Dfp[] data = new Dfp[column.length];
         for (int i = 0; i < data.length; ++i) {
             data[i] = column[i][0];
         }
         return data;
     }
 
-    private void checkArrays(Fraction[] expected, Fraction[] actual) {
+    private void checkArrays(Dfp[] expected, Dfp[] actual) {
         Assert.assertEquals(expected.length, actual.length);
         for (int i = 0; i < expected.length; ++i) {
             Assert.assertEquals(expected[i], actual[i]);
@@ -1146,9 +1155,9 @@ public final class BlockFieldMatrixTest {
 
     @Test
     public void testEqualsAndHashCode() {
-        BlockFieldMatrix<Fraction> m = new BlockFieldMatrix<>(testData);
-        BlockFieldMatrix<Fraction> m1 = (BlockFieldMatrix<Fraction>) m.copy();
-        BlockFieldMatrix<Fraction> mt = (BlockFieldMatrix<Fraction>) m.transpose();
+        BlockFieldMatrix<Dfp> m = new BlockFieldMatrix<>(testData);
+        BlockFieldMatrix<Dfp> m1 = (BlockFieldMatrix<Dfp>) m.copy();
+        BlockFieldMatrix<Dfp> mt = (BlockFieldMatrix<Dfp>) m.transpose();
         Assert.assertTrue(m.hashCode() != mt.hashCode());
         Assert.assertEquals(m.hashCode(), m1.hashCode());
         Assert.assertEquals(m, m);
@@ -1160,44 +1169,44 @@ public final class BlockFieldMatrixTest {
 
     @Test
     public void testToString() {
-        BlockFieldMatrix<Fraction> m = new BlockFieldMatrix<>(testData);
-        Assert.assertEquals("BlockFieldMatrix{{1,2,3},{2,5,3},{1,0,8}}", m.toString());
+        BlockFieldMatrix<Dfp> m = new BlockFieldMatrix<>(testData);
+        Assert.assertEquals("BlockFieldMatrix{{1.,2.,3.},{2.,5.,3.},{1.,0.,8.}}", m.toString());
     }
 
     @Test
     public void testSetSubMatrix() {
-        BlockFieldMatrix<Fraction> m = new BlockFieldMatrix<>(testData);
+        BlockFieldMatrix<Dfp> m = new BlockFieldMatrix<>(testData);
         m.setSubMatrix(detData2,1,1);
-        FieldMatrix<Fraction> expected = new BlockFieldMatrix<>
-            (new Fraction[][] {{new Fraction(1),new Fraction(2),new Fraction(3)},{new Fraction(2),new Fraction(1),new Fraction(3)},{new Fraction(1),new Fraction(2),new Fraction(4)}});
+        FieldMatrix<Dfp> expected = new BlockFieldMatrix<>
+            (new Dfp[][] {{Dfp25.of(1),Dfp25.of(2),Dfp25.of(3)},{Dfp25.of(2),Dfp25.of(1),Dfp25.of(3)},{Dfp25.of(1),Dfp25.of(2),Dfp25.of(4)}});
         Assert.assertEquals(expected, m);
 
         m.setSubMatrix(detData2,0,0);
         expected = new BlockFieldMatrix<>
-            (new Fraction[][] {{new Fraction(1),new Fraction(3),new Fraction(3)},{new Fraction(2),new Fraction(4),new Fraction(3)},{new Fraction(1),new Fraction(2),new Fraction(4)}});
+            (new Dfp[][] {{Dfp25.of(1),Dfp25.of(3),Dfp25.of(3)},{Dfp25.of(2),Dfp25.of(4),Dfp25.of(3)},{Dfp25.of(1),Dfp25.of(2),Dfp25.of(4)}});
         Assert.assertEquals(expected, m);
 
         m.setSubMatrix(testDataPlus2,0,0);
         expected = new BlockFieldMatrix<>
-            (new Fraction[][] {{new Fraction(3),new Fraction(4),new Fraction(5)},{new Fraction(4),new Fraction(7),new Fraction(5)},{new Fraction(3),new Fraction(2),new Fraction(10)}});
+            (new Dfp[][] {{Dfp25.of(3),Dfp25.of(4),Dfp25.of(5)},{Dfp25.of(4),Dfp25.of(7),Dfp25.of(5)},{Dfp25.of(3),Dfp25.of(2),Dfp25.of(10)}});
         Assert.assertEquals(expected, m);
 
         // javadoc example
-        BlockFieldMatrix<Fraction> matrix =
-            new BlockFieldMatrix<>(new Fraction[][] {
-                    {new Fraction(1), new Fraction(2), new Fraction(3), new Fraction(4)},
-                    {new Fraction(5), new Fraction(6), new Fraction(7), new Fraction(8)},
-                    {new Fraction(9), new Fraction(0), new Fraction(1) , new Fraction(2)}
+        BlockFieldMatrix<Dfp> matrix =
+            new BlockFieldMatrix<>(new Dfp[][] {
+                    {Dfp25.of(1), Dfp25.of(2), Dfp25.of(3), Dfp25.of(4)},
+                    {Dfp25.of(5), Dfp25.of(6), Dfp25.of(7), Dfp25.of(8)},
+                    {Dfp25.of(9), Dfp25.of(0), Dfp25.of(1) , Dfp25.of(2)}
             });
-        matrix.setSubMatrix(new Fraction[][] {
-                {new Fraction(3), new Fraction(4)},
-                {new Fraction(5), new Fraction(6)}
+        matrix.setSubMatrix(new Dfp[][] {
+                {Dfp25.of(3), Dfp25.of(4)},
+                {Dfp25.of(5), Dfp25.of(6)}
         }, 1, 1);
         expected =
-            new BlockFieldMatrix<>(new Fraction[][] {
-                    {new Fraction(1), new Fraction(2), new Fraction(3),new Fraction(4)},
-                    {new Fraction(5), new Fraction(3), new Fraction(4), new Fraction(8)},
-                    {new Fraction(9), new Fraction(5) ,new Fraction(6), new Fraction(2)}
+            new BlockFieldMatrix<>(new Dfp[][] {
+                    {Dfp25.of(1), Dfp25.of(2), Dfp25.of(3),Dfp25.of(4)},
+                    {Dfp25.of(5), Dfp25.of(3), Dfp25.of(4), Dfp25.of(8)},
+                    {Dfp25.of(9), Dfp25.of(5) ,Dfp25.of(6), Dfp25.of(2)}
             });
         Assert.assertEquals(expected, matrix);
 
@@ -1232,7 +1241,7 @@ public final class BlockFieldMatrixTest {
 
         // ragged
         try {
-            m.setSubMatrix(new Fraction[][] {{new Fraction(1)}, {new Fraction(2), new Fraction(3)}}, 0, 0);
+            m.setSubMatrix(new Dfp[][] {{Dfp25.of(1)}, {Dfp25.of(2), Dfp25.of(3)}}, 0, 0);
             Assert.fail("expecting MathIllegalArgumentException");
         } catch (MathIllegalArgumentException e) {
             // expected
@@ -1240,7 +1249,7 @@ public final class BlockFieldMatrixTest {
 
         // empty
         try {
-            m.setSubMatrix(new Fraction[][] {{}}, 0, 0);
+            m.setSubMatrix(new Dfp[][] {{}}, 0, 0);
             Assert.fail("expecting MathIllegalArgumentException");
         } catch (MathIllegalArgumentException e) {
             // expected
@@ -1252,123 +1261,130 @@ public final class BlockFieldMatrixTest {
         int rows    = 150;
         int columns = 75;
 
-        FieldMatrix<Fraction> m = new BlockFieldMatrix<>(FractionField.getInstance(), rows, columns);
+        FieldMatrix<Dfp> m = new BlockFieldMatrix<>(Dfp25.getField(), rows, columns);
         m.walkInRowOrder(new SetVisitor());
         GetVisitor getVisitor = new GetVisitor();
         m.walkInOptimizedOrder(getVisitor);
         Assert.assertEquals(rows * columns, getVisitor.getCount());
 
-        m = new BlockFieldMatrix<>(FractionField.getInstance(), rows, columns);
+        m = new BlockFieldMatrix<>(Dfp25.getField(), rows, columns);
         m.walkInRowOrder(new SetVisitor(), 1, rows - 2, 1, columns - 2);
         getVisitor = new GetVisitor();
         m.walkInOptimizedOrder(getVisitor, 1, rows - 2, 1, columns - 2);
         Assert.assertEquals((rows - 2) * (columns - 2), getVisitor.getCount());
         for (int i = 0; i < rows; ++i) {
-            Assert.assertEquals(new Fraction(0), m.getEntry(i, 0));
-            Assert.assertEquals(new Fraction(0), m.getEntry(i, columns - 1));
+            Assert.assertEquals(Dfp25.of(0), m.getEntry(i, 0));
+            Assert.assertEquals(Dfp25.of(0), m.getEntry(i, columns - 1));
         }
         for (int j = 0; j < columns; ++j) {
-            Assert.assertEquals(new Fraction(0), m.getEntry(0, j));
-            Assert.assertEquals(new Fraction(0), m.getEntry(rows - 1, j));
+            Assert.assertEquals(Dfp25.of(0), m.getEntry(0, j));
+            Assert.assertEquals(Dfp25.of(0), m.getEntry(rows - 1, j));
         }
 
-        m = new BlockFieldMatrix<>(FractionField.getInstance(), rows, columns);
+        m = new BlockFieldMatrix<>(Dfp25.getField(), rows, columns);
         m.walkInColumnOrder(new SetVisitor());
         getVisitor = new GetVisitor();
         m.walkInOptimizedOrder(getVisitor);
         Assert.assertEquals(rows * columns, getVisitor.getCount());
 
-        m = new BlockFieldMatrix<>(FractionField.getInstance(), rows, columns);
+        m = new BlockFieldMatrix<>(Dfp25.getField(), rows, columns);
         m.walkInColumnOrder(new SetVisitor(), 1, rows - 2, 1, columns - 2);
         getVisitor = new GetVisitor();
         m.walkInOptimizedOrder(getVisitor, 1, rows - 2, 1, columns - 2);
         Assert.assertEquals((rows - 2) * (columns - 2), getVisitor.getCount());
         for (int i = 0; i < rows; ++i) {
-            Assert.assertEquals(new Fraction(0), m.getEntry(i, 0));
-            Assert.assertEquals(new Fraction(0), m.getEntry(i, columns - 1));
+            Assert.assertEquals(Dfp25.of(0), m.getEntry(i, 0));
+            Assert.assertEquals(Dfp25.of(0), m.getEntry(i, columns - 1));
         }
         for (int j = 0; j < columns; ++j) {
-            Assert.assertEquals(new Fraction(0), m.getEntry(0, j));
-            Assert.assertEquals(new Fraction(0), m.getEntry(rows - 1, j));
+            Assert.assertEquals(Dfp25.of(0), m.getEntry(0, j));
+            Assert.assertEquals(Dfp25.of(0), m.getEntry(rows - 1, j));
         }
 
-        m = new BlockFieldMatrix<>(FractionField.getInstance(), rows, columns);
+        m = new BlockFieldMatrix<>(Dfp25.getField(), rows, columns);
         m.walkInOptimizedOrder(new SetVisitor());
         getVisitor = new GetVisitor();
         m.walkInRowOrder(getVisitor);
         Assert.assertEquals(rows * columns, getVisitor.getCount());
 
-        m = new BlockFieldMatrix<>(FractionField.getInstance(), rows, columns);
+        m = new BlockFieldMatrix<>(Dfp25.getField(), rows, columns);
         m.walkInOptimizedOrder(new SetVisitor(), 1, rows - 2, 1, columns - 2);
         getVisitor = new GetVisitor();
         m.walkInRowOrder(getVisitor, 1, rows - 2, 1, columns - 2);
         Assert.assertEquals((rows - 2) * (columns - 2), getVisitor.getCount());
         for (int i = 0; i < rows; ++i) {
-            Assert.assertEquals(new Fraction(0), m.getEntry(i, 0));
-            Assert.assertEquals(new Fraction(0), m.getEntry(i, columns - 1));
+            Assert.assertEquals(Dfp25.of(0), m.getEntry(i, 0));
+            Assert.assertEquals(Dfp25.of(0), m.getEntry(i, columns - 1));
         }
         for (int j = 0; j < columns; ++j) {
-            Assert.assertEquals(new Fraction(0), m.getEntry(0, j));
-            Assert.assertEquals(new Fraction(0), m.getEntry(rows - 1, j));
+            Assert.assertEquals(Dfp25.of(0), m.getEntry(0, j));
+            Assert.assertEquals(Dfp25.of(0), m.getEntry(rows - 1, j));
         }
 
-        m = new BlockFieldMatrix<>(FractionField.getInstance(), rows, columns);
+        m = new BlockFieldMatrix<>(Dfp25.getField(), rows, columns);
         m.walkInOptimizedOrder(new SetVisitor());
         getVisitor = new GetVisitor();
         m.walkInColumnOrder(getVisitor);
         Assert.assertEquals(rows * columns, getVisitor.getCount());
 
-        m = new BlockFieldMatrix<>(FractionField.getInstance(), rows, columns);
+        m = new BlockFieldMatrix<>(Dfp25.getField(), rows, columns);
         m.walkInOptimizedOrder(new SetVisitor(), 1, rows - 2, 1, columns - 2);
         getVisitor = new GetVisitor();
         m.walkInColumnOrder(getVisitor, 1, rows - 2, 1, columns - 2);
         Assert.assertEquals((rows - 2) * (columns - 2), getVisitor.getCount());
         for (int i = 0; i < rows; ++i) {
-            Assert.assertEquals(new Fraction(0), m.getEntry(i, 0));
-            Assert.assertEquals(new Fraction(0), m.getEntry(i, columns - 1));
+            Assert.assertEquals(Dfp25.of(0), m.getEntry(i, 0));
+            Assert.assertEquals(Dfp25.of(0), m.getEntry(i, columns - 1));
         }
         for (int j = 0; j < columns; ++j) {
-            Assert.assertEquals(new Fraction(0), m.getEntry(0, j));
-            Assert.assertEquals(new Fraction(0), m.getEntry(rows - 1, j));
+            Assert.assertEquals(Dfp25.of(0), m.getEntry(0, j));
+            Assert.assertEquals(Dfp25.of(0), m.getEntry(rows - 1, j));
         }
 
     }
 
     @Test
     public void testSerial()  {
-        BlockFieldMatrix<Fraction> m = new BlockFieldMatrix<>(testData);
+        final int r = 2;
+        final int c = 3;
+        BlockFieldMatrix<BigReal> m = new BlockFieldMatrix<>(BigRealField.getInstance(), r, c);
+        for (int i = 0; i < r; i++) {
+            for (int j = 0; j < c; j++) {
+                m.setEntry(i, j, new BigReal(Math.random()));
+            }
+        }
         Assert.assertEquals(m,TestUtils.serializeAndRecover(m));
     }
 
-    private static class SetVisitor extends DefaultFieldMatrixChangingVisitor<Fraction> {
+    private static class SetVisitor extends DefaultFieldMatrixChangingVisitor<Dfp> {
         public SetVisitor() {
-            super(Fraction.ZERO);
+            super(Dfp25.ZERO);
         }
         @Override
-        public Fraction visit(int i, int j, Fraction value) {
-            return new Fraction(i * 11 + j, 11);
+        public Dfp visit(int i, int j, Dfp value) {
+            return Dfp25.of(i * 11 + j, 11);
         }
     }
 
-    private static class GetVisitor extends DefaultFieldMatrixPreservingVisitor<Fraction> {
+    private static class GetVisitor extends DefaultFieldMatrixPreservingVisitor<Dfp> {
         private int count;
         public GetVisitor() {
-            super(Fraction.ZERO);
+            super(Dfp25.ZERO);
             count = 0;
         }
         @Override
-        public void visit(int i, int j, Fraction value) {
+        public void visit(int i, int j, Dfp value) {
             ++count;
-            Assert.assertEquals(new Fraction(i * 11 + j, 11), value);
+            Assert.assertEquals(Dfp25.of(i * 11 + j, 11), value);
         }
         public int getCount() {
             return count;
         }
     }
 
-    private BlockFieldMatrix<Fraction> createRandomMatrix(Random r, int rows, int columns) {
-        BlockFieldMatrix<Fraction> m =
-            new BlockFieldMatrix<>(FractionField.getInstance(), rows, columns);
+    private BlockFieldMatrix<Dfp> createRandomMatrix(Random r, int rows, int columns) {
+        BlockFieldMatrix<Dfp> m =
+            new BlockFieldMatrix<>(Dfp25.getField(), rows, columns);
         for (int i = 0; i < rows; ++i) {
             for (int j = 0; j < columns; ++j) {
                 int p = r.nextInt(20) - 10;
@@ -1376,7 +1392,7 @@ public final class BlockFieldMatrixTest {
                 if (q == 0) {
                     q = 1;
                 }
-                m.setEntry(i, j, new Fraction(p, q));
+                m.setEntry(i, j, Dfp25.of(p, q));
             }
         }
         return m;

@@ -23,9 +23,9 @@ import org.apache.commons.math4.exception.MathIllegalArgumentException;
 import org.apache.commons.math4.exception.NotStrictlyPositiveException;
 import org.apache.commons.math4.exception.NullArgumentException;
 import org.apache.commons.math4.fraction.BigFraction;
-import org.apache.commons.math4.fraction.Fraction;
-import org.apache.commons.math4.fraction.FractionConversionException;
-import org.apache.commons.math4.fraction.FractionField;
+import org.apache.commons.math4.dfp.Dfp;
+import org.apache.commons.math4.dfp.DfpField;
+import org.apache.commons.math4.linear.Dfp25;
 import org.apache.commons.math4.linear.Array2DRowFieldMatrix;
 import org.apache.commons.math4.linear.Array2DRowRealMatrix;
 import org.apache.commons.math4.linear.ArrayRealVector;
@@ -56,27 +56,27 @@ public final class MatrixUtilsTest {
     protected BigDecimal[] bigRow =
         {new BigDecimal(1),new BigDecimal(2),new BigDecimal(3)};
     protected String[] stringRow = {"1", "2", "3"};
-    protected Fraction[] fractionRow =
-        {new Fraction(1),new Fraction(2),new Fraction(3)};
+    protected Dfp[] fractionRow =
+        {Dfp25.of(1),Dfp25.of(2),Dfp25.of(3)};
     protected double[][] rowMatrix = {{1,2,3}};
     protected BigDecimal[][] bigRowMatrix =
         {{new BigDecimal(1), new BigDecimal(2), new BigDecimal(3)}};
     protected String[][] stringRowMatrix = {{"1", "2", "3"}};
-    protected Fraction[][] fractionRowMatrix =
-        {{new Fraction(1), new Fraction(2), new Fraction(3)}};
+    protected Dfp[][] fractionRowMatrix =
+        {{Dfp25.of(1), Dfp25.of(2), Dfp25.of(3)}};
     protected double[] col = {0,4,6};
     protected BigDecimal[] bigCol =
         {new BigDecimal(0),new BigDecimal(4),new BigDecimal(6)};
     protected String[] stringCol = {"0","4","6"};
-    protected Fraction[] fractionCol =
-        {new Fraction(0),new Fraction(4),new Fraction(6)};
+    protected Dfp[] fractionCol =
+        {Dfp25.of(0),Dfp25.of(4),Dfp25.of(6)};
     protected double[] nullDoubleArray = null;
     protected double[][] colMatrix = {{0},{4},{6}};
     protected BigDecimal[][] bigColMatrix =
         {{new BigDecimal(0)},{new BigDecimal(4)},{new BigDecimal(6)}};
     protected String[][] stringColMatrix = {{"0"}, {"4"}, {"6"}};
-    protected Fraction[][] fractionColMatrix =
-        {{new Fraction(0)},{new Fraction(4)},{new Fraction(6)}};
+    protected Dfp[][] fractionColMatrix =
+        {{Dfp25.of(0)},{Dfp25.of(4)},{Dfp25.of(6)}};
 
     @Test
     public void testCreateRealMatrix() {
@@ -104,24 +104,24 @@ public final class MatrixUtilsTest {
 
     @Test
     public void testcreateFieldMatrix() {
-        Assert.assertEquals(new Array2DRowFieldMatrix<>(asFraction(testData)),
-                     MatrixUtils.createFieldMatrix(asFraction(testData)));
-        Assert.assertEquals(new Array2DRowFieldMatrix<>(FractionField.getInstance(), fractionColMatrix),
+        Assert.assertEquals(new Array2DRowFieldMatrix<>(asDfp(testData)),
+                     MatrixUtils.createFieldMatrix(asDfp(testData)));
+        Assert.assertEquals(new Array2DRowFieldMatrix<>(Dfp25.getField(), fractionColMatrix),
                      MatrixUtils.createFieldMatrix(fractionColMatrix));
         try {
-            MatrixUtils.createFieldMatrix(asFraction(new double[][] {{1}, {1,2}}));  // ragged
+            MatrixUtils.createFieldMatrix(asDfp(new double[][] {{1}, {1,2}}));  // ragged
             Assert.fail("Expecting MathIllegalArgumentException");
         } catch (MathIllegalArgumentException ex) {
             // expected
         }
         try {
-            MatrixUtils.createFieldMatrix(asFraction(new double[][] {{}, {}}));  // no columns
+            MatrixUtils.createFieldMatrix(asDfp(new double[][] {{}, {}}));  // no columns
             Assert.fail("Expecting MathIllegalArgumentException");
         } catch (MathIllegalArgumentException ex) {
             // expected
         }
         try {
-            MatrixUtils.createFieldMatrix((Fraction[][])null);  // null
+            MatrixUtils.createFieldMatrix((Dfp[][])null);  // null
             Assert.fail("Expecting NullArgumentException");
         } catch (NullArgumentException ex) {
             // expected
@@ -148,18 +148,18 @@ public final class MatrixUtilsTest {
 
     @Test
     public void testCreateRowFieldMatrix() {
-        Assert.assertEquals(MatrixUtils.createRowFieldMatrix(asFraction(row)),
-                     new Array2DRowFieldMatrix<>(asFraction(rowMatrix)));
+        Assert.assertEquals(MatrixUtils.createRowFieldMatrix(asDfp(row)),
+                     new Array2DRowFieldMatrix<>(asDfp(rowMatrix)));
         Assert.assertEquals(MatrixUtils.createRowFieldMatrix(fractionRow),
                      new Array2DRowFieldMatrix<>(fractionRowMatrix));
         try {
-            MatrixUtils.createRowFieldMatrix(new Fraction[] {});  // empty
+            MatrixUtils.createRowFieldMatrix(new Dfp[] {});  // empty
             Assert.fail("Expecting MathIllegalArgumentException");
         } catch (MathIllegalArgumentException ex) {
             // expected
         }
         try {
-            MatrixUtils.createRowFieldMatrix((Fraction[]) null);  // null
+            MatrixUtils.createRowFieldMatrix((Dfp[]) null);  // null
             Assert.fail("Expecting NullArgumentException");
         } catch (NullArgumentException ex) {
             // expected
@@ -186,19 +186,19 @@ public final class MatrixUtilsTest {
 
     @Test
     public void testCreateColumnFieldMatrix() {
-        Assert.assertEquals(MatrixUtils.createColumnFieldMatrix(asFraction(col)),
-                     new Array2DRowFieldMatrix<>(asFraction(colMatrix)));
+        Assert.assertEquals(MatrixUtils.createColumnFieldMatrix(asDfp(col)),
+                     new Array2DRowFieldMatrix<>(asDfp(colMatrix)));
         Assert.assertEquals(MatrixUtils.createColumnFieldMatrix(fractionCol),
                      new Array2DRowFieldMatrix<>(fractionColMatrix));
 
         try {
-            MatrixUtils.createColumnFieldMatrix(new Fraction[] {});  // empty
+            MatrixUtils.createColumnFieldMatrix(new Dfp[] {});  // empty
             Assert.fail("Expecting MathIllegalArgumentException");
         } catch (MathIllegalArgumentException ex) {
             // expected
         }
         try {
-            MatrixUtils.createColumnFieldMatrix((Fraction[]) null);  // null
+            MatrixUtils.createColumnFieldMatrix((Dfp[]) null);  // null
             Assert.fail("Expecting NullArgumentException");
         } catch (NullArgumentException ex) {
             // expected
@@ -236,13 +236,13 @@ public final class MatrixUtilsTest {
     /**
      * Verifies that the matrix is an identity matrix
      */
-    protected void checkIdentityFieldMatrix(FieldMatrix<Fraction> m) {
+    protected void checkIdentityFieldMatrix(FieldMatrix<Dfp> m) {
         for (int i = 0; i < m.getRowDimension(); i++) {
             for (int j =0; j < m.getColumnDimension(); j++) {
                 if (i == j) {
-                    Assert.assertEquals(m.getEntry(i, j), Fraction.ONE);
+                    Assert.assertEquals(m.getEntry(i, j), Dfp25.ONE);
                 } else {
-                    Assert.assertEquals(m.getEntry(i, j), Fraction.ZERO);
+                    Assert.assertEquals(m.getEntry(i, j), Dfp25.ZERO);
                 }
             }
         }
@@ -250,9 +250,9 @@ public final class MatrixUtilsTest {
 
     @Test
     public void testcreateFieldIdentityMatrix() {
-        checkIdentityFieldMatrix(MatrixUtils.createFieldIdentityMatrix(FractionField.getInstance(), 3));
-        checkIdentityFieldMatrix(MatrixUtils.createFieldIdentityMatrix(FractionField.getInstance(), 2));
-        checkIdentityFieldMatrix(MatrixUtils.createFieldIdentityMatrix(FractionField.getInstance(), 1));
+        checkIdentityFieldMatrix(MatrixUtils.createFieldIdentityMatrix(Dfp25.getField(), 3));
+        checkIdentityFieldMatrix(MatrixUtils.createFieldIdentityMatrix(Dfp25.getField(), 2));
+        checkIdentityFieldMatrix(MatrixUtils.createFieldIdentityMatrix(Dfp25.getField(), 1));
         try {
             MatrixUtils.createRealIdentityMatrix(0);
             Assert.fail("Expecting MathIllegalArgumentException");
@@ -262,7 +262,7 @@ public final class MatrixUtilsTest {
     }
 
     @Test
-    public void testBigFractionConverter() {
+    public void testBigDfpConverter() {
         BigFraction[][] bfData = {
                 { new BigFraction(1), new BigFraction(2), new BigFraction(3) },
                 { new BigFraction(2), new BigFraction(5), new BigFraction(3) },
@@ -274,45 +274,25 @@ public final class MatrixUtilsTest {
         Assert.assertEquals(0.0, converted.subtract(reference).getNorm(), 0.0);
     }
 
-    @Test
-    public void testFractionConverter() {
-        Fraction[][] fData = {
-                { new Fraction(1), new Fraction(2), new Fraction(3) },
-                { new Fraction(2), new Fraction(5), new Fraction(3) },
-                { new Fraction(1), new Fraction(0), new Fraction(8) }
-        };
-        FieldMatrix<Fraction> m = new Array2DRowFieldMatrix<>(fData, false);
-        RealMatrix converted = MatrixUtils.fractionMatrixToRealMatrix(m);
-        RealMatrix reference = new Array2DRowRealMatrix(testData, false);
-        Assert.assertEquals(0.0, converted.subtract(reference).getNorm(), 0.0);
-    }
-
-    public static final Fraction[][] asFraction(double[][] data) {
-        Fraction d[][] = new Fraction[data.length][];
-        try {
-            for (int i = 0; i < data.length; ++i) {
-                double[] dataI = data[i];
-                Fraction[] dI  = new Fraction[dataI.length];
-                for (int j = 0; j < dataI.length; ++j) {
-                    dI[j] = new Fraction(dataI[j]);
-                }
-                d[i] = dI;
+    public static final Dfp[][] asDfp(double[][] data) {
+        Dfp d[][] = new Dfp[data.length][];
+        for (int i = 0; i < data.length; ++i) {
+            double[] dataI = data[i];
+            Dfp[] dI  = new Dfp[dataI.length];
+            for (int j = 0; j < dataI.length; ++j) {
+                dI[j] = Dfp25.of(dataI[j]);
             }
-        } catch (FractionConversionException fce) {
-            Assert.fail(fce.getMessage());
+            d[i] = dI;
         }
         return d;
     }
 
-    public static final Fraction[] asFraction(double[] data) {
-        Fraction d[] = new Fraction[data.length];
-        try {
-            for (int i = 0; i < data.length; ++i) {
-                d[i] = new Fraction(data[i]);
-            }
-        } catch (FractionConversionException fce) {
-            Assert.fail(fce.getMessage());
+    public static final Dfp[] asDfp(double[] data) {
+        Dfp d[] = new Dfp[data.length];
+        for (int i = 0; i < data.length; ++i) {
+            d[i] = Dfp25.of(data[i]);
         }
+
         return d;
     }
 
