@@ -48,7 +48,7 @@ public class MathArraysTest {
     @Test
     public void testScale() {
         final double[] test = new double[] { -2.5, -1, 0, 1, 2.5 };
-        final double[] correctTest = MathArrays.copyOf(test);
+        final double[] correctTest = Arrays.copyOf(test, test.length);
         final double[] correctScaled = new double[]{5.25, 2.1, 0, -2.1, -5.25};
 
         final double[] scaled = MathArrays.scale(-2.1, test);
@@ -539,132 +539,6 @@ public class MathArraysTest {
             Assert.fail("Expecting NullArgumentException");
         } catch (NullArgumentException ex) {
             // expected
-        }
-    }
-
-    @Test
-    public void testCopyOfInt() {
-        final int[] source = { Integer.MIN_VALUE,
-                               -1, 0, 1, 3, 113, 4769,
-                               Integer.MAX_VALUE };
-        final int[] dest = MathArrays.copyOf(source);
-
-        Assert.assertEquals(dest.length, source.length);
-        for (int i = 0; i < source.length; i++) {
-            Assert.assertEquals(source[i], dest[i]);
-        }
-    }
-
-    @Test
-    public void testCopyOfInt2() {
-        final int[] source = { Integer.MIN_VALUE,
-                               -1, 0, 1, 3, 113, 4769,
-                               Integer.MAX_VALUE };
-        final int offset = 3;
-        final int[] dest = MathArrays.copyOf(source, source.length - offset);
-
-        Assert.assertEquals(dest.length, source.length - offset);
-        for (int i = 0; i < source.length - offset; i++) {
-            Assert.assertEquals(source[i], dest[i]);
-        }
-    }
-
-    @Test
-    public void testCopyOfInt3() {
-        final int[] source = { Integer.MIN_VALUE,
-                               -1, 0, 1, 3, 113, 4769,
-                               Integer.MAX_VALUE };
-        final int offset = 3;
-        final int[] dest = MathArrays.copyOf(source, source.length + offset);
-
-        Assert.assertEquals(dest.length, source.length + offset);
-        for (int i = 0; i < source.length; i++) {
-            Assert.assertEquals(source[i], dest[i]);
-        }
-        for (int i = source.length; i < source.length + offset; i++) {
-            Assert.assertEquals(0, dest[i], 0);
-        }
-    }
-
-    @Test
-    public void testCopyOfDouble() {
-        final double[] source = { Double.NEGATIVE_INFINITY,
-                                  -Double.MAX_VALUE,
-                                  -1, 0,
-                                  Double.MIN_VALUE,
-                                  FastMath.ulp(1d),
-                                  1, 3, 113, 4769,
-                                  Double.MAX_VALUE,
-                                  Double.POSITIVE_INFINITY };
-        final double[] dest = MathArrays.copyOf(source);
-
-        Assert.assertEquals(dest.length, source.length);
-        for (int i = 0; i < source.length; i++) {
-            Assert.assertEquals(source[i], dest[i], 0);
-        }
-    }
-
-    @Test
-    public void testCopyOfDouble2() {
-        final double[] source = { Double.NEGATIVE_INFINITY,
-                                  -Double.MAX_VALUE,
-                                  -1, 0,
-                                  Double.MIN_VALUE,
-                                  FastMath.ulp(1d),
-                                  1, 3, 113, 4769,
-                                  Double.MAX_VALUE,
-                                  Double.POSITIVE_INFINITY };
-        final int offset = 3;
-        final double[] dest = MathArrays.copyOf(source, source.length - offset);
-
-        Assert.assertEquals(dest.length, source.length - offset);
-        for (int i = 0; i < source.length - offset; i++) {
-            Assert.assertEquals(source[i], dest[i], 0);
-        }
-    }
-
-    @Test
-    public void testCopyOfDouble3() {
-        final double[] source = { Double.NEGATIVE_INFINITY,
-                                  -Double.MAX_VALUE,
-                                  -1, 0,
-                                  Double.MIN_VALUE,
-                                  FastMath.ulp(1d),
-                                  1, 3, 113, 4769,
-                                  Double.MAX_VALUE,
-                                  Double.POSITIVE_INFINITY };
-        final int offset = 3;
-        final double[] dest = MathArrays.copyOf(source, source.length + offset);
-
-        Assert.assertEquals(dest.length, source.length + offset);
-        for (int i = 0; i < source.length; i++) {
-            Assert.assertEquals(source[i], dest[i], 0);
-        }
-        for (int i = source.length; i < source.length + offset; i++) {
-            Assert.assertEquals(0, dest[i], 0);
-        }
-    }
-
-    @Test
-    public void testCopyOfRange() {
-        final double[] source = { Double.NEGATIVE_INFINITY,
-                                  -Double.MAX_VALUE,
-                                  -1, 0,
-                                  Double.MIN_VALUE,
-                                  FastMath.ulp(1d),
-                                  1, 3, 113, 4769,
-                                  Double.MAX_VALUE,
-                                  Double.POSITIVE_INFINITY };
-        final int from = 3;
-        final int to = source.length + 14;
-        final double[] dest = MathArrays.copyOfRange(source, from, to);
-
-        Assert.assertEquals(dest.length, to - from);
-        for (int i = from; i < source.length; i++) {
-            Assert.assertEquals(source[i], dest[i - from], 0);
-        }
-        for (int i = source.length; i < dest.length; i++) {
-            Assert.assertEquals(0, dest[i - from], 0);
         }
     }
 
