@@ -16,9 +16,9 @@
  */
 package org.apache.commons.math4.distribution;
 
+import org.apache.commons.statistics.distribution.DiscreteDistribution;
 import org.apache.commons.math4.TestUtils;
 import org.apache.commons.math4.distribution.AbstractIntegerDistribution;
-import org.apache.commons.math4.distribution.IntegerDistribution;
 import org.apache.commons.math4.exception.MathIllegalArgumentException;
 import org.apache.commons.rng.simple.RandomSource;
 import org.apache.commons.math4.util.FastMath;
@@ -28,7 +28,7 @@ import org.junit.Before;
 import org.junit.Test;
 
 /**
- * Abstract base class for {@link IntegerDistribution} tests.
+ * Abstract base class for {@link DiscreteDistribution} tests.
  * <p>
  * To create a concrete test class for an integer distribution implementation,
  *  implement makeDistribution() to return a distribution instance to use in
@@ -52,7 +52,7 @@ public abstract class IntegerDistributionAbstractTest {
 
 //-------------------- Private test instance data -------------------------
     /** Discrete distribution instance used to perform tests */
-    private IntegerDistribution distribution;
+    private DiscreteDistribution distribution;
 
     /** Tolerance used in comparing expected and returned values */
     private double tolerance = 1E-12;
@@ -81,7 +81,7 @@ public abstract class IntegerDistributionAbstractTest {
     //-------------------- Abstract methods -----------------------------------
 
     /** Creates the default discrete distribution instance to use in tests. */
-    public abstract IntegerDistribution makeDistribution();
+    public abstract DiscreteDistribution makeDistribution();
 
     /** Creates the default probability density test input values */
     public abstract int[] makeDensityTestPoints();
@@ -169,10 +169,9 @@ public abstract class IntegerDistributionAbstractTest {
      */
     protected void verifyLogDensities() {
         for (int i = 0; i < densityTestPoints.length; i++) {
-            // FIXME: when logProbability methods are added to IntegerDistribution in 4.0, remove cast below
             Assert.assertEquals("Incorrect log density value returned for " + densityTestPoints[i],
                     logDensityTestValues[i],
-                    ((AbstractIntegerDistribution) distribution).logProbability(densityTestPoints[i]), tolerance);
+                    distribution.logProbability(densityTestPoints[i]), tolerance);
         }
     }
 
@@ -299,7 +298,7 @@ public abstract class IntegerDistributionAbstractTest {
             expectedCounts[i] = sampleSize * densityValues[i];
         }
         // Use fixed seed.
-        final IntegerDistribution.Sampler sampler =
+        final DiscreteDistribution.Sampler sampler =
             distribution.createSampler(RandomSource.create(RandomSource.WELL_512_A,
                                                            1000));
         int[] sample = AbstractIntegerDistribution.sample(sampleSize, sampler);
@@ -373,14 +372,14 @@ public abstract class IntegerDistributionAbstractTest {
     /**
      * @return Returns the distribution.
      */
-    protected IntegerDistribution getDistribution() {
+    protected DiscreteDistribution getDistribution() {
         return distribution;
     }
 
     /**
      * @param distribution The distribution to set.
      */
-    protected void setDistribution(IntegerDistribution distribution) {
+    protected void setDistribution(DiscreteDistribution distribution) {
         this.distribution = distribution;
     }
 
@@ -425,5 +424,4 @@ public abstract class IntegerDistributionAbstractTest {
     protected void setTolerance(double tolerance) {
         this.tolerance = tolerance;
     }
-
 }

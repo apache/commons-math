@@ -25,9 +25,9 @@ import java.text.DecimalFormat;
 
 import org.apache.commons.numbers.complex.Complex;
 import org.apache.commons.numbers.core.Precision;
+import org.apache.commons.statistics.distribution.ContinuousDistribution;
 import org.apache.commons.math4.FieldElement;
 import org.apache.commons.math4.complex.ComplexFormat;
-import org.apache.commons.math4.distribution.RealDistribution;
 import org.apache.commons.math4.linear.FieldMatrix;
 import org.apache.commons.math4.linear.RealMatrix;
 import org.apache.commons.math4.linear.RealVector;
@@ -531,7 +531,7 @@ public class TestUtils {
      * Computes the 25th, 50th and 75th percentiles of the given distribution and returns
      * these values in an array.
      */
-    public static double[] getDistributionQuartiles(RealDistribution distribution) {
+    public static double[] getDistributionQuartiles(ContinuousDistribution distribution) {
         double[] quantiles = new double[3];
         quantiles[0] = distribution.inverseCumulativeProbability(0.25d);
         quantiles[1] = distribution.inverseCumulativeProbability(0.5d);

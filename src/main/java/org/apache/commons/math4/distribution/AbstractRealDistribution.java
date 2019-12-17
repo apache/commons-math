@@ -47,7 +47,7 @@ import org.apache.commons.math4.util.FastMath;
  * @since 3.0
  */
 public abstract class AbstractRealDistribution
-    implements RealDistribution,
+    implements ContinuousDistribution,
                Serializable {
     /** Default absolute accuracy for inverse cumulative computation. */
     public static final double SOLVER_DEFAULT_ABSOLUTE_ACCURACY = 1e-6;

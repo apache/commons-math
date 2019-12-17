@@ -295,7 +295,7 @@ public final class EmpiricalDistributionTest extends RealDistributionAbstractTes
     //  Setup for distribution tests
 
     @Override
-    public RealDistribution makeDistribution() {
+    public ContinuousDistribution makeDistribution() {
         // Create a uniform distribution on [0, 10,000]
         final double[] sourceData = new double[n + 1];
         for (int i = 0; i < n + 1; i++) {
@@ -374,7 +374,7 @@ public final class EmpiricalDistributionTest extends RealDistributionAbstractTes
     @Override
     @Test
     public void testDensityIntegrals() {
-        final RealDistribution distribution = makeDistribution();
+        final ContinuousDistribution distribution = makeDistribution();
         final double tol = 1.0e-9;
         final BaseAbstractUnivariateIntegrator integrator =
             new IterativeLegendreGaussIntegrator(5, 1.0e-12, 1.0e-10);

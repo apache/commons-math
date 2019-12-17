@@ -81,7 +81,7 @@ import org.apache.commons.math4.util.MathUtils;
  * <li>Generate a random Gaussian value with mean = mean of the associated
  *     bin and std dev = std dev of associated bin.</li></ol>
  *
- * <p>EmpiricalDistribution implements the {@link RealDistribution} interface
+ * <p>EmpiricalDistribution implements the {@link ContinuousDistribution} interface
  * as follows.  Given x within the range of values in the dataset, let B
  * be the bin containing x and let K be the within-bin kernel for B.  Let P(B-)
  * be the sum of the probabilities of the bins below B and let K(B) be the

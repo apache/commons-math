@@ -21,9 +21,9 @@ import org.apache.commons.rng.UniformRandomProvider;
 /**
  * Base interface for multivariate distributions on the reals.
  *
- * This is based largely on the RealDistribution interface, but cumulative
- * distribution functions are not required because they are often quite
- * difficult to compute for multivariate distributions.
+ * This is based largely on the {@code ContinuousDistribution} interface,
+ * but cumulative distribution functions are not required because they
+ * are often quite difficult to compute for multivariate distributions.
  *
  * @since 3.1
  */
