@@ -35,7 +35,7 @@ import org.apache.commons.math4.util.FastMath;
  * from distribution to distribution.
  *
  */
-public abstract class AbstractIntegerDistribution implements IntegerDistribution, Serializable {
+public abstract class AbstractIntegerDistribution implements DiscreteDistribution, Serializable {
     /** Serializable version identifier */
     private static final long serialVersionUID = 20160318L;
 
