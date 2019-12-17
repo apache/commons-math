@@ -709,8 +709,8 @@ public class KolmogorovSmirnovTestTest {
     public void testFixTiesNoOp() throws Exception {
         final double[] x = {0, 1, 2, 3, 4};
         final double[] y = {5, 6, 7, 8};
-        final double[] origX = MathArrays.copyOf(x);
-        final double[] origY = MathArrays.copyOf(y);
+        final double[] origX = Arrays.copyOf(x, x.length);
+        final double[] origY = Arrays.copyOf(y, y.length);
         fixTies(x,y);
         Assert.assertArrayEquals(origX, x, 0);
         Assert.assertArrayEquals(origY, y, 0);
@@ -724,11 +724,11 @@ public class KolmogorovSmirnovTestTest {
     public void testFixTiesConsistency() throws Exception {
         final double[] x = {0, 1, 2, 3, 4, 2};
         final double[] y = {5, 6, 7, 8, 1, 2};
-        final double[] xP = MathArrays.copyOf(x);
-        final double[] yP = MathArrays.copyOf(y);
+        final double[] xP = Arrays.copyOf(x, x.length);
+        final double[] yP = Arrays.copyOf(y, y.length);
         checkFixTies(x, y);
-        final double[] fixedX = MathArrays.copyOf(x);
-        final double[] fixedY = MathArrays.copyOf(y);
+        final double[] fixedX = Arrays.copyOf(x, x.length);
+        final double[] fixedY = Arrays.copyOf(y, y.length);
         checkFixTies(xP, yP);
         Assert.assertArrayEquals(fixedX, xP, 0);
         Assert.assertArrayEquals(fixedY, yP, 0);

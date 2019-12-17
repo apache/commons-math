@@ -32,7 +32,6 @@ import org.apache.commons.math4.stat.descriptive.rank.Percentile.EstimationType;
 import org.apache.commons.math4.stat.ranking.NaNStrategy;
 import org.apache.commons.math4.util.CentralPivotingStrategy;
 import org.apache.commons.math4.util.KthSelector;
-import org.apache.commons.math4.util.MathArrays;
 import org.apache.commons.math4.util.MedianOf3PivotingStrategy;
 import org.apache.commons.math4.util.PivotingStrategyInterface;
 import org.apache.commons.math4.util.RandomPivotingStrategy;
@@ -630,7 +629,7 @@ public class PercentileTest extends UnivariateStatisticAbstractTest{
     public void testAllEstimationTechniquesOnlyLimits() {
         final int N=testArray.length;
 
-        final double[] input=MathArrays.copyOf(testArray);
+        final double[] input = Arrays.copyOf(testArray, testArray.length);
         Arrays.sort(input);
         final double min = input[0];
         final double max=input[input.length-1];

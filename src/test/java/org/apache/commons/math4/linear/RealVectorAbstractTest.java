@@ -223,7 +223,7 @@ public abstract class RealVectorAbstractTest {
     public void testSetEntry() {
         final double x = getPreferredEntryValue();
         final double[] data = {x, 1d, 2d, x, x};
-        final double[] expected = MathArrays.copyOf(data);
+        final double[] expected = Arrays.copyOf(data, data.length);
         final RealVector actual = create(data);
 
         /*
@@ -270,7 +270,7 @@ public abstract class RealVectorAbstractTest {
         final double x = getPreferredEntryValue();
         final double[] data1 = {x, 1d, 2d, x, x};
 
-        final double[] expected = MathArrays.copyOf(data1);
+        final double[] expected = Arrays.copyOf(data1, data1.length);
         final RealVector actual = create(data1);
 
         /*

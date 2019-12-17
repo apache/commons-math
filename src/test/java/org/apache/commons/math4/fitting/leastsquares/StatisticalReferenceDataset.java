@@ -19,10 +19,10 @@ package org.apache.commons.math4.fitting.leastsquares;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Arrays;
 
 import org.apache.commons.math4.analysis.MultivariateMatrixFunction;
 import org.apache.commons.math4.analysis.MultivariateVectorFunction;
-import org.apache.commons.math4.util.MathArrays;
 
 /**
  * This class gives access to the statistical reference datasets provided by the
@@ -199,7 +199,7 @@ public abstract class StatisticalReferenceDataset {
      */
     public double[][] getData() {
         return new double[][] {
-            MathArrays.copyOf(x), MathArrays.copyOf(y)
+            Arrays.copyOf(x, x.length), Arrays.copyOf(y, y.length)
         };
     }
 
@@ -238,7 +238,7 @@ public abstract class StatisticalReferenceDataset {
      * @return the values of the parameters
      */
     public double[] getParameters() {
-        return MathArrays.copyOf(a);
+        return Arrays.copyOf(a, a.length);
     }
 
     /**
@@ -257,7 +257,7 @@ public abstract class StatisticalReferenceDataset {
      * @return the standard deviations of the parameters
      */
     public double[] getParametersStandardDeviations() {
-        return MathArrays.copyOf(sigA);
+        return Arrays.copyOf(sigA, sigA.length);
     }
 
     /**
@@ -297,7 +297,7 @@ public abstract class StatisticalReferenceDataset {
      * @return the starting point
      */
     public double[] getStartingPoint(final int i) {
-        return MathArrays.copyOf(startingValues[i]);
+        return Arrays.copyOf(startingValues[i], startingValues[i].length);
     }
 
     /**
