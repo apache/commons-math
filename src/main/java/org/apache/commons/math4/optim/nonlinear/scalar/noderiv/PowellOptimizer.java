@@ -16,6 +16,7 @@
  */
 package org.apache.commons.math4.optim.nonlinear.scalar.noderiv;
 
+import java.util.Arrays;
 import org.apache.commons.math4.exception.MathUnsupportedOperationException;
 import org.apache.commons.math4.exception.NotStrictlyPositiveException;
 import org.apache.commons.math4.exception.NumberIsTooSmallException;
@@ -27,7 +28,6 @@ import org.apache.commons.math4.optim.nonlinear.scalar.LineSearch;
 import org.apache.commons.math4.optim.nonlinear.scalar.MultivariateOptimizer;
 import org.apache.commons.math4.optim.univariate.UnivariatePointValuePair;
 import org.apache.commons.math4.util.FastMath;
-import org.apache.commons.math4.util.MathArrays;
 
 /**
  * Powell's algorithm.
@@ -192,7 +192,7 @@ public class PowellOptimizer
             double alphaMin = 0;
 
             for (int i = 0; i < n; i++) {
-                final double[] d = MathArrays.copyOf(direc[i]);
+                final double[] d = Arrays.copyOf(direc[i], direc[i].length);
 
                 fX2 = fVal;
 

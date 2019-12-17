@@ -16,6 +16,7 @@
  */
 package org.apache.commons.math4.distribution;
 
+import java.util.Arrays;
 import org.apache.commons.statistics.distribution.ContinuousDistribution;
 import org.apache.commons.statistics.distribution.NormalDistribution;
 import org.apache.commons.math4.exception.DimensionMismatchException;
@@ -26,7 +27,6 @@ import org.apache.commons.math4.linear.RealMatrix;
 import org.apache.commons.math4.linear.SingularMatrixException;
 import org.apache.commons.rng.UniformRandomProvider;
 import org.apache.commons.math4.util.FastMath;
-import org.apache.commons.math4.util.MathArrays;
 
 /**
  * Implementation of the multivariate normal (Gaussian) distribution.
@@ -88,7 +88,7 @@ public class MultivariateNormalDistribution
             }
         }
 
-        this.means = MathArrays.copyOf(means);
+        this.means = Arrays.copyOf(means, means.length);
 
         covarianceMatrix = new Array2DRowRealMatrix(covariances);
 
@@ -135,7 +135,7 @@ public class MultivariateNormalDistribution
      * @return the mean vector.
      */
     public double[] getMeans() {
-        return MathArrays.copyOf(means);
+        return Arrays.copyOf(means, means.length);
     }
 
     /**

@@ -207,8 +207,8 @@ public class KolmogorovSmirnovTest {
         double[] xa = null;
         double[] ya = null;
         if (lengthProduct < LARGE_SAMPLE_PRODUCT && hasTies(x,y)) {
-            xa = MathArrays.copyOf(x);
-            ya = MathArrays.copyOf(y);
+            xa = Arrays.copyOf(x, x.length);
+            ya = Arrays.copyOf(y, y.length);
             fixTies(xa, ya);
         } else {
             xa = x;
@@ -276,8 +276,8 @@ public class KolmogorovSmirnovTest {
         checkArray(x);
         checkArray(y);
         // Copy and sort the sample arrays
-        final double[] sx = MathArrays.copyOf(x);
-        final double[] sy = MathArrays.copyOf(y);
+        final double[] sx = Arrays.copyOf(x, x.length);
+        final double[] sy = Arrays.copyOf(y, y.length);
         Arrays.sort(sx);
         Arrays.sort(sy);
         final int n = sx.length;

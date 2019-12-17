@@ -20,7 +20,6 @@ import java.util.Arrays;
 
 import org.apache.commons.math4.exception.util.LocalizedFormats;
 import org.apache.commons.math4.util.FastMath;
-import org.apache.commons.math4.util.MathArrays;
 import org.apache.commons.numbers.core.Precision;
 
 /**
@@ -176,7 +175,7 @@ public class MillerUpdatingRegression implements UpdatingMultipleLinearRegressio
                     x.length, nvars);
         }
         if (!this.hasIntercept) {
-            include(MathArrays.copyOf(x, x.length), 1.0, y);
+            include(Arrays.copyOf(x, x.length), 1.0, y);
         } else {
             final double[] tmp = new double[x.length + 1];
             System.arraycopy(x, 0, tmp, 1, x.length);
@@ -897,7 +896,7 @@ public class MillerUpdatingRegression implements UpdatingMultipleLinearRegressio
      * @return int[] with the current order of the regressors
      */
     public int[] getOrderOfRegressors(){
-        return MathArrays.copyOf(vorder);
+        return Arrays.copyOf(vorder, vorder.length);
     }
 
     /**

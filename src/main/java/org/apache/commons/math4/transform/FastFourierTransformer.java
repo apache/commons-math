@@ -17,6 +17,7 @@
 package org.apache.commons.math4.transform;
 
 import java.io.Serializable;
+import java.util.Arrays;
 import org.apache.commons.numbers.complex.Complex;
 import org.apache.commons.numbers.core.ArithmeticUtils;
 import org.apache.commons.math4.analysis.FunctionUtils;
@@ -26,7 +27,6 @@ import org.apache.commons.math4.exception.MathIllegalArgumentException;
 import org.apache.commons.math4.exception.MathIllegalStateException;
 import org.apache.commons.math4.exception.util.LocalizedFormats;
 import org.apache.commons.math4.util.FastMath;
-import org.apache.commons.math4.util.MathArrays;
 
 /**
  * Implements the Fast Fourier Transform for transformation of one-dimensional
@@ -365,7 +365,7 @@ public class FastFourierTransformer implements Serializable {
      */
     public Complex[] transform(final double[] f, final TransformType type) {
         final double[][] dataRI = new double[][] {
-            MathArrays.copyOf(f, f.length), new double[f.length]
+            Arrays.copyOf(f, f.length), new double[f.length]
         };
 
         transformInPlace(dataRI, normalization, type);

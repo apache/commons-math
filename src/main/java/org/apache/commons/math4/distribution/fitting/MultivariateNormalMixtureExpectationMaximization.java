@@ -103,7 +103,7 @@ public class MultivariateNormalMixtureExpectationMaximization {
                 throw new NumberIsTooSmallException(LocalizedFormats.NUMBER_TOO_SMALL,
                                                     data[i].length, 2, true);
             }
-            this.data[i] = MathArrays.copyOf(data[i], data[i].length);
+            this.data[i] = Arrays.copyOf(data[i], data[i].length);
         }
     }
 
