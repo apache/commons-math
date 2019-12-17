@@ -17,16 +17,12 @@
 
 package org.apache.commons.math4.ode.nonstiff;
 
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 
 import org.apache.commons.numbers.fraction.BigFraction;
 import org.apache.commons.numbers.field.BigFractionField;
-import org.apache.commons.math4.linear.Array2DRowFieldMatrix;
 import org.apache.commons.math4.linear.Array2DRowRealMatrix;
-import org.apache.commons.math4.linear.ArrayFieldVector;
-import org.apache.commons.math4.linear.MatrixUtils;
 import org.apache.commons.math4.linear.QRDecomposition;
 import org.apache.commons.math4.linear.RealMatrix;
 import org.apache.commons.math4.field.linalg.FieldDenseMatrix;

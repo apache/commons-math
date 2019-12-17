@@ -21,7 +21,6 @@ import java.util.Arrays;
 
 import org.apache.commons.math4.exception.OutOfRangeException;
 import org.apache.commons.math4.util.FastMath;
-import org.apache.commons.math4.util.MathArrays;
 
 /**
  * Results of a Multiple Linear Regression model fit.

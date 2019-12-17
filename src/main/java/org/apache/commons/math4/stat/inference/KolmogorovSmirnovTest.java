@@ -17,7 +17,6 @@
 
 package org.apache.commons.math4.stat.inference;
 
-import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.util.Arrays;
 

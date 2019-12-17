@@ -17,8 +17,6 @@
 
 package org.apache.commons.math4.field.linalg;
 
-import java.util.List;
-
 /**
  * Interface handling decomposition algorithms that can solve {@code A X = B}.
  *

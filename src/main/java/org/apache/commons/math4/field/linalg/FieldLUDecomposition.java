@@ -17,11 +17,8 @@
 
 package org.apache.commons.math4.field.linalg;
 
-import java.util.List;
-import java.util.ArrayList;
 import org.apache.commons.numbers.field.Field;
 import org.apache.commons.math4.linear.SingularMatrixException;
-import org.apache.commons.math4.exception.DimensionMismatchException;
 
 /**
  * Calculates the LUP-decomposition of a square matrix.

@@ -24,7 +24,6 @@ import org.apache.commons.math4.exception.ConvergenceException;
 import org.apache.commons.math4.exception.MathIllegalArgumentException;
 import org.apache.commons.math4.exception.util.LocalizedFormats;
 import org.apache.commons.math4.util.FastMath;
-import org.apache.commons.math4.util.MathArrays;
 
 /**
  * This class provides computation methods related to Bessel

@@ -18,7 +18,6 @@
 package org.apache.commons.math4.geometry.euclidean.threed;
 
 import java.io.Serializable;
-import java.text.NumberFormat;
 
 import org.apache.commons.geometry.euclidean.threed.Vector3D;
 import org.apache.commons.math4.RealFieldElement;
