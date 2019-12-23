@@ -117,7 +117,7 @@ public class IterativeLegendreGaussIntegratorTest {
 
         final double a = -5000;
         final double b = 5000;
-        final double s = integrator.integrate(50, normal, a, b);
+        final double s = integrator.integrate(60, normal, a, b);
         Assert.assertEquals(1, s, 1e-5);
     }
 

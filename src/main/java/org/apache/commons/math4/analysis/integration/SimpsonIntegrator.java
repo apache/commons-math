@@ -105,7 +105,7 @@ public class SimpsonIntegrator extends BaseAbstractUnivariateIntegrator {
         double olds = (4 * oldt - s0) / 3.0;
         while (true) {
             // The first iteration is the first refinement of the sum.
-            iterations.incrementCount();
+            iterations.increment();
             final int i = getIterations();
             final double t = qtrap.stage(this, i + 1); // 1-stage ahead of the iteration
             final double s = (4 * t - oldt) / 3.0;
