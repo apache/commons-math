@@ -54,8 +54,11 @@ If the output is not quite correct, check for invisible trailing spaces!
     </release>
 
     <release version="4.0" date="XXXX-XX-XX" description="">
+      <action dev="erans" type="update" issue="MATH-1362">
+        Removed deprecated class "Incrementor" (replaced by "IntegerSequence.Incrementor").
+      </action>
       <action dev="erans" type="update" issue="MATH-1506">
-        Removed class "MultiDimensionalCounter" (ported to "Commons Numbers").
+        Removed class "MultidimensionalCounter" (ported to "Commons Numbers").
       </action>
       <action dev="erans" type="update" issue="MATH-1504">
         Removed class "BigFraction" (ported to "Commons Numbers").
