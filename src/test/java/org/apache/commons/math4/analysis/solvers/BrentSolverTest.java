@@ -264,7 +264,7 @@ public final class BrentSolverTest {
             };
 
         BrentSolver solver = new BrentSolver();
-        final double result = solver.solve(99, f, 1, 1e30, 1 + 1e-10);
+        final double result = solver.solve(100, f, 1, 1e30, 1 + 1e-10);
         Assert.assertEquals(804.93558250, result, solver.getAbsoluteAccuracy());
     }
 }

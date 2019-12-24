@@ -23,7 +23,7 @@ import org.apache.commons.math4.exception.NoBracketingException;
 import org.apache.commons.math4.exception.NullArgumentException;
 import org.apache.commons.math4.exception.NumberIsTooLargeException;
 import org.apache.commons.math4.exception.TooManyEvaluationsException;
-import org.apache.commons.math4.util.Incrementor;
+import org.apache.commons.math4.util.IntegerSequence;
 import org.apache.commons.math4.util.MathUtils;
 
 /**
@@ -51,7 +51,7 @@ public abstract class BaseAbstractUnivariateSolver<FUNC extends UnivariateFuncti
     /** Relative accuracy. */
     private final double relativeAccuracy;
     /** Evaluations counter. */
-    private final Incrementor evaluations = new Incrementor();
+    private IntegerSequence.Incrementor evaluations;
     /** Lower end of search interval. */
     private double searchMin;
     /** Higher end of search interval. */
@@ -158,8 +158,7 @@ public abstract class BaseAbstractUnivariateSolver<FUNC extends UnivariateFuncti
      * @throws TooManyEvaluationsException if the maximal number of evaluations
      * is exceeded.
      */
-    protected double computeObjectiveValue(double point)
-        throws TooManyEvaluationsException {
+    protected double computeObjectiveValue(double point) {
         incrementEvaluationCount();
         return function.value(point);
     }
@@ -179,8 +178,7 @@ public abstract class BaseAbstractUnivariateSolver<FUNC extends UnivariateFuncti
     protected void setup(int maxEval,
                          FUNC f,
                          double min, double max,
-                         double startValue)
-        throws NullArgumentException {
+                         double startValue) {
         // Checks.
         MathUtils.checkNotNull(f);
 
@@ -189,15 +187,13 @@ public abstract class BaseAbstractUnivariateSolver<FUNC extends UnivariateFuncti
         searchMax = max;
         searchStart = startValue;
         function = f;
-        evaluations.setMaximalCount(maxEval);
-        evaluations.resetCount();
+        evaluations = IntegerSequence.Incrementor.create()
+            .withMaximalCount(maxEval);
     }
 
     /** {@inheritDoc} */
     @Override
-    public double solve(int maxEval, FUNC f, double min, double max, double startValue)
-        throws TooManyEvaluationsException,
-               NoBracketingException {
+    public double solve(int maxEval, FUNC f, double min, double max, double startValue) {
         // Initialization.
         setup(maxEval, f, min, max, startValue);
 
@@ -213,9 +209,7 @@ public abstract class BaseAbstractUnivariateSolver<FUNC extends UnivariateFuncti
 
     /** {@inheritDoc} */
     @Override
-    public double solve(int maxEval, FUNC f, double startValue)
-        throws TooManyEvaluationsException,
-               NoBracketingException {
+    public double solve(int maxEval, FUNC f, double startValue) {
         return solve(maxEval, f, Double.NaN, Double.NaN, startValue);
     }
 
@@ -229,8 +223,7 @@ public abstract class BaseAbstractUnivariateSolver<FUNC extends UnivariateFuncti
      * @throws NoBracketingException if the initial search interval does not bracket
      * a root and the solver requires it.
      */
-    protected abstract double doSolve()
-        throws TooManyEvaluationsException, NoBracketingException;
+    protected abstract double doSolve();
 
     /**
      * Check whether the function takes opposite signs at the endpoints.
@@ -267,8 +260,7 @@ public abstract class BaseAbstractUnivariateSolver<FUNC extends UnivariateFuncti
      * @throws NumberIsTooLargeException if {@code lower >= upper}.
      */
     protected void verifyInterval(final double lower,
-                                  final double upper)
-        throws NumberIsTooLargeException {
+                                  final double upper) {
         UnivariateSolverUtils.verifyInterval(lower, upper);
     }
 
@@ -283,8 +275,7 @@ public abstract class BaseAbstractUnivariateSolver<FUNC extends UnivariateFuncti
      */
     protected void verifySequence(final double lower,
                                   final double initial,
-                                  final double upper)
-        throws NumberIsTooLargeException {
+                                  final double upper) {
         UnivariateSolverUtils.verifySequence(lower, initial, upper);
     }
 
@@ -299,9 +290,7 @@ public abstract class BaseAbstractUnivariateSolver<FUNC extends UnivariateFuncti
      * the endpoints.
      */
     protected void verifyBracketing(final double lower,
-                                    final double upper)
-        throws NullArgumentException,
-               NoBracketingException {
+                                    final double upper) {
         UnivariateSolverUtils.verifyBracketing(function, lower, upper);
     }
 
@@ -315,10 +304,9 @@ public abstract class BaseAbstractUnivariateSolver<FUNC extends UnivariateFuncti
      * @throws TooManyEvaluationsException when the allowed number of function
      * evaluations has been exhausted.
      */
-    protected void incrementEvaluationCount()
-        throws TooManyEvaluationsException {
+    protected void incrementEvaluationCount() {
         try {
-            evaluations.incrementCount();
+            evaluations.increment();
         } catch (MaxCountExceededException e) {
             throw new TooManyEvaluationsException(e.getMax());
         }

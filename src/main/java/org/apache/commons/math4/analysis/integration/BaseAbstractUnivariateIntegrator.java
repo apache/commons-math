@@ -221,8 +221,7 @@ public abstract class BaseAbstractUnivariateIntegrator implements UnivariateInte
 
     /**
      * Prepare for computation.
-     * Subclasses must call this method if they override any of the
-     * {@code solve} methods.
+     * Subclasses must call this method if they the {@code integrate} method.
      *
      * @param maxEval Maximum number of evaluations.
      * @param f the integrand function
