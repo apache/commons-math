@@ -69,8 +69,7 @@ public class IterativeLegendreGaussIntegrator
                                             final double relativeAccuracy,
                                             final double absoluteAccuracy,
                                             final int minimalIterationCount,
-                                            final int maximalIterationCount)
-        throws NotStrictlyPositiveException, NumberIsTooSmallException {
+                                            final int maximalIterationCount) {
         super(relativeAccuracy, absoluteAccuracy, minimalIterationCount, maximalIterationCount);
         if (n <= 0) {
             throw new NotStrictlyPositiveException(LocalizedFormats.NUMBER_OF_POINTS, n);
@@ -88,8 +87,7 @@ public class IterativeLegendreGaussIntegrator
      */
     public IterativeLegendreGaussIntegrator(final int n,
                                             final double relativeAccuracy,
-                                            final double absoluteAccuracy)
-        throws NotStrictlyPositiveException {
+                                            final double absoluteAccuracy) {
         this(n, relativeAccuracy, absoluteAccuracy,
              DEFAULT_MIN_ITERATIONS_COUNT, DEFAULT_MAX_ITERATIONS_COUNT);
     }
@@ -108,16 +106,14 @@ public class IterativeLegendreGaussIntegrator
      */
     public IterativeLegendreGaussIntegrator(final int n,
                                             final int minimalIterationCount,
-                                            final int maximalIterationCount)
-        throws NotStrictlyPositiveException, NumberIsTooSmallException {
+                                            final int maximalIterationCount) {
         this(n, DEFAULT_RELATIVE_ACCURACY, DEFAULT_ABSOLUTE_ACCURACY,
              minimalIterationCount, maximalIterationCount);
     }
 
     /** {@inheritDoc} */
     @Override
-    protected double doIntegrate()
-        throws MathIllegalArgumentException, TooManyEvaluationsException, MaxCountExceededException {
+    protected double doIntegrate() {
         // Compute first estimate with a single step.
         double oldt = stage(1);
 
@@ -160,8 +156,7 @@ public class IterativeLegendreGaussIntegrator
         final UnivariateFunction f = new UnivariateFunction() {
                 /** {@inheritDoc} */
                 @Override
-                public double value(double x)
-                    throws MathIllegalArgumentException, TooManyEvaluationsException {
+                public double value(double x) {
                     return computeObjectiveValue(x);
                 }
             };
