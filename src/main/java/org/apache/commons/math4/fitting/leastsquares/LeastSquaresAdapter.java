@@ -18,7 +18,7 @@ package org.apache.commons.math4.fitting.leastsquares;
 
 import org.apache.commons.math4.linear.RealVector;
 import org.apache.commons.math4.optim.ConvergenceChecker;
-import org.apache.commons.math4.util.Incrementor;
+import org.apache.commons.math4.util.IntegerSequence;
 
 /**
  * An adapter that delegates to another implementation of {@link LeastSquaresProblem}.
@@ -66,13 +66,13 @@ public class LeastSquaresAdapter implements LeastSquaresProblem {
 
     /** {@inheritDoc} */
     @Override
-    public Incrementor getEvaluationCounter() {
+    public IntegerSequence.Incrementor getEvaluationCounter() {
         return problem.getEvaluationCounter();
     }
 
     /** {@inheritDoc} */
     @Override
-    public Incrementor getIterationCounter() {
+    public IntegerSequence.Incrementor getIterationCounter() {
         return problem.getIterationCounter();
     }
 

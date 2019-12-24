@@ -228,7 +228,7 @@ public final class BrentOptimizerTest {
             };
 
         UnivariateOptimizer optimizer = new BrentOptimizer(1e-10, 1e-8);
-        final double result = optimizer.optimize(new MaxEval(1483),
+        final double result = optimizer.optimize(new MaxEval(1484),
                                                  new UnivariateObjectiveFunction(f),
                                                  GoalType.MINIMIZE,
                                                  new SearchInterval(Double.MIN_VALUE,

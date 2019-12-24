@@ -16,7 +16,7 @@
  */
 package org.apache.commons.math4.optim;
 
-import org.apache.commons.math4.util.Incrementor;
+import org.apache.commons.math4.util.IntegerSequence;
 
 /**
  * Common settings for all optimization problems. Includes divergence and convergence
@@ -34,7 +34,7 @@ public interface OptimizationProblem<PAIR> {
      *
      * @return a counter for the evaluations.
      */
-    Incrementor getEvaluationCounter();
+    IntegerSequence.Incrementor getEvaluationCounter();
 
     /**
      * Get a independent Incrementor that counts up to the maximum number of iterations
@@ -42,7 +42,7 @@ public interface OptimizationProblem<PAIR> {
      *
      * @return a counter for the evaluations.
      */
-    Incrementor getIterationCounter();
+    IntegerSequence.Incrementor getIterationCounter();
 
     /**
      * Gets the convergence checker.

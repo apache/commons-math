@@ -779,7 +779,7 @@ public class SimplexSolverTest {
         Assert.assertFalse(callback.isSolutionOptimal());
 
         try {
-            solver.optimize(new MaxIter(3), f, new LinearConstraintSet(constraints),
+            solver.optimize(new MaxIter(4), f, new LinearConstraintSet(constraints),
                             GoalType.MAXIMIZE, new NonNegativeConstraint(true), callback);
             Assert.fail("expected TooManyIterationsException");
         } catch (TooManyIterationsException ex) {

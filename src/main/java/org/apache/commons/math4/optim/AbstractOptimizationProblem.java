@@ -18,7 +18,7 @@ package org.apache.commons.math4.optim;
 
 import org.apache.commons.math4.exception.TooManyEvaluationsException;
 import org.apache.commons.math4.exception.TooManyIterationsException;
-import org.apache.commons.math4.util.Incrementor;
+import org.apache.commons.math4.util.IntegerSequence;
 
 /**
  * Base class for implementing optimization problems. It contains the boiler-plate code
@@ -60,14 +60,18 @@ public abstract class AbstractOptimizationProblem<PAIR>
 
     /** {@inheritDoc} */
     @Override
-    public Incrementor getEvaluationCounter() {
-        return new Incrementor(this.maxEvaluations, MAX_EVAL_CALLBACK);
+    public IntegerSequence.Incrementor getEvaluationCounter() {
+        return IntegerSequence.Incrementor.create()
+            .withMaximalCount(maxEvaluations)
+            .withCallback(MAX_EVAL_CALLBACK);
     }
 
     /** {@inheritDoc} */
     @Override
-    public Incrementor getIterationCounter() {
-        return new Incrementor(this.maxIterations, MAX_ITER_CALLBACK);
+    public IntegerSequence.Incrementor getIterationCounter() {
+        return IntegerSequence.Incrementor.create()
+            .withMaximalCount(maxIterations)
+            .withCallback(MAX_ITER_CALLBACK);
     }
 
     /** {@inheritDoc} */
@@ -78,7 +82,7 @@ public abstract class AbstractOptimizationProblem<PAIR>
 
     /** Defines the action to perform when reaching the maximum number of evaluations. */
     private static class MaxEvalCallback
-            implements Incrementor.MaxCountExceededCallback {
+        implements IntegerSequence.Incrementor.MaxCountExceededCallback {
         /**
          * {@inheritDoc}
          *
@@ -92,7 +96,7 @@ public abstract class AbstractOptimizationProblem<PAIR>
 
     /** Defines the action to perform when reaching the maximum number of evaluations. */
     private static class MaxIterCallback
-            implements Incrementor.MaxCountExceededCallback {
+        implements IntegerSequence.Incrementor.MaxCountExceededCallback {
         /**
          * {@inheritDoc}
          *

@@ -25,7 +25,7 @@ import org.apache.commons.math4.linear.ArrayRealVector;
 import org.apache.commons.math4.linear.RealMatrix;
 import org.apache.commons.math4.optim.ConvergenceChecker;
 import org.apache.commons.math4.util.FastMath;
-import org.apache.commons.math4.util.Incrementor;
+import org.apache.commons.math4.util.IntegerSequence;
 import org.apache.commons.numbers.core.Precision;
 
 
@@ -299,8 +299,8 @@ public class LevenbergMarquardtOptimizer implements LeastSquaresOptimizer {
         final int nR = problem.getObservationSize(); // Number of observed data.
         final int nC = problem.getParameterSize(); // Number of parameters.
         // Counters.
-        final Incrementor iterationCounter = problem.getIterationCounter();
-        final Incrementor evaluationCounter = problem.getEvaluationCounter();
+        final IntegerSequence.Incrementor iterationCounter = problem.getIterationCounter();
+        final IntegerSequence.Incrementor evaluationCounter = problem.getEvaluationCounter();
         // Convergence criterion.
         final ConvergenceChecker<Evaluation> checker = problem.getConvergenceChecker();
 
@@ -324,7 +324,7 @@ public class LevenbergMarquardtOptimizer implements LeastSquaresOptimizer {
 
 
         // Evaluate the function at the starting point and calculate its norm.
-        evaluationCounter.incrementCount();
+        evaluationCounter.increment();
         //value will be reassigned in the loop
         Evaluation current = problem.evaluate(problem.getStart());
         double[] currentResiduals = current.getResiduals().toArray();
@@ -334,7 +334,7 @@ public class LevenbergMarquardtOptimizer implements LeastSquaresOptimizer {
         // Outer loop.
         boolean firstIteration = true;
         while (true) {
-            iterationCounter.incrementCount();
+            iterationCounter.increment();
 
             final Evaluation previous = current;
 
@@ -443,7 +443,7 @@ public class LevenbergMarquardtOptimizer implements LeastSquaresOptimizer {
                 }
 
                 // Evaluate the function at x + p and calculate its norm.
-                evaluationCounter.incrementCount();
+                evaluationCounter.increment();
                 current = problem.evaluate(new ArrayRealVector(currentPoint));
                 currentResiduals = current.getResiduals().toArray();
                 currentCost = current.getCost();

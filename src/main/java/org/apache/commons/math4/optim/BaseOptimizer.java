@@ -18,7 +18,7 @@ package org.apache.commons.math4.optim;
 
 import org.apache.commons.math4.exception.TooManyEvaluationsException;
 import org.apache.commons.math4.exception.TooManyIterationsException;
-import org.apache.commons.math4.util.Incrementor;
+import org.apache.commons.math4.util.IntegerSequence;
 
 /**
  * Base class for implementing optimizers.
@@ -33,12 +33,21 @@ import org.apache.commons.math4.util.Incrementor;
  * @since 3.1
  */
 public abstract class BaseOptimizer<PAIR> {
-    /** Evaluations counter. */
-    protected final Incrementor evaluations;
-    /** Iterations counter. */
-    protected final Incrementor iterations;
+    /** Callback to use for the evaluation counter. */
+    private static final MaxEvalCallback MAX_EVAL_CALLBACK = new MaxEvalCallback();
+    /** Callback to use for the iteration counter. */
+    private static final MaxIterCallback MAX_ITER_CALLBACK = new MaxIterCallback();
+
     /** Convergence checker. */
     private final ConvergenceChecker<PAIR> checker;
+    /** Maximum number of evaluations. */
+    private int maxEvaluations;
+    /** Maximum number of iterations. */
+    private int maxIterations;
+    /** Evaluations counter. */
+    private IntegerSequence.Incrementor evaluations;
+    /** Iterations counter. */
+    private IntegerSequence.Incrementor iterations;
 
     /**
      * @param checker Convergence checker.
@@ -56,9 +65,8 @@ public abstract class BaseOptimizer<PAIR> {
                             int maxEval,
                             int maxIter) {
         this.checker = checker;
-
-        evaluations = new Incrementor(maxEval, new MaxEvalCallback());
-        iterations = new Incrementor(maxIter, new MaxIterCallback());
+        this.maxEvaluations = maxEval;
+        this.maxIterations = maxIter;
     }
 
     /**
@@ -145,10 +153,8 @@ public abstract class BaseOptimizer<PAIR> {
                TooManyIterationsException {
         // Parse options.
         parseOptimizationData(optData);
-
         // Reset counters.
-        evaluations.resetCount();
-        iterations.resetCount();
+        resetCounters();
         // Perform optimization.
         return doOptimize();
     }
@@ -166,8 +172,7 @@ public abstract class BaseOptimizer<PAIR> {
         throws TooManyEvaluationsException,
                TooManyIterationsException {
         // Reset counters.
-        evaluations.resetCount();
-        iterations.resetCount();
+        resetCounters();
         // Perform optimization.
         return doOptimize();
     }
@@ -188,7 +193,7 @@ public abstract class BaseOptimizer<PAIR> {
      */
     protected void incrementEvaluationCount()
         throws TooManyEvaluationsException {
-        evaluations.incrementCount();
+        evaluations.increment();
     }
 
     /**
@@ -199,7 +204,7 @@ public abstract class BaseOptimizer<PAIR> {
      */
     protected void incrementIterationCount()
         throws TooManyIterationsException {
-        iterations.incrementCount();
+        iterations.increment();
     }
 
     /**
@@ -218,14 +223,24 @@ public abstract class BaseOptimizer<PAIR> {
         // not provided in the argument list.
         for (OptimizationData data : optData) {
             if (data instanceof MaxEval) {
-                evaluations.setMaximalCount(((MaxEval) data).getMaxEval());
+                maxEvaluations = ((MaxEval) data).getMaxEval();
                 continue;
             }
             if (data instanceof MaxIter) {
-                iterations.setMaximalCount(((MaxIter) data).getMaxIter());
+                maxIterations = ((MaxIter) data).getMaxIter();
                 continue;
             }
         }
+    }
+
+    /** Reset counters. */
+    private void resetCounters() {
+        evaluations = IntegerSequence.Incrementor.create()
+            .withMaximalCount(maxEvaluations)
+            .withCallback(MAX_EVAL_CALLBACK);
+        iterations = IntegerSequence.Incrementor.create()
+            .withMaximalCount(maxIterations)
+            .withCallback(MAX_ITER_CALLBACK);
     }
 
     /**
@@ -233,7 +248,7 @@ public abstract class BaseOptimizer<PAIR> {
      * of evaluations.
      */
     private static class MaxEvalCallback
-        implements  Incrementor.MaxCountExceededCallback {
+        implements IntegerSequence.Incrementor.MaxCountExceededCallback {
         /**
          * {@inheritDoc}
          * @throws TooManyEvaluationsException
@@ -249,7 +264,7 @@ public abstract class BaseOptimizer<PAIR> {
      * of evaluations.
      */
     private static class MaxIterCallback
-        implements Incrementor.MaxCountExceededCallback {
+        implements IntegerSequence.Incrementor.MaxCountExceededCallback {
         /**
          * {@inheritDoc}
          * @throws TooManyIterationsException
