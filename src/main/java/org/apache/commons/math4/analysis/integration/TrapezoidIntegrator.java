@@ -37,7 +37,7 @@ import org.apache.commons.math4.util.FastMath;
 public class TrapezoidIntegrator extends BaseAbstractUnivariateIntegrator {
 
     /** Maximum number of iterations for trapezoid. */
-    public static final int TRAPEZOID_MAX_ITERATIONS_COUNT = 64;
+    private static final int TRAPEZOID_MAX_ITERATIONS_COUNT = 63;
 
     /** Intermediate result. */
     private double s;
@@ -48,13 +48,12 @@ public class TrapezoidIntegrator extends BaseAbstractUnivariateIntegrator {
      * @param absoluteAccuracy absolute accuracy of the result
      * @param minimalIterationCount minimum number of iterations
      * @param maximalIterationCount maximum number of iterations
-     * (must be less than or equal to {@link #TRAPEZOID_MAX_ITERATIONS_COUNT}
      * @exception NotStrictlyPositiveException if minimal number of iterations
      * is not strictly positive
      * @exception NumberIsTooSmallException if maximal number of iterations
      * is lesser than or equal to the minimal number of iterations
      * @exception NumberIsTooLargeException if maximal number of iterations
-     * is greater than {@link #TRAPEZOID_MAX_ITERATIONS_COUNT}
+     * is greater than 63.
      */
     public TrapezoidIntegrator(final double relativeAccuracy,
                                final double absoluteAccuracy,
@@ -72,13 +71,12 @@ public class TrapezoidIntegrator extends BaseAbstractUnivariateIntegrator {
      * Build a trapezoid integrator with given iteration counts.
      * @param minimalIterationCount minimum number of iterations
      * @param maximalIterationCount maximum number of iterations
-     * (must be less than or equal to {@link #TRAPEZOID_MAX_ITERATIONS_COUNT}
      * @exception NotStrictlyPositiveException if minimal number of iterations
      * is not strictly positive
      * @exception NumberIsTooSmallException if maximal number of iterations
      * is lesser than or equal to the minimal number of iterations
      * @exception NumberIsTooLargeException if maximal number of iterations
-     * is greater than {@link #TRAPEZOID_MAX_ITERATIONS_COUNT}
+     * is greater than 63.
      */
     public TrapezoidIntegrator(final int minimalIterationCount,
                                final int maximalIterationCount)

@@ -37,7 +37,7 @@ import org.apache.commons.math4.util.FastMath;
 public class MidPointIntegrator extends BaseAbstractUnivariateIntegrator {
 
     /** Maximum number of iterations for midpoint. */
-    public static final int MIDPOINT_MAX_ITERATIONS_COUNT = 64;
+    private static final int MIDPOINT_MAX_ITERATIONS_COUNT = 63;
 
     /**
      * Build a midpoint integrator with given accuracies and iterations counts.
@@ -45,13 +45,12 @@ public class MidPointIntegrator extends BaseAbstractUnivariateIntegrator {
      * @param absoluteAccuracy absolute accuracy of the result
      * @param minimalIterationCount minimum number of iterations
      * @param maximalIterationCount maximum number of iterations
-     * (must be less than or equal to {@link #MIDPOINT_MAX_ITERATIONS_COUNT}
      * @exception NotStrictlyPositiveException if minimal number of iterations
      * is not strictly positive
      * @exception NumberIsTooSmallException if maximal number of iterations
      * is lesser than or equal to the minimal number of iterations
      * @exception NumberIsTooLargeException if maximal number of iterations
-     * is greater than {@link #MIDPOINT_MAX_ITERATIONS_COUNT}
+     * is greater than 63.
      */
     public MidPointIntegrator(final double relativeAccuracy,
                               final double absoluteAccuracy,
@@ -69,13 +68,12 @@ public class MidPointIntegrator extends BaseAbstractUnivariateIntegrator {
      * Build a midpoint integrator with given iteration counts.
      * @param minimalIterationCount minimum number of iterations
      * @param maximalIterationCount maximum number of iterations
-     * (must be less than or equal to {@link #MIDPOINT_MAX_ITERATIONS_COUNT}
      * @exception NotStrictlyPositiveException if minimal number of iterations
      * is not strictly positive
      * @exception NumberIsTooSmallException if maximal number of iterations
      * is lesser than or equal to the minimal number of iterations
      * @exception NumberIsTooLargeException if maximal number of iterations
-     * is greater than {@link #MIDPOINT_MAX_ITERATIONS_COUNT}
+     * is greater than 63.
      */
     public MidPointIntegrator(final int minimalIterationCount,
                               final int maximalIterationCount)
