@@ -29,36 +29,43 @@ import org.apache.commons.math4.exception.MaxCountExceededException;
  *
  */
 public class IterationManager {
-
-    /** Keeps a count of the number of iterations. */
-    private final Incrementor iterations;
-
     /** The collection of all listeners attached to this iterative algorithm. */
     private final Collection<IterationListener> listeners;
+    /** Maximum number of iterations. */
+    private final int maxIterations;
+    /** Callback. */
+    private final IntegerSequence.Incrementor.MaxCountExceededCallback callback;
+    /** Keeps a count of the number of iterations. */
+    private IntegerSequence.Incrementor iterations;
 
     /**
      * Creates a new instance of this class.
      *
-     * @param maxIterations the maximum number of iterations
+     * @param maxIterations Maximum number of iterations.
+     * {@link MaxCountExceededException} will be raised at
+     * counter exhaustion.
      */
     public IterationManager(final int maxIterations) {
-        this.iterations = new Incrementor(maxIterations);
-        this.listeners = new CopyOnWriteArrayList<>();
+        this(maxIterations, null);
     }
 
     /**
      * Creates a new instance of this class.
      *
      * @param maxIterations the maximum number of iterations
-     * @param callBack the function to be called when the maximum number of
-     * iterations has been reached
-     * @throws org.apache.commons.math4.exception.NullArgumentException if {@code callBack} is {@code null}
+     * @param callback the function to be called when the maximum number of
+     * iterations has been reached.
+     * If {@code null}, {@link MaxCountExceededException} will be raised at
+     * counter exhaustion.
+     *
      * @since 3.1
      */
     public IterationManager(final int maxIterations,
-                            final Incrementor.MaxCountExceededCallback callBack) {
-        this.iterations = new Incrementor(maxIterations, callBack);
+                            final IntegerSequence.Incrementor.MaxCountExceededCallback callback) {
+        this.maxIterations = maxIterations;
+        this.callback = callback;
         this.listeners = new CopyOnWriteArrayList<>();
+        resetCounter();
     }
 
     /**
@@ -145,9 +152,8 @@ public class IterationManager {
      * @throws MaxCountExceededException if the maximum number of iterations is
      * reached.
      */
-    public void incrementIterationCount()
-        throws MaxCountExceededException {
-        iterations.incrementCount();
+    public void incrementIterationCount() {
+        iterations.increment();
     }
 
     /**
@@ -167,6 +173,15 @@ public class IterationManager {
      * initial phase.
      */
     public void resetIterationCount() {
-        iterations.resetCount();
+        resetCounter();
+    }
+
+    /** Reset counter. */
+    private void resetCounter() {
+        iterations = IntegerSequence.Incrementor.create()
+            .withMaximalCount(maxIterations);
+        if (callback != null) {
+            iterations = iterations.withCallback(callback);
+        }
     }
 }
