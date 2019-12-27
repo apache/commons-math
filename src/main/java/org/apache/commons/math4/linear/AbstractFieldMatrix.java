@@ -711,26 +711,26 @@ public abstract class AbstractFieldMatrix<T extends FieldElement<T>>
     @Override
     public FieldVector<T> operate(final FieldVector<T> v)
         throws DimensionMismatchException {
-        try {
+        if (v instanceof ArrayFieldVector) {
             return new ArrayFieldVector<>(field, operate(((ArrayFieldVector<T>) v).getDataRef()), false);
-        } catch (ClassCastException cce) {
-            final int nRows = getRowDimension();
-            final int nCols = getColumnDimension();
-            if (v.getDimension() != nCols) {
-                throw new DimensionMismatchException(v.getDimension(), nCols);
-            }
-
-            final T[] out = MathArrays.buildArray(field, nRows);
-            for (int row = 0; row < nRows; ++row) {
-                T sum = field.getZero();
-                for (int i = 0; i < nCols; ++i) {
-                    sum = sum.add(getEntry(row, i).multiply(v.getEntry(i)));
-                }
-                out[row] = sum;
-            }
-
-            return new ArrayFieldVector<>(field, out, false);
         }
+
+        final int nRows = getRowDimension();
+        final int nCols = getColumnDimension();
+        if (v.getDimension() != nCols) {
+            throw new DimensionMismatchException(v.getDimension(), nCols);
+        }
+
+        final T[] out = MathArrays.buildArray(field, nRows);
+        for (int row = 0; row < nRows; ++row) {
+            T sum = field.getZero();
+            for (int i = 0; i < nCols; ++i) {
+                sum = sum.add(getEntry(row, i).multiply(v.getEntry(i)));
+            }
+            out[row] = sum;
+        }
+
+        return new ArrayFieldVector<>(field, out, false);
     }
 
     /** {@inheritDoc} */
@@ -759,26 +759,26 @@ public abstract class AbstractFieldMatrix<T extends FieldElement<T>>
     @Override
     public FieldVector<T> preMultiply(final FieldVector<T> v)
         throws DimensionMismatchException {
-        try {
+        if (v instanceof ArrayFieldVector) {
             return new ArrayFieldVector<>(field, preMultiply(((ArrayFieldVector<T>) v).getDataRef()), false);
-        } catch (ClassCastException cce) {
-            final int nRows = getRowDimension();
-            final int nCols = getColumnDimension();
-            if (v.getDimension() != nRows) {
-                throw new DimensionMismatchException(v.getDimension(), nRows);
-            }
-
-            final T[] out = MathArrays.buildArray(field, nCols);
-            for (int col = 0; col < nCols; ++col) {
-                T sum = field.getZero();
-                for (int i = 0; i < nRows; ++i) {
-                    sum = sum.add(getEntry(i, col).multiply(v.getEntry(i)));
-                }
-                out[col] = sum;
-            }
-
-            return new ArrayFieldVector<>(field, out, false);
         }
+
+        final int nRows = getRowDimension();
+        final int nCols = getColumnDimension();
+        if (v.getDimension() != nRows) {
+            throw new DimensionMismatchException(v.getDimension(), nRows);
+        }
+
+        final T[] out = MathArrays.buildArray(field, nCols);
+        for (int col = 0; col < nCols; ++col) {
+            T sum = field.getZero();
+            for (int i = 0; i < nRows; ++i) {
+                sum = sum.add(getEntry(i, col).multiply(v.getEntry(i)));
+            }
+            out[col] = sum;
+        }
+
+        return new ArrayFieldVector<>(field, out, false);
     }
 
     /** {@inheritDoc} */

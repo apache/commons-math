@@ -297,44 +297,42 @@ public class FieldLUDecomposition<T extends FieldElement<T>> {
         /** {@inheritDoc} */
         @Override
         public FieldVector<T> solve(FieldVector<T> b) {
-            try {
+            if (b instanceof ArrayFieldVector) {
                 return solve((ArrayFieldVector<T>) b);
-            } catch (ClassCastException cce) {
-
-                final int m = pivot.length;
-                if (b.getDimension() != m) {
-                    throw new DimensionMismatchException(b.getDimension(), m);
-                }
-                if (singular) {
-                    throw new SingularMatrixException();
-                }
-
-                // Apply permutations to b
-                final T[] bp = MathArrays.buildArray(field, m);
-                for (int row = 0; row < m; row++) {
-                    bp[row] = b.getEntry(pivot[row]);
-                }
-
-                // Solve LY = b
-                for (int col = 0; col < m; col++) {
-                    final T bpCol = bp[col];
-                    for (int i = col + 1; i < m; i++) {
-                        bp[i] = bp[i].subtract(bpCol.multiply(lu[i][col]));
-                    }
-                }
-
-                // Solve UX = Y
-                for (int col = m - 1; col >= 0; col--) {
-                    bp[col] = bp[col].divide(lu[col][col]);
-                    final T bpCol = bp[col];
-                    for (int i = 0; i < col; i++) {
-                        bp[i] = bp[i].subtract(bpCol.multiply(lu[i][col]));
-                    }
-                }
-
-                return new ArrayFieldVector<>(field, bp, false);
-
             }
+
+            final int m = pivot.length;
+            if (b.getDimension() != m) {
+                throw new DimensionMismatchException(b.getDimension(), m);
+            }
+            if (singular) {
+                throw new SingularMatrixException();
+            }
+
+            // Apply permutations to b
+            final T[] bp = MathArrays.buildArray(field, m);
+            for (int row = 0; row < m; row++) {
+                bp[row] = b.getEntry(pivot[row]);
+            }
+
+            // Solve LY = b
+            for (int col = 0; col < m; col++) {
+                final T bpCol = bp[col];
+                for (int i = col + 1; i < m; i++) {
+                    bp[i] = bp[i].subtract(bpCol.multiply(lu[i][col]));
+                }
+            }
+
+            // Solve UX = Y
+            for (int col = m - 1; col >= 0; col--) {
+                bp[col] = bp[col].divide(lu[col][col]);
+                final T bpCol = bp[col];
+                for (int i = 0; i < col; i++) {
+                    bp[i] = bp[i].subtract(bpCol.multiply(lu[i][col]));
+                }
+            }
+
+            return new ArrayFieldVector<>(field, bp, false);
         }
 
         /** Solve the linear equation A &times; X = B.

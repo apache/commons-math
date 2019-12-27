@@ -135,11 +135,10 @@ public class OpenMapRealMatrix extends AbstractRealMatrix
     @Override
     public OpenMapRealMatrix subtract(final RealMatrix m)
         throws MatrixDimensionMismatchException {
-        try {
+        if (m instanceof OpenMapRealMatrix) {
             return subtract((OpenMapRealMatrix) m);
-        } catch (ClassCastException cce) {
-            return (OpenMapRealMatrix) super.subtract(m);
         }
+        return (OpenMapRealMatrix) super.subtract(m);
     }
 
     /**
@@ -175,27 +174,26 @@ public class OpenMapRealMatrix extends AbstractRealMatrix
     @Override
     public RealMatrix multiply(final RealMatrix m)
         throws DimensionMismatchException, NumberIsTooLargeException {
-        try {
+        if (m instanceof OpenMapRealMatrix) {
             return multiply((OpenMapRealMatrix) m);
-        } catch (ClassCastException cce) {
-
-            MatrixUtils.checkMultiplicationCompatible(this, m);
-
-            final int outCols = m.getColumnDimension();
-            final BlockRealMatrix out = new BlockRealMatrix(rows, outCols);
-            for (OpenIntToDoubleHashMap.Iterator iterator = entries.iterator(); iterator.hasNext();) {
-                iterator.advance();
-                final double value = iterator.value();
-                final int key      = iterator.key();
-                final int i        = key / columns;
-                final int k        = key % columns;
-                for (int j = 0; j < outCols; ++j) {
-                    out.addToEntry(i, j, value * m.getEntry(k, j));
-                }
-            }
-
-            return out;
         }
+
+        MatrixUtils.checkMultiplicationCompatible(this, m);
+
+        final int outCols = m.getColumnDimension();
+        final BlockRealMatrix out = new BlockRealMatrix(rows, outCols);
+        for (OpenIntToDoubleHashMap.Iterator iterator = entries.iterator(); iterator.hasNext();) {
+            iterator.advance();
+            final double value = iterator.value();
+            final int key      = iterator.key();
+            final int i        = key / columns;
+            final int k        = key % columns;
+            for (int j = 0; j < outCols; ++j) {
+                out.addToEntry(i, j, value * m.getEntry(k, j));
+            }
+        }
+
+        return out;
     }
 
     /**

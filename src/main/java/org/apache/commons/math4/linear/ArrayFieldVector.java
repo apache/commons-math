@@ -395,16 +395,16 @@ public class ArrayFieldVector<T extends FieldElement<T>> implements FieldVector<
     @Override
     public FieldVector<T> add(FieldVector<T> v)
         throws DimensionMismatchException {
-        try {
+        if (v instanceof ArrayFieldVector) {
             return add((ArrayFieldVector<T>) v);
-        } catch (ClassCastException cce) {
-            checkVectorDimensions(v);
-            T[] out = MathArrays.buildArray(field, data.length);
-            for (int i = 0; i < data.length; i++) {
-                out[i] = data[i].add(v.getEntry(i));
-            }
-            return new ArrayFieldVector<>(field, out, false);
         }
+
+        checkVectorDimensions(v);
+        T[] out = MathArrays.buildArray(field, data.length);
+        for (int i = 0; i < data.length; i++) {
+            out[i] = data[i].add(v.getEntry(i));
+        }
+        return new ArrayFieldVector<>(field, out, false);
     }
 
     /**
@@ -428,16 +428,16 @@ public class ArrayFieldVector<T extends FieldElement<T>> implements FieldVector<
     @Override
     public FieldVector<T> subtract(FieldVector<T> v)
         throws DimensionMismatchException {
-        try {
+        if (v instanceof ArrayFieldVector) {
             return subtract((ArrayFieldVector<T>) v);
-        } catch (ClassCastException cce) {
-            checkVectorDimensions(v);
-            T[] out = MathArrays.buildArray(field, data.length);
-            for (int i = 0; i < data.length; i++) {
-                out[i] = data[i].subtract(v.getEntry(i));
-            }
-            return new ArrayFieldVector<>(field, out, false);
         }
+
+        checkVectorDimensions(v);
+        T[] out = MathArrays.buildArray(field, data.length);
+        for (int i = 0; i < data.length; i++) {
+            out[i] = data[i].subtract(v.getEntry(i));
+        }
+        return new ArrayFieldVector<>(field, out, false);
     }
 
     /**
@@ -570,16 +570,16 @@ public class ArrayFieldVector<T extends FieldElement<T>> implements FieldVector<
     @Override
     public FieldVector<T> ebeMultiply(FieldVector<T> v)
         throws DimensionMismatchException {
-        try {
+        if (v instanceof ArrayFieldVector) {
             return ebeMultiply((ArrayFieldVector<T>) v);
-        } catch (ClassCastException cce) {
-            checkVectorDimensions(v);
-            T[] out = MathArrays.buildArray(field, data.length);
-            for (int i = 0; i < data.length; i++) {
-                out[i] = data[i].multiply(v.getEntry(i));
-            }
-            return new ArrayFieldVector<>(field, out, false);
         }
+
+        checkVectorDimensions(v);
+        T[] out = MathArrays.buildArray(field, data.length);
+        for (int i = 0; i < data.length; i++) {
+            out[i] = data[i].multiply(v.getEntry(i));
+        }
+        return new ArrayFieldVector<>(field, out, false);
     }
 
     /**
@@ -603,20 +603,20 @@ public class ArrayFieldVector<T extends FieldElement<T>> implements FieldVector<
     @Override
     public FieldVector<T> ebeDivide(FieldVector<T> v)
         throws DimensionMismatchException, MathArithmeticException {
-        try {
+        if (v instanceof ArrayFieldVector) {
             return ebeDivide((ArrayFieldVector<T>) v);
-        } catch (ClassCastException cce) {
-            checkVectorDimensions(v);
-            T[] out = MathArrays.buildArray(field, data.length);
-            for (int i = 0; i < data.length; i++) {
-                try {
-                    out[i] = data[i].divide(v.getEntry(i));
-                } catch (final MathArithmeticException e) {
-                    throw new MathArithmeticException(LocalizedFormats.INDEX, i);
-                }
-            }
-            return new ArrayFieldVector<>(field, out, false);
         }
+
+        checkVectorDimensions(v);
+        T[] out = MathArrays.buildArray(field, data.length);
+        for (int i = 0; i < data.length; i++) {
+            try {
+                out[i] = data[i].divide(v.getEntry(i));
+            } catch (final MathArithmeticException e) {
+                throw new MathArithmeticException(LocalizedFormats.INDEX, i);
+            }
+        }
+        return new ArrayFieldVector<>(field, out, false);
     }
 
     /**
@@ -654,16 +654,16 @@ public class ArrayFieldVector<T extends FieldElement<T>> implements FieldVector<
     @Override
     public T dotProduct(FieldVector<T> v)
         throws DimensionMismatchException {
-        try {
+        if (v instanceof ArrayFieldVector) {
             return dotProduct((ArrayFieldVector<T>) v);
-        } catch (ClassCastException cce) {
-            checkVectorDimensions(v);
-            T dot = field.getZero();
-            for (int i = 0; i < data.length; i++) {
-                dot = dot.add(data[i].multiply(v.getEntry(i)));
-            }
-            return dot;
         }
+
+        checkVectorDimensions(v);
+        T dot = field.getZero();
+        for (int i = 0; i < data.length; i++) {
+            dot = dot.add(data[i].multiply(v.getEntry(i)));
+        }
+        return dot;
     }
 
     /**
@@ -705,19 +705,19 @@ public class ArrayFieldVector<T extends FieldElement<T>> implements FieldVector<
     /** {@inheritDoc} */
     @Override
     public FieldMatrix<T> outerProduct(FieldVector<T> v) {
-        try {
+        if (v instanceof ArrayFieldVector) {
             return outerProduct((ArrayFieldVector<T>) v);
-        } catch (ClassCastException cce) {
-            final int m = data.length;
-            final int n = v.getDimension();
-            final FieldMatrix<T> out = new Array2DRowFieldMatrix<>(field, m, n);
-            for (int i = 0; i < m; i++) {
-                for (int j = 0; j < n; j++) {
-                    out.setEntry(i, j, data[i].multiply(v.getEntry(j)));
-                }
-            }
-            return out;
         }
+
+        final int m = data.length;
+        final int n = v.getDimension();
+        final FieldMatrix<T> out = new Array2DRowFieldMatrix<>(field, m, n);
+        for (int i = 0; i < m; i++) {
+            for (int j = 0; j < n; j++) {
+                out.setEntry(i, j, data[i].multiply(v.getEntry(j)));
+            }
+        }
+        return out;
     }
 
     /**
@@ -752,11 +752,11 @@ public class ArrayFieldVector<T extends FieldElement<T>> implements FieldVector<
     /** {@inheritDoc} */
     @Override
     public FieldVector<T> append(FieldVector<T> v) {
-        try {
+        if (v instanceof ArrayFieldVector) {
             return append((ArrayFieldVector<T>) v);
-        } catch (ClassCastException cce) {
-            return new ArrayFieldVector<>(this,new ArrayFieldVector<>(v));
         }
+
+        return new ArrayFieldVector<>(this,new ArrayFieldVector<>(v));
     }
 
     /**
@@ -808,9 +808,9 @@ public class ArrayFieldVector<T extends FieldElement<T>> implements FieldVector<
     @Override
     public void setSubVector(int index, FieldVector<T> v) throws OutOfRangeException {
         try {
-            try {
+            if (v instanceof ArrayFieldVector) {
                 set(index, (ArrayFieldVector<T>) v);
-            } catch (ClassCastException cce) {
+            } else {
                 for (int i = index; i < index + v.getDimension(); ++i) {
                     data[i] = v.getEntry(i-index);
                 }

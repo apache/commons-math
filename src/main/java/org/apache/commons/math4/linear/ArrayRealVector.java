@@ -612,11 +612,10 @@ public class ArrayRealVector extends RealVector implements Serializable {
     /** {@inheritDoc} */
     @Override
     public RealVector append(RealVector v) {
-        try {
+        if (v instanceof ArrayRealVector) {
             return new ArrayRealVector(this, (ArrayRealVector) v);
-        } catch (ClassCastException cce) {
-            return new ArrayRealVector(this, v);
         }
+        return new ArrayRealVector(this, v);
     }
 
     /**
