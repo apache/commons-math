@@ -84,6 +84,7 @@ public final class TricubicInterpolatorTest {
         }
     }
 
+    @Test
     public void testIsValid() {
         double[] xval = new double[] {3, 4, 5, 6.5};
         double[] yval = new double[] {-4, -3, -1, 2.5};
@@ -105,9 +106,9 @@ public final class TricubicInterpolatorTest {
         // Invalid.
         Assert.assertFalse(tcf.isValidPoint(3.5, -3, -8));
         Assert.assertFalse(tcf.isValidPoint(4.5, -3.1, -8));
-        Assert.assertFalse(tcf.isValidPoint(4.5, -2, 0));
+        Assert.assertFalse(tcf.isValidPoint(4.5, -2, 0.1));
         Assert.assertFalse(tcf.isValidPoint(4.5, 0, -3.5));
-        Assert.assertFalse(tcf.isValidPoint(-10, 4.1, -1));
+        Assert.assertFalse(tcf.isValidPoint(4.1, -1, -10));
     }
 
     /**
