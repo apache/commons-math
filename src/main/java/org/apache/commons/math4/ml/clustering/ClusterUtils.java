@@ -3,29 +3,57 @@ package org.apache.commons.math4.ml.clustering;
 import org.apache.commons.math4.exception.ConvergenceException;
 import org.apache.commons.math4.exception.util.LocalizedFormats;
 import org.apache.commons.math4.ml.distance.DistanceMeasure;
+import org.apache.commons.math4.ml.distance.EuclideanDistance;
 import org.apache.commons.math4.stat.descriptive.moment.Variance;
 import org.apache.commons.rng.UniformRandomProvider;
-import org.apache.commons.rng.simple.RandomSource;
 
-import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
+/**
+ * Common functions used in clustering
+ */
 public class ClusterUtils {
+    /**
+     * Use only for static
+     */
     private ClusterUtils() {
     }
 
-    public static <T> ArrayList<T> shuffle(Collection<T> c, UniformRandomProvider random) {
-        ArrayList<T> list = new ArrayList<T>(c);
-        int size = list.size();
-        for (int i = size; i > 1; --i) {
-            list.set(i - 1, list.set(random.nextInt(i), list.get(i - 1)));
+    public static final DistanceMeasure DEFAULT_MEASURE = new EuclideanDistance();
+
+    /**
+     * Predict which cluster is best for the point
+     *
+     * @param clusters cluster to predict into
+     * @param point    point to predict
+     * @param measure  distance measurer
+     * @param <T>      type of cluster point
+     * @return the cluster which has nearest center to the point
+     */
+    public static <T extends Clusterable> CentroidCluster<T> predict(List<CentroidCluster<T>> clusters, Clusterable point, DistanceMeasure measure) {
+        double minDistance = Double.POSITIVE_INFINITY;
+        CentroidCluster<T> nearestCluster = null;
+        for (CentroidCluster<T> cluster : clusters) {
+            double distance = measure.compute(point.getPoint(), cluster.getCenter().getPoint());
+            if (distance < minDistance) {
+                minDistance = distance;
+                nearestCluster = cluster;
+            }
         }
-        return list;
+        return nearestCluster;
     }
 
-    public static <T> ArrayList<T> shuffle(Collection<T> points) {
-        return shuffle(points, RandomSource.create(RandomSource.MT_64));
+    /**
+     * Predict which cluster is best for the point
+     *
+     * @param clusters cluster to predict into
+     * @param point    point to predict
+     * @param <T>      type of cluster point
+     * @return the cluster which has nearest center to the point
+     */
+    public static <T extends Clusterable> CentroidCluster<T> predict(List<CentroidCluster<T>> clusters, Clusterable point) {
+        return predict(clusters, point, DEFAULT_MEASURE);
     }
 
     /**

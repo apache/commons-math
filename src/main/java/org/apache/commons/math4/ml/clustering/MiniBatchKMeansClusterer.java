@@ -10,6 +10,7 @@ import org.apache.commons.math4.ml.distance.EuclideanDistance;
 import org.apache.commons.math4.util.MathUtils;
 import org.apache.commons.math4.util.Pair;
 import org.apache.commons.rng.UniformRandomProvider;
+import org.apache.commons.rng.sampling.ListSampler;
 import org.apache.commons.rng.simple.RandomSource;
 
 import java.util.ArrayList;
@@ -56,6 +57,9 @@ public class MiniBatchKMeansClusterer<T extends Clusterable> extends Clusterer<T
      */
     private final UniformRandomProvider random;
 
+    /**
+     * Centroid initial algorithm
+     */
     private final CentroidInitializer centroidInitializer;
 
 
@@ -80,7 +84,7 @@ public class MiniBatchKMeansClusterer<T extends Clusterable> extends Clusterer<T
                                     final CentroidInitializer centroidInitializer) {
         super(measure);
         this.k = k;
-        this.maxIterations = maxIterations;
+        this.maxIterations = maxIterations > 0 ? maxIterations : 100;
         this.batchSize = batchSize;
         this.initIterations = initIterations;
         this.initBatchSize = initBatchSize;
@@ -100,7 +104,7 @@ public class MiniBatchKMeansClusterer<T extends Clusterable> extends Clusterer<T
      *                      may appear during algorithm iterations
      */
     public MiniBatchKMeansClusterer(int k, int maxIterations, DistanceMeasure measure, UniformRandomProvider random) {
-        this(k, maxIterations, 100, 3, 100, 10,
+        this(k, maxIterations, 100, 3, 100 * 3, 10,
                 measure, random, new KMeansPlusPlusCentroidInitializer(measure, random));
     }
 
@@ -138,18 +142,19 @@ public class MiniBatchKMeansClusterer<T extends Clusterable> extends Clusterer<T
         MiniBatchImprovementEvaluator evaluator = new MiniBatchImprovementEvaluator();
         List<CentroidCluster<T>> clusters = initialCenters(points);
         for (int i = 0; i < maxIterations; i++) {
-            //清空上次的分类结果
+            //Clear points in clusters
             clearClustersPoints(clusters);
-            //随机抽样一批节点
+            //Random sampling a mini batch of points.
             List<T> batchPoints = randomMiniBatch(points, batchSize);
+            // Processing the mini batch training step
             Pair<Double, List<CentroidCluster<T>>> pair = step(batchPoints, clusters);
             double squareDistance = pair.getFirst();
             clusters = pair.getSecond();
-            //评估改进情况
+            // Evaluate the training can finished early.
             if (evaluator.convergence(squareDistance, pointSize)) break;
         }
         clearClustersPoints(clusters);
-        //所有结点按质心分类
+        //Add every mini batch points to their nearest cluster.
         for (T point : points) {
             addToNearestCentroidCluster(point, clusters);
         }
@@ -174,15 +179,15 @@ public class MiniBatchKMeansClusterer<T extends Clusterable> extends Clusterer<T
      * @param clusters    The cluster centers.
      * @return Square distance of all the batch points to the nearest center, and newly clusters.
      */
-    protected Pair<Double, List<CentroidCluster<T>>> step(
+    private Pair<Double, List<CentroidCluster<T>>> step(
             List<T> batchPoints,
             List<CentroidCluster<T>> clusters) {
-        //抽样结点归类
+        //Add every mini batch points to their nearest cluster.
         for (T point : batchPoints) {
             addToNearestCentroidCluster(point, clusters);
         }
         List<CentroidCluster<T>> newClusters = new ArrayList<CentroidCluster<T>>(clusters.size());
-        //重算质心
+        //Refresh then cluster centroid.
         for (CentroidCluster<T> cluster : clusters) {
             Clusterable newCenter;
             if (cluster.getPoints().isEmpty()) {
@@ -192,7 +197,7 @@ public class MiniBatchKMeansClusterer<T extends Clusterable> extends Clusterer<T
             }
             newClusters.add(new CentroidCluster<T>(newCenter));
         }
-        //重新归类抽样结点
+        // Add every mini batch points to their nearest cluster again.
         double squareDistance = 0.0;
         for (T point : batchPoints) {
             double d = addToNearestCentroidCluster(point, newClusters);
@@ -201,8 +206,21 @@ public class MiniBatchKMeansClusterer<T extends Clusterable> extends Clusterer<T
         return new Pair<Double, List<CentroidCluster<T>>>(squareDistance, newClusters);
     }
 
-    protected List<T> randomMiniBatch(Collection<T> points, int batchSize) {
-        return ClusterUtils.shuffle(new ArrayList<T>(points), random).subList(0, batchSize);
+    /**
+     * Get a mini batch of points
+     *
+     * @param points    all the points
+     * @param batchSize the mini batch size
+     * @return mini batch of all the points
+     */
+    private List<T> randomMiniBatch(Collection<T> points, int batchSize) {
+        ArrayList<T> list = new ArrayList<T>(points);
+        ListSampler.shuffle(random, list);
+//        int size = list.size();
+//        for (int i = size; i > 1; --i) {
+//            list.set(i - 1, list.set(random.nextInt(i), list.get(i - 1)));
+//        }
+        return list.subList(0, batchSize);
     }
 
     /**
@@ -211,7 +229,7 @@ public class MiniBatchKMeansClusterer<T extends Clusterable> extends Clusterer<T
      * @param points Points use to initial the cluster centers.
      * @return Clusters with center
      */
-    protected List<CentroidCluster<T>> initialCenters(Collection<T> points) {
+    private List<CentroidCluster<T>> initialCenters(Collection<T> points) {
         List<T> validPoints = initBatchSize < points.size() ? randomMiniBatch(points, initBatchSize) : new ArrayList<T>(points);
         double nearestSquareDistance = Double.POSITIVE_INFINITY;
         List<CentroidCluster<T>> bestCenters = null;
@@ -237,7 +255,7 @@ public class MiniBatchKMeansClusterer<T extends Clusterable> extends Clusterer<T
      * @param clusters The clusters to add to.
      * @return The distance to nearest center.
      */
-    public double addToNearestCentroidCluster(T point, List<CentroidCluster<T>> clusters) {
+    private double addToNearestCentroidCluster(T point, List<CentroidCluster<T>> clusters) {
         double minDistance = Double.POSITIVE_INFINITY;
         CentroidCluster<T> nearestCentroidCluster = null;
         for (CentroidCluster<T> centroidCluster : clusters) {
@@ -260,21 +278,34 @@ public class MiniBatchKMeansClusterer<T extends Clusterable> extends Clusterer<T
         private double ewaInertiaMin = Double.POSITIVE_INFINITY;
         private int noImprovementTimes = 0;
 
-        protected boolean convergence(double squareDistance, int pointSize) {
+        /**
+         * Evaluate whether the iteration should finish where square has no improvement for appointed times
+         *
+         * @param squareDistance the total square distance of the mini batch points to their nearest center.
+         * @param pointSize      size of the the data points.
+         * @return true if no improvement for appointed times, otherwise false
+         */
+        public boolean convergence(double squareDistance, int pointSize) {
             double batchInertia = squareDistance / batchSize;
             if (ewaInertia == null) {
                 ewaInertia = batchInertia;
             } else {
+                // Refer to sklearn, pointSize+1 maybe intent to avoid the div/0 error,
+                // but java double does not have a div/0 error
                 double alpha = batchSize * 2.0 / (pointSize + 1);
                 alpha = Math.min(alpha, 1.0);
                 ewaInertia = ewaInertia * (1 - alpha) + batchInertia * alpha;
             }
+
+            // Improved
             if (ewaInertia < ewaInertiaMin) {
                 noImprovementTimes = 0;
                 ewaInertiaMin = ewaInertia;
             } else {
+                // No improvement
                 noImprovementTimes++;
             }
+            // Has no improvement continuous for many times
             return noImprovementTimes >= maxNoImprovementTimes;
         }
     }
