@@ -33,14 +33,14 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 
-import org.apache.commons.math4.distribution.BinomialDistribution;
-import org.apache.commons.math4.distribution.GeometricDistribution;
-import org.apache.commons.math4.distribution.HypergeometricDistribution;
-import org.apache.commons.math4.distribution.IntegerDistribution;
-import org.apache.commons.math4.distribution.PascalDistribution;
-import org.apache.commons.math4.distribution.PoissonDistribution;
-import org.apache.commons.math4.distribution.UniformIntegerDistribution;
-import org.apache.commons.math4.distribution.ZipfDistribution;
+import org.apache.commons.statistics.distribution.BinomialDistribution;
+import org.apache.commons.statistics.distribution.GeometricDistribution;
+import org.apache.commons.statistics.distribution.HypergeometricDistribution;
+import org.apache.commons.statistics.distribution.DiscreteDistribution;
+import org.apache.commons.statistics.distribution.PascalDistribution;
+import org.apache.commons.statistics.distribution.PoissonDistribution;
+import org.apache.commons.statistics.distribution.UniformDiscreteDistribution;
+import org.apache.commons.statistics.distribution.ZipfDistribution;
 import org.apache.commons.math4.userguide.ExampleUtils.ExampleFrame;
 
 import com.xeiam.xchart.Chart;
@@ -56,7 +56,7 @@ import com.xeiam.xchart.XChartPanel;
  */
 public class IntegerDistributionComparison {
 
-    public static void addPDFSeries(Chart chart, IntegerDistribution distribution, String desc, int lowerBound, int upperBound) {
+    public static void addPDFSeries(Chart chart, DiscreteDistribution distribution, String desc, int lowerBound, int upperBound) {
         // generates Log data
         List<Number> xData = new ArrayList<Number>();
         List<Number> yData = new ArrayList<Number>();
@@ -78,7 +78,7 @@ public class IntegerDistributionComparison {
         series.setLineStyle(new BasicStroke(1.2f));
     }
 
-    public static void addCDFSeries(Chart chart, IntegerDistribution distribution, String desc,
+    public static void addCDFSeries(Chart chart, DiscreteDistribution distribution, String desc,
                                     int lowerBound, int upperBound) {
         // generates Log data
         List<Number> xData = new ArrayList<Number>();
@@ -120,7 +120,7 @@ public class IntegerDistributionComparison {
     }
     
     public static JComponent createComponent(String distributionName, int minX, int maxX, String[] seriesText,
-                                             IntegerDistribution... series) {
+                                             DiscreteDistribution... series) {
         JComponent container = new JPanel();
         container.setLayout(new BoxLayout(container, BoxLayout.PAGE_AXIS));
         
@@ -128,14 +128,14 @@ public class IntegerDistributionComparison {
         
         Chart chart = createChart("PDF", minX, maxX, LegendPosition.InsideNE);
         int i = 0;
-        for (IntegerDistribution d : series) {
+        for (DiscreteDistribution d : series) {
             addPDFSeries(chart, d, seriesText[i++], minX, maxX);
         }
         container.add(new XChartPanel(chart));
 
         chart = createChart("CDF", minX, maxX, LegendPosition.InsideSE);
         i = 0;
-        for (IntegerDistribution d : series) {
+        for (DiscreteDistribution d : series) {
             addCDFSeries(chart, d, seriesText[i++], minX, maxX);
         }
         container.add(new XChartPanel(chart));
@@ -207,9 +207,9 @@ public class IntegerDistributionComparison {
             c.gridx++;
             comp = createComponent("Uniform", 0, 30,
                                    new String[] { "l=1,u=10", "l=5,u=20", "l=1,u=25" },
-                                   new UniformIntegerDistribution(1, 10),
-                                   new UniformIntegerDistribution(5, 20),
-                                   new UniformIntegerDistribution(1, 25));
+                                   new UniformDiscreteDistribution(1, 10),
+                                   new UniformDiscreteDistribution(5, 20),
+                                   new UniformDiscreteDistribution(1, 25));
             container.add(comp, c);
 
             c.gridx++;

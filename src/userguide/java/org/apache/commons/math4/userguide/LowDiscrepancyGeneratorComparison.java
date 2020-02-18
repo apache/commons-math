@@ -35,7 +35,7 @@ import javax.swing.JTextArea;
 import org.apache.commons.rng.UniformRandomProvider;
 import org.apache.commons.rng.simple.RandomSource;
 
-import org.apache.commons.math4.geometry.euclidean.twod.Cartesian2D;
+import org.apache.commons.geometry.euclidean.twod.Vector2D;
 import org.apache.commons.math4.random.HaltonSequenceGenerator;
 import org.apache.commons.math4.random.RandomVectorGenerator;
 import org.apache.commons.math4.random.SobolSequenceGenerator;
@@ -50,11 +50,11 @@ import org.apache.commons.math4.userguide.ExampleUtils.ExampleFrame;
  */
 public class LowDiscrepancyGeneratorComparison {
 
-    public static List<Cartesian2D> makeCircle(int samples, final RandomVectorGenerator generator) {
-        List<Cartesian2D> points = new ArrayList<Cartesian2D>();
+    public static List<Vector2D> makeCircle(int samples, final RandomVectorGenerator generator) {
+        List<Vector2D> points = new ArrayList<>();
         for (double i = 0; i < samples; i++) {
             double[] vector = generator.nextVector();
-            Cartesian2D point = new Cartesian2D(vector);
+            Vector2D point = Vector2D.of(vector);
             points.add(point);
         }
 
@@ -62,8 +62,8 @@ public class LowDiscrepancyGeneratorComparison {
         points = normalize(points);
         
         // now test if the sample is within the unit circle
-        List<Cartesian2D> circlePoints = new ArrayList<Cartesian2D>();
-        for (Cartesian2D p : points) {
+        List<Vector2D> circlePoints = new ArrayList<>();
+        for (Vector2D p : points) {
             double criteria = FastMath.pow(p.getX(), 2) + FastMath.pow(p.getY(), 2);
             if (criteria < 1.0) {
                 circlePoints.add(p);
@@ -73,22 +73,22 @@ public class LowDiscrepancyGeneratorComparison {
         return circlePoints;
     }
 
-    public static List<Cartesian2D> makeRandom(int samples, RandomVectorGenerator generator) {
-        List<Cartesian2D> points = new ArrayList<Cartesian2D>();
+    public static List<Vector2D> makeRandom(int samples, RandomVectorGenerator generator) {
+        List<Vector2D> points = new ArrayList<>();
         for (double i = 0; i < samples; i++) {
             double[] vector = generator.nextVector();
-            Cartesian2D point = new Cartesian2D(vector);
+            Vector2D point = Vector2D.of(vector);
             points.add(point);
         }
         
         return normalize(points);
     }
 
-    public static List<Cartesian2D> normalize(final List<Cartesian2D> input) {
+    public static List<Vector2D> normalize(final List<Vector2D> input) {
         // find the mininum and maximum x value in the dataset
         double minX = Double.MAX_VALUE;
         double maxX = Double.MIN_VALUE;
-        for (Cartesian2D p : input) {
+        for (Vector2D p : input) {
             minX = FastMath.min(minX, p.getX());
             maxX = FastMath.max(maxX, p.getX());
         }
@@ -106,13 +106,13 @@ public class LowDiscrepancyGeneratorComparison {
 
         double rangeX = maxX - minX;
         double rangeY = maxY - minY;
-        List<Cartesian2D> points = new ArrayList<Cartesian2D>();
-        for (Cartesian2D p : input) {
+        List<Vector2D> points = new ArrayList<>();
+        for (Vector2D p : input) {
             double[] arr = p.toArray();
             // normalize to the range [-1, 1]
             arr[0] = (arr[0] - minX) / rangeX * 2 - 1;
             arr[1] = (arr[1] - minY) / rangeY * 2 - 1;
-            points.add(new Cartesian2D(arr));
+            points.add(Vector2D.of(arr));
         }
         return points;
     }
@@ -177,7 +177,7 @@ public class LowDiscrepancyGeneratorComparison {
                 c.gridx = 1;
 
                 for (Pair<String, RandomVectorGenerator> pair : generators) {
-                    List<Cartesian2D> points = null;
+                    List<Vector2D> points = null;
                     int samples = datasets[type];
                     switch (type) {
                         case 0:
@@ -207,9 +207,9 @@ public class LowDiscrepancyGeneratorComparison {
 
         private static double PAD = 10;
 
-        private List<Cartesian2D> points;
+        private List<Vector2D> points;
 
-        public Plot(final List<Cartesian2D> points) {
+        public Plot(final List<Vector2D> points) {
             this.points = points;
         }
         
@@ -228,8 +228,8 @@ public class LowDiscrepancyGeneratorComparison {
             g2.setPaint(Color.black);
             g2.drawRect(0, 0, w - 1, h - 1);
             
-            for (Cartesian2D point : points) {
-                Cartesian2D p = transform(point, w, h);
+            for (Vector2D point : points) {
+                Vector2D p = transform(point, w, h);
                 double[] arr = p.toArray();
                 g2.draw(new Rectangle2D.Double(arr[0] - 1, arr[1] - 1, 2, 2));
             }
@@ -240,10 +240,10 @@ public class LowDiscrepancyGeneratorComparison {
             return new Dimension(140, 140);
         }
 
-        private Cartesian2D transform(Cartesian2D point, int width, int height) {
+        private Vector2D transform(Vector2D point, int width, int height) {
             double[] arr = point.toArray();
-            return new Cartesian2D(new double[] { PAD + (arr[0] + 1) / 2.0 * (width - 2 * PAD),
-                                                  height - PAD - (arr[1] + 1) / 2.0 * (height - 2 * PAD) });
+            return Vector2D.of(PAD + (arr[0] + 1) / 2.0 * (width - 2 * PAD),
+                               height - PAD - (arr[1] + 1) / 2.0 * (height - 2 * PAD));
         }
     }
 

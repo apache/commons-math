@@ -33,19 +33,19 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 
-import org.apache.commons.math4.distribution.BetaDistribution;
-import org.apache.commons.math4.distribution.CauchyDistribution;
-import org.apache.commons.math4.distribution.ChiSquaredDistribution;
-import org.apache.commons.math4.distribution.ExponentialDistribution;
-import org.apache.commons.math4.distribution.FDistribution;
-import org.apache.commons.math4.distribution.GammaDistribution;
-import org.apache.commons.math4.distribution.LevyDistribution;
-import org.apache.commons.math4.distribution.LogNormalDistribution;
-import org.apache.commons.math4.distribution.NormalDistribution;
-import org.apache.commons.math4.distribution.ParetoDistribution;
-import org.apache.commons.math4.distribution.RealDistribution;
-import org.apache.commons.math4.distribution.TDistribution;
-import org.apache.commons.math4.distribution.WeibullDistribution;
+import org.apache.commons.statistics.distribution.BetaDistribution;
+import org.apache.commons.statistics.distribution.CauchyDistribution;
+import org.apache.commons.statistics.distribution.ChiSquaredDistribution;
+import org.apache.commons.statistics.distribution.ExponentialDistribution;
+import org.apache.commons.statistics.distribution.FDistribution;
+import org.apache.commons.statistics.distribution.GammaDistribution;
+import org.apache.commons.statistics.distribution.LevyDistribution;
+import org.apache.commons.statistics.distribution.LogNormalDistribution;
+import org.apache.commons.statistics.distribution.NormalDistribution;
+import org.apache.commons.statistics.distribution.ParetoDistribution;
+import org.apache.commons.statistics.distribution.ContinuousDistribution;
+import org.apache.commons.statistics.distribution.TDistribution;
+import org.apache.commons.statistics.distribution.WeibullDistribution;
 import org.apache.commons.math4.util.FastMath;
 import org.apache.commons.math4.userguide.ExampleUtils.ExampleFrame;
 
@@ -62,7 +62,7 @@ import com.xeiam.xchart.XChartPanel;
  */
 public class RealDistributionComparison {
 
-    public static void addPDFSeries(Chart chart, RealDistribution distribution, String desc, int lowerBound, int upperBound) {
+    public static void addPDFSeries(Chart chart, ContinuousDistribution distribution, String desc, int lowerBound, int upperBound) {
         // generates Log data
         List<Number> xData = new ArrayList<Number>();
         List<Number> yData = new ArrayList<Number>();
@@ -86,7 +86,7 @@ public class RealDistributionComparison {
         series.setLineStyle(new BasicStroke(1.2f));
     }
 
-    public static void addCDFSeries(Chart chart, RealDistribution distribution, String desc, int lowerBound, int upperBound) {
+    public static void addCDFSeries(Chart chart, ContinuousDistribution distribution, String desc, int lowerBound, int upperBound) {
         // generates Log data
         List<Number> xData = new ArrayList<Number>();
         List<Number> yData = new ArrayList<Number>();
@@ -128,7 +128,7 @@ public class RealDistributionComparison {
         return chart;
     }
     
-    public static JComponent createComponent(String distributionName, int minX, int maxX, String[] seriesText, RealDistribution... series) {
+    public static JComponent createComponent(String distributionName, int minX, int maxX, String[] seriesText, ContinuousDistribution... series) {
         JComponent container = new JPanel();
         container.setLayout(new BoxLayout(container, BoxLayout.PAGE_AXIS));
         
@@ -136,14 +136,14 @@ public class RealDistributionComparison {
         
         Chart chart = createChart("PDF", minX, maxX, LegendPosition.InsideNE);
         int i = 0;
-        for (RealDistribution d : series) {
+        for (ContinuousDistribution d : series) {
             addPDFSeries(chart, d, seriesText[i++], minX, maxX);
         }
         container.add(new XChartPanel(chart));
 
         chart = createChart("CDF", minX, maxX, LegendPosition.InsideSE);
         i = 0;
-        for (RealDistribution d : series) {
+        for (ContinuousDistribution d : series) {
             addCDFSeries(chart, d, seriesText[i++], minX, maxX);
         }
         container.add(new XChartPanel(chart));
@@ -175,7 +175,7 @@ public class RealDistributionComparison {
             comp = createComponent("Normal", -5, 5,
                                    new String[] { "μ=0,σ\u00B2=0.2", "μ=0,σ\u00B2=1", "μ=0,σ\u00B2=5", "μ=-2,σ\u00B2=0.5" },
                                    new NormalDistribution(0, FastMath.sqrt(0.2)),
-                                   new NormalDistribution(),
+                                   new NormalDistribution(0, 1),
                                    new NormalDistribution(0, FastMath.sqrt(5)),
                                    new NormalDistribution(-2, FastMath.sqrt(0.5)));
             container.add(comp, c);
