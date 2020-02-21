@@ -19,10 +19,7 @@ package org.apache.commons.math4.ml.clustering.evaluation;
 
 import java.util.List;
 
-import org.apache.commons.math4.ml.clustering.CentroidCluster;
-import org.apache.commons.math4.ml.clustering.Cluster;
-import org.apache.commons.math4.ml.clustering.Clusterable;
-import org.apache.commons.math4.ml.clustering.DoublePoint;
+import org.apache.commons.math4.ml.clustering.*;
 import org.apache.commons.math4.ml.distance.DistanceMeasure;
 import org.apache.commons.math4.ml.distance.EuclideanDistance;
 
@@ -106,17 +103,7 @@ public abstract class ClusterEvaluator<T extends Clusterable> {
         }
 
         final int dimension = points.get(0).getPoint().length;
-        final double[] centroid = new double[dimension];
-        for (final T p : points) {
-            final double[] point = p.getPoint();
-            for (int i = 0; i < centroid.length; i++) {
-                centroid[i] += point[i];
-            }
-        }
-        for (int i = 0; i < centroid.length; i++) {
-            centroid[i] /= points.size();
-        }
-        return new DoublePoint(centroid);
+        return ClusterUtils.centroidOf(points,dimension);
     }
 
 }
