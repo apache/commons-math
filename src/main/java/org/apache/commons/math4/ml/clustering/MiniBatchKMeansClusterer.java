@@ -6,12 +6,10 @@ import org.apache.commons.math4.exception.NumberIsTooSmallException;
 import org.apache.commons.math4.ml.clustering.initialization.CentroidInitializer;
 import org.apache.commons.math4.ml.clustering.initialization.KMeansPlusPlusCentroidInitializer;
 import org.apache.commons.math4.ml.distance.DistanceMeasure;
-import org.apache.commons.math4.ml.distance.EuclideanDistance;
 import org.apache.commons.math4.util.MathUtils;
 import org.apache.commons.math4.util.Pair;
 import org.apache.commons.rng.UniformRandomProvider;
 import org.apache.commons.rng.sampling.ListSampler;
-import org.apache.commons.rng.simple.RandomSource;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -94,7 +92,7 @@ public class MiniBatchKMeansClusterer<T extends Clusterable> extends Clusterer<T
     }
 
     /**
-     * Build a clusterer.
+     * Build a clusterer
      *
      * @param k             the number of clusters to split the data into
      * @param maxIterations the maximum number of iterations to run the algorithm for.
@@ -106,16 +104,6 @@ public class MiniBatchKMeansClusterer<T extends Clusterable> extends Clusterer<T
     public MiniBatchKMeansClusterer(int k, int maxIterations, DistanceMeasure measure, UniformRandomProvider random) {
         this(k, maxIterations, 100, 3, 100 * 3, 10,
                 measure, random, new KMeansPlusPlusCentroidInitializer(measure, random));
-    }
-
-
-    /**
-     * Build a clusterer.
-     *
-     * @param k the number of clusters to split the data into
-     */
-    public MiniBatchKMeansClusterer(int k) {
-        this(k, 100, new EuclideanDistance(), RandomSource.create(RandomSource.MT_64));
     }
 
     /**
@@ -137,8 +125,9 @@ public class MiniBatchKMeansClusterer<T extends Clusterable> extends Clusterer<T
         }
 
         int pointSize = points.size();
+        int batchSize = this.batchSize;
         int batchCount = pointSize / batchSize + ((pointSize % batchSize > 0) ? 1 : 0);
-        int maxIterations = this.maxIterations * batchCount;
+        int maxIterations = (this.maxIterations <= 0) ? Integer.MAX_VALUE : (this.maxIterations * batchCount);
         MiniBatchImprovementEvaluator evaluator = new MiniBatchImprovementEvaluator();
         List<CentroidCluster<T>> clusters = initialCenters(points);
         for (int i = 0; i < maxIterations; i++) {
@@ -216,10 +205,6 @@ public class MiniBatchKMeansClusterer<T extends Clusterable> extends Clusterer<T
     private List<T> randomMiniBatch(Collection<T> points, int batchSize) {
         ArrayList<T> list = new ArrayList<T>(points);
         ListSampler.shuffle(random, list);
-//        int size = list.size();
-//        for (int i = size; i > 1; --i) {
-//            list.set(i - 1, list.set(random.nextInt(i), list.get(i - 1)));
-//        }
         return list.subList(0, batchSize);
     }
 
@@ -235,7 +220,7 @@ public class MiniBatchKMeansClusterer<T extends Clusterable> extends Clusterer<T
         List<CentroidCluster<T>> bestCenters = null;
         for (int i = 0; i < initIterations; i++) {
             List<T> initialPoints = (initBatchSize < points.size()) ? randomMiniBatch(points, initBatchSize) : new ArrayList<T>(points);
-            List<CentroidCluster<T>> clusters = centroidInitializer.chooseCentroids(initialPoints, k);
+            List<CentroidCluster<T>> clusters = centroidInitializer.selectCentroids(initialPoints, k);
             Pair<Double, List<CentroidCluster<T>>> pair = step(validPoints, clusters);
             double squareDistance = pair.getFirst();
             List<CentroidCluster<T>> newClusters = pair.getSecond();

@@ -37,7 +37,7 @@ public class KMeansPlusPlusCentroidInitializer implements CentroidInitializer {
      * @return the initial centers
      */
     @Override
-    public <T extends Clusterable> List<CentroidCluster<T>> chooseCentroids(final Collection<T> points, final int k) {
+    public <T extends Clusterable> List<CentroidCluster<T>> selectCentroids(final Collection<T> points, final int k) {
         // Convert to list for indexed access. Make it unmodifiable, since removal of items
         // would screw up the logic of this method.
         final List<T> pointList = Collections.unmodifiableList(new ArrayList<>(points));
