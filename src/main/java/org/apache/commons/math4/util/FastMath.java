@@ -21,6 +21,9 @@ import java.io.PrintStream;
 import org.apache.commons.numbers.core.Precision;
 import org.apache.commons.math4.exception.MathArithmeticException;
 import org.apache.commons.math4.exception.util.LocalizedFormats;
+import org.checkerframework.checker.nullness.qual.Nullable;
+import org.checkerframework.checker.signedness.qual.Unsigned;
+import org.checkerframework.checker.signedness.qual.SignedPositive;
 
 /**
  * Faster, more accurate, portable alternative to {@link Math} and
@@ -97,7 +100,7 @@ public class FastMath {
 
     /** StrictMath.log(Double.MAX_VALUE): {@value} */
     private static final double LOG_MAX_VALUE = StrictMath.log(Double.MAX_VALUE);
-
+ 
     /** Indicator for tables initialization.
      * <p>
      * This compile-time constant should be set to true only if one explicitly
@@ -255,7 +258,7 @@ public class FastMath {
     };
 
     /** Bits of 1/(2*pi), need for reducePayneHanek(). */
-    private static final long RECIP_2PI[] = new long[] {
+    private static final @SignedPositive long RECIP_2PI[] = new long[] {
         (0x28be60dbL << 32) | 0x9391054aL,
         (0x7f09d5f4L << 32) | 0x7d4d3770L,
         (0x36d8a566L << 32) | 0x4f10e410L,
@@ -276,7 +279,7 @@ public class FastMath {
          0x9afed7ecL << 32  };
 
     /** Bits of pi/4, need for reducePayneHanek(). */
-    private static final long PI_O_4_BITS[] = new long[] {
+    private static final @SignedPositive long PI_O_4_BITS[] = new long[] {
         (0xc90fdaa2L << 32) | 0x2168c234L,
         (0xc4c6628bL << 32) | 0x80dc1cd1L };
 
@@ -871,7 +874,7 @@ public class FastMath {
      * @param hiPrec extra bits of precision on output (To Be Confirmed)
      * @return exp(x)
      */
-    private static double exp(double x, double extra, double[] hiPrec) {
+    private static double exp(double x, double extra, double @Nullable [] hiPrec) {
         double intPartA;
         double intPartB;
         int intVal = (int) x;
@@ -1004,7 +1007,7 @@ public class FastMath {
      * @param hiPrecOut receive high precision result for -1.0 < x < 1.0
      * @return exp(x) - 1
      */
-    private static double expm1(double x, double hiPrecOut[]) {
+    private static double expm1(double x, double hiPrecOut @Nullable []) {
         if (Double.isNaN(x) || x == 0.0) { // NaN or zero
             return x;
         }
@@ -1162,7 +1165,7 @@ public class FastMath {
      * @param hiPrec extra bits of precision on output (To Be Confirmed)
      * @return log(x)
      */
-    private static double log(final double x, final double[] hiPrec) {
+    private static double log(final double x, final double @Nullable [] hiPrec) {
         if (x==0) { // Handle special case of +0/-0
             return Double.NEGATIVE_INFINITY;
         }
@@ -1628,6 +1631,8 @@ public class FastMath {
      * @return d<sup>e</sup>
      * @since 3.6
      */
+
+    @SuppressWarnings("signedness")
     public static double pow(double d, long e) {
         if (e == 0) {
             return 1.0;
@@ -1722,7 +1727,7 @@ public class FastMath {
          * @return d^e, split in high and low bits
          * @since 3.6
          */
-        private Split pow(final long e) {
+        private Split pow(final @SignedPositive long e) {
 
             // prepare result
             Split result = new Split(1);
@@ -1730,7 +1735,7 @@ public class FastMath {
             // d^(2p)
             Split d2p = new Split(full, high, low);
 
-            for (long p = e; p != 0; p >>>= 1) {
+            for (@Unsigned long p = e; p != 0; p >>>= 1) {
 
                 if ((p & 0x1) != 0) {
                     // accurate multiplication result = result * d^(2p) using Veltkamp TwoProduct algorithm
@@ -3089,6 +3094,11 @@ public class FastMath {
      * @param x number from which absolute value is requested
      * @return abs(x)
      */
+
+    /*Usage of an unsigned shift right operator with a signed object (x) 
+     * the parameter provided to abs is logically signed
+     */
+    @SuppressWarnings("signedness")
     public static int abs(final int x) {
         final int i = x >>> 31;
         return (x ^ (~i + 1)) + i;
@@ -3099,6 +3109,11 @@ public class FastMath {
      * @param x number from which absolute value is requested
      * @return abs(x)
      */
+
+    /*Usage of an unsigned shift right operator with a signed object (x) 
+     * the parameter provided to abs is logically signed
+     */
+    @SuppressWarnings("signedness")
     public static long abs(final long x) {
         final long l = x >>> 63;
         // l is one if x negative zero else
@@ -3156,6 +3171,11 @@ public class FastMath {
      * @param n power of 2
      * @return d &times; 2<sup>n</sup>
      */
+    
+    /* #1 Usage of an unsigned shift right operator (>>>) with a signed object   
+     * #2 the parameter (d) provided to the function is signed
+     */
+    @SuppressWarnings("signedness")
     public static double scalb(final double d, final int n) {
 
         // first simple and fast handling when 2^n can be represented using normal numbers
@@ -3168,16 +3188,16 @@ public class FastMath {
             return d;
         }
         if (n < -2098) {
-            return (d > 0) ? 0.0 : -0.0;
+            return (d > 0) ? 0.0 : -0.0; //#2
         }
         if (n > 2097) {
-            return (d > 0) ? Double.POSITIVE_INFINITY : Double.NEGATIVE_INFINITY;
+            return (d > 0) ? Double.POSITIVE_INFINITY : Double.NEGATIVE_INFINITY; //#2
         }
 
         // decompose d
         final long bits = Double.doubleToRawLongBits(d);
         final long sign = bits & 0x8000000000000000L;
-        int  exponent   = ((int) (bits >>> 52)) & 0x7ff;
+        int  exponent   = ((int) (bits >>> 52)) & 0x7ff; //#1
         long mantissa   = bits & 0x000fffffffffffffL;
 
         // compute scaled exponent
@@ -4142,6 +4162,10 @@ public class FastMath {
      * @param d number from which exponent is requested
      * @return exponent for d in IEEE754 representation, without bias
      */
+    
+    /*Usage of an unsigned shift right operator with a signed object (d) as double number is signed 
+     */
+    @SuppressWarnings("signedness")
     public static int getExponent(final double d) {
         // NaN and Infinite will return 1024 anywho so can use raw bits
         return (int) ((Double.doubleToRawLongBits(d) >>> 52) & 0x7ff) - 1023;
@@ -4285,6 +4309,10 @@ public class FastMath {
         /**
          * @param xa Argument.
          */
+
+	/*Probably initialization checker fails to figure out the initialization of variable inside the loop while(true) 
+	 * which has no condition (due to 'true') that could prevent the initialization of remA and remB*/
+	@SuppressWarnings("initialization")
         CodyWaite(double xa) {
             // Estimate k.
             //k = (int)(xa / 1.5707963267948966);
@@ -4343,3 +4371,4 @@ public class FastMath {
         }
     }
 }
+
