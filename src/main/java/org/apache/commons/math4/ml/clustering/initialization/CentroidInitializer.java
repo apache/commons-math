@@ -35,5 +35,5 @@ public interface CentroidInitializer {
      * @param k      The number of clusters
      * @return the initial centers
      */
-    <T extends Clusterable> List<CentroidCluster<T>> chooseCentroids(final Collection<T> points, final int k);
+    <T extends Clusterable> List<CentroidCluster<T>> selectCentroids(final Collection<T> points, final int k);
 }

@@ -49,7 +49,7 @@ public class RandomCentroidInitializer implements CentroidInitializer {
      * @return the initial centers
      */
     @Override
-    public <T extends Clusterable> List<CentroidCluster<T>> chooseCentroids(Collection<T> points, int k) {
+    public <T extends Clusterable> List<CentroidCluster<T>> selectCentroids(Collection<T> points, int k) {
         ArrayList<T> list = new ArrayList<T>(points);
         ListSampler.shuffle(random, list);
         List<CentroidCluster<T>> result = new ArrayList<>(k);
