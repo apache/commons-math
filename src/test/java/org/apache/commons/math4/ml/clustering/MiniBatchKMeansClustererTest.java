@@ -17,6 +17,8 @@
 
 package org.apache.commons.math4.ml.clustering;
 
+import org.apache.commons.math4.TestUtils;
+import org.apache.commons.math4.exception.NumberIsTooSmallException;
 import org.apache.commons.math4.ml.distance.DistanceMeasure;
 import org.apache.commons.math4.ml.distance.EuclideanDistance;
 import org.apache.commons.rng.simple.RandomSource;
@@ -26,9 +28,23 @@ import org.junit.Test;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
+import java.util.function.Function;
 
 public class MiniBatchKMeansClustererTest {
-    private DistanceMeasure measure = new EuclideanDistance();
+    private final DistanceMeasure measure = new EuclideanDistance();
+
+    @Test
+    public void testConstructorParameterChecks() {
+        expectNumberIsTooSmallException(() -> new MiniBatchKMeansClusterer<>(0, -1, 100, 3, 300, 10, null, null, null));
+        expectNumberIsTooSmallException(() -> new MiniBatchKMeansClusterer<>(1, -1, -1, 3, 300, 10, null, null, null));
+        expectNumberIsTooSmallException(() -> new MiniBatchKMeansClusterer<>(1, -1, 100, -2, 300, 10, null, null, null));
+        expectNumberIsTooSmallException(() -> new MiniBatchKMeansClusterer<>(1, -1, 100, 3, -300, 10, null, null, null));
+        expectNumberIsTooSmallException(() -> new MiniBatchKMeansClusterer<>(1, -1, 100, 3, 300, -10, null, null, null));
+    }
+
+    private void expectNumberIsTooSmallException(Runnable block) {
+        TestUtils.assertException(block, NumberIsTooSmallException.class);
+    }
 
     /**
      * Compare the result to KMeansPlusPlusClusterer
@@ -40,8 +56,8 @@ public class MiniBatchKMeansClustererTest {
         List<DoublePoint> data = generateCircles(randomSeed);
         KMeansPlusPlusClusterer<DoublePoint> kMeans = new KMeansPlusPlusClusterer<>(4, -1, measure,
                 RandomSource.create(RandomSource.MT_64, randomSeed));
-        MiniBatchKMeansClusterer<DoublePoint> miniBatchKMeans = new MiniBatchKMeansClusterer<>(4, -1,
-                measure, RandomSource.create(RandomSource.MT_64, randomSeed));
+        MiniBatchKMeansClusterer<DoublePoint> miniBatchKMeans = new MiniBatchKMeansClusterer<>(4, 100, 100,
+                RandomSource.create(RandomSource.MT_64, randomSeed));
         for (int i = 0; i < 100; i++) {
             List<CentroidCluster<DoublePoint>> kMeansClusters = kMeans.cluster(data);
             List<CentroidCluster<DoublePoint>> miniBatchKMeansClusters = miniBatchKMeans.cluster(data);

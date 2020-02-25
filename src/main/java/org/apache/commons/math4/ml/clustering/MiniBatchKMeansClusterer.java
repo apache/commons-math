@@ -43,6 +43,8 @@ import java.util.List;
  * @param <T> Type of the points to cluster
  */
 public class MiniBatchKMeansClusterer<T extends Clusterable> extends Clusterer<T> {
+    private static final DistanceMeasure DEFAULT_DISTANCE_MEASURE = new EuclideanDistance();
+
     /**
      * The number of clusters.
      */
@@ -95,44 +97,62 @@ public class MiniBatchKMeansClusterer<T extends Clusterable> extends Clusterer<T
      *                              may appear during algorithm iterations
      * @param centroidInitializer   the centroid initializer algorithm
      */
-    public MiniBatchKMeansClusterer(final int k, int maxIterations, final int batchSize, final int initIterations,
+    public MiniBatchKMeansClusterer(final int k, final int maxIterations, final int batchSize, final int initIterations,
                                     final int initBatchSize, final int maxNoImprovementTimes,
                                     final DistanceMeasure measure, final UniformRandomProvider random,
                                     final CentroidInitializer centroidInitializer) {
         super(measure);
-        this.k = k;
-        this.maxIterations = maxIterations > 0 ? maxIterations : 100;
-        this.batchSize = batchSize;
-        this.initIterations = initIterations;
-        this.initBatchSize = initBatchSize;
-        this.maxNoImprovementTimes = maxNoImprovementTimes;
+        if (k < 1) throw new NumberIsTooSmallException(k, 1, true);
+        else this.k = k;
+        this.maxIterations = maxIterations;
+        if (batchSize < 1) throw new NumberIsTooSmallException(batchSize, 1, true);
+        else this.batchSize = batchSize;
+        if (initIterations < 1) throw new NumberIsTooSmallException(initIterations, 1, true);
+        else this.initIterations = initIterations;
+        if (initBatchSize < 1) throw new NumberIsTooSmallException(initBatchSize, 1, true);
+        else this.initBatchSize = initBatchSize;
+        if (maxNoImprovementTimes < 1) throw new NumberIsTooSmallException(maxNoImprovementTimes, 1, true);
+        else this.maxNoImprovementTimes = maxNoImprovementTimes;
         this.random = random;
         this.centroidInitializer = centroidInitializer;
     }
 
     /**
-     * Build a clusterer.
+     * Build a clusterer with default distance measure and so on.
+     * <p>The default initIterations will be 3 as a empiric value.</p>
+     * <p>The default initBatchSize will be 3 times to the batchSize as a empiric value.</p>
+     * <p>The default maxImprovementTimes will be 10 as a empiric value.</p>
+     * <p>The euclidean distance will be used as default distance measure.</p>
+     * <p>The KMeans++ will be used as default centroid initialize algorithm.</p>
      *
      * @param k             the number of clusters to split the data into
      * @param maxIterations the maximum number of iterations to run the algorithm for.
      *                      If negative, no maximum will be used.
-     * @param measure       the distance measure to use
+     * @param batchSize     the mini batch size for training iterations.
      * @param random        random generator to use for choosing initial centers
      *                      may appear during algorithm iterations
      */
-    public MiniBatchKMeansClusterer(int k, int maxIterations, DistanceMeasure measure, UniformRandomProvider random) {
-        this(k, maxIterations, 100, 3, 100 * 3, 10,
-                measure, random, new KMeansPlusPlusCentroidInitializer(measure, random));
+    public MiniBatchKMeansClusterer(final int k, final int maxIterations, final int batchSize, final UniformRandomProvider random) {
+        this(k, maxIterations, batchSize, 3, batchSize * 3, 10,
+                DEFAULT_DISTANCE_MEASURE, random, new KMeansPlusPlusCentroidInitializer(DEFAULT_DISTANCE_MEASURE, random));
     }
 
 
     /**
-     * Build a clusterer.
+     * Build a clusterer with default values on most of the parameters.
+     * <p>The default maxIterations will be 100 as a empiric value.</p>
+     * <p>The default batchSize will be 100 as a empiric value.</p>
+     * <p>The default initIterations will be 3 as a empiric value.</p>
+     * <p>The default initBatchSize will be 3 times to the batchSize.</p>
+     * <p>The default maxImprovementTimes will be 10.</p>
+     * <p>The euclidean distance will be used as default distance measure.</p>
+     * <p>The KMeans++ will be used as default centroid initialize algorithm.</p>
+     * <p>The MT_64 will be used as default Random Provider.</p>
      *
-     * @param k the number of clusters to split the data into
+     * @param k the number of clusters to split the data into.
      */
-    public MiniBatchKMeansClusterer(int k) {
-        this(k, 100, new EuclideanDistance(), RandomSource.create(RandomSource.MT_64));
+    public MiniBatchKMeansClusterer(final int k) {
+        this(k, 100, 100, RandomSource.create(RandomSource.MT_64));
     }
 
     /**
@@ -155,10 +175,10 @@ public class MiniBatchKMeansClusterer<T extends Clusterable> extends Clusterer<T
 
         int pointSize = points.size();
         int batchCount = pointSize / batchSize + ((pointSize % batchSize > 0) ? 1 : 0);
-        int maxIterations = this.maxIterations * batchCount;
+        int max = this.maxIterations < 0 ? Integer.MAX_VALUE : (this.maxIterations * batchCount);
         MiniBatchImprovementEvaluator evaluator = new MiniBatchImprovementEvaluator();
         List<CentroidCluster<T>> clusters = initialCenters(points);
-        for (int i = 0; i < maxIterations; i++) {
+        for (int i = 0; i < max; i++) {
             //Clear points in clusters
             clearClustersPoints(clusters);
             //Random sampling a mini batch of points.
