@@ -19,6 +19,8 @@ package org.apache.commons.math4.ml.clustering;
 
 import org.apache.commons.math4.TestUtils;
 import org.apache.commons.math4.exception.NumberIsTooSmallException;
+import org.apache.commons.math4.ml.clustering.evaluation.ClusterEvaluator;
+import org.apache.commons.math4.ml.clustering.evaluation.SumOfClusterVariances;
 import org.apache.commons.math4.ml.distance.DistanceMeasure;
 import org.apache.commons.math4.ml.distance.EuclideanDistance;
 import org.apache.commons.rng.simple.RandomSource;
@@ -28,7 +30,6 @@ import org.junit.Test;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
-import java.util.function.Function;
 
 public class MiniBatchKMeansClustererTest {
     private final DistanceMeasure measure = new EuclideanDistance();
@@ -64,17 +65,19 @@ public class MiniBatchKMeansClustererTest {
             Assert.assertEquals(4, kMeansClusters.size());
             Assert.assertEquals(kMeansClusters.size(), miniBatchKMeansClusters.size());
             int totalDiffCount = 0;
-            double totalCenterDistance = 0.0;
             for (CentroidCluster<DoublePoint> kMeanCluster : kMeansClusters) {
                 CentroidCluster<DoublePoint> miniBatchCluster = ClusterUtils.predict(miniBatchKMeansClusters, kMeanCluster.getCenter());
                 totalDiffCount += Math.abs(kMeanCluster.getPoints().size() - miniBatchCluster.getPoints().size());
-                totalCenterDistance += measure.compute(kMeanCluster.getCenter().getPoint(), miniBatchCluster.getCenter().getPoint());
             }
-            double diffRatio = totalDiffCount * 1.0 / data.size();
-            System.out.println(String.format("Centers total distance: %f, clusters total diff points: %d, diff ratio: %f%%",
-                    totalCenterDistance, totalDiffCount, diffRatio * 100));
-            // Sometimes the
-//            Assert.assertTrue(String.format("Different points ratio %f%%!", diffRatio * 100), diffRatio < 0.03);
+            ClusterEvaluator<DoublePoint> clusterEvaluator = new SumOfClusterVariances<>(measure);
+            double kMeansScore = clusterEvaluator.score(kMeansClusters);
+            double miniBatchKMeansScore = clusterEvaluator.score(miniBatchKMeansClusters);
+            double diffPointsRatio = totalDiffCount * 1.0 / data.size();
+            double scoreDiffRatio = (miniBatchKMeansScore - kMeansScore) /
+                    kMeansScore;
+            // MiniBatchKMeansClusterer has few score differences between KMeansClusterer
+            Assert.assertTrue(String.format("Different score ratio %f%%!, diff points ratio: %f%%\"", scoreDiffRatio * 100, diffPointsRatio * 100),
+                    scoreDiffRatio < 0.1);
         }
     }
 
@@ -91,7 +94,7 @@ public class MiniBatchKMeansClustererTest {
     List<DoublePoint> generateCircle(int count, double[] center, double radius, Random random) {
         double x0 = center[0];
         double y0 = center[1];
-        ArrayList<DoublePoint> list = new ArrayList<DoublePoint>(count);
+        ArrayList<DoublePoint> list = new ArrayList<>(count);
         for (int i = 0; i < count; i++) {
             double ao = random.nextDouble() * 720 - 360;
             double r = random.nextDouble() * radius * 2 - radius;
