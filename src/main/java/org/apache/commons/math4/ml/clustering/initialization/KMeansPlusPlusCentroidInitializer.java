@@ -74,7 +74,7 @@ public class KMeansPlusPlusCentroidInitializer implements CentroidInitializer {
 
         final T firstPoint = pointList.get(firstPointIndex);
 
-        resultSet.add(new CentroidCluster<T>(firstPoint));
+        resultSet.add(new CentroidCluster<>(firstPoint));
 
         // Must mark it as taken
         taken[firstPointIndex] = true;
@@ -141,7 +141,7 @@ public class KMeansPlusPlusCentroidInitializer implements CentroidInitializer {
 
                 final T p = pointList.get(nextPointIndex);
 
-                resultSet.add(new CentroidCluster<T>(p));
+                resultSet.add(new CentroidCluster<>(p));
 
                 // Mark it as taken.
                 taken[nextPointIndex] = true;

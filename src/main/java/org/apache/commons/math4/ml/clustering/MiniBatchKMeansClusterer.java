@@ -223,7 +223,7 @@ public class MiniBatchKMeansClusterer<T extends Clusterable> extends Clusterer<T
         for (T point : batchPoints) {
             addToNearestCentroidCluster(point, clusters);
         }
-        List<CentroidCluster<T>> newClusters = new ArrayList<CentroidCluster<T>>(clusters.size());
+        List<CentroidCluster<T>> newClusters = new ArrayList<>(clusters.size());
         //Refresh then cluster centroid.
         for (CentroidCluster<T> cluster : clusters) {
             Clusterable newCenter;
@@ -232,7 +232,7 @@ public class MiniBatchKMeansClusterer<T extends Clusterable> extends Clusterer<T
             } else {
                 newCenter = ClusterUtils.centroidOf(cluster.getPoints(), cluster.getCenter().getPoint().length);
             }
-            newClusters.add(new CentroidCluster<T>(newCenter));
+            newClusters.add(new CentroidCluster<>(newCenter));
         }
         // Add every mini batch points to their nearest cluster again.
         double squareDistance = 0.0;
@@ -240,7 +240,7 @@ public class MiniBatchKMeansClusterer<T extends Clusterable> extends Clusterer<T
             double d = addToNearestCentroidCluster(point, newClusters);
             squareDistance += d * d;
         }
-        return new Pair<Double, List<CentroidCluster<T>>>(squareDistance, newClusters);
+        return new Pair<>(squareDistance, newClusters);
     }
 
     /**
@@ -251,12 +251,8 @@ public class MiniBatchKMeansClusterer<T extends Clusterable> extends Clusterer<T
      * @return mini batch of all the points
      */
     private List<T> randomMiniBatch(Collection<T> points, int batchSize) {
-        ArrayList<T> list = new ArrayList<T>(points);
+        ArrayList<T> list = new ArrayList<>(points);
         ListSampler.shuffle(random, list);
-//        int size = list.size();
-//        for (int i = size; i > 1; --i) {
-//            list.set(i - 1, list.set(random.nextInt(i), list.get(i - 1)));
-//        }
         return list.subList(0, batchSize);
     }
 
@@ -267,11 +263,11 @@ public class MiniBatchKMeansClusterer<T extends Clusterable> extends Clusterer<T
      * @return Clusters with center
      */
     private List<CentroidCluster<T>> initialCenters(Collection<T> points) {
-        List<T> validPoints = initBatchSize < points.size() ? randomMiniBatch(points, initBatchSize) : new ArrayList<T>(points);
+        List<T> validPoints = initBatchSize < points.size() ? randomMiniBatch(points, initBatchSize) : new ArrayList<>(points);
         double nearestSquareDistance = Double.POSITIVE_INFINITY;
         List<CentroidCluster<T>> bestCenters = null;
         for (int i = 0; i < initIterations; i++) {
-            List<T> initialPoints = (initBatchSize < points.size()) ? randomMiniBatch(points, initBatchSize) : new ArrayList<T>(points);
+            List<T> initialPoints = (initBatchSize < points.size()) ? randomMiniBatch(points, initBatchSize) : new ArrayList<>(points);
             List<CentroidCluster<T>> clusters = centroidInitializer.selectCentroids(initialPoints, k);
             Pair<Double, List<CentroidCluster<T>>> pair = step(validPoints, clusters);
             double squareDistance = pair.getFirst();
