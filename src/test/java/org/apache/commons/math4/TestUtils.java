@@ -584,4 +584,18 @@ public class TestUtils {
         }
         return positiveMassCount;
     }
+
+    /**
+     * Assert there should be a exception.
+     * @param block The code block need to assert.
+     * @param exceptionClass A exception class.
+     */
+    public static void assertException(Runnable block, Class<? extends Throwable> exceptionClass) {
+        try {
+            block.run();
+            Assert.fail(String.format("Expects %s", exceptionClass.getSimpleName()));
+        } catch (Throwable e) {
+            if (!exceptionClass.isInstance(e)) throw e;
+        }
+    }
 }
