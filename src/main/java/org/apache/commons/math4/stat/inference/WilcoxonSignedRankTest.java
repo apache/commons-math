@@ -288,8 +288,8 @@ public class WilcoxonSignedRankTest {
      *            if true and x.length &lt; 30, this is ignored because
      *            calculations may take too long)
      * @return p-value
-     * @throws NullArgumentException if {@code x} or {@code y} are {@code null}.
-     * @throws NoDataException if {@code x} or {@code y} are zero-length.
+     * @throws NullArgumentException if {@code x} or {@code y} is {@code null}.
+     * @throws NoDataException if {@code x} or {@code y} is zero-length.
      * @throws DimensionMismatchException if {@code x} and {@code y} do not
      * have the same length.
      * @throws NumberIsTooLargeException if {@code exactPValue} is {@code true}
