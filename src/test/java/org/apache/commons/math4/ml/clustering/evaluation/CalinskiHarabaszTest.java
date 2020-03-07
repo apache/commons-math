@@ -22,7 +22,6 @@ import org.apache.commons.math4.ml.clustering.DoublePoint;
 import org.apache.commons.math4.ml.clustering.KMeansPlusPlusClusterer;
 import org.apache.commons.math4.ml.distance.DistanceMeasure;
 import org.apache.commons.math4.ml.distance.EuclideanDistance;
-import org.apache.commons.math4.util.FastMath;
 import org.apache.commons.rng.UniformRandomProvider;
 import org.apache.commons.rng.simple.RandomSource;
 import org.junit.Assert;
@@ -60,33 +59,20 @@ public class CalinskiHarabaszTest {
             }
             points.add(new DoublePoint(point));
         }
-        double[] evaluateResults = new double[5];
-        double expect = 0.0;
+        double expectBestScore = 0.0;
+        double actualBestScore = 0.0;
         DistanceMeasure distanceMeasure = new EuclideanDistance();
         for (int i = 0; i < 5; i++) {
             final int k = i + 2;
             KMeansPlusPlusClusterer<DoublePoint> kMeans = new KMeansPlusPlusClusterer<>(k, -1, distanceMeasure, rnd);
             List<CentroidCluster<DoublePoint>> clusters = kMeans.cluster(points);
-            evaluateResults[i] = evaluator.score(clusters);
-            if (k == 4) expect = evaluateResults[i];
+            double score = evaluator.score(clusters);
+            if (evaluator.isBetterScore(score, expectBestScore)) expectBestScore = score;
+            if (k == 4) actualBestScore = score;
             // System.out.format("%d: %f\n", k, evaluator.score(clusters));
         }
         // k=4 get the highest score
-        Assert.assertEquals(expect, max(evaluateResults), 0.0);
-    }
-
-    /**
-     * Get the max value in a double array
-     *
-     * @param ary double array
-     * @return the max value
-     */
-    private double max(double[] ary) {
-        double max = Double.NEGATIVE_INFINITY;
-        for (double v : ary) {
-            max = FastMath.max(v, max);
-        }
-        return max;
+        Assert.assertEquals(expectBestScore, actualBestScore, 0.0);
     }
 
     @Test
