@@ -67,31 +67,6 @@ public class MultiKMeansPlusPlusClusterer<T extends Clusterable> extends Cluster
     }
 
     /**
-     * Returns the embedded k-means clusterer used by this instance.
-     * @return the embedded clusterer
-     */
-    public KMeansPlusPlusClusterer<T> getClusterer() {
-        return clusterer;
-    }
-
-    /**
-     * Returns the number of trials this instance will do.
-     * @return the number of trials
-     */
-    public int getNumTrials() {
-        return numTrials;
-    }
-
-    /**
-     * Returns the {@link ClusterEvaluator} used to determine the "best" clustering.
-     * @return the used {@link ClusterEvaluator}
-     * @since 3.3
-     */
-    public ClusterEvaluator<T> getClusterEvaluator() {
-       return evaluator;
-    }
-
-    /**
      * Runs the K-means++ clustering algorithm.
      *
      * @param points the points to cluster
