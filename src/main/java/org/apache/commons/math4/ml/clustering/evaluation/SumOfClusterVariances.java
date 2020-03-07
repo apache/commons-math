@@ -21,6 +21,7 @@ import java.util.List;
 
 import org.apache.commons.math4.ml.clustering.Cluster;
 import org.apache.commons.math4.ml.clustering.Clusterable;
+import org.apache.commons.math4.ml.clustering.ClusterRanking;
 import org.apache.commons.math4.ml.distance.DistanceMeasure;
 import org.apache.commons.math4.stat.descriptive.moment.Variance;
 
@@ -35,7 +36,8 @@ import org.apache.commons.math4.stat.descriptive.moment.Variance;
  * @param <T> the type of the clustered points
  * @since 3.3
  */
-public class SumOfClusterVariances<T extends Clusterable> extends ClusterEvaluator<T> {
+public class SumOfClusterVariances<T extends Clusterable> extends ClusterEvaluator<T>
+    implements ClusterRanking<T> {
 
     /**
      *
@@ -66,4 +68,9 @@ public class SumOfClusterVariances<T extends Clusterable> extends ClusterEvaluat
         return varianceSum;
     }
 
+    /** {@inheritDoc} */
+    @Override
+    public double compute(List<? extends Cluster<T>> clusters) {
+        return 1d / score(clusters);
+    }
 }
