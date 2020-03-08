@@ -40,7 +40,6 @@ public class SumOfClusterVariances<T extends Clusterable> extends ClusterEvaluat
     implements ClusterRanking<T> {
 
     /**
-     *
      * @param measure the distance measure to use
      */
     public SumOfClusterVariances(final DistanceMeasure measure) {
@@ -54,7 +53,7 @@ public class SumOfClusterVariances<T extends Clusterable> extends ClusterEvaluat
         for (final Cluster<T> cluster : clusters) {
             if (!cluster.getPoints().isEmpty()) {
 
-                final Clusterable center = centroidOf(cluster);
+                final Clusterable center = cluster.centroid();
 
                 // compute the distance variance of the current cluster
                 final Variance stat = new Variance();

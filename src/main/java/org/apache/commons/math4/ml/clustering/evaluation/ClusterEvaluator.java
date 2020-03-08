@@ -86,37 +86,4 @@ public abstract class ClusterEvaluator<T extends Clusterable> {
     protected double distance(final Clusterable p1, final Clusterable p2) {
         return measure.compute(p1.getPoint(), p2.getPoint());
     }
-
-    /**
-     * Computes the centroid for a cluster.
-     *
-     * @param cluster the cluster
-     * @return the computed centroid for the cluster,
-     * or {@code null} if the cluster does not contain any points
-     */
-    protected Clusterable centroidOf(final Cluster<T> cluster) {
-        final List<T> points = cluster.getPoints();
-        if (points.isEmpty()) {
-            return null;
-        }
-
-        // in case the cluster is of type CentroidCluster, no need to compute the centroid
-        if (cluster instanceof CentroidCluster) {
-            return ((CentroidCluster<T>) cluster).getCenter();
-        }
-
-        final int dimension = points.get(0).getPoint().length;
-        final double[] centroid = new double[dimension];
-        for (final T p : points) {
-            final double[] point = p.getPoint();
-            for (int i = 0; i < centroid.length; i++) {
-                centroid[i] += point[i];
-            }
-        }
-        for (int i = 0; i < centroid.length; i++) {
-            centroid[i] /= points.size();
-        }
-        return new DoublePoint(centroid);
-    }
-
 }
