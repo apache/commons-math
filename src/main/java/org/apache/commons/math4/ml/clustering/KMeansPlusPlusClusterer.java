@@ -235,7 +235,7 @@ public class KMeansPlusPlusClusterer<T extends Clusterable> extends Clusterer<T>
                     }
                     emptyCluster = true;
                 } else {
-                    newCenter = centroidOf(cluster.getPoints(), cluster.getCenter().getPoint().length);
+                    newCenter = cluster.centroid();
                 }
                 newClusters.add(new CentroidCluster<T>(newCenter));
             }
@@ -540,26 +540,4 @@ public class KMeansPlusPlusClusterer<T extends Clusterable> extends Clusterer<T>
         }
         return minCluster;
     }
-
-    /**
-     * Computes the centroid for a set of points.
-     *
-     * @param points the set of points
-     * @param dimension the point dimension
-     * @return the computed centroid for the set of points
-     */
-    private Clusterable centroidOf(final Collection<T> points, final int dimension) {
-        final double[] centroid = new double[dimension];
-        for (final T p : points) {
-            final double[] point = p.getPoint();
-            for (int i = 0; i < centroid.length; i++) {
-                centroid[i] += point[i];
-            }
-        }
-        for (int i = 0; i < centroid.length; i++) {
-            centroid[i] /= points.size();
-        }
-        return new DoublePoint(centroid);
-    }
-
 }

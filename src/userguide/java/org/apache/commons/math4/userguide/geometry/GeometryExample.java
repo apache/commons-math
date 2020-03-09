@@ -31,19 +31,21 @@ import javax.swing.JComponent;
 import javax.swing.JPanel;
 import javax.swing.JSplitPane;
 
+
 import org.apache.commons.rng.UniformRandomProvider;
 import org.apache.commons.rng.simple.RandomSource;
+import org.apache.commons.geometry.core.precision.EpsilonDoublePrecisionContext;
+import org.apache.commons.geometry.euclidean.twod.Segment;
+import org.apache.commons.geometry.euclidean.twod.Vector2D;
+import org.apache.commons.geometry.enclosing.Encloser;
+import org.apache.commons.geometry.enclosing.EnclosingBall;
+import org.apache.commons.geometry.enclosing.WelzlEncloser;
+import org.apache.commons.geometry.enclosing.euclidean.twod.DiskGenerator;
+import org.apache.commons.geometry.enclosing.euclidean.twod.WelzlEncloser2D;
+import org.apache.commons.geometry.hull.euclidean.twod.ConvexHull2D;
+import org.apache.commons.geometry.hull.euclidean.twod.ConvexHullGenerator2D;
+import org.apache.commons.geometry.hull.euclidean.twod.MonotoneChain;
 
-import org.apache.commons.math4.geometry.enclosing.Encloser;
-import org.apache.commons.math4.geometry.enclosing.EnclosingBall;
-import org.apache.commons.math4.geometry.enclosing.WelzlEncloser;
-import org.apache.commons.math4.geometry.euclidean.twod.DiskGenerator;
-import org.apache.commons.math4.geometry.euclidean.twod.Euclidean2D;
-import org.apache.commons.math4.geometry.euclidean.twod.Segment;
-import org.apache.commons.math4.geometry.euclidean.twod.Cartesian2D;
-import org.apache.commons.math4.geometry.euclidean.twod.hull.ConvexHull2D;
-import org.apache.commons.math4.geometry.euclidean.twod.hull.ConvexHullGenerator2D;
-import org.apache.commons.math4.geometry.euclidean.twod.hull.MonotoneChain;
 import org.apache.commons.math4.util.FastMath;
 import org.apache.commons.math4.userguide.ExampleUtils;
 import org.apache.commons.math4.userguide.ExampleUtils.ExampleFrame;
@@ -65,39 +67,39 @@ import org.piccolo2d.nodes.PText;
  */
 public class GeometryExample {
 
-    public static List<Cartesian2D> createRandomPoints(int size) {
+    public static List<Vector2D> createRandomPoints(int size) {
         final UniformRandomProvider random = RandomSource.create(RandomSource.MT);
 
         // create the cloud container
-        List<Cartesian2D> points = new ArrayList<Cartesian2D>(size);
+        List<Vector2D> points = new ArrayList<>(size);
         // fill the cloud with a random distribution of points
         for (int i = 0; i < size; i++) {
-            points.add(new Cartesian2D(FastMath.round(random.nextDouble() * 400 + 100),
+            points.add(Vector2D.of(FastMath.round(random.nextDouble() * 400 + 100),
                     FastMath.round(random.nextDouble() * 400 + 100)));
         }
         
         return points;
     }
 
-    public static List<Cartesian2D> createCircle(int samples) {
-        List<Cartesian2D> points = new ArrayList<Cartesian2D>();
-        final Cartesian2D center = new Cartesian2D(300, 300);
+    public static List<Vector2D> createCircle(int samples) {
+        List<Vector2D> points = new ArrayList<>();
+        final Vector2D center = Vector2D.of(300, 300);
         double range = 2.0 * FastMath.PI;
         double step = range / (samples + 1);
         for (double angle = 0; angle < range; angle += step) {
-            Cartesian2D circle = new Cartesian2D(FastMath.cos(angle), FastMath.sin(angle));
-            points.add(circle.scalarMultiply(200).add(center));
+            Vector2D circle = Vector2D.of(FastMath.cos(angle), FastMath.sin(angle));
+            points.add(circle.multiply(200).add(center));
         }
         
         return points;
     }
 
-    public static List<Cartesian2D> createCross() {
-        List<Cartesian2D> points = new ArrayList<Cartesian2D>();
+    public static List<Vector2D> createCross() {
+        List<Vector2D> points = new ArrayList<>();
         
         for (int i = 100; i < 500; i += 10) {
-            points.add(new Cartesian2D(300, i));
-            points.add(new Cartesian2D(i, 300));
+            points.add(Vector2D.of(300, i));
+            points.add(Vector2D.of(i, 300));
         }
 
         return points;
@@ -150,7 +152,7 @@ public class GeometryExample {
     @SuppressWarnings("serial")
     public static class Display extends ExampleFrame {
 
-        private List<Cartesian2D> points;
+        private List<Vector2D> points;
         private PCanvas canvas;
         private JComponent container;
         private JComponent controlPanel;
@@ -223,7 +225,7 @@ public class GeometryExample {
         
         public void paintConvexHull() {
             PNode pointSet = new PNode();
-            for (Cartesian2D point : points) {
+            for (Vector2D point : points) {
                 final PNode node = PPath.createEllipse(point.getX() - 1, point.getY() - 1, 2, 2);
                 node.addAttribute("tooltip", point);
                 node.setPaint(Color.gray);
@@ -232,11 +234,11 @@ public class GeometryExample {
 
             canvas.getLayer().addChild(pointSet);
 
-            ConvexHullGenerator2D generator = new MonotoneChain(true, 1e-6);
+            ConvexHullGenerator2D generator = new MonotoneChain(true, new EpsilonDoublePrecisionContext(1e-6));
             ConvexHull2D hull = generator.generate(points); //AklToussaintHeuristic.reducePoints(points));
 
             PNode hullNode = new PNode();
-            for (Cartesian2D vertex : hull.getVertices()) {
+            for (Vector2D vertex : hull.getVertices()) {
                 final PPath node = PPath.createEllipse(vertex.getX() - 1, vertex.getY() - 1, 2, 2);
                 node.addAttribute("tooltip", vertex);
                 node.setPaint(Color.red);
@@ -244,9 +246,9 @@ public class GeometryExample {
                 hullNode.addChild(node);
             }
 
-            for (Segment line : hull.getLineSegments()) {
-                final PPath node = PPath.createLine(line.getStart().getX(), line.getStart().getY(),
-                                                    line.getEnd().getX(), line.getEnd().getY());
+            for (Segment line : hull.getPath().getSegments()) {
+                final PPath node = PPath.createLine(line.getStartPoint().getX(), line.getStartPoint().getY(),
+                                                    line.getEndPoint().getX(), line.getEndPoint().getY());
                 node.setPickable(false);
                 node.setPaint(Color.red);
                 node.setStrokePaint(Color.red);
@@ -255,9 +257,8 @@ public class GeometryExample {
 
             canvas.getLayer().addChild(hullNode);
 
-            Encloser<Euclidean2D, Cartesian2D> encloser =
-                    new WelzlEncloser<Euclidean2D, Cartesian2D>(1e-10, new DiskGenerator());
-            EnclosingBall<Euclidean2D, Cartesian2D> ball = encloser.enclose(points);
+            WelzlEncloser2D encloser = new WelzlEncloser2D(new EpsilonDoublePrecisionContext(1e-10));
+            EnclosingBall<Vector2D> ball = encloser.enclose(points);
 
             final double radius = ball.getRadius();
             PPath ballCenter =

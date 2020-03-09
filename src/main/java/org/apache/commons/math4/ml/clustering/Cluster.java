@@ -57,4 +57,28 @@ public class Cluster<T extends Clusterable> implements Serializable {
         return points;
     }
 
+    /**
+     * Computes the centroid of the cluster.
+     *
+     * @return the centroid for the cluster, or {@code null} if the
+     * cluster does not contain any points.
+     */
+    public Clusterable centroid() {
+        if (points.isEmpty()) {
+            return null;
+        } else {
+            final int dimension = points.get(0).getPoint().length;
+            final double[] centroid = new double[dimension];
+            for (final T p : points) {
+                final double[] point = p.getPoint();
+                for (int i = 0; i < centroid.length; i++) {
+                    centroid[i] += point[i];
+                }
+            }
+            for (int i = 0; i < centroid.length; i++) {
+                centroid[i] /= points.size();
+            }
+            return new DoublePoint(centroid);
+        }
+    }
 }

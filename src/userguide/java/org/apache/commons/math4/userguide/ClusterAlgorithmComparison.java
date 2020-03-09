@@ -36,11 +36,11 @@ import javax.swing.JLabel;
 import org.apache.commons.rng.UniformRandomProvider;
 import org.apache.commons.rng.simple.RandomSource;
 import org.apache.commons.rng.sampling.ListSampler;
+import org.apache.commons.statistics.distribution.ContinuousDistribution;
+import org.apache.commons.statistics.distribution.UniformContinuousDistribution;
+import org.apache.commons.statistics.distribution.NormalDistribution;
+import org.apache.commons.geometry.euclidean.twod.Vector2D;
 
-import org.apache.commons.math4.distribution.RealDistribution;
-import org.apache.commons.math4.distribution.UniformRealDistribution;
-import org.apache.commons.math4.distribution.NormalDistribution;
-import org.apache.commons.math4.geometry.euclidean.twod.Cartesian2D;
 import org.apache.commons.math4.ml.clustering.CentroidCluster;
 import org.apache.commons.math4.ml.clustering.Cluster;
 import org.apache.commons.math4.ml.clustering.Clusterable;
@@ -61,7 +61,7 @@ import org.apache.commons.math4.userguide.ExampleUtils.ExampleFrame;
  */
 public class ClusterAlgorithmComparison {
 
-    public static List<Cartesian2D> makeCircles(int samples,
+    public static List<Vector2D> makeCircles(int samples,
                                              boolean shuffle,
                                              double noise,
                                              double factor,
@@ -70,14 +70,14 @@ public class ClusterAlgorithmComparison {
             throw new IllegalArgumentException();
         }
         
-        RealDistribution.Sampler dist = new NormalDistribution(0.0, noise).createSampler(rng);
+        ContinuousDistribution.Sampler dist = new NormalDistribution(0.0, noise).createSampler(rng);
 
-        List<Cartesian2D> points = new ArrayList<Cartesian2D>();
+        List<Vector2D> points = new ArrayList<>();
         double range = 2.0 * FastMath.PI;
         double step = range / (samples / 2.0 + 1);
         for (double angle = 0; angle < range; angle += step) {
-            Cartesian2D outerCircle = new Cartesian2D(FastMath.cos(angle), FastMath.sin(angle));
-            Cartesian2D innerCircle = outerCircle.scalarMultiply(factor);
+            Vector2D outerCircle = Vector2D.of(FastMath.cos(angle), FastMath.sin(angle));
+            Vector2D innerCircle = outerCircle.multiply(factor);
             
             points.add(outerCircle.add(generateNoiseVector(dist)));
             points.add(innerCircle.add(generateNoiseVector(dist)));
@@ -90,26 +90,26 @@ public class ClusterAlgorithmComparison {
         return points;
     }
 
-    public static List<Cartesian2D> makeMoons(int samples,
+    public static List<Vector2D> makeMoons(int samples,
                                            boolean shuffle,
                                            double noise,
                                            UniformRandomProvider rng) {
-        RealDistribution.Sampler dist = new NormalDistribution(0.0, noise).createSampler(rng);
+        ContinuousDistribution.Sampler dist = new NormalDistribution(0.0, noise).createSampler(rng);
 
         int nSamplesOut = samples / 2;
         int nSamplesIn = samples - nSamplesOut;
         
-        List<Cartesian2D> points = new ArrayList<Cartesian2D>();
+        List<Vector2D> points = new ArrayList<>();
         double range = FastMath.PI;
         double step = range / (nSamplesOut / 2.0);
         for (double angle = 0; angle < range; angle += step) {
-            Cartesian2D outerCircle = new Cartesian2D(FastMath.cos(angle), FastMath.sin(angle));
+            Vector2D outerCircle = Vector2D.of(FastMath.cos(angle), FastMath.sin(angle));
             points.add(outerCircle.add(generateNoiseVector(dist)));
         }
 
         step = range / (nSamplesIn / 2.0);
         for (double angle = 0; angle < range; angle += step) {
-            Cartesian2D innerCircle = new Cartesian2D(1 - FastMath.cos(angle), 1 - FastMath.sin(angle) - 0.5);
+            Vector2D innerCircle = Vector2D.of(1 - FastMath.cos(angle), 1 - FastMath.sin(angle) - 0.5);
             points.add(innerCircle.add(generateNoiseVector(dist)));
         }
         
@@ -120,19 +120,19 @@ public class ClusterAlgorithmComparison {
         return points;
     }
 
-    public static List<Cartesian2D> makeBlobs(int samples,
+    public static List<Vector2D> makeBlobs(int samples,
                                            int centers,
                                            double clusterStd,
                                            double min,
                                            double max,
                                            boolean shuffle,
                                            UniformRandomProvider rng) {
-        RealDistribution.Sampler uniform = new UniformRealDistribution(min, max).createSampler(rng);
-        RealDistribution.Sampler gauss = new NormalDistribution(0.0, clusterStd).createSampler(rng);
+        ContinuousDistribution.Sampler uniform = new UniformContinuousDistribution(min, max).createSampler(rng);
+        ContinuousDistribution.Sampler gauss = new NormalDistribution(0.0, clusterStd).createSampler(rng);
 
-        Cartesian2D[] centerPoints = new Cartesian2D[centers];
+        Vector2D[] centerPoints = new Vector2D[centers];
         for (int i = 0; i < centers; i++) {
-            centerPoints[i] = new Cartesian2D(uniform.sample(), uniform.sample());
+            centerPoints[i] = Vector2D.of(uniform.sample(), uniform.sample());
         }
         
         int[] nSamplesPerCenter = new int[centers];
@@ -143,7 +143,7 @@ public class ClusterAlgorithmComparison {
             nSamplesPerCenter[i]++;
         }
         
-        List<Cartesian2D> points = new ArrayList<Cartesian2D>();
+        List<Vector2D> points = new ArrayList<>();
         for (int i = 0; i < centers; i++) {
             for (int j = 0; j < nSamplesPerCenter[i]; j++) {
                 points.add(centerPoints[i].add(generateNoiseVector(gauss)));
@@ -157,26 +157,26 @@ public class ClusterAlgorithmComparison {
         return points;
     }
     
-    public static List<Cartesian2D> makeRandom(int samples) {
+    public static List<Vector2D> makeRandom(int samples) {
         SobolSequenceGenerator generator = new SobolSequenceGenerator(2);
         generator.skipTo(999999);
-        List<Cartesian2D> points = new ArrayList<Cartesian2D>();
+        List<Vector2D> points = new ArrayList<>();
         for (double i = 0; i < samples; i++) {
             double[] vector = generator.nextVector();
             vector[0] = vector[0] * 2 - 1;
             vector[1] = vector[1] * 2 - 1;
-            Cartesian2D point = new Cartesian2D(vector);
+            Vector2D point = Vector2D.of(vector);
             points.add(point);
         }
         
         return points;
     }
 
-    public static Cartesian2D generateNoiseVector(RealDistribution.Sampler distribution) {
-        return new Cartesian2D(distribution.sample(), distribution.sample());
+    public static Vector2D generateNoiseVector(ContinuousDistribution.Sampler distribution) {
+        return Vector2D.of(distribution.sample(), distribution.sample());
     }
     
-    public static List<DoublePoint> normalize(final List<Cartesian2D> input,
+    public static List<DoublePoint> normalize(final List<Vector2D> input,
                                               double minX,
                                               double maxX,
                                               double minY,
@@ -184,7 +184,7 @@ public class ClusterAlgorithmComparison {
         double rangeX = maxX - minX;
         double rangeY = maxY - minY;
         List<DoublePoint> points = new ArrayList<DoublePoint>();
-        for (Cartesian2D p : input) {
+        for (Vector2D p : input) {
             double[] arr = p.toArray();
             arr[0] = (arr[0] - minX) / rangeX * 2 - 1;
             arr[1] = (arr[1] - minY) / rangeY * 2 - 1;

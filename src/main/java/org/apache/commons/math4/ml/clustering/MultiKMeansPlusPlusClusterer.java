@@ -40,7 +40,7 @@ public class MultiKMeansPlusPlusClusterer<T extends Clusterable> extends Cluster
     private final int numTrials;
 
     /** The cluster evaluator to use. */
-    private final ClusterEvaluator<T> evaluator;
+    private final ClusterRanking<T> evaluator;
 
     /** Build a clusterer.
      * @param clusterer the k-means clusterer to use
@@ -59,36 +59,11 @@ public class MultiKMeansPlusPlusClusterer<T extends Clusterable> extends Cluster
      */
     public MultiKMeansPlusPlusClusterer(final KMeansPlusPlusClusterer<T> clusterer,
                                         final int numTrials,
-                                        final ClusterEvaluator<T> evaluator) {
+                                        final ClusterRanking<T> evaluator) {
         super(clusterer.getDistanceMeasure());
         this.clusterer = clusterer;
         this.numTrials = numTrials;
         this.evaluator = evaluator;
-    }
-
-    /**
-     * Returns the embedded k-means clusterer used by this instance.
-     * @return the embedded clusterer
-     */
-    public KMeansPlusPlusClusterer<T> getClusterer() {
-        return clusterer;
-    }
-
-    /**
-     * Returns the number of trials this instance will do.
-     * @return the number of trials
-     */
-    public int getNumTrials() {
-        return numTrials;
-    }
-
-    /**
-     * Returns the {@link ClusterEvaluator} used to determine the "best" clustering.
-     * @return the used {@link ClusterEvaluator}
-     * @since 3.3
-     */
-    public ClusterEvaluator<T> getClusterEvaluator() {
-       return evaluator;
     }
 
     /**
@@ -108,7 +83,7 @@ public class MultiKMeansPlusPlusClusterer<T extends Clusterable> extends Cluster
 
         // at first, we have not found any clusters list yet
         List<CentroidCluster<T>> best = null;
-        double bestVarianceSum = Double.POSITIVE_INFINITY;
+        double bestRank = Double.NEGATIVE_INFINITY;
 
         // do several clustering trials
         for (int i = 0; i < numTrials; ++i) {
@@ -116,20 +91,17 @@ public class MultiKMeansPlusPlusClusterer<T extends Clusterable> extends Cluster
             // compute a clusters list
             List<CentroidCluster<T>> clusters = clusterer.cluster(points);
 
-            // compute the variance of the current list
-            final double varianceSum = evaluator.score(clusters);
+            // compute the rank of the current list
+            final double rank = evaluator.compute(clusters);
 
-            if (evaluator.isBetterScore(varianceSum, bestVarianceSum)) {
+            if (rank > bestRank) {
                 // this one is the best we have found so far, remember it
-                best            = clusters;
-                bestVarianceSum = varianceSum;
+                best = clusters;
+                bestRank = rank;
             }
-
         }
 
         // return the best clusters list found
         return best;
-
     }
-
 }
