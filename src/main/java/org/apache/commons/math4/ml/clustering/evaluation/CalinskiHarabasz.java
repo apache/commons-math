@@ -19,6 +19,7 @@ package org.apache.commons.math4.ml.clustering.evaluation;
 
 import org.apache.commons.math4.exception.InsufficientDataException;
 import org.apache.commons.math4.ml.clustering.Cluster;
+import org.apache.commons.math4.ml.clustering.ClusterRanking;
 import org.apache.commons.math4.ml.clustering.Clusterable;
 import org.apache.commons.math4.util.MathArrays;
 
@@ -37,22 +38,12 @@ import java.util.List;
  * @see <a href="https://www.tandfonline.com/doi/abs/10.1080/03610927408827101">A dendrite method for cluster
  * analysis</a>
  */
-public class CalinskiHarabasz<T extends Clusterable> extends ClusterEvaluator<T> {
-    /**
-     * Creates a new cluster evaluator.
-     * <p>
-     * It use a sum of square distance measure,
-     * apply on two double[] directly.
-     */
-    public CalinskiHarabasz() {
-        super(null);
-    }
-
+public class CalinskiHarabasz<T extends Clusterable> implements ClusterRanking<T> {
     /**
      * {@inheritDoc}
      */
     @Override
-    public double score(List<? extends Cluster<T>> clusters) {
+    public double compute(List<? extends Cluster<T>> clusters) {
         final int dimension = dimensionOfClusters(clusters);
         final double[] centroid = meanOfClusters(clusters, dimension);
 
@@ -75,21 +66,6 @@ public class CalinskiHarabasz<T extends Clusterable> extends ClusterEvaluator<T>
         return intraDistanceProduct == 0.0 ? 1.0 :
                 (extraDistanceProduct * (pointCount - clusterCount) /
                         (intraDistanceProduct * (clusterCount - 1)));
-    }
-
-    /**
-     * Returns whether the first evaluation score is considered to be better
-     * than the second one by this evaluator.
-     * <p>
-     * larger score is better.
-     *
-     * @param score1 the first score
-     * @param score2 the second score
-     * @return {@code true} if the first score is considered to be better, {@code false} otherwise
-     */
-    @Override
-    public boolean isBetterScore(double score1, double score2) {
-        return score1 > score2;
     }
 
     /**
