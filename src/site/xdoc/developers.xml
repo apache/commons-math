@@ -183,13 +183,12 @@
       Commons math javadoc generation now supports embedded LaTeX formulas via the
       <a href="http://www.mathjax.org">MathJax</a> javascript display engine. To
       embed mathematical expressions formatted in LaTeX in javadoc, simply surround
-      the expression to be formatted with either &#92;( and &#92;) for inline
-      formulas, or &#92;[ and &#92;] to have the formula appear on a separate line.
-      For example, &#92;(a^2 + b^2 = c^2&#92;) will render an in-line formula
-      saying that (a, b, c) is Pythagorean triplet.  Using &#92;[ and &#92;] on
-      the ends will render the same formula on a separate line.  See the MathJax
-      and LaTex documentation for details on how to represent formulas and
-      escape special characters.</li>
+      the expression to be formatted with either <source>\( ... \)</source> for inline
+      formulas, or <source>\[ ... \]</source> to have the formula appear on a separate line.
+      For example, <source>\(a^2 + b^2 = c^2\)</source> will render an inline formula
+      saying that (a, b, c) is Pythagorean triplet: \( a^2 + b^2 = c^2 \).
+      See the MathJax and LaTex documentation for details on how to represent
+      formulas and escape special characters.</li>
      <li>
       Implementations <i>should</i> use standard algorithms and
       references or full descriptions of all algorithms <i>should</i> be 
