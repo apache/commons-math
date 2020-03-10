@@ -29,8 +29,8 @@ public interface ClusterEvaluator {
     /**
      * @param a Score computed by this evaluator.
      * @param b Score computed by this evaluator.
-     * @return true if the evaluator considers score {@code a} is
-     * considered better than score {@code b}.
+     * @return {@code true} if the evaluator considers that score
+     * {@code a} is better than score {@code b}.
      */
     boolean isBetterScore(double a, double b);
 
@@ -42,9 +42,8 @@ public interface ClusterEvaluator {
      * @return a ranking function.
      */
     static <T extends Clusterable> ClusterRanking ranking(ClusterEvaluator eval) {
-        return clusters -> {
-            double score = eval.score(clusters);
-            return eval.isBetterScore(1, 2) ? score : 1 / score;
-        };
+        return eval.isBetterScore(1, 2) ?
+            clusters -> 1 / eval.score(clusters) :
+            clusters -> eval.score(clusters);
     }
 }
