@@ -80,8 +80,7 @@ public class DBSCANClusterer<T extends Clusterable> extends Clusterer<T> {
      * @param minPts minimum number of points needed for a cluster
      * @throws NotPositiveException if {@code eps < 0.0} or {@code minPts < 0}
      */
-    public DBSCANClusterer(final double eps, final int minPts)
-        throws NotPositiveException {
+    public DBSCANClusterer(final double eps, final int minPts) {
         this(eps, minPts, new EuclideanDistance());
     }
 
@@ -93,8 +92,7 @@ public class DBSCANClusterer<T extends Clusterable> extends Clusterer<T> {
      * @param measure the distance measure to use
      * @throws NotPositiveException if {@code eps < 0.0} or {@code minPts < 0}
      */
-    public DBSCANClusterer(final double eps, final int minPts, final DistanceMeasure measure)
-        throws NotPositiveException {
+    public DBSCANClusterer(final double eps, final int minPts, final DistanceMeasure measure) {
         super(measure);
 
         if (eps < 0.0d) {
@@ -131,8 +129,7 @@ public class DBSCANClusterer<T extends Clusterable> extends Clusterer<T> {
      * @throws NullArgumentException if the data points are null
      */
     @Override
-    public List<Cluster<T>> cluster(final Collection<T> points) throws NullArgumentException {
-
+    public List<Cluster<T>> cluster(final Collection<T> points) {
         // sanity checks
         MathUtils.checkNotNull(points);
 

@@ -193,9 +193,7 @@ public class KMeansPlusPlusClusterer<T extends Clusterable> extends Clusterer<T>
      * {@link #emptyStrategy} is set to {@code ERROR}
      */
     @Override
-    public List<CentroidCluster<T>> cluster(final Collection<T> points)
-        throws MathIllegalArgumentException, ConvergenceException {
-
+    public List<CentroidCluster<T>> cluster(final Collection<T> points) {
         // sanity checks
         MathUtils.checkNotNull(points);
 
@@ -410,9 +408,7 @@ public class KMeansPlusPlusClusterer<T extends Clusterable> extends Clusterer<T>
      * @return a random point from the selected cluster
      * @throws ConvergenceException if clusters are all empty
      */
-    private T getPointFromLargestVarianceCluster(final Collection<CentroidCluster<T>> clusters)
-            throws ConvergenceException {
-
+    private T getPointFromLargestVarianceCluster(final Collection<CentroidCluster<T>> clusters) {
         double maxVariance = Double.NEGATIVE_INFINITY;
         Cluster<T> selected = null;
         for (final CentroidCluster<T> cluster : clusters) {
@@ -453,9 +449,7 @@ public class KMeansPlusPlusClusterer<T extends Clusterable> extends Clusterer<T>
      * @return a random point from the selected cluster
      * @throws ConvergenceException if clusters are all empty
      */
-    private T getPointFromLargestNumberCluster(final Collection<? extends Cluster<T>> clusters)
-            throws ConvergenceException {
-
+    private T getPointFromLargestNumberCluster(final Collection<? extends Cluster<T>> clusters) {
         int maxNumber = 0;
         Cluster<T> selected = null;
         for (final Cluster<T> cluster : clusters) {
@@ -489,8 +483,7 @@ public class KMeansPlusPlusClusterer<T extends Clusterable> extends Clusterer<T>
      * @return point farthest to its cluster center
      * @throws ConvergenceException if clusters are all empty
      */
-    private T getFarthestPoint(final Collection<CentroidCluster<T>> clusters) throws ConvergenceException {
-
+    private T getFarthestPoint(final Collection<CentroidCluster<T>> clusters) {
         double maxDistance = Double.NEGATIVE_INFINITY;
         Cluster<T> selectedCluster = null;
         int selectedPoint = -1;
