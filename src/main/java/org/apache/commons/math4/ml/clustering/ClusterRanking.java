@@ -28,12 +28,12 @@ import java.util.List;
  * </ul>
  */
 @FunctionalInterface
-public interface ClusterRanking<T extends Clusterable> {
+public interface ClusterRanking {
     /**
      * Computes the rank (higher is better).
      *
      * @param clusters Clusters to be evaluated.
      * @return the rank of the provided {@code clusters}.
      */
-    double compute(List<? extends Cluster<T>> clusters);
+    double compute(List<? extends Cluster<? extends Clusterable>> clusters);
 }

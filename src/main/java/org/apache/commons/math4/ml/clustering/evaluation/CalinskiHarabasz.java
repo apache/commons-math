@@ -34,23 +34,22 @@ import java.util.List;
  * The score is defined as ratio between the within-cluster dispersion and
  * the between-cluster dispersion.
  *
- * @param <T> the type of the clustered points
  * @see <a href="https://www.tandfonline.com/doi/abs/10.1080/03610927408827101">A dendrite method for cluster
  * analysis</a>
  */
-public class CalinskiHarabasz<T extends Clusterable> implements ClusterEvaluator<T> {
+public class CalinskiHarabasz implements ClusterEvaluator {
     /** {@inheritDoc} */
     @Override
-    public double score(List<? extends Cluster<T>> clusters) {
+    public double score(List<? extends Cluster<? extends Clusterable>> clusters) {
         final int dimension = dimensionOfClusters(clusters);
         final double[] centroid = meanOfClusters(clusters, dimension);
 
         double intraDistanceProduct = 0.0;
         double extraDistanceProduct = 0.0;
-        for (Cluster<T> cluster : clusters) {
+        for (Cluster<? extends Clusterable> cluster : clusters) {
             // Calculate the center of the cluster.
             double[] clusterCentroid = mean(cluster.getPoints(), dimension);
-            for (T p : cluster.getPoints()) {
+            for (Clusterable p : cluster.getPoints()) {
                 // Increase the intra distance sum
                 intraDistanceProduct += covariance(clusterCentroid, p.getPoint());
             }
@@ -100,9 +99,9 @@ public class CalinskiHarabasz<T extends Clusterable> implements ClusterEvaluator
      * @param dimension The dimension of each point
      * @return The mean value.
      */
-    private double[] mean(final Collection<T> points, final int dimension) {
+    private double[] mean(final Collection<? extends Clusterable> points, final int dimension) {
         final double[] centroid = new double[dimension];
-        for (final T p : points) {
+        for (final Clusterable p : points) {
             final double[] point = p.getPoint();
             for (int i = 0; i < centroid.length; i++) {
                 centroid[i] += point[i];
@@ -121,11 +120,11 @@ public class CalinskiHarabasz<T extends Clusterable> implements ClusterEvaluator
      * @param dimension The dimension of each point.
      * @return The mean value.
      */
-    private double[] meanOfClusters(final Collection<? extends Cluster<T>> clusters, final int dimension) {
+    private double[] meanOfClusters(final Collection<? extends Cluster<? extends Clusterable>> clusters, final int dimension) {
         final double[] centroid = new double[dimension];
         int allPointsCount = 0;
-        for (Cluster<T> cluster : clusters) {
-            for (T p : cluster.getPoints()) {
+        for (Cluster<? extends Clusterable> cluster : clusters) {
+            for (Clusterable p : cluster.getPoints()) {
                 double[] point = p.getPoint();
                 for (int i = 0; i < centroid.length; i++) {
                     centroid[i] += point[i];
@@ -145,9 +144,9 @@ public class CalinskiHarabasz<T extends Clusterable> implements ClusterEvaluator
      * @param clusters collection of cluster
      * @return points count
      */
-    private int countAllPoints(final Collection<? extends Cluster<T>> clusters) {
+    private int countAllPoints(final Collection<? extends Cluster<? extends Clusterable>> clusters) {
         int pointCount = 0;
-        for (Cluster<T> cluster : clusters) {
+        for (Cluster<? extends Clusterable> cluster : clusters) {
             pointCount += cluster.getPoints().size();
         }
         return pointCount;
@@ -159,10 +158,10 @@ public class CalinskiHarabasz<T extends Clusterable> implements ClusterEvaluator
      * @param clusters collection of cluster
      * @return The dimension of the first point in clusters
      */
-    private int dimensionOfClusters(final Collection<? extends Cluster<T>> clusters) {
+    private int dimensionOfClusters(final Collection<? extends Cluster<? extends Clusterable>> clusters) {
         // Iteration and find out the first point.
-        for (Cluster<T> cluster : clusters) {
-            for (T p : cluster.getPoints()) {
+        for (Cluster<? extends Clusterable> cluster : clusters) {
+            for (Clusterable p : cluster.getPoints()) {
                 return p.getPoint().length;
             }
         }

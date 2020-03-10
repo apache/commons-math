@@ -33,11 +33,11 @@ import org.junit.Test;
 
 public class SumOfClusterVariancesTest {
 
-    private ClusterEvaluator<DoublePoint> evaluator;
+    private ClusterEvaluator evaluator;
 
     @Before
     public void setUp() {
-        evaluator = new SumOfClusterVariances<>(new EuclideanDistance());
+        evaluator = new SumOfClusterVariances(new EuclideanDistance());
     }
 
     @Test
