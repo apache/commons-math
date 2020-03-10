@@ -39,7 +39,7 @@ public class MultiKMeansPlusPlusClusterer<T extends Clusterable> extends Cluster
     private final int numTrials;
 
     /** The cluster evaluator to use. */
-    private final ClusterRanking<T> evaluator;
+    private final ClusterRanking evaluator;
 
     /** Build a clusterer.
      * @param clusterer the k-means clusterer to use
@@ -49,7 +49,7 @@ public class MultiKMeansPlusPlusClusterer<T extends Clusterable> extends Cluster
                                         final int numTrials) {
         this(clusterer,
              numTrials,
-             ClusterEvaluator.ranking(new SumOfClusterVariances<T>(clusterer.getDistanceMeasure())));
+             ClusterEvaluator.ranking(new SumOfClusterVariances(clusterer.getDistanceMeasure())));
     }
 
     /** Build a clusterer.
@@ -60,7 +60,7 @@ public class MultiKMeansPlusPlusClusterer<T extends Clusterable> extends Cluster
      */
     public MultiKMeansPlusPlusClusterer(final KMeansPlusPlusClusterer<T> clusterer,
                                         final int numTrials,
-                                        final ClusterRanking<T> evaluator) {
+                                        final ClusterRanking evaluator) {
         super(clusterer.getDistanceMeasure());
         this.clusterer = clusterer;
         this.numTrials = numTrials;

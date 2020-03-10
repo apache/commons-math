@@ -19,12 +19,13 @@ package org.apache.commons.math4.ml.clustering;
 
 import java.util.List;
 
-public interface ClusterEvaluator<T extends Clusterable> {
+public interface ClusterEvaluator {
     /**
      * @param cList List of clusters.
      * @return the score attributed by the evaluator.
      */
-    double score(List<? extends Cluster<T>> cList);
+    double score(List<? extends Cluster<? extends Clusterable>> cList);
+
     /**
      * @param a Score computed by this evaluator.
      * @param b Score computed by this evaluator.
@@ -40,11 +41,10 @@ public interface ClusterEvaluator<T extends Clusterable> {
      * @param eval Evaluator function.
      * @return a ranking function.
      */
-    static <T extends Clusterable> ClusterRanking ranking(ClusterEvaluator<T> eval) {
-        if (eval.isBetterScore(1, 2)) {
-            return cList -> 1 / eval.score(cList);
-        } else {
-            return cList -> eval.score(cList);
-        }
+    static <T extends Clusterable> ClusterRanking ranking(ClusterEvaluator eval) {
+        return clusters -> {
+            double score = eval.score(clusters);
+            return eval.isBetterScore(1, 2) ? score : 1 / score;
+        };
     }
 }
