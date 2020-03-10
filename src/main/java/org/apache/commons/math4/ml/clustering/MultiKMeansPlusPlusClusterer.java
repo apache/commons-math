@@ -22,7 +22,6 @@ import java.util.List;
 
 import org.apache.commons.math4.exception.ConvergenceException;
 import org.apache.commons.math4.exception.MathIllegalArgumentException;
-import org.apache.commons.math4.ml.clustering.evaluation.ClusterEvaluator;
 import org.apache.commons.math4.ml.clustering.evaluation.SumOfClusterVariances;
 
 /**
@@ -48,7 +47,9 @@ public class MultiKMeansPlusPlusClusterer<T extends Clusterable> extends Cluster
      */
     public MultiKMeansPlusPlusClusterer(final KMeansPlusPlusClusterer<T> clusterer,
                                         final int numTrials) {
-        this(clusterer, numTrials, new SumOfClusterVariances<T>(clusterer.getDistanceMeasure()));
+        this(clusterer,
+             numTrials,
+             ClusterEvaluator.ranking(new SumOfClusterVariances<T>(clusterer.getDistanceMeasure())));
     }
 
     /** Build a clusterer.

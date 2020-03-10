@@ -26,8 +26,7 @@ import java.util.List;
 
 import org.apache.commons.math4.ml.clustering.Cluster;
 import org.apache.commons.math4.ml.clustering.DoublePoint;
-import org.apache.commons.math4.ml.clustering.evaluation.ClusterEvaluator;
-import org.apache.commons.math4.ml.clustering.evaluation.SumOfClusterVariances;
+import org.apache.commons.math4.ml.clustering.ClusterEvaluator;
 import org.apache.commons.math4.ml.distance.EuclideanDistance;
 import org.junit.Before;
 import org.junit.Test;

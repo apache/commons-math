@@ -21,7 +21,7 @@ import java.util.List;
 
 import org.apache.commons.math4.ml.clustering.Cluster;
 import org.apache.commons.math4.ml.clustering.Clusterable;
-import org.apache.commons.math4.ml.clustering.ClusterRanking;
+import org.apache.commons.math4.ml.clustering.ClusterEvaluator;
 import org.apache.commons.math4.ml.distance.DistanceMeasure;
 import org.apache.commons.math4.stat.descriptive.moment.Variance;
 
@@ -36,14 +36,16 @@ import org.apache.commons.math4.stat.descriptive.moment.Variance;
  * @param <T> the type of the clustered points
  * @since 3.3
  */
-public class SumOfClusterVariances<T extends Clusterable> extends ClusterEvaluator<T>
-    implements ClusterRanking<T> {
+public class SumOfClusterVariances<T extends Clusterable>
+    implements ClusterEvaluator<T> {
+    /** The distance measure to use when evaluating the cluster. */
+    private final DistanceMeasure measure;
 
     /**
-     * @param measure the distance measure to use
+     * @param measure Distance measure.
      */
     public SumOfClusterVariances(final DistanceMeasure measure) {
-        super(measure);
+        this.measure = measure;
     }
 
     /** {@inheritDoc} */
@@ -60,8 +62,8 @@ public class SumOfClusterVariances<T extends Clusterable> extends ClusterEvaluat
                 for (final T point : cluster.getPoints()) {
                     stat.increment(distance(point, center));
                 }
-                varianceSum += stat.getResult();
 
+                varianceSum += stat.getResult();
             }
         }
         return varianceSum;
@@ -69,7 +71,20 @@ public class SumOfClusterVariances<T extends Clusterable> extends ClusterEvaluat
 
     /** {@inheritDoc} */
     @Override
-    public double compute(List<? extends Cluster<T>> clusters) {
-        return 1d / score(clusters);
+    public boolean isBetterScore(double a,
+                                 double b) {
+        return a < b;
+    }
+
+    /**
+     * Calculates the distance between two {@link Clusterable} instances
+     * with the configured {@link DistanceMeasure}.
+     *
+     * @param p1 the first clusterable
+     * @param p2 the second clusterable
+     * @return the distance between the two clusterables
+     */
+    private double distance(final Clusterable p1, final Clusterable p2) {
+        return measure.compute(p1.getPoint(), p2.getPoint());
     }
 }
