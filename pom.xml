@@ -400,6 +400,7 @@
             <exclude>.git/**</exclude>
             <exclude>.checkstyle</exclude>
             <exclude>.ekstazi/**</exclude>
+            <exclude>**/target/**</exclude>
 
           </excludes>
         </configuration>
