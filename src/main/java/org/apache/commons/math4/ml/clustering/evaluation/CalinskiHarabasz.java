@@ -19,7 +19,7 @@ package org.apache.commons.math4.ml.clustering.evaluation;
 
 import org.apache.commons.math4.exception.InsufficientDataException;
 import org.apache.commons.math4.ml.clustering.Cluster;
-import org.apache.commons.math4.ml.clustering.ClusterRanking;
+import org.apache.commons.math4.ml.clustering.ClusterEvaluator;
 import org.apache.commons.math4.ml.clustering.Clusterable;
 import org.apache.commons.math4.util.MathArrays;
 
@@ -38,12 +38,10 @@ import java.util.List;
  * @see <a href="https://www.tandfonline.com/doi/abs/10.1080/03610927408827101">A dendrite method for cluster
  * analysis</a>
  */
-public class CalinskiHarabasz<T extends Clusterable> implements ClusterRanking<T> {
-    /**
-     * {@inheritDoc}
-     */
+public class CalinskiHarabasz<T extends Clusterable> implements ClusterEvaluator<T> {
+    /** {@inheritDoc} */
     @Override
-    public double compute(List<? extends Cluster<T>> clusters) {
+    public double score(List<? extends Cluster<T>> clusters) {
         final int dimension = dimensionOfClusters(clusters);
         final double[] centroid = meanOfClusters(clusters, dimension);
 
@@ -66,6 +64,13 @@ public class CalinskiHarabasz<T extends Clusterable> implements ClusterRanking<T
         return intraDistanceProduct == 0.0 ? 1.0 :
                 (extraDistanceProduct * (pointCount - clusterCount) /
                         (intraDistanceProduct * (clusterCount - 1)));
+    }
+
+    /** {@inheritDoc} */
+    @Override
+    public boolean isBetterScore(double a,
+                                 double b) {
+        return a > b;
     }
 
     /**

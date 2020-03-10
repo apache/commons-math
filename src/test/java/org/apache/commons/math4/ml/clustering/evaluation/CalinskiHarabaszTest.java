@@ -18,7 +18,7 @@
 package org.apache.commons.math4.ml.clustering.evaluation;
 
 import org.apache.commons.math4.ml.clustering.CentroidCluster;
-import org.apache.commons.math4.ml.clustering.ClusterRanking;
+import org.apache.commons.math4.ml.clustering.ClusterEvaluator;
 import org.apache.commons.math4.ml.clustering.DoublePoint;
 import org.apache.commons.math4.ml.clustering.KMeansPlusPlusClusterer;
 import org.apache.commons.math4.ml.distance.DistanceMeasure;
@@ -33,7 +33,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class CalinskiHarabaszTest {
-    private ClusterRanking<DoublePoint> evaluator;
+    private ClusterEvaluator<DoublePoint> evaluator;
     private DistanceMeasure distanceMeasure;
 
     @Before
@@ -65,7 +65,7 @@ public class CalinskiHarabaszTest {
             final int k = i + 2;
             KMeansPlusPlusClusterer<DoublePoint> kMeans = new KMeansPlusPlusClusterer<>(k, -1, distanceMeasure, rnd);
             List<CentroidCluster<DoublePoint>> clusters = kMeans.cluster(points);
-            double score = evaluator.compute(clusters);
+            double score = evaluator.score(clusters);
             if (score > expectBestScore) {
                 expectBestScore = score;
             }
@@ -91,7 +91,7 @@ public class CalinskiHarabaszTest {
             final int k = i + 2;
             KMeansPlusPlusClusterer<DoublePoint> kMeans = new KMeansPlusPlusClusterer<>(k, -1, distanceMeasure, rnd);
             List<CentroidCluster<DoublePoint>> clusters = kMeans.cluster(points);
-            double score = evaluator.compute(clusters);
+            double score = evaluator.score(clusters);
             if (score > expectBestScore) {
                 expectBestScore = score;
             }
