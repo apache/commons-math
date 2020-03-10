@@ -16,5 +16,9 @@
  */
 /**
  * Cluster evaluation methods.
+ *
+ * All evaluators should implement the
+ * {@link org.apache.commons.math4.ml.clustering.ClusterEvaluator}
+ * interface.
  */
 package org.apache.commons.math4.ml.clustering.evaluation;
