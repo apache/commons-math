@@ -33,12 +33,12 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class CalinskiHarabaszTest {
-    private ClusterEvaluator<DoublePoint> evaluator;
+    private ClusterEvaluator evaluator;
     private DistanceMeasure distanceMeasure;
 
     @Before
     public void setUp() {
-        evaluator = new CalinskiHarabasz<>();
+        evaluator = new CalinskiHarabasz();
         distanceMeasure = new EuclideanDistance();
     }
 
