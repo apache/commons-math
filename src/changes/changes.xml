@@ -54,6 +54,9 @@ If the output is not quite correct, check for invisible trailing spaces!
     </release>
 
     <release version="4.0" date="XXXX-XX-XX" description="">
+      <action dev="erans" type="update" issue="MATH-1524" due-to="Chen Tao">
+        Code reuse.
+      </action>
       <action dev="erans" type="fix" issue="MATH-1511">
         Issue in site generation and developers documentation.
       </action>
