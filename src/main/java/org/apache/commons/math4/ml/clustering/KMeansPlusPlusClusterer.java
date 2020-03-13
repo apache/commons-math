@@ -17,23 +17,21 @@
 
 package org.apache.commons.math4.ml.clustering;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.List;
-
 import org.apache.commons.math4.exception.ConvergenceException;
 import org.apache.commons.math4.exception.MathIllegalArgumentException;
 import org.apache.commons.math4.exception.NumberIsTooSmallException;
-import org.apache.commons.math4.exception.util.LocalizedFormats;
+import org.apache.commons.math4.ml.clustering.extractor.LargestVarianceClusterPointExtractor;
 import org.apache.commons.math4.ml.clustering.initialization.CentroidInitializer;
 import org.apache.commons.math4.ml.clustering.initialization.KMeansPlusPlusCentroidInitializer;
 import org.apache.commons.math4.ml.distance.DistanceMeasure;
 import org.apache.commons.math4.ml.distance.EuclideanDistance;
-import org.apache.commons.rng.simple.RandomSource;
-import org.apache.commons.rng.UniformRandomProvider;
-import org.apache.commons.math4.stat.descriptive.moment.Variance;
 import org.apache.commons.math4.util.MathUtils;
+import org.apache.commons.rng.UniformRandomProvider;
+import org.apache.commons.rng.simple.RandomSource;
+
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
 
 /**
  * Clustering algorithm based on David Arthur and Sergei Vassilvitski k-means++ algorithm.
@@ -42,23 +40,6 @@ import org.apache.commons.math4.util.MathUtils;
  * @since 3.2
  */
 public class KMeansPlusPlusClusterer<T extends Clusterable> extends Clusterer<T> {
-
-    /** Strategies to use for replacing an empty cluster. */
-    public enum EmptyClusterStrategy {
-
-        /** Split the cluster with largest distance variance. */
-        LARGEST_VARIANCE,
-
-        /** Split the cluster with largest number of points. */
-        LARGEST_POINTS_NUMBER,
-
-        /** Create a cluster around the point farthest from its centroid. */
-        FARTHEST_POINT,
-
-        /** Generate an error. */
-        ERROR
-
-    }
 
     /** The number of clusters. */
     private final int k;
@@ -70,7 +51,7 @@ public class KMeansPlusPlusClusterer<T extends Clusterable> extends Clusterer<T>
     private final UniformRandomProvider random;
 
     /** Selected strategy for empty clusters. */
-    private final EmptyClusterStrategy emptyStrategy;
+    private final ClustersPointExtractor clustersPointExtractor;
 
     /** Clusters centroids initializer. */
     private final CentroidInitializer centroidInitializer;
@@ -131,7 +112,7 @@ public class KMeansPlusPlusClusterer<T extends Clusterable> extends Clusterer<T>
     public KMeansPlusPlusClusterer(final int k, final int maxIterations,
                                    final DistanceMeasure measure,
                                    final UniformRandomProvider random) {
-        this(k, maxIterations, measure, random, EmptyClusterStrategy.LARGEST_VARIANCE);
+        this(k, maxIterations, measure, random, new LargestVarianceClusterPointExtractor(measure, random));
     }
 
     /** Build a clusterer.
@@ -141,18 +122,18 @@ public class KMeansPlusPlusClusterer<T extends Clusterable> extends Clusterer<T>
      *   If negative, no maximum will be used.
      * @param measure the distance measure to use
      * @param random random generator to use for choosing initial centers
-     * @param emptyStrategy strategy to use for handling empty clusters that
+     * @param clustersPointExtractor strategy to use for handling empty clusters that
      * may appear during algorithm iterations
      */
     public KMeansPlusPlusClusterer(final int k, final int maxIterations,
                                    final DistanceMeasure measure,
                                    final UniformRandomProvider random,
-                                   final EmptyClusterStrategy emptyStrategy) {
+                                   final ClustersPointExtractor clustersPointExtractor) {
         super(measure);
         this.k             = k;
         this.maxIterations = maxIterations;
         this.random        = random;
-        this.emptyStrategy = emptyStrategy;
+        this.clustersPointExtractor = clustersPointExtractor;
         // Use K-means++ to choose the initial centers.
         this.centroidInitializer = new KMeansPlusPlusCentroidInitializer(measure, random);
     }
@@ -182,11 +163,11 @@ public class KMeansPlusPlusClusterer<T extends Clusterable> extends Clusterer<T>
     }
 
     /**
-     * Returns the {@link EmptyClusterStrategy} used by this instance.
-     * @return the {@link EmptyClusterStrategy}
+     * Returns the {@link ClustersPointExtractor} used by this instance.
+     * @return the {@link ClustersPointExtractor}
      */
-    public EmptyClusterStrategy getEmptyClusterStrategy() {
-        return emptyStrategy;
+    public ClustersPointExtractor getClustersPointExtractor() {
+        return clustersPointExtractor;
     }
 
     /**
@@ -197,7 +178,7 @@ public class KMeansPlusPlusClusterer<T extends Clusterable> extends Clusterer<T>
      * @throws MathIllegalArgumentException if the data points are null or the number
      *     of clusters is larger than the number of data points
      * @throws ConvergenceException if an empty cluster is encountered and the
-     * {@link #emptyStrategy} is set to {@code ERROR}
+     * {@link #clustersPointExtractor} is set to ErrorClustersPointExtractor
      */
     @Override
     public List<CentroidCluster<T>> cluster(final Collection<T> points) {
@@ -225,24 +206,12 @@ public class KMeansPlusPlusClusterer<T extends Clusterable> extends Clusterer<T>
             for (final CentroidCluster<T> cluster : clusters) {
                 final Clusterable newCenter;
                 if (cluster.getPoints().isEmpty()) {
-                    switch (emptyStrategy) {
-                        case LARGEST_VARIANCE :
-                            newCenter = getPointFromLargestVarianceCluster(clusters);
-                            break;
-                        case LARGEST_POINTS_NUMBER :
-                            newCenter = getPointFromLargestNumberCluster(clusters);
-                            break;
-                        case FARTHEST_POINT :
-                            newCenter = getFarthestPoint(clusters);
-                            break;
-                        default :
-                            throw new ConvergenceException(LocalizedFormats.EMPTY_CLUSTER_IN_K_MEANS);
-                    }
+                    newCenter = clustersPointExtractor.extract(clusters);
                     emptyCluster = true;
                 } else {
                     newCenter = cluster.centroid();
                 }
-                newClusters.add(new CentroidCluster<T>(newCenter));
+                newClusters.add(new CentroidCluster<>(newCenter));
             }
             int changes = assignPointsToClusters(newClusters, points, assignments);
             clusters = newClusters;
@@ -281,117 +250,6 @@ public class KMeansPlusPlusClusterer<T extends Clusterable> extends Clusterer<T>
         }
 
         return assignedDifferently;
-    }
-
-    /**
-     * Get a random point from the {@link Cluster} with the largest distance variance.
-     *
-     * @param clusters the {@link Cluster}s to search
-     * @return a random point from the selected cluster
-     * @throws ConvergenceException if clusters are all empty
-     */
-    private T getPointFromLargestVarianceCluster(final Collection<CentroidCluster<T>> clusters) {
-        double maxVariance = Double.NEGATIVE_INFINITY;
-        Cluster<T> selected = null;
-        for (final CentroidCluster<T> cluster : clusters) {
-            if (!cluster.getPoints().isEmpty()) {
-
-                // compute the distance variance of the current cluster
-                final Clusterable center = cluster.getCenter();
-                final Variance stat = new Variance();
-                for (final T point : cluster.getPoints()) {
-                    stat.increment(distance(point, center));
-                }
-                final double variance = stat.getResult();
-
-                // select the cluster with the largest variance
-                if (variance > maxVariance) {
-                    maxVariance = variance;
-                    selected = cluster;
-                }
-
-            }
-        }
-
-        // did we find at least one non-empty cluster ?
-        if (selected == null) {
-            throw new ConvergenceException(LocalizedFormats.EMPTY_CLUSTER_IN_K_MEANS);
-        }
-
-        // extract a random point from the cluster
-        final List<T> selectedPoints = selected.getPoints();
-        return selectedPoints.remove(random.nextInt(selectedPoints.size()));
-
-    }
-
-    /**
-     * Get a random point from the {@link Cluster} with the largest number of points
-     *
-     * @param clusters the {@link Cluster}s to search
-     * @return a random point from the selected cluster
-     * @throws ConvergenceException if clusters are all empty
-     */
-    private T getPointFromLargestNumberCluster(final Collection<? extends Cluster<T>> clusters) {
-        int maxNumber = 0;
-        Cluster<T> selected = null;
-        for (final Cluster<T> cluster : clusters) {
-
-            // get the number of points of the current cluster
-            final int number = cluster.getPoints().size();
-
-            // select the cluster with the largest number of points
-            if (number > maxNumber) {
-                maxNumber = number;
-                selected = cluster;
-            }
-
-        }
-
-        // did we find at least one non-empty cluster ?
-        if (selected == null) {
-            throw new ConvergenceException(LocalizedFormats.EMPTY_CLUSTER_IN_K_MEANS);
-        }
-
-        // extract a random point from the cluster
-        final List<T> selectedPoints = selected.getPoints();
-        return selectedPoints.remove(random.nextInt(selectedPoints.size()));
-
-    }
-
-    /**
-     * Get the point farthest to its cluster center
-     *
-     * @param clusters the {@link Cluster}s to search
-     * @return point farthest to its cluster center
-     * @throws ConvergenceException if clusters are all empty
-     */
-    private T getFarthestPoint(final Collection<CentroidCluster<T>> clusters) {
-        double maxDistance = Double.NEGATIVE_INFINITY;
-        Cluster<T> selectedCluster = null;
-        int selectedPoint = -1;
-        for (final CentroidCluster<T> cluster : clusters) {
-
-            // get the farthest point
-            final Clusterable center = cluster.getCenter();
-            final List<T> points = cluster.getPoints();
-            for (int i = 0; i < points.size(); ++i) {
-                final double distance = distance(points.get(i), center);
-                if (distance > maxDistance) {
-                    maxDistance     = distance;
-                    selectedCluster = cluster;
-                    selectedPoint   = i;
-                }
-            }
-
-        }
-
-        // did we find at least one non-empty cluster ?
-        if (selectedCluster == null) {
-            throw new ConvergenceException(LocalizedFormats.EMPTY_CLUSTER_IN_K_MEANS);
-        }
-
-        return selectedCluster.getPoints().remove(selectedPoint);
-
     }
 
     /**

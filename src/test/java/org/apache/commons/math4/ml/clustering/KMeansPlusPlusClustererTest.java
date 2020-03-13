@@ -17,30 +17,33 @@
 
 package org.apache.commons.math4.ml.clustering;
 
+import org.apache.commons.math4.exception.NumberIsTooSmallException;
+import org.apache.commons.math4.ml.clustering.extractor.FarthestPointExtractor;
+import org.apache.commons.math4.ml.clustering.extractor.LargestVarianceClusterPointExtractor;
+import org.apache.commons.math4.ml.clustering.extractor.MostPopularClusterPointExtractor;
+import org.apache.commons.math4.ml.distance.DistanceMeasure;
+import org.apache.commons.math4.ml.distance.EuclideanDistance;
+import org.apache.commons.rng.UniformRandomProvider;
+import org.apache.commons.rng.simple.RandomSource;
+import org.junit.Assert;
+import org.junit.Before;
+import org.junit.Test;
+
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
 
-import org.apache.commons.math4.exception.NumberIsTooSmallException;
-import org.apache.commons.math4.ml.clustering.CentroidCluster;
-import org.apache.commons.math4.ml.clustering.Cluster;
-import org.apache.commons.math4.ml.clustering.DoublePoint;
-import org.apache.commons.math4.ml.clustering.KMeansPlusPlusClusterer;
-import org.apache.commons.math4.ml.distance.EuclideanDistance;
-import org.apache.commons.rng.simple.RandomSource;
-import org.apache.commons.rng.UniformRandomProvider;
-import org.junit.Assert;
-import org.junit.Before;
-import org.junit.Test;
-
 public class KMeansPlusPlusClustererTest {
 
     private UniformRandomProvider random;
 
+    private DistanceMeasure measure;
+
     @Before
     public void setUp() {
-        random = RandomSource.create(RandomSource.MT_64, 1746432956321l);
+        random = RandomSource.create(RandomSource.MT_64, 1746432956321L);
+        measure = new EuclideanDistance();
     }
 
     /**
@@ -68,12 +71,12 @@ public class KMeansPlusPlusClustererTest {
 
     @Test
     public void testCertainSpace() {
-        KMeansPlusPlusClusterer.EmptyClusterStrategy[] strategies = {
-            KMeansPlusPlusClusterer.EmptyClusterStrategy.LARGEST_VARIANCE,
-            KMeansPlusPlusClusterer.EmptyClusterStrategy.LARGEST_POINTS_NUMBER,
-            KMeansPlusPlusClusterer.EmptyClusterStrategy.FARTHEST_POINT
+        ClustersPointExtractor[] strategies = {
+            new LargestVarianceClusterPointExtractor(measure, random),
+            new MostPopularClusterPointExtractor(random),
+            new FarthestPointExtractor(measure)
         };
-        for (KMeansPlusPlusClusterer.EmptyClusterStrategy strategy : strategies) {
+        for (ClustersPointExtractor strategy : strategies) {
             int numberOfVariables = 27;
             // initialise testvalues
             int position1 = 1;
@@ -86,7 +89,7 @@ public class KMeansPlusPlusClustererTest {
             DoublePoint[] breakingPoints = new DoublePoint[numberOfVariables];
             // define the space which will break the cluster algorithm
             for (int i = 0; i < numberOfVariables; i++) {
-                int points[] = { position1, position2, position3, position4 };
+                int[] points = { position1, position2, position3, position4 };
                 // multiply the values
                 for (int j = 0; j < points.length; j++) {
                     points[j] *= multiplier;
@@ -121,7 +124,7 @@ public class KMeansPlusPlusClustererTest {
      * A helper class for testSmallDistances(). This class is similar to DoublePoint, but
      * it defines a different distanceFrom() method that tends to return distances less than 1.
      */
-    private class CloseDistance extends EuclideanDistance {
+    private static class CloseDistance extends EuclideanDistance {
         private static final long serialVersionUID = 1L;
 
         @Override
@@ -164,6 +167,7 @@ public class KMeansPlusPlusClustererTest {
         for (CentroidCluster<DoublePoint> cluster : clusters) {
             if (cluster.getCenter().equals(uniquePoint)) {
                 uniquePointIsCenter = true;
+                break;
             }
         }
         Assert.assertTrue(uniquePointIsCenter);
