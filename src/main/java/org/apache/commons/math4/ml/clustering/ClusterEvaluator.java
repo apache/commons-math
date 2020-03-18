@@ -43,6 +43,7 @@ public interface ClusterEvaluator {
      * Converts to a {@link ClusterRanking ranking function}
      * (as required by clustering implementations).
      *
+     * @param <T> the type of points that can be clustered
      * @param eval Evaluator function.
      * @return a ranking function.
      */
