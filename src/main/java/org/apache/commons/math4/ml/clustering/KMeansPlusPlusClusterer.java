@@ -19,7 +19,6 @@ package org.apache.commons.math4.ml.clustering;
 
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.Collections;
 import java.util.List;
 
 import org.apache.commons.math4.exception.ConvergenceException;
@@ -197,7 +196,7 @@ public class KMeansPlusPlusClusterer<T extends Clusterable> extends Clusterer<T>
      * @throws MathIllegalArgumentException if the data points are null or the number
      *     of clusters is larger than the number of data points
      * @throws ConvergenceException if an empty cluster is encountered and the
-     * {@link #emptyStrategy} is set to {@code ERROR}
+     * empty cluster strategy is set to {@link EmptyClusterStrategy#ERROR}
      */
     @Override
     public List<CentroidCluster<T>> cluster(final Collection<T> points) {
