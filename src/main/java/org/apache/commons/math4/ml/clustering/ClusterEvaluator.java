@@ -19,6 +19,9 @@ package org.apache.commons.math4.ml.clustering;
 
 import java.util.List;
 
+/**
+ * Defines a measure of the quality of clusters.
+ */
 public interface ClusterEvaluator {
     /**
      * @param cList List of clusters.
@@ -27,6 +30,8 @@ public interface ClusterEvaluator {
     double score(List<? extends Cluster<? extends Clusterable>> cList);
 
     /**
+     * Provides a means to interpret the {@link #score(List) score value}.
+     *
      * @param a Score computed by this evaluator.
      * @param b Score computed by this evaluator.
      * @return {@code true} if the evaluator considers that score
@@ -38,6 +43,7 @@ public interface ClusterEvaluator {
      * Converts to a {@link ClusterRanking ranking function}
      * (as required by clustering implementations).
      *
+     * @param <T> the type of points that can be clustered
      * @param eval Evaluator function.
      * @return a ranking function.
      */

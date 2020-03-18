@@ -41,7 +41,6 @@ import org.apache.commons.statistics.distribution.UniformContinuousDistribution;
 import org.apache.commons.statistics.distribution.NormalDistribution;
 import org.apache.commons.geometry.euclidean.twod.Vector2D;
 
-import org.apache.commons.math4.ml.clustering.CentroidCluster;
 import org.apache.commons.math4.ml.clustering.Cluster;
 import org.apache.commons.math4.ml.clustering.Clusterable;
 import org.apache.commons.math4.ml.clustering.Clusterer;
@@ -292,14 +291,12 @@ public class ClusterAlgorithmComparison {
                     g2.fill(new Ellipse2D.Double(arr[0] - 1, arr[1] - 1, 3, 3));
                 }
                 
-                if (cluster instanceof CentroidCluster) {
-                    Clusterable p = transform(((CentroidCluster<?>) cluster).getCenter(), w, h);
-                    double[] arr = p.getPoint();
-                    Shape s = new Ellipse2D.Double(arr[0] - 4, arr[1] - 4, 8, 8); 
-                    g2.fill(s);
-                    g2.setPaint(Color.black);
-                    g2.draw(s);
-                }
+                Clusterable p = transform(cluster.centroid(), w, h);
+                double[] arr = p.getPoint();
+                Shape s = new Ellipse2D.Double(arr[0] - 4, arr[1] - 4, 8, 8);
+                g2.fill(s);
+                g2.setPaint(Color.black);
+                g2.draw(s);
             }
             
             g2.setPaint(Color.black);
