@@ -72,7 +72,7 @@ public class LargestVarianceClusterPointExtractor implements ClustersPointExtrac
             if (!cluster.getPoints().isEmpty()) {
 
                 // compute the distance variance of the current cluster
-                final Clusterable center = cluster.getCenter();
+                final Clusterable center = cluster.centroid();
                 final Variance stat = new Variance();
                 for (final T point : cluster.getPoints()) {
                     stat.increment(distanceMeasure.compute(point.getPoint(), center.getPoint()));

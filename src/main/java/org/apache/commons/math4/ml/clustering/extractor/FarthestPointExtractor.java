@@ -63,7 +63,7 @@ public class FarthestPointExtractor implements ClustersPointExtractor {
         for (final CentroidCluster<T> cluster : clusters) {
 
             // get the farthest point
-            final Clusterable center = cluster.getCenter();
+            final Clusterable center = cluster.centroid();
             final List<T> points = cluster.getPoints();
             for (int i = 0; i < points.size(); ++i) {
                 final double distance = distanceMeasure.compute(points.get(i).getPoint(), center.getPoint());
