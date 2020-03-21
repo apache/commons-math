@@ -189,6 +189,14 @@ public class KMeansPlusPlusClusterer<T extends Clusterable> extends Clusterer<T>
     }
 
     /**
+     * Return the CentroidInitializer used by this instance.
+     * @return the CentroidInitializer
+     */
+    CentroidInitializer getCentroidInitializer() {
+        return centroidInitializer;
+    }
+
+    /**
      * Runs the K-means++ clustering algorithm.
      *
      * @param points the points to cluster
@@ -219,40 +227,49 @@ public class KMeansPlusPlusClusterer<T extends Clusterable> extends Clusterer<T>
         // iterate through updating the centers until we're done
         final int max = (maxIterations < 0) ? Integer.MAX_VALUE : maxIterations;
         for (int count = 0; count < max; count++) {
-            boolean emptyCluster = false;
-            List<CentroidCluster<T>> newClusters = new ArrayList<>();
-            for (final CentroidCluster<T> cluster : clusters) {
-                final Clusterable newCenter;
-                if (cluster.getPoints().isEmpty()) {
-                    switch (emptyStrategy) {
-                        case LARGEST_VARIANCE :
-                            newCenter = getPointFromLargestVarianceCluster(clusters);
-                            break;
-                        case LARGEST_POINTS_NUMBER :
-                            newCenter = getPointFromLargestNumberCluster(clusters);
-                            break;
-                        case FARTHEST_POINT :
-                            newCenter = getFarthestPoint(clusters);
-                            break;
-                        default :
-                            throw new ConvergenceException(LocalizedFormats.EMPTY_CLUSTER_IN_K_MEANS);
-                    }
-                    emptyCluster = true;
-                } else {
-                    newCenter = cluster.centroid();
-                }
-                newClusters.add(new CentroidCluster<T>(newCenter));
-            }
+            boolean hasEmptyCluster = clusters.stream().anyMatch(cluster->cluster.getPoints().isEmpty());
+            List<CentroidCluster<T>> newClusters = adjustClustersCenters(clusters);
             int changes = assignPointsToClusters(newClusters, points, assignments);
             clusters = newClusters;
 
             // if there were no more changes in the point-to-cluster assignment
             // and there are no empty clusters left, return the current clusters
-            if (changes == 0 && !emptyCluster) {
+            if (changes == 0 && !hasEmptyCluster) {
                 return clusters;
             }
         }
         return clusters;
+    }
+
+    /**
+     * Adjust the clusters's centers with means of points
+     * @param clusters the origin clusters
+     * @return adjusted clusters with center points
+     */
+    List<CentroidCluster<T>> adjustClustersCenters(List<CentroidCluster<T>> clusters) {
+        List<CentroidCluster<T>> newClusters = new ArrayList<>();
+        for (final CentroidCluster<T> cluster : clusters) {
+            final Clusterable newCenter;
+            if (cluster.getPoints().isEmpty()) {
+                switch (emptyStrategy) {
+                    case LARGEST_VARIANCE :
+                        newCenter = getPointFromLargestVarianceCluster(clusters);
+                        break;
+                    case LARGEST_POINTS_NUMBER :
+                        newCenter = getPointFromLargestNumberCluster(clusters);
+                        break;
+                    case FARTHEST_POINT :
+                        newCenter = getFarthestPoint(clusters);
+                        break;
+                    default :
+                        throw new ConvergenceException(LocalizedFormats.EMPTY_CLUSTER_IN_K_MEANS);
+                }
+            } else {
+                newCenter = cluster.centroid();
+            }
+            newClusters.add(new CentroidCluster<>(newCenter));
+        }
+        return newClusters;
     }
 
     /**
