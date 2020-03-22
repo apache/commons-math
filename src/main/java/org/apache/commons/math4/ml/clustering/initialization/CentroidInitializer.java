@@ -31,6 +31,7 @@ public interface CentroidInitializer {
     /**
      * Choose the initial centers.
      *
+     * @param <T> Type of points to cluster.
      * @param points the points to choose the initial centers from
      * @param k      The number of clusters
      * @return the initial centers

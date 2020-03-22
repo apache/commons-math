@@ -344,4 +344,11 @@ public class FieldDenseMatrix<T>
 
         return r;
     }
+
+    /** {@inheritDoc} */
+    @Override
+    public int hashCode() {
+        assert false : "hashCode not designed";
+        return 42; // Any arbitrary constant will do.
+    }
 }

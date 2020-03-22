@@ -25,7 +25,6 @@ import java.util.Map;
 import java.util.Set;
 
 import org.apache.commons.math4.exception.NotPositiveException;
-import org.apache.commons.math4.exception.NullArgumentException;
 import org.apache.commons.math4.ml.distance.DistanceMeasure;
 import org.apache.commons.math4.ml.distance.EuclideanDistance;
 import org.apache.commons.math4.util.MathUtils;
@@ -124,9 +123,8 @@ public class DBSCANClusterer<T extends Clusterable> extends Clusterer<T> {
     /**
      * Performs DBSCAN cluster analysis.
      *
-     * @param points the points to cluster
-     * @return the list of clusters
-     * @throws NullArgumentException if the data points are null
+     * @param points Points to cluster (cannot be {@code null}).
+     * @return the list of clusters.
      */
     @Override
     public List<Cluster<T>> cluster(final Collection<T> points) {

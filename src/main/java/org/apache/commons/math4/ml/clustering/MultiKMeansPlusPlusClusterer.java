@@ -20,8 +20,6 @@ package org.apache.commons.math4.ml.clustering;
 import java.util.Collection;
 import java.util.List;
 
-import org.apache.commons.math4.exception.ConvergenceException;
-import org.apache.commons.math4.exception.MathIllegalArgumentException;
 import org.apache.commons.math4.ml.clustering.evaluation.SumOfClusterVariances;
 
 /**
@@ -72,11 +70,12 @@ public class MultiKMeansPlusPlusClusterer<T extends Clusterable> extends Cluster
      *
      * @param points the points to cluster
      * @return a list of clusters containing the points
-     * @throws MathIllegalArgumentException if the data points are null or the number
-     *   of clusters is larger than the number of data points
-     * @throws ConvergenceException if an empty cluster is encountered and the
-     *   underlying {@link KMeansPlusPlusClusterer} has its
-     *   {@link KMeansPlusPlusClusterer.EmptyClusterStrategy} is set to {@code ERROR}.
+     * @throws org.apache.commons.math4.exception.MathIllegalArgumentException if
+     * the data points are null or the number of clusters is larger than the
+     * number of data points
+     * @throws org.apache.commons.math4.exception.ConvergenceException if
+     * an empty cluster is encountered and the underlying {@link KMeansPlusPlusClusterer}
+     * has its {@link KMeansPlusPlusClusterer.EmptyClusterStrategy} is set to {@code ERROR}.
      */
     @Override
     public List<CentroidCluster<T>> cluster(final Collection<T> points) {

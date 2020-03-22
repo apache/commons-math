@@ -22,17 +22,16 @@ import java.util.Collection;
 import java.util.List;
 
 import org.apache.commons.math4.exception.ConvergenceException;
-import org.apache.commons.math4.exception.MathIllegalArgumentException;
 import org.apache.commons.math4.exception.NumberIsTooSmallException;
 import org.apache.commons.math4.exception.util.LocalizedFormats;
 import org.apache.commons.math4.ml.clustering.initialization.CentroidInitializer;
 import org.apache.commons.math4.ml.clustering.initialization.KMeansPlusPlusCentroidInitializer;
 import org.apache.commons.math4.ml.distance.DistanceMeasure;
 import org.apache.commons.math4.ml.distance.EuclideanDistance;
-import org.apache.commons.rng.simple.RandomSource;
-import org.apache.commons.rng.UniformRandomProvider;
 import org.apache.commons.math4.stat.descriptive.moment.Variance;
 import org.apache.commons.math4.util.MathUtils;
+import org.apache.commons.rng.simple.RandomSource;
+import org.apache.commons.rng.UniformRandomProvider;
 
 /**
  * Clustering algorithm based on David Arthur and Sergei Vassilvitski k-means++ algorithm.
@@ -173,36 +172,13 @@ public class KMeansPlusPlusClusterer<T extends Clusterable> extends Clusterer<T>
     }
 
     /**
-     * Returns the random generator this instance will use.
-     * @return the random generator
-     */
-    public UniformRandomProvider getRandomGenerator() {
-        return random;
-    }
-
-    /**
-     * Returns the {@link EmptyClusterStrategy} used by this instance.
-     * @return the {@link EmptyClusterStrategy}
-     */
-    public EmptyClusterStrategy getEmptyClusterStrategy() {
-        return emptyStrategy;
-    }
-
-    /**
-     * Return the CentroidInitializer used by this instance.
-     * @return the CentroidInitializer
-     */
-    CentroidInitializer getCentroidInitializer() {
-        return centroidInitializer;
-    }
-
-    /**
      * Runs the K-means++ clustering algorithm.
      *
      * @param points the points to cluster
      * @return a list of clusters containing the points
-     * @throws MathIllegalArgumentException if the data points are null or the number
-     *     of clusters is larger than the number of data points
+     * @throws org.apache.commons.math4.exception.MathIllegalArgumentException
+     * if the data points are null or the number of clusters is larger than the
+     * number of data points
      * @throws ConvergenceException if an empty cluster is encountered and the
      * empty cluster strategy is set to {@link EmptyClusterStrategy#ERROR}
      */
@@ -239,6 +215,27 @@ public class KMeansPlusPlusClusterer<T extends Clusterable> extends Clusterer<T>
             }
         }
         return clusters;
+    }
+
+    /**
+     * @return the random generator
+     */
+    UniformRandomProvider getRandomGenerator() {
+        return random;
+    }
+
+    /**
+     * @return the {@link EmptyClusterStrategy}
+     */
+    EmptyClusterStrategy getEmptyClusterStrategy() {
+        return emptyStrategy;
+    }
+
+    /**
+     * @return the CentroidInitializer
+     */
+    CentroidInitializer getCentroidInitializer() {
+        return centroidInitializer;
     }
 
     /**

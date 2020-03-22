@@ -21,7 +21,6 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 
-import org.apache.commons.math4.exception.MathIllegalArgumentException;
 import org.apache.commons.math4.exception.MathIllegalStateException;
 import org.apache.commons.math4.exception.NumberIsTooSmallException;
 import org.apache.commons.math4.linear.MatrixUtils;
@@ -258,8 +257,9 @@ public class FuzzyKMeansClusterer<T extends Clusterable> extends Clusterer<T> {
      *
      * @param dataPoints the points to cluster
      * @return the list of clusters
-     * @throws MathIllegalArgumentException if the data points are null or the number
-     *     of clusters is larger than the number of data points
+     * @throws org.apache.commons.math4.exception.MathIllegalArgumentException if
+     * the data points are null or the number of clusters is larger than the number
+     * of data points
      */
     @Override
     public List<CentroidCluster<T>> cluster(final Collection<T> dataPoints) {
