@@ -47,6 +47,7 @@ public class SumOfClusterVariances implements ClusterEvaluator {
     }
 
     /** {@inheritDoc} */
+    @Override
     public double score(List<? extends Cluster<? extends Clusterable>> clusters) {
         double varianceSum = 0.0;
         for (final Cluster<? extends Clusterable> cluster : clusters) {
