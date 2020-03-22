@@ -46,8 +46,7 @@ public class SumOfClusterVariances implements ClusterEvaluator {
         this.measure = measure;
     }
 
-    /** {@inheritDoc}
-     * @param clusters*/
+    /** {@inheritDoc} */
     public double score(List<? extends Cluster<? extends Clusterable>> clusters) {
         double varianceSum = 0.0;
         for (final Cluster<? extends Clusterable> cluster : clusters) {

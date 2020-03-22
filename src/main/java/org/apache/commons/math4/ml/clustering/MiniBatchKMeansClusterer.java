@@ -63,7 +63,7 @@ public class MiniBatchKMeansClusterer<T extends Clusterable> extends KMeansPlusP
      *
      * @param k                     the number of clusters to split the data into
      * @param maxIterations         the maximum number of iterations to run the algorithm for all the points,
-     *                              for mini batch actual iterations <= maxIterations * points.size() / batchSize
+     *                              for mini batch actual {@code iterations <= maxIterations * points.size() / batchSize}.
      *                              If negative, no maximum will be used.
      * @param batchSize             the mini batch size for training iterations.
      * @param initIterations        the iterations to find out the best clusters centers with mini batch.
@@ -74,6 +74,8 @@ public class MiniBatchKMeansClusterer<T extends Clusterable> extends KMeansPlusP
      * @param measure               the distance measure to use, EuclideanDistance is recommended.
      * @param random                random generator to use for choosing initial centers
      *                              may appear during algorithm iterations
+     * @param emptyStrategy Strategy to use for handling empty clusters that
+     * may appear during algorithm iterations.
      */
     public MiniBatchKMeansClusterer(final int k, final int maxIterations, final int batchSize, final int initIterations,
                                     final int initBatchSize, final int maxNoImprovementTimes,
