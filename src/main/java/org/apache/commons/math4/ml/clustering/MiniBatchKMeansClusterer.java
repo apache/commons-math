@@ -119,7 +119,8 @@ public class MiniBatchKMeansClusterer<T extends Clusterable>
         final List<T> pointList = new ArrayList<>(points);
         List<CentroidCluster<T>> clusters = initialCenters(pointList);
 
-        final MiniBatchImprovementEvaluator evaluator = new MiniBatchImprovementEvaluator();
+        final ImprovementEvaluator evaluator = new ImprovementEvaluator(batchSize,
+                                                                        maxNoImprovementTimes);
         for (int i = 0; i < max; i++) {
             clearClustersPoints(clusters);
             final List<T> batchPoints = ListSampler.sample(getRandomGenerator(), pointList, batchSize);
@@ -238,13 +239,28 @@ public class MiniBatchKMeansClusterer<T extends Clusterable>
      * The evaluator checks whether improvement occurred during the
      * {@link #maxNoImprovementTimes allowed number of successive iterations}.
      */
-    private class MiniBatchImprovementEvaluator {
+    private static class ImprovementEvaluator {
+        /** Batch size. */
+        private final int batchSize;
+        /** Maximum number of iterations during which no improvement is occuring. */
+        private final int maxNoImprovementTimes;
         /** Missing doc. */
         private double ewaInertia = Double.NaN;
         /** Missing doc. */
         private double ewaInertiaMin = Double.POSITIVE_INFINITY;
         /** Missing doc. */
         private int noImprovementTimes = 0;
+
+        /**
+         * @param batchSize Number of elements for each batch iteration.
+         * @param maxNoImprovementTimes Maximum number of iterations during
+         * which no improvement is occuring.
+         */
+        private ImprovementEvaluator(int batchSize,
+                                     int maxNoImprovementTimes) {
+            this.batchSize = batchSize;
+            this.maxNoImprovementTimes = maxNoImprovementTimes;
+        }
 
         /**
          * Stopping criterion.
