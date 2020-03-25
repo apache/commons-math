@@ -15,10 +15,10 @@
  * limitations under the License.
  */
 /**
- * Clusters Initialize methods.
+ * Clusters initialization methods.
  *
- * All centroid cluster initializer should implement the
- * {@link org.apache.commons.math4.ml.clustering.initialization.CentroidInitializer}
+ * Centroid cluster initializers should implement the
+ * {@link org.apache.commons.math4.ml.clustering.initialization.CentroidInitializer CentroidInitializer}
  * interface.
  */
 package org.apache.commons.math4.ml.clustering.initialization;
