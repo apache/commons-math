@@ -244,11 +244,14 @@ public class MiniBatchKMeansClusterer<T extends Clusterable>
         private final int batchSize;
         /** Maximum number of iterations during which no improvement is occuring. */
         private final int maxNoImprovementTimes;
-        /** Missing doc. */
+        /** Exponentially Weighted Average of the squared
+         * diff to monitor the convergence while discarding
+         * minibatch-local stochastic variability:
+         * <a href="https://en.wikipedia.org/wiki/Moving_average">Moving_average</a>. */
         private double ewaInertia = Double.NaN;
-        /** Missing doc. */
+        /** Minimum value of ewaInertia during previous evaluators. */
         private double ewaInertiaMin = Double.POSITIVE_INFINITY;
-        /** Missing doc. */
+        /** Continuous ewaInertia has no improvement times. */
         private int noImprovementTimes = 0;
 
         /**
