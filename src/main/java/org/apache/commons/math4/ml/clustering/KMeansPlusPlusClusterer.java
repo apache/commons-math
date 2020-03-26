@@ -58,7 +58,7 @@ public class KMeansPlusPlusClusterer<T extends Clusterable> extends Clusterer<T>
     }
 
     /** The number of clusters. */
-    private final int k;
+    private final int numberOfClusters;
 
     /** The maximum number of iterations. */
     private final int maxIterations;
@@ -143,7 +143,7 @@ public class KMeansPlusPlusClusterer<T extends Clusterable> extends Clusterer<T>
                                    final UniformRandomProvider random,
                                    final EmptyClusterStrategy emptyStrategy) {
         super(measure);
-        this.k             = k;
+        this.numberOfClusters = k;
         this.maxIterations = maxIterations;
         this.random        = random;
         this.emptyStrategy = emptyStrategy;
@@ -153,8 +153,8 @@ public class KMeansPlusPlusClusterer<T extends Clusterable> extends Clusterer<T>
      * Return the number of clusters this instance will use.
      * @return the number of clusters
      */
-    public int getK() {
-        return k;
+    public int getNumberOfClusters() {
+        return numberOfClusters;
     }
 
     /**
@@ -182,8 +182,8 @@ public class KMeansPlusPlusClusterer<T extends Clusterable> extends Clusterer<T>
         MathUtils.checkNotNull(points);
 
         // number of clusters has to be smaller or equal the number of data points
-        if (points.size() < k) {
-            throw new NumberIsTooSmallException(points.size(), k, false);
+        if (points.size() < numberOfClusters) {
+            throw new NumberIsTooSmallException(points.size(), numberOfClusters, false);
         }
 
         // create the initial clusters
@@ -328,7 +328,7 @@ public class KMeansPlusPlusClusterer<T extends Clusterable> extends Clusterer<T>
             }
         }
 
-        while (resultSet.size() < k) {
+        while (resultSet.size() < numberOfClusters) {
 
             // Sum up the squared distances for the points in pointList not
             // already taken.
@@ -382,7 +382,7 @@ public class KMeansPlusPlusClusterer<T extends Clusterable> extends Clusterer<T>
                 // Mark it as taken.
                 taken[nextPointIndex] = true;
 
-                if (resultSet.size() < k) {
+                if (resultSet.size() < numberOfClusters) {
                     // Now update elements of minDistSquared.  We only have to compute
                     // the distance to the new center to do this.
                     for (int j = 0; j < numPoints; j++) {

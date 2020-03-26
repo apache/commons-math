@@ -106,8 +106,8 @@ public class MiniBatchKMeansClusterer<T extends Clusterable>
     public List<CentroidCluster<T>> cluster(final Collection<T> points) {
         // Sanity check.
         MathUtils.checkNotNull(points);
-        if (points.size() < getK()) {
-            throw new NumberIsTooSmallException(points.size(), getK(), false);
+        if (points.size() < getNumberOfClusters()) {
+            throw new NumberIsTooSmallException(points.size(), getNumberOfClusters(), false);
         }
 
         final int pointSize = points.size();
