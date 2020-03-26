@@ -195,7 +195,7 @@ public class MiniBatchKMeansClusterer<T extends Clusterable>
             final List<T> initialPoints = (initBatchSize < points.size()) ?
                 ListSampler.sample(getRandomGenerator(), points, initBatchSize) :
                 new ArrayList<>(points);
-            final List<CentroidCluster<T>> clusters = getCentroidInitializer().selectCentroids(initialPoints, getK());
+            final List<CentroidCluster<T>> clusters = chooseInitialCenters(initialPoints);
             final Pair<Double, List<CentroidCluster<T>>> pair = step(validPoints, clusters);
             final double squareDistance = pair.getFirst();
             final List<CentroidCluster<T>> newClusters = pair.getSecond();
