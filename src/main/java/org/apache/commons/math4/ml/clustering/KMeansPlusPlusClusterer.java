@@ -17,21 +17,20 @@
 
 package org.apache.commons.math4.ml.clustering;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.List;
-
 import org.apache.commons.math4.exception.ConvergenceException;
 import org.apache.commons.math4.exception.NumberIsTooSmallException;
 import org.apache.commons.math4.exception.util.LocalizedFormats;
-import org.apache.commons.math4.ml.clustering.initialization.CentroidInitializer;
-import org.apache.commons.math4.ml.clustering.initialization.KMeansPlusPlusCentroidInitializer;
 import org.apache.commons.math4.ml.distance.DistanceMeasure;
 import org.apache.commons.math4.ml.distance.EuclideanDistance;
 import org.apache.commons.math4.stat.descriptive.moment.Variance;
 import org.apache.commons.math4.util.MathUtils;
-import org.apache.commons.rng.simple.RandomSource;
 import org.apache.commons.rng.UniformRandomProvider;
+import org.apache.commons.rng.simple.RandomSource;
+
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.List;
 
 /**
  * Clustering algorithm based on David Arthur and Sergei Vassilvitski k-means++ algorithm.
@@ -59,7 +58,7 @@ public class KMeansPlusPlusClusterer<T extends Clusterable> extends Clusterer<T>
     }
 
     /** The number of clusters. */
-    private final int k;
+    private final int numberOfClusters;
 
     /** The maximum number of iterations. */
     private final int maxIterations;
@@ -69,9 +68,6 @@ public class KMeansPlusPlusClusterer<T extends Clusterable> extends Clusterer<T>
 
     /** Selected strategy for empty clusters. */
     private final EmptyClusterStrategy emptyStrategy;
-
-    /** Clusters centroids initializer. */
-    private final CentroidInitializer centroidInitializer;
 
     /** Build a clusterer.
      * <p>
@@ -147,20 +143,18 @@ public class KMeansPlusPlusClusterer<T extends Clusterable> extends Clusterer<T>
                                    final UniformRandomProvider random,
                                    final EmptyClusterStrategy emptyStrategy) {
         super(measure);
-        this.k             = k;
+        this.numberOfClusters = k;
         this.maxIterations = maxIterations;
         this.random        = random;
         this.emptyStrategy = emptyStrategy;
-        // Use K-means++ to choose the initial centers.
-        this.centroidInitializer = new KMeansPlusPlusCentroidInitializer(measure, random);
     }
 
     /**
      * Return the number of clusters this instance will use.
      * @return the number of clusters
      */
-    public int getK() {
-        return k;
+    public int getNumberOfClusters() {
+        return numberOfClusters;
     }
 
     /**
@@ -188,12 +182,12 @@ public class KMeansPlusPlusClusterer<T extends Clusterable> extends Clusterer<T>
         MathUtils.checkNotNull(points);
 
         // number of clusters has to be smaller or equal the number of data points
-        if (points.size() < k) {
-            throw new NumberIsTooSmallException(points.size(), k, false);
+        if (points.size() < numberOfClusters) {
+            throw new NumberIsTooSmallException(points.size(), numberOfClusters, false);
         }
 
         // create the initial clusters
-        List<CentroidCluster<T>> clusters = centroidInitializer.selectCentroids(points, k);
+        List<CentroidCluster<T>> clusters = chooseInitialCenters(points);
 
         // create an array containing the latest assignment of a point to a cluster
         // no need to initialize the array, as it will be filled with the first assignment
@@ -229,13 +223,6 @@ public class KMeansPlusPlusClusterer<T extends Clusterable> extends Clusterer<T>
      */
     EmptyClusterStrategy getEmptyClusterStrategy() {
         return emptyStrategy;
-    }
-
-    /**
-     * @return the CentroidInitializer
-     */
-    CentroidInitializer getCentroidInitializer() {
-        return centroidInitializer;
     }
 
     /**
@@ -294,6 +281,131 @@ public class KMeansPlusPlusClusterer<T extends Clusterable> extends Clusterer<T>
         }
 
         return assignedDifferently;
+    }
+
+    /**
+     * Use K-means++ to choose the initial centers.
+     *
+     * @param points the points to choose the initial centers from
+     * @return the initial centers
+     */
+    List<CentroidCluster<T>> chooseInitialCenters(final Collection<T> points) {
+
+        // Convert to list for indexed access. Make it unmodifiable, since removal of items
+        // would screw up the logic of this method.
+        final List<T> pointList = Collections.unmodifiableList(new ArrayList<> (points));
+
+        // The number of points in the list.
+        final int numPoints = pointList.size();
+
+        // Set the corresponding element in this array to indicate when
+        // elements of pointList are no longer available.
+        final boolean[] taken = new boolean[numPoints];
+
+        // The resulting list of initial centers.
+        final List<CentroidCluster<T>> resultSet = new ArrayList<>();
+
+        // Choose one center uniformly at random from among the data points.
+        final int firstPointIndex = random.nextInt(numPoints);
+
+        final T firstPoint = pointList.get(firstPointIndex);
+
+        resultSet.add(new CentroidCluster<T>(firstPoint));
+
+        // Must mark it as taken
+        taken[firstPointIndex] = true;
+
+        // To keep track of the minimum distance squared of elements of
+        // pointList to elements of resultSet.
+        final double[] minDistSquared = new double[numPoints];
+
+        // Initialize the elements.  Since the only point in resultSet is firstPoint,
+        // this is very easy.
+        for (int i = 0; i < numPoints; i++) {
+            if (i != firstPointIndex) { // That point isn't considered
+                double d = distance(firstPoint, pointList.get(i));
+                minDistSquared[i] = d*d;
+            }
+        }
+
+        while (resultSet.size() < numberOfClusters) {
+
+            // Sum up the squared distances for the points in pointList not
+            // already taken.
+            double distSqSum = 0.0;
+
+            for (int i = 0; i < numPoints; i++) {
+                if (!taken[i]) {
+                    distSqSum += minDistSquared[i];
+                }
+            }
+
+            // Add one new data point as a center. Each point x is chosen with
+            // probability proportional to D(x)2
+            final double r = random.nextDouble() * distSqSum;
+
+            // The index of the next point to be added to the resultSet.
+            int nextPointIndex = -1;
+
+            // Sum through the squared min distances again, stopping when
+            // sum >= r.
+            double sum = 0.0;
+            for (int i = 0; i < numPoints; i++) {
+                if (!taken[i]) {
+                    sum += minDistSquared[i];
+                    if (sum >= r) {
+                        nextPointIndex = i;
+                        break;
+                    }
+                }
+            }
+
+            // If it's not set to >= 0, the point wasn't found in the previous
+            // for loop, probably because distances are extremely small.  Just pick
+            // the last available point.
+            if (nextPointIndex == -1) {
+                for (int i = numPoints - 1; i >= 0; i--) {
+                    if (!taken[i]) {
+                        nextPointIndex = i;
+                        break;
+                    }
+                }
+            }
+
+            // We found one.
+            if (nextPointIndex >= 0) {
+
+                final T p = pointList.get(nextPointIndex);
+
+                resultSet.add(new CentroidCluster<T> (p));
+
+                // Mark it as taken.
+                taken[nextPointIndex] = true;
+
+                if (resultSet.size() < numberOfClusters) {
+                    // Now update elements of minDistSquared.  We only have to compute
+                    // the distance to the new center to do this.
+                    for (int j = 0; j < numPoints; j++) {
+                        // Only have to worry about the points still not taken.
+                        if (!taken[j]) {
+                            double d = distance(p, pointList.get(j));
+                            double d2 = d * d;
+                            if (d2 < minDistSquared[j]) {
+                                minDistSquared[j] = d2;
+                            }
+                        }
+                    }
+                }
+
+            } else {
+                // None found --
+                // Break from the while loop to prevent
+                // an infinite loop.
+                break;
+            }
+        }
+
+        return resultSet;
     }
 
     /**
