@@ -36,7 +36,13 @@ import org.apache.commons.numbers.core.Precision;
  * <p>
  * This implementation is based on the Akima implementation in the CubicSpline
  * class in the Math.NET Numerics library. The method referenced is
- * CubicSpline.InterpolateAkimaSorted
+ * "CubicSpline.InterpolateAkimaSorted".
+ * </p>
+ * <p>
+ * When the {@link #AkimaSplineInterpolator(boolean) argument to the constructor}
+ * is {@code true}, the weights are modified in order to
+ * <a href="https://nl.mathworks.com/help/matlab/ref/makima.html">smooth out
+ * spurious oscillations</a>.
  * </p>
  * <p>
  * The {@link #interpolate(double[], double[]) interpolate} method returns a
@@ -49,6 +55,24 @@ public class AkimaSplineInterpolator
     implements UnivariateInterpolator {
     /** The minimum number of points that are needed to compute the function. */
     private static final int MINIMUM_NUMBER_POINTS = 5;
+    /** Whether to use the "modified Akima" interpolation. */
+    private final boolean useModified;
+
+    /**
+     * Uses the original Akima algorithm.
+     */
+    public AkimaSplineInterpolator() {
+        this(false);
+    }
+
+    /**
+     * @param useModified Whether to use the
+     * <a href="https://nl.mathworks.com/help/matlab/ref/makima.html">modified Akima</a>
+     * interpolation.
+     */
+    public AkimaSplineInterpolator(boolean useModified) {
+        this.useModified = useModified;
+    }
 
     /**
      * Computes an interpolating function for the data set.
@@ -95,8 +119,16 @@ public class AkimaSplineInterpolator
             differences[i] = (yvals[i + 1] - yvals[i]) / (xvals[i + 1] - xvals[i]);
         }
 
-        for (int i = 1; i < weights.length; i++) {
-            weights[i] = FastMath.abs(differences[i] - differences[i - 1]);
+        if (useModified) {
+            for (int i = 1; i < weights.length; i++) {
+                final double a = differences[i];
+                final double b = differences[i - 1];
+                weights[i] = FastMath.abs(a - b) + 0.5 * FastMath.abs(a + b);
+            }
+        } else {
+            for (int i = 1; i < weights.length; i++) {
+                weights[i] = FastMath.abs(differences[i] - differences[i - 1]);
+            }
         }
 
         // Prepare Hermite interpolation scheme.

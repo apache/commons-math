@@ -187,6 +187,41 @@ public class AkimaSplineInterpolatorTest
                            maxTolerance );
     }
 
+    @Test
+    public void testOriginalVsModified() {
+        final UnivariateFunction f = new UnivariateFunction() {
+            @Override
+            public double value(double x) {
+                return x < -1 ? -1 :
+                    x < 1 ? x : 1;
+            }
+        };
+
+        final double[] xS = new double[] {-1, 0, 1, 2, 3 };
+        final double[] yS = new double[xS.length];
+
+        for (int i = 0; i < xS.length; i++) {
+            yS[i] = f.value(xS[i]);
+        }
+
+        final UnivariateFunction iOriginal = new AkimaSplineInterpolator(false).interpolate(xS, yS);
+        final UnivariateFunction iModified = new AkimaSplineInterpolator(true).interpolate(xS, yS);
+
+        final int n = 100;
+        final double delta = 1d / n;
+        for (int i = 1; i < n - 1; i++) {
+            final double x = 2 - i * delta;
+
+            final double value = f.value(x);
+            final double diffOriginal = Math.abs(iOriginal.value(x) - value);
+            final double diffModified = Math.abs(iModified.value(x) - value);
+
+            // In interval (1, 2), the modified algorithm eliminates interpolation artefacts.
+            Assert.assertTrue(diffOriginal > 0);
+            Assert.assertEquals(0d, diffModified, 0d);
+        }
+    }
+
     private void testInterpolation( double minimumX, double maximumX, int numberOfElements, int numberOfSamples,
                                     UnivariateFunction f, double tolerance, double maxTolerance )
     {
