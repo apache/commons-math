@@ -19,9 +19,6 @@ package org.apache.commons.math4.analysis.solvers;
 
 import org.apache.commons.math4.analysis.UnivariateFunction;
 import org.apache.commons.math4.exception.MaxCountExceededException;
-import org.apache.commons.math4.exception.NoBracketingException;
-import org.apache.commons.math4.exception.NullArgumentException;
-import org.apache.commons.math4.exception.NumberIsTooLargeException;
 import org.apache.commons.math4.exception.TooManyEvaluationsException;
 import org.apache.commons.math4.util.IntegerSequence;
 import org.apache.commons.math4.util.MathUtils;
@@ -173,7 +170,8 @@ public abstract class BaseAbstractUnivariateSolver<FUNC extends UnivariateFuncti
      * @param max Upper bound for the interval.
      * @param startValue Start value to use.
      * @param maxEval Maximum number of evaluations.
-     * @exception NullArgumentException if f is null
+     * @throws org.apache.commons.math4.exception.NullArgumentException
+     * if {@code f} is {@code null}.
      */
     protected void setup(int maxEval,
                          FUNC f,
@@ -220,8 +218,9 @@ public abstract class BaseAbstractUnivariateSolver<FUNC extends UnivariateFuncti
      * @return the root.
      * @throws TooManyEvaluationsException if the maximal number of evaluations
      * is exceeded.
-     * @throws NoBracketingException if the initial search interval does not bracket
-     * a root and the solver requires it.
+     * @throws org.apache.commons.math4.exception.NoBracketingException
+     * if the initial search interval does not bracket a root and the
+     * solver requires it.
      */
     protected abstract double doSolve();
 
@@ -257,7 +256,8 @@ public abstract class BaseAbstractUnivariateSolver<FUNC extends UnivariateFuncti
      *
      * @param lower Lower endpoint.
      * @param upper Upper endpoint.
-     * @throws NumberIsTooLargeException if {@code lower >= upper}.
+     * @throws org.apache.commons.math4.exception.NumberIsTooLargeException
+     * if {@code lower >= upper}.
      */
     protected void verifyInterval(final double lower,
                                   final double upper) {
@@ -270,8 +270,8 @@ public abstract class BaseAbstractUnivariateSolver<FUNC extends UnivariateFuncti
      * @param lower Lower endpoint.
      * @param initial Initial value.
      * @param upper Upper endpoint.
-     * @throws NumberIsTooLargeException if {@code lower >= initial} or
-     * {@code initial >= upper}.
+     * @throws org.apache.commons.math4.exception.NumberIsTooLargeException
+     * if {@code lower >= initial} or {@code initial >= upper}.
      */
     protected void verifySequence(final double lower,
                                   final double initial,
@@ -285,9 +285,10 @@ public abstract class BaseAbstractUnivariateSolver<FUNC extends UnivariateFuncti
      *
      * @param lower Lower endpoint.
      * @param upper Upper endpoint.
-     * @throws NullArgumentException if the function has not been set.
-     * @throws NoBracketingException if the function has the same sign at
-     * the endpoints.
+     * @throws org.apache.commons.math4.exception.NullArgumentException
+     * if the function has not been set.
+     * @throws org.apache.commons.math4.exception.NoBracketingException
+     * if the function has the same sign at the endpoints.
      */
     protected void verifyBracketing(final double lower,
                                     final double upper) {

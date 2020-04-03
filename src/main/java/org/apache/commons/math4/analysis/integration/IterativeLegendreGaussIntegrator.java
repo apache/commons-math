@@ -19,10 +19,7 @@ package org.apache.commons.math4.analysis.integration;
 import org.apache.commons.math4.analysis.UnivariateFunction;
 import org.apache.commons.math4.analysis.integration.gauss.GaussIntegrator;
 import org.apache.commons.math4.analysis.integration.gauss.GaussIntegratorFactory;
-import org.apache.commons.math4.exception.MathIllegalArgumentException;
-import org.apache.commons.math4.exception.MaxCountExceededException;
 import org.apache.commons.math4.exception.NotStrictlyPositiveException;
-import org.apache.commons.math4.exception.NumberIsTooSmallException;
 import org.apache.commons.math4.exception.TooManyEvaluationsException;
 import org.apache.commons.math4.exception.util.LocalizedFormats;
 import org.apache.commons.math4.util.FastMath;
@@ -62,8 +59,9 @@ public class IterativeLegendreGaussIntegrator
      * @param maximalIterationCount Maximum number of iterations.
      * @throws NotStrictlyPositiveException if minimal number of iterations
      * or number of points are not strictly positive.
-     * @throws NumberIsTooSmallException if maximal number of iterations
-     * is smaller than or equal to the minimal number of iterations.
+     * @throws org.apache.commons.math4.exception.NumberIsTooSmallException
+     * if the maximal number of iterations is smaller than or equal to the
+     * minimal number of iterations.
      */
     public IterativeLegendreGaussIntegrator(final int n,
                                             final double relativeAccuracy,
@@ -100,8 +98,9 @@ public class IterativeLegendreGaussIntegrator
      * @param maximalIterationCount Maximum number of iterations.
      * @throws NotStrictlyPositiveException if minimal number of iterations
      * is not strictly positive.
-     * @throws NumberIsTooSmallException if maximal number of iterations
-     * is smaller than or equal to the minimal number of iterations.
+     * @throws org.apache.commons.math4.exception.NumberIsTooSmallException
+     * if the maximal number of iterations is smaller than or equal to the
+     * minimal number of iterations.
      * @throws NotStrictlyPositiveException if {@code n < 1}.
      */
     public IterativeLegendreGaussIntegrator(final int n,

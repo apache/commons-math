@@ -18,10 +18,8 @@ package org.apache.commons.math4.analysis.integration;
 
 import org.apache.commons.math4.analysis.UnivariateFunction;
 import org.apache.commons.math4.analysis.solvers.UnivariateSolverUtils;
-import org.apache.commons.math4.exception.MathIllegalArgumentException;
 import org.apache.commons.math4.exception.MaxCountExceededException;
 import org.apache.commons.math4.exception.NotStrictlyPositiveException;
-import org.apache.commons.math4.exception.NullArgumentException;
 import org.apache.commons.math4.exception.NumberIsTooSmallException;
 import org.apache.commons.math4.exception.TooManyEvaluationsException;
 import org.apache.commons.math4.util.IntegerSequence;
@@ -227,8 +225,10 @@ public abstract class BaseAbstractUnivariateIntegrator implements UnivariateInte
      * @param f the integrand function
      * @param lower the min bound for the interval
      * @param upper the upper bound for the interval
-     * @throws NullArgumentException if {@code f} is {@code null}.
-     * @throws MathIllegalArgumentException if {@code min >= max}.
+     * @throws org.apache.commons.math4.exception.NullArgumentException
+     * if {@code f} is {@code null}.
+     * @throws org.apache.commons.math4.exception.MathIllegalArgumentException
+     * if {@code min >= max}.
      */
     protected void setup(final int maxEval,
                          final UnivariateFunction f,

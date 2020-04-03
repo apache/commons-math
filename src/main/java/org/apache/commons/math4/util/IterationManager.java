@@ -19,8 +19,6 @@ package org.apache.commons.math4.util;
 import java.util.Collection;
 import java.util.concurrent.CopyOnWriteArrayList;
 
-import org.apache.commons.math4.exception.MaxCountExceededException;
-
 /**
  * This abstract class provides a general framework for managing iterative
  * algorithms. The maximum number of iterations can be set, and methods are
@@ -42,8 +40,8 @@ public class IterationManager {
      * Creates a new instance of this class.
      *
      * @param maxIterations Maximum number of iterations.
-     * {@link MaxCountExceededException} will be raised at
-     * counter exhaustion.
+     * {@link org.apache.commons.math4.exception.MaxCountExceededException}
+     * will be raised at counter exhaustion.
      */
     public IterationManager(final int maxIterations) {
         this(maxIterations, null);
@@ -55,8 +53,8 @@ public class IterationManager {
      * @param maxIterations the maximum number of iterations
      * @param callback the function to be called when the maximum number of
      * iterations has been reached.
-     * If {@code null}, {@link MaxCountExceededException} will be raised at
-     * counter exhaustion.
+     * If {@code null}, {@link org.apache.commons.math4.exception.MaxCountExceededException}
+     * will be raised at counter exhaustion.
      *
      * @since 3.1
      */
@@ -149,8 +147,8 @@ public class IterationManager {
      * maximum number of iterations is reached. This method should be called at
      * the beginning of a new iteration.
      *
-     * @throws MaxCountExceededException if the maximum number of iterations is
-     * reached.
+     * @throws org.apache.commons.math4.exception.MaxCountExceededException
+     * if the maximum number of iterations is reached.
      */
     public void incrementIterationCount() {
         iterations.increment();
