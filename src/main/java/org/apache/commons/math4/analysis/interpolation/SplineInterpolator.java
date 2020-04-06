@@ -89,8 +89,6 @@ public class SplineInterpolator implements UnivariateInterpolator {
 
         final double[] mu = new double[n];
         final double[] z = new double[n + 1];
-        mu[0] = 0d;
-        z[0] = 0d;
         double g = 0;
         for (int i = 1; i < n; i++) {
             g = 2d * (x[i+1]  - x[i - 1]) - h[i - 1] * mu[i -1];
@@ -103,9 +101,6 @@ public class SplineInterpolator implements UnivariateInterpolator {
         final double[] b = new double[n];
         final double[] c = new double[n + 1];
         final double[] d = new double[n];
-
-        z[n] = 0d;
-        c[n] = 0d;
 
         for (int j = n -1; j >=0; j--) {
             c[j] = z[j] - mu[j] * c[j + 1];
