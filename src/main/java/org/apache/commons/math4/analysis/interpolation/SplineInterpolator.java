@@ -106,7 +106,7 @@ public class SplineInterpolator implements UnivariateInterpolator {
         final double[] c = new double[n + 1];
         final double[] d = new double[n];
 
-        for (int j = n -1; j >=0; j--) {
+        for (int j = n - 1; j >= 0; j--) {
             final double cJp1 = c[j + 1];
             final double cJ = z[j] - mu[j] * cJp1;
             final double hJ = h[j];
