@@ -90,15 +90,22 @@ public class SplineInterpolator implements UnivariateInterpolator {
         final double[] mu = new double[n];
         final double[] z = new double[n + 1];
         double g = 0;
-        for (int i = 1; i < n; i++) {
-            final double xIp1 = x[i + 1];
-            final double xIm1 = x[i - 1];
-            final double hIm1 = h[i - 1];
-            final double hI = h[i];
-            g = 2d * (xIp1  - xIm1) - hIm1 * mu[i -1];
-            mu[i] = hI / g;
-            z[i] = (3d * (y[i + 1] * hIm1 - y[i] * (xIp1 - xIm1)+ y[i - 1] * hI) /
-                    (hIm1 * hI) - hIm1 * z[i - 1]) / g;
+        int indexM1 = 0;
+        int index = 1;
+        int indexP1 = 2;
+        while (index < n) {
+            final double xIp1 = x[indexP1];
+            final double xIm1 = x[indexM1];
+            final double hIm1 = h[indexM1];
+            final double hI = h[index];
+            g = 2d * (xIp1 - xIm1) - hIm1 * mu[indexM1];
+            mu[index] = hI / g;
+            z[index] = (3d * (y[indexP1] * hIm1 - y[index] * (xIp1 - xIm1)+ y[indexM1] * hI) /
+                        (hIm1 * hI) - hIm1 * z[indexM1]) / g;
+
+            indexM1 = index;
+            index = indexP1;
+            indexP1 = indexP1 + 1;
         }
 
         // cubic spline coefficients --  b is linear, c quadratic, d is cubic (original y's are constants)
