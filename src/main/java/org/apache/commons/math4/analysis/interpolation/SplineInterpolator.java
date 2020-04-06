@@ -91,10 +91,14 @@ public class SplineInterpolator implements UnivariateInterpolator {
         final double[] z = new double[n + 1];
         double g = 0;
         for (int i = 1; i < n; i++) {
-            g = 2d * (x[i+1]  - x[i - 1]) - h[i - 1] * mu[i -1];
-            mu[i] = h[i] / g;
-            z[i] = (3d * (y[i + 1] * h[i - 1] - y[i] * (x[i + 1] - x[i - 1])+ y[i - 1] * h[i]) /
-                    (h[i - 1] * h[i]) - h[i - 1] * z[i - 1]) / g;
+            final double xIp1 = x[i + 1];
+            final double xIm1 = x[i - 1];
+            final double hIm1 = h[i - 1];
+            final double hI = h[i];
+            g = 2d * (xIp1  - xIm1) - hIm1 * mu[i -1];
+            mu[i] = hI / g;
+            z[i] = (3d * (y[i + 1] * hIm1 - y[i] * (xIp1 - xIm1)+ y[i - 1] * hI) /
+                    (hIm1 * hI) - hIm1 * z[i - 1]) / g;
         }
 
         // cubic spline coefficients --  b is linear, c quadratic, d is cubic (original y's are constants)
@@ -103,9 +107,12 @@ public class SplineInterpolator implements UnivariateInterpolator {
         final double[] d = new double[n];
 
         for (int j = n -1; j >=0; j--) {
-            c[j] = z[j] - mu[j] * c[j + 1];
-            b[j] = (y[j + 1] - y[j]) / h[j] - h[j] * (c[j + 1] + 2d * c[j]) / 3d;
-            d[j] = (c[j + 1] - c[j]) / (3d * h[j]);
+            final double cJp1 = c[j + 1];
+            final double cJ = z[j] - mu[j] * cJp1;
+            final double hJ = h[j];
+            b[j] = (y[j + 1] - y[j]) / hJ - hJ * (cJp1 + 2d * cJ) / 3d;
+            c[j] = cJ;
+            d[j] = (cJp1 - cJ) / (3d * hJ);
         }
 
         final PolynomialFunction[] polynomials = new PolynomialFunction[n];
