@@ -32,9 +32,9 @@ import org.apache.commons.math4.util.FastMath;
  */
 public class PolynomialsUtils {
     /** -1 */
-    private static final BigFraction BF__MINUS_ONE = BigFraction.of(-1);
+    private static final BigFraction BF_MINUS_ONE = BigFraction.of(-1);
     /** 2 */
-    private static final BigFraction BF__TWO = BigFraction.of(2);
+    private static final BigFraction BF_TWO = BigFraction.of(2);
 
     /** Coefficients for Chebyshev polynomials. */
     private static final List<BigFraction> CHEBYSHEV_COEFFICIENTS;
@@ -65,14 +65,14 @@ public class PolynomialsUtils {
         HERMITE_COEFFICIENTS = new ArrayList<>();
         HERMITE_COEFFICIENTS.add(BigFraction.ONE);
         HERMITE_COEFFICIENTS.add(BigFraction.ZERO);
-        HERMITE_COEFFICIENTS.add(BF__TWO);
+        HERMITE_COEFFICIENTS.add(BF_TWO);
 
         // initialize recurrence for Laguerre polynomials
         // L0(X) = 1, L1(X) = 1 - 1 * X
         LAGUERRE_COEFFICIENTS = new ArrayList<>();
         LAGUERRE_COEFFICIENTS.add(BigFraction.ONE);
         LAGUERRE_COEFFICIENTS.add(BigFraction.ONE);
-        LAGUERRE_COEFFICIENTS.add(BF__MINUS_ONE);
+        LAGUERRE_COEFFICIENTS.add(BF_MINUS_ONE);
 
         // initialize recurrence for Legendre polynomials
         // P0(X) = 1, P1(X) = 0 + 1 * X
@@ -110,7 +110,7 @@ public class PolynomialsUtils {
         return buildPolynomial(degree, CHEBYSHEV_COEFFICIENTS,
                 new RecurrenceCoefficientsGenerator() {
             /** Fixed recurrence coefficients. */
-            private final BigFraction[] coeffs = { BigFraction.ZERO, BF__TWO, BigFraction.ONE };
+            private final BigFraction[] coeffs = { BigFraction.ZERO, BF_TWO, BigFraction.ONE };
             /** {@inheritDoc} */
             @Override
             public BigFraction[] generate(int k) {
@@ -142,7 +142,7 @@ public class PolynomialsUtils {
             public BigFraction[] generate(int k) {
                 return new BigFraction[] {
                         BigFraction.ZERO,
-                        BF__TWO,
+                        BF_TWO,
                         BigFraction.of(2 * k)};
             }
         });
