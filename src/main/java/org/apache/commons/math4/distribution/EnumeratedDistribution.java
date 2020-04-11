@@ -86,9 +86,8 @@ public class EnumeratedDistribution<T> implements Serializable {
                NotANumberException {
         singletons = new ArrayList<>(pmf.size());
         final double[] probs = new double[pmf.size()];
-
-        for (int i = 0; i < pmf.size(); i++) {
-            final Pair<T, Double> sample = pmf.get(i);
+        int count = 0;
+        for (Pair<T, Double> sample : pmf) {
             singletons.add(sample.getKey());
             final double p = sample.getValue();
             if (p < 0) {
@@ -100,7 +99,7 @@ public class EnumeratedDistribution<T> implements Serializable {
             if (Double.isNaN(p)) {
                 throw new NotANumberException();
             }
-            probs[i] = p;
+            probs[count++] = p;
         }
 
         probabilities = MathArrays.normalizeArray(probs, 1.0);
