@@ -107,9 +107,9 @@ public class EnumeratedDistribution<T> implements Serializable {
 
         cumulativeProbabilities = new double[probabilities.length];
         double sum = 0;
-        for (i = 0; i < probabilities.length; i++) {
-            sum += probabilities[i];
-            cumulativeProbabilities[i] = sum;
+        for (int j = 0; j < probabilities.length; j++) {
+            sum += probabilities[j];
+            cumulativeProbabilities[j] = sum;
         }
     }
 
