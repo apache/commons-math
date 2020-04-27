@@ -65,6 +65,7 @@
     <math.commons.numbers.version>1.0-SNAPSHOT</math.commons.numbers.version>
     <math.commons.rng.version>1.2</math.commons.rng.version>
     <math.commons.geometry.version>1.0-SNAPSHOT</math.commons.geometry.version>
+    <math.commons.statistics.version>1.0-SNAPSHOT</math.commons.statistics.version>
 
     <commons.site.path>math</commons.site.path>
     <commons.scmPubUrl>https://svn.apache.org/repos/infra/websites/production/commons/content/proper/commons-math</commons.scmPubUrl>
@@ -111,7 +112,7 @@
     <dependency>
       <groupId>org.apache.commons</groupId>
       <artifactId>commons-statistics-distribution</artifactId>
-      <version>0.1-SNAPSHOT</version>
+      <version>${math.commons.statistics.version}</version>
     </dependency>
 
     <dependency>
