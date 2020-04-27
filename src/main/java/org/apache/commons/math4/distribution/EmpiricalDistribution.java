@@ -31,6 +31,8 @@ import java.util.List;
 import org.apache.commons.statistics.distribution.NormalDistribution;
 import org.apache.commons.statistics.distribution.ContinuousDistribution;
 import org.apache.commons.statistics.distribution.ConstantContinuousDistribution;
+import org.apache.commons.numbers.core.Precision;
+import org.apache.commons.rng.UniformRandomProvider;
 import org.apache.commons.math4.exception.MathIllegalStateException;
 import org.apache.commons.math4.exception.MathInternalError;
 import org.apache.commons.math4.exception.NullArgumentException;
@@ -40,7 +42,6 @@ import org.apache.commons.math4.exception.NotStrictlyPositiveException;
 import org.apache.commons.math4.exception.util.LocalizedFormats;
 import org.apache.commons.math4.stat.descriptive.StatisticalSummary;
 import org.apache.commons.math4.stat.descriptive.SummaryStatistics;
-import org.apache.commons.rng.UniformRandomProvider;
 import org.apache.commons.math4.util.FastMath;
 import org.apache.commons.math4.util.MathUtils;
 
@@ -616,7 +617,12 @@ public class EmpiricalDistribution extends AbstractRealDistribution
         if (pCrit <= 0) {
             return lower;
         }
-        return kernel.inverseCumulativeProbability(kBminus + pCrit * kB / pB);
+
+        final double cP = kBminus + pCrit * kB / pB;
+
+        return Precision.equals(cP, 1d) ?
+            kernel.inverseCumulativeProbability(1d) :
+            kernel.inverseCumulativeProbability(cP);
     }
 
     /**
