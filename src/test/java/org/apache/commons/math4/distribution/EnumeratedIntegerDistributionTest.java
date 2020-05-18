@@ -18,6 +18,7 @@ package org.apache.commons.math4.distribution;
 
 import static org.junit.Assert.assertEquals;
 
+import java.util.Arrays;
 import org.apache.commons.statistics.distribution.DiscreteDistribution;
 import org.apache.commons.math4.distribution.EnumeratedIntegerDistribution;
 import org.apache.commons.math4.exception.DimensionMismatchException;
@@ -182,5 +183,19 @@ public class EnumeratedIntegerDistributionTest {
         EnumeratedIntegerDistribution distribution = new EnumeratedIntegerDistribution(data);
         assertEquals(0.5, distribution.probability(2), 0);
         assertEquals(0.5, distribution.cumulativeProbability(1), 0);
+    }
+
+    @Test
+    public void testMath1533() {
+        final EnumeratedIntegerDistribution d1 = new EnumeratedIntegerDistribution(new int[] {1, 2},
+                                                                                   new double[] {0.3, 0.7});
+        final EnumeratedIntegerDistribution d2 = new EnumeratedIntegerDistribution(new int[] {2, 1},
+                                                                                   new double[] {0.7, 0.3});
+
+        final int len = 24;
+        final RandomSource r = RandomSource.WELL_19937_C;
+        final int s = 42;
+        Assert.assertTrue(Arrays.equals(AbstractIntegerDistribution.sample(len, d1.createSampler(RandomSource.create(r, s))),
+                                        AbstractIntegerDistribution.sample(len, d2.createSampler(RandomSource.create(r, s)))));
     }
 }
