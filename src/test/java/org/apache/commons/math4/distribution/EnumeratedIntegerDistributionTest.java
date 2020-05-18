@@ -16,8 +16,6 @@
  */
 package org.apache.commons.math4.distribution;
 
-import static org.junit.Assert.assertEquals;
-
 import java.util.Arrays;
 import org.apache.commons.statistics.distribution.DiscreteDistribution;
 import org.apache.commons.math4.distribution.EnumeratedIntegerDistribution;
@@ -181,8 +179,8 @@ public class EnumeratedIntegerDistributionTest {
     public void testCreateFromIntegers() {
         final int[] data = new int[] {0, 1, 1, 2, 2, 2};
         EnumeratedIntegerDistribution distribution = new EnumeratedIntegerDistribution(data);
-        assertEquals(0.5, distribution.probability(2), 0);
-        assertEquals(0.5, distribution.cumulativeProbability(1), 0);
+        Assert.assertEquals(0.5, distribution.probability(2), 0);
+        Assert.assertEquals(0.5, distribution.cumulativeProbability(1), 0);
     }
 
     @Test
