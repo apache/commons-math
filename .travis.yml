@@ -15,7 +15,9 @@
 
 language: java
 sudo: required
-
+cache:
+  directories:
+    - $HOME/.m2
 jdk:
   - openjdk8
 
