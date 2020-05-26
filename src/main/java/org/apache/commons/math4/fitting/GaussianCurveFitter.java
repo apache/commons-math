@@ -294,11 +294,10 @@ public class GaussianCurveFitter extends AbstractCurveFitter {
         private double[] basicGuess(WeightedObservedPoint[] points) {
             final int maxYIdx = findMaxY(points);
             final double n = points[maxYIdx].getY();
-            final double m = points[maxYIdx].getX();
 
             double fwhmApprox;
             try {
-                final double halfY = n + ((m - n) / 2);
+                final double halfY = 0.5 * n;
                 final double fwhmX1 = interpolateXAtY(points, maxYIdx, -1, halfY);
                 final double fwhmX2 = interpolateXAtY(points, maxYIdx, 1, halfY);
                 fwhmApprox = fwhmX2 - fwhmX1;
@@ -308,7 +307,7 @@ public class GaussianCurveFitter extends AbstractCurveFitter {
             }
             final double s = fwhmApprox / (2 * FastMath.sqrt(2 * FastMath.log(2)));
 
-            return new double[] { n, m, s };
+            return new double[] { n, points[maxYIdx].getX(), s };
         }
 
         /**
