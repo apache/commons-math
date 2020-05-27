@@ -185,9 +185,9 @@ public class GaussianCurveFitterTest {
         GaussianCurveFitter fitter = GaussianCurveFitter.create();
         double[] parameters = fitter.fit(createDataset(DATASET1).toList());
 
-        Assert.assertEquals(3496978.1837704973, parameters[0], 1e-4);
-        Assert.assertEquals(4.054933085999146, parameters[1], 1e-4);
-        Assert.assertEquals(0.015039355620304326, parameters[2], 1e-4);
+        Assert.assertEquals(3496978.1837704973, parameters[0], 1e-7);
+        Assert.assertEquals(4.054933085999146, parameters[1], 1e-16);
+        Assert.assertEquals(0.015039355620304326, parameters[2], 1e-15);
     }
 
     @Test
