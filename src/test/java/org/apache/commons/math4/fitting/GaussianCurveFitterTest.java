@@ -191,6 +191,17 @@ public class GaussianCurveFitterTest {
     }
 
     @Test
+    public void testDataset1LargeXShift() {
+        final GaussianCurveFitter fitter = GaussianCurveFitter.create();
+        final double xShift = 1e8;
+        final double[] parameters = fitter.fit(createDataset(DATASET1, xShift, 0).toList());
+
+        Assert.assertEquals(1, parameters[0] / 3496978.1837704973, 1e-2);
+        Assert.assertEquals(1, parameters[1] / (xShift + 4.054933085999146), 1e-6);
+        Assert.assertEquals(1, parameters[2] / 0.015039355620304326, 1e-2);
+    }
+
+    @Test
     public void testWithMaxIterations1() {
         final int maxIter = 20;
         final double[] init = { 3.5e6, 4.2, 0.1 };
@@ -385,13 +396,31 @@ public class GaussianCurveFitterTest {
      *        second dimension is an array of length two representing the point
      *        with the first value corresponding to X and the second value
      *        corresponding to Y.
+     * @param xShift Offset added to the abscissae.
+     * @param yShift Offset added to the ordinates.
+     * @return the collection of observed points.
+     */
+    private static WeightedObservedPoints createDataset(double[][] points,
+                                                        double xShift,
+                                                        double yShift) {
+        final WeightedObservedPoints obs = new WeightedObservedPoints();
+        for (int i = 0; i < points.length; i++) {
+            obs.add(points[i][0] + xShift, points[i][1] + yShift);
+        }
+        return obs;
+    }
+
+    /**
+     * Adds the specified points to specified <code>GaussianCurveFitter</code>
+     * instance.
+     *
+     * @param points Data points where first dimension is a point index and
+     *        second dimension is an array of length two representing the point
+     *        with the first value corresponding to X and the second value
+     *        corresponding to Y.
      * @return the collection of observed points.
      */
     private static WeightedObservedPoints createDataset(double[][] points) {
-        final WeightedObservedPoints obs = new WeightedObservedPoints();
-        for (int i = 0; i < points.length; i++) {
-            obs.add(points[i][0], points[i][1]);
-        }
-        return obs;
+        return createDataset(points, 0, 0);
     }
 }
