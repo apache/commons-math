@@ -793,7 +793,6 @@ public class KolmogorovSmirnovTestTest {
                                     -3.396526561479875, -2.699967947404961};
         KolmogorovSmirnovTest kst = new KolmogorovSmirnovTest();
         double p = kst.kolmogorovSmirnovTest(x, y);
-        System.out.println("p=" + p); // XXX
     }
 
     /**
@@ -810,7 +809,7 @@ public class KolmogorovSmirnovTestTest {
                 Assert.assertTrue(combined[i] != combined[j]);
                 if (combined[i] < combined[j]) {
                     Assert.assertTrue(origCombined[i] < origCombined[j]
-                                          || origCombined[i] == origCombined[j]);
+                                      || origCombined[i] == origCombined[j]);
                 }
             }
 
