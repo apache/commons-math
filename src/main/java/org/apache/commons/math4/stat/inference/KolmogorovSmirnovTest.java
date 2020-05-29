@@ -30,7 +30,7 @@ import org.apache.commons.math4.distribution.EnumeratedRealDistribution;
 import org.apache.commons.math4.distribution.AbstractRealDistribution;
 import org.apache.commons.math4.exception.InsufficientDataException;
 import org.apache.commons.math4.exception.MathArithmeticException;
-import org.apache.commons.math4.exception.MathInternalError;
+import org.apache.commons.math4.exception.MaxCountExceededException;
 import org.apache.commons.math4.exception.NullArgumentException;
 import org.apache.commons.math4.exception.NumberIsTooLargeException;
 import org.apache.commons.math4.exception.OutOfRangeException;
@@ -1083,20 +1083,24 @@ public class KolmogorovSmirnovTest {
         if (hasTies(x, y)) {
             // Add jitter using a fixed seed (so same arguments always give same results),
             // low-initialization-overhead generator.
-            final UniformRandomProvider rng = RandomSource.create(RandomSource.SPLIT_MIX_64, 76543217);
+            final UniformRandomProvider rng = RandomSource.create(RandomSource.SPLIT_MIX_64, 876543217L);
 
             // It is theoretically possible that jitter does not break ties, so repeat
             // until all ties are gone.  Bound the loop and throw MIE if bound is exceeded.
+            int fixedRangeTrials = 10;
+            int jitterRange = 10;
             int ct = 0;
             boolean ties = true;
             do {
-                jitter(x, rng, 10);
-                jitter(y, rng, 10);
+                // Nudge the data using a fixed range.
+                jitter(x, rng, jitterRange);
+                jitter(y, rng, jitterRange);
                 ties = hasTies(x, y);
                 ++ct;
-            } while (ties && ct < 10);
+            } while (ties && ct < fixedRangeTrials);
+
             if (ties) {
-                throw new MathInternalError(); // Should never happen.
+                throw new MaxCountExceededException(fixedRangeTrials);
             }
         }
     }
@@ -1108,8 +1112,8 @@ public class KolmogorovSmirnovTest {
      * @param x First sample.
      * @param y Second sample.
      * @return true if x and y together contain ties.
-     * @throw NotANumberException if any of the input arrays contain
-     * a NaN value.
+     * @throw InsufficientDataException if the input arrays only contain infinite values.
+     * @throw NotANumberException if any of the input arrays contain a NaN value.
      */
     private static boolean hasTies(double[] x, double[] y) {
        final double[] values = MathArrays.unique(MathArrays.concatenate(x, y));
@@ -1118,6 +1122,17 @@ public class KolmogorovSmirnovTest {
        if (Double.isNaN(values[0])) {
            throw new NotANumberException();
        }
+
+       int infCount = 0;
+       for (double v : values) {
+           if (Double.isInfinite(v)) {
+               ++infCount;
+           }
+       }
+       if (infCount == values.length) {
+           throw new InsufficientDataException();
+       }
+
        if (values.length == x.length + y.length) {
            return false;  // There are no ties.
        }
@@ -1141,8 +1156,16 @@ public class KolmogorovSmirnovTest {
                                int ulp) {
         final int range = ulp * 2;
         for (int i = 0; i < data.length; i++) {
+            final double orig = data[i];
+            if (Double.isInfinite(orig)) {
+                continue; // Avoid NaN creation.
+            }
+
             final int rand = rng.nextInt(range) - ulp;
-            data[i] += rand * Math.ulp(data[i]);
+            final double ulps = Math.ulp(orig);
+            final double r = rand * ulps;
+
+            data[i] += r;
         }
     }
 

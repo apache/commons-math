@@ -29,8 +29,10 @@ import org.apache.commons.numbers.combinatorics.BinomialCoefficient;
 import org.apache.commons.math4.util.FastMath;
 import org.apache.commons.math4.util.MathArrays;
 import org.apache.commons.math4.exception.NotANumberException;
+import org.apache.commons.math4.exception.InsufficientDataException;
 import org.junit.Assert;
 import org.junit.Test;
+import org.junit.Ignore;
 
 /**
  * Test cases for {@link KolmogorovSmirnovTest}.
@@ -475,7 +477,7 @@ public class KolmogorovSmirnovTestTest {
         Assert.assertEquals(1.12173015e-5, test.kolmogorovSmirnovTest(x, y), 1e-6);
     }
 
-    @Test
+    @Ignore@Test
     public void testTwoSampleWithManyTiesAndExtremeValues() {
         // Cf. MATH-1405
 
@@ -510,6 +512,61 @@ public class KolmogorovSmirnovTestTest {
 
         final KolmogorovSmirnovTest test = new KolmogorovSmirnovTest();
         Assert.assertEquals(0, test.kolmogorovSmirnovTest(largeX, smallY), 1e-10);
+    }
+
+    @Ignore@Test
+    public void testTwoSamplesWithInfinitiesAndTies() {
+        final double[] x = {
+            1, 1,
+            Double.POSITIVE_INFINITY,
+            Double.POSITIVE_INFINITY,
+            Double.NEGATIVE_INFINITY,
+            Double.POSITIVE_INFINITY,
+            Double.NEGATIVE_INFINITY,
+            Double.POSITIVE_INFINITY,
+            Double.POSITIVE_INFINITY
+        };
+
+        final double[] y = {
+            1, 1,
+            3, 3,
+            Double.NEGATIVE_INFINITY,
+            Double.POSITIVE_INFINITY,
+            Double.POSITIVE_INFINITY,
+            Double.POSITIVE_INFINITY,
+            Double.POSITIVE_INFINITY,
+            Double.POSITIVE_INFINITY,
+            Double.NEGATIVE_INFINITY
+        };
+
+        final KolmogorovSmirnovTest test = new KolmogorovSmirnovTest();
+        Assert.assertEquals(0, test.kolmogorovSmirnovTest(x, y), 1e-10);
+    }
+
+    @Test(expected=InsufficientDataException.class)
+    public void testTwoSamplesWithOnlyInfinities() {
+        final double[] x = {
+            Double.POSITIVE_INFINITY,
+            Double.POSITIVE_INFINITY,
+            Double.NEGATIVE_INFINITY,
+            Double.POSITIVE_INFINITY,
+            Double.NEGATIVE_INFINITY,
+            Double.POSITIVE_INFINITY,
+            Double.POSITIVE_INFINITY
+        };
+
+        final double[] y = {
+            Double.NEGATIVE_INFINITY,
+            Double.POSITIVE_INFINITY,
+            Double.POSITIVE_INFINITY,
+            Double.POSITIVE_INFINITY,
+            Double.POSITIVE_INFINITY,
+            Double.POSITIVE_INFINITY,
+            Double.NEGATIVE_INFINITY
+        };
+
+        final KolmogorovSmirnovTest test = new KolmogorovSmirnovTest();
+        Assert.assertEquals(0, test.kolmogorovSmirnovTest(x, y), 1e-10);
     }
 
     @Test(expected=NotANumberException.class)
@@ -792,6 +849,32 @@ public class KolmogorovSmirnovTestTest {
                                     -2.3190122657403496, -2.48225194403028, 3.3393947563371764, 2.7775468034263517,
                                     -3.396526561479875, -2.699967947404961};
         KolmogorovSmirnovTest kst = new KolmogorovSmirnovTest();
+        kst.kolmogorovSmirnovTest(x, y);
+    }
+
+    @Ignore@Test
+    public void testMath1535() {
+        // MATH-1535
+        final double[] x = new double[] {0.8767630865438496, 0.9998809418147052, 0.9999999715463531, 0.9999985849345421,
+                                         0.973584315883326, 0.9999999875782982, 0.999999999999994, 0.9999999999908233,
+                                         1.0, 0.9999999890925574, 0.9999998345734327, 0.9999999350772448,
+                                         0.999999999999426, 0.9999147040688201, 0.9999999999999922, 1.0,
+                                         1.0, 0.9919050954798272, 0.8649014770687263, 0.9990869497973084,
+                                         0.9993222540990464, 0.999999999998189, 0.9999999999999365, 0.9790934801762917,
+                                         0.9999578695006303, 0.9999999999999998, 0.999999999996166, 0.9999999999995546,
+                                         0.9999999999908036, 0.99999999999744, 0.9999998802655555, 0.9079334221214075,
+                                         0.9794398308007372, 0.9999044231134367, 0.9999999999999813, 0.9999957841707683,
+                                         0.9277678892094009, 0.999948269893843, 0.9999999886132888, 0.9999998909699096,
+                                         0.9999099536620326, 0.9999999962217623, 0.9138936987350447, 0.9999999999779976,
+                                         0.999999999998822, 0.999979247207911, 0.9926904388316407, 1.0,
+                                         0.9999999999998814, 1.0, 0.9892505696426215, 0.9999996514123723,
+                                         0.9999999999999429, 0.9999999995399116, 0.999999999948221, 0.7358264887843119,
+                                         0.9999999994098534, 1.0, 0.9999986456748472, 1.0,
+                                         0.9999999999921501, 0.9999999999999996, 0.9999999999999944, 0.9473070068606853,
+                                         0.9993714060209042, 0.9999999409098718, 0.9999999592791519, 0.9999999999999805};
+        final double[] y = new double[x.length];
+        Arrays.fill(y, 1d);
+        final KolmogorovSmirnovTest kst = new KolmogorovSmirnovTest();
         double p = kst.kolmogorovSmirnovTest(x, y);
     }
 
