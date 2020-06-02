@@ -463,7 +463,7 @@ public class ResizableDoubleArrayTest extends DoubleArrayAbstractTest {
         // Reflexive
         Assert.assertTrue(first.equals(first));
 
-        // Argumentless constructor
+        // Non-argument constructor
         ResizableDoubleArray second = new ResizableDoubleArray();
         verifyEquality(first, second);
 

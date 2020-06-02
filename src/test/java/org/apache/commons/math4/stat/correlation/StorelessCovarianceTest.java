@@ -117,7 +117,7 @@ public class StorelessCovarianceTest {
     };
 
     @Test
-    public void testLonglySimpleVar(){
+    public void testLongleySimpleVar(){
         double rCov = 12333921.73333333246;
         StorelessBivariateCovariance cov = new StorelessBivariateCovariance();
         for(int i=0;i<longleyDataSimple.length;i++){
@@ -127,7 +127,7 @@ public class StorelessCovarianceTest {
     }
 
     @Test
-    public void testLonglySimpleCov(){
+    public void testLongleySimpleCov(){
         double rCov = 36796.660000;
         StorelessBivariateCovariance cov = new StorelessBivariateCovariance();
         for(int i=0;i<longleyDataSimple.length;i++){
@@ -147,7 +147,7 @@ public class StorelessCovarianceTest {
      * http://www.itl.nist.gov/div898/strd/lls/data/LINKS/DATA/Longley.dat
      */
     @Test
-    public void testLonglyByRow() {
+    public void testLongleyByRow() {
         RealMatrix matrix = createRealMatrix(longleyData, 16, 7);
 
         double[] rData = new double[] {

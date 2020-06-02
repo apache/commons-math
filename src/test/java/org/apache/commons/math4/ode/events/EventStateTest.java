@@ -134,7 +134,7 @@ public class EventStateTest {
             // to be called at obsolete times t despite an event
             // occurring later has already been triggered.
             // When this occurs, the following assertion is violated
-            Assert.assertTrue("going backard in time! (" + t + " < " + lastTriggerTime + ")",
+            Assert.assertTrue("going backward in time! (" + t + " < " + lastTriggerTime + ")",
                               t >= lastTriggerTime);
             return t - tEvent;
         }

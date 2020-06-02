@@ -17,9 +17,6 @@
 
 package org.apache.commons.math4.linear;
 
-import org.apache.commons.math4.linear.BiDiagonalTransformer;
-import org.apache.commons.math4.linear.MatrixUtils;
-import org.apache.commons.math4.linear.RealMatrix;
 import org.apache.commons.math4.util.FastMath;
 import org.junit.Assert;
 import org.junit.Test;
@@ -40,12 +37,12 @@ public class BiDiagonalTransformerTest {
 
     @Test
     public void testDimensions() {
-        checkdimensions(MatrixUtils.createRealMatrix(testSquare));
-        checkdimensions(MatrixUtils.createRealMatrix(testNonSquare));
-        checkdimensions(MatrixUtils.createRealMatrix(testNonSquare).transpose());
+        checkDimensions(MatrixUtils.createRealMatrix(testSquare));
+        checkDimensions(MatrixUtils.createRealMatrix(testNonSquare));
+        checkDimensions(MatrixUtils.createRealMatrix(testNonSquare).transpose());
     }
 
-    private void checkdimensions(RealMatrix matrix) {
+    private void checkDimensions(RealMatrix matrix) {
         final int m = matrix.getRowDimension();
         final int n = matrix.getColumnDimension();
         BiDiagonalTransformer transformer = new BiDiagonalTransformer(matrix);

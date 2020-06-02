@@ -862,7 +862,7 @@ public class KolmogorovSmirnovTest {
     }
 
     /**
-     * Computes \( 1 + 2 \sum_{i=1}^\infty (-1)^i e^{-2 i^2 t^2} \) stopping when successive partial
+     * Computes \( 1 + 2 \sum_{i=1}^\infinity (-1)^i e^{-2 i^2 t^2} \) stopping when successive partial
      * sums are within {@code tolerance} of one another, or when {@code maxIterations} partial sums
      * have been computed. If the sum does not converge before {@code maxIterations} iterations a
      * {@link TooManyIterationsException} is thrown.
@@ -951,7 +951,7 @@ public class KolmogorovSmirnovTest {
      * {@link #kolmogorovSmirnovStatistic(double[], double[])} for the definition of \(D_{n,m}\).
      * <p>
      * Specifically, what is returned is \(1 - k(d \sqrt{mn / (m + n)})\) where \(k(t) = 1 + 2
-     * \sum_{i=1}^\infty (-1)^i e^{-2 i^2 t^2}\). See {@link #ksSum(double, double, int)} for
+     * \sum_{i=1}^\infinity (-1)^i e^{-2 i^2 t^2}\). See {@link #ksSum(double, double, int)} for
      * details on how convergence of the sum is determined.
      * </p>
      *

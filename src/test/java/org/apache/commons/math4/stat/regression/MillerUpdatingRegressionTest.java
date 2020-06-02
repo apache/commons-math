@@ -629,7 +629,7 @@ public class MillerUpdatingRegressionTest {
      * http://www.itl.nist.gov/div898/strd/lls/data/LINKS/DATA/Longley.dat
      */
     @Test
-    public void testLongly() {
+    public void testLongley() {
         // Y values are first, then independent vars
         // Each row is one observation
         double[] design = new double[]{

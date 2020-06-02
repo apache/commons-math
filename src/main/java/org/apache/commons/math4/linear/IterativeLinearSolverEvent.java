@@ -82,8 +82,8 @@ public abstract class IterativeLinearSolverEvent
      * </ul>
      * <p>
      * The default implementation throws a
-     * {@link MathUnsupportedOperationException}. If this method is overriden,
-     * then {@link #providesResidual()} should be overriden as well.
+     * {@link MathUnsupportedOperationException}. If this method is overridden,
+     * then {@link #providesResidual()} should be overridden as well.
      * </p>
      *
      * @return the updated residual, r

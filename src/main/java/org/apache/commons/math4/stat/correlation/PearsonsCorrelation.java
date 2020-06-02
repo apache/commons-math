@@ -132,7 +132,7 @@ public class PearsonsCorrelation {
     /**
      * Returns the correlation matrix.
      *
-     * <p>This method will return null if the argumentless constructor was used
+     * <p>This method will return null if the non-argument constructor was used
      * to create this instance, even if {@link #computeCorrelationMatrix(double[][])}
      * has been called before it is activated.</p>
      *

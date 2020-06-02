@@ -246,7 +246,7 @@ public final class SparseRealMatrixTest {
         }
     }
 
-    /** test sclarAdd */
+    /** test scalarAdd */
     @Test
     public void testScalarAdd() {
         RealMatrix m = createSparseMatrix(testData);

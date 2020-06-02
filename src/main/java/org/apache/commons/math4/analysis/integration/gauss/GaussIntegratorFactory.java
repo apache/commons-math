@@ -43,7 +43,7 @@ public class GaussIntegratorFactory {
      * The call to the
      * {@link GaussIntegrator#integrate(org.apache.commons.math4.analysis.UnivariateFunction)
      * integrate} method will perform an integration on the interval
-     * \([0, +\infty)\): the computed value is the improper integral of
+     * \([0, +\infinity)\): the computed value is the improper integral of
      * \(e^{-x} f(x)\)
      * where \(f(x)\) is the function passed to the
      * {@link SymmetricGaussIntegrator#integrate(org.apache.commons.math4.analysis.UnivariateFunction)
@@ -131,7 +131,7 @@ public class GaussIntegratorFactory {
      * The call to the
      * {@link SymmetricGaussIntegrator#integrate(org.apache.commons.math4.analysis.UnivariateFunction)
      * integrate} method will perform a weighted integration on the interval
-     * \([-\infty, +\infty]\): the computed value is the improper integral of
+     * \([-\infinity, +\infinity]\): the computed value is the improper integral of
      * \(e^{-x^2}f(x)\)
      * where \(f(x)\) is the function passed to the
      * {@link SymmetricGaussIntegrator#integrate(org.apache.commons.math4.analysis.UnivariateFunction)

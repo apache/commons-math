@@ -75,7 +75,7 @@ public class DefaultIterativeLinearSolverEvent extends IterativeLinearSolverEven
      * Therefore the user must make sure that these vectors are either
      * unmodifiable views or deep copies of the same vectors actually used by
      * the {@code source}. Failure to do so may compromise subsequent iterations
-     * of the {@code source}. Callling {@link #getResidual()} on instances
+     * of the {@code source}. Calling {@link #getResidual()} on instances
      * returned by this constructor throws a
      * {@link MathUnsupportedOperationException}, while
      * {@link #providesResidual()} returns {@code false}.

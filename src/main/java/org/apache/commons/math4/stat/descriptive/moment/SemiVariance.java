@@ -92,7 +92,7 @@ public class SemiVariance extends AbstractUnivariateStatistic implements Seriali
      * property and default (Downside) <code>varianceDirection</code> property.
      *
      * @param biasCorrected  setting for bias correction - true means
-     * bias will be corrected and is equivalent to using the argumentless
+     * bias will be corrected and is equivalent to using the non-argument
      * constructor
      */
     public SemiVariance(final boolean biasCorrected) {
@@ -115,7 +115,7 @@ public class SemiVariance extends AbstractUnivariateStatistic implements Seriali
      * property and the specified <code>Direction</code> property.
      *
      * @param corrected  setting for bias correction - true means
-     * bias will be corrected and is equivalent to using the argumentless
+     * bias will be corrected and is equivalent to using the non-argument
      * constructor
      *
      * @param direction  setting for the direction of the SemiVariance

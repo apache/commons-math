@@ -234,7 +234,7 @@ public class RealVectorFormat {
      * Parse a string to produce a {@link RealVector} object.
      *
      * @param source String to parse.
-     * @param pos input/ouput parsing parameter.
+     * @param pos input/output parsing parameter.
      * @return the parsed {@link RealVector} object.
      */
     public ArrayRealVector parse(String source, ParsePosition pos) {

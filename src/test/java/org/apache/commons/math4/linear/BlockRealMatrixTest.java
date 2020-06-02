@@ -553,7 +553,7 @@ public final class BlockRealMatrixTest {
             if (reference != null) {
                 Assert.assertEquals(new BlockRealMatrix(reference), sub);
             } else {
-                Assert.fail("Expecting OutOfRangeException or NumberIsTooSmallExceptiono r NoDataException");
+                Assert.fail("Expecting OutOfRangeException or NumberIsTooSmallException or NoDataException");
             }
         } catch (OutOfRangeException e) {
             if (reference != null) {

@@ -123,7 +123,7 @@ public class UnifiedDistanceMatrix implements MapVisualization {
         }
 
         // 2.
-        // Fill the bottom-rigth slot of each unit's location with the average
+        // Fill the bottom-right slot of each unit's location with the average
         // of the distances between
         //  * the current unit and its bottom-right neighbour, and
         //  * the bottom-center neighbour and the right neighbour.

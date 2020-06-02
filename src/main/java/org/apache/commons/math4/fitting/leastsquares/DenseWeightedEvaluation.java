@@ -35,7 +35,7 @@ class DenseWeightedEvaluation extends AbstractEvaluation {
     /**
      * Create a weighted evaluation from an unweighted one.
      *
-     * @param unweighted the evalutation before weights are applied
+     * @param unweighted the evaluation before weights are applied
      * @param weightSqrt the matrix square root of the weight matrix
      */
     DenseWeightedEvaluation(final Evaluation unweighted,

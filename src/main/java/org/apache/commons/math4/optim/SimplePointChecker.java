@@ -106,7 +106,7 @@ public class SimplePointChecker<PAIR extends Pair<double[], ? extends Object>>
      * @param iteration Index of current iteration
      * @param previous Best point in the previous iteration.
      * @param current Best point in the current iteration.
-     * @return {@code true} if the arguments satify the convergence criterion.
+     * @return {@code true} if the arguments satisfy the convergence criterion.
      */
     @Override
     public boolean converged(final int iteration,

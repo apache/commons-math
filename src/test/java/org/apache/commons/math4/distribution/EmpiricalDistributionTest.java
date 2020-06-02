@@ -91,7 +91,7 @@ public final class EmpiricalDistributionTest extends RealDistributionAbstractTes
     }
 
     /**
-     * Test EmpiricalDistrbution.load() using sample data file.<br>
+     * Test EmpiricalDistribution.load() using sample data file.<br>
      * Check that the sampleCount, mu and sigma match data in
      * the sample data file. Also verify that load is idempotent.
      */
@@ -119,7 +119,7 @@ public final class EmpiricalDistributionTest extends RealDistributionAbstractTes
     }
 
     /**
-     * Test EmpiricalDistrbution.load(double[]) using data taken from
+     * Test EmpiricalDistribution.load(double[]) using data taken from
      * sample data file.<br>
      * Check that the sampleCount, mu and sigma match data in
      * the sample data file.

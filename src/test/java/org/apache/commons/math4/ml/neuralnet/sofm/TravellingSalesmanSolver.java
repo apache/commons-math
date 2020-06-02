@@ -142,7 +142,7 @@ public class TravellingSalesmanSolver {
     /**
      * Measures the network's concurrent update performance.
      *
-     * @return the ratio between the number of succesful network updates
+     * @return the ratio between the number of successful network updates
      * and the number of update attempts.
      */
     public double getUpdateRatio() {
@@ -303,8 +303,8 @@ public class TravellingSalesmanSolver {
      * Computes the largest distance between the point at coordinates
      * {@code (x, y)} and any of the cities.
      *
-     * @param x x-coodinate.
-     * @param y y-coodinate.
+     * @param x x-coordinate.
+     * @param y y-coordinate.
      * @param cities City list.
      * @return the largest distance.
      */
@@ -394,8 +394,8 @@ class City {
      * Computes the distance between this city and
      * the given point.
      *
-     * @param x x-coodinate.
-     * @param y y-coodinate.
+     * @param x x-coordinate.
+     * @param y y-coordinate.
      * @return the distance between {@code (x, y)} and this
      * city.
      */

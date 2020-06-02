@@ -43,7 +43,7 @@ public class ExampleUtils {
         /**
          * Returns the main panel which should be printed by the screenshot action.
          * <p>
-         * By default, it returns the content pane of this frame, but can be overriden
+         * By default, it returns the content pane of this frame, but can be overridden
          * in case the frame has a global scroll pane which would cut off any offscreen content. 
          *
          * @return the main panel to print

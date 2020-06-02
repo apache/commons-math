@@ -132,7 +132,7 @@ abstract class RungeKuttaFieldStepInterpolator<T extends RealFieldElement<T>>
     /** Linearly combine arrays.
      * @param a array to add to
      * @param coefficients coefficients to apply to the method staged derivatives
-     * @return a itself, as a conveniency for fluent API
+     * @return a itself, as a convenience for fluent API
      */
     @SuppressWarnings("unchecked")
     private T[] combine(final T[] a, final T ... coefficients) {

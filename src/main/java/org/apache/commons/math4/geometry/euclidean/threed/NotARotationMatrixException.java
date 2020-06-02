@@ -35,7 +35,7 @@ public class NotARotationMatrixException
 
     /**
      * Simple constructor.
-     * Build an exception by translating and formating a message
+     * Build an exception by translating and formatting a message
      * @param specifier format specifier (to be translated)
      * @param parts to insert in the format (no translation)
      * @since 2.2
