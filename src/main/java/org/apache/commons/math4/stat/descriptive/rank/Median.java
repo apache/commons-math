@@ -61,7 +61,7 @@ public class Median extends Percentile implements Serializable {
     }
 
     /**
-     * Constructs a Median with the specific {@link EstimationType}, {@link NaNStrategy} and {@link PivotingStrategy}.
+     * Constructs a Median with the specific {@link EstimationType}, {@link NaNStrategy} and {@link KthSelector}.
      *
      * @param estimationType one of the percentile {@link EstimationType  estimation types}
      * @param nanStrategy one of {@link NaNStrategy} to handle with NaNs

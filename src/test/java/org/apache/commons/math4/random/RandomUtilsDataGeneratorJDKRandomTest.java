@@ -19,7 +19,7 @@ package org.apache.commons.math4.random;
 import java.util.Random;
 
 /**
- * Test cases for the {@link RandomUtils#DataGenerator} class, using
+ * Test cases for the {@link RandomUtils.DataGenerator} class, using
  * {@link Random} as the underlying source of randomness.
  */
 public class RandomUtilsDataGeneratorJDKRandomTest

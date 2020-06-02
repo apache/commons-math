@@ -229,7 +229,7 @@ public class NeuronString implements Serializable {
         /**
          * Custom serialization.
          *
-         * @return the {@link Neuron} for which this instance is the proxy.
+         * @return the {@link NeuronString} for which this instance is the proxy.
          */
         private Object readResolve() {
             return new NeuronString(wrap,

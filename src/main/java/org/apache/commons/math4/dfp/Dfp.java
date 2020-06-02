@@ -1122,7 +1122,7 @@ public class Dfp implements RealFieldElement<Dfp> {
                         result = result.add(a);
                     }
 
-                    /** If exactly equal to 1/2 and odd then increment */
+                    /* If exactly equal to 1/2 and odd then increment */
                     if (a.equals(half) && result.exp > 0 && (result.mant[mant.length-result.exp]&1) != 0) {
                         a = newInstance(getOne());
                         a.sign = sign;

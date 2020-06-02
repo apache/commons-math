@@ -287,7 +287,7 @@ public final class TricubicInterpolatingFunctionTest {
      * @param d2fdxdy Second partial cross-derivative w.r.t x and y of the function to test.
      * @param d2fdxdz Second partial cross-derivative w.r.t x and z of the function to test.
      * @param d2fdydz Second partial cross-derivative w.r.t y and z of the function to test.
-     * @param d3fdxdy Third partial cross-derivative w.r.t x, y and z of the function to test.
+     * @param d3fdxdydz Third partial cross-derivative w.r.t x, y and z of the function to test.
      * @param meanRelativeTolerance Allowed average error (mean error on all interpolated values).
      * @param maxRelativeTolerance Allowed error on each interpolated value.
      * @param onDataMaxAbsoluteTolerance Allowed error on a data point.

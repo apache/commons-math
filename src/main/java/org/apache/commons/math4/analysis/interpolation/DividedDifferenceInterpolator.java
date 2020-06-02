@@ -57,14 +57,14 @@ public class DividedDifferenceInterpolator
         throws DimensionMismatchException,
                NumberIsTooSmallException,
                NonMonotonicSequenceException {
-        /**
+        /*
          * a[] and c[] are defined in the general formula of Newton form:
          * p(x) = a[0] + a[1](x-c[0]) + a[2](x-c[0])(x-c[1]) + ... +
          *        a[n](x-c[0])(x-c[1])...(x-c[n-1])
          */
         PolynomialFunctionLagrangeForm.verifyInterpolationArray(x, y, true);
 
-        /**
+        /*
          * When used for interpolation, the Newton form formula becomes
          * p(x) = f[x0] + f[x0,x1](x-x0) + f[x0,x1,x2](x-x0)(x-x1) + ... +
          *        f[x0,x1,...,x[n-1]](x-x0)(x-x1)...(x-x[n-2])

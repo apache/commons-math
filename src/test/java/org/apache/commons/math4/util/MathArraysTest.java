@@ -501,8 +501,8 @@ public class MathArraysTest {
         Assert.assertEquals(125, x3[0], FastMath.ulp(1d));
     }
 
-    @Test
     /** Example in javadoc */
+    @Test
     public void testSortInPlaceExample() {
         final double[] x = {3, 1, 2};
         final double[] y = {1, 2, 3};

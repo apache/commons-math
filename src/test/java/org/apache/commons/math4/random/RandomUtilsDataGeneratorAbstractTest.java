@@ -27,7 +27,7 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 
 /**
- * Test cases for the {@link RandomUtils#DataGenerator} class.
+ * Test cases for the {@link RandomUtils.DataGenerator} class.
  */
 @RunWith(RetryRunner.class)
 public abstract class RandomUtilsDataGeneratorAbstractTest {

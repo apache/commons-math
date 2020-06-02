@@ -108,7 +108,7 @@ public class NonLinearConjugateGradientOptimizer
      * find an interval that brackets the optimum in order to perform the
      * line search.
      *
-     * @see LineSearch#LineSearch(MultivariateOptimizer,double,double,double)
+     * @see LineSearch#LineSearch(org.apache.commons.math4.optim.nonlinear.scalar.MultivariateOptimizer,double,double,double)
      * @since 3.3
      */
     public NonLinearConjugateGradientOptimizer(final Formula updateFormula,
@@ -136,7 +136,7 @@ public class NonLinearConjugateGradientOptimizer
      * find an interval that brackets the optimum in order to perform the
      * line search.
      *
-     * @see LineSearch#LineSearch(MultivariateOptimizer,double,double,double)
+     * @see LineSearch#LineSearch(org.apache.commons.math4.optim.nonlinear.scalar.MultivariateOptimizer, double, double, double)
      * @since 3.3
      */
     public NonLinearConjugateGradientOptimizer(final Formula updateFormula,

@@ -24,7 +24,7 @@ import org.junit.Assert;
 import org.junit.Test;
 
 /**
- * Tests for {@link IntegerSequence} and {@link IntegerSequence#Incrementor}.
+ * Tests for {@link IntegerSequence} and {@link IntegerSequence.Incrementor}.
  */
 public class IntegerSequenceTest {
     @Test

@@ -1209,7 +1209,7 @@ public abstract class RealVector {
      * @return an unmodifiable view of {@code v}.
      */
     public static RealVector unmodifiableRealVector(final RealVector v) {
-        /**
+        /*
          * This anonymous class is an implementation of {@link RealVector}
          * with read-only access.
          * It wraps any {@link RealVector}, and exposes all methods which

@@ -258,8 +258,8 @@ public class PerfTestUtils {
 
     /**
      * Timing and report (to standard output).
-     * This method calls {@link #timeAndReport(String,int,int,boolean,RunTest[])
-     * timeAndReport(title, 1000, 10000, false, methods)}.
+     * This method calls {@link #timeAndReport(String,int,int,int,boolean,RunTest[])
+     * timeAndReport(title, 45, 1000, 10000, false, methods)}.
      *
      * @param title Title of the test (for the report).
      * @param methods Codes being timed.

@@ -43,7 +43,7 @@ import org.apache.commons.math4.util.FastMath;
  * Line search is performed by the {@link LineSearch} class.
  * <br>
  * Constraints are not supported: the call to
- * {@link #optimize(OptimizationData[]) optimize} will throw
+ * {@link #optimize(org.apache.commons.math4.optim.OptimizationData...)} will throw
  * {@link MathUnsupportedOperationException} if bounds are passed to it.
  * In order to impose simple constraints, the objective function must be
  * wrapped in an adapter like
@@ -288,7 +288,7 @@ public class PowellOptimizer
 
     /**
      * @throws MathUnsupportedOperationException if bounds were passed to the
-     * {@link #optimize(OptimizationData[]) optimize} method.
+     * {@link #optimize(org.apache.commons.math4.optim.OptimizationData[]) optimize} method.
      */
     private void checkParameters() {
         if (getLowerBound() != null ||

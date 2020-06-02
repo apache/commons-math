@@ -48,9 +48,7 @@ public class Covariance {
     /** covariance matrix */
     private final RealMatrix covarianceMatrix;
 
-    /**
-     * Create an empty covariance matrix.
-     */
+    /* Create an empty covariance matrix. */
     /** Number of observations (length of covariate vectors) */
     private final int n;
 
