@@ -25,7 +25,6 @@ import org.apache.commons.math4.exception.NullArgumentException;
 import org.apache.commons.math4.exception.NumberIsTooSmallException;
 import org.apache.commons.math4.exception.OutOfRangeException;
 import org.apache.commons.math4.dfp.Dfp;
-import org.apache.commons.math4.dfp.DfpField;
 import org.apache.commons.math4.linear.Array2DRowFieldMatrix;
 import org.apache.commons.math4.linear.ArrayFieldVector;
 import org.apache.commons.math4.linear.FieldLUDecomposition;

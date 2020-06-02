@@ -25,8 +25,6 @@ import org.apache.commons.math4.exception.NotANumberException;
 import org.apache.commons.math4.exception.NotPositiveException;
 import org.apache.commons.math4.exception.NotStrictlyPositiveException;
 import org.apache.commons.math4.exception.NullArgumentException;
-import org.apache.commons.rng.UniformRandomProvider;
-import org.apache.commons.rng.simple.RandomSource;
 import org.apache.commons.math4.util.FastMath;
 import org.apache.commons.math4.util.MathArrays;
 import org.apache.commons.numbers.core.Precision;

@@ -21,7 +21,6 @@ import org.junit.Test;
 import org.junit.Assert;
 import org.apache.commons.math4.TestUtils;
 import org.apache.commons.math4.dfp.Dfp;
-import org.apache.commons.math4.dfp.DfpField;
 import org.apache.commons.math4.linear.Array2DRowFieldMatrix;
 import org.apache.commons.math4.linear.FieldLUDecomposition;
 import org.apache.commons.math4.linear.FieldMatrix;
