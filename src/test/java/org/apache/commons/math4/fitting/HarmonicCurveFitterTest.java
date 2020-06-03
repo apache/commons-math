@@ -28,7 +28,6 @@ import org.apache.commons.math4.fitting.HarmonicCurveFitter;
 import org.apache.commons.math4.fitting.WeightedObservedPoint;
 import org.apache.commons.math4.fitting.WeightedObservedPoints;
 import org.apache.commons.math4.util.FastMath;
-import org.apache.commons.math4.util.MathUtils;
 import org.junit.Assert;
 import org.junit.Test;
 

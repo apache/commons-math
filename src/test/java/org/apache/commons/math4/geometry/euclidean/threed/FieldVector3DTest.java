@@ -17,11 +17,6 @@
 
 package org.apache.commons.math4.geometry.euclidean.threed;
 
-import java.text.DecimalFormat;
-import java.text.DecimalFormatSymbols;
-import java.text.NumberFormat;
-import java.util.Locale;
-
 import org.apache.commons.geometry.euclidean.threed.Vector3D;
 import org.apache.commons.math4.analysis.differentiation.DerivativeStructure;
 import org.apache.commons.math4.exception.DimensionMismatchException;

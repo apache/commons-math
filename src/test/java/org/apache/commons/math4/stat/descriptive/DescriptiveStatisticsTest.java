@@ -17,9 +17,7 @@ import java.util.Locale;
 
 import org.apache.commons.math4.TestUtils;
 import org.apache.commons.math4.exception.MathIllegalArgumentException;
-import org.apache.commons.math4.exception.NullArgumentException;
 import org.apache.commons.math4.stat.descriptive.DescriptiveStatistics;
-import static org.apache.commons.math4.stat.descriptive.DescriptiveStatistics.copy;
 import org.apache.commons.math4.stat.descriptive.SummaryStatistics;
 import org.apache.commons.math4.stat.descriptive.UnivariateStatistic;
 import org.apache.commons.math4.stat.descriptive.moment.GeometricMean;
@@ -30,12 +28,10 @@ import org.apache.commons.math4.stat.descriptive.rank.Min;
 import org.apache.commons.math4.stat.descriptive.rank.Percentile;
 import org.apache.commons.math4.stat.descriptive.summary.Sum;
 import org.apache.commons.math4.stat.descriptive.summary.SumOfSquares;
-import org.apache.commons.math4.util.ResizableDoubleArray;
 import org.apache.commons.numbers.core.Precision;
 import org.apache.commons.rng.UniformRandomProvider;
 import org.apache.commons.rng.simple.RandomSource;
 import org.junit.Assert;
-import org.junit.BeforeClass;
 import org.junit.Test;
 
 /**
