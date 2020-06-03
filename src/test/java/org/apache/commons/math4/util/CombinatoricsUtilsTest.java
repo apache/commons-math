@@ -17,18 +17,14 @@
 package org.apache.commons.math4.util;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.math4.exception.MathArithmeticException;
-import org.apache.commons.math4.exception.MathIllegalArgumentException;
 import org.apache.commons.math4.exception.NotPositiveException;
 import org.apache.commons.math4.exception.NumberIsTooLargeException;
-import org.apache.commons.numbers.core.ArithmeticUtils;
 import org.apache.commons.numbers.combinatorics.BinomialCoefficient;
 import org.apache.commons.math4.util.CombinatoricsUtils;
-import org.apache.commons.math4.util.FastMath;
 import org.junit.Assert;
 import org.junit.Test;
 

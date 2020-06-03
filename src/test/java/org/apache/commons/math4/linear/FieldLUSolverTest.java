@@ -19,7 +19,6 @@ package org.apache.commons.math4.linear;
 
 import org.apache.commons.math4.exception.MathIllegalArgumentException;
 import org.apache.commons.math4.dfp.Dfp;
-import org.apache.commons.math4.dfp.DfpField;
 import org.apache.commons.math4.linear.Array2DRowFieldMatrix;
 import org.apache.commons.math4.linear.FieldDecompositionSolver;
 import org.apache.commons.math4.linear.FieldLUDecomposition;

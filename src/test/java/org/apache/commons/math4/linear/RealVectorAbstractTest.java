@@ -59,7 +59,6 @@ import org.apache.commons.math4.linear.RealVector;
 import org.apache.commons.math4.linear.RealVectorChangingVisitor;
 import org.apache.commons.math4.linear.RealVectorPreservingVisitor;
 import org.apache.commons.math4.util.FastMath;
-import org.apache.commons.math4.util.MathArrays;
 import org.junit.Assert;
 import org.junit.Test;
 
