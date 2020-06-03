@@ -44,11 +44,8 @@ import org.apache.commons.math4.stat.descriptive.moment.Variance;
  * @since 2.0
  */
 public class Covariance {
-
     /** covariance matrix */
     private final RealMatrix covarianceMatrix;
-
-    /* Create an empty covariance matrix. */
     /** Number of observations (length of covariate vectors) */
     private final int n;
 
