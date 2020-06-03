@@ -118,7 +118,7 @@ public class Variance extends AbstractStorelessUnivariateStatistic implements Se
      * property.
      *
      * @param isBiasCorrected  setting for bias correction - true means
-     * bias will be corrected and is equivalent to using the non-argument
+     * bias will be corrected and is equivalent to using the "no arg"
      * constructor
      */
     public Variance(boolean isBiasCorrected) {
