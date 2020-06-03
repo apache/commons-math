@@ -94,7 +94,7 @@
     Continued Fraction, equation (1)</a> from MathWorld.
   </p>
   <p>
-    As an example, the constant Pi can be computed using a <a href="http://functions.wolfram.com/Constants/Pi/10/0002/">continued fraction</a>.  The following anonymous class
+    As an example, the constant &pi; can be computed using a <a href="http://functions.wolfram.com/Constants/Pi/10/0002/">continued fraction</a>.  The following anonymous class
     provides the implementation:
     <source>ContinuedFraction c = new ContinuedFraction() {
     public double getA(int n, double x) {
@@ -111,8 +111,8 @@
 }</source>
   </p>
   <p>
-    Then, to evalute Pi, simply call any of the <code>evalute</code> methods
-    (Note, the point of evaluation in this example is meaningless since Pi is a
+    Then, to evalute &pi;, simply call any of the <code>evalute</code> methods
+    (Note, the point of evaluation in this example is meaningless since &pi; is a
     constant).
   </p>
   <p>
