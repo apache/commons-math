@@ -116,7 +116,7 @@ public class MultivariateFunctionPenaltyAdapter
      * @param offset base offset of the penalty function
      * @param scale scale of the penalty function
      * @exception DimensionMismatchException if lower bounds, upper bounds and
-     * scales are not consistent, either according to dimension or to bounadary
+     * scales are not consistent, either according to dimension or to boundary
      * values
      */
     public MultivariateFunctionPenaltyAdapter(final MultivariateFunction bounded,

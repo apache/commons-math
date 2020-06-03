@@ -117,7 +117,7 @@ public class WilcoxonSignedRankTestTest {
             // expected
         }
 
-        /* Samples not same size, i.e. cannot be pairred
+        /* Samples not same size, i.e. cannot be paired
          */
         try {
             testStatistic.wilcoxonSignedRankTest(new double[] { 1.0, 2.0 }, new double[] { 3.0 }, true);

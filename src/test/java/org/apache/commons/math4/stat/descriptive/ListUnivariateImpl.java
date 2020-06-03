@@ -78,7 +78,7 @@ public class ListUnivariateImpl extends DescriptiveStatistics implements Seriali
         // If the window size is not INFINITE_WINDOW AND
         // the current list is larger that the window size, we need to
         // take into account only the last n elements of the list
-        // as definied by windowSize
+        // as defined by windowSize
 
         final int wSize = getWindowSize();
         if (wSize != DescriptiveStatistics.INFINITE_WINDOW && wSize < list.size()) {

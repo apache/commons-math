@@ -332,7 +332,7 @@ public class IntegerSequence {
          * {@link MaxCountExceededCallback#trigger(int) trigger} method of the
          * callback object passed to the
          * {@link #withCallback(MaxCountExceededCallback)} method.
-         * If not explictly set, a default callback is used that will throw
+         * If not explicitly set, a default callback is used that will throw
          * a {@code MaxCountExceededException}.
          *
          * @throws MaxCountExceededException at counter exhaustion, unless a

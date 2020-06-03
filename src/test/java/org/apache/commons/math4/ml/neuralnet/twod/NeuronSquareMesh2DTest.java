@@ -99,7 +99,7 @@ public class NeuronSquareMesh2DTest {
             for (long nId : new long[] { 1, 2 }) {
                 Assert.assertTrue(neighbours.contains(net.getNeuron(nId)));
             }
-            // Ensures that no other neurons is in the neihbourhood set.
+            // Ensures that no other neurons is in the neighbourhood set.
             Assert.assertEquals(2, neighbours.size());
         }
 
@@ -109,7 +109,7 @@ public class NeuronSquareMesh2DTest {
             for (long nId : new long[] { 0, 3 }) {
                 Assert.assertTrue(neighbours.contains(net.getNeuron(nId)));
             }
-            // Ensures that no other neurons is in the neihbourhood set.
+            // Ensures that no other neurons is in the neighbourhood set.
             Assert.assertEquals(2, neighbours.size());
         }
     }
@@ -164,7 +164,7 @@ public class NeuronSquareMesh2DTest {
         for (long nId : new long[] { 1, 2, 3 }) {
             Assert.assertTrue(neighbours.contains(net.getNeuron(nId)));
         }
-        // Ensures that no other neurons is in the neihbourhood set.
+        // Ensures that no other neurons is in the neighbourhood set.
         Assert.assertEquals(3, neighbours.size());
 
         // Neuron 1.
@@ -172,7 +172,7 @@ public class NeuronSquareMesh2DTest {
         for (long nId : new long[] { 0, 2, 4 }) {
             Assert.assertTrue(neighbours.contains(net.getNeuron(nId)));
         }
-        // Ensures that no other neurons is in the neihbourhood set.
+        // Ensures that no other neurons is in the neighbourhood set.
         Assert.assertEquals(3, neighbours.size());
 
         // Neuron 2.
@@ -180,7 +180,7 @@ public class NeuronSquareMesh2DTest {
         for (long nId : new long[] { 0, 1, 5 }) {
             Assert.assertTrue(neighbours.contains(net.getNeuron(nId)));
         }
-        // Ensures that no other neurons is in the neihbourhood set.
+        // Ensures that no other neurons is in the neighbourhood set.
         Assert.assertEquals(3, neighbours.size());
 
         // Neuron 3.
@@ -188,7 +188,7 @@ public class NeuronSquareMesh2DTest {
         for (long nId : new long[] { 0, 4, 5 }) {
             Assert.assertTrue(neighbours.contains(net.getNeuron(nId)));
         }
-        // Ensures that no other neurons is in the neihbourhood set.
+        // Ensures that no other neurons is in the neighbourhood set.
         Assert.assertEquals(3, neighbours.size());
 
         // Neuron 4.
@@ -196,7 +196,7 @@ public class NeuronSquareMesh2DTest {
         for (long nId : new long[] { 1, 3, 5 }) {
             Assert.assertTrue(neighbours.contains(net.getNeuron(nId)));
         }
-        // Ensures that no other neurons is in the neihbourhood set.
+        // Ensures that no other neurons is in the neighbourhood set.
         Assert.assertEquals(3, neighbours.size());
 
         // Neuron 5.
@@ -204,7 +204,7 @@ public class NeuronSquareMesh2DTest {
         for (long nId : new long[] { 2, 3, 4 }) {
             Assert.assertTrue(neighbours.contains(net.getNeuron(nId)));
         }
-        // Ensures that no other neurons is in the neihbourhood set.
+        // Ensures that no other neurons is in the neighbourhood set.
         Assert.assertEquals(3, neighbours.size());
     }
 
@@ -262,7 +262,7 @@ public class NeuronSquareMesh2DTest {
         for (long nId : new long[] { 1, 2, 3, 6 }) {
             Assert.assertTrue(neighbours.contains(net.getNeuron(nId)));
         }
-        // Ensures that no other neurons is in the neihbourhood set.
+        // Ensures that no other neurons is in the neighbourhood set.
         Assert.assertEquals(4, neighbours.size());
 
         // Neuron 1.
@@ -270,7 +270,7 @@ public class NeuronSquareMesh2DTest {
         for (long nId : new long[] { 0, 2, 4, 7 }) {
             Assert.assertTrue(neighbours.contains(net.getNeuron(nId)));
         }
-        // Ensures that no other neurons is in the neihbourhood set.
+        // Ensures that no other neurons is in the neighbourhood set.
         Assert.assertEquals(4, neighbours.size());
 
         // Neuron 2.
@@ -278,7 +278,7 @@ public class NeuronSquareMesh2DTest {
         for (long nId : new long[] { 0, 1, 5, 8 }) {
             Assert.assertTrue(neighbours.contains(net.getNeuron(nId)));
         }
-        // Ensures that no other neurons is in the neihbourhood set.
+        // Ensures that no other neurons is in the neighbourhood set.
         Assert.assertEquals(4, neighbours.size());
 
         // Neuron 3.
@@ -286,7 +286,7 @@ public class NeuronSquareMesh2DTest {
         for (long nId : new long[] { 0, 4, 5, 6 }) {
             Assert.assertTrue(neighbours.contains(net.getNeuron(nId)));
         }
-        // Ensures that no other neurons is in the neihbourhood set.
+        // Ensures that no other neurons is in the neighbourhood set.
         Assert.assertEquals(4, neighbours.size());
 
         // Neuron 4.
@@ -294,7 +294,7 @@ public class NeuronSquareMesh2DTest {
         for (long nId : new long[] { 1, 3, 5, 7 }) {
             Assert.assertTrue(neighbours.contains(net.getNeuron(nId)));
         }
-        // Ensures that no other neurons is in the neihbourhood set.
+        // Ensures that no other neurons is in the neighbourhood set.
         Assert.assertEquals(4, neighbours.size());
 
         // Neuron 5.
@@ -302,7 +302,7 @@ public class NeuronSquareMesh2DTest {
         for (long nId : new long[] { 2, 3, 4, 8 }) {
             Assert.assertTrue(neighbours.contains(net.getNeuron(nId)));
         }
-        // Ensures that no other neurons is in the neihbourhood set.
+        // Ensures that no other neurons is in the neighbourhood set.
         Assert.assertEquals(4, neighbours.size());
 
         // Neuron 6.
@@ -310,7 +310,7 @@ public class NeuronSquareMesh2DTest {
         for (long nId : new long[] { 0, 3, 7, 8 }) {
             Assert.assertTrue(neighbours.contains(net.getNeuron(nId)));
         }
-        // Ensures that no other neurons is in the neihbourhood set.
+        // Ensures that no other neurons is in the neighbourhood set.
         Assert.assertEquals(4, neighbours.size());
 
         // Neuron 7.
@@ -318,7 +318,7 @@ public class NeuronSquareMesh2DTest {
         for (long nId : new long[] { 1, 4, 6, 8 }) {
             Assert.assertTrue(neighbours.contains(net.getNeuron(nId)));
         }
-        // Ensures that no other neurons is in the neihbourhood set.
+        // Ensures that no other neurons is in the neighbourhood set.
         Assert.assertEquals(4, neighbours.size());
 
         // Neuron 8.
@@ -326,7 +326,7 @@ public class NeuronSquareMesh2DTest {
         for (long nId : new long[] { 2, 5, 6, 7 }) {
             Assert.assertTrue(neighbours.contains(net.getNeuron(nId)));
         }
-        // Ensures that no other neurons is in the neihbourhood set.
+        // Ensures that no other neurons is in the neighbourhood set.
         Assert.assertEquals(4, neighbours.size());
     }
 
@@ -387,7 +387,7 @@ public class NeuronSquareMesh2DTest {
         for (long nId : new long[] { 1, 2, 3, 4, 5}) {
             Assert.assertTrue(neighbours.contains(net.getNeuron(nId)));
         }
-        // Ensures that no other neurons is in the neihbourhood set.
+        // Ensures that no other neurons is in the neighbourhood set.
         Assert.assertEquals(5, neighbours.size());
 
         // Neuron 1.
@@ -395,7 +395,7 @@ public class NeuronSquareMesh2DTest {
         for (long nId : new long[] { 0, 2, 3, 4, 5 }) {
             Assert.assertTrue(neighbours.contains(net.getNeuron(nId)));
         }
-        // Ensures that no other neurons is in the neihbourhood set.
+        // Ensures that no other neurons is in the neighbourhood set.
         Assert.assertEquals(5, neighbours.size());
 
         // Neuron 2.
@@ -403,7 +403,7 @@ public class NeuronSquareMesh2DTest {
         for (long nId : new long[] { 0, 1, 3, 4, 5 }) {
             Assert.assertTrue(neighbours.contains(net.getNeuron(nId)));
         }
-        // Ensures that no other neurons is in the neihbourhood set.
+        // Ensures that no other neurons is in the neighbourhood set.
         Assert.assertEquals(5, neighbours.size());
 
         // Neuron 3.
@@ -411,7 +411,7 @@ public class NeuronSquareMesh2DTest {
         for (long nId : new long[] { 0, 1, 2, 4, 5, 6, 7, 8 }) {
             Assert.assertTrue(neighbours.contains(net.getNeuron(nId)));
         }
-        // Ensures that no other neurons is in the neihbourhood set.
+        // Ensures that no other neurons is in the neighbourhood set.
         Assert.assertEquals(8, neighbours.size());
 
         // Neuron 4.
@@ -419,7 +419,7 @@ public class NeuronSquareMesh2DTest {
         for (long nId : new long[] { 0, 1, 2, 3, 5, 6, 7, 8 }) {
             Assert.assertTrue(neighbours.contains(net.getNeuron(nId)));
         }
-        // Ensures that no other neurons is in the neihbourhood set.
+        // Ensures that no other neurons is in the neighbourhood set.
         Assert.assertEquals(8, neighbours.size());
 
         // Neuron 5.
@@ -427,7 +427,7 @@ public class NeuronSquareMesh2DTest {
         for (long nId : new long[] { 0, 1, 2, 3, 4, 6, 7, 8 }) {
             Assert.assertTrue(neighbours.contains(net.getNeuron(nId)));
         }
-        // Ensures that no other neurons is in the neihbourhood set.
+        // Ensures that no other neurons is in the neighbourhood set.
         Assert.assertEquals(8, neighbours.size());
 
         // Neuron 6.
@@ -435,7 +435,7 @@ public class NeuronSquareMesh2DTest {
         for (long nId : new long[] { 3, 4, 5, 7, 8 }) {
             Assert.assertTrue(neighbours.contains(net.getNeuron(nId)));
         }
-        // Ensures that no other neurons is in the neihbourhood set.
+        // Ensures that no other neurons is in the neighbourhood set.
         Assert.assertEquals(5, neighbours.size());
 
         // Neuron 7.
@@ -443,7 +443,7 @@ public class NeuronSquareMesh2DTest {
         for (long nId : new long[] { 3, 4, 5, 6, 8 }) {
             Assert.assertTrue(neighbours.contains(net.getNeuron(nId)));
         }
-        // Ensures that no other neurons is in the neihbourhood set.
+        // Ensures that no other neurons is in the neighbourhood set.
         Assert.assertEquals(5, neighbours.size());
 
         // Neuron 8.
@@ -451,7 +451,7 @@ public class NeuronSquareMesh2DTest {
         for (long nId : new long[] { 3, 4, 5, 6, 7 }) {
             Assert.assertTrue(neighbours.contains(net.getNeuron(nId)));
         }
-        // Ensures that no other neurons is in the neihbourhood set.
+        // Ensures that no other neurons is in the neighbourhood set.
         Assert.assertEquals(5, neighbours.size());
     }
 
@@ -480,7 +480,7 @@ public class NeuronSquareMesh2DTest {
         for (long nId : new long[] { 1, 3, 4}) {
             Assert.assertTrue(neighbours.contains(net.getNeuron(nId)));
         }
-        // Ensures that no other neurons is in the neihbourhood set.
+        // Ensures that no other neurons is in the neighbourhood set.
         Assert.assertEquals(3, neighbours.size());
 
         // Neuron 1.
@@ -488,7 +488,7 @@ public class NeuronSquareMesh2DTest {
         for (long nId : new long[] { 0, 2, 3, 4, 5 }) {
             Assert.assertTrue(neighbours.contains(net.getNeuron(nId)));
         }
-        // Ensures that no other neurons is in the neihbourhood set.
+        // Ensures that no other neurons is in the neighbourhood set.
         Assert.assertEquals(5, neighbours.size());
 
         // Neuron 2.
@@ -496,7 +496,7 @@ public class NeuronSquareMesh2DTest {
         for (long nId : new long[] { 1, 4, 5 }) {
             Assert.assertTrue(neighbours.contains(net.getNeuron(nId)));
         }
-        // Ensures that no other neurons is in the neihbourhood set.
+        // Ensures that no other neurons is in the neighbourhood set.
         Assert.assertEquals(3, neighbours.size());
 
         // Neuron 3.
@@ -504,7 +504,7 @@ public class NeuronSquareMesh2DTest {
         for (long nId : new long[] { 0, 1, 4, 6, 7 }) {
             Assert.assertTrue(neighbours.contains(net.getNeuron(nId)));
         }
-        // Ensures that no other neurons is in the neihbourhood set.
+        // Ensures that no other neurons is in the neighbourhood set.
         Assert.assertEquals(5, neighbours.size());
 
         // Neuron 4.
@@ -512,7 +512,7 @@ public class NeuronSquareMesh2DTest {
         for (long nId : new long[] { 0, 1, 2, 3, 5, 6, 7, 8 }) {
             Assert.assertTrue(neighbours.contains(net.getNeuron(nId)));
         }
-        // Ensures that no other neurons is in the neihbourhood set.
+        // Ensures that no other neurons is in the neighbourhood set.
         Assert.assertEquals(8, neighbours.size());
 
         // Neuron 5.
@@ -520,7 +520,7 @@ public class NeuronSquareMesh2DTest {
         for (long nId : new long[] { 1, 2, 4, 7, 8 }) {
             Assert.assertTrue(neighbours.contains(net.getNeuron(nId)));
         }
-        // Ensures that no other neurons is in the neihbourhood set.
+        // Ensures that no other neurons is in the neighbourhood set.
         Assert.assertEquals(5, neighbours.size());
 
         // Neuron 6.
@@ -528,7 +528,7 @@ public class NeuronSquareMesh2DTest {
         for (long nId : new long[] { 3, 4, 7 }) {
             Assert.assertTrue(neighbours.contains(net.getNeuron(nId)));
         }
-        // Ensures that no other neurons is in the neihbourhood set.
+        // Ensures that no other neurons is in the neighbourhood set.
         Assert.assertEquals(3, neighbours.size());
 
         // Neuron 7.
@@ -536,7 +536,7 @@ public class NeuronSquareMesh2DTest {
         for (long nId : new long[] { 3, 4, 5, 6, 8 }) {
             Assert.assertTrue(neighbours.contains(net.getNeuron(nId)));
         }
-        // Ensures that no other neurons is in the neihbourhood set.
+        // Ensures that no other neurons is in the neighbourhood set.
         Assert.assertEquals(5, neighbours.size());
 
         // Neuron 8.
@@ -544,7 +544,7 @@ public class NeuronSquareMesh2DTest {
         for (long nId : new long[] { 4, 5, 7 }) {
             Assert.assertTrue(neighbours.contains(net.getNeuron(nId)));
         }
-        // Ensures that no other neurons is in the neihbourhood set.
+        // Ensures that no other neurons is in the neighbourhood set.
         Assert.assertEquals(3, neighbours.size());
     }
 
@@ -581,7 +581,7 @@ public class NeuronSquareMesh2DTest {
         for (long nId : new long[] { 7, 11, 13, 17 }) {
             Assert.assertTrue(neighbours.contains(net.getNeuron(nId)));
         }
-        // Ensures that no other neurons is in the neihbourhood set.
+        // Ensures that no other neurons is in the neighbourhood set.
         Assert.assertEquals(4, neighbours.size());
 
         // 1. Add the neuron to the "exclude" list.
@@ -593,7 +593,7 @@ public class NeuronSquareMesh2DTest {
         for (long nId : new long[] { 6, 8, 16, 18, 2, 10, 14, 22 }) {
             Assert.assertTrue(neighbours.contains(net.getNeuron(nId)));
         }
-        // Ensures that no other neurons is in the neihbourhood set.
+        // Ensures that no other neurons is in the neighbourhood set.
         Assert.assertEquals(8, neighbours.size());
     }
 
@@ -630,7 +630,7 @@ public class NeuronSquareMesh2DTest {
         for (long nId : new long[] { 2, 3, 4, 7, 9, 12, 13, 14 }) {
             Assert.assertTrue(neighbours.contains(net.getNeuron(nId)));
         }
-        // Ensures that no other neurons is in the neihbourhood set.
+        // Ensures that no other neurons is in the neighbourhood set.
         Assert.assertEquals(8, neighbours.size());
 
         // 1. Add the neuron to the "exclude" list.
@@ -642,7 +642,7 @@ public class NeuronSquareMesh2DTest {
         for (long nId : new long[] { 1, 6, 11, 16, 17, 18, 19, 15, 10, 5, 0, 20, 24, 23, 22, 21 }) {
             Assert.assertTrue(neighbours.contains(net.getNeuron(nId)));
         }
-        // Ensures that no other neurons is in the neihbourhood set.
+        // Ensures that no other neurons is in the neighbourhood set.
         Assert.assertEquals(16, neighbours.size());
     }
 

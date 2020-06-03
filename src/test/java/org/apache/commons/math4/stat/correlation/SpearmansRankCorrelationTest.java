@@ -39,7 +39,7 @@ public class SpearmansRankCorrelationTest extends PearsonsCorrelationTest {
      */
     @Override
     @Test
-    public void testLongly() {
+    public void testLongley() {
         RealMatrix matrix = createRealMatrix(longleyData, 16, 7);
         SpearmansCorrelation corrInstance = new SpearmansCorrelation(matrix);
         RealMatrix correlationMatrix = corrInstance.getCorrelationMatrix();

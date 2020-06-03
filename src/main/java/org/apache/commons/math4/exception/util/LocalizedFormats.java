@@ -303,7 +303,7 @@ public enum LocalizedFormats implements Localizable {
     OVERFLOW_IN_MULTIPLICATION("overflow in multiplication: {0} * {1}"),
     PERCENTILE_IMPLEMENTATION_CANNOT_ACCESS_METHOD("cannot access {0} method in percentile implementation {1}"),
     PERCENTILE_IMPLEMENTATION_UNSUPPORTED_METHOD("percentile implementation {0} does not support {1}"),
-    PERMUTATION_EXCEEDS_N("permutation size ({0}) exceeds permuation domain ({1})"), /* keep */
+    PERMUTATION_EXCEEDS_N("permutation size ({0}) exceeds permutation domain ({1})"), /* keep */
     POLYNOMIAL("polynomial"), /* keep */
     POLYNOMIAL_INTERPOLANTS_MISMATCH_SEGMENTS("number of polynomial interpolants must match the number of segments ({0} != {1} - 1)"),
     POPULATION_LIMIT_NOT_POSITIVE("population limit has to be positive"),
@@ -357,7 +357,7 @@ public enum LocalizedFormats implements Localizable {
     VALUES_ADDED_BEFORE_CONFIGURING_STATISTIC("{0} values have been added before statistic is configured"),
     VECTOR_LENGTH_MISMATCH("vector length mismatch: got {0} but expected {1}"),
     VECTOR_MUST_HAVE_AT_LEAST_ONE_ELEMENT("vector must have at least one element"),
-    WEIGHT_AT_LEAST_ONE_NON_ZERO("weigth array must contain at least one non-zero value"),
+    WEIGHT_AT_LEAST_ONE_NON_ZERO("weight array must contain at least one non-zero value"),
     WRONG_BLOCK_LENGTH("wrong array shape (block length = {0}, expected {1})"),
     WRONG_NUMBER_OF_POINTS("{0} points are required, got only {1}"),
     NUMBER_OF_POINTS("number of points ({0})"), /* keep */

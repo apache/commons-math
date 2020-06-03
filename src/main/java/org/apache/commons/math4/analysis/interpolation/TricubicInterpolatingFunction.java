@@ -114,7 +114,7 @@ public class TricubicInterpolatingFunction
     private final double[] yval;
     /** Samples z-coordinates */
     private final double[] zval;
-    /** Set of cubic splines pacthing the whole data grid */
+    /** Set of cubic splines patching the whole data grid */
     private final TricubicFunction[][][] splines;
 
     /**

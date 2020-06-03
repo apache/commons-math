@@ -143,7 +143,7 @@ public class Kurtosis extends AbstractStorelessUnivariateStatistic  implements S
         return moment.getN();
     }
 
-    /* UnvariateStatistic Approach  */
+    /* UinvariateStatistic Approach  */
 
     /**
      * Returns the kurtosis of the entries in the specified portion of the

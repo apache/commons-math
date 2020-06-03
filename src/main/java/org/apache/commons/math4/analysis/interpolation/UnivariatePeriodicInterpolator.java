@@ -50,7 +50,7 @@ public class UnivariatePeriodicInterpolator
      * @param period Period.
      * @param extend Number of points to be appended at the beginning and
      * end of the sample arrays in order to avoid interpolation failure at
-     * the (periodic) boundaries of the orginal interval. The value is the
+     * the (periodic) boundaries of the original interval. The value is the
      * number of sample points which the original {@code interpolator} needs
      * on each side of the interpolated point.
      */

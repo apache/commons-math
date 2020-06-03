@@ -62,7 +62,7 @@ public class DfpDecTest {
         b = (b && x.getField().getIEEEFlags() == flags);
 
         if (!b) {
-            Assert.assertTrue("assersion failed "+desc+" x = "+x.toString()+" flags = "+x.getField().getIEEEFlags(), b);
+            Assert.assertTrue("assertion failed "+desc+" x = "+x.toString()+" flags = "+x.getField().getIEEEFlags(), b);
         }
 
         x.getField().clearIEEEFlags();

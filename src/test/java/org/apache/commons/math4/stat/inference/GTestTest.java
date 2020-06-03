@@ -93,7 +93,7 @@ public class GTestTest {
     }
 
     @Test
-    public void testGTestIndependance1() throws Exception {
+    public void testGTestIndependence1() throws Exception {
         final long[] obs1 = new long[]{
             268, 199, 42
         };
@@ -113,7 +113,7 @@ public class GTestTest {
     }
 
     @Test
-    public void testGTestIndependance2() throws Exception {
+    public void testGTestIndependence2() throws Exception {
         final long[] obs1 = new long[]{
             127, 99, 264
         };
@@ -133,7 +133,7 @@ public class GTestTest {
     }
 
     @Test
-    public void testGTestIndependance3() throws Exception {
+    public void testGTestIndependence3() throws Exception {
         final long[] obs1 = new long[]{
             190, 149
         };

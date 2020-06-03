@@ -295,7 +295,7 @@ public class RealMatrixFormat {
      * Parse a string to produce a {@link RealMatrix} object.
      *
      * @param source String to parse.
-     * @param pos input/ouput parsing parameter.
+     * @param pos input/output parsing parameter.
      * @return the parsed {@link RealMatrix} object.
      */
     public RealMatrix parse(String source, ParsePosition pos) {

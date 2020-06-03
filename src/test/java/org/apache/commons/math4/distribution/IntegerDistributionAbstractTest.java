@@ -39,7 +39,7 @@ import org.junit.Test;
  *  makeDensityTestPoints() -- arguments used to test probability density calculation
  *  makeDensityTestValues() -- expected probability densities
  *  makeCumulativeTestPoints() -- arguments used to test cumulative probabilities
- *  makeCumulativeTestValues() -- expected cumulative probabilites
+ *  makeCumulativeTestValues() -- expected cumulative probabilities
  *  makeInverseCumulativeTestPoints() -- arguments used to test inverse cdf evaluation
  *  makeInverseCumulativeTestValues() -- expected inverse cdf values
  * <p>
@@ -241,7 +241,7 @@ public abstract class IntegerDistributionAbstractTest {
     @Test
     public void testConsistencyAtSupportBounds() {
         final int lower = distribution.getSupportLowerBound();
-        Assert.assertEquals("Cumulative probability mmust be 0 below support lower bound.",
+        Assert.assertEquals("Cumulative probability must be 0 below support lower bound.",
                 0.0, distribution.cumulativeProbability(lower - 1), 0.0);
         Assert.assertEquals("Cumulative probability of support lower bound must be equal to probability mass at this point.",
                 distribution.probability(lower), distribution.cumulativeProbability(lower), getTolerance());

@@ -55,7 +55,7 @@ public class GeneticAlgorithmTestBinary {
         // initialize a new genetic algorithm
         GeneticAlgorithm ga = new GeneticAlgorithm(
                 new OnePointCrossover<Integer>(),
-                CROSSOVER_RATE, // all selected chromosomes will be recombined (=crosssover)
+                CROSSOVER_RATE, // all selected chromosomes will be recombined (=crossover)
                 new BinaryMutation(),
                 MUTATION_RATE,
                 new TournamentSelection(TOURNAMENT_ARITY)

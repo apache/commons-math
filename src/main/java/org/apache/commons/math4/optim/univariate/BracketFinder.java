@@ -215,14 +215,14 @@ public class BracketFinder {
     }
 
     /**
-     * @return the number of evalutations.
+     * @return the number of evaluations.
      */
     public int getMaxEvaluations() {
         return maxEvaluations;
     }
 
     /**
-     * @return the number of evalutations.
+     * @return the number of evaluations.
      */
     public int getEvaluations() {
         return evaluations;

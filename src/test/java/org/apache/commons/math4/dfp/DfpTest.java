@@ -79,7 +79,7 @@ public class DfpTest extends ExtendedFieldElementAbstractTest<Dfp> {
         b = (b && x.getField().getIEEEFlags() == flags);
 
         if (!b)
-            Assert.assertTrue("assersion failed "+desc+" x = "+x.toString()+" flags = "+x.getField().getIEEEFlags(), b);
+            Assert.assertTrue("assertion failed "+desc+" x = "+x.toString()+" flags = "+x.getField().getIEEEFlags(), b);
 
         x.getField().clearIEEEFlags();
     }
@@ -377,25 +377,25 @@ public class DfpTest extends ExtendedFieldElementAbstractTest<Dfp> {
     {
         if (op == "equal") {
             if (a.equals(b) != result) {
-                Assert.fail("assersion failed.  "+op+" compare #"+num);
+                Assert.fail("assertion failed.  "+op+" compare #"+num);
             }
         }
 
         if (op == "unequal") {
             if (a.unequal(b) != result) {
-                Assert.fail("assersion failed.  "+op+" compare #"+num);
+                Assert.fail("assertion failed.  "+op+" compare #"+num);
             }
         }
 
         if (op == "lessThan") {
             if (a.lessThan(b) != result) {
-                Assert.fail("assersion failed.  "+op+" compare #"+num);
+                Assert.fail("assertion failed.  "+op+" compare #"+num);
             }
         }
 
         if (op == "greaterThan") {
             if (a.greaterThan(b) != result) {
-                Assert.fail("assersion failed.  "+op+" compare #"+num);
+                Assert.fail("assertion failed.  "+op+" compare #"+num);
             }
         }
     }
@@ -421,14 +421,14 @@ public class DfpTest extends ExtendedFieldElementAbstractTest<Dfp> {
         cmptst(field.newDfp("0"), field.newDfp("1e-131072"), "equal", false, 9); // 0 == 1e-131072
         // check flags
         if (field.getIEEEFlags() != 0) {
-            Assert.fail("assersion failed.  compare flags = "+field.getIEEEFlags());
+            Assert.fail("assertion failed.  compare flags = "+field.getIEEEFlags());
         }
 
         cmptst(field.newDfp("0"), field.newDfp("1e-131078"), "equal", false, 10); // 0 == 1e-131078
 
         // check flags  -- underflow should be set
         if (field.getIEEEFlags() != DfpField.FLAG_UNDERFLOW) {
-            Assert.fail("assersion failed.  compare flags = "+field.getIEEEFlags());
+            Assert.fail("assertion failed.  compare flags = "+field.getIEEEFlags());
         }
 
         field.clearIEEEFlags();
@@ -460,12 +460,12 @@ public class DfpTest extends ExtendedFieldElementAbstractTest<Dfp> {
         // 100000 == 1.0000000000000001
         cmptst(field.newDfp("1e20"), field.newDfp("1.0000000000000001"), "equal", false, 24);
         if (field.getIEEEFlags() != 0) {
-            Assert.fail("assersion failed.  compare flags = "+field.getIEEEFlags());
+            Assert.fail("assertion failed.  compare flags = "+field.getIEEEFlags());
         }
 
         cmptst(field.newDfp("0.000001"), field.newDfp("1e-6"), "equal", true, 25);
 
-        // check some nans -- nans shouldnt equal anything
+        // check some nans -- nans shouldn't equal anything
 
         cmptst(snan, snan, "equal", false, 27);
         cmptst(qnan, qnan, "equal", false, 28);
@@ -512,14 +512,14 @@ public class DfpTest extends ExtendedFieldElementAbstractTest<Dfp> {
         cmptst(field.newDfp("0"), field.newDfp("1e-131072"), "unequal", true, 9); // 0 == 1e-131072
         // check flags
         if (field.getIEEEFlags() != 0) {
-            Assert.fail("assersion failed.  compare flags = "+field.getIEEEFlags());
+            Assert.fail("assertion failed.  compare flags = "+field.getIEEEFlags());
         }
 
         cmptst(field.newDfp("0"), field.newDfp("1e-131078"), "unequal", true, 10); // 0 == 1e-131078
 
         // check flags  -- underflow should be set
         if (field.getIEEEFlags() != DfpField.FLAG_UNDERFLOW) {
-            Assert.fail("assersion failed.  compare flags = "+field.getIEEEFlags());
+            Assert.fail("assertion failed.  compare flags = "+field.getIEEEFlags());
         }
 
         field.clearIEEEFlags();
@@ -551,12 +551,12 @@ public class DfpTest extends ExtendedFieldElementAbstractTest<Dfp> {
         // 100000 == 1.0000000000000001
         cmptst(field.newDfp("1e20"), field.newDfp("1.0000000000000001"), "unequal", true, 24);
         if (field.getIEEEFlags() != 0) {
-            Assert.fail("assersion failed.  compare flags = "+field.getIEEEFlags());
+            Assert.fail("assertion failed.  compare flags = "+field.getIEEEFlags());
         }
 
         cmptst(field.newDfp("0.000001"), field.newDfp("1e-6"), "unequal", false, 25);
 
-        // check some nans -- nans shouldnt be unequal to anything
+        // check some nans -- nans shouldn't be unequal to anything
 
         cmptst(snan, snan, "unequal", false, 27);
         cmptst(qnan, qnan, "unequal", false, 28);
@@ -586,7 +586,7 @@ public class DfpTest extends ExtendedFieldElementAbstractTest<Dfp> {
         cmptst(qnan.negate(), qnan, "unequal", false, 52);
 
         if (field.getIEEEFlags() != 0) {
-            Assert.fail("assersion failed.  compare unequal flags = "+field.getIEEEFlags());
+            Assert.fail("assertion failed.  compare unequal flags = "+field.getIEEEFlags());
         }
 
         //
@@ -607,14 +607,14 @@ public class DfpTest extends ExtendedFieldElementAbstractTest<Dfp> {
         cmptst(field.newDfp("0"), field.newDfp("1e-131072"), "lessThan", true, 9); // 0 < 1e-131072
         // check flags
         if (field.getIEEEFlags() != 0) {
-            Assert.fail("assersion failed.  compare flags = "+field.getIEEEFlags());
+            Assert.fail("assertion failed.  compare flags = "+field.getIEEEFlags());
         }
 
         cmptst(field.newDfp("0"), field.newDfp("1e-131078"), "lessThan", true, 10); // 0 < 1e-131078
 
         // check flags  -- underflow should be set
         if (field.getIEEEFlags() != DfpField.FLAG_UNDERFLOW) {
-            Assert.fail("assersion failed.  compare flags = "+field.getIEEEFlags());
+            Assert.fail("assertion failed.  compare flags = "+field.getIEEEFlags());
         }
         field.clearIEEEFlags();
 
@@ -645,12 +645,12 @@ public class DfpTest extends ExtendedFieldElementAbstractTest<Dfp> {
         // 100000 < 1.0000000000000001
         cmptst(field.newDfp("1e20"), field.newDfp("1.0000000000000001"), "lessThan", false, 24);
         if (field.getIEEEFlags() != 0) {
-            Assert.fail("assersion failed.  compare flags = "+field.getIEEEFlags());
+            Assert.fail("assertion failed.  compare flags = "+field.getIEEEFlags());
         }
 
         cmptst(field.newDfp("0.000001"), field.newDfp("1e-6"), "lessThan", false, 25);
 
-        // check some nans -- nans shouldnt be lessThan to anything
+        // check some nans -- nans shouldn't be lessThan to anything
         cmptst(snan, snan, "lessThan", false, 27);
         cmptst(qnan, qnan, "lessThan", false, 28);
         cmptst(snan, qnan, "lessThan", false, 29);
@@ -680,7 +680,7 @@ public class DfpTest extends ExtendedFieldElementAbstractTest<Dfp> {
 
         //lessThan compares with nans should raise FLAG_INVALID
         if (field.getIEEEFlags() != DfpField.FLAG_INVALID) {
-            Assert.fail("assersion failed.  compare lessThan flags = "+field.getIEEEFlags());
+            Assert.fail("assertion failed.  compare lessThan flags = "+field.getIEEEFlags());
         }
         field.clearIEEEFlags();
 
@@ -702,14 +702,14 @@ public class DfpTest extends ExtendedFieldElementAbstractTest<Dfp> {
         cmptst(field.newDfp("0"), field.newDfp("1e-131072"), "greaterThan", false, 9); // 0 > 1e-131072
         // check flags
         if (field.getIEEEFlags() != 0) {
-            Assert.fail("assersion failed.  compare flags = "+field.getIEEEFlags());
+            Assert.fail("assertion failed.  compare flags = "+field.getIEEEFlags());
         }
 
         cmptst(field.newDfp("0"), field.newDfp("1e-131078"), "greaterThan", false, 10); // 0 > 1e-131078
 
         // check flags  -- underflow should be set
         if (field.getIEEEFlags() != DfpField.FLAG_UNDERFLOW) {
-            Assert.fail("assersion failed.  compare flags = "+field.getIEEEFlags());
+            Assert.fail("assertion failed.  compare flags = "+field.getIEEEFlags());
         }
         field.clearIEEEFlags();
 
@@ -740,12 +740,12 @@ public class DfpTest extends ExtendedFieldElementAbstractTest<Dfp> {
         // 100000 > 1.0000000000000001
         cmptst(field.newDfp("1e20"), field.newDfp("1.0000000000000001"), "greaterThan", true, 24);
         if (field.getIEEEFlags() != 0) {
-            Assert.fail("assersion failed.  compare flags = "+field.getIEEEFlags());
+            Assert.fail("assertion failed.  compare flags = "+field.getIEEEFlags());
         }
 
         cmptst(field.newDfp("0.000001"), field.newDfp("1e-6"), "greaterThan", false, 25);
 
-        // check some nans -- nans shouldnt be greaterThan to anything
+        // check some nans -- nans shouldn't be greaterThan to anything
         cmptst(snan, snan, "greaterThan", false, 27);
         cmptst(qnan, qnan, "greaterThan", false, 28);
         cmptst(snan, qnan, "greaterThan", false, 29);
@@ -775,7 +775,7 @@ public class DfpTest extends ExtendedFieldElementAbstractTest<Dfp> {
 
         //greaterThan compares with nans should raise FLAG_INVALID
         if (field.getIEEEFlags() != DfpField.FLAG_INVALID) {
-            Assert.fail("assersion failed.  compare greaterThan flags = "+field.getIEEEFlags());
+            Assert.fail("assertion failed.  compare greaterThan flags = "+field.getIEEEFlags());
         }
         field.clearIEEEFlags();
     }

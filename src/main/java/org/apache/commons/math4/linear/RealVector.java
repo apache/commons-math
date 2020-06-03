@@ -1082,7 +1082,7 @@ public abstract class RealVector {
      * coordinates.
      * </p>
      * <p>
-     * This method <em>must</em> be overriden by concrete subclasses of
+     * This method <em>must</em> be overridden by concrete subclasses of
      * {@link RealVector} (the current implementation throws an exception).
      * </p>
      *
@@ -1100,7 +1100,7 @@ public abstract class RealVector {
     }
 
     /**
-     * {@inheritDoc}. This method <em>must</em> be overriden by concrete
+     * {@inheritDoc}. This method <em>must</em> be overridden by concrete
      * subclasses of {@link RealVector} (current implementation throws an
      * exception).
      *

@@ -112,7 +112,7 @@
   </p>
   <p>
     Then, to evalute Pi, simply call any of the <code>evalute</code> methods
-    (Note, the point of evalution in this example is meaningless since Pi is a
+    (Note, the point of evaluation in this example is meaningless since Pi is a
     constant).
   </p>
   <p>

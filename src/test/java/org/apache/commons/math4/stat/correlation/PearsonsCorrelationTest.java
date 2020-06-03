@@ -104,7 +104,7 @@ public class PearsonsCorrelationTest {
      * Test Longley dataset against R.
      */
     @Test
-    public void testLongly() {
+    public void testLongley() {
         RealMatrix matrix = createRealMatrix(longleyData, 16, 7);
         PearsonsCorrelation corrInstance = new PearsonsCorrelation(matrix);
         RealMatrix correlationMatrix = corrInstance.getCorrelationMatrix();

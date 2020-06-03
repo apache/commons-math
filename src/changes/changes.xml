@@ -3779,7 +3779,7 @@ are simply solved by adjusting the import statements in users code.">
         static methods to create instances and execute tests.
       </action>
       <action dev="psteitz" type="update" issue="MATH-95"  due-to="Paul Field">
-        Eliminated repeated endpoint function evalutations in BrentSolver, SecantSolver.
+        Eliminated repeated endpoint function evaluations in BrentSolver, SecantSolver.
       </action>
       <action dev="psteitz" type="update" issue="MATH-137"  due-to="Rodrigo di Lorenzo Lopes">
         Added setSubMatrix methods to RealMatrixImpl, BigMatrixImpl.  To

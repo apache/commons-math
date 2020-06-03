@@ -627,7 +627,7 @@ public class CMAESOptimizer
         ccovmuSep = FastMath.min(1 - ccov1, ccovmu * (dimension + 1.5) / 3);
         chiN = FastMath.sqrt(dimension) *
                 (1 - 1 / ((double) 4 * dimension) + 1 / ((double) 21 * dimension * dimension));
-        // intialize CMA internal values - updated each generation
+        // initialize CMA internal values - updated each generation
         xmean = MatrixUtils.createColumnRealMatrix(guess); // objective variables
         diagD = insigma.scalarMultiply(1 / sigma);
         diagC = square(diagD);

@@ -39,7 +39,7 @@ import org.junit.Test;
 public final class SimpleRegressionTest {
 
     /*
-     * NIST "Norris" refernce data set from
+     * NIST "Norris" reference data set from
      * http://www.itl.nist.gov/div898/strd/lls/data/LINKS/DATA/Norris.dat
      * Strangely, order is {y,x}
      */

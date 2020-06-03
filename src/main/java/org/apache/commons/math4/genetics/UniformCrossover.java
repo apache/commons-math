@@ -33,7 +33,7 @@ import org.apache.commons.rng.UniformRandomProvider;
  * suggests that it is more exploratory and results in a larger part of the
  * problem space being searched.
  * <p>
- * This crossover policy evaluates each gene of the parent chromosomes by chosing a
+ * This crossover policy evaluates each gene of the parent chromosomes by choosing a
  * uniform random number {@code p} in the range [0, 1]. If {@code p} &lt; {@code ratio},
  * the parent genes are swapped. This means with a ratio of 0.7, 30% of the genes from the
  * first parent and 70% from the second parent will be selected for the first offspring (and
