@@ -24,11 +24,11 @@ import org.apache.commons.math4.exception.NotStrictlyPositiveException;
  * @since 3.1
  */
 public class MaxEval implements OptimizationData {
-    /** Allowed number of evalutations. */
+    /** Allowed number of evaluations. */
     private final int maxEval;
 
     /**
-     * @param max Allowed number of evalutations.
+     * @param max Allowed number of evaluations.
      * @throws NotStrictlyPositiveException if {@code max <= 0}.
      */
     public MaxEval(int max) {

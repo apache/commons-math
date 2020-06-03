@@ -26,7 +26,7 @@ import org.apache.commons.math4.exception.MathIllegalArgumentException;
 public interface SelectionPolicy {
     /**
      * Select two chromosomes from the population.
-     * @param population the population from which the chromosomes are choosen.
+     * @param population the population from which the chromosomes are chosen.
      * @return the selected chromosomes.
      * @throws MathIllegalArgumentException if the population is not compatible with this {@link SelectionPolicy}
      */

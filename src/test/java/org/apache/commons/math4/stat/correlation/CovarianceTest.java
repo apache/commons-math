@@ -110,7 +110,7 @@ public class CovarianceTest {
      * http://www.itl.nist.gov/div898/strd/lls/data/LINKS/DATA/Longley.dat
      */
     @Test
-    public void testLongly() {
+    public void testLongley() {
         RealMatrix matrix = createRealMatrix(longleyData, 16, 7);
         RealMatrix covarianceMatrix = new Covariance(matrix).getCovarianceMatrix();
         double[] rData = new double[] {

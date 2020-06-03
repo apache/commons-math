@@ -471,7 +471,7 @@ public class MathArraysTest {
     }
 
     @Test
-    public void testSortInPlaceDecresasingOrder() {
+    public void testSortInPlaceDecreasingOrder() {
         final double[] x1 = {2,   5,  -3, 1,  4};
         final double[] x2 = {4,  25,   9, 1, 16};
         final double[] x3 = {8, 125, -27, 1, 64};
@@ -795,7 +795,7 @@ public class MathArraysTest {
     }
 
     @Test
-    public void testConcatentateSingle() {
+    public void testConcatenateSingle() {
         final double[] x = new double[] {0, 1, 2};
         Assert.assertArrayEquals(x, MathArrays.concatenate(x), 0);
     }

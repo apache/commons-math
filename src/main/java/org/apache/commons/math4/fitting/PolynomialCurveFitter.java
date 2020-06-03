@@ -45,7 +45,7 @@ public class PolynomialCurveFitter extends AbstractCurveFitter {
     private final int maxIter;
 
     /**
-     * Contructor used by the factory methods.
+     * Constructor used by the factory methods.
      *
      * @param initialGuess Initial guess.
      * @param maxIter Maximum number of iterations of the optimization algorithm.

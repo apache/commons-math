@@ -267,7 +267,7 @@ public final class FieldMatrixImplTest {
         }
     }
 
-    /** test sclarAdd */
+    /** test scalarAdd */
     @Test
     public void testScalarAdd() {
         FieldMatrix<Dfp> m = new Array2DRowFieldMatrix<>(testData);

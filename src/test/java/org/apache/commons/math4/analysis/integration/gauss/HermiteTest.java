@@ -35,7 +35,7 @@ public class HermiteTest {
     public void testNormalDistribution() {
         final double oneOverSqrtPi = 1 / FastMath.sqrt(Math.PI);
 
-        // By defintion, Gauss-Hermite quadrature readily provides the
+        // By definition, Gauss-Hermite quadrature readily provides the
         // integral of the normal distribution density.
         final int numPoints = 1;
 

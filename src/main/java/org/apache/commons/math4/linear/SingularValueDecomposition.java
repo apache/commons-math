@@ -601,7 +601,7 @@ public class SingularValueDecomposition {
      * Returns the L<sub>2</sub> norm of the matrix.
      * <p>The L<sub>2</sub> norm is max(|A &times; u|<sub>2</sub> /
      * |u|<sub>2</sub>), where |.|<sub>2</sub> denotes the vectorial 2-norm
-     * (i.e. the traditional euclidian norm).</p>
+     * (i.e. the traditional euclidean norm).</p>
      * @return norm
      */
     public double getNorm() {

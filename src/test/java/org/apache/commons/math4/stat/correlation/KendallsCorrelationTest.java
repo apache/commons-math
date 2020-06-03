@@ -45,7 +45,7 @@ public class KendallsCorrelationTest extends PearsonsCorrelationTest {
      */
     @Override
     @Test
-    public void testLongly() {
+    public void testLongley() {
         RealMatrix matrix = createRealMatrix(longleyData, 16, 7);
         KendallsCorrelation corrInstance = new KendallsCorrelation(matrix);
         RealMatrix correlationMatrix = corrInstance.getCorrelationMatrix();

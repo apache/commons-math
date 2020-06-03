@@ -57,7 +57,7 @@ public class NeuronStringTest {
         for (long nId : new long[] { 1 }) {
             Assert.assertTrue(neighbours.contains(net.getNeuron(nId)));
         }
-        // Ensures that no other neurons is in the neihbourhood set.
+        // Ensures that no other neurons is in the neighbourhood set.
         Assert.assertEquals(1, neighbours.size());
 
         // Neuron 1.
@@ -65,7 +65,7 @@ public class NeuronStringTest {
         for (long nId : new long[] { 0, 2 }) {
             Assert.assertTrue(neighbours.contains(net.getNeuron(nId)));
         }
-        // Ensures that no other neurons is in the neihbourhood set.
+        // Ensures that no other neurons is in the neighbourhood set.
         Assert.assertEquals(2, neighbours.size());
 
         // Neuron 2.
@@ -73,7 +73,7 @@ public class NeuronStringTest {
         for (long nId : new long[] { 1, 3 }) {
             Assert.assertTrue(neighbours.contains(net.getNeuron(nId)));
         }
-        // Ensures that no other neurons is in the neihbourhood set.
+        // Ensures that no other neurons is in the neighbourhood set.
         Assert.assertEquals(2, neighbours.size());
 
         // Neuron 3.
@@ -81,7 +81,7 @@ public class NeuronStringTest {
         for (long nId : new long[] { 2 }) {
             Assert.assertTrue(neighbours.contains(net.getNeuron(nId)));
         }
-        // Ensures that no other neurons is in the neihbourhood set.
+        // Ensures that no other neurons is in the neighbourhood set.
         Assert.assertEquals(1, neighbours.size());
     }
 
@@ -102,7 +102,7 @@ public class NeuronStringTest {
         for (long nId : new long[] { 1, 3 }) {
             Assert.assertTrue(neighbours.contains(net.getNeuron(nId)));
         }
-        // Ensures that no other neurons is in the neihbourhood set.
+        // Ensures that no other neurons is in the neighbourhood set.
         Assert.assertEquals(2, neighbours.size());
 
         // Neuron 1.
@@ -110,7 +110,7 @@ public class NeuronStringTest {
         for (long nId : new long[] { 0, 2 }) {
             Assert.assertTrue(neighbours.contains(net.getNeuron(nId)));
         }
-        // Ensures that no other neurons is in the neihbourhood set.
+        // Ensures that no other neurons is in the neighbourhood set.
         Assert.assertEquals(2, neighbours.size());
 
         // Neuron 2.
@@ -118,7 +118,7 @@ public class NeuronStringTest {
         for (long nId : new long[] { 1, 3 }) {
             Assert.assertTrue(neighbours.contains(net.getNeuron(nId)));
         }
-        // Ensures that no other neurons is in the neihbourhood set.
+        // Ensures that no other neurons is in the neighbourhood set.
         Assert.assertEquals(2, neighbours.size());
 
         // Neuron 3.
@@ -126,7 +126,7 @@ public class NeuronStringTest {
         for (long nId : new long[] { 0, 2 }) {
             Assert.assertTrue(neighbours.contains(net.getNeuron(nId)));
         }
-        // Ensures that no other neurons is in the neihbourhood set.
+        // Ensures that no other neurons is in the neighbourhood set.
         Assert.assertEquals(2, neighbours.size());
     }
 

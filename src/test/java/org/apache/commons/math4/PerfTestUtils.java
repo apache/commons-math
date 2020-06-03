@@ -337,9 +337,9 @@ public class PerfTestUtils {
      * It will shorten package names and remove memory addresses
      * that appear in an instance's name.
      *
-     * @param str Orginal string.
+     * @param str Original string.
      * @param removePackageName Whether package name part of a
-     * fully-quallified name should be removed entirely.
+     * fully-qualified name should be removed entirely.
      * @return the shortened string.
      */
     private static String shorten(String str,

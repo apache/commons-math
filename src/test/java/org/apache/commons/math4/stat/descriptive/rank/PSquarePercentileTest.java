@@ -133,7 +133,7 @@ public class PSquarePercentileTest extends
 
     @Test(expected = MathIllegalArgumentException.class)
     public void testNullListInMarkers() {
-        // In case of null list Markers cannot be instantiated..is geting
+        // In case of null list Markers cannot be instantiated..is getting
         // verified
         // new Markers(null, 0, PSquarePercentile.newEstimator());
         PSquarePercentile.newMarkers(null, 0);

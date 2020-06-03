@@ -165,7 +165,7 @@ public class ContinuousOutputFieldModel<T extends RealFieldElement<T>>
 
     /** Check dimensions equality.
      * @param d1 first dimension
-     * @param d2 second dimansion
+     * @param d2 second dimension
      * @exception DimensionMismatchException if dimensions do not match
      */
     private void checkDimensionsEquality(final int d1, final int d2)

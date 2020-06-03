@@ -37,7 +37,7 @@ public class SimpleCurveFitter extends AbstractCurveFitter {
     private final int maxIter;
 
     /**
-     * Contructor used by the factory methods.
+     * Constructor used by the factory methods.
      *
      * @param function Function to fit.
      * @param initialGuess Initial guess. Cannot be {@code null}. Its length must

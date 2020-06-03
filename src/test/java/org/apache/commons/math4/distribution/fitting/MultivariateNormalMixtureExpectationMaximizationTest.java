@@ -106,7 +106,7 @@ public class MultivariateNormalMixtureExpectationMaximizationTest {
     }
 
     @Test(expected = DimensionMismatchException.class)
-    public void testIncompatibleIntialMixture() {
+    public void testIncompatibleInitialMixture() {
         // Data has 3 columns
         double[][] data = new double[][] {
                 { 1, 2, 3 }, { 4, 5, 6 }, { 7, 8, 9 }

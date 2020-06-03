@@ -487,7 +487,7 @@ public class InferenceTestUtilsTest {
 }
 
     @Test
-    public void testGTestIndependance() throws Exception {
+    public void testGTestIndependence() throws Exception {
         long[] obs1 = new long[]{
             268, 199, 42
         };

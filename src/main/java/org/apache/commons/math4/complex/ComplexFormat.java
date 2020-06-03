@@ -363,7 +363,7 @@ public class ComplexFormat {
      * Parses a string to produce a {@link Complex} object.
      *
      * @param source the string to parse
-     * @param pos input/ouput parsing parameter.
+     * @param pos input/output parsing parameter.
      * @return the parsed {@link Complex} object.
      */
     public Complex parse(String source, ParsePosition pos) {

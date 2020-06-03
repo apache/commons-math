@@ -250,7 +250,7 @@ public class SparseFieldMatrixTest {
         }
     }
 
-    /** test sclarAdd */
+    /** test scalarAdd */
     @Test
     public void testScalarAdd() {
         FieldMatrix<Dfp> m = createSparseMatrix(testData);
