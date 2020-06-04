@@ -17,6 +17,7 @@
 
 package org.apache.commons.math4.ml.neuralnet.sofm;
 
+import java.util.Arrays;
 import java.util.List;
 import java.util.ArrayList;
 import java.util.Set;
@@ -87,9 +88,7 @@ public class TravellingSalesmanSolver {
         random = RandomSource.create(RandomSource.WELL_1024_A, seed);
 
         // Make sure that each city will appear only once in the list.
-        for (City city : cityList) {
-            cities.add(city);
-        }
+        cities.addAll(Arrays.asList(cityList));
 
         // Total number of neurons.
         numberOfNeurons = (int) numNeuronsPerCity * cities.size();

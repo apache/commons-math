@@ -16,6 +16,7 @@
  */
 package org.apache.commons.math4.exception.util;
 
+import java.util.Arrays;
 import java.util.List;
 import java.util.ArrayList;
 
@@ -42,9 +43,7 @@ public class ArgUtils {
         if (array != null) {
             for (Object o : array) {
                 if (o instanceof Object[]) {
-                    for (Object oR : flatten((Object[]) o)) {
-                        list.add(oR);
-                    }
+                    list.addAll(Arrays.asList(flatten((Object[]) o)));
                 } else {
                     list.add(o);
                 }
