@@ -19,6 +19,7 @@ package org.apache.commons.math4.ml.neuralnet.sofm;
 
 import java.io.PrintWriter;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.List;
@@ -166,9 +167,7 @@ public class KohonenTrainingTaskTest {
      */
     private Collection<City> uniqueCities(City[] cityList) {
         final Set<City> unique = new HashSet<>();
-        for (City c : cityList) {
-            unique.add(c);
-        }
+        unique.addAll(Arrays.asList(cityList));
         return unique;
     }
 

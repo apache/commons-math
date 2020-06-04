@@ -16,6 +16,7 @@
  */
 package org.apache.commons.math4.optim.linear;
 
+import java.util.Arrays;
 import java.util.LinkedHashSet;
 import java.util.Set;
 import java.util.Collection;
@@ -38,9 +39,7 @@ public class LinearConstraintSet implements OptimizationData {
      * @param constraints Constraints.
      */
     public LinearConstraintSet(LinearConstraint... constraints) {
-        for (LinearConstraint c : constraints) {
-            linearConstraints.add(c);
-        }
+        linearConstraints.addAll(Arrays.asList(constraints));
     }
 
     /**
