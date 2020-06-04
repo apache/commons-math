@@ -197,8 +197,8 @@ public class ListUnivariateImpl extends DescriptiveStatistics implements Seriali
         //Discard elements from the front of the list if the windowSize is less than
         // the size of the list.
         int extra = list.size() - windowSize;
-        for (int i = 0; i < extra; i++) {
-            list.remove(0);
+        if (extra > 0) {
+            list.subList(0, extra).clear();
         }
     }
 
