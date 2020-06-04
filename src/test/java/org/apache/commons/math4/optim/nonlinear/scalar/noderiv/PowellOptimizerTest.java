@@ -61,9 +61,7 @@ public class PowellOptimizerTest {
         double[] init = new double[dim];
 
         // Initial is minimum.
-        for (int i = 0; i < dim; i++) {
-            init[i] = minPoint[i];
-        }
+        System.arraycopy(minPoint, 0, init, 0, dim);
         doTest(func, minPoint, init, GoalType.MINIMIZE, 1e-9, 1e-9);
 
         // Initial is far from minimum.
@@ -96,9 +94,7 @@ public class PowellOptimizerTest {
         double[] init = new double[dim];
 
         // Initial is minimum.
-        for (int i = 0; i < dim; i++) {
-            init[i] = minPoint[i];
-        }
+        System.arraycopy(minPoint, 0, init, 0, dim);
         doTest(func, minPoint, init, GoalType.MINIMIZE, 1e-9, 1e-8);
 
         // Initial is far from minimum.
@@ -128,9 +124,7 @@ public class PowellOptimizerTest {
         double[] init = new double[dim];
 
         // Initial is minimum.
-        for (int i = 0; i < dim; i++) {
-            init[i] = maxPoint[i];
-        }
+        System.arraycopy(maxPoint, 0, init, 0, dim);
         doTest(func, maxPoint, init,  GoalType.MAXIMIZE, 1e-9, 1e-8);
 
         // Initial is far from minimum.

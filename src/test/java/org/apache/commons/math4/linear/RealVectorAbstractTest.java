@@ -406,9 +406,7 @@ public abstract class RealVectorAbstractTest {
         final int index = 2;
         actual.setSubVector(index, create(sub));
 
-        for (int i = 0; i < sub.length; i++){
-            expected[index + i] = sub[i];
-        }
+        System.arraycopy(sub, 0, expected, 2, sub.length);
         TestUtils.assertEquals("", expected, actual, 0d);
     }
 
@@ -421,9 +419,7 @@ public abstract class RealVectorAbstractTest {
         final int index = 2;
         actual.setSubVector(index, createAlien(sub));
 
-        for (int i = 0; i < sub.length; i++){
-            expected[index + i] = sub[i];
-        }
+        System.arraycopy(sub, 0, expected, 2, sub.length);
         TestUtils.assertEquals("", expected, actual, 0d);
     }
 

@@ -275,9 +275,7 @@ public class LaguerreSolver extends AbstractPolynomialSolver {
             }
             // Coefficients for deflated polynomial.
             final Complex c[] = new Complex[n + 1];
-            for (int i = 0; i <= n; i++) {
-                c[i] = coefficients[i];
-            }
+            System.arraycopy(coefficients, 0, c, 0, n + 1);
 
             // Solve individual roots successively.
             final Complex root[] = new Complex[n];
