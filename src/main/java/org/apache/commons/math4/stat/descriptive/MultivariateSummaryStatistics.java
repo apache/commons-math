@@ -380,7 +380,7 @@ public class MultivariateSummaryStatistics
         if (object == this ) {
             return true;
         }
-        if (object instanceof MultivariateSummaryStatistics == false) {
+        if (!(object instanceof MultivariateSummaryStatistics)) {
             return false;
         }
         MultivariateSummaryStatistics stat = (MultivariateSummaryStatistics) object;

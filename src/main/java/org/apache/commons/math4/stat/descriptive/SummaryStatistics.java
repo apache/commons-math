@@ -392,7 +392,7 @@ public class SummaryStatistics implements StatisticalSummary, Serializable {
         if (object == this) {
             return true;
         }
-        if (object instanceof SummaryStatistics == false) {
+        if (!(object instanceof SummaryStatistics)) {
             return false;
         }
         SummaryStatistics stat = (SummaryStatistics)object;
