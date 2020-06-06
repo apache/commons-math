@@ -170,22 +170,20 @@ public class Logit implements UnivariateDifferentiableFunction {
         double[] f = new double[t.getOrder() + 1];
 
         // function value
-        f[0] = FastMath.log((x - lo) / (hi - x));
-
-        if (Double.isInfinite(f[0])) {
-
-            if (f.length > 1) {
-                f[1] = Double.POSITIVE_INFINITY;
+        final double f0 = f[0] = FastMath.log((x - lo) / (hi - x));
+        final int fLen = f.length;
+        if (Double.isInfinite(f0)) {
+            if (fLen > 1) {
+                final double f1 = f[1] = Double.POSITIVE_INFINITY;
+                // fill the array with infinities
+                // (for x close to lo the signs will flip between -inf and +inf,
+                //  for x close to hi the signs will always be +inf)
+                // this is probably overkill, since the call to compose at the end
+                // of the method will transform most infinities into NaN ...
+                for (int i = 2; i < fLen; ++i) {
+                    f[i] = (i & 1) == 0 ? f0 : f1;
+                }
             }
-            // fill the array with infinities
-            // (for x close to lo the signs will flip between -inf and +inf,
-            //  for x close to hi the signs will always be +inf)
-            // this is probably overkill, since the call to compose at the end
-            // of the method will transform most infinities into NaN ...
-            for (int i = 2; i < f.length; ++i) {
-                f[i] = f[i - 2];
-            }
-
         } else {
 
             // function derivatives
