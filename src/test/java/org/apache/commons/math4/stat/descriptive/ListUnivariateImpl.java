@@ -30,21 +30,18 @@ import org.apache.commons.math4.util.NumberTransformer;
 /**
  */
 public class ListUnivariateImpl extends DescriptiveStatistics implements Serializable {
-
     /** Serializable version identifier */
     private static final long serialVersionUID = -8837442489133392138L;
-
     /**
      * Holds a reference to a list - GENERICs are going to make
      * our lives easier here as we could only accept List<Number>
      */
     protected List<Object> list;
-
     /** Number Transformer maps Objects to Number for us. */
     protected NumberTransformer transformer;
 
     /**
-     * No argument Constructor
+     * No argument constructor
      */
     public ListUnivariateImpl(){
         this(new ArrayList<>());
@@ -64,7 +61,6 @@ public class ListUnivariateImpl extends DescriptiveStatistics implements Seriali
      * @param transformer the number transformer used to convert the list items.
      */
     public ListUnivariateImpl(List<Object> list, NumberTransformer transformer) {
-        super();
         this.list = list;
         this.transformer = transformer;
     }
@@ -72,7 +68,6 @@ public class ListUnivariateImpl extends DescriptiveStatistics implements Seriali
     /** {@inheritDoc} */
     @Override
     public double[] getValues() {
-
         int length = list.size();
 
         // If the window size is not INFINITE_WINDOW AND
@@ -97,9 +92,7 @@ public class ListUnivariateImpl extends DescriptiveStatistics implements Seriali
     /** {@inheritDoc} */
     @Override
     public double getElement(int index) {
-
         double value = Double.NaN;
-
         int calcIndex = index;
 
         final int wSize = getWindowSize();
@@ -132,6 +125,7 @@ public class ListUnivariateImpl extends DescriptiveStatistics implements Seriali
         } else {
             n = list.size();
         }
+
         return n;
     }
 
@@ -166,11 +160,12 @@ public class ListUnivariateImpl extends DescriptiveStatistics implements Seriali
      */
     @Override
     public double apply(UnivariateStatistic stat) {
-        double[] v = this.getValues();
+        final double[] v = this.getValues();
 
         if (v != null) {
             return stat.evaluate(v, 0, v.length);
         }
+
         return Double.NaN;
     }
 
@@ -194,12 +189,11 @@ public class ListUnivariateImpl extends DescriptiveStatistics implements Seriali
     @Override
     public void setWindowSize(int windowSize) {
         super.setWindowSize(windowSize);
-        //Discard elements from the front of the list if the windowSize is less than
-        // the size of the list.
-        int extra = list.size() - windowSize;
+        // Discard elements from the front of the list if "windowSize"
+        // is less than the size of the list.
+        final int extra = list.size() - windowSize;
         if (extra > 0) {
             list.subList(0, extra).clear();
         }
     }
-
 }
