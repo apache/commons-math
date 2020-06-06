@@ -64,8 +64,7 @@ public class DfpTest extends ExtendedFieldElementAbstractTest<Dfp> {
     // Generic test function.  Takes params x and y and tests them for
     // equality.  Then checks the status flags against the flags argument.
     // If the test fail, it prints the desc string
-    private void test(Dfp x, Dfp y, int flags, String desc)
-    {
+    private void test(Dfp x, Dfp y, int flags, String desc) {
         boolean b = x.equals(y);
 
         if (!x.equals(y) && !x.unequal(y))  // NaNs involved
@@ -117,8 +116,7 @@ public class DfpTest extends ExtendedFieldElementAbstractTest<Dfp> {
      *  Test addition
      */
     @Test
-    public void testAdd()
-    {
+    public void testAdd() {
         test(field.newDfp("1").add(field.newDfp("1")),      // Basic tests   1+1 = 2
              field.newDfp("2"),
              0, "Add #1");
@@ -371,36 +369,34 @@ public class DfpTest extends ExtendedFieldElementAbstractTest<Dfp> {
     // Test comparisons
 
     // utility function to help test comparisons
-    private void cmptst(Dfp a, Dfp b, String op, boolean result, double num)
-    {
+    private void cmptst(Dfp a, Dfp b, String op, boolean result, double num) {
         if (op == "equal") {
             if (a.equals(b) != result) {
-                assertionFailOpNum(op,num);
+                assertionFailOpNum(op, num);
             }
         }
 
         if (op == "unequal") {
             if (a.unequal(b) != result) {
-                assertionFailOpNum(op,num);
+                assertionFailOpNum(op, num);
             }
         }
 
         if (op == "lessThan") {
             if (a.lessThan(b) != result) {
-                assertionFailOpNum(op,num);
+                assertionFailOpNum(op, num);
             }
         }
 
         if (op == "greaterThan") {
             if (a.greaterThan(b) != result) {
-                assertionFailOpNum(op,num);
+                assertionFailOpNum(op, num);
             }
         }
     }
 
     @Test
-    public void  testCompare()
-    {
+    public void  testCompare() {
         // test equal() comparison
         // check zero vs. zero
         field.clearIEEEFlags();
@@ -782,8 +778,7 @@ public class DfpTest extends ExtendedFieldElementAbstractTest<Dfp> {
     // Test multiplication
     //
     @Test
-    public void testMultiply()
-    {
+    public void testMultiply() {
         test(field.newDfp("1").multiply(field.newDfp("1")),      // Basic tests   1*1 = 1
              field.newDfp("1"),
              0, "Multiply #1");
@@ -949,8 +944,7 @@ public class DfpTest extends ExtendedFieldElementAbstractTest<Dfp> {
     }
 
     @Test
-    public void testDivide()
-    {
+    public void testDivide() {
         test(field.newDfp("1").divide(nan),      // divide by NaN = NaN
              nan,
              0, "Divide #1");
@@ -1069,8 +1063,7 @@ public class DfpTest extends ExtendedFieldElementAbstractTest<Dfp> {
     }
 
     @Test
-    public void testReciprocal()
-    {
+    public void testReciprocal() {
         test(nan.reciprocal(),
              nan,
              0, "Reciprocal #1");
@@ -1109,8 +1102,7 @@ public class DfpTest extends ExtendedFieldElementAbstractTest<Dfp> {
     }
 
     @Test
-    public void testDivideInt()
-    {
+    public void testDivideInt() {
         test(nan.divide(1),      // NaN / number = NaN
              nan,
              0, "DivideInt #1");
@@ -1177,8 +1169,7 @@ public class DfpTest extends ExtendedFieldElementAbstractTest<Dfp> {
     }
 
     @Test
-    public void testNextAfter()
-    {
+    public void testNextAfter() {
         test(field.newDfp("1").nextAfter(pinf),
              field.newDfp("1.0000000000000001"),
              0, "NextAfter #1");
@@ -1241,8 +1232,7 @@ public class DfpTest extends ExtendedFieldElementAbstractTest<Dfp> {
     }
 
     @Test
-    public void testToString()
-    {
+    public void testToString() {
         Assert.assertEquals("toString #1", "Infinity", pinf.toString());
         Assert.assertEquals("toString #2", "-Infinity", ninf.toString());
         Assert.assertEquals("toString #3", "NaN", nan.toString());
@@ -1256,8 +1246,7 @@ public class DfpTest extends ExtendedFieldElementAbstractTest<Dfp> {
 
     @Override
     @Test
-    public void testRound()
-    {
+    public void testRound() {
         field.setRoundingMode(DfpField.RoundingMode.ROUND_DOWN);
 
         // Round down
@@ -1376,8 +1365,7 @@ public class DfpTest extends ExtendedFieldElementAbstractTest<Dfp> {
 
     @Override
     @Test
-    public void testCeil()
-    {
+    public void testCeil()  {
         test(field.newDfp("1234.0000000000000001").ceil(),
              field.newDfp("1235"),
              DfpField.FLAG_INEXACT, "Ceil #1");
@@ -1385,8 +1373,7 @@ public class DfpTest extends ExtendedFieldElementAbstractTest<Dfp> {
 
     @Override
     @Test
-    public void testFloor()
-    {
+    public void testFloor() {
         test(field.newDfp("1234.9999999999999999").floor(),
              field.newDfp("1234"),
              DfpField.FLAG_INEXACT, "Floor #1");
@@ -1394,8 +1381,7 @@ public class DfpTest extends ExtendedFieldElementAbstractTest<Dfp> {
 
     @Override
     @Test
-    public void testRint()
-    {
+    public void testRint() {
         test(field.newDfp("1234.50000000001").rint(),
              field.newDfp("1235"),
              DfpField.FLAG_INEXACT, "Rint #1");
@@ -1410,8 +1396,7 @@ public class DfpTest extends ExtendedFieldElementAbstractTest<Dfp> {
     }
 
     @Test
-    public void testCopySign()
-    {
+    public void testCopySign() {
         test(Dfp.copysign(field.newDfp("1234."), field.newDfp("-1")),
              field.newDfp("-1234"),
              0, "CopySign #1");
@@ -1430,8 +1415,7 @@ public class DfpTest extends ExtendedFieldElementAbstractTest<Dfp> {
     }
 
     @Test
-    public void testIntValue()
-    {
+    public void testIntValue() {
         Assert.assertEquals("intValue #1", 1234, field.newDfp("1234").intValue());
         Assert.assertEquals("intValue #2", -1234, field.newDfp("-1234").intValue());
         Assert.assertEquals("intValue #3", 1234, field.newDfp("1234.5").intValue());
@@ -1441,8 +1425,7 @@ public class DfpTest extends ExtendedFieldElementAbstractTest<Dfp> {
     }
 
     @Test
-    public void testLog10K()
-    {
+    public void testLog10K() {
         Assert.assertEquals("log10K #1", 1, field.newDfp("123456").log10K());
         Assert.assertEquals("log10K #2", 2, field.newDfp("123456789").log10K());
         Assert.assertEquals("log10K #3", 0, field.newDfp("2").log10K());
@@ -1451,8 +1434,7 @@ public class DfpTest extends ExtendedFieldElementAbstractTest<Dfp> {
     }
 
     @Test
-    public void testPower10K()
-    {
+    public void testPower10K() {
         Dfp d = field.newDfp();
 
         test(d.power10K(0), field.newDfp("1"), 0, "Power10 #1");
@@ -1465,9 +1447,7 @@ public class DfpTest extends ExtendedFieldElementAbstractTest<Dfp> {
     }
 
     @Test
-    public void testLog10()
-    {
-
+    public void testLog10() {
         Assert.assertEquals("log10 #1", 1, field.newDfp("12").intLog10());
         Assert.assertEquals("log10 #2", 2, field.newDfp("123").intLog10());
         Assert.assertEquals("log10 #3", 3, field.newDfp("1234").intLog10());
@@ -1488,8 +1468,7 @@ public class DfpTest extends ExtendedFieldElementAbstractTest<Dfp> {
     }
 
     @Test
-    public void testPower10()
-    {
+    public void testPower10() {
         Dfp d = field.newDfp();
 
         test(d.power10(0), field.newDfp("1"), 0, "Power10 #1");
@@ -1516,8 +1495,7 @@ public class DfpTest extends ExtendedFieldElementAbstractTest<Dfp> {
     }
 
     @Test
-    public void testRemainder()
-    {
+    public void testRemainder() {
         test(field.newDfp("10").remainder(field.newDfp("3")),
              field.newDfp("1"),
              DfpField.FLAG_INEXACT, "Remainder #1");
@@ -1533,8 +1511,7 @@ public class DfpTest extends ExtendedFieldElementAbstractTest<Dfp> {
 
     @Override
     @Test
-    public void testSqrt()
-    {
+    public void testSqrt() {
         test(field.newDfp("0").sqrt(),
              field.newDfp("0"),
              0, "Sqrt #1");
@@ -1684,14 +1661,14 @@ public class DfpTest extends ExtendedFieldElementAbstractTest<Dfp> {
     }
 
     private static void assertionFail(String content){
-        Assert.fail("assertion failed.  " + content);
+        Assert.fail("assertion failed: " + content);
     }
 
     private static void assertionFailOpNum(String op, double num){
-        assertionFail("" + op + " compare #" + num);
+        assertionFail(op + " compare #" + num);
     }
 
     private static final void assertionFailDfpField(DfpField field){
-        assertionFail("compare flags = "+field.getIEEEFlags());
+        assertionFail("compare flags = " + field.getIEEEFlags());
     }
 }
