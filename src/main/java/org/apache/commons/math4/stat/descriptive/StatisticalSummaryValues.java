@@ -140,7 +140,7 @@ public class StatisticalSummaryValues implements Serializable,
         if (object == this ) {
             return true;
         }
-        if (object instanceof StatisticalSummaryValues == false) {
+        if (!(object instanceof StatisticalSummaryValues)) {
             return false;
         }
         StatisticalSummaryValues stat = (StatisticalSummaryValues) object;

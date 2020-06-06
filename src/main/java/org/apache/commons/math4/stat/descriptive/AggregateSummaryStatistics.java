@@ -409,7 +409,7 @@ public class AggregateSummaryStatistics implements StatisticalSummary,
             if (object == this) {
                 return true;
             }
-            if (object instanceof AggregatingSummaryStatistics == false) {
+            if (!(object instanceof AggregatingSummaryStatistics)) {
                 return false;
             }
             AggregatingSummaryStatistics stat = (AggregatingSummaryStatistics)object;
