@@ -256,12 +256,12 @@ public class SimpleRegression implements Serializable, UpdatingMultipleLinearReg
      * greater than or equal to 2
      */
     public void addData(final double[][] data) throws ModelSpecificationException {
-        for (int i = 0; i < data.length; i++) {
-            if( data[i].length < 2 ){
-               throw new ModelSpecificationException(LocalizedFormats.INVALID_REGRESSION_OBSERVATION,
-                    data[i].length, 2);
+        for (double[] datum : data) {
+            if (datum.length < 2) {
+                throw new ModelSpecificationException(LocalizedFormats.INVALID_REGRESSION_OBSERVATION,
+                        datum.length, 2);
             }
-            addData(data[i][0], data[i][1]);
+            addData(datum[0], datum[1]);
         }
     }
 
@@ -301,8 +301,8 @@ public class SimpleRegression implements Serializable, UpdatingMultipleLinearReg
                   (y == null) ? 0 : y.length);
         }
         boolean obsOk=true;
-        for( int i = 0 ; i < x.length; i++){
-            if( x[i] == null || x[i].length == 0 ){
+        for (double[] x1 : x) {
+            if (x1 == null || x1.length == 0) {
                 obsOk = false;
             }
         }

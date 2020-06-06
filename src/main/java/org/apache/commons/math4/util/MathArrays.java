@@ -1244,9 +1244,9 @@ public class MathArrays {
         int offset = 0;
         int curLength = 0;
         final double[] combined = new double[combinedLength];
-        for (int i = 0; i < x.length; i++) {
-            curLength = x[i].length;
-            System.arraycopy(x[i], 0, combined, offset, curLength);
+        for (double[] x1 : x) {
+            curLength = x1.length;
+            System.arraycopy(x1, 0, combined, offset, curLength);
             offset += curLength;
         }
         return combined;

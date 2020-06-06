@@ -942,8 +942,8 @@ public class MillerUpdatingRegression implements UpdatingMultipleLinearRegressio
         double[] cov = this.cov(numberOfRegressors);
 
         int rnk = 0;
-        for (int i = 0; i < this.lindep.length; i++) {
-            if (!this.lindep[i]) {
+        for (boolean b : this.lindep) {
+            if (!b) {
                 ++rnk;
             }
         }
@@ -1034,9 +1034,9 @@ public class MillerUpdatingRegression implements UpdatingMultipleLinearRegressio
         if (iExclude > 0) {
             int j = 0;
             series = new int[variablesToInclude.length - iExclude];
-            for (int i = 0; i < variablesToInclude.length; i++) {
-                if (variablesToInclude[i] > -1) {
-                    series[j] = variablesToInclude[i];
+            for (int i1 : variablesToInclude) {
+                if (i1 > -1) {
+                    series[j] = i1;
                     ++j;
                 }
             }

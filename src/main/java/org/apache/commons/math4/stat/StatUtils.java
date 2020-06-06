@@ -746,8 +746,8 @@ public final class StatUtils {
         DescriptiveStatistics stats = new DescriptiveStatistics();
 
         // Add the data from the series to stats
-        for (int i = 0; i < sample.length; i++) {
-            stats.addValue(sample[i]);
+        for (double v : sample) {
+            stats.addValue(v);
         }
 
         // Compute mean and standard deviation

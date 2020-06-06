@@ -260,8 +260,8 @@ public class RandomUtils {
                     final byte[] hash = alg.digest();
 
                     // Loop over the hash, converting each byte to 2 hex digits
-                    for (int i = 0; i < hash.length; i++) {
-                        final Integer c = Integer.valueOf(hash[i]);
+                    for (byte hash1 : hash) {
+                        final Integer c = Integer.valueOf(hash1);
 
                         // Add 128 to byte value to make interval 0-255.
                         // This guarantees <= 2 hex digits from "toHexString".
