@@ -299,7 +299,7 @@ public class PolynomialsUtils {
         @Override
         public boolean equals(final Object key) {
 
-            if ((key == null) || !(key instanceof JacobiKey)) {
+            if (!(key instanceof JacobiKey)) {
                 return false;
             }
 
