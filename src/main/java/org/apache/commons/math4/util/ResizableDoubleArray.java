@@ -245,7 +245,7 @@ public class ResizableDoubleArray implements DoubleArray, Serializable {
      */
     public ResizableDoubleArray(int initialCapacity, double expansionFactor, double contractionCriterion)
         throws MathIllegalArgumentException {
-        this(initialCapacity, expansionFactor, contractionCriterion, DEFAULT_EXPANSION_MODE, null);
+        this(initialCapacity, expansionFactor, contractionCriterion, DEFAULT_EXPANSION_MODE);
     }
 
     /**
