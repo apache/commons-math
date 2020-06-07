@@ -1050,23 +1050,21 @@ public class ArrayFieldVector<T extends FieldElement<T>> implements FieldVector<
             return false;
         }
 
-        try {
-            @SuppressWarnings("unchecked") // May fail, but we ignore ClassCastException
-                FieldVector<T> rhs = (FieldVector<T>) other;
-            if (data.length != rhs.getDimension()) {
-                return false;
-            }
-
-            for (int i = 0; i < data.length; ++i) {
-                if (!data[i].equals(rhs.getEntry(i))) {
-                    return false;
-                }
-            }
-            return true;
-        } catch (ClassCastException ex) {
-            // ignore exception
+        if (!(other instanceof FieldVector)) {
             return false;
         }
+
+        FieldVector rhs = (FieldVector) other;
+        if (data.length != rhs.getDimension()) {
+            return false;
+        }
+
+        for (int i = 0; i < data.length; ++i) {
+            if (!data[i].equals(rhs.getEntry(i))) {
+                return false;
+            }
+        }
+        return true;
     }
 
     /**
