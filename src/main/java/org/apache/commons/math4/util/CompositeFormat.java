@@ -148,8 +148,8 @@ public class CompositeFormat {
             final double[] special = {
                 Double.NaN, Double.POSITIVE_INFINITY, Double.NEGATIVE_INFINITY
             };
-            for (int i = 0; i < special.length; ++i) {
-                number = parseNumber(source, special[i], pos);
+            for (double v : special) {
+                number = parseNumber(source, v, pos);
                 if (number != null) {
                     break;
                 }
