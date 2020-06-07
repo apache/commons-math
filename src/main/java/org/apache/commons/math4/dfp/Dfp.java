@@ -668,7 +668,7 @@ public class Dfp implements RealFieldElement<Dfp> {
     /** Shift the mantissa left, and adjust the exponent to compensate.
      */
     protected void shiftLeft() {
-        if (mant.length - 1 >= 0) {
+        if (mant.length >= 1) {
             System.arraycopy(mant, 0, mant, 1, mant.length - 1);
         }
         mant[0] = 0;
@@ -680,7 +680,7 @@ public class Dfp implements RealFieldElement<Dfp> {
     /** Shift the mantissa right, and adjust the exponent to compensate.
      */
     protected void shiftRight() {
-        if (mant.length - 1 >= 0) {
+        if (mant.length >= 1) {
             System.arraycopy(mant, 1, mant, 0, mant.length - 1);
         }
         mant[mant.length - 1] = 0;

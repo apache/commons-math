@@ -171,7 +171,7 @@ public class AdamsNordsieckFieldTransformer<T extends RealFieldElement<T>> {
         // then applying inverse transform
         T[][] shiftedP = bigP.getData();
         // shift rows
-        if (shiftedP.length - 1 >= 0) {
+        if (shiftedP.length >= 1) {
             System.arraycopy(shiftedP, 0, shiftedP, 1, shiftedP.length - 1);
         }
         shiftedP[0] = MathArrays.buildArray(field, rows);
