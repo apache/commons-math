@@ -739,7 +739,7 @@ public class KolmogorovSmirnovTest {
          * [1] states: "For 1/2 < h < 1 the bottom left element of the matrix should be (1 - 2*h^m +
          * (2h - 1)^m )/m!" Since 0 <= h < 1, then if h > 1/2 is sufficient to check:
          */
-        if (h.compareTo(ONE_HALF) == 1) {
+        if (h.compareTo(ONE_HALF) > 0) {
             Hdata.set(m - 1, 0,
                       Hdata.get(m - 1, 0).add(h.multiply(2).subtract(1).pow(m)));
         }
