@@ -300,10 +300,11 @@ public class SimpleRegression implements Serializable, UpdatingMultipleLinearReg
                   (x == null) ? 0 : x.length,
                   (y == null) ? 0 : y.length);
         }
-        boolean obsOk=true;
+        boolean obsOk = true;
         for( int i = 0 ; i < x.length; i++){
             if( x[i] == null || x[i].length == 0 ){
                 obsOk = false;
+                break;
             }
         }
         if( !obsOk ){

@@ -190,6 +190,7 @@ public abstract class BaseMultiStartMultivariateOptimizer<PAIR>
                             if ((min != null && s[k] < min[k]) || (max != null && s[k] > max[k])) {
                                 // reject the vector
                                 s = null;
+                                break;
                             }
                         }
                     }

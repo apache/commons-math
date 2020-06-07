@@ -1830,6 +1830,7 @@ public class Dfp implements RealFieldElement<Dfp> {
                 for (int i = mant.length - 1; i >= 0; i--) {
                     if (divisor.mant[i] > remainder[i]) {
                         trialgood = true;
+                        break;
                     }
                     if (divisor.mant[i] < remainder[i]) {
                         break;
