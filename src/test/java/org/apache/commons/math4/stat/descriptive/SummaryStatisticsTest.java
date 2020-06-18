@@ -315,6 +315,9 @@ public class SummaryStatisticsTest {
         expected = Math.sqrt(expected);
 
         Assert.assertEquals(expected, stats.getQuadraticMean(), Math.ulp(expected));
+
+        SummaryStatistics convenienceMethodStatistics = new SummaryStatistics(values);
+        Assert.assertEquals(expected, convenienceMethodStatistics.getQuadraticMean(), Math.ulp(expected));	
     }
 
     /**

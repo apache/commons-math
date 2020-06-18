@@ -133,6 +133,26 @@ public class SummaryStatistics implements StatisticalSummary, Serializable {
     }
 
     /**
+     * Construct a SummaryStatistics instance filling it with the given initialDoubleArray
+     * @param initialDoubleArray values for filling the array
+     */
+    public SummaryStatistics(double[] initialDoubleArray) {
+        for (double initialValue : initialDoubleArray) {
+           addValue(initialValue);
+        }
+    }
+
+    /**
+     * Construct a SummaryStatistics instance filling it with the given initialDoubleArray
+     * @param initialDoubleArray values for filling the array
+     */
+    public SummaryStatistics(Double[] initialDoubleArray) {
+        for (Double initialValue : initialDoubleArray) {
+           addValue(initialValue);
+        }
+    }
+
+    /**
      * Return a {@link StatisticalSummaryValues} instance reporting current
      * statistics.
      * @return Current values of statistics
