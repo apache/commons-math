@@ -31,6 +31,7 @@ import java.util.Collections;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.atomic.AtomicLong;
+import java.util.stream.Collectors;
 
 import org.apache.commons.math4.exception.DimensionMismatchException;
 import org.apache.commons.math4.exception.MathIllegalStateException;
@@ -216,12 +217,8 @@ public class Network
      * this network.
      */
     public void deleteNeuron(Neuron neuron) {
-        final Collection<Neuron> neighbours = getNeighbours(neuron);
-
         // Delete links to from neighbours.
-        for (Neuron n : neighbours) {
-            deleteLink(n, neuron);
-        }
+        getNeighbours(neuron).forEach(neighbour -> deleteLink(neighbour, neuron));
 
         // Remove neuron.
         neuronMap.remove(neuron.getIdentifier());
@@ -357,22 +354,13 @@ public class Network
     public Collection<Neuron> getNeighbours(Iterable<Neuron> neurons,
                                             Iterable<Neuron> exclude) {
         final Set<Long> idList = new HashSet<>();
+        neurons.forEach(n -> idList.addAll(linkMap.get(n.getIdentifier())));
 
-        for (Neuron n : neurons) {
-            idList.addAll(linkMap.get(n.getIdentifier()));
-        }
         if (exclude != null) {
-            for (Neuron n : exclude) {
-                idList.remove(n.getIdentifier());
-            }
+            exclude.forEach(n -> idList.remove(n.getIdentifier()));
         }
 
-        final List<Neuron> neuronList = new ArrayList<>();
-        for (Long id : idList) {
-            neuronList.add(getNeuron(id));
-        }
-
-        return neuronList;
+        return idList.stream().map(this::getNeuron).collect(Collectors.toList());
     }
 
     /**

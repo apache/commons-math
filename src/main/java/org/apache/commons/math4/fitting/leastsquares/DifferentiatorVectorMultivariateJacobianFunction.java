@@ -26,6 +26,8 @@ import org.apache.commons.math4.linear.RealMatrix;
 import org.apache.commons.math4.linear.RealVector;
 import org.apache.commons.math4.util.Pair;
 
+import java.util.Arrays;
+
 /**
  * A MultivariateJacobianFunction (a thing that requires a derivative)
  * combined with the thing that can find derivatives.
@@ -88,10 +90,6 @@ public class DifferentiatorVectorMultivariateJacobianFunction implements Multiva
         DerivativeStructure[] derivatives = differentiator
                 .differentiate(univariateVectorFunction)
                 .value(new DerivativeStructure(1, 1, 0, atParameterValue));
-        double[] derivativesOut = new double[derivatives.length];
-        for(int index=0;index<derivatives.length;index++) {
-            derivativesOut[index] = derivatives[index].getPartialDerivative(1);
-        }
-        return derivativesOut;
+        return Arrays.stream(derivatives).mapToDouble(derivative -> derivative.getPartialDerivative(1)).toArray();
     }
 }

@@ -850,12 +850,7 @@ public final class StatUtils {
         }
         List<Double> list = freq.getMode();
         // Convert the list to an array of primitive double
-        double[] modes = new double[list.size()];
-        int i = 0;
-        for(Double c : list) {
-            modes[i++] = c.doubleValue();
-        }
-        return modes;
+        return list.stream().mapToDouble(Double::doubleValue).toArray();
     }
 
 }

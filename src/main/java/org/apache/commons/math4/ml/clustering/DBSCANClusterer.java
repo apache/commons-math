@@ -23,6 +23,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 import org.apache.commons.math4.exception.NotPositiveException;
 import org.apache.commons.math4.ml.distance.DistanceMeasure;
@@ -200,13 +201,8 @@ public class DBSCANClusterer<T extends Clusterable> extends Clusterer<T> {
      * @return the List of neighbors
      */
     private List<T> getNeighbors(final T point, final Collection<T> points) {
-        final List<T> neighbors = new ArrayList<>();
-        for (final T neighbor : points) {
-            if (point != neighbor && distance(neighbor, point) <= eps) {
-                neighbors.add(neighbor);
-            }
-        }
-        return neighbors;
+        return points.stream().filter(neighbor -> point != neighbor && distance(neighbor, point) <= eps)
+                              .collect(Collectors.toList());
     }
 
     /**
@@ -218,11 +214,7 @@ public class DBSCANClusterer<T extends Clusterable> extends Clusterer<T> {
      */
     private List<T> merge(final List<T> one, final List<T> two) {
         final Set<T> oneSet = new HashSet<>(one);
-        for (T item : two) {
-            if (!oneSet.contains(item)) {
-                one.add(item);
-            }
-        }
+        two.stream().filter(item -> !oneSet.contains(item)).forEach(one::add);
         return one;
     }
 }
