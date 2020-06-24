@@ -16,6 +16,7 @@
  */
 package org.apache.commons.math4.fitting;
 
+import java.util.Arrays;
 import java.util.Collection;
 
 import org.apache.commons.math4.analysis.MultivariateMatrixFunction;
@@ -101,13 +102,7 @@ public abstract class AbstractCurveFitter {
         public TheoreticalValuesFunction(final ParametricUnivariateFunction f,
                                          final Collection<WeightedObservedPoint> observations) {
             this.f = f;
-
-            final int len = observations.size();
-            this.points = new double[len];
-            int i = 0;
-            for (WeightedObservedPoint obs : observations) {
-                this.points[i++] = obs.getX();
-            }
+            this.points = observations.stream().mapToDouble(WeightedObservedPoint::getX).toArray();
         }
 
         /**
@@ -118,13 +113,7 @@ public abstract class AbstractCurveFitter {
                 /** {@inheritDoc} */
                 @Override
                 public double[] value(double[] p) {
-                    final int len = points.length;
-                    final double[] values = new double[len];
-                    for (int i = 0; i < len; i++) {
-                        values[i] = f.value(points[i], p);
-                    }
-
-                    return values;
+                    return Arrays.stream(points).map(point -> f.value(point, p)).toArray();
                 }
             };
         }
