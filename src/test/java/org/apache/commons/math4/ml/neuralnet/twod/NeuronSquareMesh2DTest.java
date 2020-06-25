@@ -220,9 +220,9 @@ public class NeuronSquareMesh2DTest {
     public void test3x2CylinderNetwork2() {
         final FeatureInitializer[] initArray = { init };
         final Network net = new NeuronSquareMesh2D(2, false,
-                                             3, true,
-                                             SquareNeighbourhood.MOORE,
-                                             initArray).getNetwork();
+                                                   3, true,
+                                                   SquareNeighbourhood.MOORE,
+                                                   initArray).getNetwork();
         Collection<Neuron> neighbours;
 
         // All neurons.
@@ -345,9 +345,9 @@ public class NeuronSquareMesh2DTest {
     public void test3x3TorusNetwork2() {
         final FeatureInitializer[] initArray = { init };
         final Network net = new NeuronSquareMesh2D(3, true,
-                                             3, true,
-                                             SquareNeighbourhood.MOORE,
-                                             initArray).getNetwork();
+                                                   3, true,
+                                                   SquareNeighbourhood.MOORE,
+                                                   initArray).getNetwork();
         Collection<Neuron> neighbours;
 
         // All neurons.
@@ -569,9 +569,9 @@ public class NeuronSquareMesh2DTest {
     public void testConcentricNeighbourhood() {
         final FeatureInitializer[] initArray = { init };
         final Network net = new NeuronSquareMesh2D(5, true,
-                                             5, true,
-                                             SquareNeighbourhood.VON_NEUMANN,
-                                             initArray).getNetwork();
+                                                   5, true,
+                                                   SquareNeighbourhood.VON_NEUMANN,
+                                                   initArray).getNetwork();
 
         Collection<Neuron> neighbours;
         Collection<Neuron> exclude = new HashSet<>();
