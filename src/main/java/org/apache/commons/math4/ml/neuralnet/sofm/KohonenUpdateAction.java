@@ -24,7 +24,7 @@ import java.util.concurrent.atomic.AtomicLong;
 import org.apache.commons.math4.analysis.function.Gaussian;
 import org.apache.commons.math4.linear.ArrayRealVector;
 import org.apache.commons.math4.ml.distance.DistanceMeasure;
-import org.apache.commons.math4.ml.neuralnet.MapUtils;
+import org.apache.commons.math4.ml.neuralnet.MapRanking;
 import org.apache.commons.math4.ml.neuralnet.Network;
 import org.apache.commons.math4.ml.neuralnet.Neuron;
 import org.apache.commons.math4.ml.neuralnet.UpdateAction;
@@ -194,8 +194,10 @@ public class KohonenUpdateAction implements UpdateAction {
     private Neuron findAndUpdateBestNeuron(Network net,
                                            double[] features,
                                            double learningRate) {
+        final MapRanking rank = new MapRanking(net, distance);
+
         while (true) {
-            final Neuron best = MapUtils.findBest(features, net, distance);
+            final Neuron best = rank.rank(features, 1).get(0);
 
             if (attemptNeuronUpdate(best, features, learningRate)) {
                 return best;

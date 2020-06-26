@@ -17,7 +17,7 @@
 
 package org.apache.commons.math4.ml.neuralnet.twod.util;
 
-import org.apache.commons.math4.ml.neuralnet.MapUtils;
+import org.apache.commons.math4.ml.neuralnet.MapRanking;
 import org.apache.commons.math4.ml.neuralnet.Neuron;
 import org.apache.commons.math4.ml.neuralnet.twod.NeuronSquareMesh2D;
 import org.apache.commons.math4.ml.distance.DistanceMeasure;
@@ -47,6 +47,7 @@ public class QuantizationError implements MapDataVisualization {
         final int nC = map.getNumberOfColumns();
 
         final LocationFinder finder = new LocationFinder(map);
+        final MapRanking rank = new MapRanking(map.getNetwork(), distance);
 
         // Hit bins.
         final int[][] hit = new int[nR][nC];
@@ -54,7 +55,7 @@ public class QuantizationError implements MapDataVisualization {
         final double[][] error = new double[nR][nC];
 
         for (double[] sample : data) {
-            final Neuron best = MapUtils.findBest(sample, map, distance);
+            final Neuron best = rank.rank(sample, 1).get(0);
 
             final LocationFinder.Location loc = finder.getLocation(best);
             final int row = loc.getRow();

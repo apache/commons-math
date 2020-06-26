@@ -17,7 +17,8 @@
 
 package org.apache.commons.math4.ml.neuralnet.twod.util;
 
-import org.apache.commons.math4.ml.neuralnet.MapUtils;
+import java.util.List;
+import org.apache.commons.math4.ml.neuralnet.MapRanking;
 import org.apache.commons.math4.ml.neuralnet.Neuron;
 import org.apache.commons.math4.ml.neuralnet.twod.NeuronSquareMesh2D;
 import org.apache.commons.math4.ml.distance.DistanceMeasure;
@@ -77,16 +78,15 @@ public class SmoothedDataHistogram implements MapDataVisualization {
         }
 
         final LocationFinder finder = new LocationFinder(map);
+        final MapRanking rank = new MapRanking(map.getNetwork(), distance);
 
         // Histogram bins.
         final double[][] histo = new double[nR][nC];
 
         for (double[] sample : data) {
-            final Neuron[] sorted = MapUtils.sort(sample,
-                                                  map.getNetwork(),
-                                                  distance);
+            final List<Neuron> sorted = rank.rank(sample);
             for (int i = 0; i < smoothingBins; i++) {
-                final LocationFinder.Location loc = finder.getLocation(sorted[i]);
+                final LocationFinder.Location loc = finder.getLocation(sorted.get(i));
                 final int row = loc.getRow();
                 final int col = loc.getColumn();
                 histo[row][col] += (smoothingBins - i) * membershipNormalization;

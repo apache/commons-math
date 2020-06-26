@@ -17,12 +17,12 @@
 
 package org.apache.commons.math4.ml.neuralnet.twod.util;
 
-import org.apache.commons.math4.ml.neuralnet.MapUtils;
+import java.util.List;
+import org.apache.commons.math4.ml.neuralnet.MapRanking;
 import org.apache.commons.math4.ml.neuralnet.Neuron;
 import org.apache.commons.math4.ml.neuralnet.Network;
 import org.apache.commons.math4.ml.neuralnet.twod.NeuronSquareMesh2D;
 import org.apache.commons.math4.ml.distance.DistanceMeasure;
-import org.apache.commons.math4.util.Pair;
 
 /**
  * Computes the topographic error histogram.
@@ -55,8 +55,9 @@ public class TopographicErrorHistogram implements MapDataVisualization {
         final int nR = map.getNumberOfRows();
         final int nC = map.getNumberOfColumns();
 
-        final Network net = map.getNetwork();
         final LocationFinder finder = new LocationFinder(map);
+        final Network net = map.getNetwork();
+        final MapRanking rank = new MapRanking(net, distance);
 
         // Hit bins.
         final int[][] hit = new int[nR][nC];
@@ -64,15 +65,15 @@ public class TopographicErrorHistogram implements MapDataVisualization {
         final double[][] error = new double[nR][nC];
 
         for (double[] sample : data) {
-            final Pair<Neuron, Neuron> p = MapUtils.findBestAndSecondBest(sample, map, distance);
-            final Neuron best = p.getFirst();
+            final List<Neuron> p = rank.rank(sample, 2);
+            final Neuron best = p.get(0);
 
             final LocationFinder.Location loc = finder.getLocation(best);
             final int row = loc.getRow();
             final int col = loc.getColumn();
             hit[row][col] += 1;
 
-            if (!net.getNeighbours(best).contains(p.getSecond())) {
+            if (!net.getNeighbours(best).contains(p.get(1))) {
                 // Increment count if first and second best matching units
                 // are not neighbours.
                 error[row][col] += 1;

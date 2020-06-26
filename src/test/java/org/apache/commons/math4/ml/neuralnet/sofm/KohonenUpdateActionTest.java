@@ -21,7 +21,7 @@ import org.apache.commons.math4.ml.distance.DistanceMeasure;
 import org.apache.commons.math4.ml.distance.EuclideanDistance;
 import org.apache.commons.math4.ml.neuralnet.FeatureInitializer;
 import org.apache.commons.math4.ml.neuralnet.FeatureInitializerFactory;
-import org.apache.commons.math4.ml.neuralnet.MapUtils;
+import org.apache.commons.math4.ml.neuralnet.MapRanking;
 import org.apache.commons.math4.ml.neuralnet.Network;
 import org.apache.commons.math4.ml.neuralnet.Neuron;
 import org.apache.commons.math4.ml.neuralnet.OffsetFeatureInitializer;
@@ -58,6 +58,7 @@ public class KohonenUpdateActionTest {
         final NeighbourhoodSizeFunction neighbourhood
             = NeighbourhoodSizeFunctionFactory.exponentialDecay(3, 1, 100);
         final UpdateAction update = new KohonenUpdateAction(dist, learning, neighbourhood);
+        final MapRanking rank = new MapRanking(net, dist);
 
         // The following test ensures that, after one "update",
         // 1. when the initial learning rate equal to 1, the best matching
@@ -71,7 +72,7 @@ public class KohonenUpdateActionTest {
         for (Neuron n : net) {
             distancesBefore[count++] = dist.compute(n.getFeatures(), features);
         }
-        final Neuron bestBefore = MapUtils.findBest(features, net, dist);
+        final Neuron bestBefore = rank.rank(features, 1).get(0);
 
         // Initial distance from the best match is larger than zero.
         Assert.assertTrue(dist.compute(bestBefore.getFeatures(), features) >= 0.2);
@@ -83,7 +84,7 @@ public class KohonenUpdateActionTest {
         for (Neuron n : net) {
             distancesAfter[count++] = dist.compute(n.getFeatures(), features);
         }
-        final Neuron bestAfter = MapUtils.findBest(features, net, dist);
+        final Neuron bestAfter = rank.rank(features, 1).get(0);
 
         Assert.assertEquals(bestBefore, bestAfter);
         // Distance is now zero.

@@ -24,7 +24,6 @@ import java.util.List;
 import org.apache.commons.math4.exception.NoDataException;
 import org.apache.commons.math4.ml.distance.DistanceMeasure;
 import org.apache.commons.math4.ml.neuralnet.twod.NeuronSquareMesh2D;
-import org.apache.commons.math4.util.Pair;
 
 /**
  * Utilities for network maps.
@@ -36,70 +35,6 @@ public class MapUtils {
      * Class contains only static methods.
      */
     private MapUtils() {}
-
-    /**
-     * Finds the neuron that best matches the given features.
-     *
-     * @param features Data.
-     * @param neurons List of neurons to scan. If the list is empty
-     * {@code null} will be returned.
-     * @param distance Distance function. The neuron's features are
-     * passed as the first argument to {@link DistanceMeasure#compute(double[],double[])}.
-     * @return the neuron whose features are closest to the given data.
-     * @throws org.apache.commons.math4.exception.DimensionMismatchException
-     * if the size of the input is not compatible with the neurons features
-     * size.
-     */
-    public static Neuron findBest(double[] features,
-                                  Iterable<Neuron> neurons,
-                                  DistanceMeasure distance) {
-        return new MapRanking(neurons, distance).rank(features, 1).get(0);
-    }
-
-    /**
-     * Finds the two neurons that best match the given features.
-     *
-     * @param features Data.
-     * @param neurons List of neurons to scan. If the list is empty
-     * {@code null} will be returned.
-     * @param distance Distance function. The neuron's features are
-     * passed as the first argument to {@link DistanceMeasure#compute(double[],double[])}.
-     * @return the two neurons whose features are closest to the given data.
-     * @throws org.apache.commons.math4.exception.DimensionMismatchException
-     * if the size of the input is not compatible with the neurons features
-     * size.
-     */
-    public static Pair<Neuron, Neuron> findBestAndSecondBest(double[] features,
-                                                             Iterable<Neuron> neurons,
-                                                             DistanceMeasure distance) {
-        final List<Neuron> list = new MapRanking(neurons, distance).rank(features, 2);
-        return new Pair<>(list.get(0), list.get(1));
-    }
-
-    /**
-     * Creates a list of neurons sorted in increased order of the distance
-     * to the given {@code features}.
-     *
-     * @param features Data.
-     * @param neurons List of neurons to scan. If it is empty, an empty array
-     * will be returned.
-     * @param distance Distance function.
-     * @return the neurons, sorted in increasing order of distance in data
-     * space.
-     * @throws org.apache.commons.math4.exception.DimensionMismatchException
-     * if the size of the input is not compatible with the neurons features
-     * size.
-     *
-     * @see #findBest(double[],Iterable,DistanceMeasure)
-     * @see #findBestAndSecondBest(double[],Iterable,DistanceMeasure)
-     *
-     * @since 3.6
-     */
-    public static Neuron[] sort(double[] features,
-                                Iterable<Neuron> neurons,
-                                DistanceMeasure distance) {
-        return new MapRanking(neurons, distance).rank(features).toArray(new Neuron[0]);
-    }
 
     /**
      * Computes the <a href="http://en.wikipedia.org/wiki/U-Matrix">
@@ -150,10 +85,10 @@ public class MapUtils {
                                               NeuronSquareMesh2D map,
                                               DistanceMeasure distance) {
         final HashMap<Neuron, Integer> hit = new HashMap<>();
-        final Network net = map.getNetwork();
+        final MapRanking rank = new MapRanking(map.getNetwork(), distance);
 
         for (double[] f : data) {
-            final Neuron best = findBest(f, net, distance);
+            final Neuron best = rank.rank(f, 1).get(0);
             final Integer count = hit.get(best);
             if (count == null) {
                 hit.put(best, 1);
@@ -196,11 +131,13 @@ public class MapUtils {
     public static double computeQuantizationError(Iterable<double[]> data,
                                                   Iterable<Neuron> neurons,
                                                   DistanceMeasure distance) {
+        final MapRanking rank = new MapRanking(neurons, distance);
+
         double d = 0;
         int count = 0;
         for (double[] f : data) {
             ++count;
-            d += distance.compute(f, findBest(f, neurons, distance).getFeatures());
+            d += distance.compute(f, rank.rank(f, 1).get(0).getFeatures());
         }
 
         if (count == 0) {
@@ -224,12 +161,14 @@ public class MapUtils {
     public static double computeTopographicError(Iterable<double[]> data,
                                                  Network net,
                                                  DistanceMeasure distance) {
+        final MapRanking rank = new MapRanking(net, distance);
+
         int notAdjacentCount = 0;
         int count = 0;
         for (double[] f : data) {
             ++count;
-            final Pair<Neuron, Neuron> p = findBestAndSecondBest(f, net, distance);
-            if (!net.getNeighbours(p.getFirst()).contains(p.getSecond())) {
+            final List<Neuron> p = rank.rank(f, 2);
+            if (!net.getNeighbours(p.get(0)).contains(p.get(1))) {
                 // Increment count if first and second best matching units
                 // are not neighbours.
                 ++notAdjacentCount;

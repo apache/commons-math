@@ -17,7 +17,7 @@
 
 package org.apache.commons.math4.ml.neuralnet.twod.util;
 
-import org.apache.commons.math4.ml.neuralnet.MapUtils;
+import org.apache.commons.math4.ml.neuralnet.MapRanking;
 import org.apache.commons.math4.ml.neuralnet.Neuron;
 import org.apache.commons.math4.ml.neuralnet.twod.NeuronSquareMesh2D;
 import org.apache.commons.math4.ml.distance.DistanceMeasure;
@@ -54,6 +54,7 @@ public class HitHistogram implements MapDataVisualization {
         final int nC = map.getNumberOfColumns();
 
         final LocationFinder finder = new LocationFinder(map);
+        final MapRanking rank = new MapRanking(map.getNetwork(), distance);
 
         // Totla number of samples.
         int numSamples = 0;
@@ -61,7 +62,7 @@ public class HitHistogram implements MapDataVisualization {
         final double[][] hit = new double[nR][nC];
 
         for (double[] sample : data) {
-            final Neuron best = MapUtils.findBest(sample, map, distance);
+            final Neuron best = rank.rank(sample, 1).get(0);
 
             final LocationFinder.Location loc = finder.getLocation(best);
             final int row = loc.getRow();

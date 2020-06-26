@@ -19,7 +19,7 @@ package org.apache.commons.math4.ml.neuralnet;
 
 import java.util.Set;
 import java.util.HashSet;
-
+import java.util.List;
 import org.apache.commons.math4.exception.NotStrictlyPositiveException;
 import org.apache.commons.math4.ml.distance.DistanceMeasure;
 import org.apache.commons.math4.ml.distance.EuclideanDistance;
@@ -104,5 +104,22 @@ public class MapRankingTest {
 
         new MapRanking(new NeuronString(3, false, initArray).getNetwork(),
                        new EuclideanDistance()).rank(new double[] { -1 }, 0);
+    }
+
+    @Test
+    public void testSort() {
+        final Set<Neuron> list = new HashSet<>();
+
+        for (int i = 0; i < 4; i++) {
+            list.add(new Neuron(i, new double[] { i - 0.5 }));
+        }
+
+        final MapRanking rank = new MapRanking(list, new EuclideanDistance());
+        final List<Neuron> sorted = rank.rank(new double[] { 3.4 });
+
+        final long[] expected = new long[] { 3, 2, 1, 0 };
+        for (int i = 0; i < list.size(); i++) {
+            Assert.assertEquals(expected[i], sorted.get(i).getIdentifier());
+        }
     }
 }
