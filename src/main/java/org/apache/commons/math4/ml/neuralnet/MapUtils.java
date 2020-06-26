@@ -17,12 +17,9 @@
 
 package org.apache.commons.math4.ml.neuralnet;
 
-import java.util.ArrayList;
 import java.util.Collection;
-import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Comparator;
 
 import org.apache.commons.math4.exception.NoDataException;
 import org.apache.commons.math4.ml.distance.DistanceMeasure;
@@ -56,17 +53,7 @@ public class MapUtils {
     public static Neuron findBest(double[] features,
                                   Iterable<Neuron> neurons,
                                   DistanceMeasure distance) {
-        Neuron best = null;
-        double min = Double.POSITIVE_INFINITY;
-        for (final Neuron n : neurons) {
-            final double d = distance.compute(n.getFeatures(), features);
-            if (d < min) {
-                min = d;
-                best = n;
-            }
-        }
-
-        return best;
+        return new MapRanking(neurons, distance).rank(features, 1).get(0);
     }
 
     /**
@@ -85,27 +72,8 @@ public class MapUtils {
     public static Pair<Neuron, Neuron> findBestAndSecondBest(double[] features,
                                                              Iterable<Neuron> neurons,
                                                              DistanceMeasure distance) {
-        Neuron[] best = { null, null };
-        double[] min = { Double.POSITIVE_INFINITY,
-                         Double.POSITIVE_INFINITY };
-        for (final Neuron n : neurons) {
-            final double d = distance.compute(n.getFeatures(), features);
-            if (d < min[0]) {
-                // Replace second best with old best.
-                min[1] = min[0];
-                best[1] = best[0];
-
-                // Store current as new best.
-                min[0] = d;
-                best[0] = n;
-            } else if (d < min[1]) {
-                // Replace old second best with current.
-                min[1] = d;
-                best[1] = n;
-            }
-        }
-
-        return new Pair<>(best[0], best[1]);
+        final List<Neuron> list = new MapRanking(neurons, distance).rank(features, 2);
+        return new Pair<>(list.get(0), list.get(1));
     }
 
     /**
@@ -130,22 +98,7 @@ public class MapUtils {
     public static Neuron[] sort(double[] features,
                                 Iterable<Neuron> neurons,
                                 DistanceMeasure distance) {
-        final List<PairNeuronDouble> list = new ArrayList<>();
-
-        for (final Neuron n : neurons) {
-            final double d = distance.compute(n.getFeatures(), features);
-            list.add(new PairNeuronDouble(n, d));
-        }
-
-        Collections.sort(list, PairNeuronDouble.COMPARATOR);
-
-        final int len = list.size();
-        final Neuron[] sorted = new Neuron[len];
-
-        for (int i = 0; i < len; i++) {
-            sorted[i] = list.get(i).getNeuron();
-        }
-        return sorted;
+        return new MapRanking(neurons, distance).rank(features).toArray(new Neuron[0]);
     }
 
     /**
@@ -288,40 +241,5 @@ public class MapUtils {
         }
 
         return ((double) notAdjacentCount) / count;
-    }
-
-    /**
-     * Helper data structure holding a (Neuron, double) pair.
-     */
-    private static class PairNeuronDouble {
-        /** Comparator. */
-        static final Comparator<PairNeuronDouble> COMPARATOR
-            = new Comparator<PairNeuronDouble>() {
-            /** {@inheritDoc} */
-            @Override
-            public int compare(PairNeuronDouble o1,
-                               PairNeuronDouble o2) {
-                return Double.compare(o1.value, o2.value);
-            }
-        };
-        /** Key. */
-        private final Neuron neuron;
-        /** Value. */
-        private final double value;
-
-        /**
-         * @param neuron Neuron.
-         * @param value Value.
-         */
-        PairNeuronDouble(Neuron neuron, double value) {
-            this.neuron = neuron;
-            this.value = value;
-        }
-
-        /** @return the neuron. */
-        public Neuron getNeuron() {
-            return neuron;
-        }
-
     }
 }
