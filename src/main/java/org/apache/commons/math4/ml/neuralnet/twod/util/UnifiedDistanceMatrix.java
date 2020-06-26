@@ -17,57 +17,34 @@
 
 package org.apache.commons.math4.ml.neuralnet.twod.util;
 
-import java.util.Collection;
 import org.apache.commons.math4.ml.neuralnet.Neuron;
-import org.apache.commons.math4.ml.neuralnet.Network;
 import org.apache.commons.math4.ml.neuralnet.twod.NeuronSquareMesh2D;
 import org.apache.commons.math4.ml.distance.DistanceMeasure;
 
 /**
  * <a href="http://en.wikipedia.org/wiki/U-Matrix">U-Matrix</a>
  * visualization of high-dimensional data projection.
+ * The 8 individual inter-units distances will be
+ * {@link #computeImage(NeuronSquareMesh2D) computed}.  They will be
+ * stored in additional pixels around each of the original units of the
+ * 2D-map.  The additional pixels that lie along a "diagonal" are shared
+ * by <em>two</em> pairs of units: their value will be set to the average
+ * distance between the units belonging to each of the pairs.  The value
+ * zero will be stored in the pixel corresponding to the location of a
+ * unit of the 2D-map.
+ *
  * @since 3.6
+ * @see NeuronSquareMesh2D.DataVisualization#getUMatrix()
  */
 public class UnifiedDistanceMatrix implements MapVisualization {
-    /** Whether to show distance between each pair of neighbouring units. */
-    private final boolean individualDistances;
     /** Distance. */
     private final DistanceMeasure distance;
 
     /**
-     * Simple constructor.
-     *
-     * @param individualDistances If {@code true}, the 8 individual
-     * inter-units distances will be {@link #computeImage(NeuronSquareMesh2D)
-     * computed}.  They will be stored in additional pixels around each of
-     * the original units of the 2D-map.  The additional pixels that lie
-     * along a "diagonal" are shared by <em>two</em> pairs of units: their
-     * value will be set to the average distance between the units belonging
-     * to each of the pairs.  The value zero will be stored in the pixel
-     * corresponding to the location of a unit of the 2D-map.
-     * <br>
-     * If {@code false}, only the average distance between a unit and all its
-     * neighbours will be computed (and stored in the pixel corresponding to
-     * that unit of the 2D-map).  In that case, the number of neighbours taken
-     * into account depends on the network's
-     * {@link org.apache.commons.math4.ml.neuralnet.SquareNeighbourhood
-     * neighbourhood type}.
      * @param distance Distance.
      */
-    public UnifiedDistanceMatrix(boolean individualDistances,
-                                 DistanceMeasure distance) {
-        this.individualDistances = individualDistances;
+    public UnifiedDistanceMatrix(DistanceMeasure distance) {
         this.distance = distance;
-    }
-
-    /** {@inheritDoc} */
-    @Override
-    public double[][] computeImage(NeuronSquareMesh2D map) {
-        if (individualDistances) {
-            return individualDistances(map);
-        } else {
-            return averageDistances(map);
-        }
     }
 
     /**
@@ -81,7 +58,8 @@ public class UnifiedDistanceMatrix implements MapVisualization {
      * @param map Map.
      * @return an image representing the individual distances.
      */
-    private double[][] individualDistances(NeuronSquareMesh2D map) {
+    @Override
+    public double[][] computeImage(NeuronSquareMesh2D map) {
         final int numRows = map.getNumberOfRows();
         final int numCols = map.getNumberOfColumns();
 
@@ -170,39 +148,6 @@ public class UnifiedDistanceMatrix implements MapVisualization {
         final int lastCol = uMatrix[0].length - 1;
         for (int r = 0; r < lastRow; r++) {
             uMatrix[r][0] = uMatrix[r][lastCol];
-        }
-
-        return uMatrix;
-    }
-
-    /**
-     * Computes the distances between a unit of the map and its neighbours.
-     *
-     * @param map Map.
-     * @return an image representing the average distances.
-     */
-    private double[][] averageDistances(NeuronSquareMesh2D map) {
-        final int numRows = map.getNumberOfRows();
-        final int numCols = map.getNumberOfColumns();
-        final double[][] uMatrix = new double[numRows][numCols];
-
-        final Network net = map.getNetwork();
-
-        for (int i = 0; i < numRows; i++) {
-            for (int j = 0; j < numCols; j++) {
-                final Neuron neuron = map.getNeuron(i, j);
-                final Collection<Neuron> neighbours = net.getNeighbours(neuron);
-                final double[] features = neuron.getFeatures();
-
-                double d = 0;
-                int count = 0;
-                for (Neuron n : neighbours) {
-                    ++count;
-                    d += distance.compute(features, n.getFeatures());
-                }
-
-                uMatrix[i][j] = d / count;
-            }
         }
 
         return uMatrix;

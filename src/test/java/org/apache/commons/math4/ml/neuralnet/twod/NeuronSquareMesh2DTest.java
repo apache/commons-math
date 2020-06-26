@@ -25,6 +25,9 @@ import java.io.ObjectOutputStream;
 import java.util.Collection;
 import java.util.Set;
 import java.util.HashSet;
+import java.util.List;
+import java.util.stream.StreamSupport;
+import java.util.stream.Collectors;
 
 import org.apache.commons.math4.exception.NumberIsTooSmallException;
 import org.apache.commons.math4.exception.OutOfRangeException;
@@ -870,6 +873,43 @@ public class NeuronSquareMesh2DTest {
         }
         for (Neuron n : fromNet) {
             Assert.assertTrue(fromMap.contains(n));
+        }
+    }
+
+    @Test
+    public void testDataVisualization() {
+        final FeatureInitializer[] initArray = { init };
+        final NeuronSquareMesh2D map = new NeuronSquareMesh2D(3, true,
+                                                              3, true,
+                                                              SquareNeighbourhood.VON_NEUMANN,
+                                                              initArray);
+
+        // Trivial test: Use neurons' features as data.
+
+        final List<double[]> data = StreamSupport.stream(map.spliterator(), false)
+            .map(n -> n.getFeatures())
+            .collect(Collectors.toList());
+        final NeuronSquareMesh2D.DataVisualization v = map.computeQualityIndicators(data);
+
+        final int numRows = map.getNumberOfRows();
+        final int numCols = map.getNumberOfColumns();
+
+        // Test hits.
+        final double[][] hits = v.getNormalizedHits();
+        final double expectedHits = 1d / (numRows * numCols);
+        for (int i = 0; i < numRows; i++) {
+            for (int j = 0; j < numCols; j++) {
+                Assert.assertEquals(expectedHits, hits[i][j], 0d);
+            }
+        }
+
+        // Test quantization error.
+        final double[][] qe = v.getQuantizationError();
+        final double expectedQE = 0;
+        for (int i = 0; i < numRows; i++) {
+            for (int j = 0; j < numCols; j++) {
+                Assert.assertEquals(expectedQE, qe[i][j], 0d);
+            }
         }
     }
 }

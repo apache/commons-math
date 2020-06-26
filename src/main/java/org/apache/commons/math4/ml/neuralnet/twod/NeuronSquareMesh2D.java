@@ -20,6 +20,7 @@ package org.apache.commons.math4.ml.neuralnet.twod;
 import java.util.List;
 import java.util.ArrayList;
 import java.util.Iterator;
+import java.util.Collection;
 import java.io.Serializable;
 import java.io.ObjectInputStream;
 
@@ -30,6 +31,10 @@ import org.apache.commons.math4.ml.neuralnet.FeatureInitializer;
 import org.apache.commons.math4.ml.neuralnet.Network;
 import org.apache.commons.math4.ml.neuralnet.Neuron;
 import org.apache.commons.math4.ml.neuralnet.SquareNeighbourhood;
+import org.apache.commons.math4.ml.neuralnet.MapRanking;
+import org.apache.commons.math4.ml.neuralnet.twod.util.LocationFinder;
+import org.apache.commons.math4.ml.distance.DistanceMeasure;
+import org.apache.commons.math4.ml.distance.EuclideanDistance;
 
 /**
  * Neural network with the topology of a two-dimensional surface.
@@ -340,6 +345,17 @@ public class NeuronSquareMesh2D
     }
 
     /**
+     * Computes various {@link DataVisualization indicators} of the quality
+     * of the representation of the given {@code data} by this map.
+     *
+     * @param data Features.
+     * @return a new instance holding quality indicators.
+     */
+    public DataVisualization computeQualityIndicators(Iterable<double[]> data) {
+        return DataVisualization.from(copy(), data);
+    }
+
+    /**
      * Computes the location of a neighbouring neuron.
      * Returns {@code null} if the resulting location is not part
      * of the map.
@@ -623,6 +639,229 @@ public class NeuronSquareMesh2D
                                           wrapColumns,
                                           neighbourhood,
                                           featuresList);
+        }
+    }
+
+    /**
+     * Miscellaneous indicators of the map quality:
+     * <ul>
+     *  <li>Hit histogram</li>
+     *  <li>Quantization error</li>
+     *  <li>Topographic error</li>
+     *  <li>Unified distance matrix</li>
+     * </ul>
+     */
+    public static class DataVisualization {
+        /** Distance function. */
+        private static final DistanceMeasure DISTANCE = new EuclideanDistance();
+        /** Total number of samples. */
+        private final int numberOfSamples;
+        /** Hit histogram. */
+        private final double[][] hitHistogram;
+        /** Quantization error. */
+        private final double[][] quantizationError;
+        /** Mean quantization error. */
+        private final double meanQuantizationError;
+        /** Topographic error. */
+        private final double[][] topographicError;
+        /** Mean topographic error. */
+        private final double meanTopographicError;
+        /** U-matrix. */
+        private final double[][] uMatrix;
+
+        /**
+         * @param numberOfSamples Number of samples.
+         * @param hitHistogram Hit histogram.
+         * @param quantizationError Quantization error.
+         * @param topographicError Topographic error.
+         * @param uMatrix U-matrix.
+         */
+        private DataVisualization(int numberOfSamples,
+                                  double[][] hitHistogram,
+                                  double[][] quantizationError,
+                                  double[][] topographicError,
+                                  double[][] uMatrix) {
+            this.numberOfSamples = numberOfSamples;
+            this.hitHistogram = hitHistogram;
+            this.quantizationError = quantizationError;
+            meanQuantizationError = hitWeightedMean(quantizationError, hitHistogram);
+            this.topographicError = topographicError;
+            meanTopographicError = hitWeightedMean(topographicError, hitHistogram);
+            this.uMatrix = uMatrix;
+        }
+
+        /**
+         * @param map Map
+         * @param data Data.
+         * @return the metrics.
+         */
+        static DataVisualization from(NeuronSquareMesh2D map,
+                                      Iterable<double[]> data) {
+            final LocationFinder finder = new LocationFinder(map);
+            final MapRanking rank = new MapRanking(map, DISTANCE);
+            final Network net = map.getNetwork();
+            final int nR = map.getNumberOfRows();
+            final int nC = map.getNumberOfColumns();
+
+            // Hit bins.
+            final int[][] hitCounter = new int[nR][nC];
+            // Hit bins.
+            final double[][] hitHistogram = new double[nR][nC];
+            // Quantization error bins.
+            final double[][] quantizationError = new double[nR][nC];
+            // Topographic error bins.
+            final double[][] topographicError = new double[nR][nC];
+            // U-matrix.
+            final double[][] uMatrix = new double[nR][nC];
+
+            int numSamples = 0;
+            for (double[] sample : data) {
+                ++numSamples;
+
+                final List<Neuron> winners = rank.rank(sample, 2);
+                final Neuron best = winners.get(0);
+                final Neuron secondBest = winners.get(1);
+
+                final LocationFinder.Location locBest = finder.getLocation(best);
+                final int rowBest = locBest.getRow();
+                final int colBest = locBest.getColumn();
+                // Increment hit counter.
+                hitCounter[rowBest][colBest] += 1;
+
+                // Aggregate quantization error.
+                quantizationError[rowBest][colBest] += DISTANCE.compute(sample, best.getFeatures());
+
+                // Aggregate topographic error.
+                if (!net.getNeighbours(best).contains(secondBest)) {
+                    // Increment count if first and second best matching units
+                    // are not neighbours.
+                    topographicError[rowBest][colBest] += 1;
+                }
+            }
+
+            for (int r = 0; r < nR; r++) {
+                for (int c = 0; c < nC; c++) {
+                    final Neuron neuron = map.getNeuron(r, c);
+                    final Collection<Neuron> neighbours = net.getNeighbours(neuron);
+                    final double[] features = neuron.getFeatures();
+                    double uDistance = 0;
+                    int neighbourCount = 0;
+                    for (Neuron n : neighbours) {
+                        ++neighbourCount;
+                        uDistance += DISTANCE.compute(features, n.getFeatures());
+                    }
+
+                    final int hitCount = hitCounter[r][c];
+                    if (hitCount != 0) {
+                        hitHistogram[r][c] = hitCount / (double) numSamples;
+                        quantizationError[r][c] /= hitCount;
+                        topographicError[r][c] /= hitCount;
+                        uMatrix[r][c] = uDistance / neighbourCount;
+                    }
+                }
+            }
+
+            return new DataVisualization(numSamples,
+                                         hitHistogram,
+                                         quantizationError,
+                                         topographicError,
+                                         uMatrix);
+        }
+
+        /**
+         * @return the total number of samples.
+         */
+        public final int getNumberOfSamples() {
+            return numberOfSamples;
+        }
+
+        /**
+         * @return the quantization error.
+         * Each bin will contain the average of the distances between samples
+         * mapped to the corresponding unit and the weight vector of that unit.
+         * @see #getMeanQuantizationError()
+         */
+        public double[][] getQuantizationError() {
+            return copy(quantizationError);
+        }
+
+        /**
+         * @return the topographic error.
+         * Each bin will contain the number of data for which the first and
+         * second best matching units are not adjacent in the map.
+         * @see #getMeanTopographicError()
+         */
+        public double[][] getTopographicError() {
+            return copy(topographicError);
+        }
+
+        /**
+         * @return the hits histogram (normalized).
+         * Each bin will contain the number of data for which the corresponding
+         * neuron is the best matching unit.
+         */
+        public double[][] getNormalizedHits() {
+            return copy(hitHistogram);
+        }
+
+        /**
+         * @return the U-matrix.
+         * Each bin will contain the average distance between a unit and all its
+         * neighbours will be computed (and stored in the pixel corresponding to
+         * that unit of the 2D-map).  The number of neighbours taken into account
+         * depends on the network {@link org.apache.commons.math4.ml.neuralnet.SquareNeighbourhood
+         * neighbourhood type}.
+         */
+        public double[][] getUMatrix() {
+            return copy(uMatrix);
+        }
+
+        /**
+         * @return the mean (hit-weighted) quantization error.
+         * @see #getQuantizationError()
+         */
+        public double getMeanQuantizationError() {
+            return meanQuantizationError;
+        }
+
+        /**
+         * @return the mean (hit-weighted) topographic error.
+         * @see #getTopographicError()
+         */
+        public double getMeanTopographicError() {
+            return meanTopographicError;
+        }
+
+        /**
+         * @param orig Source.
+         * @return a deep copy of the original array.
+         */
+        private static double[][] copy(double[][] orig) {
+            final double[][] copy = new double[orig.length][];
+            for (int i = 0; i < orig.length; i++) {
+                copy[i] = orig[i].clone();
+            }
+
+            return copy;
+        }
+
+        /**
+         * @param metrics Metrics.
+         * @param normalizedHits Hits histogram (normalized).
+         * @return the hit-weighted mean of the given {@code metrics}.
+         */
+        private double hitWeightedMean(double[][] metrics,
+                                       double[][] normalizedHits) {
+            double mean = 0;
+            final int rows = metrics.length;
+            final int cols = metrics[0].length;
+            for (int i = 0; i < rows; i++) {
+                for (int j = 0; j < cols; j++) {
+                    mean += normalizedHits[i][j] * metrics[i][j];
+                }
+            }
+
+            return mean;
         }
     }
 }
