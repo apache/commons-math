@@ -756,8 +756,9 @@ public class NeuronSquareMesh2D
                         hitHistogram[r][c] = hitCount / (double) numSamples;
                         quantizationError[r][c] /= hitCount;
                         topographicError[r][c] /= hitCount;
-                        uMatrix[r][c] = uDistance / neighbourCount;
                     }
+
+                    uMatrix[r][c] = uDistance / neighbourCount;
                 }
             }
 
