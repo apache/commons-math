@@ -19,7 +19,11 @@ package org.apache.commons.math4.optim.linear;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
+import org.junit.Test;
+import org.junit.Ignore;
+import org.junit.Assert;
 
+import org.apache.commons.numbers.core.Precision;
 import org.apache.commons.math4.exception.DimensionMismatchException;
 import org.apache.commons.math4.exception.TooManyIterationsException;
 import org.apache.commons.math4.optim.MaxIter;
@@ -35,9 +39,6 @@ import org.apache.commons.math4.optim.linear.SimplexSolver;
 import org.apache.commons.math4.optim.linear.SolutionCallback;
 import org.apache.commons.math4.optim.linear.UnboundedSolutionException;
 import org.apache.commons.math4.optim.nonlinear.scalar.GoalType;
-import org.apache.commons.numbers.core.Precision;
-import org.junit.Test;
-import org.junit.Assert;
 
 public class SimplexSolverTest {
     private static final MaxIter DEFAULT_MAX_ITER = new MaxIter(100);
@@ -817,6 +818,46 @@ public class SimplexSolverTest {
                         new LinearConstraintSet(constraints),
                         new NonNegativeConstraint(true),
                         PivotSelectionRule.BLAND);
+    }
+
+    /* XXX Skipped until issue is solved: https://issues.apache.org/jira/browse/MATH-1549 */
+    @Ignore@Test
+    public void testMath1549() {
+        final double m = 10;
+        double scale = 1;
+        int numFailures = 0;
+        for (int pow = 0; pow < 13; pow++) {
+            try {
+                tryMath1549(scale);
+            } catch (RuntimeException e) {
+                e.printStackTrace();
+                ++numFailures;
+            }
+            scale *= m;
+        }
+
+        if (numFailures > 0) {
+            Assert.fail(numFailures + " failures");
+        }
+    }
+
+    /* See JIRA issue: MATH-1549 */
+    private void tryMath1549(double scale) {
+        final NonNegativeConstraint nnegconstr = new NonNegativeConstraint(true);
+        final int ulps = 10;
+        final double cutoff = 1e-10;
+        final double eps = 1e-6;
+        final SimplexSolver solver = new SimplexSolver(eps, ulps, cutoff);
+
+        final LinearObjectiveFunction f = new LinearObjectiveFunction(new double[] {1, 1}, 0);
+        final List<LinearConstraint> constraints = new ArrayList<>();
+        constraints.add(new LinearConstraint(new double[] {scale * 9000, scale * 1}, Relationship.GEQ, 0));
+        constraints.add(new LinearConstraint(new double[] {scale * 10000, scale}, Relationship.GEQ, scale * 2000));
+        constraints.add(new LinearConstraint(new double[] {scale, 0}, Relationship.GEQ, scale * 2));
+        final LinearConstraintSet constraintSet = new LinearConstraintSet(constraints);
+        final PointValuePair solution = solver.optimize(f, constraintSet, GoalType.MINIMIZE, nnegconstr);
+
+        System.out.println("scale=" + scale + ": sol=" + java.util.Arrays.toString(solution.getPoint()));
     }
 
     /**
