@@ -68,6 +68,11 @@ class SimplexTableau implements Serializable {
     /** Serializable version identifier. */
     private static final long serialVersionUID = -1369660067587938365L;
 
+    /** bit mask for IEEE double exponent **/
+    private static final long EXPN = 0x7ff0000000000000L;
+    /** bit mask for IEEE double mantissa and sign **/
+    private static final long FRAC = 0x800fffffffffffffL;
+
     /** Linear objective function. */
     private final LinearObjectiveFunction f;
 
@@ -103,6 +108,9 @@ class SimplexTableau implements Serializable {
 
     /** Maps rows to their corresponding basic variables. */
     private int[] basicRows;
+
+    /** changes in floating point exponent to standardize the input */
+    private int[] variableExpChange;
 
     /**
      * Builds a tableau for a linear problem.
@@ -219,13 +227,30 @@ class SimplexTableau implements Serializable {
 
         int zIndex = (getNumObjectiveFunctions() == 1) ? 0 : 1;
         matrix.setEntry(zIndex, zIndex, maximize ? 1 : -1);
+
+        double[][] standardized = new double[constraints.size() + 1][];
+
         RealVector objectiveCoefficients = maximize ? f.getCoefficients().mapMultiply(-1) : f.getCoefficients();
-        copyArray(objectiveCoefficients.toArray(), matrix.getDataRef()[zIndex]);
-        matrix.setEntry(zIndex, width - 1, maximize ? f.getConstantTerm() : -1 * f.getConstantTerm());
+        standardized[0] = objectiveCoefficients.toArray();
+        double[] standardRhs = new double[constraints.size() + 1];
+        double value = maximize ? f.getConstantTerm() : -1 * f.getConstantTerm();
+        standardRhs[0] = value;
+
+        for (int i = 0; i < constraints.size(); i++) {
+            LinearConstraint constraint = constraints.get(i);
+            standardized[i + 1] = constraint.getCoefficients().toArray();
+            standardRhs[i + 1] = constraint.getValue();
+        }
+        variableExpChange = new int[standardized[0].length];
+
+        standardize(standardized, standardRhs);
+
+        copyArray(standardized[0], matrix.getDataRef()[zIndex]);
+        matrix.setEntry(zIndex, width - 1, standardRhs[0]);
 
         if (!restrictToNonNegative) {
             matrix.setEntry(zIndex, getSlackVariableOffset() - 1,
-                            getInvertedCoefficientSum(objectiveCoefficients));
+                            getInvertedCoefficientSum(standardized[0]));
         }
 
         // initialize the constraint rows
@@ -236,16 +261,16 @@ class SimplexTableau implements Serializable {
             int row = getNumObjectiveFunctions() + i;
 
             // decision variable coefficients
-            copyArray(constraint.getCoefficients().toArray(), matrix.getDataRef()[row]);
+            copyArray(standardized[i+1], matrix.getDataRef()[row]);
 
             // x-
             if (!restrictToNonNegative) {
                 matrix.setEntry(row, getSlackVariableOffset() - 1,
-                                getInvertedCoefficientSum(constraint.getCoefficients()));
+                                getInvertedCoefficientSum(standardized[i+1]));
             }
 
             // RHS
-            matrix.setEntry(row, width - 1, constraint.getValue());
+            matrix.setEntry(row, width - 1, standardRhs[i+1]);
 
             // slack variables
             if (constraint.getRelationship() == Relationship.LEQ) {
@@ -264,6 +289,113 @@ class SimplexTableau implements Serializable {
         }
 
         return matrix;
+    }
+
+    /** We standardize the constants in the equations and objective, which means we try
+     * to get the IEEE double exponent as close to zero (1023) as possible, which makes the
+     * constants closer to 1.
+     * We use exponent shifts instead of division because that introduces no bit errors.
+     *
+     * @param standardized coefficients before standardization
+     * @param standardRhs right hand side before standardization
+     */
+    private void standardize(double[][] standardized, double[] standardRhs)
+    {
+        /*
+            first transform across:
+            c0 x0 + c1 x1 + ... + cn xn = vn ==> (2^expChange) * (c0 x0 + c1 x1 + ... + cn xn = vn)
+
+            expChange will be negative if the constants are larger than 1,
+            it'll be positive if the constants are less than 1.
+        */
+        for(int i = 0; i < standardized.length; i++) {
+            int minExp = 10000;
+            int maxExp = -1;
+            for(double d: standardized[i]) {
+                if (d != 0) {
+                    int e = exponent(d);
+                    if (e < minExp) {
+                        minExp = e;
+                    }
+                    if (e > maxExp) {
+                        maxExp = e;
+                    }
+                }
+            }
+            if (standardRhs[i] != 0) {
+                int e = exponent(standardRhs[i]);
+                if (e < minExp) {
+                    minExp = e;
+                }
+                if (e > maxExp) {
+                    maxExp = e;
+                }
+            }
+            int expChange = 0;
+            if (minExp < 10000 && minExp > 1023 ) {
+                expChange = 1023 - minExp;
+            }
+            else if (maxExp > -1 && maxExp < 1023) {
+                expChange = 1023 - maxExp;
+            }
+            if (expChange != 0) {
+                standardRhs[i] = updateExponent(standardRhs[i], expChange);
+                updateExponent(standardized[i], expChange);
+            }
+        }
+
+        /*
+            second, transform down the columns. this is like defining a new variable for that column
+            that is yi = xi * (2^expChange)
+            After solving for yi, we compute xi by shifting again. See getSolution()
+         */
+        for(int i = 0; i < variableExpChange.length; i++) {
+            int minExp = 10000;
+            int maxExp = -1;
+
+            for(double[] coefficients: standardized) {
+                double d = coefficients[i];
+                if (d != 0) {
+                    int e = exponent(d);
+                    if (e < minExp) {
+                        minExp = e;
+                    }
+                    if (e > maxExp) {
+                        maxExp = e;
+                    }
+                }
+            }
+            int expChange = 0;
+            if (minExp < 10000 && minExp > 1023 ) {
+                expChange = 1023 - minExp;
+            }
+            else if (maxExp > -1 && maxExp < 1023) {
+                expChange = 1023 - maxExp;
+            }
+            variableExpChange[i] = expChange;
+            if (expChange != 0) {
+                for(double[] coefficients: standardized) {
+                     coefficients[i] = updateExponent(coefficients[i], expChange);
+                }
+            }
+        }
+    }
+
+    private static void updateExponent(double[] dar, int exp) {
+        for(int i = 0; i < dar.length; i++) {
+            dar[i] = updateExponent(dar[i], exp);
+        }
+    }
+
+    private static int exponent(double d) {
+        long bits = Double.doubleToLongBits(d);
+        return (int) ((bits & EXPN) >>> 52);
+    }
+
+    private static double updateExponent(double d, int exp) {
+        if (d == 0 || exp == 0) return d;
+        long bits = Double.doubleToLongBits(d);
+        return Double.longBitsToDouble((bits & FRAC) | ((((bits & EXPN) >>> 52) + exp) << 52));
     }
 
     /**
@@ -323,8 +455,12 @@ class SimplexTableau implements Serializable {
      * @return the -1 times the sum of all coefficients in the given array.
      */
     protected static double getInvertedCoefficientSum(final RealVector coefficients) {
+        return getInvertedCoefficientSum(coefficients.toArray());
+    }
+
+    protected static double getInvertedCoefficientSum(final double[] arr) {
         double sum = 0;
-        for (double coefficient : coefficients.toArray()) {
+        for (double coefficient : arr) {
             sum -= coefficient;
         }
         return sum;
@@ -493,6 +629,7 @@ class SimplexTableau implements Serializable {
                     (basicRow == null ? 0 : getEntry(basicRow, getRhsOffset())) -
                     (restrictToNonNegative ? 0 : mostNegative);
             }
+            coefficients[i] = updateExponent(coefficients[i], variableExpChange[i]);
         }
         return new PointValuePair(coefficients, f.value(coefficients));
     }

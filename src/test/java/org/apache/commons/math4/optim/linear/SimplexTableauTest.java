@@ -20,10 +20,6 @@ import java.util.ArrayList;
 import java.util.Collection;
 
 import org.apache.commons.math4.TestUtils;
-import org.apache.commons.math4.optim.linear.LinearConstraint;
-import org.apache.commons.math4.optim.linear.LinearObjectiveFunction;
-import org.apache.commons.math4.optim.linear.Relationship;
-import org.apache.commons.math4.optim.linear.SimplexTableau;
 import org.apache.commons.math4.optim.nonlinear.scalar.GoalType;
 import org.junit.Assert;
 import org.junit.Test;
@@ -38,7 +34,7 @@ public class SimplexTableauTest {
             new SimplexTableau(f, constraints, GoalType.MAXIMIZE, false, 1.0e-6);
         double[][] expectedInitialTableau = {
                                              {-1, 0,  -1,  -1,  2, 0, 0, 0, -4},
-                                             { 0, 1, -15, -10, 25, 0, 0, 0,  0},
+                                             { 0, 1, -1.875, -1.25, 3.125, 0, 0, 0,  0},
                                              { 0, 0,   1,   0, -1, 1, 0, 0,  2},
                                              { 0, 0,   0,   1, -1, 0, 1, 0,  3},
                                              { 0, 0,   1,   1, -2, 0, 0, 1,  4}
@@ -53,7 +49,7 @@ public class SimplexTableauTest {
         SimplexTableau tableau =
             new SimplexTableau(f, constraints, GoalType.MAXIMIZE, false, 1.0e-6);
         double[][] expectedTableau = {
-                                      { 1, -15, -10, 0, 0, 0, 0},
+                                      { 1, -1.875, -1.25, 0, 0, 0, 0},
                                       { 0,   1,   0, 1, 0, 0, 2},
                                       { 0,   0,   1, 0, 1, 0, 3},
                                       { 0,   1,   1, 0, 0, 1, 4}
@@ -72,7 +68,7 @@ public class SimplexTableauTest {
         SimplexTableau tableau =
             new SimplexTableau(f, constraints, GoalType.MAXIMIZE, false, 1.0e-6);
         double[][] initialTableau = {
-                                     {1, -15, -10, 25, 0, 0, 0, 0},
+                                     {1, -1.875, -1.25, 3.125, 0, 0, 0, 0},
                                      {0,   1,   0, -1, 1, 0, 0, 2},
                                      {0,   0,   1, -1, 0, 1, 0, 3},
                                      {0,   1,   1, -2, 0, 0, 1, 4}

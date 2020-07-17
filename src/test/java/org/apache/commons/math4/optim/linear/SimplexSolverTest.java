@@ -20,7 +20,6 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 import org.junit.Test;
-import org.junit.Ignore;
 import org.junit.Assert;
 
 import org.apache.commons.numbers.core.Precision;
@@ -28,16 +27,6 @@ import org.apache.commons.math4.exception.DimensionMismatchException;
 import org.apache.commons.math4.exception.TooManyIterationsException;
 import org.apache.commons.math4.optim.MaxIter;
 import org.apache.commons.math4.optim.PointValuePair;
-import org.apache.commons.math4.optim.linear.LinearConstraint;
-import org.apache.commons.math4.optim.linear.LinearConstraintSet;
-import org.apache.commons.math4.optim.linear.LinearObjectiveFunction;
-import org.apache.commons.math4.optim.linear.NoFeasibleSolutionException;
-import org.apache.commons.math4.optim.linear.NonNegativeConstraint;
-import org.apache.commons.math4.optim.linear.PivotSelectionRule;
-import org.apache.commons.math4.optim.linear.Relationship;
-import org.apache.commons.math4.optim.linear.SimplexSolver;
-import org.apache.commons.math4.optim.linear.SolutionCallback;
-import org.apache.commons.math4.optim.linear.UnboundedSolutionException;
 import org.apache.commons.math4.optim.nonlinear.scalar.GoalType;
 
 public class SimplexSolverTest {
@@ -820,24 +809,14 @@ public class SimplexSolverTest {
                         PivotSelectionRule.BLAND);
     }
 
-    /* XXX Skipped until issue is solved: https://issues.apache.org/jira/browse/MATH-1549 */
-    @Ignore@Test
+    /* linear transformation of constants should produce the same result */
+    @Test
     public void testMath1549() {
         final double m = 10;
-        double scale = 1;
-        int numFailures = 0;
-        for (int pow = 0; pow < 13; pow++) {
-            try {
-                tryMath1549(scale);
-            } catch (RuntimeException e) {
-                e.printStackTrace();
-                ++numFailures;
-            }
+        double scale = 1e-12;
+        for (int pow = 0; pow < 26; pow++) {
+            tryMath1549(scale);
             scale *= m;
-        }
-
-        if (numFailures > 0) {
-            Assert.fail(numFailures + " failures");
         }
     }
 
@@ -857,7 +836,7 @@ public class SimplexSolverTest {
         final LinearConstraintSet constraintSet = new LinearConstraintSet(constraints);
         final PointValuePair solution = solver.optimize(f, constraintSet, GoalType.MINIMIZE, nnegconstr);
 
-        System.out.println("scale=" + scale + ": sol=" + java.util.Arrays.toString(solution.getPoint()));
+        Assert.assertEquals(2.0, solution.getPoint()[0], eps);
     }
 
     /**
