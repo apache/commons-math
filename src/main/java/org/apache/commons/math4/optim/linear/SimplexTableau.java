@@ -58,6 +58,15 @@ import org.apache.commons.numbers.core.Precision;
  * a1: Artificial variable<br>
  * RHS: Right hand side<br>
  *
+ * Note on usage and safety:
+ * The class is package private. It is not meant for public usage.
+ * The core data structure, the tableau field, is mutated internally and
+ * even reallocated when necessary.
+ * Proper usage of this class is demonstrated in SimplexSolver,
+ * where the class is only ever constructed in a method (never a field
+ * of an object), and its lifetime, is therefore bound to a single thread (the
+ * thread that's invoking the method).
+ *
  * @since 2.0
  */
 class SimplexTableau implements Serializable {
@@ -72,6 +81,12 @@ class SimplexTableau implements Serializable {
     private static final long EXPN = 0x7ff0000000000000L;
     /** bit mask for IEEE double mantissa and sign **/
     private static final long FRAC = 0x800fffffffffffffL;
+    /** max IEEE exponent is 2047 **/
+    private static final int MAX_IEEE_EXP = 2047;
+    /** min IEEE exponent is 0 **/
+    private static final int MIN_IEEE_EXP = 0;
+    /** IEEE exponent is kept in an offset form, 1023 is zero **/
+    private static final int OFFSET_IEEE_EXP = 1023;
 
     /** Linear objective function. */
     private final LinearObjectiveFunction f;
@@ -109,7 +124,7 @@ class SimplexTableau implements Serializable {
     /** Maps rows to their corresponding basic variables. */
     private int[] basicRows;
 
-    /** changes in floating point exponent to standardize the input */
+    /** changes in floating point exponent to scale the input */
     private int[] variableExpChange;
 
     /**
@@ -228,29 +243,29 @@ class SimplexTableau implements Serializable {
         int zIndex = (getNumObjectiveFunctions() == 1) ? 0 : 1;
         matrix.setEntry(zIndex, zIndex, maximize ? 1 : -1);
 
-        double[][] standardized = new double[constraints.size() + 1][];
+        double[][] scaled = new double[constraints.size() + 1][];
 
         RealVector objectiveCoefficients = maximize ? f.getCoefficients().mapMultiply(-1) : f.getCoefficients();
-        standardized[0] = objectiveCoefficients.toArray();
-        double[] standardRhs = new double[constraints.size() + 1];
+        scaled[0] = objectiveCoefficients.toArray();
+        double[] scaledRhs = new double[constraints.size() + 1];
         double value = maximize ? f.getConstantTerm() : -1 * f.getConstantTerm();
-        standardRhs[0] = value;
+        scaledRhs[0] = value;
 
         for (int i = 0; i < constraints.size(); i++) {
             LinearConstraint constraint = constraints.get(i);
-            standardized[i + 1] = constraint.getCoefficients().toArray();
-            standardRhs[i + 1] = constraint.getValue();
+            scaled[i + 1] = constraint.getCoefficients().toArray();
+            scaledRhs[i + 1] = constraint.getValue();
         }
-        variableExpChange = new int[standardized[0].length];
+        variableExpChange = new int[scaled[0].length];
 
-        standardize(standardized, standardRhs);
+        scale(scaled, scaledRhs);
 
-        copyArray(standardized[0], matrix.getDataRef()[zIndex]);
-        matrix.setEntry(zIndex, width - 1, standardRhs[0]);
+        copyArray(scaled[0], matrix.getDataRef()[zIndex]);
+        matrix.setEntry(zIndex, width - 1, scaledRhs[0]);
 
         if (!restrictToNonNegative) {
             matrix.setEntry(zIndex, getSlackVariableOffset() - 1,
-                            getInvertedCoefficientSum(standardized[0]));
+                            getInvertedCoefficientSum(scaled[0]));
         }
 
         // initialize the constraint rows
@@ -261,16 +276,16 @@ class SimplexTableau implements Serializable {
             int row = getNumObjectiveFunctions() + i;
 
             // decision variable coefficients
-            copyArray(standardized[i+1], matrix.getDataRef()[row]);
+            copyArray(scaled[i + 1], matrix.getDataRef()[row]);
 
             // x-
             if (!restrictToNonNegative) {
                 matrix.setEntry(row, getSlackVariableOffset() - 1,
-                                getInvertedCoefficientSum(standardized[i+1]));
+                                getInvertedCoefficientSum(scaled[i + 1]));
             }
 
             // RHS
-            matrix.setEntry(row, width - 1, standardRhs[i+1]);
+            matrix.setEntry(row, width - 1, scaledRhs[i + 1]);
 
             // slack variables
             if (constraint.getRelationship() == Relationship.LEQ) {
@@ -291,16 +306,15 @@ class SimplexTableau implements Serializable {
         return matrix;
     }
 
-    /** We standardize the constants in the equations and objective, which means we try
+    /** We scale the constants in the equations and objective, which means we try
      * to get the IEEE double exponent as close to zero (1023) as possible, which makes the
      * constants closer to 1.
      * We use exponent shifts instead of division because that introduces no bit errors.
      *
-     * @param standardized coefficients before standardization
-     * @param standardRhs right hand side before standardization
+     * @param scaled coefficients before scaling
+     * @param scaledRhs right hand side before scaling
      */
-    private void standardize(double[][] standardized, double[] standardRhs)
-    {
+    private void scale(double[][] scaled, double[] scaledRhs) {
         /*
             first transform across:
             c0 x0 + c1 x1 + ... + cn xn = vn ==> (2^expChange) * (c0 x0 + c1 x1 + ... + cn xn = vn)
@@ -308,10 +322,10 @@ class SimplexTableau implements Serializable {
             expChange will be negative if the constants are larger than 1,
             it'll be positive if the constants are less than 1.
         */
-        for(int i = 0; i < standardized.length; i++) {
-            int minExp = 10000;
-            int maxExp = -1;
-            for(double d: standardized[i]) {
+        for (int i = 0; i < scaled.length; i++) {
+            int minExp = MAX_IEEE_EXP + 1;
+            int maxExp = MIN_IEEE_EXP - 1;
+            for(double d: scaled[i]) {
                 if (d != 0) {
                     int e = exponent(d);
                     if (e < minExp) {
@@ -322,8 +336,8 @@ class SimplexTableau implements Serializable {
                     }
                 }
             }
-            if (standardRhs[i] != 0) {
-                int e = exponent(standardRhs[i]);
+            if (scaledRhs[i] != 0) {
+                int e = exponent(scaledRhs[i]);
                 if (e < minExp) {
                     minExp = e;
                 }
@@ -331,16 +345,10 @@ class SimplexTableau implements Serializable {
                     maxExp = e;
                 }
             }
-            int expChange = 0;
-            if (minExp < 10000 && minExp > 1023 ) {
-                expChange = 1023 - minExp;
-            }
-            else if (maxExp > -1 && maxExp < 1023) {
-                expChange = 1023 - maxExp;
-            }
+            int expChange = computeExpChange(minExp, maxExp);
             if (expChange != 0) {
-                standardRhs[i] = updateExponent(standardRhs[i], expChange);
-                updateExponent(standardized[i], expChange);
+                scaledRhs[i] = updateExponent(scaledRhs[i], expChange);
+                updateExponent(scaled[i], expChange);
             }
         }
 
@@ -349,11 +357,11 @@ class SimplexTableau implements Serializable {
             that is yi = xi * (2^expChange)
             After solving for yi, we compute xi by shifting again. See getSolution()
          */
-        for(int i = 0; i < variableExpChange.length; i++) {
-            int minExp = 10000;
-            int maxExp = -1;
+        for (int i = 0; i < variableExpChange.length; i++) {
+            int minExp = MAX_IEEE_EXP + 1;
+            int maxExp = MIN_IEEE_EXP - 1;
 
-            for(double[] coefficients: standardized) {
+            for(double[] coefficients: scaled) {
                 double d = coefficients[i];
                 if (d != 0) {
                     int e = exponent(d);
@@ -365,33 +373,63 @@ class SimplexTableau implements Serializable {
                     }
                 }
             }
-            int expChange = 0;
-            if (minExp < 10000 && minExp > 1023 ) {
-                expChange = 1023 - minExp;
-            }
-            else if (maxExp > -1 && maxExp < 1023) {
-                expChange = 1023 - maxExp;
-            }
+            int expChange = computeExpChange(minExp, maxExp);
             variableExpChange[i] = expChange;
             if (expChange != 0) {
-                for(double[] coefficients: standardized) {
+                for(double[] coefficients: scaled) {
                      coefficients[i] = updateExponent(coefficients[i], expChange);
                 }
             }
         }
     }
 
+    /**
+     * Given the minimum and maximum value of the exponent for some doubles, pick a change in
+     * exponent to bring those values closer to 1
+     * @param minExp
+     * @param maxExp
+     * @return
+     */
+    private int computeExpChange(int minExp, int maxExp) {
+        int expChange = 0;
+        if (minExp <= MAX_IEEE_EXP &&
+            minExp > OFFSET_IEEE_EXP) {
+            expChange = OFFSET_IEEE_EXP - minExp;
+        }
+        else if (maxExp >= MIN_IEEE_EXP &&
+                 maxExp < OFFSET_IEEE_EXP) {
+            expChange = OFFSET_IEEE_EXP - maxExp;
+        }
+        return expChange;
+    }
+
+    /**
+     * Change the exponent of every member of the array dar by the amount exp
+     * @param dar array of doubles to change
+     * @param exp exponent value to change
+     */
     private static void updateExponent(double[] dar, int exp) {
-        for(int i = 0; i < dar.length; i++) {
+        for (int i = 0; i < dar.length; i++) {
             dar[i] = updateExponent(dar[i], exp);
         }
     }
 
+    /**
+     * extract the exponent of a double
+     * @param d value to extract the exponent from
+     * @return the IEEE exponent in the EXPN bits, as an integer
+     */
     private static int exponent(double d) {
         long bits = Double.doubleToLongBits(d);
         return (int) ((bits & EXPN) >>> 52);
     }
 
+    /**
+     * Change the exponent of the input d by the value exp
+     * @param d value to change
+     * @param exp exponent to add to the existing exponent (may be negative)
+     * @return a double with the same sign/mantissa bits as d, but exponent changed by exp
+     */
     private static double updateExponent(double d, int exp) {
         if (d == 0 || exp == 0) return d;
         long bits = Double.doubleToLongBits(d);
@@ -454,13 +492,9 @@ class SimplexTableau implements Serializable {
      * @param coefficients coefficients to sum
      * @return the -1 times the sum of all coefficients in the given array.
      */
-    protected static double getInvertedCoefficientSum(final RealVector coefficients) {
-        return getInvertedCoefficientSum(coefficients.toArray());
-    }
-
-    protected static double getInvertedCoefficientSum(final double[] arr) {
+    private static double getInvertedCoefficientSum(final double[] coefficients) {
         double sum = 0;
-        for (double coefficient : arr) {
+        for (double coefficient : coefficients) {
             sum -= coefficient;
         }
         return sum;
