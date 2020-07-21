@@ -88,7 +88,7 @@ class SimplexTableau implements Serializable {
     /** IEEE exponent is kept in an offset form, 1023 is zero **/
     private static final int OFFSET_IEEE_EXP = 1023;
     /** double exponent shift per IEEE standard **/
-    public static final int IEEE_EXPONENT_SHIFT = 52;
+    private static final int IEEE_EXPONENT_SHIFT = 52;
 
     /** Linear objective function. */
     private final LinearObjectiveFunction f;
