@@ -396,9 +396,8 @@ class SimplexTableau implements Serializable {
         if (minExp <= MAX_IEEE_EXP &&
             minExp > OFFSET_IEEE_EXP) {
             expChange = OFFSET_IEEE_EXP - minExp;
-        }
-        else if (maxExp >= MIN_IEEE_EXP &&
-                 maxExp < OFFSET_IEEE_EXP) {
+        } else if (maxExp >= MIN_IEEE_EXP &&
+                   maxExp < OFFSET_IEEE_EXP) {
             expChange = OFFSET_IEEE_EXP - maxExp;
         }
         return expChange;
@@ -432,7 +431,10 @@ class SimplexTableau implements Serializable {
      * @return a double with the same sign/mantissa bits as d, but exponent changed by exp
      */
     private static double updateExponent(double d, int exp) {
-        if (d == 0 || exp == 0) return d;
+        if (d == 0 ||
+            exp == 0) {
+            return d;
+        }
         long bits = Double.doubleToLongBits(d);
         return Double.longBitsToDouble((bits & FRAC) | ((((bits & EXPN) >>> 52) + exp) << 52));
     }
