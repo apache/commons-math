@@ -384,11 +384,12 @@ class SimplexTableau implements Serializable {
     }
 
     /**
-     * Given the minimum and maximum value of the exponent for some doubles, pick a change in
-     * exponent to bring those values closer to 1
-     * @param minExp
-     * @param maxExp
-     * @return
+     * Given the minimum and maximum value of the exponent of two {@code double}
+     * values, pick a change in exponent to bring those values closer to 1.
+     *
+     * @param minExp Smallest exponent.
+     * @param maxExp Largest exponent.
+     * @return the new exponent.
      */
     private int computeExpChange(int minExp, int maxExp) {
         int expChange = 0;
