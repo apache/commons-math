@@ -87,6 +87,8 @@ class SimplexTableau implements Serializable {
     private static final int MIN_IEEE_EXP = 0;
     /** IEEE exponent is kept in an offset form, 1023 is zero **/
     private static final int OFFSET_IEEE_EXP = 1023;
+    /** double exponent shift per IEEE standard **/
+    public static final int IEEE_EXPONENT_SHIFT = 52;
 
     /** Linear objective function. */
     private final LinearObjectiveFunction f;
@@ -421,7 +423,7 @@ class SimplexTableau implements Serializable {
      */
     private static int exponent(double d) {
         long bits = Double.doubleToLongBits(d);
-        return (int) ((bits & EXPN) >>> 52);
+        return (int) ((bits & EXPN) >>> IEEE_EXPONENT_SHIFT);
     }
 
     /**
@@ -436,7 +438,7 @@ class SimplexTableau implements Serializable {
             return d;
         }
         long bits = Double.doubleToLongBits(d);
-        return Double.longBitsToDouble((bits & FRAC) | ((((bits & EXPN) >>> 52) + exp) << 52));
+        return Double.longBitsToDouble((bits & FRAC) | ((((bits & EXPN) >>> IEEE_EXPONENT_SHIFT) + exp) << IEEE_EXPONENT_SHIFT));
     }
 
     /**
