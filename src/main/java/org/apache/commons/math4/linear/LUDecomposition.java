@@ -17,8 +17,18 @@
 
 package org.apache.commons.math4.linear;
 
+import static org.apache.commons.math4.util.Precision.SAFE_MIN;
+
 import org.apache.commons.math4.exception.DimensionMismatchException;
 import org.apache.commons.math4.util.FastMath;
+
+/* History:
+ * 2016/11/05 (wilbur):
+ *  	Due to poor performance: reverted to original Jama implementation.
+ *  	Changed some fields (initialized by the constructor) to final.
+ * 		Made 'Solver' a non-static inner class, no need for passing parameters to constructor.
+ * 	TODO: check class FieldLUDecomposition (very similar, possible reuse of this class?)!
+ */
 
 /**
  * Calculates the LUP-decomposition of a square matrix.
@@ -46,36 +56,42 @@ import org.apache.commons.math4.util.FastMath;
  * @since 2.0 (changed to concrete class in 3.0)
  */
 public class LUDecomposition {
-    /** Default bound to determine effective singularity in LU decomposition. */
-    private static final double DEFAULT_TOO_SMALL = 1e-11;
-    /** Entries of LU decomposition. */
-    private final double[][] lu;
-    /** Pivot permutation associated with LU decomposition. */
-    private final int[] pivot;
-    /** Parity of the permutation associated with the LU decomposition. */
-    private boolean even;
-    /** Singularity indicator. */
-    private boolean singular;
-    /** Cached value of L. */
-    private RealMatrix cachedL;
-    /** Cached value of U. */
-    private RealMatrix cachedU;
-    /** Cached value of P. */
-    private RealMatrix cachedP;
+	/** Default bound to determine effective singularity in LU decomposition. */
+	private static final double DEFAULT_TOO_SMALL = 1e-11;
+	/** A small number (safe to divide with), see Num. Recipes (3rd ed, p52). */ 
+	private static final double TINY = 1e-40;
+	/** Bound to determine effective singularity in LU decomposition. */
+	private final double singularityThreshold;
+	/** Entries of LU decomposition. */
+	private final double[][] lu;
+	/** Pivot permutation associated with LU decomposition. */
+	private final int[] pivot;
+	/** Parity of the permutation associated with the LU decomposition. */
+	private final boolean even;
+	/** Singularity indicator. */
+	private final boolean singular;
+	private RealMatrix cachedL = null;
+	/** Cached value of U. */
+	private RealMatrix cachedU = null;
+	/** Cached value of P. */
+	private RealMatrix cachedP = null;
+	/** Column dimension of input matrix */
+	private final int m;
+	
 
-    /**
-     * Calculates the LU-decomposition of the given matrix.
-     * This constructor uses 1e-11 as default value for the singularity
-     * threshold.
-     *
-     * @param matrix Matrix to decompose.
-     * @throws NonSquareMatrixException if matrix is not square.
-     */
-    public LUDecomposition(RealMatrix matrix) {
-        this(matrix, DEFAULT_TOO_SMALL);
-    }
+	/**
+	 * Calculates the LU-decomposition of the given matrix.
+	 * This constructor uses 1e-11 as default value for the singularity
+	 * threshold.
+	 *
+	 * @param matrix Matrix to decompose.
+	 * @throws NonSquareMatrixException if matrix is not square.
+	 */
+	public LUDecomposition(RealMatrix matrix) {
+		this(matrix, DEFAULT_TOO_SMALL);
+	}
 
-    /**
+	/**
      * Calculates the LU-decomposition of the given matrix.
      * @param matrix The matrix to decompose.
      * @param singularityThreshold threshold (based on partial row norm)
@@ -87,81 +103,96 @@ public class LUDecomposition {
             throw new NonSquareMatrixException(matrix.getRowDimension(),
                                                matrix.getColumnDimension());
         }
+        
+		this.singularityThreshold = singularityThreshold;
+		m = matrix.getColumnDimension();
+		lu = matrix.getData();
+		pivot = new int[m];
 
-        final int m = matrix.getColumnDimension();
-        lu = matrix.getData();
-        pivot = new int[m];
-        cachedL = null;
-        cachedU = null;
-        cachedP = null;
+		// Initialize permutation array and parity
+		for (int row = 0; row < m; row++) {
+			pivot[row] = row;
+		}
 
-        // Initialize permutation array and parity
-        for (int row = 0; row < m; row++) {
-            pivot[row] = row;
-        }
-        even     = true;
-        singular = false;
+		boolean evenFlg = true; 
+		double[] luCol = new double[m];
 
-        // Loop over columns
-        for (int col = 0; col < m; col++) {
+		// Loop over columns
+		for (int col = 0; col < m; col++) {
 
-            // upper
-            for (int row = 0; row < col; row++) {
-                final double[] luRow = lu[row];
-                double sum = luRow[col];
-                for (int i = 0; i < row; i++) {
-                    sum -= luRow[i] * lu[i][col];
-                }
-                luRow[col] = sum;
-            }
+			// Make a copy of the j-th column to localize references.
+			for (int row = 0; row < m; row++) {
+				luCol[row] = lu[row][col];
+			}
 
-            // lower
-            int max = col; // permutation row
-            double largest = Double.NEGATIVE_INFINITY;
-            for (int row = col; row < m; row++) {
-                final double[] luRow = lu[row];
-                double sum = luRow[col];
-                for (int i = 0; i < col; i++) {
-                    sum -= luRow[i] * lu[i][col];
-                }
-                luRow[col] = sum;
+			// Apply previous transformations.
+			for (int row = 0; row < m; row++) {
+				double[] luRow = lu[row];
+				
+				// Most of the time is spent in the following dot product.
+				final int kmax = FastMath.min(row, col);
+				double sum = 0.0;
+				for (int k = 0; k < kmax; k++) {
+					sum += luRow[k] * luCol[k];
+				}
+				luCol[row] = luCol[row] - sum;
+				luRow[col] = luCol[row];
+			}
 
-                // maintain best permutation choice
-                if (FastMath.abs(sum) > largest) {
-                    largest = FastMath.abs(sum);
-                    max = row;
-                }
-            }
-
+			// Find pivot.
+			int p = col;
+			for (int i = col + 1; i < m; i++) {
+	            if (FastMath.abs(luCol[i]) > FastMath.abs(luCol[p])) {
+	               p = i;
+	            }
+	         }
+			
             // Singularity check
-            if (FastMath.abs(lu[max][col]) < singularityThreshold) {
+            if (FastMath.abs(lu[p][col]) < this.singularityThreshold) {
                 singular = true;
+                even = evenFlg;
                 return;
             }
 
-            // Pivot if necessary
-            if (max != col) {
-                double tmp = 0;
-                final double[] luMax = lu[max];
-                final double[] luCol = lu[col];
-                for (int i = 0; i < m; i++) {
-                    tmp = luMax[i];
-                    luMax[i] = luCol[i];
-                    luCol[i] = tmp;
-                }
-                int temp = pivot[max];
-                pivot[max] = pivot[col];
-                pivot[col] = temp;
-                even = !even;
-            }
+			// Exchange if necessary.
+			if (p != col) {
+				// swap columns lu[p][*] <-> lu[col][*]
+				for (int k = 0; k < m; k++) {
+					// swap lu[p][k] <-> lu[col][k]:
+					final double tmp = lu[p][k];
+					lu[p][k] = lu[col][k];
+					lu[col][k] = tmp;
+				}
+				// swap pivot[p] <-> pivot[col]:
+				final int k = pivot[p];
+				pivot[p] = pivot[col];
+				pivot[col] = k;
+				evenFlg = !evenFlg;
+			}
 
-            // Divide the lower elements by the "winning" diagonal elt.
-            final double luDiag = lu[col][col];
-            for (int row = col + 1; row < m; row++) {
-                lu[row][col] /= luDiag;
-            }
-        }
-    }
+			// Divide the lower elements by the "winning" diagonal element.
+			final double luDiag = (FastMath.abs(lu[col][col]) > SAFE_MIN) ?
+					lu[col][col] : TINY;
+			for (int row = col + 1; row < m; row++) {
+				lu[row][col] /= luDiag;
+			}
+		}
+
+		even = evenFlg;
+		singular = false;
+	}
+
+	/** 
+	 * Checks if the input matrix is singular.
+	 * @return true if U, and hence A, is singular.
+	 * */
+//	private boolean checkSingularity() {
+//		for (int i = 0; i < m; i++) {
+//			if (FastMath.abs(lu[i][i]) < singularityThreshold)
+//				return true;
+//		}
+//		return false;
+//	}
 
     /**
      * Returns the matrix L of the decomposition.
@@ -172,9 +203,9 @@ public class LUDecomposition {
         if ((cachedL == null) && !singular) {
             final int m = pivot.length;
             cachedL = MatrixUtils.createRealMatrix(m, m);
-            for (int i = 0; i < m; ++i) {
+            for (int i = 0; i < m; i++) {
                 final double[] luI = lu[i];
-                for (int j = 0; j < i; ++j) {
+                for (int j = 0; j < i; j++) {
                     cachedL.setEntry(i, j, luI[j]);
                 }
                 cachedL.setEntry(i, i, 1.0);
@@ -192,9 +223,9 @@ public class LUDecomposition {
         if ((cachedU == null) && !singular) {
             final int m = pivot.length;
             cachedU = MatrixUtils.createRealMatrix(m, m);
-            for (int i = 0; i < m; ++i) {
+            for (int i = 0; i < m; i++) {
                 final double[] luI = lu[i];
-                for (int j = i; j < m; ++j) {
+                for (int j = i; j < m; j++) {
                     cachedU.setEntry(i, j, luI[j]);
                 }
             }
@@ -215,106 +246,88 @@ public class LUDecomposition {
         if ((cachedP == null) && !singular) {
             final int m = pivot.length;
             cachedP = MatrixUtils.createRealMatrix(m, m);
-            for (int i = 0; i < m; ++i) {
+            for (int i = 0; i < m; i++) {
                 cachedP.setEntry(i, pivot[i], 1.0);
             }
         }
         return cachedP;
     }
 
-    /**
-     * Returns the pivot permutation vector.
-     * @return the pivot permutation vector
-     * @see #getP()
-     */
-    public int[] getPivot() {
-        return pivot.clone();
-    }
+	/**
+	 * Returns the pivot permutation vector.
+	 * @return the pivot permutation vector
+	 * @see #getP()
+	 */
+	public int[] getPivot() {
+		return pivot.clone();
+	}
 
-    /**
-     * Return the determinant of the matrix
-     * @return determinant of the matrix
-     */
-    public double getDeterminant() {
+	/**
+	 * Calculates and returns the determinant of the input matrix (A).
+	 * @return determinant of the matrix
+	 */
+	public double getDeterminant() {
         if (singular) {
-            return 0;
-        } else {
-            final int m = pivot.length;
-            double determinant = even ? 1 : -1;
-            for (int i = 0; i < m; i++) {
-                determinant *= lu[i][i];
-            }
-            return determinant;
+            return 0.0;
         }
-    }
-
-    /**
-     * Get a solver for finding the A &times; X = B solution in exact linear
-     * sense.
-     * @return a solver
-     */
-    public DecompositionSolver getSolver() {
-        return new Solver(lu, pivot, singular);
-    }
-
-    /** Specialized solver. */
-    private static class Solver implements DecompositionSolver {
-
-        /** Entries of LU decomposition. */
-        private final double[][] lu;
-
-        /** Pivot permutation associated with LU decomposition. */
-        private final int[] pivot;
-
-        /** Singularity indicator. */
-        private final boolean singular;
-
-        /**
-         * Build a solver from decomposed matrix.
-         * @param lu entries of LU decomposition
-         * @param pivot pivot permutation associated with LU decomposition
-         * @param singular singularity indicator
-         */
-        private Solver(final double[][] lu, final int[] pivot, final boolean singular) {
-            this.lu       = lu;
-            this.pivot    = pivot;
-            this.singular = singular;
+        else {
+			double determinant = even ? 1 : -1;
+			for (int i = 0; i < m; i++) {
+				determinant *= lu[i][i];
+			}
+			return determinant;
         }
+	}
 
-        /** {@inheritDoc} */
-        @Override
-        public boolean isNonSingular() {
-            return !singular;
-        }
+	/**
+	 * Get a solver for finding the A &times; X = B solution in exact linear
+	 * sense.
+	 * @return a new solver
+	 */
+	public DecompositionSolver getSolver() {
+		return new Solver();
+	}
 
-        /** {@inheritDoc} */
-        @Override
-        public RealVector solve(RealVector b) {
-            final int m = pivot.length;
-            if (b.getDimension() != m) {
-                throw new DimensionMismatchException(b.getDimension(), m);
-            }
-            if (singular) {
-                throw new SingularMatrixException();
-            }
+	/** Specialized solver. */
+	private class Solver implements DecompositionSolver {
 
-            final double[] bp = new double[m];
+		/** No instantiation from outside */
+		private Solver() {
+		}
 
-            // Apply permutations to b
-            for (int row = 0; row < m; row++) {
-                bp[row] = b.getEntry(pivot[row]);
-            }
+		/** {@inheritDoc} */
+		@Override
+		public boolean isNonSingular() {
+			return !singular;
+		}
 
-            // Solve LY = b
-            for (int col = 0; col < m; col++) {
+		/** {@inheritDoc} */
+		@Override
+		public RealVector solve(RealVector b) {
+			if (b.getDimension() != m) {
+				throw new DimensionMismatchException(b.getDimension(), m);
+			}
+			if (!isNonSingular()) {
+				throw new SingularMatrixException();
+			}
+
+			final double[] bp = new double[m];
+			
+			// Apply permutations to b
+			for (int row = 0; row < m; row++) {
+				bp[row] = b.getEntry(pivot[row]);
+			}
+
+			// Solve LY = b
+			for (int col = 0; col < m; col++) {
                 final double bpCol = bp[col];
                 for (int i = col + 1; i < m; i++) {
                     bp[i] -= bpCol * lu[i][col];
                 }
             }
 
-            // Solve UX = Y
-            for (int col = m - 1; col >= 0; col--) {
+			// Solve UX = Y
+			for (int col = m - 1; col >= 0; col--) {
                 bp[col] /= lu[col][col];
                 final double bpCol = bp[col];
                 for (int i = 0; i < col; i++) {
@@ -322,35 +335,34 @@ public class LUDecomposition {
                 }
             }
 
-            return new ArrayRealVector(bp, false);
-        }
+			return new ArrayRealVector(bp, false);
+		}
 
-        /** {@inheritDoc} */
-        @Override
-        public RealMatrix solve(RealMatrix b) {
+		/** {@inheritDoc} */
+		@Override
+		public RealMatrix solve(RealMatrix B) {
+			
+			if (B.getRowDimension() != m) {
+				throw new DimensionMismatchException(B.getRowDimension(), m);
+			}
+			if (!isNonSingular()) {
+				throw new SingularMatrixException();
+			}
 
-            final int m = pivot.length;
-            if (b.getRowDimension() != m) {
-                throw new DimensionMismatchException(b.getRowDimension(), m);
-            }
-            if (singular) {
-                throw new SingularMatrixException();
-            }
+			final int nColB = B.getColumnDimension();
 
-            final int nColB = b.getColumnDimension();
+			// Apply permutations to B
+			final double[][] bp = new double[m][nColB];
+			for (int row = 0; row < m; row++) {
+				final double[] bpRow = bp[row];
+				final int pRow = pivot[row];
+				for (int col = 0; col < nColB; col++) {
+					bpRow[col] = B.getEntry(pRow, col);
+				}
+			}
 
-            // Apply permutations to b
-            final double[][] bp = new double[m][nColB];
-            for (int row = 0; row < m; row++) {
-                final double[] bpRow = bp[row];
-                final int pRow = pivot[row];
-                for (int col = 0; col < nColB; col++) {
-                    bpRow[col] = b.getEntry(pRow, col);
-                }
-            }
-
-            // Solve LY = b
-            for (int col = 0; col < m; col++) {
+			// Solve LY = b
+			for (int col = 0; col < m; col++) {
                 final double[] bpCol = bp[col];
                 for (int i = col + 1; i < m; i++) {
                     final double[] bpI = bp[i];
@@ -361,8 +373,8 @@ public class LUDecomposition {
                 }
             }
 
-            // Solve UX = Y
-            for (int col = m - 1; col >= 0; col--) {
+			// Solve UX = Y
+			for (int col = m - 1; col >= 0; col--) {
                 final double[] bpCol = bp[col];
                 final double luDiag = lu[col][col];
                 for (int j = 0; j < nColB; j++) {
@@ -376,19 +388,18 @@ public class LUDecomposition {
                     }
                 }
             }
+			
+			return new Array2DRowRealMatrix(bp, false);
+		}
 
-            return new Array2DRowRealMatrix(bp, false);
-        }
-
-        /**
-         * Get the inverse of the decomposed matrix.
-         *
-         * @return the inverse matrix.
-         * @throws SingularMatrixException if the decomposed matrix is singular.
-         */
-        @Override
-        public RealMatrix getInverse() {
-            return solve(MatrixUtils.createRealIdentityMatrix(pivot.length));
-        }
-    }
+		/**
+		 * Get the inverse of the decomposed matrix.
+		 * @return the inverse matrix.
+		 * @throws SingularMatrixException if the decomposed matrix is singular.
+		 */
+		@Override
+		public RealMatrix getInverse() {
+			return solve(MatrixUtils.createRealIdentityMatrix(m));
+		}
+	}
 }
