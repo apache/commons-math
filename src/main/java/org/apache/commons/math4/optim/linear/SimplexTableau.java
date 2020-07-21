@@ -274,8 +274,8 @@ class SimplexTableau implements Serializable {
         int slackVar = 0;
         int artificialVar = 0;
         for (int i = 0; i < constraints.size(); i++) {
-            LinearConstraint constraint = constraints.get(i);
-            int row = getNumObjectiveFunctions() + i;
+            final LinearConstraint constraint = constraints.get(i);
+            final int row = getNumObjectiveFunctions() + i;
 
             // decision variable coefficients
             copyArray(scaled[i + 1], matrix.getDataRef()[row]);
@@ -327,7 +327,7 @@ class SimplexTableau implements Serializable {
         for (int i = 0; i < scaled.length; i++) {
             int minExp = MAX_IEEE_EXP + 1;
             int maxExp = MIN_IEEE_EXP - 1;
-            for(double d: scaled[i]) {
+            for (double d: scaled[i]) {
                 if (d != 0) {
                     int e = exponent(d);
                     if (e < minExp) {
@@ -339,7 +339,7 @@ class SimplexTableau implements Serializable {
                 }
             }
             if (scaledRhs[i] != 0) {
-                int e = exponent(scaledRhs[i]);
+                final int e = exponent(scaledRhs[i]);
                 if (e < minExp) {
                     minExp = e;
                 }
@@ -347,7 +347,7 @@ class SimplexTableau implements Serializable {
                     maxExp = e;
                 }
             }
-            int expChange = computeExpChange(minExp, maxExp);
+            final int expChange = computeExpChange(minExp, maxExp);
             if (expChange != 0) {
                 scaledRhs[i] = updateExponent(scaledRhs[i], expChange);
                 updateExponent(scaled[i], expChange);
@@ -363,8 +363,8 @@ class SimplexTableau implements Serializable {
             int minExp = MAX_IEEE_EXP + 1;
             int maxExp = MIN_IEEE_EXP - 1;
 
-            for(double[] coefficients: scaled) {
-                double d = coefficients[i];
+            for (double[] coefficients : scaled) {
+                final double d = coefficients[i];
                 if (d != 0) {
                     int e = exponent(d);
                     if (e < minExp) {
@@ -375,10 +375,10 @@ class SimplexTableau implements Serializable {
                     }
                 }
             }
-            int expChange = computeExpChange(minExp, maxExp);
+            final int expChange = computeExpChange(minExp, maxExp);
             variableExpChange[i] = expChange;
             if (expChange != 0) {
-                for(double[] coefficients: scaled) {
+                for (double[] coefficients : scaled) {
                      coefficients[i] = updateExponent(coefficients[i], expChange);
                 }
             }
@@ -406,7 +406,8 @@ class SimplexTableau implements Serializable {
     }
 
     /**
-     * Change the exponent of every member of the array dar by the amount exp
+     * Changes the exponent of every member of the array by the given amount.
+     *
      * @param dar array of doubles to change
      * @param exp exponent value to change
      */
@@ -417,17 +418,19 @@ class SimplexTableau implements Serializable {
     }
 
     /**
-     * extract the exponent of a double
+     * Extract the exponent of a {@code double}.
+     *
      * @param d value to extract the exponent from
      * @return the IEEE exponent in the EXPN bits, as an integer
      */
     private static int exponent(double d) {
-        long bits = Double.doubleToLongBits(d);
+        final long bits = Double.doubleToLongBits(d);
         return (int) ((bits & EXPN) >>> IEEE_EXPONENT_SHIFT);
     }
 
     /**
-     * Change the exponent of the input d by the value exp
+     * Changes the exponent of a number by the given amount.
+     *
      * @param d value to change
      * @param exp exponent to add to the existing exponent (may be negative)
      * @return a double with the same sign/mantissa bits as d, but exponent changed by exp
@@ -437,7 +440,7 @@ class SimplexTableau implements Serializable {
             exp == 0) {
             return d;
         }
-        long bits = Double.doubleToLongBits(d);
+        final long bits = Double.doubleToLongBits(d);
         return Double.longBitsToDouble((bits & FRAC) | ((((bits & EXPN) >>> IEEE_EXPONENT_SHIFT) + exp) << IEEE_EXPONENT_SHIFT));
     }
 
@@ -447,7 +450,7 @@ class SimplexTableau implements Serializable {
      * @return new versions of the constraints
      */
     public List<LinearConstraint> normalizeConstraints(Collection<LinearConstraint> originalConstraints) {
-        List<LinearConstraint> normalized = new ArrayList<>(originalConstraints.size());
+        final List<LinearConstraint> normalized = new ArrayList<>(originalConstraints.size());
         for (LinearConstraint constraint : originalConstraints) {
             normalized.add(normalize(constraint));
         }
