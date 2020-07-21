@@ -22,7 +22,6 @@ import org.apache.commons.math4.analysis.function.Logit;
 import org.apache.commons.math4.analysis.function.Sigmoid;
 import org.apache.commons.math4.exception.DimensionMismatchException;
 import org.apache.commons.math4.exception.NumberIsTooSmallException;
-import org.apache.commons.math4.optim.OptimizationData;
 import org.apache.commons.math4.util.FastMath;
 import org.apache.commons.math4.util.MathUtils;
 
@@ -53,7 +52,8 @@ import org.apache.commons.math4.util.MathUtils;
  * user is responsible for converting his bounded point to unbounded by calling
  * {@link #boundedToUnbounded(double[])} before providing them to the optimizer.
  * For the same reason, the point returned by the {@link
- * org.apache.commons.math4.optim.BaseMultivariateOptimizer#optimize(OptimizationData...)}
+ * org.apache.commons.math4.optim.BaseMultivariateOptimizer
+ * #optimize(org.apache.commons.math4.optim.OptimizationData...)}
  * method is unbounded. So to convert this point to bounded, users must call
  * {@link #unboundedToBounded(double[])} by themselves!</p>
  * <p>
