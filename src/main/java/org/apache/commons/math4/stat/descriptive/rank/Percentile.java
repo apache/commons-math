@@ -21,7 +21,11 @@ import java.util.Arrays;
 import java.util.BitSet;
 
 import org.apache.commons.math4.exception.MathIllegalArgumentException;
+import org.apache.commons.math4.exception.NotANumberException;
+import org.apache.commons.math4.exception.NotPositiveException;
+import org.apache.commons.math4.exception.NotStrictlyPositiveException;
 import org.apache.commons.math4.exception.NullArgumentException;
+import org.apache.commons.math4.exception.NumberIsTooLargeException;
 import org.apache.commons.math4.exception.OutOfRangeException;
 import org.apache.commons.math4.exception.util.LocalizedFormats;
 import org.apache.commons.math4.stat.descriptive.AbstractUnivariateStatistic;
@@ -120,6 +124,8 @@ public class Percentile extends AbstractUnivariateStatistic implements Serializa
     /** Cached pivots. */
     private int[] cachedPivots;
 
+    /** Weights*/
+    private double[] weights;
     /**
      * Constructs a Percentile with the following defaults.
      * <ul>
@@ -212,6 +218,35 @@ public class Percentile extends AbstractUnivariateStatistic implements Serializa
         }
         super.setData(values);
     }
+    /**
+     * Set the data array.
+     * @param values data array to store
+     * @param sampleWeights corresponding positive and non-NaN weights of values
+     * @throws MathIllegalArgumentException if lengths of values and weights are not equal or values or weights is null
+     * @throws NotANumberException if any weight is nan
+     * @throws NotStrictlyPositiveException if any weight is not positive
+     */
+    public void setData(final double[] values, final double[] sampleWeights)
+        throws MathIllegalArgumentException,
+               NotANumberException,
+               NotStrictlyPositiveException {
+        if (values == null || sampleWeights == null) {
+            throw new MathIllegalArgumentException(LocalizedFormats.NULL_NOT_ALLOWED);
+        }
+
+        /** Check length */
+        if (values.length != sampleWeights.length) {
+            throw new MathIllegalArgumentException(LocalizedFormats.LENGTH,
+                                                   values, sampleWeights);
+        }
+        cachedPivots = new int[PIVOTS_HEAP_LENGTH];
+        Arrays.fill(cachedPivots, -1);
+
+        MathArrays.checkPositive(sampleWeights);
+        MathArrays.checkNotNaN(sampleWeights);
+        super.setData(values);
+        weights = sampleWeights.clone();
+    }
 
     /** {@inheritDoc} */
     @Override
@@ -225,20 +260,89 @@ public class Percentile extends AbstractUnivariateStatistic implements Serializa
         }
         super.setData(values, begin, length);
     }
+    /**
+     * Set the data and weights arrays.  The input array is copied, not referenced.
+     * @param values data array to store
+     * @param sampleWeights corresponding positive and non-NaN weights of values
+     * @param begin the index of the first element to include
+     * @param length the number of elements to include
+     * @throws MathIllegalArgumentException if lengths of values and weights are not equal or values or weights is null
+     * @throws NotPositiveException if begin or length is not positive
+     * @throws NumberIsTooLargeException if begin + length is greater than values.length
+     * @throws NotANumberException if any weight is nan
+     * @throws NotStrictlyPositiveException if any weight is not positive
+     */
+    public void setData(final double[] values,
+                        final double[] sampleWeights,
+                        final int begin,
+                        final int length)
+        throws MathIllegalArgumentException,
+               NotPositiveException,
+               NumberIsTooLargeException,
+               NotANumberException,
+               NotStrictlyPositiveException{
 
+        if (begin < 0) {
+            throw new NotPositiveException(LocalizedFormats.START_POSITION, begin);
+        }
+
+        if (length < 0) {
+            throw new NotPositiveException(LocalizedFormats.LENGTH, length);
+        }
+
+        if (begin + length > values.length) {
+            throw new NumberIsTooLargeException(LocalizedFormats.SUBARRAY_ENDS_AFTER_ARRAY_END,
+                                                begin + length, values.length, true);
+        }
+
+        if (values == null || sampleWeights == null) {
+            throw new MathIllegalArgumentException(LocalizedFormats.NULL_NOT_ALLOWED);
+        }
+        cachedPivots = new int[PIVOTS_HEAP_LENGTH];
+        Arrays.fill(cachedPivots, -1);
+
+        /** Check length */
+        if (values.length != sampleWeights.length) {
+            throw new MathIllegalArgumentException(LocalizedFormats.LENGTH,
+                                                   values, sampleWeights);
+        }
+        /** Check weights > 0 */
+        MathArrays.checkPositive(sampleWeights);
+        MathArrays.checkNotNaN(sampleWeights);
+
+        super.setData(values, begin, length);
+        weights = new double[length];
+        System.arraycopy(sampleWeights, begin, weights, 0, length);
+    }
     /**
      * Returns the result of evaluating the statistic over the stored data.
+     * If weights have been set, it will compute weighted percentile.
      * <p>
      * The stored array is the one which was set by previous calls to
-     * {@link #setData(double[])}
+     * {@link #setData(double[])} or {@link #setData(double[], double[] sampleWeights, int begin, int length)}
      * </p>
      * @param p the percentile value to compute
      * @return the value of the statistic applied to the stored data
-     * @throws MathIllegalArgumentException if p is not a valid quantile value
+     * @throws MathIllegalArgumentException if lengths of values and weights are not equal or values or weights is null
+     * @throws NotPositiveException if begin, length is negative
+     * @throws NotStrictlyPositiveException if any weight is not positive
+     * @throws NotANumberException if any weight is nan
+     * @throws OutOfRangeException if p is invalid
+     * @throws NumberIsTooLargeException if begin + length is greater than values.length
      * (p must be greater than 0 and less than or equal to 100)
      */
-    public double evaluate(final double p) throws MathIllegalArgumentException {
-        return evaluate(getDataRef(), p);
+    public double evaluate(final double p)
+        throws MathIllegalArgumentException,
+               NotPositiveException,
+               NotStrictlyPositiveException,
+               NotANumberException,
+               OutOfRangeException,
+               NumberIsTooLargeException {
+        if (weights == null) {
+            return evaluate(getDataRef(), p);
+        } else {
+            return evaluate(getDataRef(), weights, p);
+        }
     }
 
     /**
@@ -271,6 +375,35 @@ public class Percentile extends AbstractUnivariateStatistic implements Serializa
         MathArrays.verifyValues(values, 0, 0);
         return evaluate(values, 0, values.length, p);
     }
+    /**
+     * Returns an estimate of the <code>p</code>th percentile of the values
+     * in the <code>values</code> array with their weights.
+     * <p>
+     * See {@link Percentile} for a description of the percentile estimation
+     * algorithm used.</p>
+     * @param values input array of values
+     * @param sampleWeights weights of values
+     * @param p the percentile value to compute
+     * @return the weighted percentile value or Double.NaN if the array is empty
+     * @throws MathIllegalArgumentException if lengths of values and weights are not equal or values or weights is null
+     * @throws NotPositiveException if begin, length is negative
+     * @throws NotStrictlyPositiveException if any weight is not positive
+     * @throws NotANumberException if any weight is not positive
+     * @throws OutOfRangeException if p is invalid
+     * @throws NumberIsTooLargeException if begin + length is greater than values.length
+     */
+    public double evaluate(final double[] values, final double[] sampleWeights, final double p)
+        throws MathIllegalArgumentException,
+               NotPositiveException,
+               NotStrictlyPositiveException,
+               NotANumberException,
+               OutOfRangeException,
+               NumberIsTooLargeException {
+
+        MathArrays.verifyValues(values, 0, 0);
+        MathArrays.verifyValues(sampleWeights, 0, 0);
+        return evaluate(values, sampleWeights, 0, values.length, p);
+    }
 
     /**
      * Returns an estimate of the <code>quantile</code>th percentile of the
@@ -298,6 +431,36 @@ public class Percentile extends AbstractUnivariateStatistic implements Serializa
     public double evaluate(final double[] values, final int start, final int length)
         throws MathIllegalArgumentException {
         return evaluate(values, start, length, quantile);
+    }
+    /**
+     * Returns an estimate of the weighted <code>quantile</code>th percentile of the
+     * designated values in the <code>values</code> array.  The quantile
+     * estimated is determined by the <code>quantile</code> property.
+     * <p>
+     * See {@link Percentile} for a description of the percentile estimation
+     * algorithm used.</p>
+     *
+     * @param values the input array
+     * @param sampleWeights the weights of values
+     * @param start index of the first array element to include
+     * @param length the number of elements to include
+     * @return the percentile value
+     * @throws MathIllegalArgumentException if lengths of values and weights are not equal or values or weights is null
+     * @throws NotPositiveException if begin, length is negative
+     * @throws NotStrictlyPositiveException if any weight is not positive
+     * @throws NotANumberException if any weight is not positive
+     * @throws OutOfRangeException if p is invalid
+     * @throws NumberIsTooLargeException if begin + length is greater than values.length
+     */
+    public double evaluate(final double[] values, final double[] sampleWeights,
+                           final int start, final int length)
+        throws MathIllegalArgumentException,
+               NotPositiveException,
+               NotStrictlyPositiveException,
+               NotANumberException,
+               OutOfRangeException,
+               NumberIsTooLargeException {
+        return evaluate(values, sampleWeights, start, length, quantile);
     }
 
      /**
@@ -349,7 +512,66 @@ public class Percentile extends AbstractUnivariateStatistic implements Serializa
         return work.length == 0 ? Double.NaN :
                     estimationType.evaluate(work, pivotsHeap, p, kthSelector);
     }
+     /**
+     * Returns an estimate of the <code>p</code>th percentile of the values
+     * in the <code>values</code> array with <code>sampleWeights</code>, starting with the element in (0-based)
+     * position <code>begin</code> in the array and including <code>length</code>
+     * values.
+     * <p>
+     * See {@link Percentile} for a description of the percentile estimation
+     * algorithm used.</p>
+     *
+     * @param values array of input values
+     * @param sampleWeights positive and non-NaN weights of values
+     * @param begin  the first (0-based) element to include in the computation
+     * @param length  the number of array elements to include
+     * @param p  percentile to compute
+     * @return the weighted percentile value
+     * @throws MathIllegalArgumentException if lengths of values and weights are not equal or values or weights is null
+     * @throws NotPositiveException if begin, length is negative
+     * @throws NotStrictlyPositiveException if any weight is not positive
+     * @throws NotANumberException if any weight is not positive
+     * @throws OutOfRangeException if p is invalid
+     * @throws NumberIsTooLargeException if begin + length is greater than values.length
+     */
+    public double evaluate(final double[] values, final double[] sampleWeights, final int begin,
+                           final int length, final double p)
+        throws MathIllegalArgumentException,
+               NotPositiveException,
+               NotStrictlyPositiveException,
+               NotANumberException,
+               OutOfRangeException,
+               NumberIsTooLargeException
+               {
 
+        /** Check length */
+        if (values.length != sampleWeights.length) {
+            throw new MathIllegalArgumentException(LocalizedFormats.LENGTH,
+                                                   values, sampleWeights);
+        }
+        if (values == null || sampleWeights == null) {
+            throw new MathIllegalArgumentException(LocalizedFormats.NULL_NOT_ALLOWED);
+        }
+        MathArrays.verifyValues(values, begin, length);
+        MathArrays.verifyValues(sampleWeights, begin, length);
+        MathArrays.checkPositive(sampleWeights);
+        MathArrays.checkNotNaN(sampleWeights);
+
+        if (p > 100 || p <= 0) {
+            throw new OutOfRangeException(LocalizedFormats.OUT_OF_BOUNDS_QUANTILE_VALUE, p, 0, 100);
+        }
+        if (length == 0) {
+            return Double.NaN;
+        }
+        if (length == 1) {
+            return values[begin]; // always return single value for n = 1
+        }
+
+        final double[] work = getWorkArray(values, begin, length);
+        final double[] workWeights = getWorkArray(values, sampleWeights, begin, length);
+        return work.length == 0 ? Double.NaN :
+                    estimationType.evaluate(work, workWeights, p);
+    }
     /**
      * Returns the value of the quantile field (determines what percentile is
      * computed when evaluate() is called with no quantile argument).
@@ -423,7 +645,32 @@ public class Percentile extends AbstractUnivariateStatistic implements Serializa
         }
         return work;
     }
-
+    /**
+     * Get the work arrays of weights to operate.
+     *
+     * @param values the array of numbers
+     * @param sampleWeights the array of weights
+     * @param begin index to start reading the array
+     * @param length the length of array to be read from the begin index
+     * @return work array sliced from values in the range [begin,begin+length)
+     */
+    protected double[] getWorkArray(final double[] values, final double[] sampleWeights,
+                                    final int begin, final int length) {
+        final double[] work;
+        if (values == getDataRef()) {
+            work = this.weights;
+        } else {
+            switch (nanStrategy) {
+                case REMOVED:// Drop weight if the data is NaN
+                    work = removeAndSliceByRef(values, sampleWeights, begin, length, Double.NaN);
+                    break;
+                default: //FIXED
+                    work = copyOf(sampleWeights, begin, length);
+                    break;
+            }
+        }
+        return work;
+    }
     /**
      * Make a copy of the array for the slice defined by array part from
      * [begin, begin+length)
@@ -440,6 +687,7 @@ public class Percentile extends AbstractUnivariateStatistic implements Serializa
     /**
      * Replace every occurrence of a given value with a replacement value in a
      * copied slice of array defined by array part from [begin, begin+length).
+     *
      * @param values the input array
      * @param begin start index of the array to include
      * @param length number of elements to include from begin
@@ -458,7 +706,6 @@ public class Percentile extends AbstractUnivariateStatistic implements Serializa
         }
         return temp;
     }
-
     /**
      * Remove the occurrence of a given value in a copied slice of array
      * defined by the array part from [begin, begin+length).
@@ -504,7 +751,54 @@ public class Percentile extends AbstractUnivariateStatistic implements Serializa
         }
         return temp;
     }
-
+    /**
+     * Remove weights element if the corresponding data is equal to the given value
+     * in [begin, begin+length)
+     *
+     * @param values the input array
+     * @param sampleWeights weights of the input array
+     * @param begin start index of the array to include
+     * @param length number of elements to include from begin
+     * @param removedValue the value to be removed from the sliced array
+     * @return the copy of the sliced array after removing weights
+     */
+    private static double[] removeAndSliceByRef(final double[] values,
+                                               final double[] sampleWeights,
+                                               final int begin, final int length,
+                                               final double removedValue) {
+        MathArrays.verifyValues(values, begin, length);
+        final double[] temp;
+        //BitSet(length) to indicate where the removedValue is located
+        final BitSet bits = new BitSet(length);
+        for (int i = begin; i < begin+length; i++) {
+            if (Precision.equalsIncludingNaN(removedValue, values[i])) {
+                bits.set(i - begin);
+            }
+        }
+        //Check if empty then create a new copy
+        if (bits.isEmpty()) {
+            temp = copyOf(sampleWeights, begin, length); // Nothing removed, just copy
+        } else if(bits.cardinality() == length) {
+            temp = new double[0];                 // All removed, just empty
+        }else {                                   // Some removable, so new
+            temp = new double[length - bits.cardinality()];
+            int start = begin;  //start index from source array (i.e sampleWeights)
+            int dest = 0;       //dest index in destination array(i.e temp)
+            int nextOne = -1;   //nextOne is the index of bit set of next one
+            int bitSetPtr = 0;  //bitSetPtr is start index pointer of bitset
+            while ((nextOne = bits.nextSetBit(bitSetPtr)) != -1) {
+                final int lengthToCopy = nextOne - bitSetPtr;
+                System.arraycopy(sampleWeights, start, temp, dest, lengthToCopy);
+                dest += lengthToCopy;
+                start = begin + (bitSetPtr = bits.nextClearBit(nextOne));
+            }
+            //Copy any residue past start index till begin+length
+            if (start < begin + length) {
+                System.arraycopy(sampleWeights,start,temp,dest,begin + length - start);
+            }
+        }
+        return temp;
+    }
     /**
      * Get pivots which is either cached or a newly created one
      *
@@ -690,6 +984,11 @@ public class Percentile extends AbstractUnivariateStatistic implements Serializa
                        Double.compare(p, maxLimit) == 0 ?
                                length : p * (length + 1);
             }
+            @Override
+            public double evaluate(final double[] work, final double[] sampleWeights,
+                                   final double p) throws MathIllegalArgumentException {
+                throw new MathIllegalArgumentException(LocalizedFormats.UNSUPPORTED_OPERATION);
+            }
         },
         /**
          * The method R_1 has the following formulae for index and estimates<br>
@@ -716,7 +1015,11 @@ public class Percentile extends AbstractUnivariateStatistic implements Serializa
                                       final int length, final KthSelector selector) {
                 return super.estimate(values, pivotsHeap, FastMath.ceil(pos - 0.5), length, selector);
             }
-
+            @Override
+            public double evaluate(final double[] work, final double[] sampleWeights,
+                                   final double p) throws MathIllegalArgumentException {
+                throw new MathIllegalArgumentException(LocalizedFormats.UNSUPPORTED_OPERATION);
+            }
         },
         /**
          * The method R_2 has the following formulae for index and estimates<br>
@@ -752,7 +1055,11 @@ public class Percentile extends AbstractUnivariateStatistic implements Serializa
                         super.estimate(values, pivotsHeap,FastMath.floor(pos + 0.5), length, selector);
                 return (low + high) / 2;
             }
-
+            @Override
+            public double evaluate(final double[] work, final double[] sampleWeights,
+                                   final double p) throws MathIllegalArgumentException {
+                throw new MathIllegalArgumentException(LocalizedFormats.UNSUPPORTED_OPERATION);
+            }
         },
         /**
          * The method R_3 has the following formulae for index and estimates<br>
@@ -769,7 +1076,11 @@ public class Percentile extends AbstractUnivariateStatistic implements Serializa
                 return Double.compare(p, minLimit) <= 0 ?
                         0 : FastMath.rint(length * p);
             }
-
+            @Override
+            public double evaluate(final double[] work, final double[] sampleWeights,
+                                   final double p) throws MathIllegalArgumentException {
+                throw new MathIllegalArgumentException(LocalizedFormats.UNSUPPORTED_OPERATION);
+            }
         },
         /**
          * The method R_4 has the following formulae for index and estimates<br>
@@ -790,7 +1101,11 @@ public class Percentile extends AbstractUnivariateStatistic implements Serializa
                 return Double.compare(p, minLimit) < 0 ? 0 :
                        Double.compare(p, maxLimit) == 0 ? length : length * p;
             }
-
+            @Override
+            public double evaluate(final double[] work, final double[] sampleWeights,
+                                   final double p) throws MathIllegalArgumentException {
+                throw new MathIllegalArgumentException(LocalizedFormats.UNSUPPORTED_OPERATION);
+            }
         },
         /**
          * The method R_5 has the following formulae for index and estimates<br>
@@ -812,6 +1127,11 @@ public class Percentile extends AbstractUnivariateStatistic implements Serializa
                 return Double.compare(p, minLimit) < 0 ? 0 :
                        Double.compare(p, maxLimit) >= 0 ?
                                length : length * p + 0.5;
+            }
+            @Override
+            public double evaluate(final double[] work, final double[] sampleWeights,
+                                   final double p) throws MathIllegalArgumentException {
+                throw new MathIllegalArgumentException(LocalizedFormats.UNSUPPORTED_OPERATION);
             }
         },
         /**
@@ -841,6 +1161,11 @@ public class Percentile extends AbstractUnivariateStatistic implements Serializa
                        Double.compare(p, maxLimit) >= 0 ?
                                length : (length + 1) * p;
             }
+            @Override
+            public double evaluate(final double[] work, final double[] sampleWeights,
+                                   final double p) throws MathIllegalArgumentException {
+                throw new MathIllegalArgumentException(LocalizedFormats.UNSUPPORTED_OPERATION);
+            }
         },
 
         /**
@@ -854,6 +1179,11 @@ public class Percentile extends AbstractUnivariateStatistic implements Serializa
          * &amp;minLimit = 0 \\
          * &amp;maxLimit = 1 \\
          * \end{align}\)
+         * The formula to evaluate weighted percentiles is as following.<br>
+         * \( \begin{align}
+         * &amp;S_k = (k-1)w_k + (n-1)\sum_{i=1}^{k-1}w_i
+         * &amp;Then find k s.t. \frac{S_k}{S_n}\leq p \leq \frac{S_{k+1}}{S_n}
+         * \end{align}\)
          */
         R_7("R-7") {
             @Override
@@ -865,6 +1195,30 @@ public class Percentile extends AbstractUnivariateStatistic implements Serializa
                                length : 1 + (length - 1) * p;
             }
 
+            @Override
+            public double evaluate(final double[] work, final double[] sampleWeights,
+                                   final double p) {
+                MathArrays.sortInPlace(work, sampleWeights);
+                double[] sk = new double[work.length];
+                for(int k = 0; k < work.length; k++) {
+                    sk[k] = 0;
+                    for (int j = 0; j < k; j++) {
+                        sk[k] += sampleWeights[j];
+                    }
+                    sk[k] = k * sampleWeights[k] + (work.length - 1) * sk[k];
+                }
+
+                double qsn = (p / 100) * sk[sk.length-1];
+                int k = searchSk(qsn, sk, 0, work.length - 1);
+
+                double ret;
+                if (qsn == sk[k] && k == work.length - 1) {
+                    ret = work[k] - (work[k] - work[k-1]) * (1 - (qsn - sk[k]) / (sk[k] - sk[k-1]));
+                } else {
+                    ret = work[k] + (work[k+1] - work[k]) * (qsn - sk[k]) / (sk[k+1] - sk[k]);
+                }
+                return ret;
+            }
         },
 
         /**
@@ -891,6 +1245,11 @@ public class Percentile extends AbstractUnivariateStatistic implements Serializa
                        Double.compare(p, maxLimit) >= 0 ? length :
                            (length + 1d / 3) * p + 1d / 3;
             }
+            @Override
+            public double evaluate(final double[] work, final double[] sampleWeights,
+                                   final double p) throws MathIllegalArgumentException {
+                throw new MathIllegalArgumentException(LocalizedFormats.UNSUPPORTED_OPERATION);
+            }
         },
 
         /**
@@ -913,7 +1272,11 @@ public class Percentile extends AbstractUnivariateStatistic implements Serializa
                        Double.compare(p, maxLimit) >= 0 ? length :
                                (length + 0.25) * p + 3d/8;
             }
-
+            @Override
+            public double evaluate(final double[] work, final double[] sampleWeights,
+                                   final double p) throws MathIllegalArgumentException {
+                throw new MathIllegalArgumentException(LocalizedFormats.UNSUPPORTED_OPERATION);
+            }
         },
         ;
 
@@ -1015,7 +1378,45 @@ public class Percentile extends AbstractUnivariateStatistic implements Serializa
         public double evaluate(final double[] work, final double p, final KthSelector selector) {
             return this.evaluate(work, null, p, selector);
         }
+        /**
+         * Evaluate weighted percentile by estimation rule specified in {@link EstimationType}.
+         * @param work array of numbers to be used for finding the percentile
+         * @param sampleWeights the corresponding weights of data in work
+         * @param p the p<sup>th</sup> quantile to be computed
+         * @return estimated weighted percentile
+         * @throws MathIllegalArgumentException if weighted percentile is not supported by the current estimationType
+         */
+        public abstract double evaluate(final double[] work, final double[] sampleWeights,
+                                        final double p);
 
+        /**
+         * Search the interval q*sn locates in.
+         * @param qsn q*sn, where n refers to the data size
+         * @param sk the cumulative weights array
+         * @param lo start position to search qsn
+         * @param hi end position to search qsn
+         * @return the index of lower bound qsn locates in
+         */
+        private static int searchSk(double qsn, double[] sk, int lo, int hi) {
+            if (sk.length == 1) {
+                return 0;
+            }
+            if (hi - lo == 1) {
+                if (qsn == sk[hi]) {
+                    return hi;
+                }
+                return lo;
+            } else {
+                int mid = (lo + hi) / 2;
+                if (qsn == sk[mid]) {
+                  return mid;
+                } else if (qsn > sk[mid]) {
+                    return searchSk(qsn, sk, mid, hi);
+                } else {
+                    return searchSk(qsn, sk, lo, mid);
+                }
+            }
+        }
         /**
          * Gets the name of the enum
          *

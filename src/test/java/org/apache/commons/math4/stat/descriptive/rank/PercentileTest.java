@@ -23,7 +23,10 @@ import org.apache.commons.math4.distribution.AbstractRealDistribution;
 import org.apache.commons.statistics.distribution.NormalDistribution;
 import org.apache.commons.math4.exception.MathIllegalArgumentException;
 import org.apache.commons.math4.exception.NotANumberException;
+import org.apache.commons.math4.exception.NotPositiveException;
+import org.apache.commons.math4.exception.NotStrictlyPositiveException;
 import org.apache.commons.math4.exception.NullArgumentException;
+import org.apache.commons.math4.exception.NumberIsTooLargeException;
 import org.apache.commons.math4.exception.OutOfRangeException;
 import org.apache.commons.rng.simple.RandomSource;
 import org.apache.commons.math4.stat.descriptive.UnivariateStatistic;
@@ -865,4 +868,179 @@ public class PercentileTest extends UnivariateStatisticAbstractTest{
         }
     }
 
+    // Test if weighted percentile got the same result with the non-weighted one
+    // when all weights are equal to each other.
+    @Test
+    public void testResultWithNonWeightedPercentile() {
+        double[] dataset =
+                new double[] { Double.NaN, Double.NaN, Double.NaN };
+        double[] weights =
+                new double[] { 1, 1, 1 };
+        Percentile p = new Percentile().
+                           withEstimationType(Percentile.EstimationType.R_7).
+                           withNaNStrategy(NaNStrategy.MAXIMAL);
+        Assert.assertEquals(p.evaluate(dataset, weights, 25d), p.evaluate(dataset, 25d), 0d);
+        Assert.assertEquals(p.evaluate(dataset, weights, 50d), p.evaluate(dataset, 50d), 0d);
+        Assert.assertEquals(p.evaluate(dataset, weights, 75d), p.evaluate(dataset, 75d), 0d);
+        p = new Percentile().
+                withEstimationType(Percentile.EstimationType.R_7).
+                withNaNStrategy(NaNStrategy.MINIMAL);
+        Assert.assertEquals(p.evaluate(dataset, weights, 25d), p.evaluate(dataset, 25d), 0d);
+        Assert.assertEquals(p.evaluate(dataset, weights, 50d), p.evaluate(dataset, 50d), 0d);
+        Assert.assertEquals(p.evaluate(dataset, weights, 75d), p.evaluate(dataset, 75d), 0d);
+        p = new Percentile().
+                withEstimationType(Percentile.EstimationType.R_7);
+        Assert.assertEquals(p.evaluate(dataset, weights, 25d), p.evaluate(dataset, 25d), 0d);
+        Assert.assertEquals(p.evaluate(dataset, weights, 50d), p.evaluate(dataset, 50d), 0d);
+        Assert.assertEquals(p.evaluate(dataset, weights, 75d), p.evaluate(dataset, 75d), 0d);
+    }
+
+    @Test(expected=MathIllegalArgumentException.class)
+    public void testDataAndWeightsLength() {
+        double[] dataset =
+                new double[] { 1d, 2d, 3d, 4d, 5d };
+        double[] weights =
+        new double[] { 1, 1, 1, 1 };
+        new Percentile().
+        withEstimationType(Percentile.EstimationType.R_7).
+        evaluate(dataset, weights, 50d);
+    }
+
+    @Test
+    public void testWeightedPercentileWithSpecialValues() {
+        double[] dataset = new double[] { 3, 4, 2, 9 };
+        double[] weights = new double[] { 2, 6, 4, 3};
+        Percentile p = new Percentile().
+                           withEstimationType(Percentile.EstimationType.R_7);
+        Assert.assertEquals( 3.53125, p.evaluate(dataset, weights, 50d), 0d);
+    }
+
+    @Test(expected=MathIllegalArgumentException.class)
+    public void testsetDataInputLength() {
+        double[] dataset = new double[] { 3, 4, 2, 9 };
+        double[] weights = new double[] { 1, 1, 1 };
+        new Percentile().setData(dataset, weights);
+        new Percentile().setData(dataset, weights, 0, dataset.length);
+    }
+
+    @Test(expected=NotANumberException.class)
+    public void testsetDataNotANumber() {
+        double[] dataset = new double[] { 3, 4, 2, 9 };
+        double[] weights = new double[] { 1, 1, 1, Double.NaN };
+        new Percentile().setData(dataset, weights);
+        new Percentile().setData(dataset, weights, 0, dataset.length);
+    }
+
+    @Test(expected=NotStrictlyPositiveException.class)
+    public void testsetDataPositiveWeights() {
+        double[] dataset = new double[] { 3, 4, 2, 9 };
+        double[] weights = new double[] { -1, -1, -1, -1 };
+        new Percentile().setData(dataset, weights);
+        new Percentile().setData(dataset, weights, 0, dataset.length);
+    }
+
+    @Test(expected=NotPositiveException.class)
+    public void testsetDataPositivIndex() {
+        double[] dataset = new double[] { 3, 4, 2, 9 };
+        double[] weights = new double[] { 1, 1, 1, 1 };
+        new Percentile().setData(dataset, weights, -1, dataset.length);
+        new Percentile().setData(dataset, weights, 0, -1);
+    }
+
+    @Test(expected=NumberIsTooLargeException.class)
+    public void testsetDataIndexOutBound() {
+        double[] dataset = new double[] { 3, 4, 2, 9 };
+        double[] weights = new double[] { 1, 1, 1, 1 };
+        new Percentile().setData(dataset, weights, 0, dataset.length+1);
+    }
+
+    @Test(expected=MathIllegalArgumentException.class)
+    public void testsetDataInputNull() {
+        new Percentile().setData(null, null);
+        new Percentile().setData(null, null, 0, 0);
+    }
+
+    @Test(expected=MathIllegalArgumentException.class)
+    public void testevaluateInputLength() {
+        double[] dataset = new double[] { 3, 4, 2, 9 };
+        double[] weights = new double[] { 1, 1, 1 };
+        Percentile p = new Percentile().withEstimationType(Percentile.EstimationType.R_7);
+        p.setData(dataset, weights);
+        p.evaluate(50);
+        p.evaluate(dataset, weights, 50);
+        p.evaluate(dataset, weights, 0, dataset.length);
+        p.evaluate(dataset, weights, 0, dataset.length, 50);
+    }
+
+    @Test(expected=NotPositiveException.class)
+    public void testevaluatePositivIndex() {
+        double[] dataset = new double[] { 3, 4, 2, 9 };
+        double[] weights = new double[] { 1, 1, 1 ,1};
+        Percentile p = new Percentile().withEstimationType(Percentile.EstimationType.R_7);
+        p.setData(dataset, weights);
+        p.evaluate(50);
+        p.evaluate(dataset, weights, 50);
+        p.evaluate(dataset, weights, -1, dataset.length);
+        p.evaluate(dataset, weights, 0, -1, 50);
+    }
+
+    @Test(expected=NotStrictlyPositiveException.class)
+    public void testevaluatePositivWeights() {
+        double[] dataset = new double[] { 3, 4, 2, 9 };
+        double[] weights = new double[] { -1, -1, -1 , -1};
+        Percentile p = new Percentile().withEstimationType(Percentile.EstimationType.R_7);
+        p.setData(dataset, weights);
+        p.evaluate(50);
+        p.evaluate(dataset, weights, 50);
+        p.evaluate(dataset, weights, 0, dataset.length);
+        p.evaluate(dataset, weights, 0, dataset.length, 50);
+    }
+
+    @Test(expected=NotANumberException.class)
+    public void testevaluateNotANumber() {
+        double[] dataset = new double[] { 3, 4, 2, 9 };
+        double[] weights = new double[] { 1, 1, 1, Double.NaN};
+        Percentile p = new Percentile().withEstimationType(Percentile.EstimationType.R_7);
+        p.setData(dataset, weights);
+        p.evaluate(50);
+        p.evaluate(dataset, weights, 50);
+        p.evaluate(dataset, weights, 0, dataset.length);
+        p.evaluate(dataset, weights, 0, dataset.length, 50);
+    }
+
+    @Test(expected=NotStrictlyPositiveException.class)
+    public void testevaluatePositiveWeights() {
+        double[] dataset = new double[] { 3, 4, 2, 9 };
+        double[] weights = new double[] { -1, -1, -1, -1};
+        Percentile p = new Percentile().withEstimationType(Percentile.EstimationType.R_7);
+        p.setData(dataset, weights);
+        p.evaluate(50);
+        p.evaluate(dataset, weights, 50);
+        p.evaluate(dataset, weights, 0, dataset.length);
+        p.evaluate(dataset, weights, 0, dataset.length, 50);
+    }
+
+    @Test(expected=OutOfRangeException.class)
+    public void testevaluatep() {
+        double[] dataset = new double[] { 3, 4, 2, 9 };
+        double[] weights = new double[] { 1, 1, 1, 1};
+        Percentile p = new Percentile().withEstimationType(Percentile.EstimationType.R_7);
+        p.setData(dataset, weights);
+        p.evaluate(101);
+        p.evaluate(dataset, weights, 101);
+        p.evaluate(dataset, weights, 0, dataset.length);
+        p.evaluate(dataset, weights, 0, dataset.length, 101);
+    }
+
+    @Test(expected=NumberIsTooLargeException.class)
+    public void testevaluateIndexBound() {
+        double[] dataset = new double[] { 3, 4, 2, 9 };
+        double[] weights = new double[] { 1, 1, 1, 1};
+        Percentile p = new Percentile().withEstimationType(Percentile.EstimationType.R_7);
+        p.setData(dataset, weights);
+        p.evaluate(50);
+        p.evaluate(dataset, weights, 50);
+        p.evaluate(dataset, weights, 0, dataset.length + 1);
+        p.evaluate(dataset, weights, 0, dataset.length + 1, 50);
+    }
 }
