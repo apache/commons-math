@@ -211,7 +211,6 @@ public class SimplexOptimizerMultiDirectionalTest {
                1e-14);
      }
 
-    //@Ignore
     @Test
     public void testElliRotated() {
         doTest(new OptimTestUtils.ElliRotated(),
