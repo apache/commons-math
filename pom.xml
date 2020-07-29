@@ -222,6 +222,7 @@
   </dependencies>
 
   <build>
+      <defaultGoal>clean verify apache-rat:check checkstyle:check javadoc:javadoc</defaultGoal>
       <plugins>
         <plugin>
           <groupId>org.apache.maven.plugins</groupId>
@@ -406,6 +407,30 @@
           </excludes>
         </configuration>
       </plugin>
+
+      <!-- CheckStyle -->
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-checkstyle-plugin</artifactId>
+        <version>${math.checkstyle.version}</version>
+        <configuration>
+          <includeTestSourceDirectory>false</includeTestSourceDirectory>
+          <configLocation>${basedir}/src/main/resources/checkstyle/checkstyle.xml</configLocation>
+          <headerLocation>${basedir}/src/main/resources/checkstyle/license-header.txt</headerLocation>
+          <enableRulesSummary>false</enableRulesSummary>
+          <includeResources>false</includeResources>
+          <resourceExcludes>NOTICE.txt,LICENSE.txt,**/LocalizedFormats_*.properties,**/pom.properties,**/resolver-status.properties,**/sha512.properties,src/test/maxima/special/reference/*.properties</resourceExcludes>
+          <excludes>**/generated/**.java</excludes>
+        </configuration>
+        <executions>
+          <execution>
+            <goals>
+              <goal>check</goal>
+            </goals>
+          </execution>
+        </executions>
+      </plugin>
+
     </plugins>
   </build>
 
@@ -510,10 +535,11 @@
         <artifactId>maven-checkstyle-plugin</artifactId>
         <version>${math.checkstyle.version}</version>
         <configuration>
-          <configLocation>${basedir}/checkstyle.xml</configLocation>
+          <includeTestSourceDirectory>false</includeTestSourceDirectory>
+          <configLocation>${basedir}/src/main/resources/checkstyle/checkstyle.xml</configLocation>
+          <headerLocation>${basedir}/src/main/resources/checkstyle/license-header.txt</headerLocation>
           <enableRulesSummary>false</enableRulesSummary>
           <includeResources>false</includeResources>
-          <headerLocation>${basedir}/license-header.txt</headerLocation>
         </configuration>
         <reportSets>
           <reportSet>
