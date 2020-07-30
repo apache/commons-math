@@ -214,29 +214,17 @@ public class Percentile extends AbstractUnivariateStatistic implements Serializa
     }
     /**
      * Set the data array.
-     * @param values data array to store
-     * @param sampleWeights corresponding positive and non-NaN weights of values
-     * @throws MathIllegalArgumentException if lengths of values and weights are not equal or values or weights is null
+     * @param values Data array.
+     * Cannot be {@code null}.
+     * @param sampleWeights corresponding positive and non-NaN weights.
+     * Cannot be {@code null}.
+     * @throws MathIllegalArgumentException if lengths of values and weights are not equal.
      * @throws org.apache.commons.math4.exception.NotANumberException if any weight is NaN
      * @throws org.apache.commons.math4.exception.NotStrictlyPositiveException if any weight is not positive
      */
-    public void setData(final double[] values, final double[] sampleWeights) {
-        if (values == null || sampleWeights == null) {
-            throw new MathIllegalArgumentException(LocalizedFormats.NULL_NOT_ALLOWED);
-        }
-
-        /** Check length */
-        if (values.length != sampleWeights.length) {
-            throw new MathIllegalArgumentException(LocalizedFormats.LENGTH,
-                                                   values, sampleWeights);
-        }
-        cachedPivots = new int[PIVOTS_HEAP_LENGTH];
-        Arrays.fill(cachedPivots, -1);
-
-        MathArrays.checkPositive(sampleWeights);
-        MathArrays.checkNotNaN(sampleWeights);
-        super.setData(values);
-        weights = sampleWeights.clone();
+    public void setData(final double[] values,
+                        final double[] sampleWeights) {
+        setData(values, sampleWeights, 0, values.length);
     }
 
     /** {@inheritDoc} */
@@ -252,8 +240,10 @@ public class Percentile extends AbstractUnivariateStatistic implements Serializa
     }
     /**
      * Set the data and weights arrays.  The input array is copied, not referenced.
-     * @param values data array to store
-     * @param sampleWeights corresponding positive and non-NaN weights of values
+     * @param values Data array.
+     * Cannot be {@code null}.
+     * @param sampleWeights corresponding positive and non-NaN weights.
+     * Cannot be {@code null}.
      * @param begin the index of the first element to include
      * @param length the number of elements to include
      * @throws MathIllegalArgumentException if lengths of values and weights are not equal or values or weights is null
@@ -279,7 +269,7 @@ public class Percentile extends AbstractUnivariateStatistic implements Serializa
                                                 begin + length, values.length, true);
         }
 
-        if (values == null || sampleWeights == null) {
+        if (sampleWeights == null) {
             throw new MathIllegalArgumentException(LocalizedFormats.NULL_NOT_ALLOWED);
         }
         cachedPivots = new int[PIVOTS_HEAP_LENGTH];

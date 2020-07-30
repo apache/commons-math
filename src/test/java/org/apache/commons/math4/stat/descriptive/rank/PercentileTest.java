@@ -954,7 +954,7 @@ public class PercentileTest extends UnivariateStatisticAbstractTest{
         new Percentile().setData(dataset, weights, 0, dataset.length+1);
     }
 
-    @Test(expected=MathIllegalArgumentException.class)
+    @Test(expected=NullPointerException.class)
     public void testsetDataInputNull() {
         new Percentile().setData(null, null);
         new Percentile().setData(null, null, 0, 0);
