@@ -21,10 +21,7 @@ import java.util.Arrays;
 import java.util.BitSet;
 
 import org.apache.commons.math4.exception.MathIllegalArgumentException;
-import org.apache.commons.math4.exception.NotANumberException;
 import org.apache.commons.math4.exception.NotPositiveException;
-import org.apache.commons.math4.exception.NotStrictlyPositiveException;
-import org.apache.commons.math4.exception.NullArgumentException;
 import org.apache.commons.math4.exception.NumberIsTooLargeException;
 import org.apache.commons.math4.exception.OutOfRangeException;
 import org.apache.commons.math4.exception.util.LocalizedFormats;
@@ -96,7 +93,6 @@ import org.apache.commons.numbers.core.Precision;
  * <code>clear()</code> method, it must be synchronized externally.</p>
  */
 public class Percentile extends AbstractUnivariateStatistic implements Serializable {
-
     /** Serializable version identifier */
     private static final long serialVersionUID = 20150412L;
 
@@ -154,7 +150,7 @@ public class Percentile extends AbstractUnivariateStatistic implements Serializa
      * @throws MathIllegalArgumentException  if p is not greater than 0 and less
      * than or equal to 100
      */
-    public Percentile(final double quantile) throws MathIllegalArgumentException {
+    public Percentile(final double quantile) {
         this(quantile, EstimationType.LEGACY, NaNStrategy.REMOVED,
              new KthSelector(new MedianOf3PivotingStrategy()));
     }
@@ -163,11 +159,10 @@ public class Percentile extends AbstractUnivariateStatistic implements Serializa
      * Copy constructor, creates a new {@code Percentile} identical
      * to the {@code original}
      *
-     * @param original the {@code Percentile} instance to copy
-     * @throws NullArgumentException if original is null
+     * @param original the {@code Percentile} instance to copy.
+     * Cannot be {@code null}.
      */
-    public Percentile(final Percentile original) throws NullArgumentException {
-
+    public Percentile(final Percentile original) {
         MathUtils.checkNotNull(original);
         estimationType   = original.getEstimationType();
         nanStrategy      = original.getNaNStrategy();
@@ -187,16 +182,15 @@ public class Percentile extends AbstractUnivariateStatistic implements Serializa
      *
      * @param quantile the quantile to be computed
      * @param estimationType one of the percentile {@link EstimationType  estimation types}
-     * @param nanStrategy one of {@link NaNStrategy} to handle with NaNs
+     * @param nanStrategy one of {@link NaNStrategy} to handle with NaNs.
+     * Cannot be {@code null}.
      * @param kthSelector a {@link KthSelector} to use for pivoting during search
      * @throws MathIllegalArgumentException if p is not within (0,100]
-     * @throws NullArgumentException if type or NaNStrategy passed is null
      */
     protected Percentile(final double quantile,
                          final EstimationType estimationType,
                          final NaNStrategy nanStrategy,
-                         final KthSelector kthSelector)
-        throws MathIllegalArgumentException {
+                         final KthSelector kthSelector) {
         setQuantile(quantile);
         cachedPivots = null;
         MathUtils.checkNotNull(estimationType);
@@ -223,13 +217,10 @@ public class Percentile extends AbstractUnivariateStatistic implements Serializa
      * @param values data array to store
      * @param sampleWeights corresponding positive and non-NaN weights of values
      * @throws MathIllegalArgumentException if lengths of values and weights are not equal or values or weights is null
-     * @throws NotANumberException if any weight is nan
-     * @throws NotStrictlyPositiveException if any weight is not positive
+     * @throws org.apache.commons.math4.exception.NotANumberException if any weight is NaN
+     * @throws org.apache.commons.math4.exception.NotStrictlyPositiveException if any weight is not positive
      */
-    public void setData(final double[] values, final double[] sampleWeights)
-        throws MathIllegalArgumentException,
-               NotANumberException,
-               NotStrictlyPositiveException {
+    public void setData(final double[] values, final double[] sampleWeights) {
         if (values == null || sampleWeights == null) {
             throw new MathIllegalArgumentException(LocalizedFormats.NULL_NOT_ALLOWED);
         }
@@ -250,8 +241,7 @@ public class Percentile extends AbstractUnivariateStatistic implements Serializa
 
     /** {@inheritDoc} */
     @Override
-    public void setData(final double[] values, final int begin, final int length)
-    throws MathIllegalArgumentException {
+    public void setData(final double[] values, final int begin, final int length) {
         if (values == null) {
             cachedPivots = null;
         } else {
@@ -269,19 +259,13 @@ public class Percentile extends AbstractUnivariateStatistic implements Serializa
      * @throws MathIllegalArgumentException if lengths of values and weights are not equal or values or weights is null
      * @throws NotPositiveException if begin or length is not positive
      * @throws NumberIsTooLargeException if begin + length is greater than values.length
-     * @throws NotANumberException if any weight is nan
-     * @throws NotStrictlyPositiveException if any weight is not positive
+     * @throws org.apache.commons.math4.exception.NotANumberException if any weight is NaN
+     * @throws org.apache.commons.math4.exception.NotStrictlyPositiveException if any weight is not positive
      */
     public void setData(final double[] values,
                         final double[] sampleWeights,
                         final int begin,
-                        final int length)
-        throws MathIllegalArgumentException,
-               NotPositiveException,
-               NumberIsTooLargeException,
-               NotANumberException,
-               NotStrictlyPositiveException{
-
+                        final int length) {
         if (begin < 0) {
             throw new NotPositiveException(LocalizedFormats.START_POSITION, begin);
         }
@@ -325,19 +309,13 @@ public class Percentile extends AbstractUnivariateStatistic implements Serializa
      * @return the value of the statistic applied to the stored data
      * @throws MathIllegalArgumentException if lengths of values and weights are not equal or values or weights is null
      * @throws NotPositiveException if begin, length is negative
-     * @throws NotStrictlyPositiveException if any weight is not positive
-     * @throws NotANumberException if any weight is nan
+     * @throws org.apache.commons.math4.exception.NotStrictlyPositiveException if any weight is not positive
+     * @throws org.apache.commons.math4.exception.NotANumberException if any weight is NaN
      * @throws OutOfRangeException if p is invalid
      * @throws NumberIsTooLargeException if begin + length is greater than values.length
      * (p must be greater than 0 and less than or equal to 100)
      */
-    public double evaluate(final double p)
-        throws MathIllegalArgumentException,
-               NotPositiveException,
-               NotStrictlyPositiveException,
-               NotANumberException,
-               OutOfRangeException,
-               NumberIsTooLargeException {
+    public double evaluate(final double p) {
         if (weights == null) {
             return evaluate(getDataRef(), p);
         } else {
@@ -369,9 +347,7 @@ public class Percentile extends AbstractUnivariateStatistic implements Serializa
      * @return the percentile value or Double.NaN if the array is empty
      * @throws MathIllegalArgumentException if <code>values</code> is null or p is invalid
      */
-    public double evaluate(final double[] values, final double p)
-        throws MathIllegalArgumentException {
-
+    public double evaluate(final double[] values, final double p) {
         MathArrays.verifyValues(values, 0, 0);
         return evaluate(values, 0, values.length, p);
     }
@@ -387,19 +363,12 @@ public class Percentile extends AbstractUnivariateStatistic implements Serializa
      * @return the weighted percentile value or Double.NaN if the array is empty
      * @throws MathIllegalArgumentException if lengths of values and weights are not equal or values or weights is null
      * @throws NotPositiveException if begin, length is negative
-     * @throws NotStrictlyPositiveException if any weight is not positive
-     * @throws NotANumberException if any weight is not positive
+     * @throws org.apache.commons.math4.exception.NotStrictlyPositiveException if any weight is not positive
+     * @throws org.apache.commons.math4.exception.NotANumberException if any weight is NaN
      * @throws OutOfRangeException if p is invalid
      * @throws NumberIsTooLargeException if begin + length is greater than values.length
      */
-    public double evaluate(final double[] values, final double[] sampleWeights, final double p)
-        throws MathIllegalArgumentException,
-               NotPositiveException,
-               NotStrictlyPositiveException,
-               NotANumberException,
-               OutOfRangeException,
-               NumberIsTooLargeException {
-
+    public double evaluate(final double[] values, final double[] sampleWeights, final double p) {
         MathArrays.verifyValues(values, 0, 0);
         MathArrays.verifyValues(sampleWeights, 0, 0);
         return evaluate(values, sampleWeights, 0, values.length, p);
@@ -428,8 +397,7 @@ public class Percentile extends AbstractUnivariateStatistic implements Serializa
      *
      */
     @Override
-    public double evaluate(final double[] values, final int start, final int length)
-        throws MathIllegalArgumentException {
+    public double evaluate(final double[] values, final int start, final int length) {
         return evaluate(values, start, length, quantile);
     }
     /**
@@ -447,19 +415,13 @@ public class Percentile extends AbstractUnivariateStatistic implements Serializa
      * @return the percentile value
      * @throws MathIllegalArgumentException if lengths of values and weights are not equal or values or weights is null
      * @throws NotPositiveException if begin, length is negative
-     * @throws NotStrictlyPositiveException if any weight is not positive
-     * @throws NotANumberException if any weight is not positive
+     * @throws org.apache.commons.math4.exception.NotStrictlyPositiveException if any weight is not positive
+     * @throws org.apache.commons.math4.exception.NotANumberException if any weight is NaN
      * @throws OutOfRangeException if p is invalid
      * @throws NumberIsTooLargeException if begin + length is greater than values.length
      */
     public double evaluate(final double[] values, final double[] sampleWeights,
-                           final int start, final int length)
-        throws MathIllegalArgumentException,
-               NotPositiveException,
-               NotStrictlyPositiveException,
-               NotANumberException,
-               OutOfRangeException,
-               NumberIsTooLargeException {
+                           final int start, final int length) {
         return evaluate(values, sampleWeights, start, length, quantile);
     }
 
@@ -485,20 +447,18 @@ public class Percentile extends AbstractUnivariateStatistic implements Serializa
      * algorithm used.</p>
      *
      * @param values array of input values
-     * @param p  the percentile to compute
-     * @param begin  the first (0-based) element to include in the computation
-     * @param length  the number of array elements to include
-     * @return  the percentile value
-     * @throws MathIllegalArgumentException if the parameters are not valid or the
-     * input array is null
+     * @param p the percentile to compute
+     * @param begin the first (0-based) element to include in the computation
+     * @param length the number of array elements to include
+     * @return the percentile value.
+     * @throws MathIllegalArgumentException if the parameters are not valid.
      */
     public double evaluate(final double[] values, final int begin,
-                           final int length, final double p)
-        throws MathIllegalArgumentException {
-
+                           final int length, final double p) {
         MathArrays.verifyValues(values, begin, length);
         if (p > 100 || p <= 0) {
-            throw new OutOfRangeException(LocalizedFormats.OUT_OF_BOUNDS_QUANTILE_VALUE, p, 0, 100);
+            throw new OutOfRangeException(LocalizedFormats.OUT_OF_BOUNDS_QUANTILE_VALUE,
+                                          p, 0, 100);
         }
         if (length == 0) {
             return Double.NaN;
@@ -509,8 +469,9 @@ public class Percentile extends AbstractUnivariateStatistic implements Serializa
 
         final double[] work = getWorkArray(values, begin, length);
         final int[] pivotsHeap = getPivots(values);
-        return work.length == 0 ? Double.NaN :
-                    estimationType.evaluate(work, pivotsHeap, p, kthSelector);
+        return work.length == 0 ?
+            Double.NaN :
+            estimationType.evaluate(work, pivotsHeap, p, kthSelector);
     }
      /**
      * Returns an estimate of the <code>p</code>th percentile of the values
@@ -529,21 +490,13 @@ public class Percentile extends AbstractUnivariateStatistic implements Serializa
      * @return the weighted percentile value
      * @throws MathIllegalArgumentException if lengths of values and weights are not equal or values or weights is null
      * @throws NotPositiveException if begin, length is negative
-     * @throws NotStrictlyPositiveException if any weight is not positive
-     * @throws NotANumberException if any weight is not positive
+     * @throws org.apache.commons.math4.exception.NotStrictlyPositiveException if any weight is not positive
+     * @throws org.apache.commons.math4.exception.NotANumberException if any weight is NaN
      * @throws OutOfRangeException if p is invalid
      * @throws NumberIsTooLargeException if begin + length is greater than values.length
      */
     public double evaluate(final double[] values, final double[] sampleWeights, final int begin,
-                           final int length, final double p)
-        throws MathIllegalArgumentException,
-               NotPositiveException,
-               NotStrictlyPositiveException,
-               NotANumberException,
-               OutOfRangeException,
-               NumberIsTooLargeException
-               {
-
+                           final int length, final double p) {
         /** Check length */
         if (values.length != sampleWeights.length) {
             throw new MathIllegalArgumentException(LocalizedFormats.LENGTH,
@@ -558,13 +511,15 @@ public class Percentile extends AbstractUnivariateStatistic implements Serializa
         MathArrays.checkNotNaN(sampleWeights);
 
         if (p > 100 || p <= 0) {
-            throw new OutOfRangeException(LocalizedFormats.OUT_OF_BOUNDS_QUANTILE_VALUE, p, 0, 100);
+            throw new OutOfRangeException(LocalizedFormats.OUT_OF_BOUNDS_QUANTILE_VALUE,
+                                          p, 0, 100);
         }
         if (length == 0) {
             return Double.NaN;
         }
         if (length == 1) {
-            return values[begin]; // always return single value for n = 1
+            // Always return single value for n = 1
+            return values[begin];
         }
 
         final double[] work = getWorkArray(values, begin, length);
@@ -590,10 +545,10 @@ public class Percentile extends AbstractUnivariateStatistic implements Serializa
      * @throws MathIllegalArgumentException  if p is not greater than 0 and less
      * than or equal to 100
      */
-    public void setQuantile(final double p) throws MathIllegalArgumentException {
+    public void setQuantile(final double p) {
         if (p <= 0 || p > 100) {
-            throw new OutOfRangeException(
-                    LocalizedFormats.OUT_OF_BOUNDS_QUANTILE_VALUE, p, 0, 100);
+            throw new OutOfRangeException(LocalizedFormats.OUT_OF_BOUNDS_QUANTILE_VALUE,
+                                          p, 0, 100);
         }
         quantile = p;
     }
@@ -625,20 +580,20 @@ public class Percentile extends AbstractUnivariateStatistic implements Serializa
             work = getDataRef();
         } else {
             switch (nanStrategy) {
-                case MAXIMAL:// Replace NaNs with +INFs
+                case MAXIMAL: // Replace NaNs with +INFs
                     work = replaceAndSlice(values, begin, length, Double.NaN, Double.POSITIVE_INFINITY);
                     break;
-                case MINIMAL:// Replace NaNs with -INFs
+                case MINIMAL: // Replace NaNs with -INFs
                     work = replaceAndSlice(values, begin, length, Double.NaN, Double.NEGATIVE_INFINITY);
                     break;
-                case REMOVED:// Drop NaNs from data
+                case REMOVED: // Drop NaNs from data
                     work = removeAndSlice(values, begin, length, Double.NaN);
                     break;
-                case FAILED:// just throw exception as NaN is un-acceptable
+                case FAILED: // NaN is not acceptable
                     work = copyOf(values, begin, length);
                     MathArrays.checkNotNaN(work);
                     break;
-                default: //FIXED
+                default: // FIXED
                     work = copyOf(values,begin,length);
                     break;
             }
@@ -661,10 +616,10 @@ public class Percentile extends AbstractUnivariateStatistic implements Serializa
             work = this.weights;
         } else {
             switch (nanStrategy) {
-                case REMOVED:// Drop weight if the data is NaN
+                case REMOVED: // Drop weight if the data is NaN
                     work = removeAndSliceByRef(values, sampleWeights, begin, length, Double.NaN);
                     break;
-                default: //FIXED
+                default: // FIXED
                     work = copyOf(sampleWeights, begin, length);
                     break;
             }
@@ -702,8 +657,10 @@ public class Percentile extends AbstractUnivariateStatistic implements Serializa
         final double[] temp = copyOf(values, begin, length);
         for(int i = 0; i < length; i++) {
             temp[i] = Precision.equalsIncludingNaN(original, temp[i]) ?
-                      replacement : temp[i];
+                replacement :
+                temp[i];
         }
+
         return temp;
     }
     /**
@@ -720,31 +677,38 @@ public class Percentile extends AbstractUnivariateStatistic implements Serializa
                                            final double removedValue) {
         MathArrays.verifyValues(values, begin, length);
         final double[] temp;
-        //BitSet(length) to indicate where the removedValue is located
+        // Indicates where the removedValue is located
         final BitSet bits = new BitSet(length);
         for (int i = begin; i < begin+length; i++) {
             if (Precision.equalsIncludingNaN(removedValue, values[i])) {
                 bits.set(i - begin);
             }
         }
-        //Check if empty then create a new copy
+        // Check if empty then create a new copy
         if (bits.isEmpty()) {
-            temp = copyOf(values, begin, length); // Nothing removed, just copy
+            // Nothing removed, just copy
+            temp = copyOf(values, begin, length);
         } else if(bits.cardinality() == length) {
-            temp = new double[0];                 // All removed, just empty
-        }else {                                   // Some removable, so new
+            // All removed, just empty
+            temp = new double[0];
+        } else {
+            // Some removable, so new
             temp = new double[length - bits.cardinality()];
-            int start = begin;  //start index from source array (i.e values)
-            int dest = 0;       //dest index in destination array(i.e temp)
-            int nextOne = -1;   //nextOne is the index of bit set of next one
-            int bitSetPtr = 0;  //bitSetPtr is start index pointer of bitset
+            // Index from source array (i.e values)
+            int start = begin;
+            // Index in destination array(i.e temp)
+            int dest = 0;
+            // Index of bit set of next one
+            int nextOne = -1;
+            // Start index pointer of bitset
+            int bitSetPtr = 0;
             while ((nextOne = bits.nextSetBit(bitSetPtr)) != -1) {
                 final int lengthToCopy = nextOne - bitSetPtr;
                 System.arraycopy(values, start, temp, dest, lengthToCopy);
                 dest += lengthToCopy;
                 start = begin + (bitSetPtr = bits.nextClearBit(nextOne));
             }
-            //Copy any residue past start index till begin+length
+            // Copy any residue past start index till begin+length
             if (start < begin + length) {
                 System.arraycopy(values,start,temp,dest,begin + length - start);
             }
@@ -842,9 +806,9 @@ public class Percentile extends AbstractUnivariateStatistic implements Serializa
      * If any of the {@code withXxx} method is omitted, the default value for
      * the corresponding customization parameter will be used.
      * </p>
-     * @param newEstimationType estimation type for the new instance
+     * @param newEstimationType estimation type for the new instance.
+     * Cannot be {@code null}.
      * @return a new instance, with changed estimation type
-     * @throws NullArgumentException when newEstimationType is null
      */
     public Percentile withEstimationType(final EstimationType newEstimationType) {
         return new Percentile(quantile, newEstimationType, nanStrategy, kthSelector);
@@ -875,9 +839,9 @@ public class Percentile extends AbstractUnivariateStatistic implements Serializa
      * If any of the {@code withXxx} method is omitted, the default value for
      * the corresponding customization parameter will be used.
      * </p>
-     * @param newNaNStrategy NaN strategy for the new instance
+     * @param newNaNStrategy NaN strategy for the new instance.
+     * Cannot be {@code null}.
      * @return a new instance, with changed NaN handling strategy
-     * @throws NullArgumentException when newNaNStrategy is null
      */
     public Percentile withNaNStrategy(final NaNStrategy newNaNStrategy) {
         return new Percentile(quantile, estimationType, newNaNStrategy, kthSelector);
@@ -916,9 +880,9 @@ public class Percentile extends AbstractUnivariateStatistic implements Serializa
      * If any of the {@code withXxx} method is omitted, the default value for
      * the corresponding customization parameter will be used.
      * </p>
-     * @param newKthSelector KthSelector for the new instance
+     * @param newKthSelector KthSelector for the new instance.
+     * Cannot be {@code null}.
      * @return a new instance, with changed KthSelector
-     * @throws NullArgumentException when newKthSelector is null
      */
     public Percentile withKthSelector(final KthSelector newKthSelector) {
         return new Percentile(quantile, estimationType, nanStrategy, newKthSelector);
@@ -986,7 +950,7 @@ public class Percentile extends AbstractUnivariateStatistic implements Serializa
             }
             @Override
             public double evaluate(final double[] work, final double[] sampleWeights,
-                                   final double p) throws MathIllegalArgumentException {
+                                   final double p) {
                 throw new MathIllegalArgumentException(LocalizedFormats.UNSUPPORTED_OPERATION);
             }
         },
@@ -1017,7 +981,7 @@ public class Percentile extends AbstractUnivariateStatistic implements Serializa
             }
             @Override
             public double evaluate(final double[] work, final double[] sampleWeights,
-                                   final double p) throws MathIllegalArgumentException {
+                                   final double p) {
                 throw new MathIllegalArgumentException(LocalizedFormats.UNSUPPORTED_OPERATION);
             }
         },
@@ -1057,7 +1021,7 @@ public class Percentile extends AbstractUnivariateStatistic implements Serializa
             }
             @Override
             public double evaluate(final double[] work, final double[] sampleWeights,
-                                   final double p) throws MathIllegalArgumentException {
+                                   final double p) {
                 throw new MathIllegalArgumentException(LocalizedFormats.UNSUPPORTED_OPERATION);
             }
         },
@@ -1078,7 +1042,7 @@ public class Percentile extends AbstractUnivariateStatistic implements Serializa
             }
             @Override
             public double evaluate(final double[] work, final double[] sampleWeights,
-                                   final double p) throws MathIllegalArgumentException {
+                                   final double p) {
                 throw new MathIllegalArgumentException(LocalizedFormats.UNSUPPORTED_OPERATION);
             }
         },
@@ -1103,7 +1067,7 @@ public class Percentile extends AbstractUnivariateStatistic implements Serializa
             }
             @Override
             public double evaluate(final double[] work, final double[] sampleWeights,
-                                   final double p) throws MathIllegalArgumentException {
+                                   final double p) {
                 throw new MathIllegalArgumentException(LocalizedFormats.UNSUPPORTED_OPERATION);
             }
         },
@@ -1130,7 +1094,7 @@ public class Percentile extends AbstractUnivariateStatistic implements Serializa
             }
             @Override
             public double evaluate(final double[] work, final double[] sampleWeights,
-                                   final double p) throws MathIllegalArgumentException {
+                                   final double p) {
                 throw new MathIllegalArgumentException(LocalizedFormats.UNSUPPORTED_OPERATION);
             }
         },
@@ -1163,7 +1127,7 @@ public class Percentile extends AbstractUnivariateStatistic implements Serializa
             }
             @Override
             public double evaluate(final double[] work, final double[] sampleWeights,
-                                   final double p) throws MathIllegalArgumentException {
+                                   final double p) {
                 throw new MathIllegalArgumentException(LocalizedFormats.UNSUPPORTED_OPERATION);
             }
         },
@@ -1247,7 +1211,7 @@ public class Percentile extends AbstractUnivariateStatistic implements Serializa
             }
             @Override
             public double evaluate(final double[] work, final double[] sampleWeights,
-                                   final double p) throws MathIllegalArgumentException {
+                                   final double p) {
                 throw new MathIllegalArgumentException(LocalizedFormats.UNSUPPORTED_OPERATION);
             }
         },
@@ -1274,7 +1238,7 @@ public class Percentile extends AbstractUnivariateStatistic implements Serializa
             }
             @Override
             public double evaluate(final double[] work, final double[] sampleWeights,
-                                   final double p) throws MathIllegalArgumentException {
+                                   final double p) {
                 throw new MathIllegalArgumentException(LocalizedFormats.UNSUPPORTED_OPERATION);
             }
         },
@@ -1343,13 +1307,13 @@ public class Percentile extends AbstractUnivariateStatistic implements Serializa
          * {@link #estimate(double[], int[], double, int, KthSelector) estimate}
          * functions to return the estimated percentile value.
          *
-         * @param work array of numbers to be used for finding the percentile
+         * @param work array of numbers to be used for finding the percentile.
+         * Cannot be {@code null}.
          * @param pivotsHeap a prior cached heap which can speed up estimation
          * @param p the p<sup>th</sup> quantile to be computed
          * @param selector a {@link KthSelector} used for pivoting during search
          * @return estimated percentile
          * @throws OutOfRangeException if p is out of range
-         * @throws NullArgumentException if work array is null
          */
         protected double evaluate(final double[] work, final int[] pivotsHeap, final double p,
                                   final KthSelector selector) {
@@ -1368,12 +1332,12 @@ public class Percentile extends AbstractUnivariateStatistic implements Serializa
          * functions to return the estimated percentile value. Please
          * note that this method does not make use of cached pivots.
          *
-         * @param work array of numbers to be used for finding the percentile
+         * @param work array of numbers to be used for finding the percentile.
+         * Cannot be {@code null}.
          * @param p the p<sup>th</sup> quantile to be computed
          * @return estimated percentile
          * @param selector a {@link KthSelector} used for pivoting during search
          * @throws OutOfRangeException if length or p is out of range
-         * @throws NullArgumentException if work array is null
          */
         public double evaluate(final double[] work, final double p, final KthSelector selector) {
             return this.evaluate(work, null, p, selector);
@@ -1388,7 +1352,6 @@ public class Percentile extends AbstractUnivariateStatistic implements Serializa
          */
         public abstract double evaluate(final double[] work, final double[] sampleWeights,
                                         final double p);
-
         /**
          * Search the interval q*sn locates in.
          * @param qsn q*sn, where n refers to the data size
