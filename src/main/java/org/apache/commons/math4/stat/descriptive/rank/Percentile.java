@@ -564,7 +564,7 @@ public class Percentile extends AbstractUnivariateStatistic implements Serializa
      * @return work array sliced from values in the range [begin,begin+length)
      * @throws MathIllegalArgumentException if values or indices are invalid
      */
-    protected double[] getWorkArray(final double[] values, final int begin, final int length) {
+    private double[] getWorkArray(final double[] values, final int begin, final int length) {
         final double[] work;
         if (values == getDataRef()) {
             work = getDataRef();
