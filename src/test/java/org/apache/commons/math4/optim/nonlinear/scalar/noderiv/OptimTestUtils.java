@@ -203,9 +203,10 @@ class OptimTestUtils {
         @Override
         public double value(double[] x) {
             double f = 0;
-            for (int i = 0; i < x.length - 1; ++i) {
-                f += 1e2 * (x[i] * x[i] - x[i + 1]) * (x[i] * x[i] - x[i + 1])
-                    + (x[i] - 1.) * (x[i] - 1.);
+            for (int i = 0; i < x.length - 1; i++) {
+                final double a = x[i] * x[i] - x[i + 1];
+                final double b = x[i] - 1;
+                f += 1e2 * a * a + b * b;
             }
             return f;
         }
