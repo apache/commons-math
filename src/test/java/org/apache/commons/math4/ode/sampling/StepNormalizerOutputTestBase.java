@@ -29,10 +29,6 @@ import org.apache.commons.math4.exception.NumberIsTooSmallException;
 import org.apache.commons.math4.ode.FirstOrderDifferentialEquations;
 import org.apache.commons.math4.ode.FirstOrderIntegrator;
 import org.apache.commons.math4.ode.nonstiff.GraggBulirschStoerIntegrator;
-import org.apache.commons.math4.ode.sampling.FixedStepHandler;
-import org.apache.commons.math4.ode.sampling.StepNormalizer;
-import org.apache.commons.math4.ode.sampling.StepNormalizerBounds;
-import org.apache.commons.math4.ode.sampling.StepNormalizerMode;
 import org.junit.Test;
 
 /** Base class for step normalizer output tests. */

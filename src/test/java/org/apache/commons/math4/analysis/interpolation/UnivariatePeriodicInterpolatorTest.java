@@ -19,9 +19,6 @@ package org.apache.commons.math4.analysis.interpolation;
 import java.util.Random;
 
 import org.apache.commons.math4.analysis.UnivariateFunction;
-import org.apache.commons.math4.analysis.interpolation.LinearInterpolator;
-import org.apache.commons.math4.analysis.interpolation.UnivariateInterpolator;
-import org.apache.commons.math4.analysis.interpolation.UnivariatePeriodicInterpolator;
 import org.apache.commons.math4.exception.NonMonotonicSequenceException;
 import org.apache.commons.math4.exception.NumberIsTooSmallException;
 import org.apache.commons.math4.util.FastMath;

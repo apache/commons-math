@@ -19,9 +19,6 @@ package org.apache.commons.math4.genetics;
 
 import java.util.Iterator;
 
-import org.apache.commons.math4.genetics.Chromosome;
-import org.apache.commons.math4.genetics.FixedGenerationCount;
-import org.apache.commons.math4.genetics.Population;
 import org.junit.Assert;
 import org.junit.Test;
 

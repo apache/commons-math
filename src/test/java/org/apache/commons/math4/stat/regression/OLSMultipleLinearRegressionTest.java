@@ -26,7 +26,6 @@ import org.apache.commons.math4.linear.MatrixUtils;
 import org.apache.commons.math4.linear.RealMatrix;
 import org.apache.commons.math4.linear.RealVector;
 import org.apache.commons.math4.stat.StatUtils;
-import org.apache.commons.math4.stat.regression.OLSMultipleLinearRegression;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;

@@ -16,9 +16,6 @@
  */
 package org.apache.commons.math4.linear;
 
-import org.apache.commons.math4.linear.ArrayRealVector;
-import org.apache.commons.math4.linear.RealVector;
-
 /**
  * This is an implementation of {@link UnmodifiableRealVectorAbstractTest} for
  * unmodifiable views of {@link ArrayRealVectorTest}.

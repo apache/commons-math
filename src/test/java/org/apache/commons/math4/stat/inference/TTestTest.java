@@ -21,7 +21,6 @@ import org.apache.commons.math4.exception.NullArgumentException;
 import org.apache.commons.math4.exception.NumberIsTooSmallException;
 import org.apache.commons.math4.exception.OutOfRangeException;
 import org.apache.commons.math4.stat.descriptive.SummaryStatistics;
-import org.apache.commons.math4.stat.inference.TTest;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;

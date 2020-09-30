@@ -18,8 +18,6 @@ package org.apache.commons.math4.fitting;
 
 import org.apache.commons.math4.exception.MathIllegalArgumentException;
 import org.apache.commons.math4.exception.TooManyIterationsException;
-import org.apache.commons.math4.fitting.GaussianCurveFitter;
-import org.apache.commons.math4.fitting.WeightedObservedPoints;
 import org.junit.Assert;
 import org.junit.Test;
 

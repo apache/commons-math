@@ -17,7 +17,6 @@
 package org.apache.commons.math4.util;
 
 import org.apache.commons.math4.ExtendedFieldElementAbstractTest;
-import org.apache.commons.math4.util.Decimal64;
 import org.junit.Assert;
 import org.junit.Test;
 

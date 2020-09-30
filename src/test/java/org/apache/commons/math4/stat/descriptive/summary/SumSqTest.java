@@ -19,7 +19,6 @@ package org.apache.commons.math4.stat.descriptive.summary;
 import org.apache.commons.math4.stat.descriptive.StorelessUnivariateStatistic;
 import org.apache.commons.math4.stat.descriptive.StorelessUnivariateStatisticAbstractTest;
 import org.apache.commons.math4.stat.descriptive.UnivariateStatistic;
-import org.apache.commons.math4.stat.descriptive.summary.SumOfSquares;
 import org.junit.Assert;
 import org.junit.Test;
 

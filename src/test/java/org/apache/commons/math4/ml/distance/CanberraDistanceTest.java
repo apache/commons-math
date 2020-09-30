@@ -16,8 +16,6 @@
  */
 package org.apache.commons.math4.ml.distance;
 
-import org.apache.commons.math4.ml.distance.CanberraDistance;
-import org.apache.commons.math4.ml.distance.DistanceMeasure;
 import org.junit.Assert;
 import org.junit.Test;
 

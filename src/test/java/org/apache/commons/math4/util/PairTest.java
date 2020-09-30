@@ -13,7 +13,6 @@
  */
 package org.apache.commons.math4.util;
 
-import org.apache.commons.math4.util.Pair;
 import org.junit.Assert;
 import org.junit.Test;
 

@@ -23,7 +23,6 @@ import java.io.ObjectOutputStream;
 import java.io.ObjectInputStream;
 import java.io.IOException;
 
-import org.apache.commons.math4.ml.neuralnet.Neuron;
 import org.junit.Test;
 import org.junit.Assert;
 

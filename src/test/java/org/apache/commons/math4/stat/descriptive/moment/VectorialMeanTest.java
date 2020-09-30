@@ -19,7 +19,6 @@ package org.apache.commons.math4.stat.descriptive.moment;
 
 import org.apache.commons.math4.TestUtils;
 import org.apache.commons.math4.exception.DimensionMismatchException;
-import org.apache.commons.math4.stat.descriptive.moment.VectorialMean;
 import org.junit.Test;
 import org.junit.Assert;
 

@@ -33,7 +33,6 @@ import org.apache.commons.math4.ode.ContinuousOutputModel;
 import org.apache.commons.math4.ode.TestProblem1;
 import org.apache.commons.math4.ode.TestProblem3;
 import org.apache.commons.math4.ode.nonstiff.AdamsBashforthIntegrator;
-import org.apache.commons.math4.ode.sampling.StepHandler;
 import org.junit.Assert;
 import org.junit.Test;
 

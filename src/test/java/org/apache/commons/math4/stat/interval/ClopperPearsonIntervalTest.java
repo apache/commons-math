@@ -16,9 +16,6 @@
  */
 package org.apache.commons.math4.stat.interval;
 
-import org.apache.commons.math4.stat.interval.BinomialConfidenceInterval;
-import org.apache.commons.math4.stat.interval.ClopperPearsonInterval;
-import org.apache.commons.math4.stat.interval.ConfidenceInterval;
 import org.junit.Assert;
 import org.junit.Test;
 

@@ -22,8 +22,6 @@ import java.util.Locale;
 import org.apache.commons.math4.TestUtils;
 import org.apache.commons.math4.exception.DimensionMismatchException;
 import org.apache.commons.math4.exception.MathIllegalStateException;
-import org.apache.commons.math4.stat.descriptive.MultivariateSummaryStatistics;
-import org.apache.commons.math4.stat.descriptive.StorelessUnivariateStatistic;
 import org.apache.commons.math4.stat.descriptive.moment.Mean;
 import org.apache.commons.math4.util.FastMath;
 import org.junit.Test;

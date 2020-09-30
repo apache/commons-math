@@ -20,7 +20,6 @@ import org.apache.commons.math4.exception.DimensionMismatchException;
 import org.apache.commons.math4.exception.NoDataException;
 import org.apache.commons.math4.exception.NullArgumentException;
 import org.apache.commons.math4.exception.NumberIsTooLargeException;
-import org.apache.commons.math4.stat.inference.WilcoxonSignedRankTest;
 import org.junit.Assert;
 import org.junit.Test;
 

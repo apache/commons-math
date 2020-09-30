@@ -22,9 +22,6 @@ import java.io.ObjectInput;
 import java.io.ObjectOutput;
 
 import org.apache.commons.math4.ode.EquationsMapper;
-import org.apache.commons.math4.ode.sampling.AbstractStepInterpolator;
-import org.apache.commons.math4.ode.sampling.StepHandler;
-import org.apache.commons.math4.ode.sampling.StepInterpolator;
 
 /** This class is a step interpolator that does nothing.
  *

@@ -21,7 +21,6 @@ import org.apache.commons.math4.exception.MathIllegalArgumentException;
 import org.apache.commons.math4.linear.BlockRealMatrix;
 import org.apache.commons.math4.linear.MatrixUtils;
 import org.apache.commons.math4.linear.RealMatrix;
-import org.apache.commons.math4.stat.correlation.SpearmansCorrelation;
 import org.apache.commons.math4.stat.ranking.NaNStrategy;
 import org.apache.commons.math4.stat.ranking.NaturalRanking;
 import org.junit.Assert;

@@ -23,7 +23,6 @@ import org.apache.commons.math4.linear.BlockRealMatrix;
 import org.apache.commons.math4.linear.RealMatrix;
 import org.apache.commons.rng.UniformRandomProvider;
 import org.apache.commons.rng.simple.RandomSource;
-import org.apache.commons.math4.stat.correlation.KendallsCorrelation;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;

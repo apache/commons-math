@@ -17,8 +17,6 @@
 package org.apache.commons.math4.optim;
 
 import org.apache.commons.math4.exception.NotStrictlyPositiveException;
-import org.apache.commons.math4.optim.PointVectorValuePair;
-import org.apache.commons.math4.optim.SimpleVectorValueChecker;
 import org.junit.Test;
 import org.junit.Assert;
 

@@ -16,10 +16,6 @@
  */
 package org.apache.commons.math4.genetics;
 
-import org.apache.commons.math4.genetics.Chromosome;
-import org.apache.commons.math4.genetics.ChromosomePair;
-import org.apache.commons.math4.genetics.ElitisticListPopulation;
-import org.apache.commons.math4.genetics.TournamentSelection;
 import org.junit.Assert;
 import org.junit.Test;
 

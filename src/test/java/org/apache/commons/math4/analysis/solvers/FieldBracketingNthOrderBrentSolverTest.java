@@ -18,7 +18,6 @@
 package org.apache.commons.math4.analysis.solvers;
 
 import org.apache.commons.math4.analysis.RealFieldUnivariateFunction;
-import org.apache.commons.math4.analysis.solvers.AllowedSolution;
 import org.apache.commons.math4.dfp.Dfp;
 import org.apache.commons.math4.dfp.DfpField;
 import org.apache.commons.math4.dfp.DfpMath;

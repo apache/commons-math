@@ -18,7 +18,6 @@ package org.apache.commons.math4.distribution;
 
 import java.util.Arrays;
 import org.apache.commons.statistics.distribution.DiscreteDistribution;
-import org.apache.commons.math4.distribution.EnumeratedIntegerDistribution;
 import org.apache.commons.math4.exception.DimensionMismatchException;
 import org.apache.commons.math4.exception.MathArithmeticException;
 import org.apache.commons.math4.exception.NotANumberException;

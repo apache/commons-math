@@ -17,7 +17,6 @@
 package org.apache.commons.math4.special;
 
 import org.apache.commons.math4.exception.MathIllegalArgumentException;
-import org.apache.commons.math4.special.BesselJ;
 import org.junit.Assert;
 import org.junit.Test;
 

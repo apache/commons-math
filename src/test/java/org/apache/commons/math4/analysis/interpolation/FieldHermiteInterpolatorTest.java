@@ -18,7 +18,6 @@ package org.apache.commons.math4.analysis.interpolation;
 
 import java.util.Random;
 
-import org.apache.commons.math4.analysis.interpolation.FieldHermiteInterpolator;
 import org.apache.commons.math4.analysis.polynomials.PolynomialFunction;
 import org.apache.commons.math4.dfp.Dfp;
 import org.apache.commons.math4.dfp.DfpField;

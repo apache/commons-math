@@ -18,7 +18,6 @@ package org.apache.commons.math4.analysis.solvers;
 
 import org.apache.commons.numbers.complex.Complex;
 import org.apache.commons.math4.analysis.polynomials.PolynomialFunction;
-import org.apache.commons.math4.analysis.solvers.LaguerreSolver;
 import org.apache.commons.math4.exception.NoBracketingException;
 import org.apache.commons.math4.exception.NumberIsTooLargeException;
 import org.apache.commons.math4.util.FastMath;

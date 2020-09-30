@@ -18,12 +18,6 @@
 package org.apache.commons.math4.linear;
 
 import org.apache.commons.math4.exception.MathIllegalArgumentException;
-import org.apache.commons.math4.linear.Array2DRowRealMatrix;
-import org.apache.commons.math4.linear.DecompositionSolver;
-import org.apache.commons.math4.linear.MatrixUtils;
-import org.apache.commons.math4.linear.RealMatrix;
-import org.apache.commons.math4.linear.RealVector;
-import org.apache.commons.math4.linear.SingularValueDecomposition;
 import org.junit.Assert;
 import org.junit.Test;
 

@@ -16,11 +16,6 @@ package org.apache.commons.math4.filter;
 
 import org.apache.commons.statistics.distribution.ContinuousDistribution;
 import org.apache.commons.statistics.distribution.NormalDistribution;
-import org.apache.commons.math4.filter.DefaultMeasurementModel;
-import org.apache.commons.math4.filter.DefaultProcessModel;
-import org.apache.commons.math4.filter.KalmanFilter;
-import org.apache.commons.math4.filter.MeasurementModel;
-import org.apache.commons.math4.filter.ProcessModel;
 import org.apache.commons.math4.linear.Array2DRowRealMatrix;
 import org.apache.commons.math4.linear.ArrayRealVector;
 import org.apache.commons.math4.linear.MatrixDimensionMismatchException;

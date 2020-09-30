@@ -21,7 +21,6 @@ import java.lang.reflect.Field;
 import java.util.HashMap;
 import java.util.Map;
 
-import org.apache.commons.math4.analysis.differentiation.DSCompiler;
 import org.apache.commons.math4.exception.DimensionMismatchException;
 import org.apache.commons.numbers.combinatorics.BinomialCoefficient;
 import org.junit.Assert;

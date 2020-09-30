@@ -18,8 +18,6 @@ package org.apache.commons.math4.analysis.interpolation;
 
 import org.apache.commons.math4.TestUtils;
 import org.apache.commons.math4.analysis.UnivariateFunction;
-import org.apache.commons.math4.analysis.interpolation.LinearInterpolator;
-import org.apache.commons.math4.analysis.interpolation.UnivariateInterpolator;
 import org.apache.commons.math4.analysis.polynomials.PolynomialFunction;
 import org.apache.commons.math4.analysis.polynomials.PolynomialSplineFunction;
 import org.apache.commons.math4.exception.DimensionMismatchException;

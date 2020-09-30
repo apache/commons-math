@@ -24,13 +24,6 @@ import org.apache.commons.math4.exception.NoDataException;
 import org.apache.commons.math4.exception.NullArgumentException;
 import org.apache.commons.math4.exception.NumberIsTooSmallException;
 import org.apache.commons.math4.exception.OutOfRangeException;
-import org.apache.commons.math4.linear.ArrayRealVector;
-import org.apache.commons.math4.linear.BlockRealMatrix;
-import org.apache.commons.math4.linear.LUDecomposition;
-import org.apache.commons.math4.linear.NonSquareMatrixException;
-import org.apache.commons.math4.linear.OpenMapRealMatrix;
-import org.apache.commons.math4.linear.RealMatrix;
-import org.apache.commons.math4.linear.RealVector;
 
 /**
  * Test cases for the {@link OpenMapRealMatrix} class.

@@ -19,7 +19,6 @@ package org.apache.commons.math4.analysis.interpolation;
 import java.util.Random;
 
 import org.apache.commons.math4.analysis.differentiation.DerivativeStructure;
-import org.apache.commons.math4.analysis.interpolation.HermiteInterpolator;
 import org.apache.commons.math4.analysis.polynomials.PolynomialFunction;
 import org.apache.commons.math4.exception.MathIllegalArgumentException;
 import org.apache.commons.math4.exception.NoDataException;

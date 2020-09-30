@@ -17,7 +17,6 @@
 package org.apache.commons.math4.optim;
 
 import org.apache.commons.math4.TestUtils;
-import org.apache.commons.math4.optim.PointValuePair;
 import org.junit.Assert;
 import org.junit.Test;
 

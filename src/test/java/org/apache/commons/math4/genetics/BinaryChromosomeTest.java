@@ -18,8 +18,6 @@ package org.apache.commons.math4.genetics;
 
 
 import org.apache.commons.math4.exception.MathIllegalArgumentException;
-import org.apache.commons.math4.genetics.BinaryChromosome;
-import org.apache.commons.math4.genetics.Chromosome;
 import org.junit.Assert;
 import org.junit.Test;
 

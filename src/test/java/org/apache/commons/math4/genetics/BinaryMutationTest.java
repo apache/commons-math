@@ -17,8 +17,6 @@
 package org.apache.commons.math4.genetics;
 
 
-import org.apache.commons.math4.genetics.BinaryChromosome;
-import org.apache.commons.math4.genetics.BinaryMutation;
 import org.junit.Assert;
 import org.junit.Test;
 

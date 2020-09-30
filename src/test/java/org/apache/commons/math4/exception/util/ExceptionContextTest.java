@@ -24,8 +24,6 @@ import java.io.ObjectInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.ByteArrayInputStream;
 
-import org.apache.commons.math4.exception.util.ExceptionContext;
-import org.apache.commons.math4.exception.util.LocalizedFormats;
 import org.junit.Assert;
 import org.junit.Test;
 

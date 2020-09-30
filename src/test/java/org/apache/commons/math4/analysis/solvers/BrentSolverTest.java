@@ -26,8 +26,6 @@ import org.apache.commons.math4.analysis.function.Constant;
 import org.apache.commons.math4.analysis.function.Inverse;
 import org.apache.commons.math4.analysis.function.Sin;
 import org.apache.commons.math4.analysis.function.Sqrt;
-import org.apache.commons.math4.analysis.solvers.BrentSolver;
-import org.apache.commons.math4.analysis.solvers.UnivariateSolver;
 import org.apache.commons.math4.exception.NoBracketingException;
 import org.apache.commons.math4.exception.NumberIsTooLargeException;
 import org.apache.commons.math4.exception.TooManyEvaluationsException;

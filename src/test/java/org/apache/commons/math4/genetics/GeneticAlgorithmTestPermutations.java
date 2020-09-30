@@ -20,17 +20,6 @@ package org.apache.commons.math4.genetics;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.apache.commons.math4.genetics.AbstractListChromosome;
-import org.apache.commons.math4.genetics.Chromosome;
-import org.apache.commons.math4.genetics.ElitisticListPopulation;
-import org.apache.commons.math4.genetics.FixedGenerationCount;
-import org.apache.commons.math4.genetics.GeneticAlgorithm;
-import org.apache.commons.math4.genetics.OnePointCrossover;
-import org.apache.commons.math4.genetics.Population;
-import org.apache.commons.math4.genetics.RandomKey;
-import org.apache.commons.math4.genetics.RandomKeyMutation;
-import org.apache.commons.math4.genetics.StoppingCondition;
-import org.apache.commons.math4.genetics.TournamentSelection;
 import org.apache.commons.math4.util.FastMath;
 import org.junit.Assert;
 import org.junit.Test;

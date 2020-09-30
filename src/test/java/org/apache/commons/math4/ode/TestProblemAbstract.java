@@ -17,7 +17,6 @@
 
 package org.apache.commons.math4.ode;
 
-import org.apache.commons.math4.ode.FirstOrderDifferentialEquations;
 import org.apache.commons.math4.ode.events.EventHandler;
 
 /**

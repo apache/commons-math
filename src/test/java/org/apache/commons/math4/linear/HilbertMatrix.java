@@ -17,9 +17,6 @@
 package org.apache.commons.math4.linear;
 
 import org.apache.commons.math4.exception.DimensionMismatchException;
-import org.apache.commons.math4.linear.ArrayRealVector;
-import org.apache.commons.math4.linear.RealLinearOperator;
-import org.apache.commons.math4.linear.RealVector;
 
 /** This class implements Hilbert Matrices as {@link RealLinearOperator}. */
 public class HilbertMatrix

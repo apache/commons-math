@@ -18,10 +18,6 @@
 package org.apache.commons.math4.linear;
 
 import org.apache.commons.math4.exception.MathIllegalArgumentException;
-import org.apache.commons.math4.linear.CholeskyDecomposition;
-import org.apache.commons.math4.linear.DecompositionSolver;
-import org.apache.commons.math4.linear.MatrixUtils;
-import org.apache.commons.math4.linear.RealMatrix;
 import org.junit.Assert;
 import org.junit.Test;
 

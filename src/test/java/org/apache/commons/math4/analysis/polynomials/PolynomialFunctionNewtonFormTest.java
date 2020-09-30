@@ -17,7 +17,6 @@
 package org.apache.commons.math4.analysis.polynomials;
 
 import org.apache.commons.math4.analysis.differentiation.DerivativeStructure;
-import org.apache.commons.math4.analysis.polynomials.PolynomialFunctionNewtonForm;
 import org.apache.commons.math4.exception.MathIllegalArgumentException;
 import org.junit.Assert;
 import org.junit.Test;

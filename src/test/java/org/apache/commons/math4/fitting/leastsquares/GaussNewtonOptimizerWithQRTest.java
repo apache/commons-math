@@ -19,9 +19,6 @@ package org.apache.commons.math4.fitting.leastsquares;
 
 import org.apache.commons.math4.exception.ConvergenceException;
 import org.apache.commons.math4.exception.TooManyEvaluationsException;
-import org.apache.commons.math4.fitting.leastsquares.GaussNewtonOptimizer;
-import org.apache.commons.math4.fitting.leastsquares.LeastSquaresOptimizer;
-import org.apache.commons.math4.fitting.leastsquares.LeastSquaresProblem;
 import org.apache.commons.math4.fitting.leastsquares.GaussNewtonOptimizer.Decomposition;
 import org.apache.commons.math4.optim.SimpleVectorValueChecker;
 import org.junit.Test;

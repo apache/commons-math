@@ -23,10 +23,6 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.Random;
 
-import org.apache.commons.math4.linear.Array2DRowRealMatrix;
-import org.apache.commons.math4.linear.MatrixUtils;
-import org.apache.commons.math4.linear.RealMatrix;
-import org.apache.commons.math4.linear.SingularValueDecomposition;
 import org.junit.Assert;
 import org.junit.Test;
 

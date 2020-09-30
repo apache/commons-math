@@ -23,10 +23,6 @@ import java.util.Collection;
 import java.util.List;
 
 import org.apache.commons.math4.exception.NumberIsTooSmallException;
-import org.apache.commons.math4.ml.clustering.CentroidCluster;
-import org.apache.commons.math4.ml.clustering.Cluster;
-import org.apache.commons.math4.ml.clustering.DoublePoint;
-import org.apache.commons.math4.ml.clustering.KMeansPlusPlusClusterer;
 import org.apache.commons.math4.ml.distance.EuclideanDistance;
 import org.apache.commons.rng.simple.RandomSource;
 import org.apache.commons.rng.UniformRandomProvider;

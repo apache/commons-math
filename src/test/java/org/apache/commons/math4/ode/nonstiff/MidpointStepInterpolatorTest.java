@@ -32,7 +32,6 @@ import org.apache.commons.math4.exception.NumberIsTooSmallException;
 import org.apache.commons.math4.ode.ContinuousOutputModel;
 import org.apache.commons.math4.ode.TestProblem1;
 import org.apache.commons.math4.ode.TestProblem3;
-import org.apache.commons.math4.ode.nonstiff.MidpointIntegrator;
 import org.apache.commons.math4.ode.sampling.StepHandler;
 import org.apache.commons.math4.ode.sampling.StepInterpolatorTestUtils;
 import org.junit.Assert;

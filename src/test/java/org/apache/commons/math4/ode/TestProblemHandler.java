@@ -18,7 +18,6 @@
 package org.apache.commons.math4.ode;
 
 import org.apache.commons.math4.exception.MaxCountExceededException;
-import org.apache.commons.math4.ode.ODEIntegrator;
 import org.apache.commons.math4.ode.sampling.StepHandler;
 import org.apache.commons.math4.ode.sampling.StepInterpolator;
 import org.apache.commons.math4.util.FastMath;

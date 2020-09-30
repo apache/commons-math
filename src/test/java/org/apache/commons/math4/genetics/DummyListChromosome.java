@@ -19,9 +19,6 @@ package org.apache.commons.math4.genetics;
 import java.util.Arrays;
 import java.util.List;
 
-import org.apache.commons.math4.genetics.AbstractListChromosome;
-import org.apache.commons.math4.genetics.InvalidRepresentationException;
-
 /**
  * Implementation of ListChromosome for testing purposes
  */

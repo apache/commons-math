@@ -18,10 +18,6 @@ package org.apache.commons.math4.stat.descriptive.moment;
 
 import org.apache.commons.math4.stat.descriptive.StorelessUnivariateStatisticAbstractTest;
 import org.apache.commons.math4.stat.descriptive.UnivariateStatistic;
-import org.apache.commons.math4.stat.descriptive.moment.Mean;
-import org.apache.commons.math4.stat.descriptive.moment.SecondMoment;
-import org.apache.commons.math4.stat.descriptive.moment.StandardDeviation;
-import org.apache.commons.math4.stat.descriptive.moment.Variance;
 import org.apache.commons.math4.util.MathArrays;
 import org.junit.Assert;
 import org.junit.Test;

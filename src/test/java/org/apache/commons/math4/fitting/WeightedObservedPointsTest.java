@@ -20,8 +20,6 @@ import java.util.List;
 
 import org.junit.Assert;
 import org.junit.Test;
-import org.apache.commons.math4.fitting.WeightedObservedPoint;
-import org.apache.commons.math4.fitting.WeightedObservedPoints;
 import org.apache.commons.numbers.core.Precision;
 
 /**

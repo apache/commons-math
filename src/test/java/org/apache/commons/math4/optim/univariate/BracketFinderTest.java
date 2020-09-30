@@ -18,7 +18,6 @@ package org.apache.commons.math4.optim.univariate;
 
 import org.apache.commons.math4.analysis.UnivariateFunction;
 import org.apache.commons.math4.optim.nonlinear.scalar.GoalType;
-import org.apache.commons.math4.optim.univariate.BracketFinder;
 import org.junit.Assert;
 import org.junit.Test;
 

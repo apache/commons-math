@@ -19,7 +19,6 @@ package org.apache.commons.math4;
 import org.apache.commons.numbers.arrays.LinearCombination;
 import org.apache.commons.rng.UniformRandomProvider;
 import org.apache.commons.rng.simple.RandomSource;
-import org.apache.commons.math4.RealFieldElement;
 import org.apache.commons.math4.util.FastMath;
 import org.apache.commons.math4.util.MathArrays;
 import org.junit.Assert;

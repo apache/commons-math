@@ -21,7 +21,6 @@ import java.util.List;
 
 import org.apache.commons.math4.exception.MathIllegalArgumentException;
 import org.apache.commons.math4.stat.descriptive.SummaryStatistics;
-import org.apache.commons.math4.stat.inference.OneWayAnova;
 import org.junit.Assert;
 import org.junit.Test;
 

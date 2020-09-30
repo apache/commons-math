@@ -27,7 +27,6 @@ import org.apache.commons.math4.exception.NoBracketingException;
 import org.apache.commons.math4.exception.NumberIsTooSmallException;
 import org.apache.commons.math4.ode.FirstOrderDifferentialEquations;
 import org.apache.commons.math4.ode.FirstOrderIntegrator;
-import org.apache.commons.math4.ode.events.EventHandler;
 import org.apache.commons.math4.ode.nonstiff.DormandPrince853Integrator;
 import org.apache.commons.math4.ode.nonstiff.GraggBulirschStoerIntegrator;
 import org.junit.Test;

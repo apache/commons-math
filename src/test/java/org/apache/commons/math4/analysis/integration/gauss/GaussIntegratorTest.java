@@ -18,7 +18,6 @@ package org.apache.commons.math4.analysis.integration.gauss;
 
 import org.apache.commons.math4.analysis.UnivariateFunction;
 import org.apache.commons.math4.analysis.function.Constant;
-import org.apache.commons.math4.analysis.integration.gauss.GaussIntegrator;
 import org.apache.commons.math4.util.Pair;
 import org.junit.Test;
 import org.junit.Assert;

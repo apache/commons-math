@@ -31,8 +31,6 @@ import org.apache.commons.math4.optim.SimpleValueChecker;
 import org.apache.commons.math4.optim.nonlinear.scalar.GoalType;
 import org.apache.commons.math4.optim.nonlinear.scalar.ObjectiveFunction;
 import org.apache.commons.math4.optim.nonlinear.scalar.ObjectiveFunctionGradient;
-import org.apache.commons.math4.optim.nonlinear.scalar.gradient.NonLinearConjugateGradientOptimizer;
-import org.apache.commons.math4.optim.nonlinear.scalar.gradient.Preconditioner;
 import org.junit.Assert;
 import org.junit.Test;
 

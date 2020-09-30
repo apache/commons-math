@@ -20,7 +20,6 @@ import org.junit.Assert;
 import org.apache.commons.math4.exception.DimensionMismatchException;
 import org.apache.commons.math4.exception.NullArgumentException;
 import org.apache.commons.math4.exception.OutOfRangeException;
-import org.apache.commons.math4.random.HaltonSequenceGenerator;
 import org.junit.Before;
 import org.junit.Test;
 

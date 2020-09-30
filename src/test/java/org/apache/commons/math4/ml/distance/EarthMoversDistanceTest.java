@@ -17,8 +17,6 @@
 package org.apache.commons.math4.ml.distance;
 
 import org.junit.Assert;
-import org.apache.commons.math4.ml.distance.DistanceMeasure;
-import org.apache.commons.math4.ml.distance.EarthMoversDistance;
 import org.junit.Test;
 
 /**

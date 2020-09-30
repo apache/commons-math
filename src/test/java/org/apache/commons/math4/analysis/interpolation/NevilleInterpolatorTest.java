@@ -19,8 +19,6 @@ package org.apache.commons.math4.analysis.interpolation;
 import org.apache.commons.math4.analysis.UnivariateFunction;
 import org.apache.commons.math4.analysis.function.Expm1;
 import org.apache.commons.math4.analysis.function.Sin;
-import org.apache.commons.math4.analysis.interpolation.NevilleInterpolator;
-import org.apache.commons.math4.analysis.interpolation.UnivariateInterpolator;
 import org.apache.commons.math4.exception.NonMonotonicSequenceException;
 import org.apache.commons.math4.util.FastMath;
 import org.junit.Assert;

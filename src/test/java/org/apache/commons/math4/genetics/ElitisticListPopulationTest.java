@@ -21,9 +21,6 @@ import java.util.Collections;
 import java.util.List;
 
 import org.apache.commons.math4.exception.OutOfRangeException;
-import org.apache.commons.math4.genetics.Chromosome;
-import org.apache.commons.math4.genetics.ElitisticListPopulation;
-import org.apache.commons.math4.genetics.Population;
 import org.junit.Assert;
 import org.junit.Test;
 

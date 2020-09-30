@@ -19,7 +19,6 @@ package org.apache.commons.math4.analysis.function;
 
 import org.apache.commons.math4.analysis.UnivariateFunction;
 import org.apache.commons.math4.analysis.differentiation.DerivativeStructure;
-import org.apache.commons.math4.analysis.function.Sigmoid;
 import org.apache.commons.math4.exception.DimensionMismatchException;
 import org.apache.commons.math4.exception.NullArgumentException;
 import org.junit.Assert;

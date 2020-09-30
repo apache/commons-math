@@ -20,7 +20,6 @@ package org.apache.commons.math4.stat.descriptive;
 import java.util.Locale;
 
 import org.apache.commons.math4.TestUtils;
-import org.apache.commons.math4.stat.descriptive.StatisticalSummaryValues;
 import org.junit.Assert;
 import org.junit.Test;
 /**

@@ -16,7 +16,6 @@
  */
 package org.apache.commons.math4.fitting.leastsquares;
 
-import org.apache.commons.math4.fitting.leastsquares.EvaluationRmsChecker;
 import org.apache.commons.math4.fitting.leastsquares.LeastSquaresProblem.Evaluation;
 import org.apache.commons.math4.linear.RealMatrix;
 import org.apache.commons.math4.linear.RealVector;

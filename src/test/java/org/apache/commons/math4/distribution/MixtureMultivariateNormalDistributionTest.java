@@ -18,7 +18,6 @@ package org.apache.commons.math4.distribution;
 
 import java.util.List;
 
-import org.apache.commons.math4.distribution.MultivariateNormalDistribution;
 import org.apache.commons.math4.exception.MathArithmeticException;
 import org.apache.commons.math4.exception.NotPositiveException;
 import org.apache.commons.rng.simple.RandomSource;

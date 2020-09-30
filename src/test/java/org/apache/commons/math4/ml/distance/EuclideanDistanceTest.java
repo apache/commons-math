@@ -18,8 +18,6 @@ package org.apache.commons.math4.ml.distance;
 
 import org.junit.Assert;
 import org.junit.Test;
-import org.apache.commons.math4.ml.distance.DistanceMeasure;
-import org.apache.commons.math4.ml.distance.EuclideanDistance;
 import org.apache.commons.math4.util.FastMath;
 
 /**

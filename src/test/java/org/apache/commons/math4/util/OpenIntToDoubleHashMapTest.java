@@ -24,7 +24,6 @@ import java.util.NoSuchElementException;
 import java.util.Random;
 import java.util.Set;
 
-import org.apache.commons.math4.util.OpenIntToDoubleHashMap;
 import org.apache.commons.numbers.core.Precision;
 import org.junit.Assert;
 import org.junit.Before;

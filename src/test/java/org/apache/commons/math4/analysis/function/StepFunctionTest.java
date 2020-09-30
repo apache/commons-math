@@ -18,7 +18,6 @@
 package org.apache.commons.math4.analysis.function;
 
 import org.apache.commons.math4.analysis.UnivariateFunction;
-import org.apache.commons.math4.analysis.function.StepFunction;
 import org.apache.commons.math4.exception.DimensionMismatchException;
 import org.apache.commons.math4.exception.NoDataException;
 import org.apache.commons.math4.exception.NonMonotonicSequenceException;

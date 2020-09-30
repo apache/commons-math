@@ -17,8 +17,6 @@
 package org.apache.commons.math4.transform;
 
 import org.apache.commons.math4.exception.MathIllegalArgumentException;
-import org.apache.commons.math4.transform.FastHadamardTransformer;
-import org.apache.commons.math4.transform.TransformType;
 import org.apache.commons.numbers.core.Precision;
 import org.junit.Assert;
 import org.junit.Test;

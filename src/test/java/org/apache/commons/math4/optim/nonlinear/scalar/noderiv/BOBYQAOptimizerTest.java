@@ -16,9 +16,6 @@
  */
 package org.apache.commons.math4.optim.nonlinear.scalar.noderiv;
 
-import java.util.Arrays;
-import java.util.Random;
-
 import org.apache.commons.math4.analysis.MultivariateFunction;
 import org.apache.commons.math4.exception.DimensionMismatchException;
 import org.apache.commons.math4.exception.NumberIsTooLargeException;
@@ -30,8 +27,6 @@ import org.apache.commons.math4.optim.PointValuePair;
 import org.apache.commons.math4.optim.SimpleBounds;
 import org.apache.commons.math4.optim.nonlinear.scalar.GoalType;
 import org.apache.commons.math4.optim.nonlinear.scalar.ObjectiveFunction;
-import org.apache.commons.math4.optim.nonlinear.scalar.noderiv.BOBYQAOptimizer;
-import org.apache.commons.math4.util.FastMath;
 import org.junit.Assert;
 import org.junit.Ignore;
 import org.junit.Test;

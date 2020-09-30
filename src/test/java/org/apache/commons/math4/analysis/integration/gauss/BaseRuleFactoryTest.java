@@ -26,7 +26,6 @@ import java.util.concurrent.Future;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.atomic.AtomicInteger;
 
-import org.apache.commons.math4.analysis.integration.gauss.BaseRuleFactory;
 import org.apache.commons.math4.util.Pair;
 import org.junit.Test;
 import org.junit.Assert;

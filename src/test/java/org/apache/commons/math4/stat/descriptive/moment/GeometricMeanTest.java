@@ -18,7 +18,6 @@ package org.apache.commons.math4.stat.descriptive.moment;
 
 import org.apache.commons.math4.stat.descriptive.StorelessUnivariateStatisticAbstractTest;
 import org.apache.commons.math4.stat.descriptive.UnivariateStatistic;
-import org.apache.commons.math4.stat.descriptive.moment.GeometricMean;
 import org.junit.Assert;
 import org.junit.Test;
 

@@ -23,11 +23,6 @@ import org.junit.Assert;
 import org.apache.commons.math4.exception.DimensionMismatchException;
 import org.apache.commons.math4.exception.MathIllegalArgumentException;
 import org.apache.commons.math4.exception.OutOfRangeException;
-import org.apache.commons.math4.genetics.BinaryChromosome;
-import org.apache.commons.math4.genetics.Chromosome;
-import org.apache.commons.math4.genetics.ChromosomePair;
-import org.apache.commons.math4.genetics.CrossoverPolicy;
-import org.apache.commons.math4.genetics.UniformCrossover;
 import org.junit.BeforeClass;
 import org.junit.Test;
 

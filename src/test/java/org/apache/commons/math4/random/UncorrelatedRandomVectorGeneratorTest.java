@@ -19,8 +19,6 @@ package org.apache.commons.math4.random;
 
 import org.apache.commons.math4.linear.RealMatrix;
 import org.apache.commons.rng.simple.RandomSource;
-import org.apache.commons.math4.random.GaussianRandomGenerator;
-import org.apache.commons.math4.random.UncorrelatedRandomVectorGenerator;
 import org.apache.commons.math4.stat.descriptive.moment.VectorialCovariance;
 import org.apache.commons.math4.stat.descriptive.moment.VectorialMean;
 import org.junit.Test;

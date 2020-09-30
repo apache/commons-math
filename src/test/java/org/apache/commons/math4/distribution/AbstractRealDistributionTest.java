@@ -19,7 +19,6 @@ package org.apache.commons.math4.distribution;
 import org.apache.commons.math4.analysis.UnivariateFunction;
 import org.apache.commons.math4.analysis.integration.RombergIntegrator;
 import org.apache.commons.math4.analysis.integration.UnivariateIntegrator;
-import org.apache.commons.math4.distribution.AbstractRealDistribution;
 import org.apache.commons.math4.exception.OutOfRangeException;
 import org.junit.Assert;
 import org.junit.Test;

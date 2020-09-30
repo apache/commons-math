@@ -19,14 +19,6 @@ package org.apache.commons.math4.linear;
 
 import java.util.Random;
 
-import org.apache.commons.math4.linear.Array2DRowRealMatrix;
-import org.apache.commons.math4.linear.BlockRealMatrix;
-import org.apache.commons.math4.linear.DefaultRealMatrixChangingVisitor;
-import org.apache.commons.math4.linear.DefaultRealMatrixPreservingVisitor;
-import org.apache.commons.math4.linear.MatrixUtils;
-import org.apache.commons.math4.linear.RRQRDecomposition;
-import org.apache.commons.math4.linear.RealMatrix;
-import org.apache.commons.math4.linear.SingularMatrixException;
 import org.junit.Assert;
 import org.junit.Test;
 

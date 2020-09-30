@@ -22,8 +22,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.commons.statistics.distribution.ContinuousDistribution;
-import org.apache.commons.math4.distribution.EnumeratedDistribution;
-import org.apache.commons.math4.distribution.EnumeratedRealDistribution;
 import org.apache.commons.math4.exception.DimensionMismatchException;
 import org.apache.commons.math4.exception.MathArithmeticException;
 import org.apache.commons.math4.exception.NotANumberException;

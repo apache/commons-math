@@ -21,11 +21,6 @@ import java.util.List;
 import org.apache.commons.math4.exception.DimensionMismatchException;
 import org.apache.commons.math4.exception.MathIllegalArgumentException;
 import org.apache.commons.math4.exception.NumberIsTooLargeException;
-import org.apache.commons.math4.genetics.BinaryChromosome;
-import org.apache.commons.math4.genetics.Chromosome;
-import org.apache.commons.math4.genetics.ChromosomePair;
-import org.apache.commons.math4.genetics.CrossoverPolicy;
-import org.apache.commons.math4.genetics.NPointCrossover;
 import org.junit.Assert;
 import org.junit.Test;
 

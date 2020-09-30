@@ -21,8 +21,6 @@ import org.apache.commons.math4.analysis.UnivariateFunction;
 import org.apache.commons.math4.analysis.function.Identity;
 import org.apache.commons.math4.analysis.function.Inverse;
 import org.apache.commons.math4.analysis.function.Sin;
-import org.apache.commons.math4.analysis.integration.SimpsonIntegrator;
-import org.apache.commons.math4.analysis.integration.UnivariateIntegrator;
 import org.apache.commons.math4.exception.NumberIsTooLargeException;
 import org.apache.commons.math4.exception.NumberIsTooSmallException;
 import org.apache.commons.math4.util.FastMath;

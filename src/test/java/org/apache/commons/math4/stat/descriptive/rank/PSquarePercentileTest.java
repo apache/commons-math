@@ -36,8 +36,6 @@ import org.apache.commons.rng.simple.RandomSource;
 import org.apache.commons.math4.stat.descriptive.StorelessUnivariateStatistic;
 import org.apache.commons.math4.stat.descriptive.StorelessUnivariateStatisticAbstractTest;
 import org.apache.commons.math4.stat.descriptive.UnivariateStatistic;
-import org.apache.commons.math4.stat.descriptive.rank.PSquarePercentile;
-import org.apache.commons.math4.stat.descriptive.rank.Percentile;
 import org.apache.commons.math4.stat.descriptive.rank.PSquarePercentile.PSquareMarkers;
 import org.apache.commons.math4.util.FastMath;
 import org.junit.Assert;

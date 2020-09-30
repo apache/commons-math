@@ -16,7 +16,6 @@
  */
 package org.apache.commons.math4.distribution;
 
-import org.apache.commons.math4.distribution.AbstractIntegerDistribution;
 import org.junit.Assert;
 import org.junit.Test;
 

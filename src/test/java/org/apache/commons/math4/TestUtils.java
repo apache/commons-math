@@ -26,7 +26,6 @@ import java.text.DecimalFormat;
 import org.apache.commons.numbers.complex.Complex;
 import org.apache.commons.numbers.core.Precision;
 import org.apache.commons.statistics.distribution.ContinuousDistribution;
-import org.apache.commons.math4.FieldElement;
 import org.apache.commons.math4.complex.ComplexFormat;
 import org.apache.commons.math4.linear.FieldMatrix;
 import org.apache.commons.math4.linear.RealMatrix;
