@@ -17,9 +17,6 @@ import java.util.Locale;
 
 import org.apache.commons.math4.TestUtils;
 import org.apache.commons.math4.exception.MathIllegalArgumentException;
-import org.apache.commons.math4.stat.descriptive.DescriptiveStatistics;
-import org.apache.commons.math4.stat.descriptive.SummaryStatistics;
-import org.apache.commons.math4.stat.descriptive.UnivariateStatistic;
 import org.apache.commons.math4.stat.descriptive.moment.GeometricMean;
 import org.apache.commons.math4.stat.descriptive.moment.Mean;
 import org.apache.commons.math4.stat.descriptive.moment.Variance;

@@ -17,8 +17,6 @@
 package org.apache.commons.math4.stat.interval;
 
 import org.apache.commons.math4.exception.MathIllegalArgumentException;
-import org.apache.commons.math4.stat.interval.BinomialConfidenceInterval;
-import org.apache.commons.math4.stat.interval.ConfidenceInterval;
 import org.junit.Before;
 import org.junit.Test;
 

@@ -31,7 +31,6 @@ import org.apache.commons.math4.exception.NoBracketingException;
 import org.apache.commons.math4.exception.NumberIsTooSmallException;
 import org.apache.commons.math4.ode.ContinuousOutputModel;
 import org.apache.commons.math4.ode.TestProblem3;
-import org.apache.commons.math4.ode.nonstiff.DormandPrince54Integrator;
 import org.apache.commons.math4.ode.sampling.StepHandler;
 import org.apache.commons.math4.ode.sampling.StepInterpolator;
 import org.apache.commons.math4.ode.sampling.StepInterpolatorTestUtils;

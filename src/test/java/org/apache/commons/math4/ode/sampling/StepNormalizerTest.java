@@ -24,8 +24,6 @@ import org.apache.commons.math4.exception.NumberIsTooSmallException;
 import org.apache.commons.math4.ode.FirstOrderIntegrator;
 import org.apache.commons.math4.ode.TestProblem3;
 import org.apache.commons.math4.ode.nonstiff.DormandPrince54Integrator;
-import org.apache.commons.math4.ode.sampling.FixedStepHandler;
-import org.apache.commons.math4.ode.sampling.StepNormalizer;
 import org.apache.commons.math4.util.FastMath;
 import org.junit.After;
 import org.junit.Assert;

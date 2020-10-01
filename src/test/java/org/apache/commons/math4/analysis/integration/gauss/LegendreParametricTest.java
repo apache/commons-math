@@ -19,8 +19,6 @@ package org.apache.commons.math4.analysis.integration.gauss;
 import java.util.ArrayList;
 import java.util.Collection;
 
-import org.apache.commons.math4.analysis.integration.gauss.GaussIntegratorFactory;
-import org.apache.commons.math4.analysis.integration.gauss.LegendreRuleFactory;
 import org.junit.runner.RunWith;
 import org.junit.runners.Parameterized;
 import org.junit.runners.Parameterized.Parameters;

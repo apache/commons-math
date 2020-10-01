@@ -27,11 +27,6 @@ import org.apache.commons.math4.ml.neuralnet.Neuron;
 import org.apache.commons.math4.ml.neuralnet.OffsetFeatureInitializer;
 import org.apache.commons.math4.ml.neuralnet.UpdateAction;
 import org.apache.commons.math4.ml.neuralnet.oned.NeuronString;
-import org.apache.commons.math4.ml.neuralnet.sofm.KohonenUpdateAction;
-import org.apache.commons.math4.ml.neuralnet.sofm.LearningFactorFunction;
-import org.apache.commons.math4.ml.neuralnet.sofm.LearningFactorFunctionFactory;
-import org.apache.commons.math4.ml.neuralnet.sofm.NeighbourhoodSizeFunction;
-import org.apache.commons.math4.ml.neuralnet.sofm.NeighbourhoodSizeFunctionFactory;
 import org.junit.Test;
 import org.junit.Assert;
 

@@ -33,7 +33,6 @@ import org.apache.commons.math4.ode.TestProblem6;
 import org.apache.commons.math4.ode.TestProblemAbstract;
 import org.apache.commons.math4.ode.TestProblemHandler;
 import org.apache.commons.math4.ode.events.EventHandler;
-import org.apache.commons.math4.ode.nonstiff.ThreeEighthesIntegrator;
 import org.apache.commons.math4.ode.sampling.StepHandler;
 import org.apache.commons.math4.ode.sampling.StepInterpolator;
 import org.apache.commons.math4.util.FastMath;

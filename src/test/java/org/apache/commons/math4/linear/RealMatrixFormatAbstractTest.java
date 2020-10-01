@@ -25,9 +25,6 @@ import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.Assert;
 import org.apache.commons.math4.exception.MathParseException;
-import org.apache.commons.math4.linear.MatrixUtils;
-import org.apache.commons.math4.linear.RealMatrix;
-import org.apache.commons.math4.linear.RealMatrixFormat;
 
 public abstract class RealMatrixFormatAbstractTest {
 

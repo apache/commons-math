@@ -18,7 +18,6 @@ package org.apache.commons.math4.stat.inference;
 
 import org.apache.commons.math4.exception.NoDataException;
 import org.apache.commons.math4.exception.NullArgumentException;
-import org.apache.commons.math4.stat.inference.MannWhitneyUTest;
 import org.junit.Assert;
 import org.junit.Test;
 

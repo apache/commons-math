@@ -16,7 +16,6 @@
  */
 package org.apache.commons.math4.exception;
 
-import org.apache.commons.math4.exception.MaxCountExceededException;
 import org.junit.Assert;
 import org.junit.Test;
 

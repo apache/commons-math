@@ -33,8 +33,6 @@ import org.apache.commons.statistics.distribution.ContinuousDistribution;
 import org.apache.commons.statistics.distribution.NormalDistribution;
 import org.apache.commons.math4.stat.correlation.Covariance;
 import org.apache.commons.math4.stat.descriptive.DescriptiveStatistics;
-import org.apache.commons.math4.stat.regression.GLSMultipleLinearRegression;
-import org.apache.commons.math4.stat.regression.OLSMultipleLinearRegression;
 
 public class GLSMultipleLinearRegressionTest extends MultipleLinearRegressionAbstractTest {
 

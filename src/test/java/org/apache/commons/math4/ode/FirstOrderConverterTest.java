@@ -21,8 +21,6 @@ import org.apache.commons.math4.exception.DimensionMismatchException;
 import org.apache.commons.math4.exception.MaxCountExceededException;
 import org.apache.commons.math4.exception.NoBracketingException;
 import org.apache.commons.math4.exception.NumberIsTooSmallException;
-import org.apache.commons.math4.ode.FirstOrderConverter;
-import org.apache.commons.math4.ode.SecondOrderDifferentialEquations;
 import org.apache.commons.math4.ode.nonstiff.ClassicalRungeKuttaIntegrator;
 import org.apache.commons.math4.util.FastMath;
 import org.junit.Assert;

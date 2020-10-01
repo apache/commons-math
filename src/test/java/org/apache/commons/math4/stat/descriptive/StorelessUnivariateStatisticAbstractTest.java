@@ -17,8 +17,6 @@
 package org.apache.commons.math4.stat.descriptive;
 
 import org.apache.commons.math4.TestUtils;
-import org.apache.commons.math4.stat.descriptive.StorelessUnivariateStatistic;
-import org.apache.commons.math4.stat.descriptive.UnivariateStatistic;
 import org.apache.commons.math4.stat.descriptive.moment.SecondMoment;
 import org.apache.commons.math4.util.FastMath;
 import org.junit.Assert;

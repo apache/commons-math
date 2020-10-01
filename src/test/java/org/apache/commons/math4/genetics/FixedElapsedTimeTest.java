@@ -19,9 +19,6 @@ package org.apache.commons.math4.genetics;
 import java.util.Iterator;
 import java.util.concurrent.TimeUnit;
 
-import org.apache.commons.math4.genetics.Chromosome;
-import org.apache.commons.math4.genetics.FixedElapsedTime;
-import org.apache.commons.math4.genetics.Population;
 import org.apache.commons.math4.util.FastMath;
 import org.junit.Assert;
 import org.junit.Test;

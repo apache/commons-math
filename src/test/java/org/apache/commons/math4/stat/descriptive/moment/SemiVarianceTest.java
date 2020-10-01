@@ -20,7 +20,6 @@ package org.apache.commons.math4.stat.descriptive.moment;
 import org.apache.commons.math4.TestUtils;
 import org.apache.commons.math4.exception.NullArgumentException;
 import org.apache.commons.math4.stat.StatUtils;
-import org.apache.commons.math4.stat.descriptive.moment.SemiVariance;
 import org.junit.Assert;
 import org.junit.Test;
 

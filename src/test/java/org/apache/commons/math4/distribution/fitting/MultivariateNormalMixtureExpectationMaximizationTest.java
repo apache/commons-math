@@ -22,7 +22,6 @@ import java.util.List;
 
 import org.apache.commons.math4.distribution.MixtureMultivariateNormalDistribution;
 import org.apache.commons.math4.distribution.MultivariateNormalDistribution;
-import org.apache.commons.math4.distribution.fitting.MultivariateNormalMixtureExpectationMaximization;
 import org.apache.commons.math4.exception.ConvergenceException;
 import org.apache.commons.math4.exception.DimensionMismatchException;
 import org.apache.commons.math4.exception.NotStrictlyPositiveException;

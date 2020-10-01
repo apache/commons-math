@@ -25,7 +25,6 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 
 import org.apache.commons.math4.exception.MaxCountExceededException;
-import org.apache.commons.math4.ode.sampling.AbstractStepInterpolator;
 import org.apache.commons.math4.util.FastMath;
 import org.junit.Assert;
 import org.junit.Test;

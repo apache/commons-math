@@ -17,8 +17,6 @@
 
 package org.apache.commons.math4.ml.neuralnet;
 
-import org.apache.commons.math4.ml.neuralnet.FeatureInitializer;
-
 
 /**
  * Wraps a given initializer.

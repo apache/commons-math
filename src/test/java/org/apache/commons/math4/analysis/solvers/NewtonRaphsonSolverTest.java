@@ -19,7 +19,6 @@ package org.apache.commons.math4.analysis.solvers;
 import org.apache.commons.math4.analysis.QuinticFunction;
 import org.apache.commons.math4.analysis.differentiation.UnivariateDifferentiableFunction;
 import org.apache.commons.math4.analysis.function.Sin;
-import org.apache.commons.math4.analysis.solvers.NewtonRaphsonSolver;
 import org.apache.commons.math4.util.FastMath;
 import org.junit.Assert;
 import org.junit.Test;

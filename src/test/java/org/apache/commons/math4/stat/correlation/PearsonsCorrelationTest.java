@@ -21,8 +21,6 @@ import org.apache.commons.statistics.distribution.TDistribution;
 import org.apache.commons.math4.exception.MathIllegalArgumentException;
 import org.apache.commons.math4.linear.BlockRealMatrix;
 import org.apache.commons.math4.linear.RealMatrix;
-import org.apache.commons.math4.stat.correlation.Covariance;
-import org.apache.commons.math4.stat.correlation.PearsonsCorrelation;
 import org.apache.commons.math4.util.FastMath;
 import org.junit.Assert;
 import org.junit.Test;

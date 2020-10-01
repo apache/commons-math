@@ -17,7 +17,6 @@
 package org.apache.commons.math4.linear;
 
 import org.apache.commons.math4.exception.NumberIsTooLargeException;
-import org.apache.commons.math4.linear.OpenMapRealMatrix;
 import org.junit.Assert;
 import org.junit.Test;
 

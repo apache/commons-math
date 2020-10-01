@@ -19,7 +19,6 @@ package org.apache.commons.math4.ml.neuralnet.sofm.util;
 
 import org.apache.commons.math4.exception.NotStrictlyPositiveException;
 import org.apache.commons.math4.exception.NumberIsTooLargeException;
-import org.apache.commons.math4.ml.neuralnet.sofm.util.ExponentialDecayFunction;
 import org.junit.Test;
 import org.junit.Assert;
 

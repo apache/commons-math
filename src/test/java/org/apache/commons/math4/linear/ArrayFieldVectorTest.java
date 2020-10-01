@@ -29,11 +29,6 @@ import org.apache.commons.math4.exception.OutOfRangeException;
 import org.apache.commons.math4.dfp.Dfp;
 import org.apache.commons.math4.util.BigReal;
 import org.apache.commons.math4.util.BigRealField;
-import org.apache.commons.math4.linear.ArrayFieldVector;
-import org.apache.commons.math4.linear.FieldMatrix;
-import org.apache.commons.math4.linear.FieldVector;
-import org.apache.commons.math4.linear.FieldVectorChangingVisitor;
-import org.apache.commons.math4.linear.FieldVectorPreservingVisitor;
 import org.junit.Assert;
 import org.junit.Test;
 

@@ -16,12 +16,6 @@
  */
 package org.apache.commons.math4.stat.interval;
 
-import org.apache.commons.math4.stat.interval.AgrestiCoullInterval;
-import org.apache.commons.math4.stat.interval.ClopperPearsonInterval;
-import org.apache.commons.math4.stat.interval.ConfidenceInterval;
-import org.apache.commons.math4.stat.interval.IntervalUtils;
-import org.apache.commons.math4.stat.interval.NormalApproximationInterval;
-import org.apache.commons.math4.stat.interval.WilsonScoreInterval;
 import org.junit.Assert;
 import org.junit.Test;
 

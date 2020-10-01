@@ -17,8 +17,6 @@
 package org.apache.commons.math4.optim.univariate;
 
 import org.apache.commons.math4.exception.NotStrictlyPositiveException;
-import org.apache.commons.math4.optim.univariate.SimpleUnivariateValueChecker;
-import org.apache.commons.math4.optim.univariate.UnivariatePointValuePair;
 import org.junit.Test;
 import org.junit.Assert;
 

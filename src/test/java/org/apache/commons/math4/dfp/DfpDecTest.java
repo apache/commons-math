@@ -17,9 +17,6 @@
 
 package org.apache.commons.math4.dfp;
 
-import org.apache.commons.math4.dfp.Dfp;
-import org.apache.commons.math4.dfp.DfpDec;
-import org.apache.commons.math4.dfp.DfpField;
 import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;

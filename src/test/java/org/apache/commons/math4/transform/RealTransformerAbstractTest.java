@@ -22,8 +22,6 @@ import org.apache.commons.math4.analysis.UnivariateFunction;
 import org.apache.commons.math4.exception.MathIllegalArgumentException;
 import org.apache.commons.math4.exception.NotStrictlyPositiveException;
 import org.apache.commons.math4.exception.NumberIsTooLargeException;
-import org.apache.commons.math4.transform.RealTransformer;
-import org.apache.commons.math4.transform.TransformType;
 import org.apache.commons.math4.util.FastMath;
 import org.junit.Assert;
 import org.junit.Test;

@@ -16,7 +16,6 @@
  */
 package org.apache.commons.math4.analysis.interpolation;
 
-import org.apache.commons.math4.analysis.interpolation.LoessInterpolator;
 import org.apache.commons.math4.exception.DimensionMismatchException;
 import org.apache.commons.math4.exception.NoDataException;
 import org.apache.commons.math4.exception.NonMonotonicSequenceException;

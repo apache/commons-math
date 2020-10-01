@@ -37,8 +37,6 @@ import org.apache.commons.math4.analysis.function.Sinh;
 import org.apache.commons.math4.analysis.function.Sqrt;
 import org.apache.commons.math4.analysis.function.Tan;
 import org.apache.commons.math4.analysis.function.Tanh;
-import org.apache.commons.math4.linear.OpenMapRealVector;
-import org.apache.commons.math4.linear.RealVector;
 import org.junit.Assert;
 import org.junit.Test;
 

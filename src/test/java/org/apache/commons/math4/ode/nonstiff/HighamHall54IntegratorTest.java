@@ -31,7 +31,6 @@ import org.apache.commons.math4.ode.TestProblem4;
 import org.apache.commons.math4.ode.TestProblem5;
 import org.apache.commons.math4.ode.TestProblemHandler;
 import org.apache.commons.math4.ode.events.EventHandler;
-import org.apache.commons.math4.ode.nonstiff.HighamHall54Integrator;
 import org.apache.commons.math4.util.FastMath;
 import org.junit.Assert;
 import org.junit.Test;

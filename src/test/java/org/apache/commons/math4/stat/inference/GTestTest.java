@@ -21,7 +21,6 @@ import org.apache.commons.math4.exception.NotPositiveException;
 import org.apache.commons.math4.exception.NotStrictlyPositiveException;
 import org.apache.commons.math4.exception.OutOfRangeException;
 import org.apache.commons.math4.exception.ZeroException;
-import org.apache.commons.math4.stat.inference.GTest;
 import org.apache.commons.math4.util.FastMath;
 import org.junit.Assert;
 import org.junit.Test;

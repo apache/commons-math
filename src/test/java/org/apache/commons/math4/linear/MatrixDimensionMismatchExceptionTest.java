@@ -16,7 +16,6 @@
  */
 package org.apache.commons.math4.linear;
 
-import org.apache.commons.math4.linear.MatrixDimensionMismatchException;
 import org.junit.Assert;
 import org.junit.Test;
 

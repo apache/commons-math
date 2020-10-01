@@ -28,8 +28,6 @@ import org.apache.commons.math4.ode.FieldODEStateAndDerivative;
 import org.apache.commons.math4.ode.FirstOrderIntegrator;
 import org.apache.commons.math4.ode.TestFieldProblemAbstract;
 import org.apache.commons.math4.ode.TestProblemAbstract;
-import org.apache.commons.math4.ode.sampling.StepHandler;
-import org.apache.commons.math4.ode.sampling.StepInterpolator;
 import org.apache.commons.math4.util.FastMath;
 import org.junit.Assert;
 

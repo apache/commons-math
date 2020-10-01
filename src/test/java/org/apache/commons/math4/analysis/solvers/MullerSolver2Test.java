@@ -20,8 +20,6 @@ import org.apache.commons.math4.analysis.QuinticFunction;
 import org.apache.commons.math4.analysis.UnivariateFunction;
 import org.apache.commons.math4.analysis.function.Expm1;
 import org.apache.commons.math4.analysis.function.Sin;
-import org.apache.commons.math4.analysis.solvers.MullerSolver2;
-import org.apache.commons.math4.analysis.solvers.UnivariateSolver;
 import org.apache.commons.math4.exception.NoBracketingException;
 import org.apache.commons.math4.exception.NumberIsTooLargeException;
 import org.apache.commons.math4.util.FastMath;

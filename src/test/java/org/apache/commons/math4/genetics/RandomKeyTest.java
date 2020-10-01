@@ -22,7 +22,6 @@ import java.util.Comparator;
 import java.util.List;
 
 import org.apache.commons.math4.exception.MathIllegalArgumentException;
-import org.apache.commons.math4.genetics.RandomKey;
 import org.junit.Assert;
 import org.junit.Test;
 

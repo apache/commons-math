@@ -20,7 +20,6 @@ package org.apache.commons.math4.analysis.solvers;
 import org.apache.commons.math4.analysis.QuinticFunction;
 import org.apache.commons.math4.analysis.UnivariateFunction;
 import org.apache.commons.math4.analysis.function.Sin;
-import org.apache.commons.math4.analysis.solvers.UnivariateSolverUtils;
 import org.apache.commons.math4.exception.MathIllegalArgumentException;
 import org.apache.commons.math4.exception.NoBracketingException;
 import org.apache.commons.math4.exception.NullArgumentException;

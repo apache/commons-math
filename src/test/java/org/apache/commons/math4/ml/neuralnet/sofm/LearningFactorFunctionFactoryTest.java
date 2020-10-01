@@ -20,8 +20,6 @@ package org.apache.commons.math4.ml.neuralnet.sofm;
 import org.apache.commons.math4.exception.NotStrictlyPositiveException;
 import org.apache.commons.math4.exception.NumberIsTooLargeException;
 import org.apache.commons.math4.exception.OutOfRangeException;
-import org.apache.commons.math4.ml.neuralnet.sofm.LearningFactorFunction;
-import org.apache.commons.math4.ml.neuralnet.sofm.LearningFactorFunctionFactory;
 import org.junit.Test;
 import org.junit.Assert;
 

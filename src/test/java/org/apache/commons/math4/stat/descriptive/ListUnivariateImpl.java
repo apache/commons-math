@@ -21,8 +21,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.commons.math4.exception.MathIllegalArgumentException;
-import org.apache.commons.math4.stat.descriptive.DescriptiveStatistics;
-import org.apache.commons.math4.stat.descriptive.UnivariateStatistic;
 import org.apache.commons.math4.util.DefaultTransformer;
 import org.apache.commons.math4.util.FastMath;
 import org.apache.commons.math4.util.NumberTransformer;

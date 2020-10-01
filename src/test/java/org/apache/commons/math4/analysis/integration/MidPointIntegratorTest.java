@@ -19,8 +19,6 @@ package org.apache.commons.math4.analysis.integration;
 import org.apache.commons.math4.analysis.QuinticFunction;
 import org.apache.commons.math4.analysis.UnivariateFunction;
 import org.apache.commons.math4.analysis.function.Sin;
-import org.apache.commons.math4.analysis.integration.MidPointIntegrator;
-import org.apache.commons.math4.analysis.integration.UnivariateIntegrator;
 import org.apache.commons.math4.exception.NumberIsTooLargeException;
 import org.apache.commons.math4.exception.NumberIsTooSmallException;
 import org.apache.commons.math4.util.FastMath;

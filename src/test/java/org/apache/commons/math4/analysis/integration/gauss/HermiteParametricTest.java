@@ -22,8 +22,6 @@ import java.util.Collection;
 import org.junit.runner.RunWith;
 import org.junit.runners.Parameterized;
 import org.junit.runners.Parameterized.Parameters;
-import org.apache.commons.math4.analysis.integration.gauss.GaussIntegratorFactory;
-import org.apache.commons.math4.analysis.integration.gauss.HermiteRuleFactory;
 import org.apache.commons.math4.util.FastMath;
 
 /**

@@ -20,7 +20,6 @@ package org.apache.commons.math4.stat;
 import org.apache.commons.math4.TestUtils;
 import org.apache.commons.math4.exception.MathIllegalArgumentException;
 import org.apache.commons.math4.exception.NullArgumentException;
-import org.apache.commons.math4.stat.StatUtils;
 import org.apache.commons.math4.stat.descriptive.DescriptiveStatistics;
 import org.apache.commons.math4.util.FastMath;
 import org.apache.commons.numbers.core.Precision;

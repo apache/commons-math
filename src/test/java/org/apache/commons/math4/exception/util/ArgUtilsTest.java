@@ -19,7 +19,6 @@ package org.apache.commons.math4.exception.util;
 import java.util.List;
 import java.util.ArrayList;
 
-import org.apache.commons.math4.exception.util.ArgUtils;
 import org.junit.Assert;
 import org.junit.Test;
 

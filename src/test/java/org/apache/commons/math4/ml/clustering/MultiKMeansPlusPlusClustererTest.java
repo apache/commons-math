@@ -21,11 +21,6 @@ package org.apache.commons.math4.ml.clustering;
 import java.util.Arrays;
 import java.util.List;
 
-import org.apache.commons.math4.ml.clustering.CentroidCluster;
-import org.apache.commons.math4.ml.clustering.Clusterable;
-import org.apache.commons.math4.ml.clustering.DoublePoint;
-import org.apache.commons.math4.ml.clustering.KMeansPlusPlusClusterer;
-import org.apache.commons.math4.ml.clustering.MultiKMeansPlusPlusClusterer;
 import org.junit.Assert;
 import org.junit.Test;
 

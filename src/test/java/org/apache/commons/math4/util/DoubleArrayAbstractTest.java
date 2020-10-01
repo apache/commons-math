@@ -17,7 +17,6 @@
 package org.apache.commons.math4.util;
 
 import org.apache.commons.math4.stat.StatUtils;
-import org.apache.commons.math4.util.DoubleArray;
 import org.junit.Assert;
 import org.junit.Test;
 

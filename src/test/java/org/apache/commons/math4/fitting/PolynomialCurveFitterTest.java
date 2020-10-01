@@ -23,8 +23,6 @@ import org.apache.commons.math4.analysis.polynomials.PolynomialFunction;
 import org.apache.commons.statistics.distribution.ContinuousDistribution;
 import org.apache.commons.statistics.distribution.UniformContinuousDistribution;
 import org.apache.commons.math4.exception.ConvergenceException;
-import org.apache.commons.math4.fitting.PolynomialCurveFitter;
-import org.apache.commons.math4.fitting.WeightedObservedPoints;
 import org.apache.commons.math4.util.FastMath;
 import org.apache.commons.rng.simple.RandomSource;
 import org.junit.Assert;

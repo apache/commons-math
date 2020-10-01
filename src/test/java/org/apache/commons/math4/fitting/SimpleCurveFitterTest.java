@@ -23,8 +23,6 @@ import org.apache.commons.math4.analysis.ParametricUnivariateFunction;
 import org.apache.commons.math4.analysis.polynomials.PolynomialFunction;
 import org.apache.commons.statistics.distribution.ContinuousDistribution;
 import org.apache.commons.statistics.distribution.UniformContinuousDistribution;
-import org.apache.commons.math4.fitting.SimpleCurveFitter;
-import org.apache.commons.math4.fitting.WeightedObservedPoints;
 import org.apache.commons.rng.simple.RandomSource;
 import org.junit.Test;
 

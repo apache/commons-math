@@ -18,8 +18,6 @@
 package org.apache.commons.math4.analysis.solvers;
 
 import org.apache.commons.math4.analysis.UnivariateFunction;
-import org.apache.commons.math4.analysis.solvers.RegulaFalsiSolver;
-import org.apache.commons.math4.analysis.solvers.UnivariateSolver;
 import org.apache.commons.math4.exception.ConvergenceException;
 import org.apache.commons.math4.util.FastMath;
 import org.junit.Test;

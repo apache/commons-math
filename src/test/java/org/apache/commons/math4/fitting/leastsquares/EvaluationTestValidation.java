@@ -13,8 +13,6 @@
  */
 package org.apache.commons.math4.fitting.leastsquares;
 
-import org.apache.commons.math4.fitting.leastsquares.LeastSquaresBuilder;
-import org.apache.commons.math4.fitting.leastsquares.LeastSquaresProblem;
 import org.apache.commons.math4.linear.ArrayRealVector;
 import org.apache.commons.math4.linear.DiagonalMatrix;
 import org.apache.commons.math4.linear.RealVector;

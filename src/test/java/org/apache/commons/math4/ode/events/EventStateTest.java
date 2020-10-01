@@ -26,8 +26,6 @@ import org.apache.commons.math4.exception.NumberIsTooSmallException;
 import org.apache.commons.math4.ode.ExpandableStatefulODE;
 import org.apache.commons.math4.ode.FirstOrderDifferentialEquations;
 import org.apache.commons.math4.ode.SecondaryEquations;
-import org.apache.commons.math4.ode.events.EventHandler;
-import org.apache.commons.math4.ode.events.EventState;
 import org.apache.commons.math4.ode.nonstiff.DormandPrince853Integrator;
 import org.apache.commons.math4.ode.nonstiff.LutherIntegrator;
 import org.apache.commons.math4.ode.sampling.AbstractStepInterpolator;

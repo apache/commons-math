@@ -24,7 +24,6 @@ import org.apache.commons.math4.exception.MathArithmeticException;
 import org.apache.commons.math4.exception.NotPositiveException;
 import org.apache.commons.math4.exception.NumberIsTooLargeException;
 import org.apache.commons.numbers.combinatorics.BinomialCoefficient;
-import org.apache.commons.math4.util.CombinatoricsUtils;
 import org.junit.Assert;
 import org.junit.Test;
 

@@ -20,7 +20,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.commons.math4.TestUtils;
-import org.apache.commons.math4.stat.descriptive.DescriptiveStatistics;
 import org.apache.commons.math4.util.FastMath;
 import org.junit.Assert;
 import org.junit.Test;

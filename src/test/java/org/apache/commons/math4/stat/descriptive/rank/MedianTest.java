@@ -29,7 +29,6 @@ import static org.apache.commons.math4.stat.descriptive.rank.Percentile.Estimati
 
 import org.apache.commons.math4.stat.descriptive.UnivariateStatistic;
 import org.apache.commons.math4.stat.descriptive.UnivariateStatisticAbstractTest;
-import org.apache.commons.math4.stat.descriptive.rank.Median;
 import org.apache.commons.math4.stat.descriptive.rank.Percentile.EstimationType;
 import org.apache.commons.math4.stat.ranking.NaNStrategy;
 import org.junit.Assert;

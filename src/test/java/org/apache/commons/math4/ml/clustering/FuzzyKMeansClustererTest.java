@@ -22,10 +22,6 @@ import java.util.List;
 
 import org.apache.commons.math4.exception.MathIllegalArgumentException;
 import org.apache.commons.math4.exception.NullArgumentException;
-import org.apache.commons.math4.ml.clustering.CentroidCluster;
-import org.apache.commons.math4.ml.clustering.Cluster;
-import org.apache.commons.math4.ml.clustering.DoublePoint;
-import org.apache.commons.math4.ml.clustering.FuzzyKMeansClusterer;
 import org.apache.commons.math4.ml.distance.CanberraDistance;
 import org.apache.commons.math4.ml.distance.DistanceMeasure;
 import org.apache.commons.rng.simple.RandomSource;

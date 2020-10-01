@@ -20,9 +20,6 @@ import org.apache.commons.math4.analysis.UnivariateFunction;
 import org.apache.commons.math4.analysis.function.Cos;
 import org.apache.commons.math4.analysis.function.Inverse;
 import org.apache.commons.math4.analysis.function.Log;
-import org.apache.commons.math4.analysis.integration.gauss.GaussIntegrator;
-import org.apache.commons.math4.analysis.integration.gauss.GaussIntegratorFactory;
-import org.apache.commons.math4.analysis.integration.gauss.LegendreHighPrecisionRuleFactory;
 import org.junit.Test;
 import org.junit.Assert;
 

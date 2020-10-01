@@ -30,8 +30,6 @@ import org.apache.commons.math4.ode.TestProblem5;
 import org.apache.commons.math4.ode.TestProblemAbstract;
 import org.apache.commons.math4.ode.TestProblemHandler;
 import org.apache.commons.math4.ode.events.EventHandler;
-import org.apache.commons.math4.ode.nonstiff.AdaptiveStepsizeIntegrator;
-import org.apache.commons.math4.ode.nonstiff.GraggBulirschStoerIntegrator;
 import org.apache.commons.math4.ode.sampling.StepHandler;
 import org.apache.commons.math4.ode.sampling.StepInterpolator;
 import org.apache.commons.math4.util.FastMath;

@@ -17,9 +17,6 @@
 
 package org.apache.commons.math4.analysis.solvers;
 
-import org.apache.commons.math4.analysis.solvers.PegasusSolver;
-import org.apache.commons.math4.analysis.solvers.UnivariateSolver;
-
 /**
  * Test case for {@link PegasusSolver Pegasus} solver.
  *

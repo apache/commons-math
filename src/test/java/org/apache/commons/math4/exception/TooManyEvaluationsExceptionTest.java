@@ -18,7 +18,6 @@ package org.apache.commons.math4.exception;
 
 import java.text.MessageFormat;
 
-import org.apache.commons.math4.exception.TooManyEvaluationsException;
 import org.junit.Assert;
 import org.junit.Test;
 

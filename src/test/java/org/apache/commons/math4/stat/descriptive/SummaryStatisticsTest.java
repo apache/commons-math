@@ -19,8 +19,6 @@ package org.apache.commons.math4.stat.descriptive;
 
 import org.apache.commons.math4.TestUtils;
 import org.apache.commons.math4.exception.MathIllegalStateException;
-import org.apache.commons.math4.stat.descriptive.StatisticalSummary;
-import org.apache.commons.math4.stat.descriptive.SummaryStatistics;
 import org.apache.commons.math4.stat.descriptive.moment.GeometricMean;
 import org.apache.commons.math4.stat.descriptive.moment.Mean;
 import org.apache.commons.math4.stat.descriptive.moment.Variance;

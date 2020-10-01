@@ -23,10 +23,6 @@ import java.util.Iterator;
 import org.apache.commons.math4.exception.NotPositiveException;
 import org.apache.commons.math4.exception.NumberIsTooLargeException;
 import org.apache.commons.math4.exception.NumberIsTooSmallException;
-import org.apache.commons.math4.genetics.BinaryChromosome;
-import org.apache.commons.math4.genetics.Chromosome;
-import org.apache.commons.math4.genetics.ListPopulation;
-import org.apache.commons.math4.genetics.Population;
 import org.junit.Assert;
 import org.junit.Test;
 

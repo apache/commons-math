@@ -13,9 +13,6 @@
  */
 package org.apache.commons.math4.stat.descriptive;
 
-import org.apache.commons.math4.stat.descriptive.DescriptiveStatistics;
-import org.apache.commons.math4.stat.descriptive.SynchronizedDescriptiveStatistics;
-
 
 /**
  * Test cases for the {@link SynchronizedDescriptiveStatisticsTest} class.

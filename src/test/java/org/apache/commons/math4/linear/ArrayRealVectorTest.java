@@ -17,8 +17,6 @@
 package org.apache.commons.math4.linear;
 
 import org.apache.commons.math4.exception.MathIllegalArgumentException;
-import org.apache.commons.math4.linear.ArrayRealVector;
-import org.apache.commons.math4.linear.RealVector;
 import org.junit.Assert;
 import org.junit.Test;
 

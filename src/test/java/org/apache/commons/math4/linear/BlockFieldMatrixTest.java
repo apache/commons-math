@@ -31,15 +31,6 @@ import org.apache.commons.math4.exception.OutOfRangeException;
 import org.apache.commons.math4.dfp.Dfp;
 import org.apache.commons.math4.util.BigReal;
 import org.apache.commons.math4.util.BigRealField;
-import org.apache.commons.math4.linear.ArrayFieldVector;
-import org.apache.commons.math4.linear.BlockFieldMatrix;
-import org.apache.commons.math4.linear.DefaultFieldMatrixChangingVisitor;
-import org.apache.commons.math4.linear.DefaultFieldMatrixPreservingVisitor;
-import org.apache.commons.math4.linear.FieldLUDecomposition;
-import org.apache.commons.math4.linear.FieldMatrix;
-import org.apache.commons.math4.linear.FieldVector;
-import org.apache.commons.math4.linear.MatrixDimensionMismatchException;
-import org.apache.commons.math4.linear.NonSquareMatrixException;
 
 /**
  * Test cases for the {@link BlockFieldMatrix} class.

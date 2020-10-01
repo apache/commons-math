@@ -22,7 +22,6 @@ import java.util.List;
 
 import org.apache.commons.math4.ExtendedFieldElementAbstractTest;
 import org.apache.commons.math4.TestUtils;
-import org.apache.commons.math4.analysis.differentiation.DerivativeStructure;
 import org.apache.commons.math4.analysis.polynomials.PolynomialFunction;
 import org.apache.commons.math4.exception.DimensionMismatchException;
 import org.apache.commons.math4.exception.NumberIsTooLargeException;

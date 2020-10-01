@@ -21,9 +21,6 @@ import java.util.List;
 
 import org.apache.commons.math4.exception.MathIllegalArgumentException;
 import org.apache.commons.math4.exception.NullArgumentException;
-import org.apache.commons.math4.ml.clustering.Cluster;
-import org.apache.commons.math4.ml.clustering.DBSCANClusterer;
-import org.apache.commons.math4.ml.clustering.DoublePoint;
 import org.junit.Assert;
 import org.junit.Test;
 

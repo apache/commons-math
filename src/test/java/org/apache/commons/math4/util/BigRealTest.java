@@ -22,8 +22,6 @@ import java.math.MathContext;
 
 import org.apache.commons.math4.TestUtils;
 import org.apache.commons.math4.exception.MathArithmeticException;
-import org.apache.commons.math4.util.BigReal;
-import org.apache.commons.math4.util.FastMath;
 import org.junit.Assert;
 import org.junit.Test;
 

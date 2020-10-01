@@ -36,7 +36,6 @@ import org.apache.commons.math4.ml.neuralnet.FeatureInitializerFactory;
 import org.apache.commons.math4.ml.neuralnet.Network;
 import org.apache.commons.math4.ml.neuralnet.Neuron;
 import org.apache.commons.math4.ml.neuralnet.SquareNeighbourhood;
-import org.apache.commons.math4.ml.neuralnet.twod.NeuronSquareMesh2D;
 import org.junit.Assert;
 import org.junit.Test;
 

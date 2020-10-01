@@ -21,10 +21,6 @@ import java.util.Random;
 
 import org.apache.commons.statistics.distribution.ContinuousDistribution;
 import org.apache.commons.statistics.distribution.NormalDistribution;
-import org.apache.commons.math4.linear.HessenbergTransformer;
-import org.apache.commons.math4.linear.MatrixUtils;
-import org.apache.commons.math4.linear.NonSquareMatrixException;
-import org.apache.commons.math4.linear.RealMatrix;
 import org.apache.commons.rng.simple.RandomSource;
 import org.junit.Test;
 import org.junit.Assert;

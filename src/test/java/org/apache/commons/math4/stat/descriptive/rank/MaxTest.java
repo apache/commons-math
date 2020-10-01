@@ -18,7 +18,6 @@ package org.apache.commons.math4.stat.descriptive.rank;
 
 import org.apache.commons.math4.stat.descriptive.StorelessUnivariateStatisticAbstractTest;
 import org.apache.commons.math4.stat.descriptive.UnivariateStatistic;
-import org.apache.commons.math4.stat.descriptive.rank.Max;
 import org.junit.Assert;
 import org.junit.Test;
 

@@ -26,16 +26,6 @@ import org.apache.commons.math4.exception.NoDataException;
 import org.apache.commons.math4.exception.NullArgumentException;
 import org.apache.commons.math4.exception.NumberIsTooSmallException;
 import org.apache.commons.math4.exception.OutOfRangeException;
-import org.apache.commons.math4.linear.Array2DRowRealMatrix;
-import org.apache.commons.math4.linear.ArrayRealVector;
-import org.apache.commons.math4.linear.DefaultRealMatrixChangingVisitor;
-import org.apache.commons.math4.linear.DefaultRealMatrixPreservingVisitor;
-import org.apache.commons.math4.linear.LUDecomposition;
-import org.apache.commons.math4.linear.MatrixDimensionMismatchException;
-import org.apache.commons.math4.linear.MatrixUtils;
-import org.apache.commons.math4.linear.NonSquareMatrixException;
-import org.apache.commons.math4.linear.RealMatrix;
-import org.apache.commons.math4.linear.RealVector;
 import org.apache.commons.math4.util.FastMath;
 
 /**

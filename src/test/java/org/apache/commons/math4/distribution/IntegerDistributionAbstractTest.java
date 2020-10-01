@@ -18,7 +18,6 @@ package org.apache.commons.math4.distribution;
 
 import org.apache.commons.statistics.distribution.DiscreteDistribution;
 import org.apache.commons.math4.TestUtils;
-import org.apache.commons.math4.distribution.AbstractIntegerDistribution;
 import org.apache.commons.math4.exception.MathIllegalArgumentException;
 import org.apache.commons.rng.simple.RandomSource;
 import org.apache.commons.math4.util.FastMath;
