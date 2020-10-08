@@ -28,7 +28,7 @@ import org.apache.commons.math4.util.FastMath;
 public class Atan2 implements BivariateFunction {
     /** {@inheritDoc} */
     @Override
-    public double value(double x, double y) {
-        return FastMath.atan2(x, y);
+    public double value(double y, double x) {
+        return FastMath.atan2(y, x);
     }
 }
