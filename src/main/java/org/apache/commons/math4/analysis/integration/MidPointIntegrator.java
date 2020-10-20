@@ -25,7 +25,7 @@ import org.apache.commons.math4.exception.TooManyEvaluationsException;
 import org.apache.commons.math4.util.FastMath;
 
 /**
- * Implements the <a href="http://en.wikipedia.org/wiki/Midpoint_method">
+ * Implements the <a href="https://en.wikipedia.org/wiki/Riemann_sum#Midpoint_rule">
  * Midpoint Rule</a> for integration of real univariate functions. For
  * reference, see <b>Numerical Mathematics</b>, ISBN 0387989595,
  * chapter 9.2.
@@ -36,8 +36,10 @@ import org.apache.commons.math4.util.FastMath;
  */
 public class MidPointIntegrator extends BaseAbstractUnivariateIntegrator {
 
-    /** Maximum number of iterations for midpoint. */
-    private static final int MIDPOINT_MAX_ITERATIONS_COUNT = 63;
+    /** Maximum number of iterations for midpoint. 39 = floor(log_3(2^63)), the
+     * maximum number of triplings allowed before exceeding 64-bit bounds.
+     */
+    private static final int MIDPOINT_MAX_ITERATIONS_COUNT = 39;
 
     /**
      * Build a midpoint integrator with given accuracies and iterations counts.
@@ -50,7 +52,7 @@ public class MidPointIntegrator extends BaseAbstractUnivariateIntegrator {
      * @exception NumberIsTooSmallException if maximal number of iterations
      * is lesser than or equal to the minimal number of iterations
      * @exception NumberIsTooLargeException if maximal number of iterations
-     * is greater than 63.
+     * is greater than 39.
      */
     public MidPointIntegrator(final double relativeAccuracy,
                               final double absoluteAccuracy,
@@ -73,7 +75,7 @@ public class MidPointIntegrator extends BaseAbstractUnivariateIntegrator {
      * @exception NumberIsTooSmallException if maximal number of iterations
      * is lesser than or equal to the minimal number of iterations
      * @exception NumberIsTooLargeException if maximal number of iterations
-     * is greater than 63.
+     * is greater than 39.
      */
     public MidPointIntegrator(final int minimalIterationCount,
                               final int maximalIterationCount)
@@ -98,11 +100,11 @@ public class MidPointIntegrator extends BaseAbstractUnivariateIntegrator {
      * This function should only be called by API <code>integrate()</code> in the package.
      * To save time it does not verify arguments - caller does.
      * <p>
-     * The interval is divided equally into 2^n sections rather than an
+     * The interval is divided equally into 3^n sections rather than an
      * arbitrary m sections because this configuration can best utilize the
      * already computed values.</p>
      *
-     * @param n the stage of 1/2 refinement. Must be larger than 0.
+     * @param n the stage of 1/3 refinement. Must be larger than 0.
      * @param previousStageResult Result from the previous call to the
      * {@code stage} method.
      * @param min Lower bound of the integration interval.
@@ -118,21 +120,29 @@ public class MidPointIntegrator extends BaseAbstractUnivariateIntegrator {
                          double diffMaxMin)
         throws TooManyEvaluationsException {
 
-        // number of new points in this stage
-        final long np = 1L << (n - 1);
+        // number of points in the previous stage. This stage will contribute
+        // 2*3^{n-1} more points.
+        final long np = (long) FastMath.pow(3, n - 1);
         double sum = 0;
 
         // spacing between adjacent new points
         final double spacing = diffMaxMin / np;
+        final double leftOffset = spacing / 6;
+        final double rightOffset = 5 * leftOffset;
 
-        // the first new point
-        double x = min + 0.5 * spacing;
+        double x = min;
         for (long i = 0; i < np; i++) {
-            sum += computeObjectiveValue(x);
+            // The first and second new points are located at the new midpoints
+            // generated when each previous integration slice is split into 3.
+            //
+            // |--------x--------|
+            // |--x--|--x--|--x–-|
+            sum += computeObjectiveValue(x + leftOffset);
+            sum += computeObjectiveValue(x + rightOffset);
             x += spacing;
         }
         // add the new sum to previously calculated result
-        return 0.5 * (previousStageResult + sum * spacing);
+        return (previousStageResult + sum * spacing) / 3.0;
     }
 
 
