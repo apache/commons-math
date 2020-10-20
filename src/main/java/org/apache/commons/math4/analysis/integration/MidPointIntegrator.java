@@ -136,7 +136,7 @@ public class MidPointIntegrator extends BaseAbstractUnivariateIntegrator {
             // generated when each previous integration slice is split into 3.
             //
             // |--------x--------|
-            // |--x--|--x--|--x–-|
+            // |--x--|--x--|--x--|
             sum += computeObjectiveValue(x + leftOffset);
             sum += computeObjectiveValue(x + rightOffset);
             x += spacing;
