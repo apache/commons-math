@@ -54,6 +54,10 @@ If the output is not quite correct, check for invisible trailing spaces!
     </release>
 
     <release version="4.0" date="XXXX-XX-XX" description="">
+      <action dev="erans" type="fix" issue="MATH-1558" due-to="Sam Ritchie">
+        "MidPointIntegrator": Fix iterative procedure in order to actually benefit
+        from evaluations performed at earlier stages.
+      </action>
       <action dev="erans" type="fix" issue="MATH-1555" due-to="Laurent Galluccio">
         "Atan2": Documentation issue.
       </action>

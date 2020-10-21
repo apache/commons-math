@@ -36,6 +36,25 @@ public final class MidPointIntegratorTest {
     private static final int NUM_ITER = 30;
 
     /**
+     * The initial iteration contributes 1 evaluation. Each successive iteration
+     * contributes 2 points to each previous slice.
+     *
+     * The total evaluation count == 1 + 2*3^0 + 2*3^1 + ... 2*3^n
+     *
+     * the series 3^0 + 3^1 + ... + 3^n sums to 3^(n-1) / (3-1), so the total
+     * expected evaluations == 1 + 2*(3^(n-1) - 1)/2 == 3^(n-1).
+     *
+     * The n in the series above is offset by 1 from the MidPointIntegrator
+     * iteration count so the actual result == 3^n.
+     *
+     * Without the incremental implementation, the same result would require
+     * (3^(n + 1) - 1) / 2 evaluations; just under 50% more.
+     */
+    private long expectedEvaluations(int iterations) {
+        return (long) FastMath.pow(3, iterations);
+    }
+
+    /**
      * Test of integrator for the sine function.
      */
     @Test
@@ -48,8 +67,9 @@ public final class MidPointIntegratorTest {
         double expected = -3697001.0 / 48.0;
         double tolerance = FastMath.abs(expected * integrator.getRelativeAccuracy());
         double result = integrator.integrate(Integer.MAX_VALUE, f, min, max);
-        Assert.assertTrue(integrator.getEvaluations() < Integer.MAX_VALUE / 2);
+        Assert.assertTrue(integrator.getEvaluations() < Integer.MAX_VALUE / 3);
         Assert.assertTrue(integrator.getIterations() < NUM_ITER);
+        Assert.assertEquals(expectedEvaluations(integrator.getIterations()), integrator.getEvaluations());
         Assert.assertEquals(expected, result, tolerance);
 
     }
@@ -67,8 +87,9 @@ public final class MidPointIntegratorTest {
         double expected = 2;
         double tolerance = FastMath.abs(expected * integrator.getRelativeAccuracy());
         double result = integrator.integrate(Integer.MAX_VALUE, f, min, max);
-        Assert.assertTrue(integrator.getEvaluations() < Integer.MAX_VALUE / 2);
+        Assert.assertTrue(integrator.getEvaluations() < Integer.MAX_VALUE / 3);
         Assert.assertTrue(integrator.getIterations() < NUM_ITER);
+        Assert.assertEquals(expectedEvaluations(integrator.getIterations()), integrator.getEvaluations());
         Assert.assertEquals(expected, result, tolerance);
 
         min = -FastMath.PI/3;
@@ -76,8 +97,9 @@ public final class MidPointIntegratorTest {
         expected = -0.5;
         tolerance = FastMath.abs(expected * integrator.getRelativeAccuracy());
         result = integrator.integrate(Integer.MAX_VALUE, f, min, max);
-        Assert.assertTrue(integrator.getEvaluations() < Integer.MAX_VALUE / 2);
+        Assert.assertTrue(integrator.getEvaluations() < Integer.MAX_VALUE / 3);
         Assert.assertTrue(integrator.getIterations() < NUM_ITER);
+        Assert.assertEquals(expectedEvaluations(integrator.getIterations()), integrator.getEvaluations());
         Assert.assertEquals(expected, result, tolerance);
 
     }
@@ -95,8 +117,9 @@ public final class MidPointIntegratorTest {
         double expected = -1.0 / 48;
         double tolerance = FastMath.abs(expected * integrator.getRelativeAccuracy());
         double result = integrator.integrate(Integer.MAX_VALUE, f, min, max);
-        Assert.assertTrue(integrator.getEvaluations() < Integer.MAX_VALUE / 2);
+        Assert.assertTrue(integrator.getEvaluations() < Integer.MAX_VALUE / 3);
         Assert.assertTrue(integrator.getIterations() < NUM_ITER);
+        Assert.assertEquals(expectedEvaluations(integrator.getIterations()), integrator.getEvaluations());
         Assert.assertEquals(expected, result, tolerance);
 
         min = 0;
@@ -104,7 +127,7 @@ public final class MidPointIntegratorTest {
         expected = 11.0 / 768;
         tolerance = FastMath.abs(expected * integrator.getRelativeAccuracy());
         result = integrator.integrate(Integer.MAX_VALUE, f, min, max);
-        Assert.assertTrue(integrator.getEvaluations() < Integer.MAX_VALUE / 2);
+        Assert.assertTrue(integrator.getEvaluations() < Integer.MAX_VALUE / 3);
         Assert.assertTrue(integrator.getIterations() < NUM_ITER);
         Assert.assertEquals(expected, result, tolerance);
 
@@ -113,8 +136,9 @@ public final class MidPointIntegratorTest {
         expected = 2048 / 3.0 - 78 + 1.0 / 48;
         tolerance = FastMath.abs(expected * integrator.getRelativeAccuracy());
         result = integrator.integrate(Integer.MAX_VALUE, f, min, max);
-        Assert.assertTrue(integrator.getEvaluations() < Integer.MAX_VALUE / 2);
+        Assert.assertTrue(integrator.getEvaluations() < Integer.MAX_VALUE / 3);
         Assert.assertTrue(integrator.getIterations() < NUM_ITER);
+        Assert.assertEquals(expectedEvaluations(integrator.getIterations()), integrator.getEvaluations());
         Assert.assertEquals(expected, result, tolerance);
 
     }
