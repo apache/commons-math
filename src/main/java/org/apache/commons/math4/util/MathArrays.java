@@ -912,11 +912,12 @@ public class MathArrays {
         if (sum == 0) {
             throw new MathArithmeticException(LocalizedFormats.ARRAY_SUMS_TO_ZERO);
         }
+        final double scale = normalizedSum / sum;
         for (int i = 0; i < len; i++) {
             if (Double.isNaN(values[i])) {
                 out[i] = Double.NaN;
             } else {
-                out[i] = values[i] * normalizedSum / sum;
+                out[i] = values[i] * scale;
             }
         }
         return out;
