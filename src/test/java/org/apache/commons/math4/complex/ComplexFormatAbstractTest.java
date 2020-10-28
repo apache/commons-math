@@ -340,9 +340,8 @@ public abstract class ComplexFormatAbstractTest {
 
     @Test
     public void testGetAvailableLocales() {
-        HashSet<Locale> s1 = new HashSet<>(Arrays.asList(NumberFormat.getAvailableLocales()));
-        HashSet<Locale> s2 = new HashSet<>(Arrays.asList(ComplexFormat.getAvailableLocales()));
-        Assert.assertEquals(s1,s2);
+        Assert.assertEquals(new HashSet<>(Arrays.asList(NumberFormat.getAvailableLocales())),
+                            new HashSet<>(Arrays.asList(ComplexFormat.getAvailableLocales())));
     }
 
     @Test
