@@ -21,6 +21,7 @@ import java.text.FieldPosition;
 import java.text.NumberFormat;
 import java.text.ParsePosition;
 import java.util.Arrays;
+import java.util.HashSet;
 import java.util.Locale;
 import org.junit.Test;
 import org.junit.Assert;
@@ -339,7 +340,9 @@ public abstract class ComplexFormatAbstractTest {
 
     @Test
     public void testGetAvailableLocales() {
-        Assert.assertEquals(Arrays.asList(NumberFormat.getAvailableLocales()),Arrays.asList(ComplexFormat.getAvailableLocales()));
+        HashSet<Locale> s1 = new HashSet<>(Arrays.asList(NumberFormat.getAvailableLocales()));
+        HashSet<Locale> s2 = new HashSet<>(Arrays.asList(ComplexFormat.getAvailableLocales()));
+        Assert.assertEquals(s1,s2);
     }
 
     @Test
