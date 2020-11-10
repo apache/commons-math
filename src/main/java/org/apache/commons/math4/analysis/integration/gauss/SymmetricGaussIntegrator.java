@@ -41,8 +41,7 @@ public class SymmetricGaussIntegrator extends GaussIntegrator {
      * @throws DimensionMismatchException if points and weights don't have the same length
      */
     public SymmetricGaussIntegrator(double[] points,
-                                    double[] weights)
-        throws NonMonotonicSequenceException, DimensionMismatchException {
+                                    double[] weights) {
         super(points, weights);
     }
 
@@ -56,8 +55,7 @@ public class SymmetricGaussIntegrator extends GaussIntegrator {
      *
      * @see #SymmetricGaussIntegrator(double[], double[])
      */
-    public SymmetricGaussIntegrator(Pair<double[], double[]> pointsAndWeights)
-        throws NonMonotonicSequenceException {
+    public SymmetricGaussIntegrator(Pair<double[], double[]> pointsAndWeights) {
         this(pointsAndWeights.getFirst(), pointsAndWeights.getSecond());
     }
 

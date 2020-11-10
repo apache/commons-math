@@ -52,8 +52,7 @@ public abstract class BaseRuleFactory<T extends Number> {
      * @throws DimensionMismatchException if the elements of the rule pair do not
      * have the same length.
      */
-    public Pair<double[], double[]> getRule(int numberOfPoints)
-        throws NotStrictlyPositiveException, DimensionMismatchException {
+    public Pair<double[], double[]> getRule(int numberOfPoints) {
 
         if (numberOfPoints <= 0) {
             throw new NotStrictlyPositiveException(LocalizedFormats.NUMBER_OF_POINTS,
@@ -90,8 +89,7 @@ public abstract class BaseRuleFactory<T extends Number> {
      * @throws DimensionMismatchException if the elements of the rule pair do not
      * have the same length.
      */
-    protected synchronized Pair<T[], T[]> getRuleInternal(int numberOfPoints)
-        throws DimensionMismatchException {
+    protected synchronized Pair<T[], T[]> getRuleInternal(int numberOfPoints) {
         final Pair<T[], T[]> rule = pointsAndWeights.get(numberOfPoints);
         if (rule == null) {
             addRule(computeRule(numberOfPoints));
@@ -108,7 +106,7 @@ public abstract class BaseRuleFactory<T extends Number> {
      * @throws DimensionMismatchException if the elements of the pair do not
      * have the same length.
      */
-    protected void addRule(Pair<T[], T[]> rule) throws DimensionMismatchException {
+    protected void addRule(Pair<T[], T[]> rule) {
         if (rule.getFirst().length != rule.getSecond().length) {
             throw new DimensionMismatchException(rule.getFirst().length,
                                                  rule.getSecond().length);
@@ -125,8 +123,7 @@ public abstract class BaseRuleFactory<T extends Number> {
      * @throws DimensionMismatchException if the elements of the pair do not
      * have the same length.
      */
-    protected abstract Pair<T[], T[]> computeRule(int numberOfPoints)
-        throws DimensionMismatchException;
+    protected abstract Pair<T[], T[]> computeRule(int numberOfPoints);
 
     /**
      * Converts the from the actual {@code Number} type to {@code double}

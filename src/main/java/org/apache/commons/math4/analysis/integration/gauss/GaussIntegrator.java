@@ -47,8 +47,7 @@ public class GaussIntegrator {
      * @throws DimensionMismatchException if points and weights don't have the same length
      */
     public GaussIntegrator(double[] points,
-                           double[] weights)
-        throws NonMonotonicSequenceException, DimensionMismatchException {
+                           double[] weights) {
         if (points.length != weights.length) {
             throw new DimensionMismatchException(points.length,
                                                  weights.length);
@@ -70,8 +69,7 @@ public class GaussIntegrator {
      *
      * @see #GaussIntegrator(double[], double[])
      */
-    public GaussIntegrator(Pair<double[], double[]> pointsAndWeights)
-        throws NonMonotonicSequenceException {
+    public GaussIntegrator(Pair<double[], double[]> pointsAndWeights) {
         this(pointsAndWeights.getFirst(), pointsAndWeights.getSecond());
     }
 

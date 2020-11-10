@@ -32,9 +32,7 @@ import org.apache.commons.math4.util.Pair;
 public class LegendreRuleFactory extends BaseRuleFactory<Double> {
     /** {@inheritDoc} */
     @Override
-    protected Pair<Double[], Double[]> computeRule(int numberOfPoints)
-        throws DimensionMismatchException {
-
+    protected Pair<Double[], Double[]> computeRule(int numberOfPoints) {
         if (numberOfPoints == 1) {
             // Break recursion.
             return new Pair<>(new Double[] { 0d },

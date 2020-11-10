@@ -57,8 +57,7 @@ public class MidPointIntegrator extends BaseAbstractUnivariateIntegrator {
     public MidPointIntegrator(final double relativeAccuracy,
                               final double absoluteAccuracy,
                               final int minimalIterationCount,
-                              final int maximalIterationCount)
-        throws NotStrictlyPositiveException, NumberIsTooSmallException, NumberIsTooLargeException {
+                              final int maximalIterationCount) {
         super(relativeAccuracy, absoluteAccuracy, minimalIterationCount, maximalIterationCount);
         if (maximalIterationCount > MIDPOINT_MAX_ITERATIONS_COUNT) {
             throw new NumberIsTooLargeException(maximalIterationCount,
@@ -78,8 +77,7 @@ public class MidPointIntegrator extends BaseAbstractUnivariateIntegrator {
      * is greater than 39.
      */
     public MidPointIntegrator(final int minimalIterationCount,
-                              final int maximalIterationCount)
-        throws NotStrictlyPositiveException, NumberIsTooSmallException, NumberIsTooLargeException {
+                              final int maximalIterationCount) {
         super(minimalIterationCount, maximalIterationCount);
         if (maximalIterationCount > MIDPOINT_MAX_ITERATIONS_COUNT) {
             throw new NumberIsTooLargeException(maximalIterationCount,
@@ -117,9 +115,7 @@ public class MidPointIntegrator extends BaseAbstractUnivariateIntegrator {
     private double stage(final int n,
                          double previousStageResult,
                          double min,
-                         double diffMaxMin)
-        throws TooManyEvaluationsException {
-
+                         double diffMaxMin) {
         // number of points in the previous stage. This stage will contribute
         // 2*3^{n-1} more points.
         final long np = (long) FastMath.pow(3, n - 1);
@@ -148,9 +144,7 @@ public class MidPointIntegrator extends BaseAbstractUnivariateIntegrator {
 
     /** {@inheritDoc} */
     @Override
-    protected double doIntegrate()
-        throws MathIllegalArgumentException, TooManyEvaluationsException, MaxCountExceededException {
-
+    protected double doIntegrate() {
         final double min = getMin();
         final double diff = getMax() - min;
         final double midPoint = min + 0.5 * diff;

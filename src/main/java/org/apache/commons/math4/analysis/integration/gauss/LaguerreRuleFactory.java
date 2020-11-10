@@ -35,9 +35,7 @@ import org.apache.commons.math4.util.Pair;
 public class LaguerreRuleFactory extends BaseRuleFactory<Double> {
     /** {@inheritDoc} */
     @Override
-    protected Pair<Double[], Double[]> computeRule(int numberOfPoints)
-        throws DimensionMismatchException {
-
+    protected Pair<Double[], Double[]> computeRule(int numberOfPoints) {
         final RealMatrix companionMatrix = companionMatrix(numberOfPoints);
         final EigenDecomposition eigen = new EigenDecomposition(companionMatrix);
         final double[] roots = eigen.getRealEigenvalues();

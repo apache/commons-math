@@ -57,8 +57,7 @@ public class RombergIntegrator extends BaseAbstractUnivariateIntegrator {
     public RombergIntegrator(final double relativeAccuracy,
                              final double absoluteAccuracy,
                              final int minimalIterationCount,
-                             final int maximalIterationCount)
-        throws NotStrictlyPositiveException, NumberIsTooSmallException, NumberIsTooLargeException {
+                             final int maximalIterationCount) {
         super(relativeAccuracy, absoluteAccuracy, minimalIterationCount, maximalIterationCount);
         if (maximalIterationCount > ROMBERG_MAX_ITERATIONS_COUNT) {
             throw new NumberIsTooLargeException(maximalIterationCount,
@@ -79,8 +78,7 @@ public class RombergIntegrator extends BaseAbstractUnivariateIntegrator {
      * is greater than {@link #ROMBERG_MAX_ITERATIONS_COUNT}
      */
     public RombergIntegrator(final int minimalIterationCount,
-                             final int maximalIterationCount)
-        throws NotStrictlyPositiveException, NumberIsTooSmallException, NumberIsTooLargeException {
+                             final int maximalIterationCount) {
         super(minimalIterationCount, maximalIterationCount);
         if (maximalIterationCount > ROMBERG_MAX_ITERATIONS_COUNT) {
             throw new NumberIsTooLargeException(maximalIterationCount,
@@ -98,9 +96,7 @@ public class RombergIntegrator extends BaseAbstractUnivariateIntegrator {
 
     /** {@inheritDoc} */
     @Override
-    protected double doIntegrate()
-        throws TooManyEvaluationsException, MaxCountExceededException {
-
+    protected double doIntegrate() {
         final int m = iterations.getMaximalCount() + 1;
         double previousRow[] = new double[m];
         double currentRow[]  = new double[m];

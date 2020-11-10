@@ -61,9 +61,7 @@ public class LegendreHighPrecisionRuleFactory extends BaseRuleFactory<BigDecimal
 
     /** {@inheritDoc} */
     @Override
-    protected Pair<BigDecimal[], BigDecimal[]> computeRule(int numberOfPoints)
-        throws DimensionMismatchException {
-
+    protected Pair<BigDecimal[], BigDecimal[]> computeRule(int numberOfPoints) {
         if (numberOfPoints == 1) {
             // Break recursion.
             return new Pair<>(new BigDecimal[] { BigDecimal.ZERO },

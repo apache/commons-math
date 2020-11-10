@@ -54,8 +54,7 @@ public class SimpsonIntegrator extends BaseAbstractUnivariateIntegrator {
     public SimpsonIntegrator(final double relativeAccuracy,
                              final double absoluteAccuracy,
                              final int minimalIterationCount,
-                             final int maximalIterationCount)
-        throws NotStrictlyPositiveException, NumberIsTooSmallException, NumberIsTooLargeException {
+                             final int maximalIterationCount) {
         super(relativeAccuracy, absoluteAccuracy, minimalIterationCount, maximalIterationCount);
         if (maximalIterationCount > SIMPSON_MAX_ITERATIONS_COUNT) {
             throw new NumberIsTooLargeException(maximalIterationCount,
@@ -76,8 +75,7 @@ public class SimpsonIntegrator extends BaseAbstractUnivariateIntegrator {
      * is greater than {@link #SIMPSON_MAX_ITERATIONS_COUNT}
      */
     public SimpsonIntegrator(final int minimalIterationCount,
-                             final int maximalIterationCount)
-        throws NotStrictlyPositiveException, NumberIsTooSmallException, NumberIsTooLargeException {
+                             final int maximalIterationCount) {
         super(minimalIterationCount, maximalIterationCount);
         if (maximalIterationCount > SIMPSON_MAX_ITERATIONS_COUNT) {
             throw new NumberIsTooLargeException(maximalIterationCount,

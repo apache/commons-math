@@ -85,8 +85,7 @@ public class GaussIntegratorFactory {
      */
     public GaussIntegrator legendre(int numberOfPoints,
                                     double lowerBound,
-                                    double upperBound)
-        throws NotStrictlyPositiveException {
+                                    double upperBound) {
         return new GaussIntegrator(transform(getRule(legendre, numberOfPoints),
                                              lowerBound, upperBound));
     }
@@ -102,8 +101,7 @@ public class GaussIntegratorFactory {
      * @return a Gauss-Legendre integrator.
      * @throws NotStrictlyPositiveException if number of points is not positive
      */
-    public GaussIntegrator legendreHighPrecision(int numberOfPoints)
-        throws NotStrictlyPositiveException {
+    public GaussIntegrator legendreHighPrecision(int numberOfPoints) {
         return new GaussIntegrator(getRule(legendreHighPrecision, numberOfPoints));
     }
 
@@ -120,8 +118,7 @@ public class GaussIntegratorFactory {
      */
     public GaussIntegrator legendreHighPrecision(int numberOfPoints,
                                                  double lowerBound,
-                                                 double upperBound)
-        throws NotStrictlyPositiveException {
+                                                 double upperBound) {
         return new GaussIntegrator(transform(getRule(legendreHighPrecision, numberOfPoints),
                                              lowerBound, upperBound));
     }
@@ -153,8 +150,7 @@ public class GaussIntegratorFactory {
      * have the same length.
      */
     private static Pair<double[], double[]> getRule(BaseRuleFactory<? extends Number> factory,
-                                                    int numberOfPoints)
-        throws NotStrictlyPositiveException, DimensionMismatchException {
+                                                    int numberOfPoints) {
         return factory.getRule(numberOfPoints);
     }
 

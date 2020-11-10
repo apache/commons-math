@@ -73,10 +73,7 @@ public interface UnivariateIntegrator {
      * satisfy the requirements specified by the integrator
      * @throws NullArgumentException if {@code f} is {@code null}.
      */
-    double integrate(int maxEval, UnivariateFunction f, double min,
-                     double max)
-        throws TooManyEvaluationsException, MaxCountExceededException,
-               MathIllegalArgumentException, NullArgumentException;
+    double integrate(int maxEval, UnivariateFunction f, double min, double max);
 
     /**
      * Get the number of function evaluations of the last run of the integrator.

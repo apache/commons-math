@@ -58,8 +58,7 @@ public class TrapezoidIntegrator extends BaseAbstractUnivariateIntegrator {
     public TrapezoidIntegrator(final double relativeAccuracy,
                                final double absoluteAccuracy,
                                final int minimalIterationCount,
-                               final int maximalIterationCount)
-        throws NotStrictlyPositiveException, NumberIsTooSmallException, NumberIsTooLargeException {
+                               final int maximalIterationCount) {
         super(relativeAccuracy, absoluteAccuracy, minimalIterationCount, maximalIterationCount);
         if (maximalIterationCount > TRAPEZOID_MAX_ITERATIONS_COUNT) {
             throw new NumberIsTooLargeException(maximalIterationCount,
@@ -79,8 +78,7 @@ public class TrapezoidIntegrator extends BaseAbstractUnivariateIntegrator {
      * is greater than 63.
      */
     public TrapezoidIntegrator(final int minimalIterationCount,
-                               final int maximalIterationCount)
-        throws NotStrictlyPositiveException, NumberIsTooSmallException, NumberIsTooLargeException {
+                               final int maximalIterationCount) {
         super(minimalIterationCount, maximalIterationCount);
         if (maximalIterationCount > TRAPEZOID_MAX_ITERATIONS_COUNT) {
             throw new NumberIsTooLargeException(maximalIterationCount,
@@ -111,9 +109,7 @@ public class TrapezoidIntegrator extends BaseAbstractUnivariateIntegrator {
      * @throws TooManyEvaluationsException if the maximal number of evaluations
      * is exceeded.
      */
-    double stage(final BaseAbstractUnivariateIntegrator baseIntegrator, final int n)
-        throws TooManyEvaluationsException {
-
+    double stage(final BaseAbstractUnivariateIntegrator baseIntegrator, final int n) {
         if (n == 0) {
             final double max = baseIntegrator.getMax();
             final double min = baseIntegrator.getMin();
@@ -141,9 +137,7 @@ public class TrapezoidIntegrator extends BaseAbstractUnivariateIntegrator {
 
     /** {@inheritDoc} */
     @Override
-    protected double doIntegrate()
-        throws MathIllegalArgumentException, TooManyEvaluationsException, MaxCountExceededException {
-
+    protected double doIntegrate() {
         double oldt = stage(this, 0);
         iterations.increment();
         while (true) {
@@ -162,5 +156,4 @@ public class TrapezoidIntegrator extends BaseAbstractUnivariateIntegrator {
         }
 
     }
-
 }
