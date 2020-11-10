@@ -16,7 +16,6 @@
  */
 package org.apache.commons.math4.analysis.integration;
 
-import org.apache.commons.math4.exception.NotStrictlyPositiveException;
 import org.apache.commons.math4.exception.NumberIsTooLargeException;
 import org.apache.commons.math4.exception.NumberIsTooSmallException;
 import org.apache.commons.math4.util.FastMath;
@@ -44,8 +43,6 @@ public class SimpsonIntegrator extends BaseAbstractUnivariateIntegrator {
      * @param minimalIterationCount minimum number of iterations
      * @param maximalIterationCount maximum number of iterations
      * (must be less than or equal to {@link #SIMPSON_MAX_ITERATIONS_COUNT})
-     * @exception NotStrictlyPositiveException if minimal number of iterations
-     * is not strictly positive
      * @exception NumberIsTooSmallException if maximal number of iterations
      * is lesser than or equal to the minimal number of iterations
      * @exception NumberIsTooLargeException if maximal number of iterations
@@ -55,7 +52,7 @@ public class SimpsonIntegrator extends BaseAbstractUnivariateIntegrator {
                              final double absoluteAccuracy,
                              final int minimalIterationCount,
                              final int maximalIterationCount)
-        throws NotStrictlyPositiveException, NumberIsTooSmallException, NumberIsTooLargeException {
+        throws NumberIsTooSmallException, NumberIsTooLargeException {
         super(relativeAccuracy, absoluteAccuracy, minimalIterationCount, maximalIterationCount);
         if (maximalIterationCount > SIMPSON_MAX_ITERATIONS_COUNT) {
             throw new NumberIsTooLargeException(maximalIterationCount,
@@ -68,8 +65,6 @@ public class SimpsonIntegrator extends BaseAbstractUnivariateIntegrator {
      * @param minimalIterationCount minimum number of iterations
      * @param maximalIterationCount maximum number of iterations
      * (must be less than or equal to {@link #SIMPSON_MAX_ITERATIONS_COUNT})
-     * @exception NotStrictlyPositiveException if minimal number of iterations
-     * is not strictly positive
      * @exception NumberIsTooSmallException if maximal number of iterations
      * is lesser than or equal to the minimal number of iterations
      * @exception NumberIsTooLargeException if maximal number of iterations
@@ -77,7 +72,7 @@ public class SimpsonIntegrator extends BaseAbstractUnivariateIntegrator {
      */
     public SimpsonIntegrator(final int minimalIterationCount,
                              final int maximalIterationCount)
-        throws NotStrictlyPositiveException, NumberIsTooSmallException, NumberIsTooLargeException {
+        throws NumberIsTooSmallException, NumberIsTooLargeException {
         super(minimalIterationCount, maximalIterationCount);
         if (maximalIterationCount > SIMPSON_MAX_ITERATIONS_COUNT) {
             throw new NumberIsTooLargeException(maximalIterationCount,
@@ -100,7 +95,7 @@ public class SimpsonIntegrator extends BaseAbstractUnivariateIntegrator {
         // So we set the first sum using two trapezoid stages.
         final TrapezoidIntegrator qtrap = new TrapezoidIntegrator();
 
-        final double s0 = qtrap.stage(this, 0);
+        final double s0 = qtrap.stage(this);
         double oldt = qtrap.stage(this, 1);
         double olds = (4 * oldt - s0) / 3.0;
         while (true) {
