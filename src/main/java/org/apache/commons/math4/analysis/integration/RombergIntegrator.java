@@ -20,7 +20,6 @@ import org.apache.commons.math4.exception.MaxCountExceededException;
 import org.apache.commons.math4.exception.NotStrictlyPositiveException;
 import org.apache.commons.math4.exception.NumberIsTooLargeException;
 import org.apache.commons.math4.exception.NumberIsTooSmallException;
-import org.apache.commons.math4.exception.TooManyEvaluationsException;
 import org.apache.commons.math4.util.FastMath;
 
 /**
@@ -58,7 +57,7 @@ public class RombergIntegrator extends BaseAbstractUnivariateIntegrator {
                              final double absoluteAccuracy,
                              final int minimalIterationCount,
                              final int maximalIterationCount)
-        throws NotStrictlyPositiveException, NumberIsTooSmallException, NumberIsTooLargeException {
+        throws NumberIsTooSmallException, NumberIsTooLargeException {
         super(relativeAccuracy, absoluteAccuracy, minimalIterationCount, maximalIterationCount);
         if (maximalIterationCount > ROMBERG_MAX_ITERATIONS_COUNT) {
             throw new NumberIsTooLargeException(maximalIterationCount,
@@ -80,7 +79,7 @@ public class RombergIntegrator extends BaseAbstractUnivariateIntegrator {
      */
     public RombergIntegrator(final int minimalIterationCount,
                              final int maximalIterationCount)
-        throws NotStrictlyPositiveException, NumberIsTooSmallException, NumberIsTooLargeException {
+        throws NumberIsTooSmallException, NumberIsTooLargeException {
         super(minimalIterationCount, maximalIterationCount);
         if (maximalIterationCount > ROMBERG_MAX_ITERATIONS_COUNT) {
             throw new NumberIsTooLargeException(maximalIterationCount,
@@ -99,14 +98,14 @@ public class RombergIntegrator extends BaseAbstractUnivariateIntegrator {
     /** {@inheritDoc} */
     @Override
     protected double doIntegrate()
-        throws TooManyEvaluationsException, MaxCountExceededException {
+        throws MaxCountExceededException {
 
         final int m = iterations.getMaximalCount() + 1;
-        double previousRow[] = new double[m];
-        double currentRow[]  = new double[m];
+        double[] previousRow = new double[m];
+        double[] currentRow = new double[m];
 
         TrapezoidIntegrator qtrap = new TrapezoidIntegrator();
-        currentRow[0] = qtrap.stage(this, 0);
+        currentRow[0] = qtrap.stage(this);
         iterations.increment();
         double olds = currentRow[0];
         while (true) {
