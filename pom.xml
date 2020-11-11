@@ -37,9 +37,10 @@
     <!-- TODO: when releasing 4.0, the properties below need to be updated, and
          the 3.x release artifacts need to be put int commons.release.3  -->
     <commons.componentid>math4</commons.componentid>
-    <commons.module.name>org.apache.commons.math4</commons.module.name>
     <!-- This value must reflect the current name of the base package. -->
     <commons.osgi.symbolicName>org.apache.commons.math4</commons.osgi.symbolicName>
+    <!-- Java 9+ -->
+    <commons.automatic.module.name>org.apache.commons.math4</commons.automatic.module.name>
     <!-- do not use snapshot suffix here -->
     <commons.release.version>3.4.1</commons.release.version>
     <commons.release.desc>(requires Java 1.5+)</commons.release.desc>
@@ -224,6 +225,19 @@
   <build>
     <defaultGoal>clean verify apache-rat:check checkstyle:check javadoc:javadoc</defaultGoal>
     <plugins>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-jar-plugin</artifactId>
+        <configuration>
+          <archive combine.children="append">
+            <manifestEntries>
+              <!-- Java 9 -->
+              <Automatic-Module-Name>${commons.automatic.module.name}</Automatic-Module-Name>
+            </manifestEntries>
+          </archive>
+        </configuration>
+      </plugin>
+
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-surefire-plugin</artifactId>
