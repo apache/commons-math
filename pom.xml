@@ -222,51 +222,51 @@
   </dependencies>
 
   <build>
-      <defaultGoal>clean verify apache-rat:check checkstyle:check javadoc:javadoc</defaultGoal>
-      <plugins>
-        <plugin>
-          <groupId>org.apache.maven.plugins</groupId>
-          <artifactId>maven-surefire-plugin</artifactId>
-            <configuration>
-            <!-- Fix for OpenJDK 8 now validating class-path attributes in Jar manifests. -->
-            <!-- See https://bugs.debian.org/cgi-bin/bugreport.cgi?bug=912333#63 -->
-            <useSystemClassLoader>false</useSystemClassLoader>
-              <includes>
-                <include>**/*Test.java</include>
-                <include>**/*TestBinary.java</include>
-                <include>**/*TestPermutations.java</include>
-              </includes>
-              <excludes>
-                <exclude>**/*AbstractTest.java</exclude>
-              </excludes>
+    <defaultGoal>clean verify apache-rat:check checkstyle:check javadoc:javadoc</defaultGoal>
+    <plugins>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-surefire-plugin</artifactId>
+        <configuration>
+          <!-- Fix for OpenJDK 8 now validating class-path attributes in Jar manifests. -->
+          <!-- See https://bugs.debian.org/cgi-bin/bugreport.cgi?bug=912333#63 -->
+          <useSystemClassLoader>false</useSystemClassLoader>
+          <includes>
+            <include>**/*Test.java</include>
+            <include>**/*TestBinary.java</include>
+            <include>**/*TestPermutations.java</include>
+          </includes>
+          <excludes>
+            <exclude>**/*AbstractTest.java</exclude>
+          </excludes>
+        </configuration>
+      </plugin>
+      <plugin>
+        <artifactId>maven-assembly-plugin</artifactId>
+        <configuration>
+          <descriptors>
+            <descriptor>src/assembly/src.xml</descriptor>
+            <descriptor>src/assembly/bin.xml</descriptor>
+          </descriptors>
+          <!-- There are a lot of long file names. Suppress the warnings. -->
+          <tarLongFileMode>gnu</tarLongFileMode>
           </configuration>
-        </plugin>
-        <plugin>
-          <artifactId>maven-assembly-plugin</artifactId>
-          <configuration>
-            <descriptors>
-              <descriptor>src/assembly/src.xml</descriptor>
-              <descriptor>src/assembly/bin.xml</descriptor>
-            </descriptors>
-            <!-- There are a lot of long file names. Suppress the warnings. -->
-            <tarLongFileMode>gnu</tarLongFileMode>
-          </configuration>
-        </plugin>
-        <plugin>
-          <groupId>org.codehaus.mojo</groupId>
-          <artifactId>clirr-maven-plugin</artifactId>
-          <version>${math.clirr.version}</version>
-          <configuration>
-            <minSeverity>${minSeverity}</minSeverity>
-            <ignoredDifferencesFile>${basedir}/clirr-ignored.xml</ignoredDifferencesFile>
-          </configuration>
-          <executions>
-            <execution>
-              <goals>
-              </goals>
-            </execution>
-          </executions>
-        </plugin>
+      </plugin>
+      <plugin>
+        <groupId>org.codehaus.mojo</groupId>
+        <artifactId>clirr-maven-plugin</artifactId>
+        <version>${math.clirr.version}</version>
+        <configuration>
+          <minSeverity>${minSeverity}</minSeverity>
+          <ignoredDifferencesFile>${basedir}/clirr-ignored.xml</ignoredDifferencesFile>
+        </configuration>
+        <executions>
+          <execution>
+            <goals>
+            </goals>
+          </execution>
+        </executions>
+      </plugin>
       <plugin>
         <artifactId>maven-pmd-plugin</artifactId>
         <version>${math.pmd.version}</version>
