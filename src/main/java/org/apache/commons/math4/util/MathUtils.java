@@ -59,7 +59,7 @@ public final class MathUtils {
      * @return the hash code
      */
     public static int hash(double value) {
-        return new Double(value).hashCode();
+        return Double.valueOf(value).hashCode();
     }
 
     /**
@@ -71,7 +71,7 @@ public final class MathUtils {
      * @return {@code new Double(x).equals(new Double(y))}
      */
     public static boolean equals(double x, double y) {
-        return new Double(x).equals(new Double(y));
+        return Double.valueOf(x).equals(Double.valueOf(y));
     }
 
     /**
