@@ -45,7 +45,7 @@ import org.apache.commons.math4.util.Pair;
  * contain null values.  The pmf created by the constructor will combine probabilities of equal values and
  * will treat null values as equal.  For example, if the list of pairs &lt;"dog", 0.2&gt;, &lt;null, 0.1&gt;,
  * &lt;"pig", 0.2&gt;, &lt;"dog", 0.1&gt;, &lt;null, 0.4&gt; is provided to the constructor, the resulting
- * pmf will assign mass of 0.5 to null, 0.3 to "dog" and 0.2 to null.</p>
+ * pmf will assign mass of 0.5 to null, 0.3 to "dog" and 0.2 to pig.</p>
  *
  * @param <T> type of the elements in the sample space.
  * @since 3.2
