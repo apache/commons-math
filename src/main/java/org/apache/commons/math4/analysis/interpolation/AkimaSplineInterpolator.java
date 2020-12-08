@@ -97,20 +97,22 @@ public class AkimaSplineInterpolator
             yvals == null) {
             throw new NullArgumentException();
         }
+        final int xvalsLength = xvals.length;
+        final int yvalsLength = yvals.length;
 
-        if (xvals.length != yvals.length) {
-            throw new DimensionMismatchException(xvals.length, yvals.length);
+        if (xvalsLength != yvalsLength) {
+            throw new DimensionMismatchException(xvalsLength, yvalsLength);
         }
 
-        if (xvals.length < MINIMUM_NUMBER_POINTS) {
+        if (xvalsLength < MINIMUM_NUMBER_POINTS) {
             throw new NumberIsTooSmallException(LocalizedFormats.NUMBER_OF_POINTS,
-                                                xvals.length,
+                                                xvalsLength,
                                                 MINIMUM_NUMBER_POINTS, true);
         }
 
         MathArrays.checkOrder(xvals);
 
-        final int numberOfDiffAndWeightElements = xvals.length - 1;
+        final int numberOfDiffAndWeightElements = xvalsLength - 1;
 
         final double[] differences = new double[numberOfDiffAndWeightElements];
         final double[] weights = new double[numberOfDiffAndWeightElements];
@@ -132,7 +134,7 @@ public class AkimaSplineInterpolator
         }
 
         // Prepare Hermite interpolation scheme.
-        final double[] firstDerivatives = new double[xvals.length];
+        final double[] firstDerivatives = new double[xvalsLength];
 
         for (int i = 2; i < firstDerivatives.length - 2; i++) {
             final double wP = weights[i + 1];
@@ -150,12 +152,12 @@ public class AkimaSplineInterpolator
 
         firstDerivatives[0] = differentiateThreePoint(xvals, yvals, 0, 0, 1, 2);
         firstDerivatives[1] = differentiateThreePoint(xvals, yvals, 1, 0, 1, 2);
-        firstDerivatives[xvals.length - 2] = differentiateThreePoint(xvals, yvals, xvals.length - 2,
-                                                                     xvals.length - 3, xvals.length - 2,
-                                                                     xvals.length - 1);
-        firstDerivatives[xvals.length - 1] = differentiateThreePoint(xvals, yvals, xvals.length - 1,
-                                                                     xvals.length - 3, xvals.length - 2,
-                                                                     xvals.length - 1);
+        firstDerivatives[xvalsLength - 2] = differentiateThreePoint(xvals, yvals, xvalsLength - 2,
+                                                                     xvalsLength - 3, xvalsLength - 2,
+                                                                     xvalsLength - 1);
+        firstDerivatives[xvalsLength - 1] = differentiateThreePoint(xvals, yvals, xvalsLength - 1,
+                                                                     xvalsLength - 3, xvalsLength - 2,
+                                                                     xvalsLength - 1);
 
         return interpolateHermiteSorted(xvals, yvals, firstDerivatives);
     }
@@ -205,23 +207,25 @@ public class AkimaSplineInterpolator
     private PolynomialSplineFunction interpolateHermiteSorted(double[] xvals,
                                                               double[] yvals,
                                                               double[] firstDerivatives) {
-        if (xvals.length != yvals.length) {
-            throw new DimensionMismatchException(xvals.length, yvals.length);
+        final int xvalsLength = xvals.length;
+        final int yvalsLength = yvals.length;
+        if (xvalsLength != yvalsLength) {
+            throw new DimensionMismatchException(xvalsLength, yvalsLength);
         }
 
-        if (xvals.length != firstDerivatives.length) {
-            throw new DimensionMismatchException(xvals.length,
+        if (xvalsLength != firstDerivatives.length) {
+            throw new DimensionMismatchException(xvalsLength,
                                                  firstDerivatives.length);
         }
 
         final int minimumLength = 2;
-        if (xvals.length < minimumLength) {
+        if (xvalsLength < minimumLength) {
             throw new NumberIsTooSmallException(LocalizedFormats.NUMBER_OF_POINTS,
-                                                xvals.length, minimumLength,
+                                                xvalsLength, minimumLength,
                                                 true);
         }
 
-        final int size = xvals.length - 1;
+        final int size = xvalsLength - 1;
         final PolynomialFunction[] polynomials = new PolynomialFunction[size];
         final double[] coefficients = new double[4];
 

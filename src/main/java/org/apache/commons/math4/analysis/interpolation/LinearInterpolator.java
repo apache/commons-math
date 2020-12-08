@@ -47,17 +47,20 @@ public class LinearInterpolator implements UnivariateInterpolator {
         throws DimensionMismatchException,
                NumberIsTooSmallException,
                NonMonotonicSequenceException {
-        if (x.length != y.length) {
-            throw new DimensionMismatchException(x.length, y.length);
+        final int xLength = x.length;
+        final int yLength = y.length;
+
+        if (xLength != yLength) {
+            throw new DimensionMismatchException(xLength, yLength);
         }
 
-        if (x.length < 2) {
+        if (xLength < 2) {
             throw new NumberIsTooSmallException(LocalizedFormats.NUMBER_OF_POINTS,
-                                                x.length, 2, true);
+                                                xLength, 2, true);
         }
 
         // Number of intervals.  The number of data points is n + 1.
-        int n = x.length - 1;
+        int n = xLength - 1;
 
         MathArrays.checkOrder(x);
 

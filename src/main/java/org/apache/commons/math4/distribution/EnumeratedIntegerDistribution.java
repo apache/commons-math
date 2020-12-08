@@ -109,13 +109,16 @@ public class EnumeratedIntegerDistribution extends AbstractIntegerDistribution {
      * @return list of value/probability pairs
      */
     private static List<Pair<Integer, Double>>  createDistribution(int[] singletons, double[] probabilities) {
-        if (singletons.length != probabilities.length) {
-            throw new DimensionMismatchException(probabilities.length, singletons.length);
+        final int singletonsLength = singletons.length;
+        final int probabilitiesLength = probabilities.length;
+
+        if (singletonsLength != probabilitiesLength) {
+            throw new DimensionMismatchException(probabilitiesLength, singletonsLength);
         }
 
-        final List<Pair<Integer, Double>> samples = new ArrayList<>(singletons.length);
+        final List<Pair<Integer, Double>> samples = new ArrayList<>(singletonsLength);
 
-        for (int i = 0; i < singletons.length; i++) {
+        for (int i = 0; i < singletonsLength; i++) {
             samples.add(new Pair<>(singletons[i], probabilities[i]));
         }
         return samples;

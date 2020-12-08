@@ -957,20 +957,22 @@ public class DerivativeStructure implements RealFieldElement<DerivativeStructure
     public DerivativeStructure linearCombination(final DerivativeStructure[] a, final DerivativeStructure[] b)
         throws DimensionMismatchException {
 
+        final int aLength = a.length;
+        final int bLength = b.length;
         // compute an accurate value, taking care of cancellations
-        final double[] aDouble = new double[a.length];
-        for (int i = 0; i < a.length; ++i) {
+        final double[] aDouble = new double[aLength];
+        for (int i = 0; i < aLength; ++i) {
             aDouble[i] = a[i].getValue();
         }
-        final double[] bDouble = new double[b.length];
-        for (int i = 0; i < b.length; ++i) {
+        final double[] bDouble = new double[bLength];
+        for (int i = 0; i < bLength; ++i) {
             bDouble[i] = b[i].getValue();
         }
         final double accurateValue = LinearCombination.value(aDouble, bDouble);
 
         // compute a simple value, with all partial derivatives
         DerivativeStructure simpleValue = a[0].getField().getZero();
-        for (int i = 0; i < a.length; ++i) {
+        for (int i = 0; i < aLength; ++i) {
             simpleValue = simpleValue.add(a[i].multiply(b[i]));
         }
 
@@ -990,9 +992,10 @@ public class DerivativeStructure implements RealFieldElement<DerivativeStructure
     public DerivativeStructure linearCombination(final double[] a, final DerivativeStructure[] b)
         throws DimensionMismatchException {
 
+        final int bLength = b.length;
         // compute an accurate value, taking care of cancellations
-        final double[] bDouble = new double[b.length];
-        for (int i = 0; i < b.length; ++i) {
+        final double[] bDouble = new double[bLength];
+        for (int i = 0; i < bLength; ++i) {
             bDouble[i] = b[i].getValue();
         }
         final double accurateValue = LinearCombination.value(a, bDouble);

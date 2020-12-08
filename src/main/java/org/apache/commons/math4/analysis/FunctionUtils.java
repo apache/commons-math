@@ -432,8 +432,9 @@ public class FunctionUtils {
             public DerivativeStructure value(final DerivativeStructure[] point) {
 
                 // set up the input parameters
-                final double[] dPoint = new double[point.length];
-                for (int i = 0; i < point.length; ++i) {
+                final int pointLength = point.length;
+                final double[] dPoint = new double[pointLength];
+                for (int i = 0; i < pointLength; ++i) {
                     dPoint[i] = point[i].getValue();
                     if (point[i].getOrder() > 1) {
                         throw new NumberIsTooLargeException(point[i].getOrder(), 1, true);
@@ -443,14 +444,14 @@ public class FunctionUtils {
                 // evaluate regular functions
                 final double    v = f.value(dPoint);
                 final double[] dv = gradient.value(dPoint);
-                if (dv.length != point.length) {
+                if (dv.length != pointLength) {
                     // the gradient function is inconsistent
-                    throw new DimensionMismatchException(dv.length, point.length);
+                    throw new DimensionMismatchException(dv.length, pointLength);
                 }
 
                 // build the combined derivative
                 final int parameters = point[0].getFreeParameters();
-                final double[] partials = new double[point.length];
+                final double[] partials = new double[pointLength];
                 final double[] packed = new double[parameters + 1];
                 packed[0] = v;
                 final int orders[] = new int[parameters];
@@ -458,7 +459,7 @@ public class FunctionUtils {
 
                     // we differentiate once with respect to parameter i
                     orders[i] = 1;
-                    for (int j = 0; j < point.length; ++j) {
+                    for (int j = 0; j < pointLength; ++j) {
                         partials[j] = point[j].getPartialDerivative(orders);
                     }
                     orders[i] = 0;
@@ -529,9 +530,10 @@ public class FunctionUtils {
                 }
 
                 // set up the input parameters
-                final DerivativeStructure[] dsPoint = new DerivativeStructure[point.length];
-                for (int i = 0; i < point.length; ++i) {
-                    dsPoint[i] = new DerivativeStructure(point.length, sumOrders, i, point[i]);
+                final int pointLength = point.length;
+                final DerivativeStructure[] dsPoint = new DerivativeStructure[pointLength];
+                for (int i = 0; i < pointLength; ++i) {
+                    dsPoint[i] = new DerivativeStructure(pointLength, sumOrders, i, point[i]);
                 }
 
                 return f.value(dsPoint).getPartialDerivative(orders);

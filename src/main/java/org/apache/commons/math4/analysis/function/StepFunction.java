@@ -66,17 +66,20 @@ public class StepFunction implements UnivariateFunction {
             y == null) {
             throw new NullArgumentException();
         }
-        if (x.length == 0 ||
-            y.length == 0) {
+        final int xLength = x.length;
+        final int yLength = y.length;
+
+        if (xLength == 0 ||
+            yLength == 0) {
             throw new NoDataException();
         }
-        if (y.length != x.length) {
-            throw new DimensionMismatchException(y.length, x.length);
+        if (yLength != xLength) {
+            throw new DimensionMismatchException(yLength, xLength);
         }
         MathArrays.checkOrder(x);
 
-        abscissa = Arrays.copyOf(x, x.length);
-        ordinate = Arrays.copyOf(y, y.length);
+        abscissa = Arrays.copyOf(x, xLength);
+        ordinate = Arrays.copyOf(y, yLength);
     }
 
     /** {@inheritDoc} */

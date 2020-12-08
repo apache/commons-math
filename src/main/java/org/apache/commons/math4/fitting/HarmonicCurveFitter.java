@@ -345,7 +345,8 @@ public class HarmonicCurveFitter extends AbstractCurveFitter {
             double f2Integral = 0;
             double fPrime2Integral = 0;
             final double startX = currentX;
-            for (int i = 1; i < observations.length; ++i) {
+            final int obsLength = observations.length;
+            for (int i = 1; i < obsLength; ++i) {
                 // one step forward
                 final double previousX = currentX;
                 final double previousY = currentY;
@@ -376,7 +377,7 @@ public class HarmonicCurveFitter extends AbstractCurveFitter {
             double c2 = sxy * sxz - sx2 * syz;
             double c3 = sx2 * sy2 - sxy * sxy;
             if ((c1 / c2 < 0) || (c2 / c3 < 0)) {
-                final int last = observations.length - 1;
+                final int last = obsLength - 1;
                 // Range of the observations, assuming that the
                 // observations are sorted.
                 final double xRange = observations[last].getX() - observations[0].getX();
@@ -387,7 +388,7 @@ public class HarmonicCurveFitter extends AbstractCurveFitter {
 
                 double yMin = Double.POSITIVE_INFINITY;
                 double yMax = Double.NEGATIVE_INFINITY;
-                for (int i = 1; i < observations.length; ++i) {
+                for (int i = 1; i < obsLength; ++i) {
                     final double y = observations[i].getY();
                     if (y < yMin) {
                         yMin = y;
