@@ -22,6 +22,7 @@ import org.apache.commons.math4.TestUtils;
 import org.apache.commons.math4.exception.MathIllegalArgumentException;
 import org.apache.commons.math4.exception.NotStrictlyPositiveException;
 import org.apache.commons.math4.exception.NullArgumentException;
+import org.apache.commons.math4.exception.OutOfRangeException;
 import org.apache.commons.math4.dfp.Dfp;
 import org.junit.Assert;
 import org.junit.Test;
@@ -445,4 +446,43 @@ public final class MatrixUtilsTest {
                 MatrixUtils.createRealIdentityMatrix(testData.length), result, 1e-12);
     }
 
+    @Test
+    public void testCheckMatrixRowIndexError() {
+        try {
+            AnyMatrix m = MatrixUtils.createRealMatrix(new double[][] {{9,9}, {9,9}, {9,9}});
+            MatrixUtils.checkRowIndex(m, 4);
+            Assert.fail("expected an OutOfRangeException");
+        } catch (OutOfRangeException e) {
+            String s = e.getMessage();
+            int topIx = s.indexOf('2');
+            int botIx = s.indexOf('0');
+            int rowIx = s.indexOf('4');
+            if (topIx < 0 || botIx < 0 || rowIx < 0) {
+                Assert.fail("expected a message like index 4 is not in 0..3, not: " + s);
+            }
+        } catch (Exception e) {
+            Assert.fail("expected an OutOfRange exception, not: " +
+                        e.getClass().getName() + ": " + e.getMessage());
+        }
+    }
+
+    @Test
+    public void testCheckMatrixColIndexError() {
+        try {
+            AnyMatrix m = MatrixUtils.createRealMatrix(new double[][] {{9,9}, {9,9}, {9,9}});
+            MatrixUtils.checkColumnIndex(m, 4);
+            Assert.fail("expected an OutOfRangeException");
+        } catch (OutOfRangeException e) {
+            String s = e.getMessage();
+            int topIx = s.indexOf('1');
+            int botIx = s.indexOf('0');
+            int rowIx = s.indexOf('4');
+            if (topIx < 0 || botIx < 0 || rowIx < 0) {
+                Assert.fail("expected a message like index 4 is not in 0..3, not: " + s);
+            }
+        } catch (Exception e) {
+            Assert.fail("expected an OutOfRange exception, not: " +
+                        e.getClass().getName() + ": " + e.getMessage());
+        }
+    }
 }
