@@ -16,12 +16,7 @@
  */
 package org.apache.commons.math4.analysis.integration;
 
-import org.apache.commons.math4.exception.MathIllegalArgumentException;
-import org.apache.commons.math4.exception.MaxCountExceededException;
-import org.apache.commons.math4.exception.NotStrictlyPositiveException;
 import org.apache.commons.math4.exception.NumberIsTooLargeException;
-import org.apache.commons.math4.exception.NumberIsTooSmallException;
-import org.apache.commons.math4.exception.TooManyEvaluationsException;
 import org.apache.commons.math4.util.FastMath;
 
 /**
@@ -48,9 +43,9 @@ public class TrapezoidIntegrator extends BaseAbstractUnivariateIntegrator {
      * @param absoluteAccuracy absolute accuracy of the result
      * @param minimalIterationCount minimum number of iterations
      * @param maximalIterationCount maximum number of iterations
-     * @exception NotStrictlyPositiveException if minimal number of iterations
+     * @exception org.apache.commons.math4.exception.NotStrictlyPositiveException if minimal number of iterations
      * is not strictly positive
-     * @exception NumberIsTooSmallException if maximal number of iterations
+     * @exception org.apache.commons.math4.exception.NumberIsTooSmallException if maximal number of iterations
      * is lesser than or equal to the minimal number of iterations
      * @exception NumberIsTooLargeException if maximal number of iterations
      * is greater than 63.
@@ -70,9 +65,9 @@ public class TrapezoidIntegrator extends BaseAbstractUnivariateIntegrator {
      * Build a trapezoid integrator with given iteration counts.
      * @param minimalIterationCount minimum number of iterations
      * @param maximalIterationCount maximum number of iterations
-     * @exception NotStrictlyPositiveException if minimal number of iterations
+     * @exception org.apache.commons.math4.exception.NotStrictlyPositiveException if minimal number of iterations
      * is not strictly positive
-     * @exception NumberIsTooSmallException if maximal number of iterations
+     * @exception org.apache.commons.math4.exception.NumberIsTooSmallException if maximal number of iterations
      * is lesser than or equal to the minimal number of iterations
      * @exception NumberIsTooLargeException if maximal number of iterations
      * is greater than 63.
@@ -106,7 +101,7 @@ public class TrapezoidIntegrator extends BaseAbstractUnivariateIntegrator {
      * @param baseIntegrator integrator holding integration parameters
      * @param n the stage of 1/2 refinement, n = 0 is no refinement
      * @return the value of n-th stage integral
-     * @throws TooManyEvaluationsException if the maximal number of evaluations
+     * @throws org.apache.commons.math4.exception.TooManyEvaluationsException if the maximal number of evaluations
      * is exceeded.
      */
     double stage(final BaseAbstractUnivariateIntegrator baseIntegrator, final int n) {

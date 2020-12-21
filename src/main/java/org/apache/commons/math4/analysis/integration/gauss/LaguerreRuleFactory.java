@@ -20,7 +20,6 @@ import java.util.Arrays;
 
 import org.apache.commons.math4.analysis.polynomials.PolynomialFunction;
 import org.apache.commons.math4.analysis.polynomials.PolynomialsUtils;
-import org.apache.commons.math4.exception.DimensionMismatchException;
 import org.apache.commons.math4.linear.EigenDecomposition;
 import org.apache.commons.math4.linear.MatrixUtils;
 import org.apache.commons.math4.linear.RealMatrix;
