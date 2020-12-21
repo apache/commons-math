@@ -17,8 +17,6 @@
 package org.apache.commons.math4.analysis.integration.gauss;
 
 import org.apache.commons.math4.analysis.UnivariateFunction;
-import org.apache.commons.math4.exception.DimensionMismatchException;
-import org.apache.commons.math4.exception.NonMonotonicSequenceException;
 import org.apache.commons.math4.util.Pair;
 
 /**
@@ -36,9 +34,6 @@ public class SymmetricGaussIntegrator extends GaussIntegrator {
      *
      * @param points Integration points.
      * @param weights Weights of the corresponding integration nodes.
-     * @throws NonMonotonicSequenceException if the {@code points} are not
-     * sorted in increasing order.
-     * @throws DimensionMismatchException if points and weights don't have the same length
      */
     public SymmetricGaussIntegrator(double[] points,
                                     double[] weights) {
@@ -50,8 +45,6 @@ public class SymmetricGaussIntegrator extends GaussIntegrator {
      * the pair) and weights (second element of the pair.
      *
      * @param pointsAndWeights Integration points and corresponding weights.
-     * @throws NonMonotonicSequenceException if the {@code points} are not
-     * sorted in increasing order.
      *
      * @see #SymmetricGaussIntegrator(double[], double[])
      */
