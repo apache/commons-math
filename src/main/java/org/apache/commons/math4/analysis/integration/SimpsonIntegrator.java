@@ -42,6 +42,10 @@ public class SimpsonIntegrator extends BaseAbstractUnivariateIntegrator {
      * @param minimalIterationCount minimum number of iterations
      * @param maximalIterationCount maximum number of iterations
      * (must be less than or equal to {@link #SIMPSON_MAX_ITERATIONS_COUNT})
+     * @exception org.apache.commons.math4.exception.NotStrictlyPositiveException if minimal number of iterations
+     * is not strictly positive
+     * @exception org.apache.commons.math4.exception.NumberIsTooSmallException if maximal number of iterations
+     * is lesser than or equal to the minimal number of iterations
      * @exception NumberIsTooLargeException if maximal number of iterations
      * is greater than {@link #SIMPSON_MAX_ITERATIONS_COUNT}
      */
@@ -61,6 +65,10 @@ public class SimpsonIntegrator extends BaseAbstractUnivariateIntegrator {
      * @param minimalIterationCount minimum number of iterations
      * @param maximalIterationCount maximum number of iterations
      * (must be less than or equal to {@link #SIMPSON_MAX_ITERATIONS_COUNT})
+     * @exception org.apache.commons.math4.exception.NotStrictlyPositiveException if minimal number of iterations
+     * is not strictly positive
+     * @exception org.apache.commons.math4.exception.NumberIsTooSmallException if maximal number of iterations
+     * is lesser than or equal to the minimal number of iterations
      * @exception NumberIsTooLargeException if maximal number of iterations
      * is greater than {@link #SIMPSON_MAX_ITERATIONS_COUNT}
      */

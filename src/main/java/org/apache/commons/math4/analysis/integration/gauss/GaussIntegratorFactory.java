@@ -17,7 +17,6 @@
 package org.apache.commons.math4.analysis.integration.gauss;
 
 import org.apache.commons.math4.util.Pair;
-
 import java.math.BigDecimal;
 
 /**
@@ -79,6 +78,7 @@ public class GaussIntegratorFactory {
      * @param lowerBound Lower bound of the integration interval.
      * @param upperBound Upper bound of the integration interval.
      * @return a Gauss-Legendre integrator.
+     * @throws org.apache.commons.math4.exception.NotStrictlyPositiveException if number of points is not positive
      */
     public GaussIntegrator legendre(int numberOfPoints,
                                     double lowerBound,
@@ -96,6 +96,7 @@ public class GaussIntegratorFactory {
      *
      * @param numberOfPoints Order of the integration rule.
      * @return a Gauss-Legendre integrator.
+     * @throws org.apache.commons.math4.exception.NotStrictlyPositiveException if number of points is not positive
      */
     public GaussIntegrator legendreHighPrecision(int numberOfPoints) {
         return new GaussIntegrator(getRule(legendreHighPrecision, numberOfPoints));
@@ -110,6 +111,7 @@ public class GaussIntegratorFactory {
      * @param lowerBound Lower bound of the integration interval.
      * @param upperBound Upper bound of the integration interval.
      * @return a Gauss-Legendre integrator.
+     * @throws org.apache.commons.math4.exception.NotStrictlyPositiveException if number of points is not positive
      */
     public GaussIntegrator legendreHighPrecision(int numberOfPoints,
                                                  double lowerBound,
@@ -140,6 +142,9 @@ public class GaussIntegratorFactory {
      * @param factory Integration rule factory.
      * @param numberOfPoints Order of the integration rule.
      * @return the integration nodes and weights.
+     * @throws org.apache.commons.math4.exception.NotStrictlyPositiveException if number of points is not positive
+     * @throws org.apache.commons.math4.exception.DimensionMismatchException if the elements of the rule pair do not
+     * have the same length.
      */
     private static Pair<double[], double[]> getRule(BaseRuleFactory<? extends Number> factory,
                                                     int numberOfPoints) {

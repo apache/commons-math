@@ -42,6 +42,10 @@ public class MidPointIntegrator extends BaseAbstractUnivariateIntegrator {
      * @param absoluteAccuracy absolute accuracy of the result
      * @param minimalIterationCount minimum number of iterations
      * @param maximalIterationCount maximum number of iterations
+     * @exception org.apache.commons.math4.exception.NotStrictlyPositiveException if minimal number of iterations
+     * is not strictly positive
+     * @exception org.apache.commons.math4.exception.NumberIsTooSmallException if maximal number of iterations
+     * is lesser than or equal to the minimal number of iterations
      * @exception NumberIsTooLargeException if maximal number of iterations
      * is greater than 39.
      */
@@ -60,6 +64,10 @@ public class MidPointIntegrator extends BaseAbstractUnivariateIntegrator {
      * Build a midpoint integrator with given iteration counts.
      * @param minimalIterationCount minimum number of iterations
      * @param maximalIterationCount maximum number of iterations
+     * @exception org.apache.commons.math4.exception.NotStrictlyPositiveException if minimal number of iterations
+     * is not strictly positive
+     * @exception org.apache.commons.math4.exception.NumberIsTooSmallException if maximal number of iterations
+     * is lesser than or equal to the minimal number of iterations
      * @exception NumberIsTooLargeException if maximal number of iterations
      * is greater than 39.
      */
@@ -96,6 +104,8 @@ public class MidPointIntegrator extends BaseAbstractUnivariateIntegrator {
      * @param diffMaxMin Difference between the lower bound and upper bound
      * of the integration interval.
      * @return the value of n-th stage integral
+     * @throws org.apache.commons.math4.exception.TooManyEvaluationsException if the maximal number of evaluations
+     * is exceeded.
      */
     private double stage(final int n,
                          double previousStageResult,

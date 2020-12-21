@@ -41,6 +41,8 @@ public class GaussIntegrator {
      *
      * @param points Integration points.
      * @param weights Weights of the corresponding integration nodes.
+     * @throws org.apache.commons.math4.exception.NonMonotonicSequenceException if the {@code points} are not
+     * sorted in increasing order.
      * @throws DimensionMismatchException if points and weights don't have the same length
      */
     public GaussIntegrator(double[] points,
@@ -61,6 +63,8 @@ public class GaussIntegrator {
      * the pair) and weights (second element of the pair.
      *
      * @param pointsAndWeights Integration points and corresponding weights.
+     * @throws org.apache.commons.math4.exception.NonMonotonicSequenceException if the {@code points} are not
+     * sorted in increasing order.
      *
      * @see #GaussIntegrator(double[], double[])
      */
