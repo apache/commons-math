@@ -16,14 +16,14 @@
  */
 package org.apache.commons.math4.analysis.integration.gauss;
 
+import java.util.Arrays;
+
 import org.apache.commons.math4.analysis.polynomials.PolynomialFunction;
 import org.apache.commons.math4.analysis.polynomials.PolynomialsUtils;
 import org.apache.commons.math4.linear.EigenDecomposition;
 import org.apache.commons.math4.linear.MatrixUtils;
 import org.apache.commons.math4.linear.RealMatrix;
 import org.apache.commons.math4.util.Pair;
-
-import java.util.Arrays;
 
 /**
  * Factory that creates Gauss-type quadrature rule using Laguerre polynomials.
