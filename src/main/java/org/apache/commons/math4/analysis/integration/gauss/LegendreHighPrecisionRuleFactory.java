@@ -16,10 +16,10 @@
  */
 package org.apache.commons.math4.analysis.integration.gauss;
 
-import org.apache.commons.math4.util.Pair;
-
 import java.math.BigDecimal;
 import java.math.MathContext;
+
+import org.apache.commons.math4.util.Pair;
 
 /**
  * Factory that creates Gauss-type quadrature rule using Legendre polynomials.
