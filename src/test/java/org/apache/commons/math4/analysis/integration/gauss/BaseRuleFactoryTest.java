@@ -59,6 +59,7 @@ public class BaseRuleFactoryTest {
         for (Future<Pair<double[], double[]>> f : results) {
             f.get();
         }
+        exec.shutdown();
 
         // Assertion would fail if "getRuleInternal" were not "synchronized".
         final int n = RuleBuilder.getNumberOfCalls();
