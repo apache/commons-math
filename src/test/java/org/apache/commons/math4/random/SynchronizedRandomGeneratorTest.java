@@ -114,6 +114,7 @@ public class SynchronizedRandomGeneratorTest {
         for (int i = 0; i < numGenerators; i++) {
             values[i] = results.get(i).get();
         }
+        exec.shutdown();
         return values;
     }
 }
