@@ -146,7 +146,7 @@ public class ComplexFormat {
         if (imaginaryCharacter == null) {
             throw new NullArgumentException();
         }
-        if (imaginaryCharacter.length() == 0) {
+        if (imaginaryCharacter.isEmpty()) {
             throw new NoDataException();
         }
         if (imaginaryFormat == null) {
