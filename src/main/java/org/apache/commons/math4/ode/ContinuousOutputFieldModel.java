@@ -120,11 +120,11 @@ public class ContinuousOutputFieldModel<T extends RealFieldElement<T>>
     public void append(final ContinuousOutputFieldModel<T> model)
         throws MathIllegalArgumentException, MaxCountExceededException {
 
-        if (model.steps.size() == 0) {
+        if (model.steps.isEmpty()) {
             return;
         }
 
-        if (steps.size() == 0) {
+        if (steps.isEmpty()) {
             initialTime = model.initialTime;
             forward     = model.forward;
         } else {
@@ -195,7 +195,7 @@ public class ContinuousOutputFieldModel<T extends RealFieldElement<T>>
     public void handleStep(final FieldStepInterpolator<T> interpolator, final boolean isLast)
         throws MaxCountExceededException {
 
-        if (steps.size() == 0) {
+        if (steps.isEmpty()) {
             initialTime = interpolator.getPreviousState().getTime();
             forward     = interpolator.isForward();
         }

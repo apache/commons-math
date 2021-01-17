@@ -270,7 +270,7 @@ public class SimplexSolver extends LinearOptimizer {
             }
         }
 
-        if (minRatioPositions.size() == 0) {
+        if (minRatioPositions.isEmpty()) {
             return null;
         } else if (minRatioPositions.size() > 1) {
             // there's a degeneracy as indicated by a tie in the minimum ratio test
