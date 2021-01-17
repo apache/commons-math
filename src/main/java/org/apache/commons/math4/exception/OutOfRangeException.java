@@ -42,7 +42,9 @@ public class OutOfRangeException extends MathIllegalNumberException {
     public OutOfRangeException(Number wrong,
                                Number lo,
                                Number hi) {
-        this(LocalizedFormats.OUT_OF_RANGE_SIMPLE, wrong, lo, hi);
+        super(LocalizedFormats.OUT_OF_RANGE_SIMPLE, wrong, lo, hi);
+        this.lo = lo;
+        this.hi = hi;
     }
 
     /**
@@ -58,9 +60,8 @@ public class OutOfRangeException extends MathIllegalNumberException {
                                Number wrong,
                                Number lo,
                                Number hi) {
-        super(specific, wrong, lo, hi);
-        this.lo = lo;
-        this.hi = hi;
+        this(wrong, lo, hi);
+        getContext().addMessage(specific, wrong, lo, hi);
     }
 
     /**

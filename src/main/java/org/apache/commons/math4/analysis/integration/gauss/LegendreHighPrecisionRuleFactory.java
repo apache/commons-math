@@ -19,7 +19,6 @@ package org.apache.commons.math4.analysis.integration.gauss;
 import java.math.BigDecimal;
 import java.math.MathContext;
 
-import org.apache.commons.math4.exception.DimensionMismatchException;
 import org.apache.commons.math4.util.Pair;
 
 /**

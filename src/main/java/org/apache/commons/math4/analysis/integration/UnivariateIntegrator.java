@@ -17,10 +17,6 @@
 package org.apache.commons.math4.analysis.integration;
 
 import org.apache.commons.math4.analysis.UnivariateFunction;
-import org.apache.commons.math4.exception.MathIllegalArgumentException;
-import org.apache.commons.math4.exception.MaxCountExceededException;
-import org.apache.commons.math4.exception.NullArgumentException;
-import org.apache.commons.math4.exception.TooManyEvaluationsException;
 
 /**
  * Interface for univariate real integration algorithms.
@@ -65,13 +61,13 @@ public interface UnivariateIntegrator {
      * @param min the lower bound for the interval
      * @param max the upper bound for the interval
      * @return the value of integral
-     * @throws TooManyEvaluationsException if the maximum number of function
+     * @throws org.apache.commons.math4.exception.TooManyEvaluationsException if the maximum number of function
      * evaluations is exceeded
-     * @throws MaxCountExceededException if the maximum iteration count is exceeded
+     * @throws org.apache.commons.math4.exception.MaxCountExceededException if the maximum iteration count is exceeded
      * or the integrator detects convergence problems otherwise
-     * @throws MathIllegalArgumentException if {@code min > max} or the endpoints do not
+     * @throws org.apache.commons.math4.exception.MathIllegalArgumentException if {@code min > max} or the endpoints do not
      * satisfy the requirements specified by the integrator
-     * @throws NullArgumentException if {@code f} is {@code null}.
+     * @throws org.apache.commons.math4.exception.NullArgumentException if {@code f} is {@code null}.
      */
     double integrate(int maxEval, UnivariateFunction f, double min, double max);
 

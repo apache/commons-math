@@ -16,7 +16,6 @@
  */
 package org.apache.commons.math4.analysis.integration.gauss;
 
-import org.apache.commons.math4.exception.DimensionMismatchException;
 import org.apache.commons.math4.util.FastMath;
 import org.apache.commons.math4.util.Pair;
 
