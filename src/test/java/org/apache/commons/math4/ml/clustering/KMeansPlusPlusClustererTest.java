@@ -71,12 +71,12 @@ public class KMeansPlusPlusClustererTest {
         };
         for (KMeansPlusPlusClusterer.EmptyClusterStrategy strategy : strategies) {
             int numberOfVariables = 27;
-            // initialise testvalues
+            // initialize test values
             int position1 = 1;
             int position2 = position1 + numberOfVariables;
             int position3 = position2 + numberOfVariables;
             int position4 = position3 + numberOfVariables;
-            // testvalues will be multiplied
+            // test values will be multiplied
             int multiplier = 1000000;
 
             DoublePoint[] breakingPoints = new DoublePoint[numberOfVariables];
