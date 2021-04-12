@@ -117,7 +117,7 @@ public class EmpiricalDistribution extends AbstractRealDistribution
     private final List<SummaryStatistics> binStats;
 
     /** Sample statistics */
-    private SummaryStatistics sampleStats = null;
+    private SummaryStatistics sampleStats;
 
     /** Max loaded value */
     private double max = Double.NEGATIVE_INFINITY;
@@ -126,16 +126,16 @@ public class EmpiricalDistribution extends AbstractRealDistribution
     private double min = Double.POSITIVE_INFINITY;
 
     /** Grid size */
-    private double delta = 0d;
+    private double delta;
 
     /** number of bins */
     private final int binCount;
 
     /** is the distribution loaded? */
-    private boolean loaded = false;
+    private boolean loaded;
 
     /** upper bounds of subintervals in (0,1) "belonging" to the bins */
-    private double[] upperBounds = null;
+    private double[] upperBounds;
 
     /**
      * Creates a new EmpiricalDistribution with the default bin count.

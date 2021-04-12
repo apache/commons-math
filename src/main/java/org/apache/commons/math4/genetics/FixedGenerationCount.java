@@ -29,7 +29,7 @@ import org.apache.commons.math4.exception.NumberIsTooSmallException;
  */
 public class FixedGenerationCount implements StoppingCondition {
     /** Number of generations that have passed */
-    private int numGenerations = 0;
+    private int numGenerations;
 
     /** Maximum number of generations (stopping criteria) */
     private final int maxGenerations;

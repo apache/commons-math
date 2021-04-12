@@ -53,7 +53,7 @@ public class GeneticAlgorithm {
     private final SelectionPolicy selectionPolicy;
 
     /** the number of generations evolved to reach {@link StoppingCondition} in the last run. */
-    private int generationsEvolved = 0;
+    private int generationsEvolved;
 
     /**
      * Create a new genetic algorithm.

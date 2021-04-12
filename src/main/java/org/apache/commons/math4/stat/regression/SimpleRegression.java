@@ -66,28 +66,28 @@ public class SimpleRegression implements Serializable, UpdatingMultipleLinearReg
     private static final long serialVersionUID = -3004689053607543335L;
 
     /** sum of x values */
-    private double sumX = 0d;
+    private double sumX;
 
     /** total variation in x (sum of squared deviations from xbar) */
-    private double sumXX = 0d;
+    private double sumXX;
 
     /** sum of y values */
-    private double sumY = 0d;
+    private double sumY;
 
     /** total variation in y (sum of squared deviations from ybar) */
-    private double sumYY = 0d;
+    private double sumYY;
 
     /** sum of products */
-    private double sumXY = 0d;
+    private double sumXY;
 
     /** number of observations */
-    private long n = 0;
+    private long n;
 
     /** mean of accumulated x values, used in updating formulas */
-    private double xbar = 0;
+    private double xbar;
 
     /** mean of accumulated y values, used in updating formulas */
-    private double ybar = 0;
+    private double ybar;
 
     /** include an intercept or not */
     private final boolean hasIntercept;

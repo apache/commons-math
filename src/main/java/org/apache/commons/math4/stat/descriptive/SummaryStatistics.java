@@ -63,7 +63,7 @@ public class SummaryStatistics implements StatisticalSummary, Serializable {
     private static final long serialVersionUID = -2021321786743555871L;
 
     /** count of values that have been added */
-    private long n = 0;
+    private long n;
 
     /** SecondMoment is used to compute the mean and variance */
     private SecondMoment secondMoment = new SecondMoment();

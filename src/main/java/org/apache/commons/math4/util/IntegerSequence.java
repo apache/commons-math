@@ -148,7 +148,7 @@ public class IntegerSequence {
         /** Function called at counter exhaustion. */
         private final MaxCountExceededCallback maxCountCallback;
         /** Current count. */
-        private int count = 0;
+        private int count;
 
         /**
          * Defines a method to be called at counter exhaustion.

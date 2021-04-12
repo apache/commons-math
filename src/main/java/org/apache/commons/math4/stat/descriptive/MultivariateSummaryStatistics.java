@@ -78,7 +78,7 @@ public class MultivariateSummaryStatistics
     private final int k;
 
     /** Count of values that have been added */
-    private long n = 0;
+    private long n;
 
     /** Sum statistic implementation - can be reset by setter. */
     private final StorelessUnivariateStatistic[] sumImpl;

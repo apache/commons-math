@@ -51,7 +51,7 @@ public class Skewness extends AbstractStorelessUnivariateStatistic implements Se
     private static final long serialVersionUID = 20150412L;
 
     /** Third moment on which this statistic is based */
-    protected ThirdMoment moment = null;
+    protected ThirdMoment moment;
 
      /**
      * Determines whether or not this statistic can be incremented or cleared.

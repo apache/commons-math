@@ -46,7 +46,7 @@ public class StandardDeviation extends AbstractStorelessUnivariateStatistic
     private static final long serialVersionUID = 20150412L;
 
     /** Wrapped Variance instance */
-    private Variance variance = null;
+    private Variance variance;
 
     /**
      * Constructs a StandardDeviation.  Sets the underlying {@link Variance}

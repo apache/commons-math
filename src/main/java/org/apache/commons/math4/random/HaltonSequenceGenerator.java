@@ -71,7 +71,7 @@ public class HaltonSequenceGenerator implements RandomVectorGenerator {
     private final int dimension;
 
     /** The current index in the sequence. */
-    private int count = 0;
+    private int count;
 
     /** The base numbers for each component. */
     private final int[] base;

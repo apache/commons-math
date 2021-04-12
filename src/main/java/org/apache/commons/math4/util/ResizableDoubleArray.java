@@ -120,14 +120,14 @@ public class ResizableDoubleArray implements DoubleArray, Serializable {
      * The number of addressable elements in the array.  Note that this
      * has nothing to do with the length of the internal storage array.
      */
-    private int numElements = 0;
+    private int numElements;
 
     /**
      * The position of the first addressable element in the internal storage
      * array.  The addressable elements in the array are
      * {@code internalArray[startIndex],...,internalArray[startIndex + numElements - 1]}.
      */
-    private int startIndex = 0;
+    private int startIndex;
 
     /**
      * Specification of expansion algorithm.

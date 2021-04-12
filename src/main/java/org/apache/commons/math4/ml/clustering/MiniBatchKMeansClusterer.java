@@ -254,7 +254,7 @@ public class MiniBatchKMeansClusterer<T extends Clusterable>
         /** Minimum value of {@link #ewaInertia} during iteration. */
         private double ewaInertiaMin = Double.POSITIVE_INFINITY;
         /** Number of iteration during which {@link #ewaInertia} did not improve. */
-        private int noImprovementTimes = 0;
+        private int noImprovementTimes;
 
         /**
          * @param batchSize Number of elements for each batch iteration.
