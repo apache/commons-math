@@ -339,7 +339,7 @@ public class BesselJ
                 // ---------------------------------------------------------------------
                 // Argument reduction for SIN and COS routines.
                 // ---------------------------------------------------------------------
-                double t = (double) ((int) ((x / TWOPI) + 0.5));
+                double t = (int) ((x / TWOPI) + 0.5);
                 final double z = x - t * TOWPI1 - t * TWOPI2 - (alpha + 0.5) / PI2;
                 double vsin = FastMath.sin(z);
                 double vcos = FastMath.cos(z);
@@ -504,7 +504,7 @@ public class BesselJ
                 tempa = 1 / p;
                 int m = (2 * n) - 4 * (n / 2);
                 double sum = 0;
-                double em = (double) (n / 2);
+                double em = n / 2;
                 alpem = em - 1 + alpha;
                 alp2em = 2 * em + alpha;
                 if (m != 0) {

@@ -48,7 +48,7 @@ public abstract class ListPopulation implements Population {
      * @throws NotPositiveException if the population limit is not a positive number (&lt; 1)
      */
     public ListPopulation(final int populationLimit) throws NotPositiveException {
-        this(Collections.<Chromosome> emptyList(), populationLimit);
+        this(Collections.emptyList(), populationLimit);
     }
 
     /**

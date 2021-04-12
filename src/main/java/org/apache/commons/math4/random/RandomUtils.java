@@ -277,7 +277,7 @@ public class RandomUtils {
                 }
             }
 
-            return outBuffer.toString().substring(0, len);
+            return outBuffer.substring(0, len);
         }
 
         /**

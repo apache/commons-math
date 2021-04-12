@@ -90,7 +90,7 @@ public class SparseGradient implements RealFieldElement<SparseGradient>, Seriali
      * @return a new instance
      */
     public static SparseGradient createConstant(final double value) {
-        return new SparseGradient(value, Collections.<Integer, Double> emptyMap());
+        return new SparseGradient(value, Collections.emptyMap());
     }
 
     /** Factory method creating an independent variable.
@@ -210,7 +210,7 @@ public class SparseGradient implements RealFieldElement<SparseGradient>, Seriali
     @Override
     public SparseGradient multiply(final SparseGradient a) {
         final SparseGradient out =
-            new SparseGradient(value * a.value, Collections.<Integer, Double> emptyMap());
+            new SparseGradient(value * a.value, Collections.emptyMap());
 
         // Derivatives.
         for (Map.Entry<Integer, Double> entry : derivatives.entrySet()) {
@@ -272,7 +272,7 @@ public class SparseGradient implements RealFieldElement<SparseGradient>, Seriali
     /** {@inheritDoc} */
     @Override
     public SparseGradient divide(final SparseGradient a) {
-        final SparseGradient out = new SparseGradient(value / a.value, Collections.<Integer, Double> emptyMap());
+        final SparseGradient out = new SparseGradient(value / a.value, Collections.emptyMap());
 
         // Derivatives.
         for (Map.Entry<Integer, Double> entry : derivatives.entrySet()) {
@@ -412,7 +412,7 @@ public class SparseGradient implements RealFieldElement<SparseGradient>, Seriali
     /** {@inheritDoc} */
     @Override
     public SparseGradient scalb(final int n) {
-        final SparseGradient out = new SparseGradient(FastMath.scalb(value, n), Collections.<Integer, Double> emptyMap());
+        final SparseGradient out = new SparseGradient(FastMath.scalb(value, n), Collections.emptyMap());
         for (Map.Entry<Integer, Double> entry : derivatives.entrySet()) {
             out.derivatives.put(entry.getKey(), FastMath.scalb(entry.getValue(), n));
         }
