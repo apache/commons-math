@@ -182,8 +182,8 @@ public class Logit implements UnivariateDifferentiableFunction {
             //  for x close to hi the signs will always be +inf)
             // this is probably overkill, since the call to compose at the end
             // of the method will transform most infinities into NaN ...
-            for (int i = 2; i < f.length; ++i) {
-                f[i] = f[i - 2];
+            if (f.length - 2 >= 0) {
+                System.arraycopy(f, 0, f, 2, f.length - 2);
             }
 
         } else {
