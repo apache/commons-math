@@ -72,7 +72,7 @@ public class Variance extends AbstractStorelessUnivariateStatistic implements Se
     private static final long serialVersionUID = 20150412L;
 
     /** SecondMoment is used in incremental calculation of Variance*/
-    protected SecondMoment moment = null;
+    protected SecondMoment moment;
 
     /**
      * Whether or not {@link #increment(double)} should increment

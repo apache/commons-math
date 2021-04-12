@@ -99,7 +99,7 @@ public class PSquarePercentile extends AbstractStorelessUnivariateStatistic
      * Markers is the marker collection object which comes to effect
      * only after 5 values are inserted
      */
-    private PSquareMarkers markers = null;
+    private PSquareMarkers markers;
 
     /**
      * Computed p value (i,e percentile value of data set hither to received)

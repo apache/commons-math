@@ -54,7 +54,7 @@ import org.apache.commons.math4.stat.descriptive.moment.SecondMoment;
 public class OLSMultipleLinearRegression extends AbstractMultipleLinearRegression {
 
     /** Cached QR decomposition of X matrix */
-    private QRDecomposition qr = null;
+    private QRDecomposition qr;
 
     /** Singularity threshold for QR decomposition */
     private final double threshold;

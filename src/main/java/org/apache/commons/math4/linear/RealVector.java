@@ -753,7 +753,7 @@ public abstract class RealVector {
         return new Iterator<Entry>() {
 
             /** Current index. */
-            private int i = 0;
+            private int i;
 
             /** Current entry. */
             private Entry e = new Entry();

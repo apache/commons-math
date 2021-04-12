@@ -74,7 +74,7 @@ public class SobolSequenceGenerator implements RandomVectorGenerator {
     private final int dimension;
 
     /** The current index in the sequence. */
-    private int count = 0;
+    private int count;
 
     /** The direction vector for each component. */
     private final long[][] direction;

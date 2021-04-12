@@ -71,7 +71,7 @@ public class MultivariateNormalMixtureExpectationMaximization {
     /**
      * The log likelihood of the data given the fitted model.
      */
-    private double logLikelihood = 0d;
+    private double logLikelihood;
 
     /**
      * Creates an object to fit a multivariate normal mixture model to data.

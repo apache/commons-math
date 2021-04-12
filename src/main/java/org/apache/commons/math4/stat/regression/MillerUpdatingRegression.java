@@ -58,13 +58,13 @@ public class MillerUpdatingRegression implements UpdatingMultipleLinearRegressio
     /** scratch space for tolerance calc */
     private final double[] work_tolset;
     /** number of observations entered */
-    private long nobs = 0;
+    private long nobs;
     /** sum of squared errors of largest regression */
-    private double sserr = 0.0;
+    private double sserr;
     /** has rss been called? */
-    private boolean rss_set = false;
+    private boolean rss_set;
     /** has the tolerance setting method been called */
-    private boolean tol_set = false;
+    private boolean tol_set;
     /** flags for variables with linear dependency problems */
     private final boolean[] lindep;
     /** singular x values */
@@ -72,9 +72,9 @@ public class MillerUpdatingRegression implements UpdatingMultipleLinearRegressio
     /** workspace for singularity method */
     private final double[] work_sing;
     /** summation of Y variable */
-    private double sumy = 0.0;
+    private double sumy;
     /** summation of squared Y values */
-    private double sumsqy = 0.0;
+    private double sumsqy;
     /** boolean flag whether a regression constant is added */
     private final boolean hasIntercept;
     /** zero tolerance */
