@@ -119,8 +119,7 @@ public class LineSearch {
                 for (int i = 0; i < n; i++) {
                     x[i] = startPoint[i] + alpha * direction[i];
                 }
-                final double obj = mainOptimizer.computeObjectiveValue(x);
-                return obj;
+                return mainOptimizer.computeObjectiveValue(x);
             }
         };
 

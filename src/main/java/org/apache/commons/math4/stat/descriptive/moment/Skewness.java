@@ -190,10 +190,9 @@ public class Skewness extends AbstractStorelessUnivariateStatistic implements Se
             accum3 /= variance * FastMath.sqrt(variance);
 
             // Get N
-            double n0 = length;
 
             // Calculate skewness
-            skew = (n0 / ((n0 - 1) * (n0 - 2))) * accum3;
+            skew = ((double) length / (((double) length - 1) * ((double) length - 2))) * accum3;
         }
         return skew;
     }

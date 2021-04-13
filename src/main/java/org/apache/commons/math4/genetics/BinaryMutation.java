@@ -50,8 +50,7 @@ public class BinaryMutation implements MutationPolicy {
         // and change it
         newRepr.set(geneIndex, origChrom.getRepresentation().get(geneIndex) == 0 ? 1 : 0);
 
-        Chromosome newChrom = origChrom.newFixedLengthChromosome(newRepr);
-        return newChrom;
+        return origChrom.newFixedLengthChromosome(newRepr);
     }
 
 }

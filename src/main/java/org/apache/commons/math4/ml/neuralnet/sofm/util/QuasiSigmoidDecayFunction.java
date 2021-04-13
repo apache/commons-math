@@ -63,16 +63,14 @@ public class QuasiSigmoidDecayFunction {
             throw new NotStrictlyPositiveException(numCall);
         }
 
-        final double k = initValue;
-        final double m = numCall;
         final double b = 4 * slope / initValue;
         final double q = 1;
         final double a = 0;
         final double n = 1;
-        sigmoid = new Logistic(k, m, b, q, a, n);
+        sigmoid = new Logistic(initValue, (double) numCall, b, q, a, n);
 
         final double y0 = sigmoid.value(0);
-        scale = k / y0;
+        scale = initValue / y0;
     }
 
     /**

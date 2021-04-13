@@ -61,10 +61,8 @@ public class OpenMapRealMatrix extends AbstractRealMatrix
     public OpenMapRealMatrix(int rowDimension, int columnDimension)
         throws NotStrictlyPositiveException, NumberIsTooLargeException {
         super(rowDimension, columnDimension);
-        long lRow = rowDimension;
-        long lCol = columnDimension;
-        if (lRow * lCol >= Integer.MAX_VALUE) {
-            throw new NumberIsTooLargeException(lRow * lCol, Integer.MAX_VALUE, false);
+        if ((long) rowDimension * (long) columnDimension >= Integer.MAX_VALUE) {
+            throw new NumberIsTooLargeException((long) rowDimension * (long) columnDimension, Integer.MAX_VALUE, false);
         }
         this.rows = rowDimension;
         this.columns = columnDimension;

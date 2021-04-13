@@ -136,28 +136,27 @@ class DormandPrince54FieldStepInterpolator<T extends RealFieldElement<T>>
         final T[] interpolatedState;
         final T[] interpolatedDerivatives;
         if (getGlobalPreviousState() != null && theta.getReal() <= 0.5) {
-            final T f1        = thetaH;
-            final T f2        = f1.multiply(eta);
+            final T f2        = thetaH.multiply(eta);
             final T f3        = f2.multiply(theta);
             final T f4        = f3.multiply(eta);
-            final T coeff0    = f1.multiply(a70).
+            final T coeff0    = thetaH.multiply(a70).
                                 subtract(f2.multiply(a70.subtract(1))).
                                 add(f3.multiply(a70.multiply(2).subtract(1))).
                                 add(f4.multiply(d0));
             final T coeff1    = time.getField().getZero();
-            final T coeff2    = f1.multiply(a72).
+            final T coeff2    = thetaH.multiply(a72).
                                 subtract(f2.multiply(a72)).
                                 add(f3.multiply(a72.multiply(2))).
                                 add(f4.multiply(d2));
-            final T coeff3    = f1.multiply(a73).
+            final T coeff3    = thetaH.multiply(a73).
                                 subtract(f2.multiply(a73)).
                                 add(f3.multiply(a73.multiply(2))).
                                 add(f4.multiply(d3));
-            final T coeff4    = f1.multiply(a74).
+            final T coeff4    = thetaH.multiply(a74).
                                 subtract(f2.multiply(a74)).
                                 add(f3.multiply(a74.multiply(2))).
                                 add(f4.multiply(d4));
-            final T coeff5    = f1.multiply(a75).
+            final T coeff5    = thetaH.multiply(a75).
                                 subtract(f2.multiply(a75)).
                                 add(f3.multiply(a75.multiply(2))).
                                 add(f4.multiply(d5));
