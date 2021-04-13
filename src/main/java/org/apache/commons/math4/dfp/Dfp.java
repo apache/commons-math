@@ -668,8 +668,8 @@ public class Dfp implements RealFieldElement<Dfp> {
     /** Shift the mantissa left, and adjust the exponent to compensate.
      */
     protected void shiftLeft() {
-        for (int i = mant.length - 1; i > 0; i--) {
-            mant[i] = mant[i-1];
+        if (mant.length - 1 >= 0) {
+            System.arraycopy(mant, 0, mant, 1, mant.length - 1);
         }
         mant[0] = 0;
         exp--;
@@ -680,8 +680,8 @@ public class Dfp implements RealFieldElement<Dfp> {
     /** Shift the mantissa right, and adjust the exponent to compensate.
      */
     protected void shiftRight() {
-        for (int i = 0; i < mant.length - 1; i++) {
-            mant[i] = mant[i+1];
+        if (mant.length - 1 >= 0) {
+            System.arraycopy(mant, 1, mant, 0, mant.length - 1);
         }
         mant[mant.length - 1] = 0;
         exp++;
@@ -1864,9 +1864,7 @@ public class Dfp implements RealFieldElement<Dfp> {
 
             /* move the remainder into the dividend while left shifting */
             dividend[0] = 0;
-            for (int i = 0; i < mant.length; i++) {
-                dividend[i + 1] = remainder[i];
-            }
+            System.arraycopy(remainder, 0, dividend, 1, mant.length);
         }
 
         /* Find the most sig digit */
