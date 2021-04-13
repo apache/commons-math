@@ -908,7 +908,7 @@ public class PSquarePercentile extends AbstractStorelessUnivariateStatistic
          */
         @Override
         public boolean add(final E e) {
-            return size() < capacity ? super.add(e) : false;
+            return size() < capacity && super.add(e);
         }
 
         /**
@@ -924,7 +924,7 @@ public class PSquarePercentile extends AbstractStorelessUnivariateStatistic
             boolean isCollectionLess =
                     collection != null &&
                             collection.size() + size() <= capacity;
-            return isCollectionLess ? super.addAll(collection) : false;
+            return isCollectionLess && super.addAll(collection);
         }
     }
 

@@ -301,7 +301,7 @@ public class FieldEventState<T extends RealFieldElement<T>> {
             // force the sign to its value "just after the event"
             previousEventTime = state.getTime();
             g0Positive        = increasing;
-            nextAction        = handler.eventOccurred(state, !(increasing ^ forward));
+            nextAction        = handler.eventOccurred(state, increasing == forward);
         } else {
             g0Positive = g0.getReal() >= 0;
             nextAction = Action.CONTINUE;

@@ -341,16 +341,12 @@ public class TricubicInterpolatingFunction
      * @return {@code true} if (x, y, z) is a valid point.
      */
     public boolean isValidPoint(double x, double y, double z) {
-        if (x < xval[0] ||
-            x > xval[xval.length - 1] ||
-            y < yval[0] ||
-            y > yval[yval.length - 1] ||
-            z < zval[0] ||
-            z > zval[zval.length - 1]) {
-            return false;
-        } else {
-            return true;
-        }
+        return !(x < xval[0]) &&
+                !(x > xval[xval.length - 1]) &&
+                !(y < yval[0]) &&
+                !(y > yval[yval.length - 1]) &&
+                !(z < zval[0]) &&
+                !(z > zval[zval.length - 1]);
     }
 
     /**
