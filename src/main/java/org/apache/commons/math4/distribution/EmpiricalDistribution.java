@@ -19,12 +19,12 @@ package org.apache.commons.math4.distribution;
 
 import java.io.BufferedReader;
 import java.io.File;
-import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.URL;
 import java.nio.charset.Charset;
+import java.nio.file.Files;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -228,13 +228,13 @@ public class EmpiricalDistribution extends AbstractRealDistribution
     public void load(File file) throws IOException, NullArgumentException {
         MathUtils.checkNotNull(file);
         Charset charset = Charset.forName(FILE_CHARSET);
-        InputStream is = new FileInputStream(file);
+        InputStream is = Files.newInputStream(file.toPath());
         BufferedReader in = new BufferedReader(new InputStreamReader(is, charset));
         try {
             DataAdapter da = new StreamDataAdapter(in);
             da.computeStats();
             // new adapter for second pass
-            is = new FileInputStream(file);
+            is = Files.newInputStream(file.toPath());
             in = new BufferedReader(new InputStreamReader(is, charset));
             fillBinStats(new StreamDataAdapter(in));
             loaded = true;
