@@ -468,8 +468,8 @@ public class DescriptiveStatistics implements StatisticalSummary, Serializable {
         } else {
             try {
                 percentileImpl.getClass().getMethod(SET_QUANTILE_METHOD_NAME,
-                        new Class[] {Double.TYPE}).invoke(percentileImpl,
-                                new Object[] {Double.valueOf(p)});
+                        Double.TYPE).invoke(percentileImpl,
+                        Double.valueOf(p));
             } catch (NoSuchMethodException e1) { // Setter guard should prevent
                 throw new MathIllegalStateException(
                       LocalizedFormats.PERCENTILE_IMPLEMENTATION_UNSUPPORTED_METHOD,
@@ -657,8 +657,8 @@ public class DescriptiveStatistics implements StatisticalSummary, Serializable {
     throws MathIllegalArgumentException {
         try {
             percentileImpl.getClass().getMethod(SET_QUANTILE_METHOD_NAME,
-                    new Class[] {Double.TYPE}).invoke(percentileImpl,
-                            new Object[] {Double.valueOf(50.0d)});
+                    Double.TYPE).invoke(percentileImpl,
+                    Double.valueOf(50.0d));
         } catch (NoSuchMethodException e1) {
             throw new MathIllegalArgumentException(
                   LocalizedFormats.PERCENTILE_IMPLEMENTATION_UNSUPPORTED_METHOD,
