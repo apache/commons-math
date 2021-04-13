@@ -603,7 +603,7 @@ class SimplexTableau implements Serializable {
         }
 
         // remove the columns in reverse order so the indices are correct
-        Integer[] drop = columnsToDrop.toArray(new Integer[columnsToDrop.size()]);
+        Integer[] drop = columnsToDrop.toArray(new Integer[0]);
         for (int i = drop.length - 1; i >= 0; i--) {
             columnLabels.remove((int) drop[i]);
         }
