@@ -179,8 +179,7 @@ public class Network
      * @see NeuronIdentifierComparator
      */
     public Collection<Neuron> getNeurons(Comparator<Neuron> comparator) {
-        final List<Neuron> neurons = new ArrayList<>();
-        neurons.addAll(neuronMap.values());
+        final List<Neuron> neurons = new ArrayList<>(neuronMap.values());
 
         Collections.sort(neurons, comparator);
 
