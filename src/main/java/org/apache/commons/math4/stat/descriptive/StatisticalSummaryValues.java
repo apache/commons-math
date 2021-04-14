@@ -70,6 +70,26 @@ public class StatisticalSummaryValues implements Serializable,
         this.min = min;
         this.sum = sum;
     }
+    
+    /**
+     * Convenience constructor which calculates the sum of values as mean*n
+     *
+     * @param mean  the sample mean
+     * @param variance  the sample variance
+     * @param n  the number of observations in the sample
+     * @param max  the maximum value
+     * @param min  the minimum value
+    */
+   public StatisticalSummaryValues(double mean, double variance, long n,
+       double max, double min) {
+       super();
+       this.mean = mean;
+       this.variance = variance;
+       this.n = n;
+       this.max = max;
+       this.min = min;
+       this.sum = mean * n;
+   }
 
     /**
      * @return Returns the max.

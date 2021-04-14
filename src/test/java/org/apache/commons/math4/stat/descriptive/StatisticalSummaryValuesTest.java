@@ -79,4 +79,10 @@ public final class StatisticalSummaryValuesTest {
                      "sum: 45.0\n",  u.toString());
         Locale.setDefault(d);
     }
+    
+    @Test
+    public void testSum() {
+        StatisticalSummaryValues u = new StatisticalSummaryValues(1.123, 2, 3, 4, 5);
+        Assert.assertEquals(3.369, u.getSum(), 0.0001);
+    }
 }
