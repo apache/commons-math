@@ -63,7 +63,7 @@ public interface AnyMatrix {
      * Checks that this matrix and the {@code other} matrix can be added.
      *
      * @param other Matrix to check.
-     * @throws IllegalArgumentException if the dimensions do not match.
+     * @throws MatrixDimensionMismatchException if the dimensions do not match.
      */
     default void checkAdd(AnyMatrix other) {
         if (!canAdd(other)) {
@@ -86,7 +86,7 @@ public interface AnyMatrix {
      * Checks that this matrix can be multiplied by the {@code other} matrix.
      *
      * @param other Matrix to check.
-     * @throws IllegalArgumentException if the dimensions do not match.
+     * @throws DimensionMismatchException if the dimensions do not match.
      */
     default void checkMultiply(AnyMatrix other) {
         if (!canMultiply(other)) {
