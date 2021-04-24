@@ -284,7 +284,7 @@ public class EigenDecompositionTest {
         ed = new EigenDecomposition(matrix);
         Assert.assertEquals(m, ed.getV().getRowDimension());
         Assert.assertEquals(m, ed.getV().getColumnDimension());
-        Assert.assertEquals(m, ed.getD().getColumnDimension());
+        Assert.assertEquals(m, ed.getD().getRowDimension());
         Assert.assertEquals(m, ed.getD().getColumnDimension());
         Assert.assertEquals(m, ed.getVT().getRowDimension());
         Assert.assertEquals(m, ed.getVT().getColumnDimension());
