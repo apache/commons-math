@@ -811,8 +811,8 @@ public class CMAESOptimizer
      * @param val Current best fitness value.
      */
     private static void push(double[] vals, double val) {
-        for (int i = vals.length-1; i > 0; i--) {
-            vals[i] = vals[i-1];
+        if (vals.length >= 1) {
+            System.arraycopy(vals, 0, vals, 1, vals.length - 1);
         }
         vals[0] = val;
     }

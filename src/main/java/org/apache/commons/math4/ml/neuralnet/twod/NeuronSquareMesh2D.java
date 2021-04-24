@@ -242,8 +242,8 @@ public class NeuronSquareMesh2D
     public synchronized NeuronSquareMesh2D copy() {
         final long[][] idGrid = new long[numberOfRows][numberOfColumns];
         for (int r = 0; r < numberOfRows; r++) {
-            for (int c = 0; c < numberOfColumns; c++) {
-                idGrid[r][c] = identifiers[r][c];
+            if (numberOfColumns >= 0) {
+                System.arraycopy(identifiers[r], 0, idGrid[r], 0, numberOfColumns);
             }
         }
 
