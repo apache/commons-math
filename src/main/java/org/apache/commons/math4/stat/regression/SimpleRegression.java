@@ -828,7 +828,7 @@ public class SimpleRegression implements Serializable, UpdatingMultipleLinearReg
         if( variablesToInclude.length > 2 || (variablesToInclude.length > 1 && !hasIntercept) ){
             throw new ModelSpecificationException(
                     LocalizedFormats.ARRAY_SIZE_EXCEEDS_MAX_VARIABLES,
-                    (variablesToInclude.length > 1 && !hasIntercept) ? 1 : 2);
+                    (!hasIntercept) ? 1 : 2);
         }
 
         if( hasIntercept ){
