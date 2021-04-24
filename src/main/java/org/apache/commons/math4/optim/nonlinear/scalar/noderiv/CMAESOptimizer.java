@@ -451,7 +451,7 @@ public class CMAESOptimizer
                 lastResult = optimum;
                 optimum = new PointValuePair(fitfun.repair(bestArx.getColumn(0)),
                                              isMinimize ? bestFitness : -bestFitness);
-                if (getConvergenceChecker() != null && lastResult != null &&
+                if (getConvergenceChecker() != null && 
                     getConvergenceChecker().converged(iterations, optimum, lastResult)) {
                     break generationLoop;
                 }
