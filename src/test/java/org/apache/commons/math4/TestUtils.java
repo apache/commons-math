@@ -112,6 +112,7 @@ public class TestUtils {
             ByteArrayOutputStream bos = new ByteArrayOutputStream();
             ObjectOutputStream so = new ObjectOutputStream(bos);
             so.writeObject(o);
+            so.close();
 
             // deserialize the Object
             ByteArrayInputStream bis = new ByteArrayInputStream(bos.toByteArray());
