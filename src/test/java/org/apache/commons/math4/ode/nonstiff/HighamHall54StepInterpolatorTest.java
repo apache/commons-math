@@ -79,6 +79,7 @@ public class HighamHall54StepInterpolatorTest {
     for (StepHandler handler : integ.getStepHandlers()) {
         oos.writeObject(handler);
     }
+    oos.flush();
 
     Assert.assertTrue(bos.size () > 185000);
     Assert.assertTrue(bos.size () < 195000);

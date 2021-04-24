@@ -67,6 +67,7 @@ public class LutherStepInterpolatorTest {
         for (StepHandler handler : integ.getStepHandlers()) {
             oos.writeObject(handler);
         }
+        oos.flush();
 
         Assert.assertTrue(bos.size() > 1200000);
         Assert.assertTrue(bos.size() < 1250000);

@@ -120,6 +120,7 @@ public class NeuronTest {
         final ByteArrayOutputStream bos = new ByteArrayOutputStream();
         final ObjectOutputStream oos = new ObjectOutputStream(bos);
         oos.writeObject(out);
+        oos.flush();
 
         final ByteArrayInputStream bis = new ByteArrayInputStream(bos.toByteArray());
         final ObjectInputStream ois = new ObjectInputStream(bis);

@@ -81,6 +81,7 @@ public class GraggBulirschStoerStepInterpolatorTest {
     for (StepHandler handler : integ.getStepHandlers()) {
         oos.writeObject(handler);
     }
+    oos.flush();
 
     Assert.assertTrue(bos.size () > 35000);
     Assert.assertTrue(bos.size () < 36000);
