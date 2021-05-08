@@ -23,8 +23,14 @@ import org.apache.commons.math4.exception.MathArithmeticException;
 import org.apache.commons.math4.exception.util.LocalizedFormats;
 
 /**
- * Faster, more accurate, portable alternative to {@link Math} and
- * {@link StrictMath} for large scale computation.
+ * Portable alternative to {@link Math} and {@link StrictMath}.
+ * <p>
+ * Caveat: At the time of implementation, the {@code FastMath} functions
+ * were often faster and/or more accurate than their JDK equivalent.
+ * Nowadays, it would not be surprising that they are always slower (due
+ * to the various JVM optimizations that have appeared since Java 5).
+ * However, any change to this class should ensure that the current
+ * accuracy is not lost.
  * <p>
  * FastMath is a drop-in replacement for both Math and StrictMath. This
  * means that for any method in Math (say {@code Math.sin(x)} or
