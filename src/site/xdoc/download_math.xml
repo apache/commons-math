@@ -26,19 +26,32 @@ limitations under the License.
  | commons-build-plugin/trunk/src/main/resources/commons-xdoc-templates |
  +======================================================================+
  |                                                                      |
- | 1) Re-generate using: mvn commons:download-page                      |
+ | 1) Re-generate using: mvn commons-build:download-page                |
  |                                                                      |
  | 2) Set the following properties in the component's pom:              |
- |    - commons.componentid (required, alphabetic, lower case)          |
+ |    - commons.componentid     (required, alphabetic, lower case)      |
  |    - commons.release.version (required)                              |
- |    - commons.binary.suffix (optional)                                |
+ |    - commons.release.name    (required)                              |
+ |    - commons.binary.suffix   (optional)                              |
  |      (defaults to "-bin", set to "" for pre-maven2 releases)         |
+ |    - commons.release.desc    (optional)                              |
+ |    - commons.release.subdir  (optional)                              |
+ |    - commons.release.hash    (optional, lowercase, default sha512)   |
+ |                                                                      |
+ |    - commons.release.[234].version       (conditional)               |
+ |    - commons.release.[234].name          (conditional)               |
+ |    - commons.release.[234].binary.suffix (optional)                  |
+ |    - commons.release.[234].desc          (optional)                  |
+ |    - commons.release.[234].subdir        (optional)                  |
+ |    - commons.release.[234].hash       (optional, lowercase, [sha512])|
  |                                                                      |
  | 3) Example Properties                                                |
+ |    (commons.release.name inherited by parent:                        |
+ |     ${project.artifactId}-${commons.release.version}                 |
  |                                                                      |
  |  <properties>                                                        |
  |    <commons.componentid>math</commons.componentid>                   |
- |    <commons.release.version>1.2</commons.release.version>            |
+ |    <commons.release.version>1.3</commons.release.version>            |
  |  </properties>                                                       |
  |                                                                      |
  +======================================================================+
@@ -46,17 +59,17 @@ limitations under the License.
 <document>
   <properties>
     <title>Download Apache Commons Math</title>
-    <author email="dev@commons.apache.org">Commons Documentation Team</author>
+    <author email="dev@commons.apache.org">Apache Commons Documentation Team</author>
   </properties>
   <body>
     <section name="Download Apache Commons Math">
     <subsection name="Using a Mirror">
       <p>
         We recommend you use a mirror to download our release
-        builds, but you <strong>must</strong> verify the integrity of
+        builds, but you <strong>must</strong> <a href="https://www.apache.org/info/verification.html">verify the integrity</a> of
         the downloaded files using signatures downloaded from our main
         distribution directories. Recent releases (48 hours) may not yet
-        be available from the mirrors.
+        be available from all the mirrors.
       </p>
 
       <p>
@@ -88,69 +101,44 @@ limitations under the License.
       </form>
 
       <p>
-        The <a href="http://www.apache.org/dist/commons/KEYS">KEYS</a>
-        link links to the code signing keys used to sign the product.
-        The <code>PGP</code> link downloads the OpenPGP compatible signature from our main site.
-        The <code>MD5</code> link downloads the checksum from the main site.
+        It is essential that you
+        <a href="https://www.apache.org/info/verification.html">verify the integrity</a>
+        of downloaded files, preferably using the <code>PGP</code> signature (<code>*.asc</code> files);
+        failing that using the <code>SHA256</code> hash (<code>*.sha256</code> checksum files).
+      </p>
+      <p>
+        The <a href="https://www.apache.org/dist/commons/KEYS">KEYS</a>
+        file contains the public PGP keys used by Apache Commons developers
+        to sign releases.
       </p>
     </subsection>
     </section>
-    <section name="Apache Commons Math 3.4.1 (requires Java 1.5+)">
+    <section name="Apache Commons Math 3.6.1 (requires Java 5+)">
       <subsection name="Binaries">
         <table>
           <tr>
-              <td><a href="[preferred]/commons/math/binaries/commons-math3-3.4.1-bin.tar.gz">commons-math3-3.4.1-bin.tar.gz</a></td>
-              <td><a href="http://www.apache.org/dist/commons/math/binaries/commons-math3-3.4.1-bin.tar.gz.md5">md5</a></td>
-              <td><a href="http://www.apache.org/dist/commons/math/binaries/commons-math3-3.4.1-bin.tar.gz.asc">pgp</a></td>
+              <td><a href="[preferred]/commons/math/binaries/commons-math3-3.6.1-bin.tar.gz">commons-math3-3.6.1-bin.tar.gz</a></td>
+              <td><a href="https://www.apache.org/dist/commons/math/binaries/commons-math3-3.6.1-bin.tar.gz.sha256">sha256</a></td>
+              <td><a href="https://www.apache.org/dist/commons/math/binaries/commons-math3-3.6.1-bin.tar.gz.asc">pgp</a></td>
           </tr>
           <tr>
-              <td><a href="[preferred]/commons/math/binaries/commons-math3-3.4.1-bin.zip">commons-math3-3.4.1-bin.zip</a></td>
-              <td><a href="http://www.apache.org/dist/commons/math/binaries/commons-math3-3.4.1-bin.zip.md5">md5</a></td>
-              <td><a href="http://www.apache.org/dist/commons/math/binaries/commons-math3-3.4.1-bin.zip.asc">pgp</a></td>
+              <td><a href="[preferred]/commons/math/binaries/commons-math3-3.6.1-bin.zip">commons-math3-3.6.1-bin.zip</a></td>
+              <td><a href="https://www.apache.org/dist/commons/math/binaries/commons-math3-3.6.1-bin.zip.sha256">sha256</a></td>
+              <td><a href="https://www.apache.org/dist/commons/math/binaries/commons-math3-3.6.1-bin.zip.asc">pgp</a></td>
           </tr>
         </table>
       </subsection>
       <subsection name="Source">
         <table>
           <tr>
-              <td><a href="[preferred]/commons/math/source/commons-math3-3.4.1-src.tar.gz">commons-math3-3.4.1-src.tar.gz</a></td>
-              <td><a href="http://www.apache.org/dist/commons/math/source/commons-math3-3.4.1-src.tar.gz.md5">md5</a></td>
-              <td><a href="http://www.apache.org/dist/commons/math/source/commons-math3-3.4.1-src.tar.gz.asc">pgp</a></td>
+              <td><a href="[preferred]/commons/math/source/commons-math3-3.6.1-src.tar.gz">commons-math3-3.6.1-src.tar.gz</a></td>
+              <td><a href="https://www.apache.org/dist/commons/math/source/commons-math3-3.6.1-src.tar.gz.sha256">sha256</a></td>
+              <td><a href="https://www.apache.org/dist/commons/math/source/commons-math3-3.6.1-src.tar.gz.asc">pgp</a></td>
           </tr>
           <tr>
-              <td><a href="[preferred]/commons/math/source/commons-math3-3.4.1-src.zip">commons-math3-3.4.1-src.zip</a></td>
-              <td><a href="http://www.apache.org/dist/commons/math/source/commons-math3-3.4.1-src.zip.md5">md5</a></td>
-              <td><a href="http://www.apache.org/dist/commons/math/source/commons-math3-3.4.1-src.zip.asc">pgp</a></td>
-          </tr>
-        </table>
-      </subsection>
-    </section>
-    <section name="Apache Commons Math 2.2 (requires Java 1.5+)">
-      <subsection name="Binaries">
-        <table>
-          <tr>
-              <td><a href="[preferred]/commons/math/binaries/commons-math-2.2.tar.gz">commons-math-2.2.tar.gz</a></td>
-              <td><a href="http://www.apache.org/dist/commons/math/binaries/commons-math-2.2.tar.gz.md5">md5</a></td>
-              <td><a href="http://www.apache.org/dist/commons/math/binaries/commons-math-2.2.tar.gz.asc">pgp</a></td>
-          </tr>
-          <tr>
-              <td><a href="[preferred]/commons/math/binaries/commons-math-2.2.zip">commons-math-2.2.zip</a></td>
-              <td><a href="http://www.apache.org/dist/commons/math/binaries/commons-math-2.2.zip.md5">md5</a></td>
-              <td><a href="http://www.apache.org/dist/commons/math/binaries/commons-math-2.2.zip.asc">pgp</a></td>
-          </tr>
-        </table>
-      </subsection>
-      <subsection name="Source">
-        <table>
-          <tr>
-              <td><a href="[preferred]/commons/math/source/commons-math-2.2-src.tar.gz">commons-math-2.2-src.tar.gz</a></td>
-              <td><a href="http://www.apache.org/dist/commons/math/source/commons-math-2.2-src.tar.gz.md5">md5</a></td>
-              <td><a href="http://www.apache.org/dist/commons/math/source/commons-math-2.2-src.tar.gz.asc">pgp</a></td>
-          </tr>
-          <tr>
-              <td><a href="[preferred]/commons/math/source/commons-math-2.2-src.zip">commons-math-2.2-src.zip</a></td>
-              <td><a href="http://www.apache.org/dist/commons/math/source/commons-math-2.2-src.zip.md5">md5</a></td>
-              <td><a href="http://www.apache.org/dist/commons/math/source/commons-math-2.2-src.zip.asc">pgp</a></td>
+              <td><a href="[preferred]/commons/math/source/commons-math3-3.6.1-src.zip">commons-math3-3.6.1-src.zip</a></td>
+              <td><a href="https://www.apache.org/dist/commons/math/source/commons-math3-3.6.1-src.zip.sha256">sha256</a></td>
+              <td><a href="https://www.apache.org/dist/commons/math/source/commons-math3-3.6.1-src.zip.asc">pgp</a></td>
           </tr>
         </table>
       </subsection>
