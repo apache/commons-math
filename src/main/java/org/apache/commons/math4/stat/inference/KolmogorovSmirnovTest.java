@@ -163,14 +163,13 @@ public class KolmogorovSmirnovTest {
     public double kolmogorovSmirnovStatistic(ContinuousDistribution distribution, double[] data) {
         checkArray(data);
         final int n = data.length;
-        final double nd = n;
         final double[] dataCopy = new double[n];
         System.arraycopy(data, 0, dataCopy, 0, n);
         Arrays.sort(dataCopy);
         double d = 0d;
         for (int i = 1; i <= n; i++) {
             final double yi = distribution.cumulativeProbability(dataCopy[i - 1]);
-            final double currD = FastMath.max(yi - (i - 1) / nd, i / nd - yi);
+            final double currD = FastMath.max(yi - (i - 1) / (double) n, i / (double) n - yi);
             if (currD > d) {
                 d = currD;
             }
@@ -962,9 +961,7 @@ public class KolmogorovSmirnovTest {
      *         \(D_{n,m}\) greater than {@code d}
      */
     public double approximateP(double d, int n, int m) {
-        final double dm = m;
-        final double dn = n;
-        return 1 - ksSum(d * FastMath.sqrt((dm * dn) / (dm + dn)),
+        return 1 - ksSum(d * FastMath.sqrt(((double) m * (double) n) / ((double) m + (double) n)),
                          KS_SUM_CAUCHY_CRITERION, MAXIMUM_PARTIAL_SUM_COUNT);
     }
 

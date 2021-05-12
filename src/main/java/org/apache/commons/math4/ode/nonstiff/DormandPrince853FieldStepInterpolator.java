@@ -234,8 +234,7 @@ class DormandPrince853FieldStepInterpolator<T extends RealFieldElement<T>>
 
 
         if (getGlobalPreviousState() != null && theta.getReal() <= 0.5) {
-            final T f0 = thetaH;
-            final T f1 = f0.multiply(eta);
+            final T f1 = thetaH.multiply(eta);
             final T f2 = f1.multiply(theta);
             final T f3 = f2.multiply(eta);
             final T f4 = f3.multiply(theta);
@@ -244,7 +243,7 @@ class DormandPrince853FieldStepInterpolator<T extends RealFieldElement<T>>
             final T[] p = MathArrays.buildArray(time.getField(), 16);
             final T[] q = MathArrays.buildArray(time.getField(), 16);
             for (int i = 0; i < p.length; ++i) {
-                p[i] =     f0.multiply(d[0][i]).
+                p[i] =     thetaH.multiply(d[0][i]).
                        add(f1.multiply(d[1][i])).
                        add(f2.multiply(d[2][i])).
                        add(f3.multiply(d[3][i])).

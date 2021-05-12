@@ -371,13 +371,12 @@ public class JacobianMatrices {
                 final double[] dFdYi = dFdY[i];
                 for (int j = 0; j < stateDim; ++j) {
                     double s = 0;
-                    final int startIndex = j;
-                    int zIndex = startIndex;
+                    int zIndex = j;
                     for (int l = 0; l < stateDim; ++l) {
                         s += dFdYi[l] * z[zIndex];
                         zIndex += stateDim;
                     }
-                    zDot[startIndex + i * stateDim] = s;
+                    zDot[j + i * stateDim] = s;
                 }
             }
 

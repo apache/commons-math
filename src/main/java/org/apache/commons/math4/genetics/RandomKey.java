@@ -159,11 +159,9 @@ public abstract class RandomKey<T> extends AbstractListChromosome<Double> implem
 
         // two different representations can still encode the same permutation
         // the ordering is what counts
-        List<Integer> thisPerm = this.baseSeqPermutation;
-        List<Integer> anotherPerm = anotherRk.baseSeqPermutation;
 
         for (int i=0; i<getLength(); i++) {
-            if (thisPerm.get(i) != anotherPerm.get(i)) {
+            if (this.baseSeqPermutation.get(i) != anotherRk.baseSeqPermutation.get(i)) {
                 return false;
             }
         }

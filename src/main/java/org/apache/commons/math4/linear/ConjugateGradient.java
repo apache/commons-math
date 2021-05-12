@@ -162,9 +162,8 @@ public class ConjugateGradient
         // p and x are constructed as copies of x0, since presumably, the type
         // of x is optimized for the calculation of the matrix-vector product
         // A.x.
-        final RealVector x = x0;
-        final RealVector xro = RealVector.unmodifiableRealVector(x);
-        final RealVector p = x.copy();
+        final RealVector xro = RealVector.unmodifiableRealVector(x0);
+        final RealVector p = x0.copy();
         RealVector q = a.operate(p);
 
         final RealVector r = b.combine(1, -1, q);
@@ -182,7 +181,7 @@ public class ConjugateGradient
         manager.fireInitializationEvent(evt);
         if (rnorm <= rmax) {
             manager.fireTerminationEvent(evt);
-            return x;
+            return x0;
         }
         double rhoPrev = 0.;
         while (true) {
@@ -218,7 +217,7 @@ public class ConjugateGradient
                 throw e;
             }
             final double alpha = rhoNext / pq;
-            x.combineToSelf(1., alpha, p);
+            x0.combineToSelf(1., alpha, p);
             r.combineToSelf(1., -alpha, q);
             rhoPrev = rhoNext;
             rnorm = r.getNorm();
@@ -227,7 +226,7 @@ public class ConjugateGradient
             manager.fireIterationPerformedEvent(evt);
             if (rnorm <= rmax) {
                 manager.fireTerminationEvent(evt);
-                return x;
+                return x0;
             }
         }
     }

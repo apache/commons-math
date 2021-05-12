@@ -679,9 +679,6 @@ public class FastMath {
           double ya = hiPrec[0] + hiPrec[1];
           double yb = -(ya - hiPrec[0] - hiPrec[1]);
 
-          /* Numerator */
-          double na = ya;
-          double nb = yb;
 
           /* Denominator */
           double da = 2.0 + ya;
@@ -695,18 +692,18 @@ public class FastMath {
           double dab = da - daa;
 
           // ratio = na/da
-          double ratio = na/da;
+          double ratio = ya /da;
           temp = ratio * HEX_40000000;
           double ratioa = ratio + temp - temp;
           double ratiob = ratio - ratioa;
 
           // Correct for rounding in division
-          ratiob += (na - daa*ratioa - daa*ratiob - dab*ratioa - dab*ratiob) / da;
+          ratiob += (ya - daa*ratioa - daa*ratiob - dab*ratioa - dab*ratiob) / da;
 
           // Account for nb
-          ratiob += nb / da;
+          ratiob += yb / da;
           // Account for db
-          ratiob += -db * na / da / da;
+          ratiob += -db * ya / da / da;
 
           result = ratioa + ratiob;
       }
@@ -1602,9 +1599,8 @@ public class FastMath {
                     z = z * lnb + 1.0;
                     z *= lnb;
 
-                    final double result = exp(lna, z, null);
                     //result = result + result * z;
-                    return result;
+                    return exp(lna, z, null);
 
                 }
             }
@@ -2797,9 +2793,8 @@ public class FastMath {
         }
 
         // Call atan
-        final double result = atan(ra, rb, x < 0);
 
-        return result;
+        return atan(ra, rb, x < 0);
     }
 
     /** Compute the arc sine of a number.

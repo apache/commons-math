@@ -1818,7 +1818,6 @@ public class BOBYQAOptimizer
         printMethod(); // XXX
 
         final int n = currentBest.getDimension();
-        final int npt = numberOfInterpolationPoints;
 
         double dsq = Double.NaN;
         double crvmin = Double.NaN;
@@ -2258,7 +2257,7 @@ public class BOBYQAOptimizer
                 }
             }
             final RealVector tmp = interpolationPoints.operate(s).ebeMultiply(modelSecondDerivativesParameters);
-            for (int k = 0; k < npt; k++) {
+            for (int k = 0; k < numberOfInterpolationPoints; k++) {
                 if (modelSecondDerivativesParameters.getEntry(k) != ZERO) {
                     for (int i = 0; i < n; i++) {
                         hs.setEntry(i, hs.getEntry(i) + tmp.getEntry(k) * interpolationPoints.getEntry(k, i));
