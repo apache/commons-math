@@ -1133,11 +1133,7 @@ public class KolmogorovSmirnovTest {
            throw new InsufficientDataException();
        }
 
-       if (values.length == x.length + y.length) {
-           return false;  // There are no ties.
-       }
-
-       return true;
+       return values.length != x.length + y.length;  // There are no ties.
     }
 
     /**

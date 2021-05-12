@@ -945,11 +945,7 @@ public class DfpMath {
      */
     public static Dfp acos(Dfp a) {
         Dfp result;
-        boolean negative = false;
-
-        if (a.lessThan(a.getZero())) {
-            negative = true;
-        }
+        boolean negative = a.lessThan(a.getZero());
 
         a = Dfp.copysign(a, a.getOne());  // absolute value
 

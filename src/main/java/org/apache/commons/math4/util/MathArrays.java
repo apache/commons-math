@@ -777,7 +777,7 @@ public class MathArrays {
      */
     public static boolean equals(float[] x, float[] y) {
         if ((x == null) || (y == null)) {
-            return !((x == null) ^ (y == null));
+            return (x == null) == (y == null);
         }
         if (x.length != y.length) {
             return false;
@@ -803,7 +803,7 @@ public class MathArrays {
      */
     public static boolean equalsIncludingNaN(float[] x, float[] y) {
         if ((x == null) || (y == null)) {
-            return !((x == null) ^ (y == null));
+            return (x == null) == (y == null);
         }
         if (x.length != y.length) {
             return false;
@@ -828,7 +828,7 @@ public class MathArrays {
      */
     public static boolean equals(double[] x, double[] y) {
         if ((x == null) || (y == null)) {
-            return !((x == null) ^ (y == null));
+            return (x == null) == (y == null);
         }
         if (x.length != y.length) {
             return false;
@@ -854,7 +854,7 @@ public class MathArrays {
      */
     public static boolean equalsIncludingNaN(double[] x, double[] y) {
         if ((x == null) || (y == null)) {
-            return !((x == null) ^ (y == null));
+            return (x == null) == (y == null);
         }
         if (x.length != y.length) {
             return false;
@@ -1117,11 +1117,7 @@ public class MathArrays {
                     Integer.valueOf(begin + length), Integer.valueOf(values.length), true);
         }
 
-        if (length == 0 && !allowEmpty) {
-            return false;
-        }
-
-        return true;
+        return length != 0 || allowEmpty;
 
     }
 

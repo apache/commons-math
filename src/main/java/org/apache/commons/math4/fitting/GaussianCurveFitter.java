@@ -273,10 +273,7 @@ public class GaussianCurveFitter extends AbstractCurveFitter {
                         return comp;
                     }
                     comp = Double.compare(p1.getWeight(), p2.getWeight());
-                    if (comp != 0) {
-                        return comp;
-                    }
-                    return 0;
+                    return comp;
                 }
             };
 

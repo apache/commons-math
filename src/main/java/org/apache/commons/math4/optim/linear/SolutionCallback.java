@@ -57,6 +57,6 @@ public class SolutionCallback implements OptimizationData {
      * @return {@code true} if the solution is optimal, {@code false} otherwise
      */
     public boolean isSolutionOptimal() {
-        return tableau != null ? tableau.isOptimal() : false;
+        return tableau != null && tableau.isOptimal();
     }
 }

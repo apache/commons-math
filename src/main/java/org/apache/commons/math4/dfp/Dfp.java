@@ -2365,10 +2365,7 @@ public class Dfp implements RealFieldElement<Dfp> {
         }
 
         // if this is greater than x
-        boolean up = false;
-        if (this.lessThan(x)) {
-            up = true;
-        }
+        boolean up = this.lessThan(x);
 
         if (compare(this, x) == 0) {
             return newInstance(x);
