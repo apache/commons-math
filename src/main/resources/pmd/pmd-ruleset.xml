@@ -1,0 +1,161 @@
+<?xml version="1.0"?>
+<!--
+   Licensed to the Apache Software Foundation (ASF) under one or more
+   contributor license agreements.  See the NOTICE file distributed with
+   this work for additional information regarding copyright ownership.
+   The ASF licenses this file to You under the Apache License, Version 2.0
+   (the "License"); you may not use this file except in compliance with
+   the License.  You may obtain a copy of the License at
+
+       http://www.apache.org/licenses/LICENSE-2.0
+
+   Unless required by applicable law or agreed to in writing, software
+   distributed under the License is distributed on an "AS IS" BASIS,
+   WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+   See the License for the specific language governing permissions and
+   limitations under the License.
+-->
+<ruleset name="commons-rng-customized"
+    xmlns="http://pmd.sourceforge.net/ruleset/2.0.0"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://pmd.sourceforge.net/ruleset/2.0.0 http://pmd.sourceforge.net/ruleset_2_0_0.xsd">
+  <description>
+    This ruleset checks the code for discouraged programming constructs.
+  </description>
+
+  <rule ref="category/java/bestpractices.xml">
+    <exclude name="UseVarargs" />
+    <!-- Allow private inner classes to access outer class methods/fields. -->
+    <exclude name="AccessorMethodGeneration" />
+  </rule>
+  <rule ref="category/java/codestyle.xml">
+    <exclude name="MethodArgumentCouldBeFinal" />
+    <exclude name="ShortVariable" />
+    <exclude name="LongVariable" />
+    <exclude name="CommentDefaultAccessModifier" />
+    <exclude name="DefaultPackage" />
+    <exclude name="CallSuperInConstructor" />
+    <exclude name="AbstractNaming" />
+    <exclude name="UselessParentheses" />
+    <exclude name="AtLeastOneConstructor" />
+    <exclude name="GenericsNaming" />
+    <exclude name="OnlyOneReturn" />
+    <exclude name="UseUnderscoresInNumericLiterals" />
+    <exclude name="ShortClassName" />
+  </rule>
+  <rule ref="category/java/design.xml">
+    <exclude name="TooManyMethods" />
+    <exclude name="LawOfDemeter" />
+    <exclude name="NcssCount" />
+    <exclude name="LoosePackageCoupling" />
+  </rule>
+  <rule ref="category/java/documentation.xml">
+    <exclude name="CommentSize" />
+  </rule>
+  <rule ref="category/java/errorprone.xml">
+    <exclude name="BeanMembersShouldSerialize" />
+    <!-- This rule is known to be poor with Java 5 and later:
+      https://github.com/pmd/pmd/issues/873 -->
+    <exclude name="DataflowAnomalyAnalysis" />
+  </rule>
+  <rule ref="category/java/multithreading.xml">
+    <!-- <exclude name="..." /> -->
+  </rule>
+  <rule ref="category/java/performance.xml">
+    <!-- <exclude name="..." /> -->
+  </rule>
+
+  <!-- Rule customisations. -->
+
+  <rule ref="category/java/codestyle.xml/ShortMethodName">
+    <properties>
+      <!-- TODO: Current regex effectively disables this rule. -->
+      <property name="violationSuppressXPath" value="//ClassOrInterfaceType[matches(@Image, '^.*$')]"/>
+    </properties>
+  </rule>
+  <rule ref="category/java/codestyle.xml/ClassNamingConventions">
+    <properties>
+      <property name="classPattern" value="[A-Z][a-zA-Z0-9]*" />
+      <property name="abstractClassPattern" value="[A-Z][a-zA-Z0-9]*" />
+      <property name="interfacePattern" value="[A-Z][a-zA-Z0-9]*" />
+      <property name="enumPattern" value="[A-Z][a-zA-Z0-9]*" />
+      <property name="annotationPattern" value="[A-Z][a-zA-Z0-9]*" />
+      <property name="utilityClassPattern" value="[A-Z][a-zA-Z0-9]*" />
+    </properties>
+  </rule>
+
+  <rule ref="category/java/design.xml/CyclomaticComplexity">
+    <properties>
+      <!-- Increase from default of 10 -->
+      <property name="methodReportLevel" value="20"/>
+    </properties>
+  </rule>
+  <rule ref="category/java/design.xml/ExcessivePublicCount">
+    <properties>
+      <property name="violationSuppressXPath"
+        value="//ClassOrInterfaceType[@Image='Complex'
+               or @Image='Fraction'
+               or @Image='BigFraction']"/>
+    </properties>
+  </rule>
+  <rule ref="category/java/design.xml/ExcessiveClassLength">
+    <properties>
+      <property name="violationSuppressXPath"
+        value="//ClassOrInterfaceType[@Image='Complex'
+               or @Image='Fraction'
+               or @Image='BigFraction']"/>
+    </properties>
+  </rule>
+  <rule ref="category/java/design.xml/GodClass">
+    <properties>
+      <property name="violationSuppressXPath"
+        value="//ClassOrInterfaceType[@Image='Fraction'
+               or @Image='BigFraction']"/>
+    </properties>
+  </rule>
+
+  <rule ref="category/java/errorprone.xml/AvoidLiteralsInIfCondition">
+    <properties>
+      <property name="ignoreMagicNumbers" value="-1,0,1" />
+      <property name="violationSuppressXPath"
+        value="//ClassOrInterfaceType[@Image='LogGamma'
+               or @Image='LogGammaSum'
+               or @Image='InverseErf'
+               or @Image='InvGamma1pm1']"/>
+    </properties>
+  </rule>
+
+  <rule ref="category/java/errorprone.xml/AvoidFieldNameMatchingMethodName">
+    <properties>
+      <property name="violationSuppressXPath"
+        value="//ClassOrInterfaceType[@Image='Complex'
+               or @Image='Fraction'
+               or @Image='BigFraction']"/>
+    </properties>
+  </rule>
+
+  <!-- Long methods are based on reference implementations. -->
+  <rule ref="category/java/design.xml/ExcessiveMethodLength">
+    <properties>
+      <property name="violationSuppressXPath"
+        value="//ClassOrInterfaceType[@Image='Complex'
+               or @Image='BigFraction']"/>
+    </properties>
+  </rule>
+
+  <!-- Complex parse deliberately catches and re-throws a new NumberFormatException
+       to include the full input string in the exception message. -->
+  <rule ref="category/java/design.xml/AvoidThrowingNewInstanceOfSameException">
+    <properties>
+      <property name="violationSuppressXPath"
+        value="//ClassOrInterfaceType[@Image='Complex']"/>
+    </properties>
+  </rule>
+  <rule ref="category/java/bestpractices.xml/PreserveStackTrace">
+    <properties>
+      <property name="violationSuppressXPath"
+        value="//ClassOrInterfaceType[@Image='Complex']"/>
+    </properties>
+  </rule>
+
+</ruleset>

@@ -1,4 +1,4 @@
-<?xml version="1.0"?>
+<?xml version="1.0" encoding="UTF-8"?>
 <!--
    Licensed to the Apache Software Foundation (ASF) under one or more
    contributor license agreements.  See the NOTICE file distributed with
@@ -17,16 +17,21 @@
 -->
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
   <modelVersion>4.0.0</modelVersion>
+
   <parent>
     <groupId>org.apache.commons</groupId>
     <artifactId>commons-parent</artifactId>
     <version>52</version>
   </parent>
-  <groupId>org.apache.commons</groupId>
-  <artifactId>commons-math4</artifactId>
+
+  <artifactId>commons-math-parent</artifactId>
   <version>4.0-SNAPSHOT</version>
+  <packaging>pom</packaging>
   <name>Apache Commons Math</name>
-  <description>The Apache Commons Math project is a library of lightweight, self-contained mathematics and statistics components addressing the most common practical problems not immediately available in the Java programming language or commons-lang.</description>
+  <description>
+    The Apache Commons Math project is a library of lightweight mathematics
+    and statistics components addressing common practical problems.
+  </description>
   <url>http://commons.apache.org/proper/commons-math/</url>
   <inceptionYear>2003</inceptionYear>
 
@@ -34,39 +39,50 @@
     <!-- Do not change: "math" is the name of the component even if the
          name of the base package evolves with major release numbers
          (see "commons.osgi.symbolicName", below). -->
-    <!-- TODO: when releasing 4.0, the properties below need to be updated, and
-         the 3.x release artifacts need to be put int commons.release.3  -->
-    <commons.componentid>math4</commons.componentid>
+    <commons.componentid>math</commons.componentid>
+    <!-- The Java Module System Name -->
+    <commons.module.name>org.apache.commons.math4</commons.module.name>
     <!-- This value must reflect the current name of the base package. -->
     <commons.osgi.symbolicName>org.apache.commons.math4</commons.osgi.symbolicName>
-    <!-- Java 9+ -->
-    <commons.automatic.module.name>org.apache.commons.math4</commons.automatic.module.name>
+    <!-- OSGi -->
+    <commons.osgi.export>org.apache.commons.math4</commons.osgi.export>
     <!-- do not use snapshot suffix here -->
-    <commons.release.version>3.4.1</commons.release.version>
-    <commons.release.desc>(requires Java 1.5+)</commons.release.desc>
-    <!-- <commons.rc.version>RC1</commons.rc.version> -->
+    <commons.release.version>4.0</commons.release.version>
+    <commons.release.desc>(requires Java 8+)</commons.release.desc>
+    <commons.rc.version>RC1</commons.rc.version>
     <commons.binary.suffix>-bin</commons.binary.suffix>
-
-    <commons.release.2.version>2.2</commons.release.2.version>
-    <!-- override parent name, because 2.2 uses different artifactId -->
-    <commons.release.2.name>commons-math-${commons.release.2.version}</commons.release.2.name>
-    <commons.release.2.desc>(requires Java 1.5+)</commons.release.2.desc>
-    <commons.release.2.binary.suffix></commons.release.2.binary.suffix>
 
     <commons.jira.id>MATH</commons.jira.id>
     <commons.jira.pid>12310485</commons.jira.pid>
     <commons.encoding>UTF-8</commons.encoding>
     <maven.compiler.source>1.8</maven.compiler.source>
     <maven.compiler.target>1.8</maven.compiler.target>
-    <math.pmd.version>3.8</math.pmd.version>
-    <math.findbugs.version>3.0.4</math.findbugs.version>
-    <math.checkstyle.version>2.17</math.checkstyle.version>
-    <math.clirr.version>2.8</math.clirr.version>
+    <math.pmd.version>3.13.0</math.pmd.version>
+    <math.pmd.dep.version>6.21.0</math.pmd.dep.version>
+    <math.checkstyle.version>3.1.0</math.checkstyle.version>
+    <math.checkstyle.dep.version>8.29</math.checkstyle.dep.version>
     <math.mathjax.version>2.7.2</math.mathjax.version>
     <math.commons.numbers.version>1.0-SNAPSHOT</math.commons.numbers.version>
+    <!-- Changing to another version of Commons RNG currently entails many test failures! -->
     <math.commons.rng.version>1.2</math.commons.rng.version>
     <math.commons.geometry.version>1.0-SNAPSHOT</math.commons.geometry.version>
     <math.commons.statistics.version>1.0-SNAPSHOT</math.commons.statistics.version>
+    <math.commons.math3.version>3.6.1</math.commons.math3.version>
+    <!-- Workaround to avoid duplicating config files. -->
+    <math.parent.dir>${basedir}</math.parent.dir>
+
+    <!-- Increase from commons-parent -->
+    <commons.jacoco.methodRatio>1.00</commons.jacoco.methodRatio>
+    <!-- Set to true when coverage goals are achieved -->
+    <commons.jacoco.haltOnFailure>false</commons.jacoco.haltOnFailure>
+
+    <!-- Fix to avoid JXR 3.0.0 forking the lifecycle phase 'compile' during site report
+       jxr:aggregate. If compile is forked, the dist-archive build fails when attempting
+       to collect the artifacts from other modules. -->
+    <commons.jxr.version>2.5</commons.jxr.version>
+
+    <!-- Override CP 47 -->
+    <commons.spotbugs.version>3.1.8</commons.spotbugs.version>
 
     <commons.site.path>math</commons.site.path>
     <commons.scmPubUrl>https://svn.apache.org/repos/infra/websites/production/commons/content/proper/commons-math</commons.scmPubUrl>
@@ -74,28 +90,32 @@
 
     <!-- Temporary fix to replace svn-based build number with git-based build number -->
     <buildnumber.skip>true</buildnumber.skip>
-    <math.jgit.buildnumber.version>1.2.11</math.jgit.buildnumber.version>
+    <math.jgit.buildnumber.version>1.2.10</math.jgit.buildnumber.version>
     <implementation.build>${git.revision}; ${maven.build.timestamp}</implementation.build>
 
-    <!-- Override default buildNumber timestamp format, needed for coveralls plugin -->
-    <maven.buildNumber.timestampFormat>{0,date,yyyy-MM-dd HH:mm:ssZ}</maven.buildNumber.timestampFormat>
-
-    <!-- JMH Benchmark related properties, version, target compiler and name of the benchmarking uber jar. -->
-    <jmh.version>1.13</jmh.version>
-    <uberjar.name>benchmarks</uberjar.name>
-    <!-- Java8+ requires additional Javadoc qualifier for MathJax (default to empty). -->
-    <allowscript.javadoc.qualifier></allowscript.javadoc.qualifier>
-    <!-- MathJax requires additional Javadoc qualifier for Java8+ -->
-    <!-- default to empty for earlier versions of Java -->
-    <doclint.javadoc.qualifier></doclint.javadoc.qualifier>
+    <!--
+        Override so that "mvn commons:download-page" will generates a web page
+        referring to the files created by the "dist-archive" module.
+        Temporary workaround?
+    -->
+    <commons.release.name>commons-math4-${project.version}</commons.release.name>
+    <!-- Java8+ requires additional Javadoc qualifier for scripts such as MathJax -->
+    <allowscript.javadoc.qualifier>--allow-script-in-comments</allowscript.javadoc.qualifier>
+    <doclint.javadoc.qualifier>-Xdoclint:all</doclint.javadoc.qualifier>
   </properties>
+
+  <modules>
+    <module>commons-math-legacy</module>
+    <!-- <module>commons-math-core</module> -->
+    <!-- <module>commons-math-ml-nn</module> -->
+    <!-- <module>commons-math-ml-ga</module> -->
+  </modules>
 
   <scm>
     <connection>scm:git:http://gitbox.apache.org/repos/asf/commons-math.git</connection>
     <developerConnection>scm:git:https://gitbox.apache.org/repos/asf/commons-math.git</developerConnection>
-    <url>https://gitbox.apache.org/repos/asf?p=commons-math.git</url>
+    <url>https://gitbox.apache.org/repos/asf/commons-math.git</url>
   </scm>
-
   <issueManagement>
     <system>jira</system>
     <url>https://issues.apache.org/jira/browse/MATH</url>
@@ -109,111 +129,115 @@
     </site>
   </distributionManagement>
 
+  <dependencyManagement>
+    <dependencies>
+
+      <dependency>
+        <groupId>org.apache.commons</groupId>
+        <artifactId>commons-math-core</artifactId>
+        <version>${project.version}</version>
+      </dependency>
+
+      <dependency>
+        <groupId>org.apache.commons</groupId>
+        <artifactId>commons-math3</artifactId>
+        <version>${math.commons.math3.version}</version>
+      </dependency>
+
+      <dependency>
+        <groupId>org.apache.commons</groupId>
+        <artifactId>commons-statistics-distribution</artifactId>
+        <version>${math.commons.statistics.version}</version>
+      </dependency>
+
+      <dependency>
+        <groupId>org.apache.commons</groupId>
+        <artifactId>commons-numbers-core</artifactId>
+        <version>${math.commons.numbers.version}</version>
+      </dependency>
+
+      <dependency>
+        <groupId>org.apache.commons</groupId>
+        <artifactId>commons-numbers-complex</artifactId>
+        <version>${math.commons.numbers.version}</version>
+      </dependency>
+
+      <dependency>
+        <groupId>org.apache.commons</groupId>
+        <artifactId>commons-numbers-complex-streams</artifactId>
+        <version>${math.commons.numbers.version}</version>
+      </dependency>
+
+      <dependency>
+        <groupId>org.apache.commons</groupId>
+        <artifactId>commons-numbers-gamma</artifactId>
+        <version>${math.commons.numbers.version}</version>
+      </dependency>
+
+      <dependency>
+        <groupId>org.apache.commons</groupId>
+        <artifactId>commons-numbers-combinatorics</artifactId>
+        <version>${math.commons.numbers.version}</version>
+      </dependency>
+
+      <dependency>
+        <groupId>org.apache.commons</groupId>
+        <artifactId>commons-numbers-arrays</artifactId>
+        <version>${math.commons.numbers.version}</version>
+      </dependency>
+
+      <dependency>
+        <groupId>org.apache.commons</groupId>
+        <artifactId>commons-numbers-angle</artifactId>
+        <version>${math.commons.numbers.version}</version>
+      </dependency>
+
+      <dependency>
+        <groupId>org.apache.commons</groupId>
+        <artifactId>commons-numbers-rootfinder</artifactId>
+        <version>${math.commons.numbers.version}</version>
+      </dependency>
+
+      <dependency>
+        <groupId>org.apache.commons</groupId>
+        <artifactId>commons-numbers-field</artifactId>
+        <version>${math.commons.numbers.version}</version>
+      </dependency>
+
+      <dependency>
+        <groupId>org.apache.commons</groupId>
+        <artifactId>commons-numbers-quaternion</artifactId>
+        <version>${math.commons.numbers.version}</version>
+      </dependency>
+
+      <dependency>
+        <groupId>org.apache.commons</groupId>
+        <artifactId>commons-rng-client-api</artifactId>
+        <version>${math.commons.rng.version}</version>
+      </dependency>
+
+      <dependency>
+        <groupId>org.apache.commons</groupId>
+        <artifactId>commons-rng-simple</artifactId>
+        <version>${math.commons.rng.version}</version>
+      </dependency>
+
+      <dependency>
+        <groupId>org.apache.commons</groupId>
+        <artifactId>commons-rng-sampling</artifactId>
+        <version>${math.commons.rng.version}</version>
+      </dependency>
+
+      <dependency>
+        <groupId>org.apache.commons</groupId>
+        <artifactId>commons-geometry-euclidean</artifactId>
+        <version>${math.commons.geometry.version}</version>
+      </dependency>
+
+    </dependencies>
+  </dependencyManagement>
+
   <dependencies>
-    <dependency>
-      <groupId>org.apache.commons</groupId>
-      <artifactId>commons-statistics-distribution</artifactId>
-      <version>${math.commons.statistics.version}</version>
-    </dependency>
-
-    <dependency>
-      <groupId>org.apache.commons</groupId>
-      <artifactId>commons-numbers-core</artifactId>
-      <version>${math.commons.numbers.version}</version>
-    </dependency>
-
-    <dependency>
-      <groupId>org.apache.commons</groupId>
-      <artifactId>commons-numbers-complex</artifactId>
-      <version>${math.commons.numbers.version}</version>
-    </dependency>
-
-    <dependency>
-      <groupId>org.apache.commons</groupId>
-      <artifactId>commons-numbers-complex-streams</artifactId>
-      <version>${math.commons.numbers.version}</version>
-    </dependency>
-
-    <dependency>
-      <groupId>org.apache.commons</groupId>
-      <artifactId>commons-numbers-gamma</artifactId>
-      <version>${math.commons.numbers.version}</version>
-    </dependency>
-
-    <dependency>
-      <groupId>org.apache.commons</groupId>
-      <artifactId>commons-numbers-combinatorics</artifactId>
-      <version>${math.commons.numbers.version}</version>
-    </dependency>
-
-    <dependency>
-      <groupId>org.apache.commons</groupId>
-      <artifactId>commons-numbers-arrays</artifactId>
-      <version>${math.commons.numbers.version}</version>
-    </dependency>
-
-    <dependency>
-      <groupId>org.apache.commons</groupId>
-      <artifactId>commons-numbers-angle</artifactId>
-      <version>${math.commons.numbers.version}</version>
-    </dependency>
-
-    <dependency>
-      <groupId>org.apache.commons</groupId>
-      <artifactId>commons-numbers-rootfinder</artifactId>
-      <version>${math.commons.numbers.version}</version>
-    </dependency>
-
-    <dependency>
-      <groupId>org.apache.commons</groupId>
-      <artifactId>commons-numbers-field</artifactId>
-      <version>${math.commons.numbers.version}</version>
-    </dependency>
-
-    <dependency>
-      <groupId>org.apache.commons</groupId>
-      <artifactId>commons-numbers-quaternion</artifactId>
-      <version>${math.commons.numbers.version}</version>
-    </dependency>
-
-    <dependency>
-      <groupId>org.apache.commons</groupId>
-      <artifactId>commons-rng-client-api</artifactId>
-      <version>${math.commons.rng.version}</version>
-    </dependency>
-
-    <dependency>
-      <groupId>org.apache.commons</groupId>
-      <artifactId>commons-rng-simple</artifactId>
-      <version>${math.commons.rng.version}</version>
-    </dependency>
-
-    <dependency>
-      <groupId>org.apache.commons</groupId>
-      <artifactId>commons-rng-sampling</artifactId>
-      <version>${math.commons.rng.version}</version>
-    </dependency>
-
-    <dependency>
-      <groupId>org.apache.commons</groupId>
-      <artifactId>commons-geometry-euclidean</artifactId>
-      <version>${math.commons.geometry.version}</version>
-    </dependency>
-
-    <dependency>
-      <groupId>org.openjdk.jmh</groupId>
-      <artifactId>jmh-core</artifactId>
-      <version>${jmh.version}</version>
-      <scope>test</scope>
-    </dependency>
-
-    <dependency>
-      <groupId>org.openjdk.jmh</groupId>
-      <artifactId>jmh-generator-annprocess</artifactId>
-      <version>${jmh.version}</version>
-      <scope>test</scope>
-    </dependency>
-
     <dependency>
       <groupId>junit</groupId>
       <artifactId>junit</artifactId>
@@ -223,37 +247,24 @@
   </dependencies>
 
   <build>
-    <defaultGoal>clean verify apache-rat:check checkstyle:check javadoc:javadoc</defaultGoal>
+    <!--  TODO: Add binary compatibility check when released. -->
+    <defaultGoal>clean verify apache-rat:check checkstyle:check pmd:check spotbugs:check javadoc:javadoc</defaultGoal>
     <plugins>
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-jar-plugin</artifactId>
+        <artifactId>maven-compiler-plugin</artifactId>
         <configuration>
-          <archive combine.children="append">
-            <manifestEntries>
-              <!-- Java 9 -->
-              <Automatic-Module-Name>${commons.automatic.module.name}</Automatic-Module-Name>
-            </manifestEntries>
-          </archive>
+          <compilerArgs>
+            <arg>-Xlint:all,-options,-path</arg>
+          </compilerArgs>
         </configuration>
       </plugin>
 
       <plugin>
-        <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-surefire-plugin</artifactId>
-        <configuration>
-          <!-- Fix for OpenJDK 8 now validating class-path attributes in Jar manifests. -->
-          <!-- See https://bugs.debian.org/cgi-bin/bugreport.cgi?bug=912333#63 -->
-          <useSystemClassLoader>false</useSystemClassLoader>
-          <includes>
-            <include>**/*Test.java</include>
-            <include>**/*TestBinary.java</include>
-            <include>**/*TestPermutations.java</include>
-          </includes>
-          <excludes>
-            <exclude>**/*AbstractTest.java</exclude>
-          </excludes>
-        </configuration>
+      </plugin>
+      <plugin>
+        <artifactId>maven-failsafe-plugin</artifactId>
       </plugin>
       <plugin>
         <artifactId>maven-assembly-plugin</artifactId>
@@ -264,32 +275,6 @@
           </descriptors>
           <!-- There are a lot of long file names. Suppress the warnings. -->
           <tarLongFileMode>gnu</tarLongFileMode>
-          </configuration>
-      </plugin>
-      <plugin>
-        <groupId>org.codehaus.mojo</groupId>
-        <artifactId>clirr-maven-plugin</artifactId>
-        <version>${math.clirr.version}</version>
-        <configuration>
-          <minSeverity>${minSeverity}</minSeverity>
-          <ignoredDifferencesFile>${basedir}/clirr-ignored.xml</ignoredDifferencesFile>
-        </configuration>
-        <executions>
-          <execution>
-            <goals>
-            </goals>
-          </execution>
-        </executions>
-      </plugin>
-      <plugin>
-        <artifactId>maven-pmd-plugin</artifactId>
-        <version>${math.pmd.version}</version>
-        <configuration>
-          <targetJdk>${maven.compiler.target}</targetJdk>
-          <skipEmptyReport>false</skipEmptyReport>
-          <rulesets>
-            <ruleset>${basedir}/pmd-ruleset.xml</ruleset>
-          </rulesets>
         </configuration>
       </plugin>
       <plugin>
@@ -301,139 +286,28 @@
           </ignorePathsToDelete>
         </configuration>
       </plugin>
-
-      <plugin>
-        <artifactId>maven-antrun-plugin</artifactId>
-        <executions>
-          <execution>
-            <phase>package</phase>
-            <configuration>
-              <target>
-                <jar destfile="${project.build.directory}/${project.artifactId}-${project.version}-tools.jar">
-                  <metainf dir="${basedir}" includes="NOTICE.txt,LICENSE.txt" />
-                  <manifest>
-                    <attribute name="Specification-Title" value="${project.name} Tools" />
-                    <attribute name="Implementation-Title" value="${project.name} Tools" />
-                    <attribute name="Implementation-Vendor" value="${project.organization.name}" />
-                    <attribute name="Implementation-Version" value="${project.version}" />
-                    <attribute name="Implementation-Vendor-Id" value="org.apache" />
-                    <attribute name="Implementation-Build" value="${implementation.build}"/>
-                    <attribute name="X-Compile-Source-JDK" value="${maven.compiler.source}" />
-                    <attribute name="X-Compile-Target-JDK" value="${maven.compiler.target}" />
-                  </manifest>
-                  <fileset dir="${project.build.directory}/test-classes"
-                           includes="org/apache/commons/math4/PerfTestUtils*" />
-                </jar>
-              </target>
-            </configuration>
-            <goals>
-              <goal>run</goal>
-            </goals>
-          </execution>
-        </executions>
-      </plugin>
-      <!--  Attaches the commons-math4 tools JAR to the Maven lifecycle
-            to ensure they will be signed and deployed as normal -->
-      <plugin>
-        <groupId>org.codehaus.mojo</groupId>
-        <artifactId>build-helper-maven-plugin</artifactId>
-        <version>1.7</version>
-        <executions>
-          <execution>
-            <id>attach-artifacts</id>
-            <phase>package</phase>
-            <goals>
-              <goal>attach-artifact</goal>
-            </goals>
-            <configuration>
-              <artifacts>
-                <artifact>
-                  <file>${project.build.directory}/${project.artifactId}-${project.version}-tools.jar</file>
-                  <type>jar</type>
-                  <classifier>tools</classifier>
-                </artifact>
-              </artifacts>
-            </configuration>
-          </execution>
-        </executions>
-      </plugin>
-      <!--  MathJax -->
-      <plugin>
-        <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-javadoc-plugin</artifactId>
-        <configuration>
-          <!-- Enable MathJax -->
-          <additionalOptions>-Xdoclint:all --allow-script-in-comments -header '&lt;script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/${math.mathjax.version}/MathJax.js?config=TeX-AMS-MML_HTMLorMML"&gt;&lt;/script&gt;'</additionalOptions>
-          <!-- <aggregate>true</aggregate> -->
-        </configuration>
-      </plugin>
-      <plugin>
-        <groupId>org.apache.rat</groupId>
-        <artifactId>apache-rat-plugin</artifactId>
-        <version>${commons.rat.version}</version>
-        <configuration>
-        <!--
-          Needed for command-line access, e.g mvn apache-rat:rat and mvn apache-rat:check
-          Below should agree with config in <reporting> section, so the site
-          gets consistent output.
-        -->
-           <excludes>
-
-            <!-- MANIFEST files cannot have any comments, so we can't put license header -->
-            <exclude>src/test/maxima/special/RealFunctionValidation/MANIFEST.txt</exclude>
-
-            <!-- the following are test data files with specific syntax that cannot include
-                 Apache header (and the contained data is public, it is not owned by Apache) -->
-            <exclude>src/test/resources/org/apache/commons/math4/distribution/testData.txt</exclude>
-            <exclude>src/test/resources/org/apache/commons/math4/random/emptyFile.txt</exclude>
-            <exclude>src/test/resources/org/apache/commons/math4/stat/data/PiDigits.txt</exclude>
-            <exclude>src/test/resources/org/apache/commons/math4/stat/data/NumAcc3.txt</exclude>
-            <exclude>src/test/resources/org/apache/commons/math4/stat/data/Lew.txt</exclude>
-            <exclude>src/test/resources/org/apache/commons/math4/stat/data/NumAcc2.txt</exclude>
-            <exclude>src/test/resources/org/apache/commons/math4/stat/data/NumAcc1.txt</exclude>
-            <exclude>src/test/resources/org/apache/commons/math4/stat/data/Lottery.txt</exclude>
-            <exclude>src/test/resources/org/apache/commons/math4/stat/data/NumAcc4.txt</exclude>
-            <exclude>src/test/resources/org/apache/commons/math4/stat/data/Michelso.txt</exclude>
-            <exclude>src/test/resources/org/apache/commons/math4/stat/data/Mavro.txt</exclude>
-            <exclude>src/test/resources/org/apache/commons/math4/geometry/euclidean/threed/issue-1211.bsp</exclude>
-            <exclude>src/test/resources/org/apache/commons/math4/geometry/euclidean/threed/pentomino-N-bad-orientation.ply</exclude>
-            <exclude>src/test/resources/org/apache/commons/math4/geometry/euclidean/threed/pentomino-N-hole.ply</exclude>
-            <exclude>src/test/resources/org/apache/commons/math4/geometry/euclidean/threed/pentomino-N-out-of-plane.ply</exclude>
-            <exclude>src/test/resources/org/apache/commons/math4/geometry/euclidean/threed/pentomino-N-too-close.ply</exclude>
-            <exclude>src/test/resources/org/apache/commons/math4/geometry/euclidean/threed/pentomino-N.ply</exclude>
-
-            <!-- direction numbers for Sobol generation from Frances Y. Kuo and Stephen Joe,
-                 available under a BSD-style license (see LICENSE.txt) -->
-            <exclude>src/main/resources/assets/org/apache/commons/math4/random/new-joe-kuo-6.21201</exclude>
-
-            <!-- text file explaining reference to a public domain image -->
-            <exclude>src/userguide/resources/references.txt</exclude>
-
-            <!-- version 0.8 of apache-rat-plugin does not exclude properly
-                 some default development tools files (see RAT-126) -->
-            <exclude>bin/**</exclude>
-            <exclude>.gitignore</exclude>
-            <exclude>.git/**</exclude>
-            <exclude>.checkstyle</exclude>
-            <exclude>.ekstazi/**</exclude>
-            <exclude>**/target/**</exclude>
-
-          </excludes>
-        </configuration>
-      </plugin>
-
-      <!-- CheckStyle -->
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-checkstyle-plugin</artifactId>
-        <version>${math.checkstyle.version}</version>
+        <dependencies>
+          <dependency>
+            <groupId>com.puppycrawl.tools</groupId>
+            <artifactId>checkstyle</artifactId>
+            <version>${math.checkstyle.dep.version}</version>
+          </dependency>
+        </dependencies>
         <configuration>
-          <includeTestSourceDirectory>false</includeTestSourceDirectory>
-          <configLocation>${basedir}/src/main/resources/checkstyle/checkstyle.xml</configLocation>
-          <headerLocation>${basedir}/src/main/resources/checkstyle/license-header.txt</headerLocation>
+          <includeTestSourceDirectory>true</includeTestSourceDirectory>
+          <configLocation>${math.parent.dir}/src/main/resources/checkstyle/checkstyle.xml</configLocation>
+          <headerLocation>${math.parent.dir}/src/main/resources/checkstyle/license-header.txt</headerLocation>
+          <suppressionsLocation>${math.parent.dir}/src/main/resources/checkstyle/checkstyle-suppressions.xml</suppressionsLocation>
           <enableRulesSummary>false</enableRulesSummary>
-          <includeResources>false</includeResources>
-          <resourceExcludes>NOTICE.txt,LICENSE.txt,**/LocalizedFormats_*.properties,**/pom.properties,**/resolver-status.properties,**/sha512.properties,src/test/maxima/special/reference/*.properties</resourceExcludes>
+          <!-- Output issues to console. -->
+          <consoleOutput>false</consoleOutput>
+          <!-- Output the detected violations to the console (for checkstyle:check). -->
+          <logViolationsToConsole>true</logViolationsToConsole>
+          <failOnViolation>true</failOnViolation>
+          <resourceExcludes>NOTICE,LICENSE,**/*.properties</resourceExcludes>
           <excludes>**/generated/**.java</excludes>
         </configuration>
         <executions>
@@ -444,32 +318,152 @@
           </execution>
         </executions>
       </plugin>
+      <plugin>
+        <groupId>com.github.spotbugs</groupId>
+        <artifactId>spotbugs-maven-plugin</artifactId>
+        <version>${commons.spotbugs.version}</version>
+        <configuration>
+          <threshold>Normal</threshold>
+          <effort>Default</effort>
+          <excludeFilterFile>${math.parent.dir}/src/main/resources/spotbugs/spotbugs-exclude-filter.xml</excludeFilterFile>
+        </configuration>
+      </plugin>
+      <plugin>
+        <artifactId>maven-pmd-plugin</artifactId>
+        <version>${math.pmd.version}</version>
+        <dependencies>
+          <dependency>
+            <groupId>net.sourceforge.pmd</groupId>
+            <artifactId>pmd-core</artifactId>
+            <version>${math.pmd.dep.version}</version>
+          </dependency>
+          <dependency>
+            <groupId>net.sourceforge.pmd</groupId>
+            <artifactId>pmd-java</artifactId>
+            <version>${math.pmd.dep.version}</version>
+          </dependency>
+        </dependencies>
+        <configuration>
+          <printFailingErrors>true</printFailingErrors>
+          <!-- TODO: remove this when PMD has been fixed. -->
+          <failOnViolation>false</failOnViolation>
+          <targetJdk>${maven.compiler.target}</targetJdk>
+          <skipEmptyReport>false</skipEmptyReport>
+          <analysisCache>true</analysisCache>
+          <rulesets>
+            <ruleset>${math.parent.dir}/src/main/resources/pmd/pmd-ruleset.xml</ruleset>
+          </rulesets>
+          <excludeRoots>
+            <excludeRoot>target/generated-sources</excludeRoot>
+          </excludeRoots>
+        </configuration>
+      </plugin>
+      <plugin>
+        <groupId>org.apache.rat</groupId>
+        <artifactId>apache-rat-plugin</artifactId>
+        <configuration>
+        <!--
+          Needed for command-line access, e.g mvn apache-rat:rat and mvn apache-rat:check
+          Below should agree with config in <reporting> section, so the site
+          gets consistent output.
+        -->
+          <excludes combine.children="append">
+            <exclude>src/test/resources/data/**</exclude>
+            <exclude>src/site/resources/release-notes/RELEASE-NOTES-*.txt</exclude>
+            <exclude>dist-archive/**</exclude>
+            <exclude>**/site-content/**</exclude>
 
+            <!-- MANIFEST files cannot have any comments, so we can't put license header -->
+            <exclude>src/test/maxima/special/RealFunctionValidation/MANIFEST.txt</exclude>
+
+            <!-- the following are test data files with specific syntax that cannot include
+                 Apache header (and the contained data is public, it is not owned by Apache) -->
+            <exclude>src/test/resources/org/apache/commons/math4/legacy/distribution/testData.txt</exclude>
+            <exclude>src/test/resources/org/apache/commons/math4/legacy/random/emptyFile.txt</exclude>
+            <exclude>src/test/resources/org/apache/commons/math4/legacy/stat/data/PiDigits.txt</exclude>
+            <exclude>src/test/resources/org/apache/commons/math4/legacy/stat/data/NumAcc3.txt</exclude>
+            <exclude>src/test/resources/org/apache/commons/math4/legacy/stat/data/Lew.txt</exclude>
+            <exclude>src/test/resources/org/apache/commons/math4/legacy/stat/data/NumAcc2.txt</exclude>
+            <exclude>src/test/resources/org/apache/commons/math4/legacy/stat/data/NumAcc1.txt</exclude>
+            <exclude>src/test/resources/org/apache/commons/math4/legacy/stat/data/Lottery.txt</exclude>
+            <exclude>src/test/resources/org/apache/commons/math4/legacy/stat/data/NumAcc4.txt</exclude>
+            <exclude>src/test/resources/org/apache/commons/math4/legacy/stat/data/Michelso.txt</exclude>
+            <exclude>src/test/resources/org/apache/commons/math4/legacy/stat/data/Mavro.txt</exclude>
+
+            <!-- direction numbers for Sobol generation from Frances Y. Kuo and Stephen Joe,
+                 available under a BSD-style license (see LICENSE.txt) -->
+            <exclude>src/main/resources/assets/org/apache/commons/math4/legacy/random/new-joe-kuo-6.21201</exclude>
+
+          </excludes>
+        </configuration>
+      </plugin>
+      <plugin>
+      <!-- NOTE: javadoc config must also be set under <reporting> -->
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-javadoc-plugin</artifactId>
+        <configuration>
+          <!--  Enable MathJax -->
+          <additionalOptions>${doclint.javadoc.qualifier} ${allowscript.javadoc.qualifier} -header '&lt;script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/${math.mathjax.version}/MathJax.js?config=TeX-AMS-MML_HTMLorMML"&gt;&lt;/script&gt;'</additionalOptions>
+        </configuration>
+      </plugin>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-jar-plugin</artifactId>
+        <configuration>
+          <archive combine.children="append">
+            <manifestEntries>
+              <Automatic-Module-Name>${commons.module.name}</Automatic-Module-Name>
+            </manifestEntries>
+          </archive>
+        </configuration>
+      </plugin>
     </plugins>
+
+    <pluginManagement>
+      <plugins>
+        <plugin>
+          <groupId>org.apache.maven.plugins</groupId>
+          <artifactId>maven-checkstyle-plugin</artifactId>
+          <version>${math.checkstyle.version}</version>
+        </plugin>
+      </plugins>
+    </pluginManagement>
   </build>
 
   <reporting>
     <plugins>
       <plugin>
+        <groupId>org.apache.rat</groupId>
+        <artifactId>apache-rat-plugin</artifactId>
+        <version>${commons.rat.version}</version>
+        <configuration>
+         <!--  Should agree with apache-rat-plugin config under <build> -->
+          <excludes combine.children="append">
+            <exclude>src/test/resources/data/**</exclude>
+            <exclude>src/site/resources/release-notes/RELEASE-NOTES-*.txt</exclude>
+            <exclude>dist-archive/**</exclude>
+            <exclude>**/site-content/**</exclude>
+          </excludes>
+        </configuration>
+      </plugin>
+      <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-changes-plugin</artifactId>
         <version>${commons.changes.version}</version>
         <configuration>
-          <issueLinkTemplatePerSystem>
-            <default>%URL%/%ISSUE%</default>
-          </issueLinkTemplatePerSystem>
-          <!--  Add sample JIRA report - 'mvn changes:jira-report' or 'mvn site' -->
-          <onlyCurrentVersion>false</onlyCurrentVersion>
-          <columnNames>Fix Version,Key,Summary,Type,Resolution,Status</columnNames>
-          <!-- Sort cols have to be reversed in JIRA 4 -->
-          <sortColumnNames>Key DESC,Type,Fix Version DESC</sortColumnNames>
-          <resolutionIds>Fixed</resolutionIds>
+          <xmlPath>${basedir}/src/changes/changes.xml</xmlPath>
+          <columnNames>Fix Version,Key,Component,Summary,Type,Resolution,Status</columnNames>
+          <!-- Sort cols in natural order when using JQL for JIRA 5.1 -->
+          <sortColumnNames>Fix Version DESC,Type,Key DESC</sortColumnNames>
+          <resolutionIds>Fixed,Implemented</resolutionIds>
           <statusIds>Resolved,Closed</statusIds>
           <!-- Don't include sub-task -->
           <typeIds>Bug,New Feature,Task,Improvement,Wish,Test</typeIds>
-          <fixVersionIds>${commons.release.version}</fixVersionIds>
-          <!-- The default is 100 -->
-          <maxEntries>100</maxEntries>
+          <!-- For JIRA >= 5.1 -->
+          <useJql>true</useJql>
+          <onlyCurrentVersion>${commons.changes.onlyCurrentVersion}</onlyCurrentVersion>
+          <maxEntries>${commons.changes.maxEntries}</maxEntries>
+          <runOnlyAtExecutionRoot>${commons.changes.runOnlyAtExecutionRoot}</runOnlyAtExecutionRoot>
         </configuration>
         <reportSets>
           <reportSet>
@@ -481,79 +475,26 @@
         </reportSets>
       </plugin>
       <plugin>
-        <groupId>org.apache.rat</groupId>
-        <artifactId>apache-rat-plugin</artifactId>
-        <version>${commons.rat.version}</version>
-        <configuration>
-        <!--
-          Needed for command-line access, e.g mvn apache-rat:rat and mvn apache-rat:check
-          Below should agree with config in <build> section, so the site
-          gets consistent output.
-        -->
-           <excludes>
-
-            <!-- MANIFEST files cannot have any comments, so we can't put license header -->
-            <exclude>src/test/maxima/special/RealFunctionValidation/MANIFEST.txt</exclude>
-
-            <!-- the following are test data files with specific syntax that cannot include
-                 Apache header (and the contained data is public, it is not owned by Apache) -->
-            <exclude>src/test/resources/org/apache/commons/math4/distribution/testData.txt</exclude>
-            <exclude>src/test/resources/org/apache/commons/math4/random/emptyFile.txt</exclude>
-            <exclude>src/test/resources/org/apache/commons/math4/stat/data/PiDigits.txt</exclude>
-            <exclude>src/test/resources/org/apache/commons/math4/stat/data/NumAcc3.txt</exclude>
-            <exclude>src/test/resources/org/apache/commons/math4/stat/data/Lew.txt</exclude>
-            <exclude>src/test/resources/org/apache/commons/math4/stat/data/NumAcc2.txt</exclude>
-            <exclude>src/test/resources/org/apache/commons/math4/stat/data/NumAcc1.txt</exclude>
-            <exclude>src/test/resources/org/apache/commons/math4/stat/data/Lottery.txt</exclude>
-            <exclude>src/test/resources/org/apache/commons/math4/stat/data/NumAcc4.txt</exclude>
-            <exclude>src/test/resources/org/apache/commons/math4/stat/data/Michelso.txt</exclude>
-            <exclude>src/test/resources/org/apache/commons/math4/stat/data/Mavro.txt</exclude>
-            <exclude>src/test/resources/org/apache/commons/math4/geometry/euclidean/threed/issue-1211.bsp</exclude>
-            <exclude>src/test/resources/org/apache/commons/math4/geometry/euclidean/threed/pentomino-N-bad-orientation.ply</exclude>
-            <exclude>src/test/resources/org/apache/commons/math4/geometry/euclidean/threed/pentomino-N-hole.ply</exclude>
-            <exclude>src/test/resources/org/apache/commons/math4/geometry/euclidean/threed/pentomino-N-out-of-plane.ply</exclude>
-            <exclude>src/test/resources/org/apache/commons/math4/geometry/euclidean/threed/pentomino-N-too-close.ply</exclude>
-            <exclude>src/test/resources/org/apache/commons/math4/geometry/euclidean/threed/pentomino-N.ply</exclude>
-
-            <!-- direction numbers for Sobol generation from Frances Y. Kuo and Stephen Joe,
-                 available under a BSD-style license (see LICENSE.txt) -->
-            <exclude>src/main/resources/assets/org/apache/commons/math4/random/new-joe-kuo-6.21201</exclude>
-
-            <!-- text file explaining reference to a public domain image -->
-            <exclude>src/userguide/resources/references.txt</exclude>
-
-            <!-- version 0.8 of apache-rat-plugin does not exclude properly
-                 some default development tools files (see RAT-126) -->
-            <exclude>bin/**</exclude>
-            <exclude>.gitignore</exclude>
-            <exclude>.git/**</exclude>
-            <exclude>.checkstyle</exclude>
-            <exclude>.ekstazi/**</exclude>
-            <exclude>**/target/**</exclude>
-
-          </excludes>
-        </configuration>
-      </plugin>
-      <plugin>
-        <groupId>org.codehaus.mojo</groupId>
-        <artifactId>findbugs-maven-plugin</artifactId>
-        <version>${math.findbugs.version}</version>
+        <groupId>com.github.spotbugs</groupId>
+        <artifactId>spotbugs-maven-plugin</artifactId>
+        <version>${commons.spotbugs.version}</version>
         <configuration>
           <threshold>Normal</threshold>
           <effort>Default</effort>
-          <excludeFilterFile>${basedir}/findbugs-exclude-filter.xml</excludeFilterFile>
-       </configuration>
+          <excludeFilterFile>${math.parent.dir}/src/main/resources/spotbugs/spotbugs-exclude-filter.xml</excludeFilterFile>
+        </configuration>
       </plugin>
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-checkstyle-plugin</artifactId>
         <version>${math.checkstyle.version}</version>
         <configuration>
-          <includeTestSourceDirectory>false</includeTestSourceDirectory>
-          <configLocation>${basedir}/src/main/resources/checkstyle/checkstyle.xml</configLocation>
-          <headerLocation>${basedir}/src/main/resources/checkstyle/license-header.txt</headerLocation>
+          <configLocation>${math.parent.dir}/src/main/resources/checkstyle/checkstyle.xml</configLocation>
+          <headerLocation>${math.parent.dir}/src/main/resources/checkstyle/license-header.txt</headerLocation>
+          <suppressionsLocation>${math.parent.dir}/src/main/resources/checkstyle/checkstyle-suppressions.xml</suppressionsLocation>
           <enableRulesSummary>false</enableRulesSummary>
           <includeResources>false</includeResources>
+          <excludes>**/generated/**.java</excludes>
         </configuration>
         <reportSets>
           <reportSet>
@@ -564,43 +505,34 @@
         </reportSets>
       </plugin>
       <plugin>
-        <groupId>org.codehaus.mojo</groupId>
-        <artifactId>clirr-maven-plugin</artifactId>
-        <version>${math.clirr.version}</version>
-        <configuration>
-          <minSeverity>${minSeverity}</minSeverity>
-          <ignoredDifferencesFile>${basedir}/clirr-ignored.xml</ignoredDifferencesFile>
-         </configuration>
-      </plugin>
-      <plugin>
         <artifactId>maven-pmd-plugin</artifactId>
         <version>${math.pmd.version}</version>
         <configuration>
+          <verbose>false</verbose>
+          <printFailingErrors>true</printFailingErrors>
           <targetJdk>${maven.compiler.target}</targetJdk>
           <skipEmptyReport>false</skipEmptyReport>
+          <analysisCache>true</analysisCache>
           <rulesets>
-            <ruleset>${basedir}/pmd-ruleset.xml</ruleset>
+            <ruleset>${math.parent.dir}/src/main/resources/pmd/pmd-ruleset.xml</ruleset>
           </rulesets>
         </configuration>
         <reportSets>
           <reportSet>
             <reports>
               <report>pmd</report>
-              <!-- As of 3.x series, the cpd report sees (correctly) numerous duplications -->
-              <!-- This is due to packages being renamed, and the old name still needs to be -->
-              <!-- available for compatibility. They will be removed in 4.0 -->
-              <!-- So we temporarily disable the CPD report -->
-              <!-- <report>cpd</report> -->
+              <report>cpd</report>
             </reports>
           </reportSet>
         </reportSets>
       </plugin>
-      <!--  MathJax -->
       <plugin>
+        <!-- NOTE: javadoc config must also be set under <build> -->
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-javadoc-plugin</artifactId>
         <configuration>
-          <additionalOptions>-Xdoclint:all --allow-script-in-comments -header '&lt;script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/${math.mathjax.version}/MathJax.js?config=TeX-AMS-MML_HTMLorMML"&gt;&lt;/script&gt;'</additionalOptions>
+          <!--  Enable MathJax -->
+          <additionalOptions>${doclint.javadoc.qualifier} ${allowscript.javadoc.qualifier} -header '&lt;script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/${math.mathjax.version}/MathJax.js?config=TeX-AMS-MML_HTMLorMML"&gt;&lt;/script&gt;'</additionalOptions>
         </configuration>
       </plugin>
     </plugins>
@@ -617,7 +549,7 @@
       <build>
         <plugins>
           <plugin>
-            <groupId>org.bidib.buildnumber</groupId>
+            <groupId>ru.concerteza.buildnumber</groupId>
             <artifactId>maven-jgit-buildnumber-plugin</artifactId>
             <version>${math.jgit.buildnumber.version}</version>
             <executions>
@@ -646,7 +578,6 @@
           <plugin>
             <groupId>org.apache.maven.plugins</groupId>
             <artifactId>maven-antrun-plugin</artifactId>
-            <version>1.7</version>
             <executions>
               <execution>
                 <id>prepare-checkout</id>
@@ -657,18 +588,18 @@
                 <configuration>
                   <tasks>
                     <exec executable="svn">
-                      <arg line="checkout --depth immediates ${commons.scmPubUrl} ${commons.scmPubCheckoutDirectory}" />
+                      <arg line="checkout --depth immediates ${commons.scmPubUrl} ${commons.scmPubCheckoutDirectory}"/>
                     </exec>
 
                     <exec executable="svn">
-                      <arg line="update --set-depth exclude ${commons.scmPubCheckoutDirectory}/javadocs" />
+                      <arg line="update --set-depth exclude ${commons.scmPubCheckoutDirectory}/javadocs"/>
                     </exec>
 
                     <pathconvert pathsep=" " property="dirs">
-                      <dirset dir="${commons.scmPubCheckoutDirectory}" includes="*" />
+                      <dirset dir="${commons.scmPubCheckoutDirectory}" includes="*"/>
                     </pathconvert>
                     <exec executable="svn">
-                      <arg line="update --set-depth infinity ${dirs}" />
+                      <arg line="update --set-depth infinity ${dirs}"/>
                     </exec>
                   </tasks>
                 </configuration>
@@ -732,70 +663,72 @@
             <version>${commons.jacoco.version}</version>
             <executions>
               <execution>
-                <id>prepare-agent</id>
+                <id>default-prepare-agent</id>
                 <goals>
                   <goal>prepare-agent</goal>
                 </goals>
+              </execution>
+              <execution>
+                <id>default-prepare-agent-integration</id>
+                <goals>
+                  <goal>prepare-agent-integration</goal>
+                </goals>
+              </execution>
+              <execution>
+                <id>default-report</id>
+                <goals>
+                  <goal>report</goal>
+                </goals>
+              </execution>
+              <execution>
+                <id>default-report-integration</id>
+                <goals>
+                  <goal>report-integration</goal>
+                </goals>
+              </execution>
+              <execution>
+                <id>default-check</id>
+                <goals>
+                  <goal>check</goal>
+                </goals>
+                <configuration>
+                  <rules>
+                    <!--  implementation is needed only for Maven 2  -->
+                    <rule implementation="org.jacoco.maven.RuleConfiguration">
+                      <element>BUNDLE</element>
+                      <limits>
+                        <!--  implementation is needed only for Maven 2  -->
+                        <limit implementation="org.jacoco.report.check.Limit">
+                          <counter>COMPLEXITY</counter>
+                          <value>COVEREDRATIO</value>
+                          <minimum>0.60</minimum>
+                        </limit>
+                      </limits>
+                    </rule>
+                  </rules>
+                </configuration>
               </execution>
             </executions>
           </plugin>
           <plugin>
             <groupId>org.eluder.coveralls</groupId>
             <artifactId>coveralls-maven-plugin</artifactId>
-            <version>3.1.0</version>
+            <version>${commons.coveralls.version}</version>
+            <configuration>
+              <timestampFormat>${commons.coveralls.timestampFormat}</timestampFormat>
+            </configuration>
           </plugin>
         </plugins>
       </build>
     </profile>
-
+    <!--
+        Profiles for modules with special requirements.
+    -->
     <profile>
-      <id>benchmark</id>
-      <properties>
-        <skipTests>true</skipTests>
-        <benchmark>org.apache</benchmark>
-      </properties>
-
-      <build>
-        <plugins>
-          <plugin>
-            <groupId>org.apache.maven.plugins</groupId>
-            <artifactId>maven-compiler-plugin</artifactId>
-            <version>3.1</version>
-            <configuration>
-              <compilerVersion>${maven.compiler.target}</compilerVersion>
-              <source>${maven.compiler.target}</source>
-              <target>${maven.compiler.target}</target>
-            </configuration>
-          </plugin>
-          <plugin>
-            <groupId>org.codehaus.mojo</groupId>
-            <artifactId>exec-maven-plugin</artifactId>
-            <executions>
-              <execution>
-                <id>benchmark</id>
-                <phase>test</phase>
-                <goals>
-                  <goal>exec</goal>
-                </goals>
-                <configuration>
-                  <classpathScope>test</classpathScope>
-                  <executable>java</executable>
-                  <arguments>
-                    <argument>-classpath</argument>
-                    <classpath/>
-                    <argument>org.openjdk.jmh.Main</argument>
-                    <argument>-rf</argument>
-                    <argument>json</argument>
-                    <argument>-rff</argument>
-                    <argument>target/jmh-result.${benchmark}.json</argument>
-                    <argument>${benchmark}</argument>
-                  </arguments>
-                </configuration>
-              </execution>
-            </executions>
-          </plugin>
-        </plugins>
-      </build>
+      <id>commons-numbers-examples</id>
+      <modules>
+        <module>commons-numbers-examples</module>
+      </modules>
     </profile>
   </profiles>
 
@@ -879,6 +812,11 @@
       <name>Rob Tompkins</name>
       <id>chtompki</id>
       <email>chtompki at apache dot org</email>
+    </developer>
+    <developer>
+      <name>Eric Barnhill</name>
+      <id>ericbarnhill</id>
+      <email>ericbarnhill at apache dot org</email>
     </developer>
   </developers>
   <contributors>
@@ -1112,6 +1050,9 @@
     </contributor>
     <contributor>
       <name>Artavazd Balaian</name>
+    </contributor>
+    <contributor>
+      <name>Alex Herbert</name>
     </contributor>
   </contributors>
 
