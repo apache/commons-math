@@ -22,11 +22,10 @@ import java.util.Iterator;
 import org.apache.commons.rng.UniformRandomProvider;
 import org.apache.commons.rng.simple.RandomSource;
 import org.apache.commons.rng.sampling.UnitSphereSampler;
+import org.apache.commons.rng.sampling.distribution.ContinuousUniformSampler;
 import org.apache.commons.geometry.euclidean.threed.Vector3D;
 import org.apache.commons.geometry.euclidean.threed.rotation.Rotation3D;
 import org.apache.commons.geometry.euclidean.threed.rotation.QuaternionRotation;
-import org.apache.commons.statistics.distribution.ContinuousDistribution;
-import org.apache.commons.statistics.distribution.UniformContinuousDistribution;
 
 /**
  * Class that creates two intertwined rings in 3D-space.
@@ -63,11 +62,14 @@ class ChineseRings {
         // Create two rings lying in xy-plane.
         final UnitSphereSampler unit = new UnitSphereSampler(2, rng);
 
-        final ContinuousDistribution.Sampler radius1
-            = new UniformContinuousDistribution(radiusRing1 - halfWidthRing1,
-                                                radiusRing1 + halfWidthRing1).createSampler(rng);
-        final ContinuousDistribution.Sampler widthRing1
-            = new UniformContinuousDistribution(-halfWidthRing1, halfWidthRing1).createSampler(rng);
+        final ContinuousUniformSampler radius1
+            = new ContinuousUniformSampler(rng,
+                                           radiusRing1 - halfWidthRing1,
+                                           radiusRing1 + halfWidthRing1);
+        final ContinuousUniformSampler widthRing1
+            = new ContinuousUniformSampler(rng,
+                                           -halfWidthRing1,
+                                           halfWidthRing1);
 
         for (int i = 0; i < numPointsRing1; i++) {
             final double[] v = unit.nextVector();
@@ -78,11 +80,14 @@ class ChineseRings {
                                        widthRing1.sample());
         }
 
-        final ContinuousDistribution.Sampler radius2
-            = new UniformContinuousDistribution(radiusRing2 - halfWidthRing2,
-                                                radiusRing2 + halfWidthRing2).createSampler(rng);
-        final ContinuousDistribution.Sampler widthRing2
-            = new UniformContinuousDistribution(-halfWidthRing2, halfWidthRing2).createSampler(rng);
+        final ContinuousUniformSampler radius2
+            = new ContinuousUniformSampler(rng,
+                                           radiusRing2 - halfWidthRing2,
+                                           radiusRing2 + halfWidthRing2);
+        final ContinuousUniformSampler widthRing2
+            = new ContinuousUniformSampler(rng,
+                                           -halfWidthRing2,
+                                           halfWidthRing2);
 
         for (int i = 0; i < numPointsRing2; i++) {
             final double[] v = unit.nextVector();

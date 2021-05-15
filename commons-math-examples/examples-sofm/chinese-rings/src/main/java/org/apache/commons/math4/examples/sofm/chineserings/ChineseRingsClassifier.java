@@ -23,19 +23,19 @@ import org.apache.commons.rng.UniformRandomProvider;
 import org.apache.commons.rng.simple.RandomSource;
 import org.apache.commons.geometry.euclidean.threed.Vector3D;
 
-import org.apache.commons.math4.legacy.ml.neuralnet.SquareNeighbourhood;
-import org.apache.commons.math4.legacy.ml.neuralnet.FeatureInitializer;
-import org.apache.commons.math4.legacy.ml.neuralnet.FeatureInitializerFactory;
-import org.apache.commons.math4.legacy.ml.neuralnet.MapUtils;
-import org.apache.commons.math4.legacy.ml.neuralnet.twod.NeuronSquareMesh2D;
-import org.apache.commons.math4.legacy.ml.neuralnet.sofm.LearningFactorFunction;
-import org.apache.commons.math4.legacy.ml.neuralnet.sofm.LearningFactorFunctionFactory;
-import org.apache.commons.math4.legacy.ml.neuralnet.sofm.NeighbourhoodSizeFunction;
-import org.apache.commons.math4.legacy.ml.neuralnet.sofm.NeighbourhoodSizeFunctionFactory;
-import org.apache.commons.math4.legacy.ml.neuralnet.sofm.KohonenUpdateAction;
-import org.apache.commons.math4.legacy.ml.neuralnet.sofm.KohonenTrainingTask;
-import org.apache.commons.math4.legacy.ml.distance.DistanceMeasure;
-import org.apache.commons.math4.legacy.ml.distance.EuclideanDistance;
+import org.apache.commons.math4.neuralnet.SquareNeighbourhood;
+import org.apache.commons.math4.neuralnet.FeatureInitializer;
+import org.apache.commons.math4.neuralnet.FeatureInitializerFactory;
+import org.apache.commons.math4.neuralnet.MapUtils;
+import org.apache.commons.math4.neuralnet.DistanceMeasure;
+import org.apache.commons.math4.neuralnet.EuclideanDistance;
+import org.apache.commons.math4.neuralnet.twod.NeuronSquareMesh2D;
+import org.apache.commons.math4.neuralnet.sofm.LearningFactorFunction;
+import org.apache.commons.math4.neuralnet.sofm.LearningFactorFunctionFactory;
+import org.apache.commons.math4.neuralnet.sofm.NeighbourhoodSizeFunction;
+import org.apache.commons.math4.neuralnet.sofm.NeighbourhoodSizeFunctionFactory;
+import org.apache.commons.math4.neuralnet.sofm.KohonenUpdateAction;
+import org.apache.commons.math4.neuralnet.sofm.KohonenTrainingTask;
 import org.apache.commons.math4.legacy.stat.descriptive.SummaryStatistics;
 
 /**
@@ -92,7 +92,7 @@ class ChineseRingsClassifier {
                                                createRandomIterator(numSamplesPerTask),
                                                action);
         }
-        
+
         return tasks;
     }
 
@@ -147,10 +147,11 @@ class ChineseRingsClassifier {
             s * centre[2].getStandardDeviation()
         };
 
+        final UniformRandomProvider rng = RandomSource.create(RandomSource.SPLIT_MIX_64);
         return new FeatureInitializer[] {
-            FeatureInitializerFactory.uniform(mean[0] - dev[0], mean[0] + dev[0]),
-            FeatureInitializerFactory.uniform(mean[1] - dev[1], mean[1] + dev[1]),
-            FeatureInitializerFactory.uniform(mean[2] - dev[2], mean[2] + dev[2])
+            FeatureInitializerFactory.uniform(rng, mean[0] - dev[0], mean[0] + dev[0]),
+            FeatureInitializerFactory.uniform(rng, mean[1] - dev[1], mean[1] + dev[1]),
+            FeatureInitializerFactory.uniform(rng, mean[2] - dev[2], mean[2] + dev[2])
         };
     }
 

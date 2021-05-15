@@ -29,7 +29,7 @@
   <artifactId>commons-math4-legacy</artifactId>
   <name>Apache Commons Math (Legacy)</name>
 
-  <description>Legacy codes that are either currently unsupported or not yet modularized.</description>
+  <description>Codes that are either currently unsupported or not yet modularized.</description>
 
   <properties>
     <!-- The Java Module System Name -->

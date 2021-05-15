@@ -106,6 +106,7 @@
 
   <modules>
     <module>commons-math-legacy</module>
+    <module>commons-math-neuralnet</module>
     <module>commons-math-examples</module>
   </modules>
 

@@ -40,7 +40,7 @@
 
     <dependency>
       <groupId>org.apache.commons</groupId>
-      <artifactId>commons-math4-legacy</artifactId>
+      <artifactId>commons-math4-neuralnet</artifactId>
     </dependency>
 
     <dependency>
@@ -52,6 +52,7 @@
 
   <modules>
     <module>chinese-rings</module>
+    <module>tsp</module>
   </modules>
 
 </project>

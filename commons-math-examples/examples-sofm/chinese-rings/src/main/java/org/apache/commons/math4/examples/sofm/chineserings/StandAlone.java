@@ -26,7 +26,7 @@ import picocli.CommandLine.Option;
 import picocli.CommandLine.Command;
 
 import org.apache.commons.geometry.euclidean.threed.Vector3D;
-import org.apache.commons.math4.legacy.ml.neuralnet.twod.NeuronSquareMesh2D;
+import org.apache.commons.math4.neuralnet.twod.NeuronSquareMesh2D;
 
 /**
  * Application class.
@@ -48,8 +48,7 @@ public class StandAlone implements Callable<Void> {
     private String _outputFile = null;
 
     /**
-     * Program entry point.  All solver parameters must be provided
-     * through a {@link java.util.Properties Properties} file.
+     * Program entry point.
      *
      * @param args Command line arguments and options.
      */

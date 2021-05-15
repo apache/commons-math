@@ -54,6 +54,13 @@ If the output is not quite correct, check for invisible trailing spaces!
     </release>
 
     <release version="4.0" date="XXXX-XX-XX" description="">
+      <action dev="erans" type="update" issue="MATH-1578">
+        ANN codes moved into a dedicated maven module.
+      </action>
+      <action dev="erans" type="update" issue="MATH-1575">
+        Modularization set-up: All codes were moved into a "legacy" maven module.
+        WIP: Functionalities should gradually be moved into dedicated modules.
+      </action>
       <action dev="erans" type="fix" issue="MATH-1565" due-to="Randy Strauss">
         Add context to "OutOfRangeException".
       </action>

@@ -24,41 +24,27 @@
     <version>4.0-SNAPSHOT</version>
   </parent>
 
-  <artifactId>examples-sofm-chinese-rings</artifactId>
+  <artifactId>examples-sofm-tsp</artifactId>
   <version>4.0-SNAPSHOT</version>
   <!-- This name is used in the shaded jar to provide the application title for the version information. -->
-  <name>Chinese Rings</name>
+  <name>Traveling Salesman Problem</name>
 
-  <description>SOFM used for classification.</description>
+  <description>SOFM used for optimization.</description>
 
   <properties>
     <maven.compiler.source>1.8</maven.compiler.source>
     <maven.compiler.target>1.8</maven.compiler.target>
 
     <!-- OSGi -->
-    <commons.osgi.symbolicName>org.apache.commons.math4.examples.sofm.chineserings</commons.osgi.symbolicName>
-    <commons.osgi.export>org.apache.commons.math4.examples.sofm.chineserings</commons.osgi.export>
+    <commons.osgi.symbolicName>org.apache.commons.math4.examples.sofm.tsp</commons.osgi.symbolicName>
+    <commons.osgi.export>org.apache.commons.math4.examples.sofm.tsp</commons.osgi.export>
     <!-- Java 9+ -->
-    <commons.automatic.module.name>org.apache.commons.math4.examples.sofm.chineserings</commons.automatic.module.name>
+    <commons.automatic.module.name>org.apache.commons.math4.examples.sofm.tsp</commons.automatic.module.name>
     <!-- Workaround to avoid duplicating config files. -->
     <math.parent.dir>${basedir}/../../..</math.parent.dir>
 
-    <uberjar.name>examples-sofm-chineserings</uberjar.name>
-    <project.mainClass>org.apache.commons.math4.examples.sofm.chineserings.StandAlone</project.mainClass>
+    <uberjar.name>examples-sofm-tsp</uberjar.name>
+    <project.mainClass>org.apache.commons.math4.examples.sofm.tsp.StandAlone</project.mainClass>
   </properties>
-
-  <dependencies>
-
-    <dependency>
-      <groupId>org.apache.commons</groupId>
-      <artifactId>commons-geometry-euclidean</artifactId>
-    </dependency>
-
-    <dependency>
-      <groupId>org.apache.commons</groupId>
-      <artifactId>commons-math4-legacy</artifactId>
-    </dependency>
-
-  </dependencies>
 
 </project>
