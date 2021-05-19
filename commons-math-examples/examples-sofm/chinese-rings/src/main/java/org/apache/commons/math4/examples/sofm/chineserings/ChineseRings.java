@@ -15,7 +15,9 @@
  * limitations under the License.
  */
 
-package org.apache.commons.math4.userguide.sofm;
+package org.apache.commons.math4.examples.sofm.chineserings;
+
+import java.util.Iterator;
 
 import org.apache.commons.rng.UniformRandomProvider;
 import org.apache.commons.rng.simple.RandomSource;
@@ -27,10 +29,10 @@ import org.apache.commons.statistics.distribution.ContinuousDistribution;
 import org.apache.commons.statistics.distribution.UniformContinuousDistribution;
 
 /**
- * Class that creates two intertwined rings.
+ * Class that creates two intertwined rings in 3D-space.
  * Each ring is composed of a cloud of points.
  */
-public class ChineseRings {
+class ChineseRings {
     /** Points in the two rings. */
     private final Vector3D[] points;
 
@@ -109,5 +111,38 @@ public class ChineseRings {
      */
     public Vector3D[] getPoints() {
         return points.clone();
+    }
+
+    /**
+     * Creates an iterable that will present the points coordinates.
+     *
+     * @return the iterable.
+     */
+    public Iterable<double[]> createIterable() {
+        return new Iterable<double[]>() {
+            public Iterator<double[]> iterator() {
+                return new Iterator<double[]>() {
+                    /** Data. */
+                    final Vector3D[] points = getPoints();
+                    /** Number of samples. */
+                    private int n = 0;
+
+                    /** {@inheritDoc} */
+                    public boolean hasNext() {
+                        return n < points.length;
+                    }
+
+                    /** {@inheritDoc} */
+                    public double[] next() {
+                        return points[n++].toArray();
+                    }
+
+                    /** {@inheritDoc} */
+                    public void remove() {
+                        throw new UnsupportedOperationException();
+                    }
+                };
+            }
+        };
     }
 }

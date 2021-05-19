@@ -106,9 +106,7 @@
 
   <modules>
     <module>commons-math-legacy</module>
-    <!-- <module>commons-math-core</module> -->
-    <!-- <module>commons-math-ml-nn</module> -->
-    <!-- <module>commons-math-ml-ga</module> -->
+    <module>commons-math-examples</module>
   </modules>
 
   <scm>
@@ -720,15 +718,6 @@
           </plugin>
         </plugins>
       </build>
-    </profile>
-    <!--
-        Profiles for modules with special requirements.
-    -->
-    <profile>
-      <id>commons-numbers-examples</id>
-      <modules>
-        <module>commons-numbers-examples</module>
-      </modules>
     </profile>
   </profiles>
 
