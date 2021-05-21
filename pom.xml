@@ -105,8 +105,13 @@
   </properties>
 
   <modules>
-    <module>commons-math-legacy</module>
+    <!-- Modules that do not depend on "legacy" codes. -->
     <module>commons-math-neuralnet</module>
+
+    <!-- Non-modularized functionalities. -->
+    <module>commons-math-legacy</module>
+
+    <!-- Modules that depend on "legacy" codes. -->
     <module>commons-math-examples</module>
   </modules>
 
