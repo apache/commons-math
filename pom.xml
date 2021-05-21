@@ -113,6 +113,7 @@
 
     <!-- Modules that depend on "legacy" codes. -->
     <module>commons-math-examples</module>
+    <module>commons-math-clustering</module>
   </modules>
 
   <scm>
@@ -1048,6 +1049,9 @@
     </contributor>
     <contributor>
       <name>Alex Herbert</name>
+    </contributor>
+    <contributor>
+      <name>Samy Badjoudj</name>
     </contributor>
   </contributors>
 
