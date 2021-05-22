@@ -14,19 +14,15 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.apache.commons.math4.legacy.transform;
+package org.apache.commons.math4.transform;
 
 /**
  * This enumeration defines the various types of normalizations that can be
- * applied to discrete cosine transforms (DCT). The exact definition of these
- * normalizations is detailed below.
- *
- * @see FastCosineTransformer
- * @since 3.0
+ * applied to discrete cosine transforms (DCT).
  */
 public enum DctNormalization {
     /**
-     * Should be passed to the constructor of {@link FastCosineTransformer}
+     * Should be passed to the constructor of {@link FastCosineTransform}
      * to use the <em>standard</em> normalization convention.  The standard
      * DCT-I normalization convention is defined as follows
      * <ul>
@@ -45,7 +41,7 @@ public enum DctNormalization {
     STANDARD_DCT_I,
 
     /**
-     * Should be passed to the constructor of {@link FastCosineTransformer}
+     * Should be passed to the constructor of {@link FastCosineTransform}
      * to use the <em>orthogonal</em> normalization convention. The orthogonal
      * DCT-I normalization convention is defined as follows
      * <ul>

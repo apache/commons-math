@@ -107,6 +107,7 @@
   <modules>
     <!-- Modules that do not depend on "legacy" codes. -->
     <module>commons-math-neuralnet</module>
+    <module>commons-math-transform</module>
 
     <!-- Non-modularized functionalities. -->
     <module>commons-math-legacy</module>

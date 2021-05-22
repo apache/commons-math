@@ -14,50 +14,30 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.apache.commons.math4.legacy.transform;
+package org.apache.commons.math4.transform;
 
 import java.util.Arrays;
+import java.util.function.DoubleUnaryOperator;
 
 import org.apache.commons.numbers.complex.Complex;
-import org.apache.commons.math4.legacy.exception.DimensionMismatchException;
-import org.apache.commons.math4.legacy.exception.MathIllegalArgumentException;
-import org.apache.commons.math4.legacy.exception.util.LocalizedFormats;
 
 /**
  * Useful functions for the implementation of various transforms.
- *
- * @since 3.0
+ * Class is package-private (for internal use only).
  */
-public class TransformUtils {
-    /**
-     * Table of the powers of 2 to facilitate binary search lookup.
-     *
-     * @see #exactLog2(int)
-     */
-    private static final int[] POWERS_OF_TWO = {
-        0x00000001, 0x00000002, 0x00000004, 0x00000008, 0x00000010, 0x00000020,
-        0x00000040, 0x00000080, 0x00000100, 0x00000200, 0x00000400, 0x00000800,
-        0x00001000, 0x00002000, 0x00004000, 0x00008000, 0x00010000, 0x00020000,
-        0x00040000, 0x00080000, 0x00100000, 0x00200000, 0x00400000, 0x00800000,
-        0x01000000, 0x02000000, 0x04000000, 0x08000000, 0x10000000, 0x20000000,
-        0x40000000
-    };
-
-    /** Private constructor. */
-    private TransformUtils() {
-        super();
-    }
+class TransformUtils {
+    /** Utility class. */
+    private TransformUtils() {}
 
     /**
      * Multiply every component in the given real array by the
      * given real number. The change is made in place.
      *
-     * @param f the real array to be scaled
-     * @param d the real scaling coefficient
-     * @return a reference to the scaled array
+     * @param f Array to be scaled.
+     * @param d Scaling coefficient.
+     * @return a reference to the scaled array.
      */
-    public static double[] scaleArray(double[] f, double d) {
-
+    static double[] scaleInPlace(double[] f, double d) {
         for (int i = 0; i < f.length; i++) {
             f[i] *= d;
         }
@@ -68,12 +48,11 @@ public class TransformUtils {
      * Multiply every component in the given complex array by the
      * given real number. The change is made in place.
      *
-     * @param f the complex array to be scaled
-     * @param d the real scaling coefficient
-     * @return a reference to the scaled array
+     * @param f Array to be scaled.
+     * @param d Scaling coefficient.
+     * @return the scaled array.
      */
-    public static Complex[] scaleArray(Complex[] f, double d) {
-
+    static Complex[] scaleInPlace(Complex[] f, double d) {
         for (int i = 0; i < f.length; i++) {
             f[i] = Complex.ofCartesian(d * f[i].getReal(), d * f[i].getImaginary());
         }
@@ -90,11 +69,11 @@ public class TransformUtils {
      * <li>{@code dataRI[1][i] = dataC[i].getImaginary()}.</li>
      * </ul>
      *
-     * @param dataC the array of {@link Complex} data to be transformed
+     * @param dataC Array of {@link Complex} data to be transformed.
      * @return a two dimensional array filled with the real and imaginary parts
-     *   of the specified complex input
+     * of the specified complex input.
      */
-    public static double[][] createRealImaginaryArray(final Complex[] dataC) {
+    static double[][] createRealImaginary(final Complex[] dataC) {
         final double[][] dataRI = new double[2][dataC.length];
         final double[] dataR = dataRI[0];
         final double[] dataI = dataRI[1];
@@ -115,21 +94,21 @@ public class TransformUtils {
      * <li>{@code dataC[i].getImaginary() = dataRI[1][i]}.</li>
      * </ul>
      *
-     * @param dataRI the array of real and imaginary parts to be transformed
-     * @return an array of {@link Complex} with specified real and imaginary parts.
-     * @throws DimensionMismatchException if the number of rows of the specified
-     *   array is not two, or the array is not rectangular
+     * @param dataRI Array of real and imaginary parts to be transformed.
+     * @return a {@link Complex} array.
+     * @throws IllegalArgumentException if the number of rows of the specified
+     * array is not two, or the array is not rectangular.
      */
-    public static Complex[] createComplexArray(final double[][] dataRI)
-        throws DimensionMismatchException{
-
+    static Complex[] createComplex(final double[][] dataRI) {
         if (dataRI.length != 2) {
-            throw new DimensionMismatchException(dataRI.length, 2);
+            throw new TransformException(TransformException.SIZE_MISMATCH,
+                                         dataRI.length, 2);
         }
         final double[] dataR = dataRI[0];
         final double[] dataI = dataRI[1];
         if (dataR.length != dataI.length) {
-            throw new DimensionMismatchException(dataI.length, dataR.length);
+            throw new TransformException(TransformException.SIZE_MISMATCH,
+                                         dataI.length, dataR.length);
         }
 
         final int n = dataR.length;
@@ -140,24 +119,39 @@ public class TransformUtils {
         return c;
     }
 
-
     /**
-     * Returns the base-2 logarithm of the specified {@code int}. Throws an
-     * exception if {@code n} is not a power of two.
+     * Samples the specified univariate real function on the specified interval.
+     * <p>
+     * The interval is divided equally into {@code n} sections and sample points
+     * are taken from {@code min} to {@code max - (max - min) / n}; therefore
+     * {@code f} is not sampled at the upper bound {@code max}.</p>
      *
-     * @param n the {@code int} whose base-2 logarithm is to be evaluated
-     * @return the base-2 logarithm of {@code n}
-     * @throws MathIllegalArgumentException if {@code n} is not a power of two
+     * @param f Function to be sampled
+     * @param min Lower bound of the interval (included).
+     * @param max Upper bound of the interval (excluded).
+     * @param n Number of sample points.
+     * @return the array of samples.
+     * @throws IllegalArgumentException if the lower bound {@code min} is
+     * greater than, or equal to the upper bound {@code max}, if the number
+     * of sample points {@code n} is negative.
      */
-    public static int exactLog2(final int n)
-        throws MathIllegalArgumentException {
-
-        int index = Arrays.binarySearch(TransformUtils.POWERS_OF_TWO, n);
-        if (index < 0) {
-            throw new MathIllegalArgumentException(
-                    LocalizedFormats.NOT_POWER_OF_TWO_CONSIDER_PADDING,
-                    Integer.valueOf(n));
+    static double[] sample(DoubleUnaryOperator f,
+                           double min,
+                           double max,
+                           int n) {
+        if (n <= 0) {
+            throw new TransformException(TransformException.NOT_STRICTLY_POSITIVE,
+                                         Integer.valueOf(n));
         }
-        return index;
+        if (min >= max) {
+            throw new TransformException(TransformException.TOO_LARGE, min, max);
+        }
+
+        final double[] s = new double[n];
+        final double h = (max - min) / n;
+        for (int i = 0; i < n; i++) {
+            s[i] = f.applyAsDouble(min + i * h);
+        }
+        return s;
     }
 }

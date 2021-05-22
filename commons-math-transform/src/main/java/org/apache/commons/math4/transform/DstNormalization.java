@@ -14,19 +14,15 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.apache.commons.math4.legacy.transform;
+package org.apache.commons.math4.transform;
 
 /**
  * This enumeration defines the various types of normalizations that can be
- * applied to discrete sine transforms (DST). The exact definition of these
- * normalizations is detailed below.
- *
- * @see FastSineTransformer
- * @since 3.0
+ * applied to discrete sine transforms (DST).
  */
 public enum DstNormalization {
     /**
-     * Should be passed to the constructor of {@link FastSineTransformer} to
+     * Should be passed to the constructor of {@link FastSineTransform} to
      * use the <em>standard</em> normalization convention. The standard DST-I
      * normalization convention is defined as follows
      * <ul>
@@ -40,7 +36,7 @@ public enum DstNormalization {
     STANDARD_DST_I,
 
     /**
-     * Should be passed to the constructor of {@link FastSineTransformer} to
+     * Should be passed to the constructor of {@link FastSineTransform} to
      * use the <em>orthogonal</em> normalization convention. The orthogonal
      * DCT-I normalization convention is defined as follows
      * <ul>

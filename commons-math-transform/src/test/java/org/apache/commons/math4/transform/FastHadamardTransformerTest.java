@@ -14,27 +14,25 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.apache.commons.math4.legacy.transform;
+package org.apache.commons.math4.transform;
 
-import org.apache.commons.math4.legacy.exception.MathIllegalArgumentException;
-import org.apache.commons.numbers.core.Precision;
 import org.junit.Assert;
 import org.junit.Test;
 
+import org.apache.commons.numbers.core.Precision;
+
 
 /**
- * JUnit Test for HadamardTransformerTest
- * @see org.apache.commons.math4.legacy.transform.FastHadamardTransformer
+ * Test for {@link FestHadamardTransform}.
  */
 public final class FastHadamardTransformerTest {
-
     /**
      * Test of transformer for the a 8-point FHT (means n=8)
      */
     @Test
     public void test8Points() {
         checkAllTransforms(new int[] { 1, 4, -2, 3, 0, 1, 4, -1 },
-                       new int[] { 10, -4, 2, -4, 2, -12, 6, 8 });
+                           new int[] { 10, -4, 2, -4, 2, -12, 6, 8 });
     }
 
     /**
@@ -51,8 +49,8 @@ public final class FastHadamardTransformerTest {
      */
     @Test
     public void testNoIntInverse() {
-        FastHadamardTransformer transformer = new FastHadamardTransformer();
-        double[] x = transformer.transform(new double[] { 0, 1, 0, 1}, TransformType.INVERSE);
+        final FastHadamardTransform transformer = new FastHadamardTransform(true);
+        final double[] x = transformer.apply(new double[] { 0, 1, 0, 1});
         Assert.assertEquals( 0.5, x[0], 0);
         Assert.assertEquals(-0.5, x[1], 0);
         Assert.assertEquals( 0.0, x[2], 0);
@@ -65,41 +63,41 @@ public final class FastHadamardTransformerTest {
     @Test
     public void test3Points() {
         try {
-            new FastHadamardTransformer().transform(new double[3], TransformType.FORWARD);
+            new FastHadamardTransform().apply(new double[3]);
             Assert.fail("an exception should have been thrown");
-        } catch (MathIllegalArgumentException iae) {
+        } catch (IllegalArgumentException iae) {
             // expected
         }
     }
 
-    private void checkAllTransforms(int[]x, int[] y) {
+    private void checkAllTransforms(int[] x, int[] y) {
         checkDoubleTransform(x, y);
         checkInverseDoubleTransform(x, y);
         checkIntTransform(x, y);
     }
 
-    private void checkDoubleTransform(int[]x, int[] y) {
+    private void checkDoubleTransform(int[] x, int[] y) {
         // Initiate the transformer
-        FastHadamardTransformer transformer = new FastHadamardTransformer();
+        final FastHadamardTransform transformer = new FastHadamardTransform();
 
         // check double transform
-        double[] dX = new double[x.length];
+        final double[] dX = new double[x.length];
         for (int i = 0; i < dX.length; ++i) {
             dX[i] = x[i];
         }
-        double dResult[] = transformer.transform(dX, TransformType.FORWARD);
+        final double dResult[] = transformer.apply(dX);
         for (int i = 0; i < dResult.length; i++) {
             // compare computed results to precomputed results
             Assert.assertTrue(Precision.equals(y[i], dResult[i], 1));
         }
     }
 
-    private void checkIntTransform(int[]x, int[] y) {
+    private void checkIntTransform(int[] x, int[] y) {
         // Initiate the transformer
-        FastHadamardTransformer transformer = new FastHadamardTransformer();
+        final FastHadamardTransform transformer = new FastHadamardTransform();
 
         // check integer transform
-        int iResult[] = transformer.transform(x);
+        final int iResult[] = transformer.apply(x);
         for (int i = 0; i < iResult.length; i++) {
             // compare computed results to precomputed results
             Assert.assertEquals(y[i], iResult[i]);
@@ -109,14 +107,14 @@ public final class FastHadamardTransformerTest {
 
     private void checkInverseDoubleTransform(int[]x, int[] y) {
         // Initiate the transformer
-        FastHadamardTransformer transformer = new FastHadamardTransformer();
+        final FastHadamardTransform transformer = new FastHadamardTransform(true);
 
         // check double transform
-        double[] dY = new double[y.length];
+        final double[] dY = new double[y.length];
         for (int i = 0; i < dY.length; ++i) {
             dY[i] = y[i];
         }
-        double dResult[] = transformer.transform(dY, TransformType.INVERSE);
+        final double dResult[] = transformer.apply(dY);
         for (int i = 0; i < dResult.length; i++) {
             // compare computed results to precomputed results
             Assert.assertTrue(Precision.equals(x[i], dResult[i], 1));

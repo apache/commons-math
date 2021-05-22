@@ -14,80 +14,66 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.apache.commons.math4.legacy.transform;
+package org.apache.commons.math4.transform;
 
-import java.io.Serializable;
+import java.util.function.UnaryOperator;
 
-import org.apache.commons.math4.legacy.analysis.FunctionUtils;
-import org.apache.commons.math4.legacy.analysis.UnivariateFunction;
-import org.apache.commons.math4.legacy.exception.MathIllegalArgumentException;
-import org.apache.commons.math4.legacy.exception.util.LocalizedFormats;
 import org.apache.commons.numbers.core.ArithmeticUtils;
 
 /**
- * Implements the <a href="http://www.archive.chipcenter.com/dsp/DSP000517F1.html">Fast Hadamard Transform</a> (FHT).
- * Transformation of an input vector x to the output vector y.
+ * <a href="http://www.archive.chipcenter.com/dsp/DSP000517F1.html">Fast Hadamard Transform</a> (FHT).
  * <p>
- * In addition to transformation of real vectors, the Hadamard transform can
- * transform integer vectors into integer vectors. However, this integer transform
- * cannot be inverted directly. Due to a scaling factor it may lead to rational results.
- * As an example, the inverse transform of integer vector (0, 1, 0, 1) is rational
- * vector (1/2, -1/2, 0, 0).
- *
- * @since 2.0
+ * The FHT can also transform integer vectors into integer vectors.
+ * However, this transform cannot be inverted directly, due to a scaling
+ * factor that may lead to rational results (for example, the inverse
+ * transform of integer vector (0, 1, 0, 1) is vector (1/2, -1/2, 0, 0).
  */
-public class FastHadamardTransformer implements RealTransformer, Serializable {
-
-    /** Serializable version identifier. */
-    static final long serialVersionUID = 20120211L;
+public class FastHadamardTransform implements RealTransform {
+    /** Operation to be performed. */
+    private final UnaryOperator<double[]> op;
 
     /**
-     * {@inheritDoc}
-     *
-     * @throws MathIllegalArgumentException if the length of the data array is
-     * not a power of two
+     * Default constructor.
      */
-    @Override
-    public double[] transform(final double[] f, final TransformType type) {
-        if (type == TransformType.FORWARD) {
-            return fht(f);
-        }
-        return TransformUtils.scaleArray(fht(f), 1.0 / f.length);
+    public FastHadamardTransform() {
+        this(false);
+    }
+
+    /**
+     * @param inverse Whether to perform the inverse transform.
+     */
+    public FastHadamardTransform(final boolean inverse) {
+        op = create(inverse);
     }
 
     /**
      * {@inheritDoc}
      *
-     * @throws org.apache.commons.math4.legacy.exception.NonMonotonicSequenceException
-     *   if the lower bound is greater than, or equal to the upper bound
-     * @throws org.apache.commons.math4.legacy.exception.NotStrictlyPositiveException
-     *   if the number of sample points is negative
-     * @throws MathIllegalArgumentException if the number of sample points is not a power of two
+     * @throws IllegalArgumentException if the length of the data array is
+     * not a power of two.
      */
     @Override
-    public double[] transform(final UnivariateFunction f,
-        final double min, final double max, final int n,
-        final TransformType type) {
-
-        return transform(FunctionUtils.sample(f, min, max, n), type);
+    public double[] apply(final double[] f) {
+        return op.apply(f);
     }
 
     /**
-     * Returns the forward transform of the specified integer data set.The
-     * integer transform cannot be inverted directly, due to a scaling factor
-     * which may lead to double results.
+     * Returns the forward transform of the given data set.
+     * The integer transform cannot be inverted directly, due to a scaling
+     * factor which may lead to double results.
      *
-     * @param f the integer data array to be transformed (signal)
-     * @return the integer transformed array (spectrum)
-     * @throws MathIllegalArgumentException if the length of the data array is not a power of two
+     * @param f Data array to be transformed (signal).
+     * @return the transformed array (spectrum).
+     * @throws IllegalArgumentException if the length of the data array is
+     * not a power of two.
      */
-    public int[] transform(final int[] f) {
+    public int[] apply(final int[] f) {
         return fht(f);
     }
 
     /**
-     * The FHT (Fast Hadamard Transformation) which uses only subtraction and
-     * addition. Requires {@code N * log2(N) = n * 2^n} additions.
+     * FHT uses only subtraction and addition.
+     * It requires {@code N * log2(N) = n * 2^n} additions.
      *
      * <h3>Short Table of manual calculation for N=8</h3>
      * <ol>
@@ -180,7 +166,7 @@ public class FastHadamardTransformer implements RealTransformer, Serializable {
      *         of the previous column.</li>
      *     </ul>
      * </li>
-     * <li>The consputation of {@code D_top} and {@code D_bottom} are best
+     * <li>The computation of {@code D_top} and {@code D_bottom} are best
      * understood with the above example (for {@code N = 8}).
      * <li>The output vector {@code y} is now in the last column of
      * {@code hadm}.</li>
@@ -223,25 +209,22 @@ public class FastHadamardTransformer implements RealTransformer, Serializable {
      * </tbody>
      * </table>
      *
-     * @param x the real data array to be transformed
-     * @return the real transformed array, {@code y}
-     * @throws MathIllegalArgumentException if the length of the data array is not a power of two
+     * @param x Data to be transformed.
+     * @return the transformed array.
+     * @throws IllegalArgumentException if the length of the data array is
+     * not a power of two.
      */
-    protected double[] fht(double[] x) throws MathIllegalArgumentException {
-
-        final int n     = x.length;
+    private double[] fht(double[] x) {
+        final int n = x.length;
         final int halfN = n / 2;
 
         if (!ArithmeticUtils.isPowerOfTwo(n)) {
-            throw new MathIllegalArgumentException(
-                    LocalizedFormats.NOT_POWER_OF_TWO,
-                    Integer.valueOf(n));
+            throw new TransformException(TransformException.NOT_POWER_OF_TWO,
+                                         n);
         }
 
-        /*
-         * Instead of creating a matrix with p+1 columns and n rows, we use two
-         * one dimension arrays which we are used in an alternating way.
-         */
+        // Instead of creating a matrix with p+1 columns and n rows, we use two
+        // one dimension arrays which we are used in an alternating way.
         double[] yPrevious = new double[n];
         double[] yCurrent  = x.clone();
 
@@ -267,38 +250,34 @@ public class FastHadamardTransformer implements RealTransformer, Serializable {
         }
 
         return yCurrent;
-
     }
 
     /**
-     * Returns the forward transform of the specified integer data set. The FHT
-     * (Fast Hadamard Transform) uses only subtraction and addition.
+     * Returns the forward transform of the specified integer data set.
+     * FHT only uses subtraction and addition.
      *
-     * @param x the integer data array to be transformed
-     * @return the integer transformed array, {@code y}
-     * @throws MathIllegalArgumentException if the length of the data array is not a power of two
+     * @param x Data to be transformed.
+     * @return the transformed array.
+     * @throws IllegalArgumentException if the length of the data array is
+     * not a power of two.
      */
-    protected int[] fht(int[] x) throws MathIllegalArgumentException {
-
-        final int n     = x.length;
+    private int[] fht(int[] x) {
+        final int n = x.length;
         final int halfN = n / 2;
 
         if (!ArithmeticUtils.isPowerOfTwo(n)) {
-            throw new MathIllegalArgumentException(
-                    LocalizedFormats.NOT_POWER_OF_TWO,
-                    Integer.valueOf(n));
+            throw new TransformException(TransformException.NOT_POWER_OF_TWO,
+                                         n);
         }
 
-        /*
-         * Instead of creating a matrix with p+1 columns and n rows, we use two
-         * one dimension arrays which we are used in an alternating way.
-         */
+        // Instead of creating a matrix with p+1 columns and n rows, we use two
+        // one dimension arrays which we are used in an alternating way.
+
         int[] yPrevious = new int[n];
         int[] yCurrent  = x.clone();
 
         // iterate from left to right (column)
         for (int j = 1; j < n; j <<= 1) {
-
             // switch columns
             final int[] yTmp = yCurrent;
             yCurrent  = yPrevious;
@@ -319,7 +298,19 @@ public class FastHadamardTransformer implements RealTransformer, Serializable {
 
         // return the last computed output vector y
         return yCurrent;
-
     }
 
+    /**
+     * Factory method.
+     *
+     * @param inverse Whether to perform the inverse transform.
+     * @return the transform operator.
+     */
+    private UnaryOperator<double[]> create(final boolean inverse) {
+        if (inverse) {
+            return (f) -> TransformUtils.scaleInPlace(fht(f), 1d / f.length);
+        } else {
+            return (f) -> fht(f);
+        }
+    }
 }
