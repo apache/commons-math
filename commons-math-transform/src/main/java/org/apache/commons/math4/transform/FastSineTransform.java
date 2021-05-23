@@ -29,7 +29,7 @@ import org.apache.commons.numbers.core.ArithmeticUtils;
  * <p>
  * There are several variants of the discrete sine transform. The present
  * implementation corresponds to DST-I, with various normalization conventions,
- * which are specified by the parameter {@link DstNormalization}.
+ * which are specified by the parameter {@link Norm}.
  * <strong>It should be noted that regardless to the convention, the first
  * element of the dataset to be transformed must be zero.</strong>
  * <p>
@@ -69,7 +69,7 @@ public class FastSineTransform implements RealTransform {
      * @param normalization Normalization to be applied to the transformed data.
      * @param inverse Whether to perform the inverse transform.
      */
-    public FastSineTransform(final DstNormalization normalization,
+    public FastSineTransform(final Norm normalization,
                              final boolean inverse) {
         op = create(normalization, inverse);
     }
@@ -78,7 +78,7 @@ public class FastSineTransform implements RealTransform {
      * @param normalization Normalization to be applied to the
      * transformed data.
      */
-    public FastSineTransform(final DstNormalization normalization) {
+    public FastSineTransform(final Norm normalization) {
         this(normalization, false);
     }
 
@@ -156,7 +156,7 @@ public class FastSineTransform implements RealTransform {
             x[nMi] = a - b;
         }
 
-        final FastFourierTransform transform = new FastFourierTransform(DftNormalization.STANDARD);
+        final FastFourierTransform transform = new FastFourierTransform(FastFourierTransform.Norm.STD);
         final Complex[] y = transform.apply(x);
 
         // reconstruct the FST result for the original array
@@ -179,16 +179,50 @@ public class FastSineTransform implements RealTransform {
      * @param inverse Whether to perform the inverse transform.
      * @return the transform operator.
      */
-    private UnaryOperator<double[]> create(final DstNormalization normalization,
+    private UnaryOperator<double[]> create(final Norm normalization,
                                            final boolean inverse) {
         if (inverse) {
-            return normalization == DstNormalization.ORTHOGONAL_DST_I ?
+            return normalization == Norm.ORTHO ?
                 (f) -> TransformUtils.scaleInPlace(fst(f), Math.sqrt(2d / f.length)) :
                 (f) -> TransformUtils.scaleInPlace(fst(f), 2d / f.length);
         } else {
-            return normalization == DstNormalization.ORTHOGONAL_DST_I ?
+            return normalization == Norm.ORTHO ?
                 (f) -> TransformUtils.scaleInPlace(fst(f), Math.sqrt(2d / f.length)) :
                 (f) -> fst(f);
         }
+    }
+
+    /**
+     * Normalization types.
+     */
+    public enum Norm {
+        /**
+         * Should be passed to the constructor of {@link FastSineTransform} to
+         * use the <em>standard</em> normalization convention. The standard DST-I
+         * normalization convention is defined as follows
+         * <ul>
+         * <li>forward transform: y<sub>n</sub> = &sum;<sub>k=0</sub><sup>N-1</sup>
+         * x<sub>k</sub> sin(&pi; nk / N),</li>
+         * <li>inverse transform: x<sub>k</sub> = (2 / N)
+         * &sum;<sub>n=0</sub><sup>N-1</sup> y<sub>n</sub> sin(&pi; nk / N),</li>
+         * </ul>
+         * where N is the size of the data sample, and x<sub>0</sub> = 0.
+         */
+        STD,
+
+        /**
+         * Should be passed to the constructor of {@link FastSineTransform} to
+         * use the <em>orthogonal</em> normalization convention. The orthogonal
+         * DCT-I normalization convention is defined as follows
+         * <ul>
+         * <li>Forward transform: y<sub>n</sub> = &radic;(2 / N)
+         * &sum;<sub>k=0</sub><sup>N-1</sup> x<sub>k</sub> sin(&pi; nk / N),</li>
+         * <li>Inverse transform: x<sub>k</sub> = &radic;(2 / N)
+         * &sum;<sub>n=0</sub><sup>N-1</sup> y<sub>n</sub> sin(&pi; nk / N),</li>
+         * </ul>
+         * which makes the transform orthogonal. N is the size of the data sample,
+         * and x<sub>0</sub> = 0.
+         */
+        ORTHO
     }
 }

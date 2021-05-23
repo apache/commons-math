@@ -73,7 +73,7 @@
       <plugin>
         <artifactId>maven-surefire-plugin</artifactId>
         <configuration>
-          <rerunFailingTestsCount>3</rerunFailingTestsCount>
+          <rerunFailingTestsCount>4</rerunFailingTestsCount>
         </configuration>
       </plugin>
     </plugins>

@@ -29,7 +29,7 @@ import org.apache.commons.numbers.complex.Complex;
  * <p>
  * There are several variants of the discrete Fourier transform, with various
  * normalization conventions, which are specified by the parameter
- * {@link DftNormalization}.
+ * {@link Norm}.
  * <p>
  * The current implementation of the discrete Fourier transform as a fast
  * Fourier transform requires the length of the data set to be a power of 2.
@@ -38,8 +38,6 @@ import org.apache.commons.numbers.complex.Complex;
  * reference, see S. Winograd,
  * <i>On computing the discrete Fourier transform</i>, Mathematics of
  * Computation, 32 (1978), 175 - 199.
- *
- * @see DftNormalization
  */
 public class FastFourierTransform implements ComplexTransform {
     /**
@@ -89,7 +87,7 @@ public class FastFourierTransform implements ComplexTransform {
         -0x1.921fb54442d18p-58, -0x1.921fb54442d18p-59, -0x1.921fb54442d18p-60 };
 
     /** Type of DFT. */
-    private final DftNormalization normalization;
+    private final Norm normalization;
     /** Inverse or forward. */
     private final boolean inverse;
 
@@ -98,7 +96,7 @@ public class FastFourierTransform implements ComplexTransform {
      * transformed data.
      * @param inverse Whether to perform the inverse transform.
      */
-    public FastFourierTransform(final DftNormalization normalization,
+    public FastFourierTransform(final Norm normalization,
                                 final boolean inverse) {
         this.normalization = normalization;
         this.inverse = inverse;
@@ -108,7 +106,7 @@ public class FastFourierTransform implements ComplexTransform {
      * @param normalization Normalization to be applied to the
      * transformed data.
      */
-    public FastFourierTransform(final DftNormalization normalization) {
+    public FastFourierTransform(final Norm normalization) {
         this(normalization, false);
     }
 
@@ -331,7 +329,7 @@ public class FastFourierTransform implements ComplexTransform {
         final int n = dataR.length;
 
         switch (normalization) {
-        case STANDARD:
+        case STD:
             if (inverse) {
                 final double scaleFactor = 1d / n;
                 for (int i = 0; i < n; i++) {
@@ -342,7 +340,7 @@ public class FastFourierTransform implements ComplexTransform {
 
             break;
 
-        case UNITARY:
+        case UNIT:
             final double scaleFactor = 1d / Math.sqrt(n);
             for (int i = 0; i < n; i++) {
                 dataR[i] *= scaleFactor;
@@ -393,5 +391,39 @@ public class FastFourierTransform implements ComplexTransform {
             }
             j += k;
         }
+    }
+
+    /**
+     * Normalization types.
+     */
+    public enum Norm {
+        /**
+         * Should be passed to the constructor of {@link FastFourierTransformer}
+         * to use the <em>standard</em> normalization convention. This normalization
+         * convention is defined as follows
+         * <ul>
+         * <li>forward transform: y<sub>n</sub> = &sum;<sub>k=0</sub><sup>N-1</sup>
+         * x<sub>k</sub> exp(-2&pi;i n k / N),</li>
+         * <li>inverse transform: x<sub>k</sub> = N<sup>-1</sup>
+         * &sum;<sub>n=0</sub><sup>N-1</sup> y<sub>n</sub> exp(2&pi;i n k / N),</li>
+         * </ul>
+         * where N is the size of the data sample.
+         */
+        STD,
+
+        /**
+         * Should be passed to the constructor of {@link FastFourierTransformer}
+         * to use the <em>unitary</em> normalization convention. This normalization
+         * convention is defined as follows
+         * <ul>
+         * <li>forward transform: y<sub>n</sub> = (1 / &radic;N)
+         * &sum;<sub>k=0</sub><sup>N-1</sup> x<sub>k</sub>
+         * exp(-2&pi;i n k / N),</li>
+         * <li>inverse transform: x<sub>k</sub> = (1 / &radic;N)
+         * &sum;<sub>n=0</sub><sup>N-1</sup> y<sub>n</sub> exp(2&pi;i n k / N),</li>
+         * </ul>
+         * which makes the transform unitary. N is the size of the data sample.
+         */
+        UNIT;
     }
 }

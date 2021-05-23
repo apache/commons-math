@@ -29,7 +29,7 @@ import org.apache.commons.numbers.core.ArithmeticUtils;
  * <p>
  * There are several variants of the discrete cosine transform. The present
  * implementation corresponds to DCT-I, with various normalization conventions,
- * which are specified by the parameter {@link DctNormalization}.
+ * which are specified by the parameter {@link Norm}.
  * <p>
  * DCT-I is equivalent to DFT of an <em>even extension</em> of the data series.
  * More precisely, if x<sub>0</sub>, &hellip;, x<sub>N-1</sub> is the data set
@@ -65,7 +65,7 @@ public class FastCosineTransform implements RealTransform {
      * transformed data.
      * @param inverse Whether to perform the inverse transform.
      */
-    public FastCosineTransform(final DctNormalization normalization,
+    public FastCosineTransform(final Norm normalization,
                                final boolean inverse) {
         op = create(normalization, inverse);
     }
@@ -74,7 +74,7 @@ public class FastCosineTransform implements RealTransform {
      * @param normalization Normalization to be applied to the
      * transformed data.
      */
-    public FastCosineTransform(final DctNormalization normalization) {
+    public FastCosineTransform(final Norm normalization) {
         this(normalization, false);
     }
 
@@ -146,7 +146,7 @@ public class FastCosineTransform implements RealTransform {
             x[nMi] = a + b;
             t1 += c;
         }
-        final FastFourierTransform transformer = new FastFourierTransform(DftNormalization.STANDARD,
+        final FastFourierTransform transformer = new FastFourierTransform(FastFourierTransform.Norm.STD,
                                                                           false);
         final Complex[] y = transformer.apply(x);
 
@@ -171,16 +171,60 @@ public class FastCosineTransform implements RealTransform {
      * @param inverse Whether to perform the inverse transform.
      * @return the transform operator.
      */
-    private UnaryOperator<double[]> create(final DctNormalization normalization,
+    private UnaryOperator<double[]> create(final Norm normalization,
                                            final boolean inverse) {
         if (inverse) {
-            return normalization == DctNormalization.ORTHOGONAL_DCT_I ?
+            return normalization == Norm.ORTHO ?
                 (f) -> TransformUtils.scaleInPlace(fct(f), Math.sqrt(2d / (f.length - 1))) :
                 (f) -> TransformUtils.scaleInPlace(fct(f), 2d / (f.length - 1));
         } else {
-            return normalization == DctNormalization.ORTHOGONAL_DCT_I ?
+            return normalization == Norm.ORTHO ?
                 (f) -> TransformUtils.scaleInPlace(fct(f), Math.sqrt(2d / (f.length - 1))) :
                 (f) -> fct(f);
         }
+    }
+
+    /**
+     * Normalization types.
+     */
+    public enum Norm {
+        /**
+         * Should be passed to the constructor of {@link FastCosineTransform}
+         * to use the <em>standard</em> normalization convention.  The standard
+         * DCT-I normalization convention is defined as follows
+         * <ul>
+         * <li>forward transform:
+         * y<sub>n</sub> = (1/2) [x<sub>0</sub> + (-1)<sup>n</sup>x<sub>N-1</sub>]
+         * + &sum;<sub>k=1</sub><sup>N-2</sup>
+         * x<sub>k</sub> cos[&pi; nk / (N - 1)],</li>
+         * <li>inverse transform:
+         * x<sub>k</sub> = [1 / (N - 1)] [y<sub>0</sub>
+         * + (-1)<sup>k</sup>y<sub>N-1</sub>]
+         * + [2 / (N - 1)] &sum;<sub>n=1</sub><sup>N-2</sup>
+         * y<sub>n</sub> cos[&pi; nk / (N - 1)],</li>
+         * </ul>
+         * where N is the size of the data sample.
+         */
+        STD,
+
+        /**
+         * Should be passed to the constructor of {@link FastCosineTransform}
+         * to use the <em>orthogonal</em> normalization convention. The orthogonal
+         * DCT-I normalization convention is defined as follows
+         * <ul>
+         * <li>forward transform:
+         * y<sub>n</sub> = [2(N - 1)]<sup>-1/2</sup> [x<sub>0</sub>
+         * + (-1)<sup>n</sup>x<sub>N-1</sub>]
+         * + [2 / (N - 1)]<sup>1/2</sup> &sum;<sub>k=1</sub><sup>N-2</sup>
+         * x<sub>k</sub> cos[&pi; nk / (N - 1)],</li>
+         * <li>inverse transform:
+         * x<sub>k</sub> = [2(N - 1)]<sup>-1/2</sup> [y<sub>0</sub>
+         * + (-1)<sup>k</sup>y<sub>N-1</sub>]
+         * + [2 / (N - 1)]<sup>1/2</sup> &sum;<sub>n=1</sub><sup>N-2</sup>
+         * y<sub>n</sub> cos[&pi; nk / (N - 1)],</li>
+         * </ul>
+         * which makes the transform orthogonal. N is the size of the data sample.
+         */
+        ORTHO;
     }
 }
