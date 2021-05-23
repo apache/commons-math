@@ -81,12 +81,85 @@ under the License.
           <classifier>javadoc</classifier>
         </dependency>
 
+        <!-- Module: ANN -->
+        <dependency>
+          <groupId>org.apache.commons</groupId>
+          <artifactId>commons-math-neuralnet</artifactId>
+          <version>${project.version}</version>
+        </dependency>
+        <dependency>
+          <groupId>org.apache.commons</groupId>
+          <artifactId>commons-math-neuralnet</artifactId>
+          <version>${project.version}</version>
+          <classifier>sources</classifier>
+        </dependency>
+        <dependency>
+          <groupId>org.apache.commons</groupId>
+          <artifactId>commons-math-neuralnet</artifactId>
+          <version>${project.version}</version>
+          <classifier>javadoc</classifier>
+        </dependency>
+
+        <!-- Module: Transforms -->
+        <dependency>
+          <groupId>org.apache.commons</groupId>
+          <artifactId>commons-math-transform</artifactId>
+          <version>${project.version}</version>
+        </dependency>
+        <dependency>
+          <groupId>org.apache.commons</groupId>
+          <artifactId>commons-math-transform</artifactId>
+          <version>${project.version}</version>
+          <classifier>sources</classifier>
+        </dependency>
+        <dependency>
+          <groupId>org.apache.commons</groupId>
+          <artifactId>commons-math-transform</artifactId>
+          <version>${project.version}</version>
+          <classifier>javadoc</classifier>
+        </dependency>
+
+        <!-- Module: Examples -->
+        <dependency>
+          <groupId>org.apache.commons</groupId>
+          <artifactId>commons-math-examples</artifactId>
+          <version>${project.version}</version>
+        </dependency>
+        <dependency>
+          <groupId>org.apache.commons</groupId>
+          <artifactId>commons-math-examples</artifactId>
+          <version>${project.version}</version>
+          <classifier>sources</classifier>
+        </dependency>
+        <dependency>
+          <groupId>org.apache.commons</groupId>
+          <artifactId>commons-math-examples</artifactId>
+          <version>${project.version}</version>
+          <classifier>javadoc</classifier>
+        </dependency>
+
       </dependencies>
+
       <build>
         <plugins>
           <plugin>
+            <artifactId>maven-dependency-plugin</artifactId>
+            <executions>
+              <execution>
+                <id>get-dependencies</id>
+                <phase>prepare-package</phase>
+                <goals>
+                  <goal>copy-dependencies</goal>
+                </goals>
+              </execution>
+            </executions>
+          </plugin>
+          <plugin>
             <artifactId>maven-assembly-plugin</artifactId>
             <version>2.4</version>
+            <configuration>
+              <skipAssembly>false</skipAssembly>
+            </configuration>
             <executions>
               <execution>
                 <id>create-distribution</id>
@@ -95,6 +168,7 @@ under the License.
                   <goal>single</goal>
                 </goals>
                 <configuration>
+                  <skipAssembly>false</skipAssembly>
                   <descriptors>
                     <descriptor>src/assembly/bin.xml</descriptor>
                     <descriptor>src/assembly/src.xml</descriptor>
