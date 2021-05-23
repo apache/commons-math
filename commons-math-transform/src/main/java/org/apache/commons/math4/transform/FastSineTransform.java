@@ -87,7 +87,7 @@ public class FastSineTransform implements RealTransform {
      *
      * The first element of the specified data set is required to be {@code 0}.
      *
-     * @throws MathIllegalArgumentException if the length of the data array is
+     * @throws IllegalArgumentException if the length of the data array is
      * not a power of two, or the first element of the data array is not zero.
      */
     @Override

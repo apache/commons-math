@@ -398,7 +398,7 @@ public class FastFourierTransform implements ComplexTransform {
      */
     public enum Norm {
         /**
-         * Should be passed to the constructor of {@link FastFourierTransformer}
+         * Should be passed to the constructor of {@link FastFourierTransform}
          * to use the <em>standard</em> normalization convention. This normalization
          * convention is defined as follows
          * <ul>
@@ -412,7 +412,7 @@ public class FastFourierTransform implements ComplexTransform {
         STD,
 
         /**
-         * Should be passed to the constructor of {@link FastFourierTransformer}
+         * Should be passed to the constructor of {@link FastFourierTransform}
          * to use the <em>unitary</em> normalization convention. This normalization
          * convention is defined as follows
          * <ul>
