@@ -61,15 +61,4 @@
 
   </dependencies>
 
-  <build>
-    <plugins>
-      <plugin>
-        <artifactId>maven-surefire-plugin</artifactId>
-        <configuration>
-          <rerunFailingTestsCount>9</rerunFailingTestsCount>
-        </configuration>
-      </plugin>
-    </plugins>
-  </build>
-
 </project>
