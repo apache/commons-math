@@ -158,8 +158,7 @@ public class EnumeratedIntegerDistributionTest {
     public void testSample() {
         final int n = 1000000;
         final DiscreteDistribution.Sampler sampler
-            = testDistribution.createSampler(RandomSource.create(RandomSource.WELL_19937_C,
-                                                                 -334759360)); // fixed seed
+            = testDistribution.createSampler(RandomSource.create(RandomSource.WELL_19937_C));
         final int[] samples = AbstractIntegerDistribution.sample(n, sampler);
         Assert.assertEquals(n, samples.length);
         double sum = 0;
@@ -169,9 +168,9 @@ public class EnumeratedIntegerDistributionTest {
             sumOfSquares += samples[i] * samples[i];
         }
         Assert.assertEquals(testDistribution.getMean(),
-                sum / n, 1e-2);
+                            sum / n, 1e-2);
         Assert.assertEquals(testDistribution.getVariance(),
-                sumOfSquares / n - FastMath.pow(sum / n, 2), 1e-2);
+                            sumOfSquares / n - FastMath.pow(sum / n, 2), 1e-2);
     }
 
     @Test
@@ -180,19 +179,5 @@ public class EnumeratedIntegerDistributionTest {
         EnumeratedIntegerDistribution distribution = new EnumeratedIntegerDistribution(data);
         Assert.assertEquals(0.5, distribution.probability(2), 0);
         Assert.assertEquals(0.5, distribution.cumulativeProbability(1), 0);
-    }
-
-    @Test
-    public void testMath1533() {
-        final EnumeratedIntegerDistribution d1 = new EnumeratedIntegerDistribution(new int[] {1, 2},
-                                                                                   new double[] {0.3, 0.7});
-        final EnumeratedIntegerDistribution d2 = new EnumeratedIntegerDistribution(new int[] {2, 1},
-                                                                                   new double[] {0.7, 0.3});
-
-        final int len = 24;
-        final RandomSource r = RandomSource.WELL_19937_C;
-        final int s = 42;
-        Assert.assertTrue(Arrays.equals(AbstractIntegerDistribution.sample(len, d1.createSampler(RandomSource.create(r, s))),
-                                        AbstractIntegerDistribution.sample(len, d2.createSampler(RandomSource.create(r, s)))));
     }
 }
