@@ -174,13 +174,12 @@ public class LogitTest {
 
     @Test
     public void testDerivativesWithInverseFunction() {
-        double[] epsilon = new double[] { 1.0e-20, 4.0e-16, 3.0e-15, 2.0e-11, 3.0e-9, 1.0e-6 };
+        double[] epsilon = new double[] { 1e-20, 1e-15, 1.5e-14, 2e-11, 1e-8, 1e-6 };
         final double lo = 2;
         final double hi = 3;
         final Logit f = new Logit(lo, hi);
         final Sigmoid g = new Sigmoid(lo, hi);
-        final UniformRandomProvider random = RandomSource.create(RandomSource.WELL_1024_A,
-                                                                 0x96885e9c1f81cea6l);
+        final UniformRandomProvider random = RandomSource.create(RandomSource.WELL_1024_A);
         final UnivariateDifferentiableFunction id =
                 FunctionUtils.compose((UnivariateDifferentiableFunction) g, (UnivariateDifferentiableFunction) f);
         for (int maxOrder = 0; maxOrder < 6; ++maxOrder) {
@@ -221,7 +220,6 @@ public class LogitTest {
                 Assert.assertTrue(Double.isNaN(f.value(dsHi).getPartialDerivative(maxOrder)));
                 Assert.assertTrue(Double.isNaN(id.value(dsHi).getPartialDerivative(maxOrder)));
             }
-
         }
     }
 }

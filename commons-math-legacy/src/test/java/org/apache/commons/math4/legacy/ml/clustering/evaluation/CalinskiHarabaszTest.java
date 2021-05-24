@@ -46,7 +46,7 @@ public class CalinskiHarabaszTest {
     public void test_k_equals_4_is_best_for_a_4_center_points() {
         final int dimension = 2;
         final double[][] centers = {{-1, -1}, {0, 0}, {1, 1}, {2, 2}};
-        final UniformRandomProvider rnd = RandomSource.create(RandomSource.MT_64, 0);
+        final UniformRandomProvider rnd = RandomSource.create(RandomSource.MT_64);
         final List<DoublePoint> points = new ArrayList<>();
         // Generate 1000 points around 4 centers for test.
         for (int i = 0; i < 1000; i++) {
@@ -80,7 +80,7 @@ public class CalinskiHarabaszTest {
 
     @Test
     public void test_compare_to_skLearn() {
-        final UniformRandomProvider rnd = RandomSource.create(RandomSource.MT_64, 0);
+        final UniformRandomProvider rnd = RandomSource.create(RandomSource.MT_64);
         final List<DoublePoint> points = new ArrayList<>();
         for (double[] p : dataFromSkLearn) {
             points.add(new DoublePoint(p));
@@ -99,7 +99,8 @@ public class CalinskiHarabaszTest {
             // The score is approximately equals sklearn's score when k is smaller or equals to best k.
             if (k <= kFromSkLearn) {
                 actualBestScore = score;
-                Assert.assertEquals(scoreFromSkLearn[i], score, 0.001);
+                final double relScore = score / scoreFromSkLearn[i];
+                Assert.assertEquals(1, relScore, 2e-2);
             }
         }
 
@@ -108,8 +109,9 @@ public class CalinskiHarabaszTest {
     }
 
     final static int kFromSkLearn = 4;
-    final static double[] scoreFromSkLearn = {622.487247165719, 597.7763150683217, 1157.7901325495295,
-            1136.8201767857847, 1092.708039201163};
+    final static double[] scoreFromSkLearn = {
+        622.487247165719, 597.7763150683217, 1157.7901325495295, 1136.8201767857847, 1092.708039201163
+    };
     final static double[][] dataFromSkLearn = {
             {1.403414, 1.148639}, {0.203959, 0.172137}, {2.132351, 1.883029}, {0.176704, -0.106040},
             {-0.729892, -0.987217}, {2.073591, 1.891133}, {-0.632742, -0.847796}, {-0.080353, 0.388064},

@@ -21,13 +21,13 @@ import org.apache.commons.math4.legacy.exception.NumberIsTooSmallException;
 import org.apache.commons.math4.legacy.ml.clustering.evaluation.CalinskiHarabasz;
 import org.apache.commons.math4.legacy.ml.distance.DistanceMeasure;
 import org.apache.commons.math4.legacy.ml.distance.EuclideanDistance;
+import org.apache.commons.rng.UniformRandomProvider;
 import org.apache.commons.rng.simple.RandomSource;
 import org.junit.Assert;
 import org.junit.Test;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Random;
 
 public class MiniBatchKMeansClustererTest {
     /**
@@ -55,12 +55,13 @@ public class MiniBatchKMeansClustererTest {
     @Test
     public void testCompareToKMeans() {
         //Generate 4 cluster
-        int randomSeed = 0;
-        List<DoublePoint> data = generateCircles(randomSeed);
-        KMeansPlusPlusClusterer<DoublePoint> kMeans = new KMeansPlusPlusClusterer<>(4, -1, DEFAULT_MEASURE,
-                RandomSource.create(RandomSource.MT_64, randomSeed));
-        MiniBatchKMeansClusterer<DoublePoint> miniBatchKMeans = new MiniBatchKMeansClusterer<>(4, -1, 100, 3, 300, 10,
-                DEFAULT_MEASURE, RandomSource.create(RandomSource.MT_64, randomSeed), KMeansPlusPlusClusterer.EmptyClusterStrategy.LARGEST_VARIANCE);
+        final UniformRandomProvider rng = RandomSource.create(RandomSource.MT_64);
+        List<DoublePoint> data = generateCircles(rng);
+        KMeansPlusPlusClusterer<DoublePoint> kMeans =
+            new KMeansPlusPlusClusterer<>(4, -1, DEFAULT_MEASURE, rng);
+        MiniBatchKMeansClusterer<DoublePoint> miniBatchKMeans =
+            new MiniBatchKMeansClusterer<>(4, -1, 100, 3, 300, 10, DEFAULT_MEASURE, rng,
+                                           KMeansPlusPlusClusterer.EmptyClusterStrategy.LARGEST_VARIANCE);
         // Test 100 times between KMeansPlusPlusClusterer and MiniBatchKMeansClusterer
         for (int i = 0; i < 100; i++) {
             List<CentroidCluster<DoublePoint>> kMeansClusters = kMeans.cluster(data);
@@ -90,12 +91,11 @@ public class MiniBatchKMeansClustererTest {
 
     /**
      * Generate points around 4 circles.
-     * @param randomSeed Random seed
+     * @param rng RNG.
      * @return Generated points.
      */
-    private List<DoublePoint> generateCircles(int randomSeed) {
+    private List<DoublePoint> generateCircles(UniformRandomProvider random) {
         List<DoublePoint> data = new ArrayList<>();
-        Random random = new Random(randomSeed);
         data.addAll(generateCircle(250, new double[]{-1.0, -1.0}, 1.0, random));
         data.addAll(generateCircle(260, new double[]{0.0, 0.0}, 0.7, random));
         data.addAll(generateCircle(270, new double[]{1.0, 1.0}, 0.7, random));
@@ -111,7 +111,8 @@ public class MiniBatchKMeansClustererTest {
      * @param random the Random source.
      * @return Generated points.
      */
-    List<DoublePoint> generateCircle(int count, double[] center, double radius, Random random) {
+    List<DoublePoint> generateCircle(int count, double[] center, double radius,
+                                     UniformRandomProvider random) {
         double x0 = center[0];
         double y0 = center[1];
         ArrayList<DoublePoint> list = new ArrayList<>(count);
