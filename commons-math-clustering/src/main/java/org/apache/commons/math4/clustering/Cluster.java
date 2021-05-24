@@ -46,10 +46,10 @@ public class Cluster<T extends Clusterable> implements Serializable {
      * @param point point to add
      */
     public void addPoint(final T point) {
-        if(point == null){
+        if (point == null) {
             throw new IllegalArgumentException("point should not be null");
         }
-        if(point.getPoint() == null){
+        if (point.getPoint() == null) {
             throw new IllegalArgumentException("point.getPoint() should not return null");
         }
         points.add(point);
