@@ -22,7 +22,7 @@ import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
 
-import org.apache.commons.math4.legacy.exception.NumberIsTooSmallException;
+import org.apache.commons.math4.utils.exception.NumberIsTooSmallException;
 import org.apache.commons.math4.clustering.distance.EuclideanDistance;
 import org.apache.commons.rng.simple.RandomSource;
 import org.apache.commons.rng.UniformRandomProvider;

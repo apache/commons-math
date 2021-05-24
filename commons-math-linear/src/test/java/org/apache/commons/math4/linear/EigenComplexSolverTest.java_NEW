@@ -1,0 +1,322 @@
+/*
+ * Licensed to the Apache Software Foundation (ASF) under one or more
+ * contributor license agreements.  See the NOTICE file distributed with
+ * this work for additional information regarding copyright ownership.
+ * The ASF licenses this file to You under the Apache License, Version 2.0
+ * (the "License"); you may not use this file except in compliance with
+ * the License.  You may obtain a copy of the License at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+package org.apache.commons.math4.linear;
+
+import java.util.Arrays;
+import org.junit.Assert;
+import org.junit.Test;
+import org.apache.commons.numbers.complex.Complex;
+
+/**
+ * Test currently fails because class {@link EigenDecomposition}
+ * only returns real Eigenvectors.
+ *
+ * <p>Examples were created with MatLab.
+ * <p>Values are sorted in an ascending order and the vectors are normalized.
+ */
+public class EigenComplexSolverTest {
+
+    final static double TINY = 1e-12;
+    final static double SQRT2 = Math.sqrt(2.0);
+
+    private double[][] matrix2A = { { 1.0, -2.0 }, { 3.0, 1.0 } };
+    private double[] matrix2ARealVals = { 1., 1. };
+    private double[] matrix2AImagVals = { -2.4494897427831783, 2.4494897427831783 };
+    private double[][] matrix2ARealVecs = { { 0., 1. }, { 0.0, 1.0 }  };
+    private double[][] matrix2AImagVecs = { { -0.81649658092772615, 0 }, { 0.81649658092772615, 0. } };
+
+    @Test public void test2AComplexEigen() {
+        RealMatrix m = MatrixUtils.createRealMatrix(matrix2A);
+        ComplexEigens ce = new ComplexEigens(m);
+        assertEq("2x2A", ce, matrix2ARealVals, matrix2AImagVals, matrix2ARealVecs, matrix2AImagVecs);
+    }
+
+
+    private double[][] matrix2B = { { -3.0, -2.0 },  { 3.0, 1.0 } };
+    private double[] matrix2BRealVals = { -1.0, -1.0 };
+    private double[] matrix2BImagVals = { -SQRT2, SQRT2 };
+    private double[][] matrix2BRealVecs = { { -2./3., 1.0 }, { -2./3., 1.0 } };
+    private double[][] matrix2BImagVecs = { { -.4142135623730951, 0 }, { .4142135623730951, 0. } };
+
+    @Test public void test2BComplexEigen() {
+        RealMatrix m = MatrixUtils.createRealMatrix(matrix2B);
+        ComplexEigens ce = new ComplexEigens(m);
+        assertEq("2x2B", ce, matrix2BRealVals, matrix2BImagVals, matrix2BRealVecs, matrix2BImagVecs);
+    }
+
+
+    private double[][] matrix3A = {  { .8, -.6, 0 }, { .6, .8, 0 }, { 1., 2., 2. }  };
+    private double[] matrix3ARealVals = { 0.8, 0.8, 2.0 };
+    private double[] matrix3AImagVals = { -0.6, 0.6, 0 };
+    private double[][] matrix3ARealVecs = {  { -0.48, -0.36, 1.0}, {-0.48, -0.36, 1.0}, { 0.0, 0.0, 1.0 }  };
+    private double[][] matrix3AImagVecs = {  { 0.36, -0.48, 0.}, {-0.36, 0.48, 0. }, { 0., 0., 0. }  };
+
+    @Test public void test3c3ComplexEigen() {
+        RealMatrix m = MatrixUtils.createRealMatrix(matrix3A);
+        ComplexEigens ce = new ComplexEigens(m);
+        assertEq("3x3A", ce, matrix3ARealVals, matrix3AImagVals, matrix3ARealVecs, matrix3AImagVecs);
+    }
+
+
+    // ========= Testing Tools
+
+    void assertEq(String test, ComplexEigens e, double[] realVals, double[] imagVals, double[][] realVecs, double[][] imagVecs) {
+        double[] got = e.getRealEigenvalues();
+        assertEq("RealEigenvalues", realVals, got);
+        got = e.getImagEigenvalues();
+        assertEq("ImagEigenvalues", imagVals, got);
+
+        printVecs(test + " expected", realVecs, imagVecs);
+        printVecs(test + " computed", e);
+
+        for (int col = 0;  col < realVecs.length;  col++) {
+            got = e.getRealEigenVector(col);
+            assertEq(" RealEigenvectors[" + col + "]", realVecs[col], got);
+        }
+        for (int col = 0;  col < imagVecs.length;  col++) {
+            got = e.getImagEigenVector(col);
+            assertEq(" ImagEigenvectors[" + col + "]", realVecs[col], got);
+        }
+    }
+
+
+    void assertEq(String what, double[] exp, double got[]) {
+        Assert.assertEquals(what + " exp length == got length", exp.length, got.length);
+        for (int i = 0;  i < exp.length;  i++) {
+            if (Math.abs(exp[i] - got[i]) > TINY)
+                Assert.assertEquals(what + "[" + i + "] == got[" + i + "]", exp[i], got[i], TINY);
+        }
+    }
+
+
+    /** prints the vectors gotten/computed */
+    void printVecs(String msg, ComplexEigens ce) {
+        double[][] reals = new double[ce.matrixSize][];
+        double[][] imags = new double[ce.matrixSize][];
+        for (int i = 0;  i < ce.matrixSize;  i++) {
+            reals[i] = ce.getRealEigenVector(i);
+            imags[i] = ce.getImagEigenVector(i);
+        }
+        printVecs(msg, reals, imags);
+    }
+
+    void printVecs(String msg, double[][] realVecs, double[][]imagVecs) {
+        System.out.println(msg+" Vectors = ");
+        for (int row = 0; row < realVecs.length;  row++) {
+            for (int col = 0; col < realVecs.length;  col++) {
+                System.out.print(String.format("     %6.4f %6.4fi", realVecs[col][row], imagVecs[col][row]));
+            }
+            System.out.println();
+        }
+    }
+
+    static interface GetDColummn {
+        double[] getCol(int i);
+    }
+
+    /** A class to encapsulate getting the complex Eigen values and vectors
+     * from a Real matrix, plus sorting the values into ascending order
+     * (and reordering the vectors to match), and normalizing the vectors
+     * so the abs(biggest coefficient) is 1.0, so it can be easily compared
+     * with the answer that MatLab produces.
+     */
+    public static class ComplexEigens {
+        final int matrixSize;  // the matrix is matrixSize x matrixSize
+        final SortableEigVal[] sevs;
+        final EigenDecomposition eigen;
+
+        //ComplexEigens(RMatrix matrix, double[] realVals, double[] imagVals, RMatrix realVecs, RMatrix imagVecs) {
+        //    this.matrixSize = matrix.getNumCols();
+        //    this.matrixSize = matrixSize / 2;
+        //    this.eigen = null;
+        //    sevs = getSortedVals(realVals, imagVals, realVecs, imagVecs);
+        //}
+        static double[] FakeImagCoeffs(int len) {
+            return new double[len];
+        }
+
+        ComplexEigens(RealMatrix matrix) {
+            this.matrixSize = matrix.getColumnDimension();
+            System.out.println(">>>>>>>>>>>>"); // XXX
+            printMatrix("to decompose", matrix);
+            eigen = new EigenDecomposition(matrix);
+            System.out.println("<<<<<<<<<<<<"); // XXX
+            sevs = getSortedVals(eigen.getRealEigenvalues(), eigen.getImagEigenvalues(),
+                    (i) -> eigen.getEigenvector(i).toArray(),
+                    (i) -> FakeImagCoeffs(matrixSize)); // TODO: Need a getImagEigenVector or return complexes above
+            normalizeVecs(sevs);
+
+            printDec(eigen);
+        }
+
+        private void printDec(EigenDecomposition dec) {
+            printMatrix("D", dec.getD());
+            printArray("Re", dec.getRealEigenvalues());
+            printArray("Im", dec.getImagEigenvalues());
+        }
+        private void printMatrix(String name,
+                                 RealMatrix m) {
+            System.out.println("Matrix " + name + " ====");
+            for (int i = 0; i < m.getRowDimension(); i++) {
+                for (int j = 0; j < m.getColumnDimension(); j++) {
+                    System.out.print(m.getEntry(i, j) + "\t");
+                }
+                System.out.println();
+            }
+            System.out.println("=============");
+        }
+        private void printArray(String name,
+                                double[] array) {
+            
+            System.out.println(name + " ====");
+            for (int i = 0; i < array.length; i++) {
+                System.out.print(array[i] + "\t");
+            }
+            System.out.println();
+            System.out.println("=============");
+        }
+
+        /** This sorts the eigenvalues, then sorts */
+        static SortableEigVal[] getSortedVals(double[] realVals, double[] imagVals, GetDColummn getReal, GetDColummn getImag) {
+            // Create the sortable eigen values
+            int num = realVals.length;
+            SortableEigVal[] sevs = new SortableEigVal[num];
+            for (int i = num;  --i >= 0;  ) {
+                double[] reals = getReal.getCol(i);
+                double[] imags = getImag.getCol(i);
+                sevs[i] = new SortableEigVal(i, realVals[i], imagVals[i], reals, imags);
+            }
+            Arrays.sort(sevs);
+            return sevs;
+        }
+
+        static void normalizeVecs(SortableEigVal[] sevs) {
+            for (int col = 0;  col < sevs.length;  col++) {
+                sevs[col].normalize();
+            }
+        }
+
+        static void reorderValsAndVecs(SortableEigVal[] sevs, double[] realVals, double[] imagVals, RealMatrix realVecs, RealMatrix imagVecs) {
+            for (int col = 0;  col < sevs.length;  col++) {
+                SortableEigVal sev = sevs[col];
+                if (col == sev.ix)
+                    continue;  // the values are in the right column
+                realVals[col] = sev.real;
+                imagVals[col] = sev.imag;
+                for (int row = 0;  row < sevs.length;  row++) {
+                    realVecs.setEntry(row, col, sev.realVec[row]);
+                    imagVecs.setEntry(row, col, sev.imagVec[row]);
+                }
+            }
+        }
+
+        public int numEigenValuesWithRealLessThanZero() {
+            int num = 0;
+            double[] evs = eigen.getRealEigenvalues();
+            for (int i = evs.length;  --i >=0;  ) {
+                if (evs[i] < 0)
+                    num++;
+            }
+            return num;
+        }
+
+
+        /** just for tests */
+        double[] getRealEigenvalues() {
+            double[] ds = new double[matrixSize];
+            for (int i = 0;  i < sevs.length;  i++) {
+                ds[i] = sevs[i].real;
+            }
+            return ds;
+        }
+
+        double[] getImagEigenvalues() {
+            double[] ds = new double[matrixSize];
+            for (int i = 0;  i < sevs.length;  i++) {
+                ds[i] = sevs[i].imag;
+            }
+            return ds;
+        }
+
+        double[] getRealEigenVector(int col) {
+            return sevs[col].realVec;
+        }
+
+        double[] getImagEigenVector(int col) {
+            return sevs[col].imagVec;
+        }
+
+
+
+
+        /** Contains an eigenvalue and vector, plus original order index so vector rows can be sorted.
+         * Also normalizes the vector. */
+        static class SortableEigVal implements Comparable<SortableEigVal> {
+            static final double PLUS_REAL = 2.0/1000000;
+            static final double PLUS_IMAG = 1.0/1000000;
+            double real, imag;  // the eigenvalue
+            double abs2;  // absolute value squared, real*real + imag*imag
+            int ix;       // original index
+            double[] realVec, imagVec; // the eigenvector
+            SortableEigVal(int ix, double r, double i, double[] realVec, double[] imagVec) {
+                this.ix = ix;
+                this.real = r;
+                this.imag = i;
+                // so abs(conjugate pairs) are a bit different
+                double plus = (r > 0 ? PLUS_REAL : 0) + (i > 0 ? PLUS_IMAG : 0);
+                this.abs2 = r*r + i*i + plus;
+                this.realVec = realVec;
+                this.imagVec = imagVec;
+            }
+
+            /** Normalize the largest coefficient to 1 */
+            void normalize() {
+                double max = 0, maxVal = 0;
+                for (int i = 0;  i < realVec.length;  i++) {
+                    double absReal = Math.abs(realVec[i]);
+                    double absImag = Math.abs(imagVec[i]);
+                    // find the max in the sorted order
+                    if (absReal < absImag) {
+                        if (max < absImag) {
+                            max = absImag;
+                            maxVal = imagVec[i];
+                        }
+                    } else {
+                        if (max < absReal) {
+                            max = absReal;
+                            maxVal = realVec[i];
+                        }
+                    }
+                }
+                // now normalize, so largest coefficient is 1
+                if (0 < max) {
+                    double mult = 1/maxVal;
+                    for (int i = 0;  i < realVec.length;  i++) {
+                        realVec[i] *= mult;
+                        imagVec[i] *= mult;
+                    }
+                }
+            }
+
+            @Override public int compareTo(SortableEigVal so) {
+                double diff = abs2 - so.abs2;
+                return (int) Math.signum(diff);
+            }
+        }
+    }
+}

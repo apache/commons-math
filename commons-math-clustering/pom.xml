@@ -43,16 +43,37 @@
     </properties>
 
     <dependencies>
-
-    <dependency>
-        <groupId>org.apache.commons</groupId>
-        <artifactId>commons-numbers-core</artifactId>
-    </dependency>
         <dependency>
             <groupId>org.apache.commons</groupId>
-            <artifactId>commons-math4-legacy</artifactId>
+            <artifactId>commons-numbers-core</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.commons</groupId>
+            <artifactId>commons-rng-client-api</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.commons</groupId>
+            <artifactId>commons-rng-simple</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.commons</groupId>
+            <artifactId>commons-rng-sampling</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.commons</groupId>
+            <artifactId>commons-math-linear</artifactId>
             <version>${project.version}</version>
-            <!-- should be removed when legacy util, exception dependencies will be extract on a share module-->
+        </dependency>
+        <dependency>
+            <groupId>org.apache.commons</groupId>
+            <artifactId>commons-math-utils</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.commons</groupId>
+            <artifactId>commons-maths-stat</artifactId>
+            <version>${project.version}</version>
         </dependency>
     </dependencies>
+
 </project>

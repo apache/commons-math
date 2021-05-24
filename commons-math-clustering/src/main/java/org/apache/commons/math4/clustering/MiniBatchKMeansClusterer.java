@@ -17,10 +17,10 @@
 
 package org.apache.commons.math4.clustering;
 
-import org.apache.commons.math4.legacy.exception.NumberIsTooSmallException;
+import org.apache.commons.math4.utils.exception.NumberIsTooSmallException;
 import org.apache.commons.math4.clustering.distance.DistanceMeasure;
-import org.apache.commons.math4.legacy.util.MathUtils;
-import org.apache.commons.math4.legacy.util.Pair;
+import org.apache.commons.math4.utils.MathUtils;
+import org.apache.commons.math4.utils.Pair;
 import org.apache.commons.rng.UniformRandomProvider;
 import org.apache.commons.rng.sampling.ListSampler;
 
@@ -99,7 +99,7 @@ public class MiniBatchKMeansClusterer<T extends Clusterable>
      *
      * @param points Points to cluster (cannot be {@code null}).
      * @return the clusters.
-     * @throws org.apache.commons.math4.legacy.exception.MathIllegalArgumentException
+     * @throws org.apache.commons.math4.utils.exception.MathIllegalArgumentException
      * if the number of points is smaller than the number of clusters.
      */
     @Override

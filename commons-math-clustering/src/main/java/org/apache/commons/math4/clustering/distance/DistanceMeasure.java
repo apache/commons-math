@@ -18,7 +18,7 @@ package org.apache.commons.math4.clustering.distance;
 
 import java.io.Serializable;
 
-import org.apache.commons.math4.legacy.exception.DimensionMismatchException;
+import org.apache.commons.math4.utils.exception.DimensionMismatchException;
 
 /**
  * Interface for distance measures of n-dimensional vectors.

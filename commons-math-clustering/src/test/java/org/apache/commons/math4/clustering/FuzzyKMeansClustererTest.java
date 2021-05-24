@@ -20,8 +20,8 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-import org.apache.commons.math4.legacy.exception.MathIllegalArgumentException;
-import org.apache.commons.math4.legacy.exception.NullArgumentException;
+import org.apache.commons.math4.utils.exception.MathIllegalArgumentException;
+import org.apache.commons.math4.utils.exception.NullArgumentException;
 import org.apache.commons.math4.clustering.distance.CanberraDistance;
 import org.apache.commons.math4.clustering.distance.DistanceMeasure;
 import org.apache.commons.rng.simple.RandomSource;

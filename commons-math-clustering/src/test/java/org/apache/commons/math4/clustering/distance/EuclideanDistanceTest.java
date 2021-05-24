@@ -18,7 +18,7 @@ package org.apache.commons.math4.clustering.distance;
 
 import org.junit.Assert;
 import org.junit.Test;
-import org.apache.commons.math4.legacy.util.FastMath;
+import org.apache.commons.math4.utils.FastMath;
 
 /**
  * Tests for {@link EuclideanDistance} class.

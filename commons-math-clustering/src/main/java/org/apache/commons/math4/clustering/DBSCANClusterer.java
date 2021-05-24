@@ -25,10 +25,10 @@ import java.util.Map;
 import java.util.Set;
 import java.util.stream.Collectors;
 
-import org.apache.commons.math4.legacy.exception.NotPositiveException;
+import org.apache.commons.math4.utils.exception.NotPositiveException;
 import org.apache.commons.math4.clustering.distance.DistanceMeasure;
 import org.apache.commons.math4.clustering.distance.EuclideanDistance;
-import org.apache.commons.math4.legacy.util.MathUtils;
+import org.apache.commons.math4.utils.MathUtils;
 
 /**
  * DBSCAN (density-based spatial clustering of applications with noise) algorithm.

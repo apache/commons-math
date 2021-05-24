@@ -19,8 +19,8 @@ package org.apache.commons.math4.clustering;
 import java.util.Collection;
 import java.util.List;
 
-import org.apache.commons.math4.legacy.exception.ConvergenceException;
-import org.apache.commons.math4.legacy.exception.MathIllegalArgumentException;
+import org.apache.commons.math4.utils.exception.ConvergenceException;
+import org.apache.commons.math4.utils.exception.MathIllegalArgumentException;
 import org.apache.commons.math4.clustering.distance.DistanceMeasure;
 
 /**

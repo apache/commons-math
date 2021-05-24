@@ -23,7 +23,7 @@ import org.apache.commons.math4.clustering.Cluster;
 import org.apache.commons.math4.clustering.ClusterEvaluator;
 import org.apache.commons.math4.clustering.Clusterable;
 import org.apache.commons.math4.clustering.distance.DistanceMeasure;
-import org.apache.commons.math4.legacy.stat.descriptive.moment.Variance;
+import org.apache.commons.math4.stat.descriptive.moment.Variance;
 
 /**
  * Computes the sum of intra-cluster distance variances according to the formula:

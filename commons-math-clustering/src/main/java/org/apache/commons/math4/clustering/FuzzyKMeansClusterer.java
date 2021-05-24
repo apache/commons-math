@@ -21,17 +21,19 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 
-import org.apache.commons.math4.legacy.exception.MathIllegalStateException;
-import org.apache.commons.math4.legacy.exception.NumberIsTooSmallException;
-import org.apache.commons.math4.legacy.linear.MatrixUtils;
-import org.apache.commons.math4.legacy.linear.RealMatrix;
+
 import org.apache.commons.math4.clustering.distance.DistanceMeasure;
 import org.apache.commons.math4.clustering.distance.EuclideanDistance;
+import org.apache.commons.math4.utils.MathUtils;
+import org.apache.commons.math4.linear.MatrixUtils;
+import org.apache.commons.math4.linear.RealMatrix;
+import org.apache.commons.math4.utils.FastMath;
+import org.apache.commons.math4.utils.MathArrays;
+import org.apache.commons.math4.utils.exception.NumberIsTooSmallException;
+import org.apache.commons.math4.utils.exception.MathIllegalStateException;
 import org.apache.commons.rng.simple.RandomSource;
 import org.apache.commons.rng.UniformRandomProvider;
-import org.apache.commons.math4.legacy.util.FastMath;
-import org.apache.commons.math4.legacy.util.MathArrays;
-import org.apache.commons.math4.legacy.util.MathUtils;
+
 
 /**
  * Fuzzy K-Means clustering algorithm.
@@ -257,7 +259,7 @@ public class FuzzyKMeansClusterer<T extends Clusterable> extends Clusterer<T> {
      *
      * @param dataPoints the points to cluster
      * @return the list of clusters
-     * @throws org.apache.commons.math4.legacy.exception.MathIllegalArgumentException if
+     * @throws org.apache.commons.math4.utils.exception.MathIllegalArgumentException if
      * the data points are null or the number of clusters is larger than the number
      * of data points
      */

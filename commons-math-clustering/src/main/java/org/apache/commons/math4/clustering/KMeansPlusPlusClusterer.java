@@ -17,13 +17,13 @@
 
 package org.apache.commons.math4.clustering;
 
-import org.apache.commons.math4.legacy.exception.ConvergenceException;
-import org.apache.commons.math4.legacy.exception.NumberIsTooSmallException;
-import org.apache.commons.math4.legacy.exception.util.LocalizedFormats;
+import org.apache.commons.math4.stat.descriptive.moment.Variance;
+import org.apache.commons.math4.utils.exception.ConvergenceException;
+import org.apache.commons.math4.utils.exception.NumberIsTooSmallException;
+import org.apache.commons.math4.utils.LocalizedFormats;
 import org.apache.commons.math4.clustering.distance.DistanceMeasure;
 import org.apache.commons.math4.clustering.distance.EuclideanDistance;
-import org.apache.commons.math4.legacy.stat.descriptive.moment.Variance;
-import org.apache.commons.math4.legacy.util.MathUtils;
+import org.apache.commons.math4.utils.MathUtils;
 import org.apache.commons.rng.UniformRandomProvider;
 import org.apache.commons.rng.simple.RandomSource;
 
@@ -170,7 +170,7 @@ public class KMeansPlusPlusClusterer<T extends Clusterable> extends Clusterer<T>
      *
      * @param points the points to cluster
      * @return a list of clusters containing the points
-     * @throws org.apache.commons.math4.legacy.exception.MathIllegalArgumentException
+     * @throws org.apache.commons.math4.utils.exception.MathIllegalArgumentException
      * if the data points are null or the number of clusters is larger than the
      * number of data points
      * @throws ConvergenceException if an empty cluster is encountered and the

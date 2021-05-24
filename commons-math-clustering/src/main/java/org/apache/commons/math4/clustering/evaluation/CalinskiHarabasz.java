@@ -20,8 +20,8 @@ package org.apache.commons.math4.clustering.evaluation;
 import org.apache.commons.math4.clustering.Cluster;
 import org.apache.commons.math4.clustering.ClusterEvaluator;
 import org.apache.commons.math4.clustering.Clusterable;
-import org.apache.commons.math4.legacy.exception.InsufficientDataException;
-import org.apache.commons.math4.legacy.util.MathArrays;
+import org.apache.commons.math4.utils.exception.InsufficientDataException;
+import org.apache.commons.math4.utils.MathArrays;
 
 import java.util.Collection;
 import java.util.List;

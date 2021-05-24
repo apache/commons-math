@@ -18,7 +18,7 @@
 package org.apache.commons.math4.clustering;
 
 import org.apache.commons.math4.clustering.*;
-import org.apache.commons.math4.legacy.exception.NumberIsTooSmallException;
+import org.apache.commons.math4.utils.exception.NumberIsTooSmallException;
 import org.apache.commons.math4.clustering.evaluation.CalinskiHarabasz;
 import org.apache.commons.math4.clustering.distance.DistanceMeasure;
 import org.apache.commons.math4.clustering.distance.EuclideanDistance;
