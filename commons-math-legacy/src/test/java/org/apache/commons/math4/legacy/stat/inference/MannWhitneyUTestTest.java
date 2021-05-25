@@ -42,7 +42,7 @@ public class MannWhitneyUTestTest {
         final double x[] = {19, 22, 16, 29, 24};
         final double y[] = {20, 11, 17, 12};
 
-        Assert.assertEquals(17, testStatistic.mannWhitneyU(x, y), 1e-10);
+        Assert.assertEquals(3, testStatistic.mannWhitneyU(x, y), 1e-10);
         Assert.assertEquals(0.08641, testStatistic.mannWhitneyUTest(x, y), 1e-5);
     }
 
