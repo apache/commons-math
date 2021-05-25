@@ -51,18 +51,6 @@ public final class MathUtils {
      */
     private MathUtils() {}
 
-    /**
-     * Returns {@code true} if the values are equal according to semantics of
-     * {@link Double#equals(Object)}.
-     *
-     * @param x Value
-     * @param y Value
-     * @return {@code Double.valueOf(x).equals(Double.valueOf(y))}
-     */
-    public static boolean equals(double x, double y) {
-        return Double.valueOf(x).equals(Double.valueOf(y));
-    }
-
      /** Find the maximum of two field elements.
       * @param <T> the type of the field elements
       * @param e1 first element
