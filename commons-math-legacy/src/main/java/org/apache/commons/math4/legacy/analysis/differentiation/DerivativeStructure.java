@@ -16,6 +16,7 @@
  */
 package org.apache.commons.math4.legacy.analysis.differentiation;
 
+import java.util.Arrays;
 import java.io.Serializable;
 
 import org.apache.commons.numbers.arrays.LinearCombination;
@@ -1201,7 +1202,7 @@ public class DerivativeStructure implements RealFieldElement<DerivativeStructure
      */
     @Override
     public int hashCode() {
-        return 227 + 229 * getFreeParameters() + 233 * getOrder() + 239 * MathUtils.hash(data);
+        return 227 + 229 * getFreeParameters() + 233 * getOrder() + 239 * Arrays.hashCode(data);
     }
 
     /**

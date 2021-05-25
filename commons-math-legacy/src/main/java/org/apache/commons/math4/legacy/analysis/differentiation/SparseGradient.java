@@ -931,7 +931,7 @@ public class SparseGradient implements RealFieldElement<SparseGradient>, Seriali
      */
     @Override
     public int hashCode() {
-        return 743 + 809 * MathUtils.hash(value) + 167 * derivatives.hashCode();
+        return 743 + 809 * Double.hashCode(value) + 167 * derivatives.hashCode();
     }
 
 }

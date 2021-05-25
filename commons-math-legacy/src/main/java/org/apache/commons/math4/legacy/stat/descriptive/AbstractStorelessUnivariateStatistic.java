@@ -186,7 +186,7 @@ public abstract class AbstractStorelessUnivariateStatistic
      */
     @Override
     public int hashCode() {
-        return 31 * (31 + MathUtils.hash(getResult())) + MathUtils.hash(getN());
+        return 31 * (31 + Double.hashCode(getResult())) + Double.hashCode(getN());
     }
 
 }

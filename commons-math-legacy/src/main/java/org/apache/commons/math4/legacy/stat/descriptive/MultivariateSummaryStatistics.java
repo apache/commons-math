@@ -402,15 +402,15 @@ public class MultivariateSummaryStatistics
      */
     @Override
     public int hashCode() {
-        int result = 31 + MathUtils.hash(getGeometricMean());
-        result = result * 31 + MathUtils.hash(getGeometricMean());
-        result = result * 31 + MathUtils.hash(getMax());
-        result = result * 31 + MathUtils.hash(getMean());
-        result = result * 31 + MathUtils.hash(getMin());
-        result = result * 31 + MathUtils.hash(getN());
-        result = result * 31 + MathUtils.hash(getSum());
-        result = result * 31 + MathUtils.hash(getSumSq());
-        result = result * 31 + MathUtils.hash(getSumLog());
+        int result = 31 + Arrays.hashCode(getGeometricMean());
+        result = result * 31 + Arrays.hashCode(getGeometricMean());
+        result = result * 31 + Arrays.hashCode(getMax());
+        result = result * 31 + Arrays.hashCode(getMean());
+        result = result * 31 + Arrays.hashCode(getMin());
+        result = result * 31 + Double.hashCode(getN());
+        result = result * 31 + Arrays.hashCode(getSum());
+        result = result * 31 + Arrays.hashCode(getSumSq());
+        result = result * 31 + Arrays.hashCode(getSumLog());
         result = result * 31 + getCovariance().hashCode();
         return result;
     }

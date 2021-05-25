@@ -51,17 +51,6 @@ public final class MathUtils {
      */
     private MathUtils() {}
 
-
-    /**
-     * Returns an integer hash code representing the given double value.
-     *
-     * @param value the value to be hashed
-     * @return the hash code
-     */
-    public static int hash(double value) {
-        return Double.valueOf(value).hashCode();
-    }
-
     /**
      * Returns {@code true} if the values are equal according to semantics of
      * {@link Double#equals(Object)}.
@@ -72,17 +61,6 @@ public final class MathUtils {
      */
     public static boolean equals(double x, double y) {
         return Double.valueOf(x).equals(Double.valueOf(y));
-    }
-
-    /**
-     * Returns an integer hash code representing the given double array.
-     *
-     * @param value the value to be hashed (may be null)
-     * @return the hash code
-     * @since 1.2
-     */
-    public static int hash(double[] value) {
-        return Arrays.hashCode(value);
     }
 
      /** Find the maximum of two field elements.

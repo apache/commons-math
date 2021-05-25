@@ -832,7 +832,7 @@ public class ArrayRealVector extends RealVector implements Serializable {
         if (isNaN()) {
             return 9;
         }
-        return MathUtils.hash(data);
+        return Arrays.hashCode(data);
     }
 
     /** {@inheritDoc} */
