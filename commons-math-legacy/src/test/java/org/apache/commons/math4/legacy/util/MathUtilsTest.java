@@ -49,34 +49,6 @@ public final class MathUtilsTest {
     }
 
     @Test
-    public void testIndicatorByte() {
-        Assert.assertEquals((byte)1, MathUtils.copySign((byte)1, (byte)2));
-        Assert.assertEquals((byte)1, MathUtils.copySign((byte)1, (byte)0));
-        Assert.assertEquals((byte)(-1), MathUtils.copySign((byte)1, (byte)(-2)));
-    }
-
-    @Test
-    public void testIndicatorInt() {
-        Assert.assertEquals(1, MathUtils.copySign(1, 2));
-        Assert.assertEquals(1, MathUtils.copySign(1, 0));
-        Assert.assertEquals((-1), MathUtils.copySign(1, -2));
-    }
-
-    @Test
-    public void testIndicatorLong() {
-        Assert.assertEquals(1L, MathUtils.copySign(1L, 2L));
-        Assert.assertEquals(1L, MathUtils.copySign(1L, 0L));
-        Assert.assertEquals(-1L, MathUtils.copySign(1L, -2L));
-    }
-
-    @Test
-    public void testIndicatorShort() {
-        Assert.assertEquals((short)1, MathUtils.copySign((short)1, (short)2));
-        Assert.assertEquals((short)1, MathUtils.copySign((short)1, (short)0));
-        Assert.assertEquals((short)(-1), MathUtils.copySign((short)1, (short)(-2)));
-    }
-
-    @Test
     public void testReduce() {
         final double period = -12.222;
         final double offset = 13;
@@ -144,34 +116,6 @@ public final class MathUtilsTest {
     }
 
     @Test
-    public void testSignByte() {
-        final byte one = (byte) 1;
-        Assert.assertEquals((byte) 1, MathUtils.copySign(one, (byte) 2));
-        Assert.assertEquals((byte) (-1), MathUtils.copySign(one, (byte) (-2)));
-    }
-
-    @Test
-    public void testSignInt() {
-        final int one = 1;
-        Assert.assertEquals(1, MathUtils.copySign(one, 2));
-        Assert.assertEquals((-1), MathUtils.copySign(one, -2));
-    }
-
-    @Test
-    public void testSignLong() {
-        final long one = 1L;
-        Assert.assertEquals(1L, MathUtils.copySign(one, 2L));
-        Assert.assertEquals(-1L, MathUtils.copySign(one, -2L));
-    }
-
-    @Test
-    public void testSignShort() {
-        final short one = (short) 1;
-        Assert.assertEquals((short) 1, MathUtils.copySign(one, (short) 2));
-        Assert.assertEquals((short) (-1), MathUtils.copySign(one, (short) (-2)));
-    }
-
-    @Test
     public void testCheckFinite() {
         try {
             MathUtils.checkFinite(Double.POSITIVE_INFINITY);
@@ -230,41 +174,5 @@ public final class MathUtilsTest {
         } catch (NullArgumentException e) {
             // Expected.
         }
-    }
-
-    @Test
-    public void testCopySignByte() {
-        byte a = MathUtils.copySign(Byte.MIN_VALUE, (byte) -1);
-        Assert.assertEquals(Byte.MIN_VALUE, a);
-
-        final byte minValuePlusOne = Byte.MIN_VALUE + (byte) 1;
-        a = MathUtils.copySign(minValuePlusOne, (byte) 1);
-        Assert.assertEquals(Byte.MAX_VALUE, a);
-
-        a = MathUtils.copySign(Byte.MAX_VALUE, (byte) -1);
-        Assert.assertEquals(minValuePlusOne, a);
-
-        final byte one = 1;
-        byte val = -2;
-        a = MathUtils.copySign(val, one);
-        Assert.assertEquals(-val, a);
-
-        final byte minusOne = -one;
-        val = 2;
-        a = MathUtils.copySign(val, minusOne);
-        Assert.assertEquals(-val, a);
-
-        val = 0;
-        a = MathUtils.copySign(val, minusOne);
-        Assert.assertEquals(val, a);
-
-        val = 0;
-        a = MathUtils.copySign(val, one);
-        Assert.assertEquals(val, a);
-    }
-
-    @Test(expected=MathArithmeticException.class)
-    public void testCopySignByte2() {
-        MathUtils.copySign(Byte.MIN_VALUE, (byte) 1);
     }
 }
