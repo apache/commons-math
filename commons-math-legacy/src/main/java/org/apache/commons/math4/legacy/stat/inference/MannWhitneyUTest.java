@@ -26,6 +26,8 @@ import org.apache.commons.math4.legacy.stat.ranking.NaturalRanking;
 import org.apache.commons.math4.legacy.stat.ranking.TiesStrategy;
 import org.apache.commons.math4.legacy.util.FastMath;
 
+import java.util.stream.IntStream;
+
 /**
  * An implementation of the Mann-Whitney U test (also called Wilcoxon rank-sum test).
  *
@@ -117,7 +119,7 @@ public class MannWhitneyUTest {
      *
      * @param x the first sample
      * @param y the second sample
-     * @return Mann-Whitney U statistic (maximum of U<sup>x</sup> and U<sup>y</sup>)
+     * @return Mann-Whitney U statistic (minimum of U<sup>x</sup> and U<sup>y</sup>)
      * @throws NullArgumentException if {@code x} or {@code y} are {@code null}.
      * @throws NoDataException if {@code x} or {@code y} are zero-length.
      */
@@ -135,9 +137,7 @@ public class MannWhitneyUTest {
          * The ranks for x is in the first x.length entries in ranks because x
          * is in the first x.length entries in z
          */
-        for (int i = 0; i < x.length; ++i) {
-            sumRankX += ranks[i];
-        }
+        sumRankX = IntStream.range(0, x.length).mapToDouble(i -> ranks[i]).sum();
 
         /*
          * U1 = R1 - (n1 * (n1 + 1)) / 2 where R1 is sum of ranks for sample 1,
@@ -150,7 +150,7 @@ public class MannWhitneyUTest {
          */
         final double U2 = (long) x.length * y.length - U1;
 
-        return FastMath.max(U1, U2);
+        return FastMath.min(U1, U2);
     }
 
     /**
@@ -223,14 +223,8 @@ public class MannWhitneyUTest {
 
         ensureDataConformance(x, y);
 
-        final double Umax = mannWhitneyU(x, y);
-
-        /*
-         * It can be shown that U1 + U2 = n1 * n2
-         */
-        final double Umin = (long) x.length * y.length - Umax;
+        final double Umin = mannWhitneyU(x, y);
 
         return calculateAsymptoticPValue(Umin, x.length, y.length);
     }
-
 }
