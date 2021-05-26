@@ -228,9 +228,9 @@ public class LoessInterpolator
             throw new NoDataException();
         }
 
-        checkAllFiniteReal(xval);
-        checkAllFiniteReal(yval);
-        checkAllFiniteReal(weights);
+        NotFiniteNumberException.check(xval);
+        NotFiniteNumberException.check(yval);
+        NotFiniteNumberException.check(weights);
 
         MathArrays.checkOrder(xval);
 
@@ -457,18 +457,5 @@ public class LoessInterpolator
         }
         final double tmp = 1 - absX * absX * absX;
         return tmp * tmp * tmp;
-    }
-
-    /**
-     * Check that all elements of an array are finite real numbers.
-     *
-     * @param values Values array.
-     * @throws org.apache.commons.math4.legacy.exception.NotFiniteNumberException
-     * if one of the values is not a finite real number.
-     */
-    private static void checkAllFiniteReal(final double[] values) {
-        for (int i = 0; i < values.length; i++) {
-            NotFiniteNumberException.check(values[i]);
-        }
     }
 }
