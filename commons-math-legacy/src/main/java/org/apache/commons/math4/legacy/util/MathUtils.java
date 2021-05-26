@@ -28,13 +28,6 @@ import org.apache.commons.math4.legacy.exception.util.LocalizedFormats;
  */
 public final class MathUtils {
     /**
-     * \(\pi^2\)
-     * @since 3.4
-     */
-    public static final double PI_SQUARED = FastMath.PI * FastMath.PI;
-
-
-    /**
      * Class contains only static methods.
      */
     private MathUtils() {}
