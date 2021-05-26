@@ -16,6 +16,8 @@
  */
 package org.apache.commons.math4.legacy.analysis.interpolation;
 
+import org.apache.commons.numbers.angle.Reduce;
+
 import org.apache.commons.math4.legacy.analysis.UnivariateFunction;
 import org.apache.commons.math4.legacy.exception.MathIllegalArgumentException;
 import org.apache.commons.math4.legacy.exception.NonMonotonicSequenceException;
@@ -91,24 +93,25 @@ public class UnivariatePeriodicInterpolator
 
         MathArrays.checkOrder(xval);
         final double offset = xval[0];
+        final Reduce reduce = new Reduce(offset, period);
 
         final int len = xval.length + extend * 2;
         final double[] x = new double[len];
         final double[] y = new double[len];
         for (int i = 0; i < xval.length; i++) {
             final int index = i + extend;
-            x[index] = MathUtils.reduce(xval[i], period, offset);
+            x[index] = reduce.applyAsDouble(xval[i]);
             y[index] = yval[i];
         }
 
         // Wrap to enable interpolation at the boundaries.
         for (int i = 0; i < extend; i++) {
             int index = xval.length - extend + i;
-            x[i] = MathUtils.reduce(xval[index], period, offset) - period;
+            x[i] = reduce.applyAsDouble(xval[index]) - period;
             y[i] = yval[index];
 
             index = len - extend + i;
-            x[index] = MathUtils.reduce(xval[i], period, offset) + period;
+            x[index] = reduce.applyAsDouble(xval[i]) + period;
             y[index] = yval[i];
         }
 
@@ -119,7 +122,7 @@ public class UnivariatePeriodicInterpolator
             /** {@inheritDoc} */
             @Override
             public double value(final double x) throws MathIllegalArgumentException {
-                return f.value(MathUtils.reduce(x, period, offset));
+                return f.value(reduce.applyAsDouble(x));
             }
         };
     }
