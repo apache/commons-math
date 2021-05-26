@@ -20,10 +20,10 @@ import org.apache.commons.math4.legacy.analysis.MultivariateFunction;
 import org.apache.commons.math4.legacy.analysis.UnivariateFunction;
 import org.apache.commons.math4.legacy.analysis.function.Logit;
 import org.apache.commons.math4.legacy.analysis.function.Sigmoid;
+import org.apache.commons.math4.legacy.exception.NullArgumentException;
 import org.apache.commons.math4.legacy.exception.DimensionMismatchException;
 import org.apache.commons.math4.legacy.exception.NumberIsTooSmallException;
 import org.apache.commons.math4.legacy.util.FastMath;
-import org.apache.commons.math4.legacy.util.MathUtils;
 
 /**
  * <p>Adapter for mapping bounded {@link MultivariateFunction} to unbounded ones.</p>
@@ -98,8 +98,8 @@ public class MultivariateFunctionMappingAdapter
     public MultivariateFunctionMappingAdapter(final MultivariateFunction bounded,
                                               final double[] lower, final double[] upper) {
         // safety checks
-        MathUtils.checkNotNull(lower);
-        MathUtils.checkNotNull(upper);
+        NullArgumentException.check(lower);
+        NullArgumentException.check(upper);
         if (lower.length != upper.length) {
             throw new DimensionMismatchException(lower.length, upper.length);
         }

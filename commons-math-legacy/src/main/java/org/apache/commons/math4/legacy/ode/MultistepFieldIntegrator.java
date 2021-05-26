@@ -348,8 +348,8 @@ public abstract class MultistepFieldIntegrator<T extends RealFieldElement<T>>
      * @return grow/shrink factor for next step
      */
     protected T computeStepGrowShrinkFactor(final T error) {
-        return MathUtils.min(error.getField().getZero().add(maxGrowth),
-                             MathUtils.max(error.getField().getZero().add(minReduction),
+        return RealFieldElement.min(error.getField().getZero().add(maxGrowth),
+                             RealFieldElement.max(error.getField().getZero().add(minReduction),
                                            error.pow(exp).multiply(safety)));
     }
 

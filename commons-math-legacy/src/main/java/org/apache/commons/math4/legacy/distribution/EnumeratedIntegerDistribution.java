@@ -229,7 +229,11 @@ public class EnumeratedIntegerDistribution extends AbstractIntegerDistribution {
         return true;
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     *
+     * Refer to {@link EnumeratedDistribution.Sampler} for implementation details.
+     */
     @Override
     public DiscreteDistribution.Sampler createSampler(final UniformRandomProvider rng) {
         return new DiscreteDistribution.Sampler() {

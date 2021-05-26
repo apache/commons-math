@@ -179,7 +179,7 @@ public class TravellingSalesmanSolver {
     private static Iterator<double[]> createIterator(final long numSamples,
                                                      final Set<City> uniqueCities,
                                                      final UniformRandomProvider random) {
-        final CollectionSampler<City> sampler = new CollectionSampler(random, uniqueCities);
+        final CollectionSampler<City> sampler = new CollectionSampler<>(random, uniqueCities);
 
         return new Iterator<double[]>() {
             /** Number of samples. */

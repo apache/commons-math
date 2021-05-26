@@ -93,7 +93,7 @@ public abstract class PreconditionedIterativeLinearSolver
         final RealLinearOperator m, final RealVector b, final RealVector x0)
         throws NullArgumentException, NonSquareOperatorException,
         DimensionMismatchException, MaxCountExceededException {
-        MathUtils.checkNotNull(x0);
+        NullArgumentException.check(x0);
         return solveInPlace(a, m, b, x0.copy());
     }
 
@@ -102,7 +102,7 @@ public abstract class PreconditionedIterativeLinearSolver
     public RealVector solve(final RealLinearOperator a, final RealVector b)
         throws NullArgumentException, NonSquareOperatorException,
         DimensionMismatchException, MaxCountExceededException {
-        MathUtils.checkNotNull(a);
+        NullArgumentException.check(a);
         final RealVector x = new ArrayRealVector(a.getColumnDimension());
         x.set(0.);
         return solveInPlace(a, null, b, x);
@@ -114,7 +114,7 @@ public abstract class PreconditionedIterativeLinearSolver
                             final RealVector x0)
         throws NullArgumentException, NonSquareOperatorException,
         DimensionMismatchException, MaxCountExceededException {
-        MathUtils.checkNotNull(x0);
+        NullArgumentException.check(x0);
         return solveInPlace(a, null, b, x0.copy());
     }
 
@@ -173,7 +173,7 @@ public abstract class PreconditionedIterativeLinearSolver
     public RealVector solve(RealLinearOperator a, RealLinearOperator m,
         RealVector b) throws NullArgumentException, NonSquareOperatorException,
         DimensionMismatchException, MaxCountExceededException {
-        MathUtils.checkNotNull(a);
+        NullArgumentException.check(a);
         final RealVector x = new ArrayRealVector(a.getColumnDimension());
         return solveInPlace(a, m, b, x);
     }

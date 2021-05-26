@@ -115,7 +115,7 @@ public class SparseFieldVector<T extends FieldElement<T>> implements FieldVector
      * @exception NullArgumentException if values is null
      */
     public SparseFieldVector(Field<T> field, T[] values) throws NullArgumentException {
-        MathUtils.checkNotNull(values);
+        NullArgumentException.check(values);
         this.field = field;
         virtualSize = values.length;
         entries = new OpenIntToFieldHashMap<>(field);
@@ -208,7 +208,7 @@ public class SparseFieldVector<T extends FieldElement<T>> implements FieldVector
      */
     @Override
     public FieldVector<T> append(T d) throws NullArgumentException {
-        MathUtils.checkNotNull(d);
+        NullArgumentException.check(d);
         FieldVector<T> res = new SparseFieldVector<>(this, 1);
         res.setEntry(virtualSize, d);
         return res;
@@ -434,7 +434,7 @@ public class SparseFieldVector<T extends FieldElement<T>> implements FieldVector
      */
     @Override
     public void set(T value) {
-        MathUtils.checkNotNull(value);
+        NullArgumentException.check(value);
         for (int i = 0; i < virtualSize; i++) {
             setEntry(i, value);
         }
@@ -445,7 +445,7 @@ public class SparseFieldVector<T extends FieldElement<T>> implements FieldVector
      */
     @Override
     public void setEntry(int index, T value) throws NullArgumentException, OutOfRangeException {
-        MathUtils.checkNotNull(value);
+        NullArgumentException.check(value);
         checkIndex(index);
         entries.put(index, value);
     }

@@ -192,7 +192,7 @@ public class EmpiricalDistribution extends AbstractRealDistribution
      * @throws ZeroException if URL contains no data
      */
     public void load(URL url) throws IOException, NullArgumentException, ZeroException {
-        MathUtils.checkNotNull(url);
+        NullArgumentException.check(url);
         Charset charset = Charset.forName(FILE_CHARSET);
         BufferedReader in =
             new BufferedReader(new InputStreamReader(url.openStream(), charset));
@@ -226,7 +226,7 @@ public class EmpiricalDistribution extends AbstractRealDistribution
      * @throws NullArgumentException if file is null
      */
     public void load(File file) throws IOException, NullArgumentException {
-        MathUtils.checkNotNull(file);
+        NullArgumentException.check(file);
         Charset charset = Charset.forName(FILE_CHARSET);
         InputStream is = new FileInputStream(file);
         BufferedReader in = new BufferedReader(new InputStreamReader(is, charset));
@@ -333,7 +333,7 @@ public class EmpiricalDistribution extends AbstractRealDistribution
          */
         ArrayDataAdapter(double[] in) throws NullArgumentException {
             super();
-            MathUtils.checkNotNull(in);
+            NullArgumentException.check(in);
             inputArray = in;
         }
 

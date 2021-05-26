@@ -51,4 +51,35 @@ public class NotFiniteNumberException extends MathIllegalNumberException {
                                     Object ... args) {
         super(specific, wrong, args);
     }
+
+    /**
+     * Check that the argument is a real number.
+     *
+     * @param x Argument.
+     * @throws NotFiniteNumberException if {@code x} is not a
+     * finite real number.
+     */
+    public static void check(final double x) {
+        if (Double.isInfinite(x) ||
+            Double.isNaN(x)) {
+            throw new NotFiniteNumberException(x);
+        }
+    }
+
+    /**
+     * Check that all the elements are real numbers.
+     *
+     * @param val Arguments.
+     * @throws NotFiniteNumberException if any values of the array is not a
+     * finite real number.
+     */
+    public static void check(final double[] val) {
+        for (int i = 0; i < val.length; i++) {
+            final double x = val[i];
+            if (Double.isInfinite(x) ||
+                Double.isNaN(x)) {
+                throw new NotFiniteNumberException(LocalizedFormats.ARRAY_ELEMENT, x, i);
+            }
+        }
+    }
 }

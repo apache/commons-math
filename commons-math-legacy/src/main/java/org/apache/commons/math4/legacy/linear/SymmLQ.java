@@ -917,7 +917,7 @@ public class SymmLQ
         DimensionMismatchException, MaxCountExceededException,
         NonSelfAdjointOperatorException, NonPositiveDefiniteOperatorException,
         IllConditionedOperatorException {
-        MathUtils.checkNotNull(a);
+        NullArgumentException.check(a);
         final RealVector x = new ArrayRealVector(a.getColumnDimension());
         return solveInPlace(a, m, b, x, false, 0.);
     }
@@ -968,7 +968,7 @@ public class SymmLQ
         NonSquareOperatorException, DimensionMismatchException,
         MaxCountExceededException, NonSelfAdjointOperatorException,
         NonPositiveDefiniteOperatorException, IllConditionedOperatorException {
-        MathUtils.checkNotNull(a);
+        NullArgumentException.check(a);
         final RealVector x = new ArrayRealVector(a.getColumnDimension());
         return solveInPlace(a, m, b, x, goodb, shift);
     }
@@ -991,7 +991,7 @@ public class SymmLQ
         DimensionMismatchException, NonSelfAdjointOperatorException,
         NonPositiveDefiniteOperatorException, IllConditionedOperatorException,
         MaxCountExceededException {
-        MathUtils.checkNotNull(x);
+        NullArgumentException.check(x);
         return solveInPlace(a, m, b, x.copy(), false, 0.);
     }
 
@@ -1007,7 +1007,7 @@ public class SymmLQ
         throws NullArgumentException, NonSquareOperatorException,
         DimensionMismatchException, NonSelfAdjointOperatorException,
         IllConditionedOperatorException, MaxCountExceededException {
-        MathUtils.checkNotNull(a);
+        NullArgumentException.check(a);
         final RealVector x = new ArrayRealVector(a.getColumnDimension());
         x.set(0.);
         return solveInPlace(a, null, b, x, false, 0.);
@@ -1053,7 +1053,7 @@ public class SymmLQ
         NonSquareOperatorException, DimensionMismatchException,
         NonSelfAdjointOperatorException, IllConditionedOperatorException,
         MaxCountExceededException {
-        MathUtils.checkNotNull(a);
+        NullArgumentException.check(a);
         final RealVector x = new ArrayRealVector(a.getColumnDimension());
         return solveInPlace(a, null, b, x, goodb, shift);
     }
@@ -1073,7 +1073,7 @@ public class SymmLQ
         NonSquareOperatorException, DimensionMismatchException,
         NonSelfAdjointOperatorException, IllConditionedOperatorException,
         MaxCountExceededException {
-        MathUtils.checkNotNull(x);
+        NullArgumentException.check(x);
         return solveInPlace(a, null, b, x.copy(), false, 0.);
     }
 

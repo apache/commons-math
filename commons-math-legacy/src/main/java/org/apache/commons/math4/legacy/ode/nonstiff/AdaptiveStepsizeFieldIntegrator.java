@@ -296,13 +296,13 @@ public abstract class AdaptiveStepsizeFieldIntegrator<T extends RealFieldElement
 
         // step size is computed such that
         // h^order * max (||y'/tol||, ||y''/tol||) = 0.01
-        final T maxInv2 = MathUtils.max(yDotOnScale2.sqrt(), yDDotOnScale);
+        final T maxInv2 = RealFieldElement.max(yDotOnScale2.sqrt(), yDDotOnScale);
         final T h1 = maxInv2.getReal() < 1.0e-15 ?
-                     MathUtils.max(getField().getZero().add(1.0e-6), h.abs().multiply(0.001)) :
+                     RealFieldElement.max(getField().getZero().add(1.0e-6), h.abs().multiply(0.001)) :
                      maxInv2.multiply(100).reciprocal().pow(1.0 / order);
-        h = MathUtils.min(h.abs().multiply(100), h1);
-        h = MathUtils.max(h, state0.getTime().abs().multiply(1.0e-12));  // avoids cancellation when computing t1 - t0
-        h = MathUtils.max(minStep, MathUtils.min(maxStep, h));
+        h = RealFieldElement.min(h.abs().multiply(100), h1);
+        h = RealFieldElement.max(h, state0.getTime().abs().multiply(1.0e-12));  // avoids cancellation when computing t1 - t0
+        h = RealFieldElement.max(minStep, RealFieldElement.min(maxStep, h));
         if (! forward) {
             h = h.negate();
         }

@@ -302,43 +302,6 @@ public class FunctionUtils {
         };
     }
 
-    /**
-     * Samples the specified univariate real function on the specified interval.
-     * <p>
-     * The interval is divided equally into {@code n} sections and sample points
-     * are taken from {@code min} to {@code max - (max - min) / n}; therefore
-     * {@code f} is not sampled at the upper bound {@code max}.</p>
-     *
-     * @param f Function to be sampled
-     * @param min Lower bound of the interval (included).
-     * @param max Upper bound of the interval (excluded).
-     * @param n Number of sample points.
-     * @return the array of samples.
-     * @throws NumberIsTooLargeException if the lower bound {@code min} is
-     * greater than, or equal to the upper bound {@code max}.
-     * @throws NotStrictlyPositiveException if the number of sample points
-     * {@code n} is negative.
-     */
-    public static double[] sample(UnivariateFunction f, double min, double max, int n)
-       throws NumberIsTooLargeException, NotStrictlyPositiveException {
-
-        if (n <= 0) {
-            throw new NotStrictlyPositiveException(
-                    LocalizedFormats.NOT_POSITIVE_NUMBER_OF_SAMPLES,
-                    Integer.valueOf(n));
-        }
-        if (min >= max) {
-            throw new NumberIsTooLargeException(min, max, false);
-        }
-
-        final double[] s = new double[n];
-        final double h = (max - min) / n;
-        for (int i = 0; i < n; i++) {
-            s[i] = f.value(min + i * h);
-        }
-        return s;
-    }
-
     /** Convert regular functions to {@link UnivariateDifferentiableFunction}.
      * <p>
      * This method handle the case with one free parameter and several derivatives.

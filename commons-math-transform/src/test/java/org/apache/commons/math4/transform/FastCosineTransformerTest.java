@@ -14,35 +14,33 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.apache.commons.math4.legacy.transform;
+package org.apache.commons.math4.transform;
 
 import java.util.Arrays;
 import java.util.Collection;
+import java.util.function.DoubleUnaryOperator;
 
-import org.apache.commons.math4.legacy.analysis.UnivariateFunction;
-import org.apache.commons.math4.legacy.analysis.function.Sin;
-import org.apache.commons.math4.legacy.analysis.function.Sinc;
-import org.apache.commons.math4.legacy.exception.MathIllegalArgumentException;
-import org.apache.commons.math4.legacy.exception.MathIllegalStateException;
-import org.apache.commons.math4.legacy.util.FastMath;
 import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.Parameterized;
 import org.junit.runners.Parameterized.Parameters;
 
+import org.apache.commons.math3.analysis.UnivariateFunction;
+import org.apache.commons.math3.analysis.function.Sin;
+import org.apache.commons.math3.analysis.function.Sinc;
+
 /**
- * Test case for fast cosine transformer.
+ * Test case for {@link FastCosineTransform}.
  * <p>
  * FCT algorithm is exact, the small tolerance number is used only to account
  * for round-off errors.
- *
  */
 @RunWith(value = Parameterized.class)
 public final class FastCosineTransformerTest
     extends RealTransformerAbstractTest {
 
-    private final DctNormalization normalization;
+    private final FastCosineTransform.Norm normalization;
 
     private final int[] invalidDataSize;
 
@@ -50,7 +48,7 @@ public final class FastCosineTransformerTest
 
     private final int[] validDataSize;
 
-    public FastCosineTransformerTest(final DctNormalization normalization) {
+    public FastCosineTransformerTest(final FastCosineTransform.Norm normalization) {
         this.normalization = normalization;
         this.validDataSize = new int[] {
             2, 3, 5, 9, 17, 33, 65, 129
@@ -59,20 +57,20 @@ public final class FastCosineTransformerTest
             128
         };
         this.relativeTolerance = new double[] {
-            1E-15, 1E-15, 1E-14, 1E-13, 1E-13, 1E-12, 1E-11, 1E-10
+            1e-15, 1e-15, 1e-14, 1e-13, 1e-13, 1e-12, 1e-11, 1e-10
         };
     }
 
     /**
-     * Returns an array containing {@code true, false} in order to check both
-     * standard and orthogonal DCTs.
+     * Returns an array containing {@code true, false} in order to
+     * check both standard and orthogonal DCTs.
      *
      * @return an array of parameters for this parameterized test
      */
     @Parameters
     public static Collection<Object[]> data() {
-        final DctNormalization[] normalization = DctNormalization.values();
-        final Object[][] data = new DctNormalization[normalization.length][1];
+        final FastCosineTransform.Norm[] normalization = FastCosineTransform.Norm.values();
+        final Object[][] data = new FastCosineTransform.Norm[normalization.length][1];
         for (int i = 0; i < normalization.length; i++){
             data[i][0] = normalization[i];
         }
@@ -80,8 +78,8 @@ public final class FastCosineTransformerTest
     }
 
     @Override
-    RealTransformer createRealTransformer() {
-        return new FastCosineTransformer(normalization);
+    RealTransform createRealTransformer(boolean inverse) {
+        return new FastCosineTransform(normalization, inverse);
     }
 
     @Override
@@ -110,8 +108,9 @@ public final class FastCosineTransformerTest
     }
 
     @Override
-    UnivariateFunction getValidFunction() {
-        return new Sinc();
+    DoubleUnaryOperator getValidFunction() {
+        final UnivariateFunction sinc = new Sinc();
+        return (x) -> sinc.value(x);
     }
 
     @Override
@@ -121,16 +120,17 @@ public final class FastCosineTransformerTest
 
     @Override
     double getValidUpperBound() {
-        return FastMath.PI;
+        return Math.PI;
     }
 
     @Override
-    double[] transform(final double[] x, final TransformType type) {
+    double[] transform(final double[] x,
+                       final boolean inverse) {
         final int n = x.length;
         final double[] y = new double[n];
         final double[] cos = new double[2 * (n - 1)];
         for (int i = 0; i < cos.length; i++) {
-            cos[i] = FastMath.cos(FastMath.PI * i / (n - 1.0));
+            cos[i] = Math.cos(Math.PI * i / (n - 1.0));
         }
         int sgn = 1;
         for (int j = 0; j < n; j++) {
@@ -142,73 +142,66 @@ public final class FastCosineTransformerTest
             sgn *= -1;
         }
         final double s;
-        if (type == TransformType.FORWARD) {
-            if (normalization == DctNormalization.STANDARD_DCT_I) {
+        if (!inverse) {
+            if (normalization == FastCosineTransform.Norm.STD) {
                 s = 1.0;
-            } else if (normalization == DctNormalization.ORTHOGONAL_DCT_I) {
-                s = FastMath.sqrt(2.0 / (n - 1.0));
+            } else if (normalization == FastCosineTransform.Norm.ORTHO) {
+                s = Math.sqrt(2.0 / (n - 1.0));
             } else {
-                throw new MathIllegalStateException();
-            }
-        } else if (type == TransformType.INVERSE) {
-            if (normalization == DctNormalization.STANDARD_DCT_I) {
-                s = 2.0 / (n - 1.0);
-            } else if (normalization == DctNormalization.ORTHOGONAL_DCT_I) {
-                s = FastMath.sqrt(2.0 / (n - 1.0));
-            } else {
-                throw new MathIllegalStateException();
+                throw new IllegalStateException();
             }
         } else {
-            /*
-             * Should never occur. This clause is a safeguard in case other
-             * types are used to TransformType (which should not be done).
-             */
-            throw new MathIllegalStateException();
+            if (normalization == FastCosineTransform.Norm.STD) {
+                s = 2.0 / (n - 1.0);
+            } else if (normalization == FastCosineTransform.Norm.ORTHO) {
+                s = Math.sqrt(2.0 / (n - 1.0));
+            } else {
+                throw new IllegalStateException();
+            }
         }
-        TransformUtils.scaleArray(y, s);
+        TransformUtils.scaleInPlace(y, s);
         return y;
     }
 
-    /*
-     * Additional tests.
-     */
+    // Additional tests.
 
     /** Test of transformer for the ad hoc data. */
     @Test
     public void testAdHocData() {
-        FastCosineTransformer transformer;
-        transformer = new FastCosineTransformer(DctNormalization.STANDARD_DCT_I);
-        double result[], tolerance = 1E-12;
+        FastCosineTransform transformer;
+        double result[], tolerance = 1e-12;
 
-        double x[] = {
+        final double x[] = {
             0.0, 1.0, 4.0, 9.0, 16.0, 25.0, 36.0, 49.0, 64.0
         };
-        double y[] =
-            {
-                172.0, -105.096569476353, 27.3137084989848, -12.9593152353742,
-                8.0, -5.78585076868676, 4.68629150101524, -4.15826451958632,
-                4.0
-            };
+        final double y[] = {
+            172.0, -105.096569476353, 27.3137084989848, -12.9593152353742,
+            8.0, -5.78585076868676, 4.68629150101524, -4.15826451958632,
+            4.0
+        };
 
-        result = transformer.transform(x, TransformType.FORWARD);
+        transformer = new FastCosineTransform(FastCosineTransform.Norm.STD);
+        result = transformer.apply(x);
         for (int i = 0; i < result.length; i++) {
             Assert.assertEquals(y[i], result[i], tolerance);
         }
 
-        result = transformer.transform(y, TransformType.INVERSE);
+        transformer = new FastCosineTransform(FastCosineTransform.Norm.STD, true);
+        result = transformer.apply(y);
         for (int i = 0; i < result.length; i++) {
             Assert.assertEquals(x[i], result[i], tolerance);
         }
 
-        TransformUtils.scaleArray(x, FastMath.sqrt(0.5 * (x.length - 1)));
+        TransformUtils.scaleInPlace(x, Math.sqrt(0.5 * (x.length - 1)));
 
-        transformer = new FastCosineTransformer(DctNormalization.ORTHOGONAL_DCT_I);
-        result = transformer.transform(y, TransformType.FORWARD);
+        transformer = new FastCosineTransform(FastCosineTransform.Norm.ORTHO);
+        result = transformer.apply(y);
         for (int i = 0; i < result.length; i++) {
             Assert.assertEquals(x[i], result[i], tolerance);
         }
 
-        result = transformer.transform(x, TransformType.INVERSE);
+        transformer = new FastCosineTransform(FastCosineTransform.Norm.ORTHO, true);
+        result = transformer.apply(x);
         for (int i = 0; i < result.length; i++) {
             Assert.assertEquals(y[i], result[i], tolerance);
         }
@@ -216,31 +209,30 @@ public final class FastCosineTransformerTest
 
     /** Test of parameters for the transformer. */
     @Test
-    public void testParameters()
-        throws Exception {
-        UnivariateFunction f = new Sin();
-        FastCosineTransformer transformer;
-        transformer = new FastCosineTransformer(DctNormalization.STANDARD_DCT_I);
+    public void testParameters() throws Exception {
+        final UnivariateFunction sinFunction = new Sin();
+        final DoubleUnaryOperator f = (x) -> sinFunction.value(x);
+        final FastCosineTransform transformer = new FastCosineTransform(FastCosineTransform.Norm.STD);
 
         try {
             // bad interval
-            transformer.transform(f, 1, -1, 65, TransformType.FORWARD);
-            Assert.fail("Expecting MathIllegalArgumentException - bad interval");
-        } catch (MathIllegalArgumentException ex) {
+            transformer.apply(f, 1, -1, 65);
+            Assert.fail("Expecting IllegalArgumentException - bad interval");
+        } catch (IllegalArgumentException ex) {
             // expected
         }
         try {
             // bad samples number
-            transformer.transform(f, -1, 1, 1, TransformType.FORWARD);
-            Assert.fail("Expecting MathIllegalArgumentException - bad samples number");
-        } catch (MathIllegalArgumentException ex) {
+            transformer.apply(f, -1, 1, 1);
+            Assert.fail("Expecting IllegalArgumentException - bad samples number");
+        } catch (IllegalArgumentException ex) {
             // expected
         }
         try {
             // bad samples number
-            transformer.transform(f, -1, 1, 64, TransformType.FORWARD);
-            Assert.fail("Expecting MathIllegalArgumentException - bad samples number");
-        } catch (MathIllegalArgumentException ex) {
+            transformer.apply(f, -1, 1, 64);
+            Assert.fail("Expecting IllegalArgumentException - bad samples number");
+        } catch (IllegalArgumentException ex) {
             // expected
         }
     }
@@ -248,27 +240,26 @@ public final class FastCosineTransformerTest
     /** Test of transformer for the sine function. */
     @Test
     public void testSinFunction() {
-        UnivariateFunction f = new Sin();
-        FastCosineTransformer transformer;
-        transformer = new FastCosineTransformer(DctNormalization.STANDARD_DCT_I);
-        double min, max, result[], tolerance = 1E-12;
+        final UnivariateFunction sinFunction = new Sin();
+        final DoubleUnaryOperator f = (x) -> sinFunction.value(x);
+        final FastCosineTransform transformer = new FastCosineTransform(FastCosineTransform.Norm.STD);
+        double min, max, result[], tolerance = 1e-12;
         int N = 9;
 
-        double expected[] =
-            {
-                0.0, 3.26197262739567, 0.0, -2.17958042710327, 0.0,
-                -0.648846697642915, 0.0, -0.433545502649478, 0.0
-            };
+        final double expected[] = {
+            0.0, 3.26197262739567, 0.0, -2.17958042710327, 0.0,
+            -0.648846697642915, 0.0, -0.433545502649478, 0.0
+        };
         min = 0.0;
-        max = 2.0 * FastMath.PI * N / (N - 1);
-        result = transformer.transform(f, min, max, N, TransformType.FORWARD);
+        max = 2.0 * Math.PI * N / (N - 1);
+        result = transformer.apply(f, min, max, N);
         for (int i = 0; i < N; i++) {
             Assert.assertEquals(expected[i], result[i], tolerance);
         }
 
-        min = -FastMath.PI;
-        max = FastMath.PI * (N + 1) / (N - 1);
-        result = transformer.transform(f, min, max, N, TransformType.FORWARD);
+        min = -Math.PI;
+        max = Math.PI * (N + 1) / (N - 1);
+        result = transformer.apply(f, min, max, N);
         for (int i = 0; i < N; i++) {
             Assert.assertEquals(-expected[i], result[i], tolerance);
         }

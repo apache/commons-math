@@ -158,8 +158,8 @@ public class SemiVariance extends AbstractUnivariateStatistic implements Seriali
      */
     public static void copy(final SemiVariance source, SemiVariance dest)
         throws NullArgumentException {
-        MathUtils.checkNotNull(source);
-        MathUtils.checkNotNull(dest);
+        NullArgumentException.check(source);
+        NullArgumentException.check(dest);
         dest.biasCorrected = source.biasCorrected;
         dest.varianceDirection = source.varianceDirection;
     }

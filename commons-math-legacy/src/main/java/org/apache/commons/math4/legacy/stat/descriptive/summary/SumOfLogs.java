@@ -163,8 +163,8 @@ public class SumOfLogs extends AbstractStorelessUnivariateStatistic implements S
      */
     public static void copy(SumOfLogs source, SumOfLogs dest)
         throws NullArgumentException {
-        MathUtils.checkNotNull(source);
-        MathUtils.checkNotNull(dest);
+        NullArgumentException.check(source);
+        NullArgumentException.check(dest);
         dest.n = source.n;
         dest.value = source.value;
     }

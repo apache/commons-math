@@ -208,33 +208,6 @@ public class FunctionUtilsTest {
         }
     }
 
-    @Test(expected = NumberIsTooLargeException.class)
-    public void testSampleWrongBounds(){
-        FunctionUtils.sample(new Sin(), FastMath.PI, 0.0, 10);
-    }
-
-    @Test(expected = NotStrictlyPositiveException.class)
-    public void testSampleNegativeNumberOfPoints(){
-        FunctionUtils.sample(new Sin(), 0.0, FastMath.PI, -1);
-    }
-
-    @Test(expected = NotStrictlyPositiveException.class)
-    public void testSampleNullNumberOfPoints(){
-        FunctionUtils.sample(new Sin(), 0.0, FastMath.PI, 0);
-    }
-
-    @Test
-    public void testSample() {
-        final int n = 11;
-        final double min = 0.0;
-        final double max = FastMath.PI;
-        final double[] actual = FunctionUtils.sample(new Sin(), min, max, n);
-        for (int i = 0; i < n; i++) {
-            final double x = min + (max - min) / n * i;
-            Assert.assertEquals("x = " + x, FastMath.sin(x), actual[i], 0.0);
-        }
-    }
-
     @Test
     public void testToDifferentiableUnivariate() {
 

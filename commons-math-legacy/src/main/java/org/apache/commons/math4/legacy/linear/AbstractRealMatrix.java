@@ -435,7 +435,7 @@ public abstract class AbstractRealMatrix
     public void setSubMatrix(final double[][] subMatrix, final int row, final int column)
         throws NoDataException, OutOfRangeException,
         DimensionMismatchException, NullArgumentException {
-        MathUtils.checkNotNull(subMatrix);
+        NullArgumentException.check(subMatrix);
         final int nRows = subMatrix.length;
         if (nRows == 0) {
             throw new NoDataException(LocalizedFormats.AT_LEAST_ONE_ROW);
@@ -993,7 +993,7 @@ public abstract class AbstractRealMatrix
         for (int row = 0; row < nRows; ++row) {
             for (int col = 0; col < nCols; ++col) {
                ret = ret * 31 + (11 * (row+1) + 17 * (col+1)) *
-                   MathUtils.hash(getEntry(row, col));
+                   Double.hashCode(getEntry(row, col));
            }
         }
         return ret;

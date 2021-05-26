@@ -181,8 +181,8 @@ public class SynchronizedDescriptiveStatistics extends DescriptiveStatistics {
     public static void copy(SynchronizedDescriptiveStatistics source,
                             SynchronizedDescriptiveStatistics dest)
         throws NullArgumentException {
-        MathUtils.checkNotNull(source);
-        MathUtils.checkNotNull(dest);
+        NullArgumentException.check(source);
+        NullArgumentException.check(dest);
         synchronized (source) {
             synchronized (dest) {
                 DescriptiveStatistics.copy(source, dest);

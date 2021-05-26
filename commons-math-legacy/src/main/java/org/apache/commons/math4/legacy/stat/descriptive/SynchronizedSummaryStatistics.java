@@ -354,8 +354,8 @@ public class SynchronizedSummaryStatistics extends SummaryStatistics {
     public static void copy(SynchronizedSummaryStatistics source,
                             SynchronizedSummaryStatistics dest)
         throws NullArgumentException {
-        MathUtils.checkNotNull(source);
-        MathUtils.checkNotNull(dest);
+        NullArgumentException.check(source);
+        NullArgumentException.check(dest);
         synchronized (source) {
             synchronized (dest) {
                 SummaryStatistics.copy(source, dest);

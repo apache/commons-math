@@ -169,6 +169,20 @@ public class EnumeratedDistribution<T> implements Serializable {
 
     /**
      * Sampler functionality.
+     *
+     * <ul>
+     *  <li>
+     *   The cumulative probability distribution is created (and sampled from)
+     *   using the input order of the {@link EnumeratedDistribution#EnumeratedDistribution(List)
+     *   constructor arguments}: A different input order will create a different
+     *   sequence of samples.
+     *   The samples will only be reproducible with the same RNG starting from
+     *   the same RNG state and the same input order to constructor.
+     *  </li>
+     *  <li>
+     *   The minimum supported probability is 2<sup>-53</sup>.
+     *  </li>
+     * </ul>
      */
     public class Sampler {
         /** Underlying sampler. */

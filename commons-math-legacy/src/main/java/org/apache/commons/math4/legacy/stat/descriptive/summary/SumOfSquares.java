@@ -151,8 +151,8 @@ public class SumOfSquares extends AbstractStorelessUnivariateStatistic implement
      */
     public static void copy(SumOfSquares source, SumOfSquares dest)
         throws NullArgumentException {
-        MathUtils.checkNotNull(source);
-        MathUtils.checkNotNull(dest);
+        NullArgumentException.check(source);
+        NullArgumentException.check(dest);
         dest.n = source.n;
         dest.value = source.value;
     }

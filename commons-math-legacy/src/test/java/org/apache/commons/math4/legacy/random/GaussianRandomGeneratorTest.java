@@ -27,12 +27,14 @@ public class GaussianRandomGeneratorTest {
 
     @Test
     public void testMeanAndStandardDeviation() {
-        GaussianRandomGenerator generator = new GaussianRandomGenerator(RandomSource.create(RandomSource.MT, 17399225432l));
-        double[] sample = new double[10000];
+        final GaussianRandomGenerator generator = new GaussianRandomGenerator(RandomSource.create(RandomSource.MT));
+        final double[] sample = new double[10000];
         for (int i = 0; i < sample.length; ++i) {
             sample[i] = generator.nextNormalizedDouble();
         }
-        Assert.assertEquals(0.0, StatUtils.mean(sample), 0.012);
-        Assert.assertEquals(1.0, StatUtils.variance(sample), 0.01);
+        final double mean = StatUtils.mean(sample);
+        Assert.assertEquals("mean=" + mean, 0, mean, 1e-2);
+        final double variance = StatUtils.variance(sample);
+        Assert.assertEquals("variance=" + variance, 1, variance, 1e-2);
     }
 }

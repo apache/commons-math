@@ -52,7 +52,7 @@ public abstract class IterativeLinearSolver {
      */
     public IterativeLinearSolver(final IterationManager manager)
         throws NullArgumentException {
-        MathUtils.checkNotNull(manager);
+        NullArgumentException.check(manager);
         this.manager = manager;
     }
 
@@ -74,9 +74,9 @@ public abstract class IterativeLinearSolver {
         final RealVector b, final RealVector x0) throws
         NullArgumentException, NonSquareOperatorException,
         DimensionMismatchException {
-        MathUtils.checkNotNull(a);
-        MathUtils.checkNotNull(b);
-        MathUtils.checkNotNull(x0);
+        NullArgumentException.check(a);
+        NullArgumentException.check(b);
+        NullArgumentException.check(x0);
         if (a.getRowDimension() != a.getColumnDimension()) {
             throw new NonSquareOperatorException(a.getRowDimension(),
                                                        a.getColumnDimension());
@@ -119,7 +119,7 @@ public abstract class IterativeLinearSolver {
     public RealVector solve(final RealLinearOperator a, final RealVector b)
         throws NullArgumentException, NonSquareOperatorException,
         DimensionMismatchException, MaxCountExceededException {
-        MathUtils.checkNotNull(a);
+        NullArgumentException.check(a);
         final RealVector x = new ArrayRealVector(a.getColumnDimension());
         x.set(0.);
         return solveInPlace(a, b, x);
@@ -145,7 +145,7 @@ public abstract class IterativeLinearSolver {
     public RealVector solve(RealLinearOperator a, RealVector b, RealVector x0)
         throws NullArgumentException, NonSquareOperatorException,
         DimensionMismatchException, MaxCountExceededException {
-        MathUtils.checkNotNull(x0);
+        NullArgumentException.check(x0);
         return solveInPlace(a, b, x0.copy());
     }
 

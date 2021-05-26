@@ -63,8 +63,7 @@
     <math.checkstyle.dep.version>8.29</math.checkstyle.dep.version>
     <math.mathjax.version>2.7.2</math.mathjax.version>
     <math.commons.numbers.version>1.0-SNAPSHOT</math.commons.numbers.version>
-    <!-- Changing to another version of Commons RNG currently entails many test failures! -->
-    <math.commons.rng.version>1.2</math.commons.rng.version>
+    <math.commons.rng.version>1.3</math.commons.rng.version>
     <math.commons.geometry.version>1.0-SNAPSHOT</math.commons.geometry.version>
     <math.commons.statistics.version>1.0-SNAPSHOT</math.commons.statistics.version>
     <math.commons.math3.version>3.6.1</math.commons.math3.version>
@@ -105,9 +104,9 @@
   </properties>
 
   <modules>
-
-
-
+    <!-- Modules that do not depend on "legacy" codes. -->
+    <module>commons-math-neuralnet</module>
+    <module>commons-math-transform</module>
     <!-- Modules that do not depend on "legacy" codes. -->
     <module>commons-math-neuralnet</module>
     <module>commons-math-utils</module>
@@ -115,15 +114,11 @@
     <module>commons-math-clustering</module>
     <module>commons-math-stat</module>
     <module>commons-math-analysis</module>
-
     <!-- Non-modularized functionalities. -->
     <module>commons-math-legacy</module>
 
     <!-- Modules that depend on "legacy" codes. -->
     <module>commons-math-examples</module>
-
-
-
   </modules>
 
   <scm>
@@ -405,21 +400,9 @@
             <exclude>src/test/resources/org/apache/commons/math4/legacy/stat/data/Michelso.txt</exclude>
             <exclude>src/test/resources/org/apache/commons/math4/legacy/stat/data/Mavro.txt</exclude>
 
-            <exclude>src/test/resources/org/apache/commons/math4/stat/distribution/testData.txt</exclude>
-            <exclude>src/test/resources/org/apache/commons/math4/stat/random/emptyFile.txt</exclude>
-            <exclude>src/test/resources/org/apache/commons/math4/stat/data/PiDigits.txt</exclude>
-            <exclude>src/test/resources/org/apache/commons/math4/stat/data/NumAcc3.txt</exclude>
-            <exclude>src/test/resources/org/apache/commons/math4/stat/data/Lew.txt</exclude>
-            <exclude>src/test/resources/org/apache/commons/math4/stat/data/NumAcc2.txt</exclude>
-            <exclude>src/test/resources/org/apache/commons/math4/stat/data/NumAcc1.txt</exclude>
-            <exclude>src/test/resources/org/apache/commons/math4/stat/data/Lottery.txt</exclude>
-            <exclude>src/test/resources/org/apache/commons/math4/stat/data/NumAcc4.txt</exclude>
-            <exclude>src/test/resources/org/apache/commons/math4/stat/data/Michelso.txt</exclude>
-            <exclude>src/test/resources/org/apache/commons/math4/stat/data/Mavro.txt</exclude>
             <!-- direction numbers for Sobol generation from Frances Y. Kuo and Stephen Joe,
                  available under a BSD-style license (see LICENSE.txt) -->
             <exclude>src/main/resources/assets/org/apache/commons/math4/legacy/random/new-joe-kuo-6.21201</exclude>
-            <exclude>src/main/resources/assets/org/apache/commons/math4/utils/random/new-joe-kuo-6.21201</exclude>
 
           </excludes>
         </configuration>
@@ -1071,9 +1054,6 @@
     </contributor>
     <contributor>
       <name>Alex Herbert</name>
-    </contributor>
-    <contributor>
-      <name>Samy Badjoudj</name>
     </contributor>
   </contributors>
 

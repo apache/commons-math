@@ -142,8 +142,8 @@ class FourthMoment extends ThirdMoment implements Serializable{
      */
     public static void copy(FourthMoment source, FourthMoment dest)
         throws NullArgumentException {
-        MathUtils.checkNotNull(source);
-        MathUtils.checkNotNull(dest);
+        NullArgumentException.check(source);
+        NullArgumentException.check(dest);
         ThirdMoment.copy(source, dest);
         dest.m4 = source.m4;
     }

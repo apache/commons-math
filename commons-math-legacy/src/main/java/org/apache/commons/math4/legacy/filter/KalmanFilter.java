@@ -120,14 +120,14 @@ public class KalmanFilter {
             throws NullArgumentException, NonSquareMatrixException, DimensionMismatchException,
                    MatrixDimensionMismatchException {
 
-        MathUtils.checkNotNull(process);
-        MathUtils.checkNotNull(measurement);
+        NullArgumentException.check(process);
+        NullArgumentException.check(measurement);
 
         this.processModel = process;
         this.measurementModel = measurement;
 
         transitionMatrix = processModel.getStateTransitionMatrix();
-        MathUtils.checkNotNull(transitionMatrix);
+        NullArgumentException.check(transitionMatrix);
         transitionMatrixT = transitionMatrix.transpose();
 
         // create an empty matrix if no control matrix was given
@@ -138,16 +138,16 @@ public class KalmanFilter {
         }
 
         measurementMatrix = measurementModel.getMeasurementMatrix();
-        MathUtils.checkNotNull(measurementMatrix);
+        NullArgumentException.check(measurementMatrix);
         measurementMatrixT = measurementMatrix.transpose();
 
         // check that the process and measurement noise matrices are not null
         // they will be directly accessed from the model as they may change
         // over time
         RealMatrix processNoise = processModel.getProcessNoise();
-        MathUtils.checkNotNull(processNoise);
+        NullArgumentException.check(processNoise);
         RealMatrix measNoise = measurementModel.getMeasurementNoise();
-        MathUtils.checkNotNull(measNoise);
+        NullArgumentException.check(measNoise);
 
         // set the initial state estimate to a zero vector if it is not
         // available from the process model
@@ -349,7 +349,7 @@ public class KalmanFilter {
             throws NullArgumentException, DimensionMismatchException, SingularMatrixException {
 
         // sanity checks
-        MathUtils.checkNotNull(z);
+        NullArgumentException.check(z);
         if (z.getDimension() != measurementMatrix.getRowDimension()) {
             throw new DimensionMismatchException(z.getDimension(),
                                                  measurementMatrix.getRowDimension());

@@ -278,7 +278,7 @@ public class ResizableDoubleArray implements DoubleArray, Serializable {
                                                    initialCapacity);
         }
         checkContractExpand(contractionCriterion, expansionFactor);
-        MathUtils.checkNotNull(expansionMode);
+        NullArgumentException.check(expansionMode);
 
         this.expansionFactor = expansionFactor;
         this.contractionCriterion = contractionCriterion;
@@ -304,7 +304,7 @@ public class ResizableDoubleArray implements DoubleArray, Serializable {
      */
     public ResizableDoubleArray(final ResizableDoubleArray original)
         throws NullArgumentException {
-        MathUtils.checkNotNull(original);
+        NullArgumentException.check(original);
         this.contractionCriterion = original.contractionCriterion;
         this.expansionFactor = original.expansionFactor;
         this.expansionMode = original.expansionMode;

@@ -399,4 +399,23 @@ public interface RealFieldElement<T> extends FieldElement<T> {
      */
     T linearCombination(double a1, T b1, double a2, T b2, double a3, T b3, double a4, T b4);
 
+    /** Find the maximum of two field elements.
+     * @param <T> the type of the field elements
+     * @param e1 first element
+     * @param e2 second element
+     * @return max(a1, e2)
+     */
+    public static <T extends RealFieldElement<T>> T max(final T e1, final T e2) {
+        return e1.subtract(e2).getReal() >= 0 ? e1 : e2;
+    }
+
+    /** Find the minimum of two field elements.
+     * @param <T> the type of the field elements
+     * @param e1 first element
+     * @param e2 second element
+     * @return min(a1, e2)
+     */
+    public static <T extends RealFieldElement<T>> T min(final T e1, final T e2) {
+        return e1.subtract(e2).getReal() >= 0 ? e2 : e1;
+    }
 }

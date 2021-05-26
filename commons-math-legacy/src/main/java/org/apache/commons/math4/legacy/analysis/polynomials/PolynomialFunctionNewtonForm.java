@@ -233,8 +233,8 @@ public class PolynomialFunctionNewtonForm implements UnivariateDifferentiableFun
      */
     protected static void verifyInputArray(double a[], double c[])
         throws NullArgumentException, NoDataException, DimensionMismatchException {
-        MathUtils.checkNotNull(a);
-        MathUtils.checkNotNull(c);
+        NullArgumentException.check(a);
+        NullArgumentException.check(c);
         if (a.length == 0 || c.length == 0) {
             throw new NoDataException(LocalizedFormats.EMPTY_POLYNOMIALS_COEFFICIENTS_ARRAY);
         }

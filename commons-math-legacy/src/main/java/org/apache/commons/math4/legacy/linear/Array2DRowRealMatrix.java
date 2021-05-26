@@ -274,7 +274,7 @@ public class Array2DRowRealMatrix extends AbstractRealMatrix implements Serializ
             if (column > 0) {
                 throw new MathIllegalStateException(LocalizedFormats.FIRST_COLUMNS_NOT_INITIALIZED_YET, column);
             }
-            MathUtils.checkNotNull(subMatrix);
+            NullArgumentException.check(subMatrix);
             final int nRows = subMatrix.length;
             if (nRows == 0) {
                 throw new NoDataException(LocalizedFormats.AT_LEAST_ONE_ROW);

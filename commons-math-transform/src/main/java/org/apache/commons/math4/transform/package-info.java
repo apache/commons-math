@@ -14,17 +14,8 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.apache.commons.math4.legacy.transform;
 
 /**
- * This enumeration defines the type of transform which is to be computed.
- *
- * @since 3.0
+ * Implementations of transform methods.
  */
-public enum TransformType {
-    /** The type to be specified for forward transforms. */
-    FORWARD,
-
-    /** The type to be specified for inverse transforms. */
-    INVERSE;
-}
+package org.apache.commons.math4.transform;

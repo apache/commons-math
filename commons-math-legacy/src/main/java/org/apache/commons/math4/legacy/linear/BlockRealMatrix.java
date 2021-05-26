@@ -789,7 +789,7 @@ public class BlockRealMatrix extends AbstractRealMatrix implements Serializable 
         throws OutOfRangeException, NoDataException, NullArgumentException,
         DimensionMismatchException {
         // safety checks
-        MathUtils.checkNotNull(subMatrix);
+        NullArgumentException.check(subMatrix);
         final int refLength = subMatrix[0].length;
         if (refLength == 0) {
             throw new NoDataException(LocalizedFormats.AT_LEAST_ONE_COLUMN);

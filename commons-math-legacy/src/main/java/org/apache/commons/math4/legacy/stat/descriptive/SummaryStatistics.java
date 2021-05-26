@@ -412,15 +412,15 @@ public class SummaryStatistics implements StatisticalSummary, Serializable {
      */
     @Override
     public int hashCode() {
-        int result = 31 + MathUtils.hash(getGeometricMean());
-        result = result * 31 + MathUtils.hash(getGeometricMean());
-        result = result * 31 + MathUtils.hash(getMax());
-        result = result * 31 + MathUtils.hash(getMean());
-        result = result * 31 + MathUtils.hash(getMin());
-        result = result * 31 + MathUtils.hash(getN());
-        result = result * 31 + MathUtils.hash(getSum());
-        result = result * 31 + MathUtils.hash(getSumsq());
-        result = result * 31 + MathUtils.hash(getVariance());
+        int result = 31 + Double.hashCode(getGeometricMean());
+        result = result * 31 + Double.hashCode(getGeometricMean());
+        result = result * 31 + Double.hashCode(getMax());
+        result = result * 31 + Double.hashCode(getMean());
+        result = result * 31 + Double.hashCode(getMin());
+        result = result * 31 + Double.hashCode(getN());
+        result = result * 31 + Double.hashCode(getSum());
+        result = result * 31 + Double.hashCode(getSumsq());
+        result = result * 31 + Double.hashCode(getVariance());
         return result;
     }
 
@@ -699,8 +699,8 @@ public class SummaryStatistics implements StatisticalSummary, Serializable {
      */
     public static void copy(SummaryStatistics source, SummaryStatistics dest)
         throws NullArgumentException {
-        MathUtils.checkNotNull(source);
-        MathUtils.checkNotNull(dest);
+        NullArgumentException.check(source);
+        NullArgumentException.check(dest);
         dest.maxImpl = source.maxImpl.copy();
         dest.minImpl = source.minImpl.copy();
         dest.sumImpl = source.sumImpl.copy();

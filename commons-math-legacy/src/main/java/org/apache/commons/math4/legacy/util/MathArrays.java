@@ -545,7 +545,7 @@ public class MathArrays {
      */
     public static void checkRectangular(final long[][] in)
         throws NullArgumentException, DimensionMismatchException {
-        MathUtils.checkNotNull(in);
+        NullArgumentException.check(in);
         for (int i = 1; i < in.length; i++) {
             if (in[i].length != in[0].length) {
                 throw new DimensionMismatchException(
@@ -993,8 +993,8 @@ public class MathArrays {
     public static double[] convolve(double[] x, double[] h)
         throws NullArgumentException,
                NoDataException {
-        MathUtils.checkNotNull(x);
-        MathUtils.checkNotNull(h);
+        NullArgumentException.check(x);
+        NullArgumentException.check(h);
 
         final int xLen = x.length;
         final int hLen = h.length;

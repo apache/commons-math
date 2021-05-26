@@ -301,7 +301,7 @@ public class Frequency<T extends Comparable<T>> implements Serializable {
      * @since 3.1
      */
     public void merge(final Frequency<T> other) throws NullArgumentException {
-        MathUtils.checkNotNull(other, LocalizedFormats.NULL_NOT_ALLOWED);
+        NullArgumentException.check(other, LocalizedFormats.NULL_NOT_ALLOWED);
 
         final Iterator<Map.Entry<T, Long>> iter = other.entrySetIterator();
         while (iter.hasNext()) {
@@ -320,7 +320,7 @@ public class Frequency<T extends Comparable<T>> implements Serializable {
      * @since 3.1
      */
     public void merge(final Collection<Frequency<T>> others) throws NullArgumentException {
-        MathUtils.checkNotNull(others, LocalizedFormats.NULL_NOT_ALLOWED);
+        NullArgumentException.check(others, LocalizedFormats.NULL_NOT_ALLOWED);
 
         for (final Frequency<T> freq : others) {
             merge(freq);

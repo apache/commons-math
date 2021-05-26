@@ -17,10 +17,10 @@
 package org.apache.commons.math4.legacy.optim.nonlinear.scalar;
 
 import org.apache.commons.math4.legacy.analysis.MultivariateFunction;
+import org.apache.commons.math4.legacy.exception.NullArgumentException;
 import org.apache.commons.math4.legacy.exception.DimensionMismatchException;
 import org.apache.commons.math4.legacy.exception.NumberIsTooSmallException;
 import org.apache.commons.math4.legacy.util.FastMath;
-import org.apache.commons.math4.legacy.util.MathUtils;
 
 /**
  * <p>Adapter extending bounded {@link MultivariateFunction} to an unbouded
@@ -124,9 +124,9 @@ public class MultivariateFunctionPenaltyAdapter
                                               final double offset, final double[] scale) {
 
         // safety checks
-        MathUtils.checkNotNull(lower);
-        MathUtils.checkNotNull(upper);
-        MathUtils.checkNotNull(scale);
+        NullArgumentException.check(lower);
+        NullArgumentException.check(upper);
+        NullArgumentException.check(scale);
         if (lower.length != upper.length) {
             throw new DimensionMismatchException(lower.length, upper.length);
         }

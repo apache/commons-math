@@ -219,8 +219,8 @@ public class Skewness extends AbstractStorelessUnivariateStatistic implements Se
      */
     public static void copy(Skewness source, Skewness dest)
         throws NullArgumentException {
-        MathUtils.checkNotNull(source);
-        MathUtils.checkNotNull(dest);
+        NullArgumentException.check(source);
+        NullArgumentException.check(dest);
         dest.moment = new ThirdMoment(source.moment.copy());
         dest.incMoment = source.incMoment;
     }

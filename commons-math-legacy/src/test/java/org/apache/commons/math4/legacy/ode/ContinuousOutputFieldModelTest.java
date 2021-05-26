@@ -81,11 +81,11 @@ public class ContinuousOutputFieldModelTest {
             T dx = interpolated.getState()[0].subtract(theoreticalY[0]);
             T dy = interpolated.getState()[1].subtract(theoreticalY[1]);
             T error = dx.multiply(dx).add(dy.multiply(dy));
-            maxError = MathUtils.max(maxError, error);
+            maxError = RealFieldElement.max(maxError, error);
             T dxDot = interpolated.getDerivative()[0].subtract(theoreticalYDot[0]);
             T dyDot = interpolated.getDerivative()[1].subtract(theoreticalYDot[1]);
             T errorDot = dxDot.multiply(dxDot).add(dyDot.multiply(dyDot));
-            maxErrorDot = MathUtils.max(maxErrorDot, errorDot);
+            maxErrorDot = RealFieldElement.max(maxErrorDot, errorDot);
         }
 
         Assert.assertEquals(0.0, maxError.getReal(),    1.0e-9);

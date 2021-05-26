@@ -20,6 +20,7 @@ import java.io.Serializable;
 import java.util.Arrays;
 import java.util.BitSet;
 
+import org.apache.commons.math4.legacy.exception.NullArgumentException;
 import org.apache.commons.math4.legacy.exception.MathIllegalArgumentException;
 import org.apache.commons.math4.legacy.exception.NotPositiveException;
 import org.apache.commons.math4.legacy.exception.NumberIsTooLargeException;
@@ -30,7 +31,6 @@ import org.apache.commons.math4.legacy.stat.ranking.NaNStrategy;
 import org.apache.commons.math4.legacy.util.FastMath;
 import org.apache.commons.math4.legacy.util.KthSelector;
 import org.apache.commons.math4.legacy.util.MathArrays;
-import org.apache.commons.math4.legacy.util.MathUtils;
 import org.apache.commons.math4.legacy.util.MedianOf3PivotingStrategy;
 import org.apache.commons.math4.legacy.util.PivotingStrategyInterface;
 import org.apache.commons.numbers.core.Precision;
@@ -163,7 +163,7 @@ public class Percentile extends AbstractUnivariateStatistic implements Serializa
      * Cannot be {@code null}.
      */
     public Percentile(final Percentile original) {
-        MathUtils.checkNotNull(original);
+        NullArgumentException.check(original);
         estimationType   = original.getEstimationType();
         nanStrategy      = original.getNaNStrategy();
         kthSelector      = original.getKthSelector();
@@ -193,9 +193,9 @@ public class Percentile extends AbstractUnivariateStatistic implements Serializa
                          final KthSelector kthSelector) {
         setQuantile(quantile);
         cachedPivots = null;
-        MathUtils.checkNotNull(estimationType);
-        MathUtils.checkNotNull(nanStrategy);
-        MathUtils.checkNotNull(kthSelector);
+        NullArgumentException.check(estimationType);
+        NullArgumentException.check(nanStrategy);
+        NullArgumentException.check(kthSelector);
         this.estimationType = estimationType;
         this.nanStrategy = nanStrategy;
         this.kthSelector = kthSelector;
@@ -1307,7 +1307,7 @@ public class Percentile extends AbstractUnivariateStatistic implements Serializa
          */
         protected double evaluate(final double[] work, final int[] pivotsHeap, final double p,
                                   final KthSelector selector) {
-            MathUtils.checkNotNull(work);
+            NullArgumentException.check(work);
             if (p > 100 || p <= 0) {
                 throw new OutOfRangeException(LocalizedFormats.OUT_OF_BOUNDS_QUANTILE_VALUE,
                                               p, 0, 100);

@@ -198,7 +198,7 @@ public class FieldBracketingNthOrderBrentSolver<T extends RealFieldElement<T>>
         throws NullArgumentException, NoBracketingException {
 
         // Checks.
-        MathUtils.checkNotNull(f);
+        NullArgumentException.check(f);
 
         // Reset.
         evaluations = evaluations.withMaximalCount(maxEval).withStart(0);
