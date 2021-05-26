@@ -17,9 +17,6 @@
 
 package org.apache.commons.math4.legacy.util;
 
-import java.util.Arrays;
-
-import org.apache.commons.math4.legacy.exception.MathArithmeticException;
 import org.apache.commons.math4.legacy.exception.NotFiniteNumberException;
 import org.apache.commons.math4.legacy.exception.NullArgumentException;
 import org.apache.commons.math4.legacy.exception.util.Localizable;
@@ -27,8 +24,6 @@ import org.apache.commons.math4.legacy.exception.util.LocalizedFormats;
 
 /**
  * Miscellaneous utility functions.
- *
- * @see MathArrays
  *
  */
 public final class MathUtils {
