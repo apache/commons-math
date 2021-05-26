@@ -28,12 +28,6 @@ import org.apache.commons.math4.legacy.exception.util.LocalizedFormats;
  */
 public final class MathUtils {
     /**
-     * \(2\pi\)
-     * @since 2.1
-     */
-    public static final double TWO_PI = 2 * FastMath.PI;
-
-    /**
      * \(\pi^2\)
      * @since 3.4
      */
