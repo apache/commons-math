@@ -781,7 +781,7 @@ public class BlockFieldMatrix<T extends FieldElement<T>> extends AbstractFieldMa
         throws DimensionMismatchException, OutOfRangeException,
         NoDataException, NullArgumentException {
         // safety checks
-        MathUtils.checkNotNull(subMatrix);
+        NullArgumentException.check(subMatrix);
         final int refLength = subMatrix[0].length;
         if (refLength == 0) {
             throw new NoDataException(LocalizedFormats.AT_LEAST_ONE_COLUMN);

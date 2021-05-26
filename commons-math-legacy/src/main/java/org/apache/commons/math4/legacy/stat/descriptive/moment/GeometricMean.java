@@ -189,8 +189,8 @@ public class GeometricMean extends AbstractStorelessUnivariateStatistic implemen
      */
     public static void copy(GeometricMean source, GeometricMean dest)
         throws NullArgumentException {
-        MathUtils.checkNotNull(source);
-        MathUtils.checkNotNull(dest);
+        NullArgumentException.check(source);
+        NullArgumentException.check(dest);
         dest.sumOfLogs = source.sumOfLogs.copy();
     }
 

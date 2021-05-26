@@ -156,8 +156,8 @@ class FirstMoment extends AbstractStorelessUnivariateStatistic
      */
     public static void copy(FirstMoment source, FirstMoment dest)
         throws NullArgumentException {
-        MathUtils.checkNotNull(source);
-        MathUtils.checkNotNull(dest);
+        NullArgumentException.check(source);
+        NullArgumentException.check(dest);
         dest.n = source.n;
         dest.m1 = source.m1;
         dest.dev = source.dev;

@@ -79,7 +79,7 @@ public class DiagonalMatrix extends AbstractRealMatrix
      */
     public DiagonalMatrix(final double[] d, final boolean copyArray)
         throws NullArgumentException {
-        MathUtils.checkNotNull(d);
+        NullArgumentException.check(d);
         data = copyArray ? d.clone() : d;
     }
 

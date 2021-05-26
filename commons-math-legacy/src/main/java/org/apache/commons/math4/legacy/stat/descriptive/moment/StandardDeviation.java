@@ -269,8 +269,8 @@ public class StandardDeviation extends AbstractStorelessUnivariateStatistic
      * @throws NullArgumentException if either source or dest is null
      */
     public static void copy(StandardDeviation source, StandardDeviation dest) throws NullArgumentException {
-        MathUtils.checkNotNull(source);
-        MathUtils.checkNotNull(dest);
+        NullArgumentException.check(source);
+        NullArgumentException.check(dest);
         dest.variance = source.variance.copy();
     }
 

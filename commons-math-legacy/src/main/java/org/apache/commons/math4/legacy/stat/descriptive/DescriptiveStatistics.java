@@ -781,8 +781,8 @@ public class DescriptiveStatistics implements StatisticalSummary, Serializable {
      */
     public static void copy(DescriptiveStatistics source, DescriptiveStatistics dest)
         throws NullArgumentException {
-        MathUtils.checkNotNull(source);
-        MathUtils.checkNotNull(dest);
+        NullArgumentException.check(source);
+        NullArgumentException.check(dest);
         // Copy data and window size
         dest.eDA = source.eDA.copy();
         dest.windowSize = source.windowSize;

@@ -217,8 +217,8 @@ public class Kurtosis extends AbstractStorelessUnivariateStatistic  implements S
      */
     public static void copy(Kurtosis source, Kurtosis dest)
         throws NullArgumentException {
-        MathUtils.checkNotNull(source);
-        MathUtils.checkNotNull(dest);
+        NullArgumentException.check(source);
+        NullArgumentException.check(dest);
         dest.moment = source.moment.copy();
         dest.incMoment = source.incMoment;
     }

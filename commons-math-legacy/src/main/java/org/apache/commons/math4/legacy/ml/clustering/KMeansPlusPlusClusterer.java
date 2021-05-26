@@ -17,13 +17,13 @@
 
 package org.apache.commons.math4.legacy.ml.clustering;
 
+import org.apache.commons.math4.legacy.exception.NullArgumentException;
 import org.apache.commons.math4.legacy.exception.ConvergenceException;
 import org.apache.commons.math4.legacy.exception.NumberIsTooSmallException;
 import org.apache.commons.math4.legacy.exception.util.LocalizedFormats;
 import org.apache.commons.math4.legacy.ml.distance.DistanceMeasure;
 import org.apache.commons.math4.legacy.ml.distance.EuclideanDistance;
 import org.apache.commons.math4.legacy.stat.descriptive.moment.Variance;
-import org.apache.commons.math4.legacy.util.MathUtils;
 import org.apache.commons.rng.UniformRandomProvider;
 import org.apache.commons.rng.simple.RandomSource;
 
@@ -179,7 +179,7 @@ public class KMeansPlusPlusClusterer<T extends Clusterable> extends Clusterer<T>
     @Override
     public List<CentroidCluster<T>> cluster(final Collection<T> points) {
         // sanity checks
-        MathUtils.checkNotNull(points);
+        NullArgumentException.check(points);
 
         // number of clusters has to be smaller or equal the number of data points
         if (points.size() < numberOfClusters) {

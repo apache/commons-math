@@ -1009,7 +1009,7 @@ public class MatrixUtils {
     public static RealMatrix inverse(RealMatrix matrix, double threshold)
             throws NullArgumentException, SingularMatrixException, NonSquareMatrixException {
 
-        MathUtils.checkNotNull(matrix);
+        NullArgumentException.check(matrix);
 
         if (!matrix.isSquare()) {
             throw new NonSquareMatrixException(matrix.getRowDimension(),

@@ -192,7 +192,7 @@ public class OneWayAnova {
     private AnovaStats anovaStats(final Collection<double[]> categoryData)
         throws NullArgumentException, DimensionMismatchException {
 
-        MathUtils.checkNotNull(categoryData);
+        NullArgumentException.check(categoryData);
 
         final Collection<SummaryStatistics> categoryDataSummaryStatistics =
                 new ArrayList<>(categoryData.size());
@@ -275,7 +275,7 @@ public class OneWayAnova {
                                   final boolean allowOneElementData)
         throws NullArgumentException, DimensionMismatchException {
 
-        MathUtils.checkNotNull(categoryData);
+        NullArgumentException.check(categoryData);
 
         if (!allowOneElementData) {
             // check if we have enough categories

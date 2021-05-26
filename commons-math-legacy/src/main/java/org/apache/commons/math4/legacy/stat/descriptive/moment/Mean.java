@@ -280,8 +280,8 @@ public class Mean extends AbstractStorelessUnivariateStatistic
      */
     public static void copy(Mean source, Mean dest)
         throws NullArgumentException {
-        MathUtils.checkNotNull(source);
-        MathUtils.checkNotNull(dest);
+        NullArgumentException.check(source);
+        NullArgumentException.check(dest);
         dest.incMoment = source.incMoment;
         dest.moment = source.moment.copy();
     }

@@ -21,6 +21,7 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 
+import org.apache.commons.math4.legacy.exception.NullArgumentException;
 import org.apache.commons.math4.legacy.exception.MathIllegalStateException;
 import org.apache.commons.math4.legacy.exception.NumberIsTooSmallException;
 import org.apache.commons.math4.legacy.linear.MatrixUtils;
@@ -31,7 +32,6 @@ import org.apache.commons.rng.simple.RandomSource;
 import org.apache.commons.rng.UniformRandomProvider;
 import org.apache.commons.math4.legacy.util.FastMath;
 import org.apache.commons.math4.legacy.util.MathArrays;
-import org.apache.commons.math4.legacy.util.MathUtils;
 
 /**
  * Fuzzy K-Means clustering algorithm.
@@ -264,7 +264,7 @@ public class FuzzyKMeansClusterer<T extends Clusterable> extends Clusterer<T> {
     @Override
     public List<CentroidCluster<T>> cluster(final Collection<T> dataPoints) {
         // sanity checks
-        MathUtils.checkNotNull(dataPoints);
+        NullArgumentException.check(dataPoints);
 
         final int size = dataPoints.size();
 

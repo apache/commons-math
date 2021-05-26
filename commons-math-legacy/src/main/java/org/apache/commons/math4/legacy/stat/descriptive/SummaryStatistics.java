@@ -699,8 +699,8 @@ public class SummaryStatistics implements StatisticalSummary, Serializable {
      */
     public static void copy(SummaryStatistics source, SummaryStatistics dest)
         throws NullArgumentException {
-        MathUtils.checkNotNull(source);
-        MathUtils.checkNotNull(dest);
+        NullArgumentException.check(source);
+        NullArgumentException.check(dest);
         dest.maxImpl = source.maxImpl.copy();
         dest.minImpl = source.minImpl.copy();
         dest.sumImpl = source.sumImpl.copy();

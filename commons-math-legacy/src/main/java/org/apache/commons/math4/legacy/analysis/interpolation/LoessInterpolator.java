@@ -468,7 +468,7 @@ public class LoessInterpolator
      */
     private static void checkAllFiniteReal(final double[] values) {
         for (int i = 0; i < values.length; i++) {
-            MathUtils.checkFinite(values[i]);
+            NotFiniteNumberException.check(values[i]);
         }
     }
 }

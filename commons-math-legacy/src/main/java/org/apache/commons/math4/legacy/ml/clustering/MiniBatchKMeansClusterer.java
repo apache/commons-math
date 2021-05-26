@@ -17,9 +17,9 @@
 
 package org.apache.commons.math4.legacy.ml.clustering;
 
+import org.apache.commons.math4.legacy.exception.NullArgumentException;
 import org.apache.commons.math4.legacy.exception.NumberIsTooSmallException;
 import org.apache.commons.math4.legacy.ml.distance.DistanceMeasure;
-import org.apache.commons.math4.legacy.util.MathUtils;
 import org.apache.commons.math4.legacy.util.Pair;
 import org.apache.commons.rng.UniformRandomProvider;
 import org.apache.commons.rng.sampling.ListSampler;
@@ -105,7 +105,7 @@ public class MiniBatchKMeansClusterer<T extends Clusterable>
     @Override
     public List<CentroidCluster<T>> cluster(final Collection<T> points) {
         // Sanity check.
-        MathUtils.checkNotNull(points);
+        NullArgumentException.check(points);
         if (points.size() < getNumberOfClusters()) {
             throw new NumberIsTooSmallException(points.size(), getNumberOfClusters(), false);
         }
@@ -228,7 +228,7 @@ public class MiniBatchKMeansClusterer<T extends Clusterable>
                 closestCentroidCluster = centroidCluster;
             }
         }
-        MathUtils.checkNotNull(closestCentroidCluster);
+        NullArgumentException.check(closestCentroidCluster);
         closestCentroidCluster.addPoint(point);
 
         return minDistance;

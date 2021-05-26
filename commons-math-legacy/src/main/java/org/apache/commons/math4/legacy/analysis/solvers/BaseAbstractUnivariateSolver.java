@@ -18,10 +18,10 @@
 package org.apache.commons.math4.legacy.analysis.solvers;
 
 import org.apache.commons.math4.legacy.analysis.UnivariateFunction;
+import org.apache.commons.math4.legacy.exception.NullArgumentException;
 import org.apache.commons.math4.legacy.exception.MaxCountExceededException;
 import org.apache.commons.math4.legacy.exception.TooManyEvaluationsException;
 import org.apache.commons.math4.legacy.util.IntegerSequence;
-import org.apache.commons.math4.legacy.util.MathUtils;
 
 /**
  * Provide a default implementation for several functions useful to generic
@@ -170,15 +170,14 @@ public abstract class BaseAbstractUnivariateSolver<FUNC extends UnivariateFuncti
      * @param max Upper bound for the interval.
      * @param startValue Start value to use.
      * @param maxEval Maximum number of evaluations.
-     * @throws org.apache.commons.math4.legacy.exception.NullArgumentException
-     * if {@code f} is {@code null}.
+     * @throws NullArgumentException if {@code f} is {@code null}.
      */
     protected void setup(int maxEval,
                          FUNC f,
                          double min, double max,
                          double startValue) {
         // Checks.
-        MathUtils.checkNotNull(f);
+        NullArgumentException.check(f);
 
         // Reset.
         searchMin = min;
@@ -285,8 +284,7 @@ public abstract class BaseAbstractUnivariateSolver<FUNC extends UnivariateFuncti
      *
      * @param lower Lower endpoint.
      * @param upper Upper endpoint.
-     * @throws org.apache.commons.math4.legacy.exception.NullArgumentException
-     * if the function has not been set.
+     * @throws NullArgumentException if the function has not been set.
      * @throws org.apache.commons.math4.legacy.exception.NoBracketingException
      * if the function has the same sign at the endpoints.
      */

@@ -64,7 +64,7 @@ public class PolynomialFunction implements UnivariateDifferentiableFunction, Ser
     public PolynomialFunction(double c[])
         throws NullArgumentException, NoDataException {
         super();
-        MathUtils.checkNotNull(c);
+        NullArgumentException.check(c);
         int n = c.length;
         if (n == 0) {
             throw new NoDataException(LocalizedFormats.EMPTY_POLYNOMIALS_COEFFICIENTS_ARRAY);
@@ -126,7 +126,7 @@ public class PolynomialFunction implements UnivariateDifferentiableFunction, Ser
      */
     protected static double evaluate(double[] coefficients, double argument)
         throws NullArgumentException, NoDataException {
-        MathUtils.checkNotNull(coefficients);
+        NullArgumentException.check(coefficients);
         int n = coefficients.length;
         if (n == 0) {
             throw new NoDataException(LocalizedFormats.EMPTY_POLYNOMIALS_COEFFICIENTS_ARRAY);
@@ -147,7 +147,7 @@ public class PolynomialFunction implements UnivariateDifferentiableFunction, Ser
     @Override
     public DerivativeStructure value(final DerivativeStructure t)
         throws NullArgumentException, NoDataException {
-        MathUtils.checkNotNull(coefficients);
+        NullArgumentException.check(coefficients);
         int n = coefficients.length;
         if (n == 0) {
             throw new NoDataException(LocalizedFormats.EMPTY_POLYNOMIALS_COEFFICIENTS_ARRAY);
@@ -257,7 +257,7 @@ public class PolynomialFunction implements UnivariateDifferentiableFunction, Ser
      */
     protected static double[] differentiate(double[] coefficients)
         throws NullArgumentException, NoDataException {
-        MathUtils.checkNotNull(coefficients);
+        NullArgumentException.check(coefficients);
         int n = coefficients.length;
         if (n == 0) {
             throw new NoDataException(LocalizedFormats.EMPTY_POLYNOMIALS_COEFFICIENTS_ARRAY);

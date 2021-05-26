@@ -98,7 +98,7 @@ public class ArrayFieldVector<T extends FieldElement<T>> implements FieldVector<
      */
     public ArrayFieldVector(T[] d)
             throws NullArgumentException, ZeroException {
-        MathUtils.checkNotNull(d);
+        NullArgumentException.check(d);
         try {
             field = d[0].getField();
             data = d.clone();
@@ -117,7 +117,7 @@ public class ArrayFieldVector<T extends FieldElement<T>> implements FieldVector<
      */
     public ArrayFieldVector(Field<T> field, T[] d)
             throws NullArgumentException {
-        MathUtils.checkNotNull(d);
+        NullArgumentException.check(d);
         this.field = field;
         data = d.clone();
     }
@@ -145,7 +145,7 @@ public class ArrayFieldVector<T extends FieldElement<T>> implements FieldVector<
      */
     public ArrayFieldVector(T[] d, boolean copyArray)
             throws NullArgumentException, ZeroException {
-        MathUtils.checkNotNull(d);
+        NullArgumentException.check(d);
         if (d.length == 0) {
             throw new ZeroException(LocalizedFormats.VECTOR_MUST_HAVE_AT_LEAST_ONE_ELEMENT);
         }
@@ -170,7 +170,7 @@ public class ArrayFieldVector<T extends FieldElement<T>> implements FieldVector<
      */
     public ArrayFieldVector(Field<T> field, T[] d, boolean copyArray)
             throws NullArgumentException {
-        MathUtils.checkNotNull(d);
+        NullArgumentException.check(d);
         this.field = field;
         data = copyArray ? d.clone() :  d;
     }
@@ -187,7 +187,7 @@ public class ArrayFieldVector<T extends FieldElement<T>> implements FieldVector<
      */
     public ArrayFieldVector(T[] d, int pos, int size)
             throws NullArgumentException, NumberIsTooLargeException {
-        MathUtils.checkNotNull(d);
+        NullArgumentException.check(d);
         if (d.length < pos + size) {
             throw new NumberIsTooLargeException(pos + size, d.length, true);
         }
@@ -209,7 +209,7 @@ public class ArrayFieldVector<T extends FieldElement<T>> implements FieldVector<
      */
     public ArrayFieldVector(Field<T> field, T[] d, int pos, int size)
             throws NullArgumentException, NumberIsTooLargeException {
-        MathUtils.checkNotNull(d);
+        NullArgumentException.check(d);
         if (d.length < pos + size) {
             throw new NumberIsTooLargeException(pos + size, d.length, true);
         }
@@ -226,7 +226,7 @@ public class ArrayFieldVector<T extends FieldElement<T>> implements FieldVector<
      */
     public ArrayFieldVector(FieldVector<T> v)
             throws NullArgumentException {
-        MathUtils.checkNotNull(v);
+        NullArgumentException.check(v);
         field = v.getField();
         data = MathArrays.buildArray(field, v.getDimension());
         for (int i = 0; i < data.length; ++i) {
@@ -242,7 +242,7 @@ public class ArrayFieldVector<T extends FieldElement<T>> implements FieldVector<
      */
     public ArrayFieldVector(ArrayFieldVector<T> v)
             throws NullArgumentException {
-        MathUtils.checkNotNull(v);
+        NullArgumentException.check(v);
         field = v.getField();
         data = v.data.clone();
     }
@@ -257,7 +257,7 @@ public class ArrayFieldVector<T extends FieldElement<T>> implements FieldVector<
      */
     public ArrayFieldVector(ArrayFieldVector<T> v, boolean deep)
             throws NullArgumentException {
-        MathUtils.checkNotNull(v);
+        NullArgumentException.check(v);
         field = v.getField();
         data = deep ? v.data.clone() : v.data;
     }
@@ -273,8 +273,8 @@ public class ArrayFieldVector<T extends FieldElement<T>> implements FieldVector<
      */
     public ArrayFieldVector(FieldVector<T> v1, FieldVector<T> v2)
             throws NullArgumentException {
-        MathUtils.checkNotNull(v1);
-        MathUtils.checkNotNull(v2);
+        NullArgumentException.check(v1);
+        NullArgumentException.check(v2);
         field = v1.getField();
         final T[] v1Data =
                 (v1 instanceof ArrayFieldVector) ? ((ArrayFieldVector<T>) v1).data : v1.toArray();
@@ -296,8 +296,8 @@ public class ArrayFieldVector<T extends FieldElement<T>> implements FieldVector<
      */
     public ArrayFieldVector(FieldVector<T> v1, T[] v2)
             throws NullArgumentException {
-        MathUtils.checkNotNull(v1);
-        MathUtils.checkNotNull(v2);
+        NullArgumentException.check(v1);
+        NullArgumentException.check(v2);
         field = v1.getField();
         final T[] v1Data =
                 (v1 instanceof ArrayFieldVector) ? ((ArrayFieldVector<T>) v1).data : v1.toArray();
@@ -317,8 +317,8 @@ public class ArrayFieldVector<T extends FieldElement<T>> implements FieldVector<
      */
     public ArrayFieldVector(T[] v1, FieldVector<T> v2)
             throws NullArgumentException {
-        MathUtils.checkNotNull(v1);
-        MathUtils.checkNotNull(v2);
+        NullArgumentException.check(v1);
+        NullArgumentException.check(v2);
         field = v2.getField();
         final T[] v2Data =
                 (v2 instanceof ArrayFieldVector) ? ((ArrayFieldVector<T>) v2).data : v2.toArray();
@@ -344,8 +344,8 @@ public class ArrayFieldVector<T extends FieldElement<T>> implements FieldVector<
      */
     public ArrayFieldVector(T[] v1, T[] v2)
             throws NullArgumentException, ZeroException {
-        MathUtils.checkNotNull(v1);
-        MathUtils.checkNotNull(v2);
+        NullArgumentException.check(v1);
+        NullArgumentException.check(v2);
         if (v1.length + v2.length == 0) {
             throw new ZeroException(LocalizedFormats.VECTOR_MUST_HAVE_AT_LEAST_ONE_ELEMENT);
         }
@@ -368,8 +368,8 @@ public class ArrayFieldVector<T extends FieldElement<T>> implements FieldVector<
      */
     public ArrayFieldVector(Field<T> field, T[] v1, T[] v2)
             throws NullArgumentException, ZeroException {
-        MathUtils.checkNotNull(v1);
-        MathUtils.checkNotNull(v2);
+        NullArgumentException.check(v1);
+        NullArgumentException.check(v2);
         if (v1.length + v2.length == 0) {
             throw new ZeroException(LocalizedFormats.VECTOR_MUST_HAVE_AT_LEAST_ONE_ELEMENT);
         }
@@ -518,7 +518,7 @@ public class ArrayFieldVector<T extends FieldElement<T>> implements FieldVector<
     @Override
     public FieldVector<T> mapDivide(T d)
         throws NullArgumentException, MathArithmeticException {
-        MathUtils.checkNotNull(d);
+        NullArgumentException.check(d);
         T[] out = MathArrays.buildArray(field, data.length);
         for (int i = 0; i < data.length; i++) {
             out[i] = data[i].divide(d);
@@ -530,7 +530,7 @@ public class ArrayFieldVector<T extends FieldElement<T>> implements FieldVector<
     @Override
     public FieldVector<T> mapDivideToSelf(T d)
         throws NullArgumentException, MathArithmeticException {
-        MathUtils.checkNotNull(d);
+        NullArgumentException.check(d);
         for (int i = 0; i < data.length; i++) {
             data[i] = data[i].divide(d);
         }

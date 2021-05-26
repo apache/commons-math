@@ -25,10 +25,10 @@ import java.util.Map;
 import java.util.Set;
 import java.util.stream.Collectors;
 
+import org.apache.commons.math4.legacy.exception.NullArgumentException;
 import org.apache.commons.math4.legacy.exception.NotPositiveException;
 import org.apache.commons.math4.legacy.ml.distance.DistanceMeasure;
 import org.apache.commons.math4.legacy.ml.distance.EuclideanDistance;
-import org.apache.commons.math4.legacy.util.MathUtils;
 
 /**
  * DBSCAN (density-based spatial clustering of applications with noise) algorithm.
@@ -130,7 +130,7 @@ public class DBSCANClusterer<T extends Clusterable> extends Clusterer<T> {
     @Override
     public List<Cluster<T>> cluster(final Collection<T> points) {
         // sanity checks
-        MathUtils.checkNotNull(points);
+        NullArgumentException.check(points);
 
         final List<Cluster<T>> clusters = new ArrayList<>();
         final Map<Clusterable, PointStatus> visited = new HashMap<>();

@@ -32,11 +32,11 @@ import org.apache.commons.math4.legacy.analysis.interpolation.NevilleInterpolato
 import org.apache.commons.math4.legacy.analysis.interpolation.UnivariateInterpolator;
 import org.apache.commons.math4.legacy.exception.InsufficientDataException;
 import org.apache.commons.math4.legacy.exception.OutOfRangeException;
+import org.apache.commons.math4.legacy.exception.NullArgumentException;
 import org.apache.commons.math4.legacy.exception.util.LocalizedFormats;
 import org.apache.commons.math4.legacy.stat.descriptive.AbstractStorelessUnivariateStatistic;
 import org.apache.commons.math4.legacy.stat.descriptive.StorelessUnivariateStatistic;
 import org.apache.commons.math4.legacy.util.MathArrays;
-import org.apache.commons.math4.legacy.util.MathUtils;
 import org.apache.commons.numbers.core.Precision;
 
 /**
@@ -341,7 +341,7 @@ public class PSquarePercentile extends AbstractStorelessUnivariateStatistic
          * @param theMarkerArray marker array to be used
          */
         private Markers(final Marker[] theMarkerArray) {
-            MathUtils.checkNotNull(theMarkerArray);
+            NullArgumentException.check(theMarkerArray);
             markerArray = theMarkerArray;
             for (int i = 1; i < PSQUARE_CONSTANT; i++) {
                 markerArray[i].previous(markerArray[i - 1])
@@ -680,7 +680,7 @@ public class PSquarePercentile extends AbstractStorelessUnivariateStatistic
          * @return this instance
          */
         private Marker previous(final Marker previousMarker) {
-            MathUtils.checkNotNull(previousMarker);
+            NullArgumentException.check(previousMarker);
             this.previous = previousMarker;
             return this;
         }
@@ -693,7 +693,7 @@ public class PSquarePercentile extends AbstractStorelessUnivariateStatistic
          * @return this instance
          */
         private Marker next(final Marker nextMarker) {
-            MathUtils.checkNotNull(nextMarker);
+            NullArgumentException.check(nextMarker);
             this.next = nextMarker;
             return this;
         }

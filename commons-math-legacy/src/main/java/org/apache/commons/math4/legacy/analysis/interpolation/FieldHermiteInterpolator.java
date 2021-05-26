@@ -92,7 +92,7 @@ public class FieldHermiteInterpolator<T extends FieldElement<T>> {
         throws ZeroException, MathArithmeticException,
                DimensionMismatchException, NullArgumentException {
 
-        MathUtils.checkNotNull(x);
+        NullArgumentException.check(x);
         T factorial = x.getField().getOne();
         for (int i = 0; i < value.length; ++i) {
 
@@ -140,7 +140,7 @@ public class FieldHermiteInterpolator<T extends FieldElement<T>> {
     public T[] value(T x) throws NoDataException, NullArgumentException {
 
         // safety check
-        MathUtils.checkNotNull(x);
+        NullArgumentException.check(x);
         if (abscissae.isEmpty()) {
             throw new NoDataException(LocalizedFormats.EMPTY_INTERPOLATION_SAMPLE);
         }
@@ -171,7 +171,7 @@ public class FieldHermiteInterpolator<T extends FieldElement<T>> {
     public T[][] derivatives(T x, int order) throws NoDataException, NullArgumentException {
 
         // safety check
-        MathUtils.checkNotNull(x);
+        NullArgumentException.check(x);
         if (abscissae.isEmpty()) {
             throw new NoDataException(LocalizedFormats.EMPTY_INTERPOLATION_SAMPLE);
         }

@@ -81,4 +81,31 @@ public class NullArgumentException extends NullPointerException
         return context.getLocalizedMessage();
     }
 
+    /**
+     * Checks that an object is not null.
+     *
+     * @param o Object to be checked.
+     * @param pattern Message pattern.
+     * @param args Arguments to replace the placeholders in {@code pattern}.
+     * @throws NullArgumentException if {@code o} is {@code null}.
+     */
+    public static void check(Object o,
+                             Localizable pattern,
+                             Object ... args) {
+        if (o == null) {
+            throw new NullArgumentException(pattern, args);
+        }
+    }
+
+    /**
+     * Checks that an object is not null.
+     *
+     * @param o Object to be checked.
+     * @throws NullArgumentException if {@code o} is {@code null}.
+     */
+    public static void check(Object o) {
+        if (o == null) {
+            throw new NullArgumentException();
+        }
+    }
 }

@@ -57,7 +57,7 @@ public class KthSelector implements Serializable {
      */
     public KthSelector(final PivotingStrategyInterface pivotingStrategy)
         throws NullArgumentException {
-        MathUtils.checkNotNull(pivotingStrategy);
+        NullArgumentException.check(pivotingStrategy);
         this.pivotingStrategy = pivotingStrategy;
     }
 

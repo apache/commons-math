@@ -104,7 +104,7 @@ public class HaltonSequenceGenerator implements RandomVectorGenerator {
     public HaltonSequenceGenerator(final int dimension, final int[] bases, final int[] weights)
             throws NullArgumentException, OutOfRangeException, DimensionMismatchException {
 
-        MathUtils.checkNotNull(bases);
+        NullArgumentException.check(bases);
 
         if (dimension < 1 || dimension > bases.length) {
             throw new OutOfRangeException(dimension, 1, PRIMES.length);

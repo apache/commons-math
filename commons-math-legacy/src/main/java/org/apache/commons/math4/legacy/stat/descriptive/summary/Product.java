@@ -222,8 +222,8 @@ public class Product extends AbstractStorelessUnivariateStatistic implements Ser
      */
     public static void copy(Product source, Product dest)
         throws NullArgumentException {
-        MathUtils.checkNotNull(source);
-        MathUtils.checkNotNull(dest);
+        NullArgumentException.check(source);
+        NullArgumentException.check(dest);
         dest.n = source.n;
         dest.value = source.value;
     }

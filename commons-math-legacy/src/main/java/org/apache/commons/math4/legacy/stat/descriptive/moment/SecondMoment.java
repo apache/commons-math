@@ -123,8 +123,8 @@ public class SecondMoment extends FirstMoment implements Serializable {
      */
     public static void copy(SecondMoment source, SecondMoment dest)
         throws NullArgumentException {
-        MathUtils.checkNotNull(source);
-        MathUtils.checkNotNull(dest);
+        NullArgumentException.check(source);
+        NullArgumentException.check(dest);
         FirstMoment.copy(source, dest);
         dest.m2 = source.m2;
     }

@@ -618,8 +618,8 @@ public class Variance extends AbstractStorelessUnivariateStatistic implements Se
      */
     public static void copy(Variance source, Variance dest)
         throws NullArgumentException {
-        MathUtils.checkNotNull(source);
-        MathUtils.checkNotNull(dest);
+        NullArgumentException.check(source);
+        NullArgumentException.check(dest);
         dest.moment = source.moment.copy();
         dest.isBiasCorrected = source.isBiasCorrected;
         dest.incMoment = source.incMoment;

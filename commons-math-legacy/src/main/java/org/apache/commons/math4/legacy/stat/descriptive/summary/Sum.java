@@ -216,8 +216,8 @@ public class Sum extends AbstractStorelessUnivariateStatistic implements Seriali
      */
     public static void copy(Sum source, Sum dest)
         throws NullArgumentException {
-        MathUtils.checkNotNull(source);
-        MathUtils.checkNotNull(dest);
+        NullArgumentException.check(source);
+        NullArgumentException.check(dest);
         dest.n = source.n;
         dest.value = source.value;
     }

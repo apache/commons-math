@@ -18,6 +18,7 @@ package org.apache.commons.math4.legacy.analysis.integration;
 
 import org.apache.commons.math4.legacy.analysis.UnivariateFunction;
 import org.apache.commons.math4.legacy.analysis.solvers.UnivariateSolverUtils;
+import org.apache.commons.math4.legacy.exception.NullArgumentException;
 import org.apache.commons.math4.legacy.exception.MaxCountExceededException;
 import org.apache.commons.math4.legacy.exception.NotStrictlyPositiveException;
 import org.apache.commons.math4.legacy.exception.NumberIsTooSmallException;
@@ -224,8 +225,7 @@ public abstract class BaseAbstractUnivariateIntegrator implements UnivariateInte
      * @param f the integrand function
      * @param lower the min bound for the interval
      * @param upper the upper bound for the interval
-     * @throws org.apache.commons.math4.legacy.exception.NullArgumentException
-     * if {@code f} is {@code null}.
+     * @throws NullArgumentException if {@code f} is {@code null}.
      * @throws org.apache.commons.math4.legacy.exception.MathIllegalArgumentException
      * if {@code min >= max}.
      */
@@ -234,7 +234,7 @@ public abstract class BaseAbstractUnivariateIntegrator implements UnivariateInte
                          final double lower, final double upper) {
 
         // Checks.
-        MathUtils.checkNotNull(f);
+        NullArgumentException.check(f);
         UnivariateSolverUtils.verifyInterval(lower, upper);
 
         // Reset.

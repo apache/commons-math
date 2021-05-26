@@ -162,8 +162,8 @@ public class Min extends AbstractStorelessUnivariateStatistic implements Seriali
      */
     public static void copy(Min source, Min dest)
         throws NullArgumentException {
-        MathUtils.checkNotNull(source);
-        MathUtils.checkNotNull(dest);
+        NullArgumentException.check(source);
+        NullArgumentException.check(dest);
         dest.n = source.n;
         dest.value = source.value;
     }

@@ -156,7 +156,7 @@ public class Array2DRowFieldMatrix<T extends FieldElement<T>>
         if (copyArray) {
             copyIn(d);
         } else {
-            MathUtils.checkNotNull(d);
+            NullArgumentException.check(d);
             final int nRows = d.length;
             if (nRows == 0) {
                 throw new NoDataException(LocalizedFormats.AT_LEAST_ONE_ROW);
