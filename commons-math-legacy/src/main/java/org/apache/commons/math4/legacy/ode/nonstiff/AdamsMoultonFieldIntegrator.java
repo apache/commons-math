@@ -401,7 +401,7 @@ public class AdamsMoultonFieldIntegrator<T extends RealFieldElement<T>> extends 
             for (int i = 0; i < after.length; ++i) {
                 after[i] = after[i].add(previous[i].add(scaled[i]));
                 if (i < mainSetDimension) {
-                    final T yScale = MathUtils.max(previous[i].abs(), after[i].abs());
+                    final T yScale = RealFieldElement.max(previous[i].abs(), after[i].abs());
                     final T tol = (vecAbsoluteTolerance == null) ?
                                   yScale.multiply(scalRelativeTolerance).add(scalAbsoluteTolerance) :
                                   yScale.multiply(vecRelativeTolerance[i]).add(vecAbsoluteTolerance[i]);

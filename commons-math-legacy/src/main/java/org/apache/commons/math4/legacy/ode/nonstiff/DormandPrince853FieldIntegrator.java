@@ -435,7 +435,7 @@ public class DormandPrince853FieldIntegrator<T extends RealFieldElement<T>>
                                add(yDotK[10][j].multiply(e2_11)).
                                add(yDotK[11][j].multiply(e2_12));
 
-            final T yScale = MathUtils.max(y0[j].abs(), y1[j].abs());
+            final T yScale = RealFieldElement.max(y0[j].abs(), y1[j].abs());
             final T tol = vecAbsoluteTolerance == null ?
                           yScale.multiply(scalRelativeTolerance).add(scalAbsoluteTolerance) :
                           yScale.multiply(vecRelativeTolerance[j]).add(vecAbsoluteTolerance[j]);

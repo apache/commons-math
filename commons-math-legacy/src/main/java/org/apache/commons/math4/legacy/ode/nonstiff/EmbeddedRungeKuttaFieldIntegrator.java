@@ -300,8 +300,8 @@ public abstract class EmbeddedRungeKuttaFieldIntegrator<T extends RealFieldEleme
                 error = estimateError(yDotK, y, yTmp, getStepSize());
                 if (error.subtract(1.0).getReal() >= 0) {
                     // reject the step and attempt to reduce error by stepsize control
-                    final T factor = MathUtils.min(maxGrowth,
-                                                   MathUtils.max(minReduction, safety.multiply(error.pow(exp))));
+                    final T factor = RealFieldElement.min(maxGrowth,
+                                                   RealFieldElement.max(minReduction, safety.multiply(error.pow(exp))));
                     hNew = filterStep(getStepSize().multiply(factor), forward, false);
                 }
 
@@ -318,8 +318,8 @@ public abstract class EmbeddedRungeKuttaFieldIntegrator<T extends RealFieldEleme
             if (!isLastStep()) {
 
                 // stepsize control for next step
-                final T factor = MathUtils.min(maxGrowth,
-                                               MathUtils.max(minReduction, safety.multiply(error.pow(exp))));
+                final T factor = RealFieldElement.min(maxGrowth,
+                                               RealFieldElement.max(minReduction, safety.multiply(error.pow(exp))));
                 final T  scaledH    = getStepSize().multiply(factor);
                 final T  nextT      = getStepStart().getTime().add(scaledH);
                 final boolean nextIsLast = forward ?

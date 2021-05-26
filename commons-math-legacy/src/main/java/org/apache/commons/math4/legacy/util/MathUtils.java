@@ -19,7 +19,6 @@ package org.apache.commons.math4.legacy.util;
 
 import java.util.Arrays;
 
-import org.apache.commons.math4.legacy.RealFieldElement;
 import org.apache.commons.math4.legacy.exception.MathArithmeticException;
 import org.apache.commons.math4.legacy.exception.NotFiniteNumberException;
 import org.apache.commons.math4.legacy.exception.NullArgumentException;
@@ -50,28 +49,6 @@ public final class MathUtils {
      * Class contains only static methods.
      */
     private MathUtils() {}
-
-     /** Find the maximum of two field elements.
-      * @param <T> the type of the field elements
-      * @param e1 first element
-      * @param e2 second element
-      * @return max(a1, e2)
-      * @since 3.6
-      */
-     public static <T extends RealFieldElement<T>> T max(final T e1, final T e2) {
-         return e1.subtract(e2).getReal() >= 0 ? e1 : e2;
-     }
-
-     /** Find the minimum of two field elements.
-      * @param <T> the type of the field elements
-      * @param e1 first element
-      * @param e2 second element
-      * @return min(a1, e2)
-      * @since 3.6
-      */
-     public static <T extends RealFieldElement<T>> T min(final T e1, final T e2) {
-         return e1.subtract(e2).getReal() >= 0 ? e2 : e1;
-     }
 
     /**
      * <p>Reduce {@code |a - offset|} to the primary interval

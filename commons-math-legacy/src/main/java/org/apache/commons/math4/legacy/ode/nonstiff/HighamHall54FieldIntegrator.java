@@ -192,7 +192,7 @@ public class HighamHall54FieldIntegrator<T extends RealFieldElement<T>>
                 errSum = errSum.add(yDotK[l][j].multiply(e[l]));
             }
 
-            final T yScale = MathUtils.max(y0[j].abs(), y1[j].abs());
+            final T yScale = RealFieldElement.max(y0[j].abs(), y1[j].abs());
             final T tol    = (vecAbsoluteTolerance == null) ?
                              yScale.multiply(scalRelativeTolerance).add(scalAbsoluteTolerance) :
                              yScale.multiply(vecRelativeTolerance[j]).add(vecAbsoluteTolerance[j]);

@@ -82,11 +82,11 @@ public class TestFieldProblemHandler<T extends RealFieldElement<T>>
             if (expectedStepStart != null) {
                 // the step should either start at the end of the integrator step
                 // or at an event if the step is split into several substeps
-                T stepError = MathUtils.max(maxTimeError, start.subtract(expectedStepStart).abs());
+                T stepError = RealFieldElement.max(maxTimeError, start.subtract(expectedStepStart).abs());
                 for (T eventTime : problem.getTheoreticalEventsTimes()) {
-                    stepError = MathUtils.min(stepError, start.subtract(eventTime).abs());
+                    stepError = RealFieldElement.min(stepError, start.subtract(eventTime).abs());
                 }
-                maxTimeError = MathUtils.max(maxTimeError, stepError);
+                maxTimeError = RealFieldElement.max(maxTimeError, stepError);
             }
             expectedStepStart = start.add(integrator.getCurrentSignedStepsize());
         }
@@ -101,7 +101,7 @@ public class TestFieldProblemHandler<T extends RealFieldElement<T>>
             T[] theoreticalY  = problem.computeTheoreticalState(cT);
             for (int i = 0; i < interpolatedY.length; ++i) {
                 T error = interpolatedY[i].subtract(theoreticalY[i]).abs();
-                lastError = MathUtils.max(error, lastError);
+                lastError = RealFieldElement.max(error, lastError);
             }
             lastTime = cT;
         }
@@ -116,7 +116,7 @@ public class TestFieldProblemHandler<T extends RealFieldElement<T>>
             // update the errors
             for (int i = 0; i < interpolatedY.length; ++i) {
                 T error = errorScale[i].multiply(interpolatedY[i].subtract(theoreticalY[i]).abs());
-                maxValueError = MathUtils.max(error, maxValueError);
+                maxValueError = RealFieldElement.max(error, maxValueError);
             }
         }
     }
