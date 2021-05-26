@@ -30,7 +30,6 @@ import java.util.TreeMap;
 
 import org.apache.commons.math4.legacy.exception.NullArgumentException;
 import org.apache.commons.math4.legacy.exception.util.LocalizedFormats;
-import org.apache.commons.math4.legacy.util.MathUtils;
 
 /**
  * Maintains a frequency distribution.

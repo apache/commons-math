@@ -19,7 +19,6 @@ package org.apache.commons.math4.legacy.stat.descriptive.moment;
 import java.io.Serializable;
 
 import org.apache.commons.math4.legacy.exception.NullArgumentException;
-import org.apache.commons.math4.legacy.util.MathUtils;
 
 /**
  * Computes a statistic related to the Second Central Moment.  Specifically,

@@ -18,7 +18,6 @@ package org.apache.commons.math4.legacy.stat.descriptive;
 
 import org.apache.commons.math4.legacy.exception.MathIllegalStateException;
 import org.apache.commons.math4.legacy.exception.NullArgumentException;
-import org.apache.commons.math4.legacy.util.MathUtils;
 
 /**
  * Implementation of

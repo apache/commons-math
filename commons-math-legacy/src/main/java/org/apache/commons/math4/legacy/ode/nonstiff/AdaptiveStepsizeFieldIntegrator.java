@@ -29,7 +29,6 @@ import org.apache.commons.math4.legacy.ode.FieldODEState;
 import org.apache.commons.math4.legacy.ode.FieldODEStateAndDerivative;
 import org.apache.commons.math4.legacy.util.FastMath;
 import org.apache.commons.math4.legacy.util.MathArrays;
-import org.apache.commons.math4.legacy.util.MathUtils;
 
 /**
  * This abstract class holds the common part of all adaptive

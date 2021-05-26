@@ -31,7 +31,6 @@ import org.apache.commons.math4.legacy.stat.descriptive.summary.Sum;
 import org.apache.commons.math4.legacy.stat.descriptive.summary.SumOfLogs;
 import org.apache.commons.math4.legacy.stat.descriptive.summary.SumOfSquares;
 import org.apache.commons.math4.legacy.util.FastMath;
-import org.apache.commons.math4.legacy.util.MathUtils;
 import org.apache.commons.numbers.core.Precision;
 
 /**

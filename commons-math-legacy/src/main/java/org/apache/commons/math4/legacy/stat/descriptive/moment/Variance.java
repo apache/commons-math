@@ -24,7 +24,6 @@ import org.apache.commons.math4.legacy.exception.util.LocalizedFormats;
 import org.apache.commons.math4.legacy.stat.descriptive.AbstractStorelessUnivariateStatistic;
 import org.apache.commons.math4.legacy.stat.descriptive.WeightedEvaluation;
 import org.apache.commons.math4.legacy.util.MathArrays;
-import org.apache.commons.math4.legacy.util.MathUtils;
 
 /**
  * Computes the variance of the available values.  By default, the unbiased

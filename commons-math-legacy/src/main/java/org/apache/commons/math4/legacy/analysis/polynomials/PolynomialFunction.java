@@ -26,7 +26,6 @@ import org.apache.commons.math4.legacy.exception.NoDataException;
 import org.apache.commons.math4.legacy.exception.NullArgumentException;
 import org.apache.commons.math4.legacy.exception.util.LocalizedFormats;
 import org.apache.commons.math4.legacy.util.FastMath;
-import org.apache.commons.math4.legacy.util.MathUtils;
 
 /**
  * Immutable representation of a real polynomial function with real coefficients.

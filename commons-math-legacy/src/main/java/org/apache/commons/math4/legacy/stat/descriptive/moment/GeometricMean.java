@@ -26,7 +26,6 @@ import org.apache.commons.math4.legacy.stat.descriptive.AbstractStorelessUnivari
 import org.apache.commons.math4.legacy.stat.descriptive.StorelessUnivariateStatistic;
 import org.apache.commons.math4.legacy.stat.descriptive.summary.SumOfLogs;
 import org.apache.commons.math4.legacy.util.FastMath;
-import org.apache.commons.math4.legacy.util.MathUtils;
 
 /**
  * Returns the <a href="http://www.xycoon.com/geometric_mean.htm">

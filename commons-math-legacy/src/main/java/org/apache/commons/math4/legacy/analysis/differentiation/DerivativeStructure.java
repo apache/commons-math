@@ -28,7 +28,6 @@ import org.apache.commons.math4.legacy.exception.MathArithmeticException;
 import org.apache.commons.math4.legacy.exception.NumberIsTooLargeException;
 import org.apache.commons.math4.legacy.util.FastMath;
 import org.apache.commons.math4.legacy.util.MathArrays;
-import org.apache.commons.math4.legacy.util.MathUtils;
 
 /** Class representing both the value and the differentials of a function.
  * <p>This class is the workhorse of the differentiation package.</p>

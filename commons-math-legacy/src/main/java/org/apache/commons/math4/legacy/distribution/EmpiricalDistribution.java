@@ -43,7 +43,6 @@ import org.apache.commons.math4.legacy.exception.util.LocalizedFormats;
 import org.apache.commons.math4.legacy.stat.descriptive.StatisticalSummary;
 import org.apache.commons.math4.legacy.stat.descriptive.SummaryStatistics;
 import org.apache.commons.math4.legacy.util.FastMath;
-import org.apache.commons.math4.legacy.util.MathUtils;
 
 /**
  * <p>Represents an <a href="http://en.wikipedia.org/wiki/Empirical_distribution_function">

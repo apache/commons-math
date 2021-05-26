@@ -22,7 +22,6 @@ import org.apache.commons.math4.legacy.exception.DimensionMismatchException;
 import org.apache.commons.math4.legacy.exception.NoDataException;
 import org.apache.commons.math4.legacy.exception.NullArgumentException;
 import org.apache.commons.math4.legacy.exception.util.LocalizedFormats;
-import org.apache.commons.math4.legacy.util.MathUtils;
 
 /**
  * Implements the representation of a real polynomial function in

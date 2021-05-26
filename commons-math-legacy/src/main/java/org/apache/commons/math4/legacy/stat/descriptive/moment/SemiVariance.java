@@ -23,7 +23,6 @@ import org.apache.commons.math4.legacy.exception.MathIllegalArgumentException;
 import org.apache.commons.math4.legacy.exception.NullArgumentException;
 import org.apache.commons.math4.legacy.stat.descriptive.AbstractUnivariateStatistic;
 import org.apache.commons.math4.legacy.util.MathArrays;
-import org.apache.commons.math4.legacy.util.MathUtils;
 
 /**
  * <p>Computes the semivariance of a set of values with respect to a given cutoff value.

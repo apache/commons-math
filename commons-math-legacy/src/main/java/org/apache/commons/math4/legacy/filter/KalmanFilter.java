@@ -27,7 +27,6 @@ import org.apache.commons.math4.legacy.linear.NonSquareMatrixException;
 import org.apache.commons.math4.legacy.linear.RealMatrix;
 import org.apache.commons.math4.legacy.linear.RealVector;
 import org.apache.commons.math4.legacy.linear.SingularMatrixException;
-import org.apache.commons.math4.legacy.util.MathUtils;
 
 /**
  * Implementation of a Kalman filter to estimate the state <i>x<sub>k</sub></i>

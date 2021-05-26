@@ -20,7 +20,6 @@ import java.io.Serializable;
 
 import org.apache.commons.math4.legacy.exception.NullArgumentException;
 import org.apache.commons.math4.legacy.stat.descriptive.AbstractStorelessUnivariateStatistic;
-import org.apache.commons.math4.legacy.util.MathUtils;
 
 /**
  * Computes the first moment (arithmetic mean).  Uses the definitional formula:

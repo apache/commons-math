@@ -30,7 +30,6 @@ import org.apache.commons.math4.legacy.ode.sampling.FieldStepInterpolator;
 import org.apache.commons.math4.legacy.util.Decimal64Field;
 import org.apache.commons.math4.legacy.util.FastMath;
 import org.apache.commons.math4.legacy.util.MathArrays;
-import org.apache.commons.math4.legacy.util.MathUtils;
 import org.junit.Assert;
 import org.junit.Test;
 

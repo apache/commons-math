@@ -27,7 +27,6 @@ import org.apache.commons.math4.legacy.exception.NullArgumentException;
 import org.apache.commons.math4.legacy.exception.OutOfRangeException;
 import org.apache.commons.math4.legacy.exception.util.LocalizedFormats;
 import org.apache.commons.math4.legacy.stat.descriptive.SummaryStatistics;
-import org.apache.commons.math4.legacy.util.MathUtils;
 
 /**
  * Implements one-way ANOVA (analysis of variance) statistics.

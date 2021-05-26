@@ -28,7 +28,6 @@ import org.apache.commons.math4.legacy.FieldElement;
 import org.apache.commons.math4.legacy.RealFieldElement;
 import org.apache.commons.math4.legacy.exception.DimensionMismatchException;
 import org.apache.commons.math4.legacy.util.FastMath;
-import org.apache.commons.math4.legacy.util.MathUtils;
 
 /**
  * First derivative computation with large number of variables.

@@ -20,7 +20,6 @@ import org.apache.commons.math4.legacy.exception.DimensionMismatchException;
 import org.apache.commons.math4.legacy.exception.NotPositiveException;
 import org.apache.commons.math4.legacy.exception.NullArgumentException;
 import org.apache.commons.math4.legacy.exception.OutOfRangeException;
-import org.apache.commons.math4.legacy.util.MathUtils;
 
 /**
  * Implementation of a Halton sequence.
