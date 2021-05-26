@@ -227,8 +227,8 @@ public class FastFourierTransform implements ComplexTransform {
         int lastN0 = 4;
         int lastLogN0 = 2;
         while (lastN0 < n) {
-            int n0 = lastN0 << 1;
-            int logN0 = lastLogN0 + 1;
+            final int n0 = lastN0 << 1;
+            final int logN0 = lastLogN0 + 1;
             double wSubN0R = W_SUB_N_R[logN0];
             double wSubN0I = W_SUB_N_I[logN0];
             if (inverse) {
@@ -253,12 +253,14 @@ public class FastFourierTransform implements ComplexTransform {
                     final double hrR = dataR[destOddStartIndexPlusR];
                     final double hrI = dataI[destOddStartIndexPlusR];
 
+                    final double a = wSubN0ToRR * hrR - wSubN0ToRI * hrI;
+                    final double b = wSubN0ToRR * hrI + wSubN0ToRI * hrR;
                     // dest[destEvenStartIndex + r] = Gr + WsubN0ToR * Hr
-                    dataR[destEvenStartIndexPlusR] = grR + wSubN0ToRR * hrR - wSubN0ToRI * hrI;
-                    dataI[destEvenStartIndexPlusR] = grI + wSubN0ToRR * hrI + wSubN0ToRI * hrR;
+                    dataR[destEvenStartIndexPlusR] = grR + a;
+                    dataI[destEvenStartIndexPlusR] = grI + b;
                     // dest[destOddStartIndex + r] = Gr - WsubN0ToR * Hr
-                    dataR[destOddStartIndexPlusR] = grR - (wSubN0ToRR * hrR - wSubN0ToRI * hrI);
-                    dataI[destOddStartIndexPlusR] = grI - (wSubN0ToRR * hrI + wSubN0ToRI * hrR);
+                    dataR[destOddStartIndexPlusR] = grR - a;
+                    dataI[destOddStartIndexPlusR] = grI - b;
 
                     // WsubN0ToR *= WsubN0R
                     final double nextWsubN0ToRR = wSubN0ToRR * wSubN0R - wSubN0ToRI * wSubN0I;
