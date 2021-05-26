@@ -108,7 +108,6 @@
     <module>commons-math-neuralnet</module>
     <module>commons-math-transform</module>
     <!-- Modules that do not depend on "legacy" codes. -->
-    <module>commons-math-neuralnet</module>
     <module>commons-math-utils</module>
     <module>commons-math-linear</module>
     <module>commons-math-clustering</module>
@@ -403,6 +402,7 @@
             <!-- direction numbers for Sobol generation from Frances Y. Kuo and Stephen Joe,
                  available under a BSD-style license (see LICENSE.txt) -->
             <exclude>src/main/resources/assets/org/apache/commons/math4/legacy/random/new-joe-kuo-6.21201</exclude>
+            <exclude>src/main/resources/assets/org/apache/commons/math4/utils/random/new-joe-kuo-6.21201</exclude>
 
           </excludes>
         </configuration>
