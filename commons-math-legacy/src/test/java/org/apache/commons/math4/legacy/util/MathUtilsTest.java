@@ -13,18 +13,10 @@
  */
 package org.apache.commons.math4.legacy.util;
 
-import org.apache.commons.numbers.angle.PlaneAngleRadians;
-import org.apache.commons.statistics.distribution.ContinuousDistribution;
-import org.apache.commons.statistics.distribution.UniformContinuousDistribution;
-import org.apache.commons.math4.legacy.exception.MathArithmeticException;
-import org.apache.commons.math4.legacy.exception.NotFiniteNumberException;
-import org.apache.commons.math4.legacy.exception.NullArgumentException;
-import org.apache.commons.math4.legacy.exception.util.LocalizedFormats;
-import org.apache.commons.rng.UniformRandomProvider;
-import org.apache.commons.rng.simple.RandomSource;
-import org.apache.commons.rng.sampling.PermutationSampler;
 import org.junit.Assert;
 import org.junit.Test;
+
+import org.apache.commons.numbers.angle.PlaneAngleRadians;
 
 /**
  * Test cases for the MathUtils class.
