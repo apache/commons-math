@@ -29,10 +29,7 @@ import org.apache.commons.math4.legacy.exception.util.LocalizedFormats;
 import org.apache.commons.math4.legacy.stat.descriptive.AbstractUnivariateStatistic;
 import org.apache.commons.math4.legacy.stat.ranking.NaNStrategy;
 import org.apache.commons.math4.legacy.util.FastMath;
-import org.apache.commons.math4.legacy.util.KthSelector;
 import org.apache.commons.math4.legacy.util.MathArrays;
-import org.apache.commons.math4.legacy.util.MedianOf3PivotingStrategy;
-import org.apache.commons.math4.legacy.util.PivotingStrategyInterface;
 import org.apache.commons.numbers.core.Precision;
 
 /**

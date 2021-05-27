@@ -27,7 +27,7 @@ import org.apache.commons.math4.legacy.ode.nonstiff.DormandPrince54FieldIntegrat
 import org.apache.commons.math4.legacy.ode.nonstiff.DormandPrince853FieldIntegrator;
 import org.apache.commons.math4.legacy.ode.sampling.DummyFieldStepInterpolator;
 import org.apache.commons.math4.legacy.ode.sampling.FieldStepInterpolator;
-import org.apache.commons.math4.legacy.util.Decimal64Field;
+import org.apache.commons.math4.legacy.ode.nonstiff.Decimal64Field;
 import org.apache.commons.math4.legacy.util.FastMath;
 import org.apache.commons.math4.legacy.util.MathArrays;
 import org.junit.Assert;

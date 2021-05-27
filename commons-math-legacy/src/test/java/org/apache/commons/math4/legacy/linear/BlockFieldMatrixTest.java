@@ -29,8 +29,6 @@ import org.apache.commons.math4.legacy.exception.NullArgumentException;
 import org.apache.commons.math4.legacy.exception.NumberIsTooSmallException;
 import org.apache.commons.math4.legacy.exception.OutOfRangeException;
 import org.apache.commons.math4.legacy.dfp.Dfp;
-import org.apache.commons.math4.legacy.util.BigReal;
-import org.apache.commons.math4.legacy.util.BigRealField;
 
 /**
  * Test cases for the {@link BlockFieldMatrix} class.
