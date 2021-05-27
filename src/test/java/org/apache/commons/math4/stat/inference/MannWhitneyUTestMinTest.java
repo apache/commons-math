@@ -27,7 +27,7 @@ import org.junit.Test;
  *
  */
 
-public class MannWhitneyUTestTest {
+public class MannWhitneyUTestMinTest {
 
     protected MannWhitneyUTest testStatistic = new MannWhitneyUTest();
 
@@ -42,8 +42,8 @@ public class MannWhitneyUTestTest {
         final double x[] = {19, 22, 16, 29, 24};
         final double y[] = {20, 11, 17, 12};
 
-        Assert.assertEquals(17, testStatistic.mannWhitneyUMax(x, y), 1e-10);
-        Assert.assertEquals(0.08641, testStatistic.mannWhitneyUTestMax(x, y), 1e-5);
+        Assert.assertEquals(17, testStatistic.mannWhitneyUMin(x, y), 1e-10);
+        Assert.assertEquals(0.08641, testStatistic.mannWhitneyUTestMin(x, y), 1e-5);
     }
 
 
@@ -52,14 +52,14 @@ public class MannWhitneyUTestTest {
         /* Samples must be present, i.e. length > 0
          */
         try {
-            testStatistic.mannWhiteneyUTestMax(new double[] { }, new double[] { 1.0 });
+            testStatistic.mannWhiteneyUTestMin(new double[] { }, new double[] { 1.0 });
             Assert.fail("x does not contain samples (exact), NoDataException expected");
         } catch (NoDataException ex) {
             // expected
         }
 
         try {
-            testStatistic.mannWhiteneyUTestMax(new double[] { 1.0 }, new double[] { });
+            testStatistic.mannWhiteneyUTestMin(new double[] { 1.0 }, new double[] { });
             Assert.fail("y does not contain samples (exact), NoDataException expected");
         } catch (NoDataException ex) {
             // expected
@@ -69,14 +69,14 @@ public class MannWhitneyUTestTest {
          * x and y is null
          */
         try {
-            testStatistic.mannWhiteneyUTestMax(null, null);
+            testStatistic.mannWhiteneyUTestMin(null, null);
             Assert.fail("x and y is null (exact), NullArgumentException expected");
         } catch (NullArgumentException ex) {
             // expected
         }
 
         try {
-            testStatistic.mannWhiteneyUTestMax(null, null);
+            testStatistic.mannWhiteneyUTestMin(null, null);
             Assert.fail("x and y is null (asymptotic), NullArgumentException expected");
         } catch (NullArgumentException ex) {
             // expected
@@ -86,14 +86,14 @@ public class MannWhitneyUTestTest {
          * x or y is null
          */
         try {
-            testStatistic.mannWhiteneyUTestMax(null, new double[] { 1.0 });
+            testStatistic.mannWhiteneyUTestMin(null, new double[] { 1.0 });
             Assert.fail("x is null (exact), NullArgumentException expected");
         } catch (NullArgumentException ex) {
             // expected
         }
 
         try {
-            testStatistic.mannWhiteneyUTestMax(new double[] { 1.0 }, null);
+            testStatistic.mannWhiteneyUTestMin(new double[] { 1.0 }, null);
             Assert.fail("y is null (exact), NullArgumentException expected");
         } catch (NullArgumentException ex) {
             // expected
@@ -108,7 +108,7 @@ public class MannWhitneyUTestTest {
             d1[i] = 2 * i;
             d2[i] = 2 * i + 1;
         }
-        double result = testStatistic.mannWhiteneyUTestMax(d1, d2);
+        double result = testStatistic.mannWhiteneyUTestMin(d1, d2);
         Assert.assertTrue(result > 0.1);
     }
 
@@ -121,7 +121,7 @@ public class MannWhitneyUTestTest {
             d1[i] = i;
             d2[i] = i;
         }
-        double result = testStatistic.mannWhiteneyUTestMax(d1, d2);
+        double result = testStatistic.mannWhiteneyUTestMin(d1, d2);
         Assert.assertTrue(result == 1.0);
     }
 }

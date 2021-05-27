@@ -117,11 +117,71 @@ public class MannWhitneyUTest {
      *
      * @param x the first sample
      * @param y the second sample
+     * @return Mann-Whitney U statistic (minimum of U<sup>x</sup> and U<sup>y</sup>)
+     * @throws NullArgumentException if {@code x} or {@code y} are {@code null}.
+     * @throws NoDataException if {@code x} or {@code y} are zero-length.
+     */
+    public double mannWhitneyUMin(final double[] x, final double[] y)
+        throws NullArgumentException, NoDataException {
+
+        ensureDataConformance(x, y);
+
+        final double[] z = concatenateSamples(x, y);
+        final double[] ranks = naturalRanking.rank(z);
+
+        double sumRankX = 0;
+
+        /*
+         * The ranks for x is in the first x.length entries in ranks because x
+         * is in the first x.length entries in z
+         */
+        for (int i = 0; i < x.length; ++i) {
+            sumRankX += ranks[i];
+        }
+
+        /*
+         * U1 = R1 - (n1 * (n1 + 1)) / 2 where R1 is sum of ranks for sample 1,
+         * e.g. x, n1 is the number of observations in sample 1.
+         */
+        final double U1 = sumRankX - ((long) x.length * (x.length + 1)) / 2;
+
+        /*
+         * It can be shown that U1 + U2 = n1 * n2
+         */
+        final double U2 = (long) x.length * y.length - U1;
+
+        return FastMath.min(U1, U2);
+    }
+
+
+    /**
+     * Computes the <a
+     * href="http://en.wikipedia.org/wiki/Mann%E2%80%93Whitney_U"> Mann-Whitney
+     * U statistic</a> comparing mean for two independent samples possibly of
+     * different length.
+     * <p>
+     * This statistic can be used to perform a Mann-Whitney U test evaluating
+     * the null hypothesis that the two independent samples has equal mean.
+     * </p>
+     * <p>
+     * Let X<sub>i</sub> denote the i'th individual of the first sample and
+     * Y<sub>j</sub> the j'th individual in the second sample. Note that the
+     * samples would often have different length.
+     * </p>
+     * <p>
+     * <strong>Preconditions</strong>:
+     * <ul>
+     * <li>All observations in the two samples are independent.</li>
+     * <li>The observations are at least ordinal (continuous are also ordinal).</li>
+     * </ul>
+     *
+     * @param x the first sample
+     * @param y the second sample
      * @return Mann-Whitney U statistic (maximum of U<sup>x</sup> and U<sup>y</sup>)
      * @throws NullArgumentException if {@code x} or {@code y} are {@code null}.
      * @throws NoDataException if {@code x} or {@code y} are zero-length.
      */
-    public double mannWhitneyU(final double[] x, final double[] y)
+    public double mannWhitneyUMax(final double[] x, final double[] y)
         throws NullArgumentException, NoDataException {
 
         ensureDataConformance(x, y);
@@ -223,7 +283,7 @@ public class MannWhitneyUTest {
 
         ensureDataConformance(x, y);
 
-        final double Umax = mannWhitneyU(x, y);
+        final double Umax = mannWhitneyUMax(x, y);
 
         /*
          * It can be shown that U1 + U2 = n1 * n2
