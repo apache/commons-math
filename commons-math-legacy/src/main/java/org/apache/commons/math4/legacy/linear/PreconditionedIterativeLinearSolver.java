@@ -19,6 +19,7 @@ package org.apache.commons.math4.legacy.linear;
 import org.apache.commons.math4.legacy.exception.DimensionMismatchException;
 import org.apache.commons.math4.legacy.exception.MaxCountExceededException;
 import org.apache.commons.math4.legacy.exception.NullArgumentException;
+import org.apache.commons.math4.legacy.util.IntegerSequence;
 
 /**
  * <p>

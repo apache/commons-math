@@ -25,7 +25,7 @@ import org.apache.commons.math4.legacy.linear.ArrayRealVector;
 import org.apache.commons.math4.legacy.linear.RealMatrix;
 import org.apache.commons.math4.legacy.optim.ConvergenceChecker;
 import org.apache.commons.math4.legacy.util.FastMath;
-import org.apache.commons.math4.legacy.linear.IntegerSequence;
+import org.apache.commons.math4.legacy.util.IntegerSequence;
 import org.apache.commons.numbers.core.Precision;
 
 

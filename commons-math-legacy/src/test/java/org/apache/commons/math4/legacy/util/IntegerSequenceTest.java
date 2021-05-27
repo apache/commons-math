@@ -20,7 +20,6 @@ import org.apache.commons.math4.legacy.exception.MaxCountExceededException;
 import org.apache.commons.math4.legacy.exception.TooManyEvaluationsException;
 import org.apache.commons.math4.legacy.exception.NotStrictlyPositiveException;
 import org.apache.commons.math4.legacy.exception.ZeroException;
-import org.apache.commons.math4.legacy.linear.IntegerSequence;
 import org.junit.Assert;
 import org.junit.Test;
 

@@ -18,7 +18,7 @@ package org.apache.commons.math4.legacy.optim;
 
 import org.apache.commons.math4.legacy.exception.TooManyEvaluationsException;
 import org.apache.commons.math4.legacy.exception.TooManyIterationsException;
-import org.apache.commons.math4.legacy.linear.IntegerSequence;
+import org.apache.commons.math4.legacy.util.IntegerSequence;
 
 /**
  * Base class for implementing optimizers.

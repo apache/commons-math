@@ -16,7 +16,6 @@
  */
 package org.apache.commons.math4.legacy.stat.descriptive;
 
-import org.apache.commons.math4.legacy.util.DoubleArrayAbstractTest;
 import org.apache.commons.math4.legacy.util.MathArrays;
 import org.apache.commons.statistics.distribution.DiscreteDistribution;
 import org.apache.commons.statistics.distribution.UniformDiscreteDistribution;

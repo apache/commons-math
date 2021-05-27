@@ -14,7 +14,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.apache.commons.math4.legacy.util;
+package org.apache.commons.math4.legacy.linear;
 
 import java.util.ConcurrentModificationException;
 import java.util.HashMap;

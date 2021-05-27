@@ -15,7 +15,7 @@
  * limitations under the License.
  */
 
-package org.apache.commons.math4.legacy.util;
+package org.apache.commons.math4.legacy.stat.descriptive;
 
 import java.math.BigDecimal;
 

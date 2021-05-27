@@ -15,11 +15,9 @@
  * limitations under the License.
  */
 
-package org.apache.commons.math4.legacy.util;
+package org.apache.commons.math4.legacy.stat.descriptive;
 
 import org.apache.commons.math4.legacy.TestUtils;
-import org.apache.commons.math4.legacy.stat.descriptive.TransformerMap;
-import org.apache.commons.math4.legacy.stat.descriptive.UnivariateStatistic;
 import org.junit.Assert;
 import org.junit.Test;
 

@@ -16,7 +16,7 @@
  */
 package org.apache.commons.math4.legacy.linear;
 
-import org.apache.commons.math4.legacy.util.IterationEvent;
+import org.apache.commons.math4.legacy.util.IntegerSequence;
 
 import java.util.Collection;
 import java.util.concurrent.CopyOnWriteArrayList;

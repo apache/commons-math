@@ -40,7 +40,7 @@ import org.apache.commons.math4.legacy.ode.events.FieldEventState;
 import org.apache.commons.math4.legacy.ode.sampling.AbstractFieldStepInterpolator;
 import org.apache.commons.math4.legacy.ode.sampling.FieldStepHandler;
 import org.apache.commons.math4.legacy.util.FastMath;
-import org.apache.commons.math4.legacy.linear.IntegerSequence;
+import org.apache.commons.math4.legacy.util.IntegerSequence;
 
 /**
  * Base class managing common boilerplate for all integrators.
