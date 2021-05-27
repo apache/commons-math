@@ -109,7 +109,7 @@
     <module>commons-math-transform</module>
 
     <!-- Non-modularized functionalities. -->
-    <module>commons-math-legacy</module>
+    <module>commons-math-legacy-parent</module>
 
     <!-- Modules that depend on "legacy" codes. -->
     <module>commons-math-examples</module>

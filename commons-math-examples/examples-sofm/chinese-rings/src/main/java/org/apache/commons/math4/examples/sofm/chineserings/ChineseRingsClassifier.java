@@ -26,7 +26,6 @@ import org.apache.commons.geometry.euclidean.threed.Vector3D;
 import org.apache.commons.math4.neuralnet.SquareNeighbourhood;
 import org.apache.commons.math4.neuralnet.FeatureInitializer;
 import org.apache.commons.math4.neuralnet.FeatureInitializerFactory;
-import org.apache.commons.math4.neuralnet.MapUtils;
 import org.apache.commons.math4.neuralnet.DistanceMeasure;
 import org.apache.commons.math4.neuralnet.EuclideanDistance;
 import org.apache.commons.math4.neuralnet.twod.NeuronSquareMesh2D;
