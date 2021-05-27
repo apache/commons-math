@@ -20,8 +20,6 @@ import java.util.Arrays;
 
 import org.apache.commons.math4.legacy.exception.DimensionMismatchException;
 import org.apache.commons.math4.legacy.util.FastMath;
-import org.apache.commons.math4.legacy.util.IterationEvent;
-import org.apache.commons.math4.legacy.util.IterationListener;
 import org.junit.Assert;
 import org.junit.Test;
 

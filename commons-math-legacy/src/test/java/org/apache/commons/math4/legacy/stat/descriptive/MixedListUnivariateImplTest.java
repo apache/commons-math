@@ -21,8 +21,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.commons.math4.legacy.util.FastMath;
-import org.apache.commons.math4.legacy.util.NumberTransformer;
-import org.apache.commons.math4.legacy.util.TransformerMap;
 import org.junit.Assert;
 import org.junit.Test;
 
@@ -179,7 +177,7 @@ public final class MixedListUnivariateImplTest {
         }
     }
 
-    public static final class FooTransformer implements NumberTransformer, Serializable {
+    public static final class FooTransformer implements UnivariateStatistic.NumberTransformer, Serializable {
         private static final long serialVersionUID = -4252248129291326127L;
         @Override
         public double transform(Object o) {
@@ -193,7 +191,7 @@ public final class MixedListUnivariateImplTest {
         }
     }
 
-    public static final class BarTransformer implements NumberTransformer, Serializable {
+    public static final class BarTransformer implements UnivariateStatistic.NumberTransformer, Serializable {
         private static final long serialVersionUID = -1768345377764262043L;
         @Override
         public double transform(Object o) {

@@ -14,51 +14,36 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.apache.commons.math4.legacy.util;
+package org.apache.commons.math4.legacy.stat.descriptive.rank;
 
 import java.io.Serializable;
 
 import org.apache.commons.math4.legacy.exception.MathIllegalArgumentException;
+import org.apache.commons.math4.legacy.stat.descriptive.rank.PivotingStrategyInterface;
+import org.apache.commons.math4.legacy.util.MathArrays;
 
 
 /**
- * Classic median of 3 strategy given begin and end indices.
+ * A mid point strategy based on the average of begin and end indices.
  * @since 3.4
  */
-public class MedianOf3PivotingStrategy implements PivotingStrategyInterface, Serializable {
+public class CentralPivotingStrategy implements PivotingStrategyInterface, Serializable {
 
     /** Serializable UID. */
     private static final long serialVersionUID = 20140713L;
 
-    /**{@inheritDoc}
-     * This in specific makes use of median of 3 pivoting.
-     * @return The index corresponding to a pivot chosen between the
-     * first, middle and the last indices of the array slice
+    /**
+     * {@inheritDoc}
+     * This in particular picks a average of begin and end indices
+     * @return The index corresponding to a simple average of
+     * the first and the last element indices of the array slice
      * @throws MathIllegalArgumentException when indices exceeds range
      */
     @Override
     public int pivotIndex(final double[] work, final int begin, final int end)
         throws MathIllegalArgumentException {
         MathArrays.verifyValues(work, begin, end-begin);
-        final int inclusiveEnd = end - 1;
-        final int middle = begin + (inclusiveEnd - begin) / 2;
-        final double wBegin = work[begin];
-        final double wMiddle = work[middle];
-        final double wEnd = work[inclusiveEnd];
-
-        if (wBegin < wMiddle) {
-            if (wMiddle < wEnd) {
-                return middle;
-            } else {
-                return wBegin < wEnd ? inclusiveEnd : begin;
-            }
-        } else {
-            if (wBegin < wEnd) {
-                return begin;
-            } else {
-                return wMiddle < wEnd ? inclusiveEnd : middle;
-            }
-        }
+        return begin + (end - begin)/2;
     }
 
 }

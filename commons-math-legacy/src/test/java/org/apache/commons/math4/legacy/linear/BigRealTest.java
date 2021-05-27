@@ -14,7 +14,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.apache.commons.math4.legacy.util;
+package org.apache.commons.math4.legacy.linear;
 
 import java.math.BigDecimal;
 import java.math.BigInteger;
@@ -22,6 +22,8 @@ import java.math.MathContext;
 
 import org.apache.commons.math4.legacy.TestUtils;
 import org.apache.commons.math4.legacy.exception.MathArithmeticException;
+import org.apache.commons.math4.legacy.linear.BigReal;
+import org.apache.commons.math4.legacy.util.FastMath;
 import org.junit.Assert;
 import org.junit.Test;
 

@@ -14,25 +14,32 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.apache.commons.math4.legacy.util;
+package org.apache.commons.math4.legacy.linear;
 
-import org.apache.commons.math4.legacy.exception.MathIllegalArgumentException;
 
-/**
- * Subclasses implementing this interface can transform Objects to doubles.
- *
- * No longer extends Serializable since 2.0
- *
- */
-public interface NumberTransformer {
+import org.apache.commons.math4.legacy.TestUtils;
+import org.apache.commons.math4.legacy.linear.BigReal;
+import org.apache.commons.math4.legacy.linear.BigRealField;
+import org.junit.Assert;
+import org.junit.Test;
 
-    /**
-     * Implementing this interface provides a facility to transform
-     * from Object to Double.
-     *
-     * @param o the Object to be transformed.
-     * @return the double value of the Object.
-     * @throws MathIllegalArgumentException if the Object can not be transformed into a Double.
-     */
-    double transform(Object o) throws MathIllegalArgumentException;
+public class BigRealFieldTest {
+
+    @Test
+    public void testZero() {
+        Assert.assertEquals(BigReal.ZERO, BigRealField.getInstance().getZero());
+    }
+
+    @Test
+    public void testOne() {
+        Assert.assertEquals(BigReal.ONE, BigRealField.getInstance().getOne());
+    }
+
+    @Test
+    public void testSerial() {
+        // deserializing the singleton should give the singleton itself back
+        BigRealField field = BigRealField.getInstance();
+        Assert.assertTrue(field == TestUtils.serializeAndRecover(field));
+    }
+
 }

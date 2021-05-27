@@ -19,7 +19,7 @@ package org.apache.commons.math4.legacy.linear;
 import org.apache.commons.math4.legacy.exception.DimensionMismatchException;
 import org.apache.commons.math4.legacy.exception.MaxCountExceededException;
 import org.apache.commons.math4.legacy.exception.NullArgumentException;
-import org.apache.commons.math4.legacy.util.IterationManager;
+import org.apache.commons.math4.legacy.util.IntegerSequence;
 
 /**
  * <p>
@@ -85,7 +85,7 @@ public abstract class PreconditionedIterativeLinearSolver
      * {@code x0} have dimensions inconsistent with {@code a}
      * @throws MaxCountExceededException at exhaustion of the iteration count,
      * unless a custom
-     * {@link org.apache.commons.math4.legacy.util.IntegerSequence.Incrementor.MaxCountExceededCallback callback}
+     * {@link IntegerSequence.Incrementor.MaxCountExceededCallback callback}
      * has been set at construction of the {@link IterationManager}
      */
     public RealVector solve(final RealLinearOperator a,
@@ -166,7 +166,7 @@ public abstract class PreconditionedIterativeLinearSolver
      * dimensions inconsistent with {@code a}
      * @throws MaxCountExceededException at exhaustion of the iteration count,
      * unless a custom
-     * {@link org.apache.commons.math4.legacy.util.IntegerSequence.Incrementor.MaxCountExceededCallback callback}
+     * {@link IntegerSequence.Incrementor.MaxCountExceededCallback callback}
      * has been set at construction of the {@link IterationManager}
      */
     public RealVector solve(RealLinearOperator a, RealLinearOperator m,
@@ -194,7 +194,7 @@ public abstract class PreconditionedIterativeLinearSolver
      * {@code x0} have dimensions inconsistent with {@code a}
      * @throws MaxCountExceededException at exhaustion of the iteration count,
      * unless a custom
-     * {@link org.apache.commons.math4.legacy.util.IntegerSequence.Incrementor.MaxCountExceededCallback callback}
+     * {@link IntegerSequence.Incrementor.MaxCountExceededCallback callback}
      * has been set at construction of the {@link IterationManager}
      */
     public abstract RealVector solveInPlace(RealLinearOperator a,

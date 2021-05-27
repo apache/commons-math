@@ -18,7 +18,6 @@ package org.apache.commons.math4.legacy.linear;
 
 import org.apache.commons.math4.legacy.Field;
 import org.apache.commons.math4.legacy.FieldElement;
-import org.apache.commons.math4.legacy.util.OpenIntToFieldHashMap;
 
 /**
  * Sparse matrix implementation based on an open addressed map.
