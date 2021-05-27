@@ -16,6 +16,8 @@
  */
 package org.apache.commons.math4.legacy.analysis;
 
+import java.util.function.DoubleUnaryOperator;
+
 /**
  * An interface representing a univariate real function.
  * <p>
@@ -62,9 +64,9 @@ package org.apache.commons.math4.legacy.analysis;
  *
  * As shown, the exception is local to the user's code and it is guaranteed
  * that Apache Commons Math will not catch it.
- *
  */
-public interface UnivariateFunction {
+@FunctionalInterface
+public interface UnivariateFunction extends DoubleUnaryOperator {
     /**
      * Compute the value of the function.
      *
@@ -78,4 +80,10 @@ public interface UnivariateFunction {
      * the method.
      */
     double value(double x);
+
+    /** {@inheritDoc} */
+    @Override
+    default double applyAsDouble(double x) {
+        return value(x);
+    }
 }

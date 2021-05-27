@@ -17,12 +17,15 @@
 
 package org.apache.commons.math4.legacy.analysis;
 
+import java.util.function.DoubleBinaryOperator;
+
 /**
  * An interface representing a bivariate real function.
  *
  * @since 2.1
  */
-public interface BivariateFunction {
+@FunctionalInterface
+public interface BivariateFunction extends DoubleBinaryOperator {
     /**
      * Compute the value for the function.
      *
@@ -32,4 +35,9 @@ public interface BivariateFunction {
      */
     double value(double x, double y);
 
+    /** {@inheritDoc} */
+    @Override
+    default double applyAsDouble(double x, double y) {
+        return value(x, y);
+    }
 }
