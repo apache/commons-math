@@ -22,7 +22,7 @@ import org.apache.commons.math4.legacy.exception.NotStrictlyPositiveException;
 import org.apache.commons.math4.legacy.exception.TooManyEvaluationsException;
 import org.apache.commons.math4.legacy.optim.nonlinear.scalar.GoalType;
 import org.apache.commons.math4.legacy.util.FastMath;
-import org.apache.commons.math4.legacy.util.IntegerSequence.Incrementor;
+import org.apache.commons.math4.legacy.linear.IntegerSequence.Incrementor;
 
 /**
  * Provide an interval that brackets a local optimum of a function.

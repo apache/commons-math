@@ -21,7 +21,7 @@ import org.apache.commons.math4.legacy.analysis.UnivariateFunction;
 import org.apache.commons.math4.legacy.exception.NullArgumentException;
 import org.apache.commons.math4.legacy.exception.MaxCountExceededException;
 import org.apache.commons.math4.legacy.exception.TooManyEvaluationsException;
-import org.apache.commons.math4.legacy.util.IntegerSequence;
+import org.apache.commons.math4.legacy.linear.IntegerSequence;
 
 /**
  * Provide a default implementation for several functions useful to generic

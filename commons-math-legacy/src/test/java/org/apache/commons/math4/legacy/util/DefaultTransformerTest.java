@@ -22,6 +22,7 @@ import java.math.BigDecimal;
 import org.apache.commons.math4.legacy.TestUtils;
 import org.apache.commons.math4.legacy.exception.MathIllegalArgumentException;
 import org.apache.commons.math4.legacy.exception.NullArgumentException;
+import org.apache.commons.math4.legacy.stat.descriptive.UnivariateStatistic;
 import org.junit.Assert;
 import org.junit.Test;
 
@@ -35,7 +36,7 @@ public class DefaultTransformerTest {
     public void testTransformDouble() throws Exception {
         double expected = 1.0;
         Double input = Double.valueOf(expected);
-        DefaultTransformer t = new DefaultTransformer();
+        UnivariateStatistic.DefaultTransformer t = new UnivariateStatistic.DefaultTransformer();
         Assert.assertEquals(expected, t.transform(input), 1.0e-4);
     }
 
@@ -44,7 +45,7 @@ public class DefaultTransformerTest {
      */
     @Test
     public void testTransformNull() throws Exception {
-        DefaultTransformer t = new DefaultTransformer();
+        UnivariateStatistic.DefaultTransformer t = new UnivariateStatistic.DefaultTransformer();
         try {
             t.transform(null);
             Assert.fail("Expecting NullArgumentException");
@@ -60,7 +61,7 @@ public class DefaultTransformerTest {
     public void testTransformInteger() throws Exception {
         double expected = 1.0;
         Integer input = Integer.valueOf(1);
-        DefaultTransformer t = new DefaultTransformer();
+        UnivariateStatistic.DefaultTransformer t = new UnivariateStatistic.DefaultTransformer();
         Assert.assertEquals(expected, t.transform(input), 1.0e-4);
     }
 
@@ -71,7 +72,7 @@ public class DefaultTransformerTest {
     public void testTransformBigDecimal() throws Exception {
         double expected = 1.0;
         BigDecimal input = new BigDecimal("1.0");
-        DefaultTransformer t = new DefaultTransformer();
+        UnivariateStatistic.DefaultTransformer t = new UnivariateStatistic.DefaultTransformer();
         Assert.assertEquals(expected, t.transform(input), 1.0e-4);
     }
 
@@ -82,7 +83,7 @@ public class DefaultTransformerTest {
     public void testTransformString() throws Exception {
         double expected = 1.0;
         String input = "1.0";
-        DefaultTransformer t = new DefaultTransformer();
+        UnivariateStatistic.DefaultTransformer t = new UnivariateStatistic.DefaultTransformer();
         Assert.assertEquals(expected, t.transform(input), 1.0e-4);
     }
 
@@ -92,13 +93,13 @@ public class DefaultTransformerTest {
     @Test(expected=MathIllegalArgumentException.class)
     public void testTransformObject(){
         Boolean input = Boolean.TRUE;
-        DefaultTransformer t = new DefaultTransformer();
+        UnivariateStatistic.DefaultTransformer t = new UnivariateStatistic.DefaultTransformer();
         t.transform(input);
     }
 
     @Test
     public void testSerial() {
-        Assert.assertEquals(new DefaultTransformer(), TestUtils.serializeAndRecover(new DefaultTransformer()));
+        Assert.assertEquals(new UnivariateStatistic.DefaultTransformer(), TestUtils.serializeAndRecover(new UnivariateStatistic.DefaultTransformer()));
     }
 
 }

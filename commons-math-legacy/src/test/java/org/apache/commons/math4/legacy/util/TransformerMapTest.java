@@ -18,6 +18,8 @@
 package org.apache.commons.math4.legacy.util;
 
 import org.apache.commons.math4.legacy.TestUtils;
+import org.apache.commons.math4.legacy.stat.descriptive.TransformerMap;
+import org.apache.commons.math4.legacy.stat.descriptive.UnivariateStatistic;
 import org.junit.Assert;
 import org.junit.Test;
 
@@ -30,7 +32,7 @@ public class TransformerMapTest {
      */
     @Test
     public void testPutTransformer(){
-        NumberTransformer expected = new DefaultTransformer();
+        UnivariateStatistic.NumberTransformer expected = new UnivariateStatistic.DefaultTransformer();
 
         TransformerMap map = new TransformerMap();
         map.putTransformer(TransformerMapTest.class, expected);
@@ -42,7 +44,7 @@ public class TransformerMapTest {
      */
     @Test
     public void testContainsClass(){
-        NumberTransformer expected = new DefaultTransformer();
+        UnivariateStatistic.NumberTransformer expected = new UnivariateStatistic.DefaultTransformer();
         TransformerMap map = new TransformerMap();
         map.putTransformer(TransformerMapTest.class, expected);
         Assert.assertTrue(map.containsClass(TransformerMapTest.class));
@@ -53,7 +55,7 @@ public class TransformerMapTest {
      */
     @Test
     public void testContainsTransformer(){
-        NumberTransformer expected = new DefaultTransformer();
+        UnivariateStatistic.NumberTransformer expected = new UnivariateStatistic.DefaultTransformer();
         TransformerMap map = new TransformerMap();
         map.putTransformer(TransformerMapTest.class, expected);
         Assert.assertTrue(map.containsTransformer(expected));
@@ -64,7 +66,7 @@ public class TransformerMapTest {
      */
     @Test
     public void testRemoveTransformer(){
-        NumberTransformer expected = new DefaultTransformer();
+        UnivariateStatistic.NumberTransformer expected = new UnivariateStatistic.DefaultTransformer();
 
         TransformerMap map = new TransformerMap();
         map.putTransformer(TransformerMapTest.class, expected);
@@ -80,7 +82,7 @@ public class TransformerMapTest {
      */
     @Test
     public void testClear(){
-        NumberTransformer expected = new DefaultTransformer();
+        UnivariateStatistic.NumberTransformer expected = new UnivariateStatistic.DefaultTransformer();
 
         TransformerMap map = new TransformerMap();
         map.putTransformer(TransformerMapTest.class, expected);
@@ -94,7 +96,7 @@ public class TransformerMapTest {
      */
     @Test
     public void testClasses(){
-        NumberTransformer expected = new DefaultTransformer();
+        UnivariateStatistic.NumberTransformer expected = new UnivariateStatistic.DefaultTransformer();
         TransformerMap map = new TransformerMap();
         map.putTransformer(TransformerMapTest.class, expected);
         Assert.assertTrue(map.classes().contains(TransformerMapTest.class));
@@ -105,7 +107,7 @@ public class TransformerMapTest {
      */
     @Test
     public void testTransformers(){
-        NumberTransformer expected = new DefaultTransformer();
+        UnivariateStatistic.NumberTransformer expected = new UnivariateStatistic.DefaultTransformer();
         TransformerMap map = new TransformerMap();
         map.putTransformer(TransformerMapTest.class, expected);
         Assert.assertTrue(map.transformers().contains(expected));
@@ -113,7 +115,7 @@ public class TransformerMapTest {
 
     @Test
     public void testSerial(){
-        NumberTransformer expected = new DefaultTransformer();
+        UnivariateStatistic.NumberTransformer expected = new UnivariateStatistic.DefaultTransformer();
         TransformerMap map = new TransformerMap();
         map.putTransformer(TransformerMapTest.class, expected);
         Assert.assertEquals(map, TestUtils.serializeAndRecover(map));

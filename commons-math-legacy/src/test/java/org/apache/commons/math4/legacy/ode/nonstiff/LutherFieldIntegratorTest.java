@@ -24,7 +24,6 @@ import org.apache.commons.math4.legacy.exception.DimensionMismatchException;
 import org.apache.commons.math4.legacy.exception.MaxCountExceededException;
 import org.apache.commons.math4.legacy.exception.NoBracketingException;
 import org.apache.commons.math4.legacy.exception.NumberIsTooSmallException;
-import org.apache.commons.math4.legacy.util.Decimal64Field;
 
 public class LutherFieldIntegratorTest extends RungeKuttaFieldIntegratorAbstractTest {
 

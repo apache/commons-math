@@ -35,7 +35,6 @@ import org.apache.commons.math4.legacy.stat.descriptive.rank.Percentile;
 import org.apache.commons.math4.legacy.stat.descriptive.summary.Sum;
 import org.apache.commons.math4.legacy.stat.descriptive.summary.SumOfSquares;
 import org.apache.commons.math4.legacy.util.FastMath;
-import org.apache.commons.math4.legacy.util.ResizableDoubleArray;
 
 
 /**

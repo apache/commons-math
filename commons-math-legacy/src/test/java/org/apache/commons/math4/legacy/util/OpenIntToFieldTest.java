@@ -29,6 +29,7 @@ import org.apache.commons.math4.legacy.Field;
 import org.apache.commons.math4.legacy.dfp.Dfp;
 import org.apache.commons.math4.legacy.dfp.DfpField;
 import org.apache.commons.math4.legacy.linear.Dfp25;
+import org.apache.commons.math4.legacy.linear.OpenIntToFieldHashMap;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;

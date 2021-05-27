@@ -21,6 +21,7 @@ import static org.junit.Assert.assertEquals;
 import java.util.Arrays;
 import java.util.Random;
 
+import org.apache.commons.math4.legacy.stat.descriptive.rank.KthSelector;
 import org.junit.Test;
 
 public class KthSelectorTest {

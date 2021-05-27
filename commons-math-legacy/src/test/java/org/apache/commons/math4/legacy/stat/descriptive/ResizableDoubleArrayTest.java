@@ -14,14 +14,16 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.apache.commons.math4.legacy.util;
+package org.apache.commons.math4.legacy.stat.descriptive;
 
+import org.apache.commons.math4.legacy.util.DoubleArrayAbstractTest;
+import org.apache.commons.math4.legacy.util.MathArrays;
 import org.apache.commons.statistics.distribution.DiscreteDistribution;
 import org.apache.commons.statistics.distribution.UniformDiscreteDistribution;
 import org.apache.commons.math4.legacy.exception.MathIllegalArgumentException;
 import org.apache.commons.math4.legacy.exception.NullArgumentException;
 import org.apache.commons.rng.simple.RandomSource;
-import org.apache.commons.math4.legacy.util.ResizableDoubleArray.ExpansionMode;
+import org.apache.commons.math4.legacy.stat.descriptive.ResizableDoubleArray.ExpansionMode;
 import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;

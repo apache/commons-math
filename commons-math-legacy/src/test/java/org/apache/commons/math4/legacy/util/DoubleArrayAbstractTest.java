@@ -17,6 +17,7 @@
 package org.apache.commons.math4.legacy.util;
 
 import org.apache.commons.math4.legacy.stat.StatUtils;
+import org.apache.commons.math4.legacy.stat.descriptive.DoubleArray;
 import org.junit.Assert;
 import org.junit.Test;
 

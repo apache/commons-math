@@ -22,6 +22,7 @@ import java.math.MathContext;
 
 import org.apache.commons.math4.legacy.TestUtils;
 import org.apache.commons.math4.legacy.exception.MathArithmeticException;
+import org.apache.commons.math4.legacy.linear.BigReal;
 import org.junit.Assert;
 import org.junit.Test;
 

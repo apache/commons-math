@@ -21,7 +21,6 @@ import org.apache.commons.math4.legacy.exception.MaxCountExceededException;
 import org.apache.commons.math4.legacy.exception.NullArgumentException;
 import org.apache.commons.math4.legacy.exception.util.ExceptionContext;
 import org.apache.commons.math4.legacy.util.FastMath;
-import org.apache.commons.math4.legacy.util.IterationManager;
 
 /**
  * <p>
@@ -953,7 +952,7 @@ public class SymmLQ
      * inconsistent with {@code a}
      * @throws MaxCountExceededException at exhaustion of the iteration count,
      * unless a custom
-     * {@link org.apache.commons.math4.legacy.util.IntegerSequence.Incrementor.MaxCountExceededCallback callback}
+     * {@link IntegerSequence.Incrementor.MaxCountExceededCallback callback}
      * has been set at construction of the {@link IterationManager}
      * @throws NonSelfAdjointOperatorException if {@link #getCheck()} is
      * {@code true}, and {@code a} or {@code m} is not self-adjoint
@@ -1041,7 +1040,7 @@ public class SymmLQ
      * inconsistent with {@code a}
      * @throws MaxCountExceededException at exhaustion of the iteration count,
      * unless a custom
-     * {@link org.apache.commons.math4.legacy.util.IntegerSequence.Incrementor.MaxCountExceededCallback callback}
+     * {@link IntegerSequence.Incrementor.MaxCountExceededCallback callback}
      * has been set at construction of the {@link IterationManager}
      * @throws NonSelfAdjointOperatorException if {@link #getCheck()} is
      * {@code true}, and {@code a} is not self-adjoint
@@ -1131,7 +1130,7 @@ public class SymmLQ
      * have dimensions inconsistent with {@code a}.
      * @throws MaxCountExceededException at exhaustion of the iteration count,
      * unless a custom
-     * {@link org.apache.commons.math4.legacy.util.IntegerSequence.Incrementor.MaxCountExceededCallback callback}
+     * {@link IntegerSequence.Incrementor.MaxCountExceededCallback callback}
      * has been set at construction of the {@link IterationManager}
      * @throws NonSelfAdjointOperatorException if {@link #getCheck()} is
      * {@code true}, and {@code a} or {@code m} is not self-adjoint

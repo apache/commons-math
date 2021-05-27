@@ -24,7 +24,7 @@ import org.apache.commons.math4.legacy.exception.MathInternalError;
 import org.apache.commons.math4.legacy.exception.NoBracketingException;
 import org.apache.commons.math4.legacy.exception.NullArgumentException;
 import org.apache.commons.math4.legacy.exception.NumberIsTooSmallException;
-import org.apache.commons.math4.legacy.util.IntegerSequence;
+import org.apache.commons.math4.legacy.linear.IntegerSequence;
 import org.apache.commons.math4.legacy.util.MathArrays;
 import org.apache.commons.numbers.core.Precision;
 

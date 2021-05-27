@@ -16,7 +16,7 @@
  */
 package org.apache.commons.math4.legacy.optim;
 
-import org.apache.commons.math4.legacy.util.IntegerSequence;
+import org.apache.commons.math4.legacy.linear.IntegerSequence;
 
 /**
  * Common settings for all optimization problems. Includes divergence and convergence

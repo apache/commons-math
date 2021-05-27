@@ -20,7 +20,6 @@ package org.apache.commons.math4.legacy.ode.nonstiff;
 
 import org.apache.commons.math4.legacy.Field;
 import org.apache.commons.math4.legacy.RealFieldElement;
-import org.apache.commons.math4.legacy.util.Decimal64Field;
 
 public class DormandPrince853FieldIntegratorTest extends EmbeddedRungeKuttaFieldIntegratorAbstractTest {
 
