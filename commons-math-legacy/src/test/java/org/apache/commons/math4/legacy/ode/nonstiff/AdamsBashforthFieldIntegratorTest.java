@@ -23,7 +23,6 @@ import org.apache.commons.math4.legacy.RealFieldElement;
 import org.apache.commons.math4.legacy.exception.MathIllegalStateException;
 import org.apache.commons.math4.legacy.exception.MaxCountExceededException;
 import org.apache.commons.math4.legacy.exception.NumberIsTooSmallException;
-import org.apache.commons.math4.legacy.util.Decimal64Field;
 import org.junit.Test;
 
 public class AdamsBashforthFieldIntegratorTest extends AdamsFieldIntegratorAbstractTest {

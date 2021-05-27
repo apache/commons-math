@@ -14,7 +14,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.apache.commons.math4.legacy.util;
+package org.apache.commons.math4.legacy.stat.descriptive;
 
 import java.io.Serializable;
 import java.util.Collection;
@@ -30,7 +30,7 @@ import org.apache.commons.math4.legacy.exception.MathIllegalArgumentException;
  * based on the Class of the object handed to the Maps
  * <code>double transform(Object o)</code> method.
  */
-public class TransformerMap implements NumberTransformer, Serializable {
+public class TransformerMap implements UnivariateStatistic.NumberTransformer, Serializable {
 
     /** Serializable version identifier */
     private static final long serialVersionUID = 4605318041528645258L;
@@ -38,19 +38,19 @@ public class TransformerMap implements NumberTransformer, Serializable {
     /**
      * A default Number Transformer for Numbers and numeric Strings.
      */
-    private NumberTransformer defaultTransformer;
+    private UnivariateStatistic.NumberTransformer defaultTransformer;
 
     /**
      * The internal Map.
      */
-    private Map<Class<?>, NumberTransformer> map;
+    private Map<Class<?>, UnivariateStatistic.NumberTransformer> map;
 
     /**
      * Build a map containing only the default transformer.
      */
     public TransformerMap() {
         map = new HashMap<>();
-        defaultTransformer = new DefaultTransformer();
+        defaultTransformer = new UnivariateStatistic.DefaultTransformer();
     }
 
     /**
@@ -67,7 +67,7 @@ public class TransformerMap implements NumberTransformer, Serializable {
      * @param value NumberTransformer to check
      * @return true|false
      */
-    public boolean containsTransformer(NumberTransformer value) {
+    public boolean containsTransformer(UnivariateStatistic.NumberTransformer value) {
         return map.containsValue(value);
     }
 
@@ -77,7 +77,7 @@ public class TransformerMap implements NumberTransformer, Serializable {
      * @param key The Class of the object
      * @return the mapped NumberTransformer or null.
      */
-    public NumberTransformer getTransformer(Class<?> key) {
+    public UnivariateStatistic.NumberTransformer getTransformer(Class<?> key) {
         return map.get(key);
     }
 
@@ -89,7 +89,7 @@ public class TransformerMap implements NumberTransformer, Serializable {
      * @param transformer The NumberTransformer
      * @return the replaced transformer if one is present
      */
-    public NumberTransformer putTransformer(Class<?> key, NumberTransformer transformer) {
+    public UnivariateStatistic.NumberTransformer putTransformer(Class<?> key, UnivariateStatistic.NumberTransformer transformer) {
         return map.put(key, transformer);
     }
 
@@ -99,7 +99,7 @@ public class TransformerMap implements NumberTransformer, Serializable {
      * @return the removed transformer if one is present or
      * null if none was present.
      */
-    public NumberTransformer removeTransformer(Class<?> key) {
+    public UnivariateStatistic.NumberTransformer removeTransformer(Class<?> key) {
         return map.remove(key);
     }
 
@@ -123,7 +123,7 @@ public class TransformerMap implements NumberTransformer, Serializable {
      * in the map.
      * @return Set of NumberTransformers
      */
-    public Collection<NumberTransformer> transformers() {
+    public Collection<UnivariateStatistic.NumberTransformer> transformers() {
         return map.values();
     }
 
@@ -135,7 +135,7 @@ public class TransformerMap implements NumberTransformer, Serializable {
      * @return the double value of the Object.
      * @throws MathIllegalArgumentException if the Object can not be
      * transformed into a Double.
-     * @see org.apache.commons.math4.legacy.util.NumberTransformer#transform(java.lang.Object)
+     * @see UnivariateStatistic.NumberTransformer#transform(java.lang.Object)
      */
     @Override
     public double transform(Object o) throws MathIllegalArgumentException {
@@ -144,7 +144,7 @@ public class TransformerMap implements NumberTransformer, Serializable {
         if (o instanceof Number || o instanceof String) {
             value = defaultTransformer.transform(o);
         } else {
-            NumberTransformer trans = getTransformer(o.getClass());
+            UnivariateStatistic.NumberTransformer trans = getTransformer(o.getClass());
             if (trans != null) {
                 value = trans.transform(o);
             }
@@ -167,7 +167,7 @@ public class TransformerMap implements NumberTransformer, Serializable {
             if (map.size() != rhs.map.size()) {
                 return false;
             }
-            for (Map.Entry<Class<?>, NumberTransformer> entry : map.entrySet()) {
+            for (Map.Entry<Class<?>, UnivariateStatistic.NumberTransformer> entry : map.entrySet()) {
                 if (! entry.getValue().equals(rhs.map.get(entry.getKey()))) {
                     return false;
                 }
@@ -181,7 +181,7 @@ public class TransformerMap implements NumberTransformer, Serializable {
     @Override
     public int hashCode() {
         int hash = defaultTransformer.hashCode();
-        for (NumberTransformer t : map.values()) {
+        for (UnivariateStatistic.NumberTransformer t : map.values()) {
             hash = hash * 31 + t.hashCode();
         }
         return hash;
