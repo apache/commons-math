@@ -283,7 +283,7 @@ public class MannWhitneyUTest {
 
         ensureDataConformance(x, y);
 
-        final double Umax = mannWhitneyU(x, y);
+        final double Umax = mannWhitneyUMax(x, y);
 
         /*
          * It can be shown that U1 + U2 = n1 * n2
