@@ -53,7 +53,7 @@ public class HarmonicCurveFitterTest {
         final double[] fitted = fitter.fit(points.toList());
         Assert.assertEquals(a, fitted[0], 1.0e-13);
         Assert.assertEquals(w, fitted[1], 1.0e-13);
-        Assert.assertEquals(p, PlaneAngleRadians.normalize(fitted[2], p), 1e-13);
+        Assert.assertEquals(p, PlaneAngleRadians.normalizer(p).applyAsDouble(fitted[2]), 1e-13);
 
         final HarmonicOscillator ff = new HarmonicOscillator(fitted[0], fitted[1], fitted[2]);
         for (double x = -1.0; x < 1.0; x += 0.01) {
@@ -78,7 +78,7 @@ public class HarmonicCurveFitterTest {
         final double[] fitted = fitter.fit(points.toList());
         Assert.assertEquals(a, fitted[0], 7.6e-4);
         Assert.assertEquals(w, fitted[1], 2.7e-3);
-        Assert.assertEquals(p, PlaneAngleRadians.normalize(fitted[2], p), 1.3e-2);
+        Assert.assertEquals(p, PlaneAngleRadians.normalizer(p).applyAsDouble(fitted[2]), 1.3e-2);
     }
 
     @Test
@@ -115,7 +115,7 @@ public class HarmonicCurveFitterTest {
         final double[] fitted = fitter.fit(points.toList());
         Assert.assertEquals(a, fitted[0], 1.2e-3);
         Assert.assertEquals(w, fitted[1], 3.3e-3);
-        Assert.assertEquals(p, PlaneAngleRadians.normalize(fitted[2], p), 1.7e-2);
+        Assert.assertEquals(p, PlaneAngleRadians.normalizer(p).applyAsDouble(fitted[2]), 1.7e-2);
     }
 
     @Test
@@ -157,7 +157,7 @@ public class HarmonicCurveFitterTest {
         final double[] fitted = fitter.fit(points.toList());
         Assert.assertEquals(a, fitted[0], 7.6e-4);
         Assert.assertEquals(w, fitted[1], 3.5e-3);
-        Assert.assertEquals(p, PlaneAngleRadians.normalize(fitted[2], p), 1.5e-2);
+        Assert.assertEquals(p, PlaneAngleRadians.normalizer(p).applyAsDouble(fitted[2]), 1.5e-2);
     }
 
     @Test(expected=MathIllegalStateException.class)
