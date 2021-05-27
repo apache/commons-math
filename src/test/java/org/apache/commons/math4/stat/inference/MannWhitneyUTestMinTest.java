@@ -27,7 +27,7 @@ import org.junit.Test;
  *
  */
 
-public class MannWhitneyUTestTest {
+public class MannWhitneyUTestMinTest {
 
     protected MannWhitneyUTest testStatistic = new MannWhitneyUTest();
 
