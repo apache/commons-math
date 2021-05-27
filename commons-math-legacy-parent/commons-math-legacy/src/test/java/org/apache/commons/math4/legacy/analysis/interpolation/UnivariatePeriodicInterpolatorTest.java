@@ -16,21 +16,23 @@
  */
 package org.apache.commons.math4.legacy.analysis.interpolation;
 
-import java.util.Random;
+import org.junit.Assert;
+import org.junit.Test;
+
+import org.apache.commons.rng.UniformRandomProvider;
+import org.apache.commons.rng.simple.RandomSource;
 
 import org.apache.commons.math4.legacy.analysis.UnivariateFunction;
 import org.apache.commons.math4.legacy.exception.NonMonotonicSequenceException;
 import org.apache.commons.math4.legacy.exception.NumberIsTooSmallException;
 import org.apache.commons.math4.legacy.util.FastMath;
-import org.junit.Assert;
-import org.junit.Test;
 
 
 /**
  * Test for {@link UnivariatePeriodicInterpolator}.
  */
 public class UnivariatePeriodicInterpolatorTest {
-    private final Random rng = new Random(1224465L);
+    private final UniformRandomProvider rng = RandomSource.create(RandomSource.KISS);
 
     @Test
     public void testSine() {

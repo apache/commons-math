@@ -1464,7 +1464,7 @@ public class FastMath {
      * @param x Argument, must be greater than 0.
      * @return the value of the logarithm, i.e. the number {@code y} such that
      * <code>base<sup>y</sup> = x</code>.
-     * @since 1.2 (previously in {@code MathUtils}, moved as of version 3.0)
+     * @since 3.0
      */
     public static double log(double base, double x) {
         return log(x) / log(base);
