@@ -227,9 +227,4 @@ public class MannWhitneyUTest {
 
         return calculateAsymptoticPValue(Umin, x.length, y.length);
     }
-<<<<<<< HEAD
 }
-=======
-
-}
->>>>>>> Reverted all formatting changes
