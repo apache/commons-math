@@ -21,9 +21,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.commons.math4.legacy.exception.MathIllegalArgumentException;
-import org.apache.commons.math4.legacy.util.DefaultTransformer;
 import org.apache.commons.math4.legacy.util.FastMath;
-import org.apache.commons.math4.legacy.util.NumberTransformer;
 
 /**
  */
@@ -36,7 +34,7 @@ public class ListUnivariateImpl extends DescriptiveStatistics implements Seriali
      */
     protected List<Object> list;
     /** Number Transformer maps Objects to Number for us. */
-    protected NumberTransformer transformer;
+    protected UnivariateStatistic.NumberTransformer transformer;
 
     /**
      * No argument constructor
@@ -50,7 +48,7 @@ public class ListUnivariateImpl extends DescriptiveStatistics implements Seriali
      * @param list The list that will back this DescriptiveStatistics
      */
     public ListUnivariateImpl(List<Object> list) {
-        this(list, new DefaultTransformer());
+        this(list, new UnivariateStatistic.DefaultTransformer());
     }
 
     /**
@@ -58,7 +56,7 @@ public class ListUnivariateImpl extends DescriptiveStatistics implements Seriali
      * @param list The list that will back this DescriptiveStatistics
      * @param transformer the number transformer used to convert the list items.
      */
-    public ListUnivariateImpl(List<Object> list, NumberTransformer transformer) {
+    public ListUnivariateImpl(List<Object> list, UnivariateStatistic.NumberTransformer transformer) {
         this.list = list;
         this.transformer = transformer;
     }
@@ -171,7 +169,7 @@ public class ListUnivariateImpl extends DescriptiveStatistics implements Seriali
      * Access the number transformer.
      * @return the number transformer.
      */
-    public NumberTransformer getTransformer() {
+    public UnivariateStatistic.NumberTransformer getTransformer() {
         return transformer;
     }
 
@@ -179,7 +177,7 @@ public class ListUnivariateImpl extends DescriptiveStatistics implements Seriali
      * Modify the number transformer.
      * @param transformer the new number transformer.
      */
-    public void setTransformer(NumberTransformer transformer) {
+    public void setTransformer(UnivariateStatistic.NumberTransformer transformer) {
         this.transformer = transformer;
     }
 

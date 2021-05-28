@@ -22,7 +22,6 @@ import org.apache.commons.math4.legacy.Field;
 import org.apache.commons.math4.legacy.RealFieldElement;
 import org.apache.commons.math4.legacy.ode.FieldEquationsMapper;
 import org.apache.commons.math4.legacy.ode.FieldODEStateAndDerivative;
-import org.apache.commons.math4.legacy.util.Decimal64Field;
 import org.junit.Test;
 
 public class MidpointFieldStepInterpolatorTest extends RungeKuttaFieldStepInterpolatorAbstractTest {

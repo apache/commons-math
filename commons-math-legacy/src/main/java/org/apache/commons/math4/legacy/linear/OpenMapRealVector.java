@@ -24,8 +24,7 @@ import org.apache.commons.math4.legacy.exception.NotPositiveException;
 import org.apache.commons.math4.legacy.exception.OutOfRangeException;
 import org.apache.commons.math4.legacy.exception.util.LocalizedFormats;
 import org.apache.commons.math4.legacy.util.FastMath;
-import org.apache.commons.math4.legacy.util.OpenIntToDoubleHashMap;
-import org.apache.commons.math4.legacy.util.OpenIntToDoubleHashMap.Iterator;
+import org.apache.commons.math4.legacy.linear.OpenIntToDoubleHashMap.Iterator;
 
 /**
  * This class implements the {@link RealVector} interface with a

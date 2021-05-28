@@ -14,13 +14,15 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.apache.commons.math4.legacy.util;
+package org.apache.commons.math4.legacy.stat.descriptive.rank;
 
 import java.io.Serializable;
 import java.io.IOException;
 import java.io.ObjectOutputStream;
 import java.io.ObjectInputStream;
 import org.apache.commons.math4.legacy.exception.MathIllegalArgumentException;
+import org.apache.commons.math4.legacy.stat.descriptive.rank.PivotingStrategyInterface;
+import org.apache.commons.math4.legacy.util.MathArrays;
 import org.apache.commons.rng.RestorableUniformRandomProvider;
 import org.apache.commons.rng.simple.RandomSource;
 import org.apache.commons.rng.core.RandomProviderDefaultState;

@@ -17,7 +17,6 @@
 package org.apache.commons.math4.legacy.linear;
 
 import org.apache.commons.math4.legacy.exception.MathUnsupportedOperationException;
-import org.apache.commons.math4.legacy.util.IterationEvent;
 
 /**
  * This is the base class for all events occurring during the iterations of a

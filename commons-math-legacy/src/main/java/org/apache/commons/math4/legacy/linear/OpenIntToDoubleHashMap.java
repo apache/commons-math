@@ -14,30 +14,28 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.apache.commons.math4.legacy.util;
+
+package org.apache.commons.math4.legacy.linear;
+
+import org.apache.commons.math4.legacy.util.FastMath;
 
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.Serializable;
-import java.lang.reflect.Array;
 import java.util.ConcurrentModificationException;
 import java.util.NoSuchElementException;
 
-import org.apache.commons.math4.legacy.Field;
-import org.apache.commons.math4.legacy.FieldElement;
-
 /**
- * Open addressed map from int to FieldElement.
- * <p>This class provides a dedicated map from integers to FieldElements with a
+ * Open addressed map from int to double.
+ * <p>This class provides a dedicated map from integers to doubles with a
  * much smaller memory overhead than standard <code>java.util.Map</code>.</p>
  * <p>This class is not synchronized. The specialized iterators returned by
  * {@link #iterator()} are fail-fast: they throw a
  * <code>ConcurrentModificationException</code> when they detect the map has been
  * modified during iteration.</p>
- * @param <T> the type of the field elements
  * @since 2.0
  */
-public class OpenIntToFieldHashMap<T extends FieldElement<T>> implements Serializable {
+public class OpenIntToDoubleHashMap implements Serializable {
 
     /** Status indicator for free table entries. */
     protected static final byte FREE    = 0;
@@ -48,8 +46,8 @@ public class OpenIntToFieldHashMap<T extends FieldElement<T>> implements Seriali
     /** Status indicator for removed table entries. */
     protected static final byte REMOVED = 2;
 
-    /** Serializable version identifier. */
-    private static final long serialVersionUID = -9179080286849120720L;
+    /** Serializable version identifier */
+    private static final long serialVersionUID = -3646337053166149105L;
 
     /** Load factor for the map. */
     private static final float LOAD_FACTOR = 0.5f;
@@ -67,20 +65,17 @@ public class OpenIntToFieldHashMap<T extends FieldElement<T>> implements Seriali
     /** Number of bits to perturb the index when probing for collision resolution. */
     private static final int PERTURB_SHIFT = 5;
 
-    /** Field to which the elements belong. */
-    private final Field<T> field;
-
     /** Keys table. */
     private int[] keys;
 
     /** Values table. */
-    private T[] values;
+    private double[] values;
 
     /** States table. */
     private byte[] states;
 
     /** Return value for missing entries. */
-    private final T missingEntries;
+    private final double missingEntries;
 
     /** Current size of the map. */
     private int size;
@@ -92,43 +87,38 @@ public class OpenIntToFieldHashMap<T extends FieldElement<T>> implements Seriali
     private transient int count;
 
     /**
-     * Build an empty map with default size and using zero for missing entries.
-     * @param field field to which the elements belong
+     * Build an empty map with default size and using NaN for missing entries.
      */
-    public OpenIntToFieldHashMap(final Field<T>field) {
-        this(field, DEFAULT_EXPECTED_SIZE, field.getZero());
+    public OpenIntToDoubleHashMap() {
+        this(DEFAULT_EXPECTED_SIZE, Double.NaN);
     }
 
     /**
      * Build an empty map with default size
-     * @param field field to which the elements belong
      * @param missingEntries value to return when a missing entry is fetched
      */
-    public OpenIntToFieldHashMap(final Field<T>field, final T missingEntries) {
-        this(field,DEFAULT_EXPECTED_SIZE, missingEntries);
+    public OpenIntToDoubleHashMap(final double missingEntries) {
+        this(DEFAULT_EXPECTED_SIZE, missingEntries);
     }
 
     /**
-     * Build an empty map with specified size and using zero for missing entries.
-     * @param field field to which the elements belong
+     * Build an empty map with specified size and using NaN for missing entries.
      * @param expectedSize expected number of elements in the map
      */
-    public OpenIntToFieldHashMap(final Field<T> field,final int expectedSize) {
-        this(field,expectedSize, field.getZero());
+    public OpenIntToDoubleHashMap(final int expectedSize) {
+        this(expectedSize, Double.NaN);
     }
 
     /**
      * Build an empty map with specified size.
-     * @param field field to which the elements belong
      * @param expectedSize expected number of elements in the map
      * @param missingEntries value to return when a missing entry is fetched
      */
-    public OpenIntToFieldHashMap(final Field<T> field,final int expectedSize,
-                                  final T missingEntries) {
-        this.field = field;
+    public OpenIntToDoubleHashMap(final int expectedSize,
+                                  final double missingEntries) {
         final int capacity = computeCapacity(expectedSize);
         keys   = new int[capacity];
-        values = buildArray(capacity);
+        values = new double[capacity];
         states = new byte[capacity];
         this.missingEntries = missingEntries;
         mask   = capacity - 1;
@@ -138,12 +128,11 @@ public class OpenIntToFieldHashMap<T extends FieldElement<T>> implements Seriali
      * Copy constructor.
      * @param source map to copy
      */
-    public OpenIntToFieldHashMap(final OpenIntToFieldHashMap<T> source) {
-        field = source.field;
+    public OpenIntToDoubleHashMap(final OpenIntToDoubleHashMap source) {
         final int length = source.keys.length;
         keys = new int[length];
         System.arraycopy(source.keys, 0, keys, 0, length);
-        values = buildArray(length);
+        values = new double[length];
         System.arraycopy(source.values, 0, values, 0, length);
         states = new byte[length];
         System.arraycopy(source.states, 0, states, 0, length);
@@ -184,7 +173,7 @@ public class OpenIntToFieldHashMap<T extends FieldElement<T>> implements Seriali
      * @param key key associated with the data
      * @return data associated with the key
      */
-    public T get(final int key) {
+    public double get(final int key) {
 
         final int hash  = hashOf(key);
         int index = hash & mask;
@@ -358,7 +347,7 @@ public class OpenIntToFieldHashMap<T extends FieldElement<T>> implements Seriali
      * @param key key to which the value is associated
      * @return removed value
      */
-    public T remove(final int key) {
+    public double remove(final int key) {
 
         final int hash  = hashOf(key);
         int index = hash & mask;
@@ -399,10 +388,10 @@ public class OpenIntToFieldHashMap<T extends FieldElement<T>> implements Seriali
      * @param index index of the element to remove
      * @return removed value
      */
-    private T doRemove(int index) {
+    private double doRemove(int index) {
         keys[index]   = 0;
         states[index] = REMOVED;
-        final T previous = values[index];
+        final double previous = values[index];
         values[index] = missingEntries;
         --size;
         ++count;
@@ -415,9 +404,9 @@ public class OpenIntToFieldHashMap<T extends FieldElement<T>> implements Seriali
      * @param value value to put in the map
      * @return previous value associated with the key
      */
-    public T put(final int key, final T value) {
+    public double put(final int key, final double value) {
         int index = findInsertionIndex(key);
-        T previous = missingEntries;
+        double previous = missingEntries;
         boolean newMapping = true;
         if (index < 0) {
             index = changeIndexSign(index);
@@ -445,12 +434,12 @@ public class OpenIntToFieldHashMap<T extends FieldElement<T>> implements Seriali
 
         final int oldLength      = states.length;
         final int[] oldKeys      = keys;
-        final T[] oldValues = values;
+        final double[] oldValues = values;
         final byte[] oldStates   = states;
 
         final int newLength = RESIZE_MULTIPLIER * oldLength;
         final int[] newKeys = new int[newLength];
-        final T[] newValues = buildArray(newLength);
+        final double[] newValues = new double[newLength];
         final byte[] newStates = new byte[newLength];
         final int newMask = newLength - 1;
         for (int i = 0; i < oldLength; ++i) {
@@ -550,7 +539,7 @@ public class OpenIntToFieldHashMap<T extends FieldElement<T>> implements Seriali
          * @exception ConcurrentModificationException if the map is modified during iteration
          * @exception NoSuchElementException if there is no element left in the map
          */
-        public T value()
+        public double value()
             throws ConcurrentModificationException, NoSuchElementException {
             if (referenceCount != count) {
                 throw new ConcurrentModificationException();
@@ -605,13 +594,5 @@ public class OpenIntToFieldHashMap<T extends FieldElement<T>> implements Seriali
         count = 0;
     }
 
-    /** Build an array of elements.
-     * @param length size of the array to build
-     * @return a new array
-     */
-    @SuppressWarnings("unchecked") // field is of type T
-    private T[] buildArray(final int length) {
-        return (T[]) Array.newInstance(field.getRuntimeClass(), length);
-    }
 
 }

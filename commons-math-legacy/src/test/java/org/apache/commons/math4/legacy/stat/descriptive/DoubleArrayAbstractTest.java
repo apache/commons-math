@@ -14,9 +14,10 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.apache.commons.math4.legacy.util;
+package org.apache.commons.math4.legacy.stat.descriptive;
 
 import org.apache.commons.math4.legacy.stat.StatUtils;
+import org.apache.commons.math4.legacy.stat.descriptive.DoubleArray;
 import org.junit.Assert;
 import org.junit.Test;
 
