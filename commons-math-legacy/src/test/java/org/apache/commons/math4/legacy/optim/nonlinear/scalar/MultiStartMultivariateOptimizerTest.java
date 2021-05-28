@@ -107,7 +107,7 @@ public class MultiStartMultivariateOptimizerTest {
 
         final int numEval = optimizer.getEvaluations();
         Assert.assertEquals(rosenbrock.getCount(), numEval);
-        Assert.assertTrue("numEval=" + numEval, numEval > 800);
+        Assert.assertTrue("numEval=" + numEval, numEval > 700);
         Assert.assertTrue("numEval=" + numEval, numEval < 1200);
         Assert.assertTrue("optimum=" + optimum.getValue(), optimum.getValue() < 5e-5);
     }
