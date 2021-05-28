@@ -180,7 +180,7 @@ public class GaussianCurveFitterTest {
      */
     @Test
     public void testFit01() {
-        GaussianCurveFitter fitter = GaussianCurveFitter.create();
+        SimpleCurveFitter fitter = GaussianCurveFitter.create();
         double[] parameters = fitter.fit(createDataset(DATASET1).toList());
 
         Assert.assertEquals(3496978.1837704973, parameters[0], 1e-7);
@@ -190,7 +190,7 @@ public class GaussianCurveFitterTest {
 
     @Test
     public void testDataset1LargeXShift() {
-        final GaussianCurveFitter fitter = GaussianCurveFitter.create();
+        final SimpleCurveFitter fitter = GaussianCurveFitter.create();
         final double xShift = 1e8;
         final double[] parameters = fitter.fit(createDataset(DATASET1, xShift, 0).toList());
 
@@ -204,7 +204,7 @@ public class GaussianCurveFitterTest {
         final int maxIter = 20;
         final double[] init = { 3.5e6, 4.2, 0.1 };
 
-        GaussianCurveFitter fitter = GaussianCurveFitter.create();
+        SimpleCurveFitter fitter = GaussianCurveFitter.create();
         double[] parameters = fitter
             .withMaxIterations(maxIter)
             .withStartPoint(init)
@@ -220,7 +220,7 @@ public class GaussianCurveFitterTest {
         final int maxIter = 1; // Too few iterations.
         final double[] init = { 3.5e6, 4.2, 0.1 };
 
-        GaussianCurveFitter fitter = GaussianCurveFitter.create();
+        SimpleCurveFitter fitter = GaussianCurveFitter.create();
         fitter.withMaxIterations(maxIter)
               .withStartPoint(init)
               .fit(createDataset(DATASET1).toList());
@@ -230,7 +230,7 @@ public class GaussianCurveFitterTest {
     public void testWithStartPoint() {
         final double[] init = { 3.5e6, 4.2, 0.1 };
 
-        GaussianCurveFitter fitter = GaussianCurveFitter.create();
+        SimpleCurveFitter fitter = GaussianCurveFitter.create();
         double[] parameters = fitter
             .withStartPoint(init)
             .fit(createDataset(DATASET1).toList());
@@ -253,7 +253,7 @@ public class GaussianCurveFitterTest {
      */
     @Test(expected=MathIllegalArgumentException.class)
     public void testFit03() {
-        GaussianCurveFitter fitter = GaussianCurveFitter.create();
+        SimpleCurveFitter fitter = GaussianCurveFitter.create();
         fitter.fit(createDataset(new double[][] {
                     {4.0254623,  531026.0},
                     {4.02804905, 664002.0}
@@ -265,7 +265,7 @@ public class GaussianCurveFitterTest {
      */
     @Test
     public void testFit04() {
-        GaussianCurveFitter fitter = GaussianCurveFitter.create();
+        SimpleCurveFitter fitter = GaussianCurveFitter.create();
         double[] parameters = fitter.fit(createDataset(DATASET2).toList());
 
         Assert.assertEquals(233003.2967252038, parameters[0], 1e-4);
@@ -278,7 +278,7 @@ public class GaussianCurveFitterTest {
      */
     @Test
     public void testFit05() {
-        GaussianCurveFitter fitter = GaussianCurveFitter.create();
+        SimpleCurveFitter fitter = GaussianCurveFitter.create();
         double[] parameters = fitter.fit(createDataset(DATASET3).toList());
 
         Assert.assertEquals(283863.81929180305, parameters[0], 1e-4);
@@ -291,7 +291,7 @@ public class GaussianCurveFitterTest {
      */
     @Test
     public void testFit06() {
-        GaussianCurveFitter fitter = GaussianCurveFitter.create();
+        SimpleCurveFitter fitter = GaussianCurveFitter.create();
         double[] parameters = fitter.fit(createDataset(DATASET4).toList());
 
         Assert.assertEquals(285250.66754309234, parameters[0], 1e-4);
@@ -304,7 +304,7 @@ public class GaussianCurveFitterTest {
      */
     @Test
     public void testFit07() {
-        GaussianCurveFitter fitter = GaussianCurveFitter.create();
+        SimpleCurveFitter fitter = GaussianCurveFitter.create();
         double[] parameters = fitter.fit(createDataset(DATASET5).toList());
 
         Assert.assertEquals(3514384.729342235, parameters[0], 1e-4);

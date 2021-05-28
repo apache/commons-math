@@ -48,7 +48,7 @@ public class PolynomialCurveFitterTest {
         }
 
         // Start fit from initial guesses that are far from the optimal values.
-        final PolynomialCurveFitter fitter
+        final SimpleCurveFitter fitter
             = PolynomialCurveFitter.create(0).withStartPoint(new double[] { -1e-20, 3e15, -5e25 });
         final double[] best = fitter.fit(obs.toList());
 
@@ -60,7 +60,7 @@ public class PolynomialCurveFitterTest {
         final Random randomizer = new Random(64925784252l);
         for (int degree = 1; degree < 10; ++degree) {
             final PolynomialFunction p = buildRandomPolynomial(degree, randomizer);
-            final PolynomialCurveFitter fitter = PolynomialCurveFitter.create(degree);
+            final SimpleCurveFitter fitter = PolynomialCurveFitter.create(degree);
 
             final WeightedObservedPoints obs = new WeightedObservedPoints();
             for (int i = 0; i <= degree; ++i) {
@@ -83,7 +83,7 @@ public class PolynomialCurveFitterTest {
         double maxError = 0;
         for (int degree = 0; degree < 10; ++degree) {
             final PolynomialFunction p = buildRandomPolynomial(degree, randomizer);
-            final PolynomialCurveFitter fitter = PolynomialCurveFitter.create(degree);
+            final SimpleCurveFitter fitter = PolynomialCurveFitter.create(degree);
 
             final WeightedObservedPoints obs = new WeightedObservedPoints();
             for (double x = -1.0; x < 1.0; x += 0.01) {
@@ -114,7 +114,7 @@ public class PolynomialCurveFitterTest {
         double maxError = 0;
         for (int degree = 0; degree < 10; ++degree) {
             final PolynomialFunction p = buildRandomPolynomial(degree, randomizer);
-            final PolynomialCurveFitter fitter = PolynomialCurveFitter.create(degree);
+            final SimpleCurveFitter fitter = PolynomialCurveFitter.create(degree);
 
             final WeightedObservedPoints obs = new WeightedObservedPoints();
             for (int i = 0; i < 40000; ++i) {
@@ -138,7 +138,7 @@ public class PolynomialCurveFitterTest {
 
         for (int degree = 0; degree < 10; ++degree) {
             final PolynomialFunction p = buildRandomPolynomial(degree, randomizer);
-            final PolynomialCurveFitter fitter = PolynomialCurveFitter.create(degree);
+            final SimpleCurveFitter fitter = PolynomialCurveFitter.create(degree);
             final WeightedObservedPoints obs = new WeightedObservedPoints();
             // reusing the same point over and over again does not bring
             // information, the problem cannot be solved in this case for

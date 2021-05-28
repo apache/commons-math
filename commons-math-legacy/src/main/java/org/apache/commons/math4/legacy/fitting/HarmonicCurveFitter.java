@@ -25,9 +25,6 @@ import org.apache.commons.math4.legacy.exception.MathIllegalStateException;
 import org.apache.commons.math4.legacy.exception.NumberIsTooSmallException;
 import org.apache.commons.math4.legacy.exception.ZeroException;
 import org.apache.commons.math4.legacy.exception.util.LocalizedFormats;
-import org.apache.commons.math4.legacy.fitting.leastsquares.LeastSquaresBuilder;
-import org.apache.commons.math4.legacy.fitting.leastsquares.LeastSquaresProblem;
-import org.apache.commons.math4.legacy.linear.DiagonalMatrix;
 import org.apache.commons.math4.legacy.util.FastMath;
 
 /**
@@ -46,13 +43,9 @@ import org.apache.commons.math4.legacy.util.FastMath;
  *
  * @since 3.3
  */
-public class HarmonicCurveFitter extends AbstractCurveFitter {
+public class HarmonicCurveFitter extends SimpleCurveFitter {
     /** Parametric function to be fitted. */
     private static final HarmonicOscillator.Parametric FUNCTION = new HarmonicOscillator.Parametric();
-    /** Initial guess. */
-    private final double[] initialGuess;
-    /** Maximum number of iterations of the optimization algorithm. */
-    private final int maxIter;
 
     /**
      * Constructor used by the factory methods.
@@ -63,8 +56,7 @@ public class HarmonicCurveFitter extends AbstractCurveFitter {
      */
     private HarmonicCurveFitter(double[] initialGuess,
                                 int maxIter) {
-        this.initialGuess = initialGuess;
-        this.maxIter = maxIter;
+        super(FUNCTION, initialGuess, new ParameterGuesser(), maxIter);
     }
 
     /**
@@ -80,63 +72,6 @@ public class HarmonicCurveFitter extends AbstractCurveFitter {
      */
     public static HarmonicCurveFitter create() {
         return new HarmonicCurveFitter(null, Integer.MAX_VALUE);
-    }
-
-    /**
-     * Configure the start point (initial guess).
-     * @param newStart new start point (initial guess)
-     * @return a new instance.
-     */
-    public HarmonicCurveFitter withStartPoint(double[] newStart) {
-        return new HarmonicCurveFitter(newStart.clone(),
-                                       maxIter);
-    }
-
-    /**
-     * Configure the maximum number of iterations.
-     * @param newMaxIter maximum number of iterations
-     * @return a new instance.
-     */
-    public HarmonicCurveFitter withMaxIterations(int newMaxIter) {
-        return new HarmonicCurveFitter(initialGuess,
-                                       newMaxIter);
-    }
-
-    /** {@inheritDoc} */
-    @Override
-    protected LeastSquaresProblem getProblem(Collection<WeightedObservedPoint> observations) {
-        // Prepare least-squares problem.
-        final int len = observations.size();
-        final double[] target  = new double[len];
-        final double[] weights = new double[len];
-
-        int i = 0;
-        for (WeightedObservedPoint obs : observations) {
-            target[i]  = obs.getY();
-            weights[i] = obs.getWeight();
-            ++i;
-        }
-
-        final AbstractCurveFitter.TheoreticalValuesFunction model
-            = new AbstractCurveFitter.TheoreticalValuesFunction(FUNCTION,
-                                                                observations);
-
-        final double[] startPoint = initialGuess != null ?
-            initialGuess :
-            // Compute estimation.
-            new ParameterGuesser(observations).guess();
-
-        // Return a new optimizer set up to fit a Gaussian curve to the
-        // observed points.
-        return new LeastSquaresBuilder().
-                maxEvaluations(Integer.MAX_VALUE).
-                maxIterations(maxIter).
-                start(startPoint).
-                target(target).
-                weight(new DiagonalMatrix(weights)).
-                model(model.getModelFunction(), model.getModelFunctionJacobian()).
-                build();
-
     }
 
     /**
@@ -238,24 +173,22 @@ public class HarmonicCurveFitter extends AbstractCurveFitter {
      * estimations, these operations run in \(O(n)\) time, where \(n\) is the
      * number of measurements.</p>
      */
-    public static class ParameterGuesser {
-        /** Amplitude. */
-        private final double a;
-        /** Angular frequency. */
-        private final double omega;
-        /** Phase. */
-        private final double phi;
-
+    public static class ParameterGuesser extends SimpleCurveFitter.ParameterGuesser {
         /**
-         * Simple constructor.
+         * {@inheritDoc}
          *
-         * @param observations Sampled observations.
+         * @return the guessed parameters, in the following order:
+         * <ul>
+         *  <li>Amplitude</li>
+         *  <li>Angular frequency</li>
+         *  <li>Phase</li>
+         * </ul>
          * @throws NumberIsTooSmallException if the sample is too short.
          * @throws ZeroException if the abscissa range is zero.
          * @throws MathIllegalStateException when the guessing procedure cannot
          * produce sensible results.
          */
-        public ParameterGuesser(Collection<WeightedObservedPoint> observations) {
+        public double[] guess(Collection<WeightedObservedPoint> observations) {
             if (observations.size() < 4) {
                 throw new NumberIsTooSmallException(LocalizedFormats.INSUFFICIENT_OBSERVED_POINTS_IN_SAMPLE,
                                                     observations.size(), 4, true);
@@ -265,59 +198,12 @@ public class HarmonicCurveFitter extends AbstractCurveFitter {
                 = sortObservations(observations).toArray(new WeightedObservedPoint[0]);
 
             final double aOmega[] = guessAOmega(sorted);
-            a = aOmega[0];
-            omega = aOmega[1];
+            final double a = aOmega[0];
+            final double omega = aOmega[1];
 
-            phi = guessPhi(sorted);
-        }
+            final double phi = guessPhi(sorted, omega);
 
-        /**
-         * Gets an estimation of the parameters.
-         *
-         * @return the guessed parameters, in the following order:
-         * <ul>
-         *  <li>Amplitude</li>
-         *  <li>Angular frequency</li>
-         *  <li>Phase</li>
-         * </ul>
-         */
-        public double[] guess() {
             return new double[] { a, omega, phi };
-        }
-
-        /**
-         * Sort the observations with respect to the abscissa.
-         *
-         * @param unsorted Input observations.
-         * @return the input observations, sorted.
-         */
-        private List<WeightedObservedPoint> sortObservations(Collection<WeightedObservedPoint> unsorted) {
-            final List<WeightedObservedPoint> observations = new ArrayList<>(unsorted);
-
-            // Since the samples are almost always already sorted, this
-            // method is implemented as an insertion sort that reorders the
-            // elements in place. Insertion sort is very efficient in this case.
-            WeightedObservedPoint curr = observations.get(0);
-            final int len = observations.size();
-            for (int j = 1; j < len; j++) {
-                WeightedObservedPoint prec = curr;
-                curr = observations.get(j);
-                if (curr.getX() < prec.getX()) {
-                    // the current element should be inserted closer to the beginning
-                    int i = j - 1;
-                    WeightedObservedPoint mI = observations.get(i);
-                    while ((i >= 0) && (curr.getX() < mI.getX())) {
-                        observations.set(i + 1, mI);
-                        if (i-- != 0) {
-                            mI = observations.get(i);
-                        }
-                    }
-                    observations.set(i + 1, curr);
-                    curr = observations.get(j);
-                }
-            }
-
-            return observations;
         }
 
         /**
@@ -415,9 +301,11 @@ public class HarmonicCurveFitter extends AbstractCurveFitter {
          * Estimate a first guess of the phase.
          *
          * @param observations Observations, sorted w.r.t. abscissa.
+         * @param omega Angular frequency.
          * @return the guessed phase.
          */
-        private double guessPhi(WeightedObservedPoint[] observations) {
+        private double guessPhi(WeightedObservedPoint[] observations,
+                                double omega) {
             // initialize the means
             double fcMean = 0;
             double fsMean = 0;

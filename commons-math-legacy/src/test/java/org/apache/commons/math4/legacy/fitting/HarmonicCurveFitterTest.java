@@ -49,7 +49,7 @@ public class HarmonicCurveFitterTest {
             points.add(1, x, f.value(x));
         }
 
-        final HarmonicCurveFitter fitter = HarmonicCurveFitter.create();
+        final SimpleCurveFitter fitter = HarmonicCurveFitter.create();
         final double[] fitted = fitter.fit(points.toList());
         Assert.assertEquals(a, fitted[0], 1.0e-13);
         Assert.assertEquals(w, fitted[1], 1.0e-13);
@@ -74,7 +74,7 @@ public class HarmonicCurveFitterTest {
             points.add(1, x, f.value(x) + 0.01 * randomizer.nextGaussian());
         }
 
-        final HarmonicCurveFitter fitter = HarmonicCurveFitter.create();
+        final SimpleCurveFitter fitter = HarmonicCurveFitter.create();
         final double[] fitted = fitter.fit(points.toList());
         Assert.assertEquals(a, fitted[0], 7.6e-4);
         Assert.assertEquals(w, fitted[1], 2.7e-3);
@@ -90,7 +90,7 @@ public class HarmonicCurveFitterTest {
             points.add(1, x, 1e-7 * randomizer.nextGaussian());
         }
 
-        final HarmonicCurveFitter fitter = HarmonicCurveFitter.create();
+        final SimpleCurveFitter fitter = HarmonicCurveFitter.create();
         fitter.fit(points.toList());
 
         // This test serves to cover the part of the code of "guessAOmega"
@@ -110,7 +110,7 @@ public class HarmonicCurveFitterTest {
             points.add(1, x, f.value(x) + 0.01 * randomizer.nextGaussian());
         }
 
-        final HarmonicCurveFitter fitter = HarmonicCurveFitter.create()
+        final SimpleCurveFitter fitter = HarmonicCurveFitter.create()
             .withStartPoint(new double[] { 0.15, 3.6, 4.5 });
         final double[] fitted = fitter.fit(points.toList());
         Assert.assertEquals(a, fitted[0], 1.2e-3);
@@ -153,7 +153,7 @@ public class HarmonicCurveFitterTest {
             points.add(1, xTab[i], yTab[i]);
         }
 
-        final HarmonicCurveFitter fitter = HarmonicCurveFitter.create();
+        final SimpleCurveFitter fitter = HarmonicCurveFitter.create();
         final double[] fitted = fitter.fit(points.toList());
         Assert.assertEquals(a, fitted[0], 7.6e-4);
         Assert.assertEquals(w, fitted[1], 3.5e-3);
@@ -177,6 +177,6 @@ public class HarmonicCurveFitterTest {
         // and period 12, and all sample points are taken at integer abscissae
         // so function values all belong to the integer subset {-3, -2, -1, 0,
         // 1, 2, 3}.
-        new HarmonicCurveFitter.ParameterGuesser(points);
+        new HarmonicCurveFitter.ParameterGuesser().guess(points);
     }
 }

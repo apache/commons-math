@@ -19,10 +19,6 @@ package org.apache.commons.math4.legacy.fitting;
 import java.util.Collection;
 
 import org.apache.commons.math4.legacy.analysis.polynomials.PolynomialFunction;
-import org.apache.commons.math4.legacy.exception.MathInternalError;
-import org.apache.commons.math4.legacy.fitting.leastsquares.LeastSquaresBuilder;
-import org.apache.commons.math4.legacy.fitting.leastsquares.LeastSquaresProblem;
-import org.apache.commons.math4.legacy.linear.DiagonalMatrix;
 
 /**
  * Fits points to a {@link
@@ -36,25 +32,19 @@ import org.apache.commons.math4.legacy.linear.DiagonalMatrix;
  *
  * @since 3.3
  */
-public class PolynomialCurveFitter extends AbstractCurveFitter {
+public class PolynomialCurveFitter extends SimpleCurveFitter {
     /** Parametric function to be fitted. */
     private static final PolynomialFunction.Parametric FUNCTION = new PolynomialFunction.Parametric();
-    /** Initial guess. */
-    private final double[] initialGuess;
-    /** Maximum number of iterations of the optimization algorithm. */
-    private final int maxIter;
 
     /**
      * Constructor used by the factory methods.
      *
      * @param initialGuess Initial guess.
      * @param maxIter Maximum number of iterations of the optimization algorithm.
-     * @throws MathInternalError if {@code initialGuess} is {@code null}.
      */
     private PolynomialCurveFitter(double[] initialGuess,
                                   int maxIter) {
-        this.initialGuess = initialGuess;
-        this.maxIter = maxIter;
+        super(FUNCTION, initialGuess, null, maxIter);
     }
 
     /**
@@ -72,60 +62,4 @@ public class PolynomialCurveFitter extends AbstractCurveFitter {
     public static PolynomialCurveFitter create(int degree) {
         return new PolynomialCurveFitter(new double[degree + 1], Integer.MAX_VALUE);
     }
-
-    /**
-     * Configure the start point (initial guess).
-     * @param newStart new start point (initial guess)
-     * @return a new instance.
-     */
-    public PolynomialCurveFitter withStartPoint(double[] newStart) {
-        return new PolynomialCurveFitter(newStart.clone(),
-                                         maxIter);
-    }
-
-    /**
-     * Configure the maximum number of iterations.
-     * @param newMaxIter maximum number of iterations
-     * @return a new instance.
-     */
-    public PolynomialCurveFitter withMaxIterations(int newMaxIter) {
-        return new PolynomialCurveFitter(initialGuess,
-                                         newMaxIter);
-    }
-
-    /** {@inheritDoc} */
-    @Override
-    protected LeastSquaresProblem getProblem(Collection<WeightedObservedPoint> observations) {
-        // Prepare least-squares problem.
-        final int len = observations.size();
-        final double[] target  = new double[len];
-        final double[] weights = new double[len];
-
-        int i = 0;
-        for (WeightedObservedPoint obs : observations) {
-            target[i]  = obs.getY();
-            weights[i] = obs.getWeight();
-            ++i;
-        }
-
-        final AbstractCurveFitter.TheoreticalValuesFunction model =
-                new AbstractCurveFitter.TheoreticalValuesFunction(FUNCTION, observations);
-
-        if (initialGuess == null) {
-            throw new MathInternalError();
-        }
-
-        // Return a new least squares problem set up to fit a polynomial curve to the
-        // observed points.
-        return new LeastSquaresBuilder().
-                maxEvaluations(Integer.MAX_VALUE).
-                maxIterations(maxIter).
-                start(initialGuess).
-                target(target).
-                weight(new DiagonalMatrix(weights)).
-                model(model.getModelFunction(), model.getModelFunctionJacobian()).
-                build();
-
-    }
-
 }
