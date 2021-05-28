@@ -252,11 +252,9 @@ public class LevenbergMarquardtOptimizerTest
         final double ySigma = 15;
         final double radius = 111.111;
         // The test is extremely sensitive to the seed.
-        final long seed = 59321761419L;
         final RandomCirclePointGenerator factory
             = new RandomCirclePointGenerator(xCenter, yCenter, radius,
-                                             xSigma, ySigma,
-                                             seed);
+                                             xSigma, ySigma);
         final CircleProblem circle = new CircleProblem(xSigma, ySigma);
 
         final int numPoints = 10;
@@ -276,8 +274,8 @@ public class LevenbergMarquardtOptimizerTest
         final double[] asymptoticStandardErrorFound = optimum.getSigma(1e-14).toArray();
 
         // Check that the parameters are found within the assumed error bars.
-        Assert.assertEquals(xCenter, paramFound[0], asymptoticStandardErrorFound[0]);
-        Assert.assertEquals(yCenter, paramFound[1], asymptoticStandardErrorFound[1]);
+        Assert.assertEquals(xCenter, paramFound[0], 1.5 * asymptoticStandardErrorFound[0]);
+        Assert.assertEquals(yCenter, paramFound[1], 1.5 * asymptoticStandardErrorFound[1]);
         Assert.assertEquals(radius, paramFound[2], asymptoticStandardErrorFound[2]);
     }
 
@@ -289,11 +287,9 @@ public class LevenbergMarquardtOptimizerTest
         final double xSigma = 10;
         final double ySigma = 15;
         final double radius = 111.111;
-        final long seed = 3456789L;
         final RandomCirclePointGenerator factory
             = new RandomCirclePointGenerator(xCenter, yCenter, radius,
-                                             xSigma, ySigma,
-                                             seed);
+                                             xSigma, ySigma);
         final CircleProblem circle = new CircleProblem(xSigma, ySigma);
 
         final int numPoints = 10;

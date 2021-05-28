@@ -50,9 +50,8 @@ public class RandomCirclePointGenerator {
                                       double y,
                                       double radius,
                                       double xSigma,
-                                      double ySigma,
-                                      long seed) {
-        final UniformRandomProvider rng = RandomSource.create(RandomSource.WELL_44497_B, seed);
+                                      double ySigma) {
+        final UniformRandomProvider rng = RandomSource.create(RandomSource.WELL_44497_B);
         this.radius = radius;
         cX = new NormalDistribution(x, xSigma).createSampler(rng);
         cY = new NormalDistribution(y, ySigma).createSampler(rng);
