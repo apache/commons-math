@@ -688,7 +688,7 @@ public class PercentileTest extends UnivariateStatisticAbstractTest{
 
         Assert.assertEquals("Legacy Apache Commons Math",Percentile.EstimationType.LEGACY.getName());
 
-        for (final PivotingStrategyInterface strategy : new PivotingStrategyInterface[] {
+        for (final PivotingStrategy strategy : new PivotingStrategy[] {
             new MedianOf3PivotingStrategy(),
             new CentralPivotingStrategy(),
             new RandomPivotingStrategy(RandomSource.WELL_1024_A, 0xf097c734e4740053l)

@@ -843,10 +843,10 @@ public class Percentile extends AbstractUnivariateStatistic implements Serializa
     }
 
     /**
-     * Get the {@link PivotingStrategyInterface} used in KthSelector for computation.
+     * Get the {@link PivotingStrategy} used in KthSelector for computation.
      * @return the pivoting strategy set
      */
-    public PivotingStrategyInterface getPivotingStrategy() {
+    public PivotingStrategy getPivotingStrategy() {
         return kthSelector.getPivotingStrategy();
     }
 

@@ -22,7 +22,6 @@ import java.util.Arrays;
 import org.apache.commons.math4.legacy.exception.NullArgumentException;
 import org.apache.commons.math4.legacy.util.FastMath;
 
-
 /**
  * A Simple K<sup>th</sup> selector implementation to pick up the
  * K<sup>th</sup> ordered element from a work array containing the input
@@ -30,15 +29,14 @@ import org.apache.commons.math4.legacy.util.FastMath;
  * @since 3.4
  */
 public class KthSelector implements Serializable {
-
     /** Serializable UID. */
     private static final long serialVersionUID = 20140713L;
 
     /** Minimum selection size for insertion sort rather than selection. */
     private static final int MIN_SELECT_SIZE = 15;
 
-    /** A {@link PivotingStrategyInterface} used for pivoting  */
-    private final PivotingStrategyInterface pivotingStrategy;
+    /** A {@link PivotingStrategy} used for pivoting  */
+    private final PivotingStrategy pivotingStrategy;
 
     /**
      * Constructor with default {@link MedianOf3PivotingStrategy median of 3} pivoting strategy
@@ -56,8 +54,7 @@ public class KthSelector implements Serializable {
      * @see RandomPivotingStrategy
      * @see CentralPivotingStrategy
      */
-    public KthSelector(final PivotingStrategyInterface pivotingStrategy)
-        throws NullArgumentException {
+    public KthSelector(final PivotingStrategy pivotingStrategy) {
         NullArgumentException.check(pivotingStrategy);
         this.pivotingStrategy = pivotingStrategy;
     }
@@ -65,7 +62,7 @@ public class KthSelector implements Serializable {
     /** Get the pivoting strategy.
      * @return pivoting strategy
      */
-    public PivotingStrategyInterface getPivotingStrategy() {
+    public PivotingStrategy getPivotingStrategy() {
         return pivotingStrategy;
     }
 

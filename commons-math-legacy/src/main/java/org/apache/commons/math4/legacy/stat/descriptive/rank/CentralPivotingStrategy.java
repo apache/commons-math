@@ -19,16 +19,13 @@ package org.apache.commons.math4.legacy.stat.descriptive.rank;
 import java.io.Serializable;
 
 import org.apache.commons.math4.legacy.exception.MathIllegalArgumentException;
-import org.apache.commons.math4.legacy.stat.descriptive.rank.PivotingStrategyInterface;
 import org.apache.commons.math4.legacy.util.MathArrays;
-
 
 /**
  * A mid point strategy based on the average of begin and end indices.
  * @since 3.4
  */
-public class CentralPivotingStrategy implements PivotingStrategyInterface, Serializable {
-
+public class CentralPivotingStrategy implements PivotingStrategy, Serializable {
     /** Serializable UID. */
     private static final long serialVersionUID = 20140713L;
 
@@ -40,10 +37,8 @@ public class CentralPivotingStrategy implements PivotingStrategyInterface, Seria
      * @throws MathIllegalArgumentException when indices exceeds range
      */
     @Override
-    public int pivotIndex(final double[] work, final int begin, final int end)
-        throws MathIllegalArgumentException {
-        MathArrays.verifyValues(work, begin, end-begin);
+    public int pivotIndex(final double[] work, final int begin, final int end) {
+        MathArrays.verifyValues(work, begin, end - begin);
         return begin + (end - begin)/2;
     }
-
 }

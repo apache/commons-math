@@ -16,18 +16,15 @@
  */
 package org.apache.commons.math4.legacy.stat.descriptive.rank;
 
-import org.apache.commons.math4.legacy.exception.MathIllegalArgumentException;
-
-
 /**
  * A strategy to pick a pivoting index of an array for doing partitioning.
+ *
  * @see MedianOf3PivotingStrategy
  * @see RandomPivotingStrategy
  * @see CentralPivotingStrategy
- * @since 3.4
+ * @since 4.0
  */
-public interface PivotingStrategyInterface {
-
+public interface PivotingStrategy {
     /**
      * Find pivot index of the array so that partition and K<sup>th</sup>
      * element selection can be made
@@ -36,9 +33,7 @@ public interface PivotingStrategyInterface {
      * @param end index after the last element of the slice
      * @return the index of the pivot element chosen between the
      * first and the last element of the array slice
-     * @throws MathIllegalArgumentException when indices exceeds range
+     * @throws IllegalArgumentException when indices exceeds range
      */
-    int pivotIndex(double[] work, int begin, int end)
-        throws MathIllegalArgumentException;
-
+    int pivotIndex(double[] work, int begin, int end);
 }
