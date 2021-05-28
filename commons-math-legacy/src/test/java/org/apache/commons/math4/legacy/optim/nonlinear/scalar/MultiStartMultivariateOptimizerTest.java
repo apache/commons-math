@@ -28,9 +28,9 @@ import org.apache.commons.math4.legacy.optim.nonlinear.scalar.noderiv.NelderMead
 import org.apache.commons.math4.legacy.optim.nonlinear.scalar.noderiv.SimplexOptimizer;
 import org.apache.commons.rng.UniformRandomProvider;
 import org.apache.commons.rng.simple.RandomSource;
-import org.apache.commons.math4.legacy.random.GaussianRandomGenerator;
+import org.apache.commons.rng.sampling.distribution.GaussianSampler;
+import org.apache.commons.rng.sampling.distribution.ZigguratNormalizedGaussianSampler;
 import org.apache.commons.math4.legacy.random.RandomVectorGenerator;
-import org.apache.commons.math4.legacy.random.UncorrelatedRandomVectorGenerator;
 import org.junit.Assert;
 import org.junit.Test;
 
@@ -49,11 +49,9 @@ public class MultiStartMultivariateOptimizerTest {
         GradientMultivariateOptimizer underlying
             = new NonLinearConjugateGradientOptimizer(NonLinearConjugateGradientOptimizer.Formula.POLAK_RIBIERE,
                                                       new SimpleValueChecker(1e-10, 1e-10));
-        UniformRandomProvider g = RandomSource.create(RandomSource.MT_64);
-        RandomVectorGenerator generator
-            = new UncorrelatedRandomVectorGenerator(new double[] { 50, 50 },
-                                                    new double[] { 10, 10 },
-                                                    new GaussianRandomGenerator(g));
+        final RandomVectorGenerator generator = gaussianRandom(new double[] { 50, 50 },
+                                                               new double[] { 10, 10 },
+                                                               RandomSource.create(RandomSource.MT_64));
         int nbStarts = 10;
         MultiStartMultivariateOptimizer optimizer
             = new MultiStartMultivariateOptimizer(underlying, nbStarts, generator);
@@ -90,10 +88,9 @@ public class MultiStartMultivariateOptimizerTest {
                 { 0.9, 1.2 } ,
                 {  3.5, -2.3 }
             });
-        // The test is extremely sensitive to the seed.
-        UniformRandomProvider g = RandomSource.create(RandomSource.MT_64);
-        RandomVectorGenerator generator
-            = new UncorrelatedRandomVectorGenerator(2, new GaussianRandomGenerator(g));
+        final RandomVectorGenerator generator = gaussianRandom(new double[] { 0, 0 },
+                                                               new double[] { 1, 1 },
+                                                               RandomSource.create(RandomSource.MT_64));
         int nbStarts = 10;
         MultiStartMultivariateOptimizer optimizer
             = new MultiStartMultivariateOptimizer(underlying, nbStarts, generator);
@@ -130,5 +127,33 @@ public class MultiStartMultivariateOptimizerTest {
         public int getCount() {
             return count;
         }
+    }
+
+    /**
+     * @param mean Means.
+     * @param stdev Standard deviations.
+     * @param rng Underlying RNG.
+     * @return a random array generator where each element is a Gaussian
+     * sampling with the given mean and standard deviation.
+     */
+    private RandomVectorGenerator gaussianRandom(final double[] mean,
+                                                 final double[] stdev,
+                                                 final UniformRandomProvider rng) {
+        final ZigguratNormalizedGaussianSampler normalized = new ZigguratNormalizedGaussianSampler(rng);
+        final GaussianSampler[] samplers = new GaussianSampler[mean.length];
+        for (int i = 0; i < mean.length; i++) {
+            samplers[i] = new GaussianSampler(normalized, mean[i], stdev[i]);
+        }
+
+        return new RandomVectorGenerator() {
+            @Override
+            public double[] nextVector() {
+                final double[] s = new double[mean.length];
+                for (int i = 0; i < mean.length; i++) {
+                    s[i] = samplers[i].sample();
+                }
+                return s;
+            }
+        };
     }
 }
