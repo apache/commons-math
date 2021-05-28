@@ -35,7 +35,7 @@ import java.util.NoSuchElementException;
  * modified during iteration.</p>
  * @since 2.0
  */
-public class OpenIntToDoubleHashMap implements Serializable {
+class OpenIntToDoubleHashMap implements Serializable { // Not in public API.
 
     /** Status indicator for free table entries. */
     protected static final byte FREE    = 0;

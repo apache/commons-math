@@ -38,7 +38,7 @@ import org.apache.commons.math4.legacy.util.FastMath;
  * @param <T> the type of the field elements
  * @since 2.0
  */
-public class OpenIntToFieldHashMap<T extends FieldElement<T>> implements Serializable {
+class OpenIntToFieldHashMap<T extends FieldElement<T>> implements Serializable { // Not in public API.
 
     /** Status indicator for free table entries. */
     protected static final byte FREE    = 0;
