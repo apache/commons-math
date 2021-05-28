@@ -1497,11 +1497,11 @@ public class DSCompiler {
 
         // create the function value and derivatives
         double[] function = new double[1 + order];
-        function[0] = FastMath.cosh(operand[operandOffset]);
+        final double function0 = function[0] = FastMath.cosh(operand[operandOffset]);
         if (order > 0) {
-            function[1] = FastMath.sinh(operand[operandOffset]);
+            final double function1 = function[1] = FastMath.sinh(operand[operandOffset]);
             for (int i = 2; i <= order; ++i) {
-                function[i] = function[i - 2];
+                function[i] = (i & 1) == 0 ? function0 : function1;
             }
         }
 
@@ -1523,11 +1523,11 @@ public class DSCompiler {
 
         // create the function value and derivatives
         double[] function = new double[1 + order];
-        function[0] = FastMath.sinh(operand[operandOffset]);
+        final double function0 = function[0] = FastMath.sinh(operand[operandOffset]);
         if (order > 0) {
-            function[1] = FastMath.cosh(operand[operandOffset]);
+            final double function1 = function[1] = FastMath.cosh(operand[operandOffset]);
             for (int i = 2; i <= order; ++i) {
-                function[i] = function[i - 2];
+                function[i] = (i & 1) == 0 ? function0 : function1;
             }
         }
 
