@@ -75,7 +75,7 @@ import org.apache.commons.math4.legacy.util.MathArrays;
  * <p>
  * <b>Note:</b> this class is <b>NOT</b> thread-safe.
  */
-public class ResizableDoubleArray implements DoubleArray, Serializable {
+class ResizableDoubleArray implements DoubleArray, Serializable { // Not in public API.
     /** Serializable version identifier. */
     private static final long serialVersionUID = -3485529955529426875L;
 

@@ -23,7 +23,7 @@ package org.apache.commons.math4.legacy.stat.descriptive;
  * such as automatic expansion, contraction, and array "rolling".
  *
  */
-public interface DoubleArray {
+interface DoubleArray { // Not in public API.
 
     /**
      * Returns the number of elements currently in the array.  Please note
