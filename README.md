@@ -25,7 +25,7 @@
  | commons-build-plugin/trunk/src/main/resources/commons-xdoc-templates |
  +======================================================================+
  |                                                                      |
- | 1) Re-generate using: mvn commons:readme-md                          |
+ | 1) Re-generate using: mvn commons-build:readme-md                    |
  |                                                                      |
  | 2) Set the following properties in the component's pom:              |
  |    - commons.componentid (required, alphabetic, lower case)          |
@@ -43,17 +43,28 @@
 Apache Commons Math
 ===================
 
-[![Build Status](https://travis-ci.org/apache/commons-math.svg?branch=master)](https://travis-ci.org/apache/commons-math)
-[![Coverage Status](https://coveralls.io/repos/apache/commons-math/badge.svg?branch=master&service=github)](https://coveralls.io/github/apache/commons-math?branch=master)
-[![Maven Central](https://maven-badges.herokuapp.com/maven-central/org.apache.commons/commons-math3/badge.svg)](https://maven-badges.herokuapp.com/maven-central/org.apache.commons/commons-math3/)
-[![License](http://img.shields.io/:license-apache-blue.svg)](http://www.apache.org/licenses/LICENSE-2.0.html)
+[![Build Status](https://travis-ci.com/apache/commons-math.svg)](https://travis-ci.com/apache/commons-math)
+[![Coverage Status](https://coveralls.io/repos/apache/commons-math/badge.svg)](https://coveralls.io/r/apache/commons-math)
+<!--
+[![Maven Central](https://maven-badges.herokuapp.com/maven-central/org.apache.commons/commons-math-parent/badge.svg)](https://maven-badges.herokuapp.com/maven-central/org.apache.commons/commons-math-parent/)
+-->
+<!--
+[![Javadocs](https://javadoc.io/badge/org.apache.commons/commons-math-parent/4.0.svg)](https://javadoc.io/doc/org.apache.commons/commons-math-parent/4.0)
+-->
 
-The Apache Commons Math project is a library of lightweight, self-contained mathematics and statistics components addressing the most common practical problems not immediately available in the Java programming language or commons-lang.
+"Commons Math" is undergoing major changes towards the next release (4.0):
++ Low-level functionality has been split off to new components:
+  + "Commons Numbers" <https://commons.apache.org/numbers>
+  + "Commons "RNG" <https://commons.apache.org/rng>
+  + "Commons Geometry" <https://commons.apache.org/geometry>
+  + "Commons Statistics" <https://commons.apache.org/statistics>
++ Functionality still within "Commons Math" is gradually being modularized and refactored.
+
 
 Documentation
 -------------
 
-More information can be found on the [homepage](https://commons.apache.org/proper/commons-math).
+More information can be found on the [Apache Commons Math homepage](https://commons.apache.org/proper/commons-math).
 The [Javadoc](https://commons.apache.org/proper/commons-math/apidocs) can be browsed.
 Questions related to the usage of Apache Commons Math should be posted to the [user mailing list][ml].
 
@@ -61,20 +72,25 @@ Where can I get the latest release?
 -----------------------------------
 You can download source and binaries from our [download page](https://commons.apache.org/proper/commons-math/download_math.cgi).
 
+Please note that the last official version (3.6.1) is quite old and not supported anymore.
+Bug reports should be filed against the current development version.
+
+<!--
 Alternatively you can pull it from the central Maven repositories:
 
 ```xml
 <dependency>
   <groupId>org.apache.commons</groupId>
-  <artifactId>commons-math3</artifactId>
-  <version>3.5</version>
+  <artifactId>commons-math-parent</artifactId>
+  <version>4.0</version>
 </dependency>
 ```
+-->
 
 Contributing
 ------------
 
-We accept PRs via github. The [developer mailing list][ml] is the main channel of communication for contributors.
+We accept Pull Requests via GitHub. The [developer mailing list][ml] is the main channel of communication for contributors.
 There are some guidelines which will make applying PRs easier for us:
 + No tabs! Please use spaces for indentation.
 + Respect the code style.
@@ -86,7 +102,9 @@ You can learn more about contributing via GitHub in our [contribution guidelines
 
 License
 -------
-Code is under the [Apache Licence v2](https://www.apache.org/licenses/LICENSE-2.0.txt).
+This code is under the [Apache Licence v2](https://www.apache.org/licenses/LICENSE-2.0).
+
+See the `NOTICE` file for required notices and attributions.
 
 Donations
 ---------
@@ -96,7 +114,7 @@ Additional Resources
 --------------------
 
 + [Apache Commons Homepage](https://commons.apache.org/)
-+ [Apache Bugtracker (JIRA)](https://issues.apache.org/jira/)
++ [Apache Issue Tracker (JIRA)](https://issues.apache.org/jira/browse/MATH)
 + [Apache Commons Twitter Account](https://twitter.com/ApacheCommons)
 + `#apache-commons` IRC channel on `irc.freenode.org`
 
