@@ -53,7 +53,39 @@ If the output is not quite correct, check for invisible trailing spaces!
     <release version="TBD" date="TBD" description="TBD">
     </release>
 
-    <release version="4.0" date="XXXX-XX-XX" description="">
+    <release version="4.0" date="XXXX-XX-XX" description="
+This is a major release that requires source changes in applications.
+
+Lower-level functionality has been split off to new components, often
+  with many bug-fixes, performance enhancements and improved API:
+  Commons RNG,
+  Commons Numbers,
+  Commons Geometry,
+  Commons Statistics.
+
+Functionality still within Commons Math has been modularized and
+ partly refactored.
+ This is a work-in-progress (help welcome).
+ Codes for which the refactoring has not been undertaken (or was
+ deemed incomplete) have been moved to a 'legacy' module.
+
+The minimum version of the Java platform required to compile and use
+ Commons Math is Java 8.
+
+Users are encouraged to upgrade to this version, and to the new
+ components listed above (they are now Commons Math's dependencies).
+ Note that the new artefacts can be used together with v3.6.1 as the
+ Java packages are different; ugrading can thus be performed
+ incrementally.
+
+Caveat:
+ Although hundreds of issues have been fixed (see 'git log' and the
+ reports in the bug-tracking system of all the listed components),
+ many remain, due to the lack of human resources necessary in order
+ to support the whole codebase.  [The Commons Math maintenance
+ nightmare was one of the main reasons for creating more focused
+ components.]
+">
       <action dev="erans" type="update" issue="MATH-1582">
         Transforms codes moved into a dedicated maven module.
       </action>
