@@ -23,7 +23,9 @@ import org.apache.commons.math4.legacy.TestUtils;
 import org.apache.commons.math4.legacy.linear.Array2DRowRealMatrix;
 import org.apache.commons.math4.legacy.linear.MatrixUtils;
 import org.apache.commons.math4.legacy.linear.RealMatrix;
+import org.apache.commons.rng.UniformRandomProvider;
 import org.apache.commons.rng.simple.RandomSource;
+import org.apache.commons.rng.sampling.distribution.ZigguratNormalizedGaussianSampler;
 import org.apache.commons.math4.legacy.stat.correlation.StorelessCovariance;
 import org.apache.commons.math4.legacy.stat.descriptive.moment.VectorialCovariance;
 import org.apache.commons.math4.legacy.stat.descriptive.moment.VectorialMean;
@@ -57,11 +59,10 @@ public class CorrelatedRandomVectorGeneratorTest {
             }
         }
 
-        GaussianRandomGenerator rawGenerator = new GaussianRandomGenerator(RandomSource.create(RandomSource.WELL_1024_A, 17399225432l));
         generator = new CorrelatedRandomVectorGenerator(mean,
                                                         covariance,
-                                                        1.0e-12 * covariance.getNorm(),
-                                                        rawGenerator);
+                                                        1e-12 * covariance.getNorm(),
+                                                        gaussianRandom(RandomSource.create(RandomSource.WELL_1024_A)));
     }
 
     @Test
@@ -79,9 +80,9 @@ public class CorrelatedRandomVectorGeneratorTest {
                 { 6, 2, -1, 197 }
         };
         RealMatrix covRM = MatrixUtils.createRealMatrix(cov);
-        NormalizedRandomGenerator rg = new GaussianRandomGenerator(RandomSource.create(RandomSource.WELL_1024_A, 5322145245211l));
         CorrelatedRandomVectorGenerator sg =
-            new CorrelatedRandomVectorGenerator(mean, covRM, 0.00001, rg);
+            new CorrelatedRandomVectorGenerator(mean, covRM, 0.00001,
+                                                gaussianRandom(RandomSource.create(RandomSource.WELL_1024_A)));
 
         double[] min = new double[mean.length];
         Arrays.fill(min, Double.POSITIVE_INFINITY);
@@ -168,12 +169,11 @@ public class CorrelatedRandomVectorGeneratorTest {
 
     private CorrelatedRandomVectorGenerator createSampler(double[][] cov) {
         RealMatrix matrix = new Array2DRowRealMatrix(cov);
-        double small = 10e-12 * matrix.getNorm();
-        return new CorrelatedRandomVectorGenerator(
-                new double[cov.length],
-                matrix,
-                small,
-                new GaussianRandomGenerator(RandomSource.create(RandomSource.WELL_1024_A, 0x366a26b94e520f41l)));
+        double small = 1e-12 * matrix.getNorm();
+        return new CorrelatedRandomVectorGenerator(new double[cov.length],
+                                                   matrix,
+                                                   small,
+                                                   gaussianRandom(RandomSource.create(RandomSource.WELL_1024_A)));
     }
 
     private void testSampler(final double[][] covMatrix, int samples, double epsilon) {
@@ -188,5 +188,21 @@ public class CorrelatedRandomVectorGeneratorTest {
         for (int r = 0; r < covMatrix.length; ++r) {
             TestUtils.assertEquals(covMatrix[r], sampleCov[r], epsilon);
         }
+    }
+
+    /**
+     * @param rng RNG.
+     * @return a N(0,1) sampler.
+     */
+    private NormalizedRandomGenerator gaussianRandom(final UniformRandomProvider rng) {
+        final ZigguratNormalizedGaussianSampler n = new ZigguratNormalizedGaussianSampler(rng);
+
+        return new NormalizedRandomGenerator() {
+            /** {@inheritDoc} */
+            @Override
+            public double nextNormalizedDouble() {
+                return n.sample();
+            }
+        };
     }
 }
