@@ -53,9 +53,9 @@ Apache Commons Math
 -->
 
 "Commons Math" is undergoing major changes towards the next release (4.0):
-+ Low-level functionality has been split off to new components:
++ Low-level functionality has been split off to new components, often with many bug-fixes, performance enhancements and improved API:
   + "Commons Numbers" <https://commons.apache.org/numbers>
-  + "Commons "RNG" <https://commons.apache.org/rng>
+  + "Commons RNG" <https://commons.apache.org/rng>
   + "Commons Geometry" <https://commons.apache.org/geometry>
   + "Commons Statistics" <https://commons.apache.org/statistics>
 + Functionality still within "Commons Math" is gradually being modularized and refactored.
