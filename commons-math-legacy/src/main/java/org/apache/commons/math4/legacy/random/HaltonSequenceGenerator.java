@@ -84,7 +84,7 @@ public class HaltonSequenceGenerator implements RandomVectorGenerator {
      * @param dimension the space dimension
      * @throws OutOfRangeException if the space dimension is outside the allowed range of [1, 40]
      */
-    public HaltonSequenceGenerator(final int dimension) throws OutOfRangeException {
+    public HaltonSequenceGenerator(final int dimension) {
         this(dimension, PRIMES, WEIGHTS);
     }
 
@@ -100,9 +100,7 @@ public class HaltonSequenceGenerator implements RandomVectorGenerator {
      *   len refers to the length of the bases array
      * @throws DimensionMismatchException if weights is non-null and the length of the input arrays differ
      */
-    public HaltonSequenceGenerator(final int dimension, final int[] bases, final int[] weights)
-            throws NullArgumentException, OutOfRangeException, DimensionMismatchException {
-
+    public HaltonSequenceGenerator(final int dimension, final int[] bases, final int[] weights) {
         NullArgumentException.check(bases);
 
         if (dimension < 1 || dimension > bases.length) {
@@ -165,7 +163,7 @@ public class HaltonSequenceGenerator implements RandomVectorGenerator {
      * @return the i-th point in the Halton sequence
      * @throws NotPositiveException if index &lt; 0
      */
-    public double[] skipTo(final int index) throws NotPositiveException {
+    public double[] skipTo(final int index) {
         count = index;
         return nextVector();
     }
@@ -179,5 +177,4 @@ public class HaltonSequenceGenerator implements RandomVectorGenerator {
     public int getNextIndex() {
         return count;
     }
-
 }

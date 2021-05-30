@@ -88,7 +88,7 @@ public class SobolSequenceGenerator implements RandomVectorGenerator {
      * @param dimension the space dimension
      * @throws OutOfRangeException if the space dimension is outside the allowed range of [1, 21201]
      */
-    public SobolSequenceGenerator(final int dimension) throws OutOfRangeException {
+    public SobolSequenceGenerator(final int dimension) {
         if (dimension < 1 || dimension > MAX_DIMENSION) {
             throw new OutOfRangeException(dimension, 1, MAX_DIMENSION);
         }
@@ -154,8 +154,7 @@ public class SobolSequenceGenerator implements RandomVectorGenerator {
      * @throws IOException if an error occurs while reading from the input stream
      */
     public SobolSequenceGenerator(final int dimension, final InputStream is)
-            throws NotStrictlyPositiveException, MathParseException, IOException {
-
+        throws IOException {
         if (dimension < 1) {
             throw new NotStrictlyPositiveException(dimension);
         }
@@ -184,8 +183,7 @@ public class SobolSequenceGenerator implements RandomVectorGenerator {
      * @throws IOException if the stream could not be read
      * @throws MathParseException if the content could not be parsed successfully
      */
-    private int initFromStream(final InputStream is) throws MathParseException, IOException {
-
+    private int initFromStream(final InputStream is) throws IOException {
         // special case: dimension 1 -> use unit initialization
         for (int i = 1; i <= BITS; i++) {
             direction[0][i] = 1l << (BITS - i);
@@ -287,7 +285,7 @@ public class SobolSequenceGenerator implements RandomVectorGenerator {
      * @return the i-th point in the Sobol sequence
      * @throws NotPositiveException if index &lt; 0
      */
-    public double[] skipTo(final int index) throws NotPositiveException {
+    public double[] skipTo(final int index) {
         if (index == 0) {
             // reset x vector
             Arrays.fill(x, 0);
