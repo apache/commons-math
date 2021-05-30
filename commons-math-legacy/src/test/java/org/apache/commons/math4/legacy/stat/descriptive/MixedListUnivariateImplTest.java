@@ -16,13 +16,12 @@
  */
 package org.apache.commons.math4.legacy.stat.descriptive;
 
-import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.List;
-
 import org.apache.commons.math4.legacy.util.FastMath;
 import org.junit.Assert;
 import org.junit.Test;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Test cases for the {@link ListUnivariateImpl} class.
@@ -42,23 +41,18 @@ public final class MixedListUnivariateImplTest {
     private final double max = 3;
     private final double tolerance = 10E-15;
 
-    private TransformerMap transformers = new TransformerMap();
 
     public MixedListUnivariateImplTest() {
-        transformers = new TransformerMap();
 
-        transformers.putTransformer(Foo.class, new FooTransformer());
-
-        transformers.putTransformer(Bar.class, new BarTransformer());
 
     }
 
     /** test stats */
     @Test
     public void testStats() {
-        List<Object> externalList = new ArrayList<>();
+        List<Double> externalList = new ArrayList<>();
 
-        DescriptiveStatistics u = new ListUnivariateImpl(externalList,transformers);
+        DescriptiveStatistics u = new ListUnivariateImpl(externalList);
 
         Assert.assertEquals("total count", 0, u.getN(), tolerance);
         u.addValue(one);
@@ -79,7 +73,7 @@ public final class MixedListUnivariateImplTest {
 
     @Test
     public void testN0andN1Conditions() {
-        DescriptiveStatistics u = new ListUnivariateImpl(new ArrayList<>(),transformers);
+        DescriptiveStatistics u = new ListUnivariateImpl(new ArrayList<>());
 
         Assert.assertTrue(
             "Mean of n = 0 set should be NaN",
@@ -109,30 +103,30 @@ public final class MixedListUnivariateImplTest {
     @Test
     public void testSkewAndKurtosis() {
         ListUnivariateImpl u =
-            new ListUnivariateImpl(new ArrayList<>(), transformers);
+            new ListUnivariateImpl(new ArrayList<>());
 
-        u.addObject("12.5");
-        u.addObject(Integer.valueOf(12));
-        u.addObject("11.8");
-        u.addObject("14.2");
-        u.addObject(new Foo());
-        u.addObject("14.5");
-        u.addObject(Long.valueOf(21));
-        u.addObject("8.2");
-        u.addObject("10.3");
-        u.addObject("11.3");
-        u.addObject(Float.valueOf(14.1f));
-        u.addObject("9.9");
-        u.addObject("12.2");
-        u.addObject(new Bar());
-        u.addObject("12.1");
-        u.addObject("11");
-        u.addObject(Double.valueOf(19.8));
-        u.addObject("11");
-        u.addObject("10");
-        u.addObject("8.8");
-        u.addObject("9");
-        u.addObject("12.3");
+        u.addValue(12.5);
+        u.addValue(12);
+        u.addValue(11.8);
+        u.addValue(14.2);
+        u.addValue(14.5);
+        u.addValue(14.9);
+        u.addValue(12.0);
+        u.addValue(21);
+        u.addValue(8.2);
+        u.addValue(10.3);
+        u.addValue(11.3);
+        u.addValue(14.1f);
+        u.addValue(9.9);
+        u.addValue(12.2);
+        u.addValue(12.1);
+        u.addValue(11);
+        u.addValue(19.8);
+        u.addValue(11);
+        u.addValue(10);
+        u.addValue(8.8);
+        u.addValue(9);
+        u.addValue(12.3);
 
 
         Assert.assertEquals("mean", 12.40455, u.getMean(), 0.0001);
@@ -143,7 +137,7 @@ public final class MixedListUnivariateImplTest {
 
     @Test
     public void testProductAndGeometricMean() {
-        ListUnivariateImpl u = new ListUnivariateImpl(new ArrayList<>(),transformers);
+        ListUnivariateImpl u = new ListUnivariateImpl(new ArrayList<>());
         u.setWindowSize(10);
 
         u.addValue(1.0);
@@ -170,33 +164,4 @@ public final class MixedListUnivariateImplTest {
             0.00001);
 
     }
-
-    public static final class Foo {
-        public String heresFoo() {
-            return "14.9";
-        }
-    }
-
-    public static final class FooTransformer implements UnivariateStatistic.NumberTransformer, Serializable {
-        private static final long serialVersionUID = -4252248129291326127L;
-        @Override
-        public double transform(Object o) {
-            return Double.parseDouble(((Foo) o).heresFoo());
-        }
-    }
-
-    public static final class Bar {
-        public String heresBar() {
-            return "12.0";
-        }
-    }
-
-    public static final class BarTransformer implements UnivariateStatistic.NumberTransformer, Serializable {
-        private static final long serialVersionUID = -1768345377764262043L;
-        @Override
-        public double transform(Object o) {
-            return Double.parseDouble(((Bar) o).heresBar());
-        }
-    }
-
 }

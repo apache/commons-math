@@ -48,7 +48,7 @@ public final class ListUnivariateImplTest {
     /** test stats */
     @Test
     public void testStats() {
-        List<Object> externalList = new ArrayList<>();
+        List<Double> externalList = new ArrayList<>();
 
         DescriptiveStatistics u = new ListUnivariateImpl( externalList );
 
@@ -71,9 +71,9 @@ public final class ListUnivariateImplTest {
 
     @Test
     public void testN0andN1Conditions() {
-        List<Object> list = new ArrayList<>();
+        List<Double> list = new ArrayList<>();
 
-        DescriptiveStatistics u = new ListUnivariateImpl( list );
+        DescriptiveStatistics u = new ListUnivariateImpl(list);
 
         Assert.assertTrue("Mean of n = 0 set should be NaN", Double.isNaN( u.getMean() ) );
         Assert.assertTrue("Standard Deviation of n = 0 set should be NaN", Double.isNaN( u.getStandardDeviation() ) );
@@ -130,7 +130,7 @@ public final class ListUnivariateImplTest {
     @Test
     public void testSerialization() {
 
-        DescriptiveStatistics u = new ListUnivariateImpl();
+        DescriptiveStatistics u = new ListUnivariateImpl(new ArrayList<>());
 
         Assert.assertEquals("total count",0,u.getN(),tolerance);
         u.addValue(one);
