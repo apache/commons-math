@@ -32,33 +32,21 @@ public class ListUnivariateImpl extends DescriptiveStatistics implements Seriali
      * Holds a reference to a list - GENERICs are going to make
      * our lives easier here as we could only accept List<Number>
      */
-    protected List<Object> list;
-    /** Number Transformer maps Objects to Number for us. */
-    protected UnivariateStatistic.NumberTransformer transformer;
-
-    /**
-     * No argument constructor
-     */
-    public ListUnivariateImpl(){
-        this(new ArrayList<>());
-    }
+    protected List<Double> list = new ArrayList<>();
 
     /**
      * Construct a ListUnivariate with a specific List.
      * @param list The list that will back this DescriptiveStatistics
      */
-    public ListUnivariateImpl(List<Object> list) {
-        this(list, new UnivariateStatistic.DefaultTransformer());
-    }
-
-    /**
-     * Construct a ListUnivariate with a specific List.
-     * @param list The list that will back this DescriptiveStatistics
-     * @param transformer the number transformer used to convert the list items.
-     */
-    public ListUnivariateImpl(List<Object> list, UnivariateStatistic.NumberTransformer transformer) {
+    public ListUnivariateImpl(List<Double> list) {
         this.list = list;
-        this.transformer = transformer;
+    }
+
+
+    /**
+     * Default constructor
+     */
+    public ListUnivariateImpl() {
     }
 
     /** {@inheritDoc} */
@@ -98,7 +86,7 @@ public class ListUnivariateImpl extends DescriptiveStatistics implements Seriali
 
 
         try {
-            value = transformer.transform(list.get(calcIndex));
+            value = list.get(calcIndex);
         } catch (MathIllegalArgumentException e) {
             e.printStackTrace();
         }
@@ -128,15 +116,7 @@ public class ListUnivariateImpl extends DescriptiveStatistics implements Seriali
     /** {@inheritDoc} */
     @Override
     public void addValue(double v) {
-        list.add(Double.valueOf(v));
-    }
-
-    /**
-     * Adds an object to this list.
-     * @param o Object to add to the list
-     */
-    public void addObject(Object o) {
-        list.add(o);
+        list.add(v);
     }
 
     /**
@@ -163,22 +143,6 @@ public class ListUnivariateImpl extends DescriptiveStatistics implements Seriali
         }
 
         return Double.NaN;
-    }
-
-    /**
-     * Access the number transformer.
-     * @return the number transformer.
-     */
-    public UnivariateStatistic.NumberTransformer getTransformer() {
-        return transformer;
-    }
-
-    /**
-     * Modify the number transformer.
-     * @param transformer the new number transformer.
-     */
-    public void setTransformer(UnivariateStatistic.NumberTransformer transformer) {
-        this.transformer = transformer;
     }
 
     /** {@inheritDoc} */
