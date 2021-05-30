@@ -16,10 +16,10 @@
  */
 package org.apache.commons.math4.legacy.optim;
 
+import java.util.function.Supplier;
 import org.apache.commons.math4.legacy.exception.MathIllegalStateException;
 import org.apache.commons.math4.legacy.exception.NotStrictlyPositiveException;
 import org.apache.commons.math4.legacy.exception.TooManyEvaluationsException;
-import org.apache.commons.math4.legacy.random.RandomVectorGenerator;
 
 /**
  * Base class multi-start optimizer for a multivariate function.
@@ -41,9 +41,9 @@ public abstract class BaseMultiStartMultivariateOptimizer<PAIR>
     /** Number of evaluations already performed for all starts. */
     private int totalEvaluations;
     /** Number of starts to go. */
-    private int starts;
-    /** Random generator for multi-start. */
-    private RandomVectorGenerator generator;
+    private final int starts;
+    /** Generator of start points ("multi-start"). */
+    private final Supplier<double[]> generator;
     /** Optimization data. */
     private OptimizationData[] optimData;
     /**
@@ -72,12 +72,12 @@ public abstract class BaseMultiStartMultivariateOptimizer<PAIR>
      * @param starts Number of starts to perform. If {@code starts == 1},
      * the {@link #optimize(OptimizationData[]) optimize} will return the
      * same solution as the given {@code optimizer} would return.
-     * @param generator Random vector generator to use for restarts.
+     * @param generator Generator to use for restarts.
      * @throws NotStrictlyPositiveException if {@code starts < 1}.
      */
     public BaseMultiStartMultivariateOptimizer(final BaseMultivariateOptimizer<PAIR> optimizer,
                                                final int starts,
-                                               final RandomVectorGenerator generator) {
+                                               final Supplier<double[]> generator) {
         super(optimizer.getConvergenceChecker());
 
         if (starts < 1) {
@@ -185,7 +185,7 @@ public abstract class BaseMultiStartMultivariateOptimizer<PAIR>
                         if (attempts++ >= getMaxEvaluations()) {
                             throw new TooManyEvaluationsException(getMaxEvaluations());
                         }
-                        s = generator.nextVector();
+                        s = generator.get();
                         for (int k = 0; s != null && k < s.length; ++k) {
                             if ((min != null && s[k] < min[k]) || (max != null && s[k] > max[k])) {
                                 // reject the vector

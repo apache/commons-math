@@ -20,12 +20,12 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
+import java.util.function.Supplier;
 
 import org.apache.commons.math4.legacy.exception.NotStrictlyPositiveException;
 import org.apache.commons.math4.legacy.exception.NullArgumentException;
 import org.apache.commons.math4.legacy.optim.BaseMultiStartMultivariateOptimizer;
 import org.apache.commons.math4.legacy.optim.PointValuePair;
-import org.apache.commons.math4.legacy.random.RandomVectorGenerator;
 
 /**
  * Multi-start optimizer.
@@ -50,16 +50,14 @@ public class MultiStartMultivariateOptimizer
      * @param starts Number of starts to perform.
      * If {@code starts == 1}, the result will be same as if {@code optimizer}
      * is called directly.
-     * @param generator Random vector generator to use for restarts.
+     * @param generator Generator to use for restarts.
      * @throws NullArgumentException if {@code optimizer} or {@code generator}
      * is {@code null}.
      * @throws NotStrictlyPositiveException if {@code starts < 1}.
      */
     public MultiStartMultivariateOptimizer(final MultivariateOptimizer optimizer,
                                            final int starts,
-                                           final RandomVectorGenerator generator)
-        throws NullArgumentException,
-        NotStrictlyPositiveException {
+                                           final Supplier<double[]> generator) {
         super(optimizer, starts, generator);
         this.optimizer = optimizer;
     }
