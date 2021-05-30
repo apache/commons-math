@@ -40,7 +40,7 @@ public class Decimal64Field implements Field<Decimal64> {
      *
      * @return the unique instance of this class
      */
-    public static final Decimal64Field getInstance() {
+    public static Decimal64Field getInstance() {
         return INSTANCE;
     }
 
