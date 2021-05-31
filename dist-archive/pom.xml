@@ -138,6 +138,44 @@ under the License.
           <classifier>javadoc</classifier>
         </dependency>
 
+        <!-- Module: Exception (legacy) -->
+        <dependency>
+          <groupId>org.apache.commons</groupId>
+          <artifactId>commons-math-legacy-exception</artifactId>
+          <version>${project.version}</version>
+        </dependency>
+        <dependency>
+          <groupId>org.apache.commons</groupId>
+          <artifactId>commons-math-legacy-exception</artifactId>
+          <version>${project.version}</version>
+          <classifier>sources</classifier>
+        </dependency>
+        <dependency>
+          <groupId>org.apache.commons</groupId>
+          <artifactId>commons-math-legacy-exception</artifactId>
+          <version>${project.version}</version>
+          <classifier>javadoc</classifier>
+        </dependency>
+
+        <!-- Module: Core (legacy) -->
+        <dependency>
+          <groupId>org.apache.commons</groupId>
+          <artifactId>commons-math-legacy-core</artifactId>
+          <version>${project.version}</version>
+        </dependency>
+        <dependency>
+          <groupId>org.apache.commons</groupId>
+          <artifactId>commons-math-legacy-core</artifactId>
+          <version>${project.version}</version>
+          <classifier>sources</classifier>
+        </dependency>
+        <dependency>
+          <groupId>org.apache.commons</groupId>
+          <artifactId>commons-math-legacy-core</artifactId>
+          <version>${project.version}</version>
+          <classifier>javadoc</classifier>
+        </dependency>
+
       </dependencies>
 
       <build>
