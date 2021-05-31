@@ -28,18 +28,18 @@ public class NonMonotonicSequenceExceptionTest {
     @Test
     public void testAccessors() {
         NonMonotonicSequenceException e
-            = new NonMonotonicSequenceException(0, -1, 1, MathArrays.OrderDirection.DECREASING, false);
+            = new NonMonotonicSequenceException(0, -1, 1, false, false);
         Assert.assertEquals(0, e.getArgument());
         Assert.assertEquals(-1, e.getPrevious());
         Assert.assertEquals(1, e.getIndex());
-        Assert.assertTrue(e.getDirection() == MathArrays.OrderDirection.DECREASING);
+        Assert.assertFalse(e.getIncreasing());
         Assert.assertFalse(e.getStrict());
 
         e = new NonMonotonicSequenceException(-1, 0, 1);
         Assert.assertEquals(-1, e.getArgument());
         Assert.assertEquals(0, e.getPrevious());
         Assert.assertEquals(1, e.getIndex());
-        Assert.assertTrue(e.getDirection() == MathArrays.OrderDirection.INCREASING);
+        Assert.assertTrue(e.getIncreasing());
         Assert.assertTrue(e.getStrict());
     }
 }

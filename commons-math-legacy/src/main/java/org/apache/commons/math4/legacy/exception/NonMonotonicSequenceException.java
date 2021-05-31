@@ -17,7 +17,6 @@
 package org.apache.commons.math4.legacy.exception;
 
 import org.apache.commons.math4.legacy.exception.util.LocalizedFormats;
-import org.apache.commons.math4.legacy.util.MathArrays;
 
 /**
  * Exception to be thrown when the a sequence of values is not monotonically
@@ -27,11 +26,11 @@ import org.apache.commons.math4.legacy.util.MathArrays;
  */
 public class NonMonotonicSequenceException extends MathIllegalNumberException {
     /** Serializable version Id. */
-    private static final long serialVersionUID = 3596849179428944575L;
+    private static final long serialVersionUID = 20210531L;
     /**
-     * Direction (positive for increasing, negative for decreasing).
+     * Whether the sequence should be increasing.
      */
-    private final MathArrays.OrderDirection direction;
+    private final boolean increasing;
     /**
      * Whether the sequence must be strictly increasing or decreasing.
      */
@@ -57,7 +56,7 @@ public class NonMonotonicSequenceException extends MathIllegalNumberException {
     public NonMonotonicSequenceException(Number wrong,
                                          Number previous,
                                          int index) {
-        this(wrong, previous, index, MathArrays.OrderDirection.INCREASING, true);
+        this(wrong, previous, index, true, true);
     }
 
     /**
@@ -66,17 +65,17 @@ public class NonMonotonicSequenceException extends MathIllegalNumberException {
      * @param wrong Value that did not match the requirements.
      * @param previous Previous value in the sequence.
      * @param index Index of the value that did not match the requirements.
-     * @param direction Strictly positive for a sequence required to be
-     * increasing, negative (or zero) for a decreasing sequence.
+     * @param increasing {@code true} for a sequence required to be
+     * increasing, {@code false} for a decreasing sequence.
      * @param strict Whether the sequence must be strictly increasing or
      * decreasing.
      */
     public NonMonotonicSequenceException(Number wrong,
                                          Number previous,
                                          int index,
-                                         MathArrays.OrderDirection direction,
+                                         boolean increasing,
                                          boolean strict) {
-        super(direction == MathArrays.OrderDirection.INCREASING ?
+        super(increasing ?
               (strict ?
                LocalizedFormats.NOT_STRICTLY_INCREASING_SEQUENCE :
                LocalizedFormats.NOT_INCREASING_SEQUENCE) :
@@ -85,17 +84,17 @@ public class NonMonotonicSequenceException extends MathIllegalNumberException {
                LocalizedFormats.NOT_DECREASING_SEQUENCE),
               wrong, previous, Integer.valueOf(index), Integer.valueOf(index - 1));
 
-        this.direction = direction;
+        this.increasing = increasing;
         this.strict = strict;
         this.index = index;
         this.previous = previous;
     }
 
     /**
-     * @return the order direction.
+     * @return {@code true} if the sequence should be increasing.
      **/
-    public MathArrays.OrderDirection getDirection() {
-        return direction;
+    public boolean getIncreasing() {
+        return increasing;
     }
     /**
      * @return {@code true} is the sequence should be strictly monotonic.

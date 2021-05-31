@@ -117,8 +117,7 @@ public class MathArrays {
      * @throws DimensionMismatchException if the array lengths differ.
      * @since 3.1
      */
-    public static double[] ebeAdd(double[] a, double[] b)
-        throws DimensionMismatchException {
+    public static double[] ebeAdd(double[] a, double[] b) {
         checkEqualLength(a, b);
 
         final double[] result = a.clone();
@@ -137,8 +136,7 @@ public class MathArrays {
      * @throws DimensionMismatchException if the array lengths differ.
      * @since 3.1
      */
-    public static double[] ebeSubtract(double[] a, double[] b)
-        throws DimensionMismatchException {
+    public static double[] ebeSubtract(double[] a, double[] b) {
         checkEqualLength(a, b);
 
         final double[] result = a.clone();
@@ -157,8 +155,7 @@ public class MathArrays {
      * @throws DimensionMismatchException if the array lengths differ.
      * @since 3.1
      */
-    public static double[] ebeMultiply(double[] a, double[] b)
-        throws DimensionMismatchException {
+    public static double[] ebeMultiply(double[] a, double[] b) {
         checkEqualLength(a, b);
 
         final double[] result = a.clone();
@@ -177,8 +174,7 @@ public class MathArrays {
      * @throws DimensionMismatchException if the array lengths differ.
      * @since 3.1
      */
-    public static double[] ebeDivide(double[] a, double[] b)
-        throws DimensionMismatchException {
+    public static double[] ebeDivide(double[] a, double[] b) {
         checkEqualLength(a, b);
 
         final double[] result = a.clone();
@@ -196,8 +192,7 @@ public class MathArrays {
      * @return the L<sub>1</sub> distance between the two points
      * @throws DimensionMismatchException if the array lengths differ.
      */
-    public static double distance1(double[] p1, double[] p2)
-    throws DimensionMismatchException {
+    public static double distance1(double[] p1, double[] p2) {
         checkEqualLength(p1, p2);
         double sum = 0;
         for (int i = 0; i < p1.length; i++) {
@@ -214,8 +209,7 @@ public class MathArrays {
      * @return the L<sub>1</sub> distance between the two points
      * @throws DimensionMismatchException if the array lengths differ.
      */
-    public static int distance1(int[] p1, int[] p2)
-    throws DimensionMismatchException {
+    public static int distance1(int[] p1, int[] p2) {
         checkEqualLength(p1, p2);
         int sum = 0;
         for (int i = 0; i < p1.length; i++) {
@@ -232,8 +226,7 @@ public class MathArrays {
      * @return the L<sub>2</sub> distance between the two points
      * @throws DimensionMismatchException if the array lengths differ.
      */
-    public static double distance(double[] p1, double[] p2)
-    throws DimensionMismatchException {
+    public static double distance(double[] p1, double[] p2) {
         checkEqualLength(p1, p2);
         double sum = 0;
         for (int i = 0; i < p1.length; i++) {
@@ -251,8 +244,7 @@ public class MathArrays {
      * @return the L<sub>2</sub> distance between the two points
      * @throws DimensionMismatchException if the array lengths differ.
      */
-    public static double distance(int[] p1, int[] p2)
-    throws DimensionMismatchException {
+    public static double distance(int[] p1, int[] p2) {
       checkEqualLength(p1, p2);
       double sum = 0;
       for (int i = 0; i < p1.length; i++) {
@@ -270,8 +262,7 @@ public class MathArrays {
      * @return the L<sub>&infin;</sub> distance between the two points
      * @throws DimensionMismatchException if the array lengths differ.
      */
-    public static double distanceInf(double[] p1, double[] p2)
-    throws DimensionMismatchException {
+    public static double distanceInf(double[] p1, double[] p2) {
         checkEqualLength(p1, p2);
         double max = 0;
         for (int i = 0; i < p1.length; i++) {
@@ -288,8 +279,7 @@ public class MathArrays {
      * @return the L<sub>&infin;</sub> distance between the two points
      * @throws DimensionMismatchException if the array lengths differ.
      */
-    public static int distanceInf(int[] p1, int[] p2)
-    throws DimensionMismatchException {
+    public static int distanceInf(int[] p1, int[] p2) {
         checkEqualLength(p1, p2);
         int max = 0;
         for (int i = 0; i < p1.length; i++) {
@@ -458,8 +448,7 @@ public class MathArrays {
      * and {@code abort} is {@code true}.
      */
     public static boolean checkOrder(double[] val, OrderDirection dir,
-                                     boolean strict, boolean abort)
-        throws NonMonotonicSequenceException {
+                                     boolean strict, boolean abort) {
         double previous = val[0];
         final int max = val.length;
 
@@ -504,7 +493,11 @@ public class MathArrays {
 
         // Loop early exit means wrong ordering.
         if (abort) {
-            throw new NonMonotonicSequenceException(val[index], previous, index, dir, strict);
+            throw new NonMonotonicSequenceException(val[index],
+                                                    previous,
+                                                    index,
+                                                    dir == OrderDirection.INCREASING,
+                                                    strict);
         } else {
             return false;
         }
@@ -519,8 +512,7 @@ public class MathArrays {
      * @throws NonMonotonicSequenceException if the array is not sorted.
      * @since 2.2
      */
-    public static void checkOrder(double[] val, OrderDirection dir,
-                                  boolean strict) throws NonMonotonicSequenceException {
+    public static void checkOrder(double[] val, OrderDirection dir, boolean strict) {
         checkOrder(val, dir, strict, true);
     }
 
@@ -531,7 +523,7 @@ public class MathArrays {
      * @throws NonMonotonicSequenceException if the array is not sorted.
      * @since 2.2
      */
-    public static void checkOrder(double[] val) throws NonMonotonicSequenceException {
+    public static void checkOrder(double[] val) {
         checkOrder(val, OrderDirection.INCREASING, true);
     }
 
@@ -543,8 +535,7 @@ public class MathArrays {
      * @throws DimensionMismatchException if input array is not rectangular
      * @since 3.1
      */
-    public static void checkRectangular(final long[][] in)
-        throws NullArgumentException, DimensionMismatchException {
+    public static void checkRectangular(final long[][] in) {
         NullArgumentException.check(in);
         for (int i = 1; i < in.length; i++) {
             if (in[i].length != in[0].length) {
@@ -563,8 +554,7 @@ public class MathArrays {
      * strictly positive.
      * @since 3.1
      */
-    public static void checkPositive(final double[] in)
-        throws NotStrictlyPositiveException {
+    public static void checkPositive(final double[] in) {
         for (int i = 0; i < in.length; i++) {
             if (in[i] <= 0) {
                 throw new NotStrictlyPositiveException(in[i]);
@@ -579,8 +569,7 @@ public class MathArrays {
      * @throws NotANumberException if an entry is {@code NaN}.
      * @since 3.4
      */
-    public static void checkNotNaN(final double[] in)
-        throws NotANumberException {
+    public static void checkNotNaN(final double[] in) {
         for(int i = 0; i < in.length; i++) {
             if (Double.isNaN(in[i])) {
                 throw new NotANumberException();
@@ -595,8 +584,7 @@ public class MathArrays {
      * @throws NotPositiveException if any array entries are less than 0.
      * @since 3.1
      */
-    public static void checkNonNegative(final long[] in)
-        throws NotPositiveException {
+    public static void checkNonNegative(final long[] in) {
         for (int i = 0; i < in.length; i++) {
             if (in[i] < 0) {
                 throw new NotPositiveException(in[i]);
@@ -611,8 +599,7 @@ public class MathArrays {
      * @throws NotPositiveException if any array entries are less than 0.
      * @since 3.1
      */
-    public static void checkNonNegative(final long[][] in)
-        throws NotPositiveException {
+    public static void checkNonNegative(final long[][] in) {
         for (int i = 0; i < in.length; i ++) {
             for (int j = 0; j < in[i].length; j++) {
                 if (in[i][j] < 0) {
@@ -638,8 +625,7 @@ public class MathArrays {
      * @throws NullArgumentException if {@code x} or any {@code y} is null.
      * @since 3.0
      */
-    public static void sortInPlace(double[] x, double[] ... yList)
-        throws DimensionMismatchException, NullArgumentException {
+    public static void sortInPlace(double[] x, double[] ... yList) {
         sortInPlace(x, OrderDirection.INCREASING, yList);
     }
 
@@ -691,10 +677,7 @@ public class MathArrays {
      */
     public static void sortInPlace(double[] x,
                                    final OrderDirection dir,
-                                   double[] ... yList)
-        throws NullArgumentException,
-               DimensionMismatchException {
-
+                                   double[] ... yList) {
         // Consistency checks.
         if (x == null) {
             throw new NullArgumentException();
@@ -890,8 +873,7 @@ public class MathArrays {
      * @throws MathIllegalArgumentException if the target sum is infinite or {@code NaN}.
      * @since 2.1
      */
-    public static double[] normalizeArray(double[] values, double normalizedSum)
-        throws MathIllegalArgumentException, MathArithmeticException {
+    public static double[] normalizeArray(double[] values, double normalizedSum) {
         if (Double.isInfinite(normalizedSum)) {
             throw new MathIllegalArgumentException(LocalizedFormats.NORMALIZE_INFINITE);
         }
@@ -990,9 +972,7 @@ public class MathArrays {
      *
      * @since 3.3
      */
-    public static double[] convolve(double[] x, double[] h)
-        throws NullArgumentException,
-               NoDataException {
+    public static double[] convolve(double[] x, double[] h) {
         NullArgumentException.check(x);
         NullArgumentException.check(h);
 
@@ -1072,8 +1052,7 @@ public class MathArrays {
      * @throws MathIllegalArgumentException if the indices are invalid or the array is null
      * @since 3.3
      */
-    public static boolean verifyValues(final double[] values, final int begin, final int length)
-            throws MathIllegalArgumentException {
+    public static boolean verifyValues(final double[] values, final int begin, final int length) {
         return verifyValues(values, begin, length, false);
     }
 
@@ -1098,7 +1077,7 @@ public class MathArrays {
      * @since 3.3
      */
     public static boolean verifyValues(final double[] values, final int begin,
-            final int length, final boolean allowEmpty) throws MathIllegalArgumentException {
+                                       final int length, final boolean allowEmpty) {
 
         if (values == null) {
             throw new NullArgumentException(LocalizedFormats.INPUT_ARRAY);
@@ -1157,7 +1136,7 @@ public class MathArrays {
         final double[] values,
         final double[] weights,
         final int begin,
-        final int length) throws MathIllegalArgumentException {
+        final int length) {
         return verifyValues(values, weights, begin, length, false);
     }
 
@@ -1194,7 +1173,7 @@ public class MathArrays {
      * @since 3.3
      */
     public static boolean verifyValues(final double[] values, final double[] weights,
-            final int begin, final int length, final boolean allowEmpty) throws MathIllegalArgumentException {
+                                       final int begin, final int length, final boolean allowEmpty) {
 
         if (weights == null || values == null) {
             throw new NullArgumentException(LocalizedFormats.INPUT_ARRAY);
