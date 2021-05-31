@@ -43,6 +43,7 @@ import org.apache.commons.math4.legacy.util.FastMath;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
+import org.junit.Ignore;
 
 /**
  * Test cases for the {@link EmpiricalDistribution} class.
@@ -677,7 +678,38 @@ public final class EmpiricalDistributionTest extends RealDistributionAbstractTes
             final double cdf = testDistribution.cumulativeProbability(point);
             Assert.assertFalse("point: " + point, Double.isNaN(cdf));
         }
-   }
+    }
+
+    @Ignore
+    @Test
+    public void testMath1462() {
+        final double[] data = {
+            6464.0205, 6449.1328, 6489.4569, 6497.5533, 6251.6487,
+            6252.6513, 6339.7883, 6356.2622, 6222.1251, 6157.3813,
+            6242.4741, 6332.5347, 6468.0633, 6471.2319, 6473.9929,
+            6589.1322, 6511.2191, 6339.4349, 6307.7735, 6288.0915,
+            6354.0572, 6385.8283, 6325.3756, 6433.1699, 6433.6507,
+            6424.6806, 6380.5268, 6407.6705, 6241.2198, 6230.3681,
+            6367.5943, 6358.4817, 6272.8039, 6269.0211, 6312.9027,
+            6349.5926, 6404.0775, 6326.986, 6283.8685, 6309.9021,
+            6336.8554, 6389.1598, 6281.0372, 6304.8852, 6359.2651,
+            6426.519, 6400.3926, 6440.6798, 6292.5812, 6398.4911,
+            6307.0002, 6284.2111, 6271.371, 6368.6377, 6323.3372,
+            6276.2155, 6335.0117, 6319.2466, 6252.9969, 6445.2074,
+            6461.3944, 6384.1345
+        };
+
+        final EmpiricalDistribution ed = new EmpiricalDistribution(data.length);
+        ed.load(data);
+
+        final double p50 = ed.inverseCumulativeProbability(0.5);
+        final double p51 = ed.inverseCumulativeProbability(0.51111);
+        final double p49 = ed.inverseCumulativeProbability(0.49999);
+
+        Assert.assertTrue(p51 < 6350);
+        Assert.assertTrue(p49 < 6341);
+        Assert.assertTrue(p50 < 7000);
+    }
 
     /**
      * Empirical distribution using a constant smoothing kernel.
