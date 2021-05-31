@@ -14,15 +14,14 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.apache.commons.math4.legacy.random;
+package org.apache.commons.math4.legacy.quasirandom;
 
-import org.junit.Assert;
-
-import java.io.InputStream;
-
+import org.apache.commons.math4.legacy.exception.NotPositiveException;
 import org.apache.commons.math4.legacy.exception.OutOfRangeException;
+import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
+import java.io.InputStream;
 
 public class SobolSequenceGeneratorTest {
     private static final String RESOURCE_NAME = "/assets/org/apache/commons/math4/legacy/random/new-joe-kuo-6.21201";
@@ -52,7 +51,6 @@ public class SobolSequenceGeneratorTest {
         for (int i = 0; i < referenceValues.length; i++) {
             double[] result = generator.get();
             Assert.assertArrayEquals(referenceValues[i], result, 1e-6);
-            Assert.assertEquals(i + 1, generator.getNextIndex());
         }
     }
 
@@ -92,16 +90,26 @@ public class SobolSequenceGeneratorTest {
     }
 
     @Test
-    public void testSkip() {
-        double[] result = generator.skipTo(5);
+    public void testJump() {
+        LowDiscrepancySequence copyOfSeq = generator.jump(5);
+        double[] result = copyOfSeq.get();
         Assert.assertArrayEquals(referenceValues[5], result, 1e-6);
-        Assert.assertEquals(6, generator.getNextIndex());
 
         for (int i = 6; i < referenceValues.length; i++) {
-            result = generator.get();
+            result = copyOfSeq.get();
             Assert.assertArrayEquals(referenceValues[i], result, 1e-6);
-            Assert.assertEquals(i + 1, generator.getNextIndex());
         }
+    }
+
+    @Test(expected = NotPositiveException.class)
+    public void testJumpNegativeIndex() {
+        LowDiscrepancySequence copyOfSeq = generator.jump(-5);
+    }
+
+    @Test
+    public void testFirstSupplying() {
+        LowDiscrepancySequence sequence = new SobolSequenceGenerator(3);
+        Assert.assertArrayEquals(new double[]{0.0, 0.0, 0.0}, sequence.get(),1e-6);
     }
 
 }

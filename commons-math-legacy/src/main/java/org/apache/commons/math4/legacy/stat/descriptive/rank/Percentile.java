@@ -1150,7 +1150,7 @@ public class Percentile extends AbstractUnivariateStatistic implements Serializa
             @Override
             public double evaluate(final double[] work, final double[] sampleWeights,
                                    final double p) {
-                SortInPlace.ASCENDING.accept(work, sampleWeights);
+                SortInPlace.ASCENDING.apply(work, sampleWeights);
                 double[] sk = new double[work.length];
                 for(int k = 0; k < work.length; k++) {
                     sk[k] = 0;

@@ -14,24 +14,19 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+package org.apache.commons.math4.legacy.quasirandom;
 
-package org.apache.commons.math4.legacy.random;
+import java.util.function.Supplier;
 
-/**
- * This interface represent a normalized random generator for
- * scalars.
- * Normalized generator provide null mean and unit standard deviation scalars.
- * @since 1.2
+/** Interface to Low Discrepancy Sequence generator and supplier.
+ *  Supplier of a low discrepancy vectors.
+ *  Offers navigation through underlying sequence.
  */
-public interface NormalizedRandomGenerator {
-
-  /** Generate a random scalar with null mean and unit standard deviation.
-   * <p>This method does <strong>not</strong> specify the shape of the
-   * distribution, it is the implementing class that provides it. The
-   * only contract here is to generate numbers with null mean and unit
-   * standard deviation.</p>
-   * @return a random scalar with null mean and unit standard deviation
-   */
-  double nextNormalizedDouble();
-
+public interface LowDiscrepancySequence extends Supplier<double[]> {
+    /**
+     *  Skip to the index in the sequence.
+     * @param index of the element to skip to
+     * @return T element at the index
+     */
+    LowDiscrepancySequence jump(long index);
 }

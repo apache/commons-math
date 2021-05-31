@@ -14,26 +14,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.apache.commons.math4.legacy.ml.distance;
-
-import org.apache.commons.math4.legacy.exception.DimensionMismatchException;
-
 /**
- * Interface for distance measures of n-dimensional vectors.
- *
- * @since 3.2
+ * Contains quasi random sequences.
  */
-public interface DistanceMeasure {
-
-    /**
-     * Compute the distance between two n-dimensional vectors.
-     * <p>
-     * The two vectors are required to have the same dimension.
-     *
-     * @param a the first vector
-     * @param b the second vector
-     * @return the distance between the two vectors
-     * @throws DimensionMismatchException if the array lengths differ.
-     */
-    double compute(double[] a, double[] b) throws DimensionMismatchException;
-}
+package org.apache.commons.math4.legacy.quasirandom;

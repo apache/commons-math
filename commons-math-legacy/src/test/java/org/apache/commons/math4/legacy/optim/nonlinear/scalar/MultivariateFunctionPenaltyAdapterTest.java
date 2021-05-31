@@ -21,9 +21,9 @@ import org.apache.commons.math4.legacy.optim.InitialGuess;
 import org.apache.commons.math4.legacy.optim.MaxEval;
 import org.apache.commons.math4.legacy.optim.PointValuePair;
 import org.apache.commons.math4.legacy.optim.SimplePointChecker;
-import org.apache.commons.math4.legacy.optim.nonlinear.scalar.noderiv.AbstractSimplex;
-import org.apache.commons.math4.legacy.optim.nonlinear.scalar.noderiv.NelderMeadSimplex;
 import org.apache.commons.math4.legacy.optim.nonlinear.scalar.noderiv.SimplexOptimizer;
+import org.apache.commons.math4.legacy.optim.nonlinear.scalar.noderiv.Simplex;
+import org.apache.commons.math4.legacy.optim.nonlinear.scalar.noderiv.NelderMeadTransform;
 import org.junit.Assert;
 import org.junit.Test;
 
@@ -38,12 +38,12 @@ public class MultivariateFunctionPenaltyAdapterTest {
                                                        1000.0, new double[] { 100.0, 100.0 });
 
         SimplexOptimizer optimizer = new SimplexOptimizer(1e-10, 1e-30);
-        final AbstractSimplex simplex = new NelderMeadSimplex(new double[] { 1.0, 0.5 });
 
         final PointValuePair optimum
             = optimizer.optimize(new MaxEval(300),
                                  new ObjectiveFunction(wrapped),
-                                 simplex,
+                                 Simplex.of(new double[] { 1.0, 0.5 }),
+                                 new NelderMeadTransform(),
                                  GoalType.MINIMIZE,
                                  new InitialGuess(new double[] { 1.5, 2.25 }));
 
@@ -61,12 +61,12 @@ public class MultivariateFunctionPenaltyAdapterTest {
                                                        1000.0, new double[] { 100.0, 100.0 });
 
         SimplexOptimizer optimizer = new SimplexOptimizer(1e-10, 1e-30);
-        final AbstractSimplex simplex = new NelderMeadSimplex(new double[] { 1.0, 0.5 });
 
         final PointValuePair optimum
             = optimizer.optimize(new MaxEval(300),
                                  new ObjectiveFunction(wrapped),
-                                 simplex,
+                                 Simplex.of(new double[] { 1.0, 0.5 }),
+                                 new NelderMeadTransform(),
                                  GoalType.MINIMIZE,
                                  new InitialGuess(new double[] { -1.5, 4.0 }));
 
@@ -84,12 +84,12 @@ public class MultivariateFunctionPenaltyAdapterTest {
                                                       1000.0, new double[] { 100.0, 100.0 });
 
         SimplexOptimizer optimizer = new SimplexOptimizer(new SimplePointChecker<PointValuePair>(1.0e-11, 1.0e-20));
-        final AbstractSimplex simplex = new NelderMeadSimplex(new double[] { 1.0, 0.5 });
 
         final PointValuePair optimum
             = optimizer.optimize(new MaxEval(600),
                                  new ObjectiveFunction(wrapped),
-                                 simplex,
+                                 Simplex.of(new double[] { 1.0, 0.5 }),
+                                 new NelderMeadTransform(),
                                  GoalType.MINIMIZE,
                                  new InitialGuess(new double[] { -1.5, 4.0 }));
 
@@ -109,12 +109,12 @@ public class MultivariateFunctionPenaltyAdapterTest {
                                                      1000.0, new double[] { 100.0, 100.0 });
 
         SimplexOptimizer optimizer = new SimplexOptimizer(1e-10, 1e-30);
-        final AbstractSimplex simplex = new NelderMeadSimplex(new double[] { 1.0, 0.5 });
 
         final PointValuePair optimum
             = optimizer.optimize(new MaxEval(300),
                                  new ObjectiveFunction(wrapped),
-                                 simplex,
+                                 Simplex.of(new double[] { 1.0, 0.5 }),
+                                 new NelderMeadTransform(),
                                  GoalType.MINIMIZE,
                                  new InitialGuess(new double[] { -1.5, 4.0 }));
 
@@ -134,12 +134,12 @@ public class MultivariateFunctionPenaltyAdapterTest {
                                                        1000.0, new double[] { 100.0, 100.0 });
 
         SimplexOptimizer optimizer = new SimplexOptimizer(new SimplePointChecker<PointValuePair>(1.0e-10, 1.0e-20));
-        final AbstractSimplex simplex = new NelderMeadSimplex(new double[] { 1.0, 0.5 });
 
         final PointValuePair optimum
             = optimizer.optimize(new MaxEval(400),
                                  new ObjectiveFunction(wrapped),
-                                 simplex,
+                                 Simplex.of(new double[] { 1.0, 0.5 }),
+                                 new NelderMeadTransform(),
                                  GoalType.MINIMIZE,
                                  new InitialGuess(new double[] { -1.5, 4.0 }));
 
@@ -197,7 +197,5 @@ public class MultivariateFunctionPenaltyAdapterTest {
         public double getBoundedYOptimum() {
             return (yOptimum < yMin) ? yMin : ((yOptimum > yMax) ? yMax : yOptimum);
         }
-
     }
-
 }

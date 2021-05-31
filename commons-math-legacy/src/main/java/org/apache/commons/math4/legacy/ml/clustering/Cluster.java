@@ -17,7 +17,6 @@
 
 package org.apache.commons.math4.legacy.ml.clustering;
 
-import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -26,10 +25,7 @@ import java.util.List;
  * @param <T> the type of points that can be clustered
  * @since 3.2
  */
-public class Cluster<T extends Clusterable> implements Serializable {
-
-    /** Serializable version identifier. */
-    private static final long serialVersionUID = -3442297081515880464L;
+public class Cluster<T extends Clusterable> {
 
     /** The points contained in this cluster. */
     private final List<T> points;

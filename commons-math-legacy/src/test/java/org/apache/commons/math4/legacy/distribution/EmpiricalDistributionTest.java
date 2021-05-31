@@ -43,7 +43,6 @@ import org.apache.commons.math4.legacy.core.jdkmath.AccurateMath;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
-import org.junit.Ignore;
 
 /**
  * Test cases for the {@link EmpiricalDistribution} class.
@@ -667,7 +666,6 @@ public final class EmpiricalDistributionTest extends RealDistributionAbstractTes
         }
     }
 
-    @Ignore
     @Test
     public void testMath1462() {
         final double[] data = {
@@ -686,16 +684,23 @@ public final class EmpiricalDistributionTest extends RealDistributionAbstractTes
             6461.3944, 6384.1345
         };
 
-        final EmpiricalDistribution ed = new EmpiricalDistribution(data.length);
+        final EmpiricalDistribution ed = new EmpiricalDistribution(data.length / 10);
         ed.load(data);
 
-        final double p50 = ed.inverseCumulativeProbability(0.5);
-        final double p51 = ed.inverseCumulativeProbability(0.51111);
-        final double p49 = ed.inverseCumulativeProbability(0.49999);
+        double v;
+        double p;
 
-        Assert.assertTrue(p51 < 6350);
-        Assert.assertTrue(p49 < 6341);
-        Assert.assertTrue(p50 < 7000);
+        p = 0.49999;
+        v = ed.inverseCumulativeProbability(p);
+        Assert.assertTrue("p=" + p + " => v=" + v, v < 6344);
+
+        p = 0.5;
+        v = ed.inverseCumulativeProbability(p);
+        Assert.assertTrue("p=" + p + " => v=" + v, v < 7000);
+
+        p = 0.51111;
+        v = ed.inverseCumulativeProbability(p);
+        Assert.assertTrue("p=" + p + " => v=" + v, v < 6350);
     }
 
     /**
