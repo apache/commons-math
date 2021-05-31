@@ -103,16 +103,21 @@
     <doclint.javadoc.qualifier>-Xdoclint:all</doclint.javadoc.qualifier>
   </properties>
 
-  <modules>
-    <!-- Modules that do not depend on "legacy" codes. -->
+  <modules> <!-- Do not change the ordering of the 4 blocks below. -->
+
+    <!-- 1. Modules that do not depend on "legacy" codes. -->
     <module>commons-math-neuralnet</module>
     <module>commons-math-transform</module>
 
-    <!-- Non-modularized functionalities. -->
+    <!-- 2. Modularized (but not refactored) legacy functionalities. -->
+    <module>commons-math-legacy-exception</module>
+
+    <!-- 3. Non-modularized legacy functionalities. -->
     <module>commons-math-legacy</module>
 
-    <!-- Modules that depend on "legacy" codes. -->
+    <!-- 4. Modules that depend on "legacy" codes. -->
     <module>commons-math-examples</module>
+
   </modules>
 
   <scm>
@@ -138,7 +143,7 @@
 
       <dependency>
         <groupId>org.apache.commons</groupId>
-        <artifactId>commons-math-core</artifactId>
+        <artifactId>commons-math4-legacy-exception</artifactId>
         <version>${project.version}</version>
       </dependency>
 
