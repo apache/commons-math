@@ -16,7 +16,6 @@
  */
 package org.apache.commons.math4.legacy.exception;
 
-import org.apache.commons.math4.legacy.util.MathArrays;
 import org.junit.Assert;
 import org.junit.Test;
 
