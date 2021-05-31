@@ -24,7 +24,7 @@ import org.apache.commons.math4.legacy.linear.MatrixUtils;
 import org.apache.commons.math4.legacy.linear.RealMatrix;
 import org.apache.commons.math4.legacy.linear.RealVector;
 import org.apache.commons.math4.legacy.linear.SingularMatrixException;
-import org.apache.commons.math4.legacy.util.FastMath;
+import org.apache.commons.math4.legacy.core.jdkmath.AccurateMath;
 import org.apache.commons.math4.legacy.util.Pair;
 import org.apache.commons.numbers.core.Precision;
 import org.junit.Assert;
@@ -109,14 +109,14 @@ public class EvaluationTest {
         //action
         TestUtils.assertEquals(
                 "covariance",
-                evaluation.getCovariances(FastMath.nextAfter(1e-4, 0.0)),
+                evaluation.getCovariances(AccurateMath.nextAfter(1e-4, 0.0)),
                 MatrixUtils.createRealMatrix(new double[][]{{1, 0}, {0, 1e4}}),
                 Precision.EPSILON
         );
 
         //singularity fail
         try {
-            evaluation.getCovariances(FastMath.nextAfter(1e-4, 1.0));
+            evaluation.getCovariances(AccurateMath.nextAfter(1e-4, 1.0));
             Assert.fail("Expected Exception");
         } catch (SingularMatrixException e) {
             //expected
@@ -180,7 +180,7 @@ public class EvaluationTest {
 
         final LeastSquaresProblem lsp = builder(dataset).build();
 
-        final double expected = FastMath.sqrt(dataset.getResidualSumOfSquares() /
+        final double expected = AccurateMath.sqrt(dataset.getResidualSumOfSquares() /
                                               dataset.getNumObservations());
         final double actual = lsp.evaluate(lsp.getStart()).getRMS();
         Assert.assertEquals(dataset.getName(), expected, actual, 1e-11 * expected);
@@ -200,7 +200,7 @@ public class EvaluationTest {
         final RealVector sig = evaluation.getSigma(1e-14);
         final int dof = lsp.getObservationSize() - lsp.getParameterSize();
         for (int i = 0; i < sig.getDimension(); i++) {
-            final double actual = FastMath.sqrt(cost * cost / dof) * sig.getEntry(i);
+            final double actual = AccurateMath.sqrt(cost * cost / dof) * sig.getEntry(i);
             Assert.assertEquals(dataset.getName() + ", parameter #" + i,
                                 expected[i], actual, 1e-6 * expected[i]);
         }

@@ -22,7 +22,7 @@ import org.apache.commons.math4.legacy.linear.DecompositionSolver;
 import org.apache.commons.math4.legacy.linear.QRDecomposition;
 import org.apache.commons.math4.legacy.linear.RealMatrix;
 import org.apache.commons.math4.legacy.linear.RealVector;
-import org.apache.commons.math4.legacy.util.FastMath;
+import org.apache.commons.math4.legacy.core.jdkmath.AccurateMath;
 
 /**
  * An implementation of {@link Evaluation} that is designed for extension. All of the
@@ -69,7 +69,7 @@ public abstract class AbstractEvaluation implements Evaluation {
         final int nC = cov.getColumnDimension();
         final RealVector sig = new ArrayRealVector(nC);
         for (int i = 0; i < nC; ++i) {
-            sig.setEntry(i, FastMath.sqrt(cov.getEntry(i,i)));
+            sig.setEntry(i, AccurateMath.sqrt(cov.getEntry(i,i)));
         }
         return sig;
     }
@@ -77,13 +77,13 @@ public abstract class AbstractEvaluation implements Evaluation {
     /** {@inheritDoc} */
     @Override
     public double getRMS() {
-        return FastMath.sqrt(getReducedChiSquare(1));
+        return AccurateMath.sqrt(getReducedChiSquare(1));
     }
 
     /** {@inheritDoc} */
     @Override
     public double getCost() {
-        return FastMath.sqrt(getChiSquare());
+        return AccurateMath.sqrt(getChiSquare());
     }
 
     /** {@inheritDoc} */

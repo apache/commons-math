@@ -18,8 +18,8 @@
 package org.apache.commons.math4.legacy.ode.nonstiff;
 
 
-import org.apache.commons.math4.legacy.Field;
-import org.apache.commons.math4.legacy.RealFieldElement;
+import org.apache.commons.math4.legacy.core.Field;
+import org.apache.commons.math4.legacy.core.RealFieldElement;
 import org.apache.commons.math4.legacy.analysis.differentiation.DerivativeStructure;
 import org.apache.commons.math4.legacy.exception.DimensionMismatchException;
 import org.apache.commons.math4.legacy.exception.MaxCountExceededException;
@@ -39,8 +39,8 @@ import org.apache.commons.math4.legacy.ode.events.Action;
 import org.apache.commons.math4.legacy.ode.events.FieldEventHandler;
 import org.apache.commons.math4.legacy.ode.sampling.FieldStepHandler;
 import org.apache.commons.math4.legacy.ode.sampling.FieldStepInterpolator;
-import org.apache.commons.math4.legacy.util.FastMath;
-import org.apache.commons.math4.legacy.util.MathArrays;
+import org.apache.commons.math4.legacy.core.jdkmath.AccurateMath;
+import org.apache.commons.math4.legacy.core.MathArrays;
 import org.junit.Assert;
 import org.junit.Test;
 
@@ -122,7 +122,7 @@ public abstract class AbstractEmbeddedRungeKuttaFieldIntegratorTest {
             if (regularArray[i] == 0) {
                 Assert.assertTrue(0.0 == fieldArray[i].getReal());
             } else {
-                Assert.assertEquals(regularArray[i], fieldArray[i].getReal(), FastMath.ulp(regularArray[i]));
+                Assert.assertEquals(regularArray[i], fieldArray[i].getReal(), AccurateMath.ulp(regularArray[i]));
             }
         }
     }
@@ -212,7 +212,7 @@ public abstract class AbstractEmbeddedRungeKuttaFieldIntegratorTest {
             TestFieldProblem1<T> pb = new TestFieldProblem1<>(field);
             double minStep = 0;
             double maxStep = pb.getFinalTime().subtract(pb.getInitialState().getTime()).getReal();
-            double scalAbsoluteTolerance = FastMath.pow(10.0, i);
+            double scalAbsoluteTolerance = AccurateMath.pow(10.0, i);
             double scalRelativeTolerance = 0.01 * scalAbsoluteTolerance;
 
             FirstOrderFieldIntegrator<T> integ = createIntegrator(field, minStep, maxStep,
@@ -577,7 +577,7 @@ public abstract class AbstractEmbeddedRungeKuttaFieldIntegratorTest {
         public double[] theoreticalY(final double t) {
             final double theta = omega.getReal() * t + alpha.getReal();
             return new double[] {
-                r.getReal() * FastMath.sin(theta), r.getReal() * FastMath.cos(theta)
+                r.getReal() * AccurateMath.sin(theta), r.getReal() * AccurateMath.cos(theta)
             };
         }
 
@@ -585,8 +585,8 @@ public abstract class AbstractEmbeddedRungeKuttaFieldIntegratorTest {
 
             // intermediate angle and state
             final double theta        = omega.getReal() * t + alpha.getReal();
-            final double sin          = FastMath.sin(theta);
-            final double cos          = FastMath.cos(theta);
+            final double sin          = AccurateMath.sin(theta);
+            final double cos          = AccurateMath.cos(theta);
             final double y0           = r.getReal() * sin;
             final double y1           = r.getReal() * cos;
 

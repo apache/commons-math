@@ -27,7 +27,7 @@ import org.apache.commons.math4.legacy.exception.MaxCountExceededException;
 import org.apache.commons.math4.legacy.exception.util.LocalizedFormats;
 import org.apache.commons.math4.legacy.ode.sampling.StepHandler;
 import org.apache.commons.math4.legacy.ode.sampling.StepInterpolator;
-import org.apache.commons.math4.legacy.util.FastMath;
+import org.apache.commons.math4.legacy.core.jdkmath.AccurateMath;
 
 /**
  * This class stores all information provided by an ODE integrator
@@ -152,9 +152,9 @@ public class ContinuousOutputModel
       final double previous = lastInterpolator.getPreviousTime();
       final double step = current - previous;
       final double gap = model.getInitialTime() - current;
-      if (FastMath.abs(gap) > 1.0e-3 * FastMath.abs(step)) {
+      if (AccurateMath.abs(gap) > 1.0e-3 * AccurateMath.abs(step)) {
         throw new MathIllegalArgumentException(LocalizedFormats.HOLE_BETWEEN_MODELS_TIME_RANGES,
-                                               FastMath.abs(gap));
+                                               AccurateMath.abs(gap));
       }
 
     }
@@ -296,7 +296,7 @@ public void handleStep(final StepInterpolator interpolator, final boolean isLast
         final StepInterpolator sMed = steps.get(iMed);
         final double tMed = 0.5 * (sMed.getPreviousTime() + sMed.getCurrentTime());
 
-        if ((FastMath.abs(tMed - tMin) < 1e-6) || (FastMath.abs(tMax - tMed) < 1e-6)) {
+        if ((AccurateMath.abs(tMed - tMin) < 1e-6) || (AccurateMath.abs(tMax - tMed) < 1e-6)) {
           // too close to the bounds, we estimate using a simple dichotomy
           index = iMed;
         } else {
@@ -313,12 +313,12 @@ public void handleStep(final StepInterpolator interpolator, final boolean isLast
                                     (dt1 * dt3 * d13) * iMed +
                                     (dt1 * dt2 * d12) * iMin) /
                                    (d12 * d23 * d13);
-          index = (int) FastMath.rint(iLagrange);
+          index = (int) AccurateMath.rint(iLagrange);
         }
 
         // force the next size reduction to be at least one tenth
-        final int low  = FastMath.max(iMin + 1, (9 * iMin + iMax) / 10);
-        final int high = FastMath.min(iMax - 1, (iMin + 9 * iMax) / 10);
+        final int low  = AccurateMath.max(iMin + 1, (9 * iMin + iMax) / 10);
+        final int high = AccurateMath.min(iMax - 1, (iMin + 9 * iMax) / 10);
         if (index < low) {
           index = low;
         } else if (index > high) {

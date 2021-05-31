@@ -17,7 +17,7 @@
 
 package org.apache.commons.math4.legacy.ode;
 
-import org.apache.commons.math4.legacy.RealFieldElement;
+import org.apache.commons.math4.legacy.core.RealFieldElement;
 import org.apache.commons.math4.legacy.exception.DimensionMismatchException;
 import org.apache.commons.math4.legacy.exception.MaxCountExceededException;
 

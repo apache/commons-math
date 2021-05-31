@@ -22,8 +22,8 @@ import org.apache.commons.math4.legacy.exception.MathIllegalArgumentException;
 import org.apache.commons.math4.legacy.exception.NullArgumentException;
 import org.apache.commons.math4.legacy.stat.descriptive.AbstractStorelessUnivariateStatistic;
 import org.apache.commons.math4.legacy.stat.descriptive.WeightedEvaluation;
-import org.apache.commons.math4.legacy.util.FastMath;
-import org.apache.commons.math4.legacy.util.MathArrays;
+import org.apache.commons.math4.legacy.core.jdkmath.AccurateMath;
+import org.apache.commons.math4.legacy.core.MathArrays;
 
 /**
  * Returns the product of the available values.
@@ -165,7 +165,7 @@ public class Product extends AbstractStorelessUnivariateStatistic implements Ser
         if (MathArrays.verifyValues(values, weights, begin, length, true)) {
             product = 1.0;
             for (int i = begin; i < begin + length; i++) {
-                product *= FastMath.pow(values[i], weights[i]);
+                product *= AccurateMath.pow(values[i], weights[i]);
             }
         }
         return product;

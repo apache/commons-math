@@ -22,7 +22,7 @@ import org.apache.commons.math4.legacy.exception.MathIllegalArgumentException;
 import org.apache.commons.math4.legacy.exception.OutOfRangeException;
 import org.apache.commons.rng.UniformRandomProvider;
 import org.apache.commons.rng.simple.RandomSource;
-import org.apache.commons.math4.legacy.util.FastMath;
+import org.apache.commons.math4.legacy.core.jdkmath.AccurateMath;
 import org.junit.Assert;
 import org.junit.Test;
 
@@ -163,46 +163,46 @@ public final class SimpleRegressionTest {
         if (model1.getN() != model2.getN()) {
             return false;
         }
-        if (FastMath.abs(model1.getIntercept() - model2.getIntercept()) > tol) {
+        if (AccurateMath.abs(model1.getIntercept() - model2.getIntercept()) > tol) {
             return false;
         }
-        if (FastMath.abs(model1.getInterceptStdErr() - model2.getInterceptStdErr()) > tol) {
+        if (AccurateMath.abs(model1.getInterceptStdErr() - model2.getInterceptStdErr()) > tol) {
             return false;
         }
-        if (FastMath.abs(model1.getMeanSquareError() - model2.getMeanSquareError()) > tol) {
+        if (AccurateMath.abs(model1.getMeanSquareError() - model2.getMeanSquareError()) > tol) {
             return false;
         }
-        if (FastMath.abs(model1.getR() - model2.getR()) > tol) {
+        if (AccurateMath.abs(model1.getR() - model2.getR()) > tol) {
             return false;
         }
-        if (FastMath.abs(model1.getRegressionSumSquares() - model2.getRegressionSumSquares()) > tol) {
+        if (AccurateMath.abs(model1.getRegressionSumSquares() - model2.getRegressionSumSquares()) > tol) {
             return false;
         }
-        if (FastMath.abs(model1.getRSquare() - model2.getRSquare()) > tol) {
+        if (AccurateMath.abs(model1.getRSquare() - model2.getRSquare()) > tol) {
             return false;
         }
-        if (FastMath.abs(model1.getSignificance() - model2.getSignificance()) > tol) {
+        if (AccurateMath.abs(model1.getSignificance() - model2.getSignificance()) > tol) {
             return false;
         }
-        if (FastMath.abs(model1.getSlope() - model2.getSlope()) > tol) {
+        if (AccurateMath.abs(model1.getSlope() - model2.getSlope()) > tol) {
             return false;
         }
-        if (FastMath.abs(model1.getSlopeConfidenceInterval() - model2.getSlopeConfidenceInterval()) > tol) {
+        if (AccurateMath.abs(model1.getSlopeConfidenceInterval() - model2.getSlopeConfidenceInterval()) > tol) {
             return false;
         }
-        if (FastMath.abs(model1.getSlopeStdErr() - model2.getSlopeStdErr()) > tol) {
+        if (AccurateMath.abs(model1.getSlopeStdErr() - model2.getSlopeStdErr()) > tol) {
             return false;
         }
-        if (FastMath.abs(model1.getSumOfCrossProducts() - model2.getSumOfCrossProducts()) > tol) {
+        if (AccurateMath.abs(model1.getSumOfCrossProducts() - model2.getSumOfCrossProducts()) > tol) {
             return false;
         }
-        if (FastMath.abs(model1.getSumSquaredErrors() - model2.getSumSquaredErrors()) > tol) {
+        if (AccurateMath.abs(model1.getSumSquaredErrors() - model2.getSumSquaredErrors()) > tol) {
             return false;
         }
-        if (FastMath.abs(model1.getTotalSumSquares() - model2.getTotalSumSquares()) > tol) {
+        if (AccurateMath.abs(model1.getTotalSumSquares() - model2.getTotalSumSquares()) > tol) {
             return false;
         }
-        if (FastMath.abs(model1.getXSumSquares() - model2.getXSumSquares()) > tol) {
+        if (AccurateMath.abs(model1.getXSumSquares() - model2.getXSumSquares()) > tol) {
             return false;
         }
         return true;

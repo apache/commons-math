@@ -19,12 +19,12 @@ package org.apache.commons.math4.legacy.ode.nonstiff;
 
 import java.util.Arrays;
 
-import org.apache.commons.math4.legacy.RealFieldElement;
+import org.apache.commons.math4.legacy.core.RealFieldElement;
 import org.apache.commons.math4.legacy.linear.Array2DRowFieldMatrix;
 import org.apache.commons.math4.legacy.ode.FieldEquationsMapper;
 import org.apache.commons.math4.legacy.ode.FieldODEStateAndDerivative;
 import org.apache.commons.math4.legacy.ode.sampling.AbstractFieldStepInterpolator;
-import org.apache.commons.math4.legacy.util.MathArrays;
+import org.apache.commons.math4.legacy.core.MathArrays;
 
 /**
  * This class implements an interpolator for Adams integrators using Nordsieck representation.

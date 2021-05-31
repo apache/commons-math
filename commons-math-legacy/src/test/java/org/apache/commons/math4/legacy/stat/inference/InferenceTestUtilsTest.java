@@ -27,7 +27,7 @@ import org.apache.commons.math4.legacy.exception.NullArgumentException;
 import org.apache.commons.math4.legacy.exception.NumberIsTooSmallException;
 import org.apache.commons.math4.legacy.exception.OutOfRangeException;
 import org.apache.commons.math4.legacy.stat.descriptive.SummaryStatistics;
-import org.apache.commons.math4.legacy.util.FastMath;
+import org.apache.commons.math4.legacy.core.jdkmath.AccurateMath;
 import org.junit.Assert;
 import org.junit.Test;
 
@@ -514,18 +514,18 @@ public class InferenceTestUtilsTest {
         // negative because k11 is lower than expected
         Assert.assertTrue(InferenceTestUtils.rootLogLikelihoodRatio(36, 21928, 60280, 623876) < 0.0);
 
-        Assert.assertEquals(FastMath.sqrt(2.772589), InferenceTestUtils.rootLogLikelihoodRatio(1, 0, 0, 1), 0.000001);
-        Assert.assertEquals(-FastMath.sqrt(2.772589), InferenceTestUtils.rootLogLikelihoodRatio(0, 1, 1, 0), 0.000001);
-        Assert.assertEquals(FastMath.sqrt(27.72589), InferenceTestUtils.rootLogLikelihoodRatio(10, 0, 0, 10), 0.00001);
+        Assert.assertEquals(AccurateMath.sqrt(2.772589), InferenceTestUtils.rootLogLikelihoodRatio(1, 0, 0, 1), 0.000001);
+        Assert.assertEquals(-AccurateMath.sqrt(2.772589), InferenceTestUtils.rootLogLikelihoodRatio(0, 1, 1, 0), 0.000001);
+        Assert.assertEquals(AccurateMath.sqrt(27.72589), InferenceTestUtils.rootLogLikelihoodRatio(10, 0, 0, 10), 0.00001);
 
-        Assert.assertEquals(FastMath.sqrt(39.33052), InferenceTestUtils.rootLogLikelihoodRatio(5, 1995, 0, 100000), 0.00001);
-        Assert.assertEquals(-FastMath.sqrt(39.33052), InferenceTestUtils.rootLogLikelihoodRatio(0, 100000, 5, 1995), 0.00001);
+        Assert.assertEquals(AccurateMath.sqrt(39.33052), InferenceTestUtils.rootLogLikelihoodRatio(5, 1995, 0, 100000), 0.00001);
+        Assert.assertEquals(-AccurateMath.sqrt(39.33052), InferenceTestUtils.rootLogLikelihoodRatio(0, 100000, 5, 1995), 0.00001);
 
-        Assert.assertEquals(FastMath.sqrt(4730.737), InferenceTestUtils.rootLogLikelihoodRatio(1000, 1995, 1000, 100000), 0.001);
-        Assert.assertEquals(-FastMath.sqrt(4730.737), InferenceTestUtils.rootLogLikelihoodRatio(1000, 100000, 1000, 1995), 0.001);
+        Assert.assertEquals(AccurateMath.sqrt(4730.737), InferenceTestUtils.rootLogLikelihoodRatio(1000, 1995, 1000, 100000), 0.001);
+        Assert.assertEquals(-AccurateMath.sqrt(4730.737), InferenceTestUtils.rootLogLikelihoodRatio(1000, 100000, 1000, 1995), 0.001);
 
-        Assert.assertEquals(FastMath.sqrt(5734.343), InferenceTestUtils.rootLogLikelihoodRatio(1000, 1000, 1000, 100000), 0.001);
-        Assert.assertEquals(FastMath.sqrt(5714.932), InferenceTestUtils.rootLogLikelihoodRatio(1000, 1000, 1000, 99000), 0.001);
+        Assert.assertEquals(AccurateMath.sqrt(5734.343), InferenceTestUtils.rootLogLikelihoodRatio(1000, 1000, 1000, 100000), 0.001);
+        Assert.assertEquals(AccurateMath.sqrt(5714.932), InferenceTestUtils.rootLogLikelihoodRatio(1000, 1000, 1000, 99000), 0.001);
     }
 
     @Test

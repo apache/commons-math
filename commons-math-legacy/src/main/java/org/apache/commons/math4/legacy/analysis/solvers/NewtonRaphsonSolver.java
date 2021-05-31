@@ -20,7 +20,7 @@ package org.apache.commons.math4.legacy.analysis.solvers;
 import org.apache.commons.math4.legacy.analysis.differentiation.DerivativeStructure;
 import org.apache.commons.math4.legacy.analysis.differentiation.UnivariateDifferentiableFunction;
 import org.apache.commons.math4.legacy.exception.TooManyEvaluationsException;
-import org.apache.commons.math4.legacy.util.FastMath;
+import org.apache.commons.math4.legacy.core.jdkmath.AccurateMath;
 
 /**
  * Implements <a href="http://mathworld.wolfram.com/NewtonsMethod.html">
@@ -82,7 +82,7 @@ public class NewtonRaphsonSolver extends AbstractUnivariateDifferentiableSolver 
         while (true) {
             final DerivativeStructure y0 = computeObjectiveValueAndDerivative(x0);
             x1 = x0 - (y0.getValue() / y0.getPartialDerivative(1));
-            if (FastMath.abs(x1 - x0) <= absoluteAccuracy) {
+            if (AccurateMath.abs(x1 - x0) <= absoluteAccuracy) {
                 return x1;
             }
 

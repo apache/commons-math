@@ -23,7 +23,7 @@ import org.apache.commons.math4.legacy.stat.descriptive.moment.GeometricMean;
 import org.apache.commons.math4.legacy.stat.descriptive.moment.Mean;
 import org.apache.commons.math4.legacy.stat.descriptive.moment.Variance;
 import org.apache.commons.math4.legacy.stat.descriptive.summary.Sum;
-import org.apache.commons.math4.legacy.util.FastMath;
+import org.apache.commons.math4.legacy.core.jdkmath.AccurateMath;
 import org.junit.Assert;
 import org.junit.Test;
 /**
@@ -40,7 +40,7 @@ public class SummaryStatisticsTest {
     private final double sum = 8;
     private final double var = 0.666666666666666666667;
     private final double popVar = 0.5;
-    private final double std = FastMath.sqrt(var);
+    private final double std = AccurateMath.sqrt(var);
     private final double n = 4;
     private final double min = 1;
     private final double max = 3;
@@ -275,7 +275,7 @@ public class SummaryStatisticsTest {
         u.addValue(3);
         Assert.assertEquals(4, u.getMean(), 1E-14);
         Assert.assertEquals(4, u.getSumOfLogs(), 1E-14);
-        Assert.assertEquals(FastMath.exp(2), u.getGeometricMean(), 1E-14);
+        Assert.assertEquals(AccurateMath.exp(2), u.getGeometricMean(), 1E-14);
         u.clear();
         u.addValue(1);
         u.addValue(2);

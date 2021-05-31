@@ -23,7 +23,7 @@ import java.math.MathContext;
 import org.apache.commons.math4.legacy.TestUtils;
 import org.apache.commons.math4.legacy.exception.MathArithmeticException;
 import org.apache.commons.math4.legacy.linear.BigReal;
-import org.apache.commons.math4.legacy.util.FastMath;
+import org.apache.commons.math4.legacy.core.jdkmath.AccurateMath;
 import org.junit.Assert;
 import org.junit.Test;
 
@@ -126,13 +126,13 @@ public class BigRealTest {
     @Test
     public void testReciprocal() {
         BigReal a = new BigReal("1.2345678");
-        double eps = FastMath.pow(10., -a.getScale());
+        double eps = AccurateMath.pow(10., -a.getScale());
         BigReal one = new BigReal("1.0000000");
         BigReal b = a.reciprocal();
         BigReal r = one.subtract(a.multiply(b));
-        Assert.assertTrue(FastMath.abs(r.doubleValue()) <= eps);
+        Assert.assertTrue(AccurateMath.abs(r.doubleValue()) <= eps);
         r = one.subtract(b.multiply(a));
-        Assert.assertTrue(FastMath.abs(r.doubleValue()) <= eps);
+        Assert.assertTrue(AccurateMath.abs(r.doubleValue()) <= eps);
     }
 
     @Test(expected = MathArithmeticException.class)
@@ -182,7 +182,7 @@ public class BigRealTest {
     public void testSerial() {
         BigReal[] Reals = {
             new BigReal(3.0), BigReal.ONE, BigReal.ZERO, new BigReal(17),
-            new BigReal(FastMath.PI), new BigReal(-2.5)
+            new BigReal(AccurateMath.PI), new BigReal(-2.5)
         };
         for (BigReal Real : Reals) {
             Assert.assertEquals(Real, TestUtils.serializeAndRecover(Real));

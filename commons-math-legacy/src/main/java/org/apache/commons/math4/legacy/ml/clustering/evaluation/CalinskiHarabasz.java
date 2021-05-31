@@ -21,7 +21,7 @@ import org.apache.commons.math4.legacy.exception.InsufficientDataException;
 import org.apache.commons.math4.legacy.ml.clustering.Cluster;
 import org.apache.commons.math4.legacy.ml.clustering.ClusterEvaluator;
 import org.apache.commons.math4.legacy.ml.clustering.Clusterable;
-import org.apache.commons.math4.legacy.util.MathArrays;
+import org.apache.commons.math4.legacy.core.MathArrays;
 
 import java.util.Collection;
 import java.util.List;

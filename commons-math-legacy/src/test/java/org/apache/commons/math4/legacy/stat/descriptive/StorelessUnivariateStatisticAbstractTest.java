@@ -18,7 +18,7 @@ package org.apache.commons.math4.legacy.stat.descriptive;
 
 import org.apache.commons.math4.legacy.TestUtils;
 import org.apache.commons.math4.legacy.stat.descriptive.moment.SecondMoment;
-import org.apache.commons.math4.legacy.util.FastMath;
+import org.apache.commons.math4.legacy.core.jdkmath.AccurateMath;
 import org.junit.Assert;
 import org.junit.Test;
 
@@ -191,7 +191,7 @@ public abstract class StorelessUnivariateStatisticAbstractTest
         StorelessUnivariateStatistic replica = null;
 
         // Randomly select a portion of testArray to load first
-        long index = FastMath.round((FastMath.random()) * testArray.length);
+        long index = AccurateMath.round((AccurateMath.random()) * testArray.length);
 
         // Put first half in master and copy master to replica
         master.incrementAll(testArray, 0, (int) index);

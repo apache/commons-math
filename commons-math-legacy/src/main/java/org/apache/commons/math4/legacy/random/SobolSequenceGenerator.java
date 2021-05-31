@@ -31,7 +31,7 @@ import org.apache.commons.math4.legacy.exception.MathParseException;
 import org.apache.commons.math4.legacy.exception.NotPositiveException;
 import org.apache.commons.math4.legacy.exception.NotStrictlyPositiveException;
 import org.apache.commons.math4.legacy.exception.OutOfRangeException;
-import org.apache.commons.math4.legacy.util.FastMath;
+import org.apache.commons.math4.legacy.core.jdkmath.AccurateMath;
 
 /**
  * Implementation of a Sobol sequence.
@@ -59,7 +59,7 @@ public class SobolSequenceGenerator implements Supplier<double[]> {
     private static final int BITS = 52;
 
     /** The scaling factor. */
-    private static final double SCALE = FastMath.pow(2, BITS);
+    private static final double SCALE = AccurateMath.pow(2, BITS);
 
     /** The maximum supported space dimension. */
     private static final int MAX_DIMENSION = 21201;

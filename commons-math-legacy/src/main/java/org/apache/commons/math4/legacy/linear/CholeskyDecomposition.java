@@ -18,7 +18,7 @@
 package org.apache.commons.math4.legacy.linear;
 
 import org.apache.commons.math4.legacy.exception.DimensionMismatchException;
-import org.apache.commons.math4.legacy.util.FastMath;
+import org.apache.commons.math4.legacy.core.jdkmath.AccurateMath;
 
 
 /**
@@ -123,8 +123,8 @@ public class CholeskyDecomposition {
                 final double lIJ = lI[j];
                 final double lJI = lJ[i];
                 final double maxDelta =
-                    relativeSymmetryThreshold * FastMath.max(FastMath.abs(lIJ), FastMath.abs(lJI));
-                if (FastMath.abs(lIJ - lJI) > maxDelta) {
+                    relativeSymmetryThreshold * AccurateMath.max(AccurateMath.abs(lIJ), AccurateMath.abs(lJI));
+                if (AccurateMath.abs(lIJ - lJI) > maxDelta) {
                     throw new NonSymmetricMatrixException(i, j, relativeSymmetryThreshold);
                 }
                 lJ[i] = 0;
@@ -141,7 +141,7 @@ public class CholeskyDecomposition {
                 throw new NonPositiveDefiniteMatrixException(ltI[i], i, absolutePositivityThreshold);
             }
 
-            ltI[i] = FastMath.sqrt(ltI[i]);
+            ltI[i] = AccurateMath.sqrt(ltI[i]);
             final double inverse = 1.0 / ltI[i];
 
             for (int q = order - 1; q > i; --q) {

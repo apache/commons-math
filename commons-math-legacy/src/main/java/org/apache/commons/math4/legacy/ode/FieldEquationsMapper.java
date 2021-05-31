@@ -19,11 +19,11 @@ package org.apache.commons.math4.legacy.ode;
 
 import java.io.Serializable;
 
-import org.apache.commons.math4.legacy.RealFieldElement;
+import org.apache.commons.math4.legacy.core.RealFieldElement;
 import org.apache.commons.math4.legacy.exception.DimensionMismatchException;
 import org.apache.commons.math4.legacy.exception.MathIllegalArgumentException;
 import org.apache.commons.math4.legacy.exception.util.LocalizedFormats;
-import org.apache.commons.math4.legacy.util.MathArrays;
+import org.apache.commons.math4.legacy.core.MathArrays;
 
 /**
  * Class mapping the part of a complete state or derivative that pertains

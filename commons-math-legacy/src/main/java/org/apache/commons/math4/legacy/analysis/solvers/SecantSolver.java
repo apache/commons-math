@@ -19,7 +19,7 @@ package org.apache.commons.math4.legacy.analysis.solvers;
 
 import org.apache.commons.math4.legacy.exception.NoBracketingException;
 import org.apache.commons.math4.legacy.exception.TooManyEvaluationsException;
-import org.apache.commons.math4.legacy.util.FastMath;
+import org.apache.commons.math4.legacy.core.jdkmath.AccurateMath;
 
 /**
  * Implements the <em>Secant</em> method for root-finding (approximating a
@@ -120,13 +120,13 @@ public class SecantSolver extends AbstractUnivariateSolver {
             // If the function value of the last approximation is too small,
             // given the function value accuracy, then we can't get closer to
             // the root than we already are.
-            if (FastMath.abs(f1) <= ftol) {
+            if (AccurateMath.abs(f1) <= ftol) {
                 return x1;
             }
 
             // If the current interval is within the given accuracies, we
             // are satisfied with the current approximation.
-            if (FastMath.abs(x1 - x0) < FastMath.max(rtol * FastMath.abs(x1), atol)) {
+            if (AccurateMath.abs(x1 - x0) < AccurateMath.max(rtol * AccurateMath.abs(x1), atol)) {
                 return x1;
             }
         }

@@ -17,7 +17,7 @@
 package org.apache.commons.math4.legacy.ml.distance;
 
 import org.apache.commons.math4.legacy.exception.DimensionMismatchException;
-import org.apache.commons.math4.legacy.util.MathArrays;
+import org.apache.commons.math4.legacy.core.MathArrays;
 
 /**
  * Calculates the L<sub>1</sub> (sum of abs) distance between two points.

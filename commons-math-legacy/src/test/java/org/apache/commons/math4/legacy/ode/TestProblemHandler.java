@@ -20,7 +20,7 @@ package org.apache.commons.math4.legacy.ode;
 import org.apache.commons.math4.legacy.exception.MaxCountExceededException;
 import org.apache.commons.math4.legacy.ode.sampling.StepHandler;
 import org.apache.commons.math4.legacy.ode.sampling.StepInterpolator;
-import org.apache.commons.math4.legacy.util.FastMath;
+import org.apache.commons.math4.legacy.core.jdkmath.AccurateMath;
 
 /**
  * This class is used to handle steps for the test problems
@@ -74,17 +74,17 @@ public void init(double t0, double[] y0, double t) {
 public void handleStep(StepInterpolator interpolator, boolean isLast) throws MaxCountExceededException {
 
     double start = integrator.getCurrentStepStart();
-    if (FastMath.abs((start - problem.getInitialTime()) / integrator.getCurrentSignedStepsize()) > 0.001) {
+    if (AccurateMath.abs((start - problem.getInitialTime()) / integrator.getCurrentSignedStepsize()) > 0.001) {
         // multistep integrators do not handle the first steps themselves
         // so we have to make sure the integrator we look at has really started its work
         if (!Double.isNaN(expectedStepStart)) {
             // the step should either start at the end of the integrator step
             // or at an event if the step is split into several substeps
-            double stepError = FastMath.max(maxTimeError, FastMath.abs(start - expectedStepStart));
+            double stepError = AccurateMath.max(maxTimeError, AccurateMath.abs(start - expectedStepStart));
             for (double eventTime : problem.getTheoreticalEventsTimes()) {
-                stepError = FastMath.min(stepError, FastMath.abs(start - eventTime));
+                stepError = AccurateMath.min(stepError, AccurateMath.abs(start - eventTime));
             }
-            maxTimeError = FastMath.max(maxTimeError, stepError);
+            maxTimeError = AccurateMath.max(maxTimeError, stepError);
         }
         expectedStepStart = start + integrator.getCurrentSignedStepsize();
     }
@@ -99,8 +99,8 @@ public void handleStep(StepInterpolator interpolator, boolean isLast) throws Max
         double[] interpolatedY = interpolator.getInterpolatedState();
         double[] theoreticalY  = problem.computeTheoreticalState(cT);
         for (int i = 0; i < interpolatedY.length; ++i) {
-            double error = FastMath.abs(interpolatedY[i] - theoreticalY[i]);
-            lastError = FastMath.max(error, lastError);
+            double error = AccurateMath.abs(interpolatedY[i] - theoreticalY[i]);
+            lastError = AccurateMath.max(error, lastError);
         }
         lastTime = cT;
     }
@@ -114,8 +114,8 @@ public void handleStep(StepInterpolator interpolator, boolean isLast) throws Max
 
         // update the errors
         for (int i = 0; i < interpolatedY.length; ++i) {
-            double error = errorScale[i] * FastMath.abs(interpolatedY[i] - theoreticalY[i]);
-            maxValueError = FastMath.max(error, maxValueError);
+            double error = errorScale[i] * AccurateMath.abs(interpolatedY[i] - theoreticalY[i]);
+            maxValueError = AccurateMath.max(error, maxValueError);
         }
     }
 

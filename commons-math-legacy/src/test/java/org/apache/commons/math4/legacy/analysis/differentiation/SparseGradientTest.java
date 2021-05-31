@@ -19,12 +19,12 @@ package org.apache.commons.math4.legacy.analysis.differentiation;
 import java.util.Arrays;
 import java.util.List;
 
-import org.apache.commons.math4.legacy.ExtendedFieldElementAbstractTest;
+import org.apache.commons.math4.legacy.field.ExtendedFieldElementAbstractTest;
 import org.apache.commons.math4.legacy.TestUtils;
 import org.apache.commons.math4.legacy.analysis.polynomials.PolynomialFunction;
 import org.apache.commons.rng.UniformRandomProvider;
 import org.apache.commons.rng.simple.RandomSource;
-import org.apache.commons.math4.legacy.util.FastMath;
+import org.apache.commons.math4.legacy.core.jdkmath.AccurateMath;
 import org.junit.Assert;
 import org.junit.Test;
 
@@ -196,7 +196,7 @@ public class SparseGradientTest extends ExtendedFieldElementAbstractTest<SparseG
             SparseGradient r = SparseGradient.createVariable(0, x).reciprocal();
             Assert.assertEquals(1 / x, r.getValue(), 1.0e-15);
             final double expected = -1 / (x * x);
-            Assert.assertEquals(expected, r.getDerivative(0), 1.0e-15 * FastMath.abs(expected));
+            Assert.assertEquals(expected, r.getDerivative(0), 1.0e-15 * AccurateMath.abs(expected));
         }
     }
 
@@ -270,7 +270,7 @@ public class SparseGradientTest extends ExtendedFieldElementAbstractTest<SparseG
             Assert.assertTrue(Double.isNaN(zeroNeg.getDerivative(0)));
             SparseGradient posNeg = SparseGradient.pow(2.0, SparseGradient.createVariable(0, -2.0));
             Assert.assertEquals(1.0 / 4.0, posNeg.getValue(), 1.0e-15);
-            Assert.assertEquals(FastMath.log(2.0) / 4.0, posNeg.getDerivative(0), 1.0e-15);
+            Assert.assertEquals(AccurateMath.log(2.0) / 4.0, posNeg.getDerivative(0), 1.0e-15);
 
             // very special case: a = 0 and power = 0
             SparseGradient zeroZero = SparseGradient.pow(0.0, SparseGradient.createVariable(0, 0.0));
@@ -301,12 +301,12 @@ public class SparseGradientTest extends ExtendedFieldElementAbstractTest<SparseG
                                                   5, sgX.multiply(sgY),
                                                  -2, sgZ,
                                                  1, sgZ.linearCombination(8, sgZ.multiply(sgX), -1, sgY).pow(3));
-                    double f = x + 5 * x * y - 2 * z + FastMath.pow(8 * z * x - y, 3);
-                    Assert.assertEquals(f, sg.getValue(), FastMath.abs(epsilon * f));
+                    double f = x + 5 * x * y - 2 * z + AccurateMath.pow(8 * z * x - y, 3);
+                    Assert.assertEquals(f, sg.getValue(), AccurateMath.abs(epsilon * f));
 
                     // df/dx = 1 + 5 y + 24 (8 z x - y)^2 z
-                    double dfdx = 1 + 5 * y + 24 * z * FastMath.pow(8 * z * x - y, 2);
-                    Assert.assertEquals(dfdx, sg.getDerivative(0), FastMath.abs(epsilon * dfdx));
+                    double dfdx = 1 + 5 * y + 24 * z * AccurateMath.pow(8 * z * x - y, 2);
+                    Assert.assertEquals(dfdx, sg.getDerivative(0), AccurateMath.abs(epsilon * dfdx));
 
                 }
 
@@ -322,10 +322,10 @@ public class SparseGradientTest extends ExtendedFieldElementAbstractTest<SparseG
             for (double y = 0.1; y < 1.2; y += 0.1) {
                 SparseGradient sgY = SparseGradient.createConstant(y);
                 SparseGradient f = sgX.divide(sgY).sqrt();
-                double f0 = FastMath.sqrt(x / y);
-                Assert.assertEquals(f0, f.getValue(), FastMath.abs(epsilon * f0));
-                double f1 = 1 / (2 * FastMath.sqrt(x * y));
-                Assert.assertEquals(f1, f.getDerivative(0), FastMath.abs(epsilon * f1));
+                double f0 = AccurateMath.sqrt(x / y);
+                Assert.assertEquals(f0, f.getValue(), AccurateMath.abs(epsilon * f0));
+                double f1 = 1 / (2 * AccurateMath.sqrt(x * y));
+                Assert.assertEquals(f1, f.getDerivative(0), AccurateMath.abs(epsilon * f1));
             }
         }
     }
@@ -340,17 +340,17 @@ public class SparseGradientTest extends ExtendedFieldElementAbstractTest<SparseG
                     for (double z = 0.1; z < 1.2; z += 0.1) {
                         SparseGradient sgZ = SparseGradient.createVariable(2, z);
                         SparseGradient f = sgX.divide(sgY.cos().add(sgZ.tan())).sin();
-                        double a = FastMath.cos(y) + FastMath.tan(z);
-                        double f0 = FastMath.sin(x / a);
-                        Assert.assertEquals(f0, f.getValue(), FastMath.abs(epsilon * f0));
-                        double dfdx = FastMath.cos(x / a) / a;
-                        Assert.assertEquals(dfdx, f.getDerivative(0), FastMath.abs(epsilon * dfdx));
-                        double dfdy =  x * FastMath.sin(y) * dfdx / a;
-                        Assert.assertEquals(dfdy, f.getDerivative(1), FastMath.abs(epsilon * dfdy));
-                        double cz = FastMath.cos(z);
+                        double a = AccurateMath.cos(y) + AccurateMath.tan(z);
+                        double f0 = AccurateMath.sin(x / a);
+                        Assert.assertEquals(f0, f.getValue(), AccurateMath.abs(epsilon * f0));
+                        double dfdx = AccurateMath.cos(x / a) / a;
+                        Assert.assertEquals(dfdx, f.getDerivative(0), AccurateMath.abs(epsilon * dfdx));
+                        double dfdy =  x * AccurateMath.sin(y) * dfdx / a;
+                        Assert.assertEquals(dfdy, f.getDerivative(1), AccurateMath.abs(epsilon * dfdy));
+                        double cz = AccurateMath.cos(z);
                         double cz2 = cz * cz;
                         double dfdz = -x * dfdx / (a * cz2);
-                        Assert.assertEquals(dfdz, f.getDerivative(2), FastMath.abs(epsilon * dfdz));
+                        Assert.assertEquals(dfdz, f.getDerivative(2), AccurateMath.abs(epsilon * dfdz));
                     }
                 }
             }
@@ -499,7 +499,7 @@ public class SparseGradientTest extends ExtendedFieldElementAbstractTest<SparseG
             SparseGradient sgX = SparseGradient.createVariable(0, x);
             for (double y = -1.7; y < 2; y += 0.2) {
                 SparseGradient remainder = sgX.remainder(y);
-                SparseGradient ref = sgX.subtract(x - FastMath.IEEEremainder(x, y));
+                SparseGradient ref = sgX.subtract(x - AccurateMath.IEEEremainder(x, y));
                 SparseGradient zero = remainder.subtract(ref);
                 checkF0F1(zero, 0.0, 0.0, 0.0);
             }
@@ -513,7 +513,7 @@ public class SparseGradientTest extends ExtendedFieldElementAbstractTest<SparseG
             for (double y = -1.7; y < 2; y += 0.2) {
                 SparseGradient sgY = SparseGradient.createVariable(1, y);
                 SparseGradient remainder = sgX.remainder(sgY);
-                SparseGradient ref = sgX.subtract(sgY.multiply((x - FastMath.IEEEremainder(x, y)) / y));
+                SparseGradient ref = sgX.subtract(sgY.multiply((x - AccurateMath.IEEEremainder(x, y)) / y));
                 SparseGradient zero = remainder.subtract(ref);
                 checkF0F1(zero, 0.0, 0.0, 0.0);
             }
@@ -524,7 +524,7 @@ public class SparseGradientTest extends ExtendedFieldElementAbstractTest<SparseG
     @Test
     public void testExp() {
         for (double x = 0.1; x < 1.2; x += 0.001) {
-            double refExp = FastMath.exp(x);
+            double refExp = AccurateMath.exp(x);
             checkF0F1(SparseGradient.createVariable(0, x).exp(), refExp, refExp);
         }
     }
@@ -544,7 +544,7 @@ public class SparseGradientTest extends ExtendedFieldElementAbstractTest<SparseG
     @Test
     public void testLog() {
         for (double x = 0.1; x < 1.2; x += 0.001) {
-            checkF0F1(SparseGradient.createVariable(0, x).log(), FastMath.log(x), 1.0 / x);
+            checkF0F1(SparseGradient.createVariable(0, x).log(), AccurateMath.log(x), 1.0 / x);
         }
     }
 
@@ -564,7 +564,7 @@ public class SparseGradientTest extends ExtendedFieldElementAbstractTest<SparseG
         for (double x = 0.1; x < 1.2; x += 0.001) {
             SparseGradient sgX = SparseGradient.createVariable(0, x);
             SparseGradient log101 = sgX.log10();
-            SparseGradient log102 = sgX.log().divide(FastMath.log(10.0));
+            SparseGradient log102 = sgX.log().divide(AccurateMath.log(10.0));
             SparseGradient zero = log101.subtract(log102);
             checkF0F1(zero, 0.0, 0.0);
         }
@@ -606,8 +606,8 @@ public class SparseGradientTest extends ExtendedFieldElementAbstractTest<SparseG
             SparseGradient sgX = SparseGradient.createVariable(0, x);
             SparseGradient sin = sgX.sin();
             SparseGradient cos = sgX.cos();
-            double s = FastMath.sin(x);
-            double c = FastMath.cos(x);
+            double s = AccurateMath.sin(x);
+            double c = AccurateMath.cos(x);
             checkF0F1(sin, s, c);
             checkF0F1(cos, c, -s);
         }
@@ -664,7 +664,7 @@ public class SparseGradientTest extends ExtendedFieldElementAbstractTest<SparseG
                 SparseGradient atan2 = SparseGradient.atan2(sgY, sgX);
                 SparseGradient ref = sgY.divide(sgX).atan();
                 if (x < 0) {
-                    ref = (y < 0) ? ref.subtract(FastMath.PI) : ref.add(FastMath.PI);
+                    ref = (y < 0) ? ref.subtract(AccurateMath.PI) : ref.add(AccurateMath.PI);
                 }
                 SparseGradient zero = atan2.subtract(ref);
                 checkF0F1(zero, 0.0, 0.0);
@@ -679,23 +679,23 @@ public class SparseGradientTest extends ExtendedFieldElementAbstractTest<SparseG
                 SparseGradient.atan2(SparseGradient.createVariable(1, +0.0),
                                           SparseGradient.createVariable(1, +0.0));
         Assert.assertEquals(0, pp.getValue(), 1.0e-15);
-        Assert.assertEquals(+1, FastMath.copySign(1, pp.getValue()), 1.0e-15);
+        Assert.assertEquals(+1, AccurateMath.copySign(1, pp.getValue()), 1.0e-15);
 
         SparseGradient pn =
                 SparseGradient.atan2(SparseGradient.createVariable(1, +0.0),
                                           SparseGradient.createVariable(1, -0.0));
-        Assert.assertEquals(FastMath.PI, pn.getValue(), 1.0e-15);
+        Assert.assertEquals(AccurateMath.PI, pn.getValue(), 1.0e-15);
 
         SparseGradient np =
                 SparseGradient.atan2(SparseGradient.createVariable(1, -0.0),
                                           SparseGradient.createVariable(1, +0.0));
         Assert.assertEquals(0, np.getValue(), 1.0e-15);
-        Assert.assertEquals(-1, FastMath.copySign(1, np.getValue()), 1.0e-15);
+        Assert.assertEquals(-1, AccurateMath.copySign(1, np.getValue()), 1.0e-15);
 
         SparseGradient nn =
                 SparseGradient.atan2(SparseGradient.createVariable(1, -0.0),
                                           SparseGradient.createVariable(1, -0.0));
-        Assert.assertEquals(-FastMath.PI, nn.getValue(), 1.0e-15);
+        Assert.assertEquals(-AccurateMath.PI, nn.getValue(), 1.0e-15);
 
     }
 
@@ -769,7 +769,7 @@ public class SparseGradientTest extends ExtendedFieldElementAbstractTest<SparseG
             for (double y = 0.1; y < 1.2; y += 0.1) {
                 SparseGradient sgY = SparseGradient.createVariable(0, y);
                 SparseGradient f = sgX.divide(sgY).sqrt();
-                double f0 = FastMath.sqrt(x / y);
+                double f0 = AccurateMath.sqrt(x / y);
                 double f1 = -x / (2 * y * y * f0);
                 checkF0F1(f, f0, f1);
             }
@@ -808,8 +808,8 @@ public class SparseGradientTest extends ExtendedFieldElementAbstractTest<SparseG
             double maxError = 0;
             for (double dx = -0.05; dx < 0.05; dx += 0.001) {
                 for (double dy = -0.05; dy < 0.05; dy += 0.001) {
-                    double ref = FastMath.atan2(y0 + dy, x0 + dx);
-                    maxError = FastMath.max(maxError, FastMath.abs(ref - atan2.taylor(dx, dy)));
+                    double ref = AccurateMath.atan2(y0 + dy, x0 + dx);
+                    maxError = AccurateMath.max(maxError, AccurateMath.abs(ref - atan2.taylor(dx, dy)));
                 }
             }
             double expectedError = 0.0241;
@@ -914,8 +914,8 @@ public class SparseGradientTest extends ExtendedFieldElementAbstractTest<SparseG
         for (int maxOrder = 0; maxOrder < 6; ++maxOrder) {
             for (double x = 0.1; x < 1.2; x += 0.001) {
                 SparseGradient sgX = SparseGradient.createVariable(0, x);
-                Assert.assertEquals(FastMath.toDegrees(x), sgX.toDegrees().getValue(), epsilon);
-                Assert.assertEquals(180 / FastMath.PI, sgX.toDegrees().getDerivative(0), epsilon);
+                Assert.assertEquals(AccurateMath.toDegrees(x), sgX.toDegrees().getValue(), epsilon);
+                Assert.assertEquals(180 / AccurateMath.PI, sgX.toDegrees().getDerivative(0), epsilon);
             }
         }
     }
@@ -926,8 +926,8 @@ public class SparseGradientTest extends ExtendedFieldElementAbstractTest<SparseG
         for (int maxOrder = 0; maxOrder < 6; ++maxOrder) {
             for (double x = 0.1; x < 1.2; x += 0.001) {
                 SparseGradient sgX = SparseGradient.createVariable(0, x);
-                Assert.assertEquals(FastMath.toRadians(x), sgX.toRadians().getValue(), epsilon);
-                Assert.assertEquals(FastMath.PI / 180, sgX.toRadians().getDerivative(0), epsilon);
+                Assert.assertEquals(AccurateMath.toRadians(x), sgX.toRadians().getValue(), epsilon);
+                Assert.assertEquals(AccurateMath.PI / 180, sgX.toRadians().getDerivative(0), epsilon);
             }
         }
     }
@@ -1037,29 +1037,29 @@ public class SparseGradientTest extends ExtendedFieldElementAbstractTest<SparseG
             SparseGradient lin = u[0].linearCombination(u[0], v[0], u[1], v[1]);
             double ref = u[0].getValue() * v[0].getValue() +
                          u[1].getValue() * v[1].getValue();
-            Assert.assertEquals(ref, lin.getValue(), 1.0e-15 * FastMath.abs(ref));
-            Assert.assertEquals(v[0].getValue(), lin.getDerivative(0), 1.0e-15 * FastMath.abs(v[0].getValue()));
-            Assert.assertEquals(v[1].getValue(), lin.getDerivative(1), 1.0e-15 * FastMath.abs(v[1].getValue()));
+            Assert.assertEquals(ref, lin.getValue(), 1.0e-15 * AccurateMath.abs(ref));
+            Assert.assertEquals(v[0].getValue(), lin.getDerivative(0), 1.0e-15 * AccurateMath.abs(v[0].getValue()));
+            Assert.assertEquals(v[1].getValue(), lin.getDerivative(1), 1.0e-15 * AccurateMath.abs(v[1].getValue()));
 
             lin = u[0].linearCombination(u[0], v[0], u[1], v[1], u[2], v[2]);
             ref = u[0].getValue() * v[0].getValue() +
                   u[1].getValue() * v[1].getValue() +
                   u[2].getValue() * v[2].getValue();
-            Assert.assertEquals(ref, lin.getValue(), 1.0e-15 * FastMath.abs(ref));
-            Assert.assertEquals(v[0].getValue(), lin.getDerivative(0), 1.0e-15 * FastMath.abs(v[0].getValue()));
-            Assert.assertEquals(v[1].getValue(), lin.getDerivative(1), 1.0e-15 * FastMath.abs(v[1].getValue()));
-            Assert.assertEquals(v[2].getValue(), lin.getDerivative(2), 1.0e-15 * FastMath.abs(v[2].getValue()));
+            Assert.assertEquals(ref, lin.getValue(), 1.0e-15 * AccurateMath.abs(ref));
+            Assert.assertEquals(v[0].getValue(), lin.getDerivative(0), 1.0e-15 * AccurateMath.abs(v[0].getValue()));
+            Assert.assertEquals(v[1].getValue(), lin.getDerivative(1), 1.0e-15 * AccurateMath.abs(v[1].getValue()));
+            Assert.assertEquals(v[2].getValue(), lin.getDerivative(2), 1.0e-15 * AccurateMath.abs(v[2].getValue()));
 
             lin = u[0].linearCombination(u[0], v[0], u[1], v[1], u[2], v[2], u[3], v[3]);
             ref = u[0].getValue() * v[0].getValue() +
                   u[1].getValue() * v[1].getValue() +
                   u[2].getValue() * v[2].getValue() +
                   u[3].getValue() * v[3].getValue();
-            Assert.assertEquals(ref, lin.getValue(), 1.0e-15 * FastMath.abs(ref));
-            Assert.assertEquals(v[0].getValue(), lin.getDerivative(0), 1.0e-15 * FastMath.abs(v[0].getValue()));
-            Assert.assertEquals(v[1].getValue(), lin.getDerivative(1), 1.0e-15 * FastMath.abs(v[1].getValue()));
-            Assert.assertEquals(v[2].getValue(), lin.getDerivative(2), 1.0e-15 * FastMath.abs(v[2].getValue()));
-            Assert.assertEquals(v[3].getValue(), lin.getDerivative(3), 1.0e-15 * FastMath.abs(v[3].getValue()));
+            Assert.assertEquals(ref, lin.getValue(), 1.0e-15 * AccurateMath.abs(ref));
+            Assert.assertEquals(v[0].getValue(), lin.getDerivative(0), 1.0e-15 * AccurateMath.abs(v[0].getValue()));
+            Assert.assertEquals(v[1].getValue(), lin.getDerivative(1), 1.0e-15 * AccurateMath.abs(v[1].getValue()));
+            Assert.assertEquals(v[2].getValue(), lin.getDerivative(2), 1.0e-15 * AccurateMath.abs(v[2].getValue()));
+            Assert.assertEquals(v[3].getValue(), lin.getDerivative(3), 1.0e-15 * AccurateMath.abs(v[3].getValue()));
 
         }
     }
@@ -1082,29 +1082,29 @@ public class SparseGradientTest extends ExtendedFieldElementAbstractTest<SparseG
             SparseGradient lin = v[0].linearCombination(u[0], v[0], u[1], v[1]);
             double ref = u[0] * v[0].getValue() +
                          u[1] * v[1].getValue();
-            Assert.assertEquals(ref, lin.getValue(), 1.0e-15 * FastMath.abs(ref));
-            Assert.assertEquals(u[0], lin.getDerivative(0), 1.0e-15 * FastMath.abs(v[0].getValue()));
-            Assert.assertEquals(u[1], lin.getDerivative(1), 1.0e-15 * FastMath.abs(v[1].getValue()));
+            Assert.assertEquals(ref, lin.getValue(), 1.0e-15 * AccurateMath.abs(ref));
+            Assert.assertEquals(u[0], lin.getDerivative(0), 1.0e-15 * AccurateMath.abs(v[0].getValue()));
+            Assert.assertEquals(u[1], lin.getDerivative(1), 1.0e-15 * AccurateMath.abs(v[1].getValue()));
 
             lin = v[0].linearCombination(u[0], v[0], u[1], v[1], u[2], v[2]);
             ref = u[0] * v[0].getValue() +
                   u[1] * v[1].getValue() +
                   u[2] * v[2].getValue();
-            Assert.assertEquals(ref, lin.getValue(), 1.0e-15 * FastMath.abs(ref));
-            Assert.assertEquals(u[0], lin.getDerivative(0), 1.0e-15 * FastMath.abs(v[0].getValue()));
-            Assert.assertEquals(u[1], lin.getDerivative(1), 1.0e-15 * FastMath.abs(v[1].getValue()));
-            Assert.assertEquals(u[2], lin.getDerivative(2), 1.0e-15 * FastMath.abs(v[2].getValue()));
+            Assert.assertEquals(ref, lin.getValue(), 1.0e-15 * AccurateMath.abs(ref));
+            Assert.assertEquals(u[0], lin.getDerivative(0), 1.0e-15 * AccurateMath.abs(v[0].getValue()));
+            Assert.assertEquals(u[1], lin.getDerivative(1), 1.0e-15 * AccurateMath.abs(v[1].getValue()));
+            Assert.assertEquals(u[2], lin.getDerivative(2), 1.0e-15 * AccurateMath.abs(v[2].getValue()));
 
             lin = v[0].linearCombination(u[0], v[0], u[1], v[1], u[2], v[2], u[3], v[3]);
             ref = u[0] * v[0].getValue() +
                   u[1] * v[1].getValue() +
                   u[2] * v[2].getValue() +
                   u[3] * v[3].getValue();
-            Assert.assertEquals(ref, lin.getValue(), 1.0e-15 * FastMath.abs(ref));
-            Assert.assertEquals(u[0], lin.getDerivative(0), 1.0e-15 * FastMath.abs(v[0].getValue()));
-            Assert.assertEquals(u[1], lin.getDerivative(1), 1.0e-15 * FastMath.abs(v[1].getValue()));
-            Assert.assertEquals(u[2], lin.getDerivative(2), 1.0e-15 * FastMath.abs(v[2].getValue()));
-            Assert.assertEquals(u[3], lin.getDerivative(3), 1.0e-15 * FastMath.abs(v[3].getValue()));
+            Assert.assertEquals(ref, lin.getValue(), 1.0e-15 * AccurateMath.abs(ref));
+            Assert.assertEquals(u[0], lin.getDerivative(0), 1.0e-15 * AccurateMath.abs(v[0].getValue()));
+            Assert.assertEquals(u[1], lin.getDerivative(1), 1.0e-15 * AccurateMath.abs(v[1].getValue()));
+            Assert.assertEquals(u[2], lin.getDerivative(2), 1.0e-15 * AccurateMath.abs(v[2].getValue()));
+            Assert.assertEquals(u[3], lin.getDerivative(3), 1.0e-15 * AccurateMath.abs(v[3].getValue()));
 
         }
     }

@@ -17,7 +17,7 @@
 
 package org.apache.commons.math4.legacy.linear;
 
-import org.apache.commons.math4.legacy.util.FastMath;
+import org.apache.commons.math4.legacy.core.jdkmath.AccurateMath;
 import org.apache.commons.numbers.core.Precision;
 
 /**
@@ -184,7 +184,7 @@ class HessenbergTransformer {
             // Scale column.
             double scale = 0;
             for (int i = m; i <= high; i++) {
-                scale += FastMath.abs(householderVectors[i][m - 1]);
+                scale += AccurateMath.abs(householderVectors[i][m - 1]);
             }
 
             if (!Precision.equals(scale, 0)) {
@@ -194,7 +194,7 @@ class HessenbergTransformer {
                     ort[i] = householderVectors[i][m - 1] / scale;
                     h += ort[i] * ort[i];
                 }
-                final double g = (ort[m] > 0) ? -FastMath.sqrt(h) : FastMath.sqrt(h);
+                final double g = (ort[m] > 0) ? -AccurateMath.sqrt(h) : AccurateMath.sqrt(h);
 
                 h -= ort[m] * g;
                 ort[m] -= g;

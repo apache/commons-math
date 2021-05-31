@@ -18,7 +18,7 @@ package org.apache.commons.math4.legacy.linear;
 
 import org.apache.commons.math4.legacy.exception.NumberIsTooLargeException;
 import org.apache.commons.math4.legacy.exception.util.LocalizedFormats;
-import org.apache.commons.math4.legacy.util.FastMath;
+import org.apache.commons.math4.legacy.core.jdkmath.AccurateMath;
 import org.apache.commons.numbers.core.Precision;
 
 /**
@@ -107,16 +107,16 @@ public class SingularValueDecomposition {
         final double[] work = new double[m];
         // Reduce A to bidiagonal form, storing the diagonal elements
         // in s and the super-diagonal elements in e.
-        final int nct = FastMath.min(m - 1, n);
-        final int nrt = FastMath.max(0, n - 2);
-        for (int k = 0; k < FastMath.max(nct, nrt); k++) {
+        final int nct = AccurateMath.min(m - 1, n);
+        final int nrt = AccurateMath.max(0, n - 2);
+        for (int k = 0; k < AccurateMath.max(nct, nrt); k++) {
             if (k < nct) {
                 // Compute the transformation for the k-th column and
                 // place the k-th diagonal in s[k].
                 // Compute 2-norm of k-th column without under/overflow.
                 singularValues[k] = 0;
                 for (int i = k; i < m; i++) {
-                    singularValues[k] = FastMath.hypot(singularValues[k], A[i][k]);
+                    singularValues[k] = AccurateMath.hypot(singularValues[k], A[i][k]);
                 }
                 if (singularValues[k] != 0) {
                     if (A[k][k] < 0) {
@@ -159,7 +159,7 @@ public class SingularValueDecomposition {
                 // Compute 2-norm without under/overflow.
                 e[k] = 0;
                 for (int i = k + 1; i < n; i++) {
-                    e[k] = FastMath.hypot(e[k], e[i]);
+                    e[k] = AccurateMath.hypot(e[k], e[i]);
                 }
                 if (e[k] != 0) {
                     if (e[k + 1] < 0) {
@@ -281,16 +281,16 @@ public class SingularValueDecomposition {
             // kase = 4     if e(p-1) is negligible (convergence).
             for (k = p - 2; k >= 0; k--) {
                 final double threshold
-                    = TINY + EPS * (FastMath.abs(singularValues[k]) +
-                                    FastMath.abs(singularValues[k + 1]));
+                    = TINY + EPS * (AccurateMath.abs(singularValues[k]) +
+                                    AccurateMath.abs(singularValues[k + 1]));
 
                 // the following condition is written this way in order
                 // to break out of the loop when NaN occurs, writing it
-                // as "if (FastMath.abs(e[k]) <= threshold)" would loop
+                // as "if (AccurateMath.abs(e[k]) <= threshold)" would loop
                 // indefinitely in case of NaNs because comparison on NaNs
                 // always return false, regardless of what is checked
                 // see issue MATH-947
-                if (!(FastMath.abs(e[k]) > threshold)) {
+                if (!(AccurateMath.abs(e[k]) > threshold)) {
                     e[k] = 0;
                     break;
                 }
@@ -305,9 +305,9 @@ public class SingularValueDecomposition {
                     if (ks == k) {
                         break;
                     }
-                    final double t = (ks != p ? FastMath.abs(e[ks]) : 0) +
-                        (ks != k + 1 ? FastMath.abs(e[ks - 1]) : 0);
-                    if (FastMath.abs(singularValues[ks]) <= TINY + EPS * t) {
+                    final double t = (ks != p ? AccurateMath.abs(e[ks]) : 0) +
+                        (ks != k + 1 ? AccurateMath.abs(e[ks - 1]) : 0);
+                    if (AccurateMath.abs(singularValues[ks]) <= TINY + EPS * t) {
                         singularValues[ks] = 0;
                         break;
                     }
@@ -329,7 +329,7 @@ public class SingularValueDecomposition {
                     double f = e[p - 2];
                     e[p - 2] = 0;
                     for (int j = p - 2; j >= k; j--) {
-                        double t = FastMath.hypot(singularValues[j], f);
+                        double t = AccurateMath.hypot(singularValues[j], f);
                         final double cs = singularValues[j] / t;
                         final double sn = f / t;
                         singularValues[j] = t;
@@ -351,7 +351,7 @@ public class SingularValueDecomposition {
                     double f = e[k - 1];
                     e[k - 1] = 0;
                     for (int j = k; j < p; j++) {
-                        double t = FastMath.hypot(singularValues[j], f);
+                        double t = AccurateMath.hypot(singularValues[j], f);
                         final double cs = singularValues[j] / t;
                         final double sn = f / t;
                         singularValues[j] = t;
@@ -369,12 +369,12 @@ public class SingularValueDecomposition {
                 // Perform one qr step.
                 case 3: {
                     // Calculate the shift.
-                    final double maxPm1Pm2 = FastMath.max(FastMath.abs(singularValues[p - 1]),
-                                                          FastMath.abs(singularValues[p - 2]));
-                    final double scale = FastMath.max(FastMath.max(FastMath.max(maxPm1Pm2,
-                                                                                FastMath.abs(e[p - 2])),
-                                                                   FastMath.abs(singularValues[k])),
-                                                      FastMath.abs(e[k]));
+                    final double maxPm1Pm2 = AccurateMath.max(AccurateMath.abs(singularValues[p - 1]),
+                                                          AccurateMath.abs(singularValues[p - 2]));
+                    final double scale = AccurateMath.max(AccurateMath.max(AccurateMath.max(maxPm1Pm2,
+                                                                                AccurateMath.abs(e[p - 2])),
+                                                                   AccurateMath.abs(singularValues[k])),
+                                                      AccurateMath.abs(e[k]));
                     final double sp = singularValues[p - 1] / scale;
                     final double spm1 = singularValues[p - 2] / scale;
                     final double epm1 = e[p - 2] / scale;
@@ -385,7 +385,7 @@ public class SingularValueDecomposition {
                     double shift = 0;
                     if (b != 0 ||
                         c != 0) {
-                        shift = FastMath.sqrt(b * b + c);
+                        shift = AccurateMath.sqrt(b * b + c);
                         if (b < 0) {
                             shift = -shift;
                         }
@@ -395,7 +395,7 @@ public class SingularValueDecomposition {
                     double g = sk * ek;
                     // Chase zeros.
                     for (int j = k; j < p - 1; j++) {
-                        double t = FastMath.hypot(f, g);
+                        double t = AccurateMath.hypot(f, g);
                         double cs = f / t;
                         double sn = g / t;
                         if (j != k) {
@@ -411,7 +411,7 @@ public class SingularValueDecomposition {
                             V[i][j + 1] = -sn * V[i][j] + cs * V[i][j + 1];
                             V[i][j] = t;
                         }
-                        t = FastMath.hypot(f, g);
+                        t = AccurateMath.hypot(f, g);
                         cs = f / t;
                         sn = g / t;
                         singularValues[j] = t;
@@ -471,8 +471,8 @@ public class SingularValueDecomposition {
         }
 
         // Set the small value tolerance used to calculate rank and pseudo-inverse
-        tol = FastMath.max(m * singularValues[0] * EPS,
-                           FastMath.sqrt(Precision.SAFE_MIN));
+        tol = AccurateMath.max(m * singularValues[0] * EPS,
+                           AccurateMath.sqrt(Precision.SAFE_MIN));
 
         if (!transposed) {
             cachedU = MatrixUtils.createRealMatrix(U);

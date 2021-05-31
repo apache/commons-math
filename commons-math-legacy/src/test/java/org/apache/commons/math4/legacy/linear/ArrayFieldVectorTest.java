@@ -20,13 +20,13 @@ import java.io.Serializable;
 import java.lang.reflect.Array;
 import java.util.Arrays;
 
-import org.apache.commons.math4.legacy.Field;
-import org.apache.commons.math4.legacy.FieldElement;
+import org.apache.commons.math4.legacy.core.Field;
+import org.apache.commons.math4.legacy.core.FieldElement;
 import org.apache.commons.math4.legacy.TestUtils;
 import org.apache.commons.math4.legacy.exception.MathIllegalArgumentException;
 import org.apache.commons.math4.legacy.exception.NumberIsTooSmallException;
 import org.apache.commons.math4.legacy.exception.OutOfRangeException;
-import org.apache.commons.math4.legacy.dfp.Dfp;
+import org.apache.commons.math4.legacy.core.dfp.Dfp;
 import org.junit.Assert;
 import org.junit.Test;
 

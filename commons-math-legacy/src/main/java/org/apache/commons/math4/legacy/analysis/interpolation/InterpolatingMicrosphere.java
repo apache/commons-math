@@ -26,8 +26,8 @@ import org.apache.commons.math4.legacy.exception.NotPositiveException;
 import org.apache.commons.math4.legacy.exception.NotStrictlyPositiveException;
 import org.apache.commons.math4.legacy.exception.MaxCountExceededException;
 import org.apache.commons.math4.legacy.exception.OutOfRangeException;
-import org.apache.commons.math4.legacy.util.FastMath;
-import org.apache.commons.math4.legacy.util.MathArrays;
+import org.apache.commons.math4.legacy.core.jdkmath.AccurateMath;
+import org.apache.commons.math4.legacy.core.MathArrays;
 
 /**
  * Utility class for the {@link MicrosphereProjectionInterpolator} algorithm.
@@ -224,13 +224,13 @@ public class InterpolatingMicrosphere {
             final double[] diff = MathArrays.ebeSubtract(samplePoints[i], point);
             final double diffNorm = SafeNorm.value(diff);
 
-            if (FastMath.abs(diffNorm) < noInterpolationTolerance) {
+            if (AccurateMath.abs(diffNorm) < noInterpolationTolerance) {
                 // No need to interpolate, as the interpolation point is
                 // actually (very close to) one of the sampled points.
                 return sampleValues[i];
             }
 
-            final double weight = FastMath.pow(diffNorm, -exponent);
+            final double weight = AccurateMath.pow(diffNorm, -exponent);
             illuminate(diff, sampleValues[i], weight);
         }
 

@@ -17,8 +17,8 @@
 
 package org.apache.commons.math4.legacy.ode;
 
-import org.apache.commons.math4.legacy.Field;
-import org.apache.commons.math4.legacy.RealFieldElement;
+import org.apache.commons.math4.legacy.core.Field;
+import org.apache.commons.math4.legacy.core.RealFieldElement;
 import org.apache.commons.math4.legacy.exception.DimensionMismatchException;
 import org.apache.commons.math4.legacy.exception.MathIllegalStateException;
 import org.apache.commons.math4.legacy.exception.MaxCountExceededException;
@@ -30,8 +30,8 @@ import org.apache.commons.math4.legacy.ode.nonstiff.AdaptiveStepsizeFieldIntegra
 import org.apache.commons.math4.legacy.ode.nonstiff.DormandPrince853FieldIntegrator;
 import org.apache.commons.math4.legacy.ode.sampling.FieldStepHandler;
 import org.apache.commons.math4.legacy.ode.sampling.FieldStepInterpolator;
-import org.apache.commons.math4.legacy.util.FastMath;
-import org.apache.commons.math4.legacy.util.MathArrays;
+import org.apache.commons.math4.legacy.core.jdkmath.AccurateMath;
+import org.apache.commons.math4.legacy.core.MathArrays;
 
 /**
  * This class is the base class for multistep integrators for Ordinary
@@ -139,7 +139,7 @@ public abstract class MultistepFieldIntegrator<T extends RealFieldElement<T>>
         // set the default values of the algorithm control parameters
         setSafety(0.9);
         setMinReduction(0.2);
-        setMaxGrowth(FastMath.pow(2.0, -exp));
+        setMaxGrowth(AccurateMath.pow(2.0, -exp));
 
     }
 
@@ -179,7 +179,7 @@ public abstract class MultistepFieldIntegrator<T extends RealFieldElement<T>>
         // set the default values of the algorithm control parameters
         setSafety(0.9);
         setMinReduction(0.2);
-        setMaxGrowth(FastMath.pow(2.0, -exp));
+        setMaxGrowth(AccurateMath.pow(2.0, -exp));
 
     }
 

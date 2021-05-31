@@ -27,7 +27,7 @@ import org.apache.commons.math4.legacy.exception.MathArithmeticException;
 import org.apache.commons.math4.legacy.exception.NotANumberException;
 import org.apache.commons.math4.legacy.exception.NotFiniteNumberException;
 import org.apache.commons.math4.legacy.exception.NotPositiveException;
-import org.apache.commons.math4.legacy.util.FastMath;
+import org.apache.commons.math4.legacy.core.jdkmath.AccurateMath;
 import org.apache.commons.math4.legacy.util.Pair;
 import org.apache.commons.rng.UniformRandomProvider;
 import org.apache.commons.rng.simple.RandomSource;
@@ -189,7 +189,7 @@ public class EnumeratedRealDistributionTest {
         Assert.assertEquals(testDistribution.getMean(),
                 sum / n, 1e-2);
         Assert.assertEquals(testDistribution.getVariance(),
-                sumOfSquares / n - FastMath.pow(sum / n, 2), 1e-2);
+                sumOfSquares / n - AccurateMath.pow(sum / n, 2), 1e-2);
     }
 
     @Test

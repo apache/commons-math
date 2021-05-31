@@ -18,7 +18,7 @@
 package org.apache.commons.math4.legacy.linear;
 
 import org.apache.commons.math4.legacy.exception.MathIllegalArgumentException;
-import org.apache.commons.math4.legacy.dfp.Dfp;
+import org.apache.commons.math4.legacy.core.dfp.Dfp;
 import org.junit.Assert;
 import org.junit.Test;
 

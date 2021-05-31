@@ -20,7 +20,7 @@ import org.apache.commons.rng.UniformRandomProvider;
 import org.apache.commons.math4.legacy.exception.NullArgumentException;
 import org.apache.commons.math4.legacy.exception.OutOfRangeException;
 import org.apache.commons.math4.legacy.exception.util.LocalizedFormats;
-import org.apache.commons.math4.legacy.util.FastMath;
+import org.apache.commons.math4.legacy.core.jdkmath.AccurateMath;
 
 /**
  * <p>This class provides a stable normalized random generator. It samples from a stable
@@ -73,7 +73,7 @@ public class StableRandomGenerator implements NormalizedRandomGenerator {
         this.alpha = alpha;
         this.beta = beta;
         if (alpha < 2d && beta != 0d) {
-            zeta = beta * FastMath.tan(FastMath.PI * alpha / 2);
+            zeta = beta * AccurateMath.tan(AccurateMath.PI * alpha / 2);
         } else {
             zeta = 0d;
         }
@@ -87,12 +87,12 @@ public class StableRandomGenerator implements NormalizedRandomGenerator {
     @Override
     public double nextNormalizedDouble() {
         // we need 2 uniform random numbers to calculate omega and phi
-        double omega = -FastMath.log(generator.nextDouble());
-        double phi = FastMath.PI * (generator.nextDouble() - 0.5);
+        double omega = -AccurateMath.log(generator.nextDouble());
+        double phi = AccurateMath.PI * (generator.nextDouble() - 0.5);
 
         // Normal distribution case (Box-Muller algorithm)
         if (alpha == 2d) {
-            return FastMath.sqrt(2d * omega) * FastMath.sin(phi);
+            return AccurateMath.sqrt(2d * omega) * AccurateMath.sin(phi);
         }
 
         double x;
@@ -101,30 +101,30 @@ public class StableRandomGenerator implements NormalizedRandomGenerator {
         if (beta == 0d) {
             // Cauchy distribution case
             if (alpha == 1d) {
-                x = FastMath.tan(phi);
+                x = AccurateMath.tan(phi);
             } else {
-                x = FastMath.pow(omega * FastMath.cos((1 - alpha) * phi),
+                x = AccurateMath.pow(omega * AccurateMath.cos((1 - alpha) * phi),
                     1d / alpha - 1d) *
-                    FastMath.sin(alpha * phi) /
-                    FastMath.pow(FastMath.cos(phi), 1d / alpha);
+                    AccurateMath.sin(alpha * phi) /
+                    AccurateMath.pow(AccurateMath.cos(phi), 1d / alpha);
             }
         } else {
             // Generic stable distribution
-            double cosPhi = FastMath.cos(phi);
+            double cosPhi = AccurateMath.cos(phi);
             // to avoid rounding errors around alpha = 1
-            if (FastMath.abs(alpha - 1d) > 1e-8) {
+            if (AccurateMath.abs(alpha - 1d) > 1e-8) {
                 double alphaPhi = alpha * phi;
                 double invAlphaPhi = phi - alphaPhi;
-                x = (FastMath.sin(alphaPhi) + zeta * FastMath.cos(alphaPhi)) / cosPhi *
-                    (FastMath.cos(invAlphaPhi) + zeta * FastMath.sin(invAlphaPhi)) /
-                     FastMath.pow(omega * cosPhi, (1 - alpha) / alpha);
+                x = (AccurateMath.sin(alphaPhi) + zeta * AccurateMath.cos(alphaPhi)) / cosPhi *
+                    (AccurateMath.cos(invAlphaPhi) + zeta * AccurateMath.sin(invAlphaPhi)) /
+                     AccurateMath.pow(omega * cosPhi, (1 - alpha) / alpha);
             } else {
-                double betaPhi = FastMath.PI / 2 + beta * phi;
-                x = 2d / FastMath.PI * (betaPhi * FastMath.tan(phi) - beta *
-                    FastMath.log(FastMath.PI / 2d * omega * cosPhi / betaPhi));
+                double betaPhi = AccurateMath.PI / 2 + beta * phi;
+                x = 2d / AccurateMath.PI * (betaPhi * AccurateMath.tan(phi) - beta *
+                    AccurateMath.log(AccurateMath.PI / 2d * omega * cosPhi / betaPhi));
 
                 if (alpha != 1d) {
-                    x += beta * FastMath.tan(FastMath.PI * alpha / 2);
+                    x += beta * AccurateMath.tan(AccurateMath.PI * alpha / 2);
                 }
             }
         }

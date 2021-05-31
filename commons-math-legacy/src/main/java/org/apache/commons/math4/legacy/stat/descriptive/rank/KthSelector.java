@@ -20,7 +20,7 @@ import java.io.Serializable;
 import java.util.Arrays;
 
 import org.apache.commons.math4.legacy.exception.NullArgumentException;
-import org.apache.commons.math4.legacy.util.FastMath;
+import org.apache.commons.math4.legacy.core.jdkmath.AccurateMath;
 
 /**
  * A Simple K<sup>th</sup> selector implementation to pick up the
@@ -101,11 +101,11 @@ public class KthSelector implements Serializable {
             } else if (k < pivot) {
                 // the element is in the left partition
                 end  = pivot;
-                node = FastMath.min(2 * node + 1, usePivotsHeap ? pivotsHeap.length : end);
+                node = AccurateMath.min(2 * node + 1, usePivotsHeap ? pivotsHeap.length : end);
             } else {
                 // the element is in the right partition
                 begin = pivot + 1;
-                node  = FastMath.min(2 * node + 2, usePivotsHeap ? pivotsHeap.length : end);
+                node  = AccurateMath.min(2 * node + 2, usePivotsHeap ? pivotsHeap.length : end);
             }
         }
         Arrays.sort(work, begin, end);

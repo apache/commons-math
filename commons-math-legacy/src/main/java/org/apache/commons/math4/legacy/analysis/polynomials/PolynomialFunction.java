@@ -25,7 +25,7 @@ import org.apache.commons.math4.legacy.analysis.differentiation.UnivariateDiffer
 import org.apache.commons.math4.legacy.exception.NoDataException;
 import org.apache.commons.math4.legacy.exception.NullArgumentException;
 import org.apache.commons.math4.legacy.exception.util.LocalizedFormats;
-import org.apache.commons.math4.legacy.util.FastMath;
+import org.apache.commons.math4.legacy.core.jdkmath.AccurateMath;
 
 /**
  * Immutable representation of a real polynomial function with real coefficients.
@@ -167,8 +167,8 @@ public class PolynomialFunction implements UnivariateDifferentiableFunction, Ser
      */
     public PolynomialFunction add(final PolynomialFunction p) {
         // identify the lowest degree polynomial
-        final int lowLength  = FastMath.min(coefficients.length, p.coefficients.length);
-        final int highLength = FastMath.max(coefficients.length, p.coefficients.length);
+        final int lowLength  = AccurateMath.min(coefficients.length, p.coefficients.length);
+        final int highLength = AccurateMath.max(coefficients.length, p.coefficients.length);
 
         // build the coefficients array
         double[] newCoefficients = new double[highLength];
@@ -192,8 +192,8 @@ public class PolynomialFunction implements UnivariateDifferentiableFunction, Ser
      */
     public PolynomialFunction subtract(final PolynomialFunction p) {
         // identify the lowest degree polynomial
-        int lowLength  = FastMath.min(coefficients.length, p.coefficients.length);
-        int highLength = FastMath.max(coefficients.length, p.coefficients.length);
+        int lowLength  = AccurateMath.min(coefficients.length, p.coefficients.length);
+        int highLength = AccurateMath.max(coefficients.length, p.coefficients.length);
 
         // build the coefficients array
         double[] newCoefficients = new double[highLength];
@@ -236,8 +236,8 @@ public class PolynomialFunction implements UnivariateDifferentiableFunction, Ser
 
         for (int i = 0; i < newCoefficients.length; ++i) {
             newCoefficients[i] = 0.0;
-            for (int j = FastMath.max(0, i + 1 - p.coefficients.length);
-                 j < FastMath.min(coefficients.length, i + 1);
+            for (int j = AccurateMath.max(0, i + 1 - p.coefficients.length);
+                 j < AccurateMath.min(coefficients.length, i + 1);
                  ++j) {
                 newCoefficients[i] += coefficients[j] * p.coefficients[i-j];
             }
@@ -320,7 +320,7 @@ public class PolynomialFunction implements UnivariateDifferentiableFunction, Ser
                     }
                 }
 
-                double absAi = FastMath.abs(coefficients[i]);
+                double absAi = AccurateMath.abs(coefficients[i]);
                 if ((absAi - 1) != 0) {
                     s.append(toString(absAi));
                     s.append(' ');

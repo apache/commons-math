@@ -22,7 +22,7 @@ import org.apache.commons.math4.legacy.analysis.XMinus5Function;
 import org.apache.commons.math4.legacy.analysis.function.Sin;
 import org.apache.commons.math4.legacy.exception.NoBracketingException;
 import org.apache.commons.math4.legacy.exception.NumberIsTooLargeException;
-import org.apache.commons.math4.legacy.util.FastMath;
+import org.apache.commons.math4.legacy.core.jdkmath.AccurateMath;
 import org.junit.Assert;
 import org.junit.Test;
 
@@ -57,12 +57,12 @@ public abstract class BaseSecantSolverAbstractTest {
         result = solver.solve(100, f, 3, 4);
         //System.out.println(
         //    "Root: " + result + " Evaluations: " + solver.getEvaluations());
-        Assert.assertEquals(result, FastMath.PI, solver.getAbsoluteAccuracy());
+        Assert.assertEquals(result, AccurateMath.PI, solver.getAbsoluteAccuracy());
         Assert.assertTrue(solver.getEvaluations() <= 6);
         result = solver.solve(100, f, 1, 4);
         //System.out.println(
         //    "Root: " + result + " Evaluations: " + solver.getEvaluations());
-        Assert.assertEquals(result, FastMath.PI, solver.getAbsoluteAccuracy());
+        Assert.assertEquals(result, AccurateMath.PI, solver.getAbsoluteAccuracy());
         Assert.assertTrue(solver.getEvaluations() <= 7);
     }
 

@@ -17,7 +17,7 @@
 
 package org.apache.commons.math4.legacy.analysis.solvers;
 
-import org.apache.commons.math4.legacy.RealFieldElement;
+import org.apache.commons.math4.legacy.core.RealFieldElement;
 import org.apache.commons.math4.legacy.analysis.RealFieldUnivariateFunction;
 
 /** Interface for {@link UnivariateSolver (univariate real) root-finding

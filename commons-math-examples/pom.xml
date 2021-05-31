@@ -27,7 +27,7 @@
   <artifactId>commons-math-examples</artifactId>
   <version>4.0-SNAPSHOT</version>
   <packaging>pom</packaging>
-  <name>Apache Commons Math Examples</name>
+  <name>Example applications</name>
 
   <description>Examples of use of the "Commons Math" library.
   Codes in this module and its sub-modules are not part of the public API.

@@ -17,8 +17,8 @@
 
 package org.apache.commons.math4.legacy.ode.nonstiff;
 
-import org.apache.commons.math4.legacy.Field;
-import org.apache.commons.math4.legacy.RealFieldElement;
+import org.apache.commons.math4.legacy.core.Field;
+import org.apache.commons.math4.legacy.core.RealFieldElement;
 import org.apache.commons.math4.legacy.exception.DimensionMismatchException;
 import org.apache.commons.math4.legacy.exception.MaxCountExceededException;
 import org.apache.commons.math4.legacy.exception.NumberIsTooSmallException;
@@ -27,8 +27,8 @@ import org.apache.commons.math4.legacy.ode.AbstractFieldIntegrator;
 import org.apache.commons.math4.legacy.ode.FieldEquationsMapper;
 import org.apache.commons.math4.legacy.ode.FieldODEState;
 import org.apache.commons.math4.legacy.ode.FieldODEStateAndDerivative;
-import org.apache.commons.math4.legacy.util.FastMath;
-import org.apache.commons.math4.legacy.util.MathArrays;
+import org.apache.commons.math4.legacy.core.jdkmath.AccurateMath;
+import org.apache.commons.math4.legacy.core.MathArrays;
 
 /**
  * This abstract class holds the common part of all adaptive
@@ -159,8 +159,8 @@ public abstract class AdaptiveStepsizeFieldIntegrator<T extends RealFieldElement
                                    final double absoluteTolerance,
                                    final double relativeTolerance) {
 
-        minStep     = getField().getZero().add(FastMath.abs(minimalStep));
-        maxStep     = getField().getZero().add(FastMath.abs(maximalStep));
+        minStep     = getField().getZero().add(AccurateMath.abs(minimalStep));
+        maxStep     = getField().getZero().add(AccurateMath.abs(maximalStep));
         initialStep = getField().getOne().negate();
 
         scalAbsoluteTolerance = absoluteTolerance;
@@ -188,8 +188,8 @@ public abstract class AdaptiveStepsizeFieldIntegrator<T extends RealFieldElement
                                    final double[] absoluteTolerance,
                                    final double[] relativeTolerance) {
 
-        minStep     = getField().getZero().add(FastMath.abs(minimalStep));
-        maxStep     = getField().getZero().add(FastMath.abs(maximalStep));
+        minStep     = getField().getZero().add(AccurateMath.abs(minimalStep));
+        maxStep     = getField().getZero().add(AccurateMath.abs(maximalStep));
         initialStep = getField().getOne().negate();
 
         scalAbsoluteTolerance = 0;

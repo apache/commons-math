@@ -20,7 +20,7 @@ import org.apache.commons.math4.legacy.analysis.UnivariateFunction;
 import org.apache.commons.math4.legacy.analysis.function.Expm1;
 import org.apache.commons.math4.legacy.analysis.function.Sin;
 import org.apache.commons.math4.legacy.exception.NonMonotonicSequenceException;
-import org.apache.commons.math4.legacy.util.FastMath;
+import org.apache.commons.math4.legacy.core.jdkmath.AccurateMath;
 import org.junit.Assert;
 import org.junit.Test;
 
@@ -53,7 +53,7 @@ public final class DividedDifferenceInterpolatorTest {
 
         // 6 interpolating points on interval [0, 2*PI]
         int n = 6;
-        double min = 0.0, max = 2 * FastMath.PI;
+        double min = 0.0, max = 2 * AccurateMath.PI;
         x = new double[n];
         y = new double[n];
         for (int i = 0; i < n; i++) {
@@ -63,12 +63,12 @@ public final class DividedDifferenceInterpolatorTest {
         double derivativebound = 1.0;
         UnivariateFunction p = interpolator.interpolate(x, y);
 
-        z = FastMath.PI / 4; expected = f.value(z); result = p.value(z);
-        tolerance = FastMath.abs(derivativebound * partialerror(x, z));
+        z = AccurateMath.PI / 4; expected = f.value(z); result = p.value(z);
+        tolerance = AccurateMath.abs(derivativebound * partialerror(x, z));
         Assert.assertEquals(expected, result, tolerance);
 
-        z = FastMath.PI * 1.5; expected = f.value(z); result = p.value(z);
-        tolerance = FastMath.abs(derivativebound * partialerror(x, z));
+        z = AccurateMath.PI * 1.5; expected = f.value(z); result = p.value(z);
+        tolerance = AccurateMath.abs(derivativebound * partialerror(x, z));
         Assert.assertEquals(expected, result, tolerance);
     }
 
@@ -92,19 +92,19 @@ public final class DividedDifferenceInterpolatorTest {
             x[i] = min + i * (max - min) / n;
             y[i] = f.value(x[i]);
         }
-        double derivativebound = FastMath.E;
+        double derivativebound = AccurateMath.E;
         UnivariateFunction p = interpolator.interpolate(x, y);
 
         z = 0.0; expected = f.value(z); result = p.value(z);
-        tolerance = FastMath.abs(derivativebound * partialerror(x, z));
+        tolerance = AccurateMath.abs(derivativebound * partialerror(x, z));
         Assert.assertEquals(expected, result, tolerance);
 
         z = 0.5; expected = f.value(z); result = p.value(z);
-        tolerance = FastMath.abs(derivativebound * partialerror(x, z));
+        tolerance = AccurateMath.abs(derivativebound * partialerror(x, z));
         Assert.assertEquals(expected, result, tolerance);
 
         z = -0.5; expected = f.value(z); result = p.value(z);
-        tolerance = FastMath.abs(derivativebound * partialerror(x, z));
+        tolerance = AccurateMath.abs(derivativebound * partialerror(x, z));
         Assert.assertEquals(expected, result, tolerance);
     }
 

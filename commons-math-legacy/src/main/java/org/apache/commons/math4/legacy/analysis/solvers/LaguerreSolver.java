@@ -25,7 +25,7 @@ import org.apache.commons.math4.legacy.exception.NullArgumentException;
 import org.apache.commons.math4.legacy.exception.NumberIsTooLargeException;
 import org.apache.commons.math4.legacy.exception.TooManyEvaluationsException;
 import org.apache.commons.math4.legacy.exception.util.LocalizedFormats;
-import org.apache.commons.math4.legacy.util.FastMath;
+import org.apache.commons.math4.legacy.core.jdkmath.AccurateMath;
 
 /**
  * Implements the <a href="http://mathworld.wolfram.com/LaguerresMethod.html">
@@ -101,13 +101,13 @@ public class LaguerreSolver extends AbstractPolynomialSolver {
 
         // Return the initial guess if it is good enough.
         final double yInitial = computeObjectiveValue(initial);
-        if (FastMath.abs(yInitial) <= functionValueAccuracy) {
+        if (AccurateMath.abs(yInitial) <= functionValueAccuracy) {
             return initial;
         }
 
         // Return the first endpoint if it is good enough.
         final double yMin = computeObjectiveValue(min);
-        if (FastMath.abs(yMin) <= functionValueAccuracy) {
+        if (AccurateMath.abs(yMin) <= functionValueAccuracy) {
             return min;
         }
 
@@ -118,7 +118,7 @@ public class LaguerreSolver extends AbstractPolynomialSolver {
 
         // Return the second endpoint if it is good enough.
         final double yMax = computeObjectiveValue(max);
-        if (FastMath.abs(yMax) <= functionValueAccuracy) {
+        if (AccurateMath.abs(yMax) <= functionValueAccuracy) {
             return max;
         }
 
@@ -242,8 +242,8 @@ public class LaguerreSolver extends AbstractPolynomialSolver {
          */
         public boolean isRoot(double min, double max, Complex z) {
             if (isSequence(min, z.getReal(), max)) {
-                double tolerance = FastMath.max(getRelativeAccuracy() * z.abs(), getAbsoluteAccuracy());
-                return (FastMath.abs(z.getImaginary()) <= tolerance) ||
+                double tolerance = AccurateMath.max(getRelativeAccuracy() * z.abs(), getAbsoluteAccuracy());
+                return (AccurateMath.abs(z.getImaginary()) <= tolerance) ||
                      (z.abs() <= getFunctionValueAccuracy());
             }
             return false;
@@ -348,7 +348,7 @@ public class LaguerreSolver extends AbstractPolynomialSolver {
                 d2v = d2v.multiply(Complex.ofCartesian(2.0, 0.0));
 
                 // Check for convergence.
-                final double tolerance = FastMath.max(relativeAccuracy * z.abs(),
+                final double tolerance = AccurateMath.max(relativeAccuracy * z.abs(),
                                                       absoluteAccuracy);
                 if ((z.subtract(oldz)).abs() <= tolerance) {
                     return z;

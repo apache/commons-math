@@ -19,8 +19,8 @@ package org.apache.commons.math4.legacy.linear;
 
 import java.io.Serializable;
 
-import org.apache.commons.math4.legacy.Field;
-import org.apache.commons.math4.legacy.FieldElement;
+import org.apache.commons.math4.legacy.core.Field;
+import org.apache.commons.math4.legacy.core.FieldElement;
 
 /**
  * Representation of real numbers with arbitrary precision field.

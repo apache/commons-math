@@ -23,7 +23,7 @@ import org.apache.commons.math4.legacy.exception.MathIllegalArgumentException;
 import org.apache.commons.math4.legacy.exception.NotStrictlyPositiveException;
 import org.apache.commons.math4.legacy.exception.NullArgumentException;
 import org.apache.commons.math4.legacy.exception.OutOfRangeException;
-import org.apache.commons.math4.legacy.dfp.Dfp;
+import org.apache.commons.math4.legacy.core.dfp.Dfp;
 import org.junit.Assert;
 import org.junit.Test;
 

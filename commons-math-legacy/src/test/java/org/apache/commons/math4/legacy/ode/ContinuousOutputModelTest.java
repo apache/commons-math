@@ -28,7 +28,7 @@ import org.apache.commons.math4.legacy.ode.nonstiff.DormandPrince54Integrator;
 import org.apache.commons.math4.legacy.ode.nonstiff.DormandPrince853Integrator;
 import org.apache.commons.math4.legacy.ode.sampling.DummyStepInterpolator;
 import org.apache.commons.math4.legacy.ode.sampling.StepInterpolator;
-import org.apache.commons.math4.legacy.util.FastMath;
+import org.apache.commons.math4.legacy.core.jdkmath.AccurateMath;
 import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
@@ -77,11 +77,11 @@ public class ContinuousOutputModelTest {
       double dx = interpolatedY[0] - theoreticalY[0];
       double dy = interpolatedY[1] - theoreticalY[1];
       double error = dx * dx + dy * dy;
-      maxError = FastMath.max(maxError, error);
+      maxError = AccurateMath.max(maxError, error);
       double dxDot = interpolatedYDot[0] - theoreticalYDot[0];
       double dyDot = interpolatedYDot[1] - theoreticalYDot[1];
       double errorDot = dxDot * dxDot + dyDot * dyDot;
-      maxErrorDot = FastMath.max(maxErrorDot, errorDot);
+      maxErrorDot = AccurateMath.max(maxErrorDot, errorDot);
     }
 
     Assert.assertEquals(0.0, maxError,    1.0e-9);
@@ -111,7 +111,7 @@ public class ContinuousOutputModelTest {
       FirstOrderIntegrator integ1 =
           new DormandPrince853Integrator(0, 1.0, 1.0e-8, 1.0e-8);
       integ1.addStepHandler(cm1);
-      integ1.integrate(problem, FastMath.PI, new double[] { -1.0, 0.0 },
+      integ1.integrate(problem, AccurateMath.PI, new double[] { -1.0, 0.0 },
                        0, new double[2]);
 
       // integrate backward from 2&pi; to &pi;
@@ -119,8 +119,8 @@ public class ContinuousOutputModelTest {
       FirstOrderIntegrator integ2 =
           new DormandPrince853Integrator(0, 0.1, 1.0e-12, 1.0e-12);
       integ2.addStepHandler(cm2);
-      integ2.integrate(problem, 2.0 * FastMath.PI, new double[] { 1.0, 0.0 },
-                       FastMath.PI, new double[2]);
+      integ2.integrate(problem, 2.0 * AccurateMath.PI, new double[] { 1.0, 0.0 },
+                       AccurateMath.PI, new double[2]);
 
       // merge the two half circles
       ContinuousOutputModel cm = new ContinuousOutputModel();
@@ -129,14 +129,14 @@ public class ContinuousOutputModelTest {
       cm.append(cm1);
 
       // check circle
-      Assert.assertEquals(2.0 * FastMath.PI, cm.getInitialTime(), 1.0e-12);
+      Assert.assertEquals(2.0 * AccurateMath.PI, cm.getInitialTime(), 1.0e-12);
       Assert.assertEquals(0, cm.getFinalTime(), 1.0e-12);
       Assert.assertEquals(cm.getFinalTime(), cm.getInterpolatedTime(), 1.0e-12);
-      for (double t = 0; t < 2.0 * FastMath.PI; t += 0.1) {
+      for (double t = 0; t < 2.0 * AccurateMath.PI; t += 0.1) {
           cm.setInterpolatedTime(t);
           double[] y = cm.getInterpolatedState();
-          Assert.assertEquals(FastMath.cos(t), y[0], 1.0e-7);
-          Assert.assertEquals(FastMath.sin(t), y[1], 1.0e-7);
+          Assert.assertEquals(AccurateMath.cos(t), y[0], 1.0e-7);
+          Assert.assertEquals(AccurateMath.sin(t), y[1], 1.0e-7);
       }
 
   }
@@ -183,7 +183,7 @@ public class ContinuousOutputModelTest {
   }
 
   public void checkValue(double value, double reference) {
-    Assert.assertTrue(FastMath.abs(value - reference) < 1.0e-10);
+    Assert.assertTrue(AccurateMath.abs(value - reference) < 1.0e-10);
   }
 
   @Before

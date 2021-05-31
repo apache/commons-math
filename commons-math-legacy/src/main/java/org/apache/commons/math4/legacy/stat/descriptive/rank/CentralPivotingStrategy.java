@@ -19,7 +19,7 @@ package org.apache.commons.math4.legacy.stat.descriptive.rank;
 import java.io.Serializable;
 
 import org.apache.commons.math4.legacy.exception.MathIllegalArgumentException;
-import org.apache.commons.math4.legacy.util.MathArrays;
+import org.apache.commons.math4.legacy.core.MathArrays;
 
 /**
  * A mid point strategy based on the average of begin and end indices.

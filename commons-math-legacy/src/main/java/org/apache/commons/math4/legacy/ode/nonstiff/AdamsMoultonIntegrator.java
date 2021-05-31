@@ -28,7 +28,7 @@ import org.apache.commons.math4.legacy.linear.RealMatrixPreservingVisitor;
 import org.apache.commons.math4.legacy.ode.EquationsMapper;
 import org.apache.commons.math4.legacy.ode.ExpandableStatefulODE;
 import org.apache.commons.math4.legacy.ode.sampling.NordsieckStepInterpolator;
-import org.apache.commons.math4.legacy.util.FastMath;
+import org.apache.commons.math4.legacy.core.jdkmath.AccurateMath;
 
 
 /**
@@ -406,7 +406,7 @@ public class AdamsMoultonIntegrator extends AdamsIntegrator {
             for (int i = 0; i < after.length; ++i) {
                 after[i] += previous[i] + scaled[i];
                 if (i < mainSetDimension) {
-                    final double yScale = FastMath.max(FastMath.abs(previous[i]), FastMath.abs(after[i]));
+                    final double yScale = AccurateMath.max(AccurateMath.abs(previous[i]), AccurateMath.abs(after[i]));
                     final double tol    = (vecAbsoluteTolerance == null) ?
                                           (scalAbsoluteTolerance + scalRelativeTolerance * yScale) :
                                           (vecAbsoluteTolerance[i] + vecRelativeTolerance[i] * yScale);
@@ -415,7 +415,7 @@ public class AdamsMoultonIntegrator extends AdamsIntegrator {
                 }
             }
 
-            return FastMath.sqrt(error / mainSetDimension);
+            return AccurateMath.sqrt(error / mainSetDimension);
 
         }
     }

@@ -18,13 +18,13 @@ package org.apache.commons.math4.legacy.linear;
 
 import org.junit.Test;
 import org.junit.Assert;
-import org.apache.commons.math4.legacy.Field;
+import org.apache.commons.math4.legacy.core.Field;
 import org.apache.commons.math4.legacy.exception.MathIllegalArgumentException;
 import org.apache.commons.math4.legacy.exception.NoDataException;
 import org.apache.commons.math4.legacy.exception.NullArgumentException;
 import org.apache.commons.math4.legacy.exception.NumberIsTooSmallException;
 import org.apache.commons.math4.legacy.exception.OutOfRangeException;
-import org.apache.commons.math4.legacy.dfp.Dfp;
+import org.apache.commons.math4.legacy.core.dfp.Dfp;
 
 /**
  * Test cases for the {@link SparseFieldMatrix} class.

@@ -24,7 +24,7 @@ import org.apache.commons.math4.legacy.exception.MathIllegalArgumentException;
 import org.apache.commons.math4.legacy.exception.OutOfRangeException;
 import org.apache.commons.rng.UniformRandomProvider;
 import org.apache.commons.rng.simple.RandomSource;
-import org.apache.commons.math4.legacy.util.FastMath;
+import org.apache.commons.math4.legacy.core.jdkmath.AccurateMath;
 import org.apache.commons.numbers.core.Precision;
 import org.junit.Assert;
 import org.junit.Test;
@@ -376,7 +376,7 @@ public final class BicubicInterpolatingFunctionTest {
             }
 
             actual = interpolation.value(currentX, currentY);
-            sumError += FastMath.abs(actual - expected);
+            sumError += AccurateMath.abs(actual - expected);
 
             if (print) {
                 System.out.println(actual + " (diff=" + (expected - actual) + ")");

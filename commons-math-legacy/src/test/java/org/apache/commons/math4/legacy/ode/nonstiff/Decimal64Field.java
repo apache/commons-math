@@ -16,8 +16,8 @@
  */
 package org.apache.commons.math4.legacy.ode.nonstiff;
 
-import org.apache.commons.math4.legacy.Field;
-import org.apache.commons.math4.legacy.FieldElement;
+import org.apache.commons.math4.legacy.core.Field;
+import org.apache.commons.math4.legacy.core.FieldElement;
 
 /**
  * The field of double precision floating-point numbers.

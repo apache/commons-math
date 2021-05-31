@@ -18,8 +18,8 @@
 package org.apache.commons.math4.legacy.ode.nonstiff;
 
 
-import org.apache.commons.math4.legacy.Field;
-import org.apache.commons.math4.legacy.RealFieldElement;
+import org.apache.commons.math4.legacy.core.Field;
+import org.apache.commons.math4.legacy.core.RealFieldElement;
 import org.apache.commons.math4.legacy.ode.AbstractIntegrator;
 import org.apache.commons.math4.legacy.ode.EquationsMapper;
 import org.apache.commons.math4.legacy.ode.ExpandableStatefulODE;
@@ -28,8 +28,8 @@ import org.apache.commons.math4.legacy.ode.FieldExpandableODE;
 import org.apache.commons.math4.legacy.ode.FirstOrderFieldDifferentialEquations;
 import org.apache.commons.math4.legacy.ode.FieldODEStateAndDerivative;
 import org.apache.commons.math4.legacy.ode.sampling.AbstractFieldStepInterpolator;
-import org.apache.commons.math4.legacy.util.FastMath;
-import org.apache.commons.math4.legacy.util.MathArrays;
+import org.apache.commons.math4.legacy.core.jdkmath.AccurateMath;
+import org.apache.commons.math4.legacy.core.MathArrays;
 import org.junit.Assert;
 import org.junit.Test;
 
@@ -88,8 +88,8 @@ public abstract class RungeKuttaFieldStepInterpolatorAbstractTest {
                   add(interpolator.getCurrentState().getTime().multiply(i)).
                   divide(n);
             FieldODEStateAndDerivative<T> state = interpolator.getInterpolatedState(t);
-            maxErrorSin = FastMath.max(maxErrorSin, state.getState()[0].subtract(t.sin()).abs().getReal());
-            maxErrorCos = FastMath.max(maxErrorCos, state.getState()[1].subtract(t.cos()).abs().getReal());
+            maxErrorSin = AccurateMath.max(maxErrorSin, state.getState()[0].subtract(t.sin()).abs().getReal());
+            maxErrorCos = AccurateMath.max(maxErrorCos, state.getState()[1].subtract(t.cos()).abs().getReal());
         }
         Assert.assertEquals(0.0, maxErrorSin, epsilonSin);
         Assert.assertEquals(0.0, maxErrorCos, epsilonCos);
@@ -127,10 +127,10 @@ public abstract class RungeKuttaFieldStepInterpolatorAbstractTest {
             double[] regularY     = regularInterpolator.getInterpolatedState();
             double[] regularYDot  = regularInterpolator.getInterpolatedDerivatives();
 
-            maxErrorSin    = FastMath.max(maxErrorSin,    fieldY[0].subtract(regularY[0]).abs().getReal());
-            maxErrorCos    = FastMath.max(maxErrorCos,    fieldY[1].subtract(regularY[1]).abs().getReal());
-            maxErrorSinDot = FastMath.max(maxErrorSinDot, fieldYDot[0].subtract(regularYDot[0]).abs().getReal());
-            maxErrorCosDot = FastMath.max(maxErrorCosDot, fieldYDot[1].subtract(regularYDot[1]).abs().getReal());
+            maxErrorSin    = AccurateMath.max(maxErrorSin,    fieldY[0].subtract(regularY[0]).abs().getReal());
+            maxErrorCos    = AccurateMath.max(maxErrorCos,    fieldY[1].subtract(regularY[1]).abs().getReal());
+            maxErrorSinDot = AccurateMath.max(maxErrorSinDot, fieldYDot[0].subtract(regularYDot[0]).abs().getReal());
+            maxErrorCosDot = AccurateMath.max(maxErrorCosDot, fieldYDot[1].subtract(regularYDot[1]).abs().getReal());
 
         }
         Assert.assertEquals(0.0, maxErrorSin,    epsilonSin);

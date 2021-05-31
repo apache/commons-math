@@ -17,8 +17,8 @@
 package org.apache.commons.math4.legacy.ml.distance;
 
 import org.apache.commons.math4.legacy.exception.DimensionMismatchException;
-import org.apache.commons.math4.legacy.util.FastMath;
-import org.apache.commons.math4.legacy.util.MathArrays;
+import org.apache.commons.math4.legacy.core.jdkmath.AccurateMath;
+import org.apache.commons.math4.legacy.core.MathArrays;
 
 /**
  * Calculates the Canberra distance between two points.
@@ -37,8 +37,8 @@ public class CanberraDistance implements DistanceMeasure {
         MathArrays.checkEqualLength(a, b);
         double sum = 0;
         for (int i = 0; i < a.length; i++) {
-            final double num = FastMath.abs(a[i] - b[i]);
-            final double denom = FastMath.abs(a[i]) + FastMath.abs(b[i]);
+            final double num = AccurateMath.abs(a[i] - b[i]);
+            final double denom = AccurateMath.abs(a[i]) + AccurateMath.abs(b[i]);
             sum += num == 0.0 && denom == 0.0 ? 0.0 : num / denom;
         }
         return sum;

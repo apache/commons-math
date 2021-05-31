@@ -111,6 +111,7 @@
 
     <!-- 2. Modularized (but not refactored) legacy functionalities. -->
     <module>commons-math-legacy-exception</module>
+    <module>commons-math-legacy-core</module>
 
     <!-- 3. Non-modularized legacy functionalities. -->
     <module>commons-math-legacy</module>
@@ -144,6 +145,12 @@
       <dependency>
         <groupId>org.apache.commons</groupId>
         <artifactId>commons-math4-legacy-exception</artifactId>
+        <version>${project.version}</version>
+      </dependency>
+
+      <dependency>
+        <groupId>org.apache.commons</groupId>
+        <artifactId>commons-math4-legacy-core</artifactId>
         <version>${project.version}</version>
       </dependency>
 

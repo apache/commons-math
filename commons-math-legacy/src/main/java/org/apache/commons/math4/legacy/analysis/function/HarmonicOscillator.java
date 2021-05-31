@@ -22,7 +22,7 @@ import org.apache.commons.math4.legacy.analysis.differentiation.DerivativeStruct
 import org.apache.commons.math4.legacy.analysis.differentiation.UnivariateDifferentiableFunction;
 import org.apache.commons.math4.legacy.exception.DimensionMismatchException;
 import org.apache.commons.math4.legacy.exception.NullArgumentException;
-import org.apache.commons.math4.legacy.util.FastMath;
+import org.apache.commons.math4.legacy.core.jdkmath.AccurateMath;
 
 /**
  * <a href="http://en.wikipedia.org/wiki/Harmonic_oscillator">
@@ -112,7 +112,7 @@ public class HarmonicOscillator implements UnivariateDifferentiableFunction {
 
             final double xTimesOmegaPlusPhase = omega * x + phase;
             final double a = HarmonicOscillator.value(xTimesOmegaPlusPhase, 1);
-            final double p = -amplitude * FastMath.sin(xTimesOmegaPlusPhase);
+            final double p = -amplitude * AccurateMath.sin(xTimesOmegaPlusPhase);
             final double w = p * x;
 
             return new double[] { a, w, p };
@@ -147,7 +147,7 @@ public class HarmonicOscillator implements UnivariateDifferentiableFunction {
      */
     private static double value(double xTimesOmegaPlusPhase,
                                 double amplitude) {
-        return amplitude * FastMath.cos(xTimesOmegaPlusPhase);
+        return amplitude * AccurateMath.cos(xTimesOmegaPlusPhase);
     }
 
     /** {@inheritDoc}
@@ -160,9 +160,9 @@ public class HarmonicOscillator implements UnivariateDifferentiableFunction {
         double[] f = new double[t.getOrder() + 1];
 
         final double alpha = omega * x + phase;
-        f[0] = amplitude * FastMath.cos(alpha);
+        f[0] = amplitude * AccurateMath.cos(alpha);
         if (f.length > 1) {
-            f[1] = -amplitude * omega * FastMath.sin(alpha);
+            f[1] = -amplitude * omega * AccurateMath.sin(alpha);
             final double mo2 = - omega * omega;
             for (int i = 2; i < f.length; ++i) {
                 f[i] = mo2 * f[i - 2];

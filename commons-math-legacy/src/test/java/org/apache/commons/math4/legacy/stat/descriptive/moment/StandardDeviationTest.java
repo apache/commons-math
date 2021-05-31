@@ -18,7 +18,7 @@ package org.apache.commons.math4.legacy.stat.descriptive.moment;
 
 import org.apache.commons.math4.legacy.stat.descriptive.StorelessUnivariateStatisticAbstractTest;
 import org.apache.commons.math4.legacy.stat.descriptive.UnivariateStatistic;
-import org.apache.commons.math4.legacy.util.FastMath;
+import org.apache.commons.math4.legacy.core.jdkmath.AccurateMath;
 import org.junit.Assert;
 import org.junit.Test;
 
@@ -89,7 +89,7 @@ public class StandardDeviationTest extends StorelessUnivariateStatisticAbstractT
         for (int i = 0; i < v.length; i++) {
             sum += (v[i] - mean) * (v[i] - mean);
         }
-        return FastMath.sqrt(sum / v.length);
+        return AccurateMath.sqrt(sum / v.length);
     }
 
 }

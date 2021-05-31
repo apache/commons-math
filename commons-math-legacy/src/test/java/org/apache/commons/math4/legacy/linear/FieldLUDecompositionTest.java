@@ -20,7 +20,7 @@ package org.apache.commons.math4.legacy.linear;
 import org.junit.Test;
 import org.junit.Assert;
 import org.apache.commons.math4.legacy.TestUtils;
-import org.apache.commons.math4.legacy.dfp.Dfp;
+import org.apache.commons.math4.legacy.core.dfp.Dfp;
 
 public class FieldLUDecompositionTest {
     private Dfp[][] testData = {

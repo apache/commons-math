@@ -18,7 +18,7 @@
 package org.apache.commons.math4.legacy.linear;
 
 import org.apache.commons.math4.legacy.exception.DimensionMismatchException;
-import org.apache.commons.math4.legacy.util.FastMath;
+import org.apache.commons.math4.legacy.core.jdkmath.AccurateMath;
 
 /**
  * Calculates the LUP-decomposition of a square matrix.
@@ -127,14 +127,14 @@ public class LUDecomposition {
                 luRow[col] = sum;
 
                 // maintain best permutation choice
-                if (FastMath.abs(sum) > largest) {
-                    largest = FastMath.abs(sum);
+                if (AccurateMath.abs(sum) > largest) {
+                    largest = AccurateMath.abs(sum);
                     max = row;
                 }
             }
 
             // Singularity check
-            if (FastMath.abs(lu[max][col]) < singularityThreshold) {
+            if (AccurateMath.abs(lu[max][col]) < singularityThreshold) {
                 singular = true;
                 return;
             }

@@ -22,7 +22,7 @@ import org.apache.commons.math4.legacy.analysis.function.Expm1;
 import org.apache.commons.math4.legacy.analysis.function.Sin;
 import org.apache.commons.math4.legacy.exception.NoBracketingException;
 import org.apache.commons.math4.legacy.exception.NumberIsTooLargeException;
-import org.apache.commons.math4.legacy.util.FastMath;
+import org.apache.commons.math4.legacy.core.jdkmath.AccurateMath;
 import org.junit.Assert;
 import org.junit.Test;
 
@@ -48,15 +48,15 @@ public final class MullerSolver2Test {
         UnivariateSolver solver = new MullerSolver2();
         double min, max, expected, result, tolerance;
 
-        min = 3.0; max = 4.0; expected = FastMath.PI;
-        tolerance = FastMath.max(solver.getAbsoluteAccuracy(),
-                    FastMath.abs(expected * solver.getRelativeAccuracy()));
+        min = 3.0; max = 4.0; expected = AccurateMath.PI;
+        tolerance = AccurateMath.max(solver.getAbsoluteAccuracy(),
+                    AccurateMath.abs(expected * solver.getRelativeAccuracy()));
         result = solver.solve(100, f, min, max);
         Assert.assertEquals(expected, result, tolerance);
 
         min = -1.0; max = 1.5; expected = 0.0;
-        tolerance = FastMath.max(solver.getAbsoluteAccuracy(),
-                    FastMath.abs(expected * solver.getRelativeAccuracy()));
+        tolerance = AccurateMath.max(solver.getAbsoluteAccuracy(),
+                    AccurateMath.abs(expected * solver.getRelativeAccuracy()));
         result = solver.solve(100, f, min, max);
         Assert.assertEquals(expected, result, tolerance);
     }
@@ -71,20 +71,20 @@ public final class MullerSolver2Test {
         double min, max, expected, result, tolerance;
 
         min = -0.4; max = 0.2; expected = 0.0;
-        tolerance = FastMath.max(solver.getAbsoluteAccuracy(),
-                    FastMath.abs(expected * solver.getRelativeAccuracy()));
+        tolerance = AccurateMath.max(solver.getAbsoluteAccuracy(),
+                    AccurateMath.abs(expected * solver.getRelativeAccuracy()));
         result = solver.solve(100, f, min, max);
         Assert.assertEquals(expected, result, tolerance);
 
         min = 0.75; max = 1.5; expected = 1.0;
-        tolerance = FastMath.max(solver.getAbsoluteAccuracy(),
-                    FastMath.abs(expected * solver.getRelativeAccuracy()));
+        tolerance = AccurateMath.max(solver.getAbsoluteAccuracy(),
+                    AccurateMath.abs(expected * solver.getRelativeAccuracy()));
         result = solver.solve(100, f, min, max);
         Assert.assertEquals(expected, result, tolerance);
 
         min = -0.9; max = -0.2; expected = -0.5;
-        tolerance = FastMath.max(solver.getAbsoluteAccuracy(),
-                    FastMath.abs(expected * solver.getRelativeAccuracy()));
+        tolerance = AccurateMath.max(solver.getAbsoluteAccuracy(),
+                    AccurateMath.abs(expected * solver.getRelativeAccuracy()));
         result = solver.solve(100, f, min, max);
         Assert.assertEquals(expected, result, tolerance);
     }
@@ -101,20 +101,20 @@ public final class MullerSolver2Test {
         double min, max, expected, result, tolerance;
 
         min = -1.0; max = 2.0; expected = 0.0;
-        tolerance = FastMath.max(solver.getAbsoluteAccuracy(),
-                    FastMath.abs(expected * solver.getRelativeAccuracy()));
+        tolerance = AccurateMath.max(solver.getAbsoluteAccuracy(),
+                    AccurateMath.abs(expected * solver.getRelativeAccuracy()));
         result = solver.solve(100, f, min, max);
         Assert.assertEquals(expected, result, tolerance);
 
         min = -20.0; max = 10.0; expected = 0.0;
-        tolerance = FastMath.max(solver.getAbsoluteAccuracy(),
-                    FastMath.abs(expected * solver.getRelativeAccuracy()));
+        tolerance = AccurateMath.max(solver.getAbsoluteAccuracy(),
+                    AccurateMath.abs(expected * solver.getRelativeAccuracy()));
         result = solver.solve(100, f, min, max);
         Assert.assertEquals(expected, result, tolerance);
 
         min = -50.0; max = 100.0; expected = 0.0;
-        tolerance = FastMath.max(solver.getAbsoluteAccuracy(),
-                    FastMath.abs(expected * solver.getRelativeAccuracy()));
+        tolerance = AccurateMath.max(solver.getAbsoluteAccuracy(),
+                    AccurateMath.abs(expected * solver.getRelativeAccuracy()));
         result = solver.solve(100, f, min, max);
         Assert.assertEquals(expected, result, tolerance);
     }

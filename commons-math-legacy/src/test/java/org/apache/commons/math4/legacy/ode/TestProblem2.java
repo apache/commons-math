@@ -17,7 +17,7 @@
 
 package org.apache.commons.math4.legacy.ode;
 
-import org.apache.commons.math4.legacy.util.FastMath;
+import org.apache.commons.math4.legacy.core.jdkmath.AccurateMath;
 
 /**
  * This class is used in the junit tests for the ODE integrators.
@@ -66,7 +66,7 @@ public class TestProblem2
   @Override
   public double[] computeTheoreticalState(double t) {
     double t2 = t * t;
-    double c = t2 + 2 * (FastMath.exp (-0.5 * t2) - 1);
+    double c = t2 + 2 * (AccurateMath.exp (-0.5 * t2) - 1);
     for (int i = 0; i < getDimension(); ++i) {
       y[i] = c;
     }

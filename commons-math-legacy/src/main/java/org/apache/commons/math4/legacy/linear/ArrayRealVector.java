@@ -28,7 +28,7 @@ import org.apache.commons.math4.legacy.exception.NumberIsTooLargeException;
 import org.apache.commons.math4.legacy.exception.NumberIsTooSmallException;
 import org.apache.commons.math4.legacy.exception.OutOfRangeException;
 import org.apache.commons.math4.legacy.exception.util.LocalizedFormats;
-import org.apache.commons.math4.legacy.util.FastMath;
+import org.apache.commons.math4.legacy.core.jdkmath.AccurateMath;
 
 /**
  * This class implements the {@link RealVector} interface with a double array.
@@ -470,7 +470,7 @@ public class ArrayRealVector extends RealVector implements Serializable {
         for (double a : data) {
             sum += a * a;
         }
-        return FastMath.sqrt(sum);
+        return AccurateMath.sqrt(sum);
     }
 
     /** {@inheritDoc} */
@@ -478,7 +478,7 @@ public class ArrayRealVector extends RealVector implements Serializable {
     public double getL1Norm() {
         double sum = 0;
         for (double a : data) {
-            sum += FastMath.abs(a);
+            sum += AccurateMath.abs(a);
         }
         return sum;
     }
@@ -488,7 +488,7 @@ public class ArrayRealVector extends RealVector implements Serializable {
     public double getLInfNorm() {
         double max = 0;
         for (double a : data) {
-            max = FastMath.max(max, FastMath.abs(a));
+            max = AccurateMath.max(max, AccurateMath.abs(a));
         }
         return max;
     }
@@ -504,7 +504,7 @@ public class ArrayRealVector extends RealVector implements Serializable {
                 final double delta = data[i] - vData[i];
                 sum += delta * delta;
             }
-            return FastMath.sqrt(sum);
+            return AccurateMath.sqrt(sum);
         } else {
             checkVectorDimensions(v);
             double sum = 0;
@@ -512,7 +512,7 @@ public class ArrayRealVector extends RealVector implements Serializable {
                 final double delta = data[i] - v.getEntry(i);
                 sum += delta * delta;
             }
-            return FastMath.sqrt(sum);
+            return AccurateMath.sqrt(sum);
         }
     }
 
@@ -526,7 +526,7 @@ public class ArrayRealVector extends RealVector implements Serializable {
             double sum = 0;
             for (int i = 0; i < data.length; ++i) {
                 final double delta = data[i] - vData[i];
-                sum += FastMath.abs(delta);
+                sum += AccurateMath.abs(delta);
             }
             return sum;
         } else {
@@ -534,7 +534,7 @@ public class ArrayRealVector extends RealVector implements Serializable {
             double sum = 0;
             for (int i = 0; i < data.length; ++i) {
                 final double delta = data[i] - v.getEntry(i);
-                sum += FastMath.abs(delta);
+                sum += AccurateMath.abs(delta);
             }
             return sum;
         }
@@ -550,7 +550,7 @@ public class ArrayRealVector extends RealVector implements Serializable {
             double max = 0;
             for (int i = 0; i < data.length; ++i) {
                 final double delta = data[i] - vData[i];
-                max = FastMath.max(max, FastMath.abs(delta));
+                max = AccurateMath.max(max, AccurateMath.abs(delta));
             }
             return max;
         } else {
@@ -558,7 +558,7 @@ public class ArrayRealVector extends RealVector implements Serializable {
             double max = 0;
             for (int i = 0; i < data.length; ++i) {
                 final double delta = data[i] - v.getEntry(i);
-                max = FastMath.max(max, FastMath.abs(delta));
+                max = AccurateMath.max(max, AccurateMath.abs(delta));
             }
             return max;
         }

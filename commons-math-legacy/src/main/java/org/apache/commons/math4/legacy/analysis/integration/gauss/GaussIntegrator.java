@@ -18,7 +18,7 @@ package org.apache.commons.math4.legacy.analysis.integration.gauss;
 
 import org.apache.commons.math4.legacy.analysis.UnivariateFunction;
 import org.apache.commons.math4.legacy.exception.DimensionMismatchException;
-import org.apache.commons.math4.legacy.util.MathArrays;
+import org.apache.commons.math4.legacy.core.MathArrays;
 import org.apache.commons.math4.legacy.util.Pair;
 
 /**

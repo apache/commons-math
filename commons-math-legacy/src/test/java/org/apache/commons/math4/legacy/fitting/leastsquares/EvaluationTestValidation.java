@@ -18,7 +18,7 @@ import org.apache.commons.math4.legacy.linear.DiagonalMatrix;
 import org.apache.commons.math4.legacy.linear.RealVector;
 import org.apache.commons.math4.legacy.stat.descriptive.StatisticalSummary;
 import org.apache.commons.math4.legacy.stat.descriptive.SummaryStatistics;
-import org.apache.commons.math4.legacy.util.FastMath;
+import org.apache.commons.math4.legacy.core.jdkmath.AccurateMath;
 import org.junit.Assert;
 import org.junit.Test;
 
@@ -224,7 +224,7 @@ public class EvaluationTestValidation {
 
         // Monte-Carlo (generates a grid of parameters).
         final int mcRepeat = MONTE_CARLO_RUNS;
-        final int gridSize = (int) FastMath.sqrt(mcRepeat);
+        final int gridSize = (int) AccurateMath.sqrt(mcRepeat);
 
         // Parameters found for each of Monte-Carlo run.
         // Index 0 = slope

@@ -27,7 +27,7 @@ import org.apache.commons.math4.legacy.exception.NoDataException;
 import org.apache.commons.math4.legacy.exception.NullArgumentException;
 import org.apache.commons.math4.legacy.exception.NumberIsTooSmallException;
 import org.apache.commons.math4.legacy.exception.OutOfRangeException;
-import org.apache.commons.math4.legacy.util.FastMath;
+import org.apache.commons.math4.legacy.core.jdkmath.AccurateMath;
 
 /**
  * Test cases for the {@link BlockRealMatrix} class.
@@ -164,8 +164,8 @@ public final class BlockRealMatrixTest {
     public void testFrobeniusNorm() {
         BlockRealMatrix m = new BlockRealMatrix(testData);
         BlockRealMatrix m2 = new BlockRealMatrix(testData2);
-        Assert.assertEquals("testData Frobenius norm", FastMath.sqrt(117.0), m.getFrobeniusNorm(), entryTolerance);
-        Assert.assertEquals("testData2 Frobenius norm", FastMath.sqrt(52.0), m2.getFrobeniusNorm(), entryTolerance);
+        Assert.assertEquals("testData Frobenius norm", AccurateMath.sqrt(117.0), m.getFrobeniusNorm(), entryTolerance);
+        Assert.assertEquals("testData2 Frobenius norm", AccurateMath.sqrt(52.0), m2.getFrobeniusNorm(), entryTolerance);
     }
 
     /** test m-n = m + -n */

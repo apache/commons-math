@@ -37,7 +37,7 @@ import org.apache.commons.math4.legacy.stat.descriptive.StorelessUnivariateStati
 import org.apache.commons.math4.legacy.stat.descriptive.StorelessUnivariateStatisticAbstractTest;
 import org.apache.commons.math4.legacy.stat.descriptive.UnivariateStatistic;
 import org.apache.commons.math4.legacy.stat.descriptive.rank.PSquarePercentile.PSquareMarkers;
-import org.apache.commons.math4.legacy.util.FastMath;
+import org.apache.commons.math4.legacy.core.jdkmath.AccurateMath;
 import org.junit.Assert;
 import org.junit.Test;
 
@@ -75,7 +75,7 @@ public class PSquarePercentileTest extends
         StorelessUnivariateStatistic replica = null;
 
         // select a portion of testArray till 75 % of the length to load first
-        long index = FastMath.round(0.75 * testArray.length);
+        long index = AccurateMath.round(0.75 * testArray.length);
 
         // Put first half in master and copy master to replica
         master.incrementAll(testArray, 0, (int) index);
@@ -109,7 +109,7 @@ public class PSquarePercentileTest extends
 
         // select a portion of testArray which is 10% of the length to load
         // first
-        long index = FastMath.round(0.1 * testArray.length);
+        long index = AccurateMath.round(0.1 * testArray.length);
 
         // Put first half in master and copy master to replica
         master.incrementAll(testArray, 0, (int) index);
@@ -542,8 +542,8 @@ public class PSquarePercentileTest extends
         if (Double.isNaN(a)) {
             Assert.assertTrue("" + b + " is not NaN.", Double.isNaN(a));
         } else {
-            double max = FastMath.max(a, b);
-            double percentage = FastMath.abs(a - b) / max;
+            double max = AccurateMath.max(a, b);
+            double percentage = AccurateMath.abs(a - b) / max;
             double deviation = delta;
             Assert.assertTrue(String.format(
                     "Deviated = %f and is beyond %f as a=%f,  b=%f",

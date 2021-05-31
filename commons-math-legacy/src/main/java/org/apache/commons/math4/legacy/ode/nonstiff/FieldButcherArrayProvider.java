@@ -17,7 +17,7 @@
 
 package org.apache.commons.math4.legacy.ode.nonstiff;
 
-import org.apache.commons.math4.legacy.RealFieldElement;
+import org.apache.commons.math4.legacy.core.RealFieldElement;
 
 /** This interface represents an integrator  based on Butcher arrays.
  * @see RungeKuttaFieldIntegrator

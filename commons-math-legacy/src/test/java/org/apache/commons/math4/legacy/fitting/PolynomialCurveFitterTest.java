@@ -23,7 +23,7 @@ import org.apache.commons.math4.legacy.analysis.polynomials.PolynomialFunction;
 import org.apache.commons.statistics.distribution.ContinuousDistribution;
 import org.apache.commons.statistics.distribution.UniformContinuousDistribution;
 import org.apache.commons.math4.legacy.exception.ConvergenceException;
-import org.apache.commons.math4.legacy.util.FastMath;
+import org.apache.commons.math4.legacy.core.jdkmath.AccurateMath;
 import org.apache.commons.rng.simple.RandomSource;
 import org.junit.Assert;
 import org.junit.Test;
@@ -70,8 +70,8 @@ public class PolynomialCurveFitterTest {
             final PolynomialFunction fitted = new PolynomialFunction(fitter.fit(obs.toList()));
 
             for (double x = -1.0; x < 1.0; x += 0.01) {
-                final double error = FastMath.abs(p.value(x) - fitted.value(x)) /
-                    (1.0 + FastMath.abs(p.value(x)));
+                final double error = AccurateMath.abs(p.value(x) - fitted.value(x)) /
+                    (1.0 + AccurateMath.abs(p.value(x)));
                 Assert.assertEquals(0.0, error, 1.0e-6);
             }
         }
@@ -93,10 +93,10 @@ public class PolynomialCurveFitterTest {
             final PolynomialFunction fitted = new PolynomialFunction(fitter.fit(obs.toList()));
 
             for (double x = -1.0; x < 1.0; x += 0.01) {
-                final double error = FastMath.abs(p.value(x) - fitted.value(x)) /
-                    (1.0 + FastMath.abs(p.value(x)));
-                maxError = FastMath.max(maxError, error);
-                Assert.assertTrue(FastMath.abs(error) < 0.1);
+                final double error = AccurateMath.abs(p.value(x) - fitted.value(x)) /
+                    (1.0 + AccurateMath.abs(p.value(x)));
+                maxError = AccurateMath.max(maxError, error);
+                Assert.assertTrue(AccurateMath.abs(error) < 0.1);
             }
         }
         Assert.assertTrue(maxError > 0.01);
@@ -124,10 +124,10 @@ public class PolynomialCurveFitterTest {
 
             final PolynomialFunction fitted = new PolynomialFunction(fitter.fit(obs.toList()));
             for (double x = -1.0; x < 1.0; x += 0.01) {
-                final double error = FastMath.abs(p.value(x) - fitted.value(x)) /
-                    (1.0 + FastMath.abs(p.value(x)));
-                maxError = FastMath.max(maxError, error);
-                Assert.assertTrue(FastMath.abs(error) < 0.01);
+                final double error = AccurateMath.abs(p.value(x) - fitted.value(x)) /
+                    (1.0 + AccurateMath.abs(p.value(x)));
+                maxError = AccurateMath.max(maxError, error);
+                Assert.assertTrue(AccurateMath.abs(error) < 0.01);
             }
         }
         Assert.assertTrue(maxError > 0.001);

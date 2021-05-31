@@ -18,7 +18,7 @@
 package org.apache.commons.math4.legacy.analysis.function;
 
 import org.apache.commons.math4.legacy.analysis.UnivariateFunction;
-import org.apache.commons.math4.legacy.util.FastMath;
+import org.apache.commons.math4.legacy.core.jdkmath.AccurateMath;
 import org.junit.Assert;
 import org.junit.Test;
 
@@ -118,7 +118,7 @@ public class UnivariateFunctionTest {
     }
 
     private double expectedUlp(double x) {
-        return FastMath.abs(x - Double.longBitsToDouble(Double.doubleToRawLongBits(x) ^ 1));
+        return AccurateMath.abs(x - Double.longBitsToDouble(Double.doubleToRawLongBits(x) ^ 1));
     }
 
 }

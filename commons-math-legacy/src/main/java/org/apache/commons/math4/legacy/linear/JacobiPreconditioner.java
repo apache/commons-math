@@ -17,7 +17,7 @@
 package org.apache.commons.math4.legacy.linear;
 
 import org.apache.commons.math4.legacy.analysis.function.Sqrt;
-import org.apache.commons.math4.legacy.util.MathArrays;
+import org.apache.commons.math4.legacy.core.MathArrays;
 
 /**
  * This class implements the standard Jacobi (diagonal) preconditioner. For a

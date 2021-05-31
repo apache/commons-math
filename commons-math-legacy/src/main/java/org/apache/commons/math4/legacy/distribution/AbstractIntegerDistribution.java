@@ -27,7 +27,7 @@ import org.apache.commons.rng.UniformRandomProvider;
 import org.apache.commons.rng.sampling.distribution.InverseTransformDiscreteSampler;
 import org.apache.commons.rng.sampling.distribution.DiscreteInverseCumulativeProbabilityFunction;
 import org.apache.commons.rng.sampling.distribution.DiscreteSampler;
-import org.apache.commons.math4.legacy.util.FastMath;
+import org.apache.commons.math4.legacy.core.jdkmath.AccurateMath;
 
 /**
  * Base class for integer-valued discrete distributions.  Default
@@ -94,19 +94,19 @@ public abstract class AbstractIntegerDistribution implements DiscreteDistributio
         // use the one-sided Chebyshev inequality to narrow the bracket
         // cf. AbstractRealDistribution.inverseCumulativeProbability(double)
         final double mu = getMean();
-        final double sigma = FastMath.sqrt(getVariance());
+        final double sigma = AccurateMath.sqrt(getVariance());
         final boolean chebyshevApplies = !(Double.isInfinite(mu) || Double.isNaN(mu) ||
                 Double.isInfinite(sigma) || Double.isNaN(sigma) || sigma == 0.0);
         if (chebyshevApplies) {
-            double k = FastMath.sqrt((1.0 - p) / p);
+            double k = AccurateMath.sqrt((1.0 - p) / p);
             double tmp = mu - k * sigma;
             if (tmp > lower) {
-                lower = ((int) FastMath.ceil(tmp)) - 1;
+                lower = ((int) AccurateMath.ceil(tmp)) - 1;
             }
             k = 1.0 / k;
             tmp = mu + k * sigma;
             if (tmp < upper) {
-                upper = ((int) FastMath.ceil(tmp)) - 1;
+                upper = ((int) AccurateMath.ceil(tmp)) - 1;
             }
         }
 
@@ -175,7 +175,7 @@ public abstract class AbstractIntegerDistribution implements DiscreteDistributio
      */
     @Override
     public double logProbability(int x) {
-        return FastMath.log(probability(x));
+        return AccurateMath.log(probability(x));
     }
 
     /**

@@ -20,7 +20,7 @@ import java.io.Serializable;
 import java.io.IOException;
 import java.io.ObjectOutputStream;
 import java.io.ObjectInputStream;
-import org.apache.commons.math4.legacy.util.FastMath;
+import org.apache.commons.math4.legacy.core.jdkmath.AccurateMath;
 import org.apache.commons.rng.RestorableUniformRandomProvider;
 import org.apache.commons.rng.simple.RandomSource;
 import org.apache.commons.rng.core.RandomProviderDefaultState;
@@ -159,10 +159,10 @@ public final class RngAdaptor
             // generate a new pair of gaussian numbers
             final double x = nextDouble();
             final double y = nextDouble();
-            final double alpha = 2 * FastMath.PI * x;
-            final double r = FastMath.sqrt(-2 * FastMath.log(y));
-            random = r * FastMath.cos(alpha);
-            nextGaussian = r * FastMath.sin(alpha);
+            final double alpha = 2 * AccurateMath.PI * x;
+            final double r = AccurateMath.sqrt(-2 * AccurateMath.log(y));
+            random = r * AccurateMath.cos(alpha);
+            nextGaussian = r * AccurateMath.sin(alpha);
         } else {
             // use the second element of the pair already generated
             random = nextGaussian;

@@ -19,12 +19,12 @@ package org.apache.commons.math4.legacy.ode;
 
 import java.lang.reflect.Array;
 
-import org.apache.commons.math4.legacy.Field;
-import org.apache.commons.math4.legacy.RealFieldElement;
+import org.apache.commons.math4.legacy.core.Field;
+import org.apache.commons.math4.legacy.core.RealFieldElement;
 import org.apache.commons.math4.legacy.ode.events.Action;
 import org.apache.commons.math4.legacy.ode.events.FieldEventHandler;
-import org.apache.commons.math4.legacy.util.FastMath;
-import org.apache.commons.math4.legacy.util.MathArrays;
+import org.apache.commons.math4.legacy.core.jdkmath.AccurateMath;
+import org.apache.commons.math4.legacy.core.MathArrays;
 
 /**
  * This class is used in the junit tests for the ODE integrators.
@@ -79,10 +79,10 @@ public class TestFieldProblem4<T extends RealFieldElement<T>>
     @Override
     public T[] getTheoreticalEventsTimes() {
         T[] array = MathArrays.buildArray(getField(), 5);
-        array[0] = a.negate().add(1 * FastMath.PI);
-        array[1] = a.negate().add(2 * FastMath.PI);
-        array[2] = a.negate().add(3 * FastMath.PI);
-        array[3] = a.negate().add(4 * FastMath.PI);
+        array[0] = a.negate().add(1 * AccurateMath.PI);
+        array[1] = a.negate().add(2 * AccurateMath.PI);
+        array[2] = a.negate().add(3 * AccurateMath.PI);
+        array[3] = a.negate().add(4 * AccurateMath.PI);
         array[4] = convert(120.0);
         return array;
     }

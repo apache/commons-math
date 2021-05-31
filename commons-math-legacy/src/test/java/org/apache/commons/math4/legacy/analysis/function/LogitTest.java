@@ -26,7 +26,7 @@ import org.apache.commons.math4.legacy.exception.NullArgumentException;
 import org.apache.commons.math4.legacy.exception.OutOfRangeException;
 import org.apache.commons.rng.simple.RandomSource;
 import org.apache.commons.rng.UniformRandomProvider;
-import org.apache.commons.math4.legacy.util.FastMath;
+import org.apache.commons.math4.legacy.core.jdkmath.AccurateMath;
 import org.junit.Assert;
 import org.junit.Test;
 
@@ -187,7 +187,7 @@ public class LogitTest {
             for (int i = 0; i < 10; i++) {
                 final double x = lo + random.nextDouble() * (hi - lo);
                 final DerivativeStructure dsX = new DerivativeStructure(1, maxOrder, 0, x);
-                max = FastMath.max(max, FastMath.abs(dsX.getPartialDerivative(maxOrder) -
+                max = AccurateMath.max(max, AccurateMath.abs(dsX.getPartialDerivative(maxOrder) -
                                                      id.value(dsX).getPartialDerivative(maxOrder)));
                 Assert.assertEquals("maxOrder = " + maxOrder,
                                     dsX.getPartialDerivative(maxOrder),

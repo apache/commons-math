@@ -27,7 +27,7 @@ import org.apache.commons.math4.legacy.analysis.UnivariateFunction;
 import org.apache.commons.math4.legacy.analysis.function.Sin;
 import org.apache.commons.math4.legacy.exception.MathUnsupportedOperationException;
 import org.apache.commons.math4.legacy.linear.RealVector.Entry;
-import org.apache.commons.math4.legacy.util.FastMath;
+import org.apache.commons.math4.legacy.core.jdkmath.AccurateMath;
 import org.junit.Assert;
 import org.junit.Test;
 
@@ -85,12 +85,12 @@ public abstract class UnmodifiableRealVectorAbstractTest {
     public static boolean equals(final double x, final double y) {
         if (x == y) {
             return true;
-        } else if (FastMath.abs(x) <= EPS) {
-            return FastMath.abs(y) <= EPS;
-        } else if (FastMath.abs(y) <= EPS) {
-            return FastMath.abs(x) <= EPS;
+        } else if (AccurateMath.abs(x) <= EPS) {
+            return AccurateMath.abs(y) <= EPS;
+        } else if (AccurateMath.abs(y) <= EPS) {
+            return AccurateMath.abs(x) <= EPS;
         } else {
-            return FastMath.abs(x - y) <= EPS * FastMath.min(FastMath.abs(x), FastMath.abs(y));
+            return AccurateMath.abs(x - y) <= EPS * AccurateMath.min(AccurateMath.abs(x), AccurateMath.abs(y));
         }
     }
 

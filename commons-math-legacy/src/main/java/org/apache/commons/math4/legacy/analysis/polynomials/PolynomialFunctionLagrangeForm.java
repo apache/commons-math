@@ -21,8 +21,8 @@ import org.apache.commons.math4.legacy.exception.DimensionMismatchException;
 import org.apache.commons.math4.legacy.exception.NonMonotonicSequenceException;
 import org.apache.commons.math4.legacy.exception.NumberIsTooSmallException;
 import org.apache.commons.math4.legacy.exception.util.LocalizedFormats;
-import org.apache.commons.math4.legacy.util.FastMath;
-import org.apache.commons.math4.legacy.util.MathArrays;
+import org.apache.commons.math4.legacy.core.jdkmath.AccurateMath;
+import org.apache.commons.math4.legacy.core.MathArrays;
 
 /**
  * Implements the representation of a real polynomial function in
@@ -215,7 +215,7 @@ public class PolynomialFunctionLagrangeForm implements UnivariateFunction {
             c[i] = y[i];
             d[i] = y[i];
             // find out the abscissa closest to z
-            final double dist = FastMath.abs(z - x[i]);
+            final double dist = AccurateMath.abs(z - x[i]);
             if (dist < min_dist) {
                 nearest = i;
                 min_dist = dist;

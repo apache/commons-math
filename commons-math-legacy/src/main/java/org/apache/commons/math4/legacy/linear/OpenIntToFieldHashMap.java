@@ -23,9 +23,9 @@ import java.lang.reflect.Array;
 import java.util.ConcurrentModificationException;
 import java.util.NoSuchElementException;
 
-import org.apache.commons.math4.legacy.Field;
-import org.apache.commons.math4.legacy.FieldElement;
-import org.apache.commons.math4.legacy.util.FastMath;
+import org.apache.commons.math4.legacy.core.Field;
+import org.apache.commons.math4.legacy.core.FieldElement;
+import org.apache.commons.math4.legacy.core.jdkmath.AccurateMath;
 
 /**
  * Open addressed map from int to FieldElement.
@@ -163,7 +163,7 @@ class OpenIntToFieldHashMap<T extends FieldElement<T>> implements Serializable {
         if (expectedSize == 0) {
             return 1;
         }
-        final int capacity   = (int) FastMath.ceil(expectedSize / LOAD_FACTOR);
+        final int capacity   = (int) AccurateMath.ceil(expectedSize / LOAD_FACTOR);
         final int powerOfTwo = Integer.highestOneBit(capacity);
         if (powerOfTwo == capacity) {
             return capacity;

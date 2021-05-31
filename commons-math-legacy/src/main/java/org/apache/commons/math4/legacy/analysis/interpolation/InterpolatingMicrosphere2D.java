@@ -16,7 +16,7 @@
  */
 package org.apache.commons.math4.legacy.analysis.interpolation;
 
-import org.apache.commons.math4.legacy.util.FastMath;
+import org.apache.commons.math4.legacy.core.jdkmath.AccurateMath;
 import org.apache.commons.numbers.angle.PlaneAngleRadians;
 
 /**
@@ -60,8 +60,8 @@ public class InterpolatingMicrosphere2D extends InterpolatingMicrosphere {
         for (int i = 0; i < size; i++) {
             final double angle = i * PlaneAngleRadians.TWO_PI / size;
 
-            add(new double[] { FastMath.cos(angle),
-                               FastMath.sin(angle) },
+            add(new double[] { AccurateMath.cos(angle),
+                               AccurateMath.sin(angle) },
                 false);
         }
     }

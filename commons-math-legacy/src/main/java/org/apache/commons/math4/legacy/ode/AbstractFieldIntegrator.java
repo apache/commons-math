@@ -26,8 +26,8 @@ import java.util.List;
 import java.util.SortedSet;
 import java.util.TreeSet;
 
-import org.apache.commons.math4.legacy.Field;
-import org.apache.commons.math4.legacy.RealFieldElement;
+import org.apache.commons.math4.legacy.core.Field;
+import org.apache.commons.math4.legacy.core.RealFieldElement;
 import org.apache.commons.math4.legacy.analysis.solvers.BracketedRealFieldUnivariateSolver;
 import org.apache.commons.math4.legacy.analysis.solvers.FieldBracketingNthOrderBrentSolver;
 import org.apache.commons.math4.legacy.exception.DimensionMismatchException;
@@ -39,7 +39,7 @@ import org.apache.commons.math4.legacy.ode.events.FieldEventHandler;
 import org.apache.commons.math4.legacy.ode.events.FieldEventState;
 import org.apache.commons.math4.legacy.ode.sampling.AbstractFieldStepInterpolator;
 import org.apache.commons.math4.legacy.ode.sampling.FieldStepHandler;
-import org.apache.commons.math4.legacy.util.FastMath;
+import org.apache.commons.math4.legacy.core.jdkmath.AccurateMath;
 import org.apache.commons.math4.legacy.util.IntegerSequence;
 
 /**
@@ -385,7 +385,7 @@ public abstract class AbstractFieldIntegrator<T extends RealFieldElement<T>> imp
                 state.stepAccepted(currentState);
                 isLastStep = isLastStep || state.stop();
             }
-            isLastStep = isLastStep || currentState.getTime().subtract(tEnd).abs().getReal() <= FastMath.ulp(tEnd.getReal());
+            isLastStep = isLastStep || currentState.getTime().subtract(tEnd).abs().getReal() <= AccurateMath.ulp(tEnd.getReal());
 
             // handle the remaining part of the step, after all events if any
             for (FieldStepHandler<T> handler : stepHandlers) {
@@ -406,8 +406,8 @@ public abstract class AbstractFieldIntegrator<T extends RealFieldElement<T>> imp
     protected void sanityChecks(final FieldODEState<T> eqn, final T t)
         throws NumberIsTooSmallException, DimensionMismatchException {
 
-        final double threshold = 1000 * FastMath.ulp(FastMath.max(FastMath.abs(eqn.getTime().getReal()),
-                                                                  FastMath.abs(t.getReal())));
+        final double threshold = 1000 * AccurateMath.ulp(AccurateMath.max(AccurateMath.abs(eqn.getTime().getReal()),
+                                                                  AccurateMath.abs(t.getReal())));
         final double dt = eqn.getTime().subtract(t).abs().getReal();
         if (dt <= threshold) {
             throw new NumberIsTooSmallException(LocalizedFormats.TOO_SMALL_INTEGRATION_INTERVAL,

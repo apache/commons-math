@@ -18,7 +18,7 @@ package org.apache.commons.math4.legacy.analysis.integration.gauss;
 
 import org.apache.commons.math4.legacy.analysis.UnivariateFunction;
 import org.apache.commons.numbers.gamma.Gamma;
-import org.apache.commons.math4.legacy.util.FastMath;
+import org.apache.commons.math4.legacy.core.jdkmath.AccurateMath;
 import org.junit.Assert;
 import org.junit.Test;
 
@@ -38,7 +38,7 @@ public class LaguerreTest {
             final UnivariateFunction f = new UnivariateFunction() {
                 @Override
                 public double value(double x) {
-                    return FastMath.pow(x, t - 1);
+                    return AccurateMath.pow(x, t - 1);
                 }
             };
 

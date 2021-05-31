@@ -19,7 +19,7 @@ package org.apache.commons.math4.legacy.linear;
 import java.util.Arrays;
 
 import org.apache.commons.math4.legacy.exception.DimensionMismatchException;
-import org.apache.commons.math4.legacy.util.FastMath;
+import org.apache.commons.math4.legacy.core.jdkmath.AccurateMath;
 import org.junit.Assert;
 import org.junit.Test;
 
@@ -53,7 +53,7 @@ public class SymmLQTest {
             }
         };
         final double shiftm = shift;
-        final double pertm = FastMath.abs(pertbn);
+        final double pertm = AccurateMath.abs(pertbn);
         final RealLinearOperator minv;
         if (precon) {
             minv = new RealLinearOperator() {
@@ -76,7 +76,7 @@ public class SymmLQTest {
                     final double[] y = new double[n];
                     for (int i = 0; i < n; i++) {
                         double d = (i + 1) * 1.1 / n;
-                        d = FastMath.abs(d - shiftm);
+                        d = AccurateMath.abs(d - shiftm);
                         if (i % 10 == 0) {
                             d += pertm;
                         }
@@ -255,7 +255,7 @@ public class SymmLQTest {
             for (int i = 0; i < n; i++) {
                 final double actual = x.getEntry(i);
                 final double expected = ainv.getEntry(i, j);
-                final double delta = 1E-6 * FastMath.abs(expected);
+                final double delta = 1E-6 * AccurateMath.abs(expected);
                 final String msg = String.format("entry[%d][%d]", i, j);
                 Assert.assertEquals(msg, expected, actual, delta);
             }
@@ -281,7 +281,7 @@ public class SymmLQTest {
             for (int i = 0; i < n; i++) {
                 final double actual = x.getEntry(i);
                 final double expected = ainv.getEntry(i, j);
-                final double delta = 1E-6 * FastMath.abs(expected);
+                final double delta = 1E-6 * AccurateMath.abs(expected);
                 final String msg = String.format("entry[%d][%d)", i, j);
                 Assert.assertEquals(msg, expected, actual, delta);
             }
@@ -307,7 +307,7 @@ public class SymmLQTest {
             for (int i = 0; i < n; i++) {
                 final double actual = x.getEntry(i);
                 final double expected = ainv.getEntry(i, j);
-                final double delta = 1E-6 * FastMath.abs(expected);
+                final double delta = 1E-6 * AccurateMath.abs(expected);
                 final String msg = String.format("entry[%d][%d]", i, j);
                 Assert.assertEquals(msg, expected, actual, delta);
                 Assert.assertEquals(msg, x0.getEntry(i), 1., Math.ulp(1.));
@@ -419,7 +419,7 @@ public class SymmLQTest {
             for (int i = 0; i < n; i++) {
                 final double actual = x.getEntry(i);
                 final double expected = ainv.getEntry(i, j);
-                final double delta = 1E-6 * FastMath.abs(expected);
+                final double delta = 1E-6 * AccurateMath.abs(expected);
                 final String msg = String.format("coefficient (%d, %d)", i, j);
                 Assert.assertEquals(msg, expected, actual, delta);
             }
@@ -465,7 +465,7 @@ public class SymmLQTest {
                 msg = String.format("row %d, column %d", i, j);
                 final double expected = x.getEntry(i);
                 final double actual = px.getEntry(i);
-                final double delta = 5E-5 * FastMath.abs(expected);
+                final double delta = 5E-5 * AccurateMath.abs(expected);
                 Assert.assertEquals(msg, expected, actual, delta);
             }
         }
@@ -610,7 +610,7 @@ public class SymmLQTest {
                 final double rnorm = r.getNorm();
                 Assert.assertEquals("iteration performed (residual)",
                     rnorm, evt.getNormOfResidual(),
-                    FastMath.max(1E-5 * rnorm, 1E-10));
+                    AccurateMath.max(1E-5 * rnorm, 1E-10));
             }
 
             @Override
@@ -662,7 +662,7 @@ public class SymmLQTest {
                 final double rnorm = p.operate(r).getNorm();
                 Assert.assertEquals("iteration performed (residual)",
                     rnorm, evt.getNormOfResidual(),
-                    FastMath.max(1E-5 * rnorm, 1E-10));
+                    AccurateMath.max(1E-5 * rnorm, 1E-10));
             }
 
             @Override

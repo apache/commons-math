@@ -17,7 +17,7 @@
 
 package org.apache.commons.math4.legacy.random;
 
-import org.apache.commons.math4.legacy.util.FastMath;
+import org.apache.commons.math4.legacy.core.jdkmath.AccurateMath;
 import org.apache.commons.rng.UniformRandomProvider;
 
 /**
@@ -33,7 +33,7 @@ import org.apache.commons.rng.UniformRandomProvider;
  */
 public class UniformRandomGenerator implements NormalizedRandomGenerator {
     /** Square root of three. */
-    private static final double SQRT3 = FastMath.sqrt(3);
+    private static final double SQRT3 = AccurateMath.sqrt(3);
     /** Underlying generator. */
     private final UniformRandomProvider generator;
 

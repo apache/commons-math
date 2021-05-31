@@ -23,8 +23,8 @@ import java.util.Random;
 import org.apache.commons.statistics.distribution.ContinuousDistribution;
 import org.apache.commons.statistics.distribution.NormalDistribution;
 import org.apache.commons.math4.legacy.exception.MathUnsupportedOperationException;
-import org.apache.commons.math4.legacy.util.FastMath;
-import org.apache.commons.math4.legacy.util.MathArrays;
+import org.apache.commons.math4.legacy.core.jdkmath.AccurateMath;
+import org.apache.commons.math4.legacy.core.MathArrays;
 import org.apache.commons.numbers.core.Precision;
 import org.apache.commons.rng.simple.RandomSource;
 import org.junit.After;
@@ -514,7 +514,7 @@ public class EigenDecompositionTest {
 
             double diffNorm = x.subtract(y).getNorm();
             Assert.assertTrue("The norm of (X-Y) is too large: " + diffNorm + ", matrix=" + m.toString(),
-                    x.subtract(y).getNorm() < 1000 * Precision.EPSILON * FastMath.max(x.getNorm(), y.getNorm()));
+                    x.subtract(y).getNorm() < 1000 * Precision.EPSILON * AccurateMath.max(x.getNorm(), y.getNorm()));
 
             RealMatrix invV = new LUDecomposition(v).getSolver().getInverse();
             double norm = v.multiply(d).multiply(invV).subtract(m).getNorm();
@@ -618,11 +618,11 @@ public class EigenDecompositionTest {
         EigenDecomposition ed;
         ed = new EigenDecomposition(indefinite);
         checkEigenValues((new double[] {2, 1, -1}), ed, 1E-12);
-        double isqrt3 = 1/FastMath.sqrt(3.0);
+        double isqrt3 = 1/AccurateMath.sqrt(3.0);
         checkEigenVector((new double[] {isqrt3,isqrt3,-isqrt3}), ed, 1E-12);
-        double isqrt2 = 1/FastMath.sqrt(2.0);
+        double isqrt2 = 1/AccurateMath.sqrt(2.0);
         checkEigenVector((new double[] {0.0,-isqrt2,-isqrt2}), ed, 1E-12);
-        double isqrt6 = 1/FastMath.sqrt(6.0);
+        double isqrt6 = 1/AccurateMath.sqrt(6.0);
         checkEigenVector((new double[] {2*isqrt6,-isqrt6,isqrt6}), ed, 1E-12);
     }
 
@@ -671,7 +671,7 @@ public class EigenDecompositionTest {
        boolean found = false;
        int i = 0;
        while (!found && i < searchArray.length) {
-           if (FastMath.abs(value - searchArray[i]) < tolerance) {
+           if (AccurateMath.abs(value - searchArray[i]) < tolerance) {
                found = true;
            }
            i++;
@@ -704,11 +704,11 @@ public class EigenDecompositionTest {
             while (matching && j < searchMatrix.getRowDimension()) {
                 double colEntry = searchMatrix.getEntry(j, i);
                 // Use the first entry where both are non-zero as scalar
-                if (FastMath.abs(multiplier - 1.0) <= FastMath.ulp(1.0) && FastMath.abs(colEntry) > 1E-14
-                        && FastMath.abs(column[j]) > 1e-14) {
+                if (AccurateMath.abs(multiplier - 1.0) <= AccurateMath.ulp(1.0) && AccurateMath.abs(colEntry) > 1E-14
+                        && AccurateMath.abs(column[j]) > 1e-14) {
                     multiplier = colEntry / column[j];
                 }
-                if (FastMath.abs(column[j] * multiplier - colEntry) > tolerance) {
+                if (AccurateMath.abs(column[j] * multiplier - colEntry) > tolerance) {
                     matching = false;
                 }
                 j++;
@@ -771,7 +771,7 @@ public class EigenDecompositionTest {
                 for (final double dataIJ : dataI) {
                     norm2 += dataIJ * dataIJ;
                 }
-                final double inv = 1.0 / FastMath.sqrt(norm2);
+                final double inv = 1.0 / AccurateMath.sqrt(norm2);
                 for (int j = 0; j < size; ++j) {
                     dataI[j] *= inv;
                 }

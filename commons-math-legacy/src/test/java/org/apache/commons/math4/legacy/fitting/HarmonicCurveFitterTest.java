@@ -24,7 +24,7 @@ import org.apache.commons.numbers.angle.PlaneAngleRadians;
 import org.apache.commons.math4.legacy.analysis.function.HarmonicOscillator;
 import org.apache.commons.math4.legacy.exception.MathIllegalStateException;
 import org.apache.commons.math4.legacy.exception.NumberIsTooSmallException;
-import org.apache.commons.math4.legacy.util.FastMath;
+import org.apache.commons.math4.legacy.core.jdkmath.AccurateMath;
 import org.junit.Assert;
 import org.junit.Test;
 
@@ -57,7 +57,7 @@ public class HarmonicCurveFitterTest {
 
         final HarmonicOscillator ff = new HarmonicOscillator(fitted[0], fitted[1], fitted[2]);
         for (double x = -1.0; x < 1.0; x += 0.01) {
-            Assert.assertTrue(FastMath.abs(f.value(x) - ff.value(x)) < 1e-13);
+            Assert.assertTrue(AccurateMath.abs(f.value(x) - ff.value(x)) < 1e-13);
         }
     }
 

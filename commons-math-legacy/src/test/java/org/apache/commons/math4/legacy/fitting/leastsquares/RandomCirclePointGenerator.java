@@ -22,7 +22,7 @@ import org.apache.commons.statistics.distribution.ContinuousDistribution;
 import org.apache.commons.statistics.distribution.UniformContinuousDistribution;
 import org.apache.commons.rng.UniformRandomProvider;
 import org.apache.commons.rng.simple.RandomSource;
-import org.apache.commons.math4.legacy.util.FastMath;
+import org.apache.commons.math4.legacy.core.jdkmath.AccurateMath;
 import org.apache.commons.numbers.angle.PlaneAngleRadians;
 
 /**
@@ -79,8 +79,8 @@ public class RandomCirclePointGenerator {
      */
     private Vector2D create() {
         final double t = tP.sample();
-        final double pX = cX.sample() + radius * FastMath.cos(t);
-        final double pY = cY.sample() + radius * FastMath.sin(t);
+        final double pX = cX.sample() + radius * AccurateMath.cos(t);
+        final double pY = cY.sample() + radius * AccurateMath.sin(t);
 
         return Vector2D.of(pX, pY);
     }

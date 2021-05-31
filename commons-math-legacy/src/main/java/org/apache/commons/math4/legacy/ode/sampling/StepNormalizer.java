@@ -18,7 +18,7 @@
 package org.apache.commons.math4.legacy.ode.sampling;
 
 import org.apache.commons.math4.legacy.exception.MaxCountExceededException;
-import org.apache.commons.math4.legacy.util.FastMath;
+import org.apache.commons.math4.legacy.core.jdkmath.AccurateMath;
 import org.apache.commons.numbers.core.Precision;
 
 /**
@@ -159,7 +159,7 @@ public class StepNormalizer implements StepHandler {
     public StepNormalizer(final double h, final FixedStepHandler handler,
                           final StepNormalizerMode mode,
                           final StepNormalizerBounds bounds) {
-        this.h          = FastMath.abs(h);
+        this.h          = AccurateMath.abs(h);
         this.handler    = handler;
         this.mode       = mode;
         this.bounds     = bounds;
@@ -219,7 +219,7 @@ public class StepNormalizer implements StepHandler {
         // Calculate next normalized step time.
         double nextTime = (mode == StepNormalizerMode.INCREMENT) ?
                           lastTime + h :
-                          (FastMath.floor(lastTime / h) + 1) * h;
+                          (AccurateMath.floor(lastTime / h) + 1) * h;
         if (mode == StepNormalizerMode.MULTIPLES &&
             Precision.equals(nextTime, lastTime, 1)) {
             nextTime += h;

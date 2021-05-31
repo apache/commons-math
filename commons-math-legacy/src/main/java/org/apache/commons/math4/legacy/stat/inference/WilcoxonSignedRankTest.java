@@ -26,7 +26,7 @@ import org.apache.commons.math4.legacy.exception.NumberIsTooLargeException;
 import org.apache.commons.math4.legacy.stat.ranking.NaNStrategy;
 import org.apache.commons.math4.legacy.stat.ranking.NaturalRanking;
 import org.apache.commons.math4.legacy.stat.ranking.TiesStrategy;
-import org.apache.commons.math4.legacy.util.FastMath;
+import org.apache.commons.math4.legacy.core.jdkmath.AccurateMath;
 
 /**
  * An implementation of the Wilcoxon signed-rank test.
@@ -127,7 +127,7 @@ public class WilcoxonSignedRankTest {
         final double[] zAbs = new double[z.length];
 
         for (int i = 0; i < z.length; ++i) {
-            zAbs[i] = FastMath.abs(z[i]);
+            zAbs[i] = AccurateMath.abs(z[i]);
         }
 
         return zAbs;
@@ -190,7 +190,7 @@ public class WilcoxonSignedRankTest {
         final int N = x.length;
         final double Wminus = (((double) (N * (N + 1))) / 2.0) - Wplus;
 
-        return FastMath.max(Wplus, Wminus);
+        return AccurateMath.max(Wplus, Wminus);
     }
 
     /**
@@ -249,7 +249,7 @@ public class WilcoxonSignedRankTest {
         final double VarS = ES * ((double) (2 * N + 1) / 6.0);
 
         // - 0.5 is a continuity correction
-        final double z = (Wmin - ES - 0.5) / FastMath.sqrt(VarS);
+        final double z = (Wmin - ES - 0.5) / AccurateMath.sqrt(VarS);
 
         // No try-catch or advertised exception because args are valid
         // pass a null rng to avoid unneeded overhead as we will not sample from this distribution

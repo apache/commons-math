@@ -28,7 +28,7 @@ import org.apache.commons.rng.UniformRandomProvider;
 import org.apache.commons.rng.sampling.distribution.InverseTransformContinuousSampler;
 import org.apache.commons.rng.sampling.distribution.ContinuousInverseCumulativeProbabilityFunction;
 import org.apache.commons.rng.sampling.distribution.ContinuousSampler;
-import org.apache.commons.math4.legacy.util.FastMath;
+import org.apache.commons.math4.legacy.core.jdkmath.AccurateMath;
 
 /**
  * Base class for probability distributions on the reals.
@@ -134,14 +134,14 @@ public abstract class AbstractRealDistribution
         }
 
         final double mu = getMean();
-        final double sig = FastMath.sqrt(getVariance());
+        final double sig = AccurateMath.sqrt(getVariance());
         final boolean chebyshevApplies;
         chebyshevApplies = !(Double.isInfinite(mu) || Double.isNaN(mu) ||
                              Double.isInfinite(sig) || Double.isNaN(sig));
 
         if (lowerBound == Double.NEGATIVE_INFINITY) {
             if (chebyshevApplies) {
-                lowerBound = mu - sig * FastMath.sqrt((1. - p) / p);
+                lowerBound = mu - sig * AccurateMath.sqrt((1. - p) / p);
             } else {
                 lowerBound = -1.0;
                 while (cumulativeProbability(lowerBound) >= p) {
@@ -152,7 +152,7 @@ public abstract class AbstractRealDistribution
 
         if (upperBound == Double.POSITIVE_INFINITY) {
             if (chebyshevApplies) {
-                upperBound = mu + sig * FastMath.sqrt(p / (1. - p));
+                upperBound = mu + sig * AccurateMath.sqrt(p / (1. - p));
             } else {
                 upperBound = 1.0;
                 while (cumulativeProbability(upperBound) < p) {
@@ -225,7 +225,7 @@ public abstract class AbstractRealDistribution
      */
     @Override
     public double logDensity(double x) {
-        return FastMath.log(density(x));
+        return AccurateMath.log(density(x));
     }
 
     /**

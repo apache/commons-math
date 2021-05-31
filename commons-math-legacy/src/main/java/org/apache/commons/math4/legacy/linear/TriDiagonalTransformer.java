@@ -19,7 +19,7 @@ package org.apache.commons.math4.legacy.linear;
 
 import java.util.Arrays;
 
-import org.apache.commons.math4.legacy.util.FastMath;
+import org.apache.commons.math4.legacy.core.jdkmath.AccurateMath;
 
 
 /**
@@ -201,7 +201,7 @@ class TriDiagonalTransformer {
                 final double c = hK[j];
                 xNormSqr += c * c;
             }
-            final double a = (hK[k + 1] > 0) ? -FastMath.sqrt(xNormSqr) : FastMath.sqrt(xNormSqr);
+            final double a = (hK[k + 1] > 0) ? -AccurateMath.sqrt(xNormSqr) : AccurateMath.sqrt(xNormSqr);
             secondary[k] = a;
             if (a != 0.0) {
                 // apply Householder transform from left and right simultaneously

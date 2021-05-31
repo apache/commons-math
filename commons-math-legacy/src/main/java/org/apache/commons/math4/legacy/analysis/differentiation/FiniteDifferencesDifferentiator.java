@@ -25,7 +25,7 @@ import org.apache.commons.math4.legacy.exception.MathIllegalArgumentException;
 import org.apache.commons.math4.legacy.exception.NotPositiveException;
 import org.apache.commons.math4.legacy.exception.NumberIsTooLargeException;
 import org.apache.commons.math4.legacy.exception.NumberIsTooSmallException;
-import org.apache.commons.math4.legacy.util.FastMath;
+import org.apache.commons.math4.legacy.core.jdkmath.AccurateMath;
 
 /** Univariate functions differentiator using finite differences.
  * <p>
@@ -156,7 +156,7 @@ public class FiniteDifferencesDifferentiator
         if (2 * halfSampleSpan >= tUpper - tLower) {
             throw new NumberIsTooLargeException(2 * halfSampleSpan, tUpper - tLower, false);
         }
-        final double safety = FastMath.ulp(halfSampleSpan);
+        final double safety = AccurateMath.ulp(halfSampleSpan);
         this.tMin = tLower + halfSampleSpan + safety;
         this.tMax = tUpper - halfSampleSpan - safety;
 
@@ -262,7 +262,7 @@ public class FiniteDifferencesDifferentiator
                 }
 
                 // compute sample position, trying to be centered if possible
-                final double t0 = FastMath.max(FastMath.min(t.getValue(), tMax), tMin) - halfSampleSpan;
+                final double t0 = AccurateMath.max(AccurateMath.min(t.getValue(), tMax), tMin) - halfSampleSpan;
 
                 // compute sample points
                 final double[] y = new double[nbPoints];
@@ -305,7 +305,7 @@ public class FiniteDifferencesDifferentiator
                 }
 
                 // compute sample position, trying to be centered if possible
-                final double t0 = FastMath.max(FastMath.min(t.getValue(), tMax), tMin) - halfSampleSpan;
+                final double t0 = AccurateMath.max(AccurateMath.min(t.getValue(), tMax), tMin) - halfSampleSpan;
 
                 // compute sample points
                 double[][] y = null;
@@ -359,7 +359,7 @@ public class FiniteDifferencesDifferentiator
                 }
 
                 // compute sample position, trying to be centered if possible
-                final double t0 = FastMath.max(FastMath.min(t.getValue(), tMax), tMin) - halfSampleSpan;
+                final double t0 = AccurateMath.max(AccurateMath.min(t.getValue(), tMax), tMin) - halfSampleSpan;
 
                 // compute sample points
                 double[][][] y = null;

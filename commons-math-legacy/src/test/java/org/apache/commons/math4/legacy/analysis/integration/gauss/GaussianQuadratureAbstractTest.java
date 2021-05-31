@@ -17,7 +17,7 @@
 package org.apache.commons.math4.legacy.analysis.integration.gauss;
 
 import org.apache.commons.math4.legacy.analysis.function.Power;
-import org.apache.commons.math4.legacy.util.FastMath;
+import org.apache.commons.math4.legacy.core.jdkmath.AccurateMath;
 import org.junit.Test;
 import org.junit.Assert;
 
@@ -105,7 +105,7 @@ public abstract class GaussianQuadratureAbstractTest {
                                     integrator.getNumberOfPoints() + "-point quadrature rule",
                                     expected, actual, eps);
             } else {
-                double err = FastMath.abs(actual - expected) / Math.ulp(expected);
+                double err = AccurateMath.abs(actual - expected) / Math.ulp(expected);
                 Assert.assertEquals("while integrating monomial x**" + n + " with a " +
                                     + integrator.getNumberOfPoints() + "-point quadrature rule, " +
                                     " error was " + err + " ulps",

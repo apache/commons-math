@@ -22,8 +22,8 @@ import java.util.Arrays;
 import org.apache.commons.math4.legacy.exception.MathIllegalArgumentException;
 import org.apache.commons.math4.legacy.exception.NumberIsTooSmallException;
 import org.apache.commons.math4.legacy.exception.OutOfRangeException;
-import org.apache.commons.math4.legacy.dfp.Dfp;
-import org.apache.commons.math4.legacy.dfp.DfpField;
+import org.apache.commons.math4.legacy.core.dfp.Dfp;
+import org.apache.commons.math4.legacy.core.dfp.DfpField;
 import org.junit.Assert;
 import org.junit.Test;
 

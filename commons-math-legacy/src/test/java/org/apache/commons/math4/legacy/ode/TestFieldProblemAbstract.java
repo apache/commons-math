@@ -19,10 +19,10 @@ package org.apache.commons.math4.legacy.ode;
 
 import java.lang.reflect.Array;
 
-import org.apache.commons.math4.legacy.Field;
-import org.apache.commons.math4.legacy.RealFieldElement;
+import org.apache.commons.math4.legacy.core.Field;
+import org.apache.commons.math4.legacy.core.RealFieldElement;
 import org.apache.commons.math4.legacy.ode.events.FieldEventHandler;
-import org.apache.commons.math4.legacy.util.MathArrays;
+import org.apache.commons.math4.legacy.core.MathArrays;
 
 /**
  * This class is used as the base class of the problems that are

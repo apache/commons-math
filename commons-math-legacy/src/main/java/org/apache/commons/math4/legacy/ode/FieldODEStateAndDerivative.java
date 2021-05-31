@@ -17,7 +17,7 @@
 
 package org.apache.commons.math4.legacy.ode;
 
-import org.apache.commons.math4.legacy.RealFieldElement;
+import org.apache.commons.math4.legacy.core.RealFieldElement;
 
 /** Container for time, main and secondary state vectors as well as their derivatives.
 

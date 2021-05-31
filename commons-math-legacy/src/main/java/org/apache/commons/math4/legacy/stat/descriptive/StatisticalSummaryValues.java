@@ -18,7 +18,7 @@ package org.apache.commons.math4.legacy.stat.descriptive;
 
 import java.io.Serializable;
 
-import org.apache.commons.math4.legacy.util.FastMath;
+import org.apache.commons.math4.legacy.core.jdkmath.AccurateMath;
 import org.apache.commons.numbers.core.Precision;
 
 /**
@@ -115,7 +115,7 @@ public class StatisticalSummaryValues implements Serializable,
      */
     @Override
     public double getStandardDeviation() {
-        return FastMath.sqrt(variance);
+        return AccurateMath.sqrt(variance);
     }
 
     /**

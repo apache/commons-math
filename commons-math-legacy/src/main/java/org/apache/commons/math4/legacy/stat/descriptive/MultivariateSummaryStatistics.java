@@ -31,8 +31,8 @@ import org.apache.commons.math4.legacy.stat.descriptive.rank.Min;
 import org.apache.commons.math4.legacy.stat.descriptive.summary.Sum;
 import org.apache.commons.math4.legacy.stat.descriptive.summary.SumOfLogs;
 import org.apache.commons.math4.legacy.stat.descriptive.summary.SumOfSquares;
-import org.apache.commons.math4.legacy.util.FastMath;
-import org.apache.commons.math4.legacy.util.MathArrays;
+import org.apache.commons.math4.legacy.core.jdkmath.AccurateMath;
+import org.apache.commons.math4.legacy.core.MathArrays;
 import org.apache.commons.numbers.core.Precision;
 
 /**
@@ -255,7 +255,7 @@ public class MultivariateSummaryStatistics
         } else {
             RealMatrix matrix = covarianceImpl.getResult();
             for (int i = 0; i < k; ++i) {
-                stdDev[i] = FastMath.sqrt(matrix.getEntry(i, i));
+                stdDev[i] = AccurateMath.sqrt(matrix.getEntry(i, i));
             }
         }
         return stdDev;

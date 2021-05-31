@@ -20,7 +20,7 @@ import org.apache.commons.math4.legacy.RetryRunner;
 import org.apache.commons.math4.legacy.TestUtils;
 import org.apache.commons.math4.legacy.exception.MathIllegalArgumentException;
 import org.apache.commons.math4.legacy.stat.Frequency;
-import org.apache.commons.math4.legacy.util.FastMath;
+import org.apache.commons.math4.legacy.core.jdkmath.AccurateMath;
 import org.apache.commons.rng.UniformRandomProvider;
 import org.junit.Assert;
 import org.junit.Test;
@@ -127,8 +127,8 @@ public abstract class RandomUtilsDataGeneratorAbstractTest {
         long min = Long.MAX_VALUE;
         for (int i = 0; i < 10000000; ++i) {
             long r = randomData.nextLong(lower, upper);
-            max = FastMath.max(max, r);
-            min = FastMath.min(min, r);
+            max = AccurateMath.max(max, r);
+            min = AccurateMath.min(min, r);
             Assert.assertTrue(r >= lower);
             Assert.assertTrue(r <= upper);
         }

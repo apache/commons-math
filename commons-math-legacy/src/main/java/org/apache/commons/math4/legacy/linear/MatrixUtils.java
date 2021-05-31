@@ -22,8 +22,8 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.util.Arrays;
 
-import org.apache.commons.math4.legacy.Field;
-import org.apache.commons.math4.legacy.FieldElement;
+import org.apache.commons.math4.legacy.core.Field;
+import org.apache.commons.math4.legacy.core.FieldElement;
 import org.apache.commons.math4.legacy.exception.DimensionMismatchException;
 import org.apache.commons.math4.legacy.exception.MathArithmeticException;
 import org.apache.commons.math4.legacy.exception.NoDataException;
@@ -32,8 +32,8 @@ import org.apache.commons.math4.legacy.exception.NumberIsTooSmallException;
 import org.apache.commons.math4.legacy.exception.OutOfRangeException;
 import org.apache.commons.math4.legacy.exception.ZeroException;
 import org.apache.commons.math4.legacy.exception.util.LocalizedFormats;
-import org.apache.commons.math4.legacy.util.FastMath;
-import org.apache.commons.math4.legacy.util.MathArrays;
+import org.apache.commons.math4.legacy.core.jdkmath.AccurateMath;
+import org.apache.commons.math4.legacy.core.MathArrays;
 import org.apache.commons.numbers.core.Precision;
 
 /**
@@ -412,8 +412,8 @@ public class MatrixUtils {
             for (int j = i + 1; j < rows; j++) {
                 final double mij = matrix.getEntry(i, j);
                 final double mji = matrix.getEntry(j, i);
-                if (FastMath.abs(mij - mji) >
-                    FastMath.max(FastMath.abs(mij), FastMath.abs(mji)) * relativeTolerance) {
+                if (AccurateMath.abs(mij - mji) >
+                    AccurateMath.max(AccurateMath.abs(mij), AccurateMath.abs(mji)) * relativeTolerance) {
                     if (raiseException) {
                         throw new NonSymmetricMatrixException(i, j, relativeTolerance);
                     } else {
@@ -845,7 +845,7 @@ public class MatrixUtils {
         int rows = rm.getRowDimension();
         for( int i = 0 ; i < rows ; i++ ){
             double diag = rm.getEntry(i, i);
-            if( FastMath.abs(diag) < Precision.SAFE_MIN ){
+            if( AccurateMath.abs(diag) < Precision.SAFE_MIN ){
                 throw new MathArithmeticException(LocalizedFormats.ZERO_DENOMINATOR);
             }
             double bi = b.getEntry(i)/diag;
@@ -890,7 +890,7 @@ public class MatrixUtils {
         int rows = rm.getRowDimension();
         for( int i = rows-1 ; i >-1 ; i-- ){
             double diag = rm.getEntry(i, i);
-            if( FastMath.abs(diag) < Precision.SAFE_MIN ){
+            if( AccurateMath.abs(diag) < Precision.SAFE_MIN ){
                 throw new MathArithmeticException(LocalizedFormats.ZERO_DENOMINATOR);
             }
             double bi = b.getEntry(i)/diag;

@@ -18,7 +18,7 @@ package org.apache.commons.math4.legacy.stat.descriptive.moment;
 
 import org.apache.commons.math4.legacy.stat.descriptive.StorelessUnivariateStatisticAbstractTest;
 import org.apache.commons.math4.legacy.stat.descriptive.UnivariateStatistic;
-import org.apache.commons.math4.legacy.util.MathArrays;
+import org.apache.commons.math4.legacy.core.MathArrays;
 import org.junit.Assert;
 import org.junit.Test;
 

@@ -25,8 +25,8 @@ import org.apache.commons.math4.legacy.exception.NotStrictlyPositiveException;
 import org.apache.commons.math4.legacy.exception.NullArgumentException;
 import org.apache.commons.math4.legacy.exception.NumberIsTooSmallException;
 import org.apache.commons.math4.legacy.exception.util.LocalizedFormats;
-import org.apache.commons.math4.legacy.util.FastMath;
-import org.apache.commons.math4.legacy.util.MathArrays;
+import org.apache.commons.math4.legacy.core.jdkmath.AccurateMath;
+import org.apache.commons.math4.legacy.core.MathArrays;
 
 /**
  * A variable length {@link DoubleArray} implementation that automatically
@@ -540,16 +540,16 @@ class ResizableDoubleArray implements DoubleArray, Serializable { // Not in publ
      * after expansion will be {@code internalArray.length + expansionFactor}.
      */
     protected void expand() {
-        // notice the use of FastMath.ceil(), this guarantees that we will always
+        // notice the use of AccurateMath.ceil(), this guarantees that we will always
         // have an array of at least currentSize + 1.   Assume that the
         // current initial capacity is 1 and the expansion factor
         // is 1.000000000000000001.  The newly calculated size will be
         // rounded up to 2 after the multiplication is performed.
         int newSize = 0;
         if (expansionMode == ExpansionMode.MULTIPLICATIVE) {
-            newSize = (int) FastMath.ceil(internalArray.length * expansionFactor);
+            newSize = (int) AccurateMath.ceil(internalArray.length * expansionFactor);
         } else {
-            newSize = (int) (internalArray.length + FastMath.round(expansionFactor));
+            newSize = (int) (internalArray.length + AccurateMath.round(expansionFactor));
         }
         final double[] tempArray = new double[newSize];
 

@@ -20,7 +20,7 @@ package org.apache.commons.math4.legacy.analysis.differentiation;
 import java.util.Arrays;
 import java.util.List;
 
-import org.apache.commons.math4.legacy.ExtendedFieldElementAbstractTest;
+import org.apache.commons.math4.legacy.field.ExtendedFieldElementAbstractTest;
 import org.apache.commons.math4.legacy.TestUtils;
 import org.apache.commons.math4.legacy.analysis.polynomials.PolynomialFunction;
 import org.apache.commons.math4.legacy.exception.DimensionMismatchException;
@@ -29,7 +29,7 @@ import org.apache.commons.rng.UniformRandomProvider;
 import org.apache.commons.rng.simple.RandomSource;
 import org.apache.commons.numbers.core.ArithmeticUtils;
 import org.apache.commons.numbers.combinatorics.Factorial;
-import org.apache.commons.math4.legacy.util.FastMath;
+import org.apache.commons.math4.legacy.core.jdkmath.AccurateMath;
 import org.apache.commons.numbers.core.Precision;
 import org.junit.Assert;
 import org.junit.Test;
@@ -86,8 +86,8 @@ public class DerivativeStructureTest extends ExtendedFieldElementAbstractTest<De
     @Test
     public void testConstant() {
         for (int maxOrder = 1; maxOrder < 5; ++maxOrder) {
-            checkF0F1(new DerivativeStructure(3, maxOrder, FastMath.PI),
-                      FastMath.PI, 0.0, 0.0, 0.0);
+            checkF0F1(new DerivativeStructure(3, maxOrder, AccurateMath.PI),
+                      AccurateMath.PI, 0.0, 0.0, 0.0);
         }
     }
 
@@ -188,8 +188,8 @@ public class DerivativeStructureTest extends ExtendedFieldElementAbstractTest<De
             Assert.assertEquals(1 / x, r.getValue(), 1.0e-15);
             for (int i = 1; i < r.getOrder(); ++i) {
                 double expected = ArithmeticUtils.pow(-1, i) * Factorial.value(i) /
-                                  FastMath.pow(x, i + 1);
-                Assert.assertEquals(expected, r.getPartialDerivative(i), 1.0e-15 * FastMath.abs(expected));
+                                  AccurateMath.pow(x, i + 1);
+                Assert.assertEquals(expected, r.getPartialDerivative(i), 1.0e-15 * AccurateMath.abs(expected));
             }
         }
     }
@@ -266,7 +266,7 @@ public class DerivativeStructureTest extends ExtendedFieldElementAbstractTest<De
             Assert.assertTrue(Double.isNaN(zeroNeg.getPartialDerivative(1, 0, 0)));
             DerivativeStructure posNeg = DerivativeStructure.pow(2.0, new DerivativeStructure(3,  maxOrder, 0, -2.0));
             Assert.assertEquals(1.0 / 4.0, posNeg.getValue(), 1.0e-15);
-            Assert.assertEquals(FastMath.log(2.0) / 4.0, posNeg.getPartialDerivative(1, 0, 0), 1.0e-15);
+            Assert.assertEquals(AccurateMath.log(2.0) / 4.0, posNeg.getPartialDerivative(1, 0, 0), 1.0e-15);
 
             // very special case: a = 0 and power = 0
             DerivativeStructure zeroZero = DerivativeStructure.pow(0.0, new DerivativeStructure(3,  maxOrder, 0, 0.0));
@@ -382,32 +382,32 @@ public class DerivativeStructureTest extends ExtendedFieldElementAbstractTest<De
                                                     5, dsX.multiply(dsY),
                                                     -2, dsZ).add(new DerivativeStructure(8, dsZ.multiply(dsX),
                                                                                          -1, dsY).pow(3));
-                    double f = x + 5 * x * y - 2 * z + FastMath.pow(8 * z * x - y, 3);
+                    double f = x + 5 * x * y - 2 * z + AccurateMath.pow(8 * z * x - y, 3);
                     Assert.assertEquals(f, ds.getValue(),
-                                        FastMath.abs(epsilon * f));
+                                        AccurateMath.abs(epsilon * f));
                     Assert.assertEquals(f, dsOther.getValue(),
-                                        FastMath.abs(epsilon * f));
+                                        AccurateMath.abs(epsilon * f));
 
                     // df/dx = 1 + 5 y + 24 (8 z x - y)^2 z
-                    double dfdx = 1 + 5 * y + 24 * z * FastMath.pow(8 * z * x - y, 2);
+                    double dfdx = 1 + 5 * y + 24 * z * AccurateMath.pow(8 * z * x - y, 2);
                     Assert.assertEquals(dfdx, ds.getPartialDerivative(1, 0, 0),
-                                        FastMath.abs(epsilon * dfdx));
+                                        AccurateMath.abs(epsilon * dfdx));
                     Assert.assertEquals(dfdx, dsOther.getPartialDerivative(1, 0, 0),
-                                        FastMath.abs(epsilon * dfdx));
+                                        AccurateMath.abs(epsilon * dfdx));
 
                     // df/dxdy = 5 + 48 z*(y - 8 z x)
                     double dfdxdy = 5 + 48 * z * (y - 8 * z * x);
                     Assert.assertEquals(dfdxdy, ds.getPartialDerivative(1, 1, 0),
-                                        FastMath.abs(epsilon * dfdxdy));
+                                        AccurateMath.abs(epsilon * dfdxdy));
                     Assert.assertEquals(dfdxdy, dsOther.getPartialDerivative(1, 1, 0),
-                                        FastMath.abs(epsilon * dfdxdy));
+                                        AccurateMath.abs(epsilon * dfdxdy));
 
                     // df/dxdydz = 48 (y - 16 z x)
                     double dfdxdydz = 48 * (y - 16 * z * x);
                     Assert.assertEquals(dfdxdydz, ds.getPartialDerivative(1, 1, 1),
-                                        FastMath.abs(epsilon * dfdxdydz));
+                                        AccurateMath.abs(epsilon * dfdxdydz));
                     Assert.assertEquals(dfdxdydz, dsOther.getPartialDerivative(1, 1, 1),
-                                        FastMath.abs(epsilon * dfdxdydz));
+                                        AccurateMath.abs(epsilon * dfdxdydz));
 
                 }
 
@@ -424,17 +424,17 @@ public class DerivativeStructureTest extends ExtendedFieldElementAbstractTest<De
                 for (double y = 0.1; y < 1.2; y += 0.1) {
                     DerivativeStructure dsY = new DerivativeStructure(1, maxOrder, y);
                     DerivativeStructure f = dsX.divide(dsY).sqrt();
-                    double f0 = FastMath.sqrt(x / y);
-                    Assert.assertEquals(f0, f.getValue(), FastMath.abs(epsilon * f0));
+                    double f0 = AccurateMath.sqrt(x / y);
+                    Assert.assertEquals(f0, f.getValue(), AccurateMath.abs(epsilon * f0));
                     if (f.getOrder() > 0) {
-                        double f1 = 1 / (2 * FastMath.sqrt(x * y));
-                        Assert.assertEquals(f1, f.getPartialDerivative(1), FastMath.abs(epsilon * f1));
+                        double f1 = 1 / (2 * AccurateMath.sqrt(x * y));
+                        Assert.assertEquals(f1, f.getPartialDerivative(1), AccurateMath.abs(epsilon * f1));
                         if (f.getOrder() > 1) {
                             double f2 = -f1 / (2 * x);
-                            Assert.assertEquals(f2, f.getPartialDerivative(2), FastMath.abs(epsilon * f2));
+                            Assert.assertEquals(f2, f.getPartialDerivative(2), AccurateMath.abs(epsilon * f2));
                             if (f.getOrder() > 2) {
                                 double f3 = (f0 + x / (2 * y * f0)) / (4 * x * x * x);
-                                Assert.assertEquals(f3, f.getPartialDerivative(3), FastMath.abs(epsilon * f3));
+                                Assert.assertEquals(f3, f.getPartialDerivative(3), AccurateMath.abs(epsilon * f3));
                             }
                         }
                     }
@@ -454,30 +454,30 @@ public class DerivativeStructureTest extends ExtendedFieldElementAbstractTest<De
                     for (double z = 0.1; z < 1.2; z += 0.1) {
                         DerivativeStructure dsZ = new DerivativeStructure(3, maxOrder, 2, z);
                         DerivativeStructure f = dsX.divide(dsY.cos().add(dsZ.tan())).sin();
-                        double a = FastMath.cos(y) + FastMath.tan(z);
-                        double f0 = FastMath.sin(x / a);
-                        Assert.assertEquals(f0, f.getValue(), FastMath.abs(epsilon * f0));
+                        double a = AccurateMath.cos(y) + AccurateMath.tan(z);
+                        double f0 = AccurateMath.sin(x / a);
+                        Assert.assertEquals(f0, f.getValue(), AccurateMath.abs(epsilon * f0));
                         if (f.getOrder() > 0) {
-                            double dfdx = FastMath.cos(x / a) / a;
-                            Assert.assertEquals(dfdx, f.getPartialDerivative(1, 0, 0), FastMath.abs(epsilon * dfdx));
-                            double dfdy =  x * FastMath.sin(y) * dfdx / a;
-                            Assert.assertEquals(dfdy, f.getPartialDerivative(0, 1, 0), FastMath.abs(epsilon * dfdy));
-                            double cz = FastMath.cos(z);
+                            double dfdx = AccurateMath.cos(x / a) / a;
+                            Assert.assertEquals(dfdx, f.getPartialDerivative(1, 0, 0), AccurateMath.abs(epsilon * dfdx));
+                            double dfdy =  x * AccurateMath.sin(y) * dfdx / a;
+                            Assert.assertEquals(dfdy, f.getPartialDerivative(0, 1, 0), AccurateMath.abs(epsilon * dfdy));
+                            double cz = AccurateMath.cos(z);
                             double cz2 = cz * cz;
                             double dfdz = -x * dfdx / (a * cz2);
-                            Assert.assertEquals(dfdz, f.getPartialDerivative(0, 0, 1), FastMath.abs(epsilon * dfdz));
+                            Assert.assertEquals(dfdz, f.getPartialDerivative(0, 0, 1), AccurateMath.abs(epsilon * dfdz));
                             if (f.getOrder() > 1) {
                                 double df2dx2 = -(f0 / (a * a));
-                                Assert.assertEquals(df2dx2, f.getPartialDerivative(2, 0, 0), FastMath.abs(epsilon * df2dx2));
-                                double df2dy2 = x * FastMath.cos(y) * dfdx / a -
-                                                x * x * FastMath.sin(y) * FastMath.sin(y) * f0 / (a * a * a * a) +
-                                                2 * FastMath.sin(y) * dfdy / a;
-                                Assert.assertEquals(df2dy2, f.getPartialDerivative(0, 2, 0), FastMath.abs(epsilon * df2dy2));
+                                Assert.assertEquals(df2dx2, f.getPartialDerivative(2, 0, 0), AccurateMath.abs(epsilon * df2dx2));
+                                double df2dy2 = x * AccurateMath.cos(y) * dfdx / a -
+                                                x * x * AccurateMath.sin(y) * AccurateMath.sin(y) * f0 / (a * a * a * a) +
+                                                2 * AccurateMath.sin(y) * dfdy / a;
+                                Assert.assertEquals(df2dy2, f.getPartialDerivative(0, 2, 0), AccurateMath.abs(epsilon * df2dy2));
                                 double c4 = cz2 * cz2;
-                                double df2dz2 = x * (2 * a * (1 - a * cz * FastMath.sin(z)) * dfdx - x * f0 / a ) / (a * a * a * c4);
-                                Assert.assertEquals(df2dz2, f.getPartialDerivative(0, 0, 2), FastMath.abs(epsilon * df2dz2));
-                                double df2dxdy = dfdy / x  - x * FastMath.sin(y) * f0 / (a * a * a);
-                                Assert.assertEquals(df2dxdy, f.getPartialDerivative(1, 1, 0), FastMath.abs(epsilon * df2dxdy));
+                                double df2dz2 = x * (2 * a * (1 - a * cz * AccurateMath.sin(z)) * dfdx - x * f0 / a ) / (a * a * a * c4);
+                                Assert.assertEquals(df2dz2, f.getPartialDerivative(0, 0, 2), AccurateMath.abs(epsilon * df2dz2));
+                                double df2dxdy = dfdy / x  - x * AccurateMath.sin(y) * f0 / (a * a * a);
+                                Assert.assertEquals(df2dxdy, f.getPartialDerivative(1, 1, 0), AccurateMath.abs(epsilon * df2dxdy));
                             }
                         }
                     }
@@ -542,7 +542,7 @@ public class DerivativeStructureTest extends ExtendedFieldElementAbstractTest<De
                 double[] gDerivatives = new double[ 1 + maxOrder];
                 gDerivatives[0] = 0.0;
                 for (int k = 1; k <= maxOrder; ++k) {
-                    gDerivatives[k] = FastMath.pow(-1.0, k + 1);
+                    gDerivatives[k] = AccurateMath.pow(-1.0, k + 1);
                 }
                 DerivativeStructure correctRoot = new DerivativeStructure(1, maxOrder, gDerivatives).rootN(n);
                 Assert.assertEquals(0.0, correctRoot.getValue(), 1.0e-20);
@@ -719,7 +719,7 @@ public class DerivativeStructureTest extends ExtendedFieldElementAbstractTest<De
                 DerivativeStructure dsX = new DerivativeStructure(2, maxOrder, 0, x);
                 for (double y = -1.7; y < 2; y += 0.2) {
                     DerivativeStructure remainder = dsX.remainder(y);
-                    DerivativeStructure ref = dsX.subtract(x - FastMath.IEEEremainder(x, y));
+                    DerivativeStructure ref = dsX.subtract(x - AccurateMath.IEEEremainder(x, y));
                     DerivativeStructure zero = remainder.subtract(ref);
                     for (int n = 0; n <= maxOrder; ++n) {
                         for (int m = 0; m <= maxOrder; ++m) {
@@ -742,7 +742,7 @@ public class DerivativeStructureTest extends ExtendedFieldElementAbstractTest<De
                 for (double y = -1.7; y < 2; y += 0.2) {
                     DerivativeStructure dsY = new DerivativeStructure(2, maxOrder, 1, y);
                     DerivativeStructure remainder = dsX.remainder(dsY);
-                    DerivativeStructure ref = dsX.subtract(dsY.multiply((x - FastMath.IEEEremainder(x, y)) / y));
+                    DerivativeStructure ref = dsX.subtract(dsY.multiply((x - AccurateMath.IEEEremainder(x, y)) / y));
                     DerivativeStructure zero = remainder.subtract(ref);
                     for (int n = 0; n <= maxOrder; ++n) {
                         for (int m = 0; m <= maxOrder; ++m) {
@@ -762,7 +762,7 @@ public class DerivativeStructureTest extends ExtendedFieldElementAbstractTest<De
         double[] epsilon = new double[] { 1.0e-16, 1.0e-16, 1.0e-16, 1.0e-16, 1.0e-16 };
         for (int maxOrder = 0; maxOrder < 5; ++maxOrder) {
             for (double x = 0.1; x < 1.2; x += 0.001) {
-                double refExp = FastMath.exp(x);
+                double refExp = AccurateMath.exp(x);
                 DerivativeStructure exp = new DerivativeStructure(1, maxOrder, 0, x).exp();
                 for (int n = 0; n <= maxOrder; ++n) {
                     Assert.assertEquals(refExp, exp.getPartialDerivative(n), epsilon[n]);
@@ -794,9 +794,9 @@ public class DerivativeStructureTest extends ExtendedFieldElementAbstractTest<De
         for (int maxOrder = 0; maxOrder < 5; ++maxOrder) {
             for (double x = 0.1; x < 1.2; x += 0.001) {
                 DerivativeStructure log = new DerivativeStructure(1, maxOrder, 0, x).log();
-                Assert.assertEquals(FastMath.log(x), log.getValue(), epsilon[0]);
+                Assert.assertEquals(AccurateMath.log(x), log.getValue(), epsilon[0]);
                 for (int n = 1; n <= maxOrder; ++n) {
-                    double refDer = -Factorial.value(n - 1) / FastMath.pow(-x, n);
+                    double refDer = -Factorial.value(n - 1) / AccurateMath.pow(-x, n);
                     Assert.assertEquals(refDer, log.getPartialDerivative(n), epsilon[n]);
                 }
             }
@@ -826,7 +826,7 @@ public class DerivativeStructureTest extends ExtendedFieldElementAbstractTest<De
             for (double x = 0.1; x < 1.2; x += 0.001) {
                 DerivativeStructure dsX = new DerivativeStructure(1, maxOrder, 0, x);
                 DerivativeStructure log101 = dsX.log10();
-                DerivativeStructure log102 = dsX.log().divide(FastMath.log(10.0));
+                DerivativeStructure log102 = dsX.log().divide(AccurateMath.log(10.0));
                 DerivativeStructure zero = log101.subtract(log102);
                 for (int n = 0; n <= maxOrder; ++n) {
                     Assert.assertEquals(0, zero.getPartialDerivative(n), epsilon[n]);
@@ -888,8 +888,8 @@ public class DerivativeStructureTest extends ExtendedFieldElementAbstractTest<De
                 DerivativeStructure dsX = new DerivativeStructure(1, maxOrder, 0, x);
                 DerivativeStructure sin = dsX.sin();
                 DerivativeStructure cos = dsX.cos();
-                double s = FastMath.sin(x);
-                double c = FastMath.cos(x);
+                double s = AccurateMath.sin(x);
+                double c = AccurateMath.cos(x);
                 for (int n = 0; n <= maxOrder; ++n) {
                     switch (n % 4) {
                     case 0 :
@@ -987,7 +987,7 @@ public class DerivativeStructureTest extends ExtendedFieldElementAbstractTest<De
                     DerivativeStructure atan2 = DerivativeStructure.atan2(dsY, dsX);
                     DerivativeStructure ref = dsY.divide(dsX).atan();
                     if (x < 0) {
-                        ref = (y < 0) ? ref.subtract(FastMath.PI) : ref.add(FastMath.PI);
+                        ref = (y < 0) ? ref.subtract(AccurateMath.PI) : ref.add(AccurateMath.PI);
                     }
                     DerivativeStructure zero = atan2.subtract(ref);
                     for (int n = 0; n <= maxOrder; ++n) {
@@ -1009,23 +1009,23 @@ public class DerivativeStructureTest extends ExtendedFieldElementAbstractTest<De
                 DerivativeStructure.atan2(new DerivativeStructure(2, 2, 1, +0.0),
                                           new DerivativeStructure(2, 2, 1, +0.0));
         Assert.assertEquals(0, pp.getValue(), 1.0e-15);
-        Assert.assertEquals(+1, FastMath.copySign(1, pp.getValue()), 1.0e-15);
+        Assert.assertEquals(+1, AccurateMath.copySign(1, pp.getValue()), 1.0e-15);
 
         DerivativeStructure pn =
                 DerivativeStructure.atan2(new DerivativeStructure(2, 2, 1, +0.0),
                                           new DerivativeStructure(2, 2, 1, -0.0));
-        Assert.assertEquals(FastMath.PI, pn.getValue(), 1.0e-15);
+        Assert.assertEquals(AccurateMath.PI, pn.getValue(), 1.0e-15);
 
         DerivativeStructure np =
                 DerivativeStructure.atan2(new DerivativeStructure(2, 2, 1, -0.0),
                                           new DerivativeStructure(2, 2, 1, +0.0));
         Assert.assertEquals(0, np.getValue(), 1.0e-15);
-        Assert.assertEquals(-1, FastMath.copySign(1, np.getValue()), 1.0e-15);
+        Assert.assertEquals(-1, AccurateMath.copySign(1, np.getValue()), 1.0e-15);
 
         DerivativeStructure nn =
                 DerivativeStructure.atan2(new DerivativeStructure(2, 2, 1, -0.0),
                                           new DerivativeStructure(2, 2, 1, -0.0));
-        Assert.assertEquals(-FastMath.PI, nn.getValue(), 1.0e-15);
+        Assert.assertEquals(-AccurateMath.PI, nn.getValue(), 1.0e-15);
 
     }
 
@@ -1131,17 +1131,17 @@ public class DerivativeStructureTest extends ExtendedFieldElementAbstractTest<De
                 for (double y = 0.1; y < 1.2; y += 0.1) {
                     DerivativeStructure dsY = new DerivativeStructure(1, maxOrder, 0, y);
                     DerivativeStructure f = dsX.divide(dsY).sqrt();
-                    double f0 = FastMath.sqrt(x / y);
-                    Assert.assertEquals(f0, f.getValue(), FastMath.abs(epsilon * f0));
+                    double f0 = AccurateMath.sqrt(x / y);
+                    Assert.assertEquals(f0, f.getValue(), AccurateMath.abs(epsilon * f0));
                     if (f.getOrder() > 0) {
                         double f1 = -x / (2 * y * y * f0);
-                        Assert.assertEquals(f1, f.getPartialDerivative(1), FastMath.abs(epsilon * f1));
+                        Assert.assertEquals(f1, f.getPartialDerivative(1), AccurateMath.abs(epsilon * f1));
                         if (f.getOrder() > 1) {
                             double f2 = (f0 - x / (4 * y * f0)) / (y * y);
-                            Assert.assertEquals(f2, f.getPartialDerivative(2), FastMath.abs(epsilon * f2));
+                            Assert.assertEquals(f2, f.getPartialDerivative(2), AccurateMath.abs(epsilon * f2));
                             if (f.getOrder() > 2) {
                                 double f3 = (x / (8 * y * f0) - 2 * f0) / (y * y * y);
-                                Assert.assertEquals(f3, f.getPartialDerivative(3), FastMath.abs(epsilon * f3));
+                                Assert.assertEquals(f3, f.getPartialDerivative(3), AccurateMath.abs(epsilon * f3));
                             }
                         }
                     }
@@ -1184,8 +1184,8 @@ public class DerivativeStructureTest extends ExtendedFieldElementAbstractTest<De
             double maxError = 0;
             for (double dx = -0.05; dx < 0.05; dx += 0.001) {
                 for (double dy = -0.05; dy < 0.05; dy += 0.001) {
-                    double ref = FastMath.atan2(y0 + dy, x0 + dx);
-                    maxError = FastMath.max(maxError, FastMath.abs(ref - atan2.taylor(dx, dy)));
+                    double ref = AccurateMath.atan2(y0 + dy, x0 + dx);
+                    maxError = AccurateMath.max(maxError, AccurateMath.abs(ref - atan2.taylor(dx, dy)));
                 }
             }
             Assert.assertEquals(0.0, expected[maxOrder] - maxError, 0.01 * expected[maxOrder]);
@@ -1290,10 +1290,10 @@ public class DerivativeStructureTest extends ExtendedFieldElementAbstractTest<De
         for (int maxOrder = 0; maxOrder < 6; ++maxOrder) {
             for (double x = 0.1; x < 1.2; x += 0.001) {
                 DerivativeStructure dsX = new DerivativeStructure(1, maxOrder, 0, x);
-                Assert.assertEquals(FastMath.toDegrees(x), dsX.toDegrees().getValue(), epsilon);
+                Assert.assertEquals(AccurateMath.toDegrees(x), dsX.toDegrees().getValue(), epsilon);
                 for (int n = 1; n <= maxOrder; ++n) {
                     if (n == 1) {
-                        Assert.assertEquals(180 / FastMath.PI, dsX.toDegrees().getPartialDerivative(1), epsilon);
+                        Assert.assertEquals(180 / AccurateMath.PI, dsX.toDegrees().getPartialDerivative(1), epsilon);
                     } else {
                         Assert.assertEquals(0.0, dsX.toDegrees().getPartialDerivative(n), epsilon);
                     }
@@ -1308,10 +1308,10 @@ public class DerivativeStructureTest extends ExtendedFieldElementAbstractTest<De
         for (int maxOrder = 0; maxOrder < 6; ++maxOrder) {
             for (double x = 0.1; x < 1.2; x += 0.001) {
                 DerivativeStructure dsX = new DerivativeStructure(1, maxOrder, 0, x);
-                Assert.assertEquals(FastMath.toRadians(x), dsX.toRadians().getValue(), epsilon);
+                Assert.assertEquals(AccurateMath.toRadians(x), dsX.toRadians().getValue(), epsilon);
                 for (int n = 1; n <= maxOrder; ++n) {
                     if (n == 1) {
-                        Assert.assertEquals(FastMath.PI / 180, dsX.toRadians().getPartialDerivative(1), epsilon);
+                        Assert.assertEquals(AccurateMath.PI / 180, dsX.toRadians().getPartialDerivative(1), epsilon);
                     } else {
                         Assert.assertEquals(0.0, dsX.toRadians().getPartialDerivative(n), epsilon);
                     }
@@ -1385,8 +1385,8 @@ public class DerivativeStructureTest extends ExtendedFieldElementAbstractTest<De
     @Test
     public void testOneParameterConstructor() {
         double x = 1.2;
-        double cos = FastMath.cos(x);
-        double sin = FastMath.sin(x);
+        double cos = AccurateMath.cos(x);
+        double sin = AccurateMath.sin(x);
         DerivativeStructure yRef = new DerivativeStructure(1, 4, 0, x).cos();
         try {
             new DerivativeStructure(1, 4, 0.0, 0.0);
@@ -1494,29 +1494,29 @@ public class DerivativeStructureTest extends ExtendedFieldElementAbstractTest<De
             DerivativeStructure lin = u[0].linearCombination(u[0], v[0], u[1], v[1]);
             double ref = u[0].getValue() * v[0].getValue() +
                          u[1].getValue() * v[1].getValue();
-            Assert.assertEquals(ref, lin.getValue(), 1.0e-15 * FastMath.abs(ref));
-            Assert.assertEquals(v[0].getValue(), lin.getPartialDerivative(1, 0, 0, 0), 1.0e-15 * FastMath.abs(v[0].getValue()));
-            Assert.assertEquals(v[1].getValue(), lin.getPartialDerivative(0, 1, 0, 0), 1.0e-15 * FastMath.abs(v[1].getValue()));
+            Assert.assertEquals(ref, lin.getValue(), 1.0e-15 * AccurateMath.abs(ref));
+            Assert.assertEquals(v[0].getValue(), lin.getPartialDerivative(1, 0, 0, 0), 1.0e-15 * AccurateMath.abs(v[0].getValue()));
+            Assert.assertEquals(v[1].getValue(), lin.getPartialDerivative(0, 1, 0, 0), 1.0e-15 * AccurateMath.abs(v[1].getValue()));
 
             lin = u[0].linearCombination(u[0], v[0], u[1], v[1], u[2], v[2]);
             ref = u[0].getValue() * v[0].getValue() +
                   u[1].getValue() * v[1].getValue() +
                   u[2].getValue() * v[2].getValue();
-            Assert.assertEquals(ref, lin.getValue(), 1.0e-15 * FastMath.abs(ref));
-            Assert.assertEquals(v[0].getValue(), lin.getPartialDerivative(1, 0, 0, 0), 1.0e-15 * FastMath.abs(v[0].getValue()));
-            Assert.assertEquals(v[1].getValue(), lin.getPartialDerivative(0, 1, 0, 0), 1.0e-15 * FastMath.abs(v[1].getValue()));
-            Assert.assertEquals(v[2].getValue(), lin.getPartialDerivative(0, 0, 1, 0), 1.0e-15 * FastMath.abs(v[2].getValue()));
+            Assert.assertEquals(ref, lin.getValue(), 1.0e-15 * AccurateMath.abs(ref));
+            Assert.assertEquals(v[0].getValue(), lin.getPartialDerivative(1, 0, 0, 0), 1.0e-15 * AccurateMath.abs(v[0].getValue()));
+            Assert.assertEquals(v[1].getValue(), lin.getPartialDerivative(0, 1, 0, 0), 1.0e-15 * AccurateMath.abs(v[1].getValue()));
+            Assert.assertEquals(v[2].getValue(), lin.getPartialDerivative(0, 0, 1, 0), 1.0e-15 * AccurateMath.abs(v[2].getValue()));
 
             lin = u[0].linearCombination(u[0], v[0], u[1], v[1], u[2], v[2], u[3], v[3]);
             ref = u[0].getValue() * v[0].getValue() +
                   u[1].getValue() * v[1].getValue() +
                   u[2].getValue() * v[2].getValue() +
                   u[3].getValue() * v[3].getValue();
-            Assert.assertEquals(ref, lin.getValue(), 1.0e-15 * FastMath.abs(ref));
-            Assert.assertEquals(v[0].getValue(), lin.getPartialDerivative(1, 0, 0, 0), 1.0e-15 * FastMath.abs(v[0].getValue()));
-            Assert.assertEquals(v[1].getValue(), lin.getPartialDerivative(0, 1, 0, 0), 1.0e-15 * FastMath.abs(v[1].getValue()));
-            Assert.assertEquals(v[2].getValue(), lin.getPartialDerivative(0, 0, 1, 0), 1.0e-15 * FastMath.abs(v[2].getValue()));
-            Assert.assertEquals(v[3].getValue(), lin.getPartialDerivative(0, 0, 0, 1), 1.0e-15 * FastMath.abs(v[3].getValue()));
+            Assert.assertEquals(ref, lin.getValue(), 1.0e-15 * AccurateMath.abs(ref));
+            Assert.assertEquals(v[0].getValue(), lin.getPartialDerivative(1, 0, 0, 0), 1.0e-15 * AccurateMath.abs(v[0].getValue()));
+            Assert.assertEquals(v[1].getValue(), lin.getPartialDerivative(0, 1, 0, 0), 1.0e-15 * AccurateMath.abs(v[1].getValue()));
+            Assert.assertEquals(v[2].getValue(), lin.getPartialDerivative(0, 0, 1, 0), 1.0e-15 * AccurateMath.abs(v[2].getValue()));
+            Assert.assertEquals(v[3].getValue(), lin.getPartialDerivative(0, 0, 0, 1), 1.0e-15 * AccurateMath.abs(v[3].getValue()));
 
         }
     }
@@ -1538,29 +1538,29 @@ public class DerivativeStructureTest extends ExtendedFieldElementAbstractTest<De
             DerivativeStructure lin = v[0].linearCombination(u[0], v[0], u[1], v[1]);
             double ref = u[0] * v[0].getValue() +
                          u[1] * v[1].getValue();
-            Assert.assertEquals(ref, lin.getValue(), 1.0e-15 * FastMath.abs(ref));
-            Assert.assertEquals(u[0], lin.getPartialDerivative(1, 0, 0, 0), 1.0e-15 * FastMath.abs(v[0].getValue()));
-            Assert.assertEquals(u[1], lin.getPartialDerivative(0, 1, 0, 0), 1.0e-15 * FastMath.abs(v[1].getValue()));
+            Assert.assertEquals(ref, lin.getValue(), 1.0e-15 * AccurateMath.abs(ref));
+            Assert.assertEquals(u[0], lin.getPartialDerivative(1, 0, 0, 0), 1.0e-15 * AccurateMath.abs(v[0].getValue()));
+            Assert.assertEquals(u[1], lin.getPartialDerivative(0, 1, 0, 0), 1.0e-15 * AccurateMath.abs(v[1].getValue()));
 
             lin = v[0].linearCombination(u[0], v[0], u[1], v[1], u[2], v[2]);
             ref = u[0] * v[0].getValue() +
                   u[1] * v[1].getValue() +
                   u[2] * v[2].getValue();
-            Assert.assertEquals(ref, lin.getValue(), 1.0e-15 * FastMath.abs(ref));
-            Assert.assertEquals(u[0], lin.getPartialDerivative(1, 0, 0, 0), 1.0e-15 * FastMath.abs(v[0].getValue()));
-            Assert.assertEquals(u[1], lin.getPartialDerivative(0, 1, 0, 0), 1.0e-15 * FastMath.abs(v[1].getValue()));
-            Assert.assertEquals(u[2], lin.getPartialDerivative(0, 0, 1, 0), 1.0e-15 * FastMath.abs(v[2].getValue()));
+            Assert.assertEquals(ref, lin.getValue(), 1.0e-15 * AccurateMath.abs(ref));
+            Assert.assertEquals(u[0], lin.getPartialDerivative(1, 0, 0, 0), 1.0e-15 * AccurateMath.abs(v[0].getValue()));
+            Assert.assertEquals(u[1], lin.getPartialDerivative(0, 1, 0, 0), 1.0e-15 * AccurateMath.abs(v[1].getValue()));
+            Assert.assertEquals(u[2], lin.getPartialDerivative(0, 0, 1, 0), 1.0e-15 * AccurateMath.abs(v[2].getValue()));
 
             lin = v[0].linearCombination(u[0], v[0], u[1], v[1], u[2], v[2], u[3], v[3]);
             ref = u[0] * v[0].getValue() +
                   u[1] * v[1].getValue() +
                   u[2] * v[2].getValue() +
                   u[3] * v[3].getValue();
-            Assert.assertEquals(ref, lin.getValue(), 1.0e-15 * FastMath.abs(ref));
-            Assert.assertEquals(u[0], lin.getPartialDerivative(1, 0, 0, 0), 1.0e-15 * FastMath.abs(v[0].getValue()));
-            Assert.assertEquals(u[1], lin.getPartialDerivative(0, 1, 0, 0), 1.0e-15 * FastMath.abs(v[1].getValue()));
-            Assert.assertEquals(u[2], lin.getPartialDerivative(0, 0, 1, 0), 1.0e-15 * FastMath.abs(v[2].getValue()));
-            Assert.assertEquals(u[3], lin.getPartialDerivative(0, 0, 0, 1), 1.0e-15 * FastMath.abs(v[3].getValue()));
+            Assert.assertEquals(ref, lin.getValue(), 1.0e-15 * AccurateMath.abs(ref));
+            Assert.assertEquals(u[0], lin.getPartialDerivative(1, 0, 0, 0), 1.0e-15 * AccurateMath.abs(v[0].getValue()));
+            Assert.assertEquals(u[1], lin.getPartialDerivative(0, 1, 0, 0), 1.0e-15 * AccurateMath.abs(v[1].getValue()));
+            Assert.assertEquals(u[2], lin.getPartialDerivative(0, 0, 1, 0), 1.0e-15 * AccurateMath.abs(v[2].getValue()));
+            Assert.assertEquals(u[3], lin.getPartialDerivative(0, 0, 0, 1), 1.0e-15 * AccurateMath.abs(v[3].getValue()));
 
         }
     }

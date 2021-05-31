@@ -21,14 +21,14 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 
-import org.apache.commons.math4.legacy.Field;
-import org.apache.commons.math4.legacy.RealFieldElement;
+import org.apache.commons.math4.legacy.core.Field;
+import org.apache.commons.math4.legacy.core.RealFieldElement;
 import org.apache.commons.math4.legacy.linear.Array2DRowFieldMatrix;
 import org.apache.commons.math4.legacy.linear.ArrayFieldVector;
 import org.apache.commons.math4.legacy.linear.FieldDecompositionSolver;
 import org.apache.commons.math4.legacy.linear.FieldLUDecomposition;
 import org.apache.commons.math4.legacy.linear.FieldMatrix;
-import org.apache.commons.math4.legacy.util.MathArrays;
+import org.apache.commons.math4.legacy.core.MathArrays;
 
 /** Transformer to Nordsieck vectors for Adams integrators.
  * <p>This class is used by {@link AdamsBashforthIntegrator Adams-Bashforth} and

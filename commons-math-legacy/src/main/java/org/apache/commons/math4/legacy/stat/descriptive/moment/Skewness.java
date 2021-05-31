@@ -21,8 +21,8 @@ import java.io.Serializable;
 import org.apache.commons.math4.legacy.exception.MathIllegalArgumentException;
 import org.apache.commons.math4.legacy.exception.NullArgumentException;
 import org.apache.commons.math4.legacy.stat.descriptive.AbstractStorelessUnivariateStatistic;
-import org.apache.commons.math4.legacy.util.FastMath;
-import org.apache.commons.math4.legacy.util.MathArrays;
+import org.apache.commons.math4.legacy.core.jdkmath.AccurateMath;
+import org.apache.commons.math4.legacy.core.MathArrays;
 
 /**
  * Computes the skewness of the available values.
@@ -120,7 +120,7 @@ public class Skewness extends AbstractStorelessUnivariateStatistic implements Se
         } else {
             double n0 = moment.getN();
             return  (n0 * moment.m3) /
-            ((n0 - 1) * (n0 -2) * FastMath.sqrt(variance) * variance);
+            ((n0 - 1) * (n0 -2) * AccurateMath.sqrt(variance) * variance);
         }
     }
 
@@ -186,7 +186,7 @@ public class Skewness extends AbstractStorelessUnivariateStatistic implements Se
                 final double d = values[i] - m;
                 accum3 += d * d * d;
             }
-            accum3 /= variance * FastMath.sqrt(variance);
+            accum3 /= variance * AccurateMath.sqrt(variance);
 
             // Get N
             double n0 = length;

@@ -16,7 +16,7 @@
  */
 package org.apache.commons.math4.legacy.linear;
 
-import org.apache.commons.math4.legacy.FieldElement;
+import org.apache.commons.math4.legacy.core.FieldElement;
 
 /**
  * This interface defines a visitor for the entries of a vector. Visitors

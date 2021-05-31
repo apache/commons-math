@@ -16,7 +16,7 @@
  */
 package org.apache.commons.math4.legacy.ode.nonstiff;
 
-import org.apache.commons.math4.legacy.ExtendedFieldElementAbstractTest;
+import org.apache.commons.math4.legacy.field.ExtendedFieldElementAbstractTest;
 import org.apache.commons.math4.legacy.ode.nonstiff.Decimal64;
 import org.junit.Assert;
 import org.junit.Test;

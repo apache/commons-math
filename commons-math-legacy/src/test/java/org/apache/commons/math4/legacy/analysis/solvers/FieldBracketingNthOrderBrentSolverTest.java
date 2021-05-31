@@ -18,9 +18,9 @@
 package org.apache.commons.math4.legacy.analysis.solvers;
 
 import org.apache.commons.math4.legacy.analysis.RealFieldUnivariateFunction;
-import org.apache.commons.math4.legacy.dfp.Dfp;
-import org.apache.commons.math4.legacy.dfp.DfpField;
-import org.apache.commons.math4.legacy.dfp.DfpMath;
+import org.apache.commons.math4.legacy.core.dfp.Dfp;
+import org.apache.commons.math4.legacy.core.dfp.DfpField;
+import org.apache.commons.math4.legacy.core.dfp.DfpMath;
 import org.apache.commons.math4.legacy.exception.MathInternalError;
 import org.apache.commons.math4.legacy.exception.NumberIsTooSmallException;
 import org.junit.Assert;

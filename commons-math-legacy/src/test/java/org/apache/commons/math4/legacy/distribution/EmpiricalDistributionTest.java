@@ -39,7 +39,7 @@ import org.apache.commons.math4.legacy.exception.MathIllegalStateException;
 import org.apache.commons.math4.legacy.exception.NullArgumentException;
 import org.apache.commons.math4.legacy.exception.NotStrictlyPositiveException;
 import org.apache.commons.math4.legacy.stat.descriptive.SummaryStatistics;
-import org.apache.commons.math4.legacy.util.FastMath;
+import org.apache.commons.math4.legacy.core.jdkmath.AccurateMath;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
@@ -579,10 +579,10 @@ public final class EmpiricalDistributionTest extends RealDistributionAbstractTes
      */
     private int findBin(double x) {
         // Number of bins below x should be trunc(x/10)
-        final double nMinus = FastMath.floor(x / 10);
-        final int bin =  (int) FastMath.round(nMinus);
+        final double nMinus = AccurateMath.floor(x / 10);
+        final int bin =  (int) AccurateMath.round(nMinus);
         // If x falls on a bin boundary, it is in the lower bin
-        return FastMath.floor(x / 10) == x / 10 ? bin - 1 : bin;
+        return AccurateMath.floor(x / 10) == x / 10 ? bin - 1 : bin;
     }
 
     /**

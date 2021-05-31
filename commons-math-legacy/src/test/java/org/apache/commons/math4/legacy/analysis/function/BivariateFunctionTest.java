@@ -17,7 +17,7 @@
 
 package org.apache.commons.math4.legacy.analysis.function;
 
-import org.apache.commons.math4.legacy.util.FastMath;
+import org.apache.commons.math4.legacy.core.jdkmath.AccurateMath;
 import org.junit.Assert;
 import org.junit.Test;
 
@@ -31,7 +31,7 @@ public class BivariateFunctionTest {
     @Test
     public void testAtan2() {
         Atan2 atan2 = new Atan2();
-        Assert.assertEquals(FastMath.PI/4,atan2.value(1,1), EPS);
+        Assert.assertEquals(AccurateMath.PI/4,atan2.value(1,1), EPS);
     }
 
     @Test

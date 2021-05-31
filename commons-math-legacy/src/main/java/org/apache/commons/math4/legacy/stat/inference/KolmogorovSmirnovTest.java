@@ -39,8 +39,8 @@ import org.apache.commons.math4.legacy.exception.NotANumberException;
 import org.apache.commons.math4.legacy.exception.util.LocalizedFormats;
 import org.apache.commons.math4.legacy.linear.MatrixUtils;
 import org.apache.commons.math4.legacy.linear.RealMatrix;
-import org.apache.commons.math4.legacy.util.FastMath;
-import org.apache.commons.math4.legacy.util.MathArrays;
+import org.apache.commons.math4.legacy.core.jdkmath.AccurateMath;
+import org.apache.commons.math4.legacy.core.MathArrays;
 import org.apache.commons.math4.legacy.field.linalg.FieldDenseMatrix;
 
 /**
@@ -112,7 +112,7 @@ import org.apache.commons.math4.legacy.field.linalg.FieldDenseMatrix;
  */
 public class KolmogorovSmirnovTest {
     /** pi^2. */
-    private static final double PI_SQUARED = FastMath.PI * FastMath.PI;
+    private static final double PI_SQUARED = AccurateMath.PI * AccurateMath.PI;
     /**
      * Bound on the number of partial sums in {@link #ksSum(double, double, int)}
      */
@@ -171,7 +171,7 @@ public class KolmogorovSmirnovTest {
         double d = 0d;
         for (int i = 1; i <= n; i++) {
             final double yi = distribution.cumulativeProbability(dataCopy[i - 1]);
-            final double currD = FastMath.max(yi - (i - 1) / nd, i / nd - yi);
+            final double currD = AccurateMath.max(yi - (i - 1) / nd, i / nd - yi);
             if (currD > d) {
                 d = currD;
             }
@@ -543,7 +543,7 @@ public class KolmogorovSmirnovTest {
      */
     public double pelzGood(double d, int n) {
         // Change the variable since approximation is for the distribution evaluated at d / sqrt(n)
-        final double sqrtN = FastMath.sqrt(n);
+        final double sqrtN = AccurateMath.sqrt(n);
         final double z = d * sqrtN;
         final double z2 = d * d * n;
         final double z4 = z2 * z2;
@@ -561,7 +561,7 @@ public class KolmogorovSmirnovTest {
         int k = 1;
         for (; k < MAXIMUM_PARTIAL_SUM_COUNT; k++) {
             kTerm = 2 * k - 1;
-            increment = FastMath.exp(-z2Term * kTerm * kTerm);
+            increment = AccurateMath.exp(-z2Term * kTerm * kTerm);
             sum += increment;
             if (increment <= PG_SUM_RELATIVE_ERROR * sum) {
                 break;
@@ -570,7 +570,7 @@ public class KolmogorovSmirnovTest {
         if (k == MAXIMUM_PARTIAL_SUM_COUNT) {
             throw new TooManyIterationsException(MAXIMUM_PARTIAL_SUM_COUNT);
         }
-        ret = sum * FastMath.sqrt(2 * FastMath.PI) / z;
+        ret = sum * AccurateMath.sqrt(2 * AccurateMath.PI) / z;
 
         // K_1(z)
         // Sum is -inf to inf, but k term is always (k + 1/2) ^ 2, so really have
@@ -582,16 +582,16 @@ public class KolmogorovSmirnovTest {
         for (k = 0; k < MAXIMUM_PARTIAL_SUM_COUNT; k++) {
             kTerm = k + 0.5;
             kTerm2 = kTerm * kTerm;
-            increment = (PI_SQUARED * kTerm2 - z2) * FastMath.exp(-PI_SQUARED * kTerm2 / twoZ2);
+            increment = (PI_SQUARED * kTerm2 - z2) * AccurateMath.exp(-PI_SQUARED * kTerm2 / twoZ2);
             sum += increment;
-            if (FastMath.abs(increment) < PG_SUM_RELATIVE_ERROR * FastMath.abs(sum)) {
+            if (AccurateMath.abs(increment) < PG_SUM_RELATIVE_ERROR * AccurateMath.abs(sum)) {
                 break;
             }
         }
         if (k == MAXIMUM_PARTIAL_SUM_COUNT) {
             throw new TooManyIterationsException(MAXIMUM_PARTIAL_SUM_COUNT);
         }
-        final double sqrtHalfPi = FastMath.sqrt(FastMath.PI / 2);
+        final double sqrtHalfPi = AccurateMath.sqrt(AccurateMath.PI / 2);
         // Instead of doubling sum, divide by 3 instead of 6
         ret += sum * sqrtHalfPi / (3 * z4 * sqrtN);
 
@@ -608,9 +608,9 @@ public class KolmogorovSmirnovTest {
             kTerm = k + 0.5;
             kTerm2 = kTerm * kTerm;
             increment =  (z6Term + z4Term + PI_SQUARED * (z4Term - z2Term) * kTerm2 +
-                    pi4 * (1 - twoZ2) * kTerm2 * kTerm2) * FastMath.exp(-PI_SQUARED * kTerm2 / twoZ2);
+                    pi4 * (1 - twoZ2) * kTerm2 * kTerm2) * AccurateMath.exp(-PI_SQUARED * kTerm2 / twoZ2);
             sum += increment;
-            if (FastMath.abs(increment) < PG_SUM_RELATIVE_ERROR * FastMath.abs(sum)) {
+            if (AccurateMath.abs(increment) < PG_SUM_RELATIVE_ERROR * AccurateMath.abs(sum)) {
                 break;
             }
         }
@@ -621,9 +621,9 @@ public class KolmogorovSmirnovTest {
         kTerm2 = 0;
         for (k = 1; k < MAXIMUM_PARTIAL_SUM_COUNT; k++) {
             kTerm2 = k * k;
-            increment = PI_SQUARED * kTerm2 * FastMath.exp(-PI_SQUARED * kTerm2 / twoZ2);
+            increment = PI_SQUARED * kTerm2 * AccurateMath.exp(-PI_SQUARED * kTerm2 / twoZ2);
             sum2 += increment;
-            if (FastMath.abs(increment) < PG_SUM_RELATIVE_ERROR * FastMath.abs(sum2)) {
+            if (AccurateMath.abs(increment) < PG_SUM_RELATIVE_ERROR * AccurateMath.abs(sum2)) {
                 break;
             }
         }
@@ -646,9 +646,9 @@ public class KolmogorovSmirnovTest {
             kTerm6 = kTerm4 * kTerm2;
             increment = (pi6 * kTerm6 * (5 - 30 * z2) + pi4 * kTerm4 * (-60 * z2 + 212 * z4) +
                             PI_SQUARED * kTerm2 * (135 * z4 - 96 * z6) - 30 * z6 - 90 * z8) *
-                    FastMath.exp(-PI_SQUARED * kTerm2 / twoZ2);
+                    AccurateMath.exp(-PI_SQUARED * kTerm2 / twoZ2);
             sum += increment;
-            if (FastMath.abs(increment) < PG_SUM_RELATIVE_ERROR * FastMath.abs(sum)) {
+            if (AccurateMath.abs(increment) < PG_SUM_RELATIVE_ERROR * AccurateMath.abs(sum)) {
                 break;
             }
         }
@@ -660,9 +660,9 @@ public class KolmogorovSmirnovTest {
             kTerm2 = k * k;
             kTerm4 = kTerm2 * kTerm2;
             increment = (-pi4 * kTerm4 + 3 * PI_SQUARED * kTerm2 * z2) *
-                    FastMath.exp(-PI_SQUARED * kTerm2 / twoZ2);
+                    AccurateMath.exp(-PI_SQUARED * kTerm2 / twoZ2);
             sum2 += increment;
-            if (FastMath.abs(increment) < PG_SUM_RELATIVE_ERROR * FastMath.abs(sum2)) {
+            if (AccurateMath.abs(increment) < PG_SUM_RELATIVE_ERROR * AccurateMath.abs(sum2)) {
                 break;
             }
         }
@@ -822,7 +822,7 @@ public class KolmogorovSmirnovTest {
          * (2h - 1)^m )/m!" Since 0 <= h < 1, then if h > 1/2 is sufficient to check:
          */
         if (Double.compare(h, 0.5) > 0) {
-            Hdata[m - 1][0] += FastMath.pow(2 * h - 1, m);
+            Hdata[m - 1][0] += AccurateMath.pow(2 * h - 1, m);
         }
 
         /*
@@ -888,7 +888,7 @@ public class KolmogorovSmirnovTest {
         double partialSum = 0.5d;
         double delta = 1;
         while (delta > tolerance && i < maxIterations) {
-            delta = FastMath.exp(x * i * i);
+            delta = AccurateMath.exp(x * i * i);
             partialSum += sign * delta;
             sign *= -1;
             i++;
@@ -915,8 +915,8 @@ public class KolmogorovSmirnovTest {
     private static long calculateIntegralD(double d, int n, int m, boolean strict) {
         final double tol = 1e-12;  // d-values within tol of one another are considered equal
         long nm = n * (long)m;
-        long upperBound = (long)FastMath.ceil((d - tol) * nm);
-        long lowerBound = (long)FastMath.floor((d + tol) * nm);
+        long upperBound = (long)AccurateMath.ceil((d - tol) * nm);
+        long lowerBound = (long)AccurateMath.floor((d + tol) * nm);
         if (strict && lowerBound == upperBound) {
             return upperBound + 1l;
         }
@@ -965,7 +965,7 @@ public class KolmogorovSmirnovTest {
     public double approximateP(double d, int n, int m) {
         final double dm = m;
         final double dn = n;
-        return 1 - ksSum(d * FastMath.sqrt((dm * dn) / (dm + dn)),
+        return 1 - ksSum(d * AccurateMath.sqrt((dm * dn) / (dm + dn)),
                          KS_SUM_CAUCHY_CRITERION, MAXIMUM_PARTIAL_SUM_COUNT);
     }
 
@@ -1040,8 +1040,8 @@ public class KolmogorovSmirnovTest {
                                        final int iterations,
                                        UniformRandomProvider rng) {
         // ensure that nn is always the max of (n, m) to require fewer random numbers
-        final int nn = FastMath.max(n, m);
-        final int mm = FastMath.min(n, m);
+        final int nn = AccurateMath.max(n, m);
+        final int mm = AccurateMath.min(n, m);
         final int sum = nn + mm;
 
         int tail = 0;
@@ -1186,9 +1186,9 @@ public class KolmogorovSmirnovTest {
      */
     private static int c(int i, int j, int m, int n, long cmn, boolean strict) {
         if (strict) {
-            return FastMath.abs(i*(long)n - j*(long)m) <= cmn ? 1 : 0;
+            return AccurateMath.abs(i*(long)n - j*(long)m) <= cmn ? 1 : 0;
         }
-        return FastMath.abs(i*(long)n - j*(long)m) < cmn ? 1 : 0;
+        return AccurateMath.abs(i*(long)n - j*(long)m) < cmn ? 1 : 0;
     }
 
     /**

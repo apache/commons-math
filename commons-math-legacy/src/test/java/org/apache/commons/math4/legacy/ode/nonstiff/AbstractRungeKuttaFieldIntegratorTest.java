@@ -20,8 +20,8 @@ package org.apache.commons.math4.legacy.ode.nonstiff;
 
 import java.lang.reflect.Array;
 
-import org.apache.commons.math4.legacy.Field;
-import org.apache.commons.math4.legacy.RealFieldElement;
+import org.apache.commons.math4.legacy.core.Field;
+import org.apache.commons.math4.legacy.core.RealFieldElement;
 import org.apache.commons.math4.legacy.analysis.differentiation.DerivativeStructure;
 import org.apache.commons.math4.legacy.exception.DimensionMismatchException;
 import org.apache.commons.math4.legacy.exception.MaxCountExceededException;
@@ -44,8 +44,8 @@ import org.apache.commons.math4.legacy.ode.events.FieldEventHandler;
 import org.apache.commons.math4.legacy.ode.sampling.FieldStepHandler;
 import org.apache.commons.math4.legacy.ode.sampling.FieldStepInterpolator;
 import org.apache.commons.math4.legacy.ode.sampling.StepInterpolatorTestUtils;
-import org.apache.commons.math4.legacy.util.FastMath;
-import org.apache.commons.math4.legacy.util.MathArrays;
+import org.apache.commons.math4.legacy.core.jdkmath.AccurateMath;
+import org.apache.commons.math4.legacy.core.MathArrays;
 import org.junit.Assert;
 import org.junit.Test;
 
@@ -108,7 +108,7 @@ public abstract class AbstractRungeKuttaFieldIntegratorTest {
             if (regularArray[i] == 0) {
                 Assert.assertTrue(0.0 == fieldArray[i].getReal());
             } else {
-                Assert.assertEquals(regularArray[i], fieldArray[i].getReal(), FastMath.ulp(regularArray[i]));
+                Assert.assertEquals(regularArray[i], fieldArray[i].getReal(), AccurateMath.ulp(regularArray[i]));
             }
         }
     }
@@ -250,7 +250,7 @@ public abstract class AbstractRungeKuttaFieldIntegratorTest {
             T previousTimeError  = null;
             for (int i = 4; i < 10; ++i) {
 
-                T step = pb.getFinalTime().subtract(pb.getInitialState().getTime()).multiply(FastMath.pow(2.0, -i));
+                T step = pb.getFinalTime().subtract(pb.getInitialState().getTime()).multiply(AccurateMath.pow(2.0, -i));
 
                 RungeKuttaFieldIntegrator<T> integ = createIntegrator(field, step);
                 TestFieldProblemHandler<T> handler = new TestFieldProblemHandler<>(pb, integ);
@@ -497,8 +497,8 @@ public abstract class AbstractRungeKuttaFieldIntegratorTest {
 
             @Override
             public T[] computeDerivatives(T t, T[] y) {
-                Assert.assertTrue(t.getReal() >= FastMath.nextAfter(t0.getReal(), Double.NEGATIVE_INFINITY));
-                Assert.assertTrue(t.getReal() <= FastMath.nextAfter(t.getReal(),   Double.POSITIVE_INFINITY));
+                Assert.assertTrue(t.getReal() >= AccurateMath.nextAfter(t0.getReal(), Double.NEGATIVE_INFINITY));
+                Assert.assertTrue(t.getReal() <= AccurateMath.nextAfter(t.getReal(),   Double.POSITIVE_INFINITY));
                 T[] yDot = MathArrays.buildArray(field, 1);
                 yDot[0] = y[0].multiply(-100.0);
                 return yDot;
@@ -643,7 +643,7 @@ public abstract class AbstractRungeKuttaFieldIntegratorTest {
         public double[] theoreticalY(final double t) {
             final double theta = omega.getReal() * t + alpha.getReal();
             return new double[] {
-                r.getReal() * FastMath.sin(theta), r.getReal() * FastMath.cos(theta)
+                r.getReal() * AccurateMath.sin(theta), r.getReal() * AccurateMath.cos(theta)
             };
         }
 
@@ -651,8 +651,8 @@ public abstract class AbstractRungeKuttaFieldIntegratorTest {
 
             // intermediate angle and state
             final double theta        = omega.getReal() * t + alpha.getReal();
-            final double sin          = FastMath.sin(theta);
-            final double cos          = FastMath.cos(theta);
+            final double sin          = AccurateMath.sin(theta);
+            final double cos          = AccurateMath.cos(theta);
             final double y0           = r.getReal() * sin;
             final double y1           = r.getReal() * cos;
 

@@ -18,10 +18,10 @@ package org.apache.commons.math4.legacy.analysis.function;
 
 import org.apache.commons.math4.legacy.analysis.UnivariateFunction;
 import org.apache.commons.math4.legacy.analysis.differentiation.DerivativeStructure;
-import org.apache.commons.math4.legacy.dfp.Dfp;
-import org.apache.commons.math4.legacy.dfp.DfpField;
-import org.apache.commons.math4.legacy.dfp.DfpMath;
-import org.apache.commons.math4.legacy.util.FastMath;
+import org.apache.commons.math4.legacy.core.dfp.Dfp;
+import org.apache.commons.math4.legacy.core.dfp.DfpField;
+import org.apache.commons.math4.legacy.core.dfp.DfpMath;
+import org.apache.commons.math4.legacy.core.jdkmath.AccurateMath;
 import org.junit.Assert;
 import org.junit.Test;
 
@@ -68,7 +68,7 @@ public class SincTest {
        double prod = 1;
        double xOverPow2 = x / 2;
        while (xOverPow2 > 0) {
-           prod *= FastMath.cos(xOverPow2);
+           prod *= AccurateMath.cos(xOverPow2);
            xOverPow2 /= 2;
        }
        Assert.assertEquals(prod, s.value(x), 1e-13);

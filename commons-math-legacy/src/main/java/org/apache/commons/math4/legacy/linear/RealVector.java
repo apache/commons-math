@@ -32,7 +32,7 @@ import org.apache.commons.math4.legacy.exception.NotPositiveException;
 import org.apache.commons.math4.legacy.exception.NumberIsTooSmallException;
 import org.apache.commons.math4.legacy.exception.OutOfRangeException;
 import org.apache.commons.math4.legacy.exception.util.LocalizedFormats;
-import org.apache.commons.math4.legacy.util.FastMath;
+import org.apache.commons.math4.legacy.core.jdkmath.AccurateMath;
 
 /**
  * Class defining a real-valued vector with basic algebraic operations.
@@ -380,7 +380,7 @@ public abstract class RealVector {
             final double diff = e.getValue() - v.getEntry(e.getIndex());
             d += diff * diff;
         }
-        return FastMath.sqrt(d);
+        return AccurateMath.sqrt(d);
     }
 
     /**
@@ -401,7 +401,7 @@ public abstract class RealVector {
             final double value = e.getValue();
             sum += value * value;
         }
-        return FastMath.sqrt(sum);
+        return AccurateMath.sqrt(sum);
     }
 
     /**
@@ -419,7 +419,7 @@ public abstract class RealVector {
         Iterator<Entry> it = iterator();
         while (it.hasNext()) {
             final Entry e = it.next();
-            norm += FastMath.abs(e.getValue());
+            norm += AccurateMath.abs(e.getValue());
         }
         return norm;
     }
@@ -439,7 +439,7 @@ public abstract class RealVector {
         Iterator<Entry> it = iterator();
         while (it.hasNext()) {
             final Entry e = it.next();
-            norm = FastMath.max(norm, FastMath.abs(e.getValue()));
+            norm = AccurateMath.max(norm, AccurateMath.abs(e.getValue()));
         }
         return norm;
     }
@@ -462,7 +462,7 @@ public abstract class RealVector {
         Iterator<Entry> it = iterator();
         while (it.hasNext()) {
             final Entry e = it.next();
-            d += FastMath.abs(e.getValue() - v.getEntry(e.getIndex()));
+            d += AccurateMath.abs(e.getValue() - v.getEntry(e.getIndex()));
         }
         return d;
     }
@@ -488,7 +488,7 @@ public abstract class RealVector {
         Iterator<Entry> it = iterator();
         while (it.hasNext()) {
             final Entry e = it.next();
-            d = FastMath.max(FastMath.abs(e.getValue() - v.getEntry(e.getIndex())), d);
+            d = AccurateMath.max(AccurateMath.abs(e.getValue() - v.getEntry(e.getIndex())), d);
         }
         return d;
     }

@@ -19,7 +19,7 @@ package org.apache.commons.math4.legacy.analysis.function;
 import org.apache.commons.math4.legacy.analysis.UnivariateFunction;
 import org.apache.commons.math4.legacy.analysis.differentiation.DerivativeStructure;
 import org.apache.commons.math4.legacy.analysis.differentiation.UnivariateDifferentiableFunction;
-import org.apache.commons.math4.legacy.util.FastMath;
+import org.apache.commons.math4.legacy.core.jdkmath.AccurateMath;
 import org.junit.Assert;
 import org.junit.Test;
 
@@ -30,7 +30,7 @@ public class SqrtTest {
        final UnivariateFunction f = new UnivariateFunction() {
            @Override
            public double value(double x) {
-               return FastMath.sqrt(x);
+               return AccurateMath.sqrt(x);
            }
        };
 
@@ -47,14 +47,14 @@ public class SqrtTest {
        final UnivariateFunction f = new UnivariateFunction() {
                @Override
             public double value(double x) {
-                   return 1 / (2 * FastMath.sqrt(x));
+                   return 1 / (2 * AccurateMath.sqrt(x));
                }
            };
 
        for (double x = 1e-30; x < 1e10; x *= 2) {
            final double fX = f.value(x);
            final double sX = sPrime.value(new DerivativeStructure(1, 1, 0, x)).getPartialDerivative(1);
-           Assert.assertEquals("x=" + x, fX, sX, FastMath.ulp(fX));
+           Assert.assertEquals("x=" + x, fX, sX, AccurateMath.ulp(fX));
        }
    }
 

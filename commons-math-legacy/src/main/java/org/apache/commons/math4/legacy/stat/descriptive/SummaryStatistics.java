@@ -30,7 +30,7 @@ import org.apache.commons.math4.legacy.stat.descriptive.rank.Min;
 import org.apache.commons.math4.legacy.stat.descriptive.summary.Sum;
 import org.apache.commons.math4.legacy.stat.descriptive.summary.SumOfLogs;
 import org.apache.commons.math4.legacy.stat.descriptive.summary.SumOfSquares;
-import org.apache.commons.math4.legacy.util.FastMath;
+import org.apache.commons.math4.legacy.core.jdkmath.AccurateMath;
 import org.apache.commons.numbers.core.Precision;
 
 /**
@@ -219,7 +219,7 @@ public class SummaryStatistics implements StatisticalSummary, Serializable {
         double stdDev = Double.NaN;
         if (getN() > 0) {
             if (getN() > 1) {
-                stdDev = FastMath.sqrt(getVariance());
+                stdDev = AccurateMath.sqrt(getVariance());
             } else {
                 stdDev = 0.0;
             }
@@ -236,7 +236,7 @@ public class SummaryStatistics implements StatisticalSummary, Serializable {
      */
     public double getQuadraticMean() {
         final long size = getN();
-        return size > 0 ? FastMath.sqrt(getSumsq() / size) : Double.NaN;
+        return size > 0 ? AccurateMath.sqrt(getSumsq() / size) : Double.NaN;
     }
 
     /**

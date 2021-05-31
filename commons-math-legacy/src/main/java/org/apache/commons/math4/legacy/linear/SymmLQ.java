@@ -20,7 +20,7 @@ import org.apache.commons.math4.legacy.exception.DimensionMismatchException;
 import org.apache.commons.math4.legacy.exception.MaxCountExceededException;
 import org.apache.commons.math4.legacy.exception.NullArgumentException;
 import org.apache.commons.math4.legacy.exception.util.ExceptionContext;
-import org.apache.commons.math4.legacy.util.FastMath;
+import org.apache.commons.math4.legacy.core.jdkmath.AccurateMath;
 import org.apache.commons.math4.legacy.util.IntegerSequence;
 
 /**
@@ -361,8 +361,8 @@ public class SymmLQ
         private boolean bIsNull;
 
         static {
-            MACH_PREC = FastMath.ulp(1.);
-            CBRT_MACH_PREC = FastMath.cbrt(MACH_PREC);
+            MACH_PREC = AccurateMath.ulp(1.);
+            CBRT_MACH_PREC = AccurateMath.cbrt(MACH_PREC);
         }
 
         /**
@@ -417,7 +417,7 @@ public class SymmLQ
             final double s = y.dotProduct(y);
             final double t = x.dotProduct(z);
             final double epsa = (s + MACH_PREC) * CBRT_MACH_PREC;
-            if (FastMath.abs(s - t) > epsa) {
+            if (AccurateMath.abs(s - t) > epsa) {
                 final NonSelfAdjointOperatorException e;
                 e = new NonSelfAdjointOperatorException();
                 final ExceptionContext context = e.getContext();
@@ -512,11 +512,11 @@ public class SymmLQ
                     }
                 }
             } else {
-                final double anorm = FastMath.sqrt(tnorm);
+                final double anorm = AccurateMath.sqrt(tnorm);
                 final double diag = gbar == 0. ? anorm * MACH_PREC : gbar;
                 final double zbar = gammaZeta / diag;
                 final double step = (bstep + snprod * zbar) / beta1;
-                // ynorm = FastMath.sqrt(ynorm2 + zbar * zbar);
+                // ynorm = AccurateMath.sqrt(ynorm2 + zbar * zbar);
                 if (!goodb) {
                     for (int i = 0; i < n; i++) {
                         final double xi = this.xL.getEntry(i);
@@ -561,7 +561,7 @@ public class SymmLQ
                 return;
             }
             this.bIsNull = false;
-            this.beta1 = FastMath.sqrt(this.beta1);
+            this.beta1 = AccurateMath.sqrt(this.beta1);
             /* At this point
              *   r1 = b,
              *   y = M * b,
@@ -597,7 +597,7 @@ public class SymmLQ
             if (this.beta < 0.) {
                 throwNPDLOException(this.m, this.y);
             }
-            this.beta = FastMath.sqrt(this.beta);
+            this.beta = AccurateMath.sqrt(this.beta);
             /*
              * At this point
              *   oldb = beta[1]
@@ -614,7 +614,7 @@ public class SymmLQ
             this.snprod = 1.;
             this.tnorm = alpha * alpha + this.beta * this.beta;
             this.ynorm2 = 0.;
-            this.gmax = FastMath.abs(alpha) + MACH_PREC;
+            this.gmax = AccurateMath.abs(alpha) + MACH_PREC;
             this.gmin = this.gmax;
 
             if (this.goodb) {
@@ -671,7 +671,7 @@ public class SymmLQ
             if (beta < 0.) {
                 throwNPDLOException(m, y);
             }
-            beta = FastMath.sqrt(beta);
+            beta = AccurateMath.sqrt(beta);
             /*
              * At this point
              *   r1 = beta[k] * M^(-1) * P' * v[k],
@@ -688,7 +688,7 @@ public class SymmLQ
              *   c     = c[k-1],
              *   s     = s[k-1].
              */
-            final double gamma = FastMath.sqrt(gbar * gbar + oldb * oldb);
+            final double gamma = AccurateMath.sqrt(gbar * gbar + oldb * oldb);
             final double c = gbar / gamma;
             final double s = oldb / gamma;
             /*
@@ -731,8 +731,8 @@ public class SymmLQ
              */
             bstep += snprod * c * zeta;
             snprod *= s;
-            gmax = FastMath.max(gmax, gamma);
-            gmin = FastMath.min(gmin, gamma);
+            gmax = AccurateMath.max(gmax, gamma);
+            gmin = AccurateMath.min(gmin, gamma);
             ynorm2 += zeta * zeta;
             gammaZeta = minusEpsZeta - deltak * zeta;
             minusEpsZeta = -eps * zeta;
@@ -756,16 +756,16 @@ public class SymmLQ
          * Updates {@link #lqnorm} and {@link #cgnorm}.
          */
         private void updateNorms() {
-            final double anorm = FastMath.sqrt(tnorm);
-            final double ynorm = FastMath.sqrt(ynorm2);
+            final double anorm = AccurateMath.sqrt(tnorm);
+            final double ynorm = AccurateMath.sqrt(ynorm2);
             final double epsa = anorm * MACH_PREC;
             final double epsx = anorm * ynorm * MACH_PREC;
             final double epsr = anorm * ynorm * delta;
             final double diag = gbar == 0. ? epsa : gbar;
-            lqnorm = FastMath.sqrt(gammaZeta * gammaZeta +
+            lqnorm = AccurateMath.sqrt(gammaZeta * gammaZeta +
                                    minusEpsZeta * minusEpsZeta);
             final double qrnorm = snprod * beta1;
-            cgnorm = qrnorm * beta / FastMath.abs(diag);
+            cgnorm = qrnorm * beta / AccurateMath.abs(diag);
 
             /*
              * Estimate cond(A). In this version we look at the diagonals of L
@@ -777,7 +777,7 @@ public class SymmLQ
             if (lqnorm <= cgnorm) {
                 acond = gmax / gmin;
             } else {
-                acond = gmax / FastMath.min(gmin, FastMath.abs(diag));
+                acond = gmax / AccurateMath.min(gmin, AccurateMath.abs(diag));
             }
             if (acond * MACH_PREC >= 0.1) {
                 throw new IllConditionedOperatorException(acond);
@@ -789,7 +789,7 @@ public class SymmLQ
                  */
                 throw new SingularOperatorException();
             }
-            rnorm = FastMath.min(cgnorm, lqnorm);
+            rnorm = AccurateMath.min(cgnorm, lqnorm);
             hasConverged = (cgnorm <= epsx) || (cgnorm <= epsr);
         }
 

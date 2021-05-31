@@ -18,7 +18,7 @@
 package org.apache.commons.math4.legacy.analysis.function;
 
 import org.apache.commons.math4.legacy.analysis.BivariateFunction;
-import org.apache.commons.math4.legacy.util.FastMath;
+import org.apache.commons.math4.legacy.core.jdkmath.AccurateMath;
 
 /**
  * Maximum function.
@@ -29,6 +29,6 @@ public class Max implements BivariateFunction {
     /** {@inheritDoc} */
     @Override
     public double value(double x, double y) {
-        return FastMath.max(x, y);
+        return AccurateMath.max(x, y);
     }
 }

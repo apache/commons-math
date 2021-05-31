@@ -17,7 +17,7 @@
 package org.apache.commons.math4.legacy.analysis.integration;
 
 import org.apache.commons.math4.legacy.exception.NumberIsTooLargeException;
-import org.apache.commons.math4.legacy.util.FastMath;
+import org.apache.commons.math4.legacy.core.jdkmath.AccurateMath;
 
 /**
  * Implements the <a href="https://en.wikipedia.org/wiki/Riemann_sum#Midpoint_rule">
@@ -113,7 +113,7 @@ public class MidPointIntegrator extends BaseAbstractUnivariateIntegrator {
                          double diffMaxMin) {
         // number of points in the previous stage. This stage will contribute
         // 2*3^{n-1} more points.
-        final long np = (long) FastMath.pow(3, n - 1);
+        final long np = (long) AccurateMath.pow(3, n - 1);
         double sum = 0;
 
         // spacing between adjacent new points
@@ -151,9 +151,9 @@ public class MidPointIntegrator extends BaseAbstractUnivariateIntegrator {
             final int i = iterations.getCount();
             final double t = stage(i, oldt, min, diff);
             if (i >= getMinimalIterationCount()) {
-                final double delta = FastMath.abs(t - oldt);
+                final double delta = AccurateMath.abs(t - oldt);
                 final double rLimit =
-                        getRelativeAccuracy() * (FastMath.abs(oldt) + FastMath.abs(t)) * 0.5;
+                        getRelativeAccuracy() * (AccurateMath.abs(oldt) + AccurateMath.abs(t)) * 0.5;
                 if ((delta <= rLimit) || (delta <= getAbsoluteAccuracy())) {
                     return t;
                 }

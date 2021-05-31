@@ -21,7 +21,7 @@ import java.util.Random;
 import org.apache.commons.rng.UniformRandomProvider;
 import org.apache.commons.rng.simple.RandomSource;
 import org.apache.commons.math4.legacy.analysis.MultivariateFunction;
-import org.apache.commons.math4.legacy.util.FastMath;
+import org.apache.commons.math4.legacy.core.jdkmath.AccurateMath;
 
 /**
  * Utilities for testing the optimizers.
@@ -143,7 +143,7 @@ class OptimTestUtils {
             double f = 0;
             x = B.Rotate(x);
             for (int i = 0; i < x.length; ++i) {
-                f += FastMath.pow(factor, i / (x.length - 1.)) * x[i] * x[i];
+                f += AccurateMath.pow(factor, i / (x.length - 1.)) * x[i] * x[i];
             }
             return f;
         }
@@ -165,7 +165,7 @@ class OptimTestUtils {
         public double value(double[] x) {
             double f = 0;
             for (int i = 0; i < x.length; ++i) {
-                f += FastMath.pow(factor, i / (x.length - 1.)) * x[i] * x[i];
+                f += AccurateMath.pow(factor, i / (x.length - 1.)) * x[i] * x[i];
             }
             return f;
         }
@@ -184,7 +184,7 @@ class OptimTestUtils {
         public double value(double[] x) {
             double f = 0;
             for (int i = 0; i < x.length; ++i) {
-                f += FastMath.pow(FastMath.abs(x[i]), 2. + 10 * (double) i
+                f += AccurateMath.pow(AccurateMath.abs(x[i]), 2. + 10 * (double) i
                         / (x.length - 1.));
             }
             return f;
@@ -194,7 +194,7 @@ class OptimTestUtils {
     static class SsDiffPow implements MultivariateFunction { 
         @Override
         public double value(double[] x) {
-            double f = FastMath.pow(new DiffPow().value(x), 0.25);
+            double f = AccurateMath.pow(new DiffPow().value(x), 0.25);
             return f;
         }
     }
@@ -229,12 +229,12 @@ class OptimTestUtils {
             double res2 = 0;
             double fac = 0;
             for (int i = 0; i < x.length; ++i) {
-                fac = FastMath.pow(axisratio, (i - 1.) / (x.length - 1.));
+                fac = AccurateMath.pow(axisratio, (i - 1.) / (x.length - 1.));
                 f += fac * fac * x[i] * x[i];
-                res2 += FastMath.cos(2. * FastMath.PI * fac * x[i]);
+                res2 += AccurateMath.cos(2. * AccurateMath.PI * fac * x[i]);
             }
-            f = (20. - 20. * FastMath.exp(-0.2 * FastMath.sqrt(f / x.length))
-                 + FastMath.exp(1.) - FastMath.exp(res2 / x.length));
+            f = (20. - 20. * AccurateMath.exp(-0.2 * AccurateMath.sqrt(f / x.length))
+                 + AccurateMath.exp(1.) - AccurateMath.exp(res2 / x.length));
             return f;
         }
     }
@@ -257,12 +257,12 @@ class OptimTestUtils {
             double f = 0;
             double fac;
             for (int i = 0; i < x.length; ++i) {
-                fac = FastMath.pow(axisratio, (i - 1.) / (x.length - 1.));
+                fac = AccurateMath.pow(axisratio, (i - 1.) / (x.length - 1.));
                 if (i == 0 && x[i] < 0) {
                     fac *= 1.;
                 }
                 f += fac * fac * x[i] * x[i] + amplitude
-                    * (1. - FastMath.cos(2. * FastMath.PI * fac * x[i]));
+                    * (1. - AccurateMath.cos(2. * AccurateMath.PI * fac * x[i]));
             }
             return f;
         }
@@ -284,7 +284,7 @@ class OptimTestUtils {
             final double x = variables[0];
             final double y = variables[1];
             return (x == 0 || y == 0) ? 0 :
-                FastMath.atan(x) * FastMath.atan(x + 2) * FastMath.atan(y) * FastMath.atan(y) / (x * y);
+                AccurateMath.atan(x) * AccurateMath.atan(x + 2) * AccurateMath.atan(y) * AccurateMath.atan(y) / (x * y);
         }
     }
 
@@ -329,7 +329,7 @@ class OptimTestUtils {
         public double value(double[] point) {
             final double x = point[0], y = point[1];
             final double twoS2 = 2.0 * std * std;
-            return 1.0 / (twoS2 * FastMath.PI) * FastMath.exp(-(x * x + y * y) / twoS2);
+            return 1.0 / (twoS2 * AccurateMath.PI) * AccurateMath.exp(-(x * x + y * y) / twoS2);
         }
     }
 
@@ -389,7 +389,7 @@ class OptimTestUtils {
                     sp += basis[i][k] * basis[i][k]; /* squared norm */
                 }
                 for (k = 0; k < DIM; ++k) {
-                    basis[i][k] /= FastMath.sqrt(sp);
+                    basis[i][k] /= AccurateMath.sqrt(sp);
                 }
             }
         }

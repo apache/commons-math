@@ -27,7 +27,7 @@ import org.apache.commons.math4.legacy.exception.NotANumberException;
 import org.apache.commons.rng.UniformRandomProvider;
 import org.apache.commons.rng.simple.RandomSource;
 import org.apache.commons.math4.legacy.random.RandomUtils;
-import org.apache.commons.math4.legacy.util.FastMath;
+import org.apache.commons.math4.legacy.core.jdkmath.AccurateMath;
 
 
 /**
@@ -353,7 +353,7 @@ public class NaturalRanking implements RankingAlgorithm {
                 break;
             case RANDOM:    // Fill with random integral values in [c, c + length - 1]
                 Iterator<Integer> iterator = tiesTrace.iterator();
-                long f = FastMath.round(c);
+                long f = AccurateMath.round(c);
                 while (iterator.hasNext()) {
                     // No advertised exception because args are guaranteed valid
                     ranks[iterator.next()] =
@@ -363,7 +363,7 @@ public class NaturalRanking implements RankingAlgorithm {
             case SEQUENTIAL:  // Fill sequentially from c to c + length - 1
                 // walk and fill
                 iterator = tiesTrace.iterator();
-                f = FastMath.round(c);
+                f = AccurateMath.round(c);
                 int i = 0;
                 while (iterator.hasNext()) {
                     ranks[iterator.next()] = f + i++;

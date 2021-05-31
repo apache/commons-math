@@ -17,7 +17,7 @@
 package org.apache.commons.math4.legacy.analysis.interpolation;
 
 import org.apache.commons.math4.legacy.analysis.MultivariateFunction;
-import org.apache.commons.math4.legacy.util.FastMath;
+import org.apache.commons.math4.legacy.core.jdkmath.AccurateMath;
 import org.junit.Assert;
 import org.junit.Test;
 
@@ -102,8 +102,8 @@ public final class MicrosphereProjectionInterpolatorTest {
         expected = f.value(c);
         result = p.value(c);
         result2D = p2D.value(c);
-        Assert.assertEquals("on sample point (exact)", expected, result2D, FastMath.ulp(1d));
-        Assert.assertEquals("on sample point (ND vs 2D)", result2D, result, FastMath.ulp(1d));
+        Assert.assertEquals("on sample point (exact)", expected, result2D, AccurateMath.ulp(1d));
+        Assert.assertEquals("on sample point (ND vs 2D)", result2D, result, AccurateMath.ulp(1d));
 
         // Interpolation.
         c[0] = 0.654321;

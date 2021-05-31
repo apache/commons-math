@@ -20,7 +20,7 @@ import java.util.ArrayList;
 
 import org.apache.commons.math4.legacy.analysis.MultivariateMatrixFunction;
 import org.apache.commons.math4.legacy.analysis.MultivariateVectorFunction;
-import org.apache.commons.math4.legacy.util.FastMath;
+import org.apache.commons.math4.legacy.core.jdkmath.AccurateMath;
 import org.apache.commons.numbers.angle.PlaneAngleRadians;
 
 /**
@@ -125,8 +125,8 @@ class CircleProblem {
                     // current point (using a resolution of 100 points along the
                     // circumference).
                     for (double theta = 0; theta <= PlaneAngleRadians.TWO_PI; theta += deltaTheta) {
-                        final double currentX = cx + r * FastMath.cos(theta);
-                        final double currentY = cy + r * FastMath.sin(theta);
+                        final double currentX = cx + r * AccurateMath.cos(theta);
+                        final double currentY = cy + r * AccurateMath.sin(theta);
                         final double dX = currentX - px;
                         final double dY = currentY - py;
                         final double d = dX * dX + dY * dY;

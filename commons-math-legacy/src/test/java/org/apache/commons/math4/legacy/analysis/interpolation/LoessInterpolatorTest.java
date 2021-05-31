@@ -22,7 +22,7 @@ import org.apache.commons.math4.legacy.exception.NonMonotonicSequenceException;
 import org.apache.commons.math4.legacy.exception.NotFiniteNumberException;
 import org.apache.commons.math4.legacy.exception.NumberIsTooSmallException;
 import org.apache.commons.math4.legacy.exception.OutOfRangeException;
-import org.apache.commons.math4.legacy.util.FastMath;
+import org.apache.commons.math4.legacy.core.jdkmath.AccurateMath;
 import org.junit.Assert;
 import org.junit.Test;
 
@@ -83,12 +83,12 @@ public class LoessInterpolatorTest {
         double fitResidualSum = 0;
 
         for(int i = 0; i < numPoints; ++i) {
-            double expected = FastMath.sin(xval[i]);
+            double expected = AccurateMath.sin(xval[i]);
             double noisy = yval[i];
             double fit = res[i];
 
-            noisyResidualSum += FastMath.pow(noisy - expected, 2);
-            fitResidualSum += FastMath.pow(fit - expected, 2);
+            noisyResidualSum += AccurateMath.pow(noisy - expected, 2);
+            fitResidualSum += AccurateMath.pow(fit - expected, 2);
         }
 
         Assert.assertTrue(fitResidualSum < noisyResidualSum);
@@ -116,7 +116,7 @@ public class LoessInterpolatorTest {
             double[] res = li.smooth(xval, yval);
 
             for (int j = 1; j < res.length; ++j) {
-                variances[i] += FastMath.pow(res[j] - res[j-1], 2);
+                variances[i] += AccurateMath.pow(res[j] - res[j-1], 2);
             }
         }
 
@@ -149,7 +149,7 @@ public class LoessInterpolatorTest {
             double[] res = li.smooth(xval, yval);
 
             for (int j = 1; j < res.length; ++j) {
-                variances[i] += FastMath.abs(res[j] - res[j-1]);
+                variances[i] += AccurateMath.abs(res[j] - res[j-1]);
             }
         }
 
@@ -248,12 +248,12 @@ public class LoessInterpolatorTest {
     }
 
     private void generateSineData(double[] xval, double[] yval, double xnoise, double ynoise) {
-        double dx = 2 * FastMath.PI / xval.length;
+        double dx = 2 * AccurateMath.PI / xval.length;
         double x = 0;
         for(int i = 0; i < xval.length; ++i) {
             xval[i] = x;
-            yval[i] = FastMath.sin(x) + (2 * FastMath.random() - 1) * ynoise;
-            x += dx * (1 + (2 * FastMath.random() - 1) * xnoise);
+            yval[i] = AccurateMath.sin(x) + (2 * AccurateMath.random() - 1) * ynoise;
+            x += dx * (1 + (2 * AccurateMath.random() - 1) * xnoise);
         }
     }
 }

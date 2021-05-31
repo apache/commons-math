@@ -26,12 +26,13 @@ import java.text.DecimalFormat;
 import org.apache.commons.numbers.complex.Complex;
 import org.apache.commons.numbers.core.Precision;
 import org.apache.commons.statistics.distribution.ContinuousDistribution;
+import org.apache.commons.math4.legacy.core.FieldElement;
 import org.apache.commons.math4.legacy.complex.ComplexFormat;
 import org.apache.commons.math4.legacy.linear.FieldMatrix;
 import org.apache.commons.math4.legacy.linear.RealMatrix;
 import org.apache.commons.math4.legacy.linear.RealVector;
 import org.apache.commons.math4.legacy.stat.inference.ChiSquareTest;
-import org.apache.commons.math4.legacy.util.FastMath;
+import org.apache.commons.math4.legacy.core.jdkmath.AccurateMath;
 import org.junit.Assert;
 
 /**
@@ -169,7 +170,7 @@ public class TestUtils {
         } else if (expected == 0.0) {
             Assert.assertEquals(msg, actual, expected, relativeError);
         } else {
-            double absError = FastMath.abs(expected) * relativeError;
+            double absError = AccurateMath.abs(expected) * relativeError;
             Assert.assertEquals(msg, expected, actual, absError);
         }
     }

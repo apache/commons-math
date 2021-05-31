@@ -17,7 +17,7 @@
 
 package org.apache.commons.math4.legacy.ode.events;
 
-import org.apache.commons.math4.legacy.RealFieldElement;
+import org.apache.commons.math4.legacy.core.RealFieldElement;
 import org.apache.commons.math4.legacy.ode.FieldODEState;
 import org.apache.commons.math4.legacy.ode.FieldODEStateAndDerivative;
 

@@ -19,14 +19,14 @@ package org.apache.commons.math4.legacy.analysis.interpolation;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.apache.commons.math4.legacy.FieldElement;
+import org.apache.commons.math4.legacy.core.FieldElement;
 import org.apache.commons.math4.legacy.exception.DimensionMismatchException;
 import org.apache.commons.math4.legacy.exception.MathArithmeticException;
 import org.apache.commons.math4.legacy.exception.NoDataException;
 import org.apache.commons.math4.legacy.exception.NullArgumentException;
 import org.apache.commons.math4.legacy.exception.ZeroException;
 import org.apache.commons.math4.legacy.exception.util.LocalizedFormats;
-import org.apache.commons.math4.legacy.util.MathArrays;
+import org.apache.commons.math4.legacy.core.MathArrays;
 
 /** Polynomial interpolator using both sample values and sample derivatives.
  * <p>

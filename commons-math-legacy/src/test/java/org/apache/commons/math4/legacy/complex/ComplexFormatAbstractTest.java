@@ -29,7 +29,7 @@ import org.apache.commons.numbers.complex.Complex;
 import org.apache.commons.math4.legacy.exception.MathIllegalArgumentException;
 import org.apache.commons.math4.legacy.exception.NoDataException;
 import org.apache.commons.math4.legacy.exception.NullArgumentException;
-import org.apache.commons.math4.legacy.util.FastMath;
+import org.apache.commons.math4.legacy.core.jdkmath.AccurateMath;
 
 public abstract class ComplexFormatAbstractTest {
 
@@ -402,7 +402,7 @@ public abstract class ComplexFormatAbstractTest {
     @Test
     public void testFormatNumber() {
         ComplexFormat cf = ComplexFormat.getInstance(getLocale());
-        Double pi = Double.valueOf(FastMath.PI);
+        Double pi = Double.valueOf(AccurateMath.PI);
         String text = cf.format(pi);
         Assert.assertEquals("3" + getDecimalCharacter() + "1415926536", text);
     }

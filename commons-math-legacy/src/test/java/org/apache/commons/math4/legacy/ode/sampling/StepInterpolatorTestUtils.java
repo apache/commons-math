@@ -17,7 +17,7 @@
 package org.apache.commons.math4.legacy.ode.sampling;
 
 
-import org.apache.commons.math4.legacy.RealFieldElement;
+import org.apache.commons.math4.legacy.core.RealFieldElement;
 import org.apache.commons.math4.legacy.exception.DimensionMismatchException;
 import org.apache.commons.math4.legacy.exception.MaxCountExceededException;
 import org.apache.commons.math4.legacy.exception.NoBracketingException;
@@ -28,7 +28,7 @@ import org.apache.commons.math4.legacy.ode.FieldODEStateAndDerivative;
 import org.apache.commons.math4.legacy.ode.FirstOrderIntegrator;
 import org.apache.commons.math4.legacy.ode.TestFieldProblemAbstract;
 import org.apache.commons.math4.legacy.ode.TestProblemAbstract;
-import org.apache.commons.math4.legacy.util.FastMath;
+import org.apache.commons.math4.legacy.core.jdkmath.AccurateMath;
 import org.junit.Assert;
 
 public class StepInterpolatorTestUtils {
@@ -49,7 +49,7 @@ public class StepInterpolatorTestUtils {
                 final double h  = finiteDifferencesRatio * dt;
                 final double t  = interpolator.getCurrentTime() - 0.3 * dt;
 
-                if (FastMath.abs(h) < 10 * FastMath.ulp(t)) {
+                if (AccurateMath.abs(h) < 10 * AccurateMath.ulp(t)) {
                     return;
                 }
 
@@ -107,7 +107,7 @@ public class StepInterpolatorTestUtils {
                 final T h = interpolator.getCurrentState().getTime().subtract(interpolator.getPreviousState().getTime()).multiply(0.001);
                 final T t = interpolator.getCurrentState().getTime().subtract(h.multiply(300));
 
-                if (h.abs().subtract(FastMath.ulp(t.getReal()) * 10).getReal() < 0) {
+                if (h.abs().subtract(AccurateMath.ulp(t.getReal()) * 10).getReal() < 0) {
                     return;
                 }
 

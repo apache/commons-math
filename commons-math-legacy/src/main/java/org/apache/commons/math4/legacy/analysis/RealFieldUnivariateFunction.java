@@ -16,7 +16,7 @@
  */
 package org.apache.commons.math4.legacy.analysis;
 
-import org.apache.commons.math4.legacy.RealFieldElement;
+import org.apache.commons.math4.legacy.core.RealFieldElement;
 
 /**
  * An interface representing a univariate real function.

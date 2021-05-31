@@ -20,14 +20,14 @@ import java.util.Arrays;
 import java.io.Serializable;
 
 import org.apache.commons.numbers.arrays.LinearCombination;
-import org.apache.commons.math4.legacy.Field;
-import org.apache.commons.math4.legacy.FieldElement;
-import org.apache.commons.math4.legacy.RealFieldElement;
+import org.apache.commons.math4.legacy.core.Field;
+import org.apache.commons.math4.legacy.core.FieldElement;
+import org.apache.commons.math4.legacy.core.RealFieldElement;
 import org.apache.commons.math4.legacy.exception.DimensionMismatchException;
 import org.apache.commons.math4.legacy.exception.MathArithmeticException;
 import org.apache.commons.math4.legacy.exception.NumberIsTooLargeException;
-import org.apache.commons.math4.legacy.util.FastMath;
-import org.apache.commons.math4.legacy.util.MathArrays;
+import org.apache.commons.math4.legacy.core.jdkmath.AccurateMath;
+import org.apache.commons.math4.legacy.core.MathArrays;
 
 /** Class representing both the value and the differentials of a function.
  * <p>This class is the workhorse of the differentiation package.</p>
@@ -389,7 +389,7 @@ public class DerivativeStructure implements RealFieldElement<DerivativeStructure
     @Override
     public DerivativeStructure remainder(final double a) {
         final DerivativeStructure ds = new DerivativeStructure(this);
-        ds.data[0] = FastMath.IEEEremainder(ds.data[0], a);
+        ds.data[0] = AccurateMath.IEEEremainder(ds.data[0], a);
         return ds;
     }
 
@@ -437,7 +437,7 @@ public class DerivativeStructure implements RealFieldElement<DerivativeStructure
     public DerivativeStructure ceil() {
         return new DerivativeStructure(compiler.getFreeParameters(),
                                        compiler.getOrder(),
-                                       FastMath.ceil(data[0]));
+                                       AccurateMath.ceil(data[0]));
     }
 
     /** {@inheritDoc}
@@ -447,7 +447,7 @@ public class DerivativeStructure implements RealFieldElement<DerivativeStructure
     public DerivativeStructure floor() {
         return new DerivativeStructure(compiler.getFreeParameters(),
                                        compiler.getOrder(),
-                                       FastMath.floor(data[0]));
+                                       AccurateMath.floor(data[0]));
     }
 
     /** {@inheritDoc}
@@ -457,13 +457,13 @@ public class DerivativeStructure implements RealFieldElement<DerivativeStructure
     public DerivativeStructure rint() {
         return new DerivativeStructure(compiler.getFreeParameters(),
                                        compiler.getOrder(),
-                                       FastMath.rint(data[0]));
+                                       AccurateMath.rint(data[0]));
     }
 
     /** {@inheritDoc} */
     @Override
     public long round() {
-        return FastMath.round(data[0]);
+        return AccurateMath.round(data[0]);
     }
 
     /** {@inheritDoc}
@@ -473,7 +473,7 @@ public class DerivativeStructure implements RealFieldElement<DerivativeStructure
     public DerivativeStructure signum() {
         return new DerivativeStructure(compiler.getFreeParameters(),
                                        compiler.getOrder(),
-                                       FastMath.signum(data[0]));
+                                       AccurateMath.signum(data[0]));
     }
 
     /** {@inheritDoc}
@@ -511,7 +511,7 @@ public class DerivativeStructure implements RealFieldElement<DerivativeStructure
      * @return exponent for instance in IEEE754 representation, without bias
      */
     public int getExponent() {
-        return FastMath.getExponent(data[0]);
+        return AccurateMath.getExponent(data[0]);
     }
 
     /** {@inheritDoc}
@@ -521,7 +521,7 @@ public class DerivativeStructure implements RealFieldElement<DerivativeStructure
     public DerivativeStructure scalb(final int n) {
         final DerivativeStructure ds = new DerivativeStructure(compiler);
         for (int i = 0; i < ds.data.length; ++i) {
-            ds.data[i] = FastMath.scalb(data[i], n);
+            ds.data[i] = AccurateMath.scalb(data[i], n);
         }
         return ds;
     }
@@ -923,7 +923,7 @@ public class DerivativeStructure implements RealFieldElement<DerivativeStructure
     public DerivativeStructure toDegrees() {
         final DerivativeStructure ds = new DerivativeStructure(compiler);
         for (int i = 0; i < ds.data.length; ++i) {
-            ds.data[i] = FastMath.toDegrees(data[i]);
+            ds.data[i] = AccurateMath.toDegrees(data[i]);
         }
         return ds;
     }
@@ -934,7 +934,7 @@ public class DerivativeStructure implements RealFieldElement<DerivativeStructure
     public DerivativeStructure toRadians() {
         final DerivativeStructure ds = new DerivativeStructure(compiler);
         for (int i = 0; i < ds.data.length; ++i) {
-            ds.data[i] = FastMath.toRadians(data[i]);
+            ds.data[i] = AccurateMath.toRadians(data[i]);
         }
         return ds;
     }

@@ -25,8 +25,8 @@ import org.apache.commons.math4.legacy.exception.NullArgumentException;
 import org.apache.commons.math4.legacy.exception.OutOfRangeException;
 import org.apache.commons.math4.legacy.exception.ZeroException;
 import org.apache.commons.math4.legacy.exception.util.LocalizedFormats;
-import org.apache.commons.math4.legacy.util.FastMath;
-import org.apache.commons.math4.legacy.util.MathArrays;
+import org.apache.commons.math4.legacy.core.jdkmath.AccurateMath;
+import org.apache.commons.math4.legacy.core.MathArrays;
 
 /**
  * Implements Chi-Square test statistics.
@@ -98,7 +98,7 @@ public class ChiSquareTest {
         }
         double ratio = 1.0d;
         boolean rescale = false;
-        if (FastMath.abs(sumExpected - sumObserved) > 10E-6) {
+        if (AccurateMath.abs(sumExpected - sumObserved) > 10E-6) {
             ratio = sumObserved / sumExpected;
             rescale = true;
         }
@@ -438,7 +438,7 @@ public class ChiSquareTest {
         // Compare and compute weight only if different
         unequalCounts = countSum1 != countSum2;
         if (unequalCounts) {
-            weight = FastMath.sqrt((double) countSum1 / (double) countSum2);
+            weight = AccurateMath.sqrt((double) countSum1 / (double) countSum2);
         }
         // Compute ChiSquare statistic
         double sumSq = 0.0d;

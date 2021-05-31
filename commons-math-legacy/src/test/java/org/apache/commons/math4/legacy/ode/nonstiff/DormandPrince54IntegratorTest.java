@@ -31,7 +31,7 @@ import org.apache.commons.math4.legacy.ode.TestProblemHandler;
 import org.apache.commons.math4.legacy.ode.events.EventHandler;
 import org.apache.commons.math4.legacy.ode.sampling.StepHandler;
 import org.apache.commons.math4.legacy.ode.sampling.StepInterpolator;
-import org.apache.commons.math4.legacy.util.FastMath;
+import org.apache.commons.math4.legacy.core.jdkmath.AccurateMath;
 import org.junit.Assert;
 import org.junit.Test;
 
@@ -80,7 +80,7 @@ public class DormandPrince54IntegratorTest {
 
     TestProblemAbstract pb = new TestProblem5();
     double minStep = 1.25;
-    double maxStep = FastMath.abs(pb.getFinalTime() - pb.getInitialTime());
+    double maxStep = AccurateMath.abs(pb.getFinalTime() - pb.getInitialTime());
     double scalAbsoluteTolerance = 6.0e-4;
     double scalRelativeTolerance = 6.0e-4;
 
@@ -141,7 +141,7 @@ public class DormandPrince54IntegratorTest {
       if (isLast) {
         lastSeen = true;
         double h = interpolator.getCurrentTime() - interpolator.getPreviousTime();
-        Assert.assertTrue(FastMath.abs(h) < minStep);
+        Assert.assertTrue(AccurateMath.abs(h) < minStep);
       }
     }
 
@@ -164,7 +164,7 @@ public class DormandPrince54IntegratorTest {
       TestProblem1 pb = new TestProblem1();
       double minStep = 0;
       double maxStep = pb.getFinalTime() - pb.getInitialTime();
-      double scalAbsoluteTolerance = FastMath.pow(10.0, i);
+      double scalAbsoluteTolerance = AccurateMath.pow(10.0, i);
       double scalRelativeTolerance = 0.01 * scalAbsoluteTolerance;
 
       EmbeddedRungeKuttaIntegrator integ =
@@ -332,10 +332,10 @@ public class DormandPrince54IntegratorTest {
     public void handleStep(StepInterpolator interpolator,
                            boolean isLast) {
 
-      double step = FastMath.abs(interpolator.getCurrentTime()
+      double step = AccurateMath.abs(interpolator.getCurrentTime()
                              - interpolator.getPreviousTime());
       if (firstTime) {
-        minStep   = FastMath.abs(step);
+        minStep   = AccurateMath.abs(step);
         maxStep   = minStep;
         firstTime = false;
       } else {

@@ -39,7 +39,7 @@ import org.apache.commons.math4.legacy.analysis.function.Sinc;
 import org.apache.commons.math4.legacy.exception.DimensionMismatchException;
 import org.apache.commons.math4.legacy.exception.NotStrictlyPositiveException;
 import org.apache.commons.math4.legacy.exception.NumberIsTooLargeException;
-import org.apache.commons.math4.legacy.util.FastMath;
+import org.apache.commons.math4.legacy.core.jdkmath.AccurateMath;
 import org.junit.Assert;
 import org.junit.Test;
 
@@ -47,7 +47,7 @@ import org.junit.Test;
  * Test for {@link FunctionUtils}.
  */
 public class FunctionUtilsTest {
-    private final double EPS = FastMath.ulp(1d);
+    private final double EPS = AccurateMath.ulp(1d);
 
     @Test
     public void testCompose() {
@@ -114,7 +114,7 @@ public class FunctionUtilsTest {
         UnivariateDifferentiableFunction inv = new Inverse();
 
         final double a = 123.456;
-        Assert.assertEquals(- 1 / (a * a) -1 + FastMath.cos(a),
+        Assert.assertEquals(- 1 / (a * a) -1 + AccurateMath.cos(a),
                             FunctionUtils.add(inv, m, c, sin).value(new DerivativeStructure(1, 1, 0, a)).getPartialDerivative(1),
                             EPS);
     }
@@ -139,11 +139,11 @@ public class FunctionUtilsTest {
         UnivariateDifferentiableFunction inv = new Inverse();
         UnivariateDifferentiableFunction pow = new Power(2.5);
         UnivariateDifferentiableFunction cos = new Cos();
-        Assert.assertEquals(1.5 * FastMath.sqrt(a) * FastMath.cos(a) - FastMath.pow(a, 1.5) * FastMath.sin(a),
+        Assert.assertEquals(1.5 * AccurateMath.sqrt(a) * AccurateMath.cos(a) - AccurateMath.pow(a, 1.5) * AccurateMath.sin(a),
                             FunctionUtils.multiply(inv, pow, cos).value(new DerivativeStructure(1, 1, 0, a)).getPartialDerivative(1), EPS);
 
         UnivariateDifferentiableFunction cosh = new Cosh();
-        Assert.assertEquals(1.5 * FastMath.sqrt(a) * FastMath.cosh(a) + FastMath.pow(a, 1.5) * FastMath.sinh(a),
+        Assert.assertEquals(1.5 * AccurateMath.sqrt(a) * AccurateMath.cosh(a) + AccurateMath.pow(a, 1.5) * AccurateMath.sinh(a),
                             FunctionUtils.multiply(inv, pow, cosh).value(new DerivativeStructure(1, 1, 0, a)).getPartialDerivative(1), 8 * EPS);
     }
 
@@ -189,7 +189,7 @@ public class FunctionUtilsTest {
         UnivariateFunction sinc2 = new Sinc();
 
         for (int i = 0; i < 10; i++) {
-            double x = FastMath.random();
+            double x = AccurateMath.random();
             Assert.assertEquals(sinc1.value(x), sinc2.value(x), EPS);
         }
     }
@@ -203,7 +203,7 @@ public class FunctionUtilsTest {
         UnivariateFunction pow2 = FunctionUtils.fix2ndArgument(new Pow(), 2);
 
         for (int i = 0; i < 10; i++) {
-            double x = FastMath.random() * 10;
+            double x = AccurateMath.random() * 10;
             Assert.assertEquals(pow1.value(x), pow2.value(x), 0);
         }
     }
@@ -235,10 +235,10 @@ public class FunctionUtilsTest {
             // x = sin(t)
             DerivativeStructure dsT = new DerivativeStructure(1, 2, 0, t);
             DerivativeStructure y = f.value(dsT.sin());
-            Assert.assertEquals(FastMath.sin(t) * FastMath.sin(t),               f.value(FastMath.sin(t)),  1.0e-15);
-            Assert.assertEquals(FastMath.sin(t) * FastMath.sin(t),               y.getValue(),              1.0e-15);
-            Assert.assertEquals(2 * FastMath.cos(t) * FastMath.sin(t),           y.getPartialDerivative(1), 1.0e-15);
-            Assert.assertEquals(2 * (1 - 2 * FastMath.sin(t) * FastMath.sin(t)), y.getPartialDerivative(2), 1.0e-15);
+            Assert.assertEquals(AccurateMath.sin(t) * AccurateMath.sin(t),               f.value(AccurateMath.sin(t)),  1.0e-15);
+            Assert.assertEquals(AccurateMath.sin(t) * AccurateMath.sin(t),               y.getValue(),              1.0e-15);
+            Assert.assertEquals(2 * AccurateMath.cos(t) * AccurateMath.sin(t),           y.getPartialDerivative(1), 1.0e-15);
+            Assert.assertEquals(2 * (1 - 2 * AccurateMath.sin(t) * AccurateMath.sin(t)), y.getPartialDerivative(2), 1.0e-15);
         }
 
         try {
@@ -273,8 +273,8 @@ public class FunctionUtilsTest {
             // x = sin(t), y = cos(t), hence the method really becomes univariate
             DerivativeStructure dsT = new DerivativeStructure(1, 1, 0, t);
             DerivativeStructure y = mdf.value(new DerivativeStructure[] { dsT.sin(), dsT.cos() });
-            Assert.assertEquals(a * FastMath.sin(t) + b * FastMath.cos(t), y.getValue(),              1.0e-15);
-            Assert.assertEquals(a * FastMath.cos(t) - b * FastMath.sin(t), y.getPartialDerivative(1), 1.0e-15);
+            Assert.assertEquals(a * AccurateMath.sin(t) + b * AccurateMath.cos(t), y.getValue(),              1.0e-15);
+            Assert.assertEquals(a * AccurateMath.cos(t) - b * AccurateMath.sin(t), y.getPartialDerivative(1), 1.0e-15);
         }
 
         for (double u = -1.0; u < 1; u += 0.01) {

@@ -25,9 +25,9 @@ import java.util.Random;
 import java.util.Set;
 import java.util.Map.Entry;
 
-import org.apache.commons.math4.legacy.Field;
-import org.apache.commons.math4.legacy.dfp.Dfp;
-import org.apache.commons.math4.legacy.dfp.DfpField;
+import org.apache.commons.math4.legacy.core.Field;
+import org.apache.commons.math4.legacy.core.dfp.Dfp;
+import org.apache.commons.math4.legacy.core.dfp.DfpField;
 import org.apache.commons.math4.legacy.linear.Dfp25;
 import org.apache.commons.math4.legacy.linear.OpenIntToFieldHashMap;
 import org.junit.Assert;
