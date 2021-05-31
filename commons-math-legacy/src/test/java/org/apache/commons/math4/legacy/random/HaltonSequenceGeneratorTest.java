@@ -61,7 +61,7 @@ public class HaltonSequenceGeneratorTest {
     @Test
     public void test3DReference() {
         for (int i = 0; i < referenceValues.length; i++) {
-            double[] result = generator.nextVector();
+            double[] result = generator.get();
             Assert.assertArrayEquals(referenceValues[i], result, 1e-3);
             Assert.assertEquals(i + 1, generator.getNextIndex());
         }
@@ -71,7 +71,7 @@ public class HaltonSequenceGeneratorTest {
     public void test2DUnscrambledReference() {
         generator = new HaltonSequenceGenerator(2, new int[] {2, 3}, null);
         for (int i = 0; i < referenceValuesUnscrambled.length; i++) {
-            double[] result = generator.nextVector();
+            double[] result = generator.get();
             Assert.assertArrayEquals(referenceValuesUnscrambled[i], result, 1e-3);
             Assert.assertEquals(i + 1, generator.getNextIndex());
         }
@@ -125,7 +125,7 @@ public class HaltonSequenceGeneratorTest {
         Assert.assertEquals(6, generator.getNextIndex());
 
         for (int i = 6; i < referenceValues.length; i++) {
-            result = generator.nextVector();
+            result = generator.get();
             Assert.assertArrayEquals(referenceValues[i], result, 1e-3);
             Assert.assertEquals(i + 1, generator.getNextIndex());
         }

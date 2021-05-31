@@ -16,6 +16,8 @@
  */
 package org.apache.commons.math4.legacy.random;
 
+import java.util.function.Supplier;
+
 import org.apache.commons.math4.legacy.exception.DimensionMismatchException;
 import org.apache.commons.math4.legacy.exception.NotPositiveException;
 import org.apache.commons.math4.legacy.exception.NullArgumentException;
@@ -41,7 +43,7 @@ import org.apache.commons.math4.legacy.exception.OutOfRangeException;
  * <p>
  * The generator supports two modes:
  * <ul>
- *   <li>sequential generation of points: {@link #nextVector()}</li>
+ *   <li>sequential generation of points: {@link #get()}</li>
  *   <li>random access to the i-th point in the sequence: {@link #skipTo(int)}</li>
  * </ul>
  *
@@ -50,7 +52,7 @@ import org.apache.commons.math4.legacy.exception.OutOfRangeException;
  * On the Halton sequence and its scramblings</a>
  * @since 3.3
  */
-public class HaltonSequenceGenerator implements RandomVectorGenerator {
+public class HaltonSequenceGenerator implements Supplier<double[]> {
 
     /** The first 40 primes. */
     private static final int[] PRIMES = new int[] {
@@ -119,7 +121,7 @@ public class HaltonSequenceGenerator implements RandomVectorGenerator {
 
     /** {@inheritDoc} */
     @Override
-    public double[] nextVector() {
+    public double[] get() {
         final double[] v = new double[dimension];
         for (int i = 0; i < dimension; i++) {
             int index = count;
@@ -165,12 +167,12 @@ public class HaltonSequenceGenerator implements RandomVectorGenerator {
      */
     public double[] skipTo(final int index) {
         count = index;
-        return nextVector();
+        return get();
     }
 
     /**
      * Returns the index i of the next point in the Halton sequence that will be returned
-     * by calling {@link #nextVector()}.
+     * by calling {@link #get()}.
      *
      * @return the index of the next point
      */

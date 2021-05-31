@@ -24,6 +24,7 @@ import java.nio.charset.Charset;
 import java.util.Arrays;
 import java.util.NoSuchElementException;
 import java.util.StringTokenizer;
+import java.util.function.Supplier;
 
 import org.apache.commons.math4.legacy.exception.MathInternalError;
 import org.apache.commons.math4.legacy.exception.MathParseException;
@@ -44,7 +45,7 @@ import org.apache.commons.math4.legacy.util.FastMath;
  * <p>
  * The generator supports two modes:
  * <ul>
- *   <li>sequential generation of points: {@link #nextVector()}</li>
+ *   <li>sequential generation of points: {@link #get()}</li>
  *   <li>random access to the i-th point in the sequence: {@link #skipTo(int)}</li>
  * </ul>
  *
@@ -53,8 +54,7 @@ import org.apache.commons.math4.legacy.util.FastMath;
  *
  * @since 3.3
  */
-public class SobolSequenceGenerator implements RandomVectorGenerator {
-
+public class SobolSequenceGenerator implements Supplier<double[]> {
     /** The number of bits to use. */
     private static final int BITS = 52;
 
@@ -253,7 +253,7 @@ public class SobolSequenceGenerator implements RandomVectorGenerator {
 
     /** {@inheritDoc} */
     @Override
-    public double[] nextVector() {
+    public double[] get() {
         final double[] v = new double[dimension];
         if (count == 0) {
             count++;
@@ -308,12 +308,12 @@ public class SobolSequenceGenerator implements RandomVectorGenerator {
             }
         }
         count = index;
-        return nextVector();
+        return get();
     }
 
     /**
      * Returns the index i of the next point in the Sobol sequence that will be returned
-     * by calling {@link #nextVector()}.
+     * by calling {@link #get()}.
      *
      * @return the index of the next point
      */

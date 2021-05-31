@@ -50,7 +50,7 @@ public class SobolSequenceGeneratorTest {
     @Test
     public void test3DReference() {
         for (int i = 0; i < referenceValues.length; i++) {
-            double[] result = generator.nextVector();
+            double[] result = generator.get();
             Assert.assertArrayEquals(referenceValues[i], result, 1e-6);
             Assert.assertEquals(i + 1, generator.getNextIndex());
         }
@@ -98,7 +98,7 @@ public class SobolSequenceGeneratorTest {
         Assert.assertEquals(6, generator.getNextIndex());
 
         for (int i = 6; i < referenceValues.length; i++) {
-            result = generator.nextVector();
+            result = generator.get();
             Assert.assertArrayEquals(referenceValues[i], result, 1e-6);
             Assert.assertEquals(i + 1, generator.getNextIndex());
         }
