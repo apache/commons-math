@@ -274,8 +274,8 @@ public class LevenbergMarquardtOptimizerTest
         final double[] asymptoticStandardErrorFound = optimum.getSigma(1e-14).toArray();
 
         // Check that the parameters are found within the assumed error bars.
-        Assert.assertEquals(xCenter, paramFound[0], 1.5 * asymptoticStandardErrorFound[0]);
-        Assert.assertEquals(yCenter, paramFound[1], 1.5 * asymptoticStandardErrorFound[1]);
+        Assert.assertEquals(xCenter, paramFound[0], 2 * asymptoticStandardErrorFound[0]);
+        Assert.assertEquals(yCenter, paramFound[1], 2 * asymptoticStandardErrorFound[1]);
         Assert.assertEquals(radius, paramFound[2], asymptoticStandardErrorFound[2]);
     }
 
