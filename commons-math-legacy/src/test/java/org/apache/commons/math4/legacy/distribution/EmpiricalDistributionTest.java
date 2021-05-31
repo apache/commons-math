@@ -24,10 +24,13 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.Arrays;
 
+import org.apache.commons.rng.UniformRandomProvider;
+import org.apache.commons.rng.simple.RandomSource;
 import org.apache.commons.statistics.distribution.ContinuousDistribution;
 import org.apache.commons.statistics.distribution.ConstantContinuousDistribution;
 import org.apache.commons.statistics.distribution.UniformContinuousDistribution;
 import org.apache.commons.statistics.distribution.NormalDistribution;
+import org.apache.commons.statistics.distribution.ExponentialDistribution;
 import org.apache.commons.math4.legacy.TestUtils;
 import org.apache.commons.math4.legacy.analysis.UnivariateFunction;
 import org.apache.commons.math4.legacy.analysis.integration.BaseAbstractUnivariateIntegrator;
@@ -35,7 +38,6 @@ import org.apache.commons.math4.legacy.analysis.integration.IterativeLegendreGau
 import org.apache.commons.math4.legacy.exception.MathIllegalStateException;
 import org.apache.commons.math4.legacy.exception.NullArgumentException;
 import org.apache.commons.math4.legacy.exception.NotStrictlyPositiveException;
-import org.apache.commons.rng.simple.RandomSource;
 import org.apache.commons.math4.legacy.stat.descriptive.SummaryStatistics;
 import org.apache.commons.math4.legacy.util.FastMath;
 import org.junit.Assert;
@@ -657,6 +659,25 @@ public final class EmpiricalDistributionTest extends RealDistributionAbstractTes
         Assert.assertEquals(9.0, dist.inverseCumulativeProbability(0.6), tol);
     }
 
+    @Test
+    public void testMath1431() {
+        final UniformRandomProvider rng = RandomSource.create(RandomSource.WELL_19937_C, 1000);
+        final ContinuousDistribution.Sampler exponentialDistributionSampler
+            = new ExponentialDistribution(0.05).createSampler(rng);
+        final double[] empiricalDataPoints = new double[3000];
+        for (int i = 0; i < empiricalDataPoints.length; i++) {
+            empiricalDataPoints[i] = exponentialDistributionSampler.sample();
+        }
+
+        final EmpiricalDistribution testDistribution = new EmpiricalDistribution(100);
+        testDistribution.load(empiricalDataPoints);
+
+        for (int i = 0; i < 1000; i++) {
+            final double point = rng.nextDouble();
+            final double cdf = testDistribution.cumulativeProbability(point);
+            Assert.assertFalse("point: " + point, Double.isNaN(cdf));
+        }
+   }
 
     /**
      * Empirical distribution using a constant smoothing kernel.

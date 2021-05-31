@@ -86,6 +86,9 @@ Caveat:
  nightmare was one of the main reasons for creating more focused
  components.]
 ">
+      <action dev="erans" type="fix" issue="MATH-1431" due-to="Artem Onuchin">
+        "EmpiricalDistribution" handles empty bin.
+      </action>
       <action dev="erans" type="update" issue="MATH-1582">
         Transforms codes moved into a dedicated maven module.
       </action>
