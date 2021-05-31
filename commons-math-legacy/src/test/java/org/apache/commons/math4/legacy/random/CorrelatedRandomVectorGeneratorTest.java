@@ -89,7 +89,7 @@ public class CorrelatedRandomVectorGeneratorTest {
         double[] max = new double[mean.length];
         Arrays.fill(max, Double.NEGATIVE_INFINITY);
         for (int i = 0; i < 10; i++) {
-            double[] generated = sg.nextVector();
+            double[] generated = sg.get();
             for (int j = 0; j < generated.length; ++j) {
                 min[j] = FastMath.min(min[j], generated[j]);
                 max[j] = FastMath.max(max[j], generated[j]);
@@ -118,7 +118,7 @@ public class CorrelatedRandomVectorGeneratorTest {
         VectorialMean meanStat = new VectorialMean(mean.length);
         VectorialCovariance covStat = new VectorialCovariance(mean.length, true);
         for (int i = 0; i < 5000; ++i) {
-            double[] v = generator.nextVector();
+            double[] v = generator.get();
             meanStat.increment(v);
             covStat.increment(v);
         }
@@ -181,7 +181,7 @@ public class CorrelatedRandomVectorGeneratorTest {
 
         StorelessCovariance cov = new StorelessCovariance(covMatrix.length);
         for (int i = 0; i < samples; ++i) {
-            cov.increment(sampler.nextVector());
+            cov.increment(sampler.get());
         }
 
         double[][] sampleCov = cov.getData();

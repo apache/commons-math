@@ -276,7 +276,7 @@ public class GLSMultipleLinearRegressionTest extends MultipleLinearRegressionAbs
         for (int i = 0; i < nModels; i++) {
 
             // Generate y = xb + u with u cov
-            RealVector u = MatrixUtils.createRealVector(gen.nextVector());
+            RealVector u = MatrixUtils.createRealVector(gen.get());
             double[] y = u.add(x.operate(b)).toArray();
 
             // Estimate OLS parameters

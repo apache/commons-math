@@ -17,13 +17,15 @@
 
 package org.apache.commons.math4.legacy.random;
 
+import java.util.function.Supplier;
+
 import org.apache.commons.math4.legacy.exception.DimensionMismatchException;
 import org.apache.commons.math4.legacy.linear.RealMatrix;
 import org.apache.commons.math4.legacy.linear.RectangularCholeskyDecomposition;
 
 /**
- * A {@link RandomVectorGenerator} that generates vectors with with
- * correlated components.
+ * Generates vectors with with correlated components.
+ *
  * <p>Random vectors with correlated components are built by combining
  * the uncorrelated components of another random vector in such a way that
  * the resulting correlations are the ones specified by a positive
@@ -57,8 +59,7 @@ import org.apache.commons.math4.legacy.linear.RectangularCholeskyDecomposition;
  * @since 1.2
  */
 
-public class CorrelatedRandomVectorGenerator
-    implements RandomVectorGenerator {
+public class CorrelatedRandomVectorGenerator implements Supplier<double[]> {
     /** Mean vector. */
     private final double[] mean;
     /** Underlying generator. */
@@ -162,8 +163,7 @@ public class CorrelatedRandomVectorGenerator
      * is created at each call, the caller can do what it wants with it.
      */
     @Override
-    public double[] nextVector() {
-
+    public double[] get() {
         // generate uncorrelated vector
         for (int i = 0; i < normalized.length; ++i) {
             normalized[i] = generator.nextNormalizedDouble();
@@ -181,5 +181,4 @@ public class CorrelatedRandomVectorGenerator
         return correlated;
 
     }
-
 }
