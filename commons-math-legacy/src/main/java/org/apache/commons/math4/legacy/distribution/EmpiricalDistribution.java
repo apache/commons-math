@@ -164,7 +164,7 @@ public class EmpiricalDistribution extends AbstractRealDistribution
      * @param in the input data array
      * @exception NullArgumentException if in is null
      */
-    public void load(double[] in) throws NullArgumentException {
+    public void load(double[] in) {
         DataAdapter da = new ArrayDataAdapter(in);
         try {
             da.computeStats();
@@ -190,7 +190,7 @@ public class EmpiricalDistribution extends AbstractRealDistribution
      * @throws NullArgumentException if url is null
      * @throws ZeroException if URL contains no data
      */
-    public void load(URL url) throws IOException, NullArgumentException, ZeroException {
+    public void load(URL url) throws IOException {
         NullArgumentException.check(url);
         Charset charset = Charset.forName(FILE_CHARSET);
         BufferedReader in =
@@ -224,7 +224,7 @@ public class EmpiricalDistribution extends AbstractRealDistribution
      * @throws IOException if an IO error occurs
      * @throws NullArgumentException if file is null
      */
-    public void load(File file) throws IOException, NullArgumentException {
+    public void load(File file) throws IOException {
         NullArgumentException.check(file);
         Charset charset = Charset.forName(FILE_CHARSET);
         InputStream is = new FileInputStream(file);
@@ -330,7 +330,7 @@ public class EmpiricalDistribution extends AbstractRealDistribution
          * @param in double[] array holding the data
          * @throws NullArgumentException if in is null
          */
-        ArrayDataAdapter(double[] in) throws NullArgumentException {
+        ArrayDataAdapter(double[] in) {
             super();
             NullArgumentException.check(in);
             inputArray = in;
@@ -587,7 +587,7 @@ public class EmpiricalDistribution extends AbstractRealDistribution
      * @since 3.1
      */
     @Override
-    public double inverseCumulativeProbability(final double p) throws OutOfRangeException {
+    public double inverseCumulativeProbability(final double p) {
         if (p < 0.0 || p > 1.0) {
             throw new OutOfRangeException(p, 0, 1);
         }
