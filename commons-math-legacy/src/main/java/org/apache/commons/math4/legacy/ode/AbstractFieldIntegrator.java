@@ -40,7 +40,7 @@ import org.apache.commons.math4.legacy.ode.events.FieldEventState;
 import org.apache.commons.math4.legacy.ode.sampling.AbstractFieldStepInterpolator;
 import org.apache.commons.math4.legacy.ode.sampling.FieldStepHandler;
 import org.apache.commons.math4.legacy.core.jdkmath.AccurateMath;
-import org.apache.commons.math4.legacy.util.IntegerSequence;
+import org.apache.commons.math4.legacy.core.IntegerSequence;
 
 /**
  * Base class managing common boilerplate for all integrators.

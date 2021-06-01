@@ -18,7 +18,7 @@ package org.apache.commons.math4.legacy.fitting.leastsquares;
 
 import org.apache.commons.math4.legacy.linear.RealVector;
 import org.apache.commons.math4.legacy.optim.ConvergenceChecker;
-import org.apache.commons.math4.legacy.util.IntegerSequence;
+import org.apache.commons.math4.legacy.core.IntegerSequence;
 
 /**
  * An adapter that delegates to another implementation of {@link LeastSquaresProblem}.

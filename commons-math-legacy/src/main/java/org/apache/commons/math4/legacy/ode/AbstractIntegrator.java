@@ -38,7 +38,7 @@ import org.apache.commons.math4.legacy.ode.events.EventState;
 import org.apache.commons.math4.legacy.ode.sampling.AbstractStepInterpolator;
 import org.apache.commons.math4.legacy.ode.sampling.StepHandler;
 import org.apache.commons.math4.legacy.core.jdkmath.AccurateMath;
-import org.apache.commons.math4.legacy.util.IntegerSequence;
+import org.apache.commons.math4.legacy.core.IntegerSequence;
 import org.apache.commons.numbers.core.Precision;
 
 /**
