@@ -31,7 +31,7 @@ import org.apache.commons.math4.legacy.exception.util.LocalizedFormats;
 import org.apache.commons.rng.UniformRandomProvider;
 import org.apache.commons.rng.sampling.DiscreteProbabilityCollectionSampler;
 import org.apache.commons.math4.legacy.core.MathArrays;
-import org.apache.commons.math4.legacy.util.Pair;
+import org.apache.commons.math4.legacy.core.Pair;
 
 /**
  * <p>A generic implementation of a

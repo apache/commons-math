@@ -20,9 +20,9 @@ import org.junit.Assert;
 import org.junit.Test;
 import org.apache.commons.numbers.field.FP64;
 import org.apache.commons.numbers.field.FP64Field;
-import org.apache.commons.math3.linear.RealMatrix;
-import org.apache.commons.math3.linear.Array2DRowRealMatrix;
-import org.apache.commons.math3.util.Pair;
+import org.apache.commons.math4.legacy.core.Pair;
+import org.apache.commons.math4.legacy.linear.RealMatrix;
+import org.apache.commons.math4.legacy.linear.Array2DRowRealMatrix;
 
 /**
  * Tests for {@link FieldDenseMatrix} (using {@link FP64} as field elements).

@@ -20,7 +20,7 @@ package org.apache.commons.math4.legacy.ml.clustering;
 import org.apache.commons.math4.legacy.exception.NullArgumentException;
 import org.apache.commons.math4.legacy.exception.NumberIsTooSmallException;
 import org.apache.commons.math4.legacy.ml.distance.DistanceMeasure;
-import org.apache.commons.math4.legacy.util.Pair;
+import org.apache.commons.math4.legacy.core.Pair;
 import org.apache.commons.rng.UniformRandomProvider;
 import org.apache.commons.rng.sampling.ListSampler;
 

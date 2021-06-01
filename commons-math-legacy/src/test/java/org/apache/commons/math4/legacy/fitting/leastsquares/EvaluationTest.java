@@ -25,7 +25,7 @@ import org.apache.commons.math4.legacy.linear.RealMatrix;
 import org.apache.commons.math4.legacy.linear.RealVector;
 import org.apache.commons.math4.legacy.linear.SingularMatrixException;
 import org.apache.commons.math4.legacy.core.jdkmath.AccurateMath;
-import org.apache.commons.math4.legacy.util.Pair;
+import org.apache.commons.math4.legacy.core.Pair;
 import org.apache.commons.numbers.core.Precision;
 import org.junit.Assert;
 import org.junit.Test;

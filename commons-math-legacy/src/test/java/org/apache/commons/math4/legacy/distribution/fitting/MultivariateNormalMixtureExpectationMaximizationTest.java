@@ -28,7 +28,7 @@ import org.apache.commons.math4.legacy.exception.NotStrictlyPositiveException;
 import org.apache.commons.math4.legacy.exception.NumberIsTooSmallException;
 import org.apache.commons.math4.legacy.linear.Array2DRowRealMatrix;
 import org.apache.commons.math4.legacy.linear.RealMatrix;
-import org.apache.commons.math4.legacy.util.Pair;
+import org.apache.commons.math4.legacy.core.Pair;
 import org.junit.Assert;
 import org.junit.Test;
 

@@ -32,7 +32,7 @@ import org.apache.commons.math4.legacy.linear.SingularMatrixException;
 import org.apache.commons.math4.legacy.linear.SingularValueDecomposition;
 import org.apache.commons.math4.legacy.optim.ConvergenceChecker;
 import org.apache.commons.math4.legacy.core.IntegerSequence;
-import org.apache.commons.math4.legacy.util.Pair;
+import org.apache.commons.math4.legacy.core.Pair;
 
 /**
  * Gauss-Newton least-squares solver.

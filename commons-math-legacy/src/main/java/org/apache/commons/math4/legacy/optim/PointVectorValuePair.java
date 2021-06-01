@@ -18,7 +18,7 @@ package org.apache.commons.math4.legacy.optim;
 
 import java.io.Serializable;
 
-import org.apache.commons.math4.legacy.util.Pair;
+import org.apache.commons.math4.legacy.core.Pair;
 
 /**
  * This class holds a point and the vectorial value of an objective function at

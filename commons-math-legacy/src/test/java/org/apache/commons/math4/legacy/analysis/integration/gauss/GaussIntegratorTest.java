@@ -18,7 +18,7 @@ package org.apache.commons.math4.legacy.analysis.integration.gauss;
 
 import org.apache.commons.math4.legacy.analysis.UnivariateFunction;
 import org.apache.commons.math4.legacy.analysis.function.Constant;
-import org.apache.commons.math4.legacy.util.Pair;
+import org.apache.commons.math4.legacy.core.Pair;
 import org.junit.Test;
 import org.junit.Assert;
 

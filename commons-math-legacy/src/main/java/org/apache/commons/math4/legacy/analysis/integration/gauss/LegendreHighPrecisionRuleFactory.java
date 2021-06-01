@@ -19,7 +19,7 @@ package org.apache.commons.math4.legacy.analysis.integration.gauss;
 import java.math.BigDecimal;
 import java.math.MathContext;
 
-import org.apache.commons.math4.legacy.util.Pair;
+import org.apache.commons.math4.legacy.core.Pair;
 
 /**
  * Factory that creates Gauss-type quadrature rule using Legendre polynomials.

@@ -32,7 +32,7 @@ import org.apache.commons.math4.legacy.optim.ConvergenceChecker;
 import org.apache.commons.math4.legacy.optim.PointVectorValuePair;
 import org.apache.commons.math4.legacy.core.jdkmath.AccurateMath;
 import org.apache.commons.math4.legacy.core.IntegerSequence;
-import org.apache.commons.math4.legacy.util.Pair;
+import org.apache.commons.math4.legacy.core.Pair;
 
 /**
  * A Factory for creating {@link LeastSquaresProblem}s.

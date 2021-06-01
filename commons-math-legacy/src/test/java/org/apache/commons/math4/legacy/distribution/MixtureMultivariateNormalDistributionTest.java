@@ -21,7 +21,7 @@ import java.util.List;
 import org.apache.commons.math4.legacy.exception.MathArithmeticException;
 import org.apache.commons.math4.legacy.exception.NotPositiveException;
 import org.apache.commons.rng.simple.RandomSource;
-import org.apache.commons.math4.legacy.util.Pair;
+import org.apache.commons.math4.legacy.core.Pair;
 import org.junit.Assert;
 import org.junit.Test;
 import org.junit.Ignore;

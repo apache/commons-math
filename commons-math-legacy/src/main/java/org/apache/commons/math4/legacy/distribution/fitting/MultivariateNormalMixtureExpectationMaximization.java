@@ -34,7 +34,7 @@ import org.apache.commons.math4.legacy.linear.SingularMatrixException;
 import org.apache.commons.math4.legacy.stat.correlation.Covariance;
 import org.apache.commons.math4.legacy.core.jdkmath.AccurateMath;
 import org.apache.commons.math4.legacy.core.MathArrays;
-import org.apache.commons.math4.legacy.util.Pair;
+import org.apache.commons.math4.legacy.core.Pair;
 
 /**
  * Expectation-Maximization algorithm for fitting the parameters of

@@ -32,7 +32,7 @@ import org.apache.commons.math4.legacy.linear.RealVector;
 import org.apache.commons.math4.legacy.optim.ConvergenceChecker;
 import org.apache.commons.math4.legacy.optim.SimpleVectorValueChecker;
 import org.apache.commons.math4.legacy.core.jdkmath.AccurateMath;
-import org.apache.commons.math4.legacy.util.Pair;
+import org.apache.commons.math4.legacy.core.Pair;
 import org.junit.Assert;
 import org.junit.Test;
 

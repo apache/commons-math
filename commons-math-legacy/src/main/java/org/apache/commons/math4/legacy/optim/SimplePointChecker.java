@@ -18,7 +18,7 @@ package org.apache.commons.math4.legacy.optim;
 
 import org.apache.commons.math4.legacy.exception.NotStrictlyPositiveException;
 import org.apache.commons.math4.legacy.core.jdkmath.AccurateMath;
-import org.apache.commons.math4.legacy.util.Pair;
+import org.apache.commons.math4.legacy.core.Pair;
 
 /**
  * Simple implementation of the {@link ConvergenceChecker} interface using

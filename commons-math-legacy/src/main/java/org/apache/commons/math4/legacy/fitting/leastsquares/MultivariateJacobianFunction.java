@@ -18,7 +18,7 @@ package org.apache.commons.math4.legacy.fitting.leastsquares;
 
 import org.apache.commons.math4.legacy.linear.RealMatrix;
 import org.apache.commons.math4.legacy.linear.RealVector;
-import org.apache.commons.math4.legacy.util.Pair;
+import org.apache.commons.math4.legacy.core.Pair;
 
 /**
  * A interface for functions that compute a vector of values and can compute their

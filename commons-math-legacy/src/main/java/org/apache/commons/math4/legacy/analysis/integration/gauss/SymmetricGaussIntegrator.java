@@ -17,7 +17,7 @@
 package org.apache.commons.math4.legacy.analysis.integration.gauss;
 
 import org.apache.commons.math4.legacy.analysis.UnivariateFunction;
-import org.apache.commons.math4.legacy.util.Pair;
+import org.apache.commons.math4.legacy.core.Pair;
 
 /**
  * This class's implements {@link #integrate(UnivariateFunction) integrate}

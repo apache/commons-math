@@ -23,7 +23,7 @@ import org.apache.commons.math4.legacy.analysis.polynomials.PolynomialsUtils;
 import org.apache.commons.math4.legacy.linear.EigenDecomposition;
 import org.apache.commons.math4.legacy.linear.MatrixUtils;
 import org.apache.commons.math4.legacy.linear.RealMatrix;
-import org.apache.commons.math4.legacy.util.Pair;
+import org.apache.commons.math4.legacy.core.Pair;
 
 /**
  * Factory that creates Gauss-type quadrature rule using Laguerre polynomials.

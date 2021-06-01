@@ -31,7 +31,7 @@ import org.apache.commons.math4.legacy.exception.NotFiniteNumberException;
 import org.apache.commons.math4.legacy.exception.NotPositiveException;
 import org.apache.commons.math4.legacy.exception.OutOfRangeException;
 import org.apache.commons.rng.UniformRandomProvider;
-import org.apache.commons.math4.legacy.util.Pair;
+import org.apache.commons.math4.legacy.core.Pair;
 
 /**
  * <p>Implementation of a real-valued {@link EnumeratedDistribution}.
