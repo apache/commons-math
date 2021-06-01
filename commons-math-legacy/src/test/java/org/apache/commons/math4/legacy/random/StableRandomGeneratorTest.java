@@ -38,12 +38,12 @@ public class StableRandomGeneratorTest {
      * TODO: verify that tolerance this wide is really OK
      */
     @Test
-    public void testNextDouble() {
+    public void testGetAsDouble() {
         StableRandomGenerator generator = new StableRandomGenerator(rg, 1.3,
                 0.1);
         double[] sample = new double[2 * sampleSize];
         for (int i = 0; i < sample.length; ++i) {
-            sample[i] = generator.nextNormalizedDouble();
+            sample[i] = generator.getAsDouble();
         }
         Assert.assertEquals(0.0, StatUtils.mean(sample), 0.3);
     }
@@ -57,7 +57,7 @@ public class StableRandomGeneratorTest {
 
         double[] sample = new double[sampleSize];
         for (int i = 0; i < sample.length; ++i) {
-            sample[i] = generator.nextNormalizedDouble();
+            sample[i] = generator.getAsDouble();
         }
         Assert.assertEquals(0.0, StatUtils.mean(sample), 0.02);
         Assert.assertEquals(1.0, StatUtils.variance(sample), 0.02);
@@ -72,7 +72,7 @@ public class StableRandomGeneratorTest {
         DescriptiveStatistics summary = new DescriptiveStatistics();
 
         for (int i = 0; i < sampleSize; ++i) {
-            double sample = generator.nextNormalizedDouble();
+            double sample = generator.getAsDouble();
             summary.addValue(sample);
         }
 

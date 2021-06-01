@@ -166,7 +166,7 @@ public class CorrelatedRandomVectorGenerator implements Supplier<double[]> {
     public double[] get() {
         // generate uncorrelated vector
         for (int i = 0; i < normalized.length; ++i) {
-            normalized[i] = generator.nextNormalizedDouble();
+            normalized[i] = generator.getAsDouble();
         }
 
         // compute correlated vector

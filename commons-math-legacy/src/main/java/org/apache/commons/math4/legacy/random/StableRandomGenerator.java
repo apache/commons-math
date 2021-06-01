@@ -85,7 +85,7 @@ public class StableRandomGenerator implements NormalizedRandomGenerator {
      * @return a random scalar with zero location and unit scale
      */
     @Override
-    public double nextNormalizedDouble() {
+    public double getAsDouble() {
         // we need 2 uniform random numbers to calculate omega and phi
         double omega = -AccurateMath.log(generator.nextDouble());
         double phi = AccurateMath.PI * (generator.nextDouble() - 0.5);

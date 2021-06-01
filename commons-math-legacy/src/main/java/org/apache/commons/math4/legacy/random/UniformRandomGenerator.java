@@ -52,7 +52,7 @@ public class UniformRandomGenerator implements NormalizedRandomGenerator {
      * @return a random scalar in the range \( [-\sqrt{3}, +\sqrt{3}] \).
      */
     @Override
-    public double nextNormalizedDouble() {
+    public double getAsDouble() {
         return SQRT3 * (2 * generator.nextDouble() - 1);
     }
 }

@@ -200,7 +200,7 @@ public class CorrelatedRandomVectorGeneratorTest {
         return new NormalizedRandomGenerator() {
             /** {@inheritDoc} */
             @Override
-            public double nextNormalizedDouble() {
+            public double getAsDouble() {
                 return n.sample();
             }
         };
