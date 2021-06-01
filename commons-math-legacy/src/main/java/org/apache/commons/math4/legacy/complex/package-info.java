@@ -14,10 +14,9 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
 /**
- *
- *     Complex number type and implementations of complex transcendental
- *     functions.
- *
+ * Complex number type implementations have been moved to
+ * <a href="http://commons.apache.org/numbers>Commons Numbers</a>.
  */
 package org.apache.commons.math4.legacy.complex;
