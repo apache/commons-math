@@ -28,9 +28,10 @@ import org.apache.commons.rng.UniformRandomProvider;
  * equal to 0 and standard deviation equal to 1.
  * Generated values fall in the range \( [-\sqrt{3}, +\sqrt{3}] \).
  * </p>
- *
  * @since 1.2
+ * @deprecated As of 4.0.  Please use {@link org.apache.commons.rng.sampling.distribution.ContinuousUniformSampler} instead.
  */
+@Deprecated
 public class UniformRandomGenerator implements NormalizedRandomGenerator {
     /** Square root of three. */
     private static final double SQRT3 = AccurateMath.sqrt(3);

@@ -38,8 +38,7 @@ import org.apache.commons.math4.legacy.linear.RectangularCholeskyDecomposition;
  * Multivariate Normal Distribution</a>. The approach using a Cholesky
  * decomposition is quite usual in this case. However, it can be extended
  * to other cases as long as the underlying random generator provides
- * {@link NormalizedRandomGenerator normalized values} like
- * {@link UniformRandomGenerator}.</p>
+ * {@link NormalizedRandomGenerator normalized values}
  * <p>Sometimes, the covariance matrix for a given simulation is not
  * strictly positive definite. This means that the correlations are
  * not all independent from each other. In this case, however, the non
