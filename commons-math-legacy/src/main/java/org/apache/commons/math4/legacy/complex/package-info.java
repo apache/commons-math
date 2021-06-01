@@ -17,6 +17,6 @@
 
 /**
  * Complex number type implementations have been moved to
- * <a href="http://commons.apache.org/numbers>Commons Numbers</a>.
+ * <a href="http://commons.apache.org/numbers">Commons Numbers</a>.
  */
 package org.apache.commons.math4.legacy.complex;
