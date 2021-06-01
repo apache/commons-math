@@ -26,8 +26,7 @@
  *  source of randomness that provides sequences of uniformly distributed integers.
  * </p>
  * <p>
- *  Others are sources of pseudo-randomness that directly produce "compound" types
- *  such as {@link org.apache.commons.math4.legacy.random.RandomVectorGenerator random vectors}.
+ *  Others are sources of pseudo-randomness that directly produce "compound" types.
  * </p>
  */
 package org.apache.commons.math4.legacy.random;
