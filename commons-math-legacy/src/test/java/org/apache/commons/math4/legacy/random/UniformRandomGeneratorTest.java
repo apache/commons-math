@@ -32,7 +32,7 @@ public class UniformRandomGeneratorTest {
         UniformRandomGenerator generator = new UniformRandomGenerator(rg);
         double[] sample = new double[10000];
         for (int i = 0; i < sample.length; ++i) {
-            sample[i] = generator.nextNormalizedDouble();
+            sample[i] = generator.getAsDouble();
         }
         Assert.assertEquals(0.0, StatUtils.mean(sample), 0.07);
         Assert.assertEquals(1.0, StatUtils.variance(sample), 0.02);
