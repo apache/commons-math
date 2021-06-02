@@ -16,22 +16,23 @@
  */
 package org.apache.commons.math4.legacy.stat.regression;
 
+import java.util.function.Supplier;
+
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
+
+import org.apache.commons.rng.UniformRandomProvider;
+import org.apache.commons.rng.simple.RandomSource;
+import org.apache.commons.statistics.distribution.ContinuousDistribution;
+import org.apache.commons.statistics.distribution.NormalDistribution;
 import org.apache.commons.math4.legacy.TestUtils;
 import org.apache.commons.math4.legacy.exception.MathIllegalArgumentException;
 import org.apache.commons.math4.legacy.exception.NullArgumentException;
 import org.apache.commons.math4.legacy.linear.MatrixUtils;
 import org.apache.commons.math4.legacy.linear.RealMatrix;
 import org.apache.commons.math4.legacy.linear.RealVector;
-import org.apache.commons.math4.legacy.random.NormalizedRandomGenerator;
-import org.apache.commons.math4.legacy.random.CorrelatedRandomVectorGenerator;
-import org.apache.commons.rng.UniformRandomProvider;
-import org.apache.commons.rng.simple.RandomSource;
-import org.apache.commons.rng.sampling.distribution.ZigguratNormalizedGaussianSampler;
-import org.apache.commons.statistics.distribution.ContinuousDistribution;
-import org.apache.commons.statistics.distribution.NormalDistribution;
+import org.apache.commons.math4.legacy.random.CorrelatedVectorFactory;
 import org.apache.commons.math4.legacy.stat.correlation.Covariance;
 import org.apache.commons.math4.legacy.stat.descriptive.DescriptiveStatistics;
 
@@ -246,11 +247,8 @@ public class GLSMultipleLinearRegressionTest extends MultipleLinearRegressionAbs
         RealMatrix cov = (new Covariance(errorSeeds)).getCovarianceMatrix();
 
         // Create a CorrelatedRandomVectorGenerator to use to generate correlated errors
-        double[] errorMeans = new double[nObs];  // Counting on init to 0 here
-        CorrelatedRandomVectorGenerator gen
-            = new CorrelatedRandomVectorGenerator(errorMeans, cov,
-                                                  1e-12 * cov.getNorm(),
-                                                  gaussianRandom(rg));
+        final Supplier<double[]> gen
+            = new CorrelatedVectorFactory(cov, 1e-12 * cov.getNorm()).gaussian(rg);
 
         // Now start generating models.  Use Longley X matrix on LHS
         // and Longley OLS beta vector as "true" beta.  Generate
@@ -298,21 +296,5 @@ public class GLSMultipleLinearRegressionTest extends MultipleLinearRegressionAbs
         // Verify that GLS is on average more efficient, lower variance
         assert(olsBetaStats.getMean() > 1.5 * glsBetaStats.getMean());
         assert(olsBetaStats.getStandardDeviation() > glsBetaStats.getStandardDeviation());
-    }
-
-    /**
-     * @param rng RNG.
-     * @return a N(0,1) sampler.
-     */
-    private NormalizedRandomGenerator gaussianRandom(final UniformRandomProvider rng) {
-        final ZigguratNormalizedGaussianSampler n = new ZigguratNormalizedGaussianSampler(rng);
-
-        return new NormalizedRandomGenerator() {
-            /** {@inheritDoc} */
-            @Override
-            public double nextNormalizedDouble() {
-                return n.sample();
-            }
-        };
     }
 }

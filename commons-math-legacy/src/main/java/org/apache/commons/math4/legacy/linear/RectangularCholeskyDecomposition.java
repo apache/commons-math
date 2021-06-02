@@ -29,7 +29,7 @@ import org.apache.commons.math4.legacy.core.jdkmath.AccurateMath;
  * is that rows/columns may be permuted (hence the rectangular shape instead
  * of the traditional triangular shape) and there is a threshold to ignore
  * small diagonal elements. This is used for example to generate {@link
- * org.apache.commons.math4.legacy.random.CorrelatedRandomVectorGenerator correlated
+ * org.apache.commons.math4.legacy.random.CorrelatedVectorFactory correlated
  * random n-dimensions vectors} in a p-dimension subspace (p &lt; n).
  * In other words, it allows generating random vectors from a covariance
  * matrix that is only positive semidefinite, and not positive definite.</p>
