@@ -67,7 +67,7 @@ Functionality still within Commons Math has been modularized and
  partly refactored.
  This is a work-in-progress (help welcome).
  Codes for which the refactoring has not been undertaken (or was
- deemed incomplete) have been moved to a 'legacy' module.
+ deemed incomplete) have been moved to 'legacy' modules.
 
 The minimum version of the Java platform required to compile and use
  Commons Math is Java 8.
@@ -77,6 +77,13 @@ Users are encouraged to upgrade to this version, and to the new
  Note that the new artefacts can be used together with v3.6.1 as the
  Java packages are different; ugrading can thus be performed
  incrementally.
+For codes that are now located in the 'commons-math-legacy' module,
+ upgrading will be a matter of changing the top-level package name:
+ From 'org.apache.commons.math3' to 'org.apache.commons.math4.legacy'.
+ Codes that are now located in the 'commons-math-legacy-core' module
+ comprise classes that moved from package 'org.apache.commons.math3'
+ and package 'org.apache.commons.math3.util' (e.g. 'MathArrays') over
+ to package 'org.apache.commons.math4.legacy.core'.
 
 Caveat:
  Although hundreds of issues have been fixed (see 'git log' and the
