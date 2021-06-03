@@ -23,7 +23,6 @@ import org.apache.commons.statistics.distribution.UniformContinuousDistribution;
 import org.apache.commons.rng.UniformRandomProvider;
 import org.apache.commons.rng.simple.RandomSource;
 import org.apache.commons.math4.legacy.core.jdkmath.AccurateMath;
-import org.apache.commons.numbers.angle.PlaneAngleRadians;
 
 /**
  * Factory for generating a cloud of points that approximate a circle.
@@ -55,7 +54,7 @@ public class RandomCirclePointGenerator {
         this.radius = radius;
         cX = new NormalDistribution(x, xSigma).createSampler(rng);
         cY = new NormalDistribution(y, ySigma).createSampler(rng);
-        tP = new UniformContinuousDistribution(0, PlaneAngleRadians.TWO_PI).createSampler(rng);
+        tP = new UniformContinuousDistribution(0, 2 * Math.PI).createSampler(rng);
     }
 
     /**

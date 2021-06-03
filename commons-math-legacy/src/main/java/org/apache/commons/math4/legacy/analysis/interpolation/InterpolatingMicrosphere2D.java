@@ -17,7 +17,6 @@
 package org.apache.commons.math4.legacy.analysis.interpolation;
 
 import org.apache.commons.math4.legacy.core.jdkmath.AccurateMath;
-import org.apache.commons.numbers.angle.PlaneAngleRadians;
 
 /**
  * Utility class for the {@link MicrosphereProjectionInterpolator} algorithm.
@@ -57,8 +56,9 @@ public class InterpolatingMicrosphere2D extends InterpolatingMicrosphere {
         super(DIMENSION, size, maxDarkFraction, darkThreshold, background);
 
         // Generate the microsphere normals.
+        final double twopi = 2 * Math.PI;
         for (int i = 0; i < size; i++) {
-            final double angle = i * PlaneAngleRadians.TWO_PI / size;
+            final double angle = i * twopi / size;
 
             add(new double[] { AccurateMath.cos(angle),
                                AccurateMath.sin(angle) },

@@ -21,7 +21,6 @@ import java.util.ArrayList;
 import org.apache.commons.math4.legacy.analysis.MultivariateMatrixFunction;
 import org.apache.commons.math4.legacy.analysis.MultivariateVectorFunction;
 import org.apache.commons.math4.legacy.core.jdkmath.AccurateMath;
-import org.apache.commons.numbers.angle.PlaneAngleRadians;
 
 /**
  * Class that models a circle.
@@ -111,7 +110,8 @@ class CircleProblem {
 
                 final double[] model = new double[points.size() * 2];
 
-                final double deltaTheta = PlaneAngleRadians.TWO_PI / resolution;
+                final double twopi = 2 * Math.PI;
+                final double deltaTheta = twopi / resolution;
                 for (int i = 0; i < points.size(); i++) {
                     final double[] p = points.get(i);
                     final double px = p[0];
@@ -124,7 +124,7 @@ class CircleProblem {
                     // Find the angle for which the circle passes closest to the
                     // current point (using a resolution of 100 points along the
                     // circumference).
-                    for (double theta = 0; theta <= PlaneAngleRadians.TWO_PI; theta += deltaTheta) {
+                    for (double theta = 0; theta <= twopi; theta += deltaTheta) {
                         final double currentX = cx + r * AccurateMath.cos(theta);
                         final double currentY = cy + r * AccurateMath.sin(theta);
                         final double dX = currentX - px;
