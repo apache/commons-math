@@ -15,7 +15,7 @@
  * limitations under the License.
  */
 
-package org.apache.commons.math4.legacy.complex;
+package org.apache.commons.math4.legacy.util;
 
 import java.text.FieldPosition;
 import java.text.NumberFormat;

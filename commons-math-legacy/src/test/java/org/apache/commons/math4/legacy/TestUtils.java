@@ -23,17 +23,18 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.text.DecimalFormat;
 
+import org.junit.Assert;
+
 import org.apache.commons.numbers.complex.Complex;
 import org.apache.commons.numbers.core.Precision;
 import org.apache.commons.statistics.distribution.ContinuousDistribution;
 import org.apache.commons.math4.legacy.core.FieldElement;
-import org.apache.commons.math4.legacy.complex.ComplexFormat;
+import org.apache.commons.math4.legacy.core.jdkmath.AccurateMath;
+import org.apache.commons.math4.legacy.util.ComplexFormat;
 import org.apache.commons.math4.legacy.linear.FieldMatrix;
 import org.apache.commons.math4.legacy.linear.RealMatrix;
 import org.apache.commons.math4.legacy.linear.RealVector;
 import org.apache.commons.math4.legacy.stat.inference.ChiSquareTest;
-import org.apache.commons.math4.legacy.core.jdkmath.AccurateMath;
-import org.junit.Assert;
 
 /**
  */

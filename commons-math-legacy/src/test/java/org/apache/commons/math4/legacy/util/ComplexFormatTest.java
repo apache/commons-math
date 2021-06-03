@@ -15,8 +15,19 @@
  * limitations under the License.
  */
 
-/**
- * Complex number type implementations have been moved to
- * <a href="http://commons.apache.org/numbers">Commons Numbers</a>.
- */
-package org.apache.commons.math4.legacy.complex;
+package org.apache.commons.math4.legacy.util;
+
+import java.util.Locale;
+
+
+public class ComplexFormatTest extends ComplexFormatAbstractTest {
+    @Override
+    protected char getDecimalCharacter() {
+        return '.';
+    }
+
+    @Override
+    protected Locale getLocale() {
+        return Locale.US;
+    }
+}
