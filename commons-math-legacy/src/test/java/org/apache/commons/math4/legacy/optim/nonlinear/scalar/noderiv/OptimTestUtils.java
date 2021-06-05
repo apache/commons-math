@@ -17,9 +17,9 @@
 package org.apache.commons.math4.legacy.optim.nonlinear.scalar.noderiv;
 
 import java.util.Arrays;
-import java.util.Random;
 import org.apache.commons.rng.UniformRandomProvider;
 import org.apache.commons.rng.simple.RandomSource;
+import org.apache.commons.rng.sampling.distribution.MarsagliaNormalizedGaussianSampler;
 import org.apache.commons.math4.legacy.analysis.MultivariateFunction;
 import org.apache.commons.math4.legacy.core.jdkmath.AccurateMath;
 
@@ -346,7 +346,7 @@ class OptimTestUtils {
 
     private static class Basis {
         double[][] basis;
-        final Random rand = new Random(2); // use not always the same basis
+        final MarsagliaNormalizedGaussianSampler rand = MarsagliaNormalizedGaussianSampler.of(rng()); // use not always the same basis
 
         double[] Rotate(double[] x) {
             GenBasis(x.length);
@@ -373,7 +373,7 @@ class OptimTestUtils {
             for (i = 0; i < DIM; ++i) {
                 /* sample components gaussian */
                 for (j = 0; j < DIM; ++j) {
-                    basis[i][j] = rand.nextGaussian();
+                    basis[i][j] = rand.sample();
                 }
                 /* substract projection of previous vectors */
                 for (j = i - 1; j >= 0; --j) {
