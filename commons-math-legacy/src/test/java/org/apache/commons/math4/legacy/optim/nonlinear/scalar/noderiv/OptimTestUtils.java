@@ -20,6 +20,7 @@ import java.util.Arrays;
 import org.apache.commons.rng.UniformRandomProvider;
 import org.apache.commons.rng.simple.RandomSource;
 import org.apache.commons.rng.sampling.distribution.MarsagliaNormalizedGaussianSampler;
+import org.apache.commons.rng.sampling.distribution.ContinuousUniformSampler;
 import org.apache.commons.math4.legacy.analysis.MultivariateFunction;
 import org.apache.commons.math4.legacy.core.jdkmath.AccurateMath;
 
@@ -213,29 +214,24 @@ class OptimTestUtils {
     }
  
     static class Ackley implements MultivariateFunction {
-        private double axisratio;
-         
-        Ackley(double axra) {
-            axisratio = axra;
-        }
-         
-        public Ackley() {
-            this(1);
-        }
-         
+        private static final double A = 20;
+        private static final double B = 0.2;
+        private static final double C = 2 * Math.PI;
+
         @Override
         public double value(double[] x) {
-            double f = 0;
-            double res2 = 0;
-            double fac = 0;
-            for (int i = 0; i < x.length; ++i) {
-                fac = AccurateMath.pow(axisratio, (i - 1.) / (x.length - 1.));
-                f += fac * fac * x[i] * x[i];
-                res2 += AccurateMath.cos(2. * AccurateMath.PI * fac * x[i]);
+            final int dim = x.length;
+            double acc1 = 0;
+            double acc2 = 0;
+            for (int i = 0; i < dim; i++) {
+                final double v = x[i];
+                acc1 += v * v;
+                acc2 += Math.cos(C * v);
             }
-            f = (20. - 20. * AccurateMath.exp(-0.2 * AccurateMath.sqrt(f / x.length))
-                 + AccurateMath.exp(1.) - AccurateMath.exp(res2 / x.length));
-            return f;
+            acc1 = -B * Math.sqrt(acc1 / dim);
+            acc2 /= dim;
+
+            return -A * Math.exp(acc1) - Math.exp(acc2) + A + Math.E;
         }
     }
 
@@ -334,8 +330,26 @@ class OptimTestUtils {
     }
 
     static double[] point(int n, double value) {
-        double[] ds = new double[n];
+        final double[] ds = new double[n];
         Arrays.fill(ds, value);
+        return ds;
+    }
+
+    /**
+     * @param n Dimension.
+     * @param value Value.
+     * @param jitter Random noise to add to {@code value}.
+     */
+    static double[] point(int n,
+                          double value,
+                          double jitter) {
+        final ContinuousUniformSampler s = new ContinuousUniformSampler(rng(),
+                                                                        -jitter,
+                                                                        jitter);
+        final double[] ds = new double[n];
+        for (int i = 0; i < n; i++) {
+            ds[i] = value + s.sample();
+        }
         return ds;
     }
 

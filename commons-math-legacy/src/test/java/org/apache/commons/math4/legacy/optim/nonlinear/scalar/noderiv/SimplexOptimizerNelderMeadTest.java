@@ -270,7 +270,7 @@ public class SimplexOptimizerNelderMeadTest {
         doTest(new OptimTestUtils.Rosen(),
                OptimTestUtils.point(DIM, 0.1),
                GoalType.MINIMIZE,
-               11975,
+               9078,
                new PointValuePair(OptimTestUtils.point(DIM, 1.0), 0.0),
                1e-6);
     }
@@ -279,18 +279,18 @@ public class SimplexOptimizerNelderMeadTest {
     @Test
     public void testEllipse() {
         doTest(new OptimTestUtils.Elli(),
-               OptimTestUtils.point(DIM, 1.0),
+               OptimTestUtils.point(DIM, 1.0, 2e-1),
                GoalType.MINIMIZE,
-               7184,
+               12000,
                new PointValuePair(OptimTestUtils.point(DIM, 0.0), 0.0),
-               1e-14);
+               1e-6);
      }
 
     @Ignore
     @Test
     public void testElliRotated() {
         doTest(new OptimTestUtils.ElliRotated(),
-               OptimTestUtils.point(DIM, 1.0),
+               OptimTestUtils.point(DIM, 1.0, 1e-1),
                GoalType.MINIMIZE,
                7467,
                new PointValuePair(OptimTestUtils.point(DIM, 0.0), 0.0),
@@ -300,9 +300,9 @@ public class SimplexOptimizerNelderMeadTest {
     @Test
     public void testCigar() {
         doTest(new OptimTestUtils.Cigar(),
-               OptimTestUtils.point(DIM, 1.0),
+               OptimTestUtils.point(DIM, 1.0, 2e-1),
                GoalType.MINIMIZE,
-               9160,
+               7000,
                new PointValuePair(OptimTestUtils.point(DIM, 0.0), 0.0),
                1e-6);
     }
@@ -311,7 +311,7 @@ public class SimplexOptimizerNelderMeadTest {
     @Test
     public void testTwoAxes() {
         doTest(new OptimTestUtils.TwoAxes(),
-               OptimTestUtils.point(DIM, 1.0),
+               OptimTestUtils.point(DIM, 1.0, 1e-1),
                GoalType.MINIMIZE,
                3451,
                new PointValuePair(OptimTestUtils.point(DIM, 0.0), 0.0),
@@ -322,20 +322,19 @@ public class SimplexOptimizerNelderMeadTest {
     @Test
     public void testCigTab() {
         doTest(new OptimTestUtils.CigTab(),
-               OptimTestUtils.point(DIM, 1.0),
+               OptimTestUtils.point(DIM, 1.0, 1e-1),
                GoalType.MINIMIZE,
-               7454,
+               7000,
                new PointValuePair(OptimTestUtils.point(DIM, 0.0), 0.0),
-               1e-14);
+               1e-4);
      }
 
-    @Ignore
     @Test
     public void testSphere() {
         doTest(new OptimTestUtils.Sphere(),
-               OptimTestUtils.point(DIM, 1.0),
+               OptimTestUtils.point(DIM, 1.0, 1e-1),
                GoalType.MINIMIZE,
-               3881,
+               3000,
                new PointValuePair(OptimTestUtils.point(DIM, 0.0), 0.0),
                1e-6);
     }
@@ -344,9 +343,9 @@ public class SimplexOptimizerNelderMeadTest {
     @Test
     public void testTablet() {
         doTest(new OptimTestUtils.Tablet(),
-               OptimTestUtils.point(DIM, 1.0),
+               OptimTestUtils.point(DIM, 1.0, 1e-1),
                GoalType.MINIMIZE,
-               6639,
+               10000,
                new PointValuePair(OptimTestUtils.point(DIM, 0.0), 0.0),
                1e-14);
     }
@@ -355,42 +354,41 @@ public class SimplexOptimizerNelderMeadTest {
     @Test
     public void testDiffPow() {
         doTest(new OptimTestUtils.DiffPow(),
-               OptimTestUtils.point(DIM, 1.0),
+               OptimTestUtils.point(DIM, 1.0, 2e-1),
                GoalType.MINIMIZE,
-               4105,
+               7000,
                new PointValuePair(OptimTestUtils.point(DIM, 0.0), 0.0),
-               1e-14);
+               1e-6);
     }
 
-    @Ignore
     @Test
     public void testSsDiffPow() {
         doTest(new OptimTestUtils.SsDiffPow(),
-               OptimTestUtils.point(DIM / 2, 1.0),
+               OptimTestUtils.point(DIM / 2, 1.0, 2e-1),
                GoalType.MINIMIZE,
-               3990,
+               4000,
                new PointValuePair(OptimTestUtils.point(DIM / 2, 0.0), 0.0),
-               1e-15);
+               1e-3);
     }
 
     @Ignore
     @Test
     public void testAckley() {
         doTest(new OptimTestUtils.Ackley(),
-               OptimTestUtils.point(DIM, 1.0),
+               OptimTestUtils.point(DIM, 1.0, 2e-1),
                GoalType.MINIMIZE,
-               2849,
+               10000,
                new PointValuePair(OptimTestUtils.point(DIM, 0.0), 0.0),
-               0);
+               1e-11);
     }
 
     @Ignore
     @Test
     public void testRastrigin() {
         doTest(new OptimTestUtils.Rastrigin(),
-               OptimTestUtils.point(DIM, 1.0),
+               OptimTestUtils.point(DIM, 1.0, 2e-1),
                GoalType.MINIMIZE,
-               2166,
+               10000,
                new PointValuePair(OptimTestUtils.point(DIM, 0.0), 0.0),
                0);
     }
@@ -415,7 +413,7 @@ public class SimplexOptimizerNelderMeadTest {
                                                      new ObjectiveFunction(func),
                                                      goal,
                                                      new InitialGuess(startPoint),
-                                                     new NelderMeadSimplex(dim, 0.1));
+                                                     new NelderMeadSimplex(dim, 1));
         final double dist = MathArrays.distance(expected.getPoint(),
                                                 result.getPoint());
         Assert.assertEquals(0d, dist, tol);

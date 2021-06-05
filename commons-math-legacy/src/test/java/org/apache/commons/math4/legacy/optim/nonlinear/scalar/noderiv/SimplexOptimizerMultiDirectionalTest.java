@@ -272,7 +272,7 @@ public class SimplexOptimizerMultiDirectionalTest {
         doTest(new OptimTestUtils.DiffPow(),
                OptimTestUtils.point(DIM, 1.0),
                GoalType.MINIMIZE,
-               614,
+               1000,
                new PointValuePair(OptimTestUtils.point(DIM, 0.0), 0.0),
                1e-14);
     }
@@ -280,33 +280,31 @@ public class SimplexOptimizerMultiDirectionalTest {
     @Test
     public void testSsDiffPow() {
         doTest(new OptimTestUtils.SsDiffPow(),
-               OptimTestUtils.point(DIM / 2, 1.0),
+               OptimTestUtils.point(DIM / 2, 1.0, 1e-1),
                GoalType.MINIMIZE,
-               656,
+               5000,
                new PointValuePair(OptimTestUtils.point(DIM / 2, 0.0), 0.0),
-               1e-15);
+               1e-3);
     }
 
-    @Ignore
     @Test
     public void testAckley() {
         doTest(new OptimTestUtils.Ackley(),
-               OptimTestUtils.point(DIM, 1.0),
+               OptimTestUtils.point(DIM, 1.0, 1e-1),
                GoalType.MINIMIZE,
-               587,
-               new PointValuePair(OptimTestUtils.point(DIM, 0.0), 0.0),
-               0);
+               7500,
+               new PointValuePair(OptimTestUtils.point(DIM, 0.0), 0d),
+               1e-11);
     }
 
-    @Ignore
     @Test
     public void testRastrigin() {
         doTest(new OptimTestUtils.Rastrigin(),
-               OptimTestUtils.point(DIM, 1.0),
+               OptimTestUtils.point(DIM, 1.0, 1e-1),
                GoalType.MINIMIZE,
-               535,
-               new PointValuePair(OptimTestUtils.point(DIM, 0.0), 0.0),
-               0);
+               5000,
+               new PointValuePair(OptimTestUtils.point(DIM, 0.0), 0d),
+               1e-6);
     }
 
     /**
@@ -329,7 +327,7 @@ public class SimplexOptimizerMultiDirectionalTest {
                                                      new ObjectiveFunction(func),
                                                      goal,
                                                      new InitialGuess(startPoint),
-                                                     new MultiDirectionalSimplex(dim, 0.1));
+                                                     new MultiDirectionalSimplex(dim, 1));
         final double dist = MathArrays.distance(expected.getPoint(),
                                                 result.getPoint());
         Assert.assertEquals(0d, dist, tol);
