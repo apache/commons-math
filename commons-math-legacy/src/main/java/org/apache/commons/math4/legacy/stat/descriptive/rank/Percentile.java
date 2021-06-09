@@ -290,7 +290,7 @@ public class Percentile extends AbstractUnivariateStatistic implements Serializa
      * If weights have been set, it will compute weighted percentile.
      * <p>
      * The stored array is the one which was set by previous calls to
-     * {@link #setData(double[])} or {@link #setData(double[], double[] sampleWeights, int begin, int length)}
+     * {@link #setData(double[])} or {@link #setData(double[], double[], int, int)}
      * </p>
      * @param p the percentile value to compute
      * @return the value of the statistic applied to the stored data
@@ -484,13 +484,13 @@ public class Percentile extends AbstractUnivariateStatistic implements Serializa
      */
     public double evaluate(final double[] values, final double[] sampleWeights, final int begin,
                            final int length, final double p) {
+        if (values == null || sampleWeights == null) {
+            throw new MathIllegalArgumentException(LocalizedFormats.NULL_NOT_ALLOWED);
+        }
         /** Check length */
         if (values.length != sampleWeights.length) {
             throw new MathIllegalArgumentException(LocalizedFormats.LENGTH,
                                                    values, sampleWeights);
-        }
-        if (values == null || sampleWeights == null) {
-            throw new MathIllegalArgumentException(LocalizedFormats.NULL_NOT_ALLOWED);
         }
         MathArrays.verifyValues(values, begin, length);
         MathArrays.verifyValues(sampleWeights, begin, length);
