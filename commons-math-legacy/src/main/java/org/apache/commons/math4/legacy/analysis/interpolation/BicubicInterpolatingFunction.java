@@ -18,7 +18,7 @@ package org.apache.commons.math4.legacy.analysis.interpolation;
 
 import java.util.Arrays;
 
-import org.apache.commons.numbers.arrays.LinearCombination;
+import org.apache.commons.numbers.core.LinearCombination;
 import org.apache.commons.math4.legacy.analysis.BivariateFunction;
 import org.apache.commons.math4.legacy.exception.DimensionMismatchException;
 import org.apache.commons.math4.legacy.exception.NoDataException;

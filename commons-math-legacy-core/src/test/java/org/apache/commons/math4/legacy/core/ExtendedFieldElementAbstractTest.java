@@ -19,7 +19,7 @@ package org.apache.commons.math4.legacy.core;
 import org.junit.Assert;
 import org.junit.Test;
 
-import org.apache.commons.numbers.arrays.LinearCombination;
+import org.apache.commons.numbers.core.LinearCombination;
 import org.apache.commons.rng.UniformRandomProvider;
 import org.apache.commons.rng.simple.RandomSource;
 import org.apache.commons.math4.legacy.core.jdkmath.AccurateMath;

@@ -17,7 +17,7 @@
 package org.apache.commons.math4.legacy.ode.nonstiff;
 
 import org.apache.commons.math4.legacy.core.jdkmath.AccurateMath;
-import org.apache.commons.numbers.arrays.LinearCombination;
+import org.apache.commons.numbers.core.LinearCombination;
 import org.apache.commons.math4.legacy.core.Field;
 import org.apache.commons.math4.legacy.core.RealFieldElement;
 import org.apache.commons.math4.legacy.exception.DimensionMismatchException;

@@ -19,7 +19,7 @@ package org.apache.commons.math4.legacy.analysis.differentiation;
 import java.util.Arrays;
 import java.io.Serializable;
 
-import org.apache.commons.numbers.arrays.LinearCombination;
+import org.apache.commons.numbers.core.LinearCombination;
 import org.apache.commons.math4.legacy.core.Field;
 import org.apache.commons.math4.legacy.core.FieldElement;
 import org.apache.commons.math4.legacy.core.RealFieldElement;

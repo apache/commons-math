@@ -17,7 +17,7 @@
 
 package org.apache.commons.math4.legacy.analysis;
 
-import org.apache.commons.numbers.arrays.LinearCombination;
+import org.apache.commons.numbers.core.LinearCombination;
 import org.apache.commons.math4.legacy.analysis.differentiation.DerivativeStructure;
 import org.apache.commons.math4.legacy.analysis.differentiation.MultivariateDifferentiableFunction;
 import org.apache.commons.math4.legacy.analysis.differentiation.UnivariateDifferentiableFunction;

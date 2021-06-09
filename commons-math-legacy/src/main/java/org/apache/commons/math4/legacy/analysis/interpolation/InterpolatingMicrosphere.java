@@ -18,8 +18,8 @@ package org.apache.commons.math4.legacy.analysis.interpolation;
 
 import java.util.List;
 import java.util.ArrayList;
-import org.apache.commons.numbers.arrays.CosAngle;
-import org.apache.commons.numbers.arrays.SafeNorm;
+import org.apache.commons.numbers.core.Norm;
+import org.apache.commons.numbers.angle.CosAngle;
 import org.apache.commons.rng.sampling.UnitSphereSampler;
 import org.apache.commons.math4.legacy.exception.DimensionMismatchException;
 import org.apache.commons.math4.legacy.exception.NotPositiveException;
@@ -222,7 +222,7 @@ public class InterpolatingMicrosphere {
         for (int i = 0; i < numSamples; i++) {
             // Vector between interpolation point and current sample point.
             final double[] diff = MathArrays.ebeSubtract(samplePoints[i], point);
-            final double diffNorm = SafeNorm.value(diff);
+            final double diffNorm = Norm.L2.of(diff);
 
             if (AccurateMath.abs(diffNorm) < noInterpolationTolerance) {
                 // No need to interpolate, as the interpolation point is
