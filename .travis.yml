@@ -31,5 +31,8 @@ branches:
     - master
     - MATH_3_X
 
+script:
+    - mvn
+
 after_success:
-  - mvn clean test jacoco:report coveralls:report
+  - mvn jacoco:report coveralls:report
