@@ -1357,7 +1357,7 @@ public class Percentile extends AbstractUnivariateStatistic implements Serializa
                 }
                 return lo;
             } else {
-                int mid = (lo + hi) / 2;
+                int mid = (lo + hi) >>> 1;
                 if (qsn == sk[mid]) {
                   return mid;
                 } else if (qsn > sk[mid]) {
