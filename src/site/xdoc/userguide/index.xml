@@ -103,8 +103,6 @@
         <li><a href="distribution.html">8. Probability Distributions</a>
                 <ul>
                 <li><a href="distribution.html#a8.1_Overview">8.1 Overview</a></li>
-                <li><a href="distribution.html#a8.2_Distribution_Framework">8.2 Distribution Framework</a></li>
-                <li><a href="distribution.html#a8.3_User_Defined_Distributions">8.3 User Defined Distributions</a></li>
                 </ul></li>                                 
         <li><a href="fraction.html">9. Fractions</a>
                 <ul>

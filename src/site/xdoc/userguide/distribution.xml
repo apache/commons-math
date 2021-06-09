@@ -16,7 +16,7 @@
    See the License for the specific language governing permissions and
    limitations under the License.
   -->
-  
+
 <?xml-stylesheet type="text/xsl" href="./xdoc.xsl"?>
 <document url="distribution.html">
   <properties>
@@ -26,90 +26,36 @@
     <section name="8 Probability Distributions">
       <subsection name="8.1 Overview" href="overview">
         <p>
-          The distributions package provides a framework and implementations for some commonly used
-          probability distributions. Continuous univariate distributions are represented by implementations of
-          the <a href="../apidocs/org/apache/commons/math4/distribution/RealDistribution.html">RealDistribution</a>
-          interface.  Discrete distributions implement
-          <a href="../apidocs/org/apache/commons/math4/distribution/IntegerDistribution.html">IntegerDistribution</a>
-          (values must be mapped to integers) and there is an
-          <a href="../apidocs/org/apache/commons/math4/distribution/EnumeratedDistribution.html">EnumeratedDistribution</a>
-          class representing discrete distributions with a finite, enumerated set of values.  Finally, multivariate
-          real-valued distributions can be represented via the 
-          <a href="../apidocs/org/apache/commons/math4/distribution/MultiVariateRealDistribution.html">MultivariateRealDistribution</a>
-          interface.
+          Standard distributions are now available in the
+          <a href="https://commons.apache.org/proper/commons-statistics/userguide/index.html">
+          Commons Statistics</a> component.
         </p>
         <p>
-          An overview of available continuous distributions:<br/>
-          <img src="../images/userguide/real_distribution_examples.png" alt="Overview of continuous distributions"/>
-        </p>
-      </subsection>
-      <subsection name="8.2 Distribution Framework" href="distributions">
-        <p>
-          The distribution framework provides the means to compute probability density
-          functions (<code>density(&middot;)</code>), probability mass functions
-          (<code>probability(&middot;)</code>) and distribution functions
-          (<code>cumulativeProbability(&middot;)</code>) for both
-          discrete (integer-valued) and continuous probability distributions.
-          The framework also allows for the computation of inverse cumulative probabilities
-          and sampling from distributions.
-        </p>
-        <p>
-          For an instance <code>f</code> of a distribution <code>F</code>,
-          and a domain value, <code>x</code>, <code>f.cumulativeProbability(x)</code>
-          computes <code>P(X &lt;= x)</code> where <code>X</code> is a random variable distributed
-          as <code>f</code>, i.e., <code>f.cumulativeProbability(&middot;)</code> represents
-          the distribution function of <code>f</code>. If <code>f</code> is continuous,
-          (implementing the <code>RealDistribution</code> interface) the probability density
-          function of <code>f</code> is represented by <code>f.density(&middot;)</code>.
-          For discrete <code>f</code> (implementing <code>IntegerDistribution</code>), the probability
-          mass function is represented by <code>f.probability(&middot;)</code>.  Continuous
-          distributions also implement <code>probability(&middot;)</code> with the same
-          definition (<code>f.probability(x)</code> represents <code>P(X = x)</code>
-          where <code>X</code> is distributed as <code>f</code>), though in the continuous
-          case, this will usually be identically 0. 
-        </p>
-<source>TDistribution t = new TDistribution(29);
-double lowerTail = t.cumulativeProbability(-2.656);     // P(T(29) &lt;= -2.656)
-double upperTail = 1.0 - t.cumulativeProbability(2.75); // P(T(29) &gt;= 2.75)</source>
-        <p>
-          All distributions implement a <code>sample()</code> method to support random sampling from the
-          distribution. Implementation classes expose constructors allowing the default 
-          <a href="../apidocs/org/apache/commons/math4/random/RandomGenerator.html">RandomGenerator</a>
-          used by the sampling algorithm to be overridden.  If sampling is not going to be used, providing
-          a null <code>RandomGenerator</code> constructor argument will avoid the overhead of initializing
-          the default generator.
+          Commons Math provides
+          <ul>
+            <li>
+              an <a href="../apidocs/org/apache/commons/math4/legacy/distribution/EnumeratedDistribution.html">
+              EnumeratedDistribution</a> class that represents discrete distributions of a finite,
+              enumerated set of values.
+            </li>
+            <li>
+              a <a href="../apidocs/org/apache/commons/math4/legacy/distribution/MultiVariateNormalDistribution.html">
+              MultivariateNormalDistribution</a> interface that represents multivariate Gaussian
+              distributions.
+            </li>
+          </ul>
         </p>
         <p>
           Inverse distribution functions can be computed using the
           <code>inverseCumulativeProbability</code> methods.  For continuous <code>f</code>
           and <code>p</code> a probability, <code>f.inverseCumulativeProbability(p)</code> returns
           <code><ul>
-            <li>inf{x in R | P(X&le;x) &ge; p} for 0 &lt; p &lt; 1},</li>
-            <li>inf{x in R | P(X&le;x) &gt; 0} for p = 0}.</li>
+            <li>inf{x in R | P(X&le;x) &ge; p} for 0 &lt; p &lt; 1,</li>
+            <li>inf{x in R | P(X&le;x) &gt; 0} for p = 0.</li>
           </ul></code> where <code>X</code> is distributed as <code>f</code>.<br/>
           For discrete <code>f</code>, the definition is the same, with <code>Z</code> (the integers)
           in place of <code>R</code>.  Note that in the discrete case, the &ge; in the definition
           can make a difference when <code>p</code> is an attained value of the distribution.
-        </p>
-      </subsection>
-      <!--
-          TODO: add section on multivariate distributions
-      -->
-      <subsection name="8.3 User Defined Distributions" href="userdefined">
-        <p>
-        User-defined distributions can be implemented using
-        <a href="../apidocs/org/apache/commons/math4/distribution/RealDistribution.html">RealDistribution</a>,
-        <a href="../apidocs/org/apache/commons/math4/distribution/IntegerDistribution.html">IntegerDistribution</a> and
-        <a href="../apidocs/org/apache/commons/math4/distribution/MultivariateRealDistribution.html">MultivariateRealDistribution</a>
-        interfaces serve as base types.  These serve as the basis for all the distributions directly supported by
-        Apache Commons Math.  To aid in implementing distributions,
-        the <a href="../apidocs/org/apache/commons/math4/distribution/AbstractRealDistribution.html">AbstractRealDistribution</a>,
-        <a href="../apidocs/org/apache/commons/math4/distribution/AbstractIntegerDistribution.html">AbstractIntegerDistribution</a> and 
-        <a href="../apidocs/org/apache/commons/math4/distribution/AbstractMultivariateRealDistribution.html">AbstractMultivariateRealDistribution</a>
-        provide implementation building blocks and offer basic distribution functionality.
-        By extending these abstract classes directly, much of the repetitive distribution
-        implementation is already developed and should save time and effort in developing
-        user-defined distributions.
         </p>
       </subsection>
     </section>
