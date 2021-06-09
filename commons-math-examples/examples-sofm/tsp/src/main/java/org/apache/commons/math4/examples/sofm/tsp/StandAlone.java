@@ -17,8 +17,9 @@
 
 package org.apache.commons.math4.examples.sofm.tsp;
 
-import java.io.IOException;
+import java.io.FileNotFoundException;
 import java.io.PrintWriter;
+import java.io.UnsupportedEncodingException;
 import java.nio.charset.StandardCharsets;
 import java.util.concurrent.Callable;
 
@@ -142,10 +143,12 @@ public class StandAlone implements Callable<Void> {
      * @param fileName File.
      * @param travel Solution.
      * @param optimalDistance Length of shortest path.
+     * @throws UnsupportedEncodingException If UTF-8 encoding does not exist.
+     * @throws FileNotFoundException If the file cannot be created.
      */
     private static void printSummary(String fileName,
                                      City[] travel,
-                                     double optimalDistance) {
+                                     double optimalDistance) throws FileNotFoundException, UnsupportedEncodingException {
         try (final PrintWriter out = new PrintWriter(fileName, StandardCharsets.UTF_8.name())) {
             out.println("# Number of unique cities: " + City.unique(travel).size());
             out.println("# Travel distance: " + computeDistance(travel));
@@ -156,8 +159,6 @@ public class StandAlone implements Callable<Void> {
                 final double[] coord = c.getCoordinates();
                 out.println(coord[0] + " " + coord[1] + " # " + c.getName());
             }
-        } catch (Exception e) {
-            // Do nothing.
         }
     }
 }

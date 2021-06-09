@@ -17,8 +17,9 @@
 
 package org.apache.commons.math4.examples.sofm.chineserings;
 
-import java.io.IOException;
+import java.io.FileNotFoundException;
 import java.io.PrintWriter;
+import java.io.UnsupportedEncodingException;
 import java.nio.charset.StandardCharsets;
 import java.util.concurrent.Callable;
 
@@ -76,9 +77,11 @@ public class StandAlone implements Callable<Void> {
      *
      * @param fileName File name.
      * @param sofm Classifier.
+     * @throws UnsupportedEncodingException If UTF-8 encoding does not exist.
+     * @throws FileNotFoundException If the file cannot be created.
      */
     private static void printResult(String fileName,
-                                    ChineseRingsClassifier sofm) {
+                                    ChineseRingsClassifier sofm) throws FileNotFoundException, UnsupportedEncodingException {
         final NeuronSquareMesh2D.DataVisualization result = sofm.computeQualityIndicators();
 
         try (final PrintWriter out = new PrintWriter(fileName, StandardCharsets.UTF_8.name())) {
@@ -91,8 +94,6 @@ public class StandAlone implements Callable<Void> {
             printImage("Topographic error", result.getTopographicError(), out);
             printImage("Normalized hits", result.getNormalizedHits(), out);
             printImage("U-matrix", result.getUMatrix(), out);
-        } catch (IOException e) {
-            // Do nothing.
         }
     }
 
