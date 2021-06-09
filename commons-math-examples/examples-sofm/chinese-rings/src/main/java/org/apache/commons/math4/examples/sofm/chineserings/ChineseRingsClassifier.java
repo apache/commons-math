@@ -140,11 +140,10 @@ class ChineseRingsClassifier {
             centre[1].getMean(),
             centre[2].getMean()
         };
-        final double s = 0.1;
         final double[] dev = new double[] {
-            s * centre[0].getStandardDeviation(),
-            s * centre[1].getStandardDeviation(),
-            s * centre[2].getStandardDeviation()
+            0.1 * centre[0].getStandardDeviation(),
+            0.1 * centre[1].getStandardDeviation(),
+            0.1 * centre[2].getStandardDeviation()
         };
 
         final UniformRandomProvider rng = RandomSource.create(RandomSource.SPLIT_MIX_64);
