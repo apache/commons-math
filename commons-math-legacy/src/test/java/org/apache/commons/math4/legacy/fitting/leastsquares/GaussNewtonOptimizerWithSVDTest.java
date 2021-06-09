@@ -17,10 +17,10 @@
 
 package org.apache.commons.math4.legacy.fitting.leastsquares;
 
+import org.apache.commons.numbers.core.Precision;
 import org.apache.commons.geometry.euclidean.threed.Plane;
 import org.apache.commons.geometry.euclidean.threed.Planes;
 import org.apache.commons.geometry.euclidean.threed.Vector3D;
-import org.apache.commons.geometry.core.precision.EpsilonDoublePrecisionContext;
 import org.apache.commons.math4.legacy.exception.ConvergenceException;
 import org.apache.commons.math4.legacy.exception.TooManyEvaluationsException;
 import org.apache.commons.math4.legacy.fitting.leastsquares.GaussNewtonOptimizer.Decomposition;
@@ -140,12 +140,11 @@ public class GaussNewtonOptimizerWithSVDTest
         Optimum optimum = optimizer.optimize(problem.getBuilder().build());
 
         Plane span = Planes.fromPoints(Vector3D.ZERO, Vector3D.of(1, 2, -3), Vector3D.of(2, 1, 0),
-                                       new EpsilonDoublePrecisionContext(TOl));
+                                       Precision.doubleEquivalenceOfEpsilon(TOL));
         double expected = AccurateMath.abs(span.offset(Vector3D.of(1, 1, 1)));
         double actual = optimum.getResiduals().getNorm();
 
         //verify
-        Assert.assertEquals(expected, actual, TOl);
+        Assert.assertEquals(expected, actual, TOL);
     }
-
 }
