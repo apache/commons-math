@@ -19,6 +19,7 @@ package org.apache.commons.math4.examples.sofm.tsp;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.nio.charset.StandardCharsets;
 import java.util.concurrent.Callable;
 
 import picocli.CommandLine;
@@ -145,7 +146,7 @@ public class StandAlone implements Callable<Void> {
     private static void printSummary(String fileName,
                                      City[] travel,
                                      double optimalDistance) {
-        try (final PrintWriter out = new PrintWriter(fileName)) {
+        try (final PrintWriter out = new PrintWriter(fileName, StandardCharsets.UTF_8.name())) {
             out.println("# Number of unique cities: " + City.unique(travel).size());
             out.println("# Travel distance: " + computeDistance(travel));
             out.println("# Optimal travel distance: " + optimalDistance);

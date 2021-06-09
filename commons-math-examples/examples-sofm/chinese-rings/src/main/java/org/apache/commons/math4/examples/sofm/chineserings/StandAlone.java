@@ -19,6 +19,7 @@ package org.apache.commons.math4.examples.sofm.chineserings;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.nio.charset.StandardCharsets;
 import java.util.concurrent.Callable;
 
 import picocli.CommandLine;
@@ -80,7 +81,7 @@ public class StandAlone implements Callable<Void> {
                                     ChineseRingsClassifier sofm) {
         final NeuronSquareMesh2D.DataVisualization result = sofm.computeQualityIndicators();
 
-        try (final PrintWriter out = new PrintWriter(fileName)) {
+        try (final PrintWriter out = new PrintWriter(fileName, StandardCharsets.UTF_8.name())) {
             out.println("# Number of samples: " + result.getNumberOfSamples());
             out.println("# Quantization error: " + result.getMeanQuantizationError());
             out.println("# Topographic error: " + result.getMeanTopographicError());
