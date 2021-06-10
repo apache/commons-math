@@ -17,7 +17,6 @@
 package org.apache.commons.math4.legacy.analysis.solvers;
 
 import org.apache.commons.numbers.complex.Complex;
-import org.apache.commons.numbers.complex.streams.ComplexUtils;
 import org.apache.commons.math4.legacy.analysis.polynomials.PolynomialFunction;
 import org.apache.commons.math4.legacy.exception.NoBracketingException;
 import org.apache.commons.math4.legacy.exception.NoDataException;
@@ -147,7 +146,7 @@ public class LaguerreSolver extends AbstractPolynomialSolver {
      * @return the point at which the function value is zero.
      */
     private double laguerre(double lo, double hi) {
-        final Complex c[] = ComplexUtils.real2Complex(getCoefficients());
+        final Complex c[] = real2Complex(getCoefficients());
 
         final Complex initial = Complex.ofCartesian(0.5 * (lo + hi), 0);
         final Complex z = complexSolver.solve(c, initial);
@@ -193,7 +192,7 @@ public class LaguerreSolver extends AbstractPolynomialSolver {
               Double.NEGATIVE_INFINITY,
               Double.POSITIVE_INFINITY,
               initial);
-        return complexSolver.solveAll(ComplexUtils.real2Complex(coefficients),
+        return complexSolver.solveAll(real2Complex(coefficients),
                                       Complex.ofCartesian(initial, 0d));
     }
 
@@ -223,7 +222,7 @@ public class LaguerreSolver extends AbstractPolynomialSolver {
               Double.NEGATIVE_INFINITY,
               Double.POSITIVE_INFINITY,
               initial);
-        return complexSolver.solve(ComplexUtils.real2Complex(coefficients),
+        return complexSolver.solve(real2Complex(coefficients),
                                    Complex.ofCartesian(initial, 0d));
     }
 
@@ -380,5 +379,21 @@ public class LaguerreSolver extends AbstractPolynomialSolver {
                 incrementEvaluationCount();
             }
         }
+    }
+
+    /**
+     * Converts a {@code double[]} array to a {@code Complex[]} array.
+     *
+     * @param real array of numbers to be converted to their {@code Complex} equivalent
+     * @return {@code Complex} array
+     */
+    private static Complex[] real2Complex(double[] real) {
+        int index = 0;
+        final Complex[] c = new Complex[real.length];
+        for (final double d : real) {
+            c[index] = Complex.ofCartesian(d, 0);
+            index++;
+        }
+        return c;
     }
 }
