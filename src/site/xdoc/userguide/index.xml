@@ -50,12 +50,8 @@
             <li><a href="random.html">2. Data Generation</a>
                 <ul>
                 <li><a href="random.html#a2.1_Overview">2.1 Overview</a></li>
-                <li><a href="random.html#a2.2_Random_numbers">2.2 Random numbers</a></li>
-                <li><a href="random.html#a2.3_Random_Vectors">2.3 Random Vectors</a></li>
-                <li><a href="random.html#a2.4_Random_Strings">2.4 Random Strings</a></li>
-                <li><a href="random.html#a2.5_Random_permutations_combinations_sampling">2.5 Random permutations, combinations, sampling</a></li>
-                <li><a href="random.html#a2.6_Generating_data_like_an_input_file">2.6 Generating data 'like' an input file</a></li>
-                <li><a href="random.html#a2.7_PRNG_Pluggability">2.7 PRNG Pluggability</a></li>
+                <li><a href="random.html#a2.2_Correlated_random_vectors">2.2 Correlated random vectors</a></li>
+                <li><a href="random.html#a2.3_Low_discrepancy_sequences">2.3 Low discrepancy sequences</a></li>
                 </ul></li>
             <li><a href="linear.html">3. Linear Algebra</a>
                 <ul>
@@ -103,6 +99,7 @@
         <li><a href="distribution.html">8. Probability Distributions</a>
                 <ul>
                 <li><a href="distribution.html#a8.1_Overview">8.1 Overview</a></li>
+                <li><a href="distribution.html#a8.2_Generating_data_like_an_input_file">8.2 Generating data 'like' an input file</a></li>
                 </ul></li>                                 
         <li><a href="fraction.html">9. Fractions</a>
                 <ul>

@@ -58,6 +58,33 @@
           can make a difference when <code>p</code> is an attained value of the distribution.
         </p>
       </subsection>
+
+      <subsection name="8.2 Generating data like an input file"
+                  href="empirical">
+        <p>
+          Using the <code>EmpiricalDistribution</code> class, you can generate data based on
+          the values in an input file:
+
+          <source>
+int binCount = 500;
+EmpiricalDistribution empDist = new EmpiricalDistribution(binCount);
+empDist.load("data.txt");
+RealDistribution.Sampler sampler = empDist.createSampler(RandomSource.MT.create());
+double value = sampler.nextDouble(); </source>
+
+          The entire input file is read and a probability density function is estimated
+          based on data from the file.
+          The estimation method is essentially the
+          <a href="http://nedwww.ipac.caltech.edu/level5/March02/Silverman/Silver2_6.html">
+            Variable Kernel Method</a> with Gaussian smoothing.
+          The created sampler will return random values whose probability distribution
+          matches the empirical distribution (i.e. if you generate a large number of
+          such values, their distribution should "look like" the distribution of the
+          values in the input file.
+          The values are not stored in memory in this case either, so there is no limit to the
+          size of the input file.
+        </p>
+      </subsection>
     </section>
   </body>
 </document>

@@ -28,181 +28,100 @@
 
 <section name="2 Data Generation">
 
-<subsection name="2.1 Overview"
-            href="overview">
+  <subsection name="2.1 Overview"
+              href="overview">
     <p>
-    The Commons Math <a href="../apidocs/org/apache/commons/math4/random/package-summary.html">o.a.c.m.random</a>
-    package includes utilities for
-    <ul>
-        <li>generating random numbers</li>
-        <li>generating random vectors</li>
-        <li>generating random strings</li>
-        <li>generating cryptographically secure sequences of random numbers or
-         strings</li>
-        <li>generating random samples and permutations</li>
-        <li>analyzing distributions of values in an input file and generating
-         values "like" the values in the file</li>
-        <li>generating data for grouped frequency distributions or
-         histograms</li>
-    </ul></p>
+      Utilities in package <a href="../apidocs/org/apache/commons/math4/legacy/random/package-summary.html">
+      o.a.c.m.legacy.random</a> often uses an underlying "source of randomness": A pseudo-random
+      number generator (PRNG) that produces sequences of numbers that are uniformly distributed
+      within their range.
+      Commons Math depends on <a href="http://commons.apache.org/rng">Commons RNG</a> for the
+      PRNG implementations.
+    </p>
+  </subsection>
+
+  <subsection name="2.2 Correlated random vectors"
+              href="vectors">
     <p>
-      These utilities rely on an underlying "source of randomness", which in most
-      cases is a pseudo-random number generator (PRNG) that produces sequences
-      of numbers that are uniformly distributed within their range.
-      Commons Math depends on <a href="http://commons.apache.org/rng">Commons Rng</a>
-      for the PRNG implementations.
+      Some algorithms require random vectors instead of random scalars.
+      When the components of these vectors are uncorrelated, they may be generated
+      simply one at a time and packed together in the vector.
     </p>
     <p>
-      A PRNG algorithm is often deterministic, i.e. it produces the same sequence
-      when initialized with the same "seed".
-      This property is important for some applications like Monte-Carlo simulations,
-      but makes such a PRNG often unsuitable for cryptographic purposes.
+      When the components are correlated however, generating them is more difficult.
+      The <a href="../apidocs/org/apache/commons/math4/legacy/random/CorrelatedVectorFactory.html">
+      CorrelatedVectorFactory</a> class provides this service.
+      In this case, a complete covariance matrix must be provided (instead of a
+      simple standard deviations vector) gathering both the variance and the
+      correlation information of the probability law.
     </p>
-</subsection>
+    <p>
+      The main use for correlated random vector generation is for Monte-Carlo
+      simulation of physical problems with several variables, for example to
+      generate error vectors to be added to a nominal vector. A particularly
+      common case is when the generated vector should be drawn from a <a
+      href="http://en.wikipedia.org/wiki/Multivariate_normal_distribution">
+      Multivariate Normal Distribution</a>.
+    </p>
 
-<subsection name="2.2 Random Deviates"
-            href="deviates">
-  <p>
-    <dl>
-    <dt>Random sequence of numbers from a probability distribution</dt>
-    <dd>
-    There is no such thing as a single "random number."  What can be
-    generated  are <i>sequences</i> of numbers that appear to be random.  When
-    using the built-in JDK function <code>Math.random()</code>, sequences of 
-    values generated follow the 
-    <a href="http://www.itl.nist.gov/div898/handbook/eda/section3/eda3662.htm">
-    Uniform Distribution</a>, which means that the values are evenly spread
-    over the interval  between 0 and 1, with no sub-interval having a greater
-    probability of containing generated values than any other interval of the
-    same length.  The mathematical concept of a
-    <a href="http://www.itl.nist.gov/div898/handbook/eda/section3/eda36.htm">
-    probability distribution</a> basically amounts to asserting that different
-    ranges in the set  of possible values of a random variable have
-    different probabilities of containing the value.  Commons Math supports
-    generating random sequences from each of the distributions defined in the
-    <a href="../apidocs/org/apache/commons/math4/distribution/package-summary.html">
-      o.a.c.m.distribution</a> package.
-    Please refer to the <a href="../distribution.html">specific documentation</a>
-    for more details.
-    </dd>
+    <p>
+      Generating random vectors from a bivariate normal distribution:
 
-    <dt>Cryptographically secure random sequences</dt>
-    <dd>
-    It is possible for a sequence of numbers to appear random, but
-    nonetheless to be predictable based on the algorithm used to generate the
-    sequence.
-    When in addition to randomness, strong unpredictability is
-    required, a
-    <a href="http://www.wikipedia.org/wiki/Cryptographically_secure_pseudo-random_number_generator">
-    secure random number generator</a>
-    should be used to generate values (or strings), for example an instance of
-    the JDK-provided <code>SecureRandom</code> generator.
-    In general, such secure generator produce sequence based on a source of
-    true randomness, and sequences started with the same seed will diverge.
-
-    The <a href="../apidocs/org/apache/commons/math4/random/RandomUtils.html">RandomUtils</a>
-    class provides a method for wrapping a <code>java.util.Random</code> or
-    <code>java.security.SecureRandom</code> instance in an object that implements
-    the <a href="http://commons.apache.org/proper/commons-rng/apidocs/org/apache/commons/rng/UniformRandomProvider.html">
-    UniformRandomProvider</a> interface:
-    <source>
-UniformRandomProvider rg = RandomUtils.asUniformRandomProvider(new java.security.SecureRandom());
-</source>
-    </dd>
-    </dl>
-  </p>
-</subsection>
-
-<subsection name="2.3 Random Vectors"
-            href="vectors">
-  <p>
-    Some algorithms require random vectors instead of random scalars. When the
-    components of these vectors are uncorrelated, they may be generated simply
-    one at a time and packed together in the vector. The <a
-    href="../apidocs/org/apache/commons/math4/random/UncorrelatedRandomVectorGenerator.html">
-    UncorrelatedRandomVectorGenerator</a> class simplifies this
-    process by setting the mean and deviation of each component once and
-    generating complete vectors. When the components are correlated however,
-    generating them is much more difficult. The <a href="../apidocs/org/apache/commons/math4/random/CorrelatedRandomVectorGenerator.html">
-    CorrelatedRandomVectorGenerator</a> class provides this service. In this
-    case, the user must set up a complete covariance matrix instead of a simple
-    standard deviations vector. This matrix gathers both the variance and the
-    correlation information of the probability law.
-  </p>
-  <p>
-    The main use for correlated random vector generation is for Monte-Carlo
-    simulation of physical problems with several variables, for example to
-    generate error vectors to be added to a nominal vector. A particularly
-    common case is when the generated vector should be drawn from a <a
-    href="http://en.wikipedia.org/wiki/Multivariate_normal_distribution">
-    Multivariate Normal Distribution</a>.
-  </p>
-
-  <p><dl>
-    <dt>Generating random vectors from a bivariate normal distribution</dt><dd>
-    <source>
-// Import common PRNG interface and factory class that instantiates the PRNG.
+      <source>
+import java.util.function.Supplier;
 import org.apache.commons.rng.UniformRandomProvider;
 import org.apache.commons.rng.RandomSource;
 
-// Create (and possibly seed) a PRNG (could use any of the CM-provided generators).
+// Import common PRNG interface and factory class that instantiates the PRNG.
+// Create (and possibly seed) a PRNG.
 long seed = 17399225432L; // Fixed seed means same results every time 
-UniformRandomProvider rg = RandomSource.create(RandomSource.MT, seed);
+UniformRandomProvider rng = RandomSource.create(RandomSource.MT, seed);
 
-// Create a GaussianRandomGenerator using "rg" as its source of randomness.
-GaussianRandomGenerator rawGenerator = new GaussianRandomGenerator(rg);
-
-// Create a CorrelatedRandomVectorGenerator using "rawGenerator" for the components.
-CorrelatedRandomVectorGenerator generator = 
-    new CorrelatedRandomVectorGenerator(mean, covariance, 1.0e-12 * covariance.getNorm(), rawGenerator);
+// Create a a factory of correlated vectors.
+CorrelatedVectorFactory factory = new CorrelatedVectorFactory(mean, covariance, 1e-12);
+Supplier&lt;double[]&gt; generator = factory.gaussian(rng);
 
 // Use the generator to generate correlated vectors.
-double[] randomVector = generator.nextVector();
+double[] randomVector = generator.get();
 ... </source>
 
-    The <code>mean</code> argument is a <code>double[]</code> array holding the means
-    of the random vector components.  In the bivariate case, it must have length 2.
-    The <code>covariance</code> argument is a <code>RealMatrix</code>, which has to
-    be 2 x 2.
-    The main diagonal elements are the variances of the vector components and the
-    off-diagonal elements are the covariances.
-    For example, if the means are 1 and 2 respectively, and the desired standard deviations
-    are 3 and 4, respectively, then we need to use
-    <source>
+      The <code>mean</code> argument is a <code>double[]</code> array holding the means
+      of the random vector components.  In the bivariate case, it must have length 2.
+      The <code>covariance</code> argument is a <code>RealMatrix</code>, which has to
+      be 2 x 2.
+      The main diagonal elements are the variances of the vector components and the
+      off-diagonal elements are the covariances.
+      For example, if the means are 1 and 2 respectively, and the desired standard deviations
+      are 3 and 4, respectively, then we need to use
+
+      <source>
 double[] mean = {1, 2};
 double[][] cov = {{9, c}, {c, 16}};
-RealMatrix covariance = MatrixUtils.createRealMatrix(cov); </source>
-    where "c" is the desired covariance. If you are starting with a desired correlation,
-    you need to translate this to a covariance by multiplying it by the product of the
-    standard deviations.  For example, if you want to generate data that will give Pearson's
-    R of 0.5, you would use c = 3 * 4 * 0.5 = 6.
-    </dd>
-  </dl></p>
-  <p>
-    In addition to multivariate normal distributions, correlated vectors from multivariate uniform
-    distributions can be generated by creating a
-    <a href="../apidocs/org/apache/commons/math4/random/UniformRandomGenerator.html">UniformRandomGenerator</a>
-    in place of the 
-    <code>GaussianRandomGenerator</code> above.  More generally, any
-    <a href="../apidocs/org/apache/commons/math4/random/NormalizedRandomGenerator.html">NormalizedRandomGenerator</a>
-    may be used.
-  </p>
+RealMatrix covariance = MatrixUtils.createRealMatrix(cov);
+      </source>
+      where "c" is the desired covariance. If you are starting with a desired correlation,
+      you need to translate this to a covariance by multiplying it by the product of the
+      standard deviations.  For example, if you want to generate data that will give Pearson's
+      R of 0.5, you would use c = 3 * 4 * 0.5 = 6.
+    </p>
+  </subsection>
 
-  <p><dl>
-    <dt>Low discrepancy sequences</dt>
-    <dd>
-    There exist several quasi-random sequences with the property that for all values of N, the subsequence
-    x<sub>1</sub>, ..., x<sub>N</sub> has low discrepancy, which results in equi-distributed samples.
-    While their quasi-randomness makes them unsuitable for most applications (i.e. the sequence of values
-    is completely deterministic), their unique properties give them an important advantage for quasi-Monte Carlo simulations.<br/>
-    Currently, the following low-discrepancy sequences are supported:
-    <ul>
-      <li><a href="../apidocs/org/apache/commons/math4/random/SobolSequenceGenerator.html">
-      Sobol sequence</a> (pre-configured up to dimension 1000)</li>
-      <li><a href="../apidocs/org/apache/commons/math4/random/HaltonSequenceGenerator.html">
-      Halton sequence</a> (pre-configured up to dimension 40)</li>
-    </ul>
-    <source>
+  <subsection name="2.3 Low discrepancy sequences"
+              href="lowdiscrepancy">
+    <p>
+      There exist several quasi-random sequences with the property that for all values of N, the subsequence
+      x<sub>1</sub>, ..., x<sub>N</sub> has low discrepancy, which results in equi-distributed samples.
+      While their quasi-randomness makes them unsuitable for most applications (i.e. the sequence of values
+      is completely deterministic), their unique properties give them an important advantage for quasi-Monte Carlo simulations.<br/>
+      Currently, the following low-discrepancy sequences are supported:
+      <ul>
+        <li><a href="../apidocs/org/apache/commons/math4/legacy/random/SobolSequenceGenerator.html">
+        Sobol sequence</a> (pre-configured up to dimension 1000)</li>
+        <li><a href="../apidocs/org/apache/commons/math4/legacy/random/HaltonSequenceGenerator.html">
+        Halton sequence</a> (pre-configured up to dimension 40)</li>
+      </ul>
+
+      <source>
 // Create a Sobol sequence generator for 2-dimensional vectors
 RandomVectorGenerator generator = new SobolSequence(2);
 
@@ -210,85 +129,15 @@ RandomVectorGenerator generator = new SobolSequence(2);
 double[] randomVector = generator.nextVector();
 ... </source>
 
-    The figure below illustrates the unique properties of low-discrepancy sequences when
-    generating N samples in the interval [0, 1]. Roughly speaking, such sequences "fill"
-    the respective space more evenly which leads to faster convergence in quasi-Monte Carlo
-    simulations.<br/>
-    <img src="../images/userguide/low_discrepancy_sequences.png"
-	 alt="Comparison of low-discrepancy sequences"/>
-    </dd>
-  </dl></p>
-
-</subsection>
-
-<subsection name="2.4 Random Strings"
-            href="strings">
-    <p>
-    The method <code>nextHexString</code> in
-    <a href="../apidocs/org/apache/commons/math4/random/RandomUtils.DataGenerator.html">
-      RandomUtils.DataGenerator</a> can be used to generate random strings of
-    hexadecimal characters.
-    It produces sequences of strings with good dispersion properties.
-    A string can be generated in two different ways, depending on the value
-    of the boolean argument passed to the method (see the Javadoc for more
-    details).
+      The figure below illustrates the unique properties of low-discrepancy sequences when
+      generating N samples in the interval [0, 1]. Roughly speaking, such sequences "fill"
+      the respective space more evenly which leads to faster convergence in quasi-Monte Carlo
+      simulations.<br/>
+      <img src="../images/userguide/low_discrepancy_sequences.png"
+	       alt="Comparison of low-discrepancy sequences"/>
     </p>
-</subsection>
 
-<subsection name="2.5 Random Permutations, Combinations, Sampling"
-            href="combinatorics">
-  <p>
-    To select a random sample of objects in a collection, you can use the
-    <code>nextSample</code> method provided by in
-    <a href="../apidocs/org/apache/commons/math4/random/RandomUtils.DataGenerator.html">
-      RandomUtils.DataGenerator</a>.
-    Specifically, if <code>c</code> is a <code>java.util.Collection&lt;T&gt;</code>
-    containing at least <code>k</code> objects, and <code>randomData</code> is a 
-    <code>RandomUtils.DataGenerator</code> instance <code>randomData.nextSample(c, k)</code>
-    will return an <code>List&lt;T&gt;</code> instance of size <code>k</code>
-    consisting of elements randomly selected from the collection.
-    If  <code>c</code> contains duplicate references, there may be duplicate
-    references in the returned array; otherwise returned elements will be
-    unique (i.e. the sampling is without replacement among the object
-    references in the collection).
-  </p>
-
-  <p>
-    If <code>n</code> and <code>k</code> are integers with <code>k &lt; n</code>, then 
-    <code>randomData.nextPermutation(n, k)</code> returns an <code>int[]</code>
-    array of length <code>k</code> whose whose entries are selected randomly, 
-    without repetition, from the integers <code>0</code> through
-    <code>n-1</code> (inclusive).
-  </p>
-</subsection>
-
-<subsection name="2.6 Generating data like an input file"
-            href="empirical">
-    <p>
-    Using the <code>EmpiricalDistribution</code> class, you can generate data based on
-    the values in an input file:
-    <dl>
-    <source>
-int binCount = 500;
-EmpiricalDistribution empDist = new EmpiricalDistribution(binCount);
-empDist.load("data.txt");
-RealDistribution.Sampler sampler = empDist.createSampler(RandomSource.create(RandomSource.MT));
-double value = sampler.nextDouble(); </source>
-
-    The entire input file is read and a probability density function is estimated
-    based on data from the file.
-    The estimation method is essentially the 
-    <a href="http://nedwww.ipac.caltech.edu/level5/March02/Silverman/Silver2_6.html">
-      Variable Kernel Method</a> with Gaussian smoothing.
-    The created sampler will return random values whose probability distribution
-    matches the empirical distribution (i.e. if you generate a large number of
-    such values, their distribution should "look like" the distribution of the
-    values in the input file.
-    The values are not stored in memory in this case either, so there is no limit to the
-    size of the input file.
-    </dl>
-  </p>
-</subsection>
+  </subsection>
 
 </section>
 
