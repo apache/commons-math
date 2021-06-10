@@ -75,9 +75,6 @@
             <li><a href="special.html">5. Special Functions</a>
                 <ul>
                 <li><a href="special.html#a5.1_Overview">5.1 Overview</a></li>
-                <li><a href="special.html#a5.2_Erf_functions">5.2 Erf functions</a></li>
-                <li><a href="special.html#a5.3_Gamma_functions">5.3 Gamma functions</a></li>
-                <li><a href="special.html#a5.4_Beta_funtions">5.4 Beta funtions</a></li>
                 </ul></li>   
         <li><a href="utilities.html">6. Utilities</a>
                 <ul>
