@@ -180,12 +180,6 @@
 
       <dependency>
         <groupId>org.apache.commons</groupId>
-        <artifactId>commons-numbers-complex-streams</artifactId>
-        <version>${math.commons.numbers.version}</version>
-      </dependency>
-
-      <dependency>
-        <groupId>org.apache.commons</groupId>
         <artifactId>commons-numbers-gamma</artifactId>
         <version>${math.commons.numbers.version}</version>
       </dependency>
@@ -193,12 +187,6 @@
       <dependency>
         <groupId>org.apache.commons</groupId>
         <artifactId>commons-numbers-combinatorics</artifactId>
-        <version>${math.commons.numbers.version}</version>
-      </dependency>
-
-      <dependency>
-        <groupId>org.apache.commons</groupId>
-        <artifactId>commons-numbers-arrays</artifactId>
         <version>${math.commons.numbers.version}</version>
       </dependency>
 
