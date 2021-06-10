@@ -89,9 +89,6 @@
         <li><a href="complex.html">7. Complex Numbers</a>
                 <ul>
                 <li><a href="complex.html#a7.1_Overview">7.1 Overview</a></li>
-                <li><a href="complex.html#a7.2_Complex_Numbers">7.2 Complex Numbers</a></li>
-                <li><a href="complex.html#a7.3_Complex_Transcendental_Functions">7.3 Complex Transcendental Functions</a></li>
-                <li><a href="complex.html#a7.4_Complex_Formatting_and_Parsing">7.4 Complex Formatting and Parsing</a></li>
                 </ul></li>                                 
         <li><a href="distribution.html">8. Probability Distributions</a>
                 <ul>
