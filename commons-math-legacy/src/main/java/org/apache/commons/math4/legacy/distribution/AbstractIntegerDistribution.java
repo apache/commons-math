@@ -16,8 +16,6 @@
  */
 package org.apache.commons.math4.legacy.distribution;
 
-import java.io.Serializable;
-
 import org.apache.commons.statistics.distribution.DiscreteDistribution;
 import org.apache.commons.math4.legacy.exception.MathInternalError;
 import org.apache.commons.math4.legacy.exception.NumberIsTooLargeException;
@@ -35,10 +33,8 @@ import org.apache.commons.math4.legacy.core.jdkmath.AccurateMath;
  * from distribution to distribution.
  *
  */
-public abstract class AbstractIntegerDistribution implements DiscreteDistribution, Serializable {
-    /** Serializable version identifier */
-    private static final long serialVersionUID = 20160318L;
-
+public abstract class AbstractIntegerDistribution
+    implements DiscreteDistribution {
     /**
      * {@inheritDoc}
      *

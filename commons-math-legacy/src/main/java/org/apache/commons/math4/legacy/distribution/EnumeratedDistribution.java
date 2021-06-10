@@ -16,7 +16,6 @@
  */
 package org.apache.commons.math4.legacy.distribution;
 
-import java.io.Serializable;
 import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.List;
@@ -50,9 +49,7 @@ import org.apache.commons.math4.legacy.core.Pair;
  * @param <T> type of the elements in the sample space.
  * @since 3.2
  */
-public class EnumeratedDistribution<T> implements Serializable {
-    /** Serializable UID. */
-    private static final long serialVersionUID = 20160319L;
+public class EnumeratedDistribution<T> {
     /**
      * List of random variable values.
      */

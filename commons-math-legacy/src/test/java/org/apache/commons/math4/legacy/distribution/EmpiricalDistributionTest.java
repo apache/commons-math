@@ -345,19 +345,6 @@ public final class EmpiricalDistributionTest extends RealDistributionAbstractTes
         new EmpiricalDistribution().load(x);
     }
 
-    @Test
-    public void testSerialization() {
-        // Empty
-        EmpiricalDistribution dist = new EmpiricalDistribution();
-        EmpiricalDistribution dist2 = (EmpiricalDistribution) TestUtils.serializeAndRecover(dist);
-        verifySame(dist, dist2);
-
-        // Loaded
-        empiricalDistribution2.load(dataArray);
-        dist2 = (EmpiricalDistribution) TestUtils.serializeAndRecover(empiricalDistribution2);
-        verifySame(empiricalDistribution2, dist2);
-    }
-
     @Test(expected=NullArgumentException.class)
     public void testLoadNullDoubleArray() {
        new EmpiricalDistribution().load((double[]) null);

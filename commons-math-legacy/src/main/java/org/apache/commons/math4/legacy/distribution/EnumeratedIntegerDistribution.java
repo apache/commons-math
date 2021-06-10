@@ -42,8 +42,6 @@ import org.apache.commons.math4.legacy.core.Pair;
  * @since 3.2
  */
 public class EnumeratedIntegerDistribution extends AbstractIntegerDistribution {
-    /** Serializable UID. */
-    private static final long serialVersionUID = 20130308L;
     /**
      * {@link EnumeratedDistribution} instance (using the {@link Integer} wrapper)
      * used to generate the pmf.

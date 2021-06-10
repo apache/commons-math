@@ -21,7 +21,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
-import java.io.Serializable;
 
 import org.apache.commons.statistics.distribution.ContinuousDistribution;
 import org.apache.commons.math4.legacy.exception.DimensionMismatchException;
@@ -44,11 +43,7 @@ import org.apache.commons.math4.legacy.core.Pair;
  * @since 3.2
  */
 public class EnumeratedRealDistribution
-    implements ContinuousDistribution,
-               Serializable {
-    /** Serializable UID. */
-    private static final long serialVersionUID = 20160311L;
-
+    implements ContinuousDistribution {
     /**
      * {@link EnumeratedDistribution} (using the {@link Double} wrapper)
      * used to generate the pmf.

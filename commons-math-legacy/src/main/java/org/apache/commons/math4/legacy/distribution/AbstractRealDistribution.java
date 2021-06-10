@@ -16,8 +16,6 @@
  */
 package org.apache.commons.math4.legacy.distribution;
 
-import java.io.Serializable;
-
 import org.apache.commons.statistics.distribution.ContinuousDistribution;
 import org.apache.commons.math4.legacy.analysis.UnivariateFunction;
 import org.apache.commons.math4.legacy.analysis.solvers.UnivariateSolverUtils;
@@ -47,12 +45,9 @@ import org.apache.commons.math4.legacy.core.jdkmath.AccurateMath;
  * @since 3.0
  */
 public abstract class AbstractRealDistribution
-    implements ContinuousDistribution,
-               Serializable {
+    implements ContinuousDistribution {
     /** Default absolute accuracy for inverse cumulative computation. */
     public static final double SOLVER_DEFAULT_ABSOLUTE_ACCURACY = 1e-6;
-    /** Serializable version identifier */
-    private static final long serialVersionUID = 20160311L;
 
     /**
      * For a random variable {@code X} whose values are distributed according

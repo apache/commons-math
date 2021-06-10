@@ -379,26 +379,6 @@ public abstract class RealDistributionAbstractTest {
         }
     }
 
-    @Test
-    public void testDistributionClone()
-        throws IOException,
-               ClassNotFoundException {
-        // Construct a distribution and initialize its internal random
-        // generator, using a fixed seed for deterministic results.
-        final long seed = 123;
-        RandomSource source = RandomSource.WELL_512_A;
-        ContinuousDistribution.Sampler origSampler = distribution.createSampler(RandomSource.create(source, seed));
-
-        // Clone the distribution.
-        final ContinuousDistribution cloned = deepClone();
-        ContinuousDistribution.Sampler clonedSampler = cloned.createSampler(RandomSource.create(source, seed));
-
-        // Make sure they still produce the same samples.
-        Assert.assertEquals(origSampler.sample(),
-                            clonedSampler.sample(),
-                            0d);
-    }
-
     //------------------ Getters / Setters for test instance data -----------
     /**
      * @return Returns the cumulativeTestPoints.
