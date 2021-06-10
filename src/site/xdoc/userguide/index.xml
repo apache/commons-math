@@ -104,8 +104,6 @@
         <li><a href="fraction.html">9. Fractions</a>
                 <ul>
                 <li><a href="fraction.html#a9.1_Overview">9.1 Overview</a></li>
-                <li><a href="fraction.html#a9.2_Fraction_Numbers">9.2 Fraction Numbers</a></li>
-                <li><a href="fraction.html#a9.3_Fraction_Formatting_and_Parsing">9.3 Fraction Formatting and Parsing</a></li>
                 </ul></li>                                 
         <li><a href="transform.html">10. Transform methods</a></li>                                 
         <li><a href="geometry.html">11. Geometry</a>
