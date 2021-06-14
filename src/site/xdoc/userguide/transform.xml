@@ -21,23 +21,22 @@
 <document url="transform.html">
 
   <properties>
-    <title>The Commons Math User Guide - Transform methods</title>
+    <title>The Commons Math User Guide - Transforms</title>
   </properties>
 
   <body>
-    <section name="10 Transform methods">
+    <section name="10 Transforms">
       <p>
-         This package provides a few transformers for signal analysis. All transformers
-         provide both direct and inverse transforms.
+         Function transforms (direct and inverse) for signal analysis.
          <ul>
-           <li><a href="../apidocs/org/apache/commons/math4/transform/FastFourierTransformer.html">
-            FastFourierTransformer</a> (produces <code>Complex</code> results)</li>
-           <li><a href="../apidocs/org/apache/commons/math4/transform/FastCosineTransformer.html">
-           FastCosineTransformer</a> (produces real results)</li>
-           <li><a href="../apidocs/org/apache/commons/math4/transform/FastSineTransformer.html">
-           FastSineTransformer</a> (produces real results)</li>
-           <li><a href="../apidocs/org/apache/commons/math4/transform/FastHadamardTransformer.html">
-           FastHadamardTransformer</a> (produces real results)</li>
+           <li><a href="../commons-math4-transform/apidocs/org/apache/commons/math4/transform/FastFourierTransform.html">
+            FastFourierTransform</a> (produces <code>Complex</code> results)</li>
+           <li><a href="../commons-math4-transform/apidocs/org/apache/commons/math4/transform/FastCosineTransform.html">
+            FastCosineTransform</a> (produces real results)</li>
+           <li><a href="../commons-math4-transform/apidocs/org/apache/commons/math4/transform/FastSineTransform.html">
+            FastSineTransform</a> (produces real results)</li>
+           <li><a href="../commons-math4-transform/apidocs/org/apache/commons/math4/transform/FastHadamardTransform.html">
+            FastHadamardTransform</a> (produces real results)</li>
          </ul>
       </p>
      </section>
