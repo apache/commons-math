@@ -52,17 +52,6 @@ public abstract class RandomUtilsDataGeneratorAbstractTest {
     }
 
     @Test
-    public void testNextUniformExtremeValues() {
-        double x = randomData.nextUniform(-Double.MAX_VALUE, Double.MAX_VALUE);
-        double y = randomData.nextUniform(-Double.MAX_VALUE, Double.MAX_VALUE);
-        Assert.assertFalse(x == y);
-        Assert.assertFalse(Double.isNaN(x));
-        Assert.assertFalse(Double.isNaN(y));
-        Assert.assertFalse(Double.isInfinite(x));
-        Assert.assertFalse(Double.isInfinite(y));
-    }
-
-    @Test
     public void testNextLongIAE() {
         try {
             randomData.nextLong(4, 3);
@@ -135,110 +124,5 @@ public abstract class RandomUtilsDataGeneratorAbstractTest {
         double ratio = (((double) max)   - ((double) min)) /
                        (((double) upper) - ((double) lower));
         Assert.assertTrue(ratio > 0.99999);
-    }
-
-    @Test
-    public void testNextUniformIAE() {
-        try {
-            randomData.nextUniform(4, 3);
-            Assert.fail("MathIllegalArgumentException expected");
-        } catch (MathIllegalArgumentException ex) {
-            // ignored
-        }
-        try {
-            randomData.nextUniform(0, Double.POSITIVE_INFINITY);
-            Assert.fail("MathIllegalArgumentException expected");
-        } catch (MathIllegalArgumentException ex) {
-            // ignored
-        }
-        try {
-            randomData.nextUniform(Double.NEGATIVE_INFINITY, 0);
-            Assert.fail("MathIllegalArgumentException expected");
-        } catch (MathIllegalArgumentException ex) {
-            // ignored
-        }
-        try {
-            randomData.nextUniform(0, Double.NaN);
-            Assert.fail("MathIllegalArgumentException expected");
-        } catch (MathIllegalArgumentException ex) {
-            // ignored
-        }
-        try {
-            randomData.nextUniform(Double.NaN, 0);
-            Assert.fail("MathIllegalArgumentException expected");
-        } catch (MathIllegalArgumentException ex) {
-            // ignored
-        }
-    }
-
-    @Test
-    public void testNextUniformPositiveBounds() {
-        for (int i = 0; i < 5; i++) {
-            checkNextUniform(0, 10);
-        }
-    }
-
-    @Test
-    public void testNextUniformNegativeToPositiveBounds() {
-        for (int i = 0; i < 5; i++) {
-            checkNextUniform(-3, 5);
-        }
-    }
-
-    @Test
-    public void testNextUniformNegativeBounds() {
-        for (int i = 0; i < 5; i++) {
-            checkNextUniform(-7, -3);
-        }
-    }
-
-    @Test
-    public void testNextUniformMaximalInterval() {
-        for (int i = 0; i < 5; i++) {
-            checkNextUniform(-Double.MAX_VALUE, Double.MAX_VALUE);
-        }
-    }
-
-    private void checkNextUniform(double min, double max) {
-        // Set up bin bounds - min, binBound[0], ..., binBound[binCount-2], max
-        final int binCount = 5;
-        final double binSize = max / binCount - min/binCount; // Prevent overflow in extreme value case
-        final double[] binBounds = new double[binCount - 1];
-        binBounds[0] = min + binSize;
-        for (int i = 1; i < binCount - 1; i++) {
-            binBounds[i] = binBounds[i - 1] + binSize;  // + instead of * to avoid overflow in extreme case
-        }
-
-        final Frequency<Integer> freq = new Frequency<>();
-        for (int i = 0; i < smallSampleSize; i++) {
-            final double value = randomData.nextUniform(min, max);
-            Assert.assertTrue("nextUniform range", (value > min) && (value < max));
-            // Find bin
-            int j = 0;
-            while (j < binCount - 1 && value > binBounds[j]) {
-                j++;
-            }
-            freq.addValue(j);
-        }
-
-        final long[] observed = new long[binCount];
-        for (int i = 0; i < binCount; i++) {
-            observed[i] = freq.getCount(i);
-        }
-        final double[] expected = new double[binCount];
-        for (int i = 0; i < binCount; i++) {
-            expected[i] = 1d / binCount;
-        }
-
-        TestUtils.assertChiSquareAccept(expected, observed, 0.01);
-    }
-
-    /** test exclusive endpoints of nextUniform **/
-    @Test
-    public void testNextUniformExclusiveEndpoints() {
-        for (int i = 0; i < 1000; i++) {
-            double u = randomData.nextUniform(0.99, 1);
-            Assert.assertTrue(u > 0.99 && u < 1);
-        }
     }
 }
