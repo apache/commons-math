@@ -136,65 +136,6 @@ public abstract class RandomUtilsDataGeneratorAbstractTest {
                        (((double) upper) - ((double) lower));
         Assert.assertTrue(ratio > 0.99999);
     }
- 
-   /** Test dispersion and failure modes for "nextHex". */
-    @Test
-    public void testNextHexWithoutSha1() {
-        checkNextHex(false);
-    }
-    @Test
-    public void testNextHexWithSha1() {
-        checkNextHex(true);
-    }
-
-    /**
-     * @param useSha1 Alternative.
-     */
-    private void checkNextHex(boolean useSha1) {
-        try {
-            randomData.nextHexString(-1, useSha1);
-            Assert.fail("negative length supplied -- MathIllegalArgumentException expected");
-        } catch (MathIllegalArgumentException ex) {
-            // ignored
-        }
-        try {
-            randomData.nextHexString(0, useSha1);
-            Assert.fail("zero length supplied -- MathIllegalArgumentException expected");
-        } catch (MathIllegalArgumentException ex) {
-            // ignored
-        }
-        String hexString = randomData.nextHexString(3, useSha1);
-        if (hexString.length() != 3) {
-            Assert.fail("incorrect length for generated string");
-        }
-        hexString = randomData.nextHexString(1, useSha1);
-        if (hexString.length() != 1) {
-            Assert.fail("incorrect length for generated string");
-        }
-        try {
-            hexString = randomData.nextHexString(0, useSha1);
-            Assert.fail("zero length requested -- expecting MathIllegalArgumentException");
-        } catch (MathIllegalArgumentException ex) {
-            // ignored
-        }
-        Frequency<String> f = new Frequency<>();
-        for (int i = 0; i < smallSampleSize; i++) {
-            hexString = randomData.nextHexString(100, useSha1);
-            if (hexString.length() != 100) {
-                Assert.fail("incorrect length for generated string");
-            }
-            for (int j = 0; j < hexString.length(); j++) {
-                f.addValue(hexString.substring(j, j + 1));
-            }
-        }
-        double[] expected = new double[16];
-        long[] observed = new long[16];
-        for (int i = 0; i < 16; i++) {
-            expected[i] = (double) smallSampleSize * 100 / 16;
-            observed[i] = f.getCount(hex[i]);
-        }
-        TestUtils.assertChiSquareAccept(expected, observed, 0.001);
-    }
 
     @Test
     public void testNextUniformIAE() {
