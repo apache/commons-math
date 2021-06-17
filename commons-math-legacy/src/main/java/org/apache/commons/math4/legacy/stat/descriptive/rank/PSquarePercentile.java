@@ -26,6 +26,8 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 
+import org.apache.commons.numbers.core.Precision;
+import org.apache.commons.numbers.arrays.SortInPlace;
 import org.apache.commons.math4.legacy.analysis.UnivariateFunction;
 import org.apache.commons.math4.legacy.analysis.interpolation.LinearInterpolator;
 import org.apache.commons.math4.legacy.analysis.interpolation.NevilleInterpolator;
@@ -37,7 +39,6 @@ import org.apache.commons.math4.legacy.exception.util.LocalizedFormats;
 import org.apache.commons.math4.legacy.stat.descriptive.AbstractStorelessUnivariateStatistic;
 import org.apache.commons.math4.legacy.stat.descriptive.StorelessUnivariateStatistic;
 import org.apache.commons.math4.legacy.core.MathArrays;
-import org.apache.commons.numbers.core.Precision;
 
 /**
  * A {@link StorelessUnivariateStatistic} estimating percentiles using the
@@ -767,7 +768,7 @@ public class PSquarePercentile extends AbstractStorelessUnivariateStatistic
                             new double[] { xval[1], xval[1 + delta] };
                     final double[] yBad =
                             new double[] { yval[1], yval[1 + delta] };
-                    MathArrays.sortInPlace(xBad, yBad);// since d can be +/- 1
+                    SortInPlace.ASCENDING.accept(xBad, yBad);// since d can be +/- 1
                     univariateFunction = linear.interpolate(xBad, yBad);
                     markerHeight = univariateFunction.value(xD);
                 }

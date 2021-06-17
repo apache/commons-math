@@ -20,6 +20,8 @@ import java.io.Serializable;
 import java.util.Arrays;
 import java.util.BitSet;
 
+import org.apache.commons.numbers.core.Precision;
+import org.apache.commons.numbers.arrays.SortInPlace;
 import org.apache.commons.math4.legacy.exception.NullArgumentException;
 import org.apache.commons.math4.legacy.exception.MathIllegalArgumentException;
 import org.apache.commons.math4.legacy.exception.NotPositiveException;
@@ -30,7 +32,6 @@ import org.apache.commons.math4.legacy.stat.descriptive.AbstractUnivariateStatis
 import org.apache.commons.math4.legacy.stat.ranking.NaNStrategy;
 import org.apache.commons.math4.legacy.core.jdkmath.AccurateMath;
 import org.apache.commons.math4.legacy.core.MathArrays;
-import org.apache.commons.numbers.core.Precision;
 
 /**
  * Provides percentile computation.
@@ -1149,7 +1150,7 @@ public class Percentile extends AbstractUnivariateStatistic implements Serializa
             @Override
             public double evaluate(final double[] work, final double[] sampleWeights,
                                    final double p) {
-                MathArrays.sortInPlace(work, sampleWeights);
+                SortInPlace.ASCENDING.accept(work, sampleWeights);
                 double[] sk = new double[work.length];
                 for(int k = 0; k < work.length; k++) {
                     sk[k] = 0;

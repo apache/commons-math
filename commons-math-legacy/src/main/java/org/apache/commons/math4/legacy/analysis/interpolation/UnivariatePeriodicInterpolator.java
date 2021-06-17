@@ -17,7 +17,7 @@
 package org.apache.commons.math4.legacy.analysis.interpolation;
 
 import org.apache.commons.numbers.angle.Reduce;
-
+import org.apache.commons.numbers.arrays.SortInPlace;
 import org.apache.commons.math4.legacy.analysis.UnivariateFunction;
 import org.apache.commons.math4.legacy.exception.MathIllegalArgumentException;
 import org.apache.commons.math4.legacy.exception.NonMonotonicSequenceException;
@@ -114,7 +114,7 @@ public class UnivariatePeriodicInterpolator
             y[index] = yval[i];
         }
 
-        MathArrays.sortInPlace(x, y);
+        SortInPlace.ASCENDING.accept(x, y);
 
         final UnivariateFunction f = interpolator.interpolate(x, y);
         return new UnivariateFunction() {
