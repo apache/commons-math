@@ -19,7 +19,7 @@ package org.apache.commons.math4.legacy.analysis.differentiation;
 import java.util.Arrays;
 import java.io.Serializable;
 
-import org.apache.commons.numbers.core.LinearCombination;
+import org.apache.commons.numbers.core.Sum;
 import org.apache.commons.math4.legacy.core.Field;
 import org.apache.commons.math4.legacy.core.FieldElement;
 import org.apache.commons.math4.legacy.core.RealFieldElement;
@@ -966,7 +966,7 @@ public class DerivativeStructure implements RealFieldElement<DerivativeStructure
         for (int i = 0; i < b.length; ++i) {
             bDouble[i] = b[i].getValue();
         }
-        final double accurateValue = LinearCombination.value(aDouble, bDouble);
+        final double accurateValue = Sum.ofProducts(aDouble, bDouble).getAsDouble();
 
         // compute a simple value, with all partial derivatives
         DerivativeStructure simpleValue = a[0].getField().getZero();
@@ -995,7 +995,7 @@ public class DerivativeStructure implements RealFieldElement<DerivativeStructure
         for (int i = 0; i < b.length; ++i) {
             bDouble[i] = b[i].getValue();
         }
-        final double accurateValue = LinearCombination.value(a, bDouble);
+        final double accurateValue = Sum.ofProducts(a, bDouble).getAsDouble();
 
         // compute a simple value, with all partial derivatives
         DerivativeStructure simpleValue = b[0].getField().getZero();
@@ -1021,8 +1021,9 @@ public class DerivativeStructure implements RealFieldElement<DerivativeStructure
         throws DimensionMismatchException {
 
         // compute an accurate value, taking care of cancellations
-        final double accurateValue = LinearCombination.value(a1.getValue(), b1.getValue(),
-                                                                  a2.getValue(), b2.getValue());
+        final double accurateValue = Sum.create()
+            .addProduct(a1.getValue(), b1.getValue())
+            .addProduct(a2.getValue(), b2.getValue()).getAsDouble();
 
         // compute a simple value, with all partial derivatives
         final DerivativeStructure simpleValue = a1.multiply(b1).add(a2.multiply(b2));
@@ -1031,7 +1032,6 @@ public class DerivativeStructure implements RealFieldElement<DerivativeStructure
         final double[] all = simpleValue.getAllDerivatives();
         all[0] = accurateValue;
         return new DerivativeStructure(getFreeParameters(), getOrder(), all);
-
     }
 
     /** {@inheritDoc}
@@ -1045,8 +1045,9 @@ public class DerivativeStructure implements RealFieldElement<DerivativeStructure
         throws DimensionMismatchException {
 
         // compute an accurate value, taking care of cancellations
-        final double accurateValue = LinearCombination.value(a1, b1.getValue(),
-                                                                  a2, b2.getValue());
+        final double accurateValue = Sum.create()
+            .addProduct(a1, b1.getValue())
+            .addProduct(a2, b2.getValue()).getAsDouble();
 
         // compute a simple value, with all partial derivatives
         final DerivativeStructure simpleValue = b1.multiply(a1).add(b2.multiply(a2));
@@ -1070,9 +1071,10 @@ public class DerivativeStructure implements RealFieldElement<DerivativeStructure
         throws DimensionMismatchException {
 
         // compute an accurate value, taking care of cancellations
-        final double accurateValue = LinearCombination.value(a1.getValue(), b1.getValue(),
-                                                                  a2.getValue(), b2.getValue(),
-                                                                  a3.getValue(), b3.getValue());
+        final double accurateValue = Sum.create()
+            .addProduct(a1.getValue(), b1.getValue())
+            .addProduct(a2.getValue(), b2.getValue())
+            .addProduct(a3.getValue(), b3.getValue()).getAsDouble();
 
         // compute a simple value, with all partial derivatives
         final DerivativeStructure simpleValue = a1.multiply(b1).add(a2.multiply(b2)).add(a3.multiply(b3));
@@ -1096,9 +1098,10 @@ public class DerivativeStructure implements RealFieldElement<DerivativeStructure
         throws DimensionMismatchException {
 
         // compute an accurate value, taking care of cancellations
-        final double accurateValue = LinearCombination.value(a1, b1.getValue(),
-                                                                  a2, b2.getValue(),
-                                                                  a3, b3.getValue());
+        final double accurateValue = Sum.create()
+            .addProduct(a1, b1.getValue())
+            .addProduct(a2, b2.getValue())
+            .addProduct(a3, b3.getValue()).getAsDouble();
 
         // compute a simple value, with all partial derivatives
         final DerivativeStructure simpleValue = b1.multiply(a1).add(b2.multiply(a2)).add(b3.multiply(a3));
@@ -1107,7 +1110,6 @@ public class DerivativeStructure implements RealFieldElement<DerivativeStructure
         final double[] all = simpleValue.getAllDerivatives();
         all[0] = accurateValue;
         return new DerivativeStructure(getFreeParameters(), getOrder(), all);
-
     }
 
     /** {@inheritDoc}
@@ -1123,10 +1125,11 @@ public class DerivativeStructure implements RealFieldElement<DerivativeStructure
         throws DimensionMismatchException {
 
         // compute an accurate value, taking care of cancellations
-        final double accurateValue = LinearCombination.value(a1.getValue(), b1.getValue(),
-                                                                  a2.getValue(), b2.getValue(),
-                                                                  a3.getValue(), b3.getValue(),
-                                                                  a4.getValue(), b4.getValue());
+        final double accurateValue = Sum.create()
+            .addProduct(a1.getValue(), b1.getValue())
+            .addProduct(a2.getValue(), b2.getValue())
+            .addProduct(a3.getValue(), b3.getValue())
+            .addProduct(a4.getValue(), b4.getValue()).getAsDouble();
 
         // compute a simple value, with all partial derivatives
         final DerivativeStructure simpleValue = a1.multiply(b1).add(a2.multiply(b2)).add(a3.multiply(b3)).add(a4.multiply(b4));
@@ -1135,7 +1138,6 @@ public class DerivativeStructure implements RealFieldElement<DerivativeStructure
         final double[] all = simpleValue.getAllDerivatives();
         all[0] = accurateValue;
         return new DerivativeStructure(getFreeParameters(), getOrder(), all);
-
     }
 
     /** {@inheritDoc}
@@ -1151,10 +1153,11 @@ public class DerivativeStructure implements RealFieldElement<DerivativeStructure
         throws DimensionMismatchException {
 
         // compute an accurate value, taking care of cancellations
-        final double accurateValue = LinearCombination.value(a1, b1.getValue(),
-                                                                  a2, b2.getValue(),
-                                                                  a3, b3.getValue(),
-                                                                  a4, b4.getValue());
+        final double accurateValue = Sum.create()
+            .addProduct(a1, b1.getValue())
+            .addProduct(a2, b2.getValue())
+            .addProduct(a3, b3.getValue())
+            .addProduct(a4, b4.getValue()).getAsDouble();
 
         // compute a simple value, with all partial derivatives
         final DerivativeStructure simpleValue = b1.multiply(a1).add(b2.multiply(a2)).add(b3.multiply(a3)).add(b4.multiply(a4));
@@ -1163,7 +1166,6 @@ public class DerivativeStructure implements RealFieldElement<DerivativeStructure
         final double[] all = simpleValue.getAllDerivatives();
         all[0] = accurateValue;
         return new DerivativeStructure(getFreeParameters(), getOrder(), all);
-
     }
 
     /**

@@ -19,7 +19,7 @@ package org.apache.commons.math4.legacy.core;
 import org.junit.Assert;
 import org.junit.Test;
 
-import org.apache.commons.numbers.core.LinearCombination;
+import org.apache.commons.numbers.core.Sum;
 import org.apache.commons.rng.UniformRandomProvider;
 import org.apache.commons.rng.simple.RandomSource;
 import org.apache.commons.math4.legacy.core.jdkmath.AccurateMath;
@@ -397,7 +397,7 @@ public abstract class ExtendedFieldElementAbstractTest<T extends RealFieldElemen
             double[] bD = generateDouble(r, 10);
             T[] aF      = toFieldArray(aD);
             T[] bF      = toFieldArray(bD);
-            checkRelative(LinearCombination.value(aD, bD),
+            checkRelative(Sum.ofProducts(aD, bD).getAsDouble(),
                           aF[0].linearCombination(aF, bF));
         }
     }
@@ -409,7 +409,7 @@ public abstract class ExtendedFieldElementAbstractTest<T extends RealFieldElemen
             double[] aD = generateDouble(r, 10);
             double[] bD = generateDouble(r, 10);
             T[] bF      = toFieldArray(bD);
-            checkRelative(LinearCombination.value(aD, bD),
+            checkRelative(Sum.ofProducts(aD, bD).getAsDouble(),
                           bF[0].linearCombination(aD, bF));
         }
     }
@@ -422,7 +422,9 @@ public abstract class ExtendedFieldElementAbstractTest<T extends RealFieldElemen
             double[] bD = generateDouble(r, 2);
             T[] aF      = toFieldArray(aD);
             T[] bF      = toFieldArray(bD);
-            checkRelative(LinearCombination.value(aD[0], bD[0], aD[1], bD[1]),
+            checkRelative(Sum.create()
+                          .addProduct(aD[0], bD[0])
+                          .addProduct(aD[1], bD[1]).getAsDouble(),
                           aF[0].linearCombination(aF[0], bF[0], aF[1], bF[1]));
         }
     }
@@ -434,7 +436,9 @@ public abstract class ExtendedFieldElementAbstractTest<T extends RealFieldElemen
             double[] aD = generateDouble(r, 2);
             double[] bD = generateDouble(r, 2);
             T[] bF      = toFieldArray(bD);
-            checkRelative(LinearCombination.value(aD[0], bD[0], aD[1], bD[1]),
+            checkRelative(Sum.create()
+                          .addProduct(aD[0], bD[0])
+                          .addProduct(aD[1], bD[1]).getAsDouble(),
                           bF[0].linearCombination(aD[0], bF[0], aD[1], bF[1]));
         }
     }
@@ -447,7 +451,10 @@ public abstract class ExtendedFieldElementAbstractTest<T extends RealFieldElemen
             double[] bD = generateDouble(r, 3);
             T[] aF      = toFieldArray(aD);
             T[] bF      = toFieldArray(bD);
-            checkRelative(LinearCombination.value(aD[0], bD[0], aD[1], bD[1], aD[2], bD[2]),
+            checkRelative(Sum.create()
+                          .addProduct(aD[0], bD[0])
+                          .addProduct(aD[1], bD[1])
+                          .addProduct(aD[2], bD[2]).getAsDouble(),
                           aF[0].linearCombination(aF[0], bF[0], aF[1], bF[1], aF[2], bF[2]));
         }
     }
@@ -459,7 +466,10 @@ public abstract class ExtendedFieldElementAbstractTest<T extends RealFieldElemen
             double[] aD = generateDouble(r, 3);
             double[] bD = generateDouble(r, 3);
             T[] bF      = toFieldArray(bD);
-            checkRelative(LinearCombination.value(aD[0], bD[0], aD[1], bD[1], aD[2], bD[2]),
+            checkRelative(Sum.create()
+                          .addProduct(aD[0], bD[0])
+                          .addProduct(aD[1], bD[1])
+                          .addProduct(aD[2], bD[2]).getAsDouble(),
                           bF[0].linearCombination(aD[0], bF[0], aD[1], bF[1], aD[2], bF[2]));
         }
     }
@@ -472,7 +482,11 @@ public abstract class ExtendedFieldElementAbstractTest<T extends RealFieldElemen
             double[] bD = generateDouble(r, 4);
             T[] aF      = toFieldArray(aD);
             T[] bF      = toFieldArray(bD);
-            checkRelative(LinearCombination.value(aD[0], bD[0], aD[1], bD[1], aD[2], bD[2], aD[3], bD[3]),
+            checkRelative(Sum.create()
+                          .addProduct(aD[0], bD[0])
+                          .addProduct(aD[1], bD[1])
+                          .addProduct(aD[2], bD[2])
+                          .addProduct(aD[3], bD[3]).getAsDouble(),
                           aF[0].linearCombination(aF[0], bF[0], aF[1], bF[1], aF[2], bF[2], aF[3], bF[3]));
         }
     }
@@ -484,7 +498,11 @@ public abstract class ExtendedFieldElementAbstractTest<T extends RealFieldElemen
             double[] aD = generateDouble(r, 4);
             double[] bD = generateDouble(r, 4);
             T[] bF      = toFieldArray(bD);
-            checkRelative(LinearCombination.value(aD[0], bD[0], aD[1], bD[1], aD[2], bD[2], aD[3], bD[3]),
+            checkRelative(Sum.create()
+                          .addProduct(aD[0], bD[0])
+                          .addProduct(aD[1], bD[1])
+                          .addProduct(aD[2], bD[2])
+                          .addProduct(aD[3], bD[3]).getAsDouble(),
                           bF[0].linearCombination(aD[0], bF[0], aD[1], bF[1], aD[2], bF[2], aD[3], bF[3]));
         }
     }

@@ -18,7 +18,7 @@ package org.apache.commons.math4.legacy.analysis.interpolation;
 
 import java.util.Arrays;
 
-import org.apache.commons.numbers.core.LinearCombination;
+import org.apache.commons.numbers.core.Sum;
 import org.apache.commons.math4.legacy.analysis.BivariateFunction;
 import org.apache.commons.math4.legacy.exception.DimensionMismatchException;
 import org.apache.commons.math4.legacy.exception.NoDataException;
@@ -320,7 +320,7 @@ class BicubicFunction implements BivariateFunction {
     private double apply(double[] pX, double[] pY, double[][] coeff) {
         double result = 0;
         for (int i = 0; i < N; i++) {
-            final double r = LinearCombination.value(coeff[i], pY);
+            final double r = Sum.ofProducts(coeff[i], pY).getAsDouble();
             result += r * pX[i];
         }
 

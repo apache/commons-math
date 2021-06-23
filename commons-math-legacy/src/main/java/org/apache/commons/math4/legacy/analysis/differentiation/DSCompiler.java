@@ -21,7 +21,7 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicReference;
 
-import org.apache.commons.numbers.core.LinearCombination;
+import org.apache.commons.numbers.core.Sum;
 import org.apache.commons.math4.legacy.exception.DimensionMismatchException;
 import org.apache.commons.math4.legacy.exception.MathArithmeticException;
 import org.apache.commons.math4.legacy.exception.MathInternalError;
@@ -667,8 +667,9 @@ public class DSCompiler {
                                   final double a2, final double[] c2, final int offset2,
                                   final double[] result, final int resultOffset) {
         for (int i = 0; i < getSize(); ++i) {
-            result[resultOffset + i] =
-                    LinearCombination.value(a1, c1[offset1 + i], a2, c2[offset2 + i]);
+            result[resultOffset + i] = Sum.create()
+                .addProduct(a1, c1[offset1 + i])
+                .addProduct(a2, c2[offset2 + i]).getAsDouble();
         }
     }
 
@@ -692,10 +693,10 @@ public class DSCompiler {
                                   final double a3, final double[] c3, final int offset3,
                                   final double[] result, final int resultOffset) {
         for (int i = 0; i < getSize(); ++i) {
-            result[resultOffset + i] =
-                    LinearCombination.value(a1, c1[offset1 + i],
-                                                 a2, c2[offset2 + i],
-                                                 a3, c3[offset3 + i]);
+            result[resultOffset + i] = Sum.create()
+                .addProduct(a1, c1[offset1 + i])
+                .addProduct(a2, c2[offset2 + i])
+                .addProduct(a3, c3[offset3 + i]).getAsDouble();
         }
     }
 
@@ -723,11 +724,11 @@ public class DSCompiler {
                                   final double a4, final double[] c4, final int offset4,
                                   final double[] result, final int resultOffset) {
         for (int i = 0; i < getSize(); ++i) {
-            result[resultOffset + i] =
-                    LinearCombination.value(a1, c1[offset1 + i],
-                                                 a2, c2[offset2 + i],
-                                                 a3, c3[offset3 + i],
-                                                 a4, c4[offset4 + i]);
+            result[resultOffset + i] = Sum.create()
+                .addProduct(a1, c1[offset1 + i])
+                .addProduct(a2, c2[offset2 + i])
+                .addProduct(a3, c3[offset3 + i])
+                .addProduct(a4, c4[offset4 + i]).getAsDouble();
         }
     }
 

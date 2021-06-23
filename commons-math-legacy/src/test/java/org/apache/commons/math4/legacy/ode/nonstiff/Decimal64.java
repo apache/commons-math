@@ -16,8 +16,8 @@
  */
 package org.apache.commons.math4.legacy.ode.nonstiff;
 
+import org.apache.commons.numbers.core.Sum;
 import org.apache.commons.math4.legacy.core.jdkmath.AccurateMath;
-import org.apache.commons.numbers.core.LinearCombination;
 import org.apache.commons.math4.legacy.core.Field;
 import org.apache.commons.math4.legacy.core.RealFieldElement;
 import org.apache.commons.math4.legacy.exception.DimensionMismatchException;
@@ -661,7 +661,7 @@ public class Decimal64 extends Number
             aDouble[i] = a[i].value;
             bDouble[i] = b[i].value;
         }
-        return new Decimal64(LinearCombination.value(aDouble, bDouble));
+        return new Decimal64(Sum.ofProducts(aDouble, bDouble).getAsDouble());
     }
 
     /** {@inheritDoc}
@@ -677,7 +677,7 @@ public class Decimal64 extends Number
         for (int i = 0; i < a.length; ++i) {
             bDouble[i] = b[i].value;
         }
-        return new Decimal64(LinearCombination.value(a, bDouble));
+        return new Decimal64(Sum.ofProducts(a, bDouble).getAsDouble());
     }
 
     /** {@inheritDoc}
@@ -686,8 +686,9 @@ public class Decimal64 extends Number
     @Override
     public Decimal64 linearCombination(final Decimal64 a1, final Decimal64 b1,
                                        final Decimal64 a2, final Decimal64 b2) {
-        return new Decimal64(LinearCombination.value(a1.value, b1.value,
-                                                          a2.value, b2.value));
+        return new Decimal64(Sum.create()
+                             .addProduct(a1.value, b1.value)
+                             .addProduct(a2.value, b2.value).getAsDouble());
     }
 
     /** {@inheritDoc}
@@ -696,8 +697,9 @@ public class Decimal64 extends Number
     @Override
     public Decimal64 linearCombination(final double a1, final Decimal64 b1,
                                        final double a2, final Decimal64 b2) {
-        return new Decimal64(LinearCombination.value(a1, b1.value,
-                                                          a2, b2.value));
+        return new Decimal64(Sum.create()
+                             .addProduct(a1, b1.value)
+                             .addProduct(a2, b2.value).getAsDouble());
     }
 
     /** {@inheritDoc}
@@ -707,9 +709,10 @@ public class Decimal64 extends Number
     public Decimal64 linearCombination(final Decimal64 a1, final Decimal64 b1,
                                        final Decimal64 a2, final Decimal64 b2,
                                        final Decimal64 a3, final Decimal64 b3) {
-        return new Decimal64(LinearCombination.value(a1.value, b1.value,
-                                                          a2.value, b2.value,
-                                                          a3.value, b3.value));
+        return new Decimal64(Sum.create()
+                             .addProduct(a1.value, b1.value)
+                             .addProduct(a2.value, b2.value)
+                             .addProduct(a3.value, b3.value).getAsDouble());
     }
 
     /** {@inheritDoc}
@@ -719,9 +722,10 @@ public class Decimal64 extends Number
     public Decimal64 linearCombination(final double a1, final Decimal64 b1,
                                        final double a2, final Decimal64 b2,
                                        final double a3, final Decimal64 b3) {
-        return new Decimal64(LinearCombination.value(a1, b1.value,
-                                                          a2, b2.value,
-                                                          a3, b3.value));
+        return new Decimal64(Sum.create()
+                             .addProduct(a1, b1.value)
+                             .addProduct(a2, b2.value)
+                             .addProduct(a3, b3.value).getAsDouble());
     }
 
     /** {@inheritDoc}
@@ -732,10 +736,11 @@ public class Decimal64 extends Number
                                        final Decimal64 a2, final Decimal64 b2,
                                        final Decimal64 a3, final Decimal64 b3,
                                        final Decimal64 a4, final Decimal64 b4) {
-        return new Decimal64(LinearCombination.value(a1.value, b1.value,
-                                                          a2.value, b2.value,
-                                                          a3.value, b3.value,
-                                                          a4.value, b4.value));
+        return new Decimal64(Sum.create()
+                             .addProduct(a1.value, b1.value)
+                             .addProduct(a2.value, b2.value)
+                             .addProduct(a3.value, b3.value)
+                             .addProduct(a4.value, b4.value).getAsDouble());
     }
 
     /** {@inheritDoc}
@@ -746,10 +751,10 @@ public class Decimal64 extends Number
                                        final double a2, final Decimal64 b2,
                                        final double a3, final Decimal64 b3,
                                        final double a4, final Decimal64 b4) {
-        return new Decimal64(LinearCombination.value(a1, b1.value,
-                                                          a2, b2.value,
-                                                          a3, b3.value,
-                                                          a4, b4.value));
+        return new Decimal64(Sum.create()
+                             .addProduct(a1, b1.value)
+                             .addProduct(a2, b2.value)
+                             .addProduct(a3, b3.value)
+                             .addProduct(a4, b4.value).getAsDouble());
     }
-
 }

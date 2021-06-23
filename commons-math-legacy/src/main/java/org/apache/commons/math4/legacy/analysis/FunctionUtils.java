@@ -17,7 +17,7 @@
 
 package org.apache.commons.math4.legacy.analysis;
 
-import org.apache.commons.numbers.core.LinearCombination;
+import org.apache.commons.numbers.core.Sum;
 import org.apache.commons.math4.legacy.analysis.differentiation.DerivativeStructure;
 import org.apache.commons.math4.legacy.analysis.differentiation.MultivariateDifferentiableFunction;
 import org.apache.commons.math4.legacy.analysis.differentiation.UnivariateDifferentiableFunction;
@@ -380,7 +380,7 @@ public class FunctionUtils {
      * @see #derivative(MultivariateDifferentiableFunction, int[])
      */
     public static MultivariateDifferentiableFunction toDifferentiable(final MultivariateFunction f,
-                                                                         final MultivariateVectorFunction gradient) {
+                                                                      final MultivariateVectorFunction gradient) {
 
         return new MultivariateDifferentiableFunction() {
 
@@ -427,16 +427,12 @@ public class FunctionUtils {
                     orders[i] = 0;
 
                     // compose partial derivatives
-                    packed[i + 1] = LinearCombination.value(dv, partials);
-
+                    packed[i + 1] = Sum.ofProducts(dv, partials).getAsDouble();
                 }
 
                 return new DerivativeStructure(parameters, 1, packed);
-
             }
-
         };
-
     }
 
     /** Convert an {@link UnivariateDifferentiableFunction} to an

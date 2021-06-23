@@ -21,7 +21,7 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 
-import org.apache.commons.numbers.core.LinearCombination;
+import org.apache.commons.numbers.core.Sum;
 import org.apache.commons.numbers.core.Precision;
 import org.apache.commons.math4.legacy.core.Field;
 import org.apache.commons.math4.legacy.core.FieldElement;
@@ -733,9 +733,7 @@ public class SparseGradient implements RealFieldElement<SparseGradient>, Seriali
     /** {@inheritDoc} */
     @Override
     public SparseGradient linearCombination(final SparseGradient[] a,
-                                              final SparseGradient[] b)
-        throws DimensionMismatchException {
-
+                                            final SparseGradient[] b) {
         // compute a simple value, with all partial derivatives
         SparseGradient out = a[0].getField().getZero();
         for (int i = 0; i < a.length; ++i) {
@@ -751,10 +749,9 @@ public class SparseGradient implements RealFieldElement<SparseGradient>, Seriali
         for (int i = 0; i < b.length; ++i) {
             bDouble[i] = b[i].getValue();
         }
-        out.value = LinearCombination.value(aDouble, bDouble);
+        out.value = Sum.ofProducts(aDouble, bDouble).getAsDouble();
 
         return out;
-
     }
 
     /** {@inheritDoc} */
@@ -772,73 +769,75 @@ public class SparseGradient implements RealFieldElement<SparseGradient>, Seriali
         for (int i = 0; i < b.length; ++i) {
             bDouble[i] = b[i].getValue();
         }
-        out.value = LinearCombination.value(a, bDouble);
+        out.value = Sum.ofProducts(a, bDouble).getAsDouble();
 
         return out;
-
     }
 
     /** {@inheritDoc} */
     @Override
     public SparseGradient linearCombination(final SparseGradient a1, final SparseGradient b1,
-                                              final SparseGradient a2, final SparseGradient b2) {
+                                            final SparseGradient a2, final SparseGradient b2) {
 
         // compute a simple value, with all partial derivatives
         SparseGradient out = a1.multiply(b1).add(a2.multiply(b2));
 
         // recompute an accurate value, taking care of cancellations
-        out.value = LinearCombination.value(a1.value, b1.value, a2.value, b2.value);
+        out.value = Sum.create()
+            .addProduct(a1.value, b1.value)
+            .addProduct(a2.value, b2.value).getAsDouble();
 
         return out;
-
     }
 
     /** {@inheritDoc} */
     @Override
     public SparseGradient linearCombination(final double a1, final SparseGradient b1,
-                                              final double a2, final SparseGradient b2) {
+                                            final double a2, final SparseGradient b2) {
 
         // compute a simple value, with all partial derivatives
         SparseGradient out = b1.multiply(a1).add(b2.multiply(a2));
 
         // recompute an accurate value, taking care of cancellations
-        out.value = LinearCombination.value(a1, b1.value, a2, b2.value);
+        out.value = Sum.create()
+            .addProduct(a1, b1.value)
+            .addProduct(a2, b2.value).getAsDouble();
 
         return out;
-
     }
 
     /** {@inheritDoc} */
     @Override
     public SparseGradient linearCombination(final SparseGradient a1, final SparseGradient b1,
-                                              final SparseGradient a2, final SparseGradient b2,
-                                              final SparseGradient a3, final SparseGradient b3) {
+                                            final SparseGradient a2, final SparseGradient b2,
+                                            final SparseGradient a3, final SparseGradient b3) {
 
         // compute a simple value, with all partial derivatives
         SparseGradient out = a1.multiply(b1).add(a2.multiply(b2)).add(a3.multiply(b3));
 
         // recompute an accurate value, taking care of cancellations
-        out.value = LinearCombination.value(a1.value, b1.value,
-                                                 a2.value, b2.value,
-                                                 a3.value, b3.value);
+        out.value = Sum.create()
+            .addProduct(a1.value, b1.value)
+            .addProduct(a2.value, b2.value)
+            .addProduct(a3.value, b3.value).getAsDouble();
 
         return out;
-
     }
 
     /** {@inheritDoc} */
     @Override
     public SparseGradient linearCombination(final double a1, final SparseGradient b1,
-                                              final double a2, final SparseGradient b2,
-                                              final double a3, final SparseGradient b3) {
+                                            final double a2, final SparseGradient b2,
+                                            final double a3, final SparseGradient b3) {
 
         // compute a simple value, with all partial derivatives
         SparseGradient out = b1.multiply(a1).add(b2.multiply(a2)).add(b3.multiply(a3));
 
         // recompute an accurate value, taking care of cancellations
-        out.value = LinearCombination.value(a1, b1.value,
-                                                 a2, b2.value,
-                                                 a3, b3.value);
+        out.value = Sum.create()
+            .addProduct(a1, b1.value)
+            .addProduct(a2, b2.value)
+            .addProduct(a3, b3.value).getAsDouble();
 
         return out;
 
@@ -847,21 +846,21 @@ public class SparseGradient implements RealFieldElement<SparseGradient>, Seriali
     /** {@inheritDoc} */
     @Override
     public SparseGradient linearCombination(final SparseGradient a1, final SparseGradient b1,
-                                              final SparseGradient a2, final SparseGradient b2,
-                                              final SparseGradient a3, final SparseGradient b3,
-                                              final SparseGradient a4, final SparseGradient b4) {
+                                            final SparseGradient a2, final SparseGradient b2,
+                                            final SparseGradient a3, final SparseGradient b3,
+                                            final SparseGradient a4, final SparseGradient b4) {
 
         // compute a simple value, with all partial derivatives
         SparseGradient out = a1.multiply(b1).add(a2.multiply(b2)).add(a3.multiply(b3)).add(a4.multiply(b4));
 
         // recompute an accurate value, taking care of cancellations
-        out.value = LinearCombination.value(a1.value, b1.value,
-                                                 a2.value, b2.value,
-                                                 a3.value, b3.value,
-                                                 a4.value, b4.value);
+        out.value = Sum.create()
+            .addProduct(a1.value, b1.value)
+            .addProduct(a2.value, b2.value)
+            .addProduct(a3.value, b3.value)
+            .addProduct(a4.value, b4.value).getAsDouble();
 
         return out;
-
     }
 
     /** {@inheritDoc} */
@@ -875,13 +874,13 @@ public class SparseGradient implements RealFieldElement<SparseGradient>, Seriali
         SparseGradient out = b1.multiply(a1).add(b2.multiply(a2)).add(b3.multiply(a3)).add(b4.multiply(a4));
 
         // recompute an accurate value, taking care of cancellations
-        out.value = LinearCombination.value(a1, b1.value,
-                                                 a2, b2.value,
-                                                 a3, b3.value,
-                                                 a4, b4.value);
+        out.value = Sum.create()
+            .addProduct(a1, b1.value)
+            .addProduct(a2, b2.value)
+            .addProduct(a3, b3.value)
+            .addProduct(a4, b4.value).getAsDouble();
 
         return out;
-
     }
 
     /**
@@ -932,5 +931,4 @@ public class SparseGradient implements RealFieldElement<SparseGradient>, Seriali
     public int hashCode() {
         return 743 + 809 * Double.hashCode(value) + 167 * derivatives.hashCode();
     }
-
 }
