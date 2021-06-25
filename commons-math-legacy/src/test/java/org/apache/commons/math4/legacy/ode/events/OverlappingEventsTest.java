@@ -142,7 +142,7 @@ public class OverlappingEventsTest implements FirstOrderDifferentialEquations {
          * @param idx the index of the continuous variable to use
          * @param eventType the type of event to use. See {@link #g}
          */
-        public Event(int idx, int eventType) {
+        Event(int idx, int eventType) {
             this.idx = idx;
             this.eventType = eventType;
         }

@@ -28,7 +28,7 @@ import org.apache.commons.math4.legacy.core.jdkmath.AccurateMath;
  * Utility routines for {@link UnivariateSolver} objects.
  *
  */
-public class UnivariateSolverUtils {
+public final class UnivariateSolverUtils {
     /**
      * Class contains only static methods.
      */

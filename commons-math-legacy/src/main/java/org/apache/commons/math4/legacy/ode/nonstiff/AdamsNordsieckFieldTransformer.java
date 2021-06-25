@@ -130,7 +130,7 @@ import org.apache.commons.math4.legacy.core.MathArrays;
  * @param <T> the type of the field elements
  * @since 3.6
  */
-public class AdamsNordsieckFieldTransformer<T extends RealFieldElement<T>> {
+public final class AdamsNordsieckFieldTransformer<T extends RealFieldElement<T>> {
 
     /** Cache for already computed coefficients. */
     private static final Map<Integer,

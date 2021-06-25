@@ -87,7 +87,7 @@ public class OneWayAnova {
         throws NullArgumentException, DimensionMismatchException {
 
         AnovaStats a = anovaStats(categoryData);
-        return a.F;
+        return a.f;
 
     }
 
@@ -127,7 +127,7 @@ public class OneWayAnova {
         // No try-catch or advertised exception because args are valid
         // pass a null rng to avoid unneeded overhead as we will not sample from this distribution
         final FDistribution fdist = new FDistribution(a.dfbg, a.dfwg);
-        return 1.0 - fdist.cumulativeProbability(a.F);
+        return 1.0 - fdist.cumulativeProbability(a.f);
 
     }
 
@@ -169,7 +169,7 @@ public class OneWayAnova {
         final AnovaStats a = anovaStats(categoryData, allowOneElementData);
         // pass a null rng to avoid unneeded overhead as we will not sample from this distribution
         final FDistribution fdist = new FDistribution(a.dfbg, a.dfwg);
-        return 1.0 - fdist.cumulativeProbability(a.F);
+        return 1.0 - fdist.cumulativeProbability(a.f);
 
     }
 
@@ -248,7 +248,7 @@ public class OneWayAnova {
         throws NullArgumentException, DimensionMismatchException,
         OutOfRangeException, ConvergenceException, MaxCountExceededException {
 
-        if ((alpha <= 0) || (alpha > 0.5)) {
+        if (alpha <= 0 || alpha > 0.5) {
             throw new OutOfRangeException(
                     LocalizedFormats.OUT_OF_BOUND_SIGNIFICANCE_LEVEL,
                     alpha, 0, 0.5);
@@ -317,9 +317,9 @@ public class OneWayAnova {
         final int dfbg = categoryData.size() - 1;
         final double msbg = ssbg / dfbg;
         final double mswg = sswg / dfwg;
-        final double F = msbg / mswg;
+        final double f = msbg / mswg;
 
-        return new AnovaStats(dfbg, dfwg, F);
+        return new AnovaStats(dfbg, dfwg, f);
 
     }
 
@@ -327,7 +327,7 @@ public class OneWayAnova {
         Convenience class to pass dfbg,dfwg,F values around within OneWayAnova.
         No get/set methods provided.
     */
-    private static class AnovaStats {
+    private static final class AnovaStats {
 
         /** Degrees of freedom in numerator (between groups). */
         private final int dfbg;
@@ -336,18 +336,18 @@ public class OneWayAnova {
         private final int dfwg;
 
         /** Statistic. */
-        private final double F;
+        private final double f;
 
         /**
-         * Constructor
+         * Constructor.
          * @param dfbg degrees of freedom in numerator (between groups)
          * @param dfwg degrees of freedom in denominator (within groups)
-         * @param F statistic
+         * @param f statistic
          */
-        private AnovaStats(int dfbg, int dfwg, double F) {
+        private AnovaStats(int dfbg, int dfwg, double f) {
             this.dfbg = dfbg;
             this.dfwg = dfwg;
-            this.F = F;
+            this.f = f;
         }
     }
 

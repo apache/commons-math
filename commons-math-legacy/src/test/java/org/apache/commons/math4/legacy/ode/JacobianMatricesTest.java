@@ -314,7 +314,7 @@ public class JacobianMatricesTest {
 
         private double b;
 
-        public Brusselator(double b) {
+        Brusselator(double b) {
             super(B);
             this.b = b;
         }
@@ -371,7 +371,7 @@ public class JacobianMatricesTest {
 
         private double b;
 
-        public ParamBrusselator(double b) {
+        ParamBrusselator(double b) {
             super(B);
             this.b = b;
         }
@@ -427,7 +427,7 @@ public class JacobianMatricesTest {
         private double cy;
         private double omega;
 
-        public Circle(double[] y0, double cx, double cy, double omega) {
+        Circle(double[] y0, double cx, double cy, double omega) {
             super(CX,CY,OMEGA);
             this.y0    = y0.clone();
             this.cx    = cx;
@@ -527,7 +527,7 @@ public class JacobianMatricesTest {
         private double cy;
         private double omega;
 
-        public ParameterizedCircle(double[] y0, double cx, double cy, double omega) {
+        ParameterizedCircle(double[] y0, double cx, double cy, double omega) {
             super(CX,CY,OMEGA);
             this.y0    = y0.clone();
             this.cx    = cx;

@@ -96,16 +96,16 @@ class OpenIntToFieldHashMap<T extends FieldElement<T>> implements Serializable {
      * Build an empty map with default size and using zero for missing entries.
      * @param field field to which the elements belong
      */
-    public OpenIntToFieldHashMap(final Field<T>field) {
+    OpenIntToFieldHashMap(final Field<T> field) {
         this(field, DEFAULT_EXPECTED_SIZE, field.getZero());
     }
 
     /**
-     * Build an empty map with default size
+     * Build an empty map with default size.
      * @param field field to which the elements belong
      * @param missingEntries value to return when a missing entry is fetched
      */
-    public OpenIntToFieldHashMap(final Field<T>field, final T missingEntries) {
+    OpenIntToFieldHashMap(final Field<T> field, final T missingEntries) {
         this(field,DEFAULT_EXPECTED_SIZE, missingEntries);
     }
 
@@ -114,7 +114,7 @@ class OpenIntToFieldHashMap<T extends FieldElement<T>> implements Serializable {
      * @param field field to which the elements belong
      * @param expectedSize expected number of elements in the map
      */
-    public OpenIntToFieldHashMap(final Field<T> field,final int expectedSize) {
+    OpenIntToFieldHashMap(final Field<T> field,final int expectedSize) {
         this(field,expectedSize, field.getZero());
     }
 
@@ -124,8 +124,8 @@ class OpenIntToFieldHashMap<T extends FieldElement<T>> implements Serializable {
      * @param expectedSize expected number of elements in the map
      * @param missingEntries value to return when a missing entry is fetched
      */
-    public OpenIntToFieldHashMap(final Field<T> field,final int expectedSize,
-                                  final T missingEntries) {
+    OpenIntToFieldHashMap(final Field<T> field,final int expectedSize,
+                          final T missingEntries) {
         this.field = field;
         final int capacity = computeCapacity(expectedSize);
         keys   = new int[capacity];
@@ -139,7 +139,7 @@ class OpenIntToFieldHashMap<T extends FieldElement<T>> implements Serializable {
      * Copy constructor.
      * @param source map to copy
      */
-    public OpenIntToFieldHashMap(final OpenIntToFieldHashMap<T> source) {
+    OpenIntToFieldHashMap(final OpenIntToFieldHashMap<T> source) {
         field = source.field;
         final int length = source.keys.length;
         keys = new int[length];
@@ -172,7 +172,7 @@ class OpenIntToFieldHashMap<T extends FieldElement<T>> implements Serializable {
     }
 
     /**
-     * Find the smallest power of two greater than the input value
+     * Find the smallest power of two greater than the input value.
      * @param i input value
      * @return smallest power of two greater than the input value
      */
@@ -181,7 +181,7 @@ class OpenIntToFieldHashMap<T extends FieldElement<T>> implements Serializable {
     }
 
     /**
-     * Get the stored value associated with the given key
+     * Get the stored value associated with the given key.
      * @param key key associated with the data
      * @return data associated with the key
      */
@@ -261,7 +261,7 @@ class OpenIntToFieldHashMap<T extends FieldElement<T>> implements Serializable {
     }
 
     /**
-     * Find the index at which a key should be inserted
+     * Find the index at which a key should be inserted.
      * @param key key to lookup
      * @return index at which key should be inserted
      */
@@ -270,7 +270,7 @@ class OpenIntToFieldHashMap<T extends FieldElement<T>> implements Serializable {
     }
 
     /**
-     * Find the index at which a key should be inserted
+     * Find the index at which a key should be inserted.
      * @param keys keys table
      * @param states states table
      * @param key key to lookup
@@ -327,7 +327,7 @@ class OpenIntToFieldHashMap<T extends FieldElement<T>> implements Serializable {
     }
 
     /**
-     * Compute next probe for collision resolution
+     * Compute next probe for collision resolution.
      * @param perturb perturbed hash
      * @param j previous probe
      * @return next probe
@@ -337,7 +337,7 @@ class OpenIntToFieldHashMap<T extends FieldElement<T>> implements Serializable {
     }
 
     /**
-     * Change the index sign
+     * Change the index sign.
      * @param index initial index
      * @return changed index
      */
@@ -480,7 +480,7 @@ class OpenIntToFieldHashMap<T extends FieldElement<T>> implements Serializable {
     }
 
     /**
-     * Compute the hash value of a key
+     * Compute the hash value of a key.
      * @param key key to hash
      * @return hash value of the key
      */
@@ -491,7 +491,7 @@ class OpenIntToFieldHashMap<T extends FieldElement<T>> implements Serializable {
 
 
     /** Iterator class for the map. */
-    public class Iterator {
+    public final class Iterator {
 
         /** Reference modification count. */
         private final int referenceCount;
@@ -579,9 +579,9 @@ class OpenIntToFieldHashMap<T extends FieldElement<T>> implements Serializable {
 
             // prepare next step
             try {
-                while (states[++next] != FULL) { // NOPMD
-                    // nothing to do
-                }
+                do {
+                    ++next;
+                } while (states[next] != FULL);
             } catch (ArrayIndexOutOfBoundsException e) {
                 next = -2;
                 if (current < 0) {

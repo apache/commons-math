@@ -33,19 +33,19 @@ import org.apache.commons.math4.legacy.optim.PointVectorValuePair;
  */
 public class LeastSquaresBuilder {
 
-    /** max evaluations */
+    /** max evaluations. */
     private int maxEvaluations;
-    /** max iterations */
+    /** max iterations. */
     private int maxIterations;
-    /** convergence checker */
+    /** convergence checker. */
     private ConvergenceChecker<Evaluation> checker;
-    /** model function */
+    /** model function. */
     private MultivariateJacobianFunction model;
-    /** observed values */
+    /** observed values. */
     private RealVector target;
-    /** initial guess */
+    /** initial guess. */
     private RealVector start;
-    /** weight matrix */
+    /** weight matrix. */
     private RealMatrix weight;
     /**
      * Lazy evaluation.

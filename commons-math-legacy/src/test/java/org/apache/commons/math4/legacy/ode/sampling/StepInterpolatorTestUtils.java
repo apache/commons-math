@@ -31,7 +31,10 @@ import org.apache.commons.math4.legacy.ode.TestProblemAbstract;
 import org.apache.commons.math4.legacy.core.jdkmath.AccurateMath;
 import org.junit.Assert;
 
-public class StepInterpolatorTestUtils {
+public final class StepInterpolatorTestUtils {
+
+    /** No instances. */
+    private StepInterpolatorTestUtils() {}
 
     public static void checkDerivativesConsistency(final FirstOrderIntegrator integrator,
                                                    final TestProblemAbstract problem,

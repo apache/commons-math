@@ -654,7 +654,7 @@ public class GraggBulirschStoerIntegrator extends AdaptiveStepsizeIntegrator {
 
       // iterate over several substep sizes
       int k = -1;
-      for (boolean loop = true; loop; ) {
+      for (boolean loop = true; loop;) {
 
         ++k;
 

@@ -44,7 +44,7 @@ public abstract class RungeKuttaFieldStepInterpolatorAbstractTest {
                            FieldEquationsMapper<T> mapper);
 
     protected abstract <T extends RealFieldElement<T>> FieldButcherArrayProvider<T>
-        createButcherArrayProvider(final Field<T> field);
+        createButcherArrayProvider(Field<T> field);
 
     @Test
     public abstract void interpolationAtBounds();

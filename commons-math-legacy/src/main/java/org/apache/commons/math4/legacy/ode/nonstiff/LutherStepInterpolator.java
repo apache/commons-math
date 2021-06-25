@@ -34,7 +34,7 @@ import org.apache.commons.math4.legacy.core.jdkmath.AccurateMath;
 
 class LutherStepInterpolator extends RungeKuttaStepInterpolator {
 
-    /** Serializable version identifier */
+    /** Serializable version identifier. */
     private static final long serialVersionUID = 20140416L;
 
     /** Square root. */

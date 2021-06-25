@@ -436,11 +436,11 @@ public class NonLinearConjugateGradientOptimizerTest {
     }
 
     private static class LinearProblem {
-        final RealMatrix factors;
-        final double[] target;
+        private final RealMatrix factors;
+        private final double[] target;
 
-        public LinearProblem(double[][] factors,
-                             double[] target) {
+        LinearProblem(double[][] factors,
+                      double[] target) {
             this.factors = new BlockRealMatrix(factors);
             this.target  = target;
         }

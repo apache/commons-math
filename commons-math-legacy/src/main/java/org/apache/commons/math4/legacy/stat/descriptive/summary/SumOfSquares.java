@@ -37,14 +37,14 @@ import org.apache.commons.math4.legacy.core.MathArrays;
  */
 public class SumOfSquares extends AbstractStorelessUnivariateStatistic implements Serializable {
 
-    /** Serializable version identifier */
+    /** Serializable version identifier. */
     private static final long serialVersionUID = 20150412L;
 
-    /** Number of values that have been added */
+    /** Number of values that have been added. */
     private long n;
 
     /**
-     * The currently running sumSq
+     * The currently running sumSq.
      */
     private double value;
 

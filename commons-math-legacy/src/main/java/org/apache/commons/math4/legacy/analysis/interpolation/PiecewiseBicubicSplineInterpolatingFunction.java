@@ -43,11 +43,11 @@ public class PiecewiseBicubicSplineInterpolatingFunction
     implements BivariateFunction {
     /** The minimum number of points that are needed to compute the function. */
     private static final int MIN_NUM_POINTS = 5;
-    /** Samples x-coordinates */
+    /** Samples x-coordinates. */
     private final double[] xval;
-    /** Samples y-coordinates */
+    /** Samples y-coordinates. */
     private final double[] yval;
-    /** Set of cubic splines patching the whole data grid */
+    /** Set of cubic splines patching the whole data grid. */
     private final double[][] fval;
 
     /**
@@ -157,14 +157,10 @@ public class PiecewiseBicubicSplineInterpolatingFunction
      */
     public boolean isValidPoint(double x,
                                 double y) {
-        if (x < xval[0] ||
+        return !(x < xval[0] ||
             x > xval[xval.length - 1] ||
             y < yval[0] ||
-            y > yval[yval.length - 1]) {
-            return false;
-        } else {
-            return true;
-        }
+            y > yval[yval.length - 1]);
     }
 
     /**

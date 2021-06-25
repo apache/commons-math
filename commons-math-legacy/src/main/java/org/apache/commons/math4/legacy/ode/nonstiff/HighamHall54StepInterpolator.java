@@ -31,7 +31,7 @@ import org.apache.commons.math4.legacy.ode.sampling.StepInterpolator;
 class HighamHall54StepInterpolator
   extends RungeKuttaStepInterpolator {
 
-  /** Serializable version identifier */
+  /** Serializable version identifier. */
   private static final long serialVersionUID = 20111120L;
 
   /** Simple constructor.

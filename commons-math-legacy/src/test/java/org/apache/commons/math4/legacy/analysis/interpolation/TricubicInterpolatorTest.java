@@ -145,8 +145,11 @@ public final class TricubicInterpolatorTest {
                                                                         yval,
                                                                         zval,
                                                                         fval);
-        double x, y, z;
-        double expected, result;
+        double x;
+        double y;
+        double z;
+        double expected;
+        double result;
 
         x = 4;
         y = -3;
@@ -205,8 +208,11 @@ public final class TricubicInterpolatorTest {
                                                                         zval,
                                                                         fval);
 
-        double x, y, z;
-        double expected, result;
+        double x;
+        double y;
+        double z;
+        double expected;
+        double result;
 
         x = 4;
         y = -3;

@@ -30,9 +30,9 @@ import org.apache.commons.math4.legacy.core.FieldElement;
  * @see BigReal
  * @since 2.0
  */
-public class BigRealField implements Field<BigReal>, Serializable  {
+public final class BigRealField implements Field<BigReal>, Serializable  {
 
-    /** Serializable version identifier */
+    /** Serializable version identifier. */
     private static final long serialVersionUID = 4756431066541037559L;
 
     /** Private constructor for the singleton.

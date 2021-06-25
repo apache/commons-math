@@ -135,11 +135,11 @@ public class SparseFieldMatrixTest {
         SparseFieldMatrix<Dfp> m1 = createSparseMatrix(testData);
         FieldMatrix<Dfp> m2 = m1.copy();
         Assert.assertEquals(m1.getClass(), m2.getClass());
-        Assert.assertEquals((m2), m1);
+        Assert.assertEquals(m2, m1);
         SparseFieldMatrix<Dfp> m3 = createSparseMatrix(testData);
         FieldMatrix<Dfp> m4 = m3.copy();
         Assert.assertEquals(m3.getClass(), m4.getClass());
-        Assert.assertEquals((m4), m3);
+        Assert.assertEquals(m4, m3);
     }
 
     /** test add */
@@ -392,7 +392,7 @@ public class SparseFieldMatrixTest {
         solution = new FieldLUDecomposition<>(coefficients)
             .getSolver()
             .solve(new ArrayFieldVector<>(constants, false)).toArray();
-        Assert.assertEquals((Dfp25.of(2).multiply((solution[0])).add(Dfp25.of(3).multiply(solution[1])).subtract(Dfp25.of(2).multiply(solution[2]))).toDouble(),
+        Assert.assertEquals((Dfp25.of(2).multiply(solution[0]).add(Dfp25.of(3).multiply(solution[1])).subtract(Dfp25.of(2).multiply(solution[2]))).toDouble(),
                 constants[0].toDouble(), 1E-12);
         Assert.assertEquals(((Dfp25.of(-1).multiply(solution[0])).add(Dfp25.of(7).multiply(solution[1])).add(Dfp25.of(6).multiply(solution[2]))).toDouble(),
                 constants[1].toDouble(), 1E-12);

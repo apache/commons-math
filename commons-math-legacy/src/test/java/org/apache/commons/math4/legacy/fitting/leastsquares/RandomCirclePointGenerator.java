@@ -43,7 +43,6 @@ public class RandomCirclePointGenerator {
      * @param radius Radius of the circle.
      * @param xSigma Error on the x-coordinate of the circumference points.
      * @param ySigma Error on the y-coordinate of the circumference points.
-     * @param seed RNG seed.
      */
     public RandomCirclePointGenerator(double x,
                                       double y,

@@ -20,7 +20,6 @@ import java.io.Serializable;
 import java.io.IOException;
 import java.io.ObjectOutputStream;
 import java.io.ObjectInputStream;
-import org.apache.commons.math4.legacy.exception.MathIllegalArgumentException;
 import org.apache.commons.math4.legacy.core.MathArrays;
 import org.apache.commons.rng.RestorableUniformRandomProvider;
 import org.apache.commons.rng.simple.RandomSource;
@@ -60,7 +59,7 @@ public class RandomPivotingStrategy implements PivotingStrategy, Serializable {
      *
      * @return The index corresponding to a random uniformly selected
      * value between first and the last indices of the array slice
-     * @throws MathIllegalArgumentException when indices exceeds range
+     * @throws org.apache.commons.math4.legacy.exception.MathIllegalArgumentException MathIllegalArgumentException when indices exceeds range
      */
     @Override
     public int pivotIndex(final double[] work, final int begin, final int end) {

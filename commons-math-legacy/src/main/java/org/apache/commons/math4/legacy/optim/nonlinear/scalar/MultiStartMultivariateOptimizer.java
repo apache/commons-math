@@ -22,8 +22,6 @@ import java.util.Comparator;
 import java.util.List;
 import java.util.function.Supplier;
 
-import org.apache.commons.math4.legacy.exception.NotStrictlyPositiveException;
-import org.apache.commons.math4.legacy.exception.NullArgumentException;
 import org.apache.commons.math4.legacy.optim.BaseMultiStartMultivariateOptimizer;
 import org.apache.commons.math4.legacy.optim.PointValuePair;
 
@@ -51,9 +49,9 @@ public class MultiStartMultivariateOptimizer
      * If {@code starts == 1}, the result will be same as if {@code optimizer}
      * is called directly.
      * @param generator Generator to use for restarts.
-     * @throws NullArgumentException if {@code optimizer} or {@code generator}
+     * @throws org.apache.commons.math4.legacy.exception.NullArgumentException NullArgumentException if {@code optimizer} or {@code generator}
      * is {@code null}.
-     * @throws NotStrictlyPositiveException if {@code starts < 1}.
+     * @throws org.apache.commons.math4.legacy.exception.NotStrictlyPositiveException NotStrictlyPositiveException if {@code starts < 1}.
      */
     public MultiStartMultivariateOptimizer(final MultivariateOptimizer optimizer,
                                            final int starts,

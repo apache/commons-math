@@ -79,7 +79,7 @@ import org.apache.commons.math4.legacy.core.jdkmath.AccurateMath;
 public class EigenDecomposition {
     /** Internally used epsilon criteria. */
     private static final double EPSILON = 1e-12;
-    /** Maximum number of iterations accepted in the implicit QL transformation */
+    /** Maximum number of iterations accepted in the implicit QL transformation. */
     private static final byte MAX_ITER = 30;
     /** Main diagonal of the tridiagonal matrix. */
     private double[] main;
@@ -377,7 +377,7 @@ public class EigenDecomposition {
     }
 
     /** Specialized solver. */
-    private static class Solver implements DecompositionSolver {
+    private static final class Solver implements DecompositionSolver {
         /** Real part of the realEigenvalues. */
         private final double[] realEigenvalues;
         /** Imaginary part of the realEigenvalues. */
@@ -556,7 +556,7 @@ public class EigenDecomposition {
     }
 
     /**
-     * Find eigenvalues and eigenvectors (Dubrulle et al., 1971)
+     * Find eigenvalues and eigenvectors (Dubrulle et al., 1971).
      *
      * @param householderMatrix Householder matrix of the transformation
      * to tridiagonal form.

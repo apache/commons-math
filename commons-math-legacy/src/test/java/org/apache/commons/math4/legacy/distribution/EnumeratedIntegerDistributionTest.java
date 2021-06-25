@@ -16,7 +16,6 @@
  */
 package org.apache.commons.math4.legacy.distribution;
 
-import java.util.Arrays;
 import org.apache.commons.statistics.distribution.DiscreteDistribution;
 import org.apache.commons.math4.legacy.exception.DimensionMismatchException;
 import org.apache.commons.math4.legacy.exception.MathArithmeticException;

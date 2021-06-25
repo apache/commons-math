@@ -353,7 +353,7 @@ public class GraggBulirschStoerIntegratorTest {
   }
 
   private static class KeplerStepHandler implements StepHandler {
-    public KeplerStepHandler(TestProblem3 pb) {
+    KeplerStepHandler(TestProblem3 pb) {
       this.pb = pb;
     }
     @Override

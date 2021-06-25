@@ -247,7 +247,7 @@ public final class MatrixUtilsTest {
         }
     }
 
-    public static final Dfp[][] asDfp(double[][] data) {
+    public static Dfp[][] asDfp(double[][] data) {
         Dfp d[][] = new Dfp[data.length][];
         for (int i = 0; i < data.length; ++i) {
             double[] dataI = data[i];
@@ -260,7 +260,7 @@ public final class MatrixUtilsTest {
         return d;
     }
 
-    public static final Dfp[] asDfp(double[] data) {
+    public static Dfp[] asDfp(double[] data) {
         Dfp d[] = new Dfp[data.length];
         for (int i = 0; i < data.length; ++i) {
             d[i] = Dfp25.of(data[i]);

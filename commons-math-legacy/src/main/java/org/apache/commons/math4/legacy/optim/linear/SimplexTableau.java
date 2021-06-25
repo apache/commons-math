@@ -77,17 +77,17 @@ class SimplexTableau implements Serializable {
     /** Serializable version identifier. */
     private static final long serialVersionUID = -1369660067587938365L;
 
-    /** bit mask for IEEE double exponent **/
+    /** bit mask for IEEE double exponent. */
     private static final long EXPN = 0x7ff0000000000000L;
-    /** bit mask for IEEE double mantissa and sign **/
+    /** bit mask for IEEE double mantissa and sign. */
     private static final long FRAC = 0x800fffffffffffffL;
-    /** max IEEE exponent is 2047 **/
+    /** max IEEE exponent is 2047. */
     private static final int MAX_IEEE_EXP = 2047;
-    /** min IEEE exponent is 0 **/
+    /** min IEEE exponent is 0. */
     private static final int MIN_IEEE_EXP = 0;
-    /** IEEE exponent is kept in an offset form, 1023 is zero **/
+    /** IEEE exponent is kept in an offset form, 1023 is zero. */
     private static final int OFFSET_IEEE_EXP = 1023;
-    /** double exponent shift per IEEE standard **/
+    /** double exponent shift per IEEE standard. */
     private static final int IEEE_EXPONENT_SHIFT = 52;
 
     /** Linear objective function. */
@@ -99,7 +99,7 @@ class SimplexTableau implements Serializable {
     /** Whether to restrict the variables to non-negative values. */
     private final boolean restrictToNonNegative;
 
-    /** The variables each column represents */
+    /** The variables each column represents. */
     private final List<String> columnLabels = new ArrayList<>();
 
     /** Simple tableau. */
@@ -126,7 +126,7 @@ class SimplexTableau implements Serializable {
     /** Maps rows to their corresponding basic variables. */
     private int[] basicRows;
 
-    /** changes in floating point exponent to scale the input */
+    /** changes in floating point exponent to scale the input. */
     private int[] variableExpChange;
 
     /**

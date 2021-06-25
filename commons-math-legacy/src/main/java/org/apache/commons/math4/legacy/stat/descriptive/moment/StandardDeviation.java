@@ -41,10 +41,10 @@ import org.apache.commons.math4.legacy.core.jdkmath.AccurateMath;
 public class StandardDeviation extends AbstractStorelessUnivariateStatistic
     implements Serializable {
 
-    /** Serializable version identifier */
+    /** Serializable version identifier. */
     private static final long serialVersionUID = 20150412L;
 
-    /** Wrapped Variance instance */
+    /** Wrapped Variance instance. */
     private Variance variance;
 
     /**

@@ -49,11 +49,17 @@ public final class NevilleInterpolatorTest {
     public void testSinFunction() {
         UnivariateFunction f = new Sin();
         UnivariateInterpolator interpolator = new NevilleInterpolator();
-        double x[], y[], z, expected, result, tolerance;
+        double[] x;
+        double[] y;
+        double z;
+        double expected;
+        double result;
+        double tolerance;
 
         // 6 interpolating points on interval [0, 2*PI]
         int n = 6;
-        double min = 0.0, max = 2 * AccurateMath.PI;
+        double min = 0.0;
+        double max = 2 * AccurateMath.PI;
         x = new double[n];
         y = new double[n];
         for (int i = 0; i < n; i++) {
@@ -81,11 +87,17 @@ public final class NevilleInterpolatorTest {
     public void testExpm1Function() {
         UnivariateFunction f = new Expm1();
         UnivariateInterpolator interpolator = new NevilleInterpolator();
-        double x[], y[], z, expected, result, tolerance;
+        double[] x;
+        double[] y;
+        double z;
+        double expected;
+        double result;
+        double tolerance;
 
         // 5 interpolating points on interval [-1, 1]
         int n = 5;
-        double min = -1.0, max = 1.0;
+        double min = -1.0;
+        double max = 1.0;
         x = new double[n];
         y = new double[n];
         for (int i = 0; i < n; i++) {

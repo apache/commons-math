@@ -56,7 +56,7 @@ public class TestFieldProblem4<T extends RealFieldElement<T>>
         a = convert(1.2);
         T[] y0 = MathArrays.buildArray(field, 2);
         y0[0] = a.sin();
-        y0[1] = a.cos();;
+        y0[1] = a.cos();
         setInitialConditions(convert(0.0), y0);
         setFinalConditions(convert(15));
         setErrorScale(convert(1.0, 0.0));
@@ -109,7 +109,7 @@ public class TestFieldProblem4<T extends RealFieldElement<T>>
 
         private int sign;
 
-        public Bounce() {
+        Bounce() {
             sign = +1;
         }
 
@@ -136,12 +136,11 @@ public class TestFieldProblem4<T extends RealFieldElement<T>>
             y[1] = y[1].negate();
             return new FieldODEState<>(state.getTime(), y);
         }
-
     }
 
     private static class Stop<T extends RealFieldElement<T>> implements FieldEventHandler<T> {
 
-        public Stop() {
+        Stop() {
         }
 
         @Override
@@ -162,7 +161,5 @@ public class TestFieldProblem4<T extends RealFieldElement<T>>
         public FieldODEState<T> resetState(FieldODEStateAndDerivative<T> state) {
             return state;
         }
-
     }
-
 }

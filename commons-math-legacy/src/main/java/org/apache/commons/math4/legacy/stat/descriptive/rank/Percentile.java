@@ -91,22 +91,22 @@ import org.apache.commons.math4.legacy.core.MathArrays;
  * <code>clear()</code> method, it must be synchronized externally.</p>
  */
 public class Percentile extends AbstractUnivariateStatistic implements Serializable {
-    /** Serializable version identifier */
+    /** Serializable version identifier. */
     private static final long serialVersionUID = 20150412L;
 
     /** Maximum number of partitioning pivots cached (each level double the number of pivots). */
     private static final int MAX_CACHED_LEVELS = 10;
 
-    /** Maximum number of cached pivots in the pivots cached array */
+    /** Maximum number of cached pivots in the pivots cached array. */
     private static final int PIVOTS_HEAP_LENGTH = 0x1 << MAX_CACHED_LEVELS - 1;
 
-    /** Default KthSelector used with default pivoting strategy */
+    /** Default KthSelector used with default pivoting strategy. */
     private final KthSelector kthSelector;
 
     /** Any of the {@link EstimationType}s such as {@link EstimationType#LEGACY CM} can be used. */
     private final EstimationType estimationType;
 
-    /** NaN Handling of the input as defined by {@link NaNStrategy} */
+    /** NaN Handling of the input as defined by {@link NaNStrategy}. */
     private final NaNStrategy nanStrategy;
 
     /**
@@ -118,7 +118,7 @@ public class Percentile extends AbstractUnivariateStatistic implements Serializa
     /** Cached pivots. */
     private int[] cachedPivots;
 
-    /** Weights*/
+    /** Weight. */
     private double[] weights;
     /**
      * Constructs a Percentile with the following defaults.
@@ -138,7 +138,7 @@ public class Percentile extends AbstractUnivariateStatistic implements Serializa
     }
 
     /**
-     * Constructs a Percentile with the specific quantile value and the following
+     * Constructs a Percentile with the specific quantile value and the following.
      * <ul>
      *   <li>default method type: {@link EstimationType#LEGACY}</li>
      *   <li>default NaN strategy: {@link NaNStrategy#REMOVED}</li>
@@ -154,7 +154,7 @@ public class Percentile extends AbstractUnivariateStatistic implements Serializa
     }
 
     /**
-     * Copy constructor, creates a new {@code Percentile} identical
+     * Copy constructor, creates a new {@code Percentile} identical.
      * to the {@code original}
      *
      * @param original the {@code Percentile} instance to copy.
@@ -273,12 +273,12 @@ public class Percentile extends AbstractUnivariateStatistic implements Serializa
         cachedPivots = new int[PIVOTS_HEAP_LENGTH];
         Arrays.fill(cachedPivots, -1);
 
-        /** Check length */
+        // Check length
         if (values.length != sampleWeights.length) {
             throw new MathIllegalArgumentException(LocalizedFormats.LENGTH,
                                                    values, sampleWeights);
         }
-        /** Check weights > 0 */
+        // Check weights > 0
         MathArrays.checkPositive(sampleWeights);
         MathArrays.checkNotNaN(sampleWeights);
 
@@ -488,7 +488,7 @@ public class Percentile extends AbstractUnivariateStatistic implements Serializa
         if (values == null || sampleWeights == null) {
             throw new MathIllegalArgumentException(LocalizedFormats.NULL_NOT_ALLOWED);
         }
-        /** Check length */
+        // Check length
         if (values.length != sampleWeights.length) {
             throw new MathIllegalArgumentException(LocalizedFormats.LENGTH,
                                                    values, sampleWeights);
@@ -615,7 +615,7 @@ public class Percentile extends AbstractUnivariateStatistic implements Serializa
         return work;
     }
     /**
-     * Make a copy of the array for the slice defined by array part from
+     * Make a copy of the array for the slice defined by array part from.
      * [begin, begin+length)
      * @param values the input array
      * @param begin start index of the array to include
@@ -704,7 +704,7 @@ public class Percentile extends AbstractUnivariateStatistic implements Serializa
         return temp;
     }
     /**
-     * Remove weights element if the corresponding data is equal to the given value
+     * Remove weights element if the corresponding data is equal to the given value.
      * in [begin, begin+length)
      *
      * @param values the input array
@@ -752,7 +752,7 @@ public class Percentile extends AbstractUnivariateStatistic implements Serializa
         return temp;
     }
     /**
-     * Get pivots which is either cached or a newly created one
+     * Get pivots which is either cached or a newly created one.
      *
      * @param values array containing the input numbers
      * @return cached pivots or a newly created one
@@ -914,7 +914,7 @@ public class Percentile extends AbstractUnivariateStatistic implements Serializa
      */
     public enum EstimationType {
         /**
-         * This is the default type used in the {@link Percentile}.This method
+         * This is the default type used in the {@link Percentile}.This method.
          * has the following formulae for index and estimates<br>
          * \( \begin{align}
          * &amp;index    = (N+1)p\ \\
@@ -943,7 +943,7 @@ public class Percentile extends AbstractUnivariateStatistic implements Serializa
             }
         },
         /**
-         * The method R_1 has the following formulae for index and estimates<br>
+         * The method R_1 has the following formulae for index and estimates.<br>
          * \( \begin{align}
          * &amp;index= Np + 1/2\,  \\
          * &amp;estimate= x_{\lceil h\,-\,1/2 \rceil} \\
@@ -974,7 +974,7 @@ public class Percentile extends AbstractUnivariateStatistic implements Serializa
             }
         },
         /**
-         * The method R_2 has the following formulae for index and estimates<br>
+         * The method R_2 has the following formulae for index and estimates.<br>
          * \( \begin{align}
          * &amp;index= Np + 1/2\, \\
          * &amp;estimate=\frac{x_{\lceil h\,-\,1/2 \rceil} +
@@ -1014,7 +1014,7 @@ public class Percentile extends AbstractUnivariateStatistic implements Serializa
             }
         },
         /**
-         * The method R_3 has the following formulae for index and estimates<br>
+         * The method R_3 has the following formulae for index and estimates.<br>
          * \( \begin{align}
          * &amp;index= Np \\
          * &amp;estimate= x_{\lfloor h \rceil}\, \\
@@ -1035,7 +1035,7 @@ public class Percentile extends AbstractUnivariateStatistic implements Serializa
             }
         },
         /**
-         * The method R_4 has the following formulae for index and estimates<br>
+         * The method R_4 has the following formulae for index and estimates.<br>
          * \( \begin{align}
          * &amp;index= Np\, \\
          * &amp;estimate= x_{\lfloor h \rfloor} + (h -
@@ -1060,7 +1060,7 @@ public class Percentile extends AbstractUnivariateStatistic implements Serializa
             }
         },
         /**
-         * The method R_5 has the following formulae for index and estimates<br>
+         * The method R_5 has the following formulae for index and estimates.<br>
          * \( \begin{align}
          * &amp;index= Np + 1/2\\
          * &amp;estimate= x_{\lfloor h \rfloor} + (h -
@@ -1087,7 +1087,7 @@ public class Percentile extends AbstractUnivariateStatistic implements Serializa
             }
         },
         /**
-         * The method R_6 has the following formulae for index and estimates<br>
+         * The method R_6 has the following formulae for index and estimates.<br>
          * \( \begin{align}
          * &amp;index= (N + 1)p \\
          * &amp;estimate= x_{\lfloor h \rfloor} + (h -
@@ -1174,7 +1174,7 @@ public class Percentile extends AbstractUnivariateStatistic implements Serializa
         },
 
         /**
-         * The method R_8 has the following formulae for index and estimates<br>
+         * The method R_8 has the following formulae for index and estimates.<br>
          * \( \begin{align}
          * &amp;index = (N + 1/3)p + 1/3  \\
          * &amp;estimate = x_{\lfloor h \rfloor} + (h -
@@ -1205,7 +1205,7 @@ public class Percentile extends AbstractUnivariateStatistic implements Serializa
         },
 
         /**
-         * The method R_9 has the following formulae for index and estimates<br>
+         * The method R_9 has the following formulae for index and estimates.<br>
          * \( \begin{align}
          * &amp;index = (N + 1/4)p + 3/8\\
          * &amp;estimate = x_{\lfloor h \rfloor} + (h -
@@ -1236,7 +1236,7 @@ public class Percentile extends AbstractUnivariateStatistic implements Serializa
         private final String name;
 
         /**
-         * Constructor
+         * Constructor.
          *
          * @param type name of estimation type as per wikipedia
          */
@@ -1254,7 +1254,7 @@ public class Percentile extends AbstractUnivariateStatistic implements Serializa
          * @param length the total number of array elements in the work array
          * @return a computed real valued index as explained in the wikipedia
          */
-        protected abstract double index(final double p, final int length);
+        protected abstract double index(double p, int length);
 
         /**
          * Estimation based on K<sup>th</sup> selection. This may be overridden
@@ -1338,8 +1338,8 @@ public class Percentile extends AbstractUnivariateStatistic implements Serializa
          * @return estimated weighted percentile
          * @throws MathIllegalArgumentException if weighted percentile is not supported by the current estimationType
          */
-        public abstract double evaluate(final double[] work, final double[] sampleWeights,
-                                        final double p);
+        public abstract double evaluate(double[] work, double[] sampleWeights,
+                                        double p);
         /**
          * Search the interval q*sn locates in.
          * @param qsn q*sn, where n refers to the data size
@@ -1369,7 +1369,7 @@ public class Percentile extends AbstractUnivariateStatistic implements Serializa
             }
         }
         /**
-         * Gets the name of the enum
+         * Gets the name of the enum.
          *
          * @return the name
          */

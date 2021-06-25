@@ -38,7 +38,7 @@ import org.apache.commons.math4.legacy.exception.NumberIsTooSmallException;
  */
 public class DividedDifferenceInterpolator
     implements UnivariateInterpolator, Serializable {
-    /** serializable version identifier */
+    /** serializable version identifier. */
     private static final long serialVersionUID = 107049519551235069L;
 
     /**

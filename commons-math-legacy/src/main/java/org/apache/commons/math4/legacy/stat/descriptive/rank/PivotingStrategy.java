@@ -27,7 +27,7 @@ package org.apache.commons.math4.legacy.stat.descriptive.rank;
 public interface PivotingStrategy {
     /**
      * Find pivot index of the array so that partition and K<sup>th</sup>
-     * element selection can be made
+     * element selection can be made.
      * @param work data array
      * @param begin index of the first element of the slice
      * @param end index after the last element of the slice

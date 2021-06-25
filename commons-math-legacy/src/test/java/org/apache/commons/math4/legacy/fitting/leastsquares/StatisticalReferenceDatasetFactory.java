@@ -27,7 +27,7 @@ import org.apache.commons.math4.legacy.core.jdkmath.AccurateMath;
  * A factory to create instances of {@link StatisticalReferenceDataset} from
  * available resources.
  */
-public class StatisticalReferenceDatasetFactory {
+public final class StatisticalReferenceDatasetFactory {
 
     private StatisticalReferenceDatasetFactory() {
         // Do nothing

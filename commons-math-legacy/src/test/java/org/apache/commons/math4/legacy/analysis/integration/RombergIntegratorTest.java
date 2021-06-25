@@ -43,7 +43,11 @@ public final class RombergIntegratorTest {
     public void testSinFunction() {
         UnivariateFunction f = new Sin();
         UnivariateIntegrator integrator = new RombergIntegrator();
-        double min, max, expected, result, tolerance;
+        double min;
+        double max;
+        double expected;
+        double result;
+        double tolerance;
 
         min = 0; max = AccurateMath.PI; expected = 2;
         tolerance = AccurateMath.abs(expected * integrator.getRelativeAccuracy());
@@ -67,7 +71,11 @@ public final class RombergIntegratorTest {
     public void testQuinticFunction() {
         UnivariateFunction f = new QuinticFunction();
         UnivariateIntegrator integrator = new RombergIntegrator();
-        double min, max, expected, result, tolerance;
+        double min;
+        double max;
+        double expected;
+        double result;
+        double tolerance;
 
         min = 0; max = 1; expected = -1.0/48;
         tolerance = AccurateMath.abs(expected * integrator.getRelativeAccuracy());

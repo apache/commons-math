@@ -88,7 +88,7 @@ public class WilcoxonSignedRankTest {
     }
 
     /**
-     * Calculates y[i] - x[i] for all i
+     * Calculates y[i] - x[i] for all i.
      *
      * @param x first sample
      * @param y second sample
@@ -106,7 +106,7 @@ public class WilcoxonSignedRankTest {
     }
 
     /**
-     * Calculates |z[i]| for all i
+     * Calculates |z[i]| for all i.
      *
      * @param z sample
      * @return |z|
@@ -179,34 +179,34 @@ public class WilcoxonSignedRankTest {
 
         final double[] ranks = naturalRanking.rank(zAbs);
 
-        double Wplus = 0;
+        double wPlus = 0;
 
         for (int i = 0; i < z.length; ++i) {
             if (z[i] > 0) {
-                Wplus += ranks[i];
+                wPlus += ranks[i];
             }
         }
 
-        final int N = x.length;
-        final double Wminus = (((double) (N * (N + 1))) / 2.0) - Wplus;
+        final int n = x.length;
+        final double wMinus = (((double) (n * (n + 1))) / 2.0) - wPlus;
 
-        return AccurateMath.max(Wplus, Wminus);
+        return AccurateMath.max(wPlus, wMinus);
     }
 
     /**
-     * Algorithm inspired by
+     * Algorithm inspired by.
      * http://www.fon.hum.uva.nl/Service/Statistics/Signed_Rank_Algorihms.html#C
      * by Rob van Son, Institute of Phonetic Sciences & IFOTT,
      * University of Amsterdam
      *
-     * @param Wmax largest Wilcoxon signed rank value
-     * @param N number of subjects (corresponding to x.length)
+     * @param wMax largest Wilcoxon signed rank value
+     * @param n number of subjects (corresponding to x.length)
      * @return two-sided exact p-value
      */
-    private double calculateExactPValue(final double Wmax, final int N) {
+    private double calculateExactPValue(final double wMax, final int n) {
 
         // Total number of outcomes (equal to 2^N but a lot faster)
-        final int m = 1 << N;
+        final int m = 1 << n;
 
         int largerRankSums = 0;
 
@@ -214,7 +214,7 @@ public class WilcoxonSignedRankTest {
             int rankSum = 0;
 
             // Generate all possible rank sums
-            for (int j = 0; j < N; ++j) {
+            for (int j = 0; j < n; ++j) {
 
                 // (i >> j) & 1 extract i's j-th bit from the right
                 if (((i >> j) & 1) == 1) {
@@ -222,7 +222,7 @@ public class WilcoxonSignedRankTest {
                 }
             }
 
-            if (rankSum >= Wmax) {
+            if (rankSum >= wMax) {
                 ++largerRankSums;
             }
         }
@@ -235,21 +235,21 @@ public class WilcoxonSignedRankTest {
     }
 
     /**
-     * @param Wmin smallest Wilcoxon signed rank value
-     * @param N number of subjects (corresponding to x.length)
+     * @param wMin smallest Wilcoxon signed rank value
+     * @param n number of subjects (corresponding to x.length)
      * @return two-sided asymptotic p-value
      */
-    private double calculateAsymptoticPValue(final double Wmin, final int N) {
+    private double calculateAsymptoticPValue(final double wMin, final int n) {
 
-        final double ES = (double) (N * (N + 1)) / 4.0;
+        final double es = (double) (n * (n + 1)) / 4.0;
 
         /* Same as (but saves computations):
          * final double VarW = ((double) (N * (N + 1) * (2*N + 1))) / 24;
          */
-        final double VarS = ES * ((double) (2 * N + 1) / 6.0);
+        final double varS = es * ((double) (2 * n + 1) / 6.0);
 
         // - 0.5 is a continuity correction
-        final double z = (Wmin - ES - 0.5) / AccurateMath.sqrt(VarS);
+        final double z = (wMin - es - 0.5) / AccurateMath.sqrt(varS);
 
         // No try-catch or advertised exception because args are valid
         // pass a null rng to avoid unneeded overhead as we will not sample from this distribution
@@ -306,18 +306,18 @@ public class WilcoxonSignedRankTest {
 
         ensureDataConformance(x, y);
 
-        final int N = x.length;
-        final double Wmax = wilcoxonSignedRank(x, y);
+        final int n = x.length;
+        final double wMax = wilcoxonSignedRank(x, y);
 
-        if (exactPValue && N > 30) {
-            throw new NumberIsTooLargeException(N, 30, true);
+        if (exactPValue && n > 30) {
+            throw new NumberIsTooLargeException(n, 30, true);
         }
 
         if (exactPValue) {
-            return calculateExactPValue(Wmax, N);
+            return calculateExactPValue(wMax, n);
         } else {
-            final double Wmin = ( (double)(N*(N+1)) / 2.0 ) - Wmax;
-            return calculateAsymptoticPValue(Wmin, N);
+            final double wMin = ( (double)(n*(n+1)) / 2.0 ) - wMax;
+            return calculateAsymptoticPValue(wMin, n);
         }
     }
 }

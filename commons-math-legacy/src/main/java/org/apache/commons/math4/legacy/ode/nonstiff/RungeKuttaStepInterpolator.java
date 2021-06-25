@@ -40,7 +40,7 @@ abstract class RungeKuttaStepInterpolator
     /** Previous state. */
     protected double[] previousState;
 
-    /** Slopes at the intermediate points */
+    /** Slopes at the intermediate points. */
     protected double[][] yDotK;
 
     /** Reference to the integrator. */

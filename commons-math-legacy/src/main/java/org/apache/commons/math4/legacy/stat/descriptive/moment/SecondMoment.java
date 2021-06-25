@@ -46,10 +46,10 @@ import org.apache.commons.math4.legacy.exception.NullArgumentException;
  */
 public class SecondMoment extends FirstMoment implements Serializable {
 
-    /** Serializable version identifier */
+    /** Serializable version identifier. */
     private static final long serialVersionUID = 20150412L;
 
-    /** second moment of values that have been added */
+    /** second moment of values that have been added. */
     protected double m2;
 
     /**

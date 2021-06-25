@@ -69,7 +69,7 @@ public class Sigmoid implements UnivariateDifferentiableFunction {
 
     /**
      * Parametric function where the input array contains the parameters of
-     * the {@link Sigmoid#Sigmoid(double,double) sigmoid function}, ordered
+     * the {@link Sigmoid#Sigmoid(double,double) sigmoid function}. Ordered
      * as follows:
      * <ul>
      *  <li>Lower asymptote</li>

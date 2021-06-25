@@ -22,9 +22,7 @@ import java.util.function.Supplier;
 import org.junit.Test;
 import org.junit.Assert;
 
-import org.apache.commons.rng.UniformRandomProvider;
 import org.apache.commons.rng.simple.RandomSource;
-import org.apache.commons.rng.sampling.distribution.ZigguratNormalizedGaussianSampler;
 import org.apache.commons.math4.legacy.TestUtils;
 import org.apache.commons.math4.legacy.linear.Array2DRowRealMatrix;
 import org.apache.commons.math4.legacy.linear.MatrixUtils;

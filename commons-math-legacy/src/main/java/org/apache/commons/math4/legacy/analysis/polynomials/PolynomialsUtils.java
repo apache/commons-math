@@ -30,10 +30,10 @@ import org.apache.commons.math4.legacy.core.jdkmath.AccurateMath;
  *
  * @since 2.0
  */
-public class PolynomialsUtils {
-    /** -1 */
+public final class PolynomialsUtils {
+    /** -1. */
     private static final BigFraction BF_MINUS_ONE = BigFraction.of(-1);
-    /** 2 */
+    /** 2. */
     private static final BigFraction BF_TWO = BigFraction.of(2);
 
     /** Coefficients for Chebyshev polynomials. */

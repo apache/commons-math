@@ -82,7 +82,7 @@ public class FitnessCachingTest {
 
     private static class DummyCountingBinaryChromosome extends DummyBinaryChromosome {
 
-        public DummyCountingBinaryChromosome(List<Integer> representation) {
+        DummyCountingBinaryChromosome(List<Integer> representation) {
             super(representation);
         }
 

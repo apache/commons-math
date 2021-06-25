@@ -41,10 +41,10 @@ import org.apache.commons.math4.legacy.linear.RealMatrix;
  */
 public class StorelessCovariance extends Covariance {
 
-    /** the square covariance matrix (upper triangular part) */
+    /** the square covariance matrix (upper triangular part). */
     private StorelessBivariateCovariance[] covMatrix;
 
-    /** dimension of the square covariance matrix */
+    /** dimension of the square covariance matrix. */
     private int dimension;
 
     /**
@@ -99,7 +99,7 @@ public class StorelessCovariance extends Covariance {
     }
 
     /**
-     * Gets the element at index (i, j) from the covariance matrix
+     * Gets the element at index (i, j) from the covariance matrix.
      * @param i the row index
      * @param j the column index
      * @return the {@link StorelessBivariateCovariance} element at the given index
@@ -109,7 +109,7 @@ public class StorelessCovariance extends Covariance {
     }
 
     /**
-     * Sets the covariance element at index (i, j) in the covariance matrix
+     * Sets the covariance element at index (i, j) in the covariance matrix.
      * @param i the row index
      * @param j the column index
      * @param cov the {@link StorelessBivariateCovariance} element to be set

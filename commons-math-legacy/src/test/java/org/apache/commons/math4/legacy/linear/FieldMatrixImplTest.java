@@ -1071,7 +1071,7 @@ public final class FieldMatrixImplTest {
     }
 
     private static class SetVisitor extends DefaultFieldMatrixChangingVisitor<Dfp> {
-        public SetVisitor() {
+        SetVisitor() {
             super(Dfp25.ZERO);
         }
         @Override
@@ -1082,7 +1082,7 @@ public final class FieldMatrixImplTest {
 
     private static class GetVisitor extends DefaultFieldMatrixPreservingVisitor<Dfp> {
         private int count;
-        public GetVisitor() {
+        GetVisitor() {
             super(Dfp25.ZERO);
             count = 0;
         }

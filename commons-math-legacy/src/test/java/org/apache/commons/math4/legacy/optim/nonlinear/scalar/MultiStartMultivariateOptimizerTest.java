@@ -112,7 +112,7 @@ public class MultiStartMultivariateOptimizerTest {
     private static class Rosenbrock implements MultivariateFunction {
         private int count;
 
-        public Rosenbrock() {
+        Rosenbrock() {
             count = 0;
         }
 

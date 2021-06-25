@@ -29,7 +29,7 @@ import org.junit.Test;
  */
 public class StableRandomGeneratorTest {
     private final UniformRandomProvider rg = RandomSource.create(RandomSource.WELL_19937_C, 100);
-    private final static int sampleSize = 10000;
+    private static final int sampleSize = 10000;
 
     /**
      * Run the double nextDouble() method test Due to leptokurtic property the

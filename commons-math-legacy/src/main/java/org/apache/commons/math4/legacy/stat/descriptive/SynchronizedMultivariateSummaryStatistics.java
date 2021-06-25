@@ -34,11 +34,11 @@ import org.apache.commons.math4.legacy.linear.RealMatrix;
 public class SynchronizedMultivariateSummaryStatistics
     extends MultivariateSummaryStatistics {
 
-    /** Serialization UID */
+    /** Serialization UID. */
     private static final long serialVersionUID = 7099834153347155363L;
 
     /**
-     * Construct a SynchronizedMultivariateSummaryStatistics instance
+     * Construct a SynchronizedMultivariateSummaryStatistics instance.
      * @param k dimension of the data
      * @param isCovarianceBiasCorrected if true, the unbiased sample
      * covariance is computed, otherwise the biased population covariance

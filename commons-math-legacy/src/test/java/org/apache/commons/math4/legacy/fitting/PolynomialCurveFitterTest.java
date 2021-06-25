@@ -57,7 +57,7 @@ public class PolynomialCurveFitterTest {
 
     @Test
     public void testNoError() {
-        final Random randomizer = new Random(64925784252l);
+        final Random randomizer = new Random(64925784252L);
         for (int degree = 1; degree < 10; ++degree) {
             final PolynomialFunction p = buildRandomPolynomial(degree, randomizer);
             final SimpleCurveFitter fitter = PolynomialCurveFitter.create(degree);
@@ -79,7 +79,7 @@ public class PolynomialCurveFitterTest {
 
     @Test
     public void testSmallError() {
-        final Random randomizer = new Random(53882150042l);
+        final Random randomizer = new Random(53882150042L);
         double maxError = 0;
         for (int degree = 0; degree < 10; ++degree) {
             final PolynomialFunction p = buildRandomPolynomial(degree, randomizer);
@@ -110,7 +110,7 @@ public class PolynomialCurveFitterTest {
 
     @Test
     public void testLargeSample() {
-        final Random randomizer = new Random(0x5551480dca5b369bl);
+        final Random randomizer = new Random(0x5551480dca5b369bL);
         double maxError = 0;
         for (int degree = 0; degree < 10; ++degree) {
             final PolynomialFunction p = buildRandomPolynomial(degree, randomizer);
@@ -134,7 +134,7 @@ public class PolynomialCurveFitterTest {
     }
 
     private void checkUnsolvableProblem(boolean solvable) {
-        final Random randomizer = new Random(1248788532l);
+        final Random randomizer = new Random(1248788532L);
 
         for (int degree = 0; degree < 10; ++degree) {
             final PolynomialFunction p = buildRandomPolynomial(degree, randomizer);
@@ -150,9 +150,9 @@ public class PolynomialCurveFitterTest {
 
             try {
                 fitter.fit(obs.toList());
-                Assert.assertTrue(solvable || (degree == 0));
+                Assert.assertTrue(solvable || degree == 0);
             } catch(ConvergenceException e) {
-                Assert.assertTrue((! solvable) && (degree > 0));
+                Assert.assertTrue(!solvable && degree > 0);
             }
         }
     }

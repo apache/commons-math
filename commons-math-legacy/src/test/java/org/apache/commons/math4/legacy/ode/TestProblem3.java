@@ -40,7 +40,7 @@ public class TestProblem3
   extends TestProblemAbstract {
 
   /** Eccentricity */
-  double e;
+  private double e;
 
   /** theoretical state */
   private double[] y;

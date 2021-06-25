@@ -107,7 +107,7 @@ public class CMAESOptimizer
      * @see Sigma
      */
     private double[] inputSigma;
-    /** Number of objective variables/problem dimension */
+    /** Number of objective variables/problem dimension. */
     private int dimension;
     /**
      * Defines the number of initial iterations, where the covariance matrix
@@ -118,7 +118,7 @@ public class CMAESOptimizer
      * @see <a href="http://hal.archives-ouvertes.fr/inria-00287367/en">A Simple Modification in CMA-ES</a>
      */
     private int diagonalOnly;
-    /** Number of objective variables/problem dimension */
+    /** Number of objective variables/problem dimension. */
     private boolean isMinimize = true;
     /** Indicates whether statistic data is collected. */
     private final boolean generateStatistics;
@@ -158,13 +158,13 @@ public class CMAESOptimizer
     private double damps;
     /** Learning rate for rank-one update. */
     private double ccov1;
-    /** Learning rate for rank-mu update' */
+    /** Learning rate for rank-mu update'. */
     private double ccovmu;
     /** Expectation of ||N(0,I)|| == norm(randn(N,1)). */
     private double chiN;
-    /** Learning rate for rank-one update - diagonalOnly */
+    /** Learning rate for rank-one update - diagonalOnly. */
     private double ccov1Sep;
-    /** Learning rate for rank-mu update - diagonalOnly */
+    /** Learning rate for rank-mu update - diagonalOnly. */
     private double ccovmuSep;
 
     // CMA internal values - updated each generation
@@ -386,7 +386,6 @@ public class CMAESOptimizer
         PointValuePair lastResult = null;
 
         // -------------------- Generation Loop --------------------------------
-
         generationLoop:
         for (iterations = 1; iterations <= maxIterations; iterations++) {
             incrementIterationCount();
@@ -421,13 +420,11 @@ public class CMAESOptimizer
                     break generationLoop;
                 }
             }
-
             // Compute fitnesses by adding value and penalty after scaling by value range.
             double valueRange = valueRange(valuePenaltyPairs);
             for (int iValue=0;iValue<valuePenaltyPairs.length;iValue++) {
                  fitness[iValue] = valuePenaltyPairs[iValue].value + valuePenaltyPairs[iValue].penalty*valueRange;
             }
-
             // Sort by fitness and compute weighted mean into xmean
             final int[] arindex = sortedIndices(fitness);
             // Calculate new xmean, this is selection and recombination
@@ -576,7 +573,7 @@ public class CMAESOptimizer
     }
 
     /**
-     * Initialization of the dynamic search parameters
+     * Initialization of the dynamic search parameters.
      *
      * @param guess Initial guess for the arguments of the fitness function.
      */
@@ -670,7 +667,7 @@ public class CMAESOptimizer
     }
 
     /**
-     * Update of the covariance matrix C for diagonalOnly > 0
+     * Update of the covariance matrix C for diagonalOnly > 0.
      *
      * @param hsig Flag indicating a small correction.
      * @param bestArz Fitness-sorted matrix of the gaussian random values of the
@@ -747,7 +744,7 @@ public class CMAESOptimizer
                 }
                 arzneg = times(arzneg, repmat(arnormsInv, dimension, 1));
                 final RealMatrix artmp = BD.multiply(arzneg);
-                final RealMatrix Cneg = artmp.multiply(diag(weights)).multiply(artmp.transpose());
+                final RealMatrix cNeg = artmp.multiply(diag(weights)).multiply(artmp.transpose());
                 oldFac += negalphaold * negccov;
                 C = C.scalarMultiply(oldFac)
                     .add(roneu) // regard old matrix
@@ -755,7 +752,7 @@ public class CMAESOptimizer
                                               ccovmu + (1 - negalphaold) * negccov) // plus rank mu update
                          .multiply(times(repmat(weights, 1, dimension),
                                          arpos.transpose())))
-                    .subtract(Cneg.scalarMultiply(negccov));
+                    .subtract(cNeg.scalarMultiply(negccov));
             } else {
                 // Adapt covariance matrix C - nonactive
                 C = C.scalarMultiply(oldFac) // regard old matrix
@@ -929,7 +926,7 @@ public class CMAESOptimizer
     private class FitnessFunction {
         /**
          * Flag indicating whether the objective variables are forced into their
-         * bounds if defined
+         * bounds if defined.
          */
         private final boolean isRepairMode;
 

@@ -50,10 +50,10 @@ import org.apache.commons.math4.legacy.core.jdkmath.AccurateMath;
  */
 public class GeometricMean extends AbstractStorelessUnivariateStatistic implements Serializable {
 
-    /** Serializable version identifier */
+    /** Serializable version identifier. */
     private static final long serialVersionUID = 20150412L;
 
-    /** Wrapped SumOfLogs instance */
+    /** Wrapped SumOfLogs instance. */
     private StorelessUnivariateStatistic sumOfLogs;
 
     /**
@@ -76,7 +76,7 @@ public class GeometricMean extends AbstractStorelessUnivariateStatistic implemen
     }
 
     /**
-     * Create a GeometricMean instance using the given SumOfLogs instance
+     * Create a GeometricMean instance using the given SumOfLogs instance.
      * @param sumOfLogs sum of logs instance to use for computation.
      */
     public GeometricMean(SumOfLogs sumOfLogs) {

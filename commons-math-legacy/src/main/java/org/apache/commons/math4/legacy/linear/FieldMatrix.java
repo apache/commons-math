@@ -55,7 +55,7 @@ public interface FieldMatrix<T extends FieldElement<T>> extends AnyMatrix {
      * positive.
      * @since 2.0
      */
-    FieldMatrix<T> createMatrix(final int rowDimension, final int columnDimension)
+    FieldMatrix<T> createMatrix(int rowDimension, int columnDimension)
     throws NotStrictlyPositiveException;
 
     /**
@@ -132,7 +132,7 @@ public interface FieldMatrix<T extends FieldElement<T>> extends AnyMatrix {
      * @throws NotPositiveException if {@code p < 0}
      * @throws NonSquareMatrixException if {@code this matrix} is not square
      */
-    FieldMatrix<T> power(final int p) throws NonSquareMatrixException,
+    FieldMatrix<T> power(int p) throws NonSquareMatrixException,
     NotPositiveException;
 
     /**

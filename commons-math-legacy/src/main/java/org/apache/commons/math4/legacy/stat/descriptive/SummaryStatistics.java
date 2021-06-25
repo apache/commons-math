@@ -58,37 +58,37 @@ import org.apache.commons.numbers.core.Precision;
  */
 public class SummaryStatistics implements StatisticalSummary, Serializable {
 
-    /** Serialization UID */
+    /** Serialization UID. */
     private static final long serialVersionUID = -2021321786743555871L;
 
-    /** count of values that have been added */
+    /** count of values that have been added. */
     private long n;
 
-    /** SecondMoment is used to compute the mean and variance */
+    /** SecondMoment is used to compute the mean and variance. */
     private SecondMoment secondMoment = new SecondMoment();
 
-    /** sum of values that have been added */
+    /** sum of values that have been added. */
     private Sum sum = new Sum();
 
-    /** sum of the square of each value that has been added */
+    /** sum of the square of each value that has been added. */
     private SumOfSquares sumsq = new SumOfSquares();
 
-    /** min of values that have been added */
+    /** min of values that have been added. */
     private Min min = new Min();
 
-    /** max of values that have been added */
+    /** max of values that have been added. */
     private Max max = new Max();
 
-    /** sumLog of values that have been added */
+    /** sumLog of values that have been added. */
     private SumOfLogs sumLog = new SumOfLogs();
 
-    /** geoMean of values that have been added */
+    /** geoMean of values that have been added. */
     private GeometricMean geoMean = new GeometricMean(sumLog);
 
-    /** mean of values that have been added */
+    /** mean of values that have been added. */
     private Mean mean = new Mean(secondMoment);
 
-    /** variance of values that have been added */
+    /** variance of values that have been added. */
     private Variance variance = new Variance(secondMoment);
 
     /** Sum statistic implementation - can be reset by setter. */
@@ -116,7 +116,7 @@ public class SummaryStatistics implements StatisticalSummary, Serializable {
     private StorelessUnivariateStatistic varianceImpl = variance;
 
     /**
-     * Construct a SummaryStatistics instance
+     * Construct a SummaryStatistics instance.
      */
     public SummaryStatistics() {
     }
@@ -142,7 +142,7 @@ public class SummaryStatistics implements StatisticalSummary, Serializable {
     }
 
     /**
-     * Add a value to the data
+     * Add a value to the data.
      * @param value the value to add
      */
     public void addValue(double value) {
@@ -167,7 +167,7 @@ public class SummaryStatistics implements StatisticalSummary, Serializable {
     }
 
     /**
-     * Returns the number of available values
+     * Returns the number of available values.
      * @return The number of available values
      */
     @Override
@@ -176,7 +176,7 @@ public class SummaryStatistics implements StatisticalSummary, Serializable {
     }
 
     /**
-     * Returns the sum of the values that have been added
+     * Returns the sum of the values that have been added.
      * @return The sum or <code>Double.NaN</code> if no values have been added
      */
     @Override
@@ -360,7 +360,7 @@ public class SummaryStatistics implements StatisticalSummary, Serializable {
     }
 
     /**
-     * Resets all statistics and storage
+     * Resets all statistics and storage.
      */
     public void clear() {
         this.n = 0;
@@ -406,7 +406,7 @@ public class SummaryStatistics implements StatisticalSummary, Serializable {
     }
 
     /**
-     * Returns hash code based on values of statistics
+     * Returns hash code based on values of statistics.
      * @return hash code
      */
     @Override
@@ -425,7 +425,7 @@ public class SummaryStatistics implements StatisticalSummary, Serializable {
 
     // Getters and setters for statistics implementations
     /**
-     * Returns the currently configured Sum implementation
+     * Returns the currently configured Sum implementation.
      * @return the StorelessUnivariateStatistic implementing the sum
      * @since 1.2
      */
@@ -455,7 +455,7 @@ public class SummaryStatistics implements StatisticalSummary, Serializable {
     }
 
     /**
-     * Returns the currently configured sum of squares implementation
+     * Returns the currently configured sum of squares implementation.
      * @return the StorelessUnivariateStatistic implementing the sum of squares
      * @since 1.2
      */
@@ -485,7 +485,7 @@ public class SummaryStatistics implements StatisticalSummary, Serializable {
     }
 
     /**
-     * Returns the currently configured minimum implementation
+     * Returns the currently configured minimum implementation.
      * @return the StorelessUnivariateStatistic implementing the minimum
      * @since 1.2
      */
@@ -515,7 +515,7 @@ public class SummaryStatistics implements StatisticalSummary, Serializable {
     }
 
     /**
-     * Returns the currently configured maximum implementation
+     * Returns the currently configured maximum implementation.
      * @return the StorelessUnivariateStatistic implementing the maximum
      * @since 1.2
      */
@@ -545,7 +545,7 @@ public class SummaryStatistics implements StatisticalSummary, Serializable {
     }
 
     /**
-     * Returns the currently configured sum of logs implementation
+     * Returns the currently configured sum of logs implementation.
      * @return the StorelessUnivariateStatistic implementing the log sum
      * @since 1.2
      */
@@ -576,7 +576,7 @@ public class SummaryStatistics implements StatisticalSummary, Serializable {
     }
 
     /**
-     * Returns the currently configured geometric mean implementation
+     * Returns the currently configured geometric mean implementation.
      * @return the StorelessUnivariateStatistic implementing the geometric mean
      * @since 1.2
      */
@@ -606,7 +606,7 @@ public class SummaryStatistics implements StatisticalSummary, Serializable {
     }
 
     /**
-     * Returns the currently configured mean implementation
+     * Returns the currently configured mean implementation.
      * @return the StorelessUnivariateStatistic implementing the mean
      * @since 1.2
      */
@@ -636,7 +636,7 @@ public class SummaryStatistics implements StatisticalSummary, Serializable {
     }
 
     /**
-     * Returns the currently configured variance implementation
+     * Returns the currently configured variance implementation.
      * @return the StorelessUnivariateStatistic implementing the variance
      * @since 1.2
      */

@@ -47,12 +47,12 @@ import org.junit.Test;
 public abstract class AbstractEmbeddedRungeKuttaFieldIntegratorTest {
 
     protected abstract <T extends RealFieldElement<T>> EmbeddedRungeKuttaFieldIntegrator<T>
-    createIntegrator(Field<T> field, final double minStep, final double maxStep,
-                     final double scalAbsoluteTolerance, final double scalRelativeTolerance);
+    createIntegrator(Field<T> field, double minStep, double maxStep,
+                     double scalAbsoluteTolerance, double scalRelativeTolerance);
 
     protected abstract <T extends RealFieldElement<T>> EmbeddedRungeKuttaFieldIntegrator<T>
-    createIntegrator(Field<T> field, final double minStep, final double maxStep,
-                     final double[] vecAbsoluteTolerance, final double[] vecRelativeTolerance);
+    createIntegrator(Field<T> field, double minStep, double maxStep,
+                     double[] vecAbsoluteTolerance, double[] vecRelativeTolerance);
 
     @Test
     public abstract void testNonFieldIntegratorConsistency();
@@ -443,7 +443,7 @@ public abstract class AbstractEmbeddedRungeKuttaFieldIntegratorTest {
         private T maxError;
         private final TestFieldProblem3<T> pb;
         private final double epsilon;
-        public KeplerHandler(TestFieldProblem3<T> pb, double epsilon) {
+        KeplerHandler(TestFieldProblem3<T> pb, double epsilon) {
             this.pb      = pb;
             this.epsilon = epsilon;
             maxError = pb.getField().getZero();

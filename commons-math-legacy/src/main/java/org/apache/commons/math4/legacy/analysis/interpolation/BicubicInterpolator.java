@@ -100,14 +100,10 @@ public class BicubicInterpolator
             /** {@inheritDoc} */
             @Override
             public boolean isValidPoint(double x, double y) {
-                if (x < xval[1] ||
+                return !(x < xval[1] ||
                     x > xval[xval.length - 2] ||
                     y < yval[1] ||
-                    y > yval[yval.length - 2]) {
-                    return false;
-                } else {
-                    return true;
-                }
+                    y > yval[yval.length - 2]);
             }
         };
     }

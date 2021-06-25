@@ -108,11 +108,11 @@ public class CalinskiHarabaszTest {
         Assert.assertEquals(expectBestScore, actualBestScore, 0.0);
     }
 
-    final static int kFromSkLearn = 4;
-    final static double[] scoreFromSkLearn = {
+    static final int kFromSkLearn = 4;
+    static final double[] scoreFromSkLearn = {
         622.487247165719, 597.7763150683217, 1157.7901325495295, 1136.8201767857847, 1092.708039201163
     };
-    final static double[][] dataFromSkLearn = {
+    static final double[][] dataFromSkLearn = {
             {1.403414, 1.148639}, {0.203959, 0.172137}, {2.132351, 1.883029}, {0.176704, -0.106040},
             {-0.729892, -0.987217}, {2.073591, 1.891133}, {-0.632742, -0.847796}, {-0.080353, 0.388064},
             {1.293772, 0.999236}, {-0.478476, -0.444240}, {1.154994, 0.922124}, {0.213056, 0.247446},

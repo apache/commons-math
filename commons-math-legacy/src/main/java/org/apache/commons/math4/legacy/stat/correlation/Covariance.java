@@ -44,13 +44,13 @@ import org.apache.commons.math4.legacy.stat.descriptive.moment.Variance;
  * @since 2.0
  */
 public class Covariance {
-    /** covariance matrix */
+    /** covariance matrix. */
     private final RealMatrix covarianceMatrix;
-    /** Number of observations (length of covariate vectors) */
+    /** Number of observations (length of covariate vectors). */
     private final int n;
 
     /**
-     * Create a Covariance with no data
+     * Create a Covariance with no data.
      */
     public Covariance() {
         super();
@@ -134,7 +134,7 @@ public class Covariance {
     }
 
     /**
-     * Returns the covariance matrix
+     * Returns the covariance matrix.
      *
      * @return covariance matrix
      */
@@ -143,7 +143,7 @@ public class Covariance {
     }
 
     /**
-     * Returns the number of observations (length of covariate vectors)
+     * Returns the number of observations (length of covariate vectors).
      *
      * @return number of observations
      */

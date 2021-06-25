@@ -85,7 +85,180 @@
   </module>
 
   <module name="TreeWalker">
-    <!-- Add back modules from the checkstyle.xml used for non-legacy modules -->
+
+    <!-- Checks for Javadoc comments. -->
+    <!-- See http://checkstyle.sourceforge.net/config_javadoc.html -->
+    <module name="InvalidJavadocPosition"/>
+    <module name="JavadocMethod" />
+    <module name="JavadocType" />
+    <module name="JavadocVariable" />
+    <module name="JavadocStyle" />
+    <!-- <module name="MissingJavadocType"/> -->
+
+    <!-- Checks for Naming Conventions. -->
+    <!-- See http://checkstyle.sourceforge.net/config_naming.html -->
+    <module name="ConstantName" />
+    <module name="LocalFinalVariableName" />
+    <module name="LocalVariableName" />
+    <module name="MemberName" />
+    <module name="MethodName" />
+    <module name="PackageName" />
+    <module name="ParameterName" />
+    <module name="StaticVariableName" />
+    <module name="TypeName" />
+
+    <!-- Checks for imports -->
+    <!-- See http://checkstyle.sourceforge.net/config_import.html -->
+    <module name="AvoidStarImport" />
+    <module name="IllegalImport" /> <!-- defaults to sun.* packages -->
+    <module name="RedundantImport" />
+    <module name="UnusedImports">
+      <property name="processJavadoc" value="false" />
+    </module>
+
+    <!-- Checks for Size Violations. -->
+    <!-- See http://checkstyle.sourceforge.net/config_sizes.html -->
+    <module name="MethodLength" />
+    <!-- <module name="ParameterNumber" /> -->
+
+    <!-- Checks for whitespace -->
+    <!-- See http://checkstyle.sourceforge.net/config_whitespace.html -->
+    <module name="EmptyForIteratorPad" />
+    <module name="GenericWhitespace" />
+    <!-- <module name="MethodParamPad" /> -->
+    <!-- <module name="NoWhitespaceAfter" /> -->
+    <!-- <module name="NoWhitespaceBefore" /> -->
+    <!-- Operator must be at end of wrapped line -->
+    <!-- <module name="OperatorWrap">
+      <property name="option" value="eol"/>
+    </module> -->
+    <!-- <module name="ParenPad" /> -->
+    <module name="TypecastParenPad" />
+    <!--<module name="WhitespaceAfter">
+      <property name="tokens" value="COMMA, SEMI, LITERAL_IF, LITERAL_ELSE, LITERAL_WHILE, LITERAL_DO, LITERAL_FOR, DO_WHILE"/>
+    </module> -->
+    <!--<module name="WhitespaceAround">
+      <property name="allowEmptyConstructors" value="true"/>
+      <property name="allowEmptyTypes" value="true"/>
+    </module> -->
+
+    <!-- Modifier Checks -->
+    <!-- See http://checkstyle.sourceforge.net/config_modifiers.html -->
+    <module name="ModifierOrder" />
+    <module name="RedundantModifier" />
+
+    <!-- Checks for blocks. You know, those {}'s -->
+    <!-- See http://checkstyle.sourceforge.net/config_blocks.html -->
+    <module name="AvoidNestedBlocks" />
+    <module name="EmptyBlock" />
+    <module name="LeftCurly" />
+    <module name="NeedBraces" />
+    <module name="RightCurly" />
+
+    <!-- Checks for common coding problems -->
+    <!-- See http://checkstyle.sourceforge.net/config_coding.html -->
+    <module name="EmptyStatement" />
+    <module name="EqualsHashCode" />
+    <!-- Method parameters and local variables should not hide fields, except in constructors and setters -->
+    <!-- 
+    <module name="HiddenField">
+        <property name="ignoreConstructorParameter" value="true" />
+        <property name="ignoreSetter" value="true" />
+    </module>
+     -->
+    <!-- Disallow unnecessary instantiation of Boolean, String -->
+    <module name="IllegalInstantiation">
+      <property name="classes" value="java.lang.Boolean, java.lang.String"/>
+    </module>
+    <!-- Allowed for algorithm implementations. -->
+    <!-- <module name="InnerAssignment" /> -->
+    <!-- <module name="MagicNumber" /> -->
+    <module name="MissingSwitchDefault" />
+    <module name="MultipleVariableDeclarations" />
+    <module name="SimplifyBooleanExpression" />
+    <module name="SimplifyBooleanReturn" />
+
+    <!-- Checks for class design -->
+    <!-- See http://checkstyle.sourceforge.net/config_design.html -->
+    <module name="DesignForExtension" />
+    <module name="FinalClass" />
+    <module name="HideUtilityClassConstructor" />
+    <module name="InterfaceIsType" />
+    <!-- No public fields -->
+    <module name="VisibilityModifier">
+       <property name="protectedAllowed" value="true"/>
+    </module>
+
+    <!-- Miscellaneous other checks. -->
+    <!-- See http://checkstyle.sourceforge.net/config_misc.html -->
+    <!-- <module name="ArrayTypeStyle" /> -->
+    <!-- <module name="FinalParameters" />  -->
+    <module name="TodoComment">
+      <property name="severity" value="warning"/>
+    </module>
+    <module name="UpperEll" />
+
+    <!-- Addition to Checkstyle sun_checks.xml  -->
+
+    <!-- Indentation of 4 spaces. -->
+    <!-- This has many errors
+    <module name="Indentation">
+      // Indentation style recommended by Oracle
+      <property name="caseIndent" value="0"/>
+    </module>
+    -->
+
+    <!-- Switch statements should have independent cases -->
+    <module name="FallThrough" />
+
+    <!-- Constant names should obey the traditional all uppercase naming convention -->
+    <module name="ConstantName" />
+
+    <!-- No System.out.println() statements -->
+    <module name="Regexp">
+      <!-- no sysouts -->
+      <property name="format" value="System\.(out|err)\."/>
+      <property name="illegalPattern" value="true"/>
+    </module>
+
+    <!-- Authors should be in pom.xml file -->
+    <module name="Regexp">
+      <property name="format" value="@author"/>
+      <property name="illegalPattern" value="true"/>
+      <property name="message" value="Developers names should be in pom file"/>
+    </module>
+
+    <!-- Use a consistent way to put declarations -->
+    <module name="DeclarationOrder" />
+
+    <!-- Don't add up parentheses when they are not required -->
+    <module name="UnnecessaryParentheses" />
+
+    <!--  Don't use too widespread catch (Exception, Throwable, RuntimeException)  -->
+    <module name="IllegalCatch" />
+
+    <!-- Don't use = or != for string comparisons -->
+    <module name="StringLiteralEquality" />
+
+    <!-- String literals more than one character long should not be repeated several times -->
+    <!-- the "unchecked" string is also accepted to allow @SuppressWarnings("unchecked") -->
+    <module name="MultipleStringLiterals" >
+      <property name="ignoreStringsRegexp" value='^(("")|(".")|("unchecked"))$'/>
+    </module>
+
+    <!-- Check if @Override tags are present  -->
+    <module name="MissingOverride" />
+
+    <!-- Setup special comments to suppress specific checks from source files -->
+    <module name="SuppressionCommentFilter">
+      <property name="offCommentFormat" value="CHECKSTYLE\: stop ([\w\|]+)"/>
+      <property name="onCommentFormat"  value="CHECKSTYLE\: resume ([\w\|]+)"/>
+      <property name="checkFormat"      value="$1"/>
+    </module>
+    <module name="SuppressionCommentFilter">
+      <property name="offCommentFormat" value="CHECKSTYLE\: stop all"/>
+      <property name="onCommentFormat"  value="CHECKSTYLE\: resume all"/>
+    </module>
   </module>
 
 </module>

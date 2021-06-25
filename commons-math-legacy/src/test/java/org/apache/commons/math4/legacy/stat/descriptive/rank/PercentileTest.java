@@ -31,7 +31,6 @@ import org.apache.commons.math4.legacy.exception.OutOfRangeException;
 import org.apache.commons.rng.simple.RandomSource;
 import org.apache.commons.math4.legacy.stat.descriptive.UnivariateStatistic;
 import org.apache.commons.math4.legacy.stat.descriptive.UnivariateStatisticAbstractTest;
-import org.apache.commons.math4.legacy.stat.descriptive.rank.Percentile.EstimationType;
 import org.apache.commons.math4.legacy.stat.ranking.NaNStrategy;
 import org.junit.Assert;
 import org.junit.Before;
@@ -312,7 +311,7 @@ public class PercentileTest extends UnivariateStatisticAbstractTest{
 
     @Test
     public void testAllTechniquesPercentileUsingRandomPivoting() {
-        kthSelector = new KthSelector(new RandomPivotingStrategy(RandomSource.WELL_1024_A, 0x268a7fb4194240f6l));
+        kthSelector = new KthSelector(new RandomPivotingStrategy(RandomSource.WELL_1024_A, 0x268a7fb4194240f6L));
         Assert.assertEquals(RandomPivotingStrategy.class,
                             getUnivariateStatistic().getPivotingStrategy().getClass());
         checkAllTechniquesPercentile();
@@ -570,16 +569,22 @@ public class PercentileTest extends UnivariateStatisticAbstractTest{
 
     @Test
     public void testPercentileWithTechnique() {
-        reset (50, Percentile.EstimationType.LEGACY);;
+        reset (50, Percentile.EstimationType.LEGACY);
         final Percentile p = getUnivariateStatistic();
         Assert.assertTrue(Percentile.EstimationType.LEGACY.equals(p.getEstimationType()));
         Assert.assertFalse(Percentile.EstimationType.R_1.equals(p.getEstimationType()));
     }
 
-    static final int TINY = 10, SMALL = 50, NOMINAL = 100, MEDIUM = 500,
-            STANDARD = 1000, BIG = 10000, VERY_BIG = 50000, LARGE = 1000000,
-            VERY_LARGE = 10000000;
-    static final int[] sampleSizes= {TINY , SMALL , NOMINAL , MEDIUM ,
+    static final int TINY = 10;
+    static final int SMALL = 50;
+    static final int NOMINAL = 100;
+    static final int MEDIUM = 500;
+    static final int STANDARD = 1000;
+    static final int BIG = 10000;
+    static final int VERY_BIG = 50000;
+    static final int LARGE = 1000000;
+    static final int VERY_LARGE = 10000000;
+    static final int[] sampleSizes = {TINY , SMALL , NOMINAL , MEDIUM ,
             STANDARD, BIG };
 
     @Test
@@ -691,7 +696,7 @@ public class PercentileTest extends UnivariateStatisticAbstractTest{
         for (final PivotingStrategy strategy : new PivotingStrategy[] {
             new MedianOf3PivotingStrategy(),
             new CentralPivotingStrategy(),
-            new RandomPivotingStrategy(RandomSource.WELL_1024_A, 0xf097c734e4740053l)
+            new RandomPivotingStrategy(RandomSource.WELL_1024_A, 0xf097c734e4740053L)
         }) {
             kthSelector = new KthSelector(strategy);
             testAllEstimationTechniquesOnly();
@@ -742,10 +747,11 @@ public class PercentileTest extends UnivariateStatisticAbstractTest{
 
     /**
      * Simple test assertion utility method assuming {@link NaNStrategy default}
-     * nan handling strategy specific to each {@link EstimationType type}
+     * nan handling strategy specific to each
+     * {@link org.apache.commons.math4.legacy.stat.descriptive.rank.Percentile.EstimationType EstimationType type}
      *
      * @param data input data
-     * @param map of expected result against a {@link EstimationType}
+     * @param map of expected result against a {@link org.apache.commons.math4.legacy.stat.descriptive.rank.Percentile.EstimationType EstimationType}
      * @param p the quantile to compute for
      * @param tolerance the tolerance of difference allowed
      */
@@ -843,7 +849,8 @@ public class PercentileTest extends UnivariateStatisticAbstractTest{
      * Simple test assertion utility method
      *
      * @param data input data
-     * @param map of expected result against a {@link EstimationType}
+     * @param map of expected result against a
+     * {@link org.apache.commons.math4.legacy.stat.descriptive.rank.Percentile.EstimationType EstimationType}
      * @param p the quantile to compute for
      * @param tolerance the tolerance of difference allowed
      * @param nanStrategy NaNStrategy to be passed

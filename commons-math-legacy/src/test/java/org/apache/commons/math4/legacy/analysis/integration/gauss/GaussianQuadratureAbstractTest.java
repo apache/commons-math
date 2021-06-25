@@ -79,7 +79,7 @@ public abstract class GaussianQuadratureAbstractTest {
      * @param n Degree of the monomial.
      * @return the expected value of the integral of x<sup>n</sup>.
      */
-    public abstract double getExpectedValue(final int n);
+    public abstract double getExpectedValue(int n);
 
     /**
      * Checks that the value of the integral of each monomial

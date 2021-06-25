@@ -33,11 +33,11 @@ import org.apache.commons.math4.legacy.exception.NullArgumentException;
  */
 public class SynchronizedSummaryStatistics extends SummaryStatistics {
 
-    /** Serialization UID */
+    /** Serialization UID. */
     private static final long serialVersionUID = 1909861009042253704L;
 
     /**
-     * Construct a SynchronizedSummaryStatistics instance
+     * Construct a SynchronizedSummaryStatistics instance.
      */
     public SynchronizedSummaryStatistics() {
         super();

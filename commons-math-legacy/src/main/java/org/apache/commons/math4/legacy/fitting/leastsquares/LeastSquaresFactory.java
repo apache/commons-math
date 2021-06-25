@@ -39,7 +39,7 @@ import org.apache.commons.math4.legacy.core.Pair;
  *
  * @since 3.3
  */
-public class LeastSquaresFactory {
+public final class LeastSquaresFactory {
 
     /** Prevent instantiation. */
     private LeastSquaresFactory() {}
@@ -445,7 +445,7 @@ public class LeastSquaresFactory {
         /**
          * Container with the model evaluation at a particular point.
          */
-        private static class UnweightedEvaluation extends AbstractEvaluation {
+        private static final class UnweightedEvaluation extends AbstractEvaluation {
             /** Point of evaluation. */
             private final RealVector point;
             /** Derivative at point. */
@@ -493,7 +493,7 @@ public class LeastSquaresFactory {
         /**
          * Container with the model <em>lazy</em> evaluation at a particular point.
          */
-        private static class LazyUnweightedEvaluation extends AbstractEvaluation {
+        private static final class LazyUnweightedEvaluation extends AbstractEvaluation {
             /** Point of evaluation. */
             private final RealVector point;
             /** Model and Jacobian functions. */

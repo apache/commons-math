@@ -157,9 +157,9 @@ public class MultivariateFunctionPenaltyAdapterTest {
         private final double yMin;
         private final double yMax;
 
-        public BiQuadratic(final double xOptimum, final double yOptimum,
-                           final double xMin, final double xMax,
-                           final double yMin, final double yMax) {
+        BiQuadratic(final double xOptimum, final double yOptimum,
+                    final double xMin, final double xMax,
+                    final double yMin, final double yMax) {
             this.xOptimum = xOptimum;
             this.yOptimum = yOptimum;
             this.xMin     = xMin;

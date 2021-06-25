@@ -54,7 +54,7 @@ public interface FieldFixedStepHandler<T extends RealFieldElement<T>> {
     void init(FieldODEStateAndDerivative<T> initialState, T finalTime);
 
     /**
-     * Handle the last accepted step
+     * Handle the last accepted step.
      * @param state current value of the independent <i>time</i> variable,
      * state vector and derivative
      * For efficiency purposes, the {@link FieldStepNormalizer} class reuses

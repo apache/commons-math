@@ -27,7 +27,7 @@ import org.apache.commons.math4.legacy.core.IntegerSequence;
  */
 public class LeastSquaresAdapter implements LeastSquaresProblem {
 
-    /** the delegate problem */
+    /** the delegate problem. */
     private final LeastSquaresProblem problem;
 
     /**

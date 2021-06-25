@@ -163,7 +163,7 @@ public class EulerStepInterpolatorTest {
     ObjectInputStream     ois = new ObjectInputStream(bis);
     ContinuousOutputModel cm  = (ContinuousOutputModel) ois.readObject();
 
-    Random random = new Random(347588535632l);
+    Random random = new Random(347588535632L);
     double maxError = 0.0;
     for (int i = 0; i < 1000; ++i) {
       double r = random.nextDouble();

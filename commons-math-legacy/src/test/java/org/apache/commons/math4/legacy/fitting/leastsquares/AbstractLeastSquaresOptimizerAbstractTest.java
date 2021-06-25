@@ -118,7 +118,7 @@ public abstract class AbstractLeastSquaresOptimizerAbstractTest {
     /**
      * The subject under test.
      */
-    public final LeastSquaresOptimizer optimizer = this.getOptimizer();
+    protected final LeastSquaresOptimizer optimizer = this.getOptimizer();
 
     @Test
     public void testGetIterations() {
@@ -567,7 +567,7 @@ public abstract class AbstractLeastSquaresOptimizerAbstractTest {
         private final RealMatrix factors;
         private final double[] target;
 
-        public LinearProblem(double[][] factors, double[] target) {
+        LinearProblem(double[][] factors, double[] target) {
             this.factors = new BlockRealMatrix(factors);
             this.target = target;
         }

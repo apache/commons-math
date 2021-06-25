@@ -159,7 +159,7 @@ public class LogitTest {
         final Logit f = new Logit(lo, hi);
         final Sigmoid g = new Sigmoid(lo, hi);
         final UniformRandomProvider random = RandomSource.create(RandomSource.WELL_1024_A,
-                                                                 0x49914cdd9f0b8db5l);
+                                                                 0x49914cdd9f0b8db5L);
         final UnivariateDifferentiableFunction id = FunctionUtils.compose((UnivariateDifferentiableFunction) g,
                                                                 (UnivariateDifferentiableFunction) f);
 

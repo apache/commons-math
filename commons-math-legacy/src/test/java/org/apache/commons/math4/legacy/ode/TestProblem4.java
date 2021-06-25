@@ -95,7 +95,7 @@ public class TestProblem4
 
     private int sign;
 
-    public Bounce() {
+    Bounce() {
       sign = +1;
     }
 
@@ -125,7 +125,7 @@ public class TestProblem4
 
   private static class Stop implements EventHandler {
 
-    public Stop() {
+    Stop() {
     }
 
     @Override

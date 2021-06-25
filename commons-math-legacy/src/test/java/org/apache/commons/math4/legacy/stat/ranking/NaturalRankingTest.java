@@ -185,27 +185,39 @@ public class NaturalRankingTest {
                                                         randomGenerator);
             double[] ranks = ranking.rank(exampleData);
             double[] correctRanks = { 5, 3, 6, 7, 3, 8, Double.NaN, 1, 2 };
-            if (!org.apache.commons.math4.legacy.core.MathArrays.equalsIncludingNaN(correctRanks, ranks)) continue;
+            if (!org.apache.commons.math4.legacy.core.MathArrays.equalsIncludingNaN(correctRanks, ranks)) {
+                continue;
+            }
 
             ranks = ranking.rank(tiesFirst);
             correctRanks = new double[] { 1, 2, 4, 3, 5 };
-            if (!org.apache.commons.math4.legacy.core.MathArrays.equalsIncludingNaN(correctRanks, ranks)) continue;
+            if (!org.apache.commons.math4.legacy.core.MathArrays.equalsIncludingNaN(correctRanks, ranks)) {
+                continue;
+            }
 
             ranks = ranking.rank(tiesLast);
             correctRanks = new double[] { 3, 3, 2, 1 };
-            if (!org.apache.commons.math4.legacy.core.MathArrays.equalsIncludingNaN(correctRanks, ranks)) continue;
+            if (!org.apache.commons.math4.legacy.core.MathArrays.equalsIncludingNaN(correctRanks, ranks)) {
+                continue;
+            }
 
             ranks = ranking.rank(multipleNaNs);
             correctRanks = new double[] { 1, 2, Double.NaN, Double.NaN };
-            if (!org.apache.commons.math4.legacy.core.MathArrays.equalsIncludingNaN(correctRanks, ranks)) continue;
+            if (!org.apache.commons.math4.legacy.core.MathArrays.equalsIncludingNaN(correctRanks, ranks)) {
+                continue;
+            }
 
             ranks = ranking.rank(multipleTies);
             correctRanks = new double[] { 3, 2, 4, 4, 6, 7, 1 };
-            if (!org.apache.commons.math4.legacy.core.MathArrays.equalsIncludingNaN(correctRanks, ranks)) continue;
+            if (!org.apache.commons.math4.legacy.core.MathArrays.equalsIncludingNaN(correctRanks, ranks)) {
+                continue;
+            }
 
             ranks = ranking.rank(allSame);
             correctRanks = new double[] { 2, 3, 3, 3 };
-            if (!org.apache.commons.math4.legacy.core.MathArrays.equalsIncludingNaN(correctRanks, ranks)) continue;
+            if (!org.apache.commons.math4.legacy.core.MathArrays.equalsIncludingNaN(correctRanks, ranks)) {
+                continue;
+            }
 
             ++count;
             //System.out.println("seed = " + i);

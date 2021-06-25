@@ -96,9 +96,9 @@ public abstract class AdamsFieldIntegrator<T extends RealFieldElement<T>> extend
 
     /** {@inheritDoc} */
     @Override
-    public abstract FieldODEStateAndDerivative<T> integrate(final FieldExpandableODE<T> equations,
-                                                            final FieldODEState<T> initialState,
-                                                            final T finalTime)
+    public abstract FieldODEStateAndDerivative<T> integrate(FieldExpandableODE<T> equations,
+                                                            FieldODEState<T> initialState,
+                                                            T finalTime)
         throws NumberIsTooSmallException, DimensionMismatchException,
                MaxCountExceededException, NoBracketingException;
 

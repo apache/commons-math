@@ -524,7 +524,7 @@ public class MinpackTest {
         }
     }
 
-    private static abstract class MinpackFunction {
+    private abstract static class MinpackFunction {
         protected int      n;
         protected int      m;
         protected double[] startParams;
@@ -614,9 +614,9 @@ public class MinpackTest {
 
     private static class LinearFullRankFunction extends MinpackFunction {
 
-        public LinearFullRankFunction(int m, int n, double x0,
-                                      double theoreticalStartCost,
-                                      double theoreticalMinCost) {
+        LinearFullRankFunction(int m, int n, double x0,
+                               double theoreticalStartCost,
+                               double theoreticalMinCost) {
             super(m, buildArray(n, x0), theoreticalMinCost,
                   buildArray(n, -1.0));
         }
@@ -652,9 +652,9 @@ public class MinpackTest {
 
     private static class LinearRank1Function extends MinpackFunction {
 
-        public LinearRank1Function(int m, int n, double x0,
-                                   double theoreticalStartCost,
-                                   double theoreticalMinCost) {
+        LinearRank1Function(int m, int n, double x0,
+                            double theoreticalStartCost,
+                            double theoreticalMinCost) {
             super(m, buildArray(n, x0), theoreticalMinCost, null);
         }
 
@@ -686,7 +686,7 @@ public class MinpackTest {
 
     private static class LinearRank1ZeroColsAndRowsFunction extends MinpackFunction {
 
-        public LinearRank1ZeroColsAndRowsFunction(int m, int n, double x0) {
+        LinearRank1ZeroColsAndRowsFunction(int m, int n, double x0) {
             super(m, buildArray(n, x0),
                   AccurateMath.sqrt((m * (m + 3) - 6) / (2.0 * (2 * m - 3))),
                   null);
@@ -728,7 +728,7 @@ public class MinpackTest {
     }
 
     private static class RosenbrockFunction extends MinpackFunction {
-        public RosenbrockFunction(double[] startParams, double theoreticalStartCost) {
+        RosenbrockFunction(double[] startParams, double theoreticalStartCost) {
             super(2, startParams, 0.0, buildArray(2, 1.0));
         }
 
@@ -747,8 +747,8 @@ public class MinpackTest {
     }
 
     private static class HelicalValleyFunction extends MinpackFunction {
-        public HelicalValleyFunction(double[] startParams,
-                                     double theoreticalStartCost) {
+        HelicalValleyFunction(double[] startParams,
+                              double theoreticalStartCost) {
             super(3, startParams, 0.0, new double[] { 1.0, 0.0, 0.0 });
         }
 
@@ -793,8 +793,8 @@ public class MinpackTest {
 
     private static class PowellSingularFunction extends MinpackFunction {
 
-        public PowellSingularFunction(double[] startParams,
-                                      double theoreticalStartCost) {
+        PowellSingularFunction(double[] startParams,
+                               double theoreticalStartCost) {
             super(4, startParams, 0.0, buildArray(4, 0.0));
         }
 
@@ -832,10 +832,10 @@ public class MinpackTest {
 
     private static class FreudensteinRothFunction extends MinpackFunction {
 
-        public FreudensteinRothFunction(double[] startParams,
-                                        double theoreticalStartCost,
-                                        double theoreticalMinCost,
-                                        double[] theoreticalMinParams) {
+        FreudensteinRothFunction(double[] startParams,
+                                 double theoreticalStartCost,
+                                 double theoreticalMinCost,
+                                 double[] theoreticalMinParams) {
             super(2, startParams, theoreticalMinCost,
                   theoreticalMinParams);
         }
@@ -862,10 +862,10 @@ public class MinpackTest {
 
     private static class BardFunction extends MinpackFunction {
 
-        public BardFunction(double x0,
-                            double theoreticalStartCost,
-                            double theoreticalMinCost,
-                            double[] theoreticalMinParams) {
+        BardFunction(double x0,
+                     double theoreticalStartCost,
+                     double theoreticalMinCost,
+                     double[] theoreticalMinParams) {
             super(15, buildArray(3, x0), theoreticalMinCost,
                   theoreticalMinParams);
         }
@@ -910,10 +910,10 @@ public class MinpackTest {
 
     private static class KowalikOsborneFunction extends MinpackFunction {
 
-        public KowalikOsborneFunction(double[] startParams,
-                                      double theoreticalStartCost,
-                                      double theoreticalMinCost,
-                                      double[] theoreticalMinParams) {
+        KowalikOsborneFunction(double[] startParams,
+                               double theoreticalStartCost,
+                               double theoreticalMinCost,
+                               double[] theoreticalMinParams) {
             super(11, startParams, theoreticalMinCost,
                   theoreticalMinParams);
             if (theoreticalStartCost > 20.0) {
@@ -965,10 +965,10 @@ public class MinpackTest {
 
     private static class MeyerFunction extends MinpackFunction {
 
-        public MeyerFunction(double[] startParams,
-                             double theoreticalStartCost,
-                             double theoreticalMinCost,
-                             double[] theoreticalMinParams) {
+        MeyerFunction(double[] startParams,
+                      double theoreticalStartCost,
+                      double theoreticalMinCost,
+                      double[] theoreticalMinParams) {
             super(16, startParams, theoreticalMinCost,
                   theoreticalMinParams);
             if (theoreticalStartCost > 1.0e6) {
@@ -1015,10 +1015,10 @@ public class MinpackTest {
 
     private static class WatsonFunction extends MinpackFunction {
 
-        public WatsonFunction(int n, double x0,
-                              double theoreticalStartCost,
-                              double theoreticalMinCost,
-                              double[] theoreticalMinParams) {
+        WatsonFunction(int n, double x0,
+                       double theoreticalStartCost,
+                       double theoreticalMinCost,
+                       double[] theoreticalMinParams) {
             super(31, buildArray(n, x0), theoreticalMinCost,
                   theoreticalMinParams);
         }
@@ -1085,8 +1085,8 @@ public class MinpackTest {
 
     private static class Box3DimensionalFunction extends MinpackFunction {
 
-        public Box3DimensionalFunction(int m, double[] startParams,
-                                       double theoreticalStartCost) {
+        Box3DimensionalFunction(int m, double[] startParams,
+                                double theoreticalStartCost) {
             super(m, startParams, 0.0,
                   new double[] { 1.0, 10.0, 1.0 });
         }
@@ -1124,10 +1124,10 @@ public class MinpackTest {
 
     private static class JennrichSampsonFunction extends MinpackFunction {
 
-        public JennrichSampsonFunction(int m, double[] startParams,
-                                       double theoreticalStartCost,
-                                       double theoreticalMinCost,
-                                       double[] theoreticalMinParams) {
+        JennrichSampsonFunction(int m, double[] startParams,
+                                double theoreticalStartCost,
+                                double theoreticalMinCost,
+                                double[] theoreticalMinParams) {
             super(m, startParams, theoreticalMinCost,
                   theoreticalMinParams);
         }
@@ -1159,10 +1159,10 @@ public class MinpackTest {
 
     private static class BrownDennisFunction extends MinpackFunction {
 
-        public BrownDennisFunction(int m, double[] startParams,
-                                   double theoreticalStartCost,
-                                   double theoreticalMinCost,
-                                   double[] theoreticalMinParams) {
+        BrownDennisFunction(int m, double[] startParams,
+                            double theoreticalStartCost,
+                            double theoreticalMinCost,
+                            double[] theoreticalMinParams) {
             super(m, startParams, theoreticalMinCost,
                 theoreticalMinParams);
             setCostAccuracy(2.5e-8);
@@ -1215,10 +1215,10 @@ public class MinpackTest {
             return array;
         }
 
-        public ChebyquadFunction(int n, int m, double factor,
-                                 double theoreticalStartCost,
-                                 double theoreticalMinCost,
-                                 double[] theoreticalMinParams) {
+        ChebyquadFunction(int n, int m, double factor,
+                          double theoreticalStartCost,
+                          double theoreticalMinCost,
+                          double[] theoreticalMinParams) {
             super(m, buildChebyquadArray(n, factor), theoreticalMinCost,
                   theoreticalMinParams);
         }
@@ -1283,10 +1283,10 @@ public class MinpackTest {
 
     private static class BrownAlmostLinearFunction extends MinpackFunction {
 
-        public BrownAlmostLinearFunction(int m, double factor,
-                                         double theoreticalStartCost,
-                                         double theoreticalMinCost,
-                                         double[] theoreticalMinParams) {
+        BrownAlmostLinearFunction(int m, double factor,
+                                  double theoreticalStartCost,
+                                  double theoreticalMinCost,
+                                  double[] theoreticalMinParams) {
             super(m, buildArray(m, factor), theoreticalMinCost,
                   theoreticalMinParams);
         }
@@ -1343,10 +1343,10 @@ public class MinpackTest {
 
     private static class Osborne1Function extends MinpackFunction {
 
-        public Osborne1Function(double[] startParams,
-                                double theoreticalStartCost,
-                                double theoreticalMinCost,
-                                double[] theoreticalMinParams) {
+        Osborne1Function(double[] startParams,
+                         double theoreticalStartCost,
+                         double theoreticalMinCost,
+                         double[] theoreticalMinParams) {
             super(33, startParams, theoreticalMinCost,
                   theoreticalMinParams);
         }
@@ -1395,10 +1395,10 @@ public class MinpackTest {
 
     private static class Osborne2Function extends MinpackFunction {
 
-        public Osborne2Function(double[] startParams,
-                                double theoreticalStartCost,
-                                double theoreticalMinCost,
-                                double[] theoreticalMinParams) {
+        Osborne2Function(double[] startParams,
+                         double theoreticalStartCost,
+                         double theoreticalMinCost,
+                         double[] theoreticalMinParams) {
             super(65, startParams, theoreticalMinCost,
                   theoreticalMinParams);
         }

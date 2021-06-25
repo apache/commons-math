@@ -386,7 +386,7 @@ public abstract class AbstractRungeKuttaFieldIntegratorTest {
         private final TestFieldProblem3<T> pb;
         private final double expectedMaxError;
         private final double epsilon;
-        public KeplerHandler(TestFieldProblem3<T> pb, double expectedMaxError, double epsilon) {
+        KeplerHandler(TestFieldProblem3<T> pb, double expectedMaxError, double epsilon) {
             this.pb               = pb;
             this.expectedMaxError = expectedMaxError;
             this.epsilon          = epsilon;

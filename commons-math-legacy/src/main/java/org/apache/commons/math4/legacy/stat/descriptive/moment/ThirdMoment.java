@@ -49,10 +49,10 @@ import org.apache.commons.math4.legacy.exception.NullArgumentException;
  */
 class ThirdMoment extends SecondMoment implements Serializable {
 
-    /** Serializable version identifier */
+    /** Serializable version identifier. */
     private static final long serialVersionUID = 20150412L;
 
-    /** third moment of values that have been added */
+    /** third moment of values that have been added. */
     protected double m3;
 
     /**

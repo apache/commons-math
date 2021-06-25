@@ -17,13 +17,6 @@
 
 package org.apache.commons.math4.legacy.random;
 
-import java.util.Random;
-import java.security.MessageDigest;
-import java.security.NoSuchAlgorithmException;
-import org.apache.commons.math4.legacy.exception.MathInternalError;
-import org.apache.commons.math4.legacy.exception.NotANumberException;
-import org.apache.commons.math4.legacy.exception.NotFiniteNumberException;
-import org.apache.commons.math4.legacy.exception.NotStrictlyPositiveException;
 import org.apache.commons.math4.legacy.exception.NumberIsTooLargeException;
 import org.apache.commons.math4.legacy.exception.util.LocalizedFormats;
 import org.apache.commons.rng.UniformRandomProvider;
@@ -33,7 +26,7 @@ import org.apache.commons.rng.UniformRandomProvider;
  *
  * @since 4.0
  */
-public class RandomUtils {
+public final class RandomUtils {
     /**
      * Class contains only static methods.
      */

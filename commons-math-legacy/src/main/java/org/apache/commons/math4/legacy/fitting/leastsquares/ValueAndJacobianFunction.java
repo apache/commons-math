@@ -32,7 +32,7 @@ public interface ValueAndJacobianFunction extends MultivariateJacobianFunction {
      * @param params Point.
      * @return the value at the given point.
      */
-    RealVector computeValue(final double[] params);
+    RealVector computeValue(double[] params);
 
     /**
      * Compute the Jacobian.
@@ -40,5 +40,5 @@ public interface ValueAndJacobianFunction extends MultivariateJacobianFunction {
      * @param params Point.
      * @return the Jacobian at the given point.
      */
-    RealMatrix computeJacobian(final double[] params);
+    RealMatrix computeJacobian(double[] params);
 }

@@ -46,7 +46,7 @@ public interface DecompositionSolver {
      * if the matrices dimensions do not match.
      * @throws SingularMatrixException if the decomposed matrix is singular.
      */
-    RealVector solve(final RealVector b) throws SingularMatrixException;
+    RealVector solve(RealVector b) throws SingularMatrixException;
 
     /**
      * Solve the linear equation A &times; X = B for matrices A.
@@ -60,7 +60,7 @@ public interface DecompositionSolver {
      * if the matrices dimensions do not match.
      * @throws SingularMatrixException if the decomposed matrix is singular.
      */
-    RealMatrix solve(final RealMatrix b) throws SingularMatrixException;
+    RealMatrix solve(RealMatrix b) throws SingularMatrixException;
 
     /**
      * Check if the decomposed matrix is non-singular.

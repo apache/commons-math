@@ -226,7 +226,7 @@ public class KMeansPlusPlusClusterer<T extends Clusterable> extends Clusterer<T>
     }
 
     /**
-     * Adjust the clusters's centers with means of points
+     * Adjust the clusters's centers with means of points.
      * @param clusters the origin clusters
      * @return adjusted clusters with center points
      */
@@ -450,7 +450,7 @@ public class KMeansPlusPlusClusterer<T extends Clusterable> extends Clusterer<T>
     }
 
     /**
-     * Get a random point from the {@link Cluster} with the largest number of points
+     * Get a random point from the {@link Cluster} with the largest number of points.
      *
      * @param clusters the {@link Cluster}s to search
      * @return a random point from the selected cluster
@@ -484,7 +484,7 @@ public class KMeansPlusPlusClusterer<T extends Clusterable> extends Clusterer<T>
     }
 
     /**
-     * Get the point farthest to its cluster center
+     * Get the point farthest to its cluster center.
      *
      * @param clusters the {@link Cluster}s to search
      * @return point farthest to its cluster center
@@ -520,7 +520,7 @@ public class KMeansPlusPlusClusterer<T extends Clusterable> extends Clusterer<T>
     }
 
     /**
-     * Returns the nearest {@link Cluster} to the given point
+     * Returns the nearest {@link Cluster} to the given point.
      *
      * @param clusters the {@link Cluster}s to search
      * @param point the point to find the nearest {@link Cluster} for

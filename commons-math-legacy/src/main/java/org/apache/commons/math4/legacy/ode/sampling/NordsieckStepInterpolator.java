@@ -40,7 +40,7 @@ import org.apache.commons.math4.legacy.core.jdkmath.AccurateMath;
 
 public class NordsieckStepInterpolator extends AbstractStepInterpolator {
 
-    /** Serializable version identifier */
+    /** Serializable version identifier. */
     private static final long serialVersionUID = -7179861704951334960L;
 
     /** State variation. */

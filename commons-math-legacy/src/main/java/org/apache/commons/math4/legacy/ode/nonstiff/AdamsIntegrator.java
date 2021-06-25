@@ -87,7 +87,7 @@ public abstract class AdamsIntegrator extends MultistepIntegrator {
 
     /** {@inheritDoc} */
     @Override
-    public abstract void integrate(final ExpandableStatefulODE equations, final double t)
+    public abstract void integrate(ExpandableStatefulODE equations, double t)
         throws NumberIsTooSmallException, DimensionMismatchException,
                MaxCountExceededException, NoBracketingException;
 

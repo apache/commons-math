@@ -38,7 +38,7 @@ import org.apache.commons.math4.legacy.stat.inference.ChiSquareTest;
 
 /**
  */
-public class TestUtils {
+public final class TestUtils {
     /**
      * Collection of static methods used in math unit tests.
      */
@@ -452,7 +452,7 @@ public class TestUtils {
         double sumsq = 0d;
         for (int i = 0; i < values.length; i++) {
             final double dev = values[i] - target;
-            sumsq += (dev * dev);
+            sumsq += dev * dev;
         }
         return sumsq;
     }

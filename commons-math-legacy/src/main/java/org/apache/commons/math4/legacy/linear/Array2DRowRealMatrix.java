@@ -40,7 +40,7 @@ public class Array2DRowRealMatrix extends AbstractRealMatrix implements Serializ
     private double data[][];
 
     /**
-     * Creates a matrix with no data
+     * Creates a matrix with no data.
      */
     public Array2DRowRealMatrix() {}
 

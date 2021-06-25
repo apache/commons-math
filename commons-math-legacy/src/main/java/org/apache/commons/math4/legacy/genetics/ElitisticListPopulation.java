@@ -34,7 +34,7 @@ import org.apache.commons.math4.legacy.core.jdkmath.AccurateMath;
  */
 public class ElitisticListPopulation extends ListPopulation {
 
-    /** percentage of chromosomes copied to the next generation */
+    /** percentage of chromosomes copied to the next generation. */
     private double elitismRate = 0.9;
 
     /**

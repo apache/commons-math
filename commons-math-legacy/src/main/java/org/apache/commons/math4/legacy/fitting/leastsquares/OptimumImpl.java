@@ -28,11 +28,11 @@ import org.apache.commons.math4.legacy.linear.RealVector;
  */
 class OptimumImpl implements Optimum {
 
-    /** abscissa and ordinate */
+    /** abscissa and ordinate. */
     private final Evaluation value;
-    /** number of evaluations to compute this optimum */
+    /** number of evaluations to compute this optimum. */
     private final int evaluations;
-    /** number of iterations to compute this optimum */
+    /** number of iterations to compute this optimum. */
     private final int iterations;
 
     /**

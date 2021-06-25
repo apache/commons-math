@@ -35,7 +35,7 @@ import org.apache.commons.math4.legacy.exception.MathIllegalStateException;
 
 public interface SecondOrderIntegrator extends ODEIntegrator {
 
-  /** Integrate the differential equations up to the given time
+  /** Integrate the differential equations up to the given time.
    * @param equations differential equations to integrate
    * @param t0 initial time
    * @param y0 initial value of the state vector at t0

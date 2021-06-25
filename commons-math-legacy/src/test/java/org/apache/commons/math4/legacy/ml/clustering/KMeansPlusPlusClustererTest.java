@@ -36,7 +36,7 @@ public class KMeansPlusPlusClustererTest {
 
     @Before
     public void setUp() {
-        random = RandomSource.create(RandomSource.MT_64, 1746432956321l);
+        random = RandomSource.create(RandomSource.MT_64, 1746432956321L);
     }
 
     /**
@@ -54,7 +54,7 @@ public class KMeansPlusPlusClustererTest {
                 new DoublePoint(new int[] { 1960, 373200 }), };
         List<? extends Cluster<DoublePoint>> clusters = transformer.cluster(Arrays.asList(points));
         Assert.assertEquals(1, clusters.size());
-        Assert.assertEquals(2, (clusters.get(0).getPoints().size()));
+        Assert.assertEquals(2, clusters.get(0).getPoints().size());
         DoublePoint pt1 = new DoublePoint(new int[] { 1959, 325100 });
         DoublePoint pt2 = new DoublePoint(new int[] { 1960, 373200 });
         Assert.assertTrue(clusters.get(0).getPoints().contains(pt1));

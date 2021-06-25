@@ -22,11 +22,14 @@ import org.apache.commons.math4.legacy.core.dfp.DfpField;
 /**
  * Dummy class for testing {@link org.apache.commons.math4.legacy.core.Field} functionalities.
  */
-public class Dfp25 {
+public final class Dfp25 {
     private static final DfpField FIELD = new DfpField(25);
     public static final Dfp ZERO = FIELD.newDfp(0d);
     public static final Dfp ONE = of(1d);
     public static final Dfp TWO = of(2d);
+
+    /** No instances. */
+    private Dfp25() {}
 
     public static Dfp of(double x) {
         return ZERO.newInstance(x);

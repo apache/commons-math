@@ -72,7 +72,7 @@ public abstract class RealLinearOperator {
      * @throws DimensionMismatchException if the column dimension does not match
      * the size of {@code x}
      */
-    public abstract RealVector operate(final RealVector x)
+    public abstract RealVector operate(RealVector x)
         throws DimensionMismatchException;
 
     /**

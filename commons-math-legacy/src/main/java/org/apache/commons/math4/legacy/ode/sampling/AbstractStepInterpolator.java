@@ -43,43 +43,43 @@ import org.apache.commons.math4.legacy.ode.EquationsMapper;
 public abstract class AbstractStepInterpolator
   implements StepInterpolator {
 
-  /** current time step */
+  /** current time step. */
   protected double h;
 
-  /** current state */
+  /** current state. */
   protected double[] currentState;
 
-  /** interpolated time */
+  /** interpolated time. */
   protected double interpolatedTime;
 
-  /** interpolated state */
+  /** interpolated state. */
   protected double[] interpolatedState;
 
-  /** interpolated derivatives */
+  /** interpolated derivatives. */
   protected double[] interpolatedDerivatives;
 
-  /** interpolated primary state */
+  /** interpolated primary state. */
   protected double[] interpolatedPrimaryState;
 
-  /** interpolated primary derivatives */
+  /** interpolated primary derivatives. */
   protected double[] interpolatedPrimaryDerivatives;
 
-  /** interpolated secondary state */
+  /** interpolated secondary state. */
   protected double[][] interpolatedSecondaryState;
 
-  /** interpolated secondary derivatives */
+  /** interpolated secondary derivatives. */
   protected double[][] interpolatedSecondaryDerivatives;
 
-  /** global previous time */
+  /** global previous time. */
   private double globalPreviousTime;
 
-  /** global current time */
+  /** global current time. */
   private double globalCurrentTime;
 
-  /** soft previous time */
+  /** soft previous time. */
   private double softPreviousTime;
 
-  /** soft current time */
+  /** soft current time. */
   private double softCurrentTime;
 
   /** indicate if the step has been finalized or not. */
@@ -235,7 +235,7 @@ public abstract class AbstractStepInterpolator
       }
   }
 
-  /** Reinitialize the instance
+  /** Reinitialize the instance.
    * @param y reference to the integrator array holding the state at the end of the step
    * @param isForward integration direction indicator
    * @param primary equations mapper for the primary equations set

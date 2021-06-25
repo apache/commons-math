@@ -23,16 +23,14 @@ import org.apache.commons.math4.legacy.analysis.differentiation.MultivariateDiff
 import org.apache.commons.math4.legacy.analysis.differentiation.UnivariateDifferentiableFunction;
 import org.apache.commons.math4.legacy.analysis.function.Identity;
 import org.apache.commons.math4.legacy.exception.DimensionMismatchException;
-import org.apache.commons.math4.legacy.exception.NotStrictlyPositiveException;
 import org.apache.commons.math4.legacy.exception.NumberIsTooLargeException;
-import org.apache.commons.math4.legacy.exception.util.LocalizedFormats;
 
 /**
  * Utilities for manipulating function objects.
  *
  * @since 3.0
  */
-public class FunctionUtils {
+public final class FunctionUtils {
     /**
      * Class only contains static methods.
      */
@@ -208,7 +206,7 @@ public class FunctionUtils {
 
     /**
      * Returns the univariate function
-     * {@code h(x) = combiner(f(x), g(x)).}
+     * {@code h(x) = combiner(f(x), g(x))}.
      *
      * @param combiner Combiner function.
      * @param f Function.
@@ -228,7 +226,8 @@ public class FunctionUtils {
     }
 
     /**
-     * Returns a MultivariateFunction h(x[]) defined by <pre> <code>
+     * Returns a MultivariateFunction h(x[]). Defined by:
+     * <pre> <code>
      * h(x[]) = combiner(...combiner(combiner(initialValue,f(x[0])),f(x[1]))...),f(x[x.length-1]))
      * </code></pre>
      *
@@ -254,7 +253,8 @@ public class FunctionUtils {
     }
 
     /**
-     * Returns a MultivariateFunction h(x[]) defined by <pre> <code>
+     * Returns a MultivariateFunction h(x[]). Defined by:
+     * <pre> <code>
      * h(x[]) = combiner(...combiner(combiner(initialValue,x[0]),x[1])...),x[x.length-1])
      * </code></pre>
      *

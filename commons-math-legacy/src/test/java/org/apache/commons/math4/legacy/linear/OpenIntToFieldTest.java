@@ -28,8 +28,6 @@ import java.util.Map.Entry;
 import org.apache.commons.math4.legacy.core.Field;
 import org.apache.commons.math4.legacy.core.dfp.Dfp;
 import org.apache.commons.math4.legacy.core.dfp.DfpField;
-import org.apache.commons.math4.legacy.linear.Dfp25;
-import org.apache.commons.math4.legacy.linear.OpenIntToFieldHashMap;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
@@ -64,7 +62,7 @@ public class OpenIntToFieldTest {
     private Map<Integer, Dfp> generate() {
         Map<Integer, Dfp> map = new HashMap<>();
         Random r = new Random();
-        double dd=0;
+        double dd = 0;
         for (int i = 0; i < 2000; ++i) {
             dd = r.nextDouble();
         }
@@ -318,7 +316,7 @@ public class OpenIntToFieldTest {
      */
     @Test
     public void testPutKeysWithCollision2() {
-        OpenIntToFieldHashMap<Dfp>map = new OpenIntToFieldHashMap<>(field);
+        OpenIntToFieldHashMap<Dfp> map = new OpenIntToFieldHashMap<>(field);
         int key1 = 837989881;
         Dfp value1 = Dfp25.of(1);
         map.put(key1, value1);

@@ -67,10 +67,10 @@ import org.apache.commons.math4.legacy.core.MathArrays;
  */
 public class Variance extends AbstractStorelessUnivariateStatistic implements Serializable, WeightedEvaluation {
 
-    /** Serializable version identifier */
+    /** Serializable version identifier. */
     private static final long serialVersionUID = 20150412L;
 
-    /** SecondMoment is used in incremental calculation of Variance*/
+    /** SecondMoment is used in incremental calculation of Variance. */
     protected SecondMoment moment;
 
     /**

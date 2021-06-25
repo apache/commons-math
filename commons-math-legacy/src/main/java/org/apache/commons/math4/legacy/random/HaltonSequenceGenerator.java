@@ -19,7 +19,6 @@ package org.apache.commons.math4.legacy.random;
 import java.util.function.Supplier;
 
 import org.apache.commons.math4.legacy.exception.DimensionMismatchException;
-import org.apache.commons.math4.legacy.exception.NotPositiveException;
 import org.apache.commons.math4.legacy.exception.NullArgumentException;
 import org.apache.commons.math4.legacy.exception.OutOfRangeException;
 
@@ -163,7 +162,7 @@ public class HaltonSequenceGenerator implements Supplier<double[]> {
      *
      * @param index the index in the sequence to skip to
      * @return the i-th point in the Halton sequence
-     * @throws NotPositiveException if index &lt; 0
+     * @throws org.apache.commons.math4.legacy.exception.NotPositiveException NotPositiveException if index &lt; 0
      */
     public double[] skipTo(final int index) {
         count = index;

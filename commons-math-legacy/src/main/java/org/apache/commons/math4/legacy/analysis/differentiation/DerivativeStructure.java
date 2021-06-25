@@ -676,7 +676,7 @@ public class DerivativeStructure implements RealFieldElement<DerivativeStructure
         };
     }
 
-    /** Compute a<sup>x</sup> where a is a double and x a {@link DerivativeStructure}
+    /** Compute a<sup>x</sup> where a is a double and x a {@link DerivativeStructure}.
      * @param a number to exponentiate
      * @param x power to apply
      * @return a<sup>x</sup>
@@ -917,7 +917,7 @@ public class DerivativeStructure implements RealFieldElement<DerivativeStructure
         return result;
     }
 
-    /** Convert radians to degrees, with error of less than 0.5 ULP
+    /** Convert radians to degrees, with error of less than 0.5 ULP.
      *  @return instance converted into degrees
      */
     public DerivativeStructure toDegrees() {
@@ -928,7 +928,7 @@ public class DerivativeStructure implements RealFieldElement<DerivativeStructure
         return ds;
     }
 
-    /** Convert degrees to radians, with error of less than 0.5 ULP
+    /** Convert degrees to radians, with error of less than 0.5 ULP.
      *  @return instance converted into radians
      */
     public DerivativeStructure toRadians() {

@@ -42,7 +42,7 @@ public class MultivariateSummaryStatisticsTest {
     public void testSetterInjection() {
         MultivariateSummaryStatistics u = createMultivariateSummaryStatistics(2, true);
         u.setMeanImpl(new StorelessUnivariateStatistic[] {
-                        new sumMean(), new sumMean()
+                        new SumMean(), new SumMean()
                       });
         u.addValue(new double[] { 1, 2 });
         u.addValue(new double[] { 3, 4 });
@@ -70,7 +70,7 @@ public class MultivariateSummaryStatisticsTest {
         u.addValue(new double[] { 1, 2 });
         u.addValue(new double[] { 3, 4 });
         try {
-            u.setMeanImpl(new StorelessUnivariateStatistic[] { new sumMean(), new sumMean() });
+            u.setMeanImpl(new StorelessUnivariateStatistic[] { new SumMean(), new SumMean() });
             Assert.fail("Expecting MathIllegalStateException");
         } catch (MathIllegalStateException ex) {
             // expected
@@ -136,7 +136,7 @@ public class MultivariateSummaryStatisticsTest {
      * Bogus mean implementation to test setter injection.
      * Returns the sum instead of the mean.
      */
-    static class sumMean implements StorelessUnivariateStatistic {
+    static class SumMean implements StorelessUnivariateStatistic {
         private double sum = 0;
         private long n = 0;
         @Override
@@ -173,7 +173,7 @@ public class MultivariateSummaryStatisticsTest {
         }
         @Override
         public StorelessUnivariateStatistic copy() {
-            return new sumMean();
+            return new SumMean();
         }
     }
 

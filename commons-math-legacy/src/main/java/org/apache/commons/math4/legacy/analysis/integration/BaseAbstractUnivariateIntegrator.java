@@ -53,9 +53,9 @@ public abstract class BaseAbstractUnivariateIntegrator implements UnivariateInte
     /** Maximum relative error. */
     private final double relativeAccuracy;
 
-    /** minimum number of iterations */
+    /** minimum number of iterations. */
     private final int minimalIterationCount;
-    /** maximum number of iterations */
+    /** maximum number of iterations. */
     private final int maximalIterationCount;
 
     /** The functions evaluation count. */

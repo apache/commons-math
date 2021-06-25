@@ -211,7 +211,7 @@ public class RealVectorTest extends RealVectorAbstractTest{
         }
         double [] onlyOne = {x, x + 1d, x};
         v = create(onlyOne);
-        for(Iterator<Entry> it = v.sparseIterator(); it.hasNext(); ) {
+        for(Iterator<Entry> it = v.sparseIterator(); it.hasNext();) {
             e = it.next();
             Assert.assertEquals(onlyOne[1], e.getValue(), 0);
         }

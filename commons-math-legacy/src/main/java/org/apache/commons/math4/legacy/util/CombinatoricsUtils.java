@@ -76,7 +76,7 @@ public final class CombinatoricsUtils {
             // we must stop computation at row 26
             final int maxIndex = 26;
             stirlingS2 = new long[maxIndex][];
-            stirlingS2[0] = new long[] { 1l };
+            stirlingS2[0] = new long[] { 1L };
             for (int i = 1; i < stirlingS2.length; ++i) {
                 stirlingS2[i] = new long[i + 1];
                 stirlingS2[i][0] = 0;
@@ -102,7 +102,7 @@ public final class CombinatoricsUtils {
             } else if (k == 1 || k == n) {
                 return 1;
             } else if (k == 2) {
-                return (1l << (n - 1)) - 1l;
+                return (1L << (n - 1)) - 1L;
             } else if (k == n - 1) {
                 return BinomialCoefficient.value(n, 2);
             } else {

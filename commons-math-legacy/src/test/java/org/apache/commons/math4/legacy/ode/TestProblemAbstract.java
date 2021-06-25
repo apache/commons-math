@@ -150,13 +150,12 @@ public void computeDerivatives(double t, double[] y, double[] yDot) {
     doComputeDerivatives(t, y, yDot);
   }
 
-  abstract public void doComputeDerivatives(double t, double[] y, double[] yDot);
+  public abstract void doComputeDerivatives(double t, double[] y, double[] yDot);
 
   /**
    * Compute the theoretical state at the specified time.
    * @param t time at which the state is required
    * @return state vector at time t
    */
-  abstract public double[] computeTheoreticalState(double t);
-
+  public abstract double[] computeTheoreticalState(double t);
 }

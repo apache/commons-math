@@ -35,18 +35,18 @@ public class KthSelector implements Serializable {
     /** Minimum selection size for insertion sort rather than selection. */
     private static final int MIN_SELECT_SIZE = 15;
 
-    /** A {@link PivotingStrategy} used for pivoting  */
+    /** A {@link PivotingStrategy} used for pivoting. */
     private final PivotingStrategy pivotingStrategy;
 
     /**
-     * Constructor with default {@link MedianOf3PivotingStrategy median of 3} pivoting strategy
+     * Constructor with default {@link MedianOf3PivotingStrategy median of 3} pivoting strategy.
      */
     public KthSelector() {
         this.pivotingStrategy = new MedianOf3PivotingStrategy();
     }
 
     /**
-     * Constructor with specified pivoting strategy
+     * Constructor with specified pivoting strategy.
      *
      * @param pivotingStrategy pivoting strategy to use
      * @throws NullArgumentException when pivotingStrategy is null

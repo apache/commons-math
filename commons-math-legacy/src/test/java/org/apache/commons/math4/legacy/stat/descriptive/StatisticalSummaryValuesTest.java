@@ -51,7 +51,7 @@ public final class StatisticalSummaryValuesTest {
         u = new StatisticalSummaryValues(Double.NaN, 2, 3, 4, 5, 6);
         t = new StatisticalSummaryValues(1, Double.NaN, 3, 4, 5, 6);
         Assert.assertFalse("instances based on different data should be different",
-                (u.equals(t) ||t.equals(u)));
+                u.equals(t) ||t.equals(u));
     }
 
     private void verifyEquality(StatisticalSummaryValues s, StatisticalSummaryValues u) {

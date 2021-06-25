@@ -151,7 +151,7 @@ class ResizableDoubleArray implements DoubleArray, Serializable { // Not in publ
      *  <li>{@code contractionCriterion = 2.5}</li>
      * </ul>
      */
-    public ResizableDoubleArray() {
+    ResizableDoubleArray() {
         this(DEFAULT_INITIAL_CAPACITY);
     }
 
@@ -167,7 +167,7 @@ class ResizableDoubleArray implements DoubleArray, Serializable { // Not in publ
      * @param initialCapacity Initial size of the internal storage array.
      * @throws MathIllegalArgumentException if {@code initialCapacity <= 0}.
      */
-    public ResizableDoubleArray(int initialCapacity) throws MathIllegalArgumentException {
+    ResizableDoubleArray(int initialCapacity) throws MathIllegalArgumentException {
         this(initialCapacity, DEFAULT_EXPANSION_FACTOR);
     }
 
@@ -189,7 +189,7 @@ class ResizableDoubleArray implements DoubleArray, Serializable { // Not in publ
      * @param initialArray initial array
      * @since 2.2
      */
-    public ResizableDoubleArray(double[] initialArray) {
+    ResizableDoubleArray(double[] initialArray) {
         this(initialArray == null || initialArray.length == 0 ?
               DEFAULT_INITIAL_CAPACITY :
               initialArray.length,
@@ -221,7 +221,7 @@ class ResizableDoubleArray implements DoubleArray, Serializable { // Not in publ
      * @throws MathIllegalArgumentException if parameters are not valid.
      * @since 3.1
      */
-    public ResizableDoubleArray(int initialCapacity, double expansionFactor) throws MathIllegalArgumentException {
+    ResizableDoubleArray(int initialCapacity, double expansionFactor) throws MathIllegalArgumentException {
         this(initialCapacity, expansionFactor, DEFAULT_CONTRACTION_DELTA + expansionFactor);
     }
 
@@ -245,7 +245,7 @@ class ResizableDoubleArray implements DoubleArray, Serializable { // Not in publ
      * @throws MathIllegalArgumentException if the parameters are not valid.
      * @since 3.1
      */
-    public ResizableDoubleArray(int initialCapacity, double expansionFactor, double contractionCriterion)
+    ResizableDoubleArray(int initialCapacity, double expansionFactor, double contractionCriterion)
         throws MathIllegalArgumentException {
         this(initialCapacity, expansionFactor, contractionCriterion, DEFAULT_EXPANSION_MODE);
     }
@@ -269,11 +269,11 @@ class ResizableDoubleArray implements DoubleArray, Serializable { // Not in publ
      * @throws MathIllegalArgumentException if the parameters are not valid.
      * @throws NullArgumentException if expansionMode is null
      */
-    public ResizableDoubleArray(int initialCapacity,
-                                double expansionFactor,
-                                double contractionCriterion,
-                                ExpansionMode expansionMode,
-                                double ... data)
+    ResizableDoubleArray(int initialCapacity,
+                         double expansionFactor,
+                         double contractionCriterion,
+                         ExpansionMode expansionMode,
+                         double ... data)
         throws MathIllegalArgumentException {
         if (initialCapacity <= 0) {
             throw new NotStrictlyPositiveException(LocalizedFormats.INITIAL_CAPACITY_NOT_POSITIVE,
@@ -304,7 +304,7 @@ class ResizableDoubleArray implements DoubleArray, Serializable { // Not in publ
      * @exception NullArgumentException if original is null
      * @since 2.0
      */
-    public ResizableDoubleArray(final ResizableDoubleArray original)
+    ResizableDoubleArray(final ResizableDoubleArray original)
         throws NullArgumentException {
         NullArgumentException.check(original);
         this.contractionCriterion = original.contractionCriterion;
@@ -813,16 +813,16 @@ class ResizableDoubleArray implements DoubleArray, Serializable { // Not in publ
         if (object == this ) {
             return true;
         }
-        if (object instanceof ResizableDoubleArray == false) {
+        if (!(object instanceof ResizableDoubleArray)) {
             return false;
         }
         boolean result = true;
         final ResizableDoubleArray other = (ResizableDoubleArray) object;
-        result = result && (other.contractionCriterion == contractionCriterion);
-        result = result && (other.expansionFactor == expansionFactor);
-        result = result && (other.expansionMode == expansionMode);
-        result = result && (other.numElements == numElements);
-        result = result && (other.startIndex == startIndex);
+        result = result && other.contractionCriterion == contractionCriterion;
+        result = result && other.expansionFactor == expansionFactor;
+        result = result && other.expansionMode == expansionMode;
+        result = result && other.numElements == numElements;
+        result = result && other.startIndex == startIndex;
         if (!result) {
             return false;
         } else {

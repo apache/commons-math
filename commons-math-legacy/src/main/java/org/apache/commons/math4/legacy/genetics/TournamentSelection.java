@@ -32,7 +32,7 @@ import org.apache.commons.math4.legacy.exception.util.LocalizedFormats;
  */
 public class TournamentSelection implements SelectionPolicy {
 
-    /** number of chromosomes included in the tournament selections */
+    /** number of chromosomes included in the tournament selections. */
     private int arity;
 
     /**

@@ -40,7 +40,7 @@ import org.apache.commons.math4.legacy.linear.SingularMatrixException;
  *
  * @since 4.0
  */
-public class FieldLUDecomposition<T> {
+public final class FieldLUDecomposition<T> {
     /** Field to which the elements belong. */
     private final Field<T> field;
     /** Entries of LU decomposition. */
@@ -279,7 +279,7 @@ public class FieldLUDecomposition<T> {
      *
      * @param <T> Type of the field elements.
      */
-    private static class Solver<T> implements FieldDecompositionSolver<T> {
+    private static final class Solver<T> implements FieldDecompositionSolver<T> {
         /** Field to which the elements belong. */
         private final Field<T> field;
         /** LU decomposition. */

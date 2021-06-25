@@ -58,7 +58,7 @@ public class QRDecompositionTest {
 
         checkDimension(MatrixUtils.createRealMatrix(testData3x4));
 
-        Random r = new Random(643895747384642l);
+        Random r = new Random(643895747384642L);
         int    p = (5 * BlockRealMatrix.BLOCK_SIZE) / 4;
         int    q = (7 * BlockRealMatrix.BLOCK_SIZE) / 4;
         checkDimension(createTestMatrix(r, p, q));
@@ -87,7 +87,7 @@ public class QRDecompositionTest {
 
         checkAEqualQR(MatrixUtils.createRealMatrix(testData4x3));
 
-        Random r = new Random(643895747384642l);
+        Random r = new Random(643895747384642L);
         int    p = (5 * BlockRealMatrix.BLOCK_SIZE) / 4;
         int    q = (7 * BlockRealMatrix.BLOCK_SIZE) / 4;
         checkAEqualQR(createTestMatrix(r, p, q));
@@ -113,7 +113,7 @@ public class QRDecompositionTest {
 
         checkQOrthogonal(MatrixUtils.createRealMatrix(testData4x3));
 
-        Random r = new Random(643895747384642l);
+        Random r = new Random(643895747384642L);
         int    p = (5 * BlockRealMatrix.BLOCK_SIZE) / 4;
         int    q = (7 * BlockRealMatrix.BLOCK_SIZE) / 4;
         checkQOrthogonal(createTestMatrix(r, p, q));
@@ -144,7 +144,7 @@ public class QRDecompositionTest {
         matrix = MatrixUtils.createRealMatrix(testData4x3);
         checkUpperTriangular(new QRDecomposition(matrix).getR());
 
-        Random r = new Random(643895747384642l);
+        Random r = new Random(643895747384642L);
         int    p = (5 * BlockRealMatrix.BLOCK_SIZE) / 4;
         int    q = (7 * BlockRealMatrix.BLOCK_SIZE) / 4;
         matrix = createTestMatrix(r, p, q);
@@ -181,7 +181,7 @@ public class QRDecompositionTest {
         matrix = MatrixUtils.createRealMatrix(testData4x3);
         checkTrapezoidal(new QRDecomposition(matrix).getH());
 
-        Random r = new Random(643895747384642l);
+        Random r = new Random(643895747384642L);
         int    p = (5 * BlockRealMatrix.BLOCK_SIZE) / 4;
         int    q = (7 * BlockRealMatrix.BLOCK_SIZE) / 4;
         matrix = createTestMatrix(r, p, q);

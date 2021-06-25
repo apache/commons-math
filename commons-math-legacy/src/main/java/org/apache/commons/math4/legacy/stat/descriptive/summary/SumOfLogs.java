@@ -46,14 +46,14 @@ import org.apache.commons.math4.legacy.core.MathArrays;
  */
 public class SumOfLogs extends AbstractStorelessUnivariateStatistic implements Serializable {
 
-    /** Serializable version identifier */
+    /** Serializable version identifier. */
     private static final long serialVersionUID = 20150412L;
 
-    /** Number of values that have been added */
+    /** Number of values that have been added. */
     private int n;
 
     /**
-     * The currently running value
+     * The currently running value.
      */
     private double value;
 

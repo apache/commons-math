@@ -105,7 +105,7 @@ public class GeneticAlgorithmTestPermutations {
      */
     private static class MinPermutations extends RandomKey<Integer> {
 
-        public MinPermutations(List<Double> representation) {
+        MinPermutations(List<Double> representation) {
             super(representation);
         }
 

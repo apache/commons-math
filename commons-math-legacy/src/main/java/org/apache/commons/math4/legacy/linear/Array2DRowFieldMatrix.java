@@ -44,13 +44,13 @@ import org.apache.commons.math4.legacy.core.MathArrays;
 public class Array2DRowFieldMatrix<T extends FieldElement<T>>
     extends AbstractFieldMatrix<T>
     implements Serializable {
-    /** Serializable version identifier */
+    /** Serializable version identifier. */
     private static final long serialVersionUID = 7260756672015356458L;
-    /** Entries of the matrix */
+    /** Entries of the matrix. */
     private T[][] data;
 
     /**
-     * Creates a matrix with no data
+     * Creates a matrix with no data.
      * @param field field to which the elements belong
      */
     public Array2DRowFieldMatrix(final Field<T> field) {

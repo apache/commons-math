@@ -127,7 +127,7 @@ public interface RealMatrix extends AnyMatrix {
      * @throws NotPositiveException if {@code p < 0}
      * @throws NonSquareMatrixException if the matrix is not square
      */
-    RealMatrix power(final int p)
+    RealMatrix power(int p)
         throws NotPositiveException, NonSquareMatrixException;
 
     /**

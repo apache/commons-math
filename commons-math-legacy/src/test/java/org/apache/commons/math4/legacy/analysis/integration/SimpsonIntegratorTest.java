@@ -21,7 +21,6 @@ import org.apache.commons.math4.legacy.analysis.UnivariateFunction;
 import org.apache.commons.math4.legacy.analysis.function.Identity;
 import org.apache.commons.math4.legacy.analysis.function.Inverse;
 import org.apache.commons.math4.legacy.analysis.function.Sin;
-import org.apache.commons.math4.legacy.analysis.polynomials.PolynomialsUtils;
 import org.apache.commons.math4.legacy.exception.NumberIsTooLargeException;
 import org.apache.commons.math4.legacy.exception.NumberIsTooSmallException;
 import org.apache.commons.math4.legacy.core.jdkmath.AccurateMath;
@@ -46,7 +45,11 @@ public final class SimpsonIntegratorTest {
     public void testSinFunction() {
         UnivariateFunction f = new Sin();
         UnivariateIntegrator integrator = new SimpsonIntegrator();
-        double min, max, expected, result, tolerance;
+        double min;
+        double max;
+        double expected;
+        double result;
+        double tolerance;
 
         min = 0; max = AccurateMath.PI; expected = 2;
         tolerance = AccurateMath.abs(expected * integrator.getRelativeAccuracy());
@@ -70,7 +73,11 @@ public final class SimpsonIntegratorTest {
     public void testQuinticFunction() {
         UnivariateFunction f = new QuinticFunction();
         UnivariateIntegrator integrator = new SimpsonIntegrator();
-        double min, max, expected, result, tolerance;
+        double min;
+        double max;
+        double expected;
+        double result;
+        double tolerance;
 
         min = 0; max = 1; expected = -1.0/48;
         tolerance = AccurateMath.abs(expected * integrator.getRelativeAccuracy());
@@ -159,7 +166,11 @@ public final class SimpsonIntegratorTest {
         UnivariateFunction f = new Identity();
         UnivariateIntegrator integrator = new SimpsonIntegrator(1, SIMPSON_MAX_ITERATIONS_COUNT);
 
-        double min, max, expected, result, tolerance;
+        double min;
+        double max;
+        double expected;
+        double result;
+        double tolerance;
 
         min = 0; max = 1; expected = 0.5;
         tolerance = AccurateMath.abs(expected * integrator.getRelativeAccuracy());
@@ -184,8 +195,7 @@ public final class SimpsonIntegratorTest {
      *       Composite_Simpson's_rule</a>
      */
     private static double compositeSimpsonsRule(UnivariateFunction f, double a,
-            double b, int n)
-    {
+            double b, int n) {
         // Sum interval [a,b] split into n subintervals, with n an even number:
         // sum ~ h/3 * [ f(x0) + 4f(x1) + 2f(x2) + 4f(x3) + 2f(x4) ... + 4f(xn-1) + f(xn) ]
         // h = (b-a)/n
@@ -197,10 +207,11 @@ public final class SimpsonIntegratorTest {
         for (int i = 1; i < n; i++) {
             // Alternate sums that are multiplied by 4 and 2
             final double fxi = f.value(a + i * h);
-            if (i % 2 == 0)
+            if (i % 2 == 0) {
                 sum2 += fxi;
-            else
+            } else {
                 sum4 += fxi;
+            }
         }
         return (h / 3) * (f.value(a) + 4 * sum4 + 2 * sum2 + f.value(b));
     }
@@ -215,8 +226,7 @@ public final class SimpsonIntegratorTest {
      * @return the integral between a and b
      */
     private static double computeSimpsonIteration(UnivariateFunction f, double a,
-            double b, int iteration)
-    {
+            double b, int iteration) {
         // The first possible Simpson's sum uses n=2.
         // The next uses n=4. This is the 1st refinement expected when the
         // integrator has performed 1 iteration.
@@ -231,7 +241,12 @@ public final class SimpsonIntegratorTest {
     public void testReferenceSimpsonItegrationIsCorrect() {
         UnivariateFunction f = new Sin();
 
-        double a, b, h, expected, result, tolerance;
+        double a;
+        double b;
+        double h;
+        double expected;
+        double result;
+        double tolerance;
 
         a = 0.5;
         b = 1;
@@ -283,7 +298,11 @@ public final class SimpsonIntegratorTest {
         UnivariateIntegrator integrator = new SimpsonIntegrator(
                 0, Double.POSITIVE_INFINITY,
                 1, SIMPSON_MAX_ITERATIONS_COUNT);
-        double min, max, expected, result, tolerance;
+        double min;
+        double max;
+        double expected;
+        double result;
+        double tolerance;
 
         // MATH-1458: minimalIterationCount==1 computes incorrect
         // Simpson sum (following no iteration)
@@ -311,8 +330,13 @@ public final class SimpsonIntegratorTest {
         // series. The convergence can then be controlled.
         UnivariateFunction f = new Inverse();
 
-        double min, max, expected, result, tolerance;
-        int minIteration, maxIteration;
+        double min;
+        double max;
+        double expected;
+        double result;
+        double tolerance;
+        int minIteration;
+        int maxIteration;
 
         // Range for integration
         min = 1;

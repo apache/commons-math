@@ -33,8 +33,8 @@ import org.apache.commons.math4.legacy.core.jdkmath.AccurateMath;
 
 public abstract class ComplexFormatAbstractTest {
 
-    ComplexFormat complexFormat = null;
-    ComplexFormat complexFormatJ = null;
+    private ComplexFormat complexFormat = null;
+    private ComplexFormat complexFormatJ = null;
 
     protected abstract Locale getLocale();
 
@@ -290,20 +290,17 @@ public abstract class ComplexFormatAbstractTest {
         NumberFormat format = NumberFormat.getInstance();
         try {
             ComplexFormat cf = new ComplexFormat(nullFormat);
-        }
-        catch (Exception e) {
+        } catch (Exception e) {
             Assert.assertTrue(e instanceof NullArgumentException);
         }
         try {
             ComplexFormat cf = new ComplexFormat(nullFormat, format);
-        }
-        catch (Exception e) {
+        } catch (Exception e) {
             Assert.assertTrue(e instanceof NullArgumentException);
         }
         try {
             ComplexFormat cf = new ComplexFormat(format, nullFormat);
-        }
-        catch (Exception e) {
+        } catch (Exception e) {
             Assert.assertTrue(e instanceof NullArgumentException);
         }
     }
@@ -324,14 +321,12 @@ public abstract class ComplexFormatAbstractTest {
         String oddImaginaryCharacter = "q";
         try {
             ComplexFormat cf = new ComplexFormat(nullString);
-        }
-        catch (Exception e) {
+        } catch (Exception e) {
             Assert.assertTrue(e instanceof NullArgumentException);
         }
         try {
             ComplexFormat cf = new ComplexFormat(emptyString);
-        }
-        catch (Exception e) {
+        } catch (Exception e) {
             Assert.assertTrue(e instanceof NoDataException);
         }
         ComplexFormat cf = new ComplexFormat(oddImaginaryCharacter);
@@ -378,11 +373,9 @@ public abstract class ComplexFormatAbstractTest {
         Object expected = "Something that's not a number or Complex";
         try {
             String formatted = cf.format(expected, new StringBuffer(), new FieldPosition(0)).toString();
-        }
-        catch (Exception e) {
+        } catch (Exception e) {
             Assert.assertTrue(e instanceof MathIllegalArgumentException);
         }
-
     }
 
     @Test

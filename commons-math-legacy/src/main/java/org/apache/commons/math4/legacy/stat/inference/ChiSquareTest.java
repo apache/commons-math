@@ -41,7 +41,7 @@ import org.apache.commons.math4.legacy.core.MathArrays;
 public class ChiSquareTest {
 
     /**
-     * Construct a ChiSquareTest
+     * Construct a ChiSquareTest.
      */
     public ChiSquareTest() {
         super();

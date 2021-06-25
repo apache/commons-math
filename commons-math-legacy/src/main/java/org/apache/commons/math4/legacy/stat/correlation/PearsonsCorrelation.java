@@ -50,10 +50,10 @@ import org.apache.commons.math4.legacy.core.jdkmath.AccurateMath;
  */
 public class PearsonsCorrelation {
 
-    /** correlation matrix */
+    /** correlation matrix. */
     private final RealMatrix correlationMatrix;
 
-    /** number of observations */
+    /** number of observations. */
     private final int nObs;
 
     /**
@@ -157,7 +157,7 @@ public class PearsonsCorrelation {
      * matrix must have been used to create this instance.</p>
      *
      * @return matrix of correlation standard errors
-     * @throws NullPointerException if this instance was created with no data
+     * @throws NullPointerException if this instance was created with no data.
      */
     public RealMatrix getCorrelationStandardErrors() {
         int nVars = correlationMatrix.getColumnDimension();
@@ -189,7 +189,7 @@ public class PearsonsCorrelation {
      * @return matrix of p-values
      * @throws org.apache.commons.math4.legacy.exception.MaxCountExceededException
      * if an error occurs estimating probabilities
-     * @throws NullPointerException if this instance was created with no data
+     * @throws NullPointerException if this instance was created with no data.
      */
     public RealMatrix getCorrelationPValues() {
         TDistribution tDistribution = new TDistribution(nObs - 2);

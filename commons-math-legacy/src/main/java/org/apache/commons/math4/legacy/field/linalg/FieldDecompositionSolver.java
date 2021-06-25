@@ -46,7 +46,7 @@ public interface FieldDecompositionSolver<T> {
      * @return the matrix {@code X} that minimizes {@code ||A X - B||}.
      * @throws IllegalArgumentException if the dimensions do not match.
      */
-    FieldDenseMatrix<T> solve(final FieldDenseMatrix<T> b);
+    FieldDenseMatrix<T> solve(FieldDenseMatrix<T> b);
 
     /**
      * Computes the inverse of a decomposed (square) matrix.

@@ -94,7 +94,9 @@ public final class MicrosphereProjectionInterpolatorTest {
         final MultivariateFunction p2D = interpolator2D.interpolate(x, y);
 
         double[] c = new double[dim];
-        double expected, result, result2D;
+        double expected;
+        double result;
+        double result2D;
 
         final int sampleIndex = 2;
         c[0] = x[sampleIndex][0];

@@ -37,19 +37,19 @@ import org.apache.commons.math4.legacy.exception.util.LocalizedFormats;
  */
 class StorelessBivariateCovariance {
 
-    /** the mean of variable x */
+    /** the mean of variable x. */
     private double meanX;
 
-    /** the mean of variable y */
+    /** the mean of variable y. */
     private double meanY;
 
-    /** number of observations */
+    /** number of observations. */
     private double n;
 
-    /** the running covariance estimate */
+    /** the running covariance estimate. */
     private double covarianceNumerator;
 
-    /** flag for bias correction */
+    /** flag for bias correction. */
     private boolean biasCorrected;
 
     /**

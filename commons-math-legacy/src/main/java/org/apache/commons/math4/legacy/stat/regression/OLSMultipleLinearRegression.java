@@ -53,10 +53,10 @@ import org.apache.commons.math4.legacy.stat.descriptive.moment.SecondMoment;
  */
 public class OLSMultipleLinearRegression extends AbstractMultipleLinearRegression {
 
-    /** Cached QR decomposition of X matrix */
+    /** Cached QR decomposition of X matrix. */
     private QRDecomposition qr;
 
-    /** Singularity threshold for QR decomposition */
+    /** Singularity threshold for QR decomposition. */
     private final double threshold;
 
     /**
@@ -125,9 +125,9 @@ public class OLSMultipleLinearRegression extends AbstractMultipleLinearRegressio
      */
     public RealMatrix calculateHat() {
         // Create augmented identity matrix
-        RealMatrix Q = qr.getQ();
+        RealMatrix q = qr.getQ();
         final int p = qr.getR().getColumnDimension();
-        final int n = Q.getColumnDimension();
+        final int n = q.getColumnDimension();
         // No try-catch or advertised NotStrictlyPositiveException - NPE above if n < 3
         Array2DRowRealMatrix augI = new Array2DRowRealMatrix(n, n);
         double[][] augIData = augI.getDataRef();
@@ -143,7 +143,7 @@ public class OLSMultipleLinearRegression extends AbstractMultipleLinearRegressio
 
         // Compute and return Hat matrix
         // No DME advertised - args valid if we get here
-        return Q.multiply(augI).multiply(Q.transpose());
+        return q.multiply(augI).multiply(q.transpose());
     }
 
     /**
@@ -277,9 +277,9 @@ public class OLSMultipleLinearRegression extends AbstractMultipleLinearRegressio
     @Override
     protected RealMatrix calculateBetaVariance() {
         int p = getX().getColumnDimension();
-        RealMatrix Raug = qr.getR().getSubMatrix(0, p - 1 , 0, p - 1);
-        RealMatrix Rinv = new LUDecomposition(Raug).getSolver().getInverse();
-        return Rinv.multiply(Rinv.transpose());
+        RealMatrix rAug = qr.getR().getSubMatrix(0, p - 1 , 0, p - 1);
+        RealMatrix rInv = new LUDecomposition(rAug).getSolver().getInverse();
+        return rInv.multiply(rInv.transpose());
     }
 
 }

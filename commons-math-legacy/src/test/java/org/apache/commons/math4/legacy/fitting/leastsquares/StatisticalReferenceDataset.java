@@ -318,7 +318,7 @@ public abstract class StatisticalReferenceDataset {
      * @param a the parameters
      * @return the value of the model
      */
-    public abstract double getModelValue(final double x, final double[] a);
+    public abstract double getModelValue(double x, double[] a);
 
     /**
      * Returns the values of the partial derivatives of the model with respect
@@ -328,8 +328,8 @@ public abstract class StatisticalReferenceDataset {
      * @param a the parameters
      * @return the partial derivatives
      */
-    public abstract double[] getModelDerivatives(final double x,
-                                                 final double[] a);
+    public abstract double[] getModelDerivatives(double x,
+                                                 double[] a);
 
     /**
      * <p>

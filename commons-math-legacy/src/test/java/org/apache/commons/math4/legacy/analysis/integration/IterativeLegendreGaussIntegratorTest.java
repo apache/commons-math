@@ -36,7 +36,11 @@ public class IterativeLegendreGaussIntegratorTest {
         UnivariateFunction f = new Sin();
         BaseAbstractUnivariateIntegrator integrator
             = new IterativeLegendreGaussIntegrator(5, 1.0e-14, 1.0e-10, 2, 15);
-        double min, max, expected, result, tolerance;
+        double min;
+        double max;
+        double expected;
+        double result;
+        double tolerance;
 
         min = 0; max = AccurateMath.PI; expected = 2;
         tolerance = AccurateMath.max(integrator.getAbsoluteAccuracy(),
@@ -60,7 +64,10 @@ public class IterativeLegendreGaussIntegratorTest {
                                                      BaseAbstractUnivariateIntegrator.DEFAULT_ABSOLUTE_ACCURACY,
                                                      BaseAbstractUnivariateIntegrator.DEFAULT_MIN_ITERATIONS_COUNT,
                                                      64);
-        double min, max, expected, result;
+        double min;
+        double max;
+        double expected;
+        double result;
 
         min = 0; max = 1; expected = -1.0/48;
         result = integrator.integrate(10000, f, min, max);
@@ -77,7 +84,7 @@ public class IterativeLegendreGaussIntegratorTest {
 
     @Test
     public void testExactIntegration() {
-        Random random = new Random(86343623467878363l);
+        Random random = new Random(86343623467878363L);
         for (int n = 2; n < 6; ++n) {
             IterativeLegendreGaussIntegrator integrator =
                 new IterativeLegendreGaussIntegrator(n,

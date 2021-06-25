@@ -60,12 +60,12 @@ public class SemiVariance extends AbstractUnivariateStatistic implements Seriali
     public static final Direction UPSIDE_VARIANCE = Direction.UPSIDE;
 
     /**
-     * The DOWNSIDE Direction is used to specify that the observations below
+     * The DOWNSIDE Direction is used to specify that the observations below.
      * the cutoff point will be used to calculate SemiVariance
      */
     public static final Direction DOWNSIDE_VARIANCE = Direction.DOWNSIDE;
 
-    /** Serializable version identifier */
+    /** Serializable version identifier. */
     private static final long serialVersionUID = 20150412L;
 
     /**
@@ -99,7 +99,7 @@ public class SemiVariance extends AbstractUnivariateStatistic implements Seriali
     }
 
     /**
-     * Constructs a SemiVariance with the specified <code>Direction</code> property
+     * Constructs a SemiVariance with the specified <code>Direction</code> property.
      * and default (true) <code>biasCorrected</code> property
      *
      * @param direction  setting for the direction of the SemiVariance
@@ -311,7 +311,7 @@ public class SemiVariance extends AbstractUnivariateStatistic implements Seriali
      }
 
      /**
-      * Sets the variance direction
+      * Sets the variance direction.
       *
       * @param varianceDirection the direction of the semivariance
       */
@@ -325,19 +325,19 @@ public class SemiVariance extends AbstractUnivariateStatistic implements Seriali
       */
      public enum Direction {
          /**
-          * The UPSIDE Direction is used to specify that the observations above the
+          * The UPSIDE Direction is used to specify that the observations above the.
           * cutoff point will be used to calculate SemiVariance
           */
          UPSIDE (true),
 
          /**
-          * The DOWNSIDE Direction is used to specify that the observations below
+          * The DOWNSIDE Direction is used to specify that the observations below.
           * the cutoff point will be used to calculate SemiVariance
           */
          DOWNSIDE (false);
 
          /**
-          * boolean value  UPSIDE <-> true
+          * boolean value  UPSIDE <-> true.
           */
          private boolean direction;
 

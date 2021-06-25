@@ -54,7 +54,7 @@ public interface FieldStepHandler<T extends RealFieldElement<T>> {
     void init(FieldODEStateAndDerivative<T> initialState, T finalTime);
 
     /**
-     * Handle the last accepted step
+     * Handle the last accepted step.
      * @param interpolator interpolator for the last accepted step. For
      * efficiency purposes, the various integrators reuse the same
      * object on each call, so if the instance wants to keep it across

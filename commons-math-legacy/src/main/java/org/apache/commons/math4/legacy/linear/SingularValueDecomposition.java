@@ -323,10 +323,11 @@ public class SingularValueDecomposition {
             }
             k++;
             // Perform the task indicated by kase.
+            double f;
             switch (kase) {
                 // Deflate negligible s(p).
-                case 1: {
-                    double f = e[p - 2];
+                case 1:
+                    f = e[p - 2];
                     e[p - 2] = 0;
                     for (int j = p - 2; j >= k; j--) {
                         double t = AccurateMath.hypot(singularValues[j], f);
@@ -344,11 +345,10 @@ public class SingularValueDecomposition {
                             V[i][j] = t;
                         }
                     }
-                }
-                break;
+                    break;
                 // Split at negligible s(k).
-                case 2: {
-                    double f = e[k - 1];
+                case 2:
+                    f = e[k - 1];
                     e[k - 1] = 0;
                     for (int j = k; j < p; j++) {
                         double t = AccurateMath.hypot(singularValues[j], f);
@@ -364,10 +364,9 @@ public class SingularValueDecomposition {
                             U[i][j] = t;
                         }
                     }
-                }
-                break;
+                    break;
                 // Perform one qr step.
-                case 3: {
+                case 3:
                     // Calculate the shift.
                     final double maxPm1Pm2 = AccurateMath.max(AccurateMath.abs(singularValues[p - 1]),
                                                           AccurateMath.abs(singularValues[p - 2]));
@@ -391,7 +390,7 @@ public class SingularValueDecomposition {
                         }
                         shift = c / (b + shift);
                     }
-                    double f = (sk + sp) * (sk - sp) + shift;
+                    f = (sk + sp) * (sk - sp) + shift;
                     double g = sk * ek;
                     // Chase zeros.
                     for (int j = k; j < p - 1; j++) {
@@ -428,10 +427,9 @@ public class SingularValueDecomposition {
                         }
                     }
                     e[p - 2] = f;
-                }
-                break;
+                    break;
                 // Convergence.
-                default: {
+                default:
                     // Make the singular values positive.
                     if (singularValues[k] <= 0) {
                         singularValues[k] = singularValues[k] < 0 ? -singularValues[k] : 0;
@@ -465,8 +463,7 @@ public class SingularValueDecomposition {
                         k++;
                     }
                     p--;
-                }
-                break;
+                    break;
             }
         }
 
@@ -654,7 +651,7 @@ public class SingularValueDecomposition {
     }
 
     /** Specialized solver. */
-    private static class Solver implements DecompositionSolver {
+    private static final class Solver implements DecompositionSolver {
         /** Pseudo-inverse of the initial matrix. */
         private final RealMatrix pseudoInverse;
         /** Singularity indicator. */

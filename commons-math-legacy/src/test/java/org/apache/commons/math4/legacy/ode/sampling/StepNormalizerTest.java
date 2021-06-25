@@ -123,8 +123,8 @@ public class StepNormalizerTest {
     integ = null;
   }
 
-  TestProblem3 pb;
-  FirstOrderIntegrator integ;
-  boolean lastSeen;
+  private TestProblem3 pb;
+  private FirstOrderIntegrator integ;
+  private boolean lastSeen;
 
 }

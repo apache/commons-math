@@ -69,7 +69,7 @@ import org.apache.commons.math4.legacy.core.Pair;
  */
 public class KendallsCorrelation {
 
-    /** correlation matrix */
+    /** correlation matrix. */
     private final RealMatrix correlationMatrix;
 
     /**
@@ -268,6 +268,6 @@ public class KendallsCorrelation {
      * @return the sum of the number from 1 to n
      */
     private static long sum(long n) {
-        return n * (n + 1) / 2l;
+        return n * (n + 1) / 2L;
     }
 }

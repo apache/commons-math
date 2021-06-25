@@ -94,7 +94,7 @@ public class Gaussian implements UnivariateDifferentiableFunction {
 
     /**
      * Parametric function where the input array contains the parameters of
-     * the Gaussian, ordered as follows:
+     * the Gaussian. Ordered as follows:
      * <ul>
      *  <li>Norm</li>
      *  <li>Mean</li>

@@ -46,18 +46,18 @@ public final class FrequencyTest {
         Assert.assertEquals("total count",0,fLong.getSumFreq());
         fLong.addValue(ONE_LONG);
         fLong.addValue(TWO_LONG);
-        fLong.addValue(1l);
+        fLong.addValue(1L);
         fLong.addValue(ONE_LONG);
-        Assert.assertEquals("one frequency count",3,fLong.getCount(1l));
-        Assert.assertEquals("two frequency count",1,fLong.getCount(2l));
-        Assert.assertEquals("three frequency count",0,fLong.getCount(3l));
+        Assert.assertEquals("one frequency count",3,fLong.getCount(1L));
+        Assert.assertEquals("two frequency count",1,fLong.getCount(2L));
+        Assert.assertEquals("three frequency count",0,fLong.getCount(3L));
         Assert.assertEquals("total count",4,fLong.getSumFreq());
-        Assert.assertEquals("zero cumulative frequency", 0, fLong.getCumFreq(0l));
-        Assert.assertEquals("one cumulative frequency", 3,  fLong.getCumFreq(1l));
-        Assert.assertEquals("two cumulative frequency", 4,  fLong.getCumFreq(2l));
+        Assert.assertEquals("zero cumulative frequency", 0, fLong.getCumFreq(0L));
+        Assert.assertEquals("one cumulative frequency", 3,  fLong.getCumFreq(1L));
+        Assert.assertEquals("two cumulative frequency", 4,  fLong.getCumFreq(2L));
         Assert.assertEquals("Integer argument cum freq",4, fLong.getCumFreq(Long.valueOf(2)));
-        Assert.assertEquals("five cumulative frequency", 4,  fLong.getCumFreq(5l));
-        Assert.assertEquals("foo cumulative frequency", 0,  fLong.getCumFreq(-1l));
+        Assert.assertEquals("five cumulative frequency", 4,  fLong.getCumFreq(5L));
+        Assert.assertEquals("foo cumulative frequency", 0,  fLong.getCumFreq(-1L));
 
         fLong.clear();
         Assert.assertEquals("total count",0,fLong.getSumFreq());

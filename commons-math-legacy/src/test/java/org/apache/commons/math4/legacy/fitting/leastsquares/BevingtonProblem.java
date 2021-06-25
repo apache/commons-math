@@ -27,7 +27,7 @@ class BevingtonProblem {
     private List<Double> time;
     private List<Double> count;
 
-    public BevingtonProblem() {
+    BevingtonProblem() {
         time = new ArrayList<>();
         count = new ArrayList<>();
     }

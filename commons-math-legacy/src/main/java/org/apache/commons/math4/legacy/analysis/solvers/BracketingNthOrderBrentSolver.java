@@ -63,7 +63,7 @@ public class BracketingNthOrderBrentSolver
     private AllowedSolution allowed;
 
     /**
-     * Construct a solver with default accuracy and maximal order (1e-6 and 5 respectively)
+     * Construct a solver with default accuracy and maximal order (1e-6 and 5 respectively).
      */
     public BracketingNthOrderBrentSolver() {
         this(DEFAULT_ABSOLUTE_ACCURACY, DEFAULT_MAXIMAL_ORDER);

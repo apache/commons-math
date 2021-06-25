@@ -97,7 +97,7 @@ public class GeneticAlgorithmTestBinary {
      */
     private static class FindOnes extends BinaryChromosome {
 
-        public FindOnes(List<Integer> representation) {
+        FindOnes(List<Integer> representation) {
             super(representation);
         }
 

@@ -38,7 +38,7 @@ import org.junit.Test;
  * Test cases for the {@link DescriptiveStatistics} class.
  */
 public class DescriptiveStatisticsTest {
-    private static UniformRandomProvider random = RandomSource.create(RandomSource.WELL_1024_A, 2345789432894l);
+    private static UniformRandomProvider random = RandomSource.create(RandomSource.WELL_1024_A, 2345789432894L);
 
     protected DescriptiveStatistics createDescriptiveStatistics() {
         return new DescriptiveStatistics();
@@ -51,7 +51,7 @@ public class DescriptiveStatisticsTest {
         stats.addValue(3);
         Assert.assertEquals(2, stats.getMean(), 1E-10);
         // Now lets try some new math
-        stats.setMeanImpl(new deepMean());
+        stats.setMeanImpl(new DeepMean());
         Assert.assertEquals(42, stats.getMean(), 1E-10);
     }
 
@@ -63,7 +63,7 @@ public class DescriptiveStatisticsTest {
         DescriptiveStatistics copy = new DescriptiveStatistics(stats);
         Assert.assertEquals(2, copy.getMean(), 1E-10);
         // Now lets try some new math
-        stats.setMeanImpl(new deepMean());
+        stats.setMeanImpl(new DeepMean());
         copy = stats.copy();
         Assert.assertEquals(42, copy.getMean(), 1E-10);
     }
@@ -191,16 +191,16 @@ public class DescriptiveStatisticsTest {
         Assert.assertEquals(2, stats.getPercentile(50.0), 1E-10);
 
         // Inject wrapped Percentile impl
-        stats.setPercentileImpl(new goodPercentile());
+        stats.setPercentileImpl(new GoodPercentile());
         Assert.assertEquals(2, stats.getPercentile(50.0), 1E-10);
 
         // Try "new math" impl
-        stats.setPercentileImpl(new subPercentile());
+        stats.setPercentileImpl(new SubPercentile());
         Assert.assertEquals(10.0, stats.getPercentile(10.0), 1E-10);
 
         // Try to set bad impl
         try {
-            stats.setPercentileImpl(new badPercentile());
+            stats.setPercentileImpl(new BadPercentile());
             Assert.fail("Expecting MathIllegalArgumentException");
         } catch (MathIllegalArgumentException ex) {
             // expected
@@ -404,7 +404,7 @@ public class DescriptiveStatisticsTest {
     /**
      * A new way to compute the mean
      */
-    static class deepMean implements UnivariateStatistic {
+    static class DeepMean implements UnivariateStatistic {
 
         @Override
         public double evaluate(double[] values, int begin, int length) {
@@ -417,14 +417,14 @@ public class DescriptiveStatisticsTest {
         }
         @Override
         public UnivariateStatistic copy() {
-            return new deepMean();
+            return new DeepMean();
         }
     }
 
     /**
      * Test percentile implementation - wraps a Percentile
      */
-    static class goodPercentile implements UnivariateStatistic {
+    static class GoodPercentile implements UnivariateStatistic {
         private final Percentile percentile = new Percentile();
         public void setQuantile(double quantile) {
             percentile.setQuantile(quantile);
@@ -439,7 +439,7 @@ public class DescriptiveStatisticsTest {
         }
         @Override
         public UnivariateStatistic copy() {
-            goodPercentile result = new goodPercentile();
+            GoodPercentile result = new GoodPercentile();
             result.setQuantile(percentile.getQuantile());
             return result;
         }
@@ -449,7 +449,7 @@ public class DescriptiveStatisticsTest {
      * Test percentile subclass - another "new math" impl
      * Always returns currently set quantile
      */
-    static class subPercentile extends Percentile {
+    static class SubPercentile extends Percentile {
         @Override
         public double evaluate(double[] values, int begin, int length) {
             return getQuantile();
@@ -461,7 +461,7 @@ public class DescriptiveStatisticsTest {
         private static final long serialVersionUID = 8040701391045914979L;
         @Override
         public Percentile copy() {
-            subPercentile result = new subPercentile();
+            SubPercentile result = new SubPercentile();
             return result;
         }
     }
@@ -469,7 +469,7 @@ public class DescriptiveStatisticsTest {
     /**
      * "Bad" test percentile implementation - no setQuantile
      */
-    static class badPercentile implements UnivariateStatistic {
+    static class BadPercentile implements UnivariateStatistic {
         private final Percentile percentile = new Percentile();
         @Override
         public double evaluate(double[] values, int begin, int length) {
@@ -481,7 +481,7 @@ public class DescriptiveStatisticsTest {
         }
         @Override
         public UnivariateStatistic copy() {
-            return new badPercentile();
+            return new BadPercentile();
         }
     }
 

@@ -62,7 +62,7 @@ import org.apache.commons.math4.legacy.core.jdkmath.AccurateMath;
  *
  * @since 3.3
  */
-public class GaussianCurveFitter extends SimpleCurveFitter {
+public final class GaussianCurveFitter extends SimpleCurveFitter {
     /** Parametric function to be fitted. */
     private static final Gaussian.Parametric FUNCTION = new Gaussian.Parametric() {
             /** {@inheritDoc} */

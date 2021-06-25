@@ -170,7 +170,7 @@ public final class BlockFieldMatrixTest {
     /** test copy functions */
     @Test
     public void testCopyFunctions() {
-        Random r = new Random(66636328996002l);
+        Random r = new Random(66636328996002L);
         BlockFieldMatrix<Dfp> m1 = createRandomMatrix(r, 47, 83);
         BlockFieldMatrix<Dfp> m2 = new BlockFieldMatrix<>(m1.getData());
         Assert.assertEquals(m1, m2);
@@ -393,7 +393,7 @@ public final class BlockFieldMatrixTest {
         int p = (11 * BlockFieldMatrix.BLOCK_SIZE) / 10;
         int q = (11 * BlockFieldMatrix.BLOCK_SIZE) / 10;
         int r =  BlockFieldMatrix.BLOCK_SIZE / 2;
-        Random random = new Random(111007463902334l);
+        Random random = new Random(111007463902334L);
         FieldMatrix<Dfp> m1 = createRandomMatrix(random, p, q);
         FieldMatrix<Dfp> m2 = createRandomMatrix(random, q, r);
         FieldMatrix<Dfp> m1m2 = m1.multiply(m2);
@@ -407,7 +407,7 @@ public final class BlockFieldMatrixTest {
         int p = (11 * BlockFieldMatrix.BLOCK_SIZE) / 10;
         int q = (11 * BlockFieldMatrix.BLOCK_SIZE) / 10;
         int r =  BlockFieldMatrix.BLOCK_SIZE / 2;
-        Random random = new Random(111007463902334l);
+        Random random = new Random(111007463902334L);
         FieldMatrix<Dfp> m1 = createRandomMatrix(random, p, q);
         FieldMatrix<Dfp> m2 = createRandomMatrix(random, q, r);
         FieldMatrix<Dfp> m1m2 = m1.multiply(m2);
@@ -1345,7 +1345,7 @@ public final class BlockFieldMatrixTest {
     }
 
     private static class SetVisitor extends DefaultFieldMatrixChangingVisitor<Dfp> {
-        public SetVisitor() {
+        SetVisitor() {
             super(Dfp25.ZERO);
         }
         @Override
@@ -1356,7 +1356,7 @@ public final class BlockFieldMatrixTest {
 
     private static class GetVisitor extends DefaultFieldMatrixPreservingVisitor<Dfp> {
         private int count;
-        public GetVisitor() {
+        GetVisitor() {
             super(Dfp25.ZERO);
             count = 0;
         }

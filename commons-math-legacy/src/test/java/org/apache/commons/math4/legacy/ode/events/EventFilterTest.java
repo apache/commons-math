@@ -115,7 +115,7 @@ public class EventFilterTest {
         }
 
         // verify old events are preserved, even if randomly accessed
-        UniformRandomProvider rng = RandomSource.create(RandomSource.TWO_CMRES, 0xb0e7401265af8cd3l);
+        UniformRandomProvider rng = RandomSource.create(RandomSource.TWO_CMRES, 0xb0e7401265af8cd3L);
         for (int i = 0; i < 5000; i++) {
             double t = t0 + (t1 - t0) * rng.nextDouble();
             double g = eventFilter.g(t, new double[] { AccurateMath.sin(t), AccurateMath.cos(t) });

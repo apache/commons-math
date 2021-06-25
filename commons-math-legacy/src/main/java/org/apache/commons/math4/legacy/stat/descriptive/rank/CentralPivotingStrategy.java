@@ -18,7 +18,6 @@ package org.apache.commons.math4.legacy.stat.descriptive.rank;
 
 import java.io.Serializable;
 
-import org.apache.commons.math4.legacy.exception.MathIllegalArgumentException;
 import org.apache.commons.math4.legacy.core.MathArrays;
 
 /**
@@ -34,7 +33,7 @@ public class CentralPivotingStrategy implements PivotingStrategy, Serializable {
      * This in particular picks a average of begin and end indices
      * @return The index corresponding to a simple average of
      * the first and the last element indices of the array slice
-     * @throws MathIllegalArgumentException when indices exceeds range
+     * @throws org.apache.commons.math4.legacy.exception.MathIllegalArgumentException MathIllegalArgumentException when indices exceeds range
      */
     @Override
     public int pivotIndex(final double[] work, final int begin, final int end) {

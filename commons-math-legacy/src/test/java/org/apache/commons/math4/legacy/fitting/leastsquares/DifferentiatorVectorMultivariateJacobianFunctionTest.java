@@ -45,8 +45,7 @@ public class DifferentiatorVectorMultivariateJacobianFunctionTest {
         if(automatic) {
             return base()
                     .model(new DifferentiatorVectorMultivariateJacobianFunction(problem.getModelFunction(), differentiator));
-        }
-        else {
+        } else {
             return base()
                     .model(problem.getModelFunction(), problem.getModelFunctionJacobian());
         }

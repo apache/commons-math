@@ -45,14 +45,14 @@ public class CombinatoricsUtilsTest {
             Assert.assertEquals(0, CombinatoricsUtils.stirlingS2(n, 0));
             Assert.assertEquals(1, CombinatoricsUtils.stirlingS2(n, 1));
             if (n > 2) {
-                Assert.assertEquals((1l << (n - 1)) - 1l, CombinatoricsUtils.stirlingS2(n, 2));
+                Assert.assertEquals((1L << (n - 1)) - 1L, CombinatoricsUtils.stirlingS2(n, 2));
                 Assert.assertEquals(BinomialCoefficient.value(n, 2),
                                     CombinatoricsUtils.stirlingS2(n, n - 1));
             }
             Assert.assertEquals(1, CombinatoricsUtils.stirlingS2(n, n));
         }
-        Assert.assertEquals(536870911l, CombinatoricsUtils.stirlingS2(30, 2));
-        Assert.assertEquals(576460752303423487l, CombinatoricsUtils.stirlingS2(60, 2));
+        Assert.assertEquals(536870911L, CombinatoricsUtils.stirlingS2(30, 2));
+        Assert.assertEquals(576460752303423487L, CombinatoricsUtils.stirlingS2(60, 2));
 
         Assert.assertEquals(   25, CombinatoricsUtils.stirlingS2( 5, 3));
         Assert.assertEquals(   90, CombinatoricsUtils.stirlingS2( 6, 3));

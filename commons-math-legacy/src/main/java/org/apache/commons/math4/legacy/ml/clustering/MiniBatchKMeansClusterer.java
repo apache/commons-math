@@ -239,7 +239,7 @@ public class MiniBatchKMeansClusterer<T extends Clusterable>
      * The evaluator checks whether improvement occurred during the
      * {@link #maxNoImprovementTimes allowed number of successive iterations}.
      */
-    private static class ImprovementEvaluator {
+    private static final class ImprovementEvaluator {
         /** Batch size. */
         private final int batchSize;
         /** Maximum number of iterations during which no improvement is occuring. */

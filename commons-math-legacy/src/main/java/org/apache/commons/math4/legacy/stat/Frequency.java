@@ -41,9 +41,9 @@ import org.apache.commons.math4.legacy.exception.util.LocalizedFormats;
  */
 public class Frequency<T extends Comparable<T>> implements Serializable {
 
-    /** Serializable version identifier */
+    /** Serializable version identifier. */
     private static final long serialVersionUID = 605878194679954450L;
-    /** underlying collection */
+    /** underlying collection. */
     private final SortedMap<T, Long> freqTable;
 
     /**
@@ -112,7 +112,7 @@ public class Frequency<T extends Comparable<T>> implements Serializable {
         }
     }
 
-    /** Clears the frequency table */
+    /** Clears the frequency table. */
     public void clear() {
         freqTable.clear();
     }
@@ -336,7 +336,7 @@ public class Frequency<T extends Comparable<T>> implements Serializable {
      */
     private static class NaturalComparator<U extends Comparable<U>> implements Comparator<U>, Serializable {
 
-        /** Serializable version identifier */
+        /** Serializable version identifier. */
         private static final long serialVersionUID = -3852193713161395148L;
 
         /**

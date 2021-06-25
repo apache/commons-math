@@ -34,7 +34,7 @@ public class MillerUpdatingRegressionTest {
     /* This is the Greene Airline Cost data.
      * The data can be downloaded from http://www.indiana.edu/~statmath/stat/all/panel/airline.csv
      */
-    private final static double[][] airdata = {
+    private static final double[][] airdata = {
         /*"I",*/new double[]{1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6},
         /*"T",*/ new double[]{1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15},
         /*"C",*/ new double[]{1140640, 1215690, 1309570, 1511530, 1676730, 1823740, 2022890, 2314760, 2639160, 3247620, 3787750, 3867750, 3996020, 4282880, 4748320, 569292, 640614, 777655, 999294, 1203970, 1358100, 1501350, 1709270, 2025400, 2548370, 3137740, 3557700, 3717740, 3962370, 4209390, 286298, 309290, 342056, 374595, 450037, 510412, 575347, 669331, 783799, 913883, 1041520, 1125800, 1096070, 1198930, 1170470, 145167, 170192, 247506, 309391, 354338, 373941, 420915, 474017, 532590, 676771, 880438, 1052020, 1193680, 1303390, 1436970, 91361, 95428, 98187, 115967, 138382, 156228, 183169, 210212, 274024, 356915, 432344, 524294, 530924, 581447, 610257, 68978, 74904, 83829, 98148, 118449, 133161, 145062, 170711, 199775, 276797, 381478, 506969, 633388, 804388, 1009500},
@@ -958,7 +958,7 @@ public class MillerUpdatingRegressionTest {
         PearsonsCorrelation pearson = new PearsonsCorrelation(x);
         RealMatrix corr = pearson.getCorrelationMatrix();
         off = 0;
-        for (int i = 0; i < 4; i++, off += (i + 1)) {
+        for (int i = 0; i < 4; i++, off += i + 1) {
             diag[i] = AccurateMath.sqrt(cp[off]);
         }
 
@@ -1048,11 +1048,11 @@ public class MillerUpdatingRegressionTest {
     }
 
 
-    private void subsetRegression(int i_exclude, boolean constant){
+    private void subsetRegression(int iExclude, boolean constant){
         int[] indices = new int[2];
         int j = 0;
         for (int i = 0; i < 3; i++){
-            if (i != i_exclude){
+            if (i != iExclude){
                 indices[j] = i;
                 j++;
             }
@@ -1068,7 +1068,7 @@ public class MillerUpdatingRegressionTest {
             x[i] = new double[3];
             x[i][i0] = AccurateMath.log(airdata[3][i]);
             x[i][i1] = AccurateMath.log(airdata[4][i]);
-            x[i][i_exclude] = airdata[5][i];
+            x[i][iExclude] = airdata[5][i];
 
             xReduced[i] = new double[2];
             xReduced[i][0] = AccurateMath.log(airdata[3][i]);

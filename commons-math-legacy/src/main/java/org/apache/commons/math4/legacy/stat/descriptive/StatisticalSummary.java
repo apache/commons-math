@@ -24,7 +24,7 @@ public interface StatisticalSummary {
 
     /**
      * Returns the <a href="http://www.xycoon.com/arithmetic_mean.htm">
-     * arithmetic mean </a> of the available values
+     * arithmetic mean </a> of the available values.
      * @return The mean or Double.NaN if no values have been added.
      */
     double getMean();
@@ -41,17 +41,17 @@ public interface StatisticalSummary {
      */
     double getStandardDeviation();
     /**
-     * Returns the maximum of the available values
+     * Returns the maximum of the available values.
      * @return The max or Double.NaN if no values have been added.
      */
     double getMax();
     /**
-    * Returns the minimum of the available values
+    * Returns the minimum of the available values.
     * @return The min or Double.NaN if no values have been added.
     */
     double getMin();
     /**
-     * Returns the number of available values
+     * Returns the number of available values.
      * @return The number of available values
      */
     long getN();

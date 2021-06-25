@@ -22,7 +22,6 @@ import java.math.MathContext;
 
 import org.apache.commons.math4.legacy.TestUtils;
 import org.apache.commons.math4.legacy.exception.MathArithmeticException;
-import org.apache.commons.math4.legacy.linear.BigReal;
 import org.apache.commons.math4.legacy.core.jdkmath.AccurateMath;
 import org.junit.Assert;
 import org.junit.Test;
@@ -65,8 +64,8 @@ public class BigRealTest {
         Assert.assertEquals(-5.0, new BigReal(-5).doubleValue(), 1.0e-15);
         Assert.assertEquals(-5.0, new BigReal(-5, MathContext.DECIMAL64)
             .doubleValue(), 1.0e-15);
-        Assert.assertEquals(-5.0, new BigReal(-5l).doubleValue(), 1.0e-15);
-        Assert.assertEquals(-5.0, new BigReal(-5l, MathContext.DECIMAL64)
+        Assert.assertEquals(-5.0, new BigReal(-5L).doubleValue(), 1.0e-15);
+        Assert.assertEquals(-5.0, new BigReal(-5L, MathContext.DECIMAL64)
             .doubleValue(), 1.0e-15);
         Assert.assertEquals(1.625, new BigReal("1.625").doubleValue(), 1.0e-15);
         Assert.assertEquals(1.625, new BigReal("1.625", MathContext.DECIMAL64)
@@ -174,7 +173,7 @@ public class BigRealTest {
         Assert.assertTrue(zero.equals(zero2));
         Assert.assertEquals(zero.hashCode(), zero2.hashCode());
         BigReal one = new BigReal(1.0);
-        Assert.assertFalse((one.equals(zero) || zero.equals(one)));
+        Assert.assertFalse(one.equals(zero) || zero.equals(one));
         Assert.assertTrue(one.equals(BigReal.ONE));
     }
 

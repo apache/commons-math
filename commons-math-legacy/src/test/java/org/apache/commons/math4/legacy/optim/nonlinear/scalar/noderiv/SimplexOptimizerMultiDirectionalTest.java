@@ -29,7 +29,6 @@ import org.apache.commons.math4.legacy.optim.nonlinear.scalar.ObjectiveFunction;
 import org.apache.commons.math4.legacy.core.MathArrays;
 import org.junit.Assert;
 import org.junit.Test;
-import org.junit.Ignore;
 
 public class SimplexOptimizerMultiDirectionalTest {
     private static final int DIM = 13;

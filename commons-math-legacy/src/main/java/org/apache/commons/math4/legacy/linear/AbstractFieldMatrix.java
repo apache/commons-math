@@ -46,14 +46,14 @@ public abstract class AbstractFieldMatrix<T extends FieldElement<T>>
     private final Field<T> field;
 
     /**
-     * Constructor for use with Serializable
+     * Constructor for use with Serializable.
      */
     protected AbstractFieldMatrix() {
         field = null;
     }
 
     /**
-     * Creates a matrix with no data
+     * Creates a matrix with no data.
      * @param field field to which the elements belong
      */
     protected AbstractFieldMatrix(final Field<T> field) {
@@ -131,8 +131,8 @@ public abstract class AbstractFieldMatrix<T extends FieldElement<T>>
 
     /** {@inheritDoc} */
     @Override
-    public abstract FieldMatrix<T> createMatrix(final int rowDimension,
-                                                final int columnDimension)
+    public abstract FieldMatrix<T> createMatrix(int rowDimension,
+                                                int columnDimension)
         throws NotStrictlyPositiveException;
 
     /** {@inheritDoc} */
@@ -987,7 +987,7 @@ public abstract class AbstractFieldMatrix<T extends FieldElement<T>>
         if (object == this ) {
             return true;
         }
-        if (object instanceof FieldMatrix<?> == false) {
+        if (!(object instanceof FieldMatrix<?>)) {
             return false;
         }
         FieldMatrix<?> m = (FieldMatrix<?>) object;

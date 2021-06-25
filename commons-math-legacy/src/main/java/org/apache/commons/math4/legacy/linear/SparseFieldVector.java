@@ -410,7 +410,7 @@ public class SparseFieldVector<T extends FieldElement<T>> implements FieldVector
             while (iter.hasNext()) {
                 iter.advance();
                 int row = iter.key();
-                FieldElement<T>value = iter.value();
+                FieldElement<T> value = iter.value();
                 for (int col = 0; col < n; col++) {
                     res.setEntry(row, col, value.multiply(v.getEntry(col)));
                 }

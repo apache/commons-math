@@ -45,7 +45,7 @@ class StraightLineProblem {
     /**
      * @param error Assumed error for the y-coordinate.
      */
-    public StraightLineProblem(double error) {
+    StraightLineProblem(double error) {
         points = new ArrayList<>();
         sigma = error;
     }
@@ -152,11 +152,11 @@ class StraightLineProblem {
      * Linear function.
      */
     public static class Model implements UnivariateFunction {
-        final double a;
-        final double b;
+        private final double a;
+        private final double b;
 
-        public Model(double a,
-                     double b) {
+        Model(double a,
+              double b) {
             this.a = a;
             this.b = b;
         }

@@ -39,10 +39,10 @@ import org.apache.commons.math4.legacy.core.MathArrays;
  */
 public class Product extends AbstractStorelessUnivariateStatistic implements Serializable, WeightedEvaluation {
 
-    /** Serializable version identifier */
+    /** Serializable version identifier. */
     private static final long serialVersionUID = 20150412L;
 
-    /**The number of values that have been added */
+    /**The number of values that have been added. */
     private long n;
 
     /**

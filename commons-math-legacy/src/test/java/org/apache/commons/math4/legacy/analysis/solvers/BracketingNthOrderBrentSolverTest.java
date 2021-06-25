@@ -177,7 +177,7 @@ public final class BracketingNthOrderBrentSolverTest extends BaseSecantSolverAbs
 
     }
 
-    private static abstract class TestFunction implements UnivariateDifferentiableFunction {
+    private abstract static class TestFunction implements UnivariateDifferentiableFunction {
 
         private final double root;
         private final double min;
@@ -207,8 +207,6 @@ public final class BracketingNthOrderBrentSolverTest extends BaseSecantSolverAbs
         }
 
         @Override
-        public abstract DerivativeStructure value(final DerivativeStructure t);
-
+        public abstract DerivativeStructure value(DerivativeStructure t);
     }
-
 }

@@ -38,14 +38,13 @@ import org.apache.commons.math4.legacy.exception.NullArgumentException;
 import org.apache.commons.math4.legacy.exception.util.LocalizedFormats;
 import org.apache.commons.math4.legacy.stat.descriptive.AbstractStorelessUnivariateStatistic;
 import org.apache.commons.math4.legacy.stat.descriptive.StorelessUnivariateStatistic;
-import org.apache.commons.math4.legacy.core.MathArrays;
 
 /**
  * A {@link StorelessUnivariateStatistic} estimating percentiles using the
- * <a href=http://www.cs.wustl.edu/~jain/papers/ftp/psqr.pdf>P<SUP>2</SUP></a>
- * Algorithm as explained by <a href=http://www.cse.wustl.edu/~jain/>Raj
+ * <a href="http://www.cs.wustl.edu/~jain/papers/ftp/psqr.pdf">P<SUP>2</SUP></a>
+ * Algorithm as explained by <a href="http://www.cse.wustl.edu/~jain/">Raj
  * Jain</a> and Imrich Chlamtac in
- * <a href=http://www.cse.wustl.edu/~jain/papers/psqr.htm>P<SUP>2</SUP> Algorithm
+ * <a href="http://www.cse.wustl.edu/~jain/papers/psqr.htm">P<SUP>2</SUP> Algorithm
  * for Dynamic Calculation of Quantiles and Histogram Without Storing
  * Observations</a>.
  * <p>
@@ -57,7 +56,7 @@ public class PSquarePercentile extends AbstractStorelessUnivariateStatistic
         implements StorelessUnivariateStatistic, Serializable {
 
     /**
-     * The maximum array size used for psquare algorithm
+     * The maximum array size used for psquare algorithm.
      */
     private static final int PSQUARE_CONSTANT = 5;
 
@@ -68,18 +67,18 @@ public class PSquarePercentile extends AbstractStorelessUnivariateStatistic
     private static final double DEFAULT_QUANTILE_DESIRED = 50d;
 
     /**
-     * Serial ID
+     * Serial ID.
      */
     private static final long serialVersionUID = 20150412L;
 
     /**
-     * A decimal formatter for print convenience
+     * A decimal formatter for print convenience.
      */
     private static final DecimalFormat DECIMAL_FORMAT = new DecimalFormat("00.00");
 
     /**
      * Initial list of 5 numbers corresponding to 5 markers. <b>NOTE:</b>watch
-     * out for the add methods that are overloaded
+     * out for the add methods that are overloaded.
      */
     private final List<Double> initialFive = new FixedCapacityList<>(PSQUARE_CONSTANT);
 
@@ -97,18 +96,18 @@ public class PSquarePercentile extends AbstractStorelessUnivariateStatistic
     private transient double lastObservation;
 
     /**
-     * Markers is the marker collection object which comes to effect
+     * Markers is the marker collection object which comes to effect.
      * only after 5 values are inserted
      */
     private PSquareMarkers markers;
 
     /**
-     * Computed p value (i,e percentile value of data set hither to received)
+     * Computed p value (i,e percentile value of data set hither to received).
      */
     private double pValue = Double.NaN;
 
     /**
-     * Counter to count the values/observations accepted into this data set
+     * Counter to count the values/observations accepted into this data set.
      */
     private long countOfObservations;
 
@@ -146,7 +145,7 @@ public class PSquarePercentile extends AbstractStorelessUnivariateStatistic
     }
 
     /**
-     * Returns true iff {@code o} is a {@code PSquarePercentile} returning the
+     * Returns true iff {@code o} is a {@code PSquarePercentile} returning the.
      * same values as this for {@code getResult()} and {@code getN()} and also
      * having equal markers
      *
@@ -248,7 +247,7 @@ public class PSquarePercentile extends AbstractStorelessUnivariateStatistic
     }
 
     /**
-     * Returns the quantile estimated by this statistic in the range [0.0-1.0]
+     * Returns the quantile estimated by this statistic in the range [0.0-1.0].
      *
      * @return quantile estimated by {@link #getResult()}
      */
@@ -311,20 +310,20 @@ public class PSquarePercentile extends AbstractStorelessUnivariateStatistic
      * Markers is an encapsulation of the five markers/buckets as indicated in
      * the original works.
      */
-    private static class Markers implements PSquareMarkers, Serializable {
+    private static final class Markers implements PSquareMarkers, Serializable {
         /**
-         * Serial version id
+         * Serial version id.
          */
         private static final long serialVersionUID = 1L;
 
-        /** Low marker index */
+        /** Low marker index. */
         private static final int LOW = 2;
 
-        /** High marker index */
+        /** High marker index. */
         private static final int HIGH = 4;
 
         /**
-         * Array of 5+1 Markers (The first marker is dummy just so we
+         * Array of 5+1 Markers (The first marker is dummy just so we.
          * can match the rest of indexes [1-5] indicated in the original works
          * which follows unit based index)
          */
@@ -337,7 +336,7 @@ public class PSquarePercentile extends AbstractStorelessUnivariateStatistic
         private transient int k = -1;
 
         /**
-         * Constructor
+         * Constructor.
          *
          * @param theMarkerArray marker array to be used
          */
@@ -355,7 +354,7 @@ public class PSquarePercentile extends AbstractStorelessUnivariateStatistic
         }
 
         /**
-         * Constructor
+         * Constructor.
          *
          * @param initialFive elements required to build Marker
          * @param p quantile required to be computed
@@ -365,7 +364,7 @@ public class PSquarePercentile extends AbstractStorelessUnivariateStatistic
         }
 
         /**
-         * Creates a marker array using initial five elements and a quantile
+         * Creates a marker array using initial five elements and a quantile.
          *
          * @param initialFive list of initial five elements
          * @param p the pth quantile
@@ -418,7 +417,7 @@ public class PSquarePercentile extends AbstractStorelessUnivariateStatistic
         }
 
         /**
-         * Process a data point
+         * Process a data point.
          *
          * @param inputDataPoint is the data point passed
          * @return computed percentile
@@ -544,7 +543,7 @@ public class PSquarePercentile extends AbstractStorelessUnivariateStatistic
         }
 
         /**
-         * Return marker height given index
+         * Return marker height given index.
          *
          * @param markerIndex index of marker within (1,6)
          * @return marker height
@@ -589,12 +588,12 @@ public class PSquarePercentile extends AbstractStorelessUnivariateStatistic
     }
 
     /**
-     * The class modeling the attributes of the marker of the P-square algorithm
+     * The class modeling the attributes of the marker of the P-square algorithm.
      */
-    private static class Marker implements Serializable, Cloneable {
+    private static final class Marker implements Serializable, Cloneable {
 
         /**
-         * Serial Version ID
+         * Serial Version ID.
          */
         private static final long serialVersionUID = -3575879478288538431L;
 
@@ -635,29 +634,29 @@ public class PSquarePercentile extends AbstractStorelessUnivariateStatistic
         private transient Marker next;
 
         /**
-         * The previous marker links
+         * The previous marker links.
          */
         private transient Marker previous;
 
         /**
-         * Nonlinear interpolator
+         * Nonlinear interpolator.
          */
         private final UnivariateInterpolator nonLinear = new NevilleInterpolator();
 
         /**
-         * Linear interpolator which is not serializable
+         * Linear interpolator which is not serializable.
          */
         private transient UnivariateInterpolator linear = new LinearInterpolator();
 
         /**
-         * Default constructor
+         * Default constructor.
          */
         private Marker() {
             this.next = this.previous = this;
         }
 
         /**
-         * Constructor of the marker with parameters
+         * Constructor of the marker with parameters.
          *
          * @param heightOfMarker represent the quantile value
          * @param makerPositionDesired represent the desired marker position
@@ -727,7 +726,7 @@ public class PSquarePercentile extends AbstractStorelessUnivariateStatistic
         }
 
         /**
-         * Difference between desired and actual position
+         * Difference between desired and actual position.
          *
          * @return difference between desired and actual position
          */
@@ -881,16 +880,16 @@ public class PSquarePercentile extends AbstractStorelessUnivariateStatistic
     private static class FixedCapacityList<E> extends ArrayList<E> implements Serializable {
 
         /**
-         * Serialization Version Id
+         * Serialization Version Id.
          */
         private static final long serialVersionUID = 2283952083075725479L;
         /**
-         * Capacity of the list
+         * Capacity of the list.
          */
         private final int capacity;
 
         /**
-         * This constructor constructs the list with given capacity and as well
+         * This constructor constructs the list with given capacity and as well.
          * as stores the capacity
          *
          * @param fixedCapacity the capacity to be fixed for this list
@@ -930,7 +929,7 @@ public class PSquarePercentile extends AbstractStorelessUnivariateStatistic
     }
 
     /**
-     * A creation method to build Markers
+     * A creation method to build Markers.
      *
      * @param initialFive list of initial five elements
      * @param p the quantile desired
@@ -969,7 +968,7 @@ public class PSquarePercentile extends AbstractStorelessUnivariateStatistic
          * @return percentile value of the marker index passed
          * @throws OutOfRangeException in case the index is not within [1-5]
          */
-        double height(final int markerIndex);
+        double height(int markerIndex);
 
         /**
          * Process a data point by moving the marker heights based on estimator.
@@ -977,15 +976,15 @@ public class PSquarePercentile extends AbstractStorelessUnivariateStatistic
          * @param inputDataPoint is the data point passed
          * @return computed percentile
          */
-        double processDataPoint(final double inputDataPoint);
+        double processDataPoint(double inputDataPoint);
 
         /**
-         * An Estimate of the percentile value of a given Marker
+         * An Estimate of the percentile value of a given Marker.
          *
          * @param index the marker's index in the array of markers
          * @return percentile estimate
          * @throws OutOfRangeException in case if index is not within [1-5]
          */
-        double estimate(final int index);
+        double estimate(int index);
     }
 }

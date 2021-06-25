@@ -61,7 +61,7 @@ public class HarmonicOscillator implements UnivariateDifferentiableFunction {
 
     /**
      * Parametric function where the input array contains the parameters of
-     * the harmonic oscillator function, ordered as follows:
+     * the harmonic oscillator function. Ordered as follows:
      * <ul>
      *  <li>Amplitude</li>
      *  <li>Angular frequency</li>

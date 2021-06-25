@@ -18,9 +18,7 @@ package org.apache.commons.math4.legacy.stat.descriptive.rank;
 
 import java.io.Serializable;
 
-import org.apache.commons.math4.legacy.exception.MathIllegalArgumentException;
 import org.apache.commons.math4.legacy.core.MathArrays;
-
 
 /**
  * Classic median of 3 strategy given begin and end indices.
@@ -34,7 +32,7 @@ public class MedianOf3PivotingStrategy implements PivotingStrategy, Serializable
      * This in specific makes use of median of 3 pivoting.
      * @return The index corresponding to a pivot chosen between the
      * first, middle and the last indices of the array slice
-     * @throws MathIllegalArgumentException when indices exceeds range
+     * @throws org.apache.commons.math4.legacy.exception.MathIllegalArgumentException MathIllegalArgumentException when indices exceeds range
      */
     @Override
     public int pivotIndex(final double[] work, final int begin, final int end) {

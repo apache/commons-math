@@ -127,7 +127,7 @@ public class DormandPrince54IntegratorTest {
 
   private static class DP54SmallLastHandler implements StepHandler {
 
-    public DP54SmallLastHandler(double minStep) {
+    DP54SmallLastHandler(double minStep) {
       lastSeen = false;
       this.minStep = minStep;
     }
@@ -277,7 +277,7 @@ public class DormandPrince54IntegratorTest {
   }
 
   private static class KeplerHandler implements StepHandler {
-    public KeplerHandler(TestProblem3 pb) {
+    KeplerHandler(TestProblem3 pb) {
       this.pb = pb;
     }
     @Override
@@ -317,7 +317,7 @@ public class DormandPrince54IntegratorTest {
   }
 
   private static class VariableHandler implements StepHandler {
-    public VariableHandler() {
+    VariableHandler() {
       firstTime = true;
       minStep = 0;
       maxStep = 0;

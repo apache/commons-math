@@ -875,7 +875,7 @@ public class SparseGradientTest extends ExtendedFieldElementAbstractTest<SparseG
         Assert.assertEquals(-2.0, x.rint().getValue(), 1.0e-15);
         Assert.assertEquals(+0.0, x.rint().getDerivative(0), 1.0e-15);
         Assert.assertEquals(-2.0, x.subtract(x.getField().getOne()).rint().getValue(), 1.0e-15);
-        Assert.assertEquals(-1l, x.round(), 1.0e-15);
+        Assert.assertEquals(-1L, x.round(), 1.0e-15);
 
     }
 
@@ -1024,7 +1024,7 @@ public class SparseGradientTest extends ExtendedFieldElementAbstractTest<SparseG
         // we compare accurate versus naive dot product implementations
         // on regular vectors (i.e. not extreme cases like in the previous test)
         UniformRandomProvider random = RandomSource.create(RandomSource.WELL_1024_A,
-                                                           0xc6af886975069f11l);
+                                                           0xc6af886975069f11L);
 
         for (int i = 0; i < 10000; ++i) {
             final SparseGradient[] u = new SparseGradient[4];
@@ -1069,7 +1069,7 @@ public class SparseGradientTest extends ExtendedFieldElementAbstractTest<SparseG
         // we compare accurate versus naive dot product implementations
         // on regular vectors (i.e. not extreme cases like in the previous test)
         UniformRandomProvider random = RandomSource.create(RandomSource.WELL_1024_A,
-                                                           0xc6af886975069f11l);
+                                                           0xc6af886975069f11L);
 
         for (int i = 0; i < 10000; ++i) {
             final double[] u = new double[4];

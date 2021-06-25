@@ -24,9 +24,9 @@ import org.junit.Test;
  */
 public class EarthMoversDistanceTest {
 
-    final DistanceMeasure distance = new EarthMoversDistance();
-    final double[] a = { 0.1, 0.3, 0.2, 0.0, 0.25, 0.15 };
-    final double[] b = { 0.3, 0.0, 0.4, 0.1, 0.0, 0.2 };
+    private final DistanceMeasure distance = new EarthMoversDistance();
+    private final double[] a = { 0.1, 0.3, 0.2, 0.0, 0.25, 0.15 };
+    private final double[] b = { 0.3, 0.0, 0.4, 0.1, 0.0, 0.2 };
 
     @Test
     public void testZero() {

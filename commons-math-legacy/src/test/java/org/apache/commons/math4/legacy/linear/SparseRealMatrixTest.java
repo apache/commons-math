@@ -124,11 +124,11 @@ public final class SparseRealMatrixTest {
         OpenMapRealMatrix m1 = createSparseMatrix(testData);
         RealMatrix m2 = m1.copy();
         Assert.assertEquals(m1.getClass(), m2.getClass());
-        Assert.assertEquals((m2), m1);
+        Assert.assertEquals(m2, m1);
         OpenMapRealMatrix m3 = createSparseMatrix(testData);
         RealMatrix m4 = m3.copy();
         Assert.assertEquals(m3.getClass(), m4.getClass());
-        Assert.assertEquals((m4), m3);
+        Assert.assertEquals(m4, m3);
     }
 
     /** test add */

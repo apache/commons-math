@@ -232,7 +232,7 @@ public class LUDecomposition {
     }
 
     /**
-     * Return the determinant of the matrix
+     * Return the determinant of the matrix.
      * @return determinant of the matrix
      */
     public double getDeterminant() {
@@ -258,7 +258,7 @@ public class LUDecomposition {
     }
 
     /** Specialized solver. */
-    private static class Solver implements DecompositionSolver {
+    private static final class Solver implements DecompositionSolver {
 
         /** Entries of LU decomposition. */
         private final double[][] lu;

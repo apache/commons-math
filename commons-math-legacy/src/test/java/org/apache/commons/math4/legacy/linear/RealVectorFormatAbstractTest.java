@@ -27,8 +27,8 @@ import org.apache.commons.math4.legacy.exception.MathParseException;
 
 public abstract class RealVectorFormatAbstractTest {
 
-    RealVectorFormat realVectorFormat = null;
-    RealVectorFormat realVectorFormatSquare = null;
+    private RealVectorFormat realVectorFormat = null;
+    private RealVectorFormat realVectorFormatSquare = null;
 
     protected abstract Locale getLocale();
 

@@ -378,10 +378,10 @@ public class DormandPrince853IntegratorTest {
 
   private static class SchedulingChecker implements StepHandler, EventHandler {
 
-      int index;
-      double tMin;
+      private int index;
+      private double tMin;
 
-      public SchedulingChecker(int index) {
+      SchedulingChecker(int index) {
           this.index = index;
       }
 
@@ -416,7 +416,7 @@ public class DormandPrince853IntegratorTest {
   }
 
   private static class KeplerHandler implements StepHandler {
-    public KeplerHandler(TestProblem3 pb) {
+    KeplerHandler(TestProblem3 pb) {
       this.pb = pb;
     }
     @Override
@@ -456,7 +456,7 @@ public class DormandPrince853IntegratorTest {
   }
 
   private static class VariableHandler implements StepHandler {
-    public VariableHandler() {
+    VariableHandler() {
         firstTime = true;
         minStep = 0;
         maxStep = 0;

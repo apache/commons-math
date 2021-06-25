@@ -35,9 +35,7 @@ public class BracketFinderTest {
                     if (x < -2) {
                         return value(-2);
                     }
-                    else  {
-                        return (x - 1) * (x + 2) * (x + 3);
-                    }
+                    return (x - 1) * (x + 2) * (x + 3);
                 }
             };
 
@@ -58,9 +56,7 @@ public class BracketFinderTest {
                     if (x < -2) {
                         return value(-2);
                     }
-                    else  {
-                        return -(x - 1) * (x + 2) * (x + 3);
-                    }
+                    return -(x - 1) * (x + 2) * (x + 3);
                 }
             };
 

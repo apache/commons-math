@@ -46,10 +46,10 @@ import org.apache.commons.math4.legacy.core.MathArrays;
  */
 public class Skewness extends AbstractStorelessUnivariateStatistic implements Serializable {
 
-    /** Serializable version identifier */
+    /** Serializable version identifier. */
     private static final long serialVersionUID = 20150412L;
 
-    /** Third moment on which this statistic is based */
+    /** Third moment on which this statistic is based. */
     protected ThirdMoment moment;
 
      /**

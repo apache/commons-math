@@ -48,13 +48,13 @@ import org.apache.commons.math4.legacy.stat.descriptive.AbstractStorelessUnivari
 class FirstMoment extends AbstractStorelessUnivariateStatistic
     implements Serializable {
 
-    /** Serializable version identifier */
+    /** Serializable version identifier. */
     private static final long serialVersionUID = 20150412L;
 
-    /** Count of values that have been added */
+    /** Count of values that have been added. */
     protected long n;
 
-    /** First moment of values that have been added */
+    /** First moment of values that have been added. */
     protected double m1;
 
     /**
@@ -71,7 +71,7 @@ class FirstMoment extends AbstractStorelessUnivariateStatistic
     protected double nDev;
 
     /**
-     * Create a FirstMoment instance
+     * Create a FirstMoment instance.
      */
     FirstMoment() {
         n = 0;
@@ -81,7 +81,7 @@ class FirstMoment extends AbstractStorelessUnivariateStatistic
     }
 
     /**
-     * Copy constructor, creates a new {@code FirstMoment} identical
+     * Copy constructor, creates a new {@code FirstMoment} identical.
      * to the {@code original}
      *
      * @param original the {@code FirstMoment} instance to copy

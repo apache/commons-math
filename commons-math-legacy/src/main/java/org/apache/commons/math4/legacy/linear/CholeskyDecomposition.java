@@ -182,7 +182,7 @@ public class CholeskyDecomposition {
     }
 
     /**
-     * Return the determinant of the matrix
+     * Return the determinant of the matrix.
      * @return determinant of the matrix
      */
     public double getDeterminant() {
@@ -203,7 +203,7 @@ public class CholeskyDecomposition {
     }
 
     /** Specialized solver. */
-    private static class Solver implements DecompositionSolver {
+    private static final class Solver implements DecompositionSolver {
         /** Row-oriented storage for L<sup>T</sup> matrix data. */
         private final double[][] lTData;
 

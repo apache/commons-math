@@ -34,7 +34,7 @@ import org.apache.commons.math4.legacy.stat.ranking.NaNStrategy;
  */
 public class Median extends Percentile implements Serializable {
 
-    /** Serializable version identifier */
+    /** Serializable version identifier. */
     private static final long serialVersionUID = 20150412L;
 
     /** Fixed quantile. */
@@ -49,7 +49,7 @@ public class Median extends Percentile implements Serializable {
     }
 
     /**
-     * Copy constructor, creates a new {@code Median} identical
+     * Copy constructor, creates a new {@code Median} identical.
      * to the {@code original}
      *
      * @param original the {@code Median} instance to copy

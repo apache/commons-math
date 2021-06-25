@@ -24,25 +24,25 @@ import org.junit.Test;
 import org.junit.Assert;
 
 public class RRQRSolverTest {
-    double[][] testData3x3NonSingular = {
+    private double[][] testData3x3NonSingular = {
             { 12, -51,   4 },
             {  6, 167, -68 },
             { -4,  24, -41 }
     };
 
-    double[][] testData3x3Singular = {
+    private double[][] testData3x3Singular = {
             { 1, 2,  2 },
             { 2, 4,  6 },
             { 4, 8, 12 }
     };
 
-    double[][] testData3x4 = {
+    private double[][] testData3x4 = {
             { 12, -51,   4, 1 },
             {  6, 167, -68, 2 },
             { -4,  24, -41, 3 }
     };
 
-    double[][] testData4x3 = {
+    private double[][] testData4x3 = {
             { 12, -51,   4 },
             {  6, 167, -68 },
             { -4,  24, -41 },
@@ -146,7 +146,7 @@ public class RRQRSolverTest {
 
     @Test
     public void testOverdetermined() {
-        final Random r    = new Random(5559252868205245l);
+        final Random r    = new Random(5559252868205245L);
         int          p    = (7 * BlockRealMatrix.BLOCK_SIZE) / 4;
         int          q    = (5 * BlockRealMatrix.BLOCK_SIZE) / 4;
         RealMatrix   a    = createTestMatrix(r, p, q);
@@ -170,7 +170,7 @@ public class RRQRSolverTest {
 
     @Test
     public void testUnderdetermined() {
-        final Random r    = new Random(42185006424567123l);
+        final Random r    = new Random(42185006424567123L);
         int          p    = (5 * BlockRealMatrix.BLOCK_SIZE) / 4;
         int          q    = (7 * BlockRealMatrix.BLOCK_SIZE) / 4;
         RealMatrix   a    = createTestMatrix(r, p, q);

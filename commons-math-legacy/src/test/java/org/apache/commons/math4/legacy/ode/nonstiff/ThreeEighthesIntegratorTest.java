@@ -178,7 +178,7 @@ public class ThreeEighthesIntegratorTest {
 
   private static class KeplerHandler implements StepHandler {
 
-    public KeplerHandler(TestProblem3 pb) {
+    KeplerHandler(TestProblem3 pb) {
       this.pb = pb;
       maxError = 0;
     }

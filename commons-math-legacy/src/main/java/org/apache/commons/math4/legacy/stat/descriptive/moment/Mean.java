@@ -62,7 +62,7 @@ import org.apache.commons.math4.legacy.core.MathArrays;
 public class Mean extends AbstractStorelessUnivariateStatistic
     implements Serializable, WeightedEvaluation {
 
-    /** Serializable version identifier */
+    /** Serializable version identifier. */
     private static final long serialVersionUID = 20150412L;
 
     /** First moment on which this statistic is based. */

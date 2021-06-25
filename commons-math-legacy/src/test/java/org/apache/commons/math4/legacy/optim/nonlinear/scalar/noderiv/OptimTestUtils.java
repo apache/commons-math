@@ -27,7 +27,10 @@ import org.apache.commons.math4.legacy.core.jdkmath.AccurateMath;
 /**
  * Utilities for testing the optimizers.
  */
-class OptimTestUtils {
+final class OptimTestUtils {
+
+    /** No instances. */
+    private OptimTestUtils() {}
 
     static class Sphere implements MultivariateFunction {
 
@@ -308,7 +311,7 @@ class OptimTestUtils {
         private final double[] maximumPosition;
         private final double std;
 
-        public Gaussian2D(double xOpt, double yOpt, double std) {
+        Gaussian2D(double xOpt, double yOpt, double std) {
             maximumPosition = new double[] { xOpt, yOpt };
             this.std = std;
         }
@@ -323,7 +326,8 @@ class OptimTestUtils {
 
         @Override
         public double value(double[] point) {
-            final double x = point[0], y = point[1];
+            final double x = point[0];
+            final double y = point[1];
             final double twoS2 = 2.0 * std * std;
             return 1.0 / (twoS2 * AccurateMath.PI) * AccurateMath.exp(-(x * x + y * y) / twoS2);
         }
@@ -359,8 +363,8 @@ class OptimTestUtils {
     }
 
     private static class Basis {
-        double[][] basis;
-        final MarsagliaNormalizedGaussianSampler rand = MarsagliaNormalizedGaussianSampler.of(rng()); // use not always the same basis
+        private double[][] basis;
+        private final MarsagliaNormalizedGaussianSampler rand = MarsagliaNormalizedGaussianSampler.of(rng()); // use not always the same basis
 
         double[] Rotate(double[] x) {
             GenBasis(x.length);
@@ -374,35 +378,37 @@ class OptimTestUtils {
             return y;
         }
 
-        void GenBasis(int DIM) {
-            if (basis != null ? basis.length == DIM : false) {
+        void GenBasis(int dim) {
+            if (basis != null ? basis.length == dim : false) {
                 return;
             }
 
             double sp;
-            int i, j, k;
+            int i;
+            int j;
+            int k;
 
             /* generate orthogonal basis */
-            basis = new double[DIM][DIM];
-            for (i = 0; i < DIM; ++i) {
+            basis = new double[dim][dim];
+            for (i = 0; i < dim; ++i) {
                 /* sample components gaussian */
-                for (j = 0; j < DIM; ++j) {
+                for (j = 0; j < dim; ++j) {
                     basis[i][j] = rand.sample();
                 }
                 /* substract projection of previous vectors */
                 for (j = i - 1; j >= 0; --j) {
-                    for (sp = 0., k = 0; k < DIM; ++k) {
+                    for (sp = 0., k = 0; k < dim; ++k) {
                         sp += basis[i][k] * basis[j][k]; /* scalar product */
                     }
-                    for (k = 0; k < DIM; ++k) {
+                    for (k = 0; k < dim; ++k) {
                         basis[i][k] -= sp * basis[j][k]; /* substract */
                     }
                 }
                 /* normalize */
-                for (sp = 0., k = 0; k < DIM; ++k) {
+                for (sp = 0., k = 0; k < dim; ++k) {
                     sp += basis[i][k] * basis[i][k]; /* squared norm */
                 }
-                for (k = 0; k < DIM; ++k) {
+                for (k = 0; k < dim; ++k) {
                     basis[i][k] /= AccurateMath.sqrt(sp);
                 }
             }

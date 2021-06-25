@@ -554,7 +554,7 @@ public class OLSMultipleLinearRegressionTest extends MultipleLinearRegressionAbs
             tmp[off2 + 3] = tmp[off2 + 1] * tmp[off2 + 2];
             tmp[off2 + 4] = tmp[off2 + 1] * tmp[off2 + 3];
             tmp[off2 + 5] = tmp[off2 + 1] * tmp[off2 + 4];
-            off2 += (nvars + 1);
+            off2 += nvars + 1;
             off += 2;
         }
         model.newSampleData(tmp, nobs, nvars);
@@ -622,7 +622,7 @@ public class OLSMultipleLinearRegressionTest extends MultipleLinearRegressionAbs
             tmp[off2 + 3] = tmp[off2 + 1] * tmp[off2 + 2];
             tmp[off2 + 4] = tmp[off2 + 1] * tmp[off2 + 3];
             tmp[off2 + 5] = tmp[off2 + 1] * tmp[off2 + 4];
-            off2 += (nvars + 1);
+            off2 += nvars + 1;
             off += 2;
         }
         model.newSampleData(tmp, nobs, nvars);
@@ -689,7 +689,7 @@ public class OLSMultipleLinearRegressionTest extends MultipleLinearRegressionAbs
             tmp[off2 + 3] = tmp[off2 + 1] * tmp[off2 + 2];
             tmp[off2 + 4] = tmp[off2 + 1] * tmp[off2 + 3];
             tmp[off2 + 5] = tmp[off2 + 1] * tmp[off2 + 4];
-            off2 += (nvars + 1);
+            off2 += nvars + 1;
             off += 2;
         }
         model.newSampleData(tmp, nobs, nvars);
@@ -758,7 +758,7 @@ public class OLSMultipleLinearRegressionTest extends MultipleLinearRegressionAbs
             tmp[off2 + 3] = tmp[off2 + 1] * tmp[off2 + 2];
             tmp[off2 + 4] = tmp[off2 + 1] * tmp[off2 + 3];
             tmp[off2 + 5] = tmp[off2 + 1] * tmp[off2 + 4];
-            off2 += (nvars + 1);
+            off2 += nvars + 1;
             off += 2;
         }
         model.newSampleData(tmp, nobs, nvars);

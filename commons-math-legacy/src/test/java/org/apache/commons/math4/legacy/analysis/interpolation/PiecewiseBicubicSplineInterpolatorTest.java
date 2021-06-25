@@ -156,7 +156,8 @@ public final class PiecewiseBicubicSplineInterpolatorTest {
 
         BivariateGridInterpolator interpolator = new PiecewiseBicubicSplineInterpolator();
         BivariateFunction p = interpolator.interpolate(xval, yval, zval);
-        double x, y;
+        double x;
+        double y;
 
         final UniformRandomProvider rng = RandomSource.create(RandomSource.WELL_19937_C, 1234567L);
         final ContinuousDistribution.Sampler distX = new UniformContinuousDistribution(xval[0], xval[xval.length - 1]).createSampler(rng);
@@ -208,7 +209,8 @@ public final class PiecewiseBicubicSplineInterpolatorTest {
 
         BivariateGridInterpolator interpolator = new PiecewiseBicubicSplineInterpolator();
         BivariateFunction p = interpolator.interpolate(xval, yval, zval);
-        double x, y;
+        double x;
+        double y;
 
         final UniformRandomProvider rng = RandomSource.create(RandomSource.WELL_19937_C, 1234567L);
         final ContinuousDistribution.Sampler distX = new UniformContinuousDistribution(xval[0], xval[xval.length - 1]).createSampler(rng);

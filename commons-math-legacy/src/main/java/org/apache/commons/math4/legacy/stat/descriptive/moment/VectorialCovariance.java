@@ -29,7 +29,7 @@ import org.apache.commons.math4.legacy.linear.RealMatrix;
  */
 public class VectorialCovariance implements Serializable {
 
-    /** Serializable version identifier */
+    /** Serializable version identifier. */
     private static final long serialVersionUID = 4118372414238930270L;
 
     /** Sums for each component. */
@@ -109,7 +109,7 @@ public class VectorialCovariance implements Serializable {
     }
 
     /**
-     * Clears the internal state of the Statistic
+     * Clears the internal state of the Statistic.
      */
     public void clear() {
         n = 0;

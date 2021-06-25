@@ -287,7 +287,7 @@ public class AggregateSummaryStatisticsTest {
                                                                                       327652));
         final ContinuousDistribution.Sampler randomData
             = new UniformContinuousDistribution(-100, 100).createSampler(RandomSource.create(RandomSource.WELL_512_A,
-                                                                                       64925784252L));;
+                                                                                       64925784252L));
         final int sampleSize = size.sample();
         final double[] out = AbstractRealDistribution.sample(sampleSize, randomData);
         return out;

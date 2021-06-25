@@ -259,7 +259,7 @@ public class FieldLUDecomposition<T extends FieldElement<T>> {
     /** Specialized solver.
      * @param <T> the type of the field elements
      */
-    private static class Solver<T extends FieldElement<T>> implements FieldDecompositionSolver<T> {
+    private static final class Solver<T extends FieldElement<T>> implements FieldDecompositionSolver<T> {
 
         /** Field to which the elements belong. */
         private final Field<T> field;

@@ -19,21 +19,20 @@ package org.apache.commons.math4.legacy.linear;
 import org.apache.commons.math4.legacy.exception.DimensionMismatchException;
 import org.apache.commons.math4.legacy.exception.MaxCountExceededException;
 import org.apache.commons.math4.legacy.exception.NullArgumentException;
-import org.apache.commons.math4.legacy.core.IntegerSequence;
 
 /**
  * <p>
  * This abstract class defines preconditioned iterative solvers. When A is
  * ill-conditioned, instead of solving system A &middot; x = b directly, it is
  * preferable to solve either
- * <center>
+ * <pre>
  * (M &middot; A) &middot; x = M &middot; b
- * </center>
+ * </pre>
  * (left preconditioning), or
- * <center>
+ * <pre>
  * (A &middot; M) &middot; y = b, &nbsp;&nbsp;&nbsp;&nbsp;followed by
  * M &middot; y = x
- * </center>
+ * </pre>
  * (right preconditioning), where M approximates in some way A<sup>-1</sup>,
  * while matrix-vector products of the type M &middot; y remain comparatively
  * easy to compute. In this library, M (not M<sup>-1</sup>!) is called the
@@ -85,7 +84,7 @@ public abstract class PreconditionedIterativeLinearSolver
      * {@code x0} have dimensions inconsistent with {@code a}
      * @throws MaxCountExceededException at exhaustion of the iteration count,
      * unless a custom
-     * {@link IntegerSequence.Incrementor.MaxCountExceededCallback callback}
+     * {@link org.apache.commons.math4.legacy.core.IntegerSequence.Incrementor.MaxCountExceededCallback callback}
      * has been set at construction of the {@link IterationManager}
      */
     public RealVector solve(final RealLinearOperator a,
@@ -166,7 +165,7 @@ public abstract class PreconditionedIterativeLinearSolver
      * dimensions inconsistent with {@code a}
      * @throws MaxCountExceededException at exhaustion of the iteration count,
      * unless a custom
-     * {@link IntegerSequence.Incrementor.MaxCountExceededCallback callback}
+     * {@link org.apache.commons.math4.legacy.core.IntegerSequence.Incrementor.MaxCountExceededCallback callback}
      * has been set at construction of the {@link IterationManager}
      */
     public RealVector solve(RealLinearOperator a, RealLinearOperator m,
@@ -194,7 +193,7 @@ public abstract class PreconditionedIterativeLinearSolver
      * {@code x0} have dimensions inconsistent with {@code a}
      * @throws MaxCountExceededException at exhaustion of the iteration count,
      * unless a custom
-     * {@link IntegerSequence.Incrementor.MaxCountExceededCallback callback}
+     * {@link org.apache.commons.math4.legacy.core.IntegerSequence.Incrementor.MaxCountExceededCallback callback}
      * has been set at construction of the {@link IterationManager}
      */
     public abstract RealVector solveInPlace(RealLinearOperator a,

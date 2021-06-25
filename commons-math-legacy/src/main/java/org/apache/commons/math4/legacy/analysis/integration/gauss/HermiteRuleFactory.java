@@ -48,11 +48,11 @@ import org.apache.commons.math4.legacy.core.Pair;
  * @since 3.3
  */
 public class HermiteRuleFactory extends BaseRuleFactory<Double> {
-    /** &pi;<sup>1/2</sup> */
+    /** &pi;<sup>1/2</sup>. */
     private static final double SQRT_PI = 1.77245385090551602729;
-    /** &pi;<sup>-1/4</sup> */
+    /** &pi;<sup>-1/4</sup>. */
     private static final double H0 = 7.5112554446494248286e-1;
-    /** &pi;<sup>-1/4</sup> &radic;2 */
+    /** &pi;<sup>-1/4</sup> &radic;2. */
     private static final double H1 = 1.0622519320271969145;
 
     /** {@inheritDoc} */

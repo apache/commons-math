@@ -34,7 +34,7 @@ import org.apache.commons.math4.legacy.core.jdkmath.AccurateMath;
  */
 public abstract class AbstractEvaluation implements Evaluation {
 
-    /** number of observations */
+    /** number of observations. */
     private final int observationSize;
 
     /**

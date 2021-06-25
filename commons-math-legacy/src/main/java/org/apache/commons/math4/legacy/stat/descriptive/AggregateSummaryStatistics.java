@@ -54,11 +54,11 @@ public class AggregateSummaryStatistics implements StatisticalSummary,
         Serializable {
 
 
-    /** Serializable version identifier */
+    /** Serializable version identifier. */
     private static final long serialVersionUID = -8207112444016386906L;
 
     /**
-     * A SummaryStatistics serving as a prototype for creating SummaryStatistics
+     * A SummaryStatistics serving as a prototype for creating SummaryStatistics.
      * contributing to this aggregate
      */
     private final SummaryStatistics statisticsPrototype;
@@ -362,18 +362,18 @@ public class AggregateSummaryStatistics implements StatisticalSummary,
     private static class AggregatingSummaryStatistics extends SummaryStatistics {
 
         /**
-         * The serialization version of this class
+         * The serialization version of this class.
          */
         private static final long serialVersionUID = 1L;
 
         /**
-         * An additional SummaryStatistics into which values added to these
+         * An additional SummaryStatistics into which values added to these.
          * statistics (and possibly others) are aggregated
          */
         private final SummaryStatistics aggregateStatistics;
 
         /**
-         * Initializes a new AggregatingSummaryStatistics with the specified
+         * Initializes a new AggregatingSummaryStatistics with the specified.
          * aggregate statistics object
          *
          * @param aggregateStatistics a {@code SummaryStatistics} into which
@@ -418,7 +418,7 @@ public class AggregateSummaryStatistics implements StatisticalSummary,
         }
 
         /**
-         * Returns hash code based on values of statistics
+         * Returns hash code based on values of statistics.
          * @return hash code
          */
         @Override

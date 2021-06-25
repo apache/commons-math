@@ -48,11 +48,11 @@ import org.apache.commons.math4.legacy.core.jdkmath.AccurateMath;
  */
 public class BOBYQAOptimizer
     extends MultivariateOptimizer {
-    /** Minimum dimension of the problem: {@value} */
+    /** Minimum dimension of the problem: {@value}. */
     public static final int MINIMUM_PROBLEM_DIMENSION = 2;
-    /** Default value for {@link #initialTrustRegionRadius}: {@value} . */
+    /** Default value for {@link #initialTrustRegionRadius}: {@value}. */
     public static final double DEFAULT_INITIAL_RADIUS = 10.0;
-    /** Default value for {@link #stoppingTrustRegionRadius}: {@value} . */
+    /** Default value for {@link #stoppingTrustRegionRadius}: {@value}. */
     public static final double DEFAULT_STOPPING_RADIUS = 1E-8;
     /** Constant 0. */
     private static final double ZERO = 0d;
@@ -80,15 +80,15 @@ public class BOBYQAOptimizer
     private static final double ONE_OVER_A_THOUSAND = ONE / 1000;
 
     /**
-     * numberOfInterpolationPoints XXX
+     * numberOfInterpolationPoints XXX.
      */
     private final int numberOfInterpolationPoints;
     /**
-     * initialTrustRegionRadius XXX
+     * initialTrustRegionRadius XXX.
      */
     private double initialTrustRegionRadius;
     /**
-     * stoppingTrustRegionRadius XXX
+     * stoppingTrustRegionRadius XXX.
      */
     private final double stoppingTrustRegionRadius;
     /** Goal type (minimize or maximize). */
@@ -1262,6 +1262,7 @@ public class BOBYQAOptimizer
      *     KNEW-th column of the H matrix.
      * @param knew
      * @param adelt
+     * @return { alpha, cauchy }
      */
     private double[] altmov(
             int knew,
@@ -1806,6 +1807,7 @@ public class BOBYQAOptimizer
      * @param s
      * @param hs
      * @param hred
+     * @return { dsq, crvmin }
      */
     private double[] trsbox(
             double delta,

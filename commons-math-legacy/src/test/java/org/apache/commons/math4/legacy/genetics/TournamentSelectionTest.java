@@ -43,7 +43,7 @@ public class TournamentSelectionTest {
     private static class DummyChromosome extends Chromosome {
         private final int fitness;
 
-        public DummyChromosome() {
+        DummyChromosome() {
             this.fitness = counter;
             counter++;
         }

@@ -26,7 +26,7 @@ import org.apache.commons.math4.legacy.exception.util.Localizable;
  */
 public class InvalidRepresentationException extends MathIllegalArgumentException {
 
-    /** Serialization version id */
+    /** Serialization version id. */
     private static final long serialVersionUID = 1L;
 
     /**

@@ -39,7 +39,7 @@ public class TricubicInterpolatingFunction
     implements TrivariateFunction {
     /**
      * Matrix to compute the spline coefficients from the function values
-     * and function derivatives values
+     * and function derivatives values.
      */
     private static final double[][] AINV = {
         { 1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0 },
@@ -108,13 +108,13 @@ public class TricubicInterpolatingFunction
         { 8,-8,-8,8,-8,8,8,-8,4,4,-4,-4,-4,-4,4,4,4,-4,4,-4,-4,4,-4,4,4,-4,-4,4,4,-4,-4,4,2,2,2,2,-2,-2,-2,-2,2,2,-2,-2,2,2,-2,-2,2,-2,2,-2,2,-2,2,-2,1,1,1,1,1,1,1,1 }
     };
 
-    /** Samples x-coordinates */
+    /** Samples x-coordinates. */
     private final double[] xval;
-    /** Samples y-coordinates */
+    /** Samples y-coordinates. */
     private final double[] yval;
-    /** Samples z-coordinates */
+    /** Samples z-coordinates. */
     private final double[] zval;
-    /** Set of cubic splines patching the whole data grid */
+    /** Set of cubic splines patching the whole data grid. */
     private final TricubicFunction[][][] splines;
 
     /**
@@ -341,16 +341,12 @@ public class TricubicInterpolatingFunction
      * @return {@code true} if (x, y, z) is a valid point.
      */
     public boolean isValidPoint(double x, double y, double z) {
-        if (x < xval[0] ||
+        return !(x < xval[0] ||
             x > xval[xval.length - 1] ||
             y < yval[0] ||
             y > yval[yval.length - 1] ||
             z < zval[0] ||
-            z > zval[zval.length - 1]) {
-            return false;
-        } else {
-            return true;
-        }
+            z > zval[zval.length - 1]);
     }
 
     /**
@@ -447,7 +443,7 @@ class TricubicFunction
     implements TrivariateFunction {
     /** Number of points. */
     private static final short N = 4;
-    /** Coefficients */
+    /** Coefficients. */
     private final double[][][] a = new double[N][N][N];
 
     /**

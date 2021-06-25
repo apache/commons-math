@@ -28,8 +28,7 @@ public class AbstractIntegerDistributionTest {
     protected final double p = diceDistribution.probability(1);
 
     @Test
-    public void testInverseCumulativeProbabilityMethod()
-    {
+    public void testInverseCumulativeProbabilityMethod() {
         double precision = 0.000000000000001;
         Assert.assertEquals(1, diceDistribution.inverseCumulativeProbability(0));
         Assert.assertEquals(1, diceDistribution.inverseCumulativeProbability((1d-Double.MIN_VALUE)/6d));
@@ -43,7 +42,7 @@ public class AbstractIntegerDistributionTest {
         Assert.assertEquals(5, diceDistribution.inverseCumulativeProbability((5d-precision)/6d));//Can't use Double.MIN
         Assert.assertEquals(6, diceDistribution.inverseCumulativeProbability((5d+precision)/6d));
         Assert.assertEquals(6, diceDistribution.inverseCumulativeProbability((6d-precision)/6d));//Can't use Double.MIN
-        Assert.assertEquals(6, diceDistribution.inverseCumulativeProbability((6d)/6d));
+        Assert.assertEquals(6, diceDistribution.inverseCumulativeProbability(6d/6d));
     }
 
     @Test

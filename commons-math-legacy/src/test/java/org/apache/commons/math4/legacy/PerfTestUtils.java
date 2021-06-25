@@ -33,7 +33,7 @@ import org.apache.commons.math4.legacy.stat.descriptive.SummaryStatistics;
 /**
  * Simple benchmarking utilities.
  */
-public class PerfTestUtils {
+public final class PerfTestUtils {
     /** Formatting. */
     private static final int DEFAULT_MAX_NAME_WIDTH = 45;
     /** Formatting. */
@@ -54,6 +54,9 @@ public class PerfTestUtils {
     private static final int DEFAULT_REPEAT_STAT = 10000;
     /** RNG. */
     private static UniformRandomProvider rng = RandomSource.create(RandomSource.WELL_19937_C);
+
+    /** No instances. */
+    private PerfTestUtils() {}
 
     /**
      * Timing.
@@ -281,7 +284,7 @@ public class PerfTestUtils {
     /**
      * Utility class for storing a test label.
      */
-    public static abstract class RunTest implements Callable<Double> {
+    public abstract static class RunTest implements Callable<Double> {
         private final String name;
 
         /**

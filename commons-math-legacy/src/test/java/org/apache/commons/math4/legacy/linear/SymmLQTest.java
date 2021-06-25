@@ -436,8 +436,7 @@ public class SymmLQTest {
             a.setEntry(i, i, daux);
             daux *= 1.2;
             for (int j = i + 1; j < n; j++) {
-                if (i == j) {
-                } else {
+                if (i != j) {
                     final double value = 1.0;
                     a.setEntry(i, j, value);
                     a.setEntry(j, i, value);

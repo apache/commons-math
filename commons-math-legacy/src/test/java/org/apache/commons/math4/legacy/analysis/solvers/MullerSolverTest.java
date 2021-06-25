@@ -46,7 +46,11 @@ public final class MullerSolverTest {
     public void testSinFunction() {
         UnivariateFunction f = new Sin();
         UnivariateSolver solver = new MullerSolver();
-        double min, max, expected, result, tolerance;
+        double min;
+        double max;
+        double expected;
+        double result;
+        double tolerance;
 
         min = 3.0; max = 4.0; expected = AccurateMath.PI;
         tolerance = AccurateMath.max(solver.getAbsoluteAccuracy(),
@@ -68,7 +72,11 @@ public final class MullerSolverTest {
     public void testQuinticFunction() {
         UnivariateFunction f = new QuinticFunction();
         UnivariateSolver solver = new MullerSolver();
-        double min, max, expected, result, tolerance;
+        double min;
+        double max;
+        double expected;
+        double result;
+        double tolerance;
 
         min = -0.4; max = 0.2; expected = 0.0;
         tolerance = AccurateMath.max(solver.getAbsoluteAccuracy(),
@@ -100,7 +108,11 @@ public final class MullerSolverTest {
     public void testExpm1Function() {
         UnivariateFunction f = new Expm1();
         UnivariateSolver solver = new MullerSolver();
-        double min, max, expected, result, tolerance;
+        double min;
+        double max; 
+        double expected;
+        double result;
+        double tolerance;
 
         min = -1.0; max = 2.0; expected = 0.0;
         tolerance = AccurateMath.max(solver.getAbsoluteAccuracy(),

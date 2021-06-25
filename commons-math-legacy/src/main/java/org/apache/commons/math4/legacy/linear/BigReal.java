@@ -50,10 +50,10 @@ public class BigReal implements FieldElement<BigReal>, Comparable<BigReal>, Seri
     /** Underlying BigDecimal. */
     private final BigDecimal d;
 
-    /** Rounding mode for divisions. **/
+    /** Rounding mode for divisions. */
     private RoundingMode roundingMode = RoundingMode.HALF_UP;
 
-    /*** BigDecimal scale ***/
+    /** BigDecimal scale. */
     private int scale = 64;
 
     /** Build an instance from a BigDecimal.
@@ -190,7 +190,7 @@ public class BigReal implements FieldElement<BigReal>, Comparable<BigReal>, Seri
     }
 
     /***
-     * Gets the rounding mode for division operations
+     * Gets the rounding mode for division operations.
      * The default is {@code RoundingMode.HALF_UP}
      * @return the rounding mode.
      * @since 2.1

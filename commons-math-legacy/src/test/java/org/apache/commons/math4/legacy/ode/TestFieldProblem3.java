@@ -43,7 +43,7 @@ public class TestFieldProblem3<T extends RealFieldElement<T>>
 extends TestFieldProblemAbstract<T> {
 
     /** Eccentricity */
-    T e;
+    private T e;
 
     /**
      * Simple constructor.

@@ -148,11 +148,11 @@ public class PSquarePercentileTest extends
         // Markers equality
         Assert.assertTrue(markers.equals(markers));
         Assert.assertFalse(markers.equals(null));
-        Assert.assertFalse(markers.equals(new String()));
+        Assert.assertFalse(markers.equals(""));
         // Check for null markers test during equality testing
         // Until 5 elements markers are not initialized
-        PSquarePercentile p1 = new PSquarePercentile(), p2 =
-                new PSquarePercentile();
+        PSquarePercentile p1 = new PSquarePercentile();
+        PSquarePercentile p2 = new PSquarePercentile();
         Assert.assertEquals(p1, p2);
         p1.evaluate(new double[] { 1.0, 2.0, 3.0 });
         p2.evaluate(new double[] { 1.0, 2.0, 3.0 });
@@ -322,7 +322,7 @@ public class PSquarePercentileTest extends
         PSquarePercentile ptile = new PSquarePercentile(0);
         Assert.assertEquals(ptile, ptile);
         Assert.assertFalse(ptile.equals(null));
-        Assert.assertFalse(ptile.equals(new String()));
+        Assert.assertFalse(ptile.equals(""));
         // Just to check if there is no data get result for zeroth and 100th
         // ptile returns NAN
         Assert.assertTrue(Double.isNaN(ptile.getResult()));
@@ -703,9 +703,15 @@ public class PSquarePercentileTest extends
 
     }
 
-    final int TINY = 10, SMALL = 50, NOMINAL = 100, MEDIUM = 500,
-            STANDARD = 1000, BIG = 10000, VERY_BIG = 50000, LARGE = 1000000,
-            VERY_LARGE = 10000000;
+    private final int TINY = 10;
+    private final int SMALL = 50;
+    private final int NOMINAL = 100;
+    private final int MEDIUM = 500;
+    private final int STANDARD = 1000;
+    private final int BIG = 10000;
+    private final int VERY_BIG = 50000;
+    private final int LARGE = 1000000;
+    private final int VERY_LARGE = 10000000;
 
     private void doDistributionTest(ContinuousDistribution distribution) {
         final ContinuousDistribution.Sampler sampler =

@@ -40,7 +40,11 @@ public final class LaguerreSolverTest {
      */
     @Test
     public void testLinearFunction() {
-        double min, max, expected, result, tolerance;
+        double min;
+        double max;
+        double expected;
+        double result;
+        double tolerance;
 
         // p(x) = 4x - 1
         double coefficients[] = { -1.0, 4.0 };
@@ -59,7 +63,11 @@ public final class LaguerreSolverTest {
      */
     @Test
     public void testQuadraticFunction() {
-        double min, max, expected, result, tolerance;
+        double min;
+        double max;
+        double expected;
+        double result;
+        double tolerance;
 
         // p(x) = 2x^2 + 5x - 3 = (x+3)(2x-1)
         double coefficients[] = { -3.0, 5.0, 2.0 };
@@ -84,7 +92,11 @@ public final class LaguerreSolverTest {
      */
     @Test
     public void testQuinticFunction() {
-        double min, max, expected, result, tolerance;
+        double min;
+        double max;
+        double expected;
+        double result;
+        double tolerance;
 
         // p(x) = x^5 - x^4 - 12x^3 + x^2 - x - 12 = (x+1)(x+3)(x-4)(x^2-x+1)
         double coefficients[] = { -12.0, -1.0, 1.0, -12.0, -1.0, 1.0 };

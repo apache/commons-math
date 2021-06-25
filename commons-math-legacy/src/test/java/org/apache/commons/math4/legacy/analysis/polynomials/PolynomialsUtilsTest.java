@@ -146,20 +146,20 @@ public class PolynomialsUtilsTest {
 
     @Test
     public void testFirstLaguerrePolynomials() {
-        checkPolynomial(PolynomialsUtils.createLaguerrePolynomial(3), 6l, "6 - 18 x + 9 x^2 - x^3");
-        checkPolynomial(PolynomialsUtils.createLaguerrePolynomial(2), 2l, "2 - 4 x + x^2");
-        checkPolynomial(PolynomialsUtils.createLaguerrePolynomial(1), 1l, "1 - x");
-        checkPolynomial(PolynomialsUtils.createLaguerrePolynomial(0), 1l, "1");
+        checkPolynomial(PolynomialsUtils.createLaguerrePolynomial(3), 6L, "6 - 18 x + 9 x^2 - x^3");
+        checkPolynomial(PolynomialsUtils.createLaguerrePolynomial(2), 2L, "2 - 4 x + x^2");
+        checkPolynomial(PolynomialsUtils.createLaguerrePolynomial(1), 1L, "1 - x");
+        checkPolynomial(PolynomialsUtils.createLaguerrePolynomial(0), 1L, "1");
 
-        checkPolynomial(PolynomialsUtils.createLaguerrePolynomial(7), 5040l,
+        checkPolynomial(PolynomialsUtils.createLaguerrePolynomial(7), 5040L,
                 "5040 - 35280 x + 52920 x^2 - 29400 x^3"
                 + " + 7350 x^4 - 882 x^5 + 49 x^6 - x^7");
-        checkPolynomial(PolynomialsUtils.createLaguerrePolynomial(6),  720l,
+        checkPolynomial(PolynomialsUtils.createLaguerrePolynomial(6),  720L,
                 "720 - 4320 x + 5400 x^2 - 2400 x^3 + 450 x^4"
                 + " - 36 x^5 + x^6");
-        checkPolynomial(PolynomialsUtils.createLaguerrePolynomial(5),  120l,
+        checkPolynomial(PolynomialsUtils.createLaguerrePolynomial(5),  120L,
         "120 - 600 x + 600 x^2 - 200 x^3 + 25 x^4 - x^5");
-        checkPolynomial(PolynomialsUtils.createLaguerrePolynomial(4),   24l,
+        checkPolynomial(PolynomialsUtils.createLaguerrePolynomial(4),   24L,
         "24 - 96 x + 72 x^2 - 16 x^3 + x^4");
 
     }
@@ -204,15 +204,15 @@ public class PolynomialsUtilsTest {
 
     @Test
     public void testFirstLegendrePolynomials() {
-        checkPolynomial(PolynomialsUtils.createLegendrePolynomial(3),  2l, "-3 x + 5 x^3");
-        checkPolynomial(PolynomialsUtils.createLegendrePolynomial(2),  2l, "-1 + 3 x^2");
-        checkPolynomial(PolynomialsUtils.createLegendrePolynomial(1),  1l, "x");
-        checkPolynomial(PolynomialsUtils.createLegendrePolynomial(0),  1l, "1");
+        checkPolynomial(PolynomialsUtils.createLegendrePolynomial(3),  2L, "-3 x + 5 x^3");
+        checkPolynomial(PolynomialsUtils.createLegendrePolynomial(2),  2L, "-1 + 3 x^2");
+        checkPolynomial(PolynomialsUtils.createLegendrePolynomial(1),  1L, "x");
+        checkPolynomial(PolynomialsUtils.createLegendrePolynomial(0),  1L, "1");
 
-        checkPolynomial(PolynomialsUtils.createLegendrePolynomial(7), 16l, "-35 x + 315 x^3 - 693 x^5 + 429 x^7");
-        checkPolynomial(PolynomialsUtils.createLegendrePolynomial(6), 16l, "-5 + 105 x^2 - 315 x^4 + 231 x^6");
-        checkPolynomial(PolynomialsUtils.createLegendrePolynomial(5),  8l, "15 x - 70 x^3 + 63 x^5");
-        checkPolynomial(PolynomialsUtils.createLegendrePolynomial(4),  8l, "3 - 30 x^2 + 35 x^4");
+        checkPolynomial(PolynomialsUtils.createLegendrePolynomial(7), 16L, "-35 x + 315 x^3 - 693 x^5 + 429 x^7");
+        checkPolynomial(PolynomialsUtils.createLegendrePolynomial(6), 16L, "-5 + 105 x^2 - 315 x^4 + 231 x^6");
+        checkPolynomial(PolynomialsUtils.createLegendrePolynomial(5),  8L, "15 x - 70 x^3 + 63 x^5");
+        checkPolynomial(PolynomialsUtils.createLegendrePolynomial(4),  8L, "3 - 30 x^2 + 35 x^4");
 
     }
 

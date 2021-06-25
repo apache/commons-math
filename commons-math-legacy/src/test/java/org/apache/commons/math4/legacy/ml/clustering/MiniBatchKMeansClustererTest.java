@@ -137,7 +137,9 @@ public class MiniBatchKMeansClustererTest {
             block.run();
             Assert.fail(String.format("Expects %s", exceptionClass.getSimpleName()));
         } catch (Throwable e) {
-            if (!exceptionClass.isInstance(e)) throw e;
+            if (!exceptionClass.isInstance(e)) {
+                throw e;
+            }
         }
     }
 

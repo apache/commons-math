@@ -43,8 +43,7 @@ public class SplineInterpolatorTest {
     protected double interpolationTolerance = 1E-14;
 
     @Test
-    public void testInterpolateLinearDegenerateTwoSegment()
-        {
+    public void testInterpolateLinearDegenerateTwoSegment() {
         double tolerance = 1e-15;
         double x[] = { 0.0, 0.5, 1.0 };
         double y[] = { 0.0, 0.5, 1.0 };
@@ -67,8 +66,7 @@ public class SplineInterpolatorTest {
     }
 
     @Test
-    public void testInterpolateLinearDegenerateThreeSegment()
-        {
+    public void testInterpolateLinearDegenerateThreeSegment() {
         double tolerance = 1e-15;
         double x[] = { 0.0, 0.5, 1.0, 1.5 };
         double y[] = { 0.0, 0.5, 1.0, 1.5 };
@@ -196,8 +194,7 @@ public class SplineInterpolatorTest {
     /**
      * verifies that f(x[i]) = y[i] for i = 0..n-1 where n is common length.
      */
-    protected void verifyInterpolation(UnivariateFunction f, double x[], double y[])
-       {
+    protected void verifyInterpolation(UnivariateFunction f, double x[], double y[]) {
         for (int i = 0; i < x.length; i++) {
             Assert.assertEquals(f.value(x[i]), y[i], knotTolerance);
         }
@@ -207,8 +204,7 @@ public class SplineInterpolatorTest {
      * Verifies that interpolating polynomials satisfy consistency requirement:
      *    adjacent polynomials must agree through two derivatives at knot points
      */
-    protected void verifyConsistency(PolynomialSplineFunction f, double x[])
-        {
+    protected void verifyConsistency(PolynomialSplineFunction f, double x[]) {
         PolynomialFunction polynomials[] = f.getPolynomials();
         for (int i = 1; i < x.length - 2; i++) {
             // evaluate polynomials and derivatives at x[i + 1]
@@ -219,5 +215,4 @@ public class SplineInterpolatorTest {
                                 polynomials[i + 1].polynomialDerivative().polynomialDerivative().value(0), 0.5);
         }
     }
-
 }

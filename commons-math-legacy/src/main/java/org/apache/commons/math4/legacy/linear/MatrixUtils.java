@@ -40,7 +40,7 @@ import org.apache.commons.numbers.core.Precision;
  * A collection of static methods that operate on or return matrices.
  *
  */
-public class MatrixUtils {
+public final class MatrixUtils {
 
     /**
      * The default format for {@link RealMatrix} objects.
@@ -582,7 +582,7 @@ public class MatrixUtils {
     }
 
     /**
-     * Check if matrices are subtraction compatible
+     * Check if matrices are subtraction compatible.
      *
      * @param left Left hand side matrix.
      * @param right Right hand side matrix.
@@ -594,7 +594,7 @@ public class MatrixUtils {
     }
 
     /**
-     * Check if matrices are multiplication compatible
+     * Check if matrices are multiplication compatible.
      *
      * @param left Left hand side matrix.
      * @param right Right hand side matrix.

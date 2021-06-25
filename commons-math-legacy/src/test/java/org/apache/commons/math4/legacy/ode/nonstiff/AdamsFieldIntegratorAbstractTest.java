@@ -43,12 +43,12 @@ import org.junit.Test;
 public abstract class AdamsFieldIntegratorAbstractTest {
 
     protected abstract <T extends RealFieldElement<T>> AdamsFieldIntegrator<T>
-    createIntegrator(Field<T> field, final int nSteps, final double minStep, final double maxStep,
-                     final double scalAbsoluteTolerance, final double scalRelativeTolerance);
+    createIntegrator(Field<T> field, int nSteps, double minStep, double maxStep,
+                     double scalAbsoluteTolerance, double scalRelativeTolerance);
 
     protected abstract <T extends RealFieldElement<T>> AdamsFieldIntegrator<T>
-    createIntegrator(Field<T> field, final int nSteps, final double minStep, final double maxStep,
-                     final double[] vecAbsoluteTolerance, final double[] vecRelativeTolerance);
+    createIntegrator(Field<T> field, int nSteps, double minStep, double maxStep,
+                     double[] vecAbsoluteTolerance, double[] vecRelativeTolerance);
 
     @Test(expected=NumberIsTooSmallException.class)
     public abstract void testMinStep();
@@ -192,7 +192,7 @@ public abstract class AdamsFieldIntegratorAbstractTest {
         private final PerfectInterpolator<T> interpolator;
         private final int nbSteps;
 
-        public PerfectStarter(final TestFieldProblemAbstract<T> problem, final int nbSteps) {
+        PerfectStarter(final TestFieldProblemAbstract<T> problem, final int nbSteps) {
             super(problem.getField(), "perfect-starter");
             this.interpolator = new PerfectInterpolator<>(problem);
             this.nbSteps      = nbSteps;
@@ -222,7 +222,7 @@ public abstract class AdamsFieldIntegratorAbstractTest {
         private T previousTime;
         private T currentTime;
 
-        public PerfectInterpolator(final TestFieldProblemAbstract<T> problem) {
+        PerfectInterpolator(final TestFieldProblemAbstract<T> problem) {
             this.problem = problem;
         }
 

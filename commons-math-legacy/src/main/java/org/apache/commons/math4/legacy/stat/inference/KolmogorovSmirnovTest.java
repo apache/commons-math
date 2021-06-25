@@ -114,14 +114,14 @@ public class KolmogorovSmirnovTest {
     /** pi^2. */
     private static final double PI_SQUARED = AccurateMath.PI * AccurateMath.PI;
     /**
-     * Bound on the number of partial sums in {@link #ksSum(double, double, int)}
+     * Bound on the number of partial sums in {@link #ksSum(double, double, int)}.
      */
     private static final int MAXIMUM_PARTIAL_SUM_COUNT = 100000;
-    /** Convergence criterion for {@link #ksSum(double, double, int)} */
+    /** Convergence criterion for {@link #ksSum(double, double, int)}. */
     private static final double KS_SUM_CAUCHY_CRITERION = 1e-20;
-    /** Convergence criterion for the sums in {@link #pelzGood(double, int)} */
+    /** Convergence criterion for the sums in {@link #pelzGood(double, int)}. */
     private static final double PG_SUM_RELATIVE_ERROR = 1e-10;
-    /** 1/2 */
+    /** 1/2. */
     private static final BigFraction ONE_HALF = BigFraction.of(1, 2);
 
     /**
@@ -285,10 +285,10 @@ public class KolmogorovSmirnovTest {
 
         int rankX = 0;
         int rankY = 0;
-        long curD = 0l;
+        long curD = 0L;
 
         // Find the max difference between cdf_x and cdf_y
-        long supD = 0l;
+        long supD = 0L;
         do {
             double z = Double.compare(sx[rankX], sy[rankY]) <= 0 ? sx[rankX] : sy[rankY];
             while(rankX < n && Double.compare(sx[rankX], z) == 0) {
@@ -301,8 +301,7 @@ public class KolmogorovSmirnovTest {
             }
             if (curD > supD) {
                 supD = curD;
-            }
-            else if (-curD > supD) {
+            } else if (-curD > supD) {
                 supD = -curD;
             }
         } while(rankX < n && rankY < m);
@@ -489,16 +488,16 @@ public class KolmogorovSmirnovTest {
     private double exactK(double d, int n) {
         final int k = (int) Math.ceil(n * d);
 
-        final FieldDenseMatrix<BigFraction> H;
+        final FieldDenseMatrix<BigFraction> h;
         try {
-            H = createExactH(d, n);
+            h = createExactH(d, n);
         } catch (ArithmeticException e) {
             throw new MathArithmeticException(LocalizedFormats.FRACTION);
         }
 
-        final FieldDenseMatrix<BigFraction> Hpower = H.pow(n);
+        final FieldDenseMatrix<BigFraction> hPower = h.pow(n);
 
-        BigFraction pFrac = Hpower.get(k - 1, k - 1);
+        BigFraction pFrac = hPower.get(k - 1, k - 1);
 
         for (int i = 1; i <= n; ++i) {
             pFrac = pFrac.multiply(i).divide(n);
@@ -522,10 +521,10 @@ public class KolmogorovSmirnovTest {
     private double roundedK(double d, int n) {
 
         final int k = (int) Math.ceil(n * d);
-        final RealMatrix H = this.createRoundedH(d, n);
-        final RealMatrix Hpower = H.power(n);
+        final RealMatrix h = this.createRoundedH(d, n);
+        final RealMatrix hPower = h.power(n);
 
-        double pFrac = Hpower.getEntry(k - 1, k - 1);
+        double pFrac = hPower.getEntry(k - 1, k - 1);
         for (int i = 1; i <= n; ++i) {
             pFrac *= (double) i / (double) n;
         }
@@ -701,7 +700,7 @@ public class KolmogorovSmirnovTest {
                 h = BigFraction.from(hDouble, 1e-5, 10000);
             }
         }
-        final FieldDenseMatrix<BigFraction> Hdata = FieldDenseMatrix.create(BigFractionField.get(), m, m);
+        final FieldDenseMatrix<BigFraction> hData = FieldDenseMatrix.create(BigFractionField.get(), m, m);
 
         /*
          * Start by filling everything with either 0 or 1.
@@ -709,9 +708,9 @@ public class KolmogorovSmirnovTest {
         for (int i = 0; i < m; ++i) {
             for (int j = 0; j < m; ++j) {
                 if (i - j + 1 < 0) {
-                    Hdata.set(i, j, BigFraction.ZERO);
+                    hData.set(i, j, BigFraction.ZERO);
                 } else {
-                    Hdata.set(i, j, BigFraction.ONE);
+                    hData.set(i, j, BigFraction.ONE);
                 }
             }
         }
@@ -730,10 +729,10 @@ public class KolmogorovSmirnovTest {
          * First column and last row has special values (each other reversed).
          */
         for (int i = 0; i < m; ++i) {
-            Hdata.set(i, 0,
-                      Hdata.get(i, 0).subtract(hPowers[i]));
-            Hdata.set(m - 1, i,
-                      Hdata.get(m - 1, i).subtract(hPowers[m - i - 1]));
+            hData.set(i, 0,
+                      hData.get(i, 0).subtract(hPowers[i]));
+            hData.set(m - 1, i,
+                      hData.get(m - 1, i).subtract(hPowers[m - i - 1]));
         }
 
         /*
@@ -741,8 +740,8 @@ public class KolmogorovSmirnovTest {
          * (2h - 1)^m )/m!" Since 0 <= h < 1, then if h > 1/2 is sufficient to check:
          */
         if (h.compareTo(ONE_HALF) > 0) {
-            Hdata.set(m - 1, 0,
-                      Hdata.get(m - 1, 0).add(h.multiply(2).subtract(1).pow(m)));
+            hData.set(m - 1, 0,
+                      hData.get(m - 1, 0).add(h.multiply(2).subtract(1).pow(m)));
         }
 
         /*
@@ -757,13 +756,13 @@ public class KolmogorovSmirnovTest {
             for (int j = 0; j < i + 1; ++j) {
                 if (i - j + 1 > 0) {
                     for (int g = 2; g <= i - j + 1; ++g) {
-                        Hdata.set(i, j,
-                                  Hdata.get(i, j).divide(g));
+                        hData.set(i, j,
+                                  hData.get(i, j).divide(g));
                     }
                 }
             }
         }
-        return Hdata;
+        return hData;
     }
 
     /***
@@ -784,7 +783,7 @@ public class KolmogorovSmirnovTest {
         if (h >= 1) {
             throw new NumberIsTooLargeException(h, 1.0, false);
         }
-        final double[][] Hdata = new double[m][m];
+        final double[][] hData = new double[m][m];
 
         /*
          * Start by filling everything with either 0 or 1.
@@ -792,9 +791,9 @@ public class KolmogorovSmirnovTest {
         for (int i = 0; i < m; ++i) {
             for (int j = 0; j < m; ++j) {
                 if (i - j + 1 < 0) {
-                    Hdata[i][j] = 0;
+                    hData[i][j] = 0;
                 } else {
-                    Hdata[i][j] = 1;
+                    hData[i][j] = 1;
                 }
             }
         }
@@ -813,8 +812,8 @@ public class KolmogorovSmirnovTest {
          * First column and last row has special values (each other reversed).
          */
         for (int i = 0; i < m; ++i) {
-            Hdata[i][0] = Hdata[i][0] - hPowers[i];
-            Hdata[m - 1][i] -= hPowers[m - i - 1];
+            hData[i][0] = hData[i][0] - hPowers[i];
+            hData[m - 1][i] -= hPowers[m - i - 1];
         }
 
         /*
@@ -822,7 +821,7 @@ public class KolmogorovSmirnovTest {
          * (2h - 1)^m )/m!" Since 0 <= h < 1, then if h > 1/2 is sufficient to check:
          */
         if (Double.compare(h, 0.5) > 0) {
-            Hdata[m - 1][0] += AccurateMath.pow(2 * h - 1, m);
+            hData[m - 1][0] += AccurateMath.pow(2 * h - 1, m);
         }
 
         /*
@@ -837,12 +836,12 @@ public class KolmogorovSmirnovTest {
             for (int j = 0; j < i + 1; ++j) {
                 if (i - j + 1 > 0) {
                     for (int g = 2; g <= i - j + 1; ++g) {
-                        Hdata[i][j] /= g;
+                        hData[i][j] /= g;
                     }
                 }
             }
         }
-        return MatrixUtils.createRealMatrix(Hdata);
+        return MatrixUtils.createRealMatrix(hData);
     }
 
     /**
@@ -918,9 +917,8 @@ public class KolmogorovSmirnovTest {
         long upperBound = (long)AccurateMath.ceil((d - tol) * nm);
         long lowerBound = (long)AccurateMath.floor((d + tol) * nm);
         if (strict && lowerBound == upperBound) {
-            return upperBound + 1l;
-        }
-        else {
+            return upperBound + 1L;
+        } else {
             return upperBound;
         }
     }
@@ -1048,7 +1046,7 @@ public class KolmogorovSmirnovTest {
         final boolean b[] = new boolean[sum];
         for (int i = 0; i < iterations; i++) {
             fillBooleanArrayRandomlyWithFixedNumberTrueValues(b, nn, rng);
-            long curD = 0l;
+            long curD = 0L;
             for(int j = 0; j < b.length; ++j) {
                 if (b[j]) {
                     curD += mm;

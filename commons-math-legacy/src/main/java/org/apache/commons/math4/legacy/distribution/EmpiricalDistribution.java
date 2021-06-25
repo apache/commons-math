@@ -103,37 +103,37 @@ import org.apache.commons.math4.legacy.core.jdkmath.AccurateMath;
 public class EmpiricalDistribution extends AbstractRealDistribution
     implements ContinuousDistribution {
 
-    /** Default bin count */
+    /** Default bin count. */
     public static final int DEFAULT_BIN_COUNT = 1000;
 
-    /** Character set for file input */
+    /** Character set for file input. */
     private static final String FILE_CHARSET = "US-ASCII";
 
-    /** Serializable version identifier */
+    /** Serializable version identifier. */
     private static final long serialVersionUID = 5729073523949762654L;
 
-    /** List of SummaryStatistics objects characterizing the bins */
+    /** List of SummaryStatistics objects characterizing the bins. */
     private final List<SummaryStatistics> binStats;
 
-    /** Sample statistics */
+    /** Sample statistics. */
     private SummaryStatistics sampleStats;
 
-    /** Max loaded value */
+    /** Max loaded value. */
     private double max = Double.NEGATIVE_INFINITY;
 
-    /** Min loaded value */
+    /** Min loaded value. */
     private double min = Double.POSITIVE_INFINITY;
 
-    /** Grid size */
+    /** Grid size. */
     private double delta;
 
-    /** number of bins */
+    /** number of bins. */
     private final int binCount;
 
     /** is the distribution loaded? */
     private boolean loaded;
 
-    /** upper bounds of subintervals in (0,1) "belonging" to the bins */
+    /** upper bounds of subintervals in (0,1) "belonging" to the bins. */
     private double[] upperBounds;
 
     /**
@@ -269,15 +269,15 @@ public class EmpiricalDistribution extends AbstractRealDistribution
     }
 
     /**
-     * <code>DataAdapter</code> for data provided through some input stream
+     * <code>DataAdapter</code> for data provided through some input stream.
      */
     private class StreamDataAdapter extends DataAdapter{
 
-        /** Input stream providing access to the data */
+        /** Input stream providing access to the data. */
         private BufferedReader inputStream;
 
         /**
-         * Create a StreamDataAdapter from a BufferedReader
+         * Create a StreamDataAdapter from a BufferedReader.
          *
          * @param in BufferedReader input stream
          */
@@ -321,11 +321,11 @@ public class EmpiricalDistribution extends AbstractRealDistribution
      */
     private class ArrayDataAdapter extends DataAdapter {
 
-        /** Array of input  data values */
+        /** Array of input  data values. */
         private final double[] inputArray;
 
         /**
-         * Construct an ArrayDataAdapter from a double[] array
+         * Construct an ArrayDataAdapter from a double[] array.
          *
          * @param in double[] array holding the data
          * @throws NullArgumentException if in is null
@@ -393,7 +393,7 @@ public class EmpiricalDistribution extends AbstractRealDistribution
     }
 
     /**
-     * Returns the index of the bin to which the given value belongs
+     * Returns the index of the bin to which the given value belongs.
      *
      * @param value  the value whose bin we are trying to find
      * @return the index of the bin containing the value

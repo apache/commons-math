@@ -84,7 +84,7 @@ public class CloseEventsTest {
          *
          * @param eventT the time to trigger an event.
          */
-        public TimeDetector(double eventT) {
+        TimeDetector(double eventT) {
             this.eventT = eventT;
         }
 

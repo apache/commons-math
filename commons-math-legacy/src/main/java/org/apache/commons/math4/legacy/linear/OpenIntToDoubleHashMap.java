@@ -46,7 +46,7 @@ class OpenIntToDoubleHashMap implements Serializable { // Not in public API.
     /** Status indicator for removed table entries. */
     protected static final byte REMOVED = 2;
 
-    /** Serializable version identifier */
+    /** Serializable version identifier. */
     private static final long serialVersionUID = -3646337053166149105L;
 
     /** Load factor for the map. */
@@ -89,15 +89,15 @@ class OpenIntToDoubleHashMap implements Serializable { // Not in public API.
     /**
      * Build an empty map with default size and using NaN for missing entries.
      */
-    public OpenIntToDoubleHashMap() {
+    OpenIntToDoubleHashMap() {
         this(DEFAULT_EXPECTED_SIZE, Double.NaN);
     }
 
     /**
-     * Build an empty map with default size
+     * Build an empty map with default size.
      * @param missingEntries value to return when a missing entry is fetched
      */
-    public OpenIntToDoubleHashMap(final double missingEntries) {
+    OpenIntToDoubleHashMap(final double missingEntries) {
         this(DEFAULT_EXPECTED_SIZE, missingEntries);
     }
 
@@ -105,7 +105,7 @@ class OpenIntToDoubleHashMap implements Serializable { // Not in public API.
      * Build an empty map with specified size and using NaN for missing entries.
      * @param expectedSize expected number of elements in the map
      */
-    public OpenIntToDoubleHashMap(final int expectedSize) {
+    OpenIntToDoubleHashMap(final int expectedSize) {
         this(expectedSize, Double.NaN);
     }
 
@@ -114,8 +114,8 @@ class OpenIntToDoubleHashMap implements Serializable { // Not in public API.
      * @param expectedSize expected number of elements in the map
      * @param missingEntries value to return when a missing entry is fetched
      */
-    public OpenIntToDoubleHashMap(final int expectedSize,
-                                  final double missingEntries) {
+    OpenIntToDoubleHashMap(final int expectedSize,
+                           final double missingEntries) {
         final int capacity = computeCapacity(expectedSize);
         keys   = new int[capacity];
         values = new double[capacity];
@@ -128,7 +128,7 @@ class OpenIntToDoubleHashMap implements Serializable { // Not in public API.
      * Copy constructor.
      * @param source map to copy
      */
-    public OpenIntToDoubleHashMap(final OpenIntToDoubleHashMap source) {
+    OpenIntToDoubleHashMap(final OpenIntToDoubleHashMap source) {
         final int length = source.keys.length;
         keys = new int[length];
         System.arraycopy(source.keys, 0, keys, 0, length);
@@ -160,7 +160,7 @@ class OpenIntToDoubleHashMap implements Serializable { // Not in public API.
     }
 
     /**
-     * Find the smallest power of two greater than the input value
+     * Find the smallest power of two greater than the input value.
      * @param i input value
      * @return smallest power of two greater than the input value
      */
@@ -169,7 +169,7 @@ class OpenIntToDoubleHashMap implements Serializable { // Not in public API.
     }
 
     /**
-     * Get the stored value associated with the given key
+     * Get the stored value associated with the given key.
      * @param key key associated with the data
      * @return data associated with the key
      */
@@ -249,7 +249,7 @@ class OpenIntToDoubleHashMap implements Serializable { // Not in public API.
     }
 
     /**
-     * Find the index at which a key should be inserted
+     * Find the index at which a key should be inserted.
      * @param key key to lookup
      * @return index at which key should be inserted
      */
@@ -258,7 +258,7 @@ class OpenIntToDoubleHashMap implements Serializable { // Not in public API.
     }
 
     /**
-     * Find the index at which a key should be inserted
+     * Find the index at which a key should be inserted.
      * @param keys keys table
      * @param states states table
      * @param key key to lookup
@@ -315,7 +315,7 @@ class OpenIntToDoubleHashMap implements Serializable { // Not in public API.
     }
 
     /**
-     * Compute next probe for collision resolution
+     * Compute next probe for collision resolution.
      * @param perturb perturbed hash
      * @param j previous probe
      * @return next probe
@@ -325,7 +325,7 @@ class OpenIntToDoubleHashMap implements Serializable { // Not in public API.
     }
 
     /**
-     * Change the index sign
+     * Change the index sign.
      * @param index initial index
      * @return changed index
      */
@@ -468,7 +468,7 @@ class OpenIntToDoubleHashMap implements Serializable { // Not in public API.
     }
 
     /**
-     * Compute the hash value of a key
+     * Compute the hash value of a key.
      * @param key key to hash
      * @return hash value of the key
      */
@@ -479,7 +479,7 @@ class OpenIntToDoubleHashMap implements Serializable { // Not in public API.
 
 
     /** Iterator class for the map. */
-    public class Iterator {
+    public final class Iterator {
 
         /** Reference modification count. */
         private final int referenceCount;
@@ -567,9 +567,9 @@ class OpenIntToDoubleHashMap implements Serializable { // Not in public API.
 
             // prepare next step
             try {
-                while (states[++next] != FULL) { // NOPMD
-                    // nothing to do
-                }
+                do {
+                    ++next;
+                } while (states[next] != FULL);
             } catch (ArrayIndexOutOfBoundsException e) {
                 next = -2;
                 if (current < 0) {

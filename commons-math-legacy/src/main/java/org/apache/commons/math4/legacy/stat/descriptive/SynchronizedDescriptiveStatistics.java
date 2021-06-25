@@ -33,11 +33,11 @@ import org.apache.commons.math4.legacy.exception.NullArgumentException;
  */
 public class SynchronizedDescriptiveStatistics extends DescriptiveStatistics {
 
-    /** Serialization UID */
+    /** Serialization UID. */
     private static final long serialVersionUID = 1L;
 
     /**
-     * Construct an instance with infinite window
+     * Construct an instance with infinite window.
      */
     public SynchronizedDescriptiveStatistics() {
         // no try-catch or advertized IAE because arg is valid
@@ -45,7 +45,7 @@ public class SynchronizedDescriptiveStatistics extends DescriptiveStatistics {
     }
 
     /**
-     * Construct an instance with finite window
+     * Construct an instance with finite window.
      * @param window the finite window size.
      * @throws MathIllegalArgumentException if window size is less than 1 but
      * not equal to {@link #INFINITE_WINDOW}

@@ -172,14 +172,14 @@ public abstract class TestFieldProblemAbstract<T extends RealFieldElement<T>>
         return doComputeDerivatives(t, y);
     }
 
-    abstract public T[] doComputeDerivatives(T t, T[] y);
+    public abstract T[] doComputeDerivatives(T t, T[] y);
 
     /**
      * Compute the theoretical state at the specified time.
      * @param t time at which the state is required
      * @return state vector at time t
      */
-    abstract public T[] computeTheoreticalState(T t);
+    public abstract T[] computeTheoreticalState(T t);
 
     /** Convert a double.
      * @param d double to convert

@@ -86,7 +86,7 @@ public class Logistic implements UnivariateDifferentiableFunction {
     /**
      * Parametric function where the input array contains the parameters of
      * the {@link Logistic#Logistic(double,double,double,double,double,double)
-     * logistic function}, ordered as follows:
+     * logistic function}. Ordered as follows:
      * <ul>
      *  <li>k</li>
      *  <li>m</li>

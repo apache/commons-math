@@ -67,7 +67,7 @@ public class Logit implements UnivariateDifferentiableFunction {
 
     /**
      * Parametric function where the input array contains the parameters of
-     * the logit function, ordered as follows:
+     * the logit function. Ordered as follows:
      * <ul>
      *  <li>Lower bound</li>
      *  <li>Higher bound</li>

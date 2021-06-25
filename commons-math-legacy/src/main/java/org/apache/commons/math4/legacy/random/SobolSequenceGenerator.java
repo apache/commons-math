@@ -28,7 +28,6 @@ import java.util.function.Supplier;
 
 import org.apache.commons.math4.legacy.exception.MathInternalError;
 import org.apache.commons.math4.legacy.exception.MathParseException;
-import org.apache.commons.math4.legacy.exception.NotPositiveException;
 import org.apache.commons.math4.legacy.exception.NotStrictlyPositiveException;
 import org.apache.commons.math4.legacy.exception.OutOfRangeException;
 import org.apache.commons.math4.legacy.core.jdkmath.AccurateMath;
@@ -186,7 +185,7 @@ public class SobolSequenceGenerator implements Supplier<double[]> {
     private int initFromStream(final InputStream is) throws IOException {
         // special case: dimension 1 -> use unit initialization
         for (int i = 1; i <= BITS; i++) {
-            direction[0][i] = 1l << (BITS - i);
+            direction[0][i] = 1L << (BITS - i);
         }
 
         final Charset charset = Charset.forName(FILE_CHARSET);
@@ -283,7 +282,7 @@ public class SobolSequenceGenerator implements Supplier<double[]> {
      *
      * @param index the index in the sequence to skip to
      * @return the i-th point in the Sobol sequence
-     * @throws NotPositiveException if index &lt; 0
+     * @throws org.apache.commons.math4.legacy.exception.NotPositiveException NotPositiveException if index &lt; 0
      */
     public double[] skipTo(final int index) {
         if (index == 0) {

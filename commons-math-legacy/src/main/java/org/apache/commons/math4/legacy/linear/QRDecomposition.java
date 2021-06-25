@@ -309,7 +309,7 @@ public class QRDecomposition {
     }
 
     /** Specialized solver. */
-    private static class Solver implements DecompositionSolver {
+    private static final class Solver implements DecompositionSolver {
         /**
          * A packed TRANSPOSED representation of the QR decomposition.
          * <p>The elements BELOW the diagonal are the elements of the UPPER triangular

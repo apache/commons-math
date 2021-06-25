@@ -61,16 +61,16 @@ public class BesselJ
     // Mathematical constants
     // ---------------------------------------------------------------------
 
-    /** -2 / pi */
+    /** -2 / pi. */
     private static final double PI2 = 0.636619772367581343075535;
 
-    /** first few significant digits of 2pi */
+    /** first few significant digits of 2pi. */
     private static final double TOWPI1 = 6.28125;
 
-    /** 2pi - TWOPI1 to working precision */
+    /** 2pi - TWOPI1 to working precision. */
     private static final double TWOPI2 = 1.935307179586476925286767e-3;
 
-    /** TOWPI1 + TWOPI2 */
+    /** TOWPI1 + TWOPI2. */
     private static final double TWOPI = TOWPI1 + TWOPI2;
 
     // ---------------------------------------------------------------------
@@ -79,7 +79,7 @@ public class BesselJ
 
     /**
      * 10.0^K, where K is the largest integer such that ENTEN is
-     * machine-representable in working precision
+     * machine-representable in working precision.
      */
     private static final double ENTEN = 1.0e308;
 
@@ -92,13 +92,13 @@ public class BesselJ
      */
     private static final double ENSIG = 1.0e16;
 
-    /** 10.0 ** (-K) for the smallest integer K such that K >= NSIG/4 */
+    /** 10.0 ** (-K) for the smallest integer K such that K >= NSIG/4. */
     private static final double RTNSIG = 1.0e-4;
 
-    /** Smallest ABS(X) such that X/4 does not underflow */
+    /** Smallest ABS(X) such that X/4 does not underflow. */
     private static final double ENMTEN = 8.90e-308;
 
-    /** Minimum acceptable value for x */
+    /** Minimum acceptable value for x. */
     private static final double X_MIN = 0.0;
 
     /**
@@ -108,7 +108,7 @@ public class BesselJ
      */
     private static final double X_MAX = 1.0e4;
 
-    /** First 25 factorials as doubles */
+    /** First 25 factorials as doubles. */
     private static final double[] FACT = {
         1.0, 1.0, 2.0, 6.0, 24.0, 120.0, 720.0, 5040.0, 40320.0, 362880.0,
         3628800.0, 39916800.0, 479001600.0, 6227020800.0, 87178291200.0,
@@ -118,7 +118,7 @@ public class BesselJ
         6.2044840173323943936e23
     };
 
-    /** Order of the function computed when {@link #value(double)} is used */
+    /** Order of the function computed when {@link #value(double)} is used. */
     private final double order;
 
     /**
@@ -192,10 +192,10 @@ public class BesselJ
      */
     public static class BesselJResult {
 
-        /** Bessel function values */
+        /** Bessel function values. */
         private final double[] vals;
 
-        /** Valid value count */
+        /** Valid value count. */
         private final int nVals;
 
         /**

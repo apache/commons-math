@@ -36,7 +36,7 @@ import org.apache.commons.math4.legacy.core.jdkmath.AccurateMath;
  */
 public class PolynomialFunction implements UnivariateDifferentiableFunction, Serializable {
     /**
-     * Serialization identifier
+     * Serialization identifier.
      */
     private static final long serialVersionUID = -7726511984200295583L;
     /**

@@ -48,7 +48,7 @@ public abstract class AbstractUnivariateStatistic
      * {@inheritDoc}
      */
     @Override
-    public abstract double evaluate(final double[] values, final int begin, final int length)
+    public abstract double evaluate(double[] values, int begin, int length)
         throws MathIllegalArgumentException;
 
     /**

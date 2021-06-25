@@ -92,7 +92,7 @@ public class ElitisticListPopulationTest {
     private static class DummyChromosome extends Chromosome {
         private final int fitness;
 
-        public DummyChromosome() {
+        DummyChromosome() {
             this.fitness = counter;
             counter++;
         }

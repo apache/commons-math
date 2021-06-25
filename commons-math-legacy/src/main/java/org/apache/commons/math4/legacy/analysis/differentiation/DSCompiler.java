@@ -122,9 +122,9 @@ import org.apache.commons.math4.legacy.core.jdkmath.AccurateMath;
  * @see DerivativeStructure
  * @since 3.1
  */
-public class DSCompiler {
+public final class DSCompiler {
     /** Cache for factorials. */
-    private static FactorialDouble FACTORIAL = FactorialDouble.create().withCache(30);
+    private static final FactorialDouble FACTORIAL = FactorialDouble.create().withCache(30);
 
     /** Array of all compilers created so far. */
     private static AtomicReference<DSCompiler[][]> compilers =
@@ -347,7 +347,7 @@ public class DSCompiler {
                                                            final DSCompiler derivativeCompiler,
                                                            final int[] lowerIndirection) {
 
-        if ((parameters == 0) || (order == 0)) {
+        if (parameters == 0 || order == 0) {
             return new int[][][] { { { 1, 0, 0 } } };
         }
 
@@ -414,7 +414,7 @@ public class DSCompiler {
                                                            final int[][] derivativesIndirection)
        throws NumberIsTooLargeException {
 
-        if ((parameters == 0) || (order == 0)) {
+        if (parameters == 0 || order == 0) {
             return new int[][][] { { { 1, 0 } } };
         }
 

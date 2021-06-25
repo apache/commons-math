@@ -262,9 +262,9 @@ public abstract class MultistepFieldIntegrator<T extends RealFieldElement<T>>
      * @return Nordieck vector at first step (h<sup>2</sup>/2 y''<sub>n</sub>,
      * h<sup>3</sup>/6 y'''<sub>n</sub> ... h<sup>k</sup>/k! y<sup>(k)</sup><sub>n</sub>)
      */
-    protected abstract Array2DRowFieldMatrix<T> initializeHighOrderDerivatives(final T h, final T[] t,
-                                                                               final T[][] y,
-                                                                               final T[][] yDot);
+    protected abstract Array2DRowFieldMatrix<T> initializeHighOrderDerivatives(T h, T[] t,
+                                                                               T[][] y,
+                                                                               T[][] yDot);
 
     /** Get the minimal reduction factor for stepsize control.
      * @return minimal reduction factor

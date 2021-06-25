@@ -444,7 +444,7 @@ public class LoessInterpolator
     /**
      * Compute the
      * <a href="http://en.wikipedia.org/wiki/Local_regression#Weight_function">tricube</a>
-     * weight function
+     * weight function.
      *
      * @param x Argument.
      * @return <code>(1 - |x|<sup>3</sup>)<sup>3</sup></code> for |x| &lt; 1, 0 otherwise.

@@ -54,14 +54,14 @@ import org.apache.commons.math4.legacy.exception.NullArgumentException;
  */
 class FourthMoment extends ThirdMoment implements Serializable{
 
-    /** Serializable version identifier */
+    /** Serializable version identifier. */
     private static final long serialVersionUID = 20150412L;
 
-    /** fourth moment of values that have been added */
+    /** fourth moment of values that have been added. */
     private double m4;
 
     /**
-     * Create a FourthMoment instance
+     * Create a FourthMoment instance.
      */
     FourthMoment() {
         super();

@@ -696,7 +696,7 @@ public class KolmogorovSmirnovTestTest {
                 method.invoke(KolmogorovSmirnovTest.class, b, numberOfTrueValues, rng);
                 int x = 0;
                 for (int j = 0; j < arraySize; ++j) {
-                    x = ((x << 1) | ((b[j])?1:0));
+                    x = (x << 1) | ((b[j])?1:0);
                 }
                 counts[x] += 1;
             }
@@ -713,8 +713,7 @@ public class KolmogorovSmirnovTestTest {
                 if (Integer.bitCount(i) == numberOfTrueValues) {
                     observed[observedIdx] = counts[i];
                     observedIdx += 1;
-                }
-                else {
+                } else {
                     Assert.assertEquals(0, counts[i]);
                 }
             }

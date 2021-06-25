@@ -37,7 +37,6 @@ import org.apache.commons.math4.legacy.analysis.function.Power;
 import org.apache.commons.math4.legacy.analysis.function.Sin;
 import org.apache.commons.math4.legacy.analysis.function.Sinc;
 import org.apache.commons.math4.legacy.exception.DimensionMismatchException;
-import org.apache.commons.math4.legacy.exception.NotStrictlyPositiveException;
 import org.apache.commons.math4.legacy.exception.NumberIsTooLargeException;
 import org.apache.commons.math4.legacy.core.jdkmath.AccurateMath;
 import org.junit.Assert;

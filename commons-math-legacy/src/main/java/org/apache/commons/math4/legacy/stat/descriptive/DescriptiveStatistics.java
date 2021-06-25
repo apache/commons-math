@@ -65,13 +65,13 @@ public class DescriptiveStatistics implements StatisticalSummary, Serializable {
      */
     public static final int INFINITE_WINDOW = -1;
 
-    /** Serialization UID */
+    /** Serialization UID. */
     private static final long serialVersionUID = 4133067267405273064L;
 
     /** Name of the setQuantile method. */
     private static final String SET_QUANTILE_METHOD_NAME = "setQuantile";
 
-    /** hold the window size **/
+    /** hold the window size. */
     private int windowSize = INFINITE_WINDOW;
 
     /** Stored data values. */
@@ -215,7 +215,7 @@ public class DescriptiveStatistics implements StatisticalSummary, Serializable {
 
     /**
      * Returns the <a href="http://www.xycoon.com/arithmetic_mean.htm">
-     * arithmetic mean </a> of the available values
+     * arithmetic mean </a> of the available values.
      * @return The mean or Double.NaN if no values have been added.
      */
     @Override
@@ -313,7 +313,7 @@ public class DescriptiveStatistics implements StatisticalSummary, Serializable {
     }
 
     /**
-     * Returns the maximum of the available values
+     * Returns the maximum of the available values.
      * @return The max or Double.NaN if no values have been added.
      */
     @Override
@@ -322,7 +322,7 @@ public class DescriptiveStatistics implements StatisticalSummary, Serializable {
     }
 
     /**
-    * Returns the minimum of the available values
+    * Returns the minimum of the available values.
     * @return The min or Double.NaN if no values have been added.
     */
     @Override
@@ -331,7 +331,7 @@ public class DescriptiveStatistics implements StatisticalSummary, Serializable {
     }
 
     /**
-     * Returns the number of available values
+     * Returns the number of available values.
      * @return The number of available values
      */
     @Override
@@ -358,7 +358,7 @@ public class DescriptiveStatistics implements StatisticalSummary, Serializable {
     }
 
     /**
-     * Resets all statistics and storage
+     * Resets all statistics and storage.
      */
     public void clear() {
         eDA.clear();
@@ -433,7 +433,7 @@ public class DescriptiveStatistics implements StatisticalSummary, Serializable {
     }
 
     /**
-     * Returns the element at the specified index
+     * Returns the element at the specified index.
      * @param index The Index of the element
      * @return return the element at the specified index
      */

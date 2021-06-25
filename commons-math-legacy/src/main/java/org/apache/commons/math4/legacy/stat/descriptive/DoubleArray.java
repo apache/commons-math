@@ -60,14 +60,14 @@ interface DoubleArray { // Not in public API.
     void setElement(int index, double value);
 
     /**
-     * Adds an element to the end of this expandable array
+     * Adds an element to the end of this expandable array.
      *
      * @param value to be added to end of array
      */
     void addElement(double value);
 
     /**
-     * Adds elements to the end of this expandable array
+     * Adds elements to the end of this expandable array.
      *
      * @param values to be added to end of array
      */
@@ -103,7 +103,7 @@ interface DoubleArray { // Not in public API.
     double[] getElements();
 
     /**
-     * Clear the double array
+     * Clear the double array.
      */
     void clear();
 

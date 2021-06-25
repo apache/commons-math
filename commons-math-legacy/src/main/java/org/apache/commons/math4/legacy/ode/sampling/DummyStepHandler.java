@@ -33,7 +33,7 @@ package org.apache.commons.math4.legacy.ode.sampling;
  * @since 1.2
  */
 
-public class DummyStepHandler implements StepHandler {
+public final class DummyStepHandler implements StepHandler {
 
     /** Private constructor.
      * The constructor is private to prevent users from creating

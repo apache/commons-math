@@ -111,7 +111,7 @@ public interface FirstOrderFieldIntegrator<T extends RealFieldElement<T>> {
      * @see #addEventHandler(FieldEventHandler, double, double, int)
      * @see #clearEventHandlers()
      */
-    Collection<FieldEventHandler<T> > getEventHandlers();
+    Collection<FieldEventHandler<T>> getEventHandlers();
 
     /** Remove all the event handlers that have been added to the integrator.
      * @see #addEventHandler(FieldEventHandler, double, double, int)

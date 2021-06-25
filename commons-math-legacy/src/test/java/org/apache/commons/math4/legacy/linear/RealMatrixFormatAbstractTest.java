@@ -28,8 +28,8 @@ import org.apache.commons.math4.legacy.exception.MathParseException;
 
 public abstract class RealMatrixFormatAbstractTest {
 
-    RealMatrixFormat realMatrixFormat = null;
-    RealMatrixFormat realMatrixFormatOctave = null;
+    private RealMatrixFormat realMatrixFormat = null;
+    private RealMatrixFormat realMatrixFormatOctave = null;
 
     protected abstract Locale getLocale();
 

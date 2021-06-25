@@ -36,7 +36,11 @@ public final class PolynomialFunctionLagrangeFormTest {
     @Test
     public void testLinearFunction() {
         PolynomialFunctionLagrangeForm p;
-        double c[], z, expected, result, tolerance = 1E-12;
+        double[] c;
+        double z;
+        double expected;
+        double result;
+        double tolerance = 1E-12;
 
         // p(x) = 1.5x - 4
         double x[] = { 0.0, 3.0 };
@@ -66,7 +70,11 @@ public final class PolynomialFunctionLagrangeFormTest {
     @Test
     public void testQuadraticFunction() {
         PolynomialFunctionLagrangeForm p;
-        double c[], z, expected, result, tolerance = 1E-12;
+        double[] c;
+        double z;
+        double expected;
+        double result;
+        double tolerance = 1E-12;
 
         // p(x) = 2x^2 + 5x - 3 = (2x - 1)(x + 3)
         double x[] = { 0.0, -1.0, 0.5 };
@@ -97,7 +105,11 @@ public final class PolynomialFunctionLagrangeFormTest {
     @Test
     public void testQuinticFunction() {
         PolynomialFunctionLagrangeForm p;
-        double c[], z, expected, result, tolerance = 1E-12;
+        double[] c;
+        double z;
+        double expected;
+        double result;
+        double tolerance = 1E-12;
 
         // p(x) = x^5 - x^4 - 7x^3 + x^2 + 6x = x(x^2 - 1)(x + 2)(x - 3)
         double x[] = { 1.0, -1.0, 2.0, 3.0, -3.0, 0.5 };

@@ -68,7 +68,7 @@ public class ContinuousOutputFieldModelTest {
         integ.addStepHandler(cm);
         integ.integrate(new FieldExpandableODE<>(pb), pb.getInitialState(), pb.getFinalTime());
 
-        Random random = new Random(347588535632l);
+        Random random = new Random(347588535632L);
         T maxError    = field.getZero();
         T maxErrorDot = field.getZero();
         for (int i = 0; i < 1000; ++i) {

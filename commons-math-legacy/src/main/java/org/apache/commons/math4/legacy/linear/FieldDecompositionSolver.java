@@ -46,7 +46,7 @@ public interface FieldDecompositionSolver<T extends FieldElement<T>> {
      * @throws SingularMatrixException
      * if the decomposed matrix is singular.
      */
-    FieldVector<T> solve(final FieldVector<T> b);
+    FieldVector<T> solve(FieldVector<T> b);
 
     /** Solve the linear equation A &times; X = B for matrices A.
      * <p>The A matrix is implicit, it is provided by the underlying
@@ -58,7 +58,7 @@ public interface FieldDecompositionSolver<T extends FieldElement<T>> {
      * @throws SingularMatrixException
      * if the decomposed matrix is singular.
      */
-    FieldMatrix<T> solve(final FieldMatrix<T> b);
+    FieldMatrix<T> solve(FieldMatrix<T> b);
 
     /**
      * Check if the decomposed matrix is non-singular.

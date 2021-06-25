@@ -26,14 +26,14 @@ import org.apache.commons.math4.legacy.exception.util.LocalizedFormats;
  */
 public class ConfidenceInterval {
 
-    /** Lower endpoint of the interval */
+    /** Lower endpoint of the interval. */
     private double lowerBound;
 
-    /** Upper endpoint of the interval */
+    /** Upper endpoint of the interval. */
     private double upperBound;
 
     /**
-     * The asserted probability that the interval contains the population
+     * The asserted probability that the interval contains the population.
      * parameter
      */
     private double confidenceLevel;

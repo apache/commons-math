@@ -145,7 +145,6 @@ public final class BicubicInterpolatorTest {
 
         final BicubicInterpolator interpolator = new BicubicInterpolator();
         final BicubicInterpolatingFunction p = interpolator.interpolate(xval, yval, zval);
-        double x, y;
 
         final UniformRandomProvider rng = RandomSource.create(RandomSource.WELL_19937_C);
         final ContinuousDistribution.Sampler distX = new UniformContinuousDistribution(xval[0], xval[xval.length - 1]).createSampler(rng);
@@ -153,8 +152,8 @@ public final class BicubicInterpolatorTest {
 
         int count = 0;
         while (true) {
-            x = distX.sample();
-            y = distY.sample();
+            double x = distX.sample();
+            double y = distY.sample();
             if (!p.isValidPoint(x, y)) {
                 if (print) {
                     System.out.println("# " + x + " " + y);

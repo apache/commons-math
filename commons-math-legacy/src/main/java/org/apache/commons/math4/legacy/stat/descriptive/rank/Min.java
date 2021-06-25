@@ -39,13 +39,13 @@ import org.apache.commons.math4.legacy.core.MathArrays;
  */
 public class Min extends AbstractStorelessUnivariateStatistic implements Serializable {
 
-    /** Serializable version identifier */
+    /** Serializable version identifier. */
     private static final long serialVersionUID = 20150412L;
 
-    /**Number of values that have been added */
+    /**Number of values that have been added. */
     private long n;
 
-    /**Current value of the statistic */
+    /**Current value of the statistic. */
     private double value;
 
     /**

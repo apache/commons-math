@@ -72,19 +72,19 @@ import org.apache.commons.math4.legacy.core.jdkmath.AccurateMath;
  */
 public class NaturalRanking implements RankingAlgorithm {
 
-    /** default NaN strategy */
+    /** default NaN strategy. */
     public static final NaNStrategy DEFAULT_NAN_STRATEGY = NaNStrategy.FAILED;
 
-    /** default ties strategy */
+    /** default ties strategy. */
     public static final TiesStrategy DEFAULT_TIES_STRATEGY = TiesStrategy.AVERAGE;
 
-    /** NaN strategy - defaults to NaNs maximal */
+    /** NaN strategy - defaults to NaNs maximal. */
     private final NaNStrategy nanStrategy;
 
-    /** Ties strategy - defaults to ties averaged */
+    /** Ties strategy - defaults to ties averaged. */
     private final TiesStrategy tiesStrategy;
 
-    /** Source of random data - used only when ties strategy is RANDOM */
+    /** Source of random data - used only when ties strategy is RANDOM. */
     private final RandomUtils.DataGenerator randomData;
 
     /**
@@ -163,7 +163,7 @@ public class NaturalRanking implements RankingAlgorithm {
     }
 
     /**
-     * Return the NaNStrategy
+     * Return the NaNStrategy.
      *
      * @return returns the NaNStrategy
      */
@@ -172,7 +172,7 @@ public class NaturalRanking implements RankingAlgorithm {
     }
 
     /**
-     * Return the TiesStrategy
+     * Return the TiesStrategy.
      *
      * @return the TiesStrategy
      */
@@ -429,10 +429,10 @@ public class NaturalRanking implements RankingAlgorithm {
      */
     private static class IntDoublePair implements Comparable<IntDoublePair>  {
 
-        /** Value of the pair */
+        /** Value of the pair. */
         private final double value;
 
-        /** Original position of the pair */
+        /** Original position of the pair. */
         private final int position;
 
         /**

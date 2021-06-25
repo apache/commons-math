@@ -55,7 +55,7 @@ public class ChromosomeTest {
     private abstract static class DummyChromosome extends Chromosome {
         private final int repr;
 
-        public DummyChromosome(final int repr) {
+        DummyChromosome(final int repr) {
             this.repr = repr;
         }
         @Override

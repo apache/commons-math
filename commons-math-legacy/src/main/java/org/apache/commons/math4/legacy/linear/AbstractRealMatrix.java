@@ -49,7 +49,7 @@ public abstract class AbstractRealMatrix
     }
 
     /**
-     * Creates a matrix with no data
+     * Creates a matrix with no data.
      */
     protected AbstractRealMatrix() {}
 
@@ -958,7 +958,7 @@ public abstract class AbstractRealMatrix
         if (object == this ) {
             return true;
         }
-        if (object instanceof RealMatrix == false) {
+        if (!(object instanceof RealMatrix)) {
             return false;
         }
         RealMatrix m = (RealMatrix) object;

@@ -81,7 +81,7 @@ public class DifferentiatorVectorMultivariateJacobianFunction implements Multiva
     }
 
     /**
-     * Returns first order derivative for the function passed in using a differentiator
+     * Returns first order derivative for the function passed in using a differentiator.
      * @param univariateVectorFunction the function to differentiate
      * @param atParameterValue the point at which to differentiate it at
      * @return the slopes at that point

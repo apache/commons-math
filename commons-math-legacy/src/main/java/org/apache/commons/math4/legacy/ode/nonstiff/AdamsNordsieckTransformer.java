@@ -128,7 +128,7 @@ import org.apache.commons.math4.legacy.field.linalg.FieldLUDecomposition;
  *
  * @since 2.0
  */
-public class AdamsNordsieckTransformer {
+public final class AdamsNordsieckTransformer {
 
     /** Cache for already computed coefficients. */
     private static final Map<Integer, AdamsNordsieckTransformer> CACHE =

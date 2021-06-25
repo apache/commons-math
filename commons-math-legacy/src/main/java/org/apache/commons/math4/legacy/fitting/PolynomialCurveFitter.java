@@ -16,8 +16,6 @@
  */
 package org.apache.commons.math4.legacy.fitting;
 
-import java.util.Collection;
-
 import org.apache.commons.math4.legacy.analysis.polynomials.PolynomialFunction;
 
 /**
@@ -32,7 +30,7 @@ import org.apache.commons.math4.legacy.analysis.polynomials.PolynomialFunction;
  *
  * @since 3.3
  */
-public class PolynomialCurveFitter extends SimpleCurveFitter {
+public final class PolynomialCurveFitter extends SimpleCurveFitter {
     /** Parametric function to be fitted. */
     private static final PolynomialFunction.Parametric FUNCTION = new PolynomialFunction.Parametric();
 

@@ -162,8 +162,9 @@ public class SimpleCurveFitter extends AbstractCurveFitter {
     /**
      * Guesses the parameters.
      */
-    public static abstract class ParameterGuesser {
-        private final Comparator<WeightedObservedPoint> CMP = new Comparator<WeightedObservedPoint>() {
+    public abstract static class ParameterGuesser {
+        /** Comparator. */
+        private static final Comparator<WeightedObservedPoint> CMP = new Comparator<WeightedObservedPoint>() {
                 /** {@inheritDoc} */
                 @Override
                 public int compare(WeightedObservedPoint p1,

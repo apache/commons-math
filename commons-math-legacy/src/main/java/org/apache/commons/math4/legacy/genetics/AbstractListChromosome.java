@@ -29,7 +29,7 @@ import java.util.List;
  */
 public abstract class AbstractListChromosome<T> extends Chromosome {
 
-    /** List representing the chromosome */
+    /** List representing the chromosome. */
     private final List<T> representation;
 
     /**
@@ -96,7 +96,7 @@ public abstract class AbstractListChromosome<T> extends Chromosome {
      * @param chromosomeRepresentation the inner array representation of the new chromosome.
      * @return new instance extended from FixedLengthChromosome with the given arrayRepresentation
      */
-    public abstract AbstractListChromosome<T> newFixedLengthChromosome(final List<T> chromosomeRepresentation);
+    public abstract AbstractListChromosome<T> newFixedLengthChromosome(List<T> chromosomeRepresentation);
 
     /** {@inheritDoc} */
     @Override

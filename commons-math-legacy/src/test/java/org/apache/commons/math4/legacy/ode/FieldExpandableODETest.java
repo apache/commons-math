@@ -281,7 +281,7 @@ public class FieldExpandableODETest {
         equation.getMapper().extractEquationData(+1, complete);
     }
 
-    private static class  Linear<T extends RealFieldElement<T>>
+    private static final class  Linear<T extends RealFieldElement<T>>
         implements  FirstOrderFieldDifferentialEquations<T>, FieldSecondaryEquations<T> {
 
         private final Field<T> field;

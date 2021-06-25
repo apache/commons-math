@@ -118,7 +118,7 @@ public class EventStateTest {
         private static double lastTriggerTime = Double.NEGATIVE_INFINITY;
         private final double tEvent;
 
-        public ResettingEvent(final double tEvent) {
+        ResettingEvent(final double tEvent) {
             this.tEvent = tEvent;
         }
 
@@ -204,7 +204,7 @@ public class EventStateTest {
         private int index;
         private final double target;
 
-        public SecondaryStateEvent(final int index, final double target) {
+        SecondaryStateEvent(final int index, final double target) {
             this.index  = index;
             this.target = target;
         }
@@ -255,16 +255,15 @@ public class EventStateTest {
         double tEnd = integrator.integrate(equation, 0.0, y, 100.0, y);
         Assert.assertEquals( 2, eventsGenerator.getCount());
         Assert.assertEquals( 9.0 + 1.0 / 128, tEnd, 1.0 / 32.0);
-
     }
 
     private class CloseEventsGenerator implements EventHandler {
 
-        final double r1;
-        final double r2;
-        int count;
+        private final double r1;
+        private final double r2;
+        private int count;
 
-        public CloseEventsGenerator(final double r1, final double r2) {
+        CloseEventsGenerator(final double r1, final double r2) {
             this.r1    = r1;
             this.r2    = r2;
             this.count = 0;
@@ -291,7 +290,5 @@ public class EventStateTest {
         public int getCount() {
             return count;
         }
-
     }
-
 }

@@ -36,9 +36,9 @@ public abstract class AbstractOptimizationProblem<PAIR>
     /** Callback to use for the iteration counter. */
     private static final MaxIterCallback MAX_ITER_CALLBACK = new MaxIterCallback();
 
-    /** max evaluations */
+    /** max evaluations. */
     private final int maxEvaluations;
-    /** max iterations */
+    /** max iterations. */
     private final int maxIterations;
     /** Convergence checker. */
     private final ConvergenceChecker<PAIR> checker;

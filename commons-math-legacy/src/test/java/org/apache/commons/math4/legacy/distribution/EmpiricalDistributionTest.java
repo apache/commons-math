@@ -703,7 +703,7 @@ public final class EmpiricalDistributionTest extends RealDistributionAbstractTes
      */
     private class ConstantKernelEmpiricalDistribution extends EmpiricalDistribution {
         private static final long serialVersionUID = 1L;
-        public ConstantKernelEmpiricalDistribution(int i) {
+        ConstantKernelEmpiricalDistribution(int i) {
             super(i);
         }
         // Use constant distribution equal to bin mean within bin
@@ -718,7 +718,7 @@ public final class EmpiricalDistributionTest extends RealDistributionAbstractTes
      */
     private class UniformKernelEmpiricalDistribution extends EmpiricalDistribution {
         private static final long serialVersionUID = 2963149194515159653L;
-        public UniformKernelEmpiricalDistribution(int i) {
+        UniformKernelEmpiricalDistribution(int i) {
             super(i);
         }
         @Override

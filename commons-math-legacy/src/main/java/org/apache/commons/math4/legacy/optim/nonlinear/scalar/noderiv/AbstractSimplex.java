@@ -202,8 +202,8 @@ public abstract class AbstractSimplex implements OptimizationData {
      * @throws org.apache.commons.math4.legacy.exception.TooManyEvaluationsException
      * if the algorithm fails to converge.
      */
-    public abstract void iterate(final MultivariateFunction evaluationFunction,
-                                 final Comparator<PointValuePair> comparator);
+    public abstract void iterate(MultivariateFunction evaluationFunction,
+                                 Comparator<PointValuePair> comparator);
 
     /**
      * Build an initial simplex.

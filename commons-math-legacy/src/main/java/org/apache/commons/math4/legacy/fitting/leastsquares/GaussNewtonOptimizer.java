@@ -261,7 +261,7 @@ public class GaussNewtonOptimizer implements LeastSquaresOptimizer {
      *
      * @param jacobian  the m by n jacobian matrix, J. Input.
      * @param residuals the m by 1 residual vector, r. Input.
-     * @return  the n by n normal matrix and  the n by 1 J<sup>Tr vector.
+     * @return  the n by n normal matrix and  the n by 1 J<sup>Tr</sup> vector.
      */
     private static Pair<RealMatrix, RealVector> computeNormalMatrix(final RealMatrix jacobian,
                                                                     final RealVector residuals) {

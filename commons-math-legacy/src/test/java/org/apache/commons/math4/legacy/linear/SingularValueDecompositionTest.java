@@ -48,7 +48,7 @@ public class SingularValueDecompositionTest {
         final double[] singularValues = { 123.456, 2.3, 1.001, 0.999 };
         final int rows    = singularValues.length + 2;
         final int columns = singularValues.length;
-        Random r = new Random(15338437322523l);
+        Random r = new Random(15338437322523L);
         SingularValueDecomposition svd =
             new SingularValueDecomposition(createTestMatrix(r, rows, columns, singularValues));
         double[] computedSV = svd.getSingularValues();
@@ -63,7 +63,7 @@ public class SingularValueDecompositionTest {
         final double[] singularValues = { 123.456, 2.3, 1.001, 0.999 };
         final int rows    = singularValues.length;
         final int columns = singularValues.length + 2;
-        Random r = new Random(732763225836210l);
+        Random r = new Random(732763225836210L);
         SingularValueDecomposition svd =
             new SingularValueDecomposition(createTestMatrix(r, rows, columns, singularValues));
         double[] computedSV = svd.getSingularValues();

@@ -28,7 +28,7 @@ import org.apache.commons.math4.legacy.analysis.MultivariateVectorFunction;
 class CircleVectorial {
     private ArrayList<Vector2D> points;
 
-    public CircleVectorial() {
+    CircleVectorial() {
         points  = new ArrayList<>();
     }
 

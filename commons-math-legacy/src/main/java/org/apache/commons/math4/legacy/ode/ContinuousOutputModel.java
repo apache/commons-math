@@ -89,7 +89,7 @@ import org.apache.commons.math4.legacy.core.jdkmath.AccurateMath;
 public class ContinuousOutputModel
   implements StepHandler, Serializable {
 
-    /** Serializable version identifier */
+    /** Serializable version identifier. */
     private static final long serialVersionUID = -1417964919405031606L;
 
     /** Initial integration time. */

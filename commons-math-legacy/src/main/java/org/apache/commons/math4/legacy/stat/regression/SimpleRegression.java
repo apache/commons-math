@@ -62,39 +62,39 @@ import org.apache.commons.numbers.core.Precision;
  */
 public class SimpleRegression implements Serializable, UpdatingMultipleLinearRegression {
 
-    /** Serializable version identifier */
+    /** Serializable version identifier. */
     private static final long serialVersionUID = -3004689053607543335L;
 
-    /** sum of x values */
+    /** sum of x values. */
     private double sumX;
 
-    /** total variation in x (sum of squared deviations from xbar) */
+    /** total variation in x (sum of squared deviations from xbar). */
     private double sumXX;
 
-    /** sum of y values */
+    /** sum of y values. */
     private double sumY;
 
-    /** total variation in y (sum of squared deviations from ybar) */
+    /** total variation in y (sum of squared deviations from ybar). */
     private double sumYY;
 
-    /** sum of products */
+    /** sum of products. */
     private double sumXY;
 
-    /** number of observations */
+    /** number of observations. */
     private long n;
 
-    /** mean of accumulated x values, used in updating formulas */
+    /** mean of accumulated x values, used in updating formulas. */
     private double xbar;
 
-    /** mean of accumulated y values, used in updating formulas */
+    /** mean of accumulated y values, used in updating formulas. */
     private double ybar;
 
-    /** include an intercept or not */
+    /** include an intercept or not. */
     private final boolean hasIntercept;
     // ---------------------Public methods--------------------------------------
 
     /**
-     * Create an empty SimpleRegression instance
+     * Create an empty SimpleRegression instance.
      */
     public SimpleRegression() {
         this(true);
@@ -783,9 +783,9 @@ public class SimpleRegression implements Serializable, UpdatingMultipleLinearReg
             if (AccurateMath.abs(sumXX) > Precision.SAFE_MIN) {
                 final double[] params = new double[] { getIntercept(), getSlope() };
                 final double mse = getMeanSquareError();
-                final double _syy = sumYY + sumY * sumY / n;
+                final double syy = sumYY + sumY * sumY / n;
                 final double[] vcv = new double[] { mse * (xbar * xbar / sumXX + 1.0 / n), -xbar * mse / sumXX, mse / sumXX };
-                return new RegressionResults(params, new double[][] { vcv }, true, n, 2, sumY, _syy, getSumSquaredErrors(), true,
+                return new RegressionResults(params, new double[][] { vcv }, true, n, 2, sumY, syy, getSumSquaredErrors(), true,
                         false);
             } else {
                 final double[] params = new double[] { sumY / n, Double.NaN };
@@ -813,7 +813,7 @@ public class SimpleRegression implements Serializable, UpdatingMultipleLinearReg
     }
 
     /**
-     * Performs a regression on data present in buffers including only regressors
+     * Performs a regression on data present in buffers including only regressors.
      * indexed in variablesToInclude and outputs a RegressionResults object
      * @param variablesToInclude an array of indices of regressors to include
      * @return RegressionResults acts as a container of regression output
@@ -846,28 +846,28 @@ public class SimpleRegression implements Serializable, UpdatingMultipleLinearReg
                 if( variablesToInclude[0] != 1 && variablesToInclude[0] != 0 ){
                      throw new OutOfRangeException( variablesToInclude[0],0,1 );
                 }
-                final double _mean = sumY * sumY / n;
-                final double _syy = sumYY + _mean;
+                final double mean = sumY * sumY / n;
+                final double syy = sumYY + mean;
                 if( variablesToInclude[0] == 0 ){
                     //just the mean
                     final double[] vcv = new double[]{ sumYY/(((n-1)*n)) };
                     final double[] params = new double[]{ ybar };
                     return new RegressionResults(
                       params, new double[][]{vcv}, true, n, 1,
-                      sumY, _syy+_mean, sumYY,true,false);
+                      sumY, syy+mean, sumYY,true,false);
 
                 }else if( variablesToInclude[0] == 1){
                     //final double _syy = sumYY + sumY * sumY / ((double) n);
-                    final double _sxx = sumXX + sumX * sumX / n;
-                    final double _sxy = sumXY + sumX * sumY / n;
-                    final double _sse = AccurateMath.max(0d, _syy - _sxy * _sxy / _sxx);
-                    final double _mse = _sse/((n-1));
-                    if( !Double.isNaN(_sxx) ){
-                        final double[] vcv = new double[]{ _mse / _sxx };
-                        final double[] params = new double[]{ _sxy/_sxx };
+                    final double sxx = sumXX + sumX * sumX / n;
+                    final double sxy = sumXY + sumX * sumY / n;
+                    final double sse = AccurateMath.max(0d, syy - sxy * sxy / sxx);
+                    final double mse = sse/((n-1));
+                    if( !Double.isNaN(sxx) ){
+                        final double[] vcv = new double[]{ mse / sxx };
+                        final double[] params = new double[]{ sxy/sxx };
                         return new RegressionResults(
                                     params, new double[][]{vcv}, true, n, 1,
-                                    sumY, _syy, _sse,false,false);
+                                    sumY, syy, sse,false,false);
                     }else{
                         final double[] vcv = new double[]{Double.NaN };
                         final double[] params = new double[]{ Double.NaN };

@@ -27,7 +27,7 @@ import org.apache.commons.math4.legacy.exception.DimensionMismatchException;
  */
 public class VectorialMean implements Serializable {
 
-    /** Serializable version identifier */
+    /** Serializable version identifier. */
     private static final long serialVersionUID = 8223009086481006892L;
 
     /** Means for each component. */

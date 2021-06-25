@@ -23,6 +23,20 @@
   <suppress checks="JavadocPackage" />
 
   <suppress checks="FileLength" files=".*[/\\]BOBYQAOptimizer.java" />
+  <suppress checks="MethodLength" files=".*[/\\].*BrentSolver.java" />
+  <suppress checks="MethodLength" files=".*[/\\]BrentOptimizer.java" />
+  <suppress checks="MethodLength" files=".*[/\\]BesselJ.java" />
+  <suppress checks="MethodLength" files=".*[/\\]GraggBulirschStoerIntegrator.java" />
+  <suppress checks="MethodLength" files=".*[/\\]RealVector.java" />
+  <suppress checks="MethodLength" files=".*[/\\]EigenDecomposition.java" />
+  <suppress checks="MethodLength" files=".*[/\\]LevenbergMarquardtOptimizer.java" />
+  <suppress checks="MethodLength" files=".*[/\\]TricubicInterpolatingFunction.java" />
+  <suppress checks="MethodLength" files=".*[/\\]SingularValueDecomposition.java" />
+  <suppress checks="MemberName" files=".*[/\\]DormandPrince853FieldIntegrator.java" />
+  <suppress checks="MemberName" files=".*[/\\]GillFieldStepInterpolator.java" />
+  <suppress checks="MemberName" files=".*[/\\]CMAESOptimizer.java" />
+  <suppress checks="LocalFinalVariableName" files=".*[/\\]SingularValueDecomposition.java" />
+  <suppress checks="LocalFinalVariableName" files=".*[/\\]gauss[/\\]Legendre.*" />
 
   <!-- Be more lenient on tests. -->
   <suppress checks="Javadoc" files=".*[/\\]test[/\\].*" />
@@ -33,4 +47,12 @@
   <suppress checks="IllegalCatch" files=".*[/\\]test[/\\].*" />
   <suppress checks="MethodName" files=".*[/\\]test[/\\].*" />
   <suppress checks="ConstantName" files=".*[/\\]test[/\\].*" />
+  <suppress checks="DeclarationOrder" files=".*[/\\]test[/\\].*" />
+  <suppress checks="MethodLength" files=".*[/\\]test[/\\].*" />
+  <suppress checks="ParameterNumber" files=".*[/\\]test[/\\].*" />
+  <suppress checks="LocalVariableName" files=".*[/\\]test[/\\].*" />
+  <suppress checks="MemberName" files=".*[/\\]test[/\\].*" />
+  <suppress checks="LocalFinalVariableName" files=".*[/\\]test[/\\].*" />
+  <!-- Allow System.(out|err)  -->
+  <suppress checks="Regexp" files=".*[/\\]test[/\\].*" />
 </suppressions>

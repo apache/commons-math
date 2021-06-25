@@ -36,7 +36,7 @@ public class TTestTest {
     private double[] tooShortObs = { 1.0 };
     private double[] emptyObs = {};
     private SummaryStatistics emptyStats = new SummaryStatistics();
-   SummaryStatistics tooShortStats = null;
+    private SummaryStatistics tooShortStats = null;
 
     @Before
     public void setUp() {

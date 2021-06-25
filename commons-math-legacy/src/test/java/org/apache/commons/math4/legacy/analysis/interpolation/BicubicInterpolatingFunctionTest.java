@@ -131,10 +131,8 @@ public final class BicubicInterpolatingFunctionTest {
             = new BicubicInterpolatingFunction(xval, yval, f,
                                                      dFdX, dFdY, dFdXdY);
 
-        double x, y;
-
-        x = xMin;
-        y = yMin;
+        double x = xMin;
+        double y = yMin;
         Assert.assertTrue(bcf.isValidPoint(x, y));
         // Ensure that no exception is thrown.
         bcf.value(x, y);

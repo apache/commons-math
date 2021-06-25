@@ -44,38 +44,38 @@ import org.apache.commons.math4.legacy.stat.descriptive.summary.SumOfSquares;
  */
 public final class StatUtils {
 
-    /** sum */
+    /** sum. */
     private static final UnivariateStatistic SUM = new Sum();
 
-    /** sumSq */
+    /** sumSq. */
     private static final UnivariateStatistic SUM_OF_SQUARES = new SumOfSquares();
 
-    /** prod */
+    /** prod. */
     private static final UnivariateStatistic PRODUCT = new Product();
 
-    /** sumLog */
+    /** sumLog. */
     private static final UnivariateStatistic SUM_OF_LOGS = new SumOfLogs();
 
-    /** min */
+    /** min. */
     private static final UnivariateStatistic MIN = new Min();
 
-    /** max */
+    /** max. */
     private static final UnivariateStatistic MAX = new Max();
 
-    /** mean */
+    /** mean. */
     private static final UnivariateStatistic MEAN = new Mean();
 
-    /** variance */
+    /** variance. */
     private static final Variance VARIANCE = new Variance();
 
-    /** percentile */
+    /** percentile. */
     private static final Percentile PERCENTILE = new Percentile();
 
-    /** geometric mean */
+    /** geometric mean. */
     private static final GeometricMean GEOMETRIC_MEAN = new GeometricMean();
 
     /**
-     * Private Constructor
+     * Private Constructor.
      */
     private StatUtils() {
     }

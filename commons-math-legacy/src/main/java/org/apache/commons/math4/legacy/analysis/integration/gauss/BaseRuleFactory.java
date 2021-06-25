@@ -126,7 +126,7 @@ public abstract class BaseRuleFactory<T extends Number> {
     protected abstract Pair<T[], T[]> computeRule(int numberOfPoints);
 
     /**
-     * Converts the from the actual {@code Number} type to {@code double}
+     * Converts the from the actual {@code Number} type to {@code double}.
      *
      * @param <T> Type of the number used to represent the points and
      * weights of the quadrature rules.

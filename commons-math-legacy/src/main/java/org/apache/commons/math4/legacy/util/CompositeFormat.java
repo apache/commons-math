@@ -25,7 +25,7 @@ import java.util.Locale;
  * Base class for formatters of composite objects (complex numbers, vectors ...).
  *
  */
-public class CompositeFormat {
+public final class CompositeFormat {
 
     /**
      * Class contains only static methods.

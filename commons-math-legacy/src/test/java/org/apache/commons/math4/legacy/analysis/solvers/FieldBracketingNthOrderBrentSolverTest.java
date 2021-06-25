@@ -138,20 +138,19 @@ public final class FieldBracketingNthOrderBrentSolverTest {
         Dfp xResult = solver.solve(maxEval, f, field.newDfp(min), field.newDfp(max),
                                    allowedSolution);
         Dfp yResult = f.value(xResult);
+        boolean increasing;
         switch (allowedSolution) {
         case ANY_SIDE :
             Assert.assertTrue(yResult.abs().lessThan(functionValueAccuracy.multiply(2)));
             break;
-        case LEFT_SIDE : {
-            boolean increasing = f.value(xResult).add(absoluteAccuracy).greaterThan(yResult);
+        case LEFT_SIDE :
+            increasing = f.value(xResult).add(absoluteAccuracy).greaterThan(yResult);
             Assert.assertTrue(increasing ? yResult.negativeOrNull() : yResult.positiveOrNull());
             break;
-        }
-        case RIGHT_SIDE : {
-            boolean increasing = f.value(xResult).add(absoluteAccuracy).greaterThan(yResult);
+        case RIGHT_SIDE :
+            increasing = f.value(xResult).add(absoluteAccuracy).greaterThan(yResult);
             Assert.assertTrue(increasing ? yResult.positiveOrNull() : yResult.negativeOrNull());
             break;
-        }
         case BELOW_SIDE :
             Assert.assertTrue(yResult.negativeOrNull());
             break;

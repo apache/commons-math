@@ -128,16 +128,12 @@ public class TricubicInterpolator
             /** {@inheritDoc} */
             @Override
             public boolean isValidPoint(double x, double y, double z) {
-                if (x < xval[1] ||
+                return !(x < xval[1] ||
                     x > xval[xval.length - 2] ||
                     y < yval[1] ||
                     y > yval[yval.length - 2] ||
                     z < zval[1] ||
-                    z > zval[zval.length - 2]) {
-                    return false;
-                } else {
-                    return true;
-                }
+                    z > zval[zval.length - 2]);
             }
         };
     }

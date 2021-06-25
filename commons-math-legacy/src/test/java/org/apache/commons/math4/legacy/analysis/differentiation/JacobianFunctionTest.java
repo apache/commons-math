@@ -50,7 +50,7 @@ public class JacobianFunctionTest {
 
         private final double radius;
 
-        public SphereMapping(final double radius) {
+        SphereMapping(final double radius) {
             this.radius = radius;
         }
 

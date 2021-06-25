@@ -143,18 +143,18 @@ public class MannWhitneyUTest {
          * U1 = R1 - (n1 * (n1 + 1)) / 2 where R1 is sum of ranks for sample 1,
          * e.g. x, n1 is the number of observations in sample 1.
          */
-        final double U1 = sumRankX - ((long) x.length * (x.length + 1)) / 2;
+        final double u1 = sumRankX - ((long) x.length * (x.length + 1)) / 2;
 
         /*
          * It can be shown that U1 + U2 = n1 * n2
          */
-        final double U2 = (long) x.length * y.length - U1;
+        final double u2 = (long) x.length * y.length - u1;
 
-        return AccurateMath.min(U1, U2);
+        return AccurateMath.min(u1, u2);
     }
 
     /**
-     * @param Umin smallest Mann-Whitney U value
+     * @param umin smallest Mann-Whitney U value
      * @param n1 number of subjects in first sample
      * @param n2 number of subjects in second sample
      * @return two-sided asymptotic p-value
@@ -163,7 +163,7 @@ public class MannWhitneyUTest {
      * @throws MaxCountExceededException if the maximum number of
      * iterations is exceeded
      */
-    private double calculateAsymptoticPValue(final double Umin,
+    private double calculateAsymptoticPValue(final double umin,
                                              final int n1,
                                              final int n2)
         throws ConvergenceException, MaxCountExceededException {
@@ -174,10 +174,10 @@ public class MannWhitneyUTest {
         final long n1n2prod = (long) n1 * n2;
 
         // http://en.wikipedia.org/wiki/Mann%E2%80%93Whitney_U#Normal_approximation
-        final double EU = n1n2prod / 2.0;
-        final double VarU = n1n2prod * (n1 + n2 + 1) / 12.0;
+        final double eU = n1n2prod / 2.0;
+        final double varU = n1n2prod * (n1 + n2 + 1) / 12.0;
 
-        final double z = (Umin - EU) / AccurateMath.sqrt(VarU);
+        final double z = (umin - eU) / AccurateMath.sqrt(varU);
 
         // No try-catch or advertised exception because args are valid
         // pass a null rng to avoid unneeded overhead as we will not sample from this distribution
@@ -223,8 +223,8 @@ public class MannWhitneyUTest {
 
         ensureDataConformance(x, y);
 
-        final double Umin = mannWhitneyU(x, y);
+        final double uMin = mannWhitneyU(x, y);
 
-        return calculateAsymptoticPValue(Umin, x.length, y.length);
+        return calculateAsymptoticPValue(uMin, x.length, y.length);
     }
 }

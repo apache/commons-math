@@ -27,9 +27,9 @@ import org.apache.commons.math4.legacy.linear.RealVector;
  */
 class DenseWeightedEvaluation extends AbstractEvaluation {
 
-    /** the unweighted evaluation */
+    /** the unweighted evaluation. */
     private final Evaluation unweighted;
-    /** reference to the weight square root matrix */
+    /** reference to the weight square root matrix. */
     private final RealMatrix weightSqrt;
 
     /**

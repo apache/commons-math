@@ -73,7 +73,7 @@ public interface UpdatingMultipleLinearRegression {
 
 
     /**
-     * Performs a regression on data present in buffers and outputs a RegressionResults object
+     * Performs a regression on data present in buffers and outputs a RegressionResults object.
      * @return RegressionResults acts as a container of regression output
      * @throws ModelSpecificationException if the model is not correctly specified
      * @throws NoDataException if there is not sufficient data in the model to
@@ -82,7 +82,7 @@ public interface UpdatingMultipleLinearRegression {
     RegressionResults regress() throws ModelSpecificationException, NoDataException;
 
     /**
-     * Performs a regression on data present in buffers including only regressors
+     * Performs a regression on data present in buffers including only regressors.
      * indexed in variablesToInclude and outputs a RegressionResults object
      * @param variablesToInclude an array of indices of regressors to include
      * @return RegressionResults acts as a container of regression output

@@ -25,7 +25,7 @@ import org.apache.commons.math4.legacy.core.FieldElement;
  * @since 3.1
  * @see Decimal64
  */
-public class Decimal64Field implements Field<Decimal64> {
+public final class Decimal64Field implements Field<Decimal64> {
 
     /** The unique instance of this class. */
     private static final Decimal64Field INSTANCE = new Decimal64Field();

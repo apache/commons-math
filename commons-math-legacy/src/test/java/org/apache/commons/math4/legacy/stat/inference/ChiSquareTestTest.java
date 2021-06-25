@@ -191,8 +191,7 @@ public class ChiSquareTestTest {
 
     /** Target values verified using DATAPLOT version 2006.3 */
     @Test
-    public void testChiSquareDataSetsComparisonEqualCounts()
-        {
+    public void testChiSquareDataSetsComparisonEqualCounts() {
         long[] observed1 = {10, 12, 12, 10};
         long[] observed2 = {5, 15, 14, 10};
         Assert.assertEquals("chi-square p value", 0.541096,
@@ -208,8 +207,7 @@ public class ChiSquareTestTest {
 
     /** Target values verified using DATAPLOT version 2006.3 */
     @Test
-    public void testChiSquareDataSetsComparisonUnEqualCounts()
-        {
+    public void testChiSquareDataSetsComparisonUnEqualCounts() {
         long[] observed1 = {10, 12, 12, 10, 15};
         long[] observed2 = {15, 10, 10, 15, 5};
         Assert.assertEquals("chi-square p value", 0.124115,
@@ -227,8 +225,7 @@ public class ChiSquareTestTest {
     }
 
     @Test
-    public void testChiSquareDataSetsComparisonBadCounts()
-        {
+    public void testChiSquareDataSetsComparisonBadCounts() {
         long[] observed1 = {10, -1, 12, 10, 15};
         long[] observed2 = {15, 10, 10, 15, 5};
         try {

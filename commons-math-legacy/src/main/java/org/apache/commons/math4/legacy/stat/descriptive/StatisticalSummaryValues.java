@@ -28,29 +28,29 @@ import org.apache.commons.numbers.core.Precision;
 public class StatisticalSummaryValues implements Serializable,
     StatisticalSummary {
 
-    /** Serialization id */
+    /** Serialization id. */
     private static final long serialVersionUID = -5108854841843722536L;
 
-    /** The sample mean */
+    /** The sample mean. */
     private final double mean;
 
-    /** The sample variance */
+    /** The sample variance. */
     private final double variance;
 
-    /** The number of observations in the sample */
+    /** The number of observations in the sample. */
     private final long n;
 
-    /** The maximum value */
+    /** The maximum value. */
     private final double max;
 
-    /** The minimum value */
+    /** The minimum value. */
     private final double min;
 
-    /** The sum of the sample values */
+    /** The sum of the sample values. */
     private final double sum;
 
     /**
-      * Constructor
+      * Constructor.
       *
       * @param mean  the sample mean
       * @param variance  the sample variance
@@ -152,7 +152,7 @@ public class StatisticalSummaryValues implements Serializable,
     }
 
     /**
-     * Returns hash code based on values of statistics
+     * Returns hash code based on values of statistics.
      *
      * @return hash code
      */

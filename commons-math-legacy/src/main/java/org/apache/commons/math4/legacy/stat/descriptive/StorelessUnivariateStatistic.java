@@ -76,7 +76,7 @@ public interface StorelessUnivariateStatistic extends UnivariateStatistic {
     long getN();
 
     /**
-     * Clears the internal state of the Statistic
+     * Clears the internal state of the Statistic.
      */
     void clear();
 

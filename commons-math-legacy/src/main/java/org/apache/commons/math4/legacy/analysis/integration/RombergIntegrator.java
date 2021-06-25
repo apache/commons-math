@@ -84,7 +84,7 @@ public class RombergIntegrator extends BaseAbstractUnivariateIntegrator {
 
     /**
      * Construct a Romberg integrator with default settings
-     * (max iteration count set to {@link #ROMBERG_MAX_ITERATIONS_COUNT})
+     * (max iteration count set to {@link #ROMBERG_MAX_ITERATIONS_COUNT}).
      */
     public RombergIntegrator() {
         super(DEFAULT_MIN_ITERATIONS_COUNT, ROMBERG_MAX_ITERATIONS_COUNT);

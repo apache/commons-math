@@ -79,7 +79,7 @@ public class FirstOrderConverterTest {
 
       private double omega2;
 
-      public Equations(int n, double omega) {
+      Equations(int n, double omega) {
         this.n = n;
         omega2 = omega * omega;
       }

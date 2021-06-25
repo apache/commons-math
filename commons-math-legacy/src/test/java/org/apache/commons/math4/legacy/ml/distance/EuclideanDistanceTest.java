@@ -24,7 +24,7 @@ import org.apache.commons.math4.legacy.core.jdkmath.AccurateMath;
  * Tests for {@link EuclideanDistance} class.
  */
 public class EuclideanDistanceTest {
-    final DistanceMeasure distance = new EuclideanDistance();
+    private final DistanceMeasure distance = new EuclideanDistance();
 
     @Test
     public void testZero() {

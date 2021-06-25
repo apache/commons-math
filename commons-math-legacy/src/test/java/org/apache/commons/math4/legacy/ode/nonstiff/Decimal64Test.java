@@ -17,7 +17,6 @@
 package org.apache.commons.math4.legacy.ode.nonstiff;
 
 import org.apache.commons.math4.legacy.field.ExtendedFieldElementAbstractTest;
-import org.apache.commons.math4.legacy.ode.nonstiff.Decimal64;
 import org.junit.Assert;
 import org.junit.Test;
 
@@ -45,7 +44,8 @@ public class Decimal64Test extends ExtendedFieldElementAbstractTest<Decimal64> {
 
     @Test
     public void testAdd() {
-        Decimal64 expected, actual;
+        Decimal64 expected;
+        Decimal64 actual;
 
         expected = new Decimal64(X + Y);
         actual = PLUS_X.add(PLUS_Y);
@@ -116,7 +116,8 @@ public class Decimal64Test extends ExtendedFieldElementAbstractTest<Decimal64> {
 
     @Test
     public void testSubtract() {
-        Decimal64 expected, actual;
+        Decimal64 expected;
+        Decimal64 actual;
 
         expected = new Decimal64(X - Y);
         actual = PLUS_X.subtract(PLUS_Y);
@@ -181,7 +182,8 @@ public class Decimal64Test extends ExtendedFieldElementAbstractTest<Decimal64> {
 
     @Test
     public void testNegate() {
-        Decimal64 expected, actual;
+        Decimal64 expected;
+        Decimal64 actual;
 
         expected = MINUS_X;
         actual = PLUS_X.negate();
@@ -214,7 +216,8 @@ public class Decimal64Test extends ExtendedFieldElementAbstractTest<Decimal64> {
 
     @Test
     public void testMultiply() {
-        Decimal64 expected, actual;
+        Decimal64 expected;
+        Decimal64 actual;
 
         expected = new Decimal64(X * Y);
         actual = PLUS_X.multiply(PLUS_Y);
@@ -289,7 +292,8 @@ public class Decimal64Test extends ExtendedFieldElementAbstractTest<Decimal64> {
 
     @Test
     public void testDivide() {
-        Decimal64 expected, actual;
+        Decimal64 expected;
+        Decimal64 actual;
 
         expected = new Decimal64(X / Y);
         actual = PLUS_X.divide(PLUS_Y);
@@ -382,7 +386,8 @@ public class Decimal64Test extends ExtendedFieldElementAbstractTest<Decimal64> {
 
     @Test
     public void testReciprocal() {
-        Decimal64 expected, actual;
+        Decimal64 expected;
+        Decimal64 actual;
 
         expected = new Decimal64(1.0 / X);
         actual = PLUS_X.reciprocal();

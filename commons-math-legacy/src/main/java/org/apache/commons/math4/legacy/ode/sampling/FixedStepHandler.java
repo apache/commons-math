@@ -51,7 +51,7 @@ public interface FixedStepHandler  {
   void init(double t0, double[] y0, double t);
 
   /**
-   * Handle the last accepted step
+   * Handle the last accepted step.
    * @param t time of the current step
    * @param y state vector at t. For efficiency purposes, the {@link
    * StepNormalizer} class reuses the same array on each call, so if

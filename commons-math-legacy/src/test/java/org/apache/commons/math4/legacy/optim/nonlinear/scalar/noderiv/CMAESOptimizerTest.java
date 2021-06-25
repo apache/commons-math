@@ -749,7 +749,7 @@ public class CMAESOptimizerTest {
             axisratio = axra;
         }
 
-        public Ackley() {
+        Ackley() {
             this(1);
         }
 
@@ -763,8 +763,8 @@ public class CMAESOptimizerTest {
                 f += fac * fac * x[i] * x[i];
                 res2 += AccurateMath.cos(2. * AccurateMath.PI * fac * x[i]);
             }
-            f = (20. - 20. * AccurateMath.exp(-0.2 * AccurateMath.sqrt(f / x.length))
-                    + AccurateMath.exp(1.) - AccurateMath.exp(res2 / x.length));
+            f = 20. - 20. * AccurateMath.exp(-0.2 * AccurateMath.sqrt(f / x.length))
+                    + AccurateMath.exp(1.) - AccurateMath.exp(res2 / x.length);
             return f;
         }
     }
@@ -800,8 +800,8 @@ public class CMAESOptimizerTest {
     }
 
     private static class Basis {
-        double[][] basis;
-        Random rand = new Random(2); // use not always the same basis
+        private double[][] basis;
+        private Random rand = new Random(2); // use not always the same basis
 
         double[] Rotate(double[] x) {
             GenBasis(x.length);
@@ -815,35 +815,37 @@ public class CMAESOptimizerTest {
             return y;
         }
 
-        void GenBasis(int DIM) {
-            if (basis != null ? basis.length == DIM : false) {
+        void GenBasis(int dim) {
+            if (basis != null ? basis.length == dim : false) {
                 return;
             }
 
             double sp;
-            int i, j, k;
+            int i;
+            int j;
+            int k;
 
             /* generate orthogonal basis */
-            basis = new double[DIM][DIM];
-            for (i = 0; i < DIM; ++i) {
+            basis = new double[dim][dim];
+            for (i = 0; i < dim; ++i) {
                 /* sample components gaussian */
-                for (j = 0; j < DIM; ++j) {
+                for (j = 0; j < dim; ++j) {
                     basis[i][j] = rand.nextGaussian();
                 }
                 /* substract projection of previous vectors */
                 for (j = i - 1; j >= 0; --j) {
-                    for (sp = 0., k = 0; k < DIM; ++k) {
+                    for (sp = 0., k = 0; k < dim; ++k) {
                         sp += basis[i][k] * basis[j][k]; /* scalar product */
                     }
-                    for (k = 0; k < DIM; ++k) {
+                    for (k = 0; k < dim; ++k) {
                         basis[i][k] -= sp * basis[j][k]; /* substract */
                     }
                 }
                 /* normalize */
-                for (sp = 0., k = 0; k < DIM; ++k) {
+                for (sp = 0., k = 0; k < dim; ++k) {
                     sp += basis[i][k] * basis[i][k]; /* squared norm */
                 }
-                for (k = 0; k < DIM; ++k) {
+                for (k = 0; k < dim; ++k) {
                     basis[i][k] /= AccurateMath.sqrt(sp);
                 }
             }

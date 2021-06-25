@@ -39,7 +39,7 @@ import org.apache.commons.math4.legacy.stat.descriptive.StatisticalSummary;
  *
  * @since 1.1
  */
-public class InferenceTestUtils {
+public final class InferenceTestUtils {
 
     /** Singleton TTest instance. */
     private static final TTest T_TEST = new TTest();
@@ -53,7 +53,7 @@ public class InferenceTestUtils {
     /** Singleton G-Test instance. */
     private static final GTest G_TEST = new GTest();
 
-    /** Singleton K-S test instance */
+    /** Singleton K-S test instance. */
     private static final KolmogorovSmirnovTest KS_TEST = new KolmogorovSmirnovTest();
 
     /**

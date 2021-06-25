@@ -26,13 +26,13 @@ import org.apache.commons.math4.legacy.linear.RealMatrix;
 public interface StatisticalMultivariateSummary {
 
     /**
-     * Returns the dimension of the data
+     * Returns the dimension of the data.
      * @return The dimension of the data
      */
     int getDimension();
 
     /**
-     * Returns an array whose i<sup>th</sup> entry is the
+     * Returns an array whose i<sup>th</sup> entry is the.
      * mean of the i<sup>th</sup> entries of the arrays
      * that correspond to each multivariate sample
      *
@@ -48,7 +48,7 @@ public interface StatisticalMultivariateSummary {
     RealMatrix getCovariance();
 
     /**
-     * Returns an array whose i<sup>th</sup> entry is the
+     * Returns an array whose i<sup>th</sup> entry is the.
      * standard deviation of the i<sup>th</sup> entries of the arrays
      * that correspond to each multivariate sample
      *
@@ -57,7 +57,7 @@ public interface StatisticalMultivariateSummary {
     double[] getStandardDeviation();
 
     /**
-     * Returns an array whose i<sup>th</sup> entry is the
+     * Returns an array whose i<sup>th</sup> entry is the.
      * maximum of the i<sup>th</sup> entries of the arrays
      * that correspond to each multivariate sample
      *
@@ -66,7 +66,7 @@ public interface StatisticalMultivariateSummary {
     double[] getMax();
 
     /**
-     * Returns an array whose i<sup>th</sup> entry is the
+     * Returns an array whose i<sup>th</sup> entry is the.
      * minimum of the i<sup>th</sup> entries of the arrays
      * that correspond to each multivariate sample
      *
@@ -75,13 +75,13 @@ public interface StatisticalMultivariateSummary {
     double[] getMin();
 
     /**
-     * Returns the number of available values
+     * Returns the number of available values.
      * @return The number of available values
      */
     long getN();
 
     /**
-     * Returns an array whose i<sup>th</sup> entry is the
+     * Returns an array whose i<sup>th</sup> entry is the.
      * geometric mean of the i<sup>th</sup> entries of the arrays
      * that correspond to each multivariate sample
      *
@@ -90,7 +90,7 @@ public interface StatisticalMultivariateSummary {
     double[] getGeometricMean();
 
     /**
-     * Returns an array whose i<sup>th</sup> entry is the
+     * Returns an array whose i<sup>th</sup> entry is the.
      * sum of the i<sup>th</sup> entries of the arrays
      * that correspond to each multivariate sample
      *
@@ -99,7 +99,7 @@ public interface StatisticalMultivariateSummary {
     double[] getSum();
 
     /**
-     * Returns an array whose i<sup>th</sup> entry is the
+     * Returns an array whose i<sup>th</sup> entry is the.
      * sum of squares of the i<sup>th</sup> entries of the arrays
      * that correspond to each multivariate sample
      *
@@ -108,7 +108,7 @@ public interface StatisticalMultivariateSummary {
     double[] getSumSq();
 
     /**
-     * Returns an array whose i<sup>th</sup> entry is the
+     * Returns an array whose i<sup>th</sup> entry is the.
      * sum of logs of the i<sup>th</sup> entries of the arrays
      * that correspond to each multivariate sample
      *

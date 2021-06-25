@@ -62,7 +62,7 @@ public class ContinuousOutputModelTest {
                     pb.getInitialTime(), pb.getInitialState(),
                     pb.getFinalTime(), new double[pb.getDimension()]);
 
-    Random random = new Random(347588535632l);
+    Random random = new Random(347588535632L);
     double maxError    = 0.0;
     double maxErrorDot = 0.0;
     for (int i = 0; i < 1000; ++i) {
@@ -174,33 +174,32 @@ public class ContinuousOutputModelTest {
       return false; // no allowable error
   }
 
-  private StepInterpolator buildInterpolator(double t0, double[] y0, double t1) {
-      DummyStepInterpolator interpolator  = new DummyStepInterpolator(y0, new double[y0.length], t1 >= t0);
-      interpolator.storeTime(t0);
-      interpolator.shift();
-      interpolator.storeTime(t1);
-      return interpolator;
-  }
+    private StepInterpolator buildInterpolator(double t0, double[] y0, double t1) {
+        DummyStepInterpolator interpolator  = new DummyStepInterpolator(y0, new double[y0.length], t1 >= t0);
+        interpolator.storeTime(t0);
+        interpolator.shift();
+        interpolator.storeTime(t1);
+        return interpolator;
+    }
 
-  public void checkValue(double value, double reference) {
-    Assert.assertTrue(AccurateMath.abs(value - reference) < 1.0e-10);
-  }
+    public void checkValue(double value, double reference) {
+        Assert.assertTrue(AccurateMath.abs(value - reference) < 1.0e-10);
+    }
 
-  @Before
-  public void setUp() {
-    pb = new TestProblem3(0.9);
-    double minStep = 0;
-    double maxStep = pb.getFinalTime() - pb.getInitialTime();
-    integ = new DormandPrince54Integrator(minStep, maxStep, 1.0e-8, 1.0e-8);
-  }
+    @Before
+    public void setUp() {
+        pb = new TestProblem3(0.9);
+        double minStep = 0;
+        double maxStep = pb.getFinalTime() - pb.getInitialTime();
+        integ = new DormandPrince54Integrator(minStep, maxStep, 1.0e-8, 1.0e-8);
+    }
 
-  @After
-  public void tearDown() {
-    pb    = null;
-    integ = null;
-  }
+    @After
+    public void tearDown() {
+        pb = null;
+        integ = null;
+    }
 
-  TestProblem3 pb;
-  FirstOrderIntegrator integ;
-
+    private TestProblem3 pb;
+    private FirstOrderIntegrator integ;
 }

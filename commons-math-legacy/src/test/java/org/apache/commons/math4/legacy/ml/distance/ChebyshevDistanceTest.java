@@ -23,7 +23,7 @@ import org.junit.Test;
  * Tests for {@link ChebyshevDistance} class.
  */
 public class ChebyshevDistanceTest {
-    final DistanceMeasure distance = new ChebyshevDistance();
+    private final DistanceMeasure distance = new ChebyshevDistance();
 
     @Test
     public void testZero() {

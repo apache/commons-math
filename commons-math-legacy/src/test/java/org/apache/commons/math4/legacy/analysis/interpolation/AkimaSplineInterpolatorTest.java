@@ -33,71 +33,53 @@ import org.apache.commons.numbers.core.Precision;
 import org.junit.Assert;
 import org.junit.Test;
 
-public class AkimaSplineInterpolatorTest
-{
-
+public class AkimaSplineInterpolatorTest {
     @Test
-    public void testIllegalArguments()
-    {
+    public void testIllegalArguments() {
         // Data set arrays of different size.
         UnivariateInterpolator i = new AkimaSplineInterpolator();
 
-        try
-        {
-            double yval[] = { 0.0, 1.0, 2.0, 3.0, 4.0 };
-            i.interpolate( null, yval );
-            Assert.fail( "Failed to detect x null pointer" );
-        }
-        catch ( NullArgumentException iae )
-        {
+        try {
+            double yval[] = {0.0, 1.0, 2.0, 3.0, 4.0};
+            i.interpolate(null, yval);
+            Assert.fail("Failed to detect x null pointer");
+        } catch (NullArgumentException iae) {
             // Expected.
         }
 
-        try
-        {
-            double xval[] = { 0.0, 1.0, 2.0, 3.0, 4.0 };
-            i.interpolate( xval, null );
-            Assert.fail( "Failed to detect y null pointer" );
-        }
-        catch ( NullArgumentException iae )
-        {
+        try {
+            double xval[] = {0.0, 1.0, 2.0, 3.0, 4.0};
+            i.interpolate(xval, null);
+            Assert.fail("Failed to detect y null pointer");
+        } catch (NullArgumentException iae) {
             // Expected.
         }
 
-        try
-        {
-            double xval[] = { 0.0, 1.0, 2.0, 3.0 };
-            double yval[] = { 0.0, 1.0, 2.0, 3.0 };
-            i.interpolate( xval, yval );
-            Assert.fail( "Failed to detect insufficient data" );
-        }
-        catch ( NumberIsTooSmallException iae )
-        {
+        try {
+            double xval[] = {0.0, 1.0, 2.0, 3.0};
+            double yval[] = {0.0, 1.0, 2.0, 3.0};
+            i.interpolate(xval, yval);
+            Assert.fail("Failed to detect insufficient data");
+        } catch (NumberIsTooSmallException iae) {
             // Expected.
         }
 
-        try
-        {
-            double xval[] = { 0.0, 1.0, 2.0, 3.0, 4.0 };
-            double yval[] = { 0.0, 1.0, 2.0, 3.0, 4.0, 5.0 };
-            i.interpolate( xval, yval );
-            Assert.fail( "Failed to detect data set array with different sizes." );
-        }
-        catch ( DimensionMismatchException iae )
-        {
+        try {
+            double xval[] = {0.0, 1.0, 2.0, 3.0, 4.0};
+            double yval[] = {0.0, 1.0, 2.0, 3.0, 4.0, 5.0};
+            i.interpolate(xval, yval);
+            Assert.fail("Failed to detect data set array with different sizes.");
+        } catch (DimensionMismatchException iae) {
             // Expected.
         }
 
         // X values not sorted.
-        try
-        {
-            double xval[] = { 0.0, 1.0, 0.5, 7.0, 3.5, 2.2, 8.0 };
-            double yval[] = { 0.0, 1.0, 2.0, 3.0, 4.0, 5.0, 6.0 };
-            i.interpolate( xval, yval );
-            Assert.fail( "Failed to detect unsorted arguments." );
-        }
-        catch ( NonMonotonicSequenceException iae )
-        {
+        try {
+            double xval[] = {0.0, 1.0, 0.5, 7.0, 3.5, 2.2, 8.0};
+            double yval[] = {0.0, 1.0, 2.0, 3.0, 4.0, 5.0, 6.0};
+            i.interpolate(xval, yval);
+            Assert.fail("Failed to detect unsorted arguments.");
+        } catch (NonMonotonicSequenceException iae) {
             // Expected.
         }
     }
@@ -108,8 +90,7 @@ public class AkimaSplineInterpolatorTest
      * of elements
      */
     @Test
-    public void testInterpolateLine()
-    {
+    public void testInterpolateLine() {
         final int numberOfElements = 10;
         final double minimumX = -10;
         final double maximumX = 10;
@@ -117,11 +98,9 @@ public class AkimaSplineInterpolatorTest
         final double interpolationTolerance = 1e-15;
         final double maxTolerance = 1e-15;
 
-        UnivariateFunction f = new UnivariateFunction()
-        {
+        UnivariateFunction f = new UnivariateFunction() {
             @Override
-            public double value( double x )
-            {
+            public double value(double x) {
                 return 2 * x - 5;
             }
         };
@@ -137,8 +116,7 @@ public class AkimaSplineInterpolatorTest
      */
 
     @Test
-    public void testInterpolateParabola()
-    {
+    public void testInterpolateParabola() {
         final int numberOfElements = 10;
         final double minimumX = -10;
         final double maximumX = 10;
@@ -146,12 +124,10 @@ public class AkimaSplineInterpolatorTest
         final double interpolationTolerance = 7e-15;
         final double maxTolerance = 6e-14;
 
-        UnivariateFunction f = new UnivariateFunction()
-        {
+        UnivariateFunction f = new UnivariateFunction() {
             @Override
-            public double value( double x )
-            {
-                return ( 3 * x * x ) - ( 5 * x ) + 7;
+            public double value(double x) {
+                return (3 * x * x) - (5 * x) + 7;
             }
         };
 
@@ -165,8 +141,7 @@ public class AkimaSplineInterpolatorTest
      * the same span with the same number of elements
      */
     @Test
-    public void testInterpolateCubic()
-    {
+    public void testInterpolateCubic() {
         final int numberOfElements = 10;
         final double minimumX = -3;
         final double maximumX = 3;
@@ -174,12 +149,10 @@ public class AkimaSplineInterpolatorTest
         final double interpolationTolerance = 0.37;
         final double maxTolerance = 3.8;
 
-        UnivariateFunction f = new UnivariateFunction()
-        {
+        UnivariateFunction f = new UnivariateFunction() {
             @Override
-            public double value( double x )
-            {
-                return ( 3 * x * x * x ) - ( 0.5 * x * x ) + ( 1 * x ) - 1;
+            public double value(double x) {
+                return (3 * x * x * x) - (0.5 * x * x) + (1 * x) - 1;
             }
         };
 
@@ -223,8 +196,7 @@ public class AkimaSplineInterpolatorTest
     }
 
     private void testInterpolation( double minimumX, double maximumX, int numberOfElements, int numberOfSamples,
-                                    UnivariateFunction f, double tolerance, double maxTolerance )
-    {
+                                    UnivariateFunction f, double tolerance, double maxTolerance ) {
         double expected;
         double actual;
         double currentX;
@@ -232,18 +204,16 @@ public class AkimaSplineInterpolatorTest
         double xValues[] = new double[numberOfElements];
         double yValues[] = new double[numberOfElements];
 
-        for ( int i = 0; i < numberOfElements; i++ )
-        {
+        for (int i = 0; i < numberOfElements; i++) {
             xValues[i] = minimumX + delta * (double) i;
-            yValues[i] = f.value( xValues[i] );
+            yValues[i] = f.value(xValues[i]);
         }
 
         UnivariateFunction interpolation = new AkimaSplineInterpolator().interpolate( xValues, yValues );
 
-        for ( int i = 0; i < numberOfElements; i++ )
-        {
+        for (int i = 0; i < numberOfElements; i++) {
             currentX = xValues[i];
-            expected = f.value( currentX );
+            expected = f.value(currentX);
             actual = interpolation.value( currentX );
             assertTrue( Precision.equals( expected, actual ) );
         }
@@ -253,15 +223,14 @@ public class AkimaSplineInterpolatorTest
             new UniformContinuousDistribution(xValues[0], xValues[xValues.length - 1]).createSampler(rng);
 
         double sumError = 0;
-        for ( int i = 0; i < numberOfSamples; i++ )
-        {
+        for (int i = 0; i < numberOfSamples; i++) {
             currentX = distX.sample();
-            expected = f.value( currentX );
+            expected = f.value(currentX);
             actual = interpolation.value( currentX );
             sumError += AccurateMath.abs( actual - expected );
             assertEquals( expected, actual, maxTolerance );
         }
 
-        assertEquals( 0.0, ( sumError / (double) numberOfSamples ), tolerance );
+        assertEquals( 0.0, sumError / (double) numberOfSamples, tolerance );
     }
 }

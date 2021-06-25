@@ -254,7 +254,7 @@ public class EigenDecompositionTest {
     /** test a matrix already in tridiagonal form. */
     @Test
     public void testTridiagonal() {
-        Random r = new Random(4366663527842l);
+        Random r = new Random(4366663527842L);
         double[] ref = new double[30];
         for (int i = 0; i < ref.length; ++i) {
             if (i < 5) {
@@ -305,7 +305,7 @@ public class EigenDecompositionTest {
     /** test eigenvalues for a big matrix. */
     @Test
     public void testBigMatrix() {
-        Random r = new Random(17748333525117l);
+        Random r = new Random(17748333525117L);
         double[] bigValues = new double[200];
         for (int i = 0; i < bigValues.length; ++i) {
             bigValues[i] = 2 * r.nextDouble() - 1;
@@ -583,8 +583,8 @@ public class EigenDecompositionTest {
         });
         EigenDecomposition ed;
         ed = new EigenDecomposition(repeated);
-        checkEigenValues((new double[] {8, -1, -1}), ed, 1E-12);
-        checkEigenVector((new double[] {2, 1, 2}), ed, 1E-12);
+        checkEigenValues(new double[] {8, -1, -1}, ed, 1E-12);
+        checkEigenVector(new double[] {2, 1, 2}, ed, 1E-12);
     }
 
     /**
@@ -599,10 +599,10 @@ public class EigenDecompositionTest {
         });
         EigenDecomposition ed;
         ed = new EigenDecomposition(distinct);
-        checkEigenValues((new double[] {2, 0, 12}), ed, 1E-12);
-        checkEigenVector((new double[] {1, -1, 0}), ed, 1E-12);
-        checkEigenVector((new double[] {1, 1, 1}), ed, 1E-12);
-        checkEigenVector((new double[] {-1, -1, 2}), ed, 1E-12);
+        checkEigenValues(new double[] {2, 0, 12}, ed, 1E-12);
+        checkEigenVector(new double[] {1, -1, 0}, ed, 1E-12);
+        checkEigenVector(new double[] {1, 1, 1}, ed, 1E-12);
+        checkEigenVector(new double[] {-1, -1, 2}, ed, 1E-12);
     }
 
     /**
@@ -617,13 +617,13 @@ public class EigenDecompositionTest {
         });
         EigenDecomposition ed;
         ed = new EigenDecomposition(indefinite);
-        checkEigenValues((new double[] {2, 1, -1}), ed, 1E-12);
+        checkEigenValues(new double[] {2, 1, -1}, ed, 1E-12);
         double isqrt3 = 1/AccurateMath.sqrt(3.0);
-        checkEigenVector((new double[] {isqrt3,isqrt3,-isqrt3}), ed, 1E-12);
+        checkEigenVector(new double[] {isqrt3,isqrt3,-isqrt3}, ed, 1E-12);
         double isqrt2 = 1/AccurateMath.sqrt(2.0);
-        checkEigenVector((new double[] {0.0,-isqrt2,-isqrt2}), ed, 1E-12);
+        checkEigenVector(new double[] {0.0,-isqrt2,-isqrt2}, ed, 1E-12);
         double isqrt6 = 1/AccurateMath.sqrt(6.0);
-        checkEigenVector((new double[] {2*isqrt6,-isqrt6,isqrt6}), ed, 1E-12);
+        checkEigenVector(new double[] {2*isqrt6,-isqrt6,isqrt6}, ed, 1E-12);
     }
 
     /**
@@ -724,7 +724,7 @@ public class EigenDecompositionTest {
         refValues = new double[] {
                 2.003, 2.002, 2.001, 1.001, 1.000, 0.001
         };
-        matrix = createTestMatrix(new Random(35992629946426l), refValues);
+        matrix = createTestMatrix(new Random(35992629946426L), refValues);
     }
 
     @After

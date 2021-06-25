@@ -153,7 +153,7 @@ public class CalinskiHarabasz implements ClusterEvaluator {
     }
 
     /**
-     * Detect the dimension of points in the clusters
+     * Detect the dimension of points in the clusters.
      *
      * @param clusters collection of cluster
      * @return The dimension of the first point in clusters

@@ -23,7 +23,7 @@ import org.junit.Test;
  * Tests for {@link CanberraDistance} class.
  */
 public class CanberraDistanceTest {
-    final DistanceMeasure distance = new CanberraDistance();
+    private final DistanceMeasure distance = new CanberraDistance();
 
     @Test
     public void testZero() {

@@ -38,7 +38,7 @@ import org.apache.commons.math4.legacy.core.MathArrays;
  */
 public class Sum extends AbstractStorelessUnivariateStatistic implements Serializable {
 
-    /** Serializable version identifier */
+    /** Serializable version identifier. */
     private static final long serialVersionUID = 20150412L;
 
     /** */

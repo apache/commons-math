@@ -68,7 +68,7 @@ class LutherFieldStepInterpolator<T extends RealFieldElement<T>>
     /** -1372 - 847 q. */
     private final T d5b;
 
-    /** 2254 + 1029 q */
+    /** 2254 + 1029 q. */
     private final T d5c;
 
     /** 49 - 49 q. */
@@ -77,7 +77,7 @@ class LutherFieldStepInterpolator<T extends RealFieldElement<T>>
     /** -1372 + 847 q. */
     private final T d6b;
 
-    /** 2254 - 1029 q */
+    /** 2254 - 1029 q. */
     private final T d6c;
 
     /** Simple constructor.

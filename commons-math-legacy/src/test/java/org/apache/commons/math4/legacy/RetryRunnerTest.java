@@ -28,7 +28,7 @@ import org.junit.runner.RunWith;
  */
 @RunWith(RetryRunner.class)
 public class RetryRunnerTest {
-    final Random rng = new Random();
+    private final Random rng = new Random();
 
     /**
      * Shows that an always failing test will fail even if it is retried.

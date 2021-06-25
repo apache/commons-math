@@ -16,10 +16,7 @@
  */
 package org.apache.commons.math4.legacy.fitting;
 
-import java.util.ArrayList;
 import java.util.Collection;
-import java.util.List;
-
 import org.apache.commons.math4.legacy.analysis.function.HarmonicOscillator;
 import org.apache.commons.math4.legacy.exception.MathIllegalStateException;
 import org.apache.commons.math4.legacy.exception.NumberIsTooSmallException;
@@ -43,7 +40,7 @@ import org.apache.commons.math4.legacy.core.jdkmath.AccurateMath;
  *
  * @since 3.3
  */
-public class HarmonicCurveFitter extends SimpleCurveFitter {
+public final class HarmonicCurveFitter extends SimpleCurveFitter {
     /** Parametric function to be fitted. */
     private static final HarmonicOscillator.Parametric FUNCTION = new HarmonicOscillator.Parametric();
 
@@ -188,6 +185,7 @@ public class HarmonicCurveFitter extends SimpleCurveFitter {
          * @throws MathIllegalStateException when the guessing procedure cannot
          * produce sensible results.
          */
+        @Override
         public double[] guess(Collection<WeightedObservedPoint> observations) {
             if (observations.size() < 4) {
                 throw new NumberIsTooSmallException(LocalizedFormats.INSUFFICIENT_OBSERVED_POINTS_IN_SAMPLE,

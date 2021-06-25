@@ -26,7 +26,6 @@ import org.apache.commons.numbers.core.Precision;
 import org.apache.commons.math4.legacy.core.Field;
 import org.apache.commons.math4.legacy.core.FieldElement;
 import org.apache.commons.math4.legacy.core.RealFieldElement;
-import org.apache.commons.math4.legacy.exception.DimensionMismatchException;
 import org.apache.commons.math4.legacy.core.jdkmath.AccurateMath;
 
 /**
@@ -41,7 +40,7 @@ import org.apache.commons.math4.legacy.core.jdkmath.AccurateMath;
  *
  * @since 3.3
  */
-public class SparseGradient implements RealFieldElement<SparseGradient>, Serializable {
+public final class SparseGradient implements RealFieldElement<SparseGradient>, Serializable {
 
     /** Serializable UID. */
     private static final long serialVersionUID = 20131025L;
@@ -89,7 +88,7 @@ public class SparseGradient implements RealFieldElement<SparseGradient>, Seriali
      * @return a new instance
      */
     public static SparseGradient createConstant(final double value) {
-        return new SparseGradient(value, Collections.<Integer, Double> emptyMap());
+        return new SparseGradient(value, Collections.<Integer, Double>emptyMap());
     }
 
     /** Factory method creating an independent variable.
@@ -209,7 +208,7 @@ public class SparseGradient implements RealFieldElement<SparseGradient>, Seriali
     @Override
     public SparseGradient multiply(final SparseGradient a) {
         final SparseGradient out =
-            new SparseGradient(value * a.value, Collections.<Integer, Double> emptyMap());
+            new SparseGradient(value * a.value, Collections.<Integer, Double>emptyMap());
 
         // Derivatives.
         for (Map.Entry<Integer, Double> entry : derivatives.entrySet()) {
@@ -271,7 +270,7 @@ public class SparseGradient implements RealFieldElement<SparseGradient>, Seriali
     /** {@inheritDoc} */
     @Override
     public SparseGradient divide(final SparseGradient a) {
-        final SparseGradient out = new SparseGradient(value / a.value, Collections.<Integer, Double> emptyMap());
+        final SparseGradient out = new SparseGradient(value / a.value, Collections.<Integer, Double>emptyMap());
 
         // Derivatives.
         for (Map.Entry<Integer, Double> entry : derivatives.entrySet()) {
@@ -411,7 +410,7 @@ public class SparseGradient implements RealFieldElement<SparseGradient>, Seriali
     /** {@inheritDoc} */
     @Override
     public SparseGradient scalb(final int n) {
-        final SparseGradient out = new SparseGradient(AccurateMath.scalb(value, n), Collections.<Integer, Double> emptyMap());
+        final SparseGradient out = new SparseGradient(AccurateMath.scalb(value, n), Collections.<Integer, Double>emptyMap());
         for (Map.Entry<Integer, Double> entry : derivatives.entrySet()) {
             out.derivatives.put(entry.getKey(), AccurateMath.scalb(entry.getValue(), n));
         }
@@ -530,7 +529,7 @@ public class SparseGradient implements RealFieldElement<SparseGradient>, Seriali
         return log().multiply(e).exp();
     }
 
-    /** Compute a<sup>x</sup> where a is a double and x a {@link SparseGradient}
+    /** Compute a<sup>x</sup> where a is a double and x a {@link SparseGradient}.
      * @param a number to exponentiate
      * @param x power to apply
      * @return a<sup>x</sup>
@@ -694,14 +693,14 @@ public class SparseGradient implements RealFieldElement<SparseGradient>, Seriali
         return new SparseGradient(AccurateMath.atanh(value), 1.0 / (1.0 - value * value), derivatives);
     }
 
-    /** Convert radians to degrees, with error of less than 0.5 ULP
+    /** Convert radians to degrees, with error of less than 0.5 ULP.
      *  @return instance converted into degrees
      */
     public SparseGradient toDegrees() {
         return new SparseGradient(AccurateMath.toDegrees(value), AccurateMath.toDegrees(1.0), derivatives);
     }
 
-    /** Convert degrees to radians, with error of less than 0.5 ULP
+    /** Convert degrees to radians, with error of less than 0.5 ULP.
      *  @return instance converted into radians
      */
     public SparseGradient toRadians() {

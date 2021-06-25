@@ -39,13 +39,13 @@ import org.apache.commons.math4.legacy.stat.ranking.RankingAlgorithm;
  */
 public class SpearmansCorrelation {
 
-    /** Input data */
+    /** Input data. */
     private final RealMatrix data;
 
-    /** Ranking algorithm  */
+    /** Ranking algorithm.  */
     private final RankingAlgorithm rankingAlgorithm;
 
-    /** Rank correlation */
+    /** Rank correlation. */
     private final PearsonsCorrelation rankCorrelation;
 
     /**
@@ -115,7 +115,7 @@ public class SpearmansCorrelation {
      * Calculate the Spearman Rank Correlation Matrix.
      *
      * @return Spearman Rank Correlation Matrix
-     * @throws NullPointerException if this instance was created with no data
+     * @throws NullPointerException if this instance was created with no data.
      */
     public RealMatrix getCorrelationMatrix() {
         return rankCorrelation.getCorrelationMatrix();

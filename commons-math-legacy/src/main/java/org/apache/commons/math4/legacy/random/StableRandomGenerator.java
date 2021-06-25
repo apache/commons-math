@@ -35,11 +35,11 @@ import org.apache.commons.math4.legacy.core.jdkmath.AccurateMath;
 public class StableRandomGenerator implements NormalizedRandomGenerator {
     /** Underlying generator. */
     private final UniformRandomProvider generator;
-    /** stability parameter */
+    /** stability parameter. */
     private final double alpha;
-    /** skewness parameter */
+    /** skewness parameter. */
     private final double beta;
-    /** cache of expression value used in generation */
+    /** cache of expression value used in generation. */
     private final double zeta;
 
     /**

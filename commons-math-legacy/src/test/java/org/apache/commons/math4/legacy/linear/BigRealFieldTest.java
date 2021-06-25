@@ -18,8 +18,6 @@ package org.apache.commons.math4.legacy.linear;
 
 
 import org.apache.commons.math4.legacy.TestUtils;
-import org.apache.commons.math4.legacy.linear.BigReal;
-import org.apache.commons.math4.legacy.linear.BigRealField;
 import org.junit.Assert;
 import org.junit.Test;
 

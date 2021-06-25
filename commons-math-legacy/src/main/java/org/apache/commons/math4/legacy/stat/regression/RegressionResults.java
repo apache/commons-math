@@ -29,36 +29,36 @@ import org.apache.commons.math4.legacy.core.jdkmath.AccurateMath;
  */
 public class RegressionResults implements Serializable {
 
-    /** INDEX of Sum of Squared Errors */
+    /** INDEX of Sum of Squared Errors. */
     private static final int SSE_IDX = 0;
-    /** INDEX of Sum of Squares of Model */
+    /** INDEX of Sum of Squares of Model. */
     private static final int SST_IDX = 1;
-    /** INDEX of R-Squared of regression */
+    /** INDEX of R-Squared of regression. */
     private static final int RSQ_IDX = 2;
-    /** INDEX of Mean Squared Error */
+    /** INDEX of Mean Squared Error. */
     private static final int MSE_IDX = 3;
-    /** INDEX of Adjusted R Squared */
+    /** INDEX of Adjusted R Squared. */
     private static final int ADJRSQ_IDX = 4;
-    /** UID */
-    private static final long serialVersionUID = 1l;
-    /** regression slope parameters */
+    /** UID. */
+    private static final long serialVersionUID = 1L;
+    /** regression slope parameters. */
     private final double[] parameters;
-    /** variance covariance matrix of parameters */
+    /** variance covariance matrix of parameters. */
     private final double[][] varCovData;
-    /** boolean flag for variance covariance matrix in symm compressed storage */
+    /** boolean flag for variance covariance matrix in symm compressed storage. */
     private final boolean isSymmetricVCD;
-    /** rank of the solution */
+    /** rank of the solution. */
     @SuppressWarnings("unused")
     private final int rank;
-    /** number of observations on which results are based */
+    /** number of observations on which results are based. */
     private final long nobs;
-    /** boolean flag indicator of whether a constant was included*/
+    /** boolean flag indicator of whether a constant was included. */
     private final boolean containsConstant;
-    /** array storing global results, SSE, MSE, RSQ, adjRSQ */
+    /** array storing global results, SSE, MSE, RSQ, adjRSQ. */
     private final double[] globalFitInfo;
 
     /**
-     *  Set the default constructor to private access
+     *  Set the default constructor to private access.
      *  to prevent inadvertent instantiation
      */
     @SuppressWarnings("unused")

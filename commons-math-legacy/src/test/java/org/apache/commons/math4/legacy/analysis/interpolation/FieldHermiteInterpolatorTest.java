@@ -92,7 +92,7 @@ public class FieldHermiteInterpolatorTest {
     @Test
     public void testRandomPolynomialsValuesOnly() {
 
-        Random random = new Random(0x42b1e7dbd361a932l);
+        Random random = new Random(0x42b1e7dbd361a932L);
 
         for (int i = 0; i < 100; ++i) {
 
@@ -134,7 +134,7 @@ public class FieldHermiteInterpolatorTest {
     @Test
     public void testRandomPolynomialsFirstDerivative() {
 
-        Random random = new Random(0x570803c982ca5d3bl);
+        Random random = new Random(0x570803c982ca5d3bL);
 
         for (int i = 0; i < 100; ++i) {
 

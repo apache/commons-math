@@ -180,7 +180,7 @@ public class AdamsMoultonIntegratorTest {
         private final PerfectInterpolator interpolator;
         private final int nbSteps;
 
-        public PerfectStarter(final TestProblemAbstract problem, final int nbSteps) {
+        PerfectStarter(final TestProblemAbstract problem, final int nbSteps) {
             this.interpolator = new PerfectInterpolator(problem);
             this.nbSteps      = nbSteps;
         }
@@ -208,7 +208,7 @@ public class AdamsMoultonIntegratorTest {
         private double currentTime;
         private double interpolatedTime;
 
-        public PerfectInterpolator(final TestProblemAbstract problem) {
+        PerfectInterpolator(final TestProblemAbstract problem) {
             this.problem          = problem;
             this.previousTime     = problem.getInitialTime();
             this.currentTime      = problem.getInitialTime();

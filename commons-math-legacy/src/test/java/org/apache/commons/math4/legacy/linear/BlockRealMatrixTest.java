@@ -112,7 +112,7 @@ public final class BlockRealMatrixTest {
     /** test copy functions */
     @Test
     public void testCopyFunctions() {
-        Random r = new Random(66636328996002l);
+        Random r = new Random(66636328996002L);
         BlockRealMatrix m1 = createRandomMatrix(r, 47, 83);
         BlockRealMatrix m2 = new BlockRealMatrix(m1.getData());
         Assert.assertEquals(m1, m2);
@@ -341,7 +341,7 @@ public final class BlockRealMatrixTest {
         int p = (7 * BlockRealMatrix.BLOCK_SIZE) / 2;
         int q = (5 * BlockRealMatrix.BLOCK_SIZE) / 2;
         int r =  3 * BlockRealMatrix.BLOCK_SIZE;
-        Random random = new Random(111007463902334l);
+        Random random = new Random(111007463902334L);
         RealMatrix m1 = createRandomMatrix(random, p, q);
         RealMatrix m2 = createRandomMatrix(random, q, r);
         RealMatrix m1m2 = m1.multiply(m2);
@@ -355,7 +355,7 @@ public final class BlockRealMatrixTest {
         int p = (7 * BlockRealMatrix.BLOCK_SIZE) / 2;
         int q = (5 * BlockRealMatrix.BLOCK_SIZE) / 2;
         int r =  3 * BlockRealMatrix.BLOCK_SIZE;
-        Random random = new Random(111007463902334l);
+        Random random = new Random(111007463902334L);
         RealMatrix m1 = createRandomMatrix(random, p, q);
         RealMatrix m2 = createRandomMatrix(random, q, r);
         RealMatrix m1m2 = m1.multiply(m2);

@@ -1251,7 +1251,7 @@ public class DerivativeStructureTest extends ExtendedFieldElementAbstractTest<De
         Assert.assertEquals(-2.0, x.rint().getPartialDerivative(0), 1.0e-15);
         Assert.assertEquals(+0.0, x.rint().getPartialDerivative(1), 1.0e-15);
         Assert.assertEquals(-2.0, x.subtract(x.getField().getOne()).rint().getPartialDerivative(0), 1.0e-15);
-        Assert.assertEquals(-1l, x.round());
+        Assert.assertEquals(-1L, x.round());
 
     }
 
@@ -1481,7 +1481,7 @@ public class DerivativeStructureTest extends ExtendedFieldElementAbstractTest<De
     public void testLinearCombination2DSDS() {
         // we compare accurate versus naive dot product implementations
         // on regular vectors (i.e. not extreme cases like in the previous test)
-        UniformRandomProvider random = RandomSource.create(RandomSource.WELL_1024_A, 0xc6af886975069f11l);
+        UniformRandomProvider random = RandomSource.create(RandomSource.WELL_1024_A, 0xc6af886975069f11L);
 
         for (int i = 0; i < 10000; ++i) {
             final DerivativeStructure[] u = new DerivativeStructure[4];
@@ -1525,7 +1525,7 @@ public class DerivativeStructureTest extends ExtendedFieldElementAbstractTest<De
     public void testLinearCombination2DoubleDS() {
         // we compare accurate versus naive dot product implementations
         // on regular vectors (i.e. not extreme cases like in the previous test)
-        UniformRandomProvider random = RandomSource.create(RandomSource.WELL_1024_A, 0xc6af886975069f11l);
+        UniformRandomProvider random = RandomSource.create(RandomSource.WELL_1024_A, 0xc6af886975069f11L);
 
         for (int i = 0; i < 10000; ++i) {
             final double[] u = new double[4];

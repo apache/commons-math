@@ -37,7 +37,7 @@ import org.apache.commons.math4.legacy.exception.NumberIsTooSmallException;
 public class NevilleInterpolator implements UnivariateInterpolator,
     Serializable {
 
-    /** serializable version identifier */
+    /** serializable version identifier. */
     static final long serialVersionUID = 3003707660147873733L;
 
     /**

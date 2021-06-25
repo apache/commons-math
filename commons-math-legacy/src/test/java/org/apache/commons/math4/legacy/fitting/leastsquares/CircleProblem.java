@@ -53,9 +53,9 @@ class CircleProblem {
      * @param searchResolution Number of points to try when searching the one
      * that is closest to a given "observed" point.
      */
-    public CircleProblem(double xError,
-                         double yError,
-                         int searchResolution) {
+    CircleProblem(double xError,
+                  double yError,
+                  int searchResolution) {
         points = new ArrayList<>();
         xSigma = xError;
         ySigma = yError;
@@ -66,8 +66,8 @@ class CircleProblem {
      * @param xError Assumed error for the x-coordinate of the circle points.
      * @param yError Assumed error for the y-coordinate of the circle points.
      */
-    public CircleProblem(double xError,
-                         double yError) {
+    CircleProblem(double xError,
+                  double yError) {
         this(xError, yError, 500);
     }
 

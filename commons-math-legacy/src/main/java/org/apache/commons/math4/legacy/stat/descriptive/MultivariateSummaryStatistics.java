@@ -70,13 +70,13 @@ import org.apache.commons.numbers.core.Precision;
 public class MultivariateSummaryStatistics
     implements StatisticalMultivariateSummary, Serializable {
 
-    /** Serialization UID */
+    /** Serialization UID. */
     private static final long serialVersionUID = 2271900808994826718L;
 
     /** Dimension of the data. */
     private final int k;
 
-    /** Count of values that have been added */
+    /** Count of values that have been added. */
     private long n;
 
     /** Sum statistic implementation - can be reset by setter. */
@@ -104,7 +104,7 @@ public class MultivariateSummaryStatistics
     private final VectorialCovariance covarianceImpl;
 
     /**
-     * Construct a MultivariateSummaryStatistics instance
+     * Construct a MultivariateSummaryStatistics instance.
      * @param k dimension of the data
      * @param isCovarianceBiasCorrected if true, the unbiased sample
      * covariance is computed, otherwise the biased population covariance
@@ -137,7 +137,7 @@ public class MultivariateSummaryStatistics
     }
 
     /**
-     * Add an n-tuple to the data
+     * Add an n-tuple to the data.
      *
      * @param value  the n-tuple to add
      * @throws DimensionMismatchException if the length of the array
@@ -160,7 +160,7 @@ public class MultivariateSummaryStatistics
     }
 
     /**
-     * Returns the dimension of the data
+     * Returns the dimension of the data.
      * @return The dimension of the data
      */
     @Override
@@ -169,7 +169,7 @@ public class MultivariateSummaryStatistics
     }
 
     /**
-     * Returns the number of available values
+     * Returns the number of available values.
      * @return The number of available values
      */
     @Override
@@ -191,7 +191,7 @@ public class MultivariateSummaryStatistics
     }
 
     /**
-     * Returns an array whose i<sup>th</sup> entry is the sum of the
+     * Returns an array whose i<sup>th</sup> entry is the sum of the.
      * i<sup>th</sup> entries of the arrays that have been added using
      * {@link #addValue(double[])}
      *
@@ -203,7 +203,7 @@ public class MultivariateSummaryStatistics
     }
 
     /**
-     * Returns an array whose i<sup>th</sup> entry is the sum of squares of the
+     * Returns an array whose i<sup>th</sup> entry is the sum of squares of the.
      * i<sup>th</sup> entries of the arrays that have been added using
      * {@link #addValue(double[])}
      *
@@ -215,7 +215,7 @@ public class MultivariateSummaryStatistics
     }
 
     /**
-     * Returns an array whose i<sup>th</sup> entry is the sum of logs of the
+     * Returns an array whose i<sup>th</sup> entry is the sum of logs of the.
      * i<sup>th</sup> entries of the arrays that have been added using
      * {@link #addValue(double[])}
      *
@@ -227,7 +227,7 @@ public class MultivariateSummaryStatistics
     }
 
     /**
-     * Returns an array whose i<sup>th</sup> entry is the mean of the
+     * Returns an array whose i<sup>th</sup> entry is the mean of the.
      * i<sup>th</sup> entries of the arrays that have been added using
      * {@link #addValue(double[])}
      *
@@ -239,7 +239,7 @@ public class MultivariateSummaryStatistics
     }
 
     /**
-     * Returns an array whose i<sup>th</sup> entry is the standard deviation of the
+     * Returns an array whose i<sup>th</sup> entry is the standard deviation of the.
      * i<sup>th</sup> entries of the arrays that have been added using
      * {@link #addValue(double[])}
      *
@@ -272,7 +272,7 @@ public class MultivariateSummaryStatistics
     }
 
     /**
-     * Returns an array whose i<sup>th</sup> entry is the maximum of the
+     * Returns an array whose i<sup>th</sup> entry is the maximum of the.
      * i<sup>th</sup> entries of the arrays that have been added using
      * {@link #addValue(double[])}
      *
@@ -284,7 +284,7 @@ public class MultivariateSummaryStatistics
     }
 
     /**
-     * Returns an array whose i<sup>th</sup> entry is the minimum of the
+     * Returns an array whose i<sup>th</sup> entry is the minimum of the.
      * i<sup>th</sup> entries of the arrays that have been added using
      * {@link #addValue(double[])}
      *
@@ -296,7 +296,7 @@ public class MultivariateSummaryStatistics
     }
 
     /**
-     * Returns an array whose i<sup>th</sup> entry is the geometric mean of the
+     * Returns an array whose i<sup>th</sup> entry is the geometric mean of the.
      * i<sup>th</sup> entries of the arrays that have been added using
      * {@link #addValue(double[])}
      *
@@ -352,7 +352,7 @@ public class MultivariateSummaryStatistics
     }
 
     /**
-     * Resets all statistics and storage
+     * Resets all statistics and storage.
      */
     public void clear() {
         this.n = 0;
@@ -395,7 +395,7 @@ public class MultivariateSummaryStatistics
     }
 
     /**
-     * Returns hash code based on values of statistics
+     * Returns hash code based on values of statistics.
      *
      * @return hash code
      */
@@ -433,7 +433,7 @@ public class MultivariateSummaryStatistics
     }
 
     /**
-     * Returns the currently configured Sum implementation
+     * Returns the currently configured Sum implementation.
      *
      * @return the StorelessUnivariateStatistic implementing the sum
      */
@@ -460,7 +460,7 @@ public class MultivariateSummaryStatistics
     }
 
     /**
-     * Returns the currently configured sum of squares implementation
+     * Returns the currently configured sum of squares implementation.
      *
      * @return the StorelessUnivariateStatistic implementing the sum of squares
      */
@@ -487,7 +487,7 @@ public class MultivariateSummaryStatistics
     }
 
     /**
-     * Returns the currently configured minimum implementation
+     * Returns the currently configured minimum implementation.
      *
      * @return the StorelessUnivariateStatistic implementing the minimum
      */
@@ -514,7 +514,7 @@ public class MultivariateSummaryStatistics
     }
 
     /**
-     * Returns the currently configured maximum implementation
+     * Returns the currently configured maximum implementation.
      *
      * @return the StorelessUnivariateStatistic implementing the maximum
      */
@@ -541,7 +541,7 @@ public class MultivariateSummaryStatistics
     }
 
     /**
-     * Returns the currently configured sum of logs implementation
+     * Returns the currently configured sum of logs implementation.
      *
      * @return the StorelessUnivariateStatistic implementing the log sum
      */
@@ -568,7 +568,7 @@ public class MultivariateSummaryStatistics
     }
 
     /**
-     * Returns the currently configured geometric mean implementation
+     * Returns the currently configured geometric mean implementation.
      *
      * @return the StorelessUnivariateStatistic implementing the geometric mean
      */
@@ -595,7 +595,7 @@ public class MultivariateSummaryStatistics
     }
 
     /**
-     * Returns the currently configured mean implementation
+     * Returns the currently configured mean implementation.
      *
      * @return the StorelessUnivariateStatistic implementing the mean
      */

@@ -340,7 +340,7 @@ class SchurTransformer {
     }
 
     /**
-     * Perform a double QR step involving rows l:idx and columns m:n
+     * Perform a double QR step involving rows l:idx and columns m:n.
      *
      * @param il the index of the small sub-diagonal element
      * @param im the start index for the QR step
@@ -439,11 +439,11 @@ class SchurTransformer {
     private static class ShiftInfo {
         // CHECKSTYLE: stop all
 
-        /** x shift info */
+        /** x shift info. */
         double x;
-        /** y shift info */
+        /** y shift info. */
         double y;
-        /** w shift info */
+        /** w shift info. */
         double w;
         /** Indicates an exceptional shift. */
         double exShift;
