@@ -110,7 +110,7 @@ public class HessenbergTransformerTest {
     public void testRandomDataNormalDistribution() {
         for (int run = 0; run < 100; run++) {
             Random r = new Random(System.currentTimeMillis());
-            ContinuousDistribution.Sampler dist 
+            ContinuousDistribution.Sampler dist
                 = new NormalDistribution(0.0, r.nextDouble() * 5).createSampler(RandomSource.create(RandomSource.WELL_512_A,
                                                                                                     64925784252L));
 

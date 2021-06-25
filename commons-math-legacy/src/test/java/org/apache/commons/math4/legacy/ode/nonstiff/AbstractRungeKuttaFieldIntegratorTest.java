@@ -573,7 +573,7 @@ public abstract class AbstractRungeKuttaFieldIntegratorTest {
         }
 
         // check derivatives
-        final double[][] derivatives = sinCos.getDerivatives(t.getReal()); 
+        final double[][] derivatives = sinCos.getDerivatives(t.getReal());
         for (int i = 0; i < sinCos.getDimension(); ++i) {
             for (int parameter = 0; parameter < parameters; ++parameter) {
                 Assert.assertEquals(derivatives[i][parameter],

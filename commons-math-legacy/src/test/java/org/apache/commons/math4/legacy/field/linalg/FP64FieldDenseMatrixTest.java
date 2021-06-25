@@ -173,7 +173,7 @@ public class FP64FieldDenseMatrixTest {
         final FieldDenseMatrix<FP64> c = FieldDenseMatrix.create(FP64Field.get(), 6, 2);
         Assert.assertNotEquals(a, c);
 
-        // Contents.        
+        // Contents.
         final FieldDenseMatrix<FP64> d = FieldDenseMatrix.create(FP64Field.get(), 7, 2);
         Assert.assertEquals(a, d); // Unitialized contents.
         a.fill(FP64.of(1.23456789));
@@ -245,7 +245,7 @@ public class FP64FieldDenseMatrixTest {
                               double tol) {
         if (a.getRowDimension() != b.getRowDimension() ||
             a.getColumnDimension() != b.getColumnDimension()) {
-            Assert.fail("Dimension mismatch"); 
+            Assert.fail("Dimension mismatch");
         }
 
         for (int i = 0; i < a.getRowDimension(); i++) {

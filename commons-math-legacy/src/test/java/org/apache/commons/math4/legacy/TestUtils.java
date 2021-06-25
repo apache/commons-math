@@ -362,7 +362,7 @@ public class TestUtils {
             Assert.fail(out.toString());
         }
     }
-    
+
     /** verifies that two arrays are close (sup norm) */
     public static void assertEquals(String msg, float[] expected, float[] observed, float tolerance) {
         StringBuilder out = new StringBuilder(msg);
@@ -391,7 +391,7 @@ public class TestUtils {
             Assert.fail(out.toString());
         }
     }
-   
+
     /** verifies that two arrays are close (sup norm) */
     public static void assertEquals(String msg, Complex[] expected, Complex[] observed, double tolerance) {
         StringBuilder out = new StringBuilder(msg);

@@ -192,14 +192,14 @@ class OptimTestUtils {
         }
     }
 
-    static class SsDiffPow implements MultivariateFunction { 
+    static class SsDiffPow implements MultivariateFunction {
         @Override
         public double value(double[] x) {
             double f = AccurateMath.pow(new DiffPow().value(x), 0.25);
             return f;
         }
     }
- 
+
     static class Rosen implements MultivariateFunction {
         @Override
         public double value(double[] x) {
@@ -212,7 +212,7 @@ class OptimTestUtils {
             return f;
         }
     }
- 
+
     static class Ackley implements MultivariateFunction {
         private static final double A = 20;
         private static final double B = 0.2;
@@ -235,19 +235,19 @@ class OptimTestUtils {
         }
     }
 
-    static class Rastrigin implements MultivariateFunction { 
+    static class Rastrigin implements MultivariateFunction {
         private double axisratio;
         private double amplitude;
 
         Rastrigin() {
             this(1, 10);
         }
-     
+
         Rastrigin(double axisratio, double amplitude) {
             this.axisratio = axisratio;
             this.amplitude = amplitude;
         }
-     
+
         @Override
         public double value(double[] x) {
             double f = 0;

@@ -28,12 +28,12 @@ public class KthSelectorTest {
 
     @Test
     public void testRandom() {
-        
+
         final int numIterations = 100000;
         final double[] possibleValues = {Double.NaN, Double.NEGATIVE_INFINITY, Double.POSITIVE_INFINITY, Double.MAX_VALUE, Double.MIN_VALUE, -10, -9, -8, -7, -6, -5, -4, -3, -2, -1, -0., 0., 1, 2, 3, 4, 5, 6, 7, 8, 9, 10};
         final Random rnd = new Random(0);
         for (int i = 0; i < numIterations; ++i) {
-            
+
             final int dataSize = rnd.nextInt(30);
 
             final double[] data = new double[dataSize];
@@ -41,7 +41,7 @@ public class KthSelectorTest {
             for (int j = 0; j < dataSize; ++j) {
                 data[j] = possibleValues[rnd.nextInt(possibleValues.length)];
             }
-            
+
             final double[] dataSorted = Arrays.copyOf(data, data.length);
             Arrays.sort(dataSorted);
 

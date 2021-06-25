@@ -155,7 +155,7 @@ public final class SimpsonIntegratorTest {
      */
     @Test
     public void testConvergenceIsPossibleAtIteration1() {
-    	// A linear function y=x should converge immediately
+        // A linear function y=x should converge immediately
         UnivariateFunction f = new Identity();
         UnivariateIntegrator integrator = new SimpsonIntegrator(1, SIMPSON_MAX_ITERATIONS_COUNT);
 
