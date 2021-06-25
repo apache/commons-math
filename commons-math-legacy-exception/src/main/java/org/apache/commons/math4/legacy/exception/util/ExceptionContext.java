@@ -82,7 +82,7 @@ public class ExceptionContext implements Serializable {
      * pattern.
      */
     public void addMessage(Localizable pattern,
-                           Object ... arguments) {
+                           Object... arguments) {
         msgPatterns.add(pattern);
         msgArguments.add(ArgUtils.flatten(arguments));
     }
@@ -110,7 +110,7 @@ public class ExceptionContext implements Serializable {
     }
 
     /**
-     * Gets all the keys stored in the exception
+     * Gets all the keys stored in the exception.
      *
      * @return the set of keys.
      */
@@ -285,7 +285,7 @@ public class ExceptionContext implements Serializable {
         // Step 1.
         final int len = context.size();
         out.writeInt(len);
-        for (Map.Entry<String,Object> entry : context.entrySet()) {
+        for (Map.Entry<String, Object> entry : context.entrySet()) {
             // Step 2.
             out.writeObject(entry.getKey());
             final Object value = entry.getValue();
@@ -328,7 +328,7 @@ public class ExceptionContext implements Serializable {
      * interface.
      * @return a string that mentions which class could not be serialized.
      */
-    private String nonSerializableReplacement(Object obj) {
+    private static String nonSerializableReplacement(Object obj) {
         return "[Object could not be serialized: " + obj.getClass().getName() + "]";
     }
 }

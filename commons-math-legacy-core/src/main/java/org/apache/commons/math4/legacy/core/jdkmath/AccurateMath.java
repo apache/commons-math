@@ -85,7 +85,7 @@ import org.apache.commons.math4.legacy.exception.util.LocalizedFormats;
  * </ul>
  * @since 2.2
  */
-public class AccurateMath {
+public final class AccurateMath {
     /** Archimede's constant PI, ratio of circle circumference to diameter. */
     public static final double PI = 105414357.0 / 33554432.0 + 1.984187159361080883e-9;
 
@@ -101,7 +101,7 @@ public class AccurateMath {
     /** Exponential fractions table length. */
     static final int EXP_FRAC_TABLE_LEN = 1025; // 0, 1/1024, ... 1024/1024
 
-    /** StrictMath.log(Double.MAX_VALUE): {@value} */
+    /** StrictMath.log(Double.MAX_VALUE): {@value}. */
     private static final double LOG_MAX_VALUE = StrictMath.log(Double.MAX_VALUE);
 
     /** Indicator for tables initialization.
@@ -120,7 +120,7 @@ public class AccurateMath {
     private static final double LN_2_B = 1.17304635250823482e-7;
 
     /** Coefficients for log, when input 0.99 < x < 1.01. */
-    private static final double LN_QUICK_COEF[][] = {
+    private static final double[][] LN_QUICK_COEF = {
         {1.0, 5.669184079525E-24},
         {-0.25, -0.25},
         {0.3333333134651184, 1.986821492305628E-8},
@@ -133,7 +133,7 @@ public class AccurateMath {
     };
 
     /** Coefficients for log in the range of 1.0 < x < 1.0 + 2^-10. */
-    private static final double LN_HI_PREC_COEF[][] = {
+    private static final double[][] LN_HI_PREC_COEF = {
         {1.0, -6.032174644509064E-23},
         {-0.25, -0.25},
         {0.3333333134651184, 1.9868161777724352E-8},
@@ -146,7 +146,7 @@ public class AccurateMath {
     private static final int SINE_TABLE_LEN = 14;
 
     /** Sine table (high bits). */
-    private static final double SINE_TABLE_A[] =
+    private static final double[] SINE_TABLE_A =
         {
         +0.0d,
         +0.1246747374534607d,
@@ -165,7 +165,7 @@ public class AccurateMath {
     };
 
     /** Sine table (low bits). */
-    private static final double SINE_TABLE_B[] =
+    private static final double[] SINE_TABLE_B =
         {
         +0.0d,
         -4.068233003401932E-9d,
@@ -184,7 +184,7 @@ public class AccurateMath {
     };
 
     /** Cosine table (high bits). */
-    private static final double COSINE_TABLE_A[] =
+    private static final double[] COSINE_TABLE_A =
         {
         +1.0d,
         +0.9921976327896118d,
@@ -203,7 +203,7 @@ public class AccurateMath {
     };
 
     /** Cosine table (low bits). */
-    private static final double COSINE_TABLE_B[] =
+    private static final double[] COSINE_TABLE_B =
         {
         +0.0d,
         +3.4439717236742845E-8d,
@@ -223,7 +223,7 @@ public class AccurateMath {
 
 
     /** Tangent table, used by atan() (high bits). */
-    private static final double TANGENT_TABLE_A[] =
+    private static final double[] TANGENT_TABLE_A =
         {
         +0.0d,
         +0.1256551444530487d,
@@ -242,7 +242,7 @@ public class AccurateMath {
     };
 
     /** Tangent table, used by atan() (low bits). */
-    private static final double TANGENT_TABLE_B[] =
+    private static final double[] TANGENT_TABLE_B =
         {
         +0.0d,
         -7.877917738262007E-9d,
@@ -261,7 +261,7 @@ public class AccurateMath {
     };
 
     /** Bits of 1/(2*pi), need for reducePayneHanek(). */
-    private static final long RECIP_2PI[] = new long[] {
+    private static final long[] RECIP_2PI = new long[] {
         (0x28be60dbL << 32) | 0x9391054aL,
         (0x7f09d5f4L << 32) | 0x7d4d3770L,
         (0x36d8a566L << 32) | 0x4f10e410L,
@@ -279,10 +279,10 @@ public class AccurateMath {
         (0xd3d18fd9L << 32) | 0xa797fa8bL,
         (0x5d49eeb1L << 32) | 0xfaf97c5eL,
         (0xcf41ce7dL << 32) | 0xe294a4baL,
-         0x9afed7ecL << 32  };
+        (0x9afed7ecL << 32)};
 
     /** Bits of pi/4, need for reducePayneHanek(). */
-    private static final long PI_O_4_BITS[] = new long[] {
+    private static final long[] PI_O_4_BITS = new long[] {
         (0xc90fdaa2L << 32) | 0x2168c234L,
         (0xc4c6628bL << 32) | 0x80dc1cd1L };
 
@@ -290,14 +290,15 @@ public class AccurateMath {
      * This is used by sinQ, because its faster to do a table lookup than
      * a multiply in this time-critical routine
      */
-    private static final double EIGHTHS[] = {0, 0.125, 0.25, 0.375, 0.5, 0.625, 0.75, 0.875, 1.0, 1.125, 1.25, 1.375, 1.5, 1.625};
+    private static final double[] EIGHTHS = {
+        0, 0.125, 0.25, 0.375, 0.5, 0.625, 0.75, 0.875, 1.0, 1.125, 1.25, 1.375, 1.5, 1.625};
 
-    /** Table of 2^((n+2)/3) */
-    private static final double CBRTTWO[] = { 0.6299605249474366,
-                                            0.7937005259840998,
-                                            1.0,
-                                            1.2599210498948732,
-                                            1.5874010519681994 };
+    /** Table of 2^((n+2)/3). */
+    private static final double[] CBRTTWO = {0.6299605249474366,
+                                             0.7937005259840998,
+                                             1.0,
+                                             1.2599210498948732,
+                                             1.5874010519681994};
 
     /*
      *  There are 52 bits in the mantissa of a double.
@@ -312,14 +313,14 @@ public class AccurateMath {
      */
     private static final long HEX_40000000 = 0x40000000L; // 1073741824L
 
-    /** Mask used to clear low order 30 bits */
-    private static final long MASK_30BITS = -1L - (HEX_40000000 -1); // 0xFFFFFFFFC0000000L;
+    /** Mask used to clear low order 30 bits. */
+    private static final long MASK_30BITS = -1L - (HEX_40000000 - 1); // 0xFFFFFFFFC0000000L;
 
     /** Mask used to clear the non-sign part of an int. */
     private static final int MASK_NON_SIGN_INT = 0x7fffffff;
 
     /** Mask used to clear the non-sign part of a long. */
-    private static final long MASK_NON_SIGN_LONG = 0x7fffffffffffffffl;
+    private static final long MASK_NON_SIGN_LONG = 0x7fffffffffffffffL;
 
     /** Mask used to extract exponent from double bits. */
     private static final long MASK_DOUBLE_EXPONENT = 0x7ff0000000000000L;
@@ -330,7 +331,7 @@ public class AccurateMath {
     /** Mask used to add implicit high order bit for normalized double. */
     private static final long IMPLICIT_HIGH_BIT = 0x0010000000000000L;
 
-    /** 2^52 - double numbers this large must be integral (no fraction) or NaN or Infinite */
+    /** 2^52 - double numbers this large must be integral (no fraction) or NaN or Infinite. */
     private static final double TWO_POWER_52 = 4503599627370496.0;
 
     /** Constant: {@value}. */
@@ -369,7 +370,7 @@ public class AccurateMath {
     private static final double F_1_4 = 1d / 4d;
 
     /**
-     * Private Constructor
+     * Private Constructor.
      */
     private AccurateMath() {}
 
@@ -383,7 +384,7 @@ public class AccurateMath {
      * @return the high order part of the mantissa
      */
     private static double doubleHighPart(double d) {
-        if (d > -Precision.SAFE_MIN && d < Precision.SAFE_MIN){
+        if (d > -Precision.SAFE_MIN && d < Precision.SAFE_MIN) {
             return d; // These are un-normalised - don't try to convert
         }
         long xl = Double.doubleToRawLongBits(d); // can take raw bits because just gonna convert it back
@@ -405,68 +406,68 @@ public class AccurateMath {
      * @return hyperbolic cosine of x
      */
     public static double cosh(double x) {
-      if (Double.isNaN(x)) {
-          return x;
-      }
+        if (Double.isNaN(x)) {
+            return x;
+        }
 
-      // cosh[z] = (exp(z) + exp(-z))/2
+        // cosh[z] = (exp(z) + exp(-z))/2
 
-      // for numbers with magnitude 20 or so,
-      // exp(-z) can be ignored in comparison with exp(z)
+        // for numbers with magnitude 20 or so,
+        // exp(-z) can be ignored in comparison with exp(z)
 
-      if (x > 20) {
-          if (x >= LOG_MAX_VALUE) {
-              // Avoid overflow (MATH-905).
-              final double t = exp(0.5 * x);
-              return (0.5 * t) * t;
-          } else {
-              return 0.5 * exp(x);
-          }
-      } else if (x < -20) {
-          if (x <= -LOG_MAX_VALUE) {
-              // Avoid overflow (MATH-905).
-              final double t = exp(-0.5 * x);
-              return (0.5 * t) * t;
-          } else {
-              return 0.5 * exp(-x);
-          }
-      }
+        if (x > 20) {
+            if (x >= LOG_MAX_VALUE) {
+                // Avoid overflow (MATH-905).
+                final double t = exp(0.5 * x);
+                return (0.5 * t) * t;
+            } else {
+                return 0.5 * exp(x);
+            }
+        } else if (x < -20) {
+            if (x <= -LOG_MAX_VALUE) {
+                // Avoid overflow (MATH-905).
+                final double t = exp(-0.5 * x);
+                return (0.5 * t) * t;
+            } else {
+                return 0.5 * exp(-x);
+            }
+        }
 
-      final double hiPrec[] = new double[2];
-      if (x < 0.0) {
-          x = -x;
-      }
-      exp(x, 0.0, hiPrec);
+        final double[] hiPrec = new double[2];
+        if (x < 0.0) {
+            x = -x;
+        }
+        exp(x, 0.0, hiPrec);
 
-      double ya = hiPrec[0] + hiPrec[1];
-      double yb = -(ya - hiPrec[0] - hiPrec[1]);
+        double ya = hiPrec[0] + hiPrec[1];
+        double yb = -(ya - hiPrec[0] - hiPrec[1]);
 
-      double temp = ya * HEX_40000000;
-      double yaa = ya + temp - temp;
-      double yab = ya - yaa;
+        double temp = ya * HEX_40000000;
+        double yaa = ya + temp - temp;
+        double yab = ya - yaa;
 
-      // recip = 1/y
-      double recip = 1.0/ya;
-      temp = recip * HEX_40000000;
-      double recipa = recip + temp - temp;
-      double recipb = recip - recipa;
+        // recip = 1/y
+        double recip = 1.0 / ya;
+        temp = recip * HEX_40000000;
+        double recipa = recip + temp - temp;
+        double recipb = recip - recipa;
 
-      // Correct for rounding in division
-      recipb += (1.0 - yaa*recipa - yaa*recipb - yab*recipa - yab*recipb) * recip;
-      // Account for yb
-      recipb += -yb * recip * recip;
+        // Correct for rounding in division
+        recipb += (1.0 - yaa * recipa - yaa * recipb - yab * recipa - yab * recipb) * recip;
+        // Account for yb
+        recipb += -yb * recip * recip;
 
-      // y = y + 1/y
-      temp = ya + recipa;
-      yb += -(temp - ya - recipa);
-      ya = temp;
-      temp = ya + recipb;
-      yb += -(temp - ya - recipb);
-      ya = temp;
+        // y = y + 1/y
+        temp = ya + recipa;
+        yb += -(temp - ya - recipa);
+        ya = temp;
+        temp = ya + recipb;
+        yb += -(temp - ya - recipb);
+        ya = temp;
 
-      double result = ya + yb;
-      result *= 0.5;
-      return result;
+        double result = ya + yb;
+        result *= 0.5;
+        return result;
     }
 
     /** Compute the hyperbolic sine of a number.
@@ -474,124 +475,123 @@ public class AccurateMath {
      * @return hyperbolic sine of x
      */
     public static double sinh(double x) {
-      boolean negate = false;
-      if (Double.isNaN(x)) {
-          return x;
-      }
+        boolean negate = false;
+        if (Double.isNaN(x)) {
+            return x;
+        }
 
-      // sinh[z] = (exp(z) - exp(-z) / 2
+        // sinh[z] = (exp(z) - exp(-z) / 2
 
-      // for values of z larger than about 20,
-      // exp(-z) can be ignored in comparison with exp(z)
+        // for values of z larger than about 20,
+        // exp(-z) can be ignored in comparison with exp(z)
 
-      if (x > 20) {
-          if (x >= LOG_MAX_VALUE) {
-              // Avoid overflow (MATH-905).
-              final double t = exp(0.5 * x);
-              return (0.5 * t) * t;
-          } else {
-              return 0.5 * exp(x);
-          }
-      } else if (x < -20) {
-          if (x <= -LOG_MAX_VALUE) {
-              // Avoid overflow (MATH-905).
-              final double t = exp(-0.5 * x);
-              return (-0.5 * t) * t;
-          } else {
-              return -0.5 * exp(-x);
-          }
-      }
+        if (x > 20) {
+            if (x >= LOG_MAX_VALUE) {
+                // Avoid overflow (MATH-905).
+                final double t = exp(0.5 * x);
+                return (0.5 * t) * t;
+            } else {
+                return 0.5 * exp(x);
+            }
+        } else if (x < -20) {
+            if (x <= -LOG_MAX_VALUE) {
+                // Avoid overflow (MATH-905).
+                final double t = exp(-0.5 * x);
+                return (-0.5 * t) * t;
+            } else {
+                return -0.5 * exp(-x);
+            }
+        }
 
-      if (x == 0) {
-          return x;
-      }
+        if (x == 0) {
+            return x;
+        }
 
-      if (x < 0.0) {
-          x = -x;
-          negate = true;
-      }
+        if (x < 0.0) {
+            x = -x;
+            negate = true;
+        }
 
-      double result;
+        double result;
 
-      if (x > 0.25) {
-          double hiPrec[] = new double[2];
-          exp(x, 0.0, hiPrec);
+        if (x > 0.25) {
+            double[] hiPrec = new double[2];
+            exp(x, 0.0, hiPrec);
 
-          double ya = hiPrec[0] + hiPrec[1];
-          double yb = -(ya - hiPrec[0] - hiPrec[1]);
+            double ya = hiPrec[0] + hiPrec[1];
+            double yb = -(ya - hiPrec[0] - hiPrec[1]);
 
-          double temp = ya * HEX_40000000;
-          double yaa = ya + temp - temp;
-          double yab = ya - yaa;
+            double temp = ya * HEX_40000000;
+            double yaa = ya + temp - temp;
+            double yab = ya - yaa;
 
-          // recip = 1/y
-          double recip = 1.0/ya;
-          temp = recip * HEX_40000000;
-          double recipa = recip + temp - temp;
-          double recipb = recip - recipa;
+            // recip = 1/y
+            double recip = 1.0 / ya;
+            temp = recip * HEX_40000000;
+            double recipa = recip + temp - temp;
+            double recipb = recip - recipa;
 
-          // Correct for rounding in division
-          recipb += (1.0 - yaa*recipa - yaa*recipb - yab*recipa - yab*recipb) * recip;
-          // Account for yb
-          recipb += -yb * recip * recip;
+            // Correct for rounding in division
+            recipb += (1.0 - yaa * recipa - yaa * recipb - yab * recipa - yab * recipb) * recip;
+            // Account for yb
+            recipb += -yb * recip * recip;
 
-          recipa = -recipa;
-          recipb = -recipb;
+            recipa = -recipa;
+            recipb = -recipb;
 
-          // y = y + 1/y
-          temp = ya + recipa;
-          yb += -(temp - ya - recipa);
-          ya = temp;
-          temp = ya + recipb;
-          yb += -(temp - ya - recipb);
-          ya = temp;
+            // y = y + 1/y
+            temp = ya + recipa;
+            yb += -(temp - ya - recipa);
+            ya = temp;
+            temp = ya + recipb;
+            yb += -(temp - ya - recipb);
+            ya = temp;
 
-          result = ya + yb;
-          result *= 0.5;
-      }
-      else {
-          double hiPrec[] = new double[2];
-          expm1(x, hiPrec);
+            result = ya + yb;
+            result *= 0.5;
+        } else {
+            double[] hiPrec = new double[2];
+            expm1(x, hiPrec);
 
-          double ya = hiPrec[0] + hiPrec[1];
-          double yb = -(ya - hiPrec[0] - hiPrec[1]);
+            double ya = hiPrec[0] + hiPrec[1];
+            double yb = -(ya - hiPrec[0] - hiPrec[1]);
 
-          /* Compute expm1(-x) = -expm1(x) / (expm1(x) + 1) */
-          double denom = 1.0 + ya;
-          double denomr = 1.0 / denom;
-          double denomb = -(denom - 1.0 - ya) + yb;
-          double ratio = ya * denomr;
-          double temp = ratio * HEX_40000000;
-          double ra = ratio + temp - temp;
-          double rb = ratio - ra;
+            /* Compute expm1(-x) = -expm1(x) / (expm1(x) + 1) */
+            double denom = 1.0 + ya;
+            double denomr = 1.0 / denom;
+            double denomb = -(denom - 1.0 - ya) + yb;
+            double ratio = ya * denomr;
+            double temp = ratio * HEX_40000000;
+            double ra = ratio + temp - temp;
+            double rb = ratio - ra;
 
-          temp = denom * HEX_40000000;
-          double za = denom + temp - temp;
-          double zb = denom - za;
+            temp = denom * HEX_40000000;
+            double za = denom + temp - temp;
+            double zb = denom - za;
 
-          rb += (ya - za*ra - za*rb - zb*ra - zb*rb) * denomr;
+            rb += (ya - za * ra - za * rb - zb * ra - zb * rb) * denomr;
 
-          // Adjust for yb
-          rb += yb*denomr;                        // numerator
-          rb += -ya * denomb * denomr * denomr;   // denominator
+            // Adjust for yb
+            rb += yb * denomr;                      // numerator
+            rb += -ya * denomb * denomr * denomr;   // denominator
 
-          // y = y - 1/y
-          temp = ya + ra;
-          yb += -(temp - ya - ra);
-          ya = temp;
-          temp = ya + rb;
-          yb += -(temp - ya - rb);
-          ya = temp;
+            // y = y - 1/y
+            temp = ya + ra;
+            yb += -(temp - ya - ra);
+            ya = temp;
+            temp = ya + rb;
+            yb += -(temp - ya - rb);
+            ya = temp;
 
-          result = ya + yb;
-          result *= 0.5;
-      }
+            result = ya + yb;
+            result *= 0.5;
+        }
 
-      if (negate) {
-          result = -result;
-      }
+        if (negate) {
+            result = -result;
+        }
 
-      return result;
+        return result;
     }
 
     /** Compute the hyperbolic tangent of a number.
@@ -599,123 +599,122 @@ public class AccurateMath {
      * @return hyperbolic tangent of x
      */
     public static double tanh(double x) {
-      boolean negate = false;
+        boolean negate = false;
 
-      if (Double.isNaN(x)) {
-          return x;
-      }
+        if (Double.isNaN(x)) {
+            return x;
+        }
 
-      // tanh[z] = sinh[z] / cosh[z]
-      // = (exp(z) - exp(-z)) / (exp(z) + exp(-z))
-      // = (exp(2x) - 1) / (exp(2x) + 1)
+        // tanh[z] = sinh[z] / cosh[z]
+        // = (exp(z) - exp(-z)) / (exp(z) + exp(-z))
+        // = (exp(2x) - 1) / (exp(2x) + 1)
 
-      // for magnitude > 20, sinh[z] == cosh[z] in double precision
+        // for magnitude > 20, sinh[z] == cosh[z] in double precision
 
-      if (x > 20.0) {
-          return 1.0;
-      }
+        if (x > 20.0) {
+            return 1.0;
+        }
 
-      if (x < -20) {
-          return -1.0;
-      }
+        if (x < -20) {
+            return -1.0;
+        }
 
-      if (x == 0) {
-          return x;
-      }
+        if (x == 0) {
+            return x;
+        }
 
-      if (x < 0.0) {
-          x = -x;
-          negate = true;
-      }
+        if (x < 0.0) {
+            x = -x;
+            negate = true;
+        }
 
-      double result;
-      if (x >= 0.5) {
-          double hiPrec[] = new double[2];
-          // tanh(x) = (exp(2x) - 1) / (exp(2x) + 1)
-          exp(x*2.0, 0.0, hiPrec);
+        double result;
+        if (x >= 0.5) {
+            double[] hiPrec = new double[2];
+            // tanh(x) = (exp(2x) - 1) / (exp(2x) + 1)
+            exp(x * 2.0, 0.0, hiPrec);
 
-          double ya = hiPrec[0] + hiPrec[1];
-          double yb = -(ya - hiPrec[0] - hiPrec[1]);
+            double ya = hiPrec[0] + hiPrec[1];
+            double yb = -(ya - hiPrec[0] - hiPrec[1]);
 
-          /* Numerator */
-          double na = -1.0 + ya;
-          double nb = -(na + 1.0 - ya);
-          double temp = na + yb;
-          nb += -(temp - na - yb);
-          na = temp;
+            /* Numerator */
+            double na = -1.0 + ya;
+            double nb = -(na + 1.0 - ya);
+            double temp = na + yb;
+            nb += -(temp - na - yb);
+            na = temp;
 
-          /* Denominator */
-          double da = 1.0 + ya;
-          double db = -(da - 1.0 - ya);
-          temp = da + yb;
-          db += -(temp - da - yb);
-          da = temp;
+            /* Denominator */
+            double da = 1.0 + ya;
+            double db = -(da - 1.0 - ya);
+            temp = da + yb;
+            db += -(temp - da - yb);
+            da = temp;
 
-          temp = da * HEX_40000000;
-          double daa = da + temp - temp;
-          double dab = da - daa;
+            temp = da * HEX_40000000;
+            double daa = da + temp - temp;
+            double dab = da - daa;
 
-          // ratio = na/da
-          double ratio = na/da;
-          temp = ratio * HEX_40000000;
-          double ratioa = ratio + temp - temp;
-          double ratiob = ratio - ratioa;
+            // ratio = na/da
+            double ratio = na / da;
+            temp = ratio * HEX_40000000;
+            double ratioa = ratio + temp - temp;
+            double ratiob = ratio - ratioa;
 
-          // Correct for rounding in division
-          ratiob += (na - daa*ratioa - daa*ratiob - dab*ratioa - dab*ratiob) / da;
+            // Correct for rounding in division
+            ratiob += (na - daa * ratioa - daa * ratiob - dab * ratioa - dab * ratiob) / da;
 
-          // Account for nb
-          ratiob += nb / da;
-          // Account for db
-          ratiob += -db * na / da / da;
+            // Account for nb
+            ratiob += nb / da;
+            // Account for db
+            ratiob += -db * na / da / da;
 
-          result = ratioa + ratiob;
-      }
-      else {
-          double hiPrec[] = new double[2];
-          // tanh(x) = expm1(2x) / (expm1(2x) + 2)
-          expm1(x*2.0, hiPrec);
+            result = ratioa + ratiob;
+        } else {
+            double[] hiPrec = new double[2];
+            // tanh(x) = expm1(2x) / (expm1(2x) + 2)
+            expm1(x * 2.0, hiPrec);
 
-          double ya = hiPrec[0] + hiPrec[1];
-          double yb = -(ya - hiPrec[0] - hiPrec[1]);
+            double ya = hiPrec[0] + hiPrec[1];
+            double yb = -(ya - hiPrec[0] - hiPrec[1]);
 
-          /* Numerator */
-          double na = ya;
-          double nb = yb;
+            /* Numerator */
+            double na = ya;
+            double nb = yb;
 
-          /* Denominator */
-          double da = 2.0 + ya;
-          double db = -(da - 2.0 - ya);
-          double temp = da + yb;
-          db += -(temp - da - yb);
-          da = temp;
+            /* Denominator */
+            double da = 2.0 + ya;
+            double db = -(da - 2.0 - ya);
+            double temp = da + yb;
+            db += -(temp - da - yb);
+            da = temp;
 
-          temp = da * HEX_40000000;
-          double daa = da + temp - temp;
-          double dab = da - daa;
+            temp = da * HEX_40000000;
+            double daa = da + temp - temp;
+            double dab = da - daa;
 
-          // ratio = na/da
-          double ratio = na/da;
-          temp = ratio * HEX_40000000;
-          double ratioa = ratio + temp - temp;
-          double ratiob = ratio - ratioa;
+            // ratio = na/da
+            double ratio = na / da;
+            temp = ratio * HEX_40000000;
+            double ratioa = ratio + temp - temp;
+            double ratiob = ratio - ratioa;
 
-          // Correct for rounding in division
-          ratiob += (na - daa*ratioa - daa*ratiob - dab*ratioa - dab*ratiob) / da;
+            // Correct for rounding in division
+            ratiob += (na - daa * ratioa - daa * ratiob - dab * ratioa - dab * ratiob) / da;
 
-          // Account for nb
-          ratiob += nb / da;
-          // Account for db
-          ratiob += -db * na / da / da;
+            // Account for nb
+            ratiob += nb / da;
+            // Account for db
+            ratiob += -db * na / da / da;
 
-          result = ratioa + ratiob;
-      }
+            result = ratioa + ratiob;
+        }
 
-      if (negate) {
-          result = -result;
-      }
+        if (negate) {
+            result = -result;
+        }
 
-      return result;
+        return result;
     }
 
     /** Compute the inverse hyperbolic cosine of a number.
@@ -900,7 +899,7 @@ public class AccurateMath {
 
             if (intVal < -709) {
                 /* This will produce a subnormal output */
-                final double result = exp(x+40.19140625, extra, hiPrec) / 285040095144011776.0;
+                final double result = exp(x + 40.19140625, extra, hiPrec) / 285040095144011776.0;
                 if (hiPrec != null) {
                     hiPrec[0] /= 285040095144011776.0;
                     hiPrec[1] /= 285040095144011776.0;
@@ -910,7 +909,7 @@ public class AccurateMath {
 
             if (intVal == -709) {
                 /* exp(1.494140625) is nearly a machine number... */
-                final double result = exp(x+1.494140625, extra, hiPrec) / 4.455505956692756620;
+                final double result = exp(x + 1.494140625, extra, hiPrec) / 4.455505956692756620;
                 if (hiPrec != null) {
                     hiPrec[0] /= 4.455505956692756620;
                     hiPrec[1] /= 4.455505956692756620;
@@ -931,8 +930,8 @@ public class AccurateMath {
 
         }
 
-        intPartA = ExpIntTable.EXP_INT_TABLE_A[EXP_INT_TABLE_MAX_INDEX+intVal];
-        intPartB = ExpIntTable.EXP_INT_TABLE_B[EXP_INT_TABLE_MAX_INDEX+intVal];
+        intPartA = ExpIntTable.EXP_INT_TABLE_A[EXP_INT_TABLE_MAX_INDEX + intVal];
+        intPartB = ExpIntTable.EXP_INT_TABLE_B[EXP_INT_TABLE_MAX_INDEX + intVal];
 
         /* Get the fractional part of x, find the greatest multiple of 2^-10 less than
          * x and look up the exp function of it.
@@ -983,34 +982,35 @@ public class AccurateMath {
 
         final double result;
         if (extra != 0.0) {
-            result = tempC*extra*z + tempC*extra + tempC*z + tempB + tempA;
+            result = tempC * extra * z + tempC * extra + tempC * z + tempB + tempA;
         } else {
-            result = tempC*z + tempB + tempA;
+            result = tempC * z + tempB + tempA;
         }
 
         if (hiPrec != null) {
             // If requesting high precision
             hiPrec[0] = tempA;
-            hiPrec[1] = tempC*extra*z + tempC*extra + tempC*z + tempB;
+            hiPrec[1] = tempC * extra * z + tempC * extra + tempC * z + tempB;
         }
 
         return result;
     }
 
-    /** Compute exp(x) - 1
+    /**Compute exp(x) - 1.
+     *
      * @param x number to compute shifted exponential
      * @return exp(x) - 1
      */
     public static double expm1(double x) {
-      return expm1(x, null);
+        return expm1(x, null);
     }
 
-    /** Internal helper method for expm1
+    /** Internal helper method for expm1.
      * @param x number to compute shifted exponential
      * @param hiPrecOut receive high precision result for -1.0 < x < 1.0
      * @return exp(x) - 1
      */
-    private static double expm1(double x, double hiPrecOut[]) {
+    private static double expm1(double x, double[] hiPrecOut) {
         if (Double.isNaN(x) || x == 0.0) { // NaN or zero
             return x;
         }
@@ -1018,7 +1018,7 @@ public class AccurateMath {
         if (x <= -1.0 || x >= 1.0) {
             // If not between +/- 1.0
             //return exp(x) - 1.0;
-            double hiPrec[] = new double[2];
+            double[] hiPrec = new double[2];
             exp(x, 0.0, hiPrec);
             if (x > 0.0) {
                 return -1.0 + hiPrec[0] + hiPrec[1];
@@ -1040,21 +1040,19 @@ public class AccurateMath {
             negative = true;
         }
 
-        {
-            int intFrac = (int) (x * 1024.0);
-            double tempA = ExpFracTable.EXP_FRAC_TABLE_A[intFrac] - 1.0;
-            double tempB = ExpFracTable.EXP_FRAC_TABLE_B[intFrac];
+        int intFrac = (int) (x * 1024.0);
+        double tempA = ExpFracTable.EXP_FRAC_TABLE_A[intFrac] - 1.0;
+        double tempB = ExpFracTable.EXP_FRAC_TABLE_B[intFrac];
 
-            double temp = tempA + tempB;
-            tempB = -(temp - tempA - tempB);
-            tempA = temp;
+        double temp = tempA + tempB;
+        tempB = -(temp - tempA - tempB);
+        tempA = temp;
 
-            temp = tempA * HEX_40000000;
-            baseA = tempA + temp - temp;
-            baseB = tempB + (tempA - baseA);
+        temp = tempA * HEX_40000000;
+        baseA = tempA + temp - temp;
+        baseB = tempB + (tempA - baseA);
 
-            epsilon = x - intFrac/1024.0;
-        }
+        epsilon = x - intFrac / 1024.0;
 
 
         /* Compute expm1(epsilon) */
@@ -1066,7 +1064,7 @@ public class AccurateMath {
         zb *= epsilon;
 
         double za = epsilon;
-        double temp = za + zb;
+        temp = za + zb;
         zb = -(temp - za - zb);
         za = temp;
 
@@ -1087,7 +1085,7 @@ public class AccurateMath {
         ya = temp;
 
         temp = ya + zb * baseB;
-        yb += -(temp - ya - zb*baseB);
+        yb += -(temp - ya - zb * baseB);
         ya = temp;
 
         //ya = ya + za + baseA;
@@ -1169,7 +1167,7 @@ public class AccurateMath {
      * @return log(x)
      */
     private static double log(final double x, final double[] hiPrec) {
-        if (x==0) { // Handle special case of +0/-0
+        if (x == 0) { // Handle special case of +0/-0
             return Double.NEGATIVE_INFINITY;
         }
         long bits = Double.doubleToRawLongBits(x);
@@ -1193,7 +1191,7 @@ public class AccurateMath {
         }
 
         /* Extract the exponent */
-        int exp = (int)(bits >> 52)-1023;
+        int exp = (int) (bits >> 52) - 1023;
 
         if ((bits & 0x7ff0000000000000L) == 0) {
             // Subnormal!
@@ -1208,7 +1206,7 @@ public class AccurateMath {
 
             /* Normalize the subnormal number. */
             bits <<= 1;
-            while ( (bits & 0x0010000000000000L) == 0) {
+            while ((bits & 0x0010000000000000L) == 0) {
                 --exp;
                 bits <<= 1;
             }
@@ -1290,11 +1288,11 @@ public class AccurateMath {
             /* Need a more accurate epsilon, so adjust the division. */
             final double numer = bits & 0x3ffffffffffL;
             final double denom = TWO_POWER_52 + (bits & 0x000ffc0000000000L);
-            aa = numer - xa*denom - xb * denom;
+            aa = numer - xa * denom - xb * denom;
             xb += aa / denom;
 
             /* Remez polynomial evaluation */
-            final double[] lnCoef_last = LN_HI_PREC_COEF[LN_HI_PREC_COEF.length-1];
+            final double[] lnCoef_last = LN_HI_PREC_COEF[LN_HI_PREC_COEF.length - 1];
             double ya = lnCoef_last[0];
             double yb = lnCoef_last[1];
 
@@ -1355,10 +1353,10 @@ public class AccurateMath {
          */
 
         //return lnzb + lnm[1] + ln2B*exp + lnza + lnm[0] + ln2A*exp;
-        double a = LN_2_A*exp;
+        double a = LN_2_A * exp;
         double b = 0.0;
-        double c = a+lnm[0];
-        double d = -(c-a-lnm[0]);
+        double c = a + lnm[0];
+        double d = -(c - a - lnm[0]);
         a = c;
         b += d;
 
@@ -1367,8 +1365,8 @@ public class AccurateMath {
         a = c;
         b += d;
 
-        c = a + LN_2_B*exp;
-        d = -(c - a - LN_2_B*exp);
+        c = a + LN_2_B * exp;
+        d = -(c - a - LN_2_B * exp);
         a = c;
         b += d;
 
@@ -1433,10 +1431,10 @@ public class AccurateMath {
      * @return log10(x)
      */
     public static double log10(final double x) {
-        final double hiPrec[] = new double[2];
+        final double[] hiPrec = new double[2];
 
         final double lores = log(x, hiPrec);
-        if (Double.isInfinite(lores)){ // don't allow this to be converted to NaN
+        if (Double.isInfinite(lores)) { // don't allow this to be converted to NaN
             return lores;
         }
 
@@ -1573,7 +1571,7 @@ public class AccurateMath {
                     final double yb = y - ya;
 
                     /* Compute ln(x) */
-                    final double lns[] = new double[2];
+                    final double[] lns = new double[2];
                     final double lores = log(x, lns);
                     if (Double.isInfinite(lores)) { // don't allow this to be converted to NaN
                         return lores;
@@ -1592,7 +1590,7 @@ public class AccurateMath {
                     final double aa = lna * ya;
                     final double ab = lna * yb + lnb * ya + lnb * yb;
 
-                    lna = aa+ab;
+                    lna = aa + ab;
                     lnb = -(lna - aa - ab);
 
                     double z = 1.0 / 120.0;
@@ -1776,9 +1774,8 @@ public class AccurateMath {
      *  @param x a number smaller than 1/16
      *  @return sin(x) - x
      */
-    private static double polySine(final double x)
-    {
-        double x2 = x*x;
+    private static double polySine(final double x) {
+        double x2 = x * x;
 
         double p = 2.7553817452272217E-6;
         p = p * x2 + -1.9841269659586505E-4;
@@ -1798,7 +1795,7 @@ public class AccurateMath {
      *  @return cos(x) - 1
      */
     private static double polyCosine(double x) {
-        double x2 = x*x;
+        double x2 = x * x;
 
         double p = 2.479773539153719E-5;
         p = p * x2 + -0.0013888888689039883;
@@ -1879,44 +1876,44 @@ public class AccurateMath {
 
         b = b + sintA * cosEpsB + costA * sinEpsB;
         /*
-    t = sintA*cosEpsB;
-    c = a + t;
-    d = -(c - a - t);
-    a = c;
-    b = b + d;
+        t = sintA*cosEpsB;
+        c = a + t;
+        d = -(c - a - t);
+        a = c;
+        b = b + d;
 
-    t = costA*sinEpsB;
-    c = a + t;
-    d = -(c - a - t);
-    a = c;
-    b = b + d;
+        t = costA*sinEpsB;
+        c = a + t;
+        d = -(c - a - t);
+        a = c;
+        b = b + d;
          */
 
         b = b + sintB + costB * sinEpsA + sintB * cosEpsB + costB * sinEpsB;
         /*
-    t = sintB;
-    c = a + t;
-    d = -(c - a - t);
-    a = c;
-    b = b + d;
+        t = sintB;
+        c = a + t;
+        d = -(c - a - t);
+        a = c;
+        b = b + d;
 
-    t = costB*sinEpsA;
-    c = a + t;
-    d = -(c - a - t);
-    a = c;
-    b = b + d;
+        t = costB*sinEpsA;
+        c = a + t;
+        d = -(c - a - t);
+        a = c;
+        b = b + d;
 
-    t = sintB*cosEpsB;
-    c = a + t;
-    d = -(c - a - t);
-    a = c;
-    b = b + d;
+        t = sintB*cosEpsB;
+        c = a + t;
+        d = -(c - a - t);
+        a = c;
+        b = b + d;
 
-    t = costB*sinEpsB;
-    c = a + t;
-    d = -(c - a - t);
-    a = c;
-    b = b + d;
+        t = costB*sinEpsB;
+        c = a + t;
+        d = -(c - a - t);
+        a = c;
+        b = b + d;
          */
 
         if (xb != 0.0) {
@@ -2015,14 +2012,14 @@ public class AccurateMath {
         a = c;
         b += d;
 
-        t = costA*sinEpsA;
+        t = costA * sinEpsA;
         c = a + t;
         d = -(c - a - t);
         a = c;
         b += d;
 
-        b += sintA*cosEpsB + costA*sinEpsB;
-        b += sintB + costB*sinEpsA + sintB*cosEpsB + costB*sinEpsB;
+        b += sintA * cosEpsB + costA * sinEpsB;
+        b += sintB + costB * sinEpsA + sintB * cosEpsB + costB * sinEpsB;
 
         double sina = a + b;
         double sinb = -(sina - a - b);
@@ -2031,20 +2028,20 @@ public class AccurateMath {
 
         a = b = c = d = 0.0;
 
-        t = costA*cosEpsA;
+        t = costA * cosEpsA;
         c = a + t;
         d = -(c - a - t);
         a = c;
         b += d;
 
-        t = -sintA*sinEpsA;
+        t = -sintA * sinEpsA;
         c = a + t;
         d = -(c - a - t);
         a = c;
         b += d;
 
-        b += costB*cosEpsA + costA*cosEpsB + costB*cosEpsB;
-        b -= sintB*sinEpsA + sintA*sinEpsB + sintB*sinEpsB;
+        b += costB * cosEpsA + costA * cosEpsB + costB * cosEpsB;
+        b -= sintB * sinEpsA + sintA * sinEpsB + sintB * sinEpsB;
 
         double cosa = a + b;
         double cosb = -(cosa - a - b);
@@ -2066,7 +2063,7 @@ public class AccurateMath {
 
         // f(x) = 1/x,   f'(x) = -1/x^2
 
-        double est = sina/cosa;
+        double est = sina / cosa;
 
         /* Split the estimate to get more accurate read on division rounding */
         temp = est * HEX_40000000;
@@ -2078,14 +2075,14 @@ public class AccurateMath {
         double cosab =  cosa - cosaa;
 
         //double err = (sina - est*cosa)/cosa;  // Correction for division rounding
-        double err = (sina - esta*cosaa - esta*cosab - estb*cosaa - estb*cosab)/cosa;  // Correction for division rounding
-        err += sinb/cosa;                     // Change in est due to sinb
+        double err = (sina - esta * cosaa - esta * cosab - estb * cosaa - estb * cosab) / cosa;  // Correction for division rounding
+        err += sinb / cosa;                   // Change in est due to sinb
         err += -sina * cosb / cosa / cosa;    // Change in est due to cosb
 
         if (xb != 0.0) {
             // tan' = 1 + tan^2      cot' = -(1 + cot^2)
             // Approximate impact of xb
-            double xbadj = xb + est*est*xb;
+            double xbadj = xb + est * est * xb;
             if (cotanFlag) {
                 xbadj = -xbadj;
             }
@@ -2093,7 +2090,7 @@ public class AccurateMath {
             err += xbadj;
         }
 
-        return est+err;
+        return est + err;
     }
 
     /** Reduce the input argument using the Payne and Hanek method.
@@ -2107,8 +2104,7 @@ public class AccurateMath {
      * @param x number to reduce
      * @param result placeholder where to put the result
      */
-    private static void reducePayneHanek(double x, double result[])
-    {
+    private static void reducePayneHanek(double x, double[] result) {
         /* Convert input double to bits */
         long inbits = Double.doubleToRawLongBits(x);
         int exponent = (int) ((inbits >> 52) & 0x7ff) - 1023;
@@ -2129,14 +2125,14 @@ public class AccurateMath {
         int shift = exponent - (idx << 6);
 
         if (shift != 0) {
-            shpi0 = (idx == 0) ? 0 : (RECIP_2PI[idx-1] << shift);
-            shpi0 |= RECIP_2PI[idx] >>> (64-shift);
-            shpiA = (RECIP_2PI[idx] << shift) | (RECIP_2PI[idx+1] >>> (64-shift));
-            shpiB = (RECIP_2PI[idx+1] << shift) | (RECIP_2PI[idx+2] >>> (64-shift));
+            shpi0 = (idx == 0) ? 0 : (RECIP_2PI[idx - 1] << shift);
+            shpi0 |= RECIP_2PI[idx] >>> (64 - shift);
+            shpiA = (RECIP_2PI[idx] << shift) | (RECIP_2PI[idx + 1] >>> (64 - shift));
+            shpiB = (RECIP_2PI[idx + 1] << shift) | (RECIP_2PI[idx + 2] >>> (64 - shift));
         } else {
-            shpi0 = (idx == 0) ? 0 : RECIP_2PI[idx-1];
+            shpi0 = (idx == 0) ? 0 : RECIP_2PI[idx - 1];
             shpiA = RECIP_2PI[idx];
-            shpiB = RECIP_2PI[idx+1];
+            shpiB = RECIP_2PI[idx + 1];
         }
 
         /* Multiply input by shpiA */
@@ -2155,17 +2151,17 @@ public class AccurateMath {
         long prodA = ac + (ad >>> 32);
 
         boolean bita = (bd & 0x8000000000000000L) != 0;
-        boolean bitb = (ad & 0x80000000L ) != 0;
+        boolean bitb = (ad & 0x80000000L) != 0;
         boolean bitsum = (prodB & 0x8000000000000000L) != 0;
 
         /* Carry */
-        if ( (bita && bitb) ||
-                ((bita || bitb) && !bitsum) ) {
+        if ((bita && bitb) ||
+                ((bita || bitb) && !bitsum)) {
             prodA++;
         }
 
         bita = (prodB & 0x8000000000000000L) != 0;
-        bitb = (bc & 0x80000000L ) != 0;
+        bitb = (bc & 0x80000000L) != 0;
 
         prodB += bc << 32;
         prodA += bc >>> 32;
@@ -2173,8 +2169,8 @@ public class AccurateMath {
         bitsum = (prodB & 0x8000000000000000L) != 0;
 
         /* Carry */
-        if ( (bita && bitb) ||
-                ((bita || bitb) && !bitsum) ) {
+        if ((bita && bitb) ||
+                ((bita || bitb) && !bitsum)) {
             prodA++;
         }
 
@@ -2189,12 +2185,12 @@ public class AccurateMath {
         ac += (bc + ad) >>> 32;
 
         bita = (prodB & 0x8000000000000000L) != 0;
-        bitb = (ac & 0x8000000000000000L ) != 0;
+        bitb = (ac & 0x8000000000000000L) != 0;
         prodB += ac;
         bitsum = (prodB & 0x8000000000000000L) != 0;
         /* Carry */
-        if ( (bita && bitb) ||
-                ((bita || bitb) && !bitsum) ) {
+        if ((bita && bitb) ||
+                ((bita || bitb) && !bitsum)) {
             prodA++;
         }
 
@@ -2241,17 +2237,17 @@ public class AccurateMath {
         long prod2A = ac + (ad >>> 32);
 
         bita = (bd & 0x8000000000000000L) != 0;
-        bitb = (ad & 0x80000000L ) != 0;
+        bitb = (ad & 0x80000000L) != 0;
         bitsum = (prod2B & 0x8000000000000000L) != 0;
 
         /* Carry */
-        if ( (bita && bitb) ||
-                ((bita || bitb) && !bitsum) ) {
+        if ((bita && bitb) ||
+                ((bita || bitb) && !bitsum)) {
             prod2A++;
         }
 
         bita = (prod2B & 0x8000000000000000L) != 0;
-        bitb = (bc & 0x80000000L ) != 0;
+        bitb = (bc & 0x80000000L) != 0;
 
         prod2B += bc << 32;
         prod2A += bc >>> 32;
@@ -2259,8 +2255,8 @@ public class AccurateMath {
         bitsum = (prod2B & 0x8000000000000000L) != 0;
 
         /* Carry */
-        if ( (bita && bitb) ||
-                ((bita || bitb) && !bitsum) ) {
+        if ((bita && bitb) ||
+                ((bita || bitb) && !bitsum)) {
             prod2A++;
         }
 
@@ -2275,12 +2271,12 @@ public class AccurateMath {
         ac += (bc + ad) >>> 32;
 
         bita = (prod2B & 0x8000000000000000L) != 0;
-        bitb = (ac & 0x8000000000000000L ) != 0;
+        bitb = (ac & 0x8000000000000000L) != 0;
         prod2B += ac;
         bitsum = (prod2B & 0x8000000000000000L) != 0;
         /* Carry */
-        if ( (bita && bitb) ||
-                ((bita || bitb) && !bitsum) ) {
+        if ((bita && bitb) ||
+                ((bita || bitb) && !bitsum)) {
             prod2A++;
         }
 
@@ -2297,12 +2293,12 @@ public class AccurateMath {
         ac += (bc + ad) >>> 32;
 
         bita = (prod2B & 0x8000000000000000L) != 0;
-        bitb = (ac & 0x8000000000000000L ) != 0;
+        bitb = (ac & 0x8000000000000000L) != 0;
         prod2B += ac;
         bitsum = (prod2B & 0x8000000000000000L) != 0;
         /* Carry */
-        if ( (bita && bitb) ||
-                ((bita || bitb) && !bitsum) ) {
+        if ((bita && bitb) ||
+                ((bita || bitb) && !bitsum)) {
             prod2A++;
         }
 
@@ -2356,7 +2352,7 @@ public class AccurateMath {
             // PI * (2**20)
             // Argument too big for CodyWaite reduction.  Must use
             // PayneHanek.
-            double reduceResults[] = new double[3];
+            double[] reduceResults = new double[3];
             reducePayneHanek(xa, reduceResults);
             quadrant = ((int) reduceResults[0]) & 3;
             xa = reduceResults[1];
@@ -2373,16 +2369,16 @@ public class AccurateMath {
         }
 
         switch (quadrant) {
-            case 0:
-                return sinQ(xa, xb);
-            case 1:
-                return cosQ(xa, xb);
-            case 2:
-                return -sinQ(xa, xb);
-            case 3:
-                return -cosQ(xa, xb);
-            default:
-                return Double.NaN;
+        case 0:
+            return sinQ(xa, xb);
+        case 1:
+            return cosQ(xa, xb);
+        case 2:
+            return -sinQ(xa, xb);
+        case 3:
+            return -cosQ(xa, xb);
+        default:
+            return Double.NaN;
         }
     }
 
@@ -2411,7 +2407,7 @@ public class AccurateMath {
             // PI * (2**20)
             // Argument too big for CodyWaite reduction.  Must use
             // PayneHanek.
-            double reduceResults[] = new double[3];
+            double[] reduceResults = new double[3];
             reducePayneHanek(xa, reduceResults);
             quadrant = ((int) reduceResults[0]) & 3;
             xa = reduceResults[1];
@@ -2427,16 +2423,16 @@ public class AccurateMath {
         //  quadrant = (quadrant + 2) % 4;
 
         switch (quadrant) {
-            case 0:
-                return cosQ(xa, xb);
-            case 1:
-                return -sinQ(xa, xb);
-            case 2:
-                return -cosQ(xa, xb);
-            case 3:
-                return sinQ(xa, xb);
-            default:
-                return Double.NaN;
+        case 0:
+            return cosQ(xa, xb);
+        case 1:
+            return -sinQ(xa, xb);
+        case 2:
+            return -cosQ(xa, xb);
+        case 3:
+            return sinQ(xa, xb);
+        default:
+            return Double.NaN;
         }
     }
 
@@ -2476,7 +2472,7 @@ public class AccurateMath {
             // PI * (2**20)
             // Argument too big for CodyWaite reduction.  Must use
             // PayneHanek.
-            double reduceResults[] = new double[3];
+            double[] reduceResults = new double[3];
             reducePayneHanek(xa, reduceResults);
             quadrant = ((int) reduceResults[0]) & 3;
             xa = reduceResults[1];
@@ -2518,7 +2514,7 @@ public class AccurateMath {
     }
 
     /**
-     * Arctangent function
+     * Arctangent function.
      *  @param x a number
      *  @return atan(x)
      */
@@ -2680,7 +2676,7 @@ public class AccurateMath {
     }
 
     /**
-     * Two arguments arctangent function
+     * Two arguments arctangent function.
      * @param y ordinate
      * @param x abscissa
      * @return phase angle of point (x,y) between {@code -PI} and {@code PI}
@@ -2750,8 +2746,7 @@ public class AccurateMath {
             }
         }
 
-        if (x == Double.NEGATIVE_INFINITY)
-        {
+        if (x == Double.NEGATIVE_INFINITY) {
             if (y > 0.0 || 1 / y > 0.0) {
                 return Math.PI;
             }
@@ -2807,75 +2802,75 @@ public class AccurateMath {
      * @return arc sine of x
      */
     public static double asin(double x) {
-      if (Double.isNaN(x)) {
-          return Double.NaN;
-      }
+        if (Double.isNaN(x)) {
+            return Double.NaN;
+        }
 
-      if (x > 1.0 || x < -1.0) {
-          return Double.NaN;
-      }
+        if (x > 1.0 || x < -1.0) {
+            return Double.NaN;
+        }
 
-      if (x == 1.0) {
-          return Math.PI/2.0;
-      }
+        if (x == 1.0) {
+            return Math.PI / 2.0;
+        }
 
-      if (x == -1.0) {
-          return -Math.PI/2.0;
-      }
+        if (x == -1.0) {
+            return -Math.PI / 2.0;
+        }
 
-      if (x == 0.0) { // Matches +/- 0.0; return correct sign
-          return x;
-      }
+        if (x == 0.0) { // Matches +/- 0.0; return correct sign
+            return x;
+        }
 
-      /* Compute asin(x) = atan(x/sqrt(1-x*x)) */
+        /* Compute asin(x) = atan(x/sqrt(1-x*x)) */
 
-      /* Split x */
-      double temp = x * HEX_40000000;
-      final double xa = x + temp - temp;
-      final double xb = x - xa;
+        /* Split x */
+        double temp = x * HEX_40000000;
+        final double xa = x + temp - temp;
+        final double xb = x - xa;
 
-      /* Square it */
-      double ya = xa*xa;
-      double yb = xa*xb*2.0 + xb*xb;
+        /* Square it */
+        double ya = xa * xa;
+        double yb = xa * xb * 2.0 + xb * xb;
 
-      /* Subtract from 1 */
-      ya = -ya;
-      yb = -yb;
+        /* Subtract from 1 */
+        ya = -ya;
+        yb = -yb;
 
-      double za = 1.0 + ya;
-      double zb = -(za - 1.0 - ya);
+        double za = 1.0 + ya;
+        double zb = -(za - 1.0 - ya);
 
-      temp = za + yb;
-      zb += -(temp - za - yb);
-      za = temp;
+        temp = za + yb;
+        zb += -(temp - za - yb);
+        za = temp;
 
-      /* Square root */
-      double y;
-      y = sqrt(za);
-      temp = y * HEX_40000000;
-      ya = y + temp - temp;
-      yb = y - ya;
+        /* Square root */
+        double y;
+        y = sqrt(za);
+        temp = y * HEX_40000000;
+        ya = y + temp - temp;
+        yb = y - ya;
 
-      /* Extend precision of sqrt */
-      yb += (za - ya*ya - 2*ya*yb - yb*yb) / (2.0*y);
+        /* Extend precision of sqrt */
+        yb += (za - ya * ya - 2 * ya * yb - yb * yb) / (2.0 * y);
 
-      /* Contribution of zb to sqrt */
-      double dx = zb / (2.0*y);
+        /* Contribution of zb to sqrt */
+        double dx = zb / (2.0 * y);
 
-      // Compute ratio r = x/y
-      double r = x/y;
-      temp = r * HEX_40000000;
-      double ra = r + temp - temp;
-      double rb = r - ra;
+        // Compute ratio r = x/y
+        double r = x / y;
+        temp = r * HEX_40000000;
+        double ra = r + temp - temp;
+        double rb = r - ra;
 
-      rb += (x - ra*ya - ra*yb - rb*ya - rb*yb) / y;  // Correct for rounding in division
-      rb += -x * dx / y / y;  // Add in effect additional bits of sqrt.
+        rb += (x - ra * ya - ra * yb - rb * ya - rb * yb) / y; // Correct for rounding in division
+        rb += -x * dx / y / y; // Add in effect additional bits of sqrt.
 
-      temp = ra + rb;
-      rb = -(temp - ra - rb);
-      ra = temp;
+        temp = ra + rb;
+        rb = -(temp - ra - rb);
+        ra = temp;
 
-      return atan(ra, rb, false);
+        return atan(ra, rb, false);
     }
 
     /** Compute the arc cosine of a number.
@@ -2883,81 +2878,81 @@ public class AccurateMath {
      * @return arc cosine of x
      */
     public static double acos(double x) {
-      if (Double.isNaN(x)) {
-          return Double.NaN;
-      }
+        if (Double.isNaN(x)) {
+            return Double.NaN;
+        }
 
-      if (x > 1.0 || x < -1.0) {
-          return Double.NaN;
-      }
+        if (x > 1.0 || x < -1.0) {
+            return Double.NaN;
+        }
 
-      if (x == -1.0) {
-          return Math.PI;
-      }
+        if (x == -1.0) {
+            return Math.PI;
+        }
 
-      if (x == 1.0) {
-          return 0.0;
-      }
+        if (x == 1.0) {
+            return 0.0;
+        }
 
-      if (x == 0) {
-          return Math.PI/2.0;
-      }
+        if (x == 0) {
+            return Math.PI / 2.0;
+        }
 
-      /* Compute acos(x) = atan(sqrt(1-x*x)/x) */
+        /* Compute acos(x) = atan(sqrt(1-x*x)/x) */
 
-      /* Split x */
-      double temp = x * HEX_40000000;
-      final double xa = x + temp - temp;
-      final double xb = x - xa;
+        /* Split x */
+        double temp = x * HEX_40000000;
+        final double xa = x + temp - temp;
+        final double xb = x - xa;
 
-      /* Square it */
-      double ya = xa*xa;
-      double yb = xa*xb*2.0 + xb*xb;
+        /* Square it */
+        double ya = xa * xa;
+        double yb = xa * xb * 2.0 + xb * xb;
 
-      /* Subtract from 1 */
-      ya = -ya;
-      yb = -yb;
+        /* Subtract from 1 */
+        ya = -ya;
+        yb = -yb;
 
-      double za = 1.0 + ya;
-      double zb = -(za - 1.0 - ya);
+        double za = 1.0 + ya;
+        double zb = -(za - 1.0 - ya);
 
-      temp = za + yb;
-      zb += -(temp - za - yb);
-      za = temp;
+        temp = za + yb;
+        zb += -(temp - za - yb);
+        za = temp;
 
-      /* Square root */
-      double y = sqrt(za);
-      temp = y * HEX_40000000;
-      ya = y + temp - temp;
-      yb = y - ya;
+        /* Square root */
+        double y = sqrt(za);
+        temp = y * HEX_40000000;
+        ya = y + temp - temp;
+        yb = y - ya;
 
-      /* Extend precision of sqrt */
-      yb += (za - ya*ya - 2*ya*yb - yb*yb) / (2.0*y);
+        /* Extend precision of sqrt */
+        yb += (za - ya * ya - 2 * ya * yb - yb * yb) / (2.0 * y);
 
-      /* Contribution of zb to sqrt */
-      yb += zb / (2.0*y);
-      y = ya+yb;
-      yb = -(y - ya - yb);
+        /* Contribution of zb to sqrt */
+        yb += zb / (2.0 * y);
+        y = ya + yb;
+        yb = -(y - ya - yb);
 
-      // Compute ratio r = y/x
-      double r = y/x;
+        // Compute ratio r = y/x
+        double r = y / x;
 
-      // Did r overflow?
-      if (Double.isInfinite(r)) { // x is effectively zero
-          return Math.PI/2; // so return the appropriate value
-      }
+        // Did r overflow?
+        if (Double.isInfinite(r)) { // x is effectively zero
+            return Math.PI / 2; // so return the appropriate value
+        }
 
-      double ra = doubleHighPart(r);
-      double rb = r - ra;
+        double ra = doubleHighPart(r);
+        double rb = r - ra;
 
-      rb += (y - ra*xa - ra*xb - rb*xa - rb*xb) / x;  // Correct for rounding in division
-      rb += yb / x;  // Add in effect additional bits of sqrt.
+        rb += (y - ra * xa - ra * xb - rb * xa - rb * xb) / x; // Correct for rounding in division
+        rb += yb / x; // Add in effect additional bits of sqrt.
 
-      temp = ra + rb;
-      rb = -(temp - ra - rb);
-      ra = temp;
+        temp = ra + rb;
+        rb = -(temp - ra - rb);
+        ra = temp;
 
-      return atan(ra, rb, x<0);
+        return atan(ra, rb, x < 0);
     }
 
     /** Compute the cubic root of a number.
@@ -2965,92 +2960,90 @@ public class AccurateMath {
      * @return cubic root of x
      */
     public static double cbrt(double x) {
-      /* Convert input double to bits */
-      long inbits = Double.doubleToRawLongBits(x);
-      int exponent = (int) ((inbits >> 52) & 0x7ff) - 1023;
-      boolean subnormal = false;
+        /* Convert input double to bits */
+        long inbits = Double.doubleToRawLongBits(x);
+        int exponent = (int) ((inbits >> 52) & 0x7ff) - 1023;
+        boolean subnormal = false;
 
-      if (exponent == -1023) {
-          if (x == 0) {
-              return x;
-          }
+        if (exponent == -1023) {
+            if (x == 0) {
+                return x;
+            }
 
-          /* Subnormal, so normalize */
-          subnormal = true;
-          x *= 1.8014398509481984E16;  // 2^54
-          inbits = Double.doubleToRawLongBits(x);
-          exponent = (int) ((inbits >> 52) & 0x7ff) - 1023;
-      }
+            /* Subnormal, so normalize */
+            subnormal = true;
+            x *= 1.8014398509481984E16; // 2^54
+            inbits = Double.doubleToRawLongBits(x);
+            exponent = (int) ((inbits >> 52) & 0x7ff) - 1023;
+        }
 
-      if (exponent == 1024) {
-          // Nan or infinity.  Don't care which.
-          return x;
-      }
+        if (exponent == 1024) {
+            // Nan or infinity. Don't care which.
+            return x;
+        }
 
-      /* Divide the exponent by 3 */
-      int exp3 = exponent / 3;
+        /* Divide the exponent by 3 */
+        int exp3 = exponent / 3;
 
-      /* p2 will be the nearest power of 2 to x with its exponent divided by 3 */
-      double p2 = Double.longBitsToDouble((inbits & 0x8000000000000000L) |
-                                          (long)(((exp3 + 1023) & 0x7ff)) << 52);
+        /* p2 will be the nearest power of 2 to x with its exponent divided by 3 */
+        double p2 = Double.longBitsToDouble((inbits & 0x8000000000000000L) | (long) (((exp3 + 1023) & 0x7ff)) << 52);
 
-      /* This will be a number between 1 and 2 */
-      final double mant = Double.longBitsToDouble((inbits & 0x000fffffffffffffL) | 0x3ff0000000000000L);
+        /* This will be a number between 1 and 2 */
+        final double mant = Double.longBitsToDouble((inbits & 0x000fffffffffffffL) | 0x3ff0000000000000L);
 
-      /* Estimate the cube root of mant by polynomial */
-      double est = -0.010714690733195933;
-      est = est * mant + 0.0875862700108075;
-      est = est * mant + -0.3058015757857271;
-      est = est * mant + 0.7249995199969751;
-      est = est * mant + 0.5039018405998233;
+        /* Estimate the cube root of mant by polynomial */
+        double est = -0.010714690733195933;
+        est = est * mant + 0.0875862700108075;
+        est = est * mant + -0.3058015757857271;
+        est = est * mant + 0.7249995199969751;
+        est = est * mant + 0.5039018405998233;
 
-      est *= CBRTTWO[exponent % 3 + 2];
+        est *= CBRTTWO[exponent % 3 + 2];
 
-      // est should now be good to about 15 bits of precision.   Do 2 rounds of
-      // Newton's method to get closer,  this should get us full double precision
-      // Scale down x for the purpose of doing newtons method.  This avoids over/under flows.
-      final double xs = x / (p2*p2*p2);
-      est += (xs - est*est*est) / (3*est*est);
-      est += (xs - est*est*est) / (3*est*est);
+        // est should now be good to about 15 bits of precision.   Do 2 rounds of
+        // Newton's method to get closer,  this should get us full double precision
+        // Scale down x for the purpose of doing newtons method.  This avoids over/under flows.
+        final double xs = x / (p2 * p2 * p2);
+        est += (xs - est * est * est) / (3 * est * est);
+        est += (xs - est * est * est) / (3 * est * est);
 
-      // Do one round of Newton's method in extended precision to get the last bit right.
-      double temp = est * HEX_40000000;
-      double ya = est + temp - temp;
-      double yb = est - ya;
+        // Do one round of Newton's method in extended precision to get the last bitright.
+        double temp = est * HEX_40000000;
+        double ya = est + temp - temp;
+        double yb = est - ya;
 
-      double za = ya * ya;
-      double zb = ya * yb * 2.0 + yb * yb;
-      temp = za * HEX_40000000;
-      double temp2 = za + temp - temp;
-      zb += za - temp2;
-      za = temp2;
+        double za = ya * ya;
+        double zb = ya * yb * 2.0 + yb * yb;
+        temp = za * HEX_40000000;
+        double temp2 = za + temp - temp;
+        zb += za - temp2;
+        za = temp2;
 
-      zb = za * yb + ya * zb + zb * yb;
-      za *= ya;
+        zb = za * yb + ya * zb + zb * yb;
+        za *= ya;
 
-      double na = xs - za;
-      double nb = -(na - xs + za);
-      nb -= zb;
+        double na = xs - za;
+        double nb = -(na - xs + za);
+        nb -= zb;
 
-      est += (na+nb)/(3*est*est);
+        est += (na + nb) / (3 * est * est);
 
-      /* Scale by a power of two, so this is exact. */
-      est *= p2;
+        /* Scale by a power of two, so this is exact. */
+        est *= p2;
 
-      if (subnormal) {
-          est *= 3.814697265625E-6;  // 2^-18
-      }
+        if (subnormal) {
+            est *= 3.814697265625E-6; // 2^-18
+        }
 
-      return est;
+        return est;
     }
 
     /**
-     *  Convert degrees to radians, with error of less than 0.5 ULP
+     *  Convert degrees to radians, with error of less than 0.5 ULP.
      *  @param x angle in degrees
      *  @return x converted into radians
      */
-    public static double toRadians(double x)
-    {
+    public static double toRadians(double x) {
         if (Double.isInfinite(x) || x == 0.0) { // Matches +/- 0.0; return correct sign
             return x;
         }
@@ -3070,12 +3063,11 @@ public class AccurateMath {
     }
 
     /**
-     *  Convert radians to degrees, with error of less than 0.5 ULP
+     *  Convert radians to degrees, with error of less than 0.5 ULP.
      *  @param x angle in radians
      *  @return x converted into degrees
      */
-    public static double toDegrees(double x)
-    {
+    public static double toDegrees(double x) {
         if (Double.isInfinite(x) || x == 0.0) { // Matches +/- 0.0; return correct sign
             return x;
         }
@@ -3357,7 +3349,6 @@ public class AccurateMath {
      * @return the next machine representable number in the specified direction
      */
     public static double nextAfter(double d, double direction) {
-
         // handling of some important special cases
         if (Double.isNaN(d) || Double.isNaN(direction)) {
             return Double.NaN;
@@ -3378,7 +3369,6 @@ public class AccurateMath {
         } else {
             return Double.longBitsToDouble(sign | ((bits & 0x7fffffffffffffffL) - 1));
         }
-
     }
 
     /**
@@ -3435,7 +3425,6 @@ public class AccurateMath {
         } else {
             return Float.intBitsToFloat(sign | ((bits & 0x7fffffff) - 1));
         }
-
     }
 
     /** Get the largest whole number smaller than x.
@@ -3459,7 +3448,7 @@ public class AccurateMath {
         }
 
         if (y == 0) {
-            return x*y;
+            return x * y;
         }
 
         return y;
@@ -3484,7 +3473,7 @@ public class AccurateMath {
         y += 1.0;
 
         if (y == 0) {
-            return x*y;
+            return x * y;
         }
 
         return y;
@@ -3502,7 +3491,7 @@ public class AccurateMath {
             if (y == -1.0) {
                 return -0.0; // Preserve sign of operand
             }
-            return y+1.0;
+            return y + 1.0;
         }
         if (d < 0.5) {
             return y;
@@ -3519,7 +3508,7 @@ public class AccurateMath {
      */
     public static long round(double x) {
         final long bits = Double.doubleToRawLongBits(x);
-        final int biasedExp = ((int)(bits>>52)) & 0x7ff;
+        final int biasedExp = ((int) (bits >> 52)) & 0x7ff;
         // Shift to get rid of bits past comma except first one: will need to
         // 1-shift to the right to end up with correct magnitude.
         final int shift = (52 - 1 + Double.MAX_EXPONENT) - biasedExp;
@@ -3545,7 +3534,7 @@ public class AccurateMath {
      */
     public static int round(final float x) {
         final int bits = Float.floatToRawIntBits(x);
-        final int biasedExp = (bits>>23) & 0xff;
+        final int biasedExp = (bits >> 23) & 0xff;
         // Shift to get rid of bits past comma except first one: will need to
         // 1-shift to the right to end up with correct magnitude.
         final int shift = (23 - 1 + Float.MAX_EXPONENT) - biasedExp;
@@ -3565,7 +3554,7 @@ public class AccurateMath {
         }
     }
 
-    /** Compute the minimum of two values
+    /** Compute the minimum of two values.
      * @param a first value
      * @param b second value
      * @return a if a is lesser or equal to b, b otherwise
@@ -3574,7 +3563,7 @@ public class AccurateMath {
         return (a <= b) ? a : b;
     }
 
-    /** Compute the minimum of two values
+    /** Compute the minimum of two values.
      * @param a first value
      * @param b second value
      * @return a if a is lesser or equal to b, b otherwise
@@ -3583,7 +3572,7 @@ public class AccurateMath {
         return (a <= b) ? a : b;
     }
 
-    /** Compute the minimum of two values
+    /** Compute the minimum of two values.
      * @param a first value
      * @param b second value
      * @return a if a is lesser or equal to b, b otherwise
@@ -3608,7 +3597,7 @@ public class AccurateMath {
         return b;
     }
 
-    /** Compute the minimum of two values
+    /** Compute the minimum of two values.
      * @param a first value
      * @param b second value
      * @return a if a is lesser or equal to b, b otherwise
@@ -3633,7 +3622,7 @@ public class AccurateMath {
         return b;
     }
 
-    /** Compute the maximum of two values
+    /** Compute the maximum of two values.
      * @param a first value
      * @param b second value
      * @return b if a is lesser or equal to b, a otherwise
@@ -3642,7 +3631,7 @@ public class AccurateMath {
         return (a <= b) ? b : a;
     }
 
-    /** Compute the maximum of two values
+    /** Compute the maximum of two values.
      * @param a first value
      * @param b second value
      * @return b if a is lesser or equal to b, a otherwise
@@ -3651,7 +3640,7 @@ public class AccurateMath {
         return (a <= b) ? b : a;
     }
 
-    /** Compute the maximum of two values
+    /** Compute the maximum of two values.
      * @param a first value
      * @param b second value
      * @return b if a is lesser or equal to b, a otherwise
@@ -3676,7 +3665,7 @@ public class AccurateMath {
         return a;
     }
 
-    /** Compute the maximum of two values
+    /** Compute the maximum of two values.
      * @param a first value
      * @param b second value
      * @return b if a is lesser or equal to b, a otherwise
@@ -3721,7 +3710,6 @@ public class AccurateMath {
         } else if (Double.isNaN(x) || Double.isNaN(y)) {
             return Double.NaN;
         } else {
-
             final int expX = getExponent(x);
             final int expY = getExponent(y);
             if (expX > expY + 27) {
@@ -3731,7 +3719,6 @@ public class AccurateMath {
                 // x is neglectible with respect to y
                 return abs(y);
             } else {
-
                 // find an intermediate scale to avoid both overflow and underflow
                 final int middleExp = (expX + expY) / 2;
 
@@ -3744,9 +3731,7 @@ public class AccurateMath {
 
                 // remove scaling
                 return scalb(scaledH, middleExp);
-
             }
-
         }
     }
 
@@ -3784,7 +3769,7 @@ public class AccurateMath {
         }
     }
 
-    /** Convert a long to integer, detecting overflows
+    /** Convert a long to integer, detecting overflows.
      * @param n number to convert to int
      * @return integer with same value as n if no overflows occur
      * @exception MathArithmeticException if n cannot fit into an int
@@ -3804,13 +3789,10 @@ public class AccurateMath {
      * @since 3.4
      */
     public static int incrementExact(final int n) throws MathArithmeticException {
-
         if (n == Integer.MAX_VALUE) {
             throw new MathArithmeticException(LocalizedFormats.OVERFLOW_IN_ADDITION, n, 1);
         }
-
         return n + 1;
-
     }
 
     /** Increment a number, detecting overflows.
@@ -3820,13 +3802,10 @@ public class AccurateMath {
      * @since 3.4
      */
     public static long incrementExact(final long n) throws MathArithmeticException {
-
         if (n == Long.MAX_VALUE) {
             throw new MathArithmeticException(LocalizedFormats.OVERFLOW_IN_ADDITION, n, 1);
         }
-
         return n + 1;
-
     }
 
     /** Decrement a number, detecting overflows.
@@ -3836,13 +3815,10 @@ public class AccurateMath {
      * @since 3.4
      */
     public static int decrementExact(final int n) throws MathArithmeticException {
-
         if (n == Integer.MIN_VALUE) {
             throw new MathArithmeticException(LocalizedFormats.OVERFLOW_IN_SUBTRACTION, n, 1);
         }
-
         return n - 1;
-
     }
 
     /** Decrement a number, detecting overflows.
@@ -3852,13 +3828,10 @@ public class AccurateMath {
      * @since 3.4
      */
     public static long decrementExact(final long n) throws MathArithmeticException {
-
         if (n == Long.MIN_VALUE) {
             throw new MathArithmeticException(LocalizedFormats.OVERFLOW_IN_SUBTRACTION, n, 1);
         }
-
         return n - 1;
-
     }
 
     /** Add two numbers, detecting overflows.
@@ -3869,7 +3842,6 @@ public class AccurateMath {
      * @since 3.4
      */
     public static int addExact(final int a, final int b) throws MathArithmeticException {
-
         // compute sum
         final int sum = a + b;
 
@@ -3879,7 +3851,6 @@ public class AccurateMath {
         }
 
         return sum;
-
     }
 
     /** Add two numbers, detecting overflows.
@@ -3890,7 +3861,6 @@ public class AccurateMath {
      * @since 3.4
      */
     public static long addExact(final long a, final long b) throws MathArithmeticException {
-
         // compute sum
         final long sum = a + b;
 
@@ -3900,7 +3870,6 @@ public class AccurateMath {
         }
 
         return sum;
-
     }
 
     /** Subtract two numbers, detecting overflows.
@@ -3911,7 +3880,6 @@ public class AccurateMath {
      * @since 3.4
      */
     public static int subtractExact(final int a, final int b) {
-
         // compute subtraction
         final int sub = a - b;
 
@@ -3921,7 +3889,6 @@ public class AccurateMath {
         }
 
         return sub;
-
     }
 
     /** Subtract two numbers, detecting overflows.
@@ -3932,7 +3899,6 @@ public class AccurateMath {
      * @since 3.4
      */
     public static long subtractExact(final long a, final long b) {
-
         // compute subtraction
         final long sub = a - b;
 
@@ -3942,7 +3908,6 @@ public class AccurateMath {
         }
 
         return sub;
-
     }
 
     /** Multiply two numbers, detecting overflows.
@@ -3969,12 +3934,12 @@ public class AccurateMath {
      * @since 3.4
      */
     public static long multiplyExact(final long a, final long b) {
-        if (((b  >  0l)  && (a > Long.MAX_VALUE / b || a < Long.MIN_VALUE / b)) ||
-            ((b  < -1l)  && (a > Long.MIN_VALUE / b || a < Long.MAX_VALUE / b)) ||
-            ((b == -1l)  && (a == Long.MIN_VALUE))) {
-                throw new MathArithmeticException(LocalizedFormats.OVERFLOW_IN_MULTIPLICATION, a, b);
-            }
-            return a * b;
+        if (((b  >  0L)  && (a > Long.MAX_VALUE / b || a < Long.MIN_VALUE / b)) ||
+            ((b  < -1L)  && (a > Long.MIN_VALUE / b || a < Long.MAX_VALUE / b)) ||
+            ((b == -1L)  && (a == Long.MIN_VALUE))) {
+            throw new MathArithmeticException(LocalizedFormats.OVERFLOW_IN_MULTIPLICATION, a, b);
+        }
+        return a * b;
     }
 
     /** Finds q such that a = q b + r with 0 &lt;= r &lt; b if b &gt; 0 and b &lt; r &lt;= 0 if b &lt; 0.
@@ -3991,7 +3956,6 @@ public class AccurateMath {
      * @since 3.4
      */
     public static int floorDiv(final int a, final int b) throws MathArithmeticException {
-
         if (b == 0) {
             throw new MathArithmeticException(LocalizedFormats.ZERO_DENOMINATOR);
         }
@@ -4004,7 +3968,6 @@ public class AccurateMath {
             // a and b have opposite signs and division is not exact
             return (a / b) - 1;
         }
-
     }
 
     /** Finds q such that a = q b + r with 0 &lt;= r &lt; b if b &gt; 0 and b &lt; r &lt;= 0 if b &lt; 0.
@@ -4021,20 +3984,18 @@ public class AccurateMath {
      * @since 3.4
      */
     public static long floorDiv(final long a, final long b) throws MathArithmeticException {
-
-        if (b == 0l) {
+        if (b == 0L) {
             throw new MathArithmeticException(LocalizedFormats.ZERO_DENOMINATOR);
         }
 
         final long m = a % b;
-        if ((a ^ b) >= 0l || m == 0l) {
+        if ((a ^ b) >= 0L || m == 0L) {
             // a an b have same sign, or division is exact
             return a / b;
         } else {
             // a and b have opposite signs and division is not exact
-            return (a / b) - 1l;
+            return (a / b) - 1L;
         }
-
     }
 
     /** Finds r such that a = q b + r with 0 &lt;= r &lt; b if b &gt; 0 and b &lt; r &lt;= 0 if b &lt; 0.
@@ -4051,7 +4012,6 @@ public class AccurateMath {
      * @since 3.4
      */
     public static int floorMod(final int a, final int b) throws MathArithmeticException {
-
         if (b == 0) {
             throw new MathArithmeticException(LocalizedFormats.ZERO_DENOMINATOR);
         }
@@ -4064,7 +4024,6 @@ public class AccurateMath {
             // a and b have opposite signs and division is not exact
             return b + m;
         }
-
     }
 
     /** Finds r such that a = q b + r with 0 &lt;= r &lt; b if b &gt; 0 and b &lt; r &lt;= 0 if b &lt; 0.
@@ -4081,20 +4040,18 @@ public class AccurateMath {
      * @since 3.4
      */
     public static long floorMod(final long a, final long b) {
-
-        if (b == 0l) {
+        if (b == 0L) {
             throw new MathArithmeticException(LocalizedFormats.ZERO_DENOMINATOR);
         }
 
         final long m = a % b;
-        if ((a ^ b) >= 0l || m == 0l) {
+        if ((a ^ b) >= 0L || m == 0L) {
             // a an b have same sign, or division is exact
             return m;
         } else {
             // a and b have opposite signs and division is not exact
             return b + m;
         }
-
     }
 
     /**
@@ -4105,14 +4062,14 @@ public class AccurateMath {
      * @param sign the sign for the returned value
      * @return the magnitude with the same sign as the {@code sign} argument
      */
-    public static double copySign(double magnitude, double sign){
+    public static double copySign(double magnitude, double sign) {
         // The highest order bit is going to be zero if the
         // highest order bit of m and s is the same and one otherwise.
         // So (m^s) will be positive if both m and s have the same sign
         // and negative otherwise.
         final long m = Double.doubleToRawLongBits(magnitude); // don't care about NaN
         final long s = Double.doubleToRawLongBits(sign);
-        if ((m^s) >= 0) {
+        if ((m ^ s) >= 0) {
             return magnitude;
         }
         return -magnitude; // flip sign
@@ -4126,14 +4083,14 @@ public class AccurateMath {
      * @param sign the sign for the returned value
      * @return the magnitude with the same sign as the {@code sign} argument
      */
-    public static float copySign(float magnitude, float sign){
+    public static float copySign(float magnitude, float sign) {
         // The highest order bit is going to be zero if the
         // highest order bit of m and s is the same and one otherwise.
         // So (m^s) will be positive if both m and s have the same sign
         // and negative otherwise.
         final int m = Float.floatToRawIntBits(magnitude);
         final int s = Float.floatToRawIntBits(sign);
-        if ((m^s) >= 0) {
+        if ((m ^ s) >= 0) {
             return magnitude;
         }
         return -magnitude; // flip sign
@@ -4178,7 +4135,7 @@ public class AccurateMath {
         AccurateMathCalc.printarray(out, "EXP_INT_TABLE_B", EXP_INT_TABLE_LEN, ExpIntTable.EXP_INT_TABLE_B);
         AccurateMathCalc.printarray(out, "EXP_FRAC_TABLE_A", EXP_FRAC_TABLE_LEN, ExpFracTable.EXP_FRAC_TABLE_A);
         AccurateMathCalc.printarray(out, "EXP_FRAC_TABLE_B", EXP_FRAC_TABLE_LEN, ExpFracTable.EXP_FRAC_TABLE_B);
-        AccurateMathCalc.printarray(out, "LN_MANT",LN_MANT_LEN, lnMant.LN_MANT);
+        AccurateMathCalc.printarray(out, "LN_MANT", LN_MANT_LEN, lnMant.LN_MANT);
         AccurateMathCalc.printarray(out, "SINE_TABLE_A", SINE_TABLE_LEN, SINE_TABLE_A);
         AccurateMathCalc.printarray(out, "SINE_TABLE_B", SINE_TABLE_LEN, SINE_TABLE_B);
         AccurateMathCalc.printarray(out, "COSINE_TABLE_A", SINE_TABLE_LEN, COSINE_TABLE_A);
@@ -4193,7 +4150,7 @@ public class AccurateMath {
          * exp(x) =  expIntTableA[x + EXP_INT_TABLE_MAX_INDEX] + expIntTableB[x+EXP_INT_TABLE_MAX_INDEX].
          */
         private static final double[] EXP_INT_TABLE_A;
-        /** Exponential evaluated at integer values,
+        /** Exponential evaluated at integer values.
          * exp(x) =  expIntTableA[x + EXP_INT_TABLE_MAX_INDEX] + expIntTableB[x+EXP_INT_TABLE_MAX_INDEX]
          */
         private static final double[] EXP_INT_TABLE_B;
@@ -4203,8 +4160,8 @@ public class AccurateMath {
                 EXP_INT_TABLE_A = new double[AccurateMath.EXP_INT_TABLE_LEN];
                 EXP_INT_TABLE_B = new double[AccurateMath.EXP_INT_TABLE_LEN];
 
-                final double tmp[] = new double[2];
-                final double recip[] = new double[2];
+                final double[] tmp = new double[2];
+                final double[] recip = new double[2];
 
                 // Populate expIntTable
                 for (int i = 0; i < AccurateMath.EXP_INT_TABLE_MAX_INDEX; i++) {
@@ -4243,7 +4200,7 @@ public class AccurateMath {
                 EXP_FRAC_TABLE_A = new double[AccurateMath.EXP_FRAC_TABLE_LEN];
                 EXP_FRAC_TABLE_B = new double[AccurateMath.EXP_FRAC_TABLE_LEN];
 
-                final double tmp[] = new double[2];
+                final double[] tmp = new double[2];
 
                 // Populate expFracTable
                 final double factor = 1d / (EXP_FRAC_TABLE_LEN - 1);
@@ -4270,7 +4227,7 @@ public class AccurateMath {
 
                 // Populate lnMant table
                 for (int i = 0; i < LN_MANT.length; i++) {
-                    final double d = Double.longBitsToDouble( (((long) i) << 42) | 0x3ff0000000000000L );
+                    final double d = Double.longBitsToDouble((((long) i) << 42) | 0x3ff0000000000000L);
                     LN_MANT[i] = AccurateMathCalc.slowLog(d);
                 }
             } else {
@@ -4281,11 +4238,11 @@ public class AccurateMath {
 
     /** Enclose the Cody/Waite reduction (used in "sin", "cos" and "tan"). */
     private static class CodyWaite {
-        /** k */
+        /** k. */
         private final int finalK;
-        /** remA */
+        /** remA. */
         private final double finalRemA;
-        /** remB */
+        /** remB. */
         private final double finalRemB;
 
         /**

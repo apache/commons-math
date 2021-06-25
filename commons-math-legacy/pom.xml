@@ -145,6 +145,14 @@
           <skip>true</skip>
         </configuration>
       </plugin>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-checkstyle-plugin</artifactId>
+        <configuration>
+          <configLocation>${math.parent.dir}/src/main/resources/checkstyle/checkstyle-legacy.xml</configLocation>
+          <suppressionsLocation>${math.parent.dir}/src/main/resources/checkstyle/checkstyle-suppressions-legacy.xml</suppressionsLocation>
+        </configuration>
+      </plugin>
     </plugins>
   </build>
 

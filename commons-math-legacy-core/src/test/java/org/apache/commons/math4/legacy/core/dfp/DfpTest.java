@@ -27,17 +27,17 @@ import org.junit.Test;
 
 public class DfpTest extends ExtendedFieldElementAbstractTest<Dfp> {
 
-    @Override
-    protected Dfp build(final double x) {
-        return field.newDfp(x);
-    }
-
     private DfpField field;
     private Dfp pinf;
     private Dfp ninf;
     private Dfp nan;
     private Dfp snan;
     private Dfp qnan;
+
+    @Override
+    protected Dfp build(final double x) {
+        return field.newDfp(x);
+    }
 
     @Before
     public void setUp() {
@@ -67,16 +67,20 @@ public class DfpTest extends ExtendedFieldElementAbstractTest<Dfp> {
     private void test(Dfp x, Dfp y, int flags, String desc) {
         boolean b = x.equals(y);
 
-        if (!x.equals(y) && !x.unequal(y))  // NaNs involved
-            b = (x.toString().equals(y.toString()));
+        if (!x.equals(y) && !x.unequal(y)) { // NaNs involved
+            b = x.toString().equals(y.toString());
+        }
 
-        if (x.equals(field.newDfp("0")))  // distinguish +/- zero
-            b = (b && (x.toString().equals(y.toString())));
+        if (x.equals(field.newDfp("0"))) { // distinguish +/- zero
+            b = b && (x.toString().equals(y.toString()));
+        }
 
-        b = (b && x.getField().getIEEEFlags() == flags);
+        b = b && x.getField().getIEEEFlags() == flags;
 
-        if (!b)
-            Assert.assertTrue("assertion failed "+desc+" x = "+x.toString()+" flags = "+x.getField().getIEEEFlags(), b);
+        if (!b) {
+            Assert.assertTrue(
+                "assertion failed " + desc + " x = " + x.toString() + " flags = " + x.getField().getIEEEFlags(), b);
+        }
 
         x.getField().clearIEEEFlags();
     }
@@ -103,11 +107,11 @@ public class DfpTest extends ExtendedFieldElementAbstractTest<Dfp> {
 
     @Test
     public void testLongConstructor() {
-        Assert.assertEquals("0.", new Dfp(field, 0l).toString());
-        Assert.assertEquals("1.", new Dfp(field, 1l).toString());
-        Assert.assertEquals("-1.", new Dfp(field, -1l).toString());
-        Assert.assertEquals("1234567890.", new Dfp(field, 1234567890l).toString());
-        Assert.assertEquals("-1234567890.", new Dfp(field, -1234567890l).toString());
+        Assert.assertEquals("0.", new Dfp(field, 0L).toString());
+        Assert.assertEquals("1.", new Dfp(field, 1L).toString());
+        Assert.assertEquals("-1.", new Dfp(field, -1L).toString());
+        Assert.assertEquals("1234567890.", new Dfp(field, 1234567890L).toString());
+        Assert.assertEquals("-1234567890.", new Dfp(field, -1234567890L).toString());
         Assert.assertEquals("-9223372036854775808.", new Dfp(field, Long.MIN_VALUE).toString());
         Assert.assertEquals("9223372036854775807.", new Dfp(field, Long.MAX_VALUE).toString());
     }
@@ -370,25 +374,25 @@ public class DfpTest extends ExtendedFieldElementAbstractTest<Dfp> {
 
     // utility function to help test comparisons
     private void cmptst(Dfp a, Dfp b, String op, boolean result, double num) {
-        if (op == "equal") {
+        if (op.equals("equal")) {
             if (a.equals(b) != result) {
                 assertionFailOpNum(op, num);
             }
         }
 
-        if (op == "unequal") {
+        if (op.equals("unequal")) {
             if (a.unequal(b) != result) {
                 assertionFailOpNum(op, num);
             }
         }
 
-        if (op == "lessThan") {
+        if (op.equals("lessThan")) {
             if (a.lessThan(b) != result) {
                 assertionFailOpNum(op, num);
             }
         }
 
-        if (op == "greaterThan") {
+        if (op.equals("greaterThan")) {
             if (a.greaterThan(b) != result) {
                 assertionFailOpNum(op, num);
             }
@@ -580,7 +584,7 @@ public class DfpTest extends ExtendedFieldElementAbstractTest<Dfp> {
         cmptst(qnan.negate(), qnan, "unequal", false, 52);
 
         if (field.getIEEEFlags() != 0) {
-            assertionFail("compare unequal flags = "+field.getIEEEFlags());
+            assertionFail("compare unequal flags = " + field.getIEEEFlags());
         }
 
         //
@@ -674,7 +678,7 @@ public class DfpTest extends ExtendedFieldElementAbstractTest<Dfp> {
 
         //lessThan compares with nans should raise FLAG_INVALID
         if (field.getIEEEFlags() != DfpField.FLAG_INVALID) {
-            assertionFail("compare lessThan flags = "+field.getIEEEFlags());
+            assertionFail("compare lessThan flags = " + field.getIEEEFlags());
         }
         field.clearIEEEFlags();
 
@@ -767,9 +771,9 @@ public class DfpTest extends ExtendedFieldElementAbstractTest<Dfp> {
         cmptst(snan.negate(), snan, "greaterThan", false, 51);
         cmptst(qnan.negate(), qnan, "greaterThan", false, 52);
 
-        //greaterThan compares with nans should raise FLAG_INVALID
+        // greaterThan compares with nans should raise FLAG_INVALID
         if (field.getIEEEFlags() != DfpField.FLAG_INVALID) {
-            assertionFail("compare greaterThan flags = "+field.getIEEEFlags());
+            assertionFail("compare greaterThan flags = " + field.getIEEEFlags());
         }
         field.clearIEEEFlags();
     }
@@ -1220,15 +1224,15 @@ public class DfpTest extends ExtendedFieldElementAbstractTest<Dfp> {
 
         test(field.newDfp("-1e-131092").nextAfter(pinf),
              field.newDfp("-0"),
-             DfpField.FLAG_UNDERFLOW|DfpField.FLAG_INEXACT, "Next After #12");
+             DfpField.FLAG_UNDERFLOW | DfpField.FLAG_INEXACT, "Next After #12");
 
         test(field.newDfp("1e-131092").nextAfter(ninf),
              field.newDfp("0"),
-             DfpField.FLAG_UNDERFLOW|DfpField.FLAG_INEXACT, "Next After #13");
+             DfpField.FLAG_UNDERFLOW | DfpField.FLAG_INEXACT, "Next After #13");
 
         test(field.newDfp("9.9999999999999999999e131078").nextAfter(pinf),
              pinf,
-             DfpField.FLAG_OVERFLOW|DfpField.FLAG_INEXACT, "Next After #14");
+             DfpField.FLAG_OVERFLOW | DfpField.FLAG_INEXACT, "Next After #14");
     }
 
     @Test
@@ -1563,11 +1567,11 @@ public class DfpTest extends ExtendedFieldElementAbstractTest<Dfp> {
 
     @Test
     public void testIssue567() {
-        DfpField field = new DfpField(100);
-        Assert.assertEquals(0.0, field.getZero().toDouble(), Precision.SAFE_MIN);
-        Assert.assertEquals(0.0, field.newDfp(0.0).toDouble(), Precision.SAFE_MIN);
-        Assert.assertEquals(-1, AccurateMath.copySign(1, field.newDfp(-0.0).toDouble()), Precision.EPSILON);
-        Assert.assertEquals(+1, AccurateMath.copySign(1, field.newDfp(+0.0).toDouble()), Precision.EPSILON);
+        DfpField localField = new DfpField(100);
+        Assert.assertEquals(0.0, localField.getZero().toDouble(), Precision.SAFE_MIN);
+        Assert.assertEquals(0.0, localField.newDfp(0.0).toDouble(), Precision.SAFE_MIN);
+        Assert.assertEquals(-1, AccurateMath.copySign(1, localField.newDfp(-0.0).toDouble()), Precision.EPSILON);
+        Assert.assertEquals(+1, AccurateMath.copySign(1, localField.newDfp(+0.0).toDouble()), Precision.EPSILON);
     }
 
     @Test
@@ -1660,15 +1664,15 @@ public class DfpTest extends ExtendedFieldElementAbstractTest<Dfp> {
         Assert.assertTrue(var5.equals(var6) ? var5.hashCode() == var6.hashCode() : true);
     }
 
-    private static void assertionFail(String content){
+    private static void assertionFail(String content) {
         Assert.fail("assertion failed: " + content);
     }
 
-    private static void assertionFailOpNum(String op, double num){
+    private static void assertionFailOpNum(String op, double num) {
         assertionFail(op + " compare #" + num);
     }
 
-    private static final void assertionFailDfpField(DfpField field){
+    private static void assertionFailDfpField(DfpField field) {
         assertionFail("compare flags = " + field.getIEEEFlags());
     }
 }

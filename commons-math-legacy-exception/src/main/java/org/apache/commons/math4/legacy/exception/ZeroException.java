@@ -26,7 +26,7 @@ import org.apache.commons.math4.legacy.exception.util.LocalizedFormats;
  */
 public class ZeroException extends MathIllegalNumberException {
 
-    /** Serializable version identifier */
+    /** Serializable version identifier. */
     private static final long serialVersionUID = -1960874856936000015L;
 
     /**
@@ -42,7 +42,7 @@ public class ZeroException extends MathIllegalNumberException {
      * @param specific Specific context pattern.
      * @param arguments Arguments.
      */
-    public ZeroException(Localizable specific, Object ... arguments) {
+    public ZeroException(Localizable specific, Object... arguments) {
         super(specific, INTEGER_ZERO, arguments);
     }
 }

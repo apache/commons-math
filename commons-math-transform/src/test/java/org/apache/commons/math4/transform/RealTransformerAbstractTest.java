@@ -20,7 +20,6 @@ import org.junit.Assert;
 import org.junit.Test;
 
 import java.util.function.DoubleUnaryOperator;
-
 import org.apache.commons.rng.UniformRandomProvider;
 import org.apache.commons.rng.simple.RandomSource;
 
@@ -29,7 +28,7 @@ import org.apache.commons.rng.simple.RandomSource;
  * This abstract test handles the automatic generation of random data of various
  * sizes. For each generated data array, actual values (returned by the
  * transformer to be tested) are compared to expected values, returned by the
- * {@link #apply(double[])} (to be implemented by the user: a naive method may
+ * {@link #transform(double[], boolean)} (to be implemented by the user: a naive method may
  * be used). Methods are also provided to test that invalid parameters throw the
  * expected exceptions.
  *
@@ -49,7 +48,7 @@ public abstract class RealTransformerAbstractTest {
 
     /**
      * Returns an invalid data size. Transforms with this data size should
-     * trigger a {@link MathIllegalArgumentException}.
+     * trigger a {@link IllegalArgumentException}.
      *
      * @param i the index of the invalid data size ({@code 0 <= i <}
      * {@link #getNumberOfInvalidDataSizes()}
@@ -116,7 +115,7 @@ public abstract class RealTransformerAbstractTest {
 
     /**
      * Returns a sampling upper bound for the accuracy check of
-     * {@link RealTransform#apply(DoubleUnaryOperator, double, double, int, TransformType)}.
+     * {@link RealTransform#apply(DoubleUnaryOperator, double, double, int)}.
      * This upper bound should be valid. In other words, none of the above
      * methods should throw an exception when passed this bound.
      *
@@ -143,7 +142,7 @@ public abstract class RealTransformerAbstractTest {
     public void testTransformRealInvalidDataSize() {
         for (int i = 0; i < getNumberOfInvalidDataSizes(); i++) {
             final int n = getInvalidDataSize(i);
-            for (boolean type : new boolean[] { true, false }) {
+            for (boolean type : new boolean[] {true, false}) {
                 try {
                     final RealTransform transformer = createRealTransformer(type);
                     transformer.apply(createRealData(n));
@@ -156,7 +155,7 @@ public abstract class RealTransformerAbstractTest {
     }
 
     /**
-     * {@link RealTransformer#(DoubleUnaryOperator, double, double, int)}
+     * {@link RealTransform#apply(DoubleUnaryOperator, double, double, int)}
      * should throw {@link IllegalArgumentException} if number of samples is
      * invalid.
      */
@@ -167,7 +166,7 @@ public abstract class RealTransformerAbstractTest {
         final double b = getValidUpperBound();
         for (int i = 0; i < getNumberOfInvalidDataSizes(); i++) {
             final int n = getInvalidDataSize(i);
-            for (boolean type : new boolean[] { true, false }) {
+            for (boolean type : new boolean[] {true, false}) {
                 try {
                     final RealTransform transformer = createRealTransformer(type);
                     transformer.apply(f, a, b, n);
@@ -191,7 +190,7 @@ public abstract class RealTransformerAbstractTest {
         final double b = getValidUpperBound();
         for (int i = 0; i < getNumberOfValidDataSizes(); i++) {
             final int n = getValidDataSize(i);
-            for (boolean type : new boolean[] { true, false }) {
+            for (boolean type : new boolean[] {true, false}) {
                 try {
                     final RealTransform transformer = createRealTransformer(type);
                     transformer.apply(f, a, b, -n);
@@ -215,7 +214,7 @@ public abstract class RealTransformerAbstractTest {
         final double b = getValidUpperBound();
         for (int i = 0; i < getNumberOfValidDataSizes(); i++) {
             final int n = getValidDataSize(i);
-            for (boolean type : new boolean[] { true, false }) {
+            for (boolean type : new boolean[] {true, false}) {
                 try {
                     final RealTransform transformer = createRealTransformer(type);
                     transformer.apply(f, b, a, n);
@@ -245,7 +244,7 @@ public abstract class RealTransformerAbstractTest {
         for (int i = 0; i < getNumberOfValidDataSizes(); i++) {
             final int n = getValidDataSize(i);
             final double tol = getRelativeTolerance(i);
-            for (boolean type : new boolean[] { true, false }) {
+            for (boolean type : new boolean[] {true, false}) {
                 doTestTransformReal(n, tol, type);
             }
         }
@@ -253,10 +252,11 @@ public abstract class RealTransformerAbstractTest {
 
     /**
      * Accuracy check of
-     * {@link RealTransform#apply(DoubleUnaryOperator, double, double, int, TransformType)}.
+     * {@link RealTransform#apply(DoubleUnaryOperator, double, double, int)}.
      * For each valid data size returned by
      * {@link #getValidDataSize(int) getValidDataSize(i)},
-     * the {@link UnivariateFunction} returned by {@link #getValidFunction()} is
+     * the {@link org.apache.commons.math3.analysis.UnivariateFunction UnivariateFunction}
+     * returned by {@link #getValidFunction()} is
      * sampled. The actual transform is computed and compared to the expected
      * transform, return by {@link #transform(double[], boolean)}. Actual
      * and expected values should be equal to within the relative error returned
@@ -267,7 +267,7 @@ public abstract class RealTransformerAbstractTest {
         for (int i = 0; i < getNumberOfValidDataSizes(); i++) {
             final int n = getValidDataSize(i);
             final double tol = getRelativeTolerance(i);
-            for (boolean type : new boolean[] { true, false }) {
+            for (boolean type : new boolean[] {true, false}) {
                 doTestTransformFunction(n, tol, type);
             }
         }

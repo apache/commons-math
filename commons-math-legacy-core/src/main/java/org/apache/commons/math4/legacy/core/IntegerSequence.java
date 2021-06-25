@@ -29,7 +29,7 @@ import org.apache.commons.math4.legacy.exception.ZeroException;
  *
  * @since 3.6
  */
-public class IntegerSequence {
+public final class IntegerSequence {
     /**
      * Utility class contains only static methods.
      */
@@ -128,7 +128,7 @@ public class IntegerSequence {
      * custom {@link MaxCountExceededCallback callback}, in order to e.g.
      * select which exception must be thrown.
      */
-    public static class Incrementor implements Iterator<Integer> {
+    public static final class Incrementor implements Iterator<Integer> {
         /** Default callback. */
         private static final MaxCountExceededCallback CALLBACK
             = new MaxCountExceededCallback() {

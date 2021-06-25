@@ -49,7 +49,7 @@ public class MaxCountExceededException extends MathIllegalStateException {
      */
     public MaxCountExceededException(Localizable specific,
                                      Number max,
-                                     Object ... args) {
+                                     Object... args) {
         getContext().addMessage(specific, max, args);
         this.max = max;
     }

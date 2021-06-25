@@ -36,7 +36,7 @@ public class MathIllegalStateException extends MathRuntimeException {
      * @param pattern Message pattern explaining the cause of the error.
      * @param args Arguments.
      */
-    public MathIllegalStateException(Localizable pattern, Object ... args) {
+    public MathIllegalStateException(Localizable pattern, Object... args) {
         super(pattern, args);
     }
 
@@ -49,7 +49,7 @@ public class MathIllegalStateException extends MathRuntimeException {
      */
     public MathIllegalStateException(Throwable cause,
                                      Localizable pattern,
-                                     Object ... args) {
+                                     Object... args) {
         super(cause, pattern, args);
     }
 

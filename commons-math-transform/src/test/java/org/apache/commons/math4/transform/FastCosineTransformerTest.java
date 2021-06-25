@@ -71,7 +71,7 @@ public final class FastCosineTransformerTest
     public static Collection<Object[]> data() {
         final FastCosineTransform.Norm[] normalization = FastCosineTransform.Norm.values();
         final Object[][] data = new FastCosineTransform.Norm[normalization.length][1];
-        for (int i = 0; i < normalization.length; i++){
+        for (int i = 0; i < normalization.length; i++) {
             data[i][0] = normalization[i];
         }
         return Arrays.asList(data);
@@ -110,7 +110,7 @@ public final class FastCosineTransformerTest
     @Override
     DoubleUnaryOperator getValidFunction() {
         final UnivariateFunction sinc = new Sinc();
-        return (x) -> sinc.value(x);
+        return x -> sinc.value(x);
     }
 
     @Override
@@ -169,12 +169,13 @@ public final class FastCosineTransformerTest
     @Test
     public void testAdHocData() {
         FastCosineTransform transformer;
-        double result[], tolerance = 1e-12;
+        double[] result;
+        double tolerance = 1e-12;
 
-        final double x[] = {
+        final double[] x = {
             0.0, 1.0, 4.0, 9.0, 16.0, 25.0, 36.0, 49.0, 64.0
         };
-        final double y[] = {
+        final double[] y = {
             172.0, -105.096569476353, 27.3137084989848, -12.9593152353742,
             8.0, -5.78585076868676, 4.68629150101524, -4.15826451958632,
             4.0
@@ -211,7 +212,7 @@ public final class FastCosineTransformerTest
     @Test
     public void testParameters() throws Exception {
         final UnivariateFunction sinFunction = new Sin();
-        final DoubleUnaryOperator f = (x) -> sinFunction.value(x);
+        final DoubleUnaryOperator f = x -> sinFunction.value(x);
         final FastCosineTransform transformer = new FastCosineTransform(FastCosineTransform.Norm.STD);
 
         try {
@@ -241,26 +242,26 @@ public final class FastCosineTransformerTest
     @Test
     public void testSinFunction() {
         final UnivariateFunction sinFunction = new Sin();
-        final DoubleUnaryOperator f = (x) -> sinFunction.value(x);
+        final DoubleUnaryOperator f = x -> sinFunction.value(x);
         final FastCosineTransform transformer = new FastCosineTransform(FastCosineTransform.Norm.STD);
-        double min, max, result[], tolerance = 1e-12;
-        int N = 9;
+        double tolerance = 1e-12;
+        int size = 9;
 
-        final double expected[] = {
+        final double[] expected = {
             0.0, 3.26197262739567, 0.0, -2.17958042710327, 0.0,
             -0.648846697642915, 0.0, -0.433545502649478, 0.0
         };
-        min = 0.0;
-        max = 2.0 * Math.PI * N / (N - 1);
-        result = transformer.apply(f, min, max, N);
-        for (int i = 0; i < N; i++) {
+        double min = 0.0;
+        double max = 2.0 * Math.PI * size / (size - 1);
+        double[] result = transformer.apply(f, min, max, size);
+        for (int i = 0; i < size; i++) {
             Assert.assertEquals(expected[i], result[i], tolerance);
         }
 
         min = -Math.PI;
-        max = Math.PI * (N + 1) / (N - 1);
-        result = transformer.apply(f, min, max, N);
-        for (int i = 0; i < N; i++) {
+        max = Math.PI * (size + 1) / (size - 1);
+        result = transformer.apply(f, min, max, size);
+        for (int i = 0; i < size; i++) {
             Assert.assertEquals(-expected[i], result[i], tolerance);
         }
     }

@@ -28,20 +28,20 @@ import org.apache.commons.math3.analysis.function.Sin;
  */
 public class TransformUtilsTest {
     private static final Sin SIN_FUNCTION = new Sin();
-    private static final DoubleUnaryOperator SIN = (x) -> SIN_FUNCTION.value(x);
+    private static final DoubleUnaryOperator SIN = x -> SIN_FUNCTION.value(x);
 
     @Test(expected = TransformException.class)
-    public void testSampleWrongBounds(){
+    public void testSampleWrongBounds() {
         TransformUtils.sample(SIN, Math.PI, 0.0, 10);
     }
 
     @Test(expected = TransformException.class)
-    public void testSampleNegativeNumberOfPoints(){
+    public void testSampleNegativeNumberOfPoints() {
         TransformUtils.sample(SIN, 0.0, Math.PI, -1);
     }
 
     @Test(expected = TransformException.class)
-    public void testSampleNullNumberOfPoints(){
+    public void testSampleNullNumberOfPoints() {
         TransformUtils.sample(SIN, 0.0, Math.PI, 0);
     }
 

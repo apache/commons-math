@@ -23,9 +23,8 @@ import java.util.ArrayList;
 /**
  * Utility class for transforming the list of arguments passed to
  * constructors of exceptions.
- *
  */
-public class ArgUtils {
+public final class ArgUtils {
     /**
      * Class contains only static methods.
      */

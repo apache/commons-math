@@ -55,7 +55,7 @@ public class NullArgumentException extends NullPointerException
      * @param arguments Values for replacing the placeholders in {@code pattern}.
      */
     public NullArgumentException(Localizable pattern,
-                                 Object ... arguments) {
+                                 Object... arguments) {
         context = new ExceptionContext(this);
         context.addMessage(pattern, arguments);
     }
@@ -91,7 +91,7 @@ public class NullArgumentException extends NullPointerException
      */
     public static void check(Object o,
                              Localizable pattern,
-                             Object ... args) {
+                             Object... args) {
         if (o == null) {
             throw new NullArgumentException(pattern, args);
         }

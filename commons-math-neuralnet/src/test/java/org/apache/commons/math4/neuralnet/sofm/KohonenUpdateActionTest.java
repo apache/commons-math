@@ -6,7 +6,7 @@
  * (the "License"); you may not use this file except in compliance with
  * the License.  You may obtain a copy of the License at
  *
- *     http://www.apache.org/licenses/LICENSE-2.0
+ *      http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -49,7 +49,7 @@ public class KohonenUpdateActionTest {
     public void testUpdate() {
         final FeatureInitializer init
             = new OffsetFeatureInitializer(FeatureInitializerFactory.uniform(rng, 0, 0.1));
-        final FeatureInitializer[] initArray = { init };
+        final FeatureInitializer[] initArray = {init};
 
         final int netSize = 3;
         final Network net = new NeuronString(netSize, false, initArray).getNetwork();
@@ -67,7 +67,7 @@ public class KohonenUpdateActionTest {
         // 2. when the initial neighbourhood is larger than the network's size,
         //    all neuron's features get closer to the input's features.
 
-        final double[] features = new double[] { 0.3 };
+        final double[] features = new double[] {0.3};
         final double[] distancesBefore = new double[netSize];
         int count = 0;
         for (Neuron n : net) {

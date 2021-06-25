@@ -43,7 +43,7 @@ public class ConvergenceException extends MathIllegalStateException {
      * the error.
      * @param args Arguments.
      */
-    public ConvergenceException(Localizable pattern, Object ... args) {
+    public ConvergenceException(Localizable pattern, Object... args) {
         getContext().addMessage(pattern, args);
     }
 }

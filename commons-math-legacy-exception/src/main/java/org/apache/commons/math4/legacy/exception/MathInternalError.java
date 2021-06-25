@@ -51,7 +51,7 @@ public class MathInternalError extends MathIllegalStateException {
      * @param pattern Message pattern explaining the cause of the error.
      * @param args Arguments.
      */
-    public MathInternalError(Localizable pattern, Object ... args) {
+    public MathInternalError(Localizable pattern, Object... args) {
         super(pattern, args);
     }
 }

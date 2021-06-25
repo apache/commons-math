@@ -20,7 +20,6 @@ package org.apache.commons.math4.neuralnet;
 import java.util.function.DoubleUnaryOperator;
 
 import org.apache.commons.rng.UniformRandomProvider;
-import org.apache.commons.rng.simple.RandomSource;
 import org.apache.commons.rng.sampling.distribution.ContinuousUniformSampler;
 
 /**
@@ -29,7 +28,7 @@ import org.apache.commons.rng.sampling.distribution.ContinuousUniformSampler;
  *
  * @since 3.3
  */
-public class FeatureInitializerFactory {
+public final class FeatureInitializerFactory {
     /** Class contains only static methods. */
     private FeatureInitializerFactory() {}
 
@@ -48,7 +47,7 @@ public class FeatureInitializerFactory {
                                              final double min,
                                              final double max) {
         return randomize(new ContinuousUniformSampler(rng, min, max),
-                         function((x) -> 0, 0, 0));
+                         function(x -> 0, 0, 0));
     }
 
     /**

@@ -6,7 +6,7 @@
  * (the "License"); you may not use this file except in compliance with
  * the License.  You may obtain a copy of the License at
  *
- *     http://www.apache.org/licenses/LICENSE-2.0
+ *      http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -35,19 +35,23 @@ import org.apache.commons.math4.neuralnet.twod.NeuronSquareMesh2D;
  */
 @Command(description = "Run the application",
          mixinStandardHelpOptions = true)
-public class StandAlone implements Callable<Void> {
+public final class StandAlone implements Callable<Void> {
+    /** The number of rows. */
     @Option(names = { "-r" }, paramLabel = "numRows",
             description = "Number of rows of the 2D SOFM (default: ${DEFAULT-VALUE}).")
-    private int _numRows = 15;
+    private int numRows = 15;
+    /** The number of columns. */
     @Option(names = { "-c" }, paramLabel = "numCols",
             description = "Number of columns of the 2D SOFM (default: ${DEFAULT-VALUE}).")
-    private int _numCols = 15;
+    private int numCols = 15;
+    /** The number of samples. */
     @Option(names = { "-s" }, paramLabel = "numSamples",
             description = "Number of samples for the training (default: ${DEFAULT-VALUE}).")
-    private long _numSamples = 100000;
+    private long numSamples = 100000;
+    /** The output file. */
     @Option(names = { "-o" }, paramLabel = "outputFile", required = true,
             description = "Output file name.")
-    private String _outputFile = null;
+    private String outputFile = null;
 
     /**
      * Program entry point.
@@ -65,9 +69,9 @@ public class StandAlone implements Callable<Void> {
                                                     20, 1,
                                                     2000, 1500);
 
-        final ChineseRingsClassifier classifier = new ChineseRingsClassifier(rings, _numRows, _numCols);
-        classifier.createSequentialTask(_numSamples).run();
-        printResult(_outputFile, classifier);
+        final ChineseRingsClassifier classifier = new ChineseRingsClassifier(rings, numRows, numCols);
+        classifier.createSequentialTask(numSamples).run();
+        printResult(outputFile, classifier);
 
         return null;
     }
@@ -81,10 +85,11 @@ public class StandAlone implements Callable<Void> {
      * @throws FileNotFoundException If the file cannot be created.
      */
     private static void printResult(String fileName,
-                                    ChineseRingsClassifier sofm) throws FileNotFoundException, UnsupportedEncodingException {
+                                    ChineseRingsClassifier sofm)
+                                    throws FileNotFoundException, UnsupportedEncodingException {
         final NeuronSquareMesh2D.DataVisualization result = sofm.computeQualityIndicators();
 
-        try (final PrintWriter out = new PrintWriter(fileName, StandardCharsets.UTF_8.name())) {
+        try (PrintWriter out = new PrintWriter(fileName, StandardCharsets.UTF_8.name())) {
             out.println("# Number of samples: " + result.getNumberOfSamples());
             out.println("# Quantization error: " + result.getMeanQuantizationError());
             out.println("# Topographic error: " + result.getMeanTopographicError());

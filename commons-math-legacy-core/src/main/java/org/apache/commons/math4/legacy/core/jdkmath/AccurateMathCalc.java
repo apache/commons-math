@@ -23,7 +23,7 @@ import org.apache.commons.math4.legacy.exception.DimensionMismatchException;
 /** Class used to compute the classical functions tables.
  * @since 3.0
  */
-class AccurateMathCalc {
+final class AccurateMathCalc {
 
     /**
      * 0x40000000 - used to split a double into two parts, both with the low order bits cleared.
@@ -32,7 +32,7 @@ class AccurateMathCalc {
     private static final long HEX_40000000 = 0x40000000L; // 1073741824L
 
     /** Factorial table, for Taylor series expansions. 0!, 1!, 2!, ... 19! */
-    private static final double FACT[] = new double[]
+    private static final double[] FACT = new double[]
         {
         +1.0d,                        // 0
         +1.0d,                        // 1
@@ -57,7 +57,7 @@ class AccurateMathCalc {
         };
 
     /** Coefficients for slowLog. */
-    private static final double LN_SPLIT_COEF[][] = {
+    private static final double[][] LN_SPLIT_COEF = {
         {2.0, 0.0},
         {0.6666666269302368, 3.9736429850260626E-8},
         {0.3999999761581421, 2.3841857910019882E-8},
@@ -101,7 +101,7 @@ class AccurateMathCalc {
     private static void buildSinCosTables(double[] SINE_TABLE_A, double[] SINE_TABLE_B,
                                           double[] COSINE_TABLE_A, double[] COSINE_TABLE_B,
                                           int SINE_TABLE_LEN, double[] TANGENT_TABLE_A, double[] TANGENT_TABLE_B) {
-        final double result[] = new double[2];
+        final double[] result = new double[2];
 
         /* Use taylor series for 0 <= x <= 6/8 */
         for (int i = 0; i < 7; i++) {
@@ -118,18 +118,18 @@ class AccurateMathCalc {
 
         /* Use angle addition formula to complete table to 13/8, just beyond pi/2 */
         for (int i = 7; i < SINE_TABLE_LEN; i++) {
-            double xs[] = new double[2];
-            double ys[] = new double[2];
-            double as[] = new double[2];
-            double bs[] = new double[2];
-            double temps[] = new double[2];
+            double[] xs = new double[2];
+            double[] ys = new double[2];
+            double[] as = new double[2];
+            double[] bs = new double[2];
+            double[] temps = new double[2];
 
-            if ( (i & 1) == 0) {
+            if ((i & 1) == 0) {
                 // Even, use double angle
-                xs[0] = SINE_TABLE_A[i/2];
-                xs[1] = SINE_TABLE_B[i/2];
-                ys[0] = COSINE_TABLE_A[i/2];
-                ys[1] = COSINE_TABLE_B[i/2];
+                xs[0] = SINE_TABLE_A[i / 2];
+                xs[1] = SINE_TABLE_B[i / 2];
+                ys[0] = COSINE_TABLE_A[i / 2];
+                ys[1] = COSINE_TABLE_B[i / 2];
 
                 /* compute sine */
                 splitMult(xs, ys, result);
@@ -145,14 +145,14 @@ class AccurateMathCalc {
                 COSINE_TABLE_A[i] = result[0];
                 COSINE_TABLE_B[i] = result[1];
             } else {
-                xs[0] = SINE_TABLE_A[i/2];
-                xs[1] = SINE_TABLE_B[i/2];
-                ys[0] = COSINE_TABLE_A[i/2];
-                ys[1] = COSINE_TABLE_B[i/2];
-                as[0] = SINE_TABLE_A[i/2+1];
-                as[1] = SINE_TABLE_B[i/2+1];
-                bs[0] = COSINE_TABLE_A[i/2+1];
-                bs[1] = COSINE_TABLE_B[i/2+1];
+                xs[0] = SINE_TABLE_A[i / 2];
+                xs[1] = SINE_TABLE_B[i / 2];
+                ys[0] = COSINE_TABLE_A[i / 2];
+                ys[1] = COSINE_TABLE_B[i / 2];
+                as[0] = SINE_TABLE_A[i / 2 + 1];
+                as[1] = SINE_TABLE_B[i / 2 + 1];
+                bs[0] = COSINE_TABLE_A[i / 2 + 1];
+                bs[1] = COSINE_TABLE_B[i / 2 + 1];
 
                 /* compute sine */
                 splitMult(xs, bs, temps);
@@ -174,9 +174,9 @@ class AccurateMathCalc {
 
         /* Compute tangent = sine/cosine */
         for (int i = 0; i < SINE_TABLE_LEN; i++) {
-            double xs[] = new double[2];
-            double ys[] = new double[2];
-            double as[] = new double[2];
+            double[] xs = new double[2];
+            double[] ys = new double[2];
+            double[] as = new double[2];
 
             as[0] = COSINE_TABLE_A[i];
             as[1] = COSINE_TABLE_B[i];
@@ -191,7 +191,6 @@ class AccurateMathCalc {
             TANGENT_TABLE_A[i] = as[0];
             TANGENT_TABLE_B[i] = as[1];
         }
-
     }
 
     /**
@@ -202,27 +201,28 @@ class AccurateMathCalc {
      * (may be null)
      * @return cos(x)
      */
-    static double slowCos(final double x, final double result[]) {
+    static double slowCos(final double x, final double[] result) {
 
-        final double xs[] = new double[2];
-        final double ys[] = new double[2];
-        final double facts[] = new double[2];
-        final double as[] = new double[2];
+        final double[] xs = new double[2];
+        final double[] ys = new double[2];
+        final double[] facts = new double[2];
+        final double[] as = new double[2];
         split(x, xs);
         ys[0] = ys[1] = 0.0;
 
-        for (int i = FACT.length-1; i >= 0; i--) {
+        for (int i = FACT.length - 1; i >= 0; i--) {
             splitMult(xs, ys, as);
-            ys[0] = as[0]; ys[1] = as[1];
+            ys[0] = as[0];
+            ys[1] = as[1];
 
-            if ( (i & 1) != 0) { // skip odd entries
+            if ((i & 1) != 0) { // skip odd entries
                 continue;
             }
 
             split(FACT[i], as);
             splitReciprocal(as, facts);
 
-            if ( (i & 2) != 0 ) { // alternate terms are negative
+            if ((i & 2) != 0) { // alternate terms are negative
                 facts[0] = -facts[0];
                 facts[1] = -facts[1];
             }
@@ -247,26 +247,27 @@ class AccurateMathCalc {
      * (may be null)
      * @return sin(x)
      */
-    static double slowSin(final double x, final double result[]) {
-        final double xs[] = new double[2];
-        final double ys[] = new double[2];
-        final double facts[] = new double[2];
-        final double as[] = new double[2];
+    static double slowSin(final double x, final double[] result) {
+        final double[] xs = new double[2];
+        final double[] ys = new double[2];
+        final double[] facts = new double[2];
+        final double[] as = new double[2];
         split(x, xs);
         ys[0] = ys[1] = 0.0;
 
-        for (int i = FACT.length-1; i >= 0; i--) {
+        for (int i = FACT.length - 1; i >= 0; i--) {
             splitMult(xs, ys, as);
-            ys[0] = as[0]; ys[1] = as[1];
+            ys[0] = as[0];
+            ys[1] = as[1];
 
-            if ( (i & 1) == 0) { // Ignore even numbers
+            if ((i & 1) == 0) { // Ignore even numbers
                 continue;
             }
 
             split(FACT[i], as);
             splitReciprocal(as, facts);
 
-            if ( (i & 2) != 0 ) { // alternate terms are negative
+            if ((i & 2) != 0) { // alternate terms are negative
                 facts[0] = -facts[0];
                 facts[1] = -facts[1];
             }
@@ -285,21 +286,21 @@ class AccurateMathCalc {
 
 
     /**
-     *  For x between 0 and 1, returns exp(x), uses extended precision
+     *  For x between 0 and 1, returns exp(x), uses extended precision.
      *  @param x argument of exponential
      *  @param result placeholder where to place exp(x) split in two terms
      *  for extra precision (i.e. exp(x) = result[0] + result[1]
      *  @return exp(x)
      */
-    static double slowexp(final double x, final double result[]) {
-        final double xs[] = new double[2];
-        final double ys[] = new double[2];
-        final double facts[] = new double[2];
-        final double as[] = new double[2];
+    static double slowexp(final double x, final double[] result) {
+        final double[] xs = new double[2];
+        final double[] ys = new double[2];
+        final double[] facts = new double[2];
+        final double[] as = new double[2];
         split(x, xs);
         ys[0] = ys[1] = 0.0;
 
-        for (int i = FACT.length-1; i >= 0; i--) {
+        for (int i = FACT.length - 1; i >= 0; i--) {
             splitMult(xs, ys, as);
             ys[0] = as[0];
             ys[1] = as[1];
@@ -325,7 +326,7 @@ class AccurateMathCalc {
      * @param d number to split
      * @param split placeholder where to place the result
      */
-    private static void split(final double d, final double split[]) {
+    private static void split(final double d, final double[] split) {
         if (d < 8e298 && d > -8e298) {
             final double a = d * HEX_40000000;
             split[0] = (d + a) - a;
@@ -341,7 +342,7 @@ class AccurateMathCalc {
      * @param a input/out array containing the split, changed
      * on output
      */
-    private static void resplit(final double a[]) {
+    private static void resplit(final double[] a) {
         final double c = a[0] + a[1];
         final double d = -(c - a[0] - a[1]);
 
@@ -361,7 +362,7 @@ class AccurateMathCalc {
      * @param b second term of multiplication
      * @param ans placeholder where to put the result
      */
-    private static void splitMult(double a[], double b[], double ans[]) {
+    private static void splitMult(double[] a, double[] b, double[] ans) {
         ans[0] = a[0] * b[0];
         ans[1] = a[0] * b[1] + a[1] * b[0] + a[1] * b[1];
 
@@ -374,7 +375,7 @@ class AccurateMathCalc {
      * @param b second term of addition
      * @param ans placeholder where to put the result
      */
-    private static void splitAdd(final double a[], final double b[], final double ans[]) {
+    private static void splitAdd(final double[] a, final double[] b, final double[] ans) {
         ans[0] = a[0] + b[0];
         ans[1] = a[1] + b[1];
 
@@ -399,8 +400,8 @@ class AccurateMathCalc {
      *  @param in initial number, in split form
      *  @param result placeholder where to put the result
      */
-    static void splitReciprocal(final double in[], final double result[]) {
-        final double b = 1.0/4194304.0;
+    static void splitReciprocal(final double[] in, final double[] result) {
+        final double b = 1.0 / 4194304.0;
         final double a = 1.0 - b;
 
         if (in[0] == 0.0) {
@@ -409,7 +410,7 @@ class AccurateMathCalc {
         }
 
         result[0] = a / in[0];
-        result[1] = (b*in[0]-a*in[1]) / (in[0]*in[0] + in[0]*in[1]);
+        result[1] = (b * in[0] - a * in[1]) / (in[0] * in[0] + in[0] * in[1]);
 
         if (result[1] != result[1]) { // can happen if result[1] is NAN
             result[1] = 0.0;
@@ -421,7 +422,7 @@ class AccurateMathCalc {
         for (int i = 0; i < 2; i++) {
             /* this may be overkill, probably once is enough */
             double err = 1.0 - result[0] * in[0] - result[0] * in[1] -
-            result[1] * in[0] - result[1] * in[1];
+                result[1] * in[0] - result[1] * in[1];
             /*err = 1.0 - err; */
             err *= result[0] + result[1];
             /*printf("err = %16e\n", err); */
@@ -434,10 +435,10 @@ class AccurateMathCalc {
      * @param b second term of the multiplication
      * @param result placeholder where to put the result
      */
-    private static void quadMult(final double a[], final double b[], final double result[]) {
-        final double xs[] = new double[2];
-        final double ys[] = new double[2];
-        final double zs[] = new double[2];
+    private static void quadMult(final double[] a, final double[] b, final double[] result) {
+        final double[] xs = new double[2];
+        final double[] ys = new double[2];
+        final double[] zs = new double[2];
 
         /* a[0] * b[0] */
         split(a[0], xs);
@@ -488,11 +489,11 @@ class AccurateMathCalc {
      * @param result placeholder where to put the result in extended precision
      * @return exp(p) in standard precision (equal to result[0] + result[1])
      */
-    static double expint(int p, final double result[]) {
+    static double expint(int p, final double[] result) {
         //double x = M_E;
-        final double xs[] = new double[2];
-        final double as[] = new double[2];
-        final double ys[] = new double[2];
+        final double[] xs = new double[2];
+        final double[] as = new double[2];
+        final double[] ys = new double[2];
         //split(x, xs);
         //xs[1] = (double)(2.7182818284590452353602874713526625L - xs[0]);
         //xs[0] = 2.71827697753906250000;
@@ -547,10 +548,10 @@ class AccurateMathCalc {
      * @return log(xi)
      */
     static double[] slowLog(double xi) {
-        double x[] = new double[2];
-        double x2[] = new double[2];
-        double y[] = new double[2];
-        double a[] = new double[2];
+        double[] x = new double[2];
+        double[] x2 = new double[2];
+        double[] y = new double[2];
+        double[] a = new double[2];
 
         split(xi, x);
 
@@ -571,10 +572,10 @@ class AccurateMathCalc {
         //x[0] -= 1.0;
         //resplit(x);
 
-        y[0] = LN_SPLIT_COEF[LN_SPLIT_COEF.length-1][0];
-        y[1] = LN_SPLIT_COEF[LN_SPLIT_COEF.length-1][1];
+        y[0] = LN_SPLIT_COEF[LN_SPLIT_COEF.length - 1][0];
+        y[1] = LN_SPLIT_COEF[LN_SPLIT_COEF.length - 1][1];
 
-        for (int i = LN_SPLIT_COEF.length-2; i >= 0; i--) {
+        for (int i = LN_SPLIT_COEF.length - 2; i >= 0; i--) {
             splitMult(y, x2, a);
             y[0] = a[0];
             y[1] = a[1];
@@ -603,9 +604,9 @@ class AccurateMathCalc {
         checkLen(expectedLen, array2d.length);
         out.println(TABLE_START_DECL + " ");
         int i = 0;
-        for(double[] array : array2d) { // "double array[]" causes PMD parsing error
+        for (double[] array : array2d) { // "double array[]" causes PMD parsing error
             out.print("        {");
-            for(double d : array) { // assume inner array has very few entries
+            for (double d : array) { // assume inner array has very few entries
                 out.printf("%-25.25s", format(d)); // multiple entries per line
             }
             out.println("}, // " + i++);
@@ -624,7 +625,7 @@ class AccurateMathCalc {
         out.println(name + "=");
         checkLen(expectedLen, array.length);
         out.println(TABLE_START_DECL);
-        for(double d : array){
+        for (double d : array) {
             out.printf("        %s%n", format(d)); // one entry per line
         }
         out.println(TABLE_END_DECL);
@@ -654,5 +655,4 @@ class AccurateMathCalc {
             throw new DimensionMismatchException(actual, expectedLen);
         }
     }
-
 }

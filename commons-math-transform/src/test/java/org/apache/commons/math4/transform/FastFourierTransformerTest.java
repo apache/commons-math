@@ -37,7 +37,7 @@ import org.apache.commons.math3.analysis.function.Sinc;
  */
 public final class FastFourierTransformerTest {
     private static final Sin SIN_FUNCTION = new Sin();
-    private static final DoubleUnaryOperator SIN = (x) -> SIN_FUNCTION.value(x);
+    private static final DoubleUnaryOperator SIN = x -> SIN_FUNCTION.value(x);
 
     /** RNG. */
     private static final UniformRandomProvider RNG = RandomSource.create(RandomSource.MWC_256);
@@ -50,7 +50,7 @@ public final class FastFourierTransformerTest {
         final Complex[] x = createComplexData(n);
         final FastFourierTransform.Norm[] norm = FastFourierTransform.Norm.values();
         for (int i = 0; i < norm.length; i++) {
-            for (boolean type : new boolean[] { true, false }) {
+            for (boolean type : new boolean[] {true, false}) {
                 final FastFourierTransform fft = new FastFourierTransform(norm[i], type);
                 try {
                     fft.apply(x);
@@ -69,7 +69,7 @@ public final class FastFourierTransformerTest {
         final double[] x = createRealData(n);
         final FastFourierTransform.Norm[] norm = FastFourierTransform.Norm.values();
         for (int i = 0; i < norm.length; i++) {
-            for (boolean type : new boolean[] { true, false }) {
+            for (boolean type : new boolean[] {true, false}) {
                 final FastFourierTransform fft = new FastFourierTransform(norm[i], type);
                 try {
                     fft.apply(x);
@@ -87,7 +87,7 @@ public final class FastFourierTransformerTest {
         final int n = 127;
         final FastFourierTransform.Norm[] norm = FastFourierTransform.Norm.values();
         for (int i = 0; i < norm.length; i++) {
-            for (boolean type : new boolean[] { true, false }) {
+            for (boolean type : new boolean[] {true, false}) {
                 final FastFourierTransform fft = new FastFourierTransform(norm[i], type);
                 try {
                     fft.apply(SIN, 0.0, Math.PI, n);
@@ -105,7 +105,7 @@ public final class FastFourierTransformerTest {
         final int n = -128;
         final FastFourierTransform.Norm[] norm = FastFourierTransform.Norm.values();
         for (int i = 0; i < norm.length; i++) {
-            for (boolean type : new boolean[] { true, false }) {
+            for (boolean type : new boolean[] {true, false}) {
                 final FastFourierTransform fft = new FastFourierTransform(norm[i], type);
                 try {
                     fft.apply(SIN, 0.0, Math.PI, n);
@@ -124,7 +124,7 @@ public final class FastFourierTransformerTest {
         final int n = 128;
         final FastFourierTransform.Norm[] norm = FastFourierTransform.Norm.values();
         for (int i = 0; i < norm.length; i++) {
-            for (boolean type : new boolean[] { true, false }) {
+            for (boolean type : new boolean[] {true, false}) {
                 final FastFourierTransform fft = new FastFourierTransform(norm[i], type);
                 try {
                     fft.apply(SIN, Math.PI, 0.0, n);
@@ -195,7 +195,7 @@ public final class FastFourierTransformerTest {
         final double s;
         if (!inverse) {
             expected = dft(x, -1);
-            if (normalization == FastFourierTransform.Norm.STD){
+            if (normalization == FastFourierTransform.Norm.STD) {
                 s = 1.0;
             } else {
                 s = 1.0 / Math.sqrt(n);
@@ -309,7 +309,7 @@ public final class FastFourierTransformerTest {
     public void testTransformComplex() {
         final FastFourierTransform.Norm[] norm = FastFourierTransform.Norm.values();
         for (int i = 0; i < norm.length; i++) {
-            for (boolean type : new boolean[] { true, false }) {
+            for (boolean type : new boolean[] {true, false}) {
                 doTestTransformComplex(2, 1e-15, norm[i], type);
                 doTestTransformComplex(4, 1e-14, norm[i], type);
                 doTestTransformComplex(8, 1e-13, norm[i], type);
@@ -325,7 +325,7 @@ public final class FastFourierTransformerTest {
     public void testStandardTransformReal() {
         final FastFourierTransform.Norm[] norm = FastFourierTransform.Norm.values();
         for (int i = 0; i < norm.length; i++) {
-            for (boolean type : new boolean[] { true, false }) {
+            for (boolean type : new boolean[] {true, false}) {
                 doTestTransformReal(2, 1e-15, norm[i], type);
                 doTestTransformReal(4, 1e-14, norm[i], type);
                 doTestTransformReal(8, 1e-13, norm[i], type);
@@ -340,14 +340,14 @@ public final class FastFourierTransformerTest {
     @Test
     public void testStandardTransformFunction() {
         final UnivariateFunction sinc = new Sinc();
-        final DoubleUnaryOperator f = (x) -> sinc.value(x);
+        final DoubleUnaryOperator f = x -> sinc.value(x);
 
         final double min = -Math.PI;
         final double max = Math.PI;
         final FastFourierTransform.Norm[] norm = FastFourierTransform.Norm.values();
 
         for (int i = 0; i < norm.length; i++) {
-            for (boolean type : new boolean[] { true, false }) {
+            for (boolean type : new boolean[] {true, false}) {
                 doTestTransformFunction(f, min, max, 2, 1e-15, norm[i], type);
                 doTestTransformFunction(f, min, max, 4, 1e-14, norm[i], type);
                 doTestTransformFunction(f, min, max, 8, 1e-14, norm[i], type);
@@ -367,10 +367,11 @@ public final class FastFourierTransformerTest {
     @Test
     public void testAdHocData() {
         FastFourierTransform transformer;
-        Complex result[]; double tolerance = 1e-12;
+        Complex[] result;
+        double tolerance = 1e-12;
 
-        final double x[] = {1.3, 2.4, 1.7, 4.1, 2.9, 1.7, 5.1, 2.7};
-        final Complex y[] = {
+        final double[] x = {1.3, 2.4, 1.7, 4.1, 2.9, 1.7, 5.1, 2.7};
+        final Complex[] y = {
             Complex.ofCartesian(21.9, 0.0),
             Complex.ofCartesian(-2.09497474683058, 1.91507575950825),
             Complex.ofCartesian(-2.6, 2.7),
@@ -394,9 +395,9 @@ public final class FastFourierTransformerTest {
             Assert.assertEquals(0.0, result[i].getImaginary(), tolerance);
         }
 
-        double x2[] = {10.4, 21.6, 40.8, 13.6, 23.2, 32.8, 13.6, 19.2};
+        double[] x2 = {10.4, 21.6, 40.8, 13.6, 23.2, 32.8, 13.6, 19.2};
         TransformUtils.scaleInPlace(x2, 1.0 / Math.sqrt(x2.length));
-        Complex y2[] = y;
+        Complex[] y2 = y;
 
         transformer = new FastFourierTransform(FastFourierTransform.Norm.UNIT);
         result = transformer.apply(y2);
@@ -419,18 +420,19 @@ public final class FastFourierTransformerTest {
     @Test
     public void testSinFunction() {
         FastFourierTransform transformer;
-        Complex result[]; int N = 1 << 8;
-        double min, max, tolerance = 1e-12;
+        Complex[] result;
+        int size = 1 << 8;
+        double tolerance = 1e-12;
 
-        min = 0.0;
-        max = 2 * Math.PI;
+        double min = 0.0;
+        double max = 2 * Math.PI;
         transformer = new FastFourierTransform(FastFourierTransform.Norm.STD);
-        result = transformer.apply(SIN, min, max, N);
+        result = transformer.apply(SIN, min, max, size);
         Assert.assertEquals(0.0, result[1].getReal(), tolerance);
-        Assert.assertEquals(-(N >> 1), result[1].getImaginary(), tolerance);
-        Assert.assertEquals(0.0, result[N-1].getReal(), tolerance);
-        Assert.assertEquals(N >> 1, result[N-1].getImaginary(), tolerance);
-        for (int i = 0; i < N-1; i += (i == 0 ? 2 : 1)) {
+        Assert.assertEquals(-(size >> 1), result[1].getImaginary(), tolerance);
+        Assert.assertEquals(0.0, result[size - 1].getReal(), tolerance);
+        Assert.assertEquals(size >> 1, result[size - 1].getImaginary(), tolerance);
+        for (int i = 0; i < size - 1; i += i == 0 ? 2 : 1) {
             Assert.assertEquals(0.0, result[i].getReal(), tolerance);
             Assert.assertEquals(0.0, result[i].getImaginary(), tolerance);
         }
@@ -438,12 +440,12 @@ public final class FastFourierTransformerTest {
         min = -Math.PI;
         max = Math.PI;
         transformer = new FastFourierTransform(FastFourierTransform.Norm.STD, true);
-        result = transformer.apply(SIN, min, max, N);
+        result = transformer.apply(SIN, min, max, size);
         Assert.assertEquals(0.0, result[1].getReal(), tolerance);
         Assert.assertEquals(-0.5, result[1].getImaginary(), tolerance);
-        Assert.assertEquals(0.0, result[N-1].getReal(), tolerance);
-        Assert.assertEquals(0.5, result[N-1].getImaginary(), tolerance);
-        for (int i = 0; i < N-1; i += (i == 0 ? 2 : 1)) {
+        Assert.assertEquals(0.0, result[size - 1].getReal(), tolerance);
+        Assert.assertEquals(0.5, result[size - 1].getImaginary(), tolerance);
+        for (int i = 0; i < size - 1; i += i == 0 ? 2 : 1) {
             Assert.assertEquals(0.0, result[i].getReal(), tolerance);
             Assert.assertEquals(0.0, result[i].getImaginary(), tolerance);
         }

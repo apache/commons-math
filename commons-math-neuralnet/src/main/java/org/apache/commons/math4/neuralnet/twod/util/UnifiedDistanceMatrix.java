@@ -34,7 +34,7 @@ import org.apache.commons.math4.neuralnet.twod.NeuronSquareMesh2D;
  * unit of the 2D-map.
  *
  * @since 3.6
- * @see NeuronSquareMesh2D.DataVisualization#getUMatrix()
+ * @see org.apache.commons.math4.neuralnet.twod.NeuronSquareMesh2D.DataVisualization#getUMatrix()
  */
 public class UnifiedDistanceMatrix implements MapVisualization {
     /** Distance. */

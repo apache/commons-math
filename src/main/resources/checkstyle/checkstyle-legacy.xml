@@ -81,7 +81,6 @@
   <!-- See http://checkstyle.sourceforge.net/config_header.html -->
   <module name="Header">
     <property name="headerFile" value="${checkstyle.header.file}"/>
-    <property name="fileExtensions" value="java"/>
   </module>
 
   <module name="TreeWalker">

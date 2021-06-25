@@ -6,7 +6,7 @@
  * (the "License"); you may not use this file except in compliance with
  * the License.  You may obtain a copy of the License at
  *
- *     http://www.apache.org/licenses/LICENSE-2.0
+ *      http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -51,14 +51,14 @@ public class NeuronStringTest {
      */
     @Test
     public void testSegmentNetwork() {
-        final FeatureInitializer[] initArray = { init };
+        final FeatureInitializer[] initArray = {init};
         final Network net = new NeuronString(4, false, initArray).getNetwork();
 
         Collection<Neuron> neighbours;
 
         // Neuron 0.
         neighbours = net.getNeighbours(net.getNeuron(0));
-        for (long nId : new long[] { 1 }) {
+        for (long nId : new long[] {1}) {
             Assert.assertTrue(neighbours.contains(net.getNeuron(nId)));
         }
         // Ensures that no other neurons is in the neighbourhood set.
@@ -66,7 +66,7 @@ public class NeuronStringTest {
 
         // Neuron 1.
         neighbours = net.getNeighbours(net.getNeuron(1));
-        for (long nId : new long[] { 0, 2 }) {
+        for (long nId : new long[] {0, 2}) {
             Assert.assertTrue(neighbours.contains(net.getNeuron(nId)));
         }
         // Ensures that no other neurons is in the neighbourhood set.
@@ -74,7 +74,7 @@ public class NeuronStringTest {
 
         // Neuron 2.
         neighbours = net.getNeighbours(net.getNeuron(2));
-        for (long nId : new long[] { 1, 3 }) {
+        for (long nId : new long[] {1, 3}) {
             Assert.assertTrue(neighbours.contains(net.getNeuron(nId)));
         }
         // Ensures that no other neurons is in the neighbourhood set.
@@ -82,7 +82,7 @@ public class NeuronStringTest {
 
         // Neuron 3.
         neighbours = net.getNeighbours(net.getNeuron(3));
-        for (long nId : new long[] { 2 }) {
+        for (long nId : new long[] {2}) {
             Assert.assertTrue(neighbours.contains(net.getNeuron(nId)));
         }
         // Ensures that no other neurons is in the neighbourhood set.
@@ -96,14 +96,14 @@ public class NeuronStringTest {
      */
     @Test
     public void testCircleNetwork() {
-        final FeatureInitializer[] initArray = { init };
+        final FeatureInitializer[] initArray = {init};
         final Network net = new NeuronString(4, true, initArray).getNetwork();
 
         Collection<Neuron> neighbours;
 
         // Neuron 0.
         neighbours = net.getNeighbours(net.getNeuron(0));
-        for (long nId : new long[] { 1, 3 }) {
+        for (long nId : new long[] {1, 3}) {
             Assert.assertTrue(neighbours.contains(net.getNeuron(nId)));
         }
         // Ensures that no other neurons is in the neighbourhood set.
@@ -111,7 +111,7 @@ public class NeuronStringTest {
 
         // Neuron 1.
         neighbours = net.getNeighbours(net.getNeuron(1));
-        for (long nId : new long[] { 0, 2 }) {
+        for (long nId : new long[] {0, 2}) {
             Assert.assertTrue(neighbours.contains(net.getNeuron(nId)));
         }
         // Ensures that no other neurons is in the neighbourhood set.
@@ -119,7 +119,7 @@ public class NeuronStringTest {
 
         // Neuron 2.
         neighbours = net.getNeighbours(net.getNeuron(2));
-        for (long nId : new long[] { 1, 3 }) {
+        for (long nId : new long[] {1, 3}) {
             Assert.assertTrue(neighbours.contains(net.getNeuron(nId)));
         }
         // Ensures that no other neurons is in the neighbourhood set.
@@ -127,7 +127,7 @@ public class NeuronStringTest {
 
         // Neuron 3.
         neighbours = net.getNeighbours(net.getNeuron(3));
-        for (long nId : new long[] { 0, 2 }) {
+        for (long nId : new long[] {0, 2}) {
             Assert.assertTrue(neighbours.contains(net.getNeuron(nId)));
         }
         // Ensures that no other neurons is in the neighbourhood set.
@@ -141,7 +141,7 @@ public class NeuronStringTest {
      */
     @Test
     public void testGetNeighboursWithExclude() {
-        final FeatureInitializer[] initArray = { init };
+        final FeatureInitializer[] initArray = {init};
         final Network net = new NeuronString(5, true, initArray).getNetwork();
         final Collection<Neuron> exclude = new ArrayList<>();
         exclude.add(net.getNeuron(1));
@@ -155,7 +155,7 @@ public class NeuronStringTest {
     public void testSerialize()
         throws IOException,
                ClassNotFoundException {
-        final FeatureInitializer[] initArray = { init };
+        final FeatureInitializer[] initArray = {init};
         final NeuronString out = new NeuronString(4, false, initArray);
 
         final ByteArrayOutputStream bos = new ByteArrayOutputStream();

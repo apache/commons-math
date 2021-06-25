@@ -122,7 +122,7 @@ public final class FastSineTransformerTest extends RealTransformerAbstractTest {
     @Override
     DoubleUnaryOperator getValidFunction() {
         final UnivariateFunction sinc = new Sinc();
-        return (x) -> sinc.value(x);
+        return x -> sinc.value(x);
     }
 
     @Override
@@ -180,7 +180,7 @@ public final class FastSineTransformerTest extends RealTransformerAbstractTest {
         final double[] data = new double[] {
             1, 1, 1, 1
         };
-        for (boolean type : new boolean[] { true, false }) {
+        for (boolean type : new boolean[] {true, false}) {
             try {
                 final RealTransform transformer = createRealTransformer(type);
                 transformer.apply(data);
@@ -199,19 +199,19 @@ public final class FastSineTransformerTest extends RealTransformerAbstractTest {
     @Test
     public void testAdHocData() {
         FastSineTransform transformer;
-        double result[], tolerance = 1e-12;
+        double tolerance = 1e-12;
 
-        final double x[] = {
+        final double[] x = {
             0, 1, 2, 3, 4, 5, 6, 7
         };
-        final double y[] = {
+        final double[] y = {
             0.0, 20.1093579685034, -9.65685424949238,
             5.98642305066196, -4.0, 2.67271455167720,
             -1.65685424949238, 0.795649469518633
         };
 
         transformer = new FastSineTransform(FastSineTransform.Norm.STD);
-        result = transformer.apply(x);
+        double[] result = transformer.apply(x);
         for (int i = 0; i < result.length; i++) {
             Assert.assertEquals(y[i], result[i], tolerance);
         }
@@ -243,23 +243,24 @@ public final class FastSineTransformerTest extends RealTransformerAbstractTest {
     @Test
     public void testSinFunction() {
         final UnivariateFunction sinFunction = new Sin();
-        final DoubleUnaryOperator f = (x) -> sinFunction.value(x);
+        final DoubleUnaryOperator f = x -> sinFunction.value(x);
         final FastSineTransform transformer = new FastSineTransform(FastSineTransform.Norm.STD);
-        double min, max, result[], tolerance = 1e-12; int N = 1 << 8;
+        double tolerance = 1e-12;
+        int size = 1 << 8;
 
-        min = 0.0;
-        max = 2 * Math.PI;
-        result = transformer.apply(f, min, max, N);
-        Assert.assertEquals(N >> 1, result[2], tolerance);
-        for (int i = 0; i < N; i += (i == 1 ? 2 : 1)) {
+        double min = 0.0;
+        double max = 2 * Math.PI;
+        double[] result = transformer.apply(f, min, max, size);
+        Assert.assertEquals(size >> 1, result[2], tolerance);
+        for (int i = 0; i < size; i += i == 1 ? 2 : 1) {
             Assert.assertEquals(0.0, result[i], tolerance);
         }
 
         min = -Math.PI;
         max = Math.PI;
-        result = transformer.apply(f, min, max, N);
-        Assert.assertEquals(-(N >> 1), result[2], tolerance);
-        for (int i = 0; i < N; i += (i == 1 ? 2 : 1)) {
+        result = transformer.apply(f, min, max, size);
+        Assert.assertEquals(-(size >> 1), result[2], tolerance);
+        for (int i = 0; i < size; i += i == 1 ? 2 : 1) {
             Assert.assertEquals(0.0, result[i], tolerance);
         }
     }
@@ -270,7 +271,7 @@ public final class FastSineTransformerTest extends RealTransformerAbstractTest {
     @Test
     public void testParameters() throws Exception {
         final UnivariateFunction sinFunction = new Sin();
-        final DoubleUnaryOperator f = (x) -> sinFunction.value(x);
+        final DoubleUnaryOperator f = x -> sinFunction.value(x);
         final FastSineTransform transformer = new FastSineTransform(FastSineTransform.Norm.STD);
 
         try {

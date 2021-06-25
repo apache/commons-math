@@ -19,8 +19,32 @@
     "-//Checkstyle//DTD SuppressionFilter Configuration 1.2//EN"
     "https://checkstyle.org/dtds/suppressions_1_2.dtd">
 <suppressions>
-  <!-- Disable all checks for main code! XXX -->
-  <suppress checks=".*" files=".*[/\\]main[/\\].*" />
-  <!-- Disable all checks for unit tests. -->
-  <suppress checks=".*" files=".*[/\\]test[/\\].*" />
+  <suppress checks="HiddenField" files=".*[/\\]examples[/\\]sofm[/\\]tsp[/\\]City\.java" />
+  <suppress checks="LineLength" files=".*[/\\]LocalizedFormats\.java" />
+  <suppress checks="FileLength" files=".*[/\\]AccurateMath.*\.java" />
+  <suppress checks="FileLength" files=".*[/\\]Dfp.*\.java" />
+  <suppress checks="UnnecessaryParentheses" files=".*[/\\]AccurateMath.*\.java" />
+  <suppress checks="UnnecessaryParentheses" files=".*[/\\]Dfp.*\.java" />
+  <suppress checks="LineLength" files=".*[/\\]AccurateMath\.java" />
+  <suppress checks="LineLength" files=".*[/\\]Dfp\.java" />
+  <suppress checks="MethodLength" files=".*[/\\]Dfp.*\.java" />
+  <suppress checks="MethodLength" files=".*[/\\]AccurateMath\.java" />
+  <suppress checks="MethodName" files=".*[/\\]AccurateMath\.java" />
+  <suppress checks="LocalFinalVariableName" files=".*[/\\]AccurateMath\.java" />
+  <suppress checks="ParameterNumber" files=".*[/\\]RealFieldElement\.java" />
+  <suppress checks="ParameterNumber" files=".*[/\\]Dfp\.java" />
+  <suppress checks="TypeName" files=".*[/\\]AccurateMath\.java" />
+  <suppress checks="ParameterName" files=".*[/\\]AccurateMathCalc\.java" />
+
+  <!-- Be more lenient on tests. -->
+  <suppress checks="Javadoc" files=".*[/\\]test[/\\].*" />
+  <suppress checks="MultipleStringLiterals" files=".*[/\\]test[/\\].*" />
+  <suppress checks="DesignForExtension" files=".*[/\\]test[/\\].*" />
+  <suppress checks="LineLength" files=".*[/\\]test[/\\].*" />
+  <suppress checks="IllegalCatch" files=".*[/\\]test[/\\].*" />
+  <suppress checks="MethodName" files=".*[/\\]test[/\\].*" />
+  <suppress checks="ConstantName" files=".*[/\\]test[/\\].*" />
+  <suppress checks="MethodLength" files=".*/Dfp.*Test.java" />
+  <suppress checks="MethodLength" files=".*[/\\]AccurateMathTest\.java" />
+  <suppress checks="LocalFinalVariableName" files=".*[/\\]AccurateMathTest\.java" />
 </suppressions>

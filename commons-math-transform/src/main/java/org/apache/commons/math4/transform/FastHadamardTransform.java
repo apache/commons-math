@@ -308,9 +308,9 @@ public class FastHadamardTransform implements RealTransform {
      */
     private UnaryOperator<double[]> create(final boolean inverse) {
         if (inverse) {
-            return (f) -> TransformUtils.scaleInPlace(fht(f), 1d / f.length);
+            return f -> TransformUtils.scaleInPlace(fht(f), 1d / f.length);
         } else {
-            return (f) -> fht(f);
+            return f -> fht(f);
         }
     }
 }

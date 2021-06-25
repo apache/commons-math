@@ -107,18 +107,16 @@ public class ExceptionContextTest {
         String key = "Key 1";
         cOut.setValue(key, new Unserializable());
 
-        {
-            ByteArrayOutputStream bos = new ByteArrayOutputStream();
-            ObjectOutputStream oos = new ObjectOutputStream(bos);
-            oos.writeObject(cOut);
+        ByteArrayOutputStream bos = new ByteArrayOutputStream();
+        ObjectOutputStream oos = new ObjectOutputStream(bos);
+        oos.writeObject(cOut);
 
-            ByteArrayInputStream bis = new ByteArrayInputStream(bos.toByteArray());
-            ObjectInputStream ois = new ObjectInputStream(bis);
-            ExceptionContext cIn = (ExceptionContext) ois.readObject();
+        ByteArrayInputStream bis = new ByteArrayInputStream(bos.toByteArray());
+        ObjectInputStream ois = new ObjectInputStream(bis);
+        ExceptionContext cIn = (ExceptionContext) ois.readObject();
 
-            String nsObjStr = (String) cIn.getValue(key);
-            Assert.assertTrue(nsObjStr.matches(".*could not be serialized.*"));
-        }
+        String nsObjStr = (String) cIn.getValue(key);
+        Assert.assertTrue(nsObjStr.matches(".*could not be serialized.*"));
     }
 
     /**

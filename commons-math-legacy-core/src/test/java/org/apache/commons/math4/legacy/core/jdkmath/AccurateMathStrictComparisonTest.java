@@ -56,7 +56,7 @@ public class AccurateMathStrictComparisonTest {
         -Double.MIN_VALUE, Double.MIN_VALUE,                // 12,13
     };
 
-    private static final Float [] FLOAT_SPECIAL_VALUES = {
+    private static final Float[] FLOAT_SPECIAL_VALUES = {
         -0.0f, +0.0f,                                       // 1,2
         Float.NaN,                                          // 3
         Float.NEGATIVE_INFINITY, Float.POSITIVE_INFINITY,   // 4,5
@@ -64,13 +64,13 @@ public class AccurateMathStrictComparisonTest {
         -Float.MIN_VALUE, -Float.MAX_VALUE,                 // 8,9
     };
 
-    private static final Object [] LONG_SPECIAL_VALUES = {
-        -1,0,1,                                             // 1,2,3
+    private static final Object[] LONG_SPECIAL_VALUES = {
+        -1, 0, 1,                                           // 1,2,3
         Long.MIN_VALUE, Long.MAX_VALUE,                     // 4,5
     };
 
     private static final Object[] INT_SPECIAL_VALUES = {
-        -1,0,1,                                             // 1,2,3
+        -1, 0, 1,                                           // 1,2,3
         Integer.MIN_VALUE, Integer.MAX_VALUE,               // 4,5
     };
 
@@ -79,17 +79,18 @@ public class AccurateMathStrictComparisonTest {
     private final Type[] types;
     private final Object[][] valueArrays;
 
-    public AccurateMathStrictComparisonTest(Method m, Method f, Type[] types, Object[][] data) throws Exception{
-        this.mathMethod=m;
-        this.fastMethod=f;
-        this.types=types;
-        this.valueArrays=data;
+    public AccurateMathStrictComparisonTest(Method m, Method f, Type[] types, Object[][] data) throws Exception {
+        this.mathMethod = m;
+        this.fastMethod = f;
+        this.types = types;
+        this.valueArrays = data;
     }
 
     @Test
-    public void test1() throws Exception{
+    public void test1() throws Exception {
         setupMethodCall(mathMethod, fastMethod, types, valueArrays);
     }
+
     private static boolean isNumber(Double d) {
         return !(d.isInfinite() || d.isNaN());
     }
@@ -98,18 +99,18 @@ public class AccurateMathStrictComparisonTest {
         return !(f.isInfinite() || f.isNaN());
     }
 
-    private static void reportFailedResults(Method mathMethod, Object[] params, Object expected, Object actual, int[] entries){
+    private static void reportFailedResults(Method mathMethod, Object[] params, Object expected, Object actual, int[] entries) {
         final String methodName = mathMethod.getName();
         String format = null;
-        long actL=0;
-        long expL=0;
+        long actL = 0;
+        long expL = 0;
         if (expected instanceof Double) {
             Double exp = (Double) expected;
             Double act = (Double) actual;
             if (isNumber(exp) && isNumber(act) && exp != 0) { // show difference as hex
                 actL = Double.doubleToLongBits(act);
                 expL = Double.doubleToLongBits(exp);
-                if (Math.abs(actL-expL)==1) {
+                if (Math.abs(actL - expL) == 1) {
                     // Not 100% sure off-by-one errors are allowed everywhere, so only allow for these methods
                     if (methodName.equals("toRadians") || methodName.equals("atan2")) {
                         return;
@@ -117,7 +118,7 @@ public class AccurateMathStrictComparisonTest {
                 }
                 format = "%016x";
             }
-        } else if (expected instanceof Float ){
+        } else if (expected instanceof Float) {
             Float exp = (Float) expected;
             Float act = (Float) actual;
             if (isNumber(exp) && isNumber(act) && exp != 0) { // show difference as hex
@@ -132,19 +133,19 @@ public class AccurateMathStrictComparisonTest {
         sb.append(methodName);
         sb.append("(");
         String sep = "";
-        for(Object o : params){
+        for (Object o : params) {
             sb.append(sep);
             sb.append(o);
-            sep=", ";
+            sep = ", ";
         }
         sb.append(") expected ");
-        if (format != null){
+        if (format != null) {
             sb.append(String.format(format, expL));
         } else {
             sb.append(expected);
         }
         sb.append(" actual ");
-        if (format != null){
+        if (format != null) {
             sb.append(String.format(format, actL));
         } else {
             sb.append(actual);
@@ -156,7 +157,9 @@ public class AccurateMathStrictComparisonTest {
         if (fatal) {
             Assert.fail(message);
         } else {
+            // CHECKSTYLE: stop Regexp
             System.out.println(message);
+            // CHECKSTYLE: resume Regexp
         }
     }
 
@@ -181,7 +184,7 @@ public class AccurateMathStrictComparisonTest {
                 reportFailedResults(mathMethod, params, expected, actual, entries);
             }
         } catch (IllegalArgumentException e) {
-            Assert.fail(mathMethod+" "+e);
+            Assert.fail(mathMethod + " " + e);
         }
     }
 
@@ -190,13 +193,13 @@ public class AccurateMathStrictComparisonTest {
         Object[] params = new Object[types.length];
         int entry1 = 0;
         int[] entries = new int[types.length];
-        for(Object d : valueArrays[0]) {
+        for (Object d : valueArrays[0]) {
             entry1++;
             params[0] = d;
             entries[0] = entry1;
-            if (params.length > 1){
+            if (params.length > 1) {
                 int entry2 = 0;
-                for(Object d1 : valueArrays[1]) {
+                for (Object d1 : valueArrays[1]) {
                     entry2++;
                     params[1] = d1;
                     entries[1] = entry2;
@@ -210,13 +213,14 @@ public class AccurateMathStrictComparisonTest {
 
     @Parameters
     public static List<Object[]> data() throws Exception {
+        // CHECKSTYLE: stop Regexp
         String singleMethod = System.getProperty("testMethod");
         List<Object[]> list = new ArrayList<>();
-        for(Method mathMethod : StrictMath.class.getDeclaredMethods()) {
+        for (Method mathMethod : StrictMath.class.getDeclaredMethods()) {
             method:
-            if (Modifier.isPublic(mathMethod.getModifiers())){// Only test public methods
-                Type []types = mathMethod.getGenericParameterTypes();
-                if (types.length >=1) { // Only check methods with at least one parameter
+            if (Modifier.isPublic(mathMethod.getModifiers())) { // Only test public methods
+                Type[] types = mathMethod.getGenericParameterTypes();
+                if (types.length >= 1) { // Only check methods with at least one parameter
                     try {
                         // Get the corresponding AccurateMath method
                         Method fastMethod = AccurateMath.class.getDeclaredMethod(mathMethod.getName(), (Class[]) types);
@@ -224,24 +228,24 @@ public class AccurateMathStrictComparisonTest {
                             if (singleMethod != null && !fastMethod.getName().equals(singleMethod)) {
                                 break method;
                             }
-                            Object [][] values = new Object[types.length][];
+                            Object[][] values = new Object[types.length][];
                             int index = 0;
-                            for(Type t : types) {
-                                if (t.equals(double.class)){
-                                    values[index]=DOUBLE_SPECIAL_VALUES;
+                            for (Type t : types) {
+                                if (t.equals(double.class)) {
+                                    values[index] = DOUBLE_SPECIAL_VALUES;
                                 } else if (t.equals(float.class)) {
-                                    values[index]=FLOAT_SPECIAL_VALUES;
+                                    values[index] = FLOAT_SPECIAL_VALUES;
                                 } else if (t.equals(long.class)) {
-                                    values[index]=LONG_SPECIAL_VALUES;
+                                    values[index] = LONG_SPECIAL_VALUES;
                                 } else if (t.equals(int.class)) {
-                                    values[index]=INT_SPECIAL_VALUES;
+                                    values[index] = INT_SPECIAL_VALUES;
                                 } else {
-                                    System.out.println("Cannot handle class "+t+" for "+mathMethod);
+                                    System.out.println("Cannot handle class " + t + " for " + mathMethod);
                                     break method;
                                 }
                                 index++;
                             }
-//                            System.out.println(fastMethod);
+//                          System.out.println(fastMethod);
                             /*
                              * The current implementation runs each method as a separate test.
                              * Could be amended to run each value as a separate test
@@ -249,14 +253,16 @@ public class AccurateMathStrictComparisonTest {
                             list.add(new Object[]{mathMethod, fastMethod, types, values});
 //                            setupMethodCall(mathMethod, fastMethod, params, data);
                         } else {
-                            System.out.println("Cannot find public AccurateMath method corresponding to: "+mathMethod);
+                            System.out
+                                .println("Cannot find public AccurateMath method corresponding to: " + mathMethod);
                         }
                     } catch (NoSuchMethodException e) {
-                        System.out.println("Cannot find AccurateMath method corresponding to: "+mathMethod);
+                        System.out.println("Cannot find AccurateMath method corresponding to: " + mathMethod);
                     }
                 }
             }
         }
         return list;
+        // CHECKSTYLE: resume Regexp
     }
 }

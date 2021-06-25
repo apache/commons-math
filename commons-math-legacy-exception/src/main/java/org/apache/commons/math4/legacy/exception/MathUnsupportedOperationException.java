@@ -42,7 +42,7 @@ public class MathUnsupportedOperationException extends MathRuntimeException {
      * the error.
      * @param args Arguments.
      */
-    public MathUnsupportedOperationException(Localizable pattern, Object ... args) {
+    public MathUnsupportedOperationException(Localizable pattern, Object... args) {
         super(pattern, args);
     }
 

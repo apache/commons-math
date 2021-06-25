@@ -45,7 +45,7 @@ public class MathArithmeticException extends MathRuntimeException {
      * the error.
      * @param args Arguments.
      */
-    public MathArithmeticException(Localizable pattern, Object ... args) {
+    public MathArithmeticException(Localizable pattern, Object... args) {
         super(pattern, args);
     }
 

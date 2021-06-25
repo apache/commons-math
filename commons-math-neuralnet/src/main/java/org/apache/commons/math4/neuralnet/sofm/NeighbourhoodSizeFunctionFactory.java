@@ -25,7 +25,7 @@ import org.apache.commons.math4.neuralnet.sofm.util.QuasiSigmoidDecayFunction;
  *
  * @since 3.3
  */
-public class NeighbourhoodSizeFunctionFactory {
+public final class NeighbourhoodSizeFunctionFactory {
     /** Class contains only static methods. */
     private NeighbourhoodSizeFunctionFactory() {}
 

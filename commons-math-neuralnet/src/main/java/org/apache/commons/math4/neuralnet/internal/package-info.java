@@ -14,30 +14,9 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.apache.commons.math3.examples.neuralnet.sofm.tsp;
 
 /**
- * Application class.
+ * Internal utility classes.
  */
-public final class StandAlone {
-    /** No instances. */
-    private StandAlone() {}
 
-    /**
-     * Program entry point.
-     *
-     * @param args Arguments.
-     * The order is as follows:
-     * <ol>
-     *  <li>
-     *  </li>
-     *  <li>
-     *  </li>
-     * </ol>
-     */
-    public static void main(String[] args) {
-        if (args.length != EXPECTED_ARGUMENTS) {
-            throw new IllegalStateException("Missing arguments");
-        }
-    }
-}
+package org.apache.commons.math4.neuralnet.internal;

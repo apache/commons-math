@@ -6,7 +6,7 @@
  * (the "License"); you may not use this file except in compliance with
  * the License.  You may obtain a copy of the License at
  *
- *     http://www.apache.org/licenses/LICENSE-2.0
+ *      http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -24,19 +24,19 @@ import org.junit.Assert;
  * Tests for {@link NeighbourhoodSizeFunctionFactory} class.
  */
 public class NeighbourhoodSizeFunctionFactoryTest {
-    @Test(expected=IllegalArgumentException.class)
+    @Test(expected = IllegalArgumentException.class)
     public void testExponentialDecayPrecondition1() {
         NeighbourhoodSizeFunctionFactory.exponentialDecay(0, 0, 2);
     }
-    @Test(expected=IllegalArgumentException.class)
+    @Test(expected = IllegalArgumentException.class)
     public void testExponentialDecayPrecondition2() {
         NeighbourhoodSizeFunctionFactory.exponentialDecay(1, 0, 2);
     }
-    @Test(expected=IllegalArgumentException.class)
+    @Test(expected = IllegalArgumentException.class)
     public void testExponentialDecayPrecondition3() {
         NeighbourhoodSizeFunctionFactory.exponentialDecay(1, 1, 100);
     }
-    @Test(expected=IllegalArgumentException.class)
+    @Test(expected = IllegalArgumentException.class)
     public void testExponentialDecayPrecondition4() {
         NeighbourhoodSizeFunctionFactory.exponentialDecay(2, 1, 0);
     }
@@ -54,15 +54,15 @@ public class NeighbourhoodSizeFunctionFactoryTest {
         Assert.assertEquals(0, f.value(Long.MAX_VALUE));
     }
 
-    @Test(expected=IllegalArgumentException.class)
+    @Test(expected = IllegalArgumentException.class)
     public void testQuasiSigmoidDecayPrecondition1() {
         NeighbourhoodSizeFunctionFactory.quasiSigmoidDecay(0d, -1d, 2);
     }
-    @Test(expected=IllegalArgumentException.class)
+    @Test(expected = IllegalArgumentException.class)
     public void testQuasiSigmoidDecayPrecondition3() {
         NeighbourhoodSizeFunctionFactory.quasiSigmoidDecay(1d, 0d, 100);
     }
-    @Test(expected=IllegalArgumentException.class)
+    @Test(expected = IllegalArgumentException.class)
     public void testQuasiSigmoidDecayPrecondition4() {
         NeighbourhoodSizeFunctionFactory.quasiSigmoidDecay(1d, -1d, 0);
     }

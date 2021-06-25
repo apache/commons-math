@@ -6,7 +6,7 @@
  * (the "License"); you may not use this file except in compliance with
  * the License.  You may obtain a copy of the License at
  *
- *     http://www.apache.org/licenses/LICENSE-2.0
+ *      http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -45,13 +45,13 @@ class ChineseRings {
      * @param numPointsRing1 Number of points in the first ring.
      * @param numPointsRing2 Number of points in the second ring.
      */
-    public ChineseRings(Vector3D orientationRing1,
-                        double radiusRing1,
-                        double halfWidthRing1,
-                        double radiusRing2,
-                        double halfWidthRing2,
-                        int numPointsRing1,
-                        int numPointsRing2) {
+    ChineseRings(Vector3D orientationRing1,
+                 double radiusRing1,
+                 double halfWidthRing1,
+                 double radiusRing2,
+                 double halfWidthRing2,
+                 int numPointsRing1,
+                 int numPointsRing2) {
         // First ring (centered at the origin).
         final Vector3D[] firstRing = new Vector3D[numPointsRing1];
         // Second ring (centered around the first ring).
@@ -113,6 +113,8 @@ class ChineseRings {
 
     /**
      * Gets all the points.
+     *
+     * @return the points
      */
     public Vector3D[] getPoints() {
         return points.clone();
@@ -125,24 +127,28 @@ class ChineseRings {
      */
     public Iterable<double[]> createIterable() {
         return new Iterable<double[]>() {
+            @Override
             public Iterator<double[]> iterator() {
                 return new Iterator<double[]>() {
                     /** Data. */
-                    final Vector3D[] points = getPoints();
+                    private final Vector3D[] points = getPoints();
                     /** Number of samples. */
                     private int n = 0;
 
                     /** {@inheritDoc} */
+                    @Override
                     public boolean hasNext() {
                         return n < points.length;
                     }
 
                     /** {@inheritDoc} */
+                    @Override
                     public double[] next() {
                         return points[n++].toArray();
                     }
 
                     /** {@inheritDoc} */
+                    @Override
                     public void remove() {
                         throw new UnsupportedOperationException();
                     }

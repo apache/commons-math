@@ -66,7 +66,7 @@ public class QuasiSigmoidDecayFunction implements LongToDoubleFunction {
         final double k = initValue;
         final double m = numCall;
         final double b = 4 * slope / initValue;
-        sigmoid = (x) -> k / (1 + Math.exp(b * (m - x)));
+        sigmoid = x -> k / (1 + Math.exp(b * (m - x)));
 
         final double y0 = sigmoid.applyAsDouble(0d);
         scale = k / y0;

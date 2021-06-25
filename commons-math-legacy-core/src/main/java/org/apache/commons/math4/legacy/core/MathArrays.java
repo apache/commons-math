@@ -18,12 +18,8 @@
 package org.apache.commons.math4.legacy.core;
 
 import java.lang.reflect.Array;
-import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Collections;
-import java.util.Comparator;
 import java.util.Iterator;
-import java.util.List;
 import java.util.TreeSet;
 
 import org.apache.commons.numbers.core.Precision;
@@ -46,7 +42,7 @@ import org.apache.commons.math4.legacy.core.jdkmath.AccurateMath;
  *
  * @since 3.0
  */
-public class MathArrays {
+public final class MathArrays {
 
     /**
      * Private constructor.
@@ -245,13 +241,13 @@ public class MathArrays {
      * @throws DimensionMismatchException if the array lengths differ.
      */
     public static double distance(int[] p1, int[] p2) {
-      checkEqualLength(p1, p2);
-      double sum = 0;
-      for (int i = 0; i < p1.length; i++) {
-          final double dp = p1[i] - p2[i];
-          sum += dp * dp;
-      }
-      return AccurateMath.sqrt(sum);
+        checkEqualLength(p1, p2);
+        double sum = 0;
+        for (int i = 0; i < p1.length; i++) {
+            final double dp = p1[i] - p2[i];
+            sum += dp * dp;
+        }
+        return AccurateMath.sqrt(sum);
     }
 
     /**
@@ -335,7 +331,7 @@ public class MathArrays {
                     }
                 } else {
                     if (comp > 0) {
-                       return false;
+                        return false;
                     }
                 }
                 break;
@@ -570,7 +566,7 @@ public class MathArrays {
      * @since 3.4
      */
     public static void checkNotNaN(final double[] in) {
-        for(int i = 0; i < in.length; i++) {
+        for (int i = 0; i < in.length; i++) {
             if (Double.isNaN(in[i])) {
                 throw new NotANumberException();
             }
@@ -600,7 +596,7 @@ public class MathArrays {
      * @since 3.1
      */
     public static void checkNonNegative(final long[][] in) {
-        for (int i = 0; i < in.length; i ++) {
+        for (int i = 0; i < in.length; i++) {
             for (int j = 0; j < in[i].length; j++) {
                 if (in[i][j] < 0) {
                     throw new NotPositiveException(in[i][j]);
@@ -620,7 +616,7 @@ public class MathArrays {
      * and equal elements.
      */
     public static boolean equals(float[] x, float[] y) {
-        if ((x == null) || (y == null)) {
+        if (x == null || y == null) {
             return !((x == null) ^ (y == null));
         }
         if (x.length != y.length) {
@@ -646,7 +642,7 @@ public class MathArrays {
      * @since 2.2
      */
     public static boolean equalsIncludingNaN(float[] x, float[] y) {
-        if ((x == null) || (y == null)) {
+        if (x == null || y == null) {
             return !((x == null) ^ (y == null));
         }
         if (x.length != y.length) {
@@ -671,7 +667,7 @@ public class MathArrays {
      * dimension and equal elements.
      */
     public static boolean equals(double[] x, double[] y) {
-        if ((x == null) || (y == null)) {
+        if (x == null || y == null) {
             return !((x == null) ^ (y == null));
         }
         if (x.length != y.length) {
@@ -697,7 +693,7 @@ public class MathArrays {
      * @since 2.2
      */
     public static boolean equalsIncludingNaN(double[] x, double[] y) {
-        if ((x == null) || (y == null)) {
+        if (x == null || y == null) {
             return !((x == null) ^ (y == null));
         }
         if (x.length != y.length) {
@@ -1049,10 +1045,12 @@ public class MathArrays {
                 throw new MathIllegalArgumentException(LocalizedFormats.NAN_ELEMENT_AT_INDEX, Integer.valueOf(i));
             }
             if (Double.isInfinite(weight)) {
-                throw new MathIllegalArgumentException(LocalizedFormats.INFINITE_ARRAY_ELEMENT, Double.valueOf(weight), Integer.valueOf(i));
+                throw new MathIllegalArgumentException(LocalizedFormats.INFINITE_ARRAY_ELEMENT,
+                    Double.valueOf(weight), Integer.valueOf(i));
             }
             if (weight < 0) {
-                throw new MathIllegalArgumentException(LocalizedFormats.NEGATIVE_ELEMENT_AT_INDEX, Integer.valueOf(i), Double.valueOf(weight));
+                throw new MathIllegalArgumentException(LocalizedFormats.NEGATIVE_ELEMENT_AT_INDEX,
+                    Integer.valueOf(i), Double.valueOf(weight));
             }
             if (!containsPositiveWeight && weight > 0.0) {
                 containsPositiveWeight = true;
@@ -1077,7 +1075,7 @@ public class MathArrays {
      * @throws NullPointerException if any of the arrays are null
      * @since 3.6
      */
-    public static double[] concatenate(double[] ...x) {
+    public static double[] concatenate(double[]... x) {
         int combinedLength = 0;
         for (double[] a : x) {
             combinedLength += a.length;

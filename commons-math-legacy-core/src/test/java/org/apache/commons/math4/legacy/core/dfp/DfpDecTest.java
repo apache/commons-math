@@ -50,24 +50,26 @@ public class DfpDecTest {
     private void test(Dfp x, Dfp y, int flags, String desc) {
         boolean b = x.equals(y);
 
-        if (!x.equals(y) && !x.unequal(y))  // NaNs involved
-            b = (x.toString().equals(y.toString()));
+        if (!x.equals(y) && !x.unequal(y)) { // NaNs involved
+            b = x.toString().equals(y.toString());
+        }
 
-        if (x.equals(new DfpDec(field, 0)))  // distinguish +/- zero
-            b = (b && (x.toString().equals(y.toString())));
+        if (x.equals(new DfpDec(field, 0))) { // distinguish +/- zero
+            b = b && (x.toString().equals(y.toString()));
+        }
 
-        b = (b && x.getField().getIEEEFlags() == flags);
+        b = b && x.getField().getIEEEFlags() == flags;
 
         if (!b) {
-            Assert.assertTrue("assertion failed "+desc+" x = "+x.toString()+" flags = "+x.getField().getIEEEFlags(), b);
+            Assert.assertTrue(
+                "assertion failed " + desc + " x = " + x.toString() + " flags = " + x.getField().getIEEEFlags(), b);
         }
 
         x.getField().clearIEEEFlags();
     }
 
     @Test
-    public void testRound()
-    {
+    public void testRound() {
         field.setRoundingMode(DfpField.RoundingMode.ROUND_HALF_EVEN);
 
         test(new DfpDec(field, "12345678901234567890"),
@@ -283,8 +285,7 @@ public class DfpDecTest {
     }
 
     @Test
-    public void testRoundDecimal10()
-    {
+    public void testRoundDecimal10() {
         field.setRoundingMode(DfpField.RoundingMode.ROUND_HALF_EVEN);
 
         test(new Decimal10(field, "1234567891234567890"),
@@ -390,7 +391,7 @@ public class DfpDecTest {
 
         // RoundDecimal10 up
         test(new Decimal10(field, 1234567890).add(new Decimal10(field, "0.1")),
-             new Decimal10(field, 1234567891l),
+             new Decimal10(field, 1234567891L),
              DfpField.FLAG_INEXACT, "RoundDecimal10 #25");
 
         test(new Decimal10(field, "1234567890").add(new Decimal10(field, "0.0001")),
@@ -500,8 +501,7 @@ public class DfpDecTest {
     }
 
     @Test
-    public void testNextAfter()
-    {
+    public void testNextAfter() {
         test(new DfpDec(field, 1).nextAfter(pinf),
              new DfpDec(field, "1.0000000000000001"),
              0, "NextAfter #1");
@@ -531,7 +531,7 @@ public class DfpDecTest {
              0, "NextAfter #6");
 
         test(new DfpDec(field, (byte) 2).nextAfter(new DfpDec(field, 2)),
-             new DfpDec(field, 2l),
+             new DfpDec(field, 2L),
              0, "NextAfter #7");
 
         test(new DfpDec(field, 0).nextAfter(new DfpDec(field, 0)),
@@ -552,15 +552,15 @@ public class DfpDecTest {
 
         test(new DfpDec(field, "-1e-131092").nextAfter(pinf),
              new DfpDec(field, "-0"),
-             DfpField.FLAG_UNDERFLOW|DfpField.FLAG_INEXACT, "Next After #12");
+             DfpField.FLAG_UNDERFLOW | DfpField.FLAG_INEXACT, "Next After #12");
 
         test(new DfpDec(field, "1e-131092").nextAfter(ninf),
              new DfpDec(field, "0"),
-             DfpField.FLAG_UNDERFLOW|DfpField.FLAG_INEXACT, "Next After #13");
+             DfpField.FLAG_UNDERFLOW | DfpField.FLAG_INEXACT, "Next After #13");
 
         test(new DfpDec(field, "9.9999999999999999e131078").nextAfter(pinf),
              pinf,
-             DfpField.FLAG_OVERFLOW|DfpField.FLAG_INEXACT, "Next After #14");
+             DfpField.FLAG_OVERFLOW | DfpField.FLAG_INEXACT, "Next After #14");
     }
 
 }

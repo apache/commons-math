@@ -6,7 +6,7 @@
  * (the "License"); you may not use this file except in compliance with
  * the License.  You may obtain a copy of the License at
  *
- *     http://www.apache.org/licenses/LICENSE-2.0
+ *      http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -26,7 +26,6 @@ import org.apache.commons.geometry.euclidean.threed.Vector3D;
 import org.apache.commons.math4.neuralnet.SquareNeighbourhood;
 import org.apache.commons.math4.neuralnet.FeatureInitializer;
 import org.apache.commons.math4.neuralnet.FeatureInitializerFactory;
-import org.apache.commons.math4.neuralnet.MapUtils;
 import org.apache.commons.math4.neuralnet.DistanceMeasure;
 import org.apache.commons.math4.neuralnet.EuclideanDistance;
 import org.apache.commons.math4.neuralnet.twod.NeuronSquareMesh2D;
@@ -54,9 +53,9 @@ class ChineseRingsClassifier {
      * @param dim1 Number of rows of the SOFM.
      * @param dim2 Number of columns of the SOFM.
      */
-    public ChineseRingsClassifier(ChineseRings rings,
-                                  int dim1,
-                                  int dim2) {
+    ChineseRingsClassifier(ChineseRings rings,
+                           int dim1,
+                           int dim2) {
         this.rings = rings;
         sofm = new NeuronSquareMesh2D(dim1, false,
                                       dim2, false,
@@ -164,24 +163,27 @@ class ChineseRingsClassifier {
     private Iterator<double[]> createRandomIterator(final long numSamples) {
         return new Iterator<double[]>() {
             /** Data. */
-            final Vector3D[] points = rings.getPoints();
+            private final Vector3D[] points = rings.getPoints();
             /** RNG. */
-            final UniformRandomProvider rng = RandomSource.create(RandomSource.KISS);
+            private final UniformRandomProvider rng = RandomSource.create(RandomSource.KISS);
             /** Number of samples. */
             private long n = 0;
 
             /** {@inheritDoc} */
+            @Override
             public boolean hasNext() {
                 return n < numSamples;
             }
 
             /** {@inheritDoc} */
+            @Override
             public double[] next() {
                 ++n;
                 return points[rng.nextInt(points.length)].toArray();
             }
 
             /** {@inheritDoc} */
+            @Override
             public void remove() {
                 throw new UnsupportedOperationException();
             }

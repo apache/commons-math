@@ -87,7 +87,8 @@ public interface RealFieldElement<T> extends FieldElement<T> {
      */
     T floor();
 
-    /** Get the whole number that is the nearest to the instance, or the even one if x is exactly half way between two integers.
+    /** Get the whole number that is the nearest to the instance, or the even one if x is exactly
+     * half way between two integers.
      * @return a double number r such that r is an integer r - 0.5 &le; this &le; r + 0.5
      */
     T rint();
@@ -405,7 +406,7 @@ public interface RealFieldElement<T> extends FieldElement<T> {
      * @param e2 second element
      * @return max(a1, e2)
      */
-    public static <T extends RealFieldElement<T>> T max(final T e1, final T e2) {
+    static <T extends RealFieldElement<T>> T max(final T e1, final T e2) {
         return e1.subtract(e2).getReal() >= 0 ? e1 : e2;
     }
 
@@ -415,7 +416,7 @@ public interface RealFieldElement<T> extends FieldElement<T> {
      * @param e2 second element
      * @return min(a1, e2)
      */
-    public static <T extends RealFieldElement<T>> T min(final T e1, final T e2) {
+    static <T extends RealFieldElement<T>> T min(final T e1, final T e2) {
         return e1.subtract(e2).getReal() >= 0 ? e2 : e1;
     }
 }

@@ -6,7 +6,7 @@
  * (the "License"); you may not use this file except in compliance with
  * the License.  You may obtain a copy of the License at
  *
- *     http://www.apache.org/licenses/LICENSE-2.0
+ *      http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -33,21 +33,21 @@ public class NeuronTest {
     @Test
     public void testGetIdentifier() {
         final long id = 1234567;
-        final Neuron n = new Neuron(id, new double[] { 0 });
+        final Neuron n = new Neuron(id, new double[] {0 });
 
         Assert.assertEquals(id, n.getIdentifier());
     }
 
     @Test
     public void testGetSize() {
-        final double[] features = { -1, -1e-97, 0, 23.456, 9.01e203 } ;
+        final double[] features = {-1, -1e-97, 0, 23.456, 9.01e203};
         final Neuron n = new Neuron(1, features);
         Assert.assertEquals(features.length, n.getSize());
     }
 
     @Test
     public void testGetFeatures() {
-        final double[] features = { -1, -1e-97, 0, 23.456, 9.01e203 } ;
+        final double[] features = {-1, -1e-97, 0, 23.456, 9.01e203};
         final Neuron n = new Neuron(1, features);
 
         final double[] f = n.getFeatures();
@@ -63,9 +63,9 @@ public class NeuronTest {
 
     @Test
     public void testCompareAndSetFeatures() {
-        final Neuron n = new Neuron(1, new double[] { 0 });
+        final Neuron n = new Neuron(1, new double[] {0 });
         double[] expect = n.getFeatures();
-        double[] update = new double[] { expect[0] + 1.23 };
+        double[] update = new double[] {expect[0] + 1.23};
 
         // Test "success".
         boolean ok = n.compareAndSetFeatures(expect, update);
@@ -75,7 +75,7 @@ public class NeuronTest {
         Assert.assertEquals(update[0],  n.getFeatures()[0], 0d);
 
         // Test "failure".
-        double[] update1 = new double[] { update[0] + 4.56 };
+        double[] update1 = new double[] {update[0] + 4.56};
         // Must return "false" because the neuron has been
         // updated: a new update can only succeed if "expect"
         // is set to the new features.
@@ -88,10 +88,10 @@ public class NeuronTest {
 
     @Test
     public void testCopy() {
-        final Neuron n = new Neuron(1, new double[] { 9.87 });
+        final Neuron n = new Neuron(1, new double[] {9.87 });
 
         // Update original.
-        double[] update = new double[] { n.getFeatures()[0] + 2.34 };
+        double[] update = new double[] {n.getFeatures()[0] + 2.34};
         n.compareAndSetFeatures(n.getFeatures(), update);
 
         // Create a copy.
@@ -103,7 +103,7 @@ public class NeuronTest {
                             copy.getNumberOfAttemptedUpdates());
 
         // Update original.
-        update = new double[] { 1.23 * n.getFeatures()[0] };
+        update = new double[] {1.23 * n.getFeatures()[0]};
         n.compareAndSetFeatures(n.getFeatures(), update);
 
         // Check that original and copy differ.
@@ -116,7 +116,7 @@ public class NeuronTest {
     public void testSerialize()
         throws IOException,
                ClassNotFoundException {
-        final Neuron out = new Neuron(123, new double[] { -98.76, -1, 0, 1e-23, 543.21, 1e234 });
+        final Neuron out = new Neuron(123, new double[] {-98.76, -1, 0, 1e-23, 543.21, 1e234});
         final ByteArrayOutputStream bos = new ByteArrayOutputStream();
         final ObjectOutputStream oos = new ObjectOutputStream(bos);
         oos.writeObject(out);
