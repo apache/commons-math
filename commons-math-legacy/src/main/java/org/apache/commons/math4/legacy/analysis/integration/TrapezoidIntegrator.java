@@ -39,9 +39,8 @@ import org.apache.commons.math4.legacy.core.jdkmath.AccurateMath;
  * @since 1.2
  */
 public class TrapezoidIntegrator extends BaseAbstractUnivariateIntegrator {
-
     /** Maximum number of iterations for trapezoid. */
-    private static final int TRAPEZOID_MAX_ITERATIONS_COUNT = 63;
+    private static final int TRAPEZOID_MAX_ITERATIONS_COUNT = 30;
 
     /** Intermediate result. */
     private double s;
@@ -52,12 +51,12 @@ public class TrapezoidIntegrator extends BaseAbstractUnivariateIntegrator {
      * @param absoluteAccuracy absolute accuracy of the result
      * @param minimalIterationCount minimum number of iterations
      * @param maximalIterationCount maximum number of iterations
-     * @exception org.apache.commons.math4.legacy.exception.NotStrictlyPositiveException if minimal number of iterations
-     * is not strictly positive
-     * @exception org.apache.commons.math4.legacy.exception.NumberIsTooSmallException if maximal number of iterations
+     * @throws org.apache.commons.math4.legacy.exception.NotStrictlyPositiveException
+     * if {@code minimalIterationCount <= 0}.
+     * @throws org.apache.commons.math4.legacy.exception.NumberIsTooSmallException
+     * if {@code maximalIterationCount < minimalIterationCount}.
      * is lesser than or equal to the minimal number of iterations
-     * @exception NumberIsTooLargeException if maximal number of iterations
-     * is greater than 63.
+     * @throws NumberIsTooLargeException if {@code maximalIterationCount > 30}.
      */
     public TrapezoidIntegrator(final double relativeAccuracy,
                                final double absoluteAccuracy,
@@ -74,12 +73,12 @@ public class TrapezoidIntegrator extends BaseAbstractUnivariateIntegrator {
      * Build a trapezoid integrator with given iteration counts.
      * @param minimalIterationCount minimum number of iterations
      * @param maximalIterationCount maximum number of iterations
-     * @exception org.apache.commons.math4.legacy.exception.NotStrictlyPositiveException if minimal number of iterations
-     * is not strictly positive
-     * @exception org.apache.commons.math4.legacy.exception.NumberIsTooSmallException if maximal number of iterations
+     * @throws org.apache.commons.math4.legacy.exception.NotStrictlyPositiveException
+     * if {@code minimalIterationCount <= 0}.
+     * @throws org.apache.commons.math4.legacy.exception.NumberIsTooSmallException
+     * if {@code maximalIterationCount < minimalIterationCount}.
      * is lesser than or equal to the minimal number of iterations
-     * @exception NumberIsTooLargeException if maximal number of iterations
-     * is greater than 63.
+     * @throws NumberIsTooLargeException if {@code maximalIterationCount > 30}.
      */
     public TrapezoidIntegrator(final int minimalIterationCount,
                                final int maximalIterationCount) {
@@ -92,7 +91,6 @@ public class TrapezoidIntegrator extends BaseAbstractUnivariateIntegrator {
 
     /**
      * Construct a trapezoid integrator with default settings.
-     * (max iteration count set to {@link #TRAPEZOID_MAX_ITERATIONS_COUNT})
      */
     public TrapezoidIntegrator() {
         super(DEFAULT_MIN_ITERATIONS_COUNT, TRAPEZOID_MAX_ITERATIONS_COUNT);
@@ -158,6 +156,5 @@ public class TrapezoidIntegrator extends BaseAbstractUnivariateIntegrator {
             oldt = t;
             iterations.increment();
         }
-
     }
 }

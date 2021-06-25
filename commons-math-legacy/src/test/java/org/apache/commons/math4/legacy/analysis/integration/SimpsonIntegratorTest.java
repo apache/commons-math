@@ -21,6 +21,7 @@ import org.apache.commons.math4.legacy.analysis.UnivariateFunction;
 import org.apache.commons.math4.legacy.analysis.function.Identity;
 import org.apache.commons.math4.legacy.analysis.function.Inverse;
 import org.apache.commons.math4.legacy.analysis.function.Sin;
+import org.apache.commons.math4.legacy.analysis.polynomials.PolynomialsUtils;
 import org.apache.commons.math4.legacy.exception.NumberIsTooLargeException;
 import org.apache.commons.math4.legacy.exception.NumberIsTooSmallException;
 import org.apache.commons.math4.legacy.core.jdkmath.AccurateMath;
@@ -36,6 +37,7 @@ import org.junit.Test;
  *
  */
 public final class SimpsonIntegratorTest {
+    private static final int SIMPSON_MAX_ITERATIONS_COUNT = 30;
 
     /**
      * Test of integrator for the sine function.
@@ -114,7 +116,7 @@ public final class SimpsonIntegratorTest {
         }
         try {
             // bad iteration limits
-            new SimpsonIntegrator(10, SimpsonIntegrator.SIMPSON_MAX_ITERATIONS_COUNT + 1);
+            new SimpsonIntegrator(10, SIMPSON_MAX_ITERATIONS_COUNT + 1);
             Assert.fail("Expecting NumberIsTooLargeException - bad iteration limits");
         } catch (NumberIsTooLargeException ex) {
             // expected
@@ -136,8 +138,7 @@ public final class SimpsonIntegratorTest {
     @Test
     public void testIterationIsPossibleWhenMinimalIterationCountIs1() {
         UnivariateFunction f = new Sin();
-        UnivariateIntegrator integrator = new SimpsonIntegrator(1,
-                SimpsonIntegrator.SIMPSON_MAX_ITERATIONS_COUNT);
+        UnivariateIntegrator integrator = new SimpsonIntegrator(1, SIMPSON_MAX_ITERATIONS_COUNT);
         // The range or result is not relevant.
         // This sum should not converge at 1 iteration.
         // This tests iteration occurred.
@@ -156,8 +157,7 @@ public final class SimpsonIntegratorTest {
     public void testConvergenceIsPossibleAtIteration1() {
     	// A linear function y=x should converge immediately
         UnivariateFunction f = new Identity();
-        UnivariateIntegrator integrator = new SimpsonIntegrator(1,
-                SimpsonIntegrator.SIMPSON_MAX_ITERATIONS_COUNT);
+        UnivariateIntegrator integrator = new SimpsonIntegrator(1, SIMPSON_MAX_ITERATIONS_COUNT);
 
         double min, max, expected, result, tolerance;
 
@@ -282,7 +282,7 @@ public final class SimpsonIntegratorTest {
         // Set convergence criteria to force immediate convergence
         UnivariateIntegrator integrator = new SimpsonIntegrator(
                 0, Double.POSITIVE_INFINITY,
-                1, SimpsonIntegrator.SIMPSON_MAX_ITERATIONS_COUNT);
+                1, SIMPSON_MAX_ITERATIONS_COUNT);
         double min, max, expected, result, tolerance;
 
         // MATH-1458: minimalIterationCount==1 computes incorrect
@@ -364,7 +364,7 @@ public final class SimpsonIntegratorTest {
             // Use minimalIterationCount>1
             UnivariateIntegrator integrator = new SimpsonIntegrator(
                     0, absoluteAccuracy,
-                    2, SimpsonIntegrator.SIMPSON_MAX_ITERATIONS_COUNT);
+                    2, SIMPSON_MAX_ITERATIONS_COUNT);
 
             result = integrator.integrate(evaluations, f, min, max);
 

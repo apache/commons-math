@@ -40,9 +40,8 @@ import org.apache.commons.math4.legacy.core.jdkmath.AccurateMath;
  * @since 1.2
  */
 public class SimpsonIntegrator extends BaseAbstractUnivariateIntegrator {
-
     /** Maximal number of iterations for Simpson. */
-    public static final int SIMPSON_MAX_ITERATIONS_COUNT = 63;
+    private static final int SIMPSON_MAX_ITERATIONS_COUNT = 30;
 
     /**
      * Build a Simpson integrator with given accuracies and iterations counts.
@@ -50,13 +49,13 @@ public class SimpsonIntegrator extends BaseAbstractUnivariateIntegrator {
      * @param absoluteAccuracy absolute accuracy of the result
      * @param minimalIterationCount Minimum number of iterations.
      * @param maximalIterationCount Maximum number of iterations.
-     * It must be less than or equal to {@link #SIMPSON_MAX_ITERATIONS_COUNT}.
-     * @exception org.apache.commons.math4.legacy.exception.NotStrictlyPositiveException if minimal number of iterations
-     * is not strictly positive
-     * @exception org.apache.commons.math4.legacy.exception.NumberIsTooSmallException if maximal number of iterations
+     * It must be less than or equal to 30.
+     * @throws org.apache.commons.math4.legacy.exception.NotStrictlyPositiveException
+     * if {@code minimalIterationCount <= 0}.
+     * @throws org.apache.commons.math4.legacy.exception.NumberIsTooSmallException
+     * if {@code maximalIterationCount < minimalIterationCount}.
      * is lesser than or equal to the minimal number of iterations
-     * @exception NumberIsTooLargeException if maximal number of iterations
-     * is greater than {@link #SIMPSON_MAX_ITERATIONS_COUNT}
+     * @throws NumberIsTooLargeException if {@code maximalIterationCount > 30}.
      */
     public SimpsonIntegrator(final double relativeAccuracy,
                              final double absoluteAccuracy,
@@ -73,13 +72,13 @@ public class SimpsonIntegrator extends BaseAbstractUnivariateIntegrator {
      * Build a Simpson integrator with given iteration counts.
      * @param minimalIterationCount Minimum number of iterations.
      * @param maximalIterationCount Maximum number of iterations.
-     * It must be less than or equal to {@link #SIMPSON_MAX_ITERATIONS_COUNT}.
-     * @exception org.apache.commons.math4.legacy.exception.NotStrictlyPositiveException if minimal number of iterations
-     * is not strictly positive
-     * @exception org.apache.commons.math4.legacy.exception.NumberIsTooSmallException if maximal number of iterations
+     * It must be less than or equal to 30.
+     * @throws org.apache.commons.math4.legacy.exception.NotStrictlyPositiveException
+     * if {@code minimalIterationCount <= 0}.
+     * @throws org.apache.commons.math4.legacy.exception.NumberIsTooSmallException
+     * if {@code maximalIterationCount < minimalIterationCount}.
      * is lesser than or equal to the minimal number of iterations
-     * @exception NumberIsTooLargeException if maximal number of iterations
-     * is greater than {@link #SIMPSON_MAX_ITERATIONS_COUNT}
+     * @throws NumberIsTooLargeException if {@code maximalIterationCount > 30}.
      */
     public SimpsonIntegrator(final int minimalIterationCount,
                              final int maximalIterationCount) {
@@ -92,7 +91,6 @@ public class SimpsonIntegrator extends BaseAbstractUnivariateIntegrator {
 
     /**
      * Construct an integrator with default settings.
-     * (max iteration count set to {@link #SIMPSON_MAX_ITERATIONS_COUNT})
      */
     public SimpsonIntegrator() {
         super(DEFAULT_MIN_ITERATIONS_COUNT, SIMPSON_MAX_ITERATIONS_COUNT);
