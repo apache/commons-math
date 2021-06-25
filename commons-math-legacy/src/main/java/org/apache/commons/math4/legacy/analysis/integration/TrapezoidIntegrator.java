@@ -21,11 +21,20 @@ import org.apache.commons.math4.legacy.core.jdkmath.AccurateMath;
 
 /**
  * Implements the <a href="http://mathworld.wolfram.com/TrapezoidalRule.html">
- * Trapezoid Rule</a> for integration of real univariate functions. For
- * reference, see <b>Introduction to Numerical Analysis</b>, ISBN 038795452X,
- * chapter 3.
+ * Trapezoid Rule</a> for integration of real univariate functions.
+ *
+ * See <b>Introduction to Numerical Analysis</b>, ISBN 038795452X, chapter 3.
+ *
  * <p>
- * The function should be integrable.</p>
+ * The function should be integrable.
+ *
+ * <p>
+ * <em>Caveat:</em> At each iteration, the algorithm refines the estimation by
+ * evaluating the function twice as many times as in the previous iteration;
+ * When specifying a {@link #integrate(int,UnivariateFunction,double,double)
+ * maximum number of function evaluations}, the caller must ensure that it
+ * is compatible with the {@link #TrapezoidIntegrator(int,int) requested
+ * minimal number of iterations}.
  *
  * @since 1.2
  */

@@ -21,12 +21,21 @@ import org.apache.commons.math4.legacy.core.jdkmath.AccurateMath;
 
 /**
  * Implements <a href="http://mathworld.wolfram.com/SimpsonsRule.html">
- * Simpson's Rule</a> for integration of real univariate functions. For
- * reference, see <b>Introduction to Numerical Analysis</b>, ISBN 038795452X,
- * chapter 3.
+ * Simpson's Rule</a> for integration of real univariate functions.
+ *
+ * See <b>Introduction to Numerical Analysis</b>, ISBN 038795452X, chapter 3.
+ *
  * <p>
  * This implementation employs the basic trapezoid rule to calculate Simpson's
- * rule.</p>
+ * rule.
+ *
+ * <p>
+ * <em>Caveat:</em> At each iteration, the algorithm refines the estimation by
+ * evaluating the function twice as many times as in the previous iteration;
+ * When specifying a {@link #integrate(int,UnivariateFunction,double,double)
+ * maximum number of function evaluations}, the caller must ensure that it
+ * is compatible with the {@link #SimpsonIntegrator(int,int) requested minimal
+ * number of iterations}.
  *
  * @since 1.2
  */
@@ -39,9 +48,9 @@ public class SimpsonIntegrator extends BaseAbstractUnivariateIntegrator {
      * Build a Simpson integrator with given accuracies and iterations counts.
      * @param relativeAccuracy relative accuracy of the result
      * @param absoluteAccuracy absolute accuracy of the result
-     * @param minimalIterationCount minimum number of iterations
-     * @param maximalIterationCount maximum number of iterations
-     * (must be less than or equal to {@link #SIMPSON_MAX_ITERATIONS_COUNT})
+     * @param minimalIterationCount Minimum number of iterations.
+     * @param maximalIterationCount Maximum number of iterations.
+     * It must be less than or equal to {@link #SIMPSON_MAX_ITERATIONS_COUNT}.
      * @exception org.apache.commons.math4.legacy.exception.NotStrictlyPositiveException if minimal number of iterations
      * is not strictly positive
      * @exception org.apache.commons.math4.legacy.exception.NumberIsTooSmallException if maximal number of iterations
@@ -62,9 +71,9 @@ public class SimpsonIntegrator extends BaseAbstractUnivariateIntegrator {
 
     /**
      * Build a Simpson integrator with given iteration counts.
-     * @param minimalIterationCount minimum number of iterations
-     * @param maximalIterationCount maximum number of iterations
-     * (must be less than or equal to {@link #SIMPSON_MAX_ITERATIONS_COUNT})
+     * @param minimalIterationCount Minimum number of iterations.
+     * @param maximalIterationCount Maximum number of iterations.
+     * It must be less than or equal to {@link #SIMPSON_MAX_ITERATIONS_COUNT}.
      * @exception org.apache.commons.math4.legacy.exception.NotStrictlyPositiveException if minimal number of iterations
      * is not strictly positive
      * @exception org.apache.commons.math4.legacy.exception.NumberIsTooSmallException if maximal number of iterations
