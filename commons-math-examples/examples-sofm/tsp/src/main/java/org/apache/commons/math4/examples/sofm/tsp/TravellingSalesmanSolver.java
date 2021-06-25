@@ -6,7 +6,7 @@
  * (the "License"); you may not use this file except in compliance with
  * the License.  You may obtain a copy of the License at
  *
- *     http://www.apache.org/licenses/LICENSE-2.0
+ *      http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -51,7 +51,8 @@ import org.apache.commons.math4.neuralnet.sofm.LearningFactorFunction;
  * "Travelling Salesman's Problem"</a> (i.e. trying to find the sequence of
  * cities that minimizes the travel distance) using a 1D SOFM.
  */
-public class TravellingSalesmanSolver {
+public final class TravellingSalesmanSolver {
+    /** The ID for the first neuron. */
     private static final long FIRST_NEURON_ID = 0;
     /** SOFM. */
     private final Network net;
@@ -121,7 +122,7 @@ public class TravellingSalesmanSolver {
             for (Future<?> f : execOutput) {
                 f.get();
             }
-        } catch (InterruptedException|ExecutionException e) {
+        } catch (InterruptedException | ExecutionException e) {
             throw new RuntimeException(e);
         }
         // Terminate all threads.
@@ -172,7 +173,7 @@ public class TravellingSalesmanSolver {
      * in random order.
      *
      * @param numSamples Number of samples.
-     * @param cities Cities.
+     * @param uniqueCities Cities.
      * @param random RNG.
      * @return the iterator.
      */
@@ -300,13 +301,13 @@ public class TravellingSalesmanSolver {
  */
 class HarmonicOscillator implements DoubleUnaryOperator {
     /** Amplitude. */
-    final double amplitude;
+    private final double amplitude;
     /** Angular speed. */
-    final double omega;
+    private final double omega;
     /** Phase. */
-    final double phase;
+    private final double phase;
     /** Offset. */
-    final double offset;
+    private final double offset;
 
     /**
      * @param amplitude Amplitude.
@@ -314,10 +315,10 @@ class HarmonicOscillator implements DoubleUnaryOperator {
      * @param phase Phase.
      * @param offset Offset (ordinate).
      */
-    public HarmonicOscillator(double amplitude,
-                              double omega,
-                              double phase,
-                              double offset) {
+    HarmonicOscillator(double amplitude,
+                       double omega,
+                       double phase,
+                       double offset) {
         this.amplitude = amplitude;
         this.omega = omega;
         this.phase = phase;

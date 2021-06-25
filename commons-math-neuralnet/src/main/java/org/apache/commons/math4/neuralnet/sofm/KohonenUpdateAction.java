@@ -240,8 +240,8 @@ public class KohonenUpdateAction implements UpdateAction {
          * @param norm Normalization factor.
          * @param sigma Standard deviation.
          */
-        public Gaussian(double norm,
-                        double sigma) {
+        Gaussian(double norm,
+                 double sigma) {
             this.norm = norm;
             i2s2 = 1d / (2 * sigma * sigma);
         }

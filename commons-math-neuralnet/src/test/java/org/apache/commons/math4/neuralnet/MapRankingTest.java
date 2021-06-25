@@ -6,7 +6,7 @@
  * (the "License"); you may not use this file except in compliance with
  * the License.  You may obtain a copy of the License at
  *
- *     http://www.apache.org/licenses/LICENSE-2.0
+ *      http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -43,7 +43,7 @@ public class MapRankingTest {
         final UniformRandomProvider rng = RandomSource.create(RandomSource.SPLIT_MIX_64);
         final FeatureInitializer init
             = new OffsetFeatureInitializer(FeatureInitializerFactory.uniform(rng, -0.1, 0.1));
-        final FeatureInitializer[] initArray = { init };
+        final FeatureInitializer[] initArray = {init};
 
         final MapRanking ranking = new MapRanking(new NeuronString(3, false, initArray).getNetwork(),
                                                   new EuclideanDistance());
@@ -60,8 +60,8 @@ public class MapRankingTest {
 
         best.clear();
         features = new double[][] {
-            { -1 },
-            { 0.4 },
+            {-1 },
+            {0.4 },
         };
         for (double[] f : features) {
             best.addAll(ranking.rank(f, 1));
@@ -71,8 +71,8 @@ public class MapRankingTest {
 
         best.clear();
         features = new double[][] {
-            { 0.6 },
-            { 1.4 },
+            {0.6 },
+            {1.4 },
         };
         for (double[] f : features) {
             best.addAll(ranking.rank(f, 1));
@@ -82,8 +82,8 @@ public class MapRankingTest {
 
         best.clear();
         features = new double[][] {
-            { 1.6 },
-            { 3 },
+            {1.6 },
+            {3 },
         };
         for (double[] f : features) {
             best.addAll(ranking.rank(f, 1));
@@ -94,15 +94,15 @@ public class MapRankingTest {
         Assert.assertEquals(3, allBest.size());
     }
 
-    @Test(expected=IllegalArgumentException.class)
+    @Test(expected = IllegalArgumentException.class)
     public void testRankPrecondition() {
         final UniformRandomProvider rng = RandomSource.create(RandomSource.SPLIT_MIX_64);
         final FeatureInitializer init
             = new OffsetFeatureInitializer(FeatureInitializerFactory.uniform(rng, -0.1, 0.1));
-        final FeatureInitializer[] initArray = { init };
+        final FeatureInitializer[] initArray = {init};
 
         new MapRanking(new NeuronString(3, false, initArray).getNetwork(),
-                       new EuclideanDistance()).rank(new double[] { -1 }, 0);
+                       new EuclideanDistance()).rank(new double[] {-1}, 0);
     }
 
     @Test
@@ -110,13 +110,13 @@ public class MapRankingTest {
         final Set<Neuron> list = new HashSet<>();
 
         for (int i = 0; i < 4; i++) {
-            list.add(new Neuron(i, new double[] { i - 0.5 }));
+            list.add(new Neuron(i, new double[] {i - 0.5}));
         }
 
         final MapRanking rank = new MapRanking(list, new EuclideanDistance());
-        final List<Neuron> sorted = rank.rank(new double[] { 3.4 });
+        final List<Neuron> sorted = rank.rank(new double[] {3.4});
 
-        final long[] expected = new long[] { 3, 2, 1, 0 };
+        final long[] expected = new long[] {3, 2, 1, 0};
         for (int i = 0; i < list.size(); i++) {
             Assert.assertEquals(expected[i], sorted.get(i).getIdentifier());
         }

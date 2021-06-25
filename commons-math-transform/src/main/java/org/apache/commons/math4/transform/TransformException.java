@@ -46,7 +46,7 @@ class TransformException extends IllegalArgumentException {
      * @param message Message format (with replaceable parameters).
      * @param formatArguments Actual arguments to be displayed in the message.
      */
-    public TransformException(String message, Object... formatArguments) {
+    TransformException(String message, Object... formatArguments) {
         super(MessageFormat.format(message, formatArguments));
     }
 }

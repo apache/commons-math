@@ -175,12 +175,12 @@ public class FastCosineTransform implements RealTransform {
                                            final boolean inverse) {
         if (inverse) {
             return normalization == Norm.ORTHO ?
-                (f) -> TransformUtils.scaleInPlace(fct(f), Math.sqrt(2d / (f.length - 1))) :
-                (f) -> TransformUtils.scaleInPlace(fct(f), 2d / (f.length - 1));
+                f -> TransformUtils.scaleInPlace(fct(f), Math.sqrt(2d / (f.length - 1))) :
+                f -> TransformUtils.scaleInPlace(fct(f), 2d / (f.length - 1));
         } else {
             return normalization == Norm.ORTHO ?
-                (f) -> TransformUtils.scaleInPlace(fct(f), Math.sqrt(2d / (f.length - 1))) :
-                (f) -> fct(f);
+                f -> TransformUtils.scaleInPlace(fct(f), Math.sqrt(2d / (f.length - 1))) :
+                f -> fct(f);
         }
     }
 

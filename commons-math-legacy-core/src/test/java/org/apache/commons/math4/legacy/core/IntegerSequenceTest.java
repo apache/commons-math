@@ -1,15 +1,18 @@
 /*
  * Licensed to the Apache Software Foundation (ASF) under one or more
- * contributor license agreements. See the NOTICE file distributed with this
- * work for additional information regarding copyright ownership. The ASF
- * licenses this file to You under the Apache License, Version 2.0 (the
- * "License"); you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- * http://www.apache.org/licenses/LICENSE-2.0 Unless required by applicable law
- * or agreed to in writing, software distributed under the License is
- * distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
- * KIND, either express or implied. See the License for the specific language
- * governing permissions and limitations under the License.
+ * contributor license agreements.  See the NOTICE file distributed with
+ * this work for additional information regarding copyright ownership.
+ * The ASF licenses this file to You under the Apache License, Version 2.0
+ * (the "License"); you may not use this file except in compliance with
+ * the License.  You may obtain a copy of the License at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
  */
 package org.apache.commons.math4.legacy.core;
 
@@ -168,7 +171,7 @@ public class IntegerSequenceTest {
         Assert.assertEquals(seq.size(), r.size());
     }
 
-    @Test(expected=MaxCountExceededException.class)
+    @Test(expected = MaxCountExceededException.class)
     public void testIncrementorCountExceeded() {
         final int start = 1;
         final int max = 7;
@@ -203,7 +206,7 @@ public class IntegerSequenceTest {
         Assert.assertTrue(inc.canIncrement(0));
     }
 
-    @Test(expected=NotStrictlyPositiveException.class)
+    @Test(expected = NotStrictlyPositiveException.class)
     public void testIncrementZeroTimes() {
         final int start = 1;
         final int max = 2;
@@ -245,7 +248,7 @@ public class IntegerSequenceTest {
         }
     }
 
-    @Test(expected=ZeroException.class)
+    @Test(expected = ZeroException.class)
     public void testIncrementZeroStep() {
         final int step = 0;
 
@@ -298,7 +301,7 @@ public class IntegerSequenceTest {
         }
     }
 
-    @Test(expected=TooManyEvaluationsException.class)
+    @Test(expected = TooManyEvaluationsException.class)
     public void testIncrementorAlternateException() {
         final int start = 1;
         final int max = 2;

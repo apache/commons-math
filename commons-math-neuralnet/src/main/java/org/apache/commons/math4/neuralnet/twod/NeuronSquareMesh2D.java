@@ -48,7 +48,7 @@ import org.apache.commons.math4.neuralnet.twod.util.LocationFinder;
 public class NeuronSquareMesh2D
     implements Iterable<Neuron>,
                Serializable {
-    /** Serial version ID */
+    /** Serial version ID. */
     private static final long serialVersionUID = 1L;
     /** Underlying network. */
     private final Network network;
@@ -430,9 +430,9 @@ public class NeuronSquareMesh2D
             colIndex >= numberOfColumns) {
             return null;
         } else {
-            return new int[] { rowIndex, colIndex };
+            return new int[] {rowIndex, colIndex};
         }
-     }
+    }
 
     /**
      * Creates the neighbour relationships between neurons.
@@ -492,12 +492,12 @@ public class NeuronSquareMesh2D
                                 linkEnd.add(identifiers[i + 1][jLast]);
                             }
                         } else if (j == jLast) {
-                             if (i > 0) {
-                                 linkEnd.add(identifiers[i - 1][0]);
-                             }
-                             if (i < iLast) {
-                                 linkEnd.add(identifiers[i + 1][0]);
-                             }
+                            if (i > 0) {
+                                linkEnd.add(identifiers[i - 1][0]);
+                            }
+                            if (i < iLast) {
+                                linkEnd.add(identifiers[i + 1][0]);
+                            }
                         }
                     }
                     if (wrapRows &&
@@ -643,7 +643,7 @@ public class NeuronSquareMesh2D
     }
 
     /**
-     * Miscellaneous indicators of the map quality:
+     * Miscellaneous indicators of the map quality.
      * <ul>
      *  <li>Hit histogram</li>
      *  <li>Quantization error</li>
@@ -651,7 +651,7 @@ public class NeuronSquareMesh2D
      *  <li>Unified distance matrix</li>
      * </ul>
      */
-    public static class DataVisualization {
+    public static final class DataVisualization {
         /** Distance function. */
         private static final DistanceMeasure DISTANCE = new EuclideanDistance();
         /** Total number of samples. */
@@ -772,7 +772,7 @@ public class NeuronSquareMesh2D
         /**
          * @return the total number of samples.
          */
-        public final int getNumberOfSamples() {
+        public int getNumberOfSamples() {
             return numberOfSamples;
         }
 
@@ -851,8 +851,8 @@ public class NeuronSquareMesh2D
          * @param normalizedHits Hits histogram (normalized).
          * @return the hit-weighted mean of the given {@code metrics}.
          */
-        private double hitWeightedMean(double[][] metrics,
-                                       double[][] normalizedHits) {
+        private static double hitWeightedMean(double[][] metrics,
+                                              double[][] normalizedHits) {
             double mean = 0;
             final int rows = metrics.length;
             final int cols = metrics[0].length;

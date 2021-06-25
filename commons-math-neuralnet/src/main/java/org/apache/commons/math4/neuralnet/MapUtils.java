@@ -26,7 +26,7 @@ import org.apache.commons.math4.neuralnet.internal.NeuralNetException;
  *
  * @since 3.3
  */
-public class MapUtils {
+public final class MapUtils {
     /**
      * Class contains only static methods.
      */

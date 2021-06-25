@@ -103,10 +103,10 @@ public class Dfp implements RealFieldElement<Dfp> {
     public static final int MIN_EXP = -32767;
 
     /** The maximum exponent before overflow is signaled and results flushed
-     *  to infinity */
+     *  to infinity. */
     public static final int MAX_EXP =  32768;
 
-    /** The amount under/overflows are scaled by before going to trap handler */
+    /** The amount under/overflows are scaled by before going to trap handler. */
     public static final int ERR_SCALE = 32760;
 
     /** Indicator value for normal finite numbers. */
@@ -279,7 +279,7 @@ public class Dfp implements RealFieldElement<Dfp> {
             exponent++;
 
             // Normalize the subnormal number
-            while ( (mantissa & 0x0010000000000000L) == 0) {
+            while ((mantissa & 0x0010000000000000L) == 0) {
                 exponent--;
                 mantissa <<= 1;
             }
@@ -302,7 +302,7 @@ public class Dfp implements RealFieldElement<Dfp> {
         }
 
         Dfp xdfp = new Dfp(field, mantissa);
-        xdfp = xdfp.divide(new Dfp(field, 4503599627370496l)).add(field.getOne());  // Divide by 2^52, then add one
+        xdfp = xdfp.divide(new Dfp(field, 4503599627370496L)).add(field.getOne());  // Divide by 2^52, then add one
         xdfp = xdfp.multiply(DfpMath.pow(field.getTwo(), exponent));
 
         if ((bits & 0x8000000000000000L) != 0) {
@@ -313,7 +313,6 @@ public class Dfp implements RealFieldElement<Dfp> {
         sign = xdfp.sign;
         exp  = xdfp.exp;
         nans = xdfp.nans;
-
     }
 
     /** Copy constructor.
@@ -375,13 +374,11 @@ public class Dfp implements RealFieldElement<Dfp> {
         if (p != -1) {
             // scientific notation
             fpdecimal = s.substring(0, p);
-            String fpexp = s.substring(p+1);
+            String fpexp = s.substring(p + 1);
             boolean negative = false;
 
-            for (int i=0; i<fpexp.length(); i++)
-            {
-                if (fpexp.charAt(i) == '-')
-                {
+            for (int i = 0; i < fpexp.length(); i++) {
+                if (fpexp.charAt(i) == '-') {
                     negative = true;
                     continue;
                 }
@@ -434,14 +431,14 @@ public class Dfp implements RealFieldElement<Dfp> {
         striped[1] = '0';
         striped[2] = '0';
         striped[3] = '0';
-        int significantDigits=0;
-        for(;;) {
+        int significantDigits = 0;
+        for (;;) {
             if (p == (fpdecimal.length())) {
                 break;
             }
 
             // Don't want to run pass the end of the array
-            if (q == mant.length*rsize+offset+1) {
+            if (q == mant.length * rsize + offset + 1) {
                 break;
             }
 
@@ -486,12 +483,12 @@ public class Dfp implements RealFieldElement<Dfp> {
 
         // Implicit decimal point at end of number if not present
         if (!decimalFound) {
-            decimalPos = q-offset;
+            decimalPos = q - offset;
         }
 
         // Find the number of significant trailing zeros
-        q = offset;  // set q to point to first sig digit
-        p = significantDigits-1+offset;
+        q = offset; // set q to point to first sig digit
+        p = significantDigits - 1 + offset;
 
         while (p > q) {
             if (striped[p] != '0') {
@@ -515,21 +512,20 @@ public class Dfp implements RealFieldElement<Dfp> {
         // Ok, now we know how many trailing zeros there are,
         // and where the least significant digit is
         for (i = mant.length - 1; i >= 0; i--) {
-            mant[i] = (striped[q]   - '0') * 1000 +
-                      (striped[q+1] - '0') * 100  +
-                      (striped[q+2] - '0') * 10   +
-                      (striped[q+3] - '0');
+            mant[i] = (striped[q]     - '0') * 1000 +
+                      (striped[q + 1] - '0') * 100  +
+                      (striped[q + 2] - '0') * 10   +
+                      (striped[q + 3] - '0');
             q += 4;
         }
 
 
-        exp = (decimalPos+sciexp) / rsize;
+        exp = (decimalPos + sciexp) / rsize;
 
         if (q < striped.length) {
             // Is there possible another digit?
-            round((striped[q] - '0')*1000);
+            round((striped[q] - '0') * 1000);
         }
-
     }
 
     /** Creates an instance with a non-finite value.
@@ -602,7 +598,6 @@ public class Dfp implements RealFieldElement<Dfp> {
         }
 
         return new Dfp(d);
-
     }
 
     /** Create an instance from a String representation.
@@ -624,7 +619,8 @@ public class Dfp implements RealFieldElement<Dfp> {
         return field.newDfp(sig, code);
     }
 
-    /** Get the {@link org.apache.commons.math4.legacy.core.Field Field} (really a {@link DfpField}) to which the instance belongs.
+    /** Get the {@link org.apache.commons.math4.legacy.core.Field Field} (really a
+     * {@link DfpField}) to which the instance belongs.
      * <p>
      * The field is linked to the number of digits and acts as a factory
      * for {@link Dfp} instances.
@@ -668,7 +664,7 @@ public class Dfp implements RealFieldElement<Dfp> {
      */
     protected void shiftLeft() {
         for (int i = mant.length - 1; i > 0; i--) {
-            mant[i] = mant[i-1];
+            mant[i] = mant[i - 1];
         }
         mant[0] = 0;
         exp--;
@@ -680,7 +676,7 @@ public class Dfp implements RealFieldElement<Dfp> {
      */
     protected void shiftRight() {
         for (int i = 0; i < mant.length - 1; i++) {
-            mant[i] = mant[i+1];
+            mant[i] = mant[i + 1];
         }
         mant[mant.length - 1] = 0;
         exp++;
@@ -744,7 +740,6 @@ public class Dfp implements RealFieldElement<Dfp> {
         }
 
         return lostdigit;
-
     }
 
     /** Check if instance is less than x.
@@ -809,7 +804,6 @@ public class Dfp implements RealFieldElement<Dfp> {
         }
 
         return (sign < 0) || ((mant[mant.length - 1] == 0) && !isInfinite());
-
     }
 
     /** Check if instance is strictly less than 0.
@@ -824,7 +818,6 @@ public class Dfp implements RealFieldElement<Dfp> {
         }
 
         return (sign < 0) && ((mant[mant.length - 1] != 0) || isInfinite());
-
     }
 
     /** Check if instance is greater than or equal to 0.
@@ -839,7 +832,6 @@ public class Dfp implements RealFieldElement<Dfp> {
         }
 
         return (sign > 0) || ((mant[mant.length - 1] == 0) && !isInfinite());
-
     }
 
     /** Check if instance is strictly greater than 0.
@@ -854,7 +846,6 @@ public class Dfp implements RealFieldElement<Dfp> {
         }
 
         return (sign > 0) && ((mant[mant.length - 1] != 0) || isInfinite());
-
     }
 
     /** Get the absolute value of instance.
@@ -894,7 +885,6 @@ public class Dfp implements RealFieldElement<Dfp> {
         }
 
         return (mant[mant.length - 1] == 0) && !isInfinite();
-
     }
 
     /** Check if instance is equal to x.
@@ -914,7 +904,6 @@ public class Dfp implements RealFieldElement<Dfp> {
         }
 
         return false;
-
     }
 
     /**
@@ -941,7 +930,7 @@ public class Dfp implements RealFieldElement<Dfp> {
     /** Compare two instances.
      * @param a first instance in comparison
      * @param b second instance in comparison
-     * @return -1 if a<b, 1 if a>b and 0 if a==b
+     * @return -1 if {@code a < b}, 1 if {@code a > b} and 0 if {@code a == b}
      *  Note this method does not properly handle NaNs or numbers with different precision.
      */
     private static int compare(final Dfp a, final Dfp b) {
@@ -973,7 +962,7 @@ public class Dfp implements RealFieldElement<Dfp> {
         }
 
         // Handle special case when a or b is zero, by ignoring the exponents
-        if (b.mant[b.mant.length-1] != 0 && a.mant[b.mant.length-1] != 0) {
+        if (b.mant[b.mant.length - 1] != 0 && a.mant[b.mant.length - 1] != 0) {
             if (a.exp < b.exp) {
                 return -a.sign;
             }
@@ -995,7 +984,6 @@ public class Dfp implements RealFieldElement<Dfp> {
         }
 
         return 0;
-
     }
 
     /** Round to nearest integer using the round-half-even method.
@@ -1040,12 +1028,11 @@ public class Dfp implements RealFieldElement<Dfp> {
         final Dfp result = this.subtract(this.divide(d).rint().multiply(d));
 
         // IEEE 854-1987 says that if the result is zero, then it carries the sign of this
-        if (result.mant[mant.length-1] == 0) {
+        if (result.mant[mant.length - 1] == 0) {
             result.sign = sign;
         }
 
         return result;
-
     }
 
     /** Does the integer conversions with the specified rounding.
@@ -1063,7 +1050,7 @@ public class Dfp implements RealFieldElement<Dfp> {
             return newInstance(this);
         }
 
-        if (mant[mant.length-1] == 0) {
+        if (mant[mant.length - 1] == 0) {
             // a is zero
             return newInstance(this);
         }
@@ -1089,45 +1076,45 @@ public class Dfp implements RealFieldElement<Dfp> {
          * a with the fractional part lopped off.  */
 
         Dfp result = newInstance(this);
-        for (int i = 0; i < mant.length-result.exp; i++) {
+        for (int i = 0; i < mant.length - result.exp; i++) {
             changed |= result.mant[i] != 0;
             result.mant[i] = 0;
         }
 
         if (changed) {
             switch (rmode) {
-                case ROUND_FLOOR:
-                    if (result.sign == -1) {
-                        // then we must increment the mantissa by one
-                        result = result.add(newInstance(-1));
-                    }
-                    break;
+            case ROUND_FLOOR:
+                if (result.sign == -1) {
+                    // then we must increment the mantissa by one
+                    result = result.add(newInstance(-1));
+                }
+                break;
 
-                case ROUND_CEIL:
-                    if (result.sign == 1) {
-                        // then we must increment the mantissa by one
-                        result = result.add(getOne());
-                    }
-                    break;
+            case ROUND_CEIL:
+                if (result.sign == 1) {
+                    // then we must increment the mantissa by one
+                    result = result.add(getOne());
+                }
+                break;
 
-                case ROUND_HALF_EVEN:
-                default:
-                    final Dfp half = newInstance("0.5");
-                    Dfp a = subtract(result);  // difference between this and result
-                    a.sign = 1;            // force positive (take abs)
-                    if (a.greaterThan(half)) {
-                        a = newInstance(getOne());
-                        a.sign = sign;
-                        result = result.add(a);
-                    }
+            case ROUND_HALF_EVEN:
+            default:
+                final Dfp half = newInstance("0.5");
+                Dfp a = subtract(result);  // difference between this and result
+                a.sign = 1;            // force positive (take abs)
+                if (a.greaterThan(half)) {
+                    a = newInstance(getOne());
+                    a.sign = sign;
+                    result = result.add(a);
+                }
 
-                    /* If exactly equal to 1/2 and odd then increment */
-                    if (a.equals(half) && result.exp > 0 && (result.mant[mant.length-result.exp]&1) != 0) {
-                        a = newInstance(getOne());
-                        a.sign = sign;
-                        result = result.add(a);
-                    }
-                    break;
+                /* If exactly equal to 1/2 and odd then increment */
+                if (a.equals(half) && result.exp > 0 && (result.mant[mant.length - result.exp] & 1) != 0) {
+                    a = newInstance(getOne());
+                    a.sign = sign;
+                    result = result.add(a);
+                }
+                break;
             }
 
             field.setIEEEFlagsBits(DfpField.FLAG_INEXACT);  // signal inexact
@@ -1191,13 +1178,13 @@ public class Dfp implements RealFieldElement<Dfp> {
      * @since 3.2
      */
     public int intLog10()  {
-        if (mant[mant.length-1] > 1000) {
+        if (mant[mant.length - 1] > 1000) {
             return exp * 4 - 1;
         }
-        if (mant[mant.length-1] > 100) {
+        if (mant[mant.length - 1] > 100) {
             return exp * 4 - 2;
         }
-        if (mant[mant.length-1] > 10) {
+        if (mant[mant.length - 1] > 10) {
             return exp * 4 - 3;
         }
         return exp * 4 - 4;
@@ -1217,16 +1204,16 @@ public class Dfp implements RealFieldElement<Dfp> {
         }
 
         switch ((e % 4 + 4) % 4) {
-            case 0:
-                break;
-            case 1:
-                d = d.multiply(10);
-                break;
-            case 2:
-                d = d.multiply(100);
-                break;
-            default:
-                d = d.multiply(1000);
+        case 0:
+            break;
+        case 1:
+            d = d.multiply(10);
+            break;
+        case 2:
+            d = d.multiply(100);
+            break;
+        default:
+            d = d.multiply(1000);
         }
 
         return d;
@@ -1240,9 +1227,9 @@ public class Dfp implements RealFieldElement<Dfp> {
      */
     protected int complement(int extra) {
 
-        extra = RADIX-extra;
+        extra = RADIX - extra;
         for (int i = 0; i < mant.length; i++) {
-            mant[i] = RADIX-mant[i]-1;
+            mant[i] = RADIX - mant[i] - 1;
         }
 
         int rh = extra / RADIX;
@@ -1322,14 +1309,16 @@ public class Dfp implements RealFieldElement<Dfp> {
             rsign = asign;
         }
 
-        /* Handle special case when a or b is zero, by setting the exponent
-       of the zero number equal to the other one.  This avoids an alignment
-       which would cause catastropic loss of precision */
-        if (b.mant[mant.length-1] == 0) {
+        /*
+         * Handle special case when a or b is zero, by setting the exponent of the zero
+         * number equal to the other one. This avoids an alignment which would cause
+         * catastropic loss of precision
+         */
+        if (b.mant[mant.length - 1] == 0) {
             b.exp = a.exp;
         }
 
-        if (a.mant[mant.length-1] == 0) {
+        if (a.mant[mant.length - 1] == 0) {
             a.exp = b.exp;
         }
 
@@ -1354,7 +1343,7 @@ public class Dfp implements RealFieldElement<Dfp> {
         /* add the mantissas */
         int rh = 0; /* acts as a carry */
         for (int i = 0; i < mant.length; i++) {
-            final int r = a.mant[i]+b.mant[i]+rh;
+            final int r = a.mant[i] + b.mant[i] + rh;
             rh = r / RADIX;
             result.mant[i] = r - rh * RADIX;
         }
@@ -1367,7 +1356,7 @@ public class Dfp implements RealFieldElement<Dfp> {
         if (rh != 0 && (asign == bsign)) {
             final int lostdigit = result.mant[0];
             result.shiftRight();
-            result.mant[mant.length-1] = rh;
+            result.mant[mant.length - 1] = rh;
             final int excp = result.round(lostdigit);
             if (excp != 0) {
                 result = dotrap(excp, ADD_TRAP, x, result);
@@ -1376,19 +1365,19 @@ public class Dfp implements RealFieldElement<Dfp> {
 
         /* normalize the result */
         for (int i = 0; i < mant.length; i++) {
-            if (result.mant[mant.length-1] != 0) {
+            if (result.mant[mant.length - 1] != 0) {
                 break;
             }
             result.shiftLeft();
             if (i == 0) {
-                result.mant[0] = aextradigit+bextradigit;
+                result.mant[0] = aextradigit + bextradigit;
                 aextradigit = 0;
                 bextradigit = 0;
             }
         }
 
         /* result is zero if after normalization the most sig. digit is zero */
-        if (result.mant[mant.length-1] == 0) {
+        if (result.mant[mant.length - 1] == 0) {
             result.exp = 0;
 
             if (asign != bsign) {
@@ -1412,7 +1401,7 @@ public class Dfp implements RealFieldElement<Dfp> {
     @Override
     public Dfp negate() {
         Dfp result = newInstance(this);
-        result.sign = (byte) - result.sign;
+        result.sign = (byte) -result.sign;
         return result;
     }
 
@@ -1432,38 +1421,38 @@ public class Dfp implements RealFieldElement<Dfp> {
     protected int round(int n) {
         boolean inc = false;
         switch (field.getRoundingMode()) {
-            case ROUND_DOWN:
-                inc = false;
-                break;
+        case ROUND_DOWN:
+            inc = false;
+            break;
 
-            case ROUND_UP:
-                inc = n != 0;       // round up if n!=0
-                break;
+        case ROUND_UP:
+            inc = n != 0;       // round up if n!=0
+            break;
 
-            case ROUND_HALF_UP:
-                inc = n >= 5000;  // round half up
-                break;
+        case ROUND_HALF_UP:
+            inc = n >= 5000;  // round half up
+            break;
 
-            case ROUND_HALF_DOWN:
-                inc = n > 5000;  // round half down
-                break;
+        case ROUND_HALF_DOWN:
+            inc = n > 5000;  // round half down
+            break;
 
-            case ROUND_HALF_EVEN:
-                inc = n > 5000 || (n == 5000 && (mant[0] & 1) == 1);  // round half-even
-                break;
+        case ROUND_HALF_EVEN:
+            inc = n > 5000 || (n == 5000 && (mant[0] & 1) == 1);  // round half-even
+            break;
 
-            case ROUND_HALF_ODD:
-                inc = n > 5000 || (n == 5000 && (mant[0] & 1) == 0);  // round half-odd
-                break;
+        case ROUND_HALF_ODD:
+            inc = n > 5000 || (n == 5000 && (mant[0] & 1) == 0);  // round half-odd
+            break;
 
-            case ROUND_CEIL:
-                inc = sign == 1 && n != 0;  // round ceil
-                break;
+        case ROUND_CEIL:
+            inc = sign == 1 && n != 0;  // round ceil
+            break;
 
-            case ROUND_FLOOR:
-            default:
-                inc = sign == -1 && n != 0;  // round floor
-                break;
+        case ROUND_FLOOR:
+        default:
+            inc = sign == -1 && n != 0;  // round floor
+            break;
         }
 
         if (inc) {
@@ -1477,7 +1466,7 @@ public class Dfp implements RealFieldElement<Dfp> {
 
             if (rh != 0) {
                 shiftRight();
-                mant[mant.length-1] = rh;
+                mant[mant.length - 1] = rh;
             }
         }
 
@@ -1531,13 +1520,13 @@ public class Dfp implements RealFieldElement<Dfp> {
                 return x;
             }
 
-            if (nans == INFINITE && x.nans == FINITE && x.mant[mant.length-1] != 0) {
+            if (nans == INFINITE && x.nans == FINITE && x.mant[mant.length - 1] != 0) {
                 result = newInstance(this);
                 result.sign = (byte) (sign * x.sign);
                 return result;
             }
 
-            if (x.nans == INFINITE && nans == FINITE && mant[mant.length-1] != 0) {
+            if (x.nans == INFINITE && nans == FINITE && mant[mant.length - 1] != 0) {
                 result = newInstance(x);
                 result.sign = (byte) (sign * x.sign);
                 return result;
@@ -1549,8 +1538,8 @@ public class Dfp implements RealFieldElement<Dfp> {
                 return result;
             }
 
-            if ( (x.nans == INFINITE && nans == FINITE && mant[mant.length-1] == 0) ||
-                    (nans == INFINITE && x.nans == FINITE && x.mant[mant.length-1] == 0) ) {
+            if ((x.nans == INFINITE && nans == FINITE && mant[mant.length - 1] == 0) ||
+                (nans == INFINITE && x.nans == FINITE && x.mant[mant.length - 1] == 0)) {
                 field.setIEEEFlagsBits(DfpField.FLAG_INVALID);
                 result = newInstance(getZero());
                 result.nans = QNAN;
@@ -1559,18 +1548,18 @@ public class Dfp implements RealFieldElement<Dfp> {
             }
         }
 
-        int[] product = new int[mant.length*2];  // Big enough to hold even the largest result
+        int[] product = new int[mant.length * 2];  // Big enough to hold even the largest result
 
         for (int i = 0; i < mant.length; i++) {
-            int rh = 0;  // acts as a carry
-            for (int j=0; j<mant.length; j++) {
-                int r = mant[i] * x.mant[j];    // multiply the 2 digits
-                r += product[i+j] + rh;  // add to the product digit with carry in
+            int rh = 0; // acts as a carry
+            for (int j = 0; j < mant.length; j++) {
+                int r = mant[i] * x.mant[j]; // multiply the 2 digits
+                r += product[i + j] + rh; // add to the product digit with carry in
 
                 rh = r / RADIX;
-                product[i+j] = r - rh * RADIX;
+                product[i + j] = r - rh * RADIX;
             }
-            product[i+mant.length] = rh;
+            product[i + mant.length] = rh;
         }
 
         // Find the most sig digit
@@ -1589,16 +1578,16 @@ public class Dfp implements RealFieldElement<Dfp> {
 
         // Fixup the exponent.
         result.exp = exp + x.exp + md - 2 * mant.length + 1;
-        result.sign = (byte)((sign == x.sign)?1:-1);
+        result.sign = (byte) ((sign == x.sign) ? 1 : -1);
 
-        if (result.mant[mant.length-1] == 0) {
+        if (result.mant[mant.length - 1] == 0) {
             // if result is zero, set exp to zero
             result.exp = 0;
         }
 
         final int excp;
-        if (md > (mant.length-1)) {
-            excp = result.round(product[md-mant.length]);
+        if (md > (mant.length - 1)) {
+            excp = result.round(product[md - mant.length]);
         } else {
             excp = result.round(0); // has no effect except to check status
         }
@@ -1672,10 +1661,10 @@ public class Dfp implements RealFieldElement<Dfp> {
         if (rh != 0) {
             lostdigit = result.mant[0];
             result.shiftRight();
-            result.mant[mant.length-1] = rh;
+            result.mant[mant.length - 1] = rh;
         }
 
-        if (result.mant[mant.length-1] == 0) { // if result is zero, set exp to zero
+        if (result.mant[mant.length - 1] == 0) { // if result is zero, set exp to zero
             result.exp = 0;
         }
 
@@ -1693,16 +1682,16 @@ public class Dfp implements RealFieldElement<Dfp> {
      */
     @Override
     public Dfp divide(Dfp divisor) {
-        int dividend[]; // current status of the dividend
-        int quotient[]; // quotient
-        int remainder[];// remainder
-        int qd;         // current quotient digit we're working with
-        int nsqd;       // number of significant quotient digits we have
-        int trial=0;    // trial quotient digit
-        int minadj;     // minimum adjustment
+        int[] dividend;  // current status of the dividend
+        int[] quotient;  // quotient
+        int[] remainder; // remainder
+        int qd;          // current quotient digit we're working with
+        int nsqd;        // number of significant quotient digits we have
+        int trial = 0;   // trial quotient digit
+        int minadj;      // minimum adjustment
         boolean trialgood; // Flag to indicate a good trail digit
-        int md=0;       // most sig digit in result
-        int excp;       // exceptions
+        int md = 0;      // most sig digit in result
+        int excp;        // exceptions
 
         // make sure we don't mix number with different precision
         if (field.getRadixDigits() != divisor.field.getRadixDigits()) {
@@ -1746,7 +1735,7 @@ public class Dfp implements RealFieldElement<Dfp> {
         }
 
         /* Test for divide by zero */
-        if (divisor.mant[mant.length-1] == 0) {
+        if (divisor.mant[mant.length - 1] == 0) {
             field.setIEEEFlagsBits(DfpField.FLAG_DIV_ZERO);
             result = newInstance(getZero());
             result.sign = (byte) (sign * divisor.sign);
@@ -1755,19 +1744,18 @@ public class Dfp implements RealFieldElement<Dfp> {
             return result;
         }
 
-        dividend = new int[mant.length+1];  // one extra digit needed
-        quotient = new int[mant.length+2];  // two extra digits needed 1 for overflow, 1 for rounding
-        remainder = new int[mant.length+1]; // one extra digit needed
+        dividend = new int[mant.length + 1]; // one extra digit needed
+        quotient = new int[mant.length + 2]; // two extra digits needed 1 for overflow, 1 for rounding
+        remainder = new int[mant.length + 1]; // one extra digit needed
 
         /* Initialize our most significant digits to zero */
 
         dividend[mant.length] = 0;
         quotient[mant.length] = 0;
-        quotient[mant.length+1] = 0;
+        quotient[mant.length + 1] = 0;
         remainder[mant.length] = 0;
 
-        /* copy our mantissa into the dividend, initialize the
-       quotient while we are at it */
+        /* copy our mantissa into the dividend, initialize the quotient while we are at it */
 
         for (int i = 0; i < mant.length; i++) {
             dividend[i] = mant[i];
@@ -1777,32 +1765,32 @@ public class Dfp implements RealFieldElement<Dfp> {
 
         /* outer loop.  Once per quotient digit */
         nsqd = 0;
-        for (qd = mant.length+1; qd >= 0; qd--) {
+        for (qd = mant.length + 1; qd >= 0; qd--) {
             /* Determine outer limits of our quotient digit */
 
             // r =  most sig 2 digits of dividend
-            final int divMsb = dividend[mant.length]*RADIX+dividend[mant.length-1];
-            int min = divMsb       / (divisor.mant[mant.length-1]+1);
-            int max = (divMsb + 1) / divisor.mant[mant.length-1];
+            final int divMsb = dividend[mant.length] * RADIX + dividend[mant.length - 1];
+            int min = divMsb / (divisor.mant[mant.length - 1] + 1);
+            int max = (divMsb + 1) / divisor.mant[mant.length - 1];
 
             trialgood = false;
             while (!trialgood) {
                 // try the mean
-                trial = (min+max)/2;
+                trial = (min + max) / 2;
 
                 /* Multiply by divisor and store as remainder */
                 int rh = 0;
                 for (int i = 0; i < mant.length + 1; i++) {
-                    int dm = (i<mant.length)?divisor.mant[i]:0;
+                    int dm = (i < mant.length) ? divisor.mant[i] : 0;
                     final int r = (dm * trial) + rh;
                     rh = r / RADIX;
                     remainder[i] = r - rh * RADIX;
                 }
 
                 /* subtract the remainder from the dividend */
-                rh = 1;  // carry in to aid the subtraction
+                rh = 1; // carry in to aid the subtraction
                 for (int i = 0; i < mant.length + 1; i++) {
-                    final int r = ((RADIX-1) - remainder[i]) + dividend[i] + rh;
+                    final int r = ((RADIX - 1) - remainder[i]) + dividend[i] + rh;
                     rh = r / RADIX;
                     remainder[i] = r - rh * RADIX;
                 }
@@ -1810,21 +1798,21 @@ public class Dfp implements RealFieldElement<Dfp> {
                 /* Lets analyze what we have here */
                 if (rh == 0) {
                     // trial is too big -- negative remainder
-                    max = trial-1;
+                    max = trial - 1;
                     continue;
                 }
 
                 /* find out how far off the remainder is telling us we are */
-                minadj = (remainder[mant.length] * RADIX)+remainder[mant.length-1];
-                minadj /= divisor.mant[mant.length-1] + 1;
+                minadj = (remainder[mant.length] * RADIX) + remainder[mant.length - 1];
+                minadj /= divisor.mant[mant.length - 1] + 1;
 
                 if (minadj >= 2) {
-                    min = trial+minadj;  // update the minimum
+                    min = trial + minadj; // update the minimum
                     continue;
                 }
 
-                /* May have a good one here, check more thoroughly.  Basically
-           its a good one if it is less than the divisor */
+                /* May have a good one here, check more thoroughly. Basically its a good
+                 * one if it is less than the divisor */
                 trialgood = false;  // assume false
                 for (int i = mant.length - 1; i >= 0; i--) {
                     if (divisor.mant[i] > remainder[i]) {
@@ -1840,8 +1828,8 @@ public class Dfp implements RealFieldElement<Dfp> {
                     trialgood = false;
                 }
 
-                if (trialgood == false) {
-                    min = trial+1;
+                if (!trialgood) {
+                    min = trial + 1;
                 }
             }
 
@@ -1878,20 +1866,20 @@ public class Dfp implements RealFieldElement<Dfp> {
         }
 
         /* Copy the digits into the result */
-        for (int i=0; i<mant.length; i++) {
-            result.mant[mant.length-i-1] = quotient[md-i];
+        for (int i = 0; i < mant.length; i++) {
+            result.mant[mant.length - i - 1] = quotient[md - i];
         }
 
         /* Fixup the exponent. */
         result.exp = exp - divisor.exp + md - mant.length;
         result.sign = (byte) ((sign == divisor.sign) ? 1 : -1);
 
-        if (result.mant[mant.length-1] == 0) { // if result is zero, set exp to zero
+        if (result.mant[mant.length - 1] == 0) { // if result is zero, set exp to zero
             result.exp = 0;
         }
 
-        if (md > (mant.length-1)) {
-            excp = result.round(quotient[md-mant.length]);
+        if (md > (mant.length - 1)) {
+            excp = result.round(quotient[md - mant.length]);
         } else {
             excp = result.round(0);
         }
@@ -1943,14 +1931,14 @@ public class Dfp implements RealFieldElement<Dfp> {
         Dfp result = newInstance(this);
 
         int rl = 0;
-        for (int i = mant.length-1; i >= 0; i--) {
-            final int r = rl*RADIX + result.mant[i];
+        for (int i = mant.length - 1; i >= 0; i--) {
+            final int r = rl * RADIX + result.mant[i];
             final int rh = r / divisor;
             rl = r - rh * divisor;
             result.mant[i] = rh;
         }
 
-        if (result.mant[mant.length-1] == 0) {
+        if (result.mant[mant.length - 1] == 0) {
             // normalize
             result.shiftLeft();
             final int r = rl * RADIX;        // compute the next digit and put it in
@@ -1982,7 +1970,7 @@ public class Dfp implements RealFieldElement<Dfp> {
     public Dfp sqrt() {
 
         // check for unusual cases
-        if (nans == FINITE && mant[mant.length-1] == 0) {
+        if (nans == FINITE && mant[mant.length - 1] == 0) {
             // if zero
             return newInstance(this);
         }
@@ -2026,18 +2014,18 @@ public class Dfp implements RealFieldElement<Dfp> {
         }
 
         /* Coarsely estimate the mantissa */
-        switch (x.mant[mant.length-1] / 2000) {
-            case 0:
-                x.mant[mant.length-1] = x.mant[mant.length-1]/2+1;
-                break;
-            case 2:
-                x.mant[mant.length-1] = 1500;
-                break;
-            case 3:
-                x.mant[mant.length-1] = 2200;
-                break;
-            default:
-                x.mant[mant.length-1] = 3000;
+        switch (x.mant[mant.length - 1] / 2000) {
+        case 0:
+            x.mant[mant.length - 1] = x.mant[mant.length - 1] / 2 + 1;
+            break;
+        case 2:
+            x.mant[mant.length - 1] = 1500;
+            break;
+        case 3:
+            x.mant[mant.length - 1] = 2200;
+            break;
+        default:
+            x.mant[mant.length - 1] = 3000;
         }
 
         Dfp dx = newInstance(x);
@@ -2063,7 +2051,7 @@ public class Dfp implements RealFieldElement<Dfp> {
 
             // if dx is zero, break.  Note testing the most sig digit
             // is a sufficient test since dx is normalized
-            if (dx.mant[mant.length-1] == 0) {
+            if (dx.mant[mant.length - 1] == 0) {
                 break;
             }
         }
@@ -2098,8 +2086,8 @@ public class Dfp implements RealFieldElement<Dfp> {
      * @return string representation of the instance in scientific notation
      */
     protected String dfp2sci() {
-        char rawdigits[]    = new char[mant.length * 4];
-        char outputbuffer[] = new char[mant.length * 4 + 20];
+        char[] rawdigits    = new char[mant.length * 4];
+        char[] outputbuffer = new char[mant.length * 4 + 20];
         int p;
         int q;
         int e;
@@ -2110,7 +2098,7 @@ public class Dfp implements RealFieldElement<Dfp> {
         p = 0;
         for (int i = mant.length - 1; i >= 0; i--) {
             rawdigits[p++] = (char) ((mant[i] / 1000) + '0');
-            rawdigits[p++] = (char) (((mant[i] / 100) %10) + '0');
+            rawdigits[p++] = (char) (((mant[i] / 100) % 10) + '0');
             rawdigits[p++] = (char) (((mant[i] / 10) % 10) + '0');
             rawdigits[p++] = (char) (((mant[i]) % 10) + '0');
         }
@@ -2134,7 +2122,7 @@ public class Dfp implements RealFieldElement<Dfp> {
             outputbuffer[q++] = rawdigits[p++];
             outputbuffer[q++] = '.';
 
-            while (p<rawdigits.length) {
+            while (p < rawdigits.length) {
                 outputbuffer[q++] = rawdigits[p++];
             }
         } else {
@@ -2143,7 +2131,7 @@ public class Dfp implements RealFieldElement<Dfp> {
             outputbuffer[q++] = '0';
             outputbuffer[q++] = 'e';
             outputbuffer[q++] = '0';
-            return new String(outputbuffer, 0, 5);
+            return String.valueOf(outputbuffer, 0, 5);
         }
 
         outputbuffer[q++] = 'e';
@@ -2157,8 +2145,9 @@ public class Dfp implements RealFieldElement<Dfp> {
         }
 
         // Find the largest p such that p < e
-        for (p = 1000000000; p > ae; p /= 10) {
-            // nothing to do
+        p = 1000000000;
+        while (p > ae) {
+            p /= 10;
         }
 
         if (e < 0) {
@@ -2171,15 +2160,14 @@ public class Dfp implements RealFieldElement<Dfp> {
             p /= 10;
         }
 
-        return new String(outputbuffer, 0, q);
-
+        return String.valueOf(outputbuffer, 0, q);
     }
 
     /** Convert an instance to a string using normal notation.
      * @return string representation of the instance in normal notation
      */
     protected String dfp2string() {
-        char buffer[] = new char[mant.length*4 + 20];
+        char[] buffer = new char[mant.length * 4 + 20];
         int p = 1;
         int q;
         int e = exp;
@@ -2235,7 +2223,7 @@ public class Dfp implements RealFieldElement<Dfp> {
         }
 
         // Suppress trailing zeros
-        while (buffer[p-1] == '0') {
+        while (buffer[p - 1] == '0') {
             p--;
         }
 
@@ -2244,8 +2232,7 @@ public class Dfp implements RealFieldElement<Dfp> {
             buffer[--q] = '-';
         }
 
-        return new String(buffer, q, p - q);
-
+        return String.valueOf(buffer, q, p - q);
     }
 
     /** Raises a trap.  This does not set the corresponding flag however.
@@ -2259,55 +2246,55 @@ public class Dfp implements RealFieldElement<Dfp> {
         Dfp def = result;
 
         switch (type) {
-            case DfpField.FLAG_INVALID:
+        case DfpField.FLAG_INVALID:
+            def = newInstance(getZero());
+            def.sign = result.sign;
+            def.nans = QNAN;
+            break;
+
+        case DfpField.FLAG_DIV_ZERO:
+            if (nans == FINITE && mant[mant.length - 1] != 0) {
+                // normal case, we are finite, non-zero
                 def = newInstance(getZero());
-                def.sign = result.sign;
-                def.nans = QNAN;
-                break;
-
-            case DfpField.FLAG_DIV_ZERO:
-                if (nans == FINITE && mant[mant.length-1] != 0) {
-                    // normal case, we are finite, non-zero
-                    def = newInstance(getZero());
-                    def.sign = (byte)(sign*oper.sign);
-                    def.nans = INFINITE;
-                }
-
-                if (nans == FINITE && mant[mant.length-1] == 0) {
-                    //  0/0
-                    def = newInstance(getZero());
-                    def.nans = QNAN;
-                }
-
-                if (nans == INFINITE || nans == QNAN) {
-                    def = newInstance(getZero());
-                    def.nans = QNAN;
-                }
-
-                if (nans == INFINITE || nans == SNAN) {
-                    def = newInstance(getZero());
-                    def.nans = QNAN;
-                }
-                break;
-
-            case DfpField.FLAG_UNDERFLOW:
-                if ( (result.exp+mant.length) < MIN_EXP) {
-                    def = newInstance(getZero());
-                    def.sign = result.sign;
-                } else {
-                    def = newInstance(result);  // gradual underflow
-                }
-                result.exp += ERR_SCALE;
-                break;
-
-            case DfpField.FLAG_OVERFLOW:
-                result.exp -= ERR_SCALE;
-                def = newInstance(getZero());
-                def.sign = result.sign;
+                def.sign = (byte) (sign * oper.sign);
                 def.nans = INFINITE;
-                break;
+            }
 
-            default: def = result; break;
+            if (nans == FINITE && mant[mant.length - 1] == 0) {
+                // 0/0
+                def = newInstance(getZero());
+                def.nans = QNAN;
+            }
+
+            if (nans == INFINITE || nans == QNAN) {
+                def = newInstance(getZero());
+                def.nans = QNAN;
+            }
+
+            if (nans == INFINITE || nans == SNAN) {
+                def = newInstance(getZero());
+                def.nans = QNAN;
+            }
+            break;
+
+        case DfpField.FLAG_UNDERFLOW:
+            if ((result.exp + mant.length) < MIN_EXP) {
+                def = newInstance(getZero());
+                def.sign = result.sign;
+            } else {
+                def = newInstance(result);  // gradual underflow
+            }
+            result.exp += ERR_SCALE;
+            break;
+
+        case DfpField.FLAG_OVERFLOW:
+            result.exp -= ERR_SCALE;
+            def = newInstance(getZero());
+            def.sign = result.sign;
+            def.nans = INFINITE;
+            break;
+
+        default: def = result; break;
         }
 
         return trap(type, what, oper, def, result);
@@ -2381,11 +2368,11 @@ public class Dfp implements RealFieldElement<Dfp> {
         Dfp result;
         if (up) {
             inc = newInstance(getOne());
-            inc.exp = this.exp-mant.length+1;
+            inc.exp = this.exp - mant.length + 1;
             inc.sign = this.sign;
 
             if (this.equals(getZero())) {
-                inc.exp = MIN_EXP-mant.length;
+                inc.exp = MIN_EXP - mant.length;
             }
 
             result = add(inc);
@@ -2395,13 +2382,13 @@ public class Dfp implements RealFieldElement<Dfp> {
             inc.sign = this.sign;
 
             if (this.equals(inc)) {
-                inc.exp = this.exp-mant.length;
+                inc.exp = this.exp - mant.length;
             } else {
-                inc.exp = this.exp-mant.length+1;
+                inc.exp = this.exp - mant.length + 1;
             }
 
             if (this.equals(getZero())) {
-                inc.exp = MIN_EXP-mant.length;
+                inc.exp = MIN_EXP - mant.length;
             }
 
             result = this.subtract(inc);
@@ -2412,13 +2399,12 @@ public class Dfp implements RealFieldElement<Dfp> {
             result = dotrap(DfpField.FLAG_INEXACT, NEXT_AFTER_TRAP, x, result);
         }
 
-        if (result.equals(getZero()) && this.equals(getZero()) == false) {
+        if (result.equals(getZero()) && !this.equals(getZero())) {
             field.setIEEEFlagsBits(DfpField.FLAG_INEXACT);
             result = dotrap(DfpField.FLAG_INEXACT, NEXT_AFTER_TRAP, x, result);
         }
 
         return result;
-
     }
 
     /** Convert the instance into a double.
@@ -2479,9 +2465,9 @@ public class Dfp implements RealFieldElement<Dfp> {
         }
 
 
-        y = y.multiply(newInstance(4503599627370496l)).rint();
+        y = y.multiply(newInstance(4503599627370496L)).rint();
         String str = y.toString();
-        str = str.substring(0, str.length()-1);
+        str = str.substring(0, str.length() - 1);
         long mantissa = Long.parseLong(str);
 
         if (mantissa == 4503599627370496L) {
@@ -2508,7 +2494,6 @@ public class Dfp implements RealFieldElement<Dfp> {
         }
 
         return x;
-
     }
 
     /** Convert the instance into a split double.
@@ -2516,7 +2501,7 @@ public class Dfp implements RealFieldElement<Dfp> {
      * @see #toDouble()
      */
     public double[] toSplitDouble() {
-        double split[] = new double[2];
+        double[] split = new double[2];
         long mask = 0xffffffffc0000000L;
 
         split[0] = Double.longBitsToDouble(Double.doubleToLongBits(toDouble()) & mask);

@@ -42,6 +42,8 @@ import org.apache.commons.rng.UniformRandomProvider;
 import org.apache.commons.rng.simple.RandomSource;
 
 public class AccurateMathTest {
+    // CHECKSTYLE: stop Regexp
+    // The above comment allowa System.out.print
 
     private static final double MAX_ERROR_ULP = 0.51;
     private static final int NUMBER_OF_TRIALS = 1000;
@@ -52,22 +54,22 @@ public class AccurateMathTest {
     @Before
     public void setUp() {
         field = new DfpField(40);
-        generator = RandomSource.create(RandomSource.MT, 6176597458463500194l);
+        generator = RandomSource.create(RandomSource.MT, 6176597458463500194L);
     }
 
     @Test
     public void testMinMaxDouble() {
         double[][] pairs = {
-            { -50.0, 50.0 },
-            {  Double.POSITIVE_INFINITY, 1.0 },
-            {  Double.NEGATIVE_INFINITY, 1.0 },
-            {  Double.NaN, 1.0 },
-            {  Double.POSITIVE_INFINITY, 0.0 },
-            {  Double.NEGATIVE_INFINITY, 0.0 },
-            {  Double.NaN, 0.0 },
-            {  Double.NaN, Double.NEGATIVE_INFINITY },
-            {  Double.NaN, Double.POSITIVE_INFINITY },
-            { Precision.SAFE_MIN, Precision.EPSILON }
+            {-50.0, 50.0},
+            {Double.POSITIVE_INFINITY, 1.0},
+            {Double.NEGATIVE_INFINITY, 1.0},
+            {Double.NaN, 1.0},
+            {Double.POSITIVE_INFINITY, 0.0},
+            {Double.NEGATIVE_INFINITY, 0.0},
+            {Double.NaN, 0.0},
+            {Double.NaN, Double.NEGATIVE_INFINITY},
+            {Double.NaN, Double.POSITIVE_INFINITY},
+            {Precision.SAFE_MIN, Precision.EPSILON}
         };
         for (double[] pair : pairs) {
             assertEquals("min(" + pair[0] + ", " + pair[1] + ")",
@@ -92,15 +94,15 @@ public class AccurateMathTest {
     @Test
     public void testMinMaxFloat() {
         float[][] pairs = {
-            { -50.0f, 50.0f },
-            {  Float.POSITIVE_INFINITY, 1.0f },
-            {  Float.NEGATIVE_INFINITY, 1.0f },
-            {  Float.NaN, 1.0f },
-            {  Float.POSITIVE_INFINITY, 0.0f },
-            {  Float.NEGATIVE_INFINITY, 0.0f },
-            {  Float.NaN, 0.0f },
-            {  Float.NaN, Float.NEGATIVE_INFINITY },
-            {  Float.NaN, Float.POSITIVE_INFINITY }
+            {-50.0f, 50.0f},
+            {Float.POSITIVE_INFINITY, 1.0f},
+            {Float.NEGATIVE_INFINITY, 1.0f},
+            {Float.NaN, 1.0f},
+            {Float.POSITIVE_INFINITY, 0.0f},
+            {Float.NEGATIVE_INFINITY, 0.0f},
+            {Float.NaN, 0.0f},
+            {Float.NaN, Float.NEGATIVE_INFINITY},
+            {Float.NaN, Float.POSITIVE_INFINITY}
         };
         for (float[] pair : pairs) {
             assertEquals("min(" + pair[0] + ", " + pair[1] + ")",
@@ -413,21 +415,20 @@ public class AccurateMathTest {
         assertEquals("pow(0.0, 0.0) should be 1.0", 1.0, AccurateMath.pow(0.0, 0.0), EXACT);
     }
 
-    @Test(timeout=20000L)
+    @Test(timeout = 20000L)
     public void testPowAllSpecialCases() {
         final double EXACT = -1.0;
-        final double DOUBLES[] = new double[]
-            {
-                Double.NEGATIVE_INFINITY, -0.0, Double.NaN, 0.0, Double.POSITIVE_INFINITY,
-                Long.MIN_VALUE, Integer.MIN_VALUE, Short.MIN_VALUE, Byte.MIN_VALUE,
-                -(double)Long.MIN_VALUE, -(double)Integer.MIN_VALUE, -(double)Short.MIN_VALUE, -(double)Byte.MIN_VALUE,
-                Byte.MAX_VALUE, Short.MAX_VALUE, Integer.MAX_VALUE, Long.MAX_VALUE,
-                -Byte.MAX_VALUE, -Short.MAX_VALUE, -Integer.MAX_VALUE, -Long.MAX_VALUE,
-                Float.MAX_VALUE, Double.MAX_VALUE, Double.MIN_VALUE, Float.MIN_VALUE,
-                -Float.MAX_VALUE, -Double.MAX_VALUE, -Double.MIN_VALUE, -Float.MIN_VALUE,
-                0.5, 0.1, 0.2, 0.8, 1.1, 1.2, 1.5, 1.8, 1.0, 2.0, 3.0, 4.0, 5.0, 6.0, 7.0, 8.0, 9.0, 1.3, 2.2, 2.5, 2.8, 33.0, 33.1, 33.5, 33.8, 10.0, 300.0, 400.0, 500.0,
-                -0.5, -0.1, -0.2, -0.8, -1.1, -1.2, -1.5, -1.8, -1.0, -2.0, -3.0, -4.0, -5.0, -6.0, -7.0, -8.0, -9.0, -1.3, -2.2, -2.5, -2.8, -33.0, -33.1, -33.5, -33.8, -10.0, -300.0, -400.0, -500.0
-            };
+        final double[] DOUBLES = new double[] {
+            Double.NEGATIVE_INFINITY, -0.0, Double.NaN, 0.0, Double.POSITIVE_INFINITY,
+            Long.MIN_VALUE, Integer.MIN_VALUE, Short.MIN_VALUE, Byte.MIN_VALUE,
+            -(double)Long.MIN_VALUE, -(double)Integer.MIN_VALUE, -(double)Short.MIN_VALUE, -(double)Byte.MIN_VALUE,
+            Byte.MAX_VALUE, Short.MAX_VALUE, Integer.MAX_VALUE, Long.MAX_VALUE,
+            -Byte.MAX_VALUE, -Short.MAX_VALUE, -Integer.MAX_VALUE, -Long.MAX_VALUE,
+            Float.MAX_VALUE, Double.MAX_VALUE, Double.MIN_VALUE, Float.MIN_VALUE,
+            -Float.MAX_VALUE, -Double.MAX_VALUE, -Double.MIN_VALUE, -Float.MIN_VALUE,
+            0.5, 0.1, 0.2, 0.8, 1.1, 1.2, 1.5, 1.8, 1.0, 2.0, 3.0, 4.0, 5.0, 6.0, 7.0, 8.0, 9.0, 1.3, 2.2, 2.5, 2.8, 33.0, 33.1, 33.5, 33.8, 10.0, 300.0, 400.0, 500.0,
+            -0.5, -0.1, -0.2, -0.8, -1.1, -1.2, -1.5, -1.8, -1.0, -2.0, -3.0, -4.0, -5.0, -6.0, -7.0, -8.0, -9.0, -1.3, -2.2, -2.5, -2.8, -33.0, -33.1, -33.5, -33.8, -10.0, -300.0, -400.0, -500.0
+        };
 
         // Special cases from Math.pow javadoc:
         // If the second argument is positive or negative zero, then the result is 1.0.
@@ -558,11 +559,15 @@ public class AccurateMathTest {
                 for (double i : DOUBLES) {
                     if (Math.abs(i) <= Double.MAX_VALUE) {
                         // if the second argument is a finite even integer, the result is equal to the result of raising the absolute value of the first argument to the power of the second argument
-                        if (i % 2.0 == 0.0) assertEquals(AccurateMath.pow(-d, i), AccurateMath.pow(d, i), EXACT);
-                        // if the second argument is a finite odd integer, the result is equal to the negative of the result of raising the absolute value of the first argument to the power of the second argument
-                        else if (Math.abs(i) % 2.0 == 1.0) assertEquals(-AccurateMath.pow(-d, i), AccurateMath.pow(d, i), EXACT);
-                        // if the second argument is finite and not an integer, then the result is NaN.
-                        else assertEquals(Double.NaN, AccurateMath.pow(d, i), EXACT);
+                        if (i % 2.0 == 0.0) {
+                            assertEquals(AccurateMath.pow(-d, i), AccurateMath.pow(d, i), EXACT);
+                        } else if (Math.abs(i) % 2.0 == 1.0) {
+                            // if the second argument is a finite odd integer, the result is equal to the negative of the result of raising the absolute value of the first argument to the power of the second argument
+                            assertEquals(-AccurateMath.pow(-d, i), AccurateMath.pow(d, i), EXACT);
+                        } else {
+                            // if the second argument is finite and not an integer, then the result is NaN.
+                            assertEquals(Double.NaN, AccurateMath.pow(d, i), EXACT);
+                        }
                     }
                 }
             }
@@ -572,7 +577,7 @@ public class AccurateMathTest {
         final int TOO_BIG_TO_CALCULATE = 18; // This value is empirical: 2^18 > 200.000 resulting bits after raising d to power i.
         for (double d : DOUBLES) {
             if (d % 1.0 == 0.0) {
-                boolean dNegative = Double.doubleToRawLongBits( d ) < 0L;
+                boolean dNegative = Double.doubleToRawLongBits(d) < 0L;
                 for (double i : DOUBLES) {
                     if (i % 1.0 == 0.0) {
                         BigInteger bd = BigDecimal.valueOf(d).toBigInteger().abs();
@@ -588,10 +593,10 @@ public class AccurateMathTest {
                             } else if (res.signum() == 0) {
                                 expected = Double.POSITIVE_INFINITY;
                             } else {
-                                expected = BigDecimal.ONE.divide( new BigDecimal( res ), 1024, RoundingMode.HALF_UP ).doubleValue();
+                                expected = BigDecimal.ONE.divide(new BigDecimal(res), 1024, RoundingMode.HALF_UP).doubleValue();
                             }
                         }
-                        if (dNegative && bi.testBit( 0 )) {
+                        if (dNegative && bi.testBit(0)) {
                             expected = -expected;
                         }
                         assertEquals(d + "^" + i + "=" + expected + ", Math.pow=" + Math.pow(d, i), expected, AccurateMath.pow(d, i), expected == 0.0 || Double.isInfinite(expected) || Double.isNaN(expected) ? EXACT : 2.0 * Math.ulp(expected));
@@ -641,7 +646,7 @@ public class AccurateMathTest {
                      AccurateMath.atan2(Double.POSITIVE_INFINITY, Double.NEGATIVE_INFINITY), Precision.EPSILON);
         assertEquals("atan2(-Inf, Inf) should be -PI/4", -AccurateMath.PI / 4.0, AccurateMath.atan2(Double.NEGATIVE_INFINITY, Double.POSITIVE_INFINITY),
                      Precision.EPSILON);
-        assertEquals("atan2(-Inf, -Inf) should be -PI * 3/4", - AccurateMath.PI * 3.0 / 4.0,
+        assertEquals("atan2(-Inf, -Inf) should be -PI * 3/4", -AccurateMath.PI * 3.0 / 4.0,
                      AccurateMath.atan2(Double.NEGATIVE_INFINITY, Double.NEGATIVE_INFINITY), Precision.EPSILON);
     }
 
@@ -891,7 +896,7 @@ public class AccurateMathTest {
     public void testAsinAccuracy() {
         double maxerrulp = 0.0;
 
-        for (int i=0; i<10000; i++) {
+        for (int i = 0; i < 10000; i++) {
             double x = ((generator.nextDouble() * 2.0) - 1.0) * generator.nextDouble();
 
             double tst = AccurateMath.asin(x);
@@ -914,7 +919,7 @@ public class AccurateMathTest {
     public void testAcosAccuracy() {
         double maxerrulp = 0.0;
 
-        for (int i=0; i<10000; i++) {
+        for (int i = 0; i < 10000; i++) {
             double x = ((generator.nextDouble() * 2.0) - 1.0) * generator.nextDouble();
 
             double tst = AccurateMath.acos(x);
@@ -962,22 +967,22 @@ public class AccurateMathTest {
     }
 
     private Dfp cosh(Dfp x) {
-      return DfpMath.exp(x).add(DfpMath.exp(x.negate())).divide(2);
+        return DfpMath.exp(x).add(DfpMath.exp(x.negate())).divide(2);
     }
 
     private Dfp sinh(Dfp x) {
-      return DfpMath.exp(x).subtract(DfpMath.exp(x.negate())).divide(2);
+        return DfpMath.exp(x).subtract(DfpMath.exp(x.negate())).divide(2);
     }
 
     private Dfp tanh(Dfp x) {
-      return sinh(x).divide(cosh(x));
+        return sinh(x).divide(cosh(x));
     }
 
     @Test
     public void testSinhAccuracy() {
         double maxerrulp = 0.0;
 
-        for (int i=0; i<10000; i++) {
+        for (int i = 0; i < 10000; i++) {
             double x = ((generator.nextDouble() * 16.0) - 8.0) * generator.nextDouble();
 
             double tst = AccurateMath.sinh(x);
@@ -999,7 +1004,7 @@ public class AccurateMathTest {
     public void testCoshAccuracy() {
         double maxerrulp = 0.0;
 
-        for (int i=0; i<10000; i++) {
+        for (int i = 0; i < 10000; i++) {
             double x = ((generator.nextDouble() * 16.0) - 8.0) * generator.nextDouble();
 
             double tst = AccurateMath.cosh(x);
@@ -1021,7 +1026,7 @@ public class AccurateMathTest {
     public void testTanhAccuracy() {
         double maxerrulp = 0.0;
 
-        for (int i=0; i<10000; i++) {
+        for (int i = 0; i < 10000; i++) {
             double x = ((generator.nextDouble() * 16.0) - 8.0) * generator.nextDouble();
 
             double tst = AccurateMath.tanh(x);
@@ -1043,7 +1048,7 @@ public class AccurateMathTest {
     public void testCbrtAccuracy() {
         double maxerrulp = 0.0;
 
-        for (int i=0; i<10000; i++) {
+        for (int i = 0; i < 10000; i++) {
             double x = ((generator.nextDouble() * 200.0) - 100.0) * generator.nextDouble();
 
             double tst = AccurateMath.cbrt(x);
@@ -1062,7 +1067,7 @@ public class AccurateMathTest {
     }
 
     private Dfp cbrt(Dfp x) {
-        boolean negative=false;
+        boolean negative = false;
 
         if (x.lessThan(field.getZero())) {
             negative = true;
@@ -1187,11 +1192,11 @@ public class AccurateMathTest {
 
     @Test
     public void testDoubleNextAfterSpecialCases() {
-        assertEquals(-Double.MAX_VALUE,AccurateMath.nextAfter(Double.NEGATIVE_INFINITY, 0D), 0D);
-        assertEquals(Double.MAX_VALUE,AccurateMath.nextAfter(Double.POSITIVE_INFINITY, 0D), 0D);
-        assertEquals(Double.NaN,AccurateMath.nextAfter(Double.NaN, 0D), 0D);
-        assertEquals(Double.POSITIVE_INFINITY,AccurateMath.nextAfter(Double.MAX_VALUE, Double.POSITIVE_INFINITY), 0D);
-        assertEquals(Double.NEGATIVE_INFINITY,AccurateMath.nextAfter(-Double.MAX_VALUE, Double.NEGATIVE_INFINITY), 0D);
+        assertEquals(-Double.MAX_VALUE, AccurateMath.nextAfter(Double.NEGATIVE_INFINITY, 0D), 0D);
+        assertEquals(Double.MAX_VALUE, AccurateMath.nextAfter(Double.POSITIVE_INFINITY, 0D), 0D);
+        assertEquals(Double.NaN, AccurateMath.nextAfter(Double.NaN, 0D), 0D);
+        assertEquals(Double.POSITIVE_INFINITY, AccurateMath.nextAfter(Double.MAX_VALUE, Double.POSITIVE_INFINITY), 0D);
+        assertEquals(Double.NEGATIVE_INFINITY, AccurateMath.nextAfter(-Double.MAX_VALUE, Double.NEGATIVE_INFINITY), 0D);
         assertEquals(Double.MIN_VALUE, AccurateMath.nextAfter(0D, 1D), 0D);
         assertEquals(-Double.MIN_VALUE, AccurateMath.nextAfter(0D, -1D), 0D);
         assertEquals(0D, AccurateMath.nextAfter(Double.MIN_VALUE, -1), 0D);
@@ -1228,11 +1233,11 @@ public class AccurateMathTest {
         assertEquals(Double.NEGATIVE_INFINITY, AccurateMath.scalb(-2.2250738585072014E-308, 2047), 0D);
         assertEquals(Double.NEGATIVE_INFINITY, AccurateMath.scalb(-2.2250738585072014E-308, 2048), 0D);
         assertEquals(Double.NEGATIVE_INFINITY, AccurateMath.scalb(-1.7976931348623157E308,  2147483647), 0D);
-        assertEquals(Double.POSITIVE_INFINITY, AccurateMath.scalb( 1.7976931348623157E308,  2147483647), 0D);
+        assertEquals(Double.POSITIVE_INFINITY, AccurateMath.scalb(+1.7976931348623157E308,  2147483647), 0D);
         assertEquals(Double.NEGATIVE_INFINITY, AccurateMath.scalb(-1.1102230246251565E-16,  2147483647), 0D);
-        assertEquals(Double.POSITIVE_INFINITY, AccurateMath.scalb( 1.1102230246251565E-16,  2147483647), 0D);
+        assertEquals(Double.POSITIVE_INFINITY, AccurateMath.scalb(+1.1102230246251565E-16,  2147483647), 0D);
         assertEquals(Double.NEGATIVE_INFINITY, AccurateMath.scalb(-2.2250738585072014E-308, 2147483647), 0D);
-        assertEquals(Double.POSITIVE_INFINITY, AccurateMath.scalb( 2.2250738585072014E-308, 2147483647), 0D);
+        assertEquals(Double.POSITIVE_INFINITY, AccurateMath.scalb(+2.2250738585072014E-308, 2147483647), 0D);
     }
 
     @Test
@@ -1253,16 +1258,16 @@ public class AccurateMathTest {
         assertEquals(Float.NEGATIVE_INFINITY, AccurateMath.scalb(-3.4028235E38f, 2147483647), 0F);
     }
 
-    private boolean compareClassMethods(Class<?> class1, Class<?> class2){
+    private boolean compareClassMethods(Class<?> class1, Class<?> class2) {
         boolean allfound = true;
-        for(Method method1 : class1.getDeclaredMethods()){
-            if (Modifier.isPublic(method1.getModifiers())){
-                Type []params = method1.getGenericParameterTypes();
+        for (Method method1 : class1.getDeclaredMethods()) {
+            if (Modifier.isPublic(method1.getModifiers())) {
+                Type[] params = method1.getGenericParameterTypes();
                 try {
                     class2.getDeclaredMethod(method1.getName(), (Class[]) params);
                 } catch (NoSuchMethodException e) {
                     allfound = false;
-                    System.out.println(class2.getSimpleName()+" does not implement: "+method1);
+                    System.out.println(class2.getSimpleName() + " does not implement: " + method1);
                 }
             }
         }
@@ -1337,10 +1342,10 @@ public class AccurateMathTest {
     @Test
     public void testIntPow() {
         final int maxExp = 300;
-        DfpField field = new DfpField(40);
+        DfpField localField = new DfpField(40);
         final double base = 1.23456789;
-        Dfp baseDfp = field.newDfp(base);
-        Dfp dfpPower = field.getOne();
+        Dfp baseDfp = localField.newDfp(base);
+        Dfp dfpPower = localField.getOne();
         for (int i = 0; i < maxExp; i++) {
             assertEquals("exp=" + i, dfpPower.toDouble(), AccurateMath.pow(base, i),
                          0.6 * AccurateMath.ulp(dfpPower.toDouble()));
@@ -1353,28 +1358,27 @@ public class AccurateMathTest {
         assertTrue(Double.isInfinite(AccurateMath.pow(AccurateMath.scalb(1.0, 500), 4)));
     }
 
-    @Test(timeout=5000L) // This test must finish in finite time.
+    @Test(timeout = 5000L) // This test must finish in finite time.
     public void testIntPowLongMinValue() {
         assertEquals(1.0, AccurateMath.pow(1.0, Long.MIN_VALUE), -1.0);
     }
 
-    @Test(timeout=5000L)
+    @Test(timeout = 5000L)
     public void testIntPowSpecialCases() {
         final double EXACT = -1.0;
-        final double DOUBLES[] = new double[]
-            {
-                Double.NEGATIVE_INFINITY, -0.0, Double.NaN, 0.0, Double.POSITIVE_INFINITY,
-                Long.MIN_VALUE, Integer.MIN_VALUE, Short.MIN_VALUE, Byte.MIN_VALUE,
-                -(double)Long.MIN_VALUE, -(double)Integer.MIN_VALUE, -(double)Short.MIN_VALUE, -(double)Byte.MIN_VALUE,
-                Byte.MAX_VALUE, Short.MAX_VALUE, Integer.MAX_VALUE, Long.MAX_VALUE,
-                -Byte.MAX_VALUE, -Short.MAX_VALUE, -Integer.MAX_VALUE, -Long.MAX_VALUE,
-                Float.MAX_VALUE, Double.MAX_VALUE, Double.MIN_VALUE, Float.MIN_VALUE,
-                -Float.MAX_VALUE, -Double.MAX_VALUE, -Double.MIN_VALUE, -Float.MIN_VALUE,
-                0.5, 0.1, 0.2, 0.8, 1.1, 1.2, 1.5, 1.8, 1.0, 2.0, 3.0, 4.0, 5.0, 6.0, 7.0, 8.0, 9.0, 1.3, 2.2, 2.5, 2.8, 33.0, 33.1, 33.5, 33.8, 10.0, 300.0, 400.0, 500.0,
-                -0.5, -0.1, -0.2, -0.8, -1.1, -1.2, -1.5, -1.8, -1.0, -2.0, -3.0, -4.0, -5.0, -6.0, -7.0, -8.0, -9.0, -1.3, -2.2, -2.5, -2.8, -33.0, -33.1, -33.5, -33.8, -10.0, -300.0, -400.0, -500.0
-            };
+        final double[] DOUBLES = new double[] {
+            Double.NEGATIVE_INFINITY, -0.0, Double.NaN, 0.0, Double.POSITIVE_INFINITY,
+            Long.MIN_VALUE, Integer.MIN_VALUE, Short.MIN_VALUE, Byte.MIN_VALUE,
+            -(double)Long.MIN_VALUE, -(double)Integer.MIN_VALUE, -(double)Short.MIN_VALUE, -(double)Byte.MIN_VALUE,
+            Byte.MAX_VALUE, Short.MAX_VALUE, Integer.MAX_VALUE, Long.MAX_VALUE,
+            -Byte.MAX_VALUE, -Short.MAX_VALUE, -Integer.MAX_VALUE, -Long.MAX_VALUE,
+            Float.MAX_VALUE, Double.MAX_VALUE, Double.MIN_VALUE, Float.MIN_VALUE,
+            -Float.MAX_VALUE, -Double.MAX_VALUE, -Double.MIN_VALUE, -Float.MIN_VALUE,
+            0.5, 0.1, 0.2, 0.8, 1.1, 1.2, 1.5, 1.8, 1.0, 2.0, 3.0, 4.0, 5.0, 6.0, 7.0, 8.0, 9.0, 1.3, 2.2, 2.5, 2.8, 33.0, 33.1, 33.5, 33.8, 10.0, 300.0, 400.0, 500.0,
+            -0.5, -0.1, -0.2, -0.8, -1.1, -1.2, -1.5, -1.8, -1.0, -2.0, -3.0, -4.0, -5.0, -6.0, -7.0, -8.0, -9.0, -1.3, -2.2, -2.5, -2.8, -33.0, -33.1, -33.5, -33.8, -10.0, -300.0, -400.0, -500.0
+        };
 
-        final long INTS[] = new long[]{Long.MAX_VALUE, Long.MAX_VALUE - 1, Long.MIN_VALUE, Long.MIN_VALUE + 1, Long.MIN_VALUE + 2, Integer.MAX_VALUE, Integer.MAX_VALUE - 1, Integer.MIN_VALUE, Integer.MIN_VALUE + 1, Integer.MIN_VALUE + 2, 0, 1, 2, 3, 5, 8, 10, 20, 100, 300, 500, -1, -2, -3, -5, -8, -10, -20, -100, -300, -500};
+        final long[] INTS = new long[]{Long.MAX_VALUE, Long.MAX_VALUE - 1, Long.MIN_VALUE, Long.MIN_VALUE + 1, Long.MIN_VALUE + 2, Integer.MAX_VALUE, Integer.MAX_VALUE - 1, Integer.MIN_VALUE, Integer.MIN_VALUE + 1, Integer.MIN_VALUE + 2, 0, 1, 2, 3, 5, 8, 10, 20, 100, 300, 500, -1, -2, -3, -5, -8, -10, -20, -100, -300, -500};
         // Special cases from Math.pow javadoc:
         // If the second argument is positive or negative zero, then the result is 1.0.
         for (double d : DOUBLES) {
@@ -1515,9 +1519,12 @@ public class AccurateMathTest {
             if (d < 0.0 && Math.abs(d) <= Double.MAX_VALUE) {
                 for (long i : INTS) {
                     // if the second argument is a finite even integer, the result is equal to the result of raising the absolute value of the first argument to the power of the second argument
-                    if ((i & 1L) == 0L) assertEquals(AccurateMath.pow(-d, i), AccurateMath.pow(d, i), EXACT);
-                    // if the second argument is a finite odd integer, the result is equal to the negative of the result of raising the absolute value of the first argument to the power of the second argument
-                    else assertEquals(-AccurateMath.pow(-d, i), AccurateMath.pow(d, i), EXACT);
+                    if ((i & 1L) == 0L) {
+                        assertEquals(AccurateMath.pow(-d, i), AccurateMath.pow(d, i), EXACT);
+                    } else {
+                        // if the second argument is a finite odd integer, the result is equal to the negative of the result of raising the absolute value of the first argument to the power of the second argument
+                        assertEquals(-AccurateMath.pow(-d, i), AccurateMath.pow(d, i), EXACT);
+                    }
                     // if the second argument is finite and not an integer, then the result is NaN. <- Impossible with int.
                 }
             }
@@ -1752,23 +1759,23 @@ public class AccurateMathTest {
         }
     }
 
-    @Test(expected=MathArithmeticException.class)
+    @Test(expected = MathArithmeticException.class)
     public void testToIntExactTooLow() {
-        AccurateMath.toIntExact(-1l + Integer.MIN_VALUE);
+        AccurateMath.toIntExact(-1L + Integer.MIN_VALUE);
     }
 
-    @Test(expected=MathArithmeticException.class)
+    @Test(expected = MathArithmeticException.class)
     public void testToIntExactTooHigh() {
-        AccurateMath.toIntExact(+1l + Integer.MAX_VALUE);
+        AccurateMath.toIntExact(+1L + Integer.MAX_VALUE);
     }
 
     @Test
     public void testToIntExact() {
         for (int n = -1000; n < 1000; ++n) {
-            assertEquals(n, AccurateMath.toIntExact(0l + n));
+            assertEquals(n, AccurateMath.toIntExact(0L + n));
         }
-        assertEquals(Integer.MIN_VALUE, AccurateMath.toIntExact(0l + Integer.MIN_VALUE));
-        assertEquals(Integer.MAX_VALUE, AccurateMath.toIntExact(0l + Integer.MAX_VALUE));
+        assertEquals(Integer.MIN_VALUE, AccurateMath.toIntExact(0L + Integer.MIN_VALUE));
+        assertEquals(Integer.MAX_VALUE, AccurateMath.toIntExact(0L + Integer.MAX_VALUE));
     }
 
     @Test
@@ -1815,11 +1822,11 @@ public class AccurateMathTest {
 
     @Test
     public void testFloorDivModInt() {
-        UniformRandomProvider generator = RandomSource.create(RandomSource.WELL_1024_A,
-                                                              0x7ccab45edeaab90al);
+        UniformRandomProvider rng = RandomSource.create(RandomSource.WELL_1024_A,
+                                                        0x7ccab45edeaab90aL);
         for (int i = 0; i < 10000; ++i) {
-            int a = generator.nextInt();
-            int b = generator.nextInt();
+            int a = rng.nextInt();
+            int b = rng.nextInt();
             if (b == 0) {
                 try {
                     AccurateMath.floorDiv(a, b);
@@ -1846,18 +1853,18 @@ public class AccurateMathTest {
 
     @Test
     public void testFloorDivLong() {
-        assertEquals(+1l, AccurateMath.floorDiv(+4l, +3l));
-        assertEquals(-2l, AccurateMath.floorDiv(-4l, +3l));
-        assertEquals(-2l, AccurateMath.floorDiv(+4l, -3l));
-        assertEquals(+1l, AccurateMath.floorDiv(-4l, -3l));
+        assertEquals(+1L, AccurateMath.floorDiv(+4L, +3L));
+        assertEquals(-2L, AccurateMath.floorDiv(-4L, +3L));
+        assertEquals(-2L, AccurateMath.floorDiv(+4L, -3L));
+        assertEquals(+1L, AccurateMath.floorDiv(-4L, -3L));
         try {
-            AccurateMath.floorDiv(1l, 0l);
+            AccurateMath.floorDiv(1L, 0L);
             fail("an exception should have been thrown");
         } catch (MathArithmeticException mae) {
             // expected
         }
-        for (long a = -100l; a <= 100l; ++a) {
-            for (long b = -100l; b <= 100l; ++b) {
+        for (long a = -100L; a <= 100L; ++a) {
+            for (long b = -100L; b <= 100L; ++b) {
                 if (b != 0) {
                     assertEquals(poorManFloorDiv(a, b), AccurateMath.floorDiv(a, b));
                 }
@@ -1867,18 +1874,18 @@ public class AccurateMathTest {
 
     @Test
     public void testFloorModLong() {
-        assertEquals(+1l, AccurateMath.floorMod(+4l, +3l));
-        assertEquals(+2l, AccurateMath.floorMod(-4l, +3l));
-        assertEquals(-2l, AccurateMath.floorMod(+4l, -3l));
-        assertEquals(-1l, AccurateMath.floorMod(-4l, -3l));
+        assertEquals(+1L, AccurateMath.floorMod(+4L, +3L));
+        assertEquals(+2L, AccurateMath.floorMod(-4L, +3L));
+        assertEquals(-2L, AccurateMath.floorMod(+4L, -3L));
+        assertEquals(-1L, AccurateMath.floorMod(-4L, -3L));
         try {
-            AccurateMath.floorMod(1l, 0l);
+            AccurateMath.floorMod(1L, 0L);
             fail("an exception should have been thrown");
         } catch (MathArithmeticException mae) {
             // expected
         }
-        for (long a = -100l; a <= 100l; ++a) {
-            for (long b = -100l; b <= 100l; ++b) {
+        for (long a = -100L; a <= 100L; ++a) {
+            for (long b = -100L; b <= 100L; ++b) {
                 if (b != 0) {
                     assertEquals(poorManFloorMod(a, b), AccurateMath.floorMod(a, b));
                 }
@@ -1888,11 +1895,11 @@ public class AccurateMathTest {
 
     @Test
     public void testFloorDivModLong() {
-        UniformRandomProvider generator = RandomSource.create(RandomSource.WELL_1024_A,
-                                                              0xb87b9bc14c96ccd5l);
+        UniformRandomProvider rng = RandomSource.create(RandomSource.WELL_1024_A,
+                                                        0xb87b9bc14c96ccd5L);
         for (int i = 0; i < 10000; ++i) {
-            long a = generator.nextLong();
-            long b = generator.nextLong();
+            long a = rng.nextLong();
+            long b = rng.nextLong();
             if (b == 0) {
                 try {
                     AccurateMath.floorDiv(a, b);
@@ -1931,7 +1938,7 @@ public class AccurateMathTest {
             BigInteger q = q0.subtract(bigK);
             BigInteger r = r0.add(bigK.multiply(bigB));
             if (r.abs().compareTo(bigB.abs()) < 0 &&
-                (r.longValue() == 0l || ((r.longValue() ^ b) & 0x8000000000000000l) == 0)) {
+                (r.longValue() == 0L || ((r.longValue() ^ b) & 0x8000000000000000L) == 0)) {
                 if (fd.compareTo(q) < 0) {
                     fd = q;
                 }

@@ -41,7 +41,7 @@ public class MathRuntimeException extends RuntimeException
      * @param args Arguments.
      */
     public MathRuntimeException(Localizable pattern,
-                                Object ... args) {
+                                Object... args) {
         context = new ExceptionContext(this);
         context.addMessage(pattern, args);
     }
@@ -54,7 +54,7 @@ public class MathRuntimeException extends RuntimeException
      */
     public MathRuntimeException(Throwable cause,
                                 Localizable pattern,
-                                Object ... args) {
+                                Object... args) {
         super(cause);
         context = new ExceptionContext(this);
         context.addMessage(pattern, args);

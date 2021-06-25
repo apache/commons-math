@@ -56,29 +56,30 @@ public class DfpMathTest {
     // Generic test function.  Takes params x and y and tests them for
     // equality.  Then checks the status flags against the flags argument.
     // If the test fail, it prints the desc string
-    private void test(Dfp x, Dfp y, int flags, String desc)
-    {
+    private void test(Dfp x, Dfp y, int flags, String desc) {
         boolean b = x.equals(y);
 
-        if (!x.equals(y) && !x.unequal(y))  // NaNs involved
-            b = (x.toString().equals(y.toString()));
+        if (!x.equals(y) && !x.unequal(y)) { // NaNs involved
+            b = x.toString().equals(y.toString());
+        }
 
-        if (x.equals(factory.newDfp("0")))  // distinguish +/- zero
-            b = (b && (x.toString().equals(y.toString())));
+        if (x.equals(factory.newDfp("0"))) { // distinguish +/- zero
+            b = b && (x.toString().equals(y.toString()));
+        }
 
-        b = (b && x.getField().getIEEEFlags() == flags);
+        b = b && x.getField().getIEEEFlags() == flags;
 
         if (!b) {
-            Assert.assertTrue("assertion failed "+desc+" x = "+x.toString()+" flags = "+x.getField().getIEEEFlags(), b);
+            Assert.assertTrue(
+                "assertion failed " + desc + " x = " + x.toString() + " flags = " + x.getField().getIEEEFlags(), b);
         }
 
         x.getField().clearIEEEFlags();
     }
 
     @Test
-    public void testPow()
-    {
-        // Test special cases  exponent of zero
+    public void testPow() {
+        // Test special cases exponent of zero
         test(DfpMath.pow(factory.newDfp("0"), factory.newDfp("0")),
              factory.newDfp("1"),
              0, "pow #1");
@@ -464,24 +465,23 @@ public class DfpMathTest {
 
         test(DfpMath.pow(factory.newDfp("-2"), factory.newDfp("-4.1")),
              qnan,
-             DfpField.FLAG_INVALID|DfpField.FLAG_INEXACT, "pow #87");
+             DfpField.FLAG_INVALID | DfpField.FLAG_INEXACT, "pow #87");
 
         // Some fractional cases.
-        test(DfpMath.pow(factory.newDfp("2"),factory.newDfp("1.5")),
+        test(DfpMath.pow(factory.newDfp("2"), factory.newDfp("1.5")),
              factory.newDfp("2.8284271247461901"),
              DfpField.FLAG_INEXACT, "pow #88");
     }
 
     @Test
-    public void testSin()
-    {
+    public void testSin() {
         test(DfpMath.sin(pinf),
              nan,
-             DfpField.FLAG_INVALID|DfpField.FLAG_INEXACT, "sin #1");
+             DfpField.FLAG_INVALID | DfpField.FLAG_INEXACT, "sin #1");
 
         test(DfpMath.sin(nan),
              nan,
-             DfpField.FLAG_INVALID|DfpField.FLAG_INEXACT, "sin #2");
+             DfpField.FLAG_INVALID | DfpField.FLAG_INEXACT, "sin #2");
 
         test(DfpMath.sin(factory.getZero()),
              factory.getZero(),

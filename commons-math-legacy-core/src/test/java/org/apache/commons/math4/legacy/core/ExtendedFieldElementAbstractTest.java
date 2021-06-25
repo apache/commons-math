@@ -104,7 +104,7 @@ public abstract class ExtendedFieldElementAbstractTest<T extends RealFieldElemen
     public void testDivideDouble() {
         for (double x = -3; x < 3; x += 0.2) {
             for (double y = -3; y < 3; y += 0.2) {
-                    checkRelative(x / y, build(x).divide(y));
+                checkRelative(x / y, build(x).divide(y));
             }
         }
     }
@@ -391,7 +391,7 @@ public abstract class ExtendedFieldElementAbstractTest<T extends RealFieldElemen
 
     @Test
     public void testLinearCombinationFaFa() {
-        UniformRandomProvider r = RandomSource.create(RandomSource.WELL_1024_A, 0xfafal);
+        UniformRandomProvider r = RandomSource.create(RandomSource.WELL_1024_A, 0xfafaL);
         for (int i = 0; i < 50; ++i) {
             double[] aD = generateDouble(r, 10);
             double[] bD = generateDouble(r, 10);
@@ -404,7 +404,7 @@ public abstract class ExtendedFieldElementAbstractTest<T extends RealFieldElemen
 
     @Test
     public void testLinearCombinationDaFa() {
-        UniformRandomProvider r = RandomSource.create(RandomSource.WELL_1024_A, 0xdafal);
+        UniformRandomProvider r = RandomSource.create(RandomSource.WELL_1024_A, 0xdafaL);
         for (int i = 0; i < 50; ++i) {
             double[] aD = generateDouble(r, 10);
             double[] bD = generateDouble(r, 10);
@@ -416,7 +416,7 @@ public abstract class ExtendedFieldElementAbstractTest<T extends RealFieldElemen
 
     @Test
     public void testLinearCombinationFF2() {
-        UniformRandomProvider r = RandomSource.create(RandomSource.WELL_1024_A, 0xff2l);
+        UniformRandomProvider r = RandomSource.create(RandomSource.WELL_1024_A, 0xff2L);
         for (int i = 0; i < 50; ++i) {
             double[] aD = generateDouble(r, 2);
             double[] bD = generateDouble(r, 2);
@@ -431,7 +431,7 @@ public abstract class ExtendedFieldElementAbstractTest<T extends RealFieldElemen
 
     @Test
     public void testLinearCombinationDF2() {
-        UniformRandomProvider r = RandomSource.create(RandomSource.WELL_1024_A, 0xdf2l);
+        UniformRandomProvider r = RandomSource.create(RandomSource.WELL_1024_A, 0xdf2L);
         for (int i = 0; i < 50; ++i) {
             double[] aD = generateDouble(r, 2);
             double[] bD = generateDouble(r, 2);
@@ -445,7 +445,7 @@ public abstract class ExtendedFieldElementAbstractTest<T extends RealFieldElemen
 
     @Test
     public void testLinearCombinationFF3() {
-        UniformRandomProvider r = RandomSource.create(RandomSource.WELL_1024_A, 0xff3l);
+        UniformRandomProvider r = RandomSource.create(RandomSource.WELL_1024_A, 0xff3L);
         for (int i = 0; i < 50; ++i) {
             double[] aD = generateDouble(r, 3);
             double[] bD = generateDouble(r, 3);
@@ -461,7 +461,7 @@ public abstract class ExtendedFieldElementAbstractTest<T extends RealFieldElemen
 
     @Test
     public void testLinearCombinationDF3() {
-        UniformRandomProvider r = RandomSource.create(RandomSource.WELL_1024_A, 0xdf3l);
+        UniformRandomProvider r = RandomSource.create(RandomSource.WELL_1024_A, 0xdf3L);
         for (int i = 0; i < 50; ++i) {
             double[] aD = generateDouble(r, 3);
             double[] bD = generateDouble(r, 3);
@@ -476,7 +476,7 @@ public abstract class ExtendedFieldElementAbstractTest<T extends RealFieldElemen
 
     @Test
     public void testLinearCombinationFF4() {
-        UniformRandomProvider r = RandomSource.create(RandomSource.WELL_1024_A, 0xff4l);
+        UniformRandomProvider r = RandomSource.create(RandomSource.WELL_1024_A, 0xff4L);
         for (int i = 0; i < 50; ++i) {
             double[] aD = generateDouble(r, 4);
             double[] bD = generateDouble(r, 4);
@@ -493,7 +493,7 @@ public abstract class ExtendedFieldElementAbstractTest<T extends RealFieldElemen
 
     @Test
     public void testLinearCombinationDF4() {
-        UniformRandomProvider r = RandomSource.create(RandomSource.WELL_1024_A, 0xdf4l);
+        UniformRandomProvider r = RandomSource.create(RandomSource.WELL_1024_A, 0xdf4L);
         for (int i = 0; i < 50; ++i) {
             double[] aD = generateDouble(r, 4);
             double[] bD = generateDouble(r, 4);
@@ -537,7 +537,7 @@ public abstract class ExtendedFieldElementAbstractTest<T extends RealFieldElemen
         Assert.assertTrue(t1a.hashCode() != t2.hashCode());
     }
 
-    private double[] generateDouble (final UniformRandomProvider r, int n) {
+    private static double[] generateDouble(final UniformRandomProvider r, int n) {
         double[] a = new double[n];
         for (int i = 0; i < n; ++i) {
             a[i] = r.nextDouble();
@@ -545,7 +545,7 @@ public abstract class ExtendedFieldElementAbstractTest<T extends RealFieldElemen
         return a;
     }
 
-    private T[] toFieldArray (double[] a) {
+    private T[] toFieldArray(double[] a) {
         T[] f = MathArrays.buildArray(build(0).getField(), a.length);
         for (int i = 0; i < a.length; ++i) {
             f[i] = build(a[i]);

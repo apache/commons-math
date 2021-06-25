@@ -24,4 +24,6 @@ import java.util.function.ToDoubleBiFunction;
  *
  * @since 4.0
  */
-public interface DistanceMeasure extends ToDoubleBiFunction<double[],double[]> {}
+public interface DistanceMeasure extends ToDoubleBiFunction<double[], double[]> {
+    // Convenience interface
+}

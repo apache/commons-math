@@ -46,7 +46,7 @@ public class MathIllegalNumberException extends MathIllegalArgumentException {
      */
     protected MathIllegalNumberException(Localizable pattern,
                                          Number wrong,
-                                         Object ... arguments) {
+                                         Object... arguments) {
         super(pattern, wrong, arguments);
         argument = wrong;
     }

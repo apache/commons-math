@@ -16,7 +16,6 @@
  */
 package org.apache.commons.math4.transform;
 
-import java.util.Arrays;
 import java.util.function.DoubleUnaryOperator;
 
 import org.apache.commons.numbers.complex.Complex;
@@ -25,7 +24,7 @@ import org.apache.commons.numbers.complex.Complex;
  * Useful functions for the implementation of various transforms.
  * Class is package-private (for internal use only).
  */
-class TransformUtils {
+final class TransformUtils {
     /** Utility class. */
     private TransformUtils() {}
 

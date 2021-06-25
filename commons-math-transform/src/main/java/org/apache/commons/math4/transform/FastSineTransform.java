@@ -183,12 +183,12 @@ public class FastSineTransform implements RealTransform {
                                            final boolean inverse) {
         if (inverse) {
             return normalization == Norm.ORTHO ?
-                (f) -> TransformUtils.scaleInPlace(fst(f), Math.sqrt(2d / f.length)) :
-                (f) -> TransformUtils.scaleInPlace(fst(f), 2d / f.length);
+                f -> TransformUtils.scaleInPlace(fst(f), Math.sqrt(2d / f.length)) :
+                f -> TransformUtils.scaleInPlace(fst(f), 2d / f.length);
         } else {
             return normalization == Norm.ORTHO ?
-                (f) -> TransformUtils.scaleInPlace(fst(f), Math.sqrt(2d / f.length)) :
-                (f) -> fst(f);
+                f -> TransformUtils.scaleInPlace(fst(f), Math.sqrt(2d / f.length)) :
+                f -> fst(f);
         }
     }
 

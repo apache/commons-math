@@ -135,7 +135,6 @@ public class FastFourierTransform implements ComplexTransform {
             throw new TransformException(TransformException.SIZE_MISMATCH,
                                          dataI.length, dataR.length);
         }
-
         final int n = dataR.length;
         if (!ArithmeticUtils.isPowerOfTwo(n)) {
             throw new TransformException(TransformException.NOT_POWER_OF_TWO,
@@ -236,9 +235,7 @@ public class FastFourierTransform implements ComplexTransform {
             }
 
             // Combine even/odd transforms of size lastN0 into a transform of size N0 (lastN0 * 2).
-            for (int destEvenStartIndex = 0;
-                 destEvenStartIndex < n;
-                 destEvenStartIndex += n0) {
+            for (int destEvenStartIndex = 0; destEvenStartIndex < n; destEvenStartIndex += n0) {
                 final int destOddStartIndex = destEvenStartIndex + lastN0;
 
                 double wSubN0ToRR = 1;
@@ -282,6 +279,7 @@ public class FastFourierTransform implements ComplexTransform {
      *
      * @throws IllegalArgumentException if the length of the data array is not a power of two.
      */
+    @Override
     public Complex[] apply(final double[] f) {
         final double[][] dataRI = new double[][] {
             Arrays.copyOf(f, f.length),

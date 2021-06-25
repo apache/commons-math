@@ -34,7 +34,7 @@ public class MathIllegalArgumentException extends MathRuntimeException {
      * @param pattern Message pattern explaining the cause of the error.
      * @param args Arguments.
      */
-    public MathIllegalArgumentException(Localizable pattern, Object ... args) {
+    public MathIllegalArgumentException(Localizable pattern, Object... args) {
         super(pattern, args);
     }
 

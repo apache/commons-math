@@ -163,7 +163,7 @@ public class DfpDec extends Dfp {
     @Override
     protected int round(int in) {
 
-        int msb = mant[mant.length-1];
+        int msb = mant[mant.length - 1];
         if (msb == 0) {
             // special case -- this == zero
             return 0;
@@ -173,7 +173,7 @@ public class DfpDec extends Dfp {
         int lsbthreshold = 1000;
         while (lsbthreshold > msb) {
             lsbthreshold /= 10;
-            cmaxdigits --;
+            cmaxdigits--;
         }
 
 
@@ -196,12 +196,12 @@ public class DfpDec extends Dfp {
         final int n;
         if (lsbthreshold == 1) {
             // look to the next digit for rounding
-            n = (mant[lsd-1] / 1000) % 10;
-            mant[lsd-1] %= 1000;
-            discarded |= mant[lsd-1];
+            n = (mant[lsd - 1] / 1000) % 10;
+            mant[lsd - 1] %= 1000;
+            discarded |= mant[lsd - 1];
         } else {
             n = (lsb * 10 / lsbthreshold) % 10;
-            discarded |= lsb % (lsbthreshold/10);
+            discarded |= lsb % (lsbthreshold / 10);
         }
 
         for (int i = 0; i < lsd; i++) {
@@ -213,42 +213,42 @@ public class DfpDec extends Dfp {
 
         final boolean inc;
         switch (getField().getRoundingMode()) {
-            case ROUND_DOWN:
-                inc = false;
-                break;
+        case ROUND_DOWN:
+            inc = false;
+            break;
 
-            case ROUND_UP:
-                inc = (n != 0) || (discarded != 0); // round up if n!=0
-                break;
+        case ROUND_UP:
+            inc = (n != 0) || (discarded != 0); // round up if n!=0
+            break;
 
-            case ROUND_HALF_UP:
-                inc = n >= 5;  // round half up
-                break;
+        case ROUND_HALF_UP:
+            inc = n >= 5;  // round half up
+            break;
 
-            case ROUND_HALF_DOWN:
-                inc = n > 5;  // round half down
-                break;
+        case ROUND_HALF_DOWN:
+            inc = n > 5;  // round half down
+            break;
 
-            case ROUND_HALF_EVEN:
-                inc = (n > 5) ||
-                      (n == 5 && discarded != 0) ||
-                      (n == 5 && discarded == 0 && ((lsb / lsbthreshold) & 1) == 1);  // round half-even
-                break;
+        case ROUND_HALF_EVEN:
+            inc = (n > 5) ||
+                  (n == 5 && discarded != 0) ||
+                  (n == 5 && discarded == 0 && ((lsb / lsbthreshold) & 1) == 1);  // round half-even
+            break;
 
-            case ROUND_HALF_ODD:
-                inc = (n > 5) ||
-                      (n == 5 && discarded != 0) ||
-                      (n == 5 && discarded == 0 && ((lsb / lsbthreshold) & 1) == 0);  // round half-odd
-                break;
+        case ROUND_HALF_ODD:
+            inc = (n > 5) ||
+                  (n == 5 && discarded != 0) ||
+                  (n == 5 && discarded == 0 && ((lsb / lsbthreshold) & 1) == 0);  // round half-odd
+            break;
 
-            case ROUND_CEIL:
-                inc = (sign == 1) && (n != 0 || discarded != 0);  // round ceil
-                break;
+        case ROUND_CEIL:
+            inc = (sign == 1) && (n != 0 || discarded != 0);  // round ceil
+            break;
 
-            case ROUND_FLOOR:
-            default:
-                inc = (sign == -1) && (n != 0 || discarded != 0);  // round floor
-                break;
+        case ROUND_FLOOR:
+        default:
+            inc = (sign == -1) && (n != 0 || discarded != 0);  // round floor
+            break;
         }
 
         if (inc) {
@@ -262,7 +262,7 @@ public class DfpDec extends Dfp {
 
             if (rh != 0) {
                 shiftRight();
-                mant[mant.length-1]=rh;
+                mant[mant.length - 1] = rh;
             }
         }
 
@@ -323,7 +323,7 @@ public class DfpDec extends Dfp {
             inc = copysign(inc, this);
 
             if (this.equals(getZero())) {
-                inc = power10K(MIN_EXP-mant.length-1);
+                inc = power10K(MIN_EXP - mant.length - 1);
             }
 
             if (inc.equals(getZero())) {
@@ -342,7 +342,7 @@ public class DfpDec extends Dfp {
             }
 
             if (this.equals(getZero())) {
-                inc = power10K(MIN_EXP-mant.length-1);
+                inc = power10K(MIN_EXP - mant.length - 1);
             }
 
             if (inc.equals(getZero())) {
@@ -357,7 +357,7 @@ public class DfpDec extends Dfp {
             result = dotrap(DfpField.FLAG_INEXACT, trapName, x, result);
         }
 
-        if (result.equals(getZero()) && this.equals(getZero()) == false) {
+        if (result.equals(getZero()) && !this.equals(getZero())) {
             getField().setIEEEFlagsBits(DfpField.FLAG_INEXACT);
             result = dotrap(DfpField.FLAG_INEXACT, trapName, x, result);
         }

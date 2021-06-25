@@ -123,13 +123,13 @@ public class MapRanking {
         /** Comparator. */
         static final Comparator<PairNeuronDouble> COMPARATOR
             = new Comparator<PairNeuronDouble>() {
-            /** {@inheritDoc} */
-            @Override
-            public int compare(PairNeuronDouble o1,
-                               PairNeuronDouble o2) {
-                return Double.compare(o1.value, o2.value);
-            }
-        };
+                /** {@inheritDoc} */
+                @Override
+                public int compare(PairNeuronDouble o1,
+                                   PairNeuronDouble o2) {
+                    return Double.compare(o1.value, o2.value);
+                }
+            };
         /** Key. */
         private final Neuron neuron;
         /** Value. */

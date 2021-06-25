@@ -6,7 +6,7 @@
  * (the "License"); you may not use this file except in compliance with
  * the License.  You may obtain a copy of the License at
  *
- *     http://www.apache.org/licenses/LICENSE-2.0
+ *      http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -26,11 +26,11 @@ import java.util.HashSet;
  */
 public class City {
     /** Identifier. */
-    final String name;
+    private final String name;
     /** x-coordinate. */
-    final double x;
+    private final double x;
     /** y-coordinate. */
-    final double y;
+    private final double y;
 
     /**
      * @param name Name.
@@ -56,7 +56,7 @@ public class City {
      * @return the (x, y) coordinates.
      */
     public double[] getCoordinates() {
-        return new double[] { x, y };
+        return new double[] {x, y};
     }
 
     /**
@@ -116,7 +116,7 @@ public class City {
             ++count;
         }
 
-        return new double[] { xB / count, yB / count };
+        return new double[] {xB / count, yB / count};
     }
 
     /**

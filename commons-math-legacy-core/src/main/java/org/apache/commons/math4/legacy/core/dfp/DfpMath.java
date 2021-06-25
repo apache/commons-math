@@ -21,7 +21,7 @@ package org.apache.commons.math4.legacy.core.dfp;
  * The constants are defined in {@link DfpField}
  * @since 2.2
  */
-public class DfpMath {
+public final class DfpMath {
 
     /** Name for traps triggered by pow. */
     private static final String POW_TRAP = "pow";
@@ -42,7 +42,7 @@ public class DfpMath {
      * @return an array of two {@link Dfp} which sum is a
      */
     protected static Dfp[] split(final DfpField field, final String a) {
-        Dfp result[] = new Dfp[2];
+        Dfp[] result = new Dfp[2];
         char[] buf;
         boolean leading = true;
         int sp = 0;
@@ -68,11 +68,11 @@ public class DfpMath {
             }
 
             if (buf[i] >= '0' && buf[i] <= '9' && !leading) {
-                sig ++;
+                sig++;
             }
         }
 
-        result[0] = field.newDfp(new String(buf, 0, sp));
+        result[0] = field.newDfp(String.valueOf(buf, 0, sp));
 
         for (int i = 0; i < buf.length; i++) {
             buf[i] = a.charAt(i);
@@ -81,7 +81,7 @@ public class DfpMath {
             }
         }
 
-        result[1] = field.newDfp(new String(buf));
+        result[1] = field.newDfp(String.valueOf(buf));
 
         return result;
     }
@@ -199,7 +199,6 @@ public class DfpMath {
         }
 
         return result[0];
-
     }
 
     /** Raises base to the power a by successive squaring.
@@ -207,8 +206,7 @@ public class DfpMath {
      * @param a power
      * @return base<sup>a</sup>
      */
-    public static Dfp pow(Dfp base, int a)
-    {
+    public static Dfp pow(Dfp base, int a) {
         boolean invert = false;
 
         Dfp result = base.getOne();
@@ -235,7 +233,7 @@ public class DfpMath {
                 prevtrial = trial;
                 r = r.multiply(r);
                 trial *= 2;
-            } while (a>trial);
+            } while (a > trial);
 
             r = prevr;
             trial = prevtrial;
@@ -250,7 +248,6 @@ public class DfpMath {
         }
 
         return base.newInstance(result);
-
     }
 
     /** Computes e to the given power.
@@ -359,14 +356,14 @@ public class DfpMath {
         // X is now in the range of 2/3 < x < 4/3
         Dfp[] spz = logInternal(spx);
 
-        spx[0] = a.newInstance(new StringBuilder().append(p2+4*lr).toString());
+        spx[0] = a.newInstance(new StringBuilder().append(p2 + 4 * lr).toString());
         spx[1] = a.getZero();
         spy = splitMult(a.getField().getLn2Split(), spx);
 
         spz[0] = spz[0].add(spy[0]);
         spz[1] = spz[1].add(spy[1]);
 
-        spx[0] = a.newInstance(new StringBuilder().append(4*lr).toString());
+        spx[0] = a.newInstance(new StringBuilder().append(4 * lr).toString());
         spx[1] = a.getZero();
         spy = splitMult(a.getField().getLn5Split(), spx);
 
@@ -374,7 +371,6 @@ public class DfpMath {
         spz[1] = spz[1].add(spy[1]);
 
         return a.newInstance(spz[0].add(spz[1]));
-
     }
 
     /** Computes the natural log of a number between 0 and 2.
@@ -434,7 +430,7 @@ public class DfpMath {
      * @param a number from which logarithm is requested, in split form
      * @return log(a)
      */
-    protected static Dfp[] logInternal(final Dfp a[]) {
+    protected static Dfp[] logInternal(final Dfp[] a) {
 
         /* Now we want to compute x = (a-1)/(a+1) but this is prone to
          * loss of precision.  So instead, compute x = (a/4 - 1/4) / (a/4 + 1/4)
@@ -669,7 +665,7 @@ public class DfpMath {
      * @param a number from which sine is desired, in split form
      * @return sin(a)
      */
-    protected static Dfp sinInternal(Dfp a[]) {
+    protected static Dfp sinInternal(Dfp[] a) {
 
         Dfp c = a[0].add(a[1]);
         Dfp y = c;
@@ -682,7 +678,7 @@ public class DfpMath {
             x = x.multiply(c);
             x = x.negate();
 
-            fact = fact.divide((i-1)*i);  // 1 over fact
+            fact = fact.divide((i - 1) * i); // 1 over fact
             y = y.add(x.multiply(fact));
             if (y.equals(py)) {
                 break;
@@ -699,7 +695,7 @@ public class DfpMath {
      * @param a number from which cosine is desired, in split form
      * @return cos(a)
      */
-    protected static Dfp cosInternal(Dfp a[]) {
+    protected static Dfp cosInternal(Dfp[] a) {
         final Dfp one = a[0].getOne();
 
 
@@ -759,7 +755,7 @@ public class DfpMath {
         if (x.lessThan(pi.divide(4))) {
             y = sinInternal(split(x));
         } else {
-            final Dfp c[] = new Dfp[2];
+            final Dfp[] c = new Dfp[2];
             final Dfp[] piSplit = a.getField().getPiSplit();
             c[0] = piSplit[0].divide(2).subtract(x);
             c[1] = piSplit[1].divide(2);
@@ -803,13 +799,13 @@ public class DfpMath {
 
         Dfp y;
         if (x.lessThan(pi.divide(4))) {
-            Dfp c[] = new Dfp[2];
+            Dfp[] c = new Dfp[2];
             c[0] = x;
             c[1] = zero;
 
             y = cosInternal(c);
         } else {
-            final Dfp c[] = new Dfp[2];
+            final Dfp[] c = new Dfp[2];
             final Dfp[] piSplit = a.getField().getPiSplit();
             c[0] = piSplit[0].divide(2).subtract(x);
             c[1] = piSplit[1].divide(2);
@@ -857,7 +853,7 @@ public class DfpMath {
 
     }
 
-    /** computes the arc tangent of the argument
+    /** Computes the arc tangent of the argument.
      *
      *  Uses the typical taylor series
      *
@@ -893,7 +889,7 @@ public class DfpMath {
         }
 
         if (x.greaterThan(ty)) {
-            Dfp sty[] = new Dfp[2];
+            Dfp[] sty = new Dfp[2];
             sub = true;
 
             sty[0] = sqr2Split[0].subtract(one);

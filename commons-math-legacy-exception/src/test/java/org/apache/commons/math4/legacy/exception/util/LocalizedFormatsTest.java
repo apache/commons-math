@@ -35,7 +35,7 @@ public class LocalizedFormatsTest {
     @Test
     public void testAllKeysPresentInPropertiesFiles() {
         final String path = LocalizedFormats.class.getName().replaceAll("\\.", "/");
-        for (final String language : new String[] { "fr" } ) {
+        for (final String language : new String[] {"fr"}) {
             ResourceBundle bundle =
                 ResourceBundle.getBundle("assets/" + path, new Locale(language));
             for (LocalizedFormats message : LocalizedFormats.values()) {
@@ -55,7 +55,7 @@ public class LocalizedFormatsTest {
     @Test
     public void testAllPropertiesCorrespondToKeys() {
         final String path = LocalizedFormats.class.getName().replaceAll("\\.", "/");
-        for (final String language : new String[] { "fr" } ) {
+        for (final String language : new String[] {"fr"}) {
             ResourceBundle bundle =
                 ResourceBundle.getBundle("assets/" + path, new Locale(language));
             for (final Enumeration<String> keys = bundle.getKeys(); keys.hasMoreElements();) {
@@ -89,7 +89,7 @@ public class LocalizedFormatsTest {
 
     @Test
     public void testVariablePartsConsistency() {
-        for (final String language : new String[] { "fr" } ) {
+        for (final String language : new String[] {"fr"}) {
             Locale locale = new Locale(language);
             for (LocalizedFormats message : LocalizedFormats.values()) {
                 MessageFormat source     = new MessageFormat(message.getSourceString());

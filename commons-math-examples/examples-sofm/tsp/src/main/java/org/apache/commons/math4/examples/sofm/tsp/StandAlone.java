@@ -6,7 +6,7 @@
  * (the "License"); you may not use this file except in compliance with
  * the License.  You may obtain a copy of the License at
  *
- *     http://www.apache.org/licenses/LICENSE-2.0
+ *      http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -35,22 +35,27 @@ import org.apache.commons.rng.simple.RandomSource;
  */
 @Command(description = "Run the application",
          mixinStandardHelpOptions = true)
-public class StandAlone implements Callable<Void> {
+public final class StandAlone implements Callable<Void> {
+    /** The neurons per city. */
     @Option(names = { "-n" }, paramLabel = "neuronsPerCity",
             description = "Average number of neurons per city (default: ${DEFAULT-VALUE}).")
-    private double _neuronsPerCity = 2.2;
+    private double neuronsPerCity = 2.2;
+    /** The number of samples. */
     @Option(names = { "-s" }, paramLabel = "numSamples",
             description = "Number of samples for the training (default: ${DEFAULT-VALUE}).")
-    private long _numSamples = 2000L;
+    private long numSamples = 2000L;
+    /** The number of jobs. */
     @Option(names = { "-j" }, paramLabel = "numJobs",
             description = "Number of concurrent tasks (default: ${DEFAULT-VALUE}).")
-    private int _numJobs = Runtime.getRuntime().availableProcessors();
+    private int numJobs = Runtime.getRuntime().availableProcessors();
+    /** The maximum number of trials. */
     @Option(names = { "-m" }, paramLabel = "maxTrials",
             description = "Maximal number of trials (default: ${DEFAULT-VALUE}).")
-    private int _maxTrials = 10;
+    private int maxTrials = 10;
+    /** The output file. */
     @Option(names = { "-o" }, paramLabel = "outputFile", required = true,
             description = "Output file name.")
-    private String _outputFile = null;
+    private String outputFile = null;
 
     /**
      * Program entry point.
@@ -62,7 +67,7 @@ public class StandAlone implements Callable<Void> {
     }
 
     @Override
-    public Void call() throws Exception {
+    public Void call() throws FileNotFoundException, UnsupportedEncodingException {
         // Cities (in optimal travel order).
         final City[] cities = new City[] {
             new City("o0", 0, 0),
@@ -87,11 +92,11 @@ public class StandAlone implements Callable<Void> {
         double minDist = Double.POSITIVE_INFINITY;
 
         int count = 0;
-        while (count++ < _maxTrials) {
+        while (count++ < maxTrials) {
             final City[] travel = TravellingSalesmanSolver.solve(cities,
-                                                                 _neuronsPerCity,
-                                                                 _numSamples,
-                                                                 _numJobs,
+                                                                 neuronsPerCity,
+                                                                 numSamples,
+                                                                 numJobs,
                                                                  rng);
             final int numCities = City.unique(travel).size();
             if (numCities > maxCities) {
@@ -108,7 +113,7 @@ public class StandAlone implements Callable<Void> {
             }
         }
 
-        printSummary(_outputFile, best, computeDistance(cities));
+        printSummary(outputFile, best, computeDistance(cities));
 
         return null;
     }
@@ -146,8 +151,9 @@ public class StandAlone implements Callable<Void> {
      */
     private static void printSummary(String fileName,
                                      City[] travel,
-                                     double optimalDistance) throws FileNotFoundException, UnsupportedEncodingException {
-        try (final PrintWriter out = new PrintWriter(fileName, StandardCharsets.UTF_8.name())) {
+                                     double optimalDistance)
+                                     throws FileNotFoundException, UnsupportedEncodingException {
+        try (PrintWriter out = new PrintWriter(fileName, StandardCharsets.UTF_8.name())) {
             out.println("# Number of unique cities: " + City.unique(travel).size());
             out.println("# Travel distance: " + computeDistance(travel));
             out.println("# Optimal travel distance: " + optimalDistance);

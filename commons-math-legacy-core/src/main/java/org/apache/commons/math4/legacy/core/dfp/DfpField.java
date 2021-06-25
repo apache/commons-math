@@ -529,48 +529,47 @@ public class DfpField implements Field<Dfp> {
      * @return an array of two {@link Dfp Dfp} instances which sum equals a
      */
     private Dfp[] split(final String a) {
-      Dfp result[] = new Dfp[2];
-      boolean leading = true;
-      int sp = 0;
-      int sig = 0;
+        Dfp[] result = new Dfp[2];
+        boolean leading = true;
+        int sp = 0;
+        int sig = 0;
 
-      char[] buf = new char[a.length()];
+        char[] buf = new char[a.length()];
 
-      for (int i = 0; i < buf.length; i++) {
-        buf[i] = a.charAt(i);
+        for (int i = 0; i < buf.length; i++) {
+            buf[i] = a.charAt(i);
 
-        if (buf[i] >= '1' && buf[i] <= '9') {
-            leading = false;
+            if (buf[i] >= '1' && buf[i] <= '9') {
+                leading = false;
+            }
+
+            if (buf[i] == '.') {
+                sig += (400 - sig) % 4;
+                leading = false;
+            }
+
+            if (sig == (radixDigits / 2) * 4) {
+                sp = i;
+                break;
+            }
+
+            if (buf[i] >= '0' && buf[i] <= '9' && !leading) {
+                sig++;
+            }
         }
 
-        if (buf[i] == '.') {
-          sig += (400 - sig) % 4;
-          leading = false;
+        result[0] = new Dfp(this, String.valueOf(buf, 0, sp));
+
+        for (int i = 0; i < buf.length; i++) {
+            buf[i] = a.charAt(i);
+            if (buf[i] >= '0' && buf[i] <= '9' && i < sp) {
+                buf[i] = '0';
+            }
         }
 
-        if (sig == (radixDigits / 2) * 4) {
-          sp = i;
-          break;
-        }
+        result[1] = new Dfp(this, String.valueOf(buf));
 
-        if (buf[i] >= '0' && buf[i] <= '9' && !leading) {
-            sig ++;
-        }
-      }
-
-      result[0] = new Dfp(this, new String(buf, 0, sp));
-
-      for (int i = 0; i < buf.length; i++) {
-        buf[i] = a.charAt(i);
-        if (buf[i] >= '0' && buf[i] <= '9' && i < sp) {
-            buf[i] = '0';
-        }
-      }
-
-      result[1] = new Dfp(this, new String(buf));
-
-      return result;
-
+        return result;
     }
 
     /** Recompute the high precision string constants.

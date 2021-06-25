@@ -45,7 +45,7 @@ public class LocationFinderTest {
      */
     @Test
     public void test2x2Network() {
-        final FeatureInitializer[] initArray = { init };
+        final FeatureInitializer[] initArray = {init};
         final NeuronSquareMesh2D map = new NeuronSquareMesh2D(2, false,
                                                               2, false,
                                                               SquareNeighbourhood.VON_NEUMANN,

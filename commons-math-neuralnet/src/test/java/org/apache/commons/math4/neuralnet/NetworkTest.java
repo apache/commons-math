@@ -6,7 +6,7 @@
  * (the "License"); you may not use this file except in compliance with
  * the License.  You may obtain a copy of the License at
  *
- *     http://www.apache.org/licenses/LICENSE-2.0
+ *      http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -42,7 +42,7 @@ public class NetworkTest {
 
     @Test
     public void testGetFeaturesSize() {
-        final FeatureInitializer[] initArray = { init, init, init };
+        final FeatureInitializer[] initArray = {init, init, init};
 
         final Network net = new NeuronSquareMesh2D(2, false,
                                                    2, false,
@@ -61,7 +61,7 @@ public class NetworkTest {
      */
     @Test
     public void testDeleteLink() {
-        final FeatureInitializer[] initArray = { init };
+        final FeatureInitializer[] initArray = {init};
         final Network net = new NeuronSquareMesh2D(2, false,
                                                    2, false,
                                                    SquareNeighbourhood.VON_NEUMANN,
@@ -90,7 +90,7 @@ public class NetworkTest {
      */
     @Test
     public void testDeleteNeuron() {
-        final FeatureInitializer[] initArray = { init };
+        final FeatureInitializer[] initArray = {init};
         final Network net = new NeuronSquareMesh2D(2, false,
                                                    2, false,
                                                    SquareNeighbourhood.VON_NEUMANN,
@@ -104,7 +104,9 @@ public class NetworkTest {
 
         try {
             net.getNeuron(1);
-        } catch (NoSuchElementException expected) {}
+        } catch (NoSuchElementException expected) {
+          // Ignore
+        }
 
         Assert.assertEquals(1, net.getNeighbours(net.getNeuron(0)).size());
         Assert.assertEquals(1, net.getNeighbours(net.getNeuron(3)).size());
@@ -112,7 +114,7 @@ public class NetworkTest {
 
     @Test
     public void testIterationOrder() {
-        final FeatureInitializer[] initArray = { init };
+        final FeatureInitializer[] initArray = {init};
         final Network net = new NeuronSquareMesh2D(4, false,
                                                    3, true,
                                                    SquareNeighbourhood.VON_NEUMANN,
@@ -142,7 +144,7 @@ public class NetworkTest {
      */
     @Test
     public void testCopy() {
-        final FeatureInitializer[] initArray = { init };
+        final FeatureInitializer[] initArray = {init};
         final Network net = new NeuronSquareMesh2D(2, false,
                                                    2, false,
                                                    SquareNeighbourhood.VON_NEUMANN,
@@ -177,7 +179,7 @@ public class NetworkTest {
     public void testSerialize()
         throws IOException,
                ClassNotFoundException {
-        final FeatureInitializer[] initArray = { init };
+        final FeatureInitializer[] initArray = {init};
         final Network out = new NeuronSquareMesh2D(4, false,
                                                    3, true,
                                                    SquareNeighbourhood.VON_NEUMANN,

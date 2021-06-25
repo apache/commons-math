@@ -26,7 +26,7 @@ import org.apache.commons.math4.neuralnet.sofm.util.QuasiSigmoidDecayFunction;
  *
  * @since 3.3
  */
-public class LearningFactorFunctionFactory {
+public final class LearningFactorFunctionFactory {
     /** Class contains only static methods. */
     private LearningFactorFunctionFactory() {}
 

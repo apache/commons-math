@@ -6,7 +6,7 @@
  * (the "License"); you may not use this file except in compliance with
  * the License.  You may obtain a copy of the License at
  *
- *     http://www.apache.org/licenses/LICENSE-2.0
+ *      http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -49,9 +49,9 @@ public class NeuronSquareMesh2DTest {
     private final UniformRandomProvider rng = RandomSource.create(RandomSource.SPLIT_MIX_64);
     private final FeatureInitializer init = FeatureInitializerFactory.uniform(rng, 0, 2);
 
-    @Test(expected=IllegalArgumentException.class)
+    @Test(expected = IllegalArgumentException.class)
     public void testMinimalNetworkSize1() {
-        final FeatureInitializer[] initArray = { init };
+        final FeatureInitializer[] initArray = {init};
 
         new NeuronSquareMesh2D(1, false,
                                2, false,
@@ -59,9 +59,9 @@ public class NeuronSquareMesh2DTest {
                                initArray);
     }
 
-    @Test(expected=IllegalArgumentException.class)
+    @Test(expected = IllegalArgumentException.class)
     public void testMinimalNetworkSize2() {
-        final FeatureInitializer[] initArray = { init };
+        final FeatureInitializer[] initArray = {init};
 
         new NeuronSquareMesh2D(2, false,
                                0, false,
@@ -71,7 +71,7 @@ public class NeuronSquareMesh2DTest {
 
     @Test
     public void testGetFeaturesSize() {
-        final FeatureInitializer[] initArray = { init, init, init };
+        final FeatureInitializer[] initArray = {init, init, init};
 
         final Network net = new NeuronSquareMesh2D(2, false,
                                                    2, false,
@@ -91,7 +91,7 @@ public class NeuronSquareMesh2DTest {
      */
     @Test
     public void test2x2Network() {
-        final FeatureInitializer[] initArray = { init };
+        final FeatureInitializer[] initArray = {init};
         final Network net = new NeuronSquareMesh2D(2, false,
                                                    2, false,
                                                    SquareNeighbourhood.VON_NEUMANN,
@@ -99,9 +99,9 @@ public class NeuronSquareMesh2DTest {
         Collection<Neuron> neighbours;
 
         // Neurons 0 and 3.
-        for (long id : new long[] { 0, 3 }) {
+        for (long id : new long[] {0, 3 }) {
             neighbours = net.getNeighbours(net.getNeuron(id));
-            for (long nId : new long[] { 1, 2 }) {
+            for (long nId : new long[] {1, 2 }) {
                 Assert.assertTrue(neighbours.contains(net.getNeuron(nId)));
             }
             // Ensures that no other neurons is in the neighbourhood set.
@@ -109,9 +109,9 @@ public class NeuronSquareMesh2DTest {
         }
 
         // Neurons 1 and 2.
-        for (long id : new long[] { 1, 2 }) {
+        for (long id : new long[] {1, 2 }) {
             neighbours = net.getNeighbours(net.getNeuron(id));
-            for (long nId : new long[] { 0, 3 }) {
+            for (long nId : new long[] {0, 3 }) {
                 Assert.assertTrue(neighbours.contains(net.getNeuron(nId)));
             }
             // Ensures that no other neurons is in the neighbourhood set.
@@ -129,7 +129,7 @@ public class NeuronSquareMesh2DTest {
      */
     @Test
     public void test2x2Network2() {
-        final FeatureInitializer[] initArray = { init };
+        final FeatureInitializer[] initArray = {init};
         final Network net = new NeuronSquareMesh2D(2, false,
                                                    2, false,
                                                    SquareNeighbourhood.MOORE,
@@ -137,9 +137,9 @@ public class NeuronSquareMesh2DTest {
         Collection<Neuron> neighbours;
 
         // All neurons
-        for (long id : new long[] { 0, 1, 2, 3 }) {
+        for (long id : new long[] {0, 1, 2, 3 }) {
             neighbours = net.getNeighbours(net.getNeuron(id));
-            for (long nId : new long[] { 0, 1, 2, 3 }) {
+            for (long nId : new long[] {0, 1, 2, 3 }) {
                 if (id != nId) {
                     Assert.assertTrue(neighbours.contains(net.getNeuron(nId)));
                 }
@@ -157,7 +157,7 @@ public class NeuronSquareMesh2DTest {
      */
     @Test
     public void test3x2CylinderNetwork() {
-        final FeatureInitializer[] initArray = { init };
+        final FeatureInitializer[] initArray = {init};
         final Network net = new NeuronSquareMesh2D(2, false,
                                                    3, true,
                                                    SquareNeighbourhood.VON_NEUMANN,
@@ -166,7 +166,7 @@ public class NeuronSquareMesh2DTest {
 
         // Neuron 0.
         neighbours = net.getNeighbours(net.getNeuron(0));
-        for (long nId : new long[] { 1, 2, 3 }) {
+        for (long nId : new long[] {1, 2, 3 }) {
             Assert.assertTrue(neighbours.contains(net.getNeuron(nId)));
         }
         // Ensures that no other neurons is in the neighbourhood set.
@@ -174,7 +174,7 @@ public class NeuronSquareMesh2DTest {
 
         // Neuron 1.
         neighbours = net.getNeighbours(net.getNeuron(1));
-        for (long nId : new long[] { 0, 2, 4 }) {
+        for (long nId : new long[] {0, 2, 4 }) {
             Assert.assertTrue(neighbours.contains(net.getNeuron(nId)));
         }
         // Ensures that no other neurons is in the neighbourhood set.
@@ -182,7 +182,7 @@ public class NeuronSquareMesh2DTest {
 
         // Neuron 2.
         neighbours = net.getNeighbours(net.getNeuron(2));
-        for (long nId : new long[] { 0, 1, 5 }) {
+        for (long nId : new long[] {0, 1, 5 }) {
             Assert.assertTrue(neighbours.contains(net.getNeuron(nId)));
         }
         // Ensures that no other neurons is in the neighbourhood set.
@@ -190,7 +190,7 @@ public class NeuronSquareMesh2DTest {
 
         // Neuron 3.
         neighbours = net.getNeighbours(net.getNeuron(3));
-        for (long nId : new long[] { 0, 4, 5 }) {
+        for (long nId : new long[] {0, 4, 5 }) {
             Assert.assertTrue(neighbours.contains(net.getNeuron(nId)));
         }
         // Ensures that no other neurons is in the neighbourhood set.
@@ -198,7 +198,7 @@ public class NeuronSquareMesh2DTest {
 
         // Neuron 4.
         neighbours = net.getNeighbours(net.getNeuron(4));
-        for (long nId : new long[] { 1, 3, 5 }) {
+        for (long nId : new long[] {1, 3, 5 }) {
             Assert.assertTrue(neighbours.contains(net.getNeuron(nId)));
         }
         // Ensures that no other neurons is in the neighbourhood set.
@@ -206,7 +206,7 @@ public class NeuronSquareMesh2DTest {
 
         // Neuron 5.
         neighbours = net.getNeighbours(net.getNeuron(5));
-        for (long nId : new long[] { 2, 3, 4 }) {
+        for (long nId : new long[] {2, 3, 4 }) {
             Assert.assertTrue(neighbours.contains(net.getNeuron(nId)));
         }
         // Ensures that no other neurons is in the neighbourhood set.
@@ -223,7 +223,7 @@ public class NeuronSquareMesh2DTest {
      */
     @Test
     public void test3x2CylinderNetwork2() {
-        final FeatureInitializer[] initArray = { init };
+        final FeatureInitializer[] initArray = {init};
         final Network net = new NeuronSquareMesh2D(2, false,
                                                    3, true,
                                                    SquareNeighbourhood.MOORE,
@@ -231,9 +231,9 @@ public class NeuronSquareMesh2DTest {
         Collection<Neuron> neighbours;
 
         // All neurons.
-        for (long id : new long[] { 0, 1, 2, 3, 4, 5 }) {
+        for (long id : new long[] {0, 1, 2, 3, 4, 5 }) {
             neighbours = net.getNeighbours(net.getNeuron(id));
-            for (long nId : new long[] { 0, 1, 2, 3, 4, 5 }) {
+            for (long nId : new long[] {0, 1, 2, 3, 4, 5 }) {
                 if (id != nId) {
                     Assert.assertTrue("id=" + id + " nId=" + nId,
                                       neighbours.contains(net.getNeuron(nId)));
@@ -255,7 +255,7 @@ public class NeuronSquareMesh2DTest {
      */
     @Test
     public void test3x3TorusNetwork() {
-        final FeatureInitializer[] initArray = { init };
+        final FeatureInitializer[] initArray = {init};
         final Network net = new NeuronSquareMesh2D(3, true,
                                                    3, true,
                                                    SquareNeighbourhood.VON_NEUMANN,
@@ -264,7 +264,7 @@ public class NeuronSquareMesh2DTest {
 
         // Neuron 0.
         neighbours = net.getNeighbours(net.getNeuron(0));
-        for (long nId : new long[] { 1, 2, 3, 6 }) {
+        for (long nId : new long[] {1, 2, 3, 6 }) {
             Assert.assertTrue(neighbours.contains(net.getNeuron(nId)));
         }
         // Ensures that no other neurons is in the neighbourhood set.
@@ -272,7 +272,7 @@ public class NeuronSquareMesh2DTest {
 
         // Neuron 1.
         neighbours = net.getNeighbours(net.getNeuron(1));
-        for (long nId : new long[] { 0, 2, 4, 7 }) {
+        for (long nId : new long[] {0, 2, 4, 7 }) {
             Assert.assertTrue(neighbours.contains(net.getNeuron(nId)));
         }
         // Ensures that no other neurons is in the neighbourhood set.
@@ -280,7 +280,7 @@ public class NeuronSquareMesh2DTest {
 
         // Neuron 2.
         neighbours = net.getNeighbours(net.getNeuron(2));
-        for (long nId : new long[] { 0, 1, 5, 8 }) {
+        for (long nId : new long[] {0, 1, 5, 8 }) {
             Assert.assertTrue(neighbours.contains(net.getNeuron(nId)));
         }
         // Ensures that no other neurons is in the neighbourhood set.
@@ -288,7 +288,7 @@ public class NeuronSquareMesh2DTest {
 
         // Neuron 3.
         neighbours = net.getNeighbours(net.getNeuron(3));
-        for (long nId : new long[] { 0, 4, 5, 6 }) {
+        for (long nId : new long[] {0, 4, 5, 6 }) {
             Assert.assertTrue(neighbours.contains(net.getNeuron(nId)));
         }
         // Ensures that no other neurons is in the neighbourhood set.
@@ -296,7 +296,7 @@ public class NeuronSquareMesh2DTest {
 
         // Neuron 4.
         neighbours = net.getNeighbours(net.getNeuron(4));
-        for (long nId : new long[] { 1, 3, 5, 7 }) {
+        for (long nId : new long[] {1, 3, 5, 7 }) {
             Assert.assertTrue(neighbours.contains(net.getNeuron(nId)));
         }
         // Ensures that no other neurons is in the neighbourhood set.
@@ -304,7 +304,7 @@ public class NeuronSquareMesh2DTest {
 
         // Neuron 5.
         neighbours = net.getNeighbours(net.getNeuron(5));
-        for (long nId : new long[] { 2, 3, 4, 8 }) {
+        for (long nId : new long[] {2, 3, 4, 8 }) {
             Assert.assertTrue(neighbours.contains(net.getNeuron(nId)));
         }
         // Ensures that no other neurons is in the neighbourhood set.
@@ -312,7 +312,7 @@ public class NeuronSquareMesh2DTest {
 
         // Neuron 6.
         neighbours = net.getNeighbours(net.getNeuron(6));
-        for (long nId : new long[] { 0, 3, 7, 8 }) {
+        for (long nId : new long[] {0, 3, 7, 8 }) {
             Assert.assertTrue(neighbours.contains(net.getNeuron(nId)));
         }
         // Ensures that no other neurons is in the neighbourhood set.
@@ -320,7 +320,7 @@ public class NeuronSquareMesh2DTest {
 
         // Neuron 7.
         neighbours = net.getNeighbours(net.getNeuron(7));
-        for (long nId : new long[] { 1, 4, 6, 8 }) {
+        for (long nId : new long[] {1, 4, 6, 8 }) {
             Assert.assertTrue(neighbours.contains(net.getNeuron(nId)));
         }
         // Ensures that no other neurons is in the neighbourhood set.
@@ -328,7 +328,7 @@ public class NeuronSquareMesh2DTest {
 
         // Neuron 8.
         neighbours = net.getNeighbours(net.getNeuron(8));
-        for (long nId : new long[] { 2, 5, 6, 7 }) {
+        for (long nId : new long[] {2, 5, 6, 7 }) {
             Assert.assertTrue(neighbours.contains(net.getNeuron(nId)));
         }
         // Ensures that no other neurons is in the neighbourhood set.
@@ -348,7 +348,7 @@ public class NeuronSquareMesh2DTest {
      */
     @Test
     public void test3x3TorusNetwork2() {
-        final FeatureInitializer[] initArray = { init };
+        final FeatureInitializer[] initArray = {init};
         final Network net = new NeuronSquareMesh2D(3, true,
                                                    3, true,
                                                    SquareNeighbourhood.MOORE,
@@ -356,9 +356,9 @@ public class NeuronSquareMesh2DTest {
         Collection<Neuron> neighbours;
 
         // All neurons.
-        for (long id : new long[] { 0, 1, 2, 3, 4, 5, 6, 7, 8 }) {
+        for (long id : new long[] {0, 1, 2, 3, 4, 5, 6, 7, 8 }) {
             neighbours = net.getNeighbours(net.getNeuron(id));
-            for (long nId : new long[] { 0, 1, 2, 3, 4, 5, 6, 7, 8 }) {
+            for (long nId : new long[] {0, 1, 2, 3, 4, 5, 6, 7, 8 }) {
                 if (id != nId) {
                     Assert.assertTrue("id=" + id + " nId=" + nId,
                                       neighbours.contains(net.getNeuron(nId)));
@@ -380,7 +380,7 @@ public class NeuronSquareMesh2DTest {
      */
     @Test
     public void test3x3CylinderNetwork() {
-        final FeatureInitializer[] initArray = { init };
+        final FeatureInitializer[] initArray = {init};
         final Network net = new NeuronSquareMesh2D(3, false,
                                                    3, true,
                                                    SquareNeighbourhood.MOORE,
@@ -389,7 +389,7 @@ public class NeuronSquareMesh2DTest {
 
         // Neuron 0.
         neighbours = net.getNeighbours(net.getNeuron(0));
-        for (long nId : new long[] { 1, 2, 3, 4, 5}) {
+        for (long nId : new long[] {1, 2, 3, 4, 5}) {
             Assert.assertTrue(neighbours.contains(net.getNeuron(nId)));
         }
         // Ensures that no other neurons is in the neighbourhood set.
@@ -397,7 +397,7 @@ public class NeuronSquareMesh2DTest {
 
         // Neuron 1.
         neighbours = net.getNeighbours(net.getNeuron(1));
-        for (long nId : new long[] { 0, 2, 3, 4, 5 }) {
+        for (long nId : new long[] {0, 2, 3, 4, 5 }) {
             Assert.assertTrue(neighbours.contains(net.getNeuron(nId)));
         }
         // Ensures that no other neurons is in the neighbourhood set.
@@ -405,7 +405,7 @@ public class NeuronSquareMesh2DTest {
 
         // Neuron 2.
         neighbours = net.getNeighbours(net.getNeuron(2));
-        for (long nId : new long[] { 0, 1, 3, 4, 5 }) {
+        for (long nId : new long[] {0, 1, 3, 4, 5 }) {
             Assert.assertTrue(neighbours.contains(net.getNeuron(nId)));
         }
         // Ensures that no other neurons is in the neighbourhood set.
@@ -413,7 +413,7 @@ public class NeuronSquareMesh2DTest {
 
         // Neuron 3.
         neighbours = net.getNeighbours(net.getNeuron(3));
-        for (long nId : new long[] { 0, 1, 2, 4, 5, 6, 7, 8 }) {
+        for (long nId : new long[] {0, 1, 2, 4, 5, 6, 7, 8 }) {
             Assert.assertTrue(neighbours.contains(net.getNeuron(nId)));
         }
         // Ensures that no other neurons is in the neighbourhood set.
@@ -421,7 +421,7 @@ public class NeuronSquareMesh2DTest {
 
         // Neuron 4.
         neighbours = net.getNeighbours(net.getNeuron(4));
-        for (long nId : new long[] { 0, 1, 2, 3, 5, 6, 7, 8 }) {
+        for (long nId : new long[] {0, 1, 2, 3, 5, 6, 7, 8 }) {
             Assert.assertTrue(neighbours.contains(net.getNeuron(nId)));
         }
         // Ensures that no other neurons is in the neighbourhood set.
@@ -429,7 +429,7 @@ public class NeuronSquareMesh2DTest {
 
         // Neuron 5.
         neighbours = net.getNeighbours(net.getNeuron(5));
-        for (long nId : new long[] { 0, 1, 2, 3, 4, 6, 7, 8 }) {
+        for (long nId : new long[] {0, 1, 2, 3, 4, 6, 7, 8 }) {
             Assert.assertTrue(neighbours.contains(net.getNeuron(nId)));
         }
         // Ensures that no other neurons is in the neighbourhood set.
@@ -437,7 +437,7 @@ public class NeuronSquareMesh2DTest {
 
         // Neuron 6.
         neighbours = net.getNeighbours(net.getNeuron(6));
-        for (long nId : new long[] { 3, 4, 5, 7, 8 }) {
+        for (long nId : new long[] {3, 4, 5, 7, 8 }) {
             Assert.assertTrue(neighbours.contains(net.getNeuron(nId)));
         }
         // Ensures that no other neurons is in the neighbourhood set.
@@ -445,7 +445,7 @@ public class NeuronSquareMesh2DTest {
 
         // Neuron 7.
         neighbours = net.getNeighbours(net.getNeuron(7));
-        for (long nId : new long[] { 3, 4, 5, 6, 8 }) {
+        for (long nId : new long[] {3, 4, 5, 6, 8 }) {
             Assert.assertTrue(neighbours.contains(net.getNeuron(nId)));
         }
         // Ensures that no other neurons is in the neighbourhood set.
@@ -453,7 +453,7 @@ public class NeuronSquareMesh2DTest {
 
         // Neuron 8.
         neighbours = net.getNeighbours(net.getNeuron(8));
-        for (long nId : new long[] { 3, 4, 5, 6, 7 }) {
+        for (long nId : new long[] {3, 4, 5, 6, 7 }) {
             Assert.assertTrue(neighbours.contains(net.getNeuron(nId)));
         }
         // Ensures that no other neurons is in the neighbourhood set.
@@ -473,7 +473,7 @@ public class NeuronSquareMesh2DTest {
      */
     @Test
     public void test3x3CylinderNetwork2() {
-        final FeatureInitializer[] initArray = { init };
+        final FeatureInitializer[] initArray = {init};
         final Network net = new NeuronSquareMesh2D(3, false,
                                                    3, false,
                                                    SquareNeighbourhood.MOORE,
@@ -482,7 +482,7 @@ public class NeuronSquareMesh2DTest {
 
         // Neuron 0.
         neighbours = net.getNeighbours(net.getNeuron(0));
-        for (long nId : new long[] { 1, 3, 4}) {
+        for (long nId : new long[] {1, 3, 4}) {
             Assert.assertTrue(neighbours.contains(net.getNeuron(nId)));
         }
         // Ensures that no other neurons is in the neighbourhood set.
@@ -490,7 +490,7 @@ public class NeuronSquareMesh2DTest {
 
         // Neuron 1.
         neighbours = net.getNeighbours(net.getNeuron(1));
-        for (long nId : new long[] { 0, 2, 3, 4, 5 }) {
+        for (long nId : new long[] {0, 2, 3, 4, 5 }) {
             Assert.assertTrue(neighbours.contains(net.getNeuron(nId)));
         }
         // Ensures that no other neurons is in the neighbourhood set.
@@ -498,7 +498,7 @@ public class NeuronSquareMesh2DTest {
 
         // Neuron 2.
         neighbours = net.getNeighbours(net.getNeuron(2));
-        for (long nId : new long[] { 1, 4, 5 }) {
+        for (long nId : new long[] {1, 4, 5 }) {
             Assert.assertTrue(neighbours.contains(net.getNeuron(nId)));
         }
         // Ensures that no other neurons is in the neighbourhood set.
@@ -506,7 +506,7 @@ public class NeuronSquareMesh2DTest {
 
         // Neuron 3.
         neighbours = net.getNeighbours(net.getNeuron(3));
-        for (long nId : new long[] { 0, 1, 4, 6, 7 }) {
+        for (long nId : new long[] {0, 1, 4, 6, 7 }) {
             Assert.assertTrue(neighbours.contains(net.getNeuron(nId)));
         }
         // Ensures that no other neurons is in the neighbourhood set.
@@ -514,7 +514,7 @@ public class NeuronSquareMesh2DTest {
 
         // Neuron 4.
         neighbours = net.getNeighbours(net.getNeuron(4));
-        for (long nId : new long[] { 0, 1, 2, 3, 5, 6, 7, 8 }) {
+        for (long nId : new long[] {0, 1, 2, 3, 5, 6, 7, 8 }) {
             Assert.assertTrue(neighbours.contains(net.getNeuron(nId)));
         }
         // Ensures that no other neurons is in the neighbourhood set.
@@ -522,7 +522,7 @@ public class NeuronSquareMesh2DTest {
 
         // Neuron 5.
         neighbours = net.getNeighbours(net.getNeuron(5));
-        for (long nId : new long[] { 1, 2, 4, 7, 8 }) {
+        for (long nId : new long[] {1, 2, 4, 7, 8 }) {
             Assert.assertTrue(neighbours.contains(net.getNeuron(nId)));
         }
         // Ensures that no other neurons is in the neighbourhood set.
@@ -530,7 +530,7 @@ public class NeuronSquareMesh2DTest {
 
         // Neuron 6.
         neighbours = net.getNeighbours(net.getNeuron(6));
-        for (long nId : new long[] { 3, 4, 7 }) {
+        for (long nId : new long[] {3, 4, 7 }) {
             Assert.assertTrue(neighbours.contains(net.getNeuron(nId)));
         }
         // Ensures that no other neurons is in the neighbourhood set.
@@ -538,7 +538,7 @@ public class NeuronSquareMesh2DTest {
 
         // Neuron 7.
         neighbours = net.getNeighbours(net.getNeuron(7));
-        for (long nId : new long[] { 3, 4, 5, 6, 8 }) {
+        for (long nId : new long[] {3, 4, 5, 6, 8 }) {
             Assert.assertTrue(neighbours.contains(net.getNeuron(nId)));
         }
         // Ensures that no other neurons is in the neighbourhood set.
@@ -546,7 +546,7 @@ public class NeuronSquareMesh2DTest {
 
         // Neuron 8.
         neighbours = net.getNeighbours(net.getNeuron(8));
-        for (long nId : new long[] { 4, 5, 7 }) {
+        for (long nId : new long[] {4, 5, 7 }) {
             Assert.assertTrue(neighbours.contains(net.getNeuron(nId)));
         }
         // Ensures that no other neurons is in the neighbourhood set.
@@ -572,7 +572,7 @@ public class NeuronSquareMesh2DTest {
      */
     @Test
     public void testConcentricNeighbourhood() {
-        final FeatureInitializer[] initArray = { init };
+        final FeatureInitializer[] initArray = {init};
         final Network net = new NeuronSquareMesh2D(5, true,
                                                    5, true,
                                                    SquareNeighbourhood.VON_NEUMANN,
@@ -583,7 +583,7 @@ public class NeuronSquareMesh2DTest {
 
         // Level-1 neighbourhood.
         neighbours = net.getNeighbours(net.getNeuron(12));
-        for (long nId : new long[] { 7, 11, 13, 17 }) {
+        for (long nId : new long[] {7, 11, 13, 17 }) {
             Assert.assertTrue(neighbours.contains(net.getNeuron(nId)));
         }
         // Ensures that no other neurons is in the neighbourhood set.
@@ -595,7 +595,7 @@ public class NeuronSquareMesh2DTest {
         exclude.addAll(neighbours);
         // 3. Retrieve level-2 neighbourhood.
         neighbours = net.getNeighbours(neighbours, exclude);
-        for (long nId : new long[] { 6, 8, 16, 18, 2, 10, 14, 22 }) {
+        for (long nId : new long[] {6, 8, 16, 18, 2, 10, 14, 22 }) {
             Assert.assertTrue(neighbours.contains(net.getNeuron(nId)));
         }
         // Ensures that no other neurons is in the neighbourhood set.
@@ -621,7 +621,7 @@ public class NeuronSquareMesh2DTest {
      */
     @Test
     public void testConcentricNeighbourhood2() {
-        final FeatureInitializer[] initArray = { init };
+        final FeatureInitializer[] initArray = {init};
         final Network net = new NeuronSquareMesh2D(5, true,
                                                    5, true,
                                                    SquareNeighbourhood.MOORE,
@@ -632,7 +632,7 @@ public class NeuronSquareMesh2DTest {
 
         // Level-1 neighbourhood.
         neighbours = net.getNeighbours(net.getNeuron(8));
-        for (long nId : new long[] { 2, 3, 4, 7, 9, 12, 13, 14 }) {
+        for (long nId : new long[] {2, 3, 4, 7, 9, 12, 13, 14}) {
             Assert.assertTrue(neighbours.contains(net.getNeuron(nId)));
         }
         // Ensures that no other neurons is in the neighbourhood set.
@@ -644,7 +644,7 @@ public class NeuronSquareMesh2DTest {
         exclude.addAll(neighbours);
         // 3. Retrieve level-2 neighbourhood.
         neighbours = net.getNeighbours(neighbours, exclude);
-        for (long nId : new long[] { 1, 6, 11, 16, 17, 18, 19, 15, 10, 5, 0, 20, 24, 23, 22, 21 }) {
+        for (long nId : new long[] {1, 6, 11, 16, 17, 18, 19, 15, 10, 5, 0, 20, 24, 23, 22, 21}) {
             Assert.assertTrue(neighbours.contains(net.getNeuron(nId)));
         }
         // Ensures that no other neurons is in the neighbourhood set.
@@ -655,7 +655,7 @@ public class NeuronSquareMesh2DTest {
     public void testSerialize()
         throws IOException,
                ClassNotFoundException {
-        final FeatureInitializer[] initArray = { init };
+        final FeatureInitializer[] initArray = {init};
         final NeuronSquareMesh2D out = new NeuronSquareMesh2D(4, false,
                                                               3, true,
                                                               SquareNeighbourhood.VON_NEUMANN,
@@ -700,7 +700,7 @@ public class NeuronSquareMesh2DTest {
      */
     @Test
     public void testGetNeuron() {
-        final FeatureInitializer[] initArray = { init };
+        final FeatureInitializer[] initArray = {init};
         final NeuronSquareMesh2D net = new NeuronSquareMesh2D(2, false,
                                                               2, true,
                                                               SquareNeighbourhood.VON_NEUMANN,
@@ -749,7 +749,7 @@ public class NeuronSquareMesh2DTest {
      */
     @Test
     public void testGetNeuronAlongDirection() {
-        final FeatureInitializer[] initArray = { init };
+        final FeatureInitializer[] initArray = {init};
         final NeuronSquareMesh2D net = new NeuronSquareMesh2D(3, false,
                                                               3, false,
                                                               SquareNeighbourhood.VON_NEUMANN,
@@ -810,7 +810,7 @@ public class NeuronSquareMesh2DTest {
      */
     @Test
     public void testGetNeuronAlongDirectionWrappedMap() {
-        final FeatureInitializer[] initArray = { init };
+        final FeatureInitializer[] initArray = {init};
         final NeuronSquareMesh2D net = new NeuronSquareMesh2D(3, true,
                                                               3, true,
                                                               SquareNeighbourhood.VON_NEUMANN,
@@ -854,7 +854,7 @@ public class NeuronSquareMesh2DTest {
 
     @Test
     public void testIterator() {
-        final FeatureInitializer[] initArray = { init };
+        final FeatureInitializer[] initArray = {init};
         final NeuronSquareMesh2D map = new NeuronSquareMesh2D(3, true,
                                                               3, true,
                                                               SquareNeighbourhood.VON_NEUMANN,
@@ -880,7 +880,7 @@ public class NeuronSquareMesh2DTest {
 
     @Test
     public void testDataVisualization() {
-        final FeatureInitializer[] initArray = { init };
+        final FeatureInitializer[] initArray = {init};
         final NeuronSquareMesh2D map = new NeuronSquareMesh2D(3, true,
                                                               3, true,
                                                               SquareNeighbourhood.VON_NEUMANN,
