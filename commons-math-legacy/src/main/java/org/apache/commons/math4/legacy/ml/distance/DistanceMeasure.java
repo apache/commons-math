@@ -16,8 +16,6 @@
  */
 package org.apache.commons.math4.legacy.ml.distance;
 
-import java.io.Serializable;
-
 import org.apache.commons.math4.legacy.exception.DimensionMismatchException;
 
 /**
@@ -25,7 +23,7 @@ import org.apache.commons.math4.legacy.exception.DimensionMismatchException;
  *
  * @since 3.2
  */
-public interface DistanceMeasure extends Serializable {
+public interface DistanceMeasure {
 
     /**
      * Compute the distance between two n-dimensional vectors.
