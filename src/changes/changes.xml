@@ -93,6 +93,12 @@ Caveat:
  nightmare was one of the main reasons for creating more focused
  components.]
 ">
+      <action dev="erans" type="update" issue="MATH-1615">
+        Remove class "StableRandomGenerator" (in package "o.a.c.m.legacy.random").
+      </action>
+      <action dev="erans" type="update" issue="MATH-1614">
+        Refactor "SimplexOptimizer" (in package "o.a.c.m.legacy.optim.nonlinear.scalar.noderiv").
+      </action>
       <action dev="erans" type="fix" issue="MATH-1613">
         Decrease maximum number of iterations in "SimpsonIntegrator" and
         "TrapezoidIntegrator" (due to the available range of the internal
