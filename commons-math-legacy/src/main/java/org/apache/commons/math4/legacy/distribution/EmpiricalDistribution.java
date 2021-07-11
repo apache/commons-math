@@ -112,8 +112,6 @@ public class EmpiricalDistribution extends AbstractRealDistribution
     public static final int DEFAULT_BIN_COUNT = 1000;
     /** Character set for file input. */
     private static final String FILE_CHARSET = "US-ASCII";
-    /** Serializable version identifier. */
-    private static final long serialVersionUID = 5729073523949762654L;
     /** Bins' characteristics. */
     private final List<SummaryStatistics> binStats;
     /** Sample statistics. */
