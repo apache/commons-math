@@ -29,8 +29,6 @@ import org.apache.commons.math4.legacy.analysis.MultivariateFunction;
 import org.apache.commons.math4.legacy.exception.DimensionMismatchException;
 import org.apache.commons.math4.legacy.exception.MathIllegalArgumentException;
 import org.apache.commons.math4.legacy.exception.NotStrictlyPositiveException;
-import org.apache.commons.math4.legacy.exception.NullArgumentException;
-import org.apache.commons.math4.legacy.exception.OutOfRangeException;
 import org.apache.commons.math4.legacy.exception.ZeroException;
 import org.apache.commons.math4.legacy.exception.util.LocalizedFormats;
 import org.apache.commons.math4.legacy.optim.OptimizationData;
@@ -50,7 +48,7 @@ public final class Simplex implements OptimizationData {
     /**
      * Builds from a given set of coordinates.
      *
-     * @param coordinate Reference simplex.
+     * @param referenceSimplex Reference simplex.
      * @throws NotStrictlyPositiveException if the reference simplex does not
      * contain at least one point.
      * @throws DimensionMismatchException if there is a dimension mismatch

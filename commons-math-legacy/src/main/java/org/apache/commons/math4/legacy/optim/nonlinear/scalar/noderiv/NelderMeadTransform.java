@@ -17,7 +17,6 @@
 package org.apache.commons.math4.legacy.optim.nonlinear.scalar.noderiv;
 
 import java.util.Comparator;
-import java.util.function.BiFunction;
 import java.util.function.UnaryOperator;
 
 import org.apache.commons.math4.legacy.analysis.MultivariateFunction;
@@ -77,7 +76,7 @@ public class NelderMeadTransform
     @Override
     public UnaryOperator<Simplex> apply(final MultivariateFunction evaluationFunction,
                                         final Comparator<PointValuePair> comparator) {
-        return (original) -> {
+        return original -> {
             Simplex newSimplex = original;
 
             // The simplex has n + 1 points if dimension is n.
