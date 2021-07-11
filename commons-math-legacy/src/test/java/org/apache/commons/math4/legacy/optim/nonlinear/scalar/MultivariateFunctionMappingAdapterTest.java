@@ -20,9 +20,9 @@ import org.apache.commons.math4.legacy.analysis.MultivariateFunction;
 import org.apache.commons.math4.legacy.optim.InitialGuess;
 import org.apache.commons.math4.legacy.optim.MaxEval;
 import org.apache.commons.math4.legacy.optim.PointValuePair;
-import org.apache.commons.math4.legacy.optim.nonlinear.scalar.noderiv.AbstractSimplex;
-import org.apache.commons.math4.legacy.optim.nonlinear.scalar.noderiv.NelderMeadSimplex;
 import org.apache.commons.math4.legacy.optim.nonlinear.scalar.noderiv.SimplexOptimizer;
+import org.apache.commons.math4.legacy.optim.nonlinear.scalar.noderiv.Simplex;
+import org.apache.commons.math4.legacy.optim.nonlinear.scalar.noderiv.NelderMeadTransform;
 import org.junit.Assert;
 import org.junit.Test;
 
@@ -36,7 +36,7 @@ public class MultivariateFunctionMappingAdapterTest {
                                                      biQuadratic.getUpper());
 
         SimplexOptimizer optimizer = new SimplexOptimizer(1e-10, 1e-30);
-        final AbstractSimplex simplex = new NelderMeadSimplex(new double[][] {
+        final Simplex simplex = Simplex.of(new double[][] {
                 wrapped.boundedToUnbounded(new double[] { 1.5, 2.75 }),
                 wrapped.boundedToUnbounded(new double[] { 1.5, 2.95 }),
                 wrapped.boundedToUnbounded(new double[] { 1.7, 2.90 })
@@ -46,6 +46,7 @@ public class MultivariateFunctionMappingAdapterTest {
             = optimizer.optimize(new MaxEval(300),
                                  new ObjectiveFunction(wrapped),
                                  simplex,
+                                 new NelderMeadTransform(),
                                  GoalType.MINIMIZE,
                                  new InitialGuess(wrapped.boundedToUnbounded(new double[] { 1.5, 2.25 })));
         final double[] bounded = wrapped.unboundedToBounded(optimum.getPoint());
@@ -63,7 +64,7 @@ public class MultivariateFunctionMappingAdapterTest {
                                                      biQuadratic.getUpper());
 
         SimplexOptimizer optimizer = new SimplexOptimizer(1e-10, 1e-30);
-        final AbstractSimplex simplex = new NelderMeadSimplex(new double[][] {
+        final Simplex simplex = Simplex.of(new double[][] {
                 wrapped.boundedToUnbounded(new double[] { 1.5, 2.75 }),
                 wrapped.boundedToUnbounded(new double[] { 1.5, 2.95 }),
                 wrapped.boundedToUnbounded(new double[] { 1.7, 2.90 })
@@ -73,6 +74,7 @@ public class MultivariateFunctionMappingAdapterTest {
             = optimizer.optimize(new MaxEval(100),
                                  new ObjectiveFunction(wrapped),
                                  simplex,
+                                 new NelderMeadTransform(),
                                  GoalType.MINIMIZE,
                                  new InitialGuess(wrapped.boundedToUnbounded(new double[] { 1.5, 2.25 })));
         final double[] bounded = wrapped.unboundedToBounded(optimum.getPoint());
@@ -92,7 +94,7 @@ public class MultivariateFunctionMappingAdapterTest {
                                                      biQuadratic.getUpper());
 
         SimplexOptimizer optimizer = new SimplexOptimizer(1e-10, 1e-30);
-        final AbstractSimplex simplex = new NelderMeadSimplex(new double[][] {
+        final Simplex simplex = Simplex.of(new double[][] {
                 wrapped.boundedToUnbounded(new double[] { 1.5, 2.75 }),
                 wrapped.boundedToUnbounded(new double[] { 1.5, 2.95 }),
                 wrapped.boundedToUnbounded(new double[] { 1.7, 2.90 })
@@ -102,6 +104,7 @@ public class MultivariateFunctionMappingAdapterTest {
             = optimizer.optimize(new MaxEval(300),
                                  new ObjectiveFunction(wrapped),
                                  simplex,
+                                 new NelderMeadTransform(),
                                  GoalType.MINIMIZE,
                                  new InitialGuess(wrapped.boundedToUnbounded(new double[] { 1.5, 2.25 })));
         final double[] bounded = wrapped.unboundedToBounded(optimum.getPoint());
@@ -121,7 +124,7 @@ public class MultivariateFunctionMappingAdapterTest {
                                                      biQuadratic.getUpper());
 
         SimplexOptimizer optimizer = new SimplexOptimizer(1e-13, 1e-30);
-        final AbstractSimplex simplex = new NelderMeadSimplex(new double[][] {
+        final Simplex simplex = Simplex.of(new double[][] {
                 wrapped.boundedToUnbounded(new double[] { 1.5, 2.75 }),
                 wrapped.boundedToUnbounded(new double[] { 1.5, 2.95 }),
                 wrapped.boundedToUnbounded(new double[] { 1.7, 2.90 })
@@ -131,6 +134,7 @@ public class MultivariateFunctionMappingAdapterTest {
             = optimizer.optimize(new MaxEval(200),
                                  new ObjectiveFunction(wrapped),
                                  simplex,
+                                 new NelderMeadTransform(),
                                  GoalType.MINIMIZE,
                                  new InitialGuess(wrapped.boundedToUnbounded(new double[] { 1.5, 2.25 })));
         final double[] bounded = wrapped.unboundedToBounded(optimum.getPoint());

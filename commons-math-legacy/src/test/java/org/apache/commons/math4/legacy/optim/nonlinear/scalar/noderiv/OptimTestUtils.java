@@ -238,32 +238,17 @@ final class OptimTestUtils {
         }
     }
 
+    // https://www.sfu.ca/~ssurjano/rastr.html
     static class Rastrigin implements MultivariateFunction {
-        private double axisratio;
-        private double amplitude;
-
-        Rastrigin() {
-            this(1, 10);
-        }
-
-        Rastrigin(double axisratio, double amplitude) {
-            this.axisratio = axisratio;
-            this.amplitude = amplitude;
-        }
-
+        private static final double A = 10;
         @Override
         public double value(double[] x) {
-            double f = 0;
-            double fac;
-            for (int i = 0; i < x.length; ++i) {
-                fac = AccurateMath.pow(axisratio, (i - 1.) / (x.length - 1.));
-                if (i == 0 && x[i] < 0) {
-                    fac *= 1.;
-                }
-                f += fac * fac * x[i] * x[i] + amplitude
-                    * (1. - AccurateMath.cos(2. * AccurateMath.PI * fac * x[i]));
+            double sum = 0;
+            for (int i = 0; i < x.length; i++) {
+                final double xi = x[i];
+                sum += xi * xi - A * AccurateMath.cos(2 * Math.PI * xi);
             }
-            return f;
+            return A * x.length + sum;
         }
     }
 
@@ -347,12 +332,23 @@ final class OptimTestUtils {
     static double[] point(int n,
                           double value,
                           double jitter) {
+        final double[] ds = new double[n];
+        Arrays.fill(ds, value);
+        return point(ds, jitter);
+    }
+
+    /**
+     * @param point Point.
+     * @param jitter Random noise to add to each {@code value} element.
+     */
+    static double[] point(double[] value,
+                          double jitter) {
         final ContinuousUniformSampler s = new ContinuousUniformSampler(rng(),
                                                                         -jitter,
                                                                         jitter);
-        final double[] ds = new double[n];
-        for (int i = 0; i < n; i++) {
-            ds[i] = value + s.sample();
+        final double[] ds = new double[value.length];
+        for (int i = 0; i < value.length; i++) {
+            ds[i] = value[i] + s.sample();
         }
         return ds;
     }

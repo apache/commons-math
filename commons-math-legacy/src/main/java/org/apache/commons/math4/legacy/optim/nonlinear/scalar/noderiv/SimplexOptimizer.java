@@ -17,6 +17,7 @@
 package org.apache.commons.math4.legacy.optim.nonlinear.scalar.noderiv;
 
 import java.util.Comparator;
+import java.util.function.UnaryOperator;
 
 import org.apache.commons.math4.legacy.analysis.MultivariateFunction;
 import org.apache.commons.math4.legacy.exception.MathUnsupportedOperationException;
@@ -52,9 +53,9 @@ import org.apache.commons.math4.legacy.optim.nonlinear.scalar.MultivariateOptimi
  *  steps.
  * </p>
  * <p>
- *  The simplex update procedure ({@link NelderMeadSimplex} or
- * {@link MultiDirectionalSimplex})  must be passed to the
- * {@code optimize} method.
+ *  The simplex update procedure ({@link NelderMeadTransform} or
+ *  {@link MultiDirectionalTransform}) must be passed to the
+ *  {@code optimize} method.
  * </p>
  * <p>
  *  Each call to {@code optimize} will re-use the start configuration of
@@ -70,25 +71,17 @@ import org.apache.commons.math4.legacy.optim.nonlinear.scalar.MultivariateOptimi
  *  ones.
  * </p>
  * <p>
- *  This simplex optimizer implementation does not directly support constrained
- *  optimization with simple bounds; so, for such optimizations, either a more
- *  dedicated algorithm must be used like
- *  {@link CMAESOptimizer} or {@link BOBYQAOptimizer}, or the objective
- *  function must be wrapped in an adapter like
- *  {@link org.apache.commons.math4.legacy.optim.nonlinear.scalar.MultivariateFunctionMappingAdapter
- *  MultivariateFunctionMappingAdapter} or
- *  {@link org.apache.commons.math4.legacy.optim.nonlinear.scalar.MultivariateFunctionPenaltyAdapter
- *  MultivariateFunctionPenaltyAdapter}.
- *  <br>
+ *  This implementation does not directly support constrained optimization
+ *  with simple bounds.
  *  The call to {@link #optimize(OptimizationData[]) optimize} will throw
  *  {@link MathUnsupportedOperationException} if bounds are passed to it.
  * </p>
- *
- * @since 3.0
  */
 public class SimplexOptimizer extends MultivariateOptimizer {
-    /** Simplex update rule. */
-    private AbstractSimplex simplex;
+    /** Simplex update function factory. */
+    private Simplex.TransformFactory updateRule;
+    /** Current simplex. */
+    private Simplex simplex;
 
     /**
      * @param checker Convergence checker.
@@ -101,7 +94,8 @@ public class SimplexOptimizer extends MultivariateOptimizer {
      * @param rel Relative threshold.
      * @param abs Absolute threshold.
      */
-    public SimplexOptimizer(double rel, double abs) {
+    public SimplexOptimizer(double rel,
+                            double abs) {
         this(new SimpleValueChecker(rel, abs));
     }
 
@@ -112,7 +106,8 @@ public class SimplexOptimizer extends MultivariateOptimizer {
      * {@link MultivariateOptimizer#parseOptimizationData(OptimizationData[])
      * MultivariateOptimizer}, this method will register the following data:
      * <ul>
-     *  <li>{@link AbstractSimplex}</li>
+     *  <li>{@link Simplex}</li>
+     *  <li>{@link Simplex.TransformFactory}</li>
      * </ul>
      * @return {@inheritDoc}
      */
@@ -131,31 +126,32 @@ public class SimplexOptimizer extends MultivariateOptimizer {
         // evaluations counter.
         final MultivariateFunction evalFunc
             = new MultivariateFunction() {
-                /** {@inheritDoc} */
-                @Override
-                public double value(double[] point) {
-                    return computeObjectiveValue(point);
-                }
-            };
+                    /** {@inheritDoc} */
+                    @Override
+                    public double value(double[] point) {
+                        return computeObjectiveValue(point);
+                    }
+                };
 
         final boolean isMinim = getGoalType() == GoalType.MINIMIZE;
         final Comparator<PointValuePair> comparator
             = new Comparator<PointValuePair>() {
-            /** {@inheritDoc} */
-            @Override
-            public int compare(final PointValuePair o1,
-                               final PointValuePair o2) {
-                final double v1 = o1.getValue();
-                final double v2 = o2.getValue();
-                return isMinim ? Double.compare(v1, v2) : Double.compare(v2, v1);
-            }
-        };
+                    /** {@inheritDoc} */
+                    @Override
+                    public int compare(final PointValuePair o1,
+                                       final PointValuePair o2) {
+                        final double v1 = o1.getValue();
+                        final double v2 = o2.getValue();
+                        return isMinim ? Double.compare(v1, v2) : Double.compare(v2, v1);
+                    }
+                };
+
+        final UnaryOperator<Simplex> update = updateRule.apply(evalFunc, comparator);
 
         // Initialize search.
-        simplex.build(getStartPoint());
-        simplex.evaluate(evalFunc, comparator);
+        simplex = simplex.translate(getStartPoint()).evaluate(evalFunc, comparator);
 
-        PointValuePair[] previous = null;
+        Simplex previous = null;
         int iteration = 0;
         final ConvergenceChecker<PointValuePair> checker = getConvergenceChecker();
         while (true) {
@@ -163,9 +159,9 @@ public class SimplexOptimizer extends MultivariateOptimizer {
             if (iteration > 0) {
                 boolean converged = true;
                 for (int i = 0; i < simplex.getSize(); i++) {
-                    PointValuePair prev = previous[i];
+                    PointValuePair prev = previous.get(i);
                     converged = converged &&
-                        checker.converged(iteration, prev, simplex.getPoint(i));
+                        checker.converged(iteration, prev, simplex.get(i));
 
                     if (!converged) {
                         // Short circuit, since "converged" will stay "false".
@@ -174,13 +170,13 @@ public class SimplexOptimizer extends MultivariateOptimizer {
                 }
                 if (converged) {
                     // We have found an optimum.
-                    return simplex.getPoint(0);
+                    return simplex.get(0);
                 }
             }
 
             // We still need to search.
-            previous = simplex.getPoints();
-            simplex.iterate(evalFunc, comparator);
+            previous = simplex;
+            simplex = update.apply(simplex).evaluate(evalFunc, comparator);
 
             incrementIterationCount();
         }
@@ -193,7 +189,8 @@ public class SimplexOptimizer extends MultivariateOptimizer {
      * @param optData Optimization data.
      * The following data will be looked for:
      * <ul>
-     *  <li>{@link AbstractSimplex}</li>
+     *  <li>{@link Simplex}</li>
+     *  <li>{@link Simplex.TransformFactory}</li>
      * </ul>
      */
     @Override
@@ -201,14 +198,17 @@ public class SimplexOptimizer extends MultivariateOptimizer {
         // Allow base class to register its own data.
         super.parseOptimizationData(optData);
 
-        // The existing values (as set by the previous call) are reused if
-        // not provided in the argument list.
+        // The existing values (as set by the previous call) are reused
+        // if not provided in the argument list.
         for (OptimizationData data : optData) {
-            if (data instanceof AbstractSimplex) {
-                simplex = (AbstractSimplex) data;
-                // If more data must be parsed, this statement _must_ be
-                // changed to "continue".
-                break;
+            if (data instanceof Simplex) {
+                simplex = (Simplex) data;
+                continue;
+            }
+
+            if (data instanceof Simplex.TransformFactory) {
+                updateRule = (Simplex.TransformFactory) data;
+                continue;
             }
         }
     }
@@ -216,12 +216,15 @@ public class SimplexOptimizer extends MultivariateOptimizer {
     /**
      * @throws MathUnsupportedOperationException if bounds were passed to the
      * {@link #optimize(OptimizationData[]) optimize} method.
-     * @throws NullArgumentException if no initial simplex was passed to the
-     * {@link #optimize(OptimizationData[]) optimize} method.
+     * @throws NullPointerException if no initial simplex or no transform rule
+     * was passed to the {@link #optimize(OptimizationData[]) optimize} method.
      */
     private void checkParameters() {
+        if (updateRule == null) {
+            throw new NullPointerException("No update rule");
+        }
         if (simplex == null) {
-            throw new NullArgumentException();
+            throw new NullPointerException("No initial simplex");
         }
         if (getLowerBound() != null ||
             getUpperBound() != null) {

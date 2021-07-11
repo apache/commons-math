@@ -25,8 +25,9 @@ import org.apache.commons.math4.legacy.optim.PointValuePair;
 import org.apache.commons.math4.legacy.optim.SimpleValueChecker;
 import org.apache.commons.math4.legacy.optim.nonlinear.scalar.gradient.CircleScalar;
 import org.apache.commons.math4.legacy.optim.nonlinear.scalar.gradient.NonLinearConjugateGradientOptimizer;
-import org.apache.commons.math4.legacy.optim.nonlinear.scalar.noderiv.NelderMeadSimplex;
+import org.apache.commons.math4.legacy.optim.nonlinear.scalar.noderiv.NelderMeadTransform;
 import org.apache.commons.math4.legacy.optim.nonlinear.scalar.noderiv.SimplexOptimizer;
+import org.apache.commons.math4.legacy.optim.nonlinear.scalar.noderiv.Simplex;
 import org.apache.commons.rng.UniformRandomProvider;
 import org.apache.commons.rng.simple.RandomSource;
 import org.apache.commons.rng.sampling.distribution.GaussianSampler;
@@ -59,6 +60,7 @@ public class MultiStartMultivariateOptimizerTest {
             = optimizer.optimize(new MaxEval(1000),
                                  circle.getObjectiveFunction(),
                                  circle.getObjectiveFunctionGradient(),
+                                 new NelderMeadTransform(),
                                  GoalType.MINIMIZE,
                                  new InitialGuess(new double[] { 98.680, 47.345 }));
         Assert.assertEquals(1000, optimizer.getMaxEvaluations());
@@ -83,7 +85,7 @@ public class MultiStartMultivariateOptimizerTest {
         Rosenbrock rosenbrock = new Rosenbrock();
         SimplexOptimizer underlying
             = new SimplexOptimizer(new SimpleValueChecker(-1, 1e-3));
-        NelderMeadSimplex simplex = new NelderMeadSimplex(new double[][] {
+        final Simplex simplex = Simplex.of(new double[][] {
                 { -1.2,  1.0 },
                 { 0.9, 1.2 } ,
                 {  3.5, -2.3 }
@@ -99,6 +101,7 @@ public class MultiStartMultivariateOptimizerTest {
                                  new ObjectiveFunction(rosenbrock),
                                  GoalType.MINIMIZE,
                                  simplex,
+                                 new NelderMeadTransform(),
                                  new InitialGuess(new double[] { -1.2, 1.0 }));
         Assert.assertEquals(nbStarts, optimizer.getOptima().length);
 

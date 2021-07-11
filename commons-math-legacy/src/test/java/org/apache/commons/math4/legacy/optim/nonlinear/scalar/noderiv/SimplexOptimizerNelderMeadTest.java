@@ -17,7 +17,7 @@
 
 package org.apache.commons.math4.legacy.optim.nonlinear.scalar.noderiv;
 
-
+import java.util.Arrays;
 import org.apache.commons.math4.legacy.analysis.MultivariateFunction;
 import org.apache.commons.math4.legacy.analysis.MultivariateVectorFunction;
 import org.apache.commons.math4.legacy.exception.MathUnsupportedOperationException;
@@ -48,127 +48,10 @@ public class SimplexOptimizerNelderMeadTest {
                            new ObjectiveFunction(fourExtrema),
                            GoalType.MINIMIZE,
                            new InitialGuess(new double[] { -3, 0 }),
-                           new NelderMeadSimplex(new double[] { 0.2, 0.2 }),
+                           Simplex.of(new double[] { 0.2, 0.2 }),
+                           new NelderMeadTransform(),
                            new SimpleBounds(new double[] { -5, -1 },
                                             new double[] { 5, 1 }));
-    }
-
-    @Test
-    public void testMinimize1() {
-        SimplexOptimizer optimizer = new SimplexOptimizer(1e-10, 1e-30);
-        final OptimTestUtils.FourExtrema fourExtrema = new OptimTestUtils.FourExtrema();
-
-        final PointValuePair optimum
-            = optimizer.optimize(new MaxEval(100),
-                                 new ObjectiveFunction(fourExtrema),
-                                 GoalType.MINIMIZE,
-                                 new InitialGuess(new double[] { -3, 0 }),
-                                 new NelderMeadSimplex(new double[] { 0.2, 0.2 }));
-        Assert.assertEquals(fourExtrema.xM, optimum.getPoint()[0], 2e-7);
-        Assert.assertEquals(fourExtrema.yP, optimum.getPoint()[1], 2e-5);
-        Assert.assertEquals(fourExtrema.valueXmYp, optimum.getValue(), 6e-12);
-        Assert.assertTrue(optimizer.getEvaluations() > 60);
-        Assert.assertTrue(optimizer.getEvaluations() < 90);
-
-        // Check that the number of iterations is updated (MATH-949).
-        Assert.assertTrue(optimizer.getIterations() > 0);
-    }
-
-    @Test
-    public void testMinimize2() {
-        SimplexOptimizer optimizer = new SimplexOptimizer(1e-10, 1e-30);
-        final OptimTestUtils.FourExtrema fourExtrema = new OptimTestUtils.FourExtrema();
-
-        final PointValuePair optimum
-            = optimizer.optimize(new MaxEval(100),
-                                 new ObjectiveFunction(fourExtrema),
-                                 GoalType.MINIMIZE,
-                                 new InitialGuess(new double[] { 1, 0 }),
-                                 new NelderMeadSimplex(new double[] { 0.2, 0.2 }));
-        Assert.assertEquals(fourExtrema.xP, optimum.getPoint()[0], 5e-6);
-        Assert.assertEquals(fourExtrema.yM, optimum.getPoint()[1], 6e-6);
-        Assert.assertEquals(fourExtrema.valueXpYm, optimum.getValue(), 1e-11);
-        Assert.assertTrue(optimizer.getEvaluations() > 60);
-        Assert.assertTrue(optimizer.getEvaluations() < 90);
-
-        // Check that the number of iterations is updated (MATH-949).
-        Assert.assertTrue(optimizer.getIterations() > 0);
-    }
-
-    @Test
-    public void testMaximize1() {
-        SimplexOptimizer optimizer = new SimplexOptimizer(1e-10, 1e-30);
-        final OptimTestUtils.FourExtrema fourExtrema = new OptimTestUtils.FourExtrema();
-
-        final PointValuePair optimum
-            = optimizer.optimize(new MaxEval(100),
-                                 new ObjectiveFunction(fourExtrema),
-                                 GoalType.MAXIMIZE,
-                                 new InitialGuess(new double[] { -3, 0 }),
-                                 new NelderMeadSimplex(new double[] { 0.2, 0.2 }));
-        Assert.assertEquals(fourExtrema.xM, optimum.getPoint()[0], 1e-5);
-        Assert.assertEquals(fourExtrema.yM, optimum.getPoint()[1], 3e-6);
-        Assert.assertEquals(fourExtrema.valueXmYm, optimum.getValue(), 3e-12);
-        Assert.assertTrue(optimizer.getEvaluations() > 60);
-        Assert.assertTrue(optimizer.getEvaluations() < 90);
-
-        // Check that the number of iterations is updated (MATH-949).
-        Assert.assertTrue(optimizer.getIterations() > 0);
-    }
-
-    @Test
-    public void testMaximize2() {
-        SimplexOptimizer optimizer = new SimplexOptimizer(1e-10, 1e-30);
-        final OptimTestUtils.FourExtrema fourExtrema = new OptimTestUtils.FourExtrema();
-
-        final PointValuePair optimum
-            = optimizer.optimize(new MaxEval(100),
-                                 new ObjectiveFunction(fourExtrema),
-                                 GoalType.MAXIMIZE,
-                                 new InitialGuess(new double[] { 1, 0 }),
-                                 new NelderMeadSimplex(new double[] { 0.2, 0.2 }));
-        Assert.assertEquals(fourExtrema.xP, optimum.getPoint()[0], 4e-6);
-        Assert.assertEquals(fourExtrema.yP, optimum.getPoint()[1], 5e-6);
-        Assert.assertEquals(fourExtrema.valueXpYp, optimum.getValue(), 7e-12);
-        Assert.assertTrue(optimizer.getEvaluations() > 60);
-        Assert.assertTrue(optimizer.getEvaluations() < 90);
-
-        // Check that the number of iterations is updated (MATH-949).
-        Assert.assertTrue(optimizer.getIterations() > 0);
-    }
-
-    @Test
-    public void testRosenbrock() {
-
-        OptimTestUtils.Rosenbrock rosenbrock = new OptimTestUtils.Rosenbrock();
-        SimplexOptimizer optimizer = new SimplexOptimizer(-1, 1e-3);
-        PointValuePair optimum
-        = optimizer.optimize(new MaxEval(100),
-                             new ObjectiveFunction(rosenbrock),
-                             GoalType.MINIMIZE,
-                             new InitialGuess(new double[] { -1.2, 1 }),
-                                new NelderMeadSimplex(new double[][] {
-                                        { -1.2,  1 },
-                                        { 0.9, 1.2 },
-                                        {  3.5, -2.3 } }));
-        Assert.assertTrue(optimizer.getEvaluations() > 40);
-        Assert.assertTrue(optimizer.getEvaluations() < 50);
-        Assert.assertTrue(optimum.getValue() < 8e-4);
-    }
-
-    @Test
-    public void testPowell() {
-        OptimTestUtils.Powell powell = new OptimTestUtils.Powell();
-        SimplexOptimizer optimizer = new SimplexOptimizer(-1, 1e-3);
-        PointValuePair optimum =
-            optimizer.optimize(new MaxEval(200),
-                               new ObjectiveFunction(powell),
-                               GoalType.MINIMIZE,
-                               new InitialGuess(new double[] { 3, -1, 0, 1 }),
-                               new NelderMeadSimplex(4));
-        Assert.assertTrue(optimizer.getEvaluations() > 110);
-        Assert.assertTrue(optimizer.getEvaluations() < 130);
-        Assert.assertTrue(optimum.getValue() < 2e-3);
     }
 
     @Test
@@ -190,11 +73,13 @@ public class SimplexOptimizerNelderMeadTest {
                                new ObjectiveFunction(ls),
                                GoalType.MINIMIZE,
                                new InitialGuess(new double[] { 10, 10 }),
-                               new NelderMeadSimplex(2));
-        Assert.assertEquals( 2, optimum.getPointRef()[0], 3e-5);
+                               Simplex.of(2),
+                               new NelderMeadTransform());
+        Assert.assertEquals( 2, optimum.getPointRef()[0], 1e-3);
         Assert.assertEquals(-3, optimum.getPointRef()[1], 4e-4);
-        Assert.assertTrue(optimizer.getEvaluations() > 60);
-        Assert.assertTrue(optimizer.getEvaluations() < 80);
+        final int nEval = optimizer.getEvaluations();
+        Assert.assertTrue("nEval=" + nEval, nEval > 60);
+        Assert.assertTrue("nEval=" + nEval, nEval < 80);
         Assert.assertTrue(optimum.getValue() < 1.0e-6);
     }
 
@@ -217,11 +102,13 @@ public class SimplexOptimizerNelderMeadTest {
                                new ObjectiveFunction(ls),
                                GoalType.MINIMIZE,
                                new InitialGuess(new double[] { 10, 10 }),
-                               new NelderMeadSimplex(2));
-        Assert.assertEquals( 2, optimum.getPointRef()[0], 5e-5);
+                               Simplex.of(2),
+                               new NelderMeadTransform());
+        Assert.assertEquals( 2, optimum.getPointRef()[0], 1e-4);
         Assert.assertEquals(-3, optimum.getPointRef()[1], 8e-4);
-        Assert.assertTrue(optimizer.getEvaluations() > 60);
-        Assert.assertTrue(optimizer.getEvaluations() < 80);
+        final int nEval = optimizer.getEvaluations();
+        Assert.assertTrue("nEval=" + nEval, nEval > 70);
+        Assert.assertTrue("nEval=" + nEval, nEval < 85);
         Assert.assertTrue(optimum.getValue() < 1e-6);
     }
 
@@ -246,11 +133,13 @@ public class SimplexOptimizerNelderMeadTest {
                                  new ObjectiveFunction(ls),
                                  GoalType.MINIMIZE,
                                  new InitialGuess(new double[] { 10, 10 }),
-                                 new NelderMeadSimplex(2));
-        Assert.assertEquals( 2, optimum.getPointRef()[0], 2e-3);
-        Assert.assertEquals(-3, optimum.getPointRef()[1], 8e-4);
-        Assert.assertTrue(optimizer.getEvaluations() > 60);
-        Assert.assertTrue(optimizer.getEvaluations() < 80);
+                                 Simplex.of(2),
+                                 new NelderMeadTransform());
+        Assert.assertEquals( 2, optimum.getPointRef()[0], 1e-2);
+        Assert.assertEquals(-3, optimum.getPointRef()[1], 1e-2);
+        final int nEval = optimizer.getEvaluations();
+        Assert.assertTrue("nEval=" + nEval, nEval > 60);
+        Assert.assertTrue("nEval=" + nEval, nEval < 80);
         Assert.assertTrue(optimum.getValue() < 1e-6);
     }
 
@@ -262,7 +151,73 @@ public class SimplexOptimizerNelderMeadTest {
                            new ObjectiveFunction(powell),
                            GoalType.MINIMIZE,
                            new InitialGuess(new double[] { 3, -1, 0, 1 }),
-                           new NelderMeadSimplex(4));
+                           Simplex.of(4),
+                           new NelderMeadTransform());
+    }
+
+    @Test
+    public void testFourExtremaMinimize1() {
+        final OptimTestUtils.FourExtrema f = new OptimTestUtils.FourExtrema();
+        doTest(f,
+               OptimTestUtils.point(new double[] {-3, 0}, 1e-1),
+               GoalType.MINIMIZE,
+               105,
+               Simplex.of(OptimTestUtils.point(2, 0.2, 1e-2)),
+               new PointValuePair(new double[] {f.xM, f.yP}, f.valueXmYp),
+               1e-6);
+    }
+    @Test
+    public void testFourExtremaMaximize1() {
+        final OptimTestUtils.FourExtrema f = new OptimTestUtils.FourExtrema();
+        doTest(f,
+               OptimTestUtils.point(new double[] {-3, 0}, 1e-1),
+               GoalType.MAXIMIZE,
+               100,
+               Simplex.of(OptimTestUtils.point(2, 0.2, 1e-2)),
+               new PointValuePair(new double[] {f.xM, f.yM}, f.valueXmYm),
+               1e-6);
+    }
+    @Test
+    public void testFourExtremaMinimize2() {
+        final OptimTestUtils.FourExtrema f = new OptimTestUtils.FourExtrema();
+        doTest(f,
+               OptimTestUtils.point(new double[] {1, 0}, 1e-1),
+               GoalType.MINIMIZE,
+               100,
+               Simplex.of(OptimTestUtils.point(2, 0.2, 1e-2)),
+               new PointValuePair(new double[] {f.xP, f.yM}, f.valueXpYm),
+               1e-6);
+    }
+    @Test
+    public void testFourExtremaMaximize2() {
+        final OptimTestUtils.FourExtrema f = new OptimTestUtils.FourExtrema();
+        doTest(f,
+               OptimTestUtils.point(new double[] {1, 0}, 1e-1),
+               GoalType.MAXIMIZE,
+               110,
+               Simplex.of(OptimTestUtils.point(2, 0.2, 1e-2)),
+               new PointValuePair(new double[] {f.xP, f.yP}, f.valueXpYp),
+               1e-6);
+    }
+
+    @Test
+    public void testRosenbrock() {
+        doTest(new OptimTestUtils.Rosenbrock(),
+               OptimTestUtils.point(new double[] { -1.2, 1 }, 1e-1),
+               GoalType.MINIMIZE,
+               180,
+               new PointValuePair(OptimTestUtils.point(2, 1.0), 0.0),
+               1e-4);
+    }
+
+    @Test
+    public void testPowell() {
+        doTest(new OptimTestUtils.Powell(),
+               OptimTestUtils.point(new double[] { 3, -1, 0, 1 }, 1e-1),
+               GoalType.MINIMIZE,
+               420,
+               new PointValuePair(OptimTestUtils.point(4, 0.0), 0.0),
+               2e-4);
     }
 
     @Test
@@ -275,19 +230,17 @@ public class SimplexOptimizerNelderMeadTest {
                1e-6);
     }
 
-    @Ignore
-    @Test
+    @Ignore@Test
     public void testEllipse() {
         doTest(new OptimTestUtils.Elli(),
                OptimTestUtils.point(DIM, 1.0, 2e-1),
                GoalType.MINIMIZE,
-               12000,
+               15000,
                new PointValuePair(OptimTestUtils.point(DIM, 0.0), 0.0),
                1e-6);
-     }
+    }
 
-    @Ignore
-    @Test
+    @Ignore@Test
     public void testElliRotated() {
         doTest(new OptimTestUtils.ElliRotated(),
                OptimTestUtils.point(DIM, 1.0, 1e-1),
@@ -307,8 +260,7 @@ public class SimplexOptimizerNelderMeadTest {
                1e-6);
     }
 
-    @Ignore
-    @Test
+    @Ignore@Test
     public void testTwoAxes() {
         doTest(new OptimTestUtils.TwoAxes(),
                OptimTestUtils.point(DIM, 1.0, 1e-1),
@@ -316,10 +268,9 @@ public class SimplexOptimizerNelderMeadTest {
                3451,
                new PointValuePair(OptimTestUtils.point(DIM, 0.0), 0.0),
                1e-14);
-     }
+    }
 
-    @Ignore
-    @Test
+    @Ignore@Test
     public void testCigTab() {
         doTest(new OptimTestUtils.CigTab(),
                OptimTestUtils.point(DIM, 1.0, 1e-1),
@@ -327,7 +278,7 @@ public class SimplexOptimizerNelderMeadTest {
                7000,
                new PointValuePair(OptimTestUtils.point(DIM, 0.0), 0.0),
                1e-4);
-     }
+    }
 
     @Test
     public void testSphere() {
@@ -339,8 +290,7 @@ public class SimplexOptimizerNelderMeadTest {
                1e-6);
     }
 
-    @Ignore
-    @Test
+    @Ignore@Test
     public void testTablet() {
         doTest(new OptimTestUtils.Tablet(),
                OptimTestUtils.point(DIM, 1.0, 1e-1),
@@ -350,8 +300,7 @@ public class SimplexOptimizerNelderMeadTest {
                1e-14);
     }
 
-    @Ignore
-    @Test
+    @Ignore@Test
     public void testDiffPow() {
         doTest(new OptimTestUtils.DiffPow(),
                OptimTestUtils.point(DIM, 1.0, 2e-1),
@@ -371,24 +320,22 @@ public class SimplexOptimizerNelderMeadTest {
                1e-3);
     }
 
-    @Ignore
-    @Test
+    @Ignore@Test
     public void testAckley() {
         doTest(new OptimTestUtils.Ackley(),
                OptimTestUtils.point(DIM, 1.0, 2e-1),
                GoalType.MINIMIZE,
-               10000,
+               7900,
                new PointValuePair(OptimTestUtils.point(DIM, 0.0), 0.0),
                1e-11);
     }
 
-    @Ignore
-    @Test
+    @Ignore@Test
     public void testRastrigin() {
         doTest(new OptimTestUtils.Rastrigin(),
                OptimTestUtils.point(DIM, 1.0, 2e-1),
                GoalType.MINIMIZE,
-               10000,
+               4600,
                new PointValuePair(OptimTestUtils.point(DIM, 0.0), 0.0),
                0);
     }
@@ -407,15 +354,53 @@ public class SimplexOptimizerNelderMeadTest {
                         int maxEvaluations,
                         PointValuePair expected,
                         double tol) {
-        final int dim = startPoint.length;
+        doTest(func,
+               startPoint,
+               goal,
+               maxEvaluations,
+               Simplex.of(startPoint.length, 1),
+               expected,
+               tol);
+    }
+
+    /**
+     * @param func Function to optimize.
+     * @param startPoint Starting point.
+     * @param goal Minimization or maximization.
+     * @param maxEvaluations Maximum number of evaluations.
+     * @param simplexSteps Initial simplex.
+     * @param expected Expected optimum.
+     * @param tol Tolerance for checking that the optimum is correct.
+     */
+    private void doTest(MultivariateFunction func,
+                        double[] startPoint,
+                        GoalType goal,
+                        int maxEvaluations,
+                        Simplex simplex,
+                        PointValuePair expected,
+                        double tol) {
+        final int maxEval = Math.max(maxEvaluations, 12000);
         final SimplexOptimizer optim = new SimplexOptimizer(1e-13, 1e-14);
-        final PointValuePair result = optim.optimize(new MaxEval(maxEvaluations),
+        final PointValuePair result = optim.optimize(new MaxEval(maxEval),
                                                      new ObjectiveFunction(func),
                                                      goal,
                                                      new InitialGuess(startPoint),
-                                                     new NelderMeadSimplex(dim, 1));
+                                                     simplex,
+                                                     new NelderMeadTransform());
+        final String name = func.getClass().getSimpleName();
+
+        final double[] endPoint = result.getPoint();
+        final double funcValue = result.getValue();
+        Assert.assertEquals(name + ": value at " + Arrays.toString(endPoint),
+                            expected.getValue(),
+                            funcValue, 1e-2);
+
         final double dist = MathArrays.distance(expected.getPoint(),
-                                                result.getPoint());
-        Assert.assertEquals(0d, dist, tol);
+                                                endPoint);
+        Assert.assertEquals(name + ": distance to optimum", 0d, dist, tol);
+
+        final int nEval = optim.getEvaluations();
+        Assert.assertTrue(name + ": nEval=" + nEval,
+                          nEval < maxEvaluations);
     }
 }
