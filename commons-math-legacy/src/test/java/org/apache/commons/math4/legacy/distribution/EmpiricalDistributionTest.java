@@ -43,7 +43,6 @@ import org.apache.commons.math4.legacy.core.jdkmath.AccurateMath;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
-import org.junit.Ignore;
 
 /**
  * Test cases for the {@link EmpiricalDistribution} class.
