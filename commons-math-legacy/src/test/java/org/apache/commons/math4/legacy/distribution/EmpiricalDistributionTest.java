@@ -667,7 +667,7 @@ public final class EmpiricalDistributionTest extends RealDistributionAbstractTes
         }
     }
 
-    @Ignore@Test
+    @Test
     public void testMath1462() {
         final double[] data = {
             6464.0205, 6449.1328, 6489.4569, 6497.5533, 6251.6487,
@@ -685,7 +685,7 @@ public final class EmpiricalDistributionTest extends RealDistributionAbstractTes
             6461.3944, 6384.1345
         };
 
-        final EmpiricalDistribution ed = new EmpiricalDistribution(data.length);
+        final EmpiricalDistribution ed = new EmpiricalDistribution(data.length / 10);
         ed.load(data);
 
         double v;
@@ -693,7 +693,7 @@ public final class EmpiricalDistributionTest extends RealDistributionAbstractTes
 
         p = 0.49999;
         v = ed.inverseCumulativeProbability(p);
-        Assert.assertTrue("p=" + p + " => v=" + v, v < 6341);
+        Assert.assertTrue("p=" + p + " => v=" + v, v < 6344);
 
         p = 0.5;
         v = ed.inverseCumulativeProbability(p);
