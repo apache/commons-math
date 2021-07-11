@@ -767,7 +767,7 @@ public class PSquarePercentile extends AbstractStorelessUnivariateStatistic
                             new double[] { xval[1], xval[1 + delta] };
                     final double[] yBad =
                             new double[] { yval[1], yval[1 + delta] };
-                    SortInPlace.ASCENDING.accept(xBad, yBad);// since d can be +/- 1
+                    SortInPlace.ASCENDING.apply(xBad, yBad);// since d can be +/- 1
                     univariateFunction = linear.interpolate(xBad, yBad);
                     markerHeight = univariateFunction.value(xD);
                 }

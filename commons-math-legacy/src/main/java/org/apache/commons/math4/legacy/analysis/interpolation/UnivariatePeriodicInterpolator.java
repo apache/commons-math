@@ -114,7 +114,7 @@ public class UnivariatePeriodicInterpolator
             y[index] = yval[i];
         }
 
-        SortInPlace.ASCENDING.accept(x, y);
+        SortInPlace.ASCENDING.apply(x, y);
 
         final UnivariateFunction f = interpolator.interpolate(x, y);
         return new UnivariateFunction() {

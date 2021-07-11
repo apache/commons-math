@@ -78,7 +78,7 @@ public class PolynomialFunctionLagrangeForm implements UnivariateFunction {
         coefficientsComputed = false;
 
         if (!verifyInterpolationArray(x, y, false)) {
-            SortInPlace.ASCENDING.accept(this.x, this.y);
+            SortInPlace.ASCENDING.apply(this.x, this.y);
             // Second check in case some abscissa is duplicated.
             verifyInterpolationArray(this.x, this.y, true);
         }
@@ -183,7 +183,7 @@ public class PolynomialFunctionLagrangeForm implements UnivariateFunction {
         System.arraycopy(x, 0, xNew, 0, x.length);
         System.arraycopy(y, 0, yNew, 0, y.length);
 
-        SortInPlace.ASCENDING.accept(xNew, yNew);
+        SortInPlace.ASCENDING.apply(xNew, yNew);
         // Second check in case some abscissa is duplicated.
         verifyInterpolationArray(xNew, yNew, true);
         return evaluateInternal(xNew, yNew, z);
