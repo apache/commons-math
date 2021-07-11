@@ -46,40 +46,46 @@ import org.apache.commons.math4.legacy.core.jdkmath.AccurateMath;
 
 /**
  * <p>Represents an <a href="http://en.wikipedia.org/wiki/Empirical_distribution_function">
- * empirical probability distribution</a> -- a probability distribution derived
+ * empirical probability distribution</a>: Probability distribution derived
  * from observed data without making any assumptions about the functional form
  * of the population distribution that the data come from.</p>
  *
- * <p>An <code>EmpiricalDistribution</code> maintains data structures, called
- * <i>distribution digests</i>, that describe empirical distributions and
- * support the following operations: <ul>
- * <li>loading the distribution from a file of observed data values</li>
- * <li>dividing the input data into "bin ranges" and reporting bin frequency
- *     counts (data for histogram)</li>
- * <li>reporting univariate statistics describing the full set of data values
- *     as well as the observations within each bin</li>
- * <li>generating random values from the distribution</li>
+ * <p>An {@code EmpiricalDistribution} maintains data structures called
+ * <i>distribution digests</i> that describe empirical distributions and
+ * support the following operations:
+ * <ul>
+ *  <li>loading the distribution from a file of observed data values</li>
+ *  <li>dividing the input data into "bin ranges" and reporting bin frequency
+ *      counts (data for histogram)</li>
+ *  <li>reporting univariate statistics describing the full set of data values
+ *      as well as the observations within each bin</li>
+ *  <li>generating random values from the distribution</li>
  * </ul>
- * Applications can use <code>EmpiricalDistribution</code> to build grouped
+ *
+ * Applications can use {@code EmpiricalDistribution} to build grouped
  * frequency histograms representing the input data or to generate random values
- * "like" those in the input file -- i.e., the values generated will follow the
+ * "like" those in the input file, i.e. the values generated will follow the
  * distribution of the values in the file.
  *
  * <p>The implementation uses what amounts to the
  * <a href="http://nedwww.ipac.caltech.edu/level5/March02/Silverman/Silver2_6.html">
  * Variable Kernel Method</a> with Gaussian smoothing:<p>
  * <strong>Digesting the input file</strong>
- * <ol><li>Pass the file once to compute min and max.</li>
- * <li>Divide the range from min-max into <code>binCount</code> "bins."</li>
- * <li>Pass the data file again, computing bin counts and univariate
- *     statistics (mean, std dev.) for each of the bins </li>
- * <li>Divide the interval (0,1) into subintervals associated with the bins,
- *     with the length of a bin's subinterval proportional to its count.</li></ol>
- * <strong>Generating random values from the distribution</strong><ol>
- * <li>Generate a uniformly distributed value in (0,1) </li>
- * <li>Select the subinterval to which the value belongs.
- * <li>Generate a random Gaussian value with mean = mean of the associated
- *     bin and std dev = std dev of associated bin.</li></ol>
+ * <ol>
+ *  <li>Pass the file once to compute min and max.</li>
+ *  <li>Divide the range from min to max into {@code binCount} bins.</li>
+ *  <li>Pass the data file again, computing bin counts and univariate
+ *      statistics (mean and std dev.) for each bin.</li>
+ *  <li>Divide the interval (0,1) into subintervals associated with the bins,
+ *      with the length of a bin's subinterval proportional to its count.</li>
+ * </ol>
+ * <strong>Generating random values from the distribution</strong>
+ * <ol>
+ *  <li>Generate a uniformly distributed value in (0,1) </li>
+ *  <li>Select the subinterval to which the value belongs.
+ *  <li>Generate a random Gaussian value with mean = mean of the associated
+ *      bin and std dev = std dev of associated bin.</li>
+ * </ol>
  *
  * <p>EmpiricalDistribution implements the {@link ContinuousDistribution} interface
  * as follows.  Given x within the range of values in the dataset, let B
@@ -91,49 +97,38 @@ import org.apache.commons.math4.legacy.core.jdkmath.AccurateMath;
  * grouped frequency distribution at the bin endpoints and interpolates within
  * bins using within-bin kernels.</p>
  *
- *<strong>USAGE NOTES:</strong><ul>
- *<li>The <code>binCount</code> is set by default to 1000.  A good rule of thumb
- *    is to set the bin count to approximately the length of the input file divided
- *    by 10. </li>
- *<li>The input file <i>must</i> be a plain text file containing one valid numeric
- *    entry per line.</li>
+ * <strong>USAGE NOTES:</strong>
+ * <ul>
+ * <li>The {@code binCount} is set by default to 1000.  A good rule of thumb
+ *     is to set the bin count to approximately the length of the input file divided
+ *     by 10. </li>
+ * <li>The input file <i>must</i> be a plain text file containing one valid numeric
+ *     entry per line.</li>
  * </ul>
- *
  */
 public class EmpiricalDistribution extends AbstractRealDistribution
     implements ContinuousDistribution {
-
     /** Default bin count. */
     public static final int DEFAULT_BIN_COUNT = 1000;
-
     /** Character set for file input. */
     private static final String FILE_CHARSET = "US-ASCII";
-
     /** Serializable version identifier. */
     private static final long serialVersionUID = 5729073523949762654L;
-
-    /** List of SummaryStatistics objects characterizing the bins. */
+    /** Bins' characteristics. */
     private final List<SummaryStatistics> binStats;
-
     /** Sample statistics. */
     private SummaryStatistics sampleStats;
-
     /** Max loaded value. */
     private double max = Double.NEGATIVE_INFINITY;
-
     /** Min loaded value. */
     private double min = Double.POSITIVE_INFINITY;
-
     /** Grid size. */
     private double delta;
-
-    /** number of bins. */
+    /** Number of bins. */
     private final int binCount;
-
-    /** is the distribution loaded? */
+    /** Whether the distribution is loaded. */
     private boolean loaded;
-
-    /** upper bounds of subintervals in (0,1) "belonging" to the bins. */
+    /** Upper bounds of subintervals in (0,1) belonging to the bins. */
     private double[] upperBounds;
 
     /**
@@ -247,11 +242,10 @@ public class EmpiricalDistribution extends AbstractRealDistribution
     }
 
     /**
-     * Provides methods for computing <code>sampleStats</code> and
-     * <code>beanStats</code> abstracting the source of data.
+     * Provides methods for computing {@code sampleStats} and
+     * {@code beanStats} abstracting the source of data.
      */
-    private abstract class DataAdapter{
-
+    private abstract class DataAdapter {
         /**
          * Compute bin stats.
          *
@@ -265,16 +259,14 @@ public class EmpiricalDistribution extends AbstractRealDistribution
          * @throws IOException if an error occurs computing sample stats
          */
         public abstract void computeStats() throws IOException;
-
     }
 
     /**
-     * <code>DataAdapter</code> for data provided through some input stream.
+     * {@code DataAdapter} for data provided through some input stream.
      */
-    private class StreamDataAdapter extends DataAdapter{
-
+    private class StreamDataAdapter extends DataAdapter {
         /** Input stream providing access to the data. */
-        private BufferedReader inputStream;
+        private final BufferedReader inputStream;
 
         /**
          * Create a StreamDataAdapter from a BufferedReader.
@@ -282,7 +274,6 @@ public class EmpiricalDistribution extends AbstractRealDistribution
          * @param in BufferedReader input stream
          */
         StreamDataAdapter(BufferedReader in){
-            super();
             inputStream = in;
         }
 
@@ -298,7 +289,6 @@ public class EmpiricalDistribution extends AbstractRealDistribution
             }
 
             inputStream.close();
-            inputStream = null;
         }
 
         /** {@inheritDoc} */
@@ -312,15 +302,13 @@ public class EmpiricalDistribution extends AbstractRealDistribution
                 sampleStats.addValue(val);
             }
             inputStream.close();
-            inputStream = null;
         }
     }
 
     /**
-     * <code>DataAdapter</code> for data provided as array of doubles.
+     * {@code DataAdapter} for data provided as array of doubles.
      */
     private class ArrayDataAdapter extends DataAdapter {
-
         /** Array of input  data values. */
         private final double[] inputArray;
 
@@ -331,7 +319,6 @@ public class EmpiricalDistribution extends AbstractRealDistribution
          * @throws NullArgumentException if in is null
          */
         ArrayDataAdapter(double[] in) {
-            super();
             NullArgumentException.check(in);
             inputArray = in;
         }
@@ -349,8 +336,7 @@ public class EmpiricalDistribution extends AbstractRealDistribution
         @Override
         public void computeBinStats() throws IOException {
             for (int i = 0; i < inputArray.length; i++) {
-                SummaryStatistics stats =
-                    binStats.get(findBin(inputArray[i]));
+                SummaryStatistics stats = binStats.get(findBin(inputArray[i]));
                 stats.addValue(inputArray[i]);
             }
         }
@@ -362,12 +348,11 @@ public class EmpiricalDistribution extends AbstractRealDistribution
      * @param da object providing access to the data
      * @throws IOException  if an IO error occurs
      */
-    private void fillBinStats(final DataAdapter da)
-        throws IOException {
+    private void fillBinStats(final DataAdapter da) throws IOException {
         // Set up grid
         min = sampleStats.getMin();
         max = sampleStats.getMax();
-        delta = (max - min)/binCount;
+        delta = (max - min) / binCount;
 
         // Initialize binStats ArrayList
         if (!binStats.isEmpty()) {
@@ -375,7 +360,7 @@ public class EmpiricalDistribution extends AbstractRealDistribution
         }
         for (int i = 0; i < binCount; i++) {
             SummaryStatistics stats = new SummaryStatistics();
-            binStats.add(i,stats);
+            binStats.add(i, stats);
         }
 
         // Filling data in binStats Array
@@ -383,13 +368,12 @@ public class EmpiricalDistribution extends AbstractRealDistribution
 
         // Assign upperBounds based on bin counts
         upperBounds = new double[binCount];
-        upperBounds[0] =
-        ((double) binStats.get(0).getN()) / (double) sampleStats.getN();
-        for (int i = 1; i < binCount-1; i++) {
-            upperBounds[i] = upperBounds[i-1] +
-            ((double) binStats.get(i).getN()) / (double) sampleStats.getN();
+        upperBounds[0] = binStats.get(0).getN() / (double) sampleStats.getN();
+        for (int i = 1; i < binCount - 1; i++) {
+            upperBounds[i] = upperBounds[i - 1] +
+                binStats.get(i).getN() / (double) sampleStats.getN();
         }
-        upperBounds[binCount-1] = 1.0d;
+        upperBounds[binCount - 1] = 1d;
     }
 
     /**
@@ -399,9 +383,8 @@ public class EmpiricalDistribution extends AbstractRealDistribution
      * @return the index of the bin containing the value
      */
     private int findBin(double value) {
-        return AccurateMath.min(
-                AccurateMath.max((int) AccurateMath.ceil((value - min) / delta) - 1, 0),
-                binCount - 1);
+        return AccurateMath.min(AccurateMath.max((int) AccurateMath.ceil((value - min) / delta) - 1, 0),
+                                binCount - 1);
     }
 
     /**
@@ -490,7 +473,7 @@ public class EmpiricalDistribution extends AbstractRealDistribution
         return loaded;
     }
 
-    // Distribution methods ---------------------------
+    // Distribution methods.
 
     /**
      * {@inheritDoc}
@@ -588,21 +571,22 @@ public class EmpiricalDistribution extends AbstractRealDistribution
      */
     @Override
     public double inverseCumulativeProbability(final double p) {
-        if (p < 0.0 || p > 1.0) {
+        if (p < 0 ||
+            p > 1) {
             throw new OutOfRangeException(p, 0, 1);
         }
 
-        if (p == 0.0) {
+        if (p == 0) {
             return getSupportLowerBound();
         }
 
-        if (p == 1.0) {
+        if (p == 1) {
             return getSupportUpperBound();
         }
 
         int i = 0;
         while (cumBinP(i) < p) {
-            i++;
+            ++i;
         }
 
         final ContinuousDistribution kernel = getKernel(binStats.get(i));
