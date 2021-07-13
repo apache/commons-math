@@ -123,27 +123,14 @@ public class SimplexOptimizer extends MultivariateOptimizer {
 
         // Indirect call to "computeObjectiveValue" in order to update the
         // evaluations counter.
-        final MultivariateFunction evalFunc
-            = new MultivariateFunction() {
-                    /** {@inheritDoc} */
-                    @Override
-                    public double value(double[] point) {
-                        return computeObjectiveValue(point);
-                    }
-                };
+        final MultivariateFunction evalFunc = (p) -> computeObjectiveValue(p);
 
         final boolean isMinim = getGoalType() == GoalType.MINIMIZE;
-        final Comparator<PointValuePair> comparator
-            = new Comparator<PointValuePair>() {
-                    /** {@inheritDoc} */
-                    @Override
-                    public int compare(final PointValuePair o1,
-                                       final PointValuePair o2) {
-                        final double v1 = o1.getValue();
-                        final double v2 = o2.getValue();
-                        return isMinim ? Double.compare(v1, v2) : Double.compare(v2, v1);
-                    }
-                };
+        final Comparator<PointValuePair> comparator = (o1, o2) -> {
+            final double v1 = o1.getValue();
+            final double v2 = o2.getValue();
+            return isMinim ? Double.compare(v1, v2) : Double.compare(v2, v1);
+        };
 
         final UnaryOperator<Simplex> update = updateRule.apply(evalFunc, comparator);
 
@@ -202,12 +189,8 @@ public class SimplexOptimizer extends MultivariateOptimizer {
         for (OptimizationData data : optData) {
             if (data instanceof Simplex) {
                 simplex = (Simplex) data;
-                continue;
-            }
-
-            if (data instanceof Simplex.TransformFactory) {
+            } else if (data instanceof Simplex.TransformFactory) {
                 updateRule = (Simplex.TransformFactory) data;
-                continue;
             }
         }
     }
