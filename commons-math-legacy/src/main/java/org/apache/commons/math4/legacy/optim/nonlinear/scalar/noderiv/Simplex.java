@@ -43,7 +43,7 @@ import org.apache.commons.math4.legacy.optim.PointValuePair;
  */
 public final class Simplex implements OptimizationData {
     /** Coordinates. */
-    private final List<PointValuePair> simplex;
+    private final List<PointValuePair> points;
 
     /**
      * Builds from a given set of coordinates.
@@ -61,7 +61,7 @@ public final class Simplex implements OptimizationData {
                                                    referenceSimplex.length);
         }
         final int len = referenceSimplex.length;
-        simplex = new ArrayList<>(len);
+        points = new ArrayList<>(len);
 
         final int dim = len - 1;
 
@@ -88,18 +88,18 @@ public final class Simplex implements OptimizationData {
                 }
             }
 
-            simplex.add(new PointValuePair(refI, Double.NaN));
+            points.add(new PointValuePair(refI, Double.NaN));
         }
     }
 
     /**
      * Builds from an existing simplex.
      *
-     * @param simplex Simplex data.  Reference will be stored in the newly
+     * @param points Simplex data.  Reference will be stored in the newly
      * constructed instance.
      */
-    private Simplex(List<PointValuePair> simplex) {
-        this.simplex = simplex;
+    private Simplex(List<PointValuePair> points) {
+        this.points = points;
     }
 
     /**
@@ -188,7 +188,7 @@ public final class Simplex implements OptimizationData {
      * @return the dimension of the simplex.
      */
     public int getDimension() {
-        return simplex.size() - 1;
+        return points.size() - 1;
     }
 
     /**
@@ -197,7 +197,7 @@ public final class Simplex implements OptimizationData {
      * @return the size of the simplex.
      */
     public int getSize() {
-        return simplex.size();
+        return points.size();
     }
 
     /**
@@ -211,18 +211,18 @@ public final class Simplex implements OptimizationData {
      */
     public Simplex evaluate(MultivariateFunction function,
                             Comparator<PointValuePair> comparator) {
-        final List<PointValuePair> newSimplex = new ArrayList<>(simplex.size());
-        for (PointValuePair pv : simplex) {
+        final List<PointValuePair> newPoints = new ArrayList<>(points.size());
+        for (PointValuePair pv : points) {
             final double[] coord = pv.getPoint();
             final double value = Double.isNaN(pv.getValue()) ?
                 function.value(coord) :
                 pv.getValue();
 
-            newSimplex.add(new PointValuePair(coord, value, false));
+            newPoints.add(new PointValuePair(coord, value, false));
         }
 
-        Collections.sort(newSimplex, comparator);
-        return new Simplex(newSimplex);
+        Collections.sort(newPoints, comparator);
+        return new Simplex(newPoints);
     }
 
     /**
@@ -232,7 +232,7 @@ public final class Simplex implements OptimizationData {
      * @return the point at location {@code index}.
      */
     public PointValuePair get(int index) {
-        final PointValuePair p = simplex.get(index);
+        final PointValuePair p = points.get(index);
         return new PointValuePair(p.getPoint(), p.getValue());
     }
 
@@ -250,13 +250,13 @@ public final class Simplex implements OptimizationData {
             throw new DimensionMismatchException(dim, point.length);
         }
 
-        final int len = simplex.size();
+        final int len = points.size();
         final double[][] coordinates = new double[len][dim];
-        final double[] current0 = simplex.get(0).getPoint(); // Current first point.
+        final double[] current0 = points.get(0).getPoint(); // Current first point.
 
         // Set new vertices.
         for (int i = 0; i < len; i++) {
-            final double[] currentI = simplex.get(i).getPoint();
+            final double[] currentI = points.get(i).getPoint();
             final double[] newI = coordinates[i];
             for (int k = 0; k < dim; k++) {
                 newI[k] = point[k] + currentI[k] - current0[k];
@@ -277,21 +277,21 @@ public final class Simplex implements OptimizationData {
      */
     public Simplex withReplacement(int index,
                                    PointValuePair point) {
-        final int len = simplex.size();
+        final int len = points.size();
         if (index < 0 ||
             index >= len) {
             throw new IndexOutOfBoundsException("index: " + index);
         }
 
-        final List<PointValuePair> newSimplex = new ArrayList<>(len);
+        final List<PointValuePair> newPoints = new ArrayList<>(len);
         for (int i = 0; i < len; i++) {
             final PointValuePair pv = i == index ?
                 point :
-                simplex.get(i);
-            newSimplex.add(new PointValuePair(pv.getPoint(), pv.getValue(), false));
+                points.get(i);
+            newPoints.add(new PointValuePair(pv.getPoint(), pv.getValue(), false));
         }
 
-        return new Simplex(newSimplex);
+        return new Simplex(newPoints);
     }
 
     /**
