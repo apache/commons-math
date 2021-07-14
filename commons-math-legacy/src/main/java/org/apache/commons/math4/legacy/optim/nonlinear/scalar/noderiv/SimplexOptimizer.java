@@ -33,29 +33,23 @@ import org.apache.commons.math4.legacy.optim.nonlinear.scalar.MultivariateOptimi
  * This class implements simplex-based direct search optimization.
  *
  * <p>
- *  Direct search methods only use objective function values, they do
- *  not need derivatives and don't either try to compute approximation
- *  of the derivatives. According to a 1996 paper by Margaret H. Wright
- *  (<a href="http://cm.bell-labs.com/cm/cs/doc/96/4-02.ps.gz">Direct
- *  Search Methods: Once Scorned, Now Respectable</a>), they are used
- *  when either the computation of the derivative is impossible (noisy
- *  functions, unpredictable discontinuities) or difficult (complexity,
- *  computation cost). In the first cases, rather than an optimum, a
- *  <em>not too bad</em> point is desired. In the latter cases, an
- *  optimum is desired but cannot be reasonably found. In all cases
- *  direct search methods can be useful.
- * </p>
+ * Direct search methods only use objective function values, they do
+ * not need derivatives and don't either try to compute approximation
+ * of the derivatives. According to a 1996 paper by Margaret H. Wright
+ * (<a href="http://cm.bell-labs.com/cm/cs/doc/96/4-02.ps.gz">Direct
+ * Search Methods: Once Scorned, Now Respectable</a>), they are used
+ * when either the computation of the derivative is impossible (noisy
+ * functions, unpredictable discontinuities) or difficult (complexity,
+ * computation cost). In the first cases, rather than an optimum, a
+ * <em>not too bad</em> point is desired. In the latter cases, an
+ * optimum is desired but cannot be reasonably found. In all cases
+ * direct search methods can be useful.
+ *
  * <p>
- *  Simplex-based direct search methods are based on comparison of
- *  the objective function values at the vertices of a simplex (which is a
- *  set of n+1 points in dimension n) that is updated by the algorithms
- *  steps.
- * </p>
- * <p>
- *  The simplex update procedure ({@link NelderMeadTransform} or
- *  {@link MultiDirectionalTransform}) must be passed to the
- *  {@code optimize} method.
- * </p>
+ * Simplex-based direct search methods are based on comparison of
+ * the objective function values at the vertices of a simplex (which is a
+ * set of n+1 points in dimension n) that is updated by the algorithms
+ * steps.
  *
  * <p>
  * In addition to those documented in
@@ -63,28 +57,27 @@ import org.apache.commons.math4.legacy.optim.nonlinear.scalar.MultivariateOptimi
  * an instance of this class will register the following data:
  * <ul>
  *  <li>{@link Simplex}</li>
- *  <li>{@link Simplex.TransformFactory}</li>
+ *  <li>{@link Simplex.TransformFactory} (either {@link NelderMeadTransform}
+ *   or {@link MultiDirectionalTransform})</li>
  * </ul>
  *
  * <p>
- *  Each call to {@code optimize} will re-use the start configuration of
- *  the current simplex and move it such that its first vertex is at the
- *  provided start point of the optimization.
- *  If the {@code optimize} method is called to solve a different problem
- *  and the number of parameters change, the simplex must be re-initialized
- *  to one with the appropriate dimensions.
- * </p>
+ * Each call to {@code optimize} will re-use the start configuration of
+ * the current simplex and move it such that its first vertex is at the
+ * provided start point of the optimization.
+ * If the {@code optimize} method is called to solve a different problem
+ * and the number of parameters change, the simplex must be re-initialized
+ * to one with the appropriate dimensions.
+ *
  * <p>
- *  Convergence is checked by providing the <em>worst</em> points of
- *  previous and current simplex to the convergence checker, not the best
- *  ones.
- * </p>
+ * Convergence is considered achieved when <em>all</em> the simplex points
+ * have converged.
+ *
  * <p>
- *  This implementation does not directly support constrained optimization
- *  with simple bounds.
- *  The call to {@link #optimize(OptimizationData[]) optimize} will throw
- *  {@link MathUnsupportedOperationException} if bounds are passed to it.
- * </p>
+ * This implementation does not directly support constrained optimization
+ * with simple bounds.
+ * The call to {@link #optimize(OptimizationData[]) optimize} will throw
+ * {@link MathUnsupportedOperationException} if bounds are passed to it.
  */
 public class SimplexOptimizer extends MultivariateOptimizer {
     /** Simplex update function factory. */
