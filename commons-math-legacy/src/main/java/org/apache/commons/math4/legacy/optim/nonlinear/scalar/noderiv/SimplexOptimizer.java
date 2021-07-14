@@ -56,6 +56,16 @@ import org.apache.commons.math4.legacy.optim.nonlinear.scalar.MultivariateOptimi
  *  {@link MultiDirectionalTransform}) must be passed to the
  *  {@code optimize} method.
  * </p>
+ *
+ * <p>
+ * In addition to those documented in
+ * {@link MultivariateOptimizer#optimize(OptimizationData[]) MultivariateOptimizer},
+ * an instance of this class will register the following data:
+ * <ul>
+ *  <li>{@link Simplex}</li>
+ *  <li>{@link Simplex.TransformFactory}</li>
+ * </ul>
+ *
  * <p>
  *  Each call to {@code optimize} will re-use the start configuration of
  *  the current simplex and move it such that its first vertex is at the
@@ -96,24 +106,6 @@ public class SimplexOptimizer extends MultivariateOptimizer {
     public SimplexOptimizer(double rel,
                             double abs) {
         this(new SimpleValueChecker(rel, abs));
-    }
-
-    /**
-     * {@inheritDoc}
-     *
-     * @param optData Optimization data. In addition to those documented in
-     * {@link MultivariateOptimizer#parseOptimizationData(OptimizationData[])
-     * MultivariateOptimizer}, this method will register the following data:
-     * <ul>
-     *  <li>{@link Simplex}</li>
-     *  <li>{@link Simplex.TransformFactory}</li>
-     * </ul>
-     * @return {@inheritDoc}
-     */
-    @Override
-    public PointValuePair optimize(OptimizationData... optData) {
-        // Set up base class and perform computation.
-        return super.optimize(optData);
     }
 
     /** {@inheritDoc} */
