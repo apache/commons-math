@@ -64,18 +64,14 @@ public class MultiDirectionalTransform
             final PointValuePair best = original.get(0);
 
             // Perform a reflection step.
-            final Simplex reflectedSimplex = transform(evaluationFunction,
-                                                       original,
-                                                       1,
-                                                       comparator);
+            final Simplex reflectedSimplex = transform(original,
+                                                       1);
             final PointValuePair reflectedBest = reflectedSimplex.get(0);
 
             if (comparator.compare(reflectedBest, best) < 0) {
                 // Compute the expanded simplex.
-                final Simplex expandedSimplex = transform(evaluationFunction,
-                                                          original,
-                                                          gamma,
-                                                          comparator);
+                final Simplex expandedSimplex = transform(original,
+                                                          gamma);
                 final PointValuePair expandedBest = expandedSimplex.get(0);
 
                 return comparator.compare(reflectedBest, expandedBest) <= 0 ?
@@ -83,10 +79,8 @@ public class MultiDirectionalTransform
                     expandedSimplex;
             } else {
                 // Compute the contracted simplex.
-                return transform(evaluationFunction,
-                                 original,
-                                 rho,
-                                 comparator);
+                return transform(original,
+                                 rho);
             }
         };
     }
@@ -94,18 +88,14 @@ public class MultiDirectionalTransform
     /**
      * Computes and evaluates a new simplex.
      *
-     * @param evaluationFunction Evaluation function.
      * @param original Original simplex.
      * @param coeff Linear coefficient.
-     * @param comparator Comparator for sorting vertices from best to worst.
      * @return the transformed simplex.
      * @throws org.apache.commons.math4.legacy.exception.TooManyEvaluationsException
      * if the maximal number of evaluations is exceeded.
      */
-    private Simplex transform(MultivariateFunction evaluationFunction,
-                              Simplex original,
-                              double coeff,
-                              Comparator<PointValuePair> comparator) {
+    private Simplex transform(Simplex original,
+                              double coeff) {
         // Transformed simplex is the result a linear transformation on all
         // points except the first one.
         final int dim = original.getDimension();
