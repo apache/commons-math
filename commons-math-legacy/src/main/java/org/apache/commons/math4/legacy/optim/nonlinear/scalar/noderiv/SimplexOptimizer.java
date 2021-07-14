@@ -143,12 +143,10 @@ public class SimplexOptimizer extends MultivariateOptimizer {
             if (previous != null) { // Skip check at first iteration.
                 boolean converged = true;
                 for (int i = 0; i < simplex.getSize(); i++) {
-                    PointValuePair prev = previous.get(i);
-                    converged = converged &&
-                        checker.converged(getIterations(), prev, simplex.get(i));
-
-                    if (!converged) {
-                        // Short circuit, since "converged" will stay "false".
+                    if (!checker.converged(getIterations(),
+                                           previous.get(i),
+                                           simplex.get(i))) {
+                        converged = false;
                         break;
                     }
                 }
