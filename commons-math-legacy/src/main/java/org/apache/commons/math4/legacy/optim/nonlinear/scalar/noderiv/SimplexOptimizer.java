@@ -123,7 +123,7 @@ public class SimplexOptimizer extends MultivariateOptimizer {
 
         // Indirect call to "computeObjectiveValue" in order to update the
         // evaluations counter.
-        final MultivariateFunction evalFunc = (p) -> computeObjectiveValue(p);
+        final MultivariateFunction evalFunc = p -> computeObjectiveValue(p);
 
         final boolean isMinim = getGoalType() == GoalType.MINIMIZE;
         final Comparator<PointValuePair> comparator = (o1, o2) -> {
