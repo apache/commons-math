@@ -14,7 +14,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.apache.commons.math4.legacy.random;
+package org.apache.commons.math4.legacy.quasirandom;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -24,10 +24,10 @@ import java.nio.charset.Charset;
 import java.util.Arrays;
 import java.util.NoSuchElementException;
 import java.util.StringTokenizer;
-import java.util.function.Supplier;
 
 import org.apache.commons.math4.legacy.exception.MathInternalError;
 import org.apache.commons.math4.legacy.exception.MathParseException;
+import org.apache.commons.math4.legacy.exception.NotPositiveException;
 import org.apache.commons.math4.legacy.exception.NotStrictlyPositiveException;
 import org.apache.commons.math4.legacy.exception.OutOfRangeException;
 import org.apache.commons.math4.legacy.core.jdkmath.AccurateMath;
@@ -45,7 +45,7 @@ import org.apache.commons.math4.legacy.core.jdkmath.AccurateMath;
  * The generator supports two modes:
  * <ul>
  *   <li>sequential generation of points: {@link #get()}</li>
- *   <li>random access to the i-th point in the sequence: {@link #skipTo(int)}</li>
+ *   <li>random access to the i-th point in the sequence: {@link LowDiscrepancySequence#jump(long)}</li>
  * </ul>
  *
  * @see <a href="http://en.wikipedia.org/wiki/Sobol_sequence">Sobol sequence (Wikipedia)</a>
@@ -53,7 +53,8 @@ import org.apache.commons.math4.legacy.core.jdkmath.AccurateMath;
  *
  * @since 3.3
  */
-public class SobolSequenceGenerator implements Supplier<double[]> {
+public class SobolSequenceGenerator implements LowDiscrepancySequence {
+
     /** The number of bits to use. */
     private static final int BITS = 52;
 
@@ -73,7 +74,7 @@ public class SobolSequenceGenerator implements Supplier<double[]> {
     private final int dimension;
 
     /** The current index in the sequence. */
-    private int count;
+    private long count;
 
     /** The direction vector for each component. */
     private final long[][] direction;
@@ -171,6 +172,13 @@ public class SobolSequenceGenerator implements Supplier<double[]> {
         }
     }
 
+    private SobolSequenceGenerator(SobolSequenceGenerator sobolSequenceGenerator) {
+        this.dimension = sobolSequenceGenerator.dimension;
+        this.count = sobolSequenceGenerator.count;
+        this.direction = Arrays.copyOf(sobolSequenceGenerator.direction, sobolSequenceGenerator.direction.length);
+        this.x = Arrays.copyOf(sobolSequenceGenerator.x, sobolSequenceGenerator.x.length);
+    }
+
     /**
      * Load the direction vector for each dimension from the given stream.
      * <p>
@@ -261,7 +269,7 @@ public class SobolSequenceGenerator implements Supplier<double[]> {
 
         // find the index c of the rightmost 0
         int c = 1;
-        int value = count - 1;
+        long value = count - 1;
         while ((value & 1) == 1) {
             value >>= 1;
             c++;
@@ -281,15 +289,30 @@ public class SobolSequenceGenerator implements Supplier<double[]> {
      * This operation can be performed in O(1).
      *
      * @param index the index in the sequence to skip to
-     * @return the i-th point in the Sobol sequence
-     * @throws org.apache.commons.math4.legacy.exception.NotPositiveException NotPositiveException if index &lt; 0
+     * @return the sequence it self
+     * @throws NotPositiveException if index &lt; 0
      */
-    public double[] skipTo(final int index) {
+    @Override
+    public LowDiscrepancySequence jump(final long index) throws NotPositiveException {
+        if(index < 0) {
+            throw new NotPositiveException(index);
+        }
+
+        SobolSequenceGenerator copy = this.copy();
+        copy.performJump(index);
+        return copy;
+    }
+
+    /**
+     *  Do jump at the index.
+     * @param index
+     */
+    private void performJump(long index) {
         if (index == 0) {
             // reset x vector
             Arrays.fill(x, 0);
         } else {
-            final int i = index - 1;
+            final long i = index - 1;
             final long grayCode = i ^ (i >> 1); // compute the gray code of i = i XOR floor(i / 2)
             for (int j = 0; j < dimension; j++) {
                 long result = 0;
@@ -307,17 +330,14 @@ public class SobolSequenceGenerator implements Supplier<double[]> {
             }
         }
         count = index;
-        return get();
     }
 
     /**
-     * Returns the index i of the next point in the Sobol sequence that will be returned
-     * by calling {@link #get()}.
-     *
-     * @return the index of the next point
+     * Private constructor avoid side effects.
+     * @return copy of LowDiscrepancySequence
      */
-    public int getNextIndex() {
-        return count;
+    private SobolSequenceGenerator copy() {
+        return new SobolSequenceGenerator(this);
     }
 
 }

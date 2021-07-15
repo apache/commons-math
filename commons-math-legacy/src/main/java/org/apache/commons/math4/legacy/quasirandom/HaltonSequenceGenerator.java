@@ -14,13 +14,14 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.apache.commons.math4.legacy.random;
-
-import java.util.function.Supplier;
+package org.apache.commons.math4.legacy.quasirandom;
 
 import org.apache.commons.math4.legacy.exception.DimensionMismatchException;
+import org.apache.commons.math4.legacy.exception.NotPositiveException;
 import org.apache.commons.math4.legacy.exception.NullArgumentException;
 import org.apache.commons.math4.legacy.exception.OutOfRangeException;
+
+import java.util.Arrays;
 
 /**
  * Implementation of a Halton sequence.
@@ -43,7 +44,7 @@ import org.apache.commons.math4.legacy.exception.OutOfRangeException;
  * The generator supports two modes:
  * <ul>
  *   <li>sequential generation of points: {@link #get()}</li>
- *   <li>random access to the i-th point in the sequence: {@link #skipTo(int)}</li>
+ *   <li>random access to the i-th point in the sequence: {@link LowDiscrepancySequence#jump(long)}</li>
  * </ul>
  *
  * @see <a href="http://en.wikipedia.org/wiki/Halton_sequence">Halton sequence (Wikipedia)</a>
@@ -51,7 +52,7 @@ import org.apache.commons.math4.legacy.exception.OutOfRangeException;
  * On the Halton sequence and its scramblings</a>
  * @since 3.3
  */
-public class HaltonSequenceGenerator implements Supplier<double[]> {
+public class HaltonSequenceGenerator implements LowDiscrepancySequence {
 
     /** The first 40 primes. */
     private static final int[] PRIMES = new int[] {
@@ -71,7 +72,7 @@ public class HaltonSequenceGenerator implements Supplier<double[]> {
     private final int dimension;
 
     /** The current index in the sequence. */
-    private int count;
+    private long count;
 
     /** The base numbers for each component. */
     private final int[] base;
@@ -87,6 +88,13 @@ public class HaltonSequenceGenerator implements Supplier<double[]> {
      */
     public HaltonSequenceGenerator(final int dimension) {
         this(dimension, PRIMES, WEIGHTS);
+    }
+
+    private HaltonSequenceGenerator(HaltonSequenceGenerator original){
+        this.base = original.base;
+        this.count = original.count;
+        this.dimension = original.dimension;
+        this.weight = Arrays.copyOf(original.weight,original.weight.length);
     }
 
     /**
@@ -123,12 +131,12 @@ public class HaltonSequenceGenerator implements Supplier<double[]> {
     public double[] get() {
         final double[] v = new double[dimension];
         for (int i = 0; i < dimension; i++) {
-            int index = count;
+            long index = count;
             double f = 1.0 / base[i];
 
             int j = 0;
             while (index > 0) {
-                final int digit = scramble(i, j, base[i], index % base[i]);
+                final long digit = scramble(i, j, base[i], index % base[i]);
                 v[i] += f * digit;
                 index /= base[i]; // floor( index / base )
                 f /= base[i];
@@ -151,31 +159,43 @@ public class HaltonSequenceGenerator implements Supplier<double[]> {
      * @param digit the j-th digit
      * @return the scrambled digit
      */
-    protected int scramble(final int i, final int j, final int b, final int digit) {
+    protected long scramble(final int i, final int j, final int b, final long digit) {
         return weight != null ? (weight[i] * digit) % b : digit;
     }
 
     /**
-     * Skip to the i-th point in the Halton sequence.
+§     * Jump to the i-th point in the Halton sequence.
      * <p>
      * This operation can be performed in O(1).
      *
      * @param index the index in the sequence to skip to
-     * @return the i-th point in the Halton sequence
-     * @throws org.apache.commons.math4.legacy.exception.NotPositiveException NotPositiveException if index &lt; 0
+     * @return the copy of this sequence
+     * @throws org.apache.commons.math4.legacy.exception.NotPositiveException if index &lt; 0
      */
-    public double[] skipTo(final int index) {
-        count = index;
-        return get();
+    @Override
+    public LowDiscrepancySequence jump(final long index) throws NotPositiveException {
+        if(index < 0) {
+            throw new NotPositiveException(index);
+        }
+        HaltonSequenceGenerator copy = this.copy();
+        copy.performJump(index);
+        return copy;
     }
 
     /**
-     * Returns the index i of the next point in the Halton sequence that will be returned
-     * by calling {@link #get()}.
-     *
-     * @return the index of the next point
+     *  Do jump at the index.
+     * @param index
      */
-    public int getNextIndex() {
-        return count;
+    private void performJump(long index) {
+        count = index;
     }
+
+    /**
+     * Private constructor avoid side effects.
+     * @return copy of HaltonSequenceGenerator
+     */
+    private HaltonSequenceGenerator copy() {
+        return new HaltonSequenceGenerator(this);
+    }
+
 }
