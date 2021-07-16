@@ -145,7 +145,7 @@ public class SimplexOptimizerMultiDirectionalTest {
                1e-4);
     }
 
-    @Ignore@Test
+    @Ignore("See MATH-1552")@Test
     public void testEllipse() {
         doTest(new OptimTestUtils.Elli(),
                OptimTestUtils.point(DIM, 1.0, 1e-1),
@@ -155,7 +155,7 @@ public class SimplexOptimizerMultiDirectionalTest {
                1e-9);
      }
 
-    @Ignore@Test
+    @Ignore("See MATH-1552")@Test
     public void testElliRotated() {
         doTest(new OptimTestUtils.ElliRotated(),
                OptimTestUtils.point(DIM, 1.0, 1e-1),
@@ -175,7 +175,7 @@ public class SimplexOptimizerMultiDirectionalTest {
                1e-6);
     }
 
-    @Ignore@Test
+    @Ignore("See MATH-1552")@Test
     public void testTwoAxes() {
         doTest(new OptimTestUtils.TwoAxes(),
                OptimTestUtils.point(DIM, 1.0, 1e-1),
@@ -185,7 +185,7 @@ public class SimplexOptimizerMultiDirectionalTest {
                1e-12);
      }
 
-    @Ignore@Test
+    @Ignore("See MATH-1552")@Test
     public void testCigTab() {
         doTest(new OptimTestUtils.CigTab(),
                OptimTestUtils.point(DIM, 1.0, 1e-1),
@@ -205,7 +205,7 @@ public class SimplexOptimizerMultiDirectionalTest {
                1e-6);
     }
 
-    @Ignore@Test
+    @Ignore("See MATH-1552")@Test
     public void testTablet() {
         doTest(new OptimTestUtils.Tablet(),
                OptimTestUtils.point(DIM, 1.0, 1e-1),
@@ -215,7 +215,7 @@ public class SimplexOptimizerMultiDirectionalTest {
                1e-9);
     }
 
-    @Ignore@Test
+    @Ignore("See MATH-1552")@Test
     public void testDiffPow() {
         doTest(new OptimTestUtils.DiffPow(),
                OptimTestUtils.point(DIM, 1.0, 1e-1),
@@ -235,7 +235,7 @@ public class SimplexOptimizerMultiDirectionalTest {
                1e-3);
     }
 
-    @Ignore@Test
+    @Ignore("See MATH-1552")@Test
     public void testAckley() {
         doTest(new OptimTestUtils.Ackley(),
                OptimTestUtils.point(DIM, 1.0, 1e-1),
@@ -245,7 +245,7 @@ public class SimplexOptimizerMultiDirectionalTest {
                1e-11);
     }
 
-    @Ignore@Test
+    @Ignore("See MATH-1552")@Test
     public void testRastrigin() {
         doTest(new OptimTestUtils.Rastrigin(),
                OptimTestUtils.point(DIM, 1.0, 2e-1),
