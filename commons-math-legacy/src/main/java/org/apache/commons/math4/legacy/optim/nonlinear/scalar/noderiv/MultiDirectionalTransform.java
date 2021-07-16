@@ -64,14 +64,12 @@ public class MultiDirectionalTransform
             final PointValuePair best = original.get(0);
 
             // Perform a reflection step.
-            final Simplex reflectedSimplex = transform(original,
-                                                       1);
+            final Simplex reflectedSimplex = transform(original, 1);
             final PointValuePair reflectedBest = reflectedSimplex.get(0);
 
             if (comparator.compare(reflectedBest, best) < 0) {
                 // Compute the expanded simplex.
-                final Simplex expandedSimplex = transform(original,
-                                                          gamma);
+                final Simplex expandedSimplex = transform(original, gamma);
                 final PointValuePair expandedBest = expandedSimplex.get(0);
 
                 return comparator.compare(reflectedBest, expandedBest) <= 0 ?
@@ -79,8 +77,7 @@ public class MultiDirectionalTransform
                     expandedSimplex;
             } else {
                 // Compute the contracted simplex.
-                return transform(original,
-                                 rho);
+                return transform(original, rho);
             }
         };
     }
