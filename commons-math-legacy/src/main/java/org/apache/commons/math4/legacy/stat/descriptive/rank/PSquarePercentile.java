@@ -941,10 +941,9 @@ public class PSquarePercentile extends AbstractStorelessUnivariateStatistic
 
     /**
      * An interface that encapsulates abstractions of the
-     * P-square algorithm markers as is explained in the original works. This
-     * interface is exposed with protected access to help in testability.
+     * P-square algorithm markers as is explained in the original works.
      */
-    protected interface PSquareMarkers {
+    interface PSquareMarkers { // Package-private for unit testing.
         /**
          * Returns Percentile value computed thus far.
          *
