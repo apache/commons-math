@@ -22,11 +22,11 @@ import java.util.Arrays;
 import java.util.Iterator;
 import java.util.List;
 
-import org.apache.commons.math4.legacy.exception.MathInternalError;
-import org.apache.commons.math4.legacy.exception.NotANumberException;
 import org.apache.commons.rng.UniformRandomProvider;
 import org.apache.commons.rng.simple.RandomSource;
-import org.apache.commons.math4.legacy.random.RandomUtils;
+import org.apache.commons.rng.sampling.distribution.UniformLongSampler;
+import org.apache.commons.math4.legacy.exception.MathInternalError;
+import org.apache.commons.math4.legacy.exception.NotANumberException;
 import org.apache.commons.math4.legacy.core.jdkmath.AccurateMath;
 
 
@@ -85,7 +85,7 @@ public class NaturalRanking implements RankingAlgorithm {
     private final TiesStrategy tiesStrategy;
 
     /** Source of random data - used only when ties strategy is RANDOM. */
-    private final RandomUtils.DataGenerator randomData;
+    private final UniformRandomProvider random;
 
     /**
      * Create a NaturalRanking with default strategies for handling ties and NaNs.
@@ -152,14 +152,14 @@ public class NaturalRanking implements RankingAlgorithm {
     /**
      * @param nanStrategy NaN strategy.
      * @param tiesStrategy Tie strategy.
-     * @param randomGenerator RNG.
+     * @param random RNG.
      */
     private NaturalRanking(NaNStrategy nanStrategy,
                            TiesStrategy tiesStrategy,
-                           UniformRandomProvider randomGenerator) {
+                           UniformRandomProvider random) {
         this.nanStrategy = nanStrategy;
         this.tiesStrategy = tiesStrategy;
-        randomData = RandomUtils.createDataGenerator(randomGenerator);
+        this.random = random;
     }
 
     /**
@@ -354,10 +354,10 @@ public class NaturalRanking implements RankingAlgorithm {
             case RANDOM:    // Fill with random integral values in [c, c + length - 1]
                 Iterator<Integer> iterator = tiesTrace.iterator();
                 long f = AccurateMath.round(c);
+                final UniformLongSampler sampler = UniformLongSampler.of(random, f, f + length - 1);
                 while (iterator.hasNext()) {
                     // No advertised exception because args are guaranteed valid
-                    ranks[iterator.next()] =
-                        randomData.nextLong(f, f + length - 1);
+                    ranks[iterator.next()] = sampler.sample();
                 }
                 break;
             case SEQUENTIAL:  // Fill sequentially from c to c + length - 1
