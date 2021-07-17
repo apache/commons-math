@@ -237,12 +237,13 @@ public class PSquarePercentile extends AbstractStorelessUnivariateStatistic
         PSquarePercentile copy = new PSquarePercentile(100d * quantile);
 
         if (markers != null) {
-            copy.markers = (PSquareMarkers) markers.clone();
+            copy.markers = markers.copy();
         }
         copy.countOfObservations = countOfObservations;
         copy.pValue = pValue;
         copy.initialFive.clear();
         copy.initialFive.addAll(initialFive);
+
         return copy;
     }
 
@@ -557,19 +558,19 @@ public class PSquarePercentile extends AbstractStorelessUnivariateStatistic
         }
 
         /**
-         * {@inheritDoc}.Clone Markers
+         * Copy markers.
          *
-         * @return cloned object
+         * @return a new instance.
          */
-        @Override
-        public Object clone() {
-            return new Markers(new Marker[] { new Marker(),
-                    (Marker) markerArray[1].clone(),
-                    (Marker) markerArray[2].clone(),
-                    (Marker) markerArray[3].clone(),
-                    (Marker) markerArray[4].clone(),
-                    (Marker) markerArray[5].clone() });
-
+        public Markers copy() {
+            return new Markers(new Marker[] {
+                    new Marker(),
+                    markerArray[1].copy(),
+                    markerArray[2].copy(),
+                    markerArray[3].copy(),
+                    markerArray[4].copy(),
+                    markerArray[5].copy()
+                });
         }
 
         /**
@@ -590,7 +591,7 @@ public class PSquarePercentile extends AbstractStorelessUnivariateStatistic
     /**
      * The class modeling the attributes of the marker of the P-square algorithm.
      */
-    private static final class Marker implements Serializable, Cloneable {
+    private static final class Marker implements Serializable {
 
         /**
          * Serial Version ID.
@@ -846,12 +847,11 @@ public class PSquarePercentile extends AbstractStorelessUnivariateStatistic
         }
 
         /**
-         * Clone this instance.
+         * Copy this instance.
          *
-         * @return cloned marker
+         * @return a new instance.
          */
-        @Override
-        public Object clone() {
+        public Marker copy() {
             return new Marker(markerHeight, desiredMarkerPosition, desiredMarkerIncrement, intMarkerPosition);
         }
 
@@ -944,22 +944,13 @@ public class PSquarePercentile extends AbstractStorelessUnivariateStatistic
      * P-square algorithm markers as is explained in the original works. This
      * interface is exposed with protected access to help in testability.
      */
-    protected interface PSquareMarkers extends Cloneable {
+    protected interface PSquareMarkers {
         /**
          * Returns Percentile value computed thus far.
          *
          * @return percentile
          */
         double getPercentileValue();
-
-        /**
-         * A clone function to clone the current instance. It's created as an
-         * interface method as well for convenience though Cloneable is just a
-         * marker interface.
-         *
-         * @return clone of this instance
-         */
-        Object clone();
 
         /**
          * Returns the marker height (or percentile) of a given marker index.
@@ -969,6 +960,13 @@ public class PSquarePercentile extends AbstractStorelessUnivariateStatistic
          * @throws OutOfRangeException in case the index is not within [1-5]
          */
         double height(int markerIndex);
+
+        /**
+         * Copy factory.
+         *
+         * @return a new instance
+         */
+        PSquareMarkers copy();
 
         /**
          * Process a data point by moving the marker heights based on estimator.
