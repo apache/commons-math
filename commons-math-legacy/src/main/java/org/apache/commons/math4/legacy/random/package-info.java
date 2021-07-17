@@ -15,18 +15,9 @@
  * limitations under the License.
  */
 /**
- * <p>Random Data Generation</p>
+ * This package contains functionality related to random numbers.
  *
- * <p>
- *  Some of the utilities in this package use the pseudo-random number
- *  generators defined in the <a href="http://commons.apache.org/rng">
- *  Commons RNG</a> library in order to provide
- *  {@link org.apache.commons.math4.legacy.random.RandomUtils.DataGenerator
- *  higher level functionality} (such as random strings) based on an underlying
- *  source of randomness that provides sequences of uniformly distributed integers.
- * </p>
- * <p>
- *  Others are sources of pseudo-randomness that directly produce "compound" types.
- * </p>
+ * Note that a wide range of utilities are available in
+ * <a href="http://commons.apache.org/rng">Commons RNG</a>.
  */
 package org.apache.commons.math4.legacy.random;
