@@ -323,10 +323,10 @@ public class NaturalRanking implements RankingAlgorithm {
      * Resolve a sequence of ties, using the configured {@link TiesStrategy}.
      * The input <code>ranks</code> array is expected to take the same value
      * for all indices in <code>tiesTrace</code>.  The common value is recoded
-     * according to the tiesStrategy. For example, if ranks = <5,8,2,6,2,7,1,2>,
-     * tiesTrace = <2,4,7> and tiesStrategy is MINIMUM, ranks will be unchanged.
+     * according to the tiesStrategy. For example, if ranks = [5,8,2,6,2,7,1,2],
+     * tiesTrace = [2,4,7] and tiesStrategy is MINIMUM, ranks will be unchanged.
      * The same array and trace with tiesStrategy AVERAGE will come out
-     * <5,8,3,6,3,7,1,3>.
+     * [5,8,3,6,3,7,1,3].
      *
      * @param ranks array of ranks
      * @param tiesTrace list of indices where <code>ranks</code> is constant
