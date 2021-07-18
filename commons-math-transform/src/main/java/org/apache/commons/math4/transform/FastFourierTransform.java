@@ -402,12 +402,10 @@ public class FastFourierTransform implements ComplexTransform {
          * to use the <em>standard</em> normalization convention. This normalization
          * convention is defined as follows
          * <ul>
-         * <li>forward transform: y<sub>n</sub> = &sum;<sub>k=0</sub><sup>N-1</sup>
-         * x<sub>k</sub> exp(-2&pi;i n k / N),</li>
-         * <li>inverse transform: x<sub>k</sub> = N<sup>-1</sup>
-         * &sum;<sub>n=0</sub><sup>N-1</sup> y<sub>n</sub> exp(2&pi;i n k / N),</li>
+         * <li>forward transform: \( y_n = \sum_{k = 0}^{N - 1} x_k e^{-2 \pi i n k / N} \),</li>
+         * <li>inverse transform: \( x_k = \frac{1}{N} \sum_{n = 0}^{N - 1} y_n e^{2 \pi i n k / N} \),</li>
          * </ul>
-         * where N is the size of the data sample.
+         * where \( N \) is the size of the data sample.
          */
         STD,
 
@@ -416,13 +414,10 @@ public class FastFourierTransform implements ComplexTransform {
          * to use the <em>unitary</em> normalization convention. This normalization
          * convention is defined as follows
          * <ul>
-         * <li>forward transform: y<sub>n</sub> = (1 / &radic;N)
-         * &sum;<sub>k=0</sub><sup>N-1</sup> x<sub>k</sub>
-         * exp(-2&pi;i n k / N),</li>
-         * <li>inverse transform: x<sub>k</sub> = (1 / &radic;N)
-         * &sum;<sub>n=0</sub><sup>N-1</sup> y<sub>n</sub> exp(2&pi;i n k / N),</li>
+         * <li>forward transform: \( y_n = \frac{1}{\sqrt{N}} \sum_{k = 0}^{N - 1} x_k e^{-2 \pi i n k / N} \),</li>
+         * <li>inverse transform: \( x_k = \frac{1}{\sqrt{N}} \sum_{n = 0}^{N - 1} y_n e^{2 \pi i n k / N} \),</li>
          * </ul>
-         * which makes the transform unitary. N is the size of the data sample.
+         * where \( N \) is the size of the data sample.
          */
         UNIT;
     }
