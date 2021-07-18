@@ -127,8 +127,7 @@ class ChineseRings {
      * @return the iterable.
      */
     public Iterable<double[]> createIterable() {
-        return () -> {
-            return new Iterator<double[]>() {
+        return () -> new Iterator<double[]>() {
                 /** Data. */
                 private final Vector3D[] points = getPoints();
                 /** Number of samples. */
@@ -155,6 +154,5 @@ class ChineseRings {
                     throw new UnsupportedOperationException();
                 }
             };
-        };
     }
 }
