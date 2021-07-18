@@ -95,6 +95,9 @@ Caveat:
  nightmare was one of the main reasons for creating more focused
  components.]
 ">
+      <action dev="erans" type="fix" issue="MATH-1617" due-to="Ng Tsz Sum">
+        Class "BigReal": Fix equality check.
+      </action>
       <action dev="erans" type="update" issue="MATH-1595">
         Clean up "o.a.c.math4.legacy.random" package.
       </action>

@@ -298,4 +298,19 @@ public class FieldLUDecompositionTest {
         Assert.assertTrue(u == lu.getU());
         Assert.assertTrue(p == lu.getP());
     }
+
+    @Test
+    public void testConstructorWithBigReal() {
+        BigReal[][] leftMatrixData = new BigReal[][]{
+                {new BigReal(1), new BigReal(0), new BigReal(0), new BigReal(0)},
+                {new BigReal(1), new BigReal(0), new BigReal(1), new BigReal(0)},
+                {new BigReal(1), new BigReal(1), new BigReal(0), new BigReal(0)},
+                {new BigReal(1), new BigReal(1), new BigReal(1), new BigReal(1)},
+        };
+
+        FieldMatrix<BigReal> matrix = MatrixUtils.createFieldMatrix(leftMatrixData);
+        FieldLUDecomposition<BigReal> lu = new FieldLUDecomposition<>(matrix);
+        Assert.assertEquals(new BigReal(-1), lu.getDeterminant());
+        Assert.assertArrayEquals(new int[]{0, 2, 1, 3}, lu.getPivot());
+    }
 }

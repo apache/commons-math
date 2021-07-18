@@ -314,8 +314,8 @@ public class BigReal implements FieldElement<BigReal>, Comparable<BigReal>, Seri
             return true;
         }
 
-        if (other instanceof BigReal){
-            return d.equals(((BigReal) other).d);
+        if (other instanceof BigReal) {
+            return d.compareTo(((BigReal) other).d) == 0;
         }
         return false;
     }

@@ -175,6 +175,9 @@ public class BigRealTest {
         BigReal one = new BigReal(1.0);
         Assert.assertFalse(one.equals(zero) || zero.equals(one));
         Assert.assertTrue(one.equals(BigReal.ONE));
+        BigReal oneWithScaleOne = new BigReal(new BigDecimal("1.0"));
+        BigReal oneWithScaleTwo = new BigReal(new BigDecimal("1.00"));
+        Assert.assertTrue(oneWithScaleOne.equals(oneWithScaleTwo));
     }
 
     @Test
