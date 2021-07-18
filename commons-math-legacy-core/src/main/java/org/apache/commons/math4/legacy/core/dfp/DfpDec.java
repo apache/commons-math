@@ -320,20 +320,20 @@ public class DfpDec extends Dfp {
 
         if (up) {
             inc = power10(intLog10() - getDecimalDigits() + 1);
-            inc = copysign(inc, this);
+            inc = copySign(inc, this);
 
             if (this.equals(getZero())) {
                 inc = power10K(MIN_EXP - mant.length - 1);
             }
 
             if (inc.equals(getZero())) {
-                result = copysign(newInstance(getZero()), this);
+                result = copySign(newInstance(getZero()), this);
             } else {
                 result = add(inc);
             }
         } else {
             inc = power10(intLog10());
-            inc = copysign(inc, this);
+            inc = copySign(inc, this);
 
             if (this.equals(inc)) {
                 inc = inc.divide(power10(getDecimalDigits()));
@@ -346,7 +346,7 @@ public class DfpDec extends Dfp {
             }
 
             if (inc.equals(getZero())) {
-                result = copysign(newInstance(getZero()), this);
+                result = copySign(newInstance(getZero()), this);
             } else {
                 result = subtract(inc);
             }

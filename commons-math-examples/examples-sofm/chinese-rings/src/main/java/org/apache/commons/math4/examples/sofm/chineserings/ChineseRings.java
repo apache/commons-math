@@ -18,6 +18,7 @@
 package org.apache.commons.math4.examples.sofm.chineserings;
 
 import java.util.Iterator;
+import java.util.NoSuchElementException;
 
 import org.apache.commons.rng.UniformRandomProvider;
 import org.apache.commons.rng.simple.RandomSource;
@@ -72,7 +73,7 @@ class ChineseRings {
                                            halfWidthRing1);
 
         for (int i = 0; i < numPointsRing1; i++) {
-            final double[] v = unit.nextVector();
+            final double[] v = unit.sample();
             final double r = radius1.sample();
             // First ring is in the xy-plane, centered at (0, 0, 0).
             firstRing[i] = Vector3D.of(v[0] * r,
@@ -90,7 +91,7 @@ class ChineseRings {
                                            halfWidthRing2);
 
         for (int i = 0; i < numPointsRing2; i++) {
-            final double[] v = unit.nextVector();
+            final double[] v = unit.sample();
             final double r = radius2.sample();
             // Second ring is in the xz-plane, centered at (radiusRing1, 0, 0).
             secondRing[i] = Vector3D.of(radiusRing1 + v[0] * r,
@@ -126,34 +127,34 @@ class ChineseRings {
      * @return the iterable.
      */
     public Iterable<double[]> createIterable() {
-        return new Iterable<double[]>() {
-            @Override
-            public Iterator<double[]> iterator() {
-                return new Iterator<double[]>() {
-                    /** Data. */
-                    private final Vector3D[] points = getPoints();
-                    /** Number of samples. */
-                    private int n = 0;
+        return () -> {
+            return new Iterator<double[]>() {
+                /** Data. */
+                private final Vector3D[] points = getPoints();
+                /** Number of samples. */
+                private int n = 0;
 
-                    /** {@inheritDoc} */
-                    @Override
-                    public boolean hasNext() {
-                        return n < points.length;
-                    }
+                /** {@inheritDoc} */
+                @Override
+                public boolean hasNext() {
+                    return n < points.length;
+                }
 
-                    /** {@inheritDoc} */
-                    @Override
-                    public double[] next() {
-                        return points[n++].toArray();
+                /** {@inheritDoc} */
+                @Override
+                public double[] next() {
+                    if (!hasNext()) {
+                        throw new NoSuchElementException();
                     }
+                    return points[n++].toArray();
+                }
 
-                    /** {@inheritDoc} */
-                    @Override
-                    public void remove() {
-                        throw new UnsupportedOperationException();
-                    }
-                };
-            }
+                /** {@inheritDoc} */
+                @Override
+                public void remove() {
+                    throw new UnsupportedOperationException();
+                }
+            };
         };
     }
 }

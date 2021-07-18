@@ -22,6 +22,7 @@ import java.util.ArrayList;
 import java.util.Set;
 import java.util.Collection;
 import java.util.Iterator;
+import java.util.NoSuchElementException;
 import java.util.function.DoubleUnaryOperator;
 import java.util.concurrent.Future;
 import java.util.concurrent.Executors;
@@ -193,6 +194,9 @@ public final class TravellingSalesmanSolver {
             /** {@inheritDoc} */
             @Override
             public double[] next() {
+                if (!hasNext()) {
+                    throw new NoSuchElementException();
+                }
                 ++n;
                 return sampler.sample().getCoordinates();
             }

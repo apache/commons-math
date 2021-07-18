@@ -61,7 +61,7 @@ public class Pair<K, V> {
      * @return the key (first element of the pair).
      */
     public K getKey() {
-        return key;
+        return getFirst();
     }
 
     /**
@@ -70,7 +70,7 @@ public class Pair<K, V> {
      * @return the value (second element of the pair).
      */
     public V getValue() {
-        return value;
+        return getSecond();
     }
 
     /**

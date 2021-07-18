@@ -799,9 +799,7 @@ public final class MathArrays {
             array = (T[][]) Array.newInstance(dummyRow.getClass(), rows);
         } else {
             array = (T[][]) Array.newInstance(field.getRuntimeClass(),
-                                              new int[] {
-                                                  rows, columns
-                                              });
+                                              rows, columns);
             for (int i = 0; i < rows; ++i) {
                 Arrays.fill(array[i], field.getZero());
             }
@@ -953,12 +951,7 @@ public final class MathArrays {
                     Integer.valueOf(begin + length), Integer.valueOf(values.length), true);
         }
 
-        if (length == 0 && !allowEmpty) {
-            return false;
-        }
-
-        return true;
-
+        return !(length == 0 && !allowEmpty);
     }
 
     /**

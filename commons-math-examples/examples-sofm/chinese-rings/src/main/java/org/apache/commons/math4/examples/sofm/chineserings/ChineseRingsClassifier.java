@@ -18,6 +18,7 @@
 package org.apache.commons.math4.examples.sofm.chineserings;
 
 import java.util.Iterator;
+import java.util.NoSuchElementException;
 
 import org.apache.commons.rng.UniformRandomProvider;
 import org.apache.commons.rng.simple.RandomSource;
@@ -178,6 +179,9 @@ class ChineseRingsClassifier {
             /** {@inheritDoc} */
             @Override
             public double[] next() {
+                if (!hasNext()) {
+                    throw new NoSuchElementException();
+                }
                 ++n;
                 return points[rng.nextInt(points.length)].toArray();
             }

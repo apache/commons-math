@@ -2329,7 +2329,7 @@ public class Dfp implements RealFieldElement<Dfp> {
      * @param y number to get the sign from
      * @return a number with the value of x and the sign of y
      */
-    public static Dfp copysign(final Dfp x, final Dfp y) {
+    public static Dfp copySign(final Dfp x, final Dfp y) {
         Dfp result = x.newInstance(x);
         result.sign = y.sign;
         return result;

@@ -1401,19 +1401,19 @@ public class DfpTest extends ExtendedFieldElementAbstractTest<Dfp> {
 
     @Test
     public void testCopySign() {
-        test(Dfp.copysign(field.newDfp("1234."), field.newDfp("-1")),
+        test(Dfp.copySign(field.newDfp("1234."), field.newDfp("-1")),
              field.newDfp("-1234"),
              0, "CopySign #1");
 
-        test(Dfp.copysign(field.newDfp("-1234."), field.newDfp("-1")),
+        test(Dfp.copySign(field.newDfp("-1234."), field.newDfp("-1")),
              field.newDfp("-1234"),
              0, "CopySign #2");
 
-        test(Dfp.copysign(field.newDfp("-1234."), field.newDfp("1")),
+        test(Dfp.copySign(field.newDfp("-1234."), field.newDfp("1")),
              field.newDfp("1234"),
              0, "CopySign #3");
 
-        test(Dfp.copysign(field.newDfp("1234."), field.newDfp("1")),
+        test(Dfp.copySign(field.newDfp("1234."), field.newDfp("1")),
              field.newDfp("1234"),
              0, "CopySign #4");
     }

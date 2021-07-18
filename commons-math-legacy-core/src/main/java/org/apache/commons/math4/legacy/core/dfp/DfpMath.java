@@ -538,7 +538,7 @@ public final class DfpMath {
 
         // X == 0
         if (x.equals(zero)) {
-            if (Dfp.copysign(one, x).greaterThan(zero)) {
+            if (Dfp.copySign(one, x).greaterThan(zero)) {
                 // X == +0
                 if (y.greaterThan(zero)) {
                     return x.newInstance(zero);
@@ -583,7 +583,7 @@ public final class DfpMath {
             if (y.greaterThan(zero)) {
                 return x.newInstance(zero);
             } else {
-                return x.newInstance(Dfp.copysign(y, one));
+                return x.newInstance(Dfp.copySign(y, one));
             }
         }
 
@@ -947,7 +947,7 @@ public final class DfpMath {
             negative = true;
         }
 
-        a = Dfp.copysign(a, a.getOne());  // absolute value
+        a = Dfp.copySign(a, a.getOne());  // absolute value
 
         result = atan(a.getOne().subtract(a.multiply(a)).sqrt().divide(a));
 
