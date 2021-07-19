@@ -409,7 +409,8 @@ public class LoessInterpolator
      * {@code (right==xval.length-1 or xval[right+1] - xval[i] > xval[i] - xval[left])}.
      * The array will be updated.
      */
-    private static void updateBandwidthInterval(final double[] xval, final double[] weights,
+    private static void updateBandwidthInterval(final double[] xval,
+                                                final double[] weights,
                                                 final int i,
                                                 final int[] bandwidthInterval) {
         final int left = bandwidthInterval[0];
@@ -418,10 +419,13 @@ public class LoessInterpolator
         // The right edge should be adjusted if the next point to the right
         // is closer to xval[i] than the leftmost point of the current interval
         int nextRight = nextNonzero(weights, right);
-        if (nextRight < xval.length && xval[nextRight] - xval[i] < xval[i] - xval[left]) {
-            int nextLeft = nextNonzero(weights, bandwidthInterval[0]);
+        int nextLeft = left;
+        while (nextRight < xval.length &&
+               xval[nextRight] - xval[i] < xval[i] - xval[nextLeft]) {
+            nextLeft = nextNonzero(weights, bandwidthInterval[0]);
             bandwidthInterval[0] = nextLeft;
             bandwidthInterval[1] = nextRight;
+            nextRight = nextNonzero(weights, nextRight);
         }
     }
 
