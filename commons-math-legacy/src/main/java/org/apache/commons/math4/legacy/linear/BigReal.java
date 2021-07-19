@@ -323,7 +323,7 @@ public class BigReal implements FieldElement<BigReal>, Comparable<BigReal>, Seri
     /** {@inheritDoc} */
     @Override
     public int hashCode() {
-        return d.hashCode();
+        return Double.hashCode(d.doubleValue());
     }
 
     /** {@inheritDoc} */

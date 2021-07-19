@@ -178,6 +178,7 @@ public class BigRealTest {
         BigReal oneWithScaleOne = new BigReal(new BigDecimal("1.0"));
         BigReal oneWithScaleTwo = new BigReal(new BigDecimal("1.00"));
         Assert.assertEquals(oneWithScaleOne, oneWithScaleTwo);
+        Assert.assertEquals(oneWithScaleOne.hashCode(), oneWithScaleTwo.hashCode());
     }
 
     @Test
