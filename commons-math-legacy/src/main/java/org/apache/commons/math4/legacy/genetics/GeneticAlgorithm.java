@@ -35,7 +35,7 @@ public class GeneticAlgorithm {
      * alternative to the default PRNG, and/or select a specific seed.
      */
     //@GuardedBy("this")
-    private static UniformRandomProvider randomGenerator = RandomSource.create(RandomSource.WELL_19937_C);
+    private static UniformRandomProvider randomGenerator = RandomSource.WELL_19937_C.create();
 
     /** the crossover policy used by the algorithm. */
     private final CrossoverPolicy crossoverPolicy;

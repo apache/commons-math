@@ -108,7 +108,7 @@ public class KMeansPlusPlusClusterer<T extends Clusterable> extends Clusterer<T>
      * @param measure the distance measure to use
      */
     public KMeansPlusPlusClusterer(final int k, final int maxIterations, final DistanceMeasure measure) {
-        this(k, maxIterations, measure, RandomSource.create(RandomSource.MT_64));
+        this(k, maxIterations, measure, RandomSource.MT_64.create());
     }
 
     /** Build a clusterer.

@@ -84,7 +84,7 @@ public class MicrosphereProjectionInterpolator
                                           darkThreshold,
                                           background,
                                           new UnitSphereSampler(dimension,
-                                                                RandomSource.create(RandomSource.MT_64))),
+                                                                RandomSource.MT_64.create())),
              exponent,
              sharedSphere,
              noInterpolationTolerance);

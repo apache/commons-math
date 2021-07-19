@@ -132,7 +132,7 @@ public class InterpolatingMicrosphere {
         // Generate the microsphere normals, assuming that a number of
         // randomly generated normals will represent a sphere.
         for (int i = 0; i < size; i++) {
-            add(rand.nextVector(), false);
+            add(rand.sample(), false);
         }
     }
 

@@ -102,7 +102,7 @@ public class NaturalRanking implements RankingAlgorithm {
     public NaturalRanking(TiesStrategy tiesStrategy) {
         this(DEFAULT_NAN_STRATEGY,
              tiesStrategy,
-             RandomSource.create(RandomSource.WELL_19937_C));
+             RandomSource.WELL_19937_C.create());
     }
 
     /**
@@ -124,7 +124,7 @@ public class NaturalRanking implements RankingAlgorithm {
                           TiesStrategy tiesStrategy) {
         this(nanStrategy,
              tiesStrategy,
-             RandomSource.create(RandomSource.WELL_19937_C));
+             RandomSource.WELL_19937_C.create());
     }
 
     /**

@@ -49,7 +49,7 @@ public class RandomPivotingStrategy implements PivotingStrategy, Serializable {
     public RandomPivotingStrategy(RandomSource randomSource,
                                   long seed) {
         this.randomSource = randomSource;
-        random = RandomSource.create(randomSource, seed);
+        random = randomSource.create(seed);
     }
 
     /**
@@ -92,7 +92,7 @@ public class RandomPivotingStrategy implements PivotingStrategy, Serializable {
         in.defaultReadObject();
 
         // Recreate the "delegate" from serialized info.
-        random = RandomSource.create(randomSource);
+        random = randomSource.create();
         // And restore its state.
         final RandomProviderDefaultState state = new RandomProviderDefaultState((byte[]) in.readObject());
         random.restoreState(state);

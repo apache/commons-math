@@ -118,7 +118,7 @@ public class FuzzyKMeansClusterer<T extends Clusterable> extends Clusterer<T> {
      */
     public FuzzyKMeansClusterer(final int k, final double fuzziness,
                                 final int maxIterations, final DistanceMeasure measure) {
-        this(k, fuzziness, maxIterations, measure, DEFAULT_EPSILON, RandomSource.create(RandomSource.MT_64));
+        this(k, fuzziness, maxIterations, measure, DEFAULT_EPSILON, RandomSource.MT_64.create());
     }
 
     /**
