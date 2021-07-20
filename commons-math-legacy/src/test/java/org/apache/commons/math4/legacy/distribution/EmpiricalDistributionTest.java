@@ -17,7 +17,6 @@
 package org.apache.commons.math4.legacy.distribution;
 
 import java.io.BufferedReader;
-import java.io.File;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.URL;
@@ -35,8 +34,6 @@ import org.apache.commons.math4.legacy.TestUtils;
 import org.apache.commons.math4.legacy.analysis.UnivariateFunction;
 import org.apache.commons.math4.legacy.analysis.integration.BaseAbstractUnivariateIntegrator;
 import org.apache.commons.math4.legacy.analysis.integration.IterativeLegendreGaussIntegrator;
-import org.apache.commons.math4.legacy.exception.MathIllegalStateException;
-import org.apache.commons.math4.legacy.exception.NullArgumentException;
 import org.apache.commons.math4.legacy.exception.NotStrictlyPositiveException;
 import org.apache.commons.math4.legacy.stat.descriptive.SummaryStatistics;
 import org.apache.commons.math4.legacy.core.jdkmath.AccurateMath;
@@ -48,32 +45,28 @@ import org.junit.Test;
  * Test cases for the {@link EmpiricalDistribution} class.
  */
 public final class EmpiricalDistributionTest extends RealDistributionAbstractTest {
-
-    protected EmpiricalDistribution empiricalDistribution = null;
-    protected EmpiricalDistribution empiricalDistribution2 = null;
-    protected File file = null;
-    protected URL url = null;
-    protected double[] dataArray = null;
-    protected final int n = 10000;
+    private EmpiricalDistribution empiricalDistribution = null;
+    private double[] dataArray = null;
+    private final int n = 10000;
+    /** Uniform bin mass = 10/10001 == mass of all but the first bin */
+    private final double binMass = 10d / (n + 1);
+    /** Mass of first bin = 11/10001 */
+    private final double firstBinMass = 11d / (n + 1);
 
     @Override
     @Before
     public void setUp() {
         super.setUp();
-        empiricalDistribution = new EmpiricalDistribution(100);
-        url = getClass().getResource("testData.txt");
+
+        final URL url = getClass().getResource("testData.txt");
         final ArrayList<Double> list = new ArrayList<>();
         try {
-            empiricalDistribution2 = new EmpiricalDistribution(100);
-            BufferedReader in =
-                new BufferedReader(new InputStreamReader(
-                        url.openStream()));
+            final BufferedReader in = new BufferedReader(new InputStreamReader(url.openStream()));
             String str = null;
             while ((str = in.readLine()) != null) {
                 list.add(Double.valueOf(str));
             }
             in.close();
-            in = null;
         } catch (IOException ex) {
             Assert.fail("IOException " + ex);
         }
@@ -84,193 +77,68 @@ public final class EmpiricalDistributionTest extends RealDistributionAbstractTes
             dataArray[i] = data.doubleValue();
             i++;
         }
+
+        empiricalDistribution = EmpiricalDistribution.from(100, dataArray);
     }
 
     // MATH-1279
     @Test(expected=NotStrictlyPositiveException.class)
     public void testPrecondition1() {
-        new EmpiricalDistribution(0);
+        EmpiricalDistribution.from(0, new double[] {1,2,3});
     }
 
     /**
-     * Test EmpiricalDistribution.load() using sample data file.<br>
-     * Check that the sampleCount, mu and sigma match data in
-     * the sample data file. Also verify that load is idempotent.
+     * Test using data taken from sample data file.
+     * Check that the sampleCount, mu and sigma match data in the sample data file.
      */
     @Test
-    public void testLoad() throws Exception {
-        // Load from a URL
-        empiricalDistribution.load(url);
-        checkDistribution();
-
-        // Load again from a file (also verifies idempotency of load)
-        File file = new File(url.toURI());
-        empiricalDistribution.load(file);
-        checkDistribution();
-    }
-
-    private void checkDistribution() {
+    public void testDoubleLoad() {
         // testData File has 10000 values, with mean ~ 5.0, std dev ~ 1
         // Make sure that loaded distribution matches this
-        Assert.assertEquals(empiricalDistribution.getSampleStats().getN(),1000,10E-7);
+        Assert.assertEquals(empiricalDistribution.getSampleStats().getN(),
+                            1000, 1e-7);
         //TODO: replace with statistical tests
         Assert.assertEquals(empiricalDistribution.getSampleStats().getMean(),
-                5.069831575018909,10E-7);
+                            5.069831575018909, 1e-7);
         Assert.assertEquals(empiricalDistribution.getSampleStats().getStandardDeviation(),
-                1.0173699343977738,10E-7);
-    }
+                            1.0173699343977738, 1e-7);
 
-    /**
-     * Test EmpiricalDistribution.load(double[]) using data taken from
-     * sample data file.<br>
-     * Check that the sampleCount, mu and sigma match data in
-     * the sample data file.
-     */
-    @Test
-    public void testDoubleLoad() throws Exception {
-        empiricalDistribution2.load(dataArray);
-        // testData File has 10000 values, with mean ~ 5.0, std dev ~ 1
-        // Make sure that loaded distribution matches this
-        Assert.assertEquals(empiricalDistribution2.getSampleStats().getN(),1000,10E-7);
-        //TODO: replace with statistical tests
-        Assert.assertEquals(empiricalDistribution2.getSampleStats().getMean(),
-                5.069831575018909,10E-7);
-        Assert.assertEquals(empiricalDistribution2.getSampleStats().getStandardDeviation(),
-                1.0173699343977738,10E-7);
-
-        double[] bounds = empiricalDistribution2.getGeneratorUpperBounds();
+        double[] bounds = empiricalDistribution.getGeneratorUpperBounds();
         Assert.assertEquals(bounds.length, 100);
         Assert.assertEquals(bounds[99], 1.0, 10e-12);
-
     }
-
 
     // MATH-1531
     @Test
     public void testMath1531() {
-        final EmpiricalDistribution inputDistribution = new EmpiricalDistribution(120);
-        inputDistribution.load(new double[] {
-                50.993456376721454,
-                49.455345691918055,
-                49.527276095295804,
-                50.017183448668845,
-                49.10508147470046,
-                49.813998274118696,
-                50.87195348756139,
-                50.419474110037,
-                50.63614906979689,
-                49.49694777179407,
-                50.71799078406067,
-                50.03192853759164,
-                49.915092423165994,
-                49.56895392597687,
-                51.034638001064934,
-                50.681227971275945,
-                50.43749845081759,
-                49.86513120270245,
-                50.21475262482965,
-                49.99202971042547,
-                50.02382189838519,
-                49.386888585302884,
-                49.45585010202781,
-                49.988009479855435,
-                49.8136712206123,
-                49.6715197127997,
-                50.1981278397565,
-                49.842297508010276,
-                49.62491227740015,
-                50.05101916097176,
-                48.834912763303926,
-                49.806787657848574,
-                49.478236106374695,
-                49.56648347371614,
-                49.95069238081982,
-                49.71845132077346,
-                50.6097468705947,
-                49.80724637775541,
-                49.90448813086025,
-                49.39641861662603,
-                50.434295712893714,
-                49.227176959566734,
-                49.541126466050905,
-                49.03416593170446,
-                49.11584328494423,
-                49.61387482435674,
-                49.92877857995328,
-                50.70638552955101,
-                50.60078208448842,
-                49.39326233277838,
-                49.21488424364095,
-                49.69503351015096,
-                50.13733214001718,
-                50.22084761458942,
-                51.09804435604931,
-                49.18559131120419,
-                49.52286371605357,
-                49.34804374996689,
-                49.6901827776375,
-                50.01316351359638,
-                48.7751460520373,
-                50.12961836291053,
-                49.9978419772511,
-                49.885658399408584,
-                49.673438879979834,
-                49.45565980965606,
-                50.429747484906564,
-                49.40129274804164,
-                50.13034614008073,
-                49.87685735146651,
-                50.12967905393557,
-                50.323560376181696,
-                49.83519233651367,
-                49.37333369733053,
-                49.70074301611427,
-                50.11626105774947,
-                50.28249500380083,
-                50.543354367136466,
-                50.05866241335002,
-                50.39516515672527,
-                49.4838561463057,
-                50.451757089234796,
-                50.31370674203726,
-                49.79063762614284,
-                50.19652349768548,
-                49.75881420748814,
-                49.98371855036422,
-                49.82171344472916,
-                48.810793204162415,
-                49.37040569084592,
-                50.050641186203976,
-                50.48360952263646,
-                50.86666450358076,
-                50.463268776129844,
-                50.137489751888666,
-                50.23823061444118,
-                49.881460479468004,
-                50.641174398764356,
-                49.09314136851421,
-                48.80877928574451,
-                50.46197084844826,
-                49.97691704141741,
-                49.99933997561926,
-                50.25692254481885,
-                49.52973451252715,
-                49.81229858420664,
-                48.996112655915994,
-                48.740531054814674,
-                50.026642633066416,
-                49.98696633604899,
-                49.61307159972952,
-                50.5115278979726,
-                50.75245152442404,
-                50.51807785445929,
-                49.60929671768147,
-                49.1079533564074,
-                49.65347196551866,
-                49.31684818724059,
-                50.4906368627049,
-                50.37483603684714});
-        inputDistribution.inverseCumulativeProbability(0.7166666666666669);
+        final double[] data = new double[] {
+            50.993456376721454, 49.455345691918055, 49.527276095295804, 50.017183448668845, 49.10508147470046,
+            49.813998274118696, 50.87195348756139, 50.419474110037, 50.63614906979689, 49.49694777179407,
+            50.71799078406067, 50.03192853759164, 49.915092423165994, 49.56895392597687, 51.034638001064934,
+            50.681227971275945, 50.43749845081759, 49.86513120270245, 50.21475262482965, 49.99202971042547,
+            50.02382189838519, 49.386888585302884, 49.45585010202781, 49.988009479855435, 49.8136712206123,
+            49.6715197127997, 50.1981278397565, 49.842297508010276, 49.62491227740015, 50.05101916097176,
+            48.834912763303926, 49.806787657848574, 49.478236106374695, 49.56648347371614, 49.95069238081982,
+            49.71845132077346, 50.6097468705947, 49.80724637775541, 49.90448813086025, 49.39641861662603,
+            50.434295712893714, 49.227176959566734, 49.541126466050905, 49.03416593170446, 49.11584328494423,
+            49.61387482435674, 49.92877857995328, 50.70638552955101, 50.60078208448842, 49.39326233277838,
+            49.21488424364095, 49.69503351015096, 50.13733214001718, 50.22084761458942, 51.09804435604931,
+            49.18559131120419, 49.52286371605357, 49.34804374996689, 49.6901827776375, 50.01316351359638,
+            48.7751460520373, 50.12961836291053, 49.9978419772511, 49.885658399408584, 49.673438879979834,
+            49.45565980965606, 50.429747484906564, 49.40129274804164, 50.13034614008073, 49.87685735146651,
+            50.12967905393557, 50.323560376181696, 49.83519233651367, 49.37333369733053, 49.70074301611427,
+            50.11626105774947, 50.28249500380083, 50.543354367136466, 50.05866241335002, 50.39516515672527,
+            49.4838561463057, 50.451757089234796, 50.31370674203726, 49.79063762614284, 50.19652349768548,
+            49.75881420748814, 49.98371855036422, 49.82171344472916, 48.810793204162415, 49.37040569084592,
+            50.050641186203976, 50.48360952263646, 50.86666450358076, 50.463268776129844, 50.137489751888666,
+            50.23823061444118, 49.881460479468004, 50.641174398764356, 49.09314136851421, 48.80877928574451,
+            50.46197084844826, 49.97691704141741, 49.99933997561926, 50.25692254481885, 49.52973451252715,
+            49.81229858420664, 48.996112655915994, 48.740531054814674, 50.026642633066416, 49.98696633604899,
+            49.61307159972952, 50.5115278979726, 50.75245152442404, 50.51807785445929, 49.60929671768147,
+            49.1079533564074, 49.65347196551866, 49.31684818724059, 50.4906368627049, 50.37483603684714
+        };
+
+        EmpiricalDistribution.from(120, data).inverseCumulativeProbability(0.7166666666666669);
     }
 
     /**
@@ -279,84 +147,42 @@ public final class EmpiricalDistributionTest extends RealDistributionAbstractTes
       * these tests will fail even if the code is working as designed.
       */
     @Test
-    public void testNext() throws Exception {
-        tstGen(0.1);
-        tstDoubleGen(0.1);
-    }
-
-    /**
-     * Make sure exception thrown if sampling is attempted
-     * before loading empiricalDistribution.
-     */
-    @Test
-    public void testNextFail1() {
-        try {
-            empiricalDistribution.createSampler(RandomSource.create(RandomSource.JDK)).sample();
-            Assert.fail("Expecting MathIllegalStateException");
-        } catch (MathIllegalStateException ex) {
-            // expected
-        }
-    }
-
-    /**
-     * Make sure exception thrown if sampling is attempted
-     * before loading empiricalDistribution.
-     */
-    @Test
-    public void testNextFail2() {
-        try {
-            empiricalDistribution2.createSampler(RandomSource.create(RandomSource.JDK)).sample();
-            Assert.fail("Expecting MathIllegalStateException");
-        } catch (MathIllegalStateException ex) {
-            // expected
-        }
+    public void testNext() {
+        tstGen(empiricalDistribution,
+               0.1);
     }
 
     /**
      * Make sure we can handle a grid size that is too fine
      */
     @Test
-    public void testGridTooFine() throws Exception {
-        empiricalDistribution = new EmpiricalDistribution(1001);
-        tstGen(0.1);
-        empiricalDistribution2 = new EmpiricalDistribution(1001);
-        tstDoubleGen(0.1);
+    public void testGridTooFine() {
+        tstGen(EmpiricalDistribution.from(1001, dataArray),
+               0.1);
     }
 
     /**
      * How about too fat?
      */
     @Test
-    public void testGridTooFat() throws Exception {
-        empiricalDistribution = new EmpiricalDistribution(1);
-        tstGen(5); // ridiculous tolerance; but ridiculous grid size
+    public void testGridTooFat() {
+        tstGen(EmpiricalDistribution.from(1, dataArray),
+               5); // ridiculous tolerance; but ridiculous grid size
                    // really just checking to make sure we do not bomb
-        empiricalDistribution2 = new EmpiricalDistribution(1);
-        tstDoubleGen(5);
     }
 
     /**
      * Test bin index overflow problem (BZ 36450)
      */
     @Test
-    public void testBinIndexOverflow() throws Exception {
+    public void testBinIndexOverflow() {
         double[] x = new double[] {9474.94326071674, 2080107.8865462579};
-        new EmpiricalDistribution().load(x);
+        EmpiricalDistribution.from(1000, x);
     }
 
-    @Test(expected=NullArgumentException.class)
+    @Test(expected=NullPointerException.class)
     public void testLoadNullDoubleArray() {
-       new EmpiricalDistribution().load((double[]) null);
-    }
-
-    @Test(expected=NullArgumentException.class)
-    public void testLoadNullURL() throws Exception {
-        new EmpiricalDistribution().load((URL) null);
-    }
-
-    @Test(expected=NullArgumentException.class)
-    public void testLoadNullFile() throws Exception {
-        new EmpiricalDistribution().load((File) null);
+        EmpiricalDistribution.from(1000, null);
     }
 
     /**
@@ -365,8 +191,7 @@ public final class EmpiricalDistributionTest extends RealDistributionAbstractTes
     @Test
     public void testGetBinUpperBounds() {
         double[] testData = {0, 1, 1, 2, 3, 4, 4, 5, 6, 7, 8, 9, 10};
-        EmpiricalDistribution dist = new EmpiricalDistribution(5);
-        dist.load(testData);
+        EmpiricalDistribution dist = EmpiricalDistribution.from(5, testData);
         double[] expectedBinUpperBounds = {2, 4, 6, 8, 10};
         double[] expectedGeneratorUpperBounds = {4d/13d, 7d/13d, 9d/13d, 11d/13d, 1};
         double tol = 10E-12;
@@ -374,23 +199,22 @@ public final class EmpiricalDistributionTest extends RealDistributionAbstractTes
         TestUtils.assertEquals(expectedGeneratorUpperBounds, dist.getGeneratorUpperBounds(), tol);
     }
 
-    private void verifySame(EmpiricalDistribution d1, EmpiricalDistribution d2) {
-        Assert.assertEquals(d1.isLoaded(), d2.isLoaded());
+    private void verifySame(EmpiricalDistribution d1,
+                            EmpiricalDistribution d2) {
         Assert.assertEquals(d1.getBinCount(), d2.getBinCount());
         Assert.assertEquals(d1.getSampleStats(), d2.getSampleStats());
-        if (d1.isLoaded()) {
-            for (int i = 0;  i < d1.getUpperBounds().length; i++) {
-                Assert.assertEquals(d1.getUpperBounds()[i], d2.getUpperBounds()[i], 0);
-            }
-            Assert.assertEquals(d1.getBinStats(), d2.getBinStats());
+
+        for (int i = 0;  i < d1.getUpperBounds().length; i++) {
+            Assert.assertEquals(d1.getUpperBounds()[i], d2.getUpperBounds()[i], 0);
         }
+        Assert.assertEquals(d1.getBinStats(), d2.getBinStats());
     }
 
-    private void tstGen(double tolerance)throws Exception {
-        empiricalDistribution.load(url);
-        ContinuousDistribution.Sampler sampler
-            = empiricalDistribution.createSampler(RandomSource.create(RandomSource.WELL_19937_C, 1000));
-        SummaryStatistics stats = new SummaryStatistics();
+    private void tstGen(EmpiricalDistribution dist,
+                        double tolerance) {
+        final ContinuousDistribution.Sampler sampler
+            = dist.createSampler(RandomSource.WELL_19937_C.create(1000));
+        final SummaryStatistics stats = new SummaryStatistics();
         for (int i = 1; i < 1000; i++) {
             stats.addValue(sampler.sample());
         }
@@ -398,37 +222,18 @@ public final class EmpiricalDistributionTest extends RealDistributionAbstractTes
         Assert.assertEquals("std dev", 1.0173699343977738, stats.getStandardDeviation(),tolerance);
     }
 
-    private void tstDoubleGen(double tolerance)throws Exception {
-        empiricalDistribution2.load(dataArray);
-        ContinuousDistribution.Sampler sampler
-            = empiricalDistribution2.createSampler(RandomSource.create(RandomSource.WELL_19937_C, 1000));
-        SummaryStatistics stats = new SummaryStatistics();
-        for (int i = 1; i < 1000; i++) {
-            stats.addValue(sampler.sample());
-        }
-        Assert.assertEquals("mean", 5.069831575018909, stats.getMean(), tolerance);
-        Assert.assertEquals("std dev", 1.0173699343977738, stats.getStandardDeviation(), tolerance);
-    }
-
     //  Setup for distribution tests
 
     @Override
     public ContinuousDistribution makeDistribution() {
-        // Create a uniform distribution on [0, 10,000]
+        // Create a uniform distribution on [0, 10,000].
         final double[] sourceData = new double[n + 1];
         for (int i = 0; i < n + 1; i++) {
             sourceData[i] = i;
         }
-        EmpiricalDistribution dist = new EmpiricalDistribution();
-        dist.load(sourceData);
+        EmpiricalDistribution dist = EmpiricalDistribution.from(1000, sourceData);
         return dist;
     }
-
-    /** Uniform bin mass = 10/10001 == mass of all but the first bin */
-    private final double binMass = 10d / (n + 1);
-
-    /** Mass of first bin = 11/10001 */
-    private final double firstBinMass = 11d / (n + 1);
 
     @Override
     public double[] makeCumulativeTestPoints() {
@@ -529,10 +334,9 @@ public final class EmpiricalDistributionTest extends RealDistributionAbstractTes
         for (int i = 51; i < 100; i++) {
             data[i] = 1 - 1 / (100 - (double) i + 2);
         }
-        EmpiricalDistribution dist = new EmpiricalDistribution(10);
-        dist.load(data);
+        EmpiricalDistribution dist = EmpiricalDistribution.from(10, data);
         ContinuousDistribution.Sampler sampler
-            = dist.createSampler(RandomSource.create(RandomSource.WELL_19937_C, 1000));
+            = dist.createSampler(RandomSource.WELL_19937_C.create(1000));
         for (int i = 0; i < 1000; i++) {
             final double dev = sampler.sample();
             Assert.assertTrue(dev < 1);
@@ -546,10 +350,9 @@ public final class EmpiricalDistributionTest extends RealDistributionAbstractTes
     @Test
     public void testNoBinVariance() {
         final double[] data = {0, 0, 1, 1};
-        EmpiricalDistribution dist = new EmpiricalDistribution(2);
-        dist.load(data);
+        EmpiricalDistribution dist = EmpiricalDistribution.from(2, data);
         ContinuousDistribution.Sampler sampler
-            = dist.createSampler(RandomSource.create(RandomSource.WELL_19937_C, 1000));
+            = dist.createSampler(RandomSource.WELL_19937_C.create(1000));
         for (int i = 0; i < 1000; i++) {
             final double dev = sampler.sample();
             Assert.assertTrue(dev == 0 || dev == 1);
@@ -588,17 +391,18 @@ public final class EmpiricalDistributionTest extends RealDistributionAbstractTes
 
     @Test
     public void testKernelOverrideConstant() {
-        final EmpiricalDistribution dist = new ConstantKernelEmpiricalDistribution(5);
-        final double[] data = {1d,2d,3d, 4d,5d,6d, 7d,8d,9d, 10d,11d,12d, 13d,14d,15d};
-        dist.load(data);
-        ContinuousDistribution.Sampler sampler
-            = dist.createSampler(RandomSource.create(RandomSource.WELL_19937_C, 1000));
+        final double[] data = {1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15};
+        final EmpiricalDistribution dist =
+            EmpiricalDistribution.from(5, data,
+                                       s -> new ConstantContinuousDistribution(s.getMean()));
+        final ContinuousDistribution.Sampler sampler
+            = dist.createSampler(RandomSource.WELL_19937_C.create(1000));
         // Bin masses concentrated on 2, 5, 8, 11, 14 <- effectively discrete uniform distribution over these
-        double[] values = {2d, 5d, 8d, 11d, 14d};
+        final double[] values = {2d, 5d, 8d, 11d, 14d};
         for (int i = 0; i < 20; i++) {
             Assert.assertTrue(Arrays.binarySearch(values, sampler.sample()) >= 0);
         }
-        final double tol = 10E-12;
+        final double tol = 1e-12;
         Assert.assertEquals(0.0, dist.cumulativeProbability(1), tol);
         Assert.assertEquals(0.2, dist.cumulativeProbability(2), tol);
         Assert.assertEquals(0.6, dist.cumulativeProbability(10), tol);
@@ -616,11 +420,12 @@ public final class EmpiricalDistributionTest extends RealDistributionAbstractTes
 
     @Test
     public void testKernelOverrideUniform() {
-        final EmpiricalDistribution dist = new UniformKernelEmpiricalDistribution(5);
-        final double[] data = {1d,2d,3d, 4d,5d,6d, 7d,8d,9d, 10d,11d,12d, 13d,14d,15d};
-        dist.load(data);
-        ContinuousDistribution.Sampler sampler
-            = dist.createSampler(RandomSource.create(RandomSource.WELL_19937_C, 1000));
+        final double[] data = {1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15};
+        final EmpiricalDistribution dist =
+            EmpiricalDistribution.from(5, data,
+                                       s -> new UniformContinuousDistribution(s.getMin(), s.getMax()));
+        final ContinuousDistribution.Sampler sampler
+            = dist.createSampler(RandomSource.WELL_19937_C.create(1000));
         // Kernels are uniform distributions on [1,3], [4,6], [7,9], [10,12], [13,15]
         final double bounds[] = {3d, 6d, 9d, 12d};
         final double tol = 10E-12;
@@ -648,7 +453,7 @@ public final class EmpiricalDistributionTest extends RealDistributionAbstractTes
 
     @Test
     public void testMath1431() {
-        final UniformRandomProvider rng = RandomSource.create(RandomSource.WELL_19937_C, 1000);
+        final UniformRandomProvider rng = RandomSource.WELL_19937_C.create(1000);
         final ContinuousDistribution.Sampler exponentialDistributionSampler
             = new ExponentialDistribution(0.05).createSampler(rng);
         final double[] empiricalDataPoints = new double[3000];
@@ -656,8 +461,7 @@ public final class EmpiricalDistributionTest extends RealDistributionAbstractTes
             empiricalDataPoints[i] = exponentialDistributionSampler.sample();
         }
 
-        final EmpiricalDistribution testDistribution = new EmpiricalDistribution(100);
-        testDistribution.load(empiricalDataPoints);
+        final EmpiricalDistribution testDistribution = EmpiricalDistribution.from(100, empiricalDataPoints);
 
         for (int i = 0; i < 1000; i++) {
             final double point = rng.nextDouble();
@@ -684,8 +488,7 @@ public final class EmpiricalDistributionTest extends RealDistributionAbstractTes
             6461.3944, 6384.1345
         };
 
-        final EmpiricalDistribution ed = new EmpiricalDistribution(data.length / 10);
-        ed.load(data);
+        final EmpiricalDistribution ed = EmpiricalDistribution.from(data.length / 10, data);
 
         double v;
         double p;
@@ -701,34 +504,5 @@ public final class EmpiricalDistributionTest extends RealDistributionAbstractTes
         p = 0.51111;
         v = ed.inverseCumulativeProbability(p);
         Assert.assertTrue("p=" + p + " => v=" + v, v < 6350);
-    }
-
-    /**
-     * Empirical distribution using a constant smoothing kernel.
-     */
-    private class ConstantKernelEmpiricalDistribution extends EmpiricalDistribution {
-        private static final long serialVersionUID = 1L;
-        ConstantKernelEmpiricalDistribution(int i) {
-            super(i);
-        }
-        // Use constant distribution equal to bin mean within bin
-        @Override
-        protected ContinuousDistribution getKernel(SummaryStatistics bStats) {
-            return new ConstantContinuousDistribution(bStats.getMean());
-        }
-    }
-
-    /**
-     * Empirical distribution using a uniform smoothing kernel.
-     */
-    private class UniformKernelEmpiricalDistribution extends EmpiricalDistribution {
-        private static final long serialVersionUID = 2963149194515159653L;
-        UniformKernelEmpiricalDistribution(int i) {
-            super(i);
-        }
-        @Override
-        protected ContinuousDistribution getKernel(SummaryStatistics bStats) {
-            return new UniformContinuousDistribution(bStats.getMin(), bStats.getMax());
-        }
     }
 }
