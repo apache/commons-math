@@ -63,17 +63,16 @@
                   href="empirical">
         <p>
           Using the <code>EmpiricalDistribution</code> class, you can generate data based on
-          the values in an input file:
+          a given set of values:
 
           <source>
+double[] input = load("data.txt"); // Get some data.
 int binCount = 500;
-EmpiricalDistribution empDist = new EmpiricalDistribution(binCount);
-empDist.load("data.txt");
-RealDistribution.Sampler sampler = empDist.createSampler(RandomSource.MT.create());
+EmpiricalDistribution empDist = EmpiricalDistribution.from(binCount, input);
+ContinuousDistribution.Sampler sampler = empDist.createSampler(RandomSource.MT.create());
 double value = sampler.nextDouble(); </source>
 
-          The entire input file is read and a probability density function is estimated
-          based on data from the file.
+          The probability density function is estimated from the data passed as input.
           The estimation method is essentially the
           <a href="http://nedwww.ipac.caltech.edu/level5/March02/Silverman/Silver2_6.html">
             Variable Kernel Method</a> with Gaussian smoothing.
@@ -81,8 +80,7 @@ double value = sampler.nextDouble(); </source>
           matches the empirical distribution (i.e. if you generate a large number of
           such values, their distribution should "look like" the distribution of the
           values in the input file.
-          The values are not stored in memory in this case either, so there is no limit to the
-          size of the input file.
+          The input values are not stored in memory.
         </p>
       </subsection>
     </section>
