@@ -102,10 +102,10 @@ public class NelderMeadTransform
             }
 
             // Reflection.
-            final PointValuePair reflected = newPoint(centroid,
-                                                      -alpha,
-                                                      xWorst,
-                                                      evaluationFunction);
+            final PointValuePair reflected = Simplex.newPoint(centroid,
+                                                              -alpha,
+                                                              xWorst,
+                                                              evaluationFunction);
             if (comparator.compare(reflected, secondWorst) < 0 &&
                 comparator.compare(best, reflected) <= 0) {
                 return newSimplex.withReplacement(n, reflected);
@@ -113,10 +113,10 @@ public class NelderMeadTransform
 
             if (comparator.compare(reflected, best) < 0) {
                 // Expansion.
-                final PointValuePair expanded = newPoint(centroid,
-                                                         -gamma,
-                                                         xWorst,
-                                                         evaluationFunction);
+                final PointValuePair expanded = Simplex.newPoint(centroid,
+                                                                 -gamma,
+                                                                 xWorst,
+                                                                 evaluationFunction);
                 if (comparator.compare(expanded, reflected) < 0) {
                     return newSimplex.withReplacement(n, expanded);
                 } else {
@@ -126,57 +126,26 @@ public class NelderMeadTransform
 
             if (comparator.compare(reflected, worst) < 0) {
                 // Outside contraction.
-                final PointValuePair contracted = newPoint(centroid,
-                                                           rho,
-                                                           reflected.getPoint(),
-                                                           evaluationFunction);
+                final PointValuePair contracted = Simplex.newPoint(centroid,
+                                                                   rho,
+                                                                   reflected.getPoint(),
+                                                                   evaluationFunction);
                 if (comparator.compare(contracted, reflected) < 0) {
                     return newSimplex.withReplacement(n, contracted); // Accept contracted point.
                 }
             } else {
                 // Inside contraction.
-                final PointValuePair contracted = newPoint(centroid,
-                                                           rho,
-                                                           xWorst,
-                                                           evaluationFunction);
+                final PointValuePair contracted = Simplex.newPoint(centroid,
+                                                                   rho,
+                                                                   xWorst,
+                                                                   evaluationFunction);
                 if (comparator.compare(contracted, worst) < 0) {
                     return newSimplex.withReplacement(n, contracted); // Accept contracted point.
                 }
             }
 
             // Shrink.
-            final int len = newSimplex.getSize();
-            final double[] xBest = best.getPoint();
-            for (int i = 1; i < len; i++) {
-                newSimplex = newSimplex.withReplacement(i, newPoint(xBest,
-                                                                    sigma,
-                                                                    newSimplex.get(i).getPoint(),
-                                                                    evaluationFunction));
-            }
-            return newSimplex;
+            return newSimplex.shrink(sigma, evaluationFunction);
         };
-    }
-
-    /**
-     * Evaluates point with coordinates \( a_i + s (b_i - a_i) \).
-     *
-     * @param a Cartesian coordinates.
-     * @param s Scaling factor.
-     * @param b Cartesian coordinates.
-     * @param eval Evaluation function.
-     * @return a new point.
-     */
-    private static PointValuePair newPoint(double[] a,
-                                           double s,
-                                           double[] b,
-                                           MultivariateFunction eval) {
-        final int dim = a.length;
-        final double[] r = new double[dim];
-        for (int i = 0; i < dim; i++) {
-            final double m = a[i];
-            r[i] = m + s * (b[i] - m);
-        }
-
-        return new PointValuePair(r, eval.value(r), false);
     }
 }

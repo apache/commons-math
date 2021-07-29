@@ -244,7 +244,7 @@ public final class Simplex implements OptimizationData {
      * @throws DimensionMismatchException if the start point does not match
      * simplex dimension.
      */
-    public Simplex translate(final double[] point) {
+    /* package private */ Simplex translate(final double[] point) {
         final int dim = getDimension();
         if (dim != point.length) {
             throw new DimensionMismatchException(dim, point.length);
@@ -275,8 +275,8 @@ public final class Simplex implements OptimizationData {
      * @return a new instance.
      * @throws IndexOutOfBoundsException if {@code index} is out of bounds.
      */
-    public Simplex withReplacement(int index,
-                                   PointValuePair point) {
+    /* package private */ Simplex withReplacement(int index,
+                                                  PointValuePair point) {
         final int len = points.size();
         if (index < 0 ||
             index >= len) {
@@ -299,4 +299,51 @@ public final class Simplex implements OptimizationData {
      */
     public interface TransformFactory
         extends BiFunction<MultivariateFunction, Comparator<PointValuePair>, UnaryOperator<Simplex>> {}
+
+    /**
+     * Utility for evaluating a point with coordinates \( a_i + s (b_i - a_i) \).
+     *
+     * @param a Cartesian coordinates.
+     * @param s Scaling factor.
+     * @param b Cartesian coordinates.
+     * @param function Evaluation function.
+     * @return a new point.
+     */
+    /* package private */ static PointValuePair newPoint(double[] a,
+                                                         double s,
+                                                         double[] b,
+                                                         MultivariateFunction function) {
+        final int dim = a.length;
+        final double[] r = new double[dim];
+        for (int i = 0; i < dim; i++) {
+            final double m = a[i];
+            r[i] = m + s * (b[i] - m);
+        }
+
+        return new PointValuePair(r, function.value(r), false);
+    }
+
+    /**
+     * Utility for the "shrinking" a simplex: All the points will be transformed
+     * except the one at index 0.
+     *
+     * @param sigma Shrink factor.
+     * @param function Evaluation function.
+     * @return a new instance.
+     */
+    /* package private */ Simplex shrink(double sigma,
+                                         MultivariateFunction function) {
+        final int size = getSize();
+        final double[] xBest = get(0).getPoint();
+        Simplex newSimplex = this;
+        for (int i = 1; i < size; i++) {
+            final PointValuePair p = newPoint(xBest,
+                                              sigma,
+                                              get(i).getPoint(),
+                                              function);
+            newSimplex = newSimplex.withReplacement(i, p);
+        }
+
+        return newSimplex;
+    }
 }
