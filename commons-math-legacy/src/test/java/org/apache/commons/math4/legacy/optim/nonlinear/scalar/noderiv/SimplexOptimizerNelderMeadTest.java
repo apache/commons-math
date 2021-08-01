@@ -31,6 +31,7 @@ import org.apache.commons.math4.legacy.optim.SimpleBounds;
 import org.apache.commons.math4.legacy.optim.nonlinear.scalar.GoalType;
 import org.apache.commons.math4.legacy.optim.nonlinear.scalar.LeastSquaresConverter;
 import org.apache.commons.math4.legacy.optim.nonlinear.scalar.ObjectiveFunction;
+import org.apache.commons.math4.legacy.optim.nonlinear.scalar.TestFunction;
 import org.apache.commons.math4.legacy.core.MathArrays;
 import org.junit.Assert;
 import org.junit.Test;
@@ -145,13 +146,13 @@ public class SimplexOptimizerNelderMeadTest {
 
     @Test(expected=TooManyEvaluationsException.class)
     public void testMaxIterations() {
-        OptimTestUtils.Powell powell = new OptimTestUtils.Powell();
+        final int dim = 4;
         SimplexOptimizer optimizer = new SimplexOptimizer(-1, 1e-3);
         optimizer.optimize(new MaxEval(20),
-                           new ObjectiveFunction(powell),
+                           new ObjectiveFunction(TestFunction.POWELL.withDimension(dim)),
                            GoalType.MINIMIZE,
                            new InitialGuess(new double[] { 3, -1, 0, 1 }),
-                           Simplex.of(4),
+                           Simplex.of(dim),
                            new NelderMeadTransform());
     }
 
@@ -202,27 +203,29 @@ public class SimplexOptimizerNelderMeadTest {
 
     @Test
     public void testRosenbrock() {
-        doTest(new OptimTestUtils.Rosenbrock(),
+        final int dim = 2;
+        doTest(TestFunction.ROSENBROCK.withDimension(dim),
                OptimTestUtils.point(new double[] { -1.2, 1 }, 1e-1),
                GoalType.MINIMIZE,
                180,
-               new PointValuePair(OptimTestUtils.point(2, 1.0), 0.0),
+               new PointValuePair(OptimTestUtils.point(dim, 1.0), 0.0),
                1e-4);
     }
 
     @Test
     public void testPowell() {
-        doTest(new OptimTestUtils.Powell(),
+        final int dim = 4;
+        doTest(TestFunction.POWELL.withDimension(dim),
                OptimTestUtils.point(new double[] { 3, -1, 0, 1 }, 1e-1),
                GoalType.MINIMIZE,
                420,
-               new PointValuePair(OptimTestUtils.point(4, 0.0), 0.0),
+               new PointValuePair(OptimTestUtils.point(dim, 0.0), 0.0),
                2e-4);
     }
 
     @Test
     public void testRosen() {
-        doTest(new OptimTestUtils.Rosen(),
+        doTest(TestFunction.ROSEN.withDimension(DIM),
                OptimTestUtils.point(DIM, 0.1),
                GoalType.MINIMIZE,
                9078,
@@ -232,7 +235,7 @@ public class SimplexOptimizerNelderMeadTest {
 
     @Ignore("See MATH-1552")@Test
     public void testEllipse() {
-        doTest(new OptimTestUtils.Elli(),
+        doTest(TestFunction.ELLI.withDimension(DIM),
                OptimTestUtils.point(DIM, 1.0, 2e-1),
                GoalType.MINIMIZE,
                15000,
@@ -252,7 +255,7 @@ public class SimplexOptimizerNelderMeadTest {
 
     @Test
     public void testCigar() {
-        doTest(new OptimTestUtils.Cigar(),
+        doTest(TestFunction.CIGAR.withDimension(DIM),
                OptimTestUtils.point(DIM, 1.0, 2e-1),
                GoalType.MINIMIZE,
                7000,
@@ -262,7 +265,7 @@ public class SimplexOptimizerNelderMeadTest {
 
     @Ignore("See MATH-1552")@Test
     public void testTwoAxes() {
-        doTest(new OptimTestUtils.TwoAxes(),
+        doTest(TestFunction.TWO_AXES.withDimension(DIM),
                OptimTestUtils.point(DIM, 1.0, 1e-1),
                GoalType.MINIMIZE,
                3451,
@@ -272,7 +275,7 @@ public class SimplexOptimizerNelderMeadTest {
 
     @Ignore("See MATH-1552")@Test
     public void testCigTab() {
-        doTest(new OptimTestUtils.CigTab(),
+        doTest(TestFunction.CIG_TAB.withDimension(DIM),
                OptimTestUtils.point(DIM, 1.0, 1e-1),
                GoalType.MINIMIZE,
                7000,
@@ -282,7 +285,7 @@ public class SimplexOptimizerNelderMeadTest {
 
     @Test
     public void testSphere() {
-        doTest(new OptimTestUtils.Sphere(),
+        doTest(TestFunction.SPHERE.withDimension(DIM),
                OptimTestUtils.point(DIM, 1.0, 1e-1),
                GoalType.MINIMIZE,
                3000,
@@ -292,7 +295,7 @@ public class SimplexOptimizerNelderMeadTest {
 
     @Ignore("See MATH-1552")@Test
     public void testTablet() {
-        doTest(new OptimTestUtils.Tablet(),
+        doTest(TestFunction.TABLET.withDimension(DIM),
                OptimTestUtils.point(DIM, 1.0, 1e-1),
                GoalType.MINIMIZE,
                10000,
@@ -302,7 +305,7 @@ public class SimplexOptimizerNelderMeadTest {
 
     @Ignore("See MATH-1552")@Test
     public void testDiffPow() {
-        doTest(new OptimTestUtils.DiffPow(),
+        doTest(TestFunction.DIFF_POW.withDimension(DIM),
                OptimTestUtils.point(DIM, 1.0, 2e-1),
                GoalType.MINIMIZE,
                7000,
@@ -312,17 +315,18 @@ public class SimplexOptimizerNelderMeadTest {
 
     @Test
     public void testSsDiffPow() {
-        doTest(new OptimTestUtils.SsDiffPow(),
-               OptimTestUtils.point(DIM / 2, 1.0, 2e-1),
+        final int dim = DIM / 2;
+        doTest(TestFunction.SS_DIFF_POW.withDimension(dim),
+               OptimTestUtils.point(dim, 1.0, 2e-1),
                GoalType.MINIMIZE,
                4000,
-               new PointValuePair(OptimTestUtils.point(DIM / 2, 0.0), 0.0),
+               new PointValuePair(OptimTestUtils.point(dim, 0.0), 0.0),
                1e-3);
     }
 
     @Ignore("See MATH-1552")@Test
     public void testAckley() {
-        doTest(new OptimTestUtils.Ackley(),
+        doTest(TestFunction.ACKLEY.withDimension(DIM),
                OptimTestUtils.point(DIM, 1.0, 2e-1),
                GoalType.MINIMIZE,
                7900,
@@ -332,7 +336,7 @@ public class SimplexOptimizerNelderMeadTest {
 
     @Ignore("See MATH-1552")@Test
     public void testRastrigin() {
-        doTest(new OptimTestUtils.Rastrigin(),
+        doTest(TestFunction.RASTRIGIN.withDimension(DIM),
                OptimTestUtils.point(DIM, 1.0, 2e-1),
                GoalType.MINIMIZE,
                4600,

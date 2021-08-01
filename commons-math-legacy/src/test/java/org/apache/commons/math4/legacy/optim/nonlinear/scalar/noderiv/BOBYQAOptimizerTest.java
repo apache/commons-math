@@ -27,6 +27,7 @@ import org.apache.commons.math4.legacy.optim.PointValuePair;
 import org.apache.commons.math4.legacy.optim.SimpleBounds;
 import org.apache.commons.math4.legacy.optim.nonlinear.scalar.GoalType;
 import org.apache.commons.math4.legacy.optim.nonlinear.scalar.ObjectiveFunction;
+import org.apache.commons.math4.legacy.optim.nonlinear.scalar.TestFunction;
 import org.junit.Assert;
 import org.junit.Ignore;
 import org.junit.Test;
@@ -41,7 +42,7 @@ public class BOBYQAOptimizerTest {
     public void testInitOutOfBounds() {
         double[] startPoint = OptimTestUtils.point(DIM, 3);
         double[][] boundaries = boundaries(DIM, -1, 2);
-        doTest(new OptimTestUtils.Rosen(), startPoint, boundaries,
+        doTest(TestFunction.ROSEN.withDimension(DIM), startPoint, boundaries,
                 GoalType.MINIMIZE,
                 1e-13, 1e-6, 2000, null);
     }
@@ -50,7 +51,7 @@ public class BOBYQAOptimizerTest {
     public void testBoundariesDimensionMismatch() {
         double[] startPoint = OptimTestUtils.point(DIM, 0.5);
         double[][] boundaries = boundaries(DIM + 1, -1, 2);
-        doTest(new OptimTestUtils.Rosen(), startPoint, boundaries,
+        doTest(TestFunction.ROSEN.withDimension(DIM), startPoint, boundaries,
                GoalType.MINIMIZE,
                1e-13, 1e-6, 2000, null);
     }
@@ -58,7 +59,7 @@ public class BOBYQAOptimizerTest {
     @Test(expected=NumberIsTooSmallException.class)
     public void testProblemDimensionTooSmall() {
         double[] startPoint = OptimTestUtils.point(1, 0.5);
-        doTest(new OptimTestUtils.Rosen(), startPoint, null,
+        doTest(TestFunction.ROSEN.withDimension(DIM), startPoint, null,
                GoalType.MINIMIZE,
                1e-13, 1e-6, 2000, null);
     }
@@ -68,7 +69,7 @@ public class BOBYQAOptimizerTest {
         final int lowMaxEval = 2;
         double[] startPoint = OptimTestUtils.point(DIM, 0.1);
         double[][] boundaries = null;
-        doTest(new OptimTestUtils.Rosen(), startPoint, boundaries,
+        doTest(TestFunction.ROSEN.withDimension(DIM), startPoint, boundaries,
                GoalType.MINIMIZE,
                1e-13, 1e-6, lowMaxEval, null);
      }
@@ -78,7 +79,7 @@ public class BOBYQAOptimizerTest {
         double[] startPoint = OptimTestUtils.point(DIM,0.1);
         double[][] boundaries = null;
         PointValuePair expected = new PointValuePair(OptimTestUtils.point(DIM,1.0),0.0);
-        doTest(new OptimTestUtils.Rosen(), startPoint, boundaries,
+        doTest(TestFunction.ROSEN.withDimension(DIM), startPoint, boundaries,
                 GoalType.MINIMIZE,
                 1e-13, 1e-6, 2000, expected);
      }
@@ -88,12 +89,12 @@ public class BOBYQAOptimizerTest {
         double[] startPoint = OptimTestUtils.point(DIM,1.0);
         double[][] boundaries = null;
         PointValuePair expected = new PointValuePair(OptimTestUtils.point(DIM,0.0),1.0);
-        doTest(new OptimTestUtils.MinusElli(), startPoint, boundaries,
+        doTest(TestFunction.MINUS_ELLI.withDimension(DIM), startPoint, boundaries,
                 GoalType.MAXIMIZE,
                 2e-10, 5e-6, 1000, expected);
         boundaries = boundaries(DIM,-0.3,0.3);
         startPoint = OptimTestUtils.point(DIM,0.1);
-        doTest(new OptimTestUtils.MinusElli(), startPoint, boundaries,
+        doTest(TestFunction.MINUS_ELLI.withDimension(DIM), startPoint, boundaries,
                 GoalType.MAXIMIZE,
                 2e-10, 5e-6, 1000, expected);
     }
@@ -104,7 +105,7 @@ public class BOBYQAOptimizerTest {
         double[][] boundaries = null;
         PointValuePair expected =
             new PointValuePair(OptimTestUtils.point(DIM,0.0),0.0);
-        doTest(new OptimTestUtils.Elli(), startPoint, boundaries,
+        doTest(TestFunction.ELLI.withDimension(DIM), startPoint, boundaries,
                 GoalType.MINIMIZE,
                 1e-13, 1e-6, 1000, expected);
      }
@@ -126,7 +127,7 @@ public class BOBYQAOptimizerTest {
         double[][] boundaries = null;
         PointValuePair expected =
             new PointValuePair(OptimTestUtils.point(DIM,0.0),0.0);
-        doTest(new OptimTestUtils.Cigar(), startPoint, boundaries,
+        doTest(TestFunction.CIGAR.withDimension(DIM), startPoint, boundaries,
                 GoalType.MINIMIZE,
                 1e-13, 1e-6, 100, expected);
     }
@@ -137,9 +138,9 @@ public class BOBYQAOptimizerTest {
         double[][] boundaries = null;
         PointValuePair expected =
             new PointValuePair(OptimTestUtils.point(DIM,0.0),0.0);
-        doTest(new OptimTestUtils.TwoAxes(), startPoint, boundaries,
-                GoalType.MINIMIZE, 2*
-                1e-13, 1e-6, 100, expected);
+        doTest(TestFunction.TWO_AXES.withDimension(DIM), startPoint, boundaries,
+                GoalType.MINIMIZE,
+                2e-13, 1e-6, 100, expected);
      }
 
     @Test
@@ -148,7 +149,7 @@ public class BOBYQAOptimizerTest {
         double[][] boundaries = null;
         PointValuePair expected =
             new PointValuePair(OptimTestUtils.point(DIM,0.0),0.0);
-        doTest(new OptimTestUtils.CigTab(), startPoint, boundaries,
+        doTest(TestFunction.CIG_TAB.withDimension(DIM), startPoint, boundaries,
                 GoalType.MINIMIZE,
                 1e-13, 5e-5, 100, expected);
      }
@@ -159,7 +160,7 @@ public class BOBYQAOptimizerTest {
         double[][] boundaries = null;
         PointValuePair expected =
             new PointValuePair(OptimTestUtils.point(DIM,0.0),0.0);
-        doTest(new OptimTestUtils.Sphere(), startPoint, boundaries,
+        doTest(TestFunction.CIG_TAB.withDimension(DIM), startPoint, boundaries,
                 GoalType.MINIMIZE,
                 1e-13, 1e-6, 100, expected);
     }
@@ -170,29 +171,31 @@ public class BOBYQAOptimizerTest {
         double[][] boundaries = null;
         PointValuePair expected =
             new PointValuePair(OptimTestUtils.point(DIM,0.0),0.0);
-        doTest(new OptimTestUtils.Tablet(), startPoint, boundaries,
+        doTest(TestFunction.TABLET.withDimension(DIM), startPoint, boundaries,
                 GoalType.MINIMIZE,
                 1e-13, 1e-6, 100, expected);
     }
 
     @Test
     public void testDiffPow() {
-        double[] startPoint = OptimTestUtils.point(DIM/2,1.0);
+        final int dim = DIM / 2;
+        double[] startPoint = OptimTestUtils.point(dim, 1.0);
         double[][] boundaries = null;
         PointValuePair expected =
-            new PointValuePair(OptimTestUtils.point(DIM/2,0.0),0.0);
-        doTest(new OptimTestUtils.DiffPow(), startPoint, boundaries,
+            new PointValuePair(OptimTestUtils.point(dim, 0.0), 0.0);
+        doTest(TestFunction.DIFF_POW.withDimension(dim), startPoint, boundaries,
                 GoalType.MINIMIZE,
                 1e-8, 1e-1, 21000, expected);
     }
 
     @Test
     public void testSsDiffPow() {
-        double[] startPoint = OptimTestUtils.point(DIM/2,1.0);
+        final int dim = DIM / 2;
+        double[] startPoint = OptimTestUtils.point(dim, 1.0);
         double[][] boundaries = null;
         PointValuePair expected =
-            new PointValuePair(OptimTestUtils.point(DIM/2,0.0),0.0);
-        doTest(new OptimTestUtils.SsDiffPow(), startPoint, boundaries,
+            new PointValuePair(OptimTestUtils.point(dim, 0.0), 0.0);
+        doTest(TestFunction.SS_DIFF_POW.withDimension(dim), startPoint, boundaries,
                 GoalType.MINIMIZE,
                 1e-2, 1.3e-1, 50000, expected);
     }
@@ -203,7 +206,7 @@ public class BOBYQAOptimizerTest {
         double[][] boundaries = null;
         PointValuePair expected =
             new PointValuePair(OptimTestUtils.point(DIM,0.0),0.0);
-        doTest(new OptimTestUtils.Ackley(), startPoint, boundaries,
+        doTest(TestFunction.ACKLEY.withDimension(DIM), startPoint, boundaries,
                 GoalType.MINIMIZE,
                 1e-7, 1e-5, 1000, expected);
     }
@@ -215,7 +218,7 @@ public class BOBYQAOptimizerTest {
         double[][] boundaries = null;
         PointValuePair expected =
             new PointValuePair(OptimTestUtils.point(DIM,0.0),0.0);
-        doTest(new OptimTestUtils.Rastrigin(), startPoint, boundaries,
+        doTest(TestFunction.RASTRIGIN.withDimension(DIM), startPoint, boundaries,
                 GoalType.MINIMIZE,
                 1e-13, 1e-6, 1000, expected);
     }
@@ -227,7 +230,7 @@ public class BOBYQAOptimizerTest {
         double[][] boundaries = boundaries(DIM,-1,2);
         PointValuePair expected =
             new PointValuePair(OptimTestUtils.point(DIM,1.0),0.0);
-        doTest(new OptimTestUtils.Rosen(), startPoint, boundaries,
+        doTest(TestFunction.ROSEN.withDimension(DIM), startPoint, boundaries,
                 GoalType.MINIMIZE,
                 1e-13, 1e-6, 2000, expected);
     }
@@ -249,7 +252,7 @@ public class BOBYQAOptimizerTest {
         final int maxAdditionalPoints = 47;
 
         for (int num = 1; num <= maxAdditionalPoints; num++) {
-            doTest(new OptimTestUtils.Rosen(), startPoint, boundaries,
+            doTest(TestFunction.ROSEN.withDimension(DIM), startPoint, boundaries,
                    GoalType.MINIMIZE,
                    1e-12, 1e-6, 2000,
                    num,
