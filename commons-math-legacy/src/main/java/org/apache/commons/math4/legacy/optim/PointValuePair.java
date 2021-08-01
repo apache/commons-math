@@ -29,7 +29,8 @@ import org.apache.commons.math4.legacy.core.Pair;
  * @see org.apache.commons.math4.legacy.analysis.MultivariateFunction
  * @since 3.0
  */
-public class PointValuePair extends Pair<double[], Double> implements Serializable {
+public final class PointValuePair extends Pair<double[], Double>
+    implements Serializable {
     /** Serializable UID. */
     private static final long serialVersionUID = 20120513L;
 
@@ -93,6 +94,11 @@ public class PointValuePair extends Pair<double[], Double> implements Serializab
         }
 
         return false;
+    }
+
+    @Override
+    public int hashCode() {
+        return Arrays.hashCode(getKey()) + 31 * Double.hashCode(getValue());
     }
 
     @Override

@@ -16,8 +16,11 @@
  */
 package org.apache.commons.math4.legacy.optim.nonlinear.scalar.noderiv;
 
+import java.util.List;
+import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.function.UnaryOperator;
+import java.util.function.DoublePredicate;
 
 import org.apache.commons.math4.legacy.analysis.MultivariateFunction;
 import org.apache.commons.math4.legacy.optim.PointValuePair;
@@ -29,23 +32,33 @@ import org.apache.commons.math4.legacy.optim.OptimizationData;
 public class MultiDirectionalTransform
     implements Simplex.TransformFactory,
                OptimizationData {
+    /** Reflection coefficient. */
+    private static final double ALPHA = 1;
     /** Default value for {@link #gamma}: {@value}. */
     private static final double DEFAULT_GAMMA = 2;
-    /** Default value for {@link #rho}: {@value}. */
-    private static final double DEFAULT_RHO = 0.5;
+    /** Default value for {@link #sigma}: {@value}. */
+    private static final double DEFAULT_SIGMA = 0.5;
     /** Expansion coefficient. */
     private final double gamma;
     /** Contraction coefficient. */
-    private final double rho;
+    private final double sigma;
 
     /**
      * @param gamma Expansion coefficient.
-     * @param rho Contraction coefficient.
+     * @param sigma Shrinkage coefficient.
      */
     public MultiDirectionalTransform(double gamma,
-                                     double rho) {
+                                     double sigma) {
+        if (gamma < 1) {
+            throw new IllegalArgumentException("gamma: " + gamma);
+        }
+        if (sigma < 0 ||
+            sigma > 1) {
+            throw new IllegalArgumentException("sigma: " + sigma);
+        }
+
         this.gamma = gamma;
-        this.rho = rho;
+        this.sigma = sigma;
     }
 
     /**
@@ -53,31 +66,38 @@ public class MultiDirectionalTransform
      */
     public MultiDirectionalTransform() {
         this(DEFAULT_GAMMA,
-             DEFAULT_RHO);
+             DEFAULT_SIGMA);
     }
 
     /** {@inheritDoc} */
     @Override
-    public UnaryOperator<Simplex> apply(final MultivariateFunction evaluationFunction,
-                                        final Comparator<PointValuePair> comparator) {
+    public UnaryOperator<Simplex> create(final MultivariateFunction evaluationFunction,
+                                         final Comparator<PointValuePair> comparator,
+                                         final DoublePredicate unused) {
         return original -> {
             final PointValuePair best = original.get(0);
 
             // Perform a reflection step.
-            final Simplex reflectedSimplex = transform(original, 1);
+            final Simplex reflectedSimplex = transform(original,
+                                                       ALPHA,
+                                                       comparator,
+                                                       evaluationFunction);
             final PointValuePair reflectedBest = reflectedSimplex.get(0);
 
             if (comparator.compare(reflectedBest, best) < 0) {
                 // Compute the expanded simplex.
-                final Simplex expandedSimplex = transform(original, gamma);
+                final Simplex expandedSimplex = transform(original,
+                                                          gamma,
+                                                          comparator,
+                                                          evaluationFunction);
                 final PointValuePair expandedBest = expandedSimplex.get(0);
 
-                return comparator.compare(reflectedBest, expandedBest) <= 0 ?
+                return comparator.compare(reflectedBest, expandedBest) < 0 ?
                     reflectedSimplex :
                     expandedSimplex;
             } else {
                 // Compute the contracted simplex.
-                return transform(original, rho);
+                return original.shrink(sigma, evaluationFunction);
             }
         };
     }
@@ -87,30 +107,28 @@ public class MultiDirectionalTransform
      *
      * @param original Original simplex.
      * @param coeff Linear coefficient.
+     * @param comp Fitness comparator.
+     * @param evalFunc Objective function.
      * @return the transformed simplex.
      * @throws org.apache.commons.math4.legacy.exception.TooManyEvaluationsException
      * if the maximal number of evaluations is exceeded.
      */
     private Simplex transform(Simplex original,
-                              double coeff) {
+                              double coeff,
+                              Comparator<PointValuePair> comp,
+                              MultivariateFunction evalFunc) {
         // Transformed simplex is the result a linear transformation on all
         // points except the first one.
-        final int dim = original.getDimension();
-        final int len = original.getSize();
-        final double[][] simplex = new double[len][];
-
-        simplex[0] = original.get(0).getPoint();
-        final double[] xSmallest = simplex[0];
-
-        for (int i = 1; i < len; i++) {
-            final double[] xOriginal = original.get(i).getPoint();
-            final double[] xTransformed = new double[dim];
-            for (int j = 0; j < dim; j++) {
-                xTransformed[j] = xSmallest[j] + coeff * (xSmallest[j] - xOriginal[j]);
-            }
-            simplex[i] = xTransformed;
+        final int replSize = original.getSize() - 1;
+        final List<PointValuePair> replacement = new ArrayList<>();
+        final double[] bestPoint = original.get(0).getPoint();
+        for (int i = 0; i < replSize; i++) {
+            replacement.add(Simplex.newPoint(bestPoint,
+                                             -coeff,
+                                             original.get(i + 1).getPoint(),
+                                             evalFunc));
         }
 
-        return Simplex.of(simplex);
+        return original.replaceLast(replacement).evaluate(evalFunc, comp);
     }
 }

@@ -33,6 +33,9 @@ import org.junit.Assert;
 import org.junit.Test;
 import org.junit.Ignore;
 
+/**
+ * Tests for {@link MultiDirectionalTransform}.
+ */
 public class SimplexOptimizerMultiDirectionalTest {
     private static final int DIM = 13;
 
@@ -45,7 +48,7 @@ public class SimplexOptimizerMultiDirectionalTest {
                            new ObjectiveFunction(fourExtrema),
                            GoalType.MINIMIZE,
                            new InitialGuess(new double[] { -3, 0 }),
-                           Simplex.of(new double[] { 0.2, 0.2 }),
+                           Simplex.alongAxes(new double[] { 0.2, 0.2 }),
                            new MultiDirectionalTransform(),
                            new SimpleBounds(new double[] { -5, -1 },
                                             new double[] { 5, 1 }));
@@ -59,7 +62,7 @@ public class SimplexOptimizerMultiDirectionalTest {
                                                      new ObjectiveFunction(function),
                                                      GoalType.MAXIMIZE,
                                                      new InitialGuess(function.getMaximumPosition()),
-                                                     Simplex.of(2),
+                                                     Simplex.equalSidesAlongAxes(2, 1d),
                                                      new MultiDirectionalTransform());
         final double EPSILON = 1e-5;
         final double expectedMaximum = function.getMaximum();
@@ -79,7 +82,7 @@ public class SimplexOptimizerMultiDirectionalTest {
                OptimTestUtils.point(new double[] {-3, 0}, 1e-1),
                GoalType.MINIMIZE,
                105,
-               Simplex.of(OptimTestUtils.point(2, 0.2, 1e-2)),
+               Simplex.alongAxes(OptimTestUtils.point(2, 0.2, 1e-2)),
                new PointValuePair(new double[] {f.xM, f.yP}, f.valueXmYp),
                1e-6);
     }
@@ -90,7 +93,7 @@ public class SimplexOptimizerMultiDirectionalTest {
                OptimTestUtils.point(new double[] {-3, 0}, 1e-1),
                GoalType.MAXIMIZE,
                100,
-               Simplex.of(OptimTestUtils.point(2, 0.2, 1e-2)),
+               Simplex.alongAxes(OptimTestUtils.point(2, 0.2, 1e-2)),
                new PointValuePair(new double[] {f.xM, f.yM}, f.valueXmYm),
                1e-6);
     }
@@ -101,7 +104,7 @@ public class SimplexOptimizerMultiDirectionalTest {
                OptimTestUtils.point(new double[] {1, 0}, 1e-1),
                GoalType.MINIMIZE,
                100,
-               Simplex.of(OptimTestUtils.point(2, 0.2, 1e-2)),
+               Simplex.alongAxes(OptimTestUtils.point(2, 0.2, 1e-2)),
                new PointValuePair(new double[] {f.xP, f.yM}, f.valueXpYm),
                1e-6);
     }
@@ -112,7 +115,7 @@ public class SimplexOptimizerMultiDirectionalTest {
                OptimTestUtils.point(new double[] {1, 0}, 1e-1),
                GoalType.MAXIMIZE,
                110,
-               Simplex.of(OptimTestUtils.point(2, 0.2, 1e-2)),
+               Simplex.alongAxes(OptimTestUtils.point(2, 0.2, 1e-2)),
                new PointValuePair(new double[] {f.xP, f.yP}, f.valueXpYp),
                1e-6);
     }
@@ -130,7 +133,7 @@ public class SimplexOptimizerMultiDirectionalTest {
 
     @Test
     public void testPowell() {
-        final int dim =4;
+        final int dim = 4;
         doTest(TestFunction.POWELL.withDimension(dim),
                OptimTestUtils.point(new double[] { 3, -1, 0, 1 }, 1e-1),
                GoalType.MINIMIZE,
@@ -278,7 +281,7 @@ public class SimplexOptimizerMultiDirectionalTest {
                startPoint,
                goal,
                maxEvaluations,
-               Simplex.of(startPoint.length, 1),
+               Simplex.equalSidesAlongAxes(startPoint.length, 1),
                expected,
                tol);
     }
@@ -307,7 +310,7 @@ public class SimplexOptimizerMultiDirectionalTest {
                                                      new InitialGuess(startPoint),
                                                      simplex,
                                                      new NelderMeadTransform());
-        final String name = func.getClass().getSimpleName();
+        final String name = func.toString();
 
         final double[] endPoint = result.getPoint();
         final double funcValue = result.getValue();

@@ -22,8 +22,8 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Comparator;
 import java.util.Collections;
-import java.util.function.BiFunction;
 import java.util.function.UnaryOperator;
+import java.util.function.DoublePredicate;
 
 import org.apache.commons.math4.legacy.analysis.MultivariateFunction;
 import org.apache.commons.math4.legacy.exception.DimensionMismatchException;
@@ -35,11 +35,9 @@ import org.apache.commons.math4.legacy.optim.OptimizationData;
 import org.apache.commons.math4.legacy.optim.PointValuePair;
 
 /**
- * Represents a simplex.
+ * Represents a <a href="https://en.wikipedia.org/wiki/Simplex">simplex</a>.
  *
  * @see SimplexOptimizer
- * @see MultiDirectionalTransform
- * @see NelderMeadTransform
  */
 public final class Simplex implements OptimizationData {
     /** Coordinates. */
@@ -105,7 +103,7 @@ public final class Simplex implements OptimizationData {
     /**
      * Builds from a given set of coordinates.
      *
-     * @param simplex Reference simplex.
+     * @param simplex Simplex coordinates.
      * @return a new instance.
      * @throws NotStrictlyPositiveException if the reference simplex does not
      * contain at least one point.
@@ -118,27 +116,17 @@ public final class Simplex implements OptimizationData {
     }
 
     /**
-     * Builds a unit hypercube simplex.
+     * Builds simplex with the given side length.
      *
-     * @param n Dimension of the simplex.
-     * @return a new instance.
-     */
-    public static Simplex of(int n) {
-        return of(n, 1d);
-    }
-
-    /**
-     * Builds a hypercube simplex with the given side length.
-     *
-     * @param n Dimension of the simplex.
+     * @param dim Space dimensions.
      * @param sideLength Length of the sides of the hypercube.
      * @return a new instance.
      */
-    public static Simplex of(int n,
-                             double sideLength) {
-        final double[] steps = new double[n];
+    public static Simplex equalSidesAlongAxes(int dim,
+                                              double sideLength) {
+        final double[] steps = new double[dim];
         Arrays.fill(steps, sideLength);
-        return of(steps);
+        return alongAxes(steps);
     }
 
     /**
@@ -147,19 +135,28 @@ public final class Simplex implements OptimizationData {
      * of a box parallel to the canonical axes. It is built as the path followed
      * while traveling from one vertex of the box to the diagonally opposite
      * vertex moving only along the box edges. The first vertex of the box will
-     * be located at the start point of the optimization.
-     * As an example, in dimension 3 a simplex has 4 vertices. Setting the
+     * be located at the origin of the coordinate system.
+     *
+     * To be used for simplex-based optimization, the simplex must be
+     * {@link #translate(double[]) translated} so that its first vertex will be
+     * the {@link org.apache.commons.math4.legacy.optim.InitialGuess initial guess}.
+     *
+     * For example, in dimension 3 a simplex has 4 vertices. Setting the
      * steps to (1, 10, 2) and the start point to (1, 1, 1) would imply the
-     * start simplex would be: { (1, 1, 1), (2, 1, 1), (2, 11, 1), (2, 11, 3) }.
-     * The first vertex would be set to the start point at (1, 1, 1) and the
-     * last vertex would be set to the diagonally opposite vertex at (2, 11, 3).
+     * initial simplex would be:
+     * <ol>
+     *  <li>(1, 1, 1),</li>
+     *  <li>(2, 1, 1),</li>
+     *  <li>(2, 11, 1),</li>
+     *  <li>(2, 11, 3).</li>
+     * </ol>
      *
      * @param steps Steps along the canonical axes representing box edges.
      * They may be negative but not zero.
      * @throws ZeroException if one of the steps is zero.
      * @return a new instance.
      */
-    public static Simplex of(double[] steps) {
+    public static Simplex alongAxes(double[] steps) {
         if (steps.length == 0) {
             throw new ZeroException();
         }
@@ -237,68 +234,62 @@ public final class Simplex implements OptimizationData {
     }
 
     /**
-     * Translates the simplex such that its first point is at the given {@code point}.
+     * Creates a (deep) copy of the simplex points.
      *
-     * @param point Coordinates of the new simplex's first point.
-     * @return a new instance.
-     * @throws DimensionMismatchException if the start point does not match
-     * simplex dimension.
+     * @return the points.
      */
-    /* package private */ Simplex translate(final double[] point) {
-        final int dim = getDimension();
-        if (dim != point.length) {
-            throw new DimensionMismatchException(dim, point.length);
-        }
-
-        final int len = points.size();
-        final double[][] coordinates = new double[len][dim];
-        final double[] current0 = points.get(0).getPoint(); // Current first point.
-
-        // Set new vertices.
-        for (int i = 0; i < len; i++) {
-            final double[] currentI = points.get(i).getPoint();
-            final double[] newI = coordinates[i];
-            for (int k = 0; k < dim; k++) {
-                newI[k] = point[k] + currentI[k] - current0[k];
-            }
-        }
-
-        return of(coordinates);
-    }
-
-    /**
-     * Builds a new simplex where the given {@code point} replaces the
-     * one at {@code index} in this instance.
-     *
-     * @param index Index of the point to replace.
-     * @param point Replacement for the point currently at {@code index}.
-     * @return a new instance.
-     * @throws IndexOutOfBoundsException if {@code index} is out of bounds.
-     */
-    /* package private */ Simplex withReplacement(int index,
-                                                  PointValuePair point) {
-        final int len = points.size();
-        if (index < 0 ||
-            index >= len) {
-            throw new IndexOutOfBoundsException("index: " + index);
-        }
-
-        final List<PointValuePair> newPoints = new ArrayList<>(len);
-        for (int i = 0; i < len; i++) {
-            final PointValuePair pv = i == index ?
-                point :
-                points.get(i);
-            newPoints.add(new PointValuePair(pv.getPoint(), pv.getValue(), false));
-        }
-
-        return new Simplex(newPoints);
+    public List<PointValuePair> asList() {
+        return asList(0, points.size());
     }
 
     /**
      * Generator of simplex transform.
+     *
+     * @see MultiDirectionalTransform
+     * @see NelderMeadTransform
+     * @see HedarFukushimaTransform
      */
-    public interface TransformFactory
-        extends BiFunction<MultivariateFunction, Comparator<PointValuePair>, UnaryOperator<Simplex>> {}
+    public interface TransformFactory {
+        /**
+         * Creates a simplex transformation.
+         *
+         * @param evaluationFunction Evaluation function.
+         * @param comparator Vertex fitness comparator.
+         * @param saAcceptance Simulated annealing acceptance test.
+         * @return the simplex transform operator.
+         */
+        UnaryOperator<Simplex> create(MultivariateFunction evaluationFunction,
+                                      Comparator<PointValuePair> comparator,
+                                      DoublePredicate saAcceptance);
+    }
+
+    /**
+     * Creates a (deep) copy of the simplex points within slots
+     * {@code from} (included) and {@code to} (excluded).
+     *
+     * @param from Index of the first point to retrieve.
+     * @param to One past the index of the last point to retrieve.
+     * @return the points.
+     * @throws IllegalArgumentException if {@code from} and {@code to} are
+     * not within the {@code [0, n + 1]} interval (where {@code n} is the
+     * space dimension) or {@code from > to}.
+     */
+    /* package private */ List<PointValuePair> asList(int from,
+                                                      int to) {
+        if (from < 0 ||
+            to > points.size() ||
+            from > to) {
+            throw new IllegalArgumentException("Index");
+        }
+
+        final int len = to - from;
+        final List<PointValuePair> copy = new ArrayList<>(len);
+        for (int i = from; i < to; i++) {
+            copy.add(get(i));
+        }
+
+        return copy;
+    }
 
     /**
      * Utility for evaluating a point with coordinates \( a_i + s (b_i - a_i) \).
@@ -324,8 +315,8 @@ public final class Simplex implements OptimizationData {
     }
 
     /**
-     * Utility for the "shrinking" a simplex: All the points will be transformed
-     * except the one at index 0.
+     * Utility for the "shrinking" a simplex: All the points will be
+     * transformed except the one at index 0.
      *
      * @param sigma Shrink factor.
      * @param function Evaluation function.
@@ -333,17 +324,111 @@ public final class Simplex implements OptimizationData {
      */
     /* package private */ Simplex shrink(double sigma,
                                          MultivariateFunction function) {
-        final int size = getSize();
-        final double[] xBest = get(0).getPoint();
-        Simplex newSimplex = this;
-        for (int i = 1; i < size; i++) {
-            final PointValuePair p = newPoint(xBest,
-                                              sigma,
-                                              get(i).getPoint(),
-                                              function);
-            newSimplex = newSimplex.withReplacement(i, p);
+        final int replSize = getSize() - 1;
+        final List<PointValuePair> replacement = new ArrayList<>();
+        final double[] bestPoint = get(0).getPoint();
+        for (int i = 0; i < replSize; i++) {
+            replacement.add(Simplex.newPoint(bestPoint,
+                                             sigma,
+                                             get(i + 1).getPoint(),
+                                             function));
         }
 
-        return newSimplex;
+        return replaceLast(replacement);
+    }
+
+    /**
+     * Translates the simplex such that the first point's new coordinates
+     * will be at the given {@code point}.
+     *
+     * @param point Coordinates of the new simplex's first point.
+     * @return the translated points.
+     * @throws DimensionMismatchException if the dimensions do not match.
+     */
+    /* package private */ Simplex translate(double[] point) {
+        final int dim = point.length;
+        if (getDimension() != dim) {
+            throw new DimensionMismatchException(getDimension(), dim);
+        }
+        final int len = points.size();
+        final double[][] coordinates = new double[len][dim];
+        final double[] current0 = points.get(0).getPoint(); // Current first point.
+
+        // Set new vertices.
+        for (int i = 0; i < len; i++) {
+            final double[] currentI = points.get(i).getPoint();
+
+            final double[] newI = coordinates[i];
+            for (int k = 0; k < dim; k++) {
+                newI[k] = point[k] + currentI[k] - current0[k];
+            }
+        }
+
+        return new Simplex(coordinates);
+    }
+
+    /**
+     * Creates a new simplex where the given {@code point} replaces the one at the
+     * last position.
+     * Caveat: No check is done that the resulting set of points forms is a simplex.
+     *
+     * @param point Point.
+     * @return a new instance.
+     */
+    /* package private */ Simplex replaceLast(PointValuePair point) {
+        final List<PointValuePair> newPoints = asList(0, getDimension()); // Deep copy.
+        newPoints.add(new PointValuePair(point.getPoint(), // Deep copy.
+                                         point.getValue(),
+                                         false));
+
+        return new Simplex(newPoints);
+    }
+
+    /**
+     * Replace the last points of the simplex with the points from the given
+     * {@code replacement} list.
+     * Caveat: No check is done that the resulting set of points is a simplex.
+     *
+     * @param replacement List of points that will replace the last points of
+     * the {@code simplex}.
+     * @return a new instance.
+     */
+    /* package private */ Simplex replaceLast(List<PointValuePair> replacement) {
+        final int nPoints = replacement.size();
+        final int from = points.size() - nPoints;
+        final List<PointValuePair> newPoints = asList(0, from); // Deep copy.
+
+
+        for (int i = 0; i < nPoints; i++) {
+            final PointValuePair p = replacement.get(i);
+            newPoints.add(new PointValuePair(p.getPoint(), // Deep copy.
+                                             p.getValue(),
+                                             false));
+        }
+
+        return new Simplex(newPoints);
+    }
+
+    /**
+     * @param list List of simplex points.
+     * @return the centroid of the points in the given {@code list}.
+     */
+    /* package private */ static double[] centroid(List<PointValuePair> list) {
+        final double[] centroid = list.get(0).getPoint();
+
+        final int nPoints = list.size();
+        final int dim = centroid.length;
+        for (int i = 1; i < nPoints; i++) {
+            final double[] p = list.get(i).getPoint();
+            for (int k = 0; k < dim; k++) {
+                centroid[k] += p[k];
+            }
+        }
+
+        for (int k = 0; k < dim; k++) {
+            centroid[k] /= nPoints;
+        }
+
+        return centroid;
     }
 }

@@ -37,6 +37,9 @@ import org.junit.Assert;
 import org.junit.Test;
 import org.junit.Ignore;
 
+/**
+ * Tests for {@link NelderMeadTransform}.
+ */
 public class SimplexOptimizerNelderMeadTest {
     private static final int DIM = 13;
 
@@ -49,7 +52,7 @@ public class SimplexOptimizerNelderMeadTest {
                            new ObjectiveFunction(fourExtrema),
                            GoalType.MINIMIZE,
                            new InitialGuess(new double[] { -3, 0 }),
-                           Simplex.of(new double[] { 0.2, 0.2 }),
+                           Simplex.alongAxes(new double[] { 0.2, 0.2 }),
                            new NelderMeadTransform(),
                            new SimpleBounds(new double[] { -5, -1 },
                                             new double[] { 5, 1 }));
@@ -74,7 +77,7 @@ public class SimplexOptimizerNelderMeadTest {
                                new ObjectiveFunction(ls),
                                GoalType.MINIMIZE,
                                new InitialGuess(new double[] { 10, 10 }),
-                               Simplex.of(2),
+                               Simplex.equalSidesAlongAxes(2, 1d),
                                new NelderMeadTransform());
         Assert.assertEquals( 2, optimum.getPointRef()[0], 1e-3);
         Assert.assertEquals(-3, optimum.getPointRef()[1], 4e-4);
@@ -103,7 +106,7 @@ public class SimplexOptimizerNelderMeadTest {
                                new ObjectiveFunction(ls),
                                GoalType.MINIMIZE,
                                new InitialGuess(new double[] { 10, 10 }),
-                               Simplex.of(2),
+                               Simplex.equalSidesAlongAxes(2, 1d),
                                new NelderMeadTransform());
         Assert.assertEquals( 2, optimum.getPointRef()[0], 1e-4);
         Assert.assertEquals(-3, optimum.getPointRef()[1], 8e-4);
@@ -134,7 +137,7 @@ public class SimplexOptimizerNelderMeadTest {
                                  new ObjectiveFunction(ls),
                                  GoalType.MINIMIZE,
                                  new InitialGuess(new double[] { 10, 10 }),
-                                 Simplex.of(2),
+                                 Simplex.equalSidesAlongAxes(2, 1d),
                                  new NelderMeadTransform());
         Assert.assertEquals( 2, optimum.getPointRef()[0], 1e-2);
         Assert.assertEquals(-3, optimum.getPointRef()[1], 1e-2);
@@ -152,7 +155,7 @@ public class SimplexOptimizerNelderMeadTest {
                            new ObjectiveFunction(TestFunction.POWELL.withDimension(dim)),
                            GoalType.MINIMIZE,
                            new InitialGuess(new double[] { 3, -1, 0, 1 }),
-                           Simplex.of(dim),
+                           Simplex.equalSidesAlongAxes(dim, 1d),
                            new NelderMeadTransform());
     }
 
@@ -163,7 +166,7 @@ public class SimplexOptimizerNelderMeadTest {
                OptimTestUtils.point(new double[] {-3, 0}, 1e-1),
                GoalType.MINIMIZE,
                105,
-               Simplex.of(OptimTestUtils.point(2, 0.2, 1e-2)),
+               Simplex.alongAxes(OptimTestUtils.point(2, 0.2, 1e-2)),
                new PointValuePair(new double[] {f.xM, f.yP}, f.valueXmYp),
                1e-6);
     }
@@ -174,7 +177,7 @@ public class SimplexOptimizerNelderMeadTest {
                OptimTestUtils.point(new double[] {-3, 0}, 1e-1),
                GoalType.MAXIMIZE,
                100,
-               Simplex.of(OptimTestUtils.point(2, 0.2, 1e-2)),
+               Simplex.alongAxes(OptimTestUtils.point(2, 0.2, 1e-2)),
                new PointValuePair(new double[] {f.xM, f.yM}, f.valueXmYm),
                1e-6);
     }
@@ -185,7 +188,7 @@ public class SimplexOptimizerNelderMeadTest {
                OptimTestUtils.point(new double[] {1, 0}, 1e-1),
                GoalType.MINIMIZE,
                100,
-               Simplex.of(OptimTestUtils.point(2, 0.2, 1e-2)),
+               Simplex.alongAxes(OptimTestUtils.point(2, 0.2, 1e-2)),
                new PointValuePair(new double[] {f.xP, f.yM}, f.valueXpYm),
                1e-6);
     }
@@ -196,7 +199,7 @@ public class SimplexOptimizerNelderMeadTest {
                OptimTestUtils.point(new double[] {1, 0}, 1e-1),
                GoalType.MAXIMIZE,
                110,
-               Simplex.of(OptimTestUtils.point(2, 0.2, 1e-2)),
+               Simplex.alongAxes(OptimTestUtils.point(2, 0.2, 1e-2)),
                new PointValuePair(new double[] {f.xP, f.yP}, f.valueXpYp),
                1e-6);
     }
@@ -362,7 +365,7 @@ public class SimplexOptimizerNelderMeadTest {
                startPoint,
                goal,
                maxEvaluations,
-               Simplex.of(startPoint.length, 1),
+               Simplex.equalSidesAlongAxes(startPoint.length, 1d),
                expected,
                tol);
     }
@@ -383,6 +386,8 @@ public class SimplexOptimizerNelderMeadTest {
                         Simplex simplex,
                         PointValuePair expected,
                         double tol) {
+        final String name = func.toString();
+
         final int maxEval = Math.max(maxEvaluations, 12000);
         final SimplexOptimizer optim = new SimplexOptimizer(1e-13, 1e-14);
         final PointValuePair result = optim.optimize(new MaxEval(maxEval),
@@ -391,7 +396,6 @@ public class SimplexOptimizerNelderMeadTest {
                                                      new InitialGuess(startPoint),
                                                      simplex,
                                                      new NelderMeadTransform());
-        final String name = func.getClass().getSimpleName();
 
         final double[] endPoint = result.getPoint();
         final double funcValue = result.getValue();

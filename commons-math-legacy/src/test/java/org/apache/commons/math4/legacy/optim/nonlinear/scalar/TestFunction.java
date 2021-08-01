@@ -180,6 +180,16 @@ public enum TestFunction {
                 }
                 return f;
             };
+        }),
+    PARABOLA(dim -> {
+            return x -> {
+                double f = 0;
+                for (int i = 0; i < dim; i++) {
+                    final double xi = x[i];
+                    f += xi * xi;
+                }
+                return f;
+            };
         });
 
     /** Template for variable dimension. */
@@ -197,13 +207,29 @@ public enum TestFunction {
      * @return the function for the given dimension.
      */
     public MultivariateFunction withDimension(final int dim) {
-        final MultivariateFunction f = generator.apply(dim);
-        return x -> {
-            if (x.length != dim) {
-                throw new IllegalArgumentException("Dimension mismatch: " + x.length +
-                                                   "(expected: " + dim + ")");
+        return new MultivariateFunction() {
+            /** Delegate. */
+            private final MultivariateFunction f = generator.apply(dim);
+
+            @Override
+            public double value(double[] x) {
+                if (x.length != dim) {
+                    throw new IllegalArgumentException("Dimension mismatch: " + x.length +
+                                                       "(expected: " + dim + ")");
+                }
+                return f.value(x);
+            };
+
+            @Override
+            public String toString() {
+                final StringBuilder sb = new StringBuilder();
+                sb.append("[")
+                    .append(TestFunction.this.toString())
+                    .append(" dim=")
+                    .append(dim)
+                    .append("]");
+                return sb.toString();
             }
-            return f.value(x);
         };
     }
 }

@@ -18,6 +18,7 @@ package org.apache.commons.math4.legacy.optim.nonlinear.scalar.noderiv;
 
 import java.util.Comparator;
 import java.util.function.UnaryOperator;
+import java.util.function.DoublePredicate;
 
 import org.apache.commons.math4.legacy.analysis.MultivariateFunction;
 import org.apache.commons.math4.legacy.optim.PointValuePair;
@@ -74,8 +75,9 @@ public class NelderMeadTransform
 
     /** {@inheritDoc} */
     @Override
-    public UnaryOperator<Simplex> apply(final MultivariateFunction evaluationFunction,
-                                        final Comparator<PointValuePair> comparator) {
+    public UnaryOperator<Simplex> create(final MultivariateFunction evaluationFunction,
+                                         final Comparator<PointValuePair> comparator,
+                                         final DoublePredicate unused) {
         return original -> {
             Simplex newSimplex = original;
 
@@ -89,17 +91,7 @@ public class NelderMeadTransform
             final double[] xWorst = worst.getPoint();
 
             // Centroid of the best vertices, dismissing the worst point (at index n).
-            final double[] centroid = new double[n];
-            for (int i = 0; i < n; i++) {
-                final double[] x = newSimplex.get(i).getPoint();
-                for (int j = 0; j < n; j++) {
-                    centroid[j] += x[j];
-                }
-            }
-            final double scaling = 1d / n;
-            for (int j = 0; j < n; j++) {
-                centroid[j] *= scaling;
-            }
+            final double[] centroid = Simplex.centroid(newSimplex.asList().subList(0, n));
 
             // Reflection.
             final PointValuePair reflected = Simplex.newPoint(centroid,
@@ -108,7 +100,7 @@ public class NelderMeadTransform
                                                               evaluationFunction);
             if (comparator.compare(reflected, secondWorst) < 0 &&
                 comparator.compare(best, reflected) <= 0) {
-                return newSimplex.withReplacement(n, reflected);
+                return newSimplex.replaceLast(reflected);
             }
 
             if (comparator.compare(reflected, best) < 0) {
@@ -118,9 +110,9 @@ public class NelderMeadTransform
                                                                  xWorst,
                                                                  evaluationFunction);
                 if (comparator.compare(expanded, reflected) < 0) {
-                    return newSimplex.withReplacement(n, expanded);
+                    return newSimplex.replaceLast(expanded);
                 } else {
-                    return newSimplex.withReplacement(n, reflected);
+                    return newSimplex.replaceLast(reflected);
                 }
             }
 
@@ -131,7 +123,7 @@ public class NelderMeadTransform
                                                                    reflected.getPoint(),
                                                                    evaluationFunction);
                 if (comparator.compare(contracted, reflected) < 0) {
-                    return newSimplex.withReplacement(n, contracted); // Accept contracted point.
+                    return newSimplex.replaceLast(contracted); // Accept contracted point.
                 }
             } else {
                 // Inside contraction.
@@ -140,7 +132,7 @@ public class NelderMeadTransform
                                                                    xWorst,
                                                                    evaluationFunction);
                 if (comparator.compare(contracted, worst) < 0) {
-                    return newSimplex.withReplacement(n, contracted); // Accept contracted point.
+                    return newSimplex.replaceLast(contracted); // Accept contracted point.
                 }
             }
 
