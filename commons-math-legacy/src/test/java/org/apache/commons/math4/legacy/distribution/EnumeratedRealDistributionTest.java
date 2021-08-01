@@ -99,7 +99,7 @@ public class EnumeratedRealDistributionTest {
         double[] points = new double[]{-2.0, -1.0, 0.0, 1.0, 2.0, 3.0, 4.0, 5.0, 6.0, 7.0, 8.0};
         double[] results = new double[]{0, 0.2, 0, 0, 0, 0.5, 0, 0, 0, 0.3, 0};
         for (int p = 0; p < points.length; p++) {
-            double density = testDistribution.probability(points[p]);
+            double density = testDistribution.density(points[p]);
             Assert.assertEquals(results[p], density, 0.0);
         }
     }
@@ -248,7 +248,7 @@ public class EnumeratedRealDistributionTest {
     public void testCreateFromDoubles() {
         final double[] data = new double[] {0, 1, 1, 2, 2, 2};
         EnumeratedRealDistribution distribution = new EnumeratedRealDistribution(data);
-        assertEquals(0.5, distribution.probability(2), 0);
+        assertEquals(0.5, distribution.density(2), 0);
         assertEquals(0.5, distribution.cumulativeProbability(1), 0);
     }
 }

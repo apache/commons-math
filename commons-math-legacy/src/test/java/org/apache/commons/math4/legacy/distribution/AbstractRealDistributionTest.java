@@ -96,11 +96,6 @@ public class AbstractRealDistributionTest {
             public boolean isSupportConnected() {
                 return false;
             }
-
-            @Override
-            public double probability(final double x) {
-                throw new UnsupportedOperationException();
-            }
         };
         final double expected = x1;
         final double actual = distribution.inverseCumulativeProbability(p12);
@@ -195,11 +190,6 @@ public class AbstractRealDistributionTest {
             @Override
             public boolean isSupportConnected() {
                 return false;
-            }
-
-            @Override
-            public double probability(final double x) {
-                throw new UnsupportedOperationException();
             }
         };
         final double expected = x2;

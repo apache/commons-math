@@ -204,17 +204,6 @@ public abstract class AbstractRealDistribution
 
     /**
      * {@inheritDoc}
-     *
-     * @return zero.
-     * @since 3.1
-     */
-    @Override
-    public double probability(double x) {
-        return 0d;
-    }
-
-    /**
-     * {@inheritDoc}
      * <p>
      * The default implementation simply computes the logarithm of {@code density(x)}.
      */

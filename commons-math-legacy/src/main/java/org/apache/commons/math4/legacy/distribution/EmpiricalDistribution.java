@@ -305,15 +305,6 @@ public final class EmpiricalDistribution extends AbstractRealDistribution
 
     /**
      * {@inheritDoc}
-     * @since 3.1
-     */
-    @Override
-    public double probability(double x) {
-        return 0;
-    }
-
-    /**
-     * {@inheritDoc}
      *
      * Returns the kernel density normalized so that its integral over each bin
      * equals the bin mass.

@@ -123,14 +123,6 @@ public class EnumeratedRealDistribution
     }
 
     /**
-     * {@inheritDoc}
-     */
-    @Override
-    public double probability(final double x) {
-        return innerDistribution.probability(x);
-    }
-
-    /**
      * For a random variable {@code X} whose values are distributed according to
      * this distribution, this method returns {@code P(X = x)}. In other words,
      * this method represents the probability mass function (PMF) for the
@@ -141,7 +133,7 @@ public class EnumeratedRealDistribution
      */
     @Override
     public double density(final double x) {
-        return probability(x);
+        return innerDistribution.probability(x);
     }
 
     /**
