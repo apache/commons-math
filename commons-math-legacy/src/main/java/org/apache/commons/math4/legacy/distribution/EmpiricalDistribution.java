@@ -23,8 +23,8 @@ import java.util.function.Function;
 
 import org.apache.commons.statistics.distribution.NormalDistribution;
 import org.apache.commons.statistics.distribution.ContinuousDistribution;
-import org.apache.commons.statistics.distribution.ConstantContinuousDistribution;
 import org.apache.commons.numbers.core.Precision;
+import org.apache.commons.rng.UniformRandomProvider;
 import org.apache.commons.math4.legacy.exception.OutOfRangeException;
 import org.apache.commons.math4.legacy.exception.NotStrictlyPositiveException;
 import org.apache.commons.math4.legacy.stat.descriptive.StatisticalSummary;
@@ -562,5 +562,86 @@ public final class EmpiricalDistribution extends AbstractRealDistribution
                                               stats.getStandardDeviation());
             }
         };
+    }
+
+    /**
+     * Constant distribution.
+     */
+    private static class ConstantContinuousDistribution implements ContinuousDistribution {
+        /** Constant value of the distribution. */
+        private final double value;
+
+        /**
+         * Create a constant real distribution with the given value.
+         *
+         * @param value Value of this distribution.
+         */
+        ConstantContinuousDistribution(double value) {
+            this.value = value;
+        }
+
+        /** {@inheritDoc} */
+        @Override
+        public double density(double x) {
+            return x == value ? 1 : 0;
+        }
+
+        /** {@inheritDoc} */
+        @Override
+        public double cumulativeProbability(double x)  {
+            return x < value ? 0 : 1;
+        }
+
+        /** {@inheritDoc} */
+        @Override
+        public double inverseCumulativeProbability(final double p) {
+            if (p < 0 ||
+                p > 1) {
+                // Should never happen.
+                throw new IllegalArgumentException("Internal error");
+            }
+            return value;
+        }
+
+        /** {@inheritDoc} */
+        @Override
+        public double getMean() {
+            return value;
+        }
+
+        /** {@inheritDoc} */
+        @Override
+        public double getVariance() {
+            return 0;
+        }
+
+        /**{@inheritDoc} */
+        @Override
+        public double getSupportLowerBound() {
+            return value;
+        }
+
+        /** {@inheritDoc} */
+        @Override
+        public double getSupportUpperBound() {
+            return value;
+        }
+
+        /** {@inheritDoc} */
+        @Override
+        public boolean isSupportConnected() {
+            return true;
+        }
+
+        /**
+         * {@inheritDoc}
+         *
+         * @param rng Not used: distribution contains a single value.
+         * @return the value of the distribution.
+         */
+        @Override
+        public ContinuousDistribution.Sampler createSampler(final UniformRandomProvider rng) {
+            return this::getSupportLowerBound;
+        }
     }
 }
