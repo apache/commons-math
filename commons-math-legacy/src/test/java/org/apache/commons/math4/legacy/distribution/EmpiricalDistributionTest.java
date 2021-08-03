@@ -26,7 +26,6 @@ import java.util.Arrays;
 import org.apache.commons.rng.UniformRandomProvider;
 import org.apache.commons.rng.simple.RandomSource;
 import org.apache.commons.statistics.distribution.ContinuousDistribution;
-import org.apache.commons.statistics.distribution.ConstantContinuousDistribution;
 import org.apache.commons.statistics.distribution.UniformContinuousDistribution;
 import org.apache.commons.statistics.distribution.NormalDistribution;
 import org.apache.commons.statistics.distribution.ExponentialDistribution;
@@ -387,35 +386,6 @@ public final class EmpiricalDistributionTest extends RealDistributionAbstractTes
         } else {
             return new NormalDistribution((upper + lower + 1) / 2d, 3.0276503540974917);
         }
-    }
-
-    @Test
-    public void testKernelOverrideConstant() {
-        final double[] data = {1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15};
-        final EmpiricalDistribution dist =
-            EmpiricalDistribution.from(5, data,
-                                       s -> new ConstantContinuousDistribution(s.getMean()));
-        final ContinuousDistribution.Sampler sampler
-            = dist.createSampler(RandomSource.WELL_19937_C.create(1000));
-        // Bin masses concentrated on 2, 5, 8, 11, 14 <- effectively discrete uniform distribution over these
-        final double[] values = {2d, 5d, 8d, 11d, 14d};
-        for (int i = 0; i < 20; i++) {
-            Assert.assertTrue(Arrays.binarySearch(values, sampler.sample()) >= 0);
-        }
-        final double tol = 1e-12;
-        Assert.assertEquals(0.0, dist.cumulativeProbability(1), tol);
-        Assert.assertEquals(0.2, dist.cumulativeProbability(2), tol);
-        Assert.assertEquals(0.6, dist.cumulativeProbability(10), tol);
-        Assert.assertEquals(0.8, dist.cumulativeProbability(12), tol);
-        Assert.assertEquals(0.8, dist.cumulativeProbability(13), tol);
-        Assert.assertEquals(1.0, dist.cumulativeProbability(15), tol);
-
-        Assert.assertEquals(2.0, dist.inverseCumulativeProbability(0.1), tol);
-        Assert.assertEquals(2.0, dist.inverseCumulativeProbability(0.2), tol);
-        Assert.assertEquals(5.0, dist.inverseCumulativeProbability(0.3), tol);
-        Assert.assertEquals(5.0, dist.inverseCumulativeProbability(0.4), tol);
-        Assert.assertEquals(8.0, dist.inverseCumulativeProbability(0.5), tol);
-        Assert.assertEquals(8.0, dist.inverseCumulativeProbability(0.6), tol);
     }
 
     @Test
