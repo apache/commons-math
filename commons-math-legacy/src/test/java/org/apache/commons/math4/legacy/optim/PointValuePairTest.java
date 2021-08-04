@@ -32,4 +32,23 @@ public class PointValuePairTest {
         Assert.assertEquals(pv1.getValue(), pv2.getValue(), 1.0e-15);
     }
 
+    @Test
+    public void testEquals() {
+        final double[] p1 = new double[] { 1 };
+        final PointValuePair pv1 = new PointValuePair(p1, 2);
+        Assert.assertFalse(pv1.equals(null));
+
+        final PointValuePair pv2 = new PointValuePair(pv1.getPointRef(), 3);
+        // Same array reference, different objective values.
+        Assert.assertFalse(pv1.equals(pv2));
+
+        final PointValuePair pv3 = new PointValuePair(pv2.getPoint(), pv2.getValue());
+        // Different array reference, same array values, same objective values.
+        Assert.assertTrue(pv2.equals(pv3));
+
+        final double[] p2 = new double[] { p1[0] + 1 };
+        final PointValuePair pv4 = new PointValuePair(p2, pv2.getValue());
+        // Different array values, same objective values.
+        Assert.assertFalse(pv2.equals(pv4));
+    }
 }

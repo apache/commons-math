@@ -16,6 +16,7 @@
  */
 package org.apache.commons.math4.legacy.optim;
 
+import java.util.Arrays;
 import java.io.Serializable;
 
 import org.apache.commons.math4.legacy.core.Pair;
@@ -78,6 +79,25 @@ public class PointValuePair extends Pair<double[], Double> implements Serializab
      */
     public double[] getPointRef() {
         return getKey();
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (o instanceof PointValuePair) {
+            final PointValuePair other = (PointValuePair) o;
+
+            return getValue().equals(other.getValue()) ?
+                Arrays.equals(getPointRef(),
+                              other.getPointRef()) :
+                false;
+        }
+
+        return false;
+    }
+
+    @Override
+    public String toString() {
+        return "[" + Arrays.toString(getPointRef()) + ", " + getValue() + "]";
     }
 
     /**
