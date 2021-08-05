@@ -896,7 +896,7 @@ public class CMAESOptimizer
         @Override
         public int hashCode() {
             long bits = Double.doubleToLongBits(value);
-            return (int) ((1438542 ^ (bits >>> 32) ^ bits) & 0xffffffff);
+            return (int) ((1438542 ^ (bits >>> 32) ^ bits));
         }
     }
     /**
