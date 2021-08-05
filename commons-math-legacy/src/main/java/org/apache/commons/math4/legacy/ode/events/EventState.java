@@ -365,7 +365,7 @@ public class EventState {
             // force the sign to its value "just after the event"
             previousEventTime = t;
             g0Positive        = increasing;
-            nextAction        = handler.eventOccurred(t, y, !(increasing ^ forward));
+            nextAction        = handler.eventOccurred(t, y, increasing == forward);
         } else {
             g0Positive = g0 >= 0;
             nextAction = EventHandler.Action.CONTINUE;

@@ -376,14 +376,7 @@ public class Frequency<T extends Comparable<T>> implements Serializable {
             return false;
         }
         Frequency<?> other = (Frequency<?>) obj;
-        if (freqTable == null) {
-            if (other.freqTable != null) {
-                return false;
-            }
-        } else if (!freqTable.equals(other.freqTable)) {
-            return false;
-        }
-        return true;
+        return freqTable.equals(other.freqTable);
     }
 
 }
