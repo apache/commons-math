@@ -178,8 +178,7 @@ public final class SparseGradient implements RealFieldElement<SparseGradient>, S
     /** {@inheritDoc} */
     @Override
     public SparseGradient add(final double c) {
-        final SparseGradient out = new SparseGradient(value + c, derivatives);
-        return out;
+        return new SparseGradient(value + c, derivatives);
     }
 
     /** {@inheritDoc} */
