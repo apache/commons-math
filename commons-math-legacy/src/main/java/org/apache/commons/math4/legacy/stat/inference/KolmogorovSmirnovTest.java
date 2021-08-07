@@ -961,9 +961,7 @@ public class KolmogorovSmirnovTest {
      *         \(D_{n,m}\) greater than {@code d}
      */
     public double approximateP(double d, int n, int m) {
-        final double dm = m;
-        final double dn = n;
-        return 1 - ksSum(d * AccurateMath.sqrt((dm * dn) / (dm + dn)),
+        return 1 - ksSum(d * AccurateMath.sqrt(((double) m * (double) n) / ((double) m + (double) n)),
                          KS_SUM_CAUCHY_CRITERION, MAXIMUM_PARTIAL_SUM_COUNT);
     }
 

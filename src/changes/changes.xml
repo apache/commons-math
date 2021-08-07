@@ -101,6 +101,9 @@ Caveat:
         Update class "SimplexOptimizer" (in package "o.a.c.m.legacy.optim.nonlinear.scalar.noderiv")
         to support simulated annealing.
       </action>
+      <action dev="aherbert" due-to="Arturo Bernal" type="update" issue="MATH-1573">
+        Remove redundant local variables.
+      </action>
       <action dev="aherbert" due-to="Arturo Bernal" type="update" issue="MATH-1572">
         Simplify conditional expressions.
       </action>

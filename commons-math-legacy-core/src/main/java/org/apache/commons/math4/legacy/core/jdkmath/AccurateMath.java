@@ -2792,9 +2792,7 @@ public final class AccurateMath {
         }
 
         // Call atan
-        final double result = atan(ra, rb, x < 0);
-
-        return result;
+        return atan(ra, rb, x < 0);
     }
 
     /** Compute the arc sine of a number.
