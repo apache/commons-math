@@ -61,7 +61,7 @@ class ChineseRings {
         final UniformRandomProvider rng = RandomSource.create(RandomSource.WELL_19937_C);
 
         // Create two rings lying in xy-plane.
-        final UnitSphereSampler unit = new UnitSphereSampler(2, rng);
+        final UnitSphereSampler unit = UnitSphereSampler.of(rng, 2);
 
         final ContinuousUniformSampler radius1
             = new ContinuousUniformSampler(rng,
