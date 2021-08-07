@@ -371,10 +371,7 @@ public class PolynomialFunction implements UnivariateDifferentiableFunction, Ser
             return false;
         }
         PolynomialFunction other = (PolynomialFunction) obj;
-        if (!Arrays.equals(coefficients, other.coefficients)) {
-            return false;
-        }
-        return true;
+        return Arrays.equals(coefficients, other.coefficients);
     }
 
     /**
