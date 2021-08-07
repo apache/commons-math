@@ -324,7 +324,7 @@ public class ResizableDoubleArrayTest extends DoubleArrayAbstractTest {
         Assert.assertEquals("Initial number of elements should be 0", 0, eDA2.getNumElements());
 
         final DiscreteDistribution.Sampler randomData =
-            new UniformDiscreteDistribution(100, 1000).createSampler(RandomSource.create(RandomSource.WELL_19937_C));
+            new UniformDiscreteDistribution(100, 1000).createSampler(RandomSource.WELL_19937_C.create());
         final int iterations = randomData.sample();
 
         for( int i = 0; i < iterations; i++) {
@@ -346,7 +346,7 @@ public class ResizableDoubleArrayTest extends DoubleArrayAbstractTest {
         Assert.assertEquals("Initial number of elements should be 0", 0, eDA3.getNumElements() );
 
         final DiscreteDistribution.Sampler randomData =
-            new UniformDiscreteDistribution(100, 3000).createSampler(RandomSource.create(RandomSource.WELL_19937_C));
+            new UniformDiscreteDistribution(100, 3000).createSampler(RandomSource.WELL_19937_C.create());
 
         final int iterations = randomData.sample();
 

@@ -323,7 +323,7 @@ public class KolmogorovSmirnovTestTest {
     @Test
     public void testTwoSampleMonteCarlo() {
         final KolmogorovSmirnovTest test = new KolmogorovSmirnovTest();
-        final UniformRandomProvider rng = RandomSource.create(RandomSource.WELL_19937_C, 1000);
+        final UniformRandomProvider rng = RandomSource.WELL_19937_C.create(1000);
         final int sampleSize = 14;
         final double tol = .001;
         final double[] shortUniform = new double[sampleSize];
@@ -351,7 +351,7 @@ public class KolmogorovSmirnovTestTest {
     @Test
     public void testTwoSampleMonteCarloDifferentSampleSizes() {
         final KolmogorovSmirnovTest test = new KolmogorovSmirnovTest();
-        final UniformRandomProvider rng = RandomSource.create(RandomSource.WELL_19937_C, 1000);
+        final UniformRandomProvider rng = RandomSource.WELL_19937_C.create(1000);
         final int sampleSize1 = 14;
         final int sampleSize2 = 7;
         final double d = 0.3;
@@ -371,7 +371,7 @@ public class KolmogorovSmirnovTestTest {
         int numIterations = 100_000;
         int N = (int)Math.sqrt(LARGE_SAMPLE_PRODUCT);
         final KolmogorovSmirnovTest test = new KolmogorovSmirnovTest();
-        final UniformRandomProvider rng = RandomSource.create(RandomSource.WELL_19937_C, 1000);
+        final UniformRandomProvider rng = RandomSource.WELL_19937_C.create(1000);
         for (int n = 2; n <= N; ++n) {
             long startMillis = System.currentTimeMillis();
             int m = LARGE_SAMPLE_PRODUCT/n;
@@ -592,7 +592,7 @@ public class KolmogorovSmirnovTestTest {
     public void testTwoSamplesAllEqual() {
         int iterations = 10_000;
         final KolmogorovSmirnovTest test = new KolmogorovSmirnovTest();
-        final UniformRandomProvider rng = RandomSource.create(RandomSource.WELL_19937_C, 1000);
+        final UniformRandomProvider rng = RandomSource.WELL_19937_C.create(1000);
         for (int i = 2; i < 30; ++i) {
             // testing values with ties
             double[] values = new double[i];
@@ -653,7 +653,7 @@ public class KolmogorovSmirnovTestTest {
         final double tol = 1e-2;
         final int iterations = 1000000;
         final KolmogorovSmirnovTest test = new KolmogorovSmirnovTest();
-        final UniformRandomProvider rng = RandomSource.create(RandomSource.WELL_19937_C, 1000);
+        final UniformRandomProvider rng = RandomSource.WELL_19937_C.create(1000);
 
         final double[] x = {0, 2, 3, 4, 5, 6, 7, 8, 9, 12};
         final double[] y = {1, 10, 11, 13, 14, 15, 16, 17, 18};
@@ -682,7 +682,7 @@ public class KolmogorovSmirnovTestTest {
         final double alpha = 0.001;
         final int numIterations = 1000000;
 
-        final UniformRandomProvider rng = RandomSource.create(RandomSource.WELL_19937_C, 0);
+        final UniformRandomProvider rng = RandomSource.WELL_19937_C.create(0);
 
         for (final int[] parameter : parameters) {
 
@@ -732,7 +732,7 @@ public class KolmogorovSmirnovTestTest {
         final double[] x = {0, 2, 4, 6, 8, 8, 10, 15, 22, 30, 33, 36, 38};
         final double[] y = {9, 17, 20, 33, 40, 51, 60, 60, 72, 90, 101};
         final KolmogorovSmirnovTest test = new KolmogorovSmirnovTest();
-        final UniformRandomProvider rng = RandomSource.create(RandomSource.WELL_19937_C, 2000);
+        final UniformRandomProvider rng = RandomSource.WELL_19937_C.create(2000);
         Assert.assertEquals(0.0059, test.bootstrap(x, y, 10000, false, rng), 1E-3);
     }
 
@@ -743,7 +743,7 @@ public class KolmogorovSmirnovTestTest {
     @Test
     public void testBootstrapLargeSamples() {
         final KolmogorovSmirnovTest test = new KolmogorovSmirnovTest();
-        final UniformRandomProvider rng = RandomSource.create(RandomSource.WELL_19937_C, 1000);
+        final UniformRandomProvider rng = RandomSource.WELL_19937_C.create(1000);
         Assert.assertEquals(0.0237, test.bootstrap(gaussian, gaussian2, 10000, true, rng), 1E-2);
     }
 
@@ -757,7 +757,7 @@ public class KolmogorovSmirnovTestTest {
         final double[] x = {2,4,6,8,9,10,11,12,13};
         final double[] y = {0,1,3,5,7};
         final KolmogorovSmirnovTest test = new KolmogorovSmirnovTest();
-        final UniformRandomProvider rng = RandomSource.create(RandomSource.WELL_19937_C, 1000);
+        final UniformRandomProvider rng = RandomSource.WELL_19937_C.create(1000);
         Assert.assertEquals(0.06303, test.bootstrap(x, y, 10000, false, rng), 1E-2);
     }
 

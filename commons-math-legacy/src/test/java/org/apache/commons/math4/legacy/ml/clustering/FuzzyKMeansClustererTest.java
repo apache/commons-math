@@ -93,7 +93,7 @@ public class FuzzyKMeansClustererTest {
     @Test
     public void testGetters() {
         final DistanceMeasure measure = new CanberraDistance();
-        final UniformRandomProvider random = RandomSource.create(RandomSource.MT_64);
+        final UniformRandomProvider random = RandomSource.MT_64.create();
         final FuzzyKMeansClusterer<DoublePoint> clusterer =
                 new FuzzyKMeansClusterer<>(3, 2.0, 100, measure, 1e-6, random);
 

@@ -37,7 +37,7 @@ import org.apache.commons.math4.neuralnet.twod.NeuronSquareMesh2D;
  * Tests for {@link Network}.
  */
 public class NetworkTest {
-    private final UniformRandomProvider rng = RandomSource.create(RandomSource.SPLIT_MIX_64);
+    private final UniformRandomProvider rng = RandomSource.SPLIT_MIX_64.create();
     private final FeatureInitializer init = FeatureInitializerFactory.uniform(rng, 0, 2);
 
     @Test

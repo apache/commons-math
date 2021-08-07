@@ -76,7 +76,7 @@ public class MultivariateNormalDistributionTest {
                                    { -1.1, 2 } };
         final MultivariateNormalDistribution d = new MultivariateNormalDistribution(mu, sigma);
         final MultivariateRealDistribution.Sampler sampler =
-            d.createSampler(RandomSource.create(RandomSource.WELL_19937_C, 50));
+            d.createSampler(RandomSource.WELL_19937_C.create(50));
 
         final int n = 500000;
         final double[][] samples = AbstractMultivariateRealDistribution.sample(n, sampler);

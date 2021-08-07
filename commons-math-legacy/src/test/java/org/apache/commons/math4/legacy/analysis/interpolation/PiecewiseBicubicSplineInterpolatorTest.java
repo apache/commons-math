@@ -159,7 +159,7 @@ public final class PiecewiseBicubicSplineInterpolatorTest {
         double x;
         double y;
 
-        final UniformRandomProvider rng = RandomSource.create(RandomSource.WELL_19937_C, 1234567L);
+        final UniformRandomProvider rng = RandomSource.WELL_19937_C.create(1234567L);
         final ContinuousDistribution.Sampler distX = new UniformContinuousDistribution(xval[0], xval[xval.length - 1]).createSampler(rng);
         final ContinuousDistribution.Sampler distY = new UniformContinuousDistribution(yval[0], yval[yval.length - 1]).createSampler(rng);
 
@@ -212,7 +212,7 @@ public final class PiecewiseBicubicSplineInterpolatorTest {
         double x;
         double y;
 
-        final UniformRandomProvider rng = RandomSource.create(RandomSource.WELL_19937_C, 1234567L);
+        final UniformRandomProvider rng = RandomSource.WELL_19937_C.create(1234567L);
         final ContinuousDistribution.Sampler distX = new UniformContinuousDistribution(xval[0], xval[xval.length - 1]).createSampler(rng);
         final ContinuousDistribution.Sampler distY = new UniformContinuousDistribution(yval[0], yval[yval.length - 1]).createSampler(rng);
 

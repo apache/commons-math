@@ -113,7 +113,7 @@ final class OptimTestUtils {
 
     /** Creates a RNG instance. */
     static UniformRandomProvider rng() {
-        return RandomSource.create(RandomSource.MWC_256);
+        return RandomSource.MWC_256.create();
     }
 
     private static class Basis {

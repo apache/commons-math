@@ -55,7 +55,7 @@ public class MiniBatchKMeansClustererTest {
     @Test
     public void testCompareToKMeans() {
         //Generate 4 cluster
-        final UniformRandomProvider rng = RandomSource.create(RandomSource.MT_64);
+        final UniformRandomProvider rng = RandomSource.MT_64.create();
         List<DoublePoint> data = generateCircles(rng);
         KMeansPlusPlusClusterer<DoublePoint> kMeans =
             new KMeansPlusPlusClusterer<>(4, -1, DEFAULT_MEASURE, rng);

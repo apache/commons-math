@@ -36,7 +36,7 @@ import org.apache.commons.rng.simple.RandomSource;
  */
 public abstract class RealTransformerAbstractTest {
     /** RNG. */
-    private static final UniformRandomProvider RNG = RandomSource.create(RandomSource.MWC_256);
+    private static final UniformRandomProvider RNG = RandomSource.MWC_256.create();
 
     /**
      * Returns a new instance of the {@link RealTransform} to be tested.

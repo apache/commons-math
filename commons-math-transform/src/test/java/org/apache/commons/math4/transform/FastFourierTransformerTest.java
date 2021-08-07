@@ -40,7 +40,7 @@ public final class FastFourierTransformerTest {
     private static final DoubleUnaryOperator SIN = x -> SIN_FUNCTION.value(x);
 
     /** RNG. */
-    private static final UniformRandomProvider RNG = RandomSource.create(RandomSource.MWC_256);
+    private static final UniformRandomProvider RNG = RandomSource.MWC_256.create();
 
     // Precondition checks.
 

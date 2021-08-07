@@ -451,7 +451,7 @@ public class KalmanFilterTest {
      */
     private ContinuousSampler createGaussianSampler(double mu,
                                                     double sigma) {
-        return GaussianSampler.of(ZigguratNormalizedGaussianSampler.of(RandomSource.create(RandomSource.JSF_64)),
+        return GaussianSampler.of(ZigguratNormalizedGaussianSampler.of(RandomSource.JSF_64.create()),
                                   mu, sigma);
     }
 }

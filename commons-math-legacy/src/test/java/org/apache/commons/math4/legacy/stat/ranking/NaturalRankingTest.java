@@ -180,7 +180,7 @@ public class NaturalRankingTest {
         final int num = 10000000;
         final long max = start + num;
         for (long i = start; i <= max; i++) {
-            UniformRandomProvider randomGenerator = RandomSource.create(RandomSource.MT, i);
+            UniformRandomProvider randomGenerator = RandomSource.MT.create(i);
             NaturalRanking ranking = new NaturalRanking(NaNStrategy.FIXED,
                                                         randomGenerator);
             double[] ranks = ranking.rank(exampleData);
@@ -229,7 +229,7 @@ public class NaturalRankingTest {
     @Ignore
     @Test
     public void testNaNsFixedTiesRandom() {
-        UniformRandomProvider randomGenerator = RandomSource.create(RandomSource.SPLIT_MIX_64);
+        UniformRandomProvider randomGenerator = RandomSource.SPLIT_MIX_64.create();
         NaturalRanking ranking = new NaturalRanking(NaNStrategy.FIXED, randomGenerator);
         double[] ranks = ranking.rank(exampleData);
         double[] correctRanks = { 5, 3, 6, 7, 3, 8, Double.NaN, 1, 2 };

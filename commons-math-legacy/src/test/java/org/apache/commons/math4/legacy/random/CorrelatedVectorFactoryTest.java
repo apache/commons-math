@@ -61,7 +61,7 @@ public class CorrelatedVectorFactoryTest {
         generator = new CorrelatedVectorFactory(mean,
                                                 covariance,
                                                 1e-12 * covariance.getNorm())
-            .gaussian(RandomSource.create(RandomSource.KISS));
+            .gaussian(RandomSource.KISS.create());
     }
 
     @Test
@@ -75,7 +75,7 @@ public class CorrelatedVectorFactoryTest {
         };
         final RealMatrix covRM = MatrixUtils.createRealMatrix(cov);
         final Supplier<double[]> sg = new CorrelatedVectorFactory(mean, covRM, 1e-5)
-            .gaussian(RandomSource.create(RandomSource.WELL_1024_A));
+            .gaussian(RandomSource.WELL_1024_A.create());
 
         final double[] min = new double[mean.length];
         Arrays.fill(min, Double.POSITIVE_INFINITY);
@@ -149,7 +149,7 @@ public class CorrelatedVectorFactoryTest {
         final RealMatrix matrix = new Array2DRowRealMatrix(cov);
         final double small = 1e-12 * matrix.getNorm();
         return new CorrelatedVectorFactory(matrix, small)
-            .gaussian(RandomSource.create(RandomSource.WELL_1024_A));
+            .gaussian(RandomSource.WELL_1024_A.create());
     }
 
     private void testSampler(final double[][] covMatrix,

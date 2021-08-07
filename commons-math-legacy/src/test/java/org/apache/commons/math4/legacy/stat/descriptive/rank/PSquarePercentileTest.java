@@ -52,7 +52,7 @@ public class PSquarePercentileTest extends
     protected double percentile95 = 16.72195;// 20.82d; this is approximation
     protected double tolerance = 10E-12;
 
-    private final UniformRandomProvider randomGenerator = RandomSource.create(RandomSource.WELL_19937_C, 1000);
+    private final UniformRandomProvider randomGenerator = RandomSource.WELL_19937_C.create(1000);
 
     @Override
     public double getTolerance() {
@@ -715,7 +715,7 @@ public class PSquarePercentileTest extends
 
     private void doDistributionTest(ContinuousDistribution distribution) {
         final ContinuousDistribution.Sampler sampler =
-            distribution.createSampler(RandomSource.create(RandomSource.WELL_19937_C, 1000));
+            distribution.createSampler(RandomSource.WELL_19937_C.create(1000));
         double data[];
 
         data = AbstractRealDistribution.sample(VERY_LARGE, sampler);

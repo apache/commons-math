@@ -124,7 +124,7 @@ public class MixtureMultivariateNormalDistributionTest {
         final MixtureMultivariateNormalDistribution d =
             new MixtureMultivariateNormalDistribution(weights, means, covariances);
         final MultivariateRealDistribution.Sampler sampler =
-            d.createSampler(RandomSource.create(RandomSource.WELL_19937_C, 50));
+            d.createSampler(RandomSource.WELL_19937_C.create(50));
 
         final double[][] correctSamples = getCorrectSamples();
         final int n = correctSamples.length;

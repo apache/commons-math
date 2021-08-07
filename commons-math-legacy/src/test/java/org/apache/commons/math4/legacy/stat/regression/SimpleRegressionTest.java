@@ -132,7 +132,7 @@ public final class SimpleRegressionTest {
      */
     private void check(boolean includeIntercept) {
         final int sets = 2;
-        final UniformRandomProvider rand = RandomSource.create(RandomSource.ISAAC, 10L);// Seed can be changed
+        final UniformRandomProvider rand = RandomSource.ISAAC.create(10L);// Seed can be changed
         final SimpleRegression whole = new SimpleRegression(includeIntercept);// regression of the whole set
         final SimpleRegression parts = new SimpleRegression(includeIntercept);// regression with parts.
 

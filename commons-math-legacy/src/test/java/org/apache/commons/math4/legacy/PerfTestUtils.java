@@ -53,7 +53,7 @@ public final class PerfTestUtils {
     /** Default number of code repeats for computing the average run time. */
     private static final int DEFAULT_REPEAT_STAT = 10000;
     /** RNG. */
-    private static UniformRandomProvider rng = RandomSource.create(RandomSource.WELL_19937_C);
+    private static UniformRandomProvider rng = RandomSource.WELL_19937_C.create();
 
     /** No instances. */
     private PerfTestUtils() {}

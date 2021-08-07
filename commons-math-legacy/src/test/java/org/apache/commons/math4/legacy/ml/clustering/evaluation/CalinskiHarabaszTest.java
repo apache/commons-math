@@ -46,7 +46,7 @@ public class CalinskiHarabaszTest {
     public void test_k_equals_4_is_best_for_a_4_center_points() {
         final int dimension = 2;
         final double[][] centers = {{-1, -1}, {0, 0}, {1, 1}, {2, 2}};
-        final UniformRandomProvider rnd = RandomSource.create(RandomSource.MT_64);
+        final UniformRandomProvider rnd = RandomSource.MT_64.create();
         final List<DoublePoint> points = new ArrayList<>();
         // Generate 1000 points around 4 centers for test.
         for (int i = 0; i < 1000; i++) {
@@ -80,7 +80,7 @@ public class CalinskiHarabaszTest {
 
     @Test
     public void test_compare_to_skLearn() {
-        final UniformRandomProvider rnd = RandomSource.create(RandomSource.MT_64);
+        final UniformRandomProvider rnd = RandomSource.MT_64.create();
         final List<DoublePoint> points = new ArrayList<>();
         for (double[] p : dataFromSkLearn) {
             points.add(new DoublePoint(p));

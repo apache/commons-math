@@ -52,7 +52,7 @@ public class MultiStartMultivariateOptimizerTest {
                                                       new SimpleValueChecker(1e-10, 1e-10));
         final Supplier<double[]> generator = gaussianRandom(new double[] { 50, 50 },
                                                             new double[] { 10, 10 },
-                                                            RandomSource.create(RandomSource.MT_64));
+                                                            RandomSource.MT_64.create());
         int nbStarts = 10;
         MultiStartMultivariateOptimizer optimizer
             = new MultiStartMultivariateOptimizer(underlying, nbStarts, generator);
@@ -93,7 +93,7 @@ public class MultiStartMultivariateOptimizerTest {
             });
         final Supplier<double[]> generator = gaussianRandom(new double[] { 0, 0 },
                                                             new double[] { 1, 1 },
-                                                            RandomSource.create(RandomSource.MT_64));
+                                                            RandomSource.MT_64.create());
         int nbStarts = 10;
         MultiStartMultivariateOptimizer optimizer
             = new MultiStartMultivariateOptimizer(underlying, nbStarts, generator);

@@ -177,7 +177,7 @@ public class EnumeratedRealDistributionTest {
     public void testSample() {
         final int n = 1000000;
         final ContinuousDistribution.Sampler sampler =
-            testDistribution.createSampler(RandomSource.create(RandomSource.WELL_1024_A, -123456789));
+            testDistribution.createSampler(RandomSource.WELL_1024_A.create(-123456789));
         final double[] samples = AbstractRealDistribution.sample(n, sampler);
         Assert.assertEquals(n, samples.length);
         double sum = 0;
@@ -197,7 +197,7 @@ public class EnumeratedRealDistributionTest {
         List<Pair<Object,Double>> list = new ArrayList<>();
         list.add(new Pair<Object, Double>(new Object() {}, new Double(0)));
         list.add(new Pair<Object, Double>(new Object() {}, new Double(1)));
-        final UniformRandomProvider rng = RandomSource.create(RandomSource.WELL_512_A);
+        final UniformRandomProvider rng = RandomSource.WELL_512_A.create();
         Assert.assertEquals(1, new EnumeratedDistribution<>(list).createSampler(rng).sample(1).length);
     }
 

@@ -158,8 +158,7 @@ public class LogitTest {
         final double hi = 3;
         final Logit f = new Logit(lo, hi);
         final Sigmoid g = new Sigmoid(lo, hi);
-        final UniformRandomProvider random = RandomSource.create(RandomSource.WELL_1024_A,
-                                                                 0x49914cdd9f0b8db5L);
+        final UniformRandomProvider random = RandomSource.WELL_1024_A.create(0x49914cdd9f0b8db5L);
         final UnivariateDifferentiableFunction id = FunctionUtils.compose((UnivariateDifferentiableFunction) g,
                                                                 (UnivariateDifferentiableFunction) f);
 
@@ -179,7 +178,7 @@ public class LogitTest {
         final double hi = 3;
         final Logit f = new Logit(lo, hi);
         final Sigmoid g = new Sigmoid(lo, hi);
-        final UniformRandomProvider random = RandomSource.create(RandomSource.WELL_1024_A);
+        final UniformRandomProvider random = RandomSource.WELL_1024_A.create();
         final UnivariateDifferentiableFunction id =
                 FunctionUtils.compose((UnivariateDifferentiableFunction) g, (UnivariateDifferentiableFunction) f);
         for (int maxOrder = 0; maxOrder < 6; ++maxOrder) {

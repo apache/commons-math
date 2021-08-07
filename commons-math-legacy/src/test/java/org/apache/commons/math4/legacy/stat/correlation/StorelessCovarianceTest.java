@@ -234,7 +234,7 @@ public class StorelessCovarianceTest {
         StorelessBivariateCovariance cov = new StorelessBivariateCovariance();// covariance of the superset
         StorelessBivariateCovariance chk = new StorelessBivariateCovariance();// check covariance made by appending covariance of subsets
 
-        final UniformRandomProvider rand = RandomSource.create(RandomSource.ISAAC, 10L);// Seed can be changed
+        final UniformRandomProvider rand = RandomSource.ISAAC.create(10L);// Seed can be changed
         for (int s = 0; s < num_sets; s++) {// loop through sets of samlpes
             StorelessBivariateCovariance covs = new StorelessBivariateCovariance();
             for (int i = 0; i < 5; i++) { // loop through individual samlpes.

@@ -265,7 +265,7 @@ public class KendallsCorrelationTest extends PearsonsCorrelationTest {
     public void testMath1277() {
         // example that led to a correlation coefficient outside of [-1, 1]
         // due to a bug reported in MATH-1277
-        UniformRandomProvider rng = RandomSource.create(RandomSource.WELL_1024_A, 0);
+        UniformRandomProvider rng = RandomSource.WELL_1024_A.create(0);
         double[] xArray = new double[120000];
         double[] yArray = new double[120000];
         for (int i = 0; i < xArray.length; ++i) {

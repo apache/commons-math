@@ -40,7 +40,7 @@ public class MapRankingTest {
      */
     @Test
     public void testFindClosestNeuron() {
-        final UniformRandomProvider rng = RandomSource.create(RandomSource.SPLIT_MIX_64);
+        final UniformRandomProvider rng = RandomSource.SPLIT_MIX_64.create();
         final FeatureInitializer init
             = new OffsetFeatureInitializer(FeatureInitializerFactory.uniform(rng, -0.1, 0.1));
         final FeatureInitializer[] initArray = {init};
@@ -96,7 +96,7 @@ public class MapRankingTest {
 
     @Test(expected = IllegalArgumentException.class)
     public void testRankPrecondition() {
-        final UniformRandomProvider rng = RandomSource.create(RandomSource.SPLIT_MIX_64);
+        final UniformRandomProvider rng = RandomSource.SPLIT_MIX_64.create();
         final FeatureInitializer init
             = new OffsetFeatureInitializer(FeatureInitializerFactory.uniform(rng, -0.1, 0.1));
         final FeatureInitializer[] initArray = {init};

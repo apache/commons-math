@@ -32,7 +32,7 @@ public class MultiStartUnivariateOptimizerTest {
     @Test(expected=MathIllegalStateException.class)
     public void testMissingMaxEval() {
         UnivariateOptimizer underlying = new BrentOptimizer(1e-10, 1e-14);
-        UniformRandomProvider g = RandomSource.create(RandomSource.TWO_CMRES, 44428400075L);
+        UniformRandomProvider g = RandomSource.TWO_CMRES.create(44428400075L);
         MultiStartUnivariateOptimizer optimizer = new MultiStartUnivariateOptimizer(underlying, 10, g);
         optimizer.optimize(new UnivariateObjectiveFunction(new Sin()),
                            GoalType.MINIMIZE,
@@ -41,7 +41,7 @@ public class MultiStartUnivariateOptimizerTest {
     @Test(expected=MathIllegalStateException.class)
     public void testMissingSearchInterval() {
         UnivariateOptimizer underlying = new BrentOptimizer(1e-10, 1e-14);
-        UniformRandomProvider g = RandomSource.create(RandomSource.TWO_CMRES, 44428400075L);
+        UniformRandomProvider g = RandomSource.TWO_CMRES.create(44428400075L);
         MultiStartUnivariateOptimizer optimizer = new MultiStartUnivariateOptimizer(underlying, 10, g);
         optimizer.optimize(new MaxEval(300),
                            new UnivariateObjectiveFunction(new Sin()),
@@ -52,7 +52,7 @@ public class MultiStartUnivariateOptimizerTest {
     public void testSinMin() {
         UnivariateFunction f = new Sin();
         UnivariateOptimizer underlying = new BrentOptimizer(1e-10, 1e-14);
-        UniformRandomProvider g = RandomSource.create(RandomSource.TWO_CMRES, 44428400075L);
+        UniformRandomProvider g = RandomSource.TWO_CMRES.create(44428400075L);
         MultiStartUnivariateOptimizer optimizer = new MultiStartUnivariateOptimizer(underlying, 10, g);
         optimizer.optimize(new MaxEval(300),
                            new UnivariateObjectiveFunction(f),
@@ -73,7 +73,7 @@ public class MultiStartUnivariateOptimizerTest {
     public void testQuinticMin() {
         UnivariateFunction f = new QuinticFunction();
         UnivariateOptimizer underlying = new BrentOptimizer(1e-9, 1e-14);
-        UniformRandomProvider g = RandomSource.create(RandomSource.TWO_CMRES, 4312000053L);
+        UniformRandomProvider g = RandomSource.TWO_CMRES.create(4312000053L);
         MultiStartUnivariateOptimizer optimizer = new MultiStartUnivariateOptimizer(underlying, 5, g);
 
         UnivariatePointValuePair optimum
@@ -104,7 +104,7 @@ public class MultiStartUnivariateOptimizerTest {
                 }
             };
         UnivariateOptimizer underlying = new BrentOptimizer(1e-9, 1e-14);
-        UniformRandomProvider g = RandomSource.create(RandomSource.TWO_CMRES, 4312000053L);
+        UniformRandomProvider g = RandomSource.TWO_CMRES.create(4312000053L);
         MultiStartUnivariateOptimizer optimizer = new MultiStartUnivariateOptimizer(underlying, 5, g);
 
         try {

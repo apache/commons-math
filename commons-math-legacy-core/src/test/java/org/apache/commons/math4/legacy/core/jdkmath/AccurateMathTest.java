@@ -54,7 +54,7 @@ public class AccurateMathTest {
     @Before
     public void setUp() {
         field = new DfpField(40);
-        generator = RandomSource.create(RandomSource.MT, 6176597458463500194L);
+        generator = RandomSource.MT.create(6176597458463500194L);
     }
 
     @Test
@@ -1822,8 +1822,7 @@ public class AccurateMathTest {
 
     @Test
     public void testFloorDivModInt() {
-        UniformRandomProvider rng = RandomSource.create(RandomSource.WELL_1024_A,
-                                                        0x7ccab45edeaab90aL);
+        UniformRandomProvider rng = RandomSource.WELL_1024_A.create(0x7ccab45edeaab90aL);
         for (int i = 0; i < 10000; ++i) {
             int a = rng.nextInt();
             int b = rng.nextInt();
@@ -1895,8 +1894,7 @@ public class AccurateMathTest {
 
     @Test
     public void testFloorDivModLong() {
-        UniformRandomProvider rng = RandomSource.create(RandomSource.WELL_1024_A,
-                                                        0xb87b9bc14c96ccd5L);
+        UniformRandomProvider rng = RandomSource.WELL_1024_A.create(0xb87b9bc14c96ccd5L);
         for (int i = 0; i < 10000; ++i) {
             long a = rng.nextLong();
             long b = rng.nextLong();

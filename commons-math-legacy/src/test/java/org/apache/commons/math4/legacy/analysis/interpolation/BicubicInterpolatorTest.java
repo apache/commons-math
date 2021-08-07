@@ -146,7 +146,7 @@ public final class BicubicInterpolatorTest {
         final BicubicInterpolator interpolator = new BicubicInterpolator();
         final BicubicInterpolatingFunction p = interpolator.interpolate(xval, yval, zval);
 
-        final UniformRandomProvider rng = RandomSource.create(RandomSource.WELL_19937_C);
+        final UniformRandomProvider rng = RandomSource.WELL_19937_C.create();
         final ContinuousDistribution.Sampler distX = new UniformContinuousDistribution(xval[0], xval[xval.length - 1]).createSampler(rng);
         final ContinuousDistribution.Sampler distY = new UniformContinuousDistribution(yval[0], yval[yval.length - 1]).createSampler(rng);
 

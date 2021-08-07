@@ -32,7 +32,7 @@ import org.apache.commons.math4.legacy.core.jdkmath.AccurateMath;
  * Test for {@link UnivariatePeriodicInterpolator}.
  */
 public class UnivariatePeriodicInterpolatorTest {
-    private final UniformRandomProvider rng = RandomSource.create(RandomSource.KISS);
+    private final UniformRandomProvider rng = RandomSource.KISS.create();
 
     @Test
     public void testSine() {

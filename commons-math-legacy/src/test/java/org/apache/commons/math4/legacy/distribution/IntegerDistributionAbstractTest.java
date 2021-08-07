@@ -298,8 +298,7 @@ public abstract class IntegerDistributionAbstractTest {
         }
         // Use fixed seed.
         final DiscreteDistribution.Sampler sampler =
-            distribution.createSampler(RandomSource.create(RandomSource.WELL_512_A,
-                                                           1000));
+            distribution.createSampler(RandomSource.WELL_512_A.create(1000));
         int[] sample = AbstractIntegerDistribution.sample(sampleSize, sampler);
         for (int i = 0; i < sampleSize; i++) {
           for (int j = 0; j < length; j++) {

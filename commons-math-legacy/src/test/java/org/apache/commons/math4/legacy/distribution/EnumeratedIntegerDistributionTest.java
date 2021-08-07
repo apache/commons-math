@@ -157,7 +157,7 @@ public class EnumeratedIntegerDistributionTest {
     public void testSample() {
         final int n = 1000000;
         final DiscreteDistribution.Sampler sampler
-            = testDistribution.createSampler(RandomSource.create(RandomSource.WELL_19937_C));
+            = testDistribution.createSampler(RandomSource.WELL_19937_C.create());
         final int[] samples = AbstractIntegerDistribution.sample(n, sampler);
         Assert.assertEquals(n, samples.length);
         double sum = 0;

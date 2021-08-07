@@ -36,7 +36,7 @@ public class KMeansPlusPlusClustererTest {
 
     @Before
     public void setUp() {
-        random = RandomSource.create(RandomSource.MT_64, 1746432956321L);
+        random = RandomSource.MT_64.create(1746432956321L);
     }
 
     /**

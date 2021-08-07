@@ -46,7 +46,7 @@ import org.apache.commons.math4.neuralnet.SquareNeighbourhood;
  * a two-dimensional network.
  */
 public class NeuronSquareMesh2DTest {
-    private final UniformRandomProvider rng = RandomSource.create(RandomSource.SPLIT_MIX_64);
+    private final UniformRandomProvider rng = RandomSource.SPLIT_MIX_64.create();
     private final FeatureInitializer init = FeatureInitializerFactory.uniform(rng, 0, 2);
 
     @Test(expected = IllegalArgumentException.class)

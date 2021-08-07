@@ -115,8 +115,7 @@ public class SchurTransformerTest {
         for (int run = 0; run < 100; run++) {
             Random r = new Random(System.currentTimeMillis());
             ContinuousDistribution.Sampler dist
-                = new NormalDistribution(0.0, r.nextDouble() * 5).createSampler(RandomSource.create(RandomSource.WELL_512_A,
-                                                                                                    64925784252L));
+                = new NormalDistribution(0.0, r.nextDouble() * 5).createSampler(RandomSource.WELL_512_A.create(64925784252L));
 
             // matrix size
             int size = r.nextInt(20) + 4;

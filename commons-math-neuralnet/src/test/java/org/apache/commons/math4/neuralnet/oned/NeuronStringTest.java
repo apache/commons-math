@@ -41,7 +41,7 @@ import org.apache.commons.math4.neuralnet.Neuron;
  * a one-dimensional network.
  */
 public class NeuronStringTest {
-    private final UniformRandomProvider rng = RandomSource.create(RandomSource.SPLIT_MIX_64);
+    private final UniformRandomProvider rng = RandomSource.SPLIT_MIX_64.create();
     private final FeatureInitializer init = FeatureInitializerFactory.uniform(rng, 0, 2);
 
     /*

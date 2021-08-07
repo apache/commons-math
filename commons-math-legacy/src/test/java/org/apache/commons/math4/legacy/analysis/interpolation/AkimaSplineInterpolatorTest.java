@@ -218,7 +218,7 @@ public class AkimaSplineInterpolatorTest {
             assertTrue( Precision.equals( expected, actual ) );
         }
 
-        final UniformRandomProvider rng = RandomSource.create(RandomSource.WELL_19937_C, 1234567L); // "tol" depends on the seed.
+        final UniformRandomProvider rng = RandomSource.WELL_19937_C.create(1234567L); // "tol" depends on the seed.
         final ContinuousDistribution.Sampler distX =
             new UniformContinuousDistribution(xValues[0], xValues[xValues.length - 1]).createSampler(rng);
 

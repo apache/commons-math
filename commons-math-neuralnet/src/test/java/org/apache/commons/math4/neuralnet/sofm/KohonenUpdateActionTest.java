@@ -38,7 +38,7 @@ import org.apache.commons.math4.neuralnet.oned.NeuronString;
  * Tests for {@link KohonenUpdateAction} class.
  */
 public class KohonenUpdateActionTest {
-    private final UniformRandomProvider rng = RandomSource.create(RandomSource.SPLIT_MIX_64);
+    private final UniformRandomProvider rng = RandomSource.SPLIT_MIX_64.create();
 
     /*
      * Test assumes that the network is

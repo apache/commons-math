@@ -158,7 +158,7 @@ public class CMAESOptimizerTest {
     public void testMath1466() {
         final CMAESOptimizer optimizer
             = new CMAESOptimizer(30000, Double.NEGATIVE_INFINITY, true, 10,
-                                 0, RandomSource.create(RandomSource.MT_64), false, null);
+                                 0, RandomSource.MT_64.create(), false, null);
         final MultivariateFunction fitnessFunction = new MultivariateFunction() {
                 @Override
                 public double value(double[] x) {
@@ -389,7 +389,7 @@ public class CMAESOptimizerTest {
     public void testMath864() {
         final CMAESOptimizer optimizer
             = new CMAESOptimizer(30000, 0, true, 10,
-                                 0, RandomSource.create(RandomSource.MT_64), false, null);
+                                 0, RandomSource.MT_64.create(), false, null);
         final MultivariateFunction fitnessFunction = new MultivariateFunction() {
                 @Override
                 public double value(double[] parameters) {
@@ -421,7 +421,7 @@ public class CMAESOptimizerTest {
     public void testFitAccuracyDependsOnBoundary() {
         final CMAESOptimizer optimizer
             = new CMAESOptimizer(30000, 0, true, 10,
-                                 0, RandomSource.create(RandomSource.MT_64), false, null);
+                                 0, RandomSource.MT_64.create(), false, null);
         final MultivariateFunction fitnessFunction = new MultivariateFunction() {
                 @Override
                 public double value(double[] parameters) {
@@ -509,7 +509,7 @@ public class CMAESOptimizerTest {
         int dim = startPoint.length;
         // test diagonalOnly = 0 - slow but normally fewer feval#
         CMAESOptimizer optim = new CMAESOptimizer(30000, stopValue, isActive, diagonalOnly,
-                                                  0, RandomSource.create(RandomSource.MT_64), false, null);
+                                                  0, RandomSource.MT_64.create(), false, null);
         PointValuePair result = boundaries == null ?
             optim.optimize(new MaxEval(maxEvaluations),
                            new ObjectiveFunction(func),

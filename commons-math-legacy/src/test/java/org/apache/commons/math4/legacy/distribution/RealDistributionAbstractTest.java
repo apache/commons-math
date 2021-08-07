@@ -327,7 +327,7 @@ public abstract class RealDistributionAbstractTest {
     public void testSampler() {
         final int sampleSize = 1000;
         final ContinuousDistribution.Sampler sampler =
-            distribution.createSampler(RandomSource.create(RandomSource.WELL_19937_C, 123456789L));
+            distribution.createSampler(RandomSource.WELL_19937_C.create(123456789L));
         final double[] sample = AbstractRealDistribution.sample(sampleSize, sampler);
         final double[] quartiles = TestUtils.getDistributionQuartiles(distribution);
         final double[] expected = {250, 250, 250, 250};

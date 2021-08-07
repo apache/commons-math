@@ -38,7 +38,7 @@ import org.junit.Test;
  * Test cases for the {@link DescriptiveStatistics} class.
  */
 public class DescriptiveStatisticsTest {
-    private static UniformRandomProvider random = RandomSource.create(RandomSource.WELL_1024_A, 2345789432894L);
+    private static UniformRandomProvider random = RandomSource.WELL_1024_A.create(2345789432894L);
 
     protected DescriptiveStatistics createDescriptiveStatistics() {
         return new DescriptiveStatistics();
