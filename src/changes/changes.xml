@@ -45,7 +45,9 @@ with a new-line in the release notes. (These spaces are ignored when displaying 
 If the output is not quite correct, check for invisible trailing spaces!
 -->
 
-<document>
+<document xmlns="http://maven.apache.org/changes/1.0.0"
+          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+          xsi:schemaLocation="http://maven.apache.org/changes/1.0.0 http://maven.apache.org/xsd/changes-1.0.0.xsd">
   <properties>
     <title>Apache Commons Math Release Notes</title>
   </properties>
