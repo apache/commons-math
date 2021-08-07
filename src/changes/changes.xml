@@ -97,6 +97,9 @@ Caveat:
  nightmare was one of the main reasons for creating more focused
  components.]
 ">
+      <action dev="aherbert" due-to="Arturo Bernal" type="update" issue="MATH-1573">
+        Remove redundant local variables.
+      </action>
       <action dev="aherbert" due-to="Arturo Bernal" type="update" issue="MATH-1572">
         Simplify conditional expressions.
       </action>
