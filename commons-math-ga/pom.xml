@@ -1,0 +1,65 @@
+<?xml version="1.0"?>
+<!--
+   Licensed to the Apache Software Foundation (ASF) under one or more
+   contributor license agreements.  See the NOTICE file distributed with
+   this work for additional information regarding copyright ownership.
+   The ASF licenses this file to You under the Apache License, Version 2.0
+   (the "License"); you may not use this file except in compliance with
+   the License.  You may obtain a copy of the License at
+
+       http://www.apache.org/licenses/LICENSE-2.0
+
+   Unless required by applicable law or agreed to in writing, software
+   distributed under the License is distributed on an "AS IS" BASIS,
+   WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+   See the License for the specific language governing permissions and
+   limitations under the License.
+-->
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+    <parent>
+        <groupId>org.apache.commons</groupId>
+        <artifactId>commons-math-parent</artifactId>
+        <version>4.0-SNAPSHOT</version>
+    </parent>
+    <artifactId>commons-math-ga</artifactId>
+    <name>genetic algorithm</name>
+
+    <description />
+
+    <properties>
+        <!-- The Java Module System Name -->
+        <commons.module.name>org.apache.commons.math4.ga</commons.module.name>
+        <!-- This value must reflect the current name of the base package. -->
+        <commons.osgi.symbolicName>org.apache.commons.math4.ga</commons.osgi.symbolicName>
+        <!-- OSGi -->
+        <commons.osgi.export>org.apache.commons.math4.ga</commons.osgi.export>
+        <!-- Workaround to avoid duplicating config files. -->
+        <math.parent.dir>${basedir}/..</math.parent.dir>
+        <slf4jVersion>1.7.32</slf4jVersion>
+    </properties>
+
+    <dependencies>
+        <dependency>
+            <groupId>org.apache.commons</groupId>
+            <artifactId>commons-numbers-core</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.commons</groupId>
+            <artifactId>commons-rng-simple</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.slf4j</groupId>
+            <artifactId>slf4j-api</artifactId>
+            <version>${slf4jVersion}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.slf4j</groupId>
+            <artifactId>slf4j-simple</artifactId>
+            <version>${slf4jVersion}</version>
+        </dependency>
+    </dependencies>
+
+</project>
