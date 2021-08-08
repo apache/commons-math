@@ -139,8 +139,8 @@ public class TTestTest {
                 testStatistic.tTest(0d, oneSidedPStats) / 2d, 10E-5);
         Assert.assertTrue("one sample t-test reject", testStatistic.tTest(0d, oneSidedP, 0.01));
         Assert.assertTrue("one sample t-test reject", testStatistic.tTest(0d, oneSidedPStats, 0.01));
-        Assert.assertTrue("one sample t-test accept", !testStatistic.tTest(0d, oneSidedP, 0.0001));
-        Assert.assertTrue("one sample t-test accept", !testStatistic.tTest(0d, oneSidedPStats, 0.0001));
+        Assert.assertFalse("one sample t-test accept", testStatistic.tTest(0d, oneSidedP, 0.0001));
+        Assert.assertFalse("one sample t-test accept", testStatistic.tTest(0d, oneSidedPStats, 0.0001));
 
         try {
             testStatistic.tTest(0d, oneSidedP, 95);
@@ -184,10 +184,8 @@ public class TTestTest {
                 testStatistic.tTest(sample1, sample2, 0.2));
         Assert.assertTrue("two sample heteroscedastic t-test reject",
                 testStatistic.tTest(sampleStats1, sampleStats2, 0.2));
-        Assert.assertTrue("two sample heteroscedastic t-test accept",
-                !testStatistic.tTest(sample1, sample2, 0.1));
-        Assert.assertTrue("two sample heteroscedastic t-test accept",
-                !testStatistic.tTest(sampleStats1, sampleStats2, 0.1));
+        Assert.assertFalse("two sample heteroscedastic t-test accept", testStatistic.tTest(sample1, sample2, 0.1));
+        Assert.assertFalse("two sample heteroscedastic t-test accept", testStatistic.tTest(sampleStats1, sampleStats2, 0.1));
 
         try {
             testStatistic.tTest(sample1, sample2, .95);
@@ -265,8 +263,7 @@ public class TTestTest {
                 testStatistic.homoscedasticTTest(sampleStats1, sampleStats2), 1E-10);
         Assert.assertTrue("two sample homoscedastic t-test reject",
                 testStatistic.homoscedasticTTest(sample1, sample2, 0.49));
-        Assert.assertTrue("two sample homoscedastic t-test accept",
-                !testStatistic.homoscedasticTTest(sample1, sample2, 0.48));
+        Assert.assertFalse("two sample homoscedastic t-test accept", testStatistic.homoscedasticTTest(sample1, sample2, 0.48));
     }
 
     @Test

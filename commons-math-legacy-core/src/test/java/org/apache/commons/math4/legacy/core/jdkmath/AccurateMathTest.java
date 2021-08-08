@@ -1433,12 +1433,12 @@ public class AccurateMathTest {
         // Note: Long.MAX_VALUE isn't actually an infinity, so its parity affects the sign of resulting zero.
         for (double d : DOUBLES) {
             if (Math.abs(d) > 1.0) {
-                assertTrue(AccurateMath.pow(d, Long.MIN_VALUE + 1L) == 0.0);
+                assertEquals(0.0, AccurateMath.pow(d, Long.MIN_VALUE + 1L), 0.0);
             }
         }
         for (double d : DOUBLES) {
             if (Math.abs(d) < 1.0) {
-                assertTrue(AccurateMath.pow(d, Long.MAX_VALUE) == 0.0);
+                assertEquals(0.0, AccurateMath.pow(d, Long.MAX_VALUE), 0.0);
             }
         }
         // If the absolute value of the first argument equals 1 and the second argument is infinite, then the result is NaN. <- Impossible with int.
@@ -1962,8 +1962,8 @@ public class AccurateMathTest {
 
         x = 4503599627370497.0; // x = Math.pow(2, 52) + 1;
         assertEquals("4503599627370497", new BigDecimal(x).toString());
-        assertTrue(x == Math.rint(x));
-        assertTrue(x == AccurateMath.round(x));
+        assertEquals(x, Math.rint(x), 0.0);
+        assertEquals(x, AccurateMath.round(x), 0.0);
         //assertTrue(x == Math.round(x)); // fails with Java 7, fixed in Java 8
     }
 

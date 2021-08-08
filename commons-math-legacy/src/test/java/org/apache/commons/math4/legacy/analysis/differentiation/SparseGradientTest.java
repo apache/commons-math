@@ -857,7 +857,7 @@ public class SparseGradientTest extends ExtendedFieldElementAbstractTest<SparseG
 
         SparseGradient plusZero = SparseGradient.createVariable(0, +0.0);
         Assert.assertEquals(+0.0, plusZero.signum().getValue(), 1.0e-15);
-        Assert.assertTrue(Double.doubleToLongBits(plusZero.signum().getValue()) == 0);
+        Assert.assertEquals(0, Double.doubleToLongBits(plusZero.signum().getValue()));
         Assert.assertEquals( 0.0, plusZero.signum().getDerivative(0), 1.0e-15);
 
     }

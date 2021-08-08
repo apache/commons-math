@@ -282,12 +282,12 @@ public class MultivariateSummaryStatisticsTest {
         MultivariateSummaryStatistics u = createMultivariateSummaryStatistics(2, true);
         MultivariateSummaryStatistics t = null;
         int emptyHash = u.hashCode();
-        Assert.assertTrue(u.equals(u));
-        Assert.assertFalse(u.equals(t));
+        Assert.assertEquals(u, u);
+        Assert.assertNotEquals(u, t);
         Assert.assertFalse(u.equals(Double.valueOf(0)));
         t = createMultivariateSummaryStatistics(2, true);
-        Assert.assertTrue(t.equals(u));
-        Assert.assertTrue(u.equals(t));
+        Assert.assertEquals(t, u);
+        Assert.assertEquals(u, t);
         Assert.assertEquals(emptyHash, t.hashCode());
 
         // Add some data to u

@@ -52,7 +52,7 @@ public class ChiSquareTestTest {
         Assert.assertEquals( "chi-square test statistic", 9.023307936427388, testStatistic.chiSquare(expected1, observed1), 1E-10);
         Assert.assertEquals("chi-square p-value", 0.06051952647453607, testStatistic.chiSquareTest(expected1, observed1), 1E-9);
         Assert.assertTrue("chi-square test reject", testStatistic.chiSquareTest(expected1, observed1, 0.08));
-        Assert.assertTrue("chi-square test accept", !testStatistic.chiSquareTest(expected1, observed1, 0.05));
+        Assert.assertFalse("chi-square test accept", testStatistic.chiSquareTest(expected1, observed1, 0.05));
 
         try {
             testStatistic.chiSquareTest(expected1, observed1, 95);
@@ -110,12 +110,12 @@ public class ChiSquareTestTest {
         Assert.assertEquals( "chi-square test statistic", 22.709027688, testStatistic.chiSquare(counts), 1E-9);
         Assert.assertEquals("chi-square p-value", 0.000144751460134, testStatistic.chiSquareTest(counts), 1E-9);
         Assert.assertTrue("chi-square test reject", testStatistic.chiSquareTest(counts, 0.0002));
-        Assert.assertTrue("chi-square test accept", !testStatistic.chiSquareTest(counts, 0.0001));
+        Assert.assertFalse("chi-square test accept", testStatistic.chiSquareTest(counts, 0.0001));
 
         long[][] counts2 = {{10, 15}, {30, 40}, {60, 90} };
         Assert.assertEquals( "chi-square test statistic", 0.168965517241, testStatistic.chiSquare(counts2), 1E-9);
         Assert.assertEquals("chi-square p-value",0.918987499852, testStatistic.chiSquareTest(counts2), 1E-9);
-        Assert.assertTrue("chi-square test accept", !testStatistic.chiSquareTest(counts2, 0.1));
+        Assert.assertFalse("chi-square test accept", testStatistic.chiSquareTest(counts2, 0.1));
 
         // ragged input array
         long[][] counts3 = { {40, 22, 43}, {91, 21, 28}, {60, 10}};

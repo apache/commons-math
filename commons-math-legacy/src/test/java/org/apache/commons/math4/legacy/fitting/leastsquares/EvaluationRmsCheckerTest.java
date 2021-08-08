@@ -36,13 +36,13 @@ public class EvaluationRmsCheckerTest {
 
         //action + verify
         //just matches rel tol
-        Assert.assertEquals(true, checker.converged(0, e200, mockEvaluation(210)));
+        Assert.assertTrue(checker.converged(0, e200, mockEvaluation(210)));
         //just matches abs tol
-        Assert.assertEquals(true, checker.converged(0, e1, mockEvaluation(1.9)));
+        Assert.assertTrue(checker.converged(0, e1, mockEvaluation(1.9)));
         //matches both
-        Assert.assertEquals(true, checker.converged(0, e1, mockEvaluation(1.01)));
+        Assert.assertTrue(checker.converged(0, e1, mockEvaluation(1.01)));
         //matches neither
-        Assert.assertEquals(false, checker.converged(0, e200, mockEvaluation(300)));
+        Assert.assertFalse(checker.converged(0, e200, mockEvaluation(300)));
     }
 
     /**

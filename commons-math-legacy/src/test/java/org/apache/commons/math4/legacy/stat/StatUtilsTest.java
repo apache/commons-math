@@ -70,12 +70,8 @@ public final class StatUtilsTest {
 
         values = new double[] { ONE };
 
-        Assert.assertTrue(
-            "Mean of n = 1 set should be value of single item n1",
-            StatUtils.mean(values) == ONE);
-        Assert.assertTrue(
-            "Variance of n = 1 set should be zero",
-            StatUtils.variance(values) == 0);
+        Assert.assertEquals("Mean of n = 1 set should be value of single item n1", ONE, StatUtils.mean(values), 0.0);
+        Assert.assertEquals("Variance of n = 1 set should be zero", 0, StatUtils.variance(values), 0.0);
     }
 
     @Test

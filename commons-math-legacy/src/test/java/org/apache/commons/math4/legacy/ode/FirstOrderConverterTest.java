@@ -34,7 +34,7 @@ public class FirstOrderConverterTest {
     for (int i = 1; i < 10; ++i) {
       SecondOrderDifferentialEquations eqn2 = new Equations(i, 0.2);
       FirstOrderConverter eqn1 = new FirstOrderConverter(eqn2);
-      Assert.assertTrue(eqn1.getDimension() == (2 * eqn2.getDimension()));
+      Assert.assertEquals(eqn1.getDimension(), 2 * eqn2.getDimension());
     }
   }
 

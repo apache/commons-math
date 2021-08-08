@@ -122,6 +122,6 @@ public class MannWhitneyUTestTest {
             d2[i] = i;
         }
         double result = testStatistic.mannWhitneyUTest(d1, d2);
-        Assert.assertTrue(result == 1.0);
+        Assert.assertEquals(1.0, result, 0.0);
     }
 }

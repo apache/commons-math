@@ -93,9 +93,9 @@ public class ExceptionContextTest {
         ObjectInputStream ois = new ObjectInputStream(bis);
         ExceptionContext cIn = (ExceptionContext) ois.readObject();
 
-        Assert.assertTrue(cOut.getMessage().equals(cIn.getMessage()));
+        Assert.assertEquals(cOut.getMessage(), cIn.getMessage());
         for (String key : cIn.getKeys()) {
-            Assert.assertTrue(cOut.getValue(key).equals(cIn.getValue(key)));
+            Assert.assertEquals(cOut.getValue(key), cIn.getValue(key));
         }
     }
 

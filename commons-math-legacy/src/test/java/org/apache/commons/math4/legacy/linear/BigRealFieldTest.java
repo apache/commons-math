@@ -37,7 +37,7 @@ public class BigRealFieldTest {
     public void testSerial() {
         // deserializing the singleton should give the singleton itself back
         BigRealField field = BigRealField.getInstance();
-        Assert.assertTrue(field == TestUtils.serializeAndRecover(field));
+        Assert.assertSame(field, TestUtils.serializeAndRecover(field));
     }
 
 }

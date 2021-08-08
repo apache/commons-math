@@ -164,7 +164,7 @@ public final class BlockFieldMatrixTest {
         Assert.assertTrue("testData is square",m.isSquare());
         Assert.assertEquals("testData2 row dimension",m2.getRowDimension(),2);
         Assert.assertEquals("testData2 column dimension",m2.getColumnDimension(),3);
-        Assert.assertTrue("testData2 is not square",!m2.isSquare());
+        Assert.assertFalse("testData2 is not square", m2.isSquare());
     }
 
     /** test copy functions */
@@ -1025,7 +1025,7 @@ public final class BlockFieldMatrixTest {
     @Test
     public void testSetRow() {
         FieldMatrix<Dfp> m = new BlockFieldMatrix<>(subTestData);
-        Assert.assertTrue(subRow3[0][0] != m.getRow(0)[0]);
+        Assert.assertNotSame(subRow3[0][0], m.getRow(0)[0]);
         m.setRow(0, subRow3[0]);
         checkArrays(subRow3[0], m.getRow(0));
         try {
@@ -1088,7 +1088,7 @@ public final class BlockFieldMatrixTest {
     public void testSetColumn() {
         FieldMatrix<Dfp> m = new BlockFieldMatrix<>(subTestData);
         Dfp[] mColumn3 = columnToArray(subColumn3);
-        Assert.assertTrue(mColumn3[0] != m.getColumn(1)[0]);
+        Assert.assertNotSame(mColumn3[0], m.getColumn(1)[0]);
         m.setColumn(1, mColumn3);
         checkArrays(mColumn3, m.getColumn(1));
         try {
@@ -1150,9 +1150,9 @@ public final class BlockFieldMatrixTest {
         Assert.assertEquals(m.hashCode(), m1.hashCode());
         Assert.assertEquals(m, m);
         Assert.assertEquals(m, m1);
-        Assert.assertFalse(m.equals(null));
-        Assert.assertFalse(m.equals(mt));
-        Assert.assertFalse(m.equals(new BlockFieldMatrix<>(bigSingular)));
+        Assert.assertNotEquals(m, null);
+        Assert.assertNotEquals(m, mt);
+        Assert.assertNotEquals(m, new BlockFieldMatrix<>(bigSingular));
     }
 
     @Test

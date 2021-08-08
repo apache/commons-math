@@ -147,9 +147,9 @@ public class OpenIntToFieldTest {
     @Test
     public void testGetFromEmpty() {
         OpenIntToFieldHashMap<Dfp> map = new OpenIntToFieldHashMap<>(field);
-        Assert.assertTrue(field.getZero().equals(map.get(5)));
-        Assert.assertTrue(field.getZero().equals(map.get(0)));
-        Assert.assertTrue(field.getZero().equals(map.get(50)));
+        Assert.assertEquals(field.getZero(), map.get(5));
+        Assert.assertEquals(field.getZero(), map.get(0));
+        Assert.assertEquals(field.getZero(), map.get(50));
     }
 
     @Test
@@ -160,7 +160,7 @@ public class OpenIntToFieldTest {
         for (Map.Entry<Integer, Dfp> mapEntry : javaMap.entrySet()) {
             map.remove(mapEntry.getKey());
             Assert.assertEquals(--mapSize, map.size());
-            Assert.assertTrue(field.getZero().equals(map.get(mapEntry.getKey())));
+            Assert.assertEquals(field.getZero(), map.get(mapEntry.getKey()));
         }
 
         /* Ensure that put and get still work correctly after removals */
@@ -178,7 +178,7 @@ public class OpenIntToFieldTest {
             keysInMap.remove(mapEntry.getKey());
             map.remove(mapEntry.getKey());
             Assert.assertEquals(--mapSize, map.size());
-            Assert.assertTrue(field.getZero().equals(map.get(mapEntry.getKey())));
+            Assert.assertEquals(field.getZero(), map.get(mapEntry.getKey()));
             if (count++ > 5) {
                 break;
             }
@@ -191,7 +191,7 @@ public class OpenIntToFieldTest {
     @Test
     public void testRemoveFromEmpty() {
         OpenIntToFieldHashMap<Dfp> map = new OpenIntToFieldHashMap<>(field);
-        Assert.assertTrue(field.getZero().equals(map.remove(50)));
+        Assert.assertEquals(field.getZero(), map.remove(50));
     }
 
     @Test
@@ -204,7 +204,7 @@ public class OpenIntToFieldTest {
         for (Map.Entry<Integer, Dfp> mapEntry : generated.entrySet()) {
             map.remove(mapEntry.getKey());
             Assert.assertEquals(mapSize, map.size());
-            Assert.assertTrue(field.getZero().equals(map.get(mapEntry.getKey())));
+            Assert.assertEquals(field.getZero(), map.get(mapEntry.getKey()));
         }
     }
 

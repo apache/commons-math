@@ -132,7 +132,7 @@ public class CholeskyDecompositionTest {
         Assert.assertEquals(0, lt.subtract(lRef.transpose()).getNorm(), 1.0e-13);
 
         // check the same cached instance is returned the second time
-        Assert.assertTrue(l  == llt.getL());
-        Assert.assertTrue(lt == llt.getLT());
+        Assert.assertSame(l, llt.getL());
+        Assert.assertSame(lt, llt.getLT());
     }
 }

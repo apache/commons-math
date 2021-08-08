@@ -198,8 +198,8 @@ public class PercentileTest extends UnivariateStatisticAbstractTest{
         Assert.assertTrue(Double.isInfinite(percentile.evaluate(specialValues)));
         specialValues = new double[] {1d, 1d, Double.NaN,
                 Double.NaN};
-        Assert.assertTrue(!Double.isNaN(percentile.evaluate(specialValues)));
-        Assert.assertTrue(1d==percentile.evaluate(specialValues));
+        Assert.assertFalse(Double.isNaN(percentile.evaluate(specialValues)));
+        Assert.assertEquals(1d, percentile.evaluate(specialValues), 0.0);
         specialValues = new double[] {1d, 1d, Double.NEGATIVE_INFINITY,
                 Double.NEGATIVE_INFINITY};
         // Interpolation results in NEGATIVE_INFINITY + POSITIVE_INFINITY
@@ -571,8 +571,8 @@ public class PercentileTest extends UnivariateStatisticAbstractTest{
     public void testPercentileWithTechnique() {
         reset (50, Percentile.EstimationType.LEGACY);
         final Percentile p = getUnivariateStatistic();
-        Assert.assertTrue(Percentile.EstimationType.LEGACY.equals(p.getEstimationType()));
-        Assert.assertFalse(Percentile.EstimationType.R_1.equals(p.getEstimationType()));
+        Assert.assertEquals(Percentile.EstimationType.LEGACY, p.getEstimationType());
+        Assert.assertNotEquals(Percentile.EstimationType.R_1, p.getEstimationType());
     }
 
     static final int TINY = 10;
@@ -615,8 +615,8 @@ public class PercentileTest extends UnivariateStatisticAbstractTest{
         reset(50.0, Percentile.EstimationType.R_7);
         final Percentile p = getUnivariateStatistic();
         p.setData(testArray);
-        Assert.assertTrue(Percentile.EstimationType.R_7.equals(p.getEstimationType()));
-        Assert.assertFalse(Percentile.EstimationType.R_1.equals(p.getEstimationType()));
+        Assert.assertEquals(Percentile.EstimationType.R_7, p.getEstimationType());
+        Assert.assertNotEquals(Percentile.EstimationType.R_1, p.getEstimationType());
         Assert.assertEquals(12d, p.evaluate(), 0d);
         Assert.assertEquals(12.16d, p.evaluate(60d), 0d);
     }

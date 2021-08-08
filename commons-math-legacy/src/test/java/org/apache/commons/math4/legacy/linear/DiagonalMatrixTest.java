@@ -53,7 +53,7 @@ public class DiagonalMatrixTest {
 
         // Check that the underlying was copied.
         d[0] = 0;
-        Assert.assertFalse(d[0] == m.getEntry(0, 0));
+        Assert.assertNotEquals(d[0], m.getEntry(0, 0), 0.0);
     }
 
     @Test
@@ -72,7 +72,7 @@ public class DiagonalMatrixTest {
 
         // Check that the underlying is referenced.
         d[0] = 0;
-        Assert.assertTrue(d[0] == m.getEntry(0, 0));
+        Assert.assertEquals(d[0], m.getEntry(0, 0), 0.0);
 
     }
 

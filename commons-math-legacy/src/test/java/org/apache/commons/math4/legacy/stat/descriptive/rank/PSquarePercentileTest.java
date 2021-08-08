@@ -82,16 +82,16 @@ public class PSquarePercentileTest extends
         replica = master.copy();
 
         // Check same
-        Assert.assertTrue(replica.equals(master));
-        Assert.assertTrue(master.equals(replica));
+        Assert.assertEquals(replica, master);
+        Assert.assertEquals(master, replica);
 
         // Now add second part to both and check again
         master.incrementAll(testArray, (int) index,
                 (int) (testArray.length - index));
         replica.incrementAll(testArray, (int) index,
                 (int) (testArray.length - index));
-        Assert.assertTrue(replica.equals(master));
-        Assert.assertTrue(master.equals(replica));
+        Assert.assertEquals(replica, master);
+        Assert.assertEquals(master, replica);
     }
 
     /**
@@ -116,17 +116,17 @@ public class PSquarePercentileTest extends
         replica = master.copy();
 
         // Check same
-        Assert.assertTrue(replica.equals(master));
-        Assert.assertTrue(master.equals(replica));
+        Assert.assertEquals(replica, master);
+        Assert.assertEquals(master, replica);
         // Now add second part to both and check again
         master.incrementAll(testArray, (int) index,
                 (int) (testArray.length - index));
         replica.incrementAll(testArray, (int) index,
                 (int) (testArray.length - index));
-        Assert.assertTrue(master.equals(master));
-        Assert.assertTrue(replica.equals(replica));
-        Assert.assertTrue(replica.equals(master));
-        Assert.assertTrue(master.equals(replica));
+        Assert.assertEquals(master, master);
+        Assert.assertEquals(replica, replica);
+        Assert.assertEquals(replica, master);
+        Assert.assertEquals(master, replica);
     }
 
     @Test(expected = MathIllegalArgumentException.class)
@@ -146,9 +146,9 @@ public class PSquarePercentileTest extends
                         Arrays.asList(new Double[] { 0.02, 1.18, 9.15, 21.91,
                                 38.62 }), p);
         // Markers equality
-        Assert.assertTrue(markers.equals(markers));
-        Assert.assertFalse(markers.equals(null));
-        Assert.assertFalse(markers.equals(""));
+        Assert.assertEquals(markers, markers);
+        Assert.assertNotEquals(markers, null);
+        Assert.assertNotEquals(markers, "");
         // Check for null markers test during equality testing
         // Until 5 elements markers are not initialized
         PSquarePercentile p1 = new PSquarePercentile();
@@ -160,12 +160,12 @@ public class PSquarePercentileTest extends
         // Move p2 alone with more values just to make sure markers are not null
         // for p2
         p2.incrementAll(new double[] { 5.0, 7.0, 11.0 });
-        Assert.assertFalse(p1.equals(p2));
-        Assert.assertFalse(p2.equals(p1));
+        Assert.assertNotEquals(p1, p2);
+        Assert.assertNotEquals(p2, p1);
         // Next add different data to p1 to make number of elements match and
         // markers are not null however actual results will vary
         p1.incrementAll(new double[] { 20, 21, 22, 23 });
-        Assert.assertFalse(p1.equals(p2));// though markers are non null, N
+        Assert.assertNotEquals(p1, p2);// though markers are non null, N
         // matches, results wont
 
     }
@@ -197,10 +197,10 @@ public class PSquarePercentileTest extends
                         Arrays.asList(new Double[] { 0.02, 1.18, 9.15, 21.91,
                                 38.62 }), p);
 
-        Assert.assertTrue(markers.equals(markersNew));
+        Assert.assertEquals(markers, markersNew);
         // If just one element of markers got changed then its still false.
         markersNew.processDataPoint(39);
-        Assert.assertFalse(markers.equals(markersNew));
+        Assert.assertNotEquals(markers, markersNew);
 
     }
 
@@ -235,7 +235,7 @@ public class PSquarePercentileTest extends
                         Arrays.asList(new Double[] { 95.1772, 95.1567, 95.1937,
                                 95.1959, 95.1442, 95.0610, 95.1591, 95.1195,
                                 95.1772, 95.0925, 95.1990, 95.1682 }), 0.0);
-        Assert.assertTrue(m1.equals(m2));
+        Assert.assertEquals(m1, m2);
         Set<PSquareMarkers> setMarkers = new LinkedHashSet<>();
         Assert.assertTrue(setMarkers.add(m1));
         Assert.assertFalse(setMarkers.add(m2));
@@ -252,16 +252,16 @@ public class PSquarePercentileTest extends
                         Arrays.asList(new Double[] { 95.1772, 95.1567, 95.1937,
                                 95.1959, 95.1442, 95.0610, 95.1591, 95.1195,
                                 95.1772, 95.0925, 95.1990, 95.1682 }), 0.50);
-        Assert.assertTrue(mThis.equals(mThis));
-        Assert.assertFalse(mThis.equals(mThat));
+        Assert.assertEquals(mThis, mThis);
+        Assert.assertNotEquals(mThis, mThat);
         String s1="";
-        Assert.assertFalse(mThis.equals(s1));
+        Assert.assertNotEquals(mThis, s1);
         for (int i = 0; i < testArray.length; i++) {
             mThat.processDataPoint(testArray[i]);
         }
         setMarkers.add(mThat);
         setMarkers.add(mThis);
-        Assert.assertTrue(mThat.equals(mThat));
+        Assert.assertEquals(mThat, mThat);
         Assert.assertTrue(setMarkers.contains(mThat));
         Assert.assertTrue(setMarkers.contains(mThis));
         Assert.assertEquals(3, setMarkers.size());
@@ -321,8 +321,8 @@ public class PSquarePercentileTest extends
     public void testPSquaredEqualsAndMin() {
         PSquarePercentile ptile = new PSquarePercentile(0);
         Assert.assertEquals(ptile, ptile);
-        Assert.assertFalse(ptile.equals(null));
-        Assert.assertFalse(ptile.equals(""));
+        Assert.assertNotEquals(ptile, null);
+        Assert.assertNotEquals(ptile, "");
         // Just to check if there is no data get result for zeroth and 100th
         // ptile returns NAN
         Assert.assertTrue(Double.isNaN(ptile.getResult()));

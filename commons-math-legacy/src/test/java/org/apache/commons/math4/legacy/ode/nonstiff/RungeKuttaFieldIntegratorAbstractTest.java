@@ -106,7 +106,7 @@ public abstract class RungeKuttaFieldIntegratorAbstractTest {
         Assert.assertEquals(regularArray.length, fieldArray.length);
         for (int i = 0; i < regularArray.length; ++i) {
             if (regularArray[i] == 0) {
-                Assert.assertTrue(0.0 == fieldArray[i].getReal());
+                Assert.assertEquals(0.0, fieldArray[i].getReal(), 0.0);
             } else {
                 Assert.assertEquals(regularArray[i], fieldArray[i].getReal(), AccurateMath.ulp(regularArray[i]));
             }

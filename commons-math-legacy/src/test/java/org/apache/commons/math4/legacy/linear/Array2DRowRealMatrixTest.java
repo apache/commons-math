@@ -106,7 +106,7 @@ public final class Array2DRowRealMatrixTest {
         Assert.assertTrue("testData is square",m.isSquare());
         Assert.assertEquals("testData2 row dimension",m2.getRowDimension(),2);
         Assert.assertEquals("testData2 column dimension",m2.getColumnDimension(),3);
-        Assert.assertTrue("testData2 is not square",!m2.isSquare());
+        Assert.assertFalse("testData2 is not square", m2.isSquare());
     }
 
     /** test copy functions */
@@ -895,9 +895,9 @@ public final class Array2DRowRealMatrixTest {
         Assert.assertEquals(m.hashCode(), m1.hashCode());
         Assert.assertEquals(m, m);
         Assert.assertEquals(m, m1);
-        Assert.assertFalse(m.equals(null));
-        Assert.assertFalse(m.equals(mt));
-        Assert.assertFalse(m.equals(new Array2DRowRealMatrix(bigSingular)));
+        Assert.assertNotEquals(m, null);
+        Assert.assertNotEquals(m, mt);
+        Assert.assertNotEquals(m, new Array2DRowRealMatrix(bigSingular));
     }
 
     @Test

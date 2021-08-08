@@ -118,7 +118,7 @@ public class MultiStartUnivariateOptimizerTest {
         }
 
         // Ensure that the exception was thrown because no optimum was found.
-        Assert.assertTrue(optimizer.getOptima()[0] == null);
+        Assert.assertNull(optimizer.getOptima()[0]);
     }
 
     private static class LocalException extends RuntimeException {
