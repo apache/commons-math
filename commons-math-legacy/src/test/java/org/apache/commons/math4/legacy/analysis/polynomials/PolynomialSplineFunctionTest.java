@@ -16,8 +16,6 @@
  */
 package org.apache.commons.math4.legacy.analysis.polynomials;
 
-import java.util.Arrays;
-
 import org.apache.commons.math4.legacy.analysis.UnivariateFunction;
 import org.apache.commons.math4.legacy.exception.MathIllegalArgumentException;
 import org.apache.commons.math4.legacy.exception.MathIllegalStateException;
@@ -62,7 +60,7 @@ public class PolynomialSplineFunctionTest {
     public void testConstructor() {
         PolynomialSplineFunction spline =
             new PolynomialSplineFunction(knots, polynomials);
-        Assert.assertTrue(Arrays.equals(knots, spline.getKnots()));
+        Assert.assertArrayEquals(knots, spline.getKnots(), 0.0);
         Assert.assertEquals(1d, spline.getPolynomials()[0].getCoefficients()[2], 0);
         Assert.assertEquals(3, spline.getN());
 

@@ -253,9 +253,9 @@ public class FieldLUDecompositionTest {
         }
 
         // check the same cached instance is returned the second time
-        Assert.assertTrue(l == lu.getL());
-        Assert.assertTrue(u == lu.getU());
-        Assert.assertTrue(p == lu.getP());
+        Assert.assertSame(l, lu.getL());
+        Assert.assertSame(u, lu.getU());
+        Assert.assertSame(p, lu.getP());
 
     }
 
@@ -294,9 +294,9 @@ public class FieldLUDecompositionTest {
         }
 
         // check the same cached instance is returned the second time
-        Assert.assertTrue(l == lu.getL());
-        Assert.assertTrue(u == lu.getU());
-        Assert.assertTrue(p == lu.getP());
+        Assert.assertSame(l, lu.getL());
+        Assert.assertSame(u, lu.getU());
+        Assert.assertSame(p, lu.getP());
     }
 
     @Test

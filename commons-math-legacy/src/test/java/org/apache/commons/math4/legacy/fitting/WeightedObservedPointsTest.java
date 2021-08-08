@@ -71,7 +71,7 @@ public class WeightedObservedPointsTest {
 
         store.add(new WeightedObservedPoint(1, 2, 3));
         store.add(new WeightedObservedPoint(2, -1, -2));
-        Assert.assertTrue(store.toList().size() == 2);
+        Assert.assertEquals(2, store.toList().size());
 
         store.clear();
         Assert.assertTrue(store.toList().isEmpty());
@@ -87,11 +87,11 @@ public class WeightedObservedPointsTest {
         store.add(new WeightedObservedPoint(2, -3, -4));
 
         final List<WeightedObservedPoint> list = store.toList();
-        Assert.assertTrue(list.size() == 2);
+        Assert.assertEquals(2, list.size());
 
         // Adding an element to "list" has no impact on "store".
         list.add(new WeightedObservedPoint(1.2, 3.4, 5.6));
-        Assert.assertFalse(list.size() == store.toList().size());
+        Assert.assertNotEquals(list.size(), store.toList().size());
 
         // Clearing "store" has no impact on "list".
         store.clear();

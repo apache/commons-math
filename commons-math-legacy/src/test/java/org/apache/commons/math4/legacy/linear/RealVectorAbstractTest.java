@@ -1337,11 +1337,11 @@ public abstract class RealVectorAbstractTest {
     public void testEquals() {
         final RealVector v = create(new double[] { 0, 1, 2 });
 
-        Assert.assertTrue(v.equals(v));
-        Assert.assertTrue(v.equals(v.copy()));
-        Assert.assertFalse(v.equals(null));
-        Assert.assertFalse(v.equals(v.getSubVector(0, v.getDimension() - 1)));
-        Assert.assertTrue(v.equals(v.getSubVector(0, v.getDimension())));
+        Assert.assertEquals(v, v);
+        Assert.assertEquals(v, v.copy());
+        Assert.assertNotEquals(null, v);
+        Assert.assertNotEquals(v, v.getSubVector(0, v.getDimension() - 1));
+        Assert.assertEquals(v, v.getSubVector(0, v.getDimension()));
     }
 
     @Test

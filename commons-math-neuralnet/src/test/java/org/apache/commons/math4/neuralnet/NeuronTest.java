@@ -52,7 +52,7 @@ public class NeuronTest {
 
         final double[] f = n.getFeatures();
         // Accessor returns a copy.
-        Assert.assertFalse(f == features);
+        Assert.assertNotSame(f, features);
 
         // Values are the same.
         Assert.assertEquals(features.length, f.length);
@@ -98,7 +98,7 @@ public class NeuronTest {
         final Neuron copy = n.copy();
 
         // Check that original and copy have the same value.
-        Assert.assertTrue(n.getFeatures()[0] == copy.getFeatures()[0]);
+        Assert.assertEquals(n.getFeatures()[0], copy.getFeatures()[0], 0.0);
         Assert.assertEquals(n.getNumberOfAttemptedUpdates(),
                             copy.getNumberOfAttemptedUpdates());
 
@@ -107,7 +107,7 @@ public class NeuronTest {
         n.compareAndSetFeatures(n.getFeatures(), update);
 
         // Check that original and copy differ.
-        Assert.assertFalse(n.getFeatures()[0] == copy.getFeatures()[0]);
+        Assert.assertNotEquals(n.getFeatures()[0], copy.getFeatures()[0], 0.0);
         Assert.assertNotEquals(n.getNumberOfSuccessfulUpdates(),
                                copy.getNumberOfSuccessfulUpdates());
     }

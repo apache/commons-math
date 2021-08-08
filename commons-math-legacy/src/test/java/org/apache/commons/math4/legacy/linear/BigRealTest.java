@@ -166,15 +166,15 @@ public class BigRealTest {
     public void testEqualsAndHashCode() {
         BigReal zero = new BigReal(0.0);
         BigReal nullReal = null;
-        Assert.assertTrue(zero.equals(zero));
-        Assert.assertFalse(zero.equals(nullReal));
-        Assert.assertFalse(zero.equals(Double.valueOf(0)));
+        Assert.assertEquals(zero, zero);
+        Assert.assertNotEquals(zero, nullReal);
+        Assert.assertNotEquals(zero, Double.valueOf(0), 0.0);
         BigReal zero2 = new BigReal(0.0);
-        Assert.assertTrue(zero.equals(zero2));
+        Assert.assertEquals(zero, zero2);
         Assert.assertEquals(zero.hashCode(), zero2.hashCode());
         BigReal one = new BigReal(1.0);
         Assert.assertFalse(one.equals(zero) || zero.equals(one));
-        Assert.assertTrue(one.equals(BigReal.ONE));
+        Assert.assertEquals(one, BigReal.ONE);
         BigReal oneWithScaleOne = new BigReal(new BigDecimal("1.0"));
         BigReal oneWithScaleTwo = new BigReal(new BigDecimal("1.00"));
         Assert.assertEquals(oneWithScaleOne, oneWithScaleTwo);

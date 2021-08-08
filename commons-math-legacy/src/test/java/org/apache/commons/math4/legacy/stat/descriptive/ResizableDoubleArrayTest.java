@@ -455,14 +455,14 @@ public class ResizableDoubleArrayTest extends DoubleArrayAbstractTest {
         // Wrong type
         ResizableDoubleArray first = new ResizableDoubleArray();
         Double other = new Double(2);
-        Assert.assertFalse(first.equals(other));
+        Assert.assertNotEquals(first, other, 0.0);
 
         // Null
         other = null;
-        Assert.assertFalse(first.equals(other));
+        Assert.assertNotEquals(first, other, 0.0);
 
         // Reflexive
-        Assert.assertTrue(first.equals(first));
+        Assert.assertEquals(first, first);
 
         // Non-argument constructor
         ResizableDoubleArray second = new ResizableDoubleArray();
@@ -568,15 +568,15 @@ public class ResizableDoubleArrayTest extends DoubleArrayAbstractTest {
     }
 
     private void verifyEquality(ResizableDoubleArray a, ResizableDoubleArray b) {
-        Assert.assertTrue(b.equals(a));
-        Assert.assertTrue(a.equals(b));
+        Assert.assertEquals(b, a);
+        Assert.assertEquals(a, b);
         Assert.assertEquals(a.hashCode(), b.hashCode());
     }
 
     private void verifyInequality(ResizableDoubleArray a, ResizableDoubleArray b) {
-        Assert.assertFalse(b.equals(a));
-        Assert.assertFalse(a.equals(b));
-        Assert.assertFalse(a.hashCode() == b.hashCode());
+        Assert.assertNotEquals(b, a);
+        Assert.assertNotEquals(a, b);
+        Assert.assertNotEquals(a.hashCode(), b.hashCode());
     }
 
 }

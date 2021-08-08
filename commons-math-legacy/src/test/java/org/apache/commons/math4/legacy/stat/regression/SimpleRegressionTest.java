@@ -456,7 +456,7 @@ public final class SimpleRegressionTest {
         Assert.assertTrue("predict not NaN", Double.isNaN(regression.predict(0)));
 
         // but SSTO should be OK
-        Assert.assertTrue("SSTO NaN", !Double.isNaN(regression.getTotalSumSquares()));
+        Assert.assertFalse("SSTO NaN", Double.isNaN(regression.getTotalSumSquares()));
 
         regression = new SimpleRegression();
 
@@ -464,24 +464,24 @@ public final class SimpleRegressionTest {
         regression.addData(3, 3);
 
         // All should be OK except MSE, s(b0), s(b1) which need one more df
-        Assert.assertTrue("interceptNaN", !Double.isNaN(regression.getIntercept()));
-        Assert.assertTrue("slope NaN", !Double.isNaN(regression.getSlope()));
+        Assert.assertFalse("interceptNaN", Double.isNaN(regression.getIntercept()));
+        Assert.assertFalse("slope NaN", Double.isNaN(regression.getSlope()));
         Assert.assertTrue("slope std err not NaN", Double.isNaN(regression.getSlopeStdErr()));
         Assert.assertTrue("intercept std err not NaN", Double.isNaN(regression.getInterceptStdErr()));
         Assert.assertTrue("MSE not NaN", Double.isNaN(regression.getMeanSquareError()));
-        Assert.assertTrue("r NaN", !Double.isNaN(regression.getR()));
-        Assert.assertTrue("r-square NaN", !Double.isNaN(regression.getRSquare()));
-        Assert.assertTrue("RSS NaN", !Double.isNaN(regression.getRegressionSumSquares()));
-        Assert.assertTrue("SSE NaN", !Double.isNaN(regression.getSumSquaredErrors()));
-        Assert.assertTrue("SSTO NaN", !Double.isNaN(regression.getTotalSumSquares()));
-        Assert.assertTrue("predict NaN", !Double.isNaN(regression.predict(0)));
+        Assert.assertFalse("r NaN", Double.isNaN(regression.getR()));
+        Assert.assertFalse("r-square NaN", Double.isNaN(regression.getRSquare()));
+        Assert.assertFalse("RSS NaN", Double.isNaN(regression.getRegressionSumSquares()));
+        Assert.assertFalse("SSE NaN", Double.isNaN(regression.getSumSquaredErrors()));
+        Assert.assertFalse("SSTO NaN", Double.isNaN(regression.getTotalSumSquares()));
+        Assert.assertFalse("predict NaN", Double.isNaN(regression.predict(0)));
 
         regression.addData(1, 4);
 
         // MSE, MSE, s(b0), s(b1) should all be OK now
-        Assert.assertTrue("MSE NaN", !Double.isNaN(regression.getMeanSquareError()));
-        Assert.assertTrue("slope std err NaN", !Double.isNaN(regression.getSlopeStdErr()));
-        Assert.assertTrue("intercept std err NaN", !Double.isNaN(regression.getInterceptStdErr()));
+        Assert.assertFalse("MSE NaN", Double.isNaN(regression.getMeanSquareError()));
+        Assert.assertFalse("slope std err NaN", Double.isNaN(regression.getSlopeStdErr()));
+        Assert.assertFalse("intercept std err NaN", Double.isNaN(regression.getInterceptStdErr()));
     }
 
     @Test

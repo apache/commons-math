@@ -282,12 +282,12 @@ public class MultivariateSummaryStatisticsTest {
         MultivariateSummaryStatistics u = createMultivariateSummaryStatistics(2, true);
         MultivariateSummaryStatistics t = null;
         int emptyHash = u.hashCode();
-        Assert.assertTrue(u.equals(u));
-        Assert.assertFalse(u.equals(t));
-        Assert.assertFalse(u.equals(Double.valueOf(0)));
+        Assert.assertEquals(u, u);
+        Assert.assertNotEquals(u, t);
+        Assert.assertNotEquals(u, Double.valueOf(0), 0.0);
         t = createMultivariateSummaryStatistics(2, true);
-        Assert.assertTrue(t.equals(u));
-        Assert.assertTrue(u.equals(t));
+        Assert.assertEquals(t, u);
+        Assert.assertEquals(u, t);
         Assert.assertEquals(emptyHash, t.hashCode());
 
         // Add some data to u
@@ -296,8 +296,8 @@ public class MultivariateSummaryStatisticsTest {
         u.addValue(new double[] { 3d, 1d });
         u.addValue(new double[] { 4d, 1d });
         u.addValue(new double[] { 5d, 1d });
-        Assert.assertFalse(t.equals(u));
-        Assert.assertFalse(u.equals(t));
+        Assert.assertNotEquals(t, u);
+        Assert.assertNotEquals(u, t);
         Assert.assertTrue(u.hashCode() != t.hashCode());
 
         //Add data in same order to t
@@ -306,15 +306,15 @@ public class MultivariateSummaryStatisticsTest {
         t.addValue(new double[] { 3d, 1d });
         t.addValue(new double[] { 4d, 1d });
         t.addValue(new double[] { 5d, 1d });
-        Assert.assertTrue(t.equals(u));
-        Assert.assertTrue(u.equals(t));
+        Assert.assertEquals(t, u);
+        Assert.assertEquals(u, t);
         Assert.assertEquals(u.hashCode(), t.hashCode());
 
         // Clear and make sure summaries are indistinguishable from empty summary
         u.clear();
         t.clear();
-        Assert.assertTrue(t.equals(u));
-        Assert.assertTrue(u.equals(t));
+        Assert.assertEquals(t, u);
+        Assert.assertEquals(u, t);
         Assert.assertEquals(emptyHash, t.hashCode());
         Assert.assertEquals(emptyHash, u.hashCode());
     }
