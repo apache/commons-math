@@ -1,0 +1,66 @@
+package org.apache.commons.math4.genetics.exception;
+
+import java.text.MessageFormat;
+
+public class GeneticException extends RuntimeException {
+
+	/** Error message for "out of range" condition. */
+	public static final String OUT_OF_RANGE = "Value {0} of {1} is out of range [{2}, {3}]";
+
+	/** Error message for "not strictly positive" condition. */
+	public static final String NOT_STRICTLY_POSITIVE = "Number {0} is not strictly positive";
+
+	/** Error message for "too large" condition. */
+	public static final String TOO_LARGE = "Number {0} is larger than {1}";
+
+	/** Error message for "too small" condition. */
+	public static final String TOO_SMALL = "Number {0} is smaller than {1}";
+
+	/** Error message for "out of range" condition. */
+	public static final String NO_DATA = "No data";
+
+	/** Error message for "size mismatch" condition. */
+	public static final String SIZE_MISMATCH = "Size mismatch: {0} != {1}";
+
+	/** Error message for "generic illegal argument" condition. */
+	public static final String ILLEGAL_ARGUMENT = "Illegal Argument Exception: {0}";
+
+	/** Error message for "generic illegal argument" condition. */
+	public static final String INVALID_FIXED_LENGTH_CHROMOSOME = "Invalid Fixed Length Chromosome.";
+
+	/** Error message for "NULL ARGUMENT" condition. */
+	public static final String NULL_ARGUMENT = "Null Argument Exception: {0}";
+
+	/**
+	 * Error message for "List of Chromosome bigger than population size" condition.
+	 */
+	public static final String LIST_OF_CHROMOSOMES_BIGGER_THAN_POPULATION_SIZE = "List of chromosome bigger than population size: {0} > {1}";
+
+	/**
+	 * Error message for "population limit not positive" condition.
+	 */
+	public static final String POPULATION_LIMIT_NOT_POSITIVE = "Population limit not positive :{0}";
+
+	/**
+	 * Error message for " population limit less than list of chromosomes size"
+	 * condition.
+	 */
+	public static final String POPULATION_LIMIT_LESS_THAN_LIST_OF_CHROMOSOMES_SIZE = "Population limit is lesser than list of chromosomes size : {0} < {1}";
+
+	public static final String DIFFERENT_ORIG_AND_PERMUTED_DATA = "Different original and permuted data";
+
+	/** Serializable version identifier. */
+	private static final long serialVersionUID = 20210516L;
+
+	/**
+	 * Create an exception where the message is constructed by applying the
+	 * {@code format()} method from {@code java.text.MessageFormat}.
+	 *
+	 * @param message         Message format (with replaceable parameters).
+	 * @param formatArguments Actual arguments to be displayed in the message.
+	 */
+	public GeneticException(String message, Object... formatArguments) {
+		super(MessageFormat.format(message, formatArguments));
+	}
+
+}
