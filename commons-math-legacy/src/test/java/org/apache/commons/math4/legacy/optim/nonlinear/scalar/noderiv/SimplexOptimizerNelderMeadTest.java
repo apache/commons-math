@@ -204,38 +204,6 @@ public class SimplexOptimizerNelderMeadTest {
                1e-6);
     }
 
-    @Test
-    public void testRosenbrock() {
-        final int dim = 2;
-        doTest(TestFunction.ROSENBROCK.withDimension(dim),
-               OptimTestUtils.point(new double[] { -1.2, 1 }, 1e-1),
-               GoalType.MINIMIZE,
-               180,
-               new PointValuePair(OptimTestUtils.point(dim, 1.0), 0.0),
-               1e-4);
-    }
-
-    @Test
-    public void testPowell() {
-        final int dim = 4;
-        doTest(TestFunction.POWELL.withDimension(dim),
-               OptimTestUtils.point(new double[] { 3, -1, 0, 1 }, 1e-1),
-               GoalType.MINIMIZE,
-               420,
-               new PointValuePair(OptimTestUtils.point(dim, 0.0), 0.0),
-               2e-4);
-    }
-
-    @Ignore("See MATH-1552")@Test
-    public void testEllipse() {
-        doTest(TestFunction.ELLI.withDimension(DIM),
-               OptimTestUtils.point(DIM, 1.0, 2e-1),
-               GoalType.MINIMIZE,
-               15000,
-               new PointValuePair(OptimTestUtils.point(DIM, 0.0), 0.0),
-               1e-6);
-    }
-
     @Ignore("See MATH-1552")@Test
     public void testElliRotated() {
         doTest(new OptimTestUtils.ElliRotated(),
@@ -244,97 +212,6 @@ public class SimplexOptimizerNelderMeadTest {
                7467,
                new PointValuePair(OptimTestUtils.point(DIM, 0.0), 0.0),
                1e-14);
-    }
-
-    @Test
-    public void testCigar() {
-        doTest(TestFunction.CIGAR.withDimension(DIM),
-               OptimTestUtils.point(DIM, 1.0, 2e-1),
-               GoalType.MINIMIZE,
-               7000,
-               new PointValuePair(OptimTestUtils.point(DIM, 0.0), 0.0),
-               1e-6);
-    }
-
-    @Ignore("See MATH-1552")@Test
-    public void testTwoAxes() {
-        doTest(TestFunction.TWO_AXES.withDimension(DIM),
-               OptimTestUtils.point(DIM, 1.0, 1e-1),
-               GoalType.MINIMIZE,
-               3451,
-               new PointValuePair(OptimTestUtils.point(DIM, 0.0), 0.0),
-               1e-14);
-    }
-
-    @Ignore("See MATH-1552")@Test
-    public void testCigTab() {
-        doTest(TestFunction.CIG_TAB.withDimension(DIM),
-               OptimTestUtils.point(DIM, 1.0, 1e-1),
-               GoalType.MINIMIZE,
-               7000,
-               new PointValuePair(OptimTestUtils.point(DIM, 0.0), 0.0),
-               1e-4);
-    }
-
-    @Test
-    public void testSphere() {
-        doTest(TestFunction.SPHERE.withDimension(DIM),
-               OptimTestUtils.point(DIM, 1.0, 1e-1),
-               GoalType.MINIMIZE,
-               3000,
-               new PointValuePair(OptimTestUtils.point(DIM, 0.0), 0.0),
-               1e-6);
-    }
-
-    @Ignore("See MATH-1552")@Test
-    public void testTablet() {
-        doTest(TestFunction.TABLET.withDimension(DIM),
-               OptimTestUtils.point(DIM, 1.0, 1e-1),
-               GoalType.MINIMIZE,
-               10000,
-               new PointValuePair(OptimTestUtils.point(DIM, 0.0), 0.0),
-               1e-14);
-    }
-
-    @Ignore("See MATH-1552")@Test
-    public void testDiffPow() {
-        doTest(TestFunction.DIFF_POW.withDimension(DIM),
-               OptimTestUtils.point(DIM, 1.0, 2e-1),
-               GoalType.MINIMIZE,
-               7000,
-               new PointValuePair(OptimTestUtils.point(DIM, 0.0), 0.0),
-               1e-6);
-    }
-
-    @Test
-    public void testSsDiffPow() {
-        final int dim = DIM / 2;
-        doTest(TestFunction.SS_DIFF_POW.withDimension(dim),
-               OptimTestUtils.point(dim, 1.0, 2e-1),
-               GoalType.MINIMIZE,
-               4000,
-               new PointValuePair(OptimTestUtils.point(dim, 0.0), 0.0),
-               1e-3);
-    }
-
-    @Ignore("See MATH-1552")@Test
-    public void testAckley() {
-        doTest(TestFunction.ACKLEY.withDimension(DIM),
-               OptimTestUtils.point(DIM, 1.0, 2e-1),
-               GoalType.MINIMIZE,
-               7900,
-               new PointValuePair(OptimTestUtils.point(DIM, 0.0), 0.0),
-               1e-11);
-    }
-
-    @Ignore("See MATH-1552")@Test
-    public void testRastrigin() {
-        doTest(TestFunction.RASTRIGIN.withDimension(DIM),
-               OptimTestUtils.point(DIM, 1.0, 2e-1),
-               GoalType.MINIMIZE,
-               4600,
-               new PointValuePair(OptimTestUtils.point(DIM, 0.0), 0.0),
-               0);
     }
 
     /**
