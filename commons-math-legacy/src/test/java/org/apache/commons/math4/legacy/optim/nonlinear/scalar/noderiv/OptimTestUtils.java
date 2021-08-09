@@ -19,6 +19,7 @@ package org.apache.commons.math4.legacy.optim.nonlinear.scalar.noderiv;
 import java.util.Arrays;
 import org.apache.commons.rng.UniformRandomProvider;
 import org.apache.commons.rng.simple.RandomSource;
+import org.apache.commons.rng.simple.ThreadLocalRandomSource;
 import org.apache.commons.rng.sampling.distribution.MarsagliaNormalizedGaussianSampler;
 import org.apache.commons.rng.sampling.distribution.ContinuousUniformSampler;
 import org.apache.commons.math4.legacy.analysis.MultivariateFunction;
@@ -113,7 +114,7 @@ final class OptimTestUtils {
 
     /** Creates a RNG instance. */
     static UniformRandomProvider rng() {
-        return RandomSource.MWC_256.create();
+        return ThreadLocalRandomSource.current(RandomSource.MWC_256);
     }
 
     private static class Basis {
