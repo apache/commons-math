@@ -226,16 +226,6 @@ public class SimplexOptimizerNelderMeadTest {
                2e-4);
     }
 
-    @Test
-    public void testRosen() {
-        doTest(TestFunction.ROSEN.withDimension(DIM),
-               OptimTestUtils.point(DIM, 0.1),
-               GoalType.MINIMIZE,
-               9078,
-               new PointValuePair(OptimTestUtils.point(DIM, 1.0), 0.0),
-               1e-6);
-    }
-
     @Ignore("See MATH-1552")@Test
     public void testEllipse() {
         doTest(TestFunction.ELLI.withDimension(DIM),

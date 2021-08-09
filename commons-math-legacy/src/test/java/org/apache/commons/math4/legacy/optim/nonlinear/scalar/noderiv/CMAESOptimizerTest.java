@@ -53,7 +53,7 @@ public class CMAESOptimizerTest {
         double[][] boundaries = boundaries(DIM,-1,2);
         PointValuePair expected =
             new PointValuePair(OptimTestUtils.point(DIM,1.0),0.0);
-        doTest(TestFunction.ROSEN.withDimension(DIM), startPoint, insigma, boundaries,
+        doTest(TestFunction.ROSENBROCK.withDimension(DIM), startPoint, insigma, boundaries,
                 GoalType.MINIMIZE, LAMBDA, true, 0, 1e-13,
                 1e-13, 1e-6, 100000, expected);
     }
@@ -64,7 +64,7 @@ public class CMAESOptimizerTest {
         double[][] boundaries = boundaries(DIM,-1,2);
         PointValuePair expected =
             new PointValuePair(OptimTestUtils.point(DIM,1.0),0.0);
-        doTest(TestFunction.ROSEN.withDimension(DIM), startPoint, insigma, boundaries,
+        doTest(TestFunction.ROSENBROCK.withDimension(DIM), startPoint, insigma, boundaries,
                 GoalType.MINIMIZE, LAMBDA, true, 0, 1e-13,
                 1e-13, 1e-6, 100000, expected);
     }
@@ -76,7 +76,7 @@ public class CMAESOptimizerTest {
         double[][] boundaries = boundaries(DIM+1,-1,2);
         PointValuePair expected =
             new PointValuePair(OptimTestUtils.point(DIM,1.0),0.0);
-        doTest(TestFunction.ROSEN.withDimension(DIM), startPoint, insigma, boundaries,
+        doTest(TestFunction.ROSENBROCK.withDimension(DIM), startPoint, insigma, boundaries,
                 GoalType.MINIMIZE, LAMBDA, true, 0, 1e-13,
                 1e-13, 1e-6, 100000, expected);
     }
@@ -88,7 +88,7 @@ public class CMAESOptimizerTest {
         double[][] boundaries = null;
         PointValuePair expected =
             new PointValuePair(OptimTestUtils.point(DIM,1.0),0.0);
-        doTest(TestFunction.ROSEN.withDimension(DIM), startPoint, insigma, boundaries,
+        doTest(TestFunction.ROSENBROCK.withDimension(DIM), startPoint, insigma, boundaries,
                 GoalType.MINIMIZE, LAMBDA, true, 0, 1e-13,
                 1e-13, 1e-6, 100000, expected);
     }
@@ -100,7 +100,7 @@ public class CMAESOptimizerTest {
         double[][] boundaries = boundaries(DIM,-0.5,0.5);
         PointValuePair expected =
             new PointValuePair(OptimTestUtils.point(DIM,1.0),0.0);
-        doTest(TestFunction.ROSEN.withDimension(DIM), startPoint, insigma, boundaries,
+        doTest(TestFunction.ROSENBROCK.withDimension(DIM), startPoint, insigma, boundaries,
                 GoalType.MINIMIZE, LAMBDA, true, 0, 1e-13,
                 1e-13, 1e-6, 100000, expected);
     }
@@ -112,7 +112,7 @@ public class CMAESOptimizerTest {
         double[][] boundaries = null;
         PointValuePair expected =
             new PointValuePair(OptimTestUtils.point(DIM,1.0),0.0);
-        doTest(TestFunction.ROSEN.withDimension(DIM), startPoint, insigma, boundaries,
+        doTest(TestFunction.ROSENBROCK.withDimension(DIM), startPoint, insigma, boundaries,
                 GoalType.MINIMIZE, LAMBDA, true, 0, 1e-13,
                 1e-13, 1e-6, 100000, expected);
     }
@@ -125,10 +125,10 @@ public class CMAESOptimizerTest {
         double[][] boundaries = null;
         PointValuePair expected =
             new PointValuePair(OptimTestUtils.point(DIM,1.0),0.0);
-        doTest(TestFunction.ROSEN.withDimension(DIM), startPoint, insigma, boundaries,
+        doTest(TestFunction.ROSENBROCK.withDimension(DIM), startPoint, insigma, boundaries,
                 GoalType.MINIMIZE, LAMBDA, true, 0, 1e-13,
                 1e-13, 1e-6, 100000, expected);
-        doTest(TestFunction.ROSEN.withDimension(DIM), startPoint, insigma, boundaries,
+        doTest(TestFunction.ROSENBROCK.withDimension(DIM), startPoint, insigma, boundaries,
                 GoalType.MINIMIZE, LAMBDA, false, 0, 1e-13,
                 1e-13, 1e-6, 100000, expected);
     }
@@ -365,10 +365,10 @@ public class CMAESOptimizerTest {
         double[][] boundaries = boundaries(DIM, -1, 2);
         PointValuePair expected =
             new PointValuePair(OptimTestUtils.point(DIM,1.0),0.0);
-        doTest(TestFunction.ROSEN.withDimension(DIM), startPoint, insigma, boundaries,
+        doTest(TestFunction.ROSENBROCK.withDimension(DIM), startPoint, insigma, boundaries,
                 GoalType.MINIMIZE, 2*LAMBDA, true, 0, 1e-13,
                 1e-13, 1e-6, 100000, expected);
-        doTest(TestFunction.ROSEN.withDimension(DIM), startPoint, insigma, boundaries,
+        doTest(TestFunction.ROSENBROCK.withDimension(DIM), startPoint, insigma, boundaries,
                 GoalType.MINIMIZE, 2*LAMBDA, false, 0, 1e-13,
                 1e-13, 1e-6, 100000, expected);
     }
@@ -380,7 +380,7 @@ public class CMAESOptimizerTest {
         double[][] boundaries = null;
         PointValuePair expected =
             new PointValuePair(OptimTestUtils.point(DIM,1.0),0.0);
-        doTest(TestFunction.ROSEN.withDimension(DIM), startPoint, insigma, boundaries,
+        doTest(TestFunction.ROSENBROCK.withDimension(DIM), startPoint, insigma, boundaries,
                 GoalType.MINIMIZE, LAMBDA, false, 1, 1e-13,
                 1e-10, 1e-4, 1000000, expected);
      }

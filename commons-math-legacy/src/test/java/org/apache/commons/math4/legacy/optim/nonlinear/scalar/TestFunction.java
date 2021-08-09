@@ -104,19 +104,6 @@ public enum TestFunction {
                 return f;
             };
         }),
-    ROSEN(dim -> {
-            final int last = dim - 1;
-            return x -> {
-                double f = 0;
-                for (int i = 0; i < last; i++) {
-                    final double xi = x[i];
-                    final double a = xi * xi - x[i + 1];
-                    final double b = xi - 1;
-                    f += 1e2 * a * a + b * b;
-                }
-                return f;
-            };
-        }),
     ACKLEY(dim -> {
             final double A = 20;
             final double B = 0.2;
@@ -176,7 +163,7 @@ public enum TestFunction {
                     final double xiP1 = x[i + 1];
                     final double a = xiP1 - xi * xi;
                     final double b = xi - 1;
-                    f += 100 * a * a + b * b;
+                    f += 1e2 * a * a + b * b;
                 }
                 return f;
             };
