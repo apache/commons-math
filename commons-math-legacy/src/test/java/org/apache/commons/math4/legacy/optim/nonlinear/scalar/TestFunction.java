@@ -24,6 +24,7 @@ import org.apache.commons.math4.legacy.core.jdkmath.AccurateMath;
  * Multivariate scalar functions for testing an optimizer.
  */
 public enum TestFunction {
+    // https://www.sfu.ca/~ssurjano/spheref.html
     SPHERE(dim -> {
             return x -> {
                 double f = 0;
@@ -87,12 +88,12 @@ public enum TestFunction {
                 return 1 - elli.value(x);
             };
         }),
+    // https://www.sfu.ca/~ssurjano/sumpow.html
     DIFF_POW(dim -> {
-            final double A = 10d / (dim - 1);
             return x -> {
                 double f = 0;
                 for (int i = 0; i < dim; i++) {
-                    f += AccurateMath.pow(Math.abs(x[i]), A * i + 2);
+                    f += AccurateMath.pow(Math.abs(x[i]), i + 2);
                 }
                 return f;
             };
@@ -104,6 +105,7 @@ public enum TestFunction {
                 return f;
             };
         }),
+    // https://www.sfu.ca/~ssurjano/ackley.html
     ACKLEY(dim -> {
             final double A = 20;
             final double B = 0.2;
