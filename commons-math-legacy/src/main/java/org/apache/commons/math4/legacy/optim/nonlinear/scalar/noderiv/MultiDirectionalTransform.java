@@ -24,7 +24,6 @@ import java.util.function.DoublePredicate;
 
 import org.apache.commons.math4.legacy.analysis.MultivariateFunction;
 import org.apache.commons.math4.legacy.optim.PointValuePair;
-import org.apache.commons.math4.legacy.optim.OptimizationData;
 
 /**
  * Multi-directional search method.
