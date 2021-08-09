@@ -54,8 +54,7 @@ import org.apache.commons.math4.legacy.optim.OptimizationData;
  * "SSA" algorithm in the above paper.
  */
 public class HedarFukushimaTransform
-    implements Simplex.TransformFactory,
-               OptimizationData {
+    implements Simplex.TransformFactory {
     /** Shrinkage coefficient. */
     private final double sigma;
     /** Sampler for reflection coefficient. */

@@ -30,8 +30,7 @@ import org.apache.commons.math4.legacy.optim.OptimizationData;
  * Multi-directional search method.
  */
 public class MultiDirectionalTransform
-    implements Simplex.TransformFactory,
-               OptimizationData {
+    implements Simplex.TransformFactory {
     /** Reflection coefficient. */
     private static final double ALPHA = 1;
     /** Default value for {@link #gamma}: {@value}. */

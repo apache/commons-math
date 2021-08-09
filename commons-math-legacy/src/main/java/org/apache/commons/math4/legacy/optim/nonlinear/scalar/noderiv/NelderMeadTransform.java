@@ -28,8 +28,7 @@ import org.apache.commons.math4.legacy.optim.OptimizationData;
  * <a href="https://en.wikipedia.org/wiki/Nelder%E2%80%93Mead_method">Nelder-Mead method</a>.
  */
 public class NelderMeadTransform
-    implements Simplex.TransformFactory,
-               OptimizationData {
+    implements Simplex.TransformFactory {
     /** Default value for {@link #alpha}: {@value}. */
     private static final double DEFAULT_ALPHA = 1;
     /** Default value for {@link #gamma}: {@value}. */

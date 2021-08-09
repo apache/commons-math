@@ -249,7 +249,7 @@ public final class Simplex implements OptimizationData {
      * @see NelderMeadTransform
      * @see HedarFukushimaTransform
      */
-    public interface TransformFactory {
+    public interface TransformFactory extends OptimizationData {
         /**
          * Creates a simplex transformation.
          *
