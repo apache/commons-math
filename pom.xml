@@ -67,6 +67,8 @@
     <math.commons.geometry.version>1.0-SNAPSHOT</math.commons.geometry.version>
     <math.commons.statistics.version>1.0-SNAPSHOT</math.commons.statistics.version>
     <math.commons.math3.version>3.6.1</math.commons.math3.version>
+    <math.junit5.version>5.7.2</math.junit5.version>
+    <math.surefire.version>3.0.0-M5</math.surefire.version>
     <!-- Workaround to avoid duplicating config files. -->
     <math.parent.dir>${basedir}</math.parent.dir>
 
@@ -248,12 +250,21 @@
   </dependencyManagement>
 
   <dependencies>
+
     <dependency>
-      <groupId>junit</groupId>
-      <artifactId>junit</artifactId>
-      <version>4.13.1</version>
+      <groupId>org.junit.jupiter</groupId>
+      <artifactId>junit-jupiter</artifactId>
+      <version>${math.junit5.version}</version>
       <scope>test</scope>
     </dependency>
+
+    <dependency>
+      <groupId>org.junit.vintage</groupId>
+      <artifactId>junit-vintage-engine</artifactId>
+      <version>${math.junit5.version}</version>
+      <scope>test</scope>
+    </dependency>
+
   </dependencies>
 
   <build>
@@ -271,6 +282,7 @@
       </plugin>
 
       <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-surefire-plugin</artifactId>
       </plugin>
       <plugin>
@@ -430,12 +442,20 @@
     </plugins>
 
     <pluginManagement>
+
       <plugins>
         <plugin>
           <groupId>org.apache.maven.plugins</groupId>
           <artifactId>maven-checkstyle-plugin</artifactId>
           <version>${math.checkstyle.version}</version>
         </plugin>
+
+        <plugin>
+          <groupId>org.apache.maven.plugins</groupId>
+          <artifactId>maven-surefire-plugin</artifactId>
+          <version>${math.surefire.version}</version>
+        </plugin>
+
       </plugins>
     </pluginManagement>
   </build>
