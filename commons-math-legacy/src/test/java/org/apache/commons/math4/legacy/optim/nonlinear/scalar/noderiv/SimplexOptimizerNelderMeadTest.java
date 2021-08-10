@@ -20,18 +20,14 @@ package org.apache.commons.math4.legacy.optim.nonlinear.scalar.noderiv;
 import java.util.Arrays;
 import org.apache.commons.math4.legacy.analysis.MultivariateFunction;
 import org.apache.commons.math4.legacy.analysis.MultivariateVectorFunction;
-import org.apache.commons.math4.legacy.exception.MathUnsupportedOperationException;
-import org.apache.commons.math4.legacy.exception.TooManyEvaluationsException;
 import org.apache.commons.math4.legacy.linear.Array2DRowRealMatrix;
 import org.apache.commons.math4.legacy.linear.RealMatrix;
 import org.apache.commons.math4.legacy.optim.InitialGuess;
 import org.apache.commons.math4.legacy.optim.MaxEval;
 import org.apache.commons.math4.legacy.optim.PointValuePair;
-import org.apache.commons.math4.legacy.optim.SimpleBounds;
 import org.apache.commons.math4.legacy.optim.nonlinear.scalar.GoalType;
 import org.apache.commons.math4.legacy.optim.nonlinear.scalar.LeastSquaresConverter;
 import org.apache.commons.math4.legacy.optim.nonlinear.scalar.ObjectiveFunction;
-import org.apache.commons.math4.legacy.optim.nonlinear.scalar.TestFunction;
 import org.apache.commons.math4.legacy.core.MathArrays;
 import org.junit.Assert;
 import org.junit.Test;
@@ -42,21 +38,6 @@ import org.junit.Ignore;
  */
 public class SimplexOptimizerNelderMeadTest {
     private static final int DIM = 13;
-
-    @Test(expected=MathUnsupportedOperationException.class)
-    public void testBoundsUnsupported() {
-        SimplexOptimizer optimizer = new SimplexOptimizer(1e-10, 1e-30);
-        final OptimTestUtils.FourExtrema fourExtrema = new OptimTestUtils.FourExtrema();
-
-        optimizer.optimize(new MaxEval(100),
-                           new ObjectiveFunction(fourExtrema),
-                           GoalType.MINIMIZE,
-                           new InitialGuess(new double[] { -3, 0 }),
-                           Simplex.alongAxes(new double[] { 0.2, 0.2 }),
-                           new NelderMeadTransform(),
-                           new SimpleBounds(new double[] { -5, -1 },
-                                            new double[] { 5, 1 }));
-    }
 
     @Test
     public void testLeastSquares1() {
@@ -145,18 +126,6 @@ public class SimplexOptimizerNelderMeadTest {
         Assert.assertTrue("nEval=" + nEval, nEval > 60);
         Assert.assertTrue("nEval=" + nEval, nEval < 80);
         Assert.assertTrue(optimum.getValue() < 1e-6);
-    }
-
-    @Test(expected=TooManyEvaluationsException.class)
-    public void testMaxIterations() {
-        final int dim = 4;
-        SimplexOptimizer optimizer = new SimplexOptimizer(-1, 1e-3);
-        optimizer.optimize(new MaxEval(20),
-                           new ObjectiveFunction(TestFunction.POWELL.withDimension(dim)),
-                           GoalType.MINIMIZE,
-                           new InitialGuess(new double[] { 3, -1, 0, 1 }),
-                           Simplex.equalSidesAlongAxes(dim, 1d),
-                           new NelderMeadTransform());
     }
 
     @Test

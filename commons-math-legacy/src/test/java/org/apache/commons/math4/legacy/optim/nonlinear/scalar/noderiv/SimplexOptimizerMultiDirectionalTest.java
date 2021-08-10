@@ -38,21 +38,6 @@ import org.junit.Ignore;
 public class SimplexOptimizerMultiDirectionalTest {
     private static final int DIM = 13;
 
-    @Test(expected=MathUnsupportedOperationException.class)
-    public void testBoundsUnsupported() {
-        SimplexOptimizer optimizer = new SimplexOptimizer(1e-10, 1e-30);
-        final OptimTestUtils.FourExtrema fourExtrema = new OptimTestUtils.FourExtrema();
-
-        optimizer.optimize(new MaxEval(100),
-                           new ObjectiveFunction(fourExtrema),
-                           GoalType.MINIMIZE,
-                           new InitialGuess(new double[] { -3, 0 }),
-                           Simplex.alongAxes(new double[] { 0.2, 0.2 }),
-                           new MultiDirectionalTransform(),
-                           new SimpleBounds(new double[] { -5, -1 },
-                                            new double[] { 5, 1 }));
-    }
-
     @Test
     public void testMath283() {
         SimplexOptimizer optimizer = new SimplexOptimizer(1e-14, 1e-14);

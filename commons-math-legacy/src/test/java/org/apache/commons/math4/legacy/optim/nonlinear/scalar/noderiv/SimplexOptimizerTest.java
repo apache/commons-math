@@ -19,6 +19,7 @@ package org.apache.commons.math4.legacy.optim.nonlinear.scalar.noderiv;
 import java.util.Arrays;
 import org.opentest4j.AssertionFailedError;
 import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ParameterContext;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.aggregator.ArgumentsAggregator;
@@ -28,10 +29,13 @@ import org.junit.jupiter.params.aggregator.AggregateWith;
 import org.junit.jupiter.params.provider.CsvFileSource;
 import org.apache.commons.rng.simple.RandomSource;
 import org.apache.commons.math4.legacy.core.MathArrays;
+import org.apache.commons.math4.legacy.exception.MathUnsupportedOperationException;
+import org.apache.commons.math4.legacy.exception.TooManyEvaluationsException;
 import org.apache.commons.math4.legacy.analysis.MultivariateFunction;
 import org.apache.commons.math4.legacy.optim.InitialGuess;
 import org.apache.commons.math4.legacy.optim.MaxEval;
 import org.apache.commons.math4.legacy.optim.PointValuePair;
+import org.apache.commons.math4.legacy.optim.SimpleBounds;
 import org.apache.commons.math4.legacy.optim.nonlinear.scalar.GoalType;
 import org.apache.commons.math4.legacy.optim.nonlinear.scalar.ObjectiveFunction;
 import org.apache.commons.math4.legacy.optim.nonlinear.scalar.SimulatedAnnealing;
@@ -45,6 +49,36 @@ public class SimplexOptimizerTest {
     private static final String NELDER_MEAD_INPUT_FILE = "std_test_func.simplex.nelder_mead.csv";
     private static final String MULTIDIRECTIONAL_INPUT_FILE = "std_test_func.simplex.multidirectional.csv";
     private static final String HEDAR_FUKUSHIMA_INPUT_FILE = "std_test_func.simplex.hedar_fukushima.csv";
+
+    @Test
+    public void testMaxEvaluations() {
+        Assertions.assertThrows(TooManyEvaluationsException.class, () -> {
+                final int dim = 4;
+                final SimplexOptimizer optimizer = new SimplexOptimizer(-1, 1e-3);
+                optimizer.optimize(new MaxEval(20),
+                                   new ObjectiveFunction(TestFunction.PARABOLA.withDimension(dim)),
+                                   GoalType.MINIMIZE,
+                                   new InitialGuess(new double[] { 3, -1, -3, 1 }),
+                                   Simplex.equalSidesAlongAxes(dim, 1d),
+                                   new NelderMeadTransform());
+            });
+    }
+
+    @Test
+    public void testBoundsUnsupported() {
+        Assertions.assertThrows(MathUnsupportedOperationException.class, () -> {
+                final int dim = 2;
+                final SimplexOptimizer optimizer = new SimplexOptimizer(1e-10, 1e-30);
+                optimizer.optimize(new MaxEval(100),
+                                   new ObjectiveFunction(TestFunction.PARABOLA.withDimension(dim)),
+                                   GoalType.MINIMIZE,
+                                   new InitialGuess(new double[] { -3, 0 }),
+                                   Simplex.alongAxes(new double[] { 0.2, 0.2 }),
+                                   new NelderMeadTransform(),
+                                   new SimpleBounds(new double[] { -5, -1 },
+                                                    new double[] { 5, 1 }));
+            });
+    }
 
     @ParameterizedTest
     @CsvFileSource(resources = NELDER_MEAD_INPUT_FILE)
