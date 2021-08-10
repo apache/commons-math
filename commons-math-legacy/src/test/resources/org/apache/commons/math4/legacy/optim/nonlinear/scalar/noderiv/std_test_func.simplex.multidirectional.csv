@@ -15,7 +15,7 @@
 # limitations under the License.
 #
 #
-# CSV Format defined in "SimplexOptimizerTest.Task" class.
+# Format (CSV) defined in "SimplexOptimizerTest.Task" class.
 # Columns are:
 #  0: function name (value from "TestFunction" enum)
 #  1: space dimension (n)
@@ -25,20 +25,21 @@
 #  5: expected number of function evaluations
 #  6: number of retries in case of assertion failure
 #  7: size of the random noise (to generate slightly different initial conditions)
+#  8: whether to perform simulated annealing
 #
 # Caveat: Some tests are commented out (cf. JIRA: MATH-1552).
 #
-PARABOLA, 4, 2.5 3.1 4.6 5.8, 0 0 0 0, 1e-4, 340, 3, 2e-1
-ROSENBROCK, 2, -1.2 1, 1 1, 2e-3, 9200, 3, 1e-1
-ROSENBROCK, 10, -0.1 0.1 0.2 -0.1 -0.2 0.3 0.2 -0.1 0.2 -0.3, 1 1 1 1 1 1 1 1 1 1, 3e-3, 100000, 3, 5e-2
-#POWELL, 4, 3 -1 -2 1, 0 0 0 0, 5e-3, 420, 3, 1e-1
-CIGAR, 13, -1.2 2.3 -3.2 2.1 1.2 -2.3 3.2 -2.1 -1.2 2.3 -3.2 2.1 -1.2, 0 0 0 0 0 0 0 0 0 0 0 0 0, 1e-6, 7000, 3, 1e-1
-SPHERE, 13, -1.2 2.3 -3.2 2.1 1.2 -2.3 3.2 -2.1 -1.2 2.3 -3.2 2.1 -1.2, 0 0 0 0 0 0 0 0 0 0 0 0 0, 5e-5, 3600, 3, 1e-1
-ELLI, 10, 2 3 4 -3 -2 -1 2 3 4 3, 0 0 0 0 0 0 0 0 0 0, 1e-4, 50000, 3, 1e-1
-TWO_AXES, 10, 2 3 4 -3 -2 -1 2 3 4 3, 0 0 0 0 0 0 0 0 0 0, 1e-6, 3200, 3, 1e-1
-CIG_TAB, 10, 2 3 4 -3 -2 -1 2 3 4 3, 0 0 0 0 0 0 0 0 0 0, 5e-6, 2700, 3, 1e-1
-TABLET, 11, 2 3 4 -3 -2 -1 2 3 4 3 -1, 0 0 0 0 0 0 0 0 0 0 0, 5e-6, 3000, 3, 1e-1
-DIFF_POW, 7, 1 -1 1 -1 1 -1 1, 0 0 0 0 0 0 0, 5e-4, 2500, 3, 1e-1
-SS_DIFF_POW, 6, -3.2 2.1 1.2 -2.3 3.2 -2.1, 0 0 0 0 0 0, 1e-3, 4000, 3, 1e-1
-ACKLEY, 4, 3 4 -3 -2, 0 0 0 0, 1e-6, 700, 3, 5e-1
-#RASTRIGIN, 4, 3 4 -3 -2, 0 0 0 0, 1e-6, 10000, 3, 5e-1
+PARABOLA, 4, 2.5 3.1 4.6 5.8, 0 0 0 0, 1e-4, 340, 3, 2e-1, false
+ROSENBROCK, 2, -1.2 1, 1 1, 2e-3, 9200, 3, 1e-1, false
+ROSENBROCK, 10, -0.1 0.1 0.2 -0.1 -0.2 0.3 0.2 -0.1 0.2 -0.3, 1 1 1 1 1 1 1 1 1 1, 3e-3, 100000, 3, 5e-2, false
+#POWELL, 4, 3 -1 -2 1, 0 0 0 0, 5e-3, 420, 3, 1e-1, false
+CIGAR, 13, -1.2 2.3 -3.2 2.1 1.2 -2.3 3.2 -2.1 -1.2 2.3 -3.2 2.1 -1.2, 0 0 0 0 0 0 0 0 0 0 0 0 0, 1e-6, 7000, 3, 1e-1, false
+SPHERE, 13, -1.2 2.3 -3.2 2.1 1.2 -2.3 3.2 -2.1 -1.2 2.3 -3.2 2.1 -1.2, 0 0 0 0 0 0 0 0 0 0 0 0 0, 5e-5, 3600, 3, 1e-1, false
+ELLI, 10, 2 3 4 -3 -2 -1 2 3 4 3, 0 0 0 0 0 0 0 0 0 0, 1e-4, 50000, 3, 1e-1, false
+TWO_AXES, 10, 2 3 4 -3 -2 -1 2 3 4 3, 0 0 0 0 0 0 0 0 0 0, 1e-6, 3200, 3, 1e-1, false
+CIG_TAB, 10, 2 3 4 -3 -2 -1 2 3 4 3, 0 0 0 0 0 0 0 0 0 0, 5e-6, 2700, 3, 1e-1, false
+TABLET, 11, 2 3 4 -3 -2 -1 2 3 4 3 -1, 0 0 0 0 0 0 0 0 0 0 0, 5e-6, 3000, 3, 1e-1, false
+DIFF_POW, 7, 1 -1 1 -1 1 -1 1, 0 0 0 0 0 0 0, 5e-4, 2500, 3, 1e-1, false
+SS_DIFF_POW, 6, -3.2 2.1 1.2 -2.3 3.2 -2.1, 0 0 0 0 0 0, 1e-3, 4000, 3, 1e-1, false
+ACKLEY, 4, 3 4 -3 -2, 0 0 0 0, 1e-6, 700, 3, 5e-1, false
+#RASTRIGIN, 4, 3 4 -3 -2, 0 0 0 0, 1e-6, 10000, 3, 5e-1, false

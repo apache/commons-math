@@ -104,6 +104,8 @@ import org.apache.commons.math4.legacy.optim.nonlinear.scalar.ObjectiveFunction;
  * @see HedarFukushimaTransform
  */
 public class SimplexOptimizer extends MultivariateOptimizer {
+    /** Default simplex side length ratio. */
+    private static final double SIMPLEX_SIDE_RATIO = 1e-1;
     /** Simplex update function factory. */
     private Simplex.TransformFactory updateRule;
     /** Initial simplex. */
@@ -407,7 +409,7 @@ public class SimplexOptimizer extends MultivariateOptimizer {
             final double[] init = p.getPoint();
             // Create smaller initial simplex.
             final Simplex simplex = Simplex.equalSidesAlongAxes(init.length,
-                                                                0.5 * dist);
+                                                                SIMPLEX_SIDE_RATIO * dist);
 
             final PointValuePair r = directSearch(init,
                                                   simplex,

@@ -26,6 +26,7 @@ import org.junit.jupiter.params.aggregator.ArgumentsAccessor;
 import org.junit.jupiter.params.aggregator.ArgumentsAggregationException;
 import org.junit.jupiter.params.aggregator.AggregateWith;
 import org.junit.jupiter.params.provider.CsvFileSource;
+import org.apache.commons.rng.simple.RandomSource;
 import org.apache.commons.math4.legacy.core.MathArrays;
 import org.apache.commons.math4.legacy.analysis.MultivariateFunction;
 import org.apache.commons.math4.legacy.optim.InitialGuess;
@@ -33,6 +34,8 @@ import org.apache.commons.math4.legacy.optim.MaxEval;
 import org.apache.commons.math4.legacy.optim.PointValuePair;
 import org.apache.commons.math4.legacy.optim.nonlinear.scalar.GoalType;
 import org.apache.commons.math4.legacy.optim.nonlinear.scalar.ObjectiveFunction;
+import org.apache.commons.math4.legacy.optim.nonlinear.scalar.SimulatedAnnealing;
+import org.apache.commons.math4.legacy.optim.nonlinear.scalar.PopulationSize;
 import org.apache.commons.math4.legacy.optim.nonlinear.scalar.TestFunction;
 
 /**
@@ -41,6 +44,7 @@ import org.apache.commons.math4.legacy.optim.nonlinear.scalar.TestFunction;
 public class SimplexOptimizerTest {
     private static final String NELDER_MEAD_INPUT_FILE = "std_test_func.simplex.nelder_mead.csv";
     private static final String MULTIDIRECTIONAL_INPUT_FILE = "std_test_func.simplex.multidirectional.csv";
+    private static final String HEDAR_FUKUSHIMA_INPUT_FILE = "std_test_func.simplex.hedar_fukushima.csv";
 
     @ParameterizedTest
     @CsvFileSource(resources = NELDER_MEAD_INPUT_FILE)
@@ -54,16 +58,28 @@ public class SimplexOptimizerTest {
         task.run(new MultiDirectionalTransform());
     }
 
+    @ParameterizedTest
+    @CsvFileSource(resources = HEDAR_FUKUSHIMA_INPUT_FILE)
+    void testFunctionWithHedarFukushima(@AggregateWith(TaskAggregator.class) Task task) {
+        task.run(new HedarFukushimaTransform());
+    }
+
     /**
      * Optimization task.
      */
     public static class Task {
         /** Function evaluations hard count (debugging). */
-        private static final int FUNC_EVAL_DEBUG = 20000;
+        private static final int FUNC_EVAL_DEBUG = 80000;
         /** Default convergence criterion. */
         private static final double CONVERGENCE_CHECK = 1e-9;
         /** Default simplex size. */
         private static final double SIDE_LENGTH = 1;
+        /** Default cooling factor. */
+        private static final double SA_COOL_FACTOR = 0.5;
+        /** Default acceptance probability at beginning of SA. */
+        private static final double SA_START_PROB = 0.9;
+        /** Default acceptance probability at end of SA. */
+        private static final double SA_END_PROB = 1e-20;
         /** Function. */
         private final MultivariateFunction f;
         /** Initial value. */
@@ -77,7 +93,9 @@ public class SimplexOptimizerTest {
         /** Repeats on failure. */
         private final int repeatsOnFailure;
         /** Range of random noise. */
-        private double jitter;
+        private final double jitter;
+        /** Whether to perform simulated annealing. */
+        private final boolean withSA;
 
         /**
          * @param f Test function.
@@ -89,6 +107,7 @@ public class SimplexOptimizerTest {
          * @param repeatsOnFailure Maximum number of times to rerun when an
          * {@link AssertionFailedError} is thrown.
          * @param jitter Size of random jitter.
+         * @param withSA Whether to perform simulated annealing.
          */
         Task(MultivariateFunction f,
              double[] start,
@@ -96,7 +115,8 @@ public class SimplexOptimizerTest {
              double pointTolerance,
              int functionEvaluations,
              int repeatsOnFailure,
-             double jitter) {
+             double jitter,
+             boolean withSA) {
             this.f = f;
             this.start = start;
             this.optimum = optimum;
@@ -104,6 +124,7 @@ public class SimplexOptimizerTest {
             this.functionEvaluations = functionEvaluations;
             this.repeatsOnFailure = repeatsOnFailure;
             this.jitter = jitter;
+            this.withSA = withSA;
         }
 
         @Override
@@ -126,10 +147,29 @@ public class SimplexOptimizerTest {
             while (currentRetry++ <= repeatsOnFailure) {
                 try {
                     final String name = f.toString();
+                    final int dim = start.length;
+
+                    final SimulatedAnnealing sa;
+                    final PopulationSize popSize;
+                    if (withSA) {
+                        final SimulatedAnnealing.CoolingSchedule coolSched =
+                            SimulatedAnnealing.CoolingSchedule.decreasingExponential(SA_COOL_FACTOR);
+
+                        sa = new SimulatedAnnealing(dim,
+                                                    SA_START_PROB,
+                                                    SA_END_PROB,
+                                                    coolSched,
+                                                    RandomSource.KISS.create());
+
+                        popSize = new PopulationSize(dim);
+                    } else {
+                        sa = null;
+                        popSize = null;
+                    }
 
                     final SimplexOptimizer optim = new SimplexOptimizer(-1, CONVERGENCE_CHECK);
                     final Simplex initialSimplex =
-                        Simplex.alongAxes(OptimTestUtils.point(start.length,
+                        Simplex.alongAxes(OptimTestUtils.point(dim,
                                                                SIDE_LENGTH,
                                                                jitter));
                     final double[] startPoint = OptimTestUtils.point(start, jitter);
@@ -139,7 +179,9 @@ public class SimplexOptimizerTest {
                                        GoalType.MINIMIZE,
                                        new InitialGuess(startPoint),
                                        initialSimplex,
-                                       factory);
+                                       factory,
+                                       sa,
+                                       popSize);
 
                     final double[] endPoint = result.getPoint();
                     final double funcValue = result.getValue();
@@ -183,6 +225,7 @@ public class SimplexOptimizerTest {
             final int funcEval = a.getInteger(index++);
             final int repeat = a.getInteger(index++);
             final double jitter = a.getDouble(index++);
+            final boolean withSA = a.getBoolean(index++);
 
             return new Task(funcGen.withDimension(dim),
                             start,
@@ -190,7 +233,8 @@ public class SimplexOptimizerTest {
                             pointTol,
                             funcEval,
                             repeat,
-                            jitter);
+                            jitter,
+                            withSA);
         }
 
         /**
