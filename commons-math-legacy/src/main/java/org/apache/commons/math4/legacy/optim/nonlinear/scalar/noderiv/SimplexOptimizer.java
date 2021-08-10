@@ -104,8 +104,6 @@ import org.apache.commons.math4.legacy.optim.nonlinear.scalar.ObjectiveFunction;
  * @see HedarFukushimaTransform
  */
 public class SimplexOptimizer extends MultivariateOptimizer {
-    /** Final temperature for simulated annealing. */
-    private static final double SA_FINAL_TEMPERATURE = 1e-2;
     /** Simplex update function factory. */
     private Simplex.TransformFactory updateRule;
     /** Initial simplex. */
