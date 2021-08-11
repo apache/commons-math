@@ -23,23 +23,33 @@
 #  3: optimum ("n" space-separated values)
 #  4: maximum expected distance from the result to the optimum
 #  5: expected number of function evaluations
-#  6: number of retries in case of assertion failure
+#  6: length of the sides of the initial simplex
 #  7: size of the random noise (to generate slightly different initial conditions)
 #  8: whether to perform simulated annealing
 #
 # Caveat: Some tests are commented out (cf. JIRA: MATH-1552).
 #
-PARABOLA, 4, 2.5 3.1 4.6 5.8, 0 0 0 0, 1e-4, 340, 3, 2e-1, false
-ROSENBROCK, 2, -1.2 1, 1 1, 2e-3, 9200, 3, 1e-1, false
-ROSENBROCK, 10, -0.1 0.1 0.2 -0.1 -0.2 0.3 0.2 -0.1 0.2 -0.3, 1 1 1 1 1 1 1 1 1 1, 3e-3, 100000, 3, 5e-2, false
-#POWELL, 4, 3 -1 -2 1, 0 0 0 0, 5e-3, 420, 3, 1e-1, false
-CIGAR, 13, -1.2 2.3 -3.2 2.1 1.2 -2.3 3.2 -2.1 -1.2 2.3 -3.2 2.1 -1.2, 0 0 0 0 0 0 0 0 0 0 0 0 0, 1e-6, 7000, 3, 1e-1, false
-SPHERE, 13, -1.2 2.3 -3.2 2.1 1.2 -2.3 3.2 -2.1 -1.2 2.3 -3.2 2.1 -1.2, 0 0 0 0 0 0 0 0 0 0 0 0 0, 5e-5, 3600, 3, 1e-1, false
-ELLI, 10, 2 3 4 -3 -2 -1 2 3 4 3, 0 0 0 0 0 0 0 0 0 0, 1e-4, 50000, 3, 1e-1, false
-TWO_AXES, 10, 2 3 4 -3 -2 -1 2 3 4 3, 0 0 0 0 0 0 0 0 0 0, 1e-6, 3200, 3, 1e-1, false
-CIG_TAB, 10, 2 3 4 -3 -2 -1 2 3 4 3, 0 0 0 0 0 0 0 0 0 0, 5e-6, 2700, 3, 1e-1, false
-TABLET, 11, 2 3 4 -3 -2 -1 2 3 4 3 -1, 0 0 0 0 0 0 0 0 0 0 0, 5e-6, 3000, 3, 1e-1, false
-DIFF_POW, 7, 1 -1 1 -1 1 -1 1, 0 0 0 0 0 0 0, 5e-4, 2500, 3, 1e-1, false
-SS_DIFF_POW, 6, -3.2 2.1 1.2 -2.3 3.2 -2.1, 0 0 0 0 0 0, 1e-3, 4000, 3, 1e-1, false
-ACKLEY, 4, 3 4 -3 -2, 0 0 0 0, 1e-6, 700, 3, 5e-1, false
-#RASTRIGIN, 4, 3 4 -3 -2, 0 0 0 0, 1e-6, 10000, 3, 5e-1, false
+PARABOLA, 4, 2.5 3.1 4.6 5.8, 0 0 0 0, 1e-4, 380, 1, 2e-1, false
+ROSENBROCK, 2, -1.2 1, 1 1, 2e-3, 11100, 1, 1e-1, false
+#ROSENBROCK, 5, -4.4 -3.5 -2.6 -1.7 -0.8, 1 1 1 1 1, 1e-4, 180, 5e-1, 1e-1, false
+ROSENBROCK, 10, -0.1 0.1 0.2 -0.1 -0.2 0.3 0.2 -0.1 0.2 -0.3, 1 1 1 1 1 1 1 1 1 1, 3e-3, 100000, 1, 5e-2, false
+#POWELL, 4, 3 -1 -2 1, 0 0 0 0, 5e-3, 420, 1, 1e-1, false
+CIGAR, 13, -1.2 2.3 -3.2 2.1 1.2 -2.3 3.2 -2.1 -1.2 2.3 -3.2 2.1 -1.2, 0 0 0 0 0 0 0 0 0 0 0 0 0, 5e-6, 7000, 1, 1e-1, false
+SPHERE, 13, -1.2 2.3 -3.2 2.1 1.2 -2.3 3.2 -2.1 -1.2 2.3 -3.2 2.1 -1.2, 0 0 0 0 0 0 0 0 0 0 0 0 0, 5e-5, 3600, 1, 1e-1, false
+ELLI, 10, 2 3 4 -3 -2 -1 2 3 4 3, 0 0 0 0 0 0 0 0 0 0, 1e-4, 50000, 1, 1e-1, false
+TWO_AXES, 10, 2 3 4 -3 -2 -1 2 3 4 3, 0 0 0 0 0 0 0 0 0 0, 1e-6, 3200, 1, 1e-1, false
+CIG_TAB, 10, 2 3 4 -3 -2 -1 2 3 4 3, 0 0 0 0 0 0 0 0 0 0, 5e-6, 2900, 1, 1e-1, false
+TABLET, 11, 2 3 4 -3 -2 -1 2 3 4 3 -1, 0 0 0 0 0 0 0 0 0 0 0, 5e-6, 3200, 1, 1e-1, false
+DIFF_POW, 7, 1 -1 1 -1 1 -1 1, 0 0 0 0 0 0 0, 5e-4, 2500, 1, 1e-1, false
+SS_DIFF_POW, 6, -3.2 2.1 1.2 -2.3 3.2 -2.1, 0 0 0 0 0 0, 1e-3, 4000, 1, 1e-1, false
+ACKLEY, 4, 3 4 -3 -2, 0 0 0 0, 1e-6, 770, 1, 5e-1, false
+#RASTRIGIN, 4, 3 4 -3 -2, 0 0 0 0, 1e-6, 10000, 1, 5e-1, false
+#GRIEWANK, 3, -210 123 -456, 0 0 0, 1e-1, 1000, 50, 100, false
+#LEVY, 4, 4 -6 -2 8, 1 1 1 1, 1e-3, 3000, 1, 1, false
+#SCHWEFEL, 2, 100 -200, 420.9687 420.9687, 1, 300, 100, 100, false
+ZAKHAROV, 5, -4 -2 3 5 7, 0 0 0 0 0, 1e-4, 3100, 1.5, 1, false
+PERM, 2, -2 -1, 1 2, 3e-2, 25000, 5e-1, 1e-1, false
+#PERM, 3, -2 -3 -1, 1 2 3, 5e-5, 200, 5e-1, 1e-1, false
+#PERM, 4, -2 -3 -4 -1, 1 2 3 4, 5e-4, 2200, 5e-1, 1e-1, false
+#PERM, 5, -2 -3 -4 -5 -1, 1 2 3 4 5, 5e-4, 200, 5e-1, 1e-1, false
+#STYBLINSKI_TANG, 4, 1 2 3 4, -2.903534 -2.903534 -2.903534 -2.903534, 1e-4, 500, 1, 5e-1, false

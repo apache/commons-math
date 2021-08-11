@@ -17,6 +17,7 @@
 package org.apache.commons.math4.legacy.optim.nonlinear.scalar;
 
 import java.util.function.Function;
+import java.util.function.DoubleUnaryOperator;
 import org.apache.commons.math4.legacy.analysis.MultivariateFunction;
 import org.apache.commons.math4.legacy.core.jdkmath.AccurateMath;
 
@@ -178,6 +179,101 @@ public enum TestFunction {
                     f += xi * xi;
                 }
                 return f;
+            };
+        }),
+    // https://www.sfu.ca/~ssurjano/griewank.html
+    GRIEWANK(dim -> {
+            final double A = 4000;
+            return x -> {
+                double sum = 0;
+                double prod = 1;
+                for (int i = 0; i < dim; i++) {
+                    final double xi = x[i];
+                    sum += xi * xi;
+                    prod *= Math.cos(xi / Math.sqrt(i + 1));
+                }
+                return sum / A - prod + 1;
+            };
+        }),
+    // https://www.sfu.ca/~ssurjano/levy.html
+    LEVY(dim -> {
+            final int last = dim - 1;
+            final DoubleUnaryOperator w = x -> 1 + 0.25 * (x - 1);
+            return x -> {
+                final double a0 = Math.sin(Math.PI * w.applyAsDouble(x[0]));
+                double sum = a0 * a0;
+                for (int i = 0; i < last; i++) {
+                    final double wi = w.applyAsDouble(x[i]);
+                    final double wiM1 = wi - 1;
+                    final double ai = Math.sin(Math.PI * wi + 1);
+                    sum += wiM1 * wiM1 * (1 + 10 * ai * ai);
+                }
+                final double wl = w.applyAsDouble(x[last]);
+                final double wlM1 = wl - 1;
+                final double al = Math.sin(2 * Math.PI * wl);
+                return sum + wlM1 * wlM1 * (1 + al * al);
+            };
+        }),
+    // https://www.sfu.ca/~ssurjano/schwef.html
+    SCHWEFEL(dim -> {
+            final double A = 418.9829;
+            return x -> {
+                double sum = 0;
+                for (int i = 0; i < dim; i++) {
+                    final double xi = x[i];
+                    sum += xi * Math.sin(Math.sqrt(Math.abs(xi)));
+                }
+                return A * dim - sum;
+            };
+        }),
+    // https://www.sfu.ca/~ssurjano/zakharov.html
+    ZAKHAROV(dim -> {
+            final double A = 0.5;
+            return x -> {
+                double sum1 = 0;
+                double sum2 = 0;
+                for (int i = 0; i < dim; i++) {
+                    final double xi = x[i];
+                    sum1 += xi * xi;
+                    sum2 += A * (i + 1) * xi;
+                }
+                final double sum22 = sum2 * sum2;
+                return sum1 + sum22 + sum22 * sum22;
+            };
+        }),
+    // https://www.sfu.ca/~ssurjano/permdb.html
+    PERM(dim -> {
+            final double BETA = 10;
+            return x -> {
+                double sum1 = 0;
+                for (int i = 0; i < dim; i++) {
+                    final double iP1 = i + 1;
+                    double sum2 = 0;
+                    for (int j = 0; j < dim; j++) {
+                        final double jP1 = j + 1;
+                        final double a = Math.pow(jP1, iP1) + BETA;
+                        final double b = Math.pow(x[j] / jP1, iP1) - 1;
+                        sum2 += a * b;
+                    }
+                    sum1 += sum2 * sum2;
+                }
+                return sum1;
+            };
+        }),
+    // https://www.sfu.ca/~ssurjano/stybtang.html
+    STYBLINSKI_TANG(dim -> {
+            final double A = 0.5;
+            final double B = 16;
+            final double C = 5;
+            return x -> {
+                double sum = 0;
+                for (int i = 0; i < dim; i++) {
+                    final double xi = x[i];
+                    final double xi2 = xi * xi;
+                    final double xi4 = xi2 * xi2;
+                    sum += xi4 - B * xi2 + C * xi;
+                }
+                return A * sum;
             };
         });
 
