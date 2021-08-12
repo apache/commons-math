@@ -86,10 +86,8 @@ import org.apache.commons.math4.legacy.optim.nonlinear.scalar.ObjectiveFunction;
  * have converged.
  * <p>
  * Whenever {@link SimulatedAnnealing simulated annealing (SA)} is activated,
- * the SA phase will terminate when the temperature reaches \( 10^{-2} \).
- * Indeed the chance of accepting the alternative state is vanishingly small.
- * It does not mean however that the optimization has converged.
- * In such a case, the {@link PopulationSize} argument to method
+ * and the SA phase has completed, convergence has probably not been reached
+ * yet: In such cases, the {@link PopulationSize} argument to method
  * {@link #optimize(OptimizationData[]) optimize} will trigger an additional
  * "best list" search.
  *
