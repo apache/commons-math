@@ -132,7 +132,7 @@
       <plugin>
         <artifactId>maven-surefire-plugin</artifactId>
         <configuration>
-          <rerunFailingTestsCount>5</rerunFailingTestsCount>
+          <rerunFailingTestsCount>9</rerunFailingTestsCount>
         </configuration>
       </plugin>
       <!-- Ignore spotbugs in the legacy module.
