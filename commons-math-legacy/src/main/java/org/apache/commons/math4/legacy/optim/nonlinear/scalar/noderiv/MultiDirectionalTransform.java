@@ -129,4 +129,11 @@ public class MultiDirectionalTransform
 
         return original.replaceLast(replacement).evaluate(evalFunc, comp);
     }
+
+    /** {@inheritDoc} */
+    @Override
+    public String toString() {
+        return "Multidirectional [g=" + gamma +
+            " s=" + sigma + "]";
+    }
 }

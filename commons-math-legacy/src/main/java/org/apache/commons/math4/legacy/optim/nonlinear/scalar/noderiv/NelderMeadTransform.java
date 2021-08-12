@@ -138,4 +138,13 @@ public class NelderMeadTransform
             return newSimplex.shrink(sigma, evaluationFunction);
         };
     }
+
+    /** {@inheritDoc} */
+    @Override
+    public String toString() {
+        return "Nelder-Mead [a=" + alpha +
+            " g=" + gamma +
+            " r=" + rho +
+            " s=" + sigma + "]";
+    }
 }

@@ -205,4 +205,10 @@ public class HedarFukushimaTransform
                                 point.getPoint(),
                                 eval);
     }
+
+    /** {@inheritDoc} */
+    @Override
+    public String toString() {
+        return "Hedar-Fukushima [s=" + sigma + "]";
+    }
 }
