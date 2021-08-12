@@ -22,7 +22,13 @@ import org.apache.commons.math4.legacy.analysis.MultivariateFunction;
 import org.apache.commons.math4.legacy.core.jdkmath.AccurateMath;
 
 /**
- * Multivariate scalar functions for testing an optimizer.
+ * Generators of {@link MultivariateFunction multivariate scalar functions}.
+ * The functions are intended for testing optimizer implementations.
+ * <p>
+ * Note: The {@link #withDimension(int) function generators} take the space
+ * dimension (i.e. the length of the array argument passed to the generated
+ * function) as argument; it is thus assumed that the test functions can be
+ * generalized to any dimension.
  */
 public enum TestFunction {
     // https://www.sfu.ca/~ssurjano/spheref.html
