@@ -69,6 +69,7 @@
     <math.commons.math3.version>3.6.1</math.commons.math3.version>
     <math.junit5.version>5.7.2</math.junit5.version>
     <math.surefire.version>3.0.0-M5</math.surefire.version>
+    <math.antrun.version>1.8</math.antrun.version>
     <!-- Workaround to avoid duplicating config files. -->
     <math.parent.dir>${basedir}</math.parent.dir>
 
@@ -93,6 +94,10 @@
     <buildnumber.skip>true</buildnumber.skip>
     <math.jgit.buildnumber.version>1.2.10</math.jgit.buildnumber.version>
     <implementation.build>${git.revision}; ${maven.build.timestamp}</implementation.build>
+
+    <!-- Workaround to avoid the SVN site checkout in all modules.
+         This flag should be deactivated by child modules. -->
+    <perform.site.checkout>true</perform.site.checkout>
 
     <!--
         Override so that "mvn commons:download-page" will generates a web page
@@ -597,10 +602,25 @@
       </build>
     </profile>
     <profile>
+      <!-- Override a parent property if the SVN site checkout should not be performed.
+           This should activate for child modules. -->
+      <id>is-child-module</id>
+      <activation>
+        <file>
+          <missing>${basedir}/CONTRIBUTING.md</missing>
+        </file>
+      </activation>
+      <properties>
+        <perform.site.checkout>false</perform.site.checkout>
+      </properties>
+    </profile>
+    <profile>
+      <!-- Runs if the SVN site checkout does not exist.
+           This is either obtained using svn (for the parent) or an empty directory is created. -->
       <id>setup-checkout</id>
       <activation>
         <file>
-          <missing>site-content</missing>
+          <missing>${commons.scmPubCheckoutDirectory}</missing>
         </file>
       </activation>
       <build>
@@ -608,7 +628,25 @@
           <plugin>
             <groupId>org.apache.maven.plugins</groupId>
             <artifactId>maven-antrun-plugin</artifactId>
+            <version>${math.antrun.version}</version>
             <executions>
+              <!-- For multi-module builds, only the parent directory requires a site checkout.
+                   This task will create an empty directory as the site checkout is missing. -->
+              <execution>
+                <id>empty-checkout</id>
+                <phase>pre-site</phase>
+                <goals>
+                  <goal>run</goal>
+                </goals>
+                <configuration>
+                  <target name="empty-checkout" unless="${perform.site.checkout}">
+                    <mkdir dir="${commons.scmPubCheckoutDirectory}"/>
+                    <echo file="${commons.scmPubCheckoutDirectory}${file.separator}README"
+                          message="The '${commons.scmPubCheckoutDirectory}' directory is empty in child modules."/>
+                  </target>
+                </configuration>
+              </execution>
+              <!-- Checkout the top-level directory of the site using SVN. -->
               <execution>
                 <id>prepare-checkout</id>
                 <phase>pre-site</phase>
@@ -616,22 +654,53 @@
                   <goal>run</goal>
                 </goals>
                 <configuration>
-                  <tasks>
-                    <exec executable="svn">
-                      <arg line="checkout --depth immediates ${commons.scmPubUrl} ${commons.scmPubCheckoutDirectory}"/>
+                  <target name="prepare-checkout" if="${perform.site.checkout}">
+                    <!-- Top level directory -->
+                    <exec executable="svn" failifexecutionfails="false">
+                      <arg line="checkout --depth immediates ${commons.scmPubUrl} ${commons.scmPubCheckoutDirectory}" />
                     </exec>
+                    <!-- Create the directory in the event that no svn exectuable is on the path -->
+                    <mkdir dir="${commons.scmPubCheckoutDirectory}"/>
 
-                    <exec executable="svn">
-                      <arg line="update --set-depth exclude ${commons.scmPubCheckoutDirectory}/javadocs"/>
-                    </exec>
-
-                    <pathconvert pathsep=" " property="dirs">
-                      <dirset dir="${commons.scmPubCheckoutDirectory}" includes="*"/>
-                    </pathconvert>
-                    <exec executable="svn">
-                      <arg line="update --set-depth infinity ${dirs}"/>
-                    </exec>
-                  </tasks>
+                    <echo file="${commons.scmPubCheckoutDirectory}.README">The '${commons.scmPubCheckoutDirectory}' directory is controlled by "subversion".
+Running "svn up" will download *all* the files of the live web site at
+    https://commons.apache.org/math
+This is avoided by creating an empty directory when svn is not available.
+                    </echo>
+                  </target>
+                </configuration>
+              </execution>
+            </executions>
+          </plugin>
+        </plugins>
+      </build>
+    </profile>
+    <profile>
+      <!-- Allow the SVN site checkout to be removed in the clean phase. -->
+      <id>clean-checkout</id>
+      <activation>
+        <file>
+          <exists>${commons.scmPubCheckoutDirectory}</exists>
+        </file>
+      </activation>
+      <build>
+        <plugins>
+          <plugin>
+            <groupId>org.apache.maven.plugins</groupId>
+            <artifactId>maven-antrun-plugin</artifactId>
+            <version>${math.antrun.version}</version>
+            <executions>
+              <execution>
+                <id>remove-checkout</id>
+                <phase>clean</phase>
+                <goals>
+                  <goal>run</goal>
+                </goals>
+                <configuration>
+                  <target name="remove-checkout">
+                    <delete dir="${commons.scmPubCheckoutDirectory}" quiet="true"/>
+                    <delete file="${commons.scmPubCheckoutDirectory}.README" quiet="true"/>
+                  </target>
                 </configuration>
               </execution>
             </executions>
