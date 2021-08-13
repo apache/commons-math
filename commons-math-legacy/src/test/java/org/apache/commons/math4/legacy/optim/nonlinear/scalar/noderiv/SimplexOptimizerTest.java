@@ -17,10 +17,12 @@
 package org.apache.commons.math4.legacy.optim.nonlinear.scalar.noderiv;
 
 import java.util.Arrays;
+import java.util.List;
 import java.io.PrintWriter;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
+import java.nio.file.StandardOpenOption;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ParameterContext;
@@ -132,6 +134,8 @@ public class SimplexOptimizerTest {
         private final double jitter;
         /** Whether to perform simulated annealing. */
         private final boolean withSA;
+        /** File prefix (for saving debugging info). */
+        private final String tracePrefix;
 
         /**
          * @param function Test function.
@@ -143,6 +147,8 @@ public class SimplexOptimizerTest {
          * @param simplexSideLength Side length of initial simplex.
          * @param jitter Size of random jitter.
          * @param withSA Whether to perform simulated annealing.
+         * @param tracePrefix Prefix of the file where to save simplex
+         * transformations during the optimization.
          */
         Task(MultivariateFunction function,
              double[] start,
@@ -151,7 +157,8 @@ public class SimplexOptimizerTest {
              int functionEvaluations,
              double simplexSideLength,
              double jitter,
-             boolean withSA) {
+             boolean withSA,
+             String tracePrefix) {
             this.function = function;
             this.start = start;
             this.optimum = optimum;
@@ -160,6 +167,7 @@ public class SimplexOptimizerTest {
             this.simplexSideLength = simplexSideLength;
             this.jitter = jitter;
             this.withSA = withSA;
+            this.tracePrefix = tracePrefix;
         }
 
         @Override
@@ -170,7 +178,7 @@ public class SimplexOptimizerTest {
         /**
          * @param factory Simplex transform factory.
          */
-        public void run(Simplex.TransformFactory factory) {
+        /* package-private */ void run(Simplex.TransformFactory factory) {
             // Let run with a maximum number of evaluations larger than expected
             // (as specified by "functionEvaluations") in order to have the unit
             // test failure message (see assertion below) report the actual number
@@ -199,6 +207,10 @@ public class SimplexOptimizerTest {
             }
 
             final SimplexOptimizer optim = new SimplexOptimizer(-1, CONVERGENCE_CHECK);
+            if (tracePrefix != null) {
+                optim.addObserver(createCallback(factory));
+            }
+
             final Simplex initialSimplex =
                 Simplex.alongAxes(OptimTestUtils.point(dim,
                                                        simplexSideLength,
@@ -225,6 +237,76 @@ public class SimplexOptimizerTest {
             final int nEval = optim.getEvaluations();
             Assertions.assertTrue(nEval < functionEvaluations,
                                   name + ": nEval=" + nEval);
+        }
+
+        /**
+         * @param factory Simplex transform factory.
+         * @return a function to save the simplex's states to file.
+         */
+        private SimplexOptimizer.Observer createCallback(Simplex.TransformFactory factory) {
+            if (tracePrefix == null) {
+                throw new IllegalArgumentException("Missing file prefix");
+            }
+
+            final String sep = "__";
+            final String name = tracePrefix + sanitizeBasename(function + sep +
+                                                               factory + sep);
+
+            // Create file; write first data block (optimum) and columns header.
+            try (PrintWriter out = new PrintWriter(Files.newBufferedWriter(Paths.get(name)))) {
+                out.println("# Function: " + function);
+                out.println("# Transform: " + factory);
+                out.println("#");
+
+                out.println("# Optimum");
+                for (double c : optimum) {
+                    out.print(c + " ");
+                }
+                out.println();
+                out.println();
+
+                out.println("#");
+                out.print("# <1: evaluations> <2: objective>");
+                for (int i = 0; i < start.length; i++) {
+                    out.print(" <" + (i + 3) + ": coordinate " + i + ">");
+                }
+                out.println();
+            } catch (IOException e) {
+                Assertions.fail(e.getMessage());
+            }
+
+            // Return callback function.
+            return (simplex, isInit, numEval) -> {
+                try (PrintWriter out = new PrintWriter(Files.newBufferedWriter(Paths.get(name),
+                                                                               StandardOpenOption.APPEND))) {
+                    if (isInit) {
+                        // Blank line indicating the start of an optimization
+                        // (new data block).
+                        out.println();
+                        out.println("# [init]"); // Initial simplex.
+                    }
+
+                    final String fieldSep = " ";
+                    // 1 line per simplex point.
+                    final List<PointValuePair> points = simplex.asList();
+                    // Repeat first point on output (for plotting).
+                    points.add(points.get(0));
+                    for (PointValuePair p : points) {
+                        out.print(numEval + fieldSep +
+                                  p.getValue() + fieldSep);
+
+                        final double[] coord = p.getPoint();
+                        for (int i = 0; i < coord.length; i++) {
+                            out.print(coord[i] + fieldSep);
+                        }
+                        out.println();
+                    }
+                    // Blank line between simplexes.
+                    out.println();
+                } catch (IOException e) {
+                    Assertions.fail(e.getMessage());
+                }
+            };
         }
 
         /**
@@ -305,9 +387,6 @@ public class SimplexOptimizerTest {
 
         /**
          * Generates a string suitable as a file name.
-         * <p>
-         * Brackets are removed; space, slash, "=" sign and comma
-         * characters are converted to underscores.
          *
          * @param f Function.
          * @param start Start point.
@@ -319,17 +398,33 @@ public class SimplexOptimizerTest {
                                                  double[] end) {
             final String s = f.toString() + "__" +
                 Arrays.toString(start) + "__" +
-                Arrays.toString(end) + ".dat";
+                Arrays.toString(end);
 
+            return sanitizeBasename(s) + ".dat";
+        }
+
+        /**
+         * Generates a string suitable as a file name:
+         * Brackets and parentheses are removed; space, slash, "=" sign and
+         * comma characters are converted to underscores.
+         *
+         * @param str String.
+         * @return a string.
+         */
+        private static String sanitizeBasename(String str) {
             final String repl = "_";
-            return s
+            return str
+                .replaceAll("\\(", "")
+                .replaceAll("\\)", "")
                 .replaceAll("\\[", "")
                 .replaceAll("\\]", "")
                 .replaceAll("=", repl)
                 .replaceAll(",\\s+", repl)
                 .replaceAll(",", repl)
                 .replaceAll("\\s", repl)
-                .replaceAll("/", repl);
+                .replaceAll("/", repl)
+                .replaceAll("^_+", "")
+                .replaceAll("_+$", "");
         }
     }
 
@@ -353,6 +448,7 @@ public class SimplexOptimizerTest {
             final double sideLength = a.getDouble(index++);
             final double jitter = a.getDouble(index++);
             final boolean withSA = a.getBoolean(index++);
+            final String tracePrefix = a.getString(index++);
 
             return new Task(funcGen.withDimension(dim),
                             start,
@@ -361,7 +457,8 @@ public class SimplexOptimizerTest {
                             funcEval,
                             sideLength,
                             jitter,
-                            withSA);
+                            withSA,
+                            tracePrefix);
         }
 
         /**
