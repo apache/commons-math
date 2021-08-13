@@ -199,7 +199,7 @@ public class SchurTransformerTest {
         Assert.assertEquals(0, t.subtract(MatrixUtils.createRealMatrix(hRef)).getNorm(), 1.0e-14);
 
         // check the same cached instance is returned the second time
-        Assert.assertTrue(p == transformer.getP());
-        Assert.assertTrue(t == transformer.getT());
+        Assert.assertSame(p, transformer.getP());
+        Assert.assertSame(t, transformer.getT());
     }
 }

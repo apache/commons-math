@@ -218,7 +218,7 @@ public class HessenbergTransformerTest {
         Assert.assertEquals(0, h.subtract(MatrixUtils.createRealMatrix(hRef)).getNorm(), 1.0e-14);
 
         // check the same cached instance is returned the second time
-        Assert.assertTrue(p == transformer.getP());
-        Assert.assertTrue(h == transformer.getH());
+        Assert.assertSame(p, transformer.getP());
+        Assert.assertSame(h, transformer.getH());
     }
 }

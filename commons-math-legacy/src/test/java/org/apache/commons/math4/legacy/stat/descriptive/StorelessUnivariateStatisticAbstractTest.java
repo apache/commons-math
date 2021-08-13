@@ -108,40 +108,40 @@ public abstract class StorelessUnivariateStatisticAbstractTest
             (StorelessUnivariateStatistic) getUnivariateStatistic();
         StorelessUnivariateStatistic statistic2 = null;
 
-        Assert.assertTrue("non-null, compared to null", !statistic.equals(statistic2));
-        Assert.assertTrue("reflexive, non-null", statistic.equals(statistic));
+        Assert.assertFalse("non-null, compared to null", statistic.equals(statistic2));
+        Assert.assertEquals("reflexive, non-null", statistic, statistic);
 
         int emptyHash = statistic.hashCode();
         statistic2 = (StorelessUnivariateStatistic) getUnivariateStatistic();
-        Assert.assertTrue("empty stats should be equal", statistic.equals(statistic2));
+        Assert.assertEquals("empty stats should be equal", statistic, statistic2);
         Assert.assertEquals("empty stats should have the same hashcode",
                 emptyHash, statistic2.hashCode());
 
         statistic.increment(1d);
-        Assert.assertTrue("reflexive, non-empty", statistic.equals(statistic));
-        Assert.assertTrue("non-empty, compared to empty", !statistic.equals(statistic2));
-        Assert.assertTrue("non-empty, compared to empty", !statistic2.equals(statistic));
+        Assert.assertEquals("reflexive, non-empty", statistic, statistic);
+        Assert.assertNotEquals("non-empty, compared to empty", statistic, statistic2);
+        Assert.assertNotEquals("non-empty, compared to empty", statistic2, statistic);
         Assert.assertTrue("non-empty stat should have different hashcode from empty stat",
                 statistic.hashCode() != emptyHash);
 
         statistic2.increment(1d);
-        Assert.assertTrue("stats with same data should be equal", statistic.equals(statistic2));
+        Assert.assertEquals("stats with same data should be equal", statistic, statistic2);
         Assert.assertEquals("stats with same data should have the same hashcode",
                 statistic.hashCode(), statistic2.hashCode());
 
         statistic.increment(Double.POSITIVE_INFINITY);
-        Assert.assertTrue("stats with different n's should not be equal", !statistic2.equals(statistic));
+        Assert.assertNotEquals("stats with different n's should not be equal", statistic2, statistic);
         Assert.assertTrue("stats with different n's should have different hashcodes",
                 statistic.hashCode() != statistic2.hashCode());
 
         statistic2.increment(Double.POSITIVE_INFINITY);
-        Assert.assertTrue("stats with same data should be equal", statistic.equals(statistic2));
+        Assert.assertEquals("stats with same data should be equal", statistic, statistic2);
         Assert.assertEquals("stats with same data should have the same hashcode",
                 statistic.hashCode(), statistic2.hashCode());
 
         statistic.clear();
         statistic2.clear();
-        Assert.assertTrue("cleared stats should be equal", statistic.equals(statistic2));
+        Assert.assertEquals("cleared stats should be equal", statistic, statistic2);
         Assert.assertEquals("cleared stats should have thashcode of empty stat",
                 emptyHash, statistic2.hashCode());
         Assert.assertEquals("cleared stats should have thashcode of empty stat",
@@ -198,16 +198,16 @@ public abstract class StorelessUnivariateStatisticAbstractTest
         replica = master.copy();
 
         // Check same
-        Assert.assertTrue(replica.equals(master));
-        Assert.assertTrue(master.equals(replica));
+        Assert.assertEquals(replica, master);
+        Assert.assertEquals(master, replica);
 
         // Now add second part to both and check again
         master.incrementAll(testArray,
                 (int) index, (int) (testArray.length - index));
         replica.incrementAll(testArray,
                 (int) index, (int) (testArray.length - index));
-        Assert.assertTrue(replica.equals(master));
-        Assert.assertTrue(master.equals(replica));
+        Assert.assertEquals(replica, master);
+        Assert.assertEquals(master, replica);
     }
 
     @Test

@@ -171,7 +171,7 @@ public class TriDiagonalTransformerTest {
         Assert.assertEquals(0, t.subtract(MatrixUtils.createRealMatrix(tData)).getNorm(), 1.0e-14);
 
         // check the same cached instance is returned the second time
-        Assert.assertTrue(q == transformer.getQ());
-        Assert.assertTrue(t == transformer.getT());
+        Assert.assertSame(q, transformer.getQ());
+        Assert.assertSame(t, transformer.getT());
     }
 }

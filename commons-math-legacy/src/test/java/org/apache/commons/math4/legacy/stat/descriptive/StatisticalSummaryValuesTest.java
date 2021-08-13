@@ -41,11 +41,11 @@ public final class StatisticalSummaryValuesTest {
     public void testEqualsAndHashCode() {
         StatisticalSummaryValues u  = new StatisticalSummaryValues(1, 2, 3, 4, 5, 6);
         StatisticalSummaryValues t = null;
-        Assert.assertTrue("reflexive", u.equals(u));
-        Assert.assertFalse("non-null compared to null", u.equals(t));
+        Assert.assertEquals("reflexive", u, u);
+        Assert.assertNotEquals("non-null compared to null", u, t);
         Assert.assertFalse("wrong type", u.equals(Double.valueOf(0)));
         t = new StatisticalSummaryValues(1, 2, 3, 4, 5, 6);
-        Assert.assertTrue("instances with same data should be equal", t.equals(u));
+        Assert.assertEquals("instances with same data should be equal", t, u);
         Assert.assertEquals("hash code", u.hashCode(), t.hashCode());
 
         u = new StatisticalSummaryValues(Double.NaN, 2, 3, 4, 5, 6);

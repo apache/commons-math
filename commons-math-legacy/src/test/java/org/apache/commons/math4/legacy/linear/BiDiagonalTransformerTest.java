@@ -152,9 +152,9 @@ public class BiDiagonalTransformerTest {
        Assert.assertEquals(0, v.subtract(vRef).getNorm(), 1.0e-14);
 
        // check the same cached instance is returned the second time
-       Assert.assertTrue(u == transformer.getU());
-       Assert.assertTrue(b == transformer.getB());
-       Assert.assertTrue(v == transformer.getV());
+        Assert.assertSame(u, transformer.getU());
+        Assert.assertSame(b, transformer.getB());
+        Assert.assertSame(v, transformer.getV());
 
     }
 
@@ -185,9 +185,9 @@ public class BiDiagonalTransformerTest {
         Assert.assertEquals(0, v.subtract(vRef).getNorm(), 1.0e-14);
 
         // check the same cached instance is returned the second time
-        Assert.assertTrue(u == transformer.getU());
-        Assert.assertTrue(b == transformer.getB());
-        Assert.assertTrue(v == transformer.getV());
+        Assert.assertSame(u, transformer.getU());
+        Assert.assertSame(b, transformer.getB());
+        Assert.assertSame(v, transformer.getV());
 
     }
 

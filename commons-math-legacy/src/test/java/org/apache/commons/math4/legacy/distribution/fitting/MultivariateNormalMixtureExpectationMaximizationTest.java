@@ -17,7 +17,6 @@
 package org.apache.commons.math4.legacy.distribution.fitting;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 import org.apache.commons.math4.legacy.distribution.MixtureMultivariateNormalDistribution;
@@ -182,7 +181,7 @@ public class MultivariateNormalMixtureExpectationMaximizationTest {
                     Math.ulp(1d));
 
             final double[] means = component.getValue().getMeans();
-            Assert.assertTrue(Arrays.equals(correctMeans[i], means));
+            Assert.assertArrayEquals(correctMeans[i], means, 0.0);
 
             final RealMatrix covMat = component.getValue().getCovariances();
             Assert.assertEquals(correctCovMats[i], covMat);
@@ -236,7 +235,7 @@ public class MultivariateNormalMixtureExpectationMaximizationTest {
             final double[] mean = mvn.getMeans();
             final RealMatrix covMat = mvn.getCovariances();
             Assert.assertEquals(correctWeights[i], weight, Math.ulp(1d));
-            Assert.assertTrue(Arrays.equals(correctMeans[i], mean));
+            Assert.assertArrayEquals(correctMeans[i], mean, 0.0);
             Assert.assertEquals(correctCovMats[i], covMat);
             i++;
         }

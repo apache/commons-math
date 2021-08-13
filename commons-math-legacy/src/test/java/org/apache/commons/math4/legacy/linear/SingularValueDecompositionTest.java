@@ -194,9 +194,9 @@ public class SingularValueDecompositionTest {
         Assert.assertEquals(0, v.subtract(vRef).getNorm(), normTolerance);
 
         // check the same cached instance is returned the second time
-        Assert.assertTrue(u == svd.getU());
-        Assert.assertTrue(s == svd.getS());
-        Assert.assertTrue(v == svd.getV());
+        Assert.assertSame(u, svd.getU());
+        Assert.assertSame(s, svd.getS());
+        Assert.assertSame(v, svd.getV());
 
     }
 
@@ -233,9 +233,9 @@ public class SingularValueDecompositionTest {
         Assert.assertEquals(0, v.subtract(vRef).getNorm(), normTolerance);
 
         // check the same cached instance is returned the second time
-        Assert.assertTrue(u == svd.getU());
-        Assert.assertTrue(s == svd.getS());
-        Assert.assertTrue(v == svd.getV());
+        Assert.assertSame(u, svd.getU());
+        Assert.assertSame(s, svd.getS());
+        Assert.assertSame(v, svd.getV());
 
     }
 

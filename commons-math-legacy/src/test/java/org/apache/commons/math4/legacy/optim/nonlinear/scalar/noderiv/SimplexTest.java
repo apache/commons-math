@@ -48,8 +48,7 @@ public class SimplexTest {
         for (int i = 0; i < size; i++) {
             final double[] e = expected[i];
             final double[] a = simplex.get(i).getPoint();
-            Assert.assertTrue("i=" + i + ": e=" + Arrays.toString(e) + " a=" + Arrays.toString(a),
-                              Arrays.equals(e, a));
+            Assert.assertArrayEquals("i=" + i + ": e=" + Arrays.toString(e) + " a=" + Arrays.toString(a), e, a, 0.0);
         }
     }
 
@@ -78,7 +77,7 @@ public class SimplexTest {
             final String msg = "i=" + i +
                 ": e=" + Arrays.toString(e) +
                 " a=" + Arrays.toString(a);
-            Assert.assertTrue(msg, Arrays.equals(e, a));
+            Assert.assertArrayEquals(msg, e, a, 0.0);
         }
     }
 
@@ -118,8 +117,8 @@ public class SimplexTest {
             final PointValuePair p = list.get(i);
             final double[] a = simplex.get(i).getPointRef();
             final double[] b = p.getPointRef();
-            Assert.assertFalse(a == b);
-            Assert.assertTrue(Arrays.equals(a, b));
+            Assert.assertNotSame(a, b);
+            Assert.assertArrayEquals(a, b, 0.0);
             Assert.assertTrue(Double.isNaN(p.getValue()));
         }
     }
@@ -193,7 +192,7 @@ public class SimplexTest {
         final double eV = 586;
 
         final PointValuePair pv = Simplex.newPoint(a, s, b, f);
-        Assert.assertTrue(Arrays.equals(eP, pv.getPoint()));
+        Assert.assertArrayEquals(eP, pv.getPoint(), 0.0);
         Assert.assertEquals(eV, pv.getValue(), 0d);
     }
 }

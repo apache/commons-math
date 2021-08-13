@@ -234,9 +234,9 @@ public class QRDecompositionTest {
         Assert.assertEquals(0, h.subtract(hRef).getNorm(), 1.0e-13);
 
         // check the same cached instance is returned the second time
-        Assert.assertTrue(q == qr.getQ());
-        Assert.assertTrue(r == qr.getR());
-        Assert.assertTrue(h == qr.getH());
+        Assert.assertSame(q, qr.getQ());
+        Assert.assertSame(r, qr.getR());
+        Assert.assertSame(h, qr.getH());
 
     }
 

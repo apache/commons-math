@@ -84,14 +84,10 @@ public class SummaryStatisticsTest {
 
         /* n=1 */
         u.addValue(one);
-        Assert.assertTrue("mean should be one (n = 1)",
-                u.getMean() == one);
-        Assert.assertTrue("geometric should be one (n = 1) instead it is " + u.getGeometricMean(),
-                u.getGeometricMean() == one);
-        Assert.assertTrue("Std should be zero (n = 1)",
-                u.getStandardDeviation() == 0.0);
-        Assert.assertTrue("variance should be zero (n = 1)",
-                u.getVariance() == 0.0);
+        Assert.assertEquals("mean should be one (n = 1)", one, u.getMean(), 0.0);
+        Assert.assertEquals("geometric should be one (n = 1) instead it is " + u.getGeometricMean(), one, u.getGeometricMean(), 0.0);
+        Assert.assertEquals("Std should be zero (n = 1)", 0.0, u.getStandardDeviation(), 0.0);
+        Assert.assertEquals("variance should be zero (n = 1)", 0.0, u.getVariance(), 0.0);
 
         /* n=2 */
         u.addValue(twoF);
@@ -188,12 +184,12 @@ public class SummaryStatisticsTest {
         SummaryStatistics u = createSummaryStatistics();
         SummaryStatistics t = null;
         int emptyHash = u.hashCode();
-        Assert.assertTrue("reflexive", u.equals(u));
-        Assert.assertFalse("non-null compared to null", u.equals(t));
+        Assert.assertEquals("reflexive", u, u);
+        Assert.assertNotEquals("non-null compared to null", u, t);
         Assert.assertFalse("wrong type", u.equals(Double.valueOf(0)));
         t = createSummaryStatistics();
-        Assert.assertTrue("empty instances should be equal", t.equals(u));
-        Assert.assertTrue("empty instances should be equal", u.equals(t));
+        Assert.assertEquals("empty instances should be equal", t, u);
+        Assert.assertEquals("empty instances should be equal", u, t);
         Assert.assertEquals("empty hash code", emptyHash, t.hashCode());
 
         // Add some data to u
@@ -201,8 +197,8 @@ public class SummaryStatisticsTest {
         u.addValue(1d);
         u.addValue(3d);
         u.addValue(4d);
-        Assert.assertFalse("different n's should make instances not equal", t.equals(u));
-        Assert.assertFalse("different n's should make instances not equal", u.equals(t));
+        Assert.assertNotEquals("different n's should make instances not equal", t, u);
+        Assert.assertNotEquals("different n's should make instances not equal", u, t);
         Assert.assertTrue("different n's should make hashcodes different",
                 u.hashCode() != t.hashCode());
 
@@ -211,16 +207,16 @@ public class SummaryStatisticsTest {
         t.addValue(1d);
         t.addValue(3d);
         t.addValue(4d);
-        Assert.assertTrue("summaries based on same data should be equal", t.equals(u));
-        Assert.assertTrue("summaries based on same data should be equal", u.equals(t));
+        Assert.assertEquals("summaries based on same data should be equal", t, u);
+        Assert.assertEquals("summaries based on same data should be equal", u, t);
         Assert.assertEquals("summaries based on same data should have same hashcodes",
                 u.hashCode(), t.hashCode());
 
         // Clear and make sure summaries are indistinguishable from empty summary
         u.clear();
         t.clear();
-        Assert.assertTrue("empty instances should be equal", t.equals(u));
-        Assert.assertTrue("empty instances should be equal", u.equals(t));
+        Assert.assertEquals("empty instances should be equal", t, u);
+        Assert.assertEquals("empty instances should be equal", u, t);
         Assert.assertEquals("empty hash code", emptyHash, t.hashCode());
         Assert.assertEquals("empty hash code", emptyHash, u.hashCode());
     }

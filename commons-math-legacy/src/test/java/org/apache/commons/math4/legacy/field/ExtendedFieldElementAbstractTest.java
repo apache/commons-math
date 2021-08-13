@@ -524,10 +524,10 @@ public abstract class ExtendedFieldElementAbstractTest<T extends RealFieldElemen
         T t1a = build(1.0);
         T t1b = build(1.0);
         T t2  = build(2.0);
-        Assert.assertTrue(t1a.equals(t1a));
-        Assert.assertTrue(t1a.equals(t1b));
-        Assert.assertFalse(t1a.equals(t2));
-        Assert.assertFalse(t1a.equals(new Object()));
+        Assert.assertEquals(t1a, t1a);
+        Assert.assertEquals(t1a, t1b);
+        Assert.assertNotEquals(t1a, t2);
+        Assert.assertNotEquals(t1a, new Object());
     }
 
     @Test

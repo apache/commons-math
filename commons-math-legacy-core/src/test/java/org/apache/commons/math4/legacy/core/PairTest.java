@@ -39,26 +39,26 @@ public class PairTest {
 
         // Check that both APIs refer to the same data.
 
-        Assert.assertTrue(p.getFirst() == p.getKey());
-        Assert.assertTrue(p.getSecond() == p.getValue());
+        Assert.assertSame(p.getFirst(), p.getKey());
+        Assert.assertSame(p.getSecond(), p.getValue());
     }
 
     @Test
     public void testEquals() {
         Pair<Integer, Double> p1 = new Pair<>(null, null);
-        Assert.assertFalse(p1.equals(null));
+        Assert.assertNotEquals(p1, null);
 
         Pair<Integer, Double> p2 = new Pair<>(null, null);
-        Assert.assertTrue(p1.equals(p2));
+        Assert.assertEquals(p1, p2);
 
         p1 = new Pair<>(new Integer(1), new Double(2));
-        Assert.assertFalse(p1.equals(p2));
+        Assert.assertNotEquals(p1, p2);
 
         p2 = new Pair<>(new Integer(1), new Double(2));
-        Assert.assertTrue(p1.equals(p2));
+        Assert.assertEquals(p1, p2);
 
         Pair<Integer, Float> p3 = new Pair<>(new Integer(1), new Float(2));
-        Assert.assertFalse(p1.equals(p3));
+        Assert.assertNotEquals(p1, p3);
     }
 
     @Test
@@ -69,11 +69,11 @@ public class PairTest {
         final Pair<MyInteger, MyInteger> p1 = new Pair<>(m1, m1);
         final Pair<MyInteger, MyInteger> p2 = new Pair<>(m2, m2);
         // Same contents, same hash code.
-        Assert.assertTrue(p1.hashCode() == p2.hashCode());
+        Assert.assertEquals(p1.hashCode(), p2.hashCode());
 
         // Different contents, different hash codes.
         m2.set(2);
-        Assert.assertFalse(p1.hashCode() == p2.hashCode());
+        Assert.assertNotEquals(p1.hashCode(), p2.hashCode());
     }
 
     @Test
