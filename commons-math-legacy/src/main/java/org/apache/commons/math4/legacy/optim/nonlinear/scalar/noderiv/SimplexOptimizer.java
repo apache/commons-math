@@ -22,6 +22,8 @@ import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.Collections;
 import java.util.function.UnaryOperator;
+import java.util.function.IntSupplier;
+import java.util.concurrent.CopyOnWriteArrayList;
 
 import org.apache.commons.math4.legacy.core.MathArrays;
 import org.apache.commons.math4.legacy.analysis.MultivariateFunction;
@@ -112,6 +114,8 @@ public class SimplexOptimizer extends MultivariateOptimizer {
     private SimulatedAnnealing simulatedAnnealing = null;
     /** Number of additional optimizations (optional). */
     private int bestListSize = 0;
+    /** Callbacks. */
+    private final List<Observer> callbacks = new CopyOnWriteArrayList<>();
 
     /**
      * @param checker Convergence checker.
@@ -127,6 +131,38 @@ public class SimplexOptimizer extends MultivariateOptimizer {
     public SimplexOptimizer(double rel,
                             double abs) {
         this(new SimpleValueChecker(rel, abs));
+    }
+
+    /**
+     * Callback interface for updating caller's code with the current
+     * state of the optimization.
+     */
+    @FunctionalInterface
+    public interface Observer {
+        /**
+         * Method called after each modification of the {@code simplex}.
+         *
+         * @param simplex Current simplex.
+         * @param isInit {@code true} at the start of a new search (either
+         * "main" or "best list"), after the initial simplex's vertices
+         * have been evaluated.
+         * @param numEval Number of evaluations of the objective function.
+         */
+        void update(Simplex simplex,
+                    boolean isInit,
+                    int numEval);
+    }
+
+    /**
+     * Register a callback.
+     *
+     * @param cb Callback.
+     */
+    public void addObserver(Observer cb) {
+        if (cb == null) {
+            throw new NullPointerException("Callback");
+        }
+        callbacks.add(cb);
     }
 
     /** {@inheritDoc} */
@@ -149,6 +185,7 @@ public class SimplexOptimizer extends MultivariateOptimizer {
         final List<PointValuePair> bestList = new ArrayList<>();
 
         Simplex currentSimplex = initialSimplex.translate(getStartPoint()).evaluate(evalFunc, comparator);
+        notifyObservers(currentSimplex, true);
         double temperature = Double.NaN; // Only used with simulated annealing.
         Simplex previousSimplex = null;
 
@@ -190,20 +227,31 @@ public class SimplexOptimizer extends MultivariateOptimizer {
                                       simulatedAnnealing.metropolis(temperature));
 
                 for (int i = 0; i < simulatedAnnealing.getEpochDuration(); i++) {
-                    currentSimplex = update.apply(currentSimplex).evaluate(evalFunc, comparator);
+                    // Simplex is transformed (and observers are notified).
+                    currentSimplex = applyUpdate(update,
+                                                 currentSimplex,
+                                                 evalFunc,
+                                                 comparator);
                 }
             } else {
                 // No simulated annealing.
                 final UnaryOperator<Simplex> update =
                     updateRule.create(evalFunc, comparator, null);
 
-                currentSimplex = update.apply(currentSimplex).evaluate(evalFunc, comparator);
+                // Simplex is transformed (and observers are notified).
+                currentSimplex = applyUpdate(update,
+                                             currentSimplex,
+                                             evalFunc,
+                                             comparator);
             }
 
             if (bestListSize != 0) {
                 // Store best points.
                 for (int i = 0; i < currentSimplex.getSize(); i++) {
-                    keepIfBetter(currentSimplex.get(i), comparator, bestList, bestListSize);
+                    keepIfBetter(currentSimplex.get(i),
+                                 comparator,
+                                 bestList,
+                                 bestListSize);
                 }
             }
 
@@ -216,7 +264,13 @@ public class SimplexOptimizer extends MultivariateOptimizer {
             throw new ConvergenceException();
         } else {
             // Additional optimizations.
-            return bestListSearch(evalFunc, comparator, bestList);
+            // Reference to counter in the "main" search in order to retrieve
+            // the total number of evaluations in the "best list" search.
+            final IntSupplier evalCount = () -> getEvaluations();
+            return bestListSearch(evalFunc,
+                                  comparator,
+                                  bestList,
+                                  evalCount);
         }
     }
 
@@ -392,11 +446,13 @@ public class SimplexOptimizer extends MultivariateOptimizer {
      * @param evalFunc Objective function.
      * @param comp Fitness comparator.
      * @param starts Starting points.
+     * @param evalCount Evaluation counter.
      * @return the optimum.
      */
     private PointValuePair bestListSearch(MultivariateFunction evalFunc,
                                           Comparator<PointValuePair> comp,
-                                          List<PointValuePair> starts) {
+                                          List<PointValuePair> starts,
+                                          IntSupplier evalCount) {
         PointValuePair best = starts.get(0); // Overall best result.
 
         // Additional local optimizations using each of the best
@@ -413,7 +469,9 @@ public class SimplexOptimizer extends MultivariateOptimizer {
                                                   simplex,
                                                   evalFunc,
                                                   getConvergenceChecker(),
-                                                  getGoalType());
+                                                  getGoalType(),
+                                                  callbacks,
+                                                  evalCount);
             if (comp.compare(r, best) < 0) {
                 best = r; // New overall best.
             }
@@ -430,19 +488,67 @@ public class SimplexOptimizer extends MultivariateOptimizer {
      * incrementing the main counter.
      * @param checker Convergence checker.
      * @param goalType Whether to minimize or maximize the objective function.
+     * @param cbList Callbacks.
+     * @param evalCount Evaluation counter.
      * @return the optimum.
      */
     private static PointValuePair directSearch(double[] init,
                                                Simplex simplex,
                                                MultivariateFunction eval,
                                                ConvergenceChecker<PointValuePair> checker,
-                                               GoalType goalType) {
+                                               GoalType goalType,
+                                               List<Observer> cbList,
+                                               final IntSupplier evalCount) {
         final SimplexOptimizer optim = new SimplexOptimizer(checker);
+
+        for (Observer cOrig : cbList) {
+            final SimplexOptimizer.Observer cNew = (spx, isInit, numEval) ->
+                cOrig.update(spx, isInit, evalCount.getAsInt());
+
+            optim.addObserver(cNew);
+        }
+
         return optim.optimize(MaxEval.unlimited(),
                               new ObjectiveFunction(eval),
                               goalType,
                               new InitialGuess(init),
                               simplex,
                               new NelderMeadTransform());
+    }
+
+    /**
+     * @param simplex Current simplex.
+     * @param isInit Set to {@code true} at the start of a new search
+     * (either "main" or "best list"), after the evaluation of the initial
+     * simplex's vertices.
+     */
+    private void notifyObservers(Simplex simplex,
+                                 boolean isInit) {
+        for (Observer cb : callbacks) {
+            cb.update(simplex,
+                      isInit,
+                      getEvaluations());
+        }
+    }
+
+    /**
+     * Applies the {@code update} to the given {@code simplex} (and notifies
+     * observers).
+     *
+     * @param update Simplex transformation.
+     * @param simplex Current simplex.
+     * @param eval Objective function.
+     * @param comp Fitness comparator.
+     * @return the transformed simplex.
+     */
+    private Simplex applyUpdate(UnaryOperator<Simplex> update,
+                                Simplex simplex,
+                                MultivariateFunction eval,
+                                Comparator<PointValuePair> comp) {
+        final Simplex transformed = update.apply(simplex).evaluate(eval, comp);
+
+        notifyObservers(transformed, false);
+
+        return transformed;
     }
 }
