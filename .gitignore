@@ -6,7 +6,7 @@ bin
 target
 /build
 /lib
-site-content
+site-content*
 .ekstazi
 *.class
 *.iml
