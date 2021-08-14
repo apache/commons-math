@@ -21,6 +21,7 @@ import java.util.List;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.Collections;
+import java.util.Objects;
 import java.util.function.UnaryOperator;
 import java.util.function.IntSupplier;
 import java.util.concurrent.CopyOnWriteArrayList;
@@ -159,9 +160,7 @@ public class SimplexOptimizer extends MultivariateOptimizer {
      * @param cb Callback.
      */
     public void addObserver(Observer cb) {
-        if (cb == null) {
-            throw new NullPointerException("Callback");
-        }
+        Objects.requireNonNull(cb, "Callback");
         callbacks.add(cb);
     }
 
@@ -338,12 +337,9 @@ public class SimplexOptimizer extends MultivariateOptimizer {
      * was passed to the {@link #optimize(OptimizationData[]) optimize} method.
      */
     private void checkParameters() {
-        if (updateRule == null) {
-            throw new NullPointerException("No update rule");
-        }
-        if (initialSimplex == null) {
-            throw new NullPointerException("No initial simplex");
-        }
+        Objects.requireNonNull(updateRule, "Update rule");
+        Objects.requireNonNull(initialSimplex, "Initial simplex");
+
         if (getLowerBound() != null ||
             getUpperBound() != null) {
             throw new MathUnsupportedOperationException(LocalizedFormats.CONSTRAINT);
