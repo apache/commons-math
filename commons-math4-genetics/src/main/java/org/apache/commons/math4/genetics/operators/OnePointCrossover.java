@@ -17,14 +17,13 @@
 package org.apache.commons.math4.genetics.operators;
 
 import java.util.ArrayList;
-
 import java.util.List;
 
-import org.apache.commons.math4.genetics.GeneticAlgorithm;
 import org.apache.commons.math4.genetics.exception.GeneticException;
 import org.apache.commons.math4.genetics.model.AbstractListChromosome;
 import org.apache.commons.math4.genetics.model.Chromosome;
 import org.apache.commons.math4.genetics.model.ChromosomePair;
+import org.apache.commons.math4.genetics.utils.RandomGenerator;
 
 /**
  * One point crossover policy. A random crossover point is selected and the
@@ -82,7 +81,7 @@ public class OnePointCrossover<T> implements CrossoverPolicy {
 	 */
 	@Override
 	@SuppressWarnings("unchecked") // OK because of instanceof checks
-	public ChromosomePair crossover(final Chromosome first, final Chromosome second) {
+	public ChromosomePair crossover(final Chromosome first, final Chromosome second, double crossoverRate) {
 
 		if (!(first instanceof AbstractListChromosome<?> && second instanceof AbstractListChromosome<?>)) {
 			throw new GeneticException(GeneticException.INVALID_FIXED_LENGTH_CHROMOSOME);
@@ -91,7 +90,7 @@ public class OnePointCrossover<T> implements CrossoverPolicy {
 	}
 
 	/**
-	 * Helper for {@link #crossover(Chromosome, Chromosome)}. Performs the actual
+	 * Helper for {@link #crossover(Chromosome, Chromosome, double)}. Performs the actual
 	 * crossover.
 	 *
 	 * @param first  the first chromosome.
@@ -113,7 +112,7 @@ public class OnePointCrossover<T> implements CrossoverPolicy {
 		final List<T> child2Rep = new ArrayList<>(length);
 
 		// select a crossover point at random (0 and length makes no sense)
-		final int crossoverIndex = 1 + (GeneticAlgorithm.getRandomGenerator().nextInt(length - 2));
+		final int crossoverIndex = 1 + (RandomGenerator.getRandomGenerator().nextInt(length - 2));
 
 		// copy the first part
 		for (int i = 0; i < crossoverIndex; i++) {

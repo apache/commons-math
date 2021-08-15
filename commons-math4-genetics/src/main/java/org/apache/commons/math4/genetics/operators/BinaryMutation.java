@@ -19,10 +19,10 @@ package org.apache.commons.math4.genetics.operators;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.apache.commons.math4.genetics.GeneticAlgorithm;
 import org.apache.commons.math4.genetics.exception.GeneticException;
 import org.apache.commons.math4.genetics.model.BinaryChromosome;
 import org.apache.commons.math4.genetics.model.Chromosome;
+import org.apache.commons.math4.genetics.utils.RandomGenerator;
 
 /**
  * Mutation for {@link BinaryChromosome}s. Randomly changes one gene.
@@ -40,7 +40,7 @@ public class BinaryMutation implements MutationPolicy {
 	 *                                      instance of {@link BinaryChromosome}.
 	 */
 	@Override
-	public Chromosome mutate(Chromosome original) {
+	public Chromosome mutate(Chromosome original, double mutationRate) {
 		if (!(original instanceof BinaryChromosome)) {
 			throw new GeneticException(GeneticException.ILLEGAL_ARGUMENT, original.getClass().getSimpleName());
 		}
@@ -49,7 +49,7 @@ public class BinaryMutation implements MutationPolicy {
 		List<Integer> newRepr = new ArrayList<>(origChrom.getRepresentation());
 
 		// randomly select a gene
-		int geneIndex = GeneticAlgorithm.getRandomGenerator().nextInt(origChrom.getLength());
+		int geneIndex = RandomGenerator.getRandomGenerator().nextInt(origChrom.getLength());
 		// and change it
 		newRepr.set(geneIndex, origChrom.getRepresentation().get(geneIndex) == 0 ? 1 : 0);
 

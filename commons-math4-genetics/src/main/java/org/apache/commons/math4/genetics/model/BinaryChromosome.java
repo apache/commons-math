@@ -19,8 +19,8 @@ package org.apache.commons.math4.genetics.model;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.apache.commons.math4.genetics.GeneticAlgorithm;
 import org.apache.commons.math4.genetics.exception.GeneticException;
+import org.apache.commons.math4.genetics.utils.RandomGenerator;
 
 /**
  * Chromosome represented by a vector of 0s and 1s.
@@ -38,8 +38,8 @@ public abstract class BinaryChromosome extends AbstractListChromosome<Integer> {
 	 *                                               not represent a valid
 	 *                                               chromosome
 	 */
-	public BinaryChromosome(List<Integer> representation) {
-		super(representation);
+	public BinaryChromosome(List<Integer> representation, FitnessFunction fitnessCalculator) {
+		super(representation, fitnessCalculator);
 	}
 
 	/**
@@ -51,8 +51,8 @@ public abstract class BinaryChromosome extends AbstractListChromosome<Integer> {
 	 *                                               not represent a valid
 	 *                                               chromosome
 	 */
-	public BinaryChromosome(Integer[] representation) {
-		super(representation);
+	public BinaryChromosome(Integer[] representation, FitnessFunction fitnessCalculator) {
+		super(representation, fitnessCalculator);
 	}
 
 	/**
@@ -78,7 +78,7 @@ public abstract class BinaryChromosome extends AbstractListChromosome<Integer> {
 		// random binary list
 		List<Integer> rList = new ArrayList<>(length);
 		for (int j = 0; j < length; j++) {
-			rList.add(GeneticAlgorithm.getRandomGenerator().nextInt(2));
+			rList.add(RandomGenerator.getRandomGenerator().nextInt(2));
 		}
 		return rList;
 	}

@@ -17,13 +17,12 @@
 package org.apache.commons.math4.genetics.operators;
 
 import java.util.ArrayList;
-
 import java.util.List;
 
-import org.apache.commons.math4.genetics.GeneticAlgorithm;
 import org.apache.commons.math4.genetics.exception.GeneticException;
 import org.apache.commons.math4.genetics.model.Chromosome;
 import org.apache.commons.math4.genetics.model.RandomKey;
+import org.apache.commons.math4.genetics.utils.RandomGenerator;
 
 /**
  * Mutation operator for {@link RandomKey}s. Changes a randomly chosen element
@@ -40,17 +39,17 @@ public class RandomKeyMutation implements MutationPolicy {
 	 *                                      {@link RandomKey} instance
 	 */
 	@Override
-	public Chromosome mutate(final Chromosome original) {
+	public Chromosome mutate(final Chromosome original, double mutationRate) {
 		if (!(original instanceof RandomKey<?>)) {
 			throw new GeneticException(GeneticException.ILLEGAL_ARGUMENT, original.getClass().getSimpleName());
 		}
 
 		RandomKey<?> originalRk = (RandomKey<?>) original;
 		List<Double> repr = originalRk.getRepresentation();
-		int rInd = GeneticAlgorithm.getRandomGenerator().nextInt(repr.size());
+		int rInd = RandomGenerator.getRandomGenerator().nextInt(repr.size());
 
 		List<Double> newRepr = new ArrayList<>(repr);
-		newRepr.set(rInd, GeneticAlgorithm.getRandomGenerator().nextDouble());
+		newRepr.set(rInd, RandomGenerator.getRandomGenerator().nextDouble());
 
 		return originalRk.newFixedLengthChromosome(newRepr);
 	}

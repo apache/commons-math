@@ -22,12 +22,12 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-import org.apache.commons.rng.UniformRandomProvider;
-import org.apache.commons.math4.genetics.GeneticAlgorithm;
 import org.apache.commons.math4.genetics.exception.GeneticException;
 import org.apache.commons.math4.genetics.model.AbstractListChromosome;
 import org.apache.commons.math4.genetics.model.Chromosome;
 import org.apache.commons.math4.genetics.model.ChromosomePair;
+import org.apache.commons.math4.genetics.utils.RandomGenerator;
+import org.apache.commons.rng.UniformRandomProvider;
 
 /**
  * Order 1 Crossover [OX1] builds offspring from <b>ordered</b> chromosomes by
@@ -73,7 +73,7 @@ public class OrderedCrossover<T> implements CrossoverPolicy {
 	 */
 	@Override
 	@SuppressWarnings("unchecked")
-	public ChromosomePair crossover(final Chromosome first, final Chromosome second) {
+	public ChromosomePair crossover(final Chromosome first, final Chromosome second, double crossoverRate) {
 
 		if (!(first instanceof AbstractListChromosome<?> && second instanceof AbstractListChromosome<?>)) {
 			throw new GeneticException(GeneticException.INVALID_FIXED_LENGTH_CHROMOSOME);
@@ -82,7 +82,7 @@ public class OrderedCrossover<T> implements CrossoverPolicy {
 	}
 
 	/**
-	 * Helper for {@link #crossover(Chromosome, Chromosome)}. Performs the actual
+	 * Helper for {@link #crossover(Chromosome, Chromosome, double)}. Performs the actual
 	 * crossover.
 	 *
 	 * @param first  the first chromosome
@@ -108,7 +108,7 @@ public class OrderedCrossover<T> implements CrossoverPolicy {
 		final Set<T> child1Set = new HashSet<>(length);
 		final Set<T> child2Set = new HashSet<>(length);
 
-		final UniformRandomProvider random = GeneticAlgorithm.getRandomGenerator();
+		final UniformRandomProvider random = RandomGenerator.getRandomGenerator();
 		// choose random points, making sure that lb < ub.
 		int a = random.nextInt(length);
 		int b;

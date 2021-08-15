@@ -16,6 +16,7 @@
  */
 package org.apache.commons.math4.genetics.operators;
 
+import org.apache.commons.math4.genetics.exception.GeneticException;
 import org.apache.commons.math4.genetics.model.ChromosomePair;
 import org.apache.commons.math4.genetics.model.Population;
 

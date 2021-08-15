@@ -17,15 +17,14 @@
 package org.apache.commons.math4.genetics.operators;
 
 import java.util.ArrayList;
-
 import java.util.List;
 
-import org.apache.commons.math4.genetics.GeneticAlgorithm;
 import org.apache.commons.math4.genetics.exception.GeneticException;
 import org.apache.commons.math4.genetics.model.Chromosome;
 import org.apache.commons.math4.genetics.model.ChromosomePair;
 import org.apache.commons.math4.genetics.model.ListPopulation;
 import org.apache.commons.math4.genetics.model.Population;
+import org.apache.commons.math4.genetics.utils.RandomGenerator;
 
 /**
  * Tournament selection scheme. Each of the two selected chromosomes is selected
@@ -93,7 +92,7 @@ public class TournamentSelection implements SelectionPolicy {
 		List<Chromosome> chromosomes = new ArrayList<>(population.getChromosomes());
 		for (int i = 0; i < this.arity; i++) {
 			// select a random individual and add it to the tournament
-			int rind = GeneticAlgorithm.getRandomGenerator().nextInt(chromosomes.size());
+			int rind = RandomGenerator.getRandomGenerator().nextInt(chromosomes.size());
 			tournamentPopulation.addChromosome(chromosomes.get(rind));
 			// do not select it again
 			chromosomes.remove(rind);

@@ -17,10 +17,11 @@
 package org.apache.commons.math4.genetics.model;
 
 import java.util.ArrayList;
-
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
+
+import org.apache.commons.math4.genetics.exception.GeneticException;
 
 /**
  * Chromosome represented by an immutable list of a fixed length.
@@ -37,26 +38,22 @@ public abstract class AbstractListChromosome<T> extends Chromosome {
 	 * Constructor, copying the input representation.
 	 * 
 	 * @param representation inner representation of the chromosome
-	 * @throws GeneticException iff the
-	 *                                               <code>representation</code> can
-	 *                                               not represent a valid
-	 *                                               chromosome
+	 * @throws GeneticException iff the <code>representation</code> can not
+	 *                          represent a valid chromosome
 	 */
-	public AbstractListChromosome(final List<T> representation) {
-		this(representation, true);
+	public AbstractListChromosome(final List<T> representation, FitnessFunction fitnessCalculator) {
+		this(representation, true, fitnessCalculator);
 	}
 
 	/**
 	 * Constructor, copying the input representation.
 	 * 
 	 * @param representation inner representation of the chromosome
-	 * @throws GeneticException if the
-	 *                                               <code>representation</code> can
-	 *                                               not represent a valid
-	 *                                               chromosome
+	 * @throws GeneticException if the <code>representation</code> can not represent
+	 *                          a valid chromosome
 	 */
-	public AbstractListChromosome(final T[] representation) {
-		this(Arrays.asList(representation));
+	public AbstractListChromosome(final T[] representation, FitnessFunction fitnessCalculator) {
+		this(Arrays.asList(representation), fitnessCalculator);
 	}
 
 	/**
@@ -67,7 +64,9 @@ public abstract class AbstractListChromosome<T> extends Chromosome {
 	 *                       otherwise it will be referenced.
 	 * @since 3.3
 	 */
-	public AbstractListChromosome(final List<T> representation, final boolean copyList) {
+	public AbstractListChromosome(final List<T> representation, final boolean copyList,
+			FitnessFunction fitnessCalculator) {
+		super(fitnessCalculator);
 		checkValidity(representation);
 		this.representation = Collections.unmodifiableList(copyList ? new ArrayList<>(representation) : representation);
 	}
@@ -76,10 +75,8 @@ public abstract class AbstractListChromosome<T> extends Chromosome {
 	 * Asserts that <code>representation</code> can represent a valid chromosome.
 	 *
 	 * @param chromosomeRepresentation representation of the chromosome
-	 * @throws GeneticException iff the
-	 *                                               <code>representation</code> can
-	 *                                               not represent a valid
-	 *                                               chromosome
+	 * @throws GeneticException iff the <code>representation</code> can not
+	 *                          represent a valid chromosome
 	 */
 	protected abstract void checkValidity(List<T> chromosomeRepresentation);
 

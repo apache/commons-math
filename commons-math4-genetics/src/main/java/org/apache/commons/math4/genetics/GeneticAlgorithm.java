@@ -17,7 +17,6 @@
 package org.apache.commons.math4.genetics;
 
 import org.apache.commons.math4.genetics.exception.GeneticException;
-
 import org.apache.commons.math4.genetics.model.ChromosomePair;
 import org.apache.commons.math4.genetics.model.Population;
 import org.apache.commons.math4.genetics.operators.CrossoverPolicy;
@@ -25,8 +24,6 @@ import org.apache.commons.math4.genetics.operators.MutationPolicy;
 import org.apache.commons.math4.genetics.operators.SelectionPolicy;
 import org.apache.commons.math4.genetics.operators.StoppingCondition;
 import org.apache.commons.math4.genetics.utils.Constants;
-import org.apache.commons.rng.simple.RandomSource;
-import org.apache.commons.rng.UniformRandomProvider;
 
 /**
  * Implementation of a genetic algorithm. All factors that govern the operation
@@ -34,36 +31,13 @@ import org.apache.commons.rng.UniformRandomProvider;
  *
  * @since 2.0
  */
-public class GeneticAlgorithm {
-
-	/**
-	 * Static random number generator shared by GA implementation classes. Use
-	 * {@link #setRandomGenerator(UniformRandomProvider)} to supply an alternative
-	 * to the default PRNG, and/or select a specific seed.
-	 */
-	// @GuardedBy("this")
-	private static UniformRandomProvider randomGenerator = RandomSource.create(RandomSource.WELL_19937_C);
-
-	/** the crossover policy used by the algorithm. */
-	private final CrossoverPolicy crossoverPolicy;
+public class GeneticAlgorithm extends AbstractGeneticAlgorithm {
 
 	/** the rate of crossover for the algorithm. */
 	private final double crossoverRate;
 
-	/** the mutation policy used by the algorithm. */
-	private final MutationPolicy mutationPolicy;
-
 	/** the rate of mutation for the algorithm. */
 	private final double mutationRate;
-
-	/** the selection policy used by the algorithm. */
-	private final SelectionPolicy selectionPolicy;
-
-	/**
-	 * the number of generations evolved to reach {@link StoppingCondition} in the
-	 * last run.
-	 */
-	private int generationsEvolved;
 
 	/**
 	 * Create a new genetic algorithm.
@@ -73,11 +47,12 @@ public class GeneticAlgorithm {
 	 * @param mutationPolicy  The {@link MutationPolicy}
 	 * @param mutationRate    The mutation rate as a percentage (0-1 inclusive)
 	 * @param selectionPolicy The {@link SelectionPolicy}
-	 * @throws GeneticException if the crossover or mutation rate is outside the
-	 *                             [0, 1] range
+	 * @throws GeneticException if the crossover or mutation rate is outside the [0,
+	 *                          1] range
 	 */
 	public GeneticAlgorithm(final CrossoverPolicy crossoverPolicy, final double crossoverRate,
 			final MutationPolicy mutationPolicy, final double mutationRate, final SelectionPolicy selectionPolicy) {
+		super(crossoverPolicy, mutationPolicy, selectionPolicy);
 
 		if (crossoverRate < 0 || crossoverRate > 1) {
 			throw new GeneticException(GeneticException.OUT_OF_RANGE, crossoverRate, Constants.CROSSOVER_RATE, 0, 1);
@@ -85,29 +60,8 @@ public class GeneticAlgorithm {
 		if (mutationRate < 0 || mutationRate > 1) {
 			throw new GeneticException(GeneticException.OUT_OF_RANGE, mutationRate, Constants.MUTATION_RATE, 0, 1);
 		}
-		this.crossoverPolicy = crossoverPolicy;
 		this.crossoverRate = crossoverRate;
-		this.mutationPolicy = mutationPolicy;
 		this.mutationRate = mutationRate;
-		this.selectionPolicy = selectionPolicy;
-	}
-
-	/**
-	 * Set the (static) random generator.
-	 *
-	 * @param random random generator
-	 */
-	public static synchronized void setRandomGenerator(final UniformRandomProvider random) {
-		randomGenerator = random;
-	}
-
-	/**
-	 * Returns the (static) random generator.
-	 *
-	 * @return the static random generator shared by GA implementation classes
-	 */
-	public static synchronized UniformRandomProvider getRandomGenerator() {
-		return randomGenerator;
 	}
 
 	/**
@@ -122,10 +76,10 @@ public class GeneticAlgorithm {
 	 */
 	public Population evolve(final Population initial, final StoppingCondition condition) {
 		Population current = initial;
-		generationsEvolved = 0;
+		resetGenerationsEvolved();
 		while (!condition.isSatisfied(current)) {
 			current = nextGeneration(current);
-			generationsEvolved++;
+			increaseGenerationsEvolved();
 		}
 		return current;
 	}
@@ -155,24 +109,18 @@ public class GeneticAlgorithm {
 	public Population nextGeneration(final Population current) {
 		Population nextGeneration = current.nextGeneration();
 
-		UniformRandomProvider randGen = getRandomGenerator();
-
 		while (nextGeneration.getPopulationSize() < nextGeneration.getPopulationLimit()) {
 			// select parent chromosomes
 			ChromosomePair pair = getSelectionPolicy().select(current);
 
 			// crossover?
-			if (randGen.nextDouble() < getCrossoverRate()) {
-				// apply crossover policy to create two offspring
-				pair = getCrossoverPolicy().crossover(pair.getFirst(), pair.getSecond());
-			}
+			// apply crossover policy to create two offspring
+			pair = getCrossoverPolicy().crossover(pair.getFirst(), pair.getSecond(), crossoverRate);
 
 			// mutation?
-			if (randGen.nextDouble() < getMutationRate()) {
-				// apply mutation policy to the chromosomes
-				pair = new ChromosomePair(getMutationPolicy().mutate(pair.getFirst()),
-						getMutationPolicy().mutate(pair.getSecond()));
-			}
+			// apply mutation policy to the chromosomes
+			pair = new ChromosomePair(getMutationPolicy().mutate(pair.getFirst(), mutationRate),
+					getMutationPolicy().mutate(pair.getSecond(), mutationRate));
 
 			// add the first chromosome to the population
 			nextGeneration.addChromosome(pair.getFirst());
@@ -187,15 +135,6 @@ public class GeneticAlgorithm {
 	}
 
 	/**
-	 * Returns the crossover policy.
-	 * 
-	 * @return crossover policy
-	 */
-	public CrossoverPolicy getCrossoverPolicy() {
-		return crossoverPolicy;
-	}
-
-	/**
 	 * Returns the crossover rate.
 	 * 
 	 * @return crossover rate
@@ -205,41 +144,12 @@ public class GeneticAlgorithm {
 	}
 
 	/**
-	 * Returns the mutation policy.
-	 * 
-	 * @return mutation policy
-	 */
-	public MutationPolicy getMutationPolicy() {
-		return mutationPolicy;
-	}
-
-	/**
 	 * Returns the mutation rate.
 	 * 
 	 * @return mutation rate
 	 */
 	public double getMutationRate() {
 		return mutationRate;
-	}
-
-	/**
-	 * Returns the selection policy.
-	 * 
-	 * @return selection policy
-	 */
-	public SelectionPolicy getSelectionPolicy() {
-		return selectionPolicy;
-	}
-
-	/**
-	 * Returns the number of generations evolved to reach {@link StoppingCondition}
-	 * in the last run.
-	 *
-	 * @return number of generations evolved
-	 * @since 2.1
-	 */
-	public int getGenerationsEvolved() {
-		return generationsEvolved;
 	}
 
 }

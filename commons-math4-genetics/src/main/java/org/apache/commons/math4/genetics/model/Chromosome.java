@@ -24,12 +24,22 @@ package org.apache.commons.math4.genetics.model;
  *
  * @since 2.0
  */
-public abstract class Chromosome implements Comparable<Chromosome>, Fitness {
+public abstract class Chromosome implements Comparable<Chromosome> {
 	/** Value assigned when no fitness has been computed yet. */
 	private static final double NO_FITNESS = Double.NEGATIVE_INFINITY;
 
 	/** Cached value of the fitness of this chromosome. */
 	private double fitness = NO_FITNESS;
+
+	private FitnessFunction fitnessCalculator;
+
+	public Chromosome(FitnessFunction fitnessCalculator) {
+		this.fitnessCalculator = fitnessCalculator;
+	}
+
+	public FitnessFunction getFitnessCalculator() {
+		return fitnessCalculator;
+	}
 
 	/**
 	 * Access the fitness of this chromosome. The bigger the fitness, the better the
@@ -43,7 +53,7 @@ public abstract class Chromosome implements Comparable<Chromosome>, Fitness {
 	public double getFitness() {
 		if (this.fitness == NO_FITNESS) {
 			// no cache - compute the fitness
-			this.fitness = fitness();
+			this.fitness = fitnessCalculator.compute(this);
 		}
 		return this.fitness;
 	}

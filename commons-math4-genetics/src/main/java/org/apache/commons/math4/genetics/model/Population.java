@@ -16,6 +16,8 @@
  */
 package org.apache.commons.math4.genetics.model;
 
+import org.apache.commons.math4.genetics.exception.GeneticException;
+
 /**
  * A collection of chromosomes that facilitates generational evolution.
  *

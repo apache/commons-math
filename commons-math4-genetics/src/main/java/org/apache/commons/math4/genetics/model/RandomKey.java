@@ -17,15 +17,14 @@
 package org.apache.commons.math4.genetics.model;
 
 import java.util.ArrayList;
-
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 
-import org.apache.commons.math4.genetics.GeneticAlgorithm;
 import org.apache.commons.math4.genetics.exception.GeneticException;
 import org.apache.commons.math4.genetics.utils.Constants;
+import org.apache.commons.math4.genetics.utils.RandomGenerator;
 
 /**
  * Random Key chromosome is used for permutation representation. It is a vector
@@ -74,8 +73,8 @@ public abstract class RandomKey<T> extends AbstractListChromosome<Double> implem
 	 *                                               not represent a valid
 	 *                                               chromosome
 	 */
-	public RandomKey(final List<Double> representation) {
-		super(representation);
+	public RandomKey(final List<Double> representation, FitnessFunction fitnessCalculator) {
+		super(representation, fitnessCalculator);
 		// store the sorted representation
 		List<Double> sortedRepr = new ArrayList<>(getRepresentation());
 		Collections.sort(sortedRepr);
@@ -95,8 +94,8 @@ public abstract class RandomKey<T> extends AbstractListChromosome<Double> implem
 	 *                                               not represent a valid
 	 *                                               chromosome
 	 */
-	public RandomKey(final Double[] representation) {
-		this(Arrays.asList(representation));
+	public RandomKey(final Double[] representation, FitnessFunction fitnessCalculator) {
+		this(Arrays.asList(representation), fitnessCalculator);
 	}
 
 	/**
@@ -205,7 +204,7 @@ public abstract class RandomKey<T> extends AbstractListChromosome<Double> implem
 	public static final List<Double> randomPermutation(final int l) {
 		List<Double> repr = new ArrayList<>(l);
 		for (int i = 0; i < l; i++) {
-			repr.add(GeneticAlgorithm.getRandomGenerator().nextDouble());
+			repr.add(RandomGenerator.getRandomGenerator().nextDouble());
 		}
 		return repr;
 	}
