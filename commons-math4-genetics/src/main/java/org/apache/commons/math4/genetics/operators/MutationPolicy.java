@@ -22,7 +22,7 @@ import org.apache.commons.math4.genetics.model.Chromosome;
 /**
  * Algorithm used to mutate a chromosome.
  *
- * @since 4.0
+ * @since 2.0
  */
 public interface MutationPolicy {
 
