@@ -18,6 +18,7 @@ package org.apache.commons.math4.legacy.optim.nonlinear.scalar.noderiv;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.ArrayList;
 import java.io.PrintWriter;
 import java.io.IOException;
 import java.nio.file.Files;
@@ -136,6 +137,8 @@ public class SimplexOptimizerTest {
         private final boolean withSA;
         /** File prefix (for saving debugging info). */
         private final String tracePrefix;
+        /** Indices of simplex points to be saved for debugging. */
+        private final int[] traceIndices;
 
         /**
          * @param function Test function.
@@ -149,6 +152,9 @@ public class SimplexOptimizerTest {
          * @param withSA Whether to perform simulated annealing.
          * @param tracePrefix Prefix of the file where to save simplex
          * transformations during the optimization.
+         * Can be {@code null} (no debugging).
+         * @param traceIndices Indices of simplex points to be saved.
+         * Can be {@code null} (all points are saved).
          */
         Task(MultivariateFunction function,
              double[] start,
@@ -158,7 +164,8 @@ public class SimplexOptimizerTest {
              double simplexSideLength,
              double jitter,
              boolean withSA,
-             String tracePrefix) {
+             String tracePrefix,
+             int[] traceIndices) {
             this.function = function;
             this.start = start;
             this.optimum = optimum;
@@ -168,6 +175,7 @@ public class SimplexOptimizerTest {
             this.jitter = jitter;
             this.withSA = withSA;
             this.tracePrefix = tracePrefix;
+            this.traceIndices = traceIndices;
         }
 
         @Override
@@ -287,11 +295,10 @@ public class SimplexOptimizerTest {
                     }
 
                     final String fieldSep = " ";
-                    // 1 line per simplex point.
+                    // 1 line per simplex point (requested for tracing).
                     final List<PointValuePair> points = simplex.asList();
-                    // Repeat first point on output (for plotting).
-                    points.add(points.get(0));
-                    for (PointValuePair p : points) {
+                    for (int index : traceIndices) {
+                        final PointValuePair p = points.get(index);
                         out.print(numEval + fieldSep +
                                   p.getValue() + fieldSep);
 
@@ -448,17 +455,86 @@ public class SimplexOptimizerTest {
             final double sideLength = a.getDouble(index++);
             final double jitter = a.getDouble(index++);
             final boolean withSA = a.getBoolean(index++);
-            final String tracePrefix = a.getString(index++);
 
-            return new Task(funcGen.withDimension(dim),
-                            start,
-                            optimum,
-                            pointTol,
-                            funcEval,
-                            sideLength,
-                            jitter,
-                            withSA,
-                            tracePrefix);
+            if (index == a.size()) {
+                // No more arguments.
+                return new Task(funcGen.withDimension(dim),
+                                start,
+                                optimum,
+                                pointTol,
+                                funcEval,
+                                sideLength,
+                                jitter,
+                                withSA,
+                                null,
+                                null);
+            } else {
+                // Debugging configuration.
+                final String tracePrefix = a.getString(index++);
+                final int[] spxIndices = tracePrefix == null ?
+                    null :
+                    toSimplexIndices(a.getString(index++), dim);
+
+                return new Task(funcGen.withDimension(dim),
+                                start,
+                                optimum,
+                                pointTol,
+                                funcEval,
+                                sideLength,
+                                jitter,
+                                withSA,
+                                tracePrefix,
+                                spxIndices);
+            }
+        }
+
+        /**
+         * @param str Space-separated list of indices referring to
+         * simplex's points (in the interval {@code [0, dim]}).
+         * The string "LAST" will be converted to index {@code dim}.
+         * The empty string, the string "ALL" and {@code null} will be
+         * converted to all the indices in the interval {@code [0, dim]}.
+         * @param dim Space dimension.
+         * @return the indices (in the order specified in {@code str}).
+         * @throws IllegalArgumentException if an index is out the
+         * {@code [0, dim]} interval.
+         */
+        private static int[] toSimplexIndices(String str,
+                                              int dim) {
+            final List<Integer> list = new ArrayList<>();
+
+            if (str == null ||
+                str.equals("")) {
+                for (int i = 0; i <= dim; i++) {
+                    list.add(i);
+                }
+            } else {
+                for (String s : str.split("\\s+")) {
+                    if (s.equals("LAST")) {
+                        list.add(dim);
+                    } else if (str.equals("ALL")) {
+                        for (int i = 0; i <= dim; i++) {
+                            list.add(i);
+                        }
+                    } else {
+                        final int index = Integer.valueOf(s);
+                        if (index < 0 ||
+                            index > dim) {
+                            throw new IllegalArgumentException("index: " + index +
+                                                               " (dim=" + dim + ")");
+                        }
+                        list.add(index);
+                    }
+                }
+            }
+
+            final int len = list.size();
+            final int[] indices = new int[len];
+            for (int i = 0; i < len; i++) {
+                indices[i] = list.get(i);
+            }
+
+            return indices;
         }
 
         /**

@@ -26,32 +26,33 @@
 #  6: length of the sides of the initial simplex
 #  7: size of the random noise (to generate slightly different initial conditions)
 #  8: whether to perform simulated annealing
-#  9: File prefix for debugging (or empty slot for no debugging)
+#  9: [optional] File prefix for debugging (or empty slot for no debugging)
+# 10: [optional] Indices (space-separated) of simplex points to save (empty means "all points")
 #
 # Caveat: Some tests are commented out (cf. JIRA: MATH-1552).
 #
-PARABOLA, 2, 4.6 5.8, 0 0, 1e-4, 820, 1, 2e-1, true,
-PARABOLA, 4, 2.5 3.1 4.6 5.8, 0 0 0 0, 1e-4, 820, 1, 2e-1, true,
-ROSENBROCK, 2, -1.2 1, 1 1, 1e-4, 380, 1, 1e-1, true,
-ROSENBROCK, 5, -4.4 -3.5 -2.6 -1.7 -0.8, 1 1 1 1 1, 1e-4, 3800, 5e-1, 1e-1, true,
-ROSENBROCK, 10, -0.1 0.1 0.2 -0.1 -0.2 0.3 0.2 -0.1 0.2 -0.3, 1 1 1 1 1 1 1 1 1 1, 5e-5, 38000, 3, 5e-2, true,
-POWELL, 4, 3 -1 -2 1, 0 0 0 0, 5e-3, 1100, 3, 1e-1, true,
-CIGAR, 13, -1.2 2.3 -3.2 2.1 1.2 -2.3 3.2 -2.1 -1.2 2.3 -3.2 2.1 -1.2, 0 0 0 0 0 0 0 0 0 0 0 0 0, 5e-5, 75000, 3, 1e-1, true,
-SPHERE, 13, -1.2 2.3 -3.2 2.1 1.2 -2.3 3.2 -2.1 -1.2 2.3 -3.2 2.1 -1.2, 0 0 0 0 0 0 0 0 0 0 0 0 0, 5e-4, 47000, 3, 1e-1, true,
-ELLI, 10, 2 3 4 -3 -2 -1 2 3 4 3, 0 0 0 0 0 0 0 0 0 0, 1e-4, 25000, 3, 1e-1, true,
-#TWO_AXES, 10, 2 3 4 -3 -2 -1 2 3 4 3, 0 0 0 0 0 0 0 0 0 0, 1e-4, 1000, 3, 1e-1, true,
-#CIG_TAB, 10, 2 3 4 -3 -2 -1 2 3 4 3, 0 0 0 0 0 0 0 0 0 0, 1e-4, 1000, 3, 1e-1, true,
-TABLET, 11, 2 3 4 -3 -2 -1 2 3 4 3 -1, 0 0 0 0 0 0 0 0 0 0 0, 2e-4, 41000, 3, 1e-1, true,
-#DIFF_POW, 7, 1 -1 1 -1 1 -1 1, 0 0 0 0 0 0 0, 1e-2, 2500, 3, 1e-1, true,
-SS_DIFF_POW, 6, -3.2 2.1 1.2 -2.3 3.2 -2.1, 0 0 0 0 0 0, 1e-3, 10500, 3, 1e-1, true,
-#ACKLEY, 4, 3 4 -3 -2, 0 0 0 0, 1e-6, 1100, 3, 5e-1, true,
-#RASTRIGIN, 4, 3 4 -3 -2, 0 0 0 0, 1e-6, 10000, 3, 5e-1, true,
-#GRIEWANK, 3, -210 123 -456, 0 0 0, 1e-1, 1000, 50, 100, true,
-#LEVY, 4, 4 -6 -2 8, 1 1 1 1, 1e-3, 3000, 1, 1, true,
-#SCHWEFEL, 2, 100 -200, 420.9687 420.9687, 1, 300, 100, 100, true,
-ZAKHAROV, 5, -4 -2 3 5 7, 0 0 0 0 0, 1e-4, 2200, 1.5, 1, true,
-PERM, 2, -2 -1, 1 2, 2e-3, 210, 5e-1, 1e-1, true,
-#PERM, 3, -2 -3 -1, 1 2 3, 5e-5, 200, 5e-1, 1e-1, true,
-#PERM, 4, -2 -3 -4 -1, 1 2 3 4, 5e-4, 2200, 5e-1, 1e-1, true,
-#PERM, 5, -2 -3 -4 -5 -1, 1 2 3 4 5, 5e-4, 200, 5e-1, 1e-1, true,
-#STYBLINSKI_TANG, 4, 1 2 3 4, -2.903534 -2.903534 -2.903534 -2.903534, 1e-4, 500, 1, 5e-1, true,
+PARABOLA, 2, 4.6 5.8, 0 0, 1e-4, 820, 1, 2e-1, true
+PARABOLA, 4, 2.5 3.1 4.6 5.8, 0 0 0 0, 1e-4, 820, 1, 2e-1, true
+ROSENBROCK, 2, -1.2 1, 1 1, 1e-4, 380, 1, 1e-1, true
+ROSENBROCK, 5, -4.4 -3.5 -2.6 -1.7 -0.8, 1 1 1 1 1, 1e-4, 3800, 5e-1, 1e-1, true
+ROSENBROCK, 10, -0.1 0.1 0.2 -0.1 -0.2 0.3 0.2 -0.1 0.2 -0.3, 1 1 1 1 1 1 1 1 1 1, 5e-5, 38000, 3, 5e-2, true
+POWELL, 4, 3 -1 -2 1, 0 0 0 0, 5e-3, 1100, 3, 1e-1, true
+CIGAR, 13, -1.2 2.3 -3.2 2.1 1.2 -2.3 3.2 -2.1 -1.2 2.3 -3.2 2.1 -1.2, 0 0 0 0 0 0 0 0 0 0 0 0 0, 5e-5, 75000, 3, 1e-1, true
+SPHERE, 13, -1.2 2.3 -3.2 2.1 1.2 -2.3 3.2 -2.1 -1.2 2.3 -3.2 2.1 -1.2, 0 0 0 0 0 0 0 0 0 0 0 0 0, 5e-4, 47000, 3, 1e-1, true
+ELLI, 10, 2 3 4 -3 -2 -1 2 3 4 3, 0 0 0 0 0 0 0 0 0 0, 1e-4, 25000, 3, 1e-1, true
+#TWO_AXES, 10, 2 3 4 -3 -2 -1 2 3 4 3, 0 0 0 0 0 0 0 0 0 0, 1e-4, 1000, 3, 1e-1, true
+#CIG_TAB, 10, 2 3 4 -3 -2 -1 2 3 4 3, 0 0 0 0 0 0 0 0 0 0, 1e-4, 1000, 3, 1e-1, true
+TABLET, 11, 2 3 4 -3 -2 -1 2 3 4 3 -1, 0 0 0 0 0 0 0 0 0 0 0, 2e-4, 41000, 3, 1e-1, true
+#DIFF_POW, 7, 1 -1 1 -1 1 -1 1, 0 0 0 0 0 0 0, 1e-2, 2500, 3, 1e-1, true
+SS_DIFF_POW, 6, -3.2 2.1 1.2 -2.3 3.2 -2.1, 0 0 0 0 0 0, 1e-3, 10500, 3, 1e-1, true
+#ACKLEY, 4, 3 4 -3 -2, 0 0 0 0, 1e-6, 1100, 3, 5e-1, true
+#RASTRIGIN, 4, 3 4 -3 -2, 0 0 0 0, 1e-6, 10000, 3, 5e-1, true
+#GRIEWANK, 3, -210 123 -456, 0 0 0, 1e-1, 1000, 50, 100, true
+#LEVY, 4, 4 -6 -2 8, 1 1 1 1, 1e-3, 3000, 1, 1, true
+#SCHWEFEL, 2, 100 -200, 420.9687 420.9687, 1, 300, 100, 100, true
+ZAKHAROV, 5, -4 -2 3 5 7, 0 0 0 0 0, 1e-4, 2200, 1.5, 1, true
+PERM, 2, -2 -1, 1 2, 2e-3, 210, 5e-1, 1e-1, true
+#PERM, 3, -2 -3 -1, 1 2 3, 5e-5, 200, 5e-1, 1e-1, true
+#PERM, 4, -2 -3 -4 -1, 1 2 3 4, 5e-4, 2200, 5e-1, 1e-1, true
+#PERM, 5, -2 -3 -4 -5 -1, 1 2 3 4 5, 5e-4, 200, 5e-1, 1e-1, true
+#STYBLINSKI_TANG, 4, 1 2 3 4, -2.903534 -2.903534 -2.903534 -2.903534, 1e-4, 500, 1, 5e-1, true
