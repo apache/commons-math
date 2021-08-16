@@ -207,9 +207,6 @@
     <!-- Switch statements should have independent cases -->
     <module name="FallThrough" />
 
-    <!-- Constant names should obey the traditional all uppercase naming convention -->
-    <module name="ConstantName" />
-
     <!-- No System.out.println() statements -->
     <module name="Regexp">
       <!-- no sysouts -->
