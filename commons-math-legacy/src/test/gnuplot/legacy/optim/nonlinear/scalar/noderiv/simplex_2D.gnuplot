@@ -40,6 +40,7 @@ set origin 0, 0
 
 lastOptim = numOptim - 1
 do for [iOptim = 1:lastOptim] {
+
   # Evaluations range.
   stats file u evalColIndex nooutput
   numEval = STATS_max
@@ -65,10 +66,11 @@ do for [iOptim = 1:lastOptim] {
     set multiplot
 
     # Number of evaluations.
-    set size 1, 0.15
-    set origin 0, 0.85
+    set size 1, 0.2
+    set origin 0, 0.8
     unset xtics
 
+    set title file . " - optimization " . iOptim . " - iteration " . iSpx noenhanced
     plot \
        file index iOptim \
          every ::0::0 \
@@ -78,10 +80,11 @@ do for [iOptim = 1:lastOptim] {
          every ::0::0:iSpx \
          u 0:1 \
          w lp pt 1 lc "black" lw 2 notitle
+    unset title
 
     # Objective function.
-    set size 1, 0.15
-    set origin 0, 0.7
+    set size 1, 0.2
+    set origin 0, 0.6
 
     plot \
        file index iOptim \
@@ -94,7 +97,7 @@ do for [iOptim = 1:lastOptim] {
          w lp pt 1 lc "black" lw 2 notitle
 
     # Simplex.
-    set size 1, 0.7
+    set size 1, 0.6
     set origin 0, 0
     set xtics
 
