@@ -38,5 +38,12 @@ limitations under the License.
         <include>RELEASE-NOTES.txt</include>
       </includes>
     </fileSet>
+    <fileSet>
+      <directory>${project.basedir}/target/dependency</directory>
+      <outputDirectory></outputDirectory>
+      <includes>
+        <include>commons-math*.jar</include>
+      </includes>
+    </fileSet>
   </fileSets>
 </assembly>
