@@ -288,7 +288,7 @@ public class Dfp implements RealFieldElement<Dfp> {
 
         if (exponent == 1024) {
             // infinity or NAN
-            if (x != x) {
+            if (Double.isNaN(x)) {
                 sign = (byte) 1;
                 nans = QNAN;
             } else if (x < 0) {

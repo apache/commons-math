@@ -636,7 +636,7 @@ final class AccurateMathCalc {
      * @return formatted number
      */
     static String format(double d) {
-        if (d != d) {
+        if (Double.isNaN(d)) {
             return "Double.NaN,";
         } else {
             return ((d >= 0) ? "+" : "") + Double.toString(d) + "d,";
