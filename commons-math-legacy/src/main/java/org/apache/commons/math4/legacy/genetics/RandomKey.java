@@ -163,7 +163,7 @@ public abstract class RandomKey<T> extends AbstractListChromosome<Double> implem
         List<Integer> anotherPerm = anotherRk.baseSeqPermutation;
 
         for (int i=0; i<getLength(); i++) {
-            if (thisPerm.get(i) != anotherPerm.get(i)) {
+            if (!thisPerm.get(i).equals(anotherPerm.get(i))) {
                 return false;
             }
         }
