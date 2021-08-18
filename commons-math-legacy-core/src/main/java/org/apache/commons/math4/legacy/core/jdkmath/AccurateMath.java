@@ -2692,16 +2692,14 @@ public final class AccurateMath {
             if (invx == 0) { // X is infinite
                 if (x > 0) {
                     return y; // return +/- 0.0
-                } else {
-                    return copySign(Math.PI, y);
                 }
+                return copySign(Math.PI, y);
             }
 
             if (x < 0 || invx < 0) {
                 return copySign(Math.PI, y);
-            } else {
-                return x * y;
             }
+            return x * y;
         }
 
         // y cannot now be zero
@@ -2731,35 +2729,17 @@ public final class AccurateMath {
         }
 
         if (x == Double.POSITIVE_INFINITY) {
-            if (y > 0 || 1 / y > 0) {
-                return 0d;
-            }
-
-            if (y < 0 || 1 / y < 0) {
-                return -0d;
-            }
+            return y > 0 ? 0d : -0d;
         }
 
         if (x == Double.NEGATIVE_INFINITY) {
-            if (y > 0.0 || 1 / y > 0.0) {
-                return Math.PI;
-            }
-
-            if (y < 0 || 1 / y < 0) {
-                return -Math.PI;
-            }
+            return y > 0 ? Math.PI : -Math.PI;
         }
 
         // Neither y nor x can be infinite or NAN here
 
         if (x == 0) {
-            if (y > 0 || 1 / y > 0) {
-                return Math.PI * F_1_2;
-            }
-
-            if (y < 0 || 1 / y < 0) {
-                return -Math.PI * F_1_2;
-            }
+            return y > 0 ? Math.PI * F_1_2 : -Math.PI * F_1_2;
         }
 
         // Compute ratio r = y/x
