@@ -244,7 +244,7 @@ public final class MathArrays {
         checkEqualLength(p1, p2);
         double sum = 0;
         for (int i = 0; i < p1.length; i++) {
-            final double dp = p1[i] - p2[i];
+            final double dp = (double) p1[i] - p2[i];
             sum += dp * dp;
         }
         return AccurateMath.sqrt(sum);

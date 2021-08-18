@@ -719,7 +719,7 @@ public class CMAESOptimizer
             if (isActiveCMA) {
                 // Adapt covariance matrix C active CMA
                 negccov = (1 - ccovmu) * 0.25 * mueff /
-                    (AccurateMath.pow(dimension + 2, 1.5) + 2 * mueff);
+                    (AccurateMath.pow(dimension + 2.0, 1.5) + 2 * mueff);
                 // keep at least 0.66 in all directions, small popsize are most
                 // critical
                 final double negminresidualvariance = 0.66;

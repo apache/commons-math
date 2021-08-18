@@ -65,7 +65,7 @@ public class LaguerreRuleFactory extends BaseRuleFactory<Double> {
         final RealMatrix c = MatrixUtils.createRealMatrix(degree, degree);
 
         for (int i = 0; i < degree; i++) {
-            c.setEntry(i, i, 2 * i + 1);
+            c.setEntry(i, i, 2.0 * i + 1);
             if (i + 1 < degree) {
                 // subdiagonal
                 c.setEntry(i+1, i, -(i + 1));

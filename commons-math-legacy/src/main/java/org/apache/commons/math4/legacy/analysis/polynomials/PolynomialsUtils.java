@@ -370,7 +370,7 @@ public final class PolynomialsUtils {
         // case, the lock object is an immutable field that belongs to this
         // class.
         synchronized (coefficients) {
-            final int maxDegree = (int) AccurateMath.floor(AccurateMath.sqrt(2 * coefficients.size())) - 1;
+            final int maxDegree = (int) AccurateMath.floor(AccurateMath.sqrt(2.0 * coefficients.size())) - 1;
             if (degree > maxDegree) {
                 computeUpToDegree(degree, maxDegree, generator, coefficients);
             }

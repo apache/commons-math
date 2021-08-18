@@ -74,8 +74,8 @@ public class HermiteRuleFactory extends BaseRuleFactory<Double> {
         final Double[] points = new Double[numberOfPoints];
         final Double[] weights = new Double[numberOfPoints];
 
-        final double sqrtTwoTimesLastNumPoints = AccurateMath.sqrt(2 * lastNumPoints);
-        final double sqrtTwoTimesNumPoints = AccurateMath.sqrt(2 * numberOfPoints);
+        final double sqrtTwoTimesLastNumPoints = AccurateMath.sqrt(2.0 * lastNumPoints);
+        final double sqrtTwoTimesNumPoints = AccurateMath.sqrt(2.0 * numberOfPoints);
 
         // Find i-th root of H[n+1] by bracketing.
         final int iMax = numberOfPoints / 2;
@@ -95,7 +95,7 @@ public class HermiteRuleFactory extends BaseRuleFactory<Double> {
             double hb = H1 * b;
             for (int j = 1; j < numberOfPoints; j++) {
                 // Compute H[j+1](a) and H[j+1](b)
-                final double jp1 = j + 1;
+                final double jp1 = j + 1.0;
                 final double s = AccurateMath.sqrt(2 / jp1);
                 final double sm = AccurateMath.sqrt(j / jp1);
                 final double hpa = s * a * ha - sm * hma;
@@ -120,7 +120,7 @@ public class HermiteRuleFactory extends BaseRuleFactory<Double> {
                 hc = H1 * c;
                 for (int j = 1; j < numberOfPoints; j++) {
                     // Compute H[j+1](c)
-                    final double jp1 = j + 1;
+                    final double jp1 = j + 1.0;
                     final double s = AccurateMath.sqrt(2 / jp1);
                     final double sm = AccurateMath.sqrt(j / jp1);
                     final double hpc = s * c * hc - sm * hmc;
@@ -159,7 +159,7 @@ public class HermiteRuleFactory extends BaseRuleFactory<Double> {
         if (numberOfPoints % 2 != 0) {
             double hm = H0;
             for (int j = 1; j < numberOfPoints; j += 2) {
-                final double jp1 = j + 1;
+                final double jp1 = j + 1.0;
                 hm = -AccurateMath.sqrt(j / jp1) * hm;
             }
             final double d = sqrtTwoTimesNumPoints * hm;

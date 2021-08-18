@@ -78,7 +78,7 @@ class ChineseRingsClassifier {
             = LearningFactorFunctionFactory.exponentialDecay(1e-1,
                                                              5e-2,
                                                              numSamplesPerTask / 2);
-        final double numNeurons = Math.sqrt(sofm.getNumberOfRows() * sofm.getNumberOfColumns());
+        final double numNeurons = Math.sqrt((double) sofm.getNumberOfRows() * sofm.getNumberOfColumns());
         final NeighbourhoodSizeFunction neighbourhood
             = NeighbourhoodSizeFunctionFactory.exponentialDecay(0.5 * numNeurons,
                                                                 0.2 * numNeurons,

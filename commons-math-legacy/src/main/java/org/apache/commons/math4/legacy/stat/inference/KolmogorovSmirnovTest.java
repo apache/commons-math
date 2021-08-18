@@ -619,7 +619,7 @@ public class KolmogorovSmirnovTest {
         double sum2 = 0;
         kTerm2 = 0;
         for (k = 1; k < MAXIMUM_PARTIAL_SUM_COUNT; k++) {
-            kTerm2 = k * k;
+            kTerm2 = (double) k * k;
             increment = PI_SQUARED * kTerm2 * AccurateMath.exp(-PI_SQUARED * kTerm2 / twoZ2);
             sum2 += increment;
             if (AccurateMath.abs(increment) < PG_SUM_RELATIVE_ERROR * AccurateMath.abs(sum2)) {
@@ -656,7 +656,7 @@ public class KolmogorovSmirnovTest {
         }
         sum2 = 0;
         for (k = 1; k < MAXIMUM_PARTIAL_SUM_COUNT; k++) {
-            kTerm2 = k * k;
+            kTerm2 = (double) k * k;
             kTerm4 = kTerm2 * kTerm2;
             increment = (-pi4 * kTerm4 + 3 * PI_SQUARED * kTerm2 * z2) *
                     AccurateMath.exp(-PI_SQUARED * kTerm2 / twoZ2);
