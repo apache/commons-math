@@ -2687,9 +2687,7 @@ public final class AccurateMath {
         }
 
         if (y == 0) {
-            final double result = x * y;
             final double invx = 1d / x;
-            final double invy = 1d / y;
 
             if (invx == 0) { // X is infinite
                 if (x > 0) {
@@ -2700,13 +2698,9 @@ public final class AccurateMath {
             }
 
             if (x < 0 || invx < 0) {
-                if (y < 0 || invy < 0) {
-                    return -Math.PI;
-                } else {
-                    return Math.PI;
-                }
+                return copySign(Math.PI, y);
             } else {
-                return result;
+                return x * y;
             }
         }
 
