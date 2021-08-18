@@ -31,7 +31,7 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Ignore;
 import org.junit.Test;
-
+import org.junit.jupiter.api.Assertions;
 import org.apache.commons.numbers.core.ArithmeticUtils;
 import org.apache.commons.numbers.core.Precision;
 import org.apache.commons.math4.legacy.core.dfp.Dfp;
@@ -626,24 +626,24 @@ public class AccurateMathTest {
         final double pinf = Double.POSITIVE_INFINITY;
         final double ninf = Double.NEGATIVE_INFINITY;
         // Test using fractions of pi
-        assertAtan2( 0.0,  0.0,  0.0, 1.0);
-        assertAtan2( 0.0, -0.0,  1.0, 1.0);
-        assertAtan2( 0.0,  0.1,  0.0, 1.0);
-        assertAtan2( 0.0, -0.1,  1.0, 1.0);
-        assertAtan2( 0.0, pinf,  0.0, 1.0);
-        assertAtan2( 0.0, ninf,  1.0, 1.0);
+        assertAtan2(+0.0,  0.0,  0.0, 1.0);
+        assertAtan2(+0.0, -0.0,  1.0, 1.0);
+        assertAtan2(+0.0,  0.1,  0.0, 1.0);
+        assertAtan2(+0.0, -0.1,  1.0, 1.0);
+        assertAtan2(+0.0, pinf,  0.0, 1.0);
+        assertAtan2(+0.0, ninf,  1.0, 1.0);
         assertAtan2(-0.0,  0.0, -0.0, 1.0);
         assertAtan2(-0.0, -0.0, -1.0, 1.0);
         assertAtan2(-0.0,  0.1, -0.0, 1.0);
         assertAtan2(-0.0, -0.1, -1.0, 1.0);
         assertAtan2(-0.0, pinf, -0.0, 1.0);
         assertAtan2(-0.0, ninf, -1.0, 1.0);
-        assertAtan2( 0.1,  0.0,  1.0, 2.0);
-        assertAtan2( 0.1, -0.0,  1.0, 2.0);
-        assertAtan2( 0.1,  0.1,  1.0, 4.0);
-        assertAtan2( 0.1, -0.1,  3.0, 4.0);
-        assertAtan2( 0.1, pinf,  0.0, 1.0);
-        assertAtan2( 0.1, ninf,  1.0, 1.0);
+        assertAtan2(+0.1,  0.0,  1.0, 2.0);
+        assertAtan2(+0.1, -0.0,  1.0, 2.0);
+        assertAtan2(+0.1,  0.1,  1.0, 4.0);
+        assertAtan2(+0.1, -0.1,  3.0, 4.0);
+        assertAtan2(+0.1, pinf,  0.0, 1.0);
+        assertAtan2(+0.1, ninf,  1.0, 1.0);
         assertAtan2(-0.1,  0.0, -1.0, 2.0);
         assertAtan2(-0.1, -0.0, -1.0, 2.0);
         assertAtan2(-0.1,  0.1, -1.0, 4.0);
@@ -676,15 +676,12 @@ public class AccurateMathTest {
         final double v = AccurateMath.atan2(y, x);
         if (numerator == 0) {
             // Exact including the sign.
-            // Not available in JUnit 4 so use the long bits.
-            final long l = Double.doubleToLongBits(v);
-            if (l != Double.doubleToLongBits(numerator)) {
-                Assert.fail(String.format("atan2(%s, %s) should be %s but was %s", y, x, numerator, v));
-            }
+            Assertions.assertEquals(numerator, v,
+                () -> String.format("atan2(%s, %s) should be %s but was %s", y, x, numerator, v));
         } else {
-            final String msg = String.format("atan2(%s, %s) should be pi * %s / %s", y, x, numerator, denominator);
             final double expected = AccurateMath.PI * numerator / denominator;
-            assertEquals(msg, expected, v, Precision.EPSILON);
+            Assertions.assertEquals(expected, v, Precision.EPSILON,
+                () -> String.format("atan2(%s, %s) should be pi * %s / %s", y, x, numerator, denominator));
         }
     }
 
