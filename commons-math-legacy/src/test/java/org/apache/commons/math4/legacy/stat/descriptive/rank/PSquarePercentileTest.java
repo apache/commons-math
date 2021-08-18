@@ -22,8 +22,9 @@ import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.LinkedHashSet;
+import java.util.List;
 import java.util.Set;
-
+import java.util.stream.Collectors;
 import org.apache.commons.statistics.distribution.LogNormalDistribution;
 import org.apache.commons.statistics.distribution.NormalDistribution;
 import org.apache.commons.statistics.distribution.ContinuousDistribution;
@@ -123,8 +124,10 @@ public class PSquarePercentileTest extends
                 (int) (testArray.length - index));
         replica.incrementAll(testArray, (int) index,
                 (int) (testArray.length - index));
-        Assert.assertEquals(master, master);
-        Assert.assertEquals(replica, replica);
+        // Check same
+        // Explicit test of the equals method
+        Assert.assertTrue(master.equals(master));
+        Assert.assertTrue(replica.equals(replica));
         Assert.assertEquals(replica, master);
         Assert.assertEquals(master, replica);
     }
@@ -139,7 +142,7 @@ public class PSquarePercentileTest extends
     }
 
     @Test
-    public void testMiscellaniousFunctionsInMarkers() {
+    public void testEqualsInMarkers() {
         double p = 0.5;
         PSquareMarkers markers =
                 PSquarePercentile.newMarkers(
