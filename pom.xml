@@ -274,7 +274,7 @@
 
   <build>
     <!--  TODO: Add binary compatibility check when released. -->
-    <defaultGoal>clean verify apache-rat:check checkstyle:check pmd:check spotbugs:check javadoc:javadoc</defaultGoal>
+    <defaultGoal>clean verify javadoc:javadoc</defaultGoal>
     <plugins>
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
@@ -354,6 +354,14 @@
           <effort>Default</effort>
           <excludeFilterFile>${math.parent.dir}/src/main/resources/spotbugs/spotbugs-exclude-filter.xml</excludeFilterFile>
         </configuration>
+        <executions>
+          <execution>
+            <phase>verify</phase>
+            <goals>
+              <goal>check</goal>
+            </goals>
+          </execution>
+        </executions>
       </plugin>
       <plugin>
         <artifactId>maven-pmd-plugin</artifactId>
@@ -384,10 +392,19 @@
             <excludeRoot>target/generated-sources</excludeRoot>
           </excludeRoots>
         </configuration>
+        <executions>
+          <execution>
+            <phase>verify</phase>
+            <goals>
+              <goal>check</goal>
+            </goals>
+          </execution>
+        </executions>
       </plugin>
       <plugin>
         <groupId>org.apache.rat</groupId>
         <artifactId>apache-rat-plugin</artifactId>
+        <!-- Note: commons-parent binds the check goal to the validate phase -->
         <configuration>
         <!--
           Needed for command-line access, e.g mvn apache-rat:rat and mvn apache-rat:check
