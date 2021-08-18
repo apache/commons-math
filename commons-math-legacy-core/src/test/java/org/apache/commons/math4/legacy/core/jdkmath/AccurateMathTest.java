@@ -622,32 +622,70 @@ public class AccurateMathTest {
 
         assertTrue("atan2(NaN, 0.0) should be NaN", Double.isNaN(AccurateMath.atan2(Double.NaN, 0.0)));
         assertTrue("atan2(0.0, NaN) should be NaN", Double.isNaN(AccurateMath.atan2(0.0, Double.NaN)));
-        assertEquals("atan2(0.0, 0.0) should be 0.0", 0.0, AccurateMath.atan2(0.0, 0.0), Precision.EPSILON);
-        assertEquals("atan2(0.0, 0.001) should be 0.0", 0.0, AccurateMath.atan2(0.0, 0.001), Precision.EPSILON);
-        assertEquals("atan2(0.1, +Inf) should be 0.0", 0.0, AccurateMath.atan2(0.1, Double.POSITIVE_INFINITY), Precision.EPSILON);
-        assertEquals("atan2(-0.0, 0.0) should be -0.0", -0.0, AccurateMath.atan2(-0.0, 0.0), Precision.EPSILON);
-        assertEquals("atan2(-0.0, 0.001) should be -0.0", -0.0, AccurateMath.atan2(-0.0, 0.001), Precision.EPSILON);
-        assertEquals("atan2(-0.0, +Inf) should be -0.0", -0.0, AccurateMath.atan2(-0.1, Double.POSITIVE_INFINITY), Precision.EPSILON);
-        assertEquals("atan2(0.0, -0.0) should be PI", AccurateMath.PI, AccurateMath.atan2(0.0, -0.0), Precision.EPSILON);
-        assertEquals("atan2(0.1, -Inf) should be PI", AccurateMath.PI, AccurateMath.atan2(0.1, Double.NEGATIVE_INFINITY), Precision.EPSILON);
-        assertEquals("atan2(-0.0, -0.0) should be -PI", -AccurateMath.PI, AccurateMath.atan2(-0.0, -0.0), Precision.EPSILON);
-        assertEquals("atan2(0.1, -Inf) should be -PI", -AccurateMath.PI, AccurateMath.atan2(-0.1, Double.NEGATIVE_INFINITY), Precision.EPSILON);
-        assertEquals("atan2(0.1, 0.0) should be PI/2", AccurateMath.PI / 2.0, AccurateMath.atan2(0.1, 0.0), Precision.EPSILON);
-        assertEquals("atan2(0.1, -0.0) should be PI/2", AccurateMath.PI / 2.0, AccurateMath.atan2(0.1, -0.0), Precision.EPSILON);
-        assertEquals("atan2(Inf, 0.1) should be PI/2", AccurateMath.PI / 2.0, AccurateMath.atan2(Double.POSITIVE_INFINITY, 0.1), Precision.EPSILON);
-        assertEquals("atan2(Inf, -0.1) should be PI/2", AccurateMath.PI / 2.0, AccurateMath.atan2(Double.POSITIVE_INFINITY, -0.1), Precision.EPSILON);
-        assertEquals("atan2(-0.1, 0.0) should be -PI/2", -AccurateMath.PI / 2.0, AccurateMath.atan2(-0.1, 0.0), Precision.EPSILON);
-        assertEquals("atan2(-0.1, -0.0) should be -PI/2", -AccurateMath.PI / 2.0, AccurateMath.atan2(-0.1, -0.0), Precision.EPSILON);
-        assertEquals("atan2(-Inf, 0.1) should be -PI/2", -AccurateMath.PI / 2.0, AccurateMath.atan2(Double.NEGATIVE_INFINITY, 0.1), Precision.EPSILON);
-        assertEquals("atan2(-Inf, -0.1) should be -PI/2", -AccurateMath.PI / 2.0, AccurateMath.atan2(Double.NEGATIVE_INFINITY, -0.1), Precision.EPSILON);
-        assertEquals("atan2(Inf, Inf) should be PI/4", AccurateMath.PI / 4.0, AccurateMath.atan2(Double.POSITIVE_INFINITY, Double.POSITIVE_INFINITY),
-                     Precision.EPSILON);
-        assertEquals("atan2(Inf, -Inf) should be PI * 3/4", AccurateMath.PI * 3.0 / 4.0,
-                     AccurateMath.atan2(Double.POSITIVE_INFINITY, Double.NEGATIVE_INFINITY), Precision.EPSILON);
-        assertEquals("atan2(-Inf, Inf) should be -PI/4", -AccurateMath.PI / 4.0, AccurateMath.atan2(Double.NEGATIVE_INFINITY, Double.POSITIVE_INFINITY),
-                     Precision.EPSILON);
-        assertEquals("atan2(-Inf, -Inf) should be -PI * 3/4", -AccurateMath.PI * 3.0 / 4.0,
-                     AccurateMath.atan2(Double.NEGATIVE_INFINITY, Double.NEGATIVE_INFINITY), Precision.EPSILON);
+
+        final double pinf = Double.POSITIVE_INFINITY;
+        final double ninf = Double.NEGATIVE_INFINITY;
+        // Test using fractions of pi
+        assertAtan2( 0.0,  0.0,  0.0, 1.0);
+        assertAtan2( 0.0, -0.0,  1.0, 1.0);
+        assertAtan2( 0.0,  0.1,  0.0, 1.0);
+        assertAtan2( 0.0, -0.1,  1.0, 1.0);
+        assertAtan2( 0.0, pinf,  0.0, 1.0);
+        assertAtan2( 0.0, ninf,  1.0, 1.0);
+        assertAtan2(-0.0,  0.0, -0.0, 1.0);
+        assertAtan2(-0.0, -0.0, -1.0, 1.0);
+        assertAtan2(-0.0,  0.1, -0.0, 1.0);
+        assertAtan2(-0.0, -0.1, -1.0, 1.0);
+        assertAtan2(-0.0, pinf, -0.0, 1.0);
+        assertAtan2(-0.0, ninf, -1.0, 1.0);
+        assertAtan2( 0.1,  0.0,  1.0, 2.0);
+        assertAtan2( 0.1, -0.0,  1.0, 2.0);
+        assertAtan2( 0.1,  0.1,  1.0, 4.0);
+        assertAtan2( 0.1, -0.1,  3.0, 4.0);
+        assertAtan2( 0.1, pinf,  0.0, 1.0);
+        assertAtan2( 0.1, ninf,  1.0, 1.0);
+        assertAtan2(-0.1,  0.0, -1.0, 2.0);
+        assertAtan2(-0.1, -0.0, -1.0, 2.0);
+        assertAtan2(-0.1,  0.1, -1.0, 4.0);
+        assertAtan2(-0.1, -0.1, -3.0, 4.0);
+        assertAtan2(-0.1, pinf, -0.0, 1.0);
+        assertAtan2(-0.1, ninf, -1.0, 1.0);
+        assertAtan2(pinf,  0.0,  1.0, 2.0);
+        assertAtan2(pinf, -0.0,  1.0, 2.0);
+        assertAtan2(pinf,  0.1,  1.0, 2.0);
+        assertAtan2(pinf, -0.1,  1.0, 2.0);
+        assertAtan2(pinf, pinf,  1.0, 4.0);
+        assertAtan2(pinf, ninf,  3.0, 4.0);
+        assertAtan2(ninf,  0.0, -1.0, 2.0);
+        assertAtan2(ninf, -0.0, -1.0, 2.0);
+        assertAtan2(ninf,  0.1, -1.0, 2.0);
+        assertAtan2(ninf, -0.1, -1.0, 2.0);
+        assertAtan2(ninf, pinf, -1.0, 4.0);
+        assertAtan2(ninf, ninf, -3.0, 4.0);
+    }
+
+    /**
+     * Assert the atan2(y, x) value is a fraction of pi.
+     *
+     * @param y ordinate
+     * @param x abscissa
+     * @param numerator numerator of the fraction of pi (including the sign)
+     * @param denominator denominator of the fraction of pi
+     */
+    private static void assertAtan2(double y, double x, double numerator, double denominator) {
+        final double v = AccurateMath.atan2(y, x);
+        if (numerator == 0) {
+            // Exact including the sign.
+            // Not available in JUnit 4 so use the long bits.
+            final long l = Double.doubleToLongBits(v);
+            if (l != Double.doubleToLongBits(numerator)) {
+                Assert.fail(String.format("atan2(%s, %s) should be %s but was %s", y, x, numerator, v));
+            }
+        } else {
+            final String msg = String.format("atan2(%s, %s) should be pi * %s / %s", y, x, numerator, denominator);
+            final double expected = AccurateMath.PI * numerator / denominator;
+            assertEquals(msg, expected, v, Precision.EPSILON);
+        }
     }
 
     @Test
