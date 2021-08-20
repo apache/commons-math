@@ -299,33 +299,18 @@ public class CMAESOptimizerTest {
     }
 
     @Test
-    public void testDiffPow() {
+    public void testSumPow() {
         double[] startPoint = OptimTestUtils.point(DIM,1.0);
         double[] insigma = OptimTestUtils.point(DIM,0.1);
         double[][] boundaries = null;
         PointValuePair expected =
             new PointValuePair(OptimTestUtils.point(DIM,0.0),0.0);
-        doTest(TestFunction.DIFF_POW.withDimension(DIM), startPoint, insigma, boundaries,
+        doTest(TestFunction.SUM_POW.withDimension(DIM), startPoint, insigma, boundaries,
                 GoalType.MINIMIZE, 10, true, 0, 1e-13,
                 1e-8, 1e-1, 100000, expected);
-        doTest(TestFunction.DIFF_POW.withDimension(DIM), startPoint, insigma, boundaries,
+        doTest(TestFunction.SUM_POW.withDimension(DIM), startPoint, insigma, boundaries,
                 GoalType.MINIMIZE, 10, false, 0, 1e-13,
                 1e-8, 2e-1, 100000, expected);
-    }
-
-    @Test
-    public void testSsDiffPow() {
-        double[] startPoint = OptimTestUtils.point(DIM,1.0);
-        double[] insigma = OptimTestUtils.point(DIM,0.1);
-        double[][] boundaries = null;
-        PointValuePair expected =
-            new PointValuePair(OptimTestUtils.point(DIM,0.0),0.0);
-        doTest(TestFunction.SS_DIFF_POW.withDimension(DIM), startPoint, insigma, boundaries,
-                GoalType.MINIMIZE, 10, true, 0, 1e-13,
-                1e-4, 1e-1, 200000, expected);
-        doTest(TestFunction.SS_DIFF_POW.withDimension(DIM), startPoint, insigma, boundaries,
-                GoalType.MINIMIZE, 10, false, 0, 1e-13,
-                1e-4, 1e-1, 200000, expected);
     }
 
     @Test

@@ -19,7 +19,6 @@ package org.apache.commons.math4.legacy.optim.nonlinear.scalar;
 import java.util.function.Function;
 import java.util.function.DoubleUnaryOperator;
 import org.apache.commons.math4.legacy.analysis.MultivariateFunction;
-import org.apache.commons.math4.legacy.core.jdkmath.AccurateMath;
 
 /**
  * Generators of {@link MultivariateFunction multivariate scalar functions}.
@@ -71,20 +70,26 @@ public enum TestFunction {
             };
         }),
     TWO_AXES(dim -> {
+            final int halfDim = dim / 2;
             return x -> {
                 double f = 0;
-                for (int i = 0; i < dim; i++) {
-                    f += (i < dim / 2 ? 1e6 : 1) * x[i] * x[i];
+                for (int i = 0; i < halfDim; i++) {
+                    f += 1e6 * x[i] * x[i];
+                }
+                for (int i = halfDim; i < dim; i++) {
+                    f += x[i] * x[i];
                 }
                 return f;
             };
         }),
     ELLI(dim -> {
-            final double last = dim - 1;
+            final double M = Math.pow(1e3, 1d / (dim - 1));
             return x -> {
+                double factor = 1;
                 double f = 0;
                 for (int i = 0; i < dim; i++) {
-                    f += Math.pow(1e3, i / last) * x[i] * x[i];
+                    f += factor * x[i] * x[i];
+                    factor *= M;
                 }
                 return f;
             };
@@ -96,19 +101,12 @@ public enum TestFunction {
             };
         }),
     // https://www.sfu.ca/~ssurjano/sumpow.html
-    DIFF_POW(dim -> {
+    SUM_POW(dim -> {
             return x -> {
                 double f = 0;
                 for (int i = 0; i < dim; i++) {
-                    f += AccurateMath.pow(Math.abs(x[i]), i + 2);
+                    f += Math.pow(Math.abs(x[i]), i + 2);
                 }
-                return f;
-            };
-        }),
-    SS_DIFF_POW(dim -> {
-            final MultivariateFunction diffPow = DIFF_POW.withDimension(dim);
-            return x -> {
-                double f = Math.pow(diffPow.value(x), 0.25);
                 return f;
             };
         }),
@@ -134,33 +132,26 @@ public enum TestFunction {
     // https://www.sfu.ca/~ssurjano/rastr.html
     RASTRIGIN(dim -> {
             final double A = 10;
+            final double twopi = 2 * Math.PI;
             return x -> {
                 double sum = 0;
                 for (int i = 0; i < dim; i++) {
                     final double xi = x[i];
-                    sum += xi * xi - A * Math.cos(2 * Math.PI * xi);
+                    sum += xi * xi - A * Math.cos(twopi * xi);
                 }
                 return A * dim + sum;
             };
         }),
-    // https://www.sfu.ca/~ssurjano/powell.html
-    POWELL(dim -> {
-            final int last = dim / 4;
+    // http://benchmarkfcns.xyz/benchmarkfcns/salomonfcn.html
+    SALOMON(dim -> {
             return x -> {
-                double f = 0;
-                for (int i = 0; i < last; i++) {
-                    final int fourI = 4 * i;
-                    final double x4i = x[fourI];
-                    final double x4iP1 = x[fourI + 1];
-                    final double x4iP2 = x[fourI + 2];
-                    final double x4iP3 = x[fourI + 3];
-                    final double a = x4i + 10 * x4iP1;
-                    final double b = x4iP2 - x4iP3;
-                    final double c = x4iP1 - 2 * x4iP2;
-                    final double d = x4i - x4iP3;
-                    f += a * a + 5 * b * b + c * c * c * c + 10 * d * d * d * d;
+                double sum = 0;
+                for (int i = 0; i < dim; i++) {
+                    final double xi = x[i];
+                    sum += xi * xi;
                 }
-                return f;
+                final double sqrtSum = Math.sqrt(sum);
+                return 1 - Math.cos(2 * Math.PI * sqrtSum) + 0.1 * sqrtSum;
             };
         }),
     ROSENBROCK(dim -> {
@@ -175,6 +166,20 @@ public enum TestFunction {
                     f += 1e2 * a * a + b * b;
                 }
                 return f;
+            };
+        }),
+    // http://benchmarkfcns.xyz/benchmarkfcns/happycatfcn.html
+    HAPPY_CAT(dim -> {
+            final double alpha = 0.125;
+            return x -> {
+                double sum = 0;
+                double sumSq = 0;
+                for (int i = 0; i < dim; i++) {
+                    final double xi = x[i];
+                    sum += xi;
+                    sumSq += xi * xi;
+                }
+                return Math.pow(sumSq - dim, 2 * alpha) + (0.5 * sumSq + sum) / dim + 0.5;
             };
         }),
     PARABOLA(dim -> {

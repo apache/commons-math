@@ -33,7 +33,10 @@ import org.junit.jupiter.params.aggregator.ArgumentsAccessor;
 import org.junit.jupiter.params.aggregator.ArgumentsAggregationException;
 import org.junit.jupiter.params.aggregator.AggregateWith;
 import org.junit.jupiter.params.provider.CsvFileSource;
+import org.apache.commons.rng.UniformRandomProvider;
 import org.apache.commons.rng.simple.RandomSource;
+import org.apache.commons.rng.sampling.distribution.ContinuousUniformSampler;
+import org.apache.commons.rng.sampling.UnitSphereSampler;
 import org.apache.commons.math4.legacy.core.MathArrays;
 import org.apache.commons.math4.legacy.exception.MathUnsupportedOperationException;
 import org.apache.commons.math4.legacy.exception.TooManyEvaluationsException;
@@ -89,7 +92,7 @@ public class SimplexOptimizerTest {
     @ParameterizedTest
     @CsvFileSource(resources = NELDER_MEAD_INPUT_FILE)
     void testFunctionWithNelderMead(@AggregateWith(TaskAggregator.class) Task task) {
-        // task.checkAlongLine(1000, true);
+        // task.checkAlongLine(1000);
         task.run(new NelderMeadTransform());
     }
 
@@ -114,7 +117,7 @@ public class SimplexOptimizerTest {
         /** Default convergence criterion. */
         private static final double CONVERGENCE_CHECK = 1e-9;
         /** Default cooling factor. */
-        private static final double SA_COOL_FACTOR = 0.5;
+        private static final double SA_COOL_FACTOR = 0.7;
         /** Default acceptance probability at beginning of SA. */
         private static final double SA_START_PROB = 0.9;
         /** Default acceptance probability at end of SA. */
@@ -131,8 +134,6 @@ public class SimplexOptimizerTest {
         private final int functionEvaluations;
         /** Side length of initial simplex. */
         private final double simplexSideLength;
-        /** Range of random noise. */
-        private final double jitter;
         /** Whether to perform simulated annealing. */
         private final boolean withSA;
         /** File prefix (for saving debugging info). */
@@ -148,7 +149,6 @@ public class SimplexOptimizerTest {
          * {@code optimum}.
          * @param functionEvaluations Allowed number of function evaluations.
          * @param simplexSideLength Side length of initial simplex.
-         * @param jitter Size of random jitter.
          * @param withSA Whether to perform simulated annealing.
          * @param tracePrefix Prefix of the file where to save simplex
          * transformations during the optimization.
@@ -162,7 +162,6 @@ public class SimplexOptimizerTest {
              double pointTolerance,
              int functionEvaluations,
              double simplexSideLength,
-             double jitter,
              boolean withSA,
              String tracePrefix,
              int[] traceIndices) {
@@ -172,7 +171,6 @@ public class SimplexOptimizerTest {
             this.pointTolerance = pointTolerance;
             this.functionEvaluations = functionEvaluations;
             this.simplexSideLength = simplexSideLength;
-            this.jitter = jitter;
             this.withSA = withSA;
             this.tracePrefix = tracePrefix;
             this.traceIndices = traceIndices;
@@ -219,16 +217,12 @@ public class SimplexOptimizerTest {
                 optim.addObserver(createCallback(factory));
             }
 
-            final Simplex initialSimplex =
-                Simplex.alongAxes(OptimTestUtils.point(dim,
-                                                       simplexSideLength,
-                                                       jitter));
-            final double[] startPoint = OptimTestUtils.point(start, jitter);
+            final Simplex initialSimplex = Simplex.equalSidesAlongAxes(dim, simplexSideLength);
             final PointValuePair result =
                 optim.optimize(new MaxEval(maxEval),
                                new ObjectiveFunction(function),
                                GoalType.MINIMIZE,
-                               new InitialGuess(startPoint),
+                               new InitialGuess(start),
                                initialSimplex,
                                factory,
                                sa,
@@ -258,6 +252,7 @@ public class SimplexOptimizerTest {
 
             final String sep = "__";
             final String name = tracePrefix + sanitizeBasename(function + sep +
+                                                               Arrays.toString(start) + sep +
                                                                factory + sep);
 
             // Create file; write first data block (optimum) and columns header.
@@ -274,14 +269,16 @@ public class SimplexOptimizerTest {
                 out.println();
 
                 out.println("#");
-                out.print("# <1: evaluations> <2: objective>");
+                out.print("# <1: evaluations> <2: f(x)> <3: |f(x) - f(optimum)|>");
                 for (int i = 0; i < start.length; i++) {
-                    out.print(" <" + (i + 3) + ": coordinate " + i + ">");
+                    out.print(" <" + (i + 4) + ": x[" + i + "]>");
                 }
                 out.println();
             } catch (IOException e) {
                 Assertions.fail(e.getMessage());
             }
+
+            final double fAtOptimum = function.value(optimum);
 
             // Return callback function.
             return (simplex, isInit, numEval) -> {
@@ -300,7 +297,8 @@ public class SimplexOptimizerTest {
                     for (int index : traceIndices) {
                         final PointValuePair p = points.get(index);
                         out.print(numEval + fieldSep +
-                                  p.getValue() + fieldSep);
+                                  p.getValue() + fieldSep +
+                                  Math.abs(p.getValue() - fAtOptimum) + fieldSep);
 
                         final double[] coord = p.getPoint();
                         for (int i = 0; i < coord.length; i++) {
@@ -321,12 +319,10 @@ public class SimplexOptimizerTest {
          * {@link #start} is reached at the {@link #optimum}.
          *
          * @param numPoints Number of points at which to evaluate the function.
-         * @param plot Whether to generate a file (for visual debugging).
          */
-        public void checkAlongLine(int numPoints,
-                                   boolean plot) {
-            if (plot) {
-                final String name = createPlotBasename(function, start, optimum);
+        public void checkAlongLine(int numPoints) {
+            if (tracePrefix != null) {
+                final String name = tracePrefix + createPlotBasename(function, start, optimum);
                 try (PrintWriter out = new PrintWriter(Files.newBufferedWriter(Paths.get(name)))) {
                     checkAlongLine(numPoints, out);
                 } catch (IOException e) {
@@ -448,13 +444,28 @@ public class SimplexOptimizerTest {
 
             final TestFunction funcGen = a.get(index++, TestFunction.class);
             final int dim = a.getInteger(index++);
-            final double[] start = toArrayOfDoubles(a.getString(index++), dim);
             final double[] optimum = toArrayOfDoubles(a.getString(index++), dim);
+            final double minRadius = a.getDouble(index++);
+            final double maxRadius = a.getDouble(index++);
+            if (minRadius < 0 ||
+                maxRadius < 0 ||
+                minRadius >= maxRadius) {
+                throw new ArgumentsAggregationException("radii");
+            }
             final double pointTol = a.getDouble(index++);
             final int funcEval = a.getInteger(index++);
-            final double sideLength = a.getDouble(index++);
-            final double jitter = a.getDouble(index++);
             final boolean withSA = a.getBoolean(index++);
+
+            // Generate a start point within a spherical shell around the optimum.
+            final UniformRandomProvider rng = OptimTestUtils.rng();
+            final double radius = ContinuousUniformSampler.of(rng, minRadius, maxRadius).sample();
+            final double[] start = UnitSphereSampler.of(rng, dim).sample();
+            for (int i = 0; i < dim; i++) {
+                start[i] *= radius;
+                start[i] += optimum[i];
+            }
+            // Simplex side.
+            final double sideLength = 0.5 * (maxRadius - minRadius);
 
             if (index == a.size()) {
                 // No more arguments.
@@ -464,7 +475,6 @@ public class SimplexOptimizerTest {
                                 pointTol,
                                 funcEval,
                                 sideLength,
-                                jitter,
                                 withSA,
                                 null,
                                 null);
@@ -481,7 +491,6 @@ public class SimplexOptimizerTest {
                                 pointTol,
                                 funcEval,
                                 sideLength,
-                                jitter,
                                 withSA,
                                 tracePrefix,
                                 spxIndices);

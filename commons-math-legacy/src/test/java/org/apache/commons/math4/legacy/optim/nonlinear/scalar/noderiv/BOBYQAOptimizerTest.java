@@ -177,27 +177,15 @@ public class BOBYQAOptimizerTest {
     }
 
     @Test
-    public void testDiffPow() {
+    public void testSumPow() {
         final int dim = DIM / 2;
         double[] startPoint = OptimTestUtils.point(dim, 1.0);
         double[][] boundaries = null;
         PointValuePair expected =
             new PointValuePair(OptimTestUtils.point(dim, 0.0), 0.0);
-        doTest(TestFunction.DIFF_POW.withDimension(dim), startPoint, boundaries,
+        doTest(TestFunction.SUM_POW.withDimension(dim), startPoint, boundaries,
                 GoalType.MINIMIZE,
                 1e-8, 1e-1, 21000, expected);
-    }
-
-    @Test
-    public void testSsDiffPow() {
-        final int dim = DIM / 2;
-        double[] startPoint = OptimTestUtils.point(dim, 1.0);
-        double[][] boundaries = null;
-        PointValuePair expected =
-            new PointValuePair(OptimTestUtils.point(dim, 0.0), 0.0);
-        doTest(TestFunction.SS_DIFF_POW.withDimension(dim), startPoint, boundaries,
-                GoalType.MINIMIZE,
-                1e-2, 1.3e-1, 50000, expected);
     }
 
     @Test
