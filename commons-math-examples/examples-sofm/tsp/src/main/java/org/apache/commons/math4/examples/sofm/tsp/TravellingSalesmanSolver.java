@@ -124,8 +124,10 @@ public final class TravellingSalesmanSolver {
                 f.get();
             }
         } catch (InterruptedException | ExecutionException e) {
-            // Restore interrupted state...
-            Thread.currentThread().interrupt();
+            if (e instanceof InterruptedException) {
+                // Restore interrupted state...
+                Thread.currentThread().interrupt();
+            }
             throw new RuntimeException(e);
         }
         // Terminate all threads.
