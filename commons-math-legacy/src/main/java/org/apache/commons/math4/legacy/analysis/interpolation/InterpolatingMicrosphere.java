@@ -51,7 +51,7 @@ public class InterpolatingMicrosphere {
     private final double background;
 
     /**
-     * Create an unitialiazed sphere.
+     * Create an uninitialized sphere.
      * Sub-classes are responsible for calling the {@code add(double[]) add}
      * method in order to initialize all the sphere's facets.
      *
