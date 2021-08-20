@@ -26,7 +26,7 @@
  * <code>y(t<sub>0</sub>)=y<sub>0</sub></code> known. The provided
  * integrators compute an estimate of <code>y(t)</code> from
  * <code>t=t<sub>0</sub></code> to <code>t=t<sub>1</sub></code>.
- * It is also possible to get thederivatives with respect to the initial state
+ * It is also possible to get the derivatives with respect to the initial state
  * <code>dy(t)/dy(t<sub>0</sub>)</code> or the derivatives with
  * respect to some ODE parameters <code>dy(t)/dp</code>.
  * </p>
