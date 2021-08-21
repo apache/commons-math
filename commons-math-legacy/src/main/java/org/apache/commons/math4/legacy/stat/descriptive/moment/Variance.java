@@ -297,6 +297,7 @@ public class Variance extends AbstractStorelessUnivariateStatistic implements Se
      *     <li>the weights array contains one or more infinite values</li>
      *     <li>the weights array contains one or more NaN values</li>
      *     <li>the weights array contains negative values</li>
+     *     <li>the weights array does not contain at least one non-zero value (applies when length is non zero)</li>
      *     <li>the start and length arguments do not determine a valid array</li>
      * </ul>
      * <p>
@@ -318,7 +319,7 @@ public class Variance extends AbstractStorelessUnivariateStatistic implements Se
 
         double var = Double.NaN;
 
-        if (MathArrays.verifyValues(values, weights,begin, length)) {
+        if (MathArrays.verifyValues(values, weights, begin, length)) {
             if (length == 1) {
                 var = 0.0;
             } else if (length > 1) {
@@ -356,6 +357,7 @@ public class Variance extends AbstractStorelessUnivariateStatistic implements Se
      *     <li>the weights array contains one or more infinite values</li>
      *     <li>the weights array contains one or more NaN values</li>
      *     <li>the weights array contains negative values</li>
+     *     <li>the weights array does not contain at least one non-zero value (applies when length is non zero)</li>
      * </ul>
      * <p>
      * Does not change the internal state of the statistic.</p>
@@ -488,6 +490,7 @@ public class Variance extends AbstractStorelessUnivariateStatistic implements Se
      *     <li>the weights array contains one or more infinite values</li>
      *     <li>the weights array contains one or more NaN values</li>
      *     <li>the weights array contains negative values</li>
+     *     <li>the weights array does not contain at least one non-zero value (applies when length is non zero)</li>
      *     <li>the start and length arguments do not determine a valid array</li>
      * </ul>
      * <p>
@@ -527,6 +530,10 @@ public class Variance extends AbstractStorelessUnivariateStatistic implements Se
                 }
 
                 if (isBiasCorrected) {
+                    // Note: For this to be valid the weights should correspond to counts
+                    // of each observation where the weights are positive integers; the
+                    // sum of the weights is the total number of observations and should
+                    // be at least 2.
                     var = (accum - (accum2 * accum2 / sumWts)) / (sumWts - 1.0);
                 } else {
                     var = (accum - (accum2 * accum2 / sumWts)) / sumWts;
@@ -566,6 +573,7 @@ public class Variance extends AbstractStorelessUnivariateStatistic implements Se
      *     <li>the weights array contains one or more infinite values</li>
      *     <li>the weights array contains one or more NaN values</li>
      *     <li>the weights array contains negative values</li>
+     *     <li>the weights array does not contain at least one non-zero value (applies when length is non zero)</li>
      * </ul>
      * <p>
      * Does not change the internal state of the statistic.</p>

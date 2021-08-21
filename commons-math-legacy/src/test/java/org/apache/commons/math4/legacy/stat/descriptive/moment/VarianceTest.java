@@ -19,8 +19,10 @@ package org.apache.commons.math4.legacy.stat.descriptive.moment;
 import org.apache.commons.math4.legacy.stat.descriptive.StorelessUnivariateStatisticAbstractTest;
 import org.apache.commons.math4.legacy.stat.descriptive.UnivariateStatistic;
 import org.apache.commons.math4.legacy.core.MathArrays;
+import org.apache.commons.math4.legacy.exception.MathIllegalArgumentException;
 import org.junit.Assert;
 import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
 
 /**
  * Test cases for the {@link UnivariateStatistic} class.
@@ -112,6 +114,31 @@ public class VarianceTest extends StorelessUnivariateStatisticAbstractTest{
                 variance.evaluate(testArray, MathArrays.normalizeArray(identicalWeightsArray, testArray.length),
                         0, testArray.length), getTolerance());
 
+    }
+
+    @Test
+    public void testZeroWeights() {
+        Variance variance = new Variance();
+        final double[] values = {1, 2, 3, 4};
+        final double[] weights = new double[values.length];
+
+        // No weights
+        Assertions.assertThrows(MathIllegalArgumentException.class, () -> {
+            variance.evaluate(values, weights);
+        });
+
+        // No length
+        final int begin = 1;
+        final int zeroLength = 0;
+        Assertions.assertEquals(Double.NaN, variance.evaluate(values, weights, begin, zeroLength));
+
+        // One weight (must be non-zero)
+        Assertions.assertThrows(MathIllegalArgumentException.class, () -> {
+            variance.evaluate(values, weights, begin, zeroLength + 1);
+        });
+
+        weights[begin] = Double.MIN_VALUE;
+        Assertions.assertEquals(0.0, variance.evaluate(values, weights, begin, zeroLength + 1));
     }
 
 }
