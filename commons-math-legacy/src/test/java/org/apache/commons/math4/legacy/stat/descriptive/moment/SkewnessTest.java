@@ -60,4 +60,9 @@ public class SkewnessTest extends StorelessUnivariateStatisticAbstractTest{
         Assert.assertFalse(Double.isNaN(skew.getResult()));
     }
 
+    @Test
+    public void testZeroSkewness() {
+        final double[] values = {2, 2, 2, 2};
+        Assert.assertEquals(0, new Skewness().evaluate(values), 0.0);
+    }
 }

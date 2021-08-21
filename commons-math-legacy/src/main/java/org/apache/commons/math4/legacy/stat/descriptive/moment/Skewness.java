@@ -49,6 +49,9 @@ public class Skewness extends AbstractStorelessUnivariateStatistic implements Se
     /** Serializable version identifier. */
     private static final long serialVersionUID = 20150412L;
 
+    /** The value below which the variance is considered zero and thus skewness is zero. */
+    private static final double ZERO_VARIANCE_THRESHOLD = 10E-20;
+
     /** Third moment on which this statistic is based. */
     protected ThirdMoment moment;
 
@@ -115,7 +118,7 @@ public class Skewness extends AbstractStorelessUnivariateStatistic implements Se
             return Double.NaN;
         }
         double variance = moment.m2 / (moment.n - 1);
-        if (variance < 10E-20) {
+        if (variance < ZERO_VARIANCE_THRESHOLD) {
             return 0.0d;
         } else {
             double n0 = moment.getN();
@@ -180,19 +183,22 @@ public class Skewness extends AbstractStorelessUnivariateStatistic implements Se
                 accum2 += d;
             }
             final double variance = (accum - (accum2 * accum2 / length)) / (length - 1);
+            if (variance < ZERO_VARIANCE_THRESHOLD) {
+                skew = 0.0d;
+            } else {
+                double accum3 = 0.0;
+                for (int i = begin; i < begin + length; i++) {
+                    final double d = values[i] - m;
+                    accum3 += d * d * d;
+                }
+                accum3 /= variance * AccurateMath.sqrt(variance);
 
-            double accum3 = 0.0;
-            for (int i = begin; i < begin + length; i++) {
-                final double d = values[i] - m;
-                accum3 += d * d * d;
+                // Get N
+                double n0 = length;
+
+                // Calculate skewness
+                skew = (n0 / ((n0 - 1) * (n0 - 2))) * accum3;
             }
-            accum3 /= variance * AccurateMath.sqrt(variance);
-
-            // Get N
-            double n0 = length;
-
-            // Calculate skewness
-            skew = (n0 / ((n0 - 1) * (n0 - 2))) * accum3;
         }
         return skew;
     }
