@@ -236,7 +236,7 @@ public class CMAESOptimizer
         this.stopFitness = stopFitness;
         this.isActiveCMA = isActiveCMA;
         this.diagonalOnly = diagonalOnly;
-        this.checkFeasableCount = checkFeasableCount;
+        this.checkFeasableCount = Math.max(0, checkFeasableCount);
         this.random = new NormalDistribution(0, 1).createSampler(rng);
         this.generateStatistics = generateStatistics;
     }
@@ -398,7 +398,7 @@ public class CMAESOptimizer
             // generate random offspring
             for (int k = 0; k < lambda; k++) {
                 RealMatrix arxk = null;
-                for (int i = 0; i < checkFeasableCount + 1; i++) {
+                for (int i = 0; i <= checkFeasableCount; i++) {
                     if (diagonalOnly <= 0) {
                         arxk = xmean.add(BD.multiply(arz.getColumnMatrix(k))
                                          .scalarMultiply(sigma)); // m + sig * Normal(0,C)
