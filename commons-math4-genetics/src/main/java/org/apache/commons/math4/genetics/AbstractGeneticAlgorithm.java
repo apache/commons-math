@@ -1,5 +1,6 @@
 package org.apache.commons.math4.genetics;
 
+import org.apache.commons.math4.genetics.listeners.ConvergenceListenerRegistryImpl;
 import org.apache.commons.math4.genetics.model.Population;
 import org.apache.commons.math4.genetics.operators.CrossoverPolicy;
 import org.apache.commons.math4.genetics.operators.MutationPolicy;
@@ -7,8 +8,6 @@ import org.apache.commons.math4.genetics.operators.SelectionPolicy;
 import org.apache.commons.math4.genetics.operators.StoppingCondition;
 import org.apache.commons.math4.genetics.stats.PopulationStatisticalSummary;
 import org.apache.commons.math4.genetics.stats.internal.PopulationStatisticalSummaryImpl;
-import org.apache.commons.rng.UniformRandomProvider;
-import org.apache.commons.rng.simple.RandomSource;
 
 public abstract class AbstractGeneticAlgorithm {
 
@@ -27,11 +26,21 @@ public abstract class AbstractGeneticAlgorithm {
 	 */
 	private int generationsEvolved = 0;
 
+	private ConvergenceListenerRegistryImpl convergenceListenerRegistry;
+
 	public AbstractGeneticAlgorithm(final CrossoverPolicy crossoverPolicy, final MutationPolicy mutationPolicy,
 			final SelectionPolicy selectionPolicy) {
 		this.crossoverPolicy = crossoverPolicy;
 		this.mutationPolicy = mutationPolicy;
 		this.selectionPolicy = selectionPolicy;
+	}
+
+	public AbstractGeneticAlgorithm(final CrossoverPolicy crossoverPolicy, final MutationPolicy mutationPolicy,
+			final SelectionPolicy selectionPolicy, ConvergenceListenerRegistryImpl convergenceListenerRegistry) {
+		this.crossoverPolicy = crossoverPolicy;
+		this.mutationPolicy = mutationPolicy;
+		this.selectionPolicy = selectionPolicy;
+		this.convergenceListenerRegistry = convergenceListenerRegistry;
 	}
 
 	/**
@@ -73,6 +82,15 @@ public abstract class AbstractGeneticAlgorithm {
 	}
 
 	/**
+	 * Returns the convergence listener registry.
+	 * 
+	 * @return the convergence listener registry
+	 */
+	public ConvergenceListenerRegistryImpl getConvergenceListenerRegistry() {
+		return convergenceListenerRegistry;
+	}
+
+	/**
 	 * Evolve the given population. Evolution stops when the stopping condition is
 	 * satisfied. Updates the {@link #getGenerationsEvolved() generationsEvolved}
 	 * property with the number of generations evolved before the StoppingCondition
@@ -85,10 +103,13 @@ public abstract class AbstractGeneticAlgorithm {
 	public Population evolve(final Population initial, final StoppingCondition condition) {
 		Population current = initial;
 		PopulationStatisticalSummary populationStats = new PopulationStatisticalSummaryImpl(current);
+		this.convergenceListenerRegistry.notifyAll(populationStats);
+
 		while (!condition.isSatisfied(populationStats)) {
 			current = nextGeneration(current, populationStats);
 			this.generationsEvolved++;
 		}
+
 		return current;
 	}
 

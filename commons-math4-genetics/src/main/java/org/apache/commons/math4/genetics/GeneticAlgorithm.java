@@ -17,14 +17,13 @@
 package org.apache.commons.math4.genetics;
 
 import org.apache.commons.math4.genetics.exception.GeneticException;
+import org.apache.commons.math4.genetics.listeners.ConvergenceListenerRegistryImpl;
 import org.apache.commons.math4.genetics.model.ChromosomePair;
 import org.apache.commons.math4.genetics.model.Population;
 import org.apache.commons.math4.genetics.operators.CrossoverPolicy;
 import org.apache.commons.math4.genetics.operators.MutationPolicy;
 import org.apache.commons.math4.genetics.operators.SelectionPolicy;
-import org.apache.commons.math4.genetics.operators.StoppingCondition;
 import org.apache.commons.math4.genetics.stats.PopulationStatisticalSummary;
-import org.apache.commons.math4.genetics.stats.internal.PopulationStatisticalSummaryImpl;
 import org.apache.commons.math4.genetics.utils.Constants;
 
 /**
@@ -67,6 +66,32 @@ public class GeneticAlgorithm extends AbstractGeneticAlgorithm {
 	}
 
 	/**
+	 * Create a new genetic algorithm.
+	 * 
+	 * @param crossoverPolicy The {@link CrossoverPolicy}
+	 * @param crossoverRate   The crossover rate as a percentage (0-1 inclusive)
+	 * @param mutationPolicy  The {@link MutationPolicy}
+	 * @param mutationRate    The mutation rate as a percentage (0-1 inclusive)
+	 * @param selectionPolicy The {@link SelectionPolicy}
+	 * @throws GeneticException if the crossover or mutation rate is outside the [0,
+	 *                          1] range
+	 */
+	public GeneticAlgorithm(final CrossoverPolicy crossoverPolicy, final double crossoverRate,
+			final MutationPolicy mutationPolicy, final double mutationRate, final SelectionPolicy selectionPolicy,
+			ConvergenceListenerRegistryImpl convergenceListenerRegistry) {
+		super(crossoverPolicy, mutationPolicy, selectionPolicy, convergenceListenerRegistry);
+
+		if (crossoverRate < 0 || crossoverRate > 1) {
+			throw new GeneticException(GeneticException.OUT_OF_RANGE, crossoverRate, Constants.CROSSOVER_RATE, 0, 1);
+		}
+		if (mutationRate < 0 || mutationRate > 1) {
+			throw new GeneticException(GeneticException.OUT_OF_RANGE, mutationRate, Constants.MUTATION_RATE, 0, 1);
+		}
+		this.crossoverRate = crossoverRate;
+		this.mutationRate = mutationRate;
+	}
+
+	/**
 	 * Evolve the given population into the next generation.
 	 * <ol>
 	 * <li>Get nextGeneration population to fill from <code>current</code>
@@ -86,7 +111,7 @@ public class GeneticAlgorithm extends AbstractGeneticAlgorithm {
 	 * </ol>
 	 *
 	 * @param current         the current population.
-	 * @param populationStats	the statistical summary of population.
+	 * @param populationStats the statistical summary of population.
 	 * @return the population for the next generation.
 	 */
 	protected Population nextGeneration(final Population current, PopulationStatisticalSummary populationStats) {
