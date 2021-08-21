@@ -968,6 +968,7 @@ public final class MathArrays {
      *     <li>the weights array contains one or more infinite values</li>
      *     <li>the weights array contains one or more NaN values</li>
      *     <li>the weights array contains negative values</li>
+     *     <li>the weights array does not contain at least one non-zero value (applies when length is non zero)</li>
      *     <li>the start and length arguments do not determine a valid array</li></ul>
      * </li>
      * <li>returns <code>false</code> if the array is non-null, but
@@ -1004,6 +1005,7 @@ public final class MathArrays {
      *     <li>the weights array contains one or more infinite values</li>
      *     <li>the weights array contains one or more NaN values</li>
      *     <li>the weights array contains negative values</li>
+     *     <li>the weights array does not contain at least one non-zero value (applies when length is non zero)</li>
      *     <li>the start and length arguments do not determine a valid array</li></ul>
      * </li>
      * <li>returns <code>false</code> if the array is non-null, but
@@ -1031,27 +1033,29 @@ public final class MathArrays {
 
         checkEqualLength(weights, values);
 
-        boolean containsPositiveWeight = false;
-        for (int i = begin; i < begin + length; i++) {
-            final double weight = weights[i];
-            if (Double.isNaN(weight)) {
-                throw new MathIllegalArgumentException(LocalizedFormats.NAN_ELEMENT_AT_INDEX, Integer.valueOf(i));
+        if (length != 0) {
+            boolean containsPositiveWeight = false;
+            for (int i = begin; i < begin + length; i++) {
+                final double weight = weights[i];
+                if (Double.isNaN(weight)) {
+                    throw new MathIllegalArgumentException(LocalizedFormats.NAN_ELEMENT_AT_INDEX, Integer.valueOf(i));
+                }
+                if (Double.isInfinite(weight)) {
+                    throw new MathIllegalArgumentException(LocalizedFormats.INFINITE_ARRAY_ELEMENT,
+                        Double.valueOf(weight), Integer.valueOf(i));
+                }
+                if (weight < 0) {
+                    throw new MathIllegalArgumentException(LocalizedFormats.NEGATIVE_ELEMENT_AT_INDEX,
+                        Integer.valueOf(i), Double.valueOf(weight));
+                }
+                if (!containsPositiveWeight && weight > 0.0) {
+                    containsPositiveWeight = true;
+                }
             }
-            if (Double.isInfinite(weight)) {
-                throw new MathIllegalArgumentException(LocalizedFormats.INFINITE_ARRAY_ELEMENT,
-                    Double.valueOf(weight), Integer.valueOf(i));
-            }
-            if (weight < 0) {
-                throw new MathIllegalArgumentException(LocalizedFormats.NEGATIVE_ELEMENT_AT_INDEX,
-                    Integer.valueOf(i), Double.valueOf(weight));
-            }
-            if (!containsPositiveWeight && weight > 0.0) {
-                containsPositiveWeight = true;
-            }
-        }
 
-        if (!containsPositiveWeight) {
-            throw new MathIllegalArgumentException(LocalizedFormats.WEIGHT_AT_LEAST_ONE_NON_ZERO);
+            if (!containsPositiveWeight) {
+                throw new MathIllegalArgumentException(LocalizedFormats.WEIGHT_AT_LEAST_ONE_NON_ZERO);
+            }
         }
 
         return verifyValues(values, begin, length, allowEmpty);
