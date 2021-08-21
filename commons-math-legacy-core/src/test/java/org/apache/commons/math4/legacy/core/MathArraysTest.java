@@ -635,6 +635,9 @@ public class MathArraysTest {
         final double[] nullArray = null;
         Assert.assertFalse(MathArrays.verifyValues(singletonArray, 0, 0));
         Assert.assertFalse(MathArrays.verifyValues(testArray, 0, 0));
+        Assert.assertTrue(MathArrays.verifyValues(testArray, 0, 0, true));
+        Assert.assertFalse(MathArrays.verifyValues(testArray, testWeightsArray, 0, 0));
+        Assert.assertTrue(MathArrays.verifyValues(testArray, testWeightsArray, 0, 0, true));
         try {
             MathArrays.verifyValues(singletonArray, 2, 1);  // start past end
             Assert.fail("Expecting MathIllegalArgumentException");
@@ -679,6 +682,12 @@ public class MathArraysTest {
         }
         try {
             MathArrays.verifyValues(testArray, testNegativeWeightsArray, 0, 6);  // can't have negative weights
+            Assert.fail("Expecting MathIllegalArgumentException");
+        } catch (MathIllegalArgumentException ex) {
+            // expected
+        }
+        try {
+            MathArrays.verifyValues(testArray, new double[testArray.length], 0, 6);  // can't have all zero weights
             Assert.fail("Expecting MathIllegalArgumentException");
         } catch (MathIllegalArgumentException ex) {
             // expected
