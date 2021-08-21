@@ -17,14 +17,14 @@
 package org.apache.commons.math4.genetics.operators;
 
 import org.apache.commons.math4.genetics.exception.GeneticException;
-import org.apache.commons.math4.genetics.model.Population;
+import org.apache.commons.math4.genetics.stats.PopulationStatisticalSummary;
 
 /**
  * Stops after a fixed number of generations.
  * <p>
- * Each time {@link #isSatisfied(Population)} is invoked, a generation counter
+ * Each time {@link #isSatisfied(PopulationStatisticalSummary)} is invoked, a generation counter
  * is incremented. Once the counter reaches the configured
- * {@code maxGenerations} value, {@link #isSatisfied(Population)} returns true.
+ * {@code maxGenerations} value, {@link #isSatisfied(PopulationStatisticalSummary)} returns true.
  *
  * @since 2.0
  */
@@ -53,12 +53,11 @@ public class FixedGenerationCount implements StoppingCondition {
 	 * Increments the number of generations counter if the maximum has not been
 	 * reached.
 	 *
-	 * @param population ignored (no impact on result)
 	 * @return <code>true</code> IFF the maximum number of generations has been
 	 *         exceeded
 	 */
 	@Override
-	public boolean isSatisfied(final Population population) {
+	public boolean isSatisfied(PopulationStatisticalSummary populationStats) {
 		if (this.numGenerations < this.maxGenerations) {
 			numGenerations++;
 			return false;

@@ -23,6 +23,8 @@ import org.apache.commons.math4.genetics.operators.CrossoverPolicy;
 import org.apache.commons.math4.genetics.operators.MutationPolicy;
 import org.apache.commons.math4.genetics.operators.SelectionPolicy;
 import org.apache.commons.math4.genetics.operators.StoppingCondition;
+import org.apache.commons.math4.genetics.stats.PopulationStatisticalSummary;
+import org.apache.commons.math4.genetics.stats.internal.PopulationStatisticalSummaryImpl;
 import org.apache.commons.math4.genetics.utils.Constants;
 
 /**
@@ -65,26 +67,6 @@ public class GeneticAlgorithm extends AbstractGeneticAlgorithm {
 	}
 
 	/**
-	 * Evolve the given population. Evolution stops when the stopping condition is
-	 * satisfied. Updates the {@link #getGenerationsEvolved() generationsEvolved}
-	 * property with the number of generations evolved before the StoppingCondition
-	 * is satisfied.
-	 *
-	 * @param initial   the initial, seed population.
-	 * @param condition the stopping condition used to stop evolution.
-	 * @return the population that satisfies the stopping condition.
-	 */
-	public Population evolve(final Population initial, final StoppingCondition condition) {
-		Population current = initial;
-		resetGenerationsEvolved();
-		while (!condition.isSatisfied(current)) {
-			current = nextGeneration(current);
-			increaseGenerationsEvolved();
-		}
-		return current;
-	}
-
-	/**
 	 * Evolve the given population into the next generation.
 	 * <ol>
 	 * <li>Get nextGeneration population to fill from <code>current</code>
@@ -103,21 +85,20 @@ public class GeneticAlgorithm extends AbstractGeneticAlgorithm {
 	 * <li>Return nextGeneration</li>
 	 * </ol>
 	 *
-	 * @param current the current population.
+	 * @param current         the current population.
+	 * @param populationStats	the statistical summary of population.
 	 * @return the population for the next generation.
 	 */
-	public Population nextGeneration(final Population current) {
+	protected Population nextGeneration(final Population current, PopulationStatisticalSummary populationStats) {
 		Population nextGeneration = current.nextGeneration();
 
 		while (nextGeneration.getPopulationSize() < nextGeneration.getPopulationLimit()) {
 			// select parent chromosomes
 			ChromosomePair pair = getSelectionPolicy().select(current);
 
-			// crossover?
 			// apply crossover policy to create two offspring
 			pair = getCrossoverPolicy().crossover(pair.getFirst(), pair.getSecond(), crossoverRate);
 
-			// mutation?
 			// apply mutation policy to the chromosomes
 			pair = new ChromosomePair(getMutationPolicy().mutate(pair.getFirst(), mutationRate),
 					getMutationPolicy().mutate(pair.getSecond(), mutationRate));

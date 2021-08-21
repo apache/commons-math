@@ -1,6 +1,6 @@
 package org.apache.commons.math4.genetics.operators;
 
-import org.apache.commons.math4.genetics.model.Population;
+import org.apache.commons.math4.genetics.stats.PopulationStatisticalSummary;
 
 public class UnchangedBestFitness implements StoppingCondition {
 
@@ -8,24 +8,24 @@ public class UnchangedBestFitness implements StoppingCondition {
 
 	private final int maxGenerationsWithUnchangedBestFitness;
 
-	private int noOfGenerationsHavingUnchangedBestFitness;
+	private int generationsHavingUnchangedBestFitness;
 
 	public UnchangedBestFitness(final int maxGenerationsWithUnchangedAverageFitness) {
 		this.maxGenerationsWithUnchangedBestFitness = maxGenerationsWithUnchangedAverageFitness;
 	}
 
 	@Override
-	public boolean isSatisfied(Population population) {
-		double currentBestFitness = population.getFittestChromosome().getFitness();
+	public boolean isSatisfied(PopulationStatisticalSummary populationStats) {
+		double currentBestFitness = populationStats.getMaxFitness();
 
 		if (lastBestFitness == currentBestFitness) {
-			if (noOfGenerationsHavingUnchangedBestFitness == maxGenerationsWithUnchangedBestFitness) {
+			if (generationsHavingUnchangedBestFitness == maxGenerationsWithUnchangedBestFitness) {
 				return true;
 			} else {
-				this.noOfGenerationsHavingUnchangedBestFitness++;
+				this.generationsHavingUnchangedBestFitness++;
 			}
 		} else {
-			this.noOfGenerationsHavingUnchangedBestFitness = 0;
+			this.generationsHavingUnchangedBestFitness = 0;
 			lastBestFitness = currentBestFitness;
 		}
 

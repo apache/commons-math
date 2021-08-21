@@ -19,15 +19,15 @@ package org.apache.commons.math4.genetics.operators;
 import java.util.concurrent.TimeUnit;
 
 import org.apache.commons.math4.genetics.exception.GeneticException;
-import org.apache.commons.math4.genetics.model.Population;
+import org.apache.commons.math4.genetics.stats.PopulationStatisticalSummary;
 
 /**
  * Stops after a fixed amount of time has elapsed.
  * <p>
- * The first time {@link #isSatisfied(Population)} is invoked, the end time of
+ * The first time {@link #isSatisfied(PopulationStatisticalSummary)} is invoked, the end time of
  * the evolution is determined based on the provided <code>maxTime</code> value.
  * Once the elapsed time reaches the configured <code>maxTime</code> value,
- * {@link #isSatisfied(Population)} returns true.
+ * {@link #isSatisfied(PopulationStatisticalSummary)} returns true.
  *
  * @since 3.1
  */
@@ -66,11 +66,10 @@ public class FixedElapsedTime implements StoppingCondition {
 	 * Determine whether or not the maximum allowed time has passed. The termination
 	 * time is determined after the first generation.
 	 *
-	 * @param population ignored (no impact on result)
 	 * @return <code>true</code> IFF the maximum allowed time period has elapsed
 	 */
 	@Override
-	public boolean isSatisfied(final Population population) {
+	public boolean isSatisfied(PopulationStatisticalSummary populationStats) {
 		if (endTime < 0) {
 			endTime = System.nanoTime() + maxTimePeriod;
 		}
