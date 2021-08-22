@@ -32,8 +32,9 @@ stats file nooutput
 numOptim = STATS_blocks
 evalColIndex = 1
 objColIndex = 2
-xColIndex = 3
-yColIndex = 4
+absObjDiffColIndex = 3
+xColIndex = 4
+yColIndex = 5
 
 set size 1, 1
 set origin 0, 0
@@ -46,7 +47,10 @@ do for [iOptim = 1:lastOptim] {
   numEval = STATS_max
 
   # Objective function range.
-  stats file index iOptim u objColIndex nooutput
+  # Using the absolute value of the difference with the objective function
+  # at the optimum in order to be able to display the logarithm even if the
+  # objective function can be negative.
+  stats file index iOptim u absObjDiffColIndex nooutput
   numSpx = STATS_blank
   minObj = STATS_min
   maxObj = STATS_max
@@ -89,11 +93,11 @@ do for [iOptim = 1:lastOptim] {
     plot \
        file index iOptim \
          every ::0::2 \
-         u 0:(log($2)) \
-         w l lc "black" title "log_{10}f", \
+         u 0:(log($3)) \
+         w l lc "black" title "log_{10}|f(x) - f(optimum)|", \
        '' index iOptim \
          every ::0::2:iSpx \
-         u 0:(log($2)) \
+         u 0:(log($3)) \
          w lp pt 1 lc "black" lw 2 notitle
 
     # Simplex.
@@ -107,10 +111,14 @@ do for [iOptim = 1:lastOptim] {
         every :::(iSpx - showSpx < 0 ? 0 : iSpx - showSpx)::iSpx \
         u xColIndex:yColIndex \
         w l notitle, \
-      '' index "Optimum" u 1:2 ps 5 pt 4 notitle
+      '' index "Optimum" \
+        u 1:2 ps 2.5 pt 4 title "Expected", \
+      '' index iOptim \
+        every :::lastSpx::lastSpx \
+        u xColIndex:yColIndex ps 1.5 pt 6 title "Found"
 
     unset multiplot
-    pause 0.1
+    pause 0.15
   }
 
   pause 1
