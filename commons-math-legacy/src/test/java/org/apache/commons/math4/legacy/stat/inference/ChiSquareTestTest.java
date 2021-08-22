@@ -23,6 +23,7 @@ import org.apache.commons.math4.legacy.exception.OutOfRangeException;
 import org.apache.commons.math4.legacy.exception.ZeroException;
 import org.junit.Assert;
 import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
 
 
 /**
@@ -253,5 +254,18 @@ public class ChiSquareTestTest {
         } catch (ZeroException ex) {
             // expected
         }
+    }
+
+    @Test
+    public void testChiSquareWithZeroObservations() {
+        // No counts
+        final long[][] counts = new long[2][2];
+        Assertions.assertThrows(ZeroException.class, () -> testStatistic.chiSquare(counts));
+        // Empty column
+        final long[][] counts2 = {{1, 2, 0}, {3, 4, 0}};
+        Assertions.assertThrows(ZeroException.class, () -> testStatistic.chiSquare(counts2));
+        // Empty row
+        final long[][] counts3 = {{1, 2}, {3, 4}, {0, 0}};
+        Assertions.assertThrows(ZeroException.class, () -> testStatistic.chiSquare(counts3));
     }
 }

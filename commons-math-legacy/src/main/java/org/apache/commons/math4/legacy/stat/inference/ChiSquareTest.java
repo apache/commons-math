@@ -225,6 +225,8 @@ public class ChiSquareTest {
      * <strong>Preconditions</strong>: <ul>
      * <li>All counts must be &ge; 0.
      * </li>
+     * <li>The sum of each row and column must be &gt; 0.
+     * </li>
      * <li>The count array must be rectangular (i.e. all count[i] subarrays
      *  must have the same length).
      * </li>
@@ -234,12 +236,17 @@ public class ChiSquareTest {
      * </ul><p>
      * If any of the preconditions are not met, an
      * <code>IllegalArgumentException</code> is thrown.</p>
+     * <p>
+     * If a column or row contains only zeros this is invalid input and a
+     * <code>ZeroException</code> is thrown. The empty column/row should
+     * be removed from the input counts.</p>
      *
      * @param counts array representation of 2-way table
      * @return chiSquare test statistic
      * @throws NullArgumentException if the array is null
      * @throws DimensionMismatchException if the array is not rectangular
      * @throws NotPositiveException if {@code counts} has negative entries
+     * @throws ZeroException if the sum of a row or column is zero
      */
     public double chiSquare(final long[][] counts)
         throws NullArgumentException, NotPositiveException,
@@ -259,6 +266,11 @@ public class ChiSquareTest {
                 colSum[col] += counts[row][col];
                 total += counts[row][col];
             }
+            checkNonZero(rowSum[row], "row", row);
+        }
+
+        for (int col = 0; col < nCols; col++) {
+            checkNonZero(colSum[col], "column", col);
         }
 
         // compute expected counts and chi-square
@@ -289,6 +301,8 @@ public class ChiSquareTest {
      * <strong>Preconditions</strong>: <ul>
      * <li>All counts must be &ge; 0.
      * </li>
+     * <li>The sum of each row and column must be &gt; 0.
+     * </li>
      * <li>The count array must be rectangular (i.e. all count[i] subarrays must have
      *     the same length).
      * </li>
@@ -298,6 +312,10 @@ public class ChiSquareTest {
      * </ul><p>
      * If any of the preconditions are not met, an
      * <code>IllegalArgumentException</code> is thrown.</p>
+     * <p>
+     * If a column or row contains only zeros this is invalid input and a
+     * <code>ZeroException</code> is thrown. The empty column/row should
+     * be removed from the input counts.</p>
      *
      * @param counts array representation of 2-way table
      * @return p-value
@@ -305,6 +323,7 @@ public class ChiSquareTest {
      * @throws DimensionMismatchException if the array is not rectangular
      * @throws NotPositiveException if {@code counts} has negative entries
      * @throws MaxCountExceededException if an error occurs computing the p-value
+     * @throws ZeroException if the sum of a row or column is zero
      */
     public double chiSquareTest(final long[][] counts)
         throws NullArgumentException, DimensionMismatchException,
@@ -338,6 +357,8 @@ public class ChiSquareTest {
      * <strong>Preconditions</strong>: <ul>
      * <li>All counts must be &ge; 0.
      * </li>
+     * <li>The sum of each row and column must be &gt; 0.
+     * </li>
      * <li>The count array must be rectangular (i.e. all count[i] subarrays must have the
      *     same length).</li>
      * <li>The 2-way table represented by <code>counts</code> must have at least 2 columns and
@@ -345,6 +366,10 @@ public class ChiSquareTest {
      * </ul><p>
      * If any of the preconditions are not met, an
      * <code>IllegalArgumentException</code> is thrown.</p>
+     * <p>
+     * If a column or row contains only zeros this is invalid input and a
+     * <code>ZeroException</code> is thrown. The empty column/row should
+     * be removed from the input counts.</p>
      *
      * @param counts array representation of 2-way table
      * @param alpha significance level of the test
@@ -355,6 +380,7 @@ public class ChiSquareTest {
      * @throws NotPositiveException if {@code counts} has any negative entries
      * @throws OutOfRangeException if <code>alpha</code> is not in the range (0, 0.5]
      * @throws MaxCountExceededException if an error occurs computing the p-value
+     * @throws ZeroException if the sum of a row or column is zero
      */
     public boolean chiSquareTest(final long[][] counts, final double alpha)
         throws NullArgumentException, DimensionMismatchException,
@@ -597,6 +623,21 @@ public class ChiSquareTest {
         MathArrays.checkRectangular(in);
         MathArrays.checkNonNegative(in);
 
+    }
+
+    /**
+     * Check the array value is non-zero.
+     *
+     * @param value Value
+     * @param name Name of the array
+     * @param index Index in the array
+     * @throws ZeroException if the value is zero
+     */
+    private static void checkNonZero(double value, String name, int index) {
+        if (value == 0) {
+            throw new ZeroException(LocalizedFormats.OBSERVED_COUNTS_ALL_ZERO,
+                name + " " + index);
+        }
     }
 
 }
