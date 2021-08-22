@@ -170,7 +170,7 @@ public final class Simplex implements OptimizationData {
             final double[] vertexI = simplex[i];
             for (int j = 0; j < i; j++) {
                 if (steps[j] == 0) {
-                    throw new ZeroException(LocalizedFormats.EQUAL_VERTICES_IN_SIMPLEX);
+                    throw new ZeroException();
                 }
                 System.arraycopy(steps, 0, vertexI, 0, j + 1);
             }
