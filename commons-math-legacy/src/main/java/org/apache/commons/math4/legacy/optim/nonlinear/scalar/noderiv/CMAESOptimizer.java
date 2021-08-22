@@ -298,8 +298,7 @@ public class CMAESOptimizer
          * @throws NotPositiveException if any of the array entries is smaller
          * than zero.
          */
-        public Sigma(double[] s)
-            throws NotPositiveException {
+        public Sigma(double[] s) {
             for (int i = 0; i < s.length; i++) {
                 if (s[i] < 0) {
                     throw new NotPositiveException(s[i]);
@@ -334,9 +333,7 @@ public class CMAESOptimizer
      * arguments have inconsistent dimensions.
      */
     @Override
-    public PointValuePair optimize(OptimizationData... optData)
-        throws TooManyEvaluationsException,
-               DimensionMismatchException {
+    public PointValuePair optimize(OptimizationData... optData) {
         // Set up base class and perform computation.
         return super.optimize(optData);
     }
