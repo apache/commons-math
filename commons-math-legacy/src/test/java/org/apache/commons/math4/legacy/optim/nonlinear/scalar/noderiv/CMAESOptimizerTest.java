@@ -29,6 +29,7 @@ import org.apache.commons.math4.legacy.optim.MaxEval;
 import org.apache.commons.math4.legacy.optim.PointValuePair;
 import org.apache.commons.math4.legacy.optim.SimpleBounds;
 import org.apache.commons.math4.legacy.optim.nonlinear.scalar.GoalType;
+import org.apache.commons.math4.legacy.optim.nonlinear.scalar.PopulationSize;
 import org.apache.commons.math4.legacy.optim.nonlinear.scalar.ObjectiveFunction;
 import org.apache.commons.math4.legacy.optim.nonlinear.scalar.TestFunction;
 import org.apache.commons.rng.simple.RandomSource;
@@ -172,7 +173,7 @@ public class CMAESOptimizerTest {
                                                    new ObjectiveFunction(fitnessFunction),
                                                    SimpleBounds.unbounded(1),
                                                    GoalType.MINIMIZE,
-                                                   new CMAESOptimizer.PopulationSize(5),
+                                                   new PopulationSize(5),
                                                    new CMAESOptimizer.Sigma(sigma),
                                                    new InitialGuess(start)).getPoint();
         Assert.assertEquals(0, result[0], 1e-7);
@@ -391,7 +392,7 @@ public class CMAESOptimizerTest {
         final double[] result = optimizer.optimize(new MaxEval(10000),
                                                    new ObjectiveFunction(fitnessFunction),
                                                    GoalType.MINIMIZE,
-                                                   new CMAESOptimizer.PopulationSize(5),
+                                                   new PopulationSize(5),
                                                    new CMAESOptimizer.Sigma(sigma),
                                                    new InitialGuess(start),
                                                    new SimpleBounds(lower, upper)).getPoint();
@@ -423,7 +424,7 @@ public class CMAESOptimizerTest {
                                                    new ObjectiveFunction(fitnessFunction),
                                                    GoalType.MINIMIZE,
                                                    SimpleBounds.unbounded(1),
-                                                   new CMAESOptimizer.PopulationSize(5),
+                                                   new PopulationSize(5),
                                                    new CMAESOptimizer.Sigma(new double[] { 1e-1 }),
                                                    new InitialGuess(start));
         final double resNoBound = result.getPoint()[0];
@@ -435,7 +436,7 @@ public class CMAESOptimizerTest {
         result = optimizer.optimize(new MaxEval(100000),
                                     new ObjectiveFunction(fitnessFunction),
                                     GoalType.MINIMIZE,
-                                    new CMAESOptimizer.PopulationSize(5),
+                                    new PopulationSize(5),
                                     new CMAESOptimizer.Sigma(sigma),
                                     new InitialGuess(start),
                                     new SimpleBounds(lower, upper));
@@ -447,7 +448,7 @@ public class CMAESOptimizerTest {
         result = optimizer.optimize(new MaxEval(100000),
                                     new ObjectiveFunction(fitnessFunction),
                                     GoalType.MINIMIZE,
-                                    new CMAESOptimizer.PopulationSize(5),
+                                    new PopulationSize(5),
                                     new CMAESOptimizer.Sigma(sigma),
                                     new InitialGuess(start),
                                     new SimpleBounds(lower, upper));
@@ -502,7 +503,7 @@ public class CMAESOptimizerTest {
                            new InitialGuess(startPoint),
                            SimpleBounds.unbounded(dim),
                            new CMAESOptimizer.Sigma(inSigma),
-                           new CMAESOptimizer.PopulationSize(lambda)) :
+                           new PopulationSize(lambda)) :
             optim.optimize(new MaxEval(maxEvaluations),
                            new ObjectiveFunction(func),
                            goal,
@@ -510,7 +511,7 @@ public class CMAESOptimizerTest {
                                             boundaries[1]),
                            new InitialGuess(startPoint),
                            new CMAESOptimizer.Sigma(inSigma),
-                           new CMAESOptimizer.PopulationSize(lambda));
+                           new PopulationSize(lambda));
 
         Assert.assertEquals(expected.getValue(), result.getValue(), fTol);
         for (int i = 0; i < dim; i++) {

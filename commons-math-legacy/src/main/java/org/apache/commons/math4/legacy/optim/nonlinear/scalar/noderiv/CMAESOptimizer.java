@@ -34,6 +34,7 @@ import org.apache.commons.math4.legacy.optim.ConvergenceChecker;
 import org.apache.commons.math4.legacy.optim.OptimizationData;
 import org.apache.commons.math4.legacy.optim.PointValuePair;
 import org.apache.commons.math4.legacy.optim.nonlinear.scalar.GoalType;
+import org.apache.commons.math4.legacy.optim.nonlinear.scalar.PopulationSize;
 import org.apache.commons.math4.legacy.optim.nonlinear.scalar.MultivariateOptimizer;
 import org.apache.commons.rng.UniformRandomProvider;
 import org.apache.commons.statistics.distribution.ContinuousDistribution;
@@ -76,6 +77,14 @@ import org.apache.commons.math4.legacy.core.jdkmath.AccurateMath;
  *  <li><a href="http://www.lri.fr/~hansen/cmaesintro.html">Introduction to CMA-ES</a></li>
  *  <li><a href="http://en.wikipedia.org/wiki/CMA-ES">Wikipedia</a></li>
  * </ul>
+ *
+ * <p>
+ * The {@link PopulationSize number of offsprings} is the primary strategy
+ * parameter. In the absence of better clues, a good default could be an integer
+ * close to {@code 4 + 3 ln(n)}, where {@code n} is the number of optimized
+ * parameters. Increasing the population size improves global search properties
+ * at the expense of speed (which in general decreases at most linearly with
+ * increasing population size).
  *
  * @since 3.0
  */
@@ -305,40 +314,6 @@ public class CMAESOptimizer
          */
         public double[] getSigma() {
             return sigma.clone();
-        }
-    }
-
-    /**
-     * Population size.
-     * The number of offspring is the primary strategy parameter.
-     * In the absence of better clues, a good default could be an
-     * integer close to {@code 4 + 3 ln(n)}, where {@code n} is the
-     * number of optimized parameters.
-     * Increasing the population size improves global search properties
-     * at the expense of speed (which in general decreases at most
-     * linearly with increasing population size).
-     */
-    public static class PopulationSize implements OptimizationData {
-        /** Population size. */
-        private final int lambda;
-
-        /**
-         * @param size Population size.
-         * @throws NotStrictlyPositiveException if {@code size <= 0}.
-         */
-        public PopulationSize(int size)
-            throws NotStrictlyPositiveException {
-            if (size <= 0) {
-                throw new NotStrictlyPositiveException(size);
-            }
-            lambda = size;
-        }
-
-        /**
-         * @return the population size.
-         */
-        public int getPopulationSize() {
-            return lambda;
         }
     }
 
