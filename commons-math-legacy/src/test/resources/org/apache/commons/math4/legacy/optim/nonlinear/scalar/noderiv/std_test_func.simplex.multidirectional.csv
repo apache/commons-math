@@ -31,7 +31,7 @@
 # Caveat: Some tests are commented out (cf. JIRA: MATH-1552).
 #
 PARABOLA, 8, 0 0 0 0 0 0 0 0, 20, 40, 1e-4, 7200, false
-ROSENBROCK, 2, 1 1, 0.9, 1.1, 2e-3, 600, true
+ROSENBROCK, 2, 1 1, 0.9, 1.1, 3e-3, 650, true
 CIGAR, 2, 0 0, 2, 3, 5e-5, 240, false
 SPHERE, 2, 0 0, 2, 3, 5e-4, 200, false
 ELLI, 2, 0 0, 3, 4, 1e-4, 350, false
@@ -40,12 +40,12 @@ CIG_TAB, 2, 0 0, 3, 4, 1e-3, 280, false
 TABLET, 2, 0 0, 3, 4, 2e-4, 340, false
 SUM_POW, 2, 0 0, 3, 4, 1e-2, 190, false
 ACKLEY, 2, 0 0, 2, 4, 1e-6, 310, false
-#RASTRIGIN, 2, 0 0, 0.9, 1.1, 5e-5, 1000, false
+RASTRIGIN, 2, 0 0, 6, 10, 1e-3, 650, true
 GRIEWANK, 2, 0 0, 2, 3, 1e-1, 500, false
 LEVY, 2, 1 1, 0.9, 1.1, 1e-3, 200, false
 SCHWEFEL, 2, 420.9687 420.9687, 9, 11, 1, 200, false
 ZAKHAROV, 2, 0 0, 3, 4, 1e-4, 1000, false
-PERM, 2, 1 2, 0.9, 1.1, 2e-3, 540, true
+PERM, 2, 1 2, 0.9, 1.1, 2e-3, 640, true
 STYBLINSKI_TANG, 2, -2.903534 -2.903534, 1, 2, 1e-4, 210, false
 #HAPPY_CAT, 2, -1 -1, 2, 3, 1e-4, 500, false
 #SALOMON, 2, 0 0, 2, 3, 1e-4, 500, false

@@ -40,7 +40,7 @@ CIG_TAB, 2, 0 0, 3, 4, 1e-3, 280, true
 TABLET, 2, 0 0, 3, 4, 2e-4, 340, true
 SUM_POW, 2, 0 0, 3, 4, 1e-2, 190,  true
 ACKLEY, 2, 0 0, 2, 4, 1e-6, 310, true
-#RASTRIGIN, 2, 0 0, 0.9, 1.1, 5e-5, 1000, true
+RASTRIGIN, 2, 0 0, 6, 10, 5e-5, 600, true
 GRIEWANK, 2, 0 0, 2, 3, 1e-1, 500, true
 LEVY, 2, 1 1, 0.9, 1.1, 1e-3, 200, true
 SCHWEFEL, 2, 420.9687 420.9687, 9, 11, 1, 200, true
