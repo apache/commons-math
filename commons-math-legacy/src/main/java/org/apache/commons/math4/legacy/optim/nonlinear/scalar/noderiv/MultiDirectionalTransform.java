@@ -26,7 +26,7 @@ import org.apache.commons.math4.legacy.analysis.MultivariateFunction;
 import org.apache.commons.math4.legacy.optim.PointValuePair;
 
 /**
- * Multi-directional search method.
+ * <a href="https://scholarship.rice.edu/handle/1911/16304">Multi-directional</a> search method.
  */
 public class MultiDirectionalTransform
     implements Simplex.TransformFactory {
@@ -71,7 +71,7 @@ public class MultiDirectionalTransform
     @Override
     public UnaryOperator<Simplex> create(final MultivariateFunction evaluationFunction,
                                          final Comparator<PointValuePair> comparator,
-                                         final DoublePredicate unused) {
+                                         final DoublePredicate sa) {
         return original -> {
             final PointValuePair best = original.get(0);
 
@@ -90,9 +90,19 @@ public class MultiDirectionalTransform
                                                           evaluationFunction);
                 final PointValuePair expandedBest = expandedSimplex.get(0);
 
-                return comparator.compare(reflectedBest, expandedBest) < 0 ?
-                    reflectedSimplex :
-                    expandedSimplex;
+                if (comparator.compare(expandedBest, reflectedBest) < 0) {
+                    return expandedSimplex;
+                } else if (sa != null &&
+                           sa.test(expandedBest.getValue() - reflectedBest.getValue())) {
+                    // SA hybridation branch (not part of Torczon's algorithm):
+                    // Create a simplex that contains
+                    //  * the reflected simplex's best point (since it is the
+                    //    best point overall), and
+                    //  * the expanded simplex's points (except its best point).
+                    return reflectedSimplex.replaceLast(expandedSimplex.asList(1, expandedSimplex.getSize()));
+                } else {
+                    return reflectedSimplex;
+                }
             } else {
                 // Compute the contracted simplex.
                 return original.shrink(sigma, evaluationFunction);
