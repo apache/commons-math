@@ -75,7 +75,7 @@ public class NelderMeadTransform
     @Override
     public UnaryOperator<Simplex> create(final MultivariateFunction evaluationFunction,
                                          final Comparator<PointValuePair> comparator,
-                                         final DoublePredicate unused) {
+                                         final DoublePredicate sa) {
         return original -> {
             // The simplex has n + 1 points if dimension is n.
             final int n = original.getDimension();
@@ -105,7 +105,9 @@ public class NelderMeadTransform
                                                                  -gamma,
                                                                  xWorst,
                                                                  evaluationFunction);
-                if (comparator.compare(expanded, reflected) < 0) {
+                if (comparator.compare(expanded, reflected) < 0 ||
+                    (sa != null &&
+                     sa.test(expanded.getValue() - reflected.getValue()))) {
                     return original.replaceLast(expanded);
                 } else {
                     return original.replaceLast(reflected);
