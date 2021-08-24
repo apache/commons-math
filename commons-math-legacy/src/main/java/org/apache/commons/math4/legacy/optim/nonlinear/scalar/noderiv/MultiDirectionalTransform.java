@@ -90,16 +90,10 @@ public class MultiDirectionalTransform
                                                           evaluationFunction);
                 final PointValuePair expandedBest = expandedSimplex.get(0);
 
-                if (comparator.compare(expandedBest, reflectedBest) < 0) {
+                if (comparator.compare(expandedBest, reflectedBest) < 0 ||
+                    (sa != null &&
+                     sa.test(expandedBest.getValue() - reflectedBest.getValue()))) {
                     return expandedSimplex;
-                } else if (sa != null &&
-                           sa.test(expandedBest.getValue() - reflectedBest.getValue())) {
-                    // SA hybridation branch (not part of Torczon's algorithm):
-                    // Create a simplex that contains
-                    //  * the reflected simplex's best point (since it is the
-                    //    best point overall), and
-                    //  * the expanded simplex's points (except its best point).
-                    return reflectedSimplex.replaceLast(expandedSimplex.asList(1, expandedSimplex.getSize()));
                 } else {
                     return reflectedSimplex;
                 }
