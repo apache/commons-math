@@ -77,19 +77,17 @@ public class NelderMeadTransform
                                          final Comparator<PointValuePair> comparator,
                                          final DoublePredicate unused) {
         return original -> {
-            Simplex newSimplex = original;
-
             // The simplex has n + 1 points if dimension is n.
-            final int n = newSimplex.getDimension();
+            final int n = original.getDimension();
 
             // Interesting values.
-            final PointValuePair best = newSimplex.get(0);
-            final PointValuePair secondWorst = newSimplex.get(n - 1);
-            final PointValuePair worst = newSimplex.get(n);
+            final PointValuePair best = original.get(0);
+            final PointValuePair secondWorst = original.get(n - 1);
+            final PointValuePair worst = original.get(n);
             final double[] xWorst = worst.getPoint();
 
             // Centroid of the best vertices, dismissing the worst point (at index n).
-            final double[] centroid = Simplex.centroid(newSimplex.asList().subList(0, n));
+            final double[] centroid = Simplex.centroid(original.asList().subList(0, n));
 
             // Reflection.
             final PointValuePair reflected = Simplex.newPoint(centroid,
@@ -98,7 +96,7 @@ public class NelderMeadTransform
                                                               evaluationFunction);
             if (comparator.compare(reflected, secondWorst) < 0 &&
                 comparator.compare(best, reflected) <= 0) {
-                return newSimplex.replaceLast(reflected);
+                return original.replaceLast(reflected);
             }
 
             if (comparator.compare(reflected, best) < 0) {
@@ -108,9 +106,9 @@ public class NelderMeadTransform
                                                                  xWorst,
                                                                  evaluationFunction);
                 if (comparator.compare(expanded, reflected) < 0) {
-                    return newSimplex.replaceLast(expanded);
+                    return original.replaceLast(expanded);
                 } else {
-                    return newSimplex.replaceLast(reflected);
+                    return original.replaceLast(reflected);
                 }
             }
 
@@ -121,7 +119,7 @@ public class NelderMeadTransform
                                                                    reflected.getPoint(),
                                                                    evaluationFunction);
                 if (comparator.compare(contracted, reflected) < 0) {
-                    return newSimplex.replaceLast(contracted); // Accept contracted point.
+                    return original.replaceLast(contracted); // Accept contracted point.
                 }
             } else {
                 // Inside contraction.
@@ -130,12 +128,12 @@ public class NelderMeadTransform
                                                                    xWorst,
                                                                    evaluationFunction);
                 if (comparator.compare(contracted, worst) < 0) {
-                    return newSimplex.replaceLast(contracted); // Accept contracted point.
+                    return original.replaceLast(contracted); // Accept contracted point.
                 }
             }
 
             // Shrink.
-            return newSimplex.shrink(sigma, evaluationFunction);
+            return original.shrink(sigma, evaluationFunction);
         };
     }
 
