@@ -29,7 +29,7 @@ import java.util.concurrent.CopyOnWriteArrayList;
 import org.apache.commons.math4.legacy.core.MathArrays;
 import org.apache.commons.math4.legacy.analysis.MultivariateFunction;
 import org.apache.commons.math4.legacy.exception.MathUnsupportedOperationException;
-import org.apache.commons.math4.legacy.exception.ConvergenceException;
+import org.apache.commons.math4.legacy.exception.MathInternalError;
 import org.apache.commons.math4.legacy.exception.util.LocalizedFormats;
 import org.apache.commons.math4.legacy.optim.ConvergenceChecker;
 import org.apache.commons.math4.legacy.optim.OptimizationData;
@@ -90,9 +90,12 @@ import org.apache.commons.math4.legacy.optim.nonlinear.scalar.ObjectiveFunction;
  * <p>
  * Whenever {@link SimulatedAnnealing simulated annealing (SA)} is activated,
  * and the SA phase has completed, convergence has probably not been reached
- * yet: In such cases, the {@link PopulationSize} argument to method
- * {@link #optimize(OptimizationData[]) optimize} will trigger an additional
- * "best list" search.
+ * yet; whenever it's the case, an additional (non-SA) search will be performed
+ * (using the current best simplex point as a start point).
+ * <p>
+ * Additional "best list" searches can be requested through setting the
+ * {@link PopulationSize} argument of the {@link #optimize(OptimizationData[])
+ * optimize} method.
  *
  * <p>
  * This implementation does not directly support constrained optimization
@@ -113,8 +116,10 @@ public class SimplexOptimizer extends MultivariateOptimizer {
     private Simplex initialSimplex;
     /** Simulated annealing setup (optional). */
     private SimulatedAnnealing simulatedAnnealing = null;
-    /** Number of additional optimizations (optional). */
-    private int bestListSize = 0;
+    /** User-defined number of additional optimizations (optional). */
+    private int populationSize = 0;
+    /** Actual number of additional optimizations. */
+    private int additionalSearch = 0;
     /** Callbacks. */
     private final List<Observer> callbacks = new CopyOnWriteArrayList<>();
 
@@ -244,13 +249,18 @@ public class SimplexOptimizer extends MultivariateOptimizer {
                                              comparator);
             }
 
-            if (bestListSize != 0) {
+            if (additionalSearch != 0) {
+                // In "bestList", we must keep track of at least two points
+                // in order to be able to compute the new initial simplex for
+                // the additional search.
+                final int max = Math.max(additionalSearch, 2);
+
                 // Store best points.
                 for (int i = 0; i < currentSimplex.getSize(); i++) {
                     keepIfBetter(currentSimplex.get(i),
                                  comparator,
                                  bestList,
-                                 bestListSize);
+                                 max);
                 }
             }
 
@@ -258,19 +268,20 @@ public class SimplexOptimizer extends MultivariateOptimizer {
         }
 
         // No convergence.
-        if (bestList.isEmpty()) {
-            // Bail out.
-            throw new ConvergenceException();
-        } else {
+
+        if (additionalSearch > 0) {
             // Additional optimizations.
             // Reference to counter in the "main" search in order to retrieve
             // the total number of evaluations in the "best list" search.
             final IntSupplier evalCount = () -> getEvaluations();
+
             return bestListSearch(evalFunc,
                                   comparator,
                                   bestList,
                                   evalCount);
         }
+
+        throw new MathInternalError(); // Should never happen.
     }
 
     /**
@@ -301,7 +312,7 @@ public class SimplexOptimizer extends MultivariateOptimizer {
             } else if (data instanceof SimulatedAnnealing) {
                 simulatedAnnealing = (SimulatedAnnealing) data;
             } else if (data instanceof PopulationSize) {
-                bestListSize = ((PopulationSize) data).getPopulationSize();
+                populationSize = ((PopulationSize) data).getPopulationSize();
             }
         }
     }
@@ -335,6 +346,7 @@ public class SimplexOptimizer extends MultivariateOptimizer {
      * {@link #optimize(OptimizationData[]) optimize} method.
      * @throws NullPointerException if no initial simplex or no transform rule
      * was passed to the {@link #optimize(OptimizationData[]) optimize} method.
+     * @throws IllegalArgumentException if {@link #populationSize} is negative.
      */
     private void checkParameters() {
         Objects.requireNonNull(updateRule, "Update rule");
@@ -344,6 +356,14 @@ public class SimplexOptimizer extends MultivariateOptimizer {
             getUpperBound() != null) {
             throw new MathUnsupportedOperationException(LocalizedFormats.CONSTRAINT);
         }
+
+        if (populationSize < 0) {
+            throw new IllegalArgumentException("Population size");
+        }
+
+        additionalSearch = simulatedAnnealing == null ?
+            Math.max(0, populationSize) :
+            Math.max(1, populationSize);
     }
 
     /**
@@ -441,22 +461,24 @@ public class SimplexOptimizer extends MultivariateOptimizer {
      *
      * @param evalFunc Objective function.
      * @param comp Fitness comparator.
-     * @param starts Starting points.
+     * @param bestList Best points encountered during the "main" search.
+     * List is assumed to be ordered from best to worst.
      * @param evalCount Evaluation counter.
      * @return the optimum.
      */
     private PointValuePair bestListSearch(MultivariateFunction evalFunc,
                                           Comparator<PointValuePair> comp,
-                                          List<PointValuePair> starts,
+                                          List<PointValuePair> bestList,
                                           IntSupplier evalCount) {
-        PointValuePair best = starts.get(0); // Overall best result.
+        PointValuePair best = bestList.get(0); // Overall best result.
 
         // Additional local optimizations using each of the best
         // points visited during the main search.
-        for (PointValuePair p : starts) {
+        for (int i = 0; i < additionalSearch; i++) {
+            final PointValuePair start = bestList.get(i);
             // Find shortest distance to the other points.
-            final double dist = shortestDistance(p, starts);
-            final double[] init = p.getPoint();
+            final double dist = shortestDistance(start, bestList);
+            final double[] init = start.getPoint();
             // Create smaller initial simplex.
             final Simplex simplex = Simplex.equalSidesAlongAxes(init.length,
                                                                 SIMPLEX_SIDE_RATIO * dist);
