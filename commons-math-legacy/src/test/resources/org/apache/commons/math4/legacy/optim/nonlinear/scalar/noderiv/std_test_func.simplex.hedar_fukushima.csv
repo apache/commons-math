@@ -30,22 +30,22 @@
 #
 # Caveat: Some tests are commented out (cf. JIRA: MATH-1552).
 #
-PARABOLA, 8, 0 0 0 0 0 0 0 0, 20, 40, 1e-4, 7200, true
-ROSENBROCK, 2, 1 1, 0.9, 1.1, 1e-4, 420, true
-CIGAR, 2, 0 0, 2, 3, 5e-5, 240, true
-SPHERE, 2, 0 0, 2, 3, 5e-4, 200, true
-ELLI, 2, 0 0, 3, 4, 1e-4, 350, true
-TWO_AXES, 2, 0 0, 3, 4, 1e-4, 400, true
-CIG_TAB, 2, 0 0, 3, 4, 1e-3, 280, true
-TABLET, 2, 0 0, 3, 4, 2e-4, 340, true
-SUM_POW, 2, 0 0, 3, 4, 1e-2, 190,  true
-ACKLEY, 2, 0 0, 2, 4, 1e-6, 310, true
-RASTRIGIN, 2, 0 0, 6, 10, 5e-5, 600, true
-GRIEWANK, 2, 0 0, 2, 3, 1e-1, 500, true
-LEVY, 2, 1 1, 0.9, 1.1, 1e-3, 200, true
-SCHWEFEL, 2, 420.9687 420.9687, 9, 11, 1, 200, true
-ZAKHAROV, 2, 0 0, 3, 4, 1e-4, 1000, true
-PERM, 2, 1 2, 0.9, 1.1, 2e-3, 260, true
-STYBLINSKI_TANG, 2, -2.903534 -2.903534, 1, 2, 1e-4, 210, true
+PARABOLA, 8, 0 0 0 0 0 0 0 0, 20, 40, 1e-4, 900, true
+ROSENBROCK, 2, 1 1, 0.9, 1.1, 1e-4, 160, true
+CIGAR, 2, 0 0, 2, 3, 5e-5, 140, true
+SPHERE, 2, 0 0, 2, 3, 5e-4, 110, true
+ELLI, 2, 0 0, 3, 4, 1e-4, 150, true
+TWO_AXES, 2, 0 0, 3, 4, 1e-4, 160, true
+CIG_TAB, 2, 0 0, 3, 4, 1e-3, 150, true
+TABLET, 2, 0 0, 3, 4, 2e-4, 160, true
+SUM_POW, 2, 0 0, 3, 4, 1e-2, 110,  true
+ACKLEY, 2, 0 0, 2, 4, 1e-6, 170, true
+RASTRIGIN, 2, 0 0, 6, 10, 5e-5, 130, true
+GRIEWANK, 2, 0 0, 2, 3, 1e-1, 100, true
+LEVY, 2, 1 1, 0.9, 1.1, 1e-3, 110, true
+SCHWEFEL, 2, 420.9687 420.9687, 9, 11, 1, 110, true
+ZAKHAROV, 2, 0 0, 3, 4, 1e-4, 130, true
+PERM, 2, 1 2, 0.9, 1.1, 2e-3, 150, true
+STYBLINSKI_TANG, 2, -2.903534 -2.903534, 1, 2, 1e-4, 120, true
 #HAPPY_CAT, 2, -1 -1, 2, 3, 1e-4, 500, true
 #SALOMON, 2, 0 0, 2, 3, 1e-4, 500, true

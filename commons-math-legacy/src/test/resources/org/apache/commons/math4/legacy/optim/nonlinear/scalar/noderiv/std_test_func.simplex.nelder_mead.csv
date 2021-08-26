@@ -45,7 +45,7 @@ SUM_POW, 2, 0 0, 3, 4, 1e-2, 75, false
 ACKLEY, 2, 0 0, 2, 4, 1e-6, 145, false
 ACKLEY, 2, 0 0, 2, 4, 1e-6, 160, true
 RASTRIGIN, 2, 0 0, 6, 10, 5e-5, 105, false
-RASTRIGIN, 2, 0 0, 6, 10, 5e-5, 120, true
+RASTRIGIN, 2, 0 0, 6, 10, 5e-5, 140, true
 GRIEWANK, 2, 0 0, 2, 3, 1e-1, 75, false
 GRIEWANK, 2, 0 0, 2, 3, 1e-1, 90, true
 LEVY, 2, 1 1, 0.9, 1.1, 1e-3, 75, false

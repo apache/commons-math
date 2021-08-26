@@ -48,7 +48,6 @@ import org.apache.commons.math4.legacy.optim.SimpleBounds;
 import org.apache.commons.math4.legacy.optim.nonlinear.scalar.GoalType;
 import org.apache.commons.math4.legacy.optim.nonlinear.scalar.ObjectiveFunction;
 import org.apache.commons.math4.legacy.optim.nonlinear.scalar.SimulatedAnnealing;
-import org.apache.commons.math4.legacy.optim.nonlinear.scalar.PopulationSize;
 import org.apache.commons.math4.legacy.optim.nonlinear.scalar.TestFunction;
 
 /**
@@ -195,7 +194,6 @@ public class SimplexOptimizerTest {
             final int dim = start.length;
 
             final SimulatedAnnealing sa;
-            final PopulationSize popSize;
             if (withSA) {
                 final SimulatedAnnealing.CoolingSchedule coolSched =
                     SimulatedAnnealing.CoolingSchedule.decreasingExponential(SA_COOL_FACTOR);
@@ -205,11 +203,8 @@ public class SimplexOptimizerTest {
                                             SA_END_PROB,
                                             coolSched,
                                             RandomSource.KISS.create());
-
-                popSize = new PopulationSize(dim);
             } else {
                 sa = null;
-                popSize = null;
             }
 
             final SimplexOptimizer optim = new SimplexOptimizer(-1, CONVERGENCE_CHECK);
@@ -225,8 +220,7 @@ public class SimplexOptimizerTest {
                                new InitialGuess(start),
                                initialSimplex,
                                factory,
-                               sa,
-                               popSize);
+                               sa);
 
             final double[] endPoint = result.getPoint();
             final double funcValue = result.getValue();
