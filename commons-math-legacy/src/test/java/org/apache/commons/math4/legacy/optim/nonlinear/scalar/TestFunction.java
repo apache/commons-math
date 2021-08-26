@@ -154,16 +154,23 @@ public enum TestFunction {
                 return 1 - Math.cos(2 * Math.PI * sqrtSum) + 0.1 * sqrtSum;
             };
         }),
+    // https://scholarship.rice.edu/handle/1911/16304
     ROSENBROCK(dim -> {
-            final int last = dim - 1;
+            if (dim % 2 != 0) {
+                throw new IllegalArgumentException("Must be a multiple of 2 (was: " + dim + ")");
+            }
+            final int last = dim / 2;
             return x -> {
                 double f = 0;
-                for (int i = 0; i < last; i++) {
-                    final double xi = x[i];
-                    final double xiP1 = x[i + 1];
-                    final double a = xiP1 - xi * xi;
-                    final double b = xi - 1;
-                    f += 1e2 * a * a + b * b;
+                for (int i = 1; i <= last; i++) {
+                    final int twoI = 2 * i;
+                    final int i0 = twoI - 1;
+                    final int i1 = twoI;
+                    final double x2iM1 = x[i0 - 1];
+                    final double x2i = x[i1 - 1];
+                    final double t2iM1 = x2i - x2iM1 * x2iM1;
+                    final double t2i = 1 - x2iM1;
+                    f += 100 * t2iM1 * t2iM1 + t2i * t2i;
                 }
                 return f;
             };
@@ -285,6 +292,35 @@ public enum TestFunction {
                     sum += xi4 - B * xi2 + C * xi;
                 }
                 return A * sum;
+            };
+        }),
+    // https://scholarship.rice.edu/handle/1911/16304
+    POWELL(dim -> {
+            if (dim % 4 != 0) {
+                throw new IllegalArgumentException("Must be a multiple of 4 (was: " + dim + ")");
+            }
+            final int last = dim / 4;
+            return x -> {
+                double sum = 0;
+                for (int i = 1; i <= last; i++) {
+                    final int fourI = 4 * i;
+                    final int i0 = fourI - 3;
+                    final int i1 = fourI - 2;
+                    final int i2 = fourI - 1;
+                    final int i3 = fourI;
+                    final double x4iM3 = x[i0 - 1];
+                    final double x4iM2 = x[i1 - 1];
+                    final double x4iM1 = x[i2 - 1];
+                    final double x4i = x[i3 - 1];
+                    final double t4iM3 = x4iM3 + 10 * x4iM2;
+                    final double t4iM2 = x4iM1 - x4i;
+                    final double t4iM1 = x4iM2 - 2 * x4iM1;
+                    final double sqT4iM1 = t4iM1 * t4iM1;
+                    final double t4i = x4iM3 - x4i;
+                    final double sqT4i = t4i * t4i;
+                    sum += t4iM3 * t4iM3 + 5 * t4iM2 * t4iM2 + sqT4iM1 * sqT4iM1 + 10 * sqT4i * sqT4i;
+                }
+                return sum;
             };
         });
 

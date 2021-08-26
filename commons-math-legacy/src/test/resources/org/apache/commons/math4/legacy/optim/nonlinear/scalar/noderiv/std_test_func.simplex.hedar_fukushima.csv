@@ -32,10 +32,11 @@
 #
 PARABOLA, 8, 0 0 0 0 0 0 0 0, 20, 40, 1e-4, 900, true
 ROSENBROCK, 2, 1 1, 0.9, 1.1, 1e-4, 160, true
+POWELL, 4, 0 0 0 0, 4, 5, 4e-3, 400, true
 CIGAR, 2, 0 0, 2, 3, 5e-5, 140, true
 SPHERE, 2, 0 0, 2, 3, 5e-4, 110, true
 ELLI, 2, 0 0, 3, 4, 1e-4, 150, true
-TWO_AXES, 2, 0 0, 3, 4, 1e-4, 160, true
+TWO_AXES, 2, 0 0, 3, 4, 1e-4, 170, true
 CIG_TAB, 2, 0 0, 3, 4, 1e-3, 150, true
 TABLET, 2, 0 0, 3, 4, 2e-4, 160, true
 SUM_POW, 2, 0 0, 3, 4, 1e-2, 110,  true
