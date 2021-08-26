@@ -1,6 +1,9 @@
 package org.apache.commons.math4.genetics;
 
-import org.apache.commons.math4.genetics.listeners.ConvergenceListenerRegistryImpl;
+import java.util.List;
+
+import org.apache.commons.math4.genetics.listeners.ConvergenceListener;
+import org.apache.commons.math4.genetics.listeners.ConvergenceListenerRegistry;
 import org.apache.commons.math4.genetics.model.Population;
 import org.apache.commons.math4.genetics.operators.CrossoverPolicy;
 import org.apache.commons.math4.genetics.operators.MutationPolicy;
@@ -26,21 +29,11 @@ public abstract class AbstractGeneticAlgorithm {
 	 */
 	private int generationsEvolved = 0;
 
-	private ConvergenceListenerRegistryImpl convergenceListenerRegistry;
-
 	public AbstractGeneticAlgorithm(final CrossoverPolicy crossoverPolicy, final MutationPolicy mutationPolicy,
 			final SelectionPolicy selectionPolicy) {
 		this.crossoverPolicy = crossoverPolicy;
 		this.mutationPolicy = mutationPolicy;
 		this.selectionPolicy = selectionPolicy;
-	}
-
-	public AbstractGeneticAlgorithm(final CrossoverPolicy crossoverPolicy, final MutationPolicy mutationPolicy,
-			final SelectionPolicy selectionPolicy, ConvergenceListenerRegistryImpl convergenceListenerRegistry) {
-		this.crossoverPolicy = crossoverPolicy;
-		this.mutationPolicy = mutationPolicy;
-		this.selectionPolicy = selectionPolicy;
-		this.convergenceListenerRegistry = convergenceListenerRegistry;
 	}
 
 	/**
@@ -82,15 +75,6 @@ public abstract class AbstractGeneticAlgorithm {
 	}
 
 	/**
-	 * Returns the convergence listener registry.
-	 * 
-	 * @return the convergence listener registry
-	 */
-	public ConvergenceListenerRegistryImpl getConvergenceListenerRegistry() {
-		return convergenceListenerRegistry;
-	}
-
-	/**
 	 * Evolve the given population. Evolution stops when the stopping condition is
 	 * satisfied. Updates the {@link #getGenerationsEvolved() generationsEvolved}
 	 * property with the number of generations evolved before the StoppingCondition
@@ -103,7 +87,7 @@ public abstract class AbstractGeneticAlgorithm {
 	public Population evolve(final Population initial, final StoppingCondition condition) {
 		Population current = initial;
 		PopulationStatisticalSummary populationStats = new PopulationStatisticalSummaryImpl(current);
-		this.convergenceListenerRegistry.notifyAll(populationStats);
+		ConvergenceListenerRegistry.getInstance().notifyAll(populationStats);
 
 		while (!condition.isSatisfied(populationStats)) {
 			current = nextGeneration(current, populationStats);

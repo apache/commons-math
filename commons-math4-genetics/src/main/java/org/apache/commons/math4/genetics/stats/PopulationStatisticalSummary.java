@@ -1,5 +1,7 @@
 package org.apache.commons.math4.genetics.stats;
 
+import org.apache.commons.math4.genetics.model.Chromosome;
+
 /**
  * This interface represents the statistical summary for population fitness.
  */
@@ -40,5 +42,13 @@ public interface PopulationStatisticalSummary {
 	 * @return The number of available values
 	 */
 	long getPopulationSize();
+
+	/**
+	 * Calculates the rank of chromosome in population based on its fitness.
+	 * 
+	 * @param chromosome
+	 * @return the rank of chromosome
+	 */
+	public int findRank(Chromosome chromosome);
 
 }

@@ -16,11 +16,6 @@
  */
 package org.apache.commons.math4.genetics.operators;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import org.apache.commons.math4.genetics.exception.GeneticException;
-import org.apache.commons.math4.genetics.model.Chromosome;
 import org.apache.commons.math4.genetics.model.RandomKey;
 import org.apache.commons.math4.genetics.utils.RandomGenerator;
 
@@ -28,30 +23,13 @@ import org.apache.commons.math4.genetics.utils.RandomGenerator;
  * Mutation operator for {@link RandomKey}s. Changes a randomly chosen element
  * of the array representation to a random value uniformly distributed in [0,1].
  *
- * @since 2.0
+ * @since 4.0
  */
-public class RandomKeyMutation implements MutationPolicy {
+public class RandomKeyMutation extends AbstractListChromosomeMutationPolicy<Double> {
 
-	/**
-	 * {@inheritDoc}
-	 *
-	 * @throws GeneticException if <code>original</code> is not a
-	 *                                      {@link RandomKey} instance
-	 */
 	@Override
-	public Chromosome mutate(final Chromosome original, double mutationRate) {
-		if (!(original instanceof RandomKey<?>)) {
-			throw new GeneticException(GeneticException.ILLEGAL_ARGUMENT, original.getClass().getSimpleName());
-		}
-
-		RandomKey<?> originalRk = (RandomKey<?>) original;
-		List<Double> repr = originalRk.getRepresentation();
-		int rInd = RandomGenerator.getRandomGenerator().nextInt(repr.size());
-
-		List<Double> newRepr = new ArrayList<>(repr);
-		newRepr.set(rInd, RandomGenerator.getRandomGenerator().nextDouble());
-
-		return originalRk.newFixedLengthChromosome(newRepr);
+	protected Double mutateGene(Double originalValue) {
+		return RandomGenerator.getRandomGenerator().nextDouble();
 	}
 
 }

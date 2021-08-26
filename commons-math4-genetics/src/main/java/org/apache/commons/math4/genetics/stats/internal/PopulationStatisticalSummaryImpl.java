@@ -8,7 +8,7 @@ import org.apache.commons.math4.genetics.stats.PopulationStatisticalSummary;
 
 public class PopulationStatisticalSummaryImpl implements PopulationStatisticalSummary {
 
-	private int size;
+	private double[] fitnesses;
 
 	private double maxFitness;
 
@@ -19,10 +19,10 @@ public class PopulationStatisticalSummaryImpl implements PopulationStatisticalSu
 	private double variance;
 
 	public PopulationStatisticalSummaryImpl(Population population) {
-		this.size = population.getPopulationSize();
 		double[] fitnesses = getFitnesses(population);
 		Arrays.sort(fitnesses);
-		this.maxFitness = fitnesses[size - 1];
+		this.fitnesses = fitnesses;
+		this.maxFitness = fitnesses[fitnesses.length - 1];
 		this.minFitness = fitnesses[0];
 		this.meanFitness = calculateMeanFitness(fitnesses);
 		this.variance = calculateVariance(fitnesses);
@@ -59,7 +59,7 @@ public class PopulationStatisticalSummaryImpl implements PopulationStatisticalSu
 
 	@Override
 	public long getPopulationSize() {
-		return this.size;
+		return this.fitnesses.length;
 	}
 
 	private double calculateMeanFitness(double[] fitnesses) {
@@ -80,6 +80,11 @@ public class PopulationStatisticalSummaryImpl implements PopulationStatisticalSu
 		}
 
 		return (sumOfSquare / fitnesses.length) - Math.pow(this.meanFitness, 2);
+	}
+
+	@Override
+	public int findRank(Chromosome chromosome) {
+		return Arrays.binarySearch(fitnesses, chromosome.getFitness());
 	}
 
 }
