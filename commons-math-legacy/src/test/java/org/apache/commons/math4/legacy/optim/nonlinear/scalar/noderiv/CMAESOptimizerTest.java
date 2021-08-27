@@ -16,8 +16,6 @@
  */
 package org.apache.commons.math4.legacy.optim.nonlinear.scalar.noderiv;
 
-import org.apache.commons.math4.legacy.Retry;
-import org.apache.commons.math4.legacy.RetryRunner;
 import org.apache.commons.math4.legacy.analysis.MultivariateFunction;
 import org.apache.commons.math4.legacy.exception.DimensionMismatchException;
 import org.apache.commons.math4.legacy.exception.NotPositiveException;
@@ -41,7 +39,6 @@ import org.junit.runner.RunWith;
 /**
  * Test for {@link CMAESOptimizer}.
  */
-@RunWith(RetryRunner.class)
 public class CMAESOptimizerTest {
 
     static final int DIM = 13;
@@ -125,7 +122,6 @@ public class CMAESOptimizerTest {
     }
 
     @Test
-    @Retry(3)
     public void testRosen() {
         final int dim = 12;
         double[] startPoint = OptimTestUtils.point(dim, 0.1);
@@ -142,7 +138,6 @@ public class CMAESOptimizerTest {
     }
 
     @Test
-    @Retry(3)
     public void testMaximize() {
         double[] startPoint = OptimTestUtils.point(DIM,1.0);
         double[] insigma = OptimTestUtils.point(DIM,0.1);
