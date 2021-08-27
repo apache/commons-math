@@ -3,7 +3,7 @@ package org.apache.commons.math4.genetics.listeners;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.apache.commons.math4.genetics.stats.PopulationStatisticalSummary;
+import org.apache.commons.math4.genetics.model.Population;
 
 /**
  * This class is the default implementation of ConvergenceListenerRegistry. It
@@ -35,9 +35,9 @@ public class ConvergenceListenerRegistry {
 	 * 
 	 * @param population statistics
 	 */
-	public void notifyAll(PopulationStatisticalSummary populationStatisticalSummary) {
+	public void notifyAll(Population population) {
 		for (ConvergenceListener convergenceListener : listeners) {
-			convergenceListener.notify(populationStatisticalSummary);
+			convergenceListener.notify(population);
 		}
 	}
 

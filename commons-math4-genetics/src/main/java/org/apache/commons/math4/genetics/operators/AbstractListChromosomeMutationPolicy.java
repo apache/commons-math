@@ -15,7 +15,7 @@ public abstract class AbstractListChromosomeMutationPolicy<T> implements Mutatio
 	 * rate.
 	 *
 	 * @param original     the original chromosome.
-	 * @param mutationRate the rate of mutation
+	 * @param mutationRate the rate of mutation per gene
 	 * @return the mutated chromosome.
 	 * @throws GeneticException if <code>original</code> is not an instance of
 	 *                          {@link AbstractListChromosome}.

@@ -1,15 +1,11 @@
 package org.apache.commons.math4.genetics;
 
-import java.util.List;
-
-import org.apache.commons.math4.genetics.listeners.ConvergenceListener;
 import org.apache.commons.math4.genetics.listeners.ConvergenceListenerRegistry;
 import org.apache.commons.math4.genetics.model.Population;
 import org.apache.commons.math4.genetics.operators.CrossoverPolicy;
 import org.apache.commons.math4.genetics.operators.MutationPolicy;
 import org.apache.commons.math4.genetics.operators.SelectionPolicy;
 import org.apache.commons.math4.genetics.operators.StoppingCondition;
-import org.apache.commons.math4.genetics.stats.PopulationStatisticalSummary;
 import org.apache.commons.math4.genetics.stats.internal.PopulationStatisticalSummaryImpl;
 
 public abstract class AbstractGeneticAlgorithm {
@@ -86,11 +82,14 @@ public abstract class AbstractGeneticAlgorithm {
 	 */
 	public Population evolve(final Population initial, final StoppingCondition condition) {
 		Population current = initial;
-		PopulationStatisticalSummary populationStats = new PopulationStatisticalSummaryImpl(current);
-		ConvergenceListenerRegistry.getInstance().notifyAll(populationStats);
 
-		while (!condition.isSatisfied(populationStats)) {
-			current = nextGeneration(current, populationStats);
+		// notify interested listener
+		ConvergenceListenerRegistry.getInstance().notifyAll(current);
+
+		// check if stopping condition is satisfied otherwise produce the next
+		// generation of population.
+		while (!condition.isSatisfied(current)) {
+			current = nextGeneration(current);
 			this.generationsEvolved++;
 		}
 
@@ -116,11 +115,9 @@ public abstract class AbstractGeneticAlgorithm {
 	 * <li>Return nextGeneration</li>
 	 * </ol>
 	 *
-	 * @param current         the current population
-	 * @param populationStats the statistical summary of the population
+	 * @param current the current population
 	 * @return the population for the next generation.
 	 */
-	protected abstract Population nextGeneration(final Population current,
-			PopulationStatisticalSummary populationStats);
+	protected abstract Population nextGeneration(final Population current);
 
 }

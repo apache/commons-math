@@ -1,6 +1,7 @@
 package org.apache.commons.math4.genetics.operators;
 
-import org.apache.commons.math4.genetics.stats.PopulationStatisticalSummary;
+import org.apache.commons.math4.genetics.model.Chromosome;
+import org.apache.commons.math4.genetics.model.Population;
 
 public class UnchangedMeanFitness implements StoppingCondition {
 
@@ -15,9 +16,9 @@ public class UnchangedMeanFitness implements StoppingCondition {
 	}
 
 	@Override
-	public boolean isSatisfied(PopulationStatisticalSummary populationStats) {
+	public boolean isSatisfied(Population population) {
 
-		double currentMeanFitness = populationStats.getMeanFitness();
+		double currentMeanFitness = calculateMeanFitness(population);
 
 		if (lastMeanFitness == currentMeanFitness) {
 			if (generationsHavingUnchangedMeanFitness == maxGenerationsWithUnchangedMeanFitness) {
@@ -33,4 +34,11 @@ public class UnchangedMeanFitness implements StoppingCondition {
 		return false;
 	}
 
+	private double calculateMeanFitness(Population population) {
+		double totalFitness = 0.0;
+		for (Chromosome chromosome : population) {
+			totalFitness += chromosome.getFitness();
+		}
+		return totalFitness / population.getPopulationSize();
+	}
 }

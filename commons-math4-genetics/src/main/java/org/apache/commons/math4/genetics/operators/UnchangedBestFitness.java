@@ -1,6 +1,6 @@
 package org.apache.commons.math4.genetics.operators;
 
-import org.apache.commons.math4.genetics.stats.PopulationStatisticalSummary;
+import org.apache.commons.math4.genetics.model.Population;
 
 public class UnchangedBestFitness implements StoppingCondition {
 
@@ -15,8 +15,8 @@ public class UnchangedBestFitness implements StoppingCondition {
 	}
 
 	@Override
-	public boolean isSatisfied(PopulationStatisticalSummary populationStats) {
-		double currentBestFitness = populationStats.getMaxFitness();
+	public boolean isSatisfied(Population population) {
+		double currentBestFitness = population.getFittestChromosome().getFitness();
 
 		if (lastBestFitness == currentBestFitness) {
 			if (generationsHavingUnchangedBestFitness == maxGenerationsWithUnchangedBestFitness) {

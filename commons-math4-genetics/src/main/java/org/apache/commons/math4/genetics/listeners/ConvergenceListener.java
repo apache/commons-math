@@ -1,6 +1,6 @@
 package org.apache.commons.math4.genetics.listeners;
 
-import org.apache.commons.math4.genetics.stats.PopulationStatisticalSummary;
+import org.apache.commons.math4.genetics.model.Population;
 
 /**
  * This interface represents a convergence listener. Any implementation of the
@@ -12,8 +12,8 @@ public interface ConvergenceListener {
 	/**
 	 * Notifies about the population statistics.
 	 * 
-	 * @param populationStatisticalSummary
+	 * @param population
 	 */
-	public void notify(PopulationStatisticalSummary populationStatisticalSummary);
+	public void notify(Population population);
 
 }

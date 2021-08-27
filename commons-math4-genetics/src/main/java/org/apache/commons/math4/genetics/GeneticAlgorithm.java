@@ -25,7 +25,6 @@ import org.apache.commons.math4.genetics.model.Population;
 import org.apache.commons.math4.genetics.operators.CrossoverPolicy;
 import org.apache.commons.math4.genetics.operators.MutationPolicy;
 import org.apache.commons.math4.genetics.operators.SelectionPolicy;
-import org.apache.commons.math4.genetics.stats.PopulationStatisticalSummary;
 import org.apache.commons.math4.genetics.utils.Constants;
 
 /**
@@ -87,10 +86,9 @@ public class GeneticAlgorithm extends AbstractGeneticAlgorithm {
 	 * </ol>
 	 *
 	 * @param current         the current population.
-	 * @param populationStats the statistical summary of population.
 	 * @return the population for the next generation.
 	 */
-	protected Population nextGeneration(final Population current, PopulationStatisticalSummary populationStats) {
+	protected Population nextGeneration(final Population current) {
 		Population nextGeneration = current.nextGeneration();
 
 		while (nextGeneration.getPopulationSize() < nextGeneration.getPopulationLimit()) {
