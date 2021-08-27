@@ -32,9 +32,20 @@
 #
 PARABOLA, 8, 0 0 0 0 0 0 0 0, 20, 40, 1e-4, 1500, false
 PARABOLA, 8, 0 0 0 0 0 0 0 0, 20, 40, 1e-4, 2500, true
+PARABOLA, 16, 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0, 20, 40, 1e-4, 5800, false
+PARABOLA, 16, 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0, 20, 40, 1e-4, 10260, true
+ROSENBROCK, 2, 1 1, 0.9, 1.1, 3e-3, 11000, false
 ROSENBROCK, 2, 1 1, 0.9, 1.1, 3e-3, 650, true
+ROSENBROCK, 4, 1 1 1 1, 0.9, 1.1, 3e-3, 45000, false
+ROSENBROCK, 4, 1 1 1 1, 0.9, 1.1, 3e-3, 1850, true
+ROSENBROCK, 8, 1 1 1 1 1 1 1 1, 0.9, 1.1, 4e-3, 130000, false
+ROSENBROCK, 8, 1 1 1 1 1 1 1 1, 0.9, 1.1, 3e-3, 8000, true
+ROSENBROCK, 16, 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1, 0.9, 1.1, 2e-1, 430000, false
+ROSENBROCK, 16, 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1, 0.9, 1.1, 3e-1, 29000, true
 POWELL, 4, 0 0 0 0, 4, 5, 5e-2, 11800, false
-POWELL, 4, 0 0 0 0, 4, 5, 4e-3, 2000, true
+POWELL, 4, 0 0 0 0, 4, 5, 4e-3, 2200, true
+POWELL, 8, 0 0 0 0 0 0 0 0, 4, 5, 7e-2, 37000, false
+POWELL, 8, 0 0 0 0 0 0 0 0, 4, 5, 4e-2, 8500, true
 CIGAR, 2, 0 0, 2, 3, 5e-5, 240, false
 SPHERE, 2, 0 0, 2, 3, 5e-4, 200, false
 ELLI, 2, 0 0, 3, 4, 1e-4, 350, false

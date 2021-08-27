@@ -31,29 +31,25 @@
 # Caveat: Some tests are commented out (cf. JIRA: MATH-1552).
 #
 PARABOLA, 8, 0 0 0 0 0 0 0 0, 20, 40, 1e-4, 700, false
-PARABOLA, 8, 0 0 0 0 0 0 0 0, 20, 40, 1e-4, 6000, true
+PARABOLA, 16, 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0, 20, 40, 5e-4, 3600, false
 ROSENBROCK, 2, 1 1, 0.9, 1.1, 1e-4, 110, false
-ROSENBROCK, 2, 1 1, 0.9, 1.1, 1e-4, 140, true
-POWELL, 4, 0 0 0 0, 4, 5, 4e-3, 290, false
-POWELL, 4, 0 0 0 0, 4, 5, 4e-3, 380, true
+ROSENBROCK, 4, 1 1 1 1, 0.9, 1.1, 1e-4, 400, false
+ROSENBROCK, 8, 1 1 1 1 1 1 1 1, 0.9, 1.1, 3e-4, 2200, false
+ROSENBROCK, 16, 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1, 0.9, 1.1, 5e-1, 7500, false
+POWELL, 4, 0 0 0 0, 4, 5, 5e-3, 290, false
+POWELL, 8, 0 0 0 0 0 0 0 0, 4, 5, 3e-2, 1300, false
 CIGAR, 2, 0 0, 2, 3, 5e-5, 100, false
 SPHERE, 2, 0 0, 2, 3, 5e-4, 80, false
 ELLI, 2, 0 0, 3, 4, 1e-4, 350, false
 TWO_AXES, 2, 0 0, 3, 4, 1e-4, 120, false
 CIG_TAB, 2, 0 0, 3, 4, 1e-3, 100, false
-CIG_TAB, 2, 0 0, 3, 4, 1e-3, 115, true
 TABLET, 2, 0 0, 3, 4, 2e-4, 100, false
 SUM_POW, 2, 0 0, 3, 4, 1e-2, 75, false
 ACKLEY, 2, 0 0, 2, 4, 1e-6, 145, false
-ACKLEY, 2, 0 0, 2, 4, 1e-6, 160, true
 RASTRIGIN, 2, 0 0, 6, 10, 5e-5, 105, false
-RASTRIGIN, 2, 0 0, 6, 10, 5e-5, 140, true
 GRIEWANK, 2, 0 0, 2, 3, 1e-1, 75, false
-GRIEWANK, 2, 0 0, 2, 3, 1e-1, 90, true
 LEVY, 2, 1 1, 0.9, 1.1, 1e-3, 75, false
-LEVY, 2, 1 1, 0.9, 1.1, 1e-3, 80, true
 SCHWEFEL, 2, 420.9687 420.9687, 9, 11, 1, 85, false
-SCHWEFEL, 2, 420.9687 420.9687, 9, 11, 1, 90, true
 ZAKHAROV, 2, 0 0, 3, 4, 1e-4, 85, false
 PERM, 2, 1 2, 0.9, 1.1, 2e-3, 110, false
 STYBLINSKI_TANG, 2, -2.903534 -2.903534, 1, 2, 1e-4, 85, false

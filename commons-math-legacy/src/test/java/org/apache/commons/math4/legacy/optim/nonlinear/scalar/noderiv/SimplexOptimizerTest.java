@@ -112,7 +112,7 @@ public class SimplexOptimizerTest {
      */
     public static class Task {
         /** Function evaluations hard count (debugging). */
-        private static final int FUNC_EVAL_DEBUG = 80000;
+        private static final int FUNC_EVAL_DEBUG = 500000;
         /** Default convergence criterion. */
         private static final double CONVERGENCE_CHECK = 1e-9;
         /** Default cooling factor. */

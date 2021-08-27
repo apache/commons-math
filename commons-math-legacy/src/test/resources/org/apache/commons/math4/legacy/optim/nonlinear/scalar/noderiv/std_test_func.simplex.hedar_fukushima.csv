@@ -31,18 +31,23 @@
 # Caveat: Some tests are commented out (cf. JIRA: MATH-1552).
 #
 PARABOLA, 8, 0 0 0 0 0 0 0 0, 20, 40, 1e-4, 900, true
+PARABOLA, 16, 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0, 20, 40, 5e-4, 5200, true
 ROSENBROCK, 2, 1 1, 0.9, 1.1, 1e-4, 160, true
+ROSENBROCK, 4, 1 1 1 1, 0.9, 1.1, 1e-4, 500, true
+ROSENBROCK, 8, 1 1 1 1 1 1 1 1, 0.9, 1.1, 2e-4, 2200, true
+ROSENBROCK, 16, 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1, 0.9, 1.1, 3e-1, 9000, true
 POWELL, 4, 0 0 0 0, 4, 5, 4e-3, 400, true
-CIGAR, 2, 0 0, 2, 3, 5e-5, 140, true
+POWELL, 8, 0 0 0 0 0 0 0 0, 4, 5, 2e-2, 1760, true
+CIGAR, 2, 0 0, 2, 3, 5e-5, 150, true
 SPHERE, 2, 0 0, 2, 3, 5e-4, 110, true
 ELLI, 2, 0 0, 3, 4, 1e-4, 150, true
 TWO_AXES, 2, 0 0, 3, 4, 1e-4, 170, true
-CIG_TAB, 2, 0 0, 3, 4, 1e-3, 150, true
+CIG_TAB, 2, 0 0, 3, 4, 2e-3, 160, true
 TABLET, 2, 0 0, 3, 4, 2e-4, 160, true
 SUM_POW, 2, 0 0, 3, 4, 1e-2, 110,  true
 ACKLEY, 2, 0 0, 2, 4, 1e-6, 170, true
 RASTRIGIN, 2, 0 0, 6, 10, 5e-5, 130, true
-GRIEWANK, 2, 0 0, 2, 3, 1e-1, 100, true
+GRIEWANK, 2, 0 0, 2, 3, 1e-1, 120, true
 LEVY, 2, 1 1, 0.9, 1.1, 1e-3, 110, true
 SCHWEFEL, 2, 420.9687 420.9687, 9, 11, 1, 110, true
 ZAKHAROV, 2, 0 0, 3, 4, 1e-4, 130, true
