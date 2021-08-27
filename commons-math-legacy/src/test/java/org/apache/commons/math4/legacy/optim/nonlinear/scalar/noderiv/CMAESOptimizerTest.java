@@ -34,7 +34,6 @@ import org.apache.commons.rng.simple.RandomSource;
 import org.apache.commons.math4.legacy.core.jdkmath.AccurateMath;
 import org.junit.Assert;
 import org.junit.Test;
-import org.junit.runner.RunWith;
 
 /**
  * Test for {@link CMAESOptimizer}.
