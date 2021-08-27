@@ -32,7 +32,7 @@
 #
 PARABOLA, 8, 0 0 0 0 0 0 0 0, 20, 40, 1e-4, 1500, false
 PARABOLA, 8, 0 0 0 0 0 0 0 0, 20, 40, 1e-4, 2600, true
-PARABOLA, 16, 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0, 20, 40, 1e-4, 5500, false
+PARABOLA, 16, 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0, 20, 40, 1e-4, 5800, false
 PARABOLA, 16, 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0, 20, 40, 1e-4, 10000, true
 ROSENBROCK, 2, 1 1, 0.9, 1.1, 3e-3, 11000, false
 ROSENBROCK, 2, 1 1, 0.9, 1.1, 3e-3, 500, true
@@ -60,7 +60,7 @@ LEVY, 2, 1 1, 0.9, 1.1, 1e-3, 120, false
 SCHWEFEL, 2, 420.9687 420.9687, 9, 11, 1, 120, false
 ZAKHAROV, 2, 0 0, 3, 4, 1e-4, 130, false
 PERM, 2, 1 2, 0.9, 1.1, 2e-3, 24000, false
-PERM, 2, 1 2, 0.9, 1.1, 2e-3, 400, true
+PERM, 2, 1 2, 0.9, 1.1, 2e-3, 430, true
 STYBLINSKI_TANG, 2, -2.903534 -2.903534, 1, 2, 1e-4, 120, false
 #HAPPY_CAT, 2, -1 -1, 2, 3, 1e-4, 50, false
 #SALOMON, 2, 0 0, 2, 3, 1e-4, 50, false
