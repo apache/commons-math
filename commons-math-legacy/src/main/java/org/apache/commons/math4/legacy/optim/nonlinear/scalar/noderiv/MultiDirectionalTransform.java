@@ -90,7 +90,7 @@ public class MultiDirectionalTransform
                                                           evaluationFunction);
                 final PointValuePair expandedBest = expandedSimplex.get(0);
 
-                if (comparator.compare(expandedBest, reflectedBest) < 0 ||
+                if (comparator.compare(expandedBest, reflectedBest) <= 0 ||
                     (sa != null &&
                      sa.test(expandedBest.getValue() - reflectedBest.getValue()))) {
                     return expandedSimplex;

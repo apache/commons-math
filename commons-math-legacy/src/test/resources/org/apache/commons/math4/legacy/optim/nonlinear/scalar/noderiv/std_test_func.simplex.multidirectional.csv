@@ -31,36 +31,36 @@
 # Caveat: Some tests are commented out (cf. JIRA: MATH-1552).
 #
 PARABOLA, 8, 0 0 0 0 0 0 0 0, 20, 40, 1e-4, 1500, false
-PARABOLA, 8, 0 0 0 0 0 0 0 0, 20, 40, 1e-4, 2500, true
-PARABOLA, 16, 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0, 20, 40, 1e-4, 5800, false
-PARABOLA, 16, 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0, 20, 40, 1e-4, 10260, true
+PARABOLA, 8, 0 0 0 0 0 0 0 0, 20, 40, 1e-4, 2600, true
+PARABOLA, 16, 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0, 20, 40, 1e-4, 5500, false
+PARABOLA, 16, 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0, 20, 40, 1e-4, 10000, true
 ROSENBROCK, 2, 1 1, 0.9, 1.1, 3e-3, 11000, false
-ROSENBROCK, 2, 1 1, 0.9, 1.1, 3e-3, 650, true
-ROSENBROCK, 4, 1 1 1 1, 0.9, 1.1, 3e-3, 45000, false
-ROSENBROCK, 4, 1 1 1 1, 0.9, 1.1, 3e-3, 1850, true
-ROSENBROCK, 8, 1 1 1 1 1 1 1 1, 0.9, 1.1, 4e-3, 130000, false
-ROSENBROCK, 8, 1 1 1 1 1 1 1 1, 0.9, 1.1, 3e-3, 8000, true
-ROSENBROCK, 16, 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1, 0.9, 1.1, 2e-1, 430000, false
-ROSENBROCK, 16, 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1, 0.9, 1.1, 3e-1, 29000, true
-POWELL, 4, 0 0 0 0, 4, 5, 5e-2, 11800, false
-POWELL, 4, 0 0 0 0, 4, 5, 4e-3, 2200, true
-POWELL, 8, 0 0 0 0 0 0 0 0, 4, 5, 7e-2, 37000, false
-POWELL, 8, 0 0 0 0 0 0 0 0, 4, 5, 4e-2, 8500, true
-CIGAR, 2, 0 0, 2, 3, 5e-5, 240, false
-SPHERE, 2, 0 0, 2, 3, 5e-4, 200, false
-ELLI, 2, 0 0, 3, 4, 1e-4, 350, false
-TWO_AXES, 2, 0 0, 3, 4, 1e-4, 400, false
-CIG_TAB, 2, 0 0, 3, 4, 1e-3, 280, false
-TABLET, 2, 0 0, 3, 4, 2e-4, 340, false
-SUM_POW, 2, 0 0, 3, 4, 1e-2, 190, false
-ACKLEY, 2, 0 0, 2, 4, 1e-6, 310, false
-RASTRIGIN, 2, 0 0, 6, 10, 1e-3, 650, false
-GRIEWANK, 2, 0 0, 2, 3, 1e-1, 500, false
-LEVY, 2, 1 1, 0.9, 1.1, 1e-3, 200, false
-SCHWEFEL, 2, 420.9687 420.9687, 9, 11, 1, 200, false
-ZAKHAROV, 2, 0 0, 3, 4, 1e-4, 1000, false
+ROSENBROCK, 2, 1 1, 0.9, 1.1, 3e-3, 500, true
+ROSENBROCK, 4, 1 1 1 1, 0.9, 1.1, 3e-3, 31000, false
+ROSENBROCK, 4, 1 1 1 1, 0.9, 1.1, 3e-3, 1900, true
+ROSENBROCK, 8, 1 1 1 1 1 1 1 1, 0.9, 1.1, 4e-3, 115000, false
+ROSENBROCK, 8, 1 1 1 1 1 1 1 1, 0.9, 1.1, 3e-3, 8100, true
+ROSENBROCK, 16, 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1, 0.9, 1.1, 2e-1, 420000, false
+ROSENBROCK, 16, 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1, 0.9, 1.1, 3e-1, 30000, true
+POWELL, 4, 0 0 0 0, 4, 5, 5e-2, 11700, false, target/debug__, 0 1 LAST 0
+POWELL, 4, 0 0 0 0, 4, 5, 4e-3, 1900, true
+POWELL, 8, 0 0 0 0 0 0 0 0, 4, 5, 7e-2, 46000, false
+POWELL, 8, 0 0 0 0 0 0 0 0, 4, 5, 4e-2, 9000, true
+CIGAR, 2, 0 0, 2, 3, 5e-5, 160, false
+SPHERE, 2, 0 0, 2, 3, 5e-4, 120, false
+ELLI, 2, 0 0, 3, 4, 1e-4, 150, false
+TWO_AXES, 2, 0 0, 3, 4, 1e-4, 180, false
+CIG_TAB, 2, 0 0, 3, 4, 1e-3, 170, false
+TABLET, 2, 0 0, 3, 4, 2e-4, 150, false
+SUM_POW, 2, 0 0, 3, 4, 1e-2, 120, false
+ACKLEY, 2, 0 0, 2, 4, 1e-6, 220, false
+RASTRIGIN, 2, 0 0, 6, 10, 1e-3, 160, false
+GRIEWANK, 2, 0 0, 2, 3, 1e-1, 110, false
+LEVY, 2, 1 1, 0.9, 1.1, 1e-3, 120, false
+SCHWEFEL, 2, 420.9687 420.9687, 9, 11, 1, 120, false
+ZAKHAROV, 2, 0 0, 3, 4, 1e-4, 130, false
 PERM, 2, 1 2, 0.9, 1.1, 2e-3, 24000, false
-PERM, 2, 1 2, 0.9, 1.1, 2e-3, 650, true
-STYBLINSKI_TANG, 2, -2.903534 -2.903534, 1, 2, 1e-4, 210, false
-#HAPPY_CAT, 2, -1 -1, 2, 3, 1e-4, 500, false
-#SALOMON, 2, 0 0, 2, 3, 1e-4, 500, false
+PERM, 2, 1 2, 0.9, 1.1, 2e-3, 400, true
+STYBLINSKI_TANG, 2, -2.903534 -2.903534, 1, 2, 1e-4, 120, false
+#HAPPY_CAT, 2, -1 -1, 2, 3, 1e-4, 50, false
+#SALOMON, 2, 0 0, 2, 3, 1e-4, 50, false
