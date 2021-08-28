@@ -64,7 +64,7 @@
     <math.mathjax.version>2.7.2</math.mathjax.version>
     <math.commons.numbers.version>1.0</math.commons.numbers.version>
     <math.commons.rng.version>1.4-SNAPSHOT</math.commons.rng.version>
-    <math.commons.geometry.version>1.0-SNAPSHOT</math.commons.geometry.version>
+    <math.commons.geometry.version>1.0</math.commons.geometry.version>
     <math.commons.statistics.version>1.0-SNAPSHOT</math.commons.statistics.version>
     <math.commons.math3.version>3.6.1</math.commons.math3.version>
     <math.junit5.version>5.7.2</math.junit5.version>
