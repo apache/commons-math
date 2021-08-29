@@ -21,6 +21,7 @@ import java.util.List;
 
 import org.apache.commons.math4.genetics.exception.GeneticException;
 import org.apache.commons.math4.genetics.utils.RandomGenerator;
+import org.apache.commons.rng.UniformRandomProvider;
 
 /**
  * Chromosome represented by a vector of 0s and 1s.
@@ -104,6 +105,22 @@ public class BinaryChromosome extends AbstractListChromosome<Integer> {
 	@Override
 	public AbstractListChromosome<Integer> newFixedLengthChromosome(List<Integer> chromosomeRepresentation) {
 		return new BinaryChromosome(chromosomeRepresentation, getFitnessCalculator());
+	}
+
+	/**
+	 * Creates an instance of Binary Chromosome with random binary representation.
+	 * @param length
+	 * @param fitnessFunction
+	 * @return a binary chromosome
+	 */
+	public static BinaryChromosome randomChromosome(int length, FitnessFunction fitnessFunction) {
+		UniformRandomProvider randomGenerator = RandomGenerator.getRandomGenerator();
+		List<Integer> representation = new ArrayList<>();
+		for (int i = 0; i < length; i++) {
+			representation.add(randomGenerator.nextBoolean() ? 1 : 0);
+		}
+
+		return new BinaryChromosome(representation, fitnessFunction);
 	}
 
 }
