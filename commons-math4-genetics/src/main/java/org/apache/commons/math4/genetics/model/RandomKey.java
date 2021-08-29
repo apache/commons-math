@@ -53,7 +53,7 @@ import org.apache.commons.math4.genetics.utils.RandomGenerator;
  * @param <T> type of the permuted objects
  * @since 2.0
  */
-public abstract class RandomKey<T> extends AbstractListChromosome<Double> implements PermutationChromosome<T> {
+public class RandomKey<T> extends AbstractListChromosome<Double> implements PermutationChromosome<T> {
 
 	/** Cache of sorted representation (unmodifiable). */
 	private final List<Double> sortedRepresentation;
@@ -68,10 +68,8 @@ public abstract class RandomKey<T> extends AbstractListChromosome<Double> implem
 	 * Constructor.
 	 *
 	 * @param representation list of [0,1] values representing the permutation
-	 * @throws GeneticException iff the
-	 *                                               <code>representation</code> can
-	 *                                               not represent a valid
-	 *                                               chromosome
+	 * @throws GeneticException iff the <code>representation</code> can not
+	 *                          represent a valid chromosome
 	 */
 	public RandomKey(final List<Double> representation, FitnessFunction fitnessCalculator) {
 		super(representation, fitnessCalculator);
@@ -89,10 +87,8 @@ public abstract class RandomKey<T> extends AbstractListChromosome<Double> implem
 	 * Constructor.
 	 *
 	 * @param representation array of [0,1] values representing the permutation
-	 * @throws GeneticException iff the
-	 *                                               <code>representation</code> can
-	 *                                               not represent a valid
-	 *                                               chromosome
+	 * @throws GeneticException iff the <code>representation</code> can not
+	 *                          represent a valid chromosome
 	 */
 	public RandomKey(final Double[] representation, FitnessFunction fitnessCalculator) {
 		this(Arrays.asList(representation), fitnessCalculator);
@@ -116,11 +112,9 @@ public abstract class RandomKey<T> extends AbstractListChromosome<Double> implem
 	 * @param sortedRepr     sorted <code>representation</code>
 	 * @return list with the sequence values permuted according to the
 	 *         representation
-	 * @throws GeneticException iff the length of the
-	 *                                    <code>sequence</code>,
-	 *                                    <code>representation</code> or
-	 *                                    <code>sortedRepr</code> lists are not
-	 *                                    equal
+	 * @throws GeneticException iff the length of the <code>sequence</code>,
+	 *                          <code>representation</code> or
+	 *                          <code>sortedRepr</code> lists are not equal
 	 */
 	private static <S> List<S> decodeGeneric(final List<S> sequence, List<Double> representation,
 			final List<Double> sortedRepr) {
@@ -257,13 +251,11 @@ public abstract class RandomKey<T> extends AbstractListChromosome<Double> implem
 	 * @param permutedData the data, somehow permuted
 	 * @return representation of a permutation corresponding to the permutation
 	 *         {@code originalData -> permutedData}
-	 * @throws GeneticException   iff the length of
-	 *                                      <code>originalData</code> and
-	 *                                      <code>permutedData</code> lists are not
-	 *                                      equal
+	 * @throws GeneticException iff the length of <code>originalData</code> and
+	 *                          <code>permutedData</code> lists are not equal
 	 * @throws GeneticException iff the <code>permutedData</code> and
-	 *                                      <code>originalData</code> lists contain
-	 *                                      different data
+	 *                          <code>originalData</code> lists contain different
+	 *                          data
 	 */
 	public static <S> List<Double> inducedPermutation(final List<S> originalData, final List<S> permutedData) {
 
@@ -305,4 +297,10 @@ public abstract class RandomKey<T> extends AbstractListChromosome<Double> implem
 		}
 		return baseSequence;
 	}
+
+	@Override
+	public RandomKey<T> newFixedLengthChromosome(List<Double> chromosomeRepresentation) {
+		return new RandomKey<T>(chromosomeRepresentation, getFitnessCalculator());
+	}
+
 }

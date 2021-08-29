@@ -27,16 +27,14 @@ import org.apache.commons.math4.genetics.utils.RandomGenerator;
  *
  * @since 2.0
  */
-public abstract class BinaryChromosome extends AbstractListChromosome<Integer> {
+public class BinaryChromosome extends AbstractListChromosome<Integer> {
 
 	/**
 	 * Constructor.
 	 * 
 	 * @param representation list of {0,1} values representing the chromosome
-	 * @throws GeneticException iff the
-	 *                                               <code>representation</code> can
-	 *                                               not represent a valid
-	 *                                               chromosome
+	 * @throws GeneticException iff the <code>representation</code> can not
+	 *                          represent a valid chromosome
 	 */
 	public BinaryChromosome(List<Integer> representation, FitnessFunction fitnessCalculator) {
 		super(representation, fitnessCalculator);
@@ -46,10 +44,8 @@ public abstract class BinaryChromosome extends AbstractListChromosome<Integer> {
 	 * Constructor.
 	 * 
 	 * @param representation array of {0,1} values representing the chromosome
-	 * @throws GeneticException iff the
-	 *                                               <code>representation</code> can
-	 *                                               not represent a valid
-	 *                                               chromosome
+	 * @throws GeneticException iff the <code>representation</code> can not
+	 *                          represent a valid chromosome
 	 */
 	public BinaryChromosome(Integer[] representation, FitnessFunction fitnessCalculator) {
 		super(representation, fitnessCalculator);
@@ -104,4 +100,10 @@ public abstract class BinaryChromosome extends AbstractListChromosome<Integer> {
 		// all is ok
 		return true;
 	}
+
+	@Override
+	public AbstractListChromosome<Integer> newFixedLengthChromosome(List<Integer> chromosomeRepresentation) {
+		return new BinaryChromosome(chromosomeRepresentation, getFitnessCalculator());
+	}
+
 }
