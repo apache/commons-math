@@ -6,7 +6,6 @@ import org.apache.commons.math4.genetics.operators.CrossoverPolicy;
 import org.apache.commons.math4.genetics.operators.MutationPolicy;
 import org.apache.commons.math4.genetics.operators.SelectionPolicy;
 import org.apache.commons.math4.genetics.operators.StoppingCondition;
-import org.apache.commons.math4.genetics.stats.internal.PopulationStatisticalSummaryImpl;
 
 public abstract class AbstractGeneticAlgorithm {
 
@@ -25,8 +24,18 @@ public abstract class AbstractGeneticAlgorithm {
 	 */
 	private int generationsEvolved = 0;
 
+	/** The elitism rate haveing default value of .25 */
+	private double elitismRate = .25;
+
 	public AbstractGeneticAlgorithm(final CrossoverPolicy crossoverPolicy, final MutationPolicy mutationPolicy,
 			final SelectionPolicy selectionPolicy) {
+		this.crossoverPolicy = crossoverPolicy;
+		this.mutationPolicy = mutationPolicy;
+		this.selectionPolicy = selectionPolicy;
+	}
+
+	public AbstractGeneticAlgorithm(final CrossoverPolicy crossoverPolicy, final MutationPolicy mutationPolicy,
+			final SelectionPolicy selectionPolicy, double elitismRate) {
 		this.crossoverPolicy = crossoverPolicy;
 		this.mutationPolicy = mutationPolicy;
 		this.selectionPolicy = selectionPolicy;
@@ -119,5 +128,14 @@ public abstract class AbstractGeneticAlgorithm {
 	 * @return the population for the next generation.
 	 */
 	protected abstract Population nextGeneration(final Population current);
+
+	/**
+	 * Returns the elitism rate.
+	 * 
+	 * @return elitism rate
+	 */
+	public double getElitismRate() {
+		return elitismRate;
+	}
 
 }

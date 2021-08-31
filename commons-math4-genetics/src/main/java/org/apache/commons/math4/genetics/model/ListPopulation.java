@@ -29,7 +29,7 @@ import org.apache.commons.math4.genetics.exception.GeneticException;
  *
  * @since 2.0
  */
-public abstract class ListPopulation implements Population {
+public class ListPopulation implements Population {
 
 	/** List of chromosomes. */
 	private final List<Chromosome> chromosomes;
@@ -43,7 +43,7 @@ public abstract class ListPopulation implements Population {
 	 *
 	 * @param populationLimit maximal size of the population
 	 * @throws GeneticException if the population limit is not a positive number
-	 *                              (&lt; 1)
+	 *                          (&lt; 1)
 	 */
 	public ListPopulation(final int populationLimit) {
 		this(Collections.<Chromosome>emptyList(), populationLimit);
@@ -56,11 +56,11 @@ public abstract class ListPopulation implements Population {
 	 *
 	 * @param chromosomes     list of chromosomes to be added to the population
 	 * @param populationLimit maximal size of the population
-	 * @throws GeneticException     if the list of chromosomes is {@code null}
-	 * @throws GeneticException      if the population limit is not a positive
-	 *                                   number (&lt; 1)
-	 * @throws GeneticException if the list of chromosomes exceeds the
-	 *                                   population limit
+	 * @throws GeneticException if the list of chromosomes is {@code null}
+	 * @throws GeneticException if the population limit is not a positive number
+	 *                          (&lt; 1)
+	 * @throws GeneticException if the list of chromosomes exceeds the population
+	 *                          limit
 	 */
 	public ListPopulation(final List<Chromosome> chromosomes, final int populationLimit) {
 
@@ -83,9 +83,8 @@ public abstract class ListPopulation implements Population {
 	 * Add a {@link Collection} of chromosomes to this {@link Population}.
 	 * 
 	 * @param chromosomeColl a {@link Collection} of chromosomes
-	 * @throws GeneticException if the population would exceed the
-	 *                                   population limit when adding this
-	 *                                   chromosome
+	 * @throws GeneticException if the population would exceed the population limit
+	 *                          when adding this chromosome
 	 * @since 3.1
 	 */
 	public void addChromosomes(final Collection<Chromosome> chromosomeColl) {
@@ -120,8 +119,7 @@ public abstract class ListPopulation implements Population {
 	 *
 	 * @param chromosome the chromosome to add.
 	 * @throws GeneticException if the population would exceed the
-	 *                                   {@code populationLimit} after adding this
-	 *                                   chromosome
+	 *                          {@code populationLimit} after adding this chromosome
 	 */
 	@Override
 	public void addChromosome(final Chromosome chromosome) {
@@ -164,11 +162,10 @@ public abstract class ListPopulation implements Population {
 	 * Sets the maximal population size.
 	 * 
 	 * @param populationLimit maximal population size.
-	 * @throws GeneticException      if the population limit is not a positive
-	 *                                   number (&lt; 1)
-	 * @throws GeneticException if the new population size is smaller than
-	 *                                   the current number of chromosomes in the
-	 *                                   population
+	 * @throws GeneticException if the population limit is not a positive number
+	 *                          (&lt; 1)
+	 * @throws GeneticException if the new population size is smaller than the
+	 *                          current number of chromosomes in the population
 	 */
 	public void setPopulationLimit(final int populationLimit) {
 		if (populationLimit <= 0) {
@@ -212,4 +209,29 @@ public abstract class ListPopulation implements Population {
 	public Iterator<Chromosome> iterator() {
 		return getChromosomes().iterator();
 	}
+
+	@Override
+	public Population nextGeneration(double elitismRate) {
+		final List<Chromosome> oldChromosomes = getChromosomeList();
+
+		if (oldChromosomes.size() * elitismRate == 0) {
+			// if no of elit chromosome is 0 crete and return an empty population instance.
+			return new ListPopulation(getPopulationLimit());
+		} else {
+			// create a new generation of chromosomes with same parameters and add the elit
+			// individuals.
+			ListPopulation nextGeneration = new ListPopulation(getPopulationLimit());
+
+			// Sort the chromosome according to ascending order of fitness.
+			Collections.sort(oldChromosomes);
+
+			// index of the last "not good enough" chromosome
+			int boundIndex = (int) Math.ceil((1.0 - elitismRate) * oldChromosomes.size());
+			for (int i = boundIndex; i < oldChromosomes.size(); i++) {
+				nextGeneration.addChromosome(oldChromosomes.get(i));
+			}
+			return nextGeneration;
+		}
+	}
+
 }

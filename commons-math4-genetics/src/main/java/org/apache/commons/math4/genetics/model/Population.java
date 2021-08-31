@@ -40,10 +40,11 @@ public interface Population extends Iterable<Chromosome> {
 
 	/**
 	 * Start the population for the next generation.
+	 * @param elitismRate the Elitism Rate
 	 * 
 	 * @return the beginnings of the next generation.
 	 */
-	Population nextGeneration();
+	Population nextGeneration(double elitismRate);
 
 	/**
 	 * Add the given chromosome to the population.

@@ -28,6 +28,7 @@ import org.apache.commons.math4.genetics.utils.Constants;
  *
  * @since 2.0
  */
+@Deprecated
 public class ElitisticListPopulation extends ListPopulation {
 
 	/** percentage of chromosomes copied to the next generation. */
@@ -78,7 +79,7 @@ public class ElitisticListPopulation extends ListPopulation {
 	 * @return the beginnings of the next generation.
 	 */
 	@Override
-	public Population nextGeneration() {
+	public Population nextGeneration(double elitismRate) {
 		// initialize a new generation with the same parameters
 		ElitisticListPopulation nextGeneration = new ElitisticListPopulation(getPopulationLimit(), getElitismRate());
 

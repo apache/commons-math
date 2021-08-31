@@ -16,10 +16,7 @@
  */
 package org.apache.commons.math4.genetics;
 
-import java.util.List;
-
 import org.apache.commons.math4.genetics.exception.GeneticException;
-import org.apache.commons.math4.genetics.listeners.ConvergenceListener;
 import org.apache.commons.math4.genetics.model.ChromosomePair;
 import org.apache.commons.math4.genetics.model.Population;
 import org.apache.commons.math4.genetics.operators.CrossoverPolicy;
@@ -67,6 +64,33 @@ public class GeneticAlgorithm extends AbstractGeneticAlgorithm {
 	}
 
 	/**
+	 * Create a new genetic algorithm.
+	 * 
+	 * @param crossoverPolicy The {@link CrossoverPolicy}
+	 * @param crossoverRate   The crossover rate as a percentage (0-1 inclusive)
+	 * @param mutationPolicy  The {@link MutationPolicy}
+	 * @param mutationRate    The mutation rate as a percentage (0-1 inclusive)
+	 * @param selectionPolicy The {@link SelectionPolicy}
+	 * @param elitismRate     The rate of elitism
+	 * @throws GeneticException if the crossover or mutation rate is outside the [0,
+	 *                          1] range
+	 */
+	public GeneticAlgorithm(final CrossoverPolicy crossoverPolicy, final double crossoverRate,
+			final MutationPolicy mutationPolicy, final double mutationRate, final SelectionPolicy selectionPolicy,
+			final double elitismRate) {
+		super(crossoverPolicy, mutationPolicy, selectionPolicy, elitismRate);
+
+		if (crossoverRate < 0 || crossoverRate > 1) {
+			throw new GeneticException(GeneticException.OUT_OF_RANGE, crossoverRate, Constants.CROSSOVER_RATE, 0, 1);
+		}
+		if (mutationRate < 0 || mutationRate > 1) {
+			throw new GeneticException(GeneticException.OUT_OF_RANGE, mutationRate, Constants.MUTATION_RATE, 0, 1);
+		}
+		this.crossoverRate = crossoverRate;
+		this.mutationRate = mutationRate;
+	}
+
+	/**
 	 * Evolve the given population into the next generation.
 	 * <ol>
 	 * <li>Get nextGeneration population to fill from <code>current</code>
@@ -85,11 +109,11 @@ public class GeneticAlgorithm extends AbstractGeneticAlgorithm {
 	 * <li>Return nextGeneration</li>
 	 * </ol>
 	 *
-	 * @param current         the current population.
+	 * @param current the current population.
 	 * @return the population for the next generation.
 	 */
 	protected Population nextGeneration(final Population current) {
-		Population nextGeneration = current.nextGeneration();
+		Population nextGeneration = current.nextGeneration(getElitismRate());
 
 		while (nextGeneration.getPopulationSize() < nextGeneration.getPopulationLimit()) {
 			// select parent chromosomes

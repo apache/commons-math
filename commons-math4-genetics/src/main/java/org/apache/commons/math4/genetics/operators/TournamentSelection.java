@@ -82,7 +82,7 @@ public class TournamentSelection implements SelectionPolicy {
 		ListPopulation tournamentPopulation = new ListPopulation(this.arity) {
 			/** {@inheritDoc} */
 			@Override
-			public Population nextGeneration() {
+			public Population nextGeneration(double elitismRate) {
 				// not useful here
 				return null;
 			}
