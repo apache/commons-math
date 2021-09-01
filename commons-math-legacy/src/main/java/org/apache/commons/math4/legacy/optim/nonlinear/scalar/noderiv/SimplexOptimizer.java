@@ -531,7 +531,7 @@ public class SimplexOptimizer extends MultivariateOptimizer {
                               goalType,
                               new InitialGuess(init),
                               simplex,
-                              new NelderMeadTransform());
+                              new MultiDirectionalTransform());
     }
 
     /**

@@ -34,21 +34,30 @@ PARABOLA, 8, 0 0 0 0 0 0 0 0, 20, 40, 1e-4, 700, false
 PARABOLA, 16, 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0, 20, 40, 5e-4, 3600, false
 ROSENBROCK, 2, 1 1, 0.9, 1.1, 1e-4, 110, false
 ROSENBROCK, 4, 1 1 1 1, 0.9, 1.1, 1e-4, 400, false
-ROSENBROCK, 8, 1 1 1 1 1 1 1 1, 0.9, 1.1, 3e-4, 2200, false
-ROSENBROCK, 16, 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1, 0.9, 1.1, 5e-1, 7500, false
+ROSENBROCK, 8, 1 1 1 1 1 1 1 1, 0.9, 1.1, 5e-4, 2200, false
+ROSENBROCK, 16, 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1, 0.9, 1.1, 5e-1, 7600, false
 POWELL, 4, 0 0 0 0, 4, 5, 5e-3, 290, false
 POWELL, 8, 0 0 0 0 0 0 0 0, 4, 5, 3e-2, 1300, false
 CIGAR, 2, 0 0, 2, 3, 5e-5, 100, false
+CIGAR, 11, 0 0 0 0 0 0 0 0 0 0 0, 2, 3, 5e-5, 2200, false
 SPHERE, 2, 0 0, 2, 3, 5e-4, 80, false
+SPHERE, 11, 0 0 0 0 0 0 0 0 0 0 0, 2, 3, 5e-4, 1100, false
 ELLI, 2, 0 0, 3, 4, 1e-4, 350, false
 TWO_AXES, 2, 0 0, 3, 4, 1e-4, 120, false
+#TWO_AXES, 11, 0 0 0 0 0 0 0 0 0 0 0, 3, 4, 1e-4, 120, false
 CIG_TAB, 2, 0 0, 3, 4, 1e-3, 100, false
+#CIG_TAB, 11, 0 0 0 0 0 0 0 0 0 0 0, 3, 4, 1e-3, 100, false
 TABLET, 2, 0 0, 3, 4, 2e-4, 100, false
+TABLET, 11, 0 0 0 0 0 0 0 0 0 0 0, 3, 4, 2e-4, 3000, false
 SUM_POW, 2, 0 0, 3, 4, 1e-2, 75, false
+#SUM_POW, 11, 0 0 0 0 0 0 0 0 0 0 0, 3, 4, 1e-2, 75, false
 ACKLEY, 2, 0 0, 2, 4, 1e-6, 145, false
+ACKLEY, 6, 0 0 0 0 0 0, 2, 4, 1e-6, 660, false
 RASTRIGIN, 2, 0 0, 6, 10, 5e-5, 105, false
-GRIEWANK, 2, 0 0, 2, 3, 1e-1, 75, false
+GRIEWANK, 2, 0 0, 2, 3, 1e-1, 80, false
+GRIEWANK, 11, 0 0 0 0 0 0 0 0 0 0 0, 2, 3, 1e-1, 1200, false
 LEVY, 2, 1 1, 0.9, 1.1, 1e-3, 75, false
+LEVY, 9, 1 1 1 1 1 1 1 1 1, 0.9, 1.1, 1e-3, 900, false
 SCHWEFEL, 2, 420.9687 420.9687, 9, 11, 1, 85, false
 ZAKHAROV, 2, 0 0, 3, 4, 1e-4, 85, false
 PERM, 2, 1 2, 0.9, 1.1, 2e-3, 110, false
