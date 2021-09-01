@@ -35,7 +35,7 @@ PARABOLA, 16, 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0, 20, 40, 5e-4, 3600, false
 ROSENBROCK, 2, 1 1, 0.9, 1.1, 1e-4, 110, false
 ROSENBROCK, 4, 1 1 1 1, 0.9, 1.1, 1e-4, 400, false
 ROSENBROCK, 8, 1 1 1 1 1 1 1 1, 0.9, 1.1, 5e-4, 2200, false
-ROSENBROCK, 16, 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1, 0.9, 1.1, 5e-1, 7600, false
+ROSENBROCK, 16, 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1, 0.9, 1.1, 5e-1, 10200, false
 POWELL, 4, 0 0 0 0, 4, 5, 5e-3, 290, false
 POWELL, 8, 0 0 0 0 0 0 0 0, 4, 5, 3e-2, 1300, false
 CIGAR, 2, 0 0, 2, 3, 5e-5, 100, false
