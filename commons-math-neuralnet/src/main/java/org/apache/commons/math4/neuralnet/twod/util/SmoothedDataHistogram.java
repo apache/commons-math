@@ -84,7 +84,7 @@ public class SmoothedDataHistogram implements MapDataVisualization {
         // Histogram bins.
         final double[][] histo = new double[nR][nC];
 
-        for (double[] sample : data) {
+        for (final double[] sample : data) {
             final List<Neuron> sorted = rank.rank(sample);
             for (int i = 0; i < smoothingBins; i++) {
                 final LocationFinder.Location loc = finder.getLocation(sorted.get(i));

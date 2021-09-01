@@ -87,7 +87,7 @@ public class City {
                                Set<City> cities) {
         City closest = null;
         double min = Double.POSITIVE_INFINITY;
-        for (City c : cities) {
+        for (final City c : cities) {
             final double d = c.distance(x, y);
             if (d < min) {
                 min = d;
@@ -108,7 +108,7 @@ public class City {
         double yB = 0;
 
         int count = 0;
-        for (City c : cities) {
+        for (final City c : cities) {
             final double[] coord = c.getCoordinates();
             xB += coord[0];
             yB += coord[1];
@@ -132,7 +132,7 @@ public class City {
                                          double y,
                                          Set<City> cities) {
         double maxDist = 0;
-        for (City c : cities) {
+        for (final City c : cities) {
             final double dist = c.distance(x, y);
             if (dist > maxDist) {
                 maxDist = dist;

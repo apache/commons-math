@@ -115,12 +115,12 @@ public final class TravellingSalesmanSolver {
                                                     numUpdates / numTasks);
         final List<Future<?>> execOutput = new ArrayList<>();
         // Run tasks.
-        for (Runnable r : tasks) {
+        for (final Runnable r : tasks) {
             execOutput.add(service.submit(r));
         }
         // Wait for completion (ignoring return value).
         try {
-            for (Future<?> f : execOutput) {
+            for (final Future<?> f : execOutput) {
                 f.get();
             }
         } catch (InterruptedException | ExecutionException e) {
@@ -189,7 +189,7 @@ public final class TravellingSalesmanSolver {
 
         return new Iterator<double[]>() {
             /** Number of samples. */
-            private long n = 0;
+            private long n;
             /** {@inheritDoc} */
             @Override
             public boolean hasNext() {
@@ -245,7 +245,7 @@ public final class TravellingSalesmanSolver {
         // Sequence of coordinates.
         final List<double[]> coordinatesList = new ArrayList<>();
 
-        for (Neuron n : getNeuronList()) {
+        for (final Neuron n : getNeuronList()) {
             coordinatesList.add(n.getFeatures());
         }
 
@@ -262,7 +262,8 @@ public final class TravellingSalesmanSolver {
         final List<double[]> coord = getCoordinatesList();
         final List<City> cityList = new ArrayList<>();
         City previous = null;
-        for (int i = 0, max = coord.size(); i < max; i++) {
+        final int max = coord.size();
+        for (int i = 0; i < max; i++) {
             final double[] c = coord.get(i);
             final City next = City.closest(c[0], c[1], cities);
             if (!next.equals(previous)) {

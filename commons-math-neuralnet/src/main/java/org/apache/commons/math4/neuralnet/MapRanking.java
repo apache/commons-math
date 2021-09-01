@@ -46,7 +46,7 @@ public class MapRanking {
                       DistanceMeasure distance) {
         this.distance = distance;
 
-        for (Neuron n : neurons) {
+        for (final Neuron n : neurons) {
             map.add(n); // No defensive copy.
         }
     }
@@ -109,7 +109,7 @@ public class MapRanking {
         }
 
         final List<Neuron> result = new ArrayList<>(m);
-        for (PairNeuronDouble p : list) {
+        for (final PairNeuronDouble p : list) {
             result.add(p.getNeuron());
         }
 

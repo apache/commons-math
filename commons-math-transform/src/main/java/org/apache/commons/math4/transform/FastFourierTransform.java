@@ -40,6 +40,8 @@ import org.apache.commons.numbers.complex.Complex;
  * Computation, 32 (1978), 175 - 199.
  */
 public class FastFourierTransform implements ComplexTransform {
+    /** Number of array slots: 1 for "real" parts 1 for "imaginary" parts. */
+    private static final int NUM_PARTS = 2;
     /**
      * {@code W_SUB_N_R[i]} is the real part of
      * {@code exp(- 2 * i * pi / n)}:
@@ -125,9 +127,9 @@ public class FastFourierTransform implements ComplexTransform {
      * or the array is not rectangular.
      */
     public void transformInPlace(final double[][] dataRI) {
-        if (dataRI.length != 2) {
+        if (dataRI.length != NUM_PARTS) {
             throw new TransformException(TransformException.SIZE_MISMATCH,
-                                         dataRI.length, 2);
+                                         dataRI.length, NUM_PARTS);
         }
         final double[] dataR = dataRI[0];
         final double[] dataI = dataRI[1];
@@ -228,7 +230,7 @@ public class FastFourierTransform implements ComplexTransform {
         while (lastN0 < n) {
             final int n0 = lastN0 << 1;
             final int logN0 = lastLogN0 + 1;
-            double wSubN0R = W_SUB_N_R[logN0];
+            final double wSubN0R = W_SUB_N_R[logN0];
             double wSubN0I = W_SUB_N_I[logN0];
             if (inverse) {
                 wSubN0I = -wSubN0I;
@@ -281,7 +283,7 @@ public class FastFourierTransform implements ComplexTransform {
      */
     @Override
     public Complex[] apply(final double[] f) {
-        final double[][] dataRI = new double[][] {
+        final double[][] dataRI = {
             Arrays.copyOf(f, f.length),
             new double[f.length]
         };

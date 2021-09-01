@@ -33,6 +33,8 @@ import org.apache.commons.math4.neuralnet.Network;
 public class NeuronString implements Serializable {
     /** Serial version ID. */
     private static final long serialVersionUID = 1L;
+    /** Minimal number of neurons. */
+    private static final int MIN_NEURONS = 2;
     /** Underlying network. */
     private final Network network;
     /** Number of neurons. */
@@ -59,8 +61,8 @@ public class NeuronString implements Serializable {
                  double[][] featuresList) {
         size = featuresList.length;
 
-        if (size < 2) {
-            throw new NeuralNetException(NeuralNetException.TOO_SMALL, size, 2);
+        if (size < MIN_NEURONS) {
+            throw new NeuralNetException(NeuralNetException.TOO_SMALL, size, MIN_NEURONS);
         }
 
         this.wrap = wrap;
@@ -100,8 +102,8 @@ public class NeuronString implements Serializable {
     public NeuronString(int num,
                         boolean wrap,
                         FeatureInitializer[] featureInit) {
-        if (num < 2) {
-            throw new NeuralNetException(NeuralNetException.TOO_SMALL, num, 2);
+        if (num < MIN_NEURONS) {
+            throw new NeuralNetException(NeuralNetException.TOO_SMALL, num, MIN_NEURONS);
         }
 
         size = num;

@@ -50,7 +50,7 @@ public final class MapUtils {
 
         double d = 0;
         int count = 0;
-        for (double[] f : data) {
+        for (final double[] f : data) {
             ++count;
             d += distance.applyAsDouble(f, rank.rank(f, 1).get(0).getFeatures());
         }
@@ -80,7 +80,7 @@ public final class MapUtils {
 
         int notAdjacentCount = 0;
         int count = 0;
-        for (double[] f : data) {
+        for (final double[] f : data) {
             ++count;
             final List<Neuron> p = rank.rank(f, 2);
             if (!net.getNeighbours(p.get(0)).contains(p.get(1))) {

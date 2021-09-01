@@ -18,7 +18,7 @@
 package org.apache.commons.math4.neuralnet.twod.util;
 
 import java.util.Map;
-import java.util.HashMap;
+import java.util.concurrent.ConcurrentHashMap;
 import org.apache.commons.math4.neuralnet.Neuron;
 import org.apache.commons.math4.neuralnet.twod.NeuronSquareMesh2D;
 
@@ -28,7 +28,7 @@ import org.apache.commons.math4.neuralnet.twod.NeuronSquareMesh2D;
  */
 public class LocationFinder {
     /** Identifier to location mapping. */
-    private final Map<Long, Location> locations = new HashMap<>();
+    private final Map<Long, Location> locations = new ConcurrentHashMap<>();
 
     /**
      * Container holding a (row, column) pair.

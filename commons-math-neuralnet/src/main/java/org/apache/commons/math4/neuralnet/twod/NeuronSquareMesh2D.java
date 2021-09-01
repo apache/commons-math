@@ -50,6 +50,8 @@ public class NeuronSquareMesh2D
                Serializable {
     /** Serial version ID. */
     private static final long serialVersionUID = 1L;
+    /** Minimal number of rows or columns. */
+    private static final int MIN_ROWS = 2;
     /** Underlying network. */
     private final Network network;
     /** Number of rows. */
@@ -114,11 +116,11 @@ public class NeuronSquareMesh2D
         numberOfRows = featuresList.length;
         numberOfColumns = featuresList[0].length;
 
-        if (numberOfRows < 2) {
-            throw new NeuralNetException(NeuralNetException.TOO_SMALL, numberOfRows, 2);
+        if (numberOfRows < MIN_ROWS) {
+            throw new NeuralNetException(NeuralNetException.TOO_SMALL, numberOfRows, MIN_ROWS);
         }
-        if (numberOfColumns < 2) {
-            throw new NeuralNetException(NeuralNetException.TOO_SMALL, numberOfColumns, 2);
+        if (numberOfColumns < MIN_ROWS) {
+            throw new NeuralNetException(NeuralNetException.TOO_SMALL, numberOfColumns, MIN_ROWS);
         }
 
         wrapRows = wrapRowDim;
@@ -171,11 +173,11 @@ public class NeuronSquareMesh2D
                               boolean wrapColDim,
                               SquareNeighbourhood neighbourhoodType,
                               FeatureInitializer[] featureInit) {
-        if (numRows < 2) {
-            throw new NeuralNetException(NeuralNetException.TOO_SMALL, numRows, 2);
+        if (numRows < MIN_ROWS) {
+            throw new NeuralNetException(NeuralNetException.TOO_SMALL, numRows, MIN_ROWS);
         }
-        if (numCols < 2) {
-            throw new NeuralNetException(NeuralNetException.TOO_SMALL, numCols, 2);
+        if (numCols < MIN_ROWS) {
+            throw new NeuralNetException(NeuralNetException.TOO_SMALL, numCols, MIN_ROWS);
         }
 
         numberOfRows = numRows;
@@ -559,7 +561,7 @@ public class NeuronSquareMesh2D
                 }
 
                 final Neuron aNeuron = network.getNeuron(identifiers[i][j]);
-                for (long b : linkEnd) {
+                for (final long b : linkEnd) {
                     final Neuron bNeuron = network.getNeuron(b);
                     // Link to all neighbours.
                     // The reverse links will be added as the loop proceeds.
@@ -715,7 +717,7 @@ public class NeuronSquareMesh2D
             final double[][] uMatrix = new double[nR][nC];
 
             int numSamples = 0;
-            for (double[] sample : data) {
+            for (final double[] sample : data) {
                 ++numSamples;
 
                 final List<Neuron> winners = rank.rank(sample, 2);
@@ -746,7 +748,7 @@ public class NeuronSquareMesh2D
                     final double[] features = neuron.getFeatures();
                     double uDistance = 0;
                     int neighbourCount = 0;
-                    for (Neuron n : neighbours) {
+                    for (final Neuron n : neighbours) {
                         ++neighbourCount;
                         uDistance += DISTANCE.applyAsDouble(features, n.getFeatures());
                     }

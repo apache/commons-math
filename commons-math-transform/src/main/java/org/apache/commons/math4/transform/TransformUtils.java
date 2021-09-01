@@ -25,6 +25,9 @@ import org.apache.commons.numbers.complex.Complex;
  * Class is package-private (for internal use only).
  */
 final class TransformUtils {
+    /** Number of array slots: 1 for "real" parts 1 for "imaginary" parts. */
+    private static final int NUM_PARTS = 2;
+
     /** Utility class. */
     private TransformUtils() {}
 
@@ -99,9 +102,9 @@ final class TransformUtils {
      * array is not two, or the array is not rectangular.
      */
     static Complex[] createComplex(final double[][] dataRI) {
-        if (dataRI.length != 2) {
+        if (dataRI.length != NUM_PARTS) {
             throw new TransformException(TransformException.SIZE_MISMATCH,
-                                         dataRI.length, 2);
+                                         dataRI.length, NUM_PARTS);
         }
         final double[] dataR = dataRI[0];
         final double[] dataI = dataRI[1];

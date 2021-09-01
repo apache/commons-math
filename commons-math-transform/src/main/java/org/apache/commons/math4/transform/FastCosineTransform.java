@@ -113,13 +113,14 @@ public class FastCosineTransform implements RealTransform {
      * not a power of two plus one.
      */
     private double[] fct(double[] f) {
-        final double[] transformed = new double[f.length];
-
         final int n = f.length - 1;
         if (!ArithmeticUtils.isPowerOfTwo(n)) {
             throw new TransformException(TransformException.NOT_POWER_OF_TWO_PLUS_ONE,
                                          Integer.valueOf(f.length));
         }
+
+        final double[] transformed = new double[f.length];
+
         if (n == 1) {       // trivial case
             transformed[0] = 0.5 * (f[0] + f[1]);
             transformed[1] = 0.5 * (f[0] - f[1]);

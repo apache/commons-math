@@ -114,7 +114,7 @@ public class Network
         for (int i = 0; i < numNeurons; i++) {
             final long aId = neuronList[i].getIdentifier();
             final Set<Long> aLinks = linkMap.get(aId);
-            for (Long bId : neighbourIdList[i]) {
+            for (final Long bId : neighbourIdList[i]) {
                 if (neuronMap.get(bId) == null) {
                     throw new IllegalStateException();
                 }
@@ -150,11 +150,11 @@ public class Network
                                          featureSize);
 
 
-        for (Map.Entry<Long, Neuron> e : neuronMap.entrySet()) {
+        for (final Map.Entry<Long, Neuron> e : neuronMap.entrySet()) {
             copy.neuronMap.put(e.getKey(), e.getValue().copy());
         }
 
-        for (Map.Entry<Long, Set<Long>> e : linkMap.entrySet()) {
+        for (final Map.Entry<Long, Set<Long>> e : linkMap.entrySet()) {
             copy.linkMap.put(e.getKey(), new HashSet<>(e.getValue()));
         }
 
@@ -245,13 +245,12 @@ public class Network
      */
     public void addLink(Neuron a,
                         Neuron b) {
-        final long aId = a.getIdentifier();
-        final long bId = b.getIdentifier();
-
         // Check that the neurons belong to this network.
+        final long aId = a.getIdentifier();
         if (a != getNeuron(aId)) {
             throw new NoSuchElementException(Long.toString(aId));
         }
+        final long bId = b.getIdentifier();
         if (b != getNeuron(bId)) {
             throw new NoSuchElementException(Long.toString(bId));
         }
@@ -283,13 +282,12 @@ public class Network
      */
     public void deleteLink(Neuron a,
                            Neuron b) {
-        final long aId = a.getIdentifier();
-        final long bId = b.getIdentifier();
-
         // Check that the neurons belong to this network.
+        final long aId = a.getIdentifier();
         if (a != getNeuron(aId)) {
             throw new NoSuchElementException(Long.toString(aId));
         }
+        final long bId = b.getIdentifier();
         if (b != getNeuron(bId)) {
             throw new NoSuchElementException(Long.toString(bId));
         }
@@ -385,13 +383,13 @@ public class Network
                                             Iterable<Neuron> exclude) {
         final Set<Long> idList = linkMap.get(neuron.getIdentifier());
         if (exclude != null) {
-            for (Neuron n : exclude) {
+            for (final Neuron n : exclude) {
                 idList.remove(n.getIdentifier());
             }
         }
 
         final List<Neuron> neuronList = new ArrayList<>();
-        for (Long id : idList) {
+        for (final Long id : idList) {
             neuronList.add(getNeuron(id));
         }
 
@@ -429,7 +427,7 @@ public class Network
             final Collection<Neuron> neighbours = getNeighbours(neuronList[i]);
             final long[] neighboursId = new long[neighbours.size()];
             int count = 0;
-            for (Neuron n : neighbours) {
+            for (final Neuron n : neighbours) {
                 neighboursId[count] = n.getIdentifier();
                 ++count;
             }

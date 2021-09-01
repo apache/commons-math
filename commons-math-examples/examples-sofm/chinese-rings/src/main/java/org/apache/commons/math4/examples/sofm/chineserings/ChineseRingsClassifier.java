@@ -124,23 +124,23 @@ class ChineseRingsClassifier {
      * z coordinates of the features array of the neurons.
      */
     private FeatureInitializer[] makeInitializers() {
-        final SummaryStatistics[] centre = new SummaryStatistics[] {
+        final SummaryStatistics[] centre = {
             new SummaryStatistics(),
             new SummaryStatistics(),
             new SummaryStatistics()
         };
-        for (Vector3D p : rings.getPoints()) {
+        for (final Vector3D p : rings.getPoints()) {
             centre[0].addValue(p.getX());
             centre[1].addValue(p.getY());
             centre[2].addValue(p.getZ());
         }
 
-        final double[] mean = new double[] {
+        final double[] mean = {
             centre[0].getMean(),
             centre[1].getMean(),
             centre[2].getMean()
         };
-        final double[] dev = new double[] {
+        final double[] dev = {
             0.1 * centre[0].getStandardDeviation(),
             0.1 * centre[1].getStandardDeviation(),
             0.1 * centre[2].getStandardDeviation()
@@ -168,7 +168,7 @@ class ChineseRingsClassifier {
             /** RNG. */
             private final UniformRandomProvider rng = RandomSource.create(RandomSource.KISS);
             /** Number of samples. */
-            private long n = 0;
+            private long n;
 
             /** {@inheritDoc} */
             @Override

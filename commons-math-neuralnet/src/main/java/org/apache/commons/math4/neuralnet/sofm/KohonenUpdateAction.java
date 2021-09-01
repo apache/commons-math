@@ -120,7 +120,7 @@ public class KohonenUpdateAction implements UpdateAction {
                 neighbours = net.getNeighbours(neighbours, exclude);
 
                 // Update all the neighbours.
-                for (Neuron n : neighbours) {
+                for (final Neuron n : neighbours) {
                     updateNeighbouringNeuron(n, features, neighbourhoodDecay.applyAsDouble(radius));
                 }
 

@@ -131,7 +131,7 @@ class ChineseRings {
                 /** Data. */
                 private final Vector3D[] points = getPoints();
                 /** Number of samples. */
-                private int n = 0;
+                private int n;
 
                 /** {@inheritDoc} */
                 @Override

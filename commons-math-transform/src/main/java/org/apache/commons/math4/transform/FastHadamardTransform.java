@@ -216,12 +216,13 @@ public class FastHadamardTransform implements RealTransform {
      */
     private double[] fht(double[] x) {
         final int n = x.length;
-        final int halfN = n / 2;
 
         if (!ArithmeticUtils.isPowerOfTwo(n)) {
             throw new TransformException(TransformException.NOT_POWER_OF_TWO,
                                          n);
         }
+
+        final int halfN = n / 2;
 
         // Instead of creating a matrix with p+1 columns and n rows, we use two
         // one dimension arrays which we are used in an alternating way.
@@ -263,12 +264,12 @@ public class FastHadamardTransform implements RealTransform {
      */
     private int[] fht(int[] x) {
         final int n = x.length;
-        final int halfN = n / 2;
-
         if (!ArithmeticUtils.isPowerOfTwo(n)) {
             throw new TransformException(TransformException.NOT_POWER_OF_TWO,
                                          n);
         }
+
+        final int halfN = n / 2;
 
         // Instead of creating a matrix with p+1 columns and n rows, we use two
         // one dimension arrays which we are used in an alternating way.

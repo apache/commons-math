@@ -30,6 +30,7 @@ public interface RealTransform extends UnaryOperator<double[]> {
      * @return the transformed array (spectrum).
      * @throws IllegalArgumentException if the transform cannot be performed.
      */
+    @Override
     double[] apply(double[] f);
 
     /**

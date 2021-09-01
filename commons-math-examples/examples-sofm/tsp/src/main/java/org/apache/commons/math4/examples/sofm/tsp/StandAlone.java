@@ -55,7 +55,7 @@ public final class StandAlone implements Callable<Void> {
     /** The output file. */
     @Option(names = { "-o" }, paramLabel = "outputFile", required = true,
             description = "Output file name.")
-    private String outputFile = null;
+    private String outputFile;
 
     /**
      * Program entry point.
@@ -69,7 +69,7 @@ public final class StandAlone implements Callable<Void> {
     @Override
     public Void call() throws FileNotFoundException, UnsupportedEncodingException {
         // Cities (in optimal travel order).
-        final City[] cities = new City[] {
+        final City[] cities = {
             new City("o0", 0, 0),
             new City("o1", 1, 0),
             new City("o2", 2, 0),
@@ -158,8 +158,7 @@ public final class StandAlone implements Callable<Void> {
             out.println("# Travel distance: " + computeDistance(travel));
             out.println("# Optimal travel distance: " + optimalDistance);
 
-            for (int i = 0; i < travel.length; i++) {
-                final City c = travel[i];
+            for (final City c : travel) {
                 final double[] coord = c.getCoordinates();
                 out.println(coord[0] + " " + coord[1] + " # " + c.getName());
             }
