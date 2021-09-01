@@ -148,9 +148,7 @@ public abstract class BaseOptimizer<PAIR> {
      * @throws TooManyIterationsException if the maximal number of
      * iterations is exceeded.
      */
-    public PAIR optimize(OptimizationData... optData)
-        throws TooManyEvaluationsException,
-               TooManyIterationsException {
+    public PAIR optimize(OptimizationData... optData) {
         // Parse options.
         parseOptimizationData(optData);
         // Reset counters.
@@ -168,9 +166,7 @@ public abstract class BaseOptimizer<PAIR> {
      * @throws TooManyIterationsException if the maximal number of
      * iterations is exceeded.
      */
-    public PAIR optimize()
-        throws TooManyEvaluationsException,
-               TooManyIterationsException {
+    public PAIR optimize() {
         // Reset counters.
         resetCounters();
         // Perform optimization.
@@ -191,8 +187,7 @@ public abstract class BaseOptimizer<PAIR> {
      * @throws TooManyEvaluationsException if the allowed evaluations
      * have been exhausted.
      */
-    protected void incrementEvaluationCount()
-        throws TooManyEvaluationsException {
+    protected void incrementEvaluationCount() {
         evaluations.increment();
     }
 
@@ -202,8 +197,7 @@ public abstract class BaseOptimizer<PAIR> {
      * @throws TooManyIterationsException if the allowed iterations
      * have been exhausted.
      */
-    protected void incrementIterationCount()
-        throws TooManyIterationsException {
+    protected void incrementIterationCount() {
         iterations.increment();
     }
 

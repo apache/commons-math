@@ -17,7 +17,6 @@
 package org.apache.commons.math4.legacy.optim.nonlinear.scalar;
 
 import org.apache.commons.math4.legacy.analysis.MultivariateFunction;
-import org.apache.commons.math4.legacy.exception.TooManyEvaluationsException;
 import org.apache.commons.math4.legacy.optim.BaseMultivariateOptimizer;
 import org.apache.commons.math4.legacy.optim.ConvergenceChecker;
 import org.apache.commons.math4.legacy.optim.OptimizationData;
@@ -53,12 +52,11 @@ public abstract class MultivariateOptimizer
      *  <li>{@link GoalType}</li>
      * </ul>
      * @return {@inheritDoc}
-     * @throws TooManyEvaluationsException if the maximal number of
-     * evaluations is exceeded.
+     * @throws org.apache.commons.math4.legacy.exception.TooManyEvaluationsException
+     * if the maximal number of evaluations is exceeded.
      */
     @Override
-    public PointValuePair optimize(OptimizationData... optData)
-        throws TooManyEvaluationsException {
+    public PointValuePair optimize(OptimizationData... optData) {
         // Set up base class and perform computation.
         return super.optimize(optData);
     }
@@ -107,8 +105,8 @@ public abstract class MultivariateOptimizer
      *
      * @param params Point at which the objective function must be evaluated.
      * @return the objective function value at the specified point.
-     * @throws TooManyEvaluationsException if the maximal number of
-     * evaluations is exceeded.
+     * @throws org.apache.commons.math4.legacy.exception.TooManyEvaluationsException
+     * if the maximal number of evaluations is exceeded.
      */
     public double computeObjectiveValue(double[] params) {
         super.incrementEvaluationCount();
