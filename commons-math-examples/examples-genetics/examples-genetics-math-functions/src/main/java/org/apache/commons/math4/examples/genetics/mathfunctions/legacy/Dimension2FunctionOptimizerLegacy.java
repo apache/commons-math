@@ -1,4 +1,4 @@
-package org.apache.commons.math4.examples.genetics.functions.legacy;
+package org.apache.commons.math4.examples.genetics.mathfunctions.legacy;
 
 import org.apache.commons.math3.genetics.BinaryChromosome;
 import org.apache.commons.math3.genetics.BinaryMutation;
@@ -9,8 +9,8 @@ import org.apache.commons.math3.genetics.OnePointCrossover;
 import org.apache.commons.math3.genetics.Population;
 import org.apache.commons.math3.genetics.StoppingCondition;
 import org.apache.commons.math3.genetics.TournamentSelection;
-import org.apache.commons.math4.examples.genetics.functions.utils.Constants;
-import org.apache.commons.math4.examples.genetics.functions.utils.GraphPlotter;
+import org.apache.commons.math4.examples.genetics.mathfunctions.utils.Constants;
+import org.apache.commons.math4.examples.genetics.mathfunctions.utils.GraphPlotter;
 import org.apache.commons.math4.genetics.listeners.ConvergenceListenerRegistry;
 import org.apache.commons.math4.genetics.listeners.PopulationStatisticsLogger;
 

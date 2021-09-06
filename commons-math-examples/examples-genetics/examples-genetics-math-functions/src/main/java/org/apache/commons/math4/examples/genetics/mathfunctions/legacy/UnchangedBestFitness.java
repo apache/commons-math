@@ -15,7 +15,7 @@
  * limitations under the License.
  */
 
-package org.apache.commons.math4.examples.genetics.functions.legacy;
+package org.apache.commons.math4.examples.genetics.mathfunctions.legacy;
 
 import org.apache.commons.math3.genetics.Population;
 import org.apache.commons.math3.genetics.StoppingCondition;

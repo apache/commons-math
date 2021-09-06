@@ -1,4 +1,4 @@
-package org.apache.commons.math4.examples.genetics.functions.legacy;
+package org.apache.commons.math4.examples.genetics.mathfunctions.legacy;
 
 import org.apache.commons.math3.exception.OutOfRangeException;
 import org.apache.commons.math3.genetics.Chromosome;
@@ -8,7 +8,7 @@ import org.apache.commons.math3.genetics.MutationPolicy;
 import org.apache.commons.math3.genetics.Population;
 import org.apache.commons.math3.genetics.SelectionPolicy;
 import org.apache.commons.math3.genetics.StoppingCondition;
-import org.apache.commons.math4.examples.genetics.functions.Dimension2FitnessFunction;
+import org.apache.commons.math4.examples.genetics.mathfunctions.Dimension2FitnessFunction;
 import org.apache.commons.math4.genetics.listeners.ConvergenceListenerRegistry;
 import org.apache.commons.math4.genetics.model.ListPopulation;
 

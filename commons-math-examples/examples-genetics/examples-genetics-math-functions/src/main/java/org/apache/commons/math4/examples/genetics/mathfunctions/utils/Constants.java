@@ -1,4 +1,4 @@
-package org.apache.commons.math4.examples.genetics.functions.utils;
+package org.apache.commons.math4.examples.genetics.mathfunctions.utils;
 
 public interface Constants {
 

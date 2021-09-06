@@ -1,7 +1,7 @@
-package org.apache.commons.math4.examples.genetics.functions;
+package org.apache.commons.math4.examples.genetics.mathfunctions;
 
-import org.apache.commons.math4.examples.genetics.functions.utils.Constants;
-import org.apache.commons.math4.examples.genetics.functions.utils.GraphPlotter;
+import org.apache.commons.math4.examples.genetics.mathfunctions.utils.Constants;
+import org.apache.commons.math4.examples.genetics.mathfunctions.utils.GraphPlotter;
 import org.apache.commons.math4.genetics.GeneticAlgorithm;
 import org.apache.commons.math4.genetics.listeners.ConvergenceListenerRegistry;
 import org.apache.commons.math4.genetics.listeners.PopulationStatisticsLogger;

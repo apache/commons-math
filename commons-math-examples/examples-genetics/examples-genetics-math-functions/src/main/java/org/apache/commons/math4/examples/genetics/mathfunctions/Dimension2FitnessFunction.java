@@ -1,4 +1,4 @@
-package org.apache.commons.math4.examples.genetics.functions;
+package org.apache.commons.math4.examples.genetics.mathfunctions;
 
 import java.util.List;
 
