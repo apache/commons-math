@@ -150,6 +150,7 @@
 
   <modules>
     <module>examples-sofm</module>
+    <module>examples-genetics</module>
   </modules>
 
 </project>
