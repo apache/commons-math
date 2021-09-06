@@ -108,13 +108,12 @@ public abstract class AbstractGeneticAlgorithm {
 	 */
 	public Population evolve(final Population initial, final StoppingCondition condition) {
 		Population current = initial;
-
-		// notify interested listener
-		ConvergenceListenerRegistry.getInstance().notifyAll(current);
-
 		// check if stopping condition is satisfied otherwise produce the next
 		// generation of population.
 		while (!condition.isSatisfied(current)) {
+			// notify interested listener
+			ConvergenceListenerRegistry.getInstance().notifyAll(current);
+
 			current = nextGeneration(current);
 			this.generationsEvolved++;
 		}
