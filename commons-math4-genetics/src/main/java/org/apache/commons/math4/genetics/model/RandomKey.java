@@ -305,20 +305,15 @@ public class RandomKey<T> extends AbstractListChromosome<Double> implements Perm
 	}
 
 	/**
-	 * Creates an instance of RandomKey chromosome with randomly generated representation.
+	 * Creates an instance of RandomKey chromosome with randomly generated
+	 * representation.
 	 * 
 	 * @param length
 	 * @param fitnessFunction
 	 * @return a RandomKey chromosome
 	 */
 	public static RandomKey<?> randomChromosome(int length, FitnessFunction fitnessFunction) {
-		UniformRandomProvider randomGenerator = RandomGenerator.getRandomGenerator();
-		List<Double> representation = new ArrayList<>();
-		for (int i = 0; i < length; i++) {
-			representation.add(randomGenerator.nextDouble());
-		}
-
-		return new RandomKey<>(representation, fitnessFunction);
+		return new RandomKey<>(randomPermutation(length), fitnessFunction);
 	}
 
 }

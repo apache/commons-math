@@ -37,8 +37,8 @@ public class BinaryChromosome extends AbstractListChromosome<Integer> {
 	 * @throws GeneticException iff the <code>representation</code> can not
 	 *                          represent a valid chromosome
 	 */
-	public BinaryChromosome(List<Integer> representation, FitnessFunction fitnessCalculator) {
-		super(representation, fitnessCalculator);
+	public BinaryChromosome(List<Integer> representation, FitnessFunction fitnessFunction) {
+		super(representation, fitnessFunction);
 	}
 
 	/**
@@ -109,18 +109,13 @@ public class BinaryChromosome extends AbstractListChromosome<Integer> {
 
 	/**
 	 * Creates an instance of Binary Chromosome with random binary representation.
+	 * 
 	 * @param length
 	 * @param fitnessFunction
 	 * @return a binary chromosome
 	 */
 	public static BinaryChromosome randomChromosome(int length, FitnessFunction fitnessFunction) {
-		UniformRandomProvider randomGenerator = RandomGenerator.getRandomGenerator();
-		List<Integer> representation = new ArrayList<>();
-		for (int i = 0; i < length; i++) {
-			representation.add(randomGenerator.nextBoolean() ? 1 : 0);
-		}
-
-		return new BinaryChromosome(representation, fitnessFunction);
+		return new BinaryChromosome(randomBinaryRepresentation(length), fitnessFunction);
 	}
 
 }
