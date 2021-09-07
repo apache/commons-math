@@ -15,7 +15,7 @@
  * limitations under the License.
  */
 
-package org.apache.commons.math4.examples.genetics.mathfunctions.utils;
+package org.apache.commons.math4.examples.genetics.tsp.utils;
 
 import java.awt.BorderLayout;
 
@@ -89,8 +89,8 @@ public class GraphPlotter extends JFrame implements ConvergenceListener {
 	@Override
 	public void notify(Population population) {
 		PopulationStatisticalSummary populationStatisticalSummary = new PopulationStatisticalSummaryImpl(population);
-		this.addDataPoint("Average", this.generation, populationStatisticalSummary.getMeanFitness());
-		this.addDataPoint("Best", this.generation, populationStatisticalSummary.getMaxFitness());
+		this.addDataPoint("Average", this.generation, Math.abs(populationStatisticalSummary.getMeanFitness()));
+		this.addDataPoint("Best", this.generation, Math.abs(populationStatisticalSummary.getMaxFitness()));
 //		this.addDataPoint("Variance", this.generation, populationStatisticalSummary.getFitnessVariance());
 	}
 
