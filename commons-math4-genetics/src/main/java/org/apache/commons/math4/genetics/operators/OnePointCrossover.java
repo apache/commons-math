@@ -76,10 +76,6 @@ public class OnePointCrossover<T> extends AbstractListChromosomeCrossoverPolicy<
 	 */
 	protected ChromosomePair mate(final AbstractListChromosome<T> first, final AbstractListChromosome<T> second) {
 		final int length = first.getLength();
-		if (length != second.getLength()) {
-			throw new GeneticException(GeneticException.SIZE_MISMATCH, second.getLength(), length);
-		}
-
 		// array representations of the parents
 		final List<T> parent1Rep = first.getRepresentation();
 		final List<T> parent2Rep = second.getRepresentation();

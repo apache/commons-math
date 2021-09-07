@@ -111,9 +111,6 @@ public class NPointCrossover<T> extends AbstractListChromosomeCrossoverPolicy<T>
 	protected ChromosomePair mate(final AbstractListChromosome<T> first, final AbstractListChromosome<T> second) {
 
 		final int length = first.getLength();
-		if (length != second.getLength()) {
-			throw new GeneticException(GeneticException.SIZE_MISMATCH, second.getLength(), length);
-		}
 		if (crossoverPoints >= length) {
 			throw new GeneticException(GeneticException.TOO_LARGE, crossoverPoints, length);
 		}
