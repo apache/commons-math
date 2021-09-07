@@ -41,7 +41,8 @@ public class Dimension2FunctionOptimizer {
 
 		ConvergenceListenerRegistry convergenceListenerRegistry = ConvergenceListenerRegistry.getInstance();
 		convergenceListenerRegistry.addConvergenceListener(new PopulationStatisticsLogger());
-		convergenceListenerRegistry.addConvergenceListener(new GraphPlotter("Convergence Stats", "generation", "value"));
+		convergenceListenerRegistry
+				.addConvergenceListener(new GraphPlotter("Convergence Stats", "generation", "fitness"));
 
 		simulation.optimize(initPopulation);
 	}

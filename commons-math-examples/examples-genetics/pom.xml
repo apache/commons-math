@@ -11,5 +11,6 @@
 	<name>genetics</name>
 	<modules>
 		<module>examples-genetics-math-functions</module>
+		<module>examples-genetics-tsp</module>
 	</modules>
 </project>
