@@ -18,7 +18,9 @@
 package org.apache.commons.math4.genetics.operators;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import org.apache.commons.math4.genetics.exception.GeneticException;
 import org.apache.commons.math4.genetics.model.AbstractListChromosome;
@@ -49,6 +51,7 @@ public abstract class AbstractListChromosomeMutationPolicy<T> implements Mutatio
 		for (int geneIndex : geneIndexes) {
 			newRep.set(geneIndex, mutateGene(newRep.get(geneIndex)));
 		}
+
 		return chromosome.newFixedLengthChromosome(newRep);
 	}
 
@@ -63,12 +66,14 @@ public abstract class AbstractListChromosomeMutationPolicy<T> implements Mutatio
 		// calculate the total mutation rate of all the alleles i.e. chromosome.
 		double chromosomeMutationRate = mutationRate * length;
 
-		// if chromosomeMutationRate > 1 then more than one allele will be mutated.
+		// if chromosomeMutationRate >= 1 then more than one allele will be mutated.
 		if (chromosomeMutationRate >= 1) {
 			int noOfMutation = (int) Math.round(chromosomeMutationRate);
+			Set<Integer> indexSet = getUniqueIndexes(length, noOfMutation);
 			int[] indexes = new int[noOfMutation];
-			for (int i = 0; i < noOfMutation; i++) {
-				indexes[i] = RandomGenerator.getRandomGenerator().nextInt(length);
+			int i = 0;
+			for (Integer index : indexSet) {
+				indexes[i++] = index.intValue();
 			}
 			return indexes;
 		} else if (RandomGenerator.getRandomGenerator().nextDouble() < chromosomeMutationRate) {
@@ -78,6 +83,21 @@ public abstract class AbstractListChromosomeMutationPolicy<T> implements Mutatio
 			// return a blank array of indexes.
 			return new int[0];
 		}
+	}
+
+	/**
+	 * Generates unique mutation indexes randomly.
+	 * 
+	 * @param length
+	 * @param noOfMutation
+	 * @return A set of Integer
+	 */
+	private Set<Integer> getUniqueIndexes(int length, int noOfMutation) {
+		Set<Integer> indexSet = new HashSet<>();
+		while (indexSet.size() < noOfMutation) {
+			indexSet.add(RandomGenerator.getRandomGenerator().nextInt(length));
+		}
+		return indexSet;
 	}
 
 	/**
