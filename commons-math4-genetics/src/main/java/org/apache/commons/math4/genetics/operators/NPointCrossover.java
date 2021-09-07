@@ -21,7 +21,6 @@ import java.util.List;
 
 import org.apache.commons.math4.genetics.exception.GeneticException;
 import org.apache.commons.math4.genetics.model.AbstractListChromosome;
-import org.apache.commons.math4.genetics.model.Chromosome;
 import org.apache.commons.math4.genetics.model.ChromosomePair;
 import org.apache.commons.math4.genetics.utils.RandomGenerator;
 import org.apache.commons.rng.UniformRandomProvider;
@@ -50,7 +49,7 @@ import org.apache.commons.rng.UniformRandomProvider;
  * @param <T> generic type of the {@link AbstractListChromosome}s for crossover
  * @since 3.1
  */
-public class NPointCrossover<T> implements CrossoverPolicy {
+public class NPointCrossover<T> extends AbstractListChromosomeCrossoverPolicy<T> {
 
 	/** The number of crossover points. */
 	private final int crossoverPoints;
@@ -102,29 +101,6 @@ public class NPointCrossover<T> implements CrossoverPolicy {
 	 * c1 = (1 0  | 1 0 1 0  | 0 1 1)    X   c2 = (0 1  | 1 0 0 1  | 0 1 1)
 	 * </pre>
 	 *
-	 * @param first  first parent (p1)
-	 * @param second second parent (p2)
-	 * @return pair of two children (c1,c2)
-	 * @throws GeneticException iff one of the chromosomes is not an
-	 *                                      instance of
-	 *                                      {@link AbstractListChromosome}
-	 * @throws GeneticException             if the length of the two chromosomes is
-	 *                                      different
-	 */
-	@Override
-	@SuppressWarnings("unchecked") // OK because of instanceof checks
-	public ChromosomePair crossover(final Chromosome first, final Chromosome second, double crossoverRate) {
-
-		if (!(first instanceof AbstractListChromosome<?> && second instanceof AbstractListChromosome<?>)) {
-			throw new GeneticException(GeneticException.INVALID_FIXED_LENGTH_CHROMOSOME);
-		}
-		return mate((AbstractListChromosome<T>) first, (AbstractListChromosome<T>) second);
-	}
-
-	/**
-	 * Helper for {@link #crossover(Chromosome, Chromosome, double)}. Performs the actual
-	 * crossover.
-	 *
 	 * @param first  the first chromosome
 	 * @param second the second chromosome
 	 * @return the pair of new chromosomes that resulted from the crossover
@@ -132,7 +108,7 @@ public class NPointCrossover<T> implements CrossoverPolicy {
 	 * @throws GeneticException if the number of crossoverPoints is too large for
 	 *                          the actual chromosomes
 	 */
-	private ChromosomePair mate(final AbstractListChromosome<T> first, final AbstractListChromosome<T> second) {
+	protected ChromosomePair mate(final AbstractListChromosome<T> first, final AbstractListChromosome<T> second) {
 
 		final int length = first.getLength();
 		if (length != second.getLength()) {

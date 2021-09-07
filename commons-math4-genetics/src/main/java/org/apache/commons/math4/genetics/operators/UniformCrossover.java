@@ -56,7 +56,7 @@ import org.apache.commons.rng.UniformRandomProvider;
  * @param <T> generic type of the {@link AbstractListChromosome}s for crossover
  * @since 3.1
  */
-public class UniformCrossover<T> implements CrossoverPolicy {
+public class UniformCrossover<T> extends AbstractListChromosomeCrossoverPolicy<T> {
 
 	/** The mixing ratio. */
 	private final double ratio;
@@ -84,34 +84,15 @@ public class UniformCrossover<T> implements CrossoverPolicy {
 	}
 
 	/**
-	 * {@inheritDoc}
-	 *
-	 * @throws GeneticException iff one of the chromosomes is not an
-	 *                                      instance of
-	 *                                      {@link AbstractListChromosome}
-	 * @throws GeneticException             if the length of the two chromosomes is
-	 *                                      different
-	 */
-	@Override
-	@SuppressWarnings("unchecked")
-	public ChromosomePair crossover(final Chromosome first, final Chromosome second, double crossoverRate) {
-
-		if (!(first instanceof AbstractListChromosome<?> && second instanceof AbstractListChromosome<?>)) {
-			throw new GeneticException(GeneticException.INVALID_FIXED_LENGTH_CHROMOSOME);
-		}
-		return mate((AbstractListChromosome<T>) first, (AbstractListChromosome<T>) second);
-	}
-
-	/**
-	 * Helper for {@link #crossover(Chromosome, Chromosome, double)}. Performs the actual
-	 * crossover.
+	 * Helper for {@link #crossover(Chromosome, Chromosome, double)}. Performs the
+	 * actual crossover.
 	 *
 	 * @param first  the first chromosome
 	 * @param second the second chromosome
 	 * @return the pair of new chromosomes that resulted from the crossover
 	 * @throws GeneticException if the length of the two chromosomes is different
 	 */
-	private ChromosomePair mate(final AbstractListChromosome<T> first, final AbstractListChromosome<T> second) {
+	protected ChromosomePair mate(final AbstractListChromosome<T> first, final AbstractListChromosome<T> second) {
 		final int length = first.getLength();
 		if (length != second.getLength()) {
 			throw new GeneticException(GeneticException.SIZE_MISMATCH, second.getLength(), length);

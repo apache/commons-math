@@ -67,7 +67,7 @@ import org.apache.commons.math4.genetics.utils.RandomGenerator;
  * @param <T> generic type of the {@link AbstractListChromosome}s for crossover
  * @since 3.1
  */
-public class CycleCrossover<T> implements CrossoverPolicy {
+public class CycleCrossover<T> extends AbstractListChromosomeCrossoverPolicy<T> {
 
 	/** If the start index shall be chosen randomly. */
 	private final boolean randomStart;
@@ -101,32 +101,13 @@ public class CycleCrossover<T> implements CrossoverPolicy {
 	}
 
 	/**
-	 * {@inheritDoc}
-	 *
-	 * @throws GeneticException if the chromosomes are not an instance
-	 *                                      of {@link AbstractListChromosome}
-	 * @throws GeneticException   if the length of the two chromosomes is
-	 *                                      different
-	 */
-	@Override
-	@SuppressWarnings("unchecked")
-	public ChromosomePair crossover(final Chromosome first, final Chromosome second, double crossoverRate) {
-
-		if (!(first instanceof AbstractListChromosome<?> && second instanceof AbstractListChromosome<?>)) {
-			throw new GeneticException(GeneticException.INVALID_FIXED_LENGTH_CHROMOSOME);
-		}
-		return mate((AbstractListChromosome<T>) first, (AbstractListChromosome<T>) second);
-	}
-
-	/**
-	 * Helper for {@link #crossover(Chromosome, Chromosome, double)}. Performs the actual
-	 * crossover.
+	 * Helper for {@link #crossover(Chromosome, Chromosome, double)}. Performs the
+	 * actual crossover.
 	 *
 	 * @param first  the first chromosome
 	 * @param second the second chromosome
 	 * @return the pair of new chromosomes that resulted from the crossover
-	 * @throws GeneticException if the length of the two chromosomes is
-	 *                                    different
+	 * @throws GeneticException if the length of the two chromosomes is different
 	 */
 	protected ChromosomePair mate(final AbstractListChromosome<T> first, final AbstractListChromosome<T> second) {
 
