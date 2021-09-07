@@ -47,8 +47,8 @@ public class BinaryChromosome extends AbstractListChromosome<Integer> {
 	 * @throws GeneticException iff the <code>representation</code> can not
 	 *                          represent a valid chromosome
 	 */
-	public BinaryChromosome(Integer[] representation, FitnessFunction fitnessCalculator) {
-		super(representation, fitnessCalculator);
+	public BinaryChromosome(Integer[] representation, FitnessFunction fitnessFunction) {
+		super(representation, fitnessFunction);
 	}
 
 	/**
@@ -103,7 +103,7 @@ public class BinaryChromosome extends AbstractListChromosome<Integer> {
 
 	@Override
 	public AbstractListChromosome<Integer> newFixedLengthChromosome(List<Integer> chromosomeRepresentation) {
-		return new BinaryChromosome(chromosomeRepresentation, getFitnessCalculator());
+		return new BinaryChromosome(chromosomeRepresentation, getFitnessFunction());
 	}
 
 	/**

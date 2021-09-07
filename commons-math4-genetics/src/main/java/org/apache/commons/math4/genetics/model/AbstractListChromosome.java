@@ -41,8 +41,8 @@ public abstract class AbstractListChromosome<T> extends Chromosome {
 	 * @throws GeneticException iff the <code>representation</code> can not
 	 *                          represent a valid chromosome
 	 */
-	public AbstractListChromosome(final List<T> representation, FitnessFunction fitnessCalculator) {
-		this(representation, true, fitnessCalculator);
+	public AbstractListChromosome(final List<T> representation, FitnessFunction fitnessFunction) {
+		this(representation, true, fitnessFunction);
 	}
 
 	/**
@@ -52,8 +52,8 @@ public abstract class AbstractListChromosome<T> extends Chromosome {
 	 * @throws GeneticException if the <code>representation</code> can not represent
 	 *                          a valid chromosome
 	 */
-	public AbstractListChromosome(final T[] representation, FitnessFunction fitnessCalculator) {
-		this(Arrays.asList(representation), fitnessCalculator);
+	public AbstractListChromosome(final T[] representation, FitnessFunction fitnessFunction) {
+		this(Arrays.asList(representation), fitnessFunction);
 	}
 
 	/**
@@ -65,8 +65,8 @@ public abstract class AbstractListChromosome<T> extends Chromosome {
 	 * @since 3.3
 	 */
 	public AbstractListChromosome(final List<T> representation, final boolean copyList,
-			FitnessFunction fitnessCalculator) {
-		super(fitnessCalculator);
+			FitnessFunction fitnessFunction) {
+		super(fitnessFunction);
 		checkValidity(representation);
 		this.representation = Collections.unmodifiableList(copyList ? new ArrayList<>(representation) : representation);
 	}

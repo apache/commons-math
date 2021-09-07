@@ -31,14 +31,14 @@ public abstract class Chromosome implements Comparable<Chromosome> {
 	/** Cached value of the fitness of this chromosome. */
 	private double fitness = NO_FITNESS;
 
-	private FitnessFunction fitnessCalculator;
+	private FitnessFunction fitnessFunction;
 
-	public Chromosome(FitnessFunction fitnessCalculator) {
-		this.fitnessCalculator = fitnessCalculator;
+	public Chromosome(FitnessFunction fitnessFunction) {
+		this.fitnessFunction = fitnessFunction;
 	}
 
-	public FitnessFunction getFitnessCalculator() {
-		return fitnessCalculator;
+	public FitnessFunction getFitnessFunction() {
+		return fitnessFunction;
 	}
 
 	/**
@@ -53,7 +53,7 @@ public abstract class Chromosome implements Comparable<Chromosome> {
 	public double getFitness() {
 		if (this.fitness == NO_FITNESS) {
 			// no cache - compute the fitness
-			this.fitness = fitnessCalculator.compute(this);
+			this.fitness = fitnessFunction.compute(this);
 		}
 		return this.fitness;
 	}

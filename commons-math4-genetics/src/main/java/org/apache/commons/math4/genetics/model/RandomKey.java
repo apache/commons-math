@@ -71,8 +71,8 @@ public class RandomKey<T> extends AbstractListChromosome<Double> implements Perm
 	 * @throws GeneticException iff the <code>representation</code> can not
 	 *                          represent a valid chromosome
 	 */
-	public RandomKey(final List<Double> representation, FitnessFunction fitnessCalculator) {
-		super(representation, fitnessCalculator);
+	public RandomKey(final List<Double> representation, FitnessFunction fitnessFunction) {
+		super(representation, fitnessFunction);
 		// store the sorted representation
 		List<Double> sortedRepr = new ArrayList<>(getRepresentation());
 		Collections.sort(sortedRepr);
@@ -90,8 +90,8 @@ public class RandomKey<T> extends AbstractListChromosome<Double> implements Perm
 	 * @throws GeneticException iff the <code>representation</code> can not
 	 *                          represent a valid chromosome
 	 */
-	public RandomKey(final Double[] representation, FitnessFunction fitnessCalculator) {
-		this(Arrays.asList(representation), fitnessCalculator);
+	public RandomKey(final Double[] representation, FitnessFunction fitnessFunction) {
+		this(Arrays.asList(representation), fitnessFunction);
 	}
 
 	/**
@@ -300,7 +300,7 @@ public class RandomKey<T> extends AbstractListChromosome<Double> implements Perm
 
 	@Override
 	public RandomKey<T> newFixedLengthChromosome(List<Double> chromosomeRepresentation) {
-		return new RandomKey<T>(chromosomeRepresentation, getFitnessCalculator());
+		return new RandomKey<T>(chromosomeRepresentation, getFitnessFunction());
 	}
 
 	/**
