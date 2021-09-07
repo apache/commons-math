@@ -311,8 +311,8 @@ public class RandomKey<T> extends AbstractListChromosome<Double> implements Perm
 	 * @param fitnessFunction
 	 * @return a RandomKey chromosome
 	 */
-	public static RandomKey<?> randomChromosome(int length, FitnessFunction fitnessFunction) {
-		return new RandomKey<>(randomPermutation(length), fitnessFunction);
+	public static <T> RandomKey<T> randomChromosome(int length, FitnessFunction fitnessFunction) {
+		return new RandomKey<T>(randomPermutation(length), fitnessFunction);
 	}
 
 }
