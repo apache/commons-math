@@ -21,7 +21,6 @@ import java.util.List;
 
 import org.apache.commons.math4.genetics.exception.GeneticException;
 import org.apache.commons.math4.genetics.utils.RandomGenerator;
-import org.apache.commons.rng.UniformRandomProvider;
 
 /**
  * Chromosome represented by a vector of 0s and 1s.
@@ -82,7 +81,7 @@ public class BinaryChromosome extends AbstractListChromosome<Integer> {
 
 	/** {@inheritDoc} */
 	@Override
-	protected boolean isSame(Chromosome another) {
+	public boolean isSame(Chromosome another) {
 		// type check
 		if (!(another instanceof BinaryChromosome)) {
 			return false;

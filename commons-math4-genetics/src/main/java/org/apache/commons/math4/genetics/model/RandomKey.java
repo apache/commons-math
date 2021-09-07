@@ -25,7 +25,6 @@ import java.util.List;
 import org.apache.commons.math4.genetics.exception.GeneticException;
 import org.apache.commons.math4.genetics.utils.Constants;
 import org.apache.commons.math4.genetics.utils.RandomGenerator;
-import org.apache.commons.rng.UniformRandomProvider;
 
 /**
  * Random Key chromosome is used for permutation representation. It is a vector
@@ -151,7 +150,7 @@ public class RandomKey<T> extends AbstractListChromosome<Double> implements Perm
 	 * @return true iff chromosomes encode the same permutation
 	 */
 	@Override
-	protected boolean isSame(final Chromosome another) {
+	public boolean isSame(final Chromosome another) {
 		// type check
 		if (!(another instanceof RandomKey<?>)) {
 			return false;
