@@ -22,14 +22,15 @@ import java.util.Collections;
 import java.util.List;
 
 /**
- * Chromosome represented by an immutable list of a fixed length.
+ * This class represents an abstract chromosome containing an immutable list of
+ * allele/genes.
  *
  * @param <T> type of the representation list
  * @since 2.0
  */
 public abstract class AbstractListChromosome<T> extends Chromosome {
 
-    /** List representing the chromosome. */
+    /** List of allele/genes. */
     private final List<T> representation;
 
     /**
