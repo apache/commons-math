@@ -116,7 +116,7 @@ public class GeneticAlgorithmTestBinary {
         }
 
         @Override
-        public BinaryChromosome newFixedLengthChromosome(List<Integer> chromosomeRepresentation) {
+        public BinaryChromosome newChromosome(List<Integer> chromosomeRepresentation) {
             return new FindOnes(chromosomeRepresentation);
         }
 

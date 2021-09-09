@@ -112,7 +112,7 @@ public class GeneticAlgorithmTestPermutations {
         }
 
         @Override
-        public RandomKey<Integer> newFixedLengthChromosome(List<Double> chromosomeRepresentation) {
+        public RandomKey<Integer> newChromosome(List<Double> chromosomeRepresentation) {
             return new MinPermutations(chromosomeRepresentation);
         }
 

@@ -151,7 +151,7 @@ public class NPointCrossover<T> extends AbstractListChromosomeCrossoverPolicy<T>
             c2.add(parent2Rep.get(j));
         }
 
-        return new ChromosomePair(first.newFixedLengthChromosome(child1Rep),
-                second.newFixedLengthChromosome(child2Rep));
+        return new ChromosomePair(first.newChromosome(child1Rep),
+                second.newChromosome(child2Rep));
     }
 }

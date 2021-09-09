@@ -51,7 +51,7 @@ public abstract class AbstractListChromosomeMutationPolicy<T> implements Mutatio
             newRep.set(geneIndex, mutateGene(newRep.get(geneIndex)));
         }
 
-        return chromosome.newFixedLengthChromosome(newRep);
+        return chromosome.newChromosome(newRep);
     }
 
     /**

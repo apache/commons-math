@@ -104,7 +104,7 @@ public class BinaryChromosome extends AbstractListChromosome<Integer> {
      * {@inheritDoc}
      */
     @Override
-    public BinaryChromosome newFixedLengthChromosome(List<Integer> chromosomeRepresentation) {
+    public BinaryChromosome newChromosome(List<Integer> chromosomeRepresentation) {
         return new BinaryChromosome(chromosomeRepresentation, getFitnessFunction());
     }
 

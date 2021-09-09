@@ -123,6 +123,6 @@ public class OrderedCrossover<T> extends AbstractListChromosomeCrossoverPolicy<T
         Collections.rotate(child1, lb);
         Collections.rotate(child2, lb);
 
-        return new ChromosomePair(first.newFixedLengthChromosome(child1), second.newFixedLengthChromosome(child2));
+        return new ChromosomePair(first.newChromosome(child1), second.newChromosome(child2));
     }
 }

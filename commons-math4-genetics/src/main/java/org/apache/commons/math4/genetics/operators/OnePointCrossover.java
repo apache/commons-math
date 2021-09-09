@@ -97,8 +97,8 @@ public class OnePointCrossover<T> extends AbstractListChromosomeCrossoverPolicy<
             child2Rep.add(parent1Rep.get(i));
         }
 
-        return new ChromosomePair(first.newFixedLengthChromosome(child1Rep),
-                second.newFixedLengthChromosome(child2Rep));
+        return new ChromosomePair(first.newChromosome(child1Rep),
+                second.newChromosome(child2Rep));
     }
 
 }

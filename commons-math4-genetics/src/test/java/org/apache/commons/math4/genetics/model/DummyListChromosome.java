@@ -41,7 +41,7 @@ public class DummyListChromosome extends AbstractListChromosome<Integer> {
     }
 
     @Override
-    public AbstractListChromosome<Integer> newFixedLengthChromosome(final List<Integer> chromosomeRepresentation) {
+    public AbstractListChromosome<Integer> newChromosome(final List<Integer> chromosomeRepresentation) {
         return new DummyListChromosome(chromosomeRepresentation);
     }
 

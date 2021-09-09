@@ -302,7 +302,7 @@ public class RandomKey<T> extends AbstractListChromosome<Double> implements Perm
      * {@inheritDoc}
      */
     @Override
-    public RandomKey<T> newFixedLengthChromosome(List<Double> chromosomeRepresentation) {
+    public RandomKey<T> newChromosome(List<Double> chromosomeRepresentation) {
         return new RandomKey<T>(chromosomeRepresentation, getFitnessFunction());
     }
 
