@@ -28,46 +28,57 @@ import org.apache.commons.math4.genetics.model.Population;
  * all when required.
  *
  */
-public class ConvergenceListenerRegistry {
+public final class ConvergenceListenerRegistry {
 
-	private static final ConvergenceListenerRegistry instance = new ConvergenceListenerRegistry();
+    /**
+     * The instance of the singleton class.
+     */
+    private static final ConvergenceListenerRegistry INSTANCE = new ConvergenceListenerRegistry();
 
-	private List<ConvergenceListener> listeners = new ArrayList<>();
+    /**
+     * List of registered listeners.
+     */
+    private List<ConvergenceListener> listeners = new ArrayList<>();
 
-	private ConvergenceListenerRegistry() {
+    private ConvergenceListenerRegistry() {
+    }
 
-	}
+    /**
+     * Registers the interested ConvergenceListener passed as an argument.
+     * @param convergenceListener
+     */
+    public void addConvergenceListener(ConvergenceListener convergenceListener) {
+        this.listeners.add(convergenceListener);
+    }
 
-	/**
-	 * Registers the interested ConvergenceListener passed as an argument.
-	 * 
-	 * @param the convergence listener.
-	 */
-	public void addConvergenceListener(ConvergenceListener convergenceListener) {
-		this.listeners.add(convergenceListener);
-	}
+    /**
+     * Notifies all registered ConvergenceListeners about the population statistics.
+     * @param population
+     */
+    public void notifyAll(Population population) {
+        for (ConvergenceListener convergenceListener : listeners) {
+            convergenceListener.notify(population);
+        }
+    }
 
-	/**
-	 * Notifies all registered ConvergenceListeners about the population statistics.
-	 * 
-	 * @param population statistics
-	 */
-	public void notifyAll(Population population) {
-		for (ConvergenceListener convergenceListener : listeners) {
-			convergenceListener.notify(population);
-		}
-	}
+    /**
+     * Add instance of convergence listener.
+     * @param convergenceListeners
+     */
+    public void addConvergenceListeners(List<ConvergenceListener> convergenceListeners) {
+        if (convergenceListeners != null) {
+            for (ConvergenceListener convergenceListener : convergenceListeners) {
+                this.listeners.add(convergenceListener);
+            }
+        }
+    }
 
-	public void addConvergenceListeners(List<ConvergenceListener> convergenceListeners) {
-		if (convergenceListeners != null) {
-			for (ConvergenceListener convergenceListener : convergenceListeners) {
-				this.listeners.add(convergenceListener);
-			}
-		}
-	}
-
-	public static ConvergenceListenerRegistry getInstance() {
-		return instance;
-	}
+    /**
+     * Returns instance of this class.
+     * @return instance of this class.
+     */
+    public static ConvergenceListenerRegistry getInstance() {
+        return INSTANCE;
+    }
 
 }

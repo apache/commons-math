@@ -23,7 +23,7 @@ public interface Constants {
 
 	int TOURNAMENT_SIZE = 2;
 
-	int CHROMOZOME_LENGTH = 24;
+	int CHROMOSOME_LENGTH = 24;
 
 	double CROSSOVER_RATE = 1.0;
 

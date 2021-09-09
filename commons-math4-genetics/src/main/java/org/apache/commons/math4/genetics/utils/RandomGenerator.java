@@ -19,18 +19,24 @@ package org.apache.commons.math4.genetics.utils;
 
 import org.apache.commons.rng.UniformRandomProvider;
 import org.apache.commons.rng.simple.RandomSource;
+import org.apache.commons.rng.simple.ThreadLocalRandomSource;
 
-public class RandomGenerator {
+/**
+ * An utility to generate per thread {@link UniformRandomProvider} instance.
+ */
+public final class RandomGenerator {
 
-	private static UniformRandomProvider randomGenerator = RandomSource.create(RandomSource.WELL_19937_C);
-	
-	/**
-	 * Returns the (static) random generator.
-	 *
-	 * @return the static random generator shared by GA implementation classes
-	 */
-	public static synchronized UniformRandomProvider getRandomGenerator() {
-		return randomGenerator;
-	}
+    private RandomGenerator() {
+
+    }
+
+    /**
+     * Returns the (static) random generator.
+     *
+     * @return the static random generator shared by GA implementation classes
+     */
+    public static UniformRandomProvider getRandomGenerator() {
+        return ThreadLocalRandomSource.current(RandomSource.XO_RO_SHI_RO_128_PP);
+    }
 
 }

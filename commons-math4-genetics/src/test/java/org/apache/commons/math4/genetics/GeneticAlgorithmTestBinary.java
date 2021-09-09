@@ -19,7 +19,6 @@ package org.apache.commons.math4.genetics;
 import java.util.LinkedList;
 import java.util.List;
 
-import org.apache.commons.math4.genetics.model.AbstractListChromosome;
 import org.apache.commons.math4.genetics.model.BinaryChromosome;
 import org.apache.commons.math4.genetics.model.Chromosome;
 import org.apache.commons.math4.genetics.model.ListPopulation;
@@ -37,90 +36,90 @@ import org.junit.Test;
  */
 public class GeneticAlgorithmTestBinary {
 
-	// parameters for the GA
-	private static final int DIMENSION = 50;
-	private static final int POPULATION_SIZE = 50;
-	private static final int NUM_GENERATIONS = 50;
-	private static final double ELITISM_RATE = 0.2;
-	private static final double CROSSOVER_RATE = 1;
-	private static final double MUTATION_RATE = 0.1;
-	private static final int TOURNAMENT_ARITY = 2;
+    // parameters for the GA
+    private static final int DIMENSION = 50;
+    private static final int POPULATION_SIZE = 50;
+    private static final int NUM_GENERATIONS = 50;
+    private static final double ELITISM_RATE = 0.2;
+    private static final double CROSSOVER_RATE = 1;
+    private static final double MUTATION_RATE = 0.1;
+    private static final int TOURNAMENT_ARITY = 2;
 
-	@Test
-	public void test() {
-		// to test a stochastic algorithm is hard, so this will rather be an usage
-		// example
+    @Test
+    public void test() {
+        // to test a stochastic algorithm is hard, so this will rather be an usage
+        // example
 
-		// initialize a new genetic algorithm
-		GeneticAlgorithm ga = new GeneticAlgorithm(new OnePointCrossover<Integer>(), CROSSOVER_RATE, // all selected
-																										// chromosomes
-																										// will be
-																										// recombined
-																										// (=crossover)
-				new BinaryMutation(), MUTATION_RATE, new TournamentSelection(TOURNAMENT_ARITY));
+        // initialize a new genetic algorithm
+        GeneticAlgorithm ga = new GeneticAlgorithm(new OnePointCrossover<Integer>(), CROSSOVER_RATE, // all selected
+                                                                                                     // chromosomes
+                                                                                                     // will be
+                                                                                                     // recombined
+                                                                                                     // (=crossover)
+                new BinaryMutation(), MUTATION_RATE, new TournamentSelection(TOURNAMENT_ARITY));
 
-		Assert.assertEquals(0, ga.getGenerationsEvolved());
+        Assert.assertEquals(0, ga.getGenerationsEvolved());
 
-		// initial population
-		Population initial = randomPopulation();
-		// stopping conditions
-		StoppingCondition stopCond = new FixedGenerationCount(NUM_GENERATIONS);
+        // initial population
+        Population initial = randomPopulation();
+        // stopping conditions
+        StoppingCondition stopCond = new FixedGenerationCount(NUM_GENERATIONS);
 
-		// best initial chromosome
-		Chromosome bestInitial = initial.getFittestChromosome();
+        // best initial chromosome
+        Chromosome bestInitial = initial.getFittestChromosome();
 
-		// run the algorithm
-		Population finalPopulation = ga.evolve(initial, stopCond);
+        // run the algorithm
+        Population finalPopulation = ga.evolve(initial, stopCond);
 
-		// best chromosome from the final population
-		Chromosome bestFinal = finalPopulation.getFittestChromosome();
+        // best chromosome from the final population
+        Chromosome bestFinal = finalPopulation.getFittestChromosome();
 
-		// the only thing we can test is whether the final solution is not worse than
-		// the initial one
-		// however, for some implementations of GA, this need not be true :)
+        // the only thing we can test is whether the final solution is not worse than
+        // the initial one
+        // however, for some implementations of GA, this need not be true :)
 
-		Assert.assertTrue(bestFinal.compareTo(bestInitial) > 0);
-		Assert.assertEquals(NUM_GENERATIONS, ga.getGenerationsEvolved());
+        Assert.assertTrue(bestFinal.compareTo(bestInitial) > 0);
+        Assert.assertEquals(NUM_GENERATIONS, ga.getGenerationsEvolved());
 
-	}
+    }
 
-	/**
-	 * Initializes a random population.
-	 */
-	private static ListPopulation randomPopulation() {
-		List<Chromosome> popList = new LinkedList<>();
+    /**
+     * Initializes a random population.
+     */
+    private static ListPopulation randomPopulation() {
+        List<Chromosome> popList = new LinkedList<>();
 
-		for (int i = 0; i < POPULATION_SIZE; i++) {
-			BinaryChromosome randChrom = new FindOnes(BinaryChromosome.randomBinaryRepresentation(DIMENSION));
-			popList.add(randChrom);
-		}
-		return new ListPopulation(popList, popList.size());
-	}
+        for (int i = 0; i < POPULATION_SIZE; i++) {
+            BinaryChromosome randChrom = new FindOnes(BinaryChromosome.randomBinaryRepresentation(DIMENSION));
+            popList.add(randChrom);
+        }
+        return new ListPopulation(popList, popList.size());
+    }
 
-	/**
-	 * Chromosomes represented by a binary chromosome.
-	 *
-	 * The goal is to set all bits (genes) to 1.
-	 */
-	private static class FindOnes extends BinaryChromosome {
+    /**
+     * Chromosomes represented by a binary chromosome.
+     *
+     * The goal is to set all bits (genes) to 1.
+     */
+    private static class FindOnes extends BinaryChromosome {
 
-		FindOnes(List<Integer> representation) {
-			super(representation, (c) -> {
-				int num = 0;
-				for (int val : representation) {
-					if (val != 0) {
-						num++;
-					}
-				}
-				return num;
-			});
-		}
+        FindOnes(List<Integer> representation) {
+            super(representation, chromosome -> {
+                int num = 0;
+                for (int val : representation) {
+                    if (val != 0) {
+                        num++;
+                    }
+                }
+                return num;
+            });
+        }
 
-		@Override
-		public AbstractListChromosome<Integer> newFixedLengthChromosome(List<Integer> chromosomeRepresentation) {
-			return new FindOnes(chromosomeRepresentation);
-		}
+        @Override
+        public BinaryChromosome newFixedLengthChromosome(List<Integer> chromosomeRepresentation) {
+            return new FindOnes(chromosomeRepresentation);
+        }
 
-	}
+    }
 
 }

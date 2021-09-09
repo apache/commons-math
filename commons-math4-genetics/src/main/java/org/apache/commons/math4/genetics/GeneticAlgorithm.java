@@ -32,128 +32,124 @@ import org.apache.commons.math4.genetics.utils.Constants;
  */
 public class GeneticAlgorithm extends AbstractGeneticAlgorithm {
 
-	/** the rate of crossover for the algorithm. */
-	private final double crossoverRate;
+    /** the rate of crossover for the algorithm. */
+    private final double crossoverRate;
 
-	/** the rate of mutation for the algorithm. */
-	private final double mutationRate;
+    /** the rate of mutation for the algorithm. */
+    private final double mutationRate;
 
-	/**
-	 * Create a new genetic algorithm.
-	 * 
-	 * @param crossoverPolicy The {@link CrossoverPolicy}
-	 * @param crossoverRate   The crossover rate as a percentage (0-1 inclusive)
-	 * @param mutationPolicy  The {@link MutationPolicy}
-	 * @param mutationRate    The mutation rate as a percentage (0-1 inclusive)
-	 * @param selectionPolicy The {@link SelectionPolicy}
-	 * @throws GeneticException if the crossover or mutation rate is outside the [0,
-	 *                          1] range
-	 */
-	public GeneticAlgorithm(final CrossoverPolicy crossoverPolicy, final double crossoverRate,
-			final MutationPolicy mutationPolicy, final double mutationRate, final SelectionPolicy selectionPolicy) {
-		super(crossoverPolicy, mutationPolicy, selectionPolicy);
+    /**
+     * Create a new genetic algorithm.
+     * @param crossoverPolicy The {@link CrossoverPolicy}
+     * @param crossoverRate   The crossover rate as a percentage (0-1 inclusive)
+     * @param mutationPolicy  The {@link MutationPolicy}
+     * @param mutationRate    The mutation rate as a percentage (0-1 inclusive)
+     * @param selectionPolicy The {@link SelectionPolicy}
+     * @throws GeneticException if the crossover or mutation rate is outside the [0,
+     *                          1] range
+     */
+    public GeneticAlgorithm(final CrossoverPolicy crossoverPolicy, final double crossoverRate,
+            final MutationPolicy mutationPolicy, final double mutationRate, final SelectionPolicy selectionPolicy) {
+        super(crossoverPolicy, mutationPolicy, selectionPolicy);
 
-		if (crossoverRate < 0 || crossoverRate > 1) {
-			throw new GeneticException(GeneticException.OUT_OF_RANGE, crossoverRate, Constants.CROSSOVER_RATE, 0, 1);
-		}
-		if (mutationRate < 0 || mutationRate > 1) {
-			throw new GeneticException(GeneticException.OUT_OF_RANGE, mutationRate, Constants.MUTATION_RATE, 0, 1);
-		}
-		this.crossoverRate = crossoverRate;
-		this.mutationRate = mutationRate;
-	}
+        if (crossoverRate < 0 || crossoverRate > 1) {
+            throw new GeneticException(GeneticException.OUT_OF_RANGE, crossoverRate, Constants.CROSSOVER_RATE, 0, 1);
+        }
+        if (mutationRate < 0 || mutationRate > 1) {
+            throw new GeneticException(GeneticException.OUT_OF_RANGE, mutationRate, Constants.MUTATION_RATE, 0, 1);
+        }
+        this.crossoverRate = crossoverRate;
+        this.mutationRate = mutationRate;
+    }
 
-	/**
-	 * Create a new genetic algorithm.
-	 * 
-	 * @param crossoverPolicy The {@link CrossoverPolicy}
-	 * @param crossoverRate   The crossover rate as a percentage (0-1 inclusive)
-	 * @param mutationPolicy  The {@link MutationPolicy}
-	 * @param mutationRate    The mutation rate as a percentage (0-1 inclusive)
-	 * @param selectionPolicy The {@link SelectionPolicy}
-	 * @param elitismRate     The rate of elitism
-	 * @throws GeneticException if the crossover or mutation rate is outside the [0,
-	 *                          1] range
-	 */
-	public GeneticAlgorithm(final CrossoverPolicy crossoverPolicy, final double crossoverRate,
-			final MutationPolicy mutationPolicy, final double mutationRate, final SelectionPolicy selectionPolicy,
-			final double elitismRate) {
-		super(crossoverPolicy, mutationPolicy, selectionPolicy, elitismRate);
+    /**
+     * Create a new genetic algorithm.
+     * @param crossoverPolicy The {@link CrossoverPolicy}
+     * @param crossoverRate   The crossover rate as a percentage (0-1 inclusive)
+     * @param mutationPolicy  The {@link MutationPolicy}
+     * @param mutationRate    The mutation rate as a percentage (0-1 inclusive)
+     * @param selectionPolicy The {@link SelectionPolicy}
+     * @param elitismRate     The rate of elitism
+     * @throws GeneticException if the crossover or mutation rate is outside the [0,
+     *                          1] range
+     */
+    public GeneticAlgorithm(final CrossoverPolicy crossoverPolicy, final double crossoverRate,
+            final MutationPolicy mutationPolicy, final double mutationRate, final SelectionPolicy selectionPolicy,
+            final double elitismRate) {
+        super(crossoverPolicy, mutationPolicy, selectionPolicy, elitismRate);
 
-		if (crossoverRate < 0 || crossoverRate > 1) {
-			throw new GeneticException(GeneticException.OUT_OF_RANGE, crossoverRate, Constants.CROSSOVER_RATE, 0, 1);
-		}
-		if (mutationRate < 0 || mutationRate > 1) {
-			throw new GeneticException(GeneticException.OUT_OF_RANGE, mutationRate, Constants.MUTATION_RATE, 0, 1);
-		}
-		this.crossoverRate = crossoverRate;
-		this.mutationRate = mutationRate;
-	}
+        if (crossoverRate < 0 || crossoverRate > 1) {
+            throw new GeneticException(GeneticException.OUT_OF_RANGE, crossoverRate, Constants.CROSSOVER_RATE, 0, 1);
+        }
+        if (mutationRate < 0 || mutationRate > 1) {
+            throw new GeneticException(GeneticException.OUT_OF_RANGE, mutationRate, Constants.MUTATION_RATE, 0, 1);
+        }
+        this.crossoverRate = crossoverRate;
+        this.mutationRate = mutationRate;
+    }
 
-	/**
-	 * Evolve the given population into the next generation.
-	 * <ol>
-	 * <li>Get nextGeneration population to fill from <code>current</code>
-	 * generation, using its nextGeneration method</li>
-	 * <li>Loop until new generation is filled:
-	 * <ul>
-	 * <li>Apply configured SelectionPolicy to select a pair of parents from
-	 * <code>current</code></li>
-	 * <li>With probability = {@link #getCrossoverRate()}, apply configured
-	 * {@link CrossoverPolicy} to parents</li>
-	 * <li>With probability = {@link #getMutationRate()}, apply configured
-	 * {@link MutationPolicy} to each of the offspring</li>
-	 * <li>Add offspring individually to nextGeneration, space permitting</li>
-	 * </ul>
-	 * </li>
-	 * <li>Return nextGeneration</li>
-	 * </ol>
-	 *
-	 * @param current the current population.
-	 * @return the population for the next generation.
-	 */
-	protected Population nextGeneration(final Population current) {
-		Population nextGeneration = current.nextGeneration(getElitismRate());
+    /**
+     * Evolve the given population into the next generation.
+     * <ol>
+     * <li>Get nextGeneration population to fill from <code>current</code>
+     * generation, using its nextGeneration method</li>
+     * <li>Loop until new generation is filled:
+     * <ul>
+     * <li>Apply configured SelectionPolicy to select a pair of parents from
+     * <code>current</code></li>
+     * <li>With probability = {@link #getCrossoverRate()}, apply configured
+     * {@link CrossoverPolicy} to parents</li>
+     * <li>With probability = {@link #getMutationRate()}, apply configured
+     * {@link MutationPolicy} to each of the offspring</li>
+     * <li>Add offspring individually to nextGeneration, space permitting</li>
+     * </ul>
+     * </li>
+     * <li>Return nextGeneration</li>
+     * </ol>
+     *
+     * @param current the current population.
+     * @return the population for the next generation.
+     */
+    protected Population nextGeneration(final Population current) {
+        Population nextGeneration = current.nextGeneration(getElitismRate());
 
-		while (nextGeneration.getPopulationSize() < nextGeneration.getPopulationLimit()) {
-			// select parent chromosomes
-			ChromosomePair pair = getSelectionPolicy().select(current);
+        while (nextGeneration.getPopulationSize() < nextGeneration.getPopulationLimit()) {
+            // select parent chromosomes
+            ChromosomePair pair = getSelectionPolicy().select(current);
 
-			// apply crossover policy to create two offspring
-			pair = getCrossoverPolicy().crossover(pair.getFirst(), pair.getSecond(), crossoverRate);
+            // apply crossover policy to create two offspring
+            pair = getCrossoverPolicy().crossover(pair.getFirst(), pair.getSecond(), crossoverRate);
 
-			// apply mutation policy to the chromosomes
-			pair = new ChromosomePair(getMutationPolicy().mutate(pair.getFirst(), mutationRate),
-					getMutationPolicy().mutate(pair.getSecond(), mutationRate));
+            // apply mutation policy to the chromosomes
+            pair = new ChromosomePair(getMutationPolicy().mutate(pair.getFirst(), mutationRate),
+                    getMutationPolicy().mutate(pair.getSecond(), mutationRate));
 
-			// add the first chromosome to the population
-			nextGeneration.addChromosome(pair.getFirst());
-			// is there still a place for the second chromosome?
-			if (nextGeneration.getPopulationSize() < nextGeneration.getPopulationLimit()) {
-				// add the second chromosome to the population
-				nextGeneration.addChromosome(pair.getSecond());
-			}
-		}
+            // add the first chromosome to the population
+            nextGeneration.addChromosome(pair.getFirst());
+            // is there still a place for the second chromosome?
+            if (nextGeneration.getPopulationSize() < nextGeneration.getPopulationLimit()) {
+                // add the second chromosome to the population
+                nextGeneration.addChromosome(pair.getSecond());
+            }
+        }
 
-		return nextGeneration;
-	}
+        return nextGeneration;
+    }
 
-	/**
-	 * Returns the crossover rate.
-	 * 
-	 * @return crossover rate
-	 */
-	public double getCrossoverRate() {
-		return crossoverRate;
-	}
+    /**
+     * Returns the crossover rate.
+     * @return crossover rate
+     */
+    public double getCrossoverRate() {
+        return crossoverRate;
+    }
 
-	/**
-	 * Returns the mutation rate.
-	 * 
-	 * @return mutation rate
-	 */
-	public double getMutationRate() {
-		return mutationRate;
-	}
+    /**
+     * Returns the mutation rate.
+     * @return mutation rate
+     */
+    public double getMutationRate() {
+        return mutationRate;
+    }
 
 }

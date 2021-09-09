@@ -17,11 +17,11 @@
 package org.apache.commons.math4.genetics.operators;
 
 import java.util.ArrayList;
+
 import java.util.List;
 
 import org.apache.commons.math4.genetics.exception.GeneticException;
 import org.apache.commons.math4.genetics.model.AbstractListChromosome;
-import org.apache.commons.math4.genetics.model.Chromosome;
 import org.apache.commons.math4.genetics.model.ChromosomePair;
 import org.apache.commons.math4.genetics.utils.Constants;
 import org.apache.commons.math4.genetics.utils.RandomGenerator;
@@ -58,64 +58,64 @@ import org.apache.commons.rng.UniformRandomProvider;
  */
 public class UniformCrossover<T> extends AbstractListChromosomeCrossoverPolicy<T> {
 
-	/** The mixing ratio. */
-	private final double ratio;
+    /** The mixing ratio. */
+    private final double ratio;
 
-	/**
-	 * Creates a new {@link UniformCrossover} policy using the given mixing ratio.
-	 *
-	 * @param ratio the mixing ratio
-	 * @throws GeneticException if the mixing ratio is outside the [0, 1] range
-	 */
-	public UniformCrossover(final double ratio) {
-		if (ratio < 0.0d || ratio > 1.0d) {
-			throw new GeneticException(GeneticException.OUT_OF_RANGE, ratio, Constants.CROSSOVER_RATE, 0.0d, 1.0d);
-		}
-		this.ratio = ratio;
-	}
+    /**
+     * Creates a new {@link UniformCrossover} policy using the given mixing ratio.
+     *
+     * @param ratio the mixing ratio
+     * @throws GeneticException if the mixing ratio is outside the [0, 1] range
+     */
+    public UniformCrossover(final double ratio) {
+        if (ratio < 0.0d || ratio > 1.0d) {
+            throw new GeneticException(GeneticException.OUT_OF_RANGE, ratio, Constants.CROSSOVER_RATE, 0.0d, 1.0d);
+        }
+        this.ratio = ratio;
+    }
 
-	/**
-	 * Returns the mixing ratio used by this {@link CrossoverPolicy}.
-	 *
-	 * @return the mixing ratio
-	 */
-	public double getRatio() {
-		return ratio;
-	}
+    /**
+     * Returns the mixing ratio used by this {@link CrossoverPolicy}.
+     *
+     * @return the mixing ratio
+     */
+    public double getRatio() {
+        return ratio;
+    }
 
-	/**
-	 * Helper for {@link #crossover(Chromosome, Chromosome, double)}. Performs the
-	 * actual crossover.
-	 *
-	 * @param first  the first chromosome
-	 * @param second the second chromosome
-	 * @return the pair of new chromosomes that resulted from the crossover
-	 * @throws GeneticException if the length of the two chromosomes is different
-	 */
-	protected ChromosomePair mate(final AbstractListChromosome<T> first, final AbstractListChromosome<T> second) {
-		final int length = first.getLength();
-		// array representations of the parents
-		final List<T> parent1Rep = first.getRepresentation();
-		final List<T> parent2Rep = second.getRepresentation();
-		// and of the children
-		final List<T> child1Rep = new ArrayList<>(length);
-		final List<T> child2Rep = new ArrayList<>(length);
+    /**
+     * Helper for {@link #crossover(Chromosome, Chromosome, double)}. Performs the
+     * actual crossover.
+     *
+     * @param first  the first chromosome
+     * @param second the second chromosome
+     * @return the pair of new chromosomes that resulted from the crossover
+     * @throws GeneticException if the length of the two chromosomes is different
+     */
+    protected ChromosomePair mate(final AbstractListChromosome<T> first, final AbstractListChromosome<T> second) {
+        final int length = first.getLength();
+        // array representations of the parents
+        final List<T> parent1Rep = first.getRepresentation();
+        final List<T> parent2Rep = second.getRepresentation();
+        // and of the children
+        final List<T> child1Rep = new ArrayList<>(length);
+        final List<T> child2Rep = new ArrayList<>(length);
 
-		final UniformRandomProvider random = RandomGenerator.getRandomGenerator();
+        final UniformRandomProvider random = RandomGenerator.getRandomGenerator();
 
-		for (int index = 0; index < length; index++) {
+        for (int index = 0; index < length; index++) {
 
-			if (random.nextDouble() < ratio) {
-				// swap the bits -> take other parent
-				child1Rep.add(parent2Rep.get(index));
-				child2Rep.add(parent1Rep.get(index));
-			} else {
-				child1Rep.add(parent1Rep.get(index));
-				child2Rep.add(parent2Rep.get(index));
-			}
-		}
+            if (random.nextDouble() < ratio) {
+                // swap the bits -> take other parent
+                child1Rep.add(parent2Rep.get(index));
+                child2Rep.add(parent1Rep.get(index));
+            } else {
+                child1Rep.add(parent1Rep.get(index));
+                child2Rep.add(parent2Rep.get(index));
+            }
+        }
 
-		return new ChromosomePair(first.newFixedLengthChromosome(child1Rep),
-				second.newFixedLengthChromosome(child2Rep));
-	}
+        return new ChromosomePair(first.newFixedLengthChromosome(child1Rep),
+                second.newFixedLengthChromosome(child2Rep));
+    }
 }

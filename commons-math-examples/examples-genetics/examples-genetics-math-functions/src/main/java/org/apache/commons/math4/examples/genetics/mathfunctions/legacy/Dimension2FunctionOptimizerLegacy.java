@@ -73,7 +73,7 @@ public class Dimension2FunctionOptimizerLegacy {
 		Population population = new ElitisticListPopulation(Constants.POPULATION_SIZE, Constants.ELITISM_RATE);
 		for (int i = 0; i < Constants.POPULATION_SIZE; i++) {
 			population.addChromosome(new LegacyBinaryChromosome(
-					BinaryChromosome.randomBinaryRepresentation(Constants.CHROMOZOME_LENGTH)));
+					BinaryChromosome.randomBinaryRepresentation(Constants.CHROMOSOME_LENGTH)));
 		}
 		return population;
 	}

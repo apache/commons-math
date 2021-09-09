@@ -16,7 +16,6 @@
  */
 package org.apache.commons.math4.genetics.operators;
 
-import org.apache.commons.math4.genetics.exception.GeneticException;
 import org.apache.commons.math4.genetics.model.ChromosomePair;
 import org.apache.commons.math4.genetics.model.Population;
 
@@ -26,13 +25,13 @@ import org.apache.commons.math4.genetics.model.Population;
  * @since 2.0
  */
 public interface SelectionPolicy {
-	/**
-	 * Select two chromosomes from the population.
-	 * 
-	 * @param population the population from which the chromosomes are chosen.
-	 * @return the selected chromosomes.
-	 * @throws GeneticException if the population is not compatible with
-	 *                                      this {@link SelectionPolicy}
-	 */
-	ChromosomePair select(Population population);
+
+    /**
+     * Select two chromosomes from the population.
+     * @param population the population from which the chromosomes are chosen.
+     * @return the selected chromosomes.
+     * @throws GeneticException if the population is not compatible with this
+     *                          {@link SelectionPolicy}
+     */
+    ChromosomePair select(Population population);
 }

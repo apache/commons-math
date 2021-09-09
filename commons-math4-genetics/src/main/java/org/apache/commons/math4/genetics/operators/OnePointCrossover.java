@@ -17,9 +17,9 @@
 package org.apache.commons.math4.genetics.operators;
 
 import java.util.ArrayList;
+
 import java.util.List;
 
-import org.apache.commons.math4.genetics.exception.GeneticException;
 import org.apache.commons.math4.genetics.model.AbstractListChromosome;
 import org.apache.commons.math4.genetics.model.ChromosomePair;
 import org.apache.commons.math4.genetics.utils.RandomGenerator;
@@ -30,7 +30,6 @@ import org.apache.commons.math4.genetics.utils.RandomGenerator;
  * second parts are copied crosswise.
  *
  * Example:
- * 
  * <pre>
  * -C- denotes a crossover point
  *                   -C-                                 -C-
@@ -42,8 +41,8 @@ import org.apache.commons.math4.genetics.utils.RandomGenerator;
  * c1 = (1 0 1 0 0 1  | 1 1 1)    X    c2 = (0 1 1 0 1 0  | 0 1 1)
  * </pre>
  *
- * This policy works only on {@link AbstractListChromosome}, and therefore it is
- * parameterized by T. Moreover, the chromosomes must have same lengths.
+ * This policy works only on {@link AbstractListChromosome}, and therefore it
+ * is parameterized by T. Moreover, the chromosomes must have same lengths.
  *
  * @param <T> generic type of the {@link AbstractListChromosome}s for crossover
  * @since 2.0
@@ -51,54 +50,55 @@ import org.apache.commons.math4.genetics.utils.RandomGenerator;
  */
 public class OnePointCrossover<T> extends AbstractListChromosomeCrossoverPolicy<T> {
 
-	/**
-	 * Performs one point crossover. A random crossover point is selected and the
-	 * first part from each parent is copied to the corresponding child, and the
-	 * second parts are copied crosswise.
-	 *
-	 * Example:
-	 * 
-	 * <pre>
-	 * -C- denotes a crossover point
-	 *                   -C-                                 -C-
-	 * p1 = (1 0 1 0 0 1  | 0 1 1)    X    p2 = (0 1 1 0 1 0  | 1 1 1)
-	 *      \------------/ \-----/              \------------/ \-----/
-	 *            ||         (*)                       ||        (**)
-	 *            VV         (**)                      VV        (*)
-	 *      /------------\ /-----\              /------------\ /-----\
-	 * c1 = (1 0 1 0 0 1  | 1 1 1)    X    c2 = (0 1 1 0 1 0  | 0 1 1)
-	 * </pre>
-	 *
-	 * @param first  the first chromosome.
-	 * @param second the second chromosome.
-	 * @return the pair of new chromosomes that resulted from the crossover.
-	 * @throws GeneticException if the length of the two chromosomes is different
-	 */
-	protected ChromosomePair mate(final AbstractListChromosome<T> first, final AbstractListChromosome<T> second) {
-		final int length = first.getLength();
-		// array representations of the parents
-		final List<T> parent1Rep = first.getRepresentation();
-		final List<T> parent2Rep = second.getRepresentation();
-		// and of the children
-		final List<T> child1Rep = new ArrayList<>(length);
-		final List<T> child2Rep = new ArrayList<>(length);
+    /**
+     * Performs one point crossover. A random crossover point is selected and the
+     * first part from each parent is copied to the corresponding child, and the
+     * second parts are copied crosswise.
+     *
+     * Example:
+     * <pre>
+     * -C- denotes a crossover point
+     *                   -C-                                 -C-
+     * p1 = (1 0 1 0 0 1  | 0 1 1)    X    p2 = (0 1 1 0 1 0  | 1 1 1)
+     *      \------------/ \-----/              \------------/ \-----/
+     *            ||         (*)                       ||        (**)
+     *            VV         (**)                      VV        (*)
+     *      /------------\ /-----\              /------------\ /-----\
+     * c1 = (1 0 1 0 0 1  | 1 1 1)    X    c2 = (0 1 1 0 1 0  | 0 1 1)
+     * </pre>
+     *
+     * @param first first parent (p1)
+     * @param second second parent (p2)
+     * @return pair of two children (c1,c2)
+     * @throws MathIllegalArgumentException iff one of the chromosomes is
+     *   not an instance of {@link AbstractListChromosome}
+     * @throws DimensionMismatchException if the length of the two chromosomes is different
+     */
+    protected ChromosomePair mate(final AbstractListChromosome<T> first, final AbstractListChromosome<T> second) {
+        final int length = first.getLength();
+        // array representations of the parents
+        final List<T> parent1Rep = first.getRepresentation();
+        final List<T> parent2Rep = second.getRepresentation();
+        // and of the children
+        final List<T> child1Rep = new ArrayList<>(length);
+        final List<T> child2Rep = new ArrayList<>(length);
 
-		// select a crossover point at random (0 and length makes no sense)
-		final int crossoverIndex = 1 + (RandomGenerator.getRandomGenerator().nextInt(length - 2));
+        // select a crossover point at random (0 and length makes no sense)
+        final int crossoverIndex = 1 + (RandomGenerator.getRandomGenerator().nextInt(length - 2));
 
-		// copy the first part
-		for (int i = 0; i < crossoverIndex; i++) {
-			child1Rep.add(parent1Rep.get(i));
-			child2Rep.add(parent2Rep.get(i));
-		}
-		// and switch the second part
-		for (int i = crossoverIndex; i < length; i++) {
-			child1Rep.add(parent2Rep.get(i));
-			child2Rep.add(parent1Rep.get(i));
-		}
+        // copy the first part
+        for (int i = 0; i < crossoverIndex; i++) {
+            child1Rep.add(parent1Rep.get(i));
+            child2Rep.add(parent2Rep.get(i));
+        }
+        // and switch the second part
+        for (int i = crossoverIndex; i < length; i++) {
+            child1Rep.add(parent2Rep.get(i));
+            child2Rep.add(parent1Rep.get(i));
+        }
 
-		return new ChromosomePair(first.newFixedLengthChromosome(child1Rep),
-				second.newFixedLengthChromosome(child2Rep));
-	}
+        return new ChromosomePair(first.newFixedLengthChromosome(child1Rep),
+                second.newFixedLengthChromosome(child2Rep));
+    }
 
 }

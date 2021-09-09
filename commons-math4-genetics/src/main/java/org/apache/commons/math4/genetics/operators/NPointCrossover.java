@@ -17,6 +17,7 @@
 package org.apache.commons.math4.genetics.operators;
 
 import java.util.ArrayList;
+
 import java.util.List;
 
 import org.apache.commons.math4.genetics.exception.GeneticException;
@@ -31,7 +32,6 @@ import org.apache.commons.rng.UniformRandomProvider;
  * child, and the second parts are copied crosswise.
  *
  * Example (2-point crossover):
- * 
  * <pre>
  * -C- denotes a crossover point
  *           -C-       -C-                         -C-        -C-
@@ -43,117 +43,115 @@ import org.apache.commons.rng.UniformRandomProvider;
  * c1 = (1 0  | 1 0 1 0  | 0 1 1)    X   c2 = (0 1  | 1 0 0 1  | 0 1 1)
  * </pre>
  *
- * This policy works only on {@link AbstractListChromosome}, and therefore it is
- * parameterized by T. Moreover, the chromosomes must have same lengths.
+ * This policy works only on {@link AbstractListChromosome}, and therefore it
+ * is parameterized by T. Moreover, the chromosomes must have same lengths.
  *
  * @param <T> generic type of the {@link AbstractListChromosome}s for crossover
  * @since 3.1
  */
 public class NPointCrossover<T> extends AbstractListChromosomeCrossoverPolicy<T> {
 
-	/** The number of crossover points. */
-	private final int crossoverPoints;
+    /** The number of crossover points. */
+    private final int crossoverPoints;
 
-	/**
-	 * Creates a new {@link NPointCrossover} policy using the given number of
-	 * points.
-	 * <p>
-	 * <b>Note</b>: the number of crossover points must be &lt;
-	 * <code>chromosome length - 1</code>. This condition can only be checked at
-	 * runtime, as the chromosome length is not known in advance.
-	 *
-	 * @param crossoverPoints the number of crossover points
-	 * @throws GeneticException if the number of {@code crossoverPoints} is not
-	 *                          strictly positive
-	 */
-	public NPointCrossover(final int crossoverPoints) {
-		if (crossoverPoints <= 0) {
-			throw new GeneticException(GeneticException.NOT_STRICTLY_POSITIVE, crossoverPoints);
-		}
-		this.crossoverPoints = crossoverPoints;
-	}
+    /**
+     * Creates a new {@link NPointCrossover} policy using the given number of
+     * points.
+     * <p>
+     * <b>Note</b>: the number of crossover points must be &lt;
+     * <code>chromosome length - 1</code>. This condition can only be checked at
+     * runtime, as the chromosome length is not known in advance.
+     *
+     * @param crossoverPoints the number of crossover points
+     * @throws GeneticException if the number of {@code crossoverPoints} is not
+     *                          strictly positive
+     */
+    public NPointCrossover(final int crossoverPoints) {
+        if (crossoverPoints <= 0) {
+            throw new GeneticException(GeneticException.NOT_STRICTLY_POSITIVE, crossoverPoints);
+        }
+        this.crossoverPoints = crossoverPoints;
+    }
 
-	/**
-	 * Returns the number of crossover points used by this {@link CrossoverPolicy}.
-	 *
-	 * @return the number of crossover points
-	 */
-	public int getCrossoverPoints() {
-		return crossoverPoints;
-	}
+    /**
+     * Returns the number of crossover points used by this {@link CrossoverPolicy}.
+     *
+     * @return the number of crossover points
+     */
+    public int getCrossoverPoints() {
+        return crossoverPoints;
+    }
 
-	/**
-	 * Performs a N-point crossover. N random crossover points are selected and are
-	 * used to divide the parent chromosomes into segments. The segments are copied
-	 * in alternate order from the two parents to the corresponding child
-	 * chromosomes.
-	 *
-	 * Example (2-point crossover):
-	 * 
-	 * <pre>
-	 * -C- denotes a crossover point
-	 *           -C-       -C-                         -C-        -C-
-	 * p1 = (1 0  | 1 0 0 1 | 0 1 1)    X    p2 = (0 1  | 1 0 1 0  | 1 1 1)
-	 *      \----/ \-------/ \-----/              \----/ \--------/ \-----/
-	 *        ||      (*)       ||                  ||      (**)       ||
-	 *        VV      (**)      VV                  VV      (*)        VV
-	 *      /----\ /--------\ /-----\             /----\ /--------\ /-----\
-	 * c1 = (1 0  | 1 0 1 0  | 0 1 1)    X   c2 = (0 1  | 1 0 0 1  | 0 1 1)
-	 * </pre>
-	 *
-	 * @param first  the first chromosome
-	 * @param second the second chromosome
-	 * @return the pair of new chromosomes that resulted from the crossover
-	 * @throws GeneticException if the length of the two chromosomes is different
-	 * @throws GeneticException if the number of crossoverPoints is too large for
-	 *                          the actual chromosomes
-	 */
-	protected ChromosomePair mate(final AbstractListChromosome<T> first, final AbstractListChromosome<T> second) {
+    /**
+     * Performs a N-point crossover. N random crossover points are selected and are used
+     * to divide the parent chromosomes into segments. The segments are copied in alternate
+     * order from the two parents to the corresponding child chromosomes.
+     *
+     * Example (2-point crossover):
+     * <pre>
+     * -C- denotes a crossover point
+     *           -C-       -C-                         -C-        -C-
+     * p1 = (1 0  | 1 0 0 1 | 0 1 1)    X    p2 = (0 1  | 1 0 1 0  | 1 1 1)
+     *      \----/ \-------/ \-----/              \----/ \--------/ \-----/
+     *        ||      (*)       ||                  ||      (**)       ||
+     *        VV      (**)      VV                  VV      (*)        VV
+     *      /----\ /--------\ /-----\             /----\ /--------\ /-----\
+     * c1 = (1 0  | 1 0 1 0  | 0 1 1)    X   c2 = (0 1  | 1 0 0 1  | 0 1 1)
+     * </pre>
+     *
+     * @param first first parent (p1)
+     * @param second second parent (p2)
+     * @return pair of two children (c1,c2)
+     * @throws MathIllegalArgumentException iff one of the chromosomes is
+     *   not an instance of {@link AbstractListChromosome}
+     * @throws DimensionMismatchException if the length of the two chromosomes is different
+     */
+    protected ChromosomePair mate(final AbstractListChromosome<T> first, final AbstractListChromosome<T> second) {
 
-		final int length = first.getLength();
-		if (crossoverPoints >= length) {
-			throw new GeneticException(GeneticException.TOO_LARGE, crossoverPoints, length);
-		}
+        final int length = first.getLength();
+        if (crossoverPoints >= length) {
+            throw new GeneticException(GeneticException.TOO_LARGE, crossoverPoints, length);
+        }
 
-		// array representations of the parents
-		final List<T> parent1Rep = first.getRepresentation();
-		final List<T> parent2Rep = second.getRepresentation();
-		// and of the children
-		final List<T> child1Rep = new ArrayList<>(length);
-		final List<T> child2Rep = new ArrayList<>(length);
+        // array representations of the parents
+        final List<T> parent1Rep = first.getRepresentation();
+        final List<T> parent2Rep = second.getRepresentation();
+        // and of the children
+        final List<T> child1Rep = new ArrayList<>(length);
+        final List<T> child2Rep = new ArrayList<>(length);
 
-		final UniformRandomProvider random = RandomGenerator.getRandomGenerator();
+        final UniformRandomProvider random = RandomGenerator.getRandomGenerator();
 
-		List<T> c1 = child1Rep;
-		List<T> c2 = child2Rep;
+        List<T> c1 = child1Rep;
+        List<T> c2 = child2Rep;
 
-		int remainingPoints = crossoverPoints;
-		int lastIndex = 0;
-		for (int i = 0; i < crossoverPoints; i++, remainingPoints--) {
-			// select the next crossover point at random
-			final int crossoverIndex = 1 + lastIndex + random.nextInt(length - lastIndex - remainingPoints);
+        int remainingPoints = crossoverPoints;
+        int lastIndex = 0;
+        for (int i = 0; i < crossoverPoints; i++, remainingPoints--) {
+            // select the next crossover point at random
+            final int crossoverIndex = 1 + lastIndex + random.nextInt(length - lastIndex - remainingPoints);
 
-			// copy the current segment
-			for (int j = lastIndex; j < crossoverIndex; j++) {
-				c1.add(parent1Rep.get(j));
-				c2.add(parent2Rep.get(j));
-			}
+            // copy the current segment
+            for (int j = lastIndex; j < crossoverIndex; j++) {
+                c1.add(parent1Rep.get(j));
+                c2.add(parent2Rep.get(j));
+            }
 
-			// swap the children for the next segment
-			List<T> tmp = c1;
-			c1 = c2;
-			c2 = tmp;
+            // swap the children for the next segment
+            List<T> tmp = c1;
+            c1 = c2;
+            c2 = tmp;
 
-			lastIndex = crossoverIndex;
-		}
+            lastIndex = crossoverIndex;
+        }
 
-		// copy the last segment
-		for (int j = lastIndex; j < length; j++) {
-			c1.add(parent1Rep.get(j));
-			c2.add(parent2Rep.get(j));
-		}
+        // copy the last segment
+        for (int j = lastIndex; j < length; j++) {
+            c1.add(parent1Rep.get(j));
+            c2.add(parent2Rep.get(j));
+        }
 
-		return new ChromosomePair(first.newFixedLengthChromosome(child1Rep),
-				second.newFixedLengthChromosome(child2Rep));
-	}
+        return new ChromosomePair(first.newFixedLengthChromosome(child1Rep),
+                second.newFixedLengthChromosome(child2Rep));
+    }
 }

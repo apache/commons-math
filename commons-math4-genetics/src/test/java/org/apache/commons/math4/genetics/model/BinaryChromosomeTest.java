@@ -17,48 +17,47 @@
 package org.apache.commons.math4.genetics.model;
 
 import org.apache.commons.math4.genetics.exception.GeneticException;
-import org.apache.commons.math4.genetics.model.BinaryChromosome;
-import org.apache.commons.math4.genetics.model.Chromosome;
-import org.apache.commons.math4.genetics.model.FitnessFunction;
 import org.junit.Assert;
 import org.junit.Test;
 
 public class BinaryChromosomeTest {
 
-	@Test(expected = GeneticException.class)
-	public void testInvalidConstructor() {
-		Integer[][] reprs = new Integer[][] { new Integer[] { 0, 1, 0, 1, 2 }, new Integer[] { 0, 1, 0, 1, -1 } };
+    @Test(expected = GeneticException.class)
+    public void testInvalidConstructor() {
+        Integer[][] reprs = new Integer[][] {new Integer[] {0, 1, 0, 1, 2}, new Integer[] {0, 1, 0, 1, -1}};
 
-		for (Integer[] repr : reprs) {
-			new BinaryChromosome(repr, (chromosome) -> {return 0;});
-			Assert.fail("Exception not caught");
-		}
-	}
+        for (Integer[] repr : reprs) {
+            new BinaryChromosome(repr, chromosome -> {
+                return 0;
+            });
+            Assert.fail("Exception not caught");
+        }
+    }
 
-	@Test
-	public void testRandomConstructor() {
-		for (int i = 0; i < 20; i++) {
-			BinaryChromosome.randomBinaryRepresentation(10);
-		}
-	}
+    @Test
+    public void testRandomConstructor() {
+        for (int i = 0; i < 20; i++) {
+            BinaryChromosome.randomBinaryRepresentation(10);
+        }
+    }
 
-	@Test
-	public void testIsSame() {
-		FitnessFunction fitnessFunction = (chromosome) -> {
-			return 0;
-		};
-		BinaryChromosome c1 = new BinaryChromosome(new Integer[] { 0, 1, 0, 1, 0, 1 }, fitnessFunction);
-		BinaryChromosome c2 = new BinaryChromosome(new Integer[] { 0, 1, 1, 0, 1 }, fitnessFunction);
-		BinaryChromosome c3 = new BinaryChromosome(new Integer[] { 0, 1, 0, 1, 0, 1, 1 }, fitnessFunction);
-		BinaryChromosome c4 = new BinaryChromosome(new Integer[] { 1, 1, 0, 1, 0, 1 }, fitnessFunction);
-		BinaryChromosome c5 = new BinaryChromosome(new Integer[] { 0, 1, 0, 1, 0, 0 }, fitnessFunction);
-		BinaryChromosome c6 = new BinaryChromosome(new Integer[] { 0, 1, 0, 1, 0, 1 }, fitnessFunction);
+    @Test
+    public void testIsSame() {
+        FitnessFunction fitnessFunction = chromosome -> {
+            return 0;
+        };
+        BinaryChromosome c1 = new BinaryChromosome(new Integer[] {0, 1, 0, 1, 0, 1}, fitnessFunction);
+        BinaryChromosome c2 = new BinaryChromosome(new Integer[] {0, 1, 1, 0, 1}, fitnessFunction);
+        BinaryChromosome c3 = new BinaryChromosome(new Integer[] {0, 1, 0, 1, 0, 1, 1}, fitnessFunction);
+        BinaryChromosome c4 = new BinaryChromosome(new Integer[] {1, 1, 0, 1, 0, 1}, fitnessFunction);
+        BinaryChromosome c5 = new BinaryChromosome(new Integer[] {0, 1, 0, 1, 0, 0}, fitnessFunction);
+        BinaryChromosome c6 = new BinaryChromosome(new Integer[] {0, 1, 0, 1, 0, 1}, fitnessFunction);
 
-		Assert.assertFalse(c1.isSame(c2));
-		Assert.assertFalse(c1.isSame(c3));
-		Assert.assertFalse(c1.isSame(c4));
-		Assert.assertFalse(c1.isSame(c5));
-		Assert.assertTrue(c1.isSame(c6));
-	}
+        Assert.assertFalse(c1.isSame(c2));
+        Assert.assertFalse(c1.isSame(c3));
+        Assert.assertFalse(c1.isSame(c4));
+        Assert.assertFalse(c1.isSame(c5));
+        Assert.assertTrue(c1.isSame(c6));
+    }
 
 }

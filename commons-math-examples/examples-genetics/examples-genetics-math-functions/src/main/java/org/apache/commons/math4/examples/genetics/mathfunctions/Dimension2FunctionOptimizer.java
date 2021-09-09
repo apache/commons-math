@@ -75,7 +75,7 @@ public class Dimension2FunctionOptimizer {
 		Population population = new ListPopulation(Constants.POPULATION_SIZE);
 		for (int i = 0; i < Constants.POPULATION_SIZE; i++) {
 			population.addChromosome(
-					BinaryChromosome.randomChromosome(Constants.CHROMOZOME_LENGTH, new Dimension2FitnessFunction()));
+					BinaryChromosome.randomChromosome(Constants.CHROMOSOME_LENGTH, new Dimension2FitnessFunction()));
 		}
 		return population;
 	}

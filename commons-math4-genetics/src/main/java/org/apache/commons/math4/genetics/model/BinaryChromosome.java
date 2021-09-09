@@ -29,92 +29,93 @@ import org.apache.commons.math4.genetics.utils.RandomGenerator;
  */
 public class BinaryChromosome extends AbstractListChromosome<Integer> {
 
-	/**
-	 * Constructor.
-	 * 
-	 * @param representation list of {0,1} values representing the chromosome
-	 * @throws GeneticException iff the <code>representation</code> can not
-	 *                          represent a valid chromosome
-	 */
-	public BinaryChromosome(List<Integer> representation, FitnessFunction fitnessFunction) {
-		super(representation, fitnessFunction);
-	}
+    /**
+     * Constructor.
+     * @param representation  list of {0,1} values representing the chromosome
+     * @param fitnessFunction
+     * @throws GeneticException iff the <code>representation</code> can not
+     *                          represent a valid chromosome
+     */
+    public BinaryChromosome(List<Integer> representation, FitnessFunction fitnessFunction) {
+        super(representation, fitnessFunction);
+    }
 
-	/**
-	 * Constructor.
-	 * 
-	 * @param representation array of {0,1} values representing the chromosome
-	 * @throws GeneticException iff the <code>representation</code> can not
-	 *                          represent a valid chromosome
-	 */
-	public BinaryChromosome(Integer[] representation, FitnessFunction fitnessFunction) {
-		super(representation, fitnessFunction);
-	}
+    /**
+     * Constructor.
+     * @param representation  array of {0,1} values representing the chromosome
+     * @param fitnessFunction
+     * @throws GeneticException iff the <code>representation</code> can not
+     *                          represent a valid chromosome
+     */
+    public BinaryChromosome(Integer[] representation, FitnessFunction fitnessFunction) {
+        super(representation, fitnessFunction);
+    }
 
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	protected void checkValidity(List<Integer> chromosomeRepresentation) {
-		for (int i : chromosomeRepresentation) {
-			if (i < 0 || i > 1) {
-				throw new GeneticException(GeneticException.ILLEGAL_ARGUMENT, i);
-			}
-		}
-	}
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    protected void checkValidity(List<Integer> chromosomeRepresentation) {
+        for (int i : chromosomeRepresentation) {
+            if (i < 0 || i > 1) {
+                throw new GeneticException(GeneticException.ILLEGAL_ARGUMENT, i);
+            }
+        }
+    }
 
-	/**
-	 * Returns a representation of a random binary array of length
-	 * <code>length</code>.
-	 * 
-	 * @param length length of the array
-	 * @return a random binary array of length <code>length</code>
-	 */
-	public static List<Integer> randomBinaryRepresentation(int length) {
-		// random binary list
-		List<Integer> rList = new ArrayList<>(length);
-		for (int j = 0; j < length; j++) {
-			rList.add(RandomGenerator.getRandomGenerator().nextInt(2));
-		}
-		return rList;
-	}
+    /**
+     * Returns a representation of a random binary array of length
+     * <code>length</code>.
+     * @param length length of the array
+     * @return a random binary array of length <code>length</code>
+     */
+    public static List<Integer> randomBinaryRepresentation(int length) {
+        // random binary list
+        List<Integer> rList = new ArrayList<>(length);
+        for (int j = 0; j < length; j++) {
+            rList.add(RandomGenerator.getRandomGenerator().nextInt(2));
+        }
+        return rList;
+    }
 
-	/** {@inheritDoc} */
-	@Override
-	public boolean isSame(Chromosome another) {
-		// type check
-		if (!(another instanceof BinaryChromosome)) {
-			return false;
-		}
-		BinaryChromosome anotherBc = (BinaryChromosome) another;
-		// size check
-		if (getLength() != anotherBc.getLength()) {
-			return false;
-		}
+    /** {@inheritDoc} */
+    @Override
+    public boolean isSame(Chromosome another) {
+        // type check
+        if (!(another instanceof BinaryChromosome)) {
+            return false;
+        }
+        BinaryChromosome anotherBc = (BinaryChromosome) another;
+        // size check
+        if (getLength() != anotherBc.getLength()) {
+            return false;
+        }
 
-		for (int i = 0; i < getRepresentation().size(); i++) {
-			if (!(getRepresentation().get(i).equals(anotherBc.getRepresentation().get(i)))) {
-				return false;
-			}
-		}
-		// all is ok
-		return true;
-	}
+        for (int i = 0; i < getRepresentation().size(); i++) {
+            if (!(getRepresentation().get(i).equals(anotherBc.getRepresentation().get(i)))) {
+                return false;
+            }
+        }
+        // all is ok
+        return true;
+    }
 
-	@Override
-	public AbstractListChromosome<Integer> newFixedLengthChromosome(List<Integer> chromosomeRepresentation) {
-		return new BinaryChromosome(chromosomeRepresentation, getFitnessFunction());
-	}
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public BinaryChromosome newFixedLengthChromosome(List<Integer> chromosomeRepresentation) {
+        return new BinaryChromosome(chromosomeRepresentation, getFitnessFunction());
+    }
 
-	/**
-	 * Creates an instance of Binary Chromosome with random binary representation.
-	 * 
-	 * @param length
-	 * @param fitnessFunction
-	 * @return a binary chromosome
-	 */
-	public static BinaryChromosome randomChromosome(int length, FitnessFunction fitnessFunction) {
-		return new BinaryChromosome(randomBinaryRepresentation(length), fitnessFunction);
-	}
+    /**
+     * Creates an instance of Binary Chromosome with random binary representation.
+     * @param length
+     * @param fitnessFunction
+     * @return a binary chromosome
+     */
+    public static BinaryChromosome randomChromosome(int length, FitnessFunction fitnessFunction) {
+        return new BinaryChromosome(randomBinaryRepresentation(length), fitnessFunction);
+    }
 
 }

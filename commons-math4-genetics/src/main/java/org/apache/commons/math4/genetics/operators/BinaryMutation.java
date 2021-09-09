@@ -16,8 +16,6 @@
  */
 package org.apache.commons.math4.genetics.operators;
 
-import org.apache.commons.math4.genetics.model.BinaryChromosome;
-
 /**
  * Mutation for {@link BinaryChromosome}s. Randomly changes few genes.
  *
@@ -25,9 +23,12 @@ import org.apache.commons.math4.genetics.model.BinaryChromosome;
  */
 public class BinaryMutation extends AbstractListChromosomeMutationPolicy<Integer> {
 
-	@Override
-	protected Integer mutateGene(Integer originalValue) {
-		return originalValue == 0 ? 1 : 0;
-	}
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    protected Integer mutateGene(Integer originalValue) {
+        return originalValue == 0 ? 1 : 0;
+    }
 
 }

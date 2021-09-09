@@ -32,48 +32,48 @@ import org.apache.commons.math4.genetics.model.Population;
  * @since 3.1
  */
 public class FixedElapsedTime implements StoppingCondition {
-	/** Maximum allowed time period (in nanoseconds). */
-	private final long maxTimePeriod;
+    /** Maximum allowed time period (in nanoseconds). */
+    private final long maxTimePeriod;
 
-	/** The predetermined termination time (stopping condition). */
-	private long endTime = -1;
+    /** The predetermined termination time (stopping condition). */
+    private long endTime = -1;
 
-	/**
-	 * Create a new {@link FixedElapsedTime} instance.
-	 *
-	 * @param maxTime maximum number of seconds generations are allowed to evolve
-	 * @throws GeneticException if the provided time is &lt; 0
-	 */
-	public FixedElapsedTime(final long maxTime) {
-		this(maxTime, TimeUnit.SECONDS);
-	}
+    /**
+     * Create a new {@link FixedElapsedTime} instance.
+     *
+     * @param maxTime maximum number of seconds generations are allowed to evolve
+     * @throws GeneticException if the provided time is &lt; 0
+     */
+    public FixedElapsedTime(final long maxTime) {
+        this(maxTime, TimeUnit.SECONDS);
+    }
 
-	/**
-	 * Create a new {@link FixedElapsedTime} instance.
-	 *
-	 * @param maxTime maximum time generations are allowed to evolve
-	 * @param unit    {@link TimeUnit} of the maxTime argument
-	 * @throws GeneticException if the provided time is &lt; 0
-	 */
-	public FixedElapsedTime(final long maxTime, final TimeUnit unit) {
-		if (maxTime < 0) {
-			throw new GeneticException(GeneticException.TOO_SMALL, maxTime, 0);
-		}
-		maxTimePeriod = unit.toNanos(maxTime);
-	}
+    /**
+     * Create a new {@link FixedElapsedTime} instance.
+     *
+     * @param maxTime maximum time generations are allowed to evolve
+     * @param unit    {@link TimeUnit} of the maxTime argument
+     * @throws GeneticException if the provided time is &lt; 0
+     */
+    public FixedElapsedTime(final long maxTime, final TimeUnit unit) {
+        if (maxTime < 0) {
+            throw new GeneticException(GeneticException.TOO_SMALL, maxTime, 0);
+        }
+        maxTimePeriod = unit.toNanos(maxTime);
+    }
 
-	/**
-	 * Determine whether or not the maximum allowed time has passed. The termination
-	 * time is determined after the first generation.
-	 *
-	 * @return <code>true</code> IFF the maximum allowed time period has elapsed
-	 */
-	@Override
-	public boolean isSatisfied(Population population) {
-		if (endTime < 0) {
-			endTime = System.nanoTime() + maxTimePeriod;
-		}
+    /**
+     * Determine whether or not the maximum allowed time has passed. The termination
+     * time is determined after the first generation.
+     *
+     * @return <code>true</code> IFF the maximum allowed time period has elapsed
+     */
+    @Override
+    public boolean isSatisfied(Population population) {
+        if (endTime < 0) {
+            endTime = System.nanoTime() + maxTimePeriod;
+        }
 
-		return System.nanoTime() >= endTime;
-	}
+        return System.nanoTime() >= endTime;
+    }
 }

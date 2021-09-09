@@ -18,50 +18,48 @@ package org.apache.commons.math4.genetics.model;
 
 /**
  * A pair of {@link Chromosome} objects.
- * 
  * @since 2.0
- *
  */
 public class ChromosomePair {
-	/** the first chromosome in the pair. */
-	private final Chromosome first;
 
-	/** the second chromosome in the pair. */
-	private final Chromosome second;
+    /** the first chromosome in the pair. */
+    private final Chromosome first;
 
-	/**
-	 * Create a chromosome pair.
-	 *
-	 * @param c1 the first chromosome.
-	 * @param c2 the second chromosome.
-	 */
-	public ChromosomePair(final Chromosome c1, final Chromosome c2) {
-		super();
-		first = c1;
-		second = c2;
-	}
+    /** the second chromosome in the pair. */
+    private final Chromosome second;
 
-	/**
-	 * Access the first chromosome.
-	 *
-	 * @return the first chromosome.
-	 */
-	public Chromosome getFirst() {
-		return first;
-	}
+    /**
+     * Create a chromosome pair.
+     * @param c1 the first chromosome.
+     * @param c2 the second chromosome.
+     */
+    public ChromosomePair(final Chromosome c1, final Chromosome c2) {
+        super();
+        first = c1;
+        second = c2;
+    }
 
-	/**
-	 * Access the second chromosome.
-	 *
-	 * @return the second chromosome.
-	 */
-	public Chromosome getSecond() {
-		return second;
-	}
+    /**
+     * Access the first chromosome.
+     *
+     * @return the first chromosome.
+     */
+    public Chromosome getFirst() {
+        return first;
+    }
 
-	/** {@inheritDoc} */
-	@Override
-	public String toString() {
-		return String.format("(%s,%s)", getFirst(), getSecond());
-	}
+    /**
+     * Access the second chromosome.
+     *
+     * @return the second chromosome.
+     */
+    public Chromosome getSecond() {
+        return second;
+    }
+
+    /** {@inheritDoc} */
+    @Override
+    public String toString() {
+        return String.format("(%s,%s)", getFirst(), getSecond());
+    }
 }

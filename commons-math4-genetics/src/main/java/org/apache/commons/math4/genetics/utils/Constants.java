@@ -17,14 +17,24 @@
 
 package org.apache.commons.math4.genetics.utils;
 
-public interface Constants {
+/**
+ * Contains all constants required for the library.
+ */
+public final class Constants {
 
-	final String CROSSOVER_RATE = "CROSSOVER_RATE";
+    /** crossover rate. **/
+    public static final String CROSSOVER_RATE = "CROSSOVER_RATE";
 
-	final String MUTATION_RATE = "MUTATION_RATE";
+    /** mutation rate. **/
+    public static final String MUTATION_RATE = "MUTATION_RATE";
 
-	final String ELITISM_RATE = "ELITISM_RATE";
+    /** elitism rate. **/
+    public static final String ELITISM_RATE = "ELITISM_RATE";
 
-	final String ALLELE_VALUE = "ALLELE_VALUE";
+    /** allele value. **/
+    public static final String ALLELE_VALUE = "ALLELE_VALUE";
+
+    private Constants() {
+    }
 
 }

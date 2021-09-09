@@ -16,7 +16,6 @@
  */
 package org.apache.commons.math4.genetics.operators;
 
-import org.apache.commons.math4.genetics.exception.GeneticException;
 import org.apache.commons.math4.genetics.model.Chromosome;
 import org.apache.commons.math4.genetics.model.ChromosomePair;
 
@@ -28,16 +27,15 @@ import org.apache.commons.math4.genetics.model.ChromosomePair;
  */
 public interface CrossoverPolicy {
 
-	/**
-	 * Perform a crossover operation on the given chromosomes.
-	 *
-	 * @param first  the first chromosome.
-	 * @param second the second chromosome.
-	 * @param crossoverRate the probability of crossover
-	 * @return the pair of new chromosomes that resulted from the crossover.
-	 * @throws GeneticException if the given chromosomes are not
-	 *                                      compatible with this
-	 *                                      {@link CrossoverPolicy}
-	 */
-	ChromosomePair crossover(Chromosome first, Chromosome second, double crossoverRate);
+    /**
+     * Perform a crossover operation on the given chromosomes.
+     *
+     * @param first         the first chromosome.
+     * @param second        the second chromosome.
+     * @param crossoverRate the probability of crossover
+     * @return the pair of new chromosomes that resulted from the crossover.
+     * @throws GeneticException if the given chromosomes are not compatible with
+     *                          this {@link CrossoverPolicy}
+     */
+    ChromosomePair crossover(Chromosome first, Chromosome second, double crossoverRate);
 }

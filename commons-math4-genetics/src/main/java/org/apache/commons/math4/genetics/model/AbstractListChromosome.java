@@ -21,8 +21,6 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
-import org.apache.commons.math4.genetics.exception.GeneticException;
-
 /**
  * Chromosome represented by an immutable list of a fixed length.
  *
@@ -31,91 +29,88 @@ import org.apache.commons.math4.genetics.exception.GeneticException;
  */
 public abstract class AbstractListChromosome<T> extends Chromosome {
 
-	/** List representing the chromosome. */
-	private final List<T> representation;
+    /** List representing the chromosome. */
+    private final List<T> representation;
 
-	/**
-	 * Constructor, copying the input representation.
-	 * 
-	 * @param representation inner representation of the chromosome
-	 * @throws GeneticException iff the <code>representation</code> can not
-	 *                          represent a valid chromosome
-	 */
-	public AbstractListChromosome(final List<T> representation, FitnessFunction fitnessFunction) {
-		this(representation, true, fitnessFunction);
-	}
+    /**
+     * Constructor, copying the input representation.
+     * @param representation  inner representation of the chromosome
+     * @param fitnessFunction
+     * @throws GeneticException iff the <code>representation</code> can not
+     *                          represent a valid chromosome
+     */
+    public AbstractListChromosome(final List<T> representation, FitnessFunction fitnessFunction) {
+        this(representation, true, fitnessFunction);
+    }
 
-	/**
-	 * Constructor, copying the input representation.
-	 * 
-	 * @param representation inner representation of the chromosome
-	 * @throws GeneticException if the <code>representation</code> can not represent
-	 *                          a valid chromosome
-	 */
-	public AbstractListChromosome(final T[] representation, FitnessFunction fitnessFunction) {
-		this(Arrays.asList(representation), fitnessFunction);
-	}
+    /**
+     * Constructor, copying the input representation.
+     * @param representation  inner representation of the chromosome
+     * @param fitnessFunction
+     * @throws GeneticException if the <code>representation</code> can not represent
+     *                          a valid chromosome
+     */
+    public AbstractListChromosome(final T[] representation, FitnessFunction fitnessFunction) {
+        this(Arrays.asList(representation), fitnessFunction);
+    }
 
-	/**
-	 * Constructor.
-	 * 
-	 * @param representation inner representation of the chromosome
-	 * @param copyList       if {@code true}, the representation will be copied,
-	 *                       otherwise it will be referenced.
-	 * @since 3.3
-	 */
-	public AbstractListChromosome(final List<T> representation, final boolean copyList,
-			FitnessFunction fitnessFunction) {
-		super(fitnessFunction);
-		checkValidity(representation);
-		this.representation = Collections.unmodifiableList(copyList ? new ArrayList<>(representation) : representation);
-	}
+    /**
+     * Constructor.
+     * @param representation  inner representation of the chromosome
+     * @param copyList        if {@code true}, the representation will be copied,
+     *                        otherwise it will be referenced.
+     * @param fitnessFunction
+     * @since 3.3
+     */
+    public AbstractListChromosome(final List<T> representation, final boolean copyList,
+            FitnessFunction fitnessFunction) {
+        super(fitnessFunction);
+        checkValidity(representation);
+        this.representation = Collections.unmodifiableList(copyList ? new ArrayList<>(representation) : representation);
+    }
 
-	/**
-	 * Asserts that <code>representation</code> can represent a valid chromosome.
-	 *
-	 * @param chromosomeRepresentation representation of the chromosome
-	 * @throws GeneticException iff the <code>representation</code> can not
-	 *                          represent a valid chromosome
-	 */
-	protected abstract void checkValidity(List<T> chromosomeRepresentation);
+    /**
+     * Asserts that <code>representation</code> can represent a valid chromosome.
+     * @param chromosomeRepresentation representation of the chromosome
+     * @throws GeneticException iff the <code>representation</code> can not
+     *                          represent a valid chromosome
+     */
+    protected abstract void checkValidity(List<T> chromosomeRepresentation);
 
-	/**
-	 * Returns the (immutable) inner representation of the chromosome.
-	 * 
-	 * @return the representation of the chromosome
-	 */
-	public List<T> getRepresentation() {
-		return representation;
-	}
+    /**
+     * Returns the (immutable) inner representation of the chromosome.
+     * @return the representation of the chromosome
+     */
+    public List<T> getRepresentation() {
+        return representation;
+    }
 
-	/**
-	 * Returns the length of the chromosome.
-	 * 
-	 * @return the length of the chromosome
-	 */
-	public int getLength() {
-		return getRepresentation().size();
-	}
+    /**
+     * Returns the length of the chromosome.
+     * @return the length of the chromosome
+     */
+    public int getLength() {
+        return getRepresentation().size();
+    }
 
-	/**
-	 * Creates a new instance of the same class as <code>this</code> is, with a
-	 * given <code>arrayRepresentation</code>. This is needed in crossover and
-	 * mutation operators, where we need a new instance of the same class, but with
-	 * different array representation.
-	 * <p>
-	 * Usually, this method just calls a constructor of the class.
-	 *
-	 * @param chromosomeRepresentation the inner array representation of the new
-	 *                                 chromosome.
-	 * @return new instance extended from FixedLengthChromosome with the given
-	 *         arrayRepresentation
-	 */
-	public abstract AbstractListChromosome<T> newFixedLengthChromosome(List<T> chromosomeRepresentation);
+    /**
+     * Creates a new instance of the same class as <code>this</code> is, with a
+     * given <code>arrayRepresentation</code>. This is needed in crossover and
+     * mutation operators, where we need a new instance of the same class, but with
+     * different array representation.
+     * <p>
+     * Usually, this method just calls a constructor of the class.
+     *
+     * @param chromosomeRepresentation the inner array representation of the new
+     *                                 chromosome.
+     * @return new instance extended from FixedLengthChromosome with the given
+     *         arrayRepresentation
+     */
+    public abstract AbstractListChromosome<T> newFixedLengthChromosome(List<T> chromosomeRepresentation);
 
-	/** {@inheritDoc} */
-	@Override
-	public String toString() {
-		return String.format("(f=%s %s)", getFitness(), getRepresentation());
-	}
+    /** {@inheritDoc} */
+    @Override
+    public String toString() {
+        return String.format("(f=%s %s)", getFitness(), getRepresentation());
+    }
 }

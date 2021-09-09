@@ -16,50 +16,43 @@
  */
 package org.apache.commons.math4.genetics.model;
 
-import org.apache.commons.math4.genetics.exception.GeneticException;
-
 /**
  * A collection of chromosomes that facilitates generational evolution.
  *
  * @since 2.0
  */
 public interface Population extends Iterable<Chromosome> {
-	/**
-	 * Access the current population size.
-	 * 
-	 * @return the current population size.
-	 */
-	int getPopulationSize();
 
-	/**
-	 * Access the maximum population size.
-	 * 
-	 * @return the maximum population size.
-	 */
-	int getPopulationLimit();
+    /**
+     * Access the current population size.
+     * @return the current population size.
+     */
+    int getPopulationSize();
 
-	/**
-	 * Start the population for the next generation.
-	 * @param elitismRate the Elitism Rate
-	 * 
-	 * @return the beginnings of the next generation.
-	 */
-	Population nextGeneration(double elitismRate);
+    /**
+     * Access the maximum population size.
+     * @return the maximum population size.
+     */
+    int getPopulationLimit();
 
-	/**
-	 * Add the given chromosome to the population.
-	 * 
-	 * @param chromosome the chromosome to add.
-	 * @throws GeneticException if the population would exceed the
-	 *                                   population limit when adding this
-	 *                                   chromosome
-	 */
-	void addChromosome(Chromosome chromosome);
+    /**
+     * Start the population for the next generation.
+     * @param elitismRate the Elitism Rate
+     * @return the beginnings of the next generation.
+     */
+    Population nextGeneration(double elitismRate);
 
-	/**
-	 * Access the fittest chromosome in this population.
-	 * 
-	 * @return the fittest chromosome.
-	 */
-	Chromosome getFittestChromosome();
+    /**
+     * Add the given chromosome to the population.
+     * @param chromosome the chromosome to add.
+     * @throws GeneticException if the population would exceed the population limit
+     *                          when adding this chromosome
+     */
+    void addChromosome(Chromosome chromosome);
+
+    /**
+     * Access the fittest chromosome in this population.
+     * @return the fittest chromosome.
+     */
+    Chromosome getFittestChromosome();
 }

@@ -20,60 +20,59 @@ import java.util.Iterator;
 
 import org.apache.commons.math4.genetics.model.Chromosome;
 import org.apache.commons.math4.genetics.model.Population;
-import org.apache.commons.math4.genetics.operators.FixedGenerationCount;
 import org.junit.Assert;
 import org.junit.Test;
 
 public class FixedGenerationCountTest {
 
-	@Test
-	public void testIsSatisfied() {
-		FixedGenerationCount fgc = new FixedGenerationCount(20);
+    @Test
+    public void testIsSatisfied() {
+        FixedGenerationCount fgc = new FixedGenerationCount(20);
 
-		int cnt = 0;
-		Population pop = new Population() {
+        int cnt = 0;
+        Population pop = new Population() {
 
-			@Override
-			public Iterator<Chromosome> iterator() {
-				// TODO Auto-generated method stub
-				return null;
-			}
+            @Override
+            public Iterator<Chromosome> iterator() {
+                // TODO Auto-generated method stub
+                return null;
+            }
 
-			@Override
-			public Population nextGeneration(double elitismRate) {
-				// TODO Auto-generated method stub
-				return null;
-			}
+            @Override
+            public Population nextGeneration(double elitismRate) {
+                // TODO Auto-generated method stub
+                return null;
+            }
 
-			@Override
-			public int getPopulationSize() {
-				// TODO Auto-generated method stub
-				return 0;
-			}
+            @Override
+            public int getPopulationSize() {
+                // TODO Auto-generated method stub
+                return 0;
+            }
 
-			@Override
-			public int getPopulationLimit() {
-				// TODO Auto-generated method stub
-				return 0;
-			}
+            @Override
+            public int getPopulationLimit() {
+                // TODO Auto-generated method stub
+                return 0;
+            }
 
-			@Override
-			public Chromosome getFittestChromosome() {
-				// TODO Auto-generated method stub
-				return null;
-			}
+            @Override
+            public Chromosome getFittestChromosome() {
+                // TODO Auto-generated method stub
+                return null;
+            }
 
-			@Override
-			public void addChromosome(Chromosome chromosome) {
-				// TODO Auto-generated method stub
+            @Override
+            public void addChromosome(Chromosome chromosome) {
+                // TODO Auto-generated method stub
 
-			}
-		};
+            }
+        };
 
-		while (!fgc.isSatisfied(pop)) {
-			cnt++;
-		}
-		Assert.assertEquals(20, cnt);
-	}
+        while (!fgc.isSatisfied(pop)) {
+            cnt++;
+        }
+        Assert.assertEquals(20, cnt);
+    }
 
 }

@@ -21,63 +21,62 @@ import java.util.concurrent.TimeUnit;
 
 import org.apache.commons.math4.genetics.model.Chromosome;
 import org.apache.commons.math4.genetics.model.Population;
-import org.apache.commons.math4.genetics.operators.FixedElapsedTime;
 import org.junit.Assert;
 import org.junit.Test;
 
 public class FixedElapsedTimeTest {
 
-	@Test
-	public void testIsSatisfied() {
-		final Population pop = new Population() {
+    @Test
+    public void testIsSatisfied() {
+        final Population pop = new Population() {
 
-			@Override
-			public Iterator<Chromosome> iterator() {
-				return null;
-			}
+            @Override
+            public Iterator<Chromosome> iterator() {
+                return null;
+            }
 
-			@Override
-			public Population nextGeneration(double elitismRate) {
-				return null;
-			}
+            @Override
+            public Population nextGeneration(double elitismRate) {
+                return null;
+            }
 
-			@Override
-			public int getPopulationSize() {
-				return 0;
-			}
+            @Override
+            public int getPopulationSize() {
+                return 0;
+            }
 
-			@Override
-			public int getPopulationLimit() {
-				return 0;
-			}
+            @Override
+            public int getPopulationLimit() {
+                return 0;
+            }
 
-			@Override
-			public Chromosome getFittestChromosome() {
-				return null;
-			}
+            @Override
+            public Chromosome getFittestChromosome() {
+                return null;
+            }
 
-			@Override
-			public void addChromosome(Chromosome chromosome) {
+            @Override
+            public void addChromosome(Chromosome chromosome) {
 
-			}
-		};
+            }
+        };
 
-		final long start = System.nanoTime();
-		final long duration = 3;
-		final FixedElapsedTime tec = new FixedElapsedTime(duration, TimeUnit.SECONDS);
+        final long start = System.nanoTime();
+        final long duration = 3;
+        final FixedElapsedTime tec = new FixedElapsedTime(duration, TimeUnit.SECONDS);
 
-		while (!tec.isSatisfied(pop)) {
-			try {
-				Thread.sleep(50);
-			} catch (InterruptedException e) {
-				// ignore
-			}
-		}
+        while (!tec.isSatisfied(pop)) {
+            try {
+                Thread.sleep(50);
+            } catch (InterruptedException e) {
+                // ignore
+            }
+        }
 
-		final long end = System.nanoTime();
-		final long elapsedTime = end - start;
-		final long diff = Math.abs(elapsedTime - TimeUnit.SECONDS.toNanos(duration));
+        final long end = System.nanoTime();
+        final long elapsedTime = end - start;
+        final long diff = Math.abs(elapsedTime - TimeUnit.SECONDS.toNanos(duration));
 
-		Assert.assertTrue(diff < TimeUnit.MILLISECONDS.toNanos(100));
-	}
+        Assert.assertTrue(diff < TimeUnit.MILLISECONDS.toNanos(100));
+    }
 }

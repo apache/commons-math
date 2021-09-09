@@ -23,23 +23,25 @@ import org.junit.Test;
 
 public class RandomKeyMutationTest {
 
-	@Test
-	public void testMutate() {
-		MutationPolicy mutation = new RandomKeyMutation();
-		int l = 10;
-		for (int i = 0; i < 20; i++) {
-			RandomKey<String> origRk = RandomKey.randomChromosome(l, (c) -> {return 0;});
-			Chromosome mutated = mutation.mutate(origRk, .1);
-			RandomKey<String> mutatedRk = (RandomKey<String>) mutated;
+    @Test
+    public void testMutate() {
+        MutationPolicy mutation = new RandomKeyMutation();
+        int l = 10;
+        for (int i = 0; i < 20; i++) {
+            RandomKey<String> origRk = RandomKey.randomChromosome(l, chromosome -> {
+                return 0;
+            });
+            Chromosome mutated = mutation.mutate(origRk, .1);
+            RandomKey<String> mutatedRk = (RandomKey<String>) mutated;
 
-			int changes = 0;
-			for (int j = 0; j < origRk.getLength(); j++) {
-				if (origRk.getRepresentation().get(j) != mutatedRk.getRepresentation().get(j)) {
-					changes++;
-				}
-			}
-			Assert.assertEquals(1, changes);
-		}
-	}
+            int changes = 0;
+            for (int j = 0; j < origRk.getLength(); j++) {
+                if (origRk.getRepresentation().get(j) != mutatedRk.getRepresentation().get(j)) {
+                    changes++;
+                }
+            }
+            Assert.assertEquals(1, changes);
+        }
+    }
 
 }

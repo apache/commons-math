@@ -26,11 +26,10 @@ import org.apache.commons.math4.genetics.model.Population;
  */
 public interface ConvergenceListener {
 
-	/**
-	 * Notifies about the population statistics.
-	 * 
-	 * @param population
-	 */
-	public void notify(Population population);
+    /**
+     * Notifies about the population statistics.
+     * @param population
+     */
+    void notify(Population population);
 
 }

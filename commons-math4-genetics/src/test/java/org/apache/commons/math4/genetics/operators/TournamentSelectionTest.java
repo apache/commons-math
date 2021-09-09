@@ -24,33 +24,33 @@ import org.junit.Test;
 
 public class TournamentSelectionTest {
 
-	private static int counter = 0;
+    private static int counter = 0;
 
-	@Test
-	public void testSelect() {
-		TournamentSelection ts = new TournamentSelection(2);
-		ListPopulation pop = new ListPopulation(100);
+    @Test
+    void testSelect() {
+        TournamentSelection ts = new TournamentSelection(2);
+        ListPopulation pop = new ListPopulation(100);
 
-		for (int i = 0; i < pop.getPopulationLimit(); i++) {
-			pop.addChromosome(new DummyChromosome());
-		}
-		// how to write a test for stochastic method?
-		for (int i = 0; i < 20; i++) {
-			ChromosomePair pair = ts.select(pop);
-			// the worst chromosome should NEVER be selected
-			Assert.assertTrue(pair.getFirst().getFitness() > 0);
-			Assert.assertTrue(pair.getSecond().getFitness() > 0);
-		}
-	}
+        for (int i = 0; i < pop.getPopulationLimit(); i++) {
+            pop.addChromosome(new DummyChromosome());
+        }
+        // how to write a test for stochastic method?
+        for (int i = 0; i < 20; i++) {
+            ChromosomePair pair = ts.select(pop);
+            // the worst chromosome should NEVER be selected
+            Assert.assertTrue(pair.getFirst().getFitness() > 0);
+            Assert.assertTrue(pair.getSecond().getFitness() > 0);
+        }
+    }
 
-	private static class DummyChromosome extends Chromosome {
+    private static class DummyChromosome extends Chromosome {
 
-		public DummyChromosome() {
-			super((c) -> {
-				return counter;
-			});
-			counter++;
-		}
-	}
+        DummyChromosome() {
+            super(chromosome -> {
+                return counter;
+            });
+            counter++;
+        }
+    }
 
 }

@@ -22,60 +22,60 @@ import org.junit.Test;
 
 public class BinaryMutationTest {
 
-	@Test
-	public void testMutate() {
-		BinaryMutation mutation = new BinaryMutation();
+    @Test
+    public void testMutate() {
+        BinaryMutation mutation = new BinaryMutation();
 
-		// stochastic testing for single gene mutation :)
-		for (int i = 0; i < 20; i++) {
-			BinaryChromosome original = BinaryChromosome.randomChromosome(10, (c) -> {
-				return 0;
-			});
-			BinaryChromosome mutated = (BinaryChromosome) mutation.mutate(original, .1);
+        // stochastic testing for single gene mutation :)
+        for (int i = 0; i < 20; i++) {
+            BinaryChromosome original = BinaryChromosome.randomChromosome(10, chromosome -> {
+                return 0;
+            });
+            BinaryChromosome mutated = (BinaryChromosome) mutation.mutate(original, .1);
 
-			// one gene should be different
-			int numDifferent = 0;
-			for (int j = 0; j < original.getRepresentation().size(); j++) {
-				if (original.getRepresentation().get(j) != mutated.getRepresentation().get(j)) {
-					numDifferent++;
-				}
-			}
-			Assert.assertEquals(1, numDifferent);
-		}
+            // one gene should be different
+            int numDifferent = 0;
+            for (int j = 0; j < original.getRepresentation().size(); j++) {
+                if (original.getRepresentation().get(j) != mutated.getRepresentation().get(j)) {
+                    numDifferent++;
+                }
+            }
+            Assert.assertEquals(1, numDifferent);
+        }
 
-		// stochastic testing for two gene mutation :)
-		for (int i = 0; i < 20; i++) {
-			BinaryChromosome original = BinaryChromosome.randomChromosome(10, (c) -> {
-				return 0;
-			});
-			BinaryChromosome mutated = (BinaryChromosome) mutation.mutate(original, .2);
+        // stochastic testing for two gene mutation :)
+        for (int i = 0; i < 20; i++) {
+            BinaryChromosome original = BinaryChromosome.randomChromosome(10, chromosome -> {
+                return 0;
+            });
+            BinaryChromosome mutated = (BinaryChromosome) mutation.mutate(original, .2);
 
-			// one gene should be different
-			int numDifferent = 0;
-			for (int j = 0; j < original.getRepresentation().size(); j++) {
-				if (original.getRepresentation().get(j) != mutated.getRepresentation().get(j)) {
-					numDifferent++;
-				}
-			}
-			Assert.assertEquals(2, numDifferent);
-		}
+            // one gene should be different
+            int numDifferent = 0;
+            for (int j = 0; j < original.getRepresentation().size(); j++) {
+                if (original.getRepresentation().get(j) != mutated.getRepresentation().get(j)) {
+                    numDifferent++;
+                }
+            }
+            Assert.assertEquals(2, numDifferent);
+        }
 
-		// stochastic testing for three gene mutation :)
-		for (int i = 0; i < 20; i++) {
-			BinaryChromosome original = BinaryChromosome.randomChromosome(10, (c) -> {
-				return 0;
-			});
-			BinaryChromosome mutated = (BinaryChromosome) mutation.mutate(original, .3);
+        // stochastic testing for three gene mutation :)
+        for (int i = 0; i < 20; i++) {
+            BinaryChromosome original = BinaryChromosome.randomChromosome(10, chromosome -> {
+                return 0;
+            });
+            BinaryChromosome mutated = (BinaryChromosome) mutation.mutate(original, .3);
 
-			// one gene should be different
-			int numDifferent = 0;
-			for (int j = 0; j < original.getRepresentation().size(); j++) {
-				if (original.getRepresentation().get(j) != mutated.getRepresentation().get(j)) {
-					numDifferent++;
-				}
-			}
-			Assert.assertEquals(3, numDifferent);
-		}
-	}
+            // one gene should be different
+            int numDifferent = 0;
+            for (int j = 0; j < original.getRepresentation().size(); j++) {
+                if (original.getRepresentation().get(j) != mutated.getRepresentation().get(j)) {
+                    numDifferent++;
+                }
+            }
+            Assert.assertEquals(3, numDifferent);
+        }
+    }
 
 }

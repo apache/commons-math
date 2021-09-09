@@ -16,7 +16,6 @@
  */
 package org.apache.commons.math4.genetics.operators;
 
-import org.apache.commons.math4.genetics.exception.GeneticException;
 import org.apache.commons.math4.genetics.model.Chromosome;
 
 /**
@@ -26,15 +25,13 @@ import org.apache.commons.math4.genetics.model.Chromosome;
  */
 public interface MutationPolicy {
 
-	/**
-	 * Mutate the given chromosome.
-	 * 
-	 * @param original the original chromosome.
-	 * @param mutationRate The probability of mutation
-	 * @return the mutated chromosome.
-	 * @throws GeneticException if the given chromosome is not
-	 *                                      compatible with this
-	 *                                      {@link MutationPolicy}
-	 */
-	Chromosome mutate(Chromosome original, double mutationRate);
+    /**
+     * Mutate the given chromosome.
+     * @param original     the original chromosome.
+     * @param mutationRate The probability of mutation
+     * @return the mutated chromosome.
+     * @throws GeneticException if the given chromosome is not compatible with this
+     *                          {@link MutationPolicy}
+     */
+    Chromosome mutate(Chromosome original, double mutationRate);
 }

@@ -14,24 +14,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.apache.commons.math4.genetics.operators;
-
-import org.apache.commons.math4.genetics.model.Population;
-
 /**
- * Algorithm used to determine when to stop evolution.
- *
- * @since 2.0
+ * This package provides Genetic Algorithms components and implementations.
  */
-public interface StoppingCondition {
-
-    /**
-     * Determine whether or not the given population satisfies the stopping
-     * condition.
-     * @param population TODO
-     *
-     * @return <code>true</code> if this stopping condition is met by the given
-     *         population, <code>false</code> otherwise.
-     */
-    boolean isSatisfied(Population population);
-}
+package org.apache.commons.math4.genetics.stats;

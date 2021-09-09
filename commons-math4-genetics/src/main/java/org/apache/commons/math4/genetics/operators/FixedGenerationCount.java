@@ -29,49 +29,48 @@ import org.apache.commons.math4.genetics.model.Population;
  * @since 2.0
  */
 public class FixedGenerationCount implements StoppingCondition {
-	/** Number of generations that have passed. */
-	private int numGenerations;
+    /** Number of generations that have passed. */
+    private int numGenerations;
 
-	/** Maximum number of generations (stopping criteria). */
-	private final int maxGenerations;
+    /** Maximum number of generations (stopping criteria). */
+    private final int maxGenerations;
 
-	/**
-	 * Create a new FixedGenerationCount instance.
-	 *
-	 * @param maxGenerations number of generations to evolve
-	 * @throws GeneticException if the number of generations is &lt; 1
-	 */
-	public FixedGenerationCount(final int maxGenerations) {
-		if (maxGenerations <= 0) {
-			throw new GeneticException(GeneticException.TOO_SMALL, maxGenerations, 1);
-		}
-		this.maxGenerations = maxGenerations;
-	}
+    /**
+     * Create a new FixedGenerationCount instance.
+     *
+     * @param maxGenerations number of generations to evolve
+     * @throws GeneticException if the number of generations is &lt; 1
+     */
+    public FixedGenerationCount(final int maxGenerations) {
+        if (maxGenerations <= 0) {
+            throw new GeneticException(GeneticException.TOO_SMALL, maxGenerations, 1);
+        }
+        this.maxGenerations = maxGenerations;
+    }
 
-	/**
-	 * Determine whether or not the given number of generations have passed.
-	 * Increments the number of generations counter if the maximum has not been
-	 * reached.
-	 *
-	 * @return <code>true</code> IFF the maximum number of generations has been
-	 *         exceeded
-	 */
-	@Override
-	public boolean isSatisfied(Population population) {
-		if (this.numGenerations < this.maxGenerations) {
-			numGenerations++;
-			return false;
-		}
-		return true;
-	}
+    /**
+     * Determine whether or not the given number of generations have passed.
+     * Increments the number of generations counter if the maximum has not been
+     * reached.
+     *
+     * @return <code>true</code> IFF the maximum number of generations has been
+     *         exceeded
+     */
+    @Override
+    public boolean isSatisfied(Population population) {
+        if (this.numGenerations < this.maxGenerations) {
+            numGenerations++;
+            return false;
+        }
+        return true;
+    }
 
-	/**
-	 * Returns the number of generations that have already passed.
-	 * 
-	 * @return the number of generations that have passed
-	 */
-	public int getNumGenerations() {
-		return numGenerations;
-	}
+    /**
+     * Returns the number of generations that have already passed.
+     * @return the number of generations that have passed
+     */
+    public int getNumGenerations() {
+        return numGenerations;
+    }
 
 }

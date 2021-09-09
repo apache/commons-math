@@ -23,85 +23,125 @@ import org.apache.commons.math4.genetics.model.Chromosome;
 import org.apache.commons.math4.genetics.model.Population;
 import org.apache.commons.math4.genetics.stats.PopulationStatisticalSummary;
 
+/**
+ * This class represents an implementation of population statistical summary.
+ */
 public class PopulationStatisticalSummaryImpl implements PopulationStatisticalSummary {
 
-	private double[] fitnesses;
+    /** array of fitness of the population. **/
+    private double[] fitnesses;
 
-	private double maxFitness;
+    /** maximum fitness of the population. **/
+    private double maxFitness;
 
-	private double minFitness;
+    /** minimum fitness of the population. **/
+    private double minFitness;
 
-	private double meanFitness;
+    /** mean fitness of the population. **/
+    private double meanFitness;
 
-	private double variance;
+    /** variance of population fitness. **/
+    private double variance;
 
-	public PopulationStatisticalSummaryImpl(Population population) {
-		double[] fitnesses = getFitnesses(population);
-		Arrays.sort(fitnesses);
-		this.fitnesses = fitnesses;
-		this.maxFitness = fitnesses[fitnesses.length - 1];
-		this.minFitness = fitnesses[0];
-		this.meanFitness = calculateMeanFitness(fitnesses);
-		this.variance = calculateVariance(fitnesses);
-	}
+    /**
+     * constructor.
+     * @param population
+     */
+    public PopulationStatisticalSummaryImpl(Population population) {
+        double[] populationFitnesses = getFitnesses(population);
+        Arrays.sort(populationFitnesses);
+        this.fitnesses = populationFitnesses;
+        this.maxFitness = populationFitnesses[populationFitnesses.length - 1];
+        this.minFitness = populationFitnesses[0];
+        this.meanFitness = calculateMeanFitness(populationFitnesses);
+        this.variance = calculateVariance(populationFitnesses);
+    }
 
-	private double[] getFitnesses(Population population) {
-		double fitnesses[] = new double[population.getPopulationSize()];
-		int index = 0;
-		for (Chromosome chromosome : population) {
-			fitnesses[index++] = chromosome.getFitness();
-		}
-		return fitnesses;
-	}
+    private double[] getFitnesses(Population population) {
+        double[] populationFitnesses = new double[population.getPopulationSize()];
+        int index = 0;
+        for (Chromosome chromosome : population) {
+            populationFitnesses[index++] = chromosome.getFitness();
+        }
+        return populationFitnesses;
+    }
 
-	@Override
-	public double getMeanFitness() {
-		return this.meanFitness;
-	}
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public double getMeanFitness() {
+        return this.meanFitness;
+    }
 
-	@Override
-	public double getFitnessVariance() {
-		return this.variance;
-	}
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public double getFitnessVariance() {
+        return this.variance;
+    }
 
-	@Override
-	public double getMaxFitness() {
-		return this.maxFitness;
-	}
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public double getMaxFitness() {
+        return this.maxFitness;
+    }
 
-	@Override
-	public double getMinFitness() {
-		return this.minFitness;
-	}
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public double getMinFitness() {
+        return this.minFitness;
+    }
 
-	@Override
-	public long getPopulationSize() {
-		return this.fitnesses.length;
-	}
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public long getPopulationSize() {
+        return this.fitnesses.length;
+    }
 
-	private double calculateMeanFitness(double[] fitnesses) {
-		double sum = 0.0;
-		for (double fitness : fitnesses) {
-			sum += fitness;
-		}
-		return sum / fitnesses.length;
-	}
+    /**
+     * calculate mean fitness.
+     * @param populationFitnesses
+     * @return mean fitness
+     */
+    private double calculateMeanFitness(double[] populationFitnesses) {
+        double sum = 0.0;
+        for (double fitness : populationFitnesses) {
+            sum += fitness;
+        }
+        return sum / populationFitnesses.length;
+    }
 
-	private double calculateVariance(double[] fitnesses) {
-		if (this.meanFitness == 0) {
-			this.meanFitness = calculateMeanFitness(fitnesses);
-		}
-		double sumOfSquare = 0.0;
-		for (double fitness : fitnesses) {
-			sumOfSquare += Math.pow(fitness, 2);
-		}
+    /**
+     * calculate variance of population fitness.
+     * @param populationFitnesses
+     * @return variance
+     */
+    private double calculateVariance(double[] populationFitnesses) {
+        if (this.meanFitness == 0) {
+            this.meanFitness = calculateMeanFitness(populationFitnesses);
+        }
+        double sumOfSquare = 0.0;
+        for (double fitness : populationFitnesses) {
+            sumOfSquare += Math.pow(fitness, 2);
+        }
 
-		return (sumOfSquare / fitnesses.length) - Math.pow(this.meanFitness, 2);
-	}
+        return (sumOfSquare / populationFitnesses.length) - Math.pow(this.meanFitness, 2);
+    }
 
-	@Override
-	public int findRank(Chromosome chromosome) {
-		return Arrays.binarySearch(fitnesses, chromosome.getFitness());
-	}
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public int findRank(Chromosome chromosome) {
+        return Arrays.binarySearch(fitnesses, chromosome.getFitness());
+    }
 
 }

@@ -17,8 +17,16 @@
 
 package org.apache.commons.math4.genetics.model;
 
+/**
+ * This interface represents fitness function.
+ */
 public interface FitnessFunction {
 
-	public double compute(Chromosome chromosome);
+    /**
+     * computes the fitness value of the input chromosome.
+     * @param chromosome
+     * @return fitness value
+     */
+    double compute(Chromosome chromosome);
 
 }

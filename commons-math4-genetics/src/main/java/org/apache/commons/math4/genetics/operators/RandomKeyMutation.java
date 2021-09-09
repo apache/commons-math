@@ -16,7 +16,6 @@
  */
 package org.apache.commons.math4.genetics.operators;
 
-import org.apache.commons.math4.genetics.model.RandomKey;
 import org.apache.commons.math4.genetics.utils.RandomGenerator;
 
 /**
@@ -27,9 +26,12 @@ import org.apache.commons.math4.genetics.utils.RandomGenerator;
  */
 public class RandomKeyMutation extends AbstractListChromosomeMutationPolicy<Double> {
 
-	@Override
-	protected Double mutateGene(Double originalValue) {
-		return RandomGenerator.getRandomGenerator().nextDouble();
-	}
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    protected Double mutateGene(Double originalValue) {
+        return RandomGenerator.getRandomGenerator().nextDouble();
+    }
 
 }
