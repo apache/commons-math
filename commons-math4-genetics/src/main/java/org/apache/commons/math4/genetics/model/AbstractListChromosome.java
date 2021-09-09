@@ -25,7 +25,7 @@ import java.util.List;
  * This class represents an abstract chromosome containing an immutable list of
  * allele/genes.
  *
- * @param <T> type of the representation list
+ * @param <T> type of the representation list. T should be immutable.
  * @since 2.0
  */
 public abstract class AbstractListChromosome<T> extends Chromosome {
