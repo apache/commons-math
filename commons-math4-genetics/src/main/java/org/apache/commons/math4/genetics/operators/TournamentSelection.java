@@ -79,7 +79,7 @@ public class TournamentSelection implements SelectionPolicy {
             throw new GeneticException(GeneticException.TOO_LARGE, arity, population.getPopulationSize());
         }
         // auxiliary population
-        ListPopulation tournamentPopulation = new ListPopulation(this.arity) {
+        final ListPopulation tournamentPopulation = new ListPopulation(this.arity) {
             /** {@inheritDoc} */
             @Override
             public Population nextGeneration(double elitismRate) {
@@ -89,10 +89,10 @@ public class TournamentSelection implements SelectionPolicy {
         };
 
         // create a copy of the chromosome list
-        List<Chromosome> chromosomes = new ArrayList<>(population.getChromosomes());
+        final List<Chromosome> chromosomes = new ArrayList<>(population.getChromosomes());
         for (int i = 0; i < this.arity; i++) {
             // select a random individual and add it to the tournament
-            int rind = RandomGenerator.getRandomGenerator().nextInt(chromosomes.size());
+            final int rind = RandomGenerator.getRandomGenerator().nextInt(chromosomes.size());
             tournamentPopulation.addChromosome(chromosomes.get(rind));
             // do not select it again
             chromosomes.remove(rind);

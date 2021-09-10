@@ -27,6 +27,10 @@ import org.apache.commons.math4.genetics.model.AbstractListChromosome;
 import org.apache.commons.math4.genetics.model.Chromosome;
 import org.apache.commons.math4.genetics.utils.RandomGenerator;
 
+/**
+ * This abstraction represents an abstract mutation policy for ListChromosomes.
+ * @param <T>
+ */
 public abstract class AbstractListChromosomeMutationPolicy<T> implements MutationPolicy {
 
     /**
@@ -43,10 +47,10 @@ public abstract class AbstractListChromosomeMutationPolicy<T> implements Mutatio
         if (!AbstractListChromosome.class.isAssignableFrom(original.getClass())) {
             throw new GeneticException(GeneticException.ILLEGAL_ARGUMENT, original.getClass().getSimpleName());
         }
-        AbstractListChromosome<T> chromosome = (AbstractListChromosome<T>) original;
-        List<T> newRep = new ArrayList<>(chromosome.getRepresentation());
+        final AbstractListChromosome<T> chromosome = (AbstractListChromosome<T>) original;
+        final List<T> newRep = new ArrayList<>(chromosome.getRepresentation());
 
-        int[] geneIndexes = getMutableGeneIndexes(chromosome.getLength(), mutationRate);
+        final int[] geneIndexes = getMutableGeneIndexes(chromosome.getLength(), mutationRate);
         for (int geneIndex : geneIndexes) {
             newRep.set(geneIndex, mutateGene(newRep.get(geneIndex)));
         }
@@ -62,13 +66,13 @@ public abstract class AbstractListChromosomeMutationPolicy<T> implements Mutatio
      */
     protected int[] getMutableGeneIndexes(int length, double mutationRate) {
         // calculate the total mutation rate of all the alleles i.e. chromosome.
-        double chromosomeMutationRate = mutationRate * length;
+        final double chromosomeMutationRate = mutationRate * length;
 
         // if chromosomeMutationRate >= 1 then more than one allele will be mutated.
         if (chromosomeMutationRate >= 1) {
-            int noOfMutation = (int) Math.round(chromosomeMutationRate);
-            Set<Integer> indexSet = getUniqueIndexes(length, noOfMutation);
-            int[] indexes = new int[noOfMutation];
+            final int noOfMutation = (int) Math.round(chromosomeMutationRate);
+            final Set<Integer> indexSet = getUniqueIndexes(length, noOfMutation);
+            final int[] indexes = new int[noOfMutation];
             int i = 0;
             for (Integer index : indexSet) {
                 indexes[i++] = index.intValue();
@@ -90,7 +94,7 @@ public abstract class AbstractListChromosomeMutationPolicy<T> implements Mutatio
      * @return A set of Integer
      */
     private Set<Integer> getUniqueIndexes(int length, int noOfMutation) {
-        Set<Integer> indexSet = new HashSet<>();
+        final Set<Integer> indexSet = new HashSet<>();
         while (indexSet.size() < noOfMutation) {
             indexSet.add(RandomGenerator.getRandomGenerator().nextInt(length));
         }

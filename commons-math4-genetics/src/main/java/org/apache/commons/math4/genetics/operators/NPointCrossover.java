@@ -106,6 +106,7 @@ public class NPointCrossover<T> extends AbstractListChromosomeCrossoverPolicy<T>
      *   not an instance of {@link AbstractListChromosome}
      * @throws DimensionMismatchException if the length of the two chromosomes is different
      */
+    @Override
     protected ChromosomePair mate(final AbstractListChromosome<T> first, final AbstractListChromosome<T> second) {
 
         final int length = first.getLength();
@@ -138,7 +139,7 @@ public class NPointCrossover<T> extends AbstractListChromosomeCrossoverPolicy<T>
             }
 
             // swap the children for the next segment
-            List<T> tmp = c1;
+            final List<T> tmp = c1;
             c1 = c2;
             c2 = tmp;
 

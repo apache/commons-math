@@ -24,6 +24,10 @@ import org.apache.commons.math4.genetics.operators.MutationPolicy;
 import org.apache.commons.math4.genetics.operators.SelectionPolicy;
 import org.apache.commons.math4.genetics.operators.StoppingCondition;
 
+/**
+ * This class represents an abstraction for all Genetic algorithm implementation
+ * comprising the basic properties and operations.
+ */
 public abstract class AbstractGeneticAlgorithm {
 
     /** the crossover policy used by the algorithm. */
@@ -39,11 +43,17 @@ public abstract class AbstractGeneticAlgorithm {
      * the number of generations evolved to reach {@link StoppingCondition} in the
      * last run.
      */
-    private int generationsEvolved = 0;
+    private int generationsEvolved;
 
     /** The elitism rate haveing default value of .25. */
     private double elitismRate = .25;
 
+    /**
+     * constructor.
+     * @param crossoverPolicy
+     * @param mutationPolicy
+     * @param selectionPolicy
+     */
     public AbstractGeneticAlgorithm(final CrossoverPolicy crossoverPolicy, final MutationPolicy mutationPolicy,
             final SelectionPolicy selectionPolicy) {
         this.crossoverPolicy = crossoverPolicy;
@@ -51,11 +61,19 @@ public abstract class AbstractGeneticAlgorithm {
         this.selectionPolicy = selectionPolicy;
     }
 
+    /**
+     * constructor.
+     * @param crossoverPolicy
+     * @param mutationPolicy
+     * @param selectionPolicy
+     * @param elitismRate
+     */
     public AbstractGeneticAlgorithm(final CrossoverPolicy crossoverPolicy, final MutationPolicy mutationPolicy,
             final SelectionPolicy selectionPolicy, double elitismRate) {
         this.crossoverPolicy = crossoverPolicy;
         this.mutationPolicy = mutationPolicy;
         this.selectionPolicy = selectionPolicy;
+        this.elitismRate = elitismRate;
     }
 
     /**

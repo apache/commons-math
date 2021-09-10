@@ -53,7 +53,7 @@ public class UnchangedMeanFitness implements StoppingCondition {
     @Override
     public boolean isSatisfied(Population population) {
 
-        double currentMeanFitness = calculateMeanFitness(population);
+        final double currentMeanFitness = calculateMeanFitness(population);
 
         if (lastMeanFitness == currentMeanFitness) {
             if (generationsHavingUnchangedMeanFitness == maxGenerationsWithUnchangedMeanFitness) {

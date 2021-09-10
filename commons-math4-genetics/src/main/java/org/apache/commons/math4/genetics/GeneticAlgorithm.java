@@ -110,8 +110,9 @@ public class GeneticAlgorithm extends AbstractGeneticAlgorithm {
      * @param current the current population.
      * @return the population for the next generation.
      */
+    @Override
     protected Population nextGeneration(final Population current) {
-        Population nextGeneration = current.nextGeneration(getElitismRate());
+        final Population nextGeneration = current.nextGeneration(getElitismRate());
 
         while (nextGeneration.getPopulationSize() < nextGeneration.getPopulationLimit()) {
             // select parent chromosomes

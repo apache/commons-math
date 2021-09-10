@@ -74,7 +74,7 @@ public class RandomKey<T> extends AbstractListChromosome<Double> implements Perm
     public RandomKey(final List<Double> representation, FitnessFunction fitnessFunction) {
         super(representation, fitnessFunction);
         // store the sorted representation
-        List<Double> sortedRepr = new ArrayList<>(getRepresentation());
+        final List<Double> sortedRepr = new ArrayList<>(getRepresentation());
         Collections.sort(sortedRepr);
         sortedRepresentation = Collections.unmodifiableList(sortedRepr);
         // store the permutation of [0,1,...,n-1] list for toString() and isSame()
@@ -119,7 +119,7 @@ public class RandomKey<T> extends AbstractListChromosome<Double> implements Perm
     private static <S> List<S> decodeGeneric(final List<S> sequence, List<Double> representation,
             final List<Double> sortedRepr) {
 
-        int l = sequence.size();
+        final int l = sequence.size();
 
         // the size of the three lists must be equal
         if (representation.size() != l) {
@@ -130,12 +130,12 @@ public class RandomKey<T> extends AbstractListChromosome<Double> implements Perm
         }
 
         // do not modify the original representation
-        List<Double> reprCopy = new ArrayList<>(representation);
+        final List<Double> reprCopy = new ArrayList<>(representation);
 
         // now find the indices in the original repr and use them for permuting
-        List<S> res = new ArrayList<>(l);
+        final List<S> res = new ArrayList<>(l);
         for (int i = 0; i < l; i++) {
-            int index = reprCopy.indexOf(sortedRepr.get(i));
+            final int index = reprCopy.indexOf(sortedRepr.get(i));
             res.add(sequence.get(index));
             reprCopy.set(index, null);
         }
@@ -155,7 +155,7 @@ public class RandomKey<T> extends AbstractListChromosome<Double> implements Perm
         if (!(another instanceof RandomKey<?>)) {
             return false;
         }
-        RandomKey<?> anotherRk = (RandomKey<?>) another;
+        final RandomKey<?> anotherRk = (RandomKey<?>) another;
         // size check
         if (getLength() != anotherRk.getLength()) {
             return false;
@@ -163,8 +163,8 @@ public class RandomKey<T> extends AbstractListChromosome<Double> implements Perm
 
         // two different representations can still encode the same permutation
         // the ordering is what counts
-        List<Integer> thisPerm = this.baseSeqPermutation;
-        List<Integer> anotherPerm = anotherRk.baseSeqPermutation;
+        final List<Integer> thisPerm = this.baseSeqPermutation;
+        final List<Integer> anotherPerm = anotherRk.baseSeqPermutation;
 
         for (int i = 0; i < getLength(); i++) {
             if (thisPerm.get(i) != anotherPerm.get(i)) {
@@ -196,7 +196,7 @@ public class RandomKey<T> extends AbstractListChromosome<Double> implements Perm
      * @return representation of a random permutation
      */
     public static final List<Double> randomPermutation(final int l) {
-        List<Double> repr = new ArrayList<>(l);
+        final List<Double> repr = new ArrayList<>(l);
         for (int i = 0; i < l; i++) {
             repr.add(RandomGenerator.getRandomGenerator().nextDouble());
         }
@@ -211,7 +211,7 @@ public class RandomKey<T> extends AbstractListChromosome<Double> implements Perm
      * @return representation of an identity permutation
      */
     public static final List<Double> identityPermutation(final int l) {
-        List<Double> repr = new ArrayList<>(l);
+        final List<Double> repr = new ArrayList<>(l);
         for (int i = 0; i < l; i++) {
             repr.add((double) i / l);
         }
@@ -233,7 +233,7 @@ public class RandomKey<T> extends AbstractListChromosome<Double> implements Perm
      *         parameters
      */
     public static <S> List<Double> comparatorPermutation(final List<S> data, final Comparator<S> comparator) {
-        List<S> sortedData = new ArrayList<>(data);
+        final List<S> sortedData = new ArrayList<>(data);
         Collections.sort(sortedData, comparator);
 
         return inducedPermutation(data, sortedData);
@@ -262,13 +262,13 @@ public class RandomKey<T> extends AbstractListChromosome<Double> implements Perm
         if (originalData.size() != permutedData.size()) {
             throw new GeneticException(GeneticException.SIZE_MISMATCH, permutedData.size(), originalData.size());
         }
-        int l = originalData.size();
+        final int l = originalData.size();
 
-        List<S> origDataCopy = new ArrayList<>(originalData);
+        final List<S> origDataCopy = new ArrayList<>(originalData);
 
-        Double[] res = new Double[l];
+        final Double[] res = new Double[l];
         for (int i = 0; i < l; i++) {
-            int index = origDataCopy.indexOf(permutedData.get(i));
+            final int index = origDataCopy.indexOf(permutedData.get(i));
             if (index == -1) {
                 throw new GeneticException(GeneticException.DIFFERENT_ORIG_AND_PERMUTED_DATA);
             }
@@ -291,7 +291,7 @@ public class RandomKey<T> extends AbstractListChromosome<Double> implements Perm
      * @return list of integers from 0 to l-1
      */
     private static List<Integer> baseSequence(final int l) {
-        List<Integer> baseSequence = new ArrayList<>(l);
+        final List<Integer> baseSequence = new ArrayList<>(l);
         for (int i = 0; i < l; i++) {
             baseSequence.add(i);
         }

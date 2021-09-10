@@ -92,6 +92,7 @@ public class UniformCrossover<T> extends AbstractListChromosomeCrossoverPolicy<T
      * @return the pair of new chromosomes that resulted from the crossover
      * @throws GeneticException if the length of the two chromosomes is different
      */
+    @Override
     protected ChromosomePair mate(final AbstractListChromosome<T> first, final AbstractListChromosome<T> second) {
         final int length = first.getLength();
         // array representations of the parents

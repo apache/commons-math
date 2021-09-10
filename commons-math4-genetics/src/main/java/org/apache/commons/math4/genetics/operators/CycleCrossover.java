@@ -104,6 +104,7 @@ public class CycleCrossover<T> extends AbstractListChromosomeCrossoverPolicy<T> 
      * @return the pair of new chromosomes that resulted from the crossover
      * @throws GeneticException if the length of the two chromosomes is different
      */
+    @Override
     protected ChromosomePair mate(final AbstractListChromosome<T> first, final AbstractListChromosome<T> second) {
 
         final int length = first.getLength();
@@ -141,7 +142,7 @@ public class CycleCrossover<T> extends AbstractListChromosomeCrossoverPolicy<T> 
             // for even cycles: swap the child elements on the indices found in this cycle
             if (cycle++ % 2 != 0) {
                 for (int i : indices) {
-                    T tmp = child1Rep.get(i);
+                    final T tmp = child1Rep.get(i);
                     child1Rep.set(i, child2Rep.get(i));
                     child2Rep.set(i, tmp);
                 }

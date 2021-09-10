@@ -33,7 +33,7 @@ public abstract class Chromosome implements Comparable<Chromosome> {
     private double fitness = NO_FITNESS;
 
     /** Fitness function to evaluate fitness of chromosome. **/
-    private FitnessFunction fitnessFunction;
+    private final FitnessFunction fitnessFunction;
 
     /**
      * constructor.
@@ -117,7 +117,7 @@ public abstract class Chromosome implements Comparable<Chromosome> {
      * @param population Population to search
      */
     public void searchForFitnessUpdate(final Population population) {
-        Chromosome sameChromosome = findSameChromosome(population);
+        final Chromosome sameChromosome = findSameChromosome(population);
         if (sameChromosome != null) {
             fitness = sameChromosome.getFitness();
         }

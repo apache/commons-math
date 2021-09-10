@@ -74,6 +74,7 @@ public class OnePointCrossover<T> extends AbstractListChromosomeCrossoverPolicy<
      *   not an instance of {@link AbstractListChromosome}
      * @throws DimensionMismatchException if the length of the two chromosomes is different
      */
+    @Override
     protected ChromosomePair mate(final AbstractListChromosome<T> first, final AbstractListChromosome<T> second) {
         final int length = first.getLength();
         // array representations of the parents

@@ -215,13 +215,13 @@ public class ListPopulation implements Population {
         } else {
             // create a new generation of chromosomes with same parameters and add the elit
             // individuals.
-            ListPopulation nextGeneration = new ListPopulation(getPopulationLimit());
+            final ListPopulation nextGeneration = new ListPopulation(getPopulationLimit());
 
             // Sort the chromosome according to ascending order of fitness.
             Collections.sort(oldChromosomes);
 
             // index of the last "not good enough" chromosome
-            int boundIndex = (int) Math.ceil((1.0 - elitismRate) * oldChromosomes.size());
+            final int boundIndex = (int) Math.ceil((1.0 - elitismRate) * oldChromosomes.size());
             for (int i = boundIndex; i < oldChromosomes.size(); i++) {
                 nextGeneration.addChromosome(oldChromosomes.get(i));
             }

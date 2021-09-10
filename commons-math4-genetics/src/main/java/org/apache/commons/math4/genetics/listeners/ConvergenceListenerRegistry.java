@@ -38,7 +38,7 @@ public final class ConvergenceListenerRegistry {
     /**
      * List of registered listeners.
      */
-    private List<ConvergenceListener> listeners = new ArrayList<>();
+    private final List<ConvergenceListener> listeners = new ArrayList<>();
 
     private ConvergenceListenerRegistry() {
     }

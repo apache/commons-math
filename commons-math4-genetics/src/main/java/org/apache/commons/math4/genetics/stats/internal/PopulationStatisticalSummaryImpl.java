@@ -29,26 +29,26 @@ import org.apache.commons.math4.genetics.stats.PopulationStatisticalSummary;
 public class PopulationStatisticalSummaryImpl implements PopulationStatisticalSummary {
 
     /** array of fitness of the population. **/
-    private double[] fitnesses;
+    private final double[] fitnesses;
 
     /** maximum fitness of the population. **/
-    private double maxFitness;
+    private final double maxFitness;
 
     /** minimum fitness of the population. **/
-    private double minFitness;
+    private final double minFitness;
 
     /** mean fitness of the population. **/
     private double meanFitness;
 
     /** variance of population fitness. **/
-    private double variance;
+    private final double variance;
 
     /**
      * constructor.
      * @param population
      */
     public PopulationStatisticalSummaryImpl(Population population) {
-        double[] populationFitnesses = getFitnesses(population);
+        final double[] populationFitnesses = getFitnesses(population);
         Arrays.sort(populationFitnesses);
         this.fitnesses = populationFitnesses;
         this.maxFitness = populationFitnesses[populationFitnesses.length - 1];
@@ -57,6 +57,11 @@ public class PopulationStatisticalSummaryImpl implements PopulationStatisticalSu
         this.variance = calculateVariance(populationFitnesses);
     }
 
+    /**
+     * Fetches array of chromosome fitness of the population.
+     * @param population
+     * @return fitness array
+     */
     private double[] getFitnesses(Population population) {
         double[] populationFitnesses = new double[population.getPopulationSize()];
         int index = 0;

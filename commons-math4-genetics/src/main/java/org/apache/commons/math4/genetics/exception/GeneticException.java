@@ -19,6 +19,9 @@ package org.apache.commons.math4.genetics.exception;
 
 import java.text.MessageFormat;
 
+/**
+ * This class represents the Exception encountered during GA optimization.
+ */
 public class GeneticException extends RuntimeException {
 
     /** Error message for "out of range" condition. */

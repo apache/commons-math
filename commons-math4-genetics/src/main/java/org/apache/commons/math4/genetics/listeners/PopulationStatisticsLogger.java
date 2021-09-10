@@ -26,9 +26,12 @@ import org.apache.commons.math4.genetics.stats.internal.PopulationStatisticalSum
  */
 public final class PopulationStatisticsLogger implements ConvergenceListener {
 
+    /**
+     * Logs the population statistics as console message.
+     */
     @Override
     public void notify(Population population) {
-        PopulationStatisticalSummary populationStatisticalSummary = new PopulationStatisticalSummaryImpl(population);
+        final PopulationStatisticalSummary populationStatisticalSummary = new PopulationStatisticalSummaryImpl(population);
         System.out.println("*******************Population statistics*******************");
         System.out.println("Mean Fitness : " + populationStatisticalSummary.getMeanFitness());
         System.out.println("Max Fitness : " + populationStatisticalSummary.getMaxFitness());

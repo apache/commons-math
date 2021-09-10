@@ -42,8 +42,8 @@ public abstract class AbstractListChromosomeCrossoverPolicy<T> extends AbstractC
             throw new GeneticException(GeneticException.INVALID_FIXED_LENGTH_CHROMOSOME);
         }
 
-        AbstractListChromosome<T> firstListChromosome = (AbstractListChromosome<T>) first;
-        AbstractListChromosome<T> secondListChromosome = (AbstractListChromosome<T>) second;
+        final AbstractListChromosome<T> firstListChromosome = (AbstractListChromosome<T>) first;
+        final AbstractListChromosome<T> secondListChromosome = (AbstractListChromosome<T>) second;
 
         final int length = firstListChromosome.getLength();
         if (length != secondListChromosome.getLength()) {

@@ -68,6 +68,7 @@ public class OrderedCrossover<T> extends AbstractListChromosomeCrossoverPolicy<T
      * @return the pair of new chromosomes that resulted from the crossover
      * @throws GeneticException if the length of the two chromosomes is different
      */
+    @Override
     protected ChromosomePair mate(final AbstractListChromosome<T> first, final AbstractListChromosome<T> second) {
 
         final int length = first.getLength();
@@ -83,7 +84,7 @@ public class OrderedCrossover<T> extends AbstractListChromosomeCrossoverPolicy<T
 
         final UniformRandomProvider random = RandomGenerator.getRandomGenerator();
         // choose random points, making sure that lb < ub.
-        int a = random.nextInt(length);
+        final int a = random.nextInt(length);
         int b;
         do {
             b = random.nextInt(length);
