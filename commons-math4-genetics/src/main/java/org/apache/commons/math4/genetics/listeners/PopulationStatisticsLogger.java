@@ -17,6 +17,11 @@
 
 package org.apache.commons.math4.genetics.listeners;
 
+import java.io.BufferedWriter;
+import java.io.IOException;
+import java.io.OutputStreamWriter;
+
+import org.apache.commons.math4.genetics.exception.GeneticException;
 import org.apache.commons.math4.genetics.model.Population;
 import org.apache.commons.math4.genetics.stats.PopulationStatisticalSummary;
 import org.apache.commons.math4.genetics.stats.internal.PopulationStatisticalSummaryImpl;
@@ -31,11 +36,21 @@ public final class PopulationStatisticsLogger implements ConvergenceListener {
      */
     @Override
     public void notify(Population population) {
-        final PopulationStatisticalSummary populationStatisticalSummary = new PopulationStatisticalSummaryImpl(population);
-        System.out.println("*******************Population statistics*******************");
-        System.out.println("Mean Fitness : " + populationStatisticalSummary.getMeanFitness());
-        System.out.println("Max Fitness : " + populationStatisticalSummary.getMaxFitness());
-        System.out.println("Fitness Variance : " + populationStatisticalSummary.getFitnessVariance());
+        final PopulationStatisticalSummary populationStatisticalSummary = new PopulationStatisticalSummaryImpl(
+                population);
+        try (BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(System.out))) {
+            writer.write("*******************Population statistics*******************");
+            writer.newLine();
+            writer.write("Mean Fitness : " + populationStatisticalSummary.getMeanFitness());
+            writer.newLine();
+            writer.write("Max Fitness : " + populationStatisticalSummary.getMaxFitness());
+            writer.newLine();
+            writer.write("Fitness Variance : " + populationStatisticalSummary.getFitnessVariance());
+            writer.newLine();
+            writer.flush();
+        } catch (IOException e) {
+            throw new GeneticException("Error while logging", e);
+        }
     }
 
 }

@@ -88,4 +88,22 @@ public class GeneticException extends RuntimeException {
         super(MessageFormat.format(message, formatArguments));
     }
 
+    /**
+     * Create an exception.
+     * @param t
+     */
+    public GeneticException(Throwable t) {
+        super(t);
+    }
+
+    /**
+     * Create an exception having both stacktrace and message.
+     * @param message
+     * @param t
+     * @param formatArguments
+     */
+    public GeneticException(String message, Throwable t, Object... formatArguments) {
+        super(MessageFormat.format(message, formatArguments), t);
+    }
+
 }
