@@ -474,4 +474,28 @@ public final class EmpiricalDistributionTest extends RealDistributionAbstractTes
         v = ed.inverseCumulativeProbability(p);
         Assert.assertTrue("p=" + p + " => v=" + v, v < 6350);
     }
+
+    @Test
+    public void testMath1462InfiniteQuantile() {
+        final double[] data = {
+            18054, 17548, 17350, 17860, 17827, 17653, 18113, 18405, 17746,
+            17647, 18160, 17955, 17705, 17890, 17974, 17857, 13287, 18645,
+            17775, 17730, 17996, 18263, 17861, 17161, 17717, 18134, 18669,
+            18340, 17221, 18292, 18146, 17520, 18207, 17829, 18206, 13301,
+            18257, 17626, 18358, 18340, 18320, 17852, 17804, 17577, 17718,
+            18099, 13395, 17763, 17911, 17978, 12935, 17519, 17550, 18728,
+            18518, 17698, 18739, 18553, 17982, 18113, 17974, 17961, 17645,
+            17867, 17890, 17498, 18718, 18191, 18177, 17923, 18164, 18155,
+            6212, 5961, 711
+        };
+
+        final EmpiricalDistribution ed = EmpiricalDistribution.from(1000, data);
+
+        double v;
+        double p;
+
+        p = 0.32;
+        v = ed.inverseCumulativeProbability(p);
+        Assert.assertTrue("p=" + p + " => v=" + v, Double.isFinite(v));
+    }
 }
