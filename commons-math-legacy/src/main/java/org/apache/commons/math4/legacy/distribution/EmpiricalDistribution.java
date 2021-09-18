@@ -34,25 +34,25 @@ import org.apache.commons.math4.legacy.core.jdkmath.AccurateMath;
 /**
  * <p>Represents an <a href="http://en.wikipedia.org/wiki/Empirical_distribution_function">
  * empirical probability distribution</a>: Probability distribution derived
- * from observed data without making any assumptions about the functional form
- * of the population distribution that the data come from.</p>
+ * from observed data without making any assumptions about the functional
+ * form of the population distribution that the data come from.</p>
  *
  * <p>An {@code EmpiricalDistribution} maintains data structures called
  * <i>distribution digests</i> that describe empirical distributions and
  * support the following operations:
  * <ul>
- *  <li>loading the distribution from a file of observed data values</li>
- *  <li>dividing the input data into "bin ranges" and reporting bin frequency
- *      counts (data for histogram)</li>
- *  <li>reporting univariate statistics describing the full set of data values
- *      as well as the observations within each bin</li>
+ *  <li>loading the distribution from "observed" data values</li>
+ *  <li>dividing the input data into "bin ranges" and reporting bin
+ *      frequency counts (data for histogram)</li>
+ *  <li>reporting univariate statistics describing the full set of data
+ *      values as well as the observations within each bin</li>
  *  <li>generating random values from the distribution</li>
  * </ul>
  *
  * Applications can use {@code EmpiricalDistribution} to build grouped
- * frequency histograms representing the input data or to generate random values
- * "like" those in the input file, i.e. the values generated will follow the
- * distribution of the values in the file.
+ * frequency histograms representing the input data or to generate random
+ * values "like" those in the input, i.e. the values generated will follow
+ * the distribution of the values in the file.
  *
  * <p>The implementation uses what amounts to the
  * <a href="http://nedwww.ipac.caltech.edu/level5/March02/Silverman/Silver2_6.html">
@@ -84,16 +84,8 @@ import org.apache.commons.math4.legacy.core.jdkmath.AccurateMath;
  * grouped frequency distribution at the bin endpoints and interpolates within
  * bins using within-bin kernels.</p>
  *
- * <strong>USAGE NOTES:</strong>
- * <ul>
- *  <li>
- *   The {@code binCount} is set by default to 1000.  A good rule of thumb
- *   is to set the bin count to approximately the length of the input file
- *   divided by 10. </li>
- *  <li>
- *   The input file <i>must</i> be a plain text file containing one valid
- *   numeric entry per line.</li>
- * </ul>
+ * <strong>CAVEAT</strong>: It is advised that the {@link #from(int,double[])
+ * bin count} is about one tenth of the size of the input array.
  */
 public final class EmpiricalDistribution extends AbstractRealDistribution
     implements ContinuousDistribution {
@@ -547,7 +539,7 @@ public final class EmpiricalDistribution extends AbstractRealDistribution
 
     /**
      * The within-bin smoothing kernel: A Gaussian distribution
-     * (unless the bin contains only one observation, in which case
+     * (unless the bin contains 0 or 1 observation, in which case
      * a constant distribution is returned).
      *
      * @return the within-bin kernel factory.
