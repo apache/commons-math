@@ -50,7 +50,7 @@ public abstract class AbstractChromosome<P> implements Chromosome<P> {
      * @param fitnessFunction
      * @param decoder
      */
-    public AbstractChromosome(FitnessFunction<P> fitnessFunction, Decoder<P> decoder) {
+    public AbstractChromosome(final FitnessFunction<P> fitnessFunction, final Decoder<P> decoder) {
         ValidationUtils.checkForNull("fitness-function", fitnessFunction);
         ValidationUtils.checkForNull("decoder", decoder);
         this.fitnessFunction = fitnessFunction;
@@ -81,6 +81,7 @@ public abstract class AbstractChromosome<P> implements Chromosome<P> {
      * fitness is cached.
      * @return the fitness
      */
+    @Override
     public double evaluate() {
         if (this.fitness == NO_FITNESS) {
             // no cache - compute the fitness
@@ -93,6 +94,7 @@ public abstract class AbstractChromosome<P> implements Chromosome<P> {
      * Decodes the chromosome genotype and returns the phenotype.
      * @return phenotype
      */
+    @Override
     public P decode() {
         return this.decoder.decode(this);
     }
@@ -121,8 +123,8 @@ public abstract class AbstractChromosome<P> implements Chromosome<P> {
      * @return true if <code>another</code> is equivalent to this chromosome
      */
     protected boolean isSame(final AbstractChromosome<P> another) {
-        P decodedChromosome = decode();
-        P otherDecodedChromosome = another.decode();
+        final P decodedChromosome = decode();
+        final P otherDecodedChromosome = another.decode();
         return decodedChromosome.equals(otherDecodedChromosome);
     }
 
@@ -151,7 +153,7 @@ public abstract class AbstractChromosome<P> implements Chromosome<P> {
         if (getClass() != obj.getClass()) {
             return false;
         }
-        AbstractChromosome<P> other = (AbstractChromosome<P>) obj;
+        final AbstractChromosome<P> other = (AbstractChromosome<P>) obj;
 
         return isSame(other);
     }

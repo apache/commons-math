@@ -101,6 +101,7 @@ public abstract class AbstractListChromosome<T, P> extends AbstractChromosome<P>
      * @return decoder
      */
     @SuppressWarnings("unchecked")
+    @Override
     protected AbstractListChromosomeDecoder<T, P> getDecoder() {
         return (AbstractListChromosomeDecoder<T, P>) super.getDecoder();
     }

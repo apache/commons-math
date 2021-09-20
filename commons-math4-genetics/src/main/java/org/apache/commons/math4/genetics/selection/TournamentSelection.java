@@ -82,7 +82,7 @@ public class TournamentSelection<P> implements SelectionPolicy<P> {
 
         // create a copy of the chromosome list
         final List<Chromosome<P>> chromosomes = new ArrayList<>(population.getChromosomes());
-        List<Chromosome<P>> selectedChromosomes = new ArrayList<>();
+        final List<Chromosome<P>> selectedChromosomes = new ArrayList<>();
 
         for (int i = 0; i < this.arity; i++) {
             // select a random individual and add it to the tournament

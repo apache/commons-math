@@ -30,15 +30,13 @@ public abstract class AbstractListChromosomeDecoder<T, P> implements Decoder<P> 
     /**
      * {@inheritDoc}
      */
+    @SuppressWarnings("unchecked")
     @Override
     public P decode(Chromosome<P> chromosome) {
         if (!AbstractListChromosome.class.isAssignableFrom(chromosome.getClass())) {
             throw new GeneticException(GeneticException.ILLEGAL_ARGUMENT, chromosome.getClass().getSimpleName());
         }
-        @SuppressWarnings("unchecked")
-        AbstractListChromosome<T, P> listChromosome = (AbstractListChromosome<T, P>) chromosome;
-
-        return decode(listChromosome);
+        return decode((AbstractListChromosome<T, P>) chromosome);
     }
 
     /**

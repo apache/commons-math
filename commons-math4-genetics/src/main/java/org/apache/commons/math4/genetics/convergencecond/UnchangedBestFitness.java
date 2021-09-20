@@ -23,7 +23,7 @@ import org.apache.commons.math4.genetics.Population;
  * This class represents a stopping condition based on best fitness value.
  * Convergence will be stopped once best fitness remains unchanged for
  * predefined number of generations.
- * @param <P>   phenotype of chromosome
+ * @param <P> phenotype of chromosome
  */
 public class UnchangedBestFitness<P> implements StoppingCondition<P> {
 
@@ -55,7 +55,8 @@ public class UnchangedBestFitness<P> implements StoppingCondition<P> {
         final double currentBestFitness = population.getFittestChromosome().evaluate();
 
         if (lastBestFitness == currentBestFitness) {
-            if (++generationsHavingUnchangedBestFitness == maxGenerationsWithUnchangedBestFitness) {
+            generationsHavingUnchangedBestFitness++;
+            if (generationsHavingUnchangedBestFitness == maxGenerationsWithUnchangedBestFitness) {
                 return true;
             }
         } else {

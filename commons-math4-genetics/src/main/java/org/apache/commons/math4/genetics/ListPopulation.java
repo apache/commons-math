@@ -200,7 +200,7 @@ public class ListPopulation<P> implements Population<P> {
         } else {
             // create a new generation of chromosomes with same parameters and add the elit
             // individuals.
-            final ListPopulation<P> nextGeneration = new ListPopulation<P>(getPopulationLimit());
+            final ListPopulation<P> nextGeneration = new ListPopulation<>(getPopulationLimit());
 
             // Sort the chromosome according to ascending order of fitness.
             Collections.sort(oldChromosomes);

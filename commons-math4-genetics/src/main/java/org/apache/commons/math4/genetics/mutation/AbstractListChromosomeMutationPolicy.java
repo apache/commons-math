@@ -24,7 +24,6 @@ import java.util.Set;
 
 import org.apache.commons.math4.genetics.AbstractListChromosome;
 import org.apache.commons.math4.genetics.Chromosome;
-import org.apache.commons.math4.genetics.exception.GeneticException;
 import org.apache.commons.math4.genetics.utils.RandomGenerator;
 
 /**

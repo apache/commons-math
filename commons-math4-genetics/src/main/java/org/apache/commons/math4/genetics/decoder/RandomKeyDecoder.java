@@ -32,7 +32,7 @@ import org.apache.commons.math4.genetics.utils.ValidationUtils;
 public final class RandomKeyDecoder<U> extends AbstractListChromosomeDecoder<Double, List<U>> {
 
     /** base sequence for decoding chromosome. **/
-    private List<U> baseSequence;
+    private final List<U> baseSequence;
 
     /**
      * constructor.
@@ -48,8 +48,8 @@ public final class RandomKeyDecoder<U> extends AbstractListChromosomeDecoder<Dou
      */
     @Override
     protected List<U> decode(AbstractListChromosome<Double, List<U>> chromosome) {
-        List<Double> representation = chromosome.getRepresentation();
-        List<Double> sortedRepresentation = new ArrayList<>(representation);
+        final List<Double> representation = chromosome.getRepresentation();
+        final List<Double> sortedRepresentation = new ArrayList<>(representation);
         Collections.sort(sortedRepresentation);
 
         final int l = baseSequence.size();
