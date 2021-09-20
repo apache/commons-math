@@ -22,7 +22,6 @@ import org.apache.commons.math4.genetics.stats.PopulationStatisticalSummary;
 
 /**
  * This abstraction represents crossover rate generator.
- * 
  * @param <P>   phenotype of chromosome
  */
 public interface CrossoverRateGenerator<P> {

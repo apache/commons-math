@@ -14,26 +14,30 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.apache.commons.math4.genetics.crossover;
+package org.apache.commons.math4.genetics.mutation;
 
 import org.apache.commons.math4.genetics.Chromosome;
-import org.apache.commons.math4.genetics.ChromosomePair;
+import org.apache.commons.math4.genetics.utils.RandomGenerator;
+import org.junit.Assert;
+import org.junit.Test;
 
-/**
- * Policy used to create a pair of new chromosomes by performing a crossover
- * operation on a source pair of chromosomes.
- * @param <P> phenotype of chromosome
- * @since 2.0
- */
-public interface CrossoverPolicy<P> {
+public class AbstractListChromosomeMutationPolicyTest {
 
-    /**
-     * Perform a crossover operation on the given chromosomes.
-     *
-     * @param first         the first chromosome.
-     * @param second        the second chromosome.
-     * @param crossoverRate the probability of crossover
-     * @return the pair of new chromosomes that resulted from the crossover.
-     */
-    ChromosomePair<P> crossover(Chromosome<P> first, Chromosome<P> second, double crossoverRate);
+    @Test
+    public void testGetMutableGeneIndexes() {
+        AbstractListChromosomeMutationPolicy<Integer, String> chromosomeMutationPolicy = new AbstractListChromosomeMutationPolicy<Integer, String>() {
+
+            @Override
+            protected Integer mutateGene(Integer originalValue) {
+                return RandomGenerator.getRandomGenerator().nextInt(2);
+            }
+
+            @Override
+            protected void checkValidity(Chromosome<String> original) {
+                // No Op
+            }
+        };
+        Assert.assertEquals(1, chromosomeMutationPolicy.getMutableGeneIndexes(10, .1).size());
+    }
+
 }

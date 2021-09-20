@@ -18,7 +18,6 @@ package org.apache.commons.math4.genetics.mutation;
 
 import org.apache.commons.math4.genetics.BinaryChromosome;
 import org.apache.commons.math4.genetics.DummyListChromosomeDecoder;
-import org.apache.commons.math4.genetics.mutation.BinaryMutation;
 import org.junit.Assert;
 import org.junit.Test;
 

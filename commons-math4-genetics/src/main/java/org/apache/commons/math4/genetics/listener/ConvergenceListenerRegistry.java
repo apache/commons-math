@@ -26,7 +26,6 @@ import org.apache.commons.math4.genetics.Population;
  * This class is the default implementation of ConvergenceListenerRegistry. It
  * will be responsible for registering the interested listeners and notifying
  * all when required.
- *
  * @param <P> phenotype of chromosome
  */
 public final class ConvergenceListenerRegistry<P> {
@@ -35,7 +34,7 @@ public final class ConvergenceListenerRegistry<P> {
      * The instance of the singleton class.
      */
     @SuppressWarnings("rawtypes")
-    private static ConvergenceListenerRegistry INSTANCE = new ConvergenceListenerRegistry<>();
+    private static final ConvergenceListenerRegistry INSTANCE = new ConvergenceListenerRegistry<>();
 
     /**
      * List of registered listeners.
@@ -81,7 +80,8 @@ public final class ConvergenceListenerRegistry<P> {
 
     /**
      * Returns instance of this class.
-     * @return instance of this class.
+     * @param <P>
+     * @return instance
      */
     @SuppressWarnings("unchecked")
     public static <P> ConvergenceListenerRegistry<P> getInstance() {

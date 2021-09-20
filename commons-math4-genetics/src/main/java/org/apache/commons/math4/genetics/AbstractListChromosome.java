@@ -27,11 +27,9 @@ import org.apache.commons.math4.genetics.utils.ValidationUtils;
 /**
  * This class represents an abstract chromosome containing an immutable list of
  * allele/genes.
- *
  * @param <T> type of the allele/gene in the representation list. T should be
  *            immutable.
  * @param <P> phenotype of chromosome
- * 
  * @since 2.0
  */
 public abstract class AbstractListChromosome<T, P> extends AbstractChromosome<P> {

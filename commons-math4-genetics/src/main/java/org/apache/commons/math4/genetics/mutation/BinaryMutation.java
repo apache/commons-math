@@ -17,14 +17,25 @@
 package org.apache.commons.math4.genetics.mutation;
 
 import org.apache.commons.math4.genetics.BinaryChromosome;
+import org.apache.commons.math4.genetics.Chromosome;
+import org.apache.commons.math4.genetics.exception.GeneticException;
 
 /**
  * Mutation for {@link BinaryChromosome}s. Randomly changes few genes.
- *
  * @param <P> phenotype of chromosome
  * @since 4.0
  */
 public class BinaryMutation<P> extends AbstractListChromosomeMutationPolicy<Integer, P> {
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    protected void checkValidity(Chromosome<P> original) {
+        if (!BinaryChromosome.class.isAssignableFrom(original.getClass())) {
+            throw new GeneticException(GeneticException.ILLEGAL_ARGUMENT, original.getClass().getSimpleName());
+        }
+    }
 
     /**
      * {@inheritDoc}

@@ -14,26 +14,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.apache.commons.math4.genetics.crossover;
-
-import org.apache.commons.math4.genetics.Chromosome;
-import org.apache.commons.math4.genetics.ChromosomePair;
-
 /**
- * Policy used to create a pair of new chromosomes by performing a crossover
- * operation on a source pair of chromosomes.
- * @param <P> phenotype of chromosome
- * @since 2.0
+ * This package provides Genetic Algorithms components and implementations.
  */
-public interface CrossoverPolicy<P> {
-
-    /**
-     * Perform a crossover operation on the given chromosomes.
-     *
-     * @param first         the first chromosome.
-     * @param second        the second chromosome.
-     * @param crossoverRate the probability of crossover
-     * @return the pair of new chromosomes that resulted from the crossover.
-     */
-    ChromosomePair<P> crossover(Chromosome<P> first, Chromosome<P> second, double crossoverRate);
-}
+package org.apache.commons.math4.genetics.decoder;

@@ -24,9 +24,7 @@ import org.apache.commons.math4.genetics.utils.ChromosomeRepresentationUtils;
 
 /**
  * Chromosome represented by a vector of 0s and 1s.
- * 
  * @param <P> phenotype of chromosome
- *
  * @since 2.0
  */
 public class BinaryChromosome<P> extends AbstractListChromosome<Integer, P> {

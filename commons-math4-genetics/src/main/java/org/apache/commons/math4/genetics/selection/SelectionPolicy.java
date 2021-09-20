@@ -21,7 +21,6 @@ import org.apache.commons.math4.genetics.Population;
 
 /**
  * Algorithm used to select a chromosome pair from a population.
- *
  * @param <P> phenotype of chromosome
  * @since 2.0
  */

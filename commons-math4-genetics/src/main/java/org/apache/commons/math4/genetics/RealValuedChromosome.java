@@ -47,6 +47,7 @@ public class RealValuedChromosome<P> extends AbstractListChromosome<Double, P> {
      * constructor.
      * @param representation
      * @param fitnessFunction
+     * @param decoder
      */
     public RealValuedChromosome(final Double[] representation, FitnessFunction<P> fitnessFunction,
             AbstractListChromosomeDecoder<Double, P> decoder) {

@@ -23,11 +23,12 @@ import java.util.Iterator;
 import java.util.List;
 
 import org.apache.commons.math4.genetics.exception.GeneticException;
+import org.apache.commons.math4.genetics.utils.Constants;
 
 /**
  * Population of chromosomes represented by a {@link List}.
  *
- * @param <P>   phenotype of chromosome
+ * @param <P> phenotype of chromosome
  * @since 2.0
  */
 public class ListPopulation<P> implements Population<P> {
@@ -165,9 +166,9 @@ public class ListPopulation<P> implements Population<P> {
     @Override
     public String toString() {
         StringBuilder populationStrRepr = new StringBuilder();
-        for(Chromosome<P> chromosome : chromosomes) {
+        for (Chromosome<P> chromosome : chromosomes) {
             populationStrRepr.append(chromosome.toString());
-            populationStrRepr.append("\r\n");
+            populationStrRepr.append(Constants.NEW_LINE);
         }
         return populationStrRepr.toString();
     }

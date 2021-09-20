@@ -32,7 +32,6 @@ import org.apache.commons.math4.genetics.utils.RandomGenerator;
  * based on n-ary tournament -- this is done by drawing {@link #arity} random
  * chromosomes without replacement from the population, and then selecting the
  * fittest chromosome among them.
- *
  * @param <P> phenotype of chromosome
  * @since 2.0
  */

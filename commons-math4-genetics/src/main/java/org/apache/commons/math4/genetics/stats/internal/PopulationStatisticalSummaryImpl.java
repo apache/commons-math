@@ -14,7 +14,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package org.apache.commons.math4.genetics.stats.internal;
 
 import java.util.Arrays;
@@ -26,7 +25,6 @@ import org.apache.commons.math4.genetics.utils.ValidationUtils;
 
 /**
  * This class represents an implementation of population statistical summary.
- * 
  * @param <P> phenotype of chromosome
  */
 public class PopulationStatisticalSummaryImpl<P> implements PopulationStatisticalSummary<P> {

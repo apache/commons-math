@@ -21,7 +21,6 @@ import org.apache.commons.math4.genetics.Chromosome;
 
 /**
  * This interface represents the statistical summary for population fitness.
- * 
  * @param <P> phenotype of chromosome
  */
 public interface PopulationStatisticalSummary<P> {

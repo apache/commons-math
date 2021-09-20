@@ -29,7 +29,6 @@ import org.apache.commons.math4.genetics.utils.RandomGenerator;
  * second parts are copied crosswise.
  *
  * Example:
- * 
  * <pre>
  * -C- denotes a crossover point
  *                   -C-                                 -C-
@@ -45,7 +44,7 @@ import org.apache.commons.math4.genetics.utils.RandomGenerator;
  * parameterized by T. Moreover, the chromosomes must have same lengths.
  *
  * @param <T> generic type of the {@link AbstractListChromosome}s for crossover
- * @param <P>   phenotype of chromosome
+ * @param <P> phenotype of chromosome
  * @since 2.0
  *
  */
@@ -57,7 +56,6 @@ public class OnePointCrossover<T, P> extends AbstractListChromosomeCrossoverPoli
      * second parts are copied crosswise.
      *
      * Example:
-     * 
      * <pre>
      * -C- denotes a crossover point
      *                   -C-                                 -C-
@@ -74,7 +72,8 @@ public class OnePointCrossover<T, P> extends AbstractListChromosomeCrossoverPoli
      * @return pair of two children (c1,c2)
      */
     @Override
-    protected ChromosomePair<P> mate(final AbstractListChromosome<T, P> first, final AbstractListChromosome<T, P> second) {
+    protected ChromosomePair<P> mate(final AbstractListChromosome<T, P> first,
+            final AbstractListChromosome<T, P> second) {
         final int length = first.getLength();
         // array representations of the parents
         final List<T> parent1Rep = first.getRepresentation();

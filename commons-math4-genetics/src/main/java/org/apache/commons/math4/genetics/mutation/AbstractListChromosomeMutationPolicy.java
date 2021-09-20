@@ -29,7 +29,6 @@ import org.apache.commons.math4.genetics.utils.RandomGenerator;
 
 /**
  * This abstraction represents an abstract mutation policy for ListChromosomes.
- * 
  * @param <T> genotype of chromosome
  * @param <P> phenotype of chromosome
  */
@@ -44,10 +43,7 @@ public abstract class AbstractListChromosomeMutationPolicy<T, P> implements Muta
      */
     @Override
     public Chromosome<P> mutate(Chromosome<P> original, double mutationRate) {
-        if (!AbstractListChromosome.class.isAssignableFrom(original.getClass())) {
-            throw new GeneticException(GeneticException.ILLEGAL_ARGUMENT, original.getClass().getSimpleName());
-        }
-
+        checkValidity(original);
         @SuppressWarnings("unchecked")
         final AbstractListChromosome<T, P> chromosome = (AbstractListChromosome<T, P>) original;
         final List<T> newRep = new ArrayList<>(chromosome.getRepresentation());
@@ -59,6 +55,12 @@ public abstract class AbstractListChromosomeMutationPolicy<T, P> implements Muta
 
         return chromosome.newChromosome(newRep);
     }
+
+    /**
+     * Checks input chromosome validity.
+     * @param original
+     */
+    protected abstract void checkValidity(Chromosome<P> original);
 
     /**
      * Selects and returns mutable gene indexes based on mutation rate.
@@ -86,7 +88,7 @@ public abstract class AbstractListChromosomeMutationPolicy<T, P> implements Muta
     }
 
     /**
-     * Mutates an individual gene.
+     * Mutates an individual gene/allele.
      * @param originalValue the original value of gene
      * @return mutated value of gene
      */

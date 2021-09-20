@@ -33,6 +33,10 @@ import org.apache.commons.math4.genetics.mutation.BinaryMutation;
 import org.apache.commons.math4.genetics.selection.TournamentSelection;
 import org.apache.commons.math4.genetics.utils.ConsoleLogger;
 
+/**
+ * 
+ *
+ */
 public class Dimension2FunctionOptimizer {
 
     public static void main(String[] args) {

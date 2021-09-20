@@ -23,8 +23,7 @@ import org.apache.commons.math4.genetics.utils.RandomGenerator;
 
 /**
  * An abstraction to represent the base crossover policy.
- * 
- * @param <P>   phenotype of chromosome
+ * @param <P> phenotype of chromosome
  */
 public abstract class AbstractChromosomeCrossoverPolicy<P> implements CrossoverPolicy<P> {
 
@@ -32,7 +31,8 @@ public abstract class AbstractChromosomeCrossoverPolicy<P> implements CrossoverP
      * {@inheritDoc}
      */
     @Override
-    public ChromosomePair<P> crossover(final Chromosome<P> first, final Chromosome<P> second, final double crossoverRate) {
+    public ChromosomePair<P> crossover(final Chromosome<P> first, final Chromosome<P> second,
+            final double crossoverRate) {
         if (RandomGenerator.getRandomGenerator().nextDouble() < crossoverRate) {
             return crossover(first, second);
         } else {

@@ -17,13 +17,13 @@
 package org.apache.commons.math4.genetics.crossover;
 
 import java.util.ArrayList;
+
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
 import org.apache.commons.math4.genetics.AbstractListChromosome;
-import org.apache.commons.math4.genetics.Chromosome;
 import org.apache.commons.math4.genetics.ChromosomePair;
 import org.apache.commons.math4.genetics.utils.RandomGenerator;
 import org.apache.commons.rng.UniformRandomProvider;
@@ -42,7 +42,6 @@ import org.apache.commons.rng.UniformRandomProvider;
  * </ol>
  * <p>
  * Example (random sublist from index 3 to 7, underlined):
- * 
  * <pre>
  * p1 = (8 4 7 3 6 2 5 1 9 0)   X   c1 = (0 4 7 3 6 2 5 1 8 9)
  *             ---------                        ---------

@@ -42,11 +42,11 @@ import org.apache.commons.rng.UniformRandomProvider;
  * c1 = (1 0  | 1 0 1 0  | 0 1 1)    X   c2 = (0 1  | 1 0 0 1  | 0 1 1)
  * </pre>
  *
- * This policy works only on {@link AbstractListChromosome}, and therefore it
- * is parameterized by T. Moreover, the chromosomes must have same lengths.
+ * This policy works only on {@link AbstractListChromosome}, and therefore it is
+ * parameterized by T. Moreover, the chromosomes must have same lengths.
  *
  * @param <T> generic type of the {@link AbstractListChromosome}s for crossover
- * @param <P>   phenotype of chromosome
+ * @param <P> phenotype of chromosome
  * @since 3.1
  */
 public class NPointCrossover<T, P> extends AbstractListChromosomeCrossoverPolicy<T, P> {
@@ -81,9 +81,10 @@ public class NPointCrossover<T, P> extends AbstractListChromosomeCrossoverPolicy
     }
 
     /**
-     * Performs a N-point crossover. N random crossover points are selected and are used
-     * to divide the parent chromosomes into segments. The segments are copied in alternate
-     * order from the two parents to the corresponding child chromosomes.
+     * Performs a N-point crossover. N random crossover points are selected and are
+     * used to divide the parent chromosomes into segments. The segments are copied
+     * in alternate order from the two parents to the corresponding child
+     * chromosomes.
      *
      * Example (2-point crossover):
      * <pre>
@@ -97,12 +98,13 @@ public class NPointCrossover<T, P> extends AbstractListChromosomeCrossoverPolicy
      * c1 = (1 0  | 1 0 1 0  | 0 1 1)    X   c2 = (0 1  | 1 0 0 1  | 0 1 1)
      * </pre>
      *
-     * @param first first parent (p1)
+     * @param first  first parent (p1)
      * @param second second parent (p2)
      * @return pair of two children (c1,c2)
      */
     @Override
-    protected ChromosomePair<P> mate(final AbstractListChromosome<T, P> first, final AbstractListChromosome<T, P> second) {
+    protected ChromosomePair<P> mate(final AbstractListChromosome<T, P> first,
+            final AbstractListChromosome<T, P> second) {
 
         final int length = first.getLength();
         if (crossoverPoints >= length) {
@@ -147,7 +149,6 @@ public class NPointCrossover<T, P> extends AbstractListChromosomeCrossoverPolicy
             c2.add(parent2Rep.get(j));
         }
 
-        return new ChromosomePair<>(first.newChromosome(child1Rep),
-                second.newChromosome(child2Rep));
+        return new ChromosomePair<>(first.newChromosome(child1Rep), second.newChromosome(child2Rep));
     }
 }

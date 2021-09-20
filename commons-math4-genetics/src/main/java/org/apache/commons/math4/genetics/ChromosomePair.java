@@ -18,7 +18,6 @@ package org.apache.commons.math4.genetics;
 
 /**
  * A pair of {@link Chromosome} objects.
- * 
  * @param <P> phenotype of chromosome
  * @since 2.0
  */

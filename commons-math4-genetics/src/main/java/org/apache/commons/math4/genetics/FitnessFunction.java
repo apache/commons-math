@@ -19,7 +19,6 @@ package org.apache.commons.math4.genetics;
 
 /**
  * This interface represents fitness function.
- * 
  * @param <P>   phenotype of chromosome
  */
 public interface FitnessFunction<P> {

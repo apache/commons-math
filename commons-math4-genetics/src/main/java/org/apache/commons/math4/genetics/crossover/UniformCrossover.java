@@ -17,10 +17,10 @@
 package org.apache.commons.math4.genetics.crossover;
 
 import java.util.ArrayList;
+
 import java.util.List;
 
 import org.apache.commons.math4.genetics.AbstractListChromosome;
-import org.apache.commons.math4.genetics.Chromosome;
 import org.apache.commons.math4.genetics.ChromosomePair;
 import org.apache.commons.math4.genetics.exception.GeneticException;
 import org.apache.commons.math4.genetics.utils.Constants;
@@ -53,7 +53,6 @@ import org.apache.commons.rng.UniformRandomProvider;
  *      (Obitko.com)</a>
  * @see <a href="http://www.tomaszgwiazda.com/uniformX.htm">Uniform
  *      crossover</a>
- * 
  * @param <T> generic type of the {@link AbstractListChromosome}s for crossover
  * @param <P> phenotype of chromosome
  * @since 3.1

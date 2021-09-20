@@ -17,12 +17,12 @@
 package org.apache.commons.math4.genetics.crossover;
 
 import java.util.ArrayList;
+
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
 import org.apache.commons.math4.genetics.AbstractListChromosome;
-import org.apache.commons.math4.genetics.Chromosome;
 import org.apache.commons.math4.genetics.ChromosomePair;
 import org.apache.commons.math4.genetics.utils.RandomGenerator;
 
@@ -46,7 +46,6 @@ import org.apache.commons.math4.genetics.utils.RandomGenerator;
  * ...
  *
  * Example (zero-start cycle):
- * 
  * <pre>
  * p1 = (8 4 7 3 6 2 5 1 9 0)    X   c1 = (8 1 2 3 4 5 6 7 9 0)
  * p2 = (0 1 2 3 4 5 6 7 8 9)    X   c2 = (0 4 7 3 6 2 5 1 8 9)
@@ -62,7 +61,6 @@ import org.apache.commons.math4.genetics.utils.RandomGenerator;
  * @see <a href=
  *      "http://www.rubicite.com/Tutorials/GeneticAlgorithms/CrossoverOperators/CycleCrossoverOperator.aspx">
  *      Cycle Crossover Operator</a>
- *
  * @param <T> generic type of the {@link AbstractListChromosome}s for crossover
  * @param <P> phenotype of chromosome
  * @since 3.1

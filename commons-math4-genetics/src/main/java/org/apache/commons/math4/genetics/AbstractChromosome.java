@@ -48,6 +48,7 @@ public abstract class AbstractChromosome<P> implements Chromosome<P> {
     /**
      * constructor.
      * @param fitnessFunction
+     * @param decoder
      */
     public AbstractChromosome(FitnessFunction<P> fitnessFunction, Decoder<P> decoder) {
         ValidationUtils.checkForNull("fitness-function", fitnessFunction);
@@ -141,12 +142,15 @@ public abstract class AbstractChromosome<P> implements Chromosome<P> {
     @SuppressWarnings("unchecked")
     @Override
     public boolean equals(Object obj) {
-        if (this == obj)
+        if (this == obj) {
             return true;
-        if (obj == null)
+        }
+        if (obj == null) {
             return false;
-        if (getClass() != obj.getClass())
+        }
+        if (getClass() != obj.getClass()) {
             return false;
+        }
         AbstractChromosome<P> other = (AbstractChromosome<P>) obj;
 
         return isSame(other);

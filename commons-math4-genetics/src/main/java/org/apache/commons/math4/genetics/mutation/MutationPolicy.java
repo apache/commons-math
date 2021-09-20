@@ -20,7 +20,6 @@ import org.apache.commons.math4.genetics.Chromosome;
 
 /**
  * Algorithm used to mutate a chromosome.
- *
  * @param <P> phenotype of chromosome
  * @since 4.0
  */
