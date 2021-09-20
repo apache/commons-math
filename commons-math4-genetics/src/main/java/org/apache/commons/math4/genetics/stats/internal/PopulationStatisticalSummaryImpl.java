@@ -14,19 +14,20 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package org.apache.commons.math4.genetics.stats.internal;
 
 import java.util.Arrays;
 
-import org.apache.commons.math4.genetics.model.Chromosome;
-import org.apache.commons.math4.genetics.model.Population;
+import org.apache.commons.math4.genetics.Chromosome;
+import org.apache.commons.math4.genetics.Population;
 import org.apache.commons.math4.genetics.stats.PopulationStatisticalSummary;
+import org.apache.commons.math4.genetics.utils.ValidationUtils;
 
 /**
  * This class represents an implementation of population statistical summary.
+ * @param <P> phenotype of chromosome
  */
-public class PopulationStatisticalSummaryImpl implements PopulationStatisticalSummary {
+public class PopulationStatisticalSummaryImpl<P> implements PopulationStatisticalSummary<P> {
 
     /** array of fitness of the population. **/
     private final double[] fitnesses;
@@ -47,7 +48,8 @@ public class PopulationStatisticalSummaryImpl implements PopulationStatisticalSu
      * constructor.
      * @param population
      */
-    public PopulationStatisticalSummaryImpl(Population population) {
+    public PopulationStatisticalSummaryImpl(Population<P> population) {
+        ValidationUtils.checkForNull("population", population);
         final double[] populationFitnesses = getFitnesses(population);
         Arrays.sort(populationFitnesses);
         this.fitnesses = populationFitnesses;
@@ -62,11 +64,11 @@ public class PopulationStatisticalSummaryImpl implements PopulationStatisticalSu
      * @param population
      * @return fitness array
      */
-    private double[] getFitnesses(Population population) {
+    private double[] getFitnesses(Population<P> population) {
         double[] populationFitnesses = new double[population.getPopulationSize()];
         int index = 0;
-        for (Chromosome chromosome : population) {
-            populationFitnesses[index++] = chromosome.getFitness();
+        for (Chromosome<P> chromosome : population) {
+            populationFitnesses[index++] = chromosome.evaluate();
         }
         return populationFitnesses;
     }
@@ -145,8 +147,8 @@ public class PopulationStatisticalSummaryImpl implements PopulationStatisticalSu
      * {@inheritDoc}
      */
     @Override
-    public int findRank(Chromosome chromosome) {
-        return Arrays.binarySearch(fitnesses, chromosome.getFitness());
+    public int findRank(Chromosome<P> chromosome) {
+        return Arrays.binarySearch(fitnesses, chromosome.evaluate());
     }
 
 }

@@ -34,6 +34,9 @@ public final class Constants {
     /** allele value. **/
     public static final String ALLELE_VALUE = "ALLELE_VALUE";
 
+    /** new line constant. **/
+    public static final String NEW_LINE = System.getProperty("line.separator");
+
     private Constants() {
     }
 

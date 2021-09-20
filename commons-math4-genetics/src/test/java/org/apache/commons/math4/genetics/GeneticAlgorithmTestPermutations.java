@@ -17,18 +17,16 @@
 package org.apache.commons.math4.genetics;
 
 import java.util.ArrayList;
+
 import java.util.List;
 
-import org.apache.commons.math4.genetics.model.Chromosome;
-import org.apache.commons.math4.genetics.model.FitnessFunction;
-import org.apache.commons.math4.genetics.model.ListPopulation;
-import org.apache.commons.math4.genetics.model.Population;
-import org.apache.commons.math4.genetics.model.RandomKey;
-import org.apache.commons.math4.genetics.operators.FixedGenerationCount;
-import org.apache.commons.math4.genetics.operators.OnePointCrossover;
-import org.apache.commons.math4.genetics.operators.RandomKeyMutation;
-import org.apache.commons.math4.genetics.operators.StoppingCondition;
-import org.apache.commons.math4.genetics.operators.TournamentSelection;
+import org.apache.commons.math4.genetics.convergencecond.FixedGenerationCount;
+import org.apache.commons.math4.genetics.convergencecond.StoppingCondition;
+import org.apache.commons.math4.genetics.crossover.OnePointCrossover;
+import org.apache.commons.math4.genetics.decoder.RandomKeyDecoder;
+import org.apache.commons.math4.genetics.mutation.RealValueMutation;
+import org.apache.commons.math4.genetics.selection.TournamentSelection;
+import org.apache.commons.math4.genetics.utils.ChromosomeRepresentationUtils;
 import org.junit.Assert;
 import org.junit.Test;
 
@@ -63,22 +61,23 @@ public class GeneticAlgorithmTestPermutations {
         // example
 
         // initialize a new genetic algorithm
-        GeneticAlgorithm ga = new GeneticAlgorithm(new OnePointCrossover<Integer>(), CROSSOVER_RATE,
-                new RandomKeyMutation(), MUTATION_RATE, new TournamentSelection(TOURNAMENT_ARITY), ELITISM_RATE);
+        GeneticAlgorithm<List<Integer>> ga = new GeneticAlgorithm<>(new OnePointCrossover<Integer, List<Integer>>(),
+                CROSSOVER_RATE, new RealValueMutation<List<Integer>>(), MUTATION_RATE,
+                new TournamentSelection<List<Integer>>(TOURNAMENT_ARITY), ELITISM_RATE);
 
         // initial population
-        Population initial = randomPopulation();
+        Population<List<Integer>> initial = randomPopulation();
         // stopping conditions
-        StoppingCondition stopCond = new FixedGenerationCount(NUM_GENERATIONS);
+        StoppingCondition<List<Integer>> stopCond = new FixedGenerationCount<>(NUM_GENERATIONS);
 
         // best initial chromosome
-        Chromosome bestInitial = initial.getFittestChromosome();
+        Chromosome<List<Integer>> bestInitial = initial.getFittestChromosome();
 
         // run the algorithm
-        Population finalPopulation = ga.evolve(initial, stopCond);
+        Population<List<Integer>> finalPopulation = ga.evolve(initial, stopCond);
 
         // best chromosome from the final population
-        Chromosome bestFinal = finalPopulation.getFittestChromosome();
+        Chromosome<List<Integer>> bestFinal = finalPopulation.getFittestChromosome();
 
         // the only thing we can test is whether the final solution is not worse than
         // the initial one
@@ -91,13 +90,14 @@ public class GeneticAlgorithmTestPermutations {
     /**
      * Initializes a random population
      */
-    private static Population randomPopulation() {
-        List<Chromosome> popList = new ArrayList<>();
+    private static Population<List<Integer>> randomPopulation() {
+        List<Chromosome<List<Integer>>> popList = new ArrayList<>();
         for (int i = 0; i < POPULATION_SIZE; i++) {
-            Chromosome randChrom = new MinPermutations(RandomKey.randomPermutation(DIMENSION));
+            Chromosome<List<Integer>> randChrom = new MinPermutations(
+                    ChromosomeRepresentationUtils.randomPermutation(DIMENSION));
             popList.add(randChrom);
         }
-        return new ListPopulation(popList, popList.size());
+        return new ListPopulation<List<Integer>>(popList, popList.size());
     }
 
     /**
@@ -105,30 +105,26 @@ public class GeneticAlgorithmTestPermutations {
      *
      * The goal is to sort the sequence.
      */
-    private static class MinPermutations extends RandomKey<Integer> {
+    private static class MinPermutations extends RealValuedChromosome<List<Integer>> {
 
         MinPermutations(List<Double> representation) {
-            super(representation, new MinPermutationsFitnessFunction());
+            super(representation, new MinPermutationsFitnessFunction(), new RandomKeyDecoder<>(sequence));
         }
 
         @Override
-        public RandomKey<Integer> newChromosome(List<Double> chromosomeRepresentation) {
+        public RealValuedChromosome<List<Integer>> newChromosome(List<Double> chromosomeRepresentation) {
             return new MinPermutations(chromosomeRepresentation);
         }
 
     }
 
-    private static class MinPermutationsFitnessFunction implements FitnessFunction {
+    private static class MinPermutationsFitnessFunction implements FitnessFunction<List<Integer>> {
 
         @Override
-        public double compute(Chromosome chromosome) {
-            // RandomKey<Integer> minPermutationsChromosome = (RandomKey<Integer>)
-            // chromosome;
-            MinPermutations minPermutationsChromosome = (MinPermutations) chromosome;
-            int res = 0;
-            List<Integer> decoded = minPermutationsChromosome.decode(sequence);
-            for (int i = 0; i < decoded.size(); i++) {
-                int value = decoded.get(i);
+        public double compute(List<Integer> decodedChromosome) {
+            double res = 0.0;
+            for (int i = 0; i < decodedChromosome.size(); i++) {
+                int value = decodedChromosome.get(i);
                 if (value != i) {
                     // bad position found
                     res += Math.abs(value - i);

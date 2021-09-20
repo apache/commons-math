@@ -19,65 +19,71 @@ package org.apache.commons.math4.examples.genetics.mathfunctions;
 
 import org.apache.commons.math4.examples.genetics.mathfunctions.utils.Constants;
 import org.apache.commons.math4.examples.genetics.mathfunctions.utils.GraphPlotter;
+import org.apache.commons.math4.genetics.BinaryChromosome;
+import org.apache.commons.math4.genetics.Chromosome;
 import org.apache.commons.math4.genetics.GeneticAlgorithm;
-import org.apache.commons.math4.genetics.listeners.ConvergenceListenerRegistry;
-import org.apache.commons.math4.genetics.listeners.PopulationStatisticsLogger;
-import org.apache.commons.math4.genetics.model.BinaryChromosome;
-import org.apache.commons.math4.genetics.model.Chromosome;
-import org.apache.commons.math4.genetics.model.ListPopulation;
-import org.apache.commons.math4.genetics.model.Population;
-import org.apache.commons.math4.genetics.operators.BinaryMutation;
-import org.apache.commons.math4.genetics.operators.OnePointCrossover;
-import org.apache.commons.math4.genetics.operators.StoppingCondition;
-import org.apache.commons.math4.genetics.operators.TournamentSelection;
-import org.apache.commons.math4.genetics.operators.UnchangedBestFitness;
+import org.apache.commons.math4.genetics.ListPopulation;
+import org.apache.commons.math4.genetics.Population;
+import org.apache.commons.math4.genetics.convergencecond.StoppingCondition;
+import org.apache.commons.math4.genetics.convergencecond.UnchangedBestFitness;
+import org.apache.commons.math4.genetics.crossover.OnePointCrossover;
+import org.apache.commons.math4.genetics.listener.ConvergenceListenerRegistry;
+import org.apache.commons.math4.genetics.listener.PopulationStatisticsLogger;
+import org.apache.commons.math4.genetics.mutation.BinaryMutation;
+import org.apache.commons.math4.genetics.selection.TournamentSelection;
+import org.apache.commons.math4.genetics.utils.ConsoleLogger;
 
+/**
+ * 
+ *
+ */
 public class Dimension2FunctionOptimizer {
 
-	public static void main(String[] args) {
-		Population initPopulation = getInitialPopulation();
+    public static void main(String[] args) {
+        Population<Coordinate> initPopulation = getInitialPopulation();
 
-		Dimension2FunctionOptimizer simulation = new Dimension2FunctionOptimizer();
+        Dimension2FunctionOptimizer optimizer = new Dimension2FunctionOptimizer();
 
-		ConvergenceListenerRegistry convergenceListenerRegistry = ConvergenceListenerRegistry.getInstance();
-		convergenceListenerRegistry.addConvergenceListener(new PopulationStatisticsLogger());
-		convergenceListenerRegistry
-				.addConvergenceListener(new GraphPlotter("Convergence Stats", "generation", "fitness"));
+        ConvergenceListenerRegistry<Coordinate> convergenceListenerRegistry = ConvergenceListenerRegistry.getInstance();
+        convergenceListenerRegistry.addConvergenceListener(new PopulationStatisticsLogger<Coordinate>());
+        convergenceListenerRegistry
+                .addConvergenceListener(new GraphPlotter("Convergence Stats", "generation", "fitness"));
 
-		simulation.optimize(initPopulation);
-	}
+        optimizer.optimize(initPopulation);
+    }
 
-	public void optimize(Population initial) {
+    public void optimize(Population<Coordinate> initial) {
 
-		// initialize a new genetic algorithm
-		GeneticAlgorithm ga = new GeneticAlgorithm(new OnePointCrossover<Integer>(), Constants.CROSSOVER_RATE,
-				new BinaryMutation(), Constants.AVERAGE_MUTATION_RATE,
-				new TournamentSelection(Constants.TOURNAMENT_SIZE), Constants.ELITISM_RATE);
+        // initialize a new genetic algorithm
+        GeneticAlgorithm<Coordinate> ga = new GeneticAlgorithm<Coordinate>(new OnePointCrossover<Integer, Coordinate>(),
+                Constants.CROSSOVER_RATE, new BinaryMutation<Coordinate>(), Constants.AVERAGE_MUTATION_RATE,
+                new TournamentSelection<Coordinate>(Constants.TOURNAMENT_SIZE), Constants.ELITISM_RATE);
 
-		// stopping condition
-		StoppingCondition stopCond = new UnchangedBestFitness(Constants.GENERATION_COUNT_WITH_UNCHANGED_BEST_FUTNESS);
+        // stopping condition
+        StoppingCondition<Coordinate> stopCond = new UnchangedBestFitness<Coordinate>(
+                Constants.GENERATION_COUNT_WITH_UNCHANGED_BEST_FUTNESS);
 
-		// run the algorithm
-		Population finalPopulation = ga.evolve(initial, stopCond);
+        // run the algorithm
+        Population<Coordinate> finalPopulation = ga.evolve(initial, stopCond);
 
-		// best chromosome from the final population
-		Chromosome bestFinal = finalPopulation.getFittestChromosome();
+        // best chromosome from the final population
+        Chromosome<Coordinate> bestFinal = finalPopulation.getFittestChromosome();
 
-		System.out.println("*********************************************");
-		System.out.println("***********Optimization Result***************");
-		System.out.println("*********************************************");
+        ConsoleLogger.log("*********************************************");
+        ConsoleLogger.log("***********Optimization Result***************");
+        ConsoleLogger.log("*********************************************");
 
-		System.out.println(bestFinal.toString());
+        ConsoleLogger.log(bestFinal.toString());
 
-	}
+    }
 
-	private static Population getInitialPopulation() {
-		Population population = new ListPopulation(Constants.POPULATION_SIZE);
-		for (int i = 0; i < Constants.POPULATION_SIZE; i++) {
-			population.addChromosome(
-					BinaryChromosome.randomChromosome(Constants.CHROMOSOME_LENGTH, new Dimension2FitnessFunction()));
-		}
-		return population;
-	}
+    private static Population<Coordinate> getInitialPopulation() {
+        Population<Coordinate> population = new ListPopulation<>(Constants.POPULATION_SIZE);
+        for (int i = 0; i < Constants.POPULATION_SIZE; i++) {
+            population.addChromosome(BinaryChromosome.<Coordinate>randomChromosome(Constants.CHROMOSOME_LENGTH,
+                    new Dimension2FitnessFunction(), new Dimension2Decoder()));
+        }
+        return population;
+    }
 
 }

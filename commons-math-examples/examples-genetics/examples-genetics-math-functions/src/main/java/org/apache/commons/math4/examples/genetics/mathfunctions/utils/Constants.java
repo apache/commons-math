@@ -19,7 +19,7 @@ package org.apache.commons.math4.examples.genetics.mathfunctions.utils;
 
 public interface Constants {
 
-	int POPULATION_SIZE = 10;
+	int POPULATION_SIZE = 20;
 
 	int TOURNAMENT_SIZE = 2;
 

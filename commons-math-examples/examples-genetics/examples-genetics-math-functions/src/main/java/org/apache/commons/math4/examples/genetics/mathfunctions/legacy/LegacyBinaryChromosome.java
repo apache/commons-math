@@ -43,7 +43,7 @@ public class LegacyBinaryChromosome extends BinaryChromosome {
 		double computedValue = Math.pow((Math.pow(x, 2) + Math.pow(y, 2)), .25)
 				* (Math.pow(Math.sin(50 * Math.pow((Math.pow(x, 2) + Math.pow(y, 2)), .1)), 2) + 1);
 
-		return computedValue * (-1.0);
+		return -computedValue;
 	}
 
 	@Override

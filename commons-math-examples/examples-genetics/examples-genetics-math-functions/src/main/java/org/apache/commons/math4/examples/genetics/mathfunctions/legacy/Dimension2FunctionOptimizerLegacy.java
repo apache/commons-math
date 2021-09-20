@@ -25,10 +25,11 @@ import org.apache.commons.math3.genetics.OnePointCrossover;
 import org.apache.commons.math3.genetics.Population;
 import org.apache.commons.math3.genetics.StoppingCondition;
 import org.apache.commons.math3.genetics.TournamentSelection;
+import org.apache.commons.math4.examples.genetics.mathfunctions.Coordinate;
 import org.apache.commons.math4.examples.genetics.mathfunctions.utils.Constants;
 import org.apache.commons.math4.examples.genetics.mathfunctions.utils.GraphPlotter;
-import org.apache.commons.math4.genetics.listeners.ConvergenceListenerRegistry;
-import org.apache.commons.math4.genetics.listeners.PopulationStatisticsLogger;
+import org.apache.commons.math4.genetics.listener.ConvergenceListenerRegistry;
+import org.apache.commons.math4.genetics.listener.PopulationStatisticsLogger;
 
 public class Dimension2FunctionOptimizerLegacy {
 
@@ -38,7 +39,7 @@ public class Dimension2FunctionOptimizerLegacy {
 		Dimension2FunctionOptimizerLegacy simulation = new Dimension2FunctionOptimizerLegacy();
 
 		ConvergenceListenerRegistry convergenceListenerRegistry = ConvergenceListenerRegistry.getInstance();
-		convergenceListenerRegistry.addConvergenceListener(new PopulationStatisticsLogger());
+		convergenceListenerRegistry.addConvergenceListener(new PopulationStatisticsLogger<Coordinate>());
 		convergenceListenerRegistry
 				.addConvergenceListener(new GraphPlotter("Convergence Stats", "generation", "fitness"));
 
