@@ -51,7 +51,7 @@ public class GeneticAlgorithmTestBinary {
             throws SecurityException, NoSuchFieldException, IllegalArgumentException, IllegalAccessException {
         ConvergenceListenerRegistry<String> registry = ConvergenceListenerRegistry.<String>getInstance();
         Field listenersField = registry.getClass().getDeclaredField("listeners");
-        boolean accessible = listenersField.canAccess(registry);
+        boolean accessible = listenersField.isAccessible();
         if (!accessible) {
             listenersField.setAccessible(true);
         }

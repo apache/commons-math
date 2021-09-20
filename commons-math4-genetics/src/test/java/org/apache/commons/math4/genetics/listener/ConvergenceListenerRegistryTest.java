@@ -40,10 +40,14 @@ public class ConvergenceListenerRegistryTest {
             };
             registry.addConvergenceListener(convergenceListener);
             Field listenersField = registry.getClass().getDeclaredField("listeners");
-            listenersField.setAccessible(true);
+            boolean accessible = listenersField.isAccessible();
+            if (!accessible) {
+                listenersField.setAccessible(true);
+            }
             List<ConvergenceListener<String>> listeners = (List<ConvergenceListener<String>>) listenersField
                     .get(registry);
             Assert.assertTrue(listeners.get(0) == convergenceListener);
+            listenersField.setAccessible(accessible);
         } catch (NoSuchFieldException | SecurityException e) {
             throw new GeneticException(e);
         } catch (IllegalArgumentException e) {
@@ -57,10 +61,11 @@ public class ConvergenceListenerRegistryTest {
             throws SecurityException, NoSuchFieldException, IllegalArgumentException, IllegalAccessException {
         ConvergenceListenerRegistry<String> registry = ConvergenceListenerRegistry.<String>getInstance();
         Field listenersField = registry.getClass().getDeclaredField("listeners");
-        boolean accessible = listenersField.canAccess(registry);
+        boolean accessible = listenersField.isAccessible();
         if (!accessible) {
             listenersField.setAccessible(true);
         }
+        @SuppressWarnings("unchecked")
         List<ConvergenceListener<String>> listeners = (List<ConvergenceListener<String>>) listenersField
                 .get(ConvergenceListenerRegistry.getInstance());
         listeners.clear();
