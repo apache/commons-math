@@ -24,8 +24,8 @@ public class DummyChromosome extends AbstractChromosome<String> {
         super(c -> {
             return 0;
         }, c -> {
-            return "0";
-        });
+                return "0";
+            });
     }
 
 }

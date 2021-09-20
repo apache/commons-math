@@ -48,8 +48,8 @@ public class TournamentSelectionTest {
             super(c -> {
                 return counter++;
             }, c -> {
-                return "0";
-            });
+                    return "0";
+                });
         }
 
     }

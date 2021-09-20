@@ -111,8 +111,8 @@ public class ChromosomeRepresentationUtilsTest {
         RandomKeyDecoder<String> decoder = new RandomKeyDecoder<>(origData);
         RealValuedChromosome<List<String>> chromosome = new RealValuedChromosome<>(
                 ChromosomeRepresentationUtils.inducedPermutation(origData, permutedData), c -> {
-                    return 0;
-                }, decoder);
+            return 0;
+        }, decoder);
         List<String> decoded = decoder.decode(chromosome);
 
         Assert.assertEquals("d", decoded.get(0));
