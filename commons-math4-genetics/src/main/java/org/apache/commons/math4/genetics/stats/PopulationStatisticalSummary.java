@@ -17,12 +17,14 @@
 
 package org.apache.commons.math4.genetics.stats;
 
-import org.apache.commons.math4.genetics.model.Chromosome;
+import org.apache.commons.math4.genetics.Chromosome;
 
 /**
  * This interface represents the statistical summary for population fitness.
+ * 
+ * @param <P> phenotype of chromosome
  */
-public interface PopulationStatisticalSummary {
+public interface PopulationStatisticalSummary<P> {
 
     /**
      * Returns the arithmetic mean of population fitness.
@@ -60,6 +62,6 @@ public interface PopulationStatisticalSummary {
      * @param chromosome
      * @return the rank of chromosome
      */
-    int findRank(Chromosome chromosome);
+    int findRank(Chromosome<P> chromosome);
 
 }

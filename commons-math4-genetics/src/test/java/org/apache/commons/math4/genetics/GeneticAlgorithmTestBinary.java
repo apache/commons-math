@@ -16,19 +16,21 @@
  */
 package org.apache.commons.math4.genetics;
 
+import java.lang.reflect.Field;
 import java.util.LinkedList;
 import java.util.List;
 
-import org.apache.commons.math4.genetics.model.BinaryChromosome;
-import org.apache.commons.math4.genetics.model.Chromosome;
-import org.apache.commons.math4.genetics.model.ListPopulation;
-import org.apache.commons.math4.genetics.model.Population;
-import org.apache.commons.math4.genetics.operators.BinaryMutation;
-import org.apache.commons.math4.genetics.operators.FixedGenerationCount;
-import org.apache.commons.math4.genetics.operators.OnePointCrossover;
-import org.apache.commons.math4.genetics.operators.StoppingCondition;
-import org.apache.commons.math4.genetics.operators.TournamentSelection;
+import org.apache.commons.math4.genetics.convergencecond.FixedGenerationCount;
+import org.apache.commons.math4.genetics.convergencecond.StoppingCondition;
+import org.apache.commons.math4.genetics.crossover.OnePointCrossover;
+import org.apache.commons.math4.genetics.decoder.TransparentListChromosomeDecoder;
+import org.apache.commons.math4.genetics.listener.ConvergenceListener;
+import org.apache.commons.math4.genetics.listener.ConvergenceListenerRegistry;
+import org.apache.commons.math4.genetics.mutation.BinaryMutation;
+import org.apache.commons.math4.genetics.selection.TournamentSelection;
+import org.apache.commons.math4.genetics.utils.ChromosomeRepresentationUtils;
 import org.junit.Assert;
+import org.junit.Before;
 import org.junit.Test;
 
 /**
@@ -40,10 +42,24 @@ public class GeneticAlgorithmTestBinary {
     private static final int DIMENSION = 50;
     private static final int POPULATION_SIZE = 50;
     private static final int NUM_GENERATIONS = 50;
-    private static final double ELITISM_RATE = 0.2;
     private static final double CROSSOVER_RATE = 1;
     private static final double MUTATION_RATE = 0.1;
     private static final int TOURNAMENT_ARITY = 2;
+
+    @Before
+    public void reset()
+            throws SecurityException, NoSuchFieldException, IllegalArgumentException, IllegalAccessException {
+        ConvergenceListenerRegistry<String> registry = ConvergenceListenerRegistry.<String>getInstance();
+        Field listenersField = registry.getClass().getDeclaredField("listeners");
+        boolean accessible = listenersField.canAccess(registry);
+        if (!accessible) {
+            listenersField.setAccessible(true);
+        }
+        List<ConvergenceListener<String>> listeners = (List<ConvergenceListener<String>>) listenersField
+                .get(ConvergenceListenerRegistry.getInstance());
+        listeners.clear();
+        listenersField.setAccessible(accessible);
+    }
 
     @Test
     public void test() {
@@ -51,28 +67,25 @@ public class GeneticAlgorithmTestBinary {
         // example
 
         // initialize a new genetic algorithm
-        GeneticAlgorithm ga = new GeneticAlgorithm(new OnePointCrossover<Integer>(), CROSSOVER_RATE, // all selected
-                                                                                                     // chromosomes
-                                                                                                     // will be
-                                                                                                     // recombined
-                                                                                                     // (=crossover)
-                new BinaryMutation(), MUTATION_RATE, new TournamentSelection(TOURNAMENT_ARITY));
+        GeneticAlgorithm<List<Integer>> ga = new GeneticAlgorithm<>(new OnePointCrossover<Integer, List<Integer>>(),
+                CROSSOVER_RATE, new BinaryMutation<List<Integer>>(), MUTATION_RATE,
+                new TournamentSelection<List<Integer>>(TOURNAMENT_ARITY));
 
         Assert.assertEquals(0, ga.getGenerationsEvolved());
 
         // initial population
-        Population initial = randomPopulation();
+        Population<List<Integer>> initial = randomPopulation();
         // stopping conditions
-        StoppingCondition stopCond = new FixedGenerationCount(NUM_GENERATIONS);
+        StoppingCondition<List<Integer>> stopCond = new FixedGenerationCount<>(NUM_GENERATIONS);
 
         // best initial chromosome
-        Chromosome bestInitial = initial.getFittestChromosome();
+        Chromosome<List<Integer>> bestInitial = initial.getFittestChromosome();
 
         // run the algorithm
-        Population finalPopulation = ga.evolve(initial, stopCond);
+        Population<List<Integer>> finalPopulation = ga.evolve(initial, stopCond);
 
         // best chromosome from the final population
-        Chromosome bestFinal = finalPopulation.getFittestChromosome();
+        Chromosome<List<Integer>> bestFinal = finalPopulation.getFittestChromosome();
 
         // the only thing we can test is whether the final solution is not worse than
         // the initial one
@@ -86,14 +99,15 @@ public class GeneticAlgorithmTestBinary {
     /**
      * Initializes a random population.
      */
-    private static ListPopulation randomPopulation() {
-        List<Chromosome> popList = new LinkedList<>();
+    private static ListPopulation<List<Integer>> randomPopulation() {
+        List<Chromosome<List<Integer>>> popList = new LinkedList<>();
 
         for (int i = 0; i < POPULATION_SIZE; i++) {
-            BinaryChromosome randChrom = new FindOnes(BinaryChromosome.randomBinaryRepresentation(DIMENSION));
+            BinaryChromosome<List<Integer>> randChrom = new FindOnes(
+                    ChromosomeRepresentationUtils.randomBinaryRepresentation(DIMENSION));
             popList.add(randChrom);
         }
-        return new ListPopulation(popList, popList.size());
+        return new ListPopulation<>(popList, popList.size());
     }
 
     /**
@@ -101,25 +115,17 @@ public class GeneticAlgorithmTestBinary {
      *
      * The goal is to set all bits (genes) to 1.
      */
-    private static class FindOnes extends BinaryChromosome {
+    private static class FindOnes extends BinaryChromosome<List<Integer>> {
 
         FindOnes(List<Integer> representation) {
-            super(representation, chromosome -> {
-                int num = 0;
-                for (int val : representation) {
-                    if (val != 0) {
-                        num++;
-                    }
+            super(representation, phenotype -> {
+                Integer val = 0;
+                for (Integer num : phenotype) {
+                    val += num;
                 }
-                return num;
-            });
+                return val;
+            }, new TransparentListChromosomeDecoder<>());
         }
-
-        @Override
-        public BinaryChromosome newChromosome(List<Integer> chromosomeRepresentation) {
-            return new FindOnes(chromosomeRepresentation);
-        }
-
     }
 
 }

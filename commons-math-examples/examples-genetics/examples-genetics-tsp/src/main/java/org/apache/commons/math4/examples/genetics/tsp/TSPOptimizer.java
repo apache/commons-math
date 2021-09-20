@@ -12,99 +12,107 @@ import org.apache.commons.csv.CSVRecord;
 import org.apache.commons.math4.examples.genetics.tsp.utils.Constants;
 import org.apache.commons.math4.examples.genetics.tsp.utils.DistanceMatrix;
 import org.apache.commons.math4.examples.genetics.tsp.utils.GraphPlotter;
-import org.apache.commons.math4.examples.genetics.tsp.utils.Node;
-import org.apache.commons.math4.genetics.AbstractGeneticAlgorithm;
 import org.apache.commons.math4.genetics.GeneticAlgorithm;
-import org.apache.commons.math4.genetics.listeners.ConvergenceListenerRegistry;
-import org.apache.commons.math4.genetics.listeners.PopulationStatisticsLogger;
-import org.apache.commons.math4.genetics.model.ListPopulation;
-import org.apache.commons.math4.genetics.model.Population;
-import org.apache.commons.math4.genetics.model.RandomKey;
-import org.apache.commons.math4.genetics.operators.OnePointCrossover;
-import org.apache.commons.math4.genetics.operators.RandomKeyMutation;
-import org.apache.commons.math4.genetics.operators.StoppingCondition;
-import org.apache.commons.math4.genetics.operators.TournamentSelection;
-import org.apache.commons.math4.genetics.operators.UnchangedBestFitness;
+import org.apache.commons.math4.genetics.ListPopulation;
+import org.apache.commons.math4.genetics.Population;
+import org.apache.commons.math4.genetics.RealValuedChromosome;
+import org.apache.commons.math4.genetics.convergencecond.StoppingCondition;
+import org.apache.commons.math4.genetics.convergencecond.UnchangedBestFitness;
+import org.apache.commons.math4.genetics.crossover.OnePointCrossover;
+import org.apache.commons.math4.genetics.decoder.RandomKeyDecoder;
+import org.apache.commons.math4.genetics.listener.ConvergenceListenerRegistry;
+import org.apache.commons.math4.genetics.listener.PopulationStatisticsLogger;
+import org.apache.commons.math4.genetics.mutation.RealValueMutation;
+import org.apache.commons.math4.genetics.selection.TournamentSelection;
+import org.apache.commons.math4.genetics.utils.ChromosomeRepresentationUtils;
+import org.apache.commons.math4.genetics.utils.ConsoleLogger;
 
 public class TSPOptimizer {
 
-	public static void main(String[] args) {
-		try {
-			String filePath = "western_sahara.txt";
-			List<Node> nodes = getTravelNodes(filePath);
+    private static final String filePath = "western_sahara.txt";
 
-			Population initPopulation = getInitialPopulation(nodes);
+    public static void main(String[] args) {
+        try {
+            List<Node> nodes = getTravelNodes(filePath);
 
-			TSPOptimizer optimizer = new TSPOptimizer();
+            Population<List<Node>> initPopulation = getInitialPopulation(nodes);
 
-			ConvergenceListenerRegistry convergenceListenerRegistry = ConvergenceListenerRegistry.getInstance();
-			convergenceListenerRegistry.addConvergenceListener(new PopulationStatisticsLogger());
-			convergenceListenerRegistry
-					.addConvergenceListener(new GraphPlotter("Convergence", "generation", "total-distance"));
+            TSPOptimizer optimizer = new TSPOptimizer();
 
-			optimizer.optimizeSGA(initPopulation, nodes);
+            ConvergenceListenerRegistry<List<Node>> convergenceListenerRegistry = ConvergenceListenerRegistry
+                    .getInstance();
+            convergenceListenerRegistry.addConvergenceListener(new PopulationStatisticsLogger<List<Node>>());
+            convergenceListenerRegistry
+                    .addConvergenceListener(new GraphPlotter("Convergence", "generation", "total-distance"));
 
-			Thread.sleep(5000);
+            optimizer.optimizeSGA(initPopulation, nodes);
 
-		} catch (IOException | InterruptedException e) {
-			e.printStackTrace();
-		}
-	}
+            Thread.sleep(5000);
 
-	public void optimizeSGA(Population initial, List<Node> nodes) throws IOException {
+        } catch (IOException | InterruptedException e) {
+            e.printStackTrace();
+        }
+    }
 
-		// initialize a new genetic algorithm
-		AbstractGeneticAlgorithm ga = new GeneticAlgorithm(new OnePointCrossover<Integer>(), Constants.CROSSOVER_RATE,
-				new RandomKeyMutation(), Constants.AVERAGE_MUTATION_RATE,
-				new TournamentSelection(Constants.TOURNAMENT_SIZE));
+    public void optimizeSGA(Population<List<Node>> initial, List<Node> nodes) throws IOException {
 
-		// stopping condition
-		StoppingCondition stopCond = new UnchangedBestFitness(Constants.GENERATION_COUNT_WITH_UNCHANGED_BEST_FUTNESS);
+        // initialize a new genetic algorithm
+        GeneticAlgorithm<List<Node>> ga = new GeneticAlgorithm<List<Node>>(new OnePointCrossover<Integer, List<Node>>(),
+                Constants.CROSSOVER_RATE, new RealValueMutation<List<Node>>(), Constants.AVERAGE_MUTATION_RATE,
+                new TournamentSelection<List<Node>>(Constants.TOURNAMENT_SIZE));
 
-		// run the algorithm
-		Population finalPopulation = ga.evolve(initial, stopCond);
+        // stopping condition
+        StoppingCondition<List<Node>> stopCond = new UnchangedBestFitness<List<Node>>(
+                Constants.GENERATION_COUNT_WITH_UNCHANGED_BEST_FUTNESS);
 
-		// best chromosome from the final population
-		RandomKey<Node> bestFinal = (RandomKey<Node>) finalPopulation.getFittestChromosome();
+        // run the algorithm
+        Population<List<Node>> finalPopulation = ga.evolve(initial, stopCond);
 
-		double fitness = bestFinal.getFitness();
+        // best chromosome from the final population
+        RealValuedChromosome<List<Node>> bestFinal = (RealValuedChromosome<List<Node>>) finalPopulation
+                .getFittestChromosome();
 
-		System.out.println("*********************************************");
-		System.out.println("***********Optimization Result***************");
-		System.out.println("*********************************************");
+        double fitness = bestFinal.evaluate();
 
-		System.out.println(bestFinal.decode(nodes).toString());
-		System.out.printf("Best Fitness: %.6f", fitness);
+        ConsoleLogger.log("*********************************************");
+        ConsoleLogger.log("*********************************************");
+        ConsoleLogger.log("***********Optimization Result***************");
+        ConsoleLogger.log("*********************************************");
 
-	}
+        ConsoleLogger.log(bestFinal.decode().toString());
+        ConsoleLogger.log("Best Fitness: %.6f", fitness);
 
-	private static Population getInitialPopulation(List<Node> nodes) {
-		Population simulationPopulation = new ListPopulation(Constants.POPULATION_SIZE);
+    }
 
-		DistanceMatrix.getInstance().initialize(nodes);
+    private static Population<List<Node>> getInitialPopulation(List<Node> nodes) {
+        Population<List<Node>> simulationPopulation = new ListPopulation<List<Node>>(Constants.POPULATION_SIZE);
 
-		for (int i = 0; i < Constants.POPULATION_SIZE; i++) {
-			simulationPopulation.addChromosome(RandomKey.randomChromosome(nodes.size(), new TSPFitnessFunction(nodes)));
-		}
+        DistanceMatrix.getInstance().initialize(nodes);
 
-		return simulationPopulation;
-	}
+        for (int i = 0; i < Constants.POPULATION_SIZE; i++) {
+            simulationPopulation.addChromosome(new RealValuedChromosome<>(
+                    ChromosomeRepresentationUtils.randomPermutation(Constants.CHROMOSOME_LENGTH),
+                    new TSPFitnessFunction(), new RandomKeyDecoder<Node>(nodes)));
+        }
 
-	private static List<Node> getTravelNodes(String filePath) throws IOException {
-		List<Node> nodes = new ArrayList<Node>();
-		CSVFormat csvFormat = CSVFormat.DEFAULT.withDelimiter(' ');
-		try (CSVParser parser = new CSVParser(
-				new InputStreamReader(TSPOptimizer.class.getClassLoader().getResourceAsStream(filePath)), csvFormat);) {
-			CSVRecord record = null;
-			Iterator<CSVRecord> itr = parser.iterator();
-			while (itr.hasNext()) {
-				record = itr.next();
-				Node node = new Node(Integer.parseInt(record.get(0)), Double.parseDouble(record.get(1)),
-						Double.parseDouble(record.get(2)));
-				nodes.add(node);
-			}
-		}
-		return nodes;
-	}
+        return simulationPopulation;
+    }
+
+    private static List<Node> getTravelNodes(String filePath) throws IOException {
+        List<Node> nodes = new ArrayList<Node>();
+        CSVFormat csvFormat = CSVFormat.DEFAULT.withDelimiter(' ');
+        try (CSVParser parser = new CSVParser(
+                new InputStreamReader(TSPOptimizer.class.getClassLoader().getResourceAsStream(filePath)), csvFormat);) {
+            CSVRecord record = null;
+            Iterator<CSVRecord> itr = parser.iterator();
+            while (itr.hasNext()) {
+                record = itr.next();
+                Node node = new Node(Integer.parseInt(record.get(0)), Double.parseDouble(record.get(1)),
+                        Double.parseDouble(record.get(2)));
+                nodes.add(node);
+            }
+        }
+        return nodes;
+    }
 
 }

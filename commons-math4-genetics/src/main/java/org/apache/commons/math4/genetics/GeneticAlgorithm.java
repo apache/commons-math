@@ -16,21 +16,20 @@
  */
 package org.apache.commons.math4.genetics;
 
+import org.apache.commons.math4.genetics.crossover.CrossoverPolicy;
 import org.apache.commons.math4.genetics.exception.GeneticException;
-import org.apache.commons.math4.genetics.model.ChromosomePair;
-import org.apache.commons.math4.genetics.model.Population;
-import org.apache.commons.math4.genetics.operators.CrossoverPolicy;
-import org.apache.commons.math4.genetics.operators.MutationPolicy;
-import org.apache.commons.math4.genetics.operators.SelectionPolicy;
+import org.apache.commons.math4.genetics.mutation.MutationPolicy;
+import org.apache.commons.math4.genetics.selection.SelectionPolicy;
 import org.apache.commons.math4.genetics.utils.Constants;
 
 /**
  * Implementation of a genetic algorithm. All factors that govern the operation
  * of the algorithm can be configured for a specific problem.
  *
+ * @param <P>   phenotype of chromosome
  * @since 2.0
  */
-public class GeneticAlgorithm extends AbstractGeneticAlgorithm {
+public class GeneticAlgorithm<P> extends AbstractGeneticAlgorithm<P> {
 
     /** the rate of crossover for the algorithm. */
     private final double crossoverRate;
@@ -45,11 +44,10 @@ public class GeneticAlgorithm extends AbstractGeneticAlgorithm {
      * @param mutationPolicy  The {@link MutationPolicy}
      * @param mutationRate    The mutation rate as a percentage (0-1 inclusive)
      * @param selectionPolicy The {@link SelectionPolicy}
-     * @throws GeneticException if the crossover or mutation rate is outside the [0,
-     *                          1] range
      */
-    public GeneticAlgorithm(final CrossoverPolicy crossoverPolicy, final double crossoverRate,
-            final MutationPolicy mutationPolicy, final double mutationRate, final SelectionPolicy selectionPolicy) {
+    public GeneticAlgorithm(final CrossoverPolicy<P> crossoverPolicy, final double crossoverRate,
+            final MutationPolicy<P> mutationPolicy, final double mutationRate,
+            final SelectionPolicy<P> selectionPolicy) {
         super(crossoverPolicy, mutationPolicy, selectionPolicy);
 
         if (crossoverRate < 0 || crossoverRate > 1) {
@@ -70,11 +68,9 @@ public class GeneticAlgorithm extends AbstractGeneticAlgorithm {
      * @param mutationRate    The mutation rate as a percentage (0-1 inclusive)
      * @param selectionPolicy The {@link SelectionPolicy}
      * @param elitismRate     The rate of elitism
-     * @throws GeneticException if the crossover or mutation rate is outside the [0,
-     *                          1] range
      */
-    public GeneticAlgorithm(final CrossoverPolicy crossoverPolicy, final double crossoverRate,
-            final MutationPolicy mutationPolicy, final double mutationRate, final SelectionPolicy selectionPolicy,
+    public GeneticAlgorithm(final CrossoverPolicy<P> crossoverPolicy, final double crossoverRate,
+            final MutationPolicy<P> mutationPolicy, final double mutationRate, final SelectionPolicy<P> selectionPolicy,
             final double elitismRate) {
         super(crossoverPolicy, mutationPolicy, selectionPolicy, elitismRate);
 
@@ -111,27 +107,23 @@ public class GeneticAlgorithm extends AbstractGeneticAlgorithm {
      * @return the population for the next generation.
      */
     @Override
-    protected Population nextGeneration(final Population current) {
-        final Population nextGeneration = current.nextGeneration(getElitismRate());
+    protected Population<P> nextGeneration(final Population<P> current) {
+        final Population<P> nextGeneration = current.nextGeneration(getElitismRate());
 
-        while (nextGeneration.getPopulationSize() < nextGeneration.getPopulationLimit()) {
+        while (nextGeneration.getPopulationSize() < nextGeneration.getPopulationLimit() - 1) {
             // select parent chromosomes
-            ChromosomePair pair = getSelectionPolicy().select(current);
+            ChromosomePair<P> pair = getSelectionPolicy().select(current);
 
             // apply crossover policy to create two offspring
             pair = getCrossoverPolicy().crossover(pair.getFirst(), pair.getSecond(), crossoverRate);
 
             // apply mutation policy to the chromosomes
-            pair = new ChromosomePair(getMutationPolicy().mutate(pair.getFirst(), mutationRate),
+            pair = new ChromosomePair<>(getMutationPolicy().mutate(pair.getFirst(), mutationRate),
                     getMutationPolicy().mutate(pair.getSecond(), mutationRate));
 
-            // add the first chromosome to the population
+            // add the chromosomes to the population
             nextGeneration.addChromosome(pair.getFirst());
-            // is there still a place for the second chromosome?
-            if (nextGeneration.getPopulationSize() < nextGeneration.getPopulationLimit()) {
-                // add the second chromosome to the population
-                nextGeneration.addChromosome(pair.getSecond());
-            }
+            nextGeneration.addChromosome(pair.getSecond());
         }
 
         return nextGeneration;

@@ -17,12 +17,12 @@ import org.apache.commons.math3.genetics.RandomKey;
 import org.apache.commons.math3.genetics.RandomKeyMutation;
 import org.apache.commons.math3.genetics.StoppingCondition;
 import org.apache.commons.math3.genetics.TournamentSelection;
+import org.apache.commons.math4.examples.genetics.tsp.Node;
 import org.apache.commons.math4.examples.genetics.tsp.utils.Constants;
 import org.apache.commons.math4.examples.genetics.tsp.utils.DistanceMatrix;
 import org.apache.commons.math4.examples.genetics.tsp.utils.GraphPlotter;
-import org.apache.commons.math4.examples.genetics.tsp.utils.Node;
-import org.apache.commons.math4.genetics.listeners.ConvergenceListenerRegistry;
-import org.apache.commons.math4.genetics.listeners.PopulationStatisticsLogger;
+import org.apache.commons.math4.genetics.listener.ConvergenceListenerRegistry;
+import org.apache.commons.math4.genetics.listener.PopulationStatisticsLogger;
 
 public class TSPOptimizerLegacy {
 
@@ -36,7 +36,7 @@ public class TSPOptimizerLegacy {
 			TSPOptimizerLegacy optimizer = new TSPOptimizerLegacy();
 
 			ConvergenceListenerRegistry convergenceListenerRegistry = ConvergenceListenerRegistry.getInstance();
-			convergenceListenerRegistry.addConvergenceListener(new PopulationStatisticsLogger());
+			convergenceListenerRegistry.addConvergenceListener(new PopulationStatisticsLogger<List<Node>>());
 			convergenceListenerRegistry
 					.addConvergenceListener(new GraphPlotter("Convergence", "generation", "total-distance"));
 

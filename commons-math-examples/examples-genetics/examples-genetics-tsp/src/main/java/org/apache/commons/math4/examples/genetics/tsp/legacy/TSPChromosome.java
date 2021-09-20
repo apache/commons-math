@@ -4,8 +4,8 @@ import java.util.List;
 
 import org.apache.commons.math3.genetics.InvalidRepresentationException;
 import org.apache.commons.math3.genetics.RandomKey;
+import org.apache.commons.math4.examples.genetics.tsp.Node;
 import org.apache.commons.math4.examples.genetics.tsp.utils.DistanceMatrix;
-import org.apache.commons.math4.examples.genetics.tsp.utils.Node;
 
 public class TSPChromosome extends RandomKey<Node> {
 

@@ -22,8 +22,9 @@ import java.awt.BorderLayout;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 
-import org.apache.commons.math4.genetics.listeners.ConvergenceListener;
-import org.apache.commons.math4.genetics.model.Population;
+import org.apache.commons.math4.examples.genetics.mathfunctions.Coordinate;
+import org.apache.commons.math4.genetics.Population;
+import org.apache.commons.math4.genetics.listener.ConvergenceListener;
 import org.apache.commons.math4.genetics.stats.PopulationStatisticalSummary;
 import org.apache.commons.math4.genetics.stats.internal.PopulationStatisticalSummaryImpl;
 import org.jfree.chart.ChartFactory;
@@ -35,7 +36,7 @@ import org.jfree.chart.renderer.xy.XYLineAndShapeRenderer;
 import org.jfree.data.xy.XYSeries;
 import org.jfree.data.xy.XYSeriesCollection;
 
-public class GraphPlotter extends JFrame implements ConvergenceListener {
+public class GraphPlotter extends JFrame implements ConvergenceListener<Coordinate> {
 
 	private int generation;
 
@@ -64,7 +65,7 @@ public class GraphPlotter extends JFrame implements ConvergenceListener {
 			series = new XYSeries(graphName);
 			dataset.addSeries(series);
 		}
-		series.add(this.generation++, value);
+		series.add(this.generation, value);
 
 		setVisible(true);
 	}
@@ -87,11 +88,12 @@ public class GraphPlotter extends JFrame implements ConvergenceListener {
 	}
 
 	@Override
-	public void notify(Population population) {
-		PopulationStatisticalSummary populationStatisticalSummary = new PopulationStatisticalSummaryImpl(population);
+	public void notify(int generation, Population<Coordinate> population) {
+		PopulationStatisticalSummary<Coordinate> populationStatisticalSummary = new PopulationStatisticalSummaryImpl<>(population);
 		this.addDataPoint("Average", this.generation, populationStatisticalSummary.getMeanFitness());
 		this.addDataPoint("Best", this.generation, populationStatisticalSummary.getMaxFitness());
 //		this.addDataPoint("Variance", this.generation, populationStatisticalSummary.getFitnessVariance());
+		this.generation++;
 	}
 
 }

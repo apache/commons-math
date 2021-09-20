@@ -2,6 +2,8 @@ package org.apache.commons.math4.examples.genetics.tsp.utils;
 
 import java.util.List;
 
+import org.apache.commons.math4.examples.genetics.tsp.Node;
+
 public class DistanceMatrix {
 
 	private double[][] distances;

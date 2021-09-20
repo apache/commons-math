@@ -17,6 +17,8 @@
 
 package org.apache.commons.math4.examples.genetics.tsp.legacy;
 
+import java.util.List;
+
 import org.apache.commons.math3.exception.OutOfRangeException;
 import org.apache.commons.math3.genetics.Chromosome;
 import org.apache.commons.math3.genetics.CrossoverPolicy;
@@ -25,43 +27,51 @@ import org.apache.commons.math3.genetics.MutationPolicy;
 import org.apache.commons.math3.genetics.Population;
 import org.apache.commons.math3.genetics.SelectionPolicy;
 import org.apache.commons.math3.genetics.StoppingCondition;
+import org.apache.commons.math4.examples.genetics.tsp.Node;
 import org.apache.commons.math4.examples.genetics.tsp.TSPFitnessFunction;
-import org.apache.commons.math4.examples.genetics.tsp.utils.Node;
-import org.apache.commons.math4.genetics.listeners.ConvergenceListenerRegistry;
-import org.apache.commons.math4.genetics.model.ListPopulation;
-import org.apache.commons.math4.genetics.model.RandomKey;
+import org.apache.commons.math4.genetics.ListPopulation;
+import org.apache.commons.math4.genetics.RealValuedChromosome;
+import org.apache.commons.math4.genetics.decoder.RandomKeyDecoder;
+import org.apache.commons.math4.genetics.listener.ConvergenceListenerRegistry;
 
 public class LegacyGeneticAlgorithm extends GeneticAlgorithm {
 
-	private int generationsEvolved;
+    private int generationsEvolved;
 
-	public LegacyGeneticAlgorithm(CrossoverPolicy crossoverPolicy, double crossoverRate, MutationPolicy mutationPolicy,
-			double mutationRate, SelectionPolicy selectionPolicy) throws OutOfRangeException {
-		super(crossoverPolicy, crossoverRate, mutationPolicy, mutationRate, selectionPolicy);
-	}
+    public LegacyGeneticAlgorithm(CrossoverPolicy crossoverPolicy, double crossoverRate, MutationPolicy mutationPolicy,
+            double mutationRate, SelectionPolicy selectionPolicy) throws OutOfRangeException {
+        super(crossoverPolicy, crossoverRate, mutationPolicy, mutationRate, selectionPolicy);
+    }
 
-	@Override
-	public Population evolve(Population initial, StoppingCondition condition) {
-		Population current = initial;
-		generationsEvolved = 0;
-		while (!condition.isSatisfied(current)) {
-			ConvergenceListenerRegistry.getInstance().notifyAll(transform(current));
-			current = nextGeneration(current);
-			generationsEvolved++;
-		}
-		return current;
-	}
+    @Override
+    public Population evolve(Population initial, StoppingCondition condition) {
+        Population current = initial;
+        generationsEvolved = 0;
+        while (!condition.isSatisfied(current)) {
+            ConvergenceListenerRegistry.<List<Node>>getInstance().notifyAll(generationsEvolved, transform(current));
+            current = nextGeneration(current);
+            generationsEvolved++;
+        }
+        return current;
+    }
 
-	private org.apache.commons.math4.genetics.model.Population transform(Population population) {
-		org.apache.commons.math4.genetics.model.Population newPopulation = new ListPopulation(
-				population.getPopulationLimit());
-		for (Chromosome chromosome : population) {
-			TSPChromosome tspChromosomeLegacy = (TSPChromosome) chromosome;
-			RandomKey<Node> tspChromosome = new RandomKey<>(tspChromosomeLegacy.getRepresentation(),
-					new TSPFitnessFunction(tspChromosomeLegacy.getNodes()));
-			newPopulation.addChromosome(tspChromosome);
-		}
-		return newPopulation;
-	}
+    @Override
+    public int getGenerationsEvolved() {
+        // TODO Auto-generated method stub
+        return super.getGenerationsEvolved();
+    }
+
+    private org.apache.commons.math4.genetics.Population<List<Node>> transform(Population population) {
+        org.apache.commons.math4.genetics.Population<List<Node>> newPopulation = new ListPopulation<List<Node>>(
+                population.getPopulationLimit());
+        for (Chromosome chromosome : population) {
+            TSPChromosome tspChromosomeLegacy = (TSPChromosome) chromosome;
+            RealValuedChromosome<List<Node>> tspChromosome = new RealValuedChromosome<>(
+                    tspChromosomeLegacy.getRepresentation(), new TSPFitnessFunction(),
+                    new RandomKeyDecoder<Node>(tspChromosomeLegacy.getNodes()));
+            newPopulation.addChromosome(tspChromosome);
+        }
+        return newPopulation;
+    }
 
 }

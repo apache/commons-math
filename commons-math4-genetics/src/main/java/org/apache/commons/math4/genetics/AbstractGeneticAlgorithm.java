@@ -17,27 +17,28 @@
 
 package org.apache.commons.math4.genetics;
 
-import org.apache.commons.math4.genetics.listeners.ConvergenceListenerRegistry;
-import org.apache.commons.math4.genetics.model.Population;
-import org.apache.commons.math4.genetics.operators.CrossoverPolicy;
-import org.apache.commons.math4.genetics.operators.MutationPolicy;
-import org.apache.commons.math4.genetics.operators.SelectionPolicy;
-import org.apache.commons.math4.genetics.operators.StoppingCondition;
+import org.apache.commons.math4.genetics.convergencecond.StoppingCondition;
+import org.apache.commons.math4.genetics.crossover.CrossoverPolicy;
+import org.apache.commons.math4.genetics.listener.ConvergenceListenerRegistry;
+import org.apache.commons.math4.genetics.mutation.MutationPolicy;
+import org.apache.commons.math4.genetics.selection.SelectionPolicy;
 
 /**
  * This class represents an abstraction for all Genetic algorithm implementation
  * comprising the basic properties and operations.
+ * 
+ * @param <P> phenotype of chromosome
  */
-public abstract class AbstractGeneticAlgorithm {
+public abstract class AbstractGeneticAlgorithm<P> {
 
     /** the crossover policy used by the algorithm. */
-    private final CrossoverPolicy crossoverPolicy;
+    private final CrossoverPolicy<P> crossoverPolicy;
 
     /** the mutation policy used by the algorithm. */
-    private final MutationPolicy mutationPolicy;
+    private final MutationPolicy<P> mutationPolicy;
 
     /** the selection policy used by the algorithm. */
-    private final SelectionPolicy selectionPolicy;
+    private final SelectionPolicy<P> selectionPolicy;
 
     /**
      * the number of generations evolved to reach {@link StoppingCondition} in the
@@ -54,8 +55,8 @@ public abstract class AbstractGeneticAlgorithm {
      * @param mutationPolicy
      * @param selectionPolicy
      */
-    public AbstractGeneticAlgorithm(final CrossoverPolicy crossoverPolicy, final MutationPolicy mutationPolicy,
-            final SelectionPolicy selectionPolicy) {
+    public AbstractGeneticAlgorithm(final CrossoverPolicy<P> crossoverPolicy, final MutationPolicy<P> mutationPolicy,
+            final SelectionPolicy<P> selectionPolicy) {
         this.crossoverPolicy = crossoverPolicy;
         this.mutationPolicy = mutationPolicy;
         this.selectionPolicy = selectionPolicy;
@@ -68,8 +69,8 @@ public abstract class AbstractGeneticAlgorithm {
      * @param selectionPolicy
      * @param elitismRate
      */
-    public AbstractGeneticAlgorithm(final CrossoverPolicy crossoverPolicy, final MutationPolicy mutationPolicy,
-            final SelectionPolicy selectionPolicy, double elitismRate) {
+    public AbstractGeneticAlgorithm(final CrossoverPolicy<P> crossoverPolicy, final MutationPolicy<P> mutationPolicy,
+            final SelectionPolicy<P> selectionPolicy, double elitismRate) {
         this.crossoverPolicy = crossoverPolicy;
         this.mutationPolicy = mutationPolicy;
         this.selectionPolicy = selectionPolicy;
@@ -80,7 +81,7 @@ public abstract class AbstractGeneticAlgorithm {
      * Returns the crossover policy.
      * @return crossover policy
      */
-    public CrossoverPolicy getCrossoverPolicy() {
+    public CrossoverPolicy<P> getCrossoverPolicy() {
         return crossoverPolicy;
     }
 
@@ -88,7 +89,7 @@ public abstract class AbstractGeneticAlgorithm {
      * Returns the mutation policy.
      * @return mutation policy
      */
-    public MutationPolicy getMutationPolicy() {
+    public MutationPolicy<P> getMutationPolicy() {
         return mutationPolicy;
     }
 
@@ -96,7 +97,7 @@ public abstract class AbstractGeneticAlgorithm {
      * Returns the selection policy.
      * @return selection policy
      */
-    public SelectionPolicy getSelectionPolicy() {
+    public SelectionPolicy<P> getSelectionPolicy() {
         return selectionPolicy;
     }
 
@@ -121,13 +122,13 @@ public abstract class AbstractGeneticAlgorithm {
      * @param condition the stopping condition used to stop evolution.
      * @return the population that satisfies the stopping condition.
      */
-    public Population evolve(final Population initial, final StoppingCondition condition) {
-        Population current = initial;
+    public Population<P> evolve(final Population<P> initial, final StoppingCondition<P> condition) {
+        Population<P> current = initial;
         // check if stopping condition is satisfied otherwise produce the next
         // generation of population.
         while (!condition.isSatisfied(current)) {
             // notify interested listener
-            ConvergenceListenerRegistry.getInstance().notifyAll(current);
+            ConvergenceListenerRegistry.<P>getInstance().notifyAll(generationsEvolved, current);
 
             current = nextGeneration(current);
             this.generationsEvolved++;
@@ -158,7 +159,7 @@ public abstract class AbstractGeneticAlgorithm {
      * @param current the current population
      * @return the population for the next generation.
      */
-    protected abstract Population nextGeneration(Population current);
+    protected abstract Population<P> nextGeneration(Population<P> current);
 
     /**
      * Returns the elitism rate.
