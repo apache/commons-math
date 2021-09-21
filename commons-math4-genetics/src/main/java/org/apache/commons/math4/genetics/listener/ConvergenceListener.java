@@ -28,8 +28,8 @@ public interface ConvergenceListener<P> {
 
     /**
      * Notifies about the population statistics.
-     * @param generation
-     * @param population
+     * @param generation current generation
+     * @param population population of chromosome
      */
     void notify(int generation, Population<P> population);
 

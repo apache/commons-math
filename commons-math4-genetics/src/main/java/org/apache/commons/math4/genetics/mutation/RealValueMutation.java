@@ -43,8 +43,8 @@ public class RealValueMutation<P> extends AbstractListChromosomeMutationPolicy<D
 
     /**
      * Constructs the mutation operator with provided range of double values.
-     * @param min
-     * @param max
+     * @param min minimum value of allele
+     * @param max maximum value of allele
      */
     public RealValueMutation(double min, double max) {
         this.min = min;

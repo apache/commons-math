@@ -45,7 +45,7 @@ public class Dimension2FunctionOptimizer {
         Dimension2FunctionOptimizer optimizer = new Dimension2FunctionOptimizer();
 
         ConvergenceListenerRegistry<Coordinate> convergenceListenerRegistry = ConvergenceListenerRegistry.getInstance();
-        convergenceListenerRegistry.addConvergenceListener(new PopulationStatisticsLogger<Coordinate>());
+        convergenceListenerRegistry.addConvergenceListener(new PopulationStatisticsLogger<Coordinate>("UTF-8"));
         convergenceListenerRegistry
                 .addConvergenceListener(new GraphPlotter("Convergence Stats", "generation", "fitness"));
 
@@ -68,12 +68,12 @@ public class Dimension2FunctionOptimizer {
 
         // best chromosome from the final population
         Chromosome<Coordinate> bestFinal = finalPopulation.getFittestChromosome();
+        ConsoleLogger consoleLogger = ConsoleLogger.getInstance("UTF-8");
+        consoleLogger.log("*********************************************");
+        consoleLogger.log("***********Optimization Result***************");
+        consoleLogger.log("*********************************************");
 
-        ConsoleLogger.log("*********************************************");
-        ConsoleLogger.log("***********Optimization Result***************");
-        ConsoleLogger.log("*********************************************");
-
-        ConsoleLogger.log(bestFinal.toString());
+        consoleLogger.log(bestFinal.toString());
 
     }
 

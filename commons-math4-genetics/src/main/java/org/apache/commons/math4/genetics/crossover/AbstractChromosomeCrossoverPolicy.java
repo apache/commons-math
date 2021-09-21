@@ -42,8 +42,8 @@ public abstract class AbstractChromosomeCrossoverPolicy<P> implements CrossoverP
 
     /**
      * Performs crossover of two chromosomes.
-     * @param first
-     * @param second
+     * @param first  The first parent chromosome participating in crossover
+     * @param second The second parent chromosome participating in crossover
      * @return chromosome pair
      */
     protected abstract ChromosomePair<P> crossover(Chromosome<P> first, Chromosome<P> second);

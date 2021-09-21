@@ -28,6 +28,13 @@ import org.apache.commons.math4.genetics.utils.ConsoleLogger;
  */
 public final class PopulationStatisticsLogger<P> implements ConvergenceListener<P> {
 
+    /** instance of consolelogger. **/
+    private ConsoleLogger consoleLogger;
+
+    public PopulationStatisticsLogger(String encoding) {
+        this.consoleLogger = ConsoleLogger.getInstance(encoding);
+    }
+
     /**
      * Logs the population statistics to console during the process of convergence.
      */
@@ -35,7 +42,7 @@ public final class PopulationStatisticsLogger<P> implements ConvergenceListener<
     public void notify(int generation, Population<P> population) {
         final PopulationStatisticalSummary<P> populationStatisticalSummary = new PopulationStatisticalSummaryImpl<>(
                 population);
-        ConsoleLogger.log(
+        consoleLogger.log(
                 "Population statistics for generation %d ::: Mean Fitness: %f, Max Fitness: %f, Fitness Variance: %f",
                 generation, populationStatisticalSummary.getMeanFitness(), populationStatisticalSummary.getMaxFitness(),
                 populationStatisticalSummary.getFitnessVariance());

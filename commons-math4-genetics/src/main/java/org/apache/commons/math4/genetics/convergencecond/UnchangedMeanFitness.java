@@ -42,7 +42,8 @@ public class UnchangedMeanFitness<P> implements StoppingCondition<P> {
 
     /**
      * constructor.
-     * @param maxGenerationsWithUnchangedMeanFitness
+     * @param maxGenerationsWithUnchangedMeanFitness maximum number of generations
+     *                                               with unchanged mean fitness
      */
     public UnchangedMeanFitness(final int maxGenerationsWithUnchangedMeanFitness) {
         this.maxGenerationsWithUnchangedMeanFitness = maxGenerationsWithUnchangedMeanFitness;

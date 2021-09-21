@@ -19,13 +19,13 @@ package org.apache.commons.math4.genetics;
 
 /**
  * This interface represents fitness function.
- * @param <P>   phenotype of chromosome
+ * @param <P> phenotype of chromosome
  */
 public interface FitnessFunction<P> {
 
     /**
      * computes the fitness value of the input chromosome's phenotype.
-     * @param decodedChromosome
+     * @param decodedChromosome chromosome decoded as phenotype
      * @return fitness value
      */
     double compute(P decodedChromosome);

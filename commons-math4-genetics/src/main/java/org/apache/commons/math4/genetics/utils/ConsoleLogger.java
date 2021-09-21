@@ -19,6 +19,7 @@ package org.apache.commons.math4.genetics.utils;
 import java.io.BufferedWriter;
 import java.io.IOException;
 import java.io.OutputStreamWriter;
+import java.io.UnsupportedEncodingException;
 
 import org.apache.commons.math4.genetics.exception.GeneticException;
 
@@ -27,36 +28,42 @@ import org.apache.commons.math4.genetics.exception.GeneticException;
  */
 public final class ConsoleLogger {
 
+    /** instance of ConsoleLogger. **/
+    private static volatile ConsoleLogger instance;
+
     /** writer instance to log messages to system console. **/
-    private static final BufferedWriter WRITER = new BufferedWriter(new OutputStreamWriter(System.out));
-
-    static {
-
-        // Create a shutdown hook to close the writer.
-        Runtime.getRuntime().addShutdownHook(new Thread(() -> {
-            try {
-                WRITER.close();
-            } catch (IOException e) {
-                throw new GeneticException(e);
-            }
-        }));
-    }
+    private final BufferedWriter writer;
 
     /**
      * constructor.
+     * @param encoding
      */
-    private ConsoleLogger() {
+    private ConsoleLogger(String encoding) {
+        try {
+            writer = new BufferedWriter(new OutputStreamWriter(System.out, encoding));
+
+            // Create a shutdown hook to close the writer.
+            Runtime.getRuntime().addShutdownHook(new Thread(() -> {
+                try {
+                    writer.close();
+                } catch (IOException e) {
+                    throw new GeneticException(e);
+                }
+            }));
+        } catch (UnsupportedEncodingException e1) {
+            throw new GeneticException(e1);
+        }
     }
 
     /**
      * Logs a message.
-     * @param message
+     * @param message message to log
      */
-    public static void log(String message) {
+    public void log(String message) {
         try {
-            WRITER.write(message);
-            WRITER.newLine();
-            WRITER.flush();
+            writer.write(message);
+            writer.newLine();
+            writer.flush();
         } catch (IOException e) {
             throw new GeneticException(e);
         }
@@ -64,17 +71,34 @@ public final class ConsoleLogger {
 
     /**
      * Logs the message after formatting with the args.
-     * @param message
-     * @param args
+     * @param message message to log
+     * @param args    args to format the message
      */
-    public static void log(String message, Object... args) {
+    public void log(String message, Object... args) {
         try {
-            WRITER.write(String.format(message, args));
-            WRITER.newLine();
-            WRITER.flush();
+            writer.write(String.format(message, args));
+            writer.newLine();
+            writer.flush();
         } catch (IOException e) {
             throw new GeneticException(e);
         }
+    }
+
+    /**
+     * Returns the instance of ConsoleLogger.
+     * @param encoding encoding to be used with writing
+     * @return instance of ConsoleLogger
+     */
+    public static ConsoleLogger getInstance(final String encoding) {
+        ValidationUtils.checkForNull("Encoding of ConsoleLogger", encoding);
+        if (instance == null) {
+            synchronized (ConsoleLogger.class) {
+                if (instance == null) {
+                    instance = new ConsoleLogger(encoding);
+                }
+            }
+        }
+        return instance;
     }
 
 }

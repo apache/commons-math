@@ -41,7 +41,7 @@ public class TSPOptimizer {
 
             ConvergenceListenerRegistry<List<Node>> convergenceListenerRegistry = ConvergenceListenerRegistry
                     .getInstance();
-            convergenceListenerRegistry.addConvergenceListener(new PopulationStatisticsLogger<List<Node>>());
+            convergenceListenerRegistry.addConvergenceListener(new PopulationStatisticsLogger<List<Node>>("UTF-8"));
             convergenceListenerRegistry
                     .addConvergenceListener(new GraphPlotter("Convergence", "generation", "total-distance"));
 
@@ -74,13 +74,14 @@ public class TSPOptimizer {
 
         double fitness = bestFinal.evaluate();
 
-        ConsoleLogger.log("*********************************************");
-        ConsoleLogger.log("*********************************************");
-        ConsoleLogger.log("***********Optimization Result***************");
-        ConsoleLogger.log("*********************************************");
+        ConsoleLogger consoleLogger = ConsoleLogger.getInstance("UTF-8");
+        consoleLogger.log("*********************************************");
+        consoleLogger.log("*********************************************");
+        consoleLogger.log("***********Optimization Result***************");
+        consoleLogger.log("*********************************************");
 
-        ConsoleLogger.log(bestFinal.decode().toString());
-        ConsoleLogger.log("Best Fitness: %.6f", fitness);
+        consoleLogger.log(bestFinal.decode().toString());
+        consoleLogger.log("Best Fitness: %.6f", fitness);
 
     }
 

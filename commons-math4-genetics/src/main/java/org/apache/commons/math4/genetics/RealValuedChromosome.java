@@ -17,6 +17,7 @@
 package org.apache.commons.math4.genetics;
 
 import java.util.Arrays;
+
 import java.util.List;
 
 import org.apache.commons.math4.genetics.decoder.AbstractListChromosomeDecoder;
@@ -36,7 +37,7 @@ public class RealValuedChromosome<P> extends AbstractListChromosome<Double, P> {
      * constructor.
      * @param representation  an array of real values
      * @param fitnessFunction the fitness function
-     * @param decoder         the decoder
+     * @param decoder         the {@link AbstractListChromosomeDecoder}
      */
     public RealValuedChromosome(final List<Double> representation, FitnessFunction<P> fitnessFunction,
             AbstractListChromosomeDecoder<Double, P> decoder) {
@@ -45,9 +46,9 @@ public class RealValuedChromosome<P> extends AbstractListChromosome<Double, P> {
 
     /**
      * constructor.
-     * @param representation
-     * @param fitnessFunction
-     * @param decoder
+     * @param representation    Internal representation of chromosome as genotype
+     * @param fitnessFunction   The {@link FitnessFunction}
+     * @param decoder           The {@link AbstractListChromosomeDecoder}
      */
     public RealValuedChromosome(final Double[] representation, FitnessFunction<P> fitnessFunction,
             AbstractListChromosomeDecoder<Double, P> decoder) {
@@ -73,12 +74,12 @@ public class RealValuedChromosome<P> extends AbstractListChromosome<Double, P> {
     /**
      * Creates an instance of RealValued chromosome with randomly generated
      * representation.
-     * @param <P>             phenotype of chromosome
-     * @param length
-     * @param fitnessFunction
-     * @param decoder
-     * @param minValue
-     * @param maxValue
+     * @param <P>               phenotype of chromosome
+     * @param length            length of chromosome genotype
+     * @param fitnessFunction   The {@link FitnessFunction}
+     * @param decoder           The {@link AbstractListChromosomeDecoder}
+     * @param minValue          minimum value generated as allele
+     * @param maxValue          maximum value generated as allele
      * @return chromosome phenotype
      */
     public static <P> RealValuedChromosome<P> randomChromosome(int length, FitnessFunction<P> fitnessFunction,

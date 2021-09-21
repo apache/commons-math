@@ -17,6 +17,7 @@
 package org.apache.commons.math4.genetics;
 
 import org.apache.commons.math4.genetics.crossover.CrossoverPolicy;
+
 import org.apache.commons.math4.genetics.exception.GeneticException;
 import org.apache.commons.math4.genetics.mutation.MutationPolicy;
 import org.apache.commons.math4.genetics.selection.SelectionPolicy;
@@ -26,7 +27,7 @@ import org.apache.commons.math4.genetics.utils.Constants;
  * Implementation of a genetic algorithm. All factors that govern the operation
  * of the algorithm can be configured for a specific problem.
  *
- * @param <P>   phenotype of chromosome
+ * @param <P> phenotype of chromosome
  * @since 2.0
  */
 public class GeneticAlgorithm<P> extends AbstractGeneticAlgorithm<P> {
@@ -87,20 +88,19 @@ public class GeneticAlgorithm<P> extends AbstractGeneticAlgorithm<P> {
     /**
      * Evolve the given population into the next generation.
      * <ol>
-     * <li>Get nextGeneration population to fill from <code>current</code>
-     * generation, using its nextGeneration method</li>
-     * <li>Loop until new generation is filled:
-     * <ul>
-     * <li>Apply configured SelectionPolicy to select a pair of parents from
-     * <code>current</code></li>
-     * <li>With probability = {@link #getCrossoverRate()}, apply configured
-     * {@link CrossoverPolicy} to parents</li>
-     * <li>With probability = {@link #getMutationRate()}, apply configured
-     * {@link MutationPolicy} to each of the offspring</li>
-     * <li>Add offspring individually to nextGeneration, space permitting</li>
-     * </ul>
-     * </li>
-     * <li>Return nextGeneration</li>
+     *  <li>Get nextGeneration population to fill from <code>current</code>
+     *      generation, using its nextGeneration method</li>
+     *  <li>Loop until new generation is filled:
+     *  <ul><li>Apply configured SelectionPolicy to select a pair of parents
+     *          from <code>current</code></li>
+     *      <li>With probability = {@link #getCrossoverRate()}, apply
+     *          configured {@link CrossoverPolicy} to parents</li>
+     *      <li>With probability = {@link #getMutationRate()}, apply
+     *          configured {@link MutationPolicy} to each of the offspring</li>
+     *      <li>Add offspring individually to nextGeneration,
+     *          space permitting</li>
+     *  </ul></li>
+     *  <li>Return nextGeneration</li>
      * </ol>
      *
      * @param current the current population.

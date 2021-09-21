@@ -39,7 +39,7 @@ public class Dimension2FunctionOptimizerLegacy {
 		Dimension2FunctionOptimizerLegacy simulation = new Dimension2FunctionOptimizerLegacy();
 
 		ConvergenceListenerRegistry convergenceListenerRegistry = ConvergenceListenerRegistry.getInstance();
-		convergenceListenerRegistry.addConvergenceListener(new PopulationStatisticsLogger<Coordinate>());
+		convergenceListenerRegistry.addConvergenceListener(new PopulationStatisticsLogger<Coordinate>("UTF-8"));
 		convergenceListenerRegistry
 				.addConvergenceListener(new GraphPlotter("Convergence Stats", "generation", "fitness"));
 

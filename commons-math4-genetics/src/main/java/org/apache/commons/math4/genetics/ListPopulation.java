@@ -60,7 +60,7 @@ public class ListPopulation<P> implements Population<P> {
     public ListPopulation(final List<Chromosome<P>> chromosomes, final int populationLimit) {
 
         if (chromosomes == null) {
-            throw new GeneticException(GeneticException.NULL_ARGUMENT, chromosomes);
+            throw new GeneticException(GeneticException.NULL_ARGUMENT, "chromosomes");
         }
         if (populationLimit <= 0) {
             throw new GeneticException(GeneticException.NOT_STRICTLY_POSITIVE, populationLimit);

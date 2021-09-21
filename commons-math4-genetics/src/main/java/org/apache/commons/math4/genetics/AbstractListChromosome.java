@@ -17,6 +17,7 @@
 package org.apache.commons.math4.genetics;
 
 import java.util.ArrayList;
+
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
@@ -39,9 +40,11 @@ public abstract class AbstractListChromosome<T, P> extends AbstractChromosome<P>
 
     /**
      * constructor.
-     * @param representation
-     * @param fitnessFunction
-     * @param decoder
+     * @param representation  The representation of chromosome genotype as
+     *                        {@link List} of generic T
+     * @param fitnessFunction The {@link FitnessFunction}
+     * @param decoder         An instance of {@link AbstractListChromosomeDecoder},
+     *                        to decode list chromosome.
      */
     public AbstractListChromosome(final List<T> representation, final FitnessFunction<P> fitnessFunction,
             final AbstractListChromosomeDecoder<T, P> decoder) {
@@ -50,9 +53,11 @@ public abstract class AbstractListChromosome<T, P> extends AbstractChromosome<P>
 
     /**
      * constructor.
-     * @param representation
-     * @param fitnessFunction
-     * @param decoder
+     * @param representation  The representation of chromosome genotype as an array
+     *                        of generic T
+     * @param fitnessFunction The {@link FitnessFunction}
+     * @param decoder         An instance of {@link AbstractListChromosomeDecoder},
+     *                        to decode list chromosome.
      */
     public AbstractListChromosome(final T[] representation, FitnessFunction<P> fitnessFunction,
             AbstractListChromosomeDecoder<T, P> decoder) {
@@ -61,10 +66,12 @@ public abstract class AbstractListChromosome<T, P> extends AbstractChromosome<P>
 
     /**
      * constructor.
-     * @param representation
-     * @param copyList
-     * @param fitnessFunction
-     * @param decoder
+     * @param representation  Internal representation of chromosome genotype as an
+     *                        array of generic T
+     * @param copyList        if {@code true}, the representation will be copied,
+     *                        otherwise it will be referenced.
+     * @param fitnessFunction The {@link FitnessFunction}
+     * @param decoder         The instance of {@link AbstractListChromosomeDecoder}
      */
     public AbstractListChromosome(final List<T> representation, final boolean copyList,
             final FitnessFunction<P> fitnessFunction, final AbstractListChromosomeDecoder<T, P> decoder) {

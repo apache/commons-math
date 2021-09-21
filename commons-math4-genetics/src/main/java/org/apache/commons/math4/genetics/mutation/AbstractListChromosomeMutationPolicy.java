@@ -57,7 +57,7 @@ public abstract class AbstractListChromosomeMutationPolicy<T, P> implements Muta
 
     /**
      * Checks input chromosome validity.
-     * @param original
+     * @param original chromosome to be mutated
      */
     protected abstract void checkValidity(Chromosome<P> original);
 
