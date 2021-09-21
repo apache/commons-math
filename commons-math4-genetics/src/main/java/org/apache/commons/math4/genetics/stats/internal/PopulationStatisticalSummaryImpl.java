@@ -46,7 +46,7 @@ public class PopulationStatisticalSummaryImpl<P> implements PopulationStatistica
 
     /**
      * constructor.
-     * @param population
+     * @param population current population {@link Population} of chromosomes
      */
     public PopulationStatisticalSummaryImpl(Population<P> population) {
         ValidationUtils.checkForNull("population", population);

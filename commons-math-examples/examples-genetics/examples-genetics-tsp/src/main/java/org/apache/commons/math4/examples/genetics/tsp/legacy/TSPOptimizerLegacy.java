@@ -36,7 +36,7 @@ public class TSPOptimizerLegacy {
 			TSPOptimizerLegacy optimizer = new TSPOptimizerLegacy();
 
 			ConvergenceListenerRegistry convergenceListenerRegistry = ConvergenceListenerRegistry.getInstance();
-			convergenceListenerRegistry.addConvergenceListener(new PopulationStatisticsLogger<List<Node>>());
+			convergenceListenerRegistry.addConvergenceListener(new PopulationStatisticsLogger<List<Node>>("UTF-8"));
 			convergenceListenerRegistry
 					.addConvergenceListener(new GraphPlotter("Convergence", "generation", "total-distance"));
 

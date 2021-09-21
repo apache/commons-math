@@ -58,7 +58,7 @@ public interface PopulationStatisticalSummary<P> {
 
     /**
      * Calculates the rank of chromosome in population based on its fitness.
-     * @param chromosome
+     * @param chromosome chromosome, for which rank would be found
      * @return the rank of chromosome
      */
     int findRank(Chromosome<P> chromosome);

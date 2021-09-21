@@ -26,8 +26,8 @@ public interface Decoder<P> {
 
     /**
      * Converts genotype to phenotype.
-     * @param chromosome
-     * @return phenotype
+     * @param chromosome    The {@link Chromosome}
+     * @return phenotype    The phenotype of chromosome
      */
     P decode(Chromosome<P> chromosome);
 

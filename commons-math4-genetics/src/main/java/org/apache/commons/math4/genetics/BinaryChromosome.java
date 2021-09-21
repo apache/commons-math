@@ -31,9 +31,9 @@ public class BinaryChromosome<P> extends AbstractListChromosome<Integer, P> {
 
     /**
      * constructor.
-     * @param representation
-     * @param fitnessFunction
-     * @param decoder
+     * @param representation  Internal representation of chromosome.
+     * @param fitnessFunction The {@link FitnessFunction}
+     * @param decoder         The {@link AbstractListChromosomeDecoder}
      */
     public BinaryChromosome(List<Integer> representation, FitnessFunction<P> fitnessFunction,
             AbstractListChromosomeDecoder<Integer, P> decoder) {
@@ -42,9 +42,9 @@ public class BinaryChromosome<P> extends AbstractListChromosome<Integer, P> {
 
     /**
      * constructor.
-     * @param representation
-     * @param fitnessFunction
-     * @param decoder
+     * @param representation  Internal representation of chromosome.
+     * @param fitnessFunction The {@link FitnessFunction}
+     * @param decoder         The {@link AbstractListChromosomeDecoder}
      */
     public BinaryChromosome(Integer[] representation, FitnessFunction<P> fitnessFunction,
             AbstractListChromosomeDecoder<Integer, P> decoder) {
@@ -74,9 +74,9 @@ public class BinaryChromosome<P> extends AbstractListChromosome<Integer, P> {
     /**
      * Creates an instance of Binary Chromosome with random binary representation.
      * @param <P>             phenotype fo chromosome
-     * @param length
-     * @param fitnessFunction
-     * @param decoder
+     * @param length          length of chromosome
+     * @param fitnessFunction The {@link FitnessFunction}
+     * @param decoder         The {@link AbstractListChromosomeDecoder}
      * @return a binary chromosome
      */
     public static <P> BinaryChromosome<P> randomChromosome(int length, FitnessFunction<P> fitnessFunction,

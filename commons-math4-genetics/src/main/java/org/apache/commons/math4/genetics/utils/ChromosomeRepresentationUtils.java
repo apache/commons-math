@@ -85,7 +85,7 @@ public interface ChromosomeRepresentationUtils {
      * which yields <code>permutedData</code> when applied to
      * <code>originalData</code>.
      *
-     * This method can be viewed as an inverse to {@link #decode(List)}.
+     * This method can be viewed as an inverse to decode().
      *
      * @param <S>          type of the data
      * @param originalData the original, unpermuted data

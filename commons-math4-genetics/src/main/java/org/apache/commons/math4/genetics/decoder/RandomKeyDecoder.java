@@ -36,7 +36,7 @@ public final class RandomKeyDecoder<U> extends AbstractListChromosomeDecoder<Dou
 
     /**
      * constructor.
-     * @param baseSequence
+     * @param baseSequence  the unpermuted sequence
      */
     public RandomKeyDecoder(List<U> baseSequence) {
         ValidationUtils.checkForNull("baseSequence", baseSequence);

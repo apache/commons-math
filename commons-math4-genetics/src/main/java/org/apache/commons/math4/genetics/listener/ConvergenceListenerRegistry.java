@@ -49,7 +49,7 @@ public final class ConvergenceListenerRegistry<P> {
 
     /**
      * Registers the interested ConvergenceListener passed as an argument.
-     * @param convergenceListener
+     * @param convergenceListener The {@link ConvergenceListener}
      */
     public void addConvergenceListener(ConvergenceListener<P> convergenceListener) {
         this.listeners.add(convergenceListener);
@@ -57,8 +57,8 @@ public final class ConvergenceListenerRegistry<P> {
 
     /**
      * Notifies all registered ConvergenceListeners about the population statistics.
-     * @param generation
-     * @param population
+     * @param generation current generation
+     * @param population population of chromosomes
      */
     public void notifyAll(int generation, Population<P> population) {
         for (ConvergenceListener<P> convergenceListener : listeners) {
@@ -68,7 +68,7 @@ public final class ConvergenceListenerRegistry<P> {
 
     /**
      * Add instance of convergence listener.
-     * @param convergenceListeners
+     * @param convergenceListeners list of {@link ConvergenceListener}
      */
     public void addConvergenceListeners(List<ConvergenceListener<P>> convergenceListeners) {
         if (convergenceListeners != null) {
@@ -80,7 +80,7 @@ public final class ConvergenceListenerRegistry<P> {
 
     /**
      * Returns instance of this class.
-     * @param <P>
+     * @param <P> The phenotype of chromosome
      * @return instance
      */
     @SuppressWarnings("unchecked")

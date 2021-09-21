@@ -53,8 +53,8 @@ public abstract class AbstractListChromosomeCrossoverPolicy<T, P> extends Abstra
 
     /**
      * Performs mating between two chromosomes and returns the offspring pair.
-     * @param first
-     * @param second
+     * @param first  The first parent chromosome participating in crossover
+     * @param second The second parent chromosome participating in crossover
      * @return chromosome pair
      */
     protected abstract ChromosomePair<P> mate(AbstractListChromosome<T, P> first, AbstractListChromosome<T, P> second);

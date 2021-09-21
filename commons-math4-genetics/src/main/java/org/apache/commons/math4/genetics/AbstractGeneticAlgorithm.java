@@ -50,9 +50,9 @@ public abstract class AbstractGeneticAlgorithm<P> {
 
     /**
      * constructor.
-     * @param crossoverPolicy
-     * @param mutationPolicy
-     * @param selectionPolicy
+     * @param crossoverPolicy The {@link CrossoverPolicy}
+     * @param mutationPolicy  The {@link MutationPolicy}
+     * @param selectionPolicy The {@link SelectionPolicy}
      */
     public AbstractGeneticAlgorithm(final CrossoverPolicy<P> crossoverPolicy, final MutationPolicy<P> mutationPolicy,
             final SelectionPolicy<P> selectionPolicy) {
@@ -63,10 +63,10 @@ public abstract class AbstractGeneticAlgorithm<P> {
 
     /**
      * constructor.
-     * @param crossoverPolicy
-     * @param mutationPolicy
-     * @param selectionPolicy
-     * @param elitismRate
+     * @param crossoverPolicy The {@link CrossoverPolicy}
+     * @param mutationPolicy  The {@link MutationPolicy}
+     * @param selectionPolicy The {@link SelectionPolicy}
+     * @param elitismRate     The elitism rate
      */
     public AbstractGeneticAlgorithm(final CrossoverPolicy<P> crossoverPolicy, final MutationPolicy<P> mutationPolicy,
             final SelectionPolicy<P> selectionPolicy, double elitismRate) {
@@ -139,20 +139,18 @@ public abstract class AbstractGeneticAlgorithm<P> {
     /**
      * Evolve the given population into the next generation.
      * <ol>
-     * <li>Get nextGeneration population to fill from <code>current</code>
-     * generation, using its nextGeneration method</li>
-     * <li>Loop until new generation is filled:
-     * <ul>
-     * <li>Apply configured SelectionPolicy to select a pair of parents from
-     * <code>current</code></li>
-     * <li>With probability = {@link #getCrossoverRate()}, apply configured
-     * {@link CrossoverPolicy} to parents</li>
-     * <li>With probability = {@link #getMutationRate()}, apply configured
-     * {@link MutationPolicy} to each of the offspring</li>
-     * <li>Add offspring individually to nextGeneration, space permitting</li>
-     * </ul>
-     * </li>
-     * <li>Return nextGeneration</li>
+     *  <li>Get nextGeneration population to fill from <code>current</code>
+     *          generation, using its nextGeneration method</li>
+     *  <li>Loop until new generation is filled:
+     *      <ul>
+     *          <li>Apply configured SelectionPolicy to select a pair of parents from
+     *                  <code>current</code>,</li>
+     *          <li> apply configured {@link CrossoverPolicy} to parents,</li>
+     *          <li> apply configured {@link MutationPolicy} to each of the offspring</li>
+     *          <li>Add offspring individually to nextGeneration, space permitting</li>
+     *      </ul>
+     *  </li>
+     *  <li>Return nextGeneration</li>
      * </ol>
      *
      * @param current the current population

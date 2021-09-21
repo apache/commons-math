@@ -41,7 +41,7 @@ public abstract class AbstractListChromosomeDecoder<T, P> implements Decoder<P> 
 
     /**
      * Decodes the chromosome genotype and returns the phenotype.
-     * @param chromosome
+     * @param chromosome The list chromosome to decode
      * @return decoded phenotype of chromosome
      */
     protected abstract P decode(AbstractListChromosome<T, P> chromosome);
