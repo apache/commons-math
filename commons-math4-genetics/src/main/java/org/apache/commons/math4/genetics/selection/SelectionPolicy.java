@@ -16,8 +16,8 @@
  */
 package org.apache.commons.math4.genetics.selection;
 
-import org.apache.commons.math4.genetics.ChromosomePair;
-import org.apache.commons.math4.genetics.Population;
+import org.apache.commons.math4.genetics.chromosome.ChromosomePair;
+import org.apache.commons.math4.genetics.population.Population;
 
 /**
  * Algorithm used to select a chromosome pair from a population.

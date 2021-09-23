@@ -16,10 +16,10 @@
  */
 package org.apache.commons.math4.genetics.crossover;
 
-import org.apache.commons.math4.genetics.AbstractChromosome;
-import org.apache.commons.math4.genetics.AbstractListChromosome;
-import org.apache.commons.math4.genetics.Chromosome;
-import org.apache.commons.math4.genetics.ChromosomePair;
+import org.apache.commons.math4.genetics.chromosome.AbstractChromosome;
+import org.apache.commons.math4.genetics.chromosome.AbstractListChromosome;
+import org.apache.commons.math4.genetics.chromosome.Chromosome;
+import org.apache.commons.math4.genetics.chromosome.ChromosomePair;
 import org.apache.commons.math4.genetics.dummy.DummyListChromosome;
 import org.apache.commons.math4.genetics.exception.GeneticException;
 import org.apache.commons.math4.genetics.utils.ChromosomeRepresentationUtils;

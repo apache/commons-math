@@ -16,7 +16,7 @@
  */
 package org.apache.commons.math4.genetics.mutation;
 
-import org.apache.commons.math4.genetics.Chromosome;
+import org.apache.commons.math4.genetics.chromosome.Chromosome;
 
 /**
  * Algorithm used to mutate a chromosome.

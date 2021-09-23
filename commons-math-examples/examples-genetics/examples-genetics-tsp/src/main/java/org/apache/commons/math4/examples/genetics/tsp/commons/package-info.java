@@ -14,29 +14,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.apache.commons.math4.genetics;
-
-import org.apache.commons.math4.genetics.utils.ChromosomeRepresentationUtils;
-import org.junit.Test;
-
-public class RealValuedChromosomeTest {
-
-    @Test
-    public void testNewChromosome() {
-        for (int i = 0; i < 10; i++) {
-            new RealValuedChromosome<>(ChromosomeRepresentationUtils.randomDoubleRepresentation(10, 0, 2), c1 -> {
-                return 1;
-            }, new DummyListChromosomeDecoder<>("1"));
-        }
-    }
-
-    @Test
-    public void testRandomChromosome() {
-        for (int i = 0; i < 10; i++) {
-            RealValuedChromosome.randomChromosome(5, c -> {
-                return 0;
-            }, new DummyListChromosomeDecoder<>("0"), 0, 2);
-        }
-    }
-
-}
+/**
+ * This package provides Genetic Algorithms components and implementations.
+ */
+package org.apache.commons.math4.examples.genetics.tsp.commons;

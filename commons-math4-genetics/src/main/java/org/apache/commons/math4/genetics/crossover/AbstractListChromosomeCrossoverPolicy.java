@@ -17,15 +17,15 @@
 
 package org.apache.commons.math4.genetics.crossover;
 
-import org.apache.commons.math4.genetics.AbstractListChromosome;
-import org.apache.commons.math4.genetics.Chromosome;
-import org.apache.commons.math4.genetics.ChromosomePair;
+import org.apache.commons.math4.genetics.chromosome.AbstractListChromosome;
+import org.apache.commons.math4.genetics.chromosome.Chromosome;
+import org.apache.commons.math4.genetics.chromosome.ChromosomePair;
 import org.apache.commons.math4.genetics.exception.GeneticException;
 
 /**
  * An abstraction of crossover policy for list chromosomes.
- * @param <T>   genetype of chromosome
- * @param <P>   phenotype of chromosome
+ * @param <T> genetype of chromosome
+ * @param <P> phenotype of chromosome
  */
 public abstract class AbstractListChromosomeCrossoverPolicy<T, P> extends AbstractChromosomeCrossoverPolicy<P> {
 
@@ -35,11 +35,25 @@ public abstract class AbstractListChromosomeCrossoverPolicy<T, P> extends Abstra
     @SuppressWarnings("unchecked")
     @Override
     public ChromosomePair<P> crossover(final Chromosome<P> first, final Chromosome<P> second) {
+        // check for validity.
+        checkValidity(first, second);
 
+        final AbstractListChromosome<T, P> firstListChromosome = (AbstractListChromosome<T, P>) first;
+        final AbstractListChromosome<T, P> secondListChromosome = (AbstractListChromosome<T, P>) second;
+
+        return mate(firstListChromosome, secondListChromosome);
+    }
+
+    /**
+     * Validates the chromosome pair.
+     * @param first  first chromosome
+     * @param second second chromosome
+     */
+    @SuppressWarnings("unchecked")
+    protected void checkValidity(final Chromosome<P> first, final Chromosome<P> second) {
         if (!(first instanceof AbstractListChromosome<?, ?> && second instanceof AbstractListChromosome<?, ?>)) {
             throw new GeneticException(GeneticException.INVALID_FIXED_LENGTH_CHROMOSOME);
         }
-
         final AbstractListChromosome<T, P> firstListChromosome = (AbstractListChromosome<T, P>) first;
         final AbstractListChromosome<T, P> secondListChromosome = (AbstractListChromosome<T, P>) second;
 
@@ -48,7 +62,6 @@ public abstract class AbstractListChromosomeCrossoverPolicy<T, P> extends Abstra
             throw new GeneticException(GeneticException.SIZE_MISMATCH, secondListChromosome.getLength(), length);
         }
 
-        return mate(firstListChromosome, secondListChromosome);
     }
 
     /**

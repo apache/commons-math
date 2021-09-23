@@ -18,9 +18,10 @@ package org.apache.commons.math4.genetics.listener;
 
 import java.lang.reflect.Field;
 import java.util.List;
-import org.apache.commons.math4.genetics.ListPopulation;
-import org.apache.commons.math4.genetics.Population;
+
 import org.apache.commons.math4.genetics.exception.GeneticException;
+import org.apache.commons.math4.genetics.population.ListPopulation;
+import org.apache.commons.math4.genetics.population.Population;
 import org.junit.Assert;
 import org.junit.Test;
 

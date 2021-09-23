@@ -16,17 +16,17 @@
  */
 package org.apache.commons.math4.genetics.mutation;
 
-import org.apache.commons.math4.genetics.AbstractChromosome;
-import org.apache.commons.math4.genetics.DummyListChromosomeDecoder;
-import org.apache.commons.math4.genetics.RealValuedChromosome;
+import org.apache.commons.math4.genetics.chromosome.AbstractChromosome;
+import org.apache.commons.math4.genetics.chromosome.RealValuedChromosome;
+import org.apache.commons.math4.genetics.utils.DummyListChromosomeDecoder;
 import org.junit.Assert;
 import org.junit.Test;
 
-public class RealValueMutationTest {
+public class RealValuedMutationTest {
 
     @Test
     public void testMutate() {
-        MutationPolicy<String> mutation = new RealValueMutation<>();
+        MutationPolicy<String> mutation = new RealValuedMutation<>();
         int l = 10;
         for (int i = 0; i < 20; i++) {
             RealValuedChromosome<String> origRk = RealValuedChromosome.<String>randomChromosome(l, chromosome -> {

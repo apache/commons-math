@@ -14,15 +14,15 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.apache.commons.math4.genetics;
+package org.apache.commons.math4.genetics.chromosome;
 
 import java.util.ArrayList;
-
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
 import org.apache.commons.math4.genetics.decoder.AbstractListChromosomeDecoder;
+import org.apache.commons.math4.genetics.fitness.FitnessFunction;
 import org.apache.commons.math4.genetics.utils.ValidationUtils;
 
 /**
@@ -77,15 +77,8 @@ public abstract class AbstractListChromosome<T, P> extends AbstractChromosome<P>
             final FitnessFunction<P> fitnessFunction, final AbstractListChromosomeDecoder<T, P> decoder) {
         super(fitnessFunction, decoder);
         ValidationUtils.checkForNull("representation", representation);
-        checkValidity(representation);
         this.representation = Collections.unmodifiableList(copyList ? new ArrayList<>(representation) : representation);
     }
-
-    /**
-     * Asserts that <code>representation</code> can represent a valid chromosome.
-     * @param chromosomeRepresentation representation of the chromosome
-     */
-    protected abstract void checkValidity(List<T> chromosomeRepresentation);
 
     /**
      * Returns the (immutable) inner representation of the chromosome.

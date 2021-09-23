@@ -20,8 +20,8 @@ import java.util.ArrayList;
 
 import java.util.List;
 
-import org.apache.commons.math4.genetics.AbstractListChromosome;
-import org.apache.commons.math4.genetics.ChromosomePair;
+import org.apache.commons.math4.genetics.chromosome.AbstractListChromosome;
+import org.apache.commons.math4.genetics.chromosome.ChromosomePair;
 import org.apache.commons.math4.genetics.exception.GeneticException;
 import org.apache.commons.math4.genetics.utils.Constants;
 import org.apache.commons.math4.genetics.utils.RandomGenerator;

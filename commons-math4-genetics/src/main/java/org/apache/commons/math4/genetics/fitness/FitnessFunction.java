@@ -15,27 +15,19 @@
  * limitations under the License.
  */
 
-package org.apache.commons.math4.genetics.crossover.rategenerator;
-
-import org.apache.commons.math4.genetics.Chromosome;
-import org.apache.commons.math4.genetics.stats.PopulationStatisticalSummary;
+package org.apache.commons.math4.genetics.fitness;
 
 /**
- * This abstraction represents crossover rate generator.
+ * This interface represents fitness function.
  * @param <P> phenotype of chromosome
  */
-public interface CrossoverRateGenerator<P> {
+public interface FitnessFunction<P> {
 
     /**
-     * Generates crossover rate.
-     * @param first           The first parent chromosome participating in crossover
-     * @param second          The second parent chromosome participating in
-     *                        crossover
-     * @param populationStats statistical properties of population
-     * @param generation      number of generations evolved
-     * @return crossover rate
+     * computes the fitness value of the input chromosome's phenotype.
+     * @param decodedChromosome chromosome decoded as phenotype
+     * @return fitness value
      */
-    double generate(Chromosome<P> first, Chromosome<P> second, PopulationStatisticalSummary<P> populationStats,
-            int generation);
+    double compute(P decodedChromosome);
 
 }

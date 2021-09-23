@@ -20,34 +20,48 @@ package org.apache.commons.math4.examples.genetics.mathfunctions.legacy;
 import org.apache.commons.math3.genetics.Population;
 import org.apache.commons.math3.genetics.StoppingCondition;
 
+/**
+ * This class represents the stopping condition based on unchanged best fitness.
+ */
 public class UnchangedBestFitness implements StoppingCondition {
 
-	private double lastBestFitness = Double.MIN_VALUE;
+    /** last best fitness. **/
+    private double lastBestFitness = Double.MIN_VALUE;
 
-	private final int maxGenerationsWithUnchangedBestFitness;
+    /** maximum number of generations evolved with unchanged best fitness. **/
+    private final int maxGenerationsWithUnchangedBestFitness;
 
-	private int generationsHavingUnchangedBestFitness;
+    /** generations having unchanged best fitness. **/
+    private int generationsHavingUnchangedBestFitness;
 
-	public UnchangedBestFitness(final int maxGenerationsWithUnchangedAverageFitness) {
-		this.maxGenerationsWithUnchangedBestFitness = maxGenerationsWithUnchangedAverageFitness;
-	}
+    /**
+     * constructor.
+     * @param maxGenerationsWithUnchangedAverageFitness maximum number of
+     *                                                  generations evolved with
+     *                                                  unchanged best fitness
+     */
+    public UnchangedBestFitness(final int maxGenerationsWithUnchangedAverageFitness) {
+        this.maxGenerationsWithUnchangedBestFitness = maxGenerationsWithUnchangedAverageFitness;
+    }
 
-	@Override
-	public boolean isSatisfied(Population population) {
-		double currentBestFitness = population.getFittestChromosome().getFitness();
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public boolean isSatisfied(Population population) {
+        final double currentBestFitness = population.getFittestChromosome().getFitness();
 
-		if (lastBestFitness == currentBestFitness) {
-			if (generationsHavingUnchangedBestFitness == maxGenerationsWithUnchangedBestFitness) {
-				return true;
-			} else {
-				this.generationsHavingUnchangedBestFitness++;
-			}
-		} else {
-			this.generationsHavingUnchangedBestFitness = 0;
-			lastBestFitness = currentBestFitness;
-		}
+        if (lastBestFitness == currentBestFitness) {
+            this.generationsHavingUnchangedBestFitness++;
+            if (generationsHavingUnchangedBestFitness == maxGenerationsWithUnchangedBestFitness) {
+                return true;
+            }
+        } else {
+            this.generationsHavingUnchangedBestFitness = 0;
+            lastBestFitness = currentBestFitness;
+        }
 
-		return false;
-	}
+        return false;
+    }
 
 }

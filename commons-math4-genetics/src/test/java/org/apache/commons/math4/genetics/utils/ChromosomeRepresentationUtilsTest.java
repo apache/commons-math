@@ -20,7 +20,7 @@ import java.util.Arrays;
 import java.util.Comparator;
 import java.util.List;
 
-import org.apache.commons.math4.genetics.RealValuedChromosome;
+import org.apache.commons.math4.genetics.chromosome.RealValuedChromosome;
 import org.apache.commons.math4.genetics.decoder.RandomKeyDecoder;
 import org.apache.commons.math4.genetics.exception.GeneticException;
 import org.junit.Assert;

@@ -18,9 +18,9 @@ package org.apache.commons.math4.genetics.dummy;
 
 import java.util.List;
 
-import org.apache.commons.math4.genetics.AbstractListChromosome;
-import org.apache.commons.math4.genetics.DummyListChromosomeDecoder;
+import org.apache.commons.math4.genetics.chromosome.AbstractListChromosome;
 import org.apache.commons.math4.genetics.utils.ChromosomeRepresentationUtils;
+import org.apache.commons.math4.genetics.utils.DummyListChromosomeDecoder;
 
 /**
  * Implementation of ListChromosome for testing purposes
@@ -43,11 +43,6 @@ public class DummyListChromosome extends AbstractListChromosome<Integer, String>
         super(representation, chromosome -> {
             return 0;
         }, new DummyListChromosomeDecoder<>("0"));
-    }
-
-    @Override
-    protected void checkValidity(final List<Integer> chromosomeRepresentation) {
-        // Not important.
     }
 
     @Override

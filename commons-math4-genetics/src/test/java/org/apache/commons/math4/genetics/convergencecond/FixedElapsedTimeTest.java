@@ -18,8 +18,8 @@ package org.apache.commons.math4.genetics.convergencecond;
 
 import java.util.concurrent.TimeUnit;
 
-import org.apache.commons.math4.genetics.ListPopulation;
-import org.apache.commons.math4.genetics.Population;
+import org.apache.commons.math4.genetics.population.ListPopulation;
+import org.apache.commons.math4.genetics.population.Population;
 import org.junit.Assert;
 import org.junit.Test;
 

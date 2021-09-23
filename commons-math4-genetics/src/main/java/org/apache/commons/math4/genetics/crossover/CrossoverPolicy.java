@@ -16,8 +16,8 @@
  */
 package org.apache.commons.math4.genetics.crossover;
 
-import org.apache.commons.math4.genetics.Chromosome;
-import org.apache.commons.math4.genetics.ChromosomePair;
+import org.apache.commons.math4.genetics.chromosome.Chromosome;
+import org.apache.commons.math4.genetics.chromosome.ChromosomePair;
 
 /**
  * Policy used to create a pair of new chromosomes by performing a crossover

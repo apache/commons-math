@@ -14,29 +14,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
-package org.apache.commons.math4.genetics;
-
 /**
- * This abstraction represents a chromosome.
- * @param <P> phenotype of chromosome
+ * This package provides Genetic Algorithms components and implementations.
  */
-public interface Chromosome<P> extends Comparable<Chromosome<P>> {
-
-    /**
-     * Access the fitness of this chromosome. The bigger the fitness, the better the
-     * chromosome.
-     * <p>
-     * Computation of fitness is usually very time-consuming task, therefore the
-     * fitness is cached.
-     * @return the fitness
-     */
-    double evaluate();
-
-    /**
-     * Decodes the chromosome genotype and returns the phenotype.
-     * @return phenotype
-     */
-    P decode();
-
-}
+package org.apache.commons.math4.genetics.chromosome;

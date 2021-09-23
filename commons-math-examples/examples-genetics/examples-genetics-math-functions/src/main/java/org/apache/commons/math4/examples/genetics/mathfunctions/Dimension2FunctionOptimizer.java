@@ -18,70 +18,86 @@
 package org.apache.commons.math4.examples.genetics.mathfunctions;
 
 import org.apache.commons.math4.examples.genetics.mathfunctions.utils.Constants;
+
 import org.apache.commons.math4.examples.genetics.mathfunctions.utils.GraphPlotter;
-import org.apache.commons.math4.genetics.BinaryChromosome;
-import org.apache.commons.math4.genetics.Chromosome;
 import org.apache.commons.math4.genetics.GeneticAlgorithm;
-import org.apache.commons.math4.genetics.ListPopulation;
-import org.apache.commons.math4.genetics.Population;
+import org.apache.commons.math4.genetics.chromosome.BinaryChromosome;
+import org.apache.commons.math4.genetics.chromosome.Chromosome;
 import org.apache.commons.math4.genetics.convergencecond.StoppingCondition;
 import org.apache.commons.math4.genetics.convergencecond.UnchangedBestFitness;
 import org.apache.commons.math4.genetics.crossover.OnePointCrossover;
 import org.apache.commons.math4.genetics.listener.ConvergenceListenerRegistry;
 import org.apache.commons.math4.genetics.listener.PopulationStatisticsLogger;
 import org.apache.commons.math4.genetics.mutation.BinaryMutation;
+import org.apache.commons.math4.genetics.population.ListPopulation;
+import org.apache.commons.math4.genetics.population.Population;
 import org.apache.commons.math4.genetics.selection.TournamentSelection;
 import org.apache.commons.math4.genetics.utils.ConsoleLogger;
 
 /**
- * 
- *
+ * This class represents an optimizer for a 2-dimensional math function using
+ * genetic algorithm.
  */
 public class Dimension2FunctionOptimizer {
 
+    /**
+     * Optimizes the 2-dimension fitness function.
+     * @param args arguments
+     */
     public static void main(String[] args) {
-        Population<Coordinate> initPopulation = getInitialPopulation();
+        final Population<Coordinate> initPopulation = getInitialPopulation();
 
-        Dimension2FunctionOptimizer optimizer = new Dimension2FunctionOptimizer();
+        final Dimension2FunctionOptimizer optimizer = new Dimension2FunctionOptimizer();
 
-        ConvergenceListenerRegistry<Coordinate> convergenceListenerRegistry = ConvergenceListenerRegistry.getInstance();
-        convergenceListenerRegistry.addConvergenceListener(new PopulationStatisticsLogger<Coordinate>("UTF-8"));
+        final ConvergenceListenerRegistry<Coordinate> convergenceListenerRegistry = ConvergenceListenerRegistry
+                .getInstance();
+        convergenceListenerRegistry
+                .addConvergenceListener(new PopulationStatisticsLogger<Coordinate>(Constants.ENCODING));
         convergenceListenerRegistry
                 .addConvergenceListener(new GraphPlotter("Convergence Stats", "generation", "fitness"));
 
         optimizer.optimize(initPopulation);
     }
 
+    /**
+     * Optimizes the population.
+     * @param initial The {@link Population}
+     */
     public void optimize(Population<Coordinate> initial) {
 
         // initialize a new genetic algorithm
-        GeneticAlgorithm<Coordinate> ga = new GeneticAlgorithm<Coordinate>(new OnePointCrossover<Integer, Coordinate>(),
+        final GeneticAlgorithm<Coordinate> ga = new GeneticAlgorithm<>(new OnePointCrossover<Integer, Coordinate>(),
                 Constants.CROSSOVER_RATE, new BinaryMutation<Coordinate>(), Constants.AVERAGE_MUTATION_RATE,
                 new TournamentSelection<Coordinate>(Constants.TOURNAMENT_SIZE), Constants.ELITISM_RATE);
 
         // stopping condition
-        StoppingCondition<Coordinate> stopCond = new UnchangedBestFitness<Coordinate>(
+        final StoppingCondition<Coordinate> stopCond = new UnchangedBestFitness<>(
                 Constants.GENERATION_COUNT_WITH_UNCHANGED_BEST_FUTNESS);
 
         // run the algorithm
-        Population<Coordinate> finalPopulation = ga.evolve(initial, stopCond);
+        final Population<Coordinate> finalPopulation = ga.evolve(initial, stopCond);
 
         // best chromosome from the final population
-        Chromosome<Coordinate> bestFinal = finalPopulation.getFittestChromosome();
-        ConsoleLogger consoleLogger = ConsoleLogger.getInstance("UTF-8");
+        final Chromosome<Coordinate> bestFinal = finalPopulation.getFittestChromosome();
+        final ConsoleLogger consoleLogger = ConsoleLogger.getInstance(Constants.ENCODING);
         consoleLogger.log("*********************************************");
         consoleLogger.log("***********Optimization Result***************");
-        consoleLogger.log("*********************************************");
 
         consoleLogger.log(bestFinal.toString());
 
     }
 
+    /**
+     * Generates an initial population.
+     * @return initial population
+     */
     private static Population<Coordinate> getInitialPopulation() {
-        Population<Coordinate> population = new ListPopulation<>(Constants.POPULATION_SIZE);
+        final Population<Coordinate> population = new ListPopulation<>(Constants.POPULATION_SIZE);
+        final Dimension2FitnessFunction fitnessFunction = new Dimension2FitnessFunction();
+        final Dimension2Decoder decoder = new Dimension2Decoder();
         for (int i = 0; i < Constants.POPULATION_SIZE; i++) {
             population.addChromosome(BinaryChromosome.<Coordinate>randomChromosome(Constants.CHROMOSOME_LENGTH,
-                    new Dimension2FitnessFunction(), new Dimension2Decoder()));
+                    fitnessFunction, decoder));
         }
         return population;
     }

@@ -16,8 +16,8 @@
  */
 package org.apache.commons.math4.genetics.mutation;
 
-import org.apache.commons.math4.genetics.Chromosome;
-import org.apache.commons.math4.genetics.RealValuedChromosome;
+import org.apache.commons.math4.genetics.chromosome.Chromosome;
+import org.apache.commons.math4.genetics.chromosome.RealValuedChromosome;
 import org.apache.commons.math4.genetics.exception.GeneticException;
 import org.apache.commons.math4.genetics.utils.RandomGenerator;
 
@@ -25,7 +25,7 @@ import org.apache.commons.math4.genetics.utils.RandomGenerator;
  * This class mutates real-valued chromosome.
  * @param <P> phenotype of chromosome
  */
-public class RealValueMutation<P> extends AbstractListChromosomeMutationPolicy<Double, P> {
+public class RealValuedMutation<P> extends AbstractListChromosomeMutationPolicy<Double, P> {
 
     /** minimum value of chromosome gene/allele. **/
     private final double min;
@@ -36,19 +36,39 @@ public class RealValueMutation<P> extends AbstractListChromosomeMutationPolicy<D
     /**
      * Constructs the mutation operator with normalized range of double values.
      */
-    public RealValueMutation() {
+    public RealValuedMutation() {
         this.min = 0d;
         this.max = 1d;
     }
 
     /**
      * Constructs the mutation operator with provided range of double values.
-     * @param min minimum value of allele
-     * @param max maximum value of allele
+     * @param min minimum inclusive value of allele
+     * @param max maximum exclusive value of allele
      */
-    public RealValueMutation(double min, double max) {
+    public RealValuedMutation(double min, double max) {
         this.min = min;
         this.max = max;
+
+        if (min > max) {
+            throw new GeneticException(GeneticException.TOO_LARGE, min, max);
+        }
+    }
+
+    /**
+     * Returns the minimum acceptable value.
+     * @return minimum
+     */
+    public double getMin() {
+        return min;
+    }
+
+    /**
+     * Returns the maximum acceptable value.
+     * @return maximum
+     */
+    public double getMax() {
+        return max;
     }
 
     /**
@@ -58,6 +78,11 @@ public class RealValueMutation<P> extends AbstractListChromosomeMutationPolicy<D
     protected void checkValidity(Chromosome<P> original) {
         if (!RealValuedChromosome.class.isAssignableFrom(original.getClass())) {
             throw new GeneticException(GeneticException.ILLEGAL_ARGUMENT, original.getClass().getSimpleName());
+        }
+        RealValuedChromosome<P> chromosome = (RealValuedChromosome<P>) original;
+        if (chromosome.getMin() != this.min || chromosome.getMax() != this.max) {
+            throw new GeneticException(GeneticException.ILLEGAL_RANGE, this.min, this.max, chromosome.getMin(),
+                    chromosome.getMax());
         }
     }
 

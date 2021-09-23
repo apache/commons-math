@@ -16,7 +16,7 @@
  */
 package org.apache.commons.math4.genetics.convergencecond;
 
-import org.apache.commons.math4.genetics.Population;
+import org.apache.commons.math4.genetics.population.Population;
 
 /**
  * Algorithm used to determine when to stop evolution.

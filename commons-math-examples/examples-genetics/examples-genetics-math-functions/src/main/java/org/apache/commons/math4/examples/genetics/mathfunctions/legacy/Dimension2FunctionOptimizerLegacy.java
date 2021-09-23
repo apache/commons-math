@@ -14,69 +14,84 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package org.apache.commons.math4.examples.genetics.mathfunctions.legacy;
+
+import java.io.BufferedWriter;
+
+import java.io.IOException;
+import java.io.OutputStreamWriter;
 
 import org.apache.commons.math3.genetics.BinaryChromosome;
 import org.apache.commons.math3.genetics.BinaryMutation;
 import org.apache.commons.math3.genetics.Chromosome;
 import org.apache.commons.math3.genetics.ElitisticListPopulation;
+import org.apache.commons.math3.genetics.GeneticAlgorithm;
 import org.apache.commons.math3.genetics.OnePointCrossover;
 import org.apache.commons.math3.genetics.Population;
 import org.apache.commons.math3.genetics.StoppingCondition;
 import org.apache.commons.math3.genetics.TournamentSelection;
-import org.apache.commons.math4.examples.genetics.mathfunctions.Coordinate;
 import org.apache.commons.math4.examples.genetics.mathfunctions.utils.Constants;
-import org.apache.commons.math4.examples.genetics.mathfunctions.utils.GraphPlotter;
-import org.apache.commons.math4.genetics.listener.ConvergenceListenerRegistry;
-import org.apache.commons.math4.genetics.listener.PopulationStatisticsLogger;
+import org.apache.commons.math4.genetics.exception.GeneticException;
 
+/**
+ * This class represents an optimizer for a 2-dimensional math function using
+ * the legacy genetic algorithm.
+ */
 public class Dimension2FunctionOptimizerLegacy {
 
-	public static void main(String[] args) {
-		Population initPopulation = getInitialPopulation();
+    /**
+     * Optimizes the 2-dimensional fitness function.
+     * @param args arguments
+     */
+    public static void main(String[] args) {
+        final Population initPopulation = getInitialPopulation();
+        final Dimension2FunctionOptimizerLegacy simulation = new Dimension2FunctionOptimizerLegacy();
 
-		Dimension2FunctionOptimizerLegacy simulation = new Dimension2FunctionOptimizerLegacy();
+        simulation.optimize(initPopulation);
+    }
 
-		ConvergenceListenerRegistry convergenceListenerRegistry = ConvergenceListenerRegistry.getInstance();
-		convergenceListenerRegistry.addConvergenceListener(new PopulationStatisticsLogger<Coordinate>("UTF-8"));
-		convergenceListenerRegistry
-				.addConvergenceListener(new GraphPlotter("Convergence Stats", "generation", "fitness"));
+    /**
+     * Optimizes the initial population using legacy genetic algorithm.
+     * @param initial initial {@link Population}
+     */
+    public void optimize(Population initial) {
 
-		simulation.optimize(initPopulation);
-	}
+        // initialize a new genetic algorithm
+        final GeneticAlgorithm geneticAlgorithm = new GeneticAlgorithm(new OnePointCrossover<>(),
+                Constants.CROSSOVER_RATE, new BinaryMutation(), Constants.AVERAGE_MUTATION_RATE,
+                new TournamentSelection(Constants.TOURNAMENT_SIZE));
 
-	public void optimize(Population initial) {
+        // stopping condition
+        final StoppingCondition stopCond = new UnchangedBestFitness(
+                Constants.GENERATION_COUNT_WITH_UNCHANGED_BEST_FUTNESS);
 
-		// initialize a new genetic algorithm
-		LegacyGeneticAlgorithm ga = new LegacyGeneticAlgorithm(new OnePointCrossover<Integer>(),
-				Constants.CROSSOVER_RATE, new BinaryMutation(), Constants.AVERAGE_MUTATION_RATE,
-				new TournamentSelection(Constants.TOURNAMENT_SIZE));
+        // run the algorithm
+        final Population finalPopulation = geneticAlgorithm.evolve(initial, stopCond);
 
-		// stopping condition
-		StoppingCondition stopCond = new UnchangedBestFitness(Constants.GENERATION_COUNT_WITH_UNCHANGED_BEST_FUTNESS);
+        // best chromosome from the final population
+        final Chromosome bestFinal = finalPopulation.getFittestChromosome();
 
-		// run the algorithm
-		Population finalPopulation = ga.evolve(initial, stopCond);
+        try (BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(System.out, Constants.ENCODING))) {
+            writer.write("*********************************************");
+            writer.newLine();
+            writer.write("***********Optimization Result***************");
+            writer.write(bestFinal.toString());
+        } catch (IOException e) {
+            throw new GeneticException(e);
+        }
+    }
 
-		// best chromosome from the final population
-		Chromosome bestFinal = finalPopulation.getFittestChromosome();
-
-		System.out.println("*********************************************");
-		System.out.println("***********Optimization Result***************");
-		System.out.println("*********************************************");
-
-		System.out.println(bestFinal.toString());
-
-	}
-
-	private static Population getInitialPopulation() {
-		Population population = new ElitisticListPopulation(Constants.POPULATION_SIZE, Constants.ELITISM_RATE);
-		for (int i = 0; i < Constants.POPULATION_SIZE; i++) {
-			population.addChromosome(new LegacyBinaryChromosome(
-					BinaryChromosome.randomBinaryRepresentation(Constants.CHROMOSOME_LENGTH)));
-		}
-		return population;
-	}
+    /**
+     * Generates the initial population.
+     * @return initial population
+     */
+    private static Population getInitialPopulation() {
+        final Population population = new ElitisticListPopulation(Constants.POPULATION_SIZE, Constants.ELITISM_RATE);
+        for (int i = 0; i < Constants.POPULATION_SIZE; i++) {
+            population.addChromosome(new LegacyBinaryChromosome(
+                    BinaryChromosome.randomBinaryRepresentation(Constants.CHROMOSOME_LENGTH)));
+        }
+        return population;
+    }
 
 }

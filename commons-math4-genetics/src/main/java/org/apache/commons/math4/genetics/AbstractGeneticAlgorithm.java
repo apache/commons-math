@@ -21,6 +21,7 @@ import org.apache.commons.math4.genetics.convergencecond.StoppingCondition;
 import org.apache.commons.math4.genetics.crossover.CrossoverPolicy;
 import org.apache.commons.math4.genetics.listener.ConvergenceListenerRegistry;
 import org.apache.commons.math4.genetics.mutation.MutationPolicy;
+import org.apache.commons.math4.genetics.population.Population;
 import org.apache.commons.math4.genetics.selection.SelectionPolicy;
 
 /**

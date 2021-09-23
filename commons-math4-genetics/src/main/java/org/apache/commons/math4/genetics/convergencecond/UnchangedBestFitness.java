@@ -17,7 +17,7 @@
 
 package org.apache.commons.math4.genetics.convergencecond;
 
-import org.apache.commons.math4.genetics.Population;
+import org.apache.commons.math4.genetics.population.Population;
 
 /**
  * This class represents a stopping condition based on best fitness value.

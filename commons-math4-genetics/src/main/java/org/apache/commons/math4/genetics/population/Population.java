@@ -14,7 +14,9 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.apache.commons.math4.genetics;
+package org.apache.commons.math4.genetics.population;
+
+import org.apache.commons.math4.genetics.chromosome.Chromosome;
 
 /**
  * A collection of chromosomes that facilitates generational evolution.

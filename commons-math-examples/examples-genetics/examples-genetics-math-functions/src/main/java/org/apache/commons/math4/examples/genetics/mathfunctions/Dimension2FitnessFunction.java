@@ -17,16 +17,24 @@
 
 package org.apache.commons.math4.examples.genetics.mathfunctions;
 
-import org.apache.commons.math4.genetics.FitnessFunction;
+import org.apache.commons.math4.genetics.fitness.FitnessFunction;
 
+/**
+ * This class represents the mathematical fitness function for optimizing a 2
+ * dimension mathematical function.
+ */
 public class Dimension2FitnessFunction implements FitnessFunction<Coordinate> {
 
+    /**
+     * Computes the fitness value based on the decoded chromosome.
+     * @param coordinate The {@link Coordinate}
+     * @return the fitness value
+     */
     @Override
     public double compute(Coordinate coordinate) {
-        double computedValue = Math.pow((Math.pow(coordinate.getX(), 2) + Math.pow(coordinate.getY(), 2)), .25) * (Math
-                .pow(Math.sin(50 * Math.pow((Math.pow(coordinate.getX(), 2) + Math.pow(coordinate.getY(), 2)), .1)), 2)
-                + 1);
-        return -computedValue;
+        return -Math.pow(Math.pow(coordinate.getX(), 2) + Math.pow(coordinate.getY(), 2), .25) *
+                (Math.pow(Math.sin(50 * Math.pow(Math.pow(coordinate.getX(), 2) + Math.pow(coordinate.getY(), 2), .1)),
+                        2) + 1);
     }
 
 }

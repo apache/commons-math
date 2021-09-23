@@ -17,7 +17,7 @@
 
 package org.apache.commons.math4.genetics.stats;
 
-import org.apache.commons.math4.genetics.Chromosome;
+import org.apache.commons.math4.genetics.chromosome.Chromosome;
 
 /**
  * This interface represents the statistical summary for population fitness.

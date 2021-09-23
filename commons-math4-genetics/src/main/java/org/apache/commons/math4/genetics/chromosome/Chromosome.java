@@ -14,21 +14,29 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.apache.commons.math4.genetics;
 
-import org.apache.commons.math4.genetics.decoder.AbstractListChromosomeDecoder;
+package org.apache.commons.math4.genetics.chromosome;
 
-public class DummyListChromosomeDecoder<T> extends AbstractListChromosomeDecoder<T, String> {
+/**
+ * This abstraction represents a chromosome.
+ * @param <P> phenotype of chromosome
+ */
+public interface Chromosome<P> extends Comparable<Chromosome<P>> {
 
-    private String value;
+    /**
+     * Access the fitness of this chromosome. The bigger the fitness, the better the
+     * chromosome.
+     * <p>
+     * Computation of fitness is usually very time-consuming task, therefore the
+     * fitness is cached.
+     * @return the fitness
+     */
+    double evaluate();
 
-    public DummyListChromosomeDecoder(String value) {
-        this.value = value;
-    }
-
-    @Override
-    protected String decode(AbstractListChromosome<T, String> chromosome) {
-        return value;
-    }
+    /**
+     * Decodes the chromosome genotype and returns the phenotype.
+     * @return phenotype
+     */
+    P decode();
 
 }

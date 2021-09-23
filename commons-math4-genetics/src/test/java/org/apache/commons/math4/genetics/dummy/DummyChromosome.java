@@ -16,7 +16,7 @@
  */
 package org.apache.commons.math4.genetics.dummy;
 
-import org.apache.commons.math4.genetics.AbstractChromosome;
+import org.apache.commons.math4.genetics.chromosome.AbstractChromosome;
 
 public class DummyChromosome extends AbstractChromosome<String> {
 

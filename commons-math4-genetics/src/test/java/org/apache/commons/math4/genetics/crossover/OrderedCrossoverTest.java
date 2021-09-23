@@ -20,7 +20,7 @@ import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Set;
 
-import org.apache.commons.math4.genetics.ChromosomePair;
+import org.apache.commons.math4.genetics.chromosome.ChromosomePair;
 import org.apache.commons.math4.genetics.dummy.DummyListChromosome;
 import org.junit.Assert;
 import org.junit.Test;
