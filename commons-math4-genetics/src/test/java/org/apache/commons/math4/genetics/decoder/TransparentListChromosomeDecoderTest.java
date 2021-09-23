@@ -19,8 +19,8 @@ package org.apache.commons.math4.genetics.decoder;
 import java.util.List;
 import java.util.Objects;
 
-import org.apache.commons.math4.genetics.BinaryChromosome;
-import org.apache.commons.math4.genetics.Chromosome;
+import org.apache.commons.math4.genetics.chromosome.BinaryChromosome;
+import org.apache.commons.math4.genetics.chromosome.Chromosome;
 import org.apache.commons.math4.genetics.utils.ChromosomeRepresentationUtils;
 import org.junit.Assert;
 import org.junit.Test;

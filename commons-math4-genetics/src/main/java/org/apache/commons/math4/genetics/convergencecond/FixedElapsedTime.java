@@ -18,8 +18,8 @@ package org.apache.commons.math4.genetics.convergencecond;
 
 import java.util.concurrent.TimeUnit;
 
-import org.apache.commons.math4.genetics.Population;
 import org.apache.commons.math4.genetics.exception.GeneticException;
+import org.apache.commons.math4.genetics.population.Population;
 
 /**
  * Stops after a fixed amount of time has elapsed.

@@ -46,6 +46,10 @@ public class GeneticException extends RuntimeException {
     public static final String ILLEGAL_ARGUMENT = "Illegal Argument Exception: {0}";
 
     /** Error message for "generic illegal argument" condition. */
+    public static final String ILLEGAL_RANGE = "Illegal Range of Value Exception: " +
+            "[Expected min-{0}, max-{1}], [Passed min-{2}, max-{3}]";
+
+    /** Error message for "generic illegal argument" condition. */
     public static final String INVALID_FIXED_LENGTH_CHROMOSOME = "Invalid Fixed Length Chromosome.";
 
     /** Error message for "NULL ARGUMENT" condition. */

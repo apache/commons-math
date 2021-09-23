@@ -17,7 +17,7 @@
 
 package org.apache.commons.math4.genetics.crossover.rategenerator;
 
-import org.apache.commons.math4.genetics.Chromosome;
+import org.apache.commons.math4.genetics.chromosome.Chromosome;
 import org.apache.commons.math4.genetics.stats.PopulationStatisticalSummary;
 
 /**

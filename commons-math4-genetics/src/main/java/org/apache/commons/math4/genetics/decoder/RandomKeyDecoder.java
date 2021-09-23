@@ -20,7 +20,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-import org.apache.commons.math4.genetics.AbstractListChromosome;
+import org.apache.commons.math4.genetics.chromosome.AbstractListChromosome;
 import org.apache.commons.math4.genetics.exception.GeneticException;
 import org.apache.commons.math4.genetics.utils.ValidationUtils;
 
@@ -36,7 +36,7 @@ public final class RandomKeyDecoder<U> extends AbstractListChromosomeDecoder<Dou
 
     /**
      * constructor.
-     * @param baseSequence  the unpermuted sequence
+     * @param baseSequence the unpermuted sequence
      */
     public RandomKeyDecoder(List<U> baseSequence) {
         ValidationUtils.checkForNull("baseSequence", baseSequence);

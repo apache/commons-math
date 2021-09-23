@@ -19,14 +19,14 @@ package org.apache.commons.math4.genetics.decoder;
 import java.util.Arrays;
 import java.util.List;
 
-import org.apache.commons.math4.genetics.RealValuedChromosome;
+import org.apache.commons.math4.genetics.chromosome.RealValuedChromosome;
 import org.junit.Assert;
 import org.junit.Test;
 
 public class RandomKeyDecoderTest {
 
     @Test
-    public void testDecodeChromosomeOfP() {
+    public void testDecodeChromosome() {
 
         List<String> sequence = Arrays.asList(new String[] {"a", "b", "c", "d", "e"});
         Double[] keys = new Double[] {0.4, 0.1, 0.5, 0.8, 0.2};

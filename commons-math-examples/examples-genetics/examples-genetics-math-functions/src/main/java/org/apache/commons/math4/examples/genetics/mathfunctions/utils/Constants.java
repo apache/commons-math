@@ -14,23 +14,42 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package org.apache.commons.math4.examples.genetics.mathfunctions.utils;
 
-public interface Constants {
+/**
+ * This abstraction maintains constants used by this module.
+ */
+public final class Constants {
 
-	int POPULATION_SIZE = 20;
+    /** size of population. **/
+    public static final int POPULATION_SIZE = 20;
 
-	int TOURNAMENT_SIZE = 2;
+    /** size of tournament. **/
+    public static final int TOURNAMENT_SIZE = 2;
 
-	int CHROMOSOME_LENGTH = 24;
+    /** length of chromosome. **/
+    public static final int CHROMOSOME_LENGTH = 24;
 
-	double CROSSOVER_RATE = 1.0;
+    /** rate of crossover. **/
+    public static final double CROSSOVER_RATE = 1.0;
 
-	double ELITISM_RATE = 0.25;
+    /** rate of elitism. **/
+    public static final double ELITISM_RATE = 0.25;
 
-	double AVERAGE_MUTATION_RATE = 0.05;
+    /** rate of mutation. **/
+    public static final double AVERAGE_MUTATION_RATE = 0.05;
 
-	int GENERATION_COUNT_WITH_UNCHANGED_BEST_FUTNESS = 50;
+    /** number of generations with unchanged best fitness. **/
+    public static final int GENERATION_COUNT_WITH_UNCHANGED_BEST_FUTNESS = 50;
+
+    /** encoding for console logger. **/
+    public static final String ENCODING = "UTF-8";
+
+    /**
+     * constructor.
+     */
+    private Constants() {
+
+    }
 
 }

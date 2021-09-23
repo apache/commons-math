@@ -20,11 +20,11 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-import org.apache.commons.math4.genetics.Chromosome;
-import org.apache.commons.math4.genetics.ChromosomePair;
-import org.apache.commons.math4.genetics.ListPopulation;
-import org.apache.commons.math4.genetics.Population;
+import org.apache.commons.math4.genetics.chromosome.Chromosome;
+import org.apache.commons.math4.genetics.chromosome.ChromosomePair;
 import org.apache.commons.math4.genetics.exception.GeneticException;
+import org.apache.commons.math4.genetics.population.ListPopulation;
+import org.apache.commons.math4.genetics.population.Population;
 import org.apache.commons.math4.genetics.utils.RandomGenerator;
 
 /**

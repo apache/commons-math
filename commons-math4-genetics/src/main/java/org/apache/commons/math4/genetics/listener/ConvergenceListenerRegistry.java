@@ -20,7 +20,7 @@ package org.apache.commons.math4.genetics.listener;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.apache.commons.math4.genetics.Population;
+import org.apache.commons.math4.genetics.population.Population;
 
 /**
  * This class is the default implementation of ConvergenceListenerRegistry. It

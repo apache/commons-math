@@ -15,28 +15,24 @@
  * limitations under the License.
  */
 
-package org.apache.commons.math4.genetics;
+package org.apache.commons.math4.genetics.mutation.rategenerator;
+
+import org.apache.commons.math4.genetics.chromosome.Chromosome;
+import org.apache.commons.math4.genetics.stats.PopulationStatisticalSummary;
 
 /**
- * This abstraction represents a chromosome.
+ * This abstraction represents mutation rate generator.
  * @param <P> phenotype of chromosome
  */
-public interface Chromosome<P> extends Comparable<Chromosome<P>> {
+public interface MutationRateGenerator<P> {
 
     /**
-     * Access the fitness of this chromosome. The bigger the fitness, the better the
-     * chromosome.
-     * <p>
-     * Computation of fitness is usually very time-consuming task, therefore the
-     * fitness is cached.
-     * @return the fitness
+     * Generates mutation rate based on input params.
+     * @param chromosome      chromosome to be mutated
+     * @param populationStats population statistical measures
+     * @param generation      current generation
+     * @return mutation rate
      */
-    double evaluate();
-
-    /**
-     * Decodes the chromosome genotype and returns the phenotype.
-     * @return phenotype
-     */
-    P decode();
+    double generate(Chromosome<P> chromosome, PopulationStatisticalSummary<P> populationStats, int generation);
 
 }

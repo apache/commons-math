@@ -26,17 +26,24 @@ import org.apache.commons.rng.simple.ThreadLocalRandomSource;
  */
 public final class RandomGenerator {
 
-    private RandomGenerator() {
+    /** {@link ThreadLocal} instances of {@link UniformRandomProvider}. **/
+    private static ThreadLocal<UniformRandomProvider> randomSources = new ThreadLocal<>();
 
+    /**
+     * constructor.
+     */
+    private RandomGenerator() {
     }
 
     /**
      * Returns the (static) random generator.
-     *
      * @return the static random generator shared by GA implementation classes
      */
     public static UniformRandomProvider getRandomGenerator() {
-        return ThreadLocalRandomSource.current(RandomSource.XO_RO_SHI_RO_128_PP);
+        if (randomSources.get() == null) {
+            randomSources.set(ThreadLocalRandomSource.current(RandomSource.XO_RO_SHI_RO_128_PP));
+        }
+        return randomSources.get();
     }
 
 }

@@ -16,8 +16,8 @@
  */
 package org.apache.commons.math4.genetics.decoder;
 
-import org.apache.commons.math4.genetics.AbstractListChromosome;
-import org.apache.commons.math4.genetics.Chromosome;
+import org.apache.commons.math4.genetics.chromosome.AbstractListChromosome;
+import org.apache.commons.math4.genetics.chromosome.Chromosome;
 import org.apache.commons.math4.genetics.exception.GeneticException;
 
 /**
@@ -33,10 +33,19 @@ public abstract class AbstractListChromosomeDecoder<T, P> implements Decoder<P> 
     @SuppressWarnings("unchecked")
     @Override
     public P decode(Chromosome<P> chromosome) {
+        checkValidity(chromosome);
+
+        return decode((AbstractListChromosome<T, P>) chromosome);
+    }
+
+    /**
+     * Checks validity of {@link Chromosome}.
+     * @param chromosome the {@link Chromosome}
+     */
+    protected void checkValidity(Chromosome<P> chromosome) {
         if (!AbstractListChromosome.class.isAssignableFrom(chromosome.getClass())) {
             throw new GeneticException(GeneticException.ILLEGAL_ARGUMENT, chromosome.getClass().getSimpleName());
         }
-        return decode((AbstractListChromosome<T, P>) chromosome);
     }
 
     /**

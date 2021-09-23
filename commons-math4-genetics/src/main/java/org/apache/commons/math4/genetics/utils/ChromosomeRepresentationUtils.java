@@ -23,6 +23,7 @@ import java.util.Comparator;
 import java.util.List;
 
 import org.apache.commons.math4.genetics.exception.GeneticException;
+import org.apache.commons.rng.UniformRandomProvider;
 
 /**
  * This interface generates all random representations for chromosomes.
@@ -37,9 +38,10 @@ public interface ChromosomeRepresentationUtils {
      * @return representation of a random permutation
      */
     static List<Double> randomPermutation(final int l) {
+        final UniformRandomProvider randomProvider = RandomGenerator.getRandomGenerator();
         final List<Double> repr = new ArrayList<>(l);
         for (int i = 0; i < l; i++) {
-            repr.add(RandomGenerator.getRandomGenerator().nextDouble());
+            repr.add(randomProvider.nextDouble());
         }
         return repr;
     }
@@ -118,13 +120,31 @@ public interface ChromosomeRepresentationUtils {
      * Returns a representation of a random binary array of length
      * <code>length</code>.
      * @param length length of the array
+     * @param min    minimum inclusive value of allele
+     * @param max    maximum exclusive value of allele
      * @return a random binary array of length <code>length</code>
      */
-    static List<Integer> randomBinaryRepresentation(int length) {
-        // random binary list
-        List<Integer> rList = new ArrayList<>(length);
+    static List<Integer> randomIntegralRepresentation(final int length, final int min, final int max) {
+        final UniformRandomProvider randomProvider = RandomGenerator.getRandomGenerator();
+        final List<Integer> rList = new ArrayList<>(length);
         for (int j = 0; j < length; j++) {
-            rList.add(RandomGenerator.getRandomGenerator().nextInt(2));
+            rList.add(min + randomProvider.nextInt(max - min));
+        }
+        return rList;
+    }
+
+    /**
+     * Returns a representation of a random binary array of length
+     * <code>length</code>.
+     * @param length length of the array
+     * @return a random binary array of length <code>length</code>
+     */
+    static List<Integer> randomBinaryRepresentation(final int length) {
+        final UniformRandomProvider randomProvider = RandomGenerator.getRandomGenerator();
+        // random binary list
+        final List<Integer> rList = new ArrayList<>(length);
+        for (int j = 0; j < length; j++) {
+            rList.add(randomProvider.nextInt(2));
         }
         return rList;
     }
@@ -143,18 +163,19 @@ public interface ChromosomeRepresentationUtils {
      * Generates a representation corresponding to a random double values of length
      * l.
      * @param l   length of representation
-     * @param min minimum value of chromosome gene
-     * @param max maximum value of chromosome gene
+     * @param min minimum inclusive value of chromosome gene
+     * @param max maximum exclusive value of chromosome gene
      * @return representation as List of Double
      */
     static List<Double> randomDoubleRepresentation(final int l, double min, double max) {
         if (max < min) {
             throw new GeneticException(GeneticException.TOO_SMALL, max, min);
         }
-        double range = max - min;
+        final double range = max - min;
+        final UniformRandomProvider randomProvider = RandomGenerator.getRandomGenerator();
         final List<Double> repr = new ArrayList<>(l);
         for (int i = 0; i < l; i++) {
-            repr.add(min + RandomGenerator.getRandomGenerator().nextDouble() * range);
+            repr.add(min + randomProvider.nextDouble() * range);
         }
         return repr;
     }

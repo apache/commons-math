@@ -16,10 +16,11 @@
  */
 package org.apache.commons.math4.genetics;
 
+import org.apache.commons.math4.genetics.chromosome.ChromosomePair;
 import org.apache.commons.math4.genetics.crossover.CrossoverPolicy;
-
 import org.apache.commons.math4.genetics.exception.GeneticException;
 import org.apache.commons.math4.genetics.mutation.MutationPolicy;
+import org.apache.commons.math4.genetics.population.Population;
 import org.apache.commons.math4.genetics.selection.SelectionPolicy;
 import org.apache.commons.math4.genetics.utils.Constants;
 

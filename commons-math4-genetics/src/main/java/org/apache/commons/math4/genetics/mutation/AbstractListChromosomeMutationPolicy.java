@@ -22,8 +22,8 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-import org.apache.commons.math4.genetics.AbstractListChromosome;
-import org.apache.commons.math4.genetics.Chromosome;
+import org.apache.commons.math4.genetics.chromosome.AbstractListChromosome;
+import org.apache.commons.math4.genetics.chromosome.Chromosome;
 import org.apache.commons.math4.genetics.utils.RandomGenerator;
 
 /**
@@ -42,7 +42,9 @@ public abstract class AbstractListChromosomeMutationPolicy<T, P> implements Muta
      */
     @Override
     public Chromosome<P> mutate(Chromosome<P> original, double mutationRate) {
+        // check for validity.
         checkValidity(original);
+
         @SuppressWarnings("unchecked")
         final AbstractListChromosome<T, P> chromosome = (AbstractListChromosome<T, P>) original;
         final List<T> newRep = new ArrayList<>(chromosome.getRepresentation());

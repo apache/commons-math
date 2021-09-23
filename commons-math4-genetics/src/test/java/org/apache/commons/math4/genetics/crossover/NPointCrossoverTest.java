@@ -18,11 +18,11 @@ package org.apache.commons.math4.genetics.crossover;
 
 import java.util.List;
 
-import org.apache.commons.math4.genetics.AbstractChromosome;
-import org.apache.commons.math4.genetics.BinaryChromosome;
-import org.apache.commons.math4.genetics.ChromosomePair;
-import org.apache.commons.math4.genetics.DummyListChromosomeDecoder;
+import org.apache.commons.math4.genetics.chromosome.AbstractChromosome;
+import org.apache.commons.math4.genetics.chromosome.BinaryChromosome;
+import org.apache.commons.math4.genetics.chromosome.ChromosomePair;
 import org.apache.commons.math4.genetics.exception.GeneticException;
+import org.apache.commons.math4.genetics.utils.DummyListChromosomeDecoder;
 import org.junit.Assert;
 import org.junit.Test;
 

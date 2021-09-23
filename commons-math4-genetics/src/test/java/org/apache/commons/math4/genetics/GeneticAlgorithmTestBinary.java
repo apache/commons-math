@@ -20,6 +20,8 @@ import java.lang.reflect.Field;
 import java.util.LinkedList;
 import java.util.List;
 
+import org.apache.commons.math4.genetics.chromosome.BinaryChromosome;
+import org.apache.commons.math4.genetics.chromosome.Chromosome;
 import org.apache.commons.math4.genetics.convergencecond.FixedGenerationCount;
 import org.apache.commons.math4.genetics.convergencecond.StoppingCondition;
 import org.apache.commons.math4.genetics.crossover.OnePointCrossover;
@@ -27,6 +29,8 @@ import org.apache.commons.math4.genetics.decoder.TransparentListChromosomeDecode
 import org.apache.commons.math4.genetics.listener.ConvergenceListener;
 import org.apache.commons.math4.genetics.listener.ConvergenceListenerRegistry;
 import org.apache.commons.math4.genetics.mutation.BinaryMutation;
+import org.apache.commons.math4.genetics.population.ListPopulation;
+import org.apache.commons.math4.genetics.population.Population;
 import org.apache.commons.math4.genetics.selection.TournamentSelection;
 import org.apache.commons.math4.genetics.utils.ChromosomeRepresentationUtils;
 import org.junit.Assert;
@@ -55,6 +59,7 @@ public class GeneticAlgorithmTestBinary {
         if (!accessible) {
             listenersField.setAccessible(true);
         }
+        @SuppressWarnings("unchecked")
         List<ConvergenceListener<String>> listeners = (List<ConvergenceListener<String>>) listenersField
                 .get(ConvergenceListenerRegistry.getInstance());
         listeners.clear();

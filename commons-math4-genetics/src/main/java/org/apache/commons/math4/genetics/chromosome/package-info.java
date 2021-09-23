@@ -14,20 +14,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
-package org.apache.commons.math4.genetics;
-
 /**
- * This interface represents fitness function.
- * @param <P> phenotype of chromosome
+ * This package provides Genetic Algorithms components and implementations.
  */
-public interface FitnessFunction<P> {
-
-    /**
-     * computes the fitness value of the input chromosome's phenotype.
-     * @param decodedChromosome chromosome decoded as phenotype
-     * @return fitness value
-     */
-    double compute(P decodedChromosome);
-
-}
+package org.apache.commons.math4.genetics.chromosome;

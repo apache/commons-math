@@ -17,7 +17,7 @@
 
 package org.apache.commons.math4.genetics.listener;
 
-import org.apache.commons.math4.genetics.Population;
+import org.apache.commons.math4.genetics.population.Population;
 
 /**
  * This interface represents a convergence listener. Any implementation of the

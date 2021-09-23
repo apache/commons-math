@@ -18,8 +18,8 @@ package org.apache.commons.math4.genetics.stats.internal;
 
 import java.util.Arrays;
 
-import org.apache.commons.math4.genetics.Chromosome;
-import org.apache.commons.math4.genetics.Population;
+import org.apache.commons.math4.genetics.chromosome.Chromosome;
+import org.apache.commons.math4.genetics.population.Population;
 import org.apache.commons.math4.genetics.stats.PopulationStatisticalSummary;
 import org.apache.commons.math4.genetics.utils.ValidationUtils;
 

@@ -14,7 +14,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package org.apache.commons.math4.examples.genetics.tsp.utils;
 
 import java.awt.BorderLayout;
@@ -23,9 +22,9 @@ import java.util.List;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 
-import org.apache.commons.math4.examples.genetics.tsp.Node;
-import org.apache.commons.math4.genetics.Population;
+import org.apache.commons.math4.examples.genetics.tsp.commons.City;
 import org.apache.commons.math4.genetics.listener.ConvergenceListener;
+import org.apache.commons.math4.genetics.population.Population;
 import org.apache.commons.math4.genetics.stats.PopulationStatisticalSummary;
 import org.apache.commons.math4.genetics.stats.internal.PopulationStatisticalSummaryImpl;
 import org.jfree.chart.ChartFactory;
@@ -37,18 +36,29 @@ import org.jfree.chart.renderer.xy.XYLineAndShapeRenderer;
 import org.jfree.data.xy.XYSeries;
 import org.jfree.data.xy.XYSeriesCollection;
 
-public class GraphPlotter extends JFrame implements ConvergenceListener<List<Node>> {
+/**
+ * This class represents the graph plotter during optimization.
+ */
+public class GraphPlotter extends JFrame implements ConvergenceListener<List<City>> {
 
-    private int generation;
+    /**
+     * Generated serialversionId.
+     */
+    private static final long serialVersionUID = -5683904006424006584L;
 
-    private JFreeChart chart;
+    /** collection of 2-D series. **/
+    private final XYSeriesCollection dataset = new XYSeriesCollection();
 
-    private XYSeriesCollection dataset = new XYSeriesCollection();
-
+    /**
+     * constructor.
+     * @param plotSubject subject of plot
+     * @param xAxisLabel  x axis label
+     * @param yAxisLabel  y axis label
+     */
     public GraphPlotter(String plotSubject, String xAxisLabel, String yAxisLabel) {
         super(plotSubject);
 
-        JPanel chartPanel = createChartPanel(plotSubject, xAxisLabel, yAxisLabel);
+        final JPanel chartPanel = createChartPanel(plotSubject, xAxisLabel, yAxisLabel);
         add(chartPanel, BorderLayout.CENTER);
 
         setSize(640, 480);
@@ -58,29 +68,62 @@ public class GraphPlotter extends JFrame implements ConvergenceListener<List<Nod
         setVisible(true);
     }
 
+    /**
+     * Adds data point to graph.
+     * @param graphName  name of graph
+     * @param generation generation, to be plotted along x axis
+     * @param value      value, to be plotted along y axis
+     */
     private void addDataPoint(String graphName, int generation, double value) {
         XYSeries series = null;
-        try {
-            series = dataset.getSeries(graphName);
-        } catch (Exception e) {
+
+        if (!containsGraph(graphName)) {
             series = new XYSeries(graphName);
             dataset.addSeries(series);
+        } else {
+            series = dataset.getSeries(graphName);
         }
-        series.add(this.generation, value);
+        series.add(generation, value);
 
         setVisible(true);
     }
 
+    /**
+     * Checks if the graph with the given name already exists.
+     * @param graphName name of the graph
+     * @return true/false
+     */
+    @SuppressWarnings("unchecked")
+    private boolean containsGraph(String graphName) {
+        final List<XYSeries> seriesList = dataset.getSeries();
+        if (seriesList == null || seriesList.isEmpty()) {
+            return false;
+        }
+        for (XYSeries series : seriesList) {
+            if (series.getKey().compareTo(graphName) == 0) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    /**
+     * Creates chart panel.
+     * @param chartTitle chart title
+     * @param xAxisLabel x axis label
+     * @param yAxisLabel y axis label
+     * @return panel
+     */
     private JPanel createChartPanel(String chartTitle, String xAxisLabel, String yAxisLabel) {
 
-        boolean showLegend = true;
-        boolean createURL = false;
-        boolean createTooltip = false;
+        final boolean showLegend = true;
+        final boolean createURL = false;
+        final boolean createTooltip = false;
 
-        chart = ChartFactory.createXYLineChart(chartTitle, xAxisLabel, yAxisLabel, dataset, PlotOrientation.VERTICAL,
-                showLegend, createTooltip, createURL);
-        XYPlot plot = chart.getXYPlot();
-        XYLineAndShapeRenderer renderer = new XYLineAndShapeRenderer();
+        final JFreeChart chart = ChartFactory.createXYLineChart(chartTitle, xAxisLabel, yAxisLabel, dataset,
+                PlotOrientation.VERTICAL, showLegend, createTooltip, createURL);
+        final XYPlot plot = chart.getXYPlot();
+        final XYLineAndShapeRenderer renderer = new XYLineAndShapeRenderer();
 
         plot.setRenderer(renderer);
 
@@ -88,14 +131,15 @@ public class GraphPlotter extends JFrame implements ConvergenceListener<List<Nod
 
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
-    public void notify(int generation, Population<List<Node>> population) {
-        PopulationStatisticalSummary<List<Node>> populationStatisticalSummary = new PopulationStatisticalSummaryImpl<List<Node>>(
+    public void notify(int generation, Population<List<City>> population) {
+        PopulationStatisticalSummary<List<City>> populationStatisticalSummary = new PopulationStatisticalSummaryImpl<>(
                 population);
-        this.addDataPoint("Average", this.generation, Math.abs(populationStatisticalSummary.getMeanFitness()));
-        this.addDataPoint("Best", this.generation, Math.abs(populationStatisticalSummary.getMaxFitness()));
-        //this.addDataPoint("Variance", this.generation, populationStatisticalSummary.getFitnessVariance());
-        this.generation++;
+        this.addDataPoint("Average", generation, populationStatisticalSummary.getMeanFitness());
+        this.addDataPoint("Best", generation, populationStatisticalSummary.getMaxFitness());
     }
 
 }

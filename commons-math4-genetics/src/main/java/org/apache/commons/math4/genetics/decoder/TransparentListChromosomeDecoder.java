@@ -18,7 +18,7 @@ package org.apache.commons.math4.genetics.decoder;
 
 import java.util.List;
 
-import org.apache.commons.math4.genetics.AbstractListChromosome;
+import org.apache.commons.math4.genetics.chromosome.AbstractListChromosome;
 
 /**
  * A concrete implementation of transparent decoder for List Chromosome. Treats

@@ -16,9 +16,9 @@
  */
 package org.apache.commons.math4.genetics.selection;
 
-import org.apache.commons.math4.genetics.AbstractChromosome;
-import org.apache.commons.math4.genetics.ChromosomePair;
-import org.apache.commons.math4.genetics.ListPopulation;
+import org.apache.commons.math4.genetics.chromosome.AbstractChromosome;
+import org.apache.commons.math4.genetics.chromosome.ChromosomePair;
+import org.apache.commons.math4.genetics.population.ListPopulation;
 import org.junit.Assert;
 import org.junit.Test;
 

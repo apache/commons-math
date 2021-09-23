@@ -17,14 +17,18 @@
 package org.apache.commons.math4.genetics;
 
 import java.util.ArrayList;
-
 import java.util.List;
 
+import org.apache.commons.math4.genetics.chromosome.Chromosome;
+import org.apache.commons.math4.genetics.chromosome.RealValuedChromosome;
 import org.apache.commons.math4.genetics.convergencecond.FixedGenerationCount;
 import org.apache.commons.math4.genetics.convergencecond.StoppingCondition;
 import org.apache.commons.math4.genetics.crossover.OnePointCrossover;
 import org.apache.commons.math4.genetics.decoder.RandomKeyDecoder;
-import org.apache.commons.math4.genetics.mutation.RealValueMutation;
+import org.apache.commons.math4.genetics.fitness.FitnessFunction;
+import org.apache.commons.math4.genetics.mutation.RealValuedMutation;
+import org.apache.commons.math4.genetics.population.ListPopulation;
+import org.apache.commons.math4.genetics.population.Population;
 import org.apache.commons.math4.genetics.selection.TournamentSelection;
 import org.apache.commons.math4.genetics.utils.ChromosomeRepresentationUtils;
 import org.junit.Assert;
@@ -62,7 +66,7 @@ public class GeneticAlgorithmTestPermutations {
 
         // initialize a new genetic algorithm
         GeneticAlgorithm<List<Integer>> ga = new GeneticAlgorithm<>(new OnePointCrossover<Integer, List<Integer>>(),
-                CROSSOVER_RATE, new RealValueMutation<List<Integer>>(), MUTATION_RATE,
+                CROSSOVER_RATE, new RealValuedMutation<List<Integer>>(), MUTATION_RATE,
                 new TournamentSelection<List<Integer>>(TOURNAMENT_ARITY), ELITISM_RATE);
 
         // initial population

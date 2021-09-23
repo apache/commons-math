@@ -16,7 +16,7 @@
  */
 package org.apache.commons.math4.genetics.decoder;
 
-import org.apache.commons.math4.genetics.Chromosome;
+import org.apache.commons.math4.genetics.chromosome.Chromosome;
 
 /**
  * Decoder is responsible for converting chromosome genotype to phenotype.

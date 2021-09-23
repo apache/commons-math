@@ -17,7 +17,7 @@
 
 package org.apache.commons.math4.genetics.listener;
 
-import org.apache.commons.math4.genetics.Population;
+import org.apache.commons.math4.genetics.population.Population;
 import org.apache.commons.math4.genetics.stats.PopulationStatisticalSummary;
 import org.apache.commons.math4.genetics.stats.internal.PopulationStatisticalSummaryImpl;
 import org.apache.commons.math4.genetics.utils.ConsoleLogger;

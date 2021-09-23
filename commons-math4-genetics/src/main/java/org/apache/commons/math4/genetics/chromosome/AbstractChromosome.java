@@ -14,11 +14,12 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.apache.commons.math4.genetics;
+package org.apache.commons.math4.genetics.chromosome;
 
 import java.util.Objects;
 
 import org.apache.commons.math4.genetics.decoder.Decoder;
+import org.apache.commons.math4.genetics.fitness.FitnessFunction;
 import org.apache.commons.math4.genetics.utils.ValidationUtils;
 
 /**

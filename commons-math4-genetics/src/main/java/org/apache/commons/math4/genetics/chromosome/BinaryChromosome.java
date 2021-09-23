@@ -14,12 +14,12 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.apache.commons.math4.genetics;
+package org.apache.commons.math4.genetics.chromosome;
 
 import java.util.List;
 
 import org.apache.commons.math4.genetics.decoder.AbstractListChromosomeDecoder;
-import org.apache.commons.math4.genetics.exception.GeneticException;
+import org.apache.commons.math4.genetics.fitness.FitnessFunction;
 import org.apache.commons.math4.genetics.utils.ChromosomeRepresentationUtils;
 
 /**
@@ -27,7 +27,7 @@ import org.apache.commons.math4.genetics.utils.ChromosomeRepresentationUtils;
  * @param <P> phenotype of chromosome
  * @since 2.0
  */
-public class BinaryChromosome<P> extends AbstractListChromosome<Integer, P> {
+public class BinaryChromosome<P> extends IntegralValuedChromosome<P> {
 
     /**
      * constructor.
@@ -37,7 +37,7 @@ public class BinaryChromosome<P> extends AbstractListChromosome<Integer, P> {
      */
     public BinaryChromosome(List<Integer> representation, FitnessFunction<P> fitnessFunction,
             AbstractListChromosomeDecoder<Integer, P> decoder) {
-        super(representation, fitnessFunction, decoder);
+        super(representation, fitnessFunction, decoder, 0, 2);
     }
 
     /**
@@ -48,19 +48,7 @@ public class BinaryChromosome<P> extends AbstractListChromosome<Integer, P> {
      */
     public BinaryChromosome(Integer[] representation, FitnessFunction<P> fitnessFunction,
             AbstractListChromosomeDecoder<Integer, P> decoder) {
-        super(representation, fitnessFunction, decoder);
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    protected void checkValidity(List<Integer> chromosomeRepresentation) {
-        for (int i : chromosomeRepresentation) {
-            if (i < 0 || i > 1) {
-                throw new GeneticException(GeneticException.ILLEGAL_ARGUMENT, i);
-            }
-        }
+        super(representation, fitnessFunction, decoder, 0, 2);
     }
 
     /**
